@@ -1,0 +1,288 @@
+version: 1.2.2
+release: R01
+title: Design System与契约工程化
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R01-001
+  release: R01
+  title: 个人安全：管理员安全设置
+  user_story: 作为具备 admin.self.read 的后台员工；写操作另需 admin.self.security，我需要完成管理员安全设置的完整业务流程，以便在不依赖研发临时决策的情况下实现修改密码、MFA绑定/解绑、恢复码、活跃会话、登录历史和安全提醒。
+  platform: ADMIN
+  module: 个人安全
+  template_id: ADM-SECURITY
+  page_ids:
+  - ADM-SECURITY-001
+  operation_ids:
+  - adminAdminAuthPostAuthLogout
+  - adminSelfGetSecurity
+  - adminSelfPostPasswordChange
+  - adminSelfPostMfaEnroll
+  - adminSelfPostMfaConfirm
+  - adminSelfPostMfaDisable
+  api_contracts:
+  - POST /admin-api/v1/auth/logout
+  - GET /admin-api/v1/me/security
+  - POST /admin-api/v1/me/security/password/change
+  - POST /admin-api/v1/me/security/mfa/enroll
+  - POST /admin-api/v1/me/security/mfa/confirm
+  - POST /admin-api/v1/me/security/mfa/disable
+  requirement_ids:
+  - REQ-ADMIN-SECURITY-001
+  - REQ-RBAC-001
+  config_keys:
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - admin_users
+  - admin_sessions
+  - admin_mfa_methods
+  - admin_recovery_codes
+  - admin_login_logs
+  - admin_operation_logs
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - sensitive_data_access_logs
+  test_ids:
+  - TST-V122-014
+  - TST-V122-056
+  - TST-V122-057
+  - TST-V122-058
+  - TST-V122-059
+  - TST-V122-060
+  dependencies:
+  - P00
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-SECURITY-001 全部绑定模板 ADM-SECURITY，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminAdminAuthPostAuthLogout;adminSelfGetSecurity;adminSelfPostPasswordChange;adminSelfPostMfaEnroll;adminSelfPostMfaConfirm;adminSelfPostMfaDisable；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-V122-014;TST-V122-056;TST-V122-057;TST-V122-058;TST-V122-059;TST-V122-060
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R01-002
+  release: R01
+  title: 后台认证：后台登录、二次验证
+  user_story: 作为具备 public 的后台员工；写操作另需 admin.auth.login，我需要完成后台登录、二次验证的完整业务流程，以便在不依赖研发临时决策的情况下实现账号密码、验证码、登录风险提示和登录失败锁定策略。
+  platform: ADMIN
+  module: 后台认证
+  template_id: ADM-AUTH
+  page_ids:
+  - ADM-AUTH-001
+  - ADM-AUTH-002
+  operation_ids:
+  - adminAdminAuthPostAuthLogin
+  - adminAdminAuthPostAuthMfaVerify
+  api_contracts:
+  - POST /admin-api/v1/auth/login
+  - POST /admin-api/v1/auth/mfa/verify
+  requirement_ids:
+  - REQ-ADMIN-BASE-001
+  - REQ-ADMIN-SECURITY-001
+  config_keys:
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_sessions
+  - admin_mfa_methods
+  - admin_recovery_codes
+  - admin_login_logs
+  - admin_operation_logs
+  test_ids:
+  - TST-V122-012
+  - TST-V122-013
+  dependencies:
+  - P00
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-AUTH-001;ADM-AUTH-002 全部绑定模板 ADM-AUTH，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminAdminAuthPostAuthLogin;adminAdminAuthPostAuthMfaVerify；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-V122-012;TST-V122-013
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R01-003
+  release: R01
+  title: Design System与契约工程化：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R01 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - ADM-AUTH-001
+  - ADM-AUTH-002
+  - ADM-SECURITY-001
+  operation_ids:
+  - adminAdminAuthPostAuthLogin
+  - adminAdminAuthPostAuthMfaVerify
+  - adminAdminAuthPostAuthLogout
+  - adminSelfGetSecurity
+  - adminSelfPostPasswordChange
+  - adminSelfPostMfaEnroll
+  - adminSelfPostMfaConfirm
+  - adminSelfPostMfaDisable
+  api_contracts:
+  - POST /admin-api/v1/auth/login
+  - POST /admin-api/v1/auth/mfa/verify
+  - POST /admin-api/v1/auth/logout
+  - GET /admin-api/v1/me/security
+  - POST /admin-api/v1/me/security/password/change
+  - POST /admin-api/v1/me/security/mfa/enroll
+  - POST /admin-api/v1/me/security/mfa/confirm
+  - POST /admin-api/v1/me/security/mfa/disable
+  requirement_ids:
+  - REQ-UI-001
+  - REQ-DESIGN-001
+  - REQ-CONTRACT-001
+  - REQ-APK-001
+  - REQ-ARCH-001
+  - REQ-DATA-001
+  - REQ-EVENT-001
+  - REQ-ADMIN-BASE-001
+  - REQ-OBS-002
+  - REQ-PAGE-SPEC-001
+  - REQ-ADMIN-OPS-001
+  - REQ-ADMIN-SECURITY-001
+  - REQ-DOR-001
+  config_keys:
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - outbox_events
+  - inbox_messages
+  - ledger_accounts
+  - accounting_transactions
+  - accounting_entries
+  - balance_snapshots
+  - reconciliation_runs
+  - reconciliation_differences
+  - N/A_DOCUMENT_CONTRACT
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - app_build_artifacts
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - app_build_profiles
+  - app_build_jobs
+  - app_build_job_steps
+  - app_signing_profiles
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - admin_approval_requests
+  - admin_sessions
+  - admin_mfa_methods
+  - admin_recovery_codes
+  - admin_login_logs
+  test_ids:
+  - TST-ADMIN_OPS_001-DRIFT
+  - TST-ADMIN_OPS_001-HAPPY
+  - TST-ADMIN_OPS_001-REJECT
+  - TST-ADMIN_OPS_001-SECURITY
+  - TST-ADMIN_SECURITY_001-DRIFT
+  - TST-ADMIN_SECURITY_001-HAPPY
+  - TST-ADMIN_SECURITY_001-REJECT
+  - TST-ADMIN_SECURITY_001-SECURITY
+  - TST-DESIGN_001-HAPPY
+  - TST-DESIGN_001-IDEMPOTENT
+  - TST-DESIGN_001-REJECT
+  - TST-DOR_001-DRIFT
+  - TST-DOR_001-HAPPY
+  - TST-DOR_001-REJECT
+  - TST-DOR_001-SECURITY
+  - TST-PAGE_SPEC_001-DRIFT
+  - TST-PAGE_SPEC_001-HAPPY
+  - TST-PAGE_SPEC_001-REJECT
+  - TST-PAGE_SPEC_001-SECURITY
+  - TST-V122-012
+  - TST-V122-013
+  - TST-V122-014
+  - TST-V122-056
+  - TST-V122-057
+  - TST-V122-058
+  - TST-V122-059
+  - TST-V122-060
+  dependencies:
+  - P00
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

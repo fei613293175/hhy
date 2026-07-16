@@ -1,0 +1,3 @@
+﻿transition_id,timestamp,release,task_id,story_id,from_status,to_status,session_id,actor_id,reason
+TRN-V123-PACKAGE-BASELINE,2026-07-16T00:30:00Z,P00,TASK-P00-001,STORY-P00-001,DOCUMENTATION_READY,READY,SES-V123-PACKAGE-BASELINE,openai-package-builder,V1.2.3接续门禁包构建完成；实际任务尚未执行
+TRN-B05386F910BB,2026-07-16T23:28:09Z,P00,TASK-P00-001,STORY-P00-001,READY,IN_PROGRESS,SES-20260716T232809Z-B4A980AF,codex-root,会话领取任务

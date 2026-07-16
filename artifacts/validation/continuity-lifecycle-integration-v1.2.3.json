@@ -1,0 +1,830 @@
+{
+  "version": "1.2.3",
+  "status": "PASS",
+  "generated_at": "2026-07-16T22:08:23Z",
+  "conversation_context_required": false,
+  "repository_only_handoff": true,
+  "source_manifest": [
+    {
+      "path": ".continuity/CONTINUITY_POLICY.yaml",
+      "sha256": "9dbcba88f0f2a0ac824fa8f53d693e8c38e661103e6603b88484a43f30446923"
+    },
+    {
+      "path": "scripts/continuity_lib.py",
+      "sha256": "cdefc91bdd384cd77656b84154728d0ac3c4bb45c8e9563ef1322aef03bda670"
+    },
+    {
+      "path": "scripts/continuity.py",
+      "sha256": "408c5b4000700e7fd7ce18aaae11048e0bc1e63f2fd1a8a7b0f3bf1ba27311d7"
+    },
+    {
+      "path": "scripts/continuity_gate.py",
+      "sha256": "368dedab18b1e0b94fac71448fab87698ac3539929487affe8be4374ade84aa5"
+    },
+    {
+      "path": "scripts/prepare_commit_message.py",
+      "sha256": "99f5bece04303620c02e3c376f9043694c1256155f1f5bc2cbd68634c6e73ab7"
+    },
+    {
+      "path": "scripts/install_git_hooks.py",
+      "sha256": "d09b224f2bf9335623b70d3d557eb65a76c5d9b32645095b9c7fb7bc621422cd"
+    },
+    {
+      "path": "scripts/test_continuity_protocol.py",
+      "sha256": "3f205bfd17249256015ecb150fb4882c32ed22967a92669b7686644ff19cbde7"
+    },
+    {
+      "path": ".githooks/pre-commit",
+      "sha256": "bec28cd934c25a12ed73f4a7a653eae6b4d3642c1daeb5fc5eedef3d805baea7"
+    },
+    {
+      "path": ".githooks/prepare-commit-msg",
+      "sha256": "302aa3e90124fe7705150bc36edbb5dbc4dfb662d566b09874657465abf0750b"
+    },
+    {
+      "path": ".githooks/commit-msg",
+      "sha256": "f93cd582dc18f8a81923362de999a83032ff18e397198d2d784b242c2895992f"
+    },
+    {
+      "path": ".githooks/pre-push",
+      "sha256": "982bce7a21d071ab4b9d051da78b05466913db6b25fee1d64c222ccb93b0c640"
+    }
+  ],
+  "base_commit": "4a296cb57c316c8ce9d5264f0a9682e9c9968640",
+  "final_commit": "81b48149b323edd2f67ee091a5114658cda29262",
+  "session_a": "SES-20260716T220614Z-E028B7E9",
+  "session_b": "SES-20260716T220721Z-180F3AF6",
+  "change_request": "CR-0003",
+  "checks": [
+    {
+      "check": "bootstrap_atomic",
+      "status": "PASS",
+      "detail": "4a296cb57c316c8ce9d5264f0a9682e9c9968640"
+    },
+    {
+      "check": "no_session_commit_blocked",
+      "status": "PASS",
+      "detail": "PASS"
+    },
+    {
+      "check": "unique_active_session_and_claim",
+      "status": "PASS",
+      "detail": "SES-20260716T220614Z-E028B7E9"
+    },
+    {
+      "check": "checkpoint_test_required",
+      "status": "PASS",
+      "detail": "PASS"
+    },
+    {
+      "check": "checkpoint_pointer_and_commit_trailers",
+      "status": "PASS",
+      "detail": "865e2571ce1d0a8f69aa37b1567a2f04f3e63126"
+    },
+    {
+      "check": "stale_checkpoint_blocked",
+      "status": "PASS",
+      "detail": "PASS"
+    },
+    {
+      "check": "historical_checkpoint_commit",
+      "status": "PASS",
+      "detail": "c8400f5c3b285192597ed64d7343a635e5d69c38"
+    },
+    {
+      "check": "frozen_fact_requires_cr",
+      "status": "PASS",
+      "detail": "PASS"
+    },
+    {
+      "check": "complete_cr_contract_and_separation",
+      "status": "PASS",
+      "detail": "f868782047b01b9543aced2e0a4dda97d918e523"
+    },
+    {
+      "check": "wip_handoff_and_takeover",
+      "status": "PASS",
+      "detail": "05a5406ef7335341d0e6555712f634710e6759c8"
+    },
+    {
+      "check": "closure_checkpoint_and_metadata_commit",
+      "status": "PASS",
+      "detail": "81b48149b323edd2f67ee091a5114658cda29262"
+    },
+    {
+      "check": "per_commit_prepush_and_ci",
+      "status": "PASS",
+      "detail": "PASS"
+    },
+    {
+      "check": "clean_committed_export",
+      "status": "PASS",
+      "detail": "c24174139aabdc96ed9ac264911556dd9c0c2451c6d29e17171e226d49d94dd2"
+    },
+    {
+      "check": "event_hash_chain_tamper_detected",
+      "status": "PASS",
+      "detail": "PASS"
+    }
+  ],
+  "commands": [
+    {
+      "label": "01_bootstrap",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "bootstrap",
+        "--actor",
+        "smoke-bootstrap",
+        "--init-git",
+        "--initial-commit",
+        "--task",
+        "TASK-P00-001",
+        "--branch",
+        "task/TASK-P00-001",
+        "--git-user-name",
+        "Continuity Smoke",
+        "--git-user-email",
+        "smoke@example.invalid"
+      ],
+      "returncode": 0,
+      "duration_seconds": 3.616
+    },
+    {
+      "label": "01_base_head",
+      "args": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.011
+    },
+    {
+      "label": "01_clean",
+      "args": [
+        "git",
+        "status",
+        "--porcelain"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.034
+    },
+    {
+      "label": "02_no_session_add",
+      "args": [
+        "git",
+        "add",
+        "-A"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.032
+    },
+    {
+      "label": "02_no_session_rejected",
+      "args": [
+        "python3",
+        "scripts/continuity_gate.py",
+        "--mode",
+        "pre-commit",
+        "--strict",
+        "--json-out",
+        "/mnt/data/hhy_v123_selftest_final2/lifecycle/outputs/no-session.json"
+      ],
+      "returncode": 1,
+      "duration_seconds": 5.345
+    },
+    {
+      "label": "02_reset",
+      "args": [
+        "git",
+        "reset",
+        "--hard",
+        "HEAD"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.063
+    },
+    {
+      "label": "03_start",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "start",
+        "--actor",
+        "smoke-a",
+        "--task",
+        "TASK-P00-001",
+        "--story",
+        "STORY-P00-002",
+        "--goal",
+        "验证持续开发无状态接续协议"
+      ],
+      "returncode": 0,
+      "duration_seconds": 1.481
+    },
+    {
+      "label": "03_double_claim_rejected",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "start",
+        "--actor",
+        "smoke-c",
+        "--task",
+        "TASK-P00-001",
+        "--story",
+        "STORY-P00-002",
+        "--goal",
+        "非法并发领取"
+      ],
+      "returncode": 2,
+      "duration_seconds": 1.174
+    },
+    {
+      "label": "04_checkpoint_without_test",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "checkpoint",
+        "--summary",
+        "首次变更",
+        "--next-step",
+        "记录测试"
+      ],
+      "returncode": 2,
+      "duration_seconds": 1.341
+    },
+    {
+      "label": "05_checkpoint",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "checkpoint",
+        "--summary",
+        "完成首次协议变更",
+        "--next-step",
+        "提交实现变更",
+        "--test",
+        "continuity-smoke|PASS|scripts/check_v123_continuity.py|联合门禁作为证据"
+      ],
+      "returncode": 0,
+      "duration_seconds": 1.739
+    },
+    {
+      "label": "06_first_add",
+      "args": [
+        "git",
+        "add",
+        "-A"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.04
+    },
+    {
+      "label": "06_first_commit",
+      "args": [
+        "git",
+        "commit",
+        "-m",
+        "chore(continuity): add protocol smoke probe"
+      ],
+      "returncode": 0,
+      "duration_seconds": 11.534
+    },
+    {
+      "label": "06_first_message",
+      "args": [
+        "git",
+        "log",
+        "-1",
+        "--pretty=%B"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.011
+    },
+    {
+      "label": "06_first_head",
+      "args": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.009
+    },
+    {
+      "label": "07_stale_add",
+      "args": [
+        "git",
+        "add",
+        "-A"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.032
+    },
+    {
+      "label": "07_stale_rejected",
+      "args": [
+        "python3",
+        "scripts/continuity_gate.py",
+        "--mode",
+        "pre-commit",
+        "--strict",
+        "--json-out",
+        "/mnt/data/hhy_v123_selftest_final2/lifecycle/outputs/stale-checkpoint.json"
+      ],
+      "returncode": 1,
+      "duration_seconds": 5.604
+    },
+    {
+      "label": "08_checkpoint",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "checkpoint",
+        "--summary",
+        "更新协议探针",
+        "--next-step",
+        "验证完整CR合同",
+        "--test",
+        "stale-gate|PASS|/mnt/data/hhy_v123_selftest_final2/lifecycle/outputs/stale-checkpoint.json|旧检查点已阻断"
+      ],
+      "returncode": 0,
+      "duration_seconds": 1.692
+    },
+    {
+      "label": "09_second_add",
+      "args": [
+        "git",
+        "add",
+        "-A"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.041
+    },
+    {
+      "label": "09_second_commit",
+      "args": [
+        "git",
+        "commit",
+        "-m",
+        "test(continuity): verify stale checkpoint rejection"
+      ],
+      "returncode": 0,
+      "duration_seconds": 13.71
+    },
+    {
+      "label": "09_second_message",
+      "args": [
+        "git",
+        "log",
+        "-1",
+        "--pretty=%B"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.009
+    },
+    {
+      "label": "09_second_head",
+      "args": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.009
+    },
+    {
+      "label": "10_no_cr_rejected",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "checkpoint",
+        "--summary",
+        "无CR冻结事实变更",
+        "--next-step",
+        "应阻断",
+        "--test",
+        "cr-negative|PASS|docs/00-baseline/SOURCE_OF_TRUTH.md|负向门禁"
+      ],
+      "returncode": 2,
+      "duration_seconds": 1.28
+    },
+    {
+      "label": "11_cr_create",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "cr-create",
+        "--actor",
+        "smoke-requester",
+        "--title",
+        "Continuity smoke frozen fact update",
+        "--task",
+        "TASK-P00-001",
+        "--user-request",
+        "验证冻结事实完整变更合同",
+        "--reason",
+        "集成演练"
+      ],
+      "returncode": 0,
+      "duration_seconds": 1.285
+    },
+    {
+      "label": "11_incomplete_cr_rejected",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "cr-approve",
+        "--actor",
+        "smoke-approver",
+        "--cr",
+        "CR-0003",
+        "--decision",
+        "APPROVED",
+        "--note",
+        "信息尚不完整",
+        "--user-confirmation",
+        "integration user confirmation"
+      ],
+      "returncode": 2,
+      "duration_seconds": 1.433
+    },
+    {
+      "label": "12_cr_amend",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "cr-amend",
+        "--actor",
+        "smoke-requester",
+        "--cr",
+        "CR-0003",
+        "--original-rule",
+        "SOURCE_OF_TRUTH文档没有集成演练标记",
+        "--new-rule",
+        "加入仅用于临时仓库演练的受控标记",
+        "--impact-summary",
+        "仅影响临时测试仓库的一份开发前事实文档，不改变业务功能",
+        "--migration-and-compatibility",
+        "文档兼容，无数据迁移；测试结束后临时仓库销毁",
+        "--file",
+        "docs/00-baseline/SOURCE_OF_TRUTH.md",
+        "--test",
+        "continuity CR gate integration smoke",
+        "--release",
+        "P00"
+      ],
+      "returncode": 0,
+      "duration_seconds": 1.363
+    },
+    {
+      "label": "12_self_approval_rejected",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "cr-approve",
+        "--actor",
+        "smoke-requester",
+        "--cr",
+        "CR-0003",
+        "--decision",
+        "APPROVED",
+        "--note",
+        "禁止自审",
+        "--user-confirmation",
+        "integration user confirmation"
+      ],
+      "returncode": 2,
+      "duration_seconds": 1.202
+    },
+    {
+      "label": "13_cr_approve",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "cr-approve",
+        "--actor",
+        "smoke-approver",
+        "--cr",
+        "CR-0003",
+        "--decision",
+        "APPROVED",
+        "--note",
+        "完整合同已复核",
+        "--user-confirmation",
+        "integration user confirmation recorded in repository"
+      ],
+      "returncode": 0,
+      "duration_seconds": 1.281
+    },
+    {
+      "label": "14_cr_checkpoint",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "checkpoint",
+        "--summary",
+        "批准CR后的冻结事实变更",
+        "--next-step",
+        "提交并演练WIP交接",
+        "--test",
+        "cr-positive|PASS|.continuity/CHANGE_REQUEST_INDEX.yaml|完整合同和不同Actor审批通过"
+      ],
+      "returncode": 0,
+      "duration_seconds": 1.595
+    },
+    {
+      "label": "15_cr_add",
+      "args": [
+        "git",
+        "add",
+        "-A"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.049
+    },
+    {
+      "label": "15_cr_commit",
+      "args": [
+        "git",
+        "commit",
+        "-m",
+        "docs(continuity): verify approved change request path"
+      ],
+      "returncode": 0,
+      "duration_seconds": 11.876
+    },
+    {
+      "label": "15_cr_message",
+      "args": [
+        "git",
+        "log",
+        "-1",
+        "--pretty=%B"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.011
+    },
+    {
+      "label": "15_cr_head",
+      "args": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.01
+    },
+    {
+      "label": "16_handoff_checkpoint",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "checkpoint",
+        "--summary",
+        "形成可移交WIP",
+        "--next-step",
+        "新AI验证Manifest后提交WIP",
+        "--test",
+        "handoff-prep|PASS|scripts/continuity.py|交接前检查点"
+      ],
+      "returncode": 0,
+      "duration_seconds": 1.639
+    },
+    {
+      "label": "17_handoff",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "handoff",
+        "--actor",
+        "smoke-a",
+        "--reason",
+        "切换AI进行无对话接管",
+        "--next-step",
+        "验证Manifest后提交WIP",
+        "--portable-zip",
+        "/mnt/data/hhy_v123_selftest_final2/lifecycle/outputs/wip-handoff.zip"
+      ],
+      "returncode": 0,
+      "duration_seconds": 5.059
+    },
+    {
+      "label": "18_takeover",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "takeover",
+        "--actor",
+        "smoke-b",
+        "--session",
+        "SES-20260716T220614Z-E028B7E9",
+        "--reason",
+        "无旧对话接管",
+        "--next-step",
+        "重新检查点并提交WIP"
+      ],
+      "returncode": 0,
+      "duration_seconds": 1.947
+    },
+    {
+      "label": "19_takeover_checkpoint",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "checkpoint",
+        "--summary",
+        "接管并验证WIP",
+        "--next-step",
+        "提交接管后的实现",
+        "--test",
+        "takeover-verify|PASS|artifacts/context/CURRENT_CONTEXT_PACK.md|无需旧对话恢复"
+      ],
+      "returncode": 0,
+      "duration_seconds": 1.619
+    },
+    {
+      "label": "20_takeover_add",
+      "args": [
+        "git",
+        "add",
+        "-A"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.665
+    },
+    {
+      "label": "20_takeover_commit",
+      "args": [
+        "git",
+        "commit",
+        "-m",
+        "chore(continuity): continue handed-off work without dialog"
+      ],
+      "returncode": 0,
+      "duration_seconds": 12.074
+    },
+    {
+      "label": "20_takeover_message",
+      "args": [
+        "git",
+        "log",
+        "-1",
+        "--pretty=%B"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.012
+    },
+    {
+      "label": "20_takeover_head",
+      "args": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.009
+    },
+    {
+      "label": "21_close",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "close",
+        "--actor",
+        "smoke-b",
+        "--result",
+        "COMPLETED",
+        "--summary",
+        "持续接续协议集成演练完成",
+        "--next-task",
+        "TASK-P00-002"
+      ],
+      "returncode": 0,
+      "duration_seconds": 2.819
+    },
+    {
+      "label": "22_close_metadata_add",
+      "args": [
+        "git",
+        "add",
+        "-A"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.054
+    },
+    {
+      "label": "22_close_metadata_commit",
+      "args": [
+        "git",
+        "commit",
+        "-m",
+        "chore(continuity): close completed smoke task"
+      ],
+      "returncode": 0,
+      "duration_seconds": 13.183
+    },
+    {
+      "label": "22_close_metadata_message",
+      "args": [
+        "git",
+        "log",
+        "-1",
+        "--pretty=%B"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.012
+    },
+    {
+      "label": "22_close_metadata_head",
+      "args": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.01
+    },
+    {
+      "label": "23_prepush",
+      "args": [
+        "python3",
+        "scripts/continuity_gate.py",
+        "--mode",
+        "pre-push",
+        "--strict",
+        "--json-out",
+        "/mnt/data/hhy_v123_selftest_final2/lifecycle/outputs/prepush-report.json"
+      ],
+      "returncode": 0,
+      "duration_seconds": 6.75
+    },
+    {
+      "label": "24_ci",
+      "args": [
+        "python3",
+        "scripts/continuity_gate.py",
+        "--mode",
+        "ci",
+        "--strict",
+        "--head-ref",
+        "HEAD",
+        "--json-out",
+        "/mnt/data/hhy_v123_selftest_final2/lifecycle/outputs/ci-report.json"
+      ],
+      "returncode": 0,
+      "duration_seconds": 6.332
+    },
+    {
+      "label": "25_export_clean",
+      "args": [
+        "python3",
+        "scripts/continuity.py",
+        "export-clean",
+        "--portable-zip",
+        "/mnt/data/hhy_v123_selftest_final2/lifecycle/outputs/clean-project-export.zip"
+      ],
+      "returncode": 0,
+      "duration_seconds": 9.016
+    },
+    {
+      "label": "25_clean_after_export",
+      "args": [
+        "git",
+        "status",
+        "--porcelain"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.037
+    },
+    {
+      "label": "27_final_head",
+      "args": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.012
+    },
+    {
+      "label": "27_commit_count",
+      "args": [
+        "git",
+        "rev-list",
+        "--count",
+        "HEAD"
+      ],
+      "returncode": 0,
+      "duration_seconds": 0.013
+    }
+  ],
+  "metrics": {
+    "checks": 14,
+    "commits": 6,
+    "wip_handoff_sha256": "055b95e18d59f4679077dc168867b79450598450ad5d534adcc5eacfa8825df5",
+    "clean_export_sha256": "c24174139aabdc96ed9ac264911556dd9c0c2451c6d29e17171e226d49d94dd2"
+  }
+}

@@ -1,0 +1,25 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+mode: ENFORCED
+active_session_id: SES-20260716T232809Z-B4A980AF
+event_log:
+  sequence: 12
+  head_hash: 95506ab06990301fa44dbb6dab57d23896d89310f6c1a1899fb966731fe314f4
+  last_event_type: GIT_BOOTSTRAP_PREPARED
+  last_event_at: '2026-07-16T23:28:21Z'
+package_baseline:
+  product_spec_baseline: V1.2.2
+  continuity_baseline: V1.2.3
+  created_at: '2026-07-16T21:49:57Z'
+updated_at: '2026-07-16T23:28:24Z'
+context_pack:
+  path: artifacts/context/CURRENT_CONTEXT_PACK.md
+  hash: c20a55a17585be0105c31ef35d2ff6422d63df08bdfd40e4b3d7b8858532bf2d
+  generated_at: '2026-07-16T23:28:23Z'
+git_bootstrap:
+  initialized: true
+  branch: task/TASK-P00-001
+  task_id: TASK-P00-001
+  actor_id: codex-root
+  hooks_path: .githooks
+  prepared_at: '2026-07-16T23:28:21Z'

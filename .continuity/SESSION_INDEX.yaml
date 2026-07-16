@@ -1,0 +1,22 @@
+version: '1.0'
+sessions:
+- session_id: SES-V123-PACKAGE-BASELINE
+  task_id: TASK-P00-001
+  story_id: STORY-P00-001
+  actor_id: openai-package-builder
+  status: CLOSED
+  started_at: '2026-07-16T00:00:00Z'
+  updated_at: '2026-07-16T00:30:00Z'
+  closed_at: '2026-07-16T00:30:00Z'
+  latest_checkpoint: .continuity/checkpoints/SES-V123-PACKAGE-BASELINE/0001-package-baseline.yaml
+  handoff_bundle: artifacts/handoffs/HND-V123-PACKAGE-BASELINE
+  record: .continuity/sessions/SES-V123-PACKAGE-BASELINE.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-V123-PACKAGE-BASELINE.md
+- session_id: SES-20260716T232809Z-B4A980AF
+  task_id: TASK-P00-001
+  story_id: STORY-P00-001
+  actor_id: codex-root
+  status: ACTIVE
+  started_at: '2026-07-16T23:28:09Z'
+  record: .continuity/sessions/SES-20260716T232809Z-B4A980AF.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md

@@ -1,0 +1,46 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B09",
+  "title": "奖励账户、明细与提现布局参考",
+  "file": "HHY_B09_8PAGE_UI_REFERENCE.png",
+  "sha256": "7b0f226942dd4188a8fa12ad73d64f9789d14823d6b7cf1573a63da2f92faba7",
+  "role": "UI布局与样式参考，不是功能事实源",
+  "grid": {
+    "columns": 4,
+    "rows": 2
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "奖励账户首页布局"
+    },
+    {
+      "panel": "P02",
+      "name": "虚拟积分区布局（不实现商豆）"
+    },
+    {
+      "panel": "P03",
+      "name": "收益明细"
+    },
+    {
+      "panel": "P04",
+      "name": "提现申请"
+    },
+    {
+      "panel": "P05",
+      "name": "提现审核中"
+    },
+    {
+      "panel": "P06",
+      "name": "提现成功"
+    },
+    {
+      "panel": "P07",
+      "name": "提现失败"
+    },
+    {
+      "panel": "P08",
+      "name": "红包奖励明细"
+    }
+  ]
+}

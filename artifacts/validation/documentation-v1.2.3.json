@@ -1,0 +1,31 @@
+{
+  "version": "1.2.3",
+  "product_spec_baseline": "V1.2.2",
+  "status": "PASS",
+  "strict": true,
+  "release_filter": null,
+  "metrics": {
+    "android_surfaces": 102,
+    "h5_pages": 13,
+    "admin_pages": 74,
+    "ui_surfaces": 189,
+    "templates": 30,
+    "fields": 5159,
+    "states": 1633,
+    "actions": 606,
+    "configs": 314,
+    "config_rules": 58,
+    "config_roles": 21,
+    "requirements": 84,
+    "tests": 376,
+    "stories": 163,
+    "dor_gates": 396,
+    "tables": 198,
+    "rest_operations": 315,
+    "websocket_events": 10,
+    "unassigned_api_operations": 0,
+    "open_document_gaps": 0
+  },
+  "errors": [],
+  "warnings": []
+}

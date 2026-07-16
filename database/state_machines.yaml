@@ -1,0 +1,577 @@
+version: 1.2.2
+generated_at: '2026-07-16'
+rules:
+  wildcard_from_allowed: true
+  state_change_must_write_history: true
+  side_effects_use_outbox: true
+  optimistic_version_required: true
+machines:
+- code: CONTENT_STATUS
+  initial: DRAFT
+  terminal:
+  - DELETED
+  - BANNED
+  transitions:
+  - from: DRAFT
+    to: PENDING_REVIEW
+    event: SUBMIT
+    actor: OWNER
+    guard: identity=VERIFIED and payload_valid
+    side_effects:
+    - snapshot_version
+    - write_status_log
+    - emit ContentSubmitted
+    idempotency: COMMAND_ID
+  - from: REJECTED
+    to: PENDING_REVIEW
+    event: RESUBMIT
+    actor: OWNER
+    guard: new_version_created
+    side_effects:
+    - snapshot_version
+    - write_status_log
+    idempotency: COMMAND_ID
+  - from: RECTIFICATION
+    to: PENDING_REVIEW
+    event: RESUBMIT
+    actor: OWNER
+    guard: new_version_created
+    side_effects:
+    - snapshot_version
+    - write_status_log
+    idempotency: COMMAND_ID
+  - from: PENDING_REVIEW
+    to: REVIEWING
+    event: CLAIM_REVIEW
+    actor: ADMIN
+    guard: permission=review.manage
+    side_effects:
+    - write_review_record
+    idempotency: COMMAND_ID
+  - from: REVIEWING
+    to: APPROVED
+    event: APPROVE
+    actor: ADMIN
+    guard: permission=review.manage
+    side_effects:
+    - write_review_record
+    - emit ContentApproved
+    idempotency: COMMAND_ID
+  - from: REVIEWING
+    to: REJECTED
+    event: REJECT
+    actor: ADMIN
+    guard: reason_required
+    side_effects:
+    - write_review_record
+    - notify_owner
+    idempotency: COMMAND_ID
+  - from: APPROVED
+    to: ONLINE
+    event: PUBLISH
+    actor: OWNER_OR_SYSTEM
+    guard: quota_available
+    side_effects:
+    - write_status_log
+    - emit ContentOnline
+    idempotency: COMMAND_ID
+  - from: ONLINE
+    to: OFFLINE_BY_OWNER
+    event: OWNER_OFFLINE
+    actor: OWNER
+    guard: NONE
+    side_effects:
+    - release_exposure
+    - pause_red_packet
+    - emit ContentOffline
+    idempotency: COMMAND_ID
+  - from: ONLINE
+    to: OFFLINE_BY_PLATFORM
+    event: PLATFORM_OFFLINE
+    actor: ADMIN
+    guard: reason_required
+    side_effects:
+    - release_exposure
+    - pause_red_packet
+    - notify_owner
+    idempotency: COMMAND_ID
+  - from: OFFLINE_BY_OWNER
+    to: ONLINE
+    event: OWNER_ONLINE
+    actor: OWNER
+    guard: approved_version_unchanged and quota_available
+    side_effects:
+    - emit ContentOnline
+    idempotency: COMMAND_ID
+  - from: OFFLINE_BY_PLATFORM
+    to: RECTIFICATION
+    event: REQUEST_RECTIFICATION
+    actor: ADMIN
+    guard: reason_required
+    side_effects:
+    - notify_owner
+    idempotency: COMMAND_ID
+  - from: '*'
+    to: BANNED
+    event: BAN
+    actor: ADMIN
+    guard: permission=content.ban and approval_if_high_risk
+    side_effects:
+    - pause_red_packet
+    - revoke_exposure
+    - notify_owner
+    idempotency: COMMAND_ID
+  - from: '*'
+    to: DELETED
+    event: DELETE
+    actor: OWNER_OR_ADMIN
+    guard: deletion_policy_passed
+    side_effects:
+    - soft_delete
+    - emit ContentDeleted
+    idempotency: COMMAND_ID
+- code: RED_PACKET_STATUS
+  initial: DRAFT
+  terminal:
+  - SOLD_OUT
+  - CLOSED_BY_OWNER
+  - TERMINATED_BY_PLATFORM
+  transitions:
+  - from: DRAFT
+    to: PRE_REVIEWING
+    event: SUBMIT_PRE_REVIEW
+    actor: OWNER
+    guard: identity=VERIFIED and content=ONLINE
+    side_effects:
+    - snapshot_rules
+    - emit RedPacketReviewSubmitted
+    idempotency: COMMAND_ID
+  - from: PRE_REVIEWING
+    to: PRE_REVIEW_APPROVED
+    event: APPROVE
+    actor: ADMIN
+    guard: permission=redpacket.review
+    side_effects:
+    - write_review_record
+    - create_quote
+    idempotency: COMMAND_ID
+  - from: PRE_REVIEWING
+    to: PRE_REVIEW_REJECTED
+    event: REJECT
+    actor: ADMIN
+    guard: reason_required
+    side_effects:
+    - write_review_record
+    - notify_owner
+    idempotency: COMMAND_ID
+  - from: PRE_REVIEW_REJECTED
+    to: PRE_REVIEWING
+    event: RESUBMIT
+    actor: OWNER
+    guard: payload_changed
+    side_effects:
+    - snapshot_rules
+    idempotency: COMMAND_ID
+  - from: PRE_REVIEW_APPROVED
+    to: WAITING_PAYMENT
+    event: CONFIRM_QUOTE
+    actor: OWNER
+    guard: quote_not_expired
+    side_effects:
+    - create_order
+    idempotency: COMMAND_ID
+  - from: WAITING_PAYMENT
+    to: PAYMENT_PROCESSING
+    event: START_PAYMENT
+    actor: OWNER
+    guard: order=PENDING_PAYMENT
+    side_effects:
+    - create_payment_transaction
+    idempotency: COMMAND_ID
+  - from: PAYMENT_PROCESSING
+    to: ACTIVE
+    event: PAYMENT_SUCCEEDED
+    actor: SYSTEM
+    guard: payment_verified and ledger_balanced
+    side_effects:
+    - initialize_stock
+    - post_accounting
+    - emit RedPacketActivated
+    idempotency: BUSINESS_ORDER_NO
+  - from: ACTIVE
+    to: PAUSED_BY_OWNER
+    event: PAUSE
+    actor: OWNER
+    guard: no_claim_in_flight
+    side_effects:
+    - expire_reservations
+    idempotency: COMMAND_ID
+  - from: PAUSED_BY_OWNER
+    to: ACTIVE
+    event: RESUME
+    actor: OWNER
+    guard: content=ONLINE and risk_clear
+    side_effects:
+    - resume_inventory
+    idempotency: COMMAND_ID
+  - from: ACTIVE
+    to: PAUSED_BY_CONTENT_OFFLINE
+    event: CONTENT_OFFLINE
+    actor: SYSTEM
+    guard: NONE
+    side_effects:
+    - expire_reservations
+    idempotency: COMMAND_ID
+  - from: PAUSED_BY_CONTENT_OFFLINE
+    to: ACTIVE
+    event: CONTENT_ONLINE
+    actor: SYSTEM
+    guard: risk_clear
+    side_effects:
+    - resume_inventory
+    idempotency: COMMAND_ID
+  - from: ACTIVE
+    to: PAUSED_BY_RISK
+    event: RISK_FREEZE
+    actor: RISK_ENGINE
+    guard: risk_threshold_hit
+    side_effects:
+    - expire_reservations
+    - open_manual_review
+    idempotency: COMMAND_ID
+  - from: PAUSED_BY_RISK
+    to: ACTIVE
+    event: RISK_RELEASE
+    actor: ADMIN
+    guard: manual_review=APPROVED
+    side_effects:
+    - resume_inventory
+    idempotency: COMMAND_ID
+  - from: ACTIVE
+    to: SOLD_OUT
+    event: STOCK_EXHAUSTED
+    actor: SYSTEM
+    guard: claimed=total and reserved=0
+    side_effects:
+    - emit RedPacketSoldOut
+    idempotency: COMMAND_ID
+  - from: ACTIVE
+    to: CLOSED_BY_OWNER
+    event: OWNER_CLOSE
+    actor: OWNER
+    guard: non_refund_acknowledged
+    side_effects:
+    - expire_reservations
+    - emit RedPacketClosed
+    idempotency: COMMAND_ID
+  - from: '*'
+    to: TERMINATED_BY_PLATFORM
+    event: TERMINATE
+    actor: ADMIN
+    guard: permission=redpacket.terminate and approval=APPROVED
+    side_effects:
+    - expire_reservations
+    - freeze_related_rewards
+    idempotency: COMMAND_ID
+- code: ORDER_STATUS
+  initial: PENDING_PAYMENT
+  terminal:
+  - COMPLETED
+  - CLOSED
+  - CHANNEL_REVERSAL
+  transitions:
+  - from: PENDING_PAYMENT
+    to: PAYMENT_PROCESSING
+    event: PAY
+    actor: USER
+    guard: order_not_expired
+    side_effects:
+    - create_payment_transaction
+    idempotency: COMMAND_ID
+  - from: PAYMENT_PROCESSING
+    to: PAID
+    event: PAYMENT_CALLBACK_VERIFIED
+    actor: SYSTEM
+    guard: amount_matches and signature_valid
+    side_effects:
+    - post_accounting
+    - emit OrderPaid
+    idempotency: PROVIDER_TRADE_NO
+  - from: PAYMENT_PROCESSING
+    to: PAYMENT_FAILED
+    event: PAYMENT_FAILED
+    actor: SYSTEM
+    guard: provider_final_failure
+    side_effects:
+    - emit PaymentFailed
+    idempotency: COMMAND_ID
+  - from: PAID
+    to: FULFILLING
+    event: START_FULFILLMENT
+    actor: SYSTEM
+    guard: ledger_balanced
+    side_effects:
+    - emit FulfillmentRequested
+    idempotency: COMMAND_ID
+  - from: FULFILLING
+    to: COMPLETED
+    event: FULFILLMENT_SUCCEEDED
+    actor: SYSTEM
+    guard: entitlement_created
+    side_effects:
+    - emit OrderCompleted
+    idempotency: COMMAND_ID
+  - from: PENDING_PAYMENT
+    to: CLOSED
+    event: EXPIRE
+    actor: SYSTEM
+    guard: expires_at<=now
+    side_effects:
+    - emit OrderClosed
+    idempotency: COMMAND_ID
+  - from: PAID
+    to: CHANNEL_REVERSAL
+    event: PROVIDER_REVERSAL
+    actor: SYSTEM
+    guard: provider_reversal_verified
+    side_effects:
+    - post_reversal_accounting
+    - freeze_entitlement
+    idempotency: COMMAND_ID
+- code: REWARD_STATUS
+  initial: PENDING_SETTLEMENT
+  terminal:
+  - WITHDRAWN
+  - REVERSED
+  transitions:
+  - from: PENDING_SETTLEMENT
+    to: AVAILABLE
+    event: SETTLE
+    actor: SCHEDULER
+    guard: settle_at<=now and risk_clear
+    side_effects:
+    - post_accounting
+    - update_projection
+    idempotency: COMMAND_ID
+  - from: PENDING_SETTLEMENT
+    to: RISK_FROZEN
+    event: RISK_FREEZE
+    actor: RISK_ENGINE
+    guard: risk_threshold_hit
+    side_effects:
+    - open_manual_review
+    idempotency: COMMAND_ID
+  - from: AVAILABLE
+    to: RISK_FROZEN
+    event: RISK_FREEZE
+    actor: RISK_ENGINE
+    guard: risk_threshold_hit
+    side_effects:
+    - update_projection
+    idempotency: COMMAND_ID
+  - from: RISK_FROZEN
+    to: AVAILABLE
+    event: RISK_RELEASE
+    actor: ADMIN
+    guard: manual_review=APPROVED
+    side_effects:
+    - update_projection
+    idempotency: COMMAND_ID
+  - from: AVAILABLE
+    to: WITHDRAWAL_FROZEN
+    event: WITHDRAWAL_CREATED
+    actor: USER
+    guard: available_balance>=amount
+    side_effects:
+    - post_accounting
+    idempotency: COMMAND_ID
+  - from: WITHDRAWAL_FROZEN
+    to: AVAILABLE
+    event: WITHDRAWAL_FAILED
+    actor: SYSTEM
+    guard: payout_final_failure
+    side_effects:
+    - post_reversal_accounting
+    idempotency: COMMAND_ID
+  - from: WITHDRAWAL_FROZEN
+    to: WITHDRAWN
+    event: PAYOUT_SUCCEEDED
+    actor: SYSTEM
+    guard: provider_success_verified
+    side_effects:
+    - post_accounting
+    idempotency: COMMAND_ID
+  - from: '*'
+    to: REVERSED
+    event: REVERSE
+    actor: ADMIN_OR_SYSTEM
+    guard: source_invalid and approval_if_required
+    side_effects:
+    - post_reversal_accounting
+    idempotency: COMMAND_ID
+- code: WITHDRAWAL_STATUS
+  initial: CREATED
+  terminal:
+  - SUCCEEDED
+  - REJECTED
+  - CANCELLED
+  transitions:
+  - from: CREATED
+    to: RISK_REVIEWING
+    event: SUBMIT
+    actor: USER
+    guard: identity=VERIFIED and payout_account=ACTIVE
+    side_effects:
+    - freeze_reward_balance
+    - emit WithdrawalSubmitted
+    idempotency: COMMAND_ID
+  - from: RISK_REVIEWING
+    to: FINANCE_REVIEWING
+    event: RISK_APPROVE
+    actor: RISK_ENGINE_OR_ADMIN
+    guard: risk_clear
+    side_effects:
+    - write_review_log
+    idempotency: COMMAND_ID
+  - from: RISK_REVIEWING
+    to: REJECTED
+    event: RISK_REJECT
+    actor: ADMIN
+    guard: reason_required
+    side_effects:
+    - release_reward_balance
+    - notify_user
+    idempotency: COMMAND_ID
+  - from: FINANCE_REVIEWING
+    to: APPROVED
+    event: FINANCE_APPROVE
+    actor: FINANCE_ADMIN
+    guard: two_person_rule_passed
+    side_effects:
+    - write_approval
+    idempotency: COMMAND_ID
+  - from: FINANCE_REVIEWING
+    to: REJECTED
+    event: FINANCE_REJECT
+    actor: FINANCE_ADMIN
+    guard: reason_required
+    side_effects:
+    - release_reward_balance
+    - notify_user
+    idempotency: COMMAND_ID
+  - from: APPROVED
+    to: PAYOUT_PROCESSING
+    event: START_PAYOUT
+    actor: SYSTEM
+    guard: payout_idempotency_key_unique
+    side_effects:
+    - create_payout_transaction
+    idempotency: COMMAND_ID
+  - from: PAYOUT_PROCESSING
+    to: SUCCEEDED
+    event: PAYOUT_CALLBACK_SUCCESS
+    actor: SYSTEM
+    guard: signature_valid and amount_matches
+    side_effects:
+    - post_accounting
+    - mark_reward_withdrawn
+    - notify_user
+    idempotency: PROVIDER_ORDER_NO
+  - from: PAYOUT_PROCESSING
+    to: FAILED
+    event: PAYOUT_FINAL_FAILURE
+    actor: SYSTEM
+    guard: provider_final_failure
+    side_effects:
+    - release_reward_balance
+    - post_reversal_accounting
+    - notify_user
+    idempotency: COMMAND_ID
+  - from: CREATED
+    to: CANCELLED
+    event: CANCEL
+    actor: USER
+    guard: not_in_review
+    side_effects:
+    - release_reward_balance
+    idempotency: COMMAND_ID
+- code: IDENTITY_STATUS
+  initial: NOT_STARTED
+  terminal:
+  - VERIFIED
+  transitions:
+  - from: NOT_STARTED
+    to: SESSION_CREATED
+    event: CREATE_SESSION
+    actor: USER
+    guard: no_active_session
+    side_effects:
+    - encrypt_identity_payload
+    idempotency: COMMAND_ID
+  - from: SESSION_CREATED
+    to: LIVENESS_PENDING
+    event: CREATE_LIVENESS_TOKEN
+    actor: USER
+    guard: session_not_expired
+    side_effects:
+    - create_one_time_state
+    idempotency: COMMAND_ID
+  - from: LIVENESS_PENDING
+    to: PROVIDER_PROCESSING
+    event: PROVIDER_CALLBACK
+    actor: SYSTEM
+    guard: state_valid
+    side_effects:
+    - store_encrypted_provider_response
+    idempotency: PROVIDER_ORDER_NO
+  - from: PROVIDER_PROCESSING
+    to: VERIFIED
+    event: AUTO_APPROVE
+    actor: SYSTEM
+    guard: provider_result=PASS
+    side_effects:
+    - bind_id_hash
+    - emit IdentityVerified
+    idempotency: COMMAND_ID
+  - from: PROVIDER_PROCESSING
+    to: MANUAL_REVIEW
+    event: REQUIRE_MANUAL
+    actor: SYSTEM
+    guard: provider_result=UNCERTAIN
+    side_effects:
+    - open_manual_review
+    idempotency: COMMAND_ID
+  - from: MANUAL_REVIEW
+    to: VERIFIED
+    event: MANUAL_APPROVE
+    actor: ADMIN
+    guard: permission=identity.review
+    side_effects:
+    - write_review_record
+    - emit IdentityVerified
+    idempotency: COMMAND_ID
+  - from: MANUAL_REVIEW
+    to: REJECTED
+    event: MANUAL_REJECT
+    actor: ADMIN
+    guard: reason_required
+    side_effects:
+    - write_review_record
+    - notify_user
+    idempotency: COMMAND_ID
+  - from: '*'
+    to: EXPIRED
+    event: EXPIRE
+    actor: SYSTEM
+    guard: expires_at<=now
+    side_effects:
+    - revoke_one_time_state
+    idempotency: COMMAND_ID
+  - from: REJECTED
+    to: SESSION_CREATED
+    event: RETRY
+    actor: USER
+    guard: retry_limit_not_exceeded
+    side_effects:
+    - create_new_session
+    idempotency: COMMAND_ID

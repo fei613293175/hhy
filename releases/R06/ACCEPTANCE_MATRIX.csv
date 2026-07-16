@@ -1,0 +1,7 @@
+﻿验收ID,版本,验收项,证据路径,状态,阻断级别
+AC-R06-001,R06,领域代码与前端真实闭环,artifacts/reports/R06/,NOT_RUN,BLOCKING
+AC-R06-002,R06,数据库迁移和不变量测试通过,artifacts/reports/R06/,NOT_RUN,BLOCKING
+AC-R06-003,R06,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R06/,NOT_RUN,BLOCKING
+AC-R06-004,R06,日志指标链路和业务告警可验证,artifacts/reports/R06/,NOT_RUN,BLOCKING
+AC-R06-005,R06,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R06/,NOT_RUN,BLOCKING
+AC-R06-006,R06,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R06/,NOT_RUN,BLOCKING

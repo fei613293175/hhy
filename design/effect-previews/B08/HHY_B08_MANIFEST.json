@@ -1,0 +1,46 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B08",
+  "title": "我的、发布管理与订单中心",
+  "file": "HHY_B08_8PAGE_UI_REFERENCE.png",
+  "sha256": "521138189fbd7dc5a5cf055a0593cec7b558654f3a7b6710266fd304d86f86b0",
+  "role": "UI布局与样式参考，不是功能事实源",
+  "grid": {
+    "columns": 4,
+    "rows": 2
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "我的首页"
+    },
+    {
+      "panel": "P02",
+      "name": "我的发布列表"
+    },
+    {
+      "panel": "P03",
+      "name": "发布详情管理"
+    },
+    {
+      "panel": "P04",
+      "name": "订单中心"
+    },
+    {
+      "panel": "P05",
+      "name": "红包活动管理"
+    },
+    {
+      "panel": "P06",
+      "name": "数据统计"
+    },
+    {
+      "panel": "P07",
+      "name": "我的收藏"
+    },
+    {
+      "panel": "P08",
+      "name": "浏览记录"
+    }
+  ]
+}

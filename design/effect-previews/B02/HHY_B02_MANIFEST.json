@@ -1,0 +1,46 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B02",
+  "title": "首页、内容发现与卡片体系",
+  "file": "HHY_B02_8PAGE_UI_REFERENCE.png",
+  "sha256": "f5e48dcab11cc364159ceb49f3c4c4fea96327f66c935c803cbc541f7f922010",
+  "role": "UI布局与样式参考，不是功能事实源",
+  "grid": {
+    "columns": 4,
+    "rows": 2
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "首页默认态"
+    },
+    {
+      "panel": "P02",
+      "name": "首页下滑浏览态"
+    },
+    {
+      "panel": "P03",
+      "name": "首页搜索激活态"
+    },
+    {
+      "panel": "P04",
+      "name": "首页公告与轮播区"
+    },
+    {
+      "panel": "P05",
+      "name": "项目内容卡片"
+    },
+    {
+      "panel": "P06",
+      "name": "App内容卡片"
+    },
+    {
+      "panel": "P07",
+      "name": "群聊内容卡片"
+    },
+    {
+      "panel": "P08",
+      "name": "团队长内容卡片"
+    }
+  ]
+}

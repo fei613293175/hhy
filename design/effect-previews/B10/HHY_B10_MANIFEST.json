@@ -1,0 +1,46 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B10",
+  "title": "发布者工作台与数据管理布局参考",
+  "file": "HHY_B10_8PAGE_UI_REFERENCE.png",
+  "sha256": "e231f87faf41e228cc68c4f9ac0e45fb454561eb54eee43f5e136dc377b37bb7",
+  "role": "UI布局与样式参考，不是功能事实源",
+  "grid": {
+    "columns": 4,
+    "rows": 2
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "发布者工作台布局"
+    },
+    {
+      "panel": "P02",
+      "name": "项目管理列表"
+    },
+    {
+      "panel": "P03",
+      "name": "联系用户列表布局"
+    },
+    {
+      "panel": "P04",
+      "name": "联系用户详情布局"
+    },
+    {
+      "panel": "P05",
+      "name": "跟进记录布局参考"
+    },
+    {
+      "panel": "P06",
+      "name": "推广关系列表布局"
+    },
+    {
+      "panel": "P07",
+      "name": "数据看板"
+    },
+    {
+      "panel": "P08",
+      "name": "套餐卡片布局参考"
+    }
+  ]
+}

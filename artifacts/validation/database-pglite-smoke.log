@@ -1,0 +1,16 @@
+V001__extensions_and_schema.sql PASS
+V002__access_admin_and_platform.sql PASS
+V003__content_identity_and_communication.sql PASS
+V004__commerce_redpacket_and_finance.sql PASS
+V005__growth_operations_and_delivery.sql PASS
+V006__constraints_indexes_and_triggers.sql PASS
+V007__state_money_and_accounting_invariants.sql PASS
+V008__baseline_rbac_and_feature_flags.sql PASS
+TABLE_COUNT 188
+BALANCED_TRANSACTION PASS
+UNBALANCED_TRANSACTION BLOCKED
+POSTED_ENTRY_MUTATION BLOCKED
+INVALID_RED_PACKET_STOCK BLOCKED
+SEEDED_ROLES AUDITOR,OPERATOR,SUPER_ADMIN
+DEFAULT_ADMIN_COUNT 0
+PGLITE_MIGRATION_SMOKE PASS

@@ -1,0 +1,22 @@
+﻿角色代码,角色名称,职责域,允许配置组,写入范围,禁止事项,默认复核角色,数据敏感级别,会话升级,审计要求,成熟度
+super_admin,超级管理员,平台治理,无默认配置写权限,全局紧急治理；不得作为常规业务配置默认编辑者,全局只读/紧急处置，常规写权限仍按职责分离,安全管理员或另一超级管理员,CRITICAL,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+platform_engineer,平台技术管理员,技术平台,platform;domain;auth;sms;payment;payout;storage;system;operations;app_build,域名、存储、供应商、系统运行、构建技术参数,不得修改业务资金规则或查看业务明文敏感数据,security_admin / release_manager,CRITICAL,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+security_admin,安全管理员,安全治理,auth;sms;chat;identity;storage;system;operations;app_build,认证、安全参数、秘密激活、会话、敏感权限,不得单独批准自己发起的秘密或安全变更,另一 security_admin / auditor,CRITICAL,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+operations_admin,运营管理员,平台运营,platform;content;search;props;analytics;notification,品牌、CMS、通知、普通运营配置,不得修改支付、出款、提现和生产秘密,operations_manager,HIGH,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+operations_manager,运营主管,平台运营,无默认配置写权限,审核运营配置与通知发布,不得自审,super_admin（仅重大变更）,HIGH,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+content_ops,内容运营,内容治理,content;search,内容字段、展示、搜索、发布额度,不得查看实名原图或资金数据,content_ops_lead,HIGH,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+content_ops_lead,内容运营主管,内容治理,无默认配置写权限,审批内容规则和CMS高影响变更,不得自审,operations_manager,HIGH,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+identity_reviewer,实名审核员,身份治理,identity,实名队列、规则的业务部分,敏感原图仅短时查看，不得导出,identity_manager,CRITICAL,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+identity_manager,实名主管,身份治理,无默认配置写权限,复核实名规则和供应商业务参数,不得管理底层秘密,security_admin,CRITICAL,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+finance_operator,财务操作员,财务,payment;payout;red_packet;membership;referral;task;withdrawal,支付、出款、提现、奖励调整发起,不得自审、不得直接修改账本,finance_reviewer,CRITICAL,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+finance_reviewer,财务复核员,财务,无默认配置写权限,复核资金配置、出款、冲正和调整,不得审批本人申请,auditor / super_admin,CRITICAL,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+risk_manager,风控管理员,风险治理,red_packet;referral;referral_activity;task;withdrawal,红包、提现、推广、任务和风控规则,不得直接修改资金事实,security_admin / finance_reviewer,CRITICAL,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+red_packet_ops,红包运营,红包业务,red_packet,红包业务参数和活动运营,资金、费率和风控参数需复核,risk_manager / finance_reviewer,HIGH,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+commerce_ops,商业化运营,商业化,membership;props,会员、道具、商品和权益配置,价格与资金影响需财务复核,commerce_manager / finance_reviewer,HIGH,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+commerce_manager,商业化主管,商业化,无默认配置写权限,复核商品、会员、道具高影响变更,不得自审,finance_reviewer,HIGH,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+growth_ops,增长运营,增长,referral;referral_activity;task,邀请、活跃、任务业务配置,现金奖励与预算需风控和财务复核,risk_manager / finance_reviewer,HIGH,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+customer_service_manager,客服主管,客服,chat;notification,客服、聊天治理和通知辅助配置,不得查看无关资金/实名明文,operations_manager,HIGH,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+data_analyst,数据分析员,数据,analytics,指标口径、埋点和报表读取,不得修改生产业务事实,data_lead,HIGH,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+data_lead,数据负责人,数据,无默认配置写权限,复核指标口径和保留策略,不得自审,auditor,HIGH,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+release_manager,发布管理员,交付,domain;app_build,构建、版本、灰度、发布和回滚,生产晋级必须双人复核,security_admin / super_admin,CRITICAL,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2
+auditor,审计员,审计,operations,只读审计、审批监督、导出监督,默认无业务写权限,不适用,CRITICAL,HIGH/CRITICAL写操作必须MFA会话升级,记录配置键、环境、旧/新版本、差异、原因、审批单、requestId、结果,FROZEN_V1.2.2

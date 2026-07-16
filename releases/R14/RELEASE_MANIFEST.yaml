@@ -1,0 +1,83 @@
+release: R14
+title: 一对一聊天核心
+status: READY_WHEN_DEPENDENCIES_GREEN
+milestone: M1_CONTENT_MARKETPLACE
+depends_on:
+- R02
+- R04
+- R06
+scope: 会话、文本、图片、内容/联系方式卡片、WebSocket可靠性和未读
+android_test_apk_required: true
+requirements:
+- REQ-CHAT-001
+- REQ-CHAT-002
+ui:
+  android:
+  - SCR-CHAT-001
+  - SCR-CHAT-002
+  - SHEET-CHAT-001
+  - SHEET-CHAT-002
+  - DIALOG-CHAT-BLOCK-001
+  - DIALOG-CHAT-DELETE-001
+  h5: []
+  admin: []
+contracts:
+  client_api:
+  - GET /api/v1/conversations
+  - POST /api/v1/conversations/direct
+  - GET /api/v1/conversations/{id}/messages
+  - POST /api/v1/conversations/{id}/messages
+  - POST /api/v1/conversations/{id}/read
+  - DELETE /api/v1/conversations/{id}
+  - POST /api/v1/users/{id}/block
+  - DELETE /api/v1/users/{id}/block
+  - POST /api/v1/conversations/{id}/report
+  admin_api: []
+  websocket: []
+database_tables:
+- conversations
+- conversation_members
+- chat_messages
+- chat_read_receipts
+- user_blocks
+- chat_reports
+- notifications
+- notification_deliveries
+- announcements
+- announcement_reads
+tests:
+- TST-CHAT_001-HAPPY
+- TST-CHAT_001-IDEMPOTENT
+- TST-CHAT_001-REJECT
+- TST-CHAT_002-HAPPY
+- TST-CHAT_002-IDEMPOTENT
+- TST-CHAT_002-REJECT
+- TST-V122-006
+- TST-V122-007
+- TST-V122-008
+entry_gate:
+- releases/R14/DEFINITION_OF_READY.yaml 全部适用项为PASS
+- releases/R14/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+- 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
+- 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
+- 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+exit_gate:
+- 领域代码与前端真实闭环
+- 数据库迁移和不变量测试通过
+- 契约/单元/集成/E2E/安全专项测试通过
+- 日志指标链路和业务告警可验证
+- Session Log、追踪矩阵、产物Manifest和下一任务更新
+- Staging APK可安装且SHA256、Commit、版本信息完整
+change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
+documentation_baseline: V1.2.2
+document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+definition_of_ready: releases/R14/DEFINITION_OF_READY.yaml
+story_backlog: releases/R14/STORIES.yaml
+continuity:
+  policy: .continuity/CONTINUITY_POLICY.yaml
+  protocol_version: '1.0'
+  mode: ENFORCED
+  session_required_before_change: true
+  checkpoint_required_before_commit: true
+  old_conversation_required: false
+  handoff_bundle_required_for_actor_switch: true

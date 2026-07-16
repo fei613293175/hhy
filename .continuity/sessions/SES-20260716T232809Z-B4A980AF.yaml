@@ -1,0 +1,70 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260716T232809Z-B4A980AF
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: P00
+task_id: TASK-P00-001
+story_id: STORY-P00-001
+goal: 修复P00工程基线漂移并恢复全量可重复验证
+started_at: '2026-07-16T23:28:09Z'
+updated_at: '2026-07-16T23:28:24Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: false
+  branch: NOT_INITIALIZED
+  base_commit: NOT_INITIALIZED
+  start_head: NOT_INITIALIZED
+  upstream: null
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-16T23:28:09Z'
+  expires_at: '2026-07-17T03:28:09Z'
+checkpoint_sequence: 0
+latest_checkpoint: null
+session_log: docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md
+next_step: 阅读当前Story、逐项验证事实源后开始实现
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: c20a55a17585be0105c31ef35d2ff6422d63df08bdfd40e4b3d7b8858532bf2d
+  generated_at: '2026-07-16T23:28:23Z'
+handoff_bundle: null
+closure: null

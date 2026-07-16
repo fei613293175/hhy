@@ -1,0 +1,866 @@
+[
+  {
+    "批次": "B01",
+    "批次主题": "启动、登录与注册引导",
+    "面板": "P01",
+    "页面名称": "启动页",
+    "图片路径": "design/effect-previews/B01/HHY_B01_8PAGE_UI_REFERENCE.png",
+    "SHA256": "761f1a993c865e8464858fa498037c9520f86c100928b087eb9eae0e4ce302ca",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B01",
+    "批次主题": "启动、登录与注册引导",
+    "面板": "P02",
+    "页面名称": "登录主页",
+    "图片路径": "design/effect-previews/B01/HHY_B01_8PAGE_UI_REFERENCE.png",
+    "SHA256": "761f1a993c865e8464858fa498037c9520f86c100928b087eb9eae0e4ce302ca",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B01",
+    "批次主题": "启动、登录与注册引导",
+    "面板": "P03",
+    "页面名称": "手机号验证码登录页",
+    "图片路径": "design/effect-previews/B01/HHY_B01_8PAGE_UI_REFERENCE.png",
+    "SHA256": "761f1a993c865e8464858fa498037c9520f86c100928b087eb9eae0e4ce302ca",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B01",
+    "批次主题": "启动、登录与注册引导",
+    "面板": "P04",
+    "页面名称": "邀请码输入态",
+    "图片路径": "design/effect-previews/B01/HHY_B01_8PAGE_UI_REFERENCE.png",
+    "SHA256": "761f1a993c865e8464858fa498037c9520f86c100928b087eb9eae0e4ce302ca",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B01",
+    "批次主题": "启动、登录与注册引导",
+    "面板": "P05",
+    "页面名称": "协议确认弹层",
+    "图片路径": "design/effect-previews/B01/HHY_B01_8PAGE_UI_REFERENCE.png",
+    "SHA256": "761f1a993c865e8464858fa498037c9520f86c100928b087eb9eae0e4ce302ca",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B01",
+    "批次主题": "启动、登录与注册引导",
+    "面板": "P06",
+    "页面名称": "登录中状态",
+    "图片路径": "design/effect-previews/B01/HHY_B01_8PAGE_UI_REFERENCE.png",
+    "SHA256": "761f1a993c865e8464858fa498037c9520f86c100928b087eb9eae0e4ce302ca",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B01",
+    "批次主题": "启动、登录与注册引导",
+    "面板": "P07",
+    "页面名称": "登录失败/验证码错误",
+    "图片路径": "design/effect-previews/B01/HHY_B01_8PAGE_UI_REFERENCE.png",
+    "SHA256": "761f1a993c865e8464858fa498037c9520f86c100928b087eb9eae0e4ce302ca",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B01",
+    "批次主题": "启动、登录与注册引导",
+    "面板": "P08",
+    "页面名称": "强制更新提示",
+    "图片路径": "design/effect-previews/B01/HHY_B01_8PAGE_UI_REFERENCE.png",
+    "SHA256": "761f1a993c865e8464858fa498037c9520f86c100928b087eb9eae0e4ce302ca",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B02",
+    "批次主题": "首页、内容发现与卡片体系",
+    "面板": "P01",
+    "页面名称": "首页默认态",
+    "图片路径": "design/effect-previews/B02/HHY_B02_8PAGE_UI_REFERENCE.png",
+    "SHA256": "f5e48dcab11cc364159ceb49f3c4c4fea96327f66c935c803cbc541f7f922010",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B02",
+    "批次主题": "首页、内容发现与卡片体系",
+    "面板": "P02",
+    "页面名称": "首页下滑浏览态",
+    "图片路径": "design/effect-previews/B02/HHY_B02_8PAGE_UI_REFERENCE.png",
+    "SHA256": "f5e48dcab11cc364159ceb49f3c4c4fea96327f66c935c803cbc541f7f922010",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B02",
+    "批次主题": "首页、内容发现与卡片体系",
+    "面板": "P03",
+    "页面名称": "首页搜索激活态",
+    "图片路径": "design/effect-previews/B02/HHY_B02_8PAGE_UI_REFERENCE.png",
+    "SHA256": "f5e48dcab11cc364159ceb49f3c4c4fea96327f66c935c803cbc541f7f922010",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B02",
+    "批次主题": "首页、内容发现与卡片体系",
+    "面板": "P04",
+    "页面名称": "首页公告与轮播区",
+    "图片路径": "design/effect-previews/B02/HHY_B02_8PAGE_UI_REFERENCE.png",
+    "SHA256": "f5e48dcab11cc364159ceb49f3c4c4fea96327f66c935c803cbc541f7f922010",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B02",
+    "批次主题": "首页、内容发现与卡片体系",
+    "面板": "P05",
+    "页面名称": "项目内容卡片",
+    "图片路径": "design/effect-previews/B02/HHY_B02_8PAGE_UI_REFERENCE.png",
+    "SHA256": "f5e48dcab11cc364159ceb49f3c4c4fea96327f66c935c803cbc541f7f922010",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B02",
+    "批次主题": "首页、内容发现与卡片体系",
+    "面板": "P06",
+    "页面名称": "App内容卡片",
+    "图片路径": "design/effect-previews/B02/HHY_B02_8PAGE_UI_REFERENCE.png",
+    "SHA256": "f5e48dcab11cc364159ceb49f3c4c4fea96327f66c935c803cbc541f7f922010",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B02",
+    "批次主题": "首页、内容发现与卡片体系",
+    "面板": "P07",
+    "页面名称": "群聊内容卡片",
+    "图片路径": "design/effect-previews/B02/HHY_B02_8PAGE_UI_REFERENCE.png",
+    "SHA256": "f5e48dcab11cc364159ceb49f3c4c4fea96327f66c935c803cbc541f7f922010",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B02",
+    "批次主题": "首页、内容发现与卡片体系",
+    "面板": "P08",
+    "页面名称": "团队长内容卡片",
+    "图片路径": "design/effect-previews/B02/HHY_B02_8PAGE_UI_REFERENCE.png",
+    "SHA256": "f5e48dcab11cc364159ceb49f3c4c4fea96327f66c935c803cbc541f7f922010",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B03",
+    "批次主题": "四类内容详情与发布者主页",
+    "面板": "P01",
+    "页面名称": "项目详情",
+    "图片路径": "design/effect-previews/B03/HHY_B03_8PAGE_UI_REFERENCE.png",
+    "SHA256": "619f43b70ef7892b00ac985b771efd71111fe7f6c50d77504926f80f303ddb2c",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B03",
+    "批次主题": "四类内容详情与发布者主页",
+    "面板": "P02",
+    "页面名称": "App详情",
+    "图片路径": "design/effect-previews/B03/HHY_B03_8PAGE_UI_REFERENCE.png",
+    "SHA256": "619f43b70ef7892b00ac985b771efd71111fe7f6c50d77504926f80f303ddb2c",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B03",
+    "批次主题": "四类内容详情与发布者主页",
+    "面板": "P03",
+    "页面名称": "群聊详情",
+    "图片路径": "design/effect-previews/B03/HHY_B03_8PAGE_UI_REFERENCE.png",
+    "SHA256": "619f43b70ef7892b00ac985b771efd71111fe7f6c50d77504926f80f303ddb2c",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B03",
+    "批次主题": "四类内容详情与发布者主页",
+    "面板": "P04",
+    "页面名称": "团队长详情",
+    "图片路径": "design/effect-previews/B03/HHY_B03_8PAGE_UI_REFERENCE.png",
+    "SHA256": "619f43b70ef7892b00ac985b771efd71111fe7f6c50d77504926f80f303ddb2c",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B03",
+    "批次主题": "四类内容详情与发布者主页",
+    "面板": "P05",
+    "页面名称": "发布者主页",
+    "图片路径": "design/effect-previews/B03/HHY_B03_8PAGE_UI_REFERENCE.png",
+    "SHA256": "619f43b70ef7892b00ac985b771efd71111fe7f6c50d77504926f80f303ddb2c",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B03",
+    "批次主题": "四类内容详情与发布者主页",
+    "面板": "P06",
+    "页面名称": "获取联系方式弹层",
+    "图片路径": "design/effect-previews/B03/HHY_B03_8PAGE_UI_REFERENCE.png",
+    "SHA256": "619f43b70ef7892b00ac985b771efd71111fe7f6c50d77504926f80f303ddb2c",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B03",
+    "批次主题": "四类内容详情与发布者主页",
+    "面板": "P07",
+    "页面名称": "联系方式复制成功",
+    "图片路径": "design/effect-previews/B03/HHY_B03_8PAGE_UI_REFERENCE.png",
+    "SHA256": "619f43b70ef7892b00ac985b771efd71111fe7f6c50d77504926f80f303ddb2c",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B03",
+    "批次主题": "四类内容详情与发布者主页",
+    "面板": "P08",
+    "页面名称": "内容下架/失效",
+    "图片路径": "design/effect-previews/B03/HHY_B03_8PAGE_UI_REFERENCE.png",
+    "SHA256": "619f43b70ef7892b00ac985b771efd71111fe7f6c50d77504926f80f303ddb2c",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B04",
+    "批次主题": "发布与管理总览",
+    "面板": "P01",
+    "页面名称": "发布中心",
+    "图片路径": "design/effect-previews/B04/HHY_B04_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7cd3c5af8c2aa3a87de785a7491d4fd39521c38efa5aae90fa35bf3866feec5b",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B04",
+    "批次主题": "发布与管理总览",
+    "面板": "P02",
+    "页面名称": "发布项目广告",
+    "图片路径": "design/effect-previews/B04/HHY_B04_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7cd3c5af8c2aa3a87de785a7491d4fd39521c38efa5aae90fa35bf3866feec5b",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B04",
+    "批次主题": "发布与管理总览",
+    "面板": "P03",
+    "页面名称": "发布群聊推广",
+    "图片路径": "design/effect-previews/B04/HHY_B04_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7cd3c5af8c2aa3a87de785a7491d4fd39521c38efa5aae90fa35bf3866feec5b",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B04",
+    "批次主题": "发布与管理总览",
+    "面板": "P04",
+    "页面名称": "发布App推广",
+    "图片路径": "design/effect-previews/B04/HHY_B04_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7cd3c5af8c2aa3a87de785a7491d4fd39521c38efa5aae90fa35bf3866feec5b",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B04",
+    "批次主题": "发布与管理总览",
+    "面板": "P05",
+    "页面名称": "团队长入驻申请",
+    "图片路径": "design/effect-previews/B04/HHY_B04_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7cd3c5af8c2aa3a87de785a7491d4fd39521c38efa5aae90fa35bf3866feec5b",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B04",
+    "批次主题": "发布与管理总览",
+    "面板": "P06",
+    "页面名称": "我的发布列表",
+    "图片路径": "design/effect-previews/B04/HHY_B04_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7cd3c5af8c2aa3a87de785a7491d4fd39521c38efa5aae90fa35bf3866feec5b",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B04",
+    "批次主题": "发布与管理总览",
+    "面板": "P07",
+    "页面名称": "发布管理详情",
+    "图片路径": "design/effect-previews/B04/HHY_B04_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7cd3c5af8c2aa3a87de785a7491d4fd39521c38efa5aae90fa35bf3866feec5b",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B04",
+    "批次主题": "发布与管理总览",
+    "面板": "P08",
+    "页面名称": "数据统计分析",
+    "图片路径": "design/effect-previews/B04/HHY_B04_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7cd3c5af8c2aa3a87de785a7491d4fd39521c38efa5aae90fa35bf3866feec5b",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B05",
+    "批次主题": "发布入口与项目发布流程",
+    "面板": "P01",
+    "页面名称": "发布入口",
+    "图片路径": "design/effect-previews/B05/HHY_B05_8PAGE_UI_REFERENCE.png",
+    "SHA256": "35146da67a1a6927a19698ddc0021b4bfa9fb9acaaed47803225cc9674c549e9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B05",
+    "批次主题": "发布入口与项目发布流程",
+    "面板": "P02",
+    "页面名称": "选择发布类型",
+    "图片路径": "design/effect-previews/B05/HHY_B05_8PAGE_UI_REFERENCE.png",
+    "SHA256": "35146da67a1a6927a19698ddc0021b4bfa9fb9acaaed47803225cc9674c549e9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B05",
+    "批次主题": "发布入口与项目发布流程",
+    "面板": "P03",
+    "页面名称": "项目表单第一页",
+    "图片路径": "design/effect-previews/B05/HHY_B05_8PAGE_UI_REFERENCE.png",
+    "SHA256": "35146da67a1a6927a19698ddc0021b4bfa9fb9acaaed47803225cc9674c549e9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B05",
+    "批次主题": "发布入口与项目发布流程",
+    "面板": "P04",
+    "页面名称": "项目表单第二页",
+    "图片路径": "design/effect-previews/B05/HHY_B05_8PAGE_UI_REFERENCE.png",
+    "SHA256": "35146da67a1a6927a19698ddc0021b4bfa9fb9acaaed47803225cc9674c549e9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B05",
+    "批次主题": "发布入口与项目发布流程",
+    "面板": "P05",
+    "页面名称": "图片上传与排序",
+    "图片路径": "design/effect-previews/B05/HHY_B05_8PAGE_UI_REFERENCE.png",
+    "SHA256": "35146da67a1a6927a19698ddc0021b4bfa9fb9acaaed47803225cc9674c549e9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B05",
+    "批次主题": "发布入口与项目发布流程",
+    "面板": "P06",
+    "页面名称": "发布预览",
+    "图片路径": "design/effect-previews/B05/HHY_B05_8PAGE_UI_REFERENCE.png",
+    "SHA256": "35146da67a1a6927a19698ddc0021b4bfa9fb9acaaed47803225cc9674c549e9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B05",
+    "批次主题": "发布入口与项目发布流程",
+    "面板": "P07",
+    "页面名称": "提交审核成功",
+    "图片路径": "design/effect-previews/B05/HHY_B05_8PAGE_UI_REFERENCE.png",
+    "SHA256": "35146da67a1a6927a19698ddc0021b4bfa9fb9acaaed47803225cc9674c549e9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B05",
+    "批次主题": "发布入口与项目发布流程",
+    "面板": "P08",
+    "页面名称": "草稿保存成功",
+    "图片路径": "design/effect-previews/B05/HHY_B05_8PAGE_UI_REFERENCE.png",
+    "SHA256": "35146da67a1a6927a19698ddc0021b4bfa9fb9acaaed47803225cc9674c549e9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B06",
+    "批次主题": "App、群聊、团队长发布流程",
+    "面板": "P01",
+    "页面名称": "发布App表单",
+    "图片路径": "design/effect-previews/B06/HHY_B06_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9eaedeafa51cb217e5d816a26cce2ba1809f4beb6521445bd54269bade8cfef9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B06",
+    "批次主题": "App、群聊、团队长发布流程",
+    "面板": "P02",
+    "页面名称": "App截图上传",
+    "图片路径": "design/effect-previews/B06/HHY_B06_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9eaedeafa51cb217e5d816a26cce2ba1809f4beb6521445bd54269bade8cfef9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B06",
+    "批次主题": "App、群聊、团队长发布流程",
+    "面板": "P03",
+    "页面名称": "发布群聊表单",
+    "图片路径": "design/effect-previews/B06/HHY_B06_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9eaedeafa51cb217e5d816a26cce2ba1809f4beb6521445bd54269bade8cfef9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B06",
+    "批次主题": "App、群聊、团队长发布流程",
+    "面板": "P04",
+    "页面名称": "群二维码/链接填写",
+    "图片路径": "design/effect-previews/B06/HHY_B06_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9eaedeafa51cb217e5d816a26cce2ba1809f4beb6521445bd54269bade8cfef9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B06",
+    "批次主题": "App、群聊、团队长发布流程",
+    "面板": "P05",
+    "页面名称": "团队长入驻表单",
+    "图片路径": "design/effect-previews/B06/HHY_B06_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9eaedeafa51cb217e5d816a26cce2ba1809f4beb6521445bd54269bade8cfef9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B06",
+    "批次主题": "App、群聊、团队长发布流程",
+    "面板": "P06",
+    "页面名称": "团队长资料预览",
+    "图片路径": "design/effect-previews/B06/HHY_B06_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9eaedeafa51cb217e5d816a26cce2ba1809f4beb6521445bd54269bade8cfef9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B06",
+    "批次主题": "App、群聊、团队长发布流程",
+    "面板": "P07",
+    "页面名称": "审核中",
+    "图片路径": "design/effect-previews/B06/HHY_B06_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9eaedeafa51cb217e5d816a26cce2ba1809f4beb6521445bd54269bade8cfef9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B06",
+    "批次主题": "App、群聊、团队长发布流程",
+    "面板": "P08",
+    "页面名称": "审核驳回与修改",
+    "图片路径": "design/effect-previews/B06/HHY_B06_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9eaedeafa51cb217e5d816a26cce2ba1809f4beb6521445bd54269bade8cfef9",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B07",
+    "批次主题": "消息、聊天、通知与公告",
+    "面板": "P01",
+    "页面名称": "聊天列表",
+    "图片路径": "design/effect-previews/B07/HHY_B07_8PAGE_UI_REFERENCE.png",
+    "SHA256": "1262b25c4d3f40ba8fc89cce1890b8203911e608b82900a223c4474b2a877c08",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B07",
+    "批次主题": "消息、聊天、通知与公告",
+    "面板": "P02",
+    "页面名称": "私聊详情",
+    "图片路径": "design/effect-previews/B07/HHY_B07_8PAGE_UI_REFERENCE.png",
+    "SHA256": "1262b25c4d3f40ba8fc89cce1890b8203911e608b82900a223c4474b2a877c08",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B07",
+    "批次主题": "消息、聊天、通知与公告",
+    "面板": "P03",
+    "页面名称": "发送联系方式卡片",
+    "图片路径": "design/effect-previews/B07/HHY_B07_8PAGE_UI_REFERENCE.png",
+    "SHA256": "1262b25c4d3f40ba8fc89cce1890b8203911e608b82900a223c4474b2a877c08",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B07",
+    "批次主题": "消息、聊天、通知与公告",
+    "面板": "P04",
+    "页面名称": "发送项目卡片",
+    "图片路径": "design/effect-previews/B07/HHY_B07_8PAGE_UI_REFERENCE.png",
+    "SHA256": "1262b25c4d3f40ba8fc89cce1890b8203911e608b82900a223c4474b2a877c08",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B07",
+    "批次主题": "消息、聊天、通知与公告",
+    "面板": "P05",
+    "页面名称": "通知中心",
+    "图片路径": "design/effect-previews/B07/HHY_B07_8PAGE_UI_REFERENCE.png",
+    "SHA256": "1262b25c4d3f40ba8fc89cce1890b8203911e608b82900a223c4474b2a877c08",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B07",
+    "批次主题": "消息、聊天、通知与公告",
+    "面板": "P06",
+    "页面名称": "公告中心",
+    "图片路径": "design/effect-previews/B07/HHY_B07_8PAGE_UI_REFERENCE.png",
+    "SHA256": "1262b25c4d3f40ba8fc89cce1890b8203911e608b82900a223c4474b2a877c08",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B07",
+    "批次主题": "消息、聊天、通知与公告",
+    "面板": "P07",
+    "页面名称": "举报用户弹层",
+    "图片路径": "design/effect-previews/B07/HHY_B07_8PAGE_UI_REFERENCE.png",
+    "SHA256": "1262b25c4d3f40ba8fc89cce1890b8203911e608b82900a223c4474b2a877c08",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B07",
+    "批次主题": "消息、聊天、通知与公告",
+    "面板": "P08",
+    "页面名称": "拉黑/限制聊天提示",
+    "图片路径": "design/effect-previews/B07/HHY_B07_8PAGE_UI_REFERENCE.png",
+    "SHA256": "1262b25c4d3f40ba8fc89cce1890b8203911e608b82900a223c4474b2a877c08",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B08",
+    "批次主题": "我的、发布管理与订单中心",
+    "面板": "P01",
+    "页面名称": "我的首页",
+    "图片路径": "design/effect-previews/B08/HHY_B08_8PAGE_UI_REFERENCE.png",
+    "SHA256": "521138189fbd7dc5a5cf055a0593cec7b558654f3a7b6710266fd304d86f86b0",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B08",
+    "批次主题": "我的、发布管理与订单中心",
+    "面板": "P02",
+    "页面名称": "我的发布列表",
+    "图片路径": "design/effect-previews/B08/HHY_B08_8PAGE_UI_REFERENCE.png",
+    "SHA256": "521138189fbd7dc5a5cf055a0593cec7b558654f3a7b6710266fd304d86f86b0",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B08",
+    "批次主题": "我的、发布管理与订单中心",
+    "面板": "P03",
+    "页面名称": "发布详情管理",
+    "图片路径": "design/effect-previews/B08/HHY_B08_8PAGE_UI_REFERENCE.png",
+    "SHA256": "521138189fbd7dc5a5cf055a0593cec7b558654f3a7b6710266fd304d86f86b0",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B08",
+    "批次主题": "我的、发布管理与订单中心",
+    "面板": "P04",
+    "页面名称": "订单中心",
+    "图片路径": "design/effect-previews/B08/HHY_B08_8PAGE_UI_REFERENCE.png",
+    "SHA256": "521138189fbd7dc5a5cf055a0593cec7b558654f3a7b6710266fd304d86f86b0",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B08",
+    "批次主题": "我的、发布管理与订单中心",
+    "面板": "P05",
+    "页面名称": "红包活动管理",
+    "图片路径": "design/effect-previews/B08/HHY_B08_8PAGE_UI_REFERENCE.png",
+    "SHA256": "521138189fbd7dc5a5cf055a0593cec7b558654f3a7b6710266fd304d86f86b0",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B08",
+    "批次主题": "我的、发布管理与订单中心",
+    "面板": "P06",
+    "页面名称": "数据统计",
+    "图片路径": "design/effect-previews/B08/HHY_B08_8PAGE_UI_REFERENCE.png",
+    "SHA256": "521138189fbd7dc5a5cf055a0593cec7b558654f3a7b6710266fd304d86f86b0",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B08",
+    "批次主题": "我的、发布管理与订单中心",
+    "面板": "P07",
+    "页面名称": "我的收藏",
+    "图片路径": "design/effect-previews/B08/HHY_B08_8PAGE_UI_REFERENCE.png",
+    "SHA256": "521138189fbd7dc5a5cf055a0593cec7b558654f3a7b6710266fd304d86f86b0",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B08",
+    "批次主题": "我的、发布管理与订单中心",
+    "面板": "P08",
+    "页面名称": "浏览记录",
+    "图片路径": "design/effect-previews/B08/HHY_B08_8PAGE_UI_REFERENCE.png",
+    "SHA256": "521138189fbd7dc5a5cf055a0593cec7b558654f3a7b6710266fd304d86f86b0",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B09",
+    "批次主题": "奖励账户、明细与提现布局参考",
+    "面板": "P01",
+    "页面名称": "奖励账户首页布局",
+    "图片路径": "design/effect-previews/B09/HHY_B09_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7b0f226942dd4188a8fa12ad73d64f9789d14823d6b7cf1573a63da2f92faba7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B09",
+    "批次主题": "奖励账户、明细与提现布局参考",
+    "面板": "P02",
+    "页面名称": "虚拟积分区布局（不实现商豆）",
+    "图片路径": "design/effect-previews/B09/HHY_B09_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7b0f226942dd4188a8fa12ad73d64f9789d14823d6b7cf1573a63da2f92faba7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B09",
+    "批次主题": "奖励账户、明细与提现布局参考",
+    "面板": "P03",
+    "页面名称": "收益明细",
+    "图片路径": "design/effect-previews/B09/HHY_B09_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7b0f226942dd4188a8fa12ad73d64f9789d14823d6b7cf1573a63da2f92faba7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B09",
+    "批次主题": "奖励账户、明细与提现布局参考",
+    "面板": "P04",
+    "页面名称": "提现申请",
+    "图片路径": "design/effect-previews/B09/HHY_B09_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7b0f226942dd4188a8fa12ad73d64f9789d14823d6b7cf1573a63da2f92faba7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B09",
+    "批次主题": "奖励账户、明细与提现布局参考",
+    "面板": "P05",
+    "页面名称": "提现审核中",
+    "图片路径": "design/effect-previews/B09/HHY_B09_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7b0f226942dd4188a8fa12ad73d64f9789d14823d6b7cf1573a63da2f92faba7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B09",
+    "批次主题": "奖励账户、明细与提现布局参考",
+    "面板": "P06",
+    "页面名称": "提现成功",
+    "图片路径": "design/effect-previews/B09/HHY_B09_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7b0f226942dd4188a8fa12ad73d64f9789d14823d6b7cf1573a63da2f92faba7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B09",
+    "批次主题": "奖励账户、明细与提现布局参考",
+    "面板": "P07",
+    "页面名称": "提现失败",
+    "图片路径": "design/effect-previews/B09/HHY_B09_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7b0f226942dd4188a8fa12ad73d64f9789d14823d6b7cf1573a63da2f92faba7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B09",
+    "批次主题": "奖励账户、明细与提现布局参考",
+    "面板": "P08",
+    "页面名称": "红包奖励明细",
+    "图片路径": "design/effect-previews/B09/HHY_B09_8PAGE_UI_REFERENCE.png",
+    "SHA256": "7b0f226942dd4188a8fa12ad73d64f9789d14823d6b7cf1573a63da2f92faba7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B10",
+    "批次主题": "发布者工作台与数据管理布局参考",
+    "面板": "P01",
+    "页面名称": "发布者工作台布局",
+    "图片路径": "design/effect-previews/B10/HHY_B10_8PAGE_UI_REFERENCE.png",
+    "SHA256": "e231f87faf41e228cc68c4f9ac0e45fb454561eb54eee43f5e136dc377b37bb7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B10",
+    "批次主题": "发布者工作台与数据管理布局参考",
+    "面板": "P02",
+    "页面名称": "项目管理列表",
+    "图片路径": "design/effect-previews/B10/HHY_B10_8PAGE_UI_REFERENCE.png",
+    "SHA256": "e231f87faf41e228cc68c4f9ac0e45fb454561eb54eee43f5e136dc377b37bb7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B10",
+    "批次主题": "发布者工作台与数据管理布局参考",
+    "面板": "P03",
+    "页面名称": "联系用户列表布局",
+    "图片路径": "design/effect-previews/B10/HHY_B10_8PAGE_UI_REFERENCE.png",
+    "SHA256": "e231f87faf41e228cc68c4f9ac0e45fb454561eb54eee43f5e136dc377b37bb7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B10",
+    "批次主题": "发布者工作台与数据管理布局参考",
+    "面板": "P04",
+    "页面名称": "联系用户详情布局",
+    "图片路径": "design/effect-previews/B10/HHY_B10_8PAGE_UI_REFERENCE.png",
+    "SHA256": "e231f87faf41e228cc68c4f9ac0e45fb454561eb54eee43f5e136dc377b37bb7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B10",
+    "批次主题": "发布者工作台与数据管理布局参考",
+    "面板": "P05",
+    "页面名称": "跟进记录布局参考",
+    "图片路径": "design/effect-previews/B10/HHY_B10_8PAGE_UI_REFERENCE.png",
+    "SHA256": "e231f87faf41e228cc68c4f9ac0e45fb454561eb54eee43f5e136dc377b37bb7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B10",
+    "批次主题": "发布者工作台与数据管理布局参考",
+    "面板": "P06",
+    "页面名称": "推广关系列表布局",
+    "图片路径": "design/effect-previews/B10/HHY_B10_8PAGE_UI_REFERENCE.png",
+    "SHA256": "e231f87faf41e228cc68c4f9ac0e45fb454561eb54eee43f5e136dc377b37bb7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B10",
+    "批次主题": "发布者工作台与数据管理布局参考",
+    "面板": "P07",
+    "页面名称": "数据看板",
+    "图片路径": "design/effect-previews/B10/HHY_B10_8PAGE_UI_REFERENCE.png",
+    "SHA256": "e231f87faf41e228cc68c4f9ac0e45fb454561eb54eee43f5e136dc377b37bb7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B10",
+    "批次主题": "发布者工作台与数据管理布局参考",
+    "面板": "P08",
+    "页面名称": "套餐卡片布局参考",
+    "图片路径": "design/effect-previews/B10/HHY_B10_8PAGE_UI_REFERENCE.png",
+    "SHA256": "e231f87faf41e228cc68c4f9ac0e45fb454561eb54eee43f5e136dc377b37bb7",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B11",
+    "批次主题": "Pro会员与道具商城",
+    "面板": "P01",
+    "页面名称": "Pro会员中心",
+    "图片路径": "design/effect-previews/B11/HHY_B11_8PAGE_UI_REFERENCE.png",
+    "SHA256": "16c492cd9fc46c5be435da3979126b8eb67063a641ec9b575074751f67c96778",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B11",
+    "批次主题": "Pro会员与道具商城",
+    "面板": "P02",
+    "页面名称": "会员套餐布局参考",
+    "图片路径": "design/effect-previews/B11/HHY_B11_8PAGE_UI_REFERENCE.png",
+    "SHA256": "16c492cd9fc46c5be435da3979126b8eb67063a641ec9b575074751f67c96778",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B11",
+    "批次主题": "Pro会员与道具商城",
+    "面板": "P03",
+    "页面名称": "会员权益布局参考",
+    "图片路径": "design/effect-previews/B11/HHY_B11_8PAGE_UI_REFERENCE.png",
+    "SHA256": "16c492cd9fc46c5be435da3979126b8eb67063a641ec9b575074751f67c96778",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B11",
+    "批次主题": "Pro会员与道具商城",
+    "面板": "P04",
+    "页面名称": "道具商城",
+    "图片路径": "design/effect-previews/B11/HHY_B11_8PAGE_UI_REFERENCE.png",
+    "SHA256": "16c492cd9fc46c5be435da3979126b8eb67063a641ec9b575074751f67c96778",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B11",
+    "批次主题": "Pro会员与道具商城",
+    "面板": "P05",
+    "页面名称": "道具详情",
+    "图片路径": "design/effect-previews/B11/HHY_B11_8PAGE_UI_REFERENCE.png",
+    "SHA256": "16c492cd9fc46c5be435da3979126b8eb67063a641ec9b575074751f67c96778",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B11",
+    "批次主题": "Pro会员与道具商城",
+    "面板": "P06",
+    "页面名称": "我的道具",
+    "图片路径": "design/effect-previews/B11/HHY_B11_8PAGE_UI_REFERENCE.png",
+    "SHA256": "16c492cd9fc46c5be435da3979126b8eb67063a641ec9b575074751f67c96778",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B11",
+    "批次主题": "Pro会员与道具商城",
+    "面板": "P07",
+    "页面名称": "使用道具确认",
+    "图片路径": "design/effect-previews/B11/HHY_B11_8PAGE_UI_REFERENCE.png",
+    "SHA256": "16c492cd9fc46c5be435da3979126b8eb67063a641ec9b575074751f67c96778",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B11",
+    "批次主题": "Pro会员与道具商城",
+    "面板": "P08",
+    "页面名称": "使用成功",
+    "图片路径": "design/effect-previews/B11/HHY_B11_8PAGE_UI_REFERENCE.png",
+    "SHA256": "16c492cd9fc46c5be435da3979126b8eb67063a641ec9b575074751f67c96778",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B12",
+    "批次主题": "设置、账号安全、实名与帮助",
+    "面板": "P01",
+    "页面名称": "设置首页",
+    "图片路径": "design/effect-previews/B12/HHY_B12_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9c3a1dedd10da7aa4e3c996e97eed59dd25bb1aaf592b3fff422f3eecbc743cf",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B12",
+    "批次主题": "设置、账号安全、实名与帮助",
+    "面板": "P02",
+    "页面名称": "账号与安全",
+    "图片路径": "design/effect-previews/B12/HHY_B12_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9c3a1dedd10da7aa4e3c996e97eed59dd25bb1aaf592b3fff422f3eecbc743cf",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B12",
+    "批次主题": "设置、账号安全、实名与帮助",
+    "面板": "P03",
+    "页面名称": "修改登录密码",
+    "图片路径": "design/effect-previews/B12/HHY_B12_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9c3a1dedd10da7aa4e3c996e97eed59dd25bb1aaf592b3fff422f3eecbc743cf",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B12",
+    "批次主题": "设置、账号安全、实名与帮助",
+    "面板": "P04",
+    "页面名称": "实名认证状态",
+    "图片路径": "design/effect-previews/B12/HHY_B12_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9c3a1dedd10da7aa4e3c996e97eed59dd25bb1aaf592b3fff422f3eecbc743cf",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B12",
+    "批次主题": "设置、账号安全、实名与帮助",
+    "面板": "P05",
+    "页面名称": "隐私设置",
+    "图片路径": "design/effect-previews/B12/HHY_B12_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9c3a1dedd10da7aa4e3c996e97eed59dd25bb1aaf592b3fff422f3eecbc743cf",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B12",
+    "批次主题": "设置、账号安全、实名与帮助",
+    "面板": "P06",
+    "页面名称": "消息通知设置",
+    "图片路径": "design/effect-previews/B12/HHY_B12_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9c3a1dedd10da7aa4e3c996e97eed59dd25bb1aaf592b3fff422f3eecbc743cf",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B12",
+    "批次主题": "设置、账号安全、实名与帮助",
+    "面板": "P07",
+    "页面名称": "清理缓存",
+    "图片路径": "design/effect-previews/B12/HHY_B12_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9c3a1dedd10da7aa4e3c996e97eed59dd25bb1aaf592b3fff422f3eecbc743cf",
+    "用途": "UI布局与样式参考"
+  },
+  {
+    "批次": "B12",
+    "批次主题": "设置、账号安全、实名与帮助",
+    "面板": "P08",
+    "页面名称": "帮助与反馈",
+    "图片路径": "design/effect-previews/B12/HHY_B12_8PAGE_UI_REFERENCE.png",
+    "SHA256": "9c3a1dedd10da7aa4e3c996e97eed59dd25bb1aaf592b3fff422f3eecbc743cf",
+    "用途": "UI布局与样式参考"
+  }
+]

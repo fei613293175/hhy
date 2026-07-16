@@ -1,0 +1,84 @@
+release: R05
+title: 单一实名认证
+status: READY_WHEN_DEPENDENCIES_GREEN
+milestone: M0_ENGINEERING_FOUNDATION
+depends_on:
+- R02
+- R04
+scope: 姓名身份证、H5活体、人脸比对、私有照片、人工复核和敏感访问审计
+android_test_apk_required: true
+requirements:
+- REQ-ID-001
+- REQ-ID-002
+ui:
+  android:
+  - SCR-ID-001
+  - SCR-ID-002
+  - SCR-ID-003
+  - SCR-ID-004
+  h5:
+  - H5-012
+  admin:
+  - ADM-ID-001
+  - ADM-ID-002
+contracts:
+  client_api:
+  - POST /api/v1/identity/sessions
+  - POST /api/v1/identity/sessions/{id}/liveness-token
+  - GET /api/v1/identity/sessions/{id}
+  - POST /api/v1/identity/sessions/{id}/retry
+  admin_api:
+  - GET /admin-api/v1/identities
+  - GET /admin-api/v1/identities/{userId}
+  - POST /admin-api/v1/identities/{userId}/media-access
+  - POST /admin-api/v1/identity-sessions/{id}/review
+  - POST /admin-api/v1/identities/{userId}/freeze
+  websocket: []
+database_tables:
+- identity_profiles
+- identity_verification_sessions
+- identity_provider_requests
+- identity_review_records
+- sensitive_data_access_logs
+- users
+- user_profiles
+- user_settings
+- user_status_logs
+- admin_operation_logs
+tests:
+- TST-ID_001-HAPPY
+- TST-ID_001-IDEMPOTENT
+- TST-ID_001-REJECT
+- TST-ID_001-SECURITY
+- TST-ID_002-HAPPY
+- TST-ID_002-IDEMPOTENT
+- TST-ID_002-REJECT
+- TST-ID_002-SECURITY
+- TST-V122-015
+- TST-V122-016
+entry_gate:
+- releases/R05/DEFINITION_OF_READY.yaml 全部适用项为PASS
+- releases/R05/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+- 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
+- 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
+- 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+exit_gate:
+- 领域代码与前端真实闭环
+- 数据库迁移和不变量测试通过
+- 契约/单元/集成/E2E/安全专项测试通过
+- 日志指标链路和业务告警可验证
+- Session Log、追踪矩阵、产物Manifest和下一任务更新
+- Staging APK可安装且SHA256、Commit、版本信息完整
+change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
+documentation_baseline: V1.2.2
+document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+definition_of_ready: releases/R05/DEFINITION_OF_READY.yaml
+story_backlog: releases/R05/STORIES.yaml
+continuity:
+  policy: .continuity/CONTINUITY_POLICY.yaml
+  protocol_version: '1.0'
+  mode: ENFORCED
+  session_required_before_change: true
+  checkpoint_required_before_commit: true
+  old_conversation_required: false
+  handoff_bundle_required_for_actor_switch: true

@@ -1,0 +1,7 @@
+﻿验收ID,版本,验收项,证据路径,状态,阻断级别
+AC-R11-001,R11,领域代码与前端真实闭环,artifacts/reports/R11/,NOT_RUN,BLOCKING
+AC-R11-002,R11,数据库迁移和不变量测试通过,artifacts/reports/R11/,NOT_RUN,BLOCKING
+AC-R11-003,R11,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R11/,NOT_RUN,BLOCKING
+AC-R11-004,R11,日志指标链路和业务告警可验证,artifacts/reports/R11/,NOT_RUN,BLOCKING
+AC-R11-005,R11,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R11/,NOT_RUN,BLOCKING
+AC-R11-006,R11,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R11/,NOT_RUN,BLOCKING

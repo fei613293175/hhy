@@ -1,0 +1,46 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B05",
+  "title": "发布入口与项目发布流程",
+  "file": "HHY_B05_8PAGE_UI_REFERENCE.png",
+  "sha256": "35146da67a1a6927a19698ddc0021b4bfa9fb9acaaed47803225cc9674c549e9",
+  "role": "UI布局与样式参考，不是功能事实源",
+  "grid": {
+    "columns": 4,
+    "rows": 2
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "发布入口"
+    },
+    {
+      "panel": "P02",
+      "name": "选择发布类型"
+    },
+    {
+      "panel": "P03",
+      "name": "项目表单第一页"
+    },
+    {
+      "panel": "P04",
+      "name": "项目表单第二页"
+    },
+    {
+      "panel": "P05",
+      "name": "图片上传与排序"
+    },
+    {
+      "panel": "P06",
+      "name": "发布预览"
+    },
+    {
+      "panel": "P07",
+      "name": "提交审核成功"
+    },
+    {
+      "panel": "P08",
+      "name": "草稿保存成功"
+    }
+  ]
+}

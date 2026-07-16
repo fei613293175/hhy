@@ -1,0 +1,46 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B07",
+  "title": "消息、聊天、通知与公告",
+  "file": "HHY_B07_8PAGE_UI_REFERENCE.png",
+  "sha256": "1262b25c4d3f40ba8fc89cce1890b8203911e608b82900a223c4474b2a877c08",
+  "role": "UI布局与样式参考，不是功能事实源",
+  "grid": {
+    "columns": 4,
+    "rows": 2
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "聊天列表"
+    },
+    {
+      "panel": "P02",
+      "name": "私聊详情"
+    },
+    {
+      "panel": "P03",
+      "name": "发送联系方式卡片"
+    },
+    {
+      "panel": "P04",
+      "name": "发送项目卡片"
+    },
+    {
+      "panel": "P05",
+      "name": "通知中心"
+    },
+    {
+      "panel": "P06",
+      "name": "公告中心"
+    },
+    {
+      "panel": "P07",
+      "name": "举报用户弹层"
+    },
+    {
+      "panel": "P08",
+      "name": "拉黑/限制聊天提示"
+    }
+  ]
+}

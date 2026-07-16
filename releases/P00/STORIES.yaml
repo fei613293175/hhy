@@ -1,0 +1,202 @@
+version: 1.2.2
+release: P00
+title: 仓库、环境、契约与无状态接续
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-P00-001
+  release: P00
+  title: 仓库、环境、契约与无状态接续：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 P00 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids: []
+  operation_ids: []
+  api_contracts: []
+  requirement_ids:
+  - REQ-UI-001
+  - REQ-CONT-001
+  - REQ-ENG-001
+  - REQ-CONTRACT-001
+  - REQ-APK-001
+  - REQ-ARCH-001
+  - REQ-DATA-001
+  - REQ-EVENT-001
+  - REQ-LEDGER-001
+  - REQ-ADMIN-BASE-001
+  - REQ-OBS-002
+  - REQ-SECRET-001
+  - REQ-PAGE-SPEC-001
+  - REQ-DOR-001
+  config_keys: []
+  data_tables:
+  - outbox_events
+  - inbox_messages
+  - ledger_accounts
+  - accounting_transactions
+  - accounting_entries
+  - balance_snapshots
+  - reconciliation_runs
+  - reconciliation_differences
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - app_build_artifacts
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - app_build_profiles
+  - app_build_jobs
+  - app_build_job_steps
+  - app_signing_profiles
+  - reward_accounts
+  - reward_ledger
+  - reward_settlements
+  - reward_freezes
+  - payout_accounts
+  - withdrawal_requests
+  - payout_transactions
+  - payout_callbacks
+  - payout_reconciliation_records
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - system_configs
+  - system_config_versions
+  - feature_flags
+  - admin_approval_requests
+  - provider_config_definitions
+  - provider_config_versions
+  - provider_connection_tests
+  - provider_certificates
+  - provider_certificate_access_logs
+  - domain_configs
+  - dns_action_items
+  - N/A_DOCUMENT_CONTRACT
+  test_ids:
+  - TST-ADMIN_BASE_001-HAPPY
+  - TST-ADMIN_BASE_001-IDEMPOTENT
+  - TST-ADMIN_BASE_001-REJECT
+  - TST-APK_001-HAPPY
+  - TST-APK_001-IDEMPOTENT
+  - TST-APK_001-REJECT
+  - TST-ARCH_001-HAPPY
+  - TST-ARCH_001-IDEMPOTENT
+  - TST-ARCH_001-REJECT
+  - TST-CONTRACT_001-HAPPY
+  - TST-CONTRACT_001-IDEMPOTENT
+  - TST-CONTRACT_001-REJECT
+  - TST-CONT_001-HAPPY
+  - TST-CONT_001-IDEMPOTENT
+  - TST-CONT_001-REJECT
+  - TST-DATA_001-HAPPY
+  - TST-DATA_001-IDEMPOTENT
+  - TST-DATA_001-REJECT
+  - TST-DOR_001-DRIFT
+  - TST-DOR_001-HAPPY
+  - TST-DOR_001-REJECT
+  - TST-DOR_001-SECURITY
+  - TST-ENG_001-HAPPY
+  - TST-ENG_001-IDEMPOTENT
+  - TST-ENG_001-REJECT
+  - TST-EVENT_001-HAPPY
+  - TST-EVENT_001-IDEMPOTENT
+  - TST-EVENT_001-REJECT
+  - TST-GATE-ANDROID-BUILD
+  - TST-GATE-BACKEND-BUILD
+  - TST-GATE-DB-MIGRATION
+  - TST-GATE-LEDGER
+  - TST-GATE-MAPPING
+  - TST-GATE-MODULE-BOUNDARY
+  - TST-GATE-OPENAPI
+  - TST-GATE-OUTBOX
+  - TST-GATE-SECRETS
+  - TST-GATE-STATE
+  - TST-GATE-WEB-BUILD
+  - TST-LEDGER_001-CONCURRENCY
+  - TST-LEDGER_001-HAPPY
+  - TST-LEDGER_001-IDEMPOTENT
+  - TST-LEDGER_001-RECOVERY
+  - TST-LEDGER_001-REJECT
+  - TST-OBS_002-HAPPY
+  - TST-OBS_002-IDEMPOTENT
+  - TST-OBS_002-REJECT
+  - TST-PAGE_SPEC_001-DRIFT
+  - TST-PAGE_SPEC_001-HAPPY
+  - TST-PAGE_SPEC_001-REJECT
+  - TST-PAGE_SPEC_001-SECURITY
+  - TST-SECRET_001-HAPPY
+  - TST-SECRET_001-IDEMPOTENT
+  - TST-SECRET_001-REJECT
+  - TST-SECRET_001-SECURITY
+  - TST-UI_001-HAPPY
+  - TST-UI_001-IDEMPOTENT
+  - TST-UI_001-REJECT
+  - TST-V122-011
+  dependencies: []
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-P00-002
+  release: P00
+  title: 持续开发无状态接续强制门禁落地与演练
+  user_story: 作为接手项目的AI或开发者，我需要仅凭仓库领取任务、记录检查点、提交、交接、接管和关闭，以便不依赖任何旧对话稳定继续开发。
+  platform: CROSS_PLATFORM
+  module: 持续开发治理
+  template_id: N/A
+  page_ids: []
+  operation_ids: []
+  api_contracts: []
+  requirement_ids:
+  - REQ-CONT-001
+  - REQ-ENG-001
+  - REQ-DOR-001
+  config_keys: []
+  data_tables:
+  - N/A_DOCUMENT_CONTRACT
+  test_ids:
+  - TST-CONT_001-HAPPY
+  - TST-CONT_001-REJECT
+  - TST-DOR_001-DRIFT
+  dependencies: []
+  owner_roles:
+  - tech_lead
+  - devops_engineer
+  - test_engineer
+  acceptance_criteria:
+  - 唯一ACTIVE Session和Task Claim
+  - 项目变化必须检查点和测试证据
+  - 每个Commit绑定Task/Session/Checkpoint/Tests/CR
+  - WIP可通过Handoff Bundle和takeover无对话接管
+  - pre-push和CI逐Commit重验
+  - 事件与Manifest篡改可检测
+  definition_of_ready: P00 DoR全部适用项PASS且.continuity策略为ENFORCED
+  status: READY_FOR_IMPLEMENTATION

@@ -1,0 +1,344 @@
+version: 1.2.2
+release: R31
+title: 安全、性能、备份与灾备验收
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R31-001
+  release: R31
+  title: 风控：风控规则版本
+  user_story: 作为具备 risk.rule.read 的后台员工；写操作另需 risk.rule.manage，我需要完成风控规则版本的完整业务流程，以便在不依赖研发临时决策的情况下实现规则草稿、版本差异、测试样本、审批、激活、回滚和命中统计。
+  platform: ADMIN
+  module: 风控
+  template_id: ADM-CONFIG
+  page_ids:
+  - ADM-RISK-003
+  operation_ids:
+  - adminRiskRulesGetVersions
+  - adminRiskRulesPostVersion
+  - adminRiskRulesPostActivate
+  api_contracts:
+  - GET /admin-api/v1/risk-rule-versions
+  - POST /admin-api/v1/risk-rule-versions
+  - POST /admin-api/v1/risk-rule-versions/{id}/activate
+  requirement_ids:
+  - REQ-RISK-RULE-001
+  - REQ-SEC-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  - red_packet.default_view_seconds
+  - red_packet.reservation_min_seconds
+  - red_packet.unit_amount_min_cent
+  - red_packet.unit_amount_max_cent
+  - red_packet.min_count
+  - red_packet.service_fee_bps
+  - red_packet.one_active_per_content
+  - red_packet.allow_raise_unit_amount
+  - withdrawal.min_amount_cent.normal
+  - withdrawal.fee.fixed_cent.normal
+  - withdrawal.fee.bps.normal
+  - withdrawal.daily_count.normal
+  - withdrawal.min_amount_cent.month
+  - withdrawal.fee.fixed_cent.month
+  - withdrawal.fee.bps.month
+  - withdrawal.daily_count.month
+  data_tables:
+  - risk_rule_versions
+  - risk_rule_simulations
+  - risk_events
+  - admin_approval_requests
+  - admin_operation_logs
+  - blacklists
+  - whitelists
+  - manual_review_cases
+  test_ids:
+  - TST-V122-043
+  - TST-V122-044
+  - TST-V122-046
+  dependencies:
+  - R30
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-RISK-003 全部绑定模板 ADM-CONFIG，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminRiskRulesGetVersions;adminRiskRulesPostVersion;adminRiskRulesPostActivate；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-V122-043;TST-V122-044;TST-V122-046
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R31-002
+  release: R31
+  title: 风控：风控规则模拟器
+  user_story: 作为具备 risk.rule.simulate 的后台员工；写操作另需 risk.rule.simulate，我需要完成风控规则模拟器的完整业务流程，以便在不依赖研发临时决策的情况下实现使用脱敏样本或手工输入模拟规则命中、动作和解释，不产生真实业务副作用。
+  platform: ADMIN
+  module: 风控
+  template_id: ADM-LIST
+  page_ids:
+  - ADM-RISK-004
+  operation_ids:
+  - adminRiskRulesPostSimulation
+  api_contracts:
+  - POST /admin-api/v1/risk-rule-versions/{id}/simulate
+  requirement_ids:
+  - REQ-RISK-RULE-001
+  - REQ-SEC-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  - red_packet.default_view_seconds
+  - red_packet.reservation_min_seconds
+  - red_packet.unit_amount_min_cent
+  - red_packet.unit_amount_max_cent
+  - red_packet.min_count
+  - red_packet.service_fee_bps
+  - red_packet.one_active_per_content
+  - red_packet.allow_raise_unit_amount
+  - withdrawal.min_amount_cent.normal
+  - withdrawal.fee.fixed_cent.normal
+  - withdrawal.fee.bps.normal
+  - withdrawal.daily_count.normal
+  - withdrawal.min_amount_cent.month
+  - withdrawal.fee.fixed_cent.month
+  - withdrawal.fee.bps.month
+  - withdrawal.daily_count.month
+  data_tables:
+  - risk_rule_versions
+  - risk_rule_simulations
+  - risk_events
+  - admin_approval_requests
+  - admin_operation_logs
+  - blacklists
+  - whitelists
+  - manual_review_cases
+  test_ids:
+  - TST-V122-045
+  dependencies:
+  - R30
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-RISK-004 全部绑定模板 ADM-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminRiskRulesPostSimulation；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-V122-045
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R31-003
+  release: R31
+  title: 风控：风险事件、黑白名单
+  user_story: 作为具备 risk.manage 的后台员工；写操作另需 risk.manage，我需要完成风险事件、黑白名单的完整业务流程，以便在不依赖研发临时决策的情况下实现规则命中和处置。
+  platform: ADMIN
+  module: 风控
+  template_id: ADM-SECURITY
+  page_ids:
+  - ADM-RISK-001
+  - ADM-RISK-002
+  operation_ids:
+  - adminRiskGetRiskEvents
+  - adminRiskPostRiskEventsByIdDecide
+  - adminRiskGetRiskRuleVersions
+  - adminRiskPostRiskRuleVersions
+  - adminRiskGetRiskBlacklists
+  - adminRiskPostRiskBlacklists
+  - adminRiskDeleteRiskBlacklistsById
+  api_contracts:
+  - GET /admin-api/v1/risk/events
+  - POST /admin-api/v1/risk/events/{id}/decide
+  - GET /admin-api/v1/risk/rule-versions
+  - POST /admin-api/v1/risk/rule-versions
+  - GET /admin-api/v1/risk/blacklists
+  - POST /admin-api/v1/risk/blacklists
+  - DELETE /admin-api/v1/risk/blacklists/{id}
+  requirement_ids:
+  - REQ-SEC-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - risk_rule_versions
+  - risk_events
+  - blacklists
+  - whitelists
+  - manual_review_cases
+  test_ids:
+  - TST-SEC_001-HAPPY
+  - TST-SEC_001-IDEMPOTENT
+  dependencies:
+  - R30
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-RISK-001;ADM-RISK-002 全部绑定模板 ADM-SECURITY，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminRiskGetRiskEvents;adminRiskPostRiskEventsByIdDecide;adminRiskGetRiskRuleVersions;adminRiskPostRiskRuleVersions;adminRiskGetRiskBlacklists;adminRiskPostRiskBlacklists;adminRiskDeleteRiskBlacklistsById；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-SEC_001-HAPPY;TST-SEC_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R31-004
+  release: R31
+  title: 安全、性能、备份与灾备验收：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R31 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - ADM-RISK-001
+  - ADM-RISK-002
+  - ADM-RISK-003
+  - ADM-RISK-004
+  operation_ids:
+  - adminRiskGetRiskEvents
+  - adminRiskPostRiskEventsByIdDecide
+  - adminRiskGetRiskRuleVersions
+  - adminRiskPostRiskRuleVersions
+  - adminRiskGetRiskBlacklists
+  - adminRiskPostRiskBlacklists
+  - adminRiskDeleteRiskBlacklistsById
+  - adminRiskRulesGetVersions
+  - adminRiskRulesPostVersion
+  - adminRiskRulesPostSimulation
+  - adminRiskRulesPostActivate
+  api_contracts:
+  - GET /admin-api/v1/risk/events
+  - POST /admin-api/v1/risk/events/{id}/decide
+  - GET /admin-api/v1/risk/rule-versions
+  - POST /admin-api/v1/risk/rule-versions
+  - GET /admin-api/v1/risk/blacklists
+  - POST /admin-api/v1/risk/blacklists
+  - DELETE /admin-api/v1/risk/blacklists/{id}
+  - GET /admin-api/v1/risk-rule-versions
+  - POST /admin-api/v1/risk-rule-versions
+  - POST /admin-api/v1/risk-rule-versions/{id}/simulate
+  - POST /admin-api/v1/risk-rule-versions/{id}/activate
+  requirement_ids:
+  - REQ-SEC-001
+  - REQ-OPS-001
+  - REQ-ADMIN-OPS-001
+  - REQ-RISK-RULE-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  - red_packet.default_view_seconds
+  - red_packet.reservation_min_seconds
+  - red_packet.unit_amount_min_cent
+  - red_packet.unit_amount_max_cent
+  - red_packet.min_count
+  - red_packet.service_fee_bps
+  - red_packet.one_active_per_content
+  - red_packet.allow_raise_unit_amount
+  - withdrawal.min_amount_cent.normal
+  - withdrawal.fee.fixed_cent.normal
+  - withdrawal.fee.bps.normal
+  - withdrawal.daily_count.normal
+  - withdrawal.min_amount_cent.month
+  - withdrawal.fee.fixed_cent.month
+  - withdrawal.fee.bps.month
+  - withdrawal.daily_count.month
+  data_tables:
+  - risk_rule_versions
+  - risk_events
+  - blacklists
+  - whitelists
+  - manual_review_cases
+  - job_definitions
+  - job_execution_logs
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - admin_approval_requests
+  - risk_rule_simulations
+  test_ids:
+  - TST-ADMIN_OPS_001-DRIFT
+  - TST-ADMIN_OPS_001-HAPPY
+  - TST-ADMIN_OPS_001-REJECT
+  - TST-ADMIN_OPS_001-SECURITY
+  - TST-OPS_001-HAPPY
+  - TST-OPS_001-IDEMPOTENT
+  - TST-OPS_001-REJECT
+  - TST-RISK_RULE_001-DRIFT
+  - TST-RISK_RULE_001-HAPPY
+  - TST-RISK_RULE_001-REJECT
+  - TST-RISK_RULE_001-SECURITY
+  - TST-SEC_001-HAPPY
+  - TST-SEC_001-IDEMPOTENT
+  - TST-SEC_001-REJECT
+  - TST-SEC_001-SECURITY
+  - TST-V122-043
+  - TST-V122-044
+  - TST-V122-045
+  - TST-V122-046
+  dependencies:
+  - R30
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

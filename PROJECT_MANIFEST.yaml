@@ -1,0 +1,56 @@
+project: 合伙云 Pro
+package_version: 1.2.3
+generated_at: '2026-07-16'
+root_domain: orbexa.cc
+canonical_document: 合伙云Pro_完整项目开发文档_V1.2.2_页面与运营规格冻结版.md
+status: READY_FOR_FORMAL_DEVELOPMENT_WITH_ENFORCED_STATELESS_CONTINUITY
+documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
+quality_gate: python3 scripts/check_v123_continuity.py --strict
+counts:
+  requirements_catalog.csv: 84
+  android_screens.csv: 102
+  h5_screens.csv: 13
+  admin_pages.csv: 74
+  ui_page_specifications.csv: 189
+  ui_page_fields.csv: 5159
+  ui_page_states.csv: 1633
+  ui_action_matrix.csv: 606
+  api_endpoints.csv: 131
+  admin_api_endpoints.csv: 184
+  websocket_events: 10
+  data_tables.csv: 198
+  config_registry.csv: 314
+  config_cross_field_rules.csv: 58
+  config_role_matrix.csv: 21
+  test_cases.csv: 376
+  frontend_backend_matrix.csv: 189
+  TRACEABILITY_MATRIX.csv: 84
+  release_story_backlog.csv: 163
+  release_definition_of_ready.csv: 396
+  release_plan.csv: 33
+  continuity_gate_catalog.csv: 42
+  continuity_event_catalog.csv: 16
+  continuity_required_records.csv: 20
+ui_reference_batches: 12
+release_stages: 33
+architecture_baseline: docs/01-architecture/系统架构与模块边界_V1.2.2.md
+page_spec_index: docs/02-ui/页面施工规格总索引_V1.2.2.md
+next_task: TASK-P00-001
+product_spec_baseline: V1.2.2
+continuity:
+  protocol_version: '1.0'
+  mode: ENFORCED
+  policy: .continuity/CONTINUITY_POLICY.yaml
+  conversation_context_required: false
+  quality_gate: python3 scripts/check_v123_continuity.py --strict
+  runtime_gate: python3 scripts/continuity_gate.py --mode doctor --strict
+  repository_only_handoff: true
+continuity_validation:
+  status: PASS
+  documentation_errors: 0
+  continuity_errors: 0
+  continuity_warnings: 0
+  lifecycle_checks: 14
+  portable_reconstruction_checks: 9
+  open_document_gaps: 0
+  unassigned_api_operations: 0

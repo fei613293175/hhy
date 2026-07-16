@@ -1,0 +1,28 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+checkpoint_id: CP-SES-V123-PACKAGE-BASELINE-0001
+session_id: SES-V123-PACKAGE-BASELINE
+sequence: 1
+created_at: '2026-07-16T00:30:00Z'
+summary: 完成V1.2.3无状态接续强制门禁基线
+next_step: 导入私有仓库并bootstrap
+project_fingerprint:
+  sha256: PACKAGE_BASELINE_REGENERATED_ON_IMPORT
+  file_count: 0
+  files: []
+  entries: []
+changed_files: []
+change_classification:
+- continuity
+tests:
+- name: documentation+continuity
+  result: PASS
+  evidence: artifacts/validation/
+  note: 包级基线
+no_test_reason: ''
+blockers: []
+decisions:
+- 仓库是唯一上下文，对话不是事实源
+change_requests:
+- CR-0002
+notes: 历史包构建记录

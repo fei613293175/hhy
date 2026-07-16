@@ -1,0 +1,16 @@
+{
+  "name": "@hhy/api-client",
+  "version": "1.2.2",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "build": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vitest": "4.1.10"
+  }
+}

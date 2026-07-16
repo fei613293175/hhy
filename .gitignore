@@ -1,0 +1,29 @@
+# secrets
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+secrets/
+# builds
+**/build/
+**/dist/
+*.apk
+*.aab
+artifacts/apk/**/*.apk
+# IDE
+.idea/
+.vscode/
+*.iml
+# runtime
+logs/
+.tmp/
+.DS_Store
+# continuity runtime locks and transient gate reports
+.continuity/runtime/*
+!.continuity/runtime/.gitkeep
+artifacts/handoff-exports/
+artifacts/exports/

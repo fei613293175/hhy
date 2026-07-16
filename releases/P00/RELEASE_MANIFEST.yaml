@@ -1,0 +1,172 @@
+release: P00
+title: 仓库、环境、契约与无状态接续
+status: READY
+milestone: M0_ENGINEERING_FOUNDATION
+depends_on: []
+scope: 私有仓库、工程骨架、配置注册表、契约骨架、CI、开发/测试/预发布环境、冷启动接手
+android_test_apk_required: true
+requirements:
+- REQ-UI-001
+- REQ-CONT-001
+- REQ-ENG-001
+- REQ-CONTRACT-001
+- REQ-APK-001
+- REQ-ARCH-001
+- REQ-DATA-001
+- REQ-EVENT-001
+- REQ-LEDGER-001
+- REQ-ADMIN-BASE-001
+- REQ-OBS-002
+- REQ-SECRET-001
+- REQ-PAGE-SPEC-001
+- REQ-DOR-001
+ui:
+  android: []
+  h5: []
+  admin: []
+contracts:
+  client_api: []
+  admin_api: []
+  websocket: []
+database_tables:
+- outbox_events
+- inbox_messages
+- ledger_accounts
+- accounting_transactions
+- accounting_entries
+- balance_snapshots
+- reconciliation_runs
+- reconciliation_differences
+- h5_page_configs
+- cms_articles
+- agreements
+- app_versions
+- content_posts
+- app_release_records
+- app_build_artifacts
+- users
+- user_credentials
+- auth_security_challenges
+- user_sessions
+- user_devices
+- sms_verification_codes
+- login_logs
+- app_build_profiles
+- app_build_jobs
+- app_build_job_steps
+- app_signing_profiles
+- reward_accounts
+- reward_ledger
+- reward_settlements
+- reward_freezes
+- payout_accounts
+- withdrawal_requests
+- payout_transactions
+- payout_callbacks
+- payout_reconciliation_records
+- payment_transactions
+- payment_callbacks
+- payment_exception_orders
+- payment_reconciliation_records
+- admin_users
+- admin_roles
+- admin_permissions
+- admin_user_roles
+- admin_role_permissions
+- system_configs
+- system_config_versions
+- feature_flags
+- admin_approval_requests
+- provider_config_definitions
+- provider_config_versions
+- provider_connection_tests
+- provider_certificates
+- provider_certificate_access_logs
+- domain_configs
+- dns_action_items
+tests:
+- TST-ADMIN_BASE_001-HAPPY
+- TST-ADMIN_BASE_001-IDEMPOTENT
+- TST-ADMIN_BASE_001-REJECT
+- TST-APK_001-HAPPY
+- TST-APK_001-IDEMPOTENT
+- TST-APK_001-REJECT
+- TST-ARCH_001-HAPPY
+- TST-ARCH_001-IDEMPOTENT
+- TST-ARCH_001-REJECT
+- TST-CONTRACT_001-HAPPY
+- TST-CONTRACT_001-IDEMPOTENT
+- TST-CONTRACT_001-REJECT
+- TST-CONT_001-HAPPY
+- TST-CONT_001-IDEMPOTENT
+- TST-CONT_001-REJECT
+- TST-DATA_001-HAPPY
+- TST-DATA_001-IDEMPOTENT
+- TST-DATA_001-REJECT
+- TST-DOR_001-DRIFT
+- TST-DOR_001-HAPPY
+- TST-DOR_001-REJECT
+- TST-DOR_001-SECURITY
+- TST-ENG_001-HAPPY
+- TST-ENG_001-IDEMPOTENT
+- TST-ENG_001-REJECT
+- TST-EVENT_001-HAPPY
+- TST-EVENT_001-IDEMPOTENT
+- TST-EVENT_001-REJECT
+- TST-GATE-ANDROID-BUILD
+- TST-GATE-BACKEND-BUILD
+- TST-GATE-DB-MIGRATION
+- TST-GATE-LEDGER
+- TST-GATE-MAPPING
+- TST-GATE-MODULE-BOUNDARY
+- TST-GATE-OPENAPI
+- TST-GATE-OUTBOX
+- TST-GATE-SECRETS
+- TST-GATE-STATE
+- TST-GATE-WEB-BUILD
+- TST-LEDGER_001-CONCURRENCY
+- TST-LEDGER_001-HAPPY
+- TST-LEDGER_001-IDEMPOTENT
+- TST-LEDGER_001-RECOVERY
+- TST-LEDGER_001-REJECT
+- TST-OBS_002-HAPPY
+- TST-OBS_002-IDEMPOTENT
+- TST-OBS_002-REJECT
+- TST-PAGE_SPEC_001-DRIFT
+- TST-PAGE_SPEC_001-HAPPY
+- TST-PAGE_SPEC_001-REJECT
+- TST-PAGE_SPEC_001-SECURITY
+- TST-SECRET_001-HAPPY
+- TST-SECRET_001-IDEMPOTENT
+- TST-SECRET_001-REJECT
+- TST-SECRET_001-SECURITY
+- TST-UI_001-HAPPY
+- TST-UI_001-IDEMPOTENT
+- TST-UI_001-REJECT
+- TST-V122-011
+entry_gate:
+- releases/P00/DEFINITION_OF_READY.yaml 全部适用项为PASS
+- releases/P00/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+- 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
+- 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
+- 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+exit_gate:
+- 领域代码与前端真实闭环
+- 数据库迁移和不变量测试通过
+- 契约/单元/集成/E2E/安全专项测试通过
+- 日志指标链路和业务告警可验证
+- Session Log、追踪矩阵、产物Manifest和下一任务更新
+- Staging APK可安装且SHA256、Commit、版本信息完整
+change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
+documentation_baseline: V1.2.2
+document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+definition_of_ready: releases/P00/DEFINITION_OF_READY.yaml
+story_backlog: releases/P00/STORIES.yaml
+continuity:
+  policy: .continuity/CONTINUITY_POLICY.yaml
+  protocol_version: '1.0'
+  mode: ENFORCED
+  session_required_before_change: true
+  checkpoint_required_before_commit: true
+  old_conversation_required: false
+  handoff_bundle_required_for_actor_switch: true

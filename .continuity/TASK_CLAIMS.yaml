@@ -1,0 +1,45 @@
+version: '1.0'
+claims:
+- task_id: TASK-P00-001
+  story_id: STORY-P00-001
+  session_id: SES-V123-PACKAGE-BASELINE
+  actor_id: openai-package-builder
+  status: RELEASED
+  claimed_at: '2026-07-16T00:00:00Z'
+  closed_at: '2026-07-16T00:30:00Z'
+  result: PACKAGE_BASELINE
+- claim_id: CLM-1BBC8343F3B4
+  session_id: SES-20260716T232809Z-B4A980AF
+  task_id: TASK-P00-001
+  story_id: STORY-P00-001
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-16T23:28:09Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json

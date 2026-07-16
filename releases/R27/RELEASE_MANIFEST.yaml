@@ -1,0 +1,94 @@
+release: R27
+title: 个人任务与留存
+status: READY_WHEN_DEPENDENCIES_GREEN
+milestone: M4_GROWTH_PLATFORM
+depends_on:
+- R24
+scope: 七日/每日/连续活跃、积分、道具/体验/现金、预算和激励流量标记
+android_test_apk_required: true
+requirements:
+- REQ-TASK-001
+- REQ-TASK-002
+- REQ-LEDGER-001
+ui:
+  android:
+  - SCR-TASK-001
+  - SCR-TASK-002
+  h5: []
+  admin:
+  - ADM-TASK-001
+  - ADM-TASK-002
+contracts:
+  client_api:
+  - GET /api/v1/tasks
+  - POST /api/v1/tasks/{id}/claim
+  - GET /api/v1/me/points
+  - GET /api/v1/me/point-ledger
+  admin_api:
+  - GET /admin-api/v1/tasks
+  - POST /admin-api/v1/tasks
+  - PATCH /admin-api/v1/tasks/{id}
+  - GET /admin-api/v1/task-progress
+  - GET /admin-api/v1/growth-budgets
+  - PUT /admin-api/v1/growth-budgets/{id}
+  websocket: []
+database_tables:
+- task_definitions
+- user_task_progress
+- task_events
+- user_point_accounts
+- user_point_ledger
+- growth_budgets
+- task_rule_versions
+- reward_accounts
+- reward_ledger
+- reward_settlements
+- reward_freezes
+- accounting_entries
+- payout_accounts
+- withdrawal_requests
+- payout_transactions
+- payout_callbacks
+- payout_reconciliation_records
+- accounting_transactions
+- payment_transactions
+- payment_callbacks
+- payment_exception_orders
+- payment_reconciliation_records
+tests:
+- TST-TASK_001-CONCURRENCY
+- TST-TASK_001-HAPPY
+- TST-TASK_001-IDEMPOTENT
+- TST-TASK_001-RECOVERY
+- TST-TASK_001-REJECT
+- TST-TASK_002-CONCURRENCY
+- TST-TASK_002-HAPPY
+- TST-TASK_002-IDEMPOTENT
+- TST-TASK_002-RECOVERY
+- TST-TASK_002-REJECT
+entry_gate:
+- releases/R27/DEFINITION_OF_READY.yaml 全部适用项为PASS
+- releases/R27/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+- 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
+- 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
+- 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+exit_gate:
+- 领域代码与前端真实闭环
+- 数据库迁移和不变量测试通过
+- 契约/单元/集成/E2E/安全专项测试通过
+- 日志指标链路和业务告警可验证
+- Session Log、追踪矩阵、产物Manifest和下一任务更新
+- Staging APK可安装且SHA256、Commit、版本信息完整
+change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
+documentation_baseline: V1.2.2
+document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+definition_of_ready: releases/R27/DEFINITION_OF_READY.yaml
+story_backlog: releases/R27/STORIES.yaml
+continuity:
+  policy: .continuity/CONTINUITY_POLICY.yaml
+  protocol_version: '1.0'
+  mode: ENFORCED
+  session_required_before_change: true
+  checkpoint_required_before_commit: true
+  old_conversation_required: false
+  handoff_bundle_required_for_actor_switch: true

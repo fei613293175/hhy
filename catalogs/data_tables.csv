@@ -1,0 +1,199 @@
+﻿领域,表名,用途,关键字段,约束/说明,计划版本
+账号,users,用户主账号,"id, phone, status, invite_code, created_at",phone唯一；软删除,R02
+账号,user_credentials,登录凭证,"user_id, password_hash, algorithm, password_changed_at, failed_count, locked_until",user_id唯一；Argon2id/BCrypt,R02
+账号,auth_security_challenges,安全验证挑战,"id, type, answer_hash, expires_at, used_at, ip, device_id",一次性、短期保留,R02
+账号,password_reset_sessions,重置密码会话,"id, phone, sms_verification_id, expires_at, used_at",一次性,R02
+账号,registration_records,注册记录,"user_id, channel, phone, invite_code, inviter_id, rule_version, ip, device_id",审计保留,R02
+账号,user_profiles,公开资料,"user_id, nickname, avatar, bio, region",user_id唯一；注册时生成“合伙人+数字”昵称,R02
+账号,user_sessions,登录会话,"user_id, access_jti, refresh_hash, device_id, expires_at",refresh_hash唯一,R02
+账号,user_devices,设备,"user_id, device_fingerprint, model, last_seen",用户+指纹索引,R02
+账号,sms_verification_codes,验证码,"phone, scene, code_hash, expires_at, attempts, provider_message_id",短期保留,R02
+账号,sms_send_logs,阿里云短信发送记录,"phone, scene, template_code, provider_message_id, result, ip, device_id",时间与手机号索引,R02
+账号,login_logs,登录日志,"user_id, phone, ip, device_id, result",时间索引,R02
+账号,user_settings,用户设置,"user_id, notification_json, privacy_json",user_id唯一,R02
+账号,user_status_logs,账号状态历史,"user_id, from_status, to_status, reason, operator",不可删除,R02
+实名,identity_profiles,当前实名资料,"user_id, name_cipher, id_no_cipher, id_hash, status",id_hash唯一策略,R05
+实名,identity_verification_sessions,实名尝试,"user_id, state, status, provider, expires_at",state唯一,R05
+实名,identity_provider_requests,第三方请求记录,"session_id, request_type, provider_order_no, response_cipher",订单号索引,R05
+实名,identity_media,实名媒体,"session_id, media_object_id, media_type",私有对象,R05
+实名,identity_review_records,人工复核,"session_id, decision, reason, admin_id",审计,R05
+实名,sensitive_data_access_logs,敏感查看日志,"admin_id, user_id, resource, reason, ip",不可删除,R05
+媒体,media_objects,对象元数据,"owner_id, bucket, object_key, mime, size, sha256, visibility",bucket+key唯一,R04
+媒体,upload_sessions,上传会话,"user_id, scene, status, expires_at",过期清理,R04
+媒体,media_access_tokens,临时访问令牌,"media_id, subject, expires_at, used_at",一次或短期,R04
+内容,content_posts,内容主表,"owner_id, type, title, summary, status, review_status, refresh_times",类型+状态索引,R06-R13
+内容,project_details,项目扩展,"content_id, cooperation, conditions, region, website",content_id唯一,R06-R13
+内容,app_details,App扩展,"content_id, app_name, platform, version_text, download_url, website",content_id唯一；无apk字段,R06-R13
+内容,group_details,群扩展,"content_id, platform, size_range, join_requirement, qr_media_id, group_link, group_no",content_id唯一,R06-R13
+内容,team_leader_details,团队长扩展,"content_id, team_name, size_range, skills, cooperation_types",owner唯一活动资料,R06-R13
+内容,content_media,内容媒体,"content_id, media_id, media_type, sort_order",内容+顺序唯一,R06-R13
+内容,content_contacts,内容联系方式,"content_id, channel, value_cipher, display_mask, sort_order",详情获取,R06-R13
+内容,content_versions,内容版本,"content_id, version_no, snapshot_json, created_by",内容+版本唯一,R06-R13
+内容,content_status_logs,状态日志,"content_id, from_status, to_status, reason, operator",不可删除,R06-R13
+内容,content_review_records,审核记录,"content_id, version_no, decision, reason, admin_id",版本索引,R06-R13
+内容,content_stats,累计统计,"content_id, organic_views, redpacket_views, task_views, favorites, chats, contacts",content_id唯一,R06-R13
+内容,content_daily_stats,每日统计,"content_id, stat_date, metrics_json",内容+日期唯一,R06-R13
+内容,content_favorites,收藏,"user_id, content_id, created_at",用户+内容唯一,R06-R13
+内容,content_view_logs,浏览事件,"user_id, content_id, traffic_type, duration, source",时间分区/归档,R06-R13
+内容,content_contact_access_logs,联系方式访问,"user_id, content_id, channel, action",防重复和统计,R06-R13
+内容,content_reports,内容举报,"reporter_id, content_id, type, description, status",状态索引,R06-R13
+内容,content_appeals,内容申诉,"content_id, owner_id, review_record_id, status",关联审核,R06-R13
+内容,publisher_follows,关注发布者,"user_id, publisher_id",唯一,R06-R13
+搜索,search_histories,搜索历史,"user_id, keyword, created_at",用户时间索引,R07
+搜索,hot_search_terms,热搜词,"keyword, weight, enabled, starts_at, ends_at",后台配置,R07
+聊天,conversations,会话,"type, last_message_id, last_message_at",首版仅direct,R14
+聊天,conversation_members,会话成员,"conversation_id, user_id, unread_count, last_read_message_id",会话+用户唯一,R14
+聊天,chat_messages,消息,"conversation_id, sender_id, type, body_json, status, client_msg_id",发送者+client_msg_id唯一,R14
+聊天,chat_message_attachments,消息附件,"message_id, media_id, sort_order",私有媒体,R14
+聊天,chat_read_receipts,已读,"message_id, user_id, read_at",消息+用户唯一,R14
+聊天,user_blocks,拉黑,"user_id, blocked_user_id, reason",唯一,R14
+聊天,chat_reports,聊天举报,"reporter_id, target_user_id, conversation_id, message_ids, status",证据,R14
+通知,notifications,站内通知,"user_id, type, title, body, biz_type, biz_id, read_at",用户+时间索引,R15
+通知,notification_templates,通知模板,"code, channel, template, enabled",code唯一,R15
+通知,notification_deliveries,发送记录,"notification_id, channel, status, provider_msg_id",重试,R15
+通知,push_tokens,推送令牌,"user_id, device_id, provider, token",token唯一,R15
+通知,announcements,公告,"title, content, status, published_at",CMS,R15
+通知,announcement_reads,公告已读,"announcement_id, user_id, read_at",唯一,R15
+商品,products,商品,"type, name, status, display_order",商品类型,R16
+商品,product_skus,SKU,"product_id, code, price_cent, duration, attributes_json, status",code唯一,R16
+商品,sku_commission_policies,SKU分佣,"sku_id, level1_bps, level2_bps, enabled, version",版本快照,R16
+商品,coupons,优惠券定义,"code, discount_type, value, scope, validity",可选模块,R16
+商品,user_coupons,用户优惠券,"user_id, coupon_id, status, expires_at",状态,R16
+订单,orders,订单主表,"order_no, user_id, biz_type, biz_id, amount_cent, status",order_no唯一,R16
+订单,order_items,订单项,"order_id, sku_id, quantity, unit_price, snapshot_json",快照,R16
+订单,order_price_snapshots,报价快照,"order_id, original, discount, service_fee, payable, rule_versions",order唯一,R16
+支付,payment_transactions,支付交易,"order_id, gateway, channel, provider_trade_no, amount, status",provider_trade_no唯一,R17
+支付,payment_callbacks,支付回调,"gateway, provider_trade_no, payload_cipher, signature_valid, processed",幂等,R17
+支付,payment_exception_orders,异常账务,"order_id, type, status, resolution",双人复核,R17
+支付,payment_reconciliation_records,支付对账,"recon_date, gateway, result, diff_json",日期+网关,R17
+会员,membership_plans,会员计划,"code, name, public_badge",统一Pro,R18
+会员,membership_skus,月季年SKU,"plan_id, sku_id, term_type, term_seconds",sku唯一,R18
+会员,membership_benefits,权益定义,"code, value_type, description",code唯一,R18
+会员,membership_sku_benefits,SKU权益,"membership_sku_id, benefit_id, value_json, enabled",组合唯一,R18
+会员,user_memberships,用户当前会员,"user_id, plan_id, status, starts_at, ends_at",user唯一当前,R18
+会员,membership_entitlement_segments,付费/赠送分段,"user_id, source_order_id, type, paid_amount, starts_at, ends_at, consumed",升级计算,R18
+会员,membership_benefit_snapshots,购买权益快照,"order_id, benefits_json, reward_matrix_json",订单唯一,R18
+会员,membership_upgrade_quotes,升级报价,"user_id, target_sku_id, remaining_value, payable, expires_at",短期报价,R18
+会员,membership_value_conversions,价值转换,"upgrade_order_id, source_segment_id, converted_value, extra_seconds",审计,R18
+道具,prop_products,道具定义,"type, name, duration_seconds, execution_type",四种,R19
+道具,prop_skus,道具SKU,"prop_id, product_sku_id, scope_json",价格来自SKU,R19
+道具,user_props,用户道具,"user_id, prop_sku_id, status, acquired_order_id, expires_at",库存,R19
+道具,content_exposure_entitlements,持续曝光权益,"content_id, type, starts_at, ends_at, status",置顶/头条/变色,R19
+道具,content_refresh_records,刷新记录,"content_id, user_prop_id, layers, executed_at",审计,R19
+道具,headline_slots,头条资源位,"page_code, slot_code, capacity, status",资源位,R19
+道具,headline_slot_bookings,头条排期,"slot_id, content_id, entitlement_id, starts_at, ends_at",冲突检查,R19
+道具,color_themes,变色主题,"code, token_json, enabled",设计Token,R19
+道具,prop_execution_logs,道具执行,"user_prop_id, content_id, result, error",重试,R19
+红包,red_packet_campaigns,活动主表,"content_id, owner_id, current_amount, total_count, status, required_seconds",一个内容一个活动约束,R20-R23
+红包,red_packet_campaign_versions,金额/规则版本,"campaign_id, version_no, amount, remaining_at_effective, rule_snapshot",历史,R20-R23
+红包,red_packet_quotes,创建/加价报价,"campaign_id, quote_type, principal, service_fee, payable, expires_at",短期,R20-R23
+红包,red_packet_orders,红包订单关联,"campaign_id, order_id, quote_id, type",创建/加价,R20-R23
+红包,red_packet_stock,库存,"campaign_id, total, claimed, reserved, version",乐观锁/原子,R20-R23
+红包,red_packet_view_sessions,浏览会话,"campaign_id, user_id, reservation_id, required, valid_seconds, status, expires_at",用户+活动活跃唯一,R20-R23
+红包,red_packet_heartbeats,心跳摘要/事件,"session_id, server_time, foreground, visible, delta",可归档,R20-R23
+红包,red_packet_reservations,名额锁定,"campaign_id, user_id, session_id, amount_version, expires_at, status",库存一致,R20-R23
+红包,red_packet_claims,领取,"campaign_id, user_id, amount, amount_version, status, reward_ledger_id",用户+活动唯一,R20-R23
+红包,red_packet_task_evidence,任务证据,"claim_id, session_id, evidence_json",风控,R20-R23
+红包,red_packet_ledger,红包资金账,"campaign_id, entry_type, amount, balance_after, biz_id",不可变,R20-R23
+红包,red_packet_campaign_stats,活动统计,"campaign_id, metrics_json, updated_at",聚合,R20-R23
+奖励,reward_accounts,奖励账户,"user_id, pending, available, frozen, withdrawing, withdrawn",user唯一,R24
+奖励,reward_ledger,奖励流水,"user_id, source_type, amount, status, biz_id, balance_after",幂等业务键,R24
+奖励,reward_settlements,结算任务,"ledger_id, settle_at, status, risk_result",调度,R24
+奖励,reward_freezes,冻结记录,"user_id, ledger_id, reason, status",可释放/冲正,R24
+提现,payout_accounts,支付宝账户,"user_id, account_cipher, account_hash, real_name, status",user当前唯一,R24
+提现,withdrawal_requests,提现申请,"withdraw_no, user_id, amount, fee, net_amount, status",withdraw_no唯一,R24
+提现,payout_transactions,出款交易,"withdrawal_id, gateway, provider_order_no, status",provider唯一,R24
+提现,payout_callbacks,出款回调,"provider_order_no, payload_cipher, processed",幂等,R24
+提现,payout_reconciliation_records,出款对账,"recon_date, result, diff_json",日期,R24
+推广,invite_codes,邀请码,"user_id, code, status",code唯一,R25
+推广,referral_relations,邀请关系,"inviter_id, invitee_id, level1_parent_id, bound_at, status",invitee唯一有效关系,R25
+推广,referral_binding_logs,绑定历史,"invitee_id, old_inviter, new_inviter, reason, admin_id",审计,R25
+推广,commission_policy_versions,佣金规则版本,"name, starts_at, config_json",不可修改历史,R25
+推广,commission_records,佣金记录,"order_id, beneficiary_id, source_user_id, level, base, rate, amount, status",订单+受益人+层级唯一,R25
+推广,commission_settlements,佣金结算,"commission_id, settle_at, risk_result, status",调度,R25
+推广,referral_materials,推广素材,"type, title, content, media_id, status",CMS,R25
+推广,referral_violation_records,推广违规,"user_id, type, evidence, status",治理,R25
+推广活跃,referral_activity_rule_versions,活跃规则版本,"name, starts_at, daily_cap, config_json",版本化,R26
+推广活跃,referral_activity_rules,行为分值,"version_id, event_type, score, frequency, conditions_json",事件唯一,R26
+推广活跃,referral_activity_progress,每名直推进度,"relation_id, invitee_id, current_score, highest_milestone, status",relation唯一,R26
+推广活跃,referral_activity_events,活跃事件,"relation_id, invitee_id, event_type, delta, before, after, biz_id, idem_key",idem_key唯一,R26
+推广活跃,referral_milestones,档位,"version_id, score, sequence, enabled",版本+score唯一,R26
+推广活跃,referral_reward_matrix,会员奖励矩阵,"milestone_id, member_term, reward_amount, enabled, settle_delay",逐格配置,R26
+推广活跃,referral_milestone_rewards,档位奖励,"relation_id, inviter_id, invitee_id, milestone, member_snapshot, amount, status",关系+版本+档位唯一,R26
+任务,task_definitions,任务定义,"code, type, cycle, status",code唯一,R27
+任务,task_rule_versions,任务规则版本,"task_id, version, conditions_json, rewards_json",版本,R27
+任务,user_task_progress,任务进度,"user_id, task_id, cycle_key, progress, status",用户+任务+周期唯一,R27
+任务,task_events,任务事件,"user_id, event_type, biz_id, idem_key, payload",idem唯一,R27
+任务,user_point_accounts,个人任务积分账户,"user_id, balance, accumulated",user唯一,R27
+任务,user_point_ledger,个人积分流水,"user_id, delta, source, biz_id, balance_after",不可变,R27
+任务,task_milestone_rewards,个人里程碑奖励,"user_id, milestone, reward_type, amount, status",规则唯一,R27
+任务,growth_budgets,增长预算,"period, reward_type, budget, consumed, status",预算控制,R27
+客服,support_tickets,工单,"ticket_no, user_id, type, biz_type, biz_id, status, assignee",ticket_no唯一,R15
+客服,ticket_messages,工单消息,"ticket_id, sender_type, sender_id, body",时间索引,R15
+客服,ticket_attachments,工单附件,"ticket_id, message_id, media_id",证据,R15
+客服,ticket_status_logs,工单状态,"ticket_id, from_status, to_status, operator",审计,R15
+CMS,home_modules,首页模块,"code, title, source_type, config_json, display_order, enabled",code唯一,R28
+CMS,banners,轮播,"position, title, media_id, target, starts_at, ends_at",排期,R28
+CMS,cms_articles,帮助/规则文章,"type, title, content, status, published_at",版本可扩展,R28
+CMS,agreements,协议,"code, current_version_id",code唯一,R28
+CMS,agreement_versions,协议版本,"agreement_id, version, content, effective_at",版本唯一,R28
+CMS,user_agreement_acceptances,用户同意,"user_id, version_id, scene, ip, device_id",证据,R28
+CMS,h5_page_configs,H5页面配置,"page_code, config_json, version, status",版本,R28
+版本,app_versions,App版本,"version_code, version_name, apk_media_id, update_type, min_version, sha256, status",version_code唯一,P00/R29/R30
+版本,app_download_logs,APK下载日志,"version_id, ip, source, user_agent",统计,R29
+风控,risk_rule_versions,风控规则版本,"name, scene, config_json, starts_at",版本,R31
+风控,risk_events,风险事件,"user_id, scene, score, hits_json, status, biz_id",场景索引,R31
+风控,device_fingerprints,设备指纹,"fingerprint, first_user_id, risk_level, attributes_json",fingerprint唯一,R31
+风控,blacklists,黑名单,"type, value_hash, reason, starts_at, ends_at",类型+值唯一,R31
+风控,whitelists,白名单,"type, value_hash, reason, ends_at",类型+值唯一,R31
+风控,manual_review_cases,人工风控复核,"scene, biz_id, status, assignee, decision",队列,R31
+后台,admin_users,后台账号,"username, password_hash, status, mfa_secret_ref",username唯一,R01/R03/R30
+后台,admin_roles,角色,"code, name, status",code唯一,R01/R03/R30
+后台,admin_permissions,权限,"code, resource, action",code唯一,R01/R03/R30
+后台,admin_user_roles,用户角色,"admin_id, role_id",唯一,R01/R03/R30
+后台,admin_role_permissions,角色权限,"role_id, permission_id",唯一,R01/R03/R30
+后台,admin_operation_logs,操作审计,"admin_id, action, resource, resource_id, before_json, after_json, ip",不可删除,R01/R03/R30
+后台,admin_approval_requests,双人复核,"type, biz_id, requester, reviewer, status",高风险操作,R01/R03/R30
+系统,system_configs,当前配置,"key, value_json, version, scope",key+scope唯一,P00/R29/R30
+系统,system_config_versions,配置历史,"key, version, value_json, changed_by",不可删除,P00/R29/R30
+系统,feature_flags,功能开关,"key, enabled, rollout_json",灰度,P00/R29/R30
+系统,job_definitions,定时任务定义,"code, cron, enabled, config_json",code唯一,R30
+系统,job_execution_logs,任务执行日志,"job_code, started_at, finished_at, status, error",时间索引,R30
+系统,idempotency_records,幂等记录,"scope, idem_key, request_hash, response_ref, expires_at",scope+key唯一,P00/R29/R30
+分析,analytics_events,行为事件,"user_id, event_name, biz_type, biz_id, traffic_type, properties, occurred_at",可分区,R23/R30
+分析,daily_kpis,每日指标,"stat_date, metric_code, dimensions, value",维度唯一,R23/R30
+配置中心,provider_config_definitions,供应商配置定义,"provider_code, field_code, field_type, secret, required, validation_json",provider+field唯一,R01/R03/R30
+配置中心,provider_config_versions,供应商配置版本,"provider_code, version_no, encrypted_values, status, created_by, activated_at",版本不可覆盖；激活唯一,R01/R03/R30
+配置中心,provider_connection_tests,供应商连接测试,"provider_code, config_version_id, test_type, status, masked_result, requested_by, created_at",不保存明文秘密,R01/R03/R30
+配置中心,provider_certificates,证书与私钥元数据,"provider_code, cert_type, object_key, fingerprint, encrypted_password_ref, valid_from, valid_to, status",私有存储；原文不可读回,R01/R03/R30
+配置中心,provider_certificate_access_logs,证书访问审计,"certificate_id, admin_id, operation, reason, ip, created_at",不可删除,R01/R03/R30
+配置中心,domain_configs,域名配置,"code, environment, host, purpose, status, verified_at",environment+code唯一,R01/R03/R30
+配置中心,dns_action_items,DNS操作清单,"domain_config_id, record_type, name, value, status, user_action_required",解析由用户完成,R01/R03/R30
+配置中心,storage_scope_bindings,存储Scope绑定,"scope_code, provider_code, config_version_id, bucket, public_domain, status",scope唯一激活,R01/R03/R30
+配置中心,storage_migration_jobs,跨存储迁移任务,"source_binding_id, target_binding_id, scope_code, cursor, total, success, failed, status",可断点续传,R01/R03/R30
+App构建,app_build_profiles,构建配置,"id, name, environment, application_id, display_name, gradle_params, allowed_refs, status",环境+名称唯一,R29
+App构建,app_signing_profiles,签名Profile,"id, name, environment, certificate_fingerprint, secret_ref, status, rotated_at",密钥仅CI可用,R29
+App构建,app_build_jobs,构建任务,"id, profile_id, git_ref, commit_sha, version_name, version_code, status, triggered_by, started_at, finished_at",Commit可追溯；状态机,R29
+App构建,app_build_job_steps,构建步骤,"job_id, step_code, sequence, status, log_object_key, started_at, finished_at",job+step唯一,R29
+App构建,app_build_artifacts,构建产物,"job_id, artifact_type, object_key, file_size, sha256, signing_fingerprint, retention_until",job+type唯一,R29
+App构建,app_release_channels,发布渠道,"code, environment, download_domain, update_policy, status",code唯一,R29
+App构建,app_release_records,发布记录,"artifact_id, channel_id, version_name, version_code, update_type, status, published_at, rollback_from_id",versionCode单调递增,R29
+App构建,app_release_approvals,生产发布复核,"release_record_id, applicant_id, reviewer_id, decision, reason, decided_at",申请人不得自审,R29
+平台事件,outbox_events,事务事件发件箱,"aggregate_type, aggregate_id, event_type, event_version, payload, status, available_at, attempts",业务事务同库提交；event_id唯一；可重试和死信,P00
+平台事件,inbox_messages,消费者幂等收件箱,"consumer, message_id, payload_hash, processed_at, result",consumer+message_id唯一；重复消息返回首次结果,P00
+账务,ledger_accounts,统一会计账户,"account_no, owner_type, owner_id, account_type, currency, status",account_no唯一；余额不得直接作为事实修改,P00
+账务,accounting_transactions,不可变会计交易,"transaction_no, biz_type, biz_id, idempotency_key, occurred_at, status, description",transaction_no和biz_type+idempotency_key唯一；已过账不可修改,P00
+账务,accounting_entries,复式会计分录,"transaction_id, account_id, direction, amount_cent, currency, sequence",交易内借方总额=贷方总额；金额>0；不可变,P00
+账务,balance_snapshots,账户余额投影,"account_id, as_of_entry_id, available_cent, frozen_cent, version",account_id唯一；可由分录重建,P00
+账务,reconciliation_runs,统一对账批次,"run_no, scene, period_start, period_end, status, started_at, finished_at",run_no唯一；同场景区间不可并行,P00
+账务,reconciliation_differences,对账差异,"run_id, source_type, source_id, expected_cent, actual_cent, status, resolution",run+source唯一；处理留痕,P00
+后台,admin_sessions,后台独立登录会话与会话升级状态,"id, admin_user_id, access_jti, refresh_hash, mfa_level, device_fingerprint, ip, expires_at, revoked_at, last_active_at, version, created_at, updated_at",access_jti唯一；refresh_hash仅保存哈希；后台会话不得与用户会话共用；撤销后不可恢复,R01
+后台,admin_mfa_methods,管理员MFA方式和受保护密钥引用,"id, admin_user_id, method, secret_ref, status, confirmed_at, disabled_at, version, created_at, updated_at",每管理员每方式唯一；secret_ref只保存Vault/KMS引用；禁用和重置必须审计,R01
+后台,admin_recovery_codes,管理员MFA恢复码哈希,"id, admin_user_id, code_hash, used_at, expires_at, created_at",只存哈希；一次性使用；生成后仅显示一次；使用与作废必须审计,R01
+后台,admin_login_logs,后台登录、MFA、锁定和失败安全日志,"id, admin_user_id, username_masked, event_type, result, failure_code, ip, device_fingerprint, request_id, created_at",不可更新删除；用户名/IP/设备按保留策略脱敏；安全告警可追溯,R01
+账务,accounting_reversal_requests,会计交易冲正申请与审批绑定,"id, source_transaction_id, approval_request_id, reason_code, reason, evidence_json, status, reversal_transaction_id, requested_by, version, created_at, updated_at",原交易只能有一个进行中的冲正申请；申请人与审批人分离；批准后创建新反向交易,R24
+风控,risk_rule_simulations,风控规则无副作用模拟记录,"id, risk_rule_version_id, sample_mode, subject_type, sample_hash, result_json, matched, score, recommended_action, side_effect_free, executed_by, created_at",输入必须脱敏；side_effect_free固定true；模拟不得写业务状态；按保留策略清理,R31
+通知,notification_delivery_attempts,通知每次发送尝试与供应商响应,"id, delivery_id, attempt_no, provider, provider_message_id, status, failure_code, response_masked, started_at, finished_at",delivery_id+attempt_no唯一；供应商原始响应需脱敏；不可覆盖历史尝试,R30
+后台,export_jobs,高敏数据异步导出任务,"id, job_no, export_type, status, filter_snapshot, field_codes, mask_policy, row_limit, purpose, approval_request_id, created_by, expires_at, version, created_at, updated_at",导出条件和字段快照不可变；高敏导出需审批；行数和过期时间强制限制,R30
+后台,export_job_files,导出产物与完整性信息,"id, export_job_id, media_object_id, file_name, content_type, size_bytes, sha256, row_count, expires_at, created_at",文件私有存储；sha256必填；过期后删除对象并保留审计元数据,R30
+后台,export_download_logs,导出文件一次性令牌和下载审计,"id, export_job_file_id, admin_user_id, token_hash, purpose, ip, expires_at, used_at, result, request_id, created_at",令牌只存哈希且一次性；下载人必须与授权人一致；记录IP、目的和结果,R30

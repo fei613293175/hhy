@@ -1,0 +1,285 @@
+version: 1.2.2
+release: R17
+title: 支付抽象与H5统一收银台
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R17-001
+  release: R17
+  title: 支付：支付交易、支付对账
+  user_story: 作为具备 payment.read 的后台员工；写操作另需 payment.manage，我需要完成支付交易、支付对账的完整业务流程，以便在不依赖研发临时决策的情况下实现回调、查单、异常。
+  platform: ADMIN
+  module: 支付
+  template_id: ADM-FINANCE
+  page_ids:
+  - ADM-PAY-001
+  - ADM-RECON-001
+  operation_ids:
+  - adminPaymentsGetPayments
+  - adminPaymentsGetPaymentCallbacks
+  - adminPaymentsPostPaymentsByIdQuery
+  - adminPaymentsGetPaymentExceptions
+  - adminPaymentsPostPaymentExceptionsByIdResolve
+  - adminPaymentsPostPaymentReconciliationRun
+  api_contracts:
+  - GET /admin-api/v1/payments
+  - GET /admin-api/v1/payment-callbacks
+  - POST /admin-api/v1/payments/{id}/query
+  - GET /admin-api/v1/payment-exceptions
+  - POST /admin-api/v1/payment-exceptions/{id}/resolve
+  - POST /admin-api/v1/payment-reconciliation/run
+  requirement_ids:
+  - REQ-PAY-002
+  - REQ-LEDGER-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  - accounting_transactions
+  - accounting_entries
+  - orders
+  - reward_accounts
+  - reward_ledger
+  - reward_settlements
+  - reward_freezes
+  - payout_accounts
+  - withdrawal_requests
+  - payout_transactions
+  - payout_callbacks
+  - payout_reconciliation_records
+  test_ids:
+  - TST-PAY_002-HAPPY
+  - TST-LEDGER_001-HAPPY
+  - TST-PAY_002-IDEMPOTENT
+  - TST-LEDGER_001-IDEMPOTENT
+  dependencies:
+  - R03
+  - R16
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-PAY-001;ADM-RECON-001 全部绑定模板 ADM-FINANCE，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminPaymentsGetPayments;adminPaymentsGetPaymentCallbacks;adminPaymentsPostPaymentsByIdQuery;adminPaymentsGetPaymentExceptions;adminPaymentsPostPaymentExceptionsByIdResolve;adminPaymentsPostPaymentReconciliationRun；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-PAY_002-HAPPY;TST-LEDGER_001-HAPPY;TST-PAY_002-IDEMPOTENT;TST-LEDGER_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R17-002
+  release: R17
+  title: H5：支付结果
+  user_story: 作为公开访客或从分享/邀请/支付/实名流程进入的用户，我需要完成支付结果的完整业务流程，以便在不依赖研发临时决策的情况下实现展示平台查单结果。
+  platform: H5
+  module: H5
+  template_id: H5-CALLBACK
+  page_ids:
+  - H5-009
+  operation_ids:
+  - paymentGetOrdersByOrdernoPaymentStatus
+  api_contracts:
+  - GET /api/v1/orders/{orderNo}/payment-status
+  requirement_ids:
+  - REQ-PAY-001
+  - REQ-PAY-002
+  config_keys:
+  - payment.active_gateway
+  - payment.caihong.base_url
+  - payment.caihong.merchant_id
+  - payment.caihong.merchant_key
+  - payment.caihong.sign_type
+  - payment.caihong.enabled_channels
+  - payment.notify_url
+  - payment.return_url
+  data_tables:
+  - orders
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  - accounting_transactions
+  - accounting_entries
+  test_ids:
+  - TST-PAY_001-HAPPY
+  - TST-PAY_002-HAPPY
+  dependencies:
+  - R03
+  - R16
+  owner_roles:
+  - web_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - H5-009 全部绑定模板 H5-CALLBACK，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：paymentGetOrdersByOrdernoPaymentStatus；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-PAY_001-HAPPY;TST-PAY_002-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R17-003
+  release: R17
+  title: H5：统一收银台
+  user_story: 作为公开访客或从分享/邀请/支付/实名流程进入的用户，我需要完成统一收银台的完整业务流程，以便在不依赖研发临时决策的情况下实现商品、渠道、协议。
+  platform: H5
+  module: H5
+  template_id: MOB-CHECKOUT
+  page_ids:
+  - H5-008
+  operation_ids:
+  - paymentGetOrdersByOrdernoCashier
+  - paymentPostOrdersByOrdernoPayments
+  api_contracts:
+  - GET /api/v1/orders/{orderNo}/cashier
+  - POST /api/v1/orders/{orderNo}/payments
+  requirement_ids:
+  - REQ-PAY-001
+  - REQ-PAY-002
+  config_keys:
+  - payment.active_gateway
+  - payment.caihong.base_url
+  - payment.caihong.merchant_id
+  - payment.caihong.merchant_key
+  - payment.caihong.sign_type
+  - payment.caihong.enabled_channels
+  - payment.notify_url
+  - payment.return_url
+  data_tables:
+  - orders
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  - accounting_transactions
+  - accounting_entries
+  test_ids:
+  - TST-PAY_001-HAPPY
+  - TST-PAY_002-HAPPY
+  - TST-PAY_001-IDEMPOTENT
+  - TST-PAY_002-IDEMPOTENT
+  dependencies:
+  - R03
+  - R16
+  owner_roles:
+  - web_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - H5-008 全部绑定模板 MOB-CHECKOUT，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：paymentGetOrdersByOrdernoCashier;paymentPostOrdersByOrdernoPayments；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-PAY_001-HAPPY;TST-PAY_002-HAPPY;TST-PAY_001-IDEMPOTENT;TST-PAY_002-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R17-004
+  release: R17
+  title: 支付抽象与H5统一收银台：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R17 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - H5-008
+  - H5-009
+  - ADM-PAY-001
+  - ADM-RECON-001
+  operation_ids:
+  - paymentGetOrdersByOrdernoCashier
+  - paymentPostOrdersByOrdernoPayments
+  - paymentGetOrdersByOrdernoPaymentStatus
+  - paymentPostPaymentByGatewayNotify
+  - adminPaymentsGetPayments
+  - adminPaymentsGetPaymentCallbacks
+  - adminPaymentsPostPaymentsByIdQuery
+  - adminPaymentsGetPaymentExceptions
+  - adminPaymentsPostPaymentExceptionsByIdResolve
+  - adminPaymentsPostPaymentReconciliationRun
+  api_contracts:
+  - GET /api/v1/orders/{orderNo}/cashier
+  - POST /api/v1/orders/{orderNo}/payments
+  - GET /api/v1/orders/{orderNo}/payment-status
+  - POST /public-api/v1/payment/{gateway}/notify
+  - GET /admin-api/v1/payments
+  - GET /admin-api/v1/payment-callbacks
+  - POST /admin-api/v1/payments/{id}/query
+  - GET /admin-api/v1/payment-exceptions
+  - POST /admin-api/v1/payment-exceptions/{id}/resolve
+  - POST /admin-api/v1/payment-reconciliation/run
+  requirement_ids:
+  - REQ-PAY-001
+  - REQ-PAY-002
+  - REQ-LEDGER-001
+  config_keys:
+  - payment.active_gateway
+  - payment.caihong.base_url
+  - payment.caihong.merchant_id
+  - payment.caihong.merchant_key
+  - payment.caihong.sign_type
+  - payment.caihong.enabled_channels
+  - payment.notify_url
+  - payment.return_url
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - orders
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  - accounting_transactions
+  - accounting_entries
+  - reward_accounts
+  - reward_ledger
+  - reward_settlements
+  - reward_freezes
+  - payout_accounts
+  - withdrawal_requests
+  - payout_transactions
+  - payout_callbacks
+  - payout_reconciliation_records
+  test_ids:
+  - TST-PAY_001-CONCURRENCY
+  - TST-PAY_001-HAPPY
+  - TST-PAY_001-IDEMPOTENT
+  - TST-PAY_001-RECOVERY
+  - TST-PAY_001-REJECT
+  - TST-PAY_002-CONCURRENCY
+  - TST-PAY_002-HAPPY
+  - TST-PAY_002-IDEMPOTENT
+  - TST-PAY_002-RECOVERY
+  - TST-PAY_002-REJECT
+  dependencies:
+  - R03
+  - R16
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

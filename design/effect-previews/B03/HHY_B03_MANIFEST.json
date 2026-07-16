@@ -1,0 +1,46 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B03",
+  "title": "四类内容详情与发布者主页",
+  "file": "HHY_B03_8PAGE_UI_REFERENCE.png",
+  "sha256": "619f43b70ef7892b00ac985b771efd71111fe7f6c50d77504926f80f303ddb2c",
+  "role": "UI布局与样式参考，不是功能事实源",
+  "grid": {
+    "columns": 4,
+    "rows": 2
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "项目详情"
+    },
+    {
+      "panel": "P02",
+      "name": "App详情"
+    },
+    {
+      "panel": "P03",
+      "name": "群聊详情"
+    },
+    {
+      "panel": "P04",
+      "name": "团队长详情"
+    },
+    {
+      "panel": "P05",
+      "name": "发布者主页"
+    },
+    {
+      "panel": "P06",
+      "name": "获取联系方式弹层"
+    },
+    {
+      "panel": "P07",
+      "name": "联系方式复制成功"
+    },
+    {
+      "panel": "P08",
+      "name": "内容下架/失效"
+    }
+  ]
+}

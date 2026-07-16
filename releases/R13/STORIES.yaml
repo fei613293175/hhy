@@ -1,0 +1,243 @@
+version: 1.2.2
+release: R13
+title: 收藏、历史、分享与行为审计
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R13-001
+  release: R13
+  title: 内容：分享面板、联系方式失效反馈
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成分享面板、联系方式失效反馈的完整业务流程，以便在不依赖研发临时决策的情况下实现链接、海报、渠道。
+  platform: ANDROID
+  module: 内容
+  template_id: MOB-SHEET
+  page_ids:
+  - SHEET-SHARE-001
+  - SHEET-CONTENT-INVALID-001
+  operation_ids:
+  - contentPostContentsByIdShare
+  - contentPostContentsByIdInvalidFeedback
+  api_contracts:
+  - POST /api/v1/contents/{id}/share
+  - POST /api/v1/contents/{id}/invalid-feedback
+  requirement_ids:
+  - REQ-ACTIVITY-001
+  - REQ-H5-001
+  - REQ-CONTACT-001
+  config_keys:
+  - content.limit.normal.online
+  - content.limit.month.online
+  - content.limit.quarter.online
+  - content.limit.year.online
+  - content.team_leader_per_account
+  - content.limit.normal.pending
+  - content.limit.normal.drafts
+  - content.limit.normal.daily_submissions
+  - storage.default_provider
+  - storage.scope.public_media.provider
+  - storage.scope.private_kyc.provider
+  - storage.scope.private_chat.provider
+  - storage.scope.audit_evidence.provider
+  - storage.scope.apk_release.provider
+  - storage.scope.backup.provider
+  - storage.r2.account_id
+  - analytics.event.retention_days
+  - analytics.traffic_types
+  data_tables:
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  test_ids:
+  - TST-ACTIVITY_001-HAPPY
+  - TST-H5_001-HAPPY
+  - TST-ACTIVITY_001-IDEMPOTENT
+  - TST-H5_001-IDEMPOTENT
+  - TST-V122-005
+  dependencies:
+  - R07
+  - R12
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SHEET-SHARE-001;SHEET-CONTENT-INVALID-001 全部绑定模板 MOB-SHEET，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：contentPostContentsByIdShare;contentPostContentsByIdInvalidFeedback；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-ACTIVITY_001-HAPPY;TST-H5_001-HAPPY;TST-ACTIVITY_001-IDEMPOTENT;TST-H5_001-IDEMPOTENT;TST-V122-005
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R13-002
+  release: R13
+  title: 我的：我的收藏、浏览记录
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成我的收藏、浏览记录的完整业务流程，以便在不依赖研发临时决策的情况下实现收藏列表。
+  platform: ANDROID
+  module: 我的
+  template_id: MOB-LIST
+  page_ids:
+  - SCR-FAV-001
+  - SCR-HIS-001
+  operation_ids:
+  - contentGetMeFavorites
+  - contentDeleteContentsByIdFavorite
+  - contentGetMeHistory
+  api_contracts:
+  - GET /api/v1/me/favorites
+  - DELETE /api/v1/contents/{id}/favorite
+  - GET /api/v1/me/history
+  requirement_ids:
+  - REQ-ACTIVITY-001
+  config_keys:
+  - content.limit.normal.online
+  - content.limit.month.online
+  - content.limit.quarter.online
+  - content.limit.year.online
+  - content.team_leader_per_account
+  - content.limit.normal.pending
+  - content.limit.normal.drafts
+  - content.limit.normal.daily_submissions
+  data_tables:
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  test_ids:
+  - TST-ACTIVITY_001-HAPPY
+  - TST-ACTIVITY_001-IDEMPOTENT
+  dependencies:
+  - R07
+  - R12
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-FAV-001;SCR-HIS-001 全部绑定模板 MOB-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：contentGetMeFavorites;contentDeleteContentsByIdFavorite;contentGetMeHistory；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-ACTIVITY_001-HAPPY;TST-ACTIVITY_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R13-003
+  release: R13
+  title: 收藏、历史、分享与行为审计：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R13 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - SHEET-SHARE-001
+  - SCR-FAV-001
+  - SCR-HIS-001
+  - SHEET-CONTENT-INVALID-001
+  operation_ids:
+  - contentPostContentsByIdFavorite
+  - contentDeleteContentsByIdFavorite
+  - contentGetMeFavorites
+  - contentGetMeHistory
+  - contentPostContentsByIdShare
+  api_contracts:
+  - POST /api/v1/contents/{id}/favorite
+  - DELETE /api/v1/contents/{id}/favorite
+  - GET /api/v1/me/favorites
+  - GET /api/v1/me/history
+  - POST /api/v1/contents/{id}/share
+  requirement_ids:
+  - REQ-PUBLISHER-001
+  - REQ-ACTIVITY-001
+  config_keys:
+  - content.limit.normal.online
+  - content.limit.month.online
+  - content.limit.quarter.online
+  - content.limit.year.online
+  - content.team_leader_per_account
+  - content.limit.normal.pending
+  - content.limit.normal.drafts
+  - content.limit.normal.daily_submissions
+  - storage.default_provider
+  - storage.scope.public_media.provider
+  - storage.scope.private_kyc.provider
+  - storage.scope.private_chat.provider
+  - storage.scope.audit_evidence.provider
+  - storage.scope.apk_release.provider
+  - storage.scope.backup.provider
+  - storage.r2.account_id
+  - analytics.event.retention_days
+  - analytics.traffic_types
+  data_tables:
+  - users
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - membership_plans
+  - membership_skus
+  - user_memberships
+  - membership_entitlement_segments
+  - membership_benefit_snapshots
+  - membership_upgrade_quotes
+  - reward_accounts
+  - reward_ledger
+  - reward_settlements
+  - reward_freezes
+  - accounting_entries
+  test_ids:
+  - TST-ACTIVITY_001-HAPPY
+  - TST-ACTIVITY_001-IDEMPOTENT
+  - TST-ACTIVITY_001-REJECT
+  dependencies:
+  - R07
+  - R12
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

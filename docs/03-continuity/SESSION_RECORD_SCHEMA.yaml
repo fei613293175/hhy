@@ -1,0 +1,24 @@
+schema_version: '1.0'
+required:
+- session_id
+- status
+- actor
+- release
+- task_id
+- started_at
+- scope
+- git
+- lease
+- session_log
+status_enum:
+- ACTIVE
+- HANDED_OFF
+- CLOSING
+- CLOSED
+- ABANDONED
+- TRANSFERRED
+invariants:
+- 一个Task/Story最多一个ACTIVE领取
+- actor.id非空
+- scope.allowed_paths非空
+- 最新检查点存在时指纹必须匹配

@@ -1,0 +1,22 @@
+schema_version: '1.0'
+required:
+- bundle_id
+- session_id
+- actor_id
+- task_id
+- project_fingerprint
+- context_hash
+- manifest
+- created_at
+contents:
+- HANDOFF.yaml
+- CURRENT_CONTEXT_PACK.yaml
+- CURRENT_CONTEXT_PACK.md
+- WORKTREE.patch
+- safe-untracked/
+- repository.bundle
+- MANIFEST_SHA256.txt
+invariants:
+- 旧对话不需要
+- Manifest必须校验
+- 接管必须生成新Session并保留旧Session

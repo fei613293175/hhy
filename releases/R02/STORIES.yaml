@@ -1,0 +1,809 @@
+version: 1.2.2
+release: R02
+title: 账号、登录、注册与安全会话
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R02-001
+  release: R02
+  title: 用户：用户详情
+  user_story: 作为具备 user.read 的后台员工；写操作另需 user.manage，我需要完成用户详情的完整业务流程，以便在不依赖研发临时决策的情况下实现全景业务和操作。
+  platform: ADMIN
+  module: 用户
+  template_id: ADM-DETAIL
+  page_ids:
+  - ADM-USER-002
+  operation_ids:
+  - adminUsersGetUsers
+  - adminUsersGetUsersById
+  - adminUsersPostUsersByIdRestrictions
+  - adminUsersDeleteUsersByIdRestrictionsByType
+  - adminUsersPostUsersByIdFreeze
+  - adminUsersPostUsersByIdUnfreeze
+  - adminUsersPostUsersByIdForceLogout
+  api_contracts:
+  - GET /admin-api/v1/users
+  - GET /admin-api/v1/users/{id}
+  - POST /admin-api/v1/users/{id}/restrictions
+  - DELETE /admin-api/v1/users/{id}/restrictions/{type}
+  - POST /admin-api/v1/users/{id}/freeze
+  - POST /admin-api/v1/users/{id}/unfreeze
+  - POST /admin-api/v1/users/{id}/force-logout
+  requirement_ids:
+  - REQ-AUTH-001
+  - REQ-ADMIN-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - users
+  - user_profiles
+  - user_status_logs
+  - user_sessions
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - app_build_artifacts
+  - user_credentials
+  - auth_security_challenges
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - user_settings
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - daily_kpis
+  - analytics_events
+  test_ids:
+  - TST-AUTH_001-HAPPY
+  - TST-ADMIN_001-HAPPY
+  - TST-AUTH_001-IDEMPOTENT
+  - TST-ADMIN_001-IDEMPOTENT
+  dependencies:
+  - R01
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-USER-002 全部绑定模板 ADM-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminUsersGetUsers;adminUsersGetUsersById;adminUsersPostUsersByIdRestrictions;adminUsersDeleteUsersByIdRestrictionsByType;adminUsersPostUsersByIdFreeze;adminUsersPostUsersByIdUnfreeze;adminUsersPostUsersByIdForceLogout；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-AUTH_001-HAPPY;TST-ADMIN_001-HAPPY;TST-AUTH_001-IDEMPOTENT;TST-ADMIN_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R02-002
+  release: R02
+  title: 用户：用户列表
+  user_story: 作为具备 user.read 的后台员工；写操作另需 user.manage，我需要完成用户列表的完整业务流程，以便在不依赖研发临时决策的情况下实现筛选、导出、状态和风险。
+  platform: ADMIN
+  module: 用户
+  template_id: ADM-LIST
+  page_ids:
+  - ADM-USER-001
+  operation_ids:
+  - adminUsersGetUsers
+  - adminUsersGetUsersById
+  api_contracts:
+  - GET /admin-api/v1/users
+  - GET /admin-api/v1/users/{id}
+  requirement_ids:
+  - REQ-AUTH-001
+  - REQ-ADMIN-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - users
+  - user_profiles
+  - user_status_logs
+  - user_sessions
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - app_build_artifacts
+  - user_credentials
+  - auth_security_challenges
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - user_settings
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - daily_kpis
+  - analytics_events
+  test_ids:
+  - TST-AUTH_001-HAPPY
+  - TST-ADMIN_001-HAPPY
+  dependencies:
+  - R01
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-USER-001 全部绑定模板 ADM-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminUsersGetUsers;adminUsersGetUsersById；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-AUTH_001-HAPPY;TST-ADMIN_001-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R02-003
+  release: R02
+  title: 启动：启动页、系统维护页、更新提示
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成启动页、系统维护页、更新提示的完整业务流程，以便在不依赖研发临时决策的情况下实现品牌展示、版本/维护/Token并行检查。
+  platform: ANDROID
+  module: 启动
+  template_id: MOB-GATE
+  page_ids:
+  - SCR-APP-001
+  - SCR-APP-002
+  - SCR-APP-003
+  operation_ids:
+  - publicGetPlatformStatus
+  - appReleasePostAppVersionCheck
+  - authPostAuthRefresh
+  - appReleaseGetAppVersionCheck
+  - publicGetAppLatest
+  api_contracts:
+  - GET /public-api/v1/platform/status
+  - POST /public-api/v1/app/version-check
+  - POST /api/v1/auth/refresh
+  - GET /api/v1/app/version-check
+  - GET /public-api/v1/app/latest
+  requirement_ids:
+  - REQ-AUTH-001
+  - REQ-APP-RELEASE-001
+  - REQ-APK-001
+  - REQ-PAGE-SPEC-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  - app.android.application_id
+  - app.android.staging_application_id
+  - app.android.display_name
+  - app.android.signing.staging_profile
+  - app.android.signing.production_profile
+  - app.build.runner
+  - app.build.allowed_ref_patterns
+  - app.build.artifact_storage_scope
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  data_tables:
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - app_build_artifacts
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - app_build_profiles
+  - app_build_jobs
+  - app_build_job_steps
+  - app_signing_profiles
+  test_ids:
+  - TST-AUTH_001-HAPPY
+  - TST-APP_RELEASE_001-HAPPY
+  - TST-APK_001-HAPPY
+  - TST-AUTH_001-IDEMPOTENT
+  - TST-APP_RELEASE_001-IDEMPOTENT
+  - TST-APK_001-IDEMPOTENT
+  - TST-V122-011
+  dependencies:
+  - R01
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-APP-001;SCR-APP-002;SCR-APP-003 全部绑定模板 MOB-GATE，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：publicGetPlatformStatus;appReleasePostAppVersionCheck;authPostAuthRefresh;appReleaseGetAppVersionCheck;publicGetAppLatest；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-AUTH_001-HAPPY;TST-APP_RELEASE_001-HAPPY;TST-APK_001-HAPPY;TST-AUTH_001-IDEMPOTENT;TST-APP_RELEASE_001-IDEMPOTENT;TST-APK_001-IDEMPOTENT;TST-V122-011
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R02-004
+  release: R02
+  title: 账号：密码登录、短信验证码登录、注册账号、忘记密码
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成密码登录、短信验证码登录、注册账号、忘记密码的完整业务流程，以便在不依赖研发临时决策的情况下实现默认手机号+密码、安全验证、协议。
+  platform: ANDROID
+  module: 账号
+  template_id: MOB-AUTH-FORM
+  page_ids:
+  - SCR-AUTH-001
+  - SCR-AUTH-002
+  - SCR-AUTH-003
+  - SCR-AUTH-004
+  operation_ids:
+  - authPostAuthSecurityChallenges
+  - authPostAuthPasswordLogin
+  - authPostAuthSmsSend
+  - authPostAuthSmsLogin
+  - authPostAuthInviteCodesValidate
+  - authPostAuthRegister
+  - authPostAuthPasswordReset
+  api_contracts:
+  - POST /api/v1/auth/security-challenges
+  - POST /api/v1/auth/password/login
+  - POST /api/v1/auth/sms/send
+  - POST /api/v1/auth/sms/login
+  - POST /api/v1/auth/invite-codes/validate
+  - POST /api/v1/auth/register
+  - POST /api/v1/auth/password/reset
+  requirement_ids:
+  - REQ-AUTH-001
+  - REQ-AUTH-002
+  - REQ-AUTH-003
+  - REQ-AUTH-004
+  - REQ-AUTH-005
+  config_keys:
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  data_tables:
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - app_build_artifacts
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  test_ids:
+  - TST-AUTH_001-HAPPY
+  - TST-AUTH_002-HAPPY
+  - TST-AUTH_003-HAPPY
+  - TST-AUTH_004-HAPPY
+  - TST-AUTH_001-IDEMPOTENT
+  - TST-AUTH_002-IDEMPOTENT
+  - TST-AUTH_003-IDEMPOTENT
+  - TST-AUTH_004-IDEMPOTENT
+  - TST-AUTH_005-HAPPY
+  - TST-AUTH_005-IDEMPOTENT
+  dependencies:
+  - R01
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-AUTH-001;SCR-AUTH-002;SCR-AUTH-003;SCR-AUTH-004 全部绑定模板 MOB-AUTH-FORM，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：authPostAuthSecurityChallenges;authPostAuthPasswordLogin;authPostAuthSmsSend;authPostAuthSmsLogin;authPostAuthInviteCodesValidate;authPostAuthRegister;authPostAuthPasswordReset；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-AUTH_001-HAPPY;TST-AUTH_002-HAPPY;TST-AUTH_003-HAPPY;TST-AUTH_004-HAPPY;TST-AUTH_001-IDEMPOTENT;TST-AUTH_002-IDEMPOTENT;TST-AUTH_003-IDEMPOTENT;TST-AUTH_004-IDEMPOTENT;TST-AUTH_005-HAPPY;TST-AUTH_005-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R02-005
+  release: R02
+  title: 账号：登录设备、修改登录密码
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成登录设备、修改登录密码的完整业务流程，以便在不依赖研发临时决策的情况下实现设备列表与下线。
+  platform: ANDROID
+  module: 账号
+  template_id: MOB-AUTH-FORM
+  page_ids:
+  - SCR-AUTH-006
+  - SCR-AUTH-007
+  operation_ids:
+  - authGetAuthSessions
+  - authDeleteAuthSessionsById
+  - authPostMeSecurityPasswordChange
+  api_contracts:
+  - GET /api/v1/auth/sessions
+  - DELETE /api/v1/auth/sessions/{id}
+  - POST /api/v1/me/security/password/change
+  requirement_ids:
+  - REQ-AUTH-001
+  - REQ-AUTH-002
+  - REQ-AUTH-003
+  - REQ-AUTH-004
+  config_keys:
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  data_tables:
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - app_build_artifacts
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  test_ids:
+  - TST-AUTH_001-HAPPY
+  - TST-AUTH_002-HAPPY
+  - TST-AUTH_003-HAPPY
+  - TST-AUTH_004-HAPPY
+  - TST-AUTH_001-IDEMPOTENT
+  - TST-AUTH_002-IDEMPOTENT
+  - TST-AUTH_003-IDEMPOTENT
+  - TST-AUTH_004-IDEMPOTENT
+  dependencies:
+  - R01
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-AUTH-006;SCR-AUTH-007 全部绑定模板 MOB-AUTH-FORM，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：authGetAuthSessions;authDeleteAuthSessionsById;authPostMeSecurityPasswordChange；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-AUTH_001-HAPPY;TST-AUTH_002-HAPPY;TST-AUTH_003-HAPPY;TST-AUTH_004-HAPPY;TST-AUTH_001-IDEMPOTENT;TST-AUTH_002-IDEMPOTENT;TST-AUTH_003-IDEMPOTENT;TST-AUTH_004-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R02-006
+  release: R02
+  title: 账号：账号冻结
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成账号冻结的完整业务流程，以便在不依赖研发临时决策的情况下实现原因、期限、申诉。
+  platform: ANDROID
+  module: 账号
+  template_id: MOB-GATE
+  page_ids:
+  - SCR-AUTH-005
+  operation_ids:
+  - userGetMe
+  - supportPostSupportTickets
+  api_contracts:
+  - GET /api/v1/me
+  - POST /api/v1/support/tickets
+  requirement_ids:
+  - REQ-AUTH-001
+  - REQ-AUTH-002
+  - REQ-AUTH-003
+  - REQ-AUTH-004
+  config_keys:
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - users
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - app_build_artifacts
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  test_ids:
+  - TST-AUTH_001-HAPPY
+  - TST-AUTH_002-HAPPY
+  - TST-AUTH_003-HAPPY
+  - TST-AUTH_004-HAPPY
+  - TST-AUTH_001-IDEMPOTENT
+  - TST-AUTH_002-IDEMPOTENT
+  - TST-AUTH_003-IDEMPOTENT
+  - TST-AUTH_004-IDEMPOTENT
+  dependencies:
+  - R01
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-AUTH-005 全部绑定模板 MOB-GATE，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：userGetMe;supportPostSupportTickets；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-AUTH_001-HAPPY;TST-AUTH_002-HAPPY;TST-AUTH_003-HAPPY;TST-AUTH_004-HAPPY;TST-AUTH_001-IDEMPOTENT;TST-AUTH_002-IDEMPOTENT;TST-AUTH_003-IDEMPOTENT;TST-AUTH_004-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R02-007
+  release: R02
+  title: 账号：注销账号
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成注销账号的完整业务流程，以便在不依赖研发临时决策的情况下实现校验、申请与状态。
+  platform: ANDROID
+  module: 账号
+  template_id: MOB-SETTINGS
+  page_ids:
+  - SCR-AUTH-008
+  operation_ids:
+  - userPostMeCancellation
+  api_contracts:
+  - POST /api/v1/me/cancellation
+  requirement_ids:
+  - REQ-AUTH-001
+  - REQ-AUTH-002
+  - REQ-AUTH-003
+  - REQ-AUTH-004
+  config_keys:
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  data_tables:
+  - users
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - app_build_artifacts
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  test_ids:
+  - TST-AUTH_001-HAPPY
+  - TST-AUTH_002-HAPPY
+  - TST-AUTH_003-HAPPY
+  - TST-AUTH_004-HAPPY
+  - TST-AUTH_001-IDEMPOTENT
+  - TST-AUTH_002-IDEMPOTENT
+  - TST-AUTH_003-IDEMPOTENT
+  - TST-AUTH_004-IDEMPOTENT
+  dependencies:
+  - R01
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-AUTH-008 全部绑定模板 MOB-SETTINGS，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：userPostMeCancellation；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-AUTH_001-HAPPY;TST-AUTH_002-HAPPY;TST-AUTH_003-HAPPY;TST-AUTH_004-HAPPY;TST-AUTH_001-IDEMPOTENT;TST-AUTH_002-IDEMPOTENT;TST-AUTH_003-IDEMPOTENT;TST-AUTH_004-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R02-008
+  release: R02
+  title: H5：H5邀请注册页
+  user_story: 作为公开访客或从分享/邀请/支付/实名流程进入的用户，我需要完成H5邀请注册页的完整业务流程，以便在不依赖研发临时决策的情况下实现邀请码必填，密码注册+安全验证+阿里云短信，成功跳下载页。
+  platform: H5
+  module: H5
+  template_id: MOB-AUTH-FORM
+  page_ids:
+  - H5-013
+  operation_ids:
+  - publicGetInviteByCodeRegistrationConfig
+  - authPostAuthSecurityChallenges
+  - authPostAuthSmsSend
+  - authPostAuthRegister
+  api_contracts:
+  - GET /public-api/v1/invite/{code}/registration-config
+  - POST /api/v1/auth/security-challenges
+  - POST /api/v1/auth/sms/send
+  - POST /api/v1/auth/register
+  requirement_ids:
+  - REQ-AUTH-005
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  data_tables:
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  test_ids:
+  - TST-AUTH_005-HAPPY
+  - TST-AUTH_005-IDEMPOTENT
+  dependencies:
+  - R01
+  owner_roles:
+  - web_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - H5-013 全部绑定模板 MOB-AUTH-FORM，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：publicGetInviteByCodeRegistrationConfig;authPostAuthSecurityChallenges;authPostAuthSmsSend;authPostAuthRegister；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-AUTH_005-HAPPY;TST-AUTH_005-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R02-009
+  release: R02
+  title: 账号、登录、注册与安全会话：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R02 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - SCR-APP-001
+  - SCR-APP-002
+  - SCR-APP-003
+  - SCR-AUTH-001
+  - SCR-AUTH-002
+  - SCR-AUTH-003
+  - SCR-AUTH-004
+  - SCR-AUTH-005
+  - SCR-AUTH-006
+  - SCR-AUTH-007
+  - SCR-AUTH-008
+  - H5-013
+  - ADM-USER-001
+  - ADM-USER-002
+  operation_ids:
+  - authPostAuthSecurityChallenges
+  - authPostAuthPasswordLogin
+  - authPostAuthSmsSend
+  - authPostAuthSmsLogin
+  - authPostAuthInviteCodesValidate
+  - authPostAuthRegister
+  - authPostAuthPasswordReset
+  - authPostMeSecurityPasswordChange
+  - authPostAuthRefresh
+  - authPostAuthLogout
+  - authGetAuthSessions
+  - authDeleteAuthSessionsById
+  - adminUsersGetUsers
+  - adminUsersGetUsersById
+  - adminUsersPostUsersByIdRestrictions
+  - adminUsersDeleteUsersByIdRestrictionsByType
+  - adminUsersPostUsersByIdFreeze
+  - adminUsersPostUsersByIdUnfreeze
+  - adminUsersPostUsersByIdForceLogout
+  api_contracts:
+  - POST /api/v1/auth/security-challenges
+  - POST /api/v1/auth/password/login
+  - POST /api/v1/auth/sms/send
+  - POST /api/v1/auth/sms/login
+  - POST /api/v1/auth/invite-codes/validate
+  - POST /api/v1/auth/register
+  - POST /api/v1/auth/password/reset
+  - POST /api/v1/me/security/password/change
+  - POST /api/v1/auth/refresh
+  - POST /api/v1/auth/logout
+  - GET /api/v1/auth/sessions
+  - DELETE /api/v1/auth/sessions/{id}
+  - GET /admin-api/v1/users
+  - GET /admin-api/v1/users/{id}
+  - POST /admin-api/v1/users/{id}/restrictions
+  - DELETE /admin-api/v1/users/{id}/restrictions/{type}
+  - POST /admin-api/v1/users/{id}/freeze
+  - POST /admin-api/v1/users/{id}/unfreeze
+  - POST /admin-api/v1/users/{id}/force-logout
+  requirement_ids:
+  - REQ-AUTH-001
+  - REQ-AUTH-002
+  - REQ-AUTH-003
+  - REQ-AUTH-004
+  - REQ-AUTH-005
+  - REQ-ADMIN-OPS-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  - app.android.application_id
+  - app.android.staging_application_id
+  - app.android.display_name
+  - app.android.signing.staging_profile
+  - app.android.signing.production_profile
+  - app.build.runner
+  - app.build.allowed_ref_patterns
+  - app.build.artifact_storage_scope
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - app_build_artifacts
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - admin_approval_requests
+  test_ids:
+  - TST-ADMIN_OPS_001-DRIFT
+  - TST-ADMIN_OPS_001-HAPPY
+  - TST-ADMIN_OPS_001-REJECT
+  - TST-ADMIN_OPS_001-SECURITY
+  - TST-AUTH_001-HAPPY
+  - TST-AUTH_001-IDEMPOTENT
+  - TST-AUTH_001-REJECT
+  - TST-AUTH_001-SECURITY
+  - TST-AUTH_002-HAPPY
+  - TST-AUTH_002-IDEMPOTENT
+  - TST-AUTH_002-REJECT
+  - TST-AUTH_002-SECURITY
+  - TST-AUTH_003-HAPPY
+  - TST-AUTH_003-IDEMPOTENT
+  - TST-AUTH_003-REJECT
+  - TST-AUTH_003-SECURITY
+  - TST-AUTH_004-HAPPY
+  - TST-AUTH_004-IDEMPOTENT
+  - TST-AUTH_004-REJECT
+  - TST-AUTH_004-SECURITY
+  - TST-AUTH_005-HAPPY
+  - TST-AUTH_005-IDEMPOTENT
+  - TST-AUTH_005-REJECT
+  - TST-AUTH_005-SECURITY
+  - TST-V122-011
+  dependencies:
+  - R01
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

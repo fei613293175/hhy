@@ -1,0 +1,53 @@
+﻿组件ID,名称,平台,类别,关键Token,必须状态,使用规则,状态
+CMP-NAV-001,顶部导航,Android/H5,导航,56dp; icon24; pageTitle,"default,scrolled,loading",同级页面返回图标统一，右侧最多2个动作,PLANNED
+CMP-NAV-002,底部五栏导航,Android,导航,64dp+safeArea; icon24; label11sp,"default,selected,badge",固定首页/红包/发布/消息/我的,PLANNED
+CMP-BTN-001,主按钮,All,操作,height48; radius12; button15sp,"default,pressed,loading,disabled",同页仅一个视觉最强主按钮,PLANNED
+CMP-BTN-002,次按钮,All,操作,height48; radius12; border1,"default,pressed,disabled",白底蓝边,PLANNED
+CMP-FORM-001,单行输入框,All,表单,height52; radius12; body14sp,"default,focused,error,disabled,readonly",错误说明不可只用颜色表达,PLANNED
+CMP-FORM-002,多行输入框,All,表单,minHeight112; radius12,"default,focused,error,disabled",自适应并显示字数,PLANNED
+CMP-FORM-003,选择器,All,表单,height52; radius12,"default,selected,disabled,error",选项来自配置字典,PLANNED
+CMP-FORM-004,媒体上传器,All,表单,imageRatio; radius12,"empty,uploading,success,error,reorder",显示上传进度和失败重试,PLANNED
+CMP-CARD-001,统一内容卡片,Android/H5,内容,radius14; padding16; cardTitle16,"default,headline,top,color,redPacket,offline",四类内容共用骨架,PLANNED
+CMP-CARD-002,发布者信息条,Android/H5,内容,avatar48; body14,"normal,pro,verified,official",Pro/实名/官方标识语义分开,PLANNED
+CMP-BADGE-001,Pro标识,All,标识,proGradient; pill; caption12,"active,expired",月季年公开统一Pro,PLANNED
+CMP-BADGE-002,状态标签,All,标识,chip28; radius8,"info,success,warning,error,disabled",使用固定语义颜色,PLANNED
+CMP-STATE-001,页面骨架屏,All,状态,skeletonRadius8,loading,结构匹配真实页面,PLANNED
+CMP-STATE-002,空状态,All,状态,illustration; body14,"empty,noResult,noPermission",含清晰下一步动作,PLANNED
+CMP-STATE-003,错误状态,All,状态,error color; retry,"network,server,business",展示requestId给客服定位,PLANNED
+CMP-DIALOG-001,确认弹窗,All,反馈,radius20; elevation8,"normal,danger,loading",危险操作二次确认,PLANNED
+CMP-SHEET-001,底部弹层,Android/H5,反馈,topRadius24; handle32x4,"collapsed,expanded,loading",不遮挡关键上下文,PLANNED
+CMP-TOAST-001,Snackbar,All,反馈,height48; 4s,"success,error,action",业务结果优先Snackbar,PLANNED
+CMP-TAB-001,标签页,All,导航,height48; indicator2,"default,selected,scrollable",标签过多可滚动,PLANNED
+CMP-SEARCH-001,搜索栏,Android/H5,输入,height48; radius12,"idle,focused,query,loading",搜索历史与热门词分区,PLANNED
+CMP-RP-001,红包卡片,Android/H5,红包,rewardGradient; radius14,"available,reserved,claimed,soldOut,paused",金额、剩余和状态清晰,PLANNED
+CMP-RP-002,红包计时浮球,Android,红包,56/44dp; rewardGradient,"counting,paused,completed,error",服务端心跳决定进度,PLANNED
+CMP-RP-003,红包领取结果面板,Android,红包,bottomSheet24,"success,pending,riskFailed,soldOut",显示真实入账状态,PLANNED
+CMP-CHAT-001,聊天气泡,Android,聊天,body14; radius16,"sending,sent,failed,recalled",支持重发和状态,PLANNED
+CMP-CHAT-002,聊天输入区,Android,聊天,minHeight52,"text,keyboard,emoji,attachment",扩展面板底部展开,PLANNED
+CMP-CHAT-003,联系方式卡片,Android,聊天,radius14; padding16,"masked,revealed,copied",用户主动发送，支持举报,PLANNED
+CMP-PRICE-001,价格摘要,All,商业,amount24sp,"normal,discount,member,upgrade",金额一律来自服务端报价,PLANNED
+CMP-ORDER-001,订单状态卡,Android/Admin,商业,radius14,"pending,paying,paid,completed,failed,reversal",不提供普通退款入口,PLANNED
+CMP-MEMBER-001,会员方案卡,Android/H5,会员,proGradient; radius16,"normal,recommended,current,upgrade",一种Pro会员三个期限SKU,PLANNED
+CMP-PROP-001,道具商品卡,Android/Admin,道具,radius14,"available,owned,using,expired",展示作用层级和24小时规则,PLANNED
+CMP-LEDGER-001,账务流水行,Android/Admin,资金,row64,"pending,available,frozen,withdrawn,reversed",显示来源和业务单号,PLANNED
+CMP-WD-001,提现费用摘要,Android/Admin,资金,radius14,"normal,freeQuota,fee",按会员快照计算,PLANNED
+CMP-ADMIN-001,后台筛选表格,Admin,后台,row48; pagePadding24,"loading,empty,error,selected",筛选、分页、导出和列权限,PLANNED
+CMP-ADMIN-002,配置字段编辑器,Admin,后台,formLabel120,"plain,secret,certificate,validationError",秘密不可读回，高风险双人复核,PLANNED
+CMP-ADMIN-003,构建任务时间线,Admin,构建,step timeline,"queued,running,success,failed,cancelled",实时日志且不可执行任意Shell,PLANNED
+CMP-H5-001,宣传首屏Hero,H5,宣传,desktop/mobile breakpoints,"default,qrVisible,wechatHint",品牌口号、手机模型、下载按钮和二维码,PLANNED
+CMP-STATE-004,权限/资源失效状态,All,状态,statusPanel,"forbidden,not-found,offline,stale",不得泄露无权限资源存在性；资源失效同步来源列表,FROZEN_V1.2.2
+CMP-ADM-001,后台筛选栏,Admin,运营表格,filterGrid; queryUrl,"default,expanded,dirty,loading",筛选写入URL；重置、查询和高级筛选行为统一,FROZEN_V1.2.2
+CMP-ADM-002,后台数据表格,Admin,运营表格,tableDensity; stickyColumns,"loading,content,empty,partial-error",列、排序、冻结列和行操作完全由页面运营规格提供,FROZEN_V1.2.2
+CMP-ADM-003,批量操作影响预览,Admin,高风险操作,impactPreview; selectionCount,"preview,submitting,conflict",高风险批量操作必须展示目标、数量、影响、原因和审批；默认不提供批量最终审核,FROZEN_V1.2.2
+CMP-ADM-004,详情摘要与状态操作,Admin,详情,detailHeader; statusTag; actionBar,"content,stale,conflict",操作入口按权限、状态机和version计算；高敏访问需会话升级,FROZEN_V1.2.2
+CMP-ADM-005,状态时间线与审计,Admin,审计,timeline; actor; requestId,"loading,content,empty",展示前后状态、操作者、原因、审批单、requestId和时间,FROZEN_V1.2.2
+CMP-ADM-006,双人审批面板,Admin,审批,requestHash; diff; risk,"pending,approved,rejected,expired,conflict",申请人不得自审；决定绑定不可变请求哈希,FROZEN_V1.2.2
+CMP-ADM-007,敏感字段临时查看,Admin,安全,mask; stepUp; ttl,"masked,authorizing,revealed,expired",按字段权限、MFA、目的、TTL和访问审计短时查看,FROZEN_V1.2.2
+CMP-ADM-008,异步导出任务,Admin,导出,exportJob; oneTimeToken,"pending-approval,queued,running,succeeded,expired,failed",字段最小化、脱敏、审批、一次性下载和过期销毁,FROZEN_V1.2.2
+CMP-CONFIG-001,版本化配置编辑器,Admin,配置,activeVersion; draftVersion; diff,"active,draft,validating,pending-approval,activating",保存草稿不影响运行时；激活前完成字段、依赖、跨字段和连接测试,FROZEN_V1.2.2
+CMP-CONFIG-002,SecretRef选择器,Admin,配置安全,secretStatus; vaultRef,"unconfigured,configured,testing,failed",只显示配置状态和掩码引用；永不回显或记录秘密,FROZEN_V1.2.2
+CMP-CONFIG-003,配置影响与差异预览,Admin,配置,diff; dependencies; affectedScope,"clean,warning,blocking",显示旧新值、规则结果、依赖、环境、受影响业务和回滚版本,FROZEN_V1.2.2
+CMP-FIN-001,金额与账本摘要,Android/Admin/H5,资金,money; direction; ledgerStatus,"pending,available,frozen,posted,reversed",整数分为事实源；正负方向、币种和账期必须明确,FROZEN_V1.2.2
+CMP-FIN-002,复式分录表,Admin,资金,debit; credit; balance,"balanced,unbalanced,reversed",借贷合计必须可见；已过账分录只读，纠错走冲正,FROZEN_V1.2.2
+CMP-RISK-001,风控命中解释,Admin,风控,score; ruleHit; action,"no-hit,hit,blocked,simulated",展示规则版本、命中项和建议动作；不暴露可被攻击利用的内部阈值,FROZEN_V1.2.2
+CMP-NAV-003,安全回跳处理器,H5/Android,导航安全,state; tokenCleanup; resultQuery,"validating,querying,success,failed,unknown",立即清理URL敏感参数，结果只信任服务端,FROZEN_V1.2.2

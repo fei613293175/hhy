@@ -1,0 +1,271 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] HHY Backend                                                        [pom]
+[INFO] hhy-shared-kernel                                                  [jar]
+[INFO] hhy-access                                                         [jar]
+[INFO] hhy-content                                                        [jar]
+[INFO] hhy-commerce                                                       [jar]
+[INFO] hhy-incentive                                                      [jar]
+[INFO] hhy-platform                                                       [jar]
+[INFO] hhy-boot                                                           [jar]
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-backend-parent >------------------
+[INFO] Building HHY Backend 1.2.1-SNAPSHOT                                [1/8]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-backend-parent ---
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-shared-kernel >-------------------
+[INFO] Building hhy-shared-kernel 1.2.1-SNAPSHOT                          [2/8]
+[INFO]   from shared-kernel/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-shared-kernel ---
+[INFO] Deleting ${PROJECT_ROOT}/services/backend/shared-kernel/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory ${PROJECT_ROOT}/services/backend/shared-kernel/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-shared-kernel ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 6 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory ${PROJECT_ROOT}/services/backend/shared-kernel/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-shared-kernel ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-shared-kernel ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-shared-kernel ---
+[INFO] Building jar: ${PROJECT_ROOT}/services/backend/shared-kernel/target/hhy-shared-kernel-1.2.1-SNAPSHOT.jar
+[INFO] 
+[INFO] ----------------------< cc.orbexa.hhy:hhy-access >----------------------
+[INFO] Building hhy-access 1.2.1-SNAPSHOT                                 [3/8]
+[INFO]   from access/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-access ---
+[INFO] Deleting ${PROJECT_ROOT}/services/backend/access/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory ${PROJECT_ROOT}/services/backend/access/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-access ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory ${PROJECT_ROOT}/services/backend/access/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-access ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-access ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-access ---
+[INFO] Building jar: ${PROJECT_ROOT}/services/backend/access/target/hhy-access-1.2.1-SNAPSHOT.jar
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-content >----------------------
+[INFO] Building hhy-content 1.2.1-SNAPSHOT                                [4/8]
+[INFO]   from content/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-content ---
+[INFO] Deleting ${PROJECT_ROOT}/services/backend/content/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory ${PROJECT_ROOT}/services/backend/content/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-content ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory ${PROJECT_ROOT}/services/backend/content/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-content ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-content ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-content ---
+[INFO] Building jar: ${PROJECT_ROOT}/services/backend/content/target/hhy-content-1.2.1-SNAPSHOT.jar
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-commerce >---------------------
+[INFO] Building hhy-commerce 1.2.1-SNAPSHOT                               [5/8]
+[INFO]   from commerce/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-commerce ---
+[INFO] Deleting ${PROJECT_ROOT}/services/backend/commerce/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory ${PROJECT_ROOT}/services/backend/commerce/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-commerce ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory ${PROJECT_ROOT}/services/backend/commerce/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-commerce ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-commerce ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-commerce ---
+[INFO] Building jar: ${PROJECT_ROOT}/services/backend/commerce/target/hhy-commerce-1.2.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --------------------< cc.orbexa.hhy:hhy-incentive >---------------------
+[INFO] Building hhy-incentive 1.2.1-SNAPSHOT                              [6/8]
+[INFO]   from incentive/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-incentive ---
+[INFO] Deleting ${PROJECT_ROOT}/services/backend/incentive/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory ${PROJECT_ROOT}/services/backend/incentive/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-incentive ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory ${PROJECT_ROOT}/services/backend/incentive/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-incentive ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-incentive ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-incentive ---
+[INFO] Building jar: ${PROJECT_ROOT}/services/backend/incentive/target/hhy-incentive-1.2.1-SNAPSHOT.jar
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-platform >---------------------
+[INFO] Building hhy-platform 1.2.1-SNAPSHOT                               [7/8]
+[INFO]   from platform/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-platform ---
+[INFO] Deleting ${PROJECT_ROOT}/services/backend/platform/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory ${PROJECT_ROOT}/services/backend/platform/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-platform ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 9 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory ${PROJECT_ROOT}/services/backend/platform/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-platform ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-platform ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-platform ---
+[INFO] Building jar: ${PROJECT_ROOT}/services/backend/platform/target/hhy-platform-1.2.1-SNAPSHOT.jar
+[INFO] 
+[INFO] -----------------------< cc.orbexa.hhy:hhy-boot >-----------------------
+[INFO] Building hhy-boot 1.2.1-SNAPSHOT                                   [8/8]
+[INFO]   from boot/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-boot ---
+[INFO] Deleting ${PROJECT_ROOT}/services/backend/boot/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-boot ---
+[INFO] Copying 13 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-boot ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 4 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-boot ---
+[INFO] Copying 1 resource from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-boot ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-boot ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running cc.orbexa.hhy.ModuleBoundaryTest
+09:56:06.853 [main] INFO com.tngtech.archunit.core.PluginLoader -- Detected Java version 21.0.10
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.306 s -- in cc.orbexa.hhy.ModuleBoundaryTest
+[INFO] Running cc.orbexa.hhy.PublicEndpointsTest
+09:56:12.477 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cc.orbexa.hhy.PublicEndpointsTest]: PublicEndpointsTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+09:56:12.624 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.PublicEndpointsTest
+09:56:12.745 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cc.orbexa.hhy.PublicEndpointsTest]: PublicEndpointsTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+09:56:12.751 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.PublicEndpointsTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.0)
+
+2026-07-16T09:56:13.880Z  INFO 47009 --- [hhy-backend] [           main] cc.orbexa.hhy.PublicEndpointsTest        : Starting PublicEndpointsTest using Java 21.0.10 with PID 47009 (started by root in ${PROJECT_ROOT}/services/backend/boot)
+2026-07-16T09:56:13.882Z  INFO 47009 --- [hhy-backend] [           main] cc.orbexa.hhy.PublicEndpointsTest        : The following 1 profile is active: "test"
+2026-07-16T09:56:19.021Z  INFO 47009 --- [hhy-backend] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoints beneath base path '/actuator'
+2026-07-16T09:56:19.774Z  INFO 47009 --- [hhy-backend] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-07-16T09:56:19.774Z  INFO 47009 --- [hhy-backend] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-07-16T09:56:19.779Z  INFO 47009 --- [hhy-backend] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 5 ms
+2026-07-16T09:56:20.095Z  INFO 47009 --- [hhy-backend] [           main] cc.orbexa.hhy.PublicEndpointsTest        : Started PublicEndpointsTest in 7.26 seconds (process running for 14.397)
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (${MAVEN_LOCAL_REPOSITORY}/net/bytebuddy/byte-buddy-agent/1.18.10/byte-buddy-agent-1.18.10.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.408 s -- in cc.orbexa.hhy.PublicEndpointsTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-boot ---
+[INFO] Building jar: ${PROJECT_ROOT}/services/backend/boot/target/hhy-backend.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.0:repackage (default) @ hhy-boot ---
+[INFO] Replacing main artifact ${PROJECT_ROOT}/services/backend/boot/target/hhy-backend.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to ${PROJECT_ROOT}/services/backend/boot/target/hhy-backend.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for HHY Backend 1.2.1-SNAPSHOT:
+[INFO] 
+[INFO] HHY Backend ........................................ SUCCESS [  0.174 s]
+[INFO] hhy-shared-kernel .................................. SUCCESS [  2.114 s]
+[INFO] hhy-access ......................................... SUCCESS [  0.196 s]
+[INFO] hhy-content ........................................ SUCCESS [  0.159 s]
+[INFO] hhy-commerce ....................................... SUCCESS [  0.235 s]
+[INFO] hhy-incentive ...................................... SUCCESS [  0.204 s]
+[INFO] hhy-platform ....................................... SUCCESS [  0.760 s]
+[INFO] hhy-boot ........................................... SUCCESS [ 18.933 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  23.216 s
+[INFO] Finished at: 2026-07-16T09:56:22Z
+[INFO] ------------------------------------------------------------------------

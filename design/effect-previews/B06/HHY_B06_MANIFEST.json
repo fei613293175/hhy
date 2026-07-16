@@ -1,0 +1,46 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B06",
+  "title": "App、群聊、团队长发布流程",
+  "file": "HHY_B06_8PAGE_UI_REFERENCE.png",
+  "sha256": "9eaedeafa51cb217e5d816a26cce2ba1809f4beb6521445bd54269bade8cfef9",
+  "role": "UI布局与样式参考，不是功能事实源",
+  "grid": {
+    "columns": 4,
+    "rows": 2
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "发布App表单"
+    },
+    {
+      "panel": "P02",
+      "name": "App截图上传"
+    },
+    {
+      "panel": "P03",
+      "name": "发布群聊表单"
+    },
+    {
+      "panel": "P04",
+      "name": "群二维码/链接填写"
+    },
+    {
+      "panel": "P05",
+      "name": "团队长入驻表单"
+    },
+    {
+      "panel": "P06",
+      "name": "团队长资料预览"
+    },
+    {
+      "panel": "P07",
+      "name": "审核中"
+    },
+    {
+      "panel": "P08",
+      "name": "审核驳回与修改"
+    }
+  ]
+}

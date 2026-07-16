@@ -1,0 +1,14 @@
+schema_version: '1.0'
+format: JSON Lines
+required:
+- sequence
+- timestamp
+- event_type
+- payload
+- previous_hash
+- event_hash
+hash_formula: sha256(previous_hash + canonical_json(event_without_event_hash))
+invariants:
+- sequence从1连续递增
+- previous_hash链接上一事件
+- STATE头哈希与日志一致

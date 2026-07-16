@@ -1,0 +1,20 @@
+{
+  "version": "1.2.2",
+  "status": "SOURCE_CONTRACTS_FROZEN_GENERATION_REQUIRED_AT_SETUP",
+  "document_stage_requirement": "OpenAPI and ownership must be frozen; generated language clients are derived artifacts and may be regenerated during P00 setup.",
+  "client_openapi": {
+    "path": "contracts/openapi.yaml",
+    "sha256": "71cadd9ab9daf0a521cff8d1da5531c097f105e9abecbac85b945cfa30cdf031",
+    "generated_types": "packages/api-client/src/generated/client-openapi.d.ts",
+    "generated_file_exists": false
+  },
+  "admin_openapi": {
+    "path": "contracts/admin-openapi.yaml",
+    "sha256": "15901429eb345df1a78295ef5fdcaf5210a982a3e411b0a9a77913706a5014fd",
+    "generated_types": "packages/api-client/src/generated/admin-openapi.d.ts",
+    "contains_v122_operational_operations": false
+  },
+  "generation_command": "pnpm generate",
+  "attempted_in_current_packaging_session": false,
+  "generation_returncode": null
+}

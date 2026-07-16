@@ -1,0 +1,78 @@
+{
+  "project": "合伙云 Pro",
+  "version": "1.2.1",
+  "status": "PASS",
+  "strict": true,
+  "release_scope": "ALL",
+  "metrics": {
+    "package_version": "1.2.1",
+    "catalog_counts": {
+      "requirements_catalog.csv": 75,
+      "android_screens.csv": 96,
+      "h5_screens.csv": 13,
+      "admin_pages.csv": 60,
+      "api_endpoints.csv": 131,
+      "admin_api_endpoints.csv": 162,
+      "data_tables.csv": 188,
+      "config_registry.csv": 314,
+      "test_cases.csv": 280,
+      "frontend_backend_matrix.csv": 169,
+      "ui_action_matrix.csv": 546,
+      "TRACEABILITY_MATRIX.csv": 75,
+      "release_plan.csv": 33
+    },
+    "client_operations": 131,
+    "admin_operations": 162,
+    "rest_operations": 293,
+    "openapi_schemas": {
+      "client": 311,
+      "admin": 373
+    },
+    "websocket_events": 10,
+    "enums": 12,
+    "state_machines": 6,
+    "state_transitions": 62,
+    "database_tables": 188,
+    "database_fields": 1461,
+    "database_constraints": {
+      "unique": 77,
+      "foreign_keys": 161,
+      "indexes": 584
+    },
+    "flyway_migrations": 8,
+    "ui_pages": {
+      "android": 96,
+      "h5": 13,
+      "admin": 60,
+      "total": 169
+    },
+    "ui_actions": 546,
+    "traceable_requirements": 75,
+    "config_items": 314,
+    "secret_config_items": 14,
+    "development_risks": {
+      "total": 15,
+      "external_gates": 8,
+      "development_gates": 6,
+      "monitors": 1,
+      "current_hard_blockers": 0
+    },
+    "release_stages": 33,
+    "backend_modules": 7,
+    "frontend_apps": 2,
+    "android_modules": 4,
+    "infra_images": [
+      "postgres:17.10-alpine",
+      "redis:7.4.9-bookworm",
+      "rabbitmq:4.1.8-management-alpine",
+      "minio/minio:RELEASE.2025-09-07T16-13-09Z"
+    ],
+    "doctor_elapsed_seconds": 3.935
+  },
+  "summary": {
+    "errors": 0,
+    "warnings": 0,
+    "checks_with_metrics": 26
+  },
+  "findings": []
+}

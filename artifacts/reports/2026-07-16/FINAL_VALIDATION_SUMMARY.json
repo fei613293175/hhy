@@ -1,0 +1,16 @@
+{
+  "project": "合伙云 Pro",
+  "version": "1.2.2",
+  "validatedAt": "2026-07-16",
+  "baselineStatus": "READY_FOR_FEATURE_DEVELOPMENT",
+  "checks": {
+    "projectDoctor": {"status": "PASS", "errors": 0, "warnings": 0},
+    "restContracts": {"status": "PASS", "client": 131, "admin": 162, "total": 293, "uniqueOperationIds": 293, "getDeleteRequestBodies": 0},
+    "web": {"status": "PASS", "generate": true, "typecheck": true, "tests": true, "productionBuild": true, "applicationTests": 2},
+    "backend": {"status": "PASS", "reactorProjects": 8, "tests": 5, "failures": 0, "errors": 0, "skipped": 0},
+    "databasePglite": {"status": "PASS", "migrations": 8, "tables": 188, "balancedTransaction": true, "unbalancedBlocked": true, "postedMutationBlocked": true},
+    "postgresql17Runtime": {"status": "CI_REQUIRED", "automation": "scripts/run_postgres_migration_smoke.sh"},
+    "androidRuntime": {"status": "CI_REQUIRED", "commands": ["lintDebug", "testDebugUnitTest", "assembleDebug"]},
+    "currentHardDevelopmentBlockers": 0
+  }
+}

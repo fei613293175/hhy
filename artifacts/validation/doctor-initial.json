@@ -1,0 +1,13 @@
+{
+  "version": "1.2.3",
+  "protocol_version": "1.0",
+  "mode": "doctor",
+  "strict": true,
+  "status": "PASS",
+  "metrics": {
+    "event_count": 10,
+    "event_head_hash": "0b4baac9f8044958c1adec7c9580f7e2330a9766efe0bbc69575af17121a8a37"
+  },
+  "errors": [],
+  "warnings": []
+}

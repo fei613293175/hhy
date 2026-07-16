@@ -1,0 +1,30 @@
+id: TASK-P00-001
+title: 建立用户自有私有Monorepo与V1.2工程门禁
+status: READY
+release: P00
+requirements:
+- REQ-ENG-001
+- REQ-CONTRACT-001
+- REQ-CONT-001
+- REQ-APK-001
+- REQ-UI-001
+objectives:
+- 在用户自己的GitHub/GitLab/Gitea创建私有仓库并导入本包为初始Commit
+- 建立Android、Spring Boot、Vue后台、H5工程骨架
+- 运行generate_android_identity.py生成稳定随机正式/测试包名和测试签名Profile
+- 建立CI并运行project-doctor、空工程测试和Smoke APK构建
+- 配置开发/测试/预发布环境骨架和Secret模板
+- 生成orbexa.cc初始DNS待办但不得假定已经解析
+- 执行一次全新AI冷启动接手演练
+acceptance:
+- main受保护且Codex使用task分支/PR
+- project-doctor全绿
+- Smoke测试APK可下载并有APK_MANIFEST
+- CURRENT_STATUS、NEXT_TASK和首个Session Log已更新
+- 全新AI只凭仓库可准确继续下一任务
+out_of_scope:
+- 生产彩虹易支付字段
+- 生产支付宝出款证书
+- 正式短信模板和生产密钥
+- 正式域名DNS解析由用户配合完成
+next_after: TASK-P00-002

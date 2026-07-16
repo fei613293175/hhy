@@ -1,0 +1,305 @@
+version: 1.2.2
+release: R23
+title: 红包账本、数据与反作弊
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R23-001
+  release: R23
+  title: 红包：红包活动详情
+  user_story: 作为具备 redpacket.read 的后台员工；写操作另需 redpacket.manage，我需要完成红包活动详情的完整业务流程，以便在不依赖研发临时决策的情况下实现库存、会话、领取、账本。
+  platform: ADMIN
+  module: 红包
+  template_id: ADM-DETAIL
+  page_ids:
+  - ADM-RP-002
+  operation_ids:
+  - adminRedPacketGetRedPacketCampaigns
+  - adminRedPacketGetRedPacketCampaignsById
+  - adminRedPacketPostRedPacketCampaignsByIdReview
+  - adminRedPacketPostRedPacketCampaignsByIdPause
+  - adminRedPacketPostRedPacketCampaignsByIdResume
+  - adminRedPacketPostRedPacketCampaignsByIdTerminate
+  - adminRedPacketGetRedPacketCampaignsByIdSessions
+  - adminRedPacketGetRedPacketCampaignsByIdClaims
+  api_contracts:
+  - GET /admin-api/v1/red-packet-campaigns
+  - GET /admin-api/v1/red-packet-campaigns/{id}
+  - POST /admin-api/v1/red-packet-campaigns/{id}/review
+  - POST /admin-api/v1/red-packet-campaigns/{id}/pause
+  - POST /admin-api/v1/red-packet-campaigns/{id}/resume
+  - POST /admin-api/v1/red-packet-campaigns/{id}/terminate
+  - GET /admin-api/v1/red-packet-campaigns/{id}/sessions
+  - GET /admin-api/v1/red-packet-campaigns/{id}/claims
+  requirement_ids:
+  - REQ-RP-004
+  - REQ-RP-006
+  config_keys:
+  - red_packet.default_view_seconds
+  - red_packet.reservation_min_seconds
+  - red_packet.unit_amount_min_cent
+  - red_packet.unit_amount_max_cent
+  - red_packet.min_count
+  - red_packet.service_fee_bps
+  - red_packet.one_active_per_content
+  - red_packet.allow_raise_unit_amount
+  data_tables:
+  - red_packet_campaigns
+  - red_packet_campaign_versions
+  - red_packet_quotes
+  - red_packet_orders
+  - red_packet_stock
+  - red_packet_view_sessions
+  - red_packet_reservations
+  - red_packet_claims
+  - red_packet_ledger
+  - reward_ledger
+  - outbox_events
+  - reward_accounts
+  - reward_settlements
+  - reward_freezes
+  - accounting_entries
+  test_ids:
+  - TST-RP_004-HAPPY
+  - TST-RP_006-HAPPY
+  - TST-RP_004-IDEMPOTENT
+  - TST-RP_006-IDEMPOTENT
+  dependencies:
+  - R22
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-RP-002 全部绑定模板 ADM-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminRedPacketGetRedPacketCampaigns;adminRedPacketGetRedPacketCampaignsById;adminRedPacketPostRedPacketCampaignsByIdReview;adminRedPacketPostRedPacketCampaignsByIdPause;adminRedPacketPostRedPacketCampaignsByIdResume;adminRedPacketPostRedPacketCampaignsByIdTerminate;adminRedPacketGetRedPacketCampaignsByIdSessions;adminRedPacketGetRedPacketCampaignsByIdClaims；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-RP_004-HAPPY;TST-RP_006-HAPPY;TST-RP_004-IDEMPOTENT;TST-RP_006-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R23-002
+  release: R23
+  title: 红包：红包风险事件
+  user_story: 作为具备 redpacket.read 的后台员工；写操作另需 redpacket.manage，我需要完成红包风险事件的完整业务流程，以便在不依赖研发临时决策的情况下实现冻结和复核。
+  platform: ADMIN
+  module: 红包
+  template_id: ADM-SECURITY
+  page_ids:
+  - ADM-RP-004
+  operation_ids:
+  - adminRedPacketGetRedPacketCampaigns
+  - adminRedPacketGetRedPacketCampaignsById
+  - adminRedPacketPostRedPacketCampaignsByIdReview
+  - adminRedPacketPostRedPacketCampaignsByIdPause
+  - adminRedPacketPostRedPacketCampaignsByIdResume
+  - adminRedPacketPostRedPacketCampaignsByIdTerminate
+  - adminRedPacketGetRedPacketCampaignsByIdSessions
+  - adminRedPacketGetRedPacketCampaignsByIdClaims
+  api_contracts:
+  - GET /admin-api/v1/red-packet-campaigns
+  - GET /admin-api/v1/red-packet-campaigns/{id}
+  - POST /admin-api/v1/red-packet-campaigns/{id}/review
+  - POST /admin-api/v1/red-packet-campaigns/{id}/pause
+  - POST /admin-api/v1/red-packet-campaigns/{id}/resume
+  - POST /admin-api/v1/red-packet-campaigns/{id}/terminate
+  - GET /admin-api/v1/red-packet-campaigns/{id}/sessions
+  - GET /admin-api/v1/red-packet-campaigns/{id}/claims
+  requirement_ids:
+  - REQ-RP-004
+  - REQ-RP-006
+  config_keys:
+  - red_packet.default_view_seconds
+  - red_packet.reservation_min_seconds
+  - red_packet.unit_amount_min_cent
+  - red_packet.unit_amount_max_cent
+  - red_packet.min_count
+  - red_packet.service_fee_bps
+  - red_packet.one_active_per_content
+  - red_packet.allow_raise_unit_amount
+  data_tables:
+  - red_packet_campaigns
+  - red_packet_campaign_versions
+  - red_packet_quotes
+  - red_packet_orders
+  - red_packet_stock
+  - red_packet_view_sessions
+  - red_packet_reservations
+  - red_packet_claims
+  - red_packet_ledger
+  - reward_ledger
+  - outbox_events
+  - reward_accounts
+  - reward_settlements
+  - reward_freezes
+  - accounting_entries
+  test_ids:
+  - TST-RP_004-HAPPY
+  - TST-RP_006-HAPPY
+  - TST-RP_004-IDEMPOTENT
+  - TST-RP_006-IDEMPOTENT
+  dependencies:
+  - R22
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-RP-004 全部绑定模板 ADM-SECURITY，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminRedPacketGetRedPacketCampaigns;adminRedPacketGetRedPacketCampaignsById;adminRedPacketPostRedPacketCampaignsByIdReview;adminRedPacketPostRedPacketCampaignsByIdPause;adminRedPacketPostRedPacketCampaignsByIdResume;adminRedPacketPostRedPacketCampaignsByIdTerminate;adminRedPacketGetRedPacketCampaignsByIdSessions;adminRedPacketGetRedPacketCampaignsByIdClaims；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-RP_004-HAPPY;TST-RP_006-HAPPY;TST-RP_004-IDEMPOTENT;TST-RP_006-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R23-003
+  release: R23
+  title: 红包：我的红包
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成我的红包的完整业务流程，以便在不依赖研发临时决策的情况下实现待结算/可提现/历史。
+  platform: ANDROID
+  module: 红包
+  template_id: MOB-WALLET
+  page_ids:
+  - SCR-RP-004
+  operation_ids:
+  - redPacketGetMeRedPacketClaims
+  - rewardGetMeRewardAccount
+  api_contracts:
+  - GET /api/v1/me/red-packet-claims
+  - GET /api/v1/me/reward-account
+  requirement_ids:
+  - REQ-RP-003
+  - REQ-RP-006
+  config_keys:
+  - red_packet.default_view_seconds
+  - red_packet.reservation_min_seconds
+  - red_packet.unit_amount_min_cent
+  - red_packet.unit_amount_max_cent
+  - red_packet.min_count
+  - red_packet.service_fee_bps
+  - red_packet.one_active_per_content
+  - red_packet.allow_raise_unit_amount
+  - withdrawal.min_amount_cent.normal
+  - withdrawal.fee.fixed_cent.normal
+  - withdrawal.fee.bps.normal
+  - withdrawal.daily_count.normal
+  - withdrawal.min_amount_cent.month
+  - withdrawal.fee.fixed_cent.month
+  - withdrawal.fee.bps.month
+  - withdrawal.daily_count.month
+  data_tables:
+  - red_packet_campaigns
+  - red_packet_campaign_versions
+  - red_packet_quotes
+  - red_packet_orders
+  - red_packet_stock
+  - red_packet_view_sessions
+  - red_packet_reservations
+  - red_packet_claims
+  - red_packet_ledger
+  - reward_ledger
+  - outbox_events
+  - reward_accounts
+  - reward_settlements
+  - reward_freezes
+  - accounting_entries
+  test_ids:
+  - TST-RP_003-HAPPY
+  - TST-RP_006-HAPPY
+  dependencies:
+  - R22
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-RP-004 全部绑定模板 MOB-WALLET，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：redPacketGetMeRedPacketClaims;rewardGetMeRewardAccount；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-RP_003-HAPPY;TST-RP_006-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R23-004
+  release: R23
+  title: 红包账本、数据与反作弊：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R23 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - SCR-RP-004
+  - ADM-RP-002
+  - ADM-RP-004
+  operation_ids: []
+  api_contracts: []
+  requirement_ids:
+  - REQ-RP-006
+  - REQ-ANALYTICS-001
+  config_keys:
+  - red_packet.default_view_seconds
+  - red_packet.reservation_min_seconds
+  - red_packet.unit_amount_min_cent
+  - red_packet.unit_amount_max_cent
+  - red_packet.min_count
+  - red_packet.service_fee_bps
+  - red_packet.one_active_per_content
+  - red_packet.allow_raise_unit_amount
+  - withdrawal.min_amount_cent.normal
+  - withdrawal.fee.fixed_cent.normal
+  - withdrawal.fee.bps.normal
+  - withdrawal.daily_count.normal
+  - withdrawal.min_amount_cent.month
+  - withdrawal.fee.fixed_cent.month
+  - withdrawal.fee.bps.month
+  - withdrawal.daily_count.month
+  data_tables:
+  - red_packet_campaigns
+  - red_packet_campaign_versions
+  - red_packet_quotes
+  - red_packet_orders
+  - red_packet_stock
+  - red_packet_view_sessions
+  - red_packet_reservations
+  - red_packet_claims
+  - red_packet_ledger
+  - reward_ledger
+  - outbox_events
+  - reward_accounts
+  - reward_settlements
+  - reward_freezes
+  - accounting_entries
+  - daily_kpis
+  - analytics_events
+  test_ids:
+  - TST-ANALYTICS_001-HAPPY
+  - TST-ANALYTICS_001-IDEMPOTENT
+  - TST-ANALYTICS_001-REJECT
+  - TST-RP_006-CONCURRENCY
+  - TST-RP_006-HAPPY
+  - TST-RP_006-IDEMPOTENT
+  - TST-RP_006-RECOVERY
+  - TST-RP_006-REJECT
+  - TST-V122-009
+  dependencies:
+  - R22
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

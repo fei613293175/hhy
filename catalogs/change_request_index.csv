@@ -1,0 +1,2 @@
+﻿cr_id,title,status,requester_actor_id,approver_actor_id,task_id,session_id,created_at,updated_at,document,machine_record
+CR-0002,增加持续开发无状态接续强制门禁,CLOSED,product-owner-request,independent-continuity-reviewer,TASK-P00-001,,2026-07-16T21:49:57Z,2026-07-16T21:49:57Z,docs/03-continuity/change-requests/CR-0002-增加持续开发无状态接续强制门禁.md,.continuity/change_requests/CR-0002.yaml

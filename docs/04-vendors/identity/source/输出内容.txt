@@ -1,0 +1,605 @@
+活体检测接口：API调试
+MCP
+
+活体检测_H5页面
+活体检测_获取结果
+
+POST
+/api/liveness/h5/token
+
+请求参数（Header）
+无参数
+
+请求参数（Query）
+无参数
+
+请求参数（Body）
+returnUrl
+完成后采集页面跳转的页面(支持携带参数)
+   
+title
+选填字段
+   
+wxMiniProgram
+选填字段
+   
+actionLiveList
+选填字段
+   
+style
+1
+   
+actionMutex
+选填字段
+   
+antiCameraHack
+选填字段
+   
+showSuccess
+选填字段
+   
+showFail
+选填字段
+   
+hideGuidePage
+选填字段
+   
+foreLiveOn
+选填字段
+   
+backLiveOn
+选填字段
+   
+  
+
+接口文档
+请求示例
+成功响应
+失败响应
+错误码
+调用结果
+
+接口信息
+调用地址：
+https://kzlive.market.alicloudapi.com/api/liveness/h5/token
+
+
+请求方式：
+POST
+
+返回类型：
+JSON
+
+API 调用：
+API 简单身份认证调用方法（APPCODE）
+API 签名认证调用方法（AppKey & AppSecret）
+
+获取认证：
+AppKey & AppCode
+
+接口参数
+请求参数（Header）
+无参数
+
+请求参数（Query）
+无参数
+
+请求参数（Body）
+
+活体检测_获取结果
+
+POST
+/api/liveness/h5/result
+
+请求参数（Header）
+无参数
+
+请求参数（Query）
+无参数
+
+请求参数（Body）
+orderNo
+必填字段
+   
+hbId
+选填字段
+   
+  
+
+接口文档
+请求示例
+成功响应
+失败响应
+错误码
+调用结果
+
+接口信息
+调用地址：
+https://kzlive.market.alicloudapi.com/api/liveness/h5/result
+
+
+请求方式：
+POST
+
+返回类型：
+JSON
+
+API 调用：
+API 简单身份认证调用方法（APPCODE）
+API 签名认证调用方法（AppKey & AppSecret）
+
+获取认证：
+AppKey & AppCode
+
+接口参数
+请求参数（Header）
+无参数
+
+请求参数（Query）
+无参数
+
+请求参数（Body）
+字段名称
+必填
+字段详情
+orderNo string
+Y
+获取H5页面接口返回的订单号
+hbId string
+N
+定制客户专用(非必填)
+
+Java：	public static void main(String[] args) {
+	    String host = "https://kzlive.market.alicloudapi.com";
+	    String path = "/api/liveness/h5/result";
+	    String method = "POST";
+	    String appcode = "你自己的AppCode";
+	    Map<String, String> headers = new HashMap<String, String>();
+	    //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+	    headers.put("Authorization", "APPCODE " + appcode);
+	    //根据API的要求，定义相对应的Content-Type
+	    headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+	    Map<String, String> querys = new HashMap<String, String>();
+	    Map<String, String> bodys = new HashMap<String, String>();
+	    bodys.put("orderNo", "orderNo");
+	    bodys.put("hbId", "hbId");
+
+
+	    try {
+	    	/**
+	    	* 重要提示如下:
+	    	* HttpUtils请从
+	    	* https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
+	    	* 下载
+	    	*
+	    	* 相应的依赖请参照
+	    	* https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
+	    	*/
+	    	HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
+	    	System.out.println(response.toString());
+	    	//获取response的body
+	    	//System.out.println(EntityUtils.toString(response.getEntity()));
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	}
+
+curl
+1 lines
+
+1
+curl -i -k -X POST 'https://kzlive.market.alicloudapi.com/api/liveness/h5/result'  -H 'Authorization:APPCODE 你自己的AppCode' --data 'orderNo=orderNo&hbId=hbId'
+成功响应
+失败响应
+错误码
+调用结果
+
+
+
+
+
+
+
+
+{
+    "msg": "成功",
+    "success": true,
+    "code": 200,
+    "data": {
+        "requestTime": "2025-09-25T21:42:43.127358046", /检测时间
+        "result": 0,  // 0-活体检测通过; 1-活体检测不通过；2-未找到活体检测结果
+        "faceImageUrl": "https://xxx.jpg",  //人脸图片
+        "orderNo": "202509252142430665192",
+        "desc": "活体检测成功" //不通过时可能返回以下原因：动作与指令不匹配，请注意动作的速度和幅度； 未在等待时间内采集到正确动作；未能采集到质量合格的活体人脸照片；未通过前端活体检测算法；未通过后端活体检测算法
+    }
+}
+1
+{
+2
+    "msg": "成功",
+3
+    "success": true,
+4
+    "code": 200,
+5
+    "data": {
+6
+        "requestTime": "2025-09-25T21:42:43.127358046", /检测时间
+7
+        "result": 0,  // 0-活体检测通过; 1-活体检测不通过；2-未找到活体检测结果
+8
+        "faceImageUrl": "https://xxx.jpg",  //人脸图片
+9
+        "orderNo": "202509252142430665192",
+10
+        "desc": "活体检测成功" //不通过时可能返回以下原因：动作与指令不匹配，请注意动作的速度和幅度； 未在等待时间内采集到正确动作；未能采集到质量合格的活体人脸照片；未通过前端活体检测算法；未通过后端活体检测算法
+11
+    }
+12
+}  失败响应
+错误码
+调用结果
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1
+{
+2
+    "msg": "请输入正确的订单号",
+3
+    "code": 400,//判断依据
+4
+    "data": null
+人脸比对身份证-人像比对接口：人脸身份证比对
+
+POST
+/face_id_card/check
+
+请求参数（Header）
+无参数
+
+请求参数（Query）
+无参数
+
+请求参数（Body）
+idcard
+必填字段
+   
+name
+必填字段
+   
+image
+选填字段
+   
+url
+选填字段
+   
+  
+
+接口文档
+请求示例
+成功响应
+失败响应
+错误码
+调用结果
+
+接口信息
+调用地址：
+https://sdfaceid.market.alicloudapi.com/face_id_card/check
+
+
+请求方式：
+POST
+
+返回类型：
+JSON
+
+API 调用：
+API 简单身份认证调用方法（APPCODE）
+API 签名认证调用方法（AppKey & AppSecret）
+
+获取认证：
+AppKey & AppCode
+
+接口参数
+请求参数（Header）
+无参数
+
+请求参数（Query）
+无参数
+
+请求参数（Body）
+字段名称
+必填
+字段详情
+idcard string
+Y
+身份证号码
+name string
+Y
+姓名
+image string
+N
+图片base64字符串，建议压缩到100kb以内，请求会快
+url string
+N
+url 图片链接 和 image （二选一）；请求示例：Java：	public static void main(String[] args) {
+	    String host = "https://sdfaceid.market.alicloudapi.com";
+	    String path = "/face_id_card/check";
+	    String method = "POST";
+	    String appcode = "你自己的AppCode";
+	    Map<String, String> headers = new HashMap<String, String>();
+	    //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+	    headers.put("Authorization", "APPCODE " + appcode);
+	    //根据API的要求，定义相对应的Content-Type
+	    headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+	    Map<String, String> querys = new HashMap<String, String>();
+	    Map<String, String> bodys = new HashMap<String, String>();
+	    bodys.put("idcard", "idcard");
+	    bodys.put("name", "name");
+	    bodys.put("image", "image");
+	    bodys.put("url", "url");
+
+
+	    try {
+	    	/**
+	    	* 重要提示如下:
+	    	* HttpUtils请从
+	    	* https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/src/main/java/com/aliyun/api/gateway/demo/util/HttpUtils.java
+	    	* 下载
+	    	*
+	    	* 相应的依赖请参照
+	    	* https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
+	    	*/
+	    	HttpResponse response = HttpUtils.doPost(host, path, method, headers, querys, bodys);
+	    	System.out.println(response.toString());
+	    	//获取response的body
+	    	//System.out.println(EntityUtils.toString(response.getEntity()));
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+	}
+    
+curl
+1 lines
+
+1
+curl -i -k -X POST 'https://sdfaceid.market.alicloudapi.com/face_id_card/check'  -H 'Authorization:APPCODE 你自己的AppCode' --data 'idcard=idcard&name=name&image=image&url=url'
+
+商品参数
+
+交付方式
+API
+所属类目
+身份核验与金融银行
+上架日期
+2025-03-06
+开票主体
+上海神度科技有限公司
+产品能力
+人脸身份比对
+
+实时核验
+返回分数
+
+商品说明
+
+
+产品资质
+产品资质
+客户案例
+公司涵盖身份核验类、运营商类、银联类、企业类、生活类、车辆类、智能识别类，打造全品类API接口服务。
+
+商品价格
+购买选项
+搜索版本/计费项
+版本名称	计费项	
+【测试】	版本基础价格	2元
+【5折】15元/100次	版本基础价格	30元
+【5折】150元/1千次	版本基础价格	300元
+1000元/5千次	版本基础价格	1000元
+1800元/1万次	版本基础价格	1800元
+5400元/3万次	版本基础价格	5400元
+8500元/5万次	版本基础价格	8500元
+16000元/10万次	版本基础价格	16000元
+30000元/20万次	版本基础价格	30000元
+45000元/30万次	版本基础价格	45000元
+75000元/50万次	版本基础价格	75000元
+本页面内容由服务商提供
+服务支持
+使用指南
+立即下载
+售后支持范围
+1、工作时间：9:00 - 22:00 技术支持全年365天实时在线 2、联系方式：钉钉、在线、电话 3、费用范围：可定制规格，联系客服添加 4、可开具电子发票（专/普票）
+相关协议
+订购此商品，代表您已阅读并同意
+《商品在线协议》《云市场平台服务协议》
+用户评论
+(195)
+综合评分
+5分
+接口稳定(180)
+数据稳定(2)
+识别率高(16)
+数据准确(189)
+响应及时(188)
+文档清晰(153)
+速度快(42)
+y****u评分：5.0分2026-06-22 11:46
+套餐版本：【测试】
+响应及时
+数据准确
+接口稳定
+文档清晰
+买过几次，接口价格实惠，品质也好，推荐！
+
+a****5评分：5.0分2026-06-09 20:57
+套餐版本：【测试】
+速度快
+响应及时
+数据准确
+速度快，效率高，接口性能稳定可靠。
+
+a****8评分：5.0分2026-06-08 15:05
+套餐版本：【测试】
+速度快
+响应及时
+数据准确
+接口稳定
+接口质量不错，使用方便！会长期购买！
+
+a****8评分：5.0分2026-06-08 15:05
+套餐版本：【测试】
+速度快
+响应及时
+数据准确
+接口稳定
+接口质量不错，使用方便！会长期购买！
+
+云****技评分：5.0分2026-06-08 10:32
+套餐版本：【测试】
+响应及时
+数据准确
+接口稳定
+文档清晰
+回购多次，一如既往的好用！
+
+a****3评分：5.0分2026-06-08 10:09
+套餐版本：【测试】
+响应及时
+数据准确
+接口稳定
+文档清晰
+接口价格实惠，很好用，推荐大家试试！
+
+z****5评分：5.0分2026-06-07 19:37
+套餐版本：【测试】
+响应及时
+接口稳定
+数据准确
+文档清晰
+对接方便，没难度。识别精准度高，操作容易上手。
+
+a****7评分：5.0分2026-05-07 16:02
+套餐版本：【测试】
+速度快
+响应及时
+数据准确
+接口稳定
+接口质量不错，会长期购买，好评！
+
+a****7评分：5.0分2026-05-07 16:02
+套餐版本：【测试】
+速度快
+响应及时
+数据准确
+接口稳定
+接口质量不错，会长期购买，好评！
+
+W****A评分：5.0分2026-05-04 14:51
+套餐版本：【测试】
+响应及时
+数据准确
+接口稳定
+文档清晰
+客服服务态度很好，回复及时，耐心专业！
+
+1/20到第 
+ 页
+上海神度科技有限公司
+钉钉
+
+19703652852
+商机对接
+
+提交定制需求
+更多服务商信息
+
+     成功响应
+失败响应
+错误码
+调用结果
+
+
+
+
+
+
+
+
+1
+  // resultCode 参数返回值来做业务判断:
+2
+// 返回值为 1001 : 身份证号与姓名匹配，人脸判断为同一人  0.45-1
+3
+// 返回值为 1002 : 身份证号与姓名匹配，人脸不能确定为同一人 0.4-0.45
+4
+// 返回值为 1003 : 身份证号与姓名匹配，人脸判断为不同人  0-0.4
+5
+// 返回值为 1004 : 无法识别  无分数，身份证姓名不一致等
+6
+{
+7
+    "msg": "成功",
+8
+    "success": true,
+9
+    "code": 200,
+10
+    "data": {
+11
+        "birthday": "19991201",
+12
+        "msg": "人脸判断为同一人",
+13
+        "score": 0.98,
+14
+        "address": "上海市**区",
+15
+        "orderNo": "2022062***3596",
+16
+        "sex": "女",
+17
+        "resultCode": 1001
+18
+    }
+19
+}   失败响应
+错误码
+调用结果
+
+
+
+
+
+
+
+
+1
+{
+2
+  "msg": "请输入有效的图片",
+3
+  "success": false,
+4
+  "code": 400,
+5
+  "data": null
+6
+}   

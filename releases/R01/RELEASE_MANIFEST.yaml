@@ -1,0 +1,133 @@
+release: R01
+title: Design System与契约工程化
+status: READY_WHEN_DEPENDENCIES_GREEN
+milestone: M0_ENGINEERING_FOUNDATION
+depends_on:
+- P00
+scope: 完整Token、组件库、OpenAPI/DB/WebSocket契约生成与校验、基础主题Demo
+android_test_apk_required: true
+requirements:
+- REQ-UI-001
+- REQ-DESIGN-001
+- REQ-CONTRACT-001
+- REQ-APK-001
+- REQ-ARCH-001
+- REQ-DATA-001
+- REQ-EVENT-001
+- REQ-ADMIN-BASE-001
+- REQ-OBS-002
+- REQ-PAGE-SPEC-001
+- REQ-ADMIN-OPS-001
+- REQ-ADMIN-SECURITY-001
+- REQ-DOR-001
+ui:
+  android: []
+  h5: []
+  admin:
+  - ADM-AUTH-001
+  - ADM-AUTH-002
+  - ADM-SECURITY-001
+contracts:
+  client_api: []
+  admin_api:
+  - POST /admin-api/v1/auth/login
+  - POST /admin-api/v1/auth/mfa/verify
+  - POST /admin-api/v1/auth/logout
+  - GET /admin-api/v1/me/security
+  - POST /admin-api/v1/me/security/password/change
+  - POST /admin-api/v1/me/security/mfa/enroll
+  - POST /admin-api/v1/me/security/mfa/confirm
+  - POST /admin-api/v1/me/security/mfa/disable
+  websocket: []
+database_tables:
+- outbox_events
+- inbox_messages
+- ledger_accounts
+- accounting_transactions
+- accounting_entries
+- balance_snapshots
+- reconciliation_runs
+- reconciliation_differences
+- h5_page_configs
+- cms_articles
+- agreements
+- app_versions
+- content_posts
+- app_release_records
+- app_build_artifacts
+- users
+- user_credentials
+- auth_security_challenges
+- user_sessions
+- user_devices
+- sms_verification_codes
+- login_logs
+- app_build_profiles
+- app_build_jobs
+- app_build_job_steps
+- app_signing_profiles
+- admin_users
+- admin_roles
+- admin_permissions
+- admin_user_roles
+- admin_role_permissions
+- admin_operation_logs
+- admin_approval_requests
+- admin_sessions
+- admin_mfa_methods
+- admin_recovery_codes
+- admin_login_logs
+tests:
+- TST-ADMIN_OPS_001-DRIFT
+- TST-ADMIN_OPS_001-HAPPY
+- TST-ADMIN_OPS_001-REJECT
+- TST-ADMIN_OPS_001-SECURITY
+- TST-ADMIN_SECURITY_001-DRIFT
+- TST-ADMIN_SECURITY_001-HAPPY
+- TST-ADMIN_SECURITY_001-REJECT
+- TST-ADMIN_SECURITY_001-SECURITY
+- TST-DESIGN_001-HAPPY
+- TST-DESIGN_001-IDEMPOTENT
+- TST-DESIGN_001-REJECT
+- TST-DOR_001-DRIFT
+- TST-DOR_001-HAPPY
+- TST-DOR_001-REJECT
+- TST-DOR_001-SECURITY
+- TST-PAGE_SPEC_001-DRIFT
+- TST-PAGE_SPEC_001-HAPPY
+- TST-PAGE_SPEC_001-REJECT
+- TST-PAGE_SPEC_001-SECURITY
+- TST-V122-012
+- TST-V122-013
+- TST-V122-014
+- TST-V122-056
+- TST-V122-057
+- TST-V122-058
+- TST-V122-059
+- TST-V122-060
+entry_gate:
+- releases/R01/DEFINITION_OF_READY.yaml 全部适用项为PASS
+- releases/R01/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+- 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
+- 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
+- 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+exit_gate:
+- 领域代码与前端真实闭环
+- 数据库迁移和不变量测试通过
+- 契约/单元/集成/E2E/安全专项测试通过
+- 日志指标链路和业务告警可验证
+- Session Log、追踪矩阵、产物Manifest和下一任务更新
+- Staging APK可安装且SHA256、Commit、版本信息完整
+change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
+documentation_baseline: V1.2.2
+document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+definition_of_ready: releases/R01/DEFINITION_OF_READY.yaml
+story_backlog: releases/R01/STORIES.yaml
+continuity:
+  policy: .continuity/CONTINUITY_POLICY.yaml
+  protocol_version: '1.0'
+  mode: ENFORCED
+  session_required_before_change: true
+  checkpoint_required_before_commit: true
+  old_conversation_required: false
+  handoff_bundle_required_for_actor_switch: true

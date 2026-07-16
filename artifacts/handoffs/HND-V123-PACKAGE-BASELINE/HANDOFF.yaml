@@ -1,0 +1,19 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+bundle_id: HND-V123-PACKAGE-BASELINE
+created_at: '2026-07-16T00:30:00Z'
+session_id: SES-V123-PACKAGE-BASELINE
+actor_id: openai-package-builder
+release: P00
+task_id: TASK-P00-001
+story_id: STORY-P00-001
+reason: 正式包交给项目所有者或下一个AI
+next_step: 运行python3 scripts/continuity.py resume
+conversation_context_required: false
+source_of_truth: REPOSITORY_ONLY
+project_fingerprint:
+  sha256: FINAL_PACKAGE_MANIFEST
+  file_count: 0
+context_hash: REGENERATED_BY_CONTEXT_COMMAND
+git_bundle: null
+manifest: artifacts/handoffs/HND-V123-PACKAGE-BASELINE/MANIFEST_SHA256.txt

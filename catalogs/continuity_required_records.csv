@@ -1,0 +1,21 @@
+﻿记录ID,路径,触发时机,用途,强制
+RR-001,.continuity/sessions/<session>.yaml,每次会话,机器会话事实,是
+RR-002,docs/03-continuity/sessions/<month>/<session>.md,每次会话,人类可读会话日志,是
+RR-003,.continuity/checkpoints/<session>/<checkpoint>.yaml,每次检查点,WIP、测试、指纹、下一步,是
+RR-004,.continuity/EVENT_LOG.jsonl,每次状态变化,哈希链事件,是
+RR-005,.continuity/ACTIVE_SESSION.yaml,每次检查点,唯一活跃指针,是
+RR-006,.continuity/TASK_CLAIMS.yaml,任务领取/关闭,防双重领取,是
+RR-007,.continuity/TASK_TRANSITIONS.yaml,任务迁移,状态变化历史,是
+RR-008,.continuity/CHANGE_REQUEST_INDEX.yaml,CR变化,变更机器索引,是
+RR-009,docs/03-continuity/change-requests/<CR>.md,CR变化,人类可读变更合同,是
+RR-010,CURRENT_STATUS.yaml,每次检查点/关闭,当前状态,是
+RR-011,NEXT_TASK.yaml,关闭/变更,唯一下一任务,是
+RR-012,artifacts/context/CURRENT_CONTEXT_PACK.yaml,每次检查点,机器冷启动上下文,是
+RR-013,artifacts/context/CURRENT_CONTEXT_PACK.md,每次检查点,人类冷启动上下文,是
+RR-014,artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json,每次检查点,上下文来源哈希,是
+RR-015,artifacts/handoffs/<bundle>/HANDOFF.yaml,交接,WIP交接事实,是
+RR-016,artifacts/handoffs/<bundle>/MANIFEST_SHA256.txt,交接,逐文件完整性,是
+RR-017,CHANGELOG.md,任务关闭/用户变化,可见变化,是
+RR-018,catalogs/TRACEABILITY_MATRIX.csv,事实变化,需求追踪,是
+RR-019,docs/03-continuity/PROBLEM_REGISTRY.yaml,Bug修复,根因与回归,是
+RR-020,Git Commit trailers,每次提交,任务/会话/检查点/测试/CR身份,是

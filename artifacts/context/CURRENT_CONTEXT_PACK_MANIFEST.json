@@ -1,0 +1,130 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-07-16T23:28:23Z",
+  "context_hash": "c20a55a17585be0105c31ef35d2ff6422d63df08bdfd40e4b3d7b8858532bf2d",
+  "fingerprint_mode": "SESSION_DELTA",
+  "project_fingerprint": {
+    "sha256": "f734411423b38ca5fca4b418b6f65367b6790dec7a746c140102bdf4bca63300",
+    "file_count": 740
+  },
+  "yaml": {
+    "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
+    "sha256": "0617557278a66bf2d6f0c7f075ff245efdc4f5e28f56fea2dd0e1d542b5bc470"
+  },
+  "markdown": {
+    "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
+    "sha256": "dd33640ef5a81ec9e5338a498c24afa0672befd46e995083117e02e8cd6b691b"
+  },
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440",
+      "bytes": 2719
+    },
+    {
+      "path": "START_HERE.md",
+      "sha256": "1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc",
+      "bytes": 1433
+    },
+    {
+      "path": "CURRENT_STATUS.yaml",
+      "sha256": "66455bd172372e9a826ca1bd8ca9da3a7d6c7857d9206c729cbd1217124a805e",
+      "bytes": 2490
+    },
+    {
+      "path": "NEXT_TASK.yaml",
+      "sha256": "4c5cb5e8a18378f7dc0c8377dea7a6fb1c9bf163031900e0491c0661951a4ec2",
+      "bytes": 2919
+    },
+    {
+      "path": "DEVELOPMENT_RISK_REGISTER.md",
+      "sha256": "7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf",
+      "bytes": 7825
+    },
+    {
+      "path": "docs/00-baseline/SOURCE_OF_TRUTH.md",
+      "sha256": "045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511",
+      "bytes": 1442
+    },
+    {
+      "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
+      "sha256": "aaef356cefcf221271ae4a2373923018e545511b0a92fcd3d14d43454f5f96ef",
+      "bytes": 849
+    },
+    {
+      "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
+      "sha256": "402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1",
+      "bytes": 872
+    },
+    {
+      "path": "docs/03-continuity/PITFALLS.md",
+      "sha256": "ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30",
+      "bytes": 229
+    },
+    {
+      "path": ".continuity/CONTINUITY_POLICY.yaml",
+      "sha256": "9dbcba88f0f2a0ac824fa8f53d693e8c38e661103e6603b88484a43f30446923",
+      "bytes": 6731
+    },
+    {
+      "path": ".continuity/EVENT_LOG.jsonl",
+      "sha256": "57a9d33852fa6eda82b9c240512dc888b21e19c98dccccefb7c5396134ced31b",
+      "bytes": 4802
+    },
+    {
+      "path": ".continuity/SESSION_INDEX.yaml",
+      "sha256": "2eea76e22b4ec8ed65e4d16c9b064bbaaca207e05dbefda0bf700a2c81cb0cee",
+      "bytes": 901
+    },
+    {
+      "path": ".continuity/TASK_CLAIMS.yaml",
+      "sha256": "3a9aa7f7d64133f1a6dc48c8df4278dd9534252ad4bbe72f2f3527b02b095171",
+      "bytes": 922
+    },
+    {
+      "path": ".continuity/TASK_TRANSITIONS.yaml",
+      "sha256": "721ed669a5c38218812d9d201d364c948f2b7ca0290f74d80409481e93f99f54",
+      "bytes": 649
+    },
+    {
+      "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
+      "sha256": "d88d440ad4c0d76d9cf8d21831334085a28ae8ddcfc6622cbe020aa60c5942f2",
+      "bytes": 2830
+    },
+    {
+      "path": ".continuity/ACTIVE_SESSION.yaml",
+      "sha256": "e86cc4872fb029fdb33c200ec4b6d0ab99c53698c4dedabc82149e6c1f01c0a4",
+      "bytes": 303
+    },
+    {
+      "path": "releases/P00/RELEASE_MANIFEST.yaml",
+      "sha256": "19a6e46c3a0086f12ac7aa95be79263f9fd1f7a56e5d1bc39eabd5fa82a963d7",
+      "bytes": 4509
+    },
+    {
+      "path": "releases/P00/DEFINITION_OF_READY.yaml",
+      "sha256": "ffe6940f64abc0bef4ca56719a9e442d86bf37460e7166acc00a70a893906cd9",
+      "bytes": 7064
+    },
+    {
+      "path": "releases/P00/STORIES.yaml",
+      "sha256": "56468c7be5472b108bdebfb4e79bb937912e2b22da0504cf6857c4cc54104c7d",
+      "bytes": 5764
+    },
+    {
+      "path": "releases/P00/TASKS.yaml",
+      "sha256": "1c75426b97e619eebc2763ea3eead3199ad5d0869025faa6f93eea3e57f6df75",
+      "bytes": 5844
+    },
+    {
+      "path": "releases/P00/ACCEPTANCE_MATRIX.csv",
+      "sha256": "19a71fd0a8386cd25417d38df7430a74600b6a277b40f6c6b706faae122e5ccf",
+      "bytes": 691
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md",
+      "sha256": "07ae0ac7ab6a38538982f13e514ab9ca154cfb4152f8ae4f3b18e20632c92719",
+      "bytes": 1536
+    }
+  ]
+}

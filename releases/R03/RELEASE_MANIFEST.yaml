@@ -1,0 +1,114 @@
+release: R03
+title: 供应商配置、密钥、证书与域名中心
+status: READY_WHEN_DEPENDENCIES_GREEN
+milestone: M0_ENGINEERING_FOUNDATION
+depends_on:
+- R01
+scope: 后台配置短信、R2/OSS、实名、支付、支付宝出款；orbexa.cc二级域名和DNS待办
+android_test_apk_required: false
+requirements:
+- REQ-CONFIG-001
+- REQ-DOMAIN-001
+- REQ-STORAGE-001
+- REQ-SECRET-001
+- REQ-CONFIG-UX-001
+ui:
+  android: []
+  h5: []
+  admin:
+  - ADM-CONFIG-002
+  - ADM-CONFIG-003
+  - ADM-CONFIG-004
+  - ADM-CONFIG-005
+  - ADM-CONFIG-006
+  - ADM-CONFIG-007
+  - ADM-CONFIG-008
+contracts:
+  client_api: []
+  admin_api:
+  - GET /admin-api/v1/provider-configs
+  - GET /admin-api/v1/provider-configs/{provider}
+  - POST /admin-api/v1/provider-configs/{provider}/versions
+  - POST /admin-api/v1/provider-configs/{provider}/test
+  - POST /admin-api/v1/provider-configs/{provider}/activate
+  - POST /admin-api/v1/provider-configs/{provider}/rollback
+  - POST /admin-api/v1/provider-certificates
+  - GET /admin-api/v1/provider-certificates
+  - POST /admin-api/v1/provider-certificates/{id}/rotate
+  - GET /admin-api/v1/domains
+  - PUT /admin-api/v1/domains/{code}
+  - GET /admin-api/v1/domains/dns-actions
+  - POST /admin-api/v1/domains/{code}/verify
+  websocket: []
+database_tables:
+- system_configs
+- system_config_versions
+- feature_flags
+- admin_approval_requests
+- provider_config_definitions
+- provider_config_versions
+- provider_connection_tests
+- provider_certificates
+- provider_certificate_access_logs
+- domain_configs
+- dns_action_items
+- home_modules
+- banners
+- cms_articles
+- agreements
+- agreement_versions
+- user_agreement_acceptances
+- h5_page_configs
+- app_versions
+- app_download_logs
+- media_objects
+- upload_sessions
+- media_access_tokens
+- storage_scope_bindings
+- storage_migration_jobs
+- admin_operation_logs
+tests:
+- TST-CONFIG_001-HAPPY
+- TST-CONFIG_001-IDEMPOTENT
+- TST-CONFIG_001-REJECT
+- TST-CONFIG_UX_001-DRIFT
+- TST-CONFIG_UX_001-HAPPY
+- TST-CONFIG_UX_001-REJECT
+- TST-CONFIG_UX_001-SECURITY
+- TST-DOMAIN_001-HAPPY
+- TST-DOMAIN_001-IDEMPOTENT
+- TST-DOMAIN_001-REJECT
+- TST-STORAGE_001-HAPPY
+- TST-STORAGE_001-IDEMPOTENT
+- TST-STORAGE_001-REJECT
+- TST-V122-030
+- TST-V122-031
+- TST-V122-032
+- TST-V122-033
+- TST-V122-034
+entry_gate:
+- releases/R03/DEFINITION_OF_READY.yaml 全部适用项为PASS
+- releases/R03/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+- 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
+- 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
+- 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+exit_gate:
+- 领域代码与前端真实闭环
+- 数据库迁移和不变量测试通过
+- 契约/单元/集成/E2E/安全专项测试通过
+- 日志指标链路和业务告警可验证
+- Session Log、追踪矩阵、产物Manifest和下一任务更新
+- 供应商测试环境、SecretRef、证书和DNS外部激活项已完成或登记明确阻断
+change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
+documentation_baseline: V1.2.2
+document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+definition_of_ready: releases/R03/DEFINITION_OF_READY.yaml
+story_backlog: releases/R03/STORIES.yaml
+continuity:
+  policy: .continuity/CONTINUITY_POLICY.yaml
+  protocol_version: '1.0'
+  mode: ENFORCED
+  session_required_before_change: true
+  checkpoint_required_before_commit: true
+  old_conversation_required: false
+  handoff_bundle_required_for_actor_switch: true

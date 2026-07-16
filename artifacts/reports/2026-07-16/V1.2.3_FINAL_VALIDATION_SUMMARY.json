@@ -1,0 +1,109 @@
+{
+  "version": "1.2.3",
+  "status": "PASS",
+  "product_spec_baseline": "V1.2.2",
+  "continuity_protocol_version": "1.0",
+  "conversation_context_required": false,
+  "documentation": {
+    "version": "1.2.3",
+    "product_spec_baseline": "V1.2.2",
+    "status": "PASS",
+    "strict": true,
+    "release_filter": null,
+    "metrics": {
+      "android_surfaces": 102,
+      "h5_pages": 13,
+      "admin_pages": 74,
+      "ui_surfaces": 189,
+      "templates": 30,
+      "fields": 5159,
+      "states": 1633,
+      "actions": 606,
+      "configs": 314,
+      "config_rules": 58,
+      "config_roles": 21,
+      "requirements": 84,
+      "tests": 376,
+      "stories": 163,
+      "dor_gates": 396,
+      "tables": 198,
+      "rest_operations": 315,
+      "websocket_events": 10,
+      "unassigned_api_operations": 0,
+      "open_document_gaps": 0
+    },
+    "errors": [],
+    "warnings": []
+  },
+  "continuity_doctor": {
+    "version": "1.2.3",
+    "protocol_version": "1.0",
+    "mode": "doctor",
+    "strict": true,
+    "status": "PASS",
+    "metrics": {
+      "event_count": 10,
+      "event_head_hash": "0b4baac9f8044958c1adec7c9580f7e2330a9766efe0bbc69575af17121a8a37"
+    },
+    "errors": [],
+    "warnings": []
+  },
+  "combined_gate": {
+    "version": "1.2.3",
+    "product_spec_baseline": "V1.2.2",
+    "continuity_protocol_version": "1.0",
+    "status": "PASS",
+    "strict": true,
+    "release_filter": null,
+    "metrics": {
+      "canonical_policy_sha256": "9dbcba88f0f2a0ac824fa8f53d693e8c38e661103e6603b88484a43f30446923",
+      "documentation": {
+        "android_surfaces": 102,
+        "h5_pages": 13,
+        "admin_pages": 74,
+        "ui_surfaces": 189,
+        "templates": 30,
+        "fields": 5159,
+        "states": 1633,
+        "actions": 606,
+        "configs": 314,
+        "config_rules": 58,
+        "config_roles": 21,
+        "requirements": 84,
+        "tests": 376,
+        "stories": 163,
+        "dor_gates": 396,
+        "tables": 198,
+        "rest_operations": 315,
+        "websocket_events": 10,
+        "unassigned_api_operations": 0,
+        "open_document_gaps": 0
+      },
+      "continuity": {
+        "event_count": 10,
+        "event_head_hash": "0b4baac9f8044958c1adec7c9580f7e2330a9766efe0bbc69575af17121a8a37"
+      },
+      "continuity_gate_rules": 42,
+      "continuity_event_types": 16,
+      "continuity_required_records": 20,
+      "baseline_sessions": 1,
+      "baseline_handoffs": 1,
+      "change_requests": 1,
+      "task_transitions": 1,
+      "continuity_integration_checks": 9,
+      "continuity_lifecycle_checks": 14
+    },
+    "errors": [],
+    "warnings": []
+  },
+  "lifecycle": {
+    "status": "PASS",
+    "checks": 14,
+    "commits": 6
+  },
+  "portable_reconstruction": {
+    "status": "PASS",
+    "checks": 9,
+    "project_fingerprint": "378018c538ec55d0547af45052233d96da49634af8ed67757594e21dabd7e11e"
+  }
+}

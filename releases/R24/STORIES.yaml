@@ -1,0 +1,683 @@
+version: 1.2.2
+release: R24
+title: 奖励账户与支付宝提现
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R24-001
+  release: R24
+  title: 奖励：奖励账户、奖励流水
+  user_story: 作为具备 reward.read 的后台员工；写操作另需 reward.manage，我需要完成奖励账户、奖励流水的完整业务流程，以便在不依赖研发临时决策的情况下实现余额和来源。
+  platform: ADMIN
+  module: 奖励
+  template_id: ADM-FINANCE
+  page_ids:
+  - ADM-REWARD-001
+  - ADM-REWARD-002
+  operation_ids:
+  - adminRewardsGetRewardAccounts
+  - adminRewardsGetRewardAccountsByUseridLedger
+  - adminRewardsPostRewardAdjustments
+  api_contracts:
+  - GET /admin-api/v1/reward-accounts
+  - GET /admin-api/v1/reward-accounts/{userId}/ledger
+  - POST /admin-api/v1/reward-adjustments
+  requirement_ids:
+  - REQ-REWARD-001
+  - REQ-LEDGER-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - reward_accounts
+  - reward_ledger
+  - reward_settlements
+  - reward_freezes
+  - red_packet_campaigns
+  - red_packet_campaign_versions
+  - red_packet_quotes
+  - red_packet_orders
+  - red_packet_stock
+  - red_packet_view_sessions
+  - red_packet_reservations
+  - red_packet_claims
+  - red_packet_ledger
+  - outbox_events
+  - accounting_entries
+  - payout_accounts
+  - withdrawal_requests
+  - payout_transactions
+  - payout_callbacks
+  - payout_reconciliation_records
+  - accounting_transactions
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  test_ids:
+  - TST-REWARD_001-HAPPY
+  - TST-LEDGER_001-HAPPY
+  - TST-REWARD_001-IDEMPOTENT
+  - TST-LEDGER_001-IDEMPOTENT
+  dependencies:
+  - R05
+  - R17
+  - R23
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-REWARD-001;ADM-REWARD-002 全部绑定模板 ADM-FINANCE，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminRewardsGetRewardAccounts;adminRewardsGetRewardAccountsByUseridLedger;adminRewardsPostRewardAdjustments；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-REWARD_001-HAPPY;TST-LEDGER_001-HAPPY;TST-REWARD_001-IDEMPOTENT;TST-LEDGER_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R24-002
+  release: R24
+  title: 提现：提现列表、提现详情
+  user_story: 作为具备 withdrawal.read 的后台员工；写操作另需 withdrawal.manage，我需要完成提现列表、提现详情的完整业务流程，以便在不依赖研发临时决策的情况下实现风控、财务、出款。
+  platform: ADMIN
+  module: 提现
+  template_id: ADM-FINANCE
+  page_ids:
+  - ADM-WD-001
+  - ADM-WD-002
+  operation_ids:
+  - adminWithdrawalsGetWithdrawals
+  - adminWithdrawalsGetWithdrawalsById
+  - adminWithdrawalsPostWithdrawalsByIdRiskReview
+  - adminWithdrawalsPostWithdrawalsByIdFinanceReview
+  - adminWithdrawalsPostWithdrawalsByIdPayout
+  - adminWithdrawalsPostWithdrawalsByIdQuery
+  api_contracts:
+  - GET /admin-api/v1/withdrawals
+  - GET /admin-api/v1/withdrawals/{id}
+  - POST /admin-api/v1/withdrawals/{id}/risk-review
+  - POST /admin-api/v1/withdrawals/{id}/finance-review
+  - POST /admin-api/v1/withdrawals/{id}/payout
+  - POST /admin-api/v1/withdrawals/{id}/query
+  requirement_ids:
+  - REQ-WD-001
+  - REQ-LEDGER-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - withdrawal_requests
+  - payout_transactions
+  - payout_reconciliation_records
+  - payout_accounts
+  - payout_callbacks
+  - accounting_transactions
+  - accounting_entries
+  - reward_accounts
+  - reward_ledger
+  - reward_settlements
+  - reward_freezes
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  test_ids:
+  - TST-WD_001-HAPPY
+  - TST-LEDGER_001-HAPPY
+  - TST-WD_001-IDEMPOTENT
+  - TST-LEDGER_001-IDEMPOTENT
+  dependencies:
+  - R05
+  - R17
+  - R23
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-WD-001;ADM-WD-002 全部绑定模板 ADM-FINANCE，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminWithdrawalsGetWithdrawals;adminWithdrawalsGetWithdrawalsById;adminWithdrawalsPostWithdrawalsByIdRiskReview;adminWithdrawalsPostWithdrawalsByIdFinanceReview;adminWithdrawalsPostWithdrawalsByIdPayout;adminWithdrawalsPostWithdrawalsByIdQuery；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-WD_001-HAPPY;TST-LEDGER_001-HAPPY;TST-WD_001-IDEMPOTENT;TST-LEDGER_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R24-003
+  release: R24
+  title: 财务：统一会计交易、会计交易详情与冲正
+  user_story: 作为具备 accounting.read 的后台员工；写操作另需 accounting.reversal.request，我需要完成统一会计交易、会计交易详情与冲正的完整业务流程，以便在不依赖研发临时决策的情况下实现按业务来源、账户、日期和状态查询复式记账交易，核对借贷平衡与业务幂等键。
+  platform: ADMIN
+  module: 财务
+  template_id: ADM-FINANCE
+  page_ids:
+  - ADM-ACCOUNTING-001
+  - ADM-ACCOUNTING-002
+  operation_ids:
+  - adminAccountingGetTransactions
+  - adminAccountingGetEntries
+  - adminAccountingGetTransactionById
+  - adminAccountingPostReversal
+  api_contracts:
+  - GET /admin-api/v1/accounting/transactions
+  - GET /admin-api/v1/accounting/entries
+  - GET /admin-api/v1/accounting/transactions/{id}
+  - POST /admin-api/v1/accounting/transactions/{id}/reversals
+  requirement_ids:
+  - REQ-ACCOUNTING-OPS-001
+  - REQ-LEDGER-001
+  config_keys:
+  - payment.active_gateway
+  - payment.caihong.base_url
+  - payment.caihong.merchant_id
+  - payment.caihong.merchant_key
+  - payment.caihong.sign_type
+  - payment.caihong.enabled_channels
+  - payment.notify_url
+  - payment.return_url
+  - withdrawal.min_amount_cent.normal
+  - withdrawal.fee.fixed_cent.normal
+  - withdrawal.fee.bps.normal
+  - withdrawal.daily_count.normal
+  - withdrawal.min_amount_cent.month
+  - withdrawal.fee.fixed_cent.month
+  - withdrawal.fee.bps.month
+  - withdrawal.daily_count.month
+  - payout.active_gateway
+  - payout.alipay.app_id
+  - payout.alipay.merchant_id
+  - payout.alipay.private_key_certificate_id
+  - payout.alipay.app_public_certificate_id
+  - payout.alipay.alipay_public_certificate_id
+  - payout.alipay.root_certificate_id
+  - payout.alipay.gateway_url
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - accounting_transactions
+  - accounting_entries
+  - accounting_reversal_requests
+  - admin_approval_requests
+  - admin_operation_logs
+  - reward_accounts
+  - reward_ledger
+  - reward_settlements
+  - reward_freezes
+  - payout_accounts
+  - withdrawal_requests
+  - payout_transactions
+  - payout_callbacks
+  - payout_reconciliation_records
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  test_ids:
+  - TST-V122-039
+  - TST-V122-041
+  - TST-V122-040
+  - TST-V122-042
+  dependencies:
+  - R05
+  - R17
+  - R23
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-ACCOUNTING-001;ADM-ACCOUNTING-002 全部绑定模板 ADM-FINANCE，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminAccountingGetTransactions;adminAccountingGetEntries;adminAccountingGetTransactionById;adminAccountingPostReversal；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-V122-039;TST-V122-041;TST-V122-040;TST-V122-042
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R24-004
+  release: R24
+  title: 提现：申请提现
+  user_story: 作为已登录、完成实名且资金能力未被冻结的用户，我需要完成申请提现的完整业务流程，以便在不依赖研发临时决策的情况下实现金额、手续费、到账。
+  platform: ANDROID
+  module: 提现
+  template_id: MOB-CHECKOUT
+  page_ids:
+  - SCR-WD-002
+  operation_ids:
+  - withdrawalPostWithdrawalsQuote
+  - withdrawalPostWithdrawals
+  api_contracts:
+  - POST /api/v1/withdrawals/quote
+  - POST /api/v1/withdrawals
+  requirement_ids:
+  - REQ-WD-001
+  - REQ-LEDGER-001
+  config_keys:
+  - withdrawal.min_amount_cent.normal
+  - withdrawal.fee.fixed_cent.normal
+  - withdrawal.fee.bps.normal
+  - withdrawal.daily_count.normal
+  - withdrawal.min_amount_cent.month
+  - withdrawal.fee.fixed_cent.month
+  - withdrawal.fee.bps.month
+  - withdrawal.daily_count.month
+  data_tables:
+  - payout_accounts
+  - withdrawal_requests
+  - payout_transactions
+  - payout_callbacks
+  - payout_reconciliation_records
+  - accounting_transactions
+  - accounting_entries
+  - reward_accounts
+  - reward_ledger
+  - reward_settlements
+  - reward_freezes
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  test_ids:
+  - TST-WD_001-HAPPY
+  - TST-LEDGER_001-HAPPY
+  - TST-WD_001-IDEMPOTENT
+  - TST-LEDGER_001-IDEMPOTENT
+  dependencies:
+  - R05
+  - R17
+  - R23
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-WD-002 全部绑定模板 MOB-CHECKOUT，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：withdrawalPostWithdrawalsQuote;withdrawalPostWithdrawals；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-WD_001-HAPPY;TST-LEDGER_001-HAPPY;TST-WD_001-IDEMPOTENT;TST-LEDGER_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R24-005
+  release: R24
+  title: 提现：绑定支付宝
+  user_story: 作为已登录、完成实名且资金能力未被冻结的用户，我需要完成绑定支付宝的完整业务流程，以便在不依赖研发临时决策的情况下实现账户和姓名校验。
+  platform: ANDROID
+  module: 提现
+  template_id: MOB-FORM
+  page_ids:
+  - SCR-WD-001
+  operation_ids:
+  - withdrawalGetMePayoutAccount
+  - withdrawalPutMePayoutAccount
+  api_contracts:
+  - GET /api/v1/me/payout-account
+  - PUT /api/v1/me/payout-account
+  requirement_ids:
+  - REQ-WD-001
+  - REQ-LEDGER-001
+  config_keys:
+  - withdrawal.min_amount_cent.normal
+  - withdrawal.fee.fixed_cent.normal
+  - withdrawal.fee.bps.normal
+  - withdrawal.daily_count.normal
+  - withdrawal.min_amount_cent.month
+  - withdrawal.fee.fixed_cent.month
+  - withdrawal.fee.bps.month
+  - withdrawal.daily_count.month
+  data_tables:
+  - payout_accounts
+  - withdrawal_requests
+  - payout_transactions
+  - payout_callbacks
+  - payout_reconciliation_records
+  - accounting_transactions
+  - accounting_entries
+  - reward_accounts
+  - reward_ledger
+  - reward_settlements
+  - reward_freezes
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  test_ids:
+  - TST-WD_001-HAPPY
+  - TST-LEDGER_001-HAPPY
+  - TST-WD_001-IDEMPOTENT
+  - TST-LEDGER_001-IDEMPOTENT
+  dependencies:
+  - R05
+  - R17
+  - R23
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-WD-001 全部绑定模板 MOB-FORM，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：withdrawalGetMePayoutAccount;withdrawalPutMePayoutAccount；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-WD_001-HAPPY;TST-LEDGER_001-HAPPY;TST-WD_001-IDEMPOTENT;TST-LEDGER_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R24-006
+  release: R24
+  title: 提现：提现记录
+  user_story: 作为已登录、完成实名且资金能力未被冻结的用户，我需要完成提现记录的完整业务流程，以便在不依赖研发临时决策的情况下实现状态和详情。
+  platform: ANDROID
+  module: 提现
+  template_id: MOB-WALLET
+  page_ids:
+  - SCR-WD-003
+  operation_ids:
+  - withdrawalGetMeWithdrawals
+  api_contracts:
+  - GET /api/v1/me/withdrawals
+  requirement_ids:
+  - REQ-WD-001
+  - REQ-LEDGER-001
+  config_keys:
+  - withdrawal.min_amount_cent.normal
+  - withdrawal.fee.fixed_cent.normal
+  - withdrawal.fee.bps.normal
+  - withdrawal.daily_count.normal
+  - withdrawal.min_amount_cent.month
+  - withdrawal.fee.fixed_cent.month
+  - withdrawal.fee.bps.month
+  - withdrawal.daily_count.month
+  data_tables:
+  - payout_accounts
+  - withdrawal_requests
+  - payout_transactions
+  - payout_callbacks
+  - payout_reconciliation_records
+  - accounting_transactions
+  - accounting_entries
+  - reward_accounts
+  - reward_ledger
+  - reward_settlements
+  - reward_freezes
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  test_ids:
+  - TST-WD_001-HAPPY
+  - TST-LEDGER_001-HAPPY
+  dependencies:
+  - R05
+  - R17
+  - R23
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-WD-003 全部绑定模板 MOB-WALLET，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：withdrawalGetMeWithdrawals；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-WD_001-HAPPY;TST-LEDGER_001-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R24-007
+  release: R24
+  title: 收益：奖励账户、奖励明细
+  user_story: 作为已登录、完成实名且资金能力未被冻结的用户，我需要完成奖励账户、奖励明细的完整业务流程，以便在不依赖研发临时决策的情况下实现余额分类和来源。
+  platform: ANDROID
+  module: 收益
+  template_id: MOB-WALLET
+  page_ids:
+  - SCR-REWARD-001
+  - SCR-REWARD-002
+  operation_ids:
+  - rewardGetMeRewardAccount
+  - rewardGetMeRewardLedger
+  api_contracts:
+  - GET /api/v1/me/reward-account
+  - GET /api/v1/me/reward-ledger
+  requirement_ids:
+  - REQ-REWARD-001
+  - REQ-LEDGER-001
+  config_keys:
+  - withdrawal.min_amount_cent.normal
+  - withdrawal.fee.fixed_cent.normal
+  - withdrawal.fee.bps.normal
+  - withdrawal.daily_count.normal
+  - withdrawal.min_amount_cent.month
+  - withdrawal.fee.fixed_cent.month
+  - withdrawal.fee.bps.month
+  - withdrawal.daily_count.month
+  data_tables:
+  - reward_accounts
+  - reward_ledger
+  - reward_settlements
+  - reward_freezes
+  - accounting_entries
+  - red_packet_campaigns
+  - red_packet_campaign_versions
+  - red_packet_quotes
+  - red_packet_orders
+  - red_packet_stock
+  - red_packet_view_sessions
+  - red_packet_reservations
+  - red_packet_claims
+  - red_packet_ledger
+  - outbox_events
+  - payout_accounts
+  - withdrawal_requests
+  - payout_transactions
+  - payout_callbacks
+  - payout_reconciliation_records
+  - accounting_transactions
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  test_ids:
+  - TST-REWARD_001-HAPPY
+  - TST-LEDGER_001-HAPPY
+  dependencies:
+  - R05
+  - R17
+  - R23
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-REWARD-001;SCR-REWARD-002 全部绑定模板 MOB-WALLET，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：rewardGetMeRewardAccount;rewardGetMeRewardLedger；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-REWARD_001-HAPPY;TST-LEDGER_001-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R24-008
+  release: R24
+  title: 奖励账户与支付宝提现：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R24 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - SCR-REWARD-001
+  - SCR-REWARD-002
+  - SCR-WD-001
+  - SCR-WD-002
+  - SCR-WD-003
+  - ADM-REWARD-001
+  - ADM-REWARD-002
+  - ADM-WD-001
+  - ADM-WD-002
+  - ADM-ACCOUNTING-001
+  - ADM-ACCOUNTING-002
+  operation_ids:
+  - rewardGetMeRewardAccount
+  - rewardGetMeRewardLedger
+  - withdrawalGetMePayoutAccount
+  - withdrawalPutMePayoutAccount
+  - withdrawalPostWithdrawalsQuote
+  - withdrawalPostWithdrawals
+  - withdrawalGetMeWithdrawals
+  - adminRewardsGetRewardAccounts
+  - adminRewardsGetRewardAccountsByUseridLedger
+  - adminRewardsPostRewardAdjustments
+  - adminWithdrawalsGetWithdrawals
+  - adminWithdrawalsGetWithdrawalsById
+  - adminWithdrawalsPostWithdrawalsByIdRiskReview
+  - adminWithdrawalsPostWithdrawalsByIdFinanceReview
+  - adminWithdrawalsPostWithdrawalsByIdPayout
+  - adminWithdrawalsPostWithdrawalsByIdQuery
+  - adminAccountingGetTransactions
+  - adminAccountingGetTransactionById
+  - adminAccountingGetEntries
+  - adminAccountingPostReversal
+  api_contracts:
+  - GET /api/v1/me/reward-account
+  - GET /api/v1/me/reward-ledger
+  - GET /api/v1/me/payout-account
+  - PUT /api/v1/me/payout-account
+  - POST /api/v1/withdrawals/quote
+  - POST /api/v1/withdrawals
+  - GET /api/v1/me/withdrawals
+  - GET /admin-api/v1/reward-accounts
+  - GET /admin-api/v1/reward-accounts/{userId}/ledger
+  - POST /admin-api/v1/reward-adjustments
+  - GET /admin-api/v1/withdrawals
+  - GET /admin-api/v1/withdrawals/{id}
+  - POST /admin-api/v1/withdrawals/{id}/risk-review
+  - POST /admin-api/v1/withdrawals/{id}/finance-review
+  - POST /admin-api/v1/withdrawals/{id}/payout
+  - POST /admin-api/v1/withdrawals/{id}/query
+  - GET /admin-api/v1/accounting/transactions
+  - GET /admin-api/v1/accounting/transactions/{id}
+  - GET /admin-api/v1/accounting/entries
+  - POST /admin-api/v1/accounting/transactions/{id}/reversals
+  requirement_ids:
+  - REQ-REWARD-001
+  - REQ-WD-001
+  - REQ-LEDGER-001
+  - REQ-ACCOUNTING-OPS-001
+  config_keys:
+  - withdrawal.min_amount_cent.normal
+  - withdrawal.fee.fixed_cent.normal
+  - withdrawal.fee.bps.normal
+  - withdrawal.daily_count.normal
+  - withdrawal.min_amount_cent.month
+  - withdrawal.fee.fixed_cent.month
+  - withdrawal.fee.bps.month
+  - withdrawal.daily_count.month
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  - payment.active_gateway
+  - payment.caihong.base_url
+  - payment.caihong.merchant_id
+  - payment.caihong.merchant_key
+  - payment.caihong.sign_type
+  - payment.caihong.enabled_channels
+  - payment.notify_url
+  - payment.return_url
+  - payout.active_gateway
+  - payout.alipay.app_id
+  - payout.alipay.merchant_id
+  - payout.alipay.private_key_certificate_id
+  - payout.alipay.app_public_certificate_id
+  - payout.alipay.alipay_public_certificate_id
+  - payout.alipay.root_certificate_id
+  - payout.alipay.gateway_url
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - red_packet_campaigns
+  - red_packet_campaign_versions
+  - red_packet_quotes
+  - red_packet_orders
+  - red_packet_stock
+  - red_packet_view_sessions
+  - red_packet_reservations
+  - red_packet_claims
+  - red_packet_ledger
+  - reward_ledger
+  - outbox_events
+  - reward_accounts
+  - reward_settlements
+  - reward_freezes
+  - accounting_entries
+  - payout_accounts
+  - withdrawal_requests
+  - payout_transactions
+  - payout_callbacks
+  - payout_reconciliation_records
+  - accounting_transactions
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  - accounting_reversal_requests
+  - admin_approval_requests
+  - admin_operation_logs
+  test_ids:
+  - TST-ACCOUNTING_OPS_001-DRIFT
+  - TST-ACCOUNTING_OPS_001-HAPPY
+  - TST-ACCOUNTING_OPS_001-REJECT
+  - TST-ACCOUNTING_OPS_001-SECURITY
+  - TST-REWARD_001-CONCURRENCY
+  - TST-REWARD_001-HAPPY
+  - TST-REWARD_001-IDEMPOTENT
+  - TST-REWARD_001-RECOVERY
+  - TST-REWARD_001-REJECT
+  - TST-V122-039
+  - TST-V122-040
+  - TST-V122-041
+  - TST-V122-042
+  - TST-WD_001-CONCURRENCY
+  - TST-WD_001-HAPPY
+  - TST-WD_001-IDEMPOTENT
+  - TST-WD_001-RECOVERY
+  - TST-WD_001-REJECT
+  dependencies:
+  - R05
+  - R17
+  - R23
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

@@ -1,0 +1,15 @@
+schema_version: '1.0'
+required:
+- checkpoint_id
+- session_id
+- sequence
+- summary
+- next_step
+- project_fingerprint
+- changed_files
+- tests
+- created_at
+invariants:
+- 项目变化时tests至少一项
+- project_fingerprint包含sha256和逐文件哈希
+- 检查点创建后项目再变化即失效

@@ -1,0 +1,65 @@
+project: hhy-pro-platform
+baseline_version: 1.2.3
+phase: P00
+active_release: P00
+active_task: TASK-P00-001
+status: IN_PROGRESS
+documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
+last_green_commit: NOT_INITIALIZED
+last_staging_apk: null
+completed_tasks:
+- V1.2.2_ENGINEERING_BASELINE
+- V1.2.2_PAGE_SPEC_FREEZE
+- V1.2.2_ADMIN_OPERATION_FREEZE
+- V1.2.2_CONFIG_UX_FREEZE
+- V1.2.2_TRACEABILITY_AND_DOR_FREEZE
+- V1.2.3_CONTINUITY_PROTOCOL
+- V1.2.3_GIT_HOOK_ENFORCEMENT
+- V1.2.3_REPOSITORY_ONLY_HANDOFF
+- V1.2.3_FULL_LIFECYCLE_REGRESSION
+- V1.2.3_PORTABLE_HANDOFF_RECONSTRUCTION
+- V1.2.3_TAMPER_DETECTION_VALIDATION
+in_progress_tasks:
+- TASK-P00-001
+blocked_tasks: []
+next_task: TASK-P00-001
+updated_at: '2026-07-16T23:28:09Z'
+notes:
+- V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
+- 全部REST/WebSocket操作均有页面或系统所有者
+- P00—R32均已生成DoR和故事级任务
+- Android/数据库/Docker/供应商/DNS/签名/压测属于开发或上线门禁，不属于文档缺口
+- V1.2.3增加唯一开发会话、任务租约、强制检查点、逐Commit身份、CR合同、Handoff Bundle、事件哈希链和CI重验
+- 对话不得作为事实源；任何WIP、决策、测试、变更和下一步必须写入仓库
+- 另一个AI只需运行python3 scripts/continuity.py resume即可从仓库重建上下文
+validation:
+  documentation_contract: PASS_0_ERRORS_0_WARNINGS
+  document_gap_count: 0
+  unassigned_api_operations: 0
+  releases_with_dor_and_stories: 33
+  implementation_and_external_gates: RECORDED_NOT_BLOCKING_START
+  deep_contract_audit: PASS
+  interpretation: 开发前文档完整；软件实现、运行和上线验证按版本门禁执行
+  continuity_protocol: ENFORCED
+  repository_only_handoff: READY
+  conversation_context_required: false
+  continuity_doctor: PASS_0_ERRORS_0_WARNINGS
+  combined_v123_gate: PASS_0_ERRORS_0_WARNINGS
+  continuity_lifecycle: PASS_14_CHECKS_6_COMMITS
+  portable_repository_reconstruction: PASS_9_CHECKS
+  event_hash_chain_tamper_detection: PASS
+  handoff_manifest_tamper_detection: PASS
+  prepush_per_commit_validation: PASS
+  ci_per_commit_validation: PASS
+  clean_export: PASS
+continuity:
+  protocol_version: '1.0'
+  mode: ENFORCED
+  active_session_id: SES-20260716T232809Z-B4A980AF
+  actor_id: codex-root
+  story_id: STORY-P00-001
+  lease_expires_at: '2026-07-17T03:28:09Z'
+  latest_checkpoint: null
+  project_fingerprint: null
+  context_pack: null
+  handoff_bundle: null

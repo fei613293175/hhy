@@ -1,0 +1,70 @@
+release: R22
+title: 红包20秒有效浏览与领取
+status: READY_WHEN_DEPENDENCIES_GREEN
+milestone: M3_INCENTIVES_FINANCE
+depends_on:
+- R21
+scope: 实名门槛、名额锁定、服务端心跳、倒计时浮球、领取和异常状态
+android_test_apk_required: true
+requirements:
+- REQ-RP-003
+ui:
+  android:
+  - SCR-RP-001
+  - SCR-RP-002
+  - SCR-RP-003
+  - SHEET-RP-001
+  h5: []
+  admin: []
+contracts:
+  client_api: []
+  admin_api: []
+  websocket: []
+database_tables:
+- red_packet_campaigns
+- red_packet_campaign_versions
+- red_packet_quotes
+- red_packet_orders
+- red_packet_stock
+- red_packet_view_sessions
+- red_packet_reservations
+- red_packet_claims
+- red_packet_ledger
+- reward_ledger
+- outbox_events
+- reward_accounts
+- reward_settlements
+- reward_freezes
+- accounting_entries
+tests:
+- TST-RP_003-CONCURRENCY
+- TST-RP_003-HAPPY
+- TST-RP_003-IDEMPOTENT
+- TST-RP_003-RECOVERY
+- TST-RP_003-REJECT
+entry_gate:
+- releases/R22/DEFINITION_OF_READY.yaml 全部适用项为PASS
+- releases/R22/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+- 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
+- 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
+- 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+exit_gate:
+- 领域代码与前端真实闭环
+- 数据库迁移和不变量测试通过
+- 契约/单元/集成/E2E/安全专项测试通过
+- 日志指标链路和业务告警可验证
+- Session Log、追踪矩阵、产物Manifest和下一任务更新
+- Staging APK可安装且SHA256、Commit、版本信息完整
+change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
+documentation_baseline: V1.2.2
+document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+definition_of_ready: releases/R22/DEFINITION_OF_READY.yaml
+story_backlog: releases/R22/STORIES.yaml
+continuity:
+  policy: .continuity/CONTINUITY_POLICY.yaml
+  protocol_version: '1.0'
+  mode: ENFORCED
+  session_required_before_change: true
+  checkpoint_required_before_commit: true
+  old_conversation_required: false
+  handoff_bundle_required_for_actor_switch: true

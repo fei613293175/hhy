@@ -1,0 +1,46 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B12",
+  "title": "设置、账号安全、实名与帮助",
+  "file": "HHY_B12_8PAGE_UI_REFERENCE.png",
+  "sha256": "9c3a1dedd10da7aa4e3c996e97eed59dd25bb1aaf592b3fff422f3eecbc743cf",
+  "role": "UI布局与样式参考，不是功能事实源",
+  "grid": {
+    "columns": 4,
+    "rows": 2
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "设置首页"
+    },
+    {
+      "panel": "P02",
+      "name": "账号与安全"
+    },
+    {
+      "panel": "P03",
+      "name": "修改登录密码"
+    },
+    {
+      "panel": "P04",
+      "name": "实名认证状态"
+    },
+    {
+      "panel": "P05",
+      "name": "隐私设置"
+    },
+    {
+      "panel": "P06",
+      "name": "消息通知设置"
+    },
+    {
+      "panel": "P07",
+      "name": "清理缓存"
+    },
+    {
+      "panel": "P08",
+      "name": "帮助与反馈"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+﻿事件类型,含义,记录位置,不可变,状态
+SESSION_STARTED,会话领取任务,.continuity/EVENT_LOG.jsonl,是,FROZEN
+CHECKPOINT_CREATED,创建可恢复检查点,.continuity/EVENT_LOG.jsonl,是,FROZEN
+SESSION_HANDOFF_CREATED,生成交接包,.continuity/EVENT_LOG.jsonl,是,FROZEN
+SESSION_TAKEN_OVER,新Actor接管,.continuity/EVENT_LOG.jsonl,是,FROZEN
+SESSION_RECOVERED,异常恢复,.continuity/EVENT_LOG.jsonl,是,FROZEN
+SESSION_CLOSING,进入关闭流程,.continuity/EVENT_LOG.jsonl,是,FROZEN
+SESSION_CLOSED,会话关闭,.continuity/EVENT_LOG.jsonl,是,FROZEN
+TASK_CLAIMED,任务领取,.continuity/EVENT_LOG.jsonl,是,FROZEN
+TASK_TRANSITIONED,任务状态迁移,.continuity/EVENT_LOG.jsonl,是,FROZEN
+CHANGE_REQUEST_CREATED,创建CR,.continuity/EVENT_LOG.jsonl,是,FROZEN
+CHANGE_REQUEST_AMENDED,补齐CR合同,.continuity/EVENT_LOG.jsonl,是,FROZEN
+CHANGE_REQUEST_DECIDED,CR审批决定,.continuity/EVENT_LOG.jsonl,是,FROZEN
+CHANGE_REQUEST_STATUS_UPDATED,CR实施状态变化,.continuity/EVENT_LOG.jsonl,是,FROZEN
+GIT_BOOTSTRAP_PREPARED,Git基线初始化,.continuity/EVENT_LOG.jsonl,是,FROZEN
+CONTEXT_PACK_BUILT,Context Pack生成,.continuity/EVENT_LOG.jsonl,是,FROZEN
+HEARTBEAT_RENEWED,租约心跳,.continuity/EVENT_LOG.jsonl,是,FROZEN

@@ -1,0 +1,43 @@
+﻿门禁ID,代码,阶段,阻断条件,自动化入口,状态
+CG-001,SESSION_REQUIRED,start/checkpoint/commit/push/ci/handoff/close,项目变更必须有唯一ACTIVE Session,scripts/continuity_gate.py,ENFORCED
+CG-002,TASK_CLAIM_UNIQUE,start/checkpoint/commit/push/ci/handoff/close,同一Task/Story不得重复领取,scripts/continuity_gate.py,ENFORCED
+CG-003,LEASE_VALID,start/checkpoint/commit/push/ci/handoff/close,活跃会话租约未过期,scripts/continuity_gate.py,ENFORCED
+CG-004,SCOPE_ALLOWED,start/checkpoint/commit/push/ci/handoff/close,变更文件属于Story/Task允许范围,scripts/continuity_gate.py,ENFORCED
+CG-005,CHECKPOINT_REQUIRED,start/checkpoint/commit/push/ci/handoff/close,提交推送交接前存在检查点,scripts/continuity_gate.py,ENFORCED
+CG-006,CHECKPOINT_FRESH,start/checkpoint/commit/push/ci/handoff/close,项目指纹与最新检查点一致,scripts/continuity_gate.py,ENFORCED
+CG-007,TEST_EVIDENCE,start/checkpoint/commit/push/ci/handoff/close,项目变化检查点记录测试或合规原因,scripts/continuity_gate.py,ENFORCED
+CG-008,ALL_PROJECT_CHANGES_STAGED,start/checkpoint/commit/push/ci/handoff/close,禁止部分提交项目内容,scripts/continuity_gate.py,ENFORCED
+CG-009,COMMIT_SUBJECT,start/checkpoint/commit/push/ci/handoff/close,Commit主题绑定Task/Story并符合格式,scripts/continuity_gate.py,ENFORCED
+CG-010,COMMIT_TRAILERS,start/checkpoint/commit/push/ci/handoff/close,Commit含Task/Session/Checkpoint/Tests/CR,scripts/continuity_gate.py,ENFORCED
+CG-011,TRAILER_UNIQUE,start/checkpoint/commit/push/ci/handoff/close,Commit Trailer不得重复,scripts/continuity_gate.py,ENFORCED
+CG-012,TRAILER_MATCH,start/checkpoint/commit/push/ci/handoff/close,Trailer与历史Session/Checkpoint一致,scripts/continuity_gate.py,ENFORCED
+CG-013,COMMIT_RECORDS,start/checkpoint/commit/push/ci/handoff/close,每个Commit同步Session/Checkpoint/Context/Status/Event,scripts/continuity_gate.py,ENFORCED
+CG-014,PER_COMMIT_CI,start/checkpoint/commit/push/ci/handoff/close,CI逐个非合并Commit重验,scripts/continuity_gate.py,ENFORCED
+CG-015,CR_REQUIRED,start/checkpoint/commit/push/ci/handoff/close,冻结事实变化需要批准CR,scripts/continuity_gate.py,ENFORCED
+CG-016,CR_COMPLETE,start/checkpoint/commit/push/ci/handoff/close,批准CR具有旧新规则、文件、测试、版本和兼容策略,scripts/continuity_gate.py,ENFORCED
+CG-017,CR_SEPARATION,start/checkpoint/commit/push/ci/handoff/close,申请人与审批人不同,scripts/continuity_gate.py,ENFORCED
+CG-018,BUG_REGRESSION,start/checkpoint/commit/push/ci/handoff/close,Bug修复登记根因和回归测试,scripts/continuity_gate.py,ENFORCED
+CG-019,DATABASE_MIGRATION,start/checkpoint/commit/push/ci/handoff/close,数据库变更有迁移/不变量证据,scripts/continuity_gate.py,ENFORCED
+CG-020,CHANGELOG_REQUIRED,start/checkpoint/commit/push/ci/handoff/close,用户可见变化更新Changelog,scripts/continuity_gate.py,ENFORCED
+CG-021,EVENT_CHAIN,start/checkpoint/commit/push/ci/handoff/close,事件日志哈希链有效,scripts/continuity_gate.py,ENFORCED
+CG-022,STATE_EVENT_HEAD,start/checkpoint/commit/push/ci/handoff/close,STATE事件头与日志一致,scripts/continuity_gate.py,ENFORCED
+CG-023,CONTEXT_FRESH,start/checkpoint/commit/push/ci/handoff/close,Context Pack来源和项目指纹最新,scripts/continuity_gate.py,ENFORCED
+CG-024,REPOSITORY_ONLY,start/checkpoint/commit/push/ci/handoff/close,Context明确禁止对话依赖,scripts/continuity_gate.py,ENFORCED
+CG-025,HANDOFF_REQUIRED,start/checkpoint/commit/push/ci/handoff/close,切换AI/设备前生成Handoff,scripts/continuity_gate.py,ENFORCED
+CG-026,HANDOFF_MANIFEST,start/checkpoint/commit/push/ci/handoff/close,Handoff逐文件SHA有效,scripts/continuity_gate.py,ENFORCED
+CG-027,HANDOFF_GIT_BUNDLE,start/checkpoint/commit/push/ci/handoff/close,可用时包含Git Bundle,scripts/continuity_gate.py,ENFORCED
+CG-028,HANDOFF_SAFE_UNTRACKED,start/checkpoint/commit/push/ci/handoff/close,未跟踪文件秘密扫描并安全快照,scripts/continuity_gate.py,ENFORCED
+CG-029,TAKEOVER_EXPLICIT,start/checkpoint/commit/push/ci/handoff/close,HANDED_OFF会话只能显式takeover,scripts/continuity_gate.py,ENFORCED
+CG-030,RECOVERY_EXPLICIT,start/checkpoint/commit/push/ci/handoff/close,过期/异常会话只能显式recover,scripts/continuity_gate.py,ENFORCED
+CG-031,CLOSE_PROTOCOL,start/checkpoint/commit/push/ci/handoff/close,关闭按实现Commit→close→关闭检查点→元数据Commit,scripts/continuity_gate.py,ENFORCED
+CG-032,CLOSE_TESTS,start/checkpoint/commit/push/ci/handoff/close,关闭前最新测试通过,scripts/continuity_gate.py,ENFORCED
+CG-033,CLOSE_STATUS,start/checkpoint/commit/push/ci/handoff/close,关闭同步Task/Release/CURRENT/NEXT,scripts/continuity_gate.py,ENFORCED
+CG-034,CLEAN_EXPORT,start/checkpoint/commit/push/ci/handoff/close,干净导出要求无活跃会话和干净工作区,scripts/continuity_gate.py,ENFORCED
+CG-035,SECRET_SCAN,start/checkpoint/commit/push/ci/handoff/close,提交/交接/导出扫描秘密和敏感文件,scripts/continuity_gate.py,ENFORCED
+CG-036,HOOK_EXECUTABLE,start/checkpoint/commit/push/ci/handoff/close,Git Hooks可执行并委托统一门禁,scripts/continuity_gate.py,ENFORCED
+CG-037,NO_SECOND_STATE,start/checkpoint/commit/push/ci/handoff/close,禁止LAST_CHECKPOINT/HANDOFF_STATE等第二套状态,scripts/continuity_gate.py,ENFORCED
+CG-038,RELEASE_CONTINUITY,start/checkpoint/commit/push/ci/handoff/close,每个Release绑定连续性策略,scripts/continuity_gate.py,ENFORCED
+CG-039,DOR_CONTINUITY,start/checkpoint/commit/push/ci/handoff/close,每个Release DoR含无状态接续,scripts/continuity_gate.py,ENFORCED
+CG-040,CONTEXT_MANIFEST,start/checkpoint/commit/push/ci/handoff/close,Context Pack来源和哈希可验证,scripts/continuity_gate.py,ENFORCED
+CG-041,HISTORICAL_FINGERPRINT,start/checkpoint/commit/push/ci/handoff/close,历史Commit用其Git Tree重建指纹,scripts/continuity_gate.py,ENFORCED
+CG-042,HISTORICAL_SECRET_SCAN,start/checkpoint/commit/push/ci/handoff/close,历史Commit对实际Blob执行秘密扫描,scripts/continuity_gate.py,ENFORCED

@@ -1,0 +1,36 @@
+{
+  "version": "1.2.2",
+  "status": "PASS",
+  "checked_at": "2026-07-16",
+  "checks": {
+    "local_openapi_and_websocket_refs": "PASS",
+    "client_api_catalog_exact_match": "PASS",
+    "admin_api_catalog_exact_match": "PASS",
+    "ui_owned_operation_action_coverage": "PASS",
+    "config_cross_rule_key_references": "PASS",
+    "trace_data_table_references": "PASS"
+  },
+  "errors": [
+    [
+      "unknown_rule_keys",
+      [
+        [
+          "CFG-RULE-008",
+          "content.media.max_images"
+        ],
+        [
+          "CFG-RULE-053",
+          "withdrawal.fee.bps"
+        ],
+        [
+          "CFG-RULE-054",
+          "withdrawal.max_amount_cent"
+        ],
+        [
+          "CFG-RULE-058",
+          "membership.upgrade"
+        ]
+      ]
+    ]
+  ]
+}

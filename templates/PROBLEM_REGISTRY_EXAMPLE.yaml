@@ -1,0 +1,11 @@
+- id: PROB-0001
+  title: 示例问题
+  status: solved
+  affected_modules: []
+  symptom: []
+  root_cause: ""
+  resolution: ""
+  fixed_in_commit: null
+  regression_tests: []
+  reusable_pattern: null
+  do_not_repeat: []

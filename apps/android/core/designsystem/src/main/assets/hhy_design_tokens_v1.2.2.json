@@ -1,0 +1,304 @@
+{
+  "meta": {
+    "project": "合伙云 Pro",
+    "version": "1.2.2",
+    "date": "2026-07-16",
+    "scope": [
+      "android",
+      "h5",
+      "admin-web"
+    ],
+    "theme": "light-only",
+    "sourceOfTruth": "design/tokens/hhy_design_tokens_v1.2.2.json"
+  },
+  "color": {
+    "brand": {
+      "primary": "#1677FF",
+      "primaryDark": "#0B63CE",
+      "secondary": "#13B8A6",
+      "tertiary": "#6D5DFB"
+    },
+    "reward": {
+      "red": "#FF4D4F",
+      "orange": "#FF8A34",
+      "gold": "#FFB020"
+    },
+    "background": {
+      "page": "#F5F7FA",
+      "surface": "#FFFFFF",
+      "softBlue": "#EEF5FF"
+    },
+    "text": {
+      "primary": "#182230",
+      "secondary": "#667085",
+      "tertiary": "#98A2B3",
+      "inverse": "#FFFFFF"
+    },
+    "border": {
+      "default": "#E4E7EC"
+    },
+    "status": {
+      "success": "#12B76A",
+      "warning": "#F79009",
+      "error": "#F04438"
+    }
+  },
+  "gradient": {
+    "brand": [
+      "#1677FF",
+      "#39A0FF"
+    ],
+    "pro": [
+      "#2855FF",
+      "#7C3AED"
+    ],
+    "reward": [
+      "#FF4D4F",
+      "#FF8A34"
+    ],
+    "h5Tech": [
+      "#071A3A",
+      "#102F68",
+      "#0B5ECF"
+    ]
+  },
+  "spacingDp": [
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    32
+  ],
+  "layout": {
+    "designBaselineWidthDp": 360,
+    "pageHorizontalPaddingDp": 16,
+    "sectionGapDp": 20,
+    "cardGapDp": 12,
+    "cardPaddingDp": 16,
+    "formFieldGapDp": 16
+  },
+  "sizeDp": {
+    "topAppBarContentHeight": 56,
+    "bottomNavigationContentHeight": 64,
+    "primaryButtonHeight": 48,
+    "singleLineInputHeight": 52,
+    "minimumTouchTarget": 48,
+    "standardIcon": 24,
+    "smallIcon": 20,
+    "listAvatar": 48,
+    "chatAvatar": 40,
+    "profileAvatar": 72,
+    "appLogo": 64,
+    "redPacketTimerBall": 56,
+    "redPacketTimerBallScrolling": 44,
+    "centerPublishVisual": 52
+  },
+  "radiusDp": {
+    "largeCard": 16,
+    "normalCard": 14,
+    "button": 12,
+    "input": 12,
+    "tag": 8,
+    "dialog": 20,
+    "bottomSheetTop": 24,
+    "pill": 999
+  },
+  "typographySp": {
+    "pageTitle": {
+      "size": 20,
+      "lineHeight": 28,
+      "weight": 600
+    },
+    "sectionTitle": {
+      "size": 18,
+      "lineHeight": 26,
+      "weight": 600
+    },
+    "cardTitle": {
+      "size": 16,
+      "lineHeight": 24,
+      "weight": 600,
+      "maxLines": 2
+    },
+    "button": {
+      "size": 15,
+      "lineHeight": 22,
+      "weight": 600
+    },
+    "body": {
+      "size": 14,
+      "lineHeight": 22,
+      "weight": 400
+    },
+    "secondaryBody": {
+      "size": 13,
+      "lineHeight": 20,
+      "weight": 400
+    },
+    "caption": {
+      "size": 12,
+      "lineHeight": 18,
+      "weight": 400
+    },
+    "navigation": {
+      "size": 11,
+      "lineHeight": 16,
+      "weight": 500
+    },
+    "importantAmount": {
+      "size": 24,
+      "lineHeight": 32,
+      "weight": 700
+    }
+  },
+  "previewSheet": {
+    "recommendedPixelSize": [
+      3072,
+      3072
+    ],
+    "minimumPixelSize": [
+      2048,
+      2048
+    ],
+    "columns": 4,
+    "rows": 2,
+    "pageOrder": [
+      "P01",
+      "P02",
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P07",
+      "P08"
+    ]
+  },
+  "bottomNavigation": [
+    "首页",
+    "红包",
+    "发布",
+    "消息",
+    "我的"
+  ],
+  "rules": {
+    "androidStyle": "Material 3",
+    "darkMode": false,
+    "pageValuesMustReferenceTokens": true,
+    "imageIsFunctionalSourceOfTruth": false,
+    "developmentDocumentWinsOnConflict": true,
+    "rawDpSpHexForbiddenInPageCode": true,
+    "tokenLintRequired": true,
+    "componentCatalogRequired": true,
+    "screenshotRegressionRequired": true,
+    "effectPreviewOnlyForLayoutStyle": true
+  },
+  "borderWidthDp": {
+    "hairline": 0.5,
+    "standard": 1,
+    "strong": 2
+  },
+  "elevationDp": {
+    "none": 0,
+    "card": 1,
+    "floating": 4,
+    "dialog": 8,
+    "critical": 12
+  },
+  "shadow": {
+    "card": {
+      "y": 2,
+      "blur": 8,
+      "spread": 0,
+      "color": "#10182814"
+    },
+    "floating": {
+      "y": 6,
+      "blur": 20,
+      "spread": 0,
+      "color": "#10182824"
+    },
+    "dialog": {
+      "y": 12,
+      "blur": 32,
+      "spread": 0,
+      "color": "#10182833"
+    }
+  },
+  "opacity": {
+    "disabled": 0.38,
+    "secondary": 0.72,
+    "scrim": 0.48,
+    "pressedOverlay": 0.08,
+    "hoverOverlay": 0.04
+  },
+  "motionMs": {
+    "instant": 0,
+    "fast": 120,
+    "standard": 200,
+    "emphasis": 300,
+    "page": 360,
+    "snackbar": 4000
+  },
+  "easing": {
+    "standard": "cubic-bezier(0.2,0,0,1)",
+    "emphasis": "cubic-bezier(0.2,0,0,1.2)",
+    "decelerate": "cubic-bezier(0,0,0,1)"
+  },
+  "componentDp": {
+    "tabHeight": 48,
+    "chipHeightSmall": 28,
+    "chipHeightDefault": 32,
+    "badgeMinSize": 16,
+    "listRowMinHeight": 64,
+    "snackbarMinHeight": 48,
+    "dialogMinWidth": 280,
+    "bottomSheetHandleWidth": 32,
+    "bottomSheetHandleHeight": 4,
+    "skeletonRadius": 8,
+    "divider": 0.5,
+    "searchBarHeight": 48,
+    "toolbarAction": 48,
+    "floatingActionButton": 56
+  },
+  "imageRatio": {
+    "contentCover": "16:9",
+    "appScreenshot": "9:16",
+    "avatar": "1:1",
+    "teamCase": "4:3",
+    "h5Hero": "16:10",
+    "banner": "2.4:1"
+  },
+  "breakpointsPx": {
+    "mobile": 0,
+    "tablet": 768,
+    "desktop": 1200,
+    "wide": 1440
+  },
+  "adminWeb": {
+    "contentMaxWidthPx": 1600,
+    "pagePaddingPx": 24,
+    "sectionGapPx": 24,
+    "cardPaddingPx": 20,
+    "tableRowHeightPx": 48,
+    "formLabelWidthPx": 120,
+    "sidebarWidthPx": 240,
+    "headerHeightPx": 56,
+    "baseFontPx": 14,
+    "titleFontPx": 20,
+    "radiusPx": 12
+  },
+  "zIndex": {
+    "base": 0,
+    "sticky": 10,
+    "dropdown": 100,
+    "overlay": 1000,
+    "dialog": 1100,
+    "toast": 1200
+  },
+  "metadata": {
+    "version": "1.2.2",
+    "updated_at": "2026-07-16"
+  }
+}

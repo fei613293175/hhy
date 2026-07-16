@@ -1,0 +1,24 @@
+version: 1.2.3
+purpose: 运营和审计可读视图
+authoritative_machine_policy: .continuity/CONTINUITY_POLICY.yaml
+session:
+  single_active_session: true
+  max_checkpoint_age_minutes: 60
+  lease_minutes: 240
+git:
+  required_commit_trailers:
+  - Task-ID
+  - Session-ID
+  - Checkpoint-ID
+  - Tests
+  - CR
+  hooks_path: .githooks
+  ci_validates_every_commit: true
+change_control:
+  approval_requires_complete_contract: true
+  requester_cannot_approve: true
+handoff:
+  repository_only: true
+  old_conversation_required: false
+  git_bundle_when_available: true
+  sha256_manifest: true

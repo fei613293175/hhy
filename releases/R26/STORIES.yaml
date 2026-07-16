@@ -1,0 +1,353 @@
+version: 1.2.2
+release: R26
+title: 直推活跃阶梯奖励
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R26-001
+  release: R26
+  title: 推广：阶梯奖励矩阵
+  user_story: 作为具备 referral.read 的后台员工；写操作另需 referral.manage，我需要完成阶梯奖励矩阵的完整业务流程，以便在不依赖研发临时决策的情况下实现档位×会员。
+  platform: ADMIN
+  module: 推广
+  template_id: ADM-FINANCE
+  page_ids:
+  - ADM-REF-006
+  operation_ids:
+  - adminReferralGetReferralRelations
+  - adminReferralPostReferralRelationsByInviteeidAdjust
+  - adminReferralGetCommissionPolicies
+  - adminReferralPostCommissionPolicies
+  - adminReferralGetCommissions
+  - adminReferralActivityGetReferralActivityRules
+  - adminReferralActivityPostReferralActivityRuleVersions
+  - adminReferralActivityGetReferralActivityProgress
+  - adminReferralActivityPutReferralActivityMilestones
+  api_contracts:
+  - GET /admin-api/v1/referral-relations
+  - POST /admin-api/v1/referral-relations/{inviteeId}/adjust
+  - GET /admin-api/v1/commission-policies
+  - POST /admin-api/v1/commission-policies
+  - GET /admin-api/v1/commissions
+  - GET /admin-api/v1/referral-activity/rules
+  - POST /admin-api/v1/referral-activity/rule-versions
+  - GET /admin-api/v1/referral-activity/progress
+  - PUT /admin-api/v1/referral-activity/milestones
+  requirement_ids:
+  - REQ-REF-001
+  - REQ-REF-ACT-002
+  - REQ-PAGE-SPEC-001
+  - REQ-ADMIN-OPS-001
+  config_keys:
+  - commission.settlement_delay_hours
+  - referral.max_commission_level
+  - referral.binding_mode
+  - referral.relation_change_allowed
+  - referral.attribution_days
+  - referral.block_self_invite
+  - referral.block_same_device
+  - referral.red_packet_principal_commissionable
+  data_tables:
+  - invite_codes
+  - referral_relations
+  - commission_records
+  - referral_activity_progress
+  - referral_milestone_rewards
+  - referral_activity_rule_versions
+  - referral_activity_rules
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - admin_approval_requests
+  test_ids:
+  - TST-REF_001-HAPPY
+  - TST-REF_ACT_002-HAPPY
+  - TST-REF_001-IDEMPOTENT
+  - TST-REF_ACT_002-IDEMPOTENT
+  - TST-V122-022
+  dependencies:
+  - R25
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-REF-006 全部绑定模板 ADM-FINANCE，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminReferralGetReferralRelations;adminReferralPostReferralRelationsByInviteeidAdjust;adminReferralGetCommissionPolicies;adminReferralPostCommissionPolicies;adminReferralGetCommissions;adminReferralActivityGetReferralActivityRules;adminReferralActivityPostReferralActivityRuleVersions;adminReferralActivityGetReferralActivityProgress;adminReferralActivityPutReferralActivityMilestones；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-REF_001-HAPPY;TST-REF_ACT_002-HAPPY;TST-REF_001-IDEMPOTENT;TST-REF_ACT_002-IDEMPOTENT;TST-V122-022
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R26-002
+  release: R26
+  title: 推广：直推活跃规则、直推进度
+  user_story: 作为具备 referral.read 的后台员工；写操作另需 referral.manage，我需要完成直推活跃规则、直推进度的完整业务流程，以便在不依赖研发临时决策的情况下实现事件和分值。
+  platform: ADMIN
+  module: 推广
+  template_id: ADM-LIST
+  page_ids:
+  - ADM-REF-004
+  - ADM-REF-005
+  operation_ids:
+  - adminReferralGetReferralRelations
+  - adminReferralPostReferralRelationsByInviteeidAdjust
+  - adminReferralGetCommissionPolicies
+  - adminReferralPostCommissionPolicies
+  - adminReferralGetCommissions
+  - adminReferralActivityGetReferralActivityRules
+  - adminReferralActivityPostReferralActivityRuleVersions
+  - adminReferralActivityGetReferralActivityProgress
+  api_contracts:
+  - GET /admin-api/v1/referral-relations
+  - POST /admin-api/v1/referral-relations/{inviteeId}/adjust
+  - GET /admin-api/v1/commission-policies
+  - POST /admin-api/v1/commission-policies
+  - GET /admin-api/v1/commissions
+  - GET /admin-api/v1/referral-activity/rules
+  - POST /admin-api/v1/referral-activity/rule-versions
+  - GET /admin-api/v1/referral-activity/progress
+  requirement_ids:
+  - REQ-REF-001
+  - REQ-REF-ACT-002
+  config_keys:
+  - commission.settlement_delay_hours
+  - referral.max_commission_level
+  - referral.binding_mode
+  - referral.relation_change_allowed
+  - referral.attribution_days
+  - referral.block_self_invite
+  - referral.block_same_device
+  - referral.red_packet_principal_commissionable
+  data_tables:
+  - invite_codes
+  - referral_relations
+  - commission_records
+  - referral_activity_progress
+  - referral_milestone_rewards
+  - referral_activity_rule_versions
+  - referral_activity_rules
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  test_ids:
+  - TST-REF_001-HAPPY
+  - TST-REF_ACT_002-HAPPY
+  - TST-REF_001-IDEMPOTENT
+  - TST-REF_ACT_002-IDEMPOTENT
+  dependencies:
+  - R25
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-REF-004;ADM-REF-005 全部绑定模板 ADM-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminReferralGetReferralRelations;adminReferralPostReferralRelationsByInviteeidAdjust;adminReferralGetCommissionPolicies;adminReferralPostCommissionPolicies;adminReferralGetCommissions;adminReferralActivityGetReferralActivityRules;adminReferralActivityPostReferralActivityRuleVersions;adminReferralActivityGetReferralActivityProgress；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-REF_001-HAPPY;TST-REF_ACT_002-HAPPY;TST-REF_001-IDEMPOTENT;TST-REF_ACT_002-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R26-003
+  release: R26
+  title: 推广：直推用户
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成直推用户的完整业务流程，以便在不依赖研发临时决策的情况下实现每人独立活跃进度。
+  platform: ANDROID
+  module: 推广
+  template_id: MOB-LIST
+  page_ids:
+  - SCR-REF-004
+  operation_ids:
+  - referralGetMeReferralDirectUsers
+  api_contracts:
+  - GET /api/v1/me/referral/direct-users
+  requirement_ids:
+  - REQ-REF-001
+  - REQ-REF-002
+  - REQ-REF-ACT-001
+  - REQ-REF-ACT-002
+  config_keys:
+  - commission.settlement_delay_hours
+  - referral.max_commission_level
+  - referral.binding_mode
+  - referral.relation_change_allowed
+  - referral.attribution_days
+  - referral.block_self_invite
+  - referral.block_same_device
+  - referral.red_packet_principal_commissionable
+  data_tables:
+  - invite_codes
+  - referral_relations
+  - commission_records
+  - referral_activity_progress
+  - referral_milestone_rewards
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - referral_activity_rule_versions
+  - referral_activity_rules
+  test_ids:
+  - TST-REF_001-HAPPY
+  - TST-REF_002-HAPPY
+  - TST-REF_ACT_001-HAPPY
+  - TST-REF_ACT_002-HAPPY
+  dependencies:
+  - R25
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-REF-004 全部绑定模板 MOB-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：referralGetMeReferralDirectUsers；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-REF_001-HAPPY;TST-REF_002-HAPPY;TST-REF_ACT_001-HAPPY;TST-REF_ACT_002-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R26-004
+  release: R26
+  title: 推广：直推活跃奖励
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成直推活跃奖励的完整业务流程，以便在不依赖研发临时决策的情况下实现档位矩阵和奖励。
+  platform: ANDROID
+  module: 推广
+  template_id: MOB-WALLET
+  page_ids:
+  - SCR-REF-007
+  operation_ids:
+  - referralGetMeReferralActivityRewards
+  api_contracts:
+  - GET /api/v1/me/referral/activity-rewards
+  requirement_ids:
+  - REQ-REF-001
+  - REQ-REF-002
+  - REQ-REF-ACT-001
+  - REQ-REF-ACT-002
+  config_keys:
+  - commission.settlement_delay_hours
+  - referral.max_commission_level
+  - referral.binding_mode
+  - referral.relation_change_allowed
+  - referral.attribution_days
+  - referral.block_self_invite
+  - referral.block_same_device
+  - referral.red_packet_principal_commissionable
+  data_tables:
+  - invite_codes
+  - referral_relations
+  - commission_records
+  - referral_activity_progress
+  - referral_milestone_rewards
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - referral_activity_rule_versions
+  - referral_activity_rules
+  test_ids:
+  - TST-REF_001-HAPPY
+  - TST-REF_002-HAPPY
+  - TST-REF_ACT_001-HAPPY
+  - TST-REF_ACT_002-HAPPY
+  dependencies:
+  - R25
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-REF-007 全部绑定模板 MOB-WALLET，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：referralGetMeReferralActivityRewards；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-REF_001-HAPPY;TST-REF_002-HAPPY;TST-REF_ACT_001-HAPPY;TST-REF_ACT_002-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R26-005
+  release: R26
+  title: 直推活跃阶梯奖励：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R26 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - SCR-REF-004
+  - SCR-REF-007
+  - ADM-REF-004
+  - ADM-REF-005
+  - ADM-REF-006
+  operation_ids: []
+  api_contracts: []
+  requirement_ids:
+  - REQ-REF-ACT-001
+  - REQ-REF-ACT-002
+  config_keys:
+  - commission.settlement_delay_hours
+  - referral.max_commission_level
+  - referral.binding_mode
+  - referral.relation_change_allowed
+  - referral.attribution_days
+  - referral.block_self_invite
+  - referral.block_same_device
+  - referral.red_packet_principal_commissionable
+  data_tables:
+  - invite_codes
+  - referral_relations
+  - commission_records
+  - referral_activity_progress
+  - referral_milestone_rewards
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - referral_activity_rule_versions
+  - referral_activity_rules
+  test_ids:
+  - TST-REF_ACT_001-CONCURRENCY
+  - TST-REF_ACT_001-HAPPY
+  - TST-REF_ACT_001-IDEMPOTENT
+  - TST-REF_ACT_001-RECOVERY
+  - TST-REF_ACT_001-REJECT
+  - TST-REF_ACT_002-CONCURRENCY
+  - TST-REF_ACT_002-HAPPY
+  - TST-REF_ACT_002-IDEMPOTENT
+  - TST-REF_ACT_002-RECOVERY
+  - TST-REF_ACT_002-REJECT
+  dependencies:
+  - R25
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

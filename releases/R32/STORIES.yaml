@@ -1,0 +1,95 @@
+version: 1.2.2
+release: R32
+title: 最终供应商接入、生产发布与交接
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R32-001
+  release: R32
+  title: 最终供应商接入、生产发布与交接：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R32 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids: []
+  operation_ids: []
+  api_contracts: []
+  requirement_ids:
+  - REQ-WD-001
+  - REQ-APP-RELEASE-001
+  - REQ-VENDOR-001
+  - REQ-RELEASE-001
+  - REQ-DOMAIN-001
+  - REQ-APK-001
+  - REQ-PAGE-SPEC-001
+  - REQ-DOR-001
+  config_keys: []
+  data_tables:
+  - payout_accounts
+  - withdrawal_requests
+  - payout_transactions
+  - payout_callbacks
+  - payout_reconciliation_records
+  - accounting_transactions
+  - accounting_entries
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - app_build_artifacts
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - N/A_DOCUMENT_CONTRACT
+  - home_modules
+  - banners
+  - agreement_versions
+  - user_agreement_acceptances
+  - app_download_logs
+  - provider_config_definitions
+  - provider_config_versions
+  - provider_connection_tests
+  - app_build_profiles
+  - app_build_jobs
+  - app_build_job_steps
+  - app_signing_profiles
+  test_ids:
+  - TST-DOR_001-DRIFT
+  - TST-DOR_001-HAPPY
+  - TST-DOR_001-REJECT
+  - TST-DOR_001-SECURITY
+  - TST-PAGE_SPEC_001-DRIFT
+  - TST-PAGE_SPEC_001-HAPPY
+  - TST-PAGE_SPEC_001-REJECT
+  - TST-PAGE_SPEC_001-SECURITY
+  - TST-RELEASE_001-HAPPY
+  - TST-RELEASE_001-IDEMPOTENT
+  - TST-RELEASE_001-REJECT
+  - TST-VENDOR_001-HAPPY
+  - TST-VENDOR_001-IDEMPOTENT
+  - TST-VENDOR_001-REJECT
+  dependencies:
+  - R31
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

@@ -1,0 +1,187 @@
+release: R30
+title: 完整运营后台、RBAC与配置闭环
+status: READY_WHEN_DEPENDENCIES_GREEN
+milestone: M4_GROWTH_PLATFORM
+depends_on:
+- R01
+- R23
+- R24
+- R28
+- R29
+scope: 全部运营模块、数据权限、双人复核、审计、配置、分析和系统任务
+android_test_apk_required: true
+requirements:
+- REQ-PAY-001
+- REQ-ANALYTICS-001
+- REQ-CMS-001
+- REQ-ADMIN-001
+- REQ-RBAC-001
+- REQ-CONFIG-001
+- REQ-BUILD-001
+- REQ-SECRET-001
+- REQ-CONFIG-UX-001
+- REQ-ACCOUNTING-OPS-001
+- REQ-NOTIFICATION-OPS-001
+- REQ-EXPORT-001
+ui:
+  android: []
+  h5: []
+  admin:
+  - ADM-DASH-001
+  - ADM-PROD-001
+  - ADM-CONFIG-001
+  - ADM-RBAC-001
+  - ADM-AUDIT-001
+  - ADM-JOB-001
+  - ADM-APPROVAL-001
+  - ADM-NOTIFY-001
+  - ADM-NOTIFY-002
+  - ADM-EXPORT-001
+contracts:
+  client_api: []
+  admin_api:
+  - GET /admin-api/v1/dashboard/summary
+  - GET /admin-api/v1/dashboard/todos
+  - GET /admin-api/v1/referral-activity/rules
+  - POST /admin-api/v1/referral-activity/rule-versions
+  - GET /admin-api/v1/referral-activity/progress
+  - GET /admin-api/v1/referral-activity/milestones
+  - PUT /admin-api/v1/referral-activity/milestones
+  - GET /admin-api/v1/referral-activity/rewards
+  - GET /admin-api/v1/configs
+  - PUT /admin-api/v1/configs/{key}
+  - GET /admin-api/v1/feature-flags
+  - PUT /admin-api/v1/feature-flags/{key}
+  - GET /admin-api/v1/admin-users
+  - POST /admin-api/v1/admin-users
+  - GET /admin-api/v1/roles
+  - PUT /admin-api/v1/roles/{id}/permissions
+  - GET /admin-api/v1/audit/logs
+  - GET /admin-api/v1/approvals
+  - POST /admin-api/v1/approvals/{id}/decide
+  - GET /admin-api/v1/jobs
+  - POST /admin-api/v1/jobs/{code}/run
+  - GET /admin-api/v1/notification-templates
+  - POST /admin-api/v1/notification-templates
+  - PATCH /admin-api/v1/notification-templates/{id}
+  - GET /admin-api/v1/notification-deliveries
+  - POST /admin-api/v1/notification-deliveries/{id}/retry
+  - GET /admin-api/v1/export-jobs
+  - POST /admin-api/v1/export-jobs
+  - GET /admin-api/v1/export-jobs/{id}
+  - POST /admin-api/v1/export-jobs/{id}/download-token
+  websocket: []
+database_tables:
+- orders
+- payment_transactions
+- payment_callbacks
+- payment_exception_orders
+- payment_reconciliation_records
+- accounting_transactions
+- accounting_entries
+- daily_kpis
+- analytics_events
+- h5_page_configs
+- cms_articles
+- agreements
+- app_versions
+- content_posts
+- home_modules
+- banners
+- users
+- user_profiles
+- user_status_logs
+- user_sessions
+- admin_users
+- admin_roles
+- admin_permissions
+- admin_user_roles
+- admin_role_permissions
+- admin_operation_logs
+- sensitive_data_access_logs
+- system_configs
+- system_config_versions
+- feature_flags
+- admin_approval_requests
+- provider_config_definitions
+- provider_config_versions
+- provider_connection_tests
+- provider_certificates
+- provider_certificate_access_logs
+- domain_configs
+- dns_action_items
+- app_build_profiles
+- app_build_jobs
+- app_build_job_steps
+- app_build_artifacts
+- app_signing_profiles
+- accounting_reversal_requests
+- notification_templates
+- notification_deliveries
+- notification_delivery_attempts
+- export_jobs
+- export_job_files
+- export_download_logs
+- media_objects
+tests:
+- TST-ACCOUNTING_OPS_001-DRIFT
+- TST-ACCOUNTING_OPS_001-HAPPY
+- TST-ACCOUNTING_OPS_001-REJECT
+- TST-ACCOUNTING_OPS_001-SECURITY
+- TST-ADMIN_001-HAPPY
+- TST-ADMIN_001-IDEMPOTENT
+- TST-ADMIN_001-REJECT
+- TST-CONFIG_UX_001-DRIFT
+- TST-CONFIG_UX_001-HAPPY
+- TST-CONFIG_UX_001-REJECT
+- TST-CONFIG_UX_001-SECURITY
+- TST-EXPORT_001-DRIFT
+- TST-EXPORT_001-HAPPY
+- TST-EXPORT_001-REJECT
+- TST-EXPORT_001-SECURITY
+- TST-NOTIFICATION_OPS_001-DRIFT
+- TST-NOTIFICATION_OPS_001-HAPPY
+- TST-NOTIFICATION_OPS_001-REJECT
+- TST-NOTIFICATION_OPS_001-SECURITY
+- TST-RBAC_001-HAPPY
+- TST-RBAC_001-IDEMPOTENT
+- TST-RBAC_001-REJECT
+- TST-RBAC_001-SECURITY
+- TST-V122-022
+- TST-V122-028
+- TST-V122-029
+- TST-V122-047
+- TST-V122-048
+- TST-V122-049
+- TST-V122-050
+- TST-V122-051
+- TST-V122-052
+- TST-V122-053
+- TST-V122-054
+- TST-V122-055
+entry_gate:
+- releases/R30/DEFINITION_OF_READY.yaml 全部适用项为PASS
+- releases/R30/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+- 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
+- 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
+- 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+exit_gate:
+- 领域代码与前端真实闭环
+- 数据库迁移和不变量测试通过
+- 契约/单元/集成/E2E/安全专项测试通过
+- 日志指标链路和业务告警可验证
+- Session Log、追踪矩阵、产物Manifest和下一任务更新
+- Staging APK可安装且SHA256、Commit、版本信息完整
+change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
+documentation_baseline: V1.2.2
+document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+definition_of_ready: releases/R30/DEFINITION_OF_READY.yaml
+story_backlog: releases/R30/STORIES.yaml
+continuity:
+  policy: .continuity/CONTINUITY_POLICY.yaml
+  protocol_version: '1.0'
+  mode: ENFORCED
+  session_required_before_change: true
+  checkpoint_required_before_commit: true
+  old_conversation_required: false
+  handoff_bundle_required_for_actor_switch: true

@@ -1,0 +1,9 @@
+protocol_version: '1.0'
+active_session_id: SES-20260716T232809Z-B4A980AF
+status: ACTIVE
+session_record: .continuity/sessions/SES-20260716T232809Z-B4A980AF.yaml
+actor_id: codex-root
+task_id: TASK-P00-001
+story_id: STORY-P00-001
+lease_expires_at: '2026-07-17T03:28:09Z'
+updated_at: '2026-07-16T23:28:09Z'

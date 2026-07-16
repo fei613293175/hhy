@@ -1,0 +1,2 @@
+<script setup lang="ts">import type {H5Page} from '../catalog';defineProps<{page:H5Page}>();</script>
+<template><main class="hero"><div class="eyebrow">{{page.ID}} · {{page.计划版本}}</div><h1>{{page.页面}}</h1><p>{{page.功能摘要}}</p><div class="card"><strong>访问模型：{{page.访问}}</strong><p>本页面的 API、一次性令牌、回跳 state、SEO/分享元数据和错误状态已在 V1.2.2 契约与动作矩阵中冻结。当前为可编译页面骨架。</p><button>下载合伙云 App</button></div></main></template>

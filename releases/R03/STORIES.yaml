@@ -1,0 +1,393 @@
+version: 1.2.2
+release: R03
+title: 供应商配置、密钥、证书与域名中心
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R03-001
+  release: R03
+  title: 配置中心：供应商配置中心、阿里云短信配置、对象存储配置、实名认证配置
+  user_story: 作为具备 config.manage 的后台员工；写操作另需 config.manage，我需要完成供应商配置中心、阿里云短信配置、对象存储配置、实名认证配置的完整业务流程，以便在不依赖研发临时决策的情况下实现按短信、对象存储、实名、支付、出款分组管理，密钥脱敏、版本、测试、激活、回滚。
+  platform: ADMIN
+  module: 配置中心
+  template_id: ADM-CONFIG
+  page_ids:
+  - ADM-CONFIG-002
+  - ADM-CONFIG-003
+  - ADM-CONFIG-004
+  - ADM-CONFIG-007
+  operation_ids:
+  - adminConfigGetConfigs
+  - adminConfigGetFeatureFlags
+  - adminProviderConfigGetProviderConfigs
+  - adminProviderConfigGetProviderConfigsByProvider
+  - adminProviderCertificateGetProviderCertificates
+  - adminProviderCertificatePostProviderCertificatesByIdRotate
+  - adminDomainConfigGetDomains
+  - adminDomainConfigGetDomainsDnsActions
+  - adminProviderConfigPostProviderConfigsByProviderActivate
+  - adminProviderConfigPostProviderConfigsByProviderRollback
+  - adminProviderCertificatePostProviderCertificates
+  - adminConfigPutConfigsByKey
+  - adminConfigPutFeatureFlagsByKey
+  - adminProviderConfigPostProviderConfigsByProviderVersions
+  - adminProviderConfigPostProviderConfigsByProviderTest
+  api_contracts:
+  - GET /admin-api/v1/configs
+  - GET /admin-api/v1/feature-flags
+  - GET /admin-api/v1/provider-configs
+  - GET /admin-api/v1/provider-configs/{provider}
+  - GET /admin-api/v1/provider-certificates
+  - POST /admin-api/v1/provider-certificates/{id}/rotate
+  - GET /admin-api/v1/domains
+  - GET /admin-api/v1/domains/dns-actions
+  - POST /admin-api/v1/provider-configs/{provider}/activate
+  - POST /admin-api/v1/provider-configs/{provider}/rollback
+  - POST /admin-api/v1/provider-certificates
+  - PUT /admin-api/v1/configs/{key}
+  - PUT /admin-api/v1/feature-flags/{key}
+  - POST /admin-api/v1/provider-configs/{provider}/versions
+  - POST /admin-api/v1/provider-configs/{provider}/test
+  requirement_ids:
+  - REQ-CONFIG-001
+  - REQ-SECRET-001
+  - REQ-PAGE-SPEC-001
+  - REQ-ADMIN-OPS-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  - platform.base_domain
+  - domain.www.host
+  - domain.api.host
+  - domain.ws.host
+  - domain.admin.host
+  - domain.h5.host
+  - domain.download.host
+  - domain.assets.host
+  data_tables:
+  - system_configs
+  - system_config_versions
+  - feature_flags
+  - admin_approval_requests
+  - provider_config_definitions
+  - provider_config_versions
+  - provider_connection_tests
+  - provider_certificates
+  - provider_certificate_access_logs
+  - domain_configs
+  - dns_action_items
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  test_ids:
+  - TST-CONFIG_001-HAPPY
+  - TST-SECRET_001-HAPPY
+  - TST-CONFIG_001-IDEMPOTENT
+  - TST-SECRET_001-IDEMPOTENT
+  - TST-V122-030
+  - TST-V122-031
+  - TST-V122-032
+  dependencies:
+  - R01
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-CONFIG-002;ADM-CONFIG-003;ADM-CONFIG-004;ADM-CONFIG-007 全部绑定模板 ADM-CONFIG，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminConfigGetConfigs;adminConfigGetFeatureFlags;adminProviderConfigGetProviderConfigs;adminProviderConfigGetProviderConfigsByProvider;adminProviderCertificateGetProviderCertificates;adminProviderCertificatePostProviderCertificatesByIdRotate;adminDomainConfigGetDomains;adminDomainConfigGetDomainsDnsActions;adminProviderConfigPostProviderConfigsByProviderActivate;adminProviderConfigPostProviderConfigsByProviderRollback;adminProviderCertificatePostProviderCertificates;adminConfigPutConfigsByKey;adminConfigPutFeatureFlagsByKey;adminProviderConfigPostProviderConfigsByProviderVersions;adminProviderConfigPostProviderConfigsByProviderTest；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-CONFIG_001-HAPPY;TST-SECRET_001-HAPPY;TST-CONFIG_001-IDEMPOTENT;TST-SECRET_001-IDEMPOTENT;TST-V122-030;TST-V122-031;TST-V122-032
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R03-002
+  release: R03
+  title: 配置中心：域名与环境配置
+  user_story: 作为具备 config.manage 的后台员工；写操作另需 config.manage，我需要完成域名与环境配置的完整业务流程，以便在不依赖研发临时决策的情况下实现orbexa.cc二级域名、环境映射、DNS待办和验证状态。
+  platform: ADMIN
+  module: 配置中心
+  template_id: ADM-CONFIG
+  page_ids:
+  - ADM-CONFIG-008
+  operation_ids:
+  - adminConfigGetConfigs
+  - adminConfigPutConfigsByKey
+  - adminConfigGetFeatureFlags
+  - adminConfigPutFeatureFlagsByKey
+  - adminProviderConfigGetProviderConfigs
+  - adminProviderConfigGetProviderConfigsByProvider
+  - adminProviderConfigPostProviderConfigsByProviderVersions
+  - adminProviderConfigPostProviderConfigsByProviderTest
+  - adminDomainConfigPutDomainsByCode
+  - adminDomainConfigPostDomainsByCodeVerify
+  api_contracts:
+  - GET /admin-api/v1/configs
+  - PUT /admin-api/v1/configs/{key}
+  - GET /admin-api/v1/feature-flags
+  - PUT /admin-api/v1/feature-flags/{key}
+  - GET /admin-api/v1/provider-configs
+  - GET /admin-api/v1/provider-configs/{provider}
+  - POST /admin-api/v1/provider-configs/{provider}/versions
+  - POST /admin-api/v1/provider-configs/{provider}/test
+  - PUT /admin-api/v1/domains/{code}
+  - POST /admin-api/v1/domains/{code}/verify
+  requirement_ids:
+  - REQ-CONFIG-001
+  - REQ-SECRET-001
+  - REQ-PAGE-SPEC-001
+  - REQ-ADMIN-OPS-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - system_configs
+  - system_config_versions
+  - feature_flags
+  - admin_approval_requests
+  - provider_config_definitions
+  - provider_config_versions
+  - provider_connection_tests
+  - provider_certificates
+  - provider_certificate_access_logs
+  - domain_configs
+  - dns_action_items
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  test_ids:
+  - TST-CONFIG_001-HAPPY
+  - TST-SECRET_001-HAPPY
+  - TST-CONFIG_001-IDEMPOTENT
+  - TST-SECRET_001-IDEMPOTENT
+  - TST-V122-033
+  - TST-V122-034
+  dependencies:
+  - R01
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-CONFIG-008 全部绑定模板 ADM-CONFIG，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminConfigGetConfigs;adminConfigPutConfigsByKey;adminConfigGetFeatureFlags;adminConfigPutFeatureFlagsByKey;adminProviderConfigGetProviderConfigs;adminProviderConfigGetProviderConfigsByProvider;adminProviderConfigPostProviderConfigsByProviderVersions;adminProviderConfigPostProviderConfigsByProviderTest;adminDomainConfigPutDomainsByCode;adminDomainConfigPostDomainsByCodeVerify；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-CONFIG_001-HAPPY;TST-SECRET_001-HAPPY;TST-CONFIG_001-IDEMPOTENT;TST-SECRET_001-IDEMPOTENT;TST-V122-033;TST-V122-034
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R03-003
+  release: R03
+  title: 配置中心：支付网关配置、支付宝企业付款配置
+  user_story: 作为具备 config.manage 的后台员工；写操作另需 config.manage，我需要完成支付网关配置、支付宝企业付款配置的完整业务流程，以便在不依赖研发临时决策的情况下实现彩虹易支付网关、商户、签名、渠道、回调和连接测试。
+  platform: ADMIN
+  module: 配置中心
+  template_id: ADM-FINANCE
+  page_ids:
+  - ADM-CONFIG-005
+  - ADM-CONFIG-006
+  operation_ids:
+  - adminConfigGetConfigs
+  - adminConfigPutConfigsByKey
+  - adminConfigGetFeatureFlags
+  - adminConfigPutFeatureFlagsByKey
+  - adminProviderConfigGetProviderConfigs
+  - adminProviderConfigGetProviderConfigsByProvider
+  - adminProviderConfigPostProviderConfigsByProviderVersions
+  - adminProviderConfigPostProviderConfigsByProviderTest
+  api_contracts:
+  - GET /admin-api/v1/configs
+  - PUT /admin-api/v1/configs/{key}
+  - GET /admin-api/v1/feature-flags
+  - PUT /admin-api/v1/feature-flags/{key}
+  - GET /admin-api/v1/provider-configs
+  - GET /admin-api/v1/provider-configs/{provider}
+  - POST /admin-api/v1/provider-configs/{provider}/versions
+  - POST /admin-api/v1/provider-configs/{provider}/test
+  requirement_ids:
+  - REQ-CONFIG-001
+  - REQ-SECRET-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - system_configs
+  - system_config_versions
+  - feature_flags
+  - admin_approval_requests
+  - provider_config_definitions
+  - provider_config_versions
+  - provider_connection_tests
+  - provider_certificates
+  - provider_certificate_access_logs
+  - domain_configs
+  - dns_action_items
+  test_ids:
+  - TST-CONFIG_001-HAPPY
+  - TST-SECRET_001-HAPPY
+  - TST-CONFIG_001-IDEMPOTENT
+  - TST-SECRET_001-IDEMPOTENT
+  dependencies:
+  - R01
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-CONFIG-005;ADM-CONFIG-006 全部绑定模板 ADM-FINANCE，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminConfigGetConfigs;adminConfigPutConfigsByKey;adminConfigGetFeatureFlags;adminConfigPutFeatureFlagsByKey;adminProviderConfigGetProviderConfigs;adminProviderConfigGetProviderConfigsByProvider;adminProviderConfigPostProviderConfigsByProviderVersions;adminProviderConfigPostProviderConfigsByProviderTest；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-CONFIG_001-HAPPY;TST-SECRET_001-HAPPY;TST-CONFIG_001-IDEMPOTENT;TST-SECRET_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R03-004
+  release: R03
+  title: 供应商配置、密钥、证书与域名中心：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R03 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - ADM-CONFIG-002
+  - ADM-CONFIG-003
+  - ADM-CONFIG-004
+  - ADM-CONFIG-005
+  - ADM-CONFIG-006
+  - ADM-CONFIG-007
+  - ADM-CONFIG-008
+  operation_ids:
+  - adminProviderConfigGetProviderConfigs
+  - adminProviderConfigGetProviderConfigsByProvider
+  - adminProviderConfigPostProviderConfigsByProviderVersions
+  - adminProviderConfigPostProviderConfigsByProviderTest
+  - adminProviderConfigPostProviderConfigsByProviderActivate
+  - adminProviderConfigPostProviderConfigsByProviderRollback
+  - adminProviderCertificatePostProviderCertificates
+  - adminProviderCertificateGetProviderCertificates
+  - adminProviderCertificatePostProviderCertificatesByIdRotate
+  - adminDomainConfigGetDomains
+  - adminDomainConfigPutDomainsByCode
+  - adminDomainConfigGetDomainsDnsActions
+  - adminDomainConfigPostDomainsByCodeVerify
+  api_contracts:
+  - GET /admin-api/v1/provider-configs
+  - GET /admin-api/v1/provider-configs/{provider}
+  - POST /admin-api/v1/provider-configs/{provider}/versions
+  - POST /admin-api/v1/provider-configs/{provider}/test
+  - POST /admin-api/v1/provider-configs/{provider}/activate
+  - POST /admin-api/v1/provider-configs/{provider}/rollback
+  - POST /admin-api/v1/provider-certificates
+  - GET /admin-api/v1/provider-certificates
+  - POST /admin-api/v1/provider-certificates/{id}/rotate
+  - GET /admin-api/v1/domains
+  - PUT /admin-api/v1/domains/{code}
+  - GET /admin-api/v1/domains/dns-actions
+  - POST /admin-api/v1/domains/{code}/verify
+  requirement_ids:
+  - REQ-CONFIG-001
+  - REQ-DOMAIN-001
+  - REQ-STORAGE-001
+  - REQ-SECRET-001
+  - REQ-CONFIG-UX-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  - platform.base_domain
+  - domain.www.host
+  - domain.api.host
+  - domain.ws.host
+  - domain.admin.host
+  - domain.h5.host
+  - domain.download.host
+  - domain.assets.host
+  data_tables:
+  - system_configs
+  - system_config_versions
+  - feature_flags
+  - admin_approval_requests
+  - provider_config_definitions
+  - provider_config_versions
+  - provider_connection_tests
+  - provider_certificates
+  - provider_certificate_access_logs
+  - domain_configs
+  - dns_action_items
+  - home_modules
+  - banners
+  - cms_articles
+  - agreements
+  - agreement_versions
+  - user_agreement_acceptances
+  - h5_page_configs
+  - app_versions
+  - app_download_logs
+  - media_objects
+  - upload_sessions
+  - media_access_tokens
+  - storage_scope_bindings
+  - storage_migration_jobs
+  - admin_operation_logs
+  test_ids:
+  - TST-CONFIG_001-HAPPY
+  - TST-CONFIG_001-IDEMPOTENT
+  - TST-CONFIG_001-REJECT
+  - TST-CONFIG_UX_001-DRIFT
+  - TST-CONFIG_UX_001-HAPPY
+  - TST-CONFIG_UX_001-REJECT
+  - TST-CONFIG_UX_001-SECURITY
+  - TST-DOMAIN_001-HAPPY
+  - TST-DOMAIN_001-IDEMPOTENT
+  - TST-DOMAIN_001-REJECT
+  - TST-STORAGE_001-HAPPY
+  - TST-STORAGE_001-IDEMPOTENT
+  - TST-STORAGE_001-REJECT
+  - TST-V122-030
+  - TST-V122-031
+  - TST-V122-032
+  - TST-V122-033
+  - TST-V122-034
+  dependencies:
+  - R01
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

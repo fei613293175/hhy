@@ -1,0 +1,7 @@
+﻿验收ID,版本,验收项,证据路径,状态,阻断级别
+AC-R15-001,R15,领域代码与前端真实闭环,artifacts/reports/R15/,NOT_RUN,BLOCKING
+AC-R15-002,R15,数据库迁移和不变量测试通过,artifacts/reports/R15/,NOT_RUN,BLOCKING
+AC-R15-003,R15,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R15/,NOT_RUN,BLOCKING
+AC-R15-004,R15,日志指标链路和业务告警可验证,artifacts/reports/R15/,NOT_RUN,BLOCKING
+AC-R15-005,R15,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R15/,NOT_RUN,BLOCKING
+AC-R15-006,R15,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R15/,NOT_RUN,BLOCKING

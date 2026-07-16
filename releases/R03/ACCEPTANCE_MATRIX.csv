@@ -1,0 +1,7 @@
+﻿验收ID,版本,验收项,证据路径,状态,阻断级别
+AC-R03-001,R03,领域代码与前端真实闭环,artifacts/reports/R03/,NOT_RUN,BLOCKING
+AC-R03-002,R03,数据库迁移和不变量测试通过,artifacts/reports/R03/,NOT_RUN,BLOCKING
+AC-R03-003,R03,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R03/,NOT_RUN,BLOCKING
+AC-R03-004,R03,日志指标链路和业务告警可验证,artifacts/reports/R03/,NOT_RUN,BLOCKING
+AC-R03-005,R03,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R03/,NOT_RUN,BLOCKING
+AC-R03-006,R03,供应商测试环境、SecretRef、证书和DNS外部激活项已完成或登记明确阻断,artifacts/reports/R03/,NOT_RUN,BLOCKING

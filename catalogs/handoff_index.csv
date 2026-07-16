@@ -1,0 +1,2 @@
+﻿bundle_id,created_at,session_id,actor_id,release,task_id,story_id,project_fingerprint,context_hash,git_bundle,path
+HND-V123-PACKAGE-BASELINE,2026-07-16T00:30:00Z,SES-V123-PACKAGE-BASELINE,openai-package-builder,P00,TASK-P00-001,STORY-P00-001,FINAL_PACKAGE_MANIFEST,REGENERATED_BY_CONTEXT_COMMAND,,artifacts/handoffs/HND-V123-PACKAGE-BASELINE

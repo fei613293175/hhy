@@ -1,0 +1,46 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B11",
+  "title": "Pro会员与道具商城",
+  "file": "HHY_B11_8PAGE_UI_REFERENCE.png",
+  "sha256": "16c492cd9fc46c5be435da3979126b8eb67063a641ec9b575074751f67c96778",
+  "role": "UI布局与样式参考，不是功能事实源",
+  "grid": {
+    "columns": 4,
+    "rows": 2
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "Pro会员中心"
+    },
+    {
+      "panel": "P02",
+      "name": "会员套餐布局参考"
+    },
+    {
+      "panel": "P03",
+      "name": "会员权益布局参考"
+    },
+    {
+      "panel": "P04",
+      "name": "道具商城"
+    },
+    {
+      "panel": "P05",
+      "name": "道具详情"
+    },
+    {
+      "panel": "P06",
+      "name": "我的道具"
+    },
+    {
+      "panel": "P07",
+      "name": "使用道具确认"
+    },
+    {
+      "panel": "P08",
+      "name": "使用成功"
+    }
+  ]
+}

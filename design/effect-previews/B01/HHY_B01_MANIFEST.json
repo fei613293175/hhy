@@ -1,0 +1,46 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B01",
+  "title": "启动、登录与注册引导",
+  "file": "HHY_B01_8PAGE_UI_REFERENCE.png",
+  "sha256": "761f1a993c865e8464858fa498037c9520f86c100928b087eb9eae0e4ce302ca",
+  "role": "UI布局与样式参考，不是功能事实源",
+  "grid": {
+    "columns": 4,
+    "rows": 2
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "启动页"
+    },
+    {
+      "panel": "P02",
+      "name": "登录主页"
+    },
+    {
+      "panel": "P03",
+      "name": "手机号验证码登录页"
+    },
+    {
+      "panel": "P04",
+      "name": "邀请码输入态"
+    },
+    {
+      "panel": "P05",
+      "name": "协议确认弹层"
+    },
+    {
+      "panel": "P06",
+      "name": "登录中状态"
+    },
+    {
+      "panel": "P07",
+      "name": "登录失败/验证码错误"
+    },
+    {
+      "panel": "P08",
+      "name": "强制更新提示"
+    }
+  ]
+}

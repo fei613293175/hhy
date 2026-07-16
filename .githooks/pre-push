@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT=$(git rev-parse --show-toplevel)
+exec python3 "$ROOT/scripts/continuity_gate.py" --mode pre-push --strict --json-out .continuity/runtime/pre-push.json

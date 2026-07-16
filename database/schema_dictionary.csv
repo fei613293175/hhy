@@ -1,0 +1,1571 @@
+﻿领域,表名,字段顺序,字段名,建议类型,可空,默认值,索引建议,约束来源,计划版本,成熟度
+账号,users,1,id,bigint,否,generated,PRIMARY KEY,phone唯一；软删除,R02,FROZEN
+账号,users,2,phone,varchar(32),否,,,phone唯一；软删除,R02,FROZEN
+账号,users,3,status,varchar(64),否,,,phone唯一；软删除,R02,FROZEN
+账号,users,4,invite_code,varchar(255),是,,,phone唯一；软删除,R02,FROZEN
+账号,users,5,created_at,timestamptz,否,now(),INDEX,phone唯一；软删除,R02,FROZEN
+账号,users,6,version,bigint,否,0,,乐观锁,R02,FROZEN
+账号,users,7,updated_at,timestamptz,否,now(),,统一审计字段,R02,FROZEN
+账号,user_credentials,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R02,FROZEN
+账号,user_credentials,2,user_id,bigint,否,,INDEX,user_id唯一；Argon2id/BCrypt,R02,FROZEN
+账号,user_credentials,3,password_hash,varchar(128),否,,,user_id唯一；Argon2id/BCrypt,R02,FROZEN
+账号,user_credentials,4,algorithm,varchar(64),是,,,user_id唯一；Argon2id/BCrypt,R02,FROZEN
+账号,user_credentials,5,password_changed_at,timestamptz,是,,INDEX,user_id唯一；Argon2id/BCrypt,R02,FROZEN
+账号,user_credentials,6,failed_count,integer,是,,,user_id唯一；Argon2id/BCrypt,R02,FROZEN
+账号,user_credentials,7,locked_until,timestamptz,是,,,user_id唯一；Argon2id/BCrypt,R02,FROZEN
+账号,user_credentials,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,user_credentials,9,updated_at,timestamptz,否,now(),,统一审计字段,R02,FROZEN
+账号,auth_security_challenges,1,id,bigint,否,generated,PRIMARY KEY,一次性、短期保留,R02,FROZEN
+账号,auth_security_challenges,2,type,varchar(64),否,,,一次性、短期保留,R02,FROZEN
+账号,auth_security_challenges,3,answer_hash,varchar(128),是,,,一次性、短期保留,R02,FROZEN
+账号,auth_security_challenges,4,expires_at,timestamptz,是,,INDEX,一次性、短期保留,R02,FROZEN
+账号,auth_security_challenges,5,used_at,timestamptz,是,,INDEX,一次性、短期保留,R02,FROZEN
+账号,auth_security_challenges,6,ip,varchar(64),是,,,一次性、短期保留,R02,FROZEN
+账号,auth_security_challenges,7,device_id,bigint,是,,INDEX,一次性、短期保留,R02,FROZEN
+账号,auth_security_challenges,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,auth_security_challenges,9,updated_at,timestamptz,否,now(),,统一审计字段,R02,FROZEN
+账号,password_reset_sessions,1,id,bigint,否,generated,PRIMARY KEY,一次性,R02,FROZEN
+账号,password_reset_sessions,2,phone,varchar(32),否,,,一次性,R02,FROZEN
+账号,password_reset_sessions,3,sms_verification_id,bigint,是,,INDEX,一次性,R02,FROZEN
+账号,password_reset_sessions,4,expires_at,timestamptz,是,,INDEX,一次性,R02,FROZEN
+账号,password_reset_sessions,5,used_at,timestamptz,是,,INDEX,一次性,R02,FROZEN
+账号,password_reset_sessions,6,version,bigint,否,0,,乐观锁,R02,FROZEN
+账号,password_reset_sessions,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,password_reset_sessions,8,updated_at,timestamptz,否,now(),,统一审计字段,R02,FROZEN
+账号,registration_records,1,id,bigint,否,generated,PRIMARY KEY,审计保留,R02,FROZEN
+账号,registration_records,2,user_id,bigint,否,,INDEX,审计保留,R02,FROZEN
+账号,registration_records,3,channel,varchar(64),是,,,审计保留,R02,FROZEN
+账号,registration_records,4,phone,varchar(32),是,,,审计保留,R02,FROZEN
+账号,registration_records,5,invite_code,varchar(255),是,,,审计保留,R02,FROZEN
+账号,registration_records,6,inviter_id,bigint,是,,INDEX,审计保留,R02,FROZEN
+账号,registration_records,7,rule_version,varchar(255),是,,,审计保留,R02,FROZEN
+账号,registration_records,8,ip,varchar(64),是,,,审计保留,R02,FROZEN
+账号,registration_records,9,device_id,bigint,是,,INDEX,审计保留,R02,FROZEN
+账号,registration_records,10,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,user_profiles,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R02,FROZEN
+账号,user_profiles,2,user_id,bigint,否,,INDEX,user_id唯一；注册时生成“合伙人+数字”昵称,R02,FROZEN
+账号,user_profiles,3,nickname,varchar(255),否,,,user_id唯一；注册时生成“合伙人+数字”昵称,R02,FROZEN
+账号,user_profiles,4,avatar,varchar(255),是,,,user_id唯一；注册时生成“合伙人+数字”昵称,R02,FROZEN
+账号,user_profiles,5,bio,varchar(255),是,,,user_id唯一；注册时生成“合伙人+数字”昵称,R02,FROZEN
+账号,user_profiles,6,region,varchar(255),是,,,user_id唯一；注册时生成“合伙人+数字”昵称,R02,FROZEN
+账号,user_profiles,7,version,bigint,否,0,,乐观锁,R02,FROZEN
+账号,user_profiles,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,user_profiles,9,updated_at,timestamptz,否,now(),,统一审计字段,R02,FROZEN
+账号,user_sessions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R02,FROZEN
+账号,user_sessions,2,user_id,bigint,否,,INDEX,refresh_hash唯一,R02,FROZEN
+账号,user_sessions,3,access_jti,varchar(128),否,,,refresh_hash唯一,R02,FROZEN
+账号,user_sessions,4,refresh_hash,varchar(128),是,,,refresh_hash唯一,R02,FROZEN
+账号,user_sessions,5,device_id,bigint,是,,INDEX,refresh_hash唯一,R02,FROZEN
+账号,user_sessions,6,expires_at,timestamptz,是,,INDEX,refresh_hash唯一,R02,FROZEN
+账号,user_sessions,7,version,bigint,否,0,,乐观锁,R02,FROZEN
+账号,user_sessions,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,user_sessions,9,updated_at,timestamptz,否,now(),,统一审计字段,R02,FROZEN
+账号,user_devices,1,id,bigint,否,generated,PRIMARY KEY,用户+指纹索引,R02,FROZEN
+账号,user_devices,2,user_id,bigint,否,,INDEX,用户+指纹索引,R02,FROZEN
+账号,user_devices,3,device_fingerprint,varchar(128),是,,,用户+指纹索引,R02,FROZEN
+账号,user_devices,4,model,varchar(255),是,,,用户+指纹索引,R02,FROZEN
+账号,user_devices,5,last_seen,timestamptz,是,,,用户+指纹索引,R02,FROZEN
+账号,user_devices,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,user_devices,7,updated_at,timestamptz,否,now(),,统一审计字段,R02,FROZEN
+账号,sms_verification_codes,1,id,bigint,否,generated,PRIMARY KEY,短期保留,R02,FROZEN
+账号,sms_verification_codes,2,phone,varchar(32),否,,,短期保留,R02,FROZEN
+账号,sms_verification_codes,3,scene,varchar(64),是,,,短期保留,R02,FROZEN
+账号,sms_verification_codes,4,code_hash,varchar(128),是,,,短期保留,R02,FROZEN
+账号,sms_verification_codes,5,expires_at,timestamptz,是,,INDEX,短期保留,R02,FROZEN
+账号,sms_verification_codes,6,attempts,integer,是,,,短期保留,R02,FROZEN
+账号,sms_verification_codes,7,provider_message_id,varchar(128),是,,INDEX,短期保留,R02,FROZEN
+账号,sms_verification_codes,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,sms_verification_codes,9,updated_at,timestamptz,否,now(),,统一审计字段,R02,FROZEN
+账号,sms_send_logs,1,id,bigint,否,generated,PRIMARY KEY,时间与手机号索引,R02,FROZEN
+账号,sms_send_logs,2,phone,varchar(32),否,,,时间与手机号索引,R02,FROZEN
+账号,sms_send_logs,3,scene,varchar(64),是,,,时间与手机号索引,R02,FROZEN
+账号,sms_send_logs,4,template_code,varchar(255),是,,,时间与手机号索引,R02,FROZEN
+账号,sms_send_logs,5,provider_message_id,varchar(128),是,,INDEX,时间与手机号索引,R02,FROZEN
+账号,sms_send_logs,6,result,jsonb,是,,,时间与手机号索引,R02,FROZEN
+账号,sms_send_logs,7,ip,varchar(64),是,,,时间与手机号索引,R02,FROZEN
+账号,sms_send_logs,8,device_id,bigint,是,,INDEX,时间与手机号索引,R02,FROZEN
+账号,sms_send_logs,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,login_logs,1,id,bigint,否,generated,PRIMARY KEY,时间索引,R02,FROZEN
+账号,login_logs,2,user_id,bigint,否,,INDEX,时间索引,R02,FROZEN
+账号,login_logs,3,phone,varchar(32),是,,,时间索引,R02,FROZEN
+账号,login_logs,4,ip,varchar(64),是,,,时间索引,R02,FROZEN
+账号,login_logs,5,device_id,bigint,是,,INDEX,时间索引,R02,FROZEN
+账号,login_logs,6,result,jsonb,是,,,时间索引,R02,FROZEN
+账号,login_logs,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,user_settings,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R02,FROZEN
+账号,user_settings,2,user_id,bigint,否,,INDEX,user_id唯一,R02,FROZEN
+账号,user_settings,3,notification_json,jsonb,否,'{}'::jsonb,,user_id唯一,R02,FROZEN
+账号,user_settings,4,privacy_json,jsonb,是,,,user_id唯一,R02,FROZEN
+账号,user_settings,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,user_settings,6,updated_at,timestamptz,否,now(),,统一审计字段,R02,FROZEN
+账号,user_status_logs,1,id,bigint,否,generated,PRIMARY KEY,不可删除,R02,FROZEN
+账号,user_status_logs,2,user_id,bigint,否,,INDEX,不可删除,R02,FROZEN
+账号,user_status_logs,3,from_status,varchar(255),是,,,不可删除,R02,FROZEN
+账号,user_status_logs,4,to_status,varchar(255),是,,,不可删除,R02,FROZEN
+账号,user_status_logs,5,reason,text,是,,,不可删除,R02,FROZEN
+账号,user_status_logs,6,operator,varchar(255),是,,,不可删除,R02,FROZEN
+账号,user_status_logs,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+实名,identity_profiles,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R05,FROZEN
+实名,identity_profiles,2,user_id,bigint,否,,INDEX,id_hash唯一策略,R05,FROZEN
+实名,identity_profiles,3,name_cipher,varchar(255),否,,,id_hash唯一策略,R05,FROZEN
+实名,identity_profiles,4,id_no_cipher,varchar(255),是,,,id_hash唯一策略,R05,FROZEN
+实名,identity_profiles,5,id_hash,varchar(128),是,,,id_hash唯一策略,R05,FROZEN
+实名,identity_profiles,6,status,varchar(64),否,,,id_hash唯一策略,R05,FROZEN
+实名,identity_profiles,7,version,bigint,否,0,,乐观锁,R05,FROZEN
+实名,identity_profiles,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R05,FROZEN
+实名,identity_profiles,9,updated_at,timestamptz,否,now(),,统一审计字段,R05,FROZEN
+实名,identity_verification_sessions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R05,FROZEN
+实名,identity_verification_sessions,2,user_id,bigint,否,,INDEX,state唯一,R05,FROZEN
+实名,identity_verification_sessions,3,state,varchar(255),否,,,state唯一,R05,FROZEN
+实名,identity_verification_sessions,4,status,varchar(64),否,,,state唯一,R05,FROZEN
+实名,identity_verification_sessions,5,provider,varchar(255),是,,,state唯一,R05,FROZEN
+实名,identity_verification_sessions,6,expires_at,timestamptz,是,,INDEX,state唯一,R05,FROZEN
+实名,identity_verification_sessions,7,version,bigint,否,0,,乐观锁,R05,FROZEN
+实名,identity_verification_sessions,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R05,FROZEN
+实名,identity_verification_sessions,9,updated_at,timestamptz,否,now(),,统一审计字段,R05,FROZEN
+实名,identity_provider_requests,1,id,bigint,否,generated,PRIMARY KEY,订单号索引,R05,FROZEN
+实名,identity_provider_requests,2,session_id,bigint,否,,INDEX,订单号索引,R05,FROZEN
+实名,identity_provider_requests,3,request_type,varchar(255),是,,,订单号索引,R05,FROZEN
+实名,identity_provider_requests,4,provider_order_no,varchar(128),是,,,订单号索引,R05,FROZEN
+实名,identity_provider_requests,5,response_cipher,varchar(255),是,,,订单号索引,R05,FROZEN
+实名,identity_provider_requests,6,version,bigint,否,0,,乐观锁,R05,FROZEN
+实名,identity_provider_requests,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R05,FROZEN
+实名,identity_provider_requests,8,updated_at,timestamptz,否,now(),,统一审计字段,R05,FROZEN
+实名,identity_media,1,id,bigint,否,generated,PRIMARY KEY,私有对象,R05,FROZEN
+实名,identity_media,2,session_id,bigint,否,,INDEX,私有对象,R05,FROZEN
+实名,identity_media,3,media_object_id,bigint,是,,INDEX,私有对象,R05,FROZEN
+实名,identity_media,4,media_type,varchar(255),是,,,私有对象,R05,FROZEN
+实名,identity_media,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R05,FROZEN
+实名,identity_media,6,updated_at,timestamptz,否,now(),,统一审计字段,R05,FROZEN
+实名,identity_review_records,1,id,bigint,否,generated,PRIMARY KEY,审计,R05,FROZEN
+实名,identity_review_records,2,session_id,bigint,否,,INDEX,审计,R05,FROZEN
+实名,identity_review_records,3,decision,varchar(64),是,,,审计,R05,FROZEN
+实名,identity_review_records,4,reason,text,是,,,审计,R05,FROZEN
+实名,identity_review_records,5,admin_id,bigint,是,,INDEX,审计,R05,FROZEN
+实名,identity_review_records,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R05,FROZEN
+实名,sensitive_data_access_logs,1,id,bigint,否,generated,PRIMARY KEY,不可删除,R05,FROZEN
+实名,sensitive_data_access_logs,2,admin_id,bigint,否,,INDEX,不可删除,R05,FROZEN
+实名,sensitive_data_access_logs,3,user_id,bigint,是,,INDEX,不可删除,R05,FROZEN
+实名,sensitive_data_access_logs,4,resource,varchar(255),是,,,不可删除,R05,FROZEN
+实名,sensitive_data_access_logs,5,reason,text,是,,,不可删除,R05,FROZEN
+实名,sensitive_data_access_logs,6,ip,varchar(64),是,,,不可删除,R05,FROZEN
+实名,sensitive_data_access_logs,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R05,FROZEN
+媒体,media_objects,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R04,FROZEN
+媒体,media_objects,2,owner_id,bigint,否,,INDEX,bucket+key唯一,R04,FROZEN
+媒体,media_objects,3,bucket,varchar(255),否,,,bucket+key唯一,R04,FROZEN
+媒体,media_objects,4,object_key,text,是,,,bucket+key唯一,R04,FROZEN
+媒体,media_objects,5,mime,varchar(255),是,,,bucket+key唯一,R04,FROZEN
+媒体,media_objects,6,size,bigint,是,,,bucket+key唯一,R04,FROZEN
+媒体,media_objects,7,sha256,varchar(128),是,,,bucket+key唯一,R04,FROZEN
+媒体,media_objects,8,visibility,varchar(255),是,,,bucket+key唯一,R04,FROZEN
+媒体,media_objects,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R04,FROZEN
+媒体,media_objects,10,updated_at,timestamptz,否,now(),,统一审计字段,R04,FROZEN
+媒体,upload_sessions,1,id,bigint,否,generated,PRIMARY KEY,过期清理,R04,FROZEN
+媒体,upload_sessions,2,user_id,bigint,否,,INDEX,过期清理,R04,FROZEN
+媒体,upload_sessions,3,scene,varchar(64),是,,,过期清理,R04,FROZEN
+媒体,upload_sessions,4,status,varchar(64),否,,,过期清理,R04,FROZEN
+媒体,upload_sessions,5,expires_at,timestamptz,是,,INDEX,过期清理,R04,FROZEN
+媒体,upload_sessions,6,version,bigint,否,0,,乐观锁,R04,FROZEN
+媒体,upload_sessions,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R04,FROZEN
+媒体,upload_sessions,8,updated_at,timestamptz,否,now(),,统一审计字段,R04,FROZEN
+媒体,media_access_tokens,1,id,bigint,否,generated,PRIMARY KEY,一次或短期,R04,FROZEN
+媒体,media_access_tokens,2,media_id,bigint,否,,INDEX,一次或短期,R04,FROZEN
+媒体,media_access_tokens,3,subject,varchar(255),是,,,一次或短期,R04,FROZEN
+媒体,media_access_tokens,4,expires_at,timestamptz,是,,INDEX,一次或短期,R04,FROZEN
+媒体,media_access_tokens,5,used_at,timestamptz,是,,INDEX,一次或短期,R04,FROZEN
+媒体,media_access_tokens,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R04,FROZEN
+媒体,media_access_tokens,7,updated_at,timestamptz,否,now(),,统一审计字段,R04,FROZEN
+内容,content_posts,1,id,bigint,否,generated,PRIMARY KEY,类型+状态索引,R06-R13,FROZEN
+内容,content_posts,2,owner_id,bigint,否,,INDEX,类型+状态索引,R06-R13,FROZEN
+内容,content_posts,3,type,varchar(64),是,,,类型+状态索引,R06-R13,FROZEN
+内容,content_posts,4,title,varchar(255),是,,,类型+状态索引,R06-R13,FROZEN
+内容,content_posts,5,summary,text,是,,,类型+状态索引,R06-R13,FROZEN
+内容,content_posts,6,status,varchar(64),否,,,类型+状态索引,R06-R13,FROZEN
+内容,content_posts,7,review_status,varchar(64),是,,,类型+状态索引,R06-R13,FROZEN
+内容,content_posts,8,refresh_times,integer,是,,,类型+状态索引,R06-R13,FROZEN
+内容,content_posts,9,version,bigint,否,0,,乐观锁,R06-R13,FROZEN
+内容,content_posts,10,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_posts,11,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,project_details,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
+内容,project_details,2,content_id,bigint,否,,INDEX,content_id唯一,R06-R13,FROZEN
+内容,project_details,3,cooperation,varchar(255),否,,,content_id唯一,R06-R13,FROZEN
+内容,project_details,4,conditions,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,project_details,5,region,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,project_details,6,website,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,project_details,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,project_details,8,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,app_details,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
+内容,app_details,2,content_id,bigint,否,,INDEX,content_id唯一；无apk字段,R06-R13,FROZEN
+内容,app_details,3,app_name,varchar(255),否,,,content_id唯一；无apk字段,R06-R13,FROZEN
+内容,app_details,4,platform,varchar(255),是,,,content_id唯一；无apk字段,R06-R13,FROZEN
+内容,app_details,5,version_text,varchar(255),是,,,content_id唯一；无apk字段,R06-R13,FROZEN
+内容,app_details,6,download_url,text,是,,,content_id唯一；无apk字段,R06-R13,FROZEN
+内容,app_details,7,website,varchar(255),是,,,content_id唯一；无apk字段,R06-R13,FROZEN
+内容,app_details,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,app_details,9,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,group_details,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
+内容,group_details,2,content_id,bigint,否,,INDEX,content_id唯一,R06-R13,FROZEN
+内容,group_details,3,platform,varchar(255),否,,,content_id唯一,R06-R13,FROZEN
+内容,group_details,4,size_range,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,group_details,5,join_requirement,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,group_details,6,qr_media_id,bigint,是,,INDEX,content_id唯一,R06-R13,FROZEN
+内容,group_details,7,group_link,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,group_details,8,group_no,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,group_details,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,group_details,10,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,team_leader_details,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
+内容,team_leader_details,2,content_id,bigint,否,,INDEX,owner唯一活动资料,R06-R13,FROZEN
+内容,team_leader_details,3,team_name,varchar(255),否,,,owner唯一活动资料,R06-R13,FROZEN
+内容,team_leader_details,4,size_range,varchar(255),是,,,owner唯一活动资料,R06-R13,FROZEN
+内容,team_leader_details,5,skills,varchar(255),是,,,owner唯一活动资料,R06-R13,FROZEN
+内容,team_leader_details,6,cooperation_types,varchar(255),是,,,owner唯一活动资料,R06-R13,FROZEN
+内容,team_leader_details,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,team_leader_details,8,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,content_media,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
+内容,content_media,2,content_id,bigint,否,,INDEX,内容+顺序唯一,R06-R13,FROZEN
+内容,content_media,3,media_id,bigint,否,,INDEX,内容+顺序唯一,R06-R13,FROZEN
+内容,content_media,4,media_type,varchar(255),是,,,内容+顺序唯一,R06-R13,FROZEN
+内容,content_media,5,sort_order,integer,是,,,内容+顺序唯一,R06-R13,FROZEN
+内容,content_media,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_media,7,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,content_contacts,1,id,bigint,否,generated,PRIMARY KEY,详情获取,R06-R13,FROZEN
+内容,content_contacts,2,content_id,bigint,否,,INDEX,详情获取,R06-R13,FROZEN
+内容,content_contacts,3,channel,varchar(64),是,,,详情获取,R06-R13,FROZEN
+内容,content_contacts,4,value_cipher,bigint,是,,,详情获取,R06-R13,FROZEN
+内容,content_contacts,5,display_mask,varchar(255),是,,,详情获取,R06-R13,FROZEN
+内容,content_contacts,6,sort_order,integer,是,,,详情获取,R06-R13,FROZEN
+内容,content_contacts,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_contacts,8,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,content_versions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
+内容,content_versions,2,content_id,bigint,否,,INDEX,内容+版本唯一,R06-R13,FROZEN
+内容,content_versions,3,version_no,varchar(255),否,,,内容+版本唯一,R06-R13,FROZEN
+内容,content_versions,4,snapshot_json,jsonb,是,,,内容+版本唯一,R06-R13,FROZEN
+内容,content_versions,5,created_by,varchar(255),是,,,内容+版本唯一,R06-R13,FROZEN
+内容,content_versions,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_status_logs,1,id,bigint,否,generated,PRIMARY KEY,不可删除,R06-R13,FROZEN
+内容,content_status_logs,2,content_id,bigint,否,,INDEX,不可删除,R06-R13,FROZEN
+内容,content_status_logs,3,from_status,varchar(255),是,,,不可删除,R06-R13,FROZEN
+内容,content_status_logs,4,to_status,varchar(255),是,,,不可删除,R06-R13,FROZEN
+内容,content_status_logs,5,reason,text,是,,,不可删除,R06-R13,FROZEN
+内容,content_status_logs,6,operator,varchar(255),是,,,不可删除,R06-R13,FROZEN
+内容,content_status_logs,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_review_records,1,id,bigint,否,generated,PRIMARY KEY,版本索引,R06-R13,FROZEN
+内容,content_review_records,2,content_id,bigint,否,,INDEX,版本索引,R06-R13,FROZEN
+内容,content_review_records,3,version_no,varchar(255),是,,,版本索引,R06-R13,FROZEN
+内容,content_review_records,4,decision,varchar(64),是,,,版本索引,R06-R13,FROZEN
+内容,content_review_records,5,reason,text,是,,,版本索引,R06-R13,FROZEN
+内容,content_review_records,6,admin_id,bigint,是,,INDEX,版本索引,R06-R13,FROZEN
+内容,content_review_records,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_stats,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
+内容,content_stats,2,content_id,bigint,否,,INDEX,content_id唯一,R06-R13,FROZEN
+内容,content_stats,3,organic_views,varchar(255),否,,,content_id唯一,R06-R13,FROZEN
+内容,content_stats,4,redpacket_views,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,content_stats,5,task_views,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,content_stats,6,favorites,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,content_stats,7,chats,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,content_stats,8,contacts,varchar(255),是,,,content_id唯一,R06-R13,FROZEN
+内容,content_stats,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_stats,10,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,content_daily_stats,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
+内容,content_daily_stats,2,content_id,bigint,否,,INDEX,内容+日期唯一,R06-R13,FROZEN
+内容,content_daily_stats,3,stat_date,date,否,,,内容+日期唯一,R06-R13,FROZEN
+内容,content_daily_stats,4,metrics_json,jsonb,是,,,内容+日期唯一,R06-R13,FROZEN
+内容,content_daily_stats,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_daily_stats,6,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,content_favorites,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
+内容,content_favorites,2,user_id,bigint,否,,INDEX,用户+内容唯一,R06-R13,FROZEN
+内容,content_favorites,3,content_id,bigint,否,,INDEX,用户+内容唯一,R06-R13,FROZEN
+内容,content_favorites,4,created_at,timestamptz,否,now(),INDEX,用户+内容唯一,R06-R13,FROZEN
+内容,content_favorites,5,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,content_view_logs,1,id,bigint,否,generated,PRIMARY KEY,时间分区/归档,R06-R13,FROZEN
+内容,content_view_logs,2,user_id,bigint,否,,INDEX,时间分区/归档,R06-R13,FROZEN
+内容,content_view_logs,3,content_id,bigint,是,,INDEX,时间分区/归档,R06-R13,FROZEN
+内容,content_view_logs,4,traffic_type,varchar(64),是,,,时间分区/归档,R06-R13,FROZEN
+内容,content_view_logs,5,duration,integer,是,,,时间分区/归档,R06-R13,FROZEN
+内容,content_view_logs,6,source,varchar(255),是,,,时间分区/归档,R06-R13,FROZEN
+内容,content_view_logs,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_contact_access_logs,1,id,bigint,否,generated,PRIMARY KEY,防重复和统计,R06-R13,FROZEN
+内容,content_contact_access_logs,2,user_id,bigint,否,,INDEX,防重复和统计,R06-R13,FROZEN
+内容,content_contact_access_logs,3,content_id,bigint,是,,INDEX,防重复和统计,R06-R13,FROZEN
+内容,content_contact_access_logs,4,channel,varchar(64),是,,,防重复和统计,R06-R13,FROZEN
+内容,content_contact_access_logs,5,action,varchar(255),是,,,防重复和统计,R06-R13,FROZEN
+内容,content_contact_access_logs,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_reports,1,id,bigint,否,generated,PRIMARY KEY,状态索引,R06-R13,FROZEN
+内容,content_reports,2,reporter_id,bigint,否,,INDEX,状态索引,R06-R13,FROZEN
+内容,content_reports,3,content_id,bigint,是,,INDEX,状态索引,R06-R13,FROZEN
+内容,content_reports,4,type,varchar(64),是,,,状态索引,R06-R13,FROZEN
+内容,content_reports,5,description,text,是,,,状态索引,R06-R13,FROZEN
+内容,content_reports,6,status,varchar(64),否,,,状态索引,R06-R13,FROZEN
+内容,content_reports,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_reports,8,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,content_appeals,1,id,bigint,否,generated,PRIMARY KEY,关联审核,R06-R13,FROZEN
+内容,content_appeals,2,content_id,bigint,否,,INDEX,关联审核,R06-R13,FROZEN
+内容,content_appeals,3,owner_id,bigint,是,,INDEX,关联审核,R06-R13,FROZEN
+内容,content_appeals,4,review_record_id,bigint,是,,INDEX,关联审核,R06-R13,FROZEN
+内容,content_appeals,5,status,varchar(64),否,,,关联审核,R06-R13,FROZEN
+内容,content_appeals,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,content_appeals,7,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+内容,publisher_follows,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R06-R13,FROZEN
+内容,publisher_follows,2,user_id,bigint,否,,INDEX,唯一,R06-R13,FROZEN
+内容,publisher_follows,3,publisher_id,bigint,否,,INDEX,唯一,R06-R13,FROZEN
+内容,publisher_follows,4,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN
+内容,publisher_follows,5,updated_at,timestamptz,否,now(),,统一审计字段,R06-R13,FROZEN
+搜索,search_histories,1,id,bigint,否,generated,PRIMARY KEY,用户时间索引,R07,FROZEN
+搜索,search_histories,2,user_id,bigint,否,,INDEX,用户时间索引,R07,FROZEN
+搜索,search_histories,3,keyword,varchar(255),是,,,用户时间索引,R07,FROZEN
+搜索,search_histories,4,created_at,timestamptz,否,now(),INDEX,用户时间索引,R07,FROZEN
+搜索,search_histories,5,updated_at,timestamptz,否,now(),,统一审计字段,R07,FROZEN
+搜索,hot_search_terms,1,id,bigint,否,generated,PRIMARY KEY,后台配置,R07,FROZEN
+搜索,hot_search_terms,2,keyword,varchar(255),否,,,后台配置,R07,FROZEN
+搜索,hot_search_terms,3,weight,integer,是,,,后台配置,R07,FROZEN
+搜索,hot_search_terms,4,enabled,boolean,否,false,,后台配置,R07,FROZEN
+搜索,hot_search_terms,5,starts_at,timestamptz,是,,INDEX,后台配置,R07,FROZEN
+搜索,hot_search_terms,6,ends_at,timestamptz,是,,INDEX,后台配置,R07,FROZEN
+搜索,hot_search_terms,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R07,FROZEN
+搜索,hot_search_terms,8,updated_at,timestamptz,否,now(),,统一审计字段,R07,FROZEN
+聊天,conversations,1,id,bigint,否,generated,PRIMARY KEY,首版仅direct,R14,FROZEN
+聊天,conversations,2,type,varchar(64),否,,,首版仅direct,R14,FROZEN
+聊天,conversations,3,last_message_id,bigint,是,,INDEX,首版仅direct,R14,FROZEN
+聊天,conversations,4,last_message_at,timestamptz,是,,INDEX,首版仅direct,R14,FROZEN
+聊天,conversations,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
+聊天,conversations,6,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+聊天,conversation_members,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R14,FROZEN
+聊天,conversation_members,2,conversation_id,bigint,否,,INDEX,会话+用户唯一,R14,FROZEN
+聊天,conversation_members,3,user_id,bigint,否,,INDEX,会话+用户唯一,R14,FROZEN
+聊天,conversation_members,4,unread_count,integer,是,,,会话+用户唯一,R14,FROZEN
+聊天,conversation_members,5,last_read_message_id,bigint,是,,INDEX,会话+用户唯一,R14,FROZEN
+聊天,conversation_members,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
+聊天,conversation_members,7,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+聊天,chat_messages,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R14,FROZEN
+聊天,chat_messages,2,conversation_id,bigint,否,,INDEX,发送者+client_msg_id唯一,R14,FROZEN
+聊天,chat_messages,3,sender_id,bigint,否,,INDEX,发送者+client_msg_id唯一,R14,FROZEN
+聊天,chat_messages,4,type,varchar(64),是,,,发送者+client_msg_id唯一,R14,FROZEN
+聊天,chat_messages,5,body_json,jsonb,是,,,发送者+client_msg_id唯一,R14,FROZEN
+聊天,chat_messages,6,status,varchar(64),否,,,发送者+client_msg_id唯一,R14,FROZEN
+聊天,chat_messages,7,client_msg_id,bigint,是,,INDEX,发送者+client_msg_id唯一,R14,FROZEN
+聊天,chat_messages,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
+聊天,chat_messages,9,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+聊天,chat_message_attachments,1,id,bigint,否,generated,PRIMARY KEY,私有媒体,R14,FROZEN
+聊天,chat_message_attachments,2,message_id,bigint,否,,INDEX,私有媒体,R14,FROZEN
+聊天,chat_message_attachments,3,media_id,bigint,是,,INDEX,私有媒体,R14,FROZEN
+聊天,chat_message_attachments,4,sort_order,integer,是,,,私有媒体,R14,FROZEN
+聊天,chat_message_attachments,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
+聊天,chat_message_attachments,6,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+聊天,chat_read_receipts,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R14,FROZEN
+聊天,chat_read_receipts,2,message_id,bigint,否,,INDEX,消息+用户唯一,R14,FROZEN
+聊天,chat_read_receipts,3,user_id,bigint,否,,INDEX,消息+用户唯一,R14,FROZEN
+聊天,chat_read_receipts,4,read_at,timestamptz,是,,INDEX,消息+用户唯一,R14,FROZEN
+聊天,chat_read_receipts,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
+聊天,chat_read_receipts,6,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+聊天,user_blocks,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R14,FROZEN
+聊天,user_blocks,2,user_id,bigint,否,,INDEX,唯一,R14,FROZEN
+聊天,user_blocks,3,blocked_user_id,bigint,否,,INDEX,唯一,R14,FROZEN
+聊天,user_blocks,4,reason,text,是,,,唯一,R14,FROZEN
+聊天,user_blocks,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
+聊天,user_blocks,6,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+聊天,chat_reports,1,id,bigint,否,generated,PRIMARY KEY,证据,R14,FROZEN
+聊天,chat_reports,2,reporter_id,bigint,否,,INDEX,证据,R14,FROZEN
+聊天,chat_reports,3,target_user_id,bigint,是,,INDEX,证据,R14,FROZEN
+聊天,chat_reports,4,conversation_id,bigint,是,,INDEX,证据,R14,FROZEN
+聊天,chat_reports,5,message_ids,jsonb,是,,,证据,R14,FROZEN
+聊天,chat_reports,6,status,varchar(64),否,,,证据,R14,FROZEN
+聊天,chat_reports,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R14,FROZEN
+聊天,chat_reports,8,updated_at,timestamptz,否,now(),,统一审计字段,R14,FROZEN
+通知,notifications,1,id,bigint,否,generated,PRIMARY KEY,用户+时间索引,R15,FROZEN
+通知,notifications,2,user_id,bigint,否,,INDEX,用户+时间索引,R15,FROZEN
+通知,notifications,3,type,varchar(64),是,,,用户+时间索引,R15,FROZEN
+通知,notifications,4,title,varchar(255),是,,,用户+时间索引,R15,FROZEN
+通知,notifications,5,body,text,是,,,用户+时间索引,R15,FROZEN
+通知,notifications,6,biz_type,varchar(255),是,,,用户+时间索引,R15,FROZEN
+通知,notifications,7,biz_id,bigint,是,,INDEX,用户+时间索引,R15,FROZEN
+通知,notifications,8,read_at,timestamptz,是,,INDEX,用户+时间索引,R15,FROZEN
+通知,notifications,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R15,FROZEN
+通知,notifications,10,updated_at,timestamptz,否,now(),,统一审计字段,R15,FROZEN
+通知,notification_templates,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R15,FROZEN
+通知,notification_templates,2,code,varchar(64),否,,,code唯一,R15,FROZEN
+通知,notification_templates,3,channel,varchar(64),否,,,code唯一,R15,FROZEN
+通知,notification_templates,4,template,varchar(255),是,,,code唯一,R15,FROZEN
+通知,notification_templates,5,enabled,boolean,否,false,,code唯一,R15,FROZEN
+通知,notification_templates,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R15,FROZEN
+通知,notification_templates,7,updated_at,timestamptz,否,now(),,统一审计字段,R15,FROZEN
+通知,notification_deliveries,1,id,bigint,否,generated,PRIMARY KEY,重试,R15,FROZEN
+通知,notification_deliveries,2,notification_id,bigint,否,,INDEX,重试,R15,FROZEN
+通知,notification_deliveries,3,channel,varchar(64),是,,,重试,R15,FROZEN
+通知,notification_deliveries,4,status,varchar(64),否,,,重试,R15,FROZEN
+通知,notification_deliveries,5,provider_msg_id,varchar(128),是,,INDEX,重试,R15,FROZEN
+通知,notification_deliveries,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R15,FROZEN
+通知,notification_deliveries,7,updated_at,timestamptz,否,now(),,统一审计字段,R15,FROZEN
+通知,push_tokens,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R15,FROZEN
+通知,push_tokens,2,user_id,bigint,否,,INDEX,token唯一,R15,FROZEN
+通知,push_tokens,3,device_id,bigint,否,,INDEX,token唯一,R15,FROZEN
+通知,push_tokens,4,provider,varchar(255),是,,,token唯一,R15,FROZEN
+通知,push_tokens,5,token,varchar(255),是,,,token唯一,R15,FROZEN
+通知,push_tokens,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R15,FROZEN
+通知,push_tokens,7,updated_at,timestamptz,否,now(),,统一审计字段,R15,FROZEN
+通知,announcements,1,id,bigint,否,generated,PRIMARY KEY,CMS,R15,FROZEN
+通知,announcements,2,title,varchar(255),否,,,CMS,R15,FROZEN
+通知,announcements,3,content,text,是,,,CMS,R15,FROZEN
+通知,announcements,4,status,varchar(64),否,,,CMS,R15,FROZEN
+通知,announcements,5,published_at,timestamptz,是,,INDEX,CMS,R15,FROZEN
+通知,announcements,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R15,FROZEN
+通知,announcements,7,updated_at,timestamptz,否,now(),,统一审计字段,R15,FROZEN
+通知,announcement_reads,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R15,FROZEN
+通知,announcement_reads,2,announcement_id,bigint,否,,INDEX,唯一,R15,FROZEN
+通知,announcement_reads,3,user_id,bigint,否,,INDEX,唯一,R15,FROZEN
+通知,announcement_reads,4,read_at,timestamptz,是,,INDEX,唯一,R15,FROZEN
+通知,announcement_reads,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R15,FROZEN
+通知,announcement_reads,6,updated_at,timestamptz,否,now(),,统一审计字段,R15,FROZEN
+商品,products,1,id,bigint,否,generated,PRIMARY KEY,商品类型,R16,FROZEN
+商品,products,2,type,varchar(64),否,,,商品类型,R16,FROZEN
+商品,products,3,name,varchar(255),是,,,商品类型,R16,FROZEN
+商品,products,4,status,varchar(64),否,,,商品类型,R16,FROZEN
+商品,products,5,display_order,integer,是,,,商品类型,R16,FROZEN
+商品,products,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+商品,products,7,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+商品,product_skus,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R16,FROZEN
+商品,product_skus,2,product_id,bigint,否,,INDEX,code唯一,R16,FROZEN
+商品,product_skus,3,code,varchar(64),否,,,code唯一,R16,FROZEN
+商品,product_skus,4,price_cent,bigint,是,,,code唯一,R16,FROZEN
+商品,product_skus,5,duration,integer,是,,,code唯一,R16,FROZEN
+商品,product_skus,6,attributes_json,jsonb,是,,,code唯一,R16,FROZEN
+商品,product_skus,7,status,varchar(64),否,,,code唯一,R16,FROZEN
+商品,product_skus,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+商品,product_skus,9,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+商品,sku_commission_policies,1,id,bigint,否,generated,PRIMARY KEY,版本快照,R16,FROZEN
+商品,sku_commission_policies,2,sku_id,bigint,否,,INDEX,版本快照,R16,FROZEN
+商品,sku_commission_policies,3,level1_bps,integer,是,,,版本快照,R16,FROZEN
+商品,sku_commission_policies,4,level2_bps,integer,是,,,版本快照,R16,FROZEN
+商品,sku_commission_policies,5,enabled,boolean,否,false,,版本快照,R16,FROZEN
+商品,sku_commission_policies,6,version,bigint,否,0,,版本快照,R16,FROZEN
+商品,sku_commission_policies,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+商品,sku_commission_policies,8,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+商品,coupons,1,id,bigint,否,generated,PRIMARY KEY,可选模块,R16,FROZEN
+商品,coupons,2,code,varchar(64),否,,,可选模块,R16,FROZEN
+商品,coupons,3,discount_type,integer,是,,,可选模块,R16,FROZEN
+商品,coupons,4,value,bigint,是,,,可选模块,R16,FROZEN
+商品,coupons,5,scope,varchar(64),是,,,可选模块,R16,FROZEN
+商品,coupons,6,validity,varchar(255),是,,,可选模块,R16,FROZEN
+商品,coupons,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+商品,coupons,8,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+商品,user_coupons,1,id,bigint,否,generated,PRIMARY KEY,状态,R16,FROZEN
+商品,user_coupons,2,user_id,bigint,否,,INDEX,状态,R16,FROZEN
+商品,user_coupons,3,coupon_id,bigint,是,,INDEX,状态,R16,FROZEN
+商品,user_coupons,4,status,varchar(64),否,,,状态,R16,FROZEN
+商品,user_coupons,5,expires_at,timestamptz,是,,INDEX,状态,R16,FROZEN
+商品,user_coupons,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+商品,user_coupons,7,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+订单,orders,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R16,FROZEN
+订单,orders,2,order_no,varchar(255),否,,,order_no唯一,R16,FROZEN
+订单,orders,3,user_id,bigint,否,,INDEX,order_no唯一,R16,FROZEN
+订单,orders,4,biz_type,varchar(255),是,,,order_no唯一,R16,FROZEN
+订单,orders,5,biz_id,bigint,是,,INDEX,order_no唯一,R16,FROZEN
+订单,orders,6,amount_cent,bigint,是,,,order_no唯一,R16,FROZEN
+订单,orders,7,status,varchar(64),否,,,order_no唯一,R16,FROZEN
+订单,orders,8,version,bigint,否,0,,乐观锁,R16,FROZEN
+订单,orders,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+订单,orders,10,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+订单,order_items,1,id,bigint,否,generated,PRIMARY KEY,快照,R16,FROZEN
+订单,order_items,2,order_id,bigint,否,,INDEX,快照,R16,FROZEN
+订单,order_items,3,sku_id,bigint,是,,INDEX,快照,R16,FROZEN
+订单,order_items,4,quantity,integer,是,,,快照,R16,FROZEN
+订单,order_items,5,unit_price,bigint,是,,,快照,R16,FROZEN
+订单,order_items,6,snapshot_json,jsonb,是,,,快照,R16,FROZEN
+订单,order_items,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+订单,order_items,8,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+订单,order_price_snapshots,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R16,FROZEN
+订单,order_price_snapshots,2,order_id,bigint,否,,INDEX,order唯一,R16,FROZEN
+订单,order_price_snapshots,3,original,bigint,否,,,order唯一,R16,FROZEN
+订单,order_price_snapshots,4,discount,bigint,是,,,order唯一,R16,FROZEN
+订单,order_price_snapshots,5,service_fee,bigint,是,,,order唯一,R16,FROZEN
+订单,order_price_snapshots,6,payable,bigint,是,,,order唯一,R16,FROZEN
+订单,order_price_snapshots,7,rule_versions,varchar(255),是,,,order唯一,R16,FROZEN
+订单,order_price_snapshots,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R16,FROZEN
+订单,order_price_snapshots,9,updated_at,timestamptz,否,now(),,统一审计字段,R16,FROZEN
+支付,payment_transactions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R17,FROZEN
+支付,payment_transactions,2,order_id,bigint,否,,INDEX,provider_trade_no唯一,R17,FROZEN
+支付,payment_transactions,3,gateway,varchar(255),否,,,provider_trade_no唯一,R17,FROZEN
+支付,payment_transactions,4,channel,varchar(64),是,,,provider_trade_no唯一,R17,FROZEN
+支付,payment_transactions,5,provider_trade_no,varchar(128),是,,,provider_trade_no唯一,R17,FROZEN
+支付,payment_transactions,6,amount,bigint,是,,,provider_trade_no唯一,R17,FROZEN
+支付,payment_transactions,7,status,varchar(64),否,,,provider_trade_no唯一,R17,FROZEN
+支付,payment_transactions,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R17,FROZEN
+支付,payment_transactions,9,updated_at,timestamptz,否,now(),,统一审计字段,R17,FROZEN
+支付,payment_callbacks,1,id,bigint,否,generated,PRIMARY KEY,幂等,R17,FROZEN
+支付,payment_callbacks,2,gateway,varchar(255),否,,,幂等,R17,FROZEN
+支付,payment_callbacks,3,provider_trade_no,varchar(128),是,,,幂等,R17,FROZEN
+支付,payment_callbacks,4,payload_cipher,varchar(255),是,,,幂等,R17,FROZEN
+支付,payment_callbacks,5,signature_valid,boolean,是,,,幂等,R17,FROZEN
+支付,payment_callbacks,6,processed,boolean,是,,,幂等,R17,FROZEN
+支付,payment_callbacks,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R17,FROZEN
+支付,payment_exception_orders,1,id,bigint,否,generated,PRIMARY KEY,双人复核,R17,FROZEN
+支付,payment_exception_orders,2,order_id,bigint,否,,INDEX,双人复核,R17,FROZEN
+支付,payment_exception_orders,3,type,varchar(64),是,,,双人复核,R17,FROZEN
+支付,payment_exception_orders,4,status,varchar(64),否,,,双人复核,R17,FROZEN
+支付,payment_exception_orders,5,resolution,varchar(255),是,,,双人复核,R17,FROZEN
+支付,payment_exception_orders,6,version,bigint,否,0,,乐观锁,R17,FROZEN
+支付,payment_exception_orders,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R17,FROZEN
+支付,payment_exception_orders,8,updated_at,timestamptz,否,now(),,统一审计字段,R17,FROZEN
+支付,payment_reconciliation_records,1,id,bigint,否,generated,PRIMARY KEY,日期+网关,R17,FROZEN
+支付,payment_reconciliation_records,2,recon_date,date,否,,,日期+网关,R17,FROZEN
+支付,payment_reconciliation_records,3,gateway,varchar(255),是,,,日期+网关,R17,FROZEN
+支付,payment_reconciliation_records,4,result,jsonb,是,,,日期+网关,R17,FROZEN
+支付,payment_reconciliation_records,5,diff_json,jsonb,是,,,日期+网关,R17,FROZEN
+支付,payment_reconciliation_records,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R17,FROZEN
+会员,membership_plans,1,id,bigint,否,generated,PRIMARY KEY,统一Pro,R18,FROZEN
+会员,membership_plans,2,code,varchar(64),否,,,统一Pro,R18,FROZEN
+会员,membership_plans,3,name,varchar(255),是,,,统一Pro,R18,FROZEN
+会员,membership_plans,4,public_badge,varchar(255),是,,,统一Pro,R18,FROZEN
+会员,membership_plans,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R18,FROZEN
+会员,membership_plans,6,updated_at,timestamptz,否,now(),,统一审计字段,R18,FROZEN
+会员,membership_skus,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R18,FROZEN
+会员,membership_skus,2,plan_id,bigint,否,,INDEX,sku唯一,R18,FROZEN
+会员,membership_skus,3,sku_id,bigint,否,,INDEX,sku唯一,R18,FROZEN
+会员,membership_skus,4,term_type,varchar(255),是,,,sku唯一,R18,FROZEN
+会员,membership_skus,5,term_seconds,varchar(255),是,,,sku唯一,R18,FROZEN
+会员,membership_skus,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R18,FROZEN
+会员,membership_skus,7,updated_at,timestamptz,否,now(),,统一审计字段,R18,FROZEN
+会员,membership_benefits,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R18,FROZEN
+会员,membership_benefits,2,code,varchar(64),否,,,code唯一,R18,FROZEN
+会员,membership_benefits,3,value_type,bigint,否,,,code唯一,R18,FROZEN
+会员,membership_benefits,4,description,text,是,,,code唯一,R18,FROZEN
+会员,membership_benefits,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R18,FROZEN
+会员,membership_benefits,6,updated_at,timestamptz,否,now(),,统一审计字段,R18,FROZEN
+会员,membership_sku_benefits,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R18,FROZEN
+会员,membership_sku_benefits,2,membership_sku_id,bigint,否,,INDEX,组合唯一,R18,FROZEN
+会员,membership_sku_benefits,3,benefit_id,bigint,否,,INDEX,组合唯一,R18,FROZEN
+会员,membership_sku_benefits,4,value_json,jsonb,是,,,组合唯一,R18,FROZEN
+会员,membership_sku_benefits,5,enabled,boolean,否,false,,组合唯一,R18,FROZEN
+会员,membership_sku_benefits,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R18,FROZEN
+会员,membership_sku_benefits,7,updated_at,timestamptz,否,now(),,统一审计字段,R18,FROZEN
+会员,user_memberships,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R18,FROZEN
+会员,user_memberships,2,user_id,bigint,否,,INDEX,user唯一当前,R18,FROZEN
+会员,user_memberships,3,plan_id,bigint,否,,INDEX,user唯一当前,R18,FROZEN
+会员,user_memberships,4,status,varchar(64),否,,,user唯一当前,R18,FROZEN
+会员,user_memberships,5,starts_at,timestamptz,是,,INDEX,user唯一当前,R18,FROZEN
+会员,user_memberships,6,ends_at,timestamptz,是,,INDEX,user唯一当前,R18,FROZEN
+会员,user_memberships,7,version,bigint,否,0,,乐观锁,R18,FROZEN
+会员,user_memberships,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R18,FROZEN
+会员,user_memberships,9,updated_at,timestamptz,否,now(),,统一审计字段,R18,FROZEN
+会员,membership_entitlement_segments,1,id,bigint,否,generated,PRIMARY KEY,升级计算,R18,FROZEN
+会员,membership_entitlement_segments,2,user_id,bigint,否,,INDEX,升级计算,R18,FROZEN
+会员,membership_entitlement_segments,3,source_order_id,bigint,是,,INDEX,升级计算,R18,FROZEN
+会员,membership_entitlement_segments,4,type,varchar(64),是,,,升级计算,R18,FROZEN
+会员,membership_entitlement_segments,5,paid_amount,bigint,是,,,升级计算,R18,FROZEN
+会员,membership_entitlement_segments,6,starts_at,timestamptz,是,,INDEX,升级计算,R18,FROZEN
+会员,membership_entitlement_segments,7,ends_at,timestamptz,是,,INDEX,升级计算,R18,FROZEN
+会员,membership_entitlement_segments,8,consumed,bigint,是,,,升级计算,R18,FROZEN
+会员,membership_entitlement_segments,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R18,FROZEN
+会员,membership_entitlement_segments,10,updated_at,timestamptz,否,now(),,统一审计字段,R18,FROZEN
+会员,membership_benefit_snapshots,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R18,FROZEN
+会员,membership_benefit_snapshots,2,order_id,bigint,否,,INDEX,订单唯一,R18,FROZEN
+会员,membership_benefit_snapshots,3,benefits_json,jsonb,否,'{}'::jsonb,,订单唯一,R18,FROZEN
+会员,membership_benefit_snapshots,4,reward_matrix_json,jsonb,是,,,订单唯一,R18,FROZEN
+会员,membership_benefit_snapshots,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R18,FROZEN
+会员,membership_benefit_snapshots,6,updated_at,timestamptz,否,now(),,统一审计字段,R18,FROZEN
+会员,membership_upgrade_quotes,1,id,bigint,否,generated,PRIMARY KEY,短期报价,R18,FROZEN
+会员,membership_upgrade_quotes,2,user_id,bigint,否,,INDEX,短期报价,R18,FROZEN
+会员,membership_upgrade_quotes,3,target_sku_id,bigint,是,,INDEX,短期报价,R18,FROZEN
+会员,membership_upgrade_quotes,4,remaining_value,bigint,是,,,短期报价,R18,FROZEN
+会员,membership_upgrade_quotes,5,payable,bigint,是,,,短期报价,R18,FROZEN
+会员,membership_upgrade_quotes,6,expires_at,timestamptz,是,,INDEX,短期报价,R18,FROZEN
+会员,membership_upgrade_quotes,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R18,FROZEN
+会员,membership_upgrade_quotes,8,updated_at,timestamptz,否,now(),,统一审计字段,R18,FROZEN
+会员,membership_value_conversions,1,id,bigint,否,generated,PRIMARY KEY,审计,R18,FROZEN
+会员,membership_value_conversions,2,upgrade_order_id,bigint,否,,INDEX,审计,R18,FROZEN
+会员,membership_value_conversions,3,source_segment_id,bigint,是,,INDEX,审计,R18,FROZEN
+会员,membership_value_conversions,4,converted_value,bigint,是,,,审计,R18,FROZEN
+会员,membership_value_conversions,5,extra_seconds,varchar(255),是,,,审计,R18,FROZEN
+会员,membership_value_conversions,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R18,FROZEN
+道具,prop_products,1,id,bigint,否,generated,PRIMARY KEY,四种,R19,FROZEN
+道具,prop_products,2,type,varchar(64),否,,,四种,R19,FROZEN
+道具,prop_products,3,name,varchar(255),是,,,四种,R19,FROZEN
+道具,prop_products,4,duration_seconds,varchar(255),是,,,四种,R19,FROZEN
+道具,prop_products,5,execution_type,varchar(255),是,,,四种,R19,FROZEN
+道具,prop_products,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R19,FROZEN
+道具,prop_products,7,updated_at,timestamptz,否,now(),,统一审计字段,R19,FROZEN
+道具,prop_skus,1,id,bigint,否,generated,PRIMARY KEY,价格来自SKU,R19,FROZEN
+道具,prop_skus,2,prop_id,bigint,否,,INDEX,价格来自SKU,R19,FROZEN
+道具,prop_skus,3,product_sku_id,bigint,是,,INDEX,价格来自SKU,R19,FROZEN
+道具,prop_skus,4,scope_json,jsonb,是,,,价格来自SKU,R19,FROZEN
+道具,prop_skus,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R19,FROZEN
+道具,prop_skus,6,updated_at,timestamptz,否,now(),,统一审计字段,R19,FROZEN
+道具,user_props,1,id,bigint,否,generated,PRIMARY KEY,库存,R19,FROZEN
+道具,user_props,2,user_id,bigint,否,,INDEX,库存,R19,FROZEN
+道具,user_props,3,prop_sku_id,bigint,是,,INDEX,库存,R19,FROZEN
+道具,user_props,4,status,varchar(64),否,,,库存,R19,FROZEN
+道具,user_props,5,acquired_order_id,bigint,是,,INDEX,库存,R19,FROZEN
+道具,user_props,6,expires_at,timestamptz,是,,INDEX,库存,R19,FROZEN
+道具,user_props,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R19,FROZEN
+道具,user_props,8,updated_at,timestamptz,否,now(),,统一审计字段,R19,FROZEN
+道具,content_exposure_entitlements,1,id,bigint,否,generated,PRIMARY KEY,置顶/头条/变色,R19,FROZEN
+道具,content_exposure_entitlements,2,content_id,bigint,否,,INDEX,置顶/头条/变色,R19,FROZEN
+道具,content_exposure_entitlements,3,type,varchar(64),是,,,置顶/头条/变色,R19,FROZEN
+道具,content_exposure_entitlements,4,starts_at,timestamptz,是,,INDEX,置顶/头条/变色,R19,FROZEN
+道具,content_exposure_entitlements,5,ends_at,timestamptz,是,,INDEX,置顶/头条/变色,R19,FROZEN
+道具,content_exposure_entitlements,6,status,varchar(64),否,,,置顶/头条/变色,R19,FROZEN
+道具,content_exposure_entitlements,7,version,bigint,否,0,,乐观锁,R19,FROZEN
+道具,content_exposure_entitlements,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R19,FROZEN
+道具,content_exposure_entitlements,9,updated_at,timestamptz,否,now(),,统一审计字段,R19,FROZEN
+道具,content_refresh_records,1,id,bigint,否,generated,PRIMARY KEY,审计,R19,FROZEN
+道具,content_refresh_records,2,content_id,bigint,否,,INDEX,审计,R19,FROZEN
+道具,content_refresh_records,3,user_prop_id,bigint,是,,INDEX,审计,R19,FROZEN
+道具,content_refresh_records,4,layers,varchar(255),是,,,审计,R19,FROZEN
+道具,content_refresh_records,5,executed_at,timestamptz,是,,INDEX,审计,R19,FROZEN
+道具,content_refresh_records,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R19,FROZEN
+道具,headline_slots,1,id,bigint,否,generated,PRIMARY KEY,资源位,R19,FROZEN
+道具,headline_slots,2,page_code,varchar(255),否,,,资源位,R19,FROZEN
+道具,headline_slots,3,slot_code,varchar(255),是,,,资源位,R19,FROZEN
+道具,headline_slots,4,capacity,varchar(255),是,,,资源位,R19,FROZEN
+道具,headline_slots,5,status,varchar(64),否,,,资源位,R19,FROZEN
+道具,headline_slots,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R19,FROZEN
+道具,headline_slots,7,updated_at,timestamptz,否,now(),,统一审计字段,R19,FROZEN
+道具,headline_slot_bookings,1,id,bigint,否,generated,PRIMARY KEY,冲突检查,R19,FROZEN
+道具,headline_slot_bookings,2,slot_id,bigint,否,,INDEX,冲突检查,R19,FROZEN
+道具,headline_slot_bookings,3,content_id,bigint,是,,INDEX,冲突检查,R19,FROZEN
+道具,headline_slot_bookings,4,entitlement_id,bigint,是,,INDEX,冲突检查,R19,FROZEN
+道具,headline_slot_bookings,5,starts_at,timestamptz,是,,INDEX,冲突检查,R19,FROZEN
+道具,headline_slot_bookings,6,ends_at,timestamptz,是,,INDEX,冲突检查,R19,FROZEN
+道具,headline_slot_bookings,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R19,FROZEN
+道具,headline_slot_bookings,8,updated_at,timestamptz,否,now(),,统一审计字段,R19,FROZEN
+道具,color_themes,1,id,bigint,否,generated,PRIMARY KEY,设计Token,R19,FROZEN
+道具,color_themes,2,code,varchar(64),否,,,设计Token,R19,FROZEN
+道具,color_themes,3,token_json,jsonb,是,,,设计Token,R19,FROZEN
+道具,color_themes,4,enabled,boolean,否,false,,设计Token,R19,FROZEN
+道具,color_themes,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R19,FROZEN
+道具,color_themes,6,updated_at,timestamptz,否,now(),,统一审计字段,R19,FROZEN
+道具,prop_execution_logs,1,id,bigint,否,generated,PRIMARY KEY,重试,R19,FROZEN
+道具,prop_execution_logs,2,user_prop_id,bigint,否,,INDEX,重试,R19,FROZEN
+道具,prop_execution_logs,3,content_id,bigint,是,,INDEX,重试,R19,FROZEN
+道具,prop_execution_logs,4,result,jsonb,是,,,重试,R19,FROZEN
+道具,prop_execution_logs,5,error,text,是,,,重试,R19,FROZEN
+道具,prop_execution_logs,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R19,FROZEN
+红包,red_packet_campaigns,1,id,bigint,否,generated,PRIMARY KEY,一个内容一个活动约束,R20-R23,FROZEN
+红包,red_packet_campaigns,2,content_id,bigint,否,,INDEX,一个内容一个活动约束,R20-R23,FROZEN
+红包,red_packet_campaigns,3,owner_id,bigint,是,,INDEX,一个内容一个活动约束,R20-R23,FROZEN
+红包,red_packet_campaigns,4,current_amount,bigint,是,,,一个内容一个活动约束,R20-R23,FROZEN
+红包,red_packet_campaigns,5,total_count,integer,否,0,,一个内容一个活动约束,R20-R23,FROZEN
+红包,red_packet_campaigns,6,status,varchar(64),否,,,一个内容一个活动约束,R20-R23,FROZEN
+红包,red_packet_campaigns,7,required_seconds,integer,是,,,一个内容一个活动约束,R20-R23,FROZEN
+红包,red_packet_campaigns,8,version,bigint,否,0,,乐观锁,R20-R23,FROZEN
+红包,red_packet_campaigns,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
+红包,red_packet_campaigns,10,updated_at,timestamptz,否,now(),,统一审计字段,R20-R23,FROZEN
+红包,red_packet_campaign_versions,1,id,bigint,否,generated,PRIMARY KEY,历史,R20-R23,FROZEN
+红包,red_packet_campaign_versions,2,campaign_id,bigint,否,,INDEX,历史,R20-R23,FROZEN
+红包,red_packet_campaign_versions,3,version_no,varchar(255),是,,,历史,R20-R23,FROZEN
+红包,red_packet_campaign_versions,4,amount,bigint,是,,,历史,R20-R23,FROZEN
+红包,red_packet_campaign_versions,5,remaining_at_effective,varchar(255),是,,,历史,R20-R23,FROZEN
+红包,red_packet_campaign_versions,6,rule_snapshot,varchar(255),是,,,历史,R20-R23,FROZEN
+红包,red_packet_campaign_versions,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
+红包,red_packet_quotes,1,id,bigint,否,generated,PRIMARY KEY,短期,R20-R23,FROZEN
+红包,red_packet_quotes,2,campaign_id,bigint,否,,INDEX,短期,R20-R23,FROZEN
+红包,red_packet_quotes,3,quote_type,varchar(255),是,,,短期,R20-R23,FROZEN
+红包,red_packet_quotes,4,principal,bigint,是,,,短期,R20-R23,FROZEN
+红包,red_packet_quotes,5,service_fee,bigint,是,,,短期,R20-R23,FROZEN
+红包,red_packet_quotes,6,payable,bigint,是,,,短期,R20-R23,FROZEN
+红包,red_packet_quotes,7,expires_at,timestamptz,是,,INDEX,短期,R20-R23,FROZEN
+红包,red_packet_quotes,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
+红包,red_packet_quotes,9,updated_at,timestamptz,否,now(),,统一审计字段,R20-R23,FROZEN
+红包,red_packet_orders,1,id,bigint,否,generated,PRIMARY KEY,创建/加价,R20-R23,FROZEN
+红包,red_packet_orders,2,campaign_id,bigint,否,,INDEX,创建/加价,R20-R23,FROZEN
+红包,red_packet_orders,3,order_id,bigint,是,,INDEX,创建/加价,R20-R23,FROZEN
+红包,red_packet_orders,4,quote_id,bigint,是,,INDEX,创建/加价,R20-R23,FROZEN
+红包,red_packet_orders,5,type,varchar(64),是,,,创建/加价,R20-R23,FROZEN
+红包,red_packet_orders,6,version,bigint,否,0,,乐观锁,R20-R23,FROZEN
+红包,red_packet_orders,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
+红包,red_packet_orders,8,updated_at,timestamptz,否,now(),,统一审计字段,R20-R23,FROZEN
+红包,red_packet_stock,1,id,bigint,否,generated,PRIMARY KEY,乐观锁/原子,R20-R23,FROZEN
+红包,red_packet_stock,2,campaign_id,bigint,否,,INDEX,乐观锁/原子,R20-R23,FROZEN
+红包,red_packet_stock,3,total,integer,否,0,,乐观锁/原子,R20-R23,FROZEN
+红包,red_packet_stock,4,claimed,integer,否,0,,乐观锁/原子,R20-R23,FROZEN
+红包,red_packet_stock,5,reserved,integer,否,0,,乐观锁/原子,R20-R23,FROZEN
+红包,red_packet_stock,6,version,bigint,否,0,,乐观锁/原子,R20-R23,FROZEN
+红包,red_packet_stock,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
+红包,red_packet_stock,8,updated_at,timestamptz,否,now(),,统一审计字段,R20-R23,FROZEN
+红包,red_packet_view_sessions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R20-R23,FROZEN
+红包,red_packet_view_sessions,2,campaign_id,bigint,否,,INDEX,用户+活动活跃唯一,R20-R23,FROZEN
+红包,red_packet_view_sessions,3,user_id,bigint,否,,INDEX,用户+活动活跃唯一,R20-R23,FROZEN
+红包,red_packet_view_sessions,4,reservation_id,bigint,是,,INDEX,用户+活动活跃唯一,R20-R23,FROZEN
+红包,red_packet_view_sessions,5,required,boolean,是,,,用户+活动活跃唯一,R20-R23,FROZEN
+红包,red_packet_view_sessions,6,valid_seconds,integer,是,,,用户+活动活跃唯一,R20-R23,FROZEN
+红包,red_packet_view_sessions,7,status,varchar(64),否,,,用户+活动活跃唯一,R20-R23,FROZEN
+红包,red_packet_view_sessions,8,expires_at,timestamptz,是,,INDEX,用户+活动活跃唯一,R20-R23,FROZEN
+红包,red_packet_view_sessions,9,version,bigint,否,0,,乐观锁,R20-R23,FROZEN
+红包,red_packet_view_sessions,10,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
+红包,red_packet_view_sessions,11,updated_at,timestamptz,否,now(),,统一审计字段,R20-R23,FROZEN
+红包,red_packet_heartbeats,1,id,bigint,否,generated,PRIMARY KEY,可归档,R20-R23,FROZEN
+红包,red_packet_heartbeats,2,session_id,bigint,否,,INDEX,可归档,R20-R23,FROZEN
+红包,red_packet_heartbeats,3,server_time,timestamptz,是,,,可归档,R20-R23,FROZEN
+红包,red_packet_heartbeats,4,foreground,boolean,是,,,可归档,R20-R23,FROZEN
+红包,red_packet_heartbeats,5,visible,boolean,是,,,可归档,R20-R23,FROZEN
+红包,red_packet_heartbeats,6,delta,bigint,是,,,可归档,R20-R23,FROZEN
+红包,red_packet_heartbeats,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
+红包,red_packet_reservations,1,id,bigint,否,generated,PRIMARY KEY,库存一致,R20-R23,FROZEN
+红包,red_packet_reservations,2,campaign_id,bigint,否,,INDEX,库存一致,R20-R23,FROZEN
+红包,red_packet_reservations,3,user_id,bigint,是,,INDEX,库存一致,R20-R23,FROZEN
+红包,red_packet_reservations,4,session_id,bigint,是,,INDEX,库存一致,R20-R23,FROZEN
+红包,red_packet_reservations,5,amount_version,bigint,是,,,库存一致,R20-R23,FROZEN
+红包,red_packet_reservations,6,expires_at,timestamptz,是,,INDEX,库存一致,R20-R23,FROZEN
+红包,red_packet_reservations,7,status,varchar(64),否,,,库存一致,R20-R23,FROZEN
+红包,red_packet_reservations,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
+红包,red_packet_reservations,9,updated_at,timestamptz,否,now(),,统一审计字段,R20-R23,FROZEN
+红包,red_packet_claims,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R20-R23,FROZEN
+红包,red_packet_claims,2,campaign_id,bigint,否,,INDEX,用户+活动唯一,R20-R23,FROZEN
+红包,red_packet_claims,3,user_id,bigint,否,,INDEX,用户+活动唯一,R20-R23,FROZEN
+红包,red_packet_claims,4,amount,bigint,是,,,用户+活动唯一,R20-R23,FROZEN
+红包,red_packet_claims,5,amount_version,bigint,是,,,用户+活动唯一,R20-R23,FROZEN
+红包,red_packet_claims,6,status,varchar(64),否,,,用户+活动唯一,R20-R23,FROZEN
+红包,red_packet_claims,7,reward_ledger_id,bigint,是,,INDEX,用户+活动唯一,R20-R23,FROZEN
+红包,red_packet_claims,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
+红包,red_packet_claims,9,updated_at,timestamptz,否,now(),,统一审计字段,R20-R23,FROZEN
+红包,red_packet_task_evidence,1,id,bigint,否,generated,PRIMARY KEY,风控,R20-R23,FROZEN
+红包,red_packet_task_evidence,2,claim_id,bigint,否,,INDEX,风控,R20-R23,FROZEN
+红包,red_packet_task_evidence,3,session_id,bigint,是,,INDEX,风控,R20-R23,FROZEN
+红包,red_packet_task_evidence,4,evidence_json,jsonb,是,,,风控,R20-R23,FROZEN
+红包,red_packet_task_evidence,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
+红包,red_packet_task_evidence,6,updated_at,timestamptz,否,now(),,统一审计字段,R20-R23,FROZEN
+红包,red_packet_ledger,1,id,bigint,否,generated,PRIMARY KEY,不可变,R20-R23,FROZEN
+红包,red_packet_ledger,2,campaign_id,bigint,否,,INDEX,不可变,R20-R23,FROZEN
+红包,red_packet_ledger,3,entry_type,varchar(255),是,,,不可变,R20-R23,FROZEN
+红包,red_packet_ledger,4,amount,bigint,是,,,不可变,R20-R23,FROZEN
+红包,red_packet_ledger,5,balance_after,bigint,是,,,不可变,R20-R23,FROZEN
+红包,red_packet_ledger,6,biz_id,bigint,是,,INDEX,不可变,R20-R23,FROZEN
+红包,red_packet_ledger,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
+红包,red_packet_campaign_stats,1,id,bigint,否,generated,PRIMARY KEY,聚合,R20-R23,FROZEN
+红包,red_packet_campaign_stats,2,campaign_id,bigint,否,,INDEX,聚合,R20-R23,FROZEN
+红包,red_packet_campaign_stats,3,metrics_json,jsonb,是,,,聚合,R20-R23,FROZEN
+红包,red_packet_campaign_stats,4,updated_at,timestamptz,否,now(),INDEX,聚合,R20-R23,FROZEN
+红包,red_packet_campaign_stats,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R20-R23,FROZEN
+奖励,reward_accounts,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R24,FROZEN
+奖励,reward_accounts,2,user_id,bigint,否,,INDEX,user唯一,R24,FROZEN
+奖励,reward_accounts,3,pending,bigint,否,0,,user唯一,R24,FROZEN
+奖励,reward_accounts,4,available,bigint,否,0,,user唯一,R24,FROZEN
+奖励,reward_accounts,5,frozen,bigint,否,0,,user唯一,R24,FROZEN
+奖励,reward_accounts,6,withdrawing,bigint,否,0,,user唯一,R24,FROZEN
+奖励,reward_accounts,7,withdrawn,bigint,否,0,,user唯一,R24,FROZEN
+奖励,reward_accounts,8,version,bigint,否,0,,乐观锁,R24,FROZEN
+奖励,reward_accounts,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R24,FROZEN
+奖励,reward_accounts,10,updated_at,timestamptz,否,now(),,统一审计字段,R24,FROZEN
+奖励,reward_ledger,1,id,bigint,否,generated,PRIMARY KEY,幂等业务键,R24,FROZEN
+奖励,reward_ledger,2,user_id,bigint,否,,INDEX,幂等业务键,R24,FROZEN
+奖励,reward_ledger,3,source_type,varchar(255),是,,,幂等业务键,R24,FROZEN
+奖励,reward_ledger,4,amount,bigint,是,,,幂等业务键,R24,FROZEN
+奖励,reward_ledger,5,status,varchar(64),否,,,幂等业务键,R24,FROZEN
+奖励,reward_ledger,6,biz_id,bigint,是,,INDEX,幂等业务键,R24,FROZEN
+奖励,reward_ledger,7,balance_after,bigint,是,,,幂等业务键,R24,FROZEN
+奖励,reward_ledger,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R24,FROZEN
+奖励,reward_settlements,1,id,bigint,否,generated,PRIMARY KEY,调度,R24,FROZEN
+奖励,reward_settlements,2,ledger_id,bigint,否,,INDEX,调度,R24,FROZEN
+奖励,reward_settlements,3,settle_at,timestamptz,是,,INDEX,调度,R24,FROZEN
+奖励,reward_settlements,4,status,varchar(64),否,,,调度,R24,FROZEN
+奖励,reward_settlements,5,risk_result,varchar(255),是,,,调度,R24,FROZEN
+奖励,reward_settlements,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R24,FROZEN
+奖励,reward_settlements,7,updated_at,timestamptz,否,now(),,统一审计字段,R24,FROZEN
+奖励,reward_freezes,1,id,bigint,否,generated,PRIMARY KEY,可释放/冲正,R24,FROZEN
+奖励,reward_freezes,2,user_id,bigint,否,,INDEX,可释放/冲正,R24,FROZEN
+奖励,reward_freezes,3,ledger_id,bigint,是,,INDEX,可释放/冲正,R24,FROZEN
+奖励,reward_freezes,4,reason,text,是,,,可释放/冲正,R24,FROZEN
+奖励,reward_freezes,5,status,varchar(64),否,,,可释放/冲正,R24,FROZEN
+奖励,reward_freezes,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R24,FROZEN
+奖励,reward_freezes,7,updated_at,timestamptz,否,now(),,统一审计字段,R24,FROZEN
+提现,payout_accounts,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R24,FROZEN
+提现,payout_accounts,2,user_id,bigint,否,,INDEX,user当前唯一,R24,FROZEN
+提现,payout_accounts,3,account_cipher,integer,否,,,user当前唯一,R24,FROZEN
+提现,payout_accounts,4,account_hash,integer,是,,,user当前唯一,R24,FROZEN
+提现,payout_accounts,5,real_name,varchar(255),是,,,user当前唯一,R24,FROZEN
+提现,payout_accounts,6,status,varchar(64),否,,,user当前唯一,R24,FROZEN
+提现,payout_accounts,7,version,bigint,否,0,,乐观锁,R24,FROZEN
+提现,payout_accounts,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R24,FROZEN
+提现,payout_accounts,9,updated_at,timestamptz,否,now(),,统一审计字段,R24,FROZEN
+提现,withdrawal_requests,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R24,FROZEN
+提现,withdrawal_requests,2,withdraw_no,varchar(255),否,,,withdraw_no唯一,R24,FROZEN
+提现,withdrawal_requests,3,user_id,bigint,否,,INDEX,withdraw_no唯一,R24,FROZEN
+提现,withdrawal_requests,4,amount,bigint,是,,,withdraw_no唯一,R24,FROZEN
+提现,withdrawal_requests,5,fee,bigint,是,,,withdraw_no唯一,R24,FROZEN
+提现,withdrawal_requests,6,net_amount,bigint,是,,,withdraw_no唯一,R24,FROZEN
+提现,withdrawal_requests,7,status,varchar(64),否,,,withdraw_no唯一,R24,FROZEN
+提现,withdrawal_requests,8,version,bigint,否,0,,乐观锁,R24,FROZEN
+提现,withdrawal_requests,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R24,FROZEN
+提现,withdrawal_requests,10,updated_at,timestamptz,否,now(),,统一审计字段,R24,FROZEN
+提现,payout_transactions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R24,FROZEN
+提现,payout_transactions,2,withdrawal_id,bigint,否,,INDEX,provider唯一,R24,FROZEN
+提现,payout_transactions,3,gateway,varchar(255),否,,,provider唯一,R24,FROZEN
+提现,payout_transactions,4,provider_order_no,varchar(128),是,,,provider唯一,R24,FROZEN
+提现,payout_transactions,5,status,varchar(64),否,,,provider唯一,R24,FROZEN
+提现,payout_transactions,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R24,FROZEN
+提现,payout_transactions,7,updated_at,timestamptz,否,now(),,统一审计字段,R24,FROZEN
+提现,payout_callbacks,1,id,bigint,否,generated,PRIMARY KEY,幂等,R24,FROZEN
+提现,payout_callbacks,2,provider_order_no,varchar(128),否,,,幂等,R24,FROZEN
+提现,payout_callbacks,3,payload_cipher,varchar(255),是,,,幂等,R24,FROZEN
+提现,payout_callbacks,4,processed,boolean,是,,,幂等,R24,FROZEN
+提现,payout_callbacks,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R24,FROZEN
+提现,payout_reconciliation_records,1,id,bigint,否,generated,PRIMARY KEY,日期,R24,FROZEN
+提现,payout_reconciliation_records,2,recon_date,date,否,,,日期,R24,FROZEN
+提现,payout_reconciliation_records,3,result,jsonb,是,,,日期,R24,FROZEN
+提现,payout_reconciliation_records,4,diff_json,jsonb,是,,,日期,R24,FROZEN
+提现,payout_reconciliation_records,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R24,FROZEN
+推广,invite_codes,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R25,FROZEN
+推广,invite_codes,2,user_id,bigint,否,,INDEX,code唯一,R25,FROZEN
+推广,invite_codes,3,code,varchar(64),否,,,code唯一,R25,FROZEN
+推广,invite_codes,4,status,varchar(64),否,,,code唯一,R25,FROZEN
+推广,invite_codes,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R25,FROZEN
+推广,invite_codes,6,updated_at,timestamptz,否,now(),,统一审计字段,R25,FROZEN
+推广,referral_relations,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R25,FROZEN
+推广,referral_relations,2,inviter_id,bigint,否,,INDEX,invitee唯一有效关系,R25,FROZEN
+推广,referral_relations,3,invitee_id,bigint,否,,INDEX,invitee唯一有效关系,R25,FROZEN
+推广,referral_relations,4,level1_parent_id,bigint,是,,INDEX,invitee唯一有效关系,R25,FROZEN
+推广,referral_relations,5,bound_at,timestamptz,是,,INDEX,invitee唯一有效关系,R25,FROZEN
+推广,referral_relations,6,status,varchar(64),否,,,invitee唯一有效关系,R25,FROZEN
+推广,referral_relations,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R25,FROZEN
+推广,referral_relations,8,updated_at,timestamptz,否,now(),,统一审计字段,R25,FROZEN
+推广,referral_binding_logs,1,id,bigint,否,generated,PRIMARY KEY,审计,R25,FROZEN
+推广,referral_binding_logs,2,invitee_id,bigint,否,,INDEX,审计,R25,FROZEN
+推广,referral_binding_logs,3,old_inviter,varchar(255),是,,,审计,R25,FROZEN
+推广,referral_binding_logs,4,new_inviter,varchar(255),是,,,审计,R25,FROZEN
+推广,referral_binding_logs,5,reason,text,是,,,审计,R25,FROZEN
+推广,referral_binding_logs,6,admin_id,bigint,是,,INDEX,审计,R25,FROZEN
+推广,referral_binding_logs,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R25,FROZEN
+推广,commission_policy_versions,1,id,bigint,否,generated,PRIMARY KEY,不可修改历史,R25,FROZEN
+推广,commission_policy_versions,2,name,varchar(255),否,,,不可修改历史,R25,FROZEN
+推广,commission_policy_versions,3,starts_at,timestamptz,是,,INDEX,不可修改历史,R25,FROZEN
+推广,commission_policy_versions,4,config_json,jsonb,是,,,不可修改历史,R25,FROZEN
+推广,commission_policy_versions,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R25,FROZEN
+推广,commission_records,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R25,FROZEN
+推广,commission_records,2,order_id,bigint,否,,INDEX,订单+受益人+层级唯一,R25,FROZEN
+推广,commission_records,3,beneficiary_id,bigint,否,,INDEX,订单+受益人+层级唯一,R25,FROZEN
+推广,commission_records,4,source_user_id,bigint,是,,INDEX,订单+受益人+层级唯一,R25,FROZEN
+推广,commission_records,5,level,integer,是,,,订单+受益人+层级唯一,R25,FROZEN
+推广,commission_records,6,base,bigint,是,,,订单+受益人+层级唯一,R25,FROZEN
+推广,commission_records,7,rate,varchar(255),是,,,订单+受益人+层级唯一,R25,FROZEN
+推广,commission_records,8,amount,bigint,是,,,订单+受益人+层级唯一,R25,FROZEN
+推广,commission_records,9,status,varchar(64),否,,,订单+受益人+层级唯一,R25,FROZEN
+推广,commission_records,10,created_at,timestamptz,否,now(),INDEX,统一审计字段,R25,FROZEN
+推广,commission_settlements,1,id,bigint,否,generated,PRIMARY KEY,调度,R25,FROZEN
+推广,commission_settlements,2,commission_id,bigint,否,,INDEX,调度,R25,FROZEN
+推广,commission_settlements,3,settle_at,timestamptz,是,,INDEX,调度,R25,FROZEN
+推广,commission_settlements,4,risk_result,varchar(255),是,,,调度,R25,FROZEN
+推广,commission_settlements,5,status,varchar(64),否,,,调度,R25,FROZEN
+推广,commission_settlements,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R25,FROZEN
+推广,commission_settlements,7,updated_at,timestamptz,否,now(),,统一审计字段,R25,FROZEN
+推广,referral_materials,1,id,bigint,否,generated,PRIMARY KEY,CMS,R25,FROZEN
+推广,referral_materials,2,type,varchar(64),否,,,CMS,R25,FROZEN
+推广,referral_materials,3,title,varchar(255),是,,,CMS,R25,FROZEN
+推广,referral_materials,4,content,text,是,,,CMS,R25,FROZEN
+推广,referral_materials,5,media_id,bigint,是,,INDEX,CMS,R25,FROZEN
+推广,referral_materials,6,status,varchar(64),否,,,CMS,R25,FROZEN
+推广,referral_materials,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R25,FROZEN
+推广,referral_materials,8,updated_at,timestamptz,否,now(),,统一审计字段,R25,FROZEN
+推广,referral_violation_records,1,id,bigint,否,generated,PRIMARY KEY,治理,R25,FROZEN
+推广,referral_violation_records,2,user_id,bigint,否,,INDEX,治理,R25,FROZEN
+推广,referral_violation_records,3,type,varchar(64),是,,,治理,R25,FROZEN
+推广,referral_violation_records,4,evidence,varchar(255),是,,,治理,R25,FROZEN
+推广,referral_violation_records,5,status,varchar(64),否,,,治理,R25,FROZEN
+推广,referral_violation_records,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R25,FROZEN
+推广活跃,referral_activity_rule_versions,1,id,bigint,否,generated,PRIMARY KEY,版本化,R26,FROZEN
+推广活跃,referral_activity_rule_versions,2,name,varchar(255),否,,,版本化,R26,FROZEN
+推广活跃,referral_activity_rule_versions,3,starts_at,timestamptz,是,,INDEX,版本化,R26,FROZEN
+推广活跃,referral_activity_rule_versions,4,daily_cap,varchar(255),是,,,版本化,R26,FROZEN
+推广活跃,referral_activity_rule_versions,5,config_json,jsonb,是,,,版本化,R26,FROZEN
+推广活跃,referral_activity_rule_versions,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R26,FROZEN
+推广活跃,referral_activity_rules,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R26,FROZEN
+推广活跃,referral_activity_rules,2,version_id,bigint,否,,INDEX,事件唯一,R26,FROZEN
+推广活跃,referral_activity_rules,3,event_type,varchar(255),否,,,事件唯一,R26,FROZEN
+推广活跃,referral_activity_rules,4,score,integer,是,,,事件唯一,R26,FROZEN
+推广活跃,referral_activity_rules,5,frequency,varchar(255),是,,,事件唯一,R26,FROZEN
+推广活跃,referral_activity_rules,6,conditions_json,jsonb,是,,,事件唯一,R26,FROZEN
+推广活跃,referral_activity_rules,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R26,FROZEN
+推广活跃,referral_activity_rules,8,updated_at,timestamptz,否,now(),,统一审计字段,R26,FROZEN
+推广活跃,referral_activity_progress,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R26,FROZEN
+推广活跃,referral_activity_progress,2,relation_id,bigint,否,,INDEX,relation唯一,R26,FROZEN
+推广活跃,referral_activity_progress,3,invitee_id,bigint,否,,INDEX,relation唯一,R26,FROZEN
+推广活跃,referral_activity_progress,4,current_score,integer,是,,,relation唯一,R26,FROZEN
+推广活跃,referral_activity_progress,5,highest_milestone,varchar(255),是,,,relation唯一,R26,FROZEN
+推广活跃,referral_activity_progress,6,status,varchar(64),否,,,relation唯一,R26,FROZEN
+推广活跃,referral_activity_progress,7,version,bigint,否,0,,乐观锁,R26,FROZEN
+推广活跃,referral_activity_progress,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R26,FROZEN
+推广活跃,referral_activity_progress,9,updated_at,timestamptz,否,now(),,统一审计字段,R26,FROZEN
+推广活跃,referral_activity_events,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R26,FROZEN
+推广活跃,referral_activity_events,2,relation_id,bigint,否,,INDEX,idem_key唯一,R26,FROZEN
+推广活跃,referral_activity_events,3,invitee_id,bigint,否,,INDEX,idem_key唯一,R26,FROZEN
+推广活跃,referral_activity_events,4,event_type,varchar(255),是,,,idem_key唯一,R26,FROZEN
+推广活跃,referral_activity_events,5,delta,bigint,是,,,idem_key唯一,R26,FROZEN
+推广活跃,referral_activity_events,6,before,varchar(255),是,,,idem_key唯一,R26,FROZEN
+推广活跃,referral_activity_events,7,after,varchar(255),是,,,idem_key唯一,R26,FROZEN
+推广活跃,referral_activity_events,8,biz_id,bigint,是,,INDEX,idem_key唯一,R26,FROZEN
+推广活跃,referral_activity_events,9,idem_key,varchar(255),是,,,idem_key唯一,R26,FROZEN
+推广活跃,referral_activity_events,10,created_at,timestamptz,否,now(),INDEX,统一审计字段,R26,FROZEN
+推广活跃,referral_milestones,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R26,FROZEN
+推广活跃,referral_milestones,2,version_id,bigint,否,,INDEX,版本+score唯一,R26,FROZEN
+推广活跃,referral_milestones,3,score,integer,否,,,版本+score唯一,R26,FROZEN
+推广活跃,referral_milestones,4,sequence,integer,是,,,版本+score唯一,R26,FROZEN
+推广活跃,referral_milestones,5,enabled,boolean,否,false,,版本+score唯一,R26,FROZEN
+推广活跃,referral_milestones,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R26,FROZEN
+推广活跃,referral_milestones,7,updated_at,timestamptz,否,now(),,统一审计字段,R26,FROZEN
+推广活跃,referral_reward_matrix,1,id,bigint,否,generated,PRIMARY KEY,逐格配置,R26,FROZEN
+推广活跃,referral_reward_matrix,2,milestone_id,bigint,否,,INDEX,逐格配置,R26,FROZEN
+推广活跃,referral_reward_matrix,3,member_term,varchar(255),是,,,逐格配置,R26,FROZEN
+推广活跃,referral_reward_matrix,4,reward_amount,bigint,是,,,逐格配置,R26,FROZEN
+推广活跃,referral_reward_matrix,5,enabled,boolean,否,false,,逐格配置,R26,FROZEN
+推广活跃,referral_reward_matrix,6,settle_delay,varchar(255),是,,,逐格配置,R26,FROZEN
+推广活跃,referral_reward_matrix,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R26,FROZEN
+推广活跃,referral_reward_matrix,8,updated_at,timestamptz,否,now(),,统一审计字段,R26,FROZEN
+推广活跃,referral_milestone_rewards,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R26,FROZEN
+推广活跃,referral_milestone_rewards,2,relation_id,bigint,否,,INDEX,关系+版本+档位唯一,R26,FROZEN
+推广活跃,referral_milestone_rewards,3,inviter_id,bigint,否,,INDEX,关系+版本+档位唯一,R26,FROZEN
+推广活跃,referral_milestone_rewards,4,invitee_id,bigint,是,,INDEX,关系+版本+档位唯一,R26,FROZEN
+推广活跃,referral_milestone_rewards,5,milestone,varchar(255),是,,,关系+版本+档位唯一,R26,FROZEN
+推广活跃,referral_milestone_rewards,6,member_snapshot,varchar(255),是,,,关系+版本+档位唯一,R26,FROZEN
+推广活跃,referral_milestone_rewards,7,amount,bigint,是,,,关系+版本+档位唯一,R26,FROZEN
+推广活跃,referral_milestone_rewards,8,status,varchar(64),否,,,关系+版本+档位唯一,R26,FROZEN
+推广活跃,referral_milestone_rewards,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R26,FROZEN
+推广活跃,referral_milestone_rewards,10,updated_at,timestamptz,否,now(),,统一审计字段,R26,FROZEN
+任务,task_definitions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R27,FROZEN
+任务,task_definitions,2,code,varchar(64),否,,,code唯一,R27,FROZEN
+任务,task_definitions,3,type,varchar(64),否,,,code唯一,R27,FROZEN
+任务,task_definitions,4,cycle,varchar(255),是,,,code唯一,R27,FROZEN
+任务,task_definitions,5,status,varchar(64),否,,,code唯一,R27,FROZEN
+任务,task_definitions,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R27,FROZEN
+任务,task_definitions,7,updated_at,timestamptz,否,now(),,统一审计字段,R27,FROZEN
+任务,task_rule_versions,1,id,bigint,否,generated,PRIMARY KEY,版本,R27,FROZEN
+任务,task_rule_versions,2,task_id,bigint,否,,INDEX,版本,R27,FROZEN
+任务,task_rule_versions,3,version,bigint,否,0,,版本,R27,FROZEN
+任务,task_rule_versions,4,conditions_json,jsonb,是,,,版本,R27,FROZEN
+任务,task_rule_versions,5,rewards_json,jsonb,是,,,版本,R27,FROZEN
+任务,task_rule_versions,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R27,FROZEN
+任务,user_task_progress,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R27,FROZEN
+任务,user_task_progress,2,user_id,bigint,否,,INDEX,用户+任务+周期唯一,R27,FROZEN
+任务,user_task_progress,3,task_id,bigint,否,,INDEX,用户+任务+周期唯一,R27,FROZEN
+任务,user_task_progress,4,cycle_key,varchar(255),是,,,用户+任务+周期唯一,R27,FROZEN
+任务,user_task_progress,5,progress,varchar(255),是,,,用户+任务+周期唯一,R27,FROZEN
+任务,user_task_progress,6,status,varchar(64),否,,,用户+任务+周期唯一,R27,FROZEN
+任务,user_task_progress,7,version,bigint,否,0,,乐观锁,R27,FROZEN
+任务,user_task_progress,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R27,FROZEN
+任务,user_task_progress,9,updated_at,timestamptz,否,now(),,统一审计字段,R27,FROZEN
+任务,task_events,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R27,FROZEN
+任务,task_events,2,user_id,bigint,否,,INDEX,idem唯一,R27,FROZEN
+任务,task_events,3,event_type,varchar(255),否,,,idem唯一,R27,FROZEN
+任务,task_events,4,biz_id,bigint,是,,INDEX,idem唯一,R27,FROZEN
+任务,task_events,5,idem_key,varchar(255),是,,,idem唯一,R27,FROZEN
+任务,task_events,6,payload,jsonb,是,,,idem唯一,R27,FROZEN
+任务,task_events,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R27,FROZEN
+任务,user_point_accounts,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R27,FROZEN
+任务,user_point_accounts,2,user_id,bigint,否,,INDEX,user唯一,R27,FROZEN
+任务,user_point_accounts,3,balance,bigint,否,,,user唯一,R27,FROZEN
+任务,user_point_accounts,4,accumulated,varchar(255),是,,,user唯一,R27,FROZEN
+任务,user_point_accounts,5,version,bigint,否,0,,乐观锁,R27,FROZEN
+任务,user_point_accounts,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R27,FROZEN
+任务,user_point_accounts,7,updated_at,timestamptz,否,now(),,统一审计字段,R27,FROZEN
+任务,user_point_ledger,1,id,bigint,否,generated,PRIMARY KEY,不可变,R27,FROZEN
+任务,user_point_ledger,2,user_id,bigint,否,,INDEX,不可变,R27,FROZEN
+任务,user_point_ledger,3,delta,bigint,是,,,不可变,R27,FROZEN
+任务,user_point_ledger,4,source,varchar(255),是,,,不可变,R27,FROZEN
+任务,user_point_ledger,5,biz_id,bigint,是,,INDEX,不可变,R27,FROZEN
+任务,user_point_ledger,6,balance_after,bigint,是,,,不可变,R27,FROZEN
+任务,user_point_ledger,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R27,FROZEN
+任务,task_milestone_rewards,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R27,FROZEN
+任务,task_milestone_rewards,2,user_id,bigint,否,,INDEX,规则唯一,R27,FROZEN
+任务,task_milestone_rewards,3,milestone,varchar(255),否,,,规则唯一,R27,FROZEN
+任务,task_milestone_rewards,4,reward_type,varchar(255),是,,,规则唯一,R27,FROZEN
+任务,task_milestone_rewards,5,amount,bigint,是,,,规则唯一,R27,FROZEN
+任务,task_milestone_rewards,6,status,varchar(64),否,,,规则唯一,R27,FROZEN
+任务,task_milestone_rewards,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R27,FROZEN
+任务,task_milestone_rewards,8,updated_at,timestamptz,否,now(),,统一审计字段,R27,FROZEN
+任务,growth_budgets,1,id,bigint,否,generated,PRIMARY KEY,预算控制,R27,FROZEN
+任务,growth_budgets,2,period,varchar(255),否,,,预算控制,R27,FROZEN
+任务,growth_budgets,3,reward_type,varchar(255),是,,,预算控制,R27,FROZEN
+任务,growth_budgets,4,budget,bigint,是,,,预算控制,R27,FROZEN
+任务,growth_budgets,5,consumed,bigint,是,,,预算控制,R27,FROZEN
+任务,growth_budgets,6,status,varchar(64),否,,,预算控制,R27,FROZEN
+任务,growth_budgets,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R27,FROZEN
+任务,growth_budgets,8,updated_at,timestamptz,否,now(),,统一审计字段,R27,FROZEN
+客服,support_tickets,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R15,FROZEN
+客服,support_tickets,2,ticket_no,varchar(255),否,,,ticket_no唯一,R15,FROZEN
+客服,support_tickets,3,user_id,bigint,否,,INDEX,ticket_no唯一,R15,FROZEN
+客服,support_tickets,4,type,varchar(64),是,,,ticket_no唯一,R15,FROZEN
+客服,support_tickets,5,biz_type,varchar(255),是,,,ticket_no唯一,R15,FROZEN
+客服,support_tickets,6,biz_id,bigint,是,,INDEX,ticket_no唯一,R15,FROZEN
+客服,support_tickets,7,status,varchar(64),否,,,ticket_no唯一,R15,FROZEN
+客服,support_tickets,8,assignee,varchar(255),是,,,ticket_no唯一,R15,FROZEN
+客服,support_tickets,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R15,FROZEN
+客服,support_tickets,10,updated_at,timestamptz,否,now(),,统一审计字段,R15,FROZEN
+客服,ticket_messages,1,id,bigint,否,generated,PRIMARY KEY,时间索引,R15,FROZEN
+客服,ticket_messages,2,ticket_id,bigint,否,,INDEX,时间索引,R15,FROZEN
+客服,ticket_messages,3,sender_type,varchar(255),是,,,时间索引,R15,FROZEN
+客服,ticket_messages,4,sender_id,bigint,是,,INDEX,时间索引,R15,FROZEN
+客服,ticket_messages,5,body,text,是,,,时间索引,R15,FROZEN
+客服,ticket_messages,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R15,FROZEN
+客服,ticket_messages,7,updated_at,timestamptz,否,now(),,统一审计字段,R15,FROZEN
+客服,ticket_attachments,1,id,bigint,否,generated,PRIMARY KEY,证据,R15,FROZEN
+客服,ticket_attachments,2,ticket_id,bigint,否,,INDEX,证据,R15,FROZEN
+客服,ticket_attachments,3,message_id,bigint,是,,INDEX,证据,R15,FROZEN
+客服,ticket_attachments,4,media_id,bigint,是,,INDEX,证据,R15,FROZEN
+客服,ticket_attachments,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R15,FROZEN
+客服,ticket_attachments,6,updated_at,timestamptz,否,now(),,统一审计字段,R15,FROZEN
+客服,ticket_status_logs,1,id,bigint,否,generated,PRIMARY KEY,审计,R15,FROZEN
+客服,ticket_status_logs,2,ticket_id,bigint,否,,INDEX,审计,R15,FROZEN
+客服,ticket_status_logs,3,from_status,varchar(255),是,,,审计,R15,FROZEN
+客服,ticket_status_logs,4,to_status,varchar(255),是,,,审计,R15,FROZEN
+客服,ticket_status_logs,5,operator,varchar(255),是,,,审计,R15,FROZEN
+客服,ticket_status_logs,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R15,FROZEN
+CMS,home_modules,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R28,FROZEN
+CMS,home_modules,2,code,varchar(64),否,,,code唯一,R28,FROZEN
+CMS,home_modules,3,title,varchar(255),否,,,code唯一,R28,FROZEN
+CMS,home_modules,4,source_type,varchar(255),是,,,code唯一,R28,FROZEN
+CMS,home_modules,5,config_json,jsonb,是,,,code唯一,R28,FROZEN
+CMS,home_modules,6,display_order,integer,是,,,code唯一,R28,FROZEN
+CMS,home_modules,7,enabled,boolean,否,false,,code唯一,R28,FROZEN
+CMS,home_modules,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R28,FROZEN
+CMS,home_modules,9,updated_at,timestamptz,否,now(),,统一审计字段,R28,FROZEN
+CMS,banners,1,id,bigint,否,generated,PRIMARY KEY,排期,R28,FROZEN
+CMS,banners,2,position,varchar(255),否,,,排期,R28,FROZEN
+CMS,banners,3,title,varchar(255),是,,,排期,R28,FROZEN
+CMS,banners,4,media_id,bigint,是,,INDEX,排期,R28,FROZEN
+CMS,banners,5,target,varchar(255),是,,,排期,R28,FROZEN
+CMS,banners,6,starts_at,timestamptz,是,,INDEX,排期,R28,FROZEN
+CMS,banners,7,ends_at,timestamptz,是,,INDEX,排期,R28,FROZEN
+CMS,banners,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R28,FROZEN
+CMS,banners,9,updated_at,timestamptz,否,now(),,统一审计字段,R28,FROZEN
+CMS,cms_articles,1,id,bigint,否,generated,PRIMARY KEY,版本可扩展,R28,FROZEN
+CMS,cms_articles,2,type,varchar(64),否,,,版本可扩展,R28,FROZEN
+CMS,cms_articles,3,title,varchar(255),是,,,版本可扩展,R28,FROZEN
+CMS,cms_articles,4,content,text,是,,,版本可扩展,R28,FROZEN
+CMS,cms_articles,5,status,varchar(64),否,,,版本可扩展,R28,FROZEN
+CMS,cms_articles,6,published_at,timestamptz,是,,INDEX,版本可扩展,R28,FROZEN
+CMS,cms_articles,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R28,FROZEN
+CMS,cms_articles,8,updated_at,timestamptz,否,now(),,统一审计字段,R28,FROZEN
+CMS,agreements,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R28,FROZEN
+CMS,agreements,2,code,varchar(64),否,,,code唯一,R28,FROZEN
+CMS,agreements,3,current_version_id,bigint,否,,INDEX,code唯一,R28,FROZEN
+CMS,agreements,4,created_at,timestamptz,否,now(),INDEX,统一审计字段,R28,FROZEN
+CMS,agreements,5,updated_at,timestamptz,否,now(),,统一审计字段,R28,FROZEN
+CMS,agreement_versions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R28,FROZEN
+CMS,agreement_versions,2,agreement_id,bigint,否,,INDEX,版本唯一,R28,FROZEN
+CMS,agreement_versions,3,version,bigint,否,0,,版本唯一,R28,FROZEN
+CMS,agreement_versions,4,content,text,是,,,版本唯一,R28,FROZEN
+CMS,agreement_versions,5,effective_at,timestamptz,是,,INDEX,版本唯一,R28,FROZEN
+CMS,agreement_versions,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R28,FROZEN
+CMS,user_agreement_acceptances,1,id,bigint,否,generated,PRIMARY KEY,证据,R28,FROZEN
+CMS,user_agreement_acceptances,2,user_id,bigint,否,,INDEX,证据,R28,FROZEN
+CMS,user_agreement_acceptances,3,version_id,bigint,是,,INDEX,证据,R28,FROZEN
+CMS,user_agreement_acceptances,4,scene,varchar(64),是,,,证据,R28,FROZEN
+CMS,user_agreement_acceptances,5,ip,varchar(64),是,,,证据,R28,FROZEN
+CMS,user_agreement_acceptances,6,device_id,bigint,是,,INDEX,证据,R28,FROZEN
+CMS,user_agreement_acceptances,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R28,FROZEN
+CMS,h5_page_configs,1,id,bigint,否,generated,PRIMARY KEY,版本,R28,FROZEN
+CMS,h5_page_configs,2,page_code,varchar(255),否,,,版本,R28,FROZEN
+CMS,h5_page_configs,3,config_json,jsonb,是,,,版本,R28,FROZEN
+CMS,h5_page_configs,4,version,bigint,否,0,,版本,R28,FROZEN
+CMS,h5_page_configs,5,status,varchar(64),否,,,版本,R28,FROZEN
+CMS,h5_page_configs,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R28,FROZEN
+CMS,h5_page_configs,7,updated_at,timestamptz,否,now(),,统一审计字段,R28,FROZEN
+版本,app_versions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,P00/R29/R30,FROZEN
+版本,app_versions,2,version_code,integer,否,,,version_code唯一,P00/R29/R30,FROZEN
+版本,app_versions,3,version_name,varchar(255),否,,,version_code唯一,P00/R29/R30,FROZEN
+版本,app_versions,4,apk_media_id,bigint,是,,INDEX,version_code唯一,P00/R29/R30,FROZEN
+版本,app_versions,5,update_type,varchar(255),是,,,version_code唯一,P00/R29/R30,FROZEN
+版本,app_versions,6,min_version,integer,是,,,version_code唯一,P00/R29/R30,FROZEN
+版本,app_versions,7,sha256,varchar(128),是,,,version_code唯一,P00/R29/R30,FROZEN
+版本,app_versions,8,status,varchar(64),否,,,version_code唯一,P00/R29/R30,FROZEN
+版本,app_versions,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00/R29/R30,FROZEN
+版本,app_download_logs,1,id,bigint,否,generated,PRIMARY KEY,统计,R29,FROZEN
+版本,app_download_logs,2,version_id,bigint,否,,INDEX,统计,R29,FROZEN
+版本,app_download_logs,3,ip,varchar(64),是,,,统计,R29,FROZEN
+版本,app_download_logs,4,source,varchar(255),是,,,统计,R29,FROZEN
+版本,app_download_logs,5,user_agent,varchar(255),是,,,统计,R29,FROZEN
+版本,app_download_logs,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R29,FROZEN
+风控,risk_rule_versions,1,id,bigint,否,generated,PRIMARY KEY,版本,R31,FROZEN
+风控,risk_rule_versions,2,name,varchar(255),否,,,版本,R31,FROZEN
+风控,risk_rule_versions,3,scene,varchar(64),是,,,版本,R31,FROZEN
+风控,risk_rule_versions,4,config_json,jsonb,是,,,版本,R31,FROZEN
+风控,risk_rule_versions,5,starts_at,timestamptz,是,,INDEX,版本,R31,FROZEN
+风控,risk_rule_versions,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R31,FROZEN
+风控,risk_events,1,id,bigint,否,generated,PRIMARY KEY,场景索引,R31,FROZEN
+风控,risk_events,2,user_id,bigint,否,,INDEX,场景索引,R31,FROZEN
+风控,risk_events,3,scene,varchar(64),是,,,场景索引,R31,FROZEN
+风控,risk_events,4,score,integer,是,,,场景索引,R31,FROZEN
+风控,risk_events,5,hits_json,jsonb,是,,,场景索引,R31,FROZEN
+风控,risk_events,6,status,varchar(64),否,,,场景索引,R31,FROZEN
+风控,risk_events,7,biz_id,bigint,是,,INDEX,场景索引,R31,FROZEN
+风控,risk_events,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R31,FROZEN
+风控,device_fingerprints,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R31,FROZEN
+风控,device_fingerprints,2,fingerprint,varchar(128),否,,,fingerprint唯一,R31,FROZEN
+风控,device_fingerprints,3,first_user_id,bigint,否,,INDEX,fingerprint唯一,R31,FROZEN
+风控,device_fingerprints,4,risk_level,integer,是,,,fingerprint唯一,R31,FROZEN
+风控,device_fingerprints,5,attributes_json,jsonb,是,,,fingerprint唯一,R31,FROZEN
+风控,device_fingerprints,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R31,FROZEN
+风控,device_fingerprints,7,updated_at,timestamptz,否,now(),,统一审计字段,R31,FROZEN
+风控,blacklists,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R31,FROZEN
+风控,blacklists,2,type,varchar(64),否,,,类型+值唯一,R31,FROZEN
+风控,blacklists,3,value_hash,bigint,否,,,类型+值唯一,R31,FROZEN
+风控,blacklists,4,reason,text,是,,,类型+值唯一,R31,FROZEN
+风控,blacklists,5,starts_at,timestamptz,是,,INDEX,类型+值唯一,R31,FROZEN
+风控,blacklists,6,ends_at,timestamptz,是,,INDEX,类型+值唯一,R31,FROZEN
+风控,blacklists,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R31,FROZEN
+风控,blacklists,8,updated_at,timestamptz,否,now(),,统一审计字段,R31,FROZEN
+风控,whitelists,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R31,FROZEN
+风控,whitelists,2,type,varchar(64),否,,,类型+值唯一,R31,FROZEN
+风控,whitelists,3,value_hash,bigint,否,,,类型+值唯一,R31,FROZEN
+风控,whitelists,4,reason,text,是,,,类型+值唯一,R31,FROZEN
+风控,whitelists,5,ends_at,timestamptz,是,,INDEX,类型+值唯一,R31,FROZEN
+风控,whitelists,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R31,FROZEN
+风控,whitelists,7,updated_at,timestamptz,否,now(),,统一审计字段,R31,FROZEN
+风控,manual_review_cases,1,id,bigint,否,generated,PRIMARY KEY,队列,R31,FROZEN
+风控,manual_review_cases,2,scene,varchar(64),否,,,队列,R31,FROZEN
+风控,manual_review_cases,3,biz_id,bigint,是,,INDEX,队列,R31,FROZEN
+风控,manual_review_cases,4,status,varchar(64),否,,,队列,R31,FROZEN
+风控,manual_review_cases,5,assignee,varchar(255),是,,,队列,R31,FROZEN
+风控,manual_review_cases,6,decision,varchar(64),是,,,队列,R31,FROZEN
+风控,manual_review_cases,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R31,FROZEN
+风控,manual_review_cases,8,updated_at,timestamptz,否,now(),,统一审计字段,R31,FROZEN
+后台,admin_users,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R01/R03/R30,FROZEN
+后台,admin_users,2,username,varchar(255),否,,,username唯一,R01/R03/R30,FROZEN
+后台,admin_users,3,password_hash,varchar(128),否,,,username唯一,R01/R03/R30,FROZEN
+后台,admin_users,4,status,varchar(64),否,,,username唯一,R01/R03/R30,FROZEN
+后台,admin_users,5,mfa_secret_ref,varchar(255),是,,,username唯一,R01/R03/R30,FROZEN
+后台,admin_users,6,version,bigint,否,0,,乐观锁,R01/R03/R30,FROZEN
+后台,admin_users,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+后台,admin_users,8,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+后台,admin_roles,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R01/R03/R30,FROZEN
+后台,admin_roles,2,code,varchar(64),否,,,code唯一,R01/R03/R30,FROZEN
+后台,admin_roles,3,name,varchar(255),否,,,code唯一,R01/R03/R30,FROZEN
+后台,admin_roles,4,status,varchar(64),否,,,code唯一,R01/R03/R30,FROZEN
+后台,admin_roles,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+后台,admin_roles,6,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+后台,admin_permissions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R01/R03/R30,FROZEN
+后台,admin_permissions,2,code,varchar(64),否,,,code唯一,R01/R03/R30,FROZEN
+后台,admin_permissions,3,resource,varchar(255),否,,,code唯一,R01/R03/R30,FROZEN
+后台,admin_permissions,4,action,varchar(255),是,,,code唯一,R01/R03/R30,FROZEN
+后台,admin_permissions,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+后台,admin_permissions,6,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+后台,admin_user_roles,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R01/R03/R30,FROZEN
+后台,admin_user_roles,2,admin_id,bigint,否,,INDEX,唯一,R01/R03/R30,FROZEN
+后台,admin_user_roles,3,role_id,bigint,否,,INDEX,唯一,R01/R03/R30,FROZEN
+后台,admin_user_roles,4,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+后台,admin_user_roles,5,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+后台,admin_role_permissions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R01/R03/R30,FROZEN
+后台,admin_role_permissions,2,role_id,bigint,否,,INDEX,唯一,R01/R03/R30,FROZEN
+后台,admin_role_permissions,3,permission_id,bigint,否,,INDEX,唯一,R01/R03/R30,FROZEN
+后台,admin_role_permissions,4,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+后台,admin_role_permissions,5,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+后台,admin_operation_logs,1,id,bigint,否,generated,PRIMARY KEY,不可删除,R01/R03/R30,FROZEN
+后台,admin_operation_logs,2,admin_id,bigint,否,,INDEX,不可删除,R01/R03/R30,FROZEN
+后台,admin_operation_logs,3,action,varchar(255),是,,,不可删除,R01/R03/R30,FROZEN
+后台,admin_operation_logs,4,resource,varchar(255),是,,,不可删除,R01/R03/R30,FROZEN
+后台,admin_operation_logs,5,resource_id,bigint,是,,INDEX,不可删除,R01/R03/R30,FROZEN
+后台,admin_operation_logs,6,before_json,jsonb,是,,,不可删除,R01/R03/R30,FROZEN
+后台,admin_operation_logs,7,after_json,jsonb,是,,,不可删除,R01/R03/R30,FROZEN
+后台,admin_operation_logs,8,ip,varchar(64),是,,,不可删除,R01/R03/R30,FROZEN
+后台,admin_operation_logs,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+后台,admin_approval_requests,1,id,bigint,否,generated,PRIMARY KEY,高风险操作,R01/R03/R30,FROZEN
+后台,admin_approval_requests,2,type,varchar(64),否,,,高风险操作,R01/R03/R30,FROZEN
+后台,admin_approval_requests,3,biz_id,bigint,是,,INDEX,高风险操作,R01/R03/R30,FROZEN
+后台,admin_approval_requests,4,requester,varchar(255),是,,,高风险操作,R01/R03/R30,FROZEN
+后台,admin_approval_requests,5,reviewer,varchar(255),是,,,高风险操作,R01/R03/R30,FROZEN
+后台,admin_approval_requests,6,status,varchar(64),否,,,高风险操作,R01/R03/R30,FROZEN
+后台,admin_approval_requests,7,version,bigint,否,0,,乐观锁,R01/R03/R30,FROZEN
+后台,admin_approval_requests,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+后台,admin_approval_requests,9,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+系统,system_configs,1,id,bigint,否,generated,PRIMARY KEY,技术主键,P00/R29/R30,FROZEN
+系统,system_configs,2,key,varchar(255),否,,,key+scope唯一,P00/R29/R30,FROZEN
+系统,system_configs,3,value_json,jsonb,否,'{}'::jsonb,,key+scope唯一,P00/R29/R30,FROZEN
+系统,system_configs,4,version,bigint,否,0,,key+scope唯一,P00/R29/R30,FROZEN
+系统,system_configs,5,scope,varchar(64),是,,,key+scope唯一,P00/R29/R30,FROZEN
+系统,system_configs,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00/R29/R30,FROZEN
+系统,system_configs,7,updated_at,timestamptz,否,now(),,统一审计字段,P00/R29/R30,FROZEN
+系统,system_config_versions,1,id,bigint,否,generated,PRIMARY KEY,不可删除,P00/R29/R30,FROZEN
+系统,system_config_versions,2,key,varchar(255),否,,,不可删除,P00/R29/R30,FROZEN
+系统,system_config_versions,3,version,bigint,否,0,,不可删除,P00/R29/R30,FROZEN
+系统,system_config_versions,4,value_json,jsonb,是,,,不可删除,P00/R29/R30,FROZEN
+系统,system_config_versions,5,changed_by,varchar(255),是,,,不可删除,P00/R29/R30,FROZEN
+系统,system_config_versions,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00/R29/R30,FROZEN
+系统,feature_flags,1,id,bigint,否,generated,PRIMARY KEY,灰度,P00/R29/R30,FROZEN
+系统,feature_flags,2,key,varchar(255),否,,,灰度,P00/R29/R30,FROZEN
+系统,feature_flags,3,enabled,boolean,否,false,,灰度,P00/R29/R30,FROZEN
+系统,feature_flags,4,rollout_json,jsonb,是,,,灰度,P00/R29/R30,FROZEN
+系统,feature_flags,5,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00/R29/R30,FROZEN
+系统,feature_flags,6,updated_at,timestamptz,否,now(),,统一审计字段,P00/R29/R30,FROZEN
+系统,job_definitions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R30,FROZEN
+系统,job_definitions,2,code,varchar(64),否,,,code唯一,R30,FROZEN
+系统,job_definitions,3,cron,varchar(255),否,,,code唯一,R30,FROZEN
+系统,job_definitions,4,enabled,boolean,否,false,,code唯一,R30,FROZEN
+系统,job_definitions,5,config_json,jsonb,是,,,code唯一,R30,FROZEN
+系统,job_definitions,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R30,FROZEN
+系统,job_definitions,7,updated_at,timestamptz,否,now(),,统一审计字段,R30,FROZEN
+系统,job_execution_logs,1,id,bigint,否,generated,PRIMARY KEY,时间索引,R30,FROZEN
+系统,job_execution_logs,2,job_code,varchar(255),否,,,时间索引,R30,FROZEN
+系统,job_execution_logs,3,started_at,timestamptz,是,,INDEX,时间索引,R30,FROZEN
+系统,job_execution_logs,4,finished_at,timestamptz,是,,INDEX,时间索引,R30,FROZEN
+系统,job_execution_logs,5,status,varchar(64),否,,,时间索引,R30,FROZEN
+系统,job_execution_logs,6,error,text,是,,,时间索引,R30,FROZEN
+系统,job_execution_logs,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R30,FROZEN
+系统,idempotency_records,1,id,bigint,否,generated,PRIMARY KEY,技术主键,P00/R29/R30,FROZEN
+系统,idempotency_records,2,scope,varchar(64),否,,,scope+key唯一,P00/R29/R30,FROZEN
+系统,idempotency_records,3,idem_key,varchar(255),否,,,scope+key唯一,P00/R29/R30,FROZEN
+系统,idempotency_records,4,request_hash,varchar(128),是,,,scope+key唯一,P00/R29/R30,FROZEN
+系统,idempotency_records,5,response_ref,varchar(255),是,,,scope+key唯一,P00/R29/R30,FROZEN
+系统,idempotency_records,6,expires_at,timestamptz,是,,INDEX,scope+key唯一,P00/R29/R30,FROZEN
+系统,idempotency_records,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00/R29/R30,FROZEN
+分析,analytics_events,1,id,bigint,否,generated,PRIMARY KEY,可分区,R23/R30,FROZEN
+分析,analytics_events,2,user_id,bigint,否,,INDEX,可分区,R23/R30,FROZEN
+分析,analytics_events,3,event_name,varchar(255),是,,,可分区,R23/R30,FROZEN
+分析,analytics_events,4,biz_type,varchar(255),是,,,可分区,R23/R30,FROZEN
+分析,analytics_events,5,biz_id,bigint,是,,INDEX,可分区,R23/R30,FROZEN
+分析,analytics_events,6,traffic_type,varchar(64),是,,,可分区,R23/R30,FROZEN
+分析,analytics_events,7,properties,jsonb,是,,,可分区,R23/R30,FROZEN
+分析,analytics_events,8,occurred_at,timestamptz,是,,INDEX,可分区,R23/R30,FROZEN
+分析,analytics_events,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R23/R30,FROZEN
+分析,daily_kpis,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R23/R30,FROZEN
+分析,daily_kpis,2,stat_date,date,否,,,维度唯一,R23/R30,FROZEN
+分析,daily_kpis,3,metric_code,varchar(255),否,,,维度唯一,R23/R30,FROZEN
+分析,daily_kpis,4,dimensions,jsonb,是,,,维度唯一,R23/R30,FROZEN
+分析,daily_kpis,5,value,bigint,是,,,维度唯一,R23/R30,FROZEN
+分析,daily_kpis,6,created_at,timestamptz,否,now(),INDEX,统一审计字段,R23/R30,FROZEN
+分析,daily_kpis,7,updated_at,timestamptz,否,now(),,统一审计字段,R23/R30,FROZEN
+配置中心,provider_config_definitions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R01/R03/R30,FROZEN
+配置中心,provider_config_definitions,2,provider_code,varchar(64),否,,,provider+field唯一,R01/R03/R30,FROZEN
+配置中心,provider_config_definitions,3,field_code,varchar(64),否,,,provider+field唯一,R01/R03/R30,FROZEN
+配置中心,provider_config_definitions,4,field_type,varchar(255),是,,,provider+field唯一,R01/R03/R30,FROZEN
+配置中心,provider_config_definitions,5,secret,boolean,是,,,provider+field唯一,R01/R03/R30,FROZEN
+配置中心,provider_config_definitions,6,required,boolean,是,,,provider+field唯一,R01/R03/R30,FROZEN
+配置中心,provider_config_definitions,7,validation_json,jsonb,是,,,provider+field唯一,R01/R03/R30,FROZEN
+配置中心,provider_config_definitions,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+配置中心,provider_config_definitions,9,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+配置中心,provider_config_versions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R01/R03/R30,FROZEN
+配置中心,provider_config_versions,2,provider_code,varchar(64),否,,,版本不可覆盖；激活唯一,R01/R03/R30,FROZEN
+配置中心,provider_config_versions,3,version_no,varchar(255),否,,,版本不可覆盖；激活唯一,R01/R03/R30,FROZEN
+配置中心,provider_config_versions,4,encrypted_values,bigint,是,,,版本不可覆盖；激活唯一,R01/R03/R30,FROZEN
+配置中心,provider_config_versions,5,status,varchar(64),否,,,版本不可覆盖；激活唯一,R01/R03/R30,FROZEN
+配置中心,provider_config_versions,6,created_by,varchar(255),是,,,版本不可覆盖；激活唯一,R01/R03/R30,FROZEN
+配置中心,provider_config_versions,7,activated_at,timestamptz,是,,INDEX,版本不可覆盖；激活唯一,R01/R03/R30,FROZEN
+配置中心,provider_config_versions,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+配置中心,provider_connection_tests,1,id,bigint,否,generated,PRIMARY KEY,不保存明文秘密,R01/R03/R30,FROZEN
+配置中心,provider_connection_tests,2,provider_code,varchar(64),否,,,不保存明文秘密,R01/R03/R30,FROZEN
+配置中心,provider_connection_tests,3,config_version_id,bigint,是,,INDEX,不保存明文秘密,R01/R03/R30,FROZEN
+配置中心,provider_connection_tests,4,test_type,varchar(255),是,,,不保存明文秘密,R01/R03/R30,FROZEN
+配置中心,provider_connection_tests,5,status,varchar(64),否,,,不保存明文秘密,R01/R03/R30,FROZEN
+配置中心,provider_connection_tests,6,masked_result,varchar(255),是,,,不保存明文秘密,R01/R03/R30,FROZEN
+配置中心,provider_connection_tests,7,requested_by,varchar(255),是,,,不保存明文秘密,R01/R03/R30,FROZEN
+配置中心,provider_connection_tests,8,created_at,timestamptz,否,now(),INDEX,不保存明文秘密,R01/R03/R30,FROZEN
+配置中心,provider_connection_tests,9,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+配置中心,provider_certificates,1,id,bigint,否,generated,PRIMARY KEY,私有存储；原文不可读回,R01/R03/R30,FROZEN
+配置中心,provider_certificates,2,provider_code,varchar(64),否,,,私有存储；原文不可读回,R01/R03/R30,FROZEN
+配置中心,provider_certificates,3,cert_type,varchar(255),是,,,私有存储；原文不可读回,R01/R03/R30,FROZEN
+配置中心,provider_certificates,4,object_key,text,是,,,私有存储；原文不可读回,R01/R03/R30,FROZEN
+配置中心,provider_certificates,5,fingerprint,varchar(128),是,,,私有存储；原文不可读回,R01/R03/R30,FROZEN
+配置中心,provider_certificates,6,encrypted_password_ref,varchar(255),是,,,私有存储；原文不可读回,R01/R03/R30,FROZEN
+配置中心,provider_certificates,7,valid_from,timestamptz,是,,,私有存储；原文不可读回,R01/R03/R30,FROZEN
+配置中心,provider_certificates,8,valid_to,timestamptz,是,,,私有存储；原文不可读回,R01/R03/R30,FROZEN
+配置中心,provider_certificates,9,status,varchar(64),否,,,私有存储；原文不可读回,R01/R03/R30,FROZEN
+配置中心,provider_certificates,10,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+配置中心,provider_certificates,11,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+配置中心,provider_certificate_access_logs,1,id,bigint,否,generated,PRIMARY KEY,不可删除,R01/R03/R30,FROZEN
+配置中心,provider_certificate_access_logs,2,certificate_id,bigint,否,,INDEX,不可删除,R01/R03/R30,FROZEN
+配置中心,provider_certificate_access_logs,3,admin_id,bigint,是,,INDEX,不可删除,R01/R03/R30,FROZEN
+配置中心,provider_certificate_access_logs,4,operation,varchar(64),是,,,不可删除,R01/R03/R30,FROZEN
+配置中心,provider_certificate_access_logs,5,reason,text,是,,,不可删除,R01/R03/R30,FROZEN
+配置中心,provider_certificate_access_logs,6,ip,varchar(64),是,,,不可删除,R01/R03/R30,FROZEN
+配置中心,provider_certificate_access_logs,7,created_at,timestamptz,否,now(),INDEX,不可删除,R01/R03/R30,FROZEN
+配置中心,domain_configs,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R01/R03/R30,FROZEN
+配置中心,domain_configs,2,code,varchar(64),否,,,environment+code唯一,R01/R03/R30,FROZEN
+配置中心,domain_configs,3,environment,varchar(64),否,,,environment+code唯一,R01/R03/R30,FROZEN
+配置中心,domain_configs,4,host,varchar(255),是,,,environment+code唯一,R01/R03/R30,FROZEN
+配置中心,domain_configs,5,purpose,varchar(255),是,,,environment+code唯一,R01/R03/R30,FROZEN
+配置中心,domain_configs,6,status,varchar(64),否,,,environment+code唯一,R01/R03/R30,FROZEN
+配置中心,domain_configs,7,verified_at,timestamptz,是,,INDEX,environment+code唯一,R01/R03/R30,FROZEN
+配置中心,domain_configs,8,version,bigint,否,0,,乐观锁,R01/R03/R30,FROZEN
+配置中心,domain_configs,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+配置中心,domain_configs,10,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+配置中心,dns_action_items,1,id,bigint,否,generated,PRIMARY KEY,解析由用户完成,R01/R03/R30,FROZEN
+配置中心,dns_action_items,2,domain_config_id,bigint,否,,INDEX,解析由用户完成,R01/R03/R30,FROZEN
+配置中心,dns_action_items,3,record_type,varchar(255),是,,,解析由用户完成,R01/R03/R30,FROZEN
+配置中心,dns_action_items,4,name,varchar(255),是,,,解析由用户完成,R01/R03/R30,FROZEN
+配置中心,dns_action_items,5,value,bigint,是,,,解析由用户完成,R01/R03/R30,FROZEN
+配置中心,dns_action_items,6,status,varchar(64),否,,,解析由用户完成,R01/R03/R30,FROZEN
+配置中心,dns_action_items,7,user_action_required,boolean,是,,,解析由用户完成,R01/R03/R30,FROZEN
+配置中心,dns_action_items,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+配置中心,dns_action_items,9,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+配置中心,storage_scope_bindings,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R01/R03/R30,FROZEN
+配置中心,storage_scope_bindings,2,scope_code,varchar(255),否,,,scope唯一激活,R01/R03/R30,FROZEN
+配置中心,storage_scope_bindings,3,provider_code,varchar(64),否,,,scope唯一激活,R01/R03/R30,FROZEN
+配置中心,storage_scope_bindings,4,config_version_id,bigint,是,,INDEX,scope唯一激活,R01/R03/R30,FROZEN
+配置中心,storage_scope_bindings,5,bucket,varchar(255),是,,,scope唯一激活,R01/R03/R30,FROZEN
+配置中心,storage_scope_bindings,6,public_domain,varchar(255),是,,,scope唯一激活,R01/R03/R30,FROZEN
+配置中心,storage_scope_bindings,7,status,varchar(64),否,,,scope唯一激活,R01/R03/R30,FROZEN
+配置中心,storage_scope_bindings,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+配置中心,storage_scope_bindings,9,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+配置中心,storage_migration_jobs,1,id,bigint,否,generated,PRIMARY KEY,可断点续传,R01/R03/R30,FROZEN
+配置中心,storage_migration_jobs,2,source_binding_id,bigint,否,,INDEX,可断点续传,R01/R03/R30,FROZEN
+配置中心,storage_migration_jobs,3,target_binding_id,bigint,是,,INDEX,可断点续传,R01/R03/R30,FROZEN
+配置中心,storage_migration_jobs,4,scope_code,varchar(255),是,,,可断点续传,R01/R03/R30,FROZEN
+配置中心,storage_migration_jobs,5,cursor,varchar(255),是,,,可断点续传,R01/R03/R30,FROZEN
+配置中心,storage_migration_jobs,6,total,integer,否,0,,可断点续传,R01/R03/R30,FROZEN
+配置中心,storage_migration_jobs,7,success,integer,是,,,可断点续传,R01/R03/R30,FROZEN
+配置中心,storage_migration_jobs,8,failed,integer,是,,,可断点续传,R01/R03/R30,FROZEN
+配置中心,storage_migration_jobs,9,status,varchar(64),否,,,可断点续传,R01/R03/R30,FROZEN
+配置中心,storage_migration_jobs,10,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+配置中心,storage_migration_jobs,11,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+App构建,app_build_profiles,1,id,bigint,否,generated,PRIMARY KEY,环境+名称唯一,R29,FROZEN
+App构建,app_build_profiles,2,name,varchar(255),否,,,环境+名称唯一,R29,FROZEN
+App构建,app_build_profiles,3,environment,varchar(64),是,,,环境+名称唯一,R29,FROZEN
+App构建,app_build_profiles,4,application_id,bigint,是,,INDEX,环境+名称唯一,R29,FROZEN
+App构建,app_build_profiles,5,display_name,varchar(255),是,,,环境+名称唯一,R29,FROZEN
+App构建,app_build_profiles,6,gradle_params,varchar(255),是,,,环境+名称唯一,R29,FROZEN
+App构建,app_build_profiles,7,allowed_refs,varchar(255),是,,,环境+名称唯一,R29,FROZEN
+App构建,app_build_profiles,8,status,varchar(64),否,,,环境+名称唯一,R29,FROZEN
+App构建,app_build_profiles,9,version,bigint,否,0,,乐观锁,R29,FROZEN
+App构建,app_build_profiles,10,created_at,timestamptz,否,now(),INDEX,统一审计字段,R29,FROZEN
+App构建,app_build_profiles,11,updated_at,timestamptz,否,now(),,统一审计字段,R29,FROZEN
+App构建,app_signing_profiles,1,id,bigint,否,generated,PRIMARY KEY,密钥仅CI可用,R29,FROZEN
+App构建,app_signing_profiles,2,name,varchar(255),否,,,密钥仅CI可用,R29,FROZEN
+App构建,app_signing_profiles,3,environment,varchar(64),是,,,密钥仅CI可用,R29,FROZEN
+App构建,app_signing_profiles,4,certificate_fingerprint,varchar(128),是,,,密钥仅CI可用,R29,FROZEN
+App构建,app_signing_profiles,5,secret_ref,varchar(255),是,,,密钥仅CI可用,R29,FROZEN
+App构建,app_signing_profiles,6,status,varchar(64),否,,,密钥仅CI可用,R29,FROZEN
+App构建,app_signing_profiles,7,rotated_at,timestamptz,是,,INDEX,密钥仅CI可用,R29,FROZEN
+App构建,app_signing_profiles,8,version,bigint,否,0,,乐观锁,R29,FROZEN
+App构建,app_signing_profiles,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R29,FROZEN
+App构建,app_signing_profiles,10,updated_at,timestamptz,否,now(),,统一审计字段,R29,FROZEN
+App构建,app_build_jobs,1,id,bigint,否,generated,PRIMARY KEY,Commit可追溯；状态机,R29,FROZEN
+App构建,app_build_jobs,2,profile_id,bigint,否,,INDEX,Commit可追溯；状态机,R29,FROZEN
+App构建,app_build_jobs,3,git_ref,varchar(255),是,,,Commit可追溯；状态机,R29,FROZEN
+App构建,app_build_jobs,4,commit_sha,varchar(128),是,,,Commit可追溯；状态机,R29,FROZEN
+App构建,app_build_jobs,5,version_name,varchar(255),是,,,Commit可追溯；状态机,R29,FROZEN
+App构建,app_build_jobs,6,version_code,integer,是,,,Commit可追溯；状态机,R29,FROZEN
+App构建,app_build_jobs,7,status,varchar(64),否,,,Commit可追溯；状态机,R29,FROZEN
+App构建,app_build_jobs,8,triggered_by,varchar(255),是,,,Commit可追溯；状态机,R29,FROZEN
+App构建,app_build_jobs,9,started_at,timestamptz,是,,INDEX,Commit可追溯；状态机,R29,FROZEN
+App构建,app_build_jobs,10,finished_at,timestamptz,是,,INDEX,Commit可追溯；状态机,R29,FROZEN
+App构建,app_build_jobs,11,created_at,timestamptz,否,now(),INDEX,统一审计字段,R29,FROZEN
+App构建,app_build_jobs,12,updated_at,timestamptz,否,now(),,统一审计字段,R29,FROZEN
+App构建,app_build_job_steps,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R29,FROZEN
+App构建,app_build_job_steps,2,job_id,bigint,否,,INDEX,job+step唯一,R29,FROZEN
+App构建,app_build_job_steps,3,step_code,varchar(255),否,,,job+step唯一,R29,FROZEN
+App构建,app_build_job_steps,4,sequence,integer,是,,,job+step唯一,R29,FROZEN
+App构建,app_build_job_steps,5,status,varchar(64),否,,,job+step唯一,R29,FROZEN
+App构建,app_build_job_steps,6,log_object_key,text,是,,,job+step唯一,R29,FROZEN
+App构建,app_build_job_steps,7,started_at,timestamptz,是,,INDEX,job+step唯一,R29,FROZEN
+App构建,app_build_job_steps,8,finished_at,timestamptz,是,,INDEX,job+step唯一,R29,FROZEN
+App构建,app_build_job_steps,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R29,FROZEN
+App构建,app_build_job_steps,10,updated_at,timestamptz,否,now(),,统一审计字段,R29,FROZEN
+App构建,app_build_artifacts,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R29,FROZEN
+App构建,app_build_artifacts,2,job_id,bigint,否,,INDEX,job+type唯一,R29,FROZEN
+App构建,app_build_artifacts,3,artifact_type,varchar(255),否,,,job+type唯一,R29,FROZEN
+App构建,app_build_artifacts,4,object_key,text,是,,,job+type唯一,R29,FROZEN
+App构建,app_build_artifacts,5,file_size,bigint,是,,,job+type唯一,R29,FROZEN
+App构建,app_build_artifacts,6,sha256,varchar(128),是,,,job+type唯一,R29,FROZEN
+App构建,app_build_artifacts,7,signing_fingerprint,varchar(128),是,,,job+type唯一,R29,FROZEN
+App构建,app_build_artifacts,8,retention_until,timestamptz,是,,,job+type唯一,R29,FROZEN
+App构建,app_build_artifacts,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R29,FROZEN
+App构建,app_build_artifacts,10,updated_at,timestamptz,否,now(),,统一审计字段,R29,FROZEN
+App构建,app_release_channels,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R29,FROZEN
+App构建,app_release_channels,2,code,varchar(64),否,,,code唯一,R29,FROZEN
+App构建,app_release_channels,3,environment,varchar(64),否,,,code唯一,R29,FROZEN
+App构建,app_release_channels,4,download_domain,varchar(255),是,,,code唯一,R29,FROZEN
+App构建,app_release_channels,5,update_policy,varchar(255),是,,,code唯一,R29,FROZEN
+App构建,app_release_channels,6,status,varchar(64),否,,,code唯一,R29,FROZEN
+App构建,app_release_channels,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R29,FROZEN
+App构建,app_release_channels,8,updated_at,timestamptz,否,now(),,统一审计字段,R29,FROZEN
+App构建,app_release_records,1,id,bigint,否,generated,PRIMARY KEY,versionCode单调递增,R29,FROZEN
+App构建,app_release_records,2,artifact_id,bigint,否,,INDEX,versionCode单调递增,R29,FROZEN
+App构建,app_release_records,3,channel_id,bigint,是,,INDEX,versionCode单调递增,R29,FROZEN
+App构建,app_release_records,4,version_name,varchar(255),是,,,versionCode单调递增,R29,FROZEN
+App构建,app_release_records,5,version_code,integer,是,,,versionCode单调递增,R29,FROZEN
+App构建,app_release_records,6,update_type,varchar(255),是,,,versionCode单调递增,R29,FROZEN
+App构建,app_release_records,7,status,varchar(64),否,,,versionCode单调递增,R29,FROZEN
+App构建,app_release_records,8,published_at,timestamptz,是,,INDEX,versionCode单调递增,R29,FROZEN
+App构建,app_release_records,9,rollback_from_id,bigint,是,,INDEX,versionCode单调递增,R29,FROZEN
+App构建,app_release_records,10,created_at,timestamptz,否,now(),INDEX,统一审计字段,R29,FROZEN
+App构建,app_release_approvals,1,id,bigint,否,generated,PRIMARY KEY,申请人不得自审,R29,FROZEN
+App构建,app_release_approvals,2,release_record_id,bigint,否,,INDEX,申请人不得自审,R29,FROZEN
+App构建,app_release_approvals,3,applicant_id,bigint,是,,INDEX,申请人不得自审,R29,FROZEN
+App构建,app_release_approvals,4,reviewer_id,bigint,是,,INDEX,申请人不得自审,R29,FROZEN
+App构建,app_release_approvals,5,decision,varchar(64),是,,,申请人不得自审,R29,FROZEN
+App构建,app_release_approvals,6,reason,text,是,,,申请人不得自审,R29,FROZEN
+App构建,app_release_approvals,7,decided_at,timestamptz,是,,INDEX,申请人不得自审,R29,FROZEN
+App构建,app_release_approvals,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R29,FROZEN
+App构建,app_release_approvals,9,updated_at,timestamptz,否,now(),,统一审计字段,R29,FROZEN
+平台事件,outbox_events,1,id,bigint,否,generated,PRIMARY KEY,技术主键,P00,FROZEN
+平台事件,outbox_events,2,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00,FROZEN
+平台事件,outbox_events,3,aggregate_id,varchar(128),否,,INDEX,业务事务同库提交；event_id唯一；可重试和死信,P00,FROZEN
+平台事件,outbox_events,4,aggregate_type,varchar(64),否,,INDEX,业务事务同库提交；event_id唯一；可重试和死信,P00,FROZEN
+平台事件,outbox_events,5,attempts,integer,否,0,,业务事务同库提交；event_id唯一；可重试和死信,P00,FROZEN
+平台事件,outbox_events,6,available_at,timestamptz,否,now(),INDEX,业务事务同库提交；event_id唯一；可重试和死信,P00,FROZEN
+平台事件,outbox_events,7,event_id,varchar(64),否,,INDEX,业务事务同库提交；event_id唯一；可重试和死信,P00,FROZEN
+平台事件,outbox_events,8,event_type,varchar(128),否,,INDEX,业务事务同库提交；event_id唯一；可重试和死信,P00,FROZEN
+平台事件,outbox_events,9,event_version,integer,否,1,,业务事务同库提交；event_id唯一；可重试和死信,P00,FROZEN
+平台事件,outbox_events,10,headers,jsonb,否,'{}'::jsonb,,业务事务同库提交；event_id唯一；可重试和死信,P00,FROZEN
+平台事件,outbox_events,11,last_error,text,是,,,业务事务同库提交；event_id唯一；可重试和死信,P00,FROZEN
+平台事件,outbox_events,12,payload,jsonb,否,'{}'::jsonb,,业务事务同库提交；event_id唯一；可重试和死信,P00,FROZEN
+平台事件,outbox_events,13,published_at,timestamptz,是,,,业务事务同库提交；event_id唯一；可重试和死信,P00,FROZEN
+平台事件,outbox_events,14,status,varchar(64),否,'PENDING',INDEX,业务事务同库提交；event_id唯一；可重试和死信,P00,FROZEN
+平台事件,inbox_messages,1,id,bigint,否,generated,PRIMARY KEY,技术主键,P00,FROZEN
+平台事件,inbox_messages,2,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00,FROZEN
+平台事件,inbox_messages,3,updated_at,timestamptz,否,now(),,统一审计字段,P00,FROZEN
+平台事件,inbox_messages,4,consumer,varchar(128),否,,,consumer+message_id唯一；重复消息返回首次结果,P00,FROZEN
+平台事件,inbox_messages,5,message_id,varchar(64),否,,,consumer+message_id唯一；重复消息返回首次结果,P00,FROZEN
+平台事件,inbox_messages,6,payload_hash,varchar(64),否,,,consumer+message_id唯一；重复消息返回首次结果,P00,FROZEN
+平台事件,inbox_messages,7,processed_at,timestamptz,否,now(),,consumer+message_id唯一；重复消息返回首次结果,P00,FROZEN
+平台事件,inbox_messages,8,result,jsonb,是,,,consumer+message_id唯一；重复消息返回首次结果,P00,FROZEN
+账务,ledger_accounts,1,id,bigint,否,generated,PRIMARY KEY,技术主键,P00,FROZEN
+账务,ledger_accounts,2,version,bigint,否,0,,乐观锁,P00,FROZEN
+账务,ledger_accounts,3,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00,FROZEN
+账务,ledger_accounts,4,account_no,varchar(64),否,,INDEX,account_no唯一；余额不得直接作为事实修改,P00,FROZEN
+账务,ledger_accounts,5,account_type,varchar(64),否,,INDEX,account_no唯一；余额不得直接作为事实修改,P00,FROZEN
+账务,ledger_accounts,6,currency,varchar(8),否,'CNY',,account_no唯一；余额不得直接作为事实修改,P00,FROZEN
+账务,ledger_accounts,7,owner_id,varchar(128),否,,INDEX,account_no唯一；余额不得直接作为事实修改,P00,FROZEN
+账务,ledger_accounts,8,owner_type,varchar(64),否,,INDEX,account_no唯一；余额不得直接作为事实修改,P00,FROZEN
+账务,ledger_accounts,9,status,varchar(64),否,'ACTIVE',,account_no唯一；余额不得直接作为事实修改,P00,FROZEN
+账务,accounting_transactions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,P00,FROZEN
+账务,accounting_transactions,2,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00,FROZEN
+账务,accounting_transactions,3,updated_at,timestamptz,否,now(),,统一审计字段,P00,FROZEN
+账务,accounting_transactions,4,biz_id,varchar(128),否,,INDEX,transaction_no和biz_type+idempotency_key唯一；已过账不可修改,P00,FROZEN
+账务,accounting_transactions,5,biz_type,varchar(64),否,,,transaction_no和biz_type+idempotency_key唯一；已过账不可修改,P00,FROZEN
+账务,accounting_transactions,6,description,varchar(255),是,,,transaction_no和biz_type+idempotency_key唯一；已过账不可修改,P00,FROZEN
+账务,accounting_transactions,7,idempotency_key,varchar(128),否,,,transaction_no和biz_type+idempotency_key唯一；已过账不可修改,P00,FROZEN
+账务,accounting_transactions,8,occurred_at,timestamptz,否,now(),INDEX,transaction_no和biz_type+idempotency_key唯一；已过账不可修改,P00,FROZEN
+账务,accounting_transactions,9,reversal_of_id,bigint,是,,INDEX,transaction_no和biz_type+idempotency_key唯一；已过账不可修改,P00,FROZEN
+账务,accounting_transactions,10,status,varchar(64),否,'POSTED',,transaction_no和biz_type+idempotency_key唯一；已过账不可修改,P00,FROZEN
+账务,accounting_transactions,11,transaction_no,varchar(64),否,,INDEX,transaction_no和biz_type+idempotency_key唯一；已过账不可修改,P00,FROZEN
+账务,accounting_entries,1,id,bigint,否,generated,PRIMARY KEY,技术主键,P00,FROZEN
+账务,accounting_entries,2,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00,FROZEN
+账务,accounting_entries,3,account_id,bigint,否,,INDEX,交易内借方总额=贷方总额；金额>0；不可变,P00,FROZEN
+账务,accounting_entries,4,amount_cent,bigint,否,,,交易内借方总额=贷方总额；金额>0；不可变,P00,FROZEN
+账务,accounting_entries,5,currency,varchar(8),否,'CNY',,交易内借方总额=贷方总额；金额>0；不可变,P00,FROZEN
+账务,accounting_entries,6,direction,varchar(64),否,,,交易内借方总额=贷方总额；金额>0；不可变,P00,FROZEN
+账务,accounting_entries,7,sequence,integer,否,,,交易内借方总额=贷方总额；金额>0；不可变,P00,FROZEN
+账务,accounting_entries,8,transaction_id,bigint,否,,INDEX,交易内借方总额=贷方总额；金额>0；不可变,P00,FROZEN
+账务,balance_snapshots,1,id,bigint,否,generated,PRIMARY KEY,技术主键,P00,FROZEN
+账务,balance_snapshots,2,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00,FROZEN
+账务,balance_snapshots,3,updated_at,timestamptz,否,now(),,统一审计字段,P00,FROZEN
+账务,balance_snapshots,4,account_id,bigint,否,,INDEX,account_id唯一；可由分录重建,P00,FROZEN
+账务,balance_snapshots,5,as_of_entry_id,bigint,否,0,,account_id唯一；可由分录重建,P00,FROZEN
+账务,balance_snapshots,6,available_cent,bigint,否,0,,account_id唯一；可由分录重建,P00,FROZEN
+账务,balance_snapshots,7,frozen_cent,bigint,否,0,,account_id唯一；可由分录重建,P00,FROZEN
+账务,reconciliation_runs,1,id,bigint,否,generated,PRIMARY KEY,技术主键,P00,FROZEN
+账务,reconciliation_runs,2,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00,FROZEN
+账务,reconciliation_runs,3,updated_at,timestamptz,否,now(),,统一审计字段,P00,FROZEN
+账务,reconciliation_runs,4,finished_at,timestamptz,是,,,run_no唯一；同场景区间不可并行,P00,FROZEN
+账务,reconciliation_runs,5,period_end,timestamptz,否,,,run_no唯一；同场景区间不可并行,P00,FROZEN
+账务,reconciliation_runs,6,period_start,timestamptz,否,,,run_no唯一；同场景区间不可并行,P00,FROZEN
+账务,reconciliation_runs,7,run_no,varchar(64),否,,INDEX,run_no唯一；同场景区间不可并行,P00,FROZEN
+账务,reconciliation_runs,8,scene,varchar(64),否,,INDEX,run_no唯一；同场景区间不可并行,P00,FROZEN
+账务,reconciliation_runs,9,started_at,timestamptz,是,,,run_no唯一；同场景区间不可并行,P00,FROZEN
+账务,reconciliation_runs,10,status,varchar(64),否,'CREATED',INDEX,run_no唯一；同场景区间不可并行,P00,FROZEN
+账务,reconciliation_differences,1,id,bigint,否,generated,PRIMARY KEY,技术主键,P00,FROZEN
+账务,reconciliation_differences,2,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00,FROZEN
+账务,reconciliation_differences,3,updated_at,timestamptz,否,now(),,统一审计字段,P00,FROZEN
+账务,reconciliation_differences,4,actual_cent,bigint,否,0,,run+source唯一；处理留痕,P00,FROZEN
+账务,reconciliation_differences,5,expected_cent,bigint,否,0,,run+source唯一；处理留痕,P00,FROZEN
+账务,reconciliation_differences,6,resolution,text,是,,,run+source唯一；处理留痕,P00,FROZEN
+账务,reconciliation_differences,7,run_id,bigint,否,,,run+source唯一；处理留痕,P00,FROZEN
+账务,reconciliation_differences,8,source_id,varchar(128),否,,,run+source唯一；处理留痕,P00,FROZEN
+账务,reconciliation_differences,9,source_type,varchar(64),否,,,run+source唯一；处理留痕,P00,FROZEN
+账务,reconciliation_differences,10,status,varchar(64),否,'OPEN',INDEX,run+source唯一；处理留痕,P00,FROZEN
+后台,admin_sessions,1,id,bigint GENERATED BY DEFAULT AS IDENTITY,否,,PRIMARY KEY,主键,R01,FROZEN_V1.2.2
+后台,admin_sessions,2,admin_user_id,bigint,否,,INDEX;FOREIGN KEY hhy.admin_users(id),管理员,R01,FROZEN_V1.2.2
+后台,admin_sessions,3,access_jti,varchar(128),否,,UNIQUE,访问令牌JTI,R01,FROZEN_V1.2.2
+后台,admin_sessions,4,refresh_hash,varchar(128),是,,INDEX,刷新令牌哈希,R01,FROZEN_V1.2.2
+后台,admin_sessions,5,mfa_level,varchar(32),否,'NONE',CHECK NONE/VERIFIED/STEP_UP,MFA等级,R01,FROZEN_V1.2.2
+后台,admin_sessions,6,device_fingerprint,varchar(128),是,,INDEX,设备指纹,R01,FROZEN_V1.2.2
+后台,admin_sessions,7,ip,varchar(64),是,,INDEX,登录IP,R01,FROZEN_V1.2.2
+后台,admin_sessions,8,expires_at,timestamptz,否,,INDEX,过期时间,R01,FROZEN_V1.2.2
+后台,admin_sessions,9,revoked_at,timestamptz,是,,,撤销时间,R01,FROZEN_V1.2.2
+后台,admin_sessions,10,last_active_at,timestamptz,是,,INDEX,最后活跃,R01,FROZEN_V1.2.2
+后台,admin_sessions,11,version,bigint,否,0,,乐观锁,R01,FROZEN_V1.2.2
+后台,admin_sessions,12,created_at,timestamptz,否,now(),,创建时间,R01,FROZEN_V1.2.2
+后台,admin_sessions,13,updated_at,timestamptz,否,now(),,更新时间,R01,FROZEN_V1.2.2
+后台,admin_mfa_methods,1,id,bigint GENERATED BY DEFAULT AS IDENTITY,否,,PRIMARY KEY,主键,R01,FROZEN_V1.2.2
+后台,admin_mfa_methods,2,admin_user_id,bigint,否,,INDEX;FOREIGN KEY hhy.admin_users(id),管理员,R01,FROZEN_V1.2.2
+后台,admin_mfa_methods,3,method,varchar(32),否,,"UNIQUE(admin_user_id,method)",TOTP等,R01,FROZEN_V1.2.2
+后台,admin_mfa_methods,4,secret_ref,varchar(512),是,,SENSITIVE,秘密引用,R01,FROZEN_V1.2.2
+后台,admin_mfa_methods,5,status,varchar(32),否,'PENDING',INDEX,状态,R01,FROZEN_V1.2.2
+后台,admin_mfa_methods,6,confirmed_at,timestamptz,是,,,确认时间,R01,FROZEN_V1.2.2
+后台,admin_mfa_methods,7,disabled_at,timestamptz,是,,,禁用时间,R01,FROZEN_V1.2.2
+后台,admin_mfa_methods,8,version,bigint,否,0,,乐观锁,R01,FROZEN_V1.2.2
+后台,admin_mfa_methods,9,created_at,timestamptz,否,now(),,创建时间,R01,FROZEN_V1.2.2
+后台,admin_mfa_methods,10,updated_at,timestamptz,否,now(),,更新时间,R01,FROZEN_V1.2.2
+后台,admin_recovery_codes,1,id,bigint GENERATED BY DEFAULT AS IDENTITY,否,,PRIMARY KEY,主键,R01,FROZEN_V1.2.2
+后台,admin_recovery_codes,2,admin_user_id,bigint,否,,INDEX;FOREIGN KEY hhy.admin_users(id),管理员,R01,FROZEN_V1.2.2
+后台,admin_recovery_codes,3,code_hash,varchar(128),否,,UNIQUE,恢复码哈希,R01,FROZEN_V1.2.2
+后台,admin_recovery_codes,4,used_at,timestamptz,是,,,使用时间,R01,FROZEN_V1.2.2
+后台,admin_recovery_codes,5,expires_at,timestamptz,是,,INDEX,过期时间,R01,FROZEN_V1.2.2
+后台,admin_recovery_codes,6,created_at,timestamptz,否,now(),,创建时间,R01,FROZEN_V1.2.2
+后台,admin_login_logs,1,id,bigint GENERATED BY DEFAULT AS IDENTITY,否,,PRIMARY KEY,主键,R01,FROZEN_V1.2.2
+后台,admin_login_logs,2,admin_user_id,bigint,是,,INDEX;FOREIGN KEY hhy.admin_users(id),管理员,R01,FROZEN_V1.2.2
+后台,admin_login_logs,3,username_masked,varchar(128),是,,,脱敏账号,R01,FROZEN_V1.2.2
+后台,admin_login_logs,4,event_type,varchar(64),否,,INDEX,事件类型,R01,FROZEN_V1.2.2
+后台,admin_login_logs,5,result,varchar(32),否,,INDEX,结果,R01,FROZEN_V1.2.2
+后台,admin_login_logs,6,failure_code,varchar(64),是,,INDEX,失败码,R01,FROZEN_V1.2.2
+后台,admin_login_logs,7,ip,varchar(64),是,,INDEX,IP,R01,FROZEN_V1.2.2
+后台,admin_login_logs,8,device_fingerprint,varchar(128),是,,INDEX,设备指纹,R01,FROZEN_V1.2.2
+后台,admin_login_logs,9,request_id,varchar(64),是,,INDEX,请求ID,R01,FROZEN_V1.2.2
+后台,admin_login_logs,10,created_at,timestamptz,否,now(),INDEX,创建时间,R01,FROZEN_V1.2.2
+账务,accounting_reversal_requests,1,id,bigint GENERATED BY DEFAULT AS IDENTITY,否,,PRIMARY KEY,主键,R24,FROZEN_V1.2.2
+账务,accounting_reversal_requests,2,source_transaction_id,bigint,否,,INDEX;FOREIGN KEY hhy.accounting_transactions(id),原交易,R24,FROZEN_V1.2.2
+账务,accounting_reversal_requests,3,approval_request_id,bigint,否,,UNIQUE;FOREIGN KEY hhy.admin_approval_requests(id),审批单,R24,FROZEN_V1.2.2
+账务,accounting_reversal_requests,4,reason_code,varchar(64),否,,INDEX,原因代码,R24,FROZEN_V1.2.2
+账务,accounting_reversal_requests,5,reason,text,否,,,详细原因,R24,FROZEN_V1.2.2
+账务,accounting_reversal_requests,6,evidence_json,jsonb,是,'[]'::jsonb,,证据,R24,FROZEN_V1.2.2
+账务,accounting_reversal_requests,7,status,varchar(32),否,'PENDING_APPROVAL',INDEX,状态,R24,FROZEN_V1.2.2
+账务,accounting_reversal_requests,8,reversal_transaction_id,bigint,是,,UNIQUE;FOREIGN KEY hhy.accounting_transactions(id),反向交易,R24,FROZEN_V1.2.2
+账务,accounting_reversal_requests,9,requested_by,bigint,否,,INDEX;FOREIGN KEY hhy.admin_users(id),申请人,R24,FROZEN_V1.2.2
+账务,accounting_reversal_requests,10,version,bigint,否,0,,乐观锁,R24,FROZEN_V1.2.2
+账务,accounting_reversal_requests,11,created_at,timestamptz,否,now(),INDEX,创建时间,R24,FROZEN_V1.2.2
+账务,accounting_reversal_requests,12,updated_at,timestamptz,否,now(),,更新时间,R24,FROZEN_V1.2.2
+风控,risk_rule_simulations,1,id,bigint GENERATED BY DEFAULT AS IDENTITY,否,,PRIMARY KEY,主键,R31,FROZEN_V1.2.2
+风控,risk_rule_simulations,2,risk_rule_version_id,bigint,否,,INDEX;FOREIGN KEY hhy.risk_rule_versions(id),规则版本,R31,FROZEN_V1.2.2
+风控,risk_rule_simulations,3,sample_mode,varchar(32),否,,INDEX,样本方式,R31,FROZEN_V1.2.2
+风控,risk_rule_simulations,4,subject_type,varchar(64),否,,INDEX,主体类型,R31,FROZEN_V1.2.2
+风控,risk_rule_simulations,5,sample_hash,varchar(64),否,,INDEX,样本哈希,R31,FROZEN_V1.2.2
+风控,risk_rule_simulations,6,result_json,jsonb,否,'{}'::jsonb,,模拟结果,R31,FROZEN_V1.2.2
+风控,risk_rule_simulations,7,matched,boolean,否,false,INDEX,是否命中,R31,FROZEN_V1.2.2
+风控,risk_rule_simulations,8,score,"numeric(12,4)",是,,,风险分,R31,FROZEN_V1.2.2
+风控,risk_rule_simulations,9,recommended_action,varchar(64),是,,INDEX,建议动作,R31,FROZEN_V1.2.2
+风控,risk_rule_simulations,10,side_effect_free,boolean,否,true,CHECK(side_effect_free=true),无副作用,R31,FROZEN_V1.2.2
+风控,risk_rule_simulations,11,executed_by,bigint,否,,INDEX;FOREIGN KEY hhy.admin_users(id),执行人,R31,FROZEN_V1.2.2
+风控,risk_rule_simulations,12,created_at,timestamptz,否,now(),INDEX,执行时间,R31,FROZEN_V1.2.2
+通知,notification_delivery_attempts,1,id,bigint GENERATED BY DEFAULT AS IDENTITY,否,,PRIMARY KEY,主键,R30,FROZEN_V1.2.2
+通知,notification_delivery_attempts,2,delivery_id,bigint,否,,INDEX;FOREIGN KEY hhy.notification_deliveries(id),发送记录,R30,FROZEN_V1.2.2
+通知,notification_delivery_attempts,3,attempt_no,integer,否,,"UNIQUE(delivery_id,attempt_no)",尝试序号,R30,FROZEN_V1.2.2
+通知,notification_delivery_attempts,4,provider,varchar(64),否,,INDEX,供应商,R30,FROZEN_V1.2.2
+通知,notification_delivery_attempts,5,provider_message_id,varchar(128),是,,INDEX,供应商消息ID,R30,FROZEN_V1.2.2
+通知,notification_delivery_attempts,6,status,varchar(32),否,,INDEX,状态,R30,FROZEN_V1.2.2
+通知,notification_delivery_attempts,7,failure_code,varchar(64),是,,INDEX,失败码,R30,FROZEN_V1.2.2
+通知,notification_delivery_attempts,8,response_masked,jsonb,是,'{}'::jsonb,,脱敏响应,R30,FROZEN_V1.2.2
+通知,notification_delivery_attempts,9,started_at,timestamptz,否,now(),,开始时间,R30,FROZEN_V1.2.2
+通知,notification_delivery_attempts,10,finished_at,timestamptz,是,,,完成时间,R30,FROZEN_V1.2.2
+后台,export_jobs,1,id,bigint GENERATED BY DEFAULT AS IDENTITY,否,,PRIMARY KEY,主键,R30,FROZEN_V1.2.2
+后台,export_jobs,2,job_no,varchar(64),否,,UNIQUE,任务号,R30,FROZEN_V1.2.2
+后台,export_jobs,3,export_type,varchar(64),否,,INDEX,导出类型,R30,FROZEN_V1.2.2
+后台,export_jobs,4,status,varchar(32),否,'QUEUED',INDEX,状态,R30,FROZEN_V1.2.2
+后台,export_jobs,5,filter_snapshot,jsonb,否,'{}'::jsonb,,筛选快照,R30,FROZEN_V1.2.2
+后台,export_jobs,6,field_codes,jsonb,否,'[]'::jsonb,,字段白名单,R30,FROZEN_V1.2.2
+后台,export_jobs,7,mask_policy,varchar(64),否,,INDEX,脱敏策略,R30,FROZEN_V1.2.2
+后台,export_jobs,8,row_limit,integer,否,,CHECK(row_limit>0),最大行数,R30,FROZEN_V1.2.2
+后台,export_jobs,9,purpose,text,否,,,用途,R30,FROZEN_V1.2.2
+后台,export_jobs,10,approval_request_id,bigint,是,,INDEX;FOREIGN KEY hhy.admin_approval_requests(id),审批单,R30,FROZEN_V1.2.2
+后台,export_jobs,11,created_by,bigint,否,,INDEX;FOREIGN KEY hhy.admin_users(id),创建人,R30,FROZEN_V1.2.2
+后台,export_jobs,12,expires_at,timestamptz,是,,INDEX,产物过期,R30,FROZEN_V1.2.2
+后台,export_jobs,13,version,bigint,否,0,,乐观锁,R30,FROZEN_V1.2.2
+后台,export_jobs,14,created_at,timestamptz,否,now(),INDEX,创建时间,R30,FROZEN_V1.2.2
+后台,export_jobs,15,updated_at,timestamptz,否,now(),,更新时间,R30,FROZEN_V1.2.2
+后台,export_job_files,1,id,bigint GENERATED BY DEFAULT AS IDENTITY,否,,PRIMARY KEY,主键,R30,FROZEN_V1.2.2
+后台,export_job_files,2,export_job_id,bigint,否,,INDEX;FOREIGN KEY hhy.export_jobs(id),导出任务,R30,FROZEN_V1.2.2
+后台,export_job_files,3,media_object_id,bigint,否,,UNIQUE;FOREIGN KEY hhy.media_objects(id),私有文件,R30,FROZEN_V1.2.2
+后台,export_job_files,4,file_name,varchar(255),否,,,文件名,R30,FROZEN_V1.2.2
+后台,export_job_files,5,content_type,varchar(128),否,,,文件类型,R30,FROZEN_V1.2.2
+后台,export_job_files,6,size_bytes,bigint,否,,CHECK(size_bytes>=0),大小,R30,FROZEN_V1.2.2
+后台,export_job_files,7,sha256,varchar(64),否,,UNIQUE,校验和,R30,FROZEN_V1.2.2
+后台,export_job_files,8,row_count,integer,否,0,CHECK(row_count>=0),行数,R30,FROZEN_V1.2.2
+后台,export_job_files,9,expires_at,timestamptz,否,,INDEX,过期时间,R30,FROZEN_V1.2.2
+后台,export_job_files,10,created_at,timestamptz,否,now(),,创建时间,R30,FROZEN_V1.2.2
+后台,export_download_logs,1,id,bigint GENERATED BY DEFAULT AS IDENTITY,否,,PRIMARY KEY,主键,R30,FROZEN_V1.2.2
+后台,export_download_logs,2,export_job_file_id,bigint,否,,INDEX;FOREIGN KEY hhy.export_job_files(id),文件,R30,FROZEN_V1.2.2
+后台,export_download_logs,3,admin_user_id,bigint,否,,INDEX;FOREIGN KEY hhy.admin_users(id),下载人,R30,FROZEN_V1.2.2
+后台,export_download_logs,4,token_hash,varchar(128),否,,UNIQUE,令牌哈希,R30,FROZEN_V1.2.2
+后台,export_download_logs,5,purpose,text,否,,,下载目的,R30,FROZEN_V1.2.2
+后台,export_download_logs,6,ip,varchar(64),是,,INDEX,IP,R30,FROZEN_V1.2.2
+后台,export_download_logs,7,expires_at,timestamptz,否,,INDEX,令牌过期,R30,FROZEN_V1.2.2
+后台,export_download_logs,8,used_at,timestamptz,是,,,使用时间,R30,FROZEN_V1.2.2
+后台,export_download_logs,9,result,varchar(32),否,'ISSUED',INDEX,结果,R30,FROZEN_V1.2.2
+后台,export_download_logs,10,request_id,varchar(64),是,,INDEX,请求ID,R30,FROZEN_V1.2.2
+后台,export_download_logs,11,created_at,timestamptz,否,now(),INDEX,创建时间,R30,FROZEN_V1.2.2

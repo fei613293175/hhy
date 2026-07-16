@@ -1,0 +1,354 @@
+version: 1.2.2
+release: R28
+title: H5品牌宣传、邀请与下载
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R28-001
+  release: R28
+  title: 运营：首页CMS、H5宣传页CMS、公告帮助协议
+  user_story: 作为具备 cms.manage 的后台员工；写操作另需 cms.manage，我需要完成首页CMS、H5宣传页CMS、公告帮助协议的完整业务流程，以便在不依赖研发临时决策的情况下实现模块、轮播、专题。
+  platform: ADMIN
+  module: 运营
+  template_id: ADM-CMS
+  page_ids:
+  - ADM-CMS-001
+  - ADM-CMS-002
+  - ADM-CMS-003
+  operation_ids:
+  - adminCMSGetCmsHomeModules
+  - adminCMSPutCmsHomeModules
+  - adminCMSGetCmsBanners
+  - adminCMSPostCmsBanners
+  - adminCMSGetCmsArticles
+  - adminCMSPostCmsArticles
+  - adminCMSGetCmsH5Pages
+  - adminCMSPutCmsH5PagesByCode
+  - adminAgreementsGetAgreements
+  - adminAgreementsPostAgreementsByCodeVersions
+  api_contracts:
+  - GET /admin-api/v1/cms/home-modules
+  - PUT /admin-api/v1/cms/home-modules
+  - GET /admin-api/v1/cms/banners
+  - POST /admin-api/v1/cms/banners
+  - GET /admin-api/v1/cms/articles
+  - POST /admin-api/v1/cms/articles
+  - GET /admin-api/v1/cms/h5-pages
+  - PUT /admin-api/v1/cms/h5-pages/{code}
+  - GET /admin-api/v1/agreements
+  - POST /admin-api/v1/agreements/{code}/versions
+  requirement_ids:
+  - REQ-CMS-001
+  - REQ-PAGE-SPEC-001
+  - REQ-ADMIN-OPS-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - home_modules
+  - banners
+  - cms_articles
+  - h5_page_configs
+  - agreements
+  - app_versions
+  - content_posts
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - admin_approval_requests
+  test_ids:
+  - TST-CMS_001-HAPPY
+  - TST-CMS_001-IDEMPOTENT
+  - TST-V122-026
+  - TST-V122-027
+  dependencies:
+  - R06
+  - R13
+  - R15
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-CMS-001;ADM-CMS-002;ADM-CMS-003 全部绑定模板 ADM-CMS，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminCMSGetCmsHomeModules;adminCMSPutCmsHomeModules;adminCMSGetCmsBanners;adminCMSPostCmsBanners;adminCMSGetCmsArticles;adminCMSPostCmsArticles;adminCMSGetCmsH5Pages;adminCMSPutCmsH5PagesByCode;adminAgreementsGetAgreements;adminAgreementsPostAgreementsByCodeVersions；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-CMS_001-HAPPY;TST-CMS_001-IDEMPOTENT;TST-V122-026;TST-V122-027
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R28-002
+  release: R28
+  title: H5：品牌宣传下载页、安装教程、邀请落地页
+  user_story: 作为公开访客或从分享/邀请/支付/实名流程进入的用户，我需要完成品牌宣传下载页、安装教程、邀请落地页的完整业务流程，以便在不依赖研发临时决策的情况下实现品牌官网式页面、下载APK。
+  platform: H5
+  module: H5
+  template_id: H5-LANDING
+  page_ids:
+  - H5-001
+  - H5-002
+  - H5-003
+  operation_ids:
+  - publicGetHomePage
+  - publicGetAppLatest
+  - publicGetHelpArticlesById
+  - publicGetInviteByCode
+  api_contracts:
+  - GET /public-api/v1/home-page
+  - GET /public-api/v1/app/latest
+  - GET /public-api/v1/help/articles/{id}
+  - GET /public-api/v1/invite/{code}
+  requirement_ids:
+  - REQ-H5-001
+  - REQ-APP-RELEASE-001
+  - REQ-REF-002
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - app_release_records
+  - app_build_artifacts
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - invite_codes
+  - referral_relations
+  - commission_records
+  - referral_activity_progress
+  - referral_milestone_rewards
+  test_ids:
+  - TST-H5_001-HAPPY
+  - TST-APP_RELEASE_001-HAPPY
+  - TST-REF_002-HAPPY
+  dependencies:
+  - R06
+  - R13
+  - R15
+  owner_roles:
+  - web_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - H5-001;H5-002;H5-003 全部绑定模板 H5-LANDING，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：publicGetHomePage;publicGetAppLatest;publicGetHelpArticlesById;publicGetInviteByCode；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-H5_001-HAPPY;TST-APP_RELEASE_001-HAPPY;TST-REF_002-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R28-003
+  release: R28
+  title: H5：项目分享页、App分享页、群聊分享页、团队长分享页
+  user_story: 作为公开访客或从分享/邀请/支付/实名流程进入的用户，我需要完成项目分享页、App分享页、群聊分享页、团队长分享页的完整业务流程，以便在不依赖研发临时决策的情况下实现项目预览和下载引导。
+  platform: H5
+  module: H5
+  template_id: H5-SHARE
+  page_ids:
+  - H5-004
+  - H5-005
+  - H5-006
+  - H5-007
+  operation_ids:
+  - publicGetShareContentsById
+  api_contracts:
+  - GET /public-api/v1/share/contents/{id}
+  requirement_ids:
+  - REQ-PROJECT-001
+  - REQ-H5-001
+  - REQ-APP-PROMO-001
+  - REQ-GROUP-001
+  - REQ-TEAM-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  test_ids:
+  - TST-PROJECT_001-HAPPY
+  - TST-H5_001-HAPPY
+  - TST-APP_PROMO_001-HAPPY
+  - TST-GROUP_001-HAPPY
+  - TST-TEAM_001-HAPPY
+  dependencies:
+  - R06
+  - R13
+  - R15
+  owner_roles:
+  - web_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - H5-004;H5-005;H5-006;H5-007 全部绑定模板 H5-SHARE，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：publicGetShareContentsById；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-PROJECT_001-HAPPY;TST-H5_001-HAPPY;TST-APP_PROMO_001-HAPPY;TST-GROUP_001-HAPPY;TST-TEAM_001-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R28-004
+  release: R28
+  title: H5品牌宣传、邀请与下载：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R28 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - H5-001
+  - H5-002
+  - H5-003
+  - H5-004
+  - H5-005
+  - H5-006
+  - H5-007
+  - ADM-CMS-001
+  - ADM-CMS-002
+  - ADM-CMS-003
+  operation_ids:
+  - publicGetHomePage
+  - publicGetAppLatest
+  - publicGetShareContentsById
+  - publicGetInviteByCode
+  - publicGetInviteByCodeRegistrationConfig
+  - publicGetAgreementsByCode
+  - adminCMSGetCmsHomeModules
+  - adminCMSPutCmsHomeModules
+  - adminCMSGetCmsBanners
+  - adminCMSPostCmsBanners
+  - adminCMSGetCmsArticles
+  - adminCMSPostCmsArticles
+  - adminCMSGetCmsH5Pages
+  - adminCMSPutCmsH5PagesByCode
+  - adminAgreementsGetAgreements
+  - adminAgreementsPostAgreementsByCodeVersions
+  api_contracts:
+  - GET /public-api/v1/home-page
+  - GET /public-api/v1/app/latest
+  - GET /public-api/v1/share/contents/{id}
+  - GET /public-api/v1/invite/{code}
+  - GET /public-api/v1/invite/{code}/registration-config
+  - GET /public-api/v1/agreements/{code}
+  - GET /admin-api/v1/cms/home-modules
+  - PUT /admin-api/v1/cms/home-modules
+  - GET /admin-api/v1/cms/banners
+  - POST /admin-api/v1/cms/banners
+  - GET /admin-api/v1/cms/articles
+  - POST /admin-api/v1/cms/articles
+  - GET /admin-api/v1/cms/h5-pages
+  - PUT /admin-api/v1/cms/h5-pages/{code}
+  - GET /admin-api/v1/agreements
+  - POST /admin-api/v1/agreements/{code}/versions
+  requirement_ids:
+  - REQ-H5-001
+  - REQ-CMS-001
+  - REQ-DOMAIN-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - home_modules
+  - banners
+  - agreement_versions
+  - user_agreement_acceptances
+  - app_download_logs
+  - provider_config_definitions
+  - provider_config_versions
+  - provider_connection_tests
+  test_ids:
+  - TST-CMS_001-HAPPY
+  - TST-CMS_001-IDEMPOTENT
+  - TST-CMS_001-REJECT
+  - TST-H5_001-HAPPY
+  - TST-H5_001-IDEMPOTENT
+  - TST-H5_001-REJECT
+  - TST-V122-026
+  - TST-V122-027
+  dependencies:
+  - R06
+  - R13
+  - R15
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

@@ -1,0 +1,117 @@
+{
+  "version": "1.2.3",
+  "status": "PASS",
+  "conversation_context_required": false,
+  "repository_only_reconstruction": true,
+  "source_manifest": [
+    {
+      "path": ".continuity/CONTINUITY_POLICY.yaml",
+      "sha256": "9dbcba88f0f2a0ac824fa8f53d693e8c38e661103e6603b88484a43f30446923"
+    },
+    {
+      "path": "scripts/continuity_lib.py",
+      "sha256": "cdefc91bdd384cd77656b84154728d0ac3c4bb45c8e9563ef1322aef03bda670"
+    },
+    {
+      "path": "scripts/continuity.py",
+      "sha256": "408c5b4000700e7fd7ce18aaae11048e0bc1e63f2fd1a8a7b0f3bf1ba27311d7"
+    },
+    {
+      "path": "scripts/continuity_gate.py",
+      "sha256": "368dedab18b1e0b94fac71448fab87698ac3539929487affe8be4374ade84aa5"
+    },
+    {
+      "path": "scripts/prepare_commit_message.py",
+      "sha256": "99f5bece04303620c02e3c376f9043694c1256155f1f5bc2cbd68634c6e73ab7"
+    },
+    {
+      "path": "scripts/run_continuity_self_test.py",
+      "sha256": "6da23da3316c648ed47868285100695d679fae2d28a6ee39cae99c6e7fe91c1e"
+    },
+    {
+      "path": "scripts/test_continuity_protocol.py",
+      "sha256": "3f205bfd17249256015ecb150fb4882c32ed22967a92669b7686644ff19cbde7"
+    },
+    {
+      "path": ".githooks/pre-commit",
+      "sha256": "bec28cd934c25a12ed73f4a7a653eae6b4d3642c1daeb5fc5eedef3d805baea7"
+    },
+    {
+      "path": ".githooks/prepare-commit-msg",
+      "sha256": "302aa3e90124fe7705150bc36edbb5dbc4dfb662d566b09874657465abf0750b"
+    },
+    {
+      "path": ".githooks/commit-msg",
+      "sha256": "f93cd582dc18f8a81923362de999a83032ff18e397198d2d784b242c2895992f"
+    },
+    {
+      "path": ".githooks/pre-push",
+      "sha256": "982bce7a21d071ab4b9d051da78b05466913db6b25fee1d64c222ccb93b0c640"
+    }
+  ],
+  "checks": [
+    {
+      "name": "double_claim_rejected",
+      "status": "PASS",
+      "evidence": "unique_active_session_and_claim"
+    },
+    {
+      "name": "stale_checkpoint_rejected",
+      "status": "PASS",
+      "evidence": "stale_checkpoint_blocked"
+    },
+    {
+      "name": "real_git_commit_with_hooks",
+      "status": "PASS",
+      "evidence": "checkpoint_pointer_and_commit_trailers"
+    },
+    {
+      "name": "pre_push_per_commit_validation",
+      "status": "PASS",
+      "evidence": "per_commit_prepush_and_ci"
+    },
+    {
+      "name": "takeover_without_conversation",
+      "status": "PASS",
+      "evidence": "wip_handoff_and_takeover"
+    },
+    {
+      "name": "event_tamper_rejected",
+      "status": "PASS",
+      "evidence": "event_hash_chain_tamper_detected"
+    },
+    {
+      "name": "repository_only_context",
+      "status": "PASS",
+      "evidence": "snapshot/artifacts/context/CURRENT_CONTEXT_PACK.yaml"
+    },
+    {
+      "name": "portable_clone_fingerprint",
+      "status": "PASS",
+      "evidence": "378018c538ec55d0547af45052233d96da49634af8ed67757594e21dabd7e11e"
+    },
+    {
+      "name": "handoff_tamper_rejected",
+      "status": "PASS",
+      "evidence": "MANIFEST_SHA256.txt"
+    }
+  ],
+  "check_count": 9,
+  "lifecycle_report": "artifacts/validation/continuity-lifecycle-integration-v1.2.3.json",
+  "handoff_sha256": "055b95e18d59f4679077dc168867b79450598450ad5d534adcc5eacfa8825df5",
+  "portable_project_fingerprint": "378018c538ec55d0547af45052233d96da49634af8ed67757594e21dabd7e11e",
+  "commands": [
+    {
+      "name": "lifecycle",
+      "returncode": 0
+    },
+    {
+      "name": "clone_bundle",
+      "returncode": 0
+    },
+    {
+      "name": "apply_wip",
+      "returncode": 0
+    }
+  ]
+}

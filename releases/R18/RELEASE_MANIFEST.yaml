@@ -1,0 +1,79 @@
+release: R18
+title: Pro会员与补差升级
+status: READY_WHEN_DEPENDENCIES_GREEN
+milestone: M2_COMMERCE
+depends_on:
+- R17
+scope: 月季年SKU、权益引擎、公开Pro标识、剩余价值升级和快照
+android_test_apk_required: true
+requirements:
+- REQ-MEMBER-001
+- REQ-MEMBER-002
+- REQ-MEMBER-003
+ui:
+  android:
+  - SCR-MEMBER-001
+  - SCR-MEMBER-002
+  - SCR-MEMBER-003
+  - SCR-MEMBER-004
+  h5: []
+  admin:
+  - ADM-MEMBER-001
+  - ADM-MEMBER-002
+contracts:
+  client_api:
+  - GET /api/v1/membership/skus
+  - GET /api/v1/me/membership
+  - POST /api/v1/membership/orders
+  - POST /api/v1/membership/upgrade-quotes
+  - POST /api/v1/membership/upgrade-orders
+  admin_api:
+  - GET /admin-api/v1/membership/skus
+  - PATCH /admin-api/v1/membership/skus/{id}
+  - PUT /admin-api/v1/membership/skus/{id}/benefits
+  - GET /admin-api/v1/user-memberships
+  - POST /admin-api/v1/user-memberships/grants
+  websocket: []
+database_tables:
+- membership_plans
+- membership_skus
+- user_memberships
+- membership_entitlement_segments
+- membership_benefit_snapshots
+- membership_upgrade_quotes
+tests:
+- TST-MEMBER_001-HAPPY
+- TST-MEMBER_001-IDEMPOTENT
+- TST-MEMBER_001-REJECT
+- TST-MEMBER_002-HAPPY
+- TST-MEMBER_002-IDEMPOTENT
+- TST-MEMBER_002-REJECT
+- TST-MEMBER_003-HAPPY
+- TST-MEMBER_003-IDEMPOTENT
+- TST-MEMBER_003-REJECT
+entry_gate:
+- releases/R18/DEFINITION_OF_READY.yaml 全部适用项为PASS
+- releases/R18/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+- 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
+- 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
+- 冻结契约发生变化时已创建CR并重新生成追踪和SHA
+exit_gate:
+- 领域代码与前端真实闭环
+- 数据库迁移和不变量测试通过
+- 契约/单元/集成/E2E/安全专项测试通过
+- 日志指标链路和业务告警可验证
+- Session Log、追踪矩阵、产物Manifest和下一任务更新
+- Staging APK可安装且SHA256、Commit、版本信息完整
+change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
+documentation_baseline: V1.2.2
+document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
+definition_of_ready: releases/R18/DEFINITION_OF_READY.yaml
+story_backlog: releases/R18/STORIES.yaml
+continuity:
+  policy: .continuity/CONTINUITY_POLICY.yaml
+  protocol_version: '1.0'
+  mode: ENFORCED
+  session_required_before_change: true
+  checkpoint_required_before_commit: true
+  old_conversation_required: false
+  handoff_bundle_required_for_actor_switch: true

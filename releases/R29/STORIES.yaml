@@ -1,0 +1,477 @@
+version: 1.2.2
+release: R29
+title: 官方App自助构建与版本发布中心
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R29-001
+  release: R29
+  title: App构建：构建配置、签名配置、构建任务列表、构建任务详情
+  user_story: 作为具备 app.build.manage 的后台员工；写操作另需 app.build.manage，我需要完成构建配置、签名配置、构建任务列表、构建任务详情的完整业务流程，以便在不依赖研发临时决策的情况下实现包名、显示名、环境、版本策略、Gradle参数和允许的Git
+    Ref。
+  platform: ADMIN
+  module: App构建
+  template_id: ADM-BUILD
+  page_ids:
+  - ADM-BUILD-002
+  - ADM-BUILD-003
+  - ADM-BUILD-004
+  - ADM-BUILD-005
+  operation_ids:
+  - adminAppBuildProfileGetAppBuildProfiles
+  - adminAppBuildProfilePutAppBuildProfilesById
+  - adminAppBuildJobGetAppBuildJobs
+  - adminAppBuildJobGetAppBuildJobsById
+  - adminAppBuildJobGetAppBuildJobsByIdLogs
+  - adminAppBuildJobPostAppBuildJobsByIdCancel
+  - adminAppBuildJobPostAppBuildJobsByIdRetry
+  - adminAppBuildArtifactGetAppBuildArtifacts
+  - adminAppBuildProfilePostAppBuildProfiles
+  - adminAppBuildJobPostAppBuildJobs
+  - adminAppSigningPostAppBuildSigningProfiles
+  - adminAppSigningPostAppBuildSigningProfilesByIdTest
+  - adminAppBuildArtifactGetAppBuildArtifactsByIdDownload
+  - adminAppSigningGetAppBuildSigningProfiles
+  api_contracts:
+  - GET /admin-api/v1/app-build/profiles
+  - PUT /admin-api/v1/app-build/profiles/{id}
+  - GET /admin-api/v1/app-build/jobs
+  - GET /admin-api/v1/app-build/jobs/{id}
+  - GET /admin-api/v1/app-build/jobs/{id}/logs
+  - POST /admin-api/v1/app-build/jobs/{id}/cancel
+  - POST /admin-api/v1/app-build/jobs/{id}/retry
+  - GET /admin-api/v1/app-build/artifacts
+  - POST /admin-api/v1/app-build/profiles
+  - POST /admin-api/v1/app-build/jobs
+  - POST /admin-api/v1/app-build/signing-profiles
+  - POST /admin-api/v1/app-build/signing-profiles/{id}/test
+  - GET /admin-api/v1/app-build/artifacts/{id}/download
+  - GET /admin-api/v1/app-build/signing-profiles
+  requirement_ids:
+  - REQ-BUILD-001
+  - REQ-APK-001
+  - REQ-PAGE-SPEC-001
+  - REQ-ADMIN-OPS-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - app_build_profiles
+  - app_build_jobs
+  - app_build_job_steps
+  - app_build_artifacts
+  - app_signing_profiles
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - admin_approval_requests
+  test_ids:
+  - TST-BUILD_001-HAPPY
+  - TST-APK_001-HAPPY
+  - TST-BUILD_001-IDEMPOTENT
+  - TST-APK_001-IDEMPOTENT
+  - TST-V122-037
+  - TST-V122-038
+  dependencies:
+  - P00
+  - R17
+  - R28
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-BUILD-002;ADM-BUILD-003;ADM-BUILD-004;ADM-BUILD-005 全部绑定模板 ADM-BUILD，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminAppBuildProfileGetAppBuildProfiles;adminAppBuildProfilePutAppBuildProfilesById;adminAppBuildJobGetAppBuildJobs;adminAppBuildJobGetAppBuildJobsById;adminAppBuildJobGetAppBuildJobsByIdLogs;adminAppBuildJobPostAppBuildJobsByIdCancel;adminAppBuildJobPostAppBuildJobsByIdRetry;adminAppBuildArtifactGetAppBuildArtifacts;adminAppBuildProfilePostAppBuildProfiles;adminAppBuildJobPostAppBuildJobs;adminAppSigningPostAppBuildSigningProfiles;adminAppSigningPostAppBuildSigningProfilesByIdTest;adminAppBuildArtifactGetAppBuildArtifactsByIdDownload;adminAppSigningGetAppBuildSigningProfiles；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-BUILD_001-HAPPY;TST-APK_001-HAPPY;TST-BUILD_001-IDEMPOTENT;TST-APK_001-IDEMPOTENT;TST-V122-037;TST-V122-038
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R29-002
+  release: R29
+  title: App构建：构建产物与下载、发布与回滚
+  user_story: 作为具备 app.build.manage 的后台员工；写操作另需 app.build.manage，我需要完成构建产物与下载、发布与回滚的完整业务流程，以便在不依赖研发临时决策的情况下实现测试APK、正式APK、保留期、下载、二维码和Commit追溯。
+  platform: ADMIN
+  module: App构建
+  template_id: ADM-BUILD
+  page_ids:
+  - ADM-BUILD-006
+  - ADM-BUILD-007
+  operation_ids:
+  - adminAppBuildProfileGetAppBuildProfiles
+  - adminAppBuildProfilePostAppBuildProfiles
+  - adminAppBuildProfilePutAppBuildProfilesById
+  - adminAppBuildJobGetAppBuildJobs
+  - adminAppBuildJobPostAppBuildJobs
+  - adminAppBuildJobGetAppBuildJobsById
+  - adminAppBuildJobGetAppBuildJobsByIdLogs
+  - adminAppBuildJobPostAppBuildJobsByIdCancel
+  - adminAppBuildReleasePostAppBuildJobsByIdPublishStaging
+  - adminAppBuildReleasePostAppBuildJobsByIdPromote
+  api_contracts:
+  - GET /admin-api/v1/app-build/profiles
+  - POST /admin-api/v1/app-build/profiles
+  - PUT /admin-api/v1/app-build/profiles/{id}
+  - GET /admin-api/v1/app-build/jobs
+  - POST /admin-api/v1/app-build/jobs
+  - GET /admin-api/v1/app-build/jobs/{id}
+  - GET /admin-api/v1/app-build/jobs/{id}/logs
+  - POST /admin-api/v1/app-build/jobs/{id}/cancel
+  - POST /admin-api/v1/app-build/jobs/{id}/publish-staging
+  - POST /admin-api/v1/app-build/jobs/{id}/promote
+  requirement_ids:
+  - REQ-BUILD-001
+  - REQ-APK-001
+  - REQ-PAGE-SPEC-001
+  - REQ-ADMIN-OPS-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - app_build_profiles
+  - app_build_jobs
+  - app_build_job_steps
+  - app_build_artifacts
+  - app_signing_profiles
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - admin_approval_requests
+  test_ids:
+  - TST-BUILD_001-HAPPY
+  - TST-APK_001-HAPPY
+  - TST-BUILD_001-IDEMPOTENT
+  - TST-APK_001-IDEMPOTENT
+  - TST-V122-035
+  - TST-V122-036
+  dependencies:
+  - P00
+  - R17
+  - R28
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-BUILD-006;ADM-BUILD-007 全部绑定模板 ADM-BUILD，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminAppBuildProfileGetAppBuildProfiles;adminAppBuildProfilePostAppBuildProfiles;adminAppBuildProfilePutAppBuildProfilesById;adminAppBuildJobGetAppBuildJobs;adminAppBuildJobPostAppBuildJobs;adminAppBuildJobGetAppBuildJobsById;adminAppBuildJobGetAppBuildJobsByIdLogs;adminAppBuildJobPostAppBuildJobsByIdCancel;adminAppBuildReleasePostAppBuildJobsByIdPublishStaging;adminAppBuildReleasePostAppBuildJobsByIdPromote；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-BUILD_001-HAPPY;TST-APK_001-HAPPY;TST-BUILD_001-IDEMPOTENT;TST-APK_001-IDEMPOTENT;TST-V122-035;TST-V122-036
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R29-003
+  release: R29
+  title: App构建：构建中心首页
+  user_story: 作为具备 app.build.manage 的后台员工；写操作另需 app.build.manage，我需要完成构建中心首页的完整业务流程，以便在不依赖研发临时决策的情况下实现官方App构建概览、队列、最近结果、失败告警和快捷创建。
+  platform: ADMIN
+  module: App构建
+  template_id: ADM-DASHBOARD
+  page_ids:
+  - ADM-BUILD-001
+  operation_ids:
+  - adminAppBuildProfileGetAppBuildProfiles
+  - adminAppBuildProfilePostAppBuildProfiles
+  - adminAppBuildProfilePutAppBuildProfilesById
+  - adminAppBuildJobGetAppBuildJobs
+  - adminAppBuildJobPostAppBuildJobs
+  - adminAppBuildJobGetAppBuildJobsById
+  - adminAppBuildJobGetAppBuildJobsByIdLogs
+  - adminAppBuildJobPostAppBuildJobsByIdCancel
+  api_contracts:
+  - GET /admin-api/v1/app-build/profiles
+  - POST /admin-api/v1/app-build/profiles
+  - PUT /admin-api/v1/app-build/profiles/{id}
+  - GET /admin-api/v1/app-build/jobs
+  - POST /admin-api/v1/app-build/jobs
+  - GET /admin-api/v1/app-build/jobs/{id}
+  - GET /admin-api/v1/app-build/jobs/{id}/logs
+  - POST /admin-api/v1/app-build/jobs/{id}/cancel
+  requirement_ids:
+  - REQ-BUILD-001
+  - REQ-APK-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - app_build_profiles
+  - app_build_jobs
+  - app_build_job_steps
+  - app_build_artifacts
+  - app_signing_profiles
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  test_ids:
+  - TST-BUILD_001-HAPPY
+  - TST-APK_001-HAPPY
+  - TST-BUILD_001-IDEMPOTENT
+  - TST-APK_001-IDEMPOTENT
+  dependencies:
+  - P00
+  - R17
+  - R28
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-BUILD-001 全部绑定模板 ADM-DASHBOARD，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminAppBuildProfileGetAppBuildProfiles;adminAppBuildProfilePostAppBuildProfiles;adminAppBuildProfilePutAppBuildProfilesById;adminAppBuildJobGetAppBuildJobs;adminAppBuildJobPostAppBuildJobs;adminAppBuildJobGetAppBuildJobsById;adminAppBuildJobGetAppBuildJobsByIdLogs;adminAppBuildJobPostAppBuildJobsByIdCancel；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-BUILD_001-HAPPY;TST-APK_001-HAPPY;TST-BUILD_001-IDEMPOTENT;TST-APK_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R29-004
+  release: R29
+  title: 版本：App版本
+  user_story: 作为具备 app.release.read 的后台员工；写操作另需 app.release.manage，我需要完成App版本的完整业务流程，以便在不依赖研发临时决策的情况下实现APK、强制更新、灰度。
+  platform: ADMIN
+  module: 版本
+  template_id: ADM-BUILD
+  page_ids:
+  - ADM-APP-001
+  operation_ids:
+  - adminAppReleaseGetAppVersions
+  - adminAppReleasePostAppVersions
+  - adminAppReleasePostAppVersionsByIdPublish
+  api_contracts:
+  - GET /admin-api/v1/app-versions
+  - POST /admin-api/v1/app-versions
+  - POST /admin-api/v1/app-versions/{id}/publish
+  requirement_ids:
+  - REQ-APP-RELEASE-001
+  config_keys:
+  - app.android.application_id
+  - app.android.staging_application_id
+  - app.android.display_name
+  - app.android.signing.staging_profile
+  - app.android.signing.production_profile
+  - app.build.runner
+  - app.build.allowed_ref_patterns
+  - app.build.artifact_storage_scope
+  data_tables:
+  - app_versions
+  - app_release_records
+  - app_build_artifacts
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - content_posts
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  test_ids:
+  - TST-APP_RELEASE_001-HAPPY
+  - TST-APP_RELEASE_001-IDEMPOTENT
+  dependencies:
+  - P00
+  - R17
+  - R28
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-APP-001 全部绑定模板 ADM-BUILD，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminAppReleaseGetAppVersions;adminAppReleasePostAppVersions;adminAppReleasePostAppVersionsByIdPublish；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-APP_RELEASE_001-HAPPY;TST-APP_RELEASE_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R29-005
+  release: R29
+  title: 官方App自助构建与版本发布中心：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R29 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - ADM-APP-001
+  - ADM-BUILD-001
+  - ADM-BUILD-002
+  - ADM-BUILD-003
+  - ADM-BUILD-004
+  - ADM-BUILD-005
+  - ADM-BUILD-006
+  - ADM-BUILD-007
+  operation_ids:
+  - adminAppReleaseGetAppVersions
+  - adminAppReleasePostAppVersions
+  - adminAppReleasePostAppVersionsByIdPublish
+  - adminAppBuildProfileGetAppBuildProfiles
+  - adminAppBuildProfilePostAppBuildProfiles
+  - adminAppBuildProfilePutAppBuildProfilesById
+  - adminAppBuildJobGetAppBuildJobs
+  - adminAppBuildJobPostAppBuildJobs
+  - adminAppBuildJobGetAppBuildJobsById
+  - adminAppBuildJobGetAppBuildJobsByIdLogs
+  - adminAppBuildJobPostAppBuildJobsByIdCancel
+  - adminAppBuildJobPostAppBuildJobsByIdRetry
+  - adminAppBuildArtifactGetAppBuildArtifacts
+  - adminAppBuildArtifactGetAppBuildArtifactsByIdDownload
+  - adminAppBuildReleasePostAppBuildJobsByIdPublishStaging
+  - adminAppBuildReleasePostAppBuildJobsByIdPromote
+  - adminAppSigningGetAppBuildSigningProfiles
+  - adminAppSigningPostAppBuildSigningProfiles
+  - adminAppSigningPostAppBuildSigningProfilesByIdTest
+  api_contracts:
+  - GET /admin-api/v1/app-versions
+  - POST /admin-api/v1/app-versions
+  - POST /admin-api/v1/app-versions/{id}/publish
+  - GET /admin-api/v1/app-build/profiles
+  - POST /admin-api/v1/app-build/profiles
+  - PUT /admin-api/v1/app-build/profiles/{id}
+  - GET /admin-api/v1/app-build/jobs
+  - POST /admin-api/v1/app-build/jobs
+  - GET /admin-api/v1/app-build/jobs/{id}
+  - GET /admin-api/v1/app-build/jobs/{id}/logs
+  - POST /admin-api/v1/app-build/jobs/{id}/cancel
+  - POST /admin-api/v1/app-build/jobs/{id}/retry
+  - GET /admin-api/v1/app-build/artifacts
+  - GET /admin-api/v1/app-build/artifacts/{id}/download
+  - POST /admin-api/v1/app-build/jobs/{id}/publish-staging
+  - POST /admin-api/v1/app-build/jobs/{id}/promote
+  - GET /admin-api/v1/app-build/signing-profiles
+  - POST /admin-api/v1/app-build/signing-profiles
+  - POST /admin-api/v1/app-build/signing-profiles/{id}/test
+  requirement_ids:
+  - REQ-APP-RELEASE-001
+  - REQ-DOMAIN-001
+  - REQ-BUILD-001
+  config_keys:
+  - app.android.application_id
+  - app.android.staging_application_id
+  - app.android.display_name
+  - app.android.signing.staging_profile
+  - app.android.signing.production_profile
+  - app.build.runner
+  - app.build.allowed_ref_patterns
+  - app.build.artifact_storage_scope
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - app_release_records
+  - app_build_artifacts
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - home_modules
+  - banners
+  - agreement_versions
+  - user_agreement_acceptances
+  - app_download_logs
+  - provider_config_definitions
+  - provider_config_versions
+  - provider_connection_tests
+  - app_build_profiles
+  - app_build_jobs
+  - app_build_job_steps
+  - app_signing_profiles
+  test_ids:
+  - TST-APP_RELEASE_001-HAPPY
+  - TST-APP_RELEASE_001-IDEMPOTENT
+  - TST-APP_RELEASE_001-REJECT
+  - TST-BUILD_001-HAPPY
+  - TST-BUILD_001-IDEMPOTENT
+  - TST-BUILD_001-REJECT
+  - TST-V122-011
+  - TST-V122-035
+  - TST-V122-036
+  - TST-V122-037
+  - TST-V122-038
+  dependencies:
+  - P00
+  - R17
+  - R28
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

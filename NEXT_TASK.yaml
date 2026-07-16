@@ -1,0 +1,50 @@
+id: TASK-P00-001
+title: 初始化私有Monorepo并启用V1.2.3持续开发无状态接续强制门禁
+status: READY
+release: P00
+definition_of_ready: releases/P00/DEFINITION_OF_READY.yaml
+stories: releases/P00/STORIES.yaml
+requirements:
+- REQ-ENG-001
+- REQ-ARCH-001
+- REQ-DATA-001
+- REQ-EVENT-001
+- REQ-ADMIN-BASE-001
+- REQ-OBS-002
+- REQ-DOR-001
+steps:
+- 先运行python3 scripts/continuity.py resume，禁止依赖旧对话判断项目状态
+- 运行bootstrap创建不可变Baseline Commit、安装Git Hooks并切换任务分支
+- 运行start领取唯一任务/Story和租约后才允许修改项目文件
+- 每60分钟、关键测试后、提交前、交接前和上下文切换前运行checkpoint
+- 冻结事实变化必须先创建、补齐并由不同Actor批准CR
+- 提交、推送和CI必须通过逐Commit连续性门禁
+acceptance:
+- P00全部适用DoR为PASS
+- 故事责任人、依赖和验收条件明确
+- 页面/API/配置/数据/测试事实源未产生手工分叉
+- CURRENT_STATUS、追踪、CR和Session Log持续更新
+- 没有ACTIVE Session时项目提交被拒绝
+- 每个Commit绑定Task/Story/Session/Checkpoint/Tests/CR
+- WIP可仅凭仓库和Handoff Bundle由新AI恢复
+- 事件哈希链、Context Pack和Manifest可检测篡改
+out_of_scope:
+- 在开发开始前完成全部业务功能
+- 把供应商、DNS、生产签名和上线审查作为文档冻结条件
+next_after: 按P00/STORIES.yaml顺序执行
+continuity_protocol: .continuity/CONTINUITY_POLICY.yaml
+conversation_context_required: false
+repository_only_resume: true
+cold_start_commands:
+- python3 scripts/continuity.py resume
+- python3 scripts/continuity.py bootstrap --actor <ACTOR_ID> --init-git --initial-commit --task TASK-P00-001 --branch task/TASK-P00-001
+- python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-P00-001 --story <STORY_ID> --goal '<精确目标>'
+mandatory_commands:
+  resume: python3 scripts/continuity.py resume
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-P00-001 --story <STORY_ID> --goal '<精确目标>'
+  checkpoint: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note'
+  handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<交接原因>' --next-step '<精确下一步>' --portable-zip artifacts/handoff-exports/<name>.zip
+  cr_create: python3 scripts/continuity.py cr-create --actor <REQUESTER> --task TASK-P00-001 --title '<标题>' --user-request '<用户要求>' --reason '<原因>'
+  cr_amend: python3 scripts/continuity.py cr-amend --actor <REQUESTER> --cr <CR-ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
+    '<影响>' --migration-and-compatibility '<兼容>' --file '<文件>' --test '<测试>' --release P00
+  export_clean: python3 scripts/continuity.py export-clean --portable-zip artifacts/exports/<name>.zip

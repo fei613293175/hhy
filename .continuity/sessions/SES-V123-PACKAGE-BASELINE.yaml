@@ -1,0 +1,44 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-V123-PACKAGE-BASELINE
+status: CLOSED
+actor:
+  id: openai-package-builder
+  kind: AI
+  host: package-build
+release: P00
+task_id: TASK-P00-001
+story_id: STORY-P00-001
+goal: 建立V1.2.3持续开发无状态接续强制门禁
+started_at: '2026-07-16T00:00:00Z'
+updated_at: '2026-07-16T21:49:57Z'
+takeover_of: null
+change_requests:
+- CR-0002
+scope:
+  allowed_paths:
+  - '**'
+  approved_exceptions: []
+  source: package-baseline
+git:
+  initialized: false
+  branch: NOT_INITIALIZED
+  base_commit: NOT_INITIALIZED
+  start_head: NOT_INITIALIZED
+  upstream: null
+  initial_worktree_state: PACKAGE_ASSEMBLY
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-16T00:00:00Z'
+  expires_at: '2026-07-16T04:00:00Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-V123-PACKAGE-BASELINE/0001-package-baseline.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-V123-PACKAGE-BASELINE.md
+next_step: 导入私有Git仓库并执行continuity.py bootstrap
+context_pack: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+handoff_bundle: artifacts/handoffs/HND-V123-PACKAGE-BASELINE
+closure:
+  result: COMPLETED
+  closed_at: '2026-07-16T00:30:00Z'
+  summary: V1.2.3门禁基线形成
+closed_at: '2026-07-16T00:30:00Z'

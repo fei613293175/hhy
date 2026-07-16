@@ -1,0 +1,774 @@
+version: 1.2.2
+release: R30
+title: 完整运营后台、RBAC与配置闭环
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R30-001
+  release: R30
+  title: 商品：商品与SKU
+  user_story: 作为具备 product.manage 的后台员工；写操作另需 product.manage，我需要完成商品与SKU的完整业务流程，以便在不依赖研发临时决策的情况下实现价格、权益、分佣。
+  platform: ADMIN
+  module: 商品
+  template_id: ADM-LIST
+  page_ids:
+  - ADM-PROD-001
+  operation_ids:
+  - adminProductsGetProducts
+  - adminProductsPostProducts
+  - adminProductsPatchProductsById
+  - adminProductsGetSkus
+  - adminProductsPostSkus
+  - adminProductsPatchSkusById
+  api_contracts:
+  - GET /admin-api/v1/products
+  - POST /admin-api/v1/products
+  - PATCH /admin-api/v1/products/{id}
+  - GET /admin-api/v1/skus
+  - POST /admin-api/v1/skus
+  - PATCH /admin-api/v1/skus/{id}
+  requirement_ids:
+  - REQ-PRODUCT-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - products
+  - product_skus
+  - sku_commission_policies
+  test_ids:
+  - TST-PRODUCT_001-HAPPY
+  - TST-PRODUCT_001-IDEMPOTENT
+  dependencies:
+  - R01
+  - R23
+  - R24
+  - R28
+  - R29
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-PROD-001 全部绑定模板 ADM-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminProductsGetProducts;adminProductsPostProducts;adminProductsPatchProductsById;adminProductsGetSkus;adminProductsPostSkus;adminProductsPatchSkusById；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-PRODUCT_001-HAPPY;TST-PRODUCT_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R30-002
+  release: R30
+  title: 总览：数据驾驶舱
+  user_story: 作为具备 dashboard.read 的后台员工；写操作另需 dashboard.manage，我需要完成数据驾驶舱的完整业务流程，以便在不依赖研发临时决策的情况下实现用户、内容、商业、奖励、风险和待办。
+  platform: ADMIN
+  module: 总览
+  template_id: ADM-DASHBOARD
+  page_ids:
+  - ADM-DASH-001
+  operation_ids:
+  - adminDashboardGetDashboardSummary
+  - adminDashboardGetDashboardTodos
+  api_contracts:
+  - GET /admin-api/v1/dashboard/summary
+  - GET /admin-api/v1/dashboard/todos
+  requirement_ids:
+  - REQ-ANALYTICS-001
+  - REQ-ADMIN-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - daily_kpis
+  - analytics_events
+  - users
+  - user_profiles
+  - user_status_logs
+  - user_sessions
+  test_ids:
+  - TST-ANALYTICS_001-HAPPY
+  - TST-ADMIN_001-HAPPY
+  dependencies:
+  - R01
+  - R23
+  - R24
+  - R28
+  - R29
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-DASH-001 全部绑定模板 ADM-DASHBOARD，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminDashboardGetDashboardSummary;adminDashboardGetDashboardTodos；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-ANALYTICS_001-HAPPY;TST-ADMIN_001-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R30-003
+  release: R30
+  title: 系统：双人审批中心
+  user_story: 作为具备 approval.read 的后台员工；写操作另需 approval.decide，我需要完成双人审批中心的完整业务流程，以便在不依赖研发临时决策的情况下实现集中处理资金、配置、发布、签名和敏感操作的双人复核，禁止申请人自审。
+  platform: ADMIN
+  module: 系统
+  template_id: ADM-APPROVAL
+  page_ids:
+  - ADM-APPROVAL-001
+  operation_ids:
+  - adminApprovalsGetApprovals
+  - adminApprovalsPostApprovalsByIdDecide
+  api_contracts:
+  - GET /admin-api/v1/approvals
+  - POST /admin-api/v1/approvals/{id}/decide
+  requirement_ids:
+  - REQ-RBAC-001
+  - REQ-ADMIN-OPS-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  - analytics.event.retention_days
+  - analytics.traffic_types
+  data_tables:
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - sensitive_data_access_logs
+  - admin_approval_requests
+  test_ids:
+  - TST-V122-028
+  - TST-V122-029
+  dependencies:
+  - R01
+  - R23
+  - R24
+  - R28
+  - R29
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-APPROVAL-001 全部绑定模板 ADM-APPROVAL，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminApprovalsGetApprovals;adminApprovalsPostApprovalsByIdDecide；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-V122-028;TST-V122-029
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R30-004
+  release: R30
+  title: 系统：系统配置、定时任务
+  user_story: 作为具备 config.manage 的后台员工；写操作另需 config.manage，我需要完成系统配置、定时任务的完整业务流程，以便在不依赖研发临时决策的情况下实现参数、版本、开关。
+  platform: ADMIN
+  module: 系统
+  template_id: ADM-CONFIG
+  page_ids:
+  - ADM-CONFIG-001
+  - ADM-JOB-001
+  operation_ids:
+  - adminConfigGetConfigs
+  - adminConfigPutConfigsByKey
+  - adminConfigGetFeatureFlags
+  - adminConfigPutFeatureFlagsByKey
+  - adminProviderConfigGetProviderConfigs
+  - adminProviderConfigGetProviderConfigsByProvider
+  - adminProviderConfigPostProviderConfigsByProviderVersions
+  - adminProviderConfigPostProviderConfigsByProviderTest
+  - adminJobsGetJobs
+  - adminJobsPostJobsByCodeRun
+  api_contracts:
+  - GET /admin-api/v1/configs
+  - PUT /admin-api/v1/configs/{key}
+  - GET /admin-api/v1/feature-flags
+  - PUT /admin-api/v1/feature-flags/{key}
+  - GET /admin-api/v1/provider-configs
+  - GET /admin-api/v1/provider-configs/{provider}
+  - POST /admin-api/v1/provider-configs/{provider}/versions
+  - POST /admin-api/v1/provider-configs/{provider}/test
+  - GET /admin-api/v1/jobs
+  - POST /admin-api/v1/jobs/{code}/run
+  requirement_ids:
+  - REQ-CONFIG-001
+  - REQ-SECRET-001
+  - REQ-OPS-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - system_configs
+  - system_config_versions
+  - feature_flags
+  - admin_approval_requests
+  - provider_config_definitions
+  - provider_config_versions
+  - provider_connection_tests
+  - provider_certificates
+  - provider_certificate_access_logs
+  - domain_configs
+  - dns_action_items
+  - job_definitions
+  - job_execution_logs
+  test_ids:
+  - TST-CONFIG_001-HAPPY
+  - TST-SECRET_001-HAPPY
+  - TST-CONFIG_001-IDEMPOTENT
+  - TST-SECRET_001-IDEMPOTENT
+  - TST-OPS_001-HAPPY
+  - TST-OPS_001-IDEMPOTENT
+  dependencies:
+  - R01
+  - R23
+  - R24
+  - R28
+  - R29
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-CONFIG-001;ADM-JOB-001 全部绑定模板 ADM-CONFIG，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminConfigGetConfigs;adminConfigPutConfigsByKey;adminConfigGetFeatureFlags;adminConfigPutFeatureFlagsByKey;adminProviderConfigGetProviderConfigs;adminProviderConfigGetProviderConfigsByProvider;adminProviderConfigPostProviderConfigsByProviderVersions;adminProviderConfigPostProviderConfigsByProviderTest;adminJobsGetJobs;adminJobsPostJobsByCodeRun；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-CONFIG_001-HAPPY;TST-SECRET_001-HAPPY;TST-CONFIG_001-IDEMPOTENT;TST-SECRET_001-IDEMPOTENT;TST-OPS_001-HAPPY;TST-OPS_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R30-005
+  release: R30
+  title: 系统：员工角色权限、审计日志、数据导出中心
+  user_story: 作为具备 rbac.manage 的后台员工；写操作另需 rbac.manage，我需要完成员工角色权限、审计日志、数据导出中心的完整业务流程，以便在不依赖研发临时决策的情况下实现RBAC和数据权限。
+  platform: ADMIN
+  module: 系统
+  template_id: ADM-SECURITY
+  page_ids:
+  - ADM-RBAC-001
+  - ADM-AUDIT-001
+  - ADM-EXPORT-001
+  operation_ids:
+  - adminRBACGetAdminUsers
+  - adminRBACPostAdminUsers
+  - adminRBACGetRoles
+  - adminRBACPutRolesByIdPermissions
+  - adminAuditGetAuditLogs
+  - adminExportsGetJobs
+  - adminExportsPostJob
+  - adminExportsGetJobById
+  - adminExportsPostDownloadToken
+  api_contracts:
+  - GET /admin-api/v1/admin-users
+  - POST /admin-api/v1/admin-users
+  - GET /admin-api/v1/roles
+  - PUT /admin-api/v1/roles/{id}/permissions
+  - GET /admin-api/v1/audit/logs
+  - GET /admin-api/v1/export-jobs
+  - POST /admin-api/v1/export-jobs
+  - GET /admin-api/v1/export-jobs/{id}
+  - POST /admin-api/v1/export-jobs/{id}/download-token
+  requirement_ids:
+  - REQ-RBAC-001
+  - REQ-ADMIN-BASE-001
+  - REQ-ID-002
+  - REQ-EXPORT-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  - analytics.event.retention_days
+  - analytics.traffic_types
+  data_tables:
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - sensitive_data_access_logs
+  - identity_profiles
+  - identity_verification_sessions
+  - identity_provider_requests
+  - identity_review_records
+  - users
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - export_jobs
+  - export_job_files
+  - export_download_logs
+  - admin_approval_requests
+  - media_objects
+  test_ids:
+  - TST-RBAC_001-HAPPY
+  - TST-ADMIN_BASE_001-HAPPY
+  - TST-RBAC_001-IDEMPOTENT
+  - TST-ADMIN_BASE_001-IDEMPOTENT
+  - TST-ID_002-HAPPY
+  - TST-V122-052
+  - TST-V122-053
+  - TST-V122-054
+  - TST-V122-055
+  dependencies:
+  - R01
+  - R23
+  - R24
+  - R28
+  - R29
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-RBAC-001;ADM-AUDIT-001;ADM-EXPORT-001 全部绑定模板 ADM-SECURITY，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminRBACGetAdminUsers;adminRBACPostAdminUsers;adminRBACGetRoles;adminRBACPutRolesByIdPermissions;adminAuditGetAuditLogs;adminExportsGetJobs;adminExportsPostJob;adminExportsGetJobById;adminExportsPostDownloadToken；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-RBAC_001-HAPPY;TST-ADMIN_BASE_001-HAPPY;TST-RBAC_001-IDEMPOTENT;TST-ADMIN_BASE_001-IDEMPOTENT;TST-ID_002-HAPPY;TST-V122-052;TST-V122-053;TST-V122-054;TST-V122-055
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R30-006
+  release: R30
+  title: 运营：通知模板
+  user_story: 作为具备 notification.template.read 的后台员工；写操作另需 notification.template.manage，我需要完成通知模板的完整业务流程，以便在不依赖研发临时决策的情况下实现站内信、推送、短信模板版本、变量白名单、预览、审批和灰度。
+  platform: ADMIN
+  module: 运营
+  template_id: ADM-CONFIG
+  page_ids:
+  - ADM-NOTIFY-001
+  operation_ids:
+  - adminNotificationGetTemplates
+  - adminNotificationPostTemplate
+  - adminNotificationPatchTemplate
+  api_contracts:
+  - GET /admin-api/v1/notification-templates
+  - POST /admin-api/v1/notification-templates
+  - PATCH /admin-api/v1/notification-templates/{id}
+  requirement_ids:
+  - REQ-NOTIFICATION-OPS-001
+  - REQ-NOTIFY-001
+  config_keys:
+  - ops.backup.rpo_minutes
+  - ops.recovery.rto_minutes
+  - ops.audit_log.retention_days
+  - ops.security_event.retention_days
+  - ops.alert.error_rate_percent
+  - ops.alert.api_p95_ms
+  - notification.marketing.default_enabled
+  - notification.quiet_hours.start
+  - notification.quiet_hours.end
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - notification_templates
+  - notification_deliveries
+  - notification_delivery_attempts
+  - admin_operation_logs
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  - notifications
+  - announcements
+  - announcement_reads
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  test_ids:
+  - TST-V122-047
+  - TST-V122-048
+  - TST-V122-049
+  dependencies:
+  - R01
+  - R23
+  - R24
+  - R28
+  - R29
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-NOTIFY-001 全部绑定模板 ADM-CONFIG，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminNotificationGetTemplates;adminNotificationPostTemplate;adminNotificationPatchTemplate；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-V122-047;TST-V122-048;TST-V122-049
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R30-007
+  release: R30
+  title: 运营：通知发送记录
+  user_story: 作为具备 notification.delivery.read 的后台员工；写操作另需 notification.delivery.retry，我需要完成通知发送记录的完整业务流程，以便在不依赖研发临时决策的情况下实现按渠道、模板、业务、状态查询发送记录，查看脱敏载荷、失败原因和受控重试。
+  platform: ADMIN
+  module: 运营
+  template_id: ADM-LIST
+  page_ids:
+  - ADM-NOTIFY-002
+  operation_ids:
+  - adminNotificationGetDeliveries
+  - adminNotificationPostDeliveryRetry
+  api_contracts:
+  - GET /admin-api/v1/notification-deliveries
+  - POST /admin-api/v1/notification-deliveries/{id}/retry
+  requirement_ids:
+  - REQ-NOTIFICATION-OPS-001
+  - REQ-NOTIFY-001
+  config_keys:
+  - ops.backup.rpo_minutes
+  - ops.recovery.rto_minutes
+  - ops.audit_log.retention_days
+  - ops.security_event.retention_days
+  - ops.alert.error_rate_percent
+  - ops.alert.api_p95_ms
+  - notification.marketing.default_enabled
+  - notification.quiet_hours.start
+  - notification.quiet_hours.end
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - notification_templates
+  - notification_deliveries
+  - notification_delivery_attempts
+  - admin_operation_logs
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  - notifications
+  - announcements
+  - announcement_reads
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  test_ids:
+  - TST-V122-050
+  - TST-V122-051
+  dependencies:
+  - R01
+  - R23
+  - R24
+  - R28
+  - R29
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-NOTIFY-002 全部绑定模板 ADM-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminNotificationGetDeliveries;adminNotificationPostDeliveryRetry；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-V122-050;TST-V122-051
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R30-008
+  release: R30
+  title: 完整运营后台、RBAC与配置闭环：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R30 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - ADM-DASH-001
+  - ADM-PROD-001
+  - ADM-CONFIG-001
+  - ADM-RBAC-001
+  - ADM-AUDIT-001
+  - ADM-JOB-001
+  - ADM-APPROVAL-001
+  - ADM-NOTIFY-001
+  - ADM-NOTIFY-002
+  - ADM-EXPORT-001
+  operation_ids:
+  - adminDashboardGetDashboardSummary
+  - adminDashboardGetDashboardTodos
+  - adminReferralActivityGetReferralActivityRules
+  - adminReferralActivityPostReferralActivityRuleVersions
+  - adminReferralActivityGetReferralActivityProgress
+  - adminReferralActivityGetReferralActivityMilestones
+  - adminReferralActivityPutReferralActivityMilestones
+  - adminReferralActivityGetReferralActivityRewards
+  - adminConfigGetConfigs
+  - adminConfigPutConfigsByKey
+  - adminConfigGetFeatureFlags
+  - adminConfigPutFeatureFlagsByKey
+  - adminRBACGetAdminUsers
+  - adminRBACPostAdminUsers
+  - adminRBACGetRoles
+  - adminRBACPutRolesByIdPermissions
+  - adminAuditGetAuditLogs
+  - adminApprovalsGetApprovals
+  - adminApprovalsPostApprovalsByIdDecide
+  - adminJobsGetJobs
+  - adminJobsPostJobsByCodeRun
+  - adminNotificationGetTemplates
+  - adminNotificationPostTemplate
+  - adminNotificationPatchTemplate
+  - adminNotificationGetDeliveries
+  - adminNotificationPostDeliveryRetry
+  - adminExportsGetJobs
+  - adminExportsPostJob
+  - adminExportsGetJobById
+  - adminExportsPostDownloadToken
+  api_contracts:
+  - GET /admin-api/v1/dashboard/summary
+  - GET /admin-api/v1/dashboard/todos
+  - GET /admin-api/v1/referral-activity/rules
+  - POST /admin-api/v1/referral-activity/rule-versions
+  - GET /admin-api/v1/referral-activity/progress
+  - GET /admin-api/v1/referral-activity/milestones
+  - PUT /admin-api/v1/referral-activity/milestones
+  - GET /admin-api/v1/referral-activity/rewards
+  - GET /admin-api/v1/configs
+  - PUT /admin-api/v1/configs/{key}
+  - GET /admin-api/v1/feature-flags
+  - PUT /admin-api/v1/feature-flags/{key}
+  - GET /admin-api/v1/admin-users
+  - POST /admin-api/v1/admin-users
+  - GET /admin-api/v1/roles
+  - PUT /admin-api/v1/roles/{id}/permissions
+  - GET /admin-api/v1/audit/logs
+  - GET /admin-api/v1/approvals
+  - POST /admin-api/v1/approvals/{id}/decide
+  - GET /admin-api/v1/jobs
+  - POST /admin-api/v1/jobs/{code}/run
+  - GET /admin-api/v1/notification-templates
+  - POST /admin-api/v1/notification-templates
+  - PATCH /admin-api/v1/notification-templates/{id}
+  - GET /admin-api/v1/notification-deliveries
+  - POST /admin-api/v1/notification-deliveries/{id}/retry
+  - GET /admin-api/v1/export-jobs
+  - POST /admin-api/v1/export-jobs
+  - GET /admin-api/v1/export-jobs/{id}
+  - POST /admin-api/v1/export-jobs/{id}/download-token
+  requirement_ids:
+  - REQ-PAY-001
+  - REQ-ANALYTICS-001
+  - REQ-CMS-001
+  - REQ-ADMIN-001
+  - REQ-RBAC-001
+  - REQ-CONFIG-001
+  - REQ-BUILD-001
+  - REQ-SECRET-001
+  - REQ-CONFIG-UX-001
+  - REQ-ACCOUNTING-OPS-001
+  - REQ-NOTIFICATION-OPS-001
+  - REQ-EXPORT-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  - analytics.event.retention_days
+  - analytics.traffic_types
+  - ops.backup.rpo_minutes
+  - ops.recovery.rto_minutes
+  - ops.audit_log.retention_days
+  - ops.security_event.retention_days
+  - ops.alert.error_rate_percent
+  - ops.alert.api_p95_ms
+  - notification.marketing.default_enabled
+  - notification.quiet_hours.start
+  - notification.quiet_hours.end
+  data_tables:
+  - orders
+  - payment_transactions
+  - payment_callbacks
+  - payment_exception_orders
+  - payment_reconciliation_records
+  - accounting_transactions
+  - accounting_entries
+  - daily_kpis
+  - analytics_events
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - home_modules
+  - banners
+  - users
+  - user_profiles
+  - user_status_logs
+  - user_sessions
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - sensitive_data_access_logs
+  - system_configs
+  - system_config_versions
+  - feature_flags
+  - admin_approval_requests
+  - provider_config_definitions
+  - provider_config_versions
+  - provider_connection_tests
+  - provider_certificates
+  - provider_certificate_access_logs
+  - domain_configs
+  - dns_action_items
+  - app_build_profiles
+  - app_build_jobs
+  - app_build_job_steps
+  - app_build_artifacts
+  - app_signing_profiles
+  - accounting_reversal_requests
+  - notification_templates
+  - notification_deliveries
+  - notification_delivery_attempts
+  - export_jobs
+  - export_job_files
+  - export_download_logs
+  - media_objects
+  test_ids:
+  - TST-ACCOUNTING_OPS_001-DRIFT
+  - TST-ACCOUNTING_OPS_001-HAPPY
+  - TST-ACCOUNTING_OPS_001-REJECT
+  - TST-ACCOUNTING_OPS_001-SECURITY
+  - TST-ADMIN_001-HAPPY
+  - TST-ADMIN_001-IDEMPOTENT
+  - TST-ADMIN_001-REJECT
+  - TST-CONFIG_UX_001-DRIFT
+  - TST-CONFIG_UX_001-HAPPY
+  - TST-CONFIG_UX_001-REJECT
+  - TST-CONFIG_UX_001-SECURITY
+  - TST-EXPORT_001-DRIFT
+  - TST-EXPORT_001-HAPPY
+  - TST-EXPORT_001-REJECT
+  - TST-EXPORT_001-SECURITY
+  - TST-NOTIFICATION_OPS_001-DRIFT
+  - TST-NOTIFICATION_OPS_001-HAPPY
+  - TST-NOTIFICATION_OPS_001-REJECT
+  - TST-NOTIFICATION_OPS_001-SECURITY
+  - TST-RBAC_001-HAPPY
+  - TST-RBAC_001-IDEMPOTENT
+  - TST-RBAC_001-REJECT
+  - TST-RBAC_001-SECURITY
+  - TST-V122-022
+  - TST-V122-028
+  - TST-V122-029
+  - TST-V122-047
+  - TST-V122-048
+  - TST-V122-049
+  - TST-V122-050
+  - TST-V122-051
+  - TST-V122-052
+  - TST-V122-053
+  - TST-V122-054
+  - TST-V122-055
+  dependencies:
+  - R01
+  - R23
+  - R24
+  - R28
+  - R29
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

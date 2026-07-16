@@ -1,0 +1,427 @@
+version: 1.2.2
+release: R06
+title: 统一内容基础、首页与CMS
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R06-001
+  release: R06
+  title: 内容：内容详情
+  user_story: 作为具备 content.read 的后台员工；写操作另需 content.manage，我需要完成内容详情的完整业务流程，以便在不依赖研发临时决策的情况下实现版本、媒体、链接、数据。
+  platform: ADMIN
+  module: 内容
+  template_id: ADM-DETAIL
+  page_ids:
+  - ADM-CONTENT-002
+  operation_ids:
+  - adminContentGetContents
+  - adminContentGetContentsById
+  - adminContentPostContentsByIdOnline
+  - adminContentPostContentsByIdOffline
+  - adminContentPostContentsByIdBan
+  - adminContentPostContentsByIdRecommend
+  - adminContentPostContentsByIdOfficialMark
+  - adminContentGetContentDictionaries
+  api_contracts:
+  - GET /admin-api/v1/contents
+  - GET /admin-api/v1/contents/{id}
+  - POST /admin-api/v1/contents/{id}/online
+  - POST /admin-api/v1/contents/{id}/offline
+  - POST /admin-api/v1/contents/{id}/ban
+  - POST /admin-api/v1/contents/{id}/recommend
+  - POST /admin-api/v1/contents/{id}/official-mark
+  - GET /admin-api/v1/content-dictionaries
+  requirement_ids:
+  - REQ-CONTENT-001
+  - REQ-PUBLISH-001
+  config_keys:
+  - content.limit.normal.online
+  - content.limit.month.online
+  - content.limit.quarter.online
+  - content.limit.year.online
+  - content.team_leader_per_account
+  - content.limit.normal.pending
+  - content.limit.normal.drafts
+  - content.limit.normal.daily_submissions
+  data_tables:
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - home_modules
+  - banners
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  - users
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - identity_review_records
+  - manual_review_cases
+  - content_reports
+  - content_appeals
+  test_ids:
+  - TST-CONTENT_001-HAPPY
+  - TST-PUBLISH_001-HAPPY
+  - TST-CONTENT_001-IDEMPOTENT
+  - TST-PUBLISH_001-IDEMPOTENT
+  dependencies:
+  - R02
+  - R04
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-CONTENT-002 全部绑定模板 ADM-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminContentGetContents;adminContentGetContentsById;adminContentPostContentsByIdOnline;adminContentPostContentsByIdOffline;adminContentPostContentsByIdBan;adminContentPostContentsByIdRecommend;adminContentPostContentsByIdOfficialMark;adminContentGetContentDictionaries；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-CONTENT_001-HAPPY;TST-PUBLISH_001-HAPPY;TST-CONTENT_001-IDEMPOTENT;TST-PUBLISH_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R06-002
+  release: R06
+  title: 内容：统一内容列表、字典与属性
+  user_story: 作为具备 content.read 的后台员工；写操作另需 content.manage，我需要完成统一内容列表、字典与属性的完整业务流程，以便在不依赖研发临时决策的情况下实现四类内容。
+  platform: ADMIN
+  module: 内容
+  template_id: ADM-LIST
+  page_ids:
+  - ADM-CONTENT-001
+  - ADM-CONTENT-003
+  operation_ids:
+  - adminContentGetContents
+  - adminContentGetContentsById
+  - adminContentGetContentDictionaries
+  - adminContentPostContentsByIdOnline
+  - adminContentPostContentsByIdOffline
+  - adminContentPostContentsByIdBan
+  - adminContentPostContentsByIdRecommend
+  - adminContentPostContentsByIdOfficialMark
+  - adminContentPutContentDictionariesByCode
+  api_contracts:
+  - GET /admin-api/v1/contents
+  - GET /admin-api/v1/contents/{id}
+  - GET /admin-api/v1/content-dictionaries
+  - POST /admin-api/v1/contents/{id}/online
+  - POST /admin-api/v1/contents/{id}/offline
+  - POST /admin-api/v1/contents/{id}/ban
+  - POST /admin-api/v1/contents/{id}/recommend
+  - POST /admin-api/v1/contents/{id}/official-mark
+  - PUT /admin-api/v1/content-dictionaries/{code}
+  requirement_ids:
+  - REQ-CONTENT-001
+  - REQ-PUBLISH-001
+  - REQ-PAGE-SPEC-001
+  - REQ-ADMIN-OPS-001
+  config_keys:
+  - content.limit.normal.online
+  - content.limit.month.online
+  - content.limit.quarter.online
+  - content.limit.year.online
+  - content.team_leader_per_account
+  - content.limit.normal.pending
+  - content.limit.normal.drafts
+  - content.limit.normal.daily_submissions
+  data_tables:
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - home_modules
+  - banners
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  - users
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - identity_review_records
+  - manual_review_cases
+  - content_reports
+  - content_appeals
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - admin_approval_requests
+  test_ids:
+  - TST-CONTENT_001-HAPPY
+  - TST-PUBLISH_001-HAPPY
+  - TST-CONTENT_001-IDEMPOTENT
+  - TST-PUBLISH_001-IDEMPOTENT
+  - TST-V122-017
+  dependencies:
+  - R02
+  - R04
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-CONTENT-001;ADM-CONTENT-003 全部绑定模板 ADM-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminContentGetContents;adminContentGetContentsById;adminContentGetContentDictionaries;adminContentPostContentsByIdOnline;adminContentPostContentsByIdOffline;adminContentPostContentsByIdBan;adminContentPostContentsByIdRecommend;adminContentPostContentsByIdOfficialMark;adminContentPutContentDictionariesByCode；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-CONTENT_001-HAPPY;TST-PUBLISH_001-HAPPY;TST-CONTENT_001-IDEMPOTENT;TST-PUBLISH_001-IDEMPOTENT;TST-V122-017
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R06-003
+  release: R06
+  title: 设置：关于与检查更新
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成关于与检查更新的完整业务流程，以便在不依赖研发临时决策的情况下实现版本、协议、下载页。
+  platform: ANDROID
+  module: 设置
+  template_id: MOB-SETTINGS
+  page_ids:
+  - SCR-ABOUT-001
+  operation_ids:
+  - appReleasePostAppVersionCheck
+  - publicGetAgreementsByCode
+  api_contracts:
+  - POST /public-api/v1/app/version-check
+  - GET /public-api/v1/agreements/{code}
+  requirement_ids:
+  - REQ-APP-RELEASE-001
+  config_keys:
+  - app.android.application_id
+  - app.android.staging_application_id
+  - app.android.display_name
+  - app.android.signing.staging_profile
+  - app.android.signing.production_profile
+  - app.build.runner
+  - app.build.allowed_ref_patterns
+  - app.build.artifact_storage_scope
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - app_versions
+  - app_release_records
+  - app_build_artifacts
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - content_posts
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  test_ids:
+  - TST-APP_RELEASE_001-HAPPY
+  dependencies:
+  - R02
+  - R04
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-ABOUT-001 全部绑定模板 MOB-SETTINGS，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：appReleasePostAppVersionCheck;publicGetAgreementsByCode；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-APP_RELEASE_001-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R06-004
+  release: R06
+  title: 首页：首页
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成首页的完整业务流程，以便在不依赖研发临时决策的情况下实现运营模块、四类入口、头条/置顶。
+  platform: ANDROID
+  module: 首页
+  template_id: MOB-HOME
+  page_ids:
+  - SCR-HOME-001
+  operation_ids:
+  - homeGetHome
+  api_contracts:
+  - GET /api/v1/home
+  requirement_ids:
+  - REQ-HOME-001
+  - REQ-CONTENT-001
+  config_keys:
+  - content.limit.normal.online
+  - content.limit.month.online
+  - content.limit.quarter.online
+  - content.limit.year.online
+  - content.team_leader_per_account
+  - content.limit.normal.pending
+  - content.limit.normal.drafts
+  - content.limit.normal.daily_submissions
+  data_tables:
+  - home_modules
+  - banners
+  - content_posts
+  - content_stats
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  test_ids:
+  - TST-HOME_001-HAPPY
+  - TST-CONTENT_001-HAPPY
+  dependencies:
+  - R02
+  - R04
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-HOME-001 全部绑定模板 MOB-HOME，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：homeGetHome；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-HOME_001-HAPPY;TST-CONTENT_001-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R06-005
+  release: R06
+  title: 统一内容基础、首页与CMS：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R06 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - SCR-HOME-001
+  - SCR-ABOUT-001
+  - ADM-CONTENT-001
+  - ADM-CONTENT-002
+  - ADM-CONTENT-003
+  operation_ids:
+  - homeGetHome
+  - adminContentGetContents
+  - adminContentGetContentsById
+  - adminContentPostContentsByIdOnline
+  - adminContentPostContentsByIdOffline
+  - adminContentPostContentsByIdBan
+  - adminContentPostContentsByIdRecommend
+  - adminContentPostContentsByIdOfficialMark
+  - adminContentGetContentDictionaries
+  - adminContentPutContentDictionariesByCode
+  api_contracts:
+  - GET /api/v1/home
+  - GET /admin-api/v1/contents
+  - GET /admin-api/v1/contents/{id}
+  - POST /admin-api/v1/contents/{id}/online
+  - POST /admin-api/v1/contents/{id}/offline
+  - POST /admin-api/v1/contents/{id}/ban
+  - POST /admin-api/v1/contents/{id}/recommend
+  - POST /admin-api/v1/contents/{id}/official-mark
+  - GET /admin-api/v1/content-dictionaries
+  - PUT /admin-api/v1/content-dictionaries/{code}
+  requirement_ids:
+  - REQ-CONTENT-001
+  - REQ-HOME-001
+  config_keys:
+  - content.limit.normal.online
+  - content.limit.month.online
+  - content.limit.quarter.online
+  - content.limit.year.online
+  - content.team_leader_per_account
+  - content.limit.normal.pending
+  - content.limit.normal.drafts
+  - content.limit.normal.daily_submissions
+  - app.android.application_id
+  - app.android.staging_application_id
+  - app.android.display_name
+  - app.android.signing.staging_profile
+  - app.android.signing.production_profile
+  - app.build.runner
+  - app.build.allowed_ref_patterns
+  - app.build.artifact_storage_scope
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - home_modules
+  - banners
+  - content_posts
+  - content_stats
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  test_ids:
+  - TST-CONTENT_001-HAPPY
+  - TST-CONTENT_001-IDEMPOTENT
+  - TST-CONTENT_001-REJECT
+  - TST-HOME_001-HAPPY
+  - TST-HOME_001-IDEMPOTENT
+  - TST-HOME_001-REJECT
+  - TST-V122-017
+  dependencies:
+  - R02
+  - R04
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

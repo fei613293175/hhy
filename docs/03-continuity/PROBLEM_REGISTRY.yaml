@@ -1,0 +1,20 @@
+problems:
+- id: PROB-0001
+  title: AI效果图包含虚拟或错误功能
+  status: SOLVED
+  root_cause: 效果图生成模型会虚构按钮、金额、第三方登录、商豆、CRM和多会员身份
+  resolution: 开发文档和Token优先；效果图只作布局样式参考；已在AGENTS和UI绑定中强制
+  regression_checks:
+  - scripts/check_main_doc.py
+  - scripts/check_ui_tokens.py
+  do_not_repeat:
+  - 不得从效果图新增业务功能
+- id: PROB-0002
+  title: V1.1缺少完整工程契约和自动门禁
+  status: SOLVED
+  root_cause: 页面/API/表只有目录，配置和版本任务未完全机器化
+  resolution: V1.2增加OpenAPI、Schema、314项配置、追踪矩阵、逐版本Manifest/Tasks和project-doctor
+  regression_checks:
+  - scripts/project-doctor.sh
+  do_not_repeat:
+  - 不得绕过契约和追踪直接编码

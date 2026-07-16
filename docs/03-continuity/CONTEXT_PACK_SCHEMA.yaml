@@ -1,0 +1,20 @@
+schema_version: '1.0'
+required:
+- conversation_dependency
+- source_of_truth
+- current_status
+- next_task
+- exact_resume_command
+- project_fingerprint
+fixed_values:
+  conversation_dependency: PROHIBITED
+  source_of_truth: REPOSITORY_ONLY
+sources:
+- AGENTS.md
+- START_HERE.md
+- CURRENT_STATUS.yaml
+- NEXT_TASK.yaml
+- 当前Release/Task/Story
+- 当前Session/Checkpoint/CR
+- 最新Session Log
+- 问题与ADR

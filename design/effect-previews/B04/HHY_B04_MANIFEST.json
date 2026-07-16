@@ -1,0 +1,46 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B04",
+  "title": "发布与管理总览",
+  "file": "HHY_B04_8PAGE_UI_REFERENCE.png",
+  "sha256": "7cd3c5af8c2aa3a87de785a7491d4fd39521c38efa5aae90fa35bf3866feec5b",
+  "role": "UI布局与样式参考，不是功能事实源",
+  "grid": {
+    "columns": 4,
+    "rows": 2
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "发布中心"
+    },
+    {
+      "panel": "P02",
+      "name": "发布项目广告"
+    },
+    {
+      "panel": "P03",
+      "name": "发布群聊推广"
+    },
+    {
+      "panel": "P04",
+      "name": "发布App推广"
+    },
+    {
+      "panel": "P05",
+      "name": "团队长入驻申请"
+    },
+    {
+      "panel": "P06",
+      "name": "我的发布列表"
+    },
+    {
+      "panel": "P07",
+      "name": "发布管理详情"
+    },
+    {
+      "panel": "P08",
+      "name": "数据统计分析"
+    }
+  ]
+}

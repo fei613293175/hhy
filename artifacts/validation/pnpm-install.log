@@ -1,0 +1,16 @@
+Scope: all 6 workspace projects
+✓ Lockfile passes supply-chain policies (verified 1h ago)
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +190
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 190, reused 0, downloaded 0, added 0
+Progress: resolved 190, reused 157, downloaded 0, added 12
+Progress: resolved 190, reused 190, downloaded 0, added 166
+Progress: resolved 190, reused 190, downloaded 0, added 190, done
+
+devDependencies:
++ openapi-typescript 7.13.0
++ typescript 5.9.3
+
+Done in 4.3s using pnpm v11.13.1

@@ -1,0 +1,22 @@
+{
+  "name": "hhy-pro-v1.2.2",
+  "private": true,
+  "version": "1.2.2",
+  "packageManager": "pnpm@11.13.1",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "contracts:types": "openapi-typescript contracts/openapi.yaml -o packages/api-client/src/client.generated.ts && openapi-typescript contracts/admin-openapi.yaml -o packages/api-client/src/admin.generated.ts",
+    "types:domain": "python3 scripts/generate_frontend_types.py",
+    "generate": "pnpm contracts:types && pnpm types:domain",
+    "typecheck": "pnpm --recursive typecheck",
+    "test": "pnpm --recursive test",
+    "build": "pnpm --recursive build",
+    "doctor": "python3 scripts/project-doctor.py --strict"
+  },
+  "devDependencies": {
+    "openapi-typescript": "7.13.0",
+    "typescript": "5.9.3"
+  }
+}

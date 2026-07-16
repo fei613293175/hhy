@@ -1,0 +1,522 @@
+[
+  {
+    "组件ID": "CMP-NAV-001",
+    "名称": "顶部导航",
+    "平台": "Android/H5",
+    "类别": "导航",
+    "关键Token": "56dp; icon24; pageTitle",
+    "必须状态": "default,scrolled,loading",
+    "使用规则": "同级页面返回图标统一，右侧最多2个动作",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-NAV-002",
+    "名称": "底部五栏导航",
+    "平台": "Android",
+    "类别": "导航",
+    "关键Token": "64dp+safeArea; icon24; label11sp",
+    "必须状态": "default,selected,badge",
+    "使用规则": "固定首页/红包/发布/消息/我的",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-BTN-001",
+    "名称": "主按钮",
+    "平台": "All",
+    "类别": "操作",
+    "关键Token": "height48; radius12; button15sp",
+    "必须状态": "default,pressed,loading,disabled",
+    "使用规则": "同页仅一个视觉最强主按钮",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-BTN-002",
+    "名称": "次按钮",
+    "平台": "All",
+    "类别": "操作",
+    "关键Token": "height48; radius12; border1",
+    "必须状态": "default,pressed,disabled",
+    "使用规则": "白底蓝边",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-FORM-001",
+    "名称": "单行输入框",
+    "平台": "All",
+    "类别": "表单",
+    "关键Token": "height52; radius12; body14sp",
+    "必须状态": "default,focused,error,disabled,readonly",
+    "使用规则": "错误说明不可只用颜色表达",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-FORM-002",
+    "名称": "多行输入框",
+    "平台": "All",
+    "类别": "表单",
+    "关键Token": "minHeight112; radius12",
+    "必须状态": "default,focused,error,disabled",
+    "使用规则": "自适应并显示字数",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-FORM-003",
+    "名称": "选择器",
+    "平台": "All",
+    "类别": "表单",
+    "关键Token": "height52; radius12",
+    "必须状态": "default,selected,disabled,error",
+    "使用规则": "选项来自配置字典",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-FORM-004",
+    "名称": "媒体上传器",
+    "平台": "All",
+    "类别": "表单",
+    "关键Token": "imageRatio; radius12",
+    "必须状态": "empty,uploading,success,error,reorder",
+    "使用规则": "显示上传进度和失败重试",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-CARD-001",
+    "名称": "统一内容卡片",
+    "平台": "Android/H5",
+    "类别": "内容",
+    "关键Token": "radius14; padding16; cardTitle16",
+    "必须状态": "default,headline,top,color,redPacket,offline",
+    "使用规则": "四类内容共用骨架",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-CARD-002",
+    "名称": "发布者信息条",
+    "平台": "Android/H5",
+    "类别": "内容",
+    "关键Token": "avatar48; body14",
+    "必须状态": "normal,pro,verified,official",
+    "使用规则": "Pro/实名/官方标识语义分开",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-BADGE-001",
+    "名称": "Pro标识",
+    "平台": "All",
+    "类别": "标识",
+    "关键Token": "proGradient; pill; caption12",
+    "必须状态": "active,expired",
+    "使用规则": "月季年公开统一Pro",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-BADGE-002",
+    "名称": "状态标签",
+    "平台": "All",
+    "类别": "标识",
+    "关键Token": "chip28; radius8",
+    "必须状态": "info,success,warning,error,disabled",
+    "使用规则": "使用固定语义颜色",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-STATE-001",
+    "名称": "页面骨架屏",
+    "平台": "All",
+    "类别": "状态",
+    "关键Token": "skeletonRadius8",
+    "必须状态": "loading",
+    "使用规则": "结构匹配真实页面",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-STATE-002",
+    "名称": "空状态",
+    "平台": "All",
+    "类别": "状态",
+    "关键Token": "illustration; body14",
+    "必须状态": "empty,noResult,noPermission",
+    "使用规则": "含清晰下一步动作",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-STATE-003",
+    "名称": "错误状态",
+    "平台": "All",
+    "类别": "状态",
+    "关键Token": "error color; retry",
+    "必须状态": "network,server,business",
+    "使用规则": "展示requestId给客服定位",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-DIALOG-001",
+    "名称": "确认弹窗",
+    "平台": "All",
+    "类别": "反馈",
+    "关键Token": "radius20; elevation8",
+    "必须状态": "normal,danger,loading",
+    "使用规则": "危险操作二次确认",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-SHEET-001",
+    "名称": "底部弹层",
+    "平台": "Android/H5",
+    "类别": "反馈",
+    "关键Token": "topRadius24; handle32x4",
+    "必须状态": "collapsed,expanded,loading",
+    "使用规则": "不遮挡关键上下文",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-TOAST-001",
+    "名称": "Snackbar",
+    "平台": "All",
+    "类别": "反馈",
+    "关键Token": "height48; 4s",
+    "必须状态": "success,error,action",
+    "使用规则": "业务结果优先Snackbar",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-TAB-001",
+    "名称": "标签页",
+    "平台": "All",
+    "类别": "导航",
+    "关键Token": "height48; indicator2",
+    "必须状态": "default,selected,scrollable",
+    "使用规则": "标签过多可滚动",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-SEARCH-001",
+    "名称": "搜索栏",
+    "平台": "Android/H5",
+    "类别": "输入",
+    "关键Token": "height48; radius12",
+    "必须状态": "idle,focused,query,loading",
+    "使用规则": "搜索历史与热门词分区",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-RP-001",
+    "名称": "红包卡片",
+    "平台": "Android/H5",
+    "类别": "红包",
+    "关键Token": "rewardGradient; radius14",
+    "必须状态": "available,reserved,claimed,soldOut,paused",
+    "使用规则": "金额、剩余和状态清晰",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-RP-002",
+    "名称": "红包计时浮球",
+    "平台": "Android",
+    "类别": "红包",
+    "关键Token": "56/44dp; rewardGradient",
+    "必须状态": "counting,paused,completed,error",
+    "使用规则": "服务端心跳决定进度",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-RP-003",
+    "名称": "红包领取结果面板",
+    "平台": "Android",
+    "类别": "红包",
+    "关键Token": "bottomSheet24",
+    "必须状态": "success,pending,riskFailed,soldOut",
+    "使用规则": "显示真实入账状态",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-CHAT-001",
+    "名称": "聊天气泡",
+    "平台": "Android",
+    "类别": "聊天",
+    "关键Token": "body14; radius16",
+    "必须状态": "sending,sent,failed,recalled",
+    "使用规则": "支持重发和状态",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-CHAT-002",
+    "名称": "聊天输入区",
+    "平台": "Android",
+    "类别": "聊天",
+    "关键Token": "minHeight52",
+    "必须状态": "text,keyboard,emoji,attachment",
+    "使用规则": "扩展面板底部展开",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-CHAT-003",
+    "名称": "联系方式卡片",
+    "平台": "Android",
+    "类别": "聊天",
+    "关键Token": "radius14; padding16",
+    "必须状态": "masked,revealed,copied",
+    "使用规则": "用户主动发送，支持举报",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-PRICE-001",
+    "名称": "价格摘要",
+    "平台": "All",
+    "类别": "商业",
+    "关键Token": "amount24sp",
+    "必须状态": "normal,discount,member,upgrade",
+    "使用规则": "金额一律来自服务端报价",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-ORDER-001",
+    "名称": "订单状态卡",
+    "平台": "Android/Admin",
+    "类别": "商业",
+    "关键Token": "radius14",
+    "必须状态": "pending,paying,paid,completed,failed,reversal",
+    "使用规则": "不提供普通退款入口",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-MEMBER-001",
+    "名称": "会员方案卡",
+    "平台": "Android/H5",
+    "类别": "会员",
+    "关键Token": "proGradient; radius16",
+    "必须状态": "normal,recommended,current,upgrade",
+    "使用规则": "一种Pro会员三个期限SKU",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-PROP-001",
+    "名称": "道具商品卡",
+    "平台": "Android/Admin",
+    "类别": "道具",
+    "关键Token": "radius14",
+    "必须状态": "available,owned,using,expired",
+    "使用规则": "展示作用层级和24小时规则",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-LEDGER-001",
+    "名称": "账务流水行",
+    "平台": "Android/Admin",
+    "类别": "资金",
+    "关键Token": "row64",
+    "必须状态": "pending,available,frozen,withdrawn,reversed",
+    "使用规则": "显示来源和业务单号",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-WD-001",
+    "名称": "提现费用摘要",
+    "平台": "Android/Admin",
+    "类别": "资金",
+    "关键Token": "radius14",
+    "必须状态": "normal,freeQuota,fee",
+    "使用规则": "按会员快照计算",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-ADMIN-001",
+    "名称": "后台筛选表格",
+    "平台": "Admin",
+    "类别": "后台",
+    "关键Token": "row48; pagePadding24",
+    "必须状态": "loading,empty,error,selected",
+    "使用规则": "筛选、分页、导出和列权限",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-ADMIN-002",
+    "名称": "配置字段编辑器",
+    "平台": "Admin",
+    "类别": "后台",
+    "关键Token": "formLabel120",
+    "必须状态": "plain,secret,certificate,validationError",
+    "使用规则": "秘密不可读回，高风险双人复核",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-ADMIN-003",
+    "名称": "构建任务时间线",
+    "平台": "Admin",
+    "类别": "构建",
+    "关键Token": "step timeline",
+    "必须状态": "queued,running,success,failed,cancelled",
+    "使用规则": "实时日志且不可执行任意Shell",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-H5-001",
+    "名称": "宣传首屏Hero",
+    "平台": "H5",
+    "类别": "宣传",
+    "关键Token": "desktop/mobile breakpoints",
+    "必须状态": "default,qrVisible,wechatHint",
+    "使用规则": "品牌口号、手机模型、下载按钮和二维码",
+    "状态": "PLANNED"
+  },
+  {
+    "组件ID": "CMP-STATE-004",
+    "名称": "权限/资源失效状态",
+    "平台": "All",
+    "类别": "状态",
+    "关键Token": "statusPanel",
+    "必须状态": "forbidden,not-found,offline,stale",
+    "使用规则": "不得泄露无权限资源存在性；资源失效同步来源列表",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-ADM-001",
+    "名称": "后台筛选栏",
+    "平台": "Admin",
+    "类别": "运营表格",
+    "关键Token": "filterGrid; queryUrl",
+    "必须状态": "default,expanded,dirty,loading",
+    "使用规则": "筛选写入URL；重置、查询和高级筛选行为统一",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-ADM-002",
+    "名称": "后台数据表格",
+    "平台": "Admin",
+    "类别": "运营表格",
+    "关键Token": "tableDensity; stickyColumns",
+    "必须状态": "loading,content,empty,partial-error",
+    "使用规则": "列、排序、冻结列和行操作完全由页面运营规格提供",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-ADM-003",
+    "名称": "批量操作影响预览",
+    "平台": "Admin",
+    "类别": "高风险操作",
+    "关键Token": "impactPreview; selectionCount",
+    "必须状态": "preview,submitting,conflict",
+    "使用规则": "高风险批量操作必须展示目标、数量、影响、原因和审批；默认不提供批量最终审核",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-ADM-004",
+    "名称": "详情摘要与状态操作",
+    "平台": "Admin",
+    "类别": "详情",
+    "关键Token": "detailHeader; statusTag; actionBar",
+    "必须状态": "content,stale,conflict",
+    "使用规则": "操作入口按权限、状态机和version计算；高敏访问需会话升级",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-ADM-005",
+    "名称": "状态时间线与审计",
+    "平台": "Admin",
+    "类别": "审计",
+    "关键Token": "timeline; actor; requestId",
+    "必须状态": "loading,content,empty",
+    "使用规则": "展示前后状态、操作者、原因、审批单、requestId和时间",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-ADM-006",
+    "名称": "双人审批面板",
+    "平台": "Admin",
+    "类别": "审批",
+    "关键Token": "requestHash; diff; risk",
+    "必须状态": "pending,approved,rejected,expired,conflict",
+    "使用规则": "申请人不得自审；决定绑定不可变请求哈希",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-ADM-007",
+    "名称": "敏感字段临时查看",
+    "平台": "Admin",
+    "类别": "安全",
+    "关键Token": "mask; stepUp; ttl",
+    "必须状态": "masked,authorizing,revealed,expired",
+    "使用规则": "按字段权限、MFA、目的、TTL和访问审计短时查看",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-ADM-008",
+    "名称": "异步导出任务",
+    "平台": "Admin",
+    "类别": "导出",
+    "关键Token": "exportJob; oneTimeToken",
+    "必须状态": "pending-approval,queued,running,succeeded,expired,failed",
+    "使用规则": "字段最小化、脱敏、审批、一次性下载和过期销毁",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-CONFIG-001",
+    "名称": "版本化配置编辑器",
+    "平台": "Admin",
+    "类别": "配置",
+    "关键Token": "activeVersion; draftVersion; diff",
+    "必须状态": "active,draft,validating,pending-approval,activating",
+    "使用规则": "保存草稿不影响运行时；激活前完成字段、依赖、跨字段和连接测试",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-CONFIG-002",
+    "名称": "SecretRef选择器",
+    "平台": "Admin",
+    "类别": "配置安全",
+    "关键Token": "secretStatus; vaultRef",
+    "必须状态": "unconfigured,configured,testing,failed",
+    "使用规则": "只显示配置状态和掩码引用；永不回显或记录秘密",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-CONFIG-003",
+    "名称": "配置影响与差异预览",
+    "平台": "Admin",
+    "类别": "配置",
+    "关键Token": "diff; dependencies; affectedScope",
+    "必须状态": "clean,warning,blocking",
+    "使用规则": "显示旧新值、规则结果、依赖、环境、受影响业务和回滚版本",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-FIN-001",
+    "名称": "金额与账本摘要",
+    "平台": "Android/Admin/H5",
+    "类别": "资金",
+    "关键Token": "money; direction; ledgerStatus",
+    "必须状态": "pending,available,frozen,posted,reversed",
+    "使用规则": "整数分为事实源；正负方向、币种和账期必须明确",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-FIN-002",
+    "名称": "复式分录表",
+    "平台": "Admin",
+    "类别": "资金",
+    "关键Token": "debit; credit; balance",
+    "必须状态": "balanced,unbalanced,reversed",
+    "使用规则": "借贷合计必须可见；已过账分录只读，纠错走冲正",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-RISK-001",
+    "名称": "风控命中解释",
+    "平台": "Admin",
+    "类别": "风控",
+    "关键Token": "score; ruleHit; action",
+    "必须状态": "no-hit,hit,blocked,simulated",
+    "使用规则": "展示规则版本、命中项和建议动作；不暴露可被攻击利用的内部阈值",
+    "状态": "FROZEN_V1.2.2"
+  },
+  {
+    "组件ID": "CMP-NAV-003",
+    "名称": "安全回跳处理器",
+    "平台": "H5/Android",
+    "类别": "导航安全",
+    "关键Token": "state; tokenCleanup; resultQuery",
+    "必须状态": "validating,querying,success,failed,unknown",
+    "使用规则": "立即清理URL敏感参数，结果只信任服务端",
+    "状态": "FROZEN_V1.2.2"
+  }
+]

@@ -1,0 +1,1074 @@
+version: 1.2.2
+release: R15
+title: 通知、公告、举报与客服
+source_of_truth: catalogs/release_story_backlog.csv
+rules:
+- 故事未通过definition_of_ready不得进入编码
+- 页面故事不得增加未登记字段、状态、按钮、接口或配置
+- 工程治理故事负责契约、数据、配置、测试、观测和交接
+stories:
+- story_id: STORY-R15-001
+  release: R15
+  title: 客服：工单详情
+  user_story: 作为具备 support.read 的后台员工；写操作另需 support.manage，我需要完成工单详情的完整业务流程，以便在不依赖研发临时决策的情况下实现会话式工单详情、附件、分配、内部备注、回复、关闭与重开记录。
+  platform: ADMIN
+  module: 客服
+  template_id: ADM-DETAIL
+  page_ids:
+  - ADM-SUPPORT-002
+  operation_ids:
+  - adminSupportPostSupportTicketsByIdAssign
+  - adminSupportPostSupportTicketsByIdMessages
+  - adminSupportPostSupportTicketsByIdClose
+  api_contracts:
+  - POST /admin-api/v1/support/tickets/{id}/assign
+  - POST /admin-api/v1/support/tickets/{id}/messages
+  - POST /admin-api/v1/support/tickets/{id}/close
+  requirement_ids:
+  - REQ-SUPPORT-001
+  - REQ-ADMIN-OPS-001
+  config_keys:
+  - ops.backup.rpo_minutes
+  - ops.recovery.rto_minutes
+  - ops.audit_log.retention_days
+  - ops.security_event.retention_days
+  - ops.alert.error_rate_percent
+  - ops.alert.api_p95_ms
+  - notification.marketing.default_enabled
+  - notification.quiet_hours.start
+  - notification.quiet_hours.end
+  - storage.default_provider
+  - storage.scope.public_media.provider
+  - storage.scope.private_kyc.provider
+  - storage.scope.private_chat.provider
+  - storage.scope.audit_evidence.provider
+  - storage.scope.apk_release.provider
+  - storage.scope.backup.provider
+  - storage.r2.account_id
+  data_tables:
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - admin_approval_requests
+  test_ids:
+  - TST-V122-023
+  - TST-V122-024
+  - TST-V122-025
+  dependencies:
+  - R14
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-SUPPORT-002 全部绑定模板 ADM-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminSupportPostSupportTicketsByIdAssign;adminSupportPostSupportTicketsByIdMessages;adminSupportPostSupportTicketsByIdClose；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-V122-023;TST-V122-024;TST-V122-025
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-002
+  release: R15
+  title: 客服：工单列表
+  user_story: 作为具备 support.manage 的后台员工；写操作另需 support.manage，我需要完成工单列表的完整业务流程，以便在不依赖研发临时决策的情况下实现分配、SLA、回复。
+  platform: ADMIN
+  module: 客服
+  template_id: ADM-LIST
+  page_ids:
+  - ADM-SUPPORT-001
+  operation_ids:
+  - adminSupportGetSupportTickets
+  - adminSupportGetSupportTicketsById
+  api_contracts:
+  - GET /admin-api/v1/support/tickets
+  - GET /admin-api/v1/support/tickets/{id}
+  requirement_ids:
+  - REQ-SUPPORT-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  test_ids:
+  - TST-SUPPORT_001-HAPPY
+  dependencies:
+  - R14
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-SUPPORT-001 全部绑定模板 ADM-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminSupportGetSupportTickets;adminSupportGetSupportTicketsById；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-SUPPORT_001-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-003
+  release: R15
+  title: 治理：内容举报处理、申诉处理
+  user_story: 作为具备 report.read 的后台员工；写操作另需 report.decide，我需要完成内容举报处理、申诉处理的完整业务流程，以便在不依赖研发临时决策的情况下实现举报筛选、证据预览、内容与用户上下文、处理决定和通知结果。
+  platform: ADMIN
+  module: 治理
+  template_id: ADM-REVIEW
+  page_ids:
+  - ADM-REPORT-001
+  - ADM-APPEAL-001
+  operation_ids:
+  - adminReportsPostContentReportsByIdDecide
+  - adminAppealsPostAppealsByIdDecide
+  api_contracts:
+  - POST /admin-api/v1/content-reports/{id}/decide
+  - POST /admin-api/v1/appeals/{id}/decide
+  requirement_ids:
+  - REQ-SUPPORT-001
+  - REQ-ADMIN-OPS-001
+  config_keys:
+  - content.limit.normal.online
+  - content.limit.month.online
+  - content.limit.quarter.online
+  - content.limit.year.online
+  - content.team_leader_per_account
+  - content.limit.normal.pending
+  - content.limit.normal.drafts
+  - content.limit.normal.daily_submissions
+  - chat.stranger.daily_conversation_limit
+  - chat.message.per_minute_limit
+  - chat.image.max_mb
+  - chat.history.retention_days
+  - notification.marketing.default_enabled
+  - notification.quiet_hours.start
+  - notification.quiet_hours.end
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - admin_users
+  - admin_roles
+  - admin_permissions
+  - admin_user_roles
+  - admin_role_permissions
+  - admin_operation_logs
+  - admin_approval_requests
+  test_ids:
+  - TST-V122-020
+  - TST-V122-021
+  dependencies:
+  - R14
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-REPORT-001;ADM-APPEAL-001 全部绑定模板 ADM-REVIEW，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminReportsPostContentReportsByIdDecide;adminAppealsPostAppealsByIdDecide；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-V122-020;TST-V122-021
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-004
+  release: R15
+  title: 聊天：聊天举报
+  user_story: 作为具备 chat.report.read 的后台员工；写操作另需 chat.report.manage，我需要完成聊天举报的完整业务流程，以便在不依赖研发临时决策的情况下实现消息证据。
+  platform: ADMIN
+  module: 聊天
+  template_id: ADM-LIST
+  page_ids:
+  - ADM-CHAT-001
+  operation_ids:
+  - adminChatGetChatReports
+  - adminChatPostChatReportsByIdDecide
+  api_contracts:
+  - GET /admin-api/v1/chat-reports
+  - POST /admin-api/v1/chat-reports/{id}/decide
+  requirement_ids:
+  - REQ-CHAT-002
+  config_keys:
+  - chat.stranger.daily_conversation_limit
+  - chat.message.per_minute_limit
+  - chat.image.max_mb
+  - chat.history.retention_days
+  data_tables:
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  test_ids:
+  - TST-CHAT_002-HAPPY
+  - TST-CHAT_002-IDEMPOTENT
+  dependencies:
+  - R14
+  owner_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - ADM-CHAT-001 全部绑定模板 ADM-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：adminChatGetChatReports;adminChatPostChatReportsByIdDecide；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-CHAT_002-HAPPY;TST-CHAT_002-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-005
+  release: R15
+  title: 内容：举报面板
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成举报面板的完整业务流程，以便在不依赖研发临时决策的情况下实现举报类型和证据。
+  platform: ANDROID
+  module: 内容
+  template_id: MOB-SHEET
+  page_ids:
+  - SHEET-REPORT-001
+  operation_ids:
+  - contentPostContentsByIdReport
+  api_contracts:
+  - POST /api/v1/contents/{id}/report
+  requirement_ids:
+  - REQ-SUPPORT-001
+  config_keys:
+  - content.limit.normal.online
+  - content.limit.month.online
+  - content.limit.quarter.online
+  - content.limit.year.online
+  - content.team_leader_per_account
+  - content.limit.normal.pending
+  - content.limit.normal.drafts
+  - content.limit.normal.daily_submissions
+  data_tables:
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  test_ids:
+  - TST-SUPPORT_001-HAPPY
+  - TST-SUPPORT_001-IDEMPOTENT
+  dependencies:
+  - R14
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SHEET-REPORT-001 全部绑定模板 MOB-SHEET，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：contentPostContentsByIdReport；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-SUPPORT_001-HAPPY;TST-SUPPORT_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-006
+  release: R15
+  title: 客服：工单详情、帮助文章详情
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成工单详情、帮助文章详情的完整业务流程，以便在不依赖研发临时决策的情况下实现回复和补充材料。
+  platform: ANDROID
+  module: 客服
+  template_id: MOB-DETAIL
+  page_ids:
+  - SCR-SUPPORT-004
+  - SCR-SUPPORT-005
+  operation_ids:
+  - supportGetSupportTicketsById
+  - supportPostSupportTicketsByIdMessages
+  - supportGetHelpArticlesById
+  api_contracts:
+  - GET /api/v1/support/tickets/{id}
+  - POST /api/v1/support/tickets/{id}/messages
+  - GET /api/v1/help/articles/{id}
+  requirement_ids:
+  - REQ-SUPPORT-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  - ops.backup.rpo_minutes
+  - ops.recovery.rto_minutes
+  - ops.audit_log.retention_days
+  - ops.security_event.retention_days
+  - ops.alert.error_rate_percent
+  - ops.alert.api_p95_ms
+  - notification.marketing.default_enabled
+  - notification.quiet_hours.start
+  - notification.quiet_hours.end
+  - storage.default_provider
+  - storage.scope.public_media.provider
+  - storage.scope.private_kyc.provider
+  - storage.scope.private_chat.provider
+  - storage.scope.audit_evidence.provider
+  - storage.scope.apk_release.provider
+  - storage.scope.backup.provider
+  - storage.r2.account_id
+  data_tables:
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  test_ids:
+  - TST-SUPPORT_001-HAPPY
+  - TST-SUPPORT_001-IDEMPOTENT
+  - TST-V122-010
+  dependencies:
+  - R14
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-SUPPORT-004;SCR-SUPPORT-005 全部绑定模板 MOB-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：supportGetSupportTicketsById;supportPostSupportTicketsByIdMessages;supportGetHelpArticlesById；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-SUPPORT_001-HAPPY;TST-SUPPORT_001-IDEMPOTENT;TST-V122-010
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-007
+  release: R15
+  title: 客服：创建工单
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成创建工单的完整业务流程，以便在不依赖研发临时决策的情况下实现类型、关联单、附件。
+  platform: ANDROID
+  module: 客服
+  template_id: MOB-FORM
+  page_ids:
+  - SCR-SUPPORT-002
+  operation_ids:
+  - supportPostSupportTickets
+  api_contracts:
+  - POST /api/v1/support/tickets
+  requirement_ids:
+  - REQ-SUPPORT-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  test_ids:
+  - TST-SUPPORT_001-HAPPY
+  - TST-SUPPORT_001-IDEMPOTENT
+  dependencies:
+  - R14
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-SUPPORT-002 全部绑定模板 MOB-FORM，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：supportPostSupportTickets；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-SUPPORT_001-HAPPY;TST-SUPPORT_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-008
+  release: R15
+  title: 客服：帮助中心、工单列表
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成帮助中心、工单列表的完整业务流程，以便在不依赖研发临时决策的情况下实现分类和搜索。
+  platform: ANDROID
+  module: 客服
+  template_id: MOB-LIST
+  page_ids:
+  - SCR-SUPPORT-001
+  - SCR-SUPPORT-003
+  operation_ids:
+  - supportGetHelpArticles
+  - supportGetSupportTickets
+  api_contracts:
+  - GET /api/v1/help/articles
+  - GET /api/v1/support/tickets
+  requirement_ids:
+  - REQ-SUPPORT-001
+  config_keys:
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  data_tables:
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  test_ids:
+  - TST-SUPPORT_001-HAPPY
+  dependencies:
+  - R14
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-SUPPORT-001;SCR-SUPPORT-003 全部绑定模板 MOB-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：supportGetHelpArticles;supportGetSupportTickets；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-SUPPORT_001-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-009
+  release: R15
+  title: 消息：通知详情、公告详情
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成通知详情、公告详情的完整业务流程，以便在不依赖研发临时决策的情况下实现业务跳转。
+  platform: ANDROID
+  module: 消息
+  template_id: MOB-DETAIL
+  page_ids:
+  - SCR-NOTICE-002
+  - SCR-ANN-002
+  operation_ids:
+  - notificationGetNotifications
+  - notificationPostNotificationsByIdRead
+  - notificationGetAnnouncementsById
+  api_contracts:
+  - GET /api/v1/notifications
+  - POST /api/v1/notifications/{id}/read
+  - GET /api/v1/announcements/{id}
+  requirement_ids:
+  - REQ-NOTIFY-001
+  config_keys:
+  - notification.marketing.default_enabled
+  - notification.quiet_hours.start
+  - notification.quiet_hours.end
+  data_tables:
+  - notifications
+  - notification_deliveries
+  - announcements
+  - announcement_reads
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  test_ids:
+  - TST-NOTIFY_001-HAPPY
+  - TST-NOTIFY_001-IDEMPOTENT
+  dependencies:
+  - R14
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-NOTICE-002;SCR-ANN-002 全部绑定模板 MOB-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：notificationGetNotifications;notificationPostNotificationsByIdRead;notificationGetAnnouncementsById；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-NOTIFY_001-HAPPY;TST-NOTIFY_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-010
+  release: R15
+  title: 消息：消息中心
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成消息中心的完整业务流程，以便在不依赖研发临时决策的情况下实现聊天/通知/公告。
+  platform: ANDROID
+  module: 消息
+  template_id: MOB-HOME
+  page_ids:
+  - SCR-MSG-001
+  operation_ids:
+  - chatGetConversations
+  - notificationGetNotifications
+  - notificationGetAnnouncements
+  api_contracts:
+  - GET /api/v1/conversations
+  - GET /api/v1/notifications
+  - GET /api/v1/announcements
+  requirement_ids:
+  - REQ-CHAT-001
+  - REQ-NOTIFY-001
+  config_keys:
+  - chat.stranger.daily_conversation_limit
+  - chat.message.per_minute_limit
+  - chat.image.max_mb
+  - chat.history.retention_days
+  - notification.marketing.default_enabled
+  - notification.quiet_hours.start
+  - notification.quiet_hours.end
+  data_tables:
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  - notifications
+  - notification_deliveries
+  - announcements
+  - announcement_reads
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  test_ids:
+  - TST-CHAT_001-HAPPY
+  - TST-NOTIFY_001-HAPPY
+  dependencies:
+  - R14
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-MSG-001 全部绑定模板 MOB-HOME，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：chatGetConversations;notificationGetNotifications;notificationGetAnnouncements；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-CHAT_001-HAPPY;TST-NOTIFY_001-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-011
+  release: R15
+  title: 消息：通知列表、公告列表
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成通知列表、公告列表的完整业务流程，以便在不依赖研发临时决策的情况下实现系统通知。
+  platform: ANDROID
+  module: 消息
+  template_id: MOB-LIST
+  page_ids:
+  - SCR-NOTICE-001
+  - SCR-ANN-001
+  operation_ids:
+  - notificationGetNotifications
+  - notificationPostNotificationsReadAll
+  - notificationGetAnnouncements
+  api_contracts:
+  - GET /api/v1/notifications
+  - POST /api/v1/notifications/read-all
+  - GET /api/v1/announcements
+  requirement_ids:
+  - REQ-NOTIFY-001
+  config_keys:
+  - notification.marketing.default_enabled
+  - notification.quiet_hours.start
+  - notification.quiet_hours.end
+  data_tables:
+  - notifications
+  - notification_deliveries
+  - announcements
+  - announcement_reads
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  test_ids:
+  - TST-NOTIFY_001-HAPPY
+  - TST-NOTIFY_001-IDEMPOTENT
+  dependencies:
+  - R14
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-NOTICE-001;SCR-ANN-001 全部绑定模板 MOB-LIST，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：notificationGetNotifications;notificationPostNotificationsReadAll;notificationGetAnnouncements；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-NOTIFY_001-HAPPY;TST-NOTIFY_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-012
+  release: R15
+  title: 设置：设置
+  user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成设置的完整业务流程，以便在不依赖研发临时决策的情况下实现通知、缓存、关于、退出。
+  platform: ANDROID
+  module: 设置
+  template_id: MOB-SETTINGS
+  page_ids:
+  - SCR-SET-001
+  operation_ids:
+  - authPostAuthLogout
+  - userPatchMeProfile
+  api_contracts:
+  - POST /api/v1/auth/logout
+  - PATCH /api/v1/me/profile
+  requirement_ids:
+  - REQ-NOTIFY-001
+  config_keys:
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  data_tables:
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  - notifications
+  - notification_deliveries
+  - announcements
+  - announcement_reads
+  test_ids:
+  - TST-NOTIFY_001-HAPPY
+  - TST-NOTIFY_001-IDEMPOTENT
+  dependencies:
+  - R14
+  owner_roles:
+  - android_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - SCR-SET-001 全部绑定模板 MOB-SETTINGS，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：authPostAuthLogout;userPatchMeProfile；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-NOTIFY_001-HAPPY;TST-NOTIFY_001-IDEMPOTENT
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-013
+  release: R15
+  title: H5：协议与规则、帮助文章
+  user_story: 作为公开访客或从分享/邀请/支付/实名流程进入的用户，我需要完成协议与规则、帮助文章的完整业务流程，以便在不依赖研发临时决策的情况下实现版本化协议。
+  platform: H5
+  module: H5
+  template_id: H5-DOCUMENT
+  page_ids:
+  - H5-010
+  - H5-011
+  operation_ids:
+  - publicGetAgreementsByCode
+  - publicGetHelpArticlesById
+  api_contracts:
+  - GET /public-api/v1/agreements/{code}
+  - GET /public-api/v1/help/articles/{id}
+  requirement_ids:
+  - REQ-CMS-001
+  - REQ-SUPPORT-001
+  config_keys:
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - content_posts
+  - home_modules
+  - banners
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  test_ids:
+  - TST-CMS_001-HAPPY
+  - TST-SUPPORT_001-HAPPY
+  dependencies:
+  - R14
+  owner_roles:
+  - web_frontend_engineer
+  - backend_engineer
+  - test_engineer
+  acceptance_criteria:
+  - H5-010;H5-011 全部绑定模板 H5-DOCUMENT，字段、状态、动作、导航和错误恢复无TBD
+  - 页面调用 operationId：publicGetAgreementsByCode;publicGetHelpArticlesById；请求/响应字段不得另行发明
+  - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+  - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+  - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+  - 自动化覆盖：TST-CMS_001-HAPPY;TST-SUPPORT_001-HAPPY
+  definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+  status: READY_FOR_IMPLEMENTATION
+- story_id: STORY-R15-014
+  release: R15
+  title: 通知、公告、举报与客服：契约、数据、配置、测试与交接
+  user_story: 作为技术负责人，我需要按冻结的 R15 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  platform: CROSS_PLATFORM
+  module: 工程治理
+  template_id: N/A
+  page_ids:
+  - SHEET-REPORT-001
+  - SCR-MSG-001
+  - SCR-NOTICE-001
+  - SCR-NOTICE-002
+  - SCR-ANN-001
+  - SCR-ANN-002
+  - SCR-SUPPORT-001
+  - SCR-SUPPORT-002
+  - SCR-SUPPORT-003
+  - SCR-SUPPORT-004
+  - SCR-SET-001
+  - SCR-SUPPORT-005
+  - H5-010
+  - H5-011
+  - ADM-CHAT-001
+  - ADM-SUPPORT-001
+  - ADM-REPORT-001
+  - ADM-APPEAL-001
+  - ADM-SUPPORT-002
+  operation_ids:
+  - contentPostContentsByIdReport
+  - notificationGetNotifications
+  - notificationPostNotificationsByIdRead
+  - notificationPostNotificationsReadAll
+  - notificationGetAnnouncements
+  - notificationGetAnnouncementsById
+  - supportGetHelpArticles
+  - supportGetHelpArticlesById
+  - supportPostSupportTickets
+  - supportGetSupportTickets
+  - supportGetSupportTicketsById
+  - supportPostSupportTicketsByIdMessages
+  - adminReportsGetContentReports
+  - adminReportsPostContentReportsByIdDecide
+  - adminAppealsGetAppeals
+  - adminAppealsPostAppealsByIdDecide
+  - adminChatGetChatReports
+  - adminChatPostChatReportsByIdDecide
+  - adminSupportGetSupportTickets
+  - adminSupportGetSupportTicketsById
+  - adminSupportPostSupportTicketsByIdAssign
+  - adminSupportPostSupportTicketsByIdMessages
+  - adminSupportPostSupportTicketsByIdClose
+  api_contracts:
+  - POST /api/v1/contents/{id}/report
+  - GET /api/v1/notifications
+  - POST /api/v1/notifications/{id}/read
+  - POST /api/v1/notifications/read-all
+  - GET /api/v1/announcements
+  - GET /api/v1/announcements/{id}
+  - GET /api/v1/help/articles
+  - GET /api/v1/help/articles/{id}
+  - POST /api/v1/support/tickets
+  - GET /api/v1/support/tickets
+  - GET /api/v1/support/tickets/{id}
+  - POST /api/v1/support/tickets/{id}/messages
+  - GET /admin-api/v1/content-reports
+  - POST /admin-api/v1/content-reports/{id}/decide
+  - GET /admin-api/v1/appeals
+  - POST /admin-api/v1/appeals/{id}/decide
+  - GET /admin-api/v1/chat-reports
+  - POST /admin-api/v1/chat-reports/{id}/decide
+  - GET /admin-api/v1/support/tickets
+  - GET /admin-api/v1/support/tickets/{id}
+  - POST /admin-api/v1/support/tickets/{id}/assign
+  - POST /admin-api/v1/support/tickets/{id}/messages
+  - POST /admin-api/v1/support/tickets/{id}/close
+  requirement_ids:
+  - REQ-CHAT-002
+  - REQ-NOTIFY-001
+  - REQ-SUPPORT-001
+  - REQ-NOTIFICATION-OPS-001
+  config_keys:
+  - content.limit.normal.online
+  - content.limit.month.online
+  - content.limit.quarter.online
+  - content.limit.year.online
+  - content.team_leader_per_account
+  - content.limit.normal.pending
+  - content.limit.normal.drafts
+  - content.limit.normal.daily_submissions
+  - chat.stranger.daily_conversation_limit
+  - chat.message.per_minute_limit
+  - chat.image.max_mb
+  - chat.history.retention_days
+  - notification.marketing.default_enabled
+  - notification.quiet_hours.start
+  - notification.quiet_hours.end
+  - system.maintenance.enabled
+  - system.maintenance.message
+  - system.registration.enabled
+  - system.publish.enabled
+  - system.red_packet.enabled
+  - system.withdrawal.enabled
+  - auth.default_login_method
+  - auth.security_challenge.provider
+  - auth.security_challenge.mode
+  - auth.password.min_length
+  - auth.password.max_length
+  - auth.password.max_failures
+  - auth.password.lock_seconds
+  - auth.invite.app_required
+  - ops.backup.rpo_minutes
+  - ops.recovery.rto_minutes
+  - ops.audit_log.retention_days
+  - ops.security_event.retention_days
+  - ops.alert.error_rate_percent
+  - ops.alert.api_p95_ms
+  - storage.default_provider
+  - storage.scope.public_media.provider
+  - storage.scope.private_kyc.provider
+  - storage.scope.private_chat.provider
+  - storage.scope.audit_evidence.provider
+  - storage.scope.apk_release.provider
+  - storage.scope.backup.provider
+  - storage.r2.account_id
+  - platform.brand.name
+  - platform.brand.slogan
+  - platform.brand.logo_media_id
+  - platform.customer_service.name
+  - platform.customer_service.contact
+  data_tables:
+  - conversations
+  - conversation_members
+  - chat_messages
+  - chat_read_receipts
+  - user_blocks
+  - chat_reports
+  - notifications
+  - notification_deliveries
+  - announcements
+  - announcement_reads
+  - users
+  - user_credentials
+  - auth_security_challenges
+  - user_sessions
+  - user_devices
+  - sms_verification_codes
+  - login_logs
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - content_posts
+  - content_versions
+  - content_status_logs
+  - content_review_records
+  - content_media
+  - content_contacts
+  - content_stats
+  - content_favorites
+  - content_view_logs
+  - content_contact_access_logs
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
+  - h5_page_configs
+  - cms_articles
+  - agreements
+  - app_versions
+  - notification_templates
+  - notification_delivery_attempts
+  - admin_operation_logs
+  test_ids:
+  - TST-NOTIFICATION_OPS_001-DRIFT
+  - TST-NOTIFICATION_OPS_001-HAPPY
+  - TST-NOTIFICATION_OPS_001-REJECT
+  - TST-NOTIFICATION_OPS_001-SECURITY
+  - TST-NOTIFY_001-HAPPY
+  - TST-NOTIFY_001-IDEMPOTENT
+  - TST-NOTIFY_001-REJECT
+  - TST-SUPPORT_001-HAPPY
+  - TST-SUPPORT_001-IDEMPOTENT
+  - TST-SUPPORT_001-REJECT
+  - TST-V122-005
+  - TST-V122-010
+  - TST-V122-020
+  - TST-V122-021
+  - TST-V122-023
+  - TST-V122-024
+  - TST-V122-025
+  dependencies:
+  - R14
+  owner_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
+  acceptance_criteria:
+  - OpenAPI、状态机、数据库迁移、配置Schema和页面契约引用一致，代码生成不得产生手工分叉
+  - 每个需求可追溯到页面/API/表/配置/测试/故事；不适用项必须显式N/A并说明
+  - 版本DoR全部PASS后方可编码；出口仍按原RELEASE_MANIFEST和ACCEPTANCE_MATRIX执行
+  - 变更必须通过CR，更新唯一事实源并重新生成全部派生目录和哈希
+  - 完成Session Log、追踪矩阵、发布证据和下一任务交接
+  definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
+  status: READY_FOR_IMPLEMENTATION

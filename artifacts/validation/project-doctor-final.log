@@ -1,0 +1,28 @@
+PROJECT_DOCTOR PASS version=1.2.1 release=ALL
+  admin_operations: 162
+  android_modules: 4
+  backend_modules: 7
+  catalog_counts: {"TRACEABILITY_MATRIX.csv": 75, "admin_api_endpoints.csv": 162, "admin_pages.csv": 60, "android_screens.csv": 96, "api_endpoints.csv": 131, "config_registry.csv": 314, "data_tables.csv": 188, "frontend_backend_matrix.csv": 169, "h5_screens.csv": 13, "release_plan.csv": 33, "requirements_catalog.csv": 75, "test_cases.csv": 280, "ui_action_matrix.csv": 546}
+  client_operations: 131
+  config_items: 314
+  database_constraints: {"foreign_keys": 161, "indexes": 584, "unique": 77}
+  database_fields: 1461
+  database_tables: 188
+  development_risks: {"current_hard_blockers": 0, "development_gates": 6, "external_gates": 8, "monitors": 1, "total": 15}
+  doctor_elapsed_seconds: 3.935
+  enums: 12
+  flyway_migrations: 8
+  frontend_apps: 2
+  infra_images: ["postgres:17.10-alpine", "redis:7.4.9-bookworm", "rabbitmq:4.1.8-management-alpine", "minio/minio:RELEASE.2025-09-07T16-13-09Z"]
+  openapi_schemas: {"admin": 373, "client": 311}
+  package_version: "1.2.1"
+  release_stages: 33
+  rest_operations: 293
+  secret_config_items: 14
+  state_machines: 6
+  state_transitions: 62
+  traceable_requirements: 75
+  ui_actions: 546
+  ui_pages: {"admin": 60, "android": 96, "h5": 13, "total": 169}
+  websocket_events: 10
+summary: errors=0 warnings=0

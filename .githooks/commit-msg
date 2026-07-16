@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT=$(git rev-parse --show-toplevel)
+exec python3 "$ROOT/scripts/continuity_gate.py" --mode commit-msg --strict --commit-message-file "$1" --json-out .continuity/runtime/commit-msg.json
