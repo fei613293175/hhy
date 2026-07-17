@@ -166,3 +166,13 @@
 - Actor：`codex-root`
 - 摘要：R01 管理端登录、MFA 与管理员自身安全设置前端已完成；类型化接口、内存会话、安全错误态、离线与权限收敛、自动化及浏览器验收均通过。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T111928Z-C383F7A2.md`
+
+## TASK-R01-005 · COMPLETED · 2026-07-17T13:55:41Z
+
+- Task close: TASK-R01-005 / SES-20260717T122518Z-91E6F4D6
+- Release：`R01`
+- Story：`STORY-R01-003`
+- Actor：`codex-root`
+- 摘要：TASK-R01-005完成：权威27项测试27/27 PASS，Java21、PostgreSQL17和隔离真实API证据归档，关键缺陷清零，CR-0016关闭。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md`
+

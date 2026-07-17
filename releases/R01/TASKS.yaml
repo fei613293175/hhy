@@ -87,7 +87,7 @@ tasks:
   completed_at: '2026-07-17T12:20:19Z'
 - id: TASK-R01-005
   title: Design System与契约工程化专项测试与故障注入
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R01-003
   - TASK-R01-004
@@ -102,9 +102,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-17T13:55:41Z'
 - id: TASK-R01-006
   title: Design System与契约工程化可观测性与预发布验收
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R01-005
   requirements: *id001
