@@ -105,7 +105,7 @@ tasks:
   completed_at: '2026-07-17T13:55:41Z'
 - id: TASK-R01-006
   title: Design System与契约工程化可观测性与预发布验收
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R01-005
   requirements: *id001
@@ -119,9 +119,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-17T15:20:29Z'
 - id: TASK-R01-007
   title: Design System与契约工程化Android测试APK与产物追溯
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R01-006
   requirements: *id001

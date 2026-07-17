@@ -180,3 +180,13 @@
 - Actor：`codex-root`
 - 摘要：TASK-R01-005完成：权威27项测试27/27 PASS，Java21、PostgreSQL17和隔离真实API证据归档，关键缺陷清零，CR-0016关闭。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md`
+
+## TASK-R01-006 · COMPLETED · 2026-07-17T15:20:29Z
+
+- Task close: TASK-R01-006 / SES-20260717T141717Z-A01412D7
+- Release：`R01`
+- Story：`STORY-R01-003`
+- Actor：`codex-root`
+- 摘要：R01独立预发布栈、结构化日志与TraceId、RED和九类业务监控序列、双告警firing/resolved、日志脱敏、最终镜像回滚及AC-R01-004现场证据全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md`
+

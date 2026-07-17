@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260717T141717Z-A01412D7
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R01-006
 story_id: STORY-R01-003
 goal: 部署R01隔离预发布环境，验证结构化日志、TraceId、RED与业务指标、告警和回滚，完成验收签字
 started_at: '2026-07-17T14:17:17Z'
-updated_at: '2026-07-17T15:19:45Z'
+updated_at: '2026-07-17T15:20:32Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -57,17 +57,28 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T15:19:43Z'
-  expires_at: '2026-07-17T19:19:43Z'
-checkpoint_sequence: 6
-latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0006.yaml
+  renewed_at: '2026-07-17T15:20:30Z'
+  expires_at: '2026-07-17T19:20:30Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md
-next_step: 提交TASK006现场证据和验收签字，关闭TASK-R01-006并启动TASK-R01-007 APK构建
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 1d72b2f77f68cd62f284599da85cffc353d4ba0ae728b4f1b91e370e7f385a27
-  generated_at: '2026-07-17T15:19:45Z'
+  context_hash: 7ca8484cd59628785894ef91c202ccab7b74cf0e708b69ac1300552c1d87e970
+  generated_at: '2026-07-17T15:20:32Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: R01独立预发布栈、结构化日志与TraceId、RED和九类业务监控序列、双告警firing/resolved、日志脱敏、最终镜像回滚及AC-R01-004现场证据全部通过
+  code_commit: e898018
+  next_release: R01
+  next_task: TASK-R01-007
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-17T15:20:29Z'
+  closure_checkpoint_id: CP-SES-20260717T141717Z-A01412D7-0007
+  closed_at: '2026-07-17T15:20:32Z'
+closed_at: '2026-07-17T15:20:32Z'
