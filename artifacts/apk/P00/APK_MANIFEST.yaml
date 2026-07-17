@@ -1,0 +1,13 @@
+release: P00
+apk_file: hhy-p00-fcb95056-debug.apk
+version_name: 1.2.2-debug
+version_code: 10201
+commit: fcb95056b606dfe6e8d0623e83a0526df80bf43e
+sha256: d538a751bff84909a382ccefa7972852ad0695b1ead28116f5baafbca8b5d5b9
+size_bytes: 11708206
+signing_fingerprint: e8f3f200e20ef6c4911364aa9f2210e386d47214903caa23262690e368fb5953
+built_at: '2026-07-17T13:22:34.031107'
+test_status: PASS
+owner_physical_test: PASS
+owner_confirmation: 项目所有者于2026-07-17明确反馈真机测试正常
+download_url: https://obx.orbexa.cc/p00-artifacts/hhy-p00-fcb95056-debug.apk

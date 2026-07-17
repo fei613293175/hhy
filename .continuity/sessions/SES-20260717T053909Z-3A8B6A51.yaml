@@ -1,0 +1,74 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260717T053909Z-3A8B6A51
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: P00
+task_id: TASK-P00-007
+story_id: STORY-P00-001
+goal: 归档P00 Android APK构建、签名、下载、SHA与项目所有者真机验收结果
+started_at: '2026-07-17T05:39:09Z'
+updated_at: '2026-07-17T05:39:51Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - artifacts/apk/**
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-P00-005
+  base_commit: cf701e7768970ede7c89a2321afae8a50e76453e
+  start_head: cf701e7768970ede7c89a2321afae8a50e76453e
+  upstream: null
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-17T05:39:49Z'
+  expires_at: '2026-07-17T09:39:49Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260717T053909Z-3A8B6A51/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260717T053909Z-3A8B6A51.md
+next_step: 提交APK产物追溯记录并关闭TASK-P00-007
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 6bb1b47fa90aafce339bbfec442a3e40251728df27735a8e666d3c49bad2a44b
+  generated_at: '2026-07-17T05:39:50Z'
+handoff_bundle: null
+closure: null

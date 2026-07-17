@@ -1,0 +1,123 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T053909Z-3A8B6A51-0001
+session_id: SES-20260717T053909Z-3A8B6A51
+sequence: 1
+created_at: '2026-07-17T05:39:49Z'
+summary: P00最终APK清单已绑定源码Commit、SHA256、签名指纹、版本信息、下载地址和项目所有者真机通过结论
+next_step: 提交APK产物追溯记录并关闭TASK-P00-007
+blockers: []
+decisions:
+- P00发布标签P00-fcb95056固定指向最终源码与APK基线fcb95056
+note: ''
+tests:
+- name: P00-APK-hash-size
+  result: PASS
+  evidence: artifacts/apk/P00/APK_MANIFEST.yaml
+  note: SHA256与11708206字节完全匹配
+- name: P00-owner-physical-device
+  result: PASS
+  evidence: artifacts/apk/P00/APK_MANIFEST.yaml
+  note: 项目所有者明确反馈真机测试正常
+- name: P00-clean-android-build
+  result: PASS
+  evidence: artifacts/validation/p00-test-evidence/p00-apk-validation/p00-apk-validation.evidence.json
+  note: lintDebug、testDebugUnitTest和assembleDebug通过
+git:
+  initialized: true
+  branch: task/TASK-P00-005
+  head: cf701e7768970ede7c89a2321afae8a50e76453e
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260717T053909Z-3A8B6A51.yaml
+  - ?? artifacts/apk/P00/APK_MANIFEST.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T053909Z-3A8B6A51.md
+  recent_commits:
+  - "cf701e7768970ede7c89a2321afae8a50e76453e\t2026-07-17T13:38:11+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close staging\
+    \ acceptance task"
+  - "d51fae87e5b1df39ea364c82968888aa46ddfee5\t2026-07-17T13:36:46+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): record staging\
+    \ acceptance session"
+  - "cc879b53e2d637f4076f35d27712cefcf7a92c31\t2026-07-17T13:35:48+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close test matrix\
+    \ task"
+  - "b943445b88ad6284f235b19a2747c51a00ba5d72\t2026-07-17T13:30:25+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): archive final release\
+    \ evidence"
+  - "fcb95056b606dfe6e8d0623e83a0526df80bf43e\t2026-07-17T13:09:24+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close lifecycle\
+    \ fixture repair"
+  - "192647bcdc3df7edcf02091b12d2fde666a71063\t2026-07-17T13:08:22+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(continuity): reset lifecycle\
+    \ fixtures to P00 start"
+  - "c9fae5441975917315950111337adce5d3ef2dd8\t2026-07-17T12:20:15+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close owner\
+    \ APK acceptance change"
+  - "f34af6aea974018ce45f54055c8bf3b0e6e24726\t2026-07-17T12:19:22+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] docs(android): require owner\
+    \ physical APK acceptance"
+project_fingerprint:
+  sha256: e7693117e21ffc2f0feb128d0ea5d694cd730596877515b790a7230df284402d
+  files:
+  - artifacts/apk/P00/APK_MANIFEST.yaml
+  file_count: 1
+  payload:
+    base_commit: cf701e7768970ede7c89a2321afae8a50e76453e
+    files:
+    - path: artifacts/apk/P00/APK_MANIFEST.yaml
+      state: FILE
+      size: 564
+      sha256: 1676dbdafc806859ba63cb67339956995578969918c2e31b336fab106f7776da
+change_classification:
+  other:
+  - artifacts/apk/P00/APK_MANIFEST.yaml
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - artifacts/apk/**
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 7c26ab13a9c24c8c6bbd353175cf0adfd651c15260e56d87bb8151553731b8bc
