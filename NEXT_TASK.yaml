@@ -1,5 +1,5 @@
-id: TASK-P00-002
-title: 仓库、环境、契约与无状态接续数据迁移与领域不变量
+id: TASK-P00-003
+title: 仓库、环境、契约与无状态接续后端应用服务与接口
 status: READY
 release: P00
 requirements:
@@ -16,17 +16,17 @@ requirements:
 - REQ-OBS-002
 - REQ-SECRET-001
 depends_on:
-- TASK-P00-001
+- TASK-P00-002
 definition_of_ready: releases/P00/DEFINITION_OF_READY.yaml
 stories: releases/P00/STORIES.yaml
 steps:
-- Flyway前向迁移与空库/升级库测试
-- 不变量属性测试
+- OpenAPI契约测试
+- 权限/幂等/错误码/审计覆盖
 acceptance:
 - 无TODO/生产Mock
 - 代码、文档、测试、追踪同步更新
-- Flyway前向迁移与空库/升级库测试
-- 不变量属性测试
+- OpenAPI契约测试
+- 权限/幂等/错误码/审计覆盖
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-P00-002
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-P00-003
 next_after: 由当前TASKS.yaml依赖关系决定

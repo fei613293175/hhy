@@ -57,3 +57,12 @@
 - 摘要：完成P00开发就绪、故事领取、冻结契约纠正、工程基线与无状态接续门禁
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md`
 
+## TASK-P00-002 · COMPLETED · 2026-07-17T02:33:56Z
+
+- Task close: TASK-P00-002 / SES-20260717T023226Z-06841AFC
+- Release：`P00`
+- Story：`STORY-P00-001`
+- Actor：`codex-root`
+- 摘要：PostgreSQL 17.10空库/升级、并发不变量、Flyway重复迁移与U010/U011回滚重放全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T023226Z-06841AFC.md`
+

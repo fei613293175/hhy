@@ -49,7 +49,7 @@ claims:
   task_id: TASK-P00-002
   story_id: STORY-P00-001
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-17T02:32:26Z'
   allowed_paths:
   - apps/**
@@ -82,3 +82,4 @@ claims:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-17T02:33:58Z'

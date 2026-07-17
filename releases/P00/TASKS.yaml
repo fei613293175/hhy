@@ -35,7 +35,7 @@ tasks:
   completed_at: '2026-07-17T02:26:52Z'
 - id: TASK-P00-002
   title: 仓库、环境、契约与无状态接续数据迁移与领域不变量
-  status: READY
+  status: DONE
   depends_on:
   - TASK-P00-001
   requirements: *id001
@@ -50,9 +50,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-17T02:33:56Z'
 - id: TASK-P00-003
   title: 仓库、环境、契约与无状态接续后端应用服务与接口
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-P00-002
   requirements: *id001

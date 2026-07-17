@@ -1,0 +1,136 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T023226Z-06841AFC-0002
+session_id: SES-20260717T023226Z-06841AFC
+sequence: 2
+created_at: '2026-07-17T02:33:57Z'
+summary: 关闭 TASK-P00-002：PostgreSQL 17.10空库/升级、并发不变量、Flyway重复迁移与U010/U011回滚重放全部通过
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：128f6cd8920cf4143f13c7b20ac679046a0232be
+- 任务转换：TRN-20260717T023356Z-SES-20260717T023226Z-06841AFC
+- 下一Release：P00
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: db-schema
+  result: PASS
+  evidence: database/migrations/V010__p00_event_ledger_invariants.sql
+  note: 198表11迁移且运行时哈希一致
+- name: postgresql-invariants
+  result: PASS
+  evidence: artifacts/validation/p00-database-postgresql-17.10.json
+  note: 空库升级正反并发不变量通过
+- name: u011-rollback
+  result: PASS
+  evidence: artifacts/validation/p00-database-v011-rollback.log
+  note: bigint回滚重放通过
+- name: flyway-postgresql
+  result: PASS
+  evidence: artifacts/validation/p00-backend-flyway-postgresql-17.10.log
+  note: 升级空库重复迁移与U010/V010通过
+- name: backend-postgresql
+  result: PASS
+  evidence: artifacts/validation/p00-backend-verify-postgresql-17.10.log
+  note: 13项零失败零跳过
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-P00-002
+  head: 89c202107ef229018e11db593bb8dfc5fa627364
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260717T023226Z-06841AFC.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/P00/TASKS.yaml'
+  recent_commits:
+  - "89c202107ef229018e11db593bb8dfc5fa627364\t2026-07-17T10:33:26+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): verify database\
+    \ invariants on PostgreSQL 17.10"
+  - "3a62512ebffe851e0cf73dfdac9f1a36035fe58f\t2026-07-17T10:31:37+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-001\
+    \ as completed"
+  - "4b6c5ee97beb0ca9df25d77df198f4497b935fd0\t2026-07-17T10:26:25+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): bind approved\
+    \ change requests"
+  - "128f6cd8920cf4143f13c7b20ac679046a0232be\t2026-07-17T10:25:17+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] fix(p00): reconcile engineering\
+    \ baseline and continuity"
+  - "bffa551a122444a86bfcff0542714834bd6c2156\t2026-07-17T07:28:28+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(repo): import V1.2.3\
+    \ enforced continuity baseline"
+project_fingerprint:
+  sha256: 5e9270cbc19957a4c8161ec14158483d0532ecf093d5a89eabaac6e10c069da0
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
+  - releases/P00/TASKS.yaml
+  file_count: 3
+  payload:
+    base_commit: 3a62512ebffe851e0cf73dfdac9f1a36035fe58f
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 3786
+      sha256: 96242e9decf2bceb85059b1d52de905c6c084ed132a64a76a6613bc130329a40
+    - path: docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
+      state: FILE
+      size: 3670
+      sha256: 7a704d47613e0e5f72f7122517f3a8dd6c8aa23174d0309111e3eb44b04550e2
+    - path: releases/P00/TASKS.yaml
+      state: FILE
+      size: 5916
+      sha256: 080a4280e4d3104e1c20c75b39b23a4d57bb286bf019c450683fdedbe109d583
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/P00/TASKS.yaml
+  continuity:
+  - docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: b3604af927fe90a7a008382e3aa06ab4511327bd5b8ffb7844c8f4dbddbe60f8

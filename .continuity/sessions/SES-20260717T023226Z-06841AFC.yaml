@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260717T023226Z-06841AFC
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-P00-002
 story_id: STORY-P00-001
 goal: 闭环P00 PostgreSQL/Flyway前向迁移、空库升级库、并发不变量与U010/U011回滚重放证据
 started_at: '2026-07-17T02:32:26Z'
-updated_at: '2026-07-17T02:33:19Z'
+updated_at: '2026-07-17T02:33:58Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -57,17 +57,28 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T02:33:17Z'
-  expires_at: '2026-07-17T06:33:17Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260717T023226Z-06841AFC/0001.yaml
+  renewed_at: '2026-07-17T02:33:57Z'
+  expires_at: '2026-07-17T06:33:57Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260717T023226Z-06841AFC/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T023226Z-06841AFC.md
-next_step: 提交数据库验收元数据并关闭TASK-P00-002
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 08fcca057f8ae3f30a20d1e7d6cfb8db7af86465d88d2613c09bf0f265ae6cd4
-  generated_at: '2026-07-17T02:33:19Z'
+  context_hash: afdcd7256c94546abf46c693b328ced7bb9b367ecde2d04f0f39209e1a16d57b
+  generated_at: '2026-07-17T02:33:58Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: PostgreSQL 17.10空库/升级、并发不变量、Flyway重复迁移与U010/U011回滚重放全部通过
+  code_commit: 128f6cd8920cf4143f13c7b20ac679046a0232be
+  next_release: P00
+  next_task: TASK-P00-003
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-17T02:33:56Z'
+  closure_checkpoint_id: CP-SES-20260717T023226Z-06841AFC-0002
+  closed_at: '2026-07-17T02:33:58Z'
+closed_at: '2026-07-17T02:33:58Z'
