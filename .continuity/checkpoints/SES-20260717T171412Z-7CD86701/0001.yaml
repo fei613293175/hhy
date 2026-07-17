@@ -1,0 +1,185 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T171412Z-7CD86701-0001
+session_id: SES-20260717T171412Z-7CD86701
+sequence: 1
+created_at: '2026-07-17T17:44:44Z'
+summary: R01 APK已发布至download.orbexa.cc；源站与公网HTTPS均验证文件长度、MIME、Range下载，服务器文件SHA256与桌面真机测试包一致。
+next_step: 提交R01收尾变更，运行最终关闭门禁并关闭TASK-R01-008。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R01-public-apk-https
+  result: PASS
+  evidence: https://download.orbexa.cc/r01-artifacts/hhy-r01-db3cfdd-debug.apk
+  note: HTTPS 200、长度和Range下载通过
+- name: R01-public-apk-sha256
+  result: PASS
+  evidence: artifacts/apk/R01/APK_MANIFEST.yaml
+  note: 源站文件SHA256等于7dcd2e86
+- name: continuity-cross-release-close
+  result: PASS
+  evidence: tests/test_continuity_cross_release_close.py
+  note: 6项隔离回归通过
+- name: git-diff-check
+  result: PASS
+  evidence: git diff --check
+  note: 无空白错误
+git:
+  initialized: true
+  branch: task/TASK-R01-008
+  head: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/apk/R01/APK_MANIFEST.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M releases/R01/ACCEPTANCE_MATRIX.csv'
+  - ' M releases/R01/RELEASE_MANIFEST.yaml'
+  - ' M scripts/continuity_lib.py'
+  - ' M tests/test_continuity_cross_release_close.py'
+  - ?? .continuity/change_requests/CR-0017.yaml
+  - ?? .continuity/sessions/SES-20260717T171412Z-7CD86701.yaml
+  - ?? docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md
+  - ?? infra/nginx/download.orbexa.cc.conf
+  recent_commits:
+  - "e3d4d3782f067ebe963856d741dd4cd6be3d16ca\t2026-07-18T01:07:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-007\
+    \ as completed"
+  - "d32ad36e5b0f838c16df57c1246230c995229c8e\t2026-07-18T01:05:47+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): record owner APK\
+    \ acceptance"
+  - "920daf4e314c80f37a324c863f988dd6fc57ec8c\t2026-07-18T00:54:39+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive Android\
+    \ APK traceability"
+  - "db3cfddcc4cda84265ec18f24de972804d62a08f\t2026-07-18T00:44:24+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): enable debug resource\
+    \ overrides"
+  - "06b705ed53d83258e8d4b166909c5c21384f4b02\t2026-07-18T00:40:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): mark debug APK\
+    \ test build"
+  - "46fb27372f2e62f3fe83d9f43f8e2189bbed4757\t2026-07-17T23:21:14+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-006\
+    \ as completed"
+  - "e898018f12371c30992111df508972ab48937f6e\t2026-07-17T23:19:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive task006\
+    \ staging evidence"
+  - "72de42c90f71438cdf5a2cc274277fecfa7a6cbd\t2026-07-17T23:11:15+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): make snapshot corruption\
+    \ deterministic"
+project_fingerprint:
+  sha256: f7b41dfd68f56eae80c0d5cbc2724a25c632529f22ece5e91e27c5c0dba6c7d1
+  files:
+  - artifacts/apk/R01/APK_MANIFEST.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
+  - infra/nginx/download.orbexa.cc.conf
+  - releases/R01/ACCEPTANCE_MATRIX.csv
+  - releases/R01/RELEASE_MANIFEST.yaml
+  - scripts/continuity_lib.py
+  - tests/test_continuity_cross_release_close.py
+  file_count: 8
+  payload:
+    base_commit: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
+    files:
+    - path: artifacts/apk/R01/APK_MANIFEST.yaml
+      state: FILE
+      size: 1138
+      sha256: 3bae8966ccff77983203e5399922e8bfc0514de1a314059ba33354865d412f90
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 8805
+      sha256: 0ea69b49c36d5593d3e03187356a9ecbe148c792b175bac760296997a3e770a5
+    - path: docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
+      state: FILE
+      size: 2626
+      sha256: 36b6b0c5c7e92ba262c8c49c3a44f44511e3bc1db65786b50e603ebf8a87a4e1
+    - path: infra/nginx/download.orbexa.cc.conf
+      state: FILE
+      size: 483
+      sha256: c8f8b26b356f7440d017ad53af844db45af10b6063f92a28c116e4a9a0ee85c7
+    - path: releases/R01/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 876
+      sha256: 7b22cb81cf2acdc7af0f7faaafc4975e2bc2a0fffb25d731e728768a80e52b20
+    - path: releases/R01/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4195
+      sha256: 30eda70884cb3e9f7c3e5760c63c6bf41576fc526373866e8765b35fc78a0b2a
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 97976
+      sha256: 185f565067e812e9fd6a7cca3fac507a50207a810b7760b74a22602e0812666b
+    - path: tests/test_continuity_cross_release_close.py
+      state: FILE
+      size: 12342
+      sha256: b58b1f986016e52aa79d459606e82f1f9e614674b5d77eef5762238e48118dc9
+change_classification:
+  other:
+  - artifacts/apk/R01/APK_MANIFEST.yaml
+  - releases/R01/ACCEPTANCE_MATRIX.csv
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
+  infrastructure:
+  - infra/nginx/download.orbexa.cc.conf
+  source_of_truth:
+  - releases/R01/RELEASE_MANIFEST.yaml
+  code:
+  - scripts/continuity_lib.py
+  tests:
+  - tests/test_continuity_cross_release_close.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0017
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - artifacts/apk/**
+  approved_exceptions: []
+  source: story+explicit
+event_hash: d54ec6ab259905b3f35ef8e2fced9eea0ba9aa48d6fc53acd89965b1f431a609

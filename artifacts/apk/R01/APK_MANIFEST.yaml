@@ -10,7 +10,7 @@ built_at: '2026-07-18T00:52:28.681315'
 test_status: PASS
 owner_physical_test: PASS
 owner_confirmation: 项目所有者于2026-07-18提供真机截图，确认APK已安装、正常启动并进入首页，底部五个导航入口可见。
-download_url: LOCAL_DESKTOP_COPY
+download_url: https://download.orbexa.cc/r01-artifacts/hhy-r01-db3cfdd-debug.apk
 desktop_copy: C:\Users\小白\Desktop\hhy-r01-db3cfdd-debug.apk
 build:
   api_base_url: https://api.orbexa.cc

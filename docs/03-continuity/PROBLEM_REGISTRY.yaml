@@ -114,3 +114,13 @@ problems:
   do_not_repeat:
   - Base64损坏测试不得只修改可能属于未使用填充位的末尾字符
   - 加密完整性测试必须确定性改变已解码字节
+- id: PROB-0011
+  title: 无活跃会话的Context Pack会在生成后立即过期
+  status: SOLVED
+  root_cause: 仓库树指纹包含运行时STATE.yaml，而Context Pack在计算指纹后会更新该状态文件。
+  resolution: 仓库树指纹排除STATE.yaml，将其作为运行时元数据而不是项目内容处理。
+  regression_checks:
+  - tests/test_continuity_cross_release_close.py
+  - scripts/continuity.py context
+  do_not_repeat:
+  - 无活跃会话的Context Pack生成不得改变自己的树指纹来源

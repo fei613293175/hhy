@@ -443,7 +443,10 @@ def tree_fingerprint(root: Path) -> dict[str, Any]:
         if not path.is_file():
             continue
         relative = path.relative_to(root).as_posix()
-        if relative == "MANIFEST_SHA256.txt" or is_managed_record(relative):
+        # build_context_pack writes STATE after computing this fingerprint.  STATE is
+        # runtime metadata rather than project content, so including it would make a
+        # no-session Context Pack stale immediately after it is generated.
+        if relative in {"MANIFEST_SHA256.txt", STATE_FILE} or is_managed_record(relative):
             continue
         if any(path_matches(relative, pattern) for pattern in PORTABLE_EXCLUDE_PATTERNS):
             continue

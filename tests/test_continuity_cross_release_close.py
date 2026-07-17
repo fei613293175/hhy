@@ -165,6 +165,12 @@ class CrossReleaseCloseTest(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="hhy-cross-release-close-") as temp:
             repo = Path(temp) / "repository"
             copy_fixture(repo)
+            r01_plan_path = repo / "releases/R01/TASKS.yaml"
+            r01_plan = yaml.safe_load(r01_plan_path.read_text(encoding="utf-8"))
+            for index, task in enumerate(r01_plan["tasks"]):
+                task["status"] = "READY" if index == 0 else "BLOCKED"
+                task.pop("completed_at", None)
+            r01_plan_path.write_text(yaml.safe_dump(r01_plan, allow_unicode=True, sort_keys=False), encoding="utf-8")
             r01_tasks_before = (repo / "releases/R01/TASKS.yaml").read_bytes()
 
             self.cli(

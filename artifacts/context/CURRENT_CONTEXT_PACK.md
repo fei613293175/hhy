@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T17:06:18Z
-- Context Hash：`8ee61ce6ab97fe3aaad4a0d4f86704b8382acdda5661d798a609045201fd9441`
+- 生成时间：2026-07-17T17:44:46Z
+- Context Hash：`3dc89dcc17a734389ccec147fc8ab71a5674e409660435b395accabe20c45a91`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -17,8 +17,8 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R01
 active_release: R01
-active_task: TASK-R01-007
-status: CLOSING
+active_task: TASK-R01-008
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: fcb95056b606dfe6e8d0623e83a0526df80bf43e
 last_staging_apk: null
@@ -48,11 +48,12 @@ completed_tasks:
 - TASK-R01-004
 - TASK-R01-005
 - TASK-R01-006
-in_progress_tasks:
 - TASK-R01-007
+in_progress_tasks:
+- TASK-R01-008
 blocked_tasks: []
-next_task: TASK-R01-007
-updated_at: '2026-07-17T17:06:17Z'
+next_task: TASK-R01-008
+updated_at: '2026-07-17T17:44:44Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -84,18 +85,18 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260717T152721Z-016DB4B2
+  active_session_id: SES-20260717T171412Z-7CD86701
   actor_id: codex-root
   story_id: STORY-R01-003
-  lease_expires_at: '2026-07-17T21:06:17Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0009.yaml
-  project_fingerprint: d72cb8ad064063f9b01b66e35aeda679838a6e3b983b4ca78f81c4c6305d2f2c
+  lease_expires_at: '2026-07-17T21:44:44Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0001.yaml
+  project_fingerprint: f7b41dfd68f56eae80c0d5cbc2724a25c632529f22ece5e91e27c5c0dba6c7d1
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 76e346df6a895c7af182fd119278ec902af6681a78c343f6ab4f28594fc3246c
-    generated_at: '2026-07-17T17:04:49Z'
+    context_hash: 2263181adbd1983b476cda39e8179e7ba75e867c9337c75861c3cb9859bf3930
+    generated_at: '2026-07-17T17:23:39Z'
   handoff_bundle: null
 ```
 
@@ -146,20 +147,21 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ```yaml
 protocol_version: '1.0'
 package_version: 1.2.3
-session_id: SES-20260717T152721Z-016DB4B2
-status: CLOSING
+session_id: SES-20260717T171412Z-7CD86701
+status: ACTIVE
 actor:
   id: codex-root
   kind: AI_OR_HUMAN
   host: unknown
 release: R01
-task_id: TASK-R01-007
+task_id: TASK-R01-008
 story_id: STORY-R01-003
-goal: Design System与契约工程化Android测试APK与产物追溯
-started_at: '2026-07-17T15:27:21Z'
-updated_at: '2026-07-17T17:06:17Z'
+goal: 完成R01版本关闭、无状态交接与发布门禁修复
+started_at: '2026-07-17T17:14:12Z'
+updated_at: '2026-07-17T17:44:44Z'
 takeover_of: null
-change_requests: []
+change_requests:
+- CR-0017
 scope:
   allowed_paths:
   - apps/**
@@ -193,93 +195,95 @@ scope:
   - PROJECT_*.yaml
   - PROJECT_*.json
   - artifacts/apk/**
-  - artifacts/reports/**
-  - artifacts/validation/**
   approved_exceptions: []
-  source: story+explicit+apk-delivery-artifacts
+  source: story+explicit
 git:
   initialized: true
-  branch: task/TASK-R01-006
-  base_commit: 46fb27372f2e62f3fe83d9f43f8e2189bbed4757
-  start_head: 46fb27372f2e62f3fe83d9f43f8e2189bbed4757
-  upstream: origin/task/TASK-R01-006
+  branch: task/TASK-R01-008
+  base_commit: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
+  start_head: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
+  upstream: null
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T17:06:17Z'
-  expires_at: '2026-07-17T21:06:17Z'
-checkpoint_sequence: 9
-latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0009.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md
-next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+  renewed_at: '2026-07-17T17:44:44Z'
+  expires_at: '2026-07-17T21:44:44Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md
+next_step: 提交R01收尾变更，运行最终关闭门禁并关闭TASK-R01-008。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
-closure:
-  result: COMPLETED
-  summary: R01 Android测试APK已按固定工具链构建、签名和归档；项目所有者于2026-07-18提供真机截图确认安装、启动、首页和五项导航均通过。
-  code_commit: d32ad36
-  next_release: R01
-  next_task: TASK-R01-008
-  metadata_commit: PENDING
-  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
-  started_at: '2026-07-17T17:06:16Z'
+closure: null
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T152721Z-016DB4B2-0009
-session_id: SES-20260717T152721Z-016DB4B2
-sequence: 9
-created_at: '2026-07-17T17:06:17Z'
-summary: 关闭 TASK-R01-007：R01 Android测试APK已按固定工具链构建、签名和归档；项目所有者于2026-07-18提供真机截图确认安装、启动、首页和五项导航均通过。
-next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+checkpoint_id: CP-SES-20260717T171412Z-7CD86701-0001
+session_id: SES-20260717T171412Z-7CD86701
+sequence: 1
+created_at: '2026-07-17T17:44:44Z'
+summary: R01 APK已发布至download.orbexa.cc；源站与公网HTTPS均验证文件长度、MIME、Range下载，服务器文件SHA256与桌面真机测试包一致。
+next_step: 提交R01收尾变更，运行最终关闭门禁并关闭TASK-R01-008。
 blockers: []
-decisions:
-- 任务结果：COMPLETED
-- 实现Commit：d32ad36
-- 任务转换：TRN-20260717T170616Z-SES-20260717T152721Z-016DB4B2
-- 下一Release：R01
-note: 该检查点专门绑定最终关闭元数据Commit
+decisions: []
+note: ''
 tests:
-- name: APK桌面副本SHA256
+- name: R01-public-apk-https
+  result: PASS
+  evidence: https://download.orbexa.cc/r01-artifacts/hhy-r01-db3cfdd-debug.apk
+  note: HTTPS 200、长度和Range下载通过
+- name: R01-public-apk-sha256
   result: PASS
   evidence: artifacts/apk/R01/APK_MANIFEST.yaml
-  note: 项目产物与桌面副本哈希一致
-- name: release-artifact-check
+  note: 源站文件SHA256等于7dcd2e86
+- name: continuity-cross-release-close
   result: PASS
-  evidence: scripts/check_release_artifacts.py --release R01
-  note: R01 APK产物清单校验通过
-- name: AC-R01-006-record
-  result: PASS
-  evidence: releases/R01/ACCEPTANCE_MATRIX.csv
-  note: 真机验收记录已回填
+  evidence: tests/test_continuity_cross_release_close.py
+  note: 6项隔离回归通过
 - name: git-diff-check
   result: PASS
   evidence: git diff --check
   note: 无空白错误
-- name: continuity closure metadata
-  result: PASS
-  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
-  note: 关闭元数据、任务转换和下一任务已原子生成
 git:
   initialized: true
-  branch: task/TASK-R01-007
-  head: d32ad36e5b0f838c16df57c1246230c995229c8e
-  upstream: origin/task/TASK-R01-007
-  ahead: 1
-  behind: 0
+  branch: task/TASK-R01-008
+  head: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
+  upstream: null
+  ahead: null
+  behind: null
   dirty: true
   status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260717T152721Z-016DB4B2.yaml'
-  - ' M CHANGELOG.md'
-  - ' M NEXT_TASK.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/apk/R01/APK_MANIFEST.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M releases/R01/TASKS.yaml'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M releases/R01/ACCEPTANCE_MATRIX.csv'
+  - ' M releases/R01/RELEASE_MANIFEST.yaml'
+  - ' M scripts/continuity_lib.py'
+  - ' M tests/test_continuity_cross_release_close.py'
+  - ?? .continuity/change_requests/CR-0017.yaml
+  - ?? .continuity/sessions/SES-20260717T171412Z-7CD86701.yaml
+  - ?? docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md
+  - ?? infra/nginx/download.orbexa.cc.conf
   recent_commits:
+  - "e3d4d3782f067ebe963856d741dd4cd6be3d16ca\t2026-07-18T01:07:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-007\
+    \ as completed"
   - "d32ad36e5b0f838c16df57c1246230c995229c8e\t2026-07-18T01:05:47+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): record owner APK\
     \ acceptance"
   - "920daf4e314c80f37a324c863f988dd6fc57ec8c\t2026-07-18T00:54:39+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive Android\
@@ -294,72 +298,77 @@ git:
     \ staging evidence"
   - "72de42c90f71438cdf5a2cc274277fecfa7a6cbd\t2026-07-17T23:11:15+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): make snapshot corruption\
     \ deterministic"
-  - "b8edbc0924157c8c03d4463c15b4301477cb5a8c\t2026-07-17T22:52:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): map unsupported\
-    \ media type to validation"
 project_fingerprint:
-  sha256: d72cb8ad064063f9b01b66e35aeda679838a6e3b983b4ca78f81c4c6305d2f2c
+  sha256: f7b41dfd68f56eae80c0d5cbc2724a25c632529f22ece5e91e27c5c0dba6c7d1
   files:
-  - CHANGELOG.md
-  - apps/android/app/build.gradle.kts
-  - apps/android/app/src/main/AndroidManifest.xml
   - artifacts/apk/R01/APK_MANIFEST.yaml
-  - infra/toolchains/android/Dockerfile
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
+  - infra/nginx/download.orbexa.cc.conf
   - releases/R01/ACCEPTANCE_MATRIX.csv
-  - releases/R01/TASKS.yaml
-  file_count: 7
+  - releases/R01/RELEASE_MANIFEST.yaml
+  - scripts/continuity_lib.py
+  - tests/test_continuity_cross_release_close.py
+  file_count: 8
   payload:
-    base_commit: 46fb27372f2e62f3fe83d9f43f8e2189bbed4757
+    base_commit: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
     files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 11280
-      sha256: cbe6f7592e7e2b064159a7691b92b82e4642b55e36acdffebc463001b9529bfb
-    - path: apps/android/app/build.gradle.kts
-      state: FILE
-      size: 2720
-      sha256: f1fa7170c305bd1012dca45054c9f83276691c290d97ab21e2503c18ff6a959a
-    - path: apps/android/app/src/main/AndroidManifest.xml
-      state: FILE
-      size: 827
-      sha256: a4a8afdea84e04a65751148fd3f68e09fd2ab04d96bcfc9131be5d2d9d6f054e
     - path: artifacts/apk/R01/APK_MANIFEST.yaml
       state: FILE
-      size: 1090
-      sha256: b098bd6a222fdd4ea5023224bfd77e3469253a48135e06f2667ef9a98986d498
-    - path: infra/toolchains/android/Dockerfile
+      size: 1138
+      sha256: 3bae8966ccff77983203e5399922e8bfc0514de1a314059ba33354865d412f90
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 1107
-      sha256: 3a8b95720587cce665c50b5d5e338a8a08491a1c7b35657943671bc166de37a5
+      size: 8805
+      sha256: 0ea69b49c36d5593d3e03187356a9ecbe148c792b175bac760296997a3e770a5
+    - path: docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
+      state: FILE
+      size: 2626
+      sha256: 36b6b0c5c7e92ba262c8c49c3a44f44511e3bc1db65786b50e603ebf8a87a4e1
+    - path: infra/nginx/download.orbexa.cc.conf
+      state: FILE
+      size: 483
+      sha256: c8f8b26b356f7440d017ad53af844db45af10b6063f92a28c116e4a9a0ee85c7
     - path: releases/R01/ACCEPTANCE_MATRIX.csv
       state: FILE
-      size: 742
-      sha256: 54e81f341a47f4faff353db3be85649998f50f3fec13a3fb130cdc3a73510b8e
-    - path: releases/R01/TASKS.yaml
+      size: 876
+      sha256: 7b22cb81cf2acdc7af0f7faaafc4975e2bc2a0fffb25d731e728768a80e52b20
+    - path: releases/R01/RELEASE_MANIFEST.yaml
       state: FILE
-      size: 5853
-      sha256: 7a6d3dc95ab7ba5387785f87e1d37de6f4229742606a5e342bb580068a992234
+      size: 4195
+      sha256: 30eda70884cb3e9f7c3e5760c63c6bf41576fc526373866e8765b35fc78a0b2a
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 97976
+      sha256: 185f565067e812e9fd6a7cca3fac507a50207a810b7760b74a22602e0812666b
+    - path: tests/test_continuity_cross_release_close.py
+      state: FILE
+      size: 12342
+      sha256: b58b1f986016e52aa79d459606e82f1f9e614674b5d77eef5762238e48118dc9
 change_classification:
   other:
-  - CHANGELOG.md
   - artifacts/apk/R01/APK_MANIFEST.yaml
   - releases/R01/ACCEPTANCE_MATRIX.csv
-  - releases/R01/TASKS.yaml
-  code:
-  - apps/android/app/build.gradle.kts
-  - apps/android/app/src/main/AndroidManifest.xml
-  user_visible:
-  - apps/android/app/build.gradle.kts
-  - apps/android/app/src/main/AndroidManifest.xml
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
   infrastructure:
-  - infra/toolchains/android/Dockerfile
+  - infra/nginx/download.orbexa.cc.conf
+  source_of_truth:
+  - releases/R01/RELEASE_MANIFEST.yaml
+  code:
+  - scripts/continuity_lib.py
+  tests:
+  - tests/test_continuity_cross_release_close.py
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
 - CHECKPOINT
 - CURRENT_STATUS
 - EVENT_LOG
-- CHANGELOG
-change_requests: []
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0017
 scope:
   allowed_paths:
   - apps/**
@@ -393,11 +402,9 @@ scope:
   - PROJECT_*.yaml
   - PROJECT_*.json
   - artifacts/apk/**
-  - artifacts/reports/**
-  - artifacts/validation/**
   approved_exceptions: []
-  source: story+explicit+apk-delivery-artifacts
-event_hash: 354be5e4f9eb3a9e381917e2abb6eebda3805c0807282daf0332d9d0ba1499cd
+  source: story+explicit
+event_hash: d54ec6ab259905b3f35ef8e2fced9eea0ba9aa48d6fc53acd89965b1f431a609
 ```
 
 ## 接续状态与事件头
@@ -405,31 +412,19 @@ event_hash: 354be5e4f9eb3a9e381917e2abb6eebda3805c0807282daf0332d9d0ba1499cd
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260717T152721Z-016DB4B2
-last_session_id: SES-20260717T141717Z-A01412D7
+active_session_id: SES-20260717T171412Z-7CD86701
+last_session_id: SES-20260717T152721Z-016DB4B2
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260717T141717Z-A01412D7-0007
-event_count: 199
-event_head_hash: 354be5e4f9eb3a9e381917e2abb6eebda3805c0807282daf0332d9d0ba1499cd
+last_closure_checkpoint_id: CP-SES-20260717T152721Z-016DB4B2-0009
+event_count: 205
+event_head_hash: d54ec6ab259905b3f35ef8e2fced9eea0ba9aa48d6fc53acd89965b1f431a609
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260717T053626Z-25451510
-  task_id: TASK-P00-006
-  story_id: STORY-P00-001
-  actor_id: codex-root
-  status: CLOSED
-  started_at: '2026-07-17T05:36:26Z'
-  record: .continuity/sessions/SES-20260717T053626Z-25451510.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260717T053626Z-25451510.md
-  updated_at: '2026-07-17T05:37:37Z'
-  closed_at: '2026-07-17T05:37:37Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T053626Z-25451510/0002.yaml
-  handoff_bundle: null
-- session_id: SES-20260717T053909Z-3A8B6A51
+recent_sessions: - session_id: SES-20260717T053909Z-3A8B6A51
   task_id: TASK-P00-007
   story_id: STORY-P00-001
   actor_id: codex-root
@@ -529,13 +524,25 @@ recent_sessions: - session_id: SES-20260717T053626Z-25451510
   task_id: TASK-R01-007
   story_id: STORY-R01-003
   actor_id: codex-root
-  status: CLOSING
+  status: CLOSED
   started_at: '2026-07-17T15:27:21Z'
   record: .continuity/sessions/SES-20260717T152721Z-016DB4B2.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md
-  updated_at: '2026-07-17T17:06:17Z'
-  closed_at: null
+  updated_at: '2026-07-17T17:06:18Z'
+  closed_at: '2026-07-17T17:06:18Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0009.yaml
+  handoff_bundle: null
+- session_id: SES-20260717T171412Z-7CD86701
+  task_id: TASK-R01-008
+  story_id: STORY-R01-003
+  actor_id: codex-root
+  status: ACTIVE
+  started_at: '2026-07-17T17:14:12Z'
+  record: .continuity/sessions/SES-20260717T171412Z-7CD86701.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md
+  updated_at: '2026-07-17T17:44:44Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0001.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -1079,7 +1086,7 @@ task_claims: - task_id: TASK-P00-001
   task_id: TASK-R01-007
   story_id: STORY-R01-003
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-17T15:27:21Z'
   allowed_paths:
   - apps/**
@@ -1115,6 +1122,45 @@ task_claims: - task_id: TASK-P00-001
   - artifacts/apk/**
   - artifacts/reports/**
   - artifacts/validation/**
+  closed_at: '2026-07-17T17:06:18Z'
+- claim_id: CLM-E45608E07944
+  session_id: SES-20260717T171412Z-7CD86701
+  task_id: TASK-R01-008
+  story_id: STORY-R01-003
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-17T17:14:12Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
 recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
   timestamp: '2026-07-16T00:30:00Z'
   release: P00
@@ -1275,32 +1321,58 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
   session_id: SES-20260717T152721Z-016DB4B2
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-23D2BAB015EB
+  timestamp: '2026-07-17T17:14:12Z'
+  release: R01
+  task_id: TASK-R01-008
+  story_id: STORY-R01-003
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260717T171412Z-7CD86701
+  actor_id: codex-root
+  reason: 会话领取任务
 ```
 
 ## Git 状态
 
 ```yaml
 initialized: true
-branch: task/TASK-R01-007
-head: d32ad36e5b0f838c16df57c1246230c995229c8e
-upstream: origin/task/TASK-R01-007
-ahead: 1
-behind: 0
+branch: task/TASK-R01-008
+head: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
+upstream: null
+ahead: null
+behind: null
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/sessions/SES-20260717T152721Z-016DB4B2.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/TASK_CLAIMS.yaml'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
+- ' M artifacts/apk/R01/APK_MANIFEST.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md'
-- ' M releases/R01/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0009.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M releases/R01/ACCEPTANCE_MATRIX.csv'
+- ' M releases/R01/RELEASE_MANIFEST.yaml'
+- ' M scripts/continuity_lib.py'
+- ' M tests/test_continuity_cross_release_close.py'
+- ?? .continuity/change_requests/CR-0017.yaml
+- ?? .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0001.yaml
+- ?? .continuity/sessions/SES-20260717T171412Z-7CD86701.yaml
+- ?? docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
+- ?? docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md
+- ?? infra/nginx/download.orbexa.cc.conf
 recent_commits:
+- "e3d4d3782f067ebe963856d741dd4cd6be3d16ca\t2026-07-18T01:07:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-007\
+  \ as completed"
 - "d32ad36e5b0f838c16df57c1246230c995229c8e\t2026-07-18T01:05:47+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): record owner APK\
   \ acceptance"
 - "920daf4e314c80f37a324c863f988dd6fc57ec8c\t2026-07-18T00:54:39+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive Android APK\
@@ -1315,22 +1387,21 @@ recent_commits:
   \ evidence"
 - "72de42c90f71438cdf5a2cc274277fecfa7a6cbd\t2026-07-17T23:11:15+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): make snapshot corruption\
   \ deterministic"
-- "b8edbc0924157c8c03d4463c15b4301477cb5a8c\t2026-07-17T22:52:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): map unsupported media\
-  \ type to validation"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`d72cb8ad064063f9b01b66e35aeda679838a6e3b983b4ca78f81c4c6305d2f2c`
-- 文件数：7
+- 指纹：`f7b41dfd68f56eae80c0d5cbc2724a25c632529f22ece5e91e27c5c0dba6c7d1`
+- 文件数：8
 
-- `CHANGELOG.md`
-- `apps/android/app/build.gradle.kts`
-- `apps/android/app/src/main/AndroidManifest.xml`
 - `artifacts/apk/R01/APK_MANIFEST.yaml`
-- `infra/toolchains/android/Dockerfile`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md`
+- `infra/nginx/download.orbexa.cc.conf`
 - `releases/R01/ACCEPTANCE_MATRIX.csv`
-- `releases/R01/TASKS.yaml`
+- `releases/R01/RELEASE_MANIFEST.yaml`
+- `scripts/continuity_lib.py`
+- `tests/test_continuity_cross_release_close.py`
 
 ## 当前 Release
 
@@ -1338,7 +1409,9 @@ recent_commits:
 RELEASE_MANIFEST.yaml:
   release: R01
   title: Design System与契约工程化
-  status: IN_PROGRESS
+  status: DONE
+  release_commit: db3cfddcc4cda84265ec18f24de972804d62a08f
+  release_tag: R01-db3cfdd
   development_baseline:
     session_id: SES-20260717T074317Z-C575A687
     actor_id: codex-root
@@ -1382,14 +1455,19 @@ RELEASE_MANIFEST.yaml:
   contracts:
     client_api: []
     admin_api:
-    - POST /admin-api/v1/auth/login
-    - POST /admin-api/v1/auth/mfa/verify
-    - POST /admin-api/v1/auth/logout
-    - GET /admin-api/v1/me/security
-    - POST /admin-api/v1/me/security/password/change
-    - POST /admin-api/v1/me/security/mfa/enroll
-    - POST /admin-api/v1/me/security/mfa/confirm
-    - POST /admin-api/v1/me/security/mfa/disable
+      operation_ids:
+      - adminAdminAuthPostAuthLogin
+      - adminAdminAuthPostAuthMfaVerify
+      - adminAdminAuthPostAuthLogout
+      paths:
+      - POST /admin-api/v1/auth/login
+      - POST /admin-api/v1/auth/mfa/verify
+      - POST /admin-api/v1/auth/logout
+      - GET /admin-api/v1/me/security
+      - POST /admin-api/v1/me/security/password/change
+      - POST /admin-api/v1/me/security/mfa/enroll
+      - POST /admin-api/v1/me/security/mfa/confirm
+      - POST /admin-api/v1/me/security/mfa/disable
     websocket: []
   database_tables:
   - outbox_events
@@ -2204,33 +2282,76 @@ TASKS.yaml:
     note: 确认仅收口P00 RELEASE_MANIFEST与ACCEPTANCE_MATRIX终态元数据：保留3条HTTP paths并绑定现有3个OpenAPI operationId，6项证据均为仓库内实际文件，59项矩阵PASS，release commit、tag与APK基线一致；禁止修改运行时代码或接口
   machine_record: .continuity/change_requests/CR-0010.yaml
   document: docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md
+- protocol_version: '1.0'
+  cr_id: CR-0017
+  title: R01版本关闭元数据与无会话Context Pack门禁修复
+  status: APPROVED
+  created_at: '2026-07-17T17:22:49Z'
+  updated_at: '2026-07-17T17:25:50Z'
+  requester_actor_id: codex-root
+  approver_actor_id: r01-cr-review
+  task_id: TASK-R01-008
+  session_id: SES-20260717T171412Z-7CD86701
+  user_request: 项目所有者要求立即完成R01版本收尾并暂停
+  reason: 将已完成的R01验收证据、APK来源提交和发布标签写入终态元数据，并修复无会话Context Pack生成后立即被判过期的关闭门禁缺陷。
+  original_rule: R01 Release Manifest保持IN_PROGRESS，关闭验收矩阵未关联各任务的具体证据；无会话Context Pack把STATE.yaml计入仓库树指纹。
+  new_rule: R01关闭时以既有8个接口中的3个代表operationId绑定Release Commit与Tag，验收矩阵引用既有报告；Context Pack仓库树指纹排除运行时STATE.yaml。
+  impact_summary: 仅变更R01关闭元数据、证据指针、连续性运行时门禁和其隔离回归；不增加、删除或改变页面、API、数据库、配置、资金或业务语义。
+  impact:
+    files:
+    - releases/R01/RELEASE_MANIFEST.yaml
+    - releases/R01/ACCEPTANCE_MATRIX.csv
+    - scripts/continuity_lib.py
+    - tests/test_continuity_cross_release_close.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis:
+    - R01既有8个admin API路径不变
+    database: []
+    configuration:
+    - 无配置语义变更
+    ledger: []
+    tests:
+    - tests/test_continuity_cross_release_close.py
+    - tests/test_release_close_gate.py
+    releases:
+    - R01
+    migration_and_compatibility: 无需数据库迁移或消费者迁移。保留原有8条API路径；仅将Manifest中的表示方式改为带operationId和paths的结构。旧Context Pack可重新生成。
+  user_confirmation: 项目所有者于2026-07-18明确要求立即完成R01收尾并暂停；此前已确认R01 APK真机安装与启动通过。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T17:25:50Z'
+    note: 独立审阅：实际差异仅含R01关闭元数据、验收证据指针、Context Pack运行时指纹排除与隔离回归；8条既有admin API路径逐项与HEAD基线一致，且首3个operationId与contracts/admin-openapi.yaml一致。未变更页面、API、数据库、配置、资金或业务语义；tests.test_continuity_cross_release_close与tests.test_release_close_gate共6项通过。
+  machine_record: .continuity/change_requests/CR-0017.yaml
+  document: docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `67c7ec431b6d463222d1e776a5586dbca05a4b687a12f456a172957f11080789`
+- `CURRENT_STATUS.yaml` — `1c6e7370ccfe5b8eaff3f2eccece26c4aec9b5713c6429b990a5d93e3f5d4e45`
 - `NEXT_TASK.yaml` — `20a4325ac176e02cab9cd6e3bef3eefa4e9d5bc531ce4ca50d671c2227cd797a`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `6f093a2b6fdf0428432540837c96f0d262bc4b65ac69515074aa1088af2364cc`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `0ea69b49c36d5593d3e03187356a9ecbe148c792b175bac760296997a3e770a5`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223`
-- `.continuity/EVENT_LOG.jsonl` — `10a923d8fe9b73cc64b8b0982ebf86b5bb21ff2817fdff04cef9c58fd0c0bda0`
-- `.continuity/SESSION_INDEX.yaml` — `becececd19a9f4603ac65c8d7d7c524c53ac5ee500bbdcbb972a9a2ce2608335`
-- `.continuity/TASK_CLAIMS.yaml` — `4645c168d1811f196aba43214e5c0d92b5e1305da4a725b2c0fd4fdeca53e8f6`
-- `.continuity/TASK_TRANSITIONS.yaml` — `0342d3bea35e81244abfda0eaa6d74aad6ac2765f2e655084838391d627249b1`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c187fe4a88dd354ac7612fe44761326dae4e21494ed981f490abfce3167d91dd`
-- `.continuity/ACTIVE_SESSION.yaml` — `682403d4c870cd01c79daf091a9a7446eac408685a82d5914ec1d103575ce7fd`
-- `releases/R01/RELEASE_MANIFEST.yaml` — `bb986f651fd20c30ddbabeb81ef31351b6aab527bf6d65833262ce6bee30893f`
+- `.continuity/EVENT_LOG.jsonl` — `3b65ef59cfc67fd1ab23fcecfe7d59d1482eb12fdb9b9014b3430934e852deac`
+- `.continuity/SESSION_INDEX.yaml` — `a014eb3b348d2b3cccea4a947bcf40380ca206c88abb3583c451f25c37349548`
+- `.continuity/TASK_CLAIMS.yaml` — `a45f826faad060e74a417edf8ddefd8652970bc84317876786889241ffe3c3c2`
+- `.continuity/TASK_TRANSITIONS.yaml` — `f5f1711d4a5fd8ccdb0716908017d021204b90616d5a1ecba5d7864d8a78b503`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5c1a2b0da7446113f2d423f834eaf51ea5404f259d1d94354918168f88eee46c`
+- `.continuity/ACTIVE_SESSION.yaml` — `a3cb1aeae795c4219b9b0f921fe0dc98949c09ddf55644086e6f158f9f36022c`
+- `releases/R01/RELEASE_MANIFEST.yaml` — `30eda70884cb3e9f7c3e5760c63c6bf41576fc526373866e8765b35fc78a0b2a`
 - `releases/R01/DEFINITION_OF_READY.yaml` — `ed81dd9db760893207515b8c0a5cc2f80ac5b7f358d00fb7b71276b8931100e5`
 - `releases/R01/STORIES.yaml` — `368e786cf97c2b244d5bbf21acedcdefacbf5f4a4b42c7780db5b1accb5dd86e`
 - `releases/R01/TASKS.yaml` — `7a6d3dc95ab7ba5387785f87e1d37de6f4229742606a5e342bb580068a992234`
-- `releases/R01/ACCEPTANCE_MATRIX.csv` — `097b961cf4cdf0b1c39401d248f7407ccb5142f47f8c0209d20d1943a87e597e`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md` — `221d5553d35917b323a61e2c91c8154d96099374deaba5d15b666ba9e88accdd`
-- `.continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0009.yaml` — `639006c693f526147491456d1b43db99ba01168729fcf81cd55706e11aa6f270`
+- `releases/R01/ACCEPTANCE_MATRIX.csv` — `9bc05f6487a713879b1a1c6a30d51387a01d4b0db161c2ad2e8033294f6b21f5`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md` — `515e709d599eb629253fc23fdf19cd620f4e87253c9ff8e474ee0952575a8797`
+- `.continuity/checkpoints/SES-20260717T171412Z-7CD86701/0001.yaml` — `6d0dc91806d5e35cb7778b00855725cff347418a526e72857260d17a49c19eaa`
+- `docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md` — `36b6b0c5c7e92ba262c8c49c3a44f44511e3bc1db65786b50e603ebf8a87a4e1`
 
 ## 接手硬规则
 
