@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T05:07:24Z
-- Context Hash：`f26950fea0bc372e9585c20bae4851bd247691836f14757bd6228da6993397a2`
+- 生成时间：2026-07-17T05:09:07Z
+- Context Hash：`0fbf808174a5cc0c473bb4658123cc3d5c0db98a06da1880217a3207b3b8828b`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -42,7 +42,7 @@ in_progress_tasks:
 - TASK-P00-005
 blocked_tasks: []
 next_task: TASK-P00-005
-updated_at: '2026-07-17T05:07:23Z'
+updated_at: '2026-07-17T05:09:06Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -77,15 +77,15 @@ continuity:
   active_session_id: SES-20260717T024407Z-B03C9375
   actor_id: codex-root
   story_id: STORY-P00-001
-  lease_expires_at: '2026-07-17T09:07:23Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0005.yaml
-  project_fingerprint: b349670f735e4c839f4408d149f188b744127d3d2423e6661b6ed2f445ab20b6
+  lease_expires_at: '2026-07-17T09:09:06Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0006.yaml
+  project_fingerprint: bafd6eeb38036660762772fbe6a51ae79689f3719a5b8e162919cdf654b10d0d
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 57f82d1fe06bd06e5914b4b64989622d3167a26155f97bc8cca28873f012a227
-    generated_at: '2026-07-17T04:20:06Z'
+    context_hash: f26950fea0bc372e9585c20bae4851bd247691836f14757bd6228da6993397a2
+    generated_at: '2026-07-17T05:07:24Z'
   handoff_bundle: null
 ```
 
@@ -143,7 +143,7 @@ task_id: TASK-P00-005
 story_id: STORY-P00-001
 goal: 执行P00精确59项测试矩阵，生成10套绑定基线Commit的外部证据并清零关键缺陷
 started_at: '2026-07-17T02:44:07Z'
-updated_at: '2026-07-17T05:07:23Z'
+updated_at: '2026-07-17T05:09:06Z'
 takeover_of: null
 change_requests:
 - CR-0007
@@ -192,12 +192,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T05:07:23Z'
-  expires_at: '2026-07-17T09:07:23Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0005.yaml
+  renewed_at: '2026-07-17T05:09:06Z'
+  expires_at: '2026-07-17T09:09:06Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md
-next_step: 提交CR-0009实现，关闭CR后重绑最终源Commit并生成APK/59项矩阵终态证据
+next_step: 提交CR关闭元数据，恢复证据WIP并重绑最终Commit，生成APK证据和全绿59项矩阵
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -207,15 +207,14 @@ closure: null
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T024407Z-B03C9375-0005
+checkpoint_id: CP-SES-20260717T024407Z-B03C9375-0006
 session_id: SES-20260717T024407Z-B03C9375
-sequence: 5
-created_at: '2026-07-17T05:07:22Z'
-summary: CR-0009隔离测试夹具修复完成；bootstrap两项与完整14检查生命周期测试通过；项目所有者已确认P00真机安装与启动正常
-next_step: 提交CR-0009实现，关闭CR后重绑最终源Commit并生成APK/59项矩阵终态证据
+sequence: 6
+created_at: '2026-07-17T05:09:06Z'
+summary: CR-0009已实现并关闭，连续性误报根因清零；用户真机P00测试正常
+next_step: 提交CR关闭元数据，恢复证据WIP并重绑最终Commit，生成APK证据和全绿59项矩阵
 blockers: []
-decisions:
-- 用户于当前对话明确确认P00真机测试正常，可将APK三项外部证据标记PASS
+decisions: []
 note: ''
 tests:
 - name: continuity bootstrap recovery
@@ -226,14 +225,10 @@ tests:
   result: PASS
   evidence: artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
   note: 14 checks PASS
-- name: P00 owner physical APK test
-  result: PASS
-  evidence: artifacts/validation/p00-test-evidence/p00-apk-validation/hhy-p00-c9fae544-debug.apk
-  note: 项目所有者明确反馈真机测试正常
 git:
   initialized: true
   branch: task/TASK-P00-005
-  head: c9fae5441975917315950111337adce5d3ef2dd8
+  head: 192647bcdc3df7edcf02091b12d2fde666a71063
   upstream: null
   ahead: null
   behind: null
@@ -242,51 +237,13 @@ git:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260717T024407Z-B03C9375.yaml'
-  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
-  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M .continuity/change_requests/CR-0009.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M scripts/test_continuity_protocol.py'
-  - ' M tests/test_continuity_bootstrap_recovery.py'
-  - ?? .continuity/change_requests/CR-0009.yaml
-  - ?? artifacts/validation/p00-test-evidence/p00-admin-integration/admin-dist-index.html
-  - ?? artifacts/validation/p00-test-evidence/p00-admin-integration/p00-admin-integration.evidence.json
-  - ?? artifacts/validation/p00-test-evidence/p00-admin-integration/web-verify.log
-  - ?? artifacts/validation/p00-test-evidence/p00-architecture/module-boundary.xml
-  - ?? artifacts/validation/p00-test-evidence/p00-architecture/p00-architecture.evidence.json
-  - ?? artifacts/validation/p00-test-evidence/p00-database-invariants/p00-database-invariants.evidence.json
-  - ?? artifacts/validation/p00-test-evidence/p00-database-invariants/postgresql-17.10.json
-  - ?? artifacts/validation/p00-test-evidence/p00-database-invariants/postgresql-17.10.log
-  - ?? artifacts/validation/p00-test-evidence/p00-database-invariants/v011-rollback.log
-  - ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/admin-dist-index.html
-  - ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/android-api-model-tests.xml
-  - ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/android-request-id-tests.xml
-  - ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/android-version-tests.xml
-  - ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/backend-verify.log
-  - ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/h5-dist-index.html
-  - ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/p00-engineering-builds.evidence.json
-  - ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/web-verify.log
-  - ?? artifacts/validation/p00-test-evidence/p00-ledger-invariants/ledger-postgresql.log
-  - ?? artifacts/validation/p00-test-evidence/p00-ledger-invariants/p00-ledger-invariants.evidence.json
-  - ?? artifacts/validation/p00-test-evidence/p00-observability-staging/alert-deliveries.jsonl
-  - ?? artifacts/validation/p00-test-evidence/p00-observability-staging/alert-firing-request.json
-  - ?? artifacts/validation/p00-test-evidence/p00-observability-staging/alert-resolved-request.json
-  - ?? artifacts/validation/p00-test-evidence/p00-observability-staging/backend-rollback.log
-  - ?? artifacts/validation/p00-test-evidence/p00-observability-staging/p00-observability-staging.evidence.json
-  - ?? artifacts/validation/p00-test-evidence/p00-observability-staging/staging-observability.log
-  - ?? artifacts/validation/p00-test-evidence/p00-outbox-invariants/outbox-postgresql.log
-  - ?? artifacts/validation/p00-test-evidence/p00-outbox-invariants/p00-outbox-invariants.evidence.json
-  - ?? artifacts/validation/p00-test-evidence/p00-secret-security/p00-secret-security.evidence.json
-  - ?? artifacts/validation/p00-test-evidence/p00-secret-security/secret-defaults.log
-  - ?? artifacts/validation/p00-test-evidence/p00-ui-integration/android-api-models.xml
-  - ?? artifacts/validation/p00-test-evidence/p00-ui-integration/android-request-id.xml
-  - ?? artifacts/validation/p00-test-evidence/p00-ui-integration/p00-ui-integration.evidence.json
-  - ?? artifacts/validation/p00-test-evidence/p00-ui-integration/public-endpoints.xml
-  - ?? artifacts/validation/p00-test-matrix.json
-  - ?? docs/03-continuity/change-requests/CR-0009-修复P00连续性测试夹具随当前NEXT_TASK漂移.md
+  - ' M docs/03-continuity/change-requests/CR-0009-修复P00连续性测试夹具随当前NEXT_TASK漂移.md'
   recent_commits:
+  - "192647bcdc3df7edcf02091b12d2fde666a71063\t2026-07-17T13:08:22+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(continuity): reset lifecycle\
+    \ fixtures to P00 start"
   - "c9fae5441975917315950111337adce5d3ef2dd8\t2026-07-17T12:20:15+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close owner\
     \ APK acceptance change"
   - "f34af6aea974018ce45f54055c8bf3b0e6e24726\t2026-07-17T12:19:22+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] docs(android): require owner\
@@ -301,10 +258,8 @@ git:
     \ client contract bindings"
   - "f26e4668cbab36411918b566edbb61b14f1dac78\t2026-07-17T10:38:15+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-003\
     \ as completed"
-  - "093b92f4d691fd69440a90505e323bb5510a8d9e\t2026-07-17T10:36:55+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): verify backend\
-    \ application services"
 project_fingerprint:
-  sha256: b349670f735e4c839f4408d149f188b744127d3d2423e6661b6ed2f445ab20b6
+  sha256: bafd6eeb38036660762772fbe6a51ae79689f3719a5b8e162919cdf654b10d0d
   files:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
@@ -334,8 +289,8 @@ project_fingerprint:
       sha256: 26280297f04a819006df197174a471425cb7d63fadb69078f62fce3403a26a4e
     - path: docs/03-continuity/change-requests/CR-0009-修复P00连续性测试夹具随当前NEXT_TASK漂移.md
       state: FILE
-      size: 2595
-      sha256: bb6722de7d0c70657e955e2650ce61c5b830db655bd1023ad780cf2531dc3a16
+      size: 3059
+      sha256: 1cd715de9413b14e61a4c287727e16517ad1de35e8127f3cdab94efcaac0d0f1
     - path: docs/05-app-build/APK持续交付强制规则_V1.2.2.md
       state: FILE
       size: 1216
@@ -419,7 +374,7 @@ scope:
   - PROJECT_*.json
   approved_exceptions: []
   source: story+explicit
-event_hash: 0fb76228f1e64050f0274a31d3eda846d7cdfa8201bbab9473b280eff16fab43
+event_hash: 3df2b06e460c8ea5e619ddb1e3be1872450438d4b217c60aa088f6bfa1a0067e
 ```
 
 ## 接续状态与事件头
@@ -431,8 +386,8 @@ active_session_id: SES-20260717T024407Z-B03C9375
 last_session_id: SES-20260717T023848Z-9F352CA9
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T023848Z-9F352CA9-0002
-event_count: 78
-event_head_hash: 0fb76228f1e64050f0274a31d3eda846d7cdfa8201bbab9473b280eff16fab43
+event_count: 81
+event_head_hash: 3df2b06e460c8ea5e619ddb1e3be1872450438d4b217c60aa088f6bfa1a0067e
 event_chain_valid: true
 ```
 
@@ -507,9 +462,9 @@ recent_sessions: - session_id: SES-V123-PACKAGE-BASELINE
   started_at: '2026-07-17T02:44:07Z'
   record: .continuity/sessions/SES-20260717T024407Z-B03C9375.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md
-  updated_at: '2026-07-17T05:07:23Z'
+  updated_at: '2026-07-17T05:09:06Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0005.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0006.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -777,7 +732,7 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
 ```yaml
 initialized: true
 branch: task/TASK-P00-005
-head: c9fae5441975917315950111337adce5d3ef2dd8
+head: 192647bcdc3df7edcf02091b12d2fde666a71063
 upstream: null
 ahead: null
 behind: null
@@ -788,54 +743,17 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0009.yaml'
 - ' M .continuity/sessions/SES-20260717T024407Z-B03C9375.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
-- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/03-continuity/change-requests/CR-0009-修复P00连续性测试夹具随当前NEXT_TASK漂移.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md'
-- ' M scripts/test_continuity_protocol.py'
-- ' M tests/test_continuity_bootstrap_recovery.py'
-- ?? .continuity/change_requests/CR-0009.yaml
-- ?? .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0005.yaml
-- ?? artifacts/validation/p00-test-evidence/p00-admin-integration/admin-dist-index.html
-- ?? artifacts/validation/p00-test-evidence/p00-admin-integration/p00-admin-integration.evidence.json
-- ?? artifacts/validation/p00-test-evidence/p00-admin-integration/web-verify.log
-- ?? artifacts/validation/p00-test-evidence/p00-architecture/module-boundary.xml
-- ?? artifacts/validation/p00-test-evidence/p00-architecture/p00-architecture.evidence.json
-- ?? artifacts/validation/p00-test-evidence/p00-database-invariants/p00-database-invariants.evidence.json
-- ?? artifacts/validation/p00-test-evidence/p00-database-invariants/postgresql-17.10.json
-- ?? artifacts/validation/p00-test-evidence/p00-database-invariants/postgresql-17.10.log
-- ?? artifacts/validation/p00-test-evidence/p00-database-invariants/v011-rollback.log
-- ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/admin-dist-index.html
-- ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/android-api-model-tests.xml
-- ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/android-request-id-tests.xml
-- ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/android-version-tests.xml
-- ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/backend-verify.log
-- ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/h5-dist-index.html
-- ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/p00-engineering-builds.evidence.json
-- ?? artifacts/validation/p00-test-evidence/p00-engineering-builds/web-verify.log
-- ?? artifacts/validation/p00-test-evidence/p00-ledger-invariants/ledger-postgresql.log
-- ?? artifacts/validation/p00-test-evidence/p00-ledger-invariants/p00-ledger-invariants.evidence.json
-- ?? artifacts/validation/p00-test-evidence/p00-observability-staging/alert-deliveries.jsonl
-- ?? artifacts/validation/p00-test-evidence/p00-observability-staging/alert-firing-request.json
-- ?? artifacts/validation/p00-test-evidence/p00-observability-staging/alert-resolved-request.json
-- ?? artifacts/validation/p00-test-evidence/p00-observability-staging/backend-rollback.log
-- ?? artifacts/validation/p00-test-evidence/p00-observability-staging/p00-observability-staging.evidence.json
-- ?? artifacts/validation/p00-test-evidence/p00-observability-staging/staging-observability.log
-- ?? artifacts/validation/p00-test-evidence/p00-outbox-invariants/outbox-postgresql.log
-- ?? artifacts/validation/p00-test-evidence/p00-outbox-invariants/p00-outbox-invariants.evidence.json
-- ?? artifacts/validation/p00-test-evidence/p00-secret-security/p00-secret-security.evidence.json
-- ?? artifacts/validation/p00-test-evidence/p00-secret-security/secret-defaults.log
-- ?? artifacts/validation/p00-test-evidence/p00-ui-integration/android-api-models.xml
-- ?? artifacts/validation/p00-test-evidence/p00-ui-integration/android-request-id.xml
-- ?? artifacts/validation/p00-test-evidence/p00-ui-integration/p00-ui-integration.evidence.json
-- ?? artifacts/validation/p00-test-evidence/p00-ui-integration/public-endpoints.xml
-- ?? artifacts/validation/p00-test-matrix.json
-- ?? docs/03-continuity/change-requests/CR-0009-修复P00连续性测试夹具随当前NEXT_TASK漂移.md
+- ?? .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0006.yaml
 recent_commits:
+- "192647bcdc3df7edcf02091b12d2fde666a71063\t2026-07-17T13:08:22+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(continuity): reset lifecycle\
+  \ fixtures to P00 start"
 - "c9fae5441975917315950111337adce5d3ef2dd8\t2026-07-17T12:20:15+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close owner\
   \ APK acceptance change"
 - "f34af6aea974018ce45f54055c8bf3b0e6e24726\t2026-07-17T12:19:22+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] docs(android): require owner\
@@ -850,13 +768,11 @@ recent_commits:
   \ client contract bindings"
 - "f26e4668cbab36411918b566edbb61b14f1dac78\t2026-07-17T10:38:15+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-003\
   \ as completed"
-- "093b92f4d691fd69440a90505e323bb5510a8d9e\t2026-07-17T10:36:55+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): verify backend application\
-  \ services"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`b349670f735e4c839f4408d149f188b744127d3d2423e6661b6ed2f445ab20b6`
+- 指纹：`bafd6eeb38036660762772fbe6a51ae79689f3719a5b8e162919cdf654b10d0d`
 - 文件数：10
 
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
@@ -1620,60 +1536,13 @@ TASKS.yaml:
   - SES-20260717T024407Z-B03C9375
   implementation_commits:
   - 7e6bfd70c9f4127f2778b1423d03ed619bcab25b
-- protocol_version: '1.0'
-  cr_id: CR-0009
-  title: 修复P00连续性测试夹具随当前NEXT_TASK漂移
-  status: IMPLEMENTING
-  created_at: '2026-07-17T04:58:46Z'
-  updated_at: '2026-07-17T05:02:36Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-engineering-audit
-  task_id: TASK-P00-005
-  session_id: SES-20260717T024407Z-B03C9375
-  user_request: 完成P00版本后暂停推进
-  reason: 59项矩阵在TASK-P00-005阶段复验时，两个隔离连续性测试仍假定NEXT_TASK为TASK-P00-001，导致54/59而非预期56/59
-  original_rule: 连续性隔离测试复制当前仓库状态后只清空Session和CURRENT_STATUS活动字段，隐含假设NEXT_TASK仍为TASK-P00-001
-  new_rule: 隔离夹具必须显式恢复P00初始场景：NEXT_TASK指向TASK-P00-001、TASK-P00-001为READY、后续任务为BLOCKED，并清除当前P00完成记录；测试不受真实仓库推进阶段影响
-  impact_summary: 仅修复连续性回归测试夹具的确定性；不改变生产连续性协议、业务代码、API、数据库、Android产物或版本范围
-  impact:
-    files:
-    - tests/test_continuity_bootstrap_recovery.py
-    - scripts/test_continuity_protocol.py
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python tests/test_continuity_bootstrap_recovery.py
-    - python scripts/test_continuity_protocol.py
-    - python scripts/run_p00_test_matrix.py --check
-    releases:
-    - P00
-    migration_and_compatibility: 测试夹具在临时复制仓库内重置状态；真实仓库机器状态不迁移也不修改，兼容任意当前NEXT_TASK阶段
-  user_confirmation: 用户已要求完成P00并在完成后暂停；修复阻断P00 59项矩阵的测试夹具漂移属于必要收口
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-17T05:00:33Z'
-    note: 复现证据确认两项连续性失败均由隔离副本继承真实NEXT_TASK=TASK-P00-005所致；批准仅在临时fixture恢复P00初始任务状态并登记问题，禁止修改真实仓库状态或生产连续性协议
-  machine_record: .continuity/change_requests/CR-0009.yaml
-  document: docs/03-continuity/change-requests/CR-0009-修复P00连续性测试夹具随当前NEXT_TASK漂移.md
-  decision_log:
-  - at: '2026-07-17T05:02:36Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 按批准边界仅修复两个隔离测试夹具并登记PROB-0006；真实仓库状态不变
-    session_id: SES-20260717T024407Z-B03C9375
-  session_ids:
-  - SES-20260717T024407Z-B03C9375
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `abd7da6fbf042b887f42bea1d5823c7cde10008fd0995f642922a9b3c5e7d2f1`
+- `CURRENT_STATUS.yaml` — `55c34362a811d299ac9907c5f57189397cde1651b0de40aff2058f16dfa0edad`
 - `NEXT_TASK.yaml` — `8cd0990dee0e2230e0ff069d1911fc4f6fcf5a0acdce43868299005b0c5c44c7`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -1681,22 +1550,22 @@ TASKS.yaml:
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223`
-- `.continuity/EVENT_LOG.jsonl` — `8cf28d166c78da609bbb60afa3b9242d7762dd390f45738108634104a97b1b98`
-- `.continuity/SESSION_INDEX.yaml` — `cd168feeb2bb0d403746740fc540434088bc7a813f1fd99ac406dbfc17c309b6`
+- `.continuity/EVENT_LOG.jsonl` — `8c8852be9d8707f6c0ccb912e625e063b2b3b60b6a010b2c7d3e24cfa69abad9`
+- `.continuity/SESSION_INDEX.yaml` — `8183c32b9fb46a200113455f295ecd92bde9bb2d9546db585c96ba68415105c8`
 - `.continuity/TASK_CLAIMS.yaml` — `9430526ec1917e94782622ddd8283f3799377d1da53c870ea68720cd041fa440`
 - `.continuity/TASK_TRANSITIONS.yaml` — `52ea32bf156afa755a4d723488ec3460840bf68319fa07ff886f7beb14679722`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `4412ef5a64bc4d7868c8ce5a64c37308d1bffcb4d22e74d1cba84ac0327dda83`
-- `.continuity/ACTIVE_SESSION.yaml` — `23f18e6f1c44d0940de7fe416d7ab8d50c0755ca92c53a76a6159a3754f5b59b`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `dec3b9aba8255c69388b240290af1f80011f77c73c8eeda57658c7fcfb4e7570`
+- `.continuity/ACTIVE_SESSION.yaml` — `df59b74c6dbd677a5eb1aaa19afafa4f52f6ee35a7e538379a0e713a13e84474`
 - `releases/P00/RELEASE_MANIFEST.yaml` — `85e52576e6afd3effac69acb9b66094f2f5f6b28831f8c20d65e30a80b395240`
 - `releases/P00/DEFINITION_OF_READY.yaml` — `ffe6940f64abc0bef4ca56719a9e442d86bf37460e7166acc00a70a893906cd9`
 - `releases/P00/STORIES.yaml` — `36adc34eb83bdb7b1898bc6060f4e5362d287168581b4a7d2af222145551fd18`
 - `releases/P00/TASKS.yaml` — `7210cd2760192238b6805c503abf36b948b06ea84663e5aeb0eb875f9a9a86dc`
 - `releases/P00/ACCEPTANCE_MATRIX.csv` — `19a71fd0a8386cd25417d38df7430a74600b6a277b40f6c6b706faae122e5ccf`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md` — `5356e385cc958ef764a0f8b5edec869f68a3f708b12dafbc6f21c720db7695f9`
-- `.continuity/checkpoints/SES-20260717T024407Z-B03C9375/0005.yaml` — `87b56a6d69042ad9220c4f9c5b40aee0ccbc7405b9c4981bcc4b911cdf20b81b`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md` — `5db889570478b4f9d88e55431f18be1623178c2bdd8d8e9c444ecf5d01435802`
+- `.continuity/checkpoints/SES-20260717T024407Z-B03C9375/0006.yaml` — `3c3ad8be272b0f552a09ad79ac78cfa797f3e79ab9080f3b2d8d7ff902726828`
 - `docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md` — `e0a775c2d0aac2c87befa19c89127b9195284243eb954f609d60e128bd3b045d`
 - `docs/03-continuity/change-requests/CR-0008-每版本Android-APK由项目所有者真机验收.md` — `26280297f04a819006df197174a471425cb7d63fadb69078f62fce3403a26a4e`
-- `docs/03-continuity/change-requests/CR-0009-修复P00连续性测试夹具随当前NEXT_TASK漂移.md` — `bb6722de7d0c70657e955e2650ce61c5b830db655bd1023ad780cf2531dc3a16`
+- `docs/03-continuity/change-requests/CR-0009-修复P00连续性测试夹具随当前NEXT_TASK漂移.md` — `1cd715de9413b14e61a4c287727e16517ad1de35e8127f3cdab94efcaac0d0f1`
 
 ## 接手硬规则
 

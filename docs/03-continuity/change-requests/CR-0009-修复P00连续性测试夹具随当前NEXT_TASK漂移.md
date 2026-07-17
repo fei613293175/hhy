@@ -87,3 +87,17 @@ updated_at: 2026-07-17T05:00:33Z
 - Status：`IMPLEMENTING`
 - Session：`SES-20260717T024407Z-B03C9375`
 - Note：按批准边界仅修复两个隔离测试夹具并登记PROB-0006；真实仓库状态不变
+
+## 状态记录 · 2026-07-17T05:08:51Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260717T024407Z-B03C9375`
+- Note：两个隔离夹具已恢复P00初始任务状态，bootstrap 2项和生命周期14检查实测通过
+
+## 状态记录 · 2026-07-17T05:08:52Z
+
+- Actor：`codex-root`
+- Status：`CLOSED`
+- Session：`SES-20260717T024407Z-B03C9375`
+- Note：问题PROB-0006与回归测试均归档，真实仓库状态和生产协议未改
