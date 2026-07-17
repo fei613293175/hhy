@@ -1,6 +1,8 @@
 release: P00
 title: 仓库、环境、契约与无状态接续
-status: READY
+status: DONE
+release_commit: fcb95056b606dfe6e8d0623e83a0526df80bf43e
+release_tag: P00-fcb95056
 milestone: M0_ENGINEERING_FOUNDATION
 depends_on: []
 scope: 私有仓库、工程骨架、配置注册表、契约骨架、CI、开发/测试/预发布环境、冷启动接手
@@ -26,9 +28,14 @@ ui:
   admin: []
 contracts:
   client_api:
-  - GET /public-api/v1/platform/status
-  - POST /public-api/v1/app/version-check
-  - GET /api/v1/app/version-check
+    operation_ids:
+    - publicGetPlatformStatus
+    - appReleasePostAppVersionCheck
+    - appReleaseGetAppVersionCheck
+    paths:
+    - GET /public-api/v1/platform/status
+    - POST /public-api/v1/app/version-check
+    - GET /api/v1/app/version-check
   admin_api: []
   websocket: []
 database_tables:

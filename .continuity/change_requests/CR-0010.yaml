@@ -1,0 +1,40 @@
+protocol_version: '1.0'
+cr_id: CR-0010
+title: P00封板清单以OpenAPI operationId机器化绑定
+status: APPROVED
+created_at: '2026-07-17T05:44:40Z'
+updated_at: '2026-07-17T05:49:35Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-engineering-audit
+task_id: TASK-P00-008
+session_id: SES-20260717T054147Z-7AE51A86
+user_request: P00版本完成后先暂停推进；项目所有者已确认真机测试正常并要求尽快完成P00
+reason: 终态关闭门禁要求RELEASE_MANIFEST精确声明3个已实现operationId，现有HTTP路径列表无法通过机器校验
+original_rule: P00 RELEASE_MANIFEST.contracts.client_api仅记录3条HTTP方法与路径，status为READY且没有release_commit/release_tag
+new_rule: P00终态清单保留原路径并精确绑定3个现有OpenAPI operationId，status为DONE且绑定最终源码Commit与标签
+impact_summary: 仅变更P00发布元数据表达与验收状态，不修改OpenAPI、运行时代码、数据库、Android APK或线上服务
+impact:
+  files:
+  - releases/P00/RELEASE_MANIFEST.yaml
+  - releases/P00/ACCEPTANCE_MATRIX.csv
+  pages: []
+  apis:
+  - publicGetPlatformStatus
+  - appReleasePostAppVersionCheck
+  - appReleaseGetAppVersionCheck
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python scripts/check_release_artifacts.py --release P00 --close-gate
+  - python scripts/check_v123_documentation.py --strict --release P00
+  releases:
+  - P00
+  migration_and_compatibility: 无需运行时迁移；保留原paths供人工阅读，新增operation_ids供机器门禁验证，现有消费者行为不变
+user_confirmation: P00版本完成后先暂停推进；项目所有者已确认真机测试正常并要求尽快完成P00
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-17T05:49:35Z'
+  note: 确认仅收口P00 RELEASE_MANIFEST与ACCEPTANCE_MATRIX终态元数据：保留3条HTTP paths并绑定现有3个OpenAPI operationId，6项证据均为仓库内实际文件，59项矩阵PASS，release commit、tag与APK基线一致；禁止修改运行时代码或接口
+machine_record: .continuity/change_requests/CR-0010.yaml
+document: docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md

@@ -1,7 +1,7 @@
 ﻿验收ID,版本,验收项,证据路径,状态,阻断级别
-AC-P00-001,P00,领域代码与前端真实闭环,artifacts/reports/P00/,NOT_RUN,BLOCKING
-AC-P00-002,P00,数据库迁移和不变量测试通过,artifacts/reports/P00/,NOT_RUN,BLOCKING
-AC-P00-003,P00,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/P00/,NOT_RUN,BLOCKING
-AC-P00-004,P00,日志指标链路和业务告警可验证,artifacts/reports/P00/,NOT_RUN,BLOCKING
-AC-P00-005,P00,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/P00/,NOT_RUN,BLOCKING
-AC-P00-006,P00,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/P00/,NOT_RUN,BLOCKING
+AC-P00-001,P00,领域代码与前端真实闭环,artifacts/validation/p00-test-evidence/p00-ui-integration/p00-ui-integration.evidence.json,PASS,BLOCKING
+AC-P00-002,P00,数据库迁移和不变量测试通过,artifacts/validation/p00-test-evidence/p00-database-invariants/p00-database-invariants.evidence.json,PASS,BLOCKING
+AC-P00-003,P00,契约/单元/集成/E2E/安全专项测试通过,artifacts/validation/p00-test-matrix.json,PASS,BLOCKING
+AC-P00-004,P00,日志指标链路和业务告警可验证,artifacts/validation/p00-test-evidence/p00-observability-staging/p00-observability-staging.evidence.json,PASS,BLOCKING
+AC-P00-005,P00,Session Log、追踪矩阵、产物Manifest和下一任务更新,docs/03-continuity/sessions/2026-07/SES-20260717T054147Z-7AE51A86.md,PASS,BLOCKING
+AC-P00-006,P00,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/validation/p00-test-evidence/p00-apk-validation/p00-apk-validation.evidence.json,PASS,BLOCKING

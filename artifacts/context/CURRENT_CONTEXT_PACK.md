@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T05:40:57Z
-- Context Hash：`b7e5411a3c83baae2f47d32a2480e4934bfedc6ab3524e296b1d4cef74454a4c`
+- 生成时间：2026-07-17T05:50:23Z
+- Context Hash：`cf81eb8d7c315e30a63a458d56ef90bc14a2cda236304ce8fd98cfc6d15e1546`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-P00-008
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>'
 ```
 
 ## 当前状态
@@ -18,7 +18,7 @@ baseline_version: 1.2.3
 phase: P00
 active_release: P00
 active_task: TASK-P00-008
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: NOT_INITIALIZED
 last_staging_apk: null
@@ -41,10 +41,11 @@ completed_tasks:
 - TASK-P00-005
 - TASK-P00-006
 - TASK-P00-007
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-P00-008
 blocked_tasks: []
 next_task: TASK-P00-008
-updated_at: '2026-07-17T05:40:22Z'
+updated_at: '2026-07-17T05:50:22Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -76,17 +77,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260717T053909Z-3A8B6A51
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260717T053909Z-3A8B6A51/0002.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260717T054147Z-7AE51A86
+  actor_id: codex-root
+  story_id: STORY-P00-001
+  lease_expires_at: '2026-07-17T09:50:22Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T054147Z-7AE51A86/0001.yaml
+  project_fingerprint: 165a249b466fd67871ce408120721c6de8356ea149d0772ea2b0d843266267c4
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d588e5e538bbf44ea4fb7c5e17d29335f52f6a068b721b09d730d275ed0b57a8
-    generated_at: '2026-07-17T05:40:21Z'
+    context_hash: 7453a7c565c255c853d45c7acc5bada9404ae413d3c645767e199fdde3016e92
+    generated_at: '2026-07-17T05:41:49Z'
+  handoff_bundle: null
 ```
 
 ## 下一任务
@@ -129,13 +132,219 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260717T054147Z-7AE51A86
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: P00
+task_id: TASK-P00-008
+story_id: STORY-P00-001
+goal: 完成P00验收矩阵、发布清单、版本标签、最终指针和无状态交接封板
+started_at: '2026-07-17T05:41:47Z'
+updated_at: '2026-07-17T05:50:22Z'
+takeover_of: null
+change_requests:
+- CR-0010
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-P00-005
+  base_commit: d9b276872dd7390c2b1a22a0065973e6c314534e
+  start_head: d9b276872dd7390c2b1a22a0065973e6c314534e
+  upstream: null
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-17T05:50:22Z'
+  expires_at: '2026-07-17T09:50:22Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260717T054147Z-7AE51A86/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260717T054147Z-7AE51A86.md
+next_step: 提交封板清单，关闭TASK-P00-008并把仓库停在R01首任务READY且无活跃会话
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T054147Z-7AE51A86-0001
+session_id: SES-20260717T054147Z-7AE51A86
+sequence: 1
+created_at: '2026-07-17T05:50:22Z'
+summary: CR-0010已独立批准；P00六项验收矩阵全部PASS，Release Manifest已绑定3个operationId、最终源码Commit与发布标签
+next_step: 提交封板清单，关闭TASK-P00-008并把仓库停在R01首任务READY且无活跃会话
+blockers: []
+decisions:
+- R01只作为NEXT_TASK就绪指针，不启动会话、不开展开发
+note: 最终无状态交接包含catalogs/TRACEABILITY_MATRIX.csv、releases/P00/RELEASE_MANIFEST.yaml、artifacts/apk/P00/APK_MANIFEST.yaml、CURRENT_STATUS.yaml与NEXT_TASK.yaml
+tests:
+- name: P00-release-artifacts
+  result: PASS
+  evidence: releases/P00/RELEASE_MANIFEST.yaml
+  note: 常规Release产物结构校验通过
+- name: P00-documentation-strict
+  result: PASS
+  evidence: artifacts/validation/p00-test-matrix.json
+  note: P00严格文档门禁0错误0警告
+git:
+  initialized: true
+  branch: task/TASK-P00-005
+  head: d9b276872dd7390c2b1a22a0065973e6c314534e
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M releases/P00/ACCEPTANCE_MATRIX.csv'
+  - ' M releases/P00/RELEASE_MANIFEST.yaml'
+  - ?? .continuity/change_requests/CR-0010.yaml
+  - ?? .continuity/sessions/SES-20260717T054147Z-7AE51A86.yaml
+  - ?? docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T054147Z-7AE51A86.md
+  recent_commits:
+  - "d9b276872dd7390c2b1a22a0065973e6c314534e\t2026-07-17T13:40:57+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close APK acceptance\
+    \ task"
+  - "752a3a96b9b3c4ecec3492a2fe01b4150a8a3626\t2026-07-17T13:39:51+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): archive APK acceptance\
+    \ manifest"
+  - "cf701e7768970ede7c89a2321afae8a50e76453e\t2026-07-17T13:38:11+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close staging\
+    \ acceptance task"
+  - "d51fae87e5b1df39ea364c82968888aa46ddfee5\t2026-07-17T13:36:46+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): record staging\
+    \ acceptance session"
+  - "cc879b53e2d637f4076f35d27712cefcf7a92c31\t2026-07-17T13:35:48+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close test matrix\
+    \ task"
+  - "b943445b88ad6284f235b19a2747c51a00ba5d72\t2026-07-17T13:30:25+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): archive final release\
+    \ evidence"
+  - "fcb95056b606dfe6e8d0623e83a0526df80bf43e\t2026-07-17T13:09:24+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close lifecycle\
+    \ fixture repair"
+  - "192647bcdc3df7edcf02091b12d2fde666a71063\t2026-07-17T13:08:22+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(continuity): reset lifecycle\
+    \ fixtures to P00 start"
+project_fingerprint:
+  sha256: 165a249b466fd67871ce408120721c6de8356ea149d0772ea2b0d843266267c4
+  files:
+  - docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md
+  - releases/P00/ACCEPTANCE_MATRIX.csv
+  - releases/P00/RELEASE_MANIFEST.yaml
+  file_count: 3
+  payload:
+    base_commit: d9b276872dd7390c2b1a22a0065973e6c314534e
+    files:
+    - path: docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md
+      state: FILE
+      size: 2323
+      sha256: d466fb2315a5cf943f9d91c3fa2b5119262e0f2cbf87027fea44e5a73a86dadc
+    - path: releases/P00/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 1027
+      sha256: 8425c49bf30d87fd3512aa023f7b3f5f31e3db5db62f319b73ec177d9760f6d6
+    - path: releases/P00/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4840
+      sha256: 60b59b2c1e1462dcdd3900870cc42cc57e823f604ba4acfb68c51f286cb39bc2
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md
+  other:
+  - releases/P00/ACCEPTANCE_MATRIX.csv
+  source_of_truth:
+  - releases/P00/RELEASE_MANIFEST.yaml
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0010
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 5b97d6ec595a0ea4201a0dece05c034b0ef0dd75722bb5917c21b93064d9e240
 ```
 
 ## 接续状态与事件头
@@ -143,12 +352,12 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260717T054147Z-7AE51A86
 last_session_id: SES-20260717T053909Z-3A8B6A51
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T053909Z-3A8B6A51-0002
-event_count: 95
-event_head_hash: 81a2f393b45b1789fd9f333bf615b8923f0dbeca819fb2dd500dd2995d6d623d
+event_count: 100
+event_head_hash: 5b97d6ec595a0ea4201a0dece05c034b0ef0dd75722bb5917c21b93064d9e240
 event_chain_valid: true
 ```
 
@@ -250,6 +459,18 @@ recent_sessions: - session_id: SES-V123-PACKAGE-BASELINE
   updated_at: '2026-07-17T05:40:22Z'
   closed_at: '2026-07-17T05:40:22Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260717T053909Z-3A8B6A51/0002.yaml
+  handoff_bundle: null
+- session_id: SES-20260717T054147Z-7AE51A86
+  task_id: TASK-P00-008
+  story_id: STORY-P00-001
+  actor_id: codex-root
+  status: ACTIVE
+  started_at: '2026-07-17T05:41:47Z'
+  record: .continuity/sessions/SES-20260717T054147Z-7AE51A86.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260717T054147Z-7AE51A86.md
+  updated_at: '2026-07-17T05:50:22Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T054147Z-7AE51A86/0001.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -530,6 +751,44 @@ task_claims: - task_id: TASK-P00-001
   - PROJECT_*.json
   - artifacts/apk/**
   closed_at: '2026-07-17T05:40:22Z'
+- claim_id: CLM-E43F5E0BFE13
+  session_id: SES-20260717T054147Z-7AE51A86
+  task_id: TASK-P00-008
+  story_id: STORY-P00-001
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-17T05:41:47Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
 recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
   timestamp: '2026-07-16T00:30:00Z'
   release: P00
@@ -610,6 +869,16 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
   session_id: SES-20260717T053909Z-3A8B6A51
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-CA226174CBFC
+  timestamp: '2026-07-17T05:41:48Z'
+  release: P00
+  task_id: TASK-P00-008
+  story_id: STORY-P00-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260717T054147Z-7AE51A86
+  actor_id: codex-root
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -617,29 +886,36 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
 ```yaml
 initialized: true
 branch: task/TASK-P00-005
-head: 752a3a96b9b3c4ecec3492a2fe01b4150a8a3626
+head: d9b276872dd7390c2b1a22a0065973e6c314534e
 upstream: null
 ahead: null
 behind: null
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260717T053909Z-3A8B6A51.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260717T053909Z-3A8B6A51.md'
-- ' M releases/P00/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260717T053909Z-3A8B6A51/0002.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ' M releases/P00/ACCEPTANCE_MATRIX.csv'
+- ' M releases/P00/RELEASE_MANIFEST.yaml'
+- ?? .continuity/change_requests/CR-0010.yaml
+- ?? .continuity/checkpoints/SES-20260717T054147Z-7AE51A86/0001.yaml
+- ?? .continuity/sessions/SES-20260717T054147Z-7AE51A86.yaml
+- ?? docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md
+- ?? docs/03-continuity/sessions/2026-07/SES-20260717T054147Z-7AE51A86.md
 recent_commits:
+- "d9b276872dd7390c2b1a22a0065973e6c314534e\t2026-07-17T13:40:57+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close APK acceptance\
+  \ task"
 - "752a3a96b9b3c4ecec3492a2fe01b4150a8a3626\t2026-07-17T13:39:51+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): archive APK acceptance\
   \ manifest"
 - "cf701e7768970ede7c89a2321afae8a50e76453e\t2026-07-17T13:38:11+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close staging acceptance\
@@ -654,16 +930,16 @@ recent_commits:
   \ fixture repair"
 - "192647bcdc3df7edcf02091b12d2fde666a71063\t2026-07-17T13:08:22+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(continuity): reset lifecycle\
   \ fixtures to P00 start"
-- "c9fae5441975917315950111337adce5d3ef2dd8\t2026-07-17T12:20:15+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close owner\
-  \ APK acceptance change"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`eb7628bd4fef9a686c301aa04d7f2f2a3f84d6ede066aec3cf2d86c2fadad9ad`
-- 文件数：0
+- 指纹：`165a249b466fd67871ce408120721c6de8356ea149d0772ea2b0d843266267c4`
+- 文件数：3
 
-- 无
+- `docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md`
+- `releases/P00/ACCEPTANCE_MATRIX.csv`
+- `releases/P00/RELEASE_MANIFEST.yaml`
 
 ## 当前 Release
 
@@ -671,7 +947,9 @@ recent_commits:
 RELEASE_MANIFEST.yaml:
   release: P00
   title: 仓库、环境、契约与无状态接续
-  status: READY
+  status: DONE
+  release_commit: fcb95056b606dfe6e8d0623e83a0526df80bf43e
+  release_tag: P00-fcb95056
   milestone: M0_ENGINEERING_FOUNDATION
   depends_on: []
   scope: 私有仓库、工程骨架、配置注册表、契约骨架、CI、开发/测试/预发布环境、冷启动接手
@@ -697,9 +975,14 @@ RELEASE_MANIFEST.yaml:
     admin: []
   contracts:
     client_api:
-    - GET /public-api/v1/platform/status
-    - POST /public-api/v1/app/version-check
-    - GET /api/v1/app/version-check
+      operation_ids:
+      - publicGetPlatformStatus
+      - appReleasePostAppVersionCheck
+      - appReleaseGetAppVersionCheck
+      paths:
+      - GET /public-api/v1/platform/status
+      - POST /public-api/v1/app/version-check
+      - GET /api/v1/app/version-check
     admin_api: []
     websocket: []
   database_tables:
@@ -1418,13 +1701,53 @@ TASKS.yaml:
   - SES-20260717T024407Z-B03C9375
   implementation_commits:
   - 7e6bfd70c9f4127f2778b1423d03ed619bcab25b
+- protocol_version: '1.0'
+  cr_id: CR-0010
+  title: P00封板清单以OpenAPI operationId机器化绑定
+  status: APPROVED
+  created_at: '2026-07-17T05:44:40Z'
+  updated_at: '2026-07-17T05:49:35Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-engineering-audit
+  task_id: TASK-P00-008
+  session_id: SES-20260717T054147Z-7AE51A86
+  user_request: P00版本完成后先暂停推进；项目所有者已确认真机测试正常并要求尽快完成P00
+  reason: 终态关闭门禁要求RELEASE_MANIFEST精确声明3个已实现operationId，现有HTTP路径列表无法通过机器校验
+  original_rule: P00 RELEASE_MANIFEST.contracts.client_api仅记录3条HTTP方法与路径，status为READY且没有release_commit/release_tag
+  new_rule: P00终态清单保留原路径并精确绑定3个现有OpenAPI operationId，status为DONE且绑定最终源码Commit与标签
+  impact_summary: 仅变更P00发布元数据表达与验收状态，不修改OpenAPI、运行时代码、数据库、Android APK或线上服务
+  impact:
+    files:
+    - releases/P00/RELEASE_MANIFEST.yaml
+    - releases/P00/ACCEPTANCE_MATRIX.csv
+    pages: []
+    apis:
+    - publicGetPlatformStatus
+    - appReleasePostAppVersionCheck
+    - appReleaseGetAppVersionCheck
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_release_artifacts.py --release P00 --close-gate
+    - python scripts/check_v123_documentation.py --strict --release P00
+    releases:
+    - P00
+    migration_and_compatibility: 无需运行时迁移；保留原paths供人工阅读，新增operation_ids供机器门禁验证，现有消费者行为不变
+  user_confirmation: P00版本完成后先暂停推进；项目所有者已确认真机测试正常并要求尽快完成P00
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T05:49:35Z'
+    note: 确认仅收口P00 RELEASE_MANIFEST与ACCEPTANCE_MATRIX终态元数据：保留3条HTTP paths并绑定现有3个OpenAPI operationId，6项证据均为仓库内实际文件，59项矩阵PASS，release commit、tag与APK基线一致；禁止修改运行时代码或接口
+  machine_record: .continuity/change_requests/CR-0010.yaml
+  document: docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `30a6090c2e5abbacb14c8eef773741f23c7bbe247344a5a5ea7fcc21f7fea359`
+- `CURRENT_STATUS.yaml` — `20764a1eda489db76395bd58ee8c302bcaa0fe02470708d6880483df69400200`
 - `NEXT_TASK.yaml` — `a249483ac9c239129f5c1479f9365602ab0e9b7c6c5fc4aa01fe0835b058a076`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -1432,12 +1755,20 @@ TASKS.yaml:
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223`
-- `.continuity/EVENT_LOG.jsonl` — `b7b52375de3bc82ee786d72a0679e2831de46e5341b0fb53c1ea952e022a0a40`
-- `.continuity/SESSION_INDEX.yaml` — `b4b3f57ca7e89354204ea1f8134a9fc5b2e2439404d4c61ab2d17c8595f7c79b`
-- `.continuity/TASK_CLAIMS.yaml` — `6c185fc5eea3806b3486723c2d489954efdaf95f62fbe5254bc0b8b1010bfac8`
-- `.continuity/TASK_TRANSITIONS.yaml` — `31e59100e3eacd6a7d989edbc758d8b3bda98dea5391c776174840500da5358d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `dec3b9aba8255c69388b240290af1f80011f77c73c8eeda57658c7fcfb4e7570`
-- `.continuity/ACTIVE_SESSION.yaml` — `77956984917315b353309d0e08b9b11ea6f943e51bf0a762519efe83f7b6ef05`
+- `.continuity/EVENT_LOG.jsonl` — `30f4c6cabb32dec0ec8c95c942c79adf1d2b404ab5ed616497dbbcaa3482d798`
+- `.continuity/SESSION_INDEX.yaml` — `9df603ec5885f8b8acbc6a00a02e5fce87262f79ee0763a1061f1a6e40d31350`
+- `.continuity/TASK_CLAIMS.yaml` — `ad35bd3a6bb7707df9044080d293c100b88dbf5c9641975b485b8b5c54450d9f`
+- `.continuity/TASK_TRANSITIONS.yaml` — `a481da05cf8f9c2b9ed638119a8232c6dcaed87cd232b496620a86a223c05154`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ddbff379ab970575a98197e00dbb8177264827624084079652685a97d36d5a20`
+- `.continuity/ACTIVE_SESSION.yaml` — `a32acaee1dcb3205275a36a5cbe24a163bff2c9e5ee10163e33c9c7a84dfc907`
+- `releases/P00/RELEASE_MANIFEST.yaml` — `60b59b2c1e1462dcdd3900870cc42cc57e823f604ba4acfb68c51f286cb39bc2`
+- `releases/P00/DEFINITION_OF_READY.yaml` — `ffe6940f64abc0bef4ca56719a9e442d86bf37460e7166acc00a70a893906cd9`
+- `releases/P00/STORIES.yaml` — `36adc34eb83bdb7b1898bc6060f4e5362d287168581b4a7d2af222145551fd18`
+- `releases/P00/TASKS.yaml` — `cb387b20a27a2de269790a8af73c45ecb1b4871372e339d94893377c2d1103a6`
+- `releases/P00/ACCEPTANCE_MATRIX.csv` — `4e0407d94d6807e356203bd8a084fc8d2f0e2afe5b3218776475d8071e617666`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T054147Z-7AE51A86.md` — `d64bc76c5d2bb25d0428a72d71b77ffeb34291fd00fe20518f717f0705b7face`
+- `.continuity/checkpoints/SES-20260717T054147Z-7AE51A86/0001.yaml` — `be6b45d4c59ff7567df63016a3e64136d1c58b1cd7fb047f7d2b1d60035a5021`
+- `docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md` — `d466fb2315a5cf943f9d91c3fa2b5119262e0f2cbf87027fea44e5a73a86dadc`
 
 ## 接手硬规则
 
