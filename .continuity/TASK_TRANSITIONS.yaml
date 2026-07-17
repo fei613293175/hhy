@@ -30,3 +30,13 @@ transitions:
   session_id: SES-20260717T023226Z-06841AFC
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-BE280508920D
+  timestamp: '2026-07-17T02:35:11Z'
+  release: P00
+  task_id: TASK-P00-003
+  story_id: STORY-P00-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260717T023511Z-C6513BB0
+  actor_id: codex-root
+  reason: 会话领取任务
