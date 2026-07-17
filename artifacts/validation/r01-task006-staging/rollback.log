@@ -1,0 +1,18 @@
+2026-07-17T15:12:53Z
+db_before=0b3c910845409b29a7ba6bc04706d9995cfcc8b5b5f731631cb801203bb58357 image=postgres:17.10-alpine
+volume_before=hhy-r01-99f7302_pgdata mount=/var/lib/docker/volumes/hhy-r01-99f7302_pgdata/_data
+ Container hhy-r01-99f7302-api-1  Recreate
+ Container hhy-r01-99f7302-api-1  Recreated
+ Container hhy-r01-99f7302-api-1  Starting
+ Container hhy-r01-99f7302-api-1  Started
+rollback_api=hhy-backend-r01-smoke:79bbd45 health=healthy
+{"success":true,"requestId":"3e3819b2-0f19-4078-9bc0-98ee6218e1f0","timestamp":"2026-07-17T15:13:20.782850807Z","data":{"maintenance":false,"maintenanceMessage":"系统维护中","capabilities":{"registration":true,"publishing":true,"redPacket":false,"withdrawal":false},"serverTime":"2026-07-17T15:13:20.782839271Z"}}
+db_during=0b3c910845409b29a7ba6bc04706d9995cfcc8b5b5f731631cb801203bb58357 image=postgres:17.10-alpine
+ Container hhy-r01-99f7302-api-1  Recreate
+ Container hhy-r01-99f7302-api-1  Recreated
+ Container hhy-r01-99f7302-api-1  Starting
+ Container hhy-r01-99f7302-api-1  Started
+restored_api=hhy-backend-r01-smoke:72de42c health=healthy
+{"success":true,"requestId":"4c03ab05-7487-4171-b02a-9b1d6c721e50","timestamp":"2026-07-17T15:13:47.177554653Z","data":{"maintenance":false,"maintenanceMessage":"系统维护中","capabilities":{"registration":true,"publishing":true,"redPacket":false,"withdrawal":false},"serverTime":"2026-07-17T15:13:47.177544548Z"}}
+db_after=0b3c910845409b29a7ba6bc04706d9995cfcc8b5b5f731631cb801203bb58357 image=postgres:17.10-alpine
+volume_after=hhy-r01-99f7302_pgdata mount=/var/lib/docker/volumes/hhy-r01-99f7302_pgdata/_data

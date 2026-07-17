@@ -1,0 +1,14 @@
+     username     |  status  | version 
+------------------+----------+---------
+ r01-alert-test   | DISABLED |       1
+ r01-alert-test-2 | DISABLED |       1
+ r01-alert-test-3 | DISABLED |       1
+ r01-alert-test-4 | DISABLED |       1
+(4 rows)
+
+UPDATE 4
+ remaining_active_test_admins 
+------------------------------
+                            0
+(1 row)
+

@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T15:11:10Z
-- Context Hash：`af59a2c97b7576ad9ea019901bc44c8e19edd72bb0323a20cc8bd53315a20a36`
+- 生成时间：2026-07-17T15:19:45Z
+- Context Hash：`1d72b2f77f68cd62f284599da85cffc353d4ba0ae728b4f1b91e370e7f385a27`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -51,7 +51,7 @@ in_progress_tasks:
 - TASK-R01-006
 blocked_tasks: []
 next_task: TASK-R01-006
-updated_at: '2026-07-17T15:11:08Z'
+updated_at: '2026-07-17T15:19:43Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -86,15 +86,15 @@ continuity:
   active_session_id: SES-20260717T141717Z-A01412D7
   actor_id: codex-root
   story_id: STORY-R01-003
-  lease_expires_at: '2026-07-17T19:11:08Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0005.yaml
-  project_fingerprint: cb26026555a8454e6f093b60f70bed23e051f9115eac976c5ce44c9348bcc7f1
+  lease_expires_at: '2026-07-17T19:19:43Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0006.yaml
+  project_fingerprint: 4841a62ea1032c98b4e3d7694cbc99a02aca3d9a1d7f204e68c6758da1f097d3
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: de6180e72a42d5174699a85b9090ee9537bae1e43f3b90a44e9a8c2b388f390f
-    generated_at: '2026-07-17T14:52:41Z'
+    context_hash: af59a2c97b7576ad9ea019901bc44c8e19edd72bb0323a20cc8bd53315a20a36
+    generated_at: '2026-07-17T15:11:10Z'
   handoff_bundle: null
 ```
 
@@ -156,7 +156,7 @@ task_id: TASK-R01-006
 story_id: STORY-R01-003
 goal: 部署R01隔离预发布环境，验证结构化日志、TraceId、RED与业务指标、告警和回滚，完成验收签字
 started_at: '2026-07-17T14:17:17Z'
-updated_at: '2026-07-17T15:11:08Z'
+updated_at: '2026-07-17T15:19:43Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -202,12 +202,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T15:11:08Z'
-  expires_at: '2026-07-17T19:11:08Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0005.yaml
+  renewed_at: '2026-07-17T15:19:43Z'
+  expires_at: '2026-07-17T19:19:43Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md
-next_step: 提交确定性密文损坏测试，构建最终Commit绑定镜像并归档TASK006现场证据
+next_step: 提交TASK006现场证据和验收签字，关闭TASK-R01-006并启动TASK-R01-007 APK构建
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -217,49 +217,100 @@ closure: null
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T141717Z-A01412D7-0005
+checkpoint_id: CP-SES-20260717T141717Z-A01412D7-0006
 session_id: SES-20260717T141717Z-A01412D7
-sequence: 5
-created_at: '2026-07-17T15:11:08Z'
-summary: 修复Base64尾位导致的加密快照损坏回归测试概率性假阴性，并完成Java21全模块复验
-next_step: 提交确定性密文损坏测试，构建最终Commit绑定镜像并归档TASK006现场证据
+sequence: 6
+created_at: '2026-07-17T15:19:43Z'
+summary: 完成R01独立预发布可观测性、双告警、日志脱敏、业务指标、最终镜像回滚和证据归档，AC-R01-004签为PASS
+next_step: 提交TASK006现场证据和验收签字，关闭TASK-R01-006并启动TASK-R01-007 APK构建
 blockers: []
 decisions: []
-note: PROB-0010已登记；测试确定性修改密文段首字符，生产逻辑未变化
+note: 受控演练的4个测试管理员已全部DISABLED，剩余ACTIVE计数为0；AC-R01-005和AC-R01-006保持NOT_RUN
 tests:
-- name: java21-idempotency-targeted
+- name: r01-staging-runtime
   result: PASS
-  evidence: /tmp/hhy-r01-99f7302b/maven-idempotency-deterministic.log
-  note: 7 tests, zero failures
+  evidence: artifacts/validation/r01-task006-staging/container-status.txt
+  note: six isolated services up and API healthy
+- name: r01-trace-and-log
+  result: PASS
+  evidence: artifacts/validation/r01-task006-staging/
+  note: 200/401/400/404 correlation and sensitive probe pass
+- name: r01-prometheus-business-metrics
+  result: PASS
+  evidence: artifacts/validation/r01-task006-staging/business-metrics.jsonl
+  note: eight gauges and query-failure counters present at zero
+- name: r01-alert-delivery
+  result: PASS
+  evidence: artifacts/validation/r01-task006-staging/alert-deliveries.jsonl
+  note: backend down and auth failure both firing/resolved
+- name: r01-final-rollback
+  result: PASS
+  evidence: artifacts/validation/r01-task006-staging/rollback.log
+  note: 72de42c rollback and restore healthy with DB identity unchanged
 - name: java21-full-backend
   result: PASS
-  evidence: /tmp/hhy-r01-99f7302b/maven-all-b8edbc0-fixed.log
-  note: 78 tests, zero failures, 2 conditional skips
-- name: r01-backend-down-alert
+  evidence: artifacts/validation/r01-task006-staging/maven-all-java21.log
+  note: 78 tests, zero failures, two conditional skips
+- name: evidence-json-validation
   result: PASS
-  evidence: alert-sink deliveries
-  note: firing and resolved receipts
-- name: r01-auth-failure-alert
+  evidence: artifacts/validation/r01-task006-staging/
+  note: all JSON and JSONL parse
+- name: r01-static-gates
   result: PASS
-  evidence: alert-sink deliveries
-  note: controlled test administrators produced firing and resolved receipts
-- name: r01-app-rollback
+  evidence: scripts/check_r01_observability.py
+  note: R01_OBSERVABILITY_CONFIG_OK
+- name: p00-static-regression
   result: PASS
-  evidence: /tmp/hhy-r01-99f7302b/rollback-b8edbc0.log
-  note: old image and current image healthy, database container and volume unchanged
+  evidence: scripts/check_p00_observability.py
+  note: P00_OBSERVABILITY_CONFIG_OK
 git:
   initialized: true
   branch: task/TASK-R01-006
-  head: b8edbc0924157c8c03d4463c15b4301477cb5a8c
+  head: 72de42c90f71438cdf5a2cc274277fecfa7a6cbd
   upstream: origin/task/TASK-R01-006
-  ahead: 3
+  ahead: 4
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M CHANGELOG.md'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java'
+  - ' M releases/R01/ACCEPTANCE_MATRIX.csv'
+  - ?? artifacts/reports/R01/TASK-R01-006-staging-observability.md
+  - ?? artifacts/validation/r01-task006-staging/SHA256SUMS.txt
+  - ?? artifacts/validation/r01-task006-staging/alert-deliveries.jsonl
+  - ?? artifacts/validation/r01-task006-staging/business-metrics.jsonl
+  - ?? artifacts/validation/r01-task006-staging/compose-build.log
+  - ?? artifacts/validation/r01-task006-staging/compose-config-validation.txt
+  - ?? artifacts/validation/r01-task006-staging/container-status.txt
+  - ?? artifacts/validation/r01-task006-staging/finance-trace-na.txt
+  - ?? artifacts/validation/r01-task006-staging/health.txt
+  - ?? artifacts/validation/r01-task006-staging/image-inspect.txt
+  - ?? artifacts/validation/r01-task006-staging/maven-all-base64-flake-failure.log
+  - ?? artifacts/validation/r01-task006-staging/maven-all-java21.log
+  - ?? artifacts/validation/r01-task006-staging/maven-h2-interval-failure.log
+  - ?? artifacts/validation/r01-task006-staging/maven-h2-timestamptz-failure.log
+  - ?? artifacts/validation/r01-task006-staging/maven-idempotency-deterministic.log
+  - ?? artifacts/validation/r01-task006-staging/maven-observability.log
+  - ?? artifacts/validation/r01-task006-staging/migration.log
+  - ?? artifacts/validation/r01-task006-staging/platform-status-body.json
+  - ?? artifacts/validation/r01-task006-staging/platform-status-headers.txt
+  - ?? artifacts/validation/r01-task006-staging/prometheus-rules.json
+  - ?? artifacts/validation/r01-task006-staging/prometheus-targets.json
+  - ?? artifacts/validation/r01-task006-staging/promtool-config.txt
+  - ?? artifacts/validation/r01-task006-staging/promtool-rules.txt
+  - ?? artifacts/validation/r01-task006-staging/red-metrics.jsonl
+  - ?? artifacts/validation/r01-task006-staging/rollback.log
+  - ?? artifacts/validation/r01-task006-staging/runtime-identity.txt
+  - ?? artifacts/validation/r01-task006-staging/runtime-permissions.txt
+  - ?? artifacts/validation/r01-task006-staging/security-401-body.json
+  - ?? artifacts/validation/r01-task006-staging/security-401-headers.txt
+  - ?? artifacts/validation/r01-task006-staging/sensitive-log-probe.txt
+  - ?? artifacts/validation/r01-task006-staging/source-baseline.txt
+  - ?? artifacts/validation/r01-task006-staging/structured-log-sample.redacted.jsonl
+  - ?? artifacts/validation/r01-task006-staging/test-admin-cleanup.txt
+  - ?? artifacts/validation/r01-task006-staging/unsupported-media-body.json
+  - ?? artifacts/validation/r01-task006-staging/unsupported-media-headers.txt
   recent_commits:
+  - "72de42c90f71438cdf5a2cc274277fecfa7a6cbd\t2026-07-17T23:11:15+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): make snapshot corruption\
+    \ deterministic"
   - "b8edbc0924157c8c03d4463c15b4301477cb5a8c\t2026-07-17T22:52:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): map unsupported\
     \ media type to validation"
   - "99f73023565acaa8c47001f1161b66a9447b845c\t2026-07-17T22:37:42+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): use portable interval\
@@ -274,10 +325,8 @@ git:
     \ task005 evidence"
   - "79bbd45d22d16b334330b4b36f2fbb489d5e73f0\t2026-07-17T21:28:35+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): pass encrypted replay\
     \ runtime gates"
-  - "cbf3a6d7d553e30bca12913021fa180d53e443ec\t2026-07-17T21:13:05+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): harden fault injection\
-    \ and idempotent replay"
 project_fingerprint:
-  sha256: cb26026555a8454e6f093b60f70bed23e051f9115eac976c5ce44c9348bcc7f1
+  sha256: 4841a62ea1032c98b4e3d7694cbc99a02aca3d9a1d7f204e68c6758da1f097d3
   files:
   - CHANGELOG.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
@@ -288,6 +337,7 @@ project_fingerprint:
   - infra/staging/r01-smoke/docker-compose.yml
   - infra/staging/r01-smoke/prometheus.yml
   - infra/staging/r01-smoke/r01-alerts.yml
+  - releases/R01/ACCEPTANCE_MATRIX.csv
   - scripts/check_r01_observability.py
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
@@ -297,7 +347,7 @@ project_fingerprint:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
   - services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
-  file_count: 18
+  file_count: 19
   payload:
     base_commit: b9211c60e67b375f33f8522948fc1e19dc0b54e7
     files:
@@ -337,6 +387,10 @@ project_fingerprint:
       state: FILE
       size: 2379
       sha256: ff983bbe9be61c1104e55db79c50a04899018ef53204ea284b826495cddc4f61
+    - path: releases/R01/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 718
+      sha256: a3af90fc806093aefedb2452ada3c1aa226e367677a6564397ad2e4ebc38cb4a
     - path: scripts/check_r01_observability.py
       state: FILE
       size: 5528
@@ -378,6 +432,7 @@ change_classification:
   - CHANGELOG.md
   - docs/07-operations/DEPLOYMENT_RUNBOOK.md
   - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - releases/R01/ACCEPTANCE_MATRIX.csv
   continuity:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   infrastructure:
@@ -437,7 +492,7 @@ scope:
   - PROJECT_*.json
   approved_exceptions: []
   source: story+explicit
-event_hash: 3719d8b4ba7076f90f5ababe581ba5e8a70935c463f019e95e75e8a9a0bd509b
+event_hash: 2118b953db9aace62e9d6f14398c9a862988997a9157bcf186be6602946fae4e
 ```
 
 ## 接续状态与事件头
@@ -449,8 +504,8 @@ active_session_id: SES-20260717T141717Z-A01412D7
 last_session_id: SES-20260717T122518Z-91E6F4D6
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T122518Z-91E6F4D6-0008
-event_count: 184
-event_head_hash: 3719d8b4ba7076f90f5ababe581ba5e8a70935c463f019e95e75e8a9a0bd509b
+event_count: 185
+event_head_hash: 2118b953db9aace62e9d6f14398c9a862988997a9157bcf186be6602946fae4e
 event_chain_valid: true
 ```
 
@@ -573,9 +628,9 @@ recent_sessions: - session_id: SES-20260717T024407Z-B03C9375
   started_at: '2026-07-17T14:17:17Z'
   record: .continuity/sessions/SES-20260717T141717Z-A01412D7.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md
-  updated_at: '2026-07-17T15:11:08Z'
+  updated_at: '2026-07-17T15:19:43Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0005.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0006.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -1267,9 +1322,9 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
 ```yaml
 initialized: true
 branch: task/TASK-R01-006
-head: b8edbc0924157c8c03d4463c15b4301477cb5a8c
+head: 72de42c90f71438cdf5a2cc274277fecfa7a6cbd
 upstream: origin/task/TASK-R01-006
-ahead: 3
+ahead: 4
 behind: 0
 dirty: true
 status_porcelain:
@@ -1278,14 +1333,49 @@ status_porcelain:
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260717T141717Z-A01412D7.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java'
-- ?? .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0005.yaml
+- ' M releases/R01/ACCEPTANCE_MATRIX.csv'
+- ?? .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0006.yaml
+- ?? artifacts/reports/R01/TASK-R01-006-staging-observability.md
+- ?? artifacts/validation/r01-task006-staging/SHA256SUMS.txt
+- ?? artifacts/validation/r01-task006-staging/alert-deliveries.jsonl
+- ?? artifacts/validation/r01-task006-staging/business-metrics.jsonl
+- ?? artifacts/validation/r01-task006-staging/compose-build.log
+- ?? artifacts/validation/r01-task006-staging/compose-config-validation.txt
+- ?? artifacts/validation/r01-task006-staging/container-status.txt
+- ?? artifacts/validation/r01-task006-staging/finance-trace-na.txt
+- ?? artifacts/validation/r01-task006-staging/health.txt
+- ?? artifacts/validation/r01-task006-staging/image-inspect.txt
+- ?? artifacts/validation/r01-task006-staging/maven-all-base64-flake-failure.log
+- ?? artifacts/validation/r01-task006-staging/maven-all-java21.log
+- ?? artifacts/validation/r01-task006-staging/maven-h2-interval-failure.log
+- ?? artifacts/validation/r01-task006-staging/maven-h2-timestamptz-failure.log
+- ?? artifacts/validation/r01-task006-staging/maven-idempotency-deterministic.log
+- ?? artifacts/validation/r01-task006-staging/maven-observability.log
+- ?? artifacts/validation/r01-task006-staging/migration.log
+- ?? artifacts/validation/r01-task006-staging/platform-status-body.json
+- ?? artifacts/validation/r01-task006-staging/platform-status-headers.txt
+- ?? artifacts/validation/r01-task006-staging/prometheus-rules.json
+- ?? artifacts/validation/r01-task006-staging/prometheus-targets.json
+- ?? artifacts/validation/r01-task006-staging/promtool-config.txt
+- ?? artifacts/validation/r01-task006-staging/promtool-rules.txt
+- ?? artifacts/validation/r01-task006-staging/red-metrics.jsonl
+- ?? artifacts/validation/r01-task006-staging/rollback.log
+- ?? artifacts/validation/r01-task006-staging/runtime-identity.txt
+- ?? artifacts/validation/r01-task006-staging/runtime-permissions.txt
+- ?? artifacts/validation/r01-task006-staging/security-401-body.json
+- ?? artifacts/validation/r01-task006-staging/security-401-headers.txt
+- ?? artifacts/validation/r01-task006-staging/sensitive-log-probe.txt
+- ?? artifacts/validation/r01-task006-staging/source-baseline.txt
+- ?? artifacts/validation/r01-task006-staging/structured-log-sample.redacted.jsonl
+- ?? artifacts/validation/r01-task006-staging/test-admin-cleanup.txt
+- ?? artifacts/validation/r01-task006-staging/unsupported-media-body.json
+- ?? artifacts/validation/r01-task006-staging/unsupported-media-headers.txt
 recent_commits:
+- "72de42c90f71438cdf5a2cc274277fecfa7a6cbd\t2026-07-17T23:11:15+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): make snapshot corruption\
+  \ deterministic"
 - "b8edbc0924157c8c03d4463c15b4301477cb5a8c\t2026-07-17T22:52:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): map unsupported media\
   \ type to validation"
 - "99f73023565acaa8c47001f1161b66a9447b845c\t2026-07-17T22:37:42+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): use portable interval\
@@ -1300,14 +1390,12 @@ recent_commits:
   \ task005 evidence"
 - "79bbd45d22d16b334330b4b36f2fbb489d5e73f0\t2026-07-17T21:28:35+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): pass encrypted replay\
   \ runtime gates"
-- "cbf3a6d7d553e30bca12913021fa180d53e443ec\t2026-07-17T21:13:05+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): harden fault injection\
-  \ and idempotent replay"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`cb26026555a8454e6f093b60f70bed23e051f9115eac976c5ce44c9348bcc7f1`
-- 文件数：18
+- 指纹：`4841a62ea1032c98b4e3d7694cbc99a02aca3d9a1d7f204e68c6758da1f097d3`
+- 文件数：19
 
 - `CHANGELOG.md`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
@@ -1318,6 +1406,7 @@ recent_commits:
 - `infra/staging/r01-smoke/docker-compose.yml`
 - `infra/staging/r01-smoke/prometheus.yml`
 - `infra/staging/r01-smoke/r01-alerts.yml`
+- `releases/R01/ACCEPTANCE_MATRIX.csv`
 - `scripts/check_r01_observability.py`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java`
@@ -2204,7 +2293,7 @@ TASKS.yaml:
 
 - `AGENTS.md` — `387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `490f0cc22ae417f553f18923432a0ec4e200da3d8e1d497f7abe2ba738a06cd8`
+- `CURRENT_STATUS.yaml` — `c9ff5b5918f781611c122c07ac65b7cf836ab320f376ef0eb865a1eda57479ed`
 - `NEXT_TASK.yaml` — `292ff5f5f74e323a7e263e6c5653cdd7808c96ef45326a79173b90b3d7074ddf`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -2212,19 +2301,19 @@ TASKS.yaml:
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223`
-- `.continuity/EVENT_LOG.jsonl` — `504fbcea9d94fcdf28097a64da656ed6f0abb2180c9ff97f2417b3f5da5f156a`
-- `.continuity/SESSION_INDEX.yaml` — `1ccc673f4470b46b3892194d9982179e31e7e3dfd2a4ee9ab1e62a278e009a31`
+- `.continuity/EVENT_LOG.jsonl` — `64ca11b8a465a3b6dfc74e97454230e0d17f21ee608b0488ce8a411972022817`
+- `.continuity/SESSION_INDEX.yaml` — `91977f686a77db94b174095a7c3d986bf02ff0950f3a640d88620688a14c3615`
 - `.continuity/TASK_CLAIMS.yaml` — `1be8c4c65a135dc1f5654bab88dc1c7d434dbbe65568246bf2197a9b406f0a2d`
 - `.continuity/TASK_TRANSITIONS.yaml` — `2e1090b09da4c94124263b0878328d6f7fcb3d2d923e01ba934251347fe426ca`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c187fe4a88dd354ac7612fe44761326dae4e21494ed981f490abfce3167d91dd`
-- `.continuity/ACTIVE_SESSION.yaml` — `ae104fadd07641e84f0d79cd7b8bcb9d6d47315f13614f3cf0b1d1c41efde456`
+- `.continuity/ACTIVE_SESSION.yaml` — `8397f5de648a44d0d3271a3f2390492a23a28015b8d9a24609b421da394c9a43`
 - `releases/R01/RELEASE_MANIFEST.yaml` — `bb986f651fd20c30ddbabeb81ef31351b6aab527bf6d65833262ce6bee30893f`
 - `releases/R01/DEFINITION_OF_READY.yaml` — `ed81dd9db760893207515b8c0a5cc2f80ac5b7f358d00fb7b71276b8931100e5`
 - `releases/R01/STORIES.yaml` — `368e786cf97c2b244d5bbf21acedcdefacbf5f4a4b42c7780db5b1accb5dd86e`
 - `releases/R01/TASKS.yaml` — `6d4d4841bf39880ea669ad426e4d8a4860975e098bca6e0796ce56dc990b21a2`
-- `releases/R01/ACCEPTANCE_MATRIX.csv` — `a668129234acb184110e076cd021c95c0747d0c6139035c28a42cbd2f68ca127`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md` — `80b8d86a2108d9fae66f353be8dd6d743061def6a2aa04e0c588acd1675f14d1`
-- `.continuity/checkpoints/SES-20260717T141717Z-A01412D7/0005.yaml` — `14cce87be03db30fc4912865d0c04b26b1678546d35c5b1838f68758dc1ed83e`
+- `releases/R01/ACCEPTANCE_MATRIX.csv` — `2346c6a60081babbf9f87c78fc103192ea5e14d2b975a0d45d6421f5058a9365`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md` — `560b340658494cfd536de5e0972de0f061de5fd8a91f03e85aad6b8c510e246b`
+- `.continuity/checkpoints/SES-20260717T141717Z-A01412D7/0006.yaml` — `49575b76947292f9f23f38732dc9628224192ec11f8a8f2176f49d55ad9e7e97`
 
 ## 接手硬规则
 

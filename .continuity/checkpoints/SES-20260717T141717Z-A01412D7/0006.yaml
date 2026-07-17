@@ -1,0 +1,277 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T141717Z-A01412D7-0006
+session_id: SES-20260717T141717Z-A01412D7
+sequence: 6
+created_at: '2026-07-17T15:19:43Z'
+summary: 完成R01独立预发布可观测性、双告警、日志脱敏、业务指标、最终镜像回滚和证据归档，AC-R01-004签为PASS
+next_step: 提交TASK006现场证据和验收签字，关闭TASK-R01-006并启动TASK-R01-007 APK构建
+blockers: []
+decisions: []
+note: 受控演练的4个测试管理员已全部DISABLED，剩余ACTIVE计数为0；AC-R01-005和AC-R01-006保持NOT_RUN
+tests:
+- name: r01-staging-runtime
+  result: PASS
+  evidence: artifacts/validation/r01-task006-staging/container-status.txt
+  note: six isolated services up and API healthy
+- name: r01-trace-and-log
+  result: PASS
+  evidence: artifacts/validation/r01-task006-staging/
+  note: 200/401/400/404 correlation and sensitive probe pass
+- name: r01-prometheus-business-metrics
+  result: PASS
+  evidence: artifacts/validation/r01-task006-staging/business-metrics.jsonl
+  note: eight gauges and query-failure counters present at zero
+- name: r01-alert-delivery
+  result: PASS
+  evidence: artifacts/validation/r01-task006-staging/alert-deliveries.jsonl
+  note: backend down and auth failure both firing/resolved
+- name: r01-final-rollback
+  result: PASS
+  evidence: artifacts/validation/r01-task006-staging/rollback.log
+  note: 72de42c rollback and restore healthy with DB identity unchanged
+- name: java21-full-backend
+  result: PASS
+  evidence: artifacts/validation/r01-task006-staging/maven-all-java21.log
+  note: 78 tests, zero failures, two conditional skips
+- name: evidence-json-validation
+  result: PASS
+  evidence: artifacts/validation/r01-task006-staging/
+  note: all JSON and JSONL parse
+- name: r01-static-gates
+  result: PASS
+  evidence: scripts/check_r01_observability.py
+  note: R01_OBSERVABILITY_CONFIG_OK
+- name: p00-static-regression
+  result: PASS
+  evidence: scripts/check_p00_observability.py
+  note: P00_OBSERVABILITY_CONFIG_OK
+git:
+  initialized: true
+  branch: task/TASK-R01-006
+  head: 72de42c90f71438cdf5a2cc274277fecfa7a6cbd
+  upstream: origin/task/TASK-R01-006
+  ahead: 4
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M releases/R01/ACCEPTANCE_MATRIX.csv'
+  - ?? artifacts/reports/R01/TASK-R01-006-staging-observability.md
+  - ?? artifacts/validation/r01-task006-staging/SHA256SUMS.txt
+  - ?? artifacts/validation/r01-task006-staging/alert-deliveries.jsonl
+  - ?? artifacts/validation/r01-task006-staging/business-metrics.jsonl
+  - ?? artifacts/validation/r01-task006-staging/compose-build.log
+  - ?? artifacts/validation/r01-task006-staging/compose-config-validation.txt
+  - ?? artifacts/validation/r01-task006-staging/container-status.txt
+  - ?? artifacts/validation/r01-task006-staging/finance-trace-na.txt
+  - ?? artifacts/validation/r01-task006-staging/health.txt
+  - ?? artifacts/validation/r01-task006-staging/image-inspect.txt
+  - ?? artifacts/validation/r01-task006-staging/maven-all-base64-flake-failure.log
+  - ?? artifacts/validation/r01-task006-staging/maven-all-java21.log
+  - ?? artifacts/validation/r01-task006-staging/maven-h2-interval-failure.log
+  - ?? artifacts/validation/r01-task006-staging/maven-h2-timestamptz-failure.log
+  - ?? artifacts/validation/r01-task006-staging/maven-idempotency-deterministic.log
+  - ?? artifacts/validation/r01-task006-staging/maven-observability.log
+  - ?? artifacts/validation/r01-task006-staging/migration.log
+  - ?? artifacts/validation/r01-task006-staging/platform-status-body.json
+  - ?? artifacts/validation/r01-task006-staging/platform-status-headers.txt
+  - ?? artifacts/validation/r01-task006-staging/prometheus-rules.json
+  - ?? artifacts/validation/r01-task006-staging/prometheus-targets.json
+  - ?? artifacts/validation/r01-task006-staging/promtool-config.txt
+  - ?? artifacts/validation/r01-task006-staging/promtool-rules.txt
+  - ?? artifacts/validation/r01-task006-staging/red-metrics.jsonl
+  - ?? artifacts/validation/r01-task006-staging/rollback.log
+  - ?? artifacts/validation/r01-task006-staging/runtime-identity.txt
+  - ?? artifacts/validation/r01-task006-staging/runtime-permissions.txt
+  - ?? artifacts/validation/r01-task006-staging/security-401-body.json
+  - ?? artifacts/validation/r01-task006-staging/security-401-headers.txt
+  - ?? artifacts/validation/r01-task006-staging/sensitive-log-probe.txt
+  - ?? artifacts/validation/r01-task006-staging/source-baseline.txt
+  - ?? artifacts/validation/r01-task006-staging/structured-log-sample.redacted.jsonl
+  - ?? artifacts/validation/r01-task006-staging/test-admin-cleanup.txt
+  - ?? artifacts/validation/r01-task006-staging/unsupported-media-body.json
+  - ?? artifacts/validation/r01-task006-staging/unsupported-media-headers.txt
+  recent_commits:
+  - "72de42c90f71438cdf5a2cc274277fecfa7a6cbd\t2026-07-17T23:11:15+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): make snapshot corruption\
+    \ deterministic"
+  - "b8edbc0924157c8c03d4463c15b4301477cb5a8c\t2026-07-17T22:52:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): map unsupported\
+    \ media type to validation"
+  - "99f73023565acaa8c47001f1161b66a9447b845c\t2026-07-17T22:37:42+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): use portable interval\
+    \ syntax"
+  - "f685a0778ea9b3b723d68d3d9fc6cf639aa4d4b5\t2026-07-17T22:34:49+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): harden observability\
+    \ error paths"
+  - "580981d4d9404bb52d34c5d25a7e6450f31697cf\t2026-07-17T22:26:34+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): add isolated staging\
+    \ observability"
+  - "b9211c60e67b375f33f8522948fc1e19dc0b54e7\t2026-07-17T22:02:27+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-005\
+    \ as completed"
+  - "af528cab1a86003946790d07cb4b536b8388f122\t2026-07-17T21:55:04+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive complete\
+    \ task005 evidence"
+  - "79bbd45d22d16b334330b4b36f2fbb489d5e73f0\t2026-07-17T21:28:35+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): pass encrypted replay\
+    \ runtime gates"
+project_fingerprint:
+  sha256: 4841a62ea1032c98b4e3d7694cbc99a02aca3d9a1d7f204e68c6758da1f097d3
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/p00-alerts.yml
+  - infra/staging/r01-smoke/alertmanager.yml
+  - infra/staging/r01-smoke/docker-compose.yml
+  - infra/staging/r01-smoke/prometheus.yml
+  - infra/staging/r01-smoke/r01-alerts.yml
+  - releases/R01/ACCEPTANCE_MATRIX.csv
+  - scripts/check_r01_observability.py
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
+  file_count: 19
+  payload:
+    base_commit: b9211c60e67b375f33f8522948fc1e19dc0b54e7
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 10008
+      sha256: c3224c7a9149e22b11940613d2d5243d31e379e3598a0c12f79807312e0686b5
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 8280
+      sha256: 6f093a2b6fdf0428432540837c96f0d262bc4b65ac69515074aa1088af2364cc
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 10808
+      sha256: efcf5879d5fe29b7f504ed666bc49a2e118876590c30b02e2f086590b5f80bce
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 3721
+      sha256: 2128421d9d8cef874af800b7058162fa3ce6963e3d16120f276ab542bfdb1a71
+    - path: infra/staging/p00-alerts.yml
+      state: FILE
+      size: 1873
+      sha256: 9bb1569369c0c2373e710d886dbe14c1a17f768dd6a7960487d7a9622b5a1e66
+    - path: infra/staging/r01-smoke/alertmanager.yml
+      state: FILE
+      size: 277
+      sha256: c6bbb12123c673c8f86a6e0bbb816cf40216289548db669e40053ffefe8ec467
+    - path: infra/staging/r01-smoke/docker-compose.yml
+      state: FILE
+      size: 3997
+      sha256: ac5f232386f3af21b2e539587f990cf49820f4049da5707fe33f0c8193c18422
+    - path: infra/staging/r01-smoke/prometheus.yml
+      state: FILE
+      size: 401
+      sha256: fb14817afdff447073a38e413d0ade9fd52c09adbf72dc0443974d3636f60617
+    - path: infra/staging/r01-smoke/r01-alerts.yml
+      state: FILE
+      size: 2379
+      sha256: ff983bbe9be61c1104e55db79c50a04899018ef53204ea284b826495cddc4f61
+    - path: releases/R01/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 718
+      sha256: a3af90fc806093aefedb2452ada3c1aa226e367677a6564397ad2e4ebc38cb4a
+    - path: scripts/check_r01_observability.py
+      state: FILE
+      size: 5528
+      sha256: 84eea3512982a828992ad5f4181772591c864656354a41f0553181acee9cb05a
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 5961
+      sha256: 7b546ccf03368b63c258ff89573d5fe4f73d247f5ea98caddded38233dfc371b
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
+      state: FILE
+      size: 1969
+      sha256: d75e36ec2ac32676a8eb2a7aa25e2e8bbd99d3262856c1f5e998cc0c692fd70e
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+      state: FILE
+      size: 4507
+      sha256: e3315c5f88aa86ebcd6815fe83167fe4aecaa855eef0a706036d0e5efd2d9d1f
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
+      state: FILE
+      size: 11764
+      sha256: fb5902dd6de032b5f3f52e0170c53afa68f0894faaace4af05c1a5b2eb81cae5
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+      state: FILE
+      size: 15884
+      sha256: c1a4014d3acabe6e45acfcc1734fe71c03c43092ae439f274fbf8c8ccdd3b500
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 5580
+      sha256: e90c1ea08e2481c522331bb63a57142f8830e49f306d068ea83497aca8130e08
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 6778
+      sha256: 785180bdaed69cb10190ad4f651cdf50fb9d3171483dda0a3670662d0fab822e
+    - path: services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
+      state: FILE
+      size: 983
+      sha256: fbe4044a4fabde8411b104b57940a930d0819e784bfcee651e1c00067cfbb004
+change_classification:
+  other:
+  - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - releases/R01/ACCEPTANCE_MATRIX.csv
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  infrastructure:
+  - infra/staging/p00-alerts.yml
+  - infra/staging/r01-smoke/alertmanager.yml
+  - infra/staging/r01-smoke/docker-compose.yml
+  - infra/staging/r01-smoke/prometheus.yml
+  - infra/staging/r01-smoke/r01-alerts.yml
+  code:
+  - scripts/check_r01_observability.py
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 2118b953db9aace62e9d6f14398c9a862988997a9157bcf186be6602946fae4e

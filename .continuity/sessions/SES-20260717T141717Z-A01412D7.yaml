@@ -11,7 +11,7 @@ task_id: TASK-R01-006
 story_id: STORY-R01-003
 goal: 部署R01隔离预发布环境，验证结构化日志、TraceId、RED与业务指标、告警和回滚，完成验收签字
 started_at: '2026-07-17T14:17:17Z'
-updated_at: '2026-07-17T15:11:10Z'
+updated_at: '2026-07-17T15:19:45Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -57,17 +57,17 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T15:11:08Z'
-  expires_at: '2026-07-17T19:11:08Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0005.yaml
+  renewed_at: '2026-07-17T15:19:43Z'
+  expires_at: '2026-07-17T19:19:43Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md
-next_step: 提交确定性密文损坏测试，构建最终Commit绑定镜像并归档TASK006现场证据
+next_step: 提交TASK006现场证据和验收签字，关闭TASK-R01-006并启动TASK-R01-007 APK构建
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: af59a2c97b7576ad9ea019901bc44c8e19edd72bb0323a20cc8bd53315a20a36
-  generated_at: '2026-07-17T15:11:10Z'
+  context_hash: 1d72b2f77f68cd62f284599da85cffc353d4ba0ae728b4f1b91e370e7f385a27
+  generated_at: '2026-07-17T15:19:45Z'
 handoff_bundle: null
 closure: null

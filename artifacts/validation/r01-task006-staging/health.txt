@@ -1,0 +1,4 @@
+liveness={"status":"UP"}
+readiness={"status":"UP"}
+business_port_actuator_status=404
+{"success":false,"requestId":"dc7f4485-0926-4b97-8347-256190081010","timestamp":"2026-07-17T15:15:15.044577145Z","error":{"code":"COMMON-404-NOT_FOUND","message":"资源不存在或不可见","details":[],"retryable":false,"traceId":"982a16902fbd4949b07940a63c7eff22"}}
