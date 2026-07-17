@@ -63,6 +63,7 @@ class AdminTokenServiceTest {
         return new AdminSecurityProperties(
                 "test-only-admin-jwt-secret-at-least-32-characters",
                 "test-only-admin-mfa-root-secret-at-least-32-characters",
+                "test-only-idempotency-hmac-secret-at-least-32-chars",
                 "test/admin",
                 Duration.ofHours(8),
                 Duration.ofMinutes(5),

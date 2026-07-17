@@ -90,7 +90,7 @@ class AdminSecurityWebSecurityTest {
         when(service.login(
                 any(LoginRequest.class), anyString(), anyString(), anyString(), any()))
                 .thenThrow(new BusinessException(
-                        "COMMON-429-RATE_LIMITED", "登录失败次数过多，请稍后重试", 429, true));
+                        "COMMON-429-RATE_LIMITED", "登录失败次数过多，请稍后重试", 429, true, 37L));
 
         mvc.perform(post("/admin-api/v1/auth/login")
                         .header("X-Request-Id", "request-rate-limit-1")
@@ -100,12 +100,28 @@ class AdminSecurityWebSecurityTest {
                                 {"username":"root@example.test","password":"Current!234"}
                                 """))
                 .andExpect(status().isTooManyRequests())
-                .andExpect(header().string("Retry-After", "900"))
+                .andExpect(header().string("Retry-After", "37"))
                 .andExpect(jsonPath("$.requestId").value("request-rate-limit-1"))
                 .andExpect(jsonPath("$.error.code").value("COMMON-429-RATE_LIMITED"))
                 .andExpect(jsonPath("$.error.retryable").value(true))
                 .andExpect(content().string(not(containsString("root@example.test"))))
                 .andExpect(content().string(not(containsString("Current!234"))));
+    }
+
+    @Test
+    void missingRequiredIdempotencyHeaderReturnsValidationEnvelope() throws Exception {
+        mvc.perform(post("/admin-api/v1/auth/login")
+                        .header("X-Request-Id", "request-missing-idempotency")
+                        .contentType("application/json")
+                        .content("""
+                                {"username":"root@example.test","password":"Current!234"}
+                                """))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.requestId").value("request-missing-idempotency"))
+                .andExpect(jsonPath("$.error.code").value("COMMON-400-VALIDATION"))
+                .andExpect(content().string(not(containsString("root@example.test"))))
+                .andExpect(content().string(not(containsString("Current!234"))));
+        verifyNoInteractions(service);
     }
 
     private static RequestPostProcessor adminAuthentication(String... authorities) {
@@ -114,4 +130,5 @@ class AdminSecurityWebSecurityTest {
                 17L, 23L, 4L, "access-jti-17", "root", Set.copyOf(Arrays.asList(authorities)));
         return authentication(UsernamePasswordAuthenticationToken.authenticated(principal, null, granted));
     }
+
 }

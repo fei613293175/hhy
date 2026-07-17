@@ -8,7 +8,9 @@ RUN --mount=type=cache,target=/root/.m2 \
 FROM eclipse-temurin:21-jre-alpine
 RUN apk add --no-cache curl \
     && addgroup -S hhy \
-    && adduser -S -G hhy -u 10001 hhy
+    && adduser -S -G hhy -u 10001 hhy \
+    && mkdir -p /var/lib/hhy/secrets/admin-mfa \
+    && chown -R hhy:hhy /var/lib/hhy/secrets
 WORKDIR /app
 COPY --from=build --chown=hhy:hhy /workspace/boot/target/hhy-backend.jar /app/hhy-backend.jar
 USER 10001:10001

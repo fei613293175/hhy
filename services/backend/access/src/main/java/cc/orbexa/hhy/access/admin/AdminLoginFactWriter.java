@@ -12,7 +12,7 @@ public class AdminLoginFactWriter {
         this.store = store;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.MANDATORY)
     public void failure(
             Long adminId, String usernameMasked, String eventType, String failureCode,
             String ip, String device, String requestId) {

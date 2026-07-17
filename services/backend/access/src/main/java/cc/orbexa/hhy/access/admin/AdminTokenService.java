@@ -9,6 +9,7 @@ import java.util.Base64;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 @Component
 public final class AdminTokenService {
@@ -22,7 +23,10 @@ public final class AdminTokenService {
     private final Clock clock;
     private final byte[] signingKey;
 
-    public AdminTokenService(ObjectMapper objectMapper, AdminSecurityProperties properties, Clock clock) {
+    public AdminTokenService(
+            @Qualifier("adminSecurityObjectMapper") ObjectMapper objectMapper,
+            AdminSecurityProperties properties,
+            Clock clock) {
         this.objectMapper = objectMapper;
         this.properties = properties;
         this.clock = clock;

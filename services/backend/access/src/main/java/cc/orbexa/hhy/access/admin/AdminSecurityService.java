@@ -18,15 +18,22 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.HexFormat;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 @Service
 public class AdminSecurityService {
+    private static final Logger LOG = LoggerFactory.getLogger(AdminSecurityService.class);
     private static final Duration IDEMPOTENCY_TTL = Duration.ofHours(24);
 
     private final AdminSecurityStore repository;
@@ -37,6 +44,7 @@ public class AdminSecurityService {
     private final AdminSecurityProperties properties;
     private final ObjectMapper objectMapper;
     private final Clock clock;
+    private final String unknownAccountPasswordHash;
 
     public AdminSecurityService(
             AdminSecurityStore repository,
@@ -45,7 +53,7 @@ public class AdminSecurityService {
             AdminLoginFactWriter loginFacts,
             PasswordEncoder passwords,
             AdminSecurityProperties properties,
-            ObjectMapper objectMapper,
+            @Qualifier("adminSecurityObjectMapper") ObjectMapper objectMapper,
             Clock clock) {
         this.repository = repository;
         this.tokens = tokens;
@@ -55,14 +63,15 @@ public class AdminSecurityService {
         this.properties = properties;
         this.objectMapper = objectMapper;
         this.clock = clock;
+        this.unknownAccountPasswordHash = passwords.encode(UUID.randomUUID().toString());
     }
 
-    @Transactional
+    @Transactional(noRollbackFor = CommittedAdminSecurityFailure.class)
     public AdminSessionResource login(
             LoginRequest request, String idempotencyKey, String requestId, String ip, String device) {
         Instant now = Instant.now(clock);
         String username = request.username().strip();
-        String scope = "admin.login:" + sha256(username.toLowerCase(Locale.ROOT));
+        String scope = "admin.login:" + hmac(username);
         String requestHash = hash(request);
         AdminSecurityStore.IdempotencyRow prior = repository.findIdempotency(scope, idempotencyKey).orElse(null);
         if (prior != null) {
@@ -70,27 +79,23 @@ public class AdminSecurityService {
             return replaySession(prior.responseRef(), now);
         }
         AdminSecurityStore.AdminAccount admin = repository.findAdminByUsername(username).orElse(null);
+        lockLoginRateLimit(admin, username, ip, device);
+        enforceLoginRateLimit(admin, ip, device, now);
         if (admin == null) {
+            passwords.matches(request.password(), unknownAccountPasswordHash);
             loginFacts.failure(null, mask(username), "PASSWORD_LOGIN",
                     "INVALID_CREDENTIALS", ip, device, requestId);
-            throw rule("账号或密码不正确");
+            throw committedRule("账号或密码不正确");
         }
         if (!"ACTIVE".equals(admin.status())) {
             loginFacts.failure(admin.id(), mask(username), "PASSWORD_LOGIN",
                     "ACCOUNT_RESTRICTED", ip, device, requestId);
-            throw new BusinessException("AUTH-423-ACCOUNT_RESTRICTED", "管理员账号已受限", 423, false);
-        }
-        long failures = repository.recentPasswordFailures(
-                admin.id(), now.minusSeconds(properties.passwordLockSeconds()));
-        if (failures >= properties.passwordMaxFailures()) {
-            loginFacts.failure(admin.id(), mask(username), "PASSWORD_LOGIN",
-                    "RATE_LIMITED", ip, device, requestId);
-            throw new BusinessException("COMMON-429-RATE_LIMITED", "登录失败次数过多，请稍后重试", 429, true);
+            throw committedRule("管理员账号已受限");
         }
         if (!passwords.matches(request.password(), admin.passwordHash())) {
             loginFacts.failure(admin.id(), mask(username), "PASSWORD_LOGIN",
                     "INVALID_CREDENTIALS", ip, device, requestId);
-            throw rule("账号或密码不正确");
+            throw committedRule("账号或密码不正确");
         }
 
         AdminSecurityStore.IdempotencyClaim claim = claim(
@@ -108,7 +113,7 @@ public class AdminSecurityService {
         return sessionResource(repository.findSession(sessionId).orElseThrow(), now);
     }
 
-    @Transactional
+    @Transactional(noRollbackFor = CommittedAdminSecurityFailure.class)
     public AdminSessionResource verifyMfa(
             MfaVerifyRequest request, String headerTicket, String idempotencyKey,
             String requestId, String ip, String device) {
@@ -130,12 +135,19 @@ public class AdminSecurityService {
             throw unauthenticated();
         }
         long adminId = Long.parseLong(token.sub());
+        lockAndEnforceMfaRateLimit(adminId, token.sid(), ip, device, now);
+        AdminSecurityStore.IdempotencyRow lockedPrior =
+                repository.findIdempotency(scope, idempotencyKey).orElse(null);
+        if (lockedPrior != null) {
+            validateReplay(lockedPrior, requestHash);
+            return replaySession(lockedPrior.responseRef(), now);
+        }
         AdminSecurityStore.MfaMethodRow method = repository.mfaMethod(adminId)
                 .filter(row -> "ACTIVE".equals(row.status())).orElseThrow(() -> rule("MFA尚未启用"));
-        if (!totp.verify(adminId, method.secretRef(), request.code())) {
+        if (!verifyAndConsumeMfa(adminId, method, request.code())) {
             loginFacts.failure(adminId, null, "MFA_VERIFY", "INVALID_MFA_CODE",
                     ip, device, requestId);
-            throw rule("MFA验证码不正确");
+            throw committedRule("MFA验证码不正确");
         }
         AdminSecurityStore.IdempotencyClaim claim = claim(
                 scope, idempotencyKey, requestHash, now);
@@ -158,7 +170,7 @@ public class AdminSecurityService {
         long expected = expectedVersion == null ? principal.sessionVersion() : expectedVersion;
         AdminSecurityStore.IdempotencyClaim claim = claim(
                 "admin.logout:" + principal.sessionId(), idempotencyKey,
-                sha256(expected + ":" + String.valueOf(reason)), now);
+                hmac(expected + ":" + String.valueOf(reason)), now);
         if (!claim.replay()) {
             if (!repository.revokeSession(principal.sessionId(), expected, now)) {
                 throw conflict();
@@ -175,15 +187,17 @@ public class AdminSecurityService {
         return overview(principal.adminId(), Instant.now(clock));
     }
 
-    @Transactional
-    public CommandResultResource changePassword(
+    @Transactional(noRollbackFor = CommittedAdminSecurityFailure.class)
+    public AdminSelfSecurityResource changePassword(
             AdminPrincipal principal, PasswordChangeRequest request, String idempotencyKey,
-            String requestId, String ip) {
+            String requestId, String ip, String device) {
         Instant now = Instant.now(clock);
-        AdminSecurityStore.IdempotencyClaim claim = claim(
-                "admin.password:" + principal.adminId(), idempotencyKey, hash(request), now);
-        if (claim.replay()) {
-            return command(Long.toString(principal.adminId()), "PASSWORD_CHANGED", null, now);
+        String scope = "admin.password:" + principal.adminId();
+        String requestHash = hash(request);
+        AdminSecurityStore.IdempotencyRow prior = repository.findIdempotency(scope, idempotencyKey).orElse(null);
+        if (prior != null) {
+            validateReplay(prior, requestHash);
+            return overview(principal.adminId(), now);
         }
         AdminSecurityStore.AdminAccount admin = repository.findAdmin(principal.adminId())
                 .orElseThrow(AdminSecurityService::unauthenticated);
@@ -193,7 +207,19 @@ public class AdminSecurityService {
                 || length > properties.passwordMaxLength()) {
             throw rule("当前密码不正确或新密码不符合安全策略");
         }
-        requireActiveMfa(admin.id(), request.mfaCode());
+        lockAndEnforceMfaRateLimit(admin.id(), principal.sessionId(), ip, device, now);
+        AdminSecurityStore.IdempotencyRow lockedPrior =
+                repository.findIdempotency(scope, idempotencyKey).orElse(null);
+        if (lockedPrior != null) {
+            validateReplay(lockedPrior, requestHash);
+            return overview(principal.adminId(), now);
+        }
+        requireActiveMfaAfterLock(admin.id(), request.mfaCode(),
+                "MFA_PASSWORD_CHANGE", requestId, ip, device);
+        AdminSecurityStore.IdempotencyClaim claim = claim(scope, idempotencyKey, requestHash, now);
+        if (claim.replay()) {
+            return overview(principal.adminId(), now);
+        }
         if (!repository.updatePassword(admin.id(), admin.version(), passwords.encode(request.newPassword()))) {
             throw conflict();
         }
@@ -201,7 +227,7 @@ public class AdminSecurityService {
         audit(admin.id(), "ADMIN_PASSWORD_CHANGED", "admin_user", admin.id(),
                 requestId, ip, "PASSWORD_CHANGED", admin.version() + 1, null);
         repository.completeIdempotency(claim.row().id(), "admin:" + admin.id());
-        return command(Long.toString(admin.id()), "PASSWORD_CHANGED", admin.version() + 1, now);
+        return overview(admin.id(), now);
     }
 
     @Transactional
@@ -209,21 +235,33 @@ public class AdminSecurityService {
             AdminPrincipal principal, String idempotencyKey, String requestId, String ip) {
         Instant now = Instant.now(clock);
         AdminSecurityStore.IdempotencyClaim claim = claim(
-                "admin.mfa.enroll:" + principal.adminId(), idempotencyKey, sha256("enroll"), now);
+                "admin.mfa.enroll:" + principal.adminId(), idempotencyKey, hmac("enroll"), now);
         if (claim.replay()) {
             return enrollmentResource(principal.adminId(), principal.username(), now);
         }
+        repository.lockRateLimitBuckets(List.of("admin-mfa-enrollment:" + principal.adminId()));
         AdminSecurityStore.MfaMethodRow existing = repository.mfaMethod(principal.adminId()).orElse(null);
         if (existing != null && "ACTIVE".equals(existing.status())) {
             throw rule("MFA已经启用");
         }
-        String enrollmentId = existing != null && "PENDING".equals(existing.status())
-                ? enrollmentId(existing.secretRef()) : UUID.randomUUID().toString();
+        if (existing != null && "PENDING".equals(existing.status())
+                && !now.isAfter(existing.updatedAt().plus(properties.enrollmentTtl()))) {
+            MfaEnrollmentResource resource = enrollmentResource(principal.adminId(), principal.username(), now);
+            repository.completeIdempotency(claim.row().id(), "mfa:" + existing.id());
+            return resource;
+        }
+        String oldSecretRef = existing == null ? null : existing.secretRef();
+        String enrollmentId = UUID.randomUUID().toString();
         AdminTotpService.EnrollmentMaterial material =
-                totp.enrollment(principal.adminId(), principal.username(), enrollmentId, now);
+                totp.createEnrollment(principal.adminId(), principal.username(), enrollmentId, now);
+        revokeSecretAfterRollback(principal.adminId(), material.secretRef());
         long methodId = repository.beginMfaEnrollment(principal.adminId(), material.secretRef(), now);
         if (methodId < 1) {
+            totp.revoke(principal.adminId(), material.secretRef());
             throw conflict();
+        }
+        if (oldSecretRef != null) {
+            revokeSecretAfterCommit(principal.adminId(), oldSecretRef);
         }
         audit(principal.adminId(), "ADMIN_MFA_ENROLL_STARTED", "admin_mfa_method", methodId,
                 requestId, ip, "PENDING", existing == null ? 0 : existing.version() + 1, null);
@@ -232,51 +270,82 @@ public class AdminSecurityService {
                 material.manualKeyMasked(), material.expiresAt());
     }
 
-    @Transactional
-    public CommandResultResource confirmMfa(
+    @Transactional(noRollbackFor = CommittedAdminSecurityFailure.class)
+    public AdminSelfSecurityResource confirmMfa(
             AdminPrincipal principal, MfaConfirmRequest request, String idempotencyKey,
-            String requestId, String ip) {
+            String requestId, String ip, String device) {
         Instant now = Instant.now(clock);
-        AdminSecurityStore.IdempotencyClaim claim = claim(
-                "admin.mfa.confirm:" + principal.adminId(), idempotencyKey, hash(request), now);
-        if (claim.replay()) {
-            return command(Long.toString(principal.adminId()), "ACTIVE", null, now);
+        String scope = "admin.mfa.confirm:" + principal.adminId();
+        String requestHash = hash(request);
+        AdminSecurityStore.IdempotencyRow prior = repository.findIdempotency(scope, idempotencyKey).orElse(null);
+        if (prior != null) {
+            validateReplay(prior, requestHash);
+            return overview(principal.adminId(), now);
         }
         AdminSecurityStore.MfaMethodRow method = repository.mfaMethod(principal.adminId())
                 .filter(row -> "PENDING".equals(row.status())).orElseThrow(() -> rule("没有待确认的MFA绑定"));
-        if (!request.enrollmentId().equals(enrollmentId(method.secretRef()))
-                || now.isAfter(method.createdAt().plus(properties.enrollmentTtl()))
-                || !totp.verify(principal.adminId(), method.secretRef(), request.code())) {
-            throw rule("MFA绑定信息已失效或验证码不正确");
+        lockAndEnforceMfaRateLimit(principal.adminId(), principal.sessionId(), ip, device, now);
+        AdminSecurityStore.IdempotencyRow lockedPrior =
+                repository.findIdempotency(scope, idempotencyKey).orElse(null);
+        if (lockedPrior != null) {
+            validateReplay(lockedPrior, requestHash);
+            return overview(principal.adminId(), now);
         }
-        if (!repository.confirmMfa(method.id(), method.version(), now)) {
+        if (!request.enrollmentId().equals(enrollmentId(method.secretRef()))
+                || now.isAfter(method.updatedAt().plus(properties.enrollmentTtl()))
+                || !verifyAndConsumeMfa(principal.adminId(), method, request.code())) {
+            loginFacts.failure(principal.adminId(), null, "MFA_ENROLL_CONFIRM",
+                    "INVALID_MFA_CODE", ip, device, requestId);
+            throw committedRule("MFA绑定信息已失效或验证码不正确");
+        }
+        AdminSecurityStore.IdempotencyClaim claim = claim(scope, idempotencyKey, requestHash, now);
+        if (claim.replay()) {
+            return overview(principal.adminId(), now);
+        }
+        if (!repository.confirmMfa(method.id(), method.version() + 1, now)) {
             throw conflict();
         }
         audit(principal.adminId(), "ADMIN_MFA_ENABLED", "admin_mfa_method", method.id(),
-                requestId, ip, "ACTIVE", method.version() + 1, null);
+                requestId, ip, "ACTIVE", method.version() + 2, null);
         repository.completeIdempotency(claim.row().id(), "mfa:" + method.id());
-        return command(Long.toString(method.id()), "ACTIVE", method.version() + 1, now);
+        return overview(principal.adminId(), now);
     }
 
-    @Transactional
-    public CommandResultResource disableMfa(
+    @Transactional(noRollbackFor = CommittedAdminSecurityFailure.class)
+    public AdminSelfSecurityResource disableMfa(
             AdminPrincipal principal, MfaDisableRequest request, String idempotencyKey,
-            String requestId, String ip) {
+            String requestId, String ip, String device) {
         Instant now = Instant.now(clock);
-        AdminSecurityStore.IdempotencyClaim claim = claim(
-                "admin.mfa.disable:" + principal.adminId(), idempotencyKey, hash(request), now);
-        if (claim.replay()) {
-            return command(Long.toString(principal.adminId()), "DISABLED", null, now);
+        String scope = "admin.mfa.disable:" + principal.adminId();
+        String requestHash = hash(request);
+        AdminSecurityStore.IdempotencyRow prior = repository.findIdempotency(scope, idempotencyKey).orElse(null);
+        if (prior != null) {
+            validateReplay(prior, requestHash);
+            return overview(principal.adminId(), now);
         }
-        AdminSecurityStore.MfaMethodRow method = requireActiveMfa(principal.adminId(), request.code());
-        if (!repository.disableMfa(method.id(), method.version(), now)) {
+        lockAndEnforceMfaRateLimit(
+                principal.adminId(), principal.sessionId(), ip, device, now);
+        AdminSecurityStore.IdempotencyRow lockedPrior =
+                repository.findIdempotency(scope, idempotencyKey).orElse(null);
+        if (lockedPrior != null) {
+            validateReplay(lockedPrior, requestHash);
+            return overview(principal.adminId(), now);
+        }
+        AdminSecurityStore.MfaMethodRow method = requireActiveMfaAfterLock(
+                principal.adminId(), request.code(), "MFA_DISABLE", requestId, ip, device);
+        AdminSecurityStore.IdempotencyClaim claim = claim(scope, idempotencyKey, requestHash, now);
+        if (claim.replay()) {
+            return overview(principal.adminId(), now);
+        }
+        if (!repository.disableMfa(method.id(), method.version() + 1, now)) {
             throw conflict();
         }
         repository.expireUnusedRecoveryCodes(principal.adminId(), now);
         audit(principal.adminId(), "ADMIN_MFA_DISABLED", "admin_mfa_method", method.id(),
-                requestId, ip, "DISABLED", method.version() + 1, request.reason());
+                requestId, ip, "DISABLED", method.version() + 2, request.reason());
         repository.completeIdempotency(claim.row().id(), "mfa:" + method.id());
-        return command(Long.toString(method.id()), "DISABLED", method.version() + 1, now);
+        revokeSecretAfterCommit(principal.adminId(), method.secretRef());
+        return overview(principal.adminId(), now);
     }
 
     private AdminSessionResource replaySession(String responseRef, Instant now) {
@@ -316,7 +385,7 @@ public class AdminSecurityService {
         AdminSecurityStore.MfaMethodRow method = repository.mfaMethod(adminId)
                 .filter(row -> "PENDING".equals(row.status())).orElseThrow(AdminSecurityService::conflict);
         AdminTotpService.EnrollmentMaterial material =
-                totp.enrollment(adminId, username, enrollmentId(method.secretRef()), method.createdAt());
+                totp.enrollmentFromReference(adminId, username, method.secretRef(), method.updatedAt());
         if (now.isAfter(material.expiresAt())) {
             throw rule("MFA绑定已过期，请重新开始");
         }
@@ -324,13 +393,82 @@ public class AdminSecurityService {
                 material.manualKeyMasked(), material.expiresAt());
     }
 
-    private AdminSecurityStore.MfaMethodRow requireActiveMfa(long adminId, String code) {
+    private AdminSecurityStore.MfaMethodRow requireActiveMfaAfterLock(
+            long adminId, String code, String eventType,
+            String requestId, String ip, String device) {
         AdminSecurityStore.MfaMethodRow method = repository.mfaMethod(adminId)
                 .filter(row -> "ACTIVE".equals(row.status())).orElseThrow(() -> rule("MFA尚未启用"));
-        if (!totp.verify(adminId, method.secretRef(), code)) {
-            throw rule("MFA验证码不正确");
+        if (!verifyAndConsumeMfa(adminId, method, code)) {
+            loginFacts.failure(adminId, null, eventType, "INVALID_MFA_CODE", ip, device, requestId);
+            throw committedRule("MFA验证码不正确");
         }
         return method;
+    }
+
+    private boolean verifyAndConsumeMfa(
+            long adminId, AdminSecurityStore.MfaMethodRow method, String code) {
+        var matchedStep = totp.matchingStep(adminId, method.secretRef(), code);
+        return matchedStep.isPresent()
+                && repository.consumeMfaStep(
+                        method.id(), method.status(), method.version(), matchedStep.getAsLong());
+    }
+
+    private void lockLoginRateLimit(
+            AdminSecurityStore.AdminAccount admin, String username, String ip, String device) {
+        repository.lockRateLimitBuckets(List.of(
+                "admin-login:account:" + (admin == null ? hmac(username) : admin.id()),
+                "admin-login:ip:" + hmac(String.valueOf(ip)),
+                "admin-login:device:" + hmac(String.valueOf(device))));
+    }
+
+    private void enforceLoginRateLimit(
+            AdminSecurityStore.AdminAccount admin, String ip, String device, Instant now) {
+        Instant since = now.minusSeconds(properties.passwordLockSeconds());
+        long limit = properties.passwordMaxFailures();
+        boolean accountExceeded = admin != null && repository.recentPasswordFailures(admin.id(), since) >= limit;
+        boolean ipExceeded = repository.recentLoginFailuresByIp(ip, since) >= limit;
+        boolean deviceExceeded = repository.recentLoginFailuresByDevice(device, since) >= limit;
+        if (accountExceeded || ipExceeded || deviceExceeded) {
+            Instant oldest = null;
+            if (accountExceeded) oldest = later(oldest, repository.oldestPasswordFailure(admin.id(), since));
+            if (ipExceeded) oldest = later(oldest, repository.oldestLoginFailureByIp(ip, since));
+            if (deviceExceeded) oldest = later(oldest, repository.oldestLoginFailureByDevice(device, since));
+            throw rateLimited("登录尝试过于频繁，请稍后重试", retryAfter(oldest, now));
+        }
+    }
+
+    private void lockAndEnforceMfaRateLimit(
+            long adminId, long sessionId, String ip, String device, Instant now) {
+        repository.lockRateLimitBuckets(List.of(
+                "admin-mfa:admin:" + adminId,
+                "admin-mfa:session:" + sessionId,
+                "admin-mfa:ip:" + hmac(String.valueOf(ip)),
+                "admin-mfa:device:" + hmac(String.valueOf(device))));
+        Instant since = now.minusSeconds(properties.passwordLockSeconds());
+        long limit = properties.passwordMaxFailures();
+        boolean adminExceeded = repository.recentMfaFailures(adminId, since) >= limit;
+        boolean ipExceeded = repository.recentMfaFailuresByIp(ip, since) >= limit;
+        boolean deviceExceeded = repository.recentMfaFailuresByDevice(device, since) >= limit;
+        if (adminExceeded || ipExceeded || deviceExceeded) {
+            Instant oldest = null;
+            if (adminExceeded) oldest = later(oldest, repository.oldestMfaFailure(adminId, since));
+            if (ipExceeded) oldest = later(oldest, repository.oldestMfaFailureByIp(ip, since));
+            if (deviceExceeded) oldest = later(oldest, repository.oldestMfaFailureByDevice(device, since));
+            throw rateLimited("MFA验证失败次数过多，请稍后重试", retryAfter(oldest, now));
+        }
+    }
+
+    private long retryAfter(Instant oldest, Instant now) {
+        if (oldest == null) return properties.passwordLockSeconds();
+        long remaining = Duration.between(
+                now, oldest.plusSeconds(properties.passwordLockSeconds())).getSeconds();
+        return Math.max(1, remaining);
+    }
+
+    private static Instant later(Instant left, Instant right) {
+        if (left == null) return right;
+        if (right == null) return left;
+        return left.isAfter(right) ? left : right;
     }
 
     private AdminSecurityStore.IdempotencyClaim claim(
@@ -378,26 +516,62 @@ public class AdminSecurityService {
 
     private String hash(Object value) {
         try {
-            return sha256(objectMapper.writeValueAsString(value));
+            return hmac(objectMapper.writeValueAsString(value));
         } catch (Exception exception) {
             throw new IllegalStateException("Unable to hash idempotent request", exception);
         }
     }
 
-    private static String sha256(String value) {
+    private String hmac(String value) {
         try {
-            return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256")
-                    .digest(value.getBytes(StandardCharsets.UTF_8)));
+            Mac mac = Mac.getInstance("HmacSHA256");
+            mac.init(new SecretKeySpec(
+                    properties.idempotencyHmacSecret().getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+            return HexFormat.of().formatHex(mac.doFinal(value.getBytes(StandardCharsets.UTF_8)));
         } catch (Exception exception) {
-            throw new IllegalStateException("SHA-256 is unavailable", exception);
+            throw new IllegalStateException("Unable to protect idempotency request digest", exception);
         }
     }
 
-    private static String enrollmentId(String secretRef) {
-        if (secretRef == null || !secretRef.startsWith("derived:v1:")) {
+    private String enrollmentId(String secretRef) {
+        try {
+            return totp.enrollmentId(secretRef);
+        } catch (RuntimeException exception) {
             throw rule("MFA密钥引用无效");
         }
-        return secretRef.substring("derived:v1:".length());
+    }
+
+    private void revokeSecretAfterCommit(long adminId, String secretRef) {
+        if (!TransactionSynchronizationManager.isSynchronizationActive()) {
+            totp.revoke(adminId, secretRef);
+            return;
+        }
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                try {
+                    totp.revoke(adminId, secretRef);
+                } catch (RuntimeException exception) {
+                    LOG.error("admin_mfa_secret_revoke_failed adminId={}", adminId, exception);
+                }
+            }
+        });
+    }
+
+    private void revokeSecretAfterRollback(long adminId, String secretRef) {
+        if (!TransactionSynchronizationManager.isSynchronizationActive()) return;
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCompletion(int status) {
+                if (status != TransactionSynchronization.STATUS_COMMITTED) {
+                    try {
+                        totp.revoke(adminId, secretRef);
+                    } catch (RuntimeException exception) {
+                        LOG.error("admin_mfa_secret_rollback_cleanup_failed adminId={}", adminId, exception);
+                    }
+                }
+            }
+        });
     }
 
     private static CommandResultResource command(String resourceId, String status, Long version, Instant now) {
@@ -438,7 +612,17 @@ public class AdminSecurityService {
         return new BusinessException("COMMON-409-VERSION_CONFLICT", "资源版本冲突", 409, true);
     }
 
+    private static BusinessException rateLimited(String message, long retryAfterSeconds) {
+        return new BusinessException(
+                "COMMON-429-RATE_LIMITED", message, 429, true, retryAfterSeconds);
+    }
+
     private static BusinessException rule(String message) {
         return new BusinessException("COMMON-422-BUSINESS_RULE", message, 422, false);
+    }
+
+    private static CommittedAdminSecurityFailure committedRule(String message) {
+        return new CommittedAdminSecurityFailure(
+                "COMMON-422-BUSINESS_RULE", message, 422, false);
     }
 }

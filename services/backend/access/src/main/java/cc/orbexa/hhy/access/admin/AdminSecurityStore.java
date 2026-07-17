@@ -4,8 +4,11 @@ import java.sql.PreparedStatement;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.jdbc.core.ConnectionCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Component;
@@ -23,7 +26,7 @@ public class AdminSecurityStore {
                 SELECT u.id,u.username,u.password_hash,u.status,u.version,
                        EXISTS(SELECT 1 FROM hhy.admin_mfa_methods m
                               WHERE m.admin_user_id=u.id AND m.status='ACTIVE') AS mfa_enabled
-                FROM hhy.admin_users u WHERE lower(u.username)=lower(?)
+                FROM hhy.admin_users u WHERE u.username=?
                 """, (rs, row) -> new AdminAccount(
                 rs.getLong("id"), rs.getString("username"), rs.getString("password_hash"),
                 rs.getString("status"), rs.getLong("version"), rs.getBoolean("mfa_enabled")), username)
@@ -56,11 +59,134 @@ public class AdminSecurityStore {
     public long recentPasswordFailures(long adminId, Instant since) {
         Long count = jdbc.queryForObject("""
                 SELECT count(*) FROM hhy.admin_login_logs l
-                WHERE l.admin_user_id=? AND l.result='FAILED' AND l.created_at>=?
+                WHERE l.admin_user_id=? AND l.event_type='PASSWORD_LOGIN'
+                  AND l.result='FAILED' AND l.created_at>=?
                   AND l.created_at>COALESCE((SELECT max(s.created_at) FROM hhy.admin_login_logs s
-                                             WHERE s.admin_user_id=? AND s.result='SUCCESS'),'-infinity')
+                                             WHERE s.admin_user_id=? AND s.event_type='PASSWORD_LOGIN'
+                                               AND s.result='SUCCESS'),'-infinity')
                 """, Long.class, adminId, time(since), adminId);
         return count == null ? 0 : count;
+    }
+
+    public long recentLoginFailuresByIp(String ip, Instant since) {
+        if (ip == null || ip.isBlank()) return 0;
+        Long count = jdbc.queryForObject("""
+                SELECT count(*) FROM hhy.admin_login_logs
+                WHERE ip=? AND event_type='PASSWORD_LOGIN' AND result='FAILED' AND created_at>=?
+                """, Long.class, ip, time(since));
+        return count == null ? 0 : count;
+    }
+
+    public long recentLoginFailuresByDevice(String device, Instant since) {
+        if (device == null || device.isBlank()) return 0;
+        Long count = jdbc.queryForObject("""
+                SELECT count(*) FROM hhy.admin_login_logs
+                WHERE device_fingerprint=? AND event_type='PASSWORD_LOGIN'
+                  AND result='FAILED' AND created_at>=?
+                """, Long.class, device, time(since));
+        return count == null ? 0 : count;
+    }
+
+    public long recentMfaFailures(long adminId, Instant since) {
+        Long count = jdbc.queryForObject("""
+                SELECT count(*) FROM hhy.admin_login_logs
+                WHERE admin_user_id=? AND event_type LIKE 'MFA_%'
+                  AND result='FAILED' AND created_at>=?
+                """, Long.class, adminId, time(since));
+        return count == null ? 0 : count;
+    }
+
+    public long recentMfaFailuresByIp(String ip, Instant since) {
+        if (ip == null || ip.isBlank()) return 0;
+        Long count = jdbc.queryForObject("""
+                SELECT count(*) FROM hhy.admin_login_logs
+                WHERE ip=? AND event_type LIKE 'MFA_%' AND result='FAILED' AND created_at>=?
+                """, Long.class, ip, time(since));
+        return count == null ? 0 : count;
+    }
+
+    public long recentMfaFailuresByDevice(String device, Instant since) {
+        if (device == null || device.isBlank()) return 0;
+        Long count = jdbc.queryForObject("""
+                SELECT count(*) FROM hhy.admin_login_logs
+                WHERE device_fingerprint=? AND event_type LIKE 'MFA_%'
+                  AND result='FAILED' AND created_at>=?
+                """, Long.class, device, time(since));
+        return count == null ? 0 : count;
+    }
+
+    public Instant oldestPasswordFailure(long adminId, Instant since) {
+        return oldest("""
+                SELECT min(created_at) FROM hhy.admin_login_logs
+                WHERE admin_user_id=? AND event_type='PASSWORD_LOGIN'
+                  AND result='FAILED' AND created_at>=?
+                """, adminId, time(since));
+    }
+
+    public Instant oldestLoginFailureByIp(String ip, Instant since) {
+        if (ip == null || ip.isBlank()) return null;
+        return oldest("""
+                SELECT min(created_at) FROM hhy.admin_login_logs
+                WHERE ip=? AND event_type='PASSWORD_LOGIN' AND result='FAILED' AND created_at>=?
+                """, ip, time(since));
+    }
+
+    public Instant oldestLoginFailureByDevice(String device, Instant since) {
+        if (device == null || device.isBlank()) return null;
+        return oldest("""
+                SELECT min(created_at) FROM hhy.admin_login_logs
+                WHERE device_fingerprint=? AND event_type='PASSWORD_LOGIN'
+                  AND result='FAILED' AND created_at>=?
+                """, device, time(since));
+    }
+
+    public Instant oldestMfaFailure(long adminId, Instant since) {
+        return oldest("""
+                SELECT min(created_at) FROM hhy.admin_login_logs
+                WHERE admin_user_id=? AND event_type LIKE 'MFA_%'
+                  AND result='FAILED' AND created_at>=?
+                """, adminId, time(since));
+    }
+
+    public Instant oldestMfaFailureByIp(String ip, Instant since) {
+        if (ip == null || ip.isBlank()) return null;
+        return oldest("""
+                SELECT min(created_at) FROM hhy.admin_login_logs
+                WHERE ip=? AND event_type LIKE 'MFA_%' AND result='FAILED' AND created_at>=?
+                """, ip, time(since));
+    }
+
+    public Instant oldestMfaFailureByDevice(String device, Instant since) {
+        if (device == null || device.isBlank()) return null;
+        return oldest("""
+                SELECT min(created_at) FROM hhy.admin_login_logs
+                WHERE device_fingerprint=? AND event_type LIKE 'MFA_%'
+                  AND result='FAILED' AND created_at>=?
+                """, device, time(since));
+    }
+
+    public void lockRateLimitBuckets(List<String> buckets) {
+        List<String> ordered = new ArrayList<>(buckets.stream().distinct().toList());
+        Collections.sort(ordered);
+        jdbc.execute((ConnectionCallback<Void>) connection -> {
+            if (!"PostgreSQL".equalsIgnoreCase(connection.getMetaData().getDatabaseProductName())) return null;
+            try (PreparedStatement statement = connection.prepareStatement(
+                    "SELECT pg_advisory_xact_lock(hashtextextended(?, 0))")) {
+                for (String bucket : ordered) {
+                    statement.setString(1, bucket);
+                    statement.execute();
+                }
+            }
+            return null;
+        });
+    }
+
+    private Instant oldest(String sql, Object... arguments) {
+        List<Instant> values = jdbc.query(sql, (rs, row) -> {
+            OffsetDateTime value = rs.getObject(1, OffsetDateTime.class);
+            return value == null ? null : value.toInstant();
+        }, arguments);
+        return values.isEmpty() ? null : values.getFirst();
     }
 
     public long createSession(
@@ -147,12 +273,13 @@ public class AdminSecurityStore {
 
     public Optional<MfaMethodRow> mfaMethod(long adminId) {
         return jdbc.query("""
-                SELECT id,admin_user_id,method,secret_ref,status,version,created_at
+                SELECT id,admin_user_id,method,secret_ref,status,version,created_at,updated_at
                 FROM hhy.admin_mfa_methods WHERE admin_user_id=? AND method='TOTP'
                 """, (rs, row) -> new MfaMethodRow(
                 rs.getLong("id"), rs.getLong("admin_user_id"), rs.getString("method"),
                 rs.getString("secret_ref"), rs.getString("status"), rs.getLong("version"),
-                instant(rs.getObject("created_at", OffsetDateTime.class))), adminId).stream().findFirst();
+                instant(rs.getObject("created_at", OffsetDateTime.class)),
+                instant(rs.getObject("updated_at", OffsetDateTime.class))), adminId).stream().findFirst();
     }
 
     public long beginMfaEnrollment(long adminId, String secretRef, Instant now) {
@@ -176,13 +303,12 @@ public class AdminSecurityStore {
             return id.longValue();
         }
         MfaMethodRow row = existing.get();
-        if (!"DISABLED".equals(row.status())) {
-            return row.id();
-        }
+        if ("ACTIVE".equals(row.status())) return -1;
         int updated = jdbc.update("""
                 UPDATE hhy.admin_mfa_methods
-                SET status='PENDING',secret_ref=?,confirmed_at=NULL,disabled_at=NULL,version=version+1
-                WHERE id=? AND version=? AND status='DISABLED'
+                SET status='PENDING',secret_ref=?,confirmed_at=NULL,disabled_at=NULL,
+                    last_accepted_step=NULL,version=version+1
+                WHERE id=? AND version=? AND status IN ('PENDING','DISABLED')
                 """, secretRef, row.id(), row.version());
         if (updated != 1) {
             return -1;
@@ -204,6 +330,16 @@ public class AdminSecurityStore {
                 SET status='DISABLED',secret_ref=NULL,disabled_at=?,version=version+1
                 WHERE id=? AND version=? AND status='ACTIVE'
                 """, time(now), id, expectedVersion) == 1;
+    }
+
+    public boolean consumeMfaStep(
+            long methodId, String expectedStatus, long expectedVersion, long step) {
+        return jdbc.update("""
+                UPDATE hhy.admin_mfa_methods
+                SET last_accepted_step=?,version=version+1
+                WHERE id=? AND status=? AND version=?
+                  AND (last_accepted_step IS NULL OR last_accepted_step < ?)
+                """, step, methodId, expectedStatus, expectedVersion, step) == 1;
     }
 
     public void expireUnusedRecoveryCodes(long adminId, Instant now) {
@@ -273,13 +409,17 @@ public class AdminSecurityStore {
     }
 
     public IdempotencyClaim claimIdempotency(String scope, String key, String requestHash, Instant expiresAt) {
+        jdbc.update("""
+                DELETE FROM hhy.idempotency_records
+                WHERE scope=? AND idem_key=? AND expires_at<=clock_timestamp()
+                """, scope, key);
         int inserted = jdbc.update("""
                 INSERT INTO hhy.idempotency_records(scope,idem_key,request_hash,expires_at)
                 VALUES (?,?,?,?) ON CONFLICT (scope,idem_key) DO NOTHING
                 """, scope, key, requestHash, time(expiresAt));
         IdempotencyRow row = jdbc.queryForObject("""
                 SELECT id,request_hash,response_ref FROM hhy.idempotency_records
-                WHERE scope=? AND idem_key=?
+                WHERE scope=? AND idem_key=? AND expires_at>clock_timestamp()
                 """, (rs, number) -> new IdempotencyRow(
                 rs.getLong("id"), rs.getString("request_hash"), rs.getString("response_ref")), scope, key);
         if (row == null) {
@@ -291,7 +431,7 @@ public class AdminSecurityStore {
     public Optional<IdempotencyRow> findIdempotency(String scope, String key) {
         return jdbc.query("""
                 SELECT id,request_hash,response_ref FROM hhy.idempotency_records
-                WHERE scope=? AND idem_key=?
+                WHERE scope=? AND idem_key=? AND expires_at>clock_timestamp()
                 """, (rs, number) -> new IdempotencyRow(
                 rs.getLong("id"), rs.getString("request_hash"), rs.getString("response_ref")), scope, key)
                 .stream().findFirst();
@@ -330,7 +470,8 @@ public class AdminSecurityStore {
             long id, long adminId, String accessJti, String mfaLevel, Instant expiresAt,
             Instant revokedAt, long version, String username, String adminStatus) { }
     public record MfaMethodRow(
-            long id, long adminId, String method, String secretRef, String status, long version, Instant createdAt) { }
+            long id, long adminId, String method, String secretRef, String status, long version,
+            Instant createdAt, Instant updatedAt) { }
     public record SecuritySnapshot(
             long adminId, String username, List<String> methods, long activeSessions,
             Instant lastPasswordChangedAt, Instant lastLoginAt, String lastLoginIp, long recoveryCodesRemaining) { }

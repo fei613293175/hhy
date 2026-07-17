@@ -12,10 +12,13 @@ import cc.orbexa.hhy.access.admin.AdminSecurityContracts.MfaDisableRequest;
 import cc.orbexa.hhy.access.admin.AdminSecurityContracts.MfaEnrollmentResource;
 import cc.orbexa.hhy.access.admin.AdminSecurityContracts.MfaVerifyRequest;
 import cc.orbexa.hhy.access.admin.AdminSecurityContracts.PasswordChangeRequest;
+import cc.orbexa.hhy.shared.api.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.time.Clock;
+import java.time.Instant;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -31,80 +34,100 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/admin-api/v1")
 public class AdminSecurityController {
     private final AdminSecurityService service;
+    private final Clock clock;
+    private final AdminClientIpResolver clientIpResolver;
 
-    public AdminSecurityController(AdminSecurityService service) {
+    public AdminSecurityController(
+            AdminSecurityService service, Clock clock, AdminClientIpResolver clientIpResolver) {
         this.service = service;
+        this.clock = clock;
+        this.clientIpResolver = clientIpResolver;
     }
 
     @PostMapping("/auth/login")
-    public AdminSessionResource login(
+    public ApiResponse<AdminSessionResource> login(
             @Valid @RequestBody LoginRequest body,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
-        return service.login(body, key, requestId(request), ip(request), device(request));
+        return success(request, service.login(
+                body, key, requestId(request), clientIpResolver.resolve(request), device(request)));
     }
 
     @PostMapping("/auth/mfa/verify")
-    public AdminSessionResource verifyMfa(
+    public ApiResponse<AdminSessionResource> verifyMfa(
             @Valid @RequestBody MfaVerifyRequest body,
             @RequestHeader("X-MFA-Ticket") @NotBlank @Size(max = 2000) String ticket,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
-        return service.verifyMfa(body, ticket, key, requestId(request), ip(request), device(request));
+        return success(request, service.verifyMfa(
+                body, ticket, key, requestId(request), clientIpResolver.resolve(request), device(request)));
     }
 
     @PostMapping("/auth/logout")
-    public CommandResultResource logout(
+    public ApiResponse<CommandResultResource> logout(
             @AuthenticationPrincipal AdminPrincipal principal,
-            @Valid @RequestBody LogoutRequest body,
+            @Valid @RequestBody(required = false) LogoutRequest body,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
-        return service.logout(principal, body.expectedVersion(), body.reason(), key, requestId(request), ip(request));
+        Long expectedVersion = body == null ? null : body.expectedVersion();
+        String reason = body == null ? null : body.reason();
+        return success(request,
+                service.logout(principal, expectedVersion, reason, key,
+                        requestId(request), clientIpResolver.resolve(request)));
     }
 
     @GetMapping("/me/security")
     @PreAuthorize("hasAuthority('admin.self.read')")
-    public AdminSelfSecurityResource overview(@AuthenticationPrincipal AdminPrincipal principal) {
-        return service.overview(principal);
+    public ApiResponse<AdminSelfSecurityResource> overview(
+            @AuthenticationPrincipal AdminPrincipal principal,
+            HttpServletRequest request) {
+        return success(request, service.overview(principal));
     }
 
     @PostMapping("/me/security/password/change")
     @PreAuthorize("hasAuthority('admin.self.security')")
-    public CommandResultResource changePassword(
+    public ApiResponse<AdminSelfSecurityResource> changePassword(
             @AuthenticationPrincipal AdminPrincipal principal,
             @Valid @RequestBody PasswordChangeRequest body,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
-        return service.changePassword(principal, body, key, requestId(request), ip(request));
+        return success(request, service.changePassword(
+                principal, body, key, requestId(request),
+                clientIpResolver.resolve(request), device(request)));
     }
 
     @PostMapping("/me/security/mfa/enroll")
     @PreAuthorize("hasAuthority('admin.self.security')")
-    public MfaEnrollmentResource enrollMfa(
+    public ApiResponse<MfaEnrollmentResource> enrollMfa(
             @AuthenticationPrincipal AdminPrincipal principal,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
-        return service.enrollMfa(principal, key, requestId(request), ip(request));
+        return success(request, service.enrollMfa(
+                principal, key, requestId(request), clientIpResolver.resolve(request)));
     }
 
     @PostMapping("/me/security/mfa/confirm")
     @PreAuthorize("hasAuthority('admin.self.security')")
-    public CommandResultResource confirmMfa(
+    public ApiResponse<AdminSelfSecurityResource> confirmMfa(
             @AuthenticationPrincipal AdminPrincipal principal,
             @Valid @RequestBody MfaConfirmRequest body,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
-        return service.confirmMfa(principal, body, key, requestId(request), ip(request));
+        return success(request, service.confirmMfa(
+                principal, body, key, requestId(request),
+                clientIpResolver.resolve(request), device(request)));
     }
 
     @PostMapping("/me/security/mfa/disable")
     @PreAuthorize("hasAuthority('admin.self.security')")
-    public CommandResultResource disableMfa(
+    public ApiResponse<AdminSelfSecurityResource> disableMfa(
             @AuthenticationPrincipal AdminPrincipal principal,
             @Valid @RequestBody MfaDisableRequest body,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
-        return service.disableMfa(principal, body, key, requestId(request), ip(request));
+        return success(request, service.disableMfa(
+                principal, body, key, requestId(request),
+                clientIpResolver.resolve(request), device(request)));
     }
 
     private static String requestId(HttpServletRequest request) {
@@ -112,12 +135,8 @@ public class AdminSecurityController {
         return value == null ? "missing" : value.toString();
     }
 
-    private static String ip(HttpServletRequest request) {
-        String forwarded = request.getHeader("X-Forwarded-For");
-        if (forwarded != null && !forwarded.isBlank()) {
-            return forwarded.split(",", 2)[0].strip();
-        }
-        return request.getRemoteAddr();
+    private <T> ApiResponse<T> success(HttpServletRequest request, T data) {
+        return ApiResponse.success(requestId(request), data, Instant.now(clock));
     }
 
     private static String device(HttpServletRequest request) {

@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 public record AdminSecurityProperties(
         @NotBlank @Size(min = 32) String jwtSecret,
         @NotBlank @Size(min = 32) String mfaRootSecret,
+        @NotBlank @Size(min = 32) String idempotencyHmacSecret,
         @NotBlank String issuer,
         Duration accessTtl,
         Duration mfaTicketTtl,

@@ -40,6 +40,10 @@ if "V012__r01_admin_security_invariants.sql" not in {path.name for path in root_
     errors.append("migration chain is missing V012 R01 admin security invariants")
 if "V013__r01_admin_self_rbac.sql" not in {path.name for path in root_migrations}:
     errors.append("migration chain is missing V013 R01 administrator self-service RBAC")
+if "V014__r01_idempotency_scope_capacity.sql" not in {path.name for path in root_migrations}:
+    errors.append("migration chain is missing V014 R01 idempotency scope capacity")
+if "V015__r01_totp_replay_guard.sql" not in {path.name for path in root_migrations}:
+    errors.append("migration chain is missing V015 R01 TOTP replay guard")
 if len(catalog_tables) != 198:
     errors.append(f"catalog table count expected=198 actual={len(catalog_tables)}")
 if catalog_tables != dictionary_tables:
@@ -92,6 +96,10 @@ r01_required_files = (
     "database/migrations/V013__r01_admin_self_rbac.sql",
     "database/rollback/U013__r01_admin_self_rbac.sql",
     "database/tests/r01_admin_self_rbac.sql",
+    "database/migrations/V014__r01_idempotency_scope_capacity.sql",
+    "database/rollback/U014__r01_idempotency_scope_capacity.sql",
+    "database/migrations/V015__r01_totp_replay_guard.sql",
+    "database/rollback/U015__r01_totp_replay_guard.sql",
     "scripts/run_r01_database_invariants.sh",
     "scripts/bootstrap-admin.sh",
     "docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md",
@@ -116,6 +124,16 @@ r01_rbac_migration = (ROOT / "database/migrations/V013__r01_admin_self_rbac.sql"
 for marker in ("admin.self.read", "admin.self.security", "SUPER_ADMIN", "ON CONFLICT"):
     if marker not in r01_rbac_migration:
         errors.append(f"V013 missing R01 RBAC marker: {marker}")
+
+r01_scope_migration = (ROOT / "database/migrations/V014__r01_idempotency_scope_capacity.sql").read_text(encoding="utf-8")
+for marker in ("idempotency_records", "scope TYPE varchar(128)", "HMAC-SHA256"):
+    if marker not in r01_scope_migration:
+        errors.append(f"V014 missing R01 idempotency scope marker: {marker}")
+
+r01_totp_replay_migration = (ROOT / "database/migrations/V015__r01_totp_replay_guard.sql").read_text(encoding="utf-8")
+for marker in ("last_accepted_step", "RFC 6238", "nonnegative"):
+    if marker not in r01_totp_replay_migration:
+        errors.append(f"V015 missing R01 TOTP replay marker: {marker}")
 
 bootstrap_admin = (ROOT / "scripts/bootstrap-admin.sh").read_text(encoding="utf-8")
 for marker in (

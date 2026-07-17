@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -35,8 +36,8 @@ public final class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     ResponseEntity<ApiErrorResponse> business(BusinessException ex, HttpServletRequest request) {
         ResponseEntity.BodyBuilder response = ResponseEntity.status(ex.httpStatus());
-        if (ex.httpStatus() == 429) {
-            response.header("Retry-After", "900");
+        if (ex.httpStatus() == 429 && ex.retryAfterSeconds() != null) {
+            response.header("Retry-After", Long.toString(ex.retryAfterSeconds()));
         }
         return response
                 .body(error(request, ex.code(), ex.getMessage(), ex.retryable()));
@@ -46,6 +47,7 @@ public final class GlobalExceptionHandler {
             MethodArgumentNotValidException.class,
             HttpMessageNotReadableException.class,
             ConstraintViolationException.class,
+            MissingRequestHeaderException.class,
             MissingServletRequestParameterException.class,
             HandlerMethodValidationException.class,
             MethodArgumentTypeMismatchException.class

@@ -1,0 +1,75 @@
+services:
+  postgres:
+    image: postgres:17.10-alpine
+    environment:
+      POSTGRES_DB: hhy_r01_smoke
+      POSTGRES_USER: hhy_r01_smoke
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      TZ: UTC
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hhy_r01_smoke -d hhy_r01_smoke"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      smoke:
+        ipv4_address: 172.31.250.40
+
+  api:
+    image: hhy-backend-r01-smoke:${HHY_SMOKE_ID:?HHY_SMOKE_ID is required}
+    build:
+      context: ../../..
+      dockerfile: services/backend/Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: staging
+      HHY_PHASE: staging
+      HHY_DB_URL: jdbc:postgresql://postgres:5432/hhy_r01_smoke
+      HHY_DB_USER: hhy_r01_smoke
+      HHY_DB_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      HHY_ADMIN_JWT_SECRET: ${HHY_ADMIN_JWT_SECRET:?HHY_ADMIN_JWT_SECRET is required}
+      HHY_ADMIN_MFA_ROOT_SECRET: ${HHY_ADMIN_MFA_ROOT_SECRET:?HHY_ADMIN_MFA_ROOT_SECRET is required}
+      HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET: ${HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET:?HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET is required}
+      HHY_ADMIN_MFA_ROOT_SECRET_VERSION: v1
+      HHY_ADMIN_MFA_SECRET_DIR: /var/lib/hhy/secrets/admin-mfa
+      HHY_ADMIN_TRUSTED_PROXY_CIDRS: 172.31.250.10/32
+      HHY_HTTP_PORT: 8080
+      HHY_MANAGEMENT_PORT: 9091
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:9091/actuator/health/readiness"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 20s
+    volumes:
+      - mfa-secrets:/var/lib/hhy/secrets
+    networks:
+      smoke:
+        ipv4_address: 172.31.250.20
+
+  nginx:
+    image: nginx:1.28.0-alpine
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${HHY_R01_SMOKE_HTTP_PORT:-38080}:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      smoke:
+        ipv4_address: 172.31.250.10
+
+networks:
+  smoke:
+    ipam:
+      config:
+        - subnet: 172.31.250.0/24
+
+volumes:
+  pgdata: {}
+  mfa-secrets: {}

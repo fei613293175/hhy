@@ -20,11 +20,14 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -38,6 +41,7 @@ class AdminSecurityServiceTest {
     @Mock AdminLoginFactWriter loginFacts;
     @Mock PasswordEncoder passwords;
 
+    @TempDir Path secretDirectory;
     private ObjectMapper objectMapper;
     private AdminTotpService totp;
     private AdminSecurityService service;
@@ -48,7 +52,9 @@ class AdminSecurityServiceTest {
         AdminSecurityProperties properties = properties();
         Clock clock = Clock.fixed(NOW, ZoneOffset.UTC);
         var tokens = new AdminTokenService(objectMapper, properties, clock);
-        totp = new AdminTotpService(properties, clock);
+        var secrets = new AdminMfaSecretStore(
+                secretDirectory.toString(), "v1", properties.mfaRootSecret(), "");
+        totp = new AdminTotpService(properties, clock, secrets);
         service = new AdminSecurityService(
                 repository,
                 tokens,
@@ -82,7 +88,6 @@ class AdminSecurityServiceTest {
 
     @Test
     void passwordChangeWritesOnlyTheHashAndKeepsSecretsOutOfAuditAndResponse() {
-        var request = new PasswordChangeRequest("Current!234", "New!56789", "123456");
         var principal = principal();
         when(repository.claimIdempotency(anyString(), anyString(), anyString(), any(Instant.class)))
                 .thenAnswer(invocation -> new AdminSecurityStore.IdempotencyClaim(
@@ -91,18 +96,24 @@ class AdminSecurityServiceTest {
                 new AdminSecurityStore.AdminAccount(17L, "root", "stored-password-hash", "ACTIVE", 6L, true)));
         when(passwords.matches("Current!234", "stored-password-hash")).thenReturn(true);
         when(passwords.encode("New!56789")).thenReturn("bcrypt-password-hash");
+        var enrollment = totp.createEnrollment(17L, "root", "enrollment-17", NOW.minusSeconds(60));
         when(repository.mfaMethod(17L)).thenReturn(Optional.of(
                 new AdminSecurityStore.MfaMethodRow(
-                        31L, 17L, "TOTP", "derived:v1:enrollment-17", "ACTIVE", 2L, NOW.minusSeconds(60))));
-        String validMfaCode = totp.codeAt(17L, "derived:v1:enrollment-17", NOW);
-        request = new PasswordChangeRequest("Current!234", "New!56789", validMfaCode);
+                        31L, 17L, "TOTP", enrollment.secretRef(), "ACTIVE", 2L,
+                        NOW.minusSeconds(60), NOW.minusSeconds(60))));
+        String validMfaCode = totp.codeAt(17L, enrollment.secretRef(), NOW);
+        var request = new PasswordChangeRequest("Current!234", "New!56789", validMfaCode);
+        when(repository.consumeMfaStep(eq(31L), eq("ACTIVE"), eq(2L), anyLong())).thenReturn(true);
         when(repository.updatePassword(17L, 6L, "bcrypt-password-hash")).thenReturn(true);
+        when(repository.securitySnapshot(17L, NOW)).thenReturn(new AdminSecurityStore.SecuritySnapshot(
+                17L, "root", List.of("TOTP"), 0L, NOW, NOW.minusSeconds(60), "203.0.113.8", 0L));
 
         var response = service.changePassword(
-                principal, request, "idem-key-00000002", "request-sensitive-1", "203.0.113.8");
+                principal, request, "idem-key-00000002", "request-sensitive-1",
+                "203.0.113.8", "device-17");
 
-        assertEquals("PASSWORD_CHANGED", response.status());
-        assertEquals(7L, response.version());
+        assertEquals("17", response.adminId());
+        assertTrue(response.mfaEnabled());
         verify(repository).updatePassword(17L, 6L, "bcrypt-password-hash");
         verify(repository, never()).updatePassword(17L, 6L, "New!56789");
 
@@ -130,6 +141,7 @@ class AdminSecurityServiceTest {
         return new AdminSecurityProperties(
                 "test-only-admin-jwt-secret-at-least-32-characters",
                 "test-only-admin-mfa-root-secret-at-least-32-characters",
+                "test-only-idempotency-hmac-secret-at-least-32-chars",
                 "test/admin",
                 Duration.ofHours(8),
                 Duration.ofMinutes(5),

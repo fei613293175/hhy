@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Locale;
+import java.util.OptionalLong;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.springframework.stereotype.Component;
@@ -17,16 +18,29 @@ public final class AdminTotpService {
 
     private final AdminSecurityProperties properties;
     private final Clock clock;
-    private final byte[] rootKey;
+    private final AdminMfaSecretStore secrets;
 
-    public AdminTotpService(AdminSecurityProperties properties, Clock clock) {
+    public AdminTotpService(
+            AdminSecurityProperties properties, Clock clock, AdminMfaSecretStore secrets) {
         this.properties = properties;
         this.clock = clock;
-        this.rootKey = properties.mfaRootSecret().getBytes(StandardCharsets.UTF_8);
+        this.secrets = secrets;
     }
 
-    public EnrollmentMaterial enrollment(long adminId, String username, String enrollmentId, Instant createdAt) {
-        String secret = secret(adminId, enrollmentId);
+    public EnrollmentMaterial createEnrollment(
+            long adminId, String username, String enrollmentId, Instant startedAt) {
+        AdminMfaSecretStore.StoredSecret stored = secrets.create(adminId, enrollmentId);
+        return enrollment(username, enrollmentId, stored.reference(), stored.secret(), startedAt);
+    }
+
+    public EnrollmentMaterial enrollmentFromReference(
+            long adminId, String username, String secretRef, Instant startedAt) {
+        AdminMfaSecretStore.StoredSecret stored = secrets.resolve(adminId, secretRef);
+        return enrollment(username, secrets.enrollmentId(secretRef), secretRef, stored.secret(), startedAt);
+    }
+
+    private EnrollmentMaterial enrollment(
+            String username, String enrollmentId, String secretRef, String secret, Instant startedAt) {
         String issuer = properties.issuer();
         String label = encode(issuer + ":" + username);
         String qr = "otpauth://totp/" + label
@@ -35,43 +49,43 @@ public final class AdminTotpService {
                 + "&algorithm=SHA1&digits=6&period=30";
         String masked = secret.substring(0, 4) + "****" + secret.substring(secret.length() - 4);
         return new EnrollmentMaterial(
-                enrollmentId, "derived:v1:" + enrollmentId, qr, masked,
-                createdAt.plus(properties.enrollmentTtl()));
+                enrollmentId, secretRef, qr, masked,
+                startedAt.plus(properties.enrollmentTtl()));
     }
 
     public boolean verify(long adminId, String secretRef, String code) {
-        if (secretRef == null || !secretRef.startsWith("derived:v1:")
-                || code == null || !code.matches("^[0-9]{6}$")) {
-            return false;
+        return matchingStep(adminId, secretRef, code).isPresent();
+    }
+
+    OptionalLong matchingStep(long adminId, String secretRef, String code) {
+        if (code == null || !code.matches("^[0-9]{6}$")) {
+            return OptionalLong.empty();
         }
-        String enrollmentId = secretRef.substring("derived:v1:".length());
-        String secret = secret(adminId, enrollmentId);
+        String secret;
+        try {
+            secret = secrets.resolve(adminId, secretRef).secret();
+        } catch (RuntimeException exception) {
+            return OptionalLong.empty();
+        }
         long counter = Instant.now(clock).getEpochSecond() / STEP_SECONDS;
-        for (long offset = -1; offset <= 1; offset++) {
+        for (long offset = 1; offset >= -1; offset--) {
             if (totp(secret, counter + offset).equals(code)) {
-                return true;
+                return OptionalLong.of(counter + offset);
             }
         }
-        return false;
+        return OptionalLong.empty();
     }
 
     String codeAt(long adminId, String secretRef, Instant instant) {
-        String enrollmentId = secretRef.substring("derived:v1:".length());
-        return totp(secret(adminId, enrollmentId), instant.getEpochSecond() / STEP_SECONDS);
+        return totp(secrets.resolve(adminId, secretRef).secret(), instant.getEpochSecond() / STEP_SECONDS);
     }
 
-    private String secret(long adminId, String enrollmentId) {
-        try {
-            Mac mac = Mac.getInstance("HmacSHA256");
-            mac.init(new SecretKeySpec(rootKey, "HmacSHA256"));
-            byte[] derived = mac.doFinal(("admin-mfa:" + adminId + ":" + enrollmentId)
-                    .getBytes(StandardCharsets.UTF_8));
-            byte[] firstTwenty = new byte[20];
-            System.arraycopy(derived, 0, firstTwenty, 0, firstTwenty.length);
-            return base32(firstTwenty);
-        } catch (Exception exception) {
-            throw new IllegalStateException("Unable to derive administrator MFA secret", exception);
-        }
+    String enrollmentId(String secretRef) {
+        return secrets.enrollmentId(secretRef);
+    }
+
+    void revoke(long adminId, String secretRef) {
+        secrets.revoke(adminId, secretRef);
     }
 
     private static String totp(String base32Secret, long counter) {
@@ -92,7 +106,7 @@ public final class AdminTotpService {
         }
     }
 
-    private static String base32(byte[] input) {
+    static String base32(byte[] input) {
         StringBuilder output = new StringBuilder((input.length * 8 + 4) / 5);
         int buffer = 0;
         int bitsLeft = 0;

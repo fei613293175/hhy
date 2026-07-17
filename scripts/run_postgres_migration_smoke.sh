@@ -35,6 +35,28 @@ for migration in "$ROOT"/database/migrations/V*.sql; do
   echo "$(basename "$migration") PASS"
 done
 
+IDEMPOTENCY_SCOPE_WIDTH="$("${PSQL[@]}" -Atc "
+  SELECT character_maximum_length
+  FROM information_schema.columns
+  WHERE table_schema='hhy'
+    AND table_name='idempotency_records'
+    AND column_name='scope';")"
+[[ "$IDEMPOTENCY_SCOPE_WIDTH" == "128" ]] || {
+  echo "Expected idempotency scope width 128, got $IDEMPOTENCY_SCOPE_WIDTH" >&2
+  exit 1
+}
+echo "R01_IDEMPOTENCY_SCOPE_WIDTH $IDEMPOTENCY_SCOPE_WIDTH"
+TOTP_REPLAY_COLUMN_COUNT="$("${PSQL[@]}" -Atc "
+  SELECT count(*) FROM information_schema.columns
+  WHERE table_schema='hhy'
+    AND table_name='admin_mfa_methods'
+    AND column_name='last_accepted_step';")"
+[[ "$TOTP_REPLAY_COLUMN_COUNT" == "1" ]] || {
+  echo "Expected the R01 TOTP replay column" >&2
+  exit 1
+}
+echo "R01_TOTP_REPLAY_COLUMN PASS"
+
 TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
 [[ "$TABLE_COUNT" == "198" ]] || { echo "Expected 198 hhy tables, got $TABLE_COUNT" >&2; exit 1; }
 echo "TABLE_COUNT $TABLE_COUNT"
@@ -98,11 +120,121 @@ echo "BASELINE_VERIFICATION PASS"
 bash "$ROOT/scripts/run_p00_database_invariants.sh"
 bash "$ROOT/scripts/run_r01_database_invariants.sh"
 # The R01 invariant suite intentionally rebuilds its final baseline only
-# through V012. Restore the next forward migration before exercising R01 RBAC
-# and administrator bootstrap behavior.
+# through V012. Restore every later forward migration before exercising R01
+# RBAC, idempotency capacity, and administrator bootstrap behavior.
 "${PSQL[@]}" --single-transaction \
   -f "$ROOT/database/migrations/V013__r01_admin_self_rbac.sql" >/dev/null
 echo "R01_V013_AFTER_SECURITY_INVARIANTS PASS"
+"${PSQL[@]}" --single-transaction \
+  -f "$ROOT/database/migrations/V014__r01_idempotency_scope_capacity.sql" >/dev/null
+echo "R01_V014_AFTER_SECURITY_INVARIANTS PASS"
+"${PSQL[@]}" --single-transaction \
+  -f "$ROOT/database/migrations/V015__r01_totp_replay_guard.sql" >/dev/null
+echo "R01_V015_AFTER_SECURITY_INVARIANTS PASS"
+
+"${PSQL[@]}" -q <<'SQL' >/dev/null
+INSERT INTO hhy.idempotency_records(scope,idem_key,request_hash,response_ref)
+VALUES ('r01-short-scope','r01-u014-short',repeat('a',64),'r01-short-response');
+SQL
+"${PSQL[@]}" --single-transaction \
+  -f "$ROOT/database/rollback/U014__r01_idempotency_scope_capacity.sql" >/dev/null
+U014_SHORT_STATE="$("${PSQL[@]}" -qAt -c "
+  SELECT
+    (SELECT character_maximum_length FROM information_schema.columns
+      WHERE table_schema='hhy' AND table_name='idempotency_records' AND column_name='scope'),
+    (SELECT count(*) FROM hhy.idempotency_records
+      WHERE scope='r01-short-scope' AND idem_key='r01-u014-short');")"
+[[ "$U014_SHORT_STATE" == "64|1" ]] || {
+  echo "U014 safe rollback did not preserve compatible data: $U014_SHORT_STATE" >&2
+  exit 1
+}
+"${PSQL[@]}" --single-transaction \
+  -f "$ROOT/database/migrations/V014__r01_idempotency_scope_capacity.sql" >/dev/null
+echo "U014_SAFE_ROLLBACK_REAPPLY_V014 PASS"
+
+"${PSQL[@]}" -q <<'SQL' >/dev/null
+INSERT INTO hhy.idempotency_records(scope,idem_key,request_hash,response_ref)
+VALUES (repeat('l',76),'r01-u014-long',repeat('b',64),'r01-long-response');
+SQL
+U014_BLOCK_LOG="$(mktemp)"
+set +e
+"${PSQL[@]}" --single-transaction \
+  -f "$ROOT/database/rollback/U014__r01_idempotency_scope_capacity.sql" \
+  >"$U014_BLOCK_LOG" 2>&1
+U014_BLOCK_RC=$?
+set -e
+if [[ "$U014_BLOCK_RC" -eq 0 ]] \
+  || ! grep -q "R01_IDEMPOTENCY_SCOPE_ROLLBACK_BLOCKED_LONG_VALUES_EXIST" "$U014_BLOCK_LOG"; then
+  cat "$U014_BLOCK_LOG" >&2
+  rm -f "$U014_BLOCK_LOG"
+  echo "U014 must refuse to truncate persisted long scopes" >&2
+  exit 1
+fi
+rm -f "$U014_BLOCK_LOG"
+U014_BLOCK_STATE="$("${PSQL[@]}" -qAt -c "
+  SELECT
+    (SELECT character_maximum_length FROM information_schema.columns
+      WHERE table_schema='hhy' AND table_name='idempotency_records' AND column_name='scope'),
+    (SELECT count(*) FROM hhy.idempotency_records
+      WHERE char_length(scope)=76 AND idem_key='r01-u014-long');")"
+[[ "$U014_BLOCK_STATE" == "128|1" ]] || {
+  echo "Rejected U014 changed width or long-scope data: $U014_BLOCK_STATE" >&2
+  exit 1
+}
+echo "U014_LONG_SCOPE_ROLLBACK_BLOCKED PASS"
+
+"${PSQL[@]}" --single-transaction \
+  -f "$ROOT/database/rollback/U015__r01_totp_replay_guard.sql" >/dev/null
+U015_SAFE_STATE="$("${PSQL[@]}" -qAt -c "
+  SELECT count(*) FROM information_schema.columns
+  WHERE table_schema='hhy' AND table_name='admin_mfa_methods'
+    AND column_name='last_accepted_step';")"
+[[ "$U015_SAFE_STATE" == "0" ]] || {
+  echo "U015 safe rollback did not remove the unused replay column" >&2
+  exit 1
+}
+"${PSQL[@]}" --single-transaction \
+  -f "$ROOT/database/migrations/V015__r01_totp_replay_guard.sql" >/dev/null
+echo "U015_SAFE_ROLLBACK_REAPPLY_V015 PASS"
+
+"${PSQL[@]}" -q <<'SQL' >/dev/null
+WITH admin_row AS (
+  INSERT INTO hhy.admin_users(username,password_hash,status)
+  VALUES ('r01-u015-replay',repeat('c',64),'ACTIVE')
+  RETURNING id
+)
+INSERT INTO hhy.admin_mfa_methods(
+  admin_user_id,method,secret_ref,status,last_accepted_step
+)
+SELECT id,'TOTP','secret-file:v1:r01-u015-replay','PENDING',123456
+FROM admin_row;
+SQL
+U015_BLOCK_LOG="$(mktemp)"
+set +e
+"${PSQL[@]}" --single-transaction \
+  -f "$ROOT/database/rollback/U015__r01_totp_replay_guard.sql" \
+  >"$U015_BLOCK_LOG" 2>&1
+U015_BLOCK_RC=$?
+set -e
+if [[ "$U015_BLOCK_RC" -eq 0 ]] \
+  || ! grep -q "R01_TOTP_REPLAY_GUARD_ROLLBACK_BLOCKED_CONSUMED_STEPS_EXIST" "$U015_BLOCK_LOG"; then
+  cat "$U015_BLOCK_LOG" >&2
+  rm -f "$U015_BLOCK_LOG"
+  echo "U015 must refuse to erase consumed TOTP steps" >&2
+  exit 1
+fi
+rm -f "$U015_BLOCK_LOG"
+U015_BLOCK_STATE="$("${PSQL[@]}" -qAt -c "
+  SELECT count(*),min(last_accepted_step)
+  FROM hhy.admin_mfa_methods
+  WHERE admin_user_id=(SELECT id FROM hhy.admin_users WHERE username='r01-u015-replay');")"
+[[ "$U015_BLOCK_STATE" == "1|123456" ]] || {
+  echo "Rejected U015 changed consumed replay state: $U015_BLOCK_STATE" >&2
+  exit 1
+}
+"${PSQL[@]}" -q -c "TRUNCATE hhy.admin_mfa_methods, hhy.admin_users RESTART IDENTITY CASCADE" >/dev/null
+echo "U015_CONSUMED_STEP_ROLLBACK_BLOCKED PASS"
+
 "${PSQL[@]}" -f "$ROOT/database/tests/r01_admin_self_rbac.sql" >/dev/null
 echo "R01_ADMIN_SELF_RBAC PASS"
 
@@ -176,5 +308,26 @@ echo "U012_REAPPLY_V012 PASS"
 echo "U010_REAPPLY_V010 PASS"
 
 "${PSQL[@]}" -f "$ROOT/database/verification/verify_baseline.sql" >/dev/null
+FINAL_IDEMPOTENCY_SCOPE_WIDTH="$("${PSQL[@]}" -Atc "
+  SELECT character_maximum_length
+  FROM information_schema.columns
+  WHERE table_schema='hhy'
+    AND table_name='idempotency_records'
+    AND column_name='scope';")"
+[[ "$FINAL_IDEMPOTENCY_SCOPE_WIDTH" == "128" ]] || {
+  echo "Final idempotency scope width must be 128, got $FINAL_IDEMPOTENCY_SCOPE_WIDTH" >&2
+  exit 1
+}
+echo "FINAL_R01_IDEMPOTENCY_SCOPE_WIDTH $FINAL_IDEMPOTENCY_SCOPE_WIDTH"
+FINAL_TOTP_REPLAY_COLUMN_COUNT="$("${PSQL[@]}" -Atc "
+  SELECT count(*) FROM information_schema.columns
+  WHERE table_schema='hhy'
+    AND table_name='admin_mfa_methods'
+    AND column_name='last_accepted_step';")"
+[[ "$FINAL_TOTP_REPLAY_COLUMN_COUNT" == "1" ]] || {
+  echo "Final R01 TOTP replay column is missing" >&2
+  exit 1
+}
+echo "FINAL_R01_TOTP_REPLAY_COLUMN PASS"
 echo "FINAL_BASELINE_VERIFICATION PASS"
 echo "POSTGRESQL_MIGRATION_SMOKE PASS"

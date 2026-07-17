@@ -1,4 +1,4 @@
-# P00 Staging 部署与可观测性验收手册
+# Staging 部署与可观测性验收手册
 
 本文只描述经批准后的 Staging 操作。生产部署仍只允许 CI 从受保护且可追溯的 Tag 执行；禁止从开发机直接发布生产。
 
@@ -13,7 +13,7 @@
 ## 2. 发布前置条件
 
 1. 已批准的不可变镜像 Tag 和代码 Commit 已记录，`HHY_IMAGE_TAG` 禁止使用 `latest`。
-2. `POSTGRES_PASSWORD` 通过服务器 Secret 管理提供，不写入仓库、Shell 历史或工单正文。
+2. `POSTGRES_PASSWORD`、`HHY_ADMIN_JWT_SECRET`、`HHY_ADMIN_MFA_ROOT_SECRET`、`HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET` 通过服务器 Secret 管理提供，不写入仓库、Shell 历史或工单正文；三项管理员密钥必须互不相同。
 3. 备份任务最近一次成功，且已确认恢复点；数据库迁移只允许前向迁移。
 4. 先在仓库根目录执行静态门禁和测试：
 
@@ -28,8 +28,15 @@
    ```bash
    export HHY_IMAGE_TAG='<approved-immutable-tag>'
    export POSTGRES_PASSWORD='<read-from-secret-manager>'
+   export HHY_ADMIN_JWT_SECRET='<read-from-secret-manager>'
+   export HHY_ADMIN_MFA_ROOT_SECRET='<read-from-secret-manager>'
+   export HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET='<read-from-secret-manager>'
+   export HHY_ADMIN_TRUSTED_PROXY_CIDRS='<verified-nginx-direct-peer-ip>/32'
    docker compose -f infra/staging/docker-compose.p00.yml config --quiet
    ```
+
+6. `HHY_ADMIN_TRUSTED_PROXY_CIDRS` 必须来自一次实际 Nginx→后端连接观测，只登记直接代理地址的精确 `/32`（IPv6 使用 `/128`），禁止为省事信任整个 Docker 网段。Nginx 必须清除外部传入的 XFF，并使用 `proxy_set_header X-Forwarded-For $remote_addr;` 重写单层来源。
+7. 上线前只读检查 `admin-mfa-secrets` 卷；全新卷由镜像初始化为 UID/GID `10001:10001`。已存在的非空卷必须确认 `/var/lib/hhy/secrets/admin-mfa` 为 `10001:10001`、模式 `700` 且 UID 10001 可写，不合格时停止发布并执行经过审核的一次性属主修正。
 
 ## 3. Staging 发布步骤
 
@@ -57,6 +64,8 @@
      curl -fsS http://127.0.0.1:9091/actuator/health/liveness
    docker compose -f infra/staging/docker-compose.p00.yml exec -T backend \
      curl -fsS http://127.0.0.1:9091/actuator/health/readiness
+   docker compose -f infra/staging/docker-compose.p00.yml exec -T backend \
+     sh -ec 'test "$(id -u)" = 10001; test -w /var/lib/hhy/secrets/admin-mfa; stat -c "%u:%g %a" /var/lib/hhy/secrets/admin-mfa'
    ```
 
 5. 启动 Prometheus 与 Alertmanager，并验证抓取目标：
