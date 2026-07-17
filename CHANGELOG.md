@@ -129,3 +129,12 @@
 - 摘要：完成R01开发就绪、三故事领取、验证器语义修复、NEXT_TASK命令集和8接口/27测试任务合同对齐
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T074317Z-C575A687.md`
 
+## TASK-R01-002 · COMPLETED · 2026-07-17T08:41:19Z
+
+- Task close: TASK-R01-002 / SES-20260717T080633Z-7A2C9226
+- Release：`R01`
+- Story：`STORY-R01-003`
+- Actor：`codex-root`
+- 摘要：R01管理员认证V012数据迁移、状态机、领域不变量和PostgreSQL17空库升级回滚并发验证全部完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T080633Z-7A2C9226.md`
+

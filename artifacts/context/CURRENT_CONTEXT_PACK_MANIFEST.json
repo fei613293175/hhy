@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-17T08:40:28Z",
-  "context_hash": "34a8ea57e7306d442831b344445f825ee9359ee3b2ff635eb110fec210ea432a",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-17T08:41:58Z",
+  "context_hash": "d19c77acc25b56abd9efb73afbe696a0e9a08155e9006332558a4bc7e7cb3f74",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "a1ebb0f8fe2d61c63e05d6a2860dc4337d86229af7abac089deeccd3c09ad154",
-    "file_count": 11
+    "sha256": "a0ea7d2b1f07d072ebb755cc4ff81f93fd1aeecafbe305f4442f939154b33039",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "d36e637c024cf88f3874c405894903b4fd11e04e8fd0f7ef2bbb1cf709571667"
+    "sha256": "b47d727661a25046210d963346869dc6d4a53a4e8bd753ecaea48ddf553127c2"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "eee26fca878322675734c31691c59c552b0b0d0bb1e4ea485d89cff7c5675e17"
+    "sha256": "4fea61e783fb85d48b9d079df29453bf12d84a1b92f59679ecb03c401f9eb465"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "3767f0ed86c22d8e9cc9cd4ba71ee0a15a5cb5bdbad93b99abae2f7ee2a4563d",
-      "bytes": 3065
+      "sha256": "0a67ad37a395cba54dac2c7792c2fe0a261f06138a6c085eb171d640781b90f3",
+      "bytes": 2942
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "a84231fba9b51c5c76a84cd91c786b8632a7a604eebd38832461591d81339f04",
-      "bytes": 1561
+      "sha256": "ec54225975bab3fd3a24601814200e2ee8eaf1d9e35faf45ab63c2aea85d7830",
+      "bytes": 1540
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -68,18 +68,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "b6d29f6c43ec41c4ee48c06052820b42e78d5c39136e21b1f8b835e9c4d30f0d",
-      "bytes": 69218
+      "sha256": "8696405befb14254884d009a3b4b744783f74dc17cbd08f31e912c3dbbd991d6",
+      "bytes": 70839
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "0a988fbda5a08cbb16450bed25324b75ca5a2836fdec0645ba2a29b1810af5f3",
-      "bytes": 5582
+      "sha256": "955c546db5f4cfa4a4f0f63c6f997b9d4cb174ae1f24c1039ace205179c21b4b",
+      "bytes": 5600
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "ab232a2ce8faae86c3707f53208a979ca5faeb2777d1b7e8f13ad2242cf42ec2",
-      "bytes": 7630
+      "sha256": "c9b41eac0e5f4f7eb1e6f49e78c206365886cdf20298e2e0fcb723186fae7813",
+      "bytes": 7666
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -93,48 +93,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "eeb0d76cd8587c49079740338d332f3cc87efbfdb0ba429c665597ea8241696c",
-      "bytes": 525
-    },
-    {
-      "path": "releases/R01/RELEASE_MANIFEST.yaml",
-      "sha256": "bb986f651fd20c30ddbabeb81ef31351b6aab527bf6d65833262ce6bee30893f",
-      "bytes": 3967
-    },
-    {
-      "path": "releases/R01/DEFINITION_OF_READY.yaml",
-      "sha256": "ed81dd9db760893207515b8c0a5cc2f80ac5b7f358d00fb7b71276b8931100e5",
-      "bytes": 7071
-    },
-    {
-      "path": "releases/R01/STORIES.yaml",
-      "sha256": "368e786cf97c2b244d5bbf21acedcdefacbf5f4a4b42c7780db5b1accb5dd86e",
-      "bytes": 10386
-    },
-    {
-      "path": "releases/R01/TASKS.yaml",
-      "sha256": "05adecff3a3126863b465bd398426ca74fa8db64e0cf2b8f4b220b1b3b5d4e9b",
-      "bytes": 5637
-    },
-    {
-      "path": "releases/R01/ACCEPTANCE_MATRIX.csv",
-      "sha256": "a668129234acb184110e076cd021c95c0747d0c6139035c28a42cbd2f68ca127",
-      "bytes": 691
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260717T080633Z-7A2C9226.md",
-      "sha256": "d0cad38a19a54a2a193104a038472c545c7b3a764d72d39f952d1e1d3db68893",
-      "bytes": 5917
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260717T080633Z-7A2C9226/0003.yaml",
-      "sha256": "d1f7e67e9cca4e11bf8d5436367206b0014eb245edbc3fb7a9d4a37ac886f943",
-      "bytes": 7135
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md",
-      "sha256": "e8d5fa82b607f82dca8c2125a06341fb460d2b244aaf10c97ecc0796ff413f12",
-      "bytes": 4332
+      "sha256": "e27d8784dece6d9c85d9720bd98d501f307809af841fcd7c0b5bea15d938927a",
+      "bytes": 143
     }
   ]
 }

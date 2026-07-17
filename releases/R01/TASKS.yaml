@@ -32,7 +32,7 @@ tasks:
   completed_at: '2026-07-17T08:03:00Z'
 - id: TASK-R01-002
   title: Design System与契约工程化数据迁移与领域不变量
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R01-001
   requirements: *id001
@@ -46,9 +46,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-17T08:41:19Z'
 - id: TASK-R01-003
   title: Design System与契约工程化后端应用服务与接口
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R01-002
   requirements: *id001
