@@ -1,0 +1,242 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T200842Z-456B8F52-0001
+session_id: SES-20260717T200842Z-456B8F52
+sequence: 1
+created_at: '2026-07-17T20:35:23Z'
+summary: 完成R02至R32全项目滚动开发总计划、R03/R04精细执行包、全版本APK门禁、R32全版本完整依赖和确定性计划验证
+next_step: 执行V1.2.3连续性严格门禁，提交并推送规划结果，关闭CR-0019/CR-0020后按用户要求暂停业务开发
+blockers: []
+decisions:
+- 实际4槽位固定为1主控+3执行；一个Session/Claim内并行且同一时刻只开发一个业务版本
+- R02为执行级，R03/R04为Story级，R05-R32为组合级并在每版封板时滚动细化
+- R02-R32每版均交付桌面和公网APK并等待项目所有者真机验收
+note: 本阶段仅规划与门禁，无业务功能代码和新APK产物；完成后暂停
+tests:
+- name: program-plan
+  result: PASS
+  evidence: releases/PROGRAM_EXECUTION_PLAN.yaml
+  note: 31 releases deterministic; DAG, story/task coverage, all-version APK PASS
+- name: program-plan-unit
+  result: PASS
+  evidence: tests/test_program_execution_plan.py
+  note: 4/4 PASS
+- name: affected-fast
+  result: PASS
+  evidence: config/test-impact-map.yaml
+  note: program plan, acceleration tooling, runtime assets and OpenAPI all PASS
+- name: documentation-strict
+  result: PASS
+  evidence: artifacts/validation/project-doctor-v1.2.2.json
+  note: 0 errors, 0 warnings
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: 3e5e39d7ef1501cc6d93856cde11fb880dfcc21e
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M config/test-impact-map.yaml'
+  - ' M releases/R02/PARALLEL_EXECUTION_PLAN.yaml'
+  - ' M releases/R02/TASKS.yaml'
+  - ' M releases/R03/RELEASE_MANIFEST.yaml'
+  - ' M releases/R03/TASKS.yaml'
+  - ' M releases/R04/RELEASE_MANIFEST.yaml'
+  - ' M releases/R04/TASKS.yaml'
+  - ' M releases/R32/RELEASE_MANIFEST.yaml'
+  - ' M releases/RELEASE_DEPENDENCIES.yaml'
+  - ?? .continuity/change_requests/CR-0019.yaml
+  - ?? .continuity/change_requests/CR-0020.yaml
+  - ?? .continuity/sessions/SES-20260717T200842Z-456B8F52.yaml
+  - ?? docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
+  - ?? docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T200842Z-456B8F52.md
+  - ?? docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+  - ?? releases/PROGRAM_EXECUTION_PLAN.yaml
+  - ?? releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - ?? releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  - ?? scripts/check_program_execution_plan.py
+  - ?? scripts/generate_program_execution_plan.py
+  - ?? tests/test_program_execution_plan.py
+  recent_commits:
+  - "3e5e39d7ef1501cc6d93856cde11fb880dfcc21e\t2026-07-18T04:06:37+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close TASK-R02-001\
+    \ as completed"
+  - "5aa51aef6db3889e339b41ef0d2831bace30d9dc\t2026-07-18T04:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(dev): close acceleration\
+    \ change request"
+  - "cd44628d800b0369c286093d0f5e4c69de67a54b\t2026-07-18T03:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(continuity): skip docs\
+    \ for runtime records"
+  - "919b095307a366c88c1cd0c6c0b48c4f03dff574\t2026-07-18T03:36:23+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(continuity): limit first\
+    \ push validation range"
+  - "c19f6d6259801d785dc70eb2a81dfac5c41278ec\t2026-07-18T03:28:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(dev): establish parallel\
+    \ acceleration baseline"
+  - "878abc7f51eb3724703d5ff72d78d5eaed1cff30\t2026-07-18T01:47:21+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-008\
+    \ as completed"
+  - "2e6c8dc68303b32ce154e4a3567dd36b0c0c225f\t2026-07-18T01:44:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): finalize release\
+    \ closure evidence"
+  - "e3d4d3782f067ebe963856d741dd4cd6be3d16ca\t2026-07-18T01:07:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-007\
+    \ as completed"
+project_fingerprint:
+  sha256: 28869164be54dc2df7faa11171dd5f70da5fc5728815d2031f6dbbdc8ea120c9
+  files:
+  - config/test-impact-map.yaml
+  - docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
+  - docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md
+  - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R02/TASKS.yaml
+  - releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R03/RELEASE_MANIFEST.yaml
+  - releases/R03/TASKS.yaml
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R04/RELEASE_MANIFEST.yaml
+  - releases/R04/TASKS.yaml
+  - releases/R32/RELEASE_MANIFEST.yaml
+  - releases/RELEASE_DEPENDENCIES.yaml
+  - scripts/check_program_execution_plan.py
+  - scripts/generate_program_execution_plan.py
+  - tests/test_program_execution_plan.py
+  file_count: 18
+  payload:
+    base_commit: 3e5e39d7ef1501cc6d93856cde11fb880dfcc21e
+    files:
+    - path: config/test-impact-map.yaml
+      state: FILE
+      size: 5203
+      sha256: ca7314be13ff6181ee303e49a792ff90aa15bc49c4000a3f76fb804605d6c888
+    - path: docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
+      state: FILE
+      size: 3383
+      sha256: cb8a33fc244ad8becd439a3f83c32233bac2cda108cf330a5f2a6cf17b8f54ab
+    - path: docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md
+      state: FILE
+      size: 3353
+      sha256: bb76d65395b051ff86e5846a336d2cdaa6179c9f14a0f63ecc79adb113e38ec3
+    - path: docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+      state: FILE
+      size: 13751
+      sha256: cc4e5228c8a8c44edbcb2842a8330292c54703f9ad3bbc80b00d893a71faa3e5
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 35485
+      sha256: 6e7bb2bec611ff0ea359353ecbceec7594c4e987eaccd2cab858c3e135ab8adc
+    - path: releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 2459
+      sha256: 8cae594afb488230141c1bba966bcd38f826019788f088f2123650872748df20
+    - path: releases/R02/TASKS.yaml
+      state: FILE
+      size: 7401
+      sha256: 048d5453a94058ef04b704a67d55ad28182d040eee384d4d65794e19c90a949a
+    - path: releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 3264
+      sha256: 34227e64fee654e4af825fafba6a57982611de0f88765fd96c50b709ae4b7a3b
+    - path: releases/R03/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3921
+      sha256: d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318
+    - path: releases/R03/TASKS.yaml
+      state: FILE
+      size: 6946
+      sha256: 3174139a7f38e481b1b9eaf6aede6c8d2933ec23a35d34c756825f469666d20c
+    - path: releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 2845
+      sha256: 7e094f0929e642ad506160458832e5bfb903a79e581f4ca6313d6b9de882b114
+    - path: releases/R04/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 2484
+      sha256: c897c4706cdcb53bde1c053a6515a12fbad0fc3f01b24ae891b7426df203f3c6
+    - path: releases/R04/TASKS.yaml
+      state: FILE
+      size: 6100
+      sha256: 3c50b02ed3601ee5756d4383b6f1fe8f15f94a450905de68c2fd5ea2a71d8ccb
+    - path: releases/R32/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 2953
+      sha256: 79a286c42539c25b5168c36508ec0279fb902adc64040ae1e375d3beb63b72aa
+    - path: releases/RELEASE_DEPENDENCIES.yaml
+      state: FILE
+      size: 1846
+      sha256: 7fdd2ee6b1f8a1f2b8f14d1eeb399916f42d8eb3846efc032342cb926a0d15e6
+    - path: scripts/check_program_execution_plan.py
+      state: FILE
+      size: 8382
+      sha256: 9b728efcaccbe74cb7ae866ac5342ba64a456249485aa0b00cd136758d305978
+    - path: scripts/generate_program_execution_plan.py
+      state: FILE
+      size: 15477
+      sha256: 8b309da50a39d8a9fe08a5e66070570a4b8cefe929314594f7d9dea5fdc5cb42
+    - path: tests/test_program_execution_plan.py
+      state: FILE
+      size: 1638
+      sha256: 261476f6d5b59e86e6cdbd7469cb9945865a3e6271f5812e4f96db4b6a2ad3b0
+change_classification:
+  other:
+  - config/test-impact-map.yaml
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R02/TASKS.yaml
+  - releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R03/TASKS.yaml
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R04/TASKS.yaml
+  - releases/RELEASE_DEPENDENCIES.yaml
+  continuity:
+  - docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
+  - docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md
+  - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+  source_of_truth:
+  - releases/R03/RELEASE_MANIFEST.yaml
+  - releases/R04/RELEASE_MANIFEST.yaml
+  - releases/R32/RELEASE_MANIFEST.yaml
+  code:
+  - scripts/check_program_execution_plan.py
+  - scripts/generate_program_execution_plan.py
+  tests:
+  - tests/test_program_execution_plan.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0019
+- CR-0020
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - STORY-R02-003,STORY-R02-004及其直接实现、测试与生成契约
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 541a8d73cc5d2396458896b25eed9a7ea19cab5a02ca02e18fdcafc8a3f95500

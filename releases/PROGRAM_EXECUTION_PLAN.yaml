@@ -1,0 +1,1439 @@
+schema: hhy.program-execution-plan/v1
+version: '1.0'
+change_request: CR-0019
+scope:
+  from: R02
+  through: R32
+  completed_baseline:
+  - P00
+  - R01
+source_of_truth:
+  dependencies: releases/RELEASE_DEPENDENCIES.yaml
+  release_pattern: releases/<release>/{RELEASE_MANIFEST,STORIES,TASKS,DEFINITION_OF_READY,ACCEPTANCE_MATRIX}
+  documentation_baseline: V1.2.2
+  continuity_baseline: V1.2.3
+portfolio_totals:
+  releases: 31
+  apk_releases: 31
+  requirements: 100
+  stories: 158
+  tasks: 248
+  android_surfaces: 102
+  h5_surfaces: 13
+  admin_surfaces: 71
+  client_api_references: 85
+  admin_api_references: 162
+  websocket_references: 0
+  manifest_endpoint_references: 247
+  story_operation_references: 707
+  story_unique_operation_ids: 393
+  database_table_references: 646
+  test_references: 330
+operating_model:
+  actual_concurrency_slots: 4
+  coordinator_slots: 1
+  delegated_worker_slots: 3
+  authoritative_session_count: 1
+  simultaneous_business_release_limit: 1
+  cross_release_parallelism: PLANNING_AND_EXTERNAL_PREPARATION_ONLY
+  worker_rules:
+  - 每个执行代理使用隔离scratch worktree和互不重叠的路径租约
+  - 执行代理不修改连续性和Release事实，不提交、不推送、不发布
+  - 主控逐项审查补丁、运行门禁并作为唯一提交者
+  - 资金、状态机、并发、安全和破坏性迁移由高推理主控复核
+  default_partitions:
+  - id: BACKEND_DATA
+    paths:
+    - services/backend/**
+    - database/**
+  - id: CLIENT
+    paths:
+    - apps/android/**
+    - apps/admin-web/**
+    - apps/h5/**
+    rule: 每次任务只领取实际涉及的客户端目录
+  - id: QUALITY_DELIVERY
+    paths:
+    - tests/**
+    - artifacts/validation/**
+rolling_window:
+  current_release: R02
+  execution_ready:
+  - R02
+  story_ready:
+  - R03
+  - R04
+  portfolio_ready:
+  - R05
+  - R06
+  - R07
+  - R08
+  - R09
+  - R10
+  - R11
+  - R12
+  - R13
+  - R14
+  - R15
+  - R16
+  - R17
+  - R18
+  - R19
+  - R20
+  - R21
+  - R22
+  - R23
+  - R24
+  - R25
+  - R26
+  - R27
+  - R28
+  - R29
+  - R30
+  - R31
+  - R32
+  refinement_trigger: 每个版本封板时把当前+1提升为EXECUTION_READY，并把当前+3提升为STORY_READY
+  rules:
+  - 当前版本细化到代理、目录、接口、页面、数据和测试
+  - 后两个版本细化到纵向Story、依赖、外部资源和验收
+  - 其余版本保持里程碑、DAG、规模、风险和最晚外部准备版本
+  - 滚动细化不得改变冻结业务事实；需要改变时必须新建CR
+delivery_flow:
+- DOR_AND_SESSION
+- THREE_PARTITION_VERTICAL_IMPLEMENTATION
+- FAST_AND_MODULE_TESTS
+- COORDINATOR_INTEGRATION
+- INTEGRATION_PROFILE
+- STAGING_AND_FAULT_INJECTION
+- RELEASE_PROFILE
+- APK_DESKTOP_AND_PUBLIC_DELIVERY_IF_REQUIRED
+- OWNER_PHYSICAL_DEVICE_ACCEPTANCE_IF_REQUIRED
+- RELEASE_CLOSE_AND_STATELESS_HANDOFF
+release_waves:
+- wave: WAVE-01
+  eligible_releases:
+  - R02
+  - R03
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-02
+  eligible_releases:
+  - R04
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-03
+  eligible_releases:
+  - R05
+  - R06
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-04
+  eligible_releases:
+  - R07
+  - R14
+  - R16
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-05
+  eligible_releases:
+  - R08
+  - R09
+  - R10
+  - R11
+  - R15
+  - R17
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-06
+  eligible_releases:
+  - R12
+  - R18
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-07
+  eligible_releases:
+  - R13
+  - R19
+  - R20
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-08
+  eligible_releases:
+  - R21
+  - R28
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-09
+  eligible_releases:
+  - R22
+  - R29
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-10
+  eligible_releases:
+  - R23
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-11
+  eligible_releases:
+  - R24
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-12
+  eligible_releases:
+  - R25
+  - R27
+  - R30
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-13
+  eligible_releases:
+  - R26
+  - R31
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-14
+  eligible_releases:
+  - R32
+  meaning: 依赖满足后的候选集合，不表示同时编码
+critical_path:
+  representative_longest_path:
+  - P00
+  - R01
+  - R03
+  - R04
+  - R06
+  - R07
+  - R11
+  - R12
+  - R20
+  - R21
+  - R22
+  - R23
+  - R24
+  - R30
+  - R31
+  - R32
+  join_barriers:
+  - releases:
+    - R08
+    - R09
+    - R10
+    - R11
+    unlocks: R12
+  - releases:
+    - R20
+    - R21
+    - R22
+    - R23
+    - R24
+    unlocks: R30
+  - releases:
+    - R28
+    - R29
+    - R30
+    - R31
+    - R32
+    unlocks: PRODUCTION
+  scheduler_rule: 优先完成阻塞最多后继版本的Release；同一候选波次内仍只保持一个业务实现版本
+external_readiness:
+  verified_now:
+  - resource: api.orbexa.cc
+    status: DNS_TLS_REACHABLE_SERVICE_HEALTH_PENDING
+    evidence: 2026-07-18 DNS A/AAAA + HTTPS 200
+  - resource: download.orbexa.cc
+    status: DNS_TLS_REACHABLE_R01_ARTIFACT_VERIFIED
+    evidence: 2026-07-18 DNS A/AAAA + HTTPS reachable; R01 APK evidence in repository
+  hard_rules:
+  - Secret只允许SecretRef，禁止仓库、日志和命令行明文
+  - P0/P1外部依赖到最晚版本未验证时，相关Story必须BLOCKED
+  - 测试环境证据不得冒充生产激活或应用市场准入证据
+  - 真机验收只能由项目所有者明确确认
+release_plan:
+- release: R02
+  title: 账号、登录、注册与安全会话
+  milestone: M0_ENGINEERING_FOUNDATION
+  depends_on:
+  - R01
+  planning_depth: EXECUTION_READY
+  android_test_apk_required: true
+  risk_tier: P1_HIGH
+  risk_domains:
+  - IDENTITY
+  - SESSION_SECURITY
+  - SMS
+  - APK_SIGNING
+  external_gates:
+  - SMS_SANDBOX
+  - STABLE_STAGING_SIGNING
+  - API_AND_DOWNLOAD_TLS
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN_H5
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 6
+    stories: 9
+    tasks: 8
+    android_surfaces: 11
+    h5_surfaces: 1
+    admin_surfaces: 2
+    client_api_references: 12
+    admin_api_references: 7
+    websocket_references: 0
+    manifest_endpoint_references: 19
+    story_operation_references: 50
+    story_unique_operation_ids: 27
+    database_table_references: 28
+    test_references: 25
+  facts:
+    manifest: releases/R02/RELEASE_MANIFEST.yaml
+    stories: releases/R02/STORIES.yaml
+    tasks: releases/R02/TASKS.yaml
+    acceptance: releases/R02/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+- release: R03
+  title: 供应商配置、密钥、证书与域名中心
+  milestone: M0_ENGINEERING_FOUNDATION
+  depends_on:
+  - R01
+  planning_depth: STORY_READY
+  android_test_apk_required: true
+  risk_tier: P1_HIGH
+  risk_domains:
+  - SECRETS
+  - CERTIFICATES
+  - DNS
+  - PROVIDER_ACTIVATION
+  external_gates:
+  - STABLE_STAGING_SIGNING
+  - SMS_SECRETREF
+  - OBJECT_STORAGE_SANDBOX
+  - REAL_NAME_SANDBOX
+  - PAYMENT_SANDBOX
+  - PAYOUT_SANDBOX
+  - DNS_AND_TLS_CONTROL
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 6
+    stories: 4
+    tasks: 8
+    android_surfaces: 0
+    h5_surfaces: 0
+    admin_surfaces: 7
+    client_api_references: 0
+    admin_api_references: 13
+    websocket_references: 0
+    manifest_endpoint_references: 13
+    story_operation_references: 46
+    story_unique_operation_ids: 17
+    database_table_references: 26
+    test_references: 18
+  facts:
+    manifest: releases/R03/RELEASE_MANIFEST.yaml
+    stories: releases/R03/STORIES.yaml
+    tasks: releases/R03/TASKS.yaml
+    acceptance: releases/R03/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+- release: R04
+  title: 媒体与多对象存储
+  milestone: M0_ENGINEERING_FOUNDATION
+  depends_on:
+  - R03
+  planning_depth: STORY_READY
+  android_test_apk_required: true
+  risk_tier: P1_HIGH
+  risk_domains:
+  - OBJECT_STORAGE
+  - PRIVATE_MEDIA
+  - UPLOAD_CONCURRENCY
+  external_gates:
+  - OBJECT_STORAGE_BUCKET
+  - CORS
+  - LIFECYCLE_POLICY
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 2
+    tasks: 8
+    android_surfaces: 1
+    h5_surfaces: 0
+    admin_surfaces: 0
+    client_api_references: 3
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 3
+    story_operation_references: 6
+    story_unique_operation_ids: 3
+    database_table_references: 12
+    test_references: 6
+  facts:
+    manifest: releases/R04/RELEASE_MANIFEST.yaml
+    stories: releases/R04/STORIES.yaml
+    tasks: releases/R04/TASKS.yaml
+    acceptance: releases/R04/ACCEPTANCE_MATRIX.csv
+  parallel_execution_plan: releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+- release: R05
+  title: 单一实名认证
+  milestone: M0_ENGINEERING_FOUNDATION
+  depends_on:
+  - R02
+  - R04
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P1_HIGH
+  risk_domains:
+  - REAL_NAME
+  - PRIVACY
+  - CALLBACK_VERIFICATION
+  external_gates:
+  - REAL_NAME_AND_LIVENESS_SANDBOX
+  - CALLBACK_ALLOWLIST
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN_H5
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 8
+    tasks: 8
+    android_surfaces: 4
+    h5_surfaces: 1
+    admin_surfaces: 2
+    client_api_references: 4
+    admin_api_references: 5
+    websocket_references: 0
+    manifest_endpoint_references: 9
+    story_operation_references: 24
+    story_unique_operation_ids: 10
+    database_table_references: 10
+    test_references: 10
+  facts:
+    manifest: releases/R05/RELEASE_MANIFEST.yaml
+    stories: releases/R05/STORIES.yaml
+    tasks: releases/R05/TASKS.yaml
+    acceptance: releases/R05/ACCEPTANCE_MATRIX.csv
+- release: R06
+  title: 统一内容基础、首页与CMS
+  milestone: M1_CONTENT_MARKETPLACE
+  depends_on:
+  - R02
+  - R04
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P2_STANDARD
+  risk_domains:
+  - STANDARD_DELIVERY
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 5
+    tasks: 8
+    android_surfaces: 2
+    h5_surfaces: 0
+    admin_surfaces: 3
+    client_api_references: 1
+    admin_api_references: 9
+    websocket_references: 0
+    manifest_endpoint_references: 10
+    story_operation_references: 30
+    story_unique_operation_ids: 12
+    database_table_references: 18
+    test_references: 7
+  facts:
+    manifest: releases/R06/RELEASE_MANIFEST.yaml
+    stories: releases/R06/STORIES.yaml
+    tasks: releases/R06/TASKS.yaml
+    acceptance: releases/R06/ACCEPTANCE_MATRIX.csv
+- release: R07
+  title: 搜索、发布者主页与联系方式保护
+  milestone: M1_CONTENT_MARKETPLACE
+  depends_on:
+  - R06
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P2_STANDARD
+  risk_domains:
+  - STANDARD_DELIVERY
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 3
+    stories: 5
+    tasks: 8
+    android_surfaces: 5
+    h5_surfaces: 0
+    admin_surfaces: 0
+    client_api_references: 4
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 4
+    story_operation_references: 11
+    story_unique_operation_ids: 7
+    database_table_references: 33
+    test_references: 10
+  facts:
+    manifest: releases/R07/RELEASE_MANIFEST.yaml
+    stories: releases/R07/STORIES.yaml
+    tasks: releases/R07/TASKS.yaml
+    acceptance: releases/R07/ACCEPTANCE_MATRIX.csv
+- release: R08
+  title: 项目推广完整闭环
+  milestone: M1_CONTENT_MARKETPLACE
+  depends_on:
+  - R05
+  - R06
+  - R07
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P2_STANDARD
+  risk_domains:
+  - STANDARD_DELIVERY
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 4
+    tasks: 8
+    android_surfaces: 3
+    h5_surfaces: 0
+    admin_surfaces: 0
+    client_api_references: 0
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 0
+    story_operation_references: 8
+    story_unique_operation_ids: 8
+    database_table_references: 20
+    test_references: 3
+  facts:
+    manifest: releases/R08/RELEASE_MANIFEST.yaml
+    stories: releases/R08/STORIES.yaml
+    tasks: releases/R08/TASKS.yaml
+    acceptance: releases/R08/ACCEPTANCE_MATRIX.csv
+- release: R09
+  title: App推广完整闭环
+  milestone: M1_CONTENT_MARKETPLACE
+  depends_on:
+  - R05
+  - R06
+  - R07
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P2_STANDARD
+  risk_domains:
+  - STANDARD_DELIVERY
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 4
+    tasks: 8
+    android_surfaces: 3
+    h5_surfaces: 0
+    admin_surfaces: 0
+    client_api_references: 0
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 0
+    story_operation_references: 8
+    story_unique_operation_ids: 8
+    database_table_references: 20
+    test_references: 3
+  facts:
+    manifest: releases/R09/RELEASE_MANIFEST.yaml
+    stories: releases/R09/STORIES.yaml
+    tasks: releases/R09/TASKS.yaml
+    acceptance: releases/R09/ACCEPTANCE_MATRIX.csv
+- release: R10
+  title: 群聊推广完整闭环
+  milestone: M1_CONTENT_MARKETPLACE
+  depends_on:
+  - R05
+  - R06
+  - R07
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P2_STANDARD
+  risk_domains:
+  - STANDARD_DELIVERY
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 4
+    tasks: 8
+    android_surfaces: 3
+    h5_surfaces: 0
+    admin_surfaces: 0
+    client_api_references: 0
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 0
+    story_operation_references: 8
+    story_unique_operation_ids: 8
+    database_table_references: 20
+    test_references: 4
+  facts:
+    manifest: releases/R10/RELEASE_MANIFEST.yaml
+    stories: releases/R10/STORIES.yaml
+    tasks: releases/R10/TASKS.yaml
+    acceptance: releases/R10/ACCEPTANCE_MATRIX.csv
+- release: R11
+  title: 团队长入驻完整闭环
+  milestone: M1_CONTENT_MARKETPLACE
+  depends_on:
+  - R05
+  - R06
+  - R07
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P2_STANDARD
+  risk_domains:
+  - STANDARD_DELIVERY
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 4
+    tasks: 8
+    android_surfaces: 3
+    h5_surfaces: 0
+    admin_surfaces: 0
+    client_api_references: 0
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 0
+    story_operation_references: 8
+    story_unique_operation_ids: 8
+    database_table_references: 20
+    test_references: 3
+  facts:
+    manifest: releases/R11/RELEASE_MANIFEST.yaml
+    stories: releases/R11/STORIES.yaml
+    tasks: releases/R11/TASKS.yaml
+    acceptance: releases/R11/ACCEPTANCE_MATRIX.csv
+- release: R12
+  title: 统一发布与发布管理
+  milestone: M1_CONTENT_MARKETPLACE
+  depends_on:
+  - R08
+  - R09
+  - R10
+  - R11
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P2_STANDARD
+  risk_domains:
+  - STANDARD_DELIVERY
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 8
+    tasks: 8
+    android_surfaces: 10
+    h5_surfaces: 0
+    admin_surfaces: 1
+    client_api_references: 3
+    admin_api_references: 4
+    websocket_references: 0
+    manifest_endpoint_references: 7
+    story_operation_references: 32
+    story_unique_operation_ids: 20
+    database_table_references: 19
+    test_references: 8
+  facts:
+    manifest: releases/R12/RELEASE_MANIFEST.yaml
+    stories: releases/R12/STORIES.yaml
+    tasks: releases/R12/TASKS.yaml
+    acceptance: releases/R12/ACCEPTANCE_MATRIX.csv
+- release: R13
+  title: 收藏、历史、分享与行为审计
+  milestone: M1_CONTENT_MARKETPLACE
+  depends_on:
+  - R07
+  - R12
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P2_STANDARD
+  risk_domains:
+  - STANDARD_DELIVERY
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 3
+    tasks: 8
+    android_surfaces: 4
+    h5_surfaces: 0
+    admin_surfaces: 0
+    client_api_references: 5
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 5
+    story_operation_references: 10
+    story_unique_operation_ids: 6
+    database_table_references: 25
+    test_references: 3
+  facts:
+    manifest: releases/R13/RELEASE_MANIFEST.yaml
+    stories: releases/R13/STORIES.yaml
+    tasks: releases/R13/TASKS.yaml
+    acceptance: releases/R13/ACCEPTANCE_MATRIX.csv
+- release: R14
+  title: 一对一聊天核心
+  milestone: M1_CONTENT_MARKETPLACE
+  depends_on:
+  - R02
+  - R04
+  - R06
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P1_HIGH
+  risk_domains:
+  - REALTIME_MESSAGING
+  - ORDERING
+  - OFFLINE_RECOVERY
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 4
+    tasks: 8
+    android_surfaces: 6
+    h5_surfaces: 0
+    admin_surfaces: 0
+    client_api_references: 9
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 9
+    story_operation_references: 18
+    story_unique_operation_ids: 9
+    database_table_references: 10
+    test_references: 9
+  facts:
+    manifest: releases/R14/RELEASE_MANIFEST.yaml
+    stories: releases/R14/STORIES.yaml
+    tasks: releases/R14/TASKS.yaml
+    acceptance: releases/R14/ACCEPTANCE_MATRIX.csv
+- release: R15
+  title: 通知、公告、举报与客服
+  milestone: M1_CONTENT_MARKETPLACE
+  depends_on:
+  - R14
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P1_HIGH
+  risk_domains:
+  - CONTENT_GOVERNANCE
+  - CUSTOMER_SERVICE
+  - PRIVACY
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN_H5
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 4
+    stories: 14
+    tasks: 8
+    android_surfaces: 12
+    h5_surfaces: 2
+    admin_surfaces: 5
+    client_api_references: 12
+    admin_api_references: 11
+    websocket_references: 0
+    manifest_endpoint_references: 23
+    story_operation_references: 52
+    story_unique_operation_ids: 28
+    database_table_references: 41
+    test_references: 17
+  facts:
+    manifest: releases/R15/RELEASE_MANIFEST.yaml
+    stories: releases/R15/STORIES.yaml
+    tasks: releases/R15/TASKS.yaml
+    acceptance: releases/R15/ACCEPTANCE_MATRIX.csv
+- release: R16
+  title: 商品、SKU、报价与统一订单
+  milestone: M2_COMMERCE
+  depends_on:
+  - R02
+  - R06
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P1_HIGH
+  risk_domains:
+  - ORDER_STATE_MACHINE
+  - PRICE_CONSISTENCY
+  external_gates:
+  - PAYMENT_MERCHANT_SANDBOX
+  - PAYMENT_CERTIFICATE
+  - RECONCILIATION_FEED
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 3
+    stories: 4
+    tasks: 8
+    android_surfaces: 2
+    h5_surfaces: 0
+    admin_surfaces: 1
+    client_api_references: 2
+    admin_api_references: 8
+    websocket_references: 0
+    manifest_endpoint_references: 10
+    story_operation_references: 14
+    story_unique_operation_ids: 10
+    database_table_references: 7
+    test_references: 9
+  facts:
+    manifest: releases/R16/RELEASE_MANIFEST.yaml
+    stories: releases/R16/STORIES.yaml
+    tasks: releases/R16/TASKS.yaml
+    acceptance: releases/R16/ACCEPTANCE_MATRIX.csv
+- release: R17
+  title: 支付抽象与H5统一收银台
+  milestone: M2_COMMERCE
+  depends_on:
+  - R03
+  - R16
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P0_CRITICAL
+  risk_domains:
+  - PAYMENT
+  - CALLBACK_IDEMPOTENCY
+  - RECONCILIATION
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ADMIN_H5
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 3
+    stories: 4
+    tasks: 8
+    android_surfaces: 0
+    h5_surfaces: 2
+    admin_surfaces: 2
+    client_api_references: 4
+    admin_api_references: 6
+    websocket_references: 0
+    manifest_endpoint_references: 10
+    story_operation_references: 19
+    story_unique_operation_ids: 10
+    database_table_references: 16
+    test_references: 10
+  facts:
+    manifest: releases/R17/RELEASE_MANIFEST.yaml
+    stories: releases/R17/STORIES.yaml
+    tasks: releases/R17/TASKS.yaml
+    acceptance: releases/R17/ACCEPTANCE_MATRIX.csv
+- release: R18
+  title: Pro会员与补差升级
+  milestone: M2_COMMERCE
+  depends_on:
+  - R17
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P1_HIGH
+  risk_domains:
+  - MEMBERSHIP_ENTITLEMENT
+  - UPGRADE_DIFFERENCE
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 3
+    stories: 4
+    tasks: 8
+    android_surfaces: 4
+    h5_surfaces: 0
+    admin_surfaces: 2
+    client_api_references: 5
+    admin_api_references: 5
+    websocket_references: 0
+    manifest_endpoint_references: 10
+    story_operation_references: 21
+    story_unique_operation_ids: 10
+    database_table_references: 6
+    test_references: 9
+  facts:
+    manifest: releases/R18/RELEASE_MANIFEST.yaml
+    stories: releases/R18/STORIES.yaml
+    tasks: releases/R18/TASKS.yaml
+    acceptance: releases/R18/ACCEPTANCE_MATRIX.csv
+- release: R19
+  title: 道具与曝光层级
+  milestone: M2_COMMERCE
+  depends_on:
+  - R17
+  - R12
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P1_HIGH
+  risk_domains:
+  - PAID_EXPOSURE
+  - ORDER_LINKAGE
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 4
+    tasks: 8
+    android_surfaces: 3
+    h5_surfaces: 0
+    admin_surfaces: 3
+    client_api_references: 4
+    admin_api_references: 5
+    websocket_references: 0
+    manifest_endpoint_references: 9
+    story_operation_references: 19
+    story_unique_operation_ids: 9
+    database_table_references: 8
+    test_references: 6
+  facts:
+    manifest: releases/R19/RELEASE_MANIFEST.yaml
+    stories: releases/R19/STORIES.yaml
+    tasks: releases/R19/TASKS.yaml
+    acceptance: releases/R19/ACCEPTANCE_MATRIX.csv
+- release: R20
+  title: 红包活动创建与预审核
+  milestone: M3_INCENTIVES_FINANCE
+  depends_on:
+  - R05
+  - R12
+  - R17
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P0_CRITICAL
+  risk_domains:
+  - RED_PACKET_BUDGET
+  - PRE_REVIEW
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 3
+    stories: 7
+    tasks: 8
+    android_surfaces: 4
+    h5_surfaces: 0
+    admin_surfaces: 2
+    client_api_references: 0
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 0
+    story_operation_references: 20
+    story_unique_operation_ids: 16
+    database_table_references: 25
+    test_references: 11
+  facts:
+    manifest: releases/R20/RELEASE_MANIFEST.yaml
+    stories: releases/R20/STORIES.yaml
+    tasks: releases/R20/TASKS.yaml
+    acceptance: releases/R20/ACCEPTANCE_MATRIX.csv
+- release: R21
+  title: 红包付款、加价与暂停
+  milestone: M3_INCENTIVES_FINANCE
+  depends_on:
+  - R20
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P0_CRITICAL
+  risk_domains:
+  - PAYMENT
+  - PRICE_INCREASE
+  - PAUSE_STATE_MACHINE
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 3
+    tasks: 8
+    android_surfaces: 2
+    h5_surfaces: 0
+    admin_surfaces: 0
+    client_api_references: 0
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 0
+    story_operation_references: 6
+    story_unique_operation_ids: 6
+    database_table_references: 14
+    test_references: 10
+  facts:
+    manifest: releases/R21/RELEASE_MANIFEST.yaml
+    stories: releases/R21/STORIES.yaml
+    tasks: releases/R21/TASKS.yaml
+    acceptance: releases/R21/ACCEPTANCE_MATRIX.csv
+- release: R22
+  title: 红包20秒有效浏览与领取
+  milestone: M3_INCENTIVES_FINANCE
+  depends_on:
+  - R21
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P0_CRITICAL
+  risk_domains:
+  - TIMED_ELIGIBILITY
+  - ANTI_REPLAY
+  - CONCURRENCY
+  external_gates:
+  - PAYOUT_SANDBOX
+  - PAYOUT_CERTIFICATE
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 1
+    stories: 4
+    tasks: 8
+    android_surfaces: 4
+    h5_surfaces: 0
+    admin_surfaces: 0
+    client_api_references: 0
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 0
+    story_operation_references: 8
+    story_unique_operation_ids: 7
+    database_table_references: 15
+    test_references: 5
+  facts:
+    manifest: releases/R22/RELEASE_MANIFEST.yaml
+    stories: releases/R22/STORIES.yaml
+    tasks: releases/R22/TASKS.yaml
+    acceptance: releases/R22/ACCEPTANCE_MATRIX.csv
+- release: R23
+  title: 红包账本、数据与反作弊
+  milestone: M3_INCENTIVES_FINANCE
+  depends_on:
+  - R22
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P0_CRITICAL
+  risk_domains:
+  - LEDGER
+  - ANTI_FRAUD
+  - RECONCILIATION
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 4
+    tasks: 8
+    android_surfaces: 1
+    h5_surfaces: 0
+    admin_surfaces: 2
+    client_api_references: 0
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 0
+    story_operation_references: 18
+    story_unique_operation_ids: 10
+    database_table_references: 17
+    test_references: 9
+  facts:
+    manifest: releases/R23/RELEASE_MANIFEST.yaml
+    stories: releases/R23/STORIES.yaml
+    tasks: releases/R23/TASKS.yaml
+    acceptance: releases/R23/ACCEPTANCE_MATRIX.csv
+- release: R24
+  title: 奖励账户与支付宝提现
+  milestone: M3_INCENTIVES_FINANCE
+  depends_on:
+  - R05
+  - R17
+  - R23
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P0_CRITICAL
+  risk_domains:
+  - REWARD_ACCOUNT
+  - WITHDRAWAL
+  - PAYOUT
+  - DOUBLE_ENTRY
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 4
+    stories: 8
+    tasks: 8
+    android_surfaces: 5
+    h5_surfaces: 0
+    admin_surfaces: 6
+    client_api_references: 7
+    admin_api_references: 13
+    websocket_references: 0
+    manifest_endpoint_references: 20
+    story_operation_references: 40
+    story_unique_operation_ids: 20
+    database_table_references: 28
+    test_references: 18
+  facts:
+    manifest: releases/R24/RELEASE_MANIFEST.yaml
+    stories: releases/R24/STORIES.yaml
+    tasks: releases/R24/TASKS.yaml
+    acceptance: releases/R24/ACCEPTANCE_MATRIX.csv
+- release: R25
+  title: 二级消费佣金
+  milestone: M4_GROWTH_PLATFORM
+  depends_on:
+  - R17
+  - R24
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P0_CRITICAL
+  risk_domains:
+  - COMMISSION
+  - ATTRIBUTION
+  - REVERSAL
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 3
+    stories: 7
+    tasks: 8
+    android_surfaces: 6
+    h5_surfaces: 0
+    admin_surfaces: 3
+    client_api_references: 0
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 0
+    story_operation_references: 21
+    story_unique_operation_ids: 16
+    database_table_references: 27
+    test_references: 10
+  facts:
+    manifest: releases/R25/RELEASE_MANIFEST.yaml
+    stories: releases/R25/STORIES.yaml
+    tasks: releases/R25/TASKS.yaml
+    acceptance: releases/R25/ACCEPTANCE_MATRIX.csv
+- release: R26
+  title: 直推活跃阶梯奖励
+  milestone: M4_GROWTH_PLATFORM
+  depends_on:
+  - R25
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P0_CRITICAL
+  risk_domains:
+  - TIER_REWARD
+  - ACTIVE_USER_CALCULATION
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 2
+    stories: 5
+    tasks: 8
+    android_surfaces: 2
+    h5_surfaces: 0
+    admin_surfaces: 3
+    client_api_references: 0
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 0
+    story_operation_references: 19
+    story_unique_operation_ids: 11
+    database_table_references: 12
+    test_references: 10
+  facts:
+    manifest: releases/R26/RELEASE_MANIFEST.yaml
+    stories: releases/R26/STORIES.yaml
+    tasks: releases/R26/TASKS.yaml
+    acceptance: releases/R26/ACCEPTANCE_MATRIX.csv
+- release: R27
+  title: 个人任务与留存
+  milestone: M4_GROWTH_PLATFORM
+  depends_on:
+  - R24
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P2_STANDARD
+  risk_domains:
+  - STANDARD_DELIVERY
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ANDROID_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 3
+    stories: 4
+    tasks: 8
+    android_surfaces: 2
+    h5_surfaces: 0
+    admin_surfaces: 2
+    client_api_references: 4
+    admin_api_references: 6
+    websocket_references: 0
+    manifest_endpoint_references: 10
+    story_operation_references: 20
+    story_unique_operation_ids: 10
+    database_table_references: 22
+    test_references: 10
+  facts:
+    manifest: releases/R27/RELEASE_MANIFEST.yaml
+    stories: releases/R27/STORIES.yaml
+    tasks: releases/R27/TASKS.yaml
+    acceptance: releases/R27/ACCEPTANCE_MATRIX.csv
+- release: R28
+  title: H5品牌宣传、邀请与下载
+  milestone: M4_GROWTH_PLATFORM
+  depends_on:
+  - R06
+  - R13
+  - R15
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P1_HIGH
+  risk_domains:
+  - PUBLIC_H5
+  - DOWNLOAD
+  - CONTENT_SECURITY
+  external_gates:
+  - PUBLIC_H5_TLS
+  - ASSET_CDN
+  - APPLICATION_MARKET_PREPARATION
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ADMIN_H5
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 3
+    stories: 4
+    tasks: 8
+    android_surfaces: 0
+    h5_surfaces: 7
+    admin_surfaces: 3
+    client_api_references: 6
+    admin_api_references: 10
+    websocket_references: 0
+    manifest_endpoint_references: 16
+    story_operation_references: 31
+    story_unique_operation_ids: 17
+    database_table_references: 22
+    test_references: 8
+  facts:
+    manifest: releases/R28/RELEASE_MANIFEST.yaml
+    stories: releases/R28/STORIES.yaml
+    tasks: releases/R28/TASKS.yaml
+    acceptance: releases/R28/ACCEPTANCE_MATRIX.csv
+- release: R29
+  title: 官方App自助构建与版本发布中心
+  milestone: M4_GROWTH_PLATFORM
+  depends_on:
+  - P00
+  - R17
+  - R28
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P0_CRITICAL
+  risk_domains:
+  - BUILD_PIPELINE
+  - PRODUCTION_SIGNING
+  - ARTIFACT_SUPPLY_CHAIN
+  external_gates:
+  - PROTECTED_PRODUCTION_SIGNING
+  - PROTECTED_BUILD_RUNNER
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 3
+    stories: 5
+    tasks: 8
+    android_surfaces: 0
+    h5_surfaces: 0
+    admin_surfaces: 8
+    client_api_references: 0
+    admin_api_references: 19
+    websocket_references: 0
+    manifest_endpoint_references: 19
+    story_operation_references: 54
+    story_unique_operation_ids: 19
+    database_table_references: 26
+    test_references: 11
+  facts:
+    manifest: releases/R29/RELEASE_MANIFEST.yaml
+    stories: releases/R29/STORIES.yaml
+    tasks: releases/R29/TASKS.yaml
+    acceptance: releases/R29/ACCEPTANCE_MATRIX.csv
+- release: R30
+  title: 完整运营后台、RBAC与配置闭环
+  milestone: M4_GROWTH_PLATFORM
+  depends_on:
+  - R01
+  - R23
+  - R24
+  - R28
+  - R29
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P0_CRITICAL
+  risk_domains:
+  - RBAC
+  - OPERATIONS
+  - CONFIGURATION_GOVERNANCE
+  external_gates: []
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 12
+    stories: 8
+    tasks: 8
+    android_surfaces: 0
+    h5_surfaces: 0
+    admin_surfaces: 10
+    client_api_references: 0
+    admin_api_references: 30
+    websocket_references: 0
+    manifest_endpoint_references: 30
+    story_operation_references: 64
+    story_unique_operation_ids: 40
+    database_table_references: 51
+    test_references: 35
+  facts:
+    manifest: releases/R30/RELEASE_MANIFEST.yaml
+    stories: releases/R30/STORIES.yaml
+    tasks: releases/R30/TASKS.yaml
+    acceptance: releases/R30/ACCEPTANCE_MATRIX.csv
+- release: R31
+  title: 安全、性能、备份与灾备验收
+  milestone: M4_GROWTH_PLATFORM
+  depends_on:
+  - R30
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P0_CRITICAL
+  risk_domains:
+  - SECURITY
+  - PERFORMANCE
+  - BACKUP
+  - DISASTER_RECOVERY
+  external_gates:
+  - LOAD_TEST_ENVIRONMENT
+  - BACKUP_TARGET
+  - DISASTER_RECOVERY_ENVIRONMENT
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_ADMIN
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 4
+    stories: 4
+    tasks: 8
+    android_surfaces: 0
+    h5_surfaces: 0
+    admin_surfaces: 4
+    client_api_references: 0
+    admin_api_references: 11
+    websocket_references: 0
+    manifest_endpoint_references: 11
+    story_operation_references: 22
+    story_unique_operation_ids: 11
+    database_table_references: 15
+    test_references: 19
+  facts:
+    manifest: releases/R31/RELEASE_MANIFEST.yaml
+    stories: releases/R31/STORIES.yaml
+    tasks: releases/R31/TASKS.yaml
+    acceptance: releases/R31/ACCEPTANCE_MATRIX.csv
+- release: R32
+  title: 最终供应商接入、生产发布与交接
+  milestone: M4_GROWTH_PLATFORM
+  depends_on:
+  - R18
+  - R19
+  - R26
+  - R27
+  - R31
+  planning_depth: PORTFOLIO_READY
+  android_test_apk_required: true
+  risk_tier: P0_CRITICAL
+  risk_domains:
+  - PRODUCTION_RELEASE
+  - COMPLIANCE
+  - PROVIDER_CUTOVER
+  external_gates:
+  - PRODUCTION_PROVIDER_CREDENTIALS
+  - PENETRATION_TEST
+  - LEGAL_PRIVACY_TAX_APPROVAL
+  - APPLICATION_MARKET_ACCESS
+  - PRODUCTION_RELEASE_APPROVAL
+  agent_partitions:
+  - BACKEND_DATA
+  - CLIENT_NOT_APPLICABLE
+  - QUALITY_DELIVERY
+  metrics:
+    requirements: 8
+    stories: 1
+    tasks: 8
+    android_surfaces: 0
+    h5_surfaces: 0
+    admin_surfaces: 0
+    client_api_references: 0
+    admin_api_references: 0
+    websocket_references: 0
+    manifest_endpoint_references: 0
+    story_operation_references: 0
+    story_unique_operation_ids: 0
+    database_table_references: 33
+    test_references: 14
+  facts:
+    manifest: releases/R32/RELEASE_MANIFEST.yaml
+    stories: releases/R32/STORIES.yaml
+    tasks: releases/R32/TASKS.yaml
+    acceptance: releases/R32/ACCEPTANCE_MATRIX.csv

@@ -1,4 +1,6 @@
 version: 1.2.2
+planning_overlay_version: '1.0'
+change_request: CR-0019
 strategy: dependency_graph_not_blind_serial
 dependencies:
   P00: []
@@ -97,6 +99,10 @@ dependencies:
   R31:
   - R30
   R32:
+  - R18
+  - R19
+  - R26
+  - R27
   - R31
 milestones:
   P00: M0_ENGINEERING_FOUNDATION

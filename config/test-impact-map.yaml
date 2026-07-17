@@ -14,6 +14,20 @@ profiles:
     includes: [INTEGRATION]
 
 checks:
+- id: program-execution-plan
+  profiles: [FAST]
+  ci_job: tooling
+  paths:
+  - releases/**
+  - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+  - scripts/generate_program_execution_plan.py
+  - scripts/check_program_execution_plan.py
+  - tests/test_program_execution_plan.py
+  - config/test-impact-map.yaml
+  - Makefile
+  cwd: .
+  command: ['{python}', scripts/check_program_execution_plan.py, --json]
+  timeout_seconds: 180
 - id: acceleration-tooling-unit
   profiles: [FAST]
   ci_job: tooling

@@ -4,14 +4,24 @@ change_request: CR-0018
 mode: ONE_MASTER_THREE_DELEGATED_WORKERS
 authoritative_session_count: 1
 max_parallel_workers: 3
+simultaneous_claim_limit: 1
+worker_parallelism_scope: WITHIN_ACTIVE_TASK_ONLY
 source_of_truth_branch: task/TASK-R02-001
 rules:
+- TASK-R02-002至005是依赖层面的候选集合；现行连续性协议下主控仍须逐个领取Task，三个执行代理只能在当前Claim内部按互斥路径并行。
 - 每个执行代理使用独立scratch worktree和互不重叠的路径租约。
 - 执行代理不得修改连续性、Release状态或公共事实文件，不得提交、推送、合并和发布。
 - 执行代理交付补丁、修改路径清单和MODULE测试证据；主控验证后依次集成。
 - 资金、状态机、并发、安全和破坏性迁移由高推理主控或独立审查者串行复核。
 - 每个纵向批次同时完成数据、API、客户端、测试和可观测性，不保留跨批次生产Mock。
 lanes:
+- lane: GOVERNANCE-BASELINE
+  task_id: TASK-R02-001
+  stories:
+  - STORY-R02-009
+  outcome: R02开发就绪、并行加速、分层测试、代码生成和APK持续交付基线
+  preferred_agents:
+  - coordinator
 - lane: SLICE-A
   task_id: TASK-R02-002
   stories:

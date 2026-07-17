@@ -657,3 +657,24 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-17T20:02:12Z'
+- claim_id: CLM-9842C34B7B1D
+  session_id: SES-20260717T200842Z-456B8F52
+  task_id: TASK-R02-002
+  story_id: STORY-R02-003
+  actor_id: codex-master
+  status: ACTIVE
+  claimed_at: '2026-07-17T20:08:42Z'
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - STORY-R02-003,STORY-R02-004及其直接实现、测试与生成契约

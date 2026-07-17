@@ -5,6 +5,8 @@ tasks:
   title: 账号、登录、注册与安全会话开发就绪核验、故事领取与变更基线
   status: DONE
   depends_on: []
+  stories:
+  - STORY-R02-009
   requirements: &id001
   - REQ-AUTH-001
   - REQ-AUTH-002
