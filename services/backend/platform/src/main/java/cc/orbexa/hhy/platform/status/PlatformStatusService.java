@@ -3,7 +3,6 @@ package cc.orbexa.hhy.platform.status;
 import cc.orbexa.hhy.platform.config.HhyPlatformProperties;
 import java.time.Clock;
 import java.time.Instant;
-import java.util.Map;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,11 +19,11 @@ public final class PlatformStatusService {
         return new PlatformStatusView(
                 properties.maintenance(),
                 properties.maintenanceMessage(),
-                Map.of(
-                        "registration.enabled", properties.registrationEnabled(),
-                        "publishing.enabled", properties.publishingEnabled(),
-                        "redpacket.enabled", properties.redPacketEnabled(),
-                        "withdrawal.enabled", properties.withdrawalEnabled()),
+                new PlatformCapabilitiesView(
+                        properties.registrationEnabled(),
+                        properties.publishingEnabled(),
+                        properties.redPacketEnabled(),
+                        properties.withdrawalEnabled()),
                 Instant.now(clock));
     }
 }

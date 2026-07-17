@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: 合伙云 Pro 管理后台 API
   version: 1.2.2
-  description: V1.2.2 冻结开发契约。Schema 为 API View/Command，不得直接暴露数据库实体；breaking change 必须通过 ADR、兼容窗口和契约测试。
+  description: V1.2.2 页面与运营规格冻结契约；核心业务模型类型化，所有操作具有明确 UI 或系统所有者。
 servers:
 - url: https://api.orbexa.cc
   description: 生产环境
@@ -1760,7 +1760,7 @@ paths:
         required: false
         schema:
           type: string
-          enum: &id001
+          enum: &id008
           - PROJECT
           - APP
           - GROUP_CHAT
@@ -16230,7 +16230,7 @@ paths:
         required: false
         schema:
           type: string
-          enum: &id002
+          enum: &id009
           - INLINE
           - ATTACHMENT
           default: ATTACHMENT
@@ -16776,6 +16776,2038 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/accounting/transactions:
+    get:
+      operationId: adminAccountingGetTransactions
+      summary: 会计交易列表
+      tags:
+      - Accounting
+      security:
+      - BearerAuth: []
+      x-permission: accounting.read
+      x-idempotent: false
+      x-release: R24
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - &id001
+        name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+          default: 1
+        description: 页码
+      - &id002
+        name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 100
+          default: 20
+        description: 每页数量
+      - &id003
+        name: keyword
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: 关键词
+      - &id004
+        name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: 状态
+      - &id005
+        name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: 白名单排序，例如 createdAt:desc
+      - &id006
+        name: startAt
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: 开始时间，ISO-8601
+      - &id007
+        name: endAt
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: 结束时间，ISO-8601
+      - name: businessType
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: businessType
+      - name: businessId
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: businessId
+      - name: accountCode
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: accountCode
+      x-request-schema: '#/components/schemas/AdminAccountingGetTransactionsParameters'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminAccountingGetTransactionsResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/accounting/transactions/{id}:
+    get:
+      operationId: adminAccountingGetTransactionById
+      summary: 会计交易详情
+      tags:
+      - Accounting
+      security:
+      - BearerAuth: []
+      x-permission: accounting.read
+      x-idempotent: false
+      x-release: R24
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+        description: id 标识
+      x-request-schema: '#/components/schemas/AdminAccountingGetTransactionByIdParameters'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminAccountingGetTransactionByIdResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/accounting/entries:
+    get:
+      operationId: adminAccountingGetEntries
+      summary: 会计分录列表
+      tags:
+      - Accounting
+      security:
+      - BearerAuth: []
+      x-permission: accounting.read
+      x-idempotent: false
+      x-release: R24
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - *id001
+      - *id002
+      - *id003
+      - *id004
+      - *id005
+      - *id006
+      - *id007
+      - name: transactionId
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: transactionId
+      - name: accountCode
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: accountCode
+      - name: direction
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - DEBIT
+          - CREDIT
+          maxLength: 256
+        description: direction
+      x-request-schema: '#/components/schemas/AdminAccountingGetEntriesParameters'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminAccountingGetEntriesResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/accounting/transactions/{id}/reversals:
+    post:
+      operationId: adminAccountingPostReversal
+      summary: 申请会计冲正
+      tags:
+      - Accounting
+      security:
+      - BearerAuth: []
+      x-permission: accounting.reversal.request
+      x-idempotent: true
+      x-release: R24
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+        description: id 标识
+      x-request-schema: '#/components/schemas/AccountingReversalRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountingReversalRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminAccountingPostReversalResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/risk-rule-versions:
+    get:
+      operationId: adminRiskRulesGetVersions
+      summary: 风控规则版本列表
+      tags:
+      - RiskRules
+      security:
+      - BearerAuth: []
+      x-permission: risk.rule.read
+      x-idempotent: false
+      x-release: R31
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - *id001
+      - *id002
+      - *id003
+      - *id004
+      - *id005
+      - name: ruleSetCode
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: ruleSetCode
+      x-request-schema: '#/components/schemas/AdminRiskRulesGetVersionsParameters'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminRiskRulesGetVersionsResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: adminRiskRulesPostVersion
+      summary: 创建风控规则版本
+      tags:
+      - RiskRules
+      security:
+      - BearerAuth: []
+      x-permission: risk.rule.manage
+      x-idempotent: true
+      x-release: R31
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      x-request-schema: '#/components/schemas/RiskRuleCreateRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RiskRuleCreateRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminRiskRulesPostVersionResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/risk-rule-versions/{id}/simulate:
+    post:
+      operationId: adminRiskRulesPostSimulation
+      summary: 模拟风控规则
+      tags:
+      - RiskRules
+      security:
+      - BearerAuth: []
+      x-permission: risk.rule.simulate
+      x-idempotent: true
+      x-release: R31
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+        description: id 标识
+      x-request-schema: '#/components/schemas/RiskSimulationRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RiskSimulationRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminRiskRulesPostSimulationResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/risk-rule-versions/{id}/activate:
+    post:
+      operationId: adminRiskRulesPostActivate
+      summary: 激活风控规则版本
+      tags:
+      - RiskRules
+      security:
+      - BearerAuth: []
+      x-permission: risk.rule.activate
+      x-idempotent: true
+      x-release: R31
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+        description: id 标识
+      x-request-schema: '#/components/schemas/RiskRuleActivateRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RiskRuleActivateRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminRiskRulesPostActivateResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/notification-templates:
+    get:
+      operationId: adminNotificationGetTemplates
+      summary: 通知模板列表
+      tags:
+      - NotificationOps
+      security:
+      - BearerAuth: []
+      x-permission: notification.template.read
+      x-idempotent: false
+      x-release: R30
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - *id001
+      - *id002
+      - *id003
+      - *id004
+      - *id005
+      - name: channel
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: channel
+      - name: templateCode
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: templateCode
+      x-request-schema: '#/components/schemas/AdminNotificationGetTemplatesParameters'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminNotificationGetTemplatesResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: adminNotificationPostTemplate
+      summary: 创建通知模板版本
+      tags:
+      - NotificationOps
+      security:
+      - BearerAuth: []
+      x-permission: notification.template.manage
+      x-idempotent: true
+      x-release: R30
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      x-request-schema: '#/components/schemas/NotificationTemplateCreateRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationTemplateCreateRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminNotificationPostTemplateResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/notification-templates/{id}:
+    patch:
+      operationId: adminNotificationPatchTemplate
+      summary: 修改通知模板草稿
+      tags:
+      - NotificationOps
+      security:
+      - BearerAuth: []
+      x-permission: notification.template.manage
+      x-idempotent: true
+      x-release: R30
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+        description: id 标识
+      x-request-schema: '#/components/schemas/NotificationTemplatePatchRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationTemplatePatchRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminNotificationPatchTemplateResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/notification-deliveries:
+    get:
+      operationId: adminNotificationGetDeliveries
+      summary: 通知发送记录
+      tags:
+      - NotificationOps
+      security:
+      - BearerAuth: []
+      x-permission: notification.delivery.read
+      x-idempotent: false
+      x-release: R30
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - *id001
+      - *id002
+      - *id003
+      - *id004
+      - *id005
+      - *id006
+      - *id007
+      - name: channel
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: channel
+      - name: templateCode
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: templateCode
+      - name: businessType
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: businessType
+      x-request-schema: '#/components/schemas/AdminNotificationGetDeliveriesParameters'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminNotificationGetDeliveriesResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/notification-deliveries/{id}/retry:
+    post:
+      operationId: adminNotificationPostDeliveryRetry
+      summary: 重试失败通知
+      tags:
+      - NotificationOps
+      security:
+      - BearerAuth: []
+      x-permission: notification.delivery.retry
+      x-idempotent: true
+      x-release: R30
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+        description: id 标识
+      x-request-schema: '#/components/schemas/NotificationRetryRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationRetryRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminNotificationPostDeliveryRetryResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/export-jobs:
+    get:
+      operationId: adminExportsGetJobs
+      summary: 导出任务列表
+      tags:
+      - Exports
+      security:
+      - BearerAuth: []
+      x-permission: export.read
+      x-idempotent: false
+      x-release: R30
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - *id001
+      - *id002
+      - *id003
+      - *id004
+      - *id005
+      - *id006
+      - *id007
+      - name: exportType
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+        description: exportType
+      x-request-schema: '#/components/schemas/AdminExportsGetJobsParameters'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminExportsGetJobsResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: adminExportsPostJob
+      summary: 创建导出任务
+      tags:
+      - Exports
+      security:
+      - BearerAuth: []
+      x-permission: export.create
+      x-idempotent: true
+      x-release: R30
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      x-request-schema: '#/components/schemas/ExportJobCreateRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportJobCreateRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminExportsPostJobResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/export-jobs/{id}:
+    get:
+      operationId: adminExportsGetJobById
+      summary: 导出任务详情
+      tags:
+      - Exports
+      security:
+      - BearerAuth: []
+      x-permission: export.read
+      x-idempotent: false
+      x-release: R30
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+        description: id 标识
+      x-request-schema: '#/components/schemas/AdminExportsGetJobByIdParameters'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminExportsGetJobByIdResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/export-jobs/{id}/download-token:
+    post:
+      operationId: adminExportsPostDownloadToken
+      summary: 创建一次性下载令牌
+      tags:
+      - Exports
+      security:
+      - BearerAuth: []
+      x-permission: export.download
+      x-idempotent: true
+      x-release: R30
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          maxLength: 64
+        description: id 标识
+      x-request-schema: '#/components/schemas/AdminExportsPostDownloadTokenParameters'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminExportsPostDownloadTokenResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/me/security:
+    get:
+      operationId: adminSelfGetSecurity
+      summary: 管理员安全概览
+      tags:
+      - AdminSelf
+      security:
+      - BearerAuth: []
+      x-permission: admin.self.read
+      x-idempotent: false
+      x-release: R01
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminSelfGetSecurityResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/me/security/password/change:
+    post:
+      operationId: adminSelfPostPasswordChange
+      summary: 修改管理员密码
+      tags:
+      - AdminSelf
+      security:
+      - BearerAuth: []
+      x-permission: admin.self.security
+      x-idempotent: true
+      x-release: R01
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      x-request-schema: '#/components/schemas/AdminPasswordChangeRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminPasswordChangeRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminSelfPostPasswordChangeResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/me/security/mfa/enroll:
+    post:
+      operationId: adminSelfPostMfaEnroll
+      summary: 开始绑定MFA
+      tags:
+      - AdminSelf
+      security:
+      - BearerAuth: []
+      x-permission: admin.self.security
+      x-idempotent: true
+      x-release: R01
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      x-request-schema: '#/components/schemas/AdminSelfPostMfaEnrollParameters'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminSelfPostMfaEnrollResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/me/security/mfa/confirm:
+    post:
+      operationId: adminSelfPostMfaConfirm
+      summary: 确认绑定MFA
+      tags:
+      - AdminSelf
+      security:
+      - BearerAuth: []
+      x-permission: admin.self.security
+      x-idempotent: true
+      x-release: R01
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      x-request-schema: '#/components/schemas/MfaConfirmRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MfaConfirmRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminSelfPostMfaConfirmResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /admin-api/v1/me/security/mfa/disable:
+    post:
+      operationId: adminSelfPostMfaDisable
+      summary: 解绑MFA
+      tags:
+      - AdminSelf
+      security:
+      - BearerAuth: []
+      x-permission: admin.self.security
+      x-idempotent: true
+      x-release: R01
+      x-contract-maturity: FROZEN_V1.2.2
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-404-NOT_FOUND
+      - COMMON-409-VERSION_CONFLICT
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      parameters:
+      - $ref: '#/components/parameters/XIdempotencyKey'
+      x-request-schema: '#/components/schemas/MfaDisableRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MfaDisableRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminSelfPostMfaDisableResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: 资源不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: 版本、幂等或状态冲突
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 业务规则不满足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   securitySchemes:
     BearerAuth:
@@ -16999,8 +19031,7 @@ components:
           type: string
           maxLength: 64
         device:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/DeviceSummaryResource'
         capabilities:
           type: array
           items:
@@ -17150,17 +19181,20 @@ components:
       additionalProperties: false
       properties:
         modules:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeModuleResource'
+          maxItems: 50
         serverTime:
           type: string
           format: date-time
         featureFlags:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/FeatureFlagResource'
+          maxItems: 200
         trackingContext:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/TrackingContextResource'
       required:
       - modules
       - serverTime
@@ -17184,11 +19218,9 @@ components:
           type: string
           maxLength: 2000
         publisher:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/PublisherSummaryResource'
         score:
-          type: string
-          maxLength: 2000
+          type: number
         badges:
           type: array
           items:
@@ -17223,14 +19255,17 @@ components:
           type: string
           maxLength: 2000
         media:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaItemResource'
+          maxItems: 50
         publisher:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/PublisherSummaryResource'
         contactsMasked:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactChannelSummaryResource'
+          maxItems: 20
         status:
           type: string
           maxLength: 2000
@@ -17238,8 +19273,7 @@ components:
           type: string
           maxLength: 2000
         statistics:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/ContentStatisticsResource'
         createdAt:
           type: string
           format: date-time
@@ -17249,6 +19283,8 @@ components:
         version:
           type: integer
           format: int64
+        attributes:
+          $ref: '#/components/schemas/JsonObject'
       required:
       - id
       - contentType
@@ -17263,11 +19299,31 @@ components:
           type: string
           maxLength: 64
         peer:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/PublisherSummaryResource'
         lastMessage:
           type: object
-          additionalProperties: true
+          additionalProperties: false
+          properties:
+            messageId:
+              type: string
+              maxLength: 64
+            messageType:
+              type: string
+              maxLength: 32
+            preview:
+              type: string
+              maxLength: 300
+            senderId:
+              type: string
+              maxLength: 64
+            createdAt:
+              type: string
+              format: date-time
+          required:
+          - messageId
+          - messageType
+          - preview
+          - createdAt
         unreadCount:
           type: integer
           format: int64
@@ -17302,8 +19358,7 @@ components:
           type: string
           maxLength: 2000
         target:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/NavigationTargetResource'
         readAt:
           type: string
           format: date-time
@@ -17338,8 +19393,27 @@ components:
           type: string
           format: date-time
         benefits:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              benefitCode:
+                type: string
+                maxLength: 64
+              name:
+                type: string
+                maxLength: 120
+              value:
+                $ref: '#/components/schemas/JsonValue'
+              unit:
+                type: string
+                maxLength: 32
+            required:
+            - benefitCode
+            - name
+            - value
+          maxItems: 100
         paidValueCent:
           type: integer
           format: int64
@@ -17378,8 +19452,7 @@ components:
           type: string
           format: date-time
         configuration:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/JsonObject'
         version:
           type: integer
           format: int64
@@ -17651,8 +19724,39 @@ components:
           format: int64
           minimum: 0
         milestones:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              milestoneCode:
+                type: string
+                maxLength: 64
+              name:
+                type: string
+                maxLength: 120
+              target:
+                type: integer
+                format: int64
+                minimum: 0
+              current:
+                type: integer
+                format: int64
+                minimum: 0
+              rewardCent:
+                type: integer
+                format: int64
+                minimum: 0
+              status:
+                type: string
+                maxLength: 32
+            required:
+            - milestoneCode
+            - name
+            - target
+            - current
+            - status
+          maxItems: 100
         version:
           type: integer
           format: int64
@@ -17714,17 +19818,13 @@ components:
           type: string
           maxLength: 2000
         progress:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/TaskProgressResource'
         target:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/TaskTargetResource'
         reward:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/TaskRewardResource'
         claimable:
-          type: string
-          maxLength: 2000
+          type: boolean
         expiresAt:
           type: string
           format: date-time
@@ -17826,17 +19926,16 @@ components:
           type: string
           maxLength: 2000
         content:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicPageBlockResource'
+          maxItems: 100
         seoMetadata:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/SeoMetadataResource'
         download:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/DownloadInfoResource'
         trackingContext:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/TrackingContextResource'
         version:
           type: integer
           format: int64
@@ -17848,14 +19947,20 @@ components:
       additionalProperties: false
       properties:
         metrics:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardMetricResource'
+          maxItems: 200
         todos:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardTodoResource'
+          maxItems: 100
         trends:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardTrendSeriesResource'
+          maxItems: 100
         generatedAt:
           type: string
           format: date-time
@@ -17992,8 +20097,38 @@ components:
           type: string
           maxLength: 2000
         skus:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: string
+                maxLength: 64
+              skuCode:
+                type: string
+                maxLength: 64
+              name:
+                type: string
+                maxLength: 120
+              priceCent:
+                type: integer
+                format: int64
+                minimum: 0
+              durationDays:
+                type: integer
+                format: int64
+                minimum: 0
+              status:
+                type: string
+                maxLength: 32
+            required:
+            - id
+            - skuCode
+            - name
+            - priceCent
+            - status
+          maxItems: 100
         version:
           type: integer
           format: int64
@@ -18024,8 +20159,10 @@ components:
           type: string
           maxLength: 2000
         content:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicPageBlockResource'
+          maxItems: 100
         version:
           type: integer
           format: int64
@@ -18051,8 +20188,10 @@ components:
           type: string
           maxLength: 2000
         content:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicPageBlockResource'
+          maxItems: 100
         effectiveAt:
           type: string
           format: date-time
@@ -18084,14 +20223,15 @@ components:
           type: string
           maxLength: 2000
         score:
-          type: string
-          maxLength: 2000
+          type: number
         status:
           type: string
           maxLength: 2000
         ruleHits:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleHitResource'
+          maxItems: 100
         createdAt:
           type: string
           format: date-time
@@ -18115,8 +20255,7 @@ components:
           type: string
           maxLength: 2000
         valueMasked:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/MaskedConfigValueResource'
         version:
           type: integer
           format: int64
@@ -18127,8 +20266,7 @@ components:
           type: string
           format: date-time
         requiresRestart:
-          type: string
-          maxLength: 2000
+          type: boolean
         updatedBy:
           type: string
           maxLength: 2000
@@ -18260,7 +20398,26 @@ components:
           maxLength: 2000
         schedule:
           type: object
-          additionalProperties: true
+          additionalProperties: false
+          properties:
+            scheduleType:
+              type: string
+              maxLength: 32
+              enum:
+              - CRON
+              - FIXED_DELAY
+              - MANUAL
+            expression:
+              type: string
+              maxLength: 128
+            timezone:
+              type: string
+              maxLength: 64
+            enabled:
+              type: boolean
+          required:
+          - scheduleType
+          - enabled
         status:
           type: string
           maxLength: 2000
@@ -18297,8 +20454,24 @@ components:
           type: string
           maxLength: 2000
         configuredSecrets:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              key:
+                type: string
+                maxLength: 128
+              configured:
+                type: boolean
+              secretRefMasked:
+                type: string
+                maxLength: 256
+                x-sensitive: true
+            required:
+            - key
+            - configured
+          maxItems: 100
         connectionStatus:
           type: string
           maxLength: 2000
@@ -18446,8 +20619,10 @@ components:
           type: string
           maxLength: 2000
         steps:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BuildStepResource'
+          maxItems: 100
         artifactId:
           type: string
           maxLength: 64
@@ -18625,7 +20800,8 @@ components:
           format: int64
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
     AdminAdminAuthPostAuthLogoutResponse:
       type: object
       additionalProperties: false
@@ -19272,7 +21448,7 @@ components:
           description: 白名单排序字段，例如 createdAt:desc
         contentType:
           type: string
-          enum: *id001
+          enum: *id008
         categoryCode:
           type: string
           maxLength: 64
@@ -19553,7 +21729,8 @@ components:
       properties:
         items:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         expectedVersion:
           type: integer
           format: int64
@@ -20599,7 +22776,8 @@ components:
           minimum: 0
         benefits:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         status:
           type: string
           maxLength: 2000
@@ -20646,7 +22824,8 @@ components:
           minimum: 0
         benefits:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         status:
           type: string
           maxLength: 2000
@@ -20901,7 +23080,8 @@ components:
           format: int64
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
     AdminPaymentsPostPaymentsByIdQueryResponse:
       type: object
       additionalProperties: false
@@ -21459,7 +23639,8 @@ components:
           format: int64
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
     AdminWithdrawalsPostWithdrawalsByIdQueryResponse:
       type: object
       additionalProperties: false
@@ -21559,7 +23740,8 @@ components:
           minimum: 0
         benefits:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         status:
           type: string
           maxLength: 2000
@@ -21606,7 +23788,8 @@ components:
           minimum: 0
         benefits:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         status:
           type: string
           maxLength: 2000
@@ -21811,7 +23994,8 @@ components:
           format: int64
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
       required:
       - expectedVersion
     AdminPropsPatchPropsByIdResponse:
@@ -21908,7 +24092,8 @@ components:
           format: int64
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
     AdminPropsPostHeadlineSlotsResponse:
       type: object
       additionalProperties: false
@@ -22163,10 +24348,12 @@ components:
           format: date-time
         criteria:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         rule:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         remark:
           type: string
           maxLength: 2000
@@ -22329,7 +24516,8 @@ components:
           format: date-time
         rule:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         remark:
           type: string
           maxLength: 2000
@@ -22486,7 +24674,8 @@ components:
       properties:
         items:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         effectiveAt:
           type: string
           format: date-time
@@ -22655,13 +24844,15 @@ components:
           maxLength: 2000
         criteria:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         reward:
           type: string
           maxLength: 2000
         schedule:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         budgetId:
           type: string
           maxLength: 64
@@ -22704,13 +24895,15 @@ components:
           maxLength: 2000
         criteria:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         reward:
           type: string
           maxLength: 2000
         schedule:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         budgetId:
           type: string
           maxLength: 64
@@ -23190,7 +25383,8 @@ components:
           format: int64
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
     AdminSupportPostSupportTicketsByIdCloseResponse:
       type: object
       additionalProperties: false
@@ -23279,7 +25473,8 @@ components:
       properties:
         items:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         expectedVersion:
           type: integer
           format: int64
@@ -24066,7 +26261,8 @@ components:
           format: date-time
         rule:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         remark:
           type: string
           maxLength: 2000
@@ -24999,10 +27195,12 @@ components:
           maxLength: 2000
         values:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         secretRefs:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         remark:
           type: string
           maxLength: 2000
@@ -25882,7 +28080,8 @@ components:
           format: int64
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
     AdminAppBuildJobPostAppBuildJobsByIdRetryResponse:
       type: object
       additionalProperties: false
@@ -25994,7 +28193,7 @@ components:
           description: 路径资源标识：id
         disposition:
           type: string
-          enum: *id002
+          enum: *id009
           default: ATTACHMENT
       required:
       - id
@@ -26010,7 +28209,8 @@ components:
           format: int64
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
     AdminAppBuildReleasePostAppBuildJobsByIdPublishStagingResponse:
       type: object
       additionalProperties: false
@@ -26041,7 +28241,8 @@ components:
           maxLength: 64
         releasePolicy:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         expectedVersion:
           type: integer
           format: int64
@@ -26208,3 +28409,2288 @@ components:
           oneOf:
           - $ref: '#/components/schemas/SigningProfileResource'
           - $ref: '#/components/schemas/CommandResultResource'
+    JsonScalar:
+      oneOf:
+      - type: string
+        maxLength: 10000
+      - type: number
+      - type: integer
+        format: int64
+      - type: boolean
+      - type: 'null'
+      description: 仅用于扩展属性的标量值；核心业务字段不得依赖自由结构。
+    JsonValue:
+      oneOf:
+      - $ref: '#/components/schemas/JsonScalar'
+      - type: array
+        items:
+          $ref: '#/components/schemas/JsonValue'
+        maxItems: 200
+      - type: object
+        additionalProperties:
+          $ref: '#/components/schemas/JsonValue'
+        maxProperties: 100
+      description: 受限 JSON 扩展值；必须在页面规格中声明实际键，禁止作为核心业务模型。
+    JsonObject:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/JsonValue'
+      maxProperties: 100
+      description: 受限扩展对象；用于供应商透传或兼容字段，不能替代领域 Schema。
+    DeviceSummaryResource:
+      type: object
+      additionalProperties: false
+      properties:
+        deviceId:
+          type: string
+          maxLength: 64
+        deviceName:
+          type: string
+          maxLength: 128
+        platform:
+          type: string
+          maxLength: 32
+          enum:
+          - ANDROID
+          - WEB
+          - ADMIN_WEB
+        osVersion:
+          type: string
+          maxLength: 64
+        appVersion:
+          type: string
+          maxLength: 32
+        lastActiveAt:
+          type: string
+          format: date-time
+        trusted:
+          type: boolean
+      required:
+      - deviceId
+      - platform
+    MediaItemResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        mediaType:
+          type: string
+          maxLength: 32
+          enum:
+          - IMAGE
+          - VIDEO
+          - FILE
+          - QR_CODE
+        url:
+          type: string
+          maxLength: 2048
+          format: uri
+        thumbnailUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        width:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 10000
+        height:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 10000
+        durationMs:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 86400000
+        altText:
+          type: string
+          maxLength: 300
+        sortOrder:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 1000
+        accessMode:
+          type: string
+          maxLength: 32
+          enum:
+          - PUBLIC
+          - SIGNED_URL
+          - AUTHENTICATED
+      required:
+      - id
+      - mediaType
+      - url
+      - sortOrder
+    PublisherSummaryResource:
+      type: object
+      additionalProperties: false
+      properties:
+        userId:
+          type: string
+          maxLength: 64
+        nickname:
+          type: string
+          maxLength: 64
+        avatarUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        bio:
+          type: string
+          maxLength: 300
+        verified:
+          type: boolean
+        memberBadge:
+          type: string
+          maxLength: 32
+        followed:
+          type: boolean
+      required:
+      - userId
+      - nickname
+      - verified
+    ContactChannelSummaryResource:
+      type: object
+      additionalProperties: false
+      properties:
+        channel:
+          type: string
+          maxLength: 32
+          enum:
+          - WECHAT
+          - PHONE
+          - QQ
+          - EMAIL
+          - LINK
+          - QR_CODE
+        maskedValue:
+          type: string
+          maxLength: 256
+          x-sensitive: true
+        available:
+          type: boolean
+        accessPolicy:
+          type: string
+          maxLength: 32
+          enum:
+          - LOGIN
+          - REAL_NAME
+          - MEMBERSHIP
+          - PAID
+          - OWNER_ONLY
+        accessed:
+          type: boolean
+      required:
+      - channel
+      - available
+      - accessPolicy
+      - accessed
+    ContentStatisticsResource:
+      type: object
+      additionalProperties: false
+      properties:
+        viewCount:
+          type: integer
+          format: int64
+          minimum: 0
+        favoriteCount:
+          type: integer
+          format: int64
+          minimum: 0
+        shareCount:
+          type: integer
+          format: int64
+          minimum: 0
+        contactAccessCount:
+          type: integer
+          format: int64
+          minimum: 0
+        conversationCount:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - viewCount
+      - favoriteCount
+      - shareCount
+      - contactAccessCount
+    TrackingContextResource:
+      type: object
+      additionalProperties: false
+      properties:
+        pageCode:
+          type: string
+          maxLength: 64
+        source:
+          type: string
+          maxLength: 64
+        campaignId:
+          type: string
+          maxLength: 64
+        contentId:
+          type: string
+          maxLength: 64
+        requestId:
+          type: string
+          maxLength: 64
+        experimentAssignments:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              experimentKey:
+                type: string
+                maxLength: 64
+              variant:
+                type: string
+                maxLength: 64
+            required:
+            - experimentKey
+            - variant
+          maxItems: 20
+      required:
+      - pageCode
+      - source
+    NavigationTargetResource:
+      type: object
+      additionalProperties: false
+      properties:
+        targetType:
+          type: string
+          maxLength: 32
+          enum:
+          - IN_APP_ROUTE
+          - H5_URL
+          - DOWNLOAD
+          - NONE
+        route:
+          type: string
+          maxLength: 512
+        url:
+          type: string
+          maxLength: 2048
+          format: uri
+        requiresLogin:
+          type: boolean
+      required:
+      - targetType
+      - requiresLogin
+    HomeModuleItemResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        itemType:
+          type: string
+          maxLength: 32
+          enum:
+          - CONTENT
+          - BANNER
+          - CATEGORY
+          - NOTICE
+          - ACTION
+        title:
+          type: string
+          maxLength: 120
+        subtitle:
+          type: string
+          maxLength: 300
+        coverUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        badges:
+          type: array
+          items:
+            type: string
+            maxLength: 32
+          maxItems: 10
+        target:
+          $ref: '#/components/schemas/NavigationTargetResource'
+        trackingContext:
+          $ref: '#/components/schemas/TrackingContextResource'
+      required:
+      - id
+      - itemType
+      - title
+      - target
+    HomeModuleResource:
+      type: object
+      additionalProperties: false
+      properties:
+        moduleId:
+          type: string
+          maxLength: 64
+        moduleType:
+          type: string
+          maxLength: 32
+          enum:
+          - BANNER
+          - GRID
+          - HORIZONTAL_LIST
+          - VERTICAL_LIST
+          - NOTICE
+          - QUICK_ACTIONS
+        title:
+          type: string
+          maxLength: 120
+        subtitle:
+          type: string
+          maxLength: 300
+        layoutType:
+          type: string
+          maxLength: 32
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeModuleItemResource'
+          maxItems: 100
+        moreTarget:
+          $ref: '#/components/schemas/NavigationTargetResource'
+        trackingContext:
+          $ref: '#/components/schemas/TrackingContextResource'
+        startAt:
+          type: string
+          format: date-time
+        endAt:
+          type: string
+          format: date-time
+      required:
+      - moduleId
+      - moduleType
+      - layoutType
+      - items
+    FeatureFlagResource:
+      type: object
+      additionalProperties: false
+      properties:
+        key:
+          type: string
+          maxLength: 128
+        enabled:
+          type: boolean
+        variant:
+          type: string
+          maxLength: 64
+        reason:
+          type: string
+          maxLength: 256
+      required:
+      - key
+      - enabled
+    DashboardMetricResource:
+      type: object
+      additionalProperties: false
+      properties:
+        metricCode:
+          type: string
+          maxLength: 64
+        name:
+          type: string
+          maxLength: 120
+        value:
+          type: number
+        unit:
+          type: string
+          maxLength: 32
+        previousValue:
+          type: number
+        changeRate:
+          type: number
+        comparisonType:
+          type: string
+          maxLength: 32
+          enum:
+          - DAY_OVER_DAY
+          - WEEK_OVER_WEEK
+          - MONTH_OVER_MONTH
+          - YEAR_OVER_YEAR
+          - NONE
+        definitionVersion:
+          type: string
+          maxLength: 32
+      required:
+      - metricCode
+      - name
+      - value
+      - unit
+      - comparisonType
+      - definitionVersion
+    DashboardTrendPointResource:
+      type: object
+      additionalProperties: false
+      properties:
+        time:
+          type: string
+          format: date-time
+        value:
+          type: number
+      required:
+      - time
+      - value
+    DashboardTrendSeriesResource:
+      type: object
+      additionalProperties: false
+      properties:
+        metricCode:
+          type: string
+          maxLength: 64
+        name:
+          type: string
+          maxLength: 120
+        unit:
+          type: string
+          maxLength: 32
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardTrendPointResource'
+          maxItems: 500
+      required:
+      - metricCode
+      - name
+      - unit
+      - points
+    DashboardTodoResource:
+      type: object
+      additionalProperties: false
+      properties:
+        todoType:
+          type: string
+          maxLength: 64
+        title:
+          type: string
+          maxLength: 160
+        count:
+          type: integer
+          format: int64
+          minimum: 0
+        severity:
+          type: string
+          maxLength: 16
+          enum:
+          - INFO
+          - WARNING
+          - HIGH
+          - CRITICAL
+        target:
+          $ref: '#/components/schemas/NavigationTargetResource'
+      required:
+      - todoType
+      - title
+      - count
+      - severity
+      - target
+    SeoMetadataResource:
+      type: object
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          maxLength: 120
+        description:
+          type: string
+          maxLength: 300
+        keywords:
+          type: array
+          items:
+            type: string
+            maxLength: 64
+          maxItems: 20
+        canonicalUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        ogImageUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        robots:
+          type: string
+          maxLength: 64
+      required:
+      - title
+      - description
+    DownloadInfoResource:
+      type: object
+      additionalProperties: false
+      properties:
+        platform:
+          type: string
+          maxLength: 32
+          enum:
+          - ANDROID
+        versionName:
+          type: string
+          maxLength: 32
+        versionCode:
+          type: integer
+          format: int64
+          minimum: 1
+        downloadUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        sha256:
+          type: string
+          maxLength: 64
+        fileSizeBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        publishedAt:
+          type: string
+          format: date-time
+        installGuideUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+      required:
+      - platform
+      - versionName
+      - versionCode
+      - downloadUrl
+      - sha256
+    PublicPageBlockResource:
+      type: object
+      additionalProperties: false
+      properties:
+        blockId:
+          type: string
+          maxLength: 64
+        blockType:
+          type: string
+          maxLength: 32
+          enum:
+          - HERO
+          - RICH_TEXT
+          - IMAGE
+          - VIDEO
+          - FEATURE_LIST
+          - CTA
+          - FAQ
+          - DOWNLOAD
+        heading:
+          type: string
+          maxLength: 160
+        body:
+          type: string
+          maxLength: 10000
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaItemResource'
+          maxItems: 20
+        action:
+          $ref: '#/components/schemas/NavigationTargetResource'
+        sortOrder:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 1000
+      required:
+      - blockId
+      - blockType
+      - sortOrder
+    TaskProgressResource:
+      type: object
+      additionalProperties: false
+      properties:
+        currentValue:
+          type: integer
+          format: int64
+          minimum: 0
+        targetValue:
+          type: integer
+          format: int64
+          minimum: 1
+        percent:
+          type: number
+          minimum: 0
+          maximum: 100
+        completedAt:
+          type: string
+          format: date-time
+        streakDays:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - currentValue
+      - targetValue
+      - percent
+    TaskTargetResource:
+      type: object
+      additionalProperties: false
+      properties:
+        metric:
+          type: string
+          maxLength: 64
+        operator:
+          type: string
+          maxLength: 16
+          enum:
+          - GTE
+          - EQ
+          - LTE
+          - IN
+        value:
+          $ref: '#/components/schemas/JsonValue'
+        window:
+          type: string
+          maxLength: 32
+          enum:
+          - DAILY
+          - WEEKLY
+          - SEVEN_DAY
+          - LIFETIME
+      required:
+      - metric
+      - operator
+      - value
+      - window
+    TaskRewardResource:
+      type: object
+      additionalProperties: false
+      properties:
+        rewardType:
+          type: string
+          maxLength: 32
+          enum:
+          - POINTS
+          - CASH_PENDING
+          - PROP
+          - BADGE
+        amountCent:
+          type: integer
+          format: int64
+          minimum: 0
+        points:
+          type: integer
+          format: int64
+          minimum: 0
+        propSkuId:
+          type: string
+          maxLength: 64
+        settlementDelayHours:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - rewardType
+    MaskedConfigValueResource:
+      type: object
+      additionalProperties: false
+      properties:
+        valueType:
+          type: string
+          maxLength: 32
+        maskedDisplay:
+          type: string
+          maxLength: 512
+          x-sensitive: true
+        isConfigured:
+          type: boolean
+        secretRef:
+          type: string
+          maxLength: 256
+          x-sensitive: true
+      required:
+      - valueType
+      - maskedDisplay
+      - isConfigured
+    RuleHitResource:
+      type: object
+      additionalProperties: false
+      properties:
+        ruleId:
+          type: string
+          maxLength: 64
+        ruleVersion:
+          type: string
+          maxLength: 32
+        ruleName:
+          type: string
+          maxLength: 160
+        score:
+          type: number
+        action:
+          type: string
+          maxLength: 64
+        explanation:
+          type: string
+          maxLength: 1000
+      required:
+      - ruleId
+      - ruleVersion
+      - ruleName
+      - action
+    BuildStepResource:
+      type: object
+      additionalProperties: false
+      properties:
+        stepCode:
+          type: string
+          maxLength: 64
+        name:
+          type: string
+          maxLength: 120
+        status:
+          type: string
+          maxLength: 32
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        logRef:
+          type: string
+          maxLength: 512
+        failureCode:
+          type: string
+          maxLength: 64
+      required:
+      - stepCode
+      - name
+      - status
+    AccountingEntryResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        transactionId:
+          type: string
+          maxLength: 64
+        accountCode:
+          type: string
+          maxLength: 128
+        accountName:
+          type: string
+          maxLength: 160
+        direction:
+          type: string
+          maxLength: 16
+          enum:
+          - DEBIT
+          - CREDIT
+        amountCent:
+          type: integer
+          format: int64
+          minimum: 1
+        currency:
+          type: string
+          maxLength: 3
+          enum:
+          - CNY
+        userId:
+          type: string
+          maxLength: 64
+        businessType:
+          type: string
+          maxLength: 64
+        businessId:
+          type: string
+          maxLength: 64
+        createdAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - transactionId
+      - accountCode
+      - direction
+      - amountCent
+      - currency
+      - businessType
+      - businessId
+      - createdAt
+    AccountingTransactionResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        transactionNo:
+          type: string
+          maxLength: 64
+        businessType:
+          type: string
+          maxLength: 64
+        businessId:
+          type: string
+          maxLength: 64
+        idempotencyKey:
+          type: string
+          maxLength: 128
+        status:
+          type: string
+          maxLength: 32
+          enum:
+          - PENDING
+          - POSTED
+          - REVERSED
+        currency:
+          type: string
+          maxLength: 3
+          enum:
+          - CNY
+        debitTotalCent:
+          type: integer
+          format: int64
+          minimum: 0
+        creditTotalCent:
+          type: integer
+          format: int64
+          minimum: 0
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountingEntryResource'
+          maxItems: 100
+        reversalOfTransactionId:
+          type: string
+          maxLength: 64
+        createdAt:
+          type: string
+          format: date-time
+        postedAt:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - id
+      - transactionNo
+      - businessType
+      - businessId
+      - idempotencyKey
+      - status
+      - currency
+      - debitTotalCent
+      - creditTotalCent
+      - createdAt
+      - version
+    AccountingReversalRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        reasonCode:
+          type: string
+          maxLength: 64
+        reason:
+          type: string
+          maxLength: 1000
+        evidenceIds:
+          type: array
+          items:
+            type: string
+            maxLength: 64
+          maxItems: 20
+        approvalId:
+          type: string
+          maxLength: 64
+        expectedVersion:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - reasonCode
+      - reason
+      - approvalId
+      - expectedVersion
+    RiskRuleVersionResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        ruleSetCode:
+          type: string
+          maxLength: 64
+        versionNo:
+          type: integer
+          format: int64
+          minimum: 1
+        status:
+          type: string
+          maxLength: 32
+          enum:
+          - DRAFT
+          - VALIDATED
+          - PENDING_APPROVAL
+          - ACTIVE
+          - INACTIVE
+          - REJECTED
+        name:
+          type: string
+          maxLength: 160
+        description:
+          type: string
+          maxLength: 1000
+        ruleDefinition:
+          $ref: '#/components/schemas/JsonObject'
+        testSummary:
+          type: object
+          additionalProperties: false
+          properties:
+            sampleCount:
+              type: integer
+              format: int64
+              minimum: 0
+            hitCount:
+              type: integer
+              format: int64
+              minimum: 0
+            falsePositiveCount:
+              type: integer
+              format: int64
+              minimum: 0
+            falseNegativeCount:
+              type: integer
+              format: int64
+              minimum: 0
+          required:
+          - sampleCount
+          - hitCount
+        effectiveAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          maxLength: 64
+        createdAt:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - id
+      - ruleSetCode
+      - versionNo
+      - status
+      - name
+      - ruleDefinition
+      - createdBy
+      - createdAt
+      - version
+    RiskRuleCreateRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        ruleSetCode:
+          type: string
+          maxLength: 64
+        name:
+          type: string
+          maxLength: 160
+        description:
+          type: string
+          maxLength: 1000
+        ruleDefinition:
+          $ref: '#/components/schemas/JsonObject'
+        effectiveAt:
+          type: string
+          format: date-time
+      required:
+      - ruleSetCode
+      - name
+      - ruleDefinition
+    RiskSimulationRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        sampleMode:
+          type: string
+          maxLength: 32
+          enum:
+          - MANUAL
+          - MASKED_SNAPSHOT
+          - TEST_DATASET
+        subjectType:
+          type: string
+          maxLength: 64
+        samplePayload:
+          $ref: '#/components/schemas/JsonObject'
+        datasetId:
+          type: string
+          maxLength: 64
+        explain:
+          type: boolean
+          default: true
+      required:
+      - sampleMode
+      - subjectType
+    RiskSimulationResultResource:
+      type: object
+      additionalProperties: false
+      properties:
+        simulationId:
+          type: string
+          maxLength: 64
+        ruleVersionId:
+          type: string
+          maxLength: 64
+        matched:
+          type: boolean
+        score:
+          type: number
+        recommendedAction:
+          type: string
+          maxLength: 64
+        ruleHits:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleHitResource'
+          maxItems: 100
+        sideEffectFree:
+          type: boolean
+          const: true
+        executedAt:
+          type: string
+          format: date-time
+      required:
+      - simulationId
+      - ruleVersionId
+      - matched
+      - recommendedAction
+      - ruleHits
+      - sideEffectFree
+      - executedAt
+    RiskRuleActivateRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        approvalId:
+          type: string
+          maxLength: 64
+        effectiveAt:
+          type: string
+          format: date-time
+        expectedVersion:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - approvalId
+      - expectedVersion
+    NotificationTemplateResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        templateCode:
+          type: string
+          maxLength: 64
+        channel:
+          type: string
+          maxLength: 32
+          enum:
+          - IN_APP
+          - PUSH
+          - SMS
+        locale:
+          type: string
+          maxLength: 16
+        versionNo:
+          type: integer
+          format: int64
+          minimum: 1
+        status:
+          type: string
+          maxLength: 32
+          enum:
+          - DRAFT
+          - PENDING_APPROVAL
+          - ACTIVE
+          - INACTIVE
+          - REJECTED
+        titleTemplate:
+          type: string
+          maxLength: 300
+        bodyTemplate:
+          type: string
+          maxLength: 5000
+        allowedVariables:
+          type: array
+          items:
+            type: string
+            maxLength: 64
+          maxItems: 100
+        sampleVariables:
+          $ref: '#/components/schemas/JsonObject'
+        effectiveAt:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - id
+      - templateCode
+      - channel
+      - locale
+      - versionNo
+      - status
+      - bodyTemplate
+      - allowedVariables
+      - version
+    NotificationTemplateCreateRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        templateCode:
+          type: string
+          maxLength: 64
+        channel:
+          type: string
+          maxLength: 32
+          enum:
+          - IN_APP
+          - PUSH
+          - SMS
+        locale:
+          type: string
+          maxLength: 16
+        titleTemplate:
+          type: string
+          maxLength: 300
+        bodyTemplate:
+          type: string
+          maxLength: 5000
+        allowedVariables:
+          type: array
+          items:
+            type: string
+            maxLength: 64
+          maxItems: 100
+        sampleVariables:
+          $ref: '#/components/schemas/JsonObject'
+        effectiveAt:
+          type: string
+          format: date-time
+      required:
+      - templateCode
+      - channel
+      - locale
+      - bodyTemplate
+      - allowedVariables
+    NotificationTemplatePatchRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        titleTemplate:
+          type: string
+          maxLength: 300
+        bodyTemplate:
+          type: string
+          maxLength: 5000
+        allowedVariables:
+          type: array
+          items:
+            type: string
+            maxLength: 64
+          maxItems: 100
+        sampleVariables:
+          $ref: '#/components/schemas/JsonObject'
+        status:
+          type: string
+          maxLength: 32
+        expectedVersion:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - expectedVersion
+    NotificationDeliveryResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        templateCode:
+          type: string
+          maxLength: 64
+        templateVersion:
+          type: integer
+          format: int64
+          minimum: 1
+        channel:
+          type: string
+          maxLength: 32
+          enum:
+          - IN_APP
+          - PUSH
+          - SMS
+        recipientMasked:
+          type: string
+          maxLength: 256
+          x-sensitive: true
+        businessType:
+          type: string
+          maxLength: 64
+        businessId:
+          type: string
+          maxLength: 64
+        status:
+          type: string
+          maxLength: 32
+          enum:
+          - QUEUED
+          - SENT
+          - DELIVERED
+          - FAILED
+          - CANCELLED
+        attemptCount:
+          type: integer
+          format: int64
+          minimum: 0
+        failureCode:
+          type: string
+          maxLength: 64
+        failureMessage:
+          type: string
+          maxLength: 1000
+        createdAt:
+          type: string
+          format: date-time
+        sentAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - templateCode
+      - templateVersion
+      - channel
+      - recipientMasked
+      - status
+      - attemptCount
+      - createdAt
+    NotificationRetryRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        reason:
+          type: string
+          maxLength: 1000
+        expectedAttemptCount:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - reason
+      - expectedAttemptCount
+    ExportJobResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        jobNo:
+          type: string
+          maxLength: 64
+        exportType:
+          type: string
+          maxLength: 64
+        status:
+          type: string
+          maxLength: 32
+          enum:
+          - PENDING_APPROVAL
+          - QUEUED
+          - RUNNING
+          - SUCCEEDED
+          - FAILED
+          - EXPIRED
+          - REJECTED
+        filters:
+          $ref: '#/components/schemas/JsonObject'
+        fieldCodes:
+          type: array
+          items:
+            type: string
+            maxLength: 64
+          maxItems: 200
+        maskPolicy:
+          type: string
+          maxLength: 64
+        rowLimit:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 1000000
+        approvalId:
+          type: string
+          maxLength: 64
+        fileSizeBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        expiresAt:
+          type: string
+          format: date-time
+        createdBy:
+          type: string
+          maxLength: 64
+        createdAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        version:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - id
+      - jobNo
+      - exportType
+      - status
+      - fieldCodes
+      - maskPolicy
+      - rowLimit
+      - createdBy
+      - createdAt
+      - version
+    ExportJobCreateRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        exportType:
+          type: string
+          maxLength: 64
+        filters:
+          $ref: '#/components/schemas/JsonObject'
+        fieldCodes:
+          type: array
+          items:
+            type: string
+            maxLength: 64
+          maxItems: 200
+        maskPolicy:
+          type: string
+          maxLength: 64
+        rowLimit:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 1000000
+        purpose:
+          type: string
+          maxLength: 1000
+        approvalId:
+          type: string
+          maxLength: 64
+      required:
+      - exportType
+      - fieldCodes
+      - maskPolicy
+      - rowLimit
+      - purpose
+    ExportDownloadTokenResource:
+      type: object
+      additionalProperties: false
+      properties:
+        token:
+          type: string
+          maxLength: 512
+          x-sensitive: true
+        downloadUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        expiresAt:
+          type: string
+          format: date-time
+        singleUse:
+          type: boolean
+          const: true
+      required:
+      - token
+      - downloadUrl
+      - expiresAt
+      - singleUse
+    AdminSelfSecurityResource:
+      type: object
+      additionalProperties: false
+      properties:
+        adminId:
+          type: string
+          maxLength: 64
+        username:
+          type: string
+          maxLength: 128
+        mfaEnabled:
+          type: boolean
+        mfaMethods:
+          type: array
+          items:
+            type: string
+            maxLength: 32
+          maxItems: 10
+        activeSessionCount:
+          type: integer
+          format: int64
+          minimum: 0
+        lastPasswordChangedAt:
+          type: string
+          format: date-time
+        lastLoginAt:
+          type: string
+          format: date-time
+        lastLoginIpMasked:
+          type: string
+          maxLength: 64
+          x-sensitive: true
+        recoveryCodesRemaining:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - adminId
+      - username
+      - mfaEnabled
+      - mfaMethods
+      - activeSessionCount
+      - recoveryCodesRemaining
+    AdminPasswordChangeRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        currentPassword:
+          type: string
+          maxLength: 72
+          x-sensitive: true
+        newPassword:
+          type: string
+          maxLength: 72
+          x-sensitive: true
+        mfaCode:
+          type: string
+          maxLength: 10
+          x-sensitive: true
+      required:
+      - currentPassword
+      - newPassword
+      - mfaCode
+    MfaEnrollmentResource:
+      type: object
+      additionalProperties: false
+      properties:
+        enrollmentId:
+          type: string
+          maxLength: 64
+        method:
+          type: string
+          maxLength: 32
+          enum:
+          - TOTP
+        secretQrCodeUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+          x-sensitive: true
+        manualKeyMasked:
+          type: string
+          maxLength: 64
+          x-sensitive: true
+        expiresAt:
+          type: string
+          format: date-time
+      required:
+      - enrollmentId
+      - method
+      - secretQrCodeUrl
+      - manualKeyMasked
+      - expiresAt
+    MfaConfirmRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        enrollmentId:
+          type: string
+          maxLength: 64
+        code:
+          type: string
+          maxLength: 10
+          x-sensitive: true
+      required:
+      - enrollmentId
+      - code
+    MfaDisableRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        code:
+          type: string
+          maxLength: 10
+          x-sensitive: true
+        reason:
+          type: string
+          maxLength: 500
+      required:
+      - code
+      - reason
+    AdminAccountingGetTransactionsResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          additionalProperties: false
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/AccountingTransactionResource'
+              maxItems: 200
+            page:
+              $ref: '#/components/schemas/PageMeta'
+          required:
+          - items
+          - page
+      required:
+      - success
+      - requestId
+      - data
+    AdminAccountingGetTransactionsParameters:
+      type: object
+      additionalProperties: false
+      properties:
+        page:
+          type: integer
+          format: int64
+          minimum: 1
+          default: 1
+        pageSize:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 100
+          default: 20
+        keyword:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        sort:
+          type: string
+          maxLength: 256
+        startAt:
+          type: string
+          maxLength: 256
+        endAt:
+          type: string
+          maxLength: 256
+        businessType:
+          type: string
+          maxLength: 256
+        businessId:
+          type: string
+          maxLength: 256
+        accountCode:
+          type: string
+          maxLength: 256
+    AdminAccountingGetTransactionByIdResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/AccountingTransactionResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminAccountingGetTransactionByIdParameters:
+      type: object
+      additionalProperties: false
+      properties: {}
+    AdminAccountingGetEntriesResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          additionalProperties: false
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/AccountingEntryResource'
+              maxItems: 200
+            page:
+              $ref: '#/components/schemas/PageMeta'
+          required:
+          - items
+          - page
+      required:
+      - success
+      - requestId
+      - data
+    AdminAccountingGetEntriesParameters:
+      type: object
+      additionalProperties: false
+      properties:
+        page:
+          type: integer
+          format: int64
+          minimum: 1
+          default: 1
+        pageSize:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 100
+          default: 20
+        keyword:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        sort:
+          type: string
+          maxLength: 256
+        startAt:
+          type: string
+          maxLength: 256
+        endAt:
+          type: string
+          maxLength: 256
+        transactionId:
+          type: string
+          maxLength: 256
+        accountCode:
+          type: string
+          maxLength: 256
+        direction:
+          type: string
+          enum:
+          - DEBIT
+          - CREDIT
+          maxLength: 256
+    AdminAccountingPostReversalResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/AccountingTransactionResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminRiskRulesGetVersionsResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          additionalProperties: false
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/RiskRuleVersionResource'
+              maxItems: 200
+            page:
+              $ref: '#/components/schemas/PageMeta'
+          required:
+          - items
+          - page
+      required:
+      - success
+      - requestId
+      - data
+    AdminRiskRulesGetVersionsParameters:
+      type: object
+      additionalProperties: false
+      properties:
+        page:
+          type: integer
+          format: int64
+          minimum: 1
+          default: 1
+        pageSize:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 100
+          default: 20
+        keyword:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        sort:
+          type: string
+          maxLength: 256
+        ruleSetCode:
+          type: string
+          maxLength: 256
+    AdminRiskRulesPostVersionResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/RiskRuleVersionResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminRiskRulesPostSimulationResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/RiskSimulationResultResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminRiskRulesPostActivateResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/RiskRuleVersionResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminNotificationGetTemplatesResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          additionalProperties: false
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/NotificationTemplateResource'
+              maxItems: 200
+            page:
+              $ref: '#/components/schemas/PageMeta'
+          required:
+          - items
+          - page
+      required:
+      - success
+      - requestId
+      - data
+    AdminNotificationGetTemplatesParameters:
+      type: object
+      additionalProperties: false
+      properties:
+        page:
+          type: integer
+          format: int64
+          minimum: 1
+          default: 1
+        pageSize:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 100
+          default: 20
+        keyword:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        sort:
+          type: string
+          maxLength: 256
+        channel:
+          type: string
+          maxLength: 256
+        templateCode:
+          type: string
+          maxLength: 256
+    AdminNotificationPostTemplateResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/NotificationTemplateResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminNotificationPatchTemplateResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/NotificationTemplateResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminNotificationGetDeliveriesResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          additionalProperties: false
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/NotificationDeliveryResource'
+              maxItems: 200
+            page:
+              $ref: '#/components/schemas/PageMeta'
+          required:
+          - items
+          - page
+      required:
+      - success
+      - requestId
+      - data
+    AdminNotificationGetDeliveriesParameters:
+      type: object
+      additionalProperties: false
+      properties:
+        page:
+          type: integer
+          format: int64
+          minimum: 1
+          default: 1
+        pageSize:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 100
+          default: 20
+        keyword:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        sort:
+          type: string
+          maxLength: 256
+        startAt:
+          type: string
+          maxLength: 256
+        endAt:
+          type: string
+          maxLength: 256
+        channel:
+          type: string
+          maxLength: 256
+        templateCode:
+          type: string
+          maxLength: 256
+        businessType:
+          type: string
+          maxLength: 256
+    AdminNotificationPostDeliveryRetryResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/NotificationDeliveryResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminExportsGetJobsResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          type: object
+          additionalProperties: false
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/ExportJobResource'
+              maxItems: 200
+            page:
+              $ref: '#/components/schemas/PageMeta'
+          required:
+          - items
+          - page
+      required:
+      - success
+      - requestId
+      - data
+    AdminExportsGetJobsParameters:
+      type: object
+      additionalProperties: false
+      properties:
+        page:
+          type: integer
+          format: int64
+          minimum: 1
+          default: 1
+        pageSize:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 100
+          default: 20
+        keyword:
+          type: string
+          maxLength: 256
+        status:
+          type: string
+          maxLength: 256
+        sort:
+          type: string
+          maxLength: 256
+        startAt:
+          type: string
+          maxLength: 256
+        endAt:
+          type: string
+          maxLength: 256
+        exportType:
+          type: string
+          maxLength: 256
+    AdminExportsPostJobResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/ExportJobResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminExportsGetJobByIdResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/ExportJobResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminExportsGetJobByIdParameters:
+      type: object
+      additionalProperties: false
+      properties: {}
+    AdminExportsPostDownloadTokenResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/ExportDownloadTokenResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminExportsPostDownloadTokenParameters:
+      type: object
+      additionalProperties: false
+      properties: {}
+    AdminSelfGetSecurityResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/AdminSelfSecurityResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminSelfPostPasswordChangeResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/AdminSelfSecurityResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminSelfPostMfaEnrollResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/MfaEnrollmentResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminSelfPostMfaEnrollParameters:
+      type: object
+      additionalProperties: false
+      properties: {}
+    AdminSelfPostMfaConfirmResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/AdminSelfSecurityResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminSelfDeleteMfaResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/AdminSelfSecurityResource'
+      required:
+      - success
+      - requestId
+      - data
+    AdminSelfDeleteMfaParameters:
+      type: object
+      additionalProperties: false
+      properties: {}
+    AdminSelfPostMfaDisableResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/AdminSelfSecurityResource'
+      required:
+      - success
+      - requestId
+      - data
+x-document-baseline: V1.2.2
+x-contract-status: FROZEN_FOR_IMPLEMENTATION

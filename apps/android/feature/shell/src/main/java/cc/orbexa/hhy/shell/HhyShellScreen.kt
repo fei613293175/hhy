@@ -74,7 +74,7 @@ fun HhyShellScreen(
         ) {
             item {
                 Text(
-                    text = "V1.2.1 工程已就绪",
+                    text = "$versionName 工程已就绪",
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.SemiBold,
                 )

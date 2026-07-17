@@ -6,19 +6,19 @@
   "source_manifest": [
     {
       "path": ".continuity/CONTINUITY_POLICY.yaml",
-      "sha256": "9dbcba88f0f2a0ac824fa8f53d693e8c38e661103e6603b88484a43f30446923"
+      "sha256": "69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223"
     },
     {
       "path": "scripts/continuity_lib.py",
-      "sha256": "cdefc91bdd384cd77656b84154728d0ac3c4bb45c8e9563ef1322aef03bda670"
+      "sha256": "a3dfc869dd56765d2712e55a00c3452123a28f93f76689eef91a2afccd2b778c"
     },
     {
       "path": "scripts/continuity.py",
-      "sha256": "408c5b4000700e7fd7ce18aaae11048e0bc1e63f2fd1a8a7b0f3bf1ba27311d7"
+      "sha256": "1650d2bbbda53a02ff434f174a2aee3eb108e7ebc89c3cee1a3323292ae22f42"
     },
     {
       "path": "scripts/continuity_gate.py",
-      "sha256": "368dedab18b1e0b94fac71448fab87698ac3539929487affe8be4374ade84aa5"
+      "sha256": "888111dfe7085ad8165458d3c9ec39b48a39db49a954a2ee17976cfc0c7070a4"
     },
     {
       "path": "scripts/prepare_commit_message.py",
@@ -26,27 +26,27 @@
     },
     {
       "path": "scripts/run_continuity_self_test.py",
-      "sha256": "6da23da3316c648ed47868285100695d679fae2d28a6ee39cae99c6e7fe91c1e"
+      "sha256": "c7dd4524345ad38a3f2be2e773b13d7e135dad6ec97d6ad3b7fc7c84c5713810"
     },
     {
       "path": "scripts/test_continuity_protocol.py",
-      "sha256": "3f205bfd17249256015ecb150fb4882c32ed22967a92669b7686644ff19cbde7"
+      "sha256": "749d869b775268c1ac6c19fa9eb7da23a72da7743d2070e7548140706bacf55a"
     },
     {
       "path": ".githooks/pre-commit",
-      "sha256": "bec28cd934c25a12ed73f4a7a653eae6b4d3642c1daeb5fc5eedef3d805baea7"
+      "sha256": "541c9df7be1e3b45635930dc23728153cc85b4a677a1e89f6b4f43a72f68ac18"
     },
     {
       "path": ".githooks/prepare-commit-msg",
-      "sha256": "302aa3e90124fe7705150bc36edbb5dbc4dfb662d566b09874657465abf0750b"
+      "sha256": "e06c6381eaf95b105b0b5bff426abcc7da49539d1fe706c7980f1dc0a065225b"
     },
     {
       "path": ".githooks/commit-msg",
-      "sha256": "f93cd582dc18f8a81923362de999a83032ff18e397198d2d784b242c2895992f"
+      "sha256": "625bd167b23f048f808d07470c021bf91d6e4fa495d23c195bfa92f040bfa98c"
     },
     {
       "path": ".githooks/pre-push",
-      "sha256": "982bce7a21d071ab4b9d051da78b05466913db6b25fee1d64c222ccb93b0c640"
+      "sha256": "6e35fe726ba7f68f3c725ab8350e48df4719e45dc709d83d4f1abcf29dc4b7f8"
     }
   ],
   "checks": [
@@ -88,7 +88,7 @@
     {
       "name": "portable_clone_fingerprint",
       "status": "PASS",
-      "evidence": "378018c538ec55d0547af45052233d96da49634af8ed67757594e21dabd7e11e"
+      "evidence": "8e61fd00c99a687353cc3e3421f398432221e84c032480c41534232957b8e239"
     },
     {
       "name": "handoff_tamper_rejected",
@@ -97,9 +97,9 @@
     }
   ],
   "check_count": 9,
-  "lifecycle_report": "artifacts/validation/continuity-lifecycle-integration-v1.2.3.json",
-  "handoff_sha256": "055b95e18d59f4679077dc168867b79450598450ad5d534adcc5eacfa8825df5",
-  "portable_project_fingerprint": "378018c538ec55d0547af45052233d96da49634af8ed67757594e21dabd7e11e",
+  "lifecycle_report": "artifacts\\validation\\continuity-lifecycle-integration-v1.2.3.json",
+  "handoff_sha256": "c3b7a8b81021f5c95e22a4ecb516ec48bbaa5250f535ff51768f5132b719b1b2",
+  "portable_project_fingerprint": "8e61fd00c99a687353cc3e3421f398432221e84c032480c41534232957b8e239",
   "commands": [
     {
       "name": "lifecycle",

@@ -1,0 +1,35 @@
+{
+  "schema": "hhy.p00.android-install-environment/v1",
+  "generated_at": "2026-07-17T02:13:22Z",
+  "status": "BLOCKED_BY_HOST_ENVIRONMENT",
+  "apk": {
+    "path": "apps/android/app/build/outputs/apk/debug/app-debug.apk",
+    "bytes": 11708206,
+    "sha256": "d538a751bff84909a382ccefa7972852ad0695b1ead28116f5baafbca8b5d5b9",
+    "package": "cc.orbexa.hhy.debug",
+    "version_name": "1.2.2-debug",
+    "version_code": 10201,
+    "min_sdk": 26,
+    "target_sdk": 36,
+    "signature_scheme_v2": true,
+    "signer_certificate_sha256": "e8f3f200e20ef6c4911364aa9f2210e386d47214903caa23262690e368fb5953"
+  },
+  "checks": [
+    {
+      "name": "local-adb-device",
+      "status": "BLOCKED",
+      "detail": "adb devices returned no connected physical device"
+    },
+    {
+      "name": "x86_64-emulator",
+      "status": "BLOCKED",
+      "detail": "Android Emulator hypervisor driver is not installed; emulator-check accel returned 6"
+    },
+    {
+      "name": "arm64-emulator",
+      "status": "BLOCKED",
+      "detail": "Emulator 36.6.11 rejects ARM64 AVD on an x86_64 host"
+    }
+  ],
+  "claim": "This report is environment evidence only and does not claim adb install or launch PASS."
+}

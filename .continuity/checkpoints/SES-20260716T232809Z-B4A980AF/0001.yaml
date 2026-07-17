@@ -1,0 +1,88 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260716T232809Z-B4A980AF-0001
+session_id: SES-20260716T232809Z-B4A980AF
+sequence: 1
+created_at: '2026-07-16T23:31:41Z'
+summary: 完成V1.2.3基线导入、Git初始化和STORY-P00-001领取，并修复当前会话bootstrap基线指针
+next_step: 修复冷启动协议、忽略规则与连续性产物策略
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: baseline-import
+  result: PASS
+  evidence: git rev-parse HEAD=bffa551a122444a86bfcff0542714834bd6c2156; continuity resume PASS
+  note: 基线已提交且唯一会话处于ACTIVE
+git:
+  initialized: true
+  branch: task/TASK-P00-001
+  head: bffa551a122444a86bfcff0542714834bd6c2156
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260716T232809Z-B4A980AF.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ?? scripts/__pycache__/continuity_lib.cpython-312.pyc
+  recent_commits:
+  - "bffa551a122444a86bfcff0542714834bd6c2156\t2026-07-17T07:28:28+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(repo): import V1.2.3\
+    \ enforced continuity baseline"
+project_fingerprint:
+  sha256: dd2e44a219868fa50afbe33f987d4ebc0ca164111254c4bda92a2fc171dc2cc1
+  files:
+  - scripts/__pycache__/continuity_lib.cpython-312.pyc
+  file_count: 1
+  payload:
+    base_commit: bffa551a122444a86bfcff0542714834bd6c2156
+    files:
+    - path: scripts/__pycache__/continuity_lib.cpython-312.pyc
+      state: FILE
+      size: 124606
+      sha256: ec27bb77fc95e08834e02ab75caa00b5999a164358cbeb2ff7bbe45a66db73f5
+change_classification:
+  code:
+  - scripts/__pycache__/continuity_lib.cpython-312.pyc
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - '**'
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit+bootstrap-repair
+event_hash: e88793159e299739edb8033416f995c0697a3e811fed27efe8ee526eb6167b61

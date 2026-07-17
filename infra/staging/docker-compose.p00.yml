@@ -1,0 +1,111 @@
+name: hhy-p00-staging
+
+services:
+  postgres:
+    image: postgres:17.10-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: hhy_staging
+      POSTGRES_USER: hhy_staging
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      TZ: UTC
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hhy_staging -d hhy_staging"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    networks: [staging]
+
+  backend:
+    image: hhy-backend-p00:${HHY_IMAGE_TAG:?HHY_IMAGE_TAG is required}
+    build:
+      context: ../..
+      dockerfile: services/backend/Dockerfile
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: staging
+      HHY_PHASE: staging
+      HHY_DB_URL: jdbc:postgresql://postgres:5432/hhy_staging
+      HHY_DB_USER: hhy_staging
+      HHY_DB_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      HHY_HTTP_PORT: 8080
+      HHY_MANAGEMENT_PORT: 9091
+      HHY_MAINTENANCE: ${HHY_MAINTENANCE:-false}
+      HHY_MAINTENANCE_MESSAGE: ${HHY_MAINTENANCE_MESSAGE:-系统维护中}
+      HHY_REGISTRATION_ENABLED: ${HHY_REGISTRATION_ENABLED:-true}
+      HHY_PUBLISHING_ENABLED: ${HHY_PUBLISHING_ENABLED:-true}
+      HHY_REDPACKET_ENABLED: ${HHY_REDPACKET_ENABLED:-false}
+      HHY_WITHDRAWAL_ENABLED: ${HHY_WITHDRAWAL_ENABLED:-false}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${HHY_STAGING_HTTP_PORT:-18080}:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:9091/actuator/health/readiness"]
+      interval: 10s
+      timeout: 3s
+      retries: 18
+      start_period: 30s
+    networks: [staging]
+
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=7d
+      - --web.enable-lifecycle
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./p00-alerts.yml:/etc/prometheus/p00-alerts.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "127.0.0.1:${HHY_PROMETHEUS_PORT:-19090}:9090"
+    depends_on:
+      backend:
+        condition: service_healthy
+      alertmanager:
+        condition: service_started
+    networks: [staging]
+
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    restart: unless-stopped
+    command: ["--config.file=/etc/alertmanager/alertmanager.yml"]
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    depends_on:
+      alert-sink:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:${HHY_ALERTMANAGER_PORT:-19093}:9093"
+    networks: [staging]
+
+  alert-sink:
+    image: hhy-alert-sink-p00:${HHY_IMAGE_TAG:?HHY_IMAGE_TAG is required}
+    build:
+      context: ../..
+      dockerfile: infra/staging/alert-sink/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - alert-sink-data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=2).read()"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    networks: [staging]
+
+networks:
+  staging:
+    driver: bridge
+
+volumes:
+  postgres-data: {}
+  prometheus-data: {}
+  alertmanager-data: {}
+  alert-sink-data: {}

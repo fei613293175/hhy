@@ -15,8 +15,14 @@ stories:
   module: 工程治理
   template_id: N/A
   page_ids: []
-  operation_ids: []
-  api_contracts: []
+  operation_ids:
+  - publicGetPlatformStatus
+  - appReleasePostAppVersionCheck
+  - appReleaseGetAppVersionCheck
+  api_contracts:
+  - GET /public-api/v1/platform/status
+  - POST /public-api/v1/app/version-check
+  - GET /api/v1/app/version-check
   requirement_ids:
   - REQ-UI-001
   - REQ-CONT-001

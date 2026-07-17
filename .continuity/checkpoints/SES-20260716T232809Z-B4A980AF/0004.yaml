@@ -1,0 +1,397 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260716T232809Z-B4A980AF-0004
+session_id: SES-20260716T232809Z-B4A980AF
+sequence: 4
+created_at: '2026-07-17T00:12:28Z'
+summary: 完成P00开发就绪基线修复与真实工程验证
+next_step: 运行组合Project Doctor并提交关闭TASK-P00-001
+blockers: []
+decisions:
+- V1.2.3仅为连续性协议版本，产品与契约版本保持V1.2.2
+- 冻结契约和迁移只向后端运行时副本同步，禁止旧生成器覆盖权威源
+note: 根pnpm generate中的OpenAPI生成成功；随后因本机PATH只有无效python3 shim返回9009，domain types已用bundled Python单独生成并由typecheck验证。云端临时数据库容器、网络和工作目录已清理。
+tests:
+- name: pnpm-frozen-install
+  result: PASS
+  evidence: 'pnpm 11.13.1 install --frozen-lockfile: 190 packages installed'
+  note: 锁文件通过供应链策略并下载source-map-js 1.2.1
+- name: web-typecheck
+  result: PASS
+  evidence: pnpm 11.13.1 typecheck
+  note: 5个工作区项目类型检查通过
+- name: web-tests-build
+  result: PASS
+  evidence: pnpm 11.13.1 test and build
+  note: Admin/H5测试各1项通过且两个Vite生产构建成功
+- name: runtime-contracts
+  result: PASS
+  evidence: scripts/sync_runtime_assets.py --check and scripts/check_api_contract.py
+  note: 13个运行时资产哈希一致，client=131 admin=184 websocket=10
+- name: database-static
+  result: PASS
+  evidence: scripts/check_db_schema.py
+  note: 198表、9迁移及运行时哈希一致
+- name: postgres17-smoke
+  result: PASS
+  evidence: obx-test ephemeral postgres:17.10 scripts/run_postgres_migration_smoke.sh
+  note: V001-V009、198表及会计不变量全部通过
+- name: documentation-strict
+  result: PASS
+  evidence: scripts/check_v123_documentation.py --strict
+  note: 0 errors 0 warnings
+- name: scaffold-idempotency
+  result: PASS
+  evidence: generate_scaffolds.py and generate_android_scaffold.py second run hashes unchanged
+  note: 74后台页13H5页102Android页可重复生成
+git:
+  initialized: true
+  branch: task/TASK-P00-001
+  head: bffa551a122444a86bfcff0542714834bd6c2156
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CONTINUITY_POLICY.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260716T232809Z-B4A980AF.yaml'
+  - ' M .github/workflows/ci.yml'
+  - ' M .github/workflows/continuity-gate.yml'
+  - ' M .gitignore'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/admin-web/src/catalog.test.ts'
+  - ' M apps/admin-web/src/generated/admin-pages.json'
+  - ' M apps/android/README.md'
+  - ' M apps/android/app/src/main/assets/android-screens.v1.2.2.json'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
+  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
+  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+  - ' M apps/h5/src/generated/h5-pages.json'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/continuity_event_catalog.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M database/README.md'
+  - ' M database/verification/verify_baseline.sql'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md'
+  - ' M package.json'
+  - ' M packages/api-client/src/admin.generated.ts'
+  - ' M packages/api-client/src/client.generated.ts'
+  - ' M packages/domain-types/src/index.ts'
+  - ' M pnpm-lock.yaml'
+  - ' M scripts/check_api_contract.py'
+  - ' M scripts/check_db_schema.py'
+  - ' M scripts/check_v123_continuity.py'
+  - ' M scripts/continuity.py'
+  - ' M scripts/continuity_lib.py'
+  - ' M scripts/generate_android_scaffold.py'
+  - ' M scripts/generate_database.py'
+  - ' M scripts/generate_scaffolds.py'
+  - ' M scripts/run_postgres_migration_smoke.sh'
+  - ' M services/backend/boot/src/main/resources/contracts/admin-openapi.yaml'
+  - ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
+  - ' M services/backend/boot/src/main/resources/contracts/websocket-events.yaml'
+  - ?? .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0002.yaml
+  - ?? .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0003.yaml
+  - ?? scripts/postprocess-openapi-types.mjs
+  - ?? scripts/sync_runtime_assets.py
+  - ?? services/backend/boot/src/main/resources/db/migration/V009__v122_operational_governance.sql
+  - ?? tests/test_continuity_bootstrap_recovery.py
+  recent_commits:
+  - "bffa551a122444a86bfcff0542714834bd6c2156\t2026-07-17T07:28:28+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(repo): import V1.2.3\
+    \ enforced continuity baseline"
+project_fingerprint:
+  sha256: a154f7db537738934be4c5330ad36bfe6dfea3735267c7eceac912cebd50e086
+  files:
+  - .github/workflows/ci.yml
+  - .github/workflows/continuity-gate.yml
+  - .gitignore
+  - CHANGELOG.md
+  - apps/admin-web/src/catalog.test.ts
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/android/README.md
+  - apps/android/app/src/main/assets/android-screens.v1.2.2.json
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/h5/src/generated/h5-pages.json
+  - catalogs/continuity_event_catalog.csv
+  - database/README.md
+  - database/verification/verify_baseline.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - package.json
+  - packages/api-client/src/admin.generated.ts
+  - packages/api-client/src/client.generated.ts
+  - packages/domain-types/src/index.ts
+  - pnpm-lock.yaml
+  - scripts/check_api_contract.py
+  - scripts/check_db_schema.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  - scripts/generate_android_scaffold.py
+  - scripts/generate_database.py
+  - scripts/generate_scaffolds.py
+  - scripts/postprocess-openapi-types.mjs
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/sync_runtime_assets.py
+  - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+  - services/backend/boot/src/main/resources/db/migration/V009__v122_operational_governance.sql
+  - tests/test_continuity_bootstrap_recovery.py
+  file_count: 37
+  payload:
+    base_commit: bffa551a122444a86bfcff0542714834bd6c2156
+    files:
+    - path: .github/workflows/ci.yml
+      state: FILE
+      size: 3696
+      sha256: 58c38413cfff24ac99ff4cf13914573fe181350f3deb487307efdd9dfa228fa2
+    - path: .github/workflows/continuity-gate.yml
+      state: FILE
+      size: 1487
+      sha256: 53560ae00764541a86f349c7bade193dd9f6006d6f30fd31104b7d2bba4899f5
+    - path: .gitignore
+      state: FILE
+      size: 511
+      sha256: 112d66481034121647c7692d24ee97433484e6a5212c21ad7418851e9d7721db
+    - path: CHANGELOG.md
+      state: FILE
+      size: 3035
+      sha256: acfa602a04f3d21f87ee067b098699a3b0a2ebb57bb483ed11f917d08d32c35f
+    - path: apps/admin-web/src/catalog.test.ts
+      state: FILE
+      size: 499
+      sha256: 4dcba07224d9b780fc5af99f18a70f20802d32b188e1b2c97665be45ce140ca3
+    - path: apps/admin-web/src/generated/admin-pages.json
+      state: FILE
+      size: 57005
+      sha256: 7af4144e675381eed0b68f0d092508794393c1d378a8ee37c339063164d4748b
+    - path: apps/android/README.md
+      state: FILE
+      size: 1624
+      sha256: 38a1013db2616a016b2e886cc76cf84dd631387cbe50fe3b4cf3c47d88353b62
+    - path: apps/android/app/src/main/assets/android-screens.v1.2.2.json
+      state: FILE
+      size: 51963
+      sha256: c68fe1420c0423859198e24c5426a8862dc68a69a99e45d380768663a473ee9e
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 66a44c13d4413ab586db4ccc417ea758ce86488c8821273b1d4cc8b58a30ae06
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 919
+      sha256: cbfdc949cfbf9e7b518dbb4a71fa22794118130a417eb7ac334254f63364344b
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 5708
+      sha256: 181f0c075a1f1ffb2e67454c76873948a0525b7e45b9351fbbc1e86d4e2b295e
+    - path: apps/h5/src/generated/h5-pages.json
+      state: FILE
+      size: 4173
+      sha256: dab019cb3601616998c909ecbdc65828745de12bb196e55c54dbbaff74de553f
+    - path: catalogs/continuity_event_catalog.csv
+      state: FILE
+      size: 1381
+      sha256: 31511da10b1cca314cbb3bc41f5f52a1b44907f40875c631b8c9d4fa6684eca3
+    - path: database/README.md
+      state: FILE
+      size: 818
+      sha256: f780b6d18b05a710a0ca62dc9a6ac4e616ef3d5d555aa2a25334832184bdf187
+    - path: database/verification/verify_baseline.sql
+      state: FILE
+      size: 910
+      sha256: 1d9173c228c2a3dd74df2046232eb2fe43c34f073e7ca91057a30a3737d39405
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 2506
+      sha256: 231fb05140041e117c08a0be0961e98f1b137487f3c714091a899d70a108e2bb
+    - path: package.json
+      state: FILE
+      size: 827
+      sha256: 51b6e637310c8350bb54ca2e9aabc561fc5ba1c12571dac746b603337611d0be
+    - path: packages/api-client/src/admin.generated.ts
+      state: FILE
+      size: 886626
+      sha256: 6e077024ad8af8c002905ee9bb0a1cd4ac597bcb79222828815ab6c2d7b69c51
+    - path: packages/api-client/src/client.generated.ts
+      state: FILE
+      size: 610139
+      sha256: 874ba80d3aa058c8a4d25213a217cb9ee7dbb2204916073e0ff444dbccf03ad9
+    - path: packages/domain-types/src/index.ts
+      state: FILE
+      size: 3717
+      sha256: 7bca2c69aa47b2d5fa9a196ff43143c05293694c6290142db8bd69261223ad08
+    - path: pnpm-lock.yaml
+      state: FILE
+      size: 65621
+      sha256: e4982a42363bc48f575d525e4ee0dda9b5fae32e8ba74613056963229dee9d32
+    - path: scripts/check_api_contract.py
+      state: FILE
+      size: 2638
+      sha256: 47ea5140df964d160d1f62085b6a0fe533afae702b828b6d6c2b6045159e3edc
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 2303
+      sha256: ee7bca87caced8350f0f4d1052f9906d3a25df18e6f701eeaf08d2472ff91649
+    - path: scripts/check_v123_continuity.py
+      state: FILE
+      size: 24687
+      sha256: d658c0369c2aaee73bc28f6ac4d921da478a64f655aa5b59199637c5ea9e1d07
+    - path: scripts/continuity.py
+      state: FILE
+      size: 50975
+      sha256: 8eba88f70a240cba5b0cf98551be10089ff91df7a87bd4b957370958ea3b7649
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 97189
+      sha256: 87c0364f16df449195673fd7a4da4fbf75764238a6cada552fb9ccd00d27c6fe
+    - path: scripts/generate_android_scaffold.py
+      state: FILE
+      size: 4254
+      sha256: a268644b7c962a32bb29429509e0ef703693d77eb43e8a31e30706710e84d25a
+    - path: scripts/generate_database.py
+      state: FILE
+      size: 27677
+      sha256: 727a50b7c246da5ca1fd7f035125147af1c0ae0f8faca1462de07f29b4c098e1
+    - path: scripts/generate_scaffolds.py
+      state: FILE
+      size: 3580
+      sha256: 7631feaf80c669b6ca03689b050343bec9692f33cc429afd4c855e87e15139a3
+    - path: scripts/postprocess-openapi-types.mjs
+      state: FILE
+      size: 1363
+      sha256: 7d3bb38210156c06d0888531e21ae390e83e5ac7d7afe85bbef38d62f69ca15d
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 2956
+      sha256: 0d4573bfc921253109a3c6e3e0616c12813481ddea32f8d7f2a6db03f0c5a66a
+    - path: scripts/sync_runtime_assets.py
+      state: FILE
+      size: 3696
+      sha256: 3e97a6b2219a32f6db5e0f067ec64edae3ec97455658bb5cef5ed4037f77c898
+    - path: services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+      state: FILE
+      size: 852912
+      sha256: 15901429eb345df1a78295ef5fdcaf5210a982a3e411b0a9a77913706a5014fd
+    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+      state: FILE
+      size: 591011
+      sha256: 71cadd9ab9daf0a521cff8d1da5531c097f105e9abecbac85b945cfa30cdf031
+    - path: services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+      state: FILE
+      size: 9850
+      sha256: 62eefb4b4ae53f7ae00f2ef4728e80e2905258d0a220d42ea9959787953879af
+    - path: services/backend/boot/src/main/resources/db/migration/V009__v122_operational_governance.sql
+      state: FILE
+      size: 16144
+      sha256: bda6e420f68fa494b955026f6cd60565c734f120227133eaf3ff3d5bb040f44e
+    - path: tests/test_continuity_bootstrap_recovery.py
+      state: FILE
+      size: 9294
+      sha256: 4d871c3a2a0d656357775fb43095bdfdcebff122d81e24aca6ebf8950764b0ee
+change_classification:
+  infrastructure:
+  - .github/workflows/ci.yml
+  - .github/workflows/continuity-gate.yml
+  other:
+  - .gitignore
+  - CHANGELOG.md
+  - catalogs/continuity_event_catalog.csv
+  - package.json
+  - pnpm-lock.yaml
+  code:
+  - apps/admin-web/src/catalog.test.ts
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/android/README.md
+  - apps/android/app/src/main/assets/android-screens.v1.2.2.json
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/h5/src/generated/h5-pages.json
+  - packages/api-client/src/admin.generated.ts
+  - packages/api-client/src/client.generated.ts
+  - packages/domain-types/src/index.ts
+  - scripts/check_api_contract.py
+  - scripts/check_db_schema.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  - scripts/generate_android_scaffold.py
+  - scripts/generate_database.py
+  - scripts/generate_scaffolds.py
+  - scripts/postprocess-openapi-types.mjs
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/sync_runtime_assets.py
+  - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+  - services/backend/boot/src/main/resources/db/migration/V009__v122_operational_governance.sql
+  user_visible:
+  - apps/admin-web/src/catalog.test.ts
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/android/README.md
+  - apps/android/app/src/main/assets/android-screens.v1.2.2.json
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/h5/src/generated/h5-pages.json
+  database:
+  - database/README.md
+  - database/verification/verify_baseline.sql
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  tests:
+  - tests/test_continuity_bootstrap_recovery.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+- CHANGELOG
+change_requests: []
+scope:
+  allowed_paths:
+  - '**'
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit+bootstrap-repair
+event_hash: d4c5f7bdec36f4250f2f8643b6093bda1e13efcceb07a0ebbdbb6e571efefee0

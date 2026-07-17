@@ -51,7 +51,7 @@ def main():
     try:
         life_report=ROOT/'artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
         life_log=ROOT/'artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
-        proc=run(['python3','scripts/test_continuity_protocol.py','--report',str(life_report),'--log',str(life_log),'--workdir',str(life),'--keep-temp'],ROOT,env,1800)
+        proc=run([sys.executable,'scripts/test_continuity_protocol.py','--report',str(life_report),'--log',str(life_log),'--workdir',str(life),'--keep-temp'],ROOT,env,1800)
         commands.append({'name':'lifecycle','returncode':proc.returncode})
         if proc.returncode!=0:raise RuntimeError('lifecycle failed\n'+proc.stdout[-3000:]+'\n'+proc.stderr[-3000:])
         lifecycle=json.loads(life_report.read_text(encoding='utf-8'))

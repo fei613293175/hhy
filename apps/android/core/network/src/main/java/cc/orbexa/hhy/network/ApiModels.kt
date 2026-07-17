@@ -1,40 +1,64 @@
 package cc.orbexa.hhy.network
 
-import java.time.Instant
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
+@Serializable
 data class ApiEnvelope<T>(
     val success: Boolean,
     val requestId: String,
-    val timestamp: Instant,
+    val timestamp: String,
     val data: T,
 )
 
+@Serializable
+data class PlatformCapabilities(
+    val registration: Boolean,
+    val publishing: Boolean,
+    val redPacket: Boolean,
+    val withdrawal: Boolean,
+)
+
+@Serializable
 data class PlatformStatus(
     val maintenance: Boolean,
     val maintenanceMessage: String,
-    val capabilities: Map<String, Boolean>,
-    val serverTime: Instant,
+    val capabilities: PlatformCapabilities,
+    val serverTime: String,
 )
 
+@Serializable
 data class VersionCheckRequest(
-    val platform: String = "ANDROID",
-    val versionCode: Int,
-    val versionName: String,
+    val platform: String,
+    val versionCode: Long,
+    val versionName: String? = null,
     val channel: String,
     val environment: String,
 )
 
+@Serializable
 enum class UpdateType { NONE, OPTIONAL, FORCED }
 
+@Serializable
 data class VersionPolicy(
-    val latestVersionCode: Int,
+    val platform: String,
+    val latestVersionCode: Long,
     val latestVersionName: String,
     val updateType: UpdateType,
     val downloadUrl: String,
-    val apkSha256: String,
+    val sha256: String,
     val releaseNotes: String,
-    val minimumSupportedVersionCode: Int,
+    val minSupportedVersionCode: Long,
+    val serverTime: String,
 )
+
+object HhyNetworkJson {
+    val value: Json = Json {
+        explicitNulls = false
+        ignoreUnknownKeys = false
+        isLenient = false
+    }
+}
 
 interface HhyPublicApi {
     suspend fun platformStatus(): ApiEnvelope<PlatformStatus>

@@ -1,5 +1,5 @@
 ﻿版本,需求数,Android页面数,H5页面数,后台页面数,客户端API数,后台API数,数据表数,配置组,测试数,必须APK,Manifest
-P00,5,0,0,0,0,0,0,platform;domain;operations;app_build,6,YES,releases/P00/RELEASE_MANIFEST.yaml
+P00,14,0,0,0,3,0,55,platform;domain;operations;app_build,59,YES,releases/P00/RELEASE_MANIFEST.yaml
 R01,4,0,0,0,0,3,0,platform,5,YES,releases/R01/RELEASE_MANIFEST.yaml
 R02,6,11,1,2,16,7,13,auth;sms,6,YES,releases/R02/RELEASE_MANIFEST.yaml
 R03,4,0,0,7,0,13,9,domain;sms;storage;identity;payment;payout;app_build,4,NO,releases/R03/RELEASE_MANIFEST.yaml

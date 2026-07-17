@@ -2,11 +2,11 @@
   "version": "1.2.3",
   "product_spec_baseline": "V1.2.2",
   "continuity_protocol_version": "1.0",
-  "status": "FAIL",
+  "status": "PASS",
   "strict": true,
-  "release_filter": null,
+  "release_filter": "P00",
   "metrics": {
-    "canonical_policy_sha256": "9dbcba88f0f2a0ac824fa8f53d693e8c38e661103e6603b88484a43f30446923",
+    "canonical_policy_sha256": "69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223",
     "documentation": {
       "android_surfaces": 102,
       "h5_pages": 13,
@@ -30,29 +30,19 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 10,
-      "event_head_hash": "0b4baac9f8044958c1adec7c9580f7e2330a9766efe0bbc69575af17121a8a37"
+      "event_count": 33,
+      "event_head_hash": "58917aa40dfece8bb87665376d043bdeb04d151335e4361af907fc5261afdabf"
     },
     "continuity_gate_rules": 42,
-    "continuity_event_types": 16,
+    "continuity_event_types": 17,
     "continuity_required_records": 20,
-    "baseline_sessions": 1,
+    "baseline_sessions": 2,
     "baseline_handoffs": 1,
-    "change_requests": 1,
-    "task_transitions": 1,
+    "change_requests": 4,
+    "task_transitions": 2,
     "continuity_integration_checks": 9,
     "continuity_lifecycle_checks": 14
   },
-  "errors": [
-    {
-      "code": "CONTINUITY_GATE",
-      "message": "{\n  \"version\": \"1.2.3\",\n  \"protocol_version\": \"1.0\",\n  \"mode\": \"doctor\",\n  \"strict\": true,\n  \"status\": \"FAIL\",\n  \"metrics\": {\n    \"event_count\": 10,\n    \"event_head_hash\": \"0b4baac9f8044958c1adec7c9580f7e2330a9766efe0bbc69575af17121a8a37\"\n  },\n  \"errors\": [\n    {\n      \"code\": \"CONTEXT_STALE\",\n      \"message\": \"仓库树在Context Pack生成后发生变化\"\n    }\n  ],\n  \"warnings\": []\n}"
-    }
-  ],
-  "warnings": [
-    {
-      "code": "TRANSIENT_FILES",
-      "message": "临时文件将在打包前清理：node_modules, node_modules/.pnpm/@asamuzakjp+css-color@5.1.11/node_modules, node_modules/.pnpm/@asamuzakjp+dom-selector@7.1.1/node_modules, node_modules/.pnpm/@asamuzakjp+generational-cache@1.0.1/node_modules, node_modules/.pnpm/@asamuzakjp+nwsapi@2.3.9/node_modules, node_modules/.pnpm/@babel+code-frame@7.29.7/node_modules, node_modules/.pnpm/@babel+helper-string-parser@7.29.7/node_modules, node_modules/.pnpm/@babel+helper-validator-identifier@7.29.7/node_modules, node_modules/.pnpm/@babel+parser@7.29.7/node_modules, node_modules/.pnpm/@babel+types@7.29.7/node_modules, node_modules/.pnpm/@bramus+specificity@2.4.2/node_modules, node_modules/.pnpm/@csstools+color-helpers@6.1.0/node_modules, node_modules/.pnpm/@csstools+css-calc@3.2.1_@c_3b33f237655dfa7a35d4b0433ee15cf1/node_modules, node_modules/.pnpm/@csstools+css-color-parser@_c6dc0ff88668e614025a4cbfb943c01a/node_modules, node_modules/.pnpm/@csstools+css-parser-algori_b9ad755ebdc6dc54abc499015fcb7df0/node_modules, node_modules/.pnpm/@csstools+css-syntax-patche_51faf12bc5073c6d633d85f8146c514d/node_modules, node_modules/.pnpm/@csstools+css-tokenizer@4.0.0/node_modules, node_modules/.pnpm/@exodus+bytes@1.15.1/node_modules, node_modules/.pnpm/@isaacs+cliui@8.0.2/node_modules, node_modules/.pnpm/@jridgewell+sourcemap-codec@1.5.5/node_modules"
-    }
-  ]
+  "errors": [],
+  "warnings": []
 }

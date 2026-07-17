@@ -1,0 +1,15 @@
+.git
+.continuity/runtime
+**/.gradle
+**/build
+**/dist
+**/node_modules
+**/target
+artifacts/apk
+artifacts/handoff
+artifacts/validation
+*.apk
+*.jks
+*.keystore
+*.log
+*.zip

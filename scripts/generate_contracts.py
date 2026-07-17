@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from collections import OrderedDict
-import csv, re, hashlib, json, datetime
+import argparse, csv, re, hashlib, json, datetime
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -68,7 +68,8 @@ def scalar(name: str, *, required=False, desc='', example=None, enum=None, fmt=N
         elif name in {'password','currentPassword','newPassword'}: s.update({'minLength':8,'maxLength':72,'format':'password','writeOnly':True})
         elif name in {'smsCode','code'}: s.update({'minLength':4,'maxLength':10})
         elif lower.endswith('id') or name in {'id','userId','contentId','quoteId','skuId','profileId','versionId','approvalId','targetVersionId','payoutAccountId','peerUserId','sourceContentId','lastReadMessageId'}: s.update({'maxLength':64})
-        elif name in {'sha256','commitSha'}: s.update({'pattern':'^[A-Fa-f0-9]{40,64}$','maxLength':64})
+        elif name == 'sha256': s.update({'pattern':'^[A-Fa-f0-9]{64}$','minLength':64,'maxLength':64})
+        elif name == 'commitSha': s.update({'pattern':'^[A-Fa-f0-9]{40,64}$','maxLength':64})
         elif name in {'returnUrl'}: s.update({'format':'uri','maxLength':2048})
         elif name in {'idNumber','alipayAccount','accountName'}: s['x-sensitive']=True
     if desc: s['description']=desc
@@ -328,6 +329,11 @@ def resource_ref(module: str) -> str:
 def is_list(row: dict[str,str]) -> bool:
     path=row['路径']; purpose=row['用途']; method=row['方法']
     if method!='GET': return False
+    # These P00 bootstrap reads return one typed snapshot/policy.  Treating a
+    # path ending in ``s`` or a purpose containing ``版本`` as a collection
+    # produced the invalid frozen contracts corrected by CR-0003.
+    if path in {'/public-api/v1/platform/status','/api/v1/app/version-check'}:
+        return False
     singular_detail = bool(re.search(r'\{[^}]+\}$',path)) and not any(path.endswith(s) for s in ['/messages','/analytics','/ledger','/download','/logs'])
     if singular_detail: return False
     list_tokens=['列表','队列','记录','历史','流水','SKU','商城','热搜','进度','关系','规则','档位','模块','轮播','协议','版本','配置','日志','产物','Profile']
@@ -393,6 +399,27 @@ def make_common_schemas() -> OrderedDict:
       'SigningProfileResource':(['id','name','keyAlias','certificateFingerprint','expiresAt','status','lastTestAt','version'],['id','name','keyAlias','certificateFingerprint','status','version']),
     }
     for name,(fields,req) in resources.items(): S[name]=object_schema(fields,req)
+    S['AppVersionPolicyResource']=object_schema(
+      ['platform','latestVersionCode','latestVersionName','updateType','downloadUrl','sha256','releaseNotes','minSupportedVersionCode','serverTime'],
+      ['platform','latestVersionCode','latestVersionName','updateType','downloadUrl','sha256','releaseNotes','minSupportedVersionCode','serverTime'],
+      enums={'platform':['ANDROID'],'updateType':['NONE','OPTIONAL','FORCED']})
+    app_policy=S['AppVersionPolicyResource']['properties']
+    app_policy['latestVersionCode'].update({'minimum':1})
+    app_policy['latestVersionName'].update({'maxLength':32})
+    app_policy['downloadUrl'].update({'format':'uri','maxLength':2048})
+    app_policy['minSupportedVersionCode'].update({'minimum':1})
+    S['PlatformCapabilitiesResource']=object_schema(
+      ['registration','publishing','redPacket','withdrawal'],
+      ['registration','publishing','redPacket','withdrawal'])
+    for field in S['PlatformCapabilitiesResource']['properties'].values():
+        field.clear(); field['type']='boolean'
+    S['PlatformStatusResource']=object_schema(
+      ['maintenance','maintenanceMessage','capabilities','serverTime'],
+      ['maintenance','maintenanceMessage','capabilities','serverTime'])
+    S['PlatformStatusResource']['properties']['maintenance']={'type':'boolean'}
+    S['PlatformStatusResource']['properties']['maintenanceMessage']={'type':'string','maxLength':500}
+    S['PlatformStatusResource']['properties']['capabilities']={'$ref':'#/components/schemas/PlatformCapabilitiesResource'}
+    S['PlatformStatusResource']['properties']['serverTime']={'type':'string','format':'date-time'}
     # Override broad object fields to keep JSON Schema valid and practical.
     for n, sch in S.items():
         if not isinstance(sch,dict) or 'properties' not in sch: continue
@@ -439,7 +466,7 @@ def query_parameters(row: dict[str,str]) -> list[dict]:
     if 'version-check' in path:
         params += [
           {'name':'platform','in':'query','required':True,'schema':{'type':'string','enum':['ANDROID']}},
-          {'name':'versionCode','in':'query','required':True,'schema':{'type':'integer','minimum':1}},
+          {'name':'versionCode','in':'query','required':True,'schema':{'type':'integer','format':'int64','minimum':1}},
           {'name':'channel','in':'query','required':True,'schema':{'type':'string','maxLength':64}},
           {'name':'environment','in':'query','required':True,'schema':{'type':'string','enum':['DEV','TEST','STAGING','PROD']}},
         ]
@@ -555,11 +582,21 @@ def generate_spec(rows: list[dict[str,str]], admin=False) -> OrderedDict:
             # no-payload commands, so registry and code generation never point
             # to a missing component.
             schemas[req_name]=object_schema(fields,required,desc,enums)
+            if path == '/public-api/v1/app/version-check':
+                request=schemas[req_name]['properties']
+                request['versionCode'].update({'minimum':1})
+                request['versionName'].update({'maxLength':32})
+                request['channel'].update({'minLength':1,'maxLength':64})
+                request['environment'].pop('maxLength',None)
             # Provider callbacks preserve the signed original payload.
             if 'notify' in path:
                 schemas[req_name]['properties']['rawPayload']={'type':'object','additionalProperties':True,'description':'供应商原始字段；验签前不得修改'}
         resource=resource_ref(row['模块'])
-        if http_method=='GET' and is_list(row):
+        if path == '/public-api/v1/platform/status':
+            data_schema={'$ref':'#/components/schemas/PlatformStatusResource'}
+        elif path in {'/api/v1/app/version-check','/public-api/v1/app/version-check'}:
+            data_schema={'$ref':'#/components/schemas/AppVersionPolicyResource'}
+        elif http_method=='GET' and is_list(row):
             data_schema=OrderedDict(type='object',additionalProperties=False,required=['items','page'],properties=OrderedDict([
               ('items',{'type':'array','items':{'$ref':f'#/components/schemas/{resource}'}}),('page',{'$ref':'#/components/schemas/PageMeta'})]))
         elif http_method=='DELETE':
@@ -677,7 +714,37 @@ def websocket_contract():
         ws['events'].append({'code':code,'direction':direction,'description':description,'release':'R14/R15','contract_maturity':'FROZEN','ack_required':ack,'payload':{'type':'object','additionalProperties':False,'required':required,'properties':props}})
     dump_yaml(ROOT/'contracts/websocket-events.yaml',ws)
 
-def main():
+def refresh_contract_status(*, check: bool) -> int:
+    """Refresh only authoritative-file hashes in the frozen registry.
+
+    V1.2.2 enriched the checked-in OpenAPI files after the original catalog
+    generator was written.  A default full rebuild would therefore delete
+    valid typed schemas.  Keep the checked-in contracts authoritative and
+    make the destructive legacy rebuild an explicit opt-in.
+    """
+    rows=read_csv('contracts/contract_status.csv')
+    expected={
+      relative: hashlib.sha256((ROOT/relative).read_bytes()).hexdigest()
+      for relative in ('contracts/openapi.yaml','contracts/admin-openapi.yaml','contracts/websocket-events.yaml')
+    }
+    changed=[]
+    for index,row in enumerate(rows,start=2):
+        source=row.get('事实源','')
+        if source not in expected:
+            raise SystemExit(f'contract_status row {index}: unsupported source {source!r}')
+        actual=expected[source]
+        if row.get('事实源SHA256') != actual:
+            changed.append({'row':index,'source':source,'old':row.get('事实源SHA256'),'new':actual})
+            row['事实源SHA256']=actual
+    if check and changed:
+        print(json.dumps({'status':'FAIL','reason':'CONTRACT_REGISTRY_STALE','changes':changed},ensure_ascii=False,indent=2))
+        return 1
+    if not check and changed:
+        write_csv('contracts/contract_status.csv',rows)
+    print(json.dumps({'status':'PASS','mode':'check' if check else 'sync','updated_rows':0 if check else len(changed),'stale_rows':len(changed)},ensure_ascii=False,indent=2))
+    return 0
+
+def full_rebuild():
     client=read_csv('catalogs/api_endpoints.csv'); admin=read_csv('catalogs/admin_api_endpoints.csv')
     cs=generate_spec(client,False); ads=generate_spec(admin,True)
     dump_yaml(ROOT/'contracts/openapi.yaml',cs); dump_yaml(ROOT/'contracts/admin-openapi.yaml',ads)
@@ -695,4 +762,16 @@ def main():
     write_csv('contracts/contract_status.csv',status)
     print(json.dumps({'client_operations':len(client),'admin_operations':len(admin),'ws_events':len(wsdata['events']),'schemas_client':len(cs['components']['schemas']),'schemas_admin':len(ads['components']['schemas'])},ensure_ascii=False,indent=2))
 
-if __name__=='__main__': main()
+def main() -> int:
+    parser=argparse.ArgumentParser(description='Safely synchronize frozen contract metadata.')
+    parser.add_argument('--check',action='store_true',help='fail when contract registry hashes are stale')
+    parser.add_argument('--allow-legacy-full-rebuild',action='store_true',help='explicitly run the legacy catalog rebuild; may replace enriched schemas')
+    args=parser.parse_args()
+    if args.allow_legacy_full_rebuild:
+        if args.check:
+            parser.error('--check and --allow-legacy-full-rebuild are mutually exclusive')
+        full_rebuild()
+        return 0
+    return refresh_contract_status(check=args.check)
+
+if __name__=='__main__': raise SystemExit(main())

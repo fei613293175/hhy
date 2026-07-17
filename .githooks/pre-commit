@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/sh
+set -eu
 ROOT=$(git rev-parse --show-toplevel)
-exec python3 "$ROOT/scripts/continuity_gate.py" --mode pre-commit --strict --json-out .continuity/runtime/pre-commit.json
+exec "${HHY_PYTHON:-python3}" "$ROOT/scripts/continuity_gate.py" --mode pre-commit --strict --json-out .continuity/runtime/pre-commit.json

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/sh
+set -eu
 ROOT=$(git rev-parse --show-toplevel)
-exec python3 "$ROOT/scripts/prepare_commit_message.py" "$@"
+exec "${HHY_PYTHON:-python3}" "$ROOT/scripts/prepare_commit_message.py" "$@"

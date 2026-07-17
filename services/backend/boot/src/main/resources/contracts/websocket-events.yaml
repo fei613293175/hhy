@@ -1,5 +1,5 @@
 version: 1.2.2
-contract_maturity: FROZEN
+contract_maturity: FROZEN_FOR_IMPLEMENTATION
 transport: WebSocket over TLS
 endpoint: wss://ws.orbexa.cc/ws
 subprotocol: hhy.v1
@@ -71,7 +71,7 @@ events:
   direction: C2S
   description: 发送文本、图片、联系方式或内容卡片
   release: R14/R15
-  contract_maturity: FROZEN
+  contract_maturity: FROZEN_V1.2.2
   ack_required: true
   payload:
     type: object
@@ -97,13 +97,12 @@ events:
         - CONTENT_CARD
         - CONTACT_CARD
       payload:
-        type: object
-        additionalProperties: true
+        $ref: '#/definitions/ChatMessagePayload'
 - code: chat.message.ack
   direction: S2C
   description: 服务端持久化确认
   release: R14/R15
-  contract_maturity: FROZEN
+  contract_maturity: FROZEN_V1.2.2
   ack_required: false
   payload:
     type: object
@@ -134,7 +133,7 @@ events:
   direction: S2C
   description: 新消息
   release: R14/R15
-  contract_maturity: FROZEN
+  contract_maturity: FROZEN_V1.2.2
   ack_required: true
   payload:
     type: object
@@ -161,8 +160,7 @@ events:
         type: string
         maxLength: 2000
       payload:
-        type: object
-        additionalProperties: true
+        $ref: '#/definitions/ChatMessagePayload'
       serverSequence:
         type: integer
         format: int64
@@ -173,7 +171,7 @@ events:
   direction: C2S
   description: 已读上报
   release: R14/R15
-  contract_maturity: FROZEN
+  contract_maturity: FROZEN_V1.2.2
   ack_required: true
   payload:
     type: object
@@ -196,7 +194,7 @@ events:
   direction: S2C
   description: 会话已读游标变化
   release: R14/R15
-  contract_maturity: FROZEN
+  contract_maturity: FROZEN_V1.2.2
   ack_required: false
   payload:
     type: object
@@ -223,7 +221,7 @@ events:
   direction: BIDIRECTIONAL
   description: 短暂输入状态
   release: R14/R15
-  contract_maturity: FROZEN
+  contract_maturity: FROZEN_V1.2.2
   ack_required: false
   payload:
     type: object
@@ -249,7 +247,7 @@ events:
   direction: S2C
   description: 业务通知
   release: R14/R15
-  contract_maturity: FROZEN
+  contract_maturity: FROZEN_V1.2.2
   ack_required: true
   payload:
     type: object
@@ -275,8 +273,7 @@ events:
         type: string
         maxLength: 2000
       target:
-        type: string
-        maxLength: 2000
+        $ref: '#/definitions/NotificationTarget'
       serverSequence:
         type: integer
         format: int64
@@ -284,7 +281,7 @@ events:
   direction: S2C
   description: 会话失效或被强制下线
   release: R14/R15
-  contract_maturity: FROZEN
+  contract_maturity: FROZEN_V1.2.2
   ack_required: false
   payload:
     type: object
@@ -307,7 +304,7 @@ events:
   direction: C2S
   description: 心跳
   release: R14/R15
-  contract_maturity: FROZEN
+  contract_maturity: FROZEN_V1.2.2
   ack_required: false
   payload:
     type: object
@@ -322,7 +319,7 @@ events:
   direction: S2C
   description: 心跳响应
   release: R14/R15
-  contract_maturity: FROZEN
+  contract_maturity: FROZEN_V1.2.2
   ack_required: false
   payload:
     type: object
@@ -333,3 +330,126 @@ events:
       serverTime:
         type: string
         format: date-time
+definitions:
+  ChatTextPayload:
+    type: object
+    additionalProperties: false
+    properties:
+      text:
+        type: string
+        maxLength: 5000
+      mentionUserIds:
+        type: array
+        items:
+          type: string
+          maxLength: 64
+        maxItems: 50
+    required:
+    - text
+  ChatImagePayload:
+    type: object
+    additionalProperties: false
+    properties:
+      mediaId:
+        type: string
+        maxLength: 64
+      thumbnailUrl:
+        type: string
+        maxLength: 2048
+        format: uri
+      width:
+        type: integer
+        format: int64
+        minimum: 1
+        maximum: 10000
+      height:
+        type: integer
+        format: int64
+        minimum: 1
+        maximum: 10000
+    required:
+    - mediaId
+  ChatContentCardPayload:
+    type: object
+    additionalProperties: false
+    properties:
+      contentId:
+        type: string
+        maxLength: 64
+      contentType:
+        type: string
+        maxLength: 32
+        enum:
+        - PROJECT
+        - APP
+        - GROUP_CHAT
+        - TEAM_LEADER
+      title:
+        type: string
+        maxLength: 160
+      coverUrl:
+        type: string
+        maxLength: 2048
+        format: uri
+    required:
+    - contentId
+    - contentType
+    - title
+  ChatContactCardPayload:
+    type: object
+    additionalProperties: false
+    properties:
+      contentId:
+        type: string
+        maxLength: 64
+      channel:
+        type: string
+        maxLength: 32
+        enum:
+        - WECHAT
+        - PHONE
+        - QQ
+        - EMAIL
+        - LINK
+        - QR_CODE
+      accessGrantId:
+        type: string
+        maxLength: 64
+      maskedPreview:
+        type: string
+        maxLength: 256
+        x-sensitive: true
+    required:
+    - contentId
+    - channel
+    - accessGrantId
+    - maskedPreview
+  ChatMessagePayload:
+    oneOf:
+    - $ref: '#/definitions/ChatTextPayload'
+    - $ref: '#/definitions/ChatImagePayload'
+    - $ref: '#/definitions/ChatContentCardPayload'
+    - $ref: '#/definitions/ChatContactCardPayload'
+  NotificationTarget:
+    type: object
+    additionalProperties: false
+    properties:
+      targetType:
+        type: string
+        maxLength: 32
+        enum:
+        - IN_APP_ROUTE
+        - H5_URL
+        - NONE
+      route:
+        type: string
+        maxLength: 512
+      url:
+        type: string
+        maxLength: 2048
+        format: uri
+      requiresLogin:
+        type: boolean
+    required:
+    - targetType
+    - requiresLogin

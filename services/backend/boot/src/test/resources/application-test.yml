@@ -5,5 +5,11 @@ spring:
     password:
   flyway:
     enabled: false
+  sql:
+    init:
+      mode: always
   autoconfigure:
     exclude: org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration
+management:
+  server:
+    port: 8080

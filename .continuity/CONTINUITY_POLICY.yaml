@@ -113,6 +113,9 @@ scope_rules:
   - README.md
   - CHANGELOG.md
   - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
   - package.json
   - pnpm-lock.yaml
   - pnpm-workspace.yaml

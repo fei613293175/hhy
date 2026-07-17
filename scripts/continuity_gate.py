@@ -59,6 +59,7 @@ from continuity_lib import (
     parse_iso,
     path_matches,
     project_fingerprint,
+    canonical_fingerprint_bytes,
     read_current_status,
     read_next_task,
     root_from_script,
@@ -318,6 +319,7 @@ def project_fingerprint_at_commit(session: dict[str, Any], commit_sha: str) -> d
         token: dict[str, Any] = {"path": relative, "state": state}
         if state == "FILE":
             assert isinstance(content, bytes)
+            content = canonical_fingerprint_bytes(content)
             token.update({"size": len(content), "sha256": __import__("hashlib").sha256(content).hexdigest()})
         elif state == "SYMLINK":
             token["target"] = str(content)

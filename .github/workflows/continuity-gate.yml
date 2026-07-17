@@ -27,6 +27,9 @@ jobs:
           fi
       - run: python3 scripts/run_continuity_self_test.py
       - run: python3 scripts/test_continuity_protocol.py
+      - run: python3 tests/test_continuity_bootstrap_recovery.py
+      - run: python3 tests/test_continuity_cross_release_close.py
+      - run: python3 tests/test_release_close_gate.py
       - run: python3 scripts/check_v123_continuity.py --strict
       - uses: actions/upload-artifact@v4
         with:

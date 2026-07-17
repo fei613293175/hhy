@@ -25,7 +25,10 @@ ui:
   h5: []
   admin: []
 contracts:
-  client_api: []
+  client_api:
+  - GET /public-api/v1/platform/status
+  - POST /public-api/v1/app/version-check
+  - GET /api/v1/app/version-check
   admin_api: []
   websocket: []
 database_tables:

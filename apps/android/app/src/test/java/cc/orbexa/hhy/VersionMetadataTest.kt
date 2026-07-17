@@ -8,8 +8,9 @@ import org.junit.Test
 class VersionMetadataTest {
     @Test
     fun releaseAndContractVersionsRemainAligned() {
-        assertEquals(10201, ReleasePolicy.VERSION_CODE)
-        assertEquals(ReleasePolicy.VERSION_NAME, ReleasePolicy.CONTRACT_VERSION)
+        assertEquals(BuildConfig.VERSION_CODE, ReleasePolicy.VERSION_CODE)
+        assertTrue(BuildConfig.VERSION_NAME.startsWith(ReleasePolicy.VERSION_NAME))
+        assertEquals(BuildConfig.CONTRACT_VERSION, ReleasePolicy.CONTRACT_VERSION)
     }
 
     @Test

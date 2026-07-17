@@ -18,7 +18,7 @@ tasks:
   - REQ-ADMIN-BASE-001
   - REQ-OBS-002
   - REQ-SECRET-001
-  description: 核验 14 项需求、0 个接口、55 张相关表、0 个页面/交互面和 1 个故事；全部适用DoR必须PASS。
+  description: 核验 14 项需求、3 个接口、55 张相关表、0 个页面/交互面和 2 个故事；全部适用DoR必须PASS。
   deliverables:
   - releases/P00/DEFINITION_OF_READY.yaml 全部适用项PASS
   - releases/P00/STORIES.yaml 故事责任人和依赖已领取
@@ -71,7 +71,7 @@ tasks:
   depends_on:
   - TASK-P00-003
   requirements: *id001
-  description: 按 0 个页面/交互面的逐页施工规格和 1 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
+  description: 按 0 个页面/交互面的逐页施工规格和 2 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
   deliverables:
   - 全部页面绑定catalogs/ui_page_specifications.csv
   - 字段/状态/动作/导航与后台运营规格通过契约测试
@@ -92,7 +92,7 @@ tasks:
   - TASK-P00-003
   - TASK-P00-004
   requirements: *id001
-  description: 执行50项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
+  description: 执行59项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
   deliverables:
   - 测试报告和失败证据归档
   - 关键缺陷清零

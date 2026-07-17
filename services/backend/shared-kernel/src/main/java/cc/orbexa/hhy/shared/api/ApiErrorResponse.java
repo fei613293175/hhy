@@ -9,4 +9,10 @@ public record ApiErrorResponse(boolean success, String requestId, Instant timest
     public static ApiErrorResponse of(String requestId, String code, String message, boolean retryable) {
         return new ApiErrorResponse(false, requestId, Instant.now(), new ErrorBody(code, message, List.of(), retryable, requestId));
     }
+
+    public static ApiErrorResponse of(
+            String requestId, String code, String message, boolean retryable, Instant timestamp) {
+        return new ApiErrorResponse(false, requestId, timestamp,
+                new ErrorBody(code, message, List.of(), retryable, requestId));
+    }
 }

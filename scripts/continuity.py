@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 import json
 import os
+import re
 import sys
 
 import yaml
@@ -42,6 +43,7 @@ from continuity_lib import (
     current_session,
     derive_scope,
     git_changed_files,
+    git_has_concrete_head,
     git_info,
     expected_commit_trailers,
     initialize_continuity_files,
@@ -161,9 +163,9 @@ def create_session(
         story = ready[0] if ready else None
     git_state = git_info(root)
     bootstrap_tasks = set(policy.get("bootstrap", {}).get("allow_without_git_task_ids", []))
-    if not git_state["initialized"] and task_id not in bootstrap_tasks:
-        raise ContinuityError("Git尚未初始化；仅策略允许的Bootstrap任务可开始")
-    if git_state["initialized"] and git_state["dirty"] and not allow_dirty:
+    if not git_has_concrete_head(git_state) and task_id not in bootstrap_tasks:
+        raise ContinuityError("Git尚无Baseline Commit；仅策略允许的Bootstrap任务可开始")
+    if git_has_concrete_head(git_state) and git_state["dirty"] and not allow_dirty:
         raise ContinuityError("开始新会话前工作区必须干净；中途接管请使用 takeover/recover")
     base_commit = base_commit_override or git_state["head"]
     allowed_paths = derive_scope(policy, story, explicit_scope)
@@ -273,9 +275,26 @@ def command_bootstrap(args: Namespace) -> None:
     the commit so the resulting branch starts clean and immediately enforceable.
     """
     actor = get_actor(args)
+    reconciled_session_id: str | None = None
     with continuity_lock(ROOT):
         initialize_continuity_files(ROOT)
+        pointer = load_active_pointer(ROOT)
+        active_session_id = pointer.get("active_session_id")
+        active: dict[str, Any] | None = None
+        if active_session_id:
+            active = load_session(ROOT, active_session_id)
+            placeholder_base = active.get("git", {}).get("base_commit") in {
+                None, "", "NOT_INITIALIZED", "UNBORN"
+            }
+            if active.get("status") != "ACTIVE" or not placeholder_base:
+                raise ContinuityError("存在非兼容状态的活动会话，禁止执行Bootstrap")
+            if active.get("actor", {}).get("id") != actor or active.get("task_id") != args.task:
+                raise ContinuityError("Git初始化前已有其他Actor或任务的ACTIVE会话，禁止回填其基线")
         info = git_info(ROOT)
+        if not git_has_concrete_head(info) and not args.initial_commit:
+            raise ContinuityError("Git尚无Baseline Commit；Bootstrap必须提供 --initial-commit")
+        if git_has_concrete_head(info) and args.initial_commit:
+            raise ContinuityError("仓库已经存在Commit，禁止再次创建Baseline初始提交")
         if not info["initialized"]:
             if not args.init_git:
                 raise ContinuityError("Git尚未初始化；请提供 --init-git")
@@ -330,10 +349,72 @@ def command_bootstrap(args: Namespace) -> None:
         for hook in (ROOT / ".githooks").glob("*"):
             if hook.is_file():
                 os.chmod(hook, 0o755)
+        # P00 is deliberately allowed to be claimed before Git exists. If that
+        # compatibility path was used, bind the active session to the baseline
+        # commit created above. Otherwise its NOT_INITIALIZED base would make
+        # every tracked file look like a session change and no checkpoint could
+        # ever be created.
+        if active_session_id and active:
+            post_bootstrap = git_info(ROOT)
+            baseline_head = post_bootstrap.get("head")
+            if baseline_head in {None, "", "NOT_INITIALIZED", "UNBORN"}:
+                raise ContinuityError("Bootstrap完成后仍无法读取Baseline Commit")
+            active["git"].update({
+                "initialized": True,
+                "branch": post_bootstrap.get("branch"),
+                "base_commit": baseline_head,
+                "start_head": baseline_head,
+                "upstream": post_bootstrap.get("upstream"),
+                "initial_worktree_state": "CLEAN",
+            })
+            source = str(active.get("scope", {}).get("source") or "story+explicit")
+            if "bootstrap-reconciled" not in source:
+                active["scope"]["source"] = source + "+bootstrap-reconciled"
+            save_session(ROOT, active)
+            log_path = ROOT / active["session_log"]
+            if int(active.get("checkpoint_sequence", 0)) == 0 or not log_path.exists():
+                atomic_write_text(log_path, markdown_session_log(active))
+            else:
+                log_text = log_path.read_text(encoding="utf-8")
+                replacements = [
+                    (r"(?m)^base_commit: .*$", f"base_commit: {baseline_head}"),
+                    (r"(?m)^- 分支：`.*`$", f"- 分支：`{post_bootstrap.get('branch')}`"),
+                    (r"(?m)^- 起始 Commit：`.*`$", f"- 起始 Commit：`{baseline_head}`"),
+                    (r"(?m)^- 工作区：.*$", "- 工作区：CLEAN"),
+                ]
+                for pattern, replacement in replacements:
+                    log_text = re.sub(pattern, replacement, log_text, count=1)
+                atomic_write_text(log_path, log_text)
+            update_session_index(ROOT, active)
+            pointer.update({
+                "status": "ACTIVE",
+                "actor_id": actor,
+                "task_id": args.task,
+                "story_id": active.get("story_id"),
+                "lease_expires_at": active.get("lease", {}).get("expires_at"),
+            })
+            save_active_pointer(ROOT, pointer)
+            update_current_status_for_session(ROOT, active)
+            append_event(ROOT, "GIT_BOOTSTRAP_SESSION_RECONCILED", {
+                "session_id": active_session_id,
+                "actor_id": actor,
+                "task_id": args.task,
+                "base_commit": baseline_head,
+                "branch": post_bootstrap.get("branch"),
+            })
+            build_context_pack(ROOT, active)
+            reconciled_session_id = active_session_id
     print_yaml({
-        "status": "BOOTSTRAP_COMPLETED", "branch": args.branch, "task_id": args.task,
+        "status": "BOOTSTRAP_COMPLETED_SESSION_RECONCILED" if reconciled_session_id else "BOOTSTRAP_COMPLETED",
+        "branch": args.branch, "task_id": args.task,
         "hooks_path": ".githooks",
-        "next_command": f"python3 scripts/continuity.py start --actor {actor} --task {args.task} --story <STORY_ID> --goal '<精确目标>'",
+        "reconciled_session_id": reconciled_session_id,
+        "metadata_commit_required": bool(reconciled_session_id),
+        "next_command": (
+            "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence'"
+            if reconciled_session_id
+            else f"python3 scripts/continuity.py start --actor {actor} --task {args.task} --story <STORY_ID> --goal '<精确目标>'"
+        ),
     })
 
 def command_start(args: Namespace) -> None:
@@ -574,6 +655,72 @@ def resolve_next_task(root: Path, release: str, next_task_id: str) -> dict[str, 
     }
 
 
+def validate_next_task_transition(
+    root: Path,
+    *,
+    current_release: str,
+    current_task: str,
+    next_release: str,
+    next_task: str,
+) -> dict[str, Any]:
+    """Resolve the next task before close mutates any continuity record.
+
+    Same-release transitions retain the existing task-chain behavior. A cross-
+    release transition is intentionally stricter: only the final task may hand
+    off to the first READY task of a directly dependent release, and all prior
+    tasks in the current release must already be DONE.
+    """
+    if not re.fullmatch(r"[A-Z][0-9]{2}", next_release):
+        raise ContinuityError(f"非法下一Release：{next_release}")
+
+    target_path = root / "releases" / next_release / "TASKS.yaml"
+    if not target_path.is_file():
+        raise ContinuityError(f"下一Release不存在或缺少TASKS.yaml：{next_release}")
+    target_plan = yaml.safe_load(target_path.read_text(encoding="utf-8")) or {}
+    target_tasks = list(target_plan.get("tasks", []))
+    next_document = resolve_next_task(root, next_release, next_task)
+    if next_release == current_release:
+        if next_task == current_task:
+            raise ContinuityError("下一任务不能与当前任务相同")
+        return next_document
+
+    current_path = root / "releases" / current_release / "TASKS.yaml"
+    current_plan = yaml.safe_load(current_path.read_text(encoding="utf-8")) or {}
+    current_tasks = list(current_plan.get("tasks", []))
+    current_ids = [str(row.get("id") or "") for row in current_tasks]
+    if not current_ids or current_ids[-1] != current_task:
+        raise ContinuityError(
+            f"跨Release交接只能由当前Release最后一个任务发起：{current_release}/{current_task}"
+        )
+    incomplete = [
+        str(row.get("id") or "")
+        for row in current_tasks[:-1]
+        if row.get("status") != "DONE"
+    ]
+    if incomplete:
+        raise ContinuityError("当前Release仍有未完成前置任务：" + ", ".join(incomplete))
+
+    if not target_tasks or target_tasks[0].get("id") != next_task:
+        raise ContinuityError(
+            f"跨Release交接只能指向下一Release首个任务：{next_release}/{next_task}"
+        )
+    if target_tasks[0].get("status") != "READY":
+        raise ContinuityError(
+            f"下一Release首个任务尚未READY：{next_release}/{next_task} / {target_tasks[0].get('status')}"
+        )
+
+    dependency_path = root / "releases" / "RELEASE_DEPENDENCIES.yaml"
+    dependency_document = yaml.safe_load(dependency_path.read_text(encoding="utf-8")) or {}
+    declared_dependencies = set(
+        (dependency_document.get("dependencies", {}) or {}).get(next_release, []) or []
+    )
+    if current_release not in declared_dependencies:
+        raise ContinuityError(
+            f"下一Release未声明依赖当前Release：{next_release} !<- {current_release}"
+        )
+    return next_document
+
+
 def update_release_task_states(root: Path, release: str, completed_task: str, next_task: str | None) -> None:
     path = root / "releases" / release / "TASKS.yaml"
     document = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
@@ -586,7 +733,15 @@ def update_release_task_states(root: Path, release: str, completed_task: str, ne
     atomic_write_yaml(path, document)
 
 
-def append_closure_to_log(root: Path, session: dict[str, Any], result: str, summary: str, code_commit: str, next_task: str | None) -> None:
+def append_closure_to_log(
+    root: Path,
+    session: dict[str, Any],
+    result: str,
+    summary: str,
+    code_commit: str,
+    next_task: str | None,
+    next_release: str | None,
+) -> None:
     path = root / session["session_log"]
     text = path.read_text(encoding="utf-8")
     text += f"""
@@ -596,6 +751,7 @@ def append_closure_to_log(root: Path, session: dict[str, Any], result: str, summ
 - 结果：`{result}`
 - 总结：{summary}
 - 代码 Commit：`{code_commit}`
+- 下一 Release：`{next_release or 'N/A'}`
 - 下一任务：`{next_task or 'N/A'}`
 - 推送验证：本关闭记录随最终元数据 Commit 推送，并由 CI continuity gate 验证。
 - 对话依赖：无；后续只读取仓库和 Context Pack。
@@ -658,6 +814,8 @@ def command_close(args: Namespace) -> None:
     result = args.result.upper()
     if result not in {"COMPLETED", "BLOCKED", "ABANDONED"}:
         raise ContinuityError("result必须为 COMPLETED/BLOCKED/ABANDONED")
+    if args.next_release and result != "COMPLETED":
+        raise ContinuityError("--next-release 仅允许用于 COMPLETED 关闭")
     with continuity_lock(ROOT):
         policy = load_policy(ROOT)
         session = current_session(ROOT, allow_handoff=False)
@@ -682,6 +840,8 @@ def command_close(args: Namespace) -> None:
                 "关闭会话前项目内容必须已提交；若需要中途移交请使用handoff。未提交："
                 + ", ".join(project_dirty[:30])
             )
+        next_release = args.next_release or session["release"]
+        next_document: dict[str, Any] | None = None
         if result == "COMPLETED":
             if not git_state["initialized"]:
                 raise ContinuityError("完成任务前必须初始化Git")
@@ -694,6 +854,16 @@ def command_close(args: Namespace) -> None:
                 raise ContinuityError("最新实现检查点仍有FAIL测试")
             if not args.next_task:
                 raise ContinuityError("COMPLETED必须提供 --next-task")
+            # Resolve and validate the complete target before the first write.
+            # Invalid cross-release targets must leave the session, task plans,
+            # event chain and pointers byte-for-byte unchanged.
+            next_document = validate_next_task_transition(
+                ROOT,
+                current_release=session["release"],
+                current_task=session["task_id"],
+                next_release=next_release,
+                next_task=args.next_task,
+            )
 
         code_commit = args.code_commit or git_state.get("head") or "NOT_INITIALIZED"
         session["status"] = "CLOSING"
@@ -701,6 +871,7 @@ def command_close(args: Namespace) -> None:
             "result": result,
             "summary": args.summary,
             "code_commit": code_commit,
+            "next_release": next_release if result == "COMPLETED" else None,
             "next_task": args.next_task,
             "metadata_commit": "PENDING",
             "push_verification": "CI_REQUIRED_AFTER_METADATA_COMMIT",
@@ -709,8 +880,13 @@ def command_close(args: Namespace) -> None:
         save_session(ROOT, session)
 
         if result == "COMPLETED":
-            update_release_task_states(ROOT, session["release"], session["task_id"], args.next_task)
-            next_document = resolve_next_task(ROOT, session["release"], args.next_task)
+            update_release_task_states(
+                ROOT,
+                session["release"],
+                session["task_id"],
+                args.next_task if next_release == session["release"] else None,
+            )
+            assert next_document is not None
             next_document["status"] = "READY"
             atomic_write_yaml(ROOT / "NEXT_TASK.yaml", next_document)
             transition_to = "DONE"
@@ -735,6 +911,7 @@ def command_close(args: Namespace) -> None:
             "session_id": session["session_id"],
             "result": result,
             "code_commit": code_commit,
+            "next_release": next_release if result == "COMPLETED" else None,
             "next_task": args.next_task,
             "transition_id": transition_id,
         })
@@ -757,6 +934,7 @@ def command_close(args: Namespace) -> None:
                 f"任务结果：{result}",
                 f"实现Commit：{code_commit}",
                 f"任务转换：{transition_id}",
+                f"下一Release：{next_release if result == 'COMPLETED' else 'N/A'}",
             ],
             tests=inherited_tests,
             note="该检查点专门绑定最终关闭元数据Commit",
@@ -786,11 +964,20 @@ def command_close(args: Namespace) -> None:
         update_current_status_closed(
             ROOT, session, result=result, next_task_id=args.next_task or session["task_id"]
         )
-        append_closure_to_log(ROOT, session, result, args.summary, code_commit, args.next_task)
+        append_closure_to_log(
+            ROOT,
+            session,
+            result,
+            args.summary,
+            code_commit,
+            args.next_task,
+            next_release if result == "COMPLETED" else None,
+        )
         append_event(ROOT, "SESSION_CLOSED", {
             "session_id": session["session_id"],
             "result": result,
             "code_commit": code_commit,
+            "next_release": next_release if result == "COMPLETED" else None,
             "next_task": args.next_task,
             "closure_checkpoint_id": closure_checkpoint["checkpoint_id"],
         })
@@ -800,6 +987,7 @@ def command_close(args: Namespace) -> None:
         "status": "SESSION_CLOSED",
         "session_id": session["session_id"],
         "result": result,
+        "next_release": next_release if result == "COMPLETED" else None,
         "next_task": args.next_task,
         "closure_checkpoint": closure_checkpoint["checkpoint_id"],
         "final_metadata_commit_required": True,
@@ -837,8 +1025,12 @@ def command_resume(args: Namespace) -> None:
     session = current_session(ROOT)
     payload = build_context_pack(ROOT, session)
     if not session:
+        git_state = git_info(ROOT)
+        policy = load_policy(ROOT)
+        bootstrap_tasks = set(policy.get("bootstrap", {}).get("allow_without_git_task_ids", []))
+        bootstrap_required = not git_has_concrete_head(git_state) and payload["next_task"].get("id") in bootstrap_tasks
         print_yaml({
-            "status": "READY_TO_START",
+            "status": "GIT_BOOTSTRAP_REQUIRED" if bootstrap_required else "READY_TO_START",
             "conversation_context_required": False,
             "next_task": payload["next_task"].get("id"),
             "resume_command": payload["exact_resume_command"],
@@ -1032,6 +1224,7 @@ def build_parser() -> ArgumentParser:
     close.add_argument("--actor")
     close.add_argument("--result", required=True, choices=["COMPLETED", "BLOCKED", "ABANDONED"])
     close.add_argument("--summary", required=True)
+    close.add_argument("--next-release")
     close.add_argument("--next-task")
     close.add_argument("--code-commit")
     close.set_defaults(func=command_close)

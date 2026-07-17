@@ -57,11 +57,26 @@ def main() -> int:
             raise SystemExit(f"missing Android module {module}")
 
     screens = read_csv("catalogs/android_screens.csv")
-    if len(screens) != 96 or len({row["ID"] for row in screens}) != 96:
-        raise SystemExit("Android screen catalog must contain 96 unique screens")
+    if len(screens) != 102 or len({row["ID"] for row in screens}) != 102:
+        raise SystemExit("Android screen catalog must contain 102 unique screens")
+    page_specs = {row["页面ID"]: row for row in read_csv("catalogs/ui_page_specifications.csv")}
+    enriched_screens = []
+    for row in screens:
+        spec = page_specs.get(row["ID"])
+        if not spec:
+            raise SystemExit(f"missing enriched Android specification for {row['ID']}")
+        enriched_screens.append({
+            **row,
+            "模板ID": spec["模板ID"],
+            "字段规格": spec["字段规格"],
+            "状态规格": spec["状态规格"],
+            "动作规格": spec["动作规格"],
+            "DoR状态": spec["DoR状态"],
+            "文档版本": "1.2.2",
+        })
     write_json(
         ANDROID / "app/src/main/assets/android-screens.v1.2.2.json",
-        {"version": "1.2.2", "count": len(screens), "screens": screens},
+        enriched_screens,
     )
 
     token_candidates = sorted((ROOT / "design/tokens").glob("hhy_design_tokens_v1.2.2.json"))

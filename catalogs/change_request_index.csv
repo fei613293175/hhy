@@ -1,2 +1,5 @@
 ﻿cr_id,title,status,requester_actor_id,approver_actor_id,task_id,session_id,created_at,updated_at,document,machine_record
 CR-0002,增加持续开发无状态接续强制门禁,CLOSED,product-owner-request,independent-continuity-reviewer,TASK-P00-001,,2026-07-16T21:49:57Z,2026-07-16T21:49:57Z,docs/03-continuity/change-requests/CR-0002-增加持续开发无状态接续强制门禁.md,.continuity/change_requests/CR-0002.yaml
+CR-0003,纠正P00公共状态与版本检查冻结契约生成错误,IMPLEMENTING,codex-root,codex-engineering-audit,TASK-P00-001,SES-20260716T232809Z-B4A980AF,2026-07-17T00:22:41Z,2026-07-17T02:22:32Z,docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md,.continuity/change_requests/CR-0003.yaml
+CR-0005,纠正P00派生清单的需求接口故事测试计数与引用,IMPLEMENTED,codex-root,codex-release-audit,TASK-P00-001,SES-20260716T232809Z-B4A980AF,2026-07-17T00:45:46Z,2026-07-17T00:48:57Z,docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md,.continuity/change_requests/CR-0005.yaml
+CR-0006,P00事件账务不变量收口,IMPLEMENTED,codex-root,codex-engineering-audit,TASK-P00-002,SES-20260716T232809Z-B4A980AF,2026-07-17T00:57:46Z,2026-07-17T01:24:47Z,docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md,.continuity/change_requests/CR-0006.yaml

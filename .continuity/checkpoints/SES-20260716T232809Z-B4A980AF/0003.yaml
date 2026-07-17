@@ -1,0 +1,163 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260716T232809Z-B4A980AF-0003
+session_id: SES-20260716T232809Z-B4A980AF
+sequence: 3
+created_at: '2026-07-16T23:53:23Z'
+summary: 补齐P00冷启动原子性、UNBORN与CI回归边界
+next_step: 同步198表、根契约运行时副本、74/102页面断言与V1.2.2版本元数据
+blockers: []
+decisions:
+- Bootstrap在任何写入前校验活动Actor和Task，并要求无HEAD时创建初始Commit
+note: ''
+tests:
+- name: bootstrap-recovery-boundaries
+  result: PASS
+  evidence: 'tests/test_continuity_bootstrap_recovery.py: 2 tests passed in 31.796s'
+  note: 覆盖UNBORN、缺initial-commit、错误Actor、日志保留、忽略产物和回填输出
+- name: python-ast
+  result: PASS
+  evidence: scripts/continuity.py,scripts/continuity_lib.py,scripts/check_v123_continuity.py AST PASS
+  note: 连续性脚本语法有效
+git:
+  initialized: true
+  branch: task/TASK-P00-001
+  head: bffa551a122444a86bfcff0542714834bd6c2156
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CONTINUITY_POLICY.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260716T232809Z-B4A980AF.yaml'
+  - ' M .github/workflows/ci.yml'
+  - ' M .github/workflows/continuity-gate.yml'
+  - ' M .gitignore'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/continuity_event_catalog.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md'
+  - ' M scripts/check_v123_continuity.py'
+  - ' M scripts/continuity.py'
+  - ' M scripts/continuity_lib.py'
+  - ?? .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0002.yaml
+  - ?? artifacts/validation/project-doctor-v1.2.3-documentation.json
+  - ?? tests/test_continuity_bootstrap_recovery.py
+  recent_commits:
+  - "bffa551a122444a86bfcff0542714834bd6c2156\t2026-07-17T07:28:28+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(repo): import V1.2.3\
+    \ enforced continuity baseline"
+project_fingerprint:
+  sha256: 01e5e5997a59c0dd2fcf20f27df44fcd4870e0e218df983d979f8b9bcfeebda7
+  files:
+  - .github/workflows/ci.yml
+  - .github/workflows/continuity-gate.yml
+  - .gitignore
+  - catalogs/continuity_event_catalog.csv
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  - tests/test_continuity_bootstrap_recovery.py
+  file_count: 9
+  payload:
+    base_commit: bffa551a122444a86bfcff0542714834bd6c2156
+    files:
+    - path: .github/workflows/ci.yml
+      state: FILE
+      size: 3540
+      sha256: 8cd4a615ace0cd4da1c302e452c38f807aeec10e762264c951def038a61230fa
+    - path: .github/workflows/continuity-gate.yml
+      state: FILE
+      size: 1487
+      sha256: 53560ae00764541a86f349c7bade193dd9f6006d6f30fd31104b7d2bba4899f5
+    - path: .gitignore
+      state: FILE
+      size: 511
+      sha256: 112d66481034121647c7692d24ee97433484e6a5212c21ad7418851e9d7721db
+    - path: catalogs/continuity_event_catalog.csv
+      state: FILE
+      size: 1381
+      sha256: 31511da10b1cca314cbb3bc41f5f52a1b44907f40875c631b8c9d4fa6684eca3
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 1541
+      sha256: 767f33d55dc105fa42878fbbf733c2c366e197f47368db79a059ba34cd0b27c9
+    - path: scripts/check_v123_continuity.py
+      state: FILE
+      size: 25157
+      sha256: 8b994d73d5584555872227aad0358aa2df52db73d34f500f90fae717e0d4c5ab
+    - path: scripts/continuity.py
+      state: FILE
+      size: 50975
+      sha256: 8eba88f70a240cba5b0cf98551be10089ff91df7a87bd4b957370958ea3b7649
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 97189
+      sha256: 87c0364f16df449195673fd7a4da4fbf75764238a6cada552fb9ccd00d27c6fe
+    - path: tests/test_continuity_bootstrap_recovery.py
+      state: FILE
+      size: 9294
+      sha256: 4d871c3a2a0d656357775fb43095bdfdcebff122d81e24aca6ebf8950764b0ee
+change_classification:
+  infrastructure:
+  - .github/workflows/ci.yml
+  - .github/workflows/continuity-gate.yml
+  other:
+  - .gitignore
+  - catalogs/continuity_event_catalog.csv
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  code:
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  tests:
+  - tests/test_continuity_bootstrap_recovery.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - '**'
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit+bootstrap-repair
+event_hash: e9731dc9111995b3ed27c5657d66f2149e6f633508a587cf3ce0f458ac60cb2c

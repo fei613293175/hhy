@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://orbexa.cc/schemas/p00-test-evidence-v1.json",
+  "title": "P00 external test evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "report_id",
+    "suite",
+    "producer",
+    "generated_at",
+    "source_commit",
+    "command",
+    "environment",
+    "results"
+  ],
+  "properties": {
+    "schema": { "const": "hhy.p00.test-evidence/v1" },
+    "report_id": { "type": "string", "minLength": 1 },
+    "suite": { "type": "string", "minLength": 1 },
+    "producer": { "type": "string", "minLength": 1 },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "source_commit": { "type": "string", "pattern": "^[0-9A-Fa-f]{40,64}$" },
+    "command": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "environment": { "type": "object", "minProperties": 1 },
+    "results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "test_id",
+          "status",
+          "executed",
+          "exit_code",
+          "started_at",
+          "finished_at",
+          "assertions",
+          "artifacts",
+          "details"
+        ],
+        "properties": {
+          "test_id": { "type": "string", "pattern": "^TST-" },
+          "status": { "enum": ["PASS", "FAIL", "N/A", "NOT_RUN"] },
+          "executed": { "type": "boolean" },
+          "exit_code": { "type": "integer" },
+          "started_at": { "type": "string", "format": "date-time" },
+          "finished_at": { "type": "string", "format": "date-time" },
+          "assertions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["name", "status"],
+              "properties": {
+                "name": { "type": "string", "minLength": 1 },
+                "status": { "enum": ["PASS", "FAIL"] }
+              }
+            }
+          },
+          "artifacts": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "sha256"],
+              "properties": {
+                "path": { "type": "string", "minLength": 1 },
+                "sha256": { "type": "string", "pattern": "^[0-9A-Fa-f]{64}$" }
+              }
+            }
+          },
+          "details": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

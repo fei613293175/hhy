@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: 合伙云 Pro 客户端与公开 API
   version: 1.2.2
-  description: V1.2.2 冻结开发契约。Schema 为 API View/Command，不得直接暴露数据库实体；breaking change 必须通过 ADR、兼容窗口和契约测试。
+  description: V1.2.2 页面与运营规格冻结契约；核心业务模型类型化，所有操作具有明确 UI 或系统所有者。
 servers:
 - url: https://api.orbexa.cc
   description: 生产环境
@@ -12110,51 +12110,6 @@ paths:
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
       parameters:
-      - name: page
-        in: query
-        required: false
-        schema:
-          type: integer
-          minimum: 1
-          default: 1
-        description: 页码；游标接口可忽略
-      - name: pageSize
-        in: query
-        required: false
-        schema:
-          type: integer
-          minimum: 1
-          maximum: 100
-          default: 20
-        description: 每页数量
-      - name: cursor
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 256
-        description: 游标；与page二选一
-      - name: status
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 状态筛选
-      - name: keyword
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 100
-        description: 关键词筛选
-      - name: sort
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 白名单排序字段，例如 createdAt:desc
       - name: platform
         in: query
         required: true
@@ -12167,6 +12122,7 @@ paths:
         required: true
         schema:
           type: integer
+          format: int64
           minimum: 1
       - name: channel
         in: query
@@ -12770,52 +12726,6 @@ paths:
       - COMMON-422-BUSINESS_RULE
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
-      parameters:
-      - name: page
-        in: query
-        required: false
-        schema:
-          type: integer
-          minimum: 1
-          default: 1
-        description: 页码；游标接口可忽略
-      - name: pageSize
-        in: query
-        required: false
-        schema:
-          type: integer
-          minimum: 1
-          maximum: 100
-          default: 20
-        description: 每页数量
-      - name: cursor
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 256
-        description: 游标；与page二选一
-      - name: status
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 状态筛选
-      - name: keyword
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 100
-        description: 关键词筛选
-      - name: sort
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 白名单排序字段，例如 createdAt:desc
       x-request-schema: '#/components/schemas/PublicGetPlatformStatusParameters'
       responses:
         '200':
@@ -13225,8 +13135,7 @@ components:
           type: string
           maxLength: 64
         device:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/DeviceSummaryResource'
         capabilities:
           type: array
           items:
@@ -13376,17 +13285,20 @@ components:
       additionalProperties: false
       properties:
         modules:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeModuleResource'
+          maxItems: 50
         serverTime:
           type: string
           format: date-time
         featureFlags:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/FeatureFlagResource'
+          maxItems: 200
         trackingContext:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/TrackingContextResource'
       required:
       - modules
       - serverTime
@@ -13410,11 +13322,9 @@ components:
           type: string
           maxLength: 2000
         publisher:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/PublisherSummaryResource'
         score:
-          type: string
-          maxLength: 2000
+          type: number
         badges:
           type: array
           items:
@@ -13449,14 +13359,17 @@ components:
           type: string
           maxLength: 2000
         media:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaItemResource'
+          maxItems: 50
         publisher:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/PublisherSummaryResource'
         contactsMasked:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactChannelSummaryResource'
+          maxItems: 20
         status:
           type: string
           maxLength: 2000
@@ -13464,8 +13377,7 @@ components:
           type: string
           maxLength: 2000
         statistics:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/ContentStatisticsResource'
         createdAt:
           type: string
           format: date-time
@@ -13475,6 +13387,8 @@ components:
         version:
           type: integer
           format: int64
+        attributes:
+          $ref: '#/components/schemas/JsonObject'
       required:
       - id
       - contentType
@@ -13489,11 +13403,31 @@ components:
           type: string
           maxLength: 64
         peer:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/PublisherSummaryResource'
         lastMessage:
           type: object
-          additionalProperties: true
+          additionalProperties: false
+          properties:
+            messageId:
+              type: string
+              maxLength: 64
+            messageType:
+              type: string
+              maxLength: 32
+            preview:
+              type: string
+              maxLength: 300
+            senderId:
+              type: string
+              maxLength: 64
+            createdAt:
+              type: string
+              format: date-time
+          required:
+          - messageId
+          - messageType
+          - preview
+          - createdAt
         unreadCount:
           type: integer
           format: int64
@@ -13528,8 +13462,7 @@ components:
           type: string
           maxLength: 2000
         target:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/NavigationTargetResource'
         readAt:
           type: string
           format: date-time
@@ -13564,8 +13497,27 @@ components:
           type: string
           format: date-time
         benefits:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              benefitCode:
+                type: string
+                maxLength: 64
+              name:
+                type: string
+                maxLength: 120
+              value:
+                $ref: '#/components/schemas/JsonValue'
+              unit:
+                type: string
+                maxLength: 32
+            required:
+            - benefitCode
+            - name
+            - value
+          maxItems: 100
         paidValueCent:
           type: integer
           format: int64
@@ -13604,8 +13556,7 @@ components:
           type: string
           format: date-time
         configuration:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/JsonObject'
         version:
           type: integer
           format: int64
@@ -13877,8 +13828,39 @@ components:
           format: int64
           minimum: 0
         milestones:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              milestoneCode:
+                type: string
+                maxLength: 64
+              name:
+                type: string
+                maxLength: 120
+              target:
+                type: integer
+                format: int64
+                minimum: 0
+              current:
+                type: integer
+                format: int64
+                minimum: 0
+              rewardCent:
+                type: integer
+                format: int64
+                minimum: 0
+              status:
+                type: string
+                maxLength: 32
+            required:
+            - milestoneCode
+            - name
+            - target
+            - current
+            - status
+          maxItems: 100
         version:
           type: integer
           format: int64
@@ -13940,17 +13922,13 @@ components:
           type: string
           maxLength: 2000
         progress:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/TaskProgressResource'
         target:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/TaskTargetResource'
         reward:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/TaskRewardResource'
         claimable:
-          type: string
-          maxLength: 2000
+          type: boolean
         expiresAt:
           type: string
           format: date-time
@@ -14005,29 +13983,37 @@ components:
       properties:
         platform:
           type: string
-          maxLength: 2000
+          enum:
+          - ANDROID
         latestVersionCode:
-          type: string
-          maxLength: 2000
+          type: integer
+          format: int64
+          minimum: 1
         latestVersionName:
           type: string
-          maxLength: 2000
+          maxLength: 32
         updateType:
           type: string
-          maxLength: 2000
+          enum:
+          - NONE
+          - OPTIONAL
+          - FORCED
         downloadUrl:
           type: string
-          maxLength: 2000
+          format: uri
+          maxLength: 2048
         sha256:
           type: string
+          minLength: 64
           maxLength: 64
-          pattern: ^[A-Fa-f0-9]{40,64}$
+          pattern: ^[A-Fa-f0-9]{64}$
         releaseNotes:
           type: string
           maxLength: 2000
         minSupportedVersionCode:
-          type: string
-          maxLength: 2000
+          type: integer
+          format: int64
+          minimum: 1
         serverTime:
           type: string
           format: date-time
@@ -14036,6 +14022,46 @@ components:
       - latestVersionCode
       - latestVersionName
       - updateType
+      - downloadUrl
+      - sha256
+      - releaseNotes
+      - minSupportedVersionCode
+      - serverTime
+    PlatformCapabilitiesResource:
+      type: object
+      additionalProperties: false
+      properties:
+        registration:
+          type: boolean
+        publishing:
+          type: boolean
+        redPacket:
+          type: boolean
+        withdrawal:
+          type: boolean
+      required:
+      - registration
+      - publishing
+      - redPacket
+      - withdrawal
+    PlatformStatusResource:
+      type: object
+      additionalProperties: false
+      properties:
+        maintenance:
+          type: boolean
+        maintenanceMessage:
+          type: string
+          maxLength: 500
+        capabilities:
+          $ref: '#/components/schemas/PlatformCapabilitiesResource'
+        serverTime:
+          type: string
+          format: date-time
+      required:
+      - maintenance
+      - maintenanceMessage
+      - capabilities
       - serverTime
     PublicPageResource:
       type: object
@@ -14052,17 +14078,16 @@ components:
           type: string
           maxLength: 2000
         content:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicPageBlockResource'
+          maxItems: 100
         seoMetadata:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/SeoMetadataResource'
         download:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/DownloadInfoResource'
         trackingContext:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/TrackingContextResource'
         version:
           type: integer
           format: int64
@@ -14074,14 +14099,20 @@ components:
       additionalProperties: false
       properties:
         metrics:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardMetricResource'
+          maxItems: 200
         todos:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardTodoResource'
+          maxItems: 100
         trends:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardTrendSeriesResource'
+          maxItems: 100
         generatedAt:
           type: string
           format: date-time
@@ -14218,8 +14249,38 @@ components:
           type: string
           maxLength: 2000
         skus:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              id:
+                type: string
+                maxLength: 64
+              skuCode:
+                type: string
+                maxLength: 64
+              name:
+                type: string
+                maxLength: 120
+              priceCent:
+                type: integer
+                format: int64
+                minimum: 0
+              durationDays:
+                type: integer
+                format: int64
+                minimum: 0
+              status:
+                type: string
+                maxLength: 32
+            required:
+            - id
+            - skuCode
+            - name
+            - priceCent
+            - status
+          maxItems: 100
         version:
           type: integer
           format: int64
@@ -14250,8 +14311,10 @@ components:
           type: string
           maxLength: 2000
         content:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicPageBlockResource'
+          maxItems: 100
         version:
           type: integer
           format: int64
@@ -14277,8 +14340,10 @@ components:
           type: string
           maxLength: 2000
         content:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicPageBlockResource'
+          maxItems: 100
         effectiveAt:
           type: string
           format: date-time
@@ -14310,14 +14375,15 @@ components:
           type: string
           maxLength: 2000
         score:
-          type: string
-          maxLength: 2000
+          type: number
         status:
           type: string
           maxLength: 2000
         ruleHits:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleHitResource'
+          maxItems: 100
         createdAt:
           type: string
           format: date-time
@@ -14341,8 +14407,7 @@ components:
           type: string
           maxLength: 2000
         valueMasked:
-          type: object
-          additionalProperties: true
+          $ref: '#/components/schemas/MaskedConfigValueResource'
         version:
           type: integer
           format: int64
@@ -14353,8 +14418,7 @@ components:
           type: string
           format: date-time
         requiresRestart:
-          type: string
-          maxLength: 2000
+          type: boolean
         updatedBy:
           type: string
           maxLength: 2000
@@ -14486,7 +14550,26 @@ components:
           maxLength: 2000
         schedule:
           type: object
-          additionalProperties: true
+          additionalProperties: false
+          properties:
+            scheduleType:
+              type: string
+              maxLength: 32
+              enum:
+              - CRON
+              - FIXED_DELAY
+              - MANUAL
+            expression:
+              type: string
+              maxLength: 128
+            timezone:
+              type: string
+              maxLength: 64
+            enabled:
+              type: boolean
+          required:
+          - scheduleType
+          - enabled
         status:
           type: string
           maxLength: 2000
@@ -14523,8 +14606,24 @@ components:
           type: string
           maxLength: 2000
         configuredSecrets:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              key:
+                type: string
+                maxLength: 128
+              configured:
+                type: boolean
+              secretRefMasked:
+                type: string
+                maxLength: 256
+                x-sensitive: true
+            required:
+            - key
+            - configured
+          maxItems: 100
         connectionStatus:
           type: string
           maxLength: 2000
@@ -14672,8 +14771,10 @@ components:
           type: string
           maxLength: 2000
         steps:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BuildStepResource'
+          maxItems: 100
         artifactId:
           type: string
           maxLength: 64
@@ -14829,7 +14930,8 @@ components:
           maxLength: 2000
         device:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
       required:
       - phone
       - password
@@ -14917,7 +15019,8 @@ components:
           minLength: 4
         device:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
       required:
       - phone
       - smsCode
@@ -14999,7 +15102,8 @@ components:
           maxItems: 100
         device:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
       required:
       - phone
       - smsCode
@@ -15159,7 +15263,8 @@ components:
           format: int64
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
     AuthPostAuthLogoutResponse:
       type: object
       additionalProperties: false
@@ -15517,7 +15622,8 @@ components:
           format: int64
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
     IdentityPostIdentitySessionsByIdRetryResponse:
       type: object
       additionalProperties: false
@@ -15595,7 +15701,8 @@ components:
           type: array
           items:
             type: object
-            additionalProperties: true
+            additionalProperties:
+              $ref: '#/components/schemas/JsonValue'
           maxItems: 10000
       required:
       - etag
@@ -16000,7 +16107,8 @@ components:
           maxLength: 2000
         attributes:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
       required:
       - contentType
       - title
@@ -16056,7 +16164,8 @@ components:
           maxLength: 2000
         attributes:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         expectedVersion:
           type: integer
           format: int64
@@ -16544,7 +16653,8 @@ components:
           format: int64
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
     ContentPostContentsByIdFavoriteResponse:
       type: object
       additionalProperties: false
@@ -16728,7 +16838,8 @@ components:
       properties:
         clientContext:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
     ContentPostContentsByIdContactsByChannelAccessResponse:
       type: object
       additionalProperties: false
@@ -17043,7 +17154,8 @@ components:
           - CONTACT_CARD
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
       required:
       - clientMessageId
       - messageType
@@ -17345,7 +17457,8 @@ components:
           format: int64
         payload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
     NotificationPostNotificationsReadAllResponse:
       type: object
       additionalProperties: false
@@ -17950,7 +18063,8 @@ components:
           format: date-time
         targeting:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
       required:
       - contentId
       - totalCount
@@ -17998,7 +18112,8 @@ components:
           format: date-time
         targeting:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
         expectedVersion:
           type: integer
           format: int64
@@ -18888,7 +19003,8 @@ components:
           maxLength: 2000
         rawPayload:
           type: object
-          additionalProperties: true
+          additionalProperties:
+            $ref: '#/components/schemas/JsonValue'
           description: 供应商原始字段；验签前不得修改
       required:
       - notificationId
@@ -20043,54 +20159,17 @@ components:
           type: string
           format: date-time
         data:
-          type: object
-          additionalProperties: false
-          required:
-          - items
-          - page
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/AppVersionPolicyResource'
-            page:
-              $ref: '#/components/schemas/PageMeta'
+          $ref: '#/components/schemas/AppVersionPolicyResource'
     AppReleaseGetAppVersionCheckParameters:
       type: object
       additionalProperties: false
       properties:
-        page:
-          type: integer
-          minimum: 1
-          default: 1
-          description: 页码；游标接口可忽略
-        pageSize:
-          type: integer
-          minimum: 1
-          maximum: 100
-          default: 20
-          description: 每页数量
-        cursor:
-          type: string
-          maxLength: 256
-          description: 游标；与page二选一
-        status:
-          type: string
-          maxLength: 64
-          description: 状态筛选
-        keyword:
-          type: string
-          maxLength: 100
-          description: 关键词筛选
-        sort:
-          type: string
-          maxLength: 64
-          description: 白名单排序字段，例如 createdAt:desc
         platform:
           type: string
           enum: *id006
         versionCode:
           type: integer
+          format: int64
           minimum: 1
         channel:
           type: string
@@ -20362,49 +20441,11 @@ components:
           type: string
           format: date-time
         data:
-          type: object
-          additionalProperties: false
-          required:
-          - items
-          - page
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/PublicPageResource'
-            page:
-              $ref: '#/components/schemas/PageMeta'
+          $ref: '#/components/schemas/PlatformStatusResource'
     PublicGetPlatformStatusParameters:
       type: object
       additionalProperties: false
-      properties:
-        page:
-          type: integer
-          minimum: 1
-          default: 1
-          description: 页码；游标接口可忽略
-        pageSize:
-          type: integer
-          minimum: 1
-          maximum: 100
-          default: 20
-          description: 每页数量
-        cursor:
-          type: string
-          maxLength: 256
-          description: 游标；与page二选一
-        status:
-          type: string
-          maxLength: 64
-          description: 状态筛选
-        keyword:
-          type: string
-          maxLength: 100
-          description: 关键词筛选
-        sort:
-          type: string
-          maxLength: 64
-          description: 白名单排序字段，例如 createdAt:desc
+      properties: {}
     AppReleasePostAppVersionCheckRequest:
       type: object
       additionalProperties: false
@@ -20417,15 +20458,16 @@ components:
         versionCode:
           type: integer
           format: int64
+          minimum: 1
         versionName:
           type: string
-          maxLength: 2000
+          maxLength: 32
         channel:
           type: string
-          maxLength: 2000
+          minLength: 1
+          maxLength: 64
         environment:
           type: string
-          maxLength: 2000
           enum:
           - DEV
           - TEST
@@ -20484,3 +20526,758 @@ components:
           description: 路径资源标识：id
       required:
       - id
+    JsonScalar:
+      oneOf:
+      - type: string
+        maxLength: 10000
+      - type: number
+      - type: integer
+        format: int64
+      - type: boolean
+      - type: 'null'
+      description: 仅用于扩展属性的标量值；核心业务字段不得依赖自由结构。
+    JsonValue:
+      oneOf:
+      - $ref: '#/components/schemas/JsonScalar'
+      - type: array
+        items:
+          $ref: '#/components/schemas/JsonValue'
+        maxItems: 200
+      - type: object
+        additionalProperties:
+          $ref: '#/components/schemas/JsonValue'
+        maxProperties: 100
+      description: 受限 JSON 扩展值；必须在页面规格中声明实际键，禁止作为核心业务模型。
+    JsonObject:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/JsonValue'
+      maxProperties: 100
+      description: 受限扩展对象；用于供应商透传或兼容字段，不能替代领域 Schema。
+    DeviceSummaryResource:
+      type: object
+      additionalProperties: false
+      properties:
+        deviceId:
+          type: string
+          maxLength: 64
+        deviceName:
+          type: string
+          maxLength: 128
+        platform:
+          type: string
+          maxLength: 32
+          enum:
+          - ANDROID
+          - WEB
+          - ADMIN_WEB
+        osVersion:
+          type: string
+          maxLength: 64
+        appVersion:
+          type: string
+          maxLength: 32
+        lastActiveAt:
+          type: string
+          format: date-time
+        trusted:
+          type: boolean
+      required:
+      - deviceId
+      - platform
+    MediaItemResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        mediaType:
+          type: string
+          maxLength: 32
+          enum:
+          - IMAGE
+          - VIDEO
+          - FILE
+          - QR_CODE
+        url:
+          type: string
+          maxLength: 2048
+          format: uri
+        thumbnailUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        width:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 10000
+        height:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 10000
+        durationMs:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 86400000
+        altText:
+          type: string
+          maxLength: 300
+        sortOrder:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 1000
+        accessMode:
+          type: string
+          maxLength: 32
+          enum:
+          - PUBLIC
+          - SIGNED_URL
+          - AUTHENTICATED
+      required:
+      - id
+      - mediaType
+      - url
+      - sortOrder
+    PublisherSummaryResource:
+      type: object
+      additionalProperties: false
+      properties:
+        userId:
+          type: string
+          maxLength: 64
+        nickname:
+          type: string
+          maxLength: 64
+        avatarUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        bio:
+          type: string
+          maxLength: 300
+        verified:
+          type: boolean
+        memberBadge:
+          type: string
+          maxLength: 32
+        followed:
+          type: boolean
+      required:
+      - userId
+      - nickname
+      - verified
+    ContactChannelSummaryResource:
+      type: object
+      additionalProperties: false
+      properties:
+        channel:
+          type: string
+          maxLength: 32
+          enum:
+          - WECHAT
+          - PHONE
+          - QQ
+          - EMAIL
+          - LINK
+          - QR_CODE
+        maskedValue:
+          type: string
+          maxLength: 256
+          x-sensitive: true
+        available:
+          type: boolean
+        accessPolicy:
+          type: string
+          maxLength: 32
+          enum:
+          - LOGIN
+          - REAL_NAME
+          - MEMBERSHIP
+          - PAID
+          - OWNER_ONLY
+        accessed:
+          type: boolean
+      required:
+      - channel
+      - available
+      - accessPolicy
+      - accessed
+    ContentStatisticsResource:
+      type: object
+      additionalProperties: false
+      properties:
+        viewCount:
+          type: integer
+          format: int64
+          minimum: 0
+        favoriteCount:
+          type: integer
+          format: int64
+          minimum: 0
+        shareCount:
+          type: integer
+          format: int64
+          minimum: 0
+        contactAccessCount:
+          type: integer
+          format: int64
+          minimum: 0
+        conversationCount:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - viewCount
+      - favoriteCount
+      - shareCount
+      - contactAccessCount
+    TrackingContextResource:
+      type: object
+      additionalProperties: false
+      properties:
+        pageCode:
+          type: string
+          maxLength: 64
+        source:
+          type: string
+          maxLength: 64
+        campaignId:
+          type: string
+          maxLength: 64
+        contentId:
+          type: string
+          maxLength: 64
+        requestId:
+          type: string
+          maxLength: 64
+        experimentAssignments:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              experimentKey:
+                type: string
+                maxLength: 64
+              variant:
+                type: string
+                maxLength: 64
+            required:
+            - experimentKey
+            - variant
+          maxItems: 20
+      required:
+      - pageCode
+      - source
+    NavigationTargetResource:
+      type: object
+      additionalProperties: false
+      properties:
+        targetType:
+          type: string
+          maxLength: 32
+          enum:
+          - IN_APP_ROUTE
+          - H5_URL
+          - DOWNLOAD
+          - NONE
+        route:
+          type: string
+          maxLength: 512
+        url:
+          type: string
+          maxLength: 2048
+          format: uri
+        requiresLogin:
+          type: boolean
+      required:
+      - targetType
+      - requiresLogin
+    HomeModuleItemResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        itemType:
+          type: string
+          maxLength: 32
+          enum:
+          - CONTENT
+          - BANNER
+          - CATEGORY
+          - NOTICE
+          - ACTION
+        title:
+          type: string
+          maxLength: 120
+        subtitle:
+          type: string
+          maxLength: 300
+        coverUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        badges:
+          type: array
+          items:
+            type: string
+            maxLength: 32
+          maxItems: 10
+        target:
+          $ref: '#/components/schemas/NavigationTargetResource'
+        trackingContext:
+          $ref: '#/components/schemas/TrackingContextResource'
+      required:
+      - id
+      - itemType
+      - title
+      - target
+    HomeModuleResource:
+      type: object
+      additionalProperties: false
+      properties:
+        moduleId:
+          type: string
+          maxLength: 64
+        moduleType:
+          type: string
+          maxLength: 32
+          enum:
+          - BANNER
+          - GRID
+          - HORIZONTAL_LIST
+          - VERTICAL_LIST
+          - NOTICE
+          - QUICK_ACTIONS
+        title:
+          type: string
+          maxLength: 120
+        subtitle:
+          type: string
+          maxLength: 300
+        layoutType:
+          type: string
+          maxLength: 32
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeModuleItemResource'
+          maxItems: 100
+        moreTarget:
+          $ref: '#/components/schemas/NavigationTargetResource'
+        trackingContext:
+          $ref: '#/components/schemas/TrackingContextResource'
+        startAt:
+          type: string
+          format: date-time
+        endAt:
+          type: string
+          format: date-time
+      required:
+      - moduleId
+      - moduleType
+      - layoutType
+      - items
+    FeatureFlagResource:
+      type: object
+      additionalProperties: false
+      properties:
+        key:
+          type: string
+          maxLength: 128
+        enabled:
+          type: boolean
+        variant:
+          type: string
+          maxLength: 64
+        reason:
+          type: string
+          maxLength: 256
+      required:
+      - key
+      - enabled
+    DashboardMetricResource:
+      type: object
+      additionalProperties: false
+      properties:
+        metricCode:
+          type: string
+          maxLength: 64
+        name:
+          type: string
+          maxLength: 120
+        value:
+          type: number
+        unit:
+          type: string
+          maxLength: 32
+        previousValue:
+          type: number
+        changeRate:
+          type: number
+        comparisonType:
+          type: string
+          maxLength: 32
+          enum:
+          - DAY_OVER_DAY
+          - WEEK_OVER_WEEK
+          - MONTH_OVER_MONTH
+          - YEAR_OVER_YEAR
+          - NONE
+        definitionVersion:
+          type: string
+          maxLength: 32
+      required:
+      - metricCode
+      - name
+      - value
+      - unit
+      - comparisonType
+      - definitionVersion
+    DashboardTrendPointResource:
+      type: object
+      additionalProperties: false
+      properties:
+        time:
+          type: string
+          format: date-time
+        value:
+          type: number
+      required:
+      - time
+      - value
+    DashboardTrendSeriesResource:
+      type: object
+      additionalProperties: false
+      properties:
+        metricCode:
+          type: string
+          maxLength: 64
+        name:
+          type: string
+          maxLength: 120
+        unit:
+          type: string
+          maxLength: 32
+        points:
+          type: array
+          items:
+            $ref: '#/components/schemas/DashboardTrendPointResource'
+          maxItems: 500
+      required:
+      - metricCode
+      - name
+      - unit
+      - points
+    DashboardTodoResource:
+      type: object
+      additionalProperties: false
+      properties:
+        todoType:
+          type: string
+          maxLength: 64
+        title:
+          type: string
+          maxLength: 160
+        count:
+          type: integer
+          format: int64
+          minimum: 0
+        severity:
+          type: string
+          maxLength: 16
+          enum:
+          - INFO
+          - WARNING
+          - HIGH
+          - CRITICAL
+        target:
+          $ref: '#/components/schemas/NavigationTargetResource'
+      required:
+      - todoType
+      - title
+      - count
+      - severity
+      - target
+    SeoMetadataResource:
+      type: object
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          maxLength: 120
+        description:
+          type: string
+          maxLength: 300
+        keywords:
+          type: array
+          items:
+            type: string
+            maxLength: 64
+          maxItems: 20
+        canonicalUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        ogImageUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        robots:
+          type: string
+          maxLength: 64
+      required:
+      - title
+      - description
+    DownloadInfoResource:
+      type: object
+      additionalProperties: false
+      properties:
+        platform:
+          type: string
+          maxLength: 32
+          enum:
+          - ANDROID
+        versionName:
+          type: string
+          maxLength: 32
+        versionCode:
+          type: integer
+          format: int64
+          minimum: 1
+        downloadUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+        sha256:
+          type: string
+          maxLength: 64
+        fileSizeBytes:
+          type: integer
+          format: int64
+          minimum: 0
+        publishedAt:
+          type: string
+          format: date-time
+        installGuideUrl:
+          type: string
+          maxLength: 2048
+          format: uri
+      required:
+      - platform
+      - versionName
+      - versionCode
+      - downloadUrl
+      - sha256
+    PublicPageBlockResource:
+      type: object
+      additionalProperties: false
+      properties:
+        blockId:
+          type: string
+          maxLength: 64
+        blockType:
+          type: string
+          maxLength: 32
+          enum:
+          - HERO
+          - RICH_TEXT
+          - IMAGE
+          - VIDEO
+          - FEATURE_LIST
+          - CTA
+          - FAQ
+          - DOWNLOAD
+        heading:
+          type: string
+          maxLength: 160
+        body:
+          type: string
+          maxLength: 10000
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/MediaItemResource'
+          maxItems: 20
+        action:
+          $ref: '#/components/schemas/NavigationTargetResource'
+        sortOrder:
+          type: integer
+          format: int64
+          minimum: 0
+          maximum: 1000
+      required:
+      - blockId
+      - blockType
+      - sortOrder
+    TaskProgressResource:
+      type: object
+      additionalProperties: false
+      properties:
+        currentValue:
+          type: integer
+          format: int64
+          minimum: 0
+        targetValue:
+          type: integer
+          format: int64
+          minimum: 1
+        percent:
+          type: number
+          minimum: 0
+          maximum: 100
+        completedAt:
+          type: string
+          format: date-time
+        streakDays:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - currentValue
+      - targetValue
+      - percent
+    TaskTargetResource:
+      type: object
+      additionalProperties: false
+      properties:
+        metric:
+          type: string
+          maxLength: 64
+        operator:
+          type: string
+          maxLength: 16
+          enum:
+          - GTE
+          - EQ
+          - LTE
+          - IN
+        value:
+          $ref: '#/components/schemas/JsonValue'
+        window:
+          type: string
+          maxLength: 32
+          enum:
+          - DAILY
+          - WEEKLY
+          - SEVEN_DAY
+          - LIFETIME
+      required:
+      - metric
+      - operator
+      - value
+      - window
+    TaskRewardResource:
+      type: object
+      additionalProperties: false
+      properties:
+        rewardType:
+          type: string
+          maxLength: 32
+          enum:
+          - POINTS
+          - CASH_PENDING
+          - PROP
+          - BADGE
+        amountCent:
+          type: integer
+          format: int64
+          minimum: 0
+        points:
+          type: integer
+          format: int64
+          minimum: 0
+        propSkuId:
+          type: string
+          maxLength: 64
+        settlementDelayHours:
+          type: integer
+          format: int64
+          minimum: 0
+      required:
+      - rewardType
+    MaskedConfigValueResource:
+      type: object
+      additionalProperties: false
+      properties:
+        valueType:
+          type: string
+          maxLength: 32
+        maskedDisplay:
+          type: string
+          maxLength: 512
+          x-sensitive: true
+        isConfigured:
+          type: boolean
+        secretRef:
+          type: string
+          maxLength: 256
+          x-sensitive: true
+      required:
+      - valueType
+      - maskedDisplay
+      - isConfigured
+    RuleHitResource:
+      type: object
+      additionalProperties: false
+      properties:
+        ruleId:
+          type: string
+          maxLength: 64
+        ruleVersion:
+          type: string
+          maxLength: 32
+        ruleName:
+          type: string
+          maxLength: 160
+        score:
+          type: number
+        action:
+          type: string
+          maxLength: 64
+        explanation:
+          type: string
+          maxLength: 1000
+      required:
+      - ruleId
+      - ruleVersion
+      - ruleName
+      - action
+    BuildStepResource:
+      type: object
+      additionalProperties: false
+      properties:
+        stepCode:
+          type: string
+          maxLength: 64
+        name:
+          type: string
+          maxLength: 120
+        status:
+          type: string
+          maxLength: 32
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        logRef:
+          type: string
+          maxLength: 512
+        failureCode:
+          type: string
+          maxLength: 64
+      required:
+      - stepCode
+      - name
+      - status
+x-document-baseline: V1.2.2
+x-contract-status: FROZEN_FOR_IMPLEMENTATION

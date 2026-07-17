@@ -11,9 +11,19 @@ secrets/
 # builds
 **/build/
 **/dist/
+**/target/
+**/.gradle/
 *.apk
 *.aab
 artifacts/apk/**/*.apk
+# dependencies and language caches
+node_modules/
+**/node_modules/
+.pnpm-store/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
 # IDE
 .idea/
 .vscode/

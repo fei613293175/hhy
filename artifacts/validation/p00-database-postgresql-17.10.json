@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "executedAt": "2026-07-17T01:20:00Z",
+  "executor": "codex-root",
+  "target": {
+    "serverAlias": "obx-test",
+    "database": "PostgreSQL 17.10",
+    "isolation": "dedicated disposable container hhy-p00-dbtest-20260717t0100",
+    "publishedPorts": []
+  },
+  "migrations": {
+    "from": "V001",
+    "to": "V011",
+    "tableCount": 198,
+    "v010Sha256": "954ef96778f6b376658f93163d6f2a6f90704c5ee637613fff9fe14720edd6eb",
+    "v011Sha256": "130265f5c6b4912cef99c457c9845617b0ea238b4713e2b0908f2eb53a788333"
+  },
+  "checks": [
+    "empty database V001-V011 migration",
+    "V009 to V010 upgrade",
+    "Flyway V009 to V011 upgrade and repeat migrate no-op",
+    "balanced transaction accepted",
+    "unbalanced transaction rejected",
+    "posted entry mutation rejected",
+    "outbox and inbox lifecycle invariants",
+    "outbox and completed inbox deletion rejected",
+    "ledger reversal and snapshot invariants",
+    "a posted transaction can be reversed at most once",
+    "accounting idempotency concurrency",
+    "reconciliation window concurrency",
+    "U010 rollback and V010 reapply",
+    "U011 rollback and V011 reapply",
+    "baseline roles and no default administrator"
+  ],
+  "logs": [
+    {
+      "path": "artifacts/validation/p00-database-postgresql-17.10.log",
+      "sha256": "e672898afc103b0b7be521193d86ff3795564cce09280ffbec2d5e2d97bf9a7c"
+    },
+    {
+      "path": "artifacts/validation/p00-database-v011-rollback.log",
+      "sha256": "ecd041a5ec6bbfca5b952602522269e82efb2c17a703f4af251b1ecf54c28c53"
+    },
+    {
+      "path": "artifacts/validation/p00-backend-flyway-postgresql-17.10.log",
+      "sha256": "8e370a937562b70ba3ff3e329a9b365be8cf7ee032cb5746d7a8fd4976407fac"
+    }
+  ]
+}

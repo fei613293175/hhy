@@ -11,11 +11,15 @@ task_id: TASK-P00-001
 story_id: STORY-P00-001
 goal: 修复P00工程基线漂移并恢复全量可重复验证
 started_at: '2026-07-16T23:28:09Z'
-updated_at: '2026-07-16T23:28:24Z'
+updated_at: '2026-07-17T02:24:40Z'
 takeover_of: null
-change_requests: []
+change_requests:
+- CR-0003
+- CR-0005
+- CR-0006
 scope:
   allowed_paths:
+  - '**'
   - apps/**
   - services/**
   - packages/**
@@ -44,27 +48,27 @@ scope:
   - PROJECT_*.yaml
   - PROJECT_*.json
   approved_exceptions: []
-  source: story+explicit
+  source: story+explicit+bootstrap-repair
 git:
-  initialized: false
-  branch: NOT_INITIALIZED
-  base_commit: NOT_INITIALIZED
-  start_head: NOT_INITIALIZED
+  initialized: true
+  branch: task/TASK-P00-001
+  base_commit: bffa551a122444a86bfcff0542714834bd6c2156
+  start_head: bffa551a122444a86bfcff0542714834bd6c2156
   upstream: null
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-16T23:28:09Z'
-  expires_at: '2026-07-17T03:28:09Z'
-checkpoint_sequence: 0
-latest_checkpoint: null
+  renewed_at: '2026-07-17T02:24:39Z'
+  expires_at: '2026-07-17T06:24:39Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md
-next_step: 阅读当前Story、逐项验证事实源后开始实现
+next_step: 提交TASK-P00-001工程基线Commit并绑定CR
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: c20a55a17585be0105c31ef35d2ff6422d63df08bdfd40e4b3d7b8858532bf2d
-  generated_at: '2026-07-16T23:28:23Z'
+  context_hash: 1ce2c66be6cacfdc63450b103c0f0e0b97565fb5012e310c655d8cc9768f2658
+  generated_at: '2026-07-17T02:24:40Z'
 handoff_bundle: null
 closure: null

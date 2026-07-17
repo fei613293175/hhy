@@ -3,6 +3,8 @@
  * Do not make direct changes to the file.
  */
 
+export type HhyJsonValue = string | number | boolean | null | HhyJsonValue[] | { [key: string]: HhyJsonValue };
+
 export interface paths {
     "/api/v1/auth/security-challenges": {
         parameters: {
@@ -2120,9 +2122,7 @@ export interface components {
             expiresAt: string;
             userId: string;
             sessionId: string;
-            device?: {
-                [key: string]: unknown;
-            };
+            device?: components["schemas"]["DeviceSummaryResource"];
             capabilities?: string[];
         };
         AdminSessionResource: {
@@ -2175,17 +2175,11 @@ export interface components {
             expiresAt?: string;
         };
         HomeResource: {
-            modules: {
-                [key: string]: unknown;
-            };
+            modules: components["schemas"]["HomeModuleResource"][];
             /** Format: date-time */
             serverTime: string;
-            featureFlags?: {
-                [key: string]: unknown;
-            };
-            trackingContext?: {
-                [key: string]: unknown;
-            };
+            featureFlags?: components["schemas"]["FeatureFlagResource"][];
+            trackingContext?: components["schemas"]["TrackingContextResource"];
         };
         SearchResultResource: {
             id: string;
@@ -2193,10 +2187,8 @@ export interface components {
             title: string;
             summary?: string;
             coverUrl?: string;
-            publisher?: {
-                [key: string]: unknown;
-            };
-            score?: string;
+            publisher?: components["schemas"]["PublisherSummaryResource"];
+            score?: number;
             badges?: string[];
         };
         ContentResource: {
@@ -2207,34 +2199,30 @@ export interface components {
             description?: string;
             categoryCode?: string;
             regionCode?: string;
-            media?: {
-                [key: string]: unknown;
-            };
-            publisher?: {
-                [key: string]: unknown;
-            };
-            contactsMasked?: {
-                [key: string]: unknown;
-            };
+            media?: components["schemas"]["MediaItemResource"][];
+            publisher?: components["schemas"]["PublisherSummaryResource"];
+            contactsMasked?: components["schemas"]["ContactChannelSummaryResource"][];
             status: string;
             reviewStatus?: string;
-            statistics?: {
-                [key: string]: unknown;
-            };
+            statistics?: components["schemas"]["ContentStatisticsResource"];
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
             /** Format: int64 */
             version: number;
+            attributes?: components["schemas"]["JsonObject"];
         };
         ConversationResource: {
             id: string;
-            peer?: {
-                [key: string]: unknown;
-            };
+            peer?: components["schemas"]["PublisherSummaryResource"];
             lastMessage?: {
-                [key: string]: unknown;
+                messageId: string;
+                messageType: string;
+                preview: string;
+                senderId?: string;
+                /** Format: date-time */
+                createdAt: string;
             };
             /** Format: int64 */
             unreadCount: number;
@@ -2249,9 +2237,7 @@ export interface components {
             type: string;
             title: string;
             body?: string;
-            target?: {
-                [key: string]: unknown;
-            };
+            target?: components["schemas"]["NavigationTargetResource"];
             /** Format: date-time */
             readAt?: string;
             /** Format: date-time */
@@ -2267,8 +2253,11 @@ export interface components {
             /** Format: date-time */
             expiresAt?: string;
             benefits?: {
-                [key: string]: unknown;
-            };
+                benefitCode: string;
+                name: string;
+                value: components["schemas"]["JsonValue"];
+                unit?: string;
+            }[];
             /** Format: int64 */
             paidValueCent?: number;
             /** Format: int64 */
@@ -2285,9 +2274,7 @@ export interface components {
             status: string;
             /** Format: date-time */
             expiresAt?: string;
-            configuration?: {
-                [key: string]: unknown;
-            };
+            configuration?: components["schemas"]["JsonObject"];
             /** Format: int64 */
             version: number;
         };
@@ -2398,8 +2385,16 @@ export interface components {
             /** Format: int64 */
             settledCommissionCent?: number;
             milestones?: {
-                [key: string]: unknown;
-            };
+                milestoneCode: string;
+                name: string;
+                /** Format: int64 */
+                target: number;
+                /** Format: int64 */
+                current: number;
+                /** Format: int64 */
+                rewardCent?: number;
+                status: string;
+            }[];
             /** Format: int64 */
             version: number;
         };
@@ -2421,16 +2416,10 @@ export interface components {
             name?: string;
             taskType?: string;
             status: string;
-            progress?: {
-                [key: string]: unknown;
-            };
-            target?: {
-                [key: string]: unknown;
-            };
-            reward?: {
-                [key: string]: unknown;
-            };
-            claimable: string;
+            progress?: components["schemas"]["TaskProgressResource"];
+            target?: components["schemas"]["TaskTargetResource"];
+            reward?: components["schemas"]["TaskRewardResource"];
+            claimable: boolean;
             /** Format: date-time */
             expiresAt?: string;
             /** Format: int64 */
@@ -2451,14 +2440,32 @@ export interface components {
             version: number;
         };
         AppVersionPolicyResource: {
-            platform: string;
-            latestVersionCode: string;
+            /** @enum {string} */
+            platform: "ANDROID";
+            /** Format: int64 */
+            latestVersionCode: number;
             latestVersionName: string;
-            updateType: string;
-            downloadUrl?: string;
-            sha256?: string;
-            releaseNotes?: string;
-            minSupportedVersionCode?: string;
+            /** @enum {string} */
+            updateType: "NONE" | "OPTIONAL" | "FORCED";
+            /** Format: uri */
+            downloadUrl: string;
+            sha256: string;
+            releaseNotes: string;
+            /** Format: int64 */
+            minSupportedVersionCode: number;
+            /** Format: date-time */
+            serverTime: string;
+        };
+        PlatformCapabilitiesResource: {
+            registration: boolean;
+            publishing: boolean;
+            redPacket: boolean;
+            withdrawal: boolean;
+        };
+        PlatformStatusResource: {
+            maintenance: boolean;
+            maintenanceMessage: string;
+            capabilities: components["schemas"]["PlatformCapabilitiesResource"];
             /** Format: date-time */
             serverTime: string;
         };
@@ -2466,31 +2473,17 @@ export interface components {
             code: string;
             title?: string;
             description?: string;
-            content?: {
-                [key: string]: unknown;
-            };
-            seoMetadata?: {
-                [key: string]: unknown;
-            };
-            download?: {
-                [key: string]: unknown;
-            };
-            trackingContext?: {
-                [key: string]: unknown;
-            };
+            content?: components["schemas"]["PublicPageBlockResource"][];
+            seoMetadata?: components["schemas"]["SeoMetadataResource"];
+            download?: components["schemas"]["DownloadInfoResource"];
+            trackingContext?: components["schemas"]["TrackingContextResource"];
             /** Format: int64 */
             version: number;
         };
         DashboardResource: {
-            metrics: {
-                [key: string]: unknown;
-            };
-            todos?: {
-                [key: string]: unknown;
-            };
-            trends?: {
-                [key: string]: unknown;
-            };
+            metrics: components["schemas"]["DashboardMetricResource"][];
+            todos?: components["schemas"]["DashboardTodoResource"][];
+            trends?: components["schemas"]["DashboardTrendSeriesResource"][];
             /** Format: date-time */
             generatedAt: string;
         };
@@ -2541,8 +2534,15 @@ export interface components {
             productType?: string;
             status: string;
             skus?: {
-                [key: string]: unknown;
-            };
+                id: string;
+                skuCode: string;
+                name: string;
+                /** Format: int64 */
+                priceCent: number;
+                /** Format: int64 */
+                durationDays?: number;
+                status: string;
+            }[];
             /** Format: int64 */
             version: number;
         };
@@ -2552,9 +2552,7 @@ export interface components {
             contentType?: string;
             title?: string;
             status: string;
-            content?: {
-                [key: string]: unknown;
-            };
+            content?: components["schemas"]["PublicPageBlockResource"][];
             /** Format: int64 */
             version: number;
             /** Format: date-time */
@@ -2565,9 +2563,7 @@ export interface components {
             /** Format: int64 */
             version: number;
             title: string;
-            content?: {
-                [key: string]: unknown;
-            };
+            content?: components["schemas"]["PublicPageBlockResource"][];
             /** Format: date-time */
             effectiveAt: string;
             status?: string;
@@ -2578,11 +2574,9 @@ export interface components {
             subjectType?: string;
             subjectId?: string;
             riskLevel: string;
-            score?: string;
+            score?: number;
             status: string;
-            ruleHits?: {
-                [key: string]: unknown;
-            };
+            ruleHits?: components["schemas"]["RuleHitResource"][];
             /** Format: date-time */
             createdAt?: string;
             /** Format: int64 */
@@ -2591,15 +2585,13 @@ export interface components {
         ConfigResource: {
             key: string;
             environment: string;
-            valueMasked?: {
-                [key: string]: unknown;
-            };
+            valueMasked?: components["schemas"]["MaskedConfigValueResource"];
             /** Format: int64 */
             version: number;
             status: string;
             /** Format: date-time */
             effectiveAt?: string;
-            requiresRestart?: string;
+            requiresRestart?: boolean;
             updatedBy?: string;
         };
         RoleResource: {
@@ -2644,7 +2636,11 @@ export interface components {
             code: string;
             name?: string;
             schedule?: {
-                [key: string]: unknown;
+                /** @enum {string} */
+                scheduleType: "CRON" | "FIXED_DELAY" | "MANUAL";
+                expression?: string;
+                timezone?: string;
+                enabled: boolean;
             };
             status: string;
             /** Format: date-time */
@@ -2661,8 +2657,10 @@ export interface components {
             activeVersion?: string;
             draftVersion?: string;
             configuredSecrets?: {
-                [key: string]: unknown;
-            };
+                key: string;
+                configured: boolean;
+                secretRefMasked?: string;
+            }[];
             connectionStatus?: string;
             /** Format: date-time */
             lastTestAt?: string;
@@ -2713,9 +2711,7 @@ export interface components {
             gitRef?: string;
             commitSha: string;
             status: string;
-            steps?: {
-                [key: string]: unknown;
-            };
+            steps?: components["schemas"]["BuildStepResource"][];
             artifactId?: string;
             /** Format: date-time */
             createdAt?: string;
@@ -2772,7 +2768,7 @@ export interface components {
             challengeId: string;
             challengeProof: string;
             device?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         AuthPostAuthPasswordLoginResponse: {
@@ -2804,7 +2800,7 @@ export interface components {
             phone: string;
             smsCode: string;
             device?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         AuthPostAuthSmsLoginResponse: {
@@ -2835,7 +2831,7 @@ export interface components {
             inviteCode: string;
             agreementVersions: string[];
             device?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         AuthPostAuthRegisterResponse: {
@@ -2893,7 +2889,7 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
             payload?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         AuthPostAuthLogoutResponse: {
@@ -3040,7 +3036,7 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
             payload?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         IdentityPostIdentitySessionsByIdRetryResponse: {
@@ -3070,7 +3066,7 @@ export interface components {
         MediaPostMediaUploadSessionsByIdCompleteRequest: {
             etag: string;
             parts?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             }[];
         };
         MediaPostMediaUploadSessionsByIdCompleteResponse: {
@@ -3249,7 +3245,7 @@ export interface components {
             mediaIds?: string[];
             contacts?: string;
             attributes?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         ContentPostContentsResponse: {
@@ -3269,7 +3265,7 @@ export interface components {
             mediaIds?: string[];
             contacts?: string;
             attributes?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             /** Format: int64 */
             expectedVersion: number;
@@ -3492,7 +3488,7 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
             payload?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         ContentPostContentsByIdFavoriteResponse: {
@@ -3580,7 +3576,7 @@ export interface components {
         };
         ContentPostContentsByIdContactsByChannelAccessRequest: {
             clientContext?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         ContentPostContentsByIdContactsByChannelAccessResponse: {
@@ -3712,7 +3708,7 @@ export interface components {
             /** @enum {string} */
             messageType: "TEXT" | "IMAGE" | "CONTENT_CARD" | "CONTACT_CARD";
             payload: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         ChatPostConversationsByIdMessagesResponse: {
@@ -3834,7 +3830,7 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
             payload?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         NotificationPostNotificationsReadAllResponse: {
@@ -4108,7 +4104,7 @@ export interface components {
             /** Format: date-time */
             endAt: string;
             targeting?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         RedPacketPostRedPacketCampaignsResponse: {
@@ -4129,7 +4125,7 @@ export interface components {
             /** Format: date-time */
             endAt?: string;
             targeting?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             /** Format: int64 */
             expectedVersion: number;
@@ -4515,7 +4511,7 @@ export interface components {
             status: string;
             /** @description 供应商原始字段；验签前不得修改 */
             rawPayload: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         PaymentPostPaymentByGatewayNotifyResponse: {
@@ -5045,32 +5041,12 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: {
-                items: components["schemas"]["AppVersionPolicyResource"][];
-                page: components["schemas"]["PageMeta"];
-            };
+            data: components["schemas"]["AppVersionPolicyResource"];
         };
         AppReleaseGetAppVersionCheckParameters: {
-            /**
-             * @description 页码；游标接口可忽略
-             * @default 1
-             */
-            page: number;
-            /**
-             * @description 每页数量
-             * @default 20
-             */
-            pageSize: number;
-            /** @description 游标；与page二选一 */
-            cursor?: string;
-            /** @description 状态筛选 */
-            status?: string;
-            /** @description 关键词筛选 */
-            keyword?: string;
-            /** @description 白名单排序字段，例如 createdAt:desc */
-            sort?: string;
             /** @enum {string} */
             platform: "ANDROID";
+            /** Format: int64 */
             versionCode: number;
             channel: string;
             /** @enum {string} */
@@ -5191,31 +5167,9 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: {
-                items: components["schemas"]["PublicPageResource"][];
-                page: components["schemas"]["PageMeta"];
-            };
+            data: components["schemas"]["PlatformStatusResource"];
         };
-        PublicGetPlatformStatusParameters: {
-            /**
-             * @description 页码；游标接口可忽略
-             * @default 1
-             */
-            page: number;
-            /**
-             * @description 每页数量
-             * @default 20
-             */
-            pageSize: number;
-            /** @description 游标；与page二选一 */
-            cursor?: string;
-            /** @description 状态筛选 */
-            status?: string;
-            /** @description 关键词筛选 */
-            keyword?: string;
-            /** @description 白名单排序字段，例如 createdAt:desc */
-            sort?: string;
-        };
+        PublicGetPlatformStatusParameters: Record<string, never>;
         AppReleasePostAppVersionCheckRequest: {
             /** @enum {string} */
             platform: "ANDROID";
@@ -5245,6 +5199,251 @@ export interface components {
         PublicGetHelpArticlesByIdParameters: {
             /** @description 路径资源标识：id */
             id: string;
+        };
+        /** @description 仅用于扩展属性的标量值；核心业务字段不得依赖自由结构。 */
+        JsonScalar: string | number | boolean | null;
+        /** @description 受限 JSON 扩展值；必须在页面规格中声明实际键，禁止作为核心业务模型。 */
+        JsonValue: HhyJsonValue;
+        /** @description 受限扩展对象；用于供应商透传或兼容字段，不能替代领域 Schema。 */
+        JsonObject: {
+            [key: string]: components["schemas"]["JsonValue"];
+        };
+        DeviceSummaryResource: {
+            deviceId: string;
+            deviceName?: string;
+            /** @enum {string} */
+            platform: "ANDROID" | "WEB" | "ADMIN_WEB";
+            osVersion?: string;
+            appVersion?: string;
+            /** Format: date-time */
+            lastActiveAt?: string;
+            trusted?: boolean;
+        };
+        MediaItemResource: {
+            id: string;
+            /** @enum {string} */
+            mediaType: "IMAGE" | "VIDEO" | "FILE" | "QR_CODE";
+            /** Format: uri */
+            url: string;
+            /** Format: uri */
+            thumbnailUrl?: string;
+            /** Format: int64 */
+            width?: number;
+            /** Format: int64 */
+            height?: number;
+            /** Format: int64 */
+            durationMs?: number;
+            altText?: string;
+            /** Format: int64 */
+            sortOrder: number;
+            /** @enum {string} */
+            accessMode?: "PUBLIC" | "SIGNED_URL" | "AUTHENTICATED";
+        };
+        PublisherSummaryResource: {
+            userId: string;
+            nickname: string;
+            /** Format: uri */
+            avatarUrl?: string;
+            bio?: string;
+            verified: boolean;
+            memberBadge?: string;
+            followed?: boolean;
+        };
+        ContactChannelSummaryResource: {
+            /** @enum {string} */
+            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE";
+            maskedValue?: string;
+            available: boolean;
+            /** @enum {string} */
+            accessPolicy: "LOGIN" | "REAL_NAME" | "MEMBERSHIP" | "PAID" | "OWNER_ONLY";
+            accessed: boolean;
+        };
+        ContentStatisticsResource: {
+            /** Format: int64 */
+            viewCount: number;
+            /** Format: int64 */
+            favoriteCount: number;
+            /** Format: int64 */
+            shareCount: number;
+            /** Format: int64 */
+            contactAccessCount: number;
+            /** Format: int64 */
+            conversationCount?: number;
+        };
+        TrackingContextResource: {
+            pageCode: string;
+            source: string;
+            campaignId?: string;
+            contentId?: string;
+            requestId?: string;
+            experimentAssignments?: {
+                experimentKey: string;
+                variant: string;
+            }[];
+        };
+        NavigationTargetResource: {
+            /** @enum {string} */
+            targetType: "IN_APP_ROUTE" | "H5_URL" | "DOWNLOAD" | "NONE";
+            route?: string;
+            /** Format: uri */
+            url?: string;
+            requiresLogin: boolean;
+        };
+        HomeModuleItemResource: {
+            id: string;
+            /** @enum {string} */
+            itemType: "CONTENT" | "BANNER" | "CATEGORY" | "NOTICE" | "ACTION";
+            title: string;
+            subtitle?: string;
+            /** Format: uri */
+            coverUrl?: string;
+            badges?: string[];
+            target: components["schemas"]["NavigationTargetResource"];
+            trackingContext?: components["schemas"]["TrackingContextResource"];
+        };
+        HomeModuleResource: {
+            moduleId: string;
+            /** @enum {string} */
+            moduleType: "BANNER" | "GRID" | "HORIZONTAL_LIST" | "VERTICAL_LIST" | "NOTICE" | "QUICK_ACTIONS";
+            title?: string;
+            subtitle?: string;
+            layoutType: string;
+            items: components["schemas"]["HomeModuleItemResource"][];
+            moreTarget?: components["schemas"]["NavigationTargetResource"];
+            trackingContext?: components["schemas"]["TrackingContextResource"];
+            /** Format: date-time */
+            startAt?: string;
+            /** Format: date-time */
+            endAt?: string;
+        };
+        FeatureFlagResource: {
+            key: string;
+            enabled: boolean;
+            variant?: string;
+            reason?: string;
+        };
+        DashboardMetricResource: {
+            metricCode: string;
+            name: string;
+            value: number;
+            unit: string;
+            previousValue?: number;
+            changeRate?: number;
+            /** @enum {string} */
+            comparisonType: "DAY_OVER_DAY" | "WEEK_OVER_WEEK" | "MONTH_OVER_MONTH" | "YEAR_OVER_YEAR" | "NONE";
+            definitionVersion: string;
+        };
+        DashboardTrendPointResource: {
+            /** Format: date-time */
+            time: string;
+            value: number;
+        };
+        DashboardTrendSeriesResource: {
+            metricCode: string;
+            name: string;
+            unit: string;
+            points: components["schemas"]["DashboardTrendPointResource"][];
+        };
+        DashboardTodoResource: {
+            todoType: string;
+            title: string;
+            /** Format: int64 */
+            count: number;
+            /** @enum {string} */
+            severity: "INFO" | "WARNING" | "HIGH" | "CRITICAL";
+            target: components["schemas"]["NavigationTargetResource"];
+        };
+        SeoMetadataResource: {
+            title: string;
+            description: string;
+            keywords?: string[];
+            /** Format: uri */
+            canonicalUrl?: string;
+            /** Format: uri */
+            ogImageUrl?: string;
+            robots?: string;
+        };
+        DownloadInfoResource: {
+            /** @enum {string} */
+            platform: "ANDROID";
+            versionName: string;
+            /** Format: int64 */
+            versionCode: number;
+            /** Format: uri */
+            downloadUrl: string;
+            sha256: string;
+            /** Format: int64 */
+            fileSizeBytes?: number;
+            /** Format: date-time */
+            publishedAt?: string;
+            /** Format: uri */
+            installGuideUrl?: string;
+        };
+        PublicPageBlockResource: {
+            blockId: string;
+            /** @enum {string} */
+            blockType: "HERO" | "RICH_TEXT" | "IMAGE" | "VIDEO" | "FEATURE_LIST" | "CTA" | "FAQ" | "DOWNLOAD";
+            heading?: string;
+            body?: string;
+            media?: components["schemas"]["MediaItemResource"][];
+            action?: components["schemas"]["NavigationTargetResource"];
+            /** Format: int64 */
+            sortOrder: number;
+        };
+        TaskProgressResource: {
+            /** Format: int64 */
+            currentValue: number;
+            /** Format: int64 */
+            targetValue: number;
+            percent: number;
+            /** Format: date-time */
+            completedAt?: string;
+            /** Format: int64 */
+            streakDays?: number;
+        };
+        TaskTargetResource: {
+            metric: string;
+            /** @enum {string} */
+            operator: "GTE" | "EQ" | "LTE" | "IN";
+            value: components["schemas"]["JsonValue"];
+            /** @enum {string} */
+            window: "DAILY" | "WEEKLY" | "SEVEN_DAY" | "LIFETIME";
+        };
+        TaskRewardResource: {
+            /** @enum {string} */
+            rewardType: "POINTS" | "CASH_PENDING" | "PROP" | "BADGE";
+            /** Format: int64 */
+            amountCent?: number;
+            /** Format: int64 */
+            points?: number;
+            propSkuId?: string;
+            /** Format: int64 */
+            settlementDelayHours?: number;
+        };
+        MaskedConfigValueResource: {
+            valueType: string;
+            maskedDisplay: string;
+            isConfigured: boolean;
+            secretRef?: string;
+        };
+        RuleHitResource: {
+            ruleId: string;
+            ruleVersion: string;
+            ruleName: string;
+            score?: number;
+            action: string;
+            explanation?: string;
+        };
+        BuildStepResource: {
+            stepCode: string;
+            name: string;
+            status: string;
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            logRef?: string;
+            failureCode?: string;
         };
     };
     responses: never;
@@ -17369,18 +17568,6 @@ export interface operations {
     appReleaseGetAppVersionCheck: {
         parameters: {
             query: {
-                /** @description 页码；游标接口可忽略 */
-                page?: number;
-                /** @description 每页数量 */
-                pageSize?: number;
-                /** @description 游标；与page二选一 */
-                cursor?: string;
-                /** @description 状态筛选 */
-                status?: string;
-                /** @description 关键词筛选 */
-                keyword?: string;
-                /** @description 白名单排序字段，例如 createdAt:desc */
-                sort?: string;
                 platform: "ANDROID";
                 versionCode: number;
                 channel: string;
@@ -17959,20 +18146,7 @@ export interface operations {
     };
     publicGetPlatformStatus: {
         parameters: {
-            query?: {
-                /** @description 页码；游标接口可忽略 */
-                page?: number;
-                /** @description 每页数量 */
-                pageSize?: number;
-                /** @description 游标；与page二选一 */
-                cursor?: string;
-                /** @description 状态筛选 */
-                status?: string;
-                /** @description 关键词筛选 */
-                keyword?: string;
-                /** @description 白名单排序字段，例如 createdAt:desc */
-                sort?: string;
-            };
+            query?: never;
             header?: never;
             path?: never;
             cookie?: never;

@@ -18,3 +18,27 @@ problems:
   - scripts/project-doctor.sh
   do_not_repeat:
   - 不得绕过契约和追踪直接编码
+- id: PROB-0003
+  title: Git初始化前领取P00导致会话基线无法创建检查点
+  status: SOLVED
+  root_cause: resume在无Git时错误提示先执行start，bootstrap创建Baseline Commit后又未把ACTIVE会话的NOT_INITIALIZED基线回填为真实Commit
+  resolution: 无Git冷启动改为明确输出bootstrap命令；兼容已先领取P00的会话，在bootstrap完成后校验Actor和Task并原子回填Git基线、会话指针和Context Pack
+  regression_checks:
+  - tests/test_continuity_bootstrap_recovery.py
+  do_not_repeat:
+  - 不得让无Git的resume输出start作为下一条命令
+  - 不得让ACTIVE会话在Baseline Commit创建后继续保留NOT_INITIALIZED基线
+- id: PROB-0004
+  title: P00派生资产、页面计数和前端锁文件与冻结基线分叉
+  status: SOLVED
+  root_cause: 后端运行时副本、生成器断言和客户端类型仍停留在V1.2.1/V1.2.2早期快照；锁文件又引用了npm不存在的source-map-js 1.2.2，旧生成器缺少富化联接和递归JSON类型后处理
+  resolution: 新增只从权威契约和迁移同步运行时副本的哈希门禁；页面生成器改为74/13/102并联接冻结规格；锁文件回到source-map-js 1.2.1；OpenAPI类型生成增加确定性递归类型后处理
+  regression_checks:
+  - scripts/sync_runtime_assets.py --check
+  - scripts/check_api_contract.py
+  - scripts/check_db_schema.py
+  - apps/admin-web/src/catalog.test.ts
+  - pnpm typecheck && pnpm test && pnpm build
+  do_not_repeat:
+  - 不得直接运行会删除V009或丢失冻结元数据的旧全量生成路径
+  - 后端运行时契约和迁移副本必须与根权威源逐字节一致

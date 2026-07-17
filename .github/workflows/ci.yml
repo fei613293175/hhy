@@ -16,7 +16,16 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - run: pip install --disable-pip-version-check pyyaml pglast
+      - run: python scripts/sync_runtime_assets.py --check
+      - run: python scripts/check_api_contract.py
+      - run: python scripts/check_db_schema.py
       - run: python scripts/project-doctor.py --strict
+      - run: python scripts/check_release_artifacts.py
+      - run: python tests/test_release_close_gate.py
+      - run: python scripts/check_p00_observability.py
+      - run: python tests/p00/test_p00_test_matrix.py
+      - run: python tests/p00/test_secret_defaults.py
+      - run: python scripts/run_p00_test_matrix.py --list
 
   web:
     runs-on: ubuntu-latest
@@ -60,6 +69,14 @@ jobs:
         env:
           DATABASE_URL: postgresql://hhy:hhy_ci_only@127.0.0.1:5432/hhy_smoke
           HHY_DB_SMOKE_CONFIRM: YES
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '21', cache: maven }
+      - run: cd services/backend && ./mvnw -pl boot -am -Dtest=P00FlywayMigrationTest -Dsurefire.failIfNoSpecifiedTests=false -Dhhy.project.root="$GITHUB_WORKSPACE" test
+        env:
+          HHY_DB_MIGRATION_TEST_URL: jdbc:postgresql://127.0.0.1:5432/hhy_smoke
+          HHY_DB_MIGRATION_TEST_USER: hhy
+          HHY_DB_MIGRATION_TEST_PASSWORD: hhy_ci_only
+          HHY_DB_SMOKE_CONFIRM: YES
 
   android:
     runs-on: ubuntu-latest
@@ -92,6 +109,9 @@ jobs:
           fi
       - run: python3 scripts/run_continuity_self_test.py
       - run: python3 scripts/test_continuity_protocol.py
+      - run: python3 tests/test_continuity_bootstrap_recovery.py
+      - run: python3 tests/test_continuity_cross_release_close.py
+      - run: python3 tests/test_release_close_gate.py
       - run: python3 scripts/check_v123_continuity.py --strict
       - uses: actions/upload-artifact@v4
         with:

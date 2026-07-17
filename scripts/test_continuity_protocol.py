@@ -56,7 +56,9 @@ def source_manifest() -> list[dict[str, str]]:
     ]
 
 def copy_repository(source: Path, target: Path) -> None:
-    ignored_names = {".git", "__pycache__", "node_modules", "dist", "target", ".gradle"}
+    ignored_names = {
+        ".git", "__pycache__", "node_modules", "dist", "target", "build", ".gradle"
+    }
 
     def ignore(directory: str, names: list[str]) -> set[str]:
         result = {name for name in names if name in ignored_names or name.endswith((".pyc", ".pyo"))}
@@ -72,6 +74,36 @@ def copy_repository(source: Path, target: Path) -> None:
     (runtime / ".gitkeep").touch()
 
 
+def reset_continuity_fixture(root: Path) -> None:
+    """Remove the caller's active runtime identity from an isolated lifecycle copy."""
+    (root / ".continuity/EVENT_LOG.jsonl").write_text("", encoding="utf-8")
+    records = {
+        ".continuity/ACTIVE_SESSION.yaml": {
+            "protocol_version": "1.0", "active_session_id": None, "status": "NONE"
+        },
+        ".continuity/SESSION_INDEX.yaml": {"version": "1.0", "sessions": []},
+        ".continuity/TASK_CLAIMS.yaml": {"version": "1.0", "claims": []},
+        ".continuity/TASK_TRANSITIONS.yaml": {"version": "1.0", "transitions": []},
+        ".continuity/STATE.yaml": {
+            "protocol_version": "1.0",
+            "package_version": "1.2.3",
+            "mode": "ENFORCED",
+            "active_session_id": None,
+            "event_log": {"sequence": 0, "head_hash": "0" * 64},
+        },
+    }
+    for relative, payload in records.items():
+        (root / relative).write_text(
+            yaml.safe_dump(payload, allow_unicode=True, sort_keys=False), encoding="utf-8"
+        )
+    status_path = root / "CURRENT_STATUS.yaml"
+    status = yaml.safe_load(status_path.read_text(encoding="utf-8")) or {}
+    status.update({"status": "READY", "active_task": None, "in_progress_tasks": []})
+    status_path.write_text(
+        yaml.safe_dump(status, allow_unicode=True, sort_keys=False), encoding="utf-8"
+    )
+
+
 class Smoke:
     def __init__(self, repo: Path, output_dir: Path) -> None:
         self.repo = repo
@@ -80,6 +112,7 @@ class Smoke:
         self.env = dict(os.environ)
         self.env.update({
             "PYTHONDONTWRITEBYTECODE": "1",
+            "HHY_PYTHON": sys.executable,
             "GIT_TERMINAL_PROMPT": "0",
             "GIT_EDITOR": "true",
             "GIT_SEQUENCE_EDITOR": "true",
@@ -94,8 +127,9 @@ class Smoke:
     def run(self, label: str, args: list[str], *, expected: set[int] = {0}, timeout: int = 420) -> subprocess.CompletedProcess[str]:
         print(f"[LIFECYCLE-TEST] START {label}", flush=True)
         started = time.monotonic()
+        resolved_args = [sys.executable, *args[1:]] if args and args[0] == "python3" else args
         proc = subprocess.run(
-            args,
+            resolved_args,
             cwd=self.repo,
             env=self.env,
             text=True,
@@ -107,7 +141,7 @@ class Smoke:
         duration = round(time.monotonic() - started, 3)
         (self.output_dir / f"{label}.stdout.txt").write_text(proc.stdout, encoding="utf-8")
         (self.output_dir / f"{label}.stderr.txt").write_text(proc.stderr, encoding="utf-8")
-        self.commands.append({"label": label, "args": args, "returncode": proc.returncode, "duration_seconds": duration})
+        self.commands.append({"label": label, "args": resolved_args, "returncode": proc.returncode, "duration_seconds": duration})
         if proc.returncode not in expected:
             raise RuntimeError(
                 f"{label} failed: expected {sorted(expected)}, got {proc.returncode}\nSTDOUT:\n{proc.stdout[-4000:]}\nSTDERR:\n{proc.stderr[-4000:]}"
@@ -149,6 +183,7 @@ def main() -> int:
     if repo.exists():
         shutil.rmtree(repo)
     copy_repository(ROOT, repo)
+    reset_continuity_fixture(repo)
     smoke = Smoke(repo, outputs)
 
     try:
@@ -369,7 +404,7 @@ def main() -> int:
         with (tamper / ".continuity/EVENT_LOG.jsonl").open("a", encoding="utf-8") as f:
             f.write('{"tampered":true}\n')
         proc = subprocess.run(
-            ["python3", "scripts/continuity_gate.py", "--mode", "doctor", "--strict", "--json-out", str(outputs / "tamper-report.json")],
+            [sys.executable, "scripts/continuity_gate.py", "--mode", "doctor", "--strict", "--json-out", str(outputs / "tamper-report.json")],
             cwd=tamper, env=smoke.env, text=True, stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=420,
         )

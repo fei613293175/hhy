@@ -316,6 +316,16 @@ def git_info(root: Path) -> dict[str, Any]:
     }
 
 
+def git_has_concrete_head(info: dict[str, Any]) -> bool:
+    """Return true only when Git is initialized and HEAD resolves to a commit."""
+    return bool(info.get("initialized")) and info.get("head") not in {
+        None,
+        "",
+        "NOT_INITIALIZED",
+        "UNBORN",
+    }
+
+
 def parse_porcelain_line(line: str) -> tuple[str, str]:
     status = line[:2]
     path = line[3:] if len(line) >= 4 else ""
@@ -383,6 +393,17 @@ def filter_project_files(paths: Iterable[str]) -> list[str]:
     return sorted({p.replace("\\", "/") for p in paths if p and not is_managed_record(p)})
 
 
+def canonical_fingerprint_bytes(content: bytes) -> bytes:
+    """Make project fingerprints stable across Git CRLF checkout policies.
+
+    Git stores normalized LF blobs for text files even when a Windows working
+    tree uses CRLF.  Fingerprints intentionally ignore that transport-only
+    difference so a checkpoint made before ``git add`` can be verified against
+    the committed tree on every supported platform.
+    """
+    return content.replace(b"\r\n", b"\n")
+
+
 def file_content_token(root: Path, relative: str) -> dict[str, Any]:
     path = root / relative
     if not path.exists() and not path.is_symlink():
@@ -391,12 +412,12 @@ def file_content_token(root: Path, relative: str) -> dict[str, Any]:
         return {"path": relative, "state": "SYMLINK", "target": os.readlink(path)}
     if path.is_dir():
         return {"path": relative, "state": "DIRECTORY"}
-    size = path.stat().st_size
+    content = canonical_fingerprint_bytes(path.read_bytes())
     return {
         "path": relative,
         "state": "FILE",
-        "size": size,
-        "sha256": sha256_file(path),
+        "size": len(content),
+        "sha256": hashlib.sha256(content).hexdigest(),
     }
 
 
@@ -1192,13 +1213,18 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
             path = root / "releases" / release / name
             if path.exists():
                 release_docs[name] = load_yaml(path, {})
+    bootstrap_tasks = set(load_policy(root).get("bootstrap", {}).get("allow_without_git_task_ids", []))
     handoff_instruction = (
         f"python3 scripts/continuity.py takeover --actor <NEW_ACTOR> --session {session['session_id']}"
         if session and session.get("status") == "HANDED_OFF"
         else (
             f"python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>'"
             if session
-            else f"python3 scripts/continuity.py start --actor <ACTOR_ID> --task {next_task.get('id')}"
+            else (
+                f"python3 scripts/continuity.py bootstrap --actor <ACTOR_ID> --init-git --initial-commit --task {next_task.get('id')} --branch task/{next_task.get('id')}"
+                if not git_has_concrete_head(git_state) and next_task.get("id") in bootstrap_tasks
+                else f"python3 scripts/continuity.py start --actor <ACTOR_ID> --task {next_task.get('id')}"
+            )
         )
     )
     state = load_state(root)

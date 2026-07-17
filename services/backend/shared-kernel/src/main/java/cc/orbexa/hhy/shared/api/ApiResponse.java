@@ -12,4 +12,8 @@ public record ApiResponse<T>(boolean success, String requestId, Instant timestam
     public static <T> ApiResponse<T> success(String requestId, T data) {
         return new ApiResponse<>(true, requestId, Instant.now(), data);
     }
+
+    public static <T> ApiResponse<T> success(String requestId, T data, Instant timestamp) {
+        return new ApiResponse<>(true, requestId, timestamp, data);
+    }
 }

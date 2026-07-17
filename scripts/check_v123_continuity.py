@@ -298,6 +298,7 @@ def main() -> int:
     require("Initial repository push" in workflow_text and "--mode ci" in workflow_text, "CI_INITIAL_HISTORY", "首次推送也必须逐Commit校验")
     require("run_continuity_self_test.py" in workflow_text, "CI_CONTINUITY_SELF_TEST", "CI必须执行真实Git无状态接续集成演练")
     require("test_continuity_protocol.py" in workflow_text, "CI_CONTINUITY_LIFECYCLE_TEST", "CI必须执行CR/关闭/Clean Export全生命周期演练")
+    require("test_continuity_bootstrap_recovery.py" in workflow_text, "CI_BOOTSTRAP_RECOVERY_TEST", "CI必须执行无Git冷启动回归测试")
     require("continuity-integration-v1.2.3.json" in workflow_text, "CI_CONTINUITY_ARTIFACT", "CI必须归档接续重建报告")
     require("continuity-lifecycle-integration-v1.2.3.json" in workflow_text, "CI_CONTINUITY_LIFECYCLE_ARTIFACT", "CI必须归档接续全生命周期报告")
 
@@ -341,15 +342,19 @@ def main() -> int:
     require("continuity.py cr-amend" in next_text, "NEXT_CR_AMEND", "NEXT_TASK必须给出CR完整合同补齐命令")
     require("continuity.py export " not in next_text and "--outcome" not in next_text, "NEXT_STALE_COMMAND", "NEXT_TASK包含过期命令")
 
-    # Package must not contain transient caches or plaintext secret files.
-    transient: list[str] = []
-    for path in ROOT.rglob("*"):
-        if path.is_dir() and path.name in {"node_modules", "dist", "target", ".gradle", "__pycache__"}:
-            transient.append(path.relative_to(ROOT).as_posix())
-        if path.is_file() and path.suffix in {".pyc", ".pyo"}:
-            transient.append(path.relative_to(ROOT).as_posix())
-    warn(not transient, "TRANSIENT_FILES", "临时文件将在打包前清理：" + ", ".join(transient[:20]))
-
+    # Package must not contain tracked transient caches or plaintext secret files.
+    ignore_text = (ROOT / ".gitignore").read_text(encoding="utf-8")
+    for required_ignore in ["**/target/", "**/.gradle/", "**/node_modules/", "**/__pycache__/", "*.py[cod]"]:
+        require(required_ignore in ignore_text, "TRANSIENT_IGNORE_MISSING", f".gitignore缺少 {required_ignore}")
+    tracked = subprocess.run(
+        ["git", "ls-files"], cwd=ROOT, text=True, capture_output=True
+    ).stdout.splitlines() if (ROOT / ".git").exists() else []
+    tracked_transient = [
+        path for path in tracked
+        if any(part in {"node_modules", "target", ".gradle", "__pycache__"} for part in Path(path).parts)
+        or Path(path).suffix in {".pyc", ".pyo"}
+    ]
+    require(not tracked_transient, "TRACKED_TRANSIENT_FILES", "Git不得跟踪临时产物：" + ", ".join(tracked_transient[:20]))
     status = "PASS" if not errors and (not args.strict or not warnings) else "FAIL"
     payload = {
         "version": "1.2.3",

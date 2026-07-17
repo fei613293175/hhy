@@ -1,0 +1,1007 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260716T232809Z-B4A980AF-0005
+session_id: SES-20260716T232809Z-B4A980AF
+sequence: 5
+created_at: '2026-07-17T02:11:55Z'
+summary: P00工程基线、契约、数据库、后端、客户端、可观测性与测试矩阵实现完成并通过基线验证
+next_step: 运行组合Project Doctor并提交TASK-P00-001工程基线
+blockers: []
+decisions:
+- P00仅闭环至TASK-P00-008，完成后暂停，不启动R01
+- Android本机无AEHD且无设备，保留真实环境限制，不伪造adb install证据
+note: ''
+tests:
+- name: p00-documentation
+  result: PASS
+  evidence: artifacts/validation/project-doctor-v1.2.3-documentation.json
+  note: P00严格文档门禁通过
+- name: continuity-self-test
+  result: PASS
+  evidence: artifacts/validation/continuity-integration-v1.2.3.json
+  note: 9项真实Git与无状态重建检查通过
+- name: api-contract
+  result: PASS
+  evidence: contracts/openapi.yaml
+  note: client=131 admin=184 websocket=10 runtime hashes通过
+- name: database-postgresql-17.10
+  result: PASS
+  evidence: artifacts/validation/p00-database-postgresql-17.10.json
+  note: 全迁移不变量并发回滚通过
+- name: backend-postgresql-17.10
+  result: PASS
+  evidence: artifacts/validation/p00-backend-verify-postgresql-17.10.log
+  note: 13 tests无失败跳过
+- name: android-build
+  result: PASS
+  evidence: apps/android/app/build/outputs/apk/debug/app-debug.apk
+  note: lint单测assemble与签名清单通过
+- name: p00-observability
+  result: PASS
+  evidence: scripts/check_p00_observability.py
+  note: 静态门禁通过
+- name: p00-matrix-unit
+  result: PASS
+  evidence: tests/p00/test_p00_test_matrix.py
+  note: 13项矩阵策略单测通过
+- name: p00-secret-unit
+  result: PASS
+  evidence: tests/p00/test_secret_defaults.py
+  note: 秘密默认值策略通过
+git:
+  initialized: true
+  branch: task/TASK-P00-001
+  head: bffa551a122444a86bfcff0542714834bd6c2156
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/CONTINUITY_POLICY.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260716T232809Z-B4A980AF.yaml'
+  - ' M .githooks/commit-msg'
+  - ' M .githooks/pre-commit'
+  - ' M .githooks/pre-push'
+  - ' M .githooks/prepare-commit-msg'
+  - ' M .github/workflows/ci.yml'
+  - ' M .github/workflows/continuity-gate.yml'
+  - ' M .gitignore'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/admin-web/src/catalog.test.ts'
+  - ' M apps/admin-web/src/generated/admin-pages.json'
+  - ' M apps/android/README.md'
+  - ' M apps/android/app/src/main/assets/android-screens.v1.2.2.json'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
+  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
+  - ' M apps/android/build.gradle.kts'
+  - ' M apps/android/core/network/build.gradle.kts'
+  - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt'
+  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+  - ' M apps/android/gradle.properties'
+  - ' M apps/android/gradle/libs.versions.toml'
+  - ' M apps/h5/src/generated/h5-pages.json'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.log'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/continuity_event_catalog.csv'
+  - ' M catalogs/release_artifact_index.csv'
+  - ' M catalogs/release_story_backlog.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/ui_action_matrix.csv'
+  - ' M contracts/contract_status.csv'
+  - ' M contracts/openapi.yaml'
+  - ' M database/README.md'
+  - ' M database/verification/verify_baseline.sql'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md'
+  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+  - ' M docs/07-operations/ROLLBACK_RUNBOOK.md'
+  - ' M package.json'
+  - ' M packages/api-client/src/admin.generated.ts'
+  - ' M packages/api-client/src/client.generated.ts'
+  - ' M packages/domain-types/src/index.ts'
+  - ' M pnpm-lock.yaml'
+  - ' M releases/P00/RELEASE_MANIFEST.yaml'
+  - ' M releases/P00/STORIES.yaml'
+  - ' M releases/P00/TASKS.yaml'
+  - ' M scripts/check_api_contract.py'
+  - ' M scripts/check_db_schema.py'
+  - ' M scripts/check_release_artifacts.py'
+  - ' M scripts/check_v123_continuity.py'
+  - ' M scripts/continuity.py'
+  - ' M scripts/continuity_gate.py'
+  - ' M scripts/continuity_lib.py'
+  - ' M scripts/generate_android_scaffold.py'
+  - ' M scripts/generate_contracts.py'
+  - ' M scripts/generate_database.py'
+  - ' M scripts/generate_scaffolds.py'
+  - ' M scripts/run_continuity_self_test.py'
+  - ' M scripts/run_postgres_migration_smoke.sh'
+  - ' M scripts/test_continuity_protocol.py'
+  - ' M services/backend/boot/pom.xml'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/RequestIdFilter.java'
+  - ' M services/backend/boot/src/main/resources/application.yml'
+  - ' M services/backend/boot/src/main/resources/contracts/admin-openapi.yaml'
+  - ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
+  - ' M services/backend/boot/src/main/resources/contracts/websocket-events.yaml'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java'
+  - ' M services/backend/boot/src/test/resources/application-test.yml'
+  - ' M services/backend/platform/pom.xml'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/config/HhyPlatformProperties.java'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionCheckRequest.java'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionPolicyView.java'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusController.java'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusService.java'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusView.java'
+  - ' M services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java'
+  - ' M services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiResponse.java'
+  - ?? .continuity/change_requests/CR-0003.yaml
+  - ?? .continuity/change_requests/CR-0005.yaml
+  - ?? .continuity/change_requests/CR-0006.yaml
+  - ?? .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0002.yaml
+  - ?? .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0003.yaml
+  - ?? .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0004.yaml
+  - ?? .dockerignore
+  - ?? .gitattributes
+  - ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - ?? artifacts/validation/p00-android-emulator-retry.stderr.log
+  - ?? artifacts/validation/p00-android-emulator-retry.stdout.log
+  - ?? artifacts/validation/p00-android-emulator.stderr.log
+  - ?? artifacts/validation/p00-android-emulator.stdout.log
+  - ?? artifacts/validation/p00-backend-flyway-postgresql-17.10.log
+  - ?? artifacts/validation/p00-backend-verify-postgresql-17.10.log
+  - ?? artifacts/validation/p00-database-postgresql-17.10.json
+  - ?? artifacts/validation/p00-database-postgresql-17.10.log
+  - ?? artifacts/validation/p00-database-v011-rollback.log
+  - ?? artifacts/validation/project-doctor-v1.2.3-documentation.json
+  - ?? database/migrations/V010__p00_event_ledger_invariants.sql
+  - ?? database/migrations/V011__app_release_version_policy.sql
+  - ?? database/rollback/U010__p00_event_ledger_invariants.sql
+  - ?? database/rollback/U011__app_release_version_policy.sql
+  - ?? database/tests/p00_event_ledger_invariants.sql
+  - ?? docs/01-architecture/adr/ADR-007-P00事件账务不变量收口.md
+  - ?? docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md
+  - ?? docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md
+  - ?? docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
+  - ?? infra/staging/alertmanager.yml
+  - ?? infra/staging/docker-compose.p00.yml
+  - ?? infra/staging/p00-alerts.yml
+  - ?? infra/staging/prometheus.yml
+  - ?? scripts/check_p00_observability.py
+  - ?? scripts/postprocess-openapi-types.mjs
+  - ?? scripts/run-python.mjs
+  - ?? scripts/run_p00_database_invariants.sh
+  - ?? scripts/run_p00_test_matrix.py
+  - ?? scripts/sync_runtime_assets.py
+  - ?? services/backend/Dockerfile
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
+  - ?? services/backend/boot/src/main/resources/db/migration/V009__v122_operational_governance.sql
+  - ?? services/backend/boot/src/main/resources/db/migration/V010__p00_event_ledger_invariants.sql
+  - ?? services/backend/boot/src/main/resources/db/migration/V011__app_release_version_policy.sql
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - ?? services/backend/boot/src/test/resources/data.sql
+  - ?? services/backend/boot/src/test/resources/schema.sql
+  - ?? services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppRelease.java
+  - ?? services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
+  - ?? services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformCapabilitiesView.java
+  - ?? tests/p00/README.md
+  - ?? tests/p00/evidence.schema.json
+  - ?? tests/p00/test_p00_test_matrix.py
+  - ?? tests/p00/test_secret_defaults.py
+  - ?? tests/test_continuity_bootstrap_recovery.py
+  - ?? tests/test_continuity_cross_release_close.py
+  - ?? tests/test_release_close_gate.py
+  recent_commits:
+  - "bffa551a122444a86bfcff0542714834bd6c2156\t2026-07-17T07:28:28+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(repo): import V1.2.3\
+    \ enforced continuity baseline"
+project_fingerprint:
+  sha256: a01081ebe473de1e914eff3c8a66382e3c1af4e4d6180fc09527bb084cdaeab8
+  files:
+  - .dockerignore
+  - .gitattributes
+  - .githooks/commit-msg
+  - .githooks/pre-commit
+  - .githooks/pre-push
+  - .githooks/prepare-commit-msg
+  - .github/workflows/ci.yml
+  - .github/workflows/continuity-gate.yml
+  - .gitignore
+  - CHANGELOG.md
+  - apps/admin-web/src/catalog.test.ts
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/android/README.md
+  - apps/android/app/src/main/assets/android-screens.v1.2.2.json
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/build.gradle.kts
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/gradle.properties
+  - apps/android/gradle/libs.versions.toml
+  - apps/h5/src/generated/h5-pages.json
+  - catalogs/continuity_event_catalog.csv
+  - catalogs/release_artifact_index.csv
+  - catalogs/release_story_backlog.csv
+  - catalogs/ui_action_matrix.csv
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - database/README.md
+  - database/migrations/V010__p00_event_ledger_invariants.sql
+  - database/migrations/V011__app_release_version_policy.sql
+  - database/rollback/U010__p00_event_ledger_invariants.sql
+  - database/rollback/U011__app_release_version_policy.sql
+  - database/tests/p00_event_ledger_invariants.sql
+  - database/verification/verify_baseline.sql
+  - docs/01-architecture/adr/ADR-007-P00事件账务不变量收口.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md
+  - docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md
+  - docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/alertmanager.yml
+  - infra/staging/docker-compose.p00.yml
+  - infra/staging/p00-alerts.yml
+  - infra/staging/prometheus.yml
+  - package.json
+  - packages/api-client/src/admin.generated.ts
+  - packages/api-client/src/client.generated.ts
+  - packages/domain-types/src/index.ts
+  - pnpm-lock.yaml
+  - releases/P00/RELEASE_MANIFEST.yaml
+  - releases/P00/STORIES.yaml
+  - releases/P00/TASKS.yaml
+  - scripts/check_api_contract.py
+  - scripts/check_db_schema.py
+  - scripts/check_p00_observability.py
+  - scripts/check_release_artifacts.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/generate_android_scaffold.py
+  - scripts/generate_contracts.py
+  - scripts/generate_database.py
+  - scripts/generate_scaffolds.py
+  - scripts/postprocess-openapi-types.mjs
+  - scripts/run-python.mjs
+  - scripts/run_continuity_self_test.py
+  - scripts/run_p00_database_invariants.sh
+  - scripts/run_p00_test_matrix.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/sync_runtime_assets.py
+  - scripts/test_continuity_protocol.py
+  - services/backend/Dockerfile
+  - services/backend/boot/pom.xml
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/RequestIdFilter.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+  - services/backend/boot/src/main/resources/db/migration/V009__v122_operational_governance.sql
+  - services/backend/boot/src/main/resources/db/migration/V010__p00_event_ledger_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V011__app_release_version_policy.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/boot/src/test/resources/data.sql
+  - services/backend/boot/src/test/resources/schema.sql
+  - services/backend/platform/pom.xml
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/config/HhyPlatformProperties.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionCheckRequest.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionPolicyView.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppRelease.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformCapabilitiesView.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusController.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusService.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusView.java
+  - services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
+  - services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiResponse.java
+  - tests/p00/README.md
+  - tests/p00/evidence.schema.json
+  - tests/p00/test_p00_test_matrix.py
+  - tests/p00/test_secret_defaults.py
+  - tests/test_continuity_bootstrap_recovery.py
+  - tests/test_continuity_cross_release_close.py
+  - tests/test_release_close_gate.py
+  file_count: 118
+  payload:
+    base_commit: bffa551a122444a86bfcff0542714834bd6c2156
+    files:
+    - path: .dockerignore
+      state: FILE
+      size: 167
+      sha256: 78aa8c4f146f46045bc415c0df7261660074109833c60ac55e1df5fea51d5c9a
+    - path: .gitattributes
+      state: FILE
+      size: 185
+      sha256: e7d078f49c40c2c6c981499ac4a6b4b31866fc97c062795cb409e033b66feeaf
+    - path: .githooks/commit-msg
+      state: FILE
+      size: 222
+      sha256: 625bd167b23f048f808d07470c021bf91d6e4fa495d23c195bfa92f040bfa98c
+    - path: .githooks/pre-commit
+      state: FILE
+      size: 195
+      sha256: 541c9df7be1e3b45635930dc23728153cc85b4a677a1e89f6b4f43a72f68ac18
+    - path: .githooks/pre-push
+      state: FILE
+      size: 191
+      sha256: 6e35fe726ba7f68f3c725ab8350e48df4719e45dc709d83d4f1abcf29dc4b7f8
+    - path: .githooks/prepare-commit-msg
+      state: FILE
+      size: 133
+      sha256: e06c6381eaf95b105b0b5bff426abcc7da49539d1fe706c7980f1dc0a065225b
+    - path: .github/workflows/ci.yml
+      state: FILE
+      size: 4650
+      sha256: 1720715b0346306a157c5867ca24797028ebfe9b3c219fcf1b878e4acd66a0de
+    - path: .github/workflows/continuity-gate.yml
+      state: FILE
+      size: 1607
+      sha256: 8de3fca9e764da4a24acc688af62677a2eed3d3081f37a3961963cb4c2312998
+    - path: .gitignore
+      state: FILE
+      size: 511
+      sha256: 112d66481034121647c7692d24ee97433484e6a5212c21ad7418851e9d7721db
+    - path: CHANGELOG.md
+      state: FILE
+      size: 3035
+      sha256: acfa602a04f3d21f87ee067b098699a3b0a2ebb57bb483ed11f917d08d32c35f
+    - path: apps/admin-web/src/catalog.test.ts
+      state: FILE
+      size: 499
+      sha256: 4dcba07224d9b780fc5af99f18a70f20802d32b188e1b2c97665be45ce140ca3
+    - path: apps/admin-web/src/generated/admin-pages.json
+      state: FILE
+      size: 57005
+      sha256: 7af4144e675381eed0b68f0d092508794393c1d378a8ee37c339063164d4748b
+    - path: apps/android/README.md
+      state: FILE
+      size: 1624
+      sha256: 38a1013db2616a016b2e886cc76cf84dd631387cbe50fe3b4cf3c47d88353b62
+    - path: apps/android/app/src/main/assets/android-screens.v1.2.2.json
+      state: FILE
+      size: 51963
+      sha256: c68fe1420c0423859198e24c5426a8862dc68a69a99e45d380768663a473ee9e
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 66a44c13d4413ab586db4ccc417ea758ce86488c8821273b1d4cc8b58a30ae06
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 919
+      sha256: cbfdc949cfbf9e7b518dbb4a71fa22794118130a417eb7ac334254f63364344b
+    - path: apps/android/build.gradle.kts
+      state: FILE
+      size: 230
+      sha256: 288755636749b624de3d959d2a528a73dae58a9f4ff96d25384d8f756c9d55ec
+    - path: apps/android/core/network/build.gradle.kts
+      state: FILE
+      size: 442
+      sha256: 5a29a20d82979b9d018ff053490d146385bc306fcf5fa0ed752790d5fea3e1f5
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+      state: FILE
+      size: 1507
+      sha256: 74296c747a3c4e93dc6ff7595b1aa19afe5e3aad366e921ec14f0b1dfe25447e
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+      state: FILE
+      size: 3727
+      sha256: 74fb13bfde26fcae9a1b2c173cc4fb390e0a94a0d5cc28c4757294e50ab1cd23
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 5708
+      sha256: 181f0c075a1f1ffb2e67454c76873948a0525b7e45b9351fbbc1e86d4e2b295e
+    - path: apps/android/gradle.properties
+      state: FILE
+      size: 297
+      sha256: 75fa8863b773cd0cdb41d373a3dc77c5ce8b47f4a83be7393bdbb49040241b0c
+    - path: apps/android/gradle/libs.versions.toml
+      state: FILE
+      size: 1781
+      sha256: f8da9462ba4408161f3c2b6dcdb46199e1f5bdbb07e2f01015d472f3c2963cc4
+    - path: apps/h5/src/generated/h5-pages.json
+      state: FILE
+      size: 4173
+      sha256: dab019cb3601616998c909ecbdc65828745de12bb196e55c54dbbaff74de553f
+    - path: catalogs/continuity_event_catalog.csv
+      state: FILE
+      size: 1381
+      sha256: 31511da10b1cca314cbb3bc41f5f52a1b44907f40875c631b8c9d4fa6684eca3
+    - path: catalogs/release_artifact_index.csv
+      state: FILE
+      size: 2735
+      sha256: 726caf858edca1add9f64eda841ab7948dbabf20ead4b2e8307dd6e70cb35c92
+    - path: catalogs/release_story_backlog.csv
+      state: FILE
+      size: 348384
+      sha256: 1e5010a20329185c0cdf4009a7c3c7b642988bb995867ad7d39357e00624c433
+    - path: catalogs/ui_action_matrix.csv
+      state: FILE
+      size: 1417108
+      sha256: 88caf429ff78608741b4c49bbf2272e4a2339f5340ca191431aa70e476eab816
+    - path: contracts/contract_status.csv
+      state: FILE
+      size: 138802
+      sha256: 737e73e7de49f4a0dc847f677f901c047b24fb0dfceafb06628140fb24c33760
+    - path: contracts/openapi.yaml
+      state: FILE
+      size: 587959
+      sha256: 543f3abcd42a4d034823e1994a333e8b635c9ae83d3d26b1b4a985fd89d7fe3c
+    - path: database/README.md
+      state: FILE
+      size: 1513
+      sha256: 202cecd3eb574882f019fa6f6dfb925336d9f2cc1103e4677b93e788d35f7f83
+    - path: database/migrations/V010__p00_event_ledger_invariants.sql
+      state: FILE
+      size: 22900
+      sha256: 954ef96778f6b376658f93163d6f2a6f90704c5ee637613fff9fe14720edd6eb
+    - path: database/migrations/V011__app_release_version_policy.sql
+      state: FILE
+      size: 1764
+      sha256: 130265f5c6b4912cef99c457c9845617b0ea238b4713e2b0908f2eb53a788333
+    - path: database/rollback/U010__p00_event_ledger_invariants.sql
+      state: FILE
+      size: 4605
+      sha256: 3712e3b1c6f53bcb24f798b7cd41901c44bcfd0cbbf4bd3459428a5b318cf67a
+    - path: database/rollback/U011__app_release_version_policy.sql
+      state: FILE
+      size: 1078
+      sha256: 44474b424584629c399454ab4f7674b40ec329bf2e3a275339d63349c1fb604f
+    - path: database/tests/p00_event_ledger_invariants.sql
+      state: FILE
+      size: 19765
+      sha256: d55b66de7ddd8e71d297eed1dce51631983c0eb5909644e0a4bb9a62b22cf9b0
+    - path: database/verification/verify_baseline.sql
+      state: FILE
+      size: 2047
+      sha256: f283c3fa02f2c509330e9037ec33fab5d53fe28377e1c8a32606e085741ed654
+    - path: docs/01-architecture/adr/ADR-007-P00事件账务不变量收口.md
+      state: FILE
+      size: 3135
+      sha256: 7343ecf2bb4e449caa44ced5b9098ca60a8bd03fe96f7494ef181f336852975f
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 2506
+      sha256: 231fb05140041e117c08a0be0961e98f1b137487f3c714091a899d70a108e2bb
+    - path: docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md
+      state: FILE
+      size: 2623
+      sha256: 93f9f69fe65e55510e9a05895cab28e2d6bf025afeb76cc945d5b738a7e178e7
+    - path: docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md
+      state: FILE
+      size: 2596
+      sha256: 0448716dfc78142b11526cd6aa2fe025414d8842f649a6fc90c46ea4747f55db
+    - path: docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
+      state: FILE
+      size: 3449
+      sha256: d6967e27f91d4ac78a8179213f26beece969d9dd9492b5f27e867a073990113a
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 4929
+      sha256: fb1c39d470711d78903633e722feaff2f57524fc61a95ba272101826077e7c4a
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 2782
+      sha256: 0990a8dea16eaea9db62f46056081a3e5d7b357aeaf75ed134604db0e05a87f7
+    - path: infra/staging/alertmanager.yml
+      state: FILE
+      size: 163
+      sha256: dee2c24ad036c1dc1aec6a1f95ea73feb0ce10f813fc70aa7578f64c4bcd0b54
+    - path: infra/staging/docker-compose.p00.yml
+      state: FILE
+      size: 2786
+      sha256: dd5451f769cd268f61006611e04e0ea3b7a6553502edd98e467a46d88f76c2fb
+    - path: infra/staging/p00-alerts.yml
+      state: FILE
+      size: 1847
+      sha256: f73e5425c2610972eab12748422881a3a360f7426d7fc309528efd633963de83
+    - path: infra/staging/prometheus.yml
+      state: FILE
+      size: 405
+      sha256: 306bd6203062a17b56f28061452770a63ee5b7f1e2518ce139c063c299841d98
+    - path: package.json
+      state: FILE
+      size: 847
+      sha256: 11ad80cc1355b2f3611ac3644c8172c6ed8a6463ed91c9c4050772c6c69a90bd
+    - path: packages/api-client/src/admin.generated.ts
+      state: FILE
+      size: 886626
+      sha256: 6e077024ad8af8c002905ee9bb0a1cd4ac597bcb79222828815ab6c2d7b69c51
+    - path: packages/api-client/src/client.generated.ts
+      state: FILE
+      size: 608269
+      sha256: 3829e65651f05dd4b28842462c3b61b8c4ca0a269bf20bf7c9dae046e2ab3c87
+    - path: packages/domain-types/src/index.ts
+      state: FILE
+      size: 3679
+      sha256: b79b14ada568475f5f53517f8b23229ded2147dd285ea5dfa8eb112ef12f688b
+    - path: pnpm-lock.yaml
+      state: FILE
+      size: 65621
+      sha256: e4982a42363bc48f575d525e4ee0dda9b5fae32e8ba74613056963229dee9d32
+    - path: releases/P00/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4621
+      sha256: 85e52576e6afd3effac69acb9b66094f2f5f6b28831f8c20d65e30a80b395240
+    - path: releases/P00/STORIES.yaml
+      state: FILE
+      size: 5968
+      sha256: 36adc34eb83bdb7b1898bc6060f4e5362d287168581b4a7d2af222145551fd18
+    - path: releases/P00/TASKS.yaml
+      state: FILE
+      size: 5844
+      sha256: 46c0bd5b46420078effd0083615baa60746e88fedbc2c17f8563e057114a026a
+    - path: scripts/check_api_contract.py
+      state: FILE
+      size: 5846
+      sha256: 9ae8a6346b09b2223828587e37bc2b6007884021065dac8447bf4913179abfed
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 4149
+      sha256: c16c8bf2e4bedb0afce7287dbdadee304a1a6de6884d7cf9df0bf7e473abfab6
+    - path: scripts/check_p00_observability.py
+      state: FILE
+      size: 4244
+      sha256: 96f7dac6907a17a13cb0344c07f397a2824304f311dc7729c0083010af40dc0e
+    - path: scripts/check_release_artifacts.py
+      state: FILE
+      size: 17431
+      sha256: fd3ba73969504b09e49cded35f8edfde23325127032d3158283a2648f384d18b
+    - path: scripts/check_v123_continuity.py
+      state: FILE
+      size: 24687
+      sha256: d658c0369c2aaee73bc28f6ac4d921da478a64f655aa5b59199637c5ea9e1d07
+    - path: scripts/continuity.py
+      state: FILE
+      size: 55409
+      sha256: 1650d2bbbda53a02ff434f174a2aee3eb108e7ebc89c3cee1a3323292ae22f42
+    - path: scripts/continuity_gate.py
+      state: FILE
+      size: 35527
+      sha256: 888111dfe7085ad8165458d3c9ec39b48a39db49a954a2ee17976cfc0c7070a4
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 97716
+      sha256: a3dfc869dd56765d2712e55a00c3452123a28f93f76689eef91a2afccd2b778c
+    - path: scripts/generate_android_scaffold.py
+      state: FILE
+      size: 4254
+      sha256: a268644b7c962a32bb29429509e0ef703693d77eb43e8a31e30706710e84d25a
+    - path: scripts/generate_contracts.py
+      state: FILE
+      size: 61106
+      sha256: a2db8e5043955e7f428286e80155f07793647b4b5d50051552860bf0843a1a82
+    - path: scripts/generate_database.py
+      state: FILE
+      size: 27677
+      sha256: 727a50b7c246da5ca1fd7f035125147af1c0ae0f8faca1462de07f29b4c098e1
+    - path: scripts/generate_scaffolds.py
+      state: FILE
+      size: 3580
+      sha256: 7631feaf80c669b6ca03689b050343bec9692f33cc429afd4c855e87e15139a3
+    - path: scripts/postprocess-openapi-types.mjs
+      state: FILE
+      size: 1363
+      sha256: 7d3bb38210156c06d0888531e21ae390e83e5ac7d7afe85bbef38d62f69ca15d
+    - path: scripts/run-python.mjs
+      state: FILE
+      size: 986
+      sha256: 6d6ca0bf17a2a4666c5144aa5e75e2f3ff9ebd095253931b347472011018953d
+    - path: scripts/run_continuity_self_test.py
+      state: FILE
+      size: 8373
+      sha256: c7dd4524345ad38a3f2be2e773b13d7e135dad6ec97d6ad3b7fc7c84c5713810
+    - path: scripts/run_p00_database_invariants.sh
+      state: FILE
+      size: 4742
+      sha256: 5e9656f0f8be52ce6881e1a16520faad5718b8f0b933d5e68b0b98f17e83803b
+    - path: scripts/run_p00_test_matrix.py
+      state: FILE
+      size: 33647
+      sha256: 7a39740b1f52ff76b12617ac2db151c4cd6fc3868381b9b9003c8614708802d3
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 4255
+      sha256: 9e7c9eca8176b3aa4df51fc82b7fb4fb35fa7d2659546661dd84b203f7267ee9
+    - path: scripts/sync_runtime_assets.py
+      state: FILE
+      size: 3696
+      sha256: 3e97a6b2219a32f6db5e0f067ec64edae3ec97455658bb5cef5ed4037f77c898
+    - path: scripts/test_continuity_protocol.py
+      state: FILE
+      size: 23602
+      sha256: 749d869b775268c1ac6c19fa9eb7da23a72da7743d2070e7548140706bacf55a
+    - path: services/backend/Dockerfile
+      state: FILE
+      size: 728
+      sha256: 34ea600fe3b032c574260ace66a790ffd23823b70b11d7059072e30dc2c3bb07
+    - path: services/backend/boot/pom.xml
+      state: FILE
+      size: 3250
+      sha256: 376e1ad52b6f3383282a86ab739dc64125dd555ea2e6415fca79cb4fa7629f31
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 3941
+      sha256: c2b1a1111dbc6759eb23567cbd25c2eb1732b12f330f9ad1639d78bdf85b263a
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+      state: FILE
+      size: 1729
+      sha256: fbd92dd7664d40d6940adeaa340d2e64b804722574fcad2435cfe90cd71e7b40
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
+      state: FILE
+      size: 1811
+      sha256: 97a9fcc0aae535c140c1b02b8ec952ec5661c3cbf611e015a323c7db25e8d916
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+      state: FILE
+      size: 2725
+      sha256: ed3b26c8064f74fbc8aa75eba224d63059e71988150f8e4d4a11c4c89625a7b8
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/RequestIdFilter.java
+      state: FILE
+      size: 3968
+      sha256: 28cc5a02e439c2dcb5ccf5bd1821ca9e13ead90a8a1e1bae6a0d7ef7a7d766c2
+    - path: services/backend/boot/src/main/resources/application.yml
+      state: FILE
+      size: 1395
+      sha256: bb90d5dca25c0076d26f9f86c9f338192d243eb53fdbba0963c0856ace9341a1
+    - path: services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+      state: FILE
+      size: 852912
+      sha256: 15901429eb345df1a78295ef5fdcaf5210a982a3e411b0a9a77913706a5014fd
+    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+      state: FILE
+      size: 587959
+      sha256: 543f3abcd42a4d034823e1994a333e8b635c9ae83d3d26b1b4a985fd89d7fe3c
+    - path: services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+      state: FILE
+      size: 9850
+      sha256: 62eefb4b4ae53f7ae00f2ef4728e80e2905258d0a220d42ea9959787953879af
+    - path: services/backend/boot/src/main/resources/db/migration/V009__v122_operational_governance.sql
+      state: FILE
+      size: 16144
+      sha256: bda6e420f68fa494b955026f6cd60565c734f120227133eaf3ff3d5bb040f44e
+    - path: services/backend/boot/src/main/resources/db/migration/V010__p00_event_ledger_invariants.sql
+      state: FILE
+      size: 22900
+      sha256: 954ef96778f6b376658f93163d6f2a6f90704c5ee637613fff9fe14720edd6eb
+    - path: services/backend/boot/src/main/resources/db/migration/V011__app_release_version_policy.sql
+      state: FILE
+      size: 1764
+      sha256: 130265f5c6b4912cef99c457c9845617b0ea238b4713e2b0908f2eb53a788333
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
+      state: FILE
+      size: 5865
+      sha256: 44768a4b50b84d10ed790208a3ec09746cc7ef593cffe0d50af11f0993d55888
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
+      state: FILE
+      size: 7846
+      sha256: fcdcc652515cb79366342f6d85c5084ceccd5ac6f8a5bf069fa67825a8173708
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 2731
+      sha256: e97de0714bf34f5303feb630bc1d8327f9406262f8872c9d68e4a1e2b88a45d8
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 4837
+      sha256: 919706134629b8cda3213b03337709335d95726b0c9b29f6e80152ec705e3962
+    - path: services/backend/boot/src/test/resources/application-test.yml
+      state: FILE
+      size: 328
+      sha256: 12a4050bf22c5677845b7d94491f88b0a08c4d5140a00965168c6f76902a7532
+    - path: services/backend/boot/src/test/resources/data.sql
+      state: FILE
+      size: 1554
+      sha256: 24f044bdc001306960d2d9d281342ad7af72a23988473c7ff81628d339b89a0c
+    - path: services/backend/boot/src/test/resources/schema.sql
+      state: FILE
+      size: 1386
+      sha256: a7d1b7325ad67a5b9a89416567b9db0835a772535b9d247eba600c2d74e40846
+    - path: services/backend/platform/pom.xml
+      state: FILE
+      size: 1226
+      sha256: e0f7ba9290b9ceae609b0bec2bc88aabe58cec467ea81ed0cb995807a7e31ed3
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/config/HhyPlatformProperties.java
+      state: FILE
+      size: 413
+      sha256: 0aec721144cf72ea80946d5eb2ec4724541d6b2ba7a4d30bf7c288c7c8c6d06d
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionCheckRequest.java
+      state: FILE
+      size: 539
+      sha256: ccafc0b109796a85251759da6b9dcceb777c0f5efc48e14f6a1c01fb86d1426f
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java
+      state: FILE
+      size: 1726
+      sha256: fd6c64d128f635b94cfe6df8524221ff06ec3c5f62185845ced4ddad41af7b0d
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionPolicyView.java
+      state: FILE
+      size: 372
+      sha256: 8887b1f91f7ad1fb38f9a56fd6ef0dc0c1cf5fa5a46ad31964b40258744f9d6a
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java
+      state: FILE
+      size: 3615
+      sha256: f14f85bd3ab8a037bb60cbac1a0fc0e69f3bc5ed8a39cfcbe0c40444a72be335
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppRelease.java
+      state: FILE
+      size: 301
+      sha256: 27705c824e85481b3df41ce788c081ae11dfb8c402c54819fdfcaa6a4c0f6aea
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
+      state: FILE
+      size: 2333
+      sha256: 0958ab8ebe12d6e3567bee4c649400680dfc1c11d5d88af7ef743852f9831928
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformCapabilitiesView.java
+      state: FILE
+      size: 197
+      sha256: bfe7002cf5e8b3dbf7815dd71b6e18866aa5aff37ef1d42498d2010ae61342f9
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusController.java
+      state: FILE
+      size: 981
+      sha256: 80e646a23ac6888ddff6c283fc5eb806d3264208529f14f6896752ae7e1e7978
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusService.java
+      state: FILE
+      size: 978
+      sha256: c9852f25b57d51c8cf1df57367dfd9bc4da99b7d7695c73f217a8f2e3e2b54a6
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusView.java
+      state: FILE
+      size: 244
+      sha256: f718a67a64d42a9ea98eae3ea8164804d49f29352becb3ceed2f8aced8be0ea7
+    - path: services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
+      state: FILE
+      size: 926
+      sha256: 176494f7f2185d3f7b67cc30b740854bfec434055feefaf0711f19a5e97e658c
+    - path: services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiResponse.java
+      state: FILE
+      size: 690
+      sha256: f2de930de9c1e9fd854b47a4ee4087d114bc7c41102e0e319e6c4a264c8498db
+    - path: tests/p00/README.md
+      state: FILE
+      size: 1273
+      sha256: 25a29f7ecffa11c8571ca298429949d741101ce39a24c71a970a2229b0a769fe
+    - path: tests/p00/evidence.schema.json
+      state: FILE
+      size: 2658
+      sha256: 20f15e2c7b45c71f9ad68f0e3cc15473e653ac2e7d95b9b566cde220f1851f13
+    - path: tests/p00/test_p00_test_matrix.py
+      state: FILE
+      size: 14055
+      sha256: dd6a0aac5a0725c837075874cf6183e64ae060e0a08eb2bc3fb1dd9e2f484a88
+    - path: tests/p00/test_secret_defaults.py
+      state: FILE
+      size: 2282
+      sha256: be2dff085168ac326d2ee50920ff2dad87beaade384e88a3113be68af7bee887
+    - path: tests/test_continuity_bootstrap_recovery.py
+      state: FILE
+      size: 9399
+      sha256: 192a68cc79503f6ee6cf97f34705ab7f2ec6862a7a45b2d8621c05de3c2028d3
+    - path: tests/test_continuity_cross_release_close.py
+      state: FILE
+      size: 11514
+      sha256: 1b31c2b5748122c39b60ec6734e5549125a990b6058a6ea1131b2c4a7c4debe7
+    - path: tests/test_release_close_gate.py
+      state: FILE
+      size: 11008
+      sha256: 8d2355fc4754bf3ce599105bae48e6e170c77366a6989a9e57ea57c031827172
+change_classification:
+  other:
+  - .dockerignore
+  - .gitattributes
+  - .gitignore
+  - CHANGELOG.md
+  - catalogs/continuity_event_catalog.csv
+  - catalogs/release_artifact_index.csv
+  - catalogs/release_story_backlog.csv
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - package.json
+  - pnpm-lock.yaml
+  - releases/P00/TASKS.yaml
+  infrastructure:
+  - .githooks/commit-msg
+  - .githooks/pre-commit
+  - .githooks/pre-push
+  - .githooks/prepare-commit-msg
+  - .github/workflows/ci.yml
+  - .github/workflows/continuity-gate.yml
+  - infra/staging/alertmanager.yml
+  - infra/staging/docker-compose.p00.yml
+  - infra/staging/p00-alerts.yml
+  - infra/staging/prometheus.yml
+  code:
+  - apps/admin-web/src/catalog.test.ts
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/android/README.md
+  - apps/android/app/src/main/assets/android-screens.v1.2.2.json
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/build.gradle.kts
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/gradle.properties
+  - apps/android/gradle/libs.versions.toml
+  - apps/h5/src/generated/h5-pages.json
+  - packages/api-client/src/admin.generated.ts
+  - packages/api-client/src/client.generated.ts
+  - packages/domain-types/src/index.ts
+  - scripts/check_api_contract.py
+  - scripts/check_db_schema.py
+  - scripts/check_p00_observability.py
+  - scripts/check_release_artifacts.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/generate_android_scaffold.py
+  - scripts/generate_contracts.py
+  - scripts/generate_database.py
+  - scripts/generate_scaffolds.py
+  - scripts/postprocess-openapi-types.mjs
+  - scripts/run-python.mjs
+  - scripts/run_continuity_self_test.py
+  - scripts/run_p00_database_invariants.sh
+  - scripts/run_p00_test_matrix.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/sync_runtime_assets.py
+  - scripts/test_continuity_protocol.py
+  - services/backend/Dockerfile
+  - services/backend/boot/pom.xml
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/RequestIdFilter.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/websocket-events.yaml
+  - services/backend/boot/src/main/resources/db/migration/V009__v122_operational_governance.sql
+  - services/backend/boot/src/main/resources/db/migration/V010__p00_event_ledger_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V011__app_release_version_policy.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/boot/src/test/resources/data.sql
+  - services/backend/boot/src/test/resources/schema.sql
+  - services/backend/platform/pom.xml
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/config/HhyPlatformProperties.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionCheckRequest.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionPolicyView.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppRelease.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformCapabilitiesView.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusController.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusService.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusView.java
+  - services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
+  - services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiResponse.java
+  user_visible:
+  - apps/admin-web/src/catalog.test.ts
+  - apps/admin-web/src/generated/admin-pages.json
+  - apps/android/README.md
+  - apps/android/app/src/main/assets/android-screens.v1.2.2.json
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/build.gradle.kts
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/gradle.properties
+  - apps/android/gradle/libs.versions.toml
+  - apps/h5/src/generated/h5-pages.json
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  source_of_truth:
+  - catalogs/ui_action_matrix.csv
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - docs/01-architecture/adr/ADR-007-P00事件账务不变量收口.md
+  - releases/P00/RELEASE_MANIFEST.yaml
+  - releases/P00/STORIES.yaml
+  contracts:
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  database:
+  - database/README.md
+  - database/migrations/V010__p00_event_ledger_invariants.sql
+  - database/migrations/V011__app_release_version_policy.sql
+  - database/rollback/U010__p00_event_ledger_invariants.sql
+  - database/rollback/U011__app_release_version_policy.sql
+  - database/tests/p00_event_ledger_invariants.sql
+  - database/verification/verify_baseline.sql
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md
+  - docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md
+  - docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
+  tests:
+  - tests/p00/README.md
+  - tests/p00/evidence.schema.json
+  - tests/p00/test_p00_test_matrix.py
+  - tests/p00/test_secret_defaults.py
+  - tests/test_continuity_bootstrap_recovery.py
+  - tests/test_continuity_cross_release_close.py
+  - tests/test_release_close_gate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+- CONTRACT_TEST_EVIDENCE
+- GENERATED_CLIENTS_OR_GENERATION_RECORD
+- CHANGELOG
+change_requests:
+- CR-0003
+- CR-0005
+- CR-0006
+scope:
+  allowed_paths:
+  - '**'
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit+bootstrap-repair
+event_hash: e90ce82700ac157451ae360acbc94b5f13d438d7d4af1bfffd9bffba437baad1

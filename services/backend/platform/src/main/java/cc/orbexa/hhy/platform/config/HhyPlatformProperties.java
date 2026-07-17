@@ -9,10 +9,4 @@ public record HhyPlatformProperties(
         boolean registrationEnabled,
         boolean publishingEnabled,
         boolean redPacketEnabled,
-        boolean withdrawalEnabled,
-        int latestVersionCode,
-        String latestVersionName,
-        int minimumSupportedVersionCode,
-        String downloadUrl,
-        String apkSha256,
-        String releaseNotes) { }
+        boolean withdrawalEnabled) { }

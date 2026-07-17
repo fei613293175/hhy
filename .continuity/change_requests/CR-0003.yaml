@@ -1,0 +1,44 @@
+protocol_version: '1.0'
+cr_id: CR-0003
+title: 纠正P00公共状态与版本检查冻结契约生成错误
+status: IMPLEMENTING
+created_at: '2026-07-17T00:22:41Z'
+updated_at: '2026-07-17T02:22:32Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-engineering-audit
+task_id: TASK-P00-001
+session_id: SES-20260716T232809Z-B4A980AF
+user_request: 用户已明确开始开发并将项目开发落地交由Codex负责；要求P00完成后暂停
+reason: 3个P00 operationId 的响应Schema、安全语义和类型与接口说明、服务及客户端模型冲突，阻断真实闭环
+original_rule: publicGetPlatformStatus错误使用PublicPage分页响应；GET版本检查错误使用分页响应和通用分页参数；版本号为string且sha允许40位；契约与summary、服务及客户端模型冲突
+new_rule: 状态接口返回明确的维护状态、消息、四个能力开关与serverTime对象；GET/POST版本检查返回单策略对象，GET保持匿名可选Bearer且仅使用platform/versionCode/channel/environment；版本号为int64、updateType为NONE/OPTIONAL/FORCED、SHA256固定64位hex
+impact_summary: 纠正3个P00接口及公共Schema，影响根/Boot契约、生成TS、Android/Java模型、契约目录SHA和测试，不新增页面或业务能力
+impact:
+  files:
+  - contracts/openapi.yaml;services/backend/boot/src/main/resources/contracts/openapi.yaml;packages/api-types;apps/admin-web/src/generated;apps/client-h5/src/generated;apps/android
+  pages: []
+  apis:
+  - publicGetPlatformStatus;appReleasePostAppVersionCheck;appReleaseGetAppVersionCheck
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - API schema exact-set check; backend MockMvc contract tests; Android serialization tests; generated typecheck
+  releases:
+  - P00
+  migration_and_compatibility: 当前尚未生产发布；同步重新生成客户端类型并保留路径和operationId不变，无数据库迁移；对错误分页结构不提供兼容窗口，因为它从未形成可用实现
+user_confirmation: 用户于当前任务明确要求开始开发并将项目落地交由Codex负责，同时要求P00完成后暂停；本CR是完成P00必要的非扩张性纠错
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-17T00:22:58Z'
+  note: 独立审计确认属于生成错误纠正，须同步全部派生资产和正反向契约测试
+machine_record: .continuity/change_requests/CR-0003.yaml
+document: docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md
+decision_log:
+- at: '2026-07-17T02:22:32Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 按已批准合同完成P00公共状态与版本检查契约及消费者实施，等待基准Commit绑定
+  session_id: SES-20260716T232809Z-B4A980AF
+session_ids:
+- SES-20260716T232809Z-B4A980AF

@@ -3,6 +3,8 @@
  * Do not make direct changes to the file.
  */
 
+export type HhyJsonValue = string | number | boolean | null | HhyJsonValue[] | { [key: string]: HhyJsonValue };
+
 export interface paths {
     "/admin-api/v1/auth/login": {
         parameters: {
@@ -2486,6 +2488,332 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin-api/v1/accounting/transactions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 会计交易列表 */
+        get: operations["adminAccountingGetTransactions"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/accounting/transactions/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 会计交易详情 */
+        get: operations["adminAccountingGetTransactionById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/accounting/entries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 会计分录列表 */
+        get: operations["adminAccountingGetEntries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/accounting/transactions/{id}/reversals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 申请会计冲正 */
+        post: operations["adminAccountingPostReversal"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/risk-rule-versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 风控规则版本列表 */
+        get: operations["adminRiskRulesGetVersions"];
+        put?: never;
+        /** 创建风控规则版本 */
+        post: operations["adminRiskRulesPostVersion"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/risk-rule-versions/{id}/simulate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 模拟风控规则 */
+        post: operations["adminRiskRulesPostSimulation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/risk-rule-versions/{id}/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 激活风控规则版本 */
+        post: operations["adminRiskRulesPostActivate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/notification-templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 通知模板列表 */
+        get: operations["adminNotificationGetTemplates"];
+        put?: never;
+        /** 创建通知模板版本 */
+        post: operations["adminNotificationPostTemplate"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/notification-templates/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** 修改通知模板草稿 */
+        patch: operations["adminNotificationPatchTemplate"];
+        trace?: never;
+    };
+    "/admin-api/v1/notification-deliveries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 通知发送记录 */
+        get: operations["adminNotificationGetDeliveries"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/notification-deliveries/{id}/retry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 重试失败通知 */
+        post: operations["adminNotificationPostDeliveryRetry"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/export-jobs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 导出任务列表 */
+        get: operations["adminExportsGetJobs"];
+        put?: never;
+        /** 创建导出任务 */
+        post: operations["adminExportsPostJob"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/export-jobs/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 导出任务详情 */
+        get: operations["adminExportsGetJobById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/export-jobs/{id}/download-token": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 创建一次性下载令牌 */
+        post: operations["adminExportsPostDownloadToken"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/me/security": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 管理员安全概览 */
+        get: operations["adminSelfGetSecurity"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/me/security/password/change": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 修改管理员密码 */
+        post: operations["adminSelfPostPasswordChange"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/me/security/mfa/enroll": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 开始绑定MFA */
+        post: operations["adminSelfPostMfaEnroll"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/me/security/mfa/confirm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 确认绑定MFA */
+        post: operations["adminSelfPostMfaConfirm"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin-api/v1/me/security/mfa/disable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 解绑MFA */
+        post: operations["adminSelfPostMfaDisable"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -2551,9 +2879,7 @@ export interface components {
             expiresAt: string;
             userId: string;
             sessionId: string;
-            device?: {
-                [key: string]: unknown;
-            };
+            device?: components["schemas"]["DeviceSummaryResource"];
             capabilities?: string[];
         };
         AdminSessionResource: {
@@ -2606,17 +2932,11 @@ export interface components {
             expiresAt?: string;
         };
         HomeResource: {
-            modules: {
-                [key: string]: unknown;
-            };
+            modules: components["schemas"]["HomeModuleResource"][];
             /** Format: date-time */
             serverTime: string;
-            featureFlags?: {
-                [key: string]: unknown;
-            };
-            trackingContext?: {
-                [key: string]: unknown;
-            };
+            featureFlags?: components["schemas"]["FeatureFlagResource"][];
+            trackingContext?: components["schemas"]["TrackingContextResource"];
         };
         SearchResultResource: {
             id: string;
@@ -2624,10 +2944,8 @@ export interface components {
             title: string;
             summary?: string;
             coverUrl?: string;
-            publisher?: {
-                [key: string]: unknown;
-            };
-            score?: string;
+            publisher?: components["schemas"]["PublisherSummaryResource"];
+            score?: number;
             badges?: string[];
         };
         ContentResource: {
@@ -2638,34 +2956,30 @@ export interface components {
             description?: string;
             categoryCode?: string;
             regionCode?: string;
-            media?: {
-                [key: string]: unknown;
-            };
-            publisher?: {
-                [key: string]: unknown;
-            };
-            contactsMasked?: {
-                [key: string]: unknown;
-            };
+            media?: components["schemas"]["MediaItemResource"][];
+            publisher?: components["schemas"]["PublisherSummaryResource"];
+            contactsMasked?: components["schemas"]["ContactChannelSummaryResource"][];
             status: string;
             reviewStatus?: string;
-            statistics?: {
-                [key: string]: unknown;
-            };
+            statistics?: components["schemas"]["ContentStatisticsResource"];
             /** Format: date-time */
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string;
             /** Format: int64 */
             version: number;
+            attributes?: components["schemas"]["JsonObject"];
         };
         ConversationResource: {
             id: string;
-            peer?: {
-                [key: string]: unknown;
-            };
+            peer?: components["schemas"]["PublisherSummaryResource"];
             lastMessage?: {
-                [key: string]: unknown;
+                messageId: string;
+                messageType: string;
+                preview: string;
+                senderId?: string;
+                /** Format: date-time */
+                createdAt: string;
             };
             /** Format: int64 */
             unreadCount: number;
@@ -2680,9 +2994,7 @@ export interface components {
             type: string;
             title: string;
             body?: string;
-            target?: {
-                [key: string]: unknown;
-            };
+            target?: components["schemas"]["NavigationTargetResource"];
             /** Format: date-time */
             readAt?: string;
             /** Format: date-time */
@@ -2698,8 +3010,11 @@ export interface components {
             /** Format: date-time */
             expiresAt?: string;
             benefits?: {
-                [key: string]: unknown;
-            };
+                benefitCode: string;
+                name: string;
+                value: components["schemas"]["JsonValue"];
+                unit?: string;
+            }[];
             /** Format: int64 */
             paidValueCent?: number;
             /** Format: int64 */
@@ -2716,9 +3031,7 @@ export interface components {
             status: string;
             /** Format: date-time */
             expiresAt?: string;
-            configuration?: {
-                [key: string]: unknown;
-            };
+            configuration?: components["schemas"]["JsonObject"];
             /** Format: int64 */
             version: number;
         };
@@ -2829,8 +3142,16 @@ export interface components {
             /** Format: int64 */
             settledCommissionCent?: number;
             milestones?: {
-                [key: string]: unknown;
-            };
+                milestoneCode: string;
+                name: string;
+                /** Format: int64 */
+                target: number;
+                /** Format: int64 */
+                current: number;
+                /** Format: int64 */
+                rewardCent?: number;
+                status: string;
+            }[];
             /** Format: int64 */
             version: number;
         };
@@ -2852,16 +3173,10 @@ export interface components {
             name?: string;
             taskType?: string;
             status: string;
-            progress?: {
-                [key: string]: unknown;
-            };
-            target?: {
-                [key: string]: unknown;
-            };
-            reward?: {
-                [key: string]: unknown;
-            };
-            claimable: string;
+            progress?: components["schemas"]["TaskProgressResource"];
+            target?: components["schemas"]["TaskTargetResource"];
+            reward?: components["schemas"]["TaskRewardResource"];
+            claimable: boolean;
             /** Format: date-time */
             expiresAt?: string;
             /** Format: int64 */
@@ -2897,31 +3212,17 @@ export interface components {
             code: string;
             title?: string;
             description?: string;
-            content?: {
-                [key: string]: unknown;
-            };
-            seoMetadata?: {
-                [key: string]: unknown;
-            };
-            download?: {
-                [key: string]: unknown;
-            };
-            trackingContext?: {
-                [key: string]: unknown;
-            };
+            content?: components["schemas"]["PublicPageBlockResource"][];
+            seoMetadata?: components["schemas"]["SeoMetadataResource"];
+            download?: components["schemas"]["DownloadInfoResource"];
+            trackingContext?: components["schemas"]["TrackingContextResource"];
             /** Format: int64 */
             version: number;
         };
         DashboardResource: {
-            metrics: {
-                [key: string]: unknown;
-            };
-            todos?: {
-                [key: string]: unknown;
-            };
-            trends?: {
-                [key: string]: unknown;
-            };
+            metrics: components["schemas"]["DashboardMetricResource"][];
+            todos?: components["schemas"]["DashboardTodoResource"][];
+            trends?: components["schemas"]["DashboardTrendSeriesResource"][];
             /** Format: date-time */
             generatedAt: string;
         };
@@ -2972,8 +3273,15 @@ export interface components {
             productType?: string;
             status: string;
             skus?: {
-                [key: string]: unknown;
-            };
+                id: string;
+                skuCode: string;
+                name: string;
+                /** Format: int64 */
+                priceCent: number;
+                /** Format: int64 */
+                durationDays?: number;
+                status: string;
+            }[];
             /** Format: int64 */
             version: number;
         };
@@ -2983,9 +3291,7 @@ export interface components {
             contentType?: string;
             title?: string;
             status: string;
-            content?: {
-                [key: string]: unknown;
-            };
+            content?: components["schemas"]["PublicPageBlockResource"][];
             /** Format: int64 */
             version: number;
             /** Format: date-time */
@@ -2996,9 +3302,7 @@ export interface components {
             /** Format: int64 */
             version: number;
             title: string;
-            content?: {
-                [key: string]: unknown;
-            };
+            content?: components["schemas"]["PublicPageBlockResource"][];
             /** Format: date-time */
             effectiveAt: string;
             status?: string;
@@ -3009,11 +3313,9 @@ export interface components {
             subjectType?: string;
             subjectId?: string;
             riskLevel: string;
-            score?: string;
+            score?: number;
             status: string;
-            ruleHits?: {
-                [key: string]: unknown;
-            };
+            ruleHits?: components["schemas"]["RuleHitResource"][];
             /** Format: date-time */
             createdAt?: string;
             /** Format: int64 */
@@ -3022,15 +3324,13 @@ export interface components {
         ConfigResource: {
             key: string;
             environment: string;
-            valueMasked?: {
-                [key: string]: unknown;
-            };
+            valueMasked?: components["schemas"]["MaskedConfigValueResource"];
             /** Format: int64 */
             version: number;
             status: string;
             /** Format: date-time */
             effectiveAt?: string;
-            requiresRestart?: string;
+            requiresRestart?: boolean;
             updatedBy?: string;
         };
         RoleResource: {
@@ -3075,7 +3375,11 @@ export interface components {
             code: string;
             name?: string;
             schedule?: {
-                [key: string]: unknown;
+                /** @enum {string} */
+                scheduleType: "CRON" | "FIXED_DELAY" | "MANUAL";
+                expression?: string;
+                timezone?: string;
+                enabled: boolean;
             };
             status: string;
             /** Format: date-time */
@@ -3092,8 +3396,10 @@ export interface components {
             activeVersion?: string;
             draftVersion?: string;
             configuredSecrets?: {
-                [key: string]: unknown;
-            };
+                key: string;
+                configured: boolean;
+                secretRefMasked?: string;
+            }[];
             connectionStatus?: string;
             /** Format: date-time */
             lastTestAt?: string;
@@ -3144,9 +3450,7 @@ export interface components {
             gitRef?: string;
             commitSha: string;
             status: string;
-            steps?: {
-                [key: string]: unknown;
-            };
+            steps?: components["schemas"]["BuildStepResource"][];
             artifactId?: string;
             /** Format: date-time */
             createdAt?: string;
@@ -3212,7 +3516,7 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
             payload?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         AdminAdminAuthPostAuthLogoutResponse: {
@@ -3613,7 +3917,7 @@ export interface components {
         };
         AdminContentPutContentDictionariesByCodeRequest: {
             items: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             /** Format: int64 */
             expectedVersion: number;
@@ -4070,7 +4374,7 @@ export interface components {
             /** Format: int64 */
             durationDays?: number;
             benefits?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             status?: string;
         };
@@ -4089,7 +4393,7 @@ export interface components {
             /** Format: int64 */
             durationDays?: number;
             benefits?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             status?: string;
             /** Format: int64 */
@@ -4213,7 +4517,7 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
             payload?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         AdminPaymentsPostPaymentsByIdQueryResponse: {
@@ -4455,7 +4759,7 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
             payload?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         AdminWithdrawalsPostWithdrawalsByIdQueryResponse: {
@@ -4504,7 +4808,7 @@ export interface components {
             /** Format: int64 */
             durationDays?: number;
             benefits?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             status?: string;
             /** Format: int64 */
@@ -4525,7 +4829,7 @@ export interface components {
             /** Format: int64 */
             durationDays?: number;
             benefits?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             status?: string;
             /** Format: int64 */
@@ -4621,7 +4925,7 @@ export interface components {
             /** Format: int64 */
             expectedVersion: number;
             payload?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         AdminPropsPatchPropsByIdResponse: {
@@ -4668,7 +4972,7 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
             payload?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         AdminPropsPostHeadlineSlotsResponse: {
@@ -4791,10 +5095,10 @@ export interface components {
             /** Format: date-time */
             effectiveAt: string;
             criteria?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             rule: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             remark?: string;
         };
@@ -4873,7 +5177,7 @@ export interface components {
             /** Format: date-time */
             effectiveAt: string;
             rule: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             remark?: string;
         };
@@ -4949,7 +5253,7 @@ export interface components {
         };
         AdminReferralActivityPutReferralActivityMilestonesRequest: {
             items: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             /** Format: date-time */
             effectiveAt: string;
@@ -5031,11 +5335,11 @@ export interface components {
             name: string;
             taskType: string;
             criteria: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             reward: string;
             schedule?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             budgetId?: string;
             status?: string;
@@ -5051,11 +5355,11 @@ export interface components {
         AdminTasksPatchTasksByIdRequest: {
             name?: string;
             criteria?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             reward?: string;
             schedule?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             budgetId?: string;
             status?: string;
@@ -5271,7 +5575,7 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
             payload?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         AdminSupportPostSupportTicketsByIdCloseResponse: {
@@ -5315,7 +5619,7 @@ export interface components {
         };
         AdminCMSPutCmsHomeModulesRequest: {
             items: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             /** Format: int64 */
             expectedVersion: number;
@@ -5669,7 +5973,7 @@ export interface components {
             /** Format: date-time */
             effectiveAt: string;
             rule: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             remark?: string;
         };
@@ -6092,10 +6396,10 @@ export interface components {
         AdminProviderConfigPostProviderConfigsByProviderVersionsRequest: {
             environment: string;
             values: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             secretRefs?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             remark?: string;
         };
@@ -6471,7 +6775,7 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
             payload?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         AdminAppBuildJobPostAppBuildJobsByIdRetryResponse: {
@@ -6535,7 +6839,7 @@ export interface components {
             /** Format: int64 */
             expectedVersion?: number;
             payload?: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
         };
         AdminAppBuildReleasePostAppBuildJobsByIdPublishStagingResponse: {
@@ -6549,7 +6853,7 @@ export interface components {
         AdminAppBuildReleasePostAppBuildJobsByIdPromoteRequest: {
             approvalId: string;
             releasePolicy: {
-                [key: string]: unknown;
+                [key: string]: components["schemas"]["JsonValue"];
             };
             /** Format: int64 */
             expectedVersion: number;
@@ -6620,6 +6924,829 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: components["schemas"]["SigningProfileResource"] | components["schemas"]["CommandResultResource"];
+        };
+        /** @description 仅用于扩展属性的标量值；核心业务字段不得依赖自由结构。 */
+        JsonScalar: string | number | boolean | null;
+        /** @description 受限 JSON 扩展值；必须在页面规格中声明实际键，禁止作为核心业务模型。 */
+        JsonValue: HhyJsonValue;
+        /** @description 受限扩展对象；用于供应商透传或兼容字段，不能替代领域 Schema。 */
+        JsonObject: {
+            [key: string]: components["schemas"]["JsonValue"];
+        };
+        DeviceSummaryResource: {
+            deviceId: string;
+            deviceName?: string;
+            /** @enum {string} */
+            platform: "ANDROID" | "WEB" | "ADMIN_WEB";
+            osVersion?: string;
+            appVersion?: string;
+            /** Format: date-time */
+            lastActiveAt?: string;
+            trusted?: boolean;
+        };
+        MediaItemResource: {
+            id: string;
+            /** @enum {string} */
+            mediaType: "IMAGE" | "VIDEO" | "FILE" | "QR_CODE";
+            /** Format: uri */
+            url: string;
+            /** Format: uri */
+            thumbnailUrl?: string;
+            /** Format: int64 */
+            width?: number;
+            /** Format: int64 */
+            height?: number;
+            /** Format: int64 */
+            durationMs?: number;
+            altText?: string;
+            /** Format: int64 */
+            sortOrder: number;
+            /** @enum {string} */
+            accessMode?: "PUBLIC" | "SIGNED_URL" | "AUTHENTICATED";
+        };
+        PublisherSummaryResource: {
+            userId: string;
+            nickname: string;
+            /** Format: uri */
+            avatarUrl?: string;
+            bio?: string;
+            verified: boolean;
+            memberBadge?: string;
+            followed?: boolean;
+        };
+        ContactChannelSummaryResource: {
+            /** @enum {string} */
+            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE";
+            maskedValue?: string;
+            available: boolean;
+            /** @enum {string} */
+            accessPolicy: "LOGIN" | "REAL_NAME" | "MEMBERSHIP" | "PAID" | "OWNER_ONLY";
+            accessed: boolean;
+        };
+        ContentStatisticsResource: {
+            /** Format: int64 */
+            viewCount: number;
+            /** Format: int64 */
+            favoriteCount: number;
+            /** Format: int64 */
+            shareCount: number;
+            /** Format: int64 */
+            contactAccessCount: number;
+            /** Format: int64 */
+            conversationCount?: number;
+        };
+        TrackingContextResource: {
+            pageCode: string;
+            source: string;
+            campaignId?: string;
+            contentId?: string;
+            requestId?: string;
+            experimentAssignments?: {
+                experimentKey: string;
+                variant: string;
+            }[];
+        };
+        NavigationTargetResource: {
+            /** @enum {string} */
+            targetType: "IN_APP_ROUTE" | "H5_URL" | "DOWNLOAD" | "NONE";
+            route?: string;
+            /** Format: uri */
+            url?: string;
+            requiresLogin: boolean;
+        };
+        HomeModuleItemResource: {
+            id: string;
+            /** @enum {string} */
+            itemType: "CONTENT" | "BANNER" | "CATEGORY" | "NOTICE" | "ACTION";
+            title: string;
+            subtitle?: string;
+            /** Format: uri */
+            coverUrl?: string;
+            badges?: string[];
+            target: components["schemas"]["NavigationTargetResource"];
+            trackingContext?: components["schemas"]["TrackingContextResource"];
+        };
+        HomeModuleResource: {
+            moduleId: string;
+            /** @enum {string} */
+            moduleType: "BANNER" | "GRID" | "HORIZONTAL_LIST" | "VERTICAL_LIST" | "NOTICE" | "QUICK_ACTIONS";
+            title?: string;
+            subtitle?: string;
+            layoutType: string;
+            items: components["schemas"]["HomeModuleItemResource"][];
+            moreTarget?: components["schemas"]["NavigationTargetResource"];
+            trackingContext?: components["schemas"]["TrackingContextResource"];
+            /** Format: date-time */
+            startAt?: string;
+            /** Format: date-time */
+            endAt?: string;
+        };
+        FeatureFlagResource: {
+            key: string;
+            enabled: boolean;
+            variant?: string;
+            reason?: string;
+        };
+        DashboardMetricResource: {
+            metricCode: string;
+            name: string;
+            value: number;
+            unit: string;
+            previousValue?: number;
+            changeRate?: number;
+            /** @enum {string} */
+            comparisonType: "DAY_OVER_DAY" | "WEEK_OVER_WEEK" | "MONTH_OVER_MONTH" | "YEAR_OVER_YEAR" | "NONE";
+            definitionVersion: string;
+        };
+        DashboardTrendPointResource: {
+            /** Format: date-time */
+            time: string;
+            value: number;
+        };
+        DashboardTrendSeriesResource: {
+            metricCode: string;
+            name: string;
+            unit: string;
+            points: components["schemas"]["DashboardTrendPointResource"][];
+        };
+        DashboardTodoResource: {
+            todoType: string;
+            title: string;
+            /** Format: int64 */
+            count: number;
+            /** @enum {string} */
+            severity: "INFO" | "WARNING" | "HIGH" | "CRITICAL";
+            target: components["schemas"]["NavigationTargetResource"];
+        };
+        SeoMetadataResource: {
+            title: string;
+            description: string;
+            keywords?: string[];
+            /** Format: uri */
+            canonicalUrl?: string;
+            /** Format: uri */
+            ogImageUrl?: string;
+            robots?: string;
+        };
+        DownloadInfoResource: {
+            /** @enum {string} */
+            platform: "ANDROID";
+            versionName: string;
+            /** Format: int64 */
+            versionCode: number;
+            /** Format: uri */
+            downloadUrl: string;
+            sha256: string;
+            /** Format: int64 */
+            fileSizeBytes?: number;
+            /** Format: date-time */
+            publishedAt?: string;
+            /** Format: uri */
+            installGuideUrl?: string;
+        };
+        PublicPageBlockResource: {
+            blockId: string;
+            /** @enum {string} */
+            blockType: "HERO" | "RICH_TEXT" | "IMAGE" | "VIDEO" | "FEATURE_LIST" | "CTA" | "FAQ" | "DOWNLOAD";
+            heading?: string;
+            body?: string;
+            media?: components["schemas"]["MediaItemResource"][];
+            action?: components["schemas"]["NavigationTargetResource"];
+            /** Format: int64 */
+            sortOrder: number;
+        };
+        TaskProgressResource: {
+            /** Format: int64 */
+            currentValue: number;
+            /** Format: int64 */
+            targetValue: number;
+            percent: number;
+            /** Format: date-time */
+            completedAt?: string;
+            /** Format: int64 */
+            streakDays?: number;
+        };
+        TaskTargetResource: {
+            metric: string;
+            /** @enum {string} */
+            operator: "GTE" | "EQ" | "LTE" | "IN";
+            value: components["schemas"]["JsonValue"];
+            /** @enum {string} */
+            window: "DAILY" | "WEEKLY" | "SEVEN_DAY" | "LIFETIME";
+        };
+        TaskRewardResource: {
+            /** @enum {string} */
+            rewardType: "POINTS" | "CASH_PENDING" | "PROP" | "BADGE";
+            /** Format: int64 */
+            amountCent?: number;
+            /** Format: int64 */
+            points?: number;
+            propSkuId?: string;
+            /** Format: int64 */
+            settlementDelayHours?: number;
+        };
+        MaskedConfigValueResource: {
+            valueType: string;
+            maskedDisplay: string;
+            isConfigured: boolean;
+            secretRef?: string;
+        };
+        RuleHitResource: {
+            ruleId: string;
+            ruleVersion: string;
+            ruleName: string;
+            score?: number;
+            action: string;
+            explanation?: string;
+        };
+        BuildStepResource: {
+            stepCode: string;
+            name: string;
+            status: string;
+            /** Format: date-time */
+            startedAt?: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            logRef?: string;
+            failureCode?: string;
+        };
+        AccountingEntryResource: {
+            id: string;
+            transactionId: string;
+            accountCode: string;
+            accountName?: string;
+            /** @enum {string} */
+            direction: "DEBIT" | "CREDIT";
+            /** Format: int64 */
+            amountCent: number;
+            /** @enum {string} */
+            currency: "CNY";
+            userId?: string;
+            businessType: string;
+            businessId: string;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        AccountingTransactionResource: {
+            id: string;
+            transactionNo: string;
+            businessType: string;
+            businessId: string;
+            idempotencyKey: string;
+            /** @enum {string} */
+            status: "PENDING" | "POSTED" | "REVERSED";
+            /** @enum {string} */
+            currency: "CNY";
+            /** Format: int64 */
+            debitTotalCent: number;
+            /** Format: int64 */
+            creditTotalCent: number;
+            entries?: components["schemas"]["AccountingEntryResource"][];
+            reversalOfTransactionId?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            postedAt?: string;
+            /** Format: int64 */
+            version: number;
+        };
+        AccountingReversalRequest: {
+            reasonCode: string;
+            reason: string;
+            evidenceIds?: string[];
+            approvalId: string;
+            /** Format: int64 */
+            expectedVersion: number;
+        };
+        RiskRuleVersionResource: {
+            id: string;
+            ruleSetCode: string;
+            /** Format: int64 */
+            versionNo: number;
+            /** @enum {string} */
+            status: "DRAFT" | "VALIDATED" | "PENDING_APPROVAL" | "ACTIVE" | "INACTIVE" | "REJECTED";
+            name: string;
+            description?: string;
+            ruleDefinition: components["schemas"]["JsonObject"];
+            testSummary?: {
+                /** Format: int64 */
+                sampleCount: number;
+                /** Format: int64 */
+                hitCount: number;
+                /** Format: int64 */
+                falsePositiveCount?: number;
+                /** Format: int64 */
+                falseNegativeCount?: number;
+            };
+            /** Format: date-time */
+            effectiveAt?: string;
+            createdBy: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: int64 */
+            version: number;
+        };
+        RiskRuleCreateRequest: {
+            ruleSetCode: string;
+            name: string;
+            description?: string;
+            ruleDefinition: components["schemas"]["JsonObject"];
+            /** Format: date-time */
+            effectiveAt?: string;
+        };
+        RiskSimulationRequest: {
+            /** @enum {string} */
+            sampleMode: "MANUAL" | "MASKED_SNAPSHOT" | "TEST_DATASET";
+            subjectType: string;
+            samplePayload?: components["schemas"]["JsonObject"];
+            datasetId?: string;
+            /** @default true */
+            explain: boolean;
+        };
+        RiskSimulationResultResource: {
+            simulationId: string;
+            ruleVersionId: string;
+            matched: boolean;
+            score?: number;
+            recommendedAction: string;
+            ruleHits: components["schemas"]["RuleHitResource"][];
+            /** @constant */
+            sideEffectFree: true;
+            /** Format: date-time */
+            executedAt: string;
+        };
+        RiskRuleActivateRequest: {
+            approvalId: string;
+            /** Format: date-time */
+            effectiveAt?: string;
+            /** Format: int64 */
+            expectedVersion: number;
+        };
+        NotificationTemplateResource: {
+            id: string;
+            templateCode: string;
+            /** @enum {string} */
+            channel: "IN_APP" | "PUSH" | "SMS";
+            locale: string;
+            /** Format: int64 */
+            versionNo: number;
+            /** @enum {string} */
+            status: "DRAFT" | "PENDING_APPROVAL" | "ACTIVE" | "INACTIVE" | "REJECTED";
+            titleTemplate?: string;
+            bodyTemplate: string;
+            allowedVariables: string[];
+            sampleVariables?: components["schemas"]["JsonObject"];
+            /** Format: date-time */
+            effectiveAt?: string;
+            /** Format: int64 */
+            version: number;
+        };
+        NotificationTemplateCreateRequest: {
+            templateCode: string;
+            /** @enum {string} */
+            channel: "IN_APP" | "PUSH" | "SMS";
+            locale: string;
+            titleTemplate?: string;
+            bodyTemplate: string;
+            allowedVariables: string[];
+            sampleVariables?: components["schemas"]["JsonObject"];
+            /** Format: date-time */
+            effectiveAt?: string;
+        };
+        NotificationTemplatePatchRequest: {
+            titleTemplate?: string;
+            bodyTemplate?: string;
+            allowedVariables?: string[];
+            sampleVariables?: components["schemas"]["JsonObject"];
+            status?: string;
+            /** Format: int64 */
+            expectedVersion: number;
+        };
+        NotificationDeliveryResource: {
+            id: string;
+            templateCode: string;
+            /** Format: int64 */
+            templateVersion: number;
+            /** @enum {string} */
+            channel: "IN_APP" | "PUSH" | "SMS";
+            recipientMasked: string;
+            businessType?: string;
+            businessId?: string;
+            /** @enum {string} */
+            status: "QUEUED" | "SENT" | "DELIVERED" | "FAILED" | "CANCELLED";
+            /** Format: int64 */
+            attemptCount: number;
+            failureCode?: string;
+            failureMessage?: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            sentAt?: string;
+        };
+        NotificationRetryRequest: {
+            reason: string;
+            /** Format: int64 */
+            expectedAttemptCount: number;
+        };
+        ExportJobResource: {
+            id: string;
+            jobNo: string;
+            exportType: string;
+            /** @enum {string} */
+            status: "PENDING_APPROVAL" | "QUEUED" | "RUNNING" | "SUCCEEDED" | "FAILED" | "EXPIRED" | "REJECTED";
+            filters?: components["schemas"]["JsonObject"];
+            fieldCodes: string[];
+            maskPolicy: string;
+            /** Format: int64 */
+            rowLimit: number;
+            approvalId?: string;
+            /** Format: int64 */
+            fileSizeBytes?: number;
+            /** Format: date-time */
+            expiresAt?: string;
+            createdBy: string;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            finishedAt?: string;
+            /** Format: int64 */
+            version: number;
+        };
+        ExportJobCreateRequest: {
+            exportType: string;
+            filters?: components["schemas"]["JsonObject"];
+            fieldCodes: string[];
+            maskPolicy: string;
+            /** Format: int64 */
+            rowLimit: number;
+            purpose: string;
+            approvalId?: string;
+        };
+        ExportDownloadTokenResource: {
+            token: string;
+            /** Format: uri */
+            downloadUrl: string;
+            /** Format: date-time */
+            expiresAt: string;
+            /** @constant */
+            singleUse: true;
+        };
+        AdminSelfSecurityResource: {
+            adminId: string;
+            username: string;
+            mfaEnabled: boolean;
+            mfaMethods: string[];
+            /** Format: int64 */
+            activeSessionCount: number;
+            /** Format: date-time */
+            lastPasswordChangedAt?: string;
+            /** Format: date-time */
+            lastLoginAt?: string;
+            lastLoginIpMasked?: string;
+            /** Format: int64 */
+            recoveryCodesRemaining: number;
+        };
+        AdminPasswordChangeRequest: {
+            currentPassword: string;
+            newPassword: string;
+            mfaCode: string;
+        };
+        MfaEnrollmentResource: {
+            enrollmentId: string;
+            /** @enum {string} */
+            method: "TOTP";
+            /** Format: uri */
+            secretQrCodeUrl: string;
+            manualKeyMasked: string;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        MfaConfirmRequest: {
+            enrollmentId: string;
+            code: string;
+        };
+        MfaDisableRequest: {
+            code: string;
+            reason: string;
+        };
+        AdminAccountingGetTransactionsResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: {
+                items: components["schemas"]["AccountingTransactionResource"][];
+                page: components["schemas"]["PageMeta"];
+            };
+        };
+        AdminAccountingGetTransactionsParameters: {
+            /**
+             * Format: int64
+             * @default 1
+             */
+            page: number;
+            /**
+             * Format: int64
+             * @default 20
+             */
+            pageSize: number;
+            keyword?: string;
+            status?: string;
+            sort?: string;
+            startAt?: string;
+            endAt?: string;
+            businessType?: string;
+            businessId?: string;
+            accountCode?: string;
+        };
+        AdminAccountingGetTransactionByIdResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["AccountingTransactionResource"];
+        };
+        AdminAccountingGetTransactionByIdParameters: Record<string, never>;
+        AdminAccountingGetEntriesResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: {
+                items: components["schemas"]["AccountingEntryResource"][];
+                page: components["schemas"]["PageMeta"];
+            };
+        };
+        AdminAccountingGetEntriesParameters: {
+            /**
+             * Format: int64
+             * @default 1
+             */
+            page: number;
+            /**
+             * Format: int64
+             * @default 20
+             */
+            pageSize: number;
+            keyword?: string;
+            status?: string;
+            sort?: string;
+            startAt?: string;
+            endAt?: string;
+            transactionId?: string;
+            accountCode?: string;
+            /** @enum {string} */
+            direction?: "DEBIT" | "CREDIT";
+        };
+        AdminAccountingPostReversalResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["AccountingTransactionResource"];
+        };
+        AdminRiskRulesGetVersionsResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: {
+                items: components["schemas"]["RiskRuleVersionResource"][];
+                page: components["schemas"]["PageMeta"];
+            };
+        };
+        AdminRiskRulesGetVersionsParameters: {
+            /**
+             * Format: int64
+             * @default 1
+             */
+            page: number;
+            /**
+             * Format: int64
+             * @default 20
+             */
+            pageSize: number;
+            keyword?: string;
+            status?: string;
+            sort?: string;
+            ruleSetCode?: string;
+        };
+        AdminRiskRulesPostVersionResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["RiskRuleVersionResource"];
+        };
+        AdminRiskRulesPostSimulationResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["RiskSimulationResultResource"];
+        };
+        AdminRiskRulesPostActivateResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["RiskRuleVersionResource"];
+        };
+        AdminNotificationGetTemplatesResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: {
+                items: components["schemas"]["NotificationTemplateResource"][];
+                page: components["schemas"]["PageMeta"];
+            };
+        };
+        AdminNotificationGetTemplatesParameters: {
+            /**
+             * Format: int64
+             * @default 1
+             */
+            page: number;
+            /**
+             * Format: int64
+             * @default 20
+             */
+            pageSize: number;
+            keyword?: string;
+            status?: string;
+            sort?: string;
+            channel?: string;
+            templateCode?: string;
+        };
+        AdminNotificationPostTemplateResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["NotificationTemplateResource"];
+        };
+        AdminNotificationPatchTemplateResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["NotificationTemplateResource"];
+        };
+        AdminNotificationGetDeliveriesResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: {
+                items: components["schemas"]["NotificationDeliveryResource"][];
+                page: components["schemas"]["PageMeta"];
+            };
+        };
+        AdminNotificationGetDeliveriesParameters: {
+            /**
+             * Format: int64
+             * @default 1
+             */
+            page: number;
+            /**
+             * Format: int64
+             * @default 20
+             */
+            pageSize: number;
+            keyword?: string;
+            status?: string;
+            sort?: string;
+            startAt?: string;
+            endAt?: string;
+            channel?: string;
+            templateCode?: string;
+            businessType?: string;
+        };
+        AdminNotificationPostDeliveryRetryResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["NotificationDeliveryResource"];
+        };
+        AdminExportsGetJobsResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: {
+                items: components["schemas"]["ExportJobResource"][];
+                page: components["schemas"]["PageMeta"];
+            };
+        };
+        AdminExportsGetJobsParameters: {
+            /**
+             * Format: int64
+             * @default 1
+             */
+            page: number;
+            /**
+             * Format: int64
+             * @default 20
+             */
+            pageSize: number;
+            keyword?: string;
+            status?: string;
+            sort?: string;
+            startAt?: string;
+            endAt?: string;
+            exportType?: string;
+        };
+        AdminExportsPostJobResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["ExportJobResource"];
+        };
+        AdminExportsGetJobByIdResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["ExportJobResource"];
+        };
+        AdminExportsGetJobByIdParameters: Record<string, never>;
+        AdminExportsPostDownloadTokenResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["ExportDownloadTokenResource"];
+        };
+        AdminExportsPostDownloadTokenParameters: Record<string, never>;
+        AdminSelfGetSecurityResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["AdminSelfSecurityResource"];
+        };
+        AdminSelfPostPasswordChangeResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["AdminSelfSecurityResource"];
+        };
+        AdminSelfPostMfaEnrollResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["MfaEnrollmentResource"];
+        };
+        AdminSelfPostMfaEnrollParameters: Record<string, never>;
+        AdminSelfPostMfaConfirmResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["AdminSelfSecurityResource"];
+        };
+        AdminSelfDeleteMfaResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["AdminSelfSecurityResource"];
+        };
+        AdminSelfDeleteMfaParameters: Record<string, never>;
+        AdminSelfPostMfaDisableResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["AdminSelfSecurityResource"];
         };
     };
     responses: never;
@@ -23097,6 +24224,2245 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["AdminAppSigningPostAppBuildSigningProfilesByIdTestResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminAccountingGetTransactions: {
+        parameters: {
+            query?: {
+                /** @description 页码 */
+                page?: number;
+                /** @description 每页数量 */
+                pageSize?: number;
+                /** @description 关键词 */
+                keyword?: string;
+                /** @description 状态 */
+                status?: string;
+                /** @description 白名单排序，例如 createdAt:desc */
+                sort?: string;
+                /** @description 开始时间，ISO-8601 */
+                startAt?: string;
+                /** @description 结束时间，ISO-8601 */
+                endAt?: string;
+                /** @description businessType */
+                businessType?: string;
+                /** @description businessId */
+                businessId?: string;
+                /** @description accountCode */
+                accountCode?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminAccountingGetTransactionsResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminAccountingGetTransactionById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description id 标识 */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminAccountingGetTransactionByIdResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminAccountingGetEntries: {
+        parameters: {
+            query?: {
+                /** @description 页码 */
+                page?: number;
+                /** @description 每页数量 */
+                pageSize?: number;
+                /** @description 关键词 */
+                keyword?: string;
+                /** @description 状态 */
+                status?: string;
+                /** @description 白名单排序，例如 createdAt:desc */
+                sort?: string;
+                /** @description 开始时间，ISO-8601 */
+                startAt?: string;
+                /** @description 结束时间，ISO-8601 */
+                endAt?: string;
+                /** @description transactionId */
+                transactionId?: string;
+                /** @description accountCode */
+                accountCode?: string;
+                /** @description direction */
+                direction?: "DEBIT" | "CREDIT";
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminAccountingGetEntriesResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminAccountingPostReversal: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path: {
+                /** @description id 标识 */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AccountingReversalRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminAccountingPostReversalResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminRiskRulesGetVersions: {
+        parameters: {
+            query?: {
+                /** @description 页码 */
+                page?: number;
+                /** @description 每页数量 */
+                pageSize?: number;
+                /** @description 关键词 */
+                keyword?: string;
+                /** @description 状态 */
+                status?: string;
+                /** @description 白名单排序，例如 createdAt:desc */
+                sort?: string;
+                /** @description ruleSetCode */
+                ruleSetCode?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminRiskRulesGetVersionsResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminRiskRulesPostVersion: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RiskRuleCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminRiskRulesPostVersionResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminRiskRulesPostSimulation: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path: {
+                /** @description id 标识 */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RiskSimulationRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminRiskRulesPostSimulationResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminRiskRulesPostActivate: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path: {
+                /** @description id 标识 */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RiskRuleActivateRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminRiskRulesPostActivateResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminNotificationGetTemplates: {
+        parameters: {
+            query?: {
+                /** @description 页码 */
+                page?: number;
+                /** @description 每页数量 */
+                pageSize?: number;
+                /** @description 关键词 */
+                keyword?: string;
+                /** @description 状态 */
+                status?: string;
+                /** @description 白名单排序，例如 createdAt:desc */
+                sort?: string;
+                /** @description channel */
+                channel?: string;
+                /** @description templateCode */
+                templateCode?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminNotificationGetTemplatesResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminNotificationPostTemplate: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NotificationTemplateCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminNotificationPostTemplateResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminNotificationPatchTemplate: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path: {
+                /** @description id 标识 */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NotificationTemplatePatchRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminNotificationPatchTemplateResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminNotificationGetDeliveries: {
+        parameters: {
+            query?: {
+                /** @description 页码 */
+                page?: number;
+                /** @description 每页数量 */
+                pageSize?: number;
+                /** @description 关键词 */
+                keyword?: string;
+                /** @description 状态 */
+                status?: string;
+                /** @description 白名单排序，例如 createdAt:desc */
+                sort?: string;
+                /** @description 开始时间，ISO-8601 */
+                startAt?: string;
+                /** @description 结束时间，ISO-8601 */
+                endAt?: string;
+                /** @description channel */
+                channel?: string;
+                /** @description templateCode */
+                templateCode?: string;
+                /** @description businessType */
+                businessType?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminNotificationGetDeliveriesResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminNotificationPostDeliveryRetry: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path: {
+                /** @description id 标识 */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["NotificationRetryRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminNotificationPostDeliveryRetryResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminExportsGetJobs: {
+        parameters: {
+            query?: {
+                /** @description 页码 */
+                page?: number;
+                /** @description 每页数量 */
+                pageSize?: number;
+                /** @description 关键词 */
+                keyword?: string;
+                /** @description 状态 */
+                status?: string;
+                /** @description 白名单排序，例如 createdAt:desc */
+                sort?: string;
+                /** @description 开始时间，ISO-8601 */
+                startAt?: string;
+                /** @description 结束时间，ISO-8601 */
+                endAt?: string;
+                /** @description exportType */
+                exportType?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminExportsGetJobsResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminExportsPostJob: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ExportJobCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminExportsPostJobResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminExportsGetJobById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description id 标识 */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminExportsGetJobByIdResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminExportsPostDownloadToken: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path: {
+                /** @description id 标识 */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminExportsPostDownloadTokenResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminSelfGetSecurity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminSelfGetSecurityResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminSelfPostPasswordChange: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AdminPasswordChangeRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminSelfPostPasswordChangeResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminSelfPostMfaEnroll: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminSelfPostMfaEnrollResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminSelfPostMfaConfirm: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MfaConfirmRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminSelfPostMfaConfirmResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 资源不存在 */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 版本、幂等或状态冲突 */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    adminSelfPostMfaDisable: {
+        parameters: {
+            query?: never;
+            header: {
+                /** @description UUID/ULID。相同主体、操作和键必须返回首次结果；请求摘要不一致返回 COMMON-409-IDEMPOTENCY_CONFLICT。 */
+                "X-Idempotency-Key": components["parameters"]["XIdempotencyKey"];
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["MfaDisableRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AdminSelfPostMfaDisableResponse"];
                 };
             };
             /** @description 请求参数错误 */

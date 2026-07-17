@@ -36,4 +36,4 @@ export HHY_API_BASE_URL=https://api.dev.example.com
 2. API DTO 不得由页面手写；契约冻结后从根目录 `contracts/openapi.yaml` 生成。
 3. 任何 Token、手机号、身份证号和支付字段不得写日志。
 4. `api.example.invalid` 仅为安全占位，未设置 `HHY_API_BASE_URL` 时不得发布。
-5. 96 个页面的机器可读目录位于 `app/src/main/assets/android-screens.v1.2.2.json`。
+5. 102 个页面的机器可读目录位于 `app/src/main/assets/android-screens.v1.2.2.json`。

@@ -16,17 +16,34 @@ spring:
     create-schemas: true
   autoconfigure:
     exclude: org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
 server:
   port: ${HHY_HTTP_PORT:8080}
   shutdown: graceful
   forward-headers-strategy: framework
+logging:
+  structured:
+    format:
+      console: logstash
 management:
+  server:
+    port: ${HHY_MANAGEMENT_PORT:9091}
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
   endpoints:
     web:
       exposure:
         include: health,info,prometheus
+    jmx:
+      exposure:
+        exclude: "*"
   endpoint:
     health:
+      show-details: never
       probes:
         enabled: true
 hhy:
@@ -37,9 +54,3 @@ hhy:
     publishing-enabled: ${HHY_PUBLISHING_ENABLED:true}
     red-packet-enabled: ${HHY_REDPACKET_ENABLED:false}
     withdrawal-enabled: ${HHY_WITHDRAWAL_ENABLED:false}
-    latest-version-code: ${HHY_LATEST_VERSION_CODE:1}
-    latest-version-name: ${HHY_LATEST_VERSION_NAME:1.2.2-dev}
-    minimum-supported-version-code: ${HHY_MIN_VERSION_CODE:1}
-    download-url: ${HHY_APK_DOWNLOAD_URL:https://download.orbexa.cc/app/dev.apk}
-    apk-sha256: ${HHY_APK_SHA256:unset}
-    release-notes: ${HHY_RELEASE_NOTES:V1.2.2工程基线}

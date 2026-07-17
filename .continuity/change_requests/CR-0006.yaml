@@ -1,0 +1,66 @@
+protocol_version: '1.0'
+cr_id: CR-0006
+title: P00事件账务不变量收口
+status: IMPLEMENTED
+created_at: '2026-07-17T00:57:46Z'
+updated_at: '2026-07-17T01:24:47Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-engineering-audit
+task_id: TASK-P00-002
+session_id: SES-20260716T232809Z-B4A980AF
+user_request: 用户已授权开始项目开发，并要求P00完成后暂停推进
+reason: 封堵应用可绕过的账务不可变、非平衡入账、重复消费和对账并发缺口，同时不新增冻结目录外的第199张表
+original_rule: V007允许应用会话以自定义GUC绕过不可变事实触发器；Outbox/Inbox可删除；非POSTED状态可规避复式平衡；同一原交易可被重复全额冲正；余额快照和对账生命周期缺少完整数据库约束
+new_rule: 会计事实仅允许POSTED且无应用绕过；Outbox事件与Inbox claim禁止删除；一个原交易最多被完整冲正一次且逐账户反向匹配；Outbox/Inbox/账户/对账状态由数据库约束；状态改变暂存不可变Outbox历史；余额只校验游标、总额可重建和单调性
+impact_summary: 新增V010/U010、SQL正反并发测试、Boot Flyway测试与ADR；不改V001至V009、不增加表、页面或API
+impact:
+  files:
+  - database/migrations/V010__p00_event_ledger_invariants.sql
+  - database/rollback/U010__p00_event_ledger_invariants.sql
+  - database/tests/p00_event_ledger_invariants.sql
+  - scripts/run_p00_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V010__p00_event_ledger_invariants.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
+  - docs/01-architecture/adr/ADR-007-P00事件账务不变量收口.md
+  pages: []
+  apis: []
+  database:
+  - outbox_events
+  - inbox_messages
+  - ledger_accounts
+  - accounting_transactions
+  - accounting_entries
+  - balance_snapshots
+  - reconciliation_runs
+  - reconciliation_differences
+  configuration:
+  - PostgreSQL-btree_gist
+  ledger:
+  - 复式平衡、不可变、单次冲正、冲正对称、快照游标与总额可重建
+  tests:
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_p00_database_invariants.sh
+  - P00FlywayMigrationTest
+  releases:
+  - P00
+  migration_and_compatibility: 合法历史数据向后兼容；删除/重复冲正等脏数据阻断迁移并人工审计；U010仅可丢弃开发测试库使用，生产纠错只允许新前向迁移
+user_confirmation: 用户已授权开始项目开发，并要求P00完成后暂停推进
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-17T01:24:46Z'
+  note: 三轮独立审查后确认全部阻断关闭：禁止Outbox/Inbox删除、单次冲正、负例、多态状态历史及V010/V011哈希一致；PostgreSQL17.10 SQL/Flyway空库升级重复迁移并发和双回滚均真实通过
+machine_record: .continuity/change_requests/CR-0006.yaml
+document: docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
+decision_log:
+- at: '2026-07-17T01:24:46Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 按批准合同完成数据库不变量实施与真实环境复验
+  session_id: SES-20260716T232809Z-B4A980AF
+- at: '2026-07-17T01:24:47Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: V010/U010、SQL和Flyway测试、ADR及PostgreSQL17.10证据全部完成，独立复审APPROVE
+  session_id: SES-20260716T232809Z-B4A980AF
+session_ids:
+- SES-20260716T232809Z-B4A980AF

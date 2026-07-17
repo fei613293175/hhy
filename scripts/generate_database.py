@@ -303,7 +303,7 @@ END; $$;
     verify.joinpath('verify_baseline.sql').write_text("""SET search_path TO hhy, public;
 DO $$ DECLARE v_count integer; BEGIN
  SELECT count(*) INTO v_count FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';
- IF v_count <> 188 THEN RAISE EXCEPTION 'Expected 188 tables, found %',v_count; END IF;
+ IF v_count <> 198 THEN RAISE EXCEPTION 'Expected 198 tables, found %',v_count; END IF;
  IF EXISTS (SELECT 1 FROM hhy.accounting_transactions t LEFT JOIN hhy.accounting_entries e ON e.transaction_id=t.id WHERE t.status='POSTED' GROUP BY t.id HAVING COALESCE(sum(e.amount_cent) FILTER(WHERE e.direction='DEBIT'),0) <> COALESCE(sum(e.amount_cent) FILTER(WHERE e.direction='CREDIT'),0)) THEN RAISE EXCEPTION 'Unbalanced accounting data'; END IF;
  IF EXISTS (SELECT 1 FROM hhy.red_packet_stock WHERE claimed+reserved>total) THEN RAISE EXCEPTION 'Invalid red packet stock'; END IF;
 END $$;
@@ -316,7 +316,7 @@ SELECT 'baseline-ok' AS result, count(*) AS table_count FROM information_schema.
     (ROOT/'database/README.md').write_text("""# 数据库执行基线
 
 - PostgreSQL 16+；所有业务对象位于 `hhy` schema。
-- Flyway 顺序执行 `database/migrations/V001...V008`。
+- Flyway 顺序执行 `database/migrations/V001...V009`。
 - `schema_dictionary.csv` 是字段目录；SQL 迁移是可执行事实；二者由 `scripts/generate_database.py` 和 Project Doctor 双向校验。
 - 金额均为整数分；比例为基点；时间为 `timestamptz`；敏感原文不得进入普通字段。
 - `accounting_transactions` 与 `accounting_entries` 使用延期约束在提交时校验复式平衡，并禁止常规更新/删除。

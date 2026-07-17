@@ -1,0 +1,132 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260716T232809Z-B4A980AF-0002
+session_id: SES-20260716T232809Z-B4A980AF
+sequence: 2
+created_at: '2026-07-16T23:39:06Z'
+summary: 修复P00无Git冷启动死锁与开发产物污染
+next_step: 同步数据库、契约、生成页面与版本元数据基线
+blockers: []
+decisions:
+- 无Git且无会话时resume必须先引导bootstrap
+note: ''
+tests:
+- name: bootstrap-recovery
+  result: PASS
+  evidence: 'tests/test_continuity_bootstrap_recovery.py: isolated repository test passed in 37.698s'
+  note: 覆盖会话基线回填和pycache忽略
+- name: python-ast
+  result: PASS
+  evidence: scripts/continuity.py,scripts/continuity_lib.py,tests/test_continuity_bootstrap_recovery.py AST PASS
+  note: 三份Python文件语法有效
+git:
+  initialized: true
+  branch: task/TASK-P00-001
+  head: bffa551a122444a86bfcff0542714834bd6c2156
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CONTINUITY_POLICY.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260716T232809Z-B4A980AF.yaml'
+  - ' M .gitignore'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md'
+  - ' M scripts/continuity.py'
+  - ' M scripts/continuity_lib.py'
+  - ?? .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0001.yaml
+  - ?? artifacts/validation/project-doctor-v1.2.3-documentation.json
+  - ?? tests/test_continuity_bootstrap_recovery.py
+  recent_commits:
+  - "bffa551a122444a86bfcff0542714834bd6c2156\t2026-07-17T07:28:28+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(repo): import V1.2.3\
+    \ enforced continuity baseline"
+project_fingerprint:
+  sha256: 4fb263177b7e24fc5b502828054ccf7e42d7657058c57bf1bdb4cde07f0a4007
+  files:
+  - .gitignore
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  - tests/test_continuity_bootstrap_recovery.py
+  file_count: 5
+  payload:
+    base_commit: bffa551a122444a86bfcff0542714834bd6c2156
+    files:
+    - path: .gitignore
+      state: FILE
+      size: 511
+      sha256: 112d66481034121647c7692d24ee97433484e6a5212c21ad7418851e9d7721db
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 1541
+      sha256: 767f33d55dc105fa42878fbbf733c2c366e197f47368db79a059ba34cd0b27c9
+    - path: scripts/continuity.py
+      state: FILE
+      size: 49198
+      sha256: a69a5ebb434110281bcbfca8244ab0897e3071d7da7dcaf413030d498795601c
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 96896
+      sha256: 39e9c70792595aad423e048652f4afa29694aa6d2562793dc38d6d77566b0614
+    - path: tests/test_continuity_bootstrap_recovery.py
+      state: FILE
+      size: 6280
+      sha256: 22feb6fd528fedd45f99d37b7e2d899329c90375ba91b175c329e8e31c40c891
+change_classification:
+  other:
+  - .gitignore
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  code:
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  tests:
+  - tests/test_continuity_bootstrap_recovery.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - '**'
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit+bootstrap-repair
+event_hash: e8b1e707737b7100185fc823e5ba42aa0dd997ad0321d3114b4ef42dad535521

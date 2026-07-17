@@ -12110,51 +12110,6 @@ paths:
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
       parameters:
-      - name: page
-        in: query
-        required: false
-        schema:
-          type: integer
-          minimum: 1
-          default: 1
-        description: 页码；游标接口可忽略
-      - name: pageSize
-        in: query
-        required: false
-        schema:
-          type: integer
-          minimum: 1
-          maximum: 100
-          default: 20
-        description: 每页数量
-      - name: cursor
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 256
-        description: 游标；与page二选一
-      - name: status
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 状态筛选
-      - name: keyword
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 100
-        description: 关键词筛选
-      - name: sort
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 白名单排序字段，例如 createdAt:desc
       - name: platform
         in: query
         required: true
@@ -12167,6 +12122,7 @@ paths:
         required: true
         schema:
           type: integer
+          format: int64
           minimum: 1
       - name: channel
         in: query
@@ -12770,52 +12726,6 @@ paths:
       - COMMON-422-BUSINESS_RULE
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
-      parameters:
-      - name: page
-        in: query
-        required: false
-        schema:
-          type: integer
-          minimum: 1
-          default: 1
-        description: 页码；游标接口可忽略
-      - name: pageSize
-        in: query
-        required: false
-        schema:
-          type: integer
-          minimum: 1
-          maximum: 100
-          default: 20
-        description: 每页数量
-      - name: cursor
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 256
-        description: 游标；与page二选一
-      - name: status
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 状态筛选
-      - name: keyword
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 100
-        description: 关键词筛选
-      - name: sort
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 白名单排序字段，例如 createdAt:desc
       x-request-schema: '#/components/schemas/PublicGetPlatformStatusParameters'
       responses:
         '200':
@@ -14073,29 +13983,37 @@ components:
       properties:
         platform:
           type: string
-          maxLength: 2000
+          enum:
+          - ANDROID
         latestVersionCode:
-          type: string
-          maxLength: 2000
+          type: integer
+          format: int64
+          minimum: 1
         latestVersionName:
           type: string
-          maxLength: 2000
+          maxLength: 32
         updateType:
           type: string
-          maxLength: 2000
+          enum:
+          - NONE
+          - OPTIONAL
+          - FORCED
         downloadUrl:
           type: string
-          maxLength: 2000
+          format: uri
+          maxLength: 2048
         sha256:
           type: string
+          minLength: 64
           maxLength: 64
-          pattern: ^[A-Fa-f0-9]{40,64}$
+          pattern: ^[A-Fa-f0-9]{64}$
         releaseNotes:
           type: string
           maxLength: 2000
         minSupportedVersionCode:
-          type: string
-          maxLength: 2000
+          type: integer
+          format: int64
+          minimum: 1
         serverTime:
           type: string
           format: date-time
@@ -14104,6 +14022,46 @@ components:
       - latestVersionCode
       - latestVersionName
       - updateType
+      - downloadUrl
+      - sha256
+      - releaseNotes
+      - minSupportedVersionCode
+      - serverTime
+    PlatformCapabilitiesResource:
+      type: object
+      additionalProperties: false
+      properties:
+        registration:
+          type: boolean
+        publishing:
+          type: boolean
+        redPacket:
+          type: boolean
+        withdrawal:
+          type: boolean
+      required:
+      - registration
+      - publishing
+      - redPacket
+      - withdrawal
+    PlatformStatusResource:
+      type: object
+      additionalProperties: false
+      properties:
+        maintenance:
+          type: boolean
+        maintenanceMessage:
+          type: string
+          maxLength: 500
+        capabilities:
+          $ref: '#/components/schemas/PlatformCapabilitiesResource'
+        serverTime:
+          type: string
+          format: date-time
+      required:
+      - maintenance
+      - maintenanceMessage
+      - capabilities
       - serverTime
     PublicPageResource:
       type: object
@@ -20201,54 +20159,17 @@ components:
           type: string
           format: date-time
         data:
-          type: object
-          additionalProperties: false
-          required:
-          - items
-          - page
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/AppVersionPolicyResource'
-            page:
-              $ref: '#/components/schemas/PageMeta'
+          $ref: '#/components/schemas/AppVersionPolicyResource'
     AppReleaseGetAppVersionCheckParameters:
       type: object
       additionalProperties: false
       properties:
-        page:
-          type: integer
-          minimum: 1
-          default: 1
-          description: 页码；游标接口可忽略
-        pageSize:
-          type: integer
-          minimum: 1
-          maximum: 100
-          default: 20
-          description: 每页数量
-        cursor:
-          type: string
-          maxLength: 256
-          description: 游标；与page二选一
-        status:
-          type: string
-          maxLength: 64
-          description: 状态筛选
-        keyword:
-          type: string
-          maxLength: 100
-          description: 关键词筛选
-        sort:
-          type: string
-          maxLength: 64
-          description: 白名单排序字段，例如 createdAt:desc
         platform:
           type: string
           enum: *id006
         versionCode:
           type: integer
+          format: int64
           minimum: 1
         channel:
           type: string
@@ -20520,49 +20441,11 @@ components:
           type: string
           format: date-time
         data:
-          type: object
-          additionalProperties: false
-          required:
-          - items
-          - page
-          properties:
-            items:
-              type: array
-              items:
-                $ref: '#/components/schemas/PublicPageResource'
-            page:
-              $ref: '#/components/schemas/PageMeta'
+          $ref: '#/components/schemas/PlatformStatusResource'
     PublicGetPlatformStatusParameters:
       type: object
       additionalProperties: false
-      properties:
-        page:
-          type: integer
-          minimum: 1
-          default: 1
-          description: 页码；游标接口可忽略
-        pageSize:
-          type: integer
-          minimum: 1
-          maximum: 100
-          default: 20
-          description: 每页数量
-        cursor:
-          type: string
-          maxLength: 256
-          description: 游标；与page二选一
-        status:
-          type: string
-          maxLength: 64
-          description: 状态筛选
-        keyword:
-          type: string
-          maxLength: 100
-          description: 关键词筛选
-        sort:
-          type: string
-          maxLength: 64
-          description: 白名单排序字段，例如 createdAt:desc
+      properties: {}
     AppReleasePostAppVersionCheckRequest:
       type: object
       additionalProperties: false
@@ -20575,15 +20458,16 @@ components:
         versionCode:
           type: integer
           format: int64
+          minimum: 1
         versionName:
           type: string
-          maxLength: 2000
+          maxLength: 32
         channel:
           type: string
-          maxLength: 2000
+          minLength: 1
+          maxLength: 64
         environment:
           type: string
-          maxLength: 2000
           enum:
           - DEV
           - TEST

@@ -12,13 +12,31 @@ command -v psql >/dev/null 2>&1 || { echo "psql is required" >&2; exit 2; }
 PSQL=(psql "$DATABASE_URL" -X -v ON_ERROR_STOP=1)
 "${PSQL[@]}" -c "DROP SCHEMA IF EXISTS hhy CASCADE;" >/dev/null
 for migration in "$ROOT"/database/migrations/V*.sql; do
+  migration_name="$(basename "$migration")"
+  migration_version="${migration_name%%__*}"
+  migration_number=$((10#${migration_version#V}))
+  (( migration_number >= 10 )) && continue
+  echo "$(basename "$migration") APPLY"
+  "${PSQL[@]}" -f "$migration" >/dev/null
+  echo "$(basename "$migration") PASS"
+done
+
+echo "V009_TO_V010 UPGRADE"
+"${PSQL[@]}" -f "$ROOT/database/migrations/V010__p00_event_ledger_invariants.sql" >/dev/null
+echo "V010__p00_event_ledger_invariants.sql PASS"
+
+for migration in "$ROOT"/database/migrations/V*.sql; do
+  migration_name="$(basename "$migration")"
+  migration_version="${migration_name%%__*}"
+  migration_number=$((10#${migration_version#V}))
+  (( migration_number <= 10 )) && continue
   echo "$(basename "$migration") APPLY"
   "${PSQL[@]}" -f "$migration" >/dev/null
   echo "$(basename "$migration") PASS"
 done
 
 TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
-[[ "$TABLE_COUNT" == "188" ]] || { echo "Expected 188 hhy tables, got $TABLE_COUNT" >&2; exit 1; }
+[[ "$TABLE_COUNT" == "198" ]] || { echo "Expected 198 hhy tables, got $TABLE_COUNT" >&2; exit 1; }
 echo "TABLE_COUNT $TABLE_COUNT"
 
 "${PSQL[@]}" -f "$ROOT/database/tests/postgres_smoke_success.sql" >/dev/null
@@ -73,4 +91,17 @@ ADMIN_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM hhy.admin_users;")"
 [[ "$ADMIN_COUNT" == "0" ]] || { echo "A default administrator must not be seeded" >&2; exit 1; }
 echo "SEEDED_ROLES $ROLE_CODES"
 echo "DEFAULT_ADMIN_COUNT $ADMIN_COUNT"
+
+"${PSQL[@]}" -f "$ROOT/database/verification/verify_baseline.sql" >/dev/null
+echo "BASELINE_VERIFICATION PASS"
+
+bash "$ROOT/scripts/run_p00_database_invariants.sh"
+
+"${PSQL[@]}" -f "$ROOT/database/rollback/U010__p00_event_ledger_invariants.sql" >/dev/null
+"${PSQL[@]}" -f "$ROOT/database/migrations/V010__p00_event_ledger_invariants.sql" >/dev/null
+"${PSQL[@]}" -f "$ROOT/database/tests/p00_event_ledger_invariants.sql" >/dev/null
+echo "U010_REAPPLY_V010 PASS"
+
+"${PSQL[@]}" -f "$ROOT/database/verification/verify_baseline.sql" >/dev/null
+echo "FINAL_BASELINE_VERIFICATION PASS"
 echo "POSTGRESQL_MIGRATION_SMOKE PASS"
