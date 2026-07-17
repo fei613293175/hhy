@@ -849,9 +849,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0018
   title: 建立主控与受托执行代理的并行开发、分层测试及APK交付基线
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-17T18:40:25Z'
-  updated_at: '2026-07-17T19:28:10Z'
+  updated_at: '2026-07-17T19:41:11Z'
   requester_actor_id: codex-master
   approver_actor_id: codex-architecture-reviewer
   task_id: TASK-R02-001
@@ -928,5 +928,14 @@ change_requests:
     status: IMPLEMENTED
     note: 并行开发治理、R02纵向批次、分层门禁、生成漂移检查、影响测试、每日全量CI和APK交付状态机已实现；严格文档与连续性门禁通过。
     session_id: SES-20260717T183459Z-D64E7407
+  - at: '2026-07-17T19:41:11Z'
+    actor_id: codex-master
+    status: CLOSED
+    note: CR-0018全部治理、门禁、生成、CI与APK交付范围已实现并验证，后续由R02纵向批次执行。
+    session_id: SES-20260717T183459Z-D64E7407
   session_ids:
   - SES-20260717T183459Z-D64E7407
+  implementation_commits:
+  - c19f6d6259801d785dc70eb2a81dfac5c41278ec
+  - 919b095
+  - cd44628
