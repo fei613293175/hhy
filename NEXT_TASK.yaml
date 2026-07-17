@@ -1,32 +1,32 @@
-id: TASK-P00-008
-title: 仓库、环境、契约与无状态接续版本关闭与无状态交接
+id: TASK-R01-001
+title: Design System与契约工程化开发就绪核验、故事领取与变更基线
 status: READY
-release: P00
+release: R01
 requirements:
 - REQ-UI-001
-- REQ-CONT-001
-- REQ-ENG-001
+- REQ-DESIGN-001
 - REQ-CONTRACT-001
 - REQ-APK-001
 - REQ-ARCH-001
 - REQ-DATA-001
 - REQ-EVENT-001
-- REQ-LEDGER-001
 - REQ-ADMIN-BASE-001
 - REQ-OBS-002
-- REQ-SECRET-001
-depends_on:
-- TASK-P00-007
-definition_of_ready: releases/P00/DEFINITION_OF_READY.yaml
-stories: releases/P00/STORIES.yaml
+depends_on: []
+definition_of_ready: releases/R01/DEFINITION_OF_READY.yaml
+stories: releases/R01/STORIES.yaml
 steps:
-- 全新AI仅凭仓库可继续
-- 工作区干净且Tag可追溯
+- releases/R01/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R01/STORIES.yaml 故事责任人和依赖已领取
+- 更新Release Manifest与CR记录
+- python scripts/check_v122_documentation.py --release R01
 acceptance:
-- 无TODO/生产Mock
-- 代码、文档、测试、追踪同步更新
-- 全新AI仅凭仓库可继续
-- 工作区干净且Tag可追溯
+- 页面、字段、状态、动作、API、配置、数据和测试无TBD
+- 不适用项明确N/A及原因
+- releases/R01/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R01/STORIES.yaml 故事责任人和依赖已领取
+- 更新Release Manifest与CR记录
+- python scripts/check_v122_documentation.py --release R01
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-P00-008
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R01-001
 next_after: 由当前TASKS.yaml依赖关系决定

@@ -1,12 +1,15 @@
 {
   "version": "1.2.3",
   "protocol_version": "1.0",
-  "mode": "doctor",
+  "mode": "pre-commit",
   "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 41,
-    "event_head_hash": "02ab126aed10bb455a57f423a7eb37d3c4c3ce517ddfa8cc2109ee3f0544bcc7"
+    "event_count": 103,
+    "event_head_hash": "6d5a9799950c1ae1eae22fbff23ed10d4437a6b6c24b724ee3931391f187ce64",
+    "changed_files": 1,
+    "project_changed_files": 0,
+    "change_classification": {}
   },
   "errors": [],
   "warnings": []
