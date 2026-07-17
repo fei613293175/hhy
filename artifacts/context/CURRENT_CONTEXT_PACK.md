@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T16:44:12Z
-- Context Hash：`aaa93776ee5503de2056f6ed43566008566c6eea29405d7c8b41d88060691f5e`
+- 生成时间：2026-07-17T16:54:24Z
+- Context Hash：`a02a18cab6b9e110e1af19a9d0112c7a45c13abdc9f914b0baf15a54b42e9fbc`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -52,7 +52,7 @@ in_progress_tasks:
 - TASK-R01-007
 blocked_tasks: []
 next_task: TASK-R01-007
-updated_at: '2026-07-17T16:44:10Z'
+updated_at: '2026-07-17T16:54:23Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -87,15 +87,15 @@ continuity:
   active_session_id: SES-20260717T152721Z-016DB4B2
   actor_id: codex-root
   story_id: STORY-R01-003
-  lease_expires_at: '2026-07-17T20:44:10Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0006.yaml
-  project_fingerprint: 8d6689ba6551ada01a6f13f9044a9620a75bd8fcb8c4076a48cfb696d4b14d56
+  lease_expires_at: '2026-07-17T20:54:22Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0007.yaml
+  project_fingerprint: ca88888d18ab1ec6093831163c803440be94540f2069c0a629d0d0d9cca48cb6
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: fe55c9b21bb4656423b26c1974275a0f1df8e0f5cc556bed398d948c2704bc8d
-    generated_at: '2026-07-17T16:43:33Z'
+    context_hash: aaa93776ee5503de2056f6ed43566008566c6eea29405d7c8b41d88060691f5e
+    generated_at: '2026-07-17T16:44:12Z'
   handoff_bundle: null
 ```
 
@@ -157,7 +157,7 @@ task_id: TASK-R01-007
 story_id: STORY-R01-003
 goal: Design System与契约工程化Android测试APK与产物追溯
 started_at: '2026-07-17T15:27:21Z'
-updated_at: '2026-07-17T16:44:10Z'
+updated_at: '2026-07-17T16:54:22Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -206,12 +206,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T16:44:10Z'
-  expires_at: '2026-07-17T20:44:10Z'
-checkpoint_sequence: 6
-latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0006.yaml
+  renewed_at: '2026-07-17T16:54:22Z'
+  expires_at: '2026-07-17T20:54:22Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md
-next_step: 提交resValues构建配置后重建Android测试APK，验证测试名称与签名信息
+next_step: 等待项目所有者反馈R01 APK真机安装与启动验收结果；通过后回填Manifest并关闭TASK-R01-007
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -221,52 +221,59 @@ closure: null
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T152721Z-016DB4B2-0006
+checkpoint_id: CP-SES-20260717T152721Z-016DB4B2-0007
 session_id: SES-20260717T152721Z-016DB4B2
-sequence: 6
-created_at: '2026-07-17T16:44:10Z'
-summary: 启用AGP 9所需resValues功能并补齐变更记录；待以新源码提交复建验证
-next_step: 提交resValues构建配置后重建Android测试APK，验证测试名称与签名信息
-blockers: []
-decisions: []
+sequence: 7
+created_at: '2026-07-17T16:54:22Z'
+summary: R01测试APK已由精确Commit构建、签名和静态安装信息复核，最终副本已复制到桌面；等待项目所有者真机验收
+next_step: 等待项目所有者反馈R01 APK真机安装与启动验收结果；通过后回填Manifest并关闭TASK-R01-007
+blockers:
+- 真机安装与启动验收仅能由项目所有者完成，当前等待明确反馈
+decisions:
+- 桌面仅保留带测试名称的最终APK，源码、SHA256、签名、工具链和构建日志均已归档
 note: ''
 tests:
-- name: R01-changelog-test-apk-entry
+- name: R01-android-gradle-build
   result: PASS
-  evidence: CHANGELOG.md
-  note: 测试包用户可见标识已记录
-- name: R01-debug-res-values-source
+  evidence: artifacts/validation/r01-task007-android/gradle-build.log
+  note: testDebugUnitTest lintDebug assembleDebug BUILD SUCCESSFUL
+- name: R01-apk-badging
   result: PASS
-  evidence: apps/android/app/build.gradle.kts
-  note: debug资源覆盖功能已启用
+  evidence: artifacts/validation/r01-task007-android/apk-badging.txt
+  note: 独立包名、测试名称、版本、SDK和启动入口通过
+- name: R01-apk-desktop-sha
+  result: PASS
+  evidence: artifacts/apk/R01/hhy-r01-db3cfdd-debug.apk
+  note: 仓库副本与桌面副本SHA256一致
+- name: R01-apk-signature
+  result: PASS
+  evidence: artifacts/validation/r01-task007-android/apk-signing.txt
+  note: v2签名与证书指纹通过
 - name: R01-git-diff-check
   result: PASS
   evidence: git diff --check
   note: 无空白错误
+- name: R01-release-artifact-structure
+  result: PASS
+  evidence: scripts/check_release_artifacts.py --release R01
+  note: Release产物结构通过
 git:
   initialized: true
   branch: task/TASK-R01-007
-  head: 06b705ed53d83258e8d4b166909c5c21384f4b02
+  head: db3cfddcc4cda84265ec18f24de972804d62a08f
   upstream: null
   ahead: null
   behind: null
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - A  .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0005.yaml
-  - M  .continuity/sessions/SES-20260717T152721Z-016DB4B2.yaml
-  - ' M CHANGELOG.md'
-  - M  CURRENT_STATUS.yaml
-  - M  apps/android/app/build.gradle.kts
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  catalogs/session_index.csv
-  - M  docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md
+  - ?? artifacts/apk/R01/APK_MANIFEST.yaml
+  - ?? artifacts/reports/R01/TASK-R01-007-android-apk.md
+  - ?? artifacts/validation/r01-task007-android/apk-badging.txt
+  - ?? artifacts/validation/r01-task007-android/apk-signing.txt
+  - ?? artifacts/validation/r01-task007-android/gradle-build.log
   recent_commits:
+  - "db3cfddcc4cda84265ec18f24de972804d62a08f\t2026-07-18T00:44:24+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): enable debug resource\
+    \ overrides"
   - "06b705ed53d83258e8d4b166909c5c21384f4b02\t2026-07-18T00:40:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): mark debug APK\
     \ test build"
   - "46fb27372f2e62f3fe83d9f43f8e2189bbed4757\t2026-07-17T23:21:14+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-006\
@@ -281,16 +288,15 @@ git:
     \ syntax"
   - "f685a0778ea9b3b723d68d3d9fc6cf639aa4d4b5\t2026-07-17T22:34:49+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): harden observability\
     \ error paths"
-  - "580981d4d9404bb52d34c5d25a7e6450f31697cf\t2026-07-17T22:26:34+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): add isolated staging\
-    \ observability"
 project_fingerprint:
-  sha256: 8d6689ba6551ada01a6f13f9044a9620a75bd8fcb8c4076a48cfb696d4b14d56
+  sha256: ca88888d18ab1ec6093831163c803440be94540f2069c0a629d0d0d9cca48cb6
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/main/AndroidManifest.xml
+  - artifacts/apk/R01/APK_MANIFEST.yaml
   - infra/toolchains/android/Dockerfile
-  file_count: 4
+  file_count: 5
   payload:
     base_commit: 46fb27372f2e62f3fe83d9f43f8e2189bbed4757
     files:
@@ -306,6 +312,10 @@ project_fingerprint:
       state: FILE
       size: 827
       sha256: a4a8afdea84e04a65751148fd3f68e09fd2ab04d96bcfc9131be5d2d9d6f054e
+    - path: artifacts/apk/R01/APK_MANIFEST.yaml
+      state: FILE
+      size: 1042
+      sha256: 324b13c892b6f4892d3a2334866d82fe5a54ab05873e1baacde305614ea62ffa
     - path: infra/toolchains/android/Dockerfile
       state: FILE
       size: 1107
@@ -313,6 +323,7 @@ project_fingerprint:
 change_classification:
   other:
   - CHANGELOG.md
+  - artifacts/apk/R01/APK_MANIFEST.yaml
   code:
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/main/AndroidManifest.xml
@@ -366,7 +377,7 @@ scope:
   - artifacts/validation/**
   approved_exceptions: []
   source: story+explicit+apk-delivery-artifacts
-event_hash: 6ab03650a03c7ee334f30280654e4bfdaa8e3426736151701aa07d1f90beef1e
+event_hash: a74dd36abee00b6933a9ffe97541afb04b0e248d2f9938b686a9608ddd633612
 ```
 
 ## 接续状态与事件头
@@ -378,8 +389,8 @@ active_session_id: SES-20260717T152721Z-016DB4B2
 last_session_id: SES-20260717T141717Z-A01412D7
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T141717Z-A01412D7-0007
-event_count: 195
-event_head_hash: 6ab03650a03c7ee334f30280654e4bfdaa8e3426736151701aa07d1f90beef1e
+event_count: 196
+event_head_hash: a74dd36abee00b6933a9ffe97541afb04b0e248d2f9938b686a9608ddd633612
 event_chain_valid: true
 ```
 
@@ -502,9 +513,9 @@ recent_sessions: - session_id: SES-20260717T053626Z-25451510
   started_at: '2026-07-17T15:27:21Z'
   record: .continuity/sessions/SES-20260717T152721Z-016DB4B2.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md
-  updated_at: '2026-07-17T16:44:10Z'
+  updated_at: '2026-07-17T16:54:22Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0006.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0007.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -1251,28 +1262,29 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
 ```yaml
 initialized: true
 branch: task/TASK-R01-007
-head: 06b705ed53d83258e8d4b166909c5c21384f4b02
+head: db3cfddcc4cda84265ec18f24de972804d62a08f
 upstream: null
 ahead: null
 behind: null
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0005.yaml
-- MM .continuity/sessions/SES-20260717T152721Z-016DB4B2.yaml
-- ' M CHANGELOG.md'
-- MM CURRENT_STATUS.yaml
-- M  apps/android/app/build.gradle.kts
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- MM catalogs/session_index.csv
-- MM docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md
-- ?? .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0006.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/sessions/SES-20260717T152721Z-016DB4B2.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md'
+- ?? .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0007.yaml
+- ?? artifacts/apk/R01/APK_MANIFEST.yaml
+- ?? artifacts/reports/R01/TASK-R01-007-android-apk.md
+- ?? artifacts/validation/r01-task007-android/apk-badging.txt
+- ?? artifacts/validation/r01-task007-android/apk-signing.txt
+- ?? artifacts/validation/r01-task007-android/gradle-build.log
 recent_commits:
+- "db3cfddcc4cda84265ec18f24de972804d62a08f\t2026-07-18T00:44:24+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): enable debug resource\
+  \ overrides"
 - "06b705ed53d83258e8d4b166909c5c21384f4b02\t2026-07-18T00:40:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): mark debug APK test\
   \ build"
 - "46fb27372f2e62f3fe83d9f43f8e2189bbed4757\t2026-07-17T23:21:14+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-006\
@@ -1287,18 +1299,17 @@ recent_commits:
   \ syntax"
 - "f685a0778ea9b3b723d68d3d9fc6cf639aa4d4b5\t2026-07-17T22:34:49+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): harden observability\
   \ error paths"
-- "580981d4d9404bb52d34c5d25a7e6450f31697cf\t2026-07-17T22:26:34+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): add isolated staging\
-  \ observability"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`8d6689ba6551ada01a6f13f9044a9620a75bd8fcb8c4076a48cfb696d4b14d56`
-- 文件数：4
+- 指纹：`ca88888d18ab1ec6093831163c803440be94540f2069c0a629d0d0d9cca48cb6`
+- 文件数：5
 
 - `CHANGELOG.md`
 - `apps/android/app/build.gradle.kts`
 - `apps/android/app/src/main/AndroidManifest.xml`
+- `artifacts/apk/R01/APK_MANIFEST.yaml`
 - `infra/toolchains/android/Dockerfile`
 
 ## 当前 Release
@@ -2178,7 +2189,7 @@ TASKS.yaml:
 
 - `AGENTS.md` — `387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `132b5b18232ab6aa29159b23f20448245da0f06d1ff3db4a134d9d3e8a510f6e`
+- `CURRENT_STATUS.yaml` — `2ae8d61a51ce86c9f14dd4066621235e48644633e210deaa6d1655356c4f8621`
 - `NEXT_TASK.yaml` — `ee3cbf0a8261a4309316dd31a08f8bf8f3c073426b9b4027b906a719e067f436`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -2186,19 +2197,19 @@ TASKS.yaml:
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223`
-- `.continuity/EVENT_LOG.jsonl` — `e0e746861f12349cf67da7197d7eadfd9dfee8f6a933618473326238a008d8a5`
-- `.continuity/SESSION_INDEX.yaml` — `6060bbea1f8dc55e8943baa66974daa36b0966a2e68e666f3a493110daef5552`
+- `.continuity/EVENT_LOG.jsonl` — `fc11f8919c060ff99838d70f2951cdf0bd857d635f1cfb7a3655f8a503698d4b`
+- `.continuity/SESSION_INDEX.yaml` — `4432c43eb4757453f241df6fa0666b2c8ac3eebe204b0e79a525cff0d16f9e24`
 - `.continuity/TASK_CLAIMS.yaml` — `4645c168d1811f196aba43214e5c0d92b5e1305da4a725b2c0fd4fdeca53e8f6`
 - `.continuity/TASK_TRANSITIONS.yaml` — `0342d3bea35e81244abfda0eaa6d74aad6ac2765f2e655084838391d627249b1`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c187fe4a88dd354ac7612fe44761326dae4e21494ed981f490abfce3167d91dd`
-- `.continuity/ACTIVE_SESSION.yaml` — `11d584ef9f3aa08627df8989947e73904891c4efce257366dbf0d3b865b5d5f3`
+- `.continuity/ACTIVE_SESSION.yaml` — `38d856126a1d1017a98118a43a986c7ec62b81ad428e2b24ebdb6f5a7db2f75c`
 - `releases/R01/RELEASE_MANIFEST.yaml` — `bb986f651fd20c30ddbabeb81ef31351b6aab527bf6d65833262ce6bee30893f`
 - `releases/R01/DEFINITION_OF_READY.yaml` — `ed81dd9db760893207515b8c0a5cc2f80ac5b7f358d00fb7b71276b8931100e5`
 - `releases/R01/STORIES.yaml` — `368e786cf97c2b244d5bbf21acedcdefacbf5f4a4b42c7780db5b1accb5dd86e`
 - `releases/R01/TASKS.yaml` — `d8467b6913a603db05afb41548f8134bf21b3046ea192c309e8fc618a1e91fd7`
 - `releases/R01/ACCEPTANCE_MATRIX.csv` — `2346c6a60081babbf9f87c78fc103192ea5e14d2b975a0d45d6421f5058a9365`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md` — `91ff52dd54efb9d0317a644df8dc748b197b7bf037465fedaf6f82278d052ad9`
-- `.continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0006.yaml` — `4c991dd17f911df05ff398493a78418507ed7d9a615cac6bcaed470daeb1bb0f`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md` — `664ca6172169ba77c0f1a40afd44c2cc8efbbd49b466056abe6e8ba83a723ff6`
+- `.continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0007.yaml` — `f11922bbdcdafb3b66aaff1e3d5a183c37324fa9dc90f97f80985c01a244271b`
 
 ## 接手硬规则
 
