@@ -1,0 +1,257 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T111928Z-C383F7A2-0004
+session_id: SES-20260717T111928Z-C383F7A2
+sequence: 4
+created_at: '2026-07-17T12:20:20Z'
+summary: 关闭 TASK-R01-004：R01 管理端登录、MFA 与管理员自身安全设置前端已完成；类型化接口、内存会话、安全错误态、离线与权限收敛、自动化及浏览器验收均通过。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：9070796
+- 任务转换：TRN-20260717T122019Z-SES-20260717T111928Z-C383F7A2
+- 下一Release：R01
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: admin-web-vitest
+  result: PASS
+  evidence: 'pnpm --filter @hhy/admin-web test: 5 files 30 tests passed'
+  note: 路由页面服务安全状态与可访问性
+- name: admin-web-build
+  result: PASS
+  evidence: vue-tsc and vite production build PASS
+  note: 49 modules transformed
+- name: r01-doc-ui-trace
+  result: PASS
+  evidence: strict docs; tokens52; front-back189; trace84
+  note: release R01
+- name: r01-contract-db
+  result: PASS
+  evidence: client131 admin184 ws10; tables198 migrations15 runtime hashes PASS
+  note: read-only gates
+- name: browser-e2e
+  result: PASS
+  evidence: desktop and 390px login/MFA/security/enroll/logout/refresh, zero console errors
+  note: local same-origin QA fixture
+- name: independent-frontend-audit
+  result: PASS
+  evidence: ACCEPT no remaining P0/P1
+  note: independent read-only review
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R01-004
+  head: 9070796d112cb66308c658090f955c2600f845d2
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260717T111928Z-C383F7A2.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R01/TASKS.yaml'
+  recent_commits:
+  - "9070796d112cb66308c658090f955c2600f845d2\t2026-07-17T20:19:23+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] feat(r01): implement admin\
+    \ security frontend"
+  - "954b4091b4a813f184b384aecea92e6f2f5d955a\t2026-07-17T19:16:04+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-003\
+    \ as completed"
+  - "d8593b49a513cbcf432ff393ad5b950b89154126\t2026-07-17T19:09:11+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): harden admin authentication\
+    \ security"
+  - "2ffb57fc658164bfac8269f2e891e1cb6af109f3\t2026-07-17T17:37:00+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): implement admin\
+    \ authentication security APIs"
+  - "a72a8621fe69e60ebcbb73a0533ada111effe4fc\t2026-07-17T16:42:44+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-002\
+    \ as completed"
+  - "dc205fd0ea0b65975332733c0b991696f96dd432\t2026-07-17T16:40:37+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close admin security\
+    \ change request"
+  - "7874af5075076b7f84b976a3cf16b94f2476a050\t2026-07-17T16:38:53+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): harden admin security\
+    \ data invariants"
+  - "fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0\t2026-07-17T16:04:12+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-001\
+    \ as completed"
+project_fingerprint:
+  sha256: f07cde2056499bb4ad6761cde13397db6b7d563f4dadafab7fafb8ab1fa56889
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/index.html
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/components/AuthShell.vue
+  - apps/admin-web/src/components/StatusNotice.vue
+  - apps/admin-web/src/indexHtml.test.ts
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminSecurity.test.ts
+  - apps/admin-web/src/services/adminSecurity.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/services/apiError.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/AdminMfaPage.vue
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - releases/R01/TASKS.yaml
+  - scripts/run_r01_admin_web_mock.mjs
+  file_count: 21
+  payload:
+    base_commit: 954b4091b4a813f184b384aecea92e6f2f5d955a
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 8483
+      sha256: 4cf1f08b110fda3e1b0a54450512e62daa6cb9220b00039414e93465af8fa992
+    - path: apps/admin-web/index.html
+      state: FILE
+      size: 363
+      sha256: b9e1d3b0a38a59e9f65933fe2b64bf3007327f7ebb44f7131ea78b01a56ac111
+    - path: apps/admin-web/src/App.vue
+      state: FILE
+      size: 1410
+      sha256: d4fdd3b9fd9e8ce4ca3a89a7960b7126b62388a89634e5cd2d51bcf8eccf6413
+    - path: apps/admin-web/src/components/AuthShell.vue
+      state: FILE
+      size: 1227
+      sha256: 4c8675cf050c46622cf3b2d9272cb10f5caebe3d25d6cb15b8e033826a4bc401
+    - path: apps/admin-web/src/components/StatusNotice.vue
+      state: FILE
+      size: 569
+      sha256: 92d1a0670c01055060d69ad84f0e9c19ed403f1e5dbfe7073bdadcb329160dc4
+    - path: apps/admin-web/src/indexHtml.test.ts
+      state: FILE
+      size: 554
+      sha256: c5b2a5d7b190765d0901748cc408dd6ccec66d4e99ea2c1e37c1a60abd3f797a
+    - path: apps/admin-web/src/r01Pages.test.ts
+      state: FILE
+      size: 15202
+      sha256: e70720b8d3755c84f411d8eeeb81effc9bb6dccf3244d6984ba7304c2f4f66a6
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 1584
+      sha256: 34fab12a30fb1d822a94e60814ac673e0139150bb39074ae735e0c0d4d2ab572
+    - path: apps/admin-web/src/services/adminSecurity.test.ts
+      state: FILE
+      size: 11864
+      sha256: 8bd7ee480886e52e82520ae53649030c37e61a1c2f78082be401b3dd6eaea3e4
+    - path: apps/admin-web/src/services/adminSecurity.ts
+      state: FILE
+      size: 10573
+      sha256: e4dbfd42da7151265e883ecddf34857c083846a7988ce004b4e60aa6f417b256
+    - path: apps/admin-web/src/services/adminSession.test.ts
+      state: FILE
+      size: 3347
+      sha256: 62fe843a8a7a8fa250f5421b80d6a5475ecb45735065394b825eab43249262a9
+    - path: apps/admin-web/src/services/adminSession.ts
+      state: FILE
+      size: 1213
+      sha256: 127d7ae6d03c10a54242434a8ff32c31f0bc0e6db358657bf4f38aee945283bb
+    - path: apps/admin-web/src/services/apiError.ts
+      state: FILE
+      size: 2866
+      sha256: 452e65dbdbce31e2c10b690a4f8b715c7eb409750e3be749bba5373ff11a576b
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 1592
+      sha256: a1f14d8b34f13fd7404490d45af4beba40c32ebcdd075445271d77db274836c5
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 124
+      sha256: 8aaedc82d65620823b9f0e60d5b4ab33c3c630e70327736dcec1d4669f1ba42f
+    - path: apps/admin-web/src/styles.css
+      state: FILE
+      size: 12945
+      sha256: e0317f0671aa4a68a496a64681c4fc7d28bb5f3c80fd72bc47dde52a04fceb67
+    - path: apps/admin-web/src/views/AdminLoginPage.vue
+      state: FILE
+      size: 6359
+      sha256: 0c8b1a597bb7d352f518362646b4daf5b9843d006ac93f8d4697e6b1742091e4
+    - path: apps/admin-web/src/views/AdminMfaPage.vue
+      state: FILE
+      size: 5385
+      sha256: a3c37baacf47283a60eab84bc39df04c1e7dcf62cd6d3975582a2455f2a652ef
+    - path: apps/admin-web/src/views/AdminSecurityPage.vue
+      state: FILE
+      size: 17011
+      sha256: 8be4cd367bd8acc8b428a09a8db460696d8f6fee986f183e609c89d5404ce958
+    - path: releases/R01/TASKS.yaml
+      state: FILE
+      size: 5745
+      sha256: c61c9a204c51eff78ad6b400d60dc872ab5b82eb8ea86a66598097ed7e7700d8
+    - path: scripts/run_r01_admin_web_mock.mjs
+      state: FILE
+      size: 5859
+      sha256: 02344c5c879632ee65dae601c94249fcbde3c58eacdf7db55045201b9623c72c
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R01/TASKS.yaml
+  code:
+  - apps/admin-web/index.html
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/components/AuthShell.vue
+  - apps/admin-web/src/components/StatusNotice.vue
+  - apps/admin-web/src/indexHtml.test.ts
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminSecurity.test.ts
+  - apps/admin-web/src/services/adminSecurity.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/services/apiError.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/AdminMfaPage.vue
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - scripts/run_r01_admin_web_mock.mjs
+  user_visible:
+  - apps/admin-web/index.html
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/components/AuthShell.vue
+  - apps/admin-web/src/components/StatusNotice.vue
+  - apps/admin-web/src/indexHtml.test.ts
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminSecurity.test.ts
+  - apps/admin-web/src/services/adminSecurity.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/services/apiError.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/AdminMfaPage.vue
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+event_hash: ce96cca6054f653b72213c312f9a0b890d5cf5b1cdf5eda30e6b662de67eb7a7

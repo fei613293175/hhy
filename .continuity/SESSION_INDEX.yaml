@@ -148,11 +148,11 @@ sessions:
   task_id: TASK-R01-004
   story_id: STORY-R01-001
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-17T11:19:28Z'
   record: .continuity/sessions/SES-20260717T111928Z-C383F7A2.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T111928Z-C383F7A2.md
-  updated_at: '2026-07-17T12:16:44Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T111928Z-C383F7A2/0003.yaml
+  updated_at: '2026-07-17T12:20:22Z'
+  closed_at: '2026-07-17T12:20:22Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T111928Z-C383F7A2/0004.yaml
   handoff_bundle: null
