@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T14:52:41Z
-- Context Hash：`de6180e72a42d5174699a85b9090ee9537bae1e43f3b90a44e9a8c2b388f390f`
+- 生成时间：2026-07-17T15:11:10Z
+- Context Hash：`af59a2c97b7576ad9ea019901bc44c8e19edd72bb0323a20cc8bd53315a20a36`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -51,7 +51,7 @@ in_progress_tasks:
 - TASK-R01-006
 blocked_tasks: []
 next_task: TASK-R01-006
-updated_at: '2026-07-17T14:52:40Z'
+updated_at: '2026-07-17T15:11:08Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -86,15 +86,15 @@ continuity:
   active_session_id: SES-20260717T141717Z-A01412D7
   actor_id: codex-root
   story_id: STORY-R01-003
-  lease_expires_at: '2026-07-17T18:52:40Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0004.yaml
-  project_fingerprint: 6329d21f7b107568dc4e27e5e0137bb15675e5805eaab671ce28879578bf2864
+  lease_expires_at: '2026-07-17T19:11:08Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0005.yaml
+  project_fingerprint: cb26026555a8454e6f093b60f70bed23e051f9115eac976c5ce44c9348bcc7f1
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 1f25b11071a2b3b95186aaaac3fe097a6d440c14584089eaa3ddc066725d66f9
-    generated_at: '2026-07-17T14:37:23Z'
+    context_hash: de6180e72a42d5174699a85b9090ee9537bae1e43f3b90a44e9a8c2b388f390f
+    generated_at: '2026-07-17T14:52:41Z'
   handoff_bundle: null
 ```
 
@@ -156,7 +156,7 @@ task_id: TASK-R01-006
 story_id: STORY-R01-003
 goal: 部署R01隔离预发布环境，验证结构化日志、TraceId、RED与业务指标、告警和回滚，完成验收签字
 started_at: '2026-07-17T14:17:17Z'
-updated_at: '2026-07-17T14:52:40Z'
+updated_at: '2026-07-17T15:11:08Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -202,12 +202,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T14:52:40Z'
-  expires_at: '2026-07-17T18:52:40Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0004.yaml
+  renewed_at: '2026-07-17T15:11:08Z'
+  expires_at: '2026-07-17T19:11:08Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md
-next_step: 提交媒体类型异常映射修复并重建R01云端镜像，继续告警与回滚验收
+next_step: 提交确定性密文损坏测试，构建最终Commit绑定镜像并归档TASK006现场证据
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -217,46 +217,51 @@ closure: null
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T141717Z-A01412D7-0004
+checkpoint_id: CP-SES-20260717T141717Z-A01412D7-0005
 session_id: SES-20260717T141717Z-A01412D7
-sequence: 4
-created_at: '2026-07-17T14:52:39Z'
-summary: 预发布发现并修复不受支持媒体类型误报500，新增安全Web回归测试
-next_step: 提交媒体类型异常映射修复并重建R01云端镜像，继续告警与回滚验收
+sequence: 5
+created_at: '2026-07-17T15:11:08Z'
+summary: 修复Base64尾位导致的加密快照损坏回归测试概率性假阴性，并完成Java21全模块复验
+next_step: 提交确定性密文损坏测试，构建最终Commit绑定镜像并归档TASK006现场证据
 blockers: []
 decisions: []
-note: PROB-0009已登记；按冻结错误码使用HTTP 400 COMMON-400-VALIDATION，不新增契约错误码
+note: PROB-0010已登记；测试确定性修改密文段首字符，生产逻辑未变化
 tests:
-- name: r01-observability-config
+- name: java21-idempotency-targeted
   result: PASS
-  evidence: scripts/check_r01_observability.py
-  note: R01_OBSERVABILITY_CONFIG_OK
-- name: p00-observability-config
+  evidence: /tmp/hhy-r01-99f7302b/maven-idempotency-deterministic.log
+  note: 7 tests, zero failures
+- name: java21-full-backend
   result: PASS
-  evidence: scripts/check_p00_observability.py
-  note: P00_OBSERVABILITY_CONFIG_OK
-- name: java21-observability-targeted
+  evidence: /tmp/hhy-r01-99f7302b/maven-all-b8edbc0-fixed.log
+  note: 78 tests, zero failures, 2 conditional skips
+- name: r01-backend-down-alert
   result: PASS
-  evidence: /tmp/hhy-r01-99f7302b/maven-observability-2.log
-  note: 18 tests, zero failures, Java 21
-- name: git-diff-check
+  evidence: alert-sink deliveries
+  note: firing and resolved receipts
+- name: r01-auth-failure-alert
   result: PASS
-  evidence: git diff --check
-  note: clean
+  evidence: alert-sink deliveries
+  note: controlled test administrators produced firing and resolved receipts
+- name: r01-app-rollback
+  result: PASS
+  evidence: /tmp/hhy-r01-99f7302b/rollback-b8edbc0.log
+  note: old image and current image healthy, database container and volume unchanged
 git:
   initialized: true
   branch: task/TASK-R01-006
-  head: 99f73023565acaa8c47001f1161b66a9447b845c
+  head: b8edbc0924157c8c03d4463c15b4301477cb5a8c
   upstream: origin/task/TASK-R01-006
-  ahead: 2
+  ahead: 3
   behind: 0
   dirty: true
   status_porcelain:
   - ' M CHANGELOG.md'
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java'
   recent_commits:
+  - "b8edbc0924157c8c03d4463c15b4301477cb5a8c\t2026-07-17T22:52:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): map unsupported\
+    \ media type to validation"
   - "99f73023565acaa8c47001f1161b66a9447b845c\t2026-07-17T22:37:42+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): use portable interval\
     \ syntax"
   - "f685a0778ea9b3b723d68d3d9fc6cf639aa4d4b5\t2026-07-17T22:34:49+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): harden observability\
@@ -271,10 +276,8 @@ git:
     \ runtime gates"
   - "cbf3a6d7d553e30bca12913021fa180d53e443ec\t2026-07-17T21:13:05+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): harden fault injection\
     \ and idempotent replay"
-  - "2ef830ea980cbf445dc419379059f2d60ec7356e\t2026-07-17T20:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] chore(continuity): close TASK-R01-004\
-    \ as completed"
 project_fingerprint:
-  sha256: 6329d21f7b107568dc4e27e5e0137bb15675e5805eaab671ce28879578bf2864
+  sha256: cb26026555a8454e6f093b60f70bed23e051f9115eac976c5ce44c9348bcc7f1
   files:
   - CHANGELOG.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
@@ -289,22 +292,23 @@ project_fingerprint:
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
   - services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
-  file_count: 17
+  file_count: 18
   payload:
     base_commit: b9211c60e67b375f33f8522948fc1e19dc0b54e7
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 9883
-      sha256: b02a8be013d0fc8ec207e463683b782f4dc0ae7289ce32fdb98eae1f37c7a72d
+      size: 10008
+      sha256: c3224c7a9149e22b11940613d2d5243d31e379e3598a0c12f79807312e0686b5
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 7505
-      sha256: 83928edcac9e23b6e59468e76d29a6b2076c36c75ec6f6ce5607e09f9fbf47f6
+      size: 8280
+      sha256: 6f093a2b6fdf0428432540837c96f0d262bc4b65ac69515074aa1088af2364cc
     - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
       state: FILE
       size: 10808
@@ -349,6 +353,10 @@ project_fingerprint:
       state: FILE
       size: 4507
       sha256: e3315c5f88aa86ebcd6815fe83167fe4aecaa855eef0a706036d0e5efd2d9d1f
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
+      state: FILE
+      size: 11764
+      sha256: fb5902dd6de032b5f3f52e0170c53afa68f0894faaace4af05c1a5b2eb81cae5
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
       state: FILE
       size: 15884
@@ -383,6 +391,7 @@ change_classification:
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
@@ -428,7 +437,7 @@ scope:
   - PROJECT_*.json
   approved_exceptions: []
   source: story+explicit
-event_hash: 9549151c8710de47e4771aba311bd9b779f5cdb50b3a0765fe20e35fab332e2a
+event_hash: 3719d8b4ba7076f90f5ababe581ba5e8a70935c463f019e95e75e8a9a0bd509b
 ```
 
 ## 接续状态与事件头
@@ -440,8 +449,8 @@ active_session_id: SES-20260717T141717Z-A01412D7
 last_session_id: SES-20260717T122518Z-91E6F4D6
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T122518Z-91E6F4D6-0008
-event_count: 183
-event_head_hash: 9549151c8710de47e4771aba311bd9b779f5cdb50b3a0765fe20e35fab332e2a
+event_count: 184
+event_head_hash: 3719d8b4ba7076f90f5ababe581ba5e8a70935c463f019e95e75e8a9a0bd509b
 event_chain_valid: true
 ```
 
@@ -564,9 +573,9 @@ recent_sessions: - session_id: SES-20260717T024407Z-B03C9375
   started_at: '2026-07-17T14:17:17Z'
   record: .continuity/sessions/SES-20260717T141717Z-A01412D7.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md
-  updated_at: '2026-07-17T14:52:40Z'
+  updated_at: '2026-07-17T15:11:08Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0004.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0005.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -1258,9 +1267,9 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
 ```yaml
 initialized: true
 branch: task/TASK-R01-006
-head: 99f73023565acaa8c47001f1161b66a9447b845c
+head: b8edbc0924157c8c03d4463c15b4301477cb5a8c
 upstream: origin/task/TASK-R01-006
-ahead: 2
+ahead: 3
 behind: 0
 dirty: true
 status_porcelain:
@@ -1274,10 +1283,11 @@ status_porcelain:
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md'
-- ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java'
-- ?? .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0004.yaml
+- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java'
+- ?? .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0005.yaml
 recent_commits:
+- "b8edbc0924157c8c03d4463c15b4301477cb5a8c\t2026-07-17T22:52:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): map unsupported media\
+  \ type to validation"
 - "99f73023565acaa8c47001f1161b66a9447b845c\t2026-07-17T22:37:42+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): use portable interval\
   \ syntax"
 - "f685a0778ea9b3b723d68d3d9fc6cf639aa4d4b5\t2026-07-17T22:34:49+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): harden observability\
@@ -1292,14 +1302,12 @@ recent_commits:
   \ runtime gates"
 - "cbf3a6d7d553e30bca12913021fa180d53e443ec\t2026-07-17T21:13:05+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): harden fault injection\
   \ and idempotent replay"
-- "2ef830ea980cbf445dc419379059f2d60ec7356e\t2026-07-17T20:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] chore(continuity): close TASK-R01-004\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`6329d21f7b107568dc4e27e5e0137bb15675e5805eaab671ce28879578bf2864`
-- 文件数：17
+- 指纹：`cb26026555a8454e6f093b60f70bed23e051f9115eac976c5ce44c9348bcc7f1`
+- 文件数：18
 
 - `CHANGELOG.md`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
@@ -1314,6 +1322,7 @@ recent_commits:
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java`
@@ -2195,27 +2204,27 @@ TASKS.yaml:
 
 - `AGENTS.md` — `387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `59094f58fbb76095b05dfc6f92e08207ff22915a86b6b24cd0b78c30b271a838`
+- `CURRENT_STATUS.yaml` — `490f0cc22ae417f553f18923432a0ec4e200da3d8e1d497f7abe2ba738a06cd8`
 - `NEXT_TASK.yaml` — `292ff5f5f74e323a7e263e6c5653cdd7808c96ef45326a79173b90b3d7074ddf`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `83928edcac9e23b6e59468e76d29a6b2076c36c75ec6f6ce5607e09f9fbf47f6`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `6f093a2b6fdf0428432540837c96f0d262bc4b65ac69515074aa1088af2364cc`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223`
-- `.continuity/EVENT_LOG.jsonl` — `83b065fc9e7fb5b648fd2ea73294dad83510a886f4ad1af7de38db91779a43ed`
-- `.continuity/SESSION_INDEX.yaml` — `84e1d23e3e622ee8099889ad5a5b2f28b511657db95bf8e974d612d35914f55f`
+- `.continuity/EVENT_LOG.jsonl` — `504fbcea9d94fcdf28097a64da656ed6f0abb2180c9ff97f2417b3f5da5f156a`
+- `.continuity/SESSION_INDEX.yaml` — `1ccc673f4470b46b3892194d9982179e31e7e3dfd2a4ee9ab1e62a278e009a31`
 - `.continuity/TASK_CLAIMS.yaml` — `1be8c4c65a135dc1f5654bab88dc1c7d434dbbe65568246bf2197a9b406f0a2d`
 - `.continuity/TASK_TRANSITIONS.yaml` — `2e1090b09da4c94124263b0878328d6f7fcb3d2d923e01ba934251347fe426ca`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c187fe4a88dd354ac7612fe44761326dae4e21494ed981f490abfce3167d91dd`
-- `.continuity/ACTIVE_SESSION.yaml` — `891d421410590fa5ee584488b4113900714a566006ee5c5cba154c7ad47b3719`
+- `.continuity/ACTIVE_SESSION.yaml` — `ae104fadd07641e84f0d79cd7b8bcb9d6d47315f13614f3cf0b1d1c41efde456`
 - `releases/R01/RELEASE_MANIFEST.yaml` — `bb986f651fd20c30ddbabeb81ef31351b6aab527bf6d65833262ce6bee30893f`
 - `releases/R01/DEFINITION_OF_READY.yaml` — `ed81dd9db760893207515b8c0a5cc2f80ac5b7f358d00fb7b71276b8931100e5`
 - `releases/R01/STORIES.yaml` — `368e786cf97c2b244d5bbf21acedcdefacbf5f4a4b42c7780db5b1accb5dd86e`
 - `releases/R01/TASKS.yaml` — `6d4d4841bf39880ea669ad426e4d8a4860975e098bca6e0796ce56dc990b21a2`
 - `releases/R01/ACCEPTANCE_MATRIX.csv` — `a668129234acb184110e076cd021c95c0747d0c6139035c28a42cbd2f68ca127`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md` — `32c3428c30a490944ec7fac14dbb492fa6ab3634b247fe59a0093a1f1859b695`
-- `.continuity/checkpoints/SES-20260717T141717Z-A01412D7/0004.yaml` — `533d757b8cf0ee3962557325911a7ed1f28256d5b44b4b383bc91574df4a1fae`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md` — `80b8d86a2108d9fae66f353be8dd6d743061def6a2aa04e0c588acd1675f14d1`
+- `.continuity/checkpoints/SES-20260717T141717Z-A01412D7/0005.yaml` — `14cce87be03db30fc4912865d0c04b26b1678546d35c5b1838f68758dc1ed83e`
 
 ## 接手硬规则
 

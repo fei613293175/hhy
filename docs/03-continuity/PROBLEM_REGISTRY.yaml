@@ -103,3 +103,14 @@ problems:
   do_not_repeat:
   - 客户端可控的协议和媒体类型异常不得落入通用500
   - 异常映射回归测试必须同时断言状态码、稳定错误码和敏感请求体不回显
+- id: PROB-0010
+  title: 加密快照损坏测试修改Base64末尾填充位导致概率性不变
+  status: SOLVED
+  root_cause: 回归测试只替换无填充Base64URL密文的最后字符，部分密文长度下被替换的是解码器忽略的未使用低位，解码字节可能保持不变
+  resolution: 固定替换密文段首字符，保证认证密文至少一个有效字节发生变化并稳定触发GCM完整性失败
+  regression_checks:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
+  - Maven 21全模块测试必须连续通过
+  do_not_repeat:
+  - Base64损坏测试不得只修改可能属于未使用填充位的末尾字符
+  - 加密完整性测试必须确定性改变已解码字节

@@ -150,8 +150,11 @@ class AdminSecurityIdempotencySnapshotServiceTest {
                 SCOPE, KEY, digest, TYPE,
                 "{\"resourceId\":{\"unexpected\":\"object\"},\"status\":\"REVOKED\"}"
                         .getBytes(StandardCharsets.UTF_8));
-        String corrupted = encrypted.substring(0, encrypted.length() - 1)
-                + (encrypted.endsWith("A") ? "B" : "A");
+        int ciphertextStart = encrypted.lastIndexOf('.') + 1;
+        char firstCiphertextCharacter = encrypted.charAt(ciphertextStart);
+        String corrupted = encrypted.substring(0, ciphertextStart)
+                + (firstCiphertextCharacter == 'A' ? 'B' : 'A')
+                + encrypted.substring(ciphertextStart + 1);
         when(repository.findIdempotency(SCOPE, KEY))
                 .thenReturn(Optional.of(new AdminSecurityStore.IdempotencyRow(
                         85L, digest, "session:23", TYPE, corrupted)))
