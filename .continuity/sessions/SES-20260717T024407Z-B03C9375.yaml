@@ -1,0 +1,74 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260717T024407Z-B03C9375
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: P00
+task_id: TASK-P00-005
+story_id: STORY-P00-001
+goal: 执行P00精确59项测试矩阵，生成10套绑定基线Commit的外部证据并清零关键缺陷
+started_at: '2026-07-17T02:44:07Z'
+updated_at: '2026-07-17T03:14:13Z'
+takeover_of: null
+change_requests:
+- CR-0007
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-P00-005
+  base_commit: 34580dcf7e06934e635ba07d059cafc629956e3c
+  start_head: 34580dcf7e06934e635ba07d059cafc629956e3c
+  upstream: null
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-17T03:14:12Z'
+  expires_at: '2026-07-17T07:14:12Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md
+next_step: 提交新业务基准后重新构建空库staging并生成59项测试证据
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 9334fd89a35048c56a5564edcdafd01468884820ceb99cccbd5b82a624dfc3e5
+  generated_at: '2026-07-17T03:14:13Z'
+handoff_bundle: null
+closure: null

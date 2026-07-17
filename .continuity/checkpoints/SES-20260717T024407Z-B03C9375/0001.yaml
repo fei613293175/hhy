@@ -1,0 +1,152 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T024407Z-B03C9375-0001
+session_id: SES-20260717T024407Z-B03C9375
+sequence: 1
+created_at: '2026-07-17T03:14:11Z'
+summary: 修复Spring Boot 4 staging Flyway自动迁移链并新增回归门禁
+next_step: 提交新业务基准后重新构建空库staging并生成59项测试证据
+blockers: []
+decisions:
+- CR-0007独立批准；仅替换为官方starter，不改DDL和API
+note: ''
+tests:
+- name: backend-flyway-autoconfig
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports
+  note: 1项0失败
+- name: backend-full
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports
+  note: 14项0失败1条件跳过
+- name: p00-documentation
+  result: PASS
+  evidence: scripts/check_v123_documentation.py
+  note: strict P00
+- name: api-runtime-matrix-gates
+  result: PASS
+  evidence: scripts/sync_runtime_assets.py; scripts/check_api_contract.py; tests/p00/test_p00_test_matrix.py; tests/p00/test_secret_defaults.py
+  note: 全部通过
+git:
+  initialized: true
+  branch: task/TASK-P00-005
+  head: 34580dcf7e06934e635ba07d059cafc629956e3c
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M services/backend/boot/pom.xml'
+  - ?? .continuity/change_requests/CR-0007.yaml
+  - ?? .continuity/sessions/SES-20260717T024407Z-B03C9375.yaml
+  - ?? docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+  recent_commits:
+  - "34580dcf7e06934e635ba07d059cafc629956e3c\t2026-07-17T10:43:27+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-004\
+    \ as completed"
+  - "125d3dbf304210153e8d8b649c7d59182438c4d1\t2026-07-17T10:42:04+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): verify generated\
+    \ client contract bindings"
+  - "f26e4668cbab36411918b566edbb61b14f1dac78\t2026-07-17T10:38:15+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-003\
+    \ as completed"
+  - "093b92f4d691fd69440a90505e323bb5510a8d9e\t2026-07-17T10:36:55+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): verify backend\
+    \ application services"
+  - "5fe1b87eba013cdd010ee3de8c88f2bd6376d510\t2026-07-17T10:34:42+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-002\
+    \ as completed"
+  - "89c202107ef229018e11db593bb8dfc5fa627364\t2026-07-17T10:33:26+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): verify database\
+    \ invariants on PostgreSQL 17.10"
+  - "3a62512ebffe851e0cf73dfdac9f1a36035fe58f\t2026-07-17T10:31:37+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-001\
+    \ as completed"
+  - "4b6c5ee97beb0ca9df25d77df198f4497b935fd0\t2026-07-17T10:26:25+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): bind approved\
+    \ change requests"
+project_fingerprint:
+  sha256: 04ccf9081806d776365de5a4ce1ee1fe0136c196b7657e291089172bc41a9a95
+  files:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
+  - services/backend/boot/pom.xml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+  file_count: 4
+  payload:
+    base_commit: 34580dcf7e06934e635ba07d059cafc629956e3c
+    files:
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 3299
+      sha256: 3d9083375c47aa986229532a13a9a3a2c5bf00492e2dde0514081272cdc9dbb0
+    - path: docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
+      state: FILE
+      size: 2129
+      sha256: 205a16c9e1a518d7f17df136e6ef07de579fe711a39b95c9c71967fe42782d4a
+    - path: services/backend/boot/pom.xml
+      state: FILE
+      size: 3277
+      sha256: 56599c9774ac406fecabc97926f5475b2db3d744fd983e712cd7795fce6dd18b
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+      state: FILE
+      size: 391
+      sha256: e4dcc4ada753afaf5e1a176ad76d98e15a9ca9dc38d487eda50ea49cef72b281
+change_classification:
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
+  code:
+  - services/backend/boot/pom.xml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0007
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 16f61b64ddd9eae669988db25a076801031596a09200fd5f3ca6350726b7a980

@@ -1,0 +1,46 @@
+protocol_version: '1.0'
+cr_id: CR-0007
+title: 修复Spring Boot 4 staging Flyway自动迁移未启用
+status: IMPLEMENTING
+created_at: '2026-07-17T03:05:39Z'
+updated_at: '2026-07-17T03:11:40Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-engineering-audit
+task_id: TASK-P00-005
+session_id: SES-20260717T024407Z-B03C9375
+user_request: 完成P00后暂停推进
+reason: 真实staging空库启动后未创建Flyway历史表与198张业务表，运行手册承诺与实际依赖不一致
+original_rule: Spring Boot 4.1.0应用启动时由现有flyway-core依赖自动执行classpath迁移
+new_rule: 使用Spring Boot 4.1.0官方spring-boot-starter-flyway触发自动配置，保留PostgreSQL专用Flyway模块，启动失败即阻断发布
+impact_summary: 仅修复后端启动迁移链；不改变API、数据库DDL、业务语义或正式版本号
+impact:
+  files:
+  - services/backend/boot/pom.xml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - spring-boot-starter-flyway
+  ledger: []
+  tests:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+  releases:
+  - P00
+  migration_and_compatibility: 现有V001-V011文件不变；空库自动升级到V011，已升级库由Flyway校验后保持不变
+user_confirmation: 用户已授权开始项目开发，并要求P00完成后暂停推进
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-17T03:11:05Z'
+  note: 真实staging空库复现且Spring Boot 4.1官方要求starter，范围和回归测试充分
+machine_record: .continuity/change_requests/CR-0007.yaml
+document: docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
+decision_log:
+- at: '2026-07-17T03:11:40Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 按批准范围修复Boot4 Flyway自动配置并复验空库staging
+  session_id: SES-20260717T024407Z-B03C9375
+session_ids:
+- SES-20260717T024407Z-B03C9375

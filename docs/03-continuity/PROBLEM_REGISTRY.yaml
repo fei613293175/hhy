@@ -42,3 +42,14 @@ problems:
   do_not_repeat:
   - 不得直接运行会删除V009或丢失冻结元数据的旧全量生成路径
   - 后端运行时契约和迁移副本必须与根权威源逐字节一致
+- id: PROB-0005
+  title: Spring Boot 4 staging启动未触发Flyway自动迁移
+  status: SOLVED
+  root_cause: Boot 4将Flyway自动配置拆分到独立模块，后端仅声明flyway-core和数据库模块，导致应用健康但空库没有执行V001至V011
+  resolution: 使用Spring Boot 4官方spring-boot-starter-flyway，保留PostgreSQL专用模块，并以真实staging空库启动和自动配置类回归测试双重门禁
+  regression_checks:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+  - staging空库启动后flyway_schema_history必须为11且hhy基础表必须为198
+  do_not_repeat:
+  - 不得以应用HTTP健康替代数据库迁移完成验证
+  - Spring Boot大版本升级后必须核对已拆分starter及自动配置模块

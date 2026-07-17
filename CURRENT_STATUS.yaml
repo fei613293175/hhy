@@ -3,7 +3,7 @@ baseline_version: 1.2.3
 phase: P00
 active_release: P00
 active_task: TASK-P00-005
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: NOT_INITIALIZED
 last_staging_apk: null
@@ -23,10 +23,11 @@ completed_tasks:
 - TASK-P00-002
 - TASK-P00-003
 - TASK-P00-004
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-P00-005
 blocked_tasks: []
 next_task: TASK-P00-005
-updated_at: '2026-07-17T02:42:32Z'
+updated_at: '2026-07-17T03:14:12Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -58,14 +59,16 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260717T023848Z-9F352CA9
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260717T023848Z-9F352CA9/0002.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260717T024407Z-B03C9375
+  actor_id: codex-root
+  story_id: STORY-P00-001
+  lease_expires_at: '2026-07-17T07:14:12Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0001.yaml
+  project_fingerprint: 04ccf9081806d776365de5a4ce1ee1fe0136c196b7657e291089172bc41a9a95
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d1f8f92b24f70015612bb1f8f07326496de4cb7131437d4e00d0bbba06759af3
-    generated_at: '2026-07-17T02:42:32Z'
+    context_hash: 384e646975c9fb1809ca7c8dc95b03200d47e472261516baeb3e1e22a3c0429c
+    generated_at: '2026-07-17T02:44:08Z'
+  handoff_bundle: null
