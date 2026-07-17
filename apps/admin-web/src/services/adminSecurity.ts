@@ -7,6 +7,7 @@ import {
   ApiRequestError,
   apiRequestErrorFromNetwork,
   apiRequestErrorFromResponse,
+  apiRequestErrorFromTimeout,
 } from './apiError';
 import { AdminSession, adminSession, type AdminSessionResource } from './adminSession';
 import {
@@ -50,7 +51,11 @@ export type AdminMfaEnrollmentResource = OperationData<EnrollMfaOperation>;
 export type AdminCommandResultResource =
   AdminContract.components['schemas']['CommandResultResource'];
 
-export interface AdminCallOptions extends RequestOptions {}
+export interface AdminCallOptions extends RequestOptions {
+  timeoutMs?: number;
+}
+
+const DEFAULT_REQUEST_TIMEOUT_MS = 10_000;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
@@ -112,6 +117,7 @@ export class AdminSecurityApi extends ApiClient {
     private readonly adminBaseUrl: string,
     private readonly session: AdminSession = adminSession,
     private readonly keys: IdempotencyKeyFactory = adminIdempotencyKeys,
+    private readonly requestTimeoutMs: number = DEFAULT_REQUEST_TIMEOUT_MS,
   ) {
     super(adminBaseUrl);
   }
@@ -119,7 +125,7 @@ export class AdminSecurityApi extends ApiClient {
   override async request<T>(
     path: string,
     init: RequestInit = {},
-    options: RequestOptions = {},
+    options: AdminCallOptions = {},
   ): Promise<T> {
     const headers = new Headers(init.headers);
     headers.set('Accept', 'application/json');
@@ -131,15 +137,30 @@ export class AdminSecurityApi extends ApiClient {
       headers.set('X-Idempotency-Key', options.idempotencyKey);
     }
 
+    const controller = new AbortController();
+    let timedOut = false;
+    const timeoutMs = options.timeoutMs ?? this.requestTimeoutMs;
+    const onExternalAbort = () => controller.abort(options.signal?.reason);
+    if (options.signal?.aborted) onExternalAbort();
+    else options.signal?.addEventListener('abort', onExternalAbort, { once: true });
+    const timeout = globalThis.setTimeout(() => {
+      timedOut = true;
+      controller.abort(new DOMException('Timed out', 'TimeoutError'));
+    }, timeoutMs);
+
     let response: Response;
     try {
       response = await fetch(new URL(path, this.adminBaseUrl), {
         ...init,
         headers,
-        signal: options.signal,
+        signal: controller.signal,
       });
     } catch (error) {
+      if (timedOut) throw apiRequestErrorFromTimeout();
       throw apiRequestErrorFromNetwork(error);
+    } finally {
+      globalThis.clearTimeout(timeout);
+      options.signal?.removeEventListener('abort', onExternalAbort);
     }
 
     const payload: unknown = await response.json().catch(() => null);

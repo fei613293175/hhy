@@ -1,0 +1,205 @@
+{
+  "schema": "hhy.r01.test-matrix-result/v1",
+  "mode": "list",
+  "status": "VALID",
+  "summary": {
+    "expected": 27,
+    "manifest": 27,
+    "catalog_matched": 27,
+    "local": 24,
+    "external": 3,
+    "executed": 0
+  },
+  "results": [
+    {
+      "test_id": "TST-ADMIN_OPS_001-DRIFT",
+      "catalog_release": "R01/R02-R31",
+      "source": "local",
+      "runner": "documentation-r01",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-ADMIN_OPS_001-HAPPY",
+      "catalog_release": "R01/R02-R31",
+      "source": "local",
+      "runner": "documentation-r01",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-ADMIN_OPS_001-REJECT",
+      "catalog_release": "R01/R02-R31",
+      "source": "local",
+      "runner": "documentation-r01",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-ADMIN_OPS_001-SECURITY",
+      "catalog_release": "R01/R02-R31",
+      "source": "local",
+      "runner": "documentation-r01",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-ADMIN_SECURITY_001-DRIFT",
+      "catalog_release": "R01",
+      "source": "local",
+      "runner": "api-db-contract",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-ADMIN_SECURITY_001-HAPPY",
+      "catalog_release": "R01",
+      "source": "external",
+      "runner": "r01-backend-maven-pg17-real-api",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-ADMIN_SECURITY_001-REJECT",
+      "catalog_release": "R01",
+      "source": "external",
+      "runner": "r01-backend-maven-pg17-real-api",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-ADMIN_SECURITY_001-SECURITY",
+      "catalog_release": "R01",
+      "source": "external",
+      "runner": "r01-backend-maven-pg17-real-api",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-DESIGN_001-HAPPY",
+      "catalog_release": "R01",
+      "source": "local",
+      "runner": "ui-token-contract",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-DESIGN_001-IDEMPOTENT",
+      "catalog_release": "R01",
+      "source": "local",
+      "runner": "ui-token-contract",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-DESIGN_001-REJECT",
+      "catalog_release": "R01",
+      "source": "local",
+      "runner": "ui-token-contract",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-DOR_001-DRIFT",
+      "catalog_release": "P00/R01-R32",
+      "source": "local",
+      "runner": "documentation-r01",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-DOR_001-HAPPY",
+      "catalog_release": "P00/R01-R32",
+      "source": "local",
+      "runner": "documentation-r01",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-DOR_001-REJECT",
+      "catalog_release": "P00/R01-R32",
+      "source": "local",
+      "runner": "documentation-r01",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-DOR_001-SECURITY",
+      "catalog_release": "P00/R01-R32",
+      "source": "local",
+      "runner": "documentation-r01",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-PAGE_SPEC_001-DRIFT",
+      "catalog_release": "P00/R01-R32",
+      "source": "local",
+      "runner": "documentation-r01",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-PAGE_SPEC_001-HAPPY",
+      "catalog_release": "P00/R01-R32",
+      "source": "local",
+      "runner": "documentation-r01",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-PAGE_SPEC_001-REJECT",
+      "catalog_release": "P00/R01-R32",
+      "source": "local",
+      "runner": "documentation-r01",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-PAGE_SPEC_001-SECURITY",
+      "catalog_release": "P00/R01-R32",
+      "source": "local",
+      "runner": "documentation-r01",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-V122-012",
+      "catalog_release": "R01",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-V122-013",
+      "catalog_release": "R01",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-V122-014",
+      "catalog_release": "R01",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-V122-056",
+      "catalog_release": "R01",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-V122-057",
+      "catalog_release": "R01",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-V122-058",
+      "catalog_release": "R01",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-V122-059",
+      "catalog_release": "R01",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "status": "NOT_RUN"
+    },
+    {
+      "test_id": "TST-V122-060",
+      "catalog_release": "R01",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "status": "NOT_RUN"
+    }
+  ],
+  "errors": []
+}

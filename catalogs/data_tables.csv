@@ -159,7 +159,7 @@ CMS,h5_page_configs,H5页面配置,"page_code, config_json, version, status",版
 系统,feature_flags,功能开关,"key, enabled, rollout_json",灰度,P00/R29/R30
 系统,job_definitions,定时任务定义,"code, cron, enabled, config_json",code唯一,R30
 系统,job_execution_logs,任务执行日志,"job_code, started_at, finished_at, status, error",时间索引,R30
-系统,idempotency_records,幂等记录,"scope, idem_key, request_hash, response_ref, expires_at",scope+key唯一,P00/R29/R30
+系统,idempotency_records,幂等记录,"scope, idem_key, request_hash, response_ref, response_type, response_payload_ciphertext, expires_at",scope+key唯一,P00/R01/R29/R30
 分析,analytics_events,行为事件,"user_id, event_name, biz_type, biz_id, traffic_type, properties, occurred_at",可分区,R23/R30
 分析,daily_kpis,每日指标,"stat_date, metric_code, dimensions, value",维度唯一,R23/R30
 配置中心,provider_config_definitions,供应商配置定义,"provider_code, field_code, field_type, secret, required, validation_json",provider+field唯一,R01/R03/R30

@@ -4,6 +4,8 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
@@ -15,8 +17,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cc.orbexa.hhy.access.admin.AdminSecurityContracts.LoginRequest;
+import cc.orbexa.hhy.access.admin.AdminSecurityContracts.AdminSelfSecurityResource;
+import cc.orbexa.hhy.access.admin.AdminSecurityContracts.CommandResultResource;
 import cc.orbexa.hhy.shared.api.BusinessException;
+import java.time.Clock;
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +43,11 @@ import org.springframework.test.web.servlet.MockMvc;
 @ActiveProfiles("test")
 class AdminSecurityWebSecurityTest {
     @Autowired MockMvc mvc;
+    @Autowired AdminTokenService tokens;
+    @Autowired Clock clock;
 
     @MockitoBean AdminSecurityService service;
+    @MockitoBean AdminSecurityStore repository;
 
     @Test
     void anonymousAndTamperedBearerRequestsAreRejectedWithSafeEnvelope() throws Exception {
@@ -124,11 +135,126 @@ class AdminSecurityWebSecurityTest {
         verifyNoInteractions(service);
     }
 
+    @Test
+    void revokedBearerCanOnlyReplayWhitelistedPostWithIdempotencyKey() throws Exception {
+        AdminPrincipal revoked = new AdminPrincipal(
+                17L, 23L, 4L, "access-jti-17", "root", Set.of(), true);
+        String bearer = tokens.issueAccess(
+                new AdminPrincipal(17L, 23L, 4L, "access-jti-17", "root", Set.of()),
+                Instant.now(clock).plusSeconds(3600)).value();
+        when(repository.authenticate(any(), any())).thenReturn(Optional.empty());
+        when(repository.authenticateRevokedReplay(any(), any())).thenReturn(Optional.of(revoked));
+        when(service.changePassword(any(), any(), anyString(), anyString(), any(), any()))
+                .thenReturn(securityResource());
+        when(service.logout(any(), any(), any(), anyString(), anyString(), any()))
+                .thenReturn(new CommandResultResource(
+                        "23", "23", "REVOKED", 5L, Instant.now(clock)));
+
+        mvc.perform(post("/admin-api/v1/me/security/password/change")
+                        .header("Authorization", "Bearer " + bearer)
+                        .header("X-Idempotency-Key", "idem-replay-password-0001")
+                        .contentType("application/json")
+                        .content("""
+                                {"currentPassword":"Current!234","newPassword":"New!56789","mfaCode":"123456"}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.adminId").value("17"));
+        mvc.perform(post("/admin-api/v1/auth/logout")
+                        .header("Authorization", "Bearer " + bearer)
+                        .header("X-Idempotency-Key", "idem-replay-logout-000001"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.status").value("REVOKED"));
+        verify(service).changePassword(
+                argThat(AdminPrincipal::replayOnly), any(), anyString(), anyString(), any(), any());
+        verify(service).logout(
+                argThat(AdminPrincipal::replayOnly), any(), any(), anyString(), anyString(), any());
+    }
+
+    @Test
+    void revokedBearerCannotUseGetNonWhitelistedPostOrPostWithoutIdempotencyKey() throws Exception {
+        AdminPrincipal revoked = new AdminPrincipal(
+                17L, 23L, 4L, "access-jti-17", "root", Set.of(), true);
+        String bearer = tokens.issueAccess(
+                new AdminPrincipal(17L, 23L, 4L, "access-jti-17", "root", Set.of()),
+                Instant.now(clock).plusSeconds(3600)).value();
+        when(repository.authenticate(any(), any())).thenReturn(Optional.empty());
+        when(repository.authenticateRevokedReplay(any(), any())).thenReturn(Optional.of(revoked));
+
+        mvc.perform(get("/admin-api/v1/me/security")
+                        .header("Authorization", "Bearer " + bearer)
+                        .header("X-Idempotency-Key", "idem-replay-get-000000001"))
+                .andExpect(status().isUnauthorized());
+        mvc.perform(post("/admin-api/v1/auth/logout")
+                        .header("Authorization", "Bearer " + bearer))
+                .andExpect(status().isUnauthorized());
+        mvc.perform(post("/admin-api/v1/me/security/not-approved")
+                        .header("Authorization", "Bearer " + bearer)
+                        .header("X-Idempotency-Key", "idem-replay-nonwhite-0001")
+                        .contentType("application/json"))
+                .andExpect(status().isUnauthorized());
+        verifyNoInteractions(service);
+    }
+
+    @Test
+    void replayMarkerHasNoReadOrBusinessAuthority() throws Exception {
+        mvc.perform(get("/admin-api/v1/me/security")
+                        .with(replayAuthentication()))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("COMMON-403-FORBIDDEN"));
+        verifyNoInteractions(service);
+    }
+
+    @Test
+    void replayAuthorityStringCannotTurnANormalDatabasePrincipalIntoReplayOnly() throws Exception {
+        AdminPrincipal normal = new AdminPrincipal(
+                17L, 23L, 4L, "access-jti-17", "root", Set.of());
+        RequestPostProcessor forgedMarker = authentication(
+                UsernamePasswordAuthenticationToken.authenticated(
+                        normal, null, List.of(new SimpleGrantedAuthority(
+                                AdminPrincipal.IDEMPOTENCY_REPLAY_MARKER))));
+
+        mvc.perform(post("/admin-api/v1/me/security/mfa/enroll")
+                        .with(forgedMarker)
+                        .header("X-Idempotency-Key", "idem-forged-marker-000001"))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.error.code").value("COMMON-403-FORBIDDEN"));
+        verifyNoInteractions(service);
+    }
+
+    @Test
+    void revokedBearerWithDatabaseIdentityMismatchIsRejected() throws Exception {
+        String bearer = tokens.issueAccess(
+                new AdminPrincipal(17L, 23L, 4L, "access-jti-17", "root", Set.of()),
+                Instant.now(clock).plusSeconds(3600)).value();
+        when(repository.authenticate(any(), any())).thenReturn(Optional.empty());
+        when(repository.authenticateRevokedReplay(any(), any())).thenReturn(Optional.empty());
+
+        mvc.perform(post("/admin-api/v1/auth/logout")
+                        .header("Authorization", "Bearer " + bearer)
+                        .header("X-Idempotency-Key", "idem-replay-mismatch-0001"))
+                .andExpect(status().isUnauthorized());
+        verifyNoInteractions(service);
+    }
+
     private static RequestPostProcessor adminAuthentication(String... authorities) {
         var granted = Arrays.stream(authorities).map(SimpleGrantedAuthority::new).toList();
         var principal = new AdminPrincipal(
                 17L, 23L, 4L, "access-jti-17", "root", Set.copyOf(Arrays.asList(authorities)));
         return authentication(UsernamePasswordAuthenticationToken.authenticated(principal, null, granted));
+    }
+
+    private static RequestPostProcessor replayAuthentication() {
+        AdminPrincipal principal = new AdminPrincipal(
+                17L, 23L, 4L, "access-jti-17", "root", Set.of(), true);
+        return authentication(UsernamePasswordAuthenticationToken.authenticated(
+                principal, null,
+                List.of(new SimpleGrantedAuthority(AdminPrincipal.IDEMPOTENCY_REPLAY_MARKER))));
+    }
+
+    private static AdminSelfSecurityResource securityResource() {
+        return new AdminSelfSecurityResource(
+                "17", "root", true, List.of("TOTP"), 0,
+                null, null, null, 0);
     }
 
 }

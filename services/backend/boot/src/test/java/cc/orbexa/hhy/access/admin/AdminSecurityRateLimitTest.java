@@ -48,7 +48,7 @@ class AdminSecurityRateLimitTest {
     void setUp() {
         AdminSecurityProperties properties = properties();
         Clock clock = Clock.fixed(NOW, ZoneOffset.UTC);
-        var objectMapper = new ObjectMapper();
+        var objectMapper = new ObjectMapper().findAndRegisterModules();
         var secrets = new AdminMfaSecretStore(
                 secretDirectory.toString(), "v1", properties.mfaRootSecret(), "");
         tokens = new AdminTokenService(objectMapper, properties, clock);

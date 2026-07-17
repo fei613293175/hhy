@@ -90,7 +90,7 @@ fun HhyShellScreen(
             item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(HhyRadius.Card),
+                    shape = RoundedCornerShape(HhyRadius.LargeCard),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 ) {
                     Column(Modifier.padding(HhySpacing.Lg)) {
@@ -111,7 +111,7 @@ fun HhyShellScreen(
 private fun ReadinessCard(title: String, description: String, ready: Boolean) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(HhyRadius.Card),
+        shape = RoundedCornerShape(HhyRadius.LargeCard),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
     ) {
         Row(
@@ -134,7 +134,7 @@ private fun ReadinessCard(title: String, description: String, ready: Boolean) {
 @Composable
 private fun MetadataRow(label: String, value: String) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = HhySpacing.Xxs),
+        modifier = Modifier.fillMaxWidth().padding(vertical = HhySpacing.Xs),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(label, color = HhyColors.TextSecondary)

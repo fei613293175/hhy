@@ -85,7 +85,8 @@ public class AdminSecurityController {
     }
 
     @PostMapping("/me/security/password/change")
-    @PreAuthorize("hasAuthority('admin.self.security')")
+    @PreAuthorize("(hasAuthority('admin.self.security') and !principal.replayOnly()) or "
+            + "(hasAuthority('admin.idempotency.replay') and principal.replayOnly())")
     public ApiResponse<AdminSelfSecurityResource> changePassword(
             @AuthenticationPrincipal AdminPrincipal principal,
             @Valid @RequestBody PasswordChangeRequest body,
@@ -97,7 +98,8 @@ public class AdminSecurityController {
     }
 
     @PostMapping("/me/security/mfa/enroll")
-    @PreAuthorize("hasAuthority('admin.self.security')")
+    @PreAuthorize("(hasAuthority('admin.self.security') and !principal.replayOnly()) or "
+            + "(hasAuthority('admin.idempotency.replay') and principal.replayOnly())")
     public ApiResponse<MfaEnrollmentResource> enrollMfa(
             @AuthenticationPrincipal AdminPrincipal principal,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
@@ -107,7 +109,8 @@ public class AdminSecurityController {
     }
 
     @PostMapping("/me/security/mfa/confirm")
-    @PreAuthorize("hasAuthority('admin.self.security')")
+    @PreAuthorize("(hasAuthority('admin.self.security') and !principal.replayOnly()) or "
+            + "(hasAuthority('admin.idempotency.replay') and principal.replayOnly())")
     public ApiResponse<AdminSelfSecurityResource> confirmMfa(
             @AuthenticationPrincipal AdminPrincipal principal,
             @Valid @RequestBody MfaConfirmRequest body,
@@ -119,7 +122,8 @@ public class AdminSecurityController {
     }
 
     @PostMapping("/me/security/mfa/disable")
-    @PreAuthorize("hasAuthority('admin.self.security')")
+    @PreAuthorize("(hasAuthority('admin.self.security') and !principal.replayOnly()) or "
+            + "(hasAuthority('admin.idempotency.replay') and principal.replayOnly())")
     public ApiResponse<AdminSelfSecurityResource> disableMfa(
             @AuthenticationPrincipal AdminPrincipal principal,
             @Valid @RequestBody MfaDisableRequest body,

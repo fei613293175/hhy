@@ -1,0 +1,38 @@
+protocol_version: '1.0'
+cr_id: CR-0015
+title: 持久化幂等首次响应以保证延迟重放一致
+status: REJECTED
+created_at: '2026-07-17T12:32:03Z'
+updated_at: '2026-07-17T12:36:35Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-engineering-audit
+task_id: TASK-R01-005
+session_id: SES-20260717T122518Z-91E6F4D6
+user_request: 用户已要求继续开发并完整交付R01
+reason: 专项测试发现R01管理员安全写接口在状态变化后重放旧幂等键不能返回首次结果，违反冻结OpenAPI幂等契约；需扩展idempotency_records并补迁移、回滚和回归测试
+original_rule: idempotency_records仅保存response_ref varchar(255)，R01服务重放时从可变业务状态重建响应
+new_rule: idempotency_records新增response_type与response_payload_ciphertext；R01写接口提交业务事务时以应用密钥派生AES-GCM密钥加密保存首次响应，后续相同主体/操作/键且请求摘要一致时解密返回该不可变首次响应，不一致仍返回COMMON-409-IDEMPOTENCY_CONFLICT
+impact_summary: 修复登录、MFA验证、退出、改密、MFA绑定/确认/解绑共7个写接口在响应丢失或延迟重试时的首次结果一致性；不改变OpenAPI字段与页面契约
+impact:
+  files:
+  - database/migrations/V016__r01_idempotency_response_snapshot.sql;database/rollback/U016__r01_idempotency_response_snapshot.sql;services/backend/boot/src/main/resources/db/migration/V016__r01_idempotency_response_snapshot.sql;database/schema_dictionary.csv;services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStore.java;services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityService.java;services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotTest.java;scripts/run_r01_database_invariants.sh
+  pages: []
+  apis:
+  - R01全部7个POST写接口的X-Idempotency-Key重放语义
+  database:
+  - idempotency_records
+  configuration: []
+  ledger: []
+  tests:
+  - TST-DESIGN_001-IDEMPOTENT;TST-ADMIN_SECURITY_001-REJECT;TST-V122-012;TST-V122-013;TST-V122-014;TST-V122-057;TST-V122-058;TST-V122-059;TST-V122-060
+  releases:
+  - R01
+  migration_and_compatibility: 新增V016可空列保持旧记录兼容；旧记录继续按response_ref回放，新记录写加密快照；U016仅在无新快照数据时允许回滚并显式阻断数据丢失
+user_confirmation: 用户已授权继续开发并完整交付R01
+approval:
+  decision: REJECTED
+  decided_at: '2026-07-17T12:36:35Z'
+  note: REJECT：当前影响范围仅含Store/Service/迁移，无法保证7个POST端到端首次响应重放。logout首次成功及changePassword撤销全部会话后，AdminBearerAuthenticationFilter与SecurityConfiguration会在进入Service前返回401，旧幂等键无法命中快照；另AES-GCM方案缺少随机96位nonce、密文版本/密钥版本与轮换兼容、AAD绑定scope+idem_key+request_hash+response_type、解密失败闭锁及敏感响应不落日志的明确边界。替代方案：先amend
+    CR纳入认证过滤/控制器/安全配置与HTTP集成测试，并限定版本化AEAD信封、密钥域分离和U016仅无快照时回滚，再重新独立审批。
+machine_record: .continuity/change_requests/CR-0015.yaml
+document: docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md

@@ -376,4 +376,127 @@ describe('R01 admin routes and page states', () => {
       value: previousOnline,
     });
   });
+
+  it('applies a Retry-After cooldown to every security POST and rejects duplicate submits', async () => {
+    vi.useFakeTimers();
+    vi.spyOn(adminSecurityApi, 'getSecurity').mockResolvedValueOnce({
+      adminId: '17', username: 'root', mfaEnabled: false, mfaMethods: [],
+      activeSessionCount: 1, recoveryCodesRemaining: 0,
+    });
+    const changePassword = vi.spyOn(adminSecurityApi, 'changePassword').mockRejectedValueOnce(new ApiRequestError({
+      status: 429,
+      code: 'COMMON-429-RATE_LIMITED',
+      message: '安全操作过于频繁',
+      requestId: 'req-security-rate-limit',
+      retryAfter: 2,
+    }));
+    const logout = vi.spyOn(adminSecurityApi, 'logout');
+    adminSession.apply({
+      accessToken: 'memory-only-access', adminUserId: '17',
+      permissionCodes: ['admin.self.read', 'admin.self.security'], mfaRequired: 'NONE',
+    });
+    await navigate('/me/security');
+    const wrapper = mount(AdminSecurityPage, { global: { plugins: [router] } });
+    await flushPromises();
+    await wrapper.findAll('button').find((button) => button.text() === '修改密码')!.trigger('click');
+    const form = wrapper.get('[role="dialog"] form');
+    await form.get('input[autocomplete="current-password"]').setValue('Current!234');
+    await form.get('input[autocomplete="new-password"]').setValue('Changed!567');
+    await form.get('input[autocomplete="one-time-code"]').setValue('123456');
+    await form.trigger('submit');
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('安全写操作冷却中');
+    expect(wrapper.text()).toContain('2 秒后可重试');
+    await form.trigger('submit');
+    await flushPromises();
+    expect(changePassword).toHaveBeenCalledTimes(1);
+    await wrapper.get('button[aria-label="关闭"]').trigger('click');
+    const logoutButton = wrapper.findAll('button').find((button) => button.text() === '退出会话')!;
+    expect(logoutButton.attributes('disabled')).toBeDefined();
+    await logoutButton.trigger('click');
+    expect(logout).not.toHaveBeenCalled();
+
+    await vi.advanceTimersByTimeAsync(2_000);
+    await wrapper.vm.$nextTick();
+    expect(logoutButton.attributes('disabled')).toBeUndefined();
+    wrapper.unmount();
+  });
+
+  it('closes a populated security dialog, scrubs secrets and emits zero POSTs after switching offline', async () => {
+    const previousOnline = window.navigator.onLine;
+    Object.defineProperty(window.navigator, 'onLine', { configurable: true, value: true });
+    vi.spyOn(adminSecurityApi, 'getSecurity').mockResolvedValueOnce({
+      adminId: '17', username: 'root', mfaEnabled: false, mfaMethods: [],
+      activeSessionCount: 1, recoveryCodesRemaining: 0,
+    });
+    const changePassword = vi.spyOn(adminSecurityApi, 'changePassword');
+    const enrollMfa = vi.spyOn(adminSecurityApi, 'enrollMfa');
+    const logout = vi.spyOn(adminSecurityApi, 'logout');
+    adminSession.apply({
+      accessToken: 'memory-only-access', adminUserId: '17',
+      permissionCodes: ['admin.self.read', 'admin.self.security'], mfaRequired: 'NONE',
+    });
+    await navigate('/me/security');
+    const wrapper = mount(AdminSecurityPage, { global: { plugins: [router] } });
+    await flushPromises();
+    await wrapper.findAll('button').find((button) => button.text() === '修改密码')!.trigger('click');
+    const form = wrapper.get('[role="dialog"] form');
+    await form.get('input[autocomplete="current-password"]').setValue('Offline-Current!234');
+    await form.get('input[autocomplete="new-password"]').setValue('Offline-Changed!567');
+    await form.get('input[autocomplete="one-time-code"]').setValue('654321');
+
+    Object.defineProperty(window.navigator, 'onLine', { configurable: true, value: false });
+    window.dispatchEvent(new Event('offline'));
+    await wrapper.vm.$nextTick();
+    await form.trigger('submit');
+    await flushPromises();
+
+    expect(wrapper.find('[role="dialog"]').exists()).toBe(false);
+    expect(wrapper.html()).not.toContain('Offline-Current!234');
+    expect(wrapper.html()).not.toContain('Offline-Changed!567');
+    expect(changePassword).not.toHaveBeenCalled();
+    expect(enrollMfa).not.toHaveBeenCalled();
+    expect(logout).not.toHaveBeenCalled();
+    wrapper.unmount();
+    Object.defineProperty(window.navigator, 'onLine', { configurable: true, value: previousOnline });
+  });
+
+  it.each([
+    ['success', undefined, '状态冲突，已刷新最新状态', 'fresh-admin'],
+    ['failure', new ApiRequestError({ status: 500, code: 'COMMON-500-INTERNAL', message: '刷新失败', requestId: 'req-refresh-failed' }), '状态冲突且刷新失败', '安全状态暂时不可用'],
+  ])('awaits a 409 refresh and exposes its %s terminal state', async (_outcome, refreshFailure, expectedNotice, expectedState) => {
+    const initial = {
+      adminId: '17', username: 'root', mfaEnabled: false, mfaMethods: [],
+      activeSessionCount: 1, recoveryCodesRemaining: 0,
+    };
+    const getSecurity = vi.spyOn(adminSecurityApi, 'getSecurity').mockResolvedValueOnce(initial);
+    if (refreshFailure) getSecurity.mockRejectedValueOnce(refreshFailure);
+    else getSecurity.mockResolvedValueOnce({ ...initial, username: 'fresh-admin', activeSessionCount: 2 });
+    vi.spyOn(adminSecurityApi, 'changePassword').mockRejectedValueOnce(new ApiRequestError({
+      status: 409,
+      code: 'COMMON-409-CONFLICT',
+      message: '安全状态已变化',
+      requestId: 'req-security-conflict',
+    }));
+    adminSession.apply({
+      accessToken: 'memory-only-access', adminUserId: '17',
+      permissionCodes: ['admin.self.read', 'admin.self.security'], mfaRequired: 'NONE',
+    });
+    await navigate('/me/security');
+    const wrapper = mount(AdminSecurityPage, { global: { plugins: [router] } });
+    await flushPromises();
+    await wrapper.findAll('button').find((button) => button.text() === '修改密码')!.trigger('click');
+    const form = wrapper.get('[role="dialog"] form');
+    await form.get('input[autocomplete="current-password"]').setValue('Current!234');
+    await form.get('input[autocomplete="new-password"]').setValue('Changed!567');
+    await form.get('input[autocomplete="one-time-code"]').setValue('123456');
+    await form.trigger('submit');
+    await flushPromises();
+
+    expect(getSecurity).toHaveBeenCalledTimes(2);
+    expect(wrapper.text()).toContain(expectedNotice);
+    expect(wrapper.text()).toContain(expectedState);
+    wrapper.unmount();
+  });
 });

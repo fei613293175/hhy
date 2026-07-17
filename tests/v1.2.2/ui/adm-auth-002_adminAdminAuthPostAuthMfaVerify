@@ -1,0 +1,7 @@
+{
+  "schema": "hhy.r01.test-adapter/v1",
+  "test_id": "TST-V122-013",
+  "central_runner": "scripts/run_r01_test_matrix.py",
+  "assignment_source": "local",
+  "runner": "admin-web-test-build"
+}

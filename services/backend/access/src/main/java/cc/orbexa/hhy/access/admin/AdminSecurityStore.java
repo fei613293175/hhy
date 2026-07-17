@@ -52,8 +52,8 @@ public class AdminSecurityStore {
                 JOIN hhy.admin_roles r ON r.id=ur.role_id AND r.status='ACTIVE'
                 JOIN hhy.admin_role_permissions rp ON rp.role_id=r.id
                 JOIN hhy.admin_permissions p ON p.id=rp.permission_id
-                WHERE ur.admin_id=? ORDER BY p.code
-                """, String.class, adminId);
+                WHERE ur.admin_id=? AND p.code<>? ORDER BY p.code
+                """, String.class, adminId, AdminPrincipal.IDEMPOTENCY_REPLAY_MARKER);
     }
 
     public long recentPasswordFailures(long adminId, Instant since) {
@@ -241,6 +241,24 @@ public class AdminSecurityStore {
                 java.util.Set.copyOf(permissionCodes(row.adminId()))));
     }
 
+    public Optional<AdminPrincipal> authenticateRevokedReplay(
+            AdminTokenService.TokenClaims claims, Instant now) {
+        long adminId = Long.parseLong(claims.sub());
+        record ReplayRow(long adminId, long sessionId, String jti, String username) { }
+        List<ReplayRow> rows = jdbc.query("""
+                SELECT s.id,s.access_jti,u.id AS admin_id,u.username
+                FROM hhy.admin_sessions s JOIN hhy.admin_users u ON u.id=s.admin_user_id
+                WHERE s.id=? AND s.admin_user_id=? AND s.access_jti=?
+                  AND s.revoked_at IS NOT NULL AND s.expires_at>? AND u.status='ACTIVE'
+                """, (rs, row) -> new ReplayRow(
+                rs.getLong("admin_id"), rs.getLong("id"),
+                rs.getString("access_jti"), rs.getString("username")),
+                claims.sid(), adminId, claims.jti(), time(now));
+        return rows.stream().findFirst().map(row -> new AdminPrincipal(
+                row.adminId(), row.sessionId(), claims.ver(), row.jti(), row.username(),
+                java.util.Set.of(), true));
+    }
+
     public boolean verifyMfaTicket(AdminTokenService.TokenClaims claims, Instant now) {
         Long count = jdbc.queryForObject("""
                 SELECT count(*) FROM hhy.admin_sessions s JOIN hhy.admin_users u ON u.id=s.admin_user_id
@@ -418,10 +436,10 @@ public class AdminSecurityStore {
                 VALUES (?,?,?,?) ON CONFLICT (scope,idem_key) DO NOTHING
                 """, scope, key, requestHash, time(expiresAt));
         IdempotencyRow row = jdbc.queryForObject("""
-                SELECT id,request_hash,response_ref FROM hhy.idempotency_records
+                SELECT id,request_hash,response_ref,response_type,response_payload_ciphertext
+                FROM hhy.idempotency_records
                 WHERE scope=? AND idem_key=? AND expires_at>clock_timestamp()
-                """, (rs, number) -> new IdempotencyRow(
-                rs.getLong("id"), rs.getString("request_hash"), rs.getString("response_ref")), scope, key);
+                """, (rs, number) -> idempotency(rs), scope, key);
         if (row == null) {
             throw new IllegalStateException("Idempotency claim disappeared");
         }
@@ -430,10 +448,10 @@ public class AdminSecurityStore {
 
     public Optional<IdempotencyRow> findIdempotency(String scope, String key) {
         return jdbc.query("""
-                SELECT id,request_hash,response_ref FROM hhy.idempotency_records
+                SELECT id,request_hash,response_ref,response_type,response_payload_ciphertext
+                FROM hhy.idempotency_records
                 WHERE scope=? AND idem_key=? AND expires_at>clock_timestamp()
-                """, (rs, number) -> new IdempotencyRow(
-                rs.getLong("id"), rs.getString("request_hash"), rs.getString("response_ref")), scope, key)
+                """, (rs, number) -> idempotency(rs), scope, key)
                 .stream().findFirst();
     }
 
@@ -447,6 +465,23 @@ public class AdminSecurityStore {
         }
     }
 
+    public void completeIdempotencySnapshot(
+            long id, String responseRef, String responseType, String responsePayloadCiphertext) {
+        if (responseType == null || responseType.isBlank()
+                || responsePayloadCiphertext == null || responsePayloadCiphertext.isBlank()) {
+            throw new IllegalArgumentException("Idempotency snapshot pair is required");
+        }
+        int updated = jdbc.update("""
+                UPDATE hhy.idempotency_records
+                SET response_ref=?,response_type=?,response_payload_ciphertext=?
+                WHERE id=? AND response_ref IS NULL
+                  AND response_type IS NULL AND response_payload_ciphertext IS NULL
+                """, responseRef, responseType, responsePayloadCiphertext, id);
+        if (updated != 1) {
+            throw new IllegalStateException("Idempotency snapshot was already completed");
+        }
+    }
+
     private static SessionRow session(java.sql.ResultSet rs) throws java.sql.SQLException {
         OffsetDateTime revoked = rs.getObject("revoked_at", OffsetDateTime.class);
         return new SessionRow(
@@ -454,6 +489,12 @@ public class AdminSecurityStore {
                 rs.getString("mfa_level"), instant(rs.getObject("expires_at", OffsetDateTime.class)),
                 revoked == null ? null : instant(revoked), rs.getLong("version"),
                 rs.getString("username"), rs.getString("admin_status"));
+    }
+
+    private static IdempotencyRow idempotency(java.sql.ResultSet rs) throws java.sql.SQLException {
+        return new IdempotencyRow(
+                rs.getLong("id"), rs.getString("request_hash"), rs.getString("response_ref"),
+                rs.getString("response_type"), rs.getString("response_payload_ciphertext"));
     }
 
     private static OffsetDateTime time(Instant instant) {
@@ -476,6 +517,12 @@ public class AdminSecurityStore {
             long adminId, String username, List<String> methods, long activeSessions,
             Instant lastPasswordChangedAt, Instant lastLoginAt, String lastLoginIp, long recoveryCodesRemaining) { }
     public record LoginFact(Instant at, String ip) { }
-    public record IdempotencyRow(long id, String requestHash, String responseRef) { }
+    public record IdempotencyRow(
+            long id, String requestHash, String responseRef,
+            String responseType, String responsePayloadCiphertext) {
+        public IdempotencyRow(long id, String requestHash, String responseRef) {
+            this(id, requestHash, responseRef, null, null);
+        }
+    }
     public record IdempotencyClaim(IdempotencyRow row, boolean replay) { }
 }

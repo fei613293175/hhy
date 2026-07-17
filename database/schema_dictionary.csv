@@ -1202,8 +1202,10 @@ CMS,h5_page_configs,7,updated_at,timestamptz,否,now(),,统一审计字段,R28,F
 系统,idempotency_records,3,idem_key,varchar(255),否,,,scope+key唯一,P00/R29/R30,FROZEN
 系统,idempotency_records,4,request_hash,varchar(128),是,,,scope+key唯一,P00/R29/R30,FROZEN
 系统,idempotency_records,5,response_ref,varchar(255),是,,,scope+key唯一,P00/R29/R30,FROZEN
-系统,idempotency_records,6,expires_at,timestamptz,是,,INDEX,scope+key唯一,P00/R29/R30,FROZEN
-系统,idempotency_records,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00/R29/R30,FROZEN
+系统,idempotency_records,6,response_type,varchar(128),是,,,幂等首次响应DTO版本类型,R01,FROZEN
+系统,idempotency_records,7,response_payload_ciphertext,text,是,,,版本化AES-256-GCM首次响应密文信封,R01,FROZEN
+系统,idempotency_records,8,expires_at,timestamptz,是,,INDEX,scope+key唯一,P00/R29/R30,FROZEN
+系统,idempotency_records,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,P00/R29/R30,FROZEN
 分析,analytics_events,1,id,bigint,否,generated,PRIMARY KEY,可分区,R23/R30,FROZEN
 分析,analytics_events,2,user_id,bigint,否,,INDEX,可分区,R23/R30,FROZEN
 分析,analytics_events,3,event_name,varchar(255),是,,,可分区,R23/R30,FROZEN

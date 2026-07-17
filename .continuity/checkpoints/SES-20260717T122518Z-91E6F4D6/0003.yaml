@@ -1,0 +1,628 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T122518Z-91E6F4D6-0003
+session_id: SES-20260717T122518Z-91E6F4D6
+sequence: 3
+created_at: '2026-07-17T13:11:38Z'
+summary: CR-0016已标记IMPLEMENTED；TASK-R01-005代码和本地门禁全部通过
+next_step: 提交实现并在云端Maven21/PostgreSQL17/真实HTTP环境验证
+blockers: []
+decisions: []
+note: 云端验证通过后关闭CR-0016并继续TASK-R01-005证据收口
+tests:
+- name: project-doctor
+  result: PASS
+  evidence: strict R01
+  note: continuity and documentation
+git:
+  initialized: true
+  branch: task/TASK-R01-005
+  head: 2ef830ea980cbf445dc419379059f2d60ec7356e
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/admin-web/src/r01Pages.test.ts'
+  - ' M apps/admin-web/src/services/adminSecurity.test.ts'
+  - ' M apps/admin-web/src/services/adminSecurity.ts'
+  - ' M apps/admin-web/src/services/apiError.ts'
+  - ' M apps/admin-web/src/styles.css'
+  - ' M apps/admin-web/src/views/AdminSecurityPage.vue'
+  - ' M apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt'
+  - ' M apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt'
+  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+  - ' M apps/h5/src/styles.css'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/data_tables.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M database/schema_dictionary.csv'
+  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+  - ' M scripts/check_config_registry.py'
+  - ' M scripts/check_ui_tokens.py'
+  - ' M scripts/run_r01_database_invariants.sh'
+  - ' M scripts/test_r01_admin_security_api.py'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminPrincipal.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityService.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStore.java'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminSecurityController.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencyDigestTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityMfaSecretIsolationTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityRateLimitTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityServiceTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java'
+  - ?? .continuity/change_requests/CR-0015.yaml
+  - ?? .continuity/change_requests/CR-0016.yaml
+  - ?? .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0002.yaml
+  - ?? .continuity/sessions/SES-20260717T122518Z-91E6F4D6.yaml
+  - ?? artifacts/validation/r01-task005-doc-baseline.json
+  - ?? artifacts/validation/r01-task005-inventory.json
+  - ?? database/migrations/V016__r01_idempotency_response_snapshots.sql
+  - ?? database/rollback/U016__r01_idempotency_response_snapshots.sql
+  - ?? database/tests/r01_idempotency_snapshot_invariants.sql
+  - ?? docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md
+  - ?? docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md
+  - ?? scripts/run_r01_test_matrix.py
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipher.java
+  - ?? services/backend/boot/src/main/resources/db/migration/V016__r01_idempotency_response_snapshots.sql
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipherTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityStorePostgresTest.java
+  - ?? tests/r01/README.md
+  - ?? tests/r01/evidence.schema.json
+  - ?? tests/r01/req-design-001_happy
+  - ?? tests/r01/req-design-001_idempotent
+  - ?? tests/r01/req-design-001_reject
+  - ?? tests/r01/test_r01_test_matrix.py
+  - ?? tests/test_config_registry_checker.py
+  - ?? tests/test_ui_tokens.py
+  - ?? tests/v1.2.2/requirements/req-admin-ops-001_drift
+  - ?? tests/v1.2.2/requirements/req-admin-ops-001_happy
+  - ?? tests/v1.2.2/requirements/req-admin-ops-001_reject
+  - ?? tests/v1.2.2/requirements/req-admin-ops-001_security
+  - ?? tests/v1.2.2/requirements/req-admin-security-001_drift
+  - ?? tests/v1.2.2/requirements/req-admin-security-001_happy
+  - ?? tests/v1.2.2/requirements/req-admin-security-001_reject
+  - ?? tests/v1.2.2/requirements/req-admin-security-001_security
+  - ?? tests/v1.2.2/requirements/req-dor-001_drift
+  - ?? tests/v1.2.2/requirements/req-dor-001_happy
+  - ?? tests/v1.2.2/requirements/req-dor-001_reject
+  - ?? tests/v1.2.2/requirements/req-dor-001_security
+  - ?? tests/v1.2.2/requirements/req-page-spec-001_drift
+  - ?? tests/v1.2.2/requirements/req-page-spec-001_happy
+  - ?? tests/v1.2.2/requirements/req-page-spec-001_reject
+  - ?? tests/v1.2.2/requirements/req-page-spec-001_security
+  - ?? tests/v1.2.2/ui/adm-auth-001_adminAdminAuthPostAuthLogin
+  - ?? tests/v1.2.2/ui/adm-auth-002_adminAdminAuthPostAuthMfaVerify
+  - ?? tests/v1.2.2/ui/adm-security-001_adminAdminAuthPostAuthLogout
+  - ?? tests/v1.2.2/ui/adm-security-001_adminSelfGetSecurity
+  - ?? tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaConfirm
+  - ?? tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaDisable
+  - ?? tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaEnroll
+  - ?? tests/v1.2.2/ui/adm-security-001_adminSelfPostPasswordChange
+  recent_commits:
+  - "2ef830ea980cbf445dc419379059f2d60ec7356e\t2026-07-17T20:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] chore(continuity): close TASK-R01-004\
+    \ as completed"
+  - "9070796d112cb66308c658090f955c2600f845d2\t2026-07-17T20:19:23+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] feat(r01): implement admin\
+    \ security frontend"
+  - "954b4091b4a813f184b384aecea92e6f2f5d955a\t2026-07-17T19:16:04+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-003\
+    \ as completed"
+  - "d8593b49a513cbcf432ff393ad5b950b89154126\t2026-07-17T19:09:11+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): harden admin authentication\
+    \ security"
+  - "2ffb57fc658164bfac8269f2e891e1cb6af109f3\t2026-07-17T17:37:00+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): implement admin\
+    \ authentication security APIs"
+  - "a72a8621fe69e60ebcbb73a0533ada111effe4fc\t2026-07-17T16:42:44+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-002\
+    \ as completed"
+  - "dc205fd0ea0b65975332733c0b991696f96dd432\t2026-07-17T16:40:37+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close admin security\
+    \ change request"
+  - "7874af5075076b7f84b976a3cf16b94f2476a050\t2026-07-17T16:38:53+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): harden admin security\
+    \ data invariants"
+project_fingerprint:
+  sha256: d183a2b863e6c36984bad1f086418ac0a60bb37c3bdbca5a8e8b9f3c233e01e7
+  files:
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/services/adminSecurity.test.ts
+  - apps/admin-web/src/services/adminSecurity.ts
+  - apps/admin-web/src/services/apiError.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/h5/src/styles.css
+  - catalogs/data_tables.csv
+  - database/migrations/V016__r01_idempotency_response_snapshots.sql
+  - database/rollback/U016__r01_idempotency_response_snapshots.sql
+  - database/schema_dictionary.csv
+  - database/tests/r01_idempotency_snapshot_invariants.sql
+  - docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md
+  - docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - scripts/check_config_registry.py
+  - scripts/check_ui_tokens.py
+  - scripts/run_r01_database_invariants.sh
+  - scripts/run_r01_test_matrix.py
+  - scripts/test_r01_admin_security_api.py
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipher.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminPrincipal.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminSecurityController.java
+  - services/backend/boot/src/main/resources/db/migration/V016__r01_idempotency_response_snapshots.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipherTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencyDigestTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityMfaSecretIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityRateLimitTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityStorePostgresTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+  - tests/r01/README.md
+  - tests/r01/evidence.schema.json
+  - tests/r01/req-design-001_happy
+  - tests/r01/req-design-001_idempotent
+  - tests/r01/req-design-001_reject
+  - tests/r01/test_r01_test_matrix.py
+  - tests/test_config_registry_checker.py
+  - tests/test_ui_tokens.py
+  - tests/v1.2.2/requirements/req-admin-ops-001_drift
+  - tests/v1.2.2/requirements/req-admin-ops-001_happy
+  - tests/v1.2.2/requirements/req-admin-ops-001_reject
+  - tests/v1.2.2/requirements/req-admin-ops-001_security
+  - tests/v1.2.2/requirements/req-admin-security-001_drift
+  - tests/v1.2.2/requirements/req-admin-security-001_happy
+  - tests/v1.2.2/requirements/req-admin-security-001_reject
+  - tests/v1.2.2/requirements/req-admin-security-001_security
+  - tests/v1.2.2/requirements/req-dor-001_drift
+  - tests/v1.2.2/requirements/req-dor-001_happy
+  - tests/v1.2.2/requirements/req-dor-001_reject
+  - tests/v1.2.2/requirements/req-dor-001_security
+  - tests/v1.2.2/requirements/req-page-spec-001_drift
+  - tests/v1.2.2/requirements/req-page-spec-001_happy
+  - tests/v1.2.2/requirements/req-page-spec-001_reject
+  - tests/v1.2.2/requirements/req-page-spec-001_security
+  - tests/v1.2.2/ui/adm-auth-001_adminAdminAuthPostAuthLogin
+  - tests/v1.2.2/ui/adm-auth-002_adminAdminAuthPostAuthMfaVerify
+  - tests/v1.2.2/ui/adm-security-001_adminAdminAuthPostAuthLogout
+  - tests/v1.2.2/ui/adm-security-001_adminSelfGetSecurity
+  - tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaConfirm
+  - tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaDisable
+  - tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaEnroll
+  - tests/v1.2.2/ui/adm-security-001_adminSelfPostPasswordChange
+  file_count: 70
+  payload:
+    base_commit: 2ef830ea980cbf445dc419379059f2d60ec7356e
+    files:
+    - path: apps/admin-web/src/r01Pages.test.ts
+      state: FILE
+      size: 21623
+      sha256: 7603f42a854f95be5b2fac08458a573d6ab1f76cb73b8488370cee373fc80b00
+    - path: apps/admin-web/src/services/adminSecurity.test.ts
+      state: FILE
+      size: 14523
+      sha256: 6fcb87d42e7bb48826c01a77a28d5b75fcdaf3d46340b08ea7d9ac7f3a9c50eb
+    - path: apps/admin-web/src/services/adminSecurity.ts
+      state: FILE
+      size: 11447
+      sha256: bb78b5fdcc001e4e51f791d453503585923d34819af9c252391019292c9fc9b7
+    - path: apps/admin-web/src/services/apiError.ts
+      state: FILE
+      size: 3112
+      sha256: 5b02e3c06ddff40faec52d21f8d3335908d503dcec23c78f3c6cb41d430f01f3
+    - path: apps/admin-web/src/styles.css
+      state: FILE
+      size: 16409
+      sha256: 2696bcd0f74f158ffe811b37a9717c8069068703b7b7272556db0f25f1e7bef7
+    - path: apps/admin-web/src/views/AdminSecurityPage.vue
+      state: FILE
+      size: 19631
+      sha256: dadaf39dc860fa23b6195f35c39d24490a40feb9927022849f797836ef5a4e57
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt
+      state: FILE
+      size: 718
+      sha256: c708007b2fa6e6f4dfb152e5213afc850a6a14a16d52c2dbc5327cb84b3b6aae
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+      state: FILE
+      size: 1216
+      sha256: 81d6a385ac5867b7bac8ba98501955c47dd61cd4b6154d492b87648159a5b645
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 5717
+      sha256: b10965807858f543d7fded6a200057dec05ccac4d2ab0ad96268046f75dd43e3
+    - path: apps/h5/src/styles.css
+      state: FILE
+      size: 1908
+      sha256: 5690fcec387763a5c2136795bb1ac511f74000e5b7b27490efdc0650e09bfe34
+    - path: catalogs/data_tables.csv
+      state: FILE
+      size: 25106
+      sha256: 149bdf75aad53437f86feb8e1824e562f8a4c1240ccdc03577c1b3d14d0882c0
+    - path: database/migrations/V016__r01_idempotency_response_snapshots.sql
+      state: FILE
+      size: 928
+      sha256: 3384f056a2d438905ee411d16e6bfb694dbfde48d3fbcbfc8e9a44b406564c37
+    - path: database/rollback/U016__r01_idempotency_response_snapshots.sql
+      state: FILE
+      size: 566
+      sha256: 11a7f4cda7a72e7c563505b72af4caab8ed95d8848e46d6915109d806b6db344
+    - path: database/schema_dictionary.csv
+      state: FILE
+      size: 141756
+      sha256: 3b2941e822372e066ccab818a1a21164f77b1e5c51f4e6fc07edbb550919331e
+    - path: database/tests/r01_idempotency_snapshot_invariants.sql
+      state: FILE
+      size: 1604
+      sha256: 13b518d2f0243c92a970ed859c269da13b6e66f4e3b0fbfc7a03c4f8463d7963
+    - path: docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md
+      state: FILE
+      size: 3427
+      sha256: d934f8ebab912da758e1d657d70d8c240f6797615443ced2276d3ed61d2a44c5
+    - path: docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
+      state: FILE
+      size: 4986
+      sha256: 3a2017a341b073448b42be5a6aec7f01b60a5b7820f2ed16fcf8e2ebe15b7755
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 8812
+      sha256: ff1a97f157b531c0e8265dc24c20deb0e5e284962fa9587f2fefb658b30cd1c1
+    - path: scripts/check_config_registry.py
+      state: FILE
+      size: 1959
+      sha256: 6092daaaec5c05fb2147d6e824e68a275aeb83c8c501d78f97922766693000e0
+    - path: scripts/check_ui_tokens.py
+      state: FILE
+      size: 10377
+      sha256: 913e800b5ba7b20d1fcd0a09a49ff2f962b0f99dedbbab476e0e195396cd9248
+    - path: scripts/run_r01_database_invariants.sh
+      state: FILE
+      size: 13620
+      sha256: 82d89d37e0406bff2aabe4d9bef3b7d8bb73fc65cbf0b06eff76ec11dd902039
+    - path: scripts/run_r01_test_matrix.py
+      state: FILE
+      size: 36100
+      sha256: dabc0206d931a835f2a449b581dc37bd0db6e493a29b345427718b6381e757ba
+    - path: scripts/test_r01_admin_security_api.py
+      state: FILE
+      size: 19464
+      sha256: 17e0e4be94a2ad8a4a56c1fa48578842a0a780770eb68f892837063e8fb20d5e
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
+      state: FILE
+      size: 3503
+      sha256: 76e548828b9f59e5eea0ca22172429672d1e757c15b5bb60584e0de0d3b773d5
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipher.java
+      state: FILE
+      size: 8126
+      sha256: 618ca0ef9b4d2c9fe8083d803c553afe8d9d4d7552b8aa1765482ab619104e37
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminPrincipal.java
+      state: FILE
+      size: 1139
+      sha256: 76eefbcc5b200a3d086c41313b935bcab30d6582d07a0196844632ba1b07c893
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityService.java
+      state: FILE
+      size: 40926
+      sha256: c39805417cc4eec38c8890f07a315019730fb950dadc5dd6452a47829c1d912f
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStore.java
+      state: FILE
+      size: 26467
+      sha256: f070b5276aad70eed72c7bf264757769f739bb0b145f6effe6a347e8d508776b
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminSecurityController.java
+      state: FILE
+      size: 7649
+      sha256: 04bde4afb3b5c6d202ad7bd5d15ac97aeaaaf4b073af3d68c825bdf591eb8eee
+    - path: services/backend/boot/src/main/resources/db/migration/V016__r01_idempotency_response_snapshots.sql
+      state: FILE
+      size: 928
+      sha256: 3384f056a2d438905ee411d16e6bfb694dbfde48d3fbcbfc8e9a44b406564c37
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipherTest.java
+      state: FILE
+      size: 3606
+      sha256: 7b08033c97847484bfad3506deff05fe9db59edf6a52f59ab0d71d9587460221
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencyDigestTest.java
+      state: FILE
+      size: 4714
+      sha256: e67edf6b1fe2282d826c5e11ec68e2a40dcf2f21646f4d0b08476b4b5bf273a8
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
+      state: FILE
+      size: 11177
+      sha256: bbecd20b4de842ab0e7b57e6f5dc0dd6ff1498caa33529bbb64c530209cd5dc5
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityMfaSecretIsolationTest.java
+      state: FILE
+      size: 7991
+      sha256: 045b40efcec655be9978caeda079e4b75c83dbd360c4d7cff2bf44ec85cf1bbf
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityRateLimitTest.java
+      state: FILE
+      size: 8394
+      sha256: 923d212bd4582c686a0f9746705f4fc58bdbd86a8b92042f8ec0fa77d0e029ef
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityServiceTest.java
+      state: FILE
+      size: 7355
+      sha256: 2152694609058c9a473e1677de1ce49a4eba89fb12bc2c99df36d5318e851124
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityStorePostgresTest.java
+      state: FILE
+      size: 2497
+      sha256: b4070fceec1c3262cdc3779834dd068beb2a8491a1091fe82a9052499cb8b68b
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+      state: FILE
+      size: 14088
+      sha256: fa57cad68da602671375af7f8794fafc821eefc4342af11145c08c4fd22dbc57
+    - path: tests/r01/README.md
+      state: FILE
+      size: 2517
+      sha256: 00af512d9e36bd75b58d2199bac11fc767d85130c929ae70358d157d7644d41d
+    - path: tests/r01/evidence.schema.json
+      state: FILE
+      size: 3068
+      sha256: 0b4bf178b90ec0c6dc7ac038fbf07c2c101a2e266040912400eb2db85eacc078
+    - path: tests/r01/req-design-001_happy
+      state: FILE
+      size: 198
+      sha256: 3a528ac19370aa6a6ee85bc83b3fd8e177c067c969b797aac6f97143d18d2beb
+    - path: tests/r01/req-design-001_idempotent
+      state: FILE
+      size: 203
+      sha256: 81c28ddfb89b6e873422a781fa94f930e56d860472305803953c4c8866b2d754
+    - path: tests/r01/req-design-001_reject
+      state: FILE
+      size: 199
+      sha256: b48982b8a8fc532302af95b7a18c5a8d4ad7f16e4d6dec793f0e98149f12b90e
+    - path: tests/r01/test_r01_test_matrix.py
+      state: FILE
+      size: 20037
+      sha256: b3badafdafeaf23f00c730ad1515099c00d2f71d04a4493ad5d263b9debd1be7
+    - path: tests/test_config_registry_checker.py
+      state: FILE
+      size: 2040
+      sha256: c0c3764599cb3222a3887dcd5f9bca412b9f4d08373f5b51e1060a30493c0b08
+    - path: tests/test_ui_tokens.py
+      state: FILE
+      size: 2288
+      sha256: cc311ac63e89ed5e242ff5da3a93310b70b4541ba2565ff818884bb6fe30a052
+    - path: tests/v1.2.2/requirements/req-admin-ops-001_drift
+      state: FILE
+      size: 201
+      sha256: a35a0f3805435b8e8bb956d067071750abba0ba409cc1d215c35b33c6f2f9b82
+    - path: tests/v1.2.2/requirements/req-admin-ops-001_happy
+      state: FILE
+      size: 201
+      sha256: 60c57513fcdc153b80ccea51ae49fab565f43e3ed91d59eb87c3dabb5a27888c
+    - path: tests/v1.2.2/requirements/req-admin-ops-001_reject
+      state: FILE
+      size: 202
+      sha256: b80b15f3f898e9aa3953be4b7a49c062ea8de73ba7ac03adc2dc4a6e203fceea
+    - path: tests/v1.2.2/requirements/req-admin-ops-001_security
+      state: FILE
+      size: 204
+      sha256: f4b821c5283b66d1c4ed8cd97e833b16d5f135d254c46139c45644d8724ebf45
+    - path: tests/v1.2.2/requirements/req-admin-security-001_drift
+      state: FILE
+      size: 204
+      sha256: fc34538ac80055686d26f17dad3c619f769c3b879b271173de6b940689d658ab
+    - path: tests/v1.2.2/requirements/req-admin-security-001_happy
+      state: FILE
+      size: 223
+      sha256: 7b9d49890bc7c0cbfa4796843845cdfaaf218f3d1fce3e74a97d4aad135efe66
+    - path: tests/v1.2.2/requirements/req-admin-security-001_reject
+      state: FILE
+      size: 224
+      sha256: 2442752db54cf27257bf09b4208c936868871cb786003a12b7286a99b8107a3f
+    - path: tests/v1.2.2/requirements/req-admin-security-001_security
+      state: FILE
+      size: 226
+      sha256: 488382e847f981fe5b43ac823e296e1cdb7eadb257576b57a6f8b5b971e4511d
+    - path: tests/v1.2.2/requirements/req-dor-001_drift
+      state: FILE
+      size: 195
+      sha256: bd5d7ff10bd64a4f2e5086f409f27af9b99ad570c40603deb862372927f21897
+    - path: tests/v1.2.2/requirements/req-dor-001_happy
+      state: FILE
+      size: 195
+      sha256: 76a1dea35df1bbd6513e469fd5f821c54d7112aa5b1c5261da47e97bada08c9f
+    - path: tests/v1.2.2/requirements/req-dor-001_reject
+      state: FILE
+      size: 196
+      sha256: ebbd7320f4c8d3594c6c345f62fb1933144632f906692a82009153b2e1b745d8
+    - path: tests/v1.2.2/requirements/req-dor-001_security
+      state: FILE
+      size: 198
+      sha256: 14208f1904f464d9028f5a0bafaa16e1506497ef2438dd9bcd1d47c366b18ee1
+    - path: tests/v1.2.2/requirements/req-page-spec-001_drift
+      state: FILE
+      size: 201
+      sha256: 2656f6c53b629c0582e00476c994a68a960db3d069828cc5e95329141f67bbc9
+    - path: tests/v1.2.2/requirements/req-page-spec-001_happy
+      state: FILE
+      size: 201
+      sha256: 81854e3cb14e9e9d12e275fdcdbfb2bed150ac713e3facce181a0b37c772e231
+    - path: tests/v1.2.2/requirements/req-page-spec-001_reject
+      state: FILE
+      size: 202
+      sha256: 902deb4f1935c916b32dae980ccc0309b6ac864971599440b5f26cb0e4e9c069
+    - path: tests/v1.2.2/requirements/req-page-spec-001_security
+      state: FILE
+      size: 204
+      sha256: cc066899121451dee4cc81ec9d0fda71dc58ed0d43bfdac8284c406915a6a13f
+    - path: tests/v1.2.2/ui/adm-auth-001_adminAdminAuthPostAuthLogin
+      state: FILE
+      size: 193
+      sha256: e6900e2d088e5a6ea6d473fdaa58653f60f99772152b9b065ad82a329a74866c
+    - path: tests/v1.2.2/ui/adm-auth-002_adminAdminAuthPostAuthMfaVerify
+      state: FILE
+      size: 193
+      sha256: ddd0b9ead14dcf3622c8d6f25663699e1ec8d8a6c48febccf21ebaf3aa23c8b7
+    - path: tests/v1.2.2/ui/adm-security-001_adminAdminAuthPostAuthLogout
+      state: FILE
+      size: 193
+      sha256: 30a32add99eac5c2fec4254c97b2b35abd51d6e14bbc60692e97f2e2632d32b3
+    - path: tests/v1.2.2/ui/adm-security-001_adminSelfGetSecurity
+      state: FILE
+      size: 193
+      sha256: 3b72a2e4c65255a89ad61f985c4939d9778677bcdb74a0cb35032ce07ef080ea
+    - path: tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaConfirm
+      state: FILE
+      size: 193
+      sha256: 6dbcad06a9ecd35b03c9bbaf0bc87197b868ec14c9a424481298e70528e635df
+    - path: tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaDisable
+      state: FILE
+      size: 193
+      sha256: c1cde6198091742e58788012a0a8746af86ea53ea0334bc1b540c602ce0bdd4e
+    - path: tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaEnroll
+      state: FILE
+      size: 193
+      sha256: 8d9bedc877539c9fc058303a080fd9f33aa7ba848db18109ccef95008b0d762b
+    - path: tests/v1.2.2/ui/adm-security-001_adminSelfPostPasswordChange
+      state: FILE
+      size: 193
+      sha256: 16650f94202744e177ed783f73df5ce289c972897baa52e92ad96b99dbbabcfd
+change_classification:
+  code:
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/services/adminSecurity.test.ts
+  - apps/admin-web/src/services/adminSecurity.ts
+  - apps/admin-web/src/services/apiError.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/h5/src/styles.css
+  - scripts/check_config_registry.py
+  - scripts/check_ui_tokens.py
+  - scripts/run_r01_database_invariants.sh
+  - scripts/run_r01_test_matrix.py
+  - scripts/test_r01_admin_security_api.py
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipher.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminPrincipal.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminSecurityController.java
+  - services/backend/boot/src/main/resources/db/migration/V016__r01_idempotency_response_snapshots.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipherTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencyDigestTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityMfaSecretIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityRateLimitTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityStorePostgresTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+  user_visible:
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/services/adminSecurity.test.ts
+  - apps/admin-web/src/services/adminSecurity.ts
+  - apps/admin-web/src/services/apiError.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/h5/src/styles.css
+  other:
+  - catalogs/data_tables.csv
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  database:
+  - database/migrations/V016__r01_idempotency_response_snapshots.sql
+  - database/rollback/U016__r01_idempotency_response_snapshots.sql
+  - database/schema_dictionary.csv
+  - database/tests/r01_idempotency_snapshot_invariants.sql
+  source_of_truth:
+  - database/schema_dictionary.csv
+  continuity:
+  - docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md
+  - docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
+  tests:
+  - tests/r01/README.md
+  - tests/r01/evidence.schema.json
+  - tests/r01/req-design-001_happy
+  - tests/r01/req-design-001_idempotent
+  - tests/r01/req-design-001_reject
+  - tests/r01/test_r01_test_matrix.py
+  - tests/test_config_registry_checker.py
+  - tests/test_ui_tokens.py
+  - tests/v1.2.2/requirements/req-admin-ops-001_drift
+  - tests/v1.2.2/requirements/req-admin-ops-001_happy
+  - tests/v1.2.2/requirements/req-admin-ops-001_reject
+  - tests/v1.2.2/requirements/req-admin-ops-001_security
+  - tests/v1.2.2/requirements/req-admin-security-001_drift
+  - tests/v1.2.2/requirements/req-admin-security-001_happy
+  - tests/v1.2.2/requirements/req-admin-security-001_reject
+  - tests/v1.2.2/requirements/req-admin-security-001_security
+  - tests/v1.2.2/requirements/req-dor-001_drift
+  - tests/v1.2.2/requirements/req-dor-001_happy
+  - tests/v1.2.2/requirements/req-dor-001_reject
+  - tests/v1.2.2/requirements/req-dor-001_security
+  - tests/v1.2.2/requirements/req-page-spec-001_drift
+  - tests/v1.2.2/requirements/req-page-spec-001_happy
+  - tests/v1.2.2/requirements/req-page-spec-001_reject
+  - tests/v1.2.2/requirements/req-page-spec-001_security
+  - tests/v1.2.2/ui/adm-auth-001_adminAdminAuthPostAuthLogin
+  - tests/v1.2.2/ui/adm-auth-002_adminAdminAuthPostAuthMfaVerify
+  - tests/v1.2.2/ui/adm-security-001_adminAdminAuthPostAuthLogout
+  - tests/v1.2.2/ui/adm-security-001_adminSelfGetSecurity
+  - tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaConfirm
+  - tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaDisable
+  - tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaEnroll
+  - tests/v1.2.2/ui/adm-security-001_adminSelfPostPasswordChange
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+- CHANGELOG
+change_requests:
+- CR-0015
+- CR-0016
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 9a9ea1c78fbfd8ff5d5f6a27693379d5656a2a2cf350d147e0b0c4cd09d3dc31

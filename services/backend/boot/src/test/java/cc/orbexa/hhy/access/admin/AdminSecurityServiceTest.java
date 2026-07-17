@@ -48,7 +48,7 @@ class AdminSecurityServiceTest {
 
     @BeforeEach
     void setUp() {
-        objectMapper = new ObjectMapper();
+        objectMapper = new ObjectMapper().findAndRegisterModules();
         AdminSecurityProperties properties = properties();
         Clock clock = Clock.fixed(NOW, ZoneOffset.UTC);
         var tokens = new AdminTokenService(objectMapper, properties, clock);

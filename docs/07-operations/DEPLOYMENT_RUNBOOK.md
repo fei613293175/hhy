@@ -14,6 +14,14 @@
 
 1. 已批准的不可变镜像 Tag 和代码 Commit 已记录，`HHY_IMAGE_TAG` 禁止使用 `latest`。
 2. `POSTGRES_PASSWORD`、`HHY_ADMIN_JWT_SECRET`、`HHY_ADMIN_MFA_ROOT_SECRET`、`HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET` 通过服务器 Secret 管理提供，不写入仓库、Shell 历史或工单正文；三项管理员密钥必须互不相同。
+
+### R01 管理端幂等响应密钥轮换
+
+- V016 起，七个管理端安全 POST 的首次成功响应会以 AES-256-GCM 密文写入 `hhy.idempotency_records`。`response_type` 与 `response_payload_ciphertext` 必须作为一对同时写入；任一列有数据时，U016 会硬阻断回滚。
+- 快照密钥由 MFA root secret 通过独立固定域派生，但密钥版本由 `hhy.admin-security.mfa-root-secret-version` 明确标识。轮换时先把旧版本和旧 root secret 写入 `hhy.admin-security.mfa-previous-root-secrets`（格式 `version=secret`，多项用分号分隔），再切换当前版本与当前 root secret。
+- 旧 root secret 至少保留 24 小时，且不得短于最长幂等 TTL；确认旧版本快照全部过期后才能移除。未知版本、认证标签失败、类型不匹配或无法反序列化都必须闭锁为 5xx，禁止改写原快照或退回业务重算。
+- 被密码修改或登出撤销的旧 ACCESS Bearer 只允许在原令牌仍未过期、数据库 `sid/sub/jti` 严格匹配、请求为批准的安全 POST 且携带原 `X-Idempotency-Key` 时读取已完成快照。该认证只有 `admin.idempotency.replay` 标记，不具备读权限或业务写权限；无快照/未完成快照返回 401，摘要冲突返回 409，均不得产生副作用。
+- 日志、工单和验收证据不得包含 root secret、previous root secret、完整快照密文、nonce、认证标签、MFA QR secret、Bearer 或幂等请求摘要。
 3. 备份任务最近一次成功，且已确认恢复点；数据库迁移只允许前向迁移。
 4. 先在仓库根目录执行静态门禁和测试：
 

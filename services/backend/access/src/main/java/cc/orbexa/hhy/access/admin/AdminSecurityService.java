@@ -20,6 +20,7 @@ import java.util.HexFormat;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Supplier;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,6 +36,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 public class AdminSecurityService {
     private static final Logger LOG = LoggerFactory.getLogger(AdminSecurityService.class);
     private static final Duration IDEMPOTENCY_TTL = Duration.ofHours(24);
+    private static final String TYPE_ADMIN_SESSION = "r01.admin-session.v1";
+    private static final String TYPE_COMMAND_RESULT = "r01.command-result.v1";
+    private static final String TYPE_SECURITY_RESOURCE = "r01.admin-self-security.v1";
+    private static final String TYPE_MFA_ENROLLMENT = "r01.mfa-enrollment.v1";
 
     private final AdminSecurityStore repository;
     private final AdminTokenService tokens;
@@ -43,9 +48,11 @@ public class AdminSecurityService {
     private final PasswordEncoder passwords;
     private final AdminSecurityProperties properties;
     private final ObjectMapper objectMapper;
+    private final AdminIdempotencySnapshotCipher snapshots;
     private final Clock clock;
     private final String unknownAccountPasswordHash;
 
+    @org.springframework.beans.factory.annotation.Autowired
     public AdminSecurityService(
             AdminSecurityStore repository,
             AdminTokenService tokens,
@@ -54,6 +61,7 @@ public class AdminSecurityService {
             PasswordEncoder passwords,
             AdminSecurityProperties properties,
             @Qualifier("adminSecurityObjectMapper") ObjectMapper objectMapper,
+            AdminIdempotencySnapshotCipher snapshots,
             Clock clock) {
         this.repository = repository;
         this.tokens = tokens;
@@ -62,8 +70,22 @@ public class AdminSecurityService {
         this.passwords = passwords;
         this.properties = properties;
         this.objectMapper = objectMapper;
+        this.snapshots = snapshots;
         this.clock = clock;
         this.unknownAccountPasswordHash = passwords.encode(UUID.randomUUID().toString());
+    }
+
+    AdminSecurityService(
+            AdminSecurityStore repository,
+            AdminTokenService tokens,
+            AdminTotpService totp,
+            AdminLoginFactWriter loginFacts,
+            PasswordEncoder passwords,
+            AdminSecurityProperties properties,
+            ObjectMapper objectMapper,
+            Clock clock) {
+        this(repository, tokens, totp, loginFacts, passwords, properties, objectMapper,
+                new AdminIdempotencySnapshotCipher("v1", properties.mfaRootSecret(), ""), clock);
     }
 
     @Transactional(noRollbackFor = CommittedAdminSecurityFailure.class)
@@ -75,8 +97,8 @@ public class AdminSecurityService {
         String requestHash = hash(request);
         AdminSecurityStore.IdempotencyRow prior = repository.findIdempotency(scope, idempotencyKey).orElse(null);
         if (prior != null) {
-            validateReplay(prior, requestHash);
-            return replaySession(prior.responseRef(), now);
+            return replay(prior, scope, idempotencyKey, requestHash, TYPE_ADMIN_SESSION,
+                    AdminSessionResource.class, () -> replaySession(prior.responseRef(), now), false);
         }
         AdminSecurityStore.AdminAccount admin = repository.findAdminByUsername(username).orElse(null);
         lockLoginRateLimit(admin, username, ip, device);
@@ -101,7 +123,8 @@ public class AdminSecurityService {
         AdminSecurityStore.IdempotencyClaim claim = claim(
                 scope, idempotencyKey, requestHash, now);
         if (claim.replay()) {
-            return replaySession(claim.row().responseRef(), now);
+            return replay(claim.row(), scope, idempotencyKey, requestHash, TYPE_ADMIN_SESSION,
+                    AdminSessionResource.class, () -> replaySession(claim.row().responseRef(), now), false);
         }
 
         String jti = UUID.randomUUID().toString();
@@ -109,8 +132,9 @@ public class AdminSecurityService {
         long sessionId = repository.createSession(admin.id(), jti, expiresAt, ip, device);
         repository.loginLog(admin.id(), mask(username), "PASSWORD_LOGIN", "SUCCESS",
                 null, ip, device, requestId);
-        repository.completeIdempotency(claim.row().id(), "session:" + sessionId);
-        return sessionResource(repository.findSession(sessionId).orElseThrow(), now);
+        AdminSessionResource result = sessionResource(repository.findSession(sessionId).orElseThrow(), now);
+        return completeSnapshot(claim, scope, idempotencyKey, requestHash, TYPE_ADMIN_SESSION,
+                "session:" + sessionId, result);
     }
 
     @Transactional(noRollbackFor = CommittedAdminSecurityFailure.class)
@@ -128,8 +152,8 @@ public class AdminSecurityService {
         String requestHash = hash(request);
         AdminSecurityStore.IdempotencyRow prior = repository.findIdempotency(scope, idempotencyKey).orElse(null);
         if (prior != null) {
-            validateReplay(prior, requestHash);
-            return replaySession(prior.responseRef(), now);
+            return replay(prior, scope, idempotencyKey, requestHash, TYPE_ADMIN_SESSION,
+                    AdminSessionResource.class, () -> replaySession(prior.responseRef(), now), false);
         }
         if (!repository.verifyMfaTicket(token, now)) {
             throw unauthenticated();
@@ -139,8 +163,9 @@ public class AdminSecurityService {
         AdminSecurityStore.IdempotencyRow lockedPrior =
                 repository.findIdempotency(scope, idempotencyKey).orElse(null);
         if (lockedPrior != null) {
-            validateReplay(lockedPrior, requestHash);
-            return replaySession(lockedPrior.responseRef(), now);
+            return replay(lockedPrior, scope, idempotencyKey, requestHash, TYPE_ADMIN_SESSION,
+                    AdminSessionResource.class,
+                    () -> replaySession(lockedPrior.responseRef(), now), false);
         }
         AdminSecurityStore.MfaMethodRow method = repository.mfaMethod(adminId)
                 .filter(row -> "ACTIVE".equals(row.status())).orElseThrow(() -> rule("MFA尚未启用"));
@@ -152,14 +177,16 @@ public class AdminSecurityService {
         AdminSecurityStore.IdempotencyClaim claim = claim(
                 scope, idempotencyKey, requestHash, now);
         if (claim.replay()) {
-            return replaySession(claim.row().responseRef(), now);
+            return replay(claim.row(), scope, idempotencyKey, requestHash, TYPE_ADMIN_SESSION,
+                    AdminSessionResource.class, () -> replaySession(claim.row().responseRef(), now), false);
         }
         if (!repository.upgradeSessionMfa(token.sid(), token.ver())) {
             throw conflict();
         }
         repository.loginLog(adminId, null, "MFA_VERIFY", "SUCCESS", null, ip, device, requestId);
-        repository.completeIdempotency(claim.row().id(), "session:" + token.sid());
-        return sessionResource(repository.findSession(token.sid()).orElseThrow(), now);
+        AdminSessionResource result = sessionResource(repository.findSession(token.sid()).orElseThrow(), now);
+        return completeSnapshot(claim, scope, idempotencyKey, requestHash, TYPE_ADMIN_SESSION,
+                "session:" + token.sid(), result);
     }
 
     @Transactional
@@ -168,18 +195,29 @@ public class AdminSecurityService {
             String requestId, String ip) {
         Instant now = Instant.now(clock);
         long expected = expectedVersion == null ? principal.sessionVersion() : expectedVersion;
-        AdminSecurityStore.IdempotencyClaim claim = claim(
-                "admin.logout:" + principal.sessionId(), idempotencyKey,
-                hmac(expected + ":" + String.valueOf(reason)), now);
-        if (!claim.replay()) {
-            if (!repository.revokeSession(principal.sessionId(), expected, now)) {
-                throw conflict();
-            }
-            audit(principal.adminId(), "ADMIN_LOGOUT", "admin_session", principal.sessionId(),
-                    requestId, ip, "REVOKED", expected + 1, reason);
-            repository.completeIdempotency(claim.row().id(), "session:" + principal.sessionId());
+        String scope = "admin.logout:" + principal.sessionId();
+        String requestHash = hmac(expected + ":" + String.valueOf(reason));
+        if (principal.replayOnly()) {
+            return replayOnly(scope, idempotencyKey, requestHash, TYPE_COMMAND_RESULT,
+                    CommandResultResource.class,
+                    () -> command(Long.toString(principal.sessionId()), "REVOKED", expected + 1, now));
         }
-        return command(Long.toString(principal.sessionId()), "REVOKED", expected + 1, now);
+        AdminSecurityStore.IdempotencyClaim claim = claim(
+                scope, idempotencyKey, requestHash, now);
+        if (claim.replay()) {
+            return replay(claim.row(), scope, idempotencyKey, requestHash, TYPE_COMMAND_RESULT,
+                    CommandResultResource.class,
+                    () -> command(Long.toString(principal.sessionId()), "REVOKED", expected + 1, now), false);
+        }
+        if (!repository.revokeSession(principal.sessionId(), expected, now)) {
+            throw conflict();
+        }
+        audit(principal.adminId(), "ADMIN_LOGOUT", "admin_session", principal.sessionId(),
+                requestId, ip, "REVOKED", expected + 1, reason);
+        CommandResultResource result =
+                command(Long.toString(principal.sessionId()), "REVOKED", expected + 1, now);
+        return completeSnapshot(claim, scope, idempotencyKey, requestHash, TYPE_COMMAND_RESULT,
+                "session:" + principal.sessionId(), result);
     }
 
     @Transactional(readOnly = true)
@@ -191,13 +229,18 @@ public class AdminSecurityService {
     public AdminSelfSecurityResource changePassword(
             AdminPrincipal principal, PasswordChangeRequest request, String idempotencyKey,
             String requestId, String ip, String device) {
+        requireSecurityWritePrincipal(principal);
         Instant now = Instant.now(clock);
         String scope = "admin.password:" + principal.adminId();
         String requestHash = hash(request);
+        if (principal.replayOnly()) {
+            return replayOnly(scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                    AdminSelfSecurityResource.class, () -> overview(principal.adminId(), now));
+        }
         AdminSecurityStore.IdempotencyRow prior = repository.findIdempotency(scope, idempotencyKey).orElse(null);
         if (prior != null) {
-            validateReplay(prior, requestHash);
-            return overview(principal.adminId(), now);
+            return replay(prior, scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                    AdminSelfSecurityResource.class, () -> overview(principal.adminId(), now), false);
         }
         AdminSecurityStore.AdminAccount admin = repository.findAdmin(principal.adminId())
                 .orElseThrow(AdminSecurityService::unauthenticated);
@@ -211,14 +254,15 @@ public class AdminSecurityService {
         AdminSecurityStore.IdempotencyRow lockedPrior =
                 repository.findIdempotency(scope, idempotencyKey).orElse(null);
         if (lockedPrior != null) {
-            validateReplay(lockedPrior, requestHash);
-            return overview(principal.adminId(), now);
+            return replay(lockedPrior, scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                    AdminSelfSecurityResource.class, () -> overview(principal.adminId(), now), false);
         }
         requireActiveMfaAfterLock(admin.id(), request.mfaCode(),
                 "MFA_PASSWORD_CHANGE", requestId, ip, device);
         AdminSecurityStore.IdempotencyClaim claim = claim(scope, idempotencyKey, requestHash, now);
         if (claim.replay()) {
-            return overview(principal.adminId(), now);
+            return replay(claim.row(), scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                    AdminSelfSecurityResource.class, () -> overview(principal.adminId(), now), false);
         }
         if (!repository.updatePassword(admin.id(), admin.version(), passwords.encode(request.newPassword()))) {
             throw conflict();
@@ -226,18 +270,29 @@ public class AdminSecurityService {
         repository.revokeAllSessions(admin.id(), now);
         audit(admin.id(), "ADMIN_PASSWORD_CHANGED", "admin_user", admin.id(),
                 requestId, ip, "PASSWORD_CHANGED", admin.version() + 1, null);
-        repository.completeIdempotency(claim.row().id(), "admin:" + admin.id());
-        return overview(admin.id(), now);
+        AdminSelfSecurityResource result = overview(admin.id(), now);
+        return completeSnapshot(claim, scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                "admin:" + admin.id(), result);
     }
 
     @Transactional
     public MfaEnrollmentResource enrollMfa(
             AdminPrincipal principal, String idempotencyKey, String requestId, String ip) {
+        requireSecurityWritePrincipal(principal);
         Instant now = Instant.now(clock);
+        String scope = "admin.mfa.enroll:" + principal.adminId();
+        String requestHash = hmac("enroll");
+        if (principal.replayOnly()) {
+            return replayOnly(scope, idempotencyKey, requestHash, TYPE_MFA_ENROLLMENT,
+                    MfaEnrollmentResource.class,
+                    () -> enrollmentResource(principal.adminId(), principal.username(), now));
+        }
         AdminSecurityStore.IdempotencyClaim claim = claim(
-                "admin.mfa.enroll:" + principal.adminId(), idempotencyKey, hmac("enroll"), now);
+                scope, idempotencyKey, requestHash, now);
         if (claim.replay()) {
-            return enrollmentResource(principal.adminId(), principal.username(), now);
+            return replay(claim.row(), scope, idempotencyKey, requestHash, TYPE_MFA_ENROLLMENT,
+                    MfaEnrollmentResource.class,
+                    () -> enrollmentResource(principal.adminId(), principal.username(), now), false);
         }
         repository.lockRateLimitBuckets(List.of("admin-mfa-enrollment:" + principal.adminId()));
         AdminSecurityStore.MfaMethodRow existing = repository.mfaMethod(principal.adminId()).orElse(null);
@@ -247,8 +302,8 @@ public class AdminSecurityService {
         if (existing != null && "PENDING".equals(existing.status())
                 && !now.isAfter(existing.updatedAt().plus(properties.enrollmentTtl()))) {
             MfaEnrollmentResource resource = enrollmentResource(principal.adminId(), principal.username(), now);
-            repository.completeIdempotency(claim.row().id(), "mfa:" + existing.id());
-            return resource;
+            return completeSnapshot(claim, scope, idempotencyKey, requestHash, TYPE_MFA_ENROLLMENT,
+                    "mfa:" + existing.id(), resource);
         }
         String oldSecretRef = existing == null ? null : existing.secretRef();
         String enrollmentId = UUID.randomUUID().toString();
@@ -265,22 +320,28 @@ public class AdminSecurityService {
         }
         audit(principal.adminId(), "ADMIN_MFA_ENROLL_STARTED", "admin_mfa_method", methodId,
                 requestId, ip, "PENDING", existing == null ? 0 : existing.version() + 1, null);
-        repository.completeIdempotency(claim.row().id(), "mfa:" + methodId);
-        return new MfaEnrollmentResource(material.enrollmentId(), "TOTP", material.qrCodeUrl(),
+        MfaEnrollmentResource result = new MfaEnrollmentResource(material.enrollmentId(), "TOTP", material.qrCodeUrl(),
                 material.manualKeyMasked(), material.expiresAt());
+        return completeSnapshot(claim, scope, idempotencyKey, requestHash, TYPE_MFA_ENROLLMENT,
+                "mfa:" + methodId, result);
     }
 
     @Transactional(noRollbackFor = CommittedAdminSecurityFailure.class)
     public AdminSelfSecurityResource confirmMfa(
             AdminPrincipal principal, MfaConfirmRequest request, String idempotencyKey,
             String requestId, String ip, String device) {
+        requireSecurityWritePrincipal(principal);
         Instant now = Instant.now(clock);
         String scope = "admin.mfa.confirm:" + principal.adminId();
         String requestHash = hash(request);
+        if (principal.replayOnly()) {
+            return replayOnly(scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                    AdminSelfSecurityResource.class, () -> overview(principal.adminId(), now));
+        }
         AdminSecurityStore.IdempotencyRow prior = repository.findIdempotency(scope, idempotencyKey).orElse(null);
         if (prior != null) {
-            validateReplay(prior, requestHash);
-            return overview(principal.adminId(), now);
+            return replay(prior, scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                    AdminSelfSecurityResource.class, () -> overview(principal.adminId(), now), false);
         }
         AdminSecurityStore.MfaMethodRow method = repository.mfaMethod(principal.adminId())
                 .filter(row -> "PENDING".equals(row.status())).orElseThrow(() -> rule("没有待确认的MFA绑定"));
@@ -288,8 +349,8 @@ public class AdminSecurityService {
         AdminSecurityStore.IdempotencyRow lockedPrior =
                 repository.findIdempotency(scope, idempotencyKey).orElse(null);
         if (lockedPrior != null) {
-            validateReplay(lockedPrior, requestHash);
-            return overview(principal.adminId(), now);
+            return replay(lockedPrior, scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                    AdminSelfSecurityResource.class, () -> overview(principal.adminId(), now), false);
         }
         if (!request.enrollmentId().equals(enrollmentId(method.secretRef()))
                 || now.isAfter(method.updatedAt().plus(properties.enrollmentTtl()))
@@ -300,42 +361,50 @@ public class AdminSecurityService {
         }
         AdminSecurityStore.IdempotencyClaim claim = claim(scope, idempotencyKey, requestHash, now);
         if (claim.replay()) {
-            return overview(principal.adminId(), now);
+            return replay(claim.row(), scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                    AdminSelfSecurityResource.class, () -> overview(principal.adminId(), now), false);
         }
         if (!repository.confirmMfa(method.id(), method.version() + 1, now)) {
             throw conflict();
         }
         audit(principal.adminId(), "ADMIN_MFA_ENABLED", "admin_mfa_method", method.id(),
                 requestId, ip, "ACTIVE", method.version() + 2, null);
-        repository.completeIdempotency(claim.row().id(), "mfa:" + method.id());
-        return overview(principal.adminId(), now);
+        AdminSelfSecurityResource result = overview(principal.adminId(), now);
+        return completeSnapshot(claim, scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                "mfa:" + method.id(), result);
     }
 
     @Transactional(noRollbackFor = CommittedAdminSecurityFailure.class)
     public AdminSelfSecurityResource disableMfa(
             AdminPrincipal principal, MfaDisableRequest request, String idempotencyKey,
             String requestId, String ip, String device) {
+        requireSecurityWritePrincipal(principal);
         Instant now = Instant.now(clock);
         String scope = "admin.mfa.disable:" + principal.adminId();
         String requestHash = hash(request);
+        if (principal.replayOnly()) {
+            return replayOnly(scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                    AdminSelfSecurityResource.class, () -> overview(principal.adminId(), now));
+        }
         AdminSecurityStore.IdempotencyRow prior = repository.findIdempotency(scope, idempotencyKey).orElse(null);
         if (prior != null) {
-            validateReplay(prior, requestHash);
-            return overview(principal.adminId(), now);
+            return replay(prior, scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                    AdminSelfSecurityResource.class, () -> overview(principal.adminId(), now), false);
         }
         lockAndEnforceMfaRateLimit(
                 principal.adminId(), principal.sessionId(), ip, device, now);
         AdminSecurityStore.IdempotencyRow lockedPrior =
                 repository.findIdempotency(scope, idempotencyKey).orElse(null);
         if (lockedPrior != null) {
-            validateReplay(lockedPrior, requestHash);
-            return overview(principal.adminId(), now);
+            return replay(lockedPrior, scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                    AdminSelfSecurityResource.class, () -> overview(principal.adminId(), now), false);
         }
         AdminSecurityStore.MfaMethodRow method = requireActiveMfaAfterLock(
                 principal.adminId(), request.code(), "MFA_DISABLE", requestId, ip, device);
         AdminSecurityStore.IdempotencyClaim claim = claim(scope, idempotencyKey, requestHash, now);
         if (claim.replay()) {
-            return overview(principal.adminId(), now);
+            return replay(claim.row(), scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                    AdminSelfSecurityResource.class, () -> overview(principal.adminId(), now), false);
         }
         if (!repository.disableMfa(method.id(), method.version() + 1, now)) {
             throw conflict();
@@ -343,9 +412,12 @@ public class AdminSecurityService {
         repository.expireUnusedRecoveryCodes(principal.adminId(), now);
         audit(principal.adminId(), "ADMIN_MFA_DISABLED", "admin_mfa_method", method.id(),
                 requestId, ip, "DISABLED", method.version() + 2, request.reason());
-        repository.completeIdempotency(claim.row().id(), "mfa:" + method.id());
+        AdminSelfSecurityResource result = overview(principal.adminId(), now);
+        AdminSelfSecurityResource completed = completeSnapshot(
+                claim, scope, idempotencyKey, requestHash, TYPE_SECURITY_RESOURCE,
+                "mfa:" + method.id(), result);
         revokeSecretAfterCommit(principal.adminId(), method.secretRef());
-        return overview(principal.adminId(), now);
+        return completed;
     }
 
     private AdminSessionResource replaySession(String responseRef, Instant now) {
@@ -475,23 +547,107 @@ public class AdminSecurityService {
             String scope, String key, String requestHash, Instant now) {
         AdminSecurityStore.IdempotencyClaim claim = repository.claimIdempotency(
                 scope, key, requestHash, now.plus(IDEMPOTENCY_TTL));
-        if (claim.replay() && !requestHash.equals(claim.row().requestHash())) {
-            throw new BusinessException("COMMON-409-IDEMPOTENCY_CONFLICT",
-                    "同一幂等键对应不同请求", 409, false);
-        }
-        if (claim.replay() && claim.row().responseRef() == null) {
-            throw conflict();
+        if (claim.replay()) {
+            validateReplayDigest(claim.row(), requestHash);
+            validateCompletedState(claim.row(), false);
         }
         return claim;
     }
 
-    private static void validateReplay(AdminSecurityStore.IdempotencyRow row, String requestHash) {
+    private <T> T replayOnly(
+            String scope, String key, String requestHash, String responseType,
+            Class<T> responseClass, Supplier<T> legacyReplay) {
+        AdminSecurityStore.IdempotencyRow row = repository.findIdempotency(scope, key)
+                .orElseThrow(AdminSecurityService::unauthenticated);
+        validateReplayDigest(row, requestHash);
+        validateCompletedState(row, true);
+        return replay(row, scope, key, requestHash, responseType, responseClass, legacyReplay, true);
+    }
+
+    private <T> T replay(
+            AdminSecurityStore.IdempotencyRow row,
+            String scope,
+            String key,
+            String requestHash,
+            String responseType,
+            Class<T> responseClass,
+            Supplier<T> legacyReplay,
+            boolean replayOnly) {
+        validateReplayDigest(row, requestHash);
+        validateCompletedState(row, replayOnly);
+        boolean noType = row.responseType() == null;
+        boolean noCiphertext = row.responsePayloadCiphertext() == null;
+        if (noType && noCiphertext) {
+            return legacyReplay.get();
+        }
+        if (!responseType.equals(row.responseType())) {
+            throw snapshotFailure();
+        }
+        try {
+            byte[] plaintext = snapshots.decrypt(
+                    scope, key, requestHash, responseType, row.responsePayloadCiphertext());
+            return objectMapper.readValue(plaintext, responseClass);
+        } catch (AdminIdempotencySnapshotCipher.SnapshotIntegrityException exception) {
+            throw exception;
+        } catch (Exception exception) {
+            throw snapshotFailure();
+        }
+    }
+
+    private <T> T completeSnapshot(
+            AdminSecurityStore.IdempotencyClaim claim,
+            String scope,
+            String key,
+            String requestHash,
+            String responseType,
+            String responseRef,
+            T result) {
+        try {
+            byte[] plaintext = objectMapper.writeValueAsBytes(result);
+            String ciphertext = snapshots.encrypt(scope, key, requestHash, responseType, plaintext);
+            repository.completeIdempotencySnapshot(
+                    claim.row().id(), responseRef, responseType, ciphertext);
+            return result;
+        } catch (AdminIdempotencySnapshotCipher.SnapshotIntegrityException exception) {
+            throw exception;
+        } catch (Exception exception) {
+            throw snapshotFailure();
+        }
+    }
+
+    private static void validateReplayDigest(
+            AdminSecurityStore.IdempotencyRow row, String requestHash) {
         if (!requestHash.equals(row.requestHash())) {
             throw new BusinessException("COMMON-409-IDEMPOTENCY_CONFLICT",
                     "同一幂等键对应不同请求", 409, false);
         }
-        if (row.responseRef() == null) {
+    }
+
+    private static void validateCompletedState(
+            AdminSecurityStore.IdempotencyRow row, boolean replayOnly) {
+        boolean noType = row.responseType() == null;
+        boolean noCiphertext = row.responsePayloadCiphertext() == null;
+        if (noType != noCiphertext) {
+            throw snapshotFailure();
+        }
+        if (noType && row.responseRef() == null) {
+            if (replayOnly) throw unauthenticated();
             throw conflict();
+        }
+        if (!noType && (row.responseType().isBlank() || row.responsePayloadCiphertext().isBlank())) {
+            throw snapshotFailure();
+        }
+    }
+
+    private static IllegalStateException snapshotFailure() {
+        return new IllegalStateException("Administrator idempotency snapshot is unavailable");
+    }
+
+    private static void requireSecurityWritePrincipal(AdminPrincipal principal) {
+        if (!principal.replayOnly()
+                && !principal.permissionCodes().contains("admin.self.security")) {
+            throw new BusinessException(
+                    "COMMON-403-FORBIDDEN", "权限或能力不足", 403, false);
         }
     }
 

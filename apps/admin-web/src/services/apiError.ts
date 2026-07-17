@@ -83,3 +83,13 @@ export function apiRequestErrorFromNetwork(error: unknown): ApiRequestError {
     requestId: 'missing',
   });
 }
+
+export function apiRequestErrorFromTimeout(): ApiRequestError {
+  return new ApiRequestError({
+    status: 0,
+    code: 'NETWORK_ERROR',
+    message: '网络请求超时，请稍后重试',
+    requestId: 'missing',
+    retryable: true,
+  });
+}

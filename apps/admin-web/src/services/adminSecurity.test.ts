@@ -55,6 +55,52 @@ describe('AdminSecurityApi', () => {
 
   afterEach(() => {
     vi.unstubAllGlobals();
+    vi.useRealTimers();
+  });
+
+  it('applies a finite default timeout and normalizes timeout aborts as retryable network errors', async () => {
+    vi.useFakeTimers();
+    const api = new AdminSecurityApi(
+      BASE_URL,
+      new AdminSession(),
+      new IdempotencyKeyFactory(),
+      25,
+    );
+    fetchMock.mockImplementation((_input, init) => new Promise((_resolve, reject) => {
+      init?.signal?.addEventListener('abort', () => reject(init.signal?.reason), { once: true });
+    }));
+
+    const request = api.login({ username: 'root', password: 'Secret!234' });
+    const rejection = expect(request).rejects.toMatchObject({
+      status: 0,
+      code: 'NETWORK_ERROR',
+      retryable: true,
+      message: '网络请求超时，请稍后重试',
+    });
+    await vi.advanceTimersByTimeAsync(25);
+    await rejection;
+  });
+
+  it('merges a caller AbortSignal with the internal timeout signal', async () => {
+    const external = new AbortController();
+    const api = new AdminSecurityApi(
+      BASE_URL,
+      new AdminSession(),
+      new IdempotencyKeyFactory(),
+      60_000,
+    );
+    fetchMock.mockImplementation((_input, init) => new Promise((_resolve, reject) => {
+      expect(init?.signal).not.toBe(external.signal);
+      init?.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')), { once: true });
+    }));
+
+    const request = api.login(
+      { username: 'root', password: 'Secret!234' },
+      { signal: external.signal },
+    );
+    external.abort();
+
+    await expect(request).rejects.toMatchObject({ status: 0, code: 'REQUEST_ABORTED' });
   });
 
   it('calls all eight frozen R01 operations with the exact method, path, headers and body', async () => {
@@ -197,6 +243,35 @@ describe('AdminSecurityApi', () => {
       details: [{ field: 'password', code: 'AUTH-LOCKED', message: '密码尝试次数过多' }],
     });
     expect(String(error)).not.toContain('Secret!234');
+  });
+
+  it.each([
+    [401, 'COMMON-401-UNAUTHENTICATED'],
+    [403, 'COMMON-403-FORBIDDEN'],
+    [409, 'COMMON-409-CONFLICT'],
+    [422, 'COMMON-422-BUSINESS_RULE'],
+    [429, 'COMMON-429-RATE_LIMITED'],
+  ])('preserves the structured %i response without retrying a POST', async (status, code) => {
+    const api = new AdminSecurityApi(BASE_URL, new AdminSession(), new IdempotencyKeyFactory());
+    fetchMock.mockResolvedValueOnce(new Response(JSON.stringify({
+      success: false,
+      requestId: `request-${status}`,
+      error: { code, message: `failure-${status}` },
+    }), {
+      status,
+      headers: { 'Content-Type': 'application/json', ...(status === 429 ? { 'Retry-After': '3' } : {}) },
+    }));
+
+    await expect(api.login(
+      { username: 'root', password: 'Secret!234' },
+      { idempotencyKey: `idem-status-${status}` },
+    )).rejects.toMatchObject({
+      status,
+      code,
+      requestId: `request-${status}`,
+      ...(status === 429 ? { retryAfter: 3 } : {}),
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it('retains the generated idempotency key after a network failure and rotates it after success', async () => {
