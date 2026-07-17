@@ -1,0 +1,49 @@
+protocol_version: '1.0'
+cr_id: CR-0013
+title: 纠正R01任务合同的接口与测试数量漂移
+status: IMPLEMENTED
+created_at: '2026-07-17T07:51:53Z'
+updated_at: '2026-07-17T07:53:05Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-engineering-audit
+task_id: TASK-R01-001
+session_id: SES-20260717T074317Z-C575A687
+user_request: 完整推进R01版本开发并确保版本完成后提供桌面APK真机测试
+reason: R01权威Manifest和Stories声明8个operationId及27个测试ID，但TASK-R01-003/005描述误写为3个operationId和3项测试，存在漏实现与漏验收风险
+original_rule: TASK-R01-003实现范围内3个operationId；TASK-R01-005执行3项测试
+new_rule: TASK-R01-003实现权威Manifest与Stories声明的8个operationId；TASK-R01-005执行Manifest声明的27个测试ID并逐项归档证据
+impact_summary: 仅纠正R01派生任务合同数量与权威清单一致，不新增或删除页面、接口、表、配置、测试或Android范围
+impact:
+  files:
+  - releases/R01/TASKS.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python scripts/check_v122_documentation.py --strict --release R01
+  - R01 manifest/task count consistency assertion
+  releases:
+  - R01
+  migration_and_compatibility: 无需数据或运行时迁移；后续任务按既有8接口和27测试的冻结事实实施
+user_confirmation: 完整推进R01版本开发并确保版本完成后提供桌面APK真机测试
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-17T07:52:17Z'
+  note: 核对确认R01权威RELEASE_MANIFEST与STORIES均固定8个operationId和27个测试ID，TASK-R01-003/005中的3仅为派生数量误写；批准只修正releases/R01/TASKS.yaml描述以对齐既有范围，禁止新增、删除或替换接口、测试、页面、数据及运行时范围
+machine_record: .continuity/change_requests/CR-0013.yaml
+document: docs/03-continuity/change-requests/CR-0013-纠正R01任务合同的接口与测试数量漂移.md
+decision_log:
+- at: '2026-07-17T07:53:04Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 按批准边界仅纠正R01派生任务数量
+  session_id: SES-20260717T074317Z-C575A687
+- at: '2026-07-17T07:53:05Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: TASK-R01-003已对齐8接口，TASK-R01-005已对齐27测试
+  session_id: SES-20260717T074317Z-C575A687
+session_ids:
+- SES-20260717T074317Z-C575A687

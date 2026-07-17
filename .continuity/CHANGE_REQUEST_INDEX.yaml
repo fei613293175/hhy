@@ -466,3 +466,153 @@ change_requests:
     note: 确认仅收口P00 RELEASE_MANIFEST与ACCEPTANCE_MATRIX终态元数据：保留3条HTTP paths并绑定现有3个OpenAPI operationId，6项证据均为仓库内实际文件，59项矩阵PASS，release commit、tag与APK基线一致；禁止修改运行时代码或接口
   machine_record: .continuity/change_requests/CR-0010.yaml
   document: docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md
+- protocol_version: '1.0'
+  cr_id: CR-0011
+  title: 修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆
+  status: IMPLEMENTED
+  created_at: '2026-07-17T07:44:00Z'
+  updated_at: '2026-07-17T07:52:35Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-engineering-audit
+  task_id: TASK-R01-001
+  session_id: SES-20260717T074317Z-C575A687
+  user_request: 开始R01版本开发并按既有冻结文档继续落地
+  reason: R01指定文档门禁错误检查package_version等于1.2.2，导致合法的V1.2.3接续包无法通过；应检查product_spec_baseline为V1.2.2并保留package_version为1.2.3
+  original_rule: check_v122_documentation.py要求PROJECT_BASELINE.package_version必须等于1.2.2
+  new_rule: 验证器要求PROJECT_BASELINE.product_spec_baseline等于V1.2.2，并要求package_version至少存在但不把持续接续包版本误当产品规格版本
+  impact_summary: 仅修正文档门禁的版本字段语义并增加回归覆盖；不改变页面、API、数据库、配置、Android运行时或产品冻结基线
+  impact:
+    files:
+    - scripts/check_v122_documentation.py
+    - tests/test_documentation_baseline_version.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python tests/test_documentation_baseline_version.py
+    - python scripts/check_v122_documentation.py --strict --release R01
+    releases:
+    - R01
+    migration_and_compatibility: 无需数据或运行时迁移；V1.2.2产品规格包和V1.2.3持续接续包均按显式字段校验
+  user_confirmation: 开始R01版本开发并按既有冻结文档继续落地
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T07:44:56Z'
+    note: 确认PROJECT_BASELINE已显式区分V1.2.3接续包版本与V1.2.2产品规格基线；批准仅修正文档门禁字段语义并增加合法接续包、错误产品基线及缺失字段回归测试，禁止修改基线文件或任何运行时资产
+  machine_record: .continuity/change_requests/CR-0011.yaml
+  document: docs/03-continuity/change-requests/CR-0011-修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆.md
+  decision_log:
+  - at: '2026-07-17T07:52:34Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 按独立批准合同边界实施
+    session_id: SES-20260717T074317Z-C575A687
+  - at: '2026-07-17T07:52:35Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 合同范围内代码、元数据与回归测试均已完成
+    session_id: SES-20260717T074317Z-C575A687
+  session_ids:
+  - SES-20260717T074317Z-C575A687
+- protocol_version: '1.0'
+  cr_id: CR-0012
+  title: 补齐NEXT_TASK无状态接续强制命令集
+  status: IMPLEMENTED
+  created_at: '2026-07-17T07:47:24Z'
+  updated_at: '2026-07-17T07:52:36Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-engineering-audit
+  task_id: TASK-R01-001
+  session_id: SES-20260717T074317Z-C575A687
+  user_request: 开始R01版本开发并保证项目可持续无状态接续
+  reason: P00跨版本关闭生成的NEXT_TASK仅含start_command，缺少strict gate要求的resume/checkpoint/handoff/export-clean/cr-amend命令，导致新AI无法从单文件获得完整操作入口
+  original_rule: resolve_next_task只生成start_command和next_after，NEXT_TASK不包含其余统一CLI恢复命令
+  new_rule: resolve_next_task必须生成commands映射，包含resume、start、checkpoint、handoff、export_clean和cr_amend；当前NEXT_TASK同步回填，所有后续同版本和跨版本关闭自动继承
+  impact_summary: 仅增强持续接续元数据生成和隔离回归断言；不改变业务代码、页面、API、数据库、配置或Android运行时
+  impact:
+    files:
+    - scripts/continuity.py
+    - NEXT_TASK.yaml
+    - tests/test_continuity_cross_release_close.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python tests/test_continuity_cross_release_close.py
+    - python scripts/check_v123_continuity.py --strict
+    releases:
+    - R01
+    migration_and_compatibility: 无需运行时迁移；旧NEXT_TASK同步回填，字段为向后兼容新增，现有start_command保留
+  user_confirmation: 开始R01版本开发并保证项目可持续无状态接续
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T07:49:22Z'
+    note: 确认NEXT_TASK作为无状态接续入口必须暴露resume、start、checkpoint、handoff、export-clean与cr-amend统一CLI；批准仅增强resolve_next_task生成、回填当前NEXT_TASK并补充跨Release隔离回归断言，保留start_command且禁止业务运行时变更
+  machine_record: .continuity/change_requests/CR-0012.yaml
+  document: docs/03-continuity/change-requests/CR-0012-补齐NEXT_TASK无状态接续强制命令集.md
+  decision_log:
+  - at: '2026-07-17T07:52:35Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 按独立批准合同边界实施
+    session_id: SES-20260717T074317Z-C575A687
+  - at: '2026-07-17T07:52:36Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 合同范围内代码、元数据与回归测试均已完成
+    session_id: SES-20260717T074317Z-C575A687
+  session_ids:
+  - SES-20260717T074317Z-C575A687
+- protocol_version: '1.0'
+  cr_id: CR-0013
+  title: 纠正R01任务合同的接口与测试数量漂移
+  status: IMPLEMENTED
+  created_at: '2026-07-17T07:51:53Z'
+  updated_at: '2026-07-17T07:53:05Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-engineering-audit
+  task_id: TASK-R01-001
+  session_id: SES-20260717T074317Z-C575A687
+  user_request: 完整推进R01版本开发并确保版本完成后提供桌面APK真机测试
+  reason: R01权威Manifest和Stories声明8个operationId及27个测试ID，但TASK-R01-003/005描述误写为3个operationId和3项测试，存在漏实现与漏验收风险
+  original_rule: TASK-R01-003实现范围内3个operationId；TASK-R01-005执行3项测试
+  new_rule: TASK-R01-003实现权威Manifest与Stories声明的8个operationId；TASK-R01-005执行Manifest声明的27个测试ID并逐项归档证据
+  impact_summary: 仅纠正R01派生任务合同数量与权威清单一致，不新增或删除页面、接口、表、配置、测试或Android范围
+  impact:
+    files:
+    - releases/R01/TASKS.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_v122_documentation.py --strict --release R01
+    - R01 manifest/task count consistency assertion
+    releases:
+    - R01
+    migration_and_compatibility: 无需数据或运行时迁移；后续任务按既有8接口和27测试的冻结事实实施
+  user_confirmation: 完整推进R01版本开发并确保版本完成后提供桌面APK真机测试
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T07:52:17Z'
+    note: 核对确认R01权威RELEASE_MANIFEST与STORIES均固定8个operationId和27个测试ID，TASK-R01-003/005中的3仅为派生数量误写；批准只修正releases/R01/TASKS.yaml描述以对齐既有范围，禁止新增、删除或替换接口、测试、页面、数据及运行时范围
+  machine_record: .continuity/change_requests/CR-0013.yaml
+  document: docs/03-continuity/change-requests/CR-0013-纠正R01任务合同的接口与测试数量漂移.md
+  decision_log:
+  - at: '2026-07-17T07:53:04Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 按批准边界仅纠正R01派生任务数量
+    session_id: SES-20260717T074317Z-C575A687
+  - at: '2026-07-17T07:53:05Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: TASK-R01-003已对齐8接口，TASK-R01-005已对齐27测试
+    session_id: SES-20260717T074317Z-C575A687
+  session_ids:
+  - SES-20260717T074317Z-C575A687

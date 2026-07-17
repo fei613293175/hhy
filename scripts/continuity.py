@@ -638,6 +638,7 @@ def command_recover(args: Namespace) -> None:
 
 def resolve_next_task(root: Path, release: str, next_task_id: str) -> dict[str, Any]:
     task = release_task(root, release, next_task_id)
+    start_command = f"python3 scripts/continuity.py start --actor <ACTOR_ID> --task {task['id']}"
     return {
         "id": task["id"],
         "title": task.get("title"),
@@ -650,7 +651,15 @@ def resolve_next_task(root: Path, release: str, next_task_id: str) -> dict[str, 
         "steps": task.get("deliverables", []),
         "acceptance": task.get("acceptance", []),
         "claim_required": True,
-        "start_command": f"python3 scripts/continuity.py start --actor <ACTOR_ID> --task {task['id']}",
+        "start_command": start_command,
+        "commands": {
+            "resume": "python3 scripts/continuity.py resume",
+            "start": start_command,
+            "checkpoint": "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note'",
+            "handoff": "python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'",
+            "export_clean": "python3 scripts/continuity.py export-clean --portable-zip <OUTPUT.zip>",
+            "cr_amend": "python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>",
+        },
         "next_after": "由当前TASKS.yaml依赖关系决定",
     }
 

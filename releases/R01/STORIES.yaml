@@ -6,6 +6,39 @@ rules:
 - 故事未通过definition_of_ready不得进入编码
 - 页面故事不得增加未登记字段、状态、按钮、接口或配置
 - 工程治理故事负责契约、数据、配置、测试、观测和交接
+delivery_claims:
+- story_id: STORY-R01-001
+  actor_id: codex-root
+  session_id: SES-20260717T074317Z-C575A687
+  claimed_at: '2026-07-17T07:43:17Z'
+  dependencies_verified:
+  - P00
+  responsibility_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+- story_id: STORY-R01-002
+  actor_id: codex-root
+  session_id: SES-20260717T074317Z-C575A687
+  claimed_at: '2026-07-17T07:43:17Z'
+  dependencies_verified:
+  - P00
+  responsibility_roles:
+  - admin_frontend_engineer
+  - backend_engineer
+  - test_engineer
+- story_id: STORY-R01-003
+  actor_id: codex-root
+  session_id: SES-20260717T074317Z-C575A687
+  claimed_at: '2026-07-17T07:43:17Z'
+  dependencies_verified:
+  - P00
+  responsibility_roles:
+  - tech_lead
+  - backend_engineer
+  - database_engineer
+  - test_engineer
+  - devops_engineer
 stories:
 - story_id: STORY-R01-001
   release: R01

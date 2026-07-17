@@ -51,7 +51,7 @@ tasks:
   depends_on:
   - TASK-R01-002
   requirements: *id001
-  description: 实现范围内3个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
+  description: 实现权威Manifest与Stories范围内8个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
   deliverables:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
@@ -88,7 +88,7 @@ tasks:
   - TASK-R01-003
   - TASK-R01-004
   requirements: *id001
-  description: 执行3项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
+  description: 执行权威Manifest声明的27项测试，覆盖重复请求、并发、超时、消息重复和供应商异常，并逐项归档证据
   deliverables:
   - 测试报告和失败证据归档
   - 关键缺陷清零

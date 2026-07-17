@@ -13,6 +13,16 @@ def read_csv(rel):
 def load_yaml(rel):
     return yaml.safe_load((ROOT/rel).read_text("utf-8"))
 
+def validate_project_baseline(baseline, require):
+    """Keep the product specification baseline separate from package tooling."""
+    package_version=str(baseline.get("package_version") or "").strip()
+    require(bool(package_version),"BASELINE_PACKAGE_VERSION","PROJECT_BASELINE package_version is required")
+    require(
+        baseline.get("product_spec_baseline")=="V1.2.2",
+        "BASELINE_PRODUCT_SPEC_VERSION",
+        "PROJECT_BASELINE product_spec_baseline must be V1.2.2",
+    )
+
 def ops(doc):
     out=[]
     for path,item in doc.get("paths",{}).items():
@@ -60,7 +70,7 @@ def main():
         require((ROOT/rel).is_file(),"FILE_MISSING",rel)
 
     baseline=load_yaml("PROJECT_BASELINE.yaml")
-    require(baseline.get("package_version")=="1.2.2","BASELINE_VERSION","PROJECT_BASELINE must be 1.2.2")
+    validate_project_baseline(baseline,require)
 
     android=read_csv("catalogs/android_screens.csv")
     h5=read_csv("catalogs/h5_screens.csv")

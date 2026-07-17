@@ -232,6 +232,13 @@ class CrossReleaseCloseTest(unittest.TestCase):
                 (next_task["id"], next_task["release"], next_task["status"]),
                 ("TASK-R01-001", "R01", "READY"),
             )
+            self.assertEqual(
+                set(next_task["commands"]),
+                {"resume", "start", "checkpoint", "handoff", "export_clean", "cr_amend"},
+            )
+            for command in next_task["commands"].values():
+                self.assertIn("scripts/continuity.py", command)
+            self.assertEqual(next_task["commands"]["start"], next_task["start_command"])
             status = yaml.safe_load((repo / "CURRENT_STATUS.yaml").read_text(encoding="utf-8"))
             self.assertEqual(status["phase"], "R01")
             self.assertEqual(status["active_release"], "R01")

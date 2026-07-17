@@ -1,0 +1,120 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T074317Z-C575A687-0001
+session_id: SES-20260717T074317Z-C575A687
+sequence: 1
+created_at: '2026-07-17T07:44:57Z'
+summary: 完成R01文档与冻结基线首轮核验，发现版本字段语义阻断并登记CR-0011
+next_step: 等待独立审批CR-0011后修复验证器并补回归测试
+blockers:
+- check_v122_documentation.py错误要求PROJECT_BASELINE.package_version等于1.2.2，当前合法接续包为1.2.3
+decisions:
+- 产品规格基线继续冻结为V1.2.2；持续接续包版本1.2.3不得被误判为产品规格漂移
+note: ''
+tests:
+- name: R01 documentation gate
+  result: FAIL
+  evidence: artifacts/validation/project-doctor-v1.2.2.json
+  note: 唯一错误BASELINE_VERSION，已登记CR-0011
+git:
+  initialized: true
+  branch: task/TASK-R01-001
+  head: 67f7e4568097660589139fb9ba0baf42c9398dfb
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0011.yaml
+  - ?? .continuity/sessions/SES-20260717T074317Z-C575A687.yaml
+  - ?? docs/03-continuity/change-requests/CR-0011-修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T074317Z-C575A687.md
+  recent_commits:
+  - "67f7e4568097660589139fb9ba0baf42c9398dfb\t2026-07-17T13:51:37+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close release\
+    \ and pause"
+  - "4d5e344076898e34f7741e146a6fa21d144caf11\t2026-07-17T13:50:24+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): prepare release\
+    \ closure"
+  - "d9b276872dd7390c2b1a22a0065973e6c314534e\t2026-07-17T13:40:57+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close APK acceptance\
+    \ task"
+  - "752a3a96b9b3c4ecec3492a2fe01b4150a8a3626\t2026-07-17T13:39:51+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): archive APK acceptance\
+    \ manifest"
+  - "cf701e7768970ede7c89a2321afae8a50e76453e\t2026-07-17T13:38:11+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close staging\
+    \ acceptance task"
+  - "d51fae87e5b1df39ea364c82968888aa46ddfee5\t2026-07-17T13:36:46+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): record staging\
+    \ acceptance session"
+  - "cc879b53e2d637f4076f35d27712cefcf7a92c31\t2026-07-17T13:35:48+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close test matrix\
+    \ task"
+  - "b943445b88ad6284f235b19a2747c51a00ba5d72\t2026-07-17T13:30:25+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): archive final release\
+    \ evidence"
+project_fingerprint:
+  sha256: 036700dc999f7996a284b736fc582865eb9e2212c1dd16e52daea54d898c9596
+  files:
+  - docs/03-continuity/change-requests/CR-0011-修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆.md
+  file_count: 1
+  payload:
+    base_commit: 67f7e4568097660589139fb9ba0baf42c9398dfb
+    files:
+    - path: docs/03-continuity/change-requests/CR-0011-修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆.md
+      state: FILE
+      size: 2215
+      sha256: 5ba3494131b52ca0681bbbfac1849a9487dded89fc755dc40ffb3335353d2cbc
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0011-修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0011
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: f21db6adecb8edfcc5637ade15bd39ac274fc7dfa5b5cbae785661f397ac7fe0

@@ -1,6 +1,20 @@
 release: R01
 title: Design System与契约工程化
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: IN_PROGRESS
+development_baseline:
+  session_id: SES-20260717T074317Z-C575A687
+  actor_id: codex-root
+  started_at: '2026-07-17T07:43:17Z'
+  claimed_stories:
+  - STORY-R01-001
+  - STORY-R01-002
+  - STORY-R01-003
+  verified_dependencies:
+  - P00
+  change_requests:
+  - CR-0011
+  - CR-0012
+  - CR-0013
 milestone: M0_ENGINEERING_FOUNDATION
 depends_on:
 - P00

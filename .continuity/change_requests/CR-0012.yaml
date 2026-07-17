@@ -1,0 +1,51 @@
+protocol_version: '1.0'
+cr_id: CR-0012
+title: 补齐NEXT_TASK无状态接续强制命令集
+status: IMPLEMENTED
+created_at: '2026-07-17T07:47:24Z'
+updated_at: '2026-07-17T07:52:36Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-engineering-audit
+task_id: TASK-R01-001
+session_id: SES-20260717T074317Z-C575A687
+user_request: 开始R01版本开发并保证项目可持续无状态接续
+reason: P00跨版本关闭生成的NEXT_TASK仅含start_command，缺少strict gate要求的resume/checkpoint/handoff/export-clean/cr-amend命令，导致新AI无法从单文件获得完整操作入口
+original_rule: resolve_next_task只生成start_command和next_after，NEXT_TASK不包含其余统一CLI恢复命令
+new_rule: resolve_next_task必须生成commands映射，包含resume、start、checkpoint、handoff、export_clean和cr_amend；当前NEXT_TASK同步回填，所有后续同版本和跨版本关闭自动继承
+impact_summary: 仅增强持续接续元数据生成和隔离回归断言；不改变业务代码、页面、API、数据库、配置或Android运行时
+impact:
+  files:
+  - scripts/continuity.py
+  - NEXT_TASK.yaml
+  - tests/test_continuity_cross_release_close.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python tests/test_continuity_cross_release_close.py
+  - python scripts/check_v123_continuity.py --strict
+  releases:
+  - R01
+  migration_and_compatibility: 无需运行时迁移；旧NEXT_TASK同步回填，字段为向后兼容新增，现有start_command保留
+user_confirmation: 开始R01版本开发并保证项目可持续无状态接续
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-17T07:49:22Z'
+  note: 确认NEXT_TASK作为无状态接续入口必须暴露resume、start、checkpoint、handoff、export-clean与cr-amend统一CLI；批准仅增强resolve_next_task生成、回填当前NEXT_TASK并补充跨Release隔离回归断言，保留start_command且禁止业务运行时变更
+machine_record: .continuity/change_requests/CR-0012.yaml
+document: docs/03-continuity/change-requests/CR-0012-补齐NEXT_TASK无状态接续强制命令集.md
+decision_log:
+- at: '2026-07-17T07:52:35Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 按独立批准合同边界实施
+  session_id: SES-20260717T074317Z-C575A687
+- at: '2026-07-17T07:52:36Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 合同范围内代码、元数据与回归测试均已完成
+  session_id: SES-20260717T074317Z-C575A687
+session_ids:
+- SES-20260717T074317Z-C575A687
