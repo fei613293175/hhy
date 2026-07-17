@@ -105,4 +105,13 @@ class ObservabilityEndpointsTest {
                 .andExpect(jsonPath("$.requestId").value("request_reject_observe_001"))
                 .andExpect(jsonPath("$.error.traceId").value("abcdef0123456789abcdef0123456789"));
     }
+
+    @Test
+    void unknownPermittedManagementPathIsNotReportedAsServerFailure() throws Exception {
+        mvc.perform(get("/actuator/health/not-a-real-group")
+                        .header("X-Request-Id", "request_missing_observe_001")
+                        .header("X-Trace-Id", "1234567890abcdef1234567890abcdef"))
+                .andExpect(status().isNotFound())
+                .andExpect(header().string("X-Trace-Id", "1234567890abcdef1234567890abcdef"));
+    }
 }

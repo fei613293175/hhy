@@ -81,8 +81,8 @@ problems:
 - id: PROB-0008
   title: R01预发布监控沿用P00标签且错误响应混淆RequestId与TraceId
   status: SOLVED
-  root_cause: R01 smoke栈未接入Prometheus/Alertmanager，旧规则硬编码P00并使用5%/1秒历史阈值；错误响应工厂和Security writer又把requestId写入traceId字段，业务Gauge查询失败仅返回NaN形成告警盲区
-  resolution: 建立R01独立可配置子网的监控与告警链，阈值对齐冻结配置2%/500ms；错误响应显式接收真实traceId；新增管理员安全Gauge、查询失败Counter及关键告警与静态门禁
+  root_cause: R01 smoke栈未接入Prometheus/Alertmanager，旧规则硬编码P00并使用5%/1秒历史阈值；错误响应工厂和Security writer又把requestId写入traceId字段，业务Gauge查询失败仅返回NaN形成告警盲区；业务端口上的未知Actuator资源被兜底异常处理误报为500
+  resolution: 建立R01独立可配置子网的监控与告警链，阈值对齐冻结配置2%/500ms；错误响应显式接收真实traceId；新增管理员安全Gauge、查询失败Counter及关键告警与静态门禁；NoResourceFound按冻结404错误码返回
   regression_checks:
   - scripts/check_r01_observability.py
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java

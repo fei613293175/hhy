@@ -12,7 +12,7 @@
 - 新增 27 项 R01 权威测试矩阵、设计 Token 防漂移、配置注册表与 PostgreSQL 迁移不变量门禁。
 - R01 隔离预发布栈接入 Prometheus、Alertmanager 与隐私最小化告警回执，错误率/P95 阈值与冻结配置统一为 2%/500ms。
 - 新增管理员活跃会话、五分钟认证失败、MFA 启用、幂等快照不变量及 Gauge 查询失败指标和告警。
-- 修正 4xx/5xx 错误体把 RequestId 冒充 TraceId 的问题，安全拒绝路径现在端到端回传真实 TraceId。
+- 修正 4xx/5xx 错误体把 RequestId 冒充 TraceId 的问题，安全拒绝路径现在端到端回传真实 TraceId；未知业务端口资源按 404 返回，不再污染 5xx RED 指标。
 
 ## P00 工程基线修复 · 2026-07-17
 

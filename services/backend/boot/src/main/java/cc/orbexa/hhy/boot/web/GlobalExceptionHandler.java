@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 public final class GlobalExceptionHandler {
@@ -72,6 +73,16 @@ public final class GlobalExceptionHandler {
                 request,
                 "COMMON-403-FORBIDDEN",
                 "缺少访问权限",
+                false));
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    ResponseEntity<ApiErrorResponse> notFound(
+            NoResourceFoundException ex, HttpServletRequest request) {
+        return ResponseEntity.status(404).body(error(
+                request,
+                "COMMON-404-NOT_FOUND",
+                "资源不存在或不可见",
                 false));
     }
 

@@ -37,6 +37,7 @@ alertmanager = yaml.safe_load(text("infra/staging/r01-smoke/alertmanager.yml")) 
 gauges = text("services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java")
 api_error = text("services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java")
 security_error = text("services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java")
+global_errors = text("services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java")
 observability_test = text("services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java")
 deployment = text("docs/07-operations/DEPLOYMENT_RUNBOOK.md")
 rollback = text("docs/07-operations/ROLLBACK_RUNBOOK.md")
@@ -86,6 +87,7 @@ require("queryFailures.increment()" in gauges, "R01_GAUGE_FAILURE_COUNTER_NOT_IN
 
 require("String traceId" in api_error and "retryable, traceId" in api_error, "API_ERROR_TRACE_ID_NOT_EXPLICIT")
 require('request.getAttribute("traceId")' in security_error, "SECURITY_ERROR_TRACE_ID_NOT_PROPAGATED")
+require("NoResourceFoundException" in global_errors and "COMMON-404-NOT_FOUND" in global_errors, "UNKNOWN_RESOURCE_NOT_MAPPED_TO_404")
 for token in ["securityRejectionKeepsRequestIdAndTraceIdDistinctAndCorrelated", "$.error.traceId", "X-Trace-Id"]:
     require(token in observability_test, f"R01_TRACE_REJECTION_TEST_MISSING_{token}")
 

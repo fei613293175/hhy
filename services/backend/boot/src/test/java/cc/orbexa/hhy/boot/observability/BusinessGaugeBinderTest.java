@@ -19,8 +19,8 @@ class BusinessGaugeBinderTest {
         jdbc.execute("CREATE TABLE hhy.accounting_transactions (id bigint PRIMARY KEY, status varchar(64) NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.accounting_entries (id bigint PRIMARY KEY, transaction_id bigint NOT NULL, account_id bigint NOT NULL, amount_cent bigint NOT NULL, currency varchar(8) NOT NULL, direction varchar(64) NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.reconciliation_differences (id bigint PRIMARY KEY, status varchar(64) NOT NULL)");
-        jdbc.execute("CREATE TABLE hhy.admin_sessions (id bigint PRIMARY KEY, expires_at timestamptz NOT NULL, revoked_at timestamptz)");
-        jdbc.execute("CREATE TABLE hhy.admin_login_logs (id bigint PRIMARY KEY, result varchar(32) NOT NULL, created_at timestamptz NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.admin_sessions (id bigint PRIMARY KEY, expires_at timestamp with time zone NOT NULL, revoked_at timestamp with time zone)");
+        jdbc.execute("CREATE TABLE hhy.admin_login_logs (id bigint PRIMARY KEY, result varchar(32) NOT NULL, created_at timestamp with time zone NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.admin_mfa_methods (id bigint PRIMARY KEY, status varchar(32) NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.idempotency_records (id bigint PRIMARY KEY, scope varchar(64) NOT NULL, response_type varchar(128), response_payload_ciphertext text)");
 
