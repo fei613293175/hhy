@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T19:28:22Z
-- Context Hash：`a74fe9c54e8d57d125720c9ae89d61b96568dc9c0246be8be4600aa1b03be30c`
+- 生成时间：2026-07-17T19:35:54Z
+- Context Hash：`f3da6785ecb3505f4334c232f5adc1e7af424e161762775a1f228f131ebdb5d0`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -54,7 +54,7 @@ in_progress_tasks:
 - TASK-R02-001
 blocked_tasks: []
 next_task: TASK-R02-001
-updated_at: '2026-07-17T19:28:21Z'
+updated_at: '2026-07-17T19:35:52Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -89,15 +89,15 @@ continuity:
   active_session_id: SES-20260717T183459Z-D64E7407
   actor_id: codex-master
   story_id: STORY-R02-009
-  lease_expires_at: '2026-07-17T23:28:21Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0003.yaml
-  project_fingerprint: 9d2f2f08ff48c80645396825b15336f7ef1dddac2dc4af7bcc1e952d2c9d4336
+  lease_expires_at: '2026-07-17T23:35:52Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0004.yaml
+  project_fingerprint: f7c1b1d121711de8dab79579cc7f69cbe54ced8ef46d0309fdea5316ab8dc8ee
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: e86947f0438ef889207a5a38327b960f821961231dc42fdc7fccc9b7acc51ee7
-    generated_at: '2026-07-17T19:27:21Z'
+    context_hash: a74fe9c54e8d57d125720c9ae89d61b96568dc9c0246be8be4600aa1b03be30c
+    generated_at: '2026-07-17T19:28:22Z'
   handoff_bundle: null
 ```
 
@@ -159,7 +159,7 @@ task_id: TASK-R02-001
 story_id: STORY-R02-009
 goal: 核验R02开发就绪并建立主控加三执行代理、独立工作区、分层测试、生成代码和APK交付的加速开发基线
 started_at: '2026-07-17T18:34:59Z'
-updated_at: '2026-07-17T19:28:21Z'
+updated_at: '2026-07-17T19:35:52Z'
 takeover_of: null
 change_requests:
 - CR-0018
@@ -206,12 +206,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T19:28:21Z'
-  expires_at: '2026-07-17T23:28:21Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0003.yaml
+  renewed_at: '2026-07-17T19:35:52Z'
+  expires_at: '2026-07-17T23:35:52Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md
-next_step: 暂存全部受控变更，运行Git Hooks提交并推送；随后关闭TASK-R02-001。
+next_step: 严格门禁后提交首推优化并推送，然后关闭TASK-R02-001。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -221,91 +221,41 @@ closure: null
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T183459Z-D64E7407-0003
+checkpoint_id: CP-SES-20260717T183459Z-D64E7407-0004
 session_id: SES-20260717T183459Z-D64E7407
-sequence: 3
-created_at: '2026-07-17T19:28:20Z'
-summary: CR-0018实现状态已登记，严格连续性与R02文档门禁均PASS，准备提交并行加速开发基线。
-next_step: 暂存全部受控变更，运行Git Hooks提交并推送；随后关闭TASK-R02-001。
+sequence: 4
+created_at: '2026-07-17T19:35:52Z'
+summary: 修复新任务分支首次推送误验全历史：无upstream时使用Session base_commit，仅验证本任务提交。
+next_step: 严格门禁后提交首推优化并推送，然后关闭TASK-R02-001。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: check-v123-continuity-strict
+- name: prepush-base-unit
   result: PASS
-  evidence: errors=0 warnings=0 integration=9 lifecycle=14
+  evidence: 9/9 test_run_affected_tests; session base and upstream priority covered
   note: ''
-- name: check-v122-r02-strict
+- name: continuity-self-test
   result: PASS
-  evidence: errors=0 warnings=0 documentation gaps=0
-  note: ''
-- name: acceleration-unit-suite
-  result: PASS
-  evidence: 29/29
-  note: ''
-- name: generated-assets
-  result: PASS
-  evidence: all deterministic assets VERIFIED
+  evidence: 9/9 integration and 14/14 lifecycle after prepush optimization
   note: ''
 git:
   initialized: true
   branch: task/TASK-R02-001
-  head: 878abc7f51eb3724703d5ff72d78d5eaed1cff30
-  upstream: null
-  ahead: null
-  behind: null
+  head: c19f6d6259801d785dc70eb2a81dfac5c41278ec
+  upstream: origin/task/TASK-R02-001
+  ahead: 0
+  behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/CONTINUITY_POLICY.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M .github/workflows/ci.yml'
-  - ' M AGENTS.md'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M Makefile'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M artifacts/validation/continuity-integration-v1.2.3.json'
   - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
   - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
-  - ' M artifacts/validation/project-doctor-v1.2.2.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M docs/05-app-build/APK持续交付强制规则_V1.2.2.md'
-  - ' M package.json'
-  - ' M releases/R02/RELEASE_MANIFEST.yaml'
-  - ' M releases/R02/TASKS.yaml'
   - ' M scripts/continuity_gate.py'
-  - ' M scripts/continuity_lib.py'
-  - ?? .continuity/change_requests/CR-0018.yaml
-  - ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0001.yaml
-  - ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0002.yaml
-  - ?? .continuity/sessions/SES-20260717T183459Z-D64E7407.yaml
-  - ?? .github/workflows/daily-integration.yml
-  - ?? config/test-impact-map.yaml
-  - ?? docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md
-  - ?? docs/03-continuity/并行加速开发运行手册_V1.0.md
-  - ?? releases/R02/PARALLEL_EXECUTION_PLAN.yaml
-  - ?? scripts/check_generated_assets.py
-  - ?? scripts/deliver_android_test_apk.py
-  - ?? scripts/generate_release_slice.py
-  - ?? scripts/prepare_parallel_worktrees.ps1
-  - ?? scripts/run_affected_tests.py
-  - ?? tests/test_android_apk_delivery.py
-  - ?? tests/test_generated_assets.py
-  - ?? tests/test_parallel_worktrees.py
-  - ?? tests/test_run_affected_tests.py
+  - ' M tests/test_run_affected_tests.py'
   recent_commits:
+  - "c19f6d6259801d785dc70eb2a81dfac5c41278ec\t2026-07-18T03:28:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(dev): establish parallel\
+    \ acceleration baseline"
   - "878abc7f51eb3724703d5ff72d78d5eaed1cff30\t2026-07-18T01:47:21+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-008\
     \ as completed"
   - "2e6c8dc68303b32ce154e4a3567dd36b0c0c225f\t2026-07-18T01:44:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): finalize release\
@@ -320,10 +270,8 @@ git:
     \ overrides"
   - "06b705ed53d83258e8d4b166909c5c21384f4b02\t2026-07-18T00:40:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): mark debug APK\
     \ test build"
-  - "46fb27372f2e62f3fe83d9f43f8e2189bbed4757\t2026-07-17T23:21:14+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-006\
-    \ as completed"
 project_fingerprint:
-  sha256: 9d2f2f08ff48c80645396825b15336f7ef1dddac2dc4af7bcc1e952d2c9d4336
+  sha256: f7c1b1d121711de8dab79579cc7f69cbe54ced8ef46d0309fdea5316ab8dc8ee
   files:
   - .github/workflows/ci.yml
   - .github/workflows/daily-integration.yml
@@ -411,8 +359,8 @@ project_fingerprint:
       sha256: 5d1455ba6716285e6f36ebf310949bf882079b58556e635d148ea9fb5b37c451
     - path: scripts/continuity_gate.py
       state: FILE
-      size: 37340
-      sha256: 46a0993543d851df557fb622d4b4352930aea204e84c19bff93ca5ce52cd4003
+      size: 37677
+      sha256: d3e3b687df3e04d6d3bd91eea28353111a9d71d86a31322f6e6322231338a7a6
     - path: scripts/continuity_lib.py
       state: FILE
       size: 98926
@@ -447,8 +395,8 @@ project_fingerprint:
       sha256: 4ebdd87ffa8694e58db995caf68dd16d3df331359a386f76c82b63de7e720b1d
     - path: tests/test_run_affected_tests.py
       state: FILE
-      size: 5324
-      sha256: d8a20b8c0c2a80bd897d50d68f9acde174074b998d7f1aee71c628d740463714
+      size: 5762
+      sha256: 9945c5d0d6bd7b549bd76c6b62edc522a067ab22cd6dfbebb2d9014e85698e7c
 change_classification:
   infrastructure:
   - .github/workflows/ci.yml
@@ -523,7 +471,7 @@ scope:
   - PROJECT_*.json
   approved_exceptions: []
   source: story+explicit
-event_hash: 95f8509a8a5dfcb261ea44b0c6109b2aceb90b03dcb046d2804711d968a96617
+event_hash: 01a2fb6eeffb379f330751d1dec2eac0ffd05a4bf8f6678e3fbd867c6674a3ae
 ```
 
 ## 接续状态与事件头
@@ -535,8 +483,8 @@ active_session_id: SES-20260717T183459Z-D64E7407
 last_session_id: SES-20260717T171412Z-7CD86701
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T171412Z-7CD86701-0002
-event_count: 217
-event_head_hash: 95f8509a8a5dfcb261ea44b0c6109b2aceb90b03dcb046d2804711d968a96617
+event_count: 218
+event_head_hash: 01a2fb6eeffb379f330751d1dec2eac0ffd05a4bf8f6678e3fbd867c6674a3ae
 event_chain_valid: true
 ```
 
@@ -659,9 +607,9 @@ recent_sessions: - session_id: SES-20260717T054147Z-7AE51A86
   started_at: '2026-07-17T18:34:59Z'
   record: .continuity/sessions/SES-20260717T183459Z-D64E7407.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md
-  updated_at: '2026-07-17T19:28:21Z'
+  updated_at: '2026-07-17T19:35:52Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0004.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -1506,63 +1454,29 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
 ```yaml
 initialized: true
 branch: task/TASK-R02-001
-head: 878abc7f51eb3724703d5ff72d78d5eaed1cff30
-upstream: null
-ahead: null
-behind: null
+head: c19f6d6259801d785dc70eb2a81dfac5c41278ec
+upstream: origin/task/TASK-R02-001
+ahead: 0
+behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/CONTINUITY_POLICY.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
-- ' M .github/workflows/ci.yml'
-- ' M AGENTS.md'
-- ' M CHANGELOG.md'
+- ' M .continuity/sessions/SES-20260717T183459Z-D64E7407.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M Makefile'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M artifacts/validation/continuity-integration-v1.2.3.json'
 - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
 - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
-- ' M artifacts/validation/project-doctor-v1.2.2.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
-- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M docs/05-app-build/APK持续交付强制规则_V1.2.2.md'
-- ' M package.json'
-- ' M releases/R02/RELEASE_MANIFEST.yaml'
-- ' M releases/R02/TASKS.yaml'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md'
 - ' M scripts/continuity_gate.py'
-- ' M scripts/continuity_lib.py'
-- ?? .continuity/change_requests/CR-0018.yaml
-- ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0001.yaml
-- ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0002.yaml
-- ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0003.yaml
-- ?? .continuity/sessions/SES-20260717T183459Z-D64E7407.yaml
-- ?? .github/workflows/daily-integration.yml
-- ?? config/test-impact-map.yaml
-- ?? docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md
-- ?? docs/03-continuity/并行加速开发运行手册_V1.0.md
-- ?? releases/R02/PARALLEL_EXECUTION_PLAN.yaml
-- ?? scripts/check_generated_assets.py
-- ?? scripts/deliver_android_test_apk.py
-- ?? scripts/generate_release_slice.py
-- ?? scripts/prepare_parallel_worktrees.ps1
-- ?? scripts/run_affected_tests.py
-- ?? tests/test_android_apk_delivery.py
-- ?? tests/test_generated_assets.py
-- ?? tests/test_parallel_worktrees.py
-- ?? tests/test_run_affected_tests.py
+- ' M tests/test_run_affected_tests.py'
+- ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0004.yaml
 recent_commits:
+- "c19f6d6259801d785dc70eb2a81dfac5c41278ec\t2026-07-18T03:28:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(dev): establish parallel\
+  \ acceleration baseline"
 - "878abc7f51eb3724703d5ff72d78d5eaed1cff30\t2026-07-18T01:47:21+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-008\
   \ as completed"
 - "2e6c8dc68303b32ce154e4a3567dd36b0c0c225f\t2026-07-18T01:44:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): finalize release\
@@ -1577,13 +1491,11 @@ recent_commits:
   \ overrides"
 - "06b705ed53d83258e8d4b166909c5c21384f4b02\t2026-07-18T00:40:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): mark debug APK test\
   \ build"
-- "46fb27372f2e62f3fe83d9f43f8e2189bbed4757\t2026-07-17T23:21:14+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-006\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`9d2f2f08ff48c80645396825b15336f7ef1dddac2dc4af7bcc1e952d2c9d4336`
+- 指纹：`f7c1b1d121711de8dab79579cc7f69cbe54ced8ef46d0309fdea5316ab8dc8ee`
 - 文件数：24
 
 - `.github/workflows/ci.yml`
@@ -3124,7 +3036,7 @@ TASKS.yaml:
 
 - `AGENTS.md` — `c8948610f3e08b25002fc73c0bec6335ba7d19326a7bce4c6ebad2a30ea8164e`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `b906840dc881a1f04250cea89e3d4109880241824adfcb291c6209d03be8c515`
+- `CURRENT_STATUS.yaml` — `fd6390497a09c0168e1319db99ba5de4a141249da205570c336c0a67d907272e`
 - `NEXT_TASK.yaml` — `e14f3a97dc8e38d2806c741405455168fb038d18020a822f4941c0977c1eb800`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3132,19 +3044,19 @@ TASKS.yaml:
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `773902bbbc9c470d6bc10721aacd315a85a9775c895107304d338272e89b0f4d`
-- `.continuity/EVENT_LOG.jsonl` — `af7c721e16ef88ef36d0dc47a9037e45d9702126074d7836c3cd98eee3da9dce`
-- `.continuity/SESSION_INDEX.yaml` — `f1cd90b3ad924de47ae73b9d4b3960d5c55110ffb0fe3811278c98416d4fac14`
+- `.continuity/EVENT_LOG.jsonl` — `14d4dd7ad22441c63a676167ef826ea253fd1d1b8e03710f70353a9d49995048`
+- `.continuity/SESSION_INDEX.yaml` — `0ce48dcd59d7a018d0af27f555f1d1c54a47fe2a28363cf3e6275ef609739c5e`
 - `.continuity/TASK_CLAIMS.yaml` — `c86b0a2dc9a891e31ed566e6c40517979b6f9947c4effcfc34ee49fba4726b9f`
 - `.continuity/TASK_TRANSITIONS.yaml` — `61f182996ab18c624e190a3e42c8a22440e918e4405fd48de4b03f25996a0433`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `9338892bf8d1ba2f951560cc342d3c8878f3b222abc66efc713351634c4429b3`
-- `.continuity/ACTIVE_SESSION.yaml` — `46e85872176472141cd150c0c02b0588809a9ebe41f653f9c78194d48fea2dac`
+- `.continuity/ACTIVE_SESSION.yaml` — `3c60456aa9723255185c5c702db43d1448fb806656638507a72e326c13bf09bc`
 - `releases/R02/RELEASE_MANIFEST.yaml` — `19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d`
 - `releases/R02/DEFINITION_OF_READY.yaml` — `9a3113b85d8dd96ea04a908a277c9da3374531ec06dd5eb91dfd539e4351d33c`
 - `releases/R02/STORIES.yaml` — `966e57d10e36269465e74318903ffa0aa5c49d205ba38cce3ba5ebbdbe9ca571`
 - `releases/R02/TASKS.yaml` — `c06d92360ac9d2e563b08d38c6e5dc094116cfed1f79c1b13bfebba3c826296f`
 - `releases/R02/ACCEPTANCE_MATRIX.csv` — `687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md` — `8660534a41260cdf683bf3db17696661f993a5c42e372e000ae2ffe08979b211`
-- `.continuity/checkpoints/SES-20260717T183459Z-D64E7407/0003.yaml` — `b842abdce2e015f00fa8c6f0e8fbef7237064ba2fd1494da94c7a169001cb7af`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md` — `ebbd96463226172cc4dd3e1427d403055189c434a233cf6353d4b9eeb13f7226`
+- `.continuity/checkpoints/SES-20260717T183459Z-D64E7407/0004.yaml` — `7f885693563f05995bf87dd66b933fbcffd207d42600f1ac8a329353e5a1bc68`
 - `docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md` — `75e3005287b763f9e0d6dd875ba0aa220f448d6d2dfeecddfc8e6dc57784998c`
 
 ## 接手硬规则

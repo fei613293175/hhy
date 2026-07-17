@@ -18,7 +18,7 @@
     },
     {
       "path": "scripts/continuity_gate.py",
-      "sha256": "46a0993543d851df557fb622d4b4352930aea204e84c19bff93ca5ce52cd4003"
+      "sha256": "d3e3b687df3e04d6d3bd91eea28353111a9d71d86a31322f6e6322231338a7a6"
     },
     {
       "path": "scripts/prepare_commit_message.py",
@@ -88,7 +88,7 @@
     {
       "name": "portable_clone_fingerprint",
       "status": "PASS",
-      "evidence": "9355d69a71341d73d607e555fc52c12ae8f32aaa92564e87b0e65f8b91c5b14c"
+      "evidence": "7e157b70e5fc614df04b820258896765402166d3a46f536a0064b2283064eadd"
     },
     {
       "name": "handoff_tamper_rejected",
@@ -98,8 +98,8 @@
   ],
   "check_count": 9,
   "lifecycle_report": "artifacts\\validation\\continuity-lifecycle-integration-v1.2.3.json",
-  "handoff_sha256": "66ee5f1e745a1f77ebf10c9bc3ad8e0534178ead2c00141f7a14d1b24967af86",
-  "portable_project_fingerprint": "9355d69a71341d73d607e555fc52c12ae8f32aaa92564e87b0e65f8b91c5b14c",
+  "handoff_sha256": "2d51f8ecfef67da3dfa7fd04fdd5903aaad0008c44fa44c6bba2f7e7428a806d",
+  "portable_project_fingerprint": "7e157b70e5fc614df04b820258896765402166d3a46f536a0064b2283064eadd",
   "commands": [
     {
       "name": "lifecycle",

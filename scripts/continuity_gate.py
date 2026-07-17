@@ -606,6 +606,11 @@ def run_document_gate(report: Report, paths: Iterable[str] = (), *, force: bool 
     report.require(result.returncode == 0, "DOCUMENT_GATE", "V1.2.2页面/运营文档门禁失败")
 
 
+def prepush_base_ref(git_state: dict[str, Any], session: dict[str, Any] | None) -> str | None:
+    """Use the task's recorded base for a branch that has no upstream yet."""
+    return git_state.get("upstream") or (session or {}).get("git", {}).get("base_commit")
+
+
 def main() -> int:
     parser = ArgumentParser(description="持续开发无状态接续强制门禁")
     parser.add_argument("--mode", choices=["doctor", "release", "pre-commit", "commit-msg", "pre-push", "ci"], default="doctor")
@@ -679,8 +684,9 @@ def main() -> int:
                     report.require(project_fingerprint(ROOT, session)["sha256"] == checkpoint.get("project_fingerprint", {}).get("sha256"), "CHECKPOINT_STALE", "推送内容与检查点不一致")
             fresh, reason = context_is_fresh(ROOT, session)
             report.require(fresh, "CONTEXT_STALE", reason)
-            upstream = info.get("upstream")
+            upstream = prepush_base_ref(info, session)
             records = commit_records(upstream, "HEAD") if is_git_repo(ROOT) else []
+            report.metrics["validation_base_ref"] = upstream
             report.metrics["unpushed_commits"] = len(records)
             document_paths = sorted({path for record in records for path in record["paths"]})
             for record in records:

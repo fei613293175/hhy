@@ -85,6 +85,16 @@ class TestConditionalDocumentationGate(TestCase):
         run_command.assert_not_called()
         self.assertEqual("SKIPPED_UNAFFECTED", report.metrics["document_gate"]["status"])
 
+    def test_first_push_uses_session_base_instead_of_entire_history(self) -> None:
+        session = {"git": {"base_commit": "abc123"}}
+        self.assertEqual("abc123", continuity_gate.prepush_base_ref({"upstream": None}, session))
+        self.assertEqual(
+            "origin/task/TASK-R02-001",
+            continuity_gate.prepush_base_ref(
+                {"upstream": "origin/task/TASK-R02-001"}, session
+            ),
+        )
+
 
 class TestTreeFingerprintPruning(TestCase):
     def test_excluded_dependency_and_build_directories_are_not_traversed(self) -> None:
