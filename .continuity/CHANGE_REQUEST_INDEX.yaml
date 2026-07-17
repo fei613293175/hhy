@@ -186,9 +186,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0006
   title: P00事件账务不变量收口
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-17T00:57:46Z'
-  updated_at: '2026-07-17T01:24:47Z'
+  updated_at: '2026-07-17T02:33:03Z'
   requester_actor_id: codex-root
   approver_actor_id: codex-engineering-audit
   task_id: TASK-P00-002
@@ -247,5 +247,13 @@ change_requests:
     status: IMPLEMENTED
     note: V010/U010、SQL和Flyway测试、ADR及PostgreSQL17.10证据全部完成，独立复审APPROVE
     session_id: SES-20260716T232809Z-B4A980AF
+  - at: '2026-07-17T02:33:03Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: PostgreSQL 17.10空库/升级/并发/U010/U011与Flyway 13项全跑证据已归档
+    session_id: SES-20260717T023226Z-06841AFC
   session_ids:
   - SES-20260716T232809Z-B4A980AF
+  - SES-20260717T023226Z-06841AFC
+  implementation_commits:
+  - 128f6cd8920cf4143f13c7b20ac679046a0232be

@@ -1,0 +1,124 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T023226Z-06841AFC-0001
+session_id: SES-20260717T023226Z-06841AFC
+sequence: 1
+created_at: '2026-07-17T02:33:17Z'
+summary: TASK-P00-002数据库迁移与领域不变量在PostgreSQL 17.10真实环境全部通过，CR-0006已绑定并关闭
+next_step: 提交数据库验收元数据并关闭TASK-P00-002
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: db-schema
+  result: PASS
+  evidence: database/migrations/V010__p00_event_ledger_invariants.sql
+  note: 198表11迁移且运行时哈希一致
+- name: postgresql-invariants
+  result: PASS
+  evidence: artifacts/validation/p00-database-postgresql-17.10.json
+  note: 空库升级正反并发不变量通过
+- name: u011-rollback
+  result: PASS
+  evidence: artifacts/validation/p00-database-v011-rollback.log
+  note: bigint回滚重放通过
+- name: flyway-postgresql
+  result: PASS
+  evidence: artifacts/validation/p00-backend-flyway-postgresql-17.10.log
+  note: 升级空库重复迁移与U010/V010通过
+- name: backend-postgresql
+  result: PASS
+  evidence: artifacts/validation/p00-backend-verify-postgresql-17.10.log
+  note: 13项零失败零跳过
+git:
+  initialized: true
+  branch: task/TASK-P00-002
+  head: 3a62512ebffe851e0cf73dfdac9f1a36035fe58f
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M .continuity/change_requests/CR-0006.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md'
+  - ?? .continuity/sessions/SES-20260717T023226Z-06841AFC.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T023226Z-06841AFC.md
+  recent_commits:
+  - "3a62512ebffe851e0cf73dfdac9f1a36035fe58f\t2026-07-17T10:31:37+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-001\
+    \ as completed"
+  - "4b6c5ee97beb0ca9df25d77df198f4497b935fd0\t2026-07-17T10:26:25+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): bind approved\
+    \ change requests"
+  - "128f6cd8920cf4143f13c7b20ac679046a0232be\t2026-07-17T10:25:17+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] fix(p00): reconcile engineering\
+    \ baseline and continuity"
+  - "bffa551a122444a86bfcff0542714834bd6c2156\t2026-07-17T07:28:28+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(repo): import V1.2.3\
+    \ enforced continuity baseline"
+project_fingerprint:
+  sha256: 14b9ee1befa91318f68ed2829e9d068cd768c4caed3b3b62494b237f4bb4ee83
+  files:
+  - docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
+  file_count: 1
+  payload:
+    base_commit: 3a62512ebffe851e0cf73dfdac9f1a36035fe58f
+    files:
+    - path: docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
+      state: FILE
+      size: 3670
+      sha256: 7a704d47613e0e5f72f7122517f3a8dd6c8aa23174d0309111e3eb44b04550e2
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 3971a220312c64c77b394b7f734a950929cc12093b3361c18a3cfababaa42a6b
