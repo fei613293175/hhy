@@ -313,9 +313,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0008
   title: 每版本Android APK由项目所有者真机验收
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-17T04:09:43Z'
-  updated_at: '2026-07-17T04:14:32Z'
+  updated_at: '2026-07-17T04:19:50Z'
   requester_actor_id: codex-root
   approver_actor_id: codex-engineering-audit
   task_id: TASK-P00-005
@@ -353,5 +353,17 @@ change_requests:
     status: IMPLEMENTING
     note: 按批准合同写入全局APK持续交付规则、P00真机验收门禁和项目所有者待办
     session_id: SES-20260717T024407Z-B03C9375
+  - at: '2026-07-17T04:19:49Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 真机验收长期规则、P00任务门禁和严格文档验证已落地
+    session_id: SES-20260717T024407Z-B03C9375
+  - at: '2026-07-17T04:19:50Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 独立审批合同已由f34af6a实现；P00具体真机结果仍按TASK-P00-007等待项目所有者反馈
+    session_id: SES-20260717T024407Z-B03C9375
   session_ids:
   - SES-20260717T024407Z-B03C9375
+  implementation_commits:
+  - f34af6a

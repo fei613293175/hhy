@@ -85,3 +85,17 @@ Android版本要求可下载、可安装并执行安装冒烟，但未固定必�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260717T024407Z-B03C9375`
 - Note：按批准合同写入全局APK持续交付规则、P00真机验收门禁和项目所有者待办
+
+## 状态记录 · 2026-07-17T04:19:49Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260717T024407Z-B03C9375`
+- Note：真机验收长期规则、P00任务门禁和严格文档验证已落地
+
+## 状态记录 · 2026-07-17T04:19:50Z
+
+- Actor：`codex-root`
+- Status：`CLOSED`
+- Session：`SES-20260717T024407Z-B03C9375`
+- Note：独立审批合同已由f34af6a实现；P00具体真机结果仍按TASK-P00-007等待项目所有者反馈
