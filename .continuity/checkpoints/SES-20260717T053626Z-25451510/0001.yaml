@@ -1,0 +1,105 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T053626Z-25451510-0001
+session_id: SES-20260717T053626Z-25451510
+sequence: 1
+created_at: '2026-07-17T05:36:28Z'
+summary: P00暂存环境健康，Prometheus与Alertmanager配置有效，真实下线告警触发/恢复及回滚演练通过
+next_step: 关闭TASK-P00-006并进入APK产物追溯任务
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: P00-staging-observability
+  result: PASS
+  evidence: artifacts/validation/p00-test-evidence/p00-observability-staging/p00-observability-staging.evidence.json
+  note: 后端、告警接收器、Prometheus、Alertmanager和PostgreSQL健康，故障注入与回滚通过
+git:
+  initialized: true
+  branch: task/TASK-P00-005
+  head: cc879b53e2d637f4076f35d27712cefcf7a92c31
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260717T053626Z-25451510.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T053626Z-25451510.md
+  recent_commits:
+  - "cc879b53e2d637f4076f35d27712cefcf7a92c31\t2026-07-17T13:35:48+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close test matrix\
+    \ task"
+  - "b943445b88ad6284f235b19a2747c51a00ba5d72\t2026-07-17T13:30:25+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): archive final release\
+    \ evidence"
+  - "fcb95056b606dfe6e8d0623e83a0526df80bf43e\t2026-07-17T13:09:24+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close lifecycle\
+    \ fixture repair"
+  - "192647bcdc3df7edcf02091b12d2fde666a71063\t2026-07-17T13:08:22+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(continuity): reset lifecycle\
+    \ fixtures to P00 start"
+  - "c9fae5441975917315950111337adce5d3ef2dd8\t2026-07-17T12:20:15+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close owner\
+    \ APK acceptance change"
+  - "f34af6aea974018ce45f54055c8bf3b0e6e24726\t2026-07-17T12:19:22+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] docs(android): require owner\
+    \ physical APK acceptance"
+  - "11f14e1e2d178172dea5f63d78084b29dd88d0ef\t2026-07-17T11:19:08+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(staging): record Flyway\
+    \ empty-database verification"
+  - "7e6bfd70c9f4127f2778b1423d03ed619bcab25b\t2026-07-17T11:15:08+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] fix(staging): restore Boot\
+    \ 4 Flyway startup migration"
+project_fingerprint:
+  sha256: 7892ef91f3191ebde91bf90d2ce40b0ae7db6b545f7aec82002e1708853e82c6
+  files: []
+  file_count: 0
+  payload:
+    base_commit: cc879b53e2d637f4076f35d27712cefcf7a92c31
+    files: []
+change_classification: {}
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: c7679d431df359201b74c0b33225b67e0e13094cb96a9942be21e0578b819bed
