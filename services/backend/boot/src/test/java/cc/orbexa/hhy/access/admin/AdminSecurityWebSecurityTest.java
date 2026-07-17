@@ -2,6 +2,8 @@ package cc.orbexa.hhy.access.admin;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -36,6 +38,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 @SpringBootTest(properties =
         "spring.datasource.url=jdbc:h2:mem:hhy-admin-security;MODE=PostgreSQL;DB_CLOSE_DELAY=-1")
@@ -234,6 +237,23 @@ class AdminSecurityWebSecurityTest {
                         .header("X-Idempotency-Key", "idem-replay-mismatch-0001"))
                 .andExpect(status().isUnauthorized());
         verifyNoInteractions(service);
+    }
+
+    @Test
+    void replayWhitelistUsesContextRelativeRequestUriAndStillRequiresAnExactPath() {
+        var request = new MockHttpServletRequest();
+        request.setMethod("POST");
+        request.setContextPath("/gateway");
+        request.setRequestURI("/gateway/admin-api/v1/auth/logout");
+        request.addHeader("X-Idempotency-Key", "idem-context-path-000001");
+
+        assertTrue(AdminBearerAuthenticationFilter.replayOnlyRequest(request));
+
+        request.setRequestURI("/gateway/admin-api/v1/auth/logout/extra");
+        assertFalse(AdminBearerAuthenticationFilter.replayOnlyRequest(request));
+        request.setRequestURI("/gateway/admin-api/v1/auth/logout");
+        request.setMethod("GET");
+        assertFalse(AdminBearerAuthenticationFilter.replayOnlyRequest(request));
     }
 
     private static RequestPostProcessor adminAuthentication(String... authorities) {

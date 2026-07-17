@@ -16,6 +16,7 @@ import cc.orbexa.hhy.access.admin.AdminSecurityContracts.CommandResultResource;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -28,6 +29,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.io.TempDir;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -41,10 +43,9 @@ class AdminSecurityIdempotencySnapshotServiceTest {
     private static final String TYPE = "r01.command-result.v1";
 
     @Mock AdminSecurityStore repository;
-    @Mock AdminTokenService tokens;
-    @Mock AdminTotpService totp;
     @Mock AdminLoginFactWriter loginFacts;
     @Mock PasswordEncoder passwords;
+    @TempDir Path secretDirectory;
 
     private ObjectMapper objectMapper;
     private AdminSecurityProperties properties;
@@ -55,11 +56,16 @@ class AdminSecurityIdempotencySnapshotServiceTest {
     void setUp() {
         objectMapper = new ObjectMapper().findAndRegisterModules();
         properties = properties();
+        Clock clock = Clock.fixed(NOW, ZoneOffset.UTC);
+        AdminTokenService tokens = new AdminTokenService(objectMapper, properties, clock);
+        AdminMfaSecretStore secretStore = new AdminMfaSecretStore(
+                secretDirectory.toString(), "v1", properties.mfaRootSecret(), "");
+        AdminTotpService totp = new AdminTotpService(properties, clock, secretStore);
         cipher = new AdminIdempotencySnapshotCipher(
                 "v2", properties.mfaRootSecret(), "v1=test-only-previous-root-secret-at-least-32-characters");
         service = new AdminSecurityService(
                 repository, tokens, totp, loginFacts, passwords, properties,
-                objectMapper, cipher, Clock.fixed(NOW, ZoneOffset.UTC));
+                objectMapper, cipher, clock);
     }
 
     @Test

@@ -65,3 +65,16 @@ problems:
   do_not_repeat:
   - 隔离生命周期测试不得隐式继承真实仓库当前任务指针
   - 固定从P00初始任务启动的测试必须同时重置NEXT_TASK、TASKS和CURRENT_STATUS
+- id: PROB-0007
+  title: R01加密幂等快照在Java 21真实门禁中无法序列化时间且重放路径误判
+  status: SOLVED
+  root_cause: access模块使用Jackson 2序列化含Instant的首次响应但未声明jsr310模块；认证过滤器又依赖MockMvc下为空的servletPath识别重放白名单；新增测试还错误Mock了final令牌服务
+  resolution: access显式声明受管的jackson-datatype-jsr310；白名单改用去除contextPath后的requestURI精确匹配；快照测试使用真实令牌、TOTP和加密组件并保留Instant往返断言
+  regression_checks:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+  - Maven 21全模块测试必须通过且真实PostgreSQL重放验证不得跳过
+  do_not_repeat:
+  - 不得以findAndRegisterModules替代对Java时间模块的显式运行时依赖
+  - 安全路径白名单不得依赖容器或测试环境可能为空的servletPath
+  - 安全组件测试不得用无法实例化的final Mock掩盖真实序列化和加密路径

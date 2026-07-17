@@ -65,10 +65,15 @@ public final class AdminBearerAuthenticationFilter extends OncePerRequestFilter 
         chain.doFilter(request, response);
     }
 
-    private static boolean replayOnlyRequest(HttpServletRequest request) {
+    static boolean replayOnlyRequest(HttpServletRequest request) {
         String key = request.getHeader("X-Idempotency-Key");
+        String path = request.getRequestURI();
+        String contextPath = request.getContextPath();
+        if (contextPath != null && !contextPath.isEmpty() && path.startsWith(contextPath)) {
+            path = path.substring(contextPath.length());
+        }
         return "POST".equals(request.getMethod())
-                && REPLAY_ONLY_POST_PATHS.contains(request.getServletPath())
+                && REPLAY_ONLY_POST_PATHS.contains(path)
                 && key != null && !key.isBlank();
     }
 }

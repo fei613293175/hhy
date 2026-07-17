@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T13:12:58Z
-- Context Hash：`b16f22d194674be81367b465276b45421b5305379fcbc9946b95c75ddd832139`
+- 生成时间：2026-07-17T13:28:27Z
+- Context Hash：`94fd946602aa86225cce855db9a6c5c0b9832460dec94b57ba40c7d03d82cfcd`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -50,7 +50,7 @@ in_progress_tasks:
 - TASK-R01-005
 blocked_tasks: []
 next_task: TASK-R01-005
-updated_at: '2026-07-17T13:12:57Z'
+updated_at: '2026-07-17T13:28:25Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -85,15 +85,15 @@ continuity:
   active_session_id: SES-20260717T122518Z-91E6F4D6
   actor_id: codex-root
   story_id: STORY-R01-003
-  lease_expires_at: '2026-07-17T17:12:57Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0004.yaml
-  project_fingerprint: 4a28bab00e09c1ae718a09ba822be30198d8971b8932b072b576e045d78f9aa2
+  lease_expires_at: '2026-07-17T17:28:25Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0006.yaml
+  project_fingerprint: 53403bc9f0505f588c1a0a3fdf5b7dc056a2334db8a1cbe82b91d960fdc5a9a0
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 4ae7f386e1227f4b243532deb3a18d98f9af8659888aa83050910a8988450bed
-    generated_at: '2026-07-17T13:11:40Z'
+    context_hash: 3377adec58862d3b0b2e745608d7fd8e321a34ac86556cab354063a49e1fed3b
+    generated_at: '2026-07-17T13:27:27Z'
   handoff_bundle: null
 ```
 
@@ -156,7 +156,7 @@ task_id: TASK-R01-005
 story_id: STORY-R01-003
 goal: Design System与契约工程化专项测试与故障注入
 started_at: '2026-07-17T12:25:18Z'
-updated_at: '2026-07-17T13:12:57Z'
+updated_at: '2026-07-17T13:28:25Z'
 takeover_of: null
 change_requests:
 - CR-0015
@@ -204,12 +204,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T13:12:57Z'
-  expires_at: '2026-07-17T17:12:57Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0004.yaml
+  renewed_at: '2026-07-17T13:28:25Z'
+  expires_at: '2026-07-17T17:28:25Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md
-next_step: 提交实现并在云端执行固定工具链验证
+next_step: 提交修复并完整重跑云端Maven21和PostgreSQL17
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -219,125 +219,51 @@ closure: null
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T122518Z-91E6F4D6-0004
+checkpoint_id: CP-SES-20260717T122518Z-91E6F4D6-0006
 session_id: SES-20260717T122518Z-91E6F4D6
-sequence: 4
-created_at: '2026-07-17T13:12:57Z'
-summary: TASK-R01-005变更日志已同步，所有实现和本地门禁就绪
-next_step: 提交实现并在云端执行固定工具链验证
+sequence: 6
+created_at: '2026-07-17T13:28:25Z'
+summary: PROB-0007已登记：Java Time快照依赖、requestURI重放白名单与final Mock问题修复
+next_step: 提交修复并完整重跑云端Maven21和PostgreSQL17
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: pre-commit
+- name: problem-registry
   result: PASS
-  evidence: CHANGELOG已补齐用户可见变化
-  note: 待重新执行Git门禁
+  evidence: PROB-0007 SOLVED
+  note: 根因、修复、回归和禁复发规则齐全
 git:
   initialized: true
   branch: task/TASK-R01-005
-  head: 2ef830ea980cbf445dc419379059f2d60ec7356e
+  head: cbf3a6d7d553e30bca12913021fa180d53e443ec
   upstream: null
   ahead: null
   behind: null
   dirty: true
   status_porcelain:
   - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
   - M  .continuity/EVENT_LOG.jsonl
   - M  .continuity/SESSION_INDEX.yaml
   - M  .continuity/STATE.yaml
-  - M  .continuity/TASK_CLAIMS.yaml
-  - M  .continuity/TASK_TRANSITIONS.yaml
-  - A  .continuity/change_requests/CR-0015.yaml
-  - A  .continuity/change_requests/CR-0016.yaml
-  - A  .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0001.yaml
-  - A  .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0002.yaml
-  - A  .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0003.yaml
-  - A  .continuity/sessions/SES-20260717T122518Z-91E6F4D6.yaml
-  - ' M CHANGELOG.md'
+  - A  .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0005.yaml
+  - M  .continuity/sessions/SES-20260717T122518Z-91E6F4D6.yaml
   - M  CURRENT_STATUS.yaml
-  - M  apps/admin-web/src/r01Pages.test.ts
-  - M  apps/admin-web/src/services/adminSecurity.test.ts
-  - M  apps/admin-web/src/services/adminSecurity.ts
-  - M  apps/admin-web/src/services/apiError.ts
-  - M  apps/admin-web/src/styles.css
-  - M  apps/admin-web/src/views/AdminSecurityPage.vue
-  - M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt
-  - M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
-  - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-  - M  apps/h5/src/styles.css
   - M  artifacts/context/CURRENT_CONTEXT_PACK.md
   - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
   - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  artifacts/validation/project-doctor-v1.2.3.json
-  - A  artifacts/validation/r01-task005-doc-baseline.json
-  - A  artifacts/validation/r01-task005-inventory.json
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/data_tables.csv
+  - A  artifacts/validation/r01-task005-maven-failure-cbf3a6d.log
   - M  catalogs/session_index.csv
-  - M  catalogs/task_transition_ledger.csv
-  - A  database/migrations/V016__r01_idempotency_response_snapshots.sql
-  - A  database/rollback/U016__r01_idempotency_response_snapshots.sql
-  - M  database/schema_dictionary.csv
-  - A  database/tests/r01_idempotency_snapshot_invariants.sql
-  - A  docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md
-  - A  docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
-  - A  docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md
-  - M  docs/07-operations/DEPLOYMENT_RUNBOOK.md
-  - M  scripts/check_config_registry.py
-  - M  scripts/check_ui_tokens.py
-  - M  scripts/run_r01_database_invariants.sh
-  - A  scripts/run_r01_test_matrix.py
-  - M  scripts/test_r01_admin_security_api.py
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - M  docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md
+  - M  services/backend/access/pom.xml
   - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
-  - A  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipher.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminPrincipal.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityService.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStore.java
-  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminSecurityController.java
-  - A  services/backend/boot/src/main/resources/db/migration/V016__r01_idempotency_response_snapshots.sql
-  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipherTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencyDigestTest.java
-  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityMfaSecretIsolationTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityRateLimitTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityServiceTest.java
-  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityStorePostgresTest.java
+  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipherTest.java
+  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
   - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
-  - A  tests/r01/README.md
-  - A  tests/r01/evidence.schema.json
-  - A  tests/r01/req-design-001_happy
-  - A  tests/r01/req-design-001_idempotent
-  - A  tests/r01/req-design-001_reject
-  - A  tests/r01/test_r01_test_matrix.py
-  - A  tests/test_config_registry_checker.py
-  - A  tests/test_ui_tokens.py
-  - A  tests/v1.2.2/requirements/req-admin-ops-001_drift
-  - A  tests/v1.2.2/requirements/req-admin-ops-001_happy
-  - A  tests/v1.2.2/requirements/req-admin-ops-001_reject
-  - A  tests/v1.2.2/requirements/req-admin-ops-001_security
-  - A  tests/v1.2.2/requirements/req-admin-security-001_drift
-  - A  tests/v1.2.2/requirements/req-admin-security-001_happy
-  - A  tests/v1.2.2/requirements/req-admin-security-001_reject
-  - A  tests/v1.2.2/requirements/req-admin-security-001_security
-  - A  tests/v1.2.2/requirements/req-dor-001_drift
-  - A  tests/v1.2.2/requirements/req-dor-001_happy
-  - A  tests/v1.2.2/requirements/req-dor-001_reject
-  - A  tests/v1.2.2/requirements/req-dor-001_security
-  - A  tests/v1.2.2/requirements/req-page-spec-001_drift
-  - A  tests/v1.2.2/requirements/req-page-spec-001_happy
-  - A  tests/v1.2.2/requirements/req-page-spec-001_reject
-  - A  tests/v1.2.2/requirements/req-page-spec-001_security
-  - A  tests/v1.2.2/ui/adm-auth-001_adminAdminAuthPostAuthLogin
-  - A  tests/v1.2.2/ui/adm-auth-002_adminAdminAuthPostAuthMfaVerify
-  - A  tests/v1.2.2/ui/adm-security-001_adminAdminAuthPostAuthLogout
-  - A  tests/v1.2.2/ui/adm-security-001_adminSelfGetSecurity
-  - A  tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaConfirm
-  - A  tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaDisable
-  - A  tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaEnroll
-  - A  tests/v1.2.2/ui/adm-security-001_adminSelfPostPasswordChange
   recent_commits:
+  - "cbf3a6d7d553e30bca12913021fa180d53e443ec\t2026-07-17T21:13:05+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): harden fault injection\
+    \ and idempotent replay"
   - "2ef830ea980cbf445dc419379059f2d60ec7356e\t2026-07-17T20:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] chore(continuity): close TASK-R01-004\
     \ as completed"
   - "9070796d112cb66308c658090f955c2600f845d2\t2026-07-17T20:19:23+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] feat(r01): implement admin\
@@ -352,10 +278,8 @@ git:
     \ as completed"
   - "dc205fd0ea0b65975332733c0b991696f96dd432\t2026-07-17T16:40:37+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close admin security\
     \ change request"
-  - "7874af5075076b7f84b976a3cf16b94f2476a050\t2026-07-17T16:38:53+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): harden admin security\
-    \ data invariants"
 project_fingerprint:
-  sha256: 4a28bab00e09c1ae718a09ba822be30198d8971b8932b072b576e045d78f9aa2
+  sha256: 53403bc9f0505f588c1a0a3fdf5b7dc056a2334db8a1cbe82b91d960fdc5a9a0
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r01Pages.test.ts
@@ -373,6 +297,7 @@ project_fingerprint:
   - database/rollback/U016__r01_idempotency_response_snapshots.sql
   - database/schema_dictionary.csv
   - database/tests/r01_idempotency_snapshot_invariants.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md
   - docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
   - docs/07-operations/DEPLOYMENT_RUNBOOK.md
@@ -381,6 +306,7 @@ project_fingerprint:
   - scripts/run_r01_database_invariants.sh
   - scripts/run_r01_test_matrix.py
   - scripts/test_r01_admin_security_api.py
+  - services/backend/access/pom.xml
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipher.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminPrincipal.java
@@ -428,7 +354,7 @@ project_fingerprint:
   - tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaDisable
   - tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaEnroll
   - tests/v1.2.2/ui/adm-security-001_adminSelfPostPasswordChange
-  file_count: 71
+  file_count: 73
   payload:
     base_commit: 2ef830ea980cbf445dc419379059f2d60ec7356e
     files:
@@ -496,6 +422,10 @@ project_fingerprint:
       state: FILE
       size: 1604
       sha256: 13b518d2f0243c92a970ed859c269da13b6e66f4e3b0fbfc7a03c4f8463d7963
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 5340
+      sha256: 4d07967e54b9ad5832586dfb0a9117cc81d9b89ab76fd376e4ae3e240c9ccd1e
     - path: docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md
       state: FILE
       size: 3427
@@ -528,10 +458,14 @@ project_fingerprint:
       state: FILE
       size: 19464
       sha256: 17e0e4be94a2ad8a4a56c1fa48578842a0a780770eb68f892837063e8fb20d5e
+    - path: services/backend/access/pom.xml
+      state: FILE
+      size: 1338
+      sha256: 37faabea4b658f2fdb5cfd117e713d0be0e64faf45b3f287e34c25a148fa0b39
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
       state: FILE
-      size: 3503
-      sha256: 76e548828b9f59e5eea0ca22172429672d1e757c15b5bb60584e0de0d3b773d5
+      size: 3737
+      sha256: a32b211e2c404f26512c76887ad2c14aedad28ab113589bd0bfb180e8617ae4f
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipher.java
       state: FILE
       size: 8126
@@ -558,16 +492,16 @@ project_fingerprint:
       sha256: 3384f056a2d438905ee411d16e6bfb694dbfde48d3fbcbfc8e9a44b406564c37
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipherTest.java
       state: FILE
-      size: 3606
-      sha256: 7b08033c97847484bfad3506deff05fe9db59edf6a52f59ab0d71d9587460221
+      size: 4515
+      sha256: 9470eff7f8db036a317152c9ba3be54c6da46f4b772d4367e6d084701d68debb
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencyDigestTest.java
       state: FILE
       size: 4714
       sha256: e67edf6b1fe2282d826c5e11ec68e2a40dcf2f21646f4d0b08476b4b5bf273a8
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
       state: FILE
-      size: 11177
-      sha256: bbecd20b4de842ab0e7b57e6f5dc0dd6ff1498caa33529bbb64c530209cd5dc5
+      size: 11567
+      sha256: beb533c303b23b2416beb1e5f35cc5f88c74851bf7ef68574eb7636cec13fe3a
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityMfaSecretIsolationTest.java
       state: FILE
       size: 7991
@@ -586,8 +520,8 @@ project_fingerprint:
       sha256: b4070fceec1c3262cdc3779834dd068beb2a8491a1091fe82a9052499cb8b68b
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
       state: FILE
-      size: 14088
-      sha256: fa57cad68da602671375af7f8794fafc821eefc4342af11145c08c4fd22dbc57
+      size: 15064
+      sha256: f189c54f9679e408e2d85e6693e76344bc616c59346baafbb1b5086b93c80cdd
     - path: tests/r01/README.md
       state: FILE
       size: 2517
@@ -737,6 +671,7 @@ change_classification:
   - scripts/run_r01_database_invariants.sh
   - scripts/run_r01_test_matrix.py
   - scripts/test_r01_admin_security_api.py
+  - services/backend/access/pom.xml
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipher.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminPrincipal.java
@@ -771,6 +706,7 @@ change_classification:
   source_of_truth:
   - database/schema_dictionary.csv
   continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md
   - docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
   tests:
@@ -853,7 +789,7 @@ scope:
   - PROJECT_*.json
   approved_exceptions: []
   source: story+explicit
-event_hash: 6bb91eb678019f99751e22e345a35e1b0aff8a400c648824ae4c3453a46454bc
+event_hash: 85667ddfb64296cfc32a80a4a08fb52dcf7418ed55cc35ec0a9d93483afd9c3a
 ```
 
 ## 接续状态与事件头
@@ -865,8 +801,8 @@ active_session_id: SES-20260717T122518Z-91E6F4D6
 last_session_id: SES-20260717T111928Z-C383F7A2
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T111928Z-C383F7A2-0004
-event_count: 171
-event_head_hash: 6bb91eb678019f99751e22e345a35e1b0aff8a400c648824ae4c3453a46454bc
+event_count: 173
+event_head_hash: 85667ddfb64296cfc32a80a4a08fb52dcf7418ed55cc35ec0a9d93483afd9c3a
 event_chain_valid: true
 ```
 
@@ -989,9 +925,9 @@ recent_sessions: - session_id: SES-20260717T023848Z-9F352CA9
   started_at: '2026-07-17T12:25:18Z'
   record: .continuity/sessions/SES-20260717T122518Z-91E6F4D6.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md
-  updated_at: '2026-07-17T13:12:57Z'
+  updated_at: '2026-07-17T13:28:25Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0004.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0006.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -1634,109 +1570,35 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
 ```yaml
 initialized: true
 branch: task/TASK-R01-005
-head: 2ef830ea980cbf445dc419379059f2d60ec7356e
+head: cbf3a6d7d553e30bca12913021fa180d53e443ec
 upstream: null
 ahead: null
 behind: null
 dirty: true
 status_porcelain:
 - MM .continuity/ACTIVE_SESSION.yaml
-- M  .continuity/CHANGE_REQUEST_INDEX.yaml
 - MM .continuity/EVENT_LOG.jsonl
 - MM .continuity/SESSION_INDEX.yaml
 - MM .continuity/STATE.yaml
-- M  .continuity/TASK_CLAIMS.yaml
-- M  .continuity/TASK_TRANSITIONS.yaml
-- A  .continuity/change_requests/CR-0015.yaml
-- A  .continuity/change_requests/CR-0016.yaml
-- A  .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0001.yaml
-- A  .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0002.yaml
-- A  .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0003.yaml
-- AM .continuity/sessions/SES-20260717T122518Z-91E6F4D6.yaml
-- ' M CHANGELOG.md'
+- A  .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0005.yaml
+- MM .continuity/sessions/SES-20260717T122518Z-91E6F4D6.yaml
 - MM CURRENT_STATUS.yaml
-- M  apps/admin-web/src/r01Pages.test.ts
-- M  apps/admin-web/src/services/adminSecurity.test.ts
-- M  apps/admin-web/src/services/adminSecurity.ts
-- M  apps/admin-web/src/services/apiError.ts
-- M  apps/admin-web/src/styles.css
-- M  apps/admin-web/src/views/AdminSecurityPage.vue
-- M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt
-- M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
-- M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-- M  apps/h5/src/styles.css
 - M  artifacts/context/CURRENT_CONTEXT_PACK.md
 - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
 - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- M  artifacts/validation/project-doctor-v1.2.3.json
-- A  artifacts/validation/r01-task005-doc-baseline.json
-- A  artifacts/validation/r01-task005-inventory.json
-- M  catalogs/change_request_index.csv
-- M  catalogs/data_tables.csv
+- A  artifacts/validation/r01-task005-maven-failure-cbf3a6d.log
 - MM catalogs/session_index.csv
-- M  catalogs/task_transition_ledger.csv
-- A  database/migrations/V016__r01_idempotency_response_snapshots.sql
-- A  database/rollback/U016__r01_idempotency_response_snapshots.sql
-- M  database/schema_dictionary.csv
-- A  database/tests/r01_idempotency_snapshot_invariants.sql
-- A  docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md
-- A  docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
-- AM docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md
-- M  docs/07-operations/DEPLOYMENT_RUNBOOK.md
-- M  scripts/check_config_registry.py
-- M  scripts/check_ui_tokens.py
-- M  scripts/run_r01_database_invariants.sh
-- A  scripts/run_r01_test_matrix.py
-- M  scripts/test_r01_admin_security_api.py
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- MM docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md
+- M  services/backend/access/pom.xml
 - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
-- A  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipher.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminPrincipal.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityService.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminSecurityStore.java
-- M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminSecurityController.java
-- A  services/backend/boot/src/main/resources/db/migration/V016__r01_idempotency_response_snapshots.sql
-- A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipherTest.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencyDigestTest.java
-- A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityMfaSecretIsolationTest.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityRateLimitTest.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityServiceTest.java
-- A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityStorePostgresTest.java
+- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipherTest.java
+- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
 - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
-- A  tests/r01/README.md
-- A  tests/r01/evidence.schema.json
-- A  tests/r01/req-design-001_happy
-- A  tests/r01/req-design-001_idempotent
-- A  tests/r01/req-design-001_reject
-- A  tests/r01/test_r01_test_matrix.py
-- A  tests/test_config_registry_checker.py
-- A  tests/test_ui_tokens.py
-- A  tests/v1.2.2/requirements/req-admin-ops-001_drift
-- A  tests/v1.2.2/requirements/req-admin-ops-001_happy
-- A  tests/v1.2.2/requirements/req-admin-ops-001_reject
-- A  tests/v1.2.2/requirements/req-admin-ops-001_security
-- A  tests/v1.2.2/requirements/req-admin-security-001_drift
-- A  tests/v1.2.2/requirements/req-admin-security-001_happy
-- A  tests/v1.2.2/requirements/req-admin-security-001_reject
-- A  tests/v1.2.2/requirements/req-admin-security-001_security
-- A  tests/v1.2.2/requirements/req-dor-001_drift
-- A  tests/v1.2.2/requirements/req-dor-001_happy
-- A  tests/v1.2.2/requirements/req-dor-001_reject
-- A  tests/v1.2.2/requirements/req-dor-001_security
-- A  tests/v1.2.2/requirements/req-page-spec-001_drift
-- A  tests/v1.2.2/requirements/req-page-spec-001_happy
-- A  tests/v1.2.2/requirements/req-page-spec-001_reject
-- A  tests/v1.2.2/requirements/req-page-spec-001_security
-- A  tests/v1.2.2/ui/adm-auth-001_adminAdminAuthPostAuthLogin
-- A  tests/v1.2.2/ui/adm-auth-002_adminAdminAuthPostAuthMfaVerify
-- A  tests/v1.2.2/ui/adm-security-001_adminAdminAuthPostAuthLogout
-- A  tests/v1.2.2/ui/adm-security-001_adminSelfGetSecurity
-- A  tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaConfirm
-- A  tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaDisable
-- A  tests/v1.2.2/ui/adm-security-001_adminSelfPostMfaEnroll
-- A  tests/v1.2.2/ui/adm-security-001_adminSelfPostPasswordChange
-- ?? .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0004.yaml
+- ?? .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0006.yaml
 recent_commits:
+- "cbf3a6d7d553e30bca12913021fa180d53e443ec\t2026-07-17T21:13:05+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): harden fault injection\
+  \ and idempotent replay"
 - "2ef830ea980cbf445dc419379059f2d60ec7356e\t2026-07-17T20:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] chore(continuity): close TASK-R01-004\
   \ as completed"
 - "9070796d112cb66308c658090f955c2600f845d2\t2026-07-17T20:19:23+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] feat(r01): implement admin security\
@@ -1751,14 +1613,12 @@ recent_commits:
   \ as completed"
 - "dc205fd0ea0b65975332733c0b991696f96dd432\t2026-07-17T16:40:37+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close admin security\
   \ change request"
-- "7874af5075076b7f84b976a3cf16b94f2476a050\t2026-07-17T16:38:53+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): harden admin security\
-  \ data invariants"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`4a28bab00e09c1ae718a09ba822be30198d8971b8932b072b576e045d78f9aa2`
-- 文件数：71
+- 指纹：`53403bc9f0505f588c1a0a3fdf5b7dc056a2334db8a1cbe82b91d960fdc5a9a0`
+- 文件数：73
 
 - `CHANGELOG.md`
 - `apps/admin-web/src/r01Pages.test.ts`
@@ -1776,6 +1636,7 @@ recent_commits:
 - `database/rollback/U016__r01_idempotency_response_snapshots.sql`
 - `database/schema_dictionary.csv`
 - `database/tests/r01_idempotency_snapshot_invariants.sql`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md`
 - `docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md`
 - `docs/07-operations/DEPLOYMENT_RUNBOOK.md`
@@ -1784,6 +1645,7 @@ recent_commits:
 - `scripts/run_r01_database_invariants.sh`
 - `scripts/run_r01_test_matrix.py`
 - `scripts/test_r01_admin_security_api.py`
+- `services/backend/access/pom.xml`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipher.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminPrincipal.java`
@@ -2759,27 +2621,27 @@ TASKS.yaml:
 
 - `AGENTS.md` — `387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `91b67e6f5fc591923c42dfd11980f300504ae02704aa79507e2d78051d4dc60d`
+- `CURRENT_STATUS.yaml` — `8a63c055752332c6e41ceddb3ada6c686f320e60a5cf63c524ad5167c1e08d8d`
 - `NEXT_TASK.yaml` — `2643892269b06015588148a12fb2af0c0bd9601f64b259f5e9376252b2ca2715`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `995159654d81a16927c34dd10a0c1f444c08626210f901112e82d8f2684dbf97`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `4d07967e54b9ad5832586dfb0a9117cc81d9b89ab76fd376e4ae3e240c9ccd1e`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223`
-- `.continuity/EVENT_LOG.jsonl` — `dc0e0e53f064a23f17bd160493d4ce5e1a9adadbada5ed29e75ebd0dcfc7e13c`
-- `.continuity/SESSION_INDEX.yaml` — `6fd25e63e6d8149aaf748b8e3a4f1e308b7a3bc7e1b796714db213dd51119ebc`
+- `.continuity/EVENT_LOG.jsonl` — `c4c58c44759f621e2b578fa9925def1e1cc51be955deab754b7332d840de8b8f`
+- `.continuity/SESSION_INDEX.yaml` — `b6049000a66d882aa3ec116424cb2fc35695a318967e03f445cc39111dd75f96`
 - `.continuity/TASK_CLAIMS.yaml` — `31b4d41d6a763518c409afbe3498b3f3429809589fdad705256fef6695e701b6`
 - `.continuity/TASK_TRANSITIONS.yaml` — `c258ba5d72db8f26815084542d7757427aa084946966fcae10bee8a3c08e84e9`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `a41aa866ce3b7d317ca2d5d58d37ed9cc66e14731d4cd7865f8d47a36d244436`
-- `.continuity/ACTIVE_SESSION.yaml` — `bc92c47aff76b90a835dc87c99587ec2010d619575436ceb3e370f8d2697fb2a`
+- `.continuity/ACTIVE_SESSION.yaml` — `4af1ab322399338e39256bbe957f6fa44a2066c9c3c8d9b1921a320762c794f4`
 - `releases/R01/RELEASE_MANIFEST.yaml` — `bb986f651fd20c30ddbabeb81ef31351b6aab527bf6d65833262ce6bee30893f`
 - `releases/R01/DEFINITION_OF_READY.yaml` — `ed81dd9db760893207515b8c0a5cc2f80ac5b7f358d00fb7b71276b8931100e5`
 - `releases/R01/STORIES.yaml` — `368e786cf97c2b244d5bbf21acedcdefacbf5f4a4b42c7780db5b1accb5dd86e`
 - `releases/R01/TASKS.yaml` — `c61c9a204c51eff78ad6b400d60dc872ab5b82eb8ea86a66598097ed7e7700d8`
 - `releases/R01/ACCEPTANCE_MATRIX.csv` — `a668129234acb184110e076cd021c95c0747d0c6139035c28a42cbd2f68ca127`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md` — `22bfd57bf2ce0243d9769f59946f323d21f142f73b1448bba3c7bdc4caca4fb8`
-- `.continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0004.yaml` — `4a36d054431300ed22207b6051f8099e4ecedeed7ddbddcfa8ee3953d15348b4`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md` — `e2494a5440cbce8212883b453f54c5b3cdcdf824acbf50ca81133430a63ca922`
+- `.continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0006.yaml` — `2cf56ec9e817e7ab6cd2d48b992daa9b78cc66f09024733edebc55786d0c5dd6`
 - `docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md` — `d934f8ebab912da758e1d657d70d8c240f6797615443ced2276d3ed61d2a44c5`
 - `docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md` — `3a2017a341b073448b42be5a6aec7f01b60a5b7820f2ed16fcf8e2ebe15b7755`
 

@@ -5,7 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import cc.orbexa.hhy.access.admin.AdminSecurityContracts.CommandResultResource;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Base64;
 import org.junit.jupiter.api.Test;
 
@@ -64,6 +67,22 @@ class AdminIdempotencySnapshotCipherTest {
         assertThrows(IllegalArgumentException.class,
                 () -> new AdminIdempotencySnapshotCipher(
                         "v2", ROOT_V2, "v2=" + ROOT_V1));
+    }
+
+    @Test
+    void configuredSnapshotMapperRoundTripsInstantBearingResponse() throws Exception {
+        var mapper = new ObjectMapper().findAndRegisterModules();
+        var response = new CommandResultResource(
+                "23", "23", "REVOKED", 5L, Instant.parse("2026-07-17T08:00:00Z"));
+        var cipher = new AdminIdempotencySnapshotCipher("v1", ROOT_V1, "");
+        String envelope = cipher.encrypt(
+                SCOPE, KEY, HASH, "r01.command-result.v1", mapper.writeValueAsBytes(response));
+
+        CommandResultResource replayed = mapper.readValue(
+                cipher.decrypt(SCOPE, KEY, HASH, "r01.command-result.v1", envelope),
+                CommandResultResource.class);
+
+        assertEquals(response, replayed);
     }
 
     private static void assertClosed(org.junit.jupiter.api.function.Executable executable) {
