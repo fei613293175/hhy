@@ -70,7 +70,7 @@ tasks:
   completed_at: '2026-07-17T02:37:21Z'
 - id: TASK-P00-004
   title: 仓库、环境、契约与无状态接续客户端/H5/后台实现
-  status: READY
+  status: DONE
   depends_on:
   - TASK-P00-003
   requirements: *id001
@@ -88,9 +88,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-17T02:42:30Z'
 - id: TASK-P00-005
   title: 仓库、环境、契约与无状态接续专项测试与故障注入
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-P00-003
   - TASK-P00-004
