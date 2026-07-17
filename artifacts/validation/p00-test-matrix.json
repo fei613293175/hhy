@@ -1,0 +1,1037 @@
+{
+  "schema": "hhy.p00.test-matrix-result/v1",
+  "mode": "check",
+  "status": "PASS",
+  "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+  "summary": {
+    "expected": 59,
+    "manifest": 59,
+    "catalog_matched": 59,
+    "native_p00": 50,
+    "baseline_reused": 9,
+    "local": 18,
+    "external": 41,
+    "passed": 59,
+    "failed_or_missing": 0
+  },
+  "results": [
+    {
+      "test_id": "TST-ADMIN_BASE_001-HAPPY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-admin-integration",
+      "report": "p00-admin-integration/p00-admin-integration.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ADMIN_BASE_001-IDEMPOTENT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-admin-integration",
+      "report": "p00-admin-integration/p00-admin-integration.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ADMIN_BASE_001-REJECT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-admin-integration",
+      "report": "p00-admin-integration/p00-admin-integration.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-APK_001-HAPPY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-apk-validation",
+      "report": "p00-apk-validation/p00-apk-validation.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-APK_001-IDEMPOTENT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-apk-validation",
+      "report": "p00-apk-validation/p00-apk-validation.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-APK_001-REJECT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-apk-validation",
+      "report": "p00-apk-validation/p00-apk-validation.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ARCH_001-HAPPY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-architecture",
+      "report": "p00-architecture/p00-architecture.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ARCH_001-IDEMPOTENT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-architecture",
+      "report": "p00-architecture/p00-architecture.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ARCH_001-REJECT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-architecture",
+      "report": "p00-architecture/p00-architecture.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-CONTRACT_001-HAPPY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "contract-openapi",
+      "runner_result": {
+        "status": "PASS",
+        "description": "OpenAPI/catalog/generated-client semantic contract gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_api_contract.py"
+            ],
+            "exit_code": 0,
+            "stdout": "API_CONTRACT_OK client=131 admin=184 websocket=10 runtime_hashes=PASS\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-CONTRACT_001-IDEMPOTENT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "contract-idempotent",
+      "runner_result": {
+        "status": "PASS",
+        "description": "authoritative/runtime contract and migration byte-for-byte gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/sync_runtime_assets.py",
+              "--check"
+            ],
+            "exit_code": 0,
+            "stdout": "{\n  \"status\": \"PASS\",\n  \"mode\": \"CHECK\",\n  \"asset_count\": 15,\n  \"changed\": [],\n  \"errors\": [],\n  \"assets\": [\n    {\n      \"source\": \"contracts/openapi.yaml\",\n      \"target\": \"services/backend/boot/src/main/resources/contracts/openapi.yaml\",\n      \"sha256\": \"543f3abcd42a4d034823e1994a333e8b635c9ae83d3d26b1b4a985fd89d7fe3c\"\n    },\n    {\n      \"source\": \"contracts/admin-openapi.yaml\",\n      \"target\": \"services/backend/boot/src/main/resources/contracts/admin-openapi.yaml\",\n      \"sha256\": \"15901429eb345df1a78295ef5fdcaf5210a982a3e411b0a9a77913706a5014fd\"\n    },\n    {\n      \"source\": \"contracts/websocket-events.yaml\",\n      \"target\": \"services/backend/boot/src/main/resources/contracts/websocket-events.yaml\",\n      \"sha256\": \"62eefb4b4ae53f7ae00f2ef4728e80e2905258d0a220d42ea9959787953879af\"\n    },\n    {\n      \"source\": \"contracts/error-codes.csv\",\n      \"target\": \"services/backend/boot/src/main/resources/contracts/error-codes.csv\",\n      \"sha256\": \"82550db7635c28329a801fb6ce90916f154cb47dea13f6d1d1aba2d37e6c2882\"\n    },\n    {\n      \"source\": \"database/migrations/V001__extensions_and_schema.sql\",\n      \"target\": \"services/backend/boot/src/main/resources/db/migration/V001__extensions_and_schema.sql\",\n      \"sha256\": \"b9cb39a089cb87db00cb9c1c4699622cdf4aa734bf6277d95a08eeaf2029aa0d\"\n    },\n    {\n      \"source\": \"database/migrations/V002__access_admin_and_platform.sql\",\n      \"target\": \"services/backend/boot/src/main/resources/db/migration/V002__access_admin_and_platform.sql\",\n      \"sha256\": \"9a44435238f9d22d53de87ba5d98b1c652365326b5d6d33ba0342771c21b7b6c\"\n    },\n    {\n      \"source\": \"database/migrations/V003__content_identity_and_communication.sql\",\n      \"target\": \"services/backend/boot/src/main/resources/db/migration/V003__content_identity_and_communication.sql\",\n      \"sha256\": \"808873fa66745bbd29fc77d4f9ed5c2d3d6a24c98dd250552f9ee3b862ba8a07\"\n    },\n    {\n      \"source\": \"database/migrations/V004__commerce_redpacket_and_finance.sql\",\n      \"target\": \"services/backend/boot/src/main/resources/db/migration/V004__commerce_redpacket_and_finance.sql\",\n      \"sha256\": \"1b84816ec30b6273969d7c4d8b8821aea6d3cc64ab9ff46f4c539e42cdb95d79\"\n    },\n    {\n      \"source\": \"database/migrations/V005__growth_operations_and_delivery.sql\",\n      \"target\": \"services/backend/boot/src/main/resources/db/migration/V005__growth_operations_and_delivery.sql\",\n      \"sha256\": \"956888394e7abd2251202c97af80c12d3974c4884ddeb8e6111274c5facc925a\"\n    },\n    {\n      \"source\": \"database/migrations/V006__constraints_indexes_and_triggers.sql\",\n      \"target\": \"services/backend/boot/src/main/resources/db/migration/V006__constraints_indexes_and_triggers.sql\",\n      \"sha256\": \"7ec88eabb46aee0739777b0f460e54e52b7458dd8da1608914e6c7cb39c7eace\"\n    },\n    {\n      \"source\": \"database/migrations/V007__state_money_and_accounting_invariants.sql\",\n      \"target\": \"services/backend/boot/src/main/resources/db/migration/V007__state_money_and_accounting_invariants.sql\",\n      \"sha256\": \"b94dc5287784db56c38962d44c331de10e9d05b3662e90594b8ec1c164378aaf\"\n    },\n    {\n      \"source\": \"database/migrations/V008__baseline_rbac_and_feature_flags.sql\",\n      \"target\": \"services/backend/boot/src/main/resources/db/migration/V008__baseline_rbac_and_feature_flags.sql\",\n      \"sha256\": \"e1a85888b272a9c0ef77d28ee935b8f991736bf48d4fb67a5c28c61e265bbc63\"\n    },\n    {\n      \"source\": \"database/migrations/V009__v122_operational_governance.sql\",\n      \"target\": \"services/backend/boot/src/main/resources/db/migration/V009__v122_operational_governance.sql\",\n      \"sha256\": \"bda6e420f68fa494b955026f6cd60565c734f120227133eaf3ff3d5bb040f44e\"\n    },\n    {\n      \"source\": \"database/migrations/V010__p00_event_ledger_invariants.sql\",\n      \"target\": \"services/backend/boot/src/main/resources/db/migration/V010__p00_event_ledger_invariants.sql\",\n      \"sha256\": \"954ef96778f6b376658f93163d6f2a6f90704c5ee637613fff9fe14720edd6eb\"\n    },\n    {\n      \"source\": \"database/migrations/V011__app_release_version_policy.sql\",\n      \"target\": \"services/backend/boot/src/main/resources/db/migration/V011__app_release_version_policy.sql\",\n      \"sha256\": \"130265f5c6b4912cef99c457c9845617b0ea238b4713e2b0908f2eb53a788333\"\n    }\n  ]\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-CONTRACT_001-REJECT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "contract-drift",
+      "runner_result": {
+        "status": "PASS",
+        "description": "frozen contract registry hash/drift gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/generate_contracts.py",
+              "--check"
+            ],
+            "exit_code": 0,
+            "stdout": "{\n  \"status\": \"PASS\",\n  \"mode\": \"check\",\n  \"updated_rows\": 0,\n  \"stale_rows\": 0\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-CONT_001-HAPPY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "continuity-bootstrap",
+      "runner_result": {
+        "status": "PASS",
+        "description": "cold-start/bootstrap recovery integration tests",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "tests/test_continuity_bootstrap_recovery.py"
+            ],
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": "hint: Using 'master' as the name for the initial branch. This default branch name\nhint: will change to \"main\" in Git 3.0. To configure the initial branch name\nhint: to use in all of your new repositories, which will suppress this warning,\nhint: call:\nhint:\nhint: \tgit config --global init.defaultBranch <name>\nhint:\nhint: Names commonly chosen instead of 'master' are 'main', 'trunk' and\nhint: 'development'. The just-created branch can be renamed via this command:\nhint:\nhint: \tgit branch -m <name>\nhint:\nhint: Disable this message with \"git config set advice.defaultBranchName false\"\n..\n----------------------------------------------------------------------\nRan 2 tests in 52.607s\n\nOK\n"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-CONT_001-IDEMPOTENT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "continuity-idempotent",
+      "runner_result": {
+        "status": "PASS",
+        "description": "cross-release close and retry/idempotency integration tests",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "tests/test_continuity_cross_release_close.py"
+            ],
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": ".\n----------------------------------------------------------------------\nRan 1 test in 74.039s\n\nOK\n"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-CONT_001-REJECT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "continuity-reject",
+      "runner_result": {
+        "status": "PASS",
+        "description": "continuity protocol rejection/tamper integration tests",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/test_continuity_protocol.py"
+            ],
+            "exit_code": 0,
+            "stdout": "[LIFECYCLE-TEST] START 01_bootstrap\n[LIFECYCLE-TEST] PASS  01_bootstrap (29.562s, rc=0)\n[LIFECYCLE-TEST] START 01_base_head\n[LIFECYCLE-TEST] PASS  01_base_head (0.078s, rc=0)\n[LIFECYCLE-TEST] START 01_clean\n[LIFECYCLE-TEST] PASS  01_clean (0.125s, rc=0)\n[LIFECYCLE-TEST] START 02_no_session_add\n[LIFECYCLE-TEST] PASS  02_no_session_add (0.125s, rc=0)\n[LIFECYCLE-TEST] START 02_no_session_rejected\n[LIFECYCLE-TEST] PASS  02_no_session_rejected (9.641s, rc=1)\n[LIFECYCLE-TEST] START 02_reset\n[LIFECYCLE-TEST] PASS  02_reset (0.375s, rc=0)\n[LIFECYCLE-TEST] START 03_start\n[LIFECYCLE-TEST] PASS  03_start (3.062s, rc=0)\n[LIFECYCLE-TEST] START 03_double_claim_rejected\n[LIFECYCLE-TEST] PASS  03_double_claim_rejected (0.469s, rc=2)\n[LIFECYCLE-TEST] START 04_checkpoint_without_test\n[LIFECYCLE-TEST] PASS  04_checkpoint_without_test (1.344s, rc=2)\n[LIFECYCLE-TEST] START 05_checkpoint\n[LIFECYCLE-TEST] PASS  05_checkpoint (3.062s, rc=0)\n[LIFECYCLE-TEST] START 06_first_add\n[LIFECYCLE-TEST] PASS  06_first_add (0.266s, rc=0)\n[LIFECYCLE-TEST] START 06_first_commit\n[LIFECYCLE-TEST] PASS  06_first_commit (18.125s, rc=0)\n[LIFECYCLE-TEST] START 06_first_message\n[LIFECYCLE-TEST] PASS  06_first_message (0.062s, rc=0)\n[LIFECYCLE-TEST] START 06_first_head\n[LIFECYCLE-TEST] PASS  06_first_head (0.063s, rc=0)\n[LIFECYCLE-TEST] START 07_stale_add\n[LIFECYCLE-TEST] PASS  07_stale_add (0.125s, rc=0)\n[LIFECYCLE-TEST] START 07_stale_rejected\n[LIFECYCLE-TEST] PASS  07_stale_rejected (9.063s, rc=1)\n[LIFECYCLE-TEST] START 08_checkpoint\n[LIFECYCLE-TEST] PASS  08_checkpoint (2.078s, rc=0)\n[LIFECYCLE-TEST] START 09_second_add\n[LIFECYCLE-TEST] PASS  09_second_add (0.203s, rc=0)\n[LIFECYCLE-TEST] START 09_second_commit\n[LIFECYCLE-TEST] PASS  09_second_commit (14.031s, rc=0)\n[LIFECYCLE-TEST] START 09_second_message\n[LIFECYCLE-TEST] PASS  09_second_message (0.047s, rc=0)\n[LIFECYCLE-TEST] START 09_second_head\n[LIFECYCLE-TEST] PASS  09_second_head (0.047s, rc=0)\n[LIFECYCLE-TEST] START 10_no_cr_rejected\n[LIFECYCLE-TEST] PASS  10_no_cr_rejected (0.562s, rc=2)\n[LIFECYCLE-TEST] START 11_cr_create\n[LIFECYCLE-TEST] PASS  11_cr_create (0.36s, rc=0)\n[LIFECYCLE-TEST] START 11_incomplete_cr_rejected\n[LIFECYCLE-TEST] PASS  11_incomplete_cr_rejected (0.297s, rc=2)\n[LIFECYCLE-TEST] START 12_cr_amend\n[LIFECYCLE-TEST] PASS  12_cr_amend (0.422s, rc=0)\n[LIFECYCLE-TEST] START 12_self_approval_rejected\n[LIFECYCLE-TEST] PASS  12_self_approval_rejected (0.281s, rc=2)\n[LIFECYCLE-TEST] START 13_cr_approve\n[LIFECYCLE-TEST] PASS  13_cr_approve (0.39s, rc=0)\n[LIFECYCLE-TEST] START 14_cr_checkpoint\n[LIFECYCLE-TEST] PASS  14_cr_checkpoint (2.204s, rc=0)\n[LIFECYCLE-TEST] START 15_cr_add\n[LIFECYCLE-TEST] PASS  15_cr_add (0.156s, rc=0)\n[LIFECYCLE-TEST] START 15_cr_commit\n[LIFECYCLE-TEST] PASS  15_cr_commit (13.844s, rc=0)\n[LIFECYCLE-TEST] START 15_cr_message\n[LIFECYCLE-TEST] PASS  15_cr_message (0.046s, rc=0)\n[LIFECYCLE-TEST] START 15_cr_head\n[LIFECYCLE-TEST] PASS  15_cr_head (0.047s, rc=0)\n[LIFECYCLE-TEST] START 16_handoff_checkpoint\n[LIFECYCLE-TEST] PASS  16_handoff_checkpoint (2.094s, rc=0)\n[LIFECYCLE-TEST] START 17_handoff\n[LIFECYCLE-TEST] PASS  17_handoff (8.172s, rc=0)\n[LIFECYCLE-TEST] START 18_takeover\n[LIFECYCLE-TEST] PASS  18_takeover (3.953s, rc=0)\n[LIFECYCLE-TEST] START 19_takeover_checkpoint\n[LIFECYCLE-TEST] PASS  19_takeover_checkpoint (2.281s, rc=0)\n[LIFECYCLE-TEST] START 20_takeover_add\n[LIFECYCLE-TEST] PASS  20_takeover_add (1.125s, rc=0)\n[LIFECYCLE-TEST] START 20_takeover_commit\n[LIFECYCLE-TEST] PASS  20_takeover_commit (14.922s, rc=0)\n[LIFECYCLE-TEST] START 20_takeover_message\n[LIFECYCLE-TEST] PASS  20_takeover_message (0.047s, rc=0)\n[LIFECYCLE-TEST] START 20_takeover_head\n[LIFECYCLE-TEST] PASS  20_takeover_head (0.047s, rc=0)\n[LIFECYCLE-TEST] START 21_close\n[LIFECYCLE-TEST] PASS  21_close (4.64s, rc=0)\n[LIFECYCLE-TEST] START 22_close_metadata_add\n[LIFECYCLE-TEST] PASS  22_close_metadata_add (0.188s, rc=0)\n[LIFECYCLE-TEST] START 22_close_metadata_commit\n[LIFECYCLE-TEST] PASS  22_close_metadata_commit (13.906s, rc=0)\n[LIFECYCLE-TEST] START 22_close_metadata_message\n[LIFECYCLE-TEST] PASS  22_close_metadata_message (0.094s, rc=0)\n[LIFECYCLE-TEST] START 22_close_metadata_head\n[LIFECYCLE-TEST] PASS  22_close_metadata_head (0.062s, rc=0)\n[LIFECYCLE-TEST] START 23_prepush\n[LIFECYCLE-TEST] PASS  23_prepush (10.875s, rc=0)\n[LIFECYCLE-TEST] START 24_ci\n[LIFECYCLE-TEST] PASS  24_ci (10.938s, rc=0)\n[LIFECYCLE-TEST] START 25_export_clean\n[LIFECYCLE-TEST] PASS  25_export_clean (12.234s, rc=0)\n[LIFECYCLE-TEST] START 25_clean_after_export\n[LIFECYCLE-TEST] PASS  25_clean_after_export (0.094s, rc=0)\n[LIFECYCLE-TEST] START 27_final_head\n[LIFECYCLE-TEST] PASS  27_final_head (0.046s, rc=0)\n[LIFECYCLE-TEST] START 27_commit_count\n[LIFECYCLE-TEST] PASS  27_commit_count (0.047s, rc=0)\n{\n  \"version\": \"1.2.3\",\n  \"status\": \"PASS\",\n  \"generated_at\": \"2026-07-17T05:21:35Z\",\n  \"conversation_context_required\": false,\n  \"repository_only_handoff\": true,\n  \"source_manifest\": [\n    {\n      \"path\": \".continuity/CONTINUITY_POLICY.yaml\",\n      \"sha256\": \"69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223\"\n    },\n    {\n      \"path\": \"scripts/continuity_lib.py\",\n      \"sha256\": \"a3dfc869dd56765d2712e55a00c3452123a28f93f76689eef91a2afccd2b778c\"\n    },\n    {\n      \"path\": \"scripts/continuity.py\",\n      \"sha256\": \"1650d2bbbda53a02ff434f174a2aee3eb108e7ebc89c3cee1a3323292ae22f42\"\n    },\n    {\n      \"path\": \"scripts/continuity_gate.py\",\n      \"sha256\": \"888111dfe7085ad8165458d3c9ec39b48a39db49a954a2ee17976cfc0c7070a4\"\n    },\n    {\n      \"path\": \"scripts/prepare_commit_message.py\",\n      \"sha256\": \"99f5bece04303620c02e3c376f9043694c1256155f1f5bc2cbd68634c6e73ab7\"\n    },\n    {\n      \"path\": \"scripts/install_git_hooks.py\",\n      \"sha256\": \"d09b224f2bf9335623b70d3d557eb65a76c5d9b32645095b9c7fb7bc621422cd\"\n    },\n    {\n      \"path\": \"scripts/test_continuity_protocol.py\",\n      \"sha256\": \"3ebbc06cd10c507aea2228b8497ff9198a623c8bc0db0e4b4e7ea1f35f46d628\"\n    },\n    {\n      \"path\": \".githooks/pre-commit\",\n      \"sha256\": \"541c9df7be1e3b45635930dc23728153cc85b4a677a1e89f6b4f43a72f68ac18\"\n    },\n    {\n      \"path\": \".githooks/prepare-commit-msg\",\n      \"sha256\": \"e06c6381eaf95b105b0b5bff426abcc7da49539d1fe706c7980f1dc0a065225b\"\n    },\n    {\n      \"path\": \".githooks/commit-msg\",\n      \"sha256\": \"625bd167b23f048f808d07470c021bf91d6e4fa495d23c195bfa92f040bfa98c\"\n    },\n    {\n      \"path\": \".githooks/pre-push\",\n      \"sha256\": \"6e35fe726ba7f68f3c725ab8350e48df4719e45dc709d83d4f1abcf29dc4b7f8\"\n    }\n  ],\n  \"base_commit\": \"7f71548977a0aa46b7b333a2bea178bd76f91345\",\n  \"final_commit\": \"9beaa7a70505c51e49c75c44bd71e0149e42c85a\",\n  \"session_a\": \"SES-20260717T051850Z-955AAEDC\",\n  \"session_b\": \"SES-20260717T052011Z-0F6E74F1\",\n  \"change_request\": \"CR-0010\",\n  \"checks\": [\n    {\n      \"check\": \"bootstrap_atomic\",\n      \"status\": \"PASS\",\n      \"detail\": \"7f71548977a0aa46b7b333a2bea178bd76f91345\"\n    },\n    {\n      \"check\": \"no_session_commit_blocked\",\n      \"status\": \"PASS\",\n      \"detail\": \"PASS\"\n    },\n    {\n      \"check\": \"unique_active_session_and_claim\",\n      \"status\": \"PASS\",\n      \"detail\": \"SES-20260717T051850Z-955AAEDC\"\n    },\n    {\n      \"check\": \"checkpoint_test_required\",\n      \"status\": \"PASS\",\n      \"detail\": \"PASS\"\n    },\n    {\n      \"check\": \"checkpoint_pointer_and_commit_trailers\",\n      \"status\": \"PASS\",\n      \"detail\": \"8a592d0544c3716c334146627177450aa8b0ca6b\"\n    },\n    {\n      \"check\": \"stale_checkpoint_blocked\",\n      \"status\": \"PASS\",\n      \"detail\": \"PASS\"\n    },\n    {\n      \"check\": \"historical_checkpoint_commit\",\n      \"status\": \"PASS\",\n      \"detail\": \"4319b1421682e36fe033432b5fed927fe6378c3b\"\n    },\n    {\n      \"check\": \"frozen_fact_requires_cr\",\n      \"status\": \"PASS\",\n      \"detail\": \"PASS\"\n    },\n    {\n      \"check\": \"complete_cr_contract_and_separation\",\n      \"status\": \"PASS\",\n      \"detail\": \"fff15f685f01f4d9a36ec0faae73df82288b8e53\"\n    },\n    {\n      \"check\": \"wip_handoff_and_takeover\",\n      \"status\": \"PASS\",\n      \"detail\": \"96c880ca85f2e83b0bc785c6b2f6f3fc3ecd921e\"\n    },\n    {\n      \"check\": \"closure_checkpoint_and_metadata_commit\",\n      \"status\": \"PASS\",\n      \"detail\": \"9beaa7a70505c51e49c75c44bd71e0149e42c85a\"\n    },\n    {\n      \"check\": \"per_commit_prepush_and_ci\",\n      \"status\": \"PASS\",\n      \"detail\": \"PASS\"\n    },\n    {\n      \"check\": \"clean_committed_export\",\n      \"status\": \"PASS\",\n      \"detail\": \"dbf5c35ca6bcf66f66ab1bc3fc135764af587292988ab9cf6086c991da6a7c75\"\n    },\n    {\n      \"check\": \"event_hash_chain_tamper_detected\",\n      \"status\": \"PASS\",\n      \"detail\": \"PASS\"\n    }\n  ],\n  \"commands\": [\n    {\n      \"label\": \"01_bootstrap\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"bootstrap\",\n        \"--actor\",\n        \"smoke-bootstrap\",\n        \"--init-git\",\n        \"--initial-commit\",\n        \"--task\",\n        \"TASK-P00-001\",\n        \"--branch\",\n        \"task/TASK-P00-001\",\n        \"--git-user-name\",\n        \"Continuity Smoke\",\n        \"--git-user-email\",\n        \"smoke@example.invalid\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 29.562\n    },\n    {\n      \"label\": \"01_base_head\",\n      \"args\": [\n        \"git\",\n        \"rev-parse\",\n        \"HEAD\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.078\n    },\n    {\n      \"label\": \"01_clean\",\n      \"args\": [\n        \"git\",\n        \"status\",\n        \"--porcelain\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.125\n    },\n    {\n      \"label\": \"02_no_session_add\",\n      \"args\": [\n        \"git\",\n        \"add\",\n        \"-A\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.125\n    },\n    {\n      \"label\": \"02_no_session_rejected\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity_gate.py\",\n        \"--mode\",\n        \"pre-commit\",\n        \"--strict\",\n        \"--json-out\",\n        \"C:\\\\Users\\\\小白\\\\AppData\\\\Local\\\\Temp\\\\hhy-v123-continuity-p9s_fupo\\\\outputs\\\\no-session.json\"\n      ],\n      \"returncode\": 1,\n      \"duration_seconds\": 9.641\n    },\n    {\n      \"label\": \"02_reset\",\n      \"args\": [\n        \"git\",\n        \"reset\",\n        \"--hard\",\n        \"HEAD\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.375\n    },\n    {\n      \"label\": \"03_start\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"start\",\n        \"--actor\",\n        \"smoke-a\",\n        \"--task\",\n        \"TASK-P00-001\",\n        \"--story\",\n        \"STORY-P00-002\",\n        \"--goal\",\n        \"验证持续开发无状态接续协议\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 3.062\n    },\n    {\n      \"label\": \"03_double_claim_rejected\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"start\",\n        \"--actor\",\n        \"smoke-c\",\n        \"--task\",\n        \"TASK-P00-001\",\n        \"--story\",\n        \"STORY-P00-002\",\n        \"--goal\",\n        \"非法并发领取\"\n      ],\n      \"returncode\": 2,\n      \"duration_seconds\": 0.469\n    },\n    {\n      \"label\": \"04_checkpoint_without_test\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"checkpoint\",\n        \"--summary\",\n        \"首次变更\",\n        \"--next-step\",\n        \"记录测试\"\n      ],\n      \"returncode\": 2,\n      \"duration_seconds\": 1.344\n    },\n    {\n      \"label\": \"05_checkpoint\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"checkpoint\",\n        \"--summary\",\n        \"完成首次协议变更\",\n        \"--next-step\",\n        \"提交实现变更\",\n        \"--test\",\n        \"continuity-smoke|PASS|scripts/check_v123_continuity.py|联合门禁作为证据\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 3.062\n    },\n    {\n      \"label\": \"06_first_add\",\n      \"args\": [\n        \"git\",\n        \"add\",\n        \"-A\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.266\n    },\n    {\n      \"label\": \"06_first_commit\",\n      \"args\": [\n        \"git\",\n        \"commit\",\n        \"-m\",\n        \"chore(continuity): add protocol smoke probe\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 18.125\n    },\n    {\n      \"label\": \"06_first_message\",\n      \"args\": [\n        \"git\",\n        \"log\",\n        \"-1\",\n        \"--pretty=%B\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.062\n    },\n    {\n      \"label\": \"06_first_head\",\n      \"args\": [\n        \"git\",\n        \"rev-parse\",\n        \"HEAD\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.063\n    },\n    {\n      \"label\": \"07_stale_add\",\n      \"args\": [\n        \"git\",\n        \"add\",\n        \"-A\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.125\n    },\n    {\n      \"label\": \"07_stale_rejected\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity_gate.py\",\n        \"--mode\",\n        \"pre-commit\",\n        \"--strict\",\n        \"--json-out\",\n        \"C:\\\\Users\\\\小白\\\\AppData\\\\Local\\\\Temp\\\\hhy-v123-continuity-p9s_fupo\\\\outputs\\\\stale-checkpoint.json\"\n      ],\n      \"returncode\": 1,\n      \"duration_seconds\": 9.063\n    },\n    {\n      \"label\": \"08_checkpoint\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"checkpoint\",\n        \"--summary\",\n        \"更新协议探针\",\n        \"--next-step\",\n        \"验证完整CR合同\",\n        \"--test\",\n        \"stale-gate|PASS|C:\\\\Users\\\\小白\\\\AppData\\\\Local\\\\Temp\\\\hhy-v123-continuity-p9s_fupo\\\\outputs\\\\stale-checkpoint.json|旧检查点已阻断\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 2.078\n    },\n    {\n      \"label\": \"09_second_add\",\n      \"args\": [\n        \"git\",\n        \"add\",\n        \"-A\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.203\n    },\n    {\n      \"label\": \"09_second_commit\",\n      \"args\": [\n        \"git\",\n        \"commit\",\n        \"-m\",\n        \"test(continuity): verify stale checkpoint rejection\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 14.031\n    },\n    {\n      \"label\": \"09_second_message\",\n      \"args\": [\n        \"git\",\n        \"log\",\n        \"-1\",\n        \"--pretty=%B\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.047\n    },\n    {\n      \"label\": \"09_second_head\",\n      \"args\": [\n        \"git\",\n        \"rev-parse\",\n        \"HEAD\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.047\n    },\n    {\n      \"label\": \"10_no_cr_rejected\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"checkpoint\",\n        \"--summary\",\n        \"无CR冻结事实变更\",\n        \"--next-step\",\n        \"应阻断\",\n        \"--test\",\n        \"cr-negative|PASS|docs/00-baseline/SOURCE_OF_TRUTH.md|负向门禁\"\n      ],\n      \"returncode\": 2,\n      \"duration_seconds\": 0.562\n    },\n    {\n      \"label\": \"11_cr_create\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"cr-create\",\n        \"--actor\",\n        \"smoke-requester\",\n        \"--title\",\n        \"Continuity smoke frozen fact update\",\n        \"--task\",\n        \"TASK-P00-001\",\n        \"--user-request\",\n        \"验证冻结事实完整变更合同\",\n        \"--reason\",\n        \"集成演练\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.36\n    },\n    {\n      \"label\": \"11_incomplete_cr_rejected\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"cr-approve\",\n        \"--actor\",\n        \"smoke-approver\",\n        \"--cr\",\n        \"CR-0010\",\n        \"--decision\",\n        \"APPROVED\",\n        \"--note\",\n        \"信息尚不完整\",\n        \"--user-confirmation\",\n        \"integration user confirmation\"\n      ],\n      \"returncode\": 2,\n      \"duration_seconds\": 0.297\n    },\n    {\n      \"label\": \"12_cr_amend\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"cr-amend\",\n        \"--actor\",\n        \"smoke-requester\",\n        \"--cr\",\n        \"CR-0010\",\n        \"--original-rule\",\n        \"SOURCE_OF_TRUTH文档没有集成演练标记\",\n        \"--new-rule\",\n        \"加入仅用于临时仓库演练的受控标记\",\n        \"--impact-summary\",\n        \"仅影响临时测试仓库的一份开发前事实文档，不改变业务功能\",\n        \"--migration-and-compatibility\",\n        \"文档兼容，无数据迁移；测试结束后临时仓库销毁\",\n        \"--file\",\n        \"docs/00-baseline/SOURCE_OF_TRUTH.md\",\n        \"--test\",\n        \"continuity CR gate integration smoke\",\n        \"--release\",\n        \"P00\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.422\n    },\n    {\n      \"label\": \"12_self_approval_rejected\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"cr-approve\",\n        \"--actor\",\n        \"smoke-requester\",\n        \"--cr\",\n        \"CR-0010\",\n        \"--decision\",\n        \"APPROVED\",\n        \"--note\",\n        \"禁止自审\",\n        \"--user-confirmation\",\n        \"integration user confirmation\"\n      ],\n      \"returncode\": 2,\n      \"duration_seconds\": 0.281\n    },\n    {\n      \"label\": \"13_cr_approve\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"cr-approve\",\n        \"--actor\",\n        \"smoke-approver\",\n        \"--cr\",\n        \"CR-0010\",\n        \"--decision\",\n        \"APPROVED\",\n        \"--note\",\n        \"完整合同已复核\",\n        \"--user-confirmation\",\n        \"integration user confirmation recorded in repository\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.39\n    },\n    {\n      \"label\": \"14_cr_checkpoint\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"checkpoint\",\n        \"--summary\",\n        \"批准CR后的冻结事实变更\",\n        \"--next-step\",\n        \"提交并演练WIP交接\",\n        \"--test\",\n        \"cr-positive|PASS|.continuity/CHANGE_REQUEST_INDEX.yaml|完整合同和不同Actor审批通过\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 2.204\n    },\n    {\n      \"label\": \"15_cr_add\",\n      \"args\": [\n        \"git\",\n        \"add\",\n        \"-A\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.156\n    },\n    {\n      \"label\": \"15_cr_commit\",\n      \"args\": [\n        \"git\",\n        \"commit\",\n        \"-m\",\n        \"docs(continuity): verify approved change request path\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 13.844\n    },\n    {\n      \"label\": \"15_cr_message\",\n      \"args\": [\n        \"git\",\n        \"log\",\n        \"-1\",\n        \"--pretty=%B\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.046\n    },\n    {\n      \"label\": \"15_cr_head\",\n      \"args\": [\n        \"git\",\n        \"rev-parse\",\n        \"HEAD\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.047\n    },\n    {\n      \"label\": \"16_handoff_checkpoint\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"checkpoint\",\n        \"--summary\",\n        \"形成可移交WIP\",\n        \"--next-step\",\n        \"新AI验证Manifest后提交WIP\",\n        \"--test\",\n        \"handoff-prep|PASS|scripts/continuity.py|交接前检查点\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 2.094\n    },\n    {\n      \"label\": \"17_handoff\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"handoff\",\n        \"--actor\",\n        \"smoke-a\",\n        \"--reason\",\n        \"切换AI进行无对话接管\",\n        \"--next-step\",\n        \"验证Manifest后提交WIP\",\n        \"--portable-zip\",\n        \"C:\\\\Users\\\\小白\\\\AppData\\\\Local\\\\Temp\\\\hhy-v123-continuity-p9s_fupo\\\\outputs\\\\wip-handoff.zip\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 8.172\n    },\n    {\n      \"label\": \"18_takeover\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"takeover\",\n        \"--actor\",\n        \"smoke-b\",\n        \"--session\",\n        \"SES-20260717T051850Z-955AAEDC\",\n        \"--reason\",\n        \"无旧对话接管\",\n        \"--next-step\",\n        \"重新检查点并提交WIP\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 3.953\n    },\n    {\n      \"label\": \"19_takeover_checkpoint\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"checkpoint\",\n        \"--summary\",\n        \"接管并验证WIP\",\n        \"--next-step\",\n        \"提交接管后的实现\",\n        \"--test\",\n        \"takeover-verify|PASS|artifacts/context/CURRENT_CONTEXT_PACK.md|无需旧对话恢复\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 2.281\n    },\n    {\n      \"label\": \"20_takeover_add\",\n      \"args\": [\n        \"git\",\n        \"add\",\n        \"-A\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 1.125\n    },\n    {\n      \"label\": \"20_takeover_commit\",\n      \"args\": [\n        \"git\",\n        \"commit\",\n        \"-m\",\n        \"chore(continuity): continue handed-off work without dialog\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 14.922\n    },\n    {\n      \"label\": \"20_takeover_message\",\n      \"args\": [\n        \"git\",\n        \"log\",\n        \"-1\",\n        \"--pretty=%B\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.047\n    },\n    {\n      \"label\": \"20_takeover_head\",\n      \"args\": [\n        \"git\",\n        \"rev-parse\",\n        \"HEAD\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.047\n    },\n    {\n      \"label\": \"21_close\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"close\",\n        \"--actor\",\n        \"smoke-b\",\n        \"--result\",\n        \"COMPLETED\",\n        \"--summary\",\n        \"持续接续协议集成演练完成\",\n        \"--next-task\",\n        \"TASK-P00-002\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 4.64\n    },\n    {\n      \"label\": \"22_close_metadata_add\",\n      \"args\": [\n        \"git\",\n        \"add\",\n        \"-A\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.188\n    },\n    {\n      \"label\": \"22_close_metadata_commit\",\n      \"args\": [\n        \"git\",\n        \"commit\",\n        \"-m\",\n        \"chore(continuity): close completed smoke task\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 13.906\n    },\n    {\n      \"label\": \"22_close_metadata_message\",\n      \"args\": [\n        \"git\",\n        \"log\",\n        \"-1\",\n        \"--pretty=%B\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.094\n    },\n    {\n      \"label\": \"22_close_metadata_head\",\n      \"args\": [\n        \"git\",\n        \"rev-parse\",\n        \"HEAD\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.062\n    },\n    {\n      \"label\": \"23_prepush\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity_gate.py\",\n        \"--mode\",\n        \"pre-push\",\n        \"--strict\",\n        \"--json-out\",\n        \"C:\\\\Users\\\\小白\\\\AppData\\\\Local\\\\Temp\\\\hhy-v123-continuity-p9s_fupo\\\\outputs\\\\prepush-report.json\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 10.875\n    },\n    {\n      \"label\": \"24_ci\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity_gate.py\",\n        \"--mode\",\n        \"ci\",\n        \"--strict\",\n        \"--head-ref\",\n        \"HEAD\",\n        \"--json-out\",\n        \"C:\\\\Users\\\\小白\\\\AppData\\\\Local\\\\Temp\\\\hhy-v123-continuity-p9s_fupo\\\\outputs\\\\ci-report.json\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 10.938\n    },\n    {\n      \"label\": \"25_export_clean\",\n      \"args\": [\n        \"C:\\\\Users\\\\小白\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\python\\\\python.exe\",\n        \"scripts/continuity.py\",\n        \"export-clean\",\n        \"--portable-zip\",\n        \"C:\\\\Users\\\\小白\\\\AppData\\\\Local\\\\Temp\\\\hhy-v123-continuity-p9s_fupo\\\\outputs\\\\clean-project-export.zip\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 12.234\n    },\n    {\n      \"label\": \"25_clean_after_export\",\n      \"args\": [\n        \"git\",\n        \"status\",\n        \"--porcelain\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.094\n    },\n    {\n      \"label\": \"27_final_head\",\n      \"args\": [\n        \"git\",\n        \"rev-parse\",\n        \"HEAD\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.046\n    },\n    {\n      \"label\": \"27_commit_count\",\n      \"args\": [\n        \"git\",\n        \"rev-list\",\n        \"--count\",\n        \"HEAD\"\n      ],\n      \"returncode\": 0,\n      \"duration_seconds\": 0.047\n    }\n  ],\n  \"metrics\": {\n    \"checks\": 14,\n    \"commits\": 6,\n    \"wip_handoff_sha256\": \"a9c4b63f9b0a90e5616159ac3803a7002d66043795e41f1f31e64f70b1b48aee\",\n    \"clean_export_sha256\": \"dbf5c35ca6bcf66f66ab1bc3fc135764af587292988ab9cf6086c991da6a7c75\"\n  }\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DATA_001-HAPPY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-database-invariants",
+      "report": "p00-database-invariants/p00-database-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DATA_001-IDEMPOTENT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-database-invariants",
+      "report": "p00-database-invariants/p00-database-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DATA_001-REJECT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-database-invariants",
+      "report": "p00-database-invariants/p00-database-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DOR_001-DRIFT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-p00",
+      "runner_result": {
+        "status": "PASS",
+        "description": "P00 DoR/page/action/security/traceability documentation contract gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "P00",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-p00-matrix-_ef9_xtq\\documentation-p00-0.json"
+            ],
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"P00\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DOR_001-HAPPY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-p00",
+      "runner_result": {
+        "status": "PASS",
+        "description": "P00 DoR/page/action/security/traceability documentation contract gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "P00",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-p00-matrix-_ef9_xtq\\documentation-p00-0.json"
+            ],
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"P00\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DOR_001-REJECT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-p00",
+      "runner_result": {
+        "status": "PASS",
+        "description": "P00 DoR/page/action/security/traceability documentation contract gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "P00",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-p00-matrix-_ef9_xtq\\documentation-p00-0.json"
+            ],
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"P00\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DOR_001-SECURITY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-p00",
+      "runner_result": {
+        "status": "PASS",
+        "description": "P00 DoR/page/action/security/traceability documentation contract gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "P00",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-p00-matrix-_ef9_xtq\\documentation-p00-0.json"
+            ],
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"P00\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ENG_001-HAPPY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-engineering-builds",
+      "report": "p00-engineering-builds/p00-engineering-builds.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ENG_001-IDEMPOTENT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-engineering-builds",
+      "report": "p00-engineering-builds/p00-engineering-builds.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ENG_001-REJECT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-engineering-builds",
+      "report": "p00-engineering-builds/p00-engineering-builds.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-EVENT_001-HAPPY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-outbox-invariants",
+      "report": "p00-outbox-invariants/p00-outbox-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-EVENT_001-IDEMPOTENT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-outbox-invariants",
+      "report": "p00-outbox-invariants/p00-outbox-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-EVENT_001-REJECT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-outbox-invariants",
+      "report": "p00-outbox-invariants/p00-outbox-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-GATE-ANDROID-BUILD",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-engineering-builds",
+      "report": "p00-engineering-builds/p00-engineering-builds.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-GATE-BACKEND-BUILD",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-engineering-builds",
+      "report": "p00-engineering-builds/p00-engineering-builds.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-GATE-DB-MIGRATION",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-database-invariants",
+      "report": "p00-database-invariants/p00-database-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-GATE-LEDGER",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-ledger-invariants",
+      "report": "p00-ledger-invariants/p00-ledger-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-GATE-MAPPING",
+      "status": "PASS",
+      "source": "local",
+      "runner": "mapping-static",
+      "runner_result": {
+        "status": "PASS",
+        "description": "frontend/backend ownership and traceability mapping gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_frontend_backend_matrix.py"
+            ],
+            "exit_code": 0,
+            "stdout": "FRONT_BACK_OK 189\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-GATE-MODULE-BOUNDARY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-architecture",
+      "report": "p00-architecture/p00-architecture.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-GATE-OPENAPI",
+      "status": "PASS",
+      "source": "local",
+      "runner": "contract-openapi",
+      "runner_result": {
+        "status": "PASS",
+        "description": "OpenAPI/catalog/generated-client semantic contract gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_api_contract.py"
+            ],
+            "exit_code": 0,
+            "stdout": "API_CONTRACT_OK client=131 admin=184 websocket=10 runtime_hashes=PASS\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-GATE-OUTBOX",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-outbox-invariants",
+      "report": "p00-outbox-invariants/p00-outbox-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-GATE-SECRETS",
+      "status": "PASS",
+      "source": "local",
+      "runner": "secrets-static",
+      "runner_result": {
+        "status": "PASS",
+        "description": "configuration registry secret-default static gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "tests/p00/test_secret_defaults.py"
+            ],
+            "exit_code": 0,
+            "stdout": "",
+            "stderr": ".\n----------------------------------------------------------------------\nRan 1 test in 2.060s\n\nOK\n"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-GATE-STATE",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-p00",
+      "runner_result": {
+        "status": "PASS",
+        "description": "P00 DoR/page/action/security/traceability documentation contract gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "P00",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-p00-matrix-_ef9_xtq\\documentation-p00-0.json"
+            ],
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"P00\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-GATE-WEB-BUILD",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-engineering-builds",
+      "report": "p00-engineering-builds/p00-engineering-builds.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-LEDGER_001-CONCURRENCY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-ledger-invariants",
+      "report": "p00-ledger-invariants/p00-ledger-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-LEDGER_001-HAPPY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-ledger-invariants",
+      "report": "p00-ledger-invariants/p00-ledger-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-LEDGER_001-IDEMPOTENT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-ledger-invariants",
+      "report": "p00-ledger-invariants/p00-ledger-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-LEDGER_001-RECOVERY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-ledger-invariants",
+      "report": "p00-ledger-invariants/p00-ledger-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-LEDGER_001-REJECT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-ledger-invariants",
+      "report": "p00-ledger-invariants/p00-ledger-invariants.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-OBS_002-HAPPY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-observability-staging",
+      "report": "p00-observability-staging/p00-observability-staging.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-OBS_002-IDEMPOTENT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-observability-staging",
+      "report": "p00-observability-staging/p00-observability-staging.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-OBS_002-REJECT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-observability-staging",
+      "report": "p00-observability-staging/p00-observability-staging.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-PAGE_SPEC_001-DRIFT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-p00",
+      "runner_result": {
+        "status": "PASS",
+        "description": "P00 DoR/page/action/security/traceability documentation contract gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "P00",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-p00-matrix-_ef9_xtq\\documentation-p00-0.json"
+            ],
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"P00\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-PAGE_SPEC_001-HAPPY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-p00",
+      "runner_result": {
+        "status": "PASS",
+        "description": "P00 DoR/page/action/security/traceability documentation contract gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "P00",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-p00-matrix-_ef9_xtq\\documentation-p00-0.json"
+            ],
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"P00\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-PAGE_SPEC_001-REJECT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-p00",
+      "runner_result": {
+        "status": "PASS",
+        "description": "P00 DoR/page/action/security/traceability documentation contract gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "P00",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-p00-matrix-_ef9_xtq\\documentation-p00-0.json"
+            ],
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"P00\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-PAGE_SPEC_001-SECURITY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-p00",
+      "runner_result": {
+        "status": "PASS",
+        "description": "P00 DoR/page/action/security/traceability documentation contract gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "P00",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-p00-matrix-_ef9_xtq\\documentation-p00-0.json"
+            ],
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"P00\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-SECRET_001-HAPPY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-secret-security",
+      "report": "p00-secret-security/p00-secret-security.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-SECRET_001-IDEMPOTENT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-secret-security",
+      "report": "p00-secret-security/p00-secret-security.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-SECRET_001-REJECT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-secret-security",
+      "report": "p00-secret-security/p00-secret-security.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-SECRET_001-SECURITY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-secret-security",
+      "report": "p00-secret-security/p00-secret-security.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-UI_001-HAPPY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-ui-integration",
+      "report": "p00-ui-integration/p00-ui-integration.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-UI_001-IDEMPOTENT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-ui-integration",
+      "report": "p00-ui-integration/p00-ui-integration.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-UI_001-REJECT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-ui-integration",
+      "report": "p00-ui-integration/p00-ui-integration.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-V122-011",
+      "status": "PASS",
+      "source": "external",
+      "runner": "p00-ui-integration",
+      "report": "p00-ui-integration/p00-ui-integration.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "current_head": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    }
+  ],
+  "errors": []
+}

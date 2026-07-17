@@ -1,0 +1,253 @@
+{
+  "schema": "hhy.p00.test-evidence/v1",
+  "report_id": "p00-engineering-builds-fcb95056-20260717",
+  "suite": "p00-engineering-builds",
+  "producer": "codex-p00-validation",
+  "generated_at": "2026-07-17T05:13:28.187506Z",
+  "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+  "command": [
+    "gradlew",
+    "clean",
+    "lintDebug",
+    "testDebugUnitTest",
+    "assembleDebug",
+    "&&",
+    "mvnw",
+    "verify",
+    "&&",
+    "pnpm",
+    "--recursive",
+    "typecheck",
+    "test",
+    "build"
+  ],
+  "environment": {
+    "release": "P00",
+    "baseline": "fcb95056",
+    "target": "local-obx-test-and-owner-device"
+  },
+  "results": [
+    {
+      "test_id": "TST-ENG_001-HAPPY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-ENG_001-HAPPY required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-engineering-builds/android-api-model-tests.xml",
+          "sha256": "1efc28da9fad61b42588d8ea83fe342d111a8963508a3b7f8a9a14c29dae2d88"
+        },
+        {
+          "path": "p00-engineering-builds/android-request-id-tests.xml",
+          "sha256": "fa70491c9ac1cef731c9ff5c845d35632c76c7136b40a62a436112092ba7754f"
+        },
+        {
+          "path": "p00-engineering-builds/android-version-tests.xml",
+          "sha256": "a28088fe236bc10f6be9ee5a371fecf142d3151272738515ddba907f8ce02cb2"
+        },
+        {
+          "path": "p00-engineering-builds/backend-verify.log",
+          "sha256": "107ac93dcf884bd920074a51ba26922d7e5d343dc40f755cf12378ffa55c4368"
+        },
+        {
+          "path": "p00-engineering-builds/web-verify.log",
+          "sha256": "dc0872e77d1e069ea2db965cbde4ec5a1ce50a837120cb20d5142eb01a633f42"
+        }
+      ],
+      "details": "Final baseline clean Android lint/unit/assemble passed (8 tests); Maven reactor verify passed (14 tests, 1 environment-conditional skip); Web typecheck/tests/build passed."
+    },
+    {
+      "test_id": "TST-ENG_001-IDEMPOTENT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-ENG_001-IDEMPOTENT required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-engineering-builds/android-api-model-tests.xml",
+          "sha256": "1efc28da9fad61b42588d8ea83fe342d111a8963508a3b7f8a9a14c29dae2d88"
+        },
+        {
+          "path": "p00-engineering-builds/android-request-id-tests.xml",
+          "sha256": "fa70491c9ac1cef731c9ff5c845d35632c76c7136b40a62a436112092ba7754f"
+        },
+        {
+          "path": "p00-engineering-builds/android-version-tests.xml",
+          "sha256": "a28088fe236bc10f6be9ee5a371fecf142d3151272738515ddba907f8ce02cb2"
+        },
+        {
+          "path": "p00-engineering-builds/backend-verify.log",
+          "sha256": "107ac93dcf884bd920074a51ba26922d7e5d343dc40f755cf12378ffa55c4368"
+        },
+        {
+          "path": "p00-engineering-builds/web-verify.log",
+          "sha256": "dc0872e77d1e069ea2db965cbde4ec5a1ce50a837120cb20d5142eb01a633f42"
+        }
+      ],
+      "details": "Final baseline clean Android lint/unit/assemble passed (8 tests); Maven reactor verify passed (14 tests, 1 environment-conditional skip); Web typecheck/tests/build passed."
+    },
+    {
+      "test_id": "TST-ENG_001-REJECT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-ENG_001-REJECT required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-engineering-builds/android-api-model-tests.xml",
+          "sha256": "1efc28da9fad61b42588d8ea83fe342d111a8963508a3b7f8a9a14c29dae2d88"
+        },
+        {
+          "path": "p00-engineering-builds/android-request-id-tests.xml",
+          "sha256": "fa70491c9ac1cef731c9ff5c845d35632c76c7136b40a62a436112092ba7754f"
+        },
+        {
+          "path": "p00-engineering-builds/android-version-tests.xml",
+          "sha256": "a28088fe236bc10f6be9ee5a371fecf142d3151272738515ddba907f8ce02cb2"
+        },
+        {
+          "path": "p00-engineering-builds/backend-verify.log",
+          "sha256": "107ac93dcf884bd920074a51ba26922d7e5d343dc40f755cf12378ffa55c4368"
+        },
+        {
+          "path": "p00-engineering-builds/web-verify.log",
+          "sha256": "dc0872e77d1e069ea2db965cbde4ec5a1ce50a837120cb20d5142eb01a633f42"
+        }
+      ],
+      "details": "Final baseline clean Android lint/unit/assemble passed (8 tests); Maven reactor verify passed (14 tests, 1 environment-conditional skip); Web typecheck/tests/build passed."
+    },
+    {
+      "test_id": "TST-GATE-ANDROID-BUILD",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-GATE-ANDROID-BUILD required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-engineering-builds/android-api-model-tests.xml",
+          "sha256": "1efc28da9fad61b42588d8ea83fe342d111a8963508a3b7f8a9a14c29dae2d88"
+        },
+        {
+          "path": "p00-engineering-builds/android-request-id-tests.xml",
+          "sha256": "fa70491c9ac1cef731c9ff5c845d35632c76c7136b40a62a436112092ba7754f"
+        },
+        {
+          "path": "p00-engineering-builds/android-version-tests.xml",
+          "sha256": "a28088fe236bc10f6be9ee5a371fecf142d3151272738515ddba907f8ce02cb2"
+        },
+        {
+          "path": "p00-engineering-builds/backend-verify.log",
+          "sha256": "107ac93dcf884bd920074a51ba26922d7e5d343dc40f755cf12378ffa55c4368"
+        },
+        {
+          "path": "p00-engineering-builds/web-verify.log",
+          "sha256": "dc0872e77d1e069ea2db965cbde4ec5a1ce50a837120cb20d5142eb01a633f42"
+        }
+      ],
+      "details": "Final baseline clean Android lint/unit/assemble passed (8 tests); Maven reactor verify passed (14 tests, 1 environment-conditional skip); Web typecheck/tests/build passed."
+    },
+    {
+      "test_id": "TST-GATE-BACKEND-BUILD",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-GATE-BACKEND-BUILD required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-engineering-builds/android-api-model-tests.xml",
+          "sha256": "1efc28da9fad61b42588d8ea83fe342d111a8963508a3b7f8a9a14c29dae2d88"
+        },
+        {
+          "path": "p00-engineering-builds/android-request-id-tests.xml",
+          "sha256": "fa70491c9ac1cef731c9ff5c845d35632c76c7136b40a62a436112092ba7754f"
+        },
+        {
+          "path": "p00-engineering-builds/android-version-tests.xml",
+          "sha256": "a28088fe236bc10f6be9ee5a371fecf142d3151272738515ddba907f8ce02cb2"
+        },
+        {
+          "path": "p00-engineering-builds/backend-verify.log",
+          "sha256": "107ac93dcf884bd920074a51ba26922d7e5d343dc40f755cf12378ffa55c4368"
+        },
+        {
+          "path": "p00-engineering-builds/web-verify.log",
+          "sha256": "dc0872e77d1e069ea2db965cbde4ec5a1ce50a837120cb20d5142eb01a633f42"
+        }
+      ],
+      "details": "Final baseline clean Android lint/unit/assemble passed (8 tests); Maven reactor verify passed (14 tests, 1 environment-conditional skip); Web typecheck/tests/build passed."
+    },
+    {
+      "test_id": "TST-GATE-WEB-BUILD",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-GATE-WEB-BUILD required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-engineering-builds/android-api-model-tests.xml",
+          "sha256": "1efc28da9fad61b42588d8ea83fe342d111a8963508a3b7f8a9a14c29dae2d88"
+        },
+        {
+          "path": "p00-engineering-builds/android-request-id-tests.xml",
+          "sha256": "fa70491c9ac1cef731c9ff5c845d35632c76c7136b40a62a436112092ba7754f"
+        },
+        {
+          "path": "p00-engineering-builds/android-version-tests.xml",
+          "sha256": "a28088fe236bc10f6be9ee5a371fecf142d3151272738515ddba907f8ce02cb2"
+        },
+        {
+          "path": "p00-engineering-builds/backend-verify.log",
+          "sha256": "107ac93dcf884bd920074a51ba26922d7e5d343dc40f755cf12378ffa55c4368"
+        },
+        {
+          "path": "p00-engineering-builds/web-verify.log",
+          "sha256": "dc0872e77d1e069ea2db965cbde4ec5a1ce50a837120cb20d5142eb01a633f42"
+        }
+      ],
+      "details": "Final baseline clean Android lint/unit/assemble passed (8 tests); Maven reactor verify passed (14 tests, 1 environment-conditional skip); Web typecheck/tests/build passed."
+    }
+  ]
+}

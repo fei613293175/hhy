@@ -1,0 +1,91 @@
+{
+  "schema": "hhy.p00.test-evidence/v1",
+  "report_id": "p00-apk-validation-fcb95056-20260717",
+  "suite": "p00-apk-validation",
+  "producer": "codex-p00-validation",
+  "generated_at": "2026-07-17T05:13:28.187506Z",
+  "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+  "command": [
+    "gradlew",
+    "clean",
+    "lintDebug",
+    "testDebugUnitTest",
+    "assembleDebug",
+    "&&",
+    "apksigner",
+    "verify",
+    "&&",
+    "project-owner",
+    "physical-device-install-and-launch"
+  ],
+  "environment": {
+    "release": "P00",
+    "baseline": "fcb95056",
+    "target": "local-obx-test-and-owner-device"
+  },
+  "results": [
+    {
+      "test_id": "TST-APK_001-HAPPY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-APK_001-HAPPY required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-apk-validation/hhy-p00-fcb95056-debug.apk",
+          "sha256": "d538a751bff84909a382ccefa7972852ad0695b1ead28116f5baafbca8b5d5b9"
+        }
+      ],
+      "details": "Final-source APK clean build, lint, unit tests, v2 signature, SHA256 and repeated copies matched; project owner explicitly confirmed physical-device installation and launch were normal. The tested c9fae544 package and final fcb95056 package are byte-identical with the same SHA256."
+    },
+    {
+      "test_id": "TST-APK_001-IDEMPOTENT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-APK_001-IDEMPOTENT required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-apk-validation/hhy-p00-fcb95056-debug.apk",
+          "sha256": "d538a751bff84909a382ccefa7972852ad0695b1ead28116f5baafbca8b5d5b9"
+        }
+      ],
+      "details": "Final-source APK clean build, lint, unit tests, v2 signature, SHA256 and repeated copies matched; project owner explicitly confirmed physical-device installation and launch were normal. The tested c9fae544 package and final fcb95056 package are byte-identical with the same SHA256."
+    },
+    {
+      "test_id": "TST-APK_001-REJECT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-APK_001-REJECT required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-apk-validation/hhy-p00-fcb95056-debug.apk",
+          "sha256": "d538a751bff84909a382ccefa7972852ad0695b1ead28116f5baafbca8b5d5b9"
+        }
+      ],
+      "details": "Final-source APK clean build, lint, unit tests, v2 signature, SHA256 and repeated copies matched; project owner explicitly confirmed physical-device installation and launch were normal. The tested c9fae544 package and final fcb95056 package are byte-identical with the same SHA256."
+    }
+  ]
+}

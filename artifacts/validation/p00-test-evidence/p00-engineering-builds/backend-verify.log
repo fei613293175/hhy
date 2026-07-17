@@ -1,0 +1,339 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] HHY Backend                                                        [pom]
+[INFO] hhy-shared-kernel                                                  [jar]
+[INFO] hhy-access                                                         [jar]
+[INFO] hhy-content                                                        [jar]
+[INFO] hhy-commerce                                                       [jar]
+[INFO] hhy-incentive                                                      [jar]
+[INFO] hhy-platform                                                       [jar]
+[INFO] hhy-boot                                                           [jar]
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-backend-parent >------------------
+[INFO] Building HHY Backend 1.2.2-SNAPSHOT                                [1/8]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-backend-parent ---
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-shared-kernel >-------------------
+[INFO] Building hhy-shared-kernel 1.2.2-SNAPSHOT                          [2/8]
+[INFO]   from shared-kernel/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-shared-kernel ---
+[INFO] Deleting /src/services/backend/shared-kernel/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /src/services/backend/shared-kernel/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-shared-kernel ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 6 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /src/services/backend/shared-kernel/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-shared-kernel ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-shared-kernel ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-shared-kernel ---
+[INFO] Building jar: /src/services/backend/shared-kernel/target/hhy-shared-kernel-1.2.2-SNAPSHOT.jar
+[INFO] 
+[INFO] ----------------------< cc.orbexa.hhy:hhy-access >----------------------
+[INFO] Building hhy-access 1.2.2-SNAPSHOT                                 [3/8]
+[INFO]   from access/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-access ---
+[INFO] Deleting /src/services/backend/access/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory /src/services/backend/access/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-access ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory /src/services/backend/access/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-access ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-access ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-access ---
+[INFO] Building jar: /src/services/backend/access/target/hhy-access-1.2.2-SNAPSHOT.jar
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-content >----------------------
+[INFO] Building hhy-content 1.2.2-SNAPSHOT                                [4/8]
+[INFO]   from content/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-content ---
+[INFO] Deleting /src/services/backend/content/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory /src/services/backend/content/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-content ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory /src/services/backend/content/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-content ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-content ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-content ---
+[INFO] Building jar: /src/services/backend/content/target/hhy-content-1.2.2-SNAPSHOT.jar
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-commerce >---------------------
+[INFO] Building hhy-commerce 1.2.2-SNAPSHOT                               [5/8]
+[INFO]   from commerce/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-commerce ---
+[INFO] Deleting /src/services/backend/commerce/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory /src/services/backend/commerce/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-commerce ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory /src/services/backend/commerce/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-commerce ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-commerce ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-commerce ---
+[INFO] Building jar: /src/services/backend/commerce/target/hhy-commerce-1.2.2-SNAPSHOT.jar
+[INFO] 
+[INFO] --------------------< cc.orbexa.hhy:hhy-incentive >---------------------
+[INFO] Building hhy-incentive 1.2.2-SNAPSHOT                              [6/8]
+[INFO]   from incentive/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-incentive ---
+[INFO] Deleting /src/services/backend/incentive/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory /src/services/backend/incentive/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-incentive ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory /src/services/backend/incentive/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-incentive ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-incentive ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-incentive ---
+[INFO] Building jar: /src/services/backend/incentive/target/hhy-incentive-1.2.2-SNAPSHOT.jar
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-platform >---------------------
+[INFO] Building hhy-platform 1.2.2-SNAPSHOT                               [7/8]
+[INFO]   from platform/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-platform ---
+[INFO] Deleting /src/services/backend/platform/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory /src/services/backend/platform/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-platform ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 12 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory /src/services/backend/platform/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-platform ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-platform ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-platform ---
+[INFO] Building jar: /src/services/backend/platform/target/hhy-platform-1.2.2-SNAPSHOT.jar
+[INFO] 
+[INFO] -----------------------< cc.orbexa.hhy:hhy-boot >-----------------------
+[INFO] Building hhy-boot 1.2.2-SNAPSHOT                                   [8/8]
+[INFO]   from boot/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.2.0:clean (default-clean) @ hhy-boot ---
+[INFO] Deleting /src/services/backend/boot/target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-boot ---
+[INFO] Copying 16 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-boot ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 6 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-boot ---
+[INFO] Copying 3 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-boot ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 5 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-boot ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running cc.orbexa.hhy.ModuleBoundaryTest
+01:22:56.747 [main] INFO com.tngtech.archunit.core.PluginLoader -- Detected Java version 21.0.9
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.398 s -- in cc.orbexa.hhy.ModuleBoundaryTest
+[INFO] Running cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest
+01:23:03.374 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest]: ObservabilityEndpointsTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+01:23:03.556 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest
+01:23:03.700 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest]: ObservabilityEndpointsTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+01:23:03.705 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest
+{"@timestamp":"2026-07-17T01:23:04.331583127Z","@version":"1","message":"Starting ObservabilityEndpointsTest using Java 21.0.9 with PID 107 (started by root in /src/services/backend/boot)","logger_name":"cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T01:23:04.341104797Z","@version":"1","message":"The following 1 profile is active: \"test\"","logger_name":"cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T01:23:05.829400113Z","@version":"1","message":"HikariPool-1 - Starting...","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:06.067892395Z","@version":"1","message":"HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:hhy user=SA","logger_name":"com.zaxxer.hikari.pool.HikariPool","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:06.070695132Z","@version":"1","message":"HikariPool-1 - Start completed.","logger_name":"com.zaxxer.hikari.HikariDataSource","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:07.031460924Z","@version":"1","message":"Exposing 3 endpoints beneath base path '/actuator'","logger_name":"org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T01:23:07.33271399Z","@version":"1","message":"Initializing Spring TestDispatcherServlet ''","logger_name":"org.springframework.boot.test.mock.web.SpringBootMockServletContext","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T01:23:07.33334661Z","@version":"1","message":"Initializing Servlet ''","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T01:23:07.337284787Z","@version":"1","message":"Completed initialization in 4 ms","logger_name":"org.springframework.test.web.servlet.TestDispatcherServlet","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T01:23:07.532599958Z","@version":"1","message":"Started ObservabilityEndpointsTest in 3.75 seconds (process running for 12.325)","logger_name":"cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/root/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.10/byte-buddy-agent-1.18.10.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+{"@timestamp":"2026-07-17T01:23:08.869027372Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"0123456789abcdef0123456789abcdef","requestId":"request_observe_001","operation":"GET /public-api/v1/platform/status","status":200,"latency":190}
+{"@timestamp":"2026-07-17T01:23:09.184615797Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"bdfb806dd4ec4c398be84abd7af79580","requestId":"cb9f29c9-f146-48b0-aa24-3ad1667b9785","operation":"GET /actuator/health","status":200,"latency":75}
+{"@timestamp":"2026-07-17T01:23:09.357846655Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"2cad0febadac457db9d5d4811ac8972c","requestId":"3450c763-f143-4c9e-8c30-dca914ad917a","operation":"GET /actuator/prometheus","status":200,"latency":115}
+{"@timestamp":"2026-07-17T01:23:09.389429003Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"9c76c4c6ef574c79b6f440fd7e49dd98","requestId":"50e9ae05-9972-40a6-8e46-1d0814e8d7f6","operation":"GET /actuator","status":200,"latency":14}
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.266 s -- in cc.orbexa.hhy.boot.observability.ObservabilityEndpointsTest
+[INFO] Running cc.orbexa.hhy.boot.observability.BusinessGaugeBinderTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.055 s -- in cc.orbexa.hhy.boot.observability.BusinessGaugeBinderTest
+[INFO] Running cc.orbexa.hhy.P00FlywayMigrationTest
+{"@timestamp":"2026-07-17T01:23:10.297886282Z","@version":"1","message":"Database: jdbc:postgresql://127.0.0.1:5432/hhy_p00 (PostgreSQL 17.10)","logger_name":"org.flywaydb.core.FlywayExecutor","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:10.419632793Z","@version":"1","message":"Schema history table \"public\".\"flyway_schema_history\" does not exist yet","logger_name":"org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:10.426375522Z","@version":"1","message":"Successfully validated 11 migrations (execution time 00:00.048s)","logger_name":"org.flywaydb.core.internal.command.DbValidate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:10.452983685Z","@version":"1","message":"Creating Schema History table \"public\".\"flyway_schema_history\" ...","logger_name":"org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:10.532556136Z","@version":"1","message":"Current version of schema \"public\": << Empty Schema >>","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:10.549470659Z","@version":"1","message":"Migrating schema \"public\" to version \"001 - extensions and schema\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:10.68924185Z","@version":"1","message":"Migrating schema \"public\" to version \"002 - access admin and platform\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:10.961400148Z","@version":"1","message":"Migrating schema \"public\" to version \"003 - content identity and communication\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:11.239940568Z","@version":"1","message":"Migrating schema \"public\" to version \"004 - commerce redpacket and finance\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:11.39724044Z","@version":"1","message":"Migrating schema \"public\" to version \"005 - growth operations and delivery\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:11.67537469Z","@version":"1","message":"Migrating schema \"public\" to version \"006 - constraints indexes and triggers\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.472198019Z","@version":"1","message":"Migrating schema \"public\" to version \"007 - state money and accounting invariants\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.53170282Z","@version":"1","message":"Migrating schema \"public\" to version \"008 - baseline rbac and feature flags\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.572257804Z","@version":"1","message":"Migrating schema \"public\" to version \"009 - v122 operational governance\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.589534064Z","@version":"1","message":"DB: trigger \"trg_admin_sessions_updated_at\" for relation \"hhy.admin_sessions\" does not exist, skipping","logger_name":"org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.599002022Z","@version":"1","message":"DB: trigger \"trg_admin_mfa_methods_updated_at\" for relation \"hhy.admin_mfa_methods\" does not exist, skipping","logger_name":"org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.628287627Z","@version":"1","message":"DB: trigger \"trg_accounting_reversal_requests_updated_at\" for relation \"hhy.accounting_reversal_requests\" does not exist, skipping","logger_name":"org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.660894565Z","@version":"1","message":"DB: trigger \"trg_export_jobs_updated_at\" for relation \"hhy.export_jobs\" does not exist, skipping","logger_name":"org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.691745351Z","@version":"1","message":"Successfully applied 9 migrations to schema \"public\", now at version v009 (execution time 00:01.587s)","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.741350787Z","@version":"1","message":"Database: jdbc:postgresql://127.0.0.1:5432/hhy_p00 (PostgreSQL 17.10)","logger_name":"org.flywaydb.core.FlywayExecutor","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.78272754Z","@version":"1","message":"Successfully validated 11 migrations (execution time 00:00.027s)","logger_name":"org.flywaydb.core.internal.command.DbValidate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.805292929Z","@version":"1","message":"Current version of schema \"public\": 009","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.831411444Z","@version":"1","message":"Migrating schema \"public\" to version \"010 - p00 event ledger invariants\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.948774474Z","@version":"1","message":"Migrating schema \"public\" to version \"011 - app release version policy\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:12.997410316Z","@version":"1","message":"Successfully applied 2 migrations to schema \"public\", now at version v011 (execution time 00:00.133s)","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:13.054607334Z","@version":"1","message":"Database: jdbc:postgresql://127.0.0.1:5432/hhy_p00 (PostgreSQL 17.10)","logger_name":"org.flywaydb.core.FlywayExecutor","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:13.090664352Z","@version":"1","message":"Successfully validated 11 migrations (execution time 00:00.018s)","logger_name":"org.flywaydb.core.internal.command.DbValidate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:13.106052592Z","@version":"1","message":"Current version of schema \"public\": 011","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:13.107612743Z","@version":"1","message":"Schema \"public\" is up to date. No migration necessary.","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:13.615591303Z","@version":"1","message":"Database: jdbc:postgresql://127.0.0.1:5432/hhy_p00 (PostgreSQL 17.10)","logger_name":"org.flywaydb.core.FlywayExecutor","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:13.646853597Z","@version":"1","message":"Schema history table \"public\".\"flyway_schema_history\" does not exist yet","logger_name":"org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:13.648196598Z","@version":"1","message":"Successfully validated 11 migrations (execution time 00:00.015s)","logger_name":"org.flywaydb.core.internal.command.DbValidate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:13.66112365Z","@version":"1","message":"Creating Schema History table \"public\".\"flyway_schema_history\" ...","logger_name":"org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:13.688771319Z","@version":"1","message":"Current version of schema \"public\": << Empty Schema >>","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:13.693441866Z","@version":"1","message":"Migrating schema \"public\" to version \"001 - extensions and schema\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:13.7459436Z","@version":"1","message":"Migrating schema \"public\" to version \"002 - access admin and platform\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:13.924661761Z","@version":"1","message":"Migrating schema \"public\" to version \"003 - content identity and communication\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:14.093878018Z","@version":"1","message":"Migrating schema \"public\" to version \"004 - commerce redpacket and finance\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:14.224374308Z","@version":"1","message":"Migrating schema \"public\" to version \"005 - growth operations and delivery\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:14.491933289Z","@version":"1","message":"Migrating schema \"public\" to version \"006 - constraints indexes and triggers\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:15.350192324Z","@version":"1","message":"Migrating schema \"public\" to version \"007 - state money and accounting invariants\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:15.408469185Z","@version":"1","message":"Migrating schema \"public\" to version \"008 - baseline rbac and feature flags\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:15.453046061Z","@version":"1","message":"Migrating schema \"public\" to version \"009 - v122 operational governance\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:15.467270924Z","@version":"1","message":"DB: trigger \"trg_admin_sessions_updated_at\" for relation \"hhy.admin_sessions\" does not exist, skipping","logger_name":"org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:15.475397858Z","@version":"1","message":"DB: trigger \"trg_admin_mfa_methods_updated_at\" for relation \"hhy.admin_mfa_methods\" does not exist, skipping","logger_name":"org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:15.504298278Z","@version":"1","message":"DB: trigger \"trg_accounting_reversal_requests_updated_at\" for relation \"hhy.accounting_reversal_requests\" does not exist, skipping","logger_name":"org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:15.55994964Z","@version":"1","message":"DB: trigger \"trg_export_jobs_updated_at\" for relation \"hhy.export_jobs\" does not exist, skipping","logger_name":"org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:15.617711069Z","@version":"1","message":"Migrating schema \"public\" to version \"010 - p00 event ledger invariants\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:15.711227071Z","@version":"1","message":"Migrating schema \"public\" to version \"011 - app release version policy\"","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+{"@timestamp":"2026-07-17T01:23:15.748711306Z","@version":"1","message":"Successfully applied 11 migrations to schema \"public\", now at version v011 (execution time 00:01.679s)","logger_name":"org.flywaydb.core.internal.command.DbMigrate","thread_name":"main","level":"INFO","level_value":20000}
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.430 s -- in cc.orbexa.hhy.P00FlywayMigrationTest
+[INFO] Running cc.orbexa.hhy.PublicEndpointsTest
+{"@timestamp":"2026-07-17T01:23:15.902345814Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.PublicEndpointsTest]: PublicEndpointsTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T01:23:15.923140279Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.PublicEndpointsTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T01:23:15.925347485Z","@version":"1","message":"Could not detect default configuration classes for test class [cc.orbexa.hhy.PublicEndpointsTest]: PublicEndpointsTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.","logger_name":"org.springframework.test.context.support.AnnotationConfigContextLoaderUtils","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T01:23:15.928299332Z","@version":"1","message":"Found @SpringBootConfiguration cc.orbexa.hhy.HhyApplication for test class cc.orbexa.hhy.PublicEndpointsTest","logger_name":"org.springframework.boot.test.context.SpringBootTestContextBootstrapper","thread_name":"main","level":"INFO","level_value":20000,"tags":["COMMONS-LOGGING"]}
+{"@timestamp":"2026-07-17T01:23:15.949855141Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"6f2c4164d5534eca9d5d391a8ca49506","requestId":"request_status_001","operation":"GET /public-api/v1/platform/status","status":200,"latency":6}
+{"@timestamp":"2026-07-17T01:23:16.106376368Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"c15a38f96e3f4570a30d997ad109b213","requestId":"27636dd8-482d-4f94-b09e-faada16c4b7c","operation":"GET /api/v1/app/version-check","status":200,"latency":142}
+{"@timestamp":"2026-07-17T01:23:16.118530101Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"db3ee41dfc1e46b9b49de194340988a5","requestId":"49955a68-4a1a-4e98-81c3-2cf62840912b","operation":"GET /api/v1/app/version-check","status":200,"latency":7}
+{"@timestamp":"2026-07-17T01:23:16.143435117Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"cf8836e749d648aeb044973e0e1b0719","requestId":"request_auth_001","operation":"GET UNMAPPED","status":401,"latency":11}
+{"@timestamp":"2026-07-17T01:23:16.221574565Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"07b98d2394ea4928ae015cefdf0d37f1","requestId":"6ee8b4e7-ecf1-4816-8fac-8c0befc57f64","operation":"POST /public-api/v1/app/version-check","status":404,"latency":69}
+{"@timestamp":"2026-07-17T01:23:16.236606929Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"d592f05bdc054c3899d519c3ab4ff64d","requestId":"4929c64c-434d-439c-8d3c-c9c9ec14a17b","operation":"POST /public-api/v1/app/version-check","status":200,"latency":6}
+{"@timestamp":"2026-07-17T01:23:16.25212384Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"08637934baf149ce85d376225412fea5","requestId":"b70f5f0e-6df4-42bc-91d6-af1eb6ad5799","operation":"POST /public-api/v1/app/version-check","status":400,"latency":6}
+{"@timestamp":"2026-07-17T01:23:16.275312351Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"ccaad00018af447a8c01514f5bf01e34","requestId":"5637dbd5-6f84-4682-83ba-cabec70ebb06","operation":"POST /public-api/v1/app/version-check","status":400,"latency":21}
+{"@timestamp":"2026-07-17T01:23:16.312434977Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"57c92ea6a3df4102a88a29b29490985a","requestId":"9d3045f4-baf9-44d9-a2fc-5bcacd459af9","operation":"GET /api/v1/app/version-check","status":400,"latency":34}
+{"@timestamp":"2026-07-17T01:23:16.330443596Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"01baf5a183654cad96bef3614d6cc701","requestId":"ce753fb4-1aee-4f0e-93ef-238c4ee40ef5","operation":"POST /public-api/v1/app/version-check","status":200,"latency":6}
+{"@timestamp":"2026-07-17T01:23:16.337646834Z","@version":"1","message":"http_request_completed","logger_name":"cc.orbexa.hhy.boot.web.RequestIdFilter","thread_name":"main","level":"INFO","level_value":20000,"traceId":"2314b1b1bbc74c0e921ff9e4b0ef675f","requestId":"2a44de8e-b00f-4d83-aec2-a496739cb8d8","operation":"POST /public-api/v1/app/version-check","status":200,"latency":5}
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.448 s -- in cc.orbexa.hhy.PublicEndpointsTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.1:jar (default-jar) @ hhy-boot ---
+[INFO] Building jar: /src/services/backend/boot/target/hhy-backend.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.0:repackage (default) @ hhy-boot ---
+[INFO] Replacing main artifact /src/services/backend/boot/target/hhy-backend.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /src/services/backend/boot/target/hhy-backend.jar.original
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for HHY Backend 1.2.2-SNAPSHOT:
+[INFO] 
+[INFO] HHY Backend ........................................ SUCCESS [  1.739 s]
+[INFO] hhy-shared-kernel .................................. SUCCESS [ 12.310 s]
+[INFO] hhy-access ......................................... SUCCESS [  0.243 s]
+[INFO] hhy-content ........................................ SUCCESS [  0.139 s]
+[INFO] hhy-commerce ....................................... SUCCESS [  0.159 s]
+[INFO] hhy-incentive ...................................... SUCCESS [  0.141 s]
+[INFO] hhy-platform ....................................... SUCCESS [  0.556 s]
+[INFO] hhy-boot ........................................... SUCCESS [ 34.326 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  50.072 s
+[INFO] Finished at: 2026-07-17T01:23:27Z
+[INFO] ------------------------------------------------------------------------

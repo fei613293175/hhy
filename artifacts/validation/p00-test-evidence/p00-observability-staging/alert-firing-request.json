@@ -1,0 +1,15 @@
+[
+  {
+    "labels": {
+      "alertname": "HhyBackendDown",
+      "release": "P00",
+      "severity": "critical",
+      "drill": "c9fae544-evidence"
+    },
+    "annotations": {
+      "summary": "P00 evidence delivery drill"
+    },
+    "startsAt": "2026-07-17T12:30:00Z",
+    "endsAt": "2026-07-17T14:00:00Z"
+  }
+]

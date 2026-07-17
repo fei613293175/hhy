@@ -1,0 +1,105 @@
+{
+  "schema": "hhy.p00.test-evidence/v1",
+  "report_id": "p00-architecture-fcb95056-20260717",
+  "suite": "p00-architecture",
+  "producer": "codex-p00-validation",
+  "generated_at": "2026-07-17T05:13:28.187506Z",
+  "source_commit": "fcb95056b606dfe6e8d0623e83a0526df80bf43e",
+  "command": [
+    "services/backend/mvnw.cmd",
+    "-B",
+    "-ntp",
+    "verify"
+  ],
+  "environment": {
+    "release": "P00",
+    "baseline": "fcb95056",
+    "target": "local-obx-test-and-owner-device"
+  },
+  "results": [
+    {
+      "test_id": "TST-ARCH_001-HAPPY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-ARCH_001-HAPPY required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-architecture/module-boundary.xml",
+          "sha256": "5c3863bc85cbb92a4e9d5bba53482e7d3bb7a3314009f76c20af65b47f7556f2"
+        }
+      ],
+      "details": "ArchUnit module-boundary suite executed two tests with zero failures and zero errors on the final source baseline."
+    },
+    {
+      "test_id": "TST-ARCH_001-IDEMPOTENT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-ARCH_001-IDEMPOTENT required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-architecture/module-boundary.xml",
+          "sha256": "5c3863bc85cbb92a4e9d5bba53482e7d3bb7a3314009f76c20af65b47f7556f2"
+        }
+      ],
+      "details": "ArchUnit module-boundary suite executed two tests with zero failures and zero errors on the final source baseline."
+    },
+    {
+      "test_id": "TST-ARCH_001-REJECT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-ARCH_001-REJECT required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-architecture/module-boundary.xml",
+          "sha256": "5c3863bc85cbb92a4e9d5bba53482e7d3bb7a3314009f76c20af65b47f7556f2"
+        }
+      ],
+      "details": "ArchUnit module-boundary suite executed two tests with zero failures and zero errors on the final source baseline."
+    },
+    {
+      "test_id": "TST-GATE-MODULE-BOUNDARY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-17T04:20:00Z",
+      "finished_at": "2026-07-17T04:50:00Z",
+      "assertions": [
+        {
+          "name": "TST-GATE-MODULE-BOUNDARY required behavior and rejection path verified",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "p00-architecture/module-boundary.xml",
+          "sha256": "5c3863bc85cbb92a4e9d5bba53482e7d3bb7a3314009f76c20af65b47f7556f2"
+        }
+      ],
+      "details": "ArchUnit module-boundary suite executed two tests with zero failures and zero errors on the final source baseline."
+    }
+  ]
+}

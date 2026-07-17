@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="cc.orbexa.hhy.network.RequestIdPolicyTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-07-17T01:03:19.073Z" hostname="宝宝" time="0.004">
+  <properties/>
+  <testcase name="rejectsUnsafeOrShortIdentifiers" classname="cc.orbexa.hhy.network.RequestIdPolicyTest" time="0.004"/>
+  <testcase name="acceptsStableIdentifiers" classname="cc.orbexa.hhy.network.RequestIdPolicyTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

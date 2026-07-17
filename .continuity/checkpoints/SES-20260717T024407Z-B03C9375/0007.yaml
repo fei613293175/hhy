@@ -1,0 +1,205 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T024407Z-B03C9375-0007
+session_id: SES-20260717T024407Z-B03C9375
+sequence: 7
+created_at: '2026-07-17T05:30:23Z'
+summary: P00精确59项测试矩阵及10套测试、构建、暂存和故障注入证据已完成并归档
+next_step: 提交测试证据并关闭TASK-P00-005
+blockers: []
+decisions:
+- APK清单按任务边界延后至TASK-P00-007单独提交
+note: ''
+tests:
+- name: P00-59-test-matrix
+  result: PASS
+  evidence: artifacts/validation/p00-test-matrix.json
+  note: 59/59通过，0失败或缺失
+- name: P00-staging-observability
+  result: PASS
+  evidence: artifacts/validation/p00-test-evidence/p00-observability-staging/p00-observability-staging.evidence.json
+  note: 健康、指标、告警、回滚和数据库保持验证通过
+git:
+  initialized: true
+  branch: task/TASK-P00-005
+  head: fcb95056b606dfe6e8d0623e83a0526df80bf43e
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260717T024407Z-B03C9375.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - A  artifacts/validation/p00-test-evidence/p00-admin-integration/admin-dist-index.html
+  - A  artifacts/validation/p00-test-evidence/p00-admin-integration/p00-admin-integration.evidence.json
+  - A  artifacts/validation/p00-test-evidence/p00-admin-integration/web-verify.log
+  - A  artifacts/validation/p00-test-evidence/p00-apk-validation/p00-apk-validation.evidence.json
+  - A  artifacts/validation/p00-test-evidence/p00-architecture/module-boundary.xml
+  - A  artifacts/validation/p00-test-evidence/p00-architecture/p00-architecture.evidence.json
+  - A  artifacts/validation/p00-test-evidence/p00-database-invariants/p00-database-invariants.evidence.json
+  - A  artifacts/validation/p00-test-evidence/p00-database-invariants/postgresql-17.10.json
+  - A  artifacts/validation/p00-test-evidence/p00-database-invariants/postgresql-17.10.log
+  - A  artifacts/validation/p00-test-evidence/p00-database-invariants/v011-rollback.log
+  - A  artifacts/validation/p00-test-evidence/p00-engineering-builds/admin-dist-index.html
+  - A  artifacts/validation/p00-test-evidence/p00-engineering-builds/android-api-model-tests.xml
+  - A  artifacts/validation/p00-test-evidence/p00-engineering-builds/android-request-id-tests.xml
+  - A  artifacts/validation/p00-test-evidence/p00-engineering-builds/android-version-tests.xml
+  - A  artifacts/validation/p00-test-evidence/p00-engineering-builds/backend-verify.log
+  - A  artifacts/validation/p00-test-evidence/p00-engineering-builds/h5-dist-index.html
+  - A  artifacts/validation/p00-test-evidence/p00-engineering-builds/p00-engineering-builds.evidence.json
+  - A  artifacts/validation/p00-test-evidence/p00-engineering-builds/web-verify.log
+  - A  artifacts/validation/p00-test-evidence/p00-ledger-invariants/ledger-postgresql.log
+  - A  artifacts/validation/p00-test-evidence/p00-ledger-invariants/p00-ledger-invariants.evidence.json
+  - A  artifacts/validation/p00-test-evidence/p00-observability-staging/alert-deliveries.jsonl
+  - A  artifacts/validation/p00-test-evidence/p00-observability-staging/alert-firing-request.json
+  - A  artifacts/validation/p00-test-evidence/p00-observability-staging/alert-resolved-request.json
+  - A  artifacts/validation/p00-test-evidence/p00-observability-staging/backend-rollback.log
+  - A  artifacts/validation/p00-test-evidence/p00-observability-staging/p00-observability-staging.evidence.json
+  - A  artifacts/validation/p00-test-evidence/p00-observability-staging/staging-observability.log
+  - A  artifacts/validation/p00-test-evidence/p00-outbox-invariants/outbox-postgresql.log
+  - A  artifacts/validation/p00-test-evidence/p00-outbox-invariants/p00-outbox-invariants.evidence.json
+  - A  artifacts/validation/p00-test-evidence/p00-secret-security/p00-secret-security.evidence.json
+  - A  artifacts/validation/p00-test-evidence/p00-secret-security/secret-defaults.log
+  - A  artifacts/validation/p00-test-evidence/p00-ui-integration/android-api-models.xml
+  - A  artifacts/validation/p00-test-evidence/p00-ui-integration/android-request-id.xml
+  - A  artifacts/validation/p00-test-evidence/p00-ui-integration/p00-ui-integration.evidence.json
+  - A  artifacts/validation/p00-test-evidence/p00-ui-integration/public-endpoints.xml
+  - A  artifacts/validation/p00-test-matrix.json
+  recent_commits:
+  - "fcb95056b606dfe6e8d0623e83a0526df80bf43e\t2026-07-17T13:09:24+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close lifecycle\
+    \ fixture repair"
+  - "192647bcdc3df7edcf02091b12d2fde666a71063\t2026-07-17T13:08:22+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(continuity): reset lifecycle\
+    \ fixtures to P00 start"
+  - "c9fae5441975917315950111337adce5d3ef2dd8\t2026-07-17T12:20:15+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close owner\
+    \ APK acceptance change"
+  - "f34af6aea974018ce45f54055c8bf3b0e6e24726\t2026-07-17T12:19:22+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] docs(android): require owner\
+    \ physical APK acceptance"
+  - "11f14e1e2d178172dea5f63d78084b29dd88d0ef\t2026-07-17T11:19:08+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(staging): record Flyway\
+    \ empty-database verification"
+  - "7e6bfd70c9f4127f2778b1423d03ed619bcab25b\t2026-07-17T11:15:08+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] fix(staging): restore Boot\
+    \ 4 Flyway startup migration"
+  - "34580dcf7e06934e635ba07d059cafc629956e3c\t2026-07-17T10:43:27+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-004\
+    \ as completed"
+  - "125d3dbf304210153e8d8b649c7d59182438c4d1\t2026-07-17T10:42:04+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): verify generated\
+    \ client contract bindings"
+project_fingerprint:
+  sha256: bafd6eeb38036660762772fbe6a51ae79689f3719a5b8e162919cdf654b10d0d
+  files:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
+  - docs/03-continuity/change-requests/CR-0008-每版本Android-APK由项目所有者真机验收.md
+  - docs/03-continuity/change-requests/CR-0009-修复P00连续性测试夹具随当前NEXT_TASK漂移.md
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - releases/P00/TASKS.yaml
+  - scripts/test_continuity_protocol.py
+  - services/backend/boot/pom.xml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+  - tests/test_continuity_bootstrap_recovery.py
+  file_count: 10
+  payload:
+    base_commit: 34580dcf7e06934e635ba07d059cafc629956e3c
+    files:
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 4168
+      sha256: 995159654d81a16927c34dd10a0c1f444c08626210f901112e82d8f2684dbf97
+    - path: docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
+      state: FILE
+      size: 2352
+      sha256: e0a775c2d0aac2c87befa19c89127b9195284243eb954f609d60e128bd3b045d
+    - path: docs/03-continuity/change-requests/CR-0008-每版本Android-APK由项目所有者真机验收.md
+      state: FILE
+      size: 3132
+      sha256: 26280297f04a819006df197174a471425cb7d63fadb69078f62fce3403a26a4e
+    - path: docs/03-continuity/change-requests/CR-0009-修复P00连续性测试夹具随当前NEXT_TASK漂移.md
+      state: FILE
+      size: 3059
+      sha256: 1cd715de9413b14e61a4c287727e16517ad1de35e8127f3cdab94efcaac0d0f1
+    - path: docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+      state: FILE
+      size: 1216
+      sha256: 0f6172572f9bd97606bfa5e7167f6a87390c123ce1fbac6ca905bc6c1460ec77
+    - path: releases/P00/TASKS.yaml
+      state: FILE
+      size: 6214
+      sha256: 7210cd2760192238b6805c503abf36b948b06ea84663e5aeb0eb875f9a9a86dc
+    - path: scripts/test_continuity_protocol.py
+      state: FILE
+      size: 25133
+      sha256: 3ebbc06cd10c507aea2228b8497ff9198a623c8bc0db0e4b4e7ea1f35f46d628
+    - path: services/backend/boot/pom.xml
+      state: FILE
+      size: 3277
+      sha256: 56599c9774ac406fecabc97926f5475b2db3d744fd983e712cd7795fce6dd18b
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+      state: FILE
+      size: 391
+      sha256: e4dcc4ada753afaf5e1a176ad76d98e15a9ca9dc38d487eda50ea49cef72b281
+    - path: tests/test_continuity_bootstrap_recovery.py
+      state: FILE
+      size: 10934
+      sha256: d5a810392f974673b81384b6102dfcf6d0cf6ede20439acdaddde4d8362c149f
+change_classification:
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
+  - docs/03-continuity/change-requests/CR-0008-每版本Android-APK由项目所有者真机验收.md
+  - docs/03-continuity/change-requests/CR-0009-修复P00连续性测试夹具随当前NEXT_TASK漂移.md
+  other:
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - releases/P00/TASKS.yaml
+  code:
+  - scripts/test_continuity_protocol.py
+  - services/backend/boot/pom.xml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+  tests:
+  - tests/test_continuity_bootstrap_recovery.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0007
+- CR-0008
+- CR-0009
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 537141b7d08ff19f5b4e1e284ce40153893f9808ef90deff519a3bbbb35c0c0a
