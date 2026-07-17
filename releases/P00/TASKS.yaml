@@ -109,7 +109,7 @@ tasks:
   completed_at: '2026-07-17T05:31:12Z'
 - id: TASK-P00-006
   title: 仓库、环境、契约与无状态接续可观测性与预发布验收
-  status: READY
+  status: DONE
   depends_on:
   - TASK-P00-005
   requirements: *id001
@@ -123,9 +123,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-17T05:37:35Z'
 - id: TASK-P00-007
   title: 仓库、环境、契约与无状态接续Android测试APK与产物追溯
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-P00-006
   requirements: *id001
