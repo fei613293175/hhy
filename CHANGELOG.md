@@ -47,3 +47,13 @@
 - 优化 Project Doctor 性能并消除语义误报；
 - 增加 UTF-8 构建环境、PostgreSQL 17.10 CI smoke 和开发风险登记；
 - 复验后端 8 模块/5 测试、Web 类型/测试/构建、8 个数据库迁移及关键会计不变量。
+
+## TASK-P00-001 · COMPLETED · 2026-07-17T02:26:52Z
+
+- Task close: TASK-P00-001 / SES-20260716T232809Z-B4A980AF
+- Release：`P00`
+- Story：`STORY-P00-001`
+- Actor：`codex-root`
+- 摘要：完成P00开发就绪、故事领取、冻结契约纠正、工程基线与无状态接续门禁
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md`
+
