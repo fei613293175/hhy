@@ -1,0 +1,181 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T080633Z-7A2C9226-0003
+session_id: SES-20260717T080633Z-7A2C9226
+sequence: 3
+created_at: '2026-07-17T08:40:26Z'
+summary: CR-0014已绑定实现Commit 7874af5并关闭
+next_step: 提交CR关闭记录后关闭TASK-R01-002并切换TASK-R01-003
+blockers: []
+decisions: []
+note: CR审批与实现Commit闭环
+tests:
+- name: POST_COMMIT_CONTINUITY
+  result: PASS
+  evidence: check_v123_continuity strict PASS
+  note: 实现提交后全量门禁
+- name: DB_SCHEMA
+  result: PASS
+  evidence: 198 tables 12 migrations hashes PASS
+  note: 实现提交后数据库门禁
+git:
+  initialized: true
+  branch: task/TASK-R01-002
+  head: 7874af5075076b7f84b976a3cf16b94f2476a050
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/STATE.yaml
+  - M  .continuity/change_requests/CR-0014.yaml
+  - M  .continuity/sessions/SES-20260717T080633Z-7A2C9226.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+  recent_commits:
+  - "7874af5075076b7f84b976a3cf16b94f2476a050\t2026-07-17T16:38:53+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): harden admin security\
+    \ data invariants"
+  - "fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0\t2026-07-17T16:04:12+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-001\
+    \ as completed"
+  - "2cdba75fa45c01fc33818d12b93c488391344a18\t2026-07-17T16:02:36+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close baseline\
+    \ change requests"
+  - "79dd63915e4554bfd73a84f7e97a465896347176\t2026-07-17T16:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): establish development\
+    \ baseline"
+  - "67f7e4568097660589139fb9ba0baf42c9398dfb\t2026-07-17T13:51:37+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close release\
+    \ and pause"
+  - "4d5e344076898e34f7741e146a6fa21d144caf11\t2026-07-17T13:50:24+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): prepare release\
+    \ closure"
+  - "d9b276872dd7390c2b1a22a0065973e6c314534e\t2026-07-17T13:40:57+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close APK acceptance\
+    \ task"
+  - "752a3a96b9b3c4ecec3492a2fe01b4150a8a3626\t2026-07-17T13:39:51+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): archive APK acceptance\
+    \ manifest"
+project_fingerprint:
+  sha256: a1ebb0f8fe2d61c63e05d6a2860dc4337d86229af7abac089deeccd3c09ad154
+  files:
+  - database/migrations/V012__r01_admin_security_invariants.sql
+  - database/rollback/U012__r01_admin_security_invariants.sql
+  - database/state_machines.yaml
+  - database/tests/r01_admin_security_invariants.sql
+  - database/verification/verify_baseline.sql
+  - docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+  - docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r01_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
+  file_count: 11
+  payload:
+    base_commit: fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0
+    files:
+    - path: database/migrations/V012__r01_admin_security_invariants.sql
+      state: FILE
+      size: 12956
+      sha256: 199ca16e44c1b7d46d8f871bf7695d69cf9804abb87ed020d4ab142b72a90d1c
+    - path: database/rollback/U012__r01_admin_security_invariants.sql
+      state: FILE
+      size: 2507
+      sha256: 03a8d83ec76058d3289fbb7e637713643b21ba75d148e74c524daa93391f786b
+    - path: database/state_machines.yaml
+      state: FILE
+      size: 15521
+      sha256: 0edb5ae98d3961d412326ba1d26d3c622e103f0ca11432965ace353d26c334c4
+    - path: database/tests/r01_admin_security_invariants.sql
+      state: FILE
+      size: 6295
+      sha256: 190b9b6f60e8a6982da1ae68a432118905c7bcf42e638b34fd962c3e52a049b6
+    - path: database/verification/verify_baseline.sql
+      state: FILE
+      size: 4028
+      sha256: 0d31734357f9d8ce5d3ecd65509700f6731292a5cc5b91c60ea5f3c71b029b82
+    - path: docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+      state: FILE
+      size: 2846
+      sha256: 9520e036d988773ffa54451b61b4981c9a031c7f1d04074c734a2f1a59847469
+    - path: docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+      state: FILE
+      size: 4332
+      sha256: e8d5fa82b607f82dca8c2125a06341fb460d2b244aaf10c97ecc0796ff413f12
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 5881
+      sha256: 2fda044a4d6239595b566ce86923a8749bced87e70d4c1857b3b5e3d0db74869
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 4757
+      sha256: 4e6fc215ad00cba95f68b41de305a217f77f379e0ad33af33bb089856acf3e50
+    - path: scripts/run_r01_database_invariants.sh
+      state: FILE
+      size: 11427
+      sha256: 18a004215c1207ab3472e22b3ee4cefdd2019b86213f3ce320174620b0459578
+    - path: services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
+      state: FILE
+      size: 12956
+      sha256: 199ca16e44c1b7d46d8f871bf7695d69cf9804abb87ed020d4ab142b72a90d1c
+change_classification:
+  database:
+  - database/migrations/V012__r01_admin_security_invariants.sql
+  - database/rollback/U012__r01_admin_security_invariants.sql
+  - database/state_machines.yaml
+  - database/tests/r01_admin_security_invariants.sql
+  - database/verification/verify_baseline.sql
+  source_of_truth:
+  - database/state_machines.yaml
+  - docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+  continuity:
+  - docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+  code:
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r01_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0014
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 9b5078b5391c9a35773d9cb7c18b1bddd62d1b50232a21b246f4af4fb71e29a1
