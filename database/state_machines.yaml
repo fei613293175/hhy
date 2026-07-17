@@ -575,3 +575,82 @@ machines:
     side_effects:
     - create_new_session
     idempotency: COMMAND_ID
+- code: ADMIN_SESSION_MFA_LEVEL
+  initial: NONE
+  terminal:
+  - STEP_UP
+  transitions:
+  - from: NONE
+    to: VERIFIED
+    event: VERIFY_MFA
+    actor: ADMIN
+    guard: mfa_challenge_valid and session_not_revoked
+    side_effects:
+    - write_admin_login_log
+    - increment_session_version
+    idempotency: COMMAND_ID
+  - from: NONE
+    to: STEP_UP
+    event: STEP_UP_MFA
+    actor: ADMIN
+    guard: mfa_challenge_valid and session_not_revoked
+    side_effects:
+    - write_admin_login_log
+    - increment_session_version
+    idempotency: COMMAND_ID
+  - from: VERIFIED
+    to: STEP_UP
+    event: STEP_UP_MFA
+    actor: ADMIN
+    guard: mfa_challenge_valid and session_not_revoked
+    side_effects:
+    - write_admin_login_log
+    - increment_session_version
+    idempotency: COMMAND_ID
+- code: ADMIN_MFA_METHOD_STATUS
+  initial: PENDING
+  terminal: []
+  transitions:
+  - from: PENDING
+    to: ACTIVE
+    event: CONFIRM
+    actor: ADMIN
+    guard: totp_code_valid
+    side_effects:
+    - set_confirmed_at
+    - write_admin_operation_log
+    - increment_method_version
+    idempotency: COMMAND_ID
+  - from: PENDING
+    to: DISABLED
+    event: CANCEL_ENROLLMENT
+    actor: ADMIN
+    guard: current_password_valid
+    side_effects:
+    - clear_secret_ref
+    - set_disabled_at
+    - write_admin_operation_log
+    - increment_method_version
+    idempotency: COMMAND_ID
+  - from: ACTIVE
+    to: DISABLED
+    event: DISABLE
+    actor: ADMIN
+    guard: current_password_valid and mfa_code_valid
+    side_effects:
+    - clear_secret_ref
+    - set_disabled_at
+    - write_admin_operation_log
+    - increment_method_version
+    idempotency: COMMAND_ID
+  - from: DISABLED
+    to: PENDING
+    event: REENROLL
+    actor: ADMIN
+    guard: current_password_valid
+    side_effects:
+    - store_new_secret_ref
+    - clear_lifecycle_timestamps
+    - write_admin_operation_log
+    - increment_method_version
+    idempotency: COMMAND_ID

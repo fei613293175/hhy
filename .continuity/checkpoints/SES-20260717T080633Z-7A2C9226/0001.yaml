@@ -1,0 +1,209 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T080633Z-7A2C9226-0001
+session_id: SES-20260717T080633Z-7A2C9226
+sequence: 1
+created_at: '2026-07-17T08:36:24Z'
+summary: TASK-R01-002完成V012管理员认证安全迁移、CR-0014批准实施及真实PostgreSQL17验证
+next_step: 提交TASK-R01-002实现并执行提交后全量门禁，关闭任务进入TASK-R01-003
+blockers: []
+decisions:
+- 保持198表冻结边界；admin_mfa_methods为唯一MFA事实源；会话从NONE起始；所有命令行迁移单事务
+note: 云服务器唯一临时容器和目录验证后已删除；未触碰线上数据库
+tests:
+- name: DB_SCHEMA
+  result: PASS
+  evidence: DB_SCHEMA_OK tables=198 migrations=12 runtime_hashes=PASS
+  note: 本地静态与运行时哈希
+- name: POSTGRESQL17
+  result: PASS
+  evidence: POSTGRESQL_MIGRATION_SMOKE PASS
+  note: 空库升级冲突原子回滚长引用并发P00回归
+- name: R01_DOC_STRICT
+  result: PASS
+  evidence: 0 errors 0 warnings
+  note: R01文档门禁
+- name: CR_REVIEW
+  result: PASS
+  evidence: CR-0014 APPROVED codex-engineering-audit
+  note: 独立复查四项阻断闭环
+git:
+  initialized: true
+  branch: task/TASK-R01-002
+  head: fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M database/state_machines.yaml'
+  - ' M database/verification/verify_baseline.sql'
+  - ' M scripts/check_db_schema.py'
+  - ' M scripts/run_postgres_migration_smoke.sh'
+  - ?? .continuity/change_requests/CR-0014.yaml
+  - ?? .continuity/sessions/SES-20260717T080633Z-7A2C9226.yaml
+  - ?? artifacts/reports/R01/TASK-R01-002-database-invariants.md
+  - ?? database/migrations/V012__r01_admin_security_invariants.sql
+  - ?? database/rollback/U012__r01_admin_security_invariants.sql
+  - ?? database/tests/r01_admin_security_invariants.sql
+  - ?? docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+  - ?? docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T080633Z-7A2C9226.md
+  - ?? scripts/run_r01_database_invariants.sh
+  - ?? services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
+  recent_commits:
+  - "fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0\t2026-07-17T16:04:12+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-001\
+    \ as completed"
+  - "2cdba75fa45c01fc33818d12b93c488391344a18\t2026-07-17T16:02:36+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close baseline\
+    \ change requests"
+  - "79dd63915e4554bfd73a84f7e97a465896347176\t2026-07-17T16:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): establish development\
+    \ baseline"
+  - "67f7e4568097660589139fb9ba0baf42c9398dfb\t2026-07-17T13:51:37+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close release\
+    \ and pause"
+  - "4d5e344076898e34f7741e146a6fa21d144caf11\t2026-07-17T13:50:24+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): prepare release\
+    \ closure"
+  - "d9b276872dd7390c2b1a22a0065973e6c314534e\t2026-07-17T13:40:57+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close APK acceptance\
+    \ task"
+  - "752a3a96b9b3c4ecec3492a2fe01b4150a8a3626\t2026-07-17T13:39:51+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): archive APK acceptance\
+    \ manifest"
+  - "cf701e7768970ede7c89a2321afae8a50e76453e\t2026-07-17T13:38:11+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close staging\
+    \ acceptance task"
+project_fingerprint:
+  sha256: 381eba025c42d4d8fee71568f32de820009b36f326d92fb65ee91cc9e6a9dcb0
+  files:
+  - database/migrations/V012__r01_admin_security_invariants.sql
+  - database/rollback/U012__r01_admin_security_invariants.sql
+  - database/state_machines.yaml
+  - database/tests/r01_admin_security_invariants.sql
+  - database/verification/verify_baseline.sql
+  - docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+  - docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r01_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
+  file_count: 11
+  payload:
+    base_commit: fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0
+    files:
+    - path: database/migrations/V012__r01_admin_security_invariants.sql
+      state: FILE
+      size: 12956
+      sha256: 199ca16e44c1b7d46d8f871bf7695d69cf9804abb87ed020d4ab142b72a90d1c
+    - path: database/rollback/U012__r01_admin_security_invariants.sql
+      state: FILE
+      size: 2507
+      sha256: 03a8d83ec76058d3289fbb7e637713643b21ba75d148e74c524daa93391f786b
+    - path: database/state_machines.yaml
+      state: FILE
+      size: 15457
+      sha256: c5eb45d5c96cb7744d26606d46c007883be6ecaed61acc47b40a60ea9fe4cc91
+    - path: database/tests/r01_admin_security_invariants.sql
+      state: FILE
+      size: 6295
+      sha256: 190b9b6f60e8a6982da1ae68a432118905c7bcf42e638b34fd962c3e52a049b6
+    - path: database/verification/verify_baseline.sql
+      state: FILE
+      size: 4028
+      sha256: 0d31734357f9d8ce5d3ecd65509700f6731292a5cc5b91c60ea5f3c71b029b82
+    - path: docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+      state: FILE
+      size: 2662
+      sha256: 29f24ebfd62b88b325e29bd5d2c9f563e84162149af40ec49912351dce5a70e2
+    - path: docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+      state: FILE
+      size: 4127
+      sha256: 635b133e4de495f8e522f5c270058c33bbaeb53f6c53151bfae007e3187463b0
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 5514
+      sha256: d5f5f8193b11d1abd45d01503d764f2040ac731abaf0a0096fcb4498b3a4d251
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 4757
+      sha256: 4e6fc215ad00cba95f68b41de305a217f77f379e0ad33af33bb089856acf3e50
+    - path: scripts/run_r01_database_invariants.sh
+      state: FILE
+      size: 11427
+      sha256: 18a004215c1207ab3472e22b3ee4cefdd2019b86213f3ce320174620b0459578
+    - path: services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
+      state: FILE
+      size: 12956
+      sha256: 199ca16e44c1b7d46d8f871bf7695d69cf9804abb87ed020d4ab142b72a90d1c
+change_classification:
+  database:
+  - database/migrations/V012__r01_admin_security_invariants.sql
+  - database/rollback/U012__r01_admin_security_invariants.sql
+  - database/state_machines.yaml
+  - database/tests/r01_admin_security_invariants.sql
+  - database/verification/verify_baseline.sql
+  source_of_truth:
+  - database/state_machines.yaml
+  - docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+  continuity:
+  - docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+  code:
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r01_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0014
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 0906a3b5cce0b4723005925eba80d6520aaf104f3344efc02021cd8da9891e66

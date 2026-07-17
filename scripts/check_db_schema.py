@@ -36,6 +36,8 @@ if actual_migrations != expected_migrations:
     errors.append(f"migration chain expected={expected_migrations} actual={actual_migrations}")
 if "V010__p00_event_ledger_invariants.sql" not in {path.name for path in root_migrations}:
     errors.append("migration chain is missing V010 P00 event/ledger invariants")
+if "V012__r01_admin_security_invariants.sql" not in {path.name for path in root_migrations}:
+    errors.append("migration chain is missing V012 R01 admin security invariants")
 if len(catalog_tables) != 198:
     errors.append(f"catalog table count expected=198 actual={len(catalog_tables)}")
 if catalog_tables != dictionary_tables:
@@ -80,6 +82,42 @@ for marker in (
 ):
     if marker not in p00_migration:
         errors.append(f"V010 missing P00 invariant marker: {marker}")
+
+r01_required_files = (
+    "database/migrations/V012__r01_admin_security_invariants.sql",
+    "database/rollback/U012__r01_admin_security_invariants.sql",
+    "database/tests/r01_admin_security_invariants.sql",
+    "scripts/run_r01_database_invariants.sh",
+    "docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md",
+)
+for relative in r01_required_files:
+    if not (ROOT / relative).is_file():
+        errors.append(f"missing R01 database closure asset: {relative}")
+
+r01_migration = (ROOT / r01_required_files[0]).read_text(encoding="utf-8")
+for marker in (
+    "ck_admin_users_legacy_mfa_secret_empty",
+    "guard_admin_session_mutation",
+    "uq_admin_sessions_refresh_hash",
+    "guard_admin_mfa_method_mutation",
+    "consume_admin_recovery_code",
+    "trg_admin_login_logs_immutable",
+):
+    if marker not in r01_migration:
+        errors.append(f"V012 missing R01 invariant marker: {marker}")
+
+state_machines = (ROOT / "database/state_machines.yaml").read_text(encoding="utf-8")
+for marker in ("ADMIN_SESSION_MFA_LEVEL", "ADMIN_MFA_METHOD_STATUS"):
+    if marker not in state_machines:
+        errors.append(f"state machine catalog missing R01 marker: {marker}")
+for event in ("CANCEL_ENROLLMENT", "REENROLL"):
+    transition = re.search(
+        rf"event: {event}\n(?P<body>.*?)(?=\n  - from:|\n- code:|\Z)",
+        state_machines,
+        re.DOTALL,
+    )
+    if transition is None or "write_admin_operation_log" not in transition.group("body"):
+        errors.append(f"R01 MFA transition must write operation audit: {event}")
 
 if errors:
     print("DB_SCHEMA_FAIL")

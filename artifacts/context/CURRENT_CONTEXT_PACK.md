@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T08:03:38Z
-- Context Hash：`2a8702bbd4a8403d05f360b3fb9e3abbf781d9126125b5ca81ae754936747a21`
+- 生成时间：2026-07-17T08:37:48Z
+- Context Hash：`004784092361cdb837692edf0dd11419949cb9850f0d18d9e8b55b9694514647`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R01-002
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>'
 ```
 
 ## 当前状态
@@ -18,7 +18,7 @@ baseline_version: 1.2.3
 phase: R01
 active_release: R01
 active_task: TASK-R01-002
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: fcb95056b606dfe6e8d0623e83a0526df80bf43e
 last_staging_apk: null
@@ -43,10 +43,11 @@ completed_tasks:
 - TASK-P00-007
 - TASK-P00-008
 - TASK-R01-001
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R01-002
 blocked_tasks: []
 next_task: TASK-R01-002
-updated_at: '2026-07-17T08:03:03Z'
+updated_at: '2026-07-17T08:37:47Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -78,17 +79,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260717T074317Z-C575A687
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260717T074317Z-C575A687/0006.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260717T080633Z-7A2C9226
+  actor_id: codex-root
+  story_id: STORY-R01-003
+  lease_expires_at: '2026-07-17T12:37:47Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T080633Z-7A2C9226/0002.yaml
+  project_fingerprint: b6111cf18a8cbabc042f2d2812e563bfebc9c1cdae7b7aa5249a03f08f8f5f53
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 101172a3e22da7d8df1cda5e5757d8870460b2604776e127afe5c3d80a68dc93
-    generated_at: '2026-07-17T08:03:02Z'
+    context_hash: ff37145addd1ef539a3738b26d90ef912bc1418417f347710dc59129723a4ce8
+    generated_at: '2026-07-17T08:36:26Z'
+  handoff_bundle: null
 ```
 
 ## 下一任务
@@ -136,13 +139,286 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260717T080633Z-7A2C9226
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R01
+task_id: TASK-R01-002
+story_id: STORY-R01-003
+goal: 实现R01管理员认证安全数据迁移、领域不变量及空库升级库回滚验证
+started_at: '2026-07-17T08:06:33Z'
+updated_at: '2026-07-17T08:37:47Z'
+takeover_of: null
+change_requests:
+- CR-0014
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R01-002
+  base_commit: fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0
+  start_head: fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0
+  upstream: null
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-17T08:37:47Z'
+  expires_at: '2026-07-17T12:37:47Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260717T080633Z-7A2C9226/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260717T080633Z-7A2C9226.md
+next_step: 提交TASK-R01-002实现并执行提交后全量门禁，关闭任务进入TASK-R01-003
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T080633Z-7A2C9226-0002
+session_id: SES-20260717T080633Z-7A2C9226
+sequence: 2
+created_at: '2026-07-17T08:37:46Z'
+summary: TASK-R01-002独立复核补齐MFA取消注册和重新注册审计副作用，并校正ADR与运行时一致
+next_step: 提交TASK-R01-002实现并执行提交后全量门禁，关闭任务进入TASK-R01-003
+blockers: []
+decisions:
+- 所有MFA状态转换必须同事务写admin_operation_logs；会话refresh和到期仅允许带version受控更新
+note: CR-0014已独立批准，补充修正不扩批准范围
+tests:
+- name: DB_SCHEMA
+  result: PASS
+  evidence: 198 tables 12 migrations runtime hashes PASS
+  note: 含MFA审计转换静态断言
+- name: R01_DOC_STRICT
+  result: PASS
+  evidence: 0 errors 0 warnings
+  note: R01文档门禁
+- name: POSTGRESQL17
+  result: PASS
+  evidence: POSTGRESQL_MIGRATION_SMOKE PASS
+  note: 前一checkpoint后SQL未改
+git:
+  initialized: true
+  branch: task/TASK-R01-002
+  head: fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M database/state_machines.yaml'
+  - ' M database/verification/verify_baseline.sql'
+  - ' M scripts/check_db_schema.py'
+  - ' M scripts/run_postgres_migration_smoke.sh'
+  - ?? .continuity/change_requests/CR-0014.yaml
+  - ?? .continuity/checkpoints/SES-20260717T080633Z-7A2C9226/0001.yaml
+  - ?? .continuity/sessions/SES-20260717T080633Z-7A2C9226.yaml
+  - ?? artifacts/reports/R01/TASK-R01-002-database-invariants.md
+  - ?? database/migrations/V012__r01_admin_security_invariants.sql
+  - ?? database/rollback/U012__r01_admin_security_invariants.sql
+  - ?? database/tests/r01_admin_security_invariants.sql
+  - ?? docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+  - ?? docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T080633Z-7A2C9226.md
+  - ?? scripts/run_r01_database_invariants.sh
+  - ?? services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
+  recent_commits:
+  - "fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0\t2026-07-17T16:04:12+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-001\
+    \ as completed"
+  - "2cdba75fa45c01fc33818d12b93c488391344a18\t2026-07-17T16:02:36+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close baseline\
+    \ change requests"
+  - "79dd63915e4554bfd73a84f7e97a465896347176\t2026-07-17T16:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): establish development\
+    \ baseline"
+  - "67f7e4568097660589139fb9ba0baf42c9398dfb\t2026-07-17T13:51:37+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close release\
+    \ and pause"
+  - "4d5e344076898e34f7741e146a6fa21d144caf11\t2026-07-17T13:50:24+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): prepare release\
+    \ closure"
+  - "d9b276872dd7390c2b1a22a0065973e6c314534e\t2026-07-17T13:40:57+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close APK acceptance\
+    \ task"
+  - "752a3a96b9b3c4ecec3492a2fe01b4150a8a3626\t2026-07-17T13:39:51+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): archive APK acceptance\
+    \ manifest"
+  - "cf701e7768970ede7c89a2321afae8a50e76453e\t2026-07-17T13:38:11+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close staging\
+    \ acceptance task"
+project_fingerprint:
+  sha256: b6111cf18a8cbabc042f2d2812e563bfebc9c1cdae7b7aa5249a03f08f8f5f53
+  files:
+  - database/migrations/V012__r01_admin_security_invariants.sql
+  - database/rollback/U012__r01_admin_security_invariants.sql
+  - database/state_machines.yaml
+  - database/tests/r01_admin_security_invariants.sql
+  - database/verification/verify_baseline.sql
+  - docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+  - docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r01_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
+  file_count: 11
+  payload:
+    base_commit: fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0
+    files:
+    - path: database/migrations/V012__r01_admin_security_invariants.sql
+      state: FILE
+      size: 12956
+      sha256: 199ca16e44c1b7d46d8f871bf7695d69cf9804abb87ed020d4ab142b72a90d1c
+    - path: database/rollback/U012__r01_admin_security_invariants.sql
+      state: FILE
+      size: 2507
+      sha256: 03a8d83ec76058d3289fbb7e637713643b21ba75d148e74c524daa93391f786b
+    - path: database/state_machines.yaml
+      state: FILE
+      size: 15521
+      sha256: 0edb5ae98d3961d412326ba1d26d3c622e103f0ca11432965ace353d26c334c4
+    - path: database/tests/r01_admin_security_invariants.sql
+      state: FILE
+      size: 6295
+      sha256: 190b9b6f60e8a6982da1ae68a432118905c7bcf42e638b34fd962c3e52a049b6
+    - path: database/verification/verify_baseline.sql
+      state: FILE
+      size: 4028
+      sha256: 0d31734357f9d8ce5d3ecd65509700f6731292a5cc5b91c60ea5f3c71b029b82
+    - path: docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+      state: FILE
+      size: 2846
+      sha256: 9520e036d988773ffa54451b61b4981c9a031c7f1d04074c734a2f1a59847469
+    - path: docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+      state: FILE
+      size: 4127
+      sha256: 635b133e4de495f8e522f5c270058c33bbaeb53f6c53151bfae007e3187463b0
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 5881
+      sha256: 2fda044a4d6239595b566ce86923a8749bced87e70d4c1857b3b5e3d0db74869
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 4757
+      sha256: 4e6fc215ad00cba95f68b41de305a217f77f379e0ad33af33bb089856acf3e50
+    - path: scripts/run_r01_database_invariants.sh
+      state: FILE
+      size: 11427
+      sha256: 18a004215c1207ab3472e22b3ee4cefdd2019b86213f3ce320174620b0459578
+    - path: services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
+      state: FILE
+      size: 12956
+      sha256: 199ca16e44c1b7d46d8f871bf7695d69cf9804abb87ed020d4ab142b72a90d1c
+change_classification:
+  database:
+  - database/migrations/V012__r01_admin_security_invariants.sql
+  - database/rollback/U012__r01_admin_security_invariants.sql
+  - database/state_machines.yaml
+  - database/tests/r01_admin_security_invariants.sql
+  - database/verification/verify_baseline.sql
+  source_of_truth:
+  - database/state_machines.yaml
+  - docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+  continuity:
+  - docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+  code:
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r01_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0014
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 3849fc3d9ded499b6b81d2b609e42b5962fb0d7ece571110995712d4129eb6c3
 ```
 
 ## 接续状态与事件头
@@ -150,31 +426,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260717T080633Z-7A2C9226
 last_session_id: SES-20260717T074317Z-C575A687
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T074317Z-C575A687-0006
-event_count: 131
-event_head_hash: 986b5d694f3024287c2245131f2dc93a5e6aa935b1288e1373cbbb416f2cd3e0
+event_count: 140
+event_head_hash: 3849fc3d9ded499b6b81d2b609e42b5962fb0d7ece571110995712d4129eb6c3
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-V123-PACKAGE-BASELINE
-  task_id: TASK-P00-001
-  story_id: STORY-P00-001
-  actor_id: openai-package-builder
-  status: CLOSED
-  started_at: '2026-07-16T00:00:00Z'
-  updated_at: '2026-07-16T00:30:00Z'
-  closed_at: '2026-07-16T00:30:00Z'
-  latest_checkpoint: .continuity/checkpoints/SES-V123-PACKAGE-BASELINE/0001-package-baseline.yaml
-  handoff_bundle: artifacts/handoffs/HND-V123-PACKAGE-BASELINE
-  record: .continuity/sessions/SES-V123-PACKAGE-BASELINE.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-V123-PACKAGE-BASELINE.md
-- session_id: SES-20260716T232809Z-B4A980AF
+recent_sessions: - session_id: SES-20260716T232809Z-B4A980AF
   task_id: TASK-P00-001
   story_id: STORY-P00-001
   actor_id: codex-root
@@ -281,6 +545,18 @@ recent_sessions: - session_id: SES-V123-PACKAGE-BASELINE
   updated_at: '2026-07-17T08:03:03Z'
   closed_at: '2026-07-17T08:03:03Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260717T074317Z-C575A687/0006.yaml
+  handoff_bundle: null
+- session_id: SES-20260717T080633Z-7A2C9226
+  task_id: TASK-R01-002
+  story_id: STORY-R01-003
+  actor_id: codex-root
+  status: ACTIVE
+  started_at: '2026-07-17T08:06:33Z'
+  record: .continuity/sessions/SES-20260717T080633Z-7A2C9226.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260717T080633Z-7A2C9226.md
+  updated_at: '2026-07-17T08:37:47Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T080633Z-7A2C9226/0002.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -639,6 +915,44 @@ task_claims: - task_id: TASK-P00-001
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-17T08:03:03Z'
+- claim_id: CLM-D697723983C7
+  session_id: SES-20260717T080633Z-7A2C9226
+  task_id: TASK-R01-002
+  story_id: STORY-R01-003
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-17T08:06:33Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
 recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
   timestamp: '2026-07-16T00:30:00Z'
   release: P00
@@ -739,36 +1053,64 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
   session_id: SES-20260717T074317Z-C575A687
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-3AE48C86CF61
+  timestamp: '2026-07-17T08:06:33Z'
+  release: R01
+  task_id: TASK-R01-002
+  story_id: STORY-R01-003
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260717T080633Z-7A2C9226
+  actor_id: codex-root
+  reason: 会话领取任务
 ```
 
 ## Git 状态
 
 ```yaml
 initialized: true
-branch: task/TASK-R01-001
-head: 2cdba75fa45c01fc33818d12b93c488391344a18
+branch: task/TASK-R01-002
+head: fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0
 upstream: null
 ahead: null
 behind: null
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260717T074317Z-C575A687.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260717T074317Z-C575A687.md'
-- ' M releases/R01/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260717T074317Z-C575A687/0006.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ' M database/state_machines.yaml'
+- ' M database/verification/verify_baseline.sql'
+- ' M scripts/check_db_schema.py'
+- ' M scripts/run_postgres_migration_smoke.sh'
+- ?? .continuity/change_requests/CR-0014.yaml
+- ?? .continuity/checkpoints/SES-20260717T080633Z-7A2C9226/0001.yaml
+- ?? .continuity/checkpoints/SES-20260717T080633Z-7A2C9226/0002.yaml
+- ?? .continuity/sessions/SES-20260717T080633Z-7A2C9226.yaml
+- ?? artifacts/reports/R01/TASK-R01-002-database-invariants.md
+- ?? database/migrations/V012__r01_admin_security_invariants.sql
+- ?? database/rollback/U012__r01_admin_security_invariants.sql
+- ?? database/tests/r01_admin_security_invariants.sql
+- ?? docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+- ?? docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+- ?? docs/03-continuity/sessions/2026-07/SES-20260717T080633Z-7A2C9226.md
+- ?? scripts/run_r01_database_invariants.sh
+- ?? services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
 recent_commits:
+- "fdcc8e2e3b4989e89db8884cbc9a8d4f62372fe0\t2026-07-17T16:04:12+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-001\
+  \ as completed"
 - "2cdba75fa45c01fc33818d12b93c488391344a18\t2026-07-17T16:02:36+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close baseline change\
   \ requests"
 - "79dd63915e4554bfd73a84f7e97a465896347176\t2026-07-17T16:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): establish development\
@@ -783,16 +1125,24 @@ recent_commits:
   \ manifest"
 - "cf701e7768970ede7c89a2321afae8a50e76453e\t2026-07-17T13:38:11+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close staging acceptance\
   \ task"
-- "d51fae87e5b1df39ea364c82968888aa46ddfee5\t2026-07-17T13:36:46+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): record staging acceptance\
-  \ session"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`ee9edbc5ac6d8e9910b2e385a2e6c3fef7359592986b08cd305993a987b2c66c`
-- 文件数：0
+- 指纹：`b6111cf18a8cbabc042f2d2812e563bfebc9c1cdae7b7aa5249a03f08f8f5f53`
+- 文件数：11
 
-- 无
+- `database/migrations/V012__r01_admin_security_invariants.sql`
+- `database/rollback/U012__r01_admin_security_invariants.sql`
+- `database/state_machines.yaml`
+- `database/tests/r01_admin_security_invariants.sql`
+- `database/verification/verify_baseline.sql`
+- `docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md`
+- `docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md`
+- `scripts/check_db_schema.py`
+- `scripts/run_postgres_migration_smoke.sh`
+- `scripts/run_r01_database_invariants.sh`
+- `services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql`
 
 ## 当前 Release
 
@@ -1660,13 +2010,76 @@ TASKS.yaml:
     note: 确认仅收口P00 RELEASE_MANIFEST与ACCEPTANCE_MATRIX终态元数据：保留3条HTTP paths并绑定现有3个OpenAPI operationId，6项证据均为仓库内实际文件，59项矩阵PASS，release commit、tag与APK基线一致；禁止修改运行时代码或接口
   machine_record: .continuity/change_requests/CR-0010.yaml
   document: docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md
+- protocol_version: '1.0'
+  cr_id: CR-0014
+  title: 登记R01管理员会话MFA与MFA方法状态机
+  status: IMPLEMENTED
+  created_at: '2026-07-17T08:25:01Z'
+  updated_at: '2026-07-17T08:35:28Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-engineering-audit
+  task_id: TASK-R01-002
+  session_id: SES-20260717T080633Z-7A2C9226
+  user_request: 完整推进R01版本开发，每个版本APK放桌面供真机测试
+  reason: 冻结表已定义状态值但状态机唯一事实源缺少对应可执行转换，数据库约束和契约追踪无法闭环
+  original_rule: database/state_machines.yaml未登记管理员会话MFA等级和管理员MFA方法状态机，V009仅冻结字段值与基础CHECK
+  new_rule: 登记ADMIN_SESSION_MFA_LEVEL与ADMIN_MFA_METHOD_STATUS；会话强制从NONE起始且仅上升，MFA方法仅沿既有PENDING/ACTIVE/DISABLED转换；不新增状态、表、列或API
+  impact_summary: 完整补齐R01既有状态的可执行转换、MFA单事实源、会话/恢复码/登录日志不变量及原子升级回滚；业务范围与198表冻结契约不变
+  impact:
+    files:
+    - database/state_machines.yaml
+    - database/migrations/V012__r01_admin_security_invariants.sql
+    - services/backend/boot/src/main/resources/db/migration/V012__r01_admin_security_invariants.sql
+    - database/rollback/U012__r01_admin_security_invariants.sql
+    - database/tests/r01_admin_security_invariants.sql
+    - database/verification/verify_baseline.sql
+    - scripts/check_db_schema.py
+    - scripts/run_postgres_migration_smoke.sh
+    - scripts/run_r01_database_invariants.sh
+    - docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md
+    - artifacts/reports/R01/TASK-R01-002-database-invariants.md
+    pages: []
+    apis: []
+    database:
+    - admin_users：旧MFA引用无冲突迁移后恒为空且version非负
+    - admin_sessions：从NONE起始、保证等级只升不降、refresh唯一与乐观吊销终态
+    - admin_mfa_methods：唯一MFA事实源及既有状态生命周期
+    - admin_recovery_codes：原子一次消费、只缩短有效期作废和不可删除
+    - admin_login_logs：成功失败配对、锁定窗口索引和不可变安全事实
+    configuration: []
+    ledger: []
+    tests:
+    - 本地DB schema与运行时SHA、R01严格文档和连续性门禁；PostgreSQL 17空库/V011升级/冲突原子回滚/U012重升/长引用无损/会话MFA恢复码幂等并发/P00回归
+    releases:
+    - R01
+    migration_and_compatibility: V012只增加约束、索引、函数与触发器，Flyway及验证脚本单事务执行；V001至V011不修改；旧MFA冲突或重复refresh hash在写入前失败；U012不截断超过255字符的规范化密钥引用
+  user_confirmation: 用户已授权完整推进R01并要求每版APK桌面真机测试
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T08:34:44Z'
+    note: 复查确认CR已完整登记admin_users、admin_sessions、admin_mfa_methods、admin_recovery_codes、admin_login_logs及全部实现/验证文件；V012仅使用V009既有状态与字段，不新增表、列、状态或API，并强制会话从NONE起始。旧MFA与重复refresh冲突在写入前失败，验证脚本单事务防半迁移；U012对超过255字符引用保留规范化事实且可重升。PostgreSQL17报告覆盖空库、V011升级、冲突回滚、U012重升、长引用、并发及P00回归；本地schema、运行时SHA、状态机与diff门禁复核通过
+  machine_record: .continuity/change_requests/CR-0014.yaml
+  document: docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md
+  decision_log:
+  - at: '2026-07-17T08:35:26Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 按批准边界补齐既有状态机与V012安全不变量，不新增表列状态API
+    session_id: SES-20260717T080633Z-7A2C9226
+  - at: '2026-07-17T08:35:28Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: V012/U012/状态机/单事务升级与PostgreSQL17空库升级回滚并发验证全部完成
+    session_id: SES-20260717T080633Z-7A2C9226
+  session_ids:
+  - SES-20260717T080633Z-7A2C9226
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `699e4597d30e82e1ccc72d2f29f448059e91935fd31352b91ad25b2c02fa48a9`
+- `CURRENT_STATUS.yaml` — `4f38355f4f1d7569d310d622f2e75163d21cb1a2b3d53bc2e20567c390d5801b`
 - `NEXT_TASK.yaml` — `a84231fba9b51c5c76a84cd91c786b8632a7a604eebd38832461591d81339f04`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -1674,12 +2087,20 @@ TASKS.yaml:
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223`
-- `.continuity/EVENT_LOG.jsonl` — `21970f20f49318f506c6658241a744613c20e119b1d252ee2774d29b2a506dec`
-- `.continuity/SESSION_INDEX.yaml` — `1a751b3cd4535bfc05dc305983f6bc7c846ac2e9af7548e4f35daed5b7daef71`
-- `.continuity/TASK_CLAIMS.yaml` — `2222fca15269637cac24779064a52cfc40c6d59c035c8815d286308a8e9d0956`
-- `.continuity/TASK_TRANSITIONS.yaml` — `8cd04493cf17554cf9fbd7dd8e7424aac243d600fa174f2697a762ff5abba55d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `eafc36eb1eca5db155fa28203c87192f68ba1dfb6b900b96fd821ccb3af9d059`
-- `.continuity/ACTIVE_SESSION.yaml` — `a8820e74eff98575f5361486729b886528e50f2e0a94fcde6aaceb38e9d5b14b`
+- `.continuity/EVENT_LOG.jsonl` — `12a3d0aad8961d64aa1623c1e1f3394d2b31eda0324a85ac227b77029e36f524`
+- `.continuity/SESSION_INDEX.yaml` — `28387e5f76ecb72fde7b8ec7bf29c62d6db1233a9c5601324758a96e9b9ed53c`
+- `.continuity/TASK_CLAIMS.yaml` — `ab232a2ce8faae86c3707f53208a979ca5faeb2777d1b7e8f13ad2242cf42ec2`
+- `.continuity/TASK_TRANSITIONS.yaml` — `807188a2e50e90f906e71c070d5616d29b434372dfb204d93bde5c309f27e376`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `460786484c28cdeb509894228115a12c4f72da1d1eb70d3b0e1bea498c9347d0`
+- `.continuity/ACTIVE_SESSION.yaml` — `d910a454e65027036a0328ec2e7adb6e599d101fda4e31e586f318775a35d0b4`
+- `releases/R01/RELEASE_MANIFEST.yaml` — `bb986f651fd20c30ddbabeb81ef31351b6aab527bf6d65833262ce6bee30893f`
+- `releases/R01/DEFINITION_OF_READY.yaml` — `ed81dd9db760893207515b8c0a5cc2f80ac5b7f358d00fb7b71276b8931100e5`
+- `releases/R01/STORIES.yaml` — `368e786cf97c2b244d5bbf21acedcdefacbf5f4a4b42c7780db5b1accb5dd86e`
+- `releases/R01/TASKS.yaml` — `05adecff3a3126863b465bd398426ca74fa8db64e0cf2b8f4b220b1b3b5d4e9b`
+- `releases/R01/ACCEPTANCE_MATRIX.csv` — `a668129234acb184110e076cd021c95c0747d0c6139035c28a42cbd2f68ca127`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T080633Z-7A2C9226.md` — `490b1e25ffcb3214bd3a46a142ff0bf06674c828919e8e530b29deae000a4831`
+- `.continuity/checkpoints/SES-20260717T080633Z-7A2C9226/0002.yaml` — `64324245c0ce103adf8430ffe9fda1fef4df2d2c4bfd776cff0670364badf0d1`
+- `docs/03-continuity/change-requests/CR-0014-登记R01管理员会话MFA与MFA方法状态机.md` — `635b133e4de495f8e522f5c270058c33bbaeb53f6c53151bfae007e3187463b0`
 
 ## 接手硬规则
 

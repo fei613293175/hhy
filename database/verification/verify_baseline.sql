@@ -37,5 +37,37 @@ BEGIN
       OR (status IN ('SUCCEEDED','FAILED','CANCELLED') AND finished_at IS NULL)
  ) THEN RAISE EXCEPTION 'Invalid reconciliation run data'; END IF;
  IF EXISTS (SELECT 1 FROM hhy.red_packet_stock WHERE claimed+reserved>total) THEN RAISE EXCEPTION 'Invalid red packet stock'; END IF;
+ IF EXISTS (SELECT 1 FROM hhy.admin_users WHERE mfa_secret_ref IS NOT NULL OR version < 0)
+   THEN RAISE EXCEPTION 'Invalid administrator MFA source or version'; END IF;
+ IF EXISTS (
+   SELECT 1 FROM hhy.admin_sessions
+   WHERE btrim(access_jti)='' OR (refresh_hash IS NOT NULL AND btrim(refresh_hash)='')
+      OR version < 0 OR expires_at <= created_at
+      OR (revoked_at IS NOT NULL AND revoked_at < created_at)
+      OR (last_active_at IS NOT NULL AND last_active_at < created_at)
+      OR (revoked_at IS NOT NULL AND last_active_at IS NOT NULL AND revoked_at < last_active_at)
+ ) THEN RAISE EXCEPTION 'Invalid administrator session data'; END IF;
+ IF EXISTS (
+   SELECT 1 FROM hhy.admin_mfa_methods
+   WHERE btrim(method)='' OR version < 0 OR NOT (
+     (status='PENDING' AND btrim(COALESCE(secret_ref,''))<>'' AND confirmed_at IS NULL AND disabled_at IS NULL) OR
+     (status='ACTIVE' AND btrim(COALESCE(secret_ref,''))<>'' AND confirmed_at>=created_at AND disabled_at IS NULL) OR
+     (status='DISABLED' AND secret_ref IS NULL AND disabled_at>=created_at)
+   )
+ ) THEN RAISE EXCEPTION 'Invalid administrator MFA method data'; END IF;
+ IF EXISTS (
+   SELECT 1 FROM hhy.admin_recovery_codes
+   WHERE btrim(code_hash)='' OR (used_at IS NOT NULL AND used_at < created_at)
+      OR (expires_at IS NOT NULL AND expires_at <= created_at)
+      OR (used_at IS NOT NULL AND expires_at IS NOT NULL AND used_at > expires_at)
+ ) THEN RAISE EXCEPTION 'Invalid administrator recovery-code data'; END IF;
+ IF EXISTS (
+   SELECT 1 FROM hhy.admin_login_logs
+   WHERE btrim(event_type)='' OR btrim(result)=''
+      OR (request_id IS NOT NULL AND btrim(request_id)='')
+      OR (upper(result) IN ('SUCCESS','SUCCEEDED') AND failure_code IS NOT NULL)
+ ) THEN RAISE EXCEPTION 'Invalid administrator login log data'; END IF;
+ IF to_regprocedure('hhy.consume_admin_recovery_code(bigint,character varying)') IS NULL
+   THEN RAISE EXCEPTION 'Missing administrator recovery-code consumer'; END IF;
 END $$;
 SELECT 'baseline-ok' AS result, count(*) AS table_count FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';

@@ -17,12 +17,12 @@ for migration in "$ROOT"/database/migrations/V*.sql; do
   migration_number=$((10#${migration_version#V}))
   (( migration_number >= 10 )) && continue
   echo "$(basename "$migration") APPLY"
-  "${PSQL[@]}" -f "$migration" >/dev/null
+  "${PSQL[@]}" --single-transaction -f "$migration" >/dev/null
   echo "$(basename "$migration") PASS"
 done
 
 echo "V009_TO_V010 UPGRADE"
-"${PSQL[@]}" -f "$ROOT/database/migrations/V010__p00_event_ledger_invariants.sql" >/dev/null
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V010__p00_event_ledger_invariants.sql" >/dev/null
 echo "V010__p00_event_ledger_invariants.sql PASS"
 
 for migration in "$ROOT"/database/migrations/V*.sql; do
@@ -31,7 +31,7 @@ for migration in "$ROOT"/database/migrations/V*.sql; do
   migration_number=$((10#${migration_version#V}))
   (( migration_number <= 10 )) && continue
   echo "$(basename "$migration") APPLY"
-  "${PSQL[@]}" -f "$migration" >/dev/null
+  "${PSQL[@]}" --single-transaction -f "$migration" >/dev/null
   echo "$(basename "$migration") PASS"
 done
 
@@ -96,9 +96,15 @@ echo "DEFAULT_ADMIN_COUNT $ADMIN_COUNT"
 echo "BASELINE_VERIFICATION PASS"
 
 bash "$ROOT/scripts/run_p00_database_invariants.sh"
+bash "$ROOT/scripts/run_r01_database_invariants.sh"
 
-"${PSQL[@]}" -f "$ROOT/database/rollback/U010__p00_event_ledger_invariants.sql" >/dev/null
-"${PSQL[@]}" -f "$ROOT/database/migrations/V010__p00_event_ledger_invariants.sql" >/dev/null
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/rollback/U012__r01_admin_security_invariants.sql" >/dev/null
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V012__r01_admin_security_invariants.sql" >/dev/null
+"${PSQL[@]}" -f "$ROOT/database/tests/r01_admin_security_invariants.sql" >/dev/null
+echo "U012_REAPPLY_V012 PASS"
+
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/rollback/U010__p00_event_ledger_invariants.sql" >/dev/null
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V010__p00_event_ledger_invariants.sql" >/dev/null
 "${PSQL[@]}" -f "$ROOT/database/tests/p00_event_ledger_invariants.sql" >/dev/null
 echo "U010_REAPPLY_V010 PASS"
 
