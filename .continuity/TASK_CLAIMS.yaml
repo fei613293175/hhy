@@ -542,7 +542,7 @@ claims:
   task_id: TASK-R01-007
   story_id: STORY-R01-003
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-17T15:27:21Z'
   allowed_paths:
   - apps/**
@@ -578,3 +578,4 @@ claims:
   - artifacts/apk/**
   - artifacts/reports/**
   - artifacts/validation/**
+  closed_at: '2026-07-17T17:06:18Z'

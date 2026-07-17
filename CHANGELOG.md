@@ -194,3 +194,13 @@
 - Actor：`codex-root`
 - 摘要：R01独立预发布栈、结构化日志与TraceId、RED和九类业务监控序列、双告警firing/resolved、日志脱敏、最终镜像回滚及AC-R01-004现场证据全部通过
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md`
+
+## TASK-R01-007 · COMPLETED · 2026-07-17T17:06:16Z
+
+- Task close: TASK-R01-007 / SES-20260717T152721Z-016DB4B2
+- Release：`R01`
+- Story：`STORY-R01-003`
+- Actor：`codex-root`
+- 摘要：R01 Android测试APK已按固定工具链构建、签名和归档；项目所有者于2026-07-18提供真机截图确认安装、启动、首页和五项导航均通过。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md`
+

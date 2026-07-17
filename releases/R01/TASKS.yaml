@@ -136,10 +136,10 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
-  completed_at: '2026-07-17T17:03:51Z'
+  completed_at: '2026-07-17T17:06:16Z'
 - id: TASK-R01-008
   title: Design System与契约工程化版本关闭与无状态交接
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R01-007
   requirements: *id001
