@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-17T02:24:40Z'
+generated_at: '2026-07-17T02:26:17Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -30,7 +30,7 @@ current_status:
   - TASK-P00-001
   blocked_tasks: []
   next_task: TASK-P00-001
-  updated_at: '2026-07-17T02:24:39Z'
+  updated_at: '2026-07-17T02:26:15Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -65,15 +65,15 @@ current_status:
     active_session_id: SES-20260716T232809Z-B4A980AF
     actor_id: codex-root
     story_id: STORY-P00-001
-    lease_expires_at: '2026-07-17T06:24:39Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0007.yaml
-    project_fingerprint: b4dd224bcb71756e3b70b918364931ade735d826fd730af2e00594a7dc9eebfd
+    lease_expires_at: '2026-07-17T06:26:15Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0008.yaml
+    project_fingerprint: afc94e96f6fbd48313f5de9adeeeb49b8cc63a2b43f04a905a2c2106d0dde07f
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 1c74d5e984adcc5bdd3b8b0f68b9442edccf3c590d4a6d833ffe67b721de105d
-      generated_at: '2026-07-17T02:23:18Z'
+      context_hash: 1ce2c66be6cacfdc63450b103c0f0e0b97565fb5012e310c655d8cc9768f2658
+      generated_at: '2026-07-17T02:24:40Z'
     handoff_bundle: null
 next_task:
   id: TASK-P00-001
@@ -141,7 +141,7 @@ active_session:
   story_id: STORY-P00-001
   goal: 修复P00工程基线漂移并恢复全量可重复验证
   started_at: '2026-07-16T23:28:09Z'
-  updated_at: '2026-07-17T02:24:39Z'
+  updated_at: '2026-07-17T02:26:15Z'
   takeover_of: null
   change_requests:
   - CR-0003
@@ -188,229 +188,60 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-17T02:24:39Z'
-    expires_at: '2026-07-17T06:24:39Z'
-  checkpoint_sequence: 7
-  latest_checkpoint: .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0007.yaml
+    renewed_at: '2026-07-17T02:26:15Z'
+    expires_at: '2026-07-17T06:26:15Z'
+  checkpoint_sequence: 8
+  latest_checkpoint: .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0008.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md
-  next_step: 提交TASK-P00-001工程基线Commit并绑定CR
+  next_step: 提交CR绑定元数据后关闭TASK-P00-001并切换TASK-P00-002
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260716T232809Z-B4A980AF-0007
+  checkpoint_id: CP-SES-20260716T232809Z-B4A980AF-0008
   session_id: SES-20260716T232809Z-B4A980AF
-  sequence: 7
-  created_at: '2026-07-17T02:24:38Z'
-  summary: P00工程基线最终Doctor通过并已准备提交
-  next_step: 提交TASK-P00-001工程基线Commit并绑定CR
+  sequence: 8
+  created_at: '2026-07-17T02:26:14Z'
+  summary: CR-0003与CR-0005已绑定P00工程基线Commit并关闭
+  next_step: 提交CR绑定元数据后关闭TASK-P00-001并切换TASK-P00-002
   blockers: []
-  decisions:
-  - 最终Doctor零错误零警告；提交前以此检查点固化Doctor写回后的工作区
+  decisions: []
   note: ''
   tests:
   - name: project-doctor
     result: PASS
     evidence: artifacts/validation/project-doctor-v1.2.3.json
-    note: 组合严格门禁零错误零警告
-  - name: continuity-doctor
+    note: 最终严格门禁通过
+  - name: change-request-binding
     result: PASS
-    evidence: artifacts/validation/continuity-gate-v1.2.3.json
-    note: 连续性严格门禁零错误零警告
-  - name: continuity-self-test
-    result: PASS
-    evidence: artifacts/validation/continuity-integration-v1.2.3.json
-    note: 9项真实Git与无状态重建检查通过
-  - name: backend-local-verify
-    result: PASS
-    evidence: services/backend/boot/target/surefire-reports
-    note: 13项零失败，1项PostgreSQL条件跳过
-  - name: backend-postgresql-17.10
-    result: PASS
-    evidence: artifacts/validation/p00-backend-verify-postgresql-17.10.log
-    note: 服务器13项全跑零跳过
-  - name: alert-sink
-    result: PASS
-    evidence: tests/p00/test_alert_sink.py
-    note: 健康、送达、最小化与敏感字段拒绝通过
-  - name: android-build
-    result: PASS
-    evidence: artifacts/validation/p00-android-install-environment.json
-    note: 构建签名清单通过，实装限制真实记录
-  - name: p00-matrix-unit
-    result: PASS
-    evidence: tests/p00/test_p00_test_matrix.py
-    note: 13项矩阵策略单测通过
+    evidence: .continuity/change_requests/CR-0003.yaml
+    note: 实现Commit已绑定
   git:
     initialized: true
     branch: task/TASK-P00-001
-    head: bffa551a122444a86bfcff0542714834bd6c2156
+    head: 128f6cd8920cf4143f13c7b20ac679046a0232be
     upstream: null
     ahead: null
     behind: null
     dirty: true
     status_porcelain:
-    - M  .continuity/ACTIVE_SESSION.yaml
-    - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-    - M  .continuity/CONTINUITY_POLICY.yaml
-    - M  .continuity/EVENT_LOG.jsonl
-    - M  .continuity/SESSION_INDEX.yaml
-    - M  .continuity/STATE.yaml
-    - A  .continuity/change_requests/CR-0003.yaml
-    - A  .continuity/change_requests/CR-0005.yaml
-    - A  .continuity/change_requests/CR-0006.yaml
-    - A  .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0001.yaml
-    - A  .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0002.yaml
-    - A  .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0003.yaml
-    - A  .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0004.yaml
-    - A  .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0005.yaml
-    - A  .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0006.yaml
-    - M  .continuity/sessions/SES-20260716T232809Z-B4A980AF.yaml
-    - A  .dockerignore
-    - A  .gitattributes
-    - M  .githooks/commit-msg
-    - M  .githooks/pre-commit
-    - M  .githooks/pre-push
-    - M  .githooks/prepare-commit-msg
-    - M  .github/workflows/ci.yml
-    - M  .github/workflows/continuity-gate.yml
-    - M  .gitignore
-    - M  CHANGELOG.md
-    - M  CURRENT_STATUS.yaml
-    - M  apps/admin-web/src/catalog.test.ts
-    - M  apps/admin-web/src/generated/admin-pages.json
-    - M  apps/android/README.md
-    - M  apps/android/app/src/main/assets/android-screens.v1.2.2.json
-    - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-    - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-    - M  apps/android/build.gradle.kts
-    - M  apps/android/core/network/build.gradle.kts
-    - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-    - A  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-    - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-    - M  apps/android/gradle.properties
-    - M  apps/android/gradle/libs.versions.toml
-    - M  apps/h5/src/generated/h5-pages.json
-    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    - M  artifacts/validation/continuity-gate-v1.2.3.json
-    - M  artifacts/validation/continuity-integration-v1.2.3.json
-    - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-    - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-    - A  artifacts/validation/p00-android-install-environment.json
-    - A  artifacts/validation/p00-backend-flyway-postgresql-17.10.log
-    - A  artifacts/validation/p00-backend-verify-postgresql-17.10.log
-    - A  artifacts/validation/p00-database-postgresql-17.10.json
-    - A  artifacts/validation/p00-database-postgresql-17.10.log
-    - A  artifacts/validation/p00-database-v011-rollback.log
-    - A  artifacts/validation/project-doctor-v1.2.3-documentation.json
-    - M  artifacts/validation/project-doctor-v1.2.3.json
-    - M  catalogs/change_request_index.csv
-    - M  catalogs/continuity_event_catalog.csv
-    - M  catalogs/release_artifact_index.csv
-    - M  catalogs/release_story_backlog.csv
-    - M  catalogs/session_index.csv
-    - M  catalogs/ui_action_matrix.csv
-    - M  contracts/contract_status.csv
-    - M  contracts/openapi.yaml
-    - M  database/README.md
-    - A  database/migrations/V010__p00_event_ledger_invariants.sql
-    - A  database/migrations/V011__app_release_version_policy.sql
-    - A  database/rollback/U010__p00_event_ledger_invariants.sql
-    - A  database/rollback/U011__app_release_version_policy.sql
-    - A  database/tests/p00_event_ledger_invariants.sql
-    - M  database/verification/verify_baseline.sql
-    - A  docs/01-architecture/adr/ADR-007-P00事件账务不变量收口.md
-    - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - A  docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md
-    - A  docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md
-    - A  docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
-    - M  docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md
-    - M  docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    - M  docs/07-operations/ROLLBACK_RUNBOOK.md
-    - A  infra/staging/alert-sink/Dockerfile
-    - A  infra/staging/alert-sink/alert_sink.py
-    - A  infra/staging/alertmanager.yml
-    - A  infra/staging/docker-compose.p00.yml
-    - A  infra/staging/p00-alerts.yml
-    - A  infra/staging/prometheus.yml
-    - M  package.json
-    - M  packages/api-client/src/admin.generated.ts
-    - M  packages/api-client/src/client.generated.ts
-    - M  pnpm-lock.yaml
-    - M  releases/P00/RELEASE_MANIFEST.yaml
-    - M  releases/P00/STORIES.yaml
-    - M  releases/P00/TASKS.yaml
-    - M  scripts/check_api_contract.py
-    - M  scripts/check_db_schema.py
-    - A  scripts/check_p00_observability.py
-    - M  scripts/check_release_artifacts.py
-    - M  scripts/check_v123_continuity.py
-    - M  scripts/continuity.py
-    - M  scripts/continuity_gate.py
-    - M  scripts/continuity_lib.py
-    - M  scripts/generate_android_scaffold.py
-    - M  scripts/generate_contracts.py
-    - M  scripts/generate_database.py
-    - M  scripts/generate_scaffolds.py
-    - A  scripts/postprocess-openapi-types.mjs
-    - A  scripts/run-python.mjs
-    - M  scripts/run_continuity_self_test.py
-    - A  scripts/run_p00_database_invariants.sh
-    - A  scripts/run_p00_test_matrix.py
-    - M  scripts/run_postgres_migration_smoke.sh
-    - A  scripts/sync_runtime_assets.py
-    - M  scripts/test_continuity_protocol.py
-    - A  services/backend/Dockerfile
-    - M  services/backend/boot/pom.xml
-    - A  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-    - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
-    - A  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
-    - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
-    - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/RequestIdFilter.java
-    - M  services/backend/boot/src/main/resources/application.yml
-    - M  services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
-    - M  services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - M  services/backend/boot/src/main/resources/contracts/websocket-events.yaml
-    - A  services/backend/boot/src/main/resources/db/migration/V009__v122_operational_governance.sql
-    - A  services/backend/boot/src/main/resources/db/migration/V010__p00_event_ledger_invariants.sql
-    - A  services/backend/boot/src/main/resources/db/migration/V011__app_release_version_policy.sql
-    - A  services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
-    - M  services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
-    - A  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-    - A  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-    - M  services/backend/boot/src/test/resources/application-test.yml
-    - A  services/backend/boot/src/test/resources/data.sql
-    - A  services/backend/boot/src/test/resources/schema.sql
-    - M  services/backend/platform/pom.xml
-    - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/config/HhyPlatformProperties.java
-    - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionCheckRequest.java
-    - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java
-    - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionPolicyView.java
-    - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java
-    - A  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppRelease.java
-    - A  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
-    - A  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformCapabilitiesView.java
-    - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusController.java
-    - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusService.java
-    - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusView.java
-    - M  services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
-    - M  services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiResponse.java
-    - A  tests/p00/README.md
-    - A  tests/p00/evidence.schema.json
-    - A  tests/p00/test_alert_sink.py
-    - A  tests/p00/test_p00_test_matrix.py
-    - A  tests/p00/test_secret_defaults.py
-    - A  tests/test_continuity_bootstrap_recovery.py
-    - A  tests/test_continuity_cross_release_close.py
-    - A  tests/test_release_close_gate.py
+    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+    - ' M .continuity/EVENT_LOG.jsonl'
+    - ' M .continuity/STATE.yaml'
+    - ' M .continuity/change_requests/CR-0003.yaml'
+    - ' M .continuity/change_requests/CR-0005.yaml'
+    - ' M catalogs/change_request_index.csv'
+    - ' M catalogs/session_index.csv'
+    - ' M docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md'
+    - ' M docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md'
     recent_commits:
+    - "128f6cd8920cf4143f13c7b20ac679046a0232be\t2026-07-17T10:25:17+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] fix(p00): reconcile engineering\
+      \ baseline and continuity"
     - "bffa551a122444a86bfcff0542714834bd6c2156\t2026-07-17T07:28:28+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(repo): import V1.2.3\
       \ enforced continuity baseline"
   project_fingerprint:
-    sha256: b4dd224bcb71756e3b70b918364931ade735d826fd730af2e00594a7dc9eebfd
+    sha256: afc94e96f6fbd48313f5de9adeeeb49b8cc63a2b43f04a905a2c2106d0dde07f
     files:
     - .dockerignore
     - .gitattributes
@@ -694,12 +525,12 @@ latest_checkpoint:
         sha256: 231fb05140041e117c08a0be0961e98f1b137487f3c714091a899d70a108e2bb
       - path: docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md
         state: FILE
-        size: 2873
-        sha256: 5807710c803875a4902000517b7eba8573adf3f47450ec28cf8e365e212b1d1c
+        size: 3291
+        sha256: 060f766b7fe3a83cb77b6093079f7a9d11d21b7280810dcbc86cf76cf1e8f972
       - path: docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md
         state: FILE
-        size: 2596
-        sha256: 0448716dfc78142b11526cd6aa2fe025414d8842f649a6fc90c46ea4747f55db
+        size: 2810
+        sha256: 490b83bb0e0ca04cf10ccc07763feb1c805f942153fc171e9eb3b7c3ff074339
       - path: docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
         state: FILE
         size: 3449
@@ -1212,177 +1043,38 @@ latest_checkpoint:
     - PROJECT_*.json
     approved_exceptions: []
     source: story+explicit+bootstrap-repair
-  event_hash: 1a7cd30f093f642148f27a559301aea8640ed12a0c110a758bc01b3822eb1830
+  event_hash: 1e51bd670cb1e40d26d3fa800f1e040af0f7167302efd30ef0ca0764797a74c4
 git:
   initialized: true
   branch: task/TASK-P00-001
-  head: bffa551a122444a86bfcff0542714834bd6c2156
+  head: 128f6cd8920cf4143f13c7b20ac679046a0232be
   upstream: null
   ahead: null
   behind: null
   dirty: true
   status_porcelain:
-  - MM .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/CONTINUITY_POLICY.yaml
-  - MM .continuity/EVENT_LOG.jsonl
-  - MM .continuity/SESSION_INDEX.yaml
-  - MM .continuity/STATE.yaml
-  - A  .continuity/change_requests/CR-0003.yaml
-  - A  .continuity/change_requests/CR-0005.yaml
-  - A  .continuity/change_requests/CR-0006.yaml
-  - A  .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0001.yaml
-  - A  .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0002.yaml
-  - A  .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0003.yaml
-  - A  .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0004.yaml
-  - A  .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0005.yaml
-  - A  .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0006.yaml
-  - MM .continuity/sessions/SES-20260716T232809Z-B4A980AF.yaml
-  - A  .dockerignore
-  - A  .gitattributes
-  - M  .githooks/commit-msg
-  - M  .githooks/pre-commit
-  - M  .githooks/pre-push
-  - M  .githooks/prepare-commit-msg
-  - M  .github/workflows/ci.yml
-  - M  .github/workflows/continuity-gate.yml
-  - M  .gitignore
-  - M  CHANGELOG.md
-  - MM CURRENT_STATUS.yaml
-  - M  apps/admin-web/src/catalog.test.ts
-  - M  apps/admin-web/src/generated/admin-pages.json
-  - M  apps/android/README.md
-  - M  apps/android/app/src/main/assets/android-screens.v1.2.2.json
-  - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-  - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-  - M  apps/android/build.gradle.kts
-  - M  apps/android/core/network/build.gradle.kts
-  - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-  - A  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-  - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-  - M  apps/android/gradle.properties
-  - M  apps/android/gradle/libs.versions.toml
-  - M  apps/h5/src/generated/h5-pages.json
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  artifacts/validation/continuity-gate-v1.2.3.json
-  - M  artifacts/validation/continuity-integration-v1.2.3.json
-  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-  - A  artifacts/validation/p00-android-install-environment.json
-  - A  artifacts/validation/p00-backend-flyway-postgresql-17.10.log
-  - A  artifacts/validation/p00-backend-verify-postgresql-17.10.log
-  - A  artifacts/validation/p00-database-postgresql-17.10.json
-  - A  artifacts/validation/p00-database-postgresql-17.10.log
-  - A  artifacts/validation/p00-database-v011-rollback.log
-  - A  artifacts/validation/project-doctor-v1.2.3-documentation.json
-  - M  artifacts/validation/project-doctor-v1.2.3.json
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/continuity_event_catalog.csv
-  - M  catalogs/release_artifact_index.csv
-  - M  catalogs/release_story_backlog.csv
-  - MM catalogs/session_index.csv
-  - M  catalogs/ui_action_matrix.csv
-  - M  contracts/contract_status.csv
-  - M  contracts/openapi.yaml
-  - M  database/README.md
-  - A  database/migrations/V010__p00_event_ledger_invariants.sql
-  - A  database/migrations/V011__app_release_version_policy.sql
-  - A  database/rollback/U010__p00_event_ledger_invariants.sql
-  - A  database/rollback/U011__app_release_version_policy.sql
-  - A  database/tests/p00_event_ledger_invariants.sql
-  - M  database/verification/verify_baseline.sql
-  - A  docs/01-architecture/adr/ADR-007-P00事件账务不变量收口.md
-  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - A  docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md
-  - A  docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md
-  - A  docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
-  - MM docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md
-  - M  docs/07-operations/DEPLOYMENT_RUNBOOK.md
-  - M  docs/07-operations/ROLLBACK_RUNBOOK.md
-  - A  infra/staging/alert-sink/Dockerfile
-  - A  infra/staging/alert-sink/alert_sink.py
-  - A  infra/staging/alertmanager.yml
-  - A  infra/staging/docker-compose.p00.yml
-  - A  infra/staging/p00-alerts.yml
-  - A  infra/staging/prometheus.yml
-  - M  package.json
-  - M  packages/api-client/src/admin.generated.ts
-  - M  packages/api-client/src/client.generated.ts
-  - M  pnpm-lock.yaml
-  - M  releases/P00/RELEASE_MANIFEST.yaml
-  - M  releases/P00/STORIES.yaml
-  - M  releases/P00/TASKS.yaml
-  - M  scripts/check_api_contract.py
-  - M  scripts/check_db_schema.py
-  - A  scripts/check_p00_observability.py
-  - M  scripts/check_release_artifacts.py
-  - M  scripts/check_v123_continuity.py
-  - M  scripts/continuity.py
-  - M  scripts/continuity_gate.py
-  - M  scripts/continuity_lib.py
-  - M  scripts/generate_android_scaffold.py
-  - M  scripts/generate_contracts.py
-  - M  scripts/generate_database.py
-  - M  scripts/generate_scaffolds.py
-  - A  scripts/postprocess-openapi-types.mjs
-  - A  scripts/run-python.mjs
-  - M  scripts/run_continuity_self_test.py
-  - A  scripts/run_p00_database_invariants.sh
-  - A  scripts/run_p00_test_matrix.py
-  - M  scripts/run_postgres_migration_smoke.sh
-  - A  scripts/sync_runtime_assets.py
-  - M  scripts/test_continuity_protocol.py
-  - A  services/backend/Dockerfile
-  - M  services/backend/boot/pom.xml
-  - A  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
-  - A  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
-  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
-  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/RequestIdFilter.java
-  - M  services/backend/boot/src/main/resources/application.yml
-  - M  services/backend/boot/src/main/resources/contracts/admin-openapi.yaml
-  - M  services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - M  services/backend/boot/src/main/resources/contracts/websocket-events.yaml
-  - A  services/backend/boot/src/main/resources/db/migration/V009__v122_operational_governance.sql
-  - A  services/backend/boot/src/main/resources/db/migration/V010__p00_event_ledger_invariants.sql
-  - A  services/backend/boot/src/main/resources/db/migration/V011__app_release_version_policy.sql
-  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayMigrationTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
-  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-  - M  services/backend/boot/src/test/resources/application-test.yml
-  - A  services/backend/boot/src/test/resources/data.sql
-  - A  services/backend/boot/src/test/resources/schema.sql
-  - M  services/backend/platform/pom.xml
-  - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/config/HhyPlatformProperties.java
-  - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionCheckRequest.java
-  - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java
-  - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionPolicyView.java
-  - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java
-  - A  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppRelease.java
-  - A  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
-  - A  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformCapabilitiesView.java
-  - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusController.java
-  - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusService.java
-  - M  services/backend/platform/src/main/java/cc/orbexa/hhy/platform/status/PlatformStatusView.java
-  - M  services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
-  - M  services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiResponse.java
-  - A  tests/p00/README.md
-  - A  tests/p00/evidence.schema.json
-  - A  tests/p00/test_alert_sink.py
-  - A  tests/p00/test_p00_test_matrix.py
-  - A  tests/p00/test_secret_defaults.py
-  - A  tests/test_continuity_bootstrap_recovery.py
-  - A  tests/test_continuity_cross_release_close.py
-  - A  tests/test_release_close_gate.py
-  - ?? .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0007.yaml
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0003.yaml'
+  - ' M .continuity/change_requests/CR-0005.yaml'
+  - ' M .continuity/sessions/SES-20260716T232809Z-B4A980AF.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md'
+  - ' M docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md'
+  - ?? .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0008.yaml
   recent_commits:
+  - "128f6cd8920cf4143f13c7b20ac679046a0232be\t2026-07-17T10:25:17+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] fix(p00): reconcile engineering\
+    \ baseline and continuity"
   - "bffa551a122444a86bfcff0542714834bd6c2156\t2026-07-17T07:28:28+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(repo): import V1.2.3\
     \ enforced continuity baseline"
 project_fingerprint:
-  sha256: b4dd224bcb71756e3b70b918364931ade735d826fd730af2e00594a7dc9eebfd
+  sha256: afc94e96f6fbd48313f5de9adeeeb49b8cc63a2b43f04a905a2c2106d0dde07f
   files:
   - .dockerignore
   - .gitattributes
@@ -1666,12 +1358,12 @@ project_fingerprint:
       sha256: 231fb05140041e117c08a0be0961e98f1b137487f3c714091a899d70a108e2bb
     - path: docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md
       state: FILE
-      size: 2873
-      sha256: 5807710c803875a4902000517b7eba8573adf3f47450ec28cf8e365e212b1d1c
+      size: 3291
+      sha256: 060f766b7fe3a83cb77b6093079f7a9d11d21b7280810dcbc86cf76cf1e8f972
     - path: docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md
       state: FILE
-      size: 2596
-      sha256: 0448716dfc78142b11526cd6aa2fe025414d8842f649a6fc90c46ea4747f55db
+      size: 2810
+      sha256: 490b83bb0e0ca04cf10ccc07763feb1c805f942153fc171e9eb3b7c3ff074339
     - path: docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
       state: FILE
       size: 3449
@@ -2679,8 +2371,8 @@ continuity_state:
   last_session_id: null
   last_session_result: null
   last_closure_checkpoint_id: null
-  event_count: 34
-  event_head_hash: 1a7cd30f093f642148f27a559301aea8640ed12a0c110a758bc01b3822eb1830
+  event_count: 38
+  event_head_hash: 1e51bd670cb1e40d26d3fa800f1e040af0f7167302efd30ef0ca0764797a74c4
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-V123-PACKAGE-BASELINE
@@ -2703,9 +2395,9 @@ recent_sessions:
   started_at: '2026-07-16T23:28:09Z'
   record: .continuity/sessions/SES-20260716T232809Z-B4A980AF.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md
-  updated_at: '2026-07-17T02:24:39Z'
+  updated_at: '2026-07-17T02:26:15Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0007.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0008.yaml
   handoff_bundle: null
 task_claims:
 - task_id: TASK-P00-001
@@ -2773,106 +2465,6 @@ recent_task_transitions:
   actor_id: codex-root
   reason: 会话领取任务
 open_change_requests:
-- protocol_version: '1.0'
-  cr_id: CR-0003
-  title: 纠正P00公共状态与版本检查冻结契约生成错误
-  status: IMPLEMENTING
-  created_at: '2026-07-17T00:22:41Z'
-  updated_at: '2026-07-17T02:22:32Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-engineering-audit
-  task_id: TASK-P00-001
-  session_id: SES-20260716T232809Z-B4A980AF
-  user_request: 用户已明确开始开发并将项目开发落地交由Codex负责；要求P00完成后暂停
-  reason: 3个P00 operationId 的响应Schema、安全语义和类型与接口说明、服务及客户端模型冲突，阻断真实闭环
-  original_rule: publicGetPlatformStatus错误使用PublicPage分页响应；GET版本检查错误使用分页响应和通用分页参数；版本号为string且sha允许40位；契约与summary、服务及客户端模型冲突
-  new_rule: 状态接口返回明确的维护状态、消息、四个能力开关与serverTime对象；GET/POST版本检查返回单策略对象，GET保持匿名可选Bearer且仅使用platform/versionCode/channel/environment；版本号为int64、updateType为NONE/OPTIONAL/FORCED、SHA256固定64位hex
-  impact_summary: 纠正3个P00接口及公共Schema，影响根/Boot契约、生成TS、Android/Java模型、契约目录SHA和测试，不新增页面或业务能力
-  impact:
-    files:
-    - contracts/openapi.yaml;services/backend/boot/src/main/resources/contracts/openapi.yaml;packages/api-types;apps/admin-web/src/generated;apps/client-h5/src/generated;apps/android
-    pages: []
-    apis:
-    - publicGetPlatformStatus;appReleasePostAppVersionCheck;appReleaseGetAppVersionCheck
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - API schema exact-set check; backend MockMvc contract tests; Android serialization tests; generated typecheck
-    releases:
-    - P00
-    migration_and_compatibility: 当前尚未生产发布；同步重新生成客户端类型并保留路径和operationId不变，无数据库迁移；对错误分页结构不提供兼容窗口，因为它从未形成可用实现
-  user_confirmation: 用户于当前任务明确要求开始开发并将项目落地交由Codex负责，同时要求P00完成后暂停；本CR是完成P00必要的非扩张性纠错
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-17T00:22:58Z'
-    note: 独立审计确认属于生成错误纠正，须同步全部派生资产和正反向契约测试
-  machine_record: .continuity/change_requests/CR-0003.yaml
-  document: docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md
-  decision_log:
-  - at: '2026-07-17T02:22:32Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 按已批准合同完成P00公共状态与版本检查契约及消费者实施，等待基准Commit绑定
-    session_id: SES-20260716T232809Z-B4A980AF
-  session_ids:
-  - SES-20260716T232809Z-B4A980AF
-- protocol_version: '1.0'
-  cr_id: CR-0005
-  title: 纠正P00派生清单的需求接口故事测试计数与引用
-  status: IMPLEMENTED
-  created_at: '2026-07-17T00:45:46Z'
-  updated_at: '2026-07-17T00:48:57Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-release-audit
-  task_id: TASK-P00-001
-  session_id: SES-20260716T232809Z-B4A980AF
-  user_request: 用户已要求开始开发并明确P00完成后暂停推进
-  reason: 冻结事实源已明确14项需求、3个operationId、55张表、0页面、2个故事、59项测试，派生清单仍保留旧计数
-  original_rule: P00派生清单仍显示14需求但0接口/1故事/50或6项测试，并遗漏故事operationId引用
-  new_rule: P00统一引用冻结事实源：14需求、3个operationId、55张表、0页面、2个故事、59项测试；不增加任何新业务范围
-  impact_summary: 仅修正P00任务、发布清单、故事目录和发布产物索引的旧计数与既有引用
-  impact:
-    files:
-    - releases/P00/TASKS.yaml
-    - releases/P00/RELEASE_MANIFEST.yaml
-    - releases/P00/STORIES.yaml
-    - catalogs/release_story_backlog.csv
-    - catalogs/release_artifact_index.csv
-    pages: []
-    apis:
-    - publicGetPlatformStatus
-    - appReleasePostAppVersionCheck
-    - appReleaseGetAppVersionCheck
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - scripts/check_v123_documentation.py
-    - scripts/check_release_artifacts.py
-    releases:
-    - P00
-    migration_and_compatibility: 无运行时迁移；只更新派生清单并运行严格文档与契约追踪门禁
-  user_confirmation: 用户已明确开始开发，并要求P00完成后暂停推进
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-17T00:46:10Z'
-    note: 独立审计确认仅纠正既有冻结事实源的清单漂移：14需求、3接口、55表、0页面、2故事、59测试；禁止新增第4接口、页面、故事或需求
-  machine_record: .continuity/change_requests/CR-0005.yaml
-  document: docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md
-  decision_log:
-  - at: '2026-07-17T00:46:17Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 开始同步P00派生清单与冻结事实源
-    session_id: SES-20260716T232809Z-B4A980AF
-  - at: '2026-07-17T00:48:57Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: P00清单已统一为14需求、3接口、55表、0页面、2故事、59测试；严格文档、契约、运行时同步和数据库Schema门禁通过
-    session_id: SES-20260716T232809Z-B4A980AF
-  session_ids:
-  - SES-20260716T232809Z-B4A980AF
 - protocol_version: '1.0'
   cr_id: CR-0006
   title: P00事件账务不变量收口
@@ -2947,7 +2539,7 @@ source_manifest:
   sha256: 1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc
   bytes: 1433
 - path: CURRENT_STATUS.yaml
-  sha256: c4b4dc8d18cddd0898b226c82de558112b9c2c519d01f92228e224d8693784b4
+  sha256: eedf6fe867b640e1b264aa7fe68c9aadd51e49a9a8c263b10bd542f381d6aca9
   bytes: 2905
 - path: NEXT_TASK.yaml
   sha256: 4c5cb5e8a18378f7dc0c8377dea7a6fb1c9bf163031900e0491c0661951a4ec2
@@ -2971,10 +2563,10 @@ source_manifest:
   sha256: 69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223
   bytes: 6783
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: fe7c1e29486d659c7e356989fb918aafaba72d24c35306ab365808387e6f2411
-  bytes: 15757
+  sha256: 9c3f2d17e78ba8c49b892e22f6b033cac2b6e8866172afd0dc0cc2bab3e21633
+  bytes: 17506
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 03090005e0d76db9dba30cb1a09a2cb6645fd5b71f99dc667da7c7cffcce9619
+  sha256: d1f031a284abd6c3ea9423c47b77ee12200e9e473b6cb04b303a20ab07fa6587
   bytes: 1064
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 3a9aa7f7d64133f1a6dc48c8df4278dd9534252ad4bbe72f2f3527b02b095171
@@ -2983,10 +2575,10 @@ source_manifest:
   sha256: 721ed669a5c38218812d9d201d364c948f2b7ca0290f74d80409481e93f99f54
   bytes: 649
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 36981ed6d685303ed1fe7d13858d30e4f3e1d161136d567408290b0246d5777e
-  bytes: 11958
+  sha256: f874493710b33783cd2c7b11cb1762e34b8ca6e79243c7b88b4ce8cd41c52c44
+  bytes: 12700
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: eb2e75120941c7cde6670b17533a14ddf6dee8fdd3741f4a8c25b8b4dc0edcf7
+  sha256: a62c76472a555cb153183287f90fde90618a271af5280080bb92c911d6adad0f
   bytes: 525
 - path: releases/P00/RELEASE_MANIFEST.yaml
   sha256: 85e52576e6afd3effac69acb9b66094f2f5f6b28831f8c20d65e30a80b395240
@@ -3004,17 +2596,17 @@ source_manifest:
   sha256: 19a71fd0a8386cd25417d38df7430a74600b6a277b40f6c6b706faae122e5ccf
   bytes: 691
 - path: docs/03-continuity/sessions/2026-07/SES-20260716T232809Z-B4A980AF.md
-  sha256: a60384d14d2c1783547f47e0ae8481b50c619701fb5fffb10351d448e480627d
-  bytes: 31573
-- path: .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0007.yaml
-  sha256: ef6cf10b40e75cdb2f02b3e6bf23f0bde138665ba4329e2ba5638456c1c3ca3d
-  bytes: 47410
+  sha256: ad293174059e4ed4da16cf58fbb5b5654c0dfda0a8f4a56f021358e4f3673324
+  bytes: 39039
+- path: .continuity/checkpoints/SES-20260716T232809Z-B4A980AF/0008.yaml
+  sha256: 7fcd151cf8e4eddac6d128e2f32e3fbdb12fb6285856b11d8805adc55ee1f7d1
+  bytes: 38210
 - path: docs/03-continuity/change-requests/CR-0003-纠正P00公共状态与版本检查冻结契约生成错误.md
-  sha256: 5807710c803875a4902000517b7eba8573adf3f47450ec28cf8e365e212b1d1c
-  bytes: 2873
+  sha256: 060f766b7fe3a83cb77b6093079f7a9d11d21b7280810dcbc86cf76cf1e8f972
+  bytes: 3291
 - path: docs/03-continuity/change-requests/CR-0005-纠正P00派生清单的需求接口故事测试计数与引用.md
-  sha256: 0448716dfc78142b11526cd6aa2fe025414d8842f649a6fc90c46ea4747f55db
-  bytes: 2596
+  sha256: 490b83bb0e0ca04cf10ccc07763feb1c805f942153fc171e9eb3b7c3ff074339
+  bytes: 2810
 - path: docs/03-continuity/change-requests/CR-0006-P00事件账务不变量收口.md
   sha256: d6967e27f91d4ac78a8179213f26beece969d9dd9492b5f27e867a073990113a
   bytes: 3449
@@ -3025,4 +2617,4 @@ hard_rules:
 - 项目内容变化后必须先创建检查点再提交
 - 冻结事实变化必须关联已批准CR
 - 交接必须生成Handoff Bundle或完成干净提交
-context_hash: 1ce2c66be6cacfdc63450b103c0f0e0b97565fb5012e310c655d8cc9768f2658
+context_hash: fc8db15fb71cfbb22a884764d05f8122a6b67c449273a7519a689eabdea89a31

@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0005
 title: 纠正P00派生清单的需求接口故事测试计数与引用
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-17T00:45:46Z'
-updated_at: '2026-07-17T00:48:57Z'
+updated_at: '2026-07-17T02:25:59Z'
 requester_actor_id: codex-root
 approver_actor_id: codex-release-audit
 task_id: TASK-P00-001
@@ -52,5 +52,12 @@ decision_log:
   status: IMPLEMENTED
   note: P00清单已统一为14需求、3接口、55表、0页面、2故事、59测试；严格文档、契约、运行时同步和数据库Schema门禁通过
   session_id: SES-20260716T232809Z-B4A980AF
+- at: '2026-07-17T02:25:59Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: P00派生清单计数与引用纠正已由实现Commit和文档门禁验证
+  session_id: SES-20260716T232809Z-B4A980AF
 session_ids:
 - SES-20260716T232809Z-B4A980AF
+implementation_commits:
+- 128f6cd8920cf4143f13c7b20ac679046a0232be
