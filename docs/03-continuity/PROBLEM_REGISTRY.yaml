@@ -49,7 +49,7 @@ problems:
   resolution: 使用Spring Boot 4官方spring-boot-starter-flyway，保留PostgreSQL专用模块，并以真实staging空库启动和自动配置类回归测试双重门禁
   regression_checks:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
-  - staging空库启动后flyway_schema_history必须为11且hhy基础表必须为198
+  - staging空库启动后必须有11条版本化Flyway记录，且排除flyway_schema_history后hhy业务基础表必须为198
   do_not_repeat:
   - 不得以应用HTTP健康替代数据库迁移完成验证
   - Spring Boot大版本升级后必须核对已拆分starter及自动配置模块

@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T03:14:13Z
-- Context Hash：`9334fd89a35048c56a5564edcdafd01468884820ceb99cccbd5b82a624dfc3e5`
+- 生成时间：2026-07-17T03:18:58Z
+- Context Hash：`c26b3857544a59ade5ab885742f71dc08d84acb8b96f255436562e1577cac2d8`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -42,7 +42,7 @@ in_progress_tasks:
 - TASK-P00-005
 blocked_tasks: []
 next_task: TASK-P00-005
-updated_at: '2026-07-17T03:14:12Z'
+updated_at: '2026-07-17T03:18:57Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -77,15 +77,15 @@ continuity:
   active_session_id: SES-20260717T024407Z-B03C9375
   actor_id: codex-root
   story_id: STORY-P00-001
-  lease_expires_at: '2026-07-17T07:14:12Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0001.yaml
-  project_fingerprint: 04ccf9081806d776365de5a4ce1ee1fe0136c196b7657e291089172bc41a9a95
+  lease_expires_at: '2026-07-17T07:18:57Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0002.yaml
+  project_fingerprint: 6130489c8b862c49ce613ac27f6fc4e45f0bb7b2e35b93eb5d1af052f77d26e9
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 384e646975c9fb1809ca7c8dc95b03200d47e472261516baeb3e1e22a3c0429c
-    generated_at: '2026-07-17T02:44:08Z'
+    context_hash: 9334fd89a35048c56a5564edcdafd01468884820ceb99cccbd5b82a624dfc3e5
+    generated_at: '2026-07-17T03:14:13Z'
   handoff_bundle: null
 ```
 
@@ -143,7 +143,7 @@ task_id: TASK-P00-005
 story_id: STORY-P00-001
 goal: 执行P00精确59项测试矩阵，生成10套绑定基线Commit的外部证据并清零关键缺陷
 started_at: '2026-07-17T02:44:07Z'
-updated_at: '2026-07-17T03:14:12Z'
+updated_at: '2026-07-17T03:18:57Z'
 takeover_of: null
 change_requests:
 - CR-0007
@@ -190,12 +190,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T03:14:12Z'
-  expires_at: '2026-07-17T07:14:12Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0001.yaml
+  renewed_at: '2026-07-17T03:18:57Z'
+  expires_at: '2026-07-17T07:18:57Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md
-next_step: 提交新业务基准后重新构建空库staging并生成59项测试证据
+next_step: 冻结最终源提交，执行staging API告警回滚与APK证据
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -205,64 +205,49 @@ closure: null
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T024407Z-B03C9375-0001
+checkpoint_id: CP-SES-20260717T024407Z-B03C9375-0002
 session_id: SES-20260717T024407Z-B03C9375
-sequence: 1
-created_at: '2026-07-17T03:14:11Z'
-summary: 修复Spring Boot 4 staging Flyway自动迁移链并新增回归门禁
-next_step: 提交新业务基准后重新构建空库staging并生成59项测试证据
+sequence: 2
+created_at: '2026-07-17T03:18:56Z'
+summary: CR-0007已实现且PostgreSQL17.10空库自动迁移和业务指标通过
+next_step: 冻结最终源提交，执行staging API告警回滚与APK证据
 blockers: []
 decisions:
-- CR-0007独立批准；仅替换为官方starter，不改DDL和API
+- Flyway历史12行含1条schema创建记录；版本化迁移11条，业务表198张
 note: ''
 tests:
-- name: backend-flyway-autoconfig
+- name: staging-flyway-empty-db
   result: PASS
-  evidence: services/backend/boot/target/surefire-reports
-  note: 1项0失败
-- name: backend-full
+  evidence: obx-test:hhy-p00-staging-7e6bfd
+  note: 11 migrations,198 business tables
+- name: staging-business-gauges
   result: PASS
-  evidence: services/backend/boot/target/surefire-reports
-  note: 14项0失败1条件跳过
+  evidence: obx-test:/actuator/prometheus
+  note: 4 gauges all zero
 - name: p00-documentation
   result: PASS
   evidence: scripts/check_v123_documentation.py
   note: strict P00
-- name: api-runtime-matrix-gates
-  result: PASS
-  evidence: scripts/sync_runtime_assets.py; scripts/check_api_contract.py; tests/p00/test_p00_test_matrix.py; tests/p00/test_secret_defaults.py
-  note: 全部通过
 git:
   initialized: true
   branch: task/TASK-P00-005
-  head: 34580dcf7e06934e635ba07d059cafc629956e3c
+  head: 7e6bfd70c9f4127f2778b1423d03ed619bcab25b
   upstream: null
   ahead: null
   behind: null
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M .continuity/change_requests/CR-0007.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M services/backend/boot/pom.xml'
-  - ?? .continuity/change_requests/CR-0007.yaml
-  - ?? .continuity/sessions/SES-20260717T024407Z-B03C9375.yaml
-  - ?? docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+  - ' M docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md'
   recent_commits:
+  - "7e6bfd70c9f4127f2778b1423d03ed619bcab25b\t2026-07-17T11:15:08+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] fix(staging): restore Boot\
+    \ 4 Flyway startup migration"
   - "34580dcf7e06934e635ba07d059cafc629956e3c\t2026-07-17T10:43:27+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-004\
     \ as completed"
   - "125d3dbf304210153e8d8b649c7d59182438c4d1\t2026-07-17T10:42:04+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): verify generated\
@@ -277,10 +262,8 @@ git:
     \ invariants on PostgreSQL 17.10"
   - "3a62512ebffe851e0cf73dfdac9f1a36035fe58f\t2026-07-17T10:31:37+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-001\
     \ as completed"
-  - "4b6c5ee97beb0ca9df25d77df198f4497b935fd0\t2026-07-17T10:26:25+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): bind approved\
-    \ change requests"
 project_fingerprint:
-  sha256: 04ccf9081806d776365de5a4ce1ee1fe0136c196b7657e291089172bc41a9a95
+  sha256: 6130489c8b862c49ce613ac27f6fc4e45f0bb7b2e35b93eb5d1af052f77d26e9
   files:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
@@ -292,12 +275,12 @@ project_fingerprint:
     files:
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 3299
-      sha256: 3d9083375c47aa986229532a13a9a3a2c5bf00492e2dde0514081272cdc9dbb0
+      size: 3341
+      sha256: 5ac0cfd0423c847064ebe09037bf9da137eda834a84c8c2ef1ad2727dd1ae307
     - path: docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
       state: FILE
-      size: 2129
-      sha256: 205a16c9e1a518d7f17df136e6ef07de579fe711a39b95c9c71967fe42782d4a
+      size: 2352
+      sha256: e0a775c2d0aac2c87befa19c89127b9195284243eb954f609d60e128bd3b045d
     - path: services/backend/boot/pom.xml
       state: FILE
       size: 3277
@@ -355,7 +338,7 @@ scope:
   - PROJECT_*.json
   approved_exceptions: []
   source: story+explicit
-event_hash: 16f61b64ddd9eae669988db25a076801031596a09200fd5f3ca6350726b7a980
+event_hash: 9a4176ef57f0a740e75437d431f9fa1e3d4e2bcba071f7460e9c05e438df4922
 ```
 
 ## 接续状态与事件头
@@ -367,8 +350,8 @@ active_session_id: SES-20260717T024407Z-B03C9375
 last_session_id: SES-20260717T023848Z-9F352CA9
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T023848Z-9F352CA9-0002
-event_count: 63
-event_head_hash: 16f61b64ddd9eae669988db25a076801031596a09200fd5f3ca6350726b7a980
+event_count: 65
+event_head_hash: 9a4176ef57f0a740e75437d431f9fa1e3d4e2bcba071f7460e9c05e438df4922
 event_chain_valid: true
 ```
 
@@ -443,9 +426,9 @@ recent_sessions: - session_id: SES-V123-PACKAGE-BASELINE
   started_at: '2026-07-17T02:44:07Z'
   record: .continuity/sessions/SES-20260717T024407Z-B03C9375.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md
-  updated_at: '2026-07-17T03:14:12Z'
+  updated_at: '2026-07-17T03:18:57Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0001.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0002.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -713,7 +696,7 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
 ```yaml
 initialized: true
 branch: task/TASK-P00-005
-head: 34580dcf7e06934e635ba07d059cafc629956e3c
+head: 7e6bfd70c9f4127f2778b1423d03ed619bcab25b
 upstream: null
 ahead: null
 behind: null
@@ -724,24 +707,18 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
+- ' M .continuity/change_requests/CR-0007.yaml'
+- ' M .continuity/sessions/SES-20260717T024407Z-B03C9375.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
 - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M services/backend/boot/pom.xml'
-- ?? .continuity/change_requests/CR-0007.yaml
-- ?? .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0001.yaml
-- ?? .continuity/sessions/SES-20260717T024407Z-B03C9375.yaml
-- ?? docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+- ' M docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md'
+- ?? .continuity/checkpoints/SES-20260717T024407Z-B03C9375/0002.yaml
 recent_commits:
+- "7e6bfd70c9f4127f2778b1423d03ed619bcab25b\t2026-07-17T11:15:08+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] fix(staging): restore Boot 4\
+  \ Flyway startup migration"
 - "34580dcf7e06934e635ba07d059cafc629956e3c\t2026-07-17T10:43:27+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-004\
   \ as completed"
 - "125d3dbf304210153e8d8b649c7d59182438c4d1\t2026-07-17T10:42:04+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): verify generated\
@@ -756,13 +733,11 @@ recent_commits:
   \ on PostgreSQL 17.10"
 - "3a62512ebffe851e0cf73dfdac9f1a36035fe58f\t2026-07-17T10:31:37+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-001\
   \ as completed"
-- "4b6c5ee97beb0ca9df25d77df198f4497b935fd0\t2026-07-17T10:26:25+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): bind approved change\
-  \ requests"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`04ccf9081806d776365de5a4ce1ee1fe0136c196b7657e291089172bc41a9a95`
+- 指纹：`6130489c8b862c49ce613ac27f6fc4e45f0bb7b2e35b93eb5d1af052f77d26e9`
 - 文件数：4
 
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
@@ -1468,9 +1443,9 @@ TASKS.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0007
   title: 修复Spring Boot 4 staging Flyway自动迁移未启用
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-17T03:05:39Z'
-  updated_at: '2026-07-17T03:11:40Z'
+  updated_at: '2026-07-17T03:18:29Z'
   requester_actor_id: codex-root
   approver_actor_id: codex-engineering-audit
   task_id: TASK-P00-005
@@ -1509,36 +1484,43 @@ TASKS.yaml:
     status: IMPLEMENTING
     note: 按批准范围修复Boot4 Flyway自动配置并复验空库staging
     session_id: SES-20260717T024407Z-B03C9375
+  - at: '2026-07-17T03:18:29Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 官方starter修复、回归测试和PostgreSQL17.10空库自动迁移均通过
+    session_id: SES-20260717T024407Z-B03C9375
   session_ids:
   - SES-20260717T024407Z-B03C9375
+  implementation_commits:
+  - 7e6bfd70c9f4127f2778b1423d03ed619bcab25b
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `aa6639a601c55f965292ce54db5e721817437baf738a57a876a66f8aaf61b9f6`
+- `CURRENT_STATUS.yaml` — `34fdb4401b6f9b332180fefe695464ee966867c095d66150eca37a51c2eab4d6`
 - `NEXT_TASK.yaml` — `8cd0990dee0e2230e0ff069d1911fc4f6fcf5a0acdce43868299005b0c5c44c7`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `3d9083375c47aa986229532a13a9a3a2c5bf00492e2dde0514081272cdc9dbb0`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `5ac0cfd0423c847064ebe09037bf9da137eda834a84c8c2ef1ad2727dd1ae307`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223`
-- `.continuity/EVENT_LOG.jsonl` — `6fabf091f4b40b462a73098b5ed472e5887973ac185287fc3fb2090a50b6dc58`
-- `.continuity/SESSION_INDEX.yaml` — `107b399eea28fab7d2b0343e4670d21ecde529e81c4e1a3d2bf00e369b9ec615`
+- `.continuity/EVENT_LOG.jsonl` — `b471dbefa5b7db4982eb2864b47598f1aa337ade73ac0ac7d089ade8985c490a`
+- `.continuity/SESSION_INDEX.yaml` — `693f69e16f4c9e99553cadfbcd37a38e308d9ad93968fb9414204f93c6f48bf1`
 - `.continuity/TASK_CLAIMS.yaml` — `9430526ec1917e94782622ddd8283f3799377d1da53c870ea68720cd041fa440`
 - `.continuity/TASK_TRANSITIONS.yaml` — `52ea32bf156afa755a4d723488ec3460840bf68319fa07ff886f7beb14679722`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `73ffde9a5b92c2b2ff7bee3919a33d2f0a10ca830d24ac4da0a9faac90b5c183`
-- `.continuity/ACTIVE_SESSION.yaml` — `ec6be3bab49e8c1fb8edfd975bf6d47627b1c845557447c736d8b4c25f5ad6d2`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c9486be217b6176fb730ee9ae9ecd3ca715981491a0fd5a5d4ec50e1990f557d`
+- `.continuity/ACTIVE_SESSION.yaml` — `ce9c12b1e759e6859764c6d0becd6053d9055ef6de66912110381cd25b84bcbf`
 - `releases/P00/RELEASE_MANIFEST.yaml` — `85e52576e6afd3effac69acb9b66094f2f5f6b28831f8c20d65e30a80b395240`
 - `releases/P00/DEFINITION_OF_READY.yaml` — `ffe6940f64abc0bef4ca56719a9e442d86bf37460e7166acc00a70a893906cd9`
 - `releases/P00/STORIES.yaml` — `36adc34eb83bdb7b1898bc6060f4e5362d287168581b4a7d2af222145551fd18`
 - `releases/P00/TASKS.yaml` — `1e7af033758f7834c0c451b49edc1eb892c120ebbc29ebf46f4b1eafc03be27b`
 - `releases/P00/ACCEPTANCE_MATRIX.csv` — `19a71fd0a8386cd25417d38df7430a74600b6a277b40f6c6b706faae122e5ccf`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md` — `d6af0ed88989252756ef4b96a94d48f5ab187ab0527068d8ad3108b0d0ff0803`
-- `.continuity/checkpoints/SES-20260717T024407Z-B03C9375/0001.yaml` — `a88ed573c71c94cc387554ca64dc575ea09b0edd2fbacb337c84e2216cb7fa6b`
-- `docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md` — `205a16c9e1a518d7f17df136e6ef07de579fe711a39b95c9c71967fe42782d4a`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md` — `5480840b159d55bf027149b279772ca1b97ee1f19b98d8722c50f7fbfc8ff909`
+- `.continuity/checkpoints/SES-20260717T024407Z-B03C9375/0002.yaml` — `e955585b39b9dcae16a57c6f335c45c283b8752f361aa594bd0f0683dc02dc1a`
+- `docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md` — `e0a775c2d0aac2c87befa19c89127b9195284243eb954f609d60e128bd3b045d`
 
 ## 接手硬规则
 

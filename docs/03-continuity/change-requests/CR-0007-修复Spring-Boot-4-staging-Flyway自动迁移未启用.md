@@ -85,3 +85,10 @@ Spring Boot 4.1.0应用启动时由现有flyway-core依赖自动执行classpath�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260717T024407Z-B03C9375`
 - Note：按批准范围修复Boot4 Flyway自动配置并复验空库staging
+
+## 状态记录 · 2026-07-17T03:18:29Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260717T024407Z-B03C9375`
+- Note：官方starter修复、回归测试和PostgreSQL17.10空库自动迁移均通过

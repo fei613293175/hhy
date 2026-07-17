@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0007
 title: 修复Spring Boot 4 staging Flyway自动迁移未启用
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-17T03:05:39Z'
-updated_at: '2026-07-17T03:11:40Z'
+updated_at: '2026-07-17T03:18:29Z'
 requester_actor_id: codex-root
 approver_actor_id: codex-engineering-audit
 task_id: TASK-P00-005
@@ -42,5 +42,12 @@ decision_log:
   status: IMPLEMENTING
   note: 按批准范围修复Boot4 Flyway自动配置并复验空库staging
   session_id: SES-20260717T024407Z-B03C9375
+- at: '2026-07-17T03:18:29Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 官方starter修复、回归测试和PostgreSQL17.10空库自动迁移均通过
+  session_id: SES-20260717T024407Z-B03C9375
 session_ids:
 - SES-20260717T024407Z-B03C9375
+implementation_commits:
+- 7e6bfd70c9f4127f2778b1423d03ed619bcab25b
