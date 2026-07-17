@@ -7,9 +7,9 @@ sha256: 7dcd2e86bba02ad45a9d9187d28ed9cab260aefa39d7ae40ed0bfd487fa83b9f
 size_bytes: 11708202
 signing_fingerprint: 68529af253b7254248c1213e27dc113febdcdddfdd0be1501e2804e266dd35ee
 built_at: '2026-07-18T00:52:28.681315'
-test_status: BUILD_PASS_PENDING_OWNER_PHYSICAL_TEST
-owner_physical_test: PENDING
-owner_confirmation: 等待项目所有者真机安装与启动验收
+test_status: PASS
+owner_physical_test: PASS
+owner_confirmation: 项目所有者于2026-07-18提供真机截图，确认APK已安装、正常启动并进入首页，底部五个导航入口可见。
 download_url: LOCAL_DESKTOP_COPY
 desktop_copy: C:\Users\小白\Desktop\hhy-r01-db3cfdd-debug.apk
 build:

@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-17T16:54:24Z'
+generated_at: '2026-07-17T17:04:49Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -44,7 +44,7 @@ current_status:
   - TASK-R01-007
   blocked_tasks: []
   next_task: TASK-R01-007
-  updated_at: '2026-07-17T16:54:23Z'
+  updated_at: '2026-07-17T17:04:48Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -79,15 +79,15 @@ current_status:
     active_session_id: SES-20260717T152721Z-016DB4B2
     actor_id: codex-root
     story_id: STORY-R01-003
-    lease_expires_at: '2026-07-17T20:54:22Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0007.yaml
-    project_fingerprint: ca88888d18ab1ec6093831163c803440be94540f2069c0a629d0d0d9cca48cb6
+    lease_expires_at: '2026-07-17T21:04:48Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0008.yaml
+    project_fingerprint: 714523f4a4608770debbe404fe5f3aed8d4a6ed6e130ff8f53636c8b5a6df51e
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: aaa93776ee5503de2056f6ed43566008566c6eea29405d7c8b41d88060691f5e
-      generated_at: '2026-07-17T16:44:12Z'
+      context_hash: 3b7f2680f30410f7c7317eac001da34d3a0e4382adfcba53cc5761e81da98754
+      generated_at: '2026-07-17T17:03:38Z'
     handoff_bundle: null
 next_task:
   id: TASK-R01-007
@@ -141,7 +141,7 @@ active_session:
   story_id: STORY-R01-003
   goal: Design System与契约工程化Android测试APK与产物追溯
   started_at: '2026-07-17T15:27:21Z'
-  updated_at: '2026-07-17T16:54:22Z'
+  updated_at: '2026-07-17T17:04:48Z'
   takeover_of: null
   change_requests: []
   scope:
@@ -190,68 +190,64 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-17T16:54:22Z'
-    expires_at: '2026-07-17T20:54:22Z'
-  checkpoint_sequence: 7
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0007.yaml
+    renewed_at: '2026-07-17T17:04:48Z'
+    expires_at: '2026-07-17T21:04:48Z'
+  checkpoint_sequence: 8
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0008.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md
-  next_step: 等待项目所有者反馈R01 APK真机安装与启动验收结果；通过后回填Manifest并关闭TASK-R01-007
+  next_step: 提交APK真机验收记录，执行TASK-R01-007关闭流程。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260717T152721Z-016DB4B2-0007
+  checkpoint_id: CP-SES-20260717T152721Z-016DB4B2-0008
   session_id: SES-20260717T152721Z-016DB4B2
-  sequence: 7
-  created_at: '2026-07-17T16:54:22Z'
-  summary: R01测试APK已由精确Commit构建、签名和静态安装信息复核，最终副本已复制到桌面；等待项目所有者真机验收
-  next_step: 等待项目所有者反馈R01 APK真机安装与启动验收结果；通过后回填Manifest并关闭TASK-R01-007
-  blockers:
-  - 真机安装与启动验收仅能由项目所有者完成，当前等待明确反馈
-  decisions:
-  - 桌面仅保留带测试名称的最终APK，源码、SHA256、签名、工具链和构建日志均已归档
+  sequence: 8
+  created_at: '2026-07-17T17:04:47Z'
+  summary: 收到项目所有者2026-07-18真机截图：R01 APK已安装、正常启动进入首页，五个底部导航入口可见；已回填APK Manifest、Task007和AC-R01-006为PASS。
+  next_step: 提交APK真机验收记录，执行TASK-R01-007关闭流程。
+  blockers: []
+  decisions: []
   note: ''
   tests:
-  - name: R01-android-gradle-build
+  - name: APK桌面副本SHA256
     result: PASS
-    evidence: artifacts/validation/r01-task007-android/gradle-build.log
-    note: testDebugUnitTest lintDebug assembleDebug BUILD SUCCESSFUL
-  - name: R01-apk-badging
+    evidence: artifacts/apk/R01/APK_MANIFEST.yaml
+    note: 项目产物与桌面副本哈希一致
+  - name: release-artifact-check
     result: PASS
-    evidence: artifacts/validation/r01-task007-android/apk-badging.txt
-    note: 独立包名、测试名称、版本、SDK和启动入口通过
-  - name: R01-apk-desktop-sha
+    evidence: scripts/check_release_artifacts.py --release R01
+    note: R01 APK产物清单校验通过
+  - name: AC-R01-006-record
     result: PASS
-    evidence: artifacts/apk/R01/hhy-r01-db3cfdd-debug.apk
-    note: 仓库副本与桌面副本SHA256一致
-  - name: R01-apk-signature
-    result: PASS
-    evidence: artifacts/validation/r01-task007-android/apk-signing.txt
-    note: v2签名与证书指纹通过
-  - name: R01-git-diff-check
+    evidence: releases/R01/ACCEPTANCE_MATRIX.csv
+    note: 真机验收记录已回填
+  - name: git-diff-check
     result: PASS
     evidence: git diff --check
     note: 无空白错误
-  - name: R01-release-artifact-structure
-    result: PASS
-    evidence: scripts/check_release_artifacts.py --release R01
-    note: Release产物结构通过
   git:
     initialized: true
     branch: task/TASK-R01-007
-    head: db3cfddcc4cda84265ec18f24de972804d62a08f
-    upstream: null
-    ahead: null
-    behind: null
+    head: 920daf4e314c80f37a324c863f988dd6fc57ec8c
+    upstream: origin/task/TASK-R01-007
+    ahead: 0
+    behind: 0
     dirty: true
     status_porcelain:
-    - ?? artifacts/apk/R01/APK_MANIFEST.yaml
-    - ?? artifacts/reports/R01/TASK-R01-007-android-apk.md
-    - ?? artifacts/validation/r01-task007-android/apk-badging.txt
-    - ?? artifacts/validation/r01-task007-android/apk-signing.txt
-    - ?? artifacts/validation/r01-task007-android/gradle-build.log
+    - ' M .continuity/STATE.yaml'
+    - ' M .continuity/sessions/SES-20260717T152721Z-016DB4B2.yaml'
+    - ' M artifacts/apk/R01/APK_MANIFEST.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M artifacts/reports/R01/TASK-R01-007-android-apk.md'
+    - ' M releases/R01/ACCEPTANCE_MATRIX.csv'
+    - ' M releases/R01/TASKS.yaml'
     recent_commits:
+    - "920daf4e314c80f37a324c863f988dd6fc57ec8c\t2026-07-18T00:54:39+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive Android\
+      \ APK traceability"
     - "db3cfddcc4cda84265ec18f24de972804d62a08f\t2026-07-18T00:44:24+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): enable debug\
       \ resource overrides"
     - "06b705ed53d83258e8d4b166909c5c21384f4b02\t2026-07-18T00:40:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): mark debug APK\
@@ -266,17 +262,17 @@ latest_checkpoint:
       \ media type to validation"
     - "99f73023565acaa8c47001f1161b66a9447b845c\t2026-07-17T22:37:42+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): use portable\
       \ interval syntax"
-    - "f685a0778ea9b3b723d68d3d9fc6cf639aa4d4b5\t2026-07-17T22:34:49+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): harden observability\
-      \ error paths"
   project_fingerprint:
-    sha256: ca88888d18ab1ec6093831163c803440be94540f2069c0a629d0d0d9cca48cb6
+    sha256: 714523f4a4608770debbe404fe5f3aed8d4a6ed6e130ff8f53636c8b5a6df51e
     files:
     - CHANGELOG.md
     - apps/android/app/build.gradle.kts
     - apps/android/app/src/main/AndroidManifest.xml
     - artifacts/apk/R01/APK_MANIFEST.yaml
     - infra/toolchains/android/Dockerfile
-    file_count: 5
+    - releases/R01/ACCEPTANCE_MATRIX.csv
+    - releases/R01/TASKS.yaml
+    file_count: 7
     payload:
       base_commit: 46fb27372f2e62f3fe83d9f43f8e2189bbed4757
       files:
@@ -294,16 +290,26 @@ latest_checkpoint:
         sha256: a4a8afdea84e04a65751148fd3f68e09fd2ab04d96bcfc9131be5d2d9d6f054e
       - path: artifacts/apk/R01/APK_MANIFEST.yaml
         state: FILE
-        size: 1042
-        sha256: 324b13c892b6f4892d3a2334866d82fe5a54ab05873e1baacde305614ea62ffa
+        size: 1090
+        sha256: b098bd6a222fdd4ea5023224bfd77e3469253a48135e06f2667ef9a98986d498
       - path: infra/toolchains/android/Dockerfile
         state: FILE
         size: 1107
         sha256: 3a8b95720587cce665c50b5d5e338a8a08491a1c7b35657943671bc166de37a5
+      - path: releases/R01/ACCEPTANCE_MATRIX.csv
+        state: FILE
+        size: 742
+        sha256: 54e81f341a47f4faff353db3be85649998f50f3fec13a3fb130cdc3a73510b8e
+      - path: releases/R01/TASKS.yaml
+        state: FILE
+        size: 5855
+        sha256: dd30263288b10120a0cce3580aa6a0e00d0253fa3f8c7e19f065fc8f3cd82a4f
   change_classification:
     other:
     - CHANGELOG.md
     - artifacts/apk/R01/APK_MANIFEST.yaml
+    - releases/R01/ACCEPTANCE_MATRIX.csv
+    - releases/R01/TASKS.yaml
     code:
     - apps/android/app/build.gradle.kts
     - apps/android/app/src/main/AndroidManifest.xml
@@ -357,14 +363,14 @@ latest_checkpoint:
     - artifacts/validation/**
     approved_exceptions: []
     source: story+explicit+apk-delivery-artifacts
-  event_hash: a74dd36abee00b6933a9ffe97541afb04b0e248d2f9938b686a9608ddd633612
+  event_hash: 862c9c32816beed24210186d92f3345131cf877b046d2e56d9371f31047e830b
 git:
   initialized: true
   branch: task/TASK-R01-007
-  head: db3cfddcc4cda84265ec18f24de972804d62a08f
-  upstream: null
-  ahead: null
-  behind: null
+  head: 920daf4e314c80f37a324c863f988dd6fc57ec8c
+  upstream: origin/task/TASK-R01-007
+  ahead: 0
+  behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
@@ -373,15 +379,19 @@ git:
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/sessions/SES-20260717T152721Z-016DB4B2.yaml'
   - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/apk/R01/APK_MANIFEST.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/reports/R01/TASK-R01-007-android-apk.md'
   - ' M catalogs/session_index.csv'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md'
-  - ?? .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0007.yaml
-  - ?? artifacts/apk/R01/APK_MANIFEST.yaml
-  - ?? artifacts/reports/R01/TASK-R01-007-android-apk.md
-  - ?? artifacts/validation/r01-task007-android/apk-badging.txt
-  - ?? artifacts/validation/r01-task007-android/apk-signing.txt
-  - ?? artifacts/validation/r01-task007-android/gradle-build.log
+  - ' M releases/R01/ACCEPTANCE_MATRIX.csv'
+  - ' M releases/R01/TASKS.yaml'
+  - ?? .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0008.yaml
   recent_commits:
+  - "920daf4e314c80f37a324c863f988dd6fc57ec8c\t2026-07-18T00:54:39+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive Android\
+    \ APK traceability"
   - "db3cfddcc4cda84265ec18f24de972804d62a08f\t2026-07-18T00:44:24+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): enable debug resource\
     \ overrides"
   - "06b705ed53d83258e8d4b166909c5c21384f4b02\t2026-07-18T00:40:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): mark debug APK\
@@ -396,17 +406,17 @@ git:
     \ media type to validation"
   - "99f73023565acaa8c47001f1161b66a9447b845c\t2026-07-17T22:37:42+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): use portable interval\
     \ syntax"
-  - "f685a0778ea9b3b723d68d3d9fc6cf639aa4d4b5\t2026-07-17T22:34:49+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): harden observability\
-    \ error paths"
 project_fingerprint:
-  sha256: ca88888d18ab1ec6093831163c803440be94540f2069c0a629d0d0d9cca48cb6
+  sha256: 714523f4a4608770debbe404fe5f3aed8d4a6ed6e130ff8f53636c8b5a6df51e
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/main/AndroidManifest.xml
   - artifacts/apk/R01/APK_MANIFEST.yaml
   - infra/toolchains/android/Dockerfile
-  file_count: 5
+  - releases/R01/ACCEPTANCE_MATRIX.csv
+  - releases/R01/TASKS.yaml
+  file_count: 7
   payload:
     base_commit: 46fb27372f2e62f3fe83d9f43f8e2189bbed4757
     files:
@@ -424,12 +434,20 @@ project_fingerprint:
       sha256: a4a8afdea84e04a65751148fd3f68e09fd2ab04d96bcfc9131be5d2d9d6f054e
     - path: artifacts/apk/R01/APK_MANIFEST.yaml
       state: FILE
-      size: 1042
-      sha256: 324b13c892b6f4892d3a2334866d82fe5a54ab05873e1baacde305614ea62ffa
+      size: 1090
+      sha256: b098bd6a222fdd4ea5023224bfd77e3469253a48135e06f2667ef9a98986d498
     - path: infra/toolchains/android/Dockerfile
       state: FILE
       size: 1107
       sha256: 3a8b95720587cce665c50b5d5e338a8a08491a1c7b35657943671bc166de37a5
+    - path: releases/R01/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 742
+      sha256: 54e81f341a47f4faff353db3be85649998f50f3fec13a3fb130cdc3a73510b8e
+    - path: releases/R01/TASKS.yaml
+      state: FILE
+      size: 5855
+      sha256: dd30263288b10120a0cce3580aa6a0e00d0253fa3f8c7e19f065fc8f3cd82a4f
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R01
@@ -1167,7 +1185,7 @@ release_context:
       completed_at: '2026-07-17T15:20:29Z'
     - id: TASK-R01-007
       title: Design System与契约工程化Android测试APK与产物追溯
-      status: READY
+      status: DONE
       depends_on:
       - TASK-R01-006
       requirements: *id001
@@ -1181,6 +1199,7 @@ release_context:
       - APK可下载/可安装
       - SHA256、Commit、versionName/versionCode、测试结果齐全
       session_log_required: true
+      completed_at: '2026-07-17T17:03:51Z'
     - id: TASK-R01-008
       title: Design System与契约工程化版本关闭与无状态交接
       status: BLOCKED
@@ -1208,8 +1227,8 @@ continuity_state:
   last_session_id: SES-20260717T141717Z-A01412D7
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260717T141717Z-A01412D7-0007
-  event_count: 196
-  event_head_hash: a74dd36abee00b6933a9ffe97541afb04b0e248d2f9938b686a9608ddd633612
+  event_count: 197
+  event_head_hash: 862c9c32816beed24210186d92f3345131cf877b046d2e56d9371f31047e830b
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260717T053626Z-25451510
@@ -1328,9 +1347,9 @@ recent_sessions:
   started_at: '2026-07-17T15:27:21Z'
   record: .continuity/sessions/SES-20260717T152721Z-016DB4B2.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md
-  updated_at: '2026-07-17T16:54:22Z'
+  updated_at: '2026-07-17T17:04:48Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0007.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0008.yaml
   handoff_bundle: null
 task_claims:
 - task_id: TASK-P00-001
@@ -2174,7 +2193,7 @@ source_manifest:
   sha256: 1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc
   bytes: 1433
 - path: CURRENT_STATUS.yaml
-  sha256: 2ae8d61a51ce86c9f14dd4066621235e48644633e210deaa6d1655356c4f8621
+  sha256: a55546a8a716842aad1b5695940aba66791d3b77bbbf4b646debd952bb96953b
   bytes: 3140
 - path: NEXT_TASK.yaml
   sha256: ee3cbf0a8261a4309316dd31a08f8bf8f3c073426b9b4027b906a719e067f436
@@ -2198,10 +2217,10 @@ source_manifest:
   sha256: 69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223
   bytes: 6783
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: fc11f8919c060ff99838d70f2951cdf0bd857d635f1cfb7a3655f8a503698d4b
-  bytes: 101522
+  sha256: 8a4bf957cc5586a979c23ef1f161f442f7d68434df05a38322f10740a2079a03
+  bytes: 102258
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 4432c43eb4757453f241df6fa0666b2c8ac3eebe204b0e79a525cff0d16f9e24
+  sha256: dbbf9c4f8f56b8173359abe3e274a1a3ec30daf667235882861adc6efe268f18
   bytes: 8092
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 4645c168d1811f196aba43214e5c0d92b5e1305da4a725b2c0fd4fdeca53e8f6
@@ -2213,7 +2232,7 @@ source_manifest:
   sha256: c187fe4a88dd354ac7612fe44761326dae4e21494ed981f490abfce3167d91dd
   bytes: 45854
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 38d856126a1d1017a98118a43a986c7ec62b81ad428e2b24ebdb6f5a7db2f75c
+  sha256: 7e681ef312fa2c29aeb3434969b64ee4545d94106bdc7c9a3cfc8fe720b72af3
   bytes: 525
 - path: releases/R01/RELEASE_MANIFEST.yaml
   sha256: bb986f651fd20c30ddbabeb81ef31351b6aab527bf6d65833262ce6bee30893f
@@ -2225,17 +2244,17 @@ source_manifest:
   sha256: 368e786cf97c2b244d5bbf21acedcdefacbf5f4a4b42c7780db5b1accb5dd86e
   bytes: 10386
 - path: releases/R01/TASKS.yaml
-  sha256: d8467b6913a603db05afb41548f8134bf21b3046ea192c309e8fc618a1e91fd7
-  bytes: 5817
+  sha256: dd30263288b10120a0cce3580aa6a0e00d0253fa3f8c7e19f065fc8f3cd82a4f
+  bytes: 5855
 - path: releases/R01/ACCEPTANCE_MATRIX.csv
-  sha256: 2346c6a60081babbf9f87c78fc103192ea5e14d2b975a0d45d6421f5058a9365
-  bytes: 724
+  sha256: 097b961cf4cdf0b1c39401d248f7407ccb5142f47f8c0209d20d1943a87e597e
+  bytes: 747
 - path: docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md
-  sha256: 664ca6172169ba77c0f1a40afd44c2cc8efbbd49b466056abe6e8ba83a723ff6
-  bytes: 8300
-- path: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0007.yaml
-  sha256: f11922bbdcdafb3b66aaff1e3d5a183c37324fa9dc90f97f80985c01a244271b
-  bytes: 5818
+  sha256: 9dc74250748bb7cbe333a3063f9710bdacae621931b81768b2ff54802b8f829a
+  bytes: 9400
+- path: .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0008.yaml
+  sha256: a54d385e82d96f5d4e62ce8cf7f5d8ee9c85f3f55dec0d1fa148b144e3148d67
+  bytes: 5822
 exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>'
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
@@ -2243,4 +2262,4 @@ hard_rules:
 - 项目内容变化后必须先创建检查点再提交
 - 冻结事实变化必须关联已批准CR
 - 交接必须生成Handoff Bundle或完成干净提交
-context_hash: a02a18cab6b9e110e1af19a9d0112c7a45c13abdc9f914b0baf15a54b42e9fbc
+context_hash: 76e346df6a895c7af182fd119278ec902af6681a78c343f6ab4f28594fc3246c

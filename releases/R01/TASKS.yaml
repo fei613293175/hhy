@@ -122,7 +122,7 @@ tasks:
   completed_at: '2026-07-17T15:20:29Z'
 - id: TASK-R01-007
   title: Design System与契约工程化Android测试APK与产物追溯
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R01-006
   requirements: *id001
@@ -136,6 +136,7 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-17T17:03:51Z'
 - id: TASK-R01-008
   title: Design System与契约工程化版本关闭与无状态交接
   status: BLOCKED
