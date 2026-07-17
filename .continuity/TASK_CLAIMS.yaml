@@ -435,3 +435,23 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-17T11:12:01Z'
+- claim_id: CLM-BFB61DF19093
+  session_id: SES-20260717T111928Z-C383F7A2
+  task_id: TASK-R01-004
+  story_id: STORY-R01-001
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-17T11:19:28Z'
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
