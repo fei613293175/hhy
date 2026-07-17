@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
@@ -56,7 +57,8 @@ public final class GlobalExceptionHandler {
             MissingRequestHeaderException.class,
             MissingServletRequestParameterException.class,
             HandlerMethodValidationException.class,
-            MethodArgumentTypeMismatchException.class
+            MethodArgumentTypeMismatchException.class,
+            HttpMediaTypeNotSupportedException.class
     })
     ResponseEntity<ApiErrorResponse> validation(Exception ex, HttpServletRequest request) {
         return ResponseEntity.badRequest().body(error(

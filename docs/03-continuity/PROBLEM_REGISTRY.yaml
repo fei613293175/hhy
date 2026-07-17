@@ -92,3 +92,14 @@ problems:
   - 不得用旧版本监控标签或证据替代当前Release现场验收
   - 错误体traceId不得从requestId复制，必须使用入口Filter生成或接受的真实TraceId
   - 业务Gauge查询失败不得只返回NaN而没有独立可告警Counter
+- id: PROB-0009
+  title: R01预发布登录错误媒体类型被兜底为服务端故障
+  status: SOLVED
+  root_cause: 全局异常处理未覆盖HttpMediaTypeNotSupportedException，缺少或不受支持Content-Type的请求落入通用500处理并污染RED错误率
+  resolution: 将不受支持媒体类型纳入冻结COMMON-400-VALIDATION响应，并新增Web回归测试保证响应不泄露请求体且不调用登录服务
+  regression_checks:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+  - Maven 21全模块测试和R01 Staging错误媒体类型现场请求必须返回400而非5xx
+  do_not_repeat:
+  - 客户端可控的协议和媒体类型异常不得落入通用500
+  - 异常映射回归测试必须同时断言状态码、稳定错误码和敏感请求体不回显

@@ -139,6 +139,20 @@ class AdminSecurityWebSecurityTest {
     }
 
     @Test
+    void unsupportedLoginContentTypeReturnsValidationEnvelopeInsteadOfServerFailure() throws Exception {
+        mvc.perform(post("/admin-api/v1/auth/login")
+                        .header("X-Request-Id", "request-unsupported-content-type")
+                        .header("X-Idempotency-Key", "idem-unsupported-content-type-1")
+                        .contentType("application/octet-stream")
+                        .content("must-not-appear"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.requestId").value("request-unsupported-content-type"))
+                .andExpect(jsonPath("$.error.code").value("COMMON-400-VALIDATION"))
+                .andExpect(content().string(not(containsString("must-not-appear"))));
+        verifyNoInteractions(service);
+    }
+
+    @Test
     void revokedBearerCanOnlyReplayWhitelistedPostWithIdempotencyKey() throws Exception {
         AdminPrincipal revoked = new AdminPrincipal(
                 17L, 23L, 4L, "access-jti-17", "root", Set.of(), true);
