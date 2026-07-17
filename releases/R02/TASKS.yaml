@@ -3,7 +3,7 @@ title: 账号、登录、注册与安全会话
 tasks:
 - id: TASK-R02-001
   title: 账号、登录、注册与安全会话开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-AUTH-001
@@ -29,9 +29,10 @@ tasks:
   - 4个纵向批次均可在独立worktree领取且汇合条件明确
   - python scripts/check_v122_documentation.py --release R02
   session_log_required: true
+  completed_at: '2026-07-17T20:02:09Z'
 - id: TASK-R02-002
   title: 纵向批次A：Android启动、登录与邀请注册闭环
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R02-001
   parallelizable_with:
