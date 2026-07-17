@@ -42,3 +42,16 @@
 ## 5. 关闭事件
 
 记录触发原因、时间线、操作者、旧/新镜像摘要、Commit/Tag、数据库迁移版本、健康与指标前后值、受影响请求的 requestId/traceId、采取的前向修复、恢复时间和后续行动。所有凭据、Token、密码、Cookie、手机号、证件和支付信息必须脱敏。
+
+## 6. R01 隔离预发布回滚演练
+
+R01 的服务名为 `api`，演练必须保持同一个 PostgreSQL 容器和数据卷，只替换应用镜像：
+
+```bash
+export HHY_SMOKE_ID='<previous-approved-compatible-tag>'
+docker compose -p hhy-r01-staging -f infra/staging/r01-smoke/docker-compose.yml up -d --no-deps api
+docker compose -p hhy-r01-staging -f infra/staging/r01-smoke/docker-compose.yml exec -T api \
+  curl -fsS http://127.0.0.1:9091/actuator/health/readiness
+```
+
+若旧镜像不兼容已执行的 V016 或更高迁移，停止应用回切并走更高版本 Flyway 前向修复；禁止 U016、降版本 DDL、`down -v` 或重建 PostgreSQL。回切旧镜像和恢复当前镜像前后都要记录数据库容器 ID、卷名、Flyway 版本、Prometheus target、RED、全部业务 Gauge、告警与恢复时间，且 `hhy_admin_idempotency_incomplete_snapshots` 和 `hhy_business_metric_query_failures_total` 必须为 0。

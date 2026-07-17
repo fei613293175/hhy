@@ -121,8 +121,8 @@
 ## 4. 告警与验收
 
 - `HhyBackendDown`：15 秒无抓取，立即阻断发布。
-- `HhyHighServerErrorRate`：1 分钟 5xx 比例超过 5%。
-- `HhyHighP95Latency`：P95 连续 2 分钟超过 1 秒。
+- `HhyHighServerErrorRate`：1 分钟 5xx 比例超过冻结配置 `2%`。
+- `HhyHighP95Latency`：P95 连续 2 分钟超过冻结配置 `500ms`。
 - Outbox backlog 超过 100 持续 2 分钟、任意 dead letter、任意账务不平立即处理。
 - 任意未解决对账差异持续 1 分钟触发告警。
 
@@ -131,3 +131,29 @@
 ## 5. 停止条件
 
 出现以下任一情况立即停止流量切换并进入回滚手册：迁移失败、readiness 非 UP、5xx/延迟越线、dead letter、账务不平、未知对账差异、日志无法解析、敏感字段进入日志、镜像摘要与批准记录不一致。
+
+## 6. R01 隔离预发布验收
+
+R01 使用 `infra/staging/r01-smoke/docker-compose.yml`，不得用 P00 的历史证据代替。部署时用独立 Compose project、数据库卷、端口和可配置子网；Nginx 的实际静态地址必须与 `HHY_R01_TRUSTED_PROXY_CIDRS` 的精确 `/32` 一致。示例：
+
+```bash
+export HHY_SMOKE_ID='<approved-r01-commit>'
+export HHY_R01_SMOKE_SUBNET='172.31.251.0/24'
+export HHY_R01_NGINX_IP='172.31.251.10'
+export HHY_R01_API_IP='172.31.251.20'
+export HHY_R01_POSTGRES_IP='172.31.251.40'
+export HHY_R01_TRUSTED_PROXY_CIDRS='172.31.251.10/32'
+docker compose -p hhy-r01-staging -f infra/staging/r01-smoke/docker-compose.yml config --quiet
+docker compose -p hhy-r01-staging -f infra/staging/r01-smoke/docker-compose.yml up -d --build
+```
+
+必须执行并归档：
+
+1. `promtool check config /etc/prometheus/prometheus.yml` 和 `promtool check rules /etc/prometheus/r01-alerts.yml`。
+2. 2xx 与 Spring Security 401/403 响应的 `X-Request-Id`、`X-Trace-Id`、JSON `error.traceId` 和 `http_request_completed` 日志一致；RequestId 与 TraceId 不得互相冒充。
+3. RED count/bucket 有真实流量，八项 `hhy_*` 业务 Gauge 存在；不变量 Gauge 和 `hhy_business_metric_query_failures_total` 必须为 0。
+4. 真实停止/恢复 `api`，取得 `HhyR01BackendDown` 的 firing/resolved 回执；对认证失败告警使用测试管理员产生受控失败，恢复窗口后取得 resolved，禁止攻击生产账号。
+5. 日志敏感探针不得出现 Authorization、Cookie、密码、MFA code、root secret、密文快照或幂等摘要。
+6. R01 没有资金入口，资金业务单号端到端追踪在本版本明确记为 N/A；账务不变量 Gauge 仍必须保持 0。
+
+R01 证据统一写入 `artifacts/validation/r01-task006-staging/`，并绑定精确 Commit、镜像 ID、数据库容器/卷连续性与每个证据文件的 SHA-256。只有现场证据齐全后才能把 `AC-R01-004` 签为 PASS。

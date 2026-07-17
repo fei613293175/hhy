@@ -33,6 +33,11 @@ public final class GlobalExceptionHandler {
         return id == null ? "missing" : id.toString();
     }
 
+    private static String traceId(HttpServletRequest request) {
+        Object id = request.getAttribute("traceId");
+        return id == null ? "missing" : id.toString();
+    }
+
     @ExceptionHandler(BusinessException.class)
     ResponseEntity<ApiErrorResponse> business(BusinessException ex, HttpServletRequest request) {
         ResponseEntity.BodyBuilder response = ResponseEntity.status(ex.httpStatus());
@@ -83,6 +88,6 @@ public final class GlobalExceptionHandler {
     private ApiErrorResponse error(
             HttpServletRequest request, String code, String message, boolean retryable) {
         return ApiErrorResponse.of(
-                requestId(request), code, message, retryable, Instant.now(clock));
+                requestId(request), traceId(request), code, message, retryable, Instant.now(clock));
     }
 }

@@ -43,6 +43,11 @@ class ObservabilityEndpointsTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_outbox_dead_letter")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_ledger_unbalanced_transactions")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_reconciliation_open_differences")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_admin_active_sessions")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_admin_auth_failures_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_admin_mfa_active_methods")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_admin_idempotency_incomplete_snapshots")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_business_metric_query_failures_total")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("http_server_requests_seconds_bucket")));
         mvc.perform(get("/actuator").with(user("observability-auditor")))
                 .andExpect(status().isOk())
@@ -87,5 +92,17 @@ class ObservabilityEndpointsTest {
         assertThat(fields.get("status")).isEqualTo(200);
         assertThat(((Number) fields.get("latency")).longValue()).isGreaterThanOrEqualTo(0);
         assertThat(event.toString()).doesNotContain("must-not-appear", "Authorization", "Cookie", "password");
+    }
+
+    @Test
+    void securityRejectionKeepsRequestIdAndTraceIdDistinctAndCorrelated() throws Exception {
+        mvc.perform(get("/admin-api/v1/me/security")
+                        .header("X-Request-Id", "request_reject_observe_001")
+                        .header("X-Trace-Id", "abcdef0123456789abcdef0123456789"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(header().string("X-Request-Id", "request_reject_observe_001"))
+                .andExpect(header().string("X-Trace-Id", "abcdef0123456789abcdef0123456789"))
+                .andExpect(jsonPath("$.requestId").value("request_reject_observe_001"))
+                .andExpect(jsonPath("$.error.traceId").value("abcdef0123456789abcdef0123456789"));
     }
 }

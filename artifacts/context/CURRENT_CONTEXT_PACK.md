@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T14:13:43Z
-- Context Hash：`481f9050c20667ee14a0304ce22321601d9457b4d659f65d0ffcb117d9344ab0`
+- 生成时间：2026-07-17T14:26:25Z
+- Context Hash：`307304b65c6d80b8d08c08bec410c2ea4c33afb097c1273e43a15b927b6fd41e`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R01-006
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>'
 ```
 
 ## 当前状态
@@ -18,7 +18,7 @@ baseline_version: 1.2.3
 phase: R01
 active_release: R01
 active_task: TASK-R01-006
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: fcb95056b606dfe6e8d0623e83a0526df80bf43e
 last_staging_apk: null
@@ -47,10 +47,11 @@ completed_tasks:
 - TASK-R01-003
 - TASK-R01-004
 - TASK-R01-005
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R01-006
 blocked_tasks: []
 next_task: TASK-R01-006
-updated_at: '2026-07-17T13:55:44Z'
+updated_at: '2026-07-17T14:26:23Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -82,17 +83,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260717T122518Z-91E6F4D6
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0008.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260717T141717Z-A01412D7
+  actor_id: codex-root
+  story_id: STORY-R01-003
+  lease_expires_at: '2026-07-17T18:26:23Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0001.yaml
+  project_fingerprint: dec976632e2a080516c819cc2e0bddb66d0a108d8632c13e939528cef1fbc9ca
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 592c1d94eb9925cb89d002f89e8d4096567c7a88d74f1c4119d8eabdb471d07b
-    generated_at: '2026-07-17T13:55:43Z'
+    context_hash: c5aa8821fc161d47016d498b7b21fb395bb83cf6319f35139d243945412625ea
+    generated_at: '2026-07-17T14:18:08Z'
+  handoff_bundle: null
 ```
 
 ## 下一任务
@@ -140,13 +143,309 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260717T141717Z-A01412D7
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R01
+task_id: TASK-R01-006
+story_id: STORY-R01-003
+goal: 部署R01隔离预发布环境，验证结构化日志、TraceId、RED与业务指标、告警和回滚，完成验收签字
+started_at: '2026-07-17T14:17:17Z'
+updated_at: '2026-07-17T14:26:23Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R01-005
+  base_commit: b9211c60e67b375f33f8522948fc1e19dc0b54e7
+  start_head: b9211c60e67b375f33f8522948fc1e19dc0b54e7
+  upstream: origin/task/TASK-R01-005
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-17T14:26:23Z'
+  expires_at: '2026-07-17T18:26:23Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md
+next_step: 提交实现并在云端Java21/PostgreSQL17构建，部署隔离Staging后执行告警与回滚演练
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T141717Z-A01412D7-0001
+session_id: SES-20260717T141717Z-A01412D7
+sequence: 1
+created_at: '2026-07-17T14:26:23Z'
+summary: 完成R01预发布可观测性实现：独立监控栈、真实TraceId、R01业务Gauge、冻结阈值告警和回滚手册
+next_step: 提交实现并在云端Java21/PostgreSQL17构建，部署隔离Staging后执行告警与回滚演练
+blockers: []
+decisions:
+- R01可观测性证据独立绑定当前Commit，不复用P00证据；TST-OBS_002仍保持P00目录约束，R01以TASK006现场证据签AC-R01-004
+note: 本机无Java/Gradle，Java21、promtool、Compose及真实故障注入在云服务器执行。
+tests:
+- name: R01 observability static gate
+  result: PASS
+  evidence: scripts/check_r01_observability.py
+  note: R01_OBSERVABILITY_CONFIG_OK
+- name: P00 shared observability regression
+  result: PASS
+  evidence: scripts/check_p00_observability.py
+  note: P00_OBSERVABILITY_CONFIG_OK
+- name: Alert receipt sink
+  result: PASS
+  evidence: tests/p00/test_alert_sink.py
+  note: 1 test PASS
+git:
+  initialized: true
+  branch: task/TASK-R01-006
+  head: b9211c60e67b375f33f8522948fc1e19dc0b54e7
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+  - ' M docs/07-operations/ROLLBACK_RUNBOOK.md'
+  - ' M infra/staging/p00-alerts.yml'
+  - ' M infra/staging/r01-smoke/docker-compose.yml'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java'
+  - ' M services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java'
+  - ?? .continuity/sessions/SES-20260717T141717Z-A01412D7.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md
+  - ?? infra/staging/r01-smoke/alertmanager.yml
+  - ?? infra/staging/r01-smoke/prometheus.yml
+  - ?? infra/staging/r01-smoke/r01-alerts.yml
+  - ?? scripts/check_r01_observability.py
+  recent_commits:
+  - "b9211c60e67b375f33f8522948fc1e19dc0b54e7\t2026-07-17T22:02:27+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-005\
+    \ as completed"
+  - "af528cab1a86003946790d07cb4b536b8388f122\t2026-07-17T21:55:04+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive complete\
+    \ task005 evidence"
+  - "79bbd45d22d16b334330b4b36f2fbb489d5e73f0\t2026-07-17T21:28:35+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): pass encrypted replay\
+    \ runtime gates"
+  - "cbf3a6d7d553e30bca12913021fa180d53e443ec\t2026-07-17T21:13:05+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): harden fault injection\
+    \ and idempotent replay"
+  - "2ef830ea980cbf445dc419379059f2d60ec7356e\t2026-07-17T20:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] chore(continuity): close TASK-R01-004\
+    \ as completed"
+  - "9070796d112cb66308c658090f955c2600f845d2\t2026-07-17T20:19:23+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] feat(r01): implement admin\
+    \ security frontend"
+  - "954b4091b4a813f184b384aecea92e6f2f5d955a\t2026-07-17T19:16:04+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-003\
+    \ as completed"
+  - "d8593b49a513cbcf432ff393ad5b950b89154126\t2026-07-17T19:09:11+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): harden admin authentication\
+    \ security"
+project_fingerprint:
+  sha256: dec976632e2a080516c819cc2e0bddb66d0a108d8632c13e939528cef1fbc9ca
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/p00-alerts.yml
+  - infra/staging/r01-smoke/alertmanager.yml
+  - infra/staging/r01-smoke/docker-compose.yml
+  - infra/staging/r01-smoke/prometheus.yml
+  - infra/staging/r01-smoke/r01-alerts.yml
+  - scripts/check_r01_observability.py
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
+  file_count: 16
+  payload:
+    base_commit: b9211c60e67b375f33f8522948fc1e19dc0b54e7
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 9688
+      sha256: 67b8b59ca9e5bd684e043926d983a12ed8c7b3b98a7589186ffebfbd39525428
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 6548
+      sha256: 1b11d4faa01bd053abdefc606a49786722dc7704b3ce985eb63f0c9cd195be3c
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 10808
+      sha256: efcf5879d5fe29b7f504ed666bc49a2e118876590c30b02e2f086590b5f80bce
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 3721
+      sha256: 2128421d9d8cef874af800b7058162fa3ce6963e3d16120f276ab542bfdb1a71
+    - path: infra/staging/p00-alerts.yml
+      state: FILE
+      size: 1873
+      sha256: 9bb1569369c0c2373e710d886dbe14c1a17f768dd6a7960487d7a9622b5a1e66
+    - path: infra/staging/r01-smoke/alertmanager.yml
+      state: FILE
+      size: 277
+      sha256: c6bbb12123c673c8f86a6e0bbb816cf40216289548db669e40053ffefe8ec467
+    - path: infra/staging/r01-smoke/docker-compose.yml
+      state: FILE
+      size: 3997
+      sha256: ac5f232386f3af21b2e539587f990cf49820f4049da5707fe33f0c8193c18422
+    - path: infra/staging/r01-smoke/prometheus.yml
+      state: FILE
+      size: 401
+      sha256: fb14817afdff447073a38e413d0ade9fd52c09adbf72dc0443974d3636f60617
+    - path: infra/staging/r01-smoke/r01-alerts.yml
+      state: FILE
+      size: 2379
+      sha256: ff983bbe9be61c1104e55db79c50a04899018ef53204ea284b826495cddc4f61
+    - path: scripts/check_r01_observability.py
+      state: FILE
+      size: 5282
+      sha256: 27fa6a3e7c5c5c00d599f05a3bc65c4859283cd8443566c8a12f21a00d8e834f
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 5962
+      sha256: e756d3b302e326c3a6955fc77e40273296d0794a30896493418c94e36c201dfa
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
+      state: FILE
+      size: 1969
+      sha256: d75e36ec2ac32676a8eb2a7aa25e2e8bbd99d3262856c1f5e998cc0c692fd70e
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+      state: FILE
+      size: 3942
+      sha256: 15bd308599aec1c2ca636dfd163281ec64d48f4570101361ce892aef3aa2cd94
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 5542
+      sha256: d5e222a7940962aaa3d52f08db077ee311c6eb3863e28855d7696ccdd82549c1
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 6304
+      sha256: 8ffdfdf663d0c549df72e7c0fa5aab1e12db2366e320915ea456d02c02ff864e
+    - path: services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
+      state: FILE
+      size: 983
+      sha256: fbe4044a4fabde8411b104b57940a930d0819e784bfcee651e1c00067cfbb004
+change_classification:
+  other:
+  - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  infrastructure:
+  - infra/staging/p00-alerts.yml
+  - infra/staging/r01-smoke/alertmanager.yml
+  - infra/staging/r01-smoke/docker-compose.yml
+  - infra/staging/r01-smoke/prometheus.yml
+  - infra/staging/r01-smoke/r01-alerts.yml
+  code:
+  - scripts/check_r01_observability.py
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 013fb30407f882f12625750f7b5ff6f18dbd24a66c6a1d3178be0c6441141049
 ```
 
 ## 接续状态与事件头
@@ -154,31 +453,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260717T141717Z-A01412D7
 last_session_id: SES-20260717T122518Z-91E6F4D6
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T122518Z-91E6F4D6-0008
-event_count: 178
-event_head_hash: fa08f207c24a2748bf3c108441c278b0cd76fbd16cd46e2a6d386f3a16f09e02
+event_count: 180
+event_head_hash: 013fb30407f882f12625750f7b5ff6f18dbd24a66c6a1d3178be0c6441141049
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260717T023848Z-9F352CA9
-  task_id: TASK-P00-004
-  story_id: STORY-P00-001
-  actor_id: codex-root
-  status: CLOSED
-  started_at: '2026-07-17T02:38:48Z'
-  record: .continuity/sessions/SES-20260717T023848Z-9F352CA9.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260717T023848Z-9F352CA9.md
-  updated_at: '2026-07-17T02:42:32Z'
-  closed_at: '2026-07-17T02:42:32Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T023848Z-9F352CA9/0002.yaml
-  handoff_bundle: null
-- session_id: SES-20260717T024407Z-B03C9375
+recent_sessions: - session_id: SES-20260717T024407Z-B03C9375
   task_id: TASK-P00-005
   story_id: STORY-P00-001
   actor_id: codex-root
@@ -285,6 +572,18 @@ recent_sessions: - session_id: SES-20260717T023848Z-9F352CA9
   updated_at: '2026-07-17T13:55:43Z'
   closed_at: '2026-07-17T13:55:43Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0008.yaml
+  handoff_bundle: null
+- session_id: SES-20260717T141717Z-A01412D7
+  task_id: TASK-R01-006
+  story_id: STORY-R01-003
+  actor_id: codex-root
+  status: ACTIVE
+  started_at: '2026-07-17T14:17:17Z'
+  record: .continuity/sessions/SES-20260717T141717Z-A01412D7.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md
+  updated_at: '2026-07-17T14:26:23Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0001.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -781,6 +1080,44 @@ task_claims: - task_id: TASK-P00-001
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-17T13:55:44Z'
+- claim_id: CLM-3E379E115FA4
+  session_id: SES-20260717T141717Z-A01412D7
+  task_id: TASK-R01-006
+  story_id: STORY-R01-003
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-17T14:17:17Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
 recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
   timestamp: '2026-07-16T00:30:00Z'
   release: P00
@@ -921,26 +1258,62 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
   session_id: SES-20260717T122518Z-91E6F4D6
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-456061B7274A
+  timestamp: '2026-07-17T14:17:17Z'
+  release: R01
+  task_id: TASK-R01-006
+  story_id: STORY-R01-003
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260717T141717Z-A01412D7
+  actor_id: codex-root
+  reason: 会话领取任务
 ```
 
 ## Git 状态
 
 ```yaml
 initialized: true
-branch: task/TASK-R01-005
-head: 4011357e8c22919abd487cde0d40cf69ce197c15
+branch: task/TASK-R01-006
+head: b9211c60e67b375f33f8522948fc1e19dc0b54e7
 upstream: null
 ahead: null
 behind: null
 dirty: true
 status_porcelain:
-- M  .continuity/STATE.yaml
-- MM .continuity/sessions/SES-20260717T122518Z-91E6F4D6.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
+- ' M CHANGELOG.md'
+- ' M CURRENT_STATUS.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/session_index.csv'
+- ' M catalogs/task_transition_ledger.csv'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+- ' M docs/07-operations/ROLLBACK_RUNBOOK.md'
+- ' M infra/staging/p00-alerts.yml'
+- ' M infra/staging/r01-smoke/docker-compose.yml'
+- ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java'
+- ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java'
+- ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java'
+- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
+- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java'
+- ' M services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java'
+- ?? .continuity/checkpoints/SES-20260717T141717Z-A01412D7/0001.yaml
+- ?? .continuity/sessions/SES-20260717T141717Z-A01412D7.yaml
+- ?? docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md
+- ?? infra/staging/r01-smoke/alertmanager.yml
+- ?? infra/staging/r01-smoke/prometheus.yml
+- ?? infra/staging/r01-smoke/r01-alerts.yml
+- ?? scripts/check_r01_observability.py
 recent_commits:
-- "4011357e8c22919abd487cde0d40cf69ce197c15\t2026-07-17T22:02:27+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-005\
+- "b9211c60e67b375f33f8522948fc1e19dc0b54e7\t2026-07-17T22:02:27+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-005\
   \ as completed"
 - "af528cab1a86003946790d07cb4b536b8388f122\t2026-07-17T21:55:04+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive complete\
   \ task005 evidence"
@@ -960,10 +1333,25 @@ recent_commits:
 
 ## 会话累计项目变更
 
-- 指纹：`1fe6bb222380fa83f756c2db8ca9e5e252d5f21a8a054f6ec6bba61a50703086`
-- 文件数：0
+- 指纹：`dec976632e2a080516c819cc2e0bddb66d0a108d8632c13e939528cef1fbc9ca`
+- 文件数：16
 
-- 无
+- `CHANGELOG.md`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/07-operations/DEPLOYMENT_RUNBOOK.md`
+- `docs/07-operations/ROLLBACK_RUNBOOK.md`
+- `infra/staging/p00-alerts.yml`
+- `infra/staging/r01-smoke/alertmanager.yml`
+- `infra/staging/r01-smoke/docker-compose.yml`
+- `infra/staging/r01-smoke/prometheus.yml`
+- `infra/staging/r01-smoke/r01-alerts.yml`
+- `scripts/check_r01_observability.py`
+- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java`
+- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityErrorResponseWriter.java`
+- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java`
+- `services/backend/shared-kernel/src/main/java/cc/orbexa/hhy/shared/api/ApiErrorResponse.java`
 
 ## 当前 Release
 
@@ -1841,20 +2229,27 @@ TASKS.yaml:
 
 - `AGENTS.md` — `387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `8cb60414255c6ff6e6307a1fe4cfa748ea53b5fad7406a225d81586f22cdd31f`
+- `CURRENT_STATUS.yaml` — `2c3935c90d4753c92141bf00d3e8b27c95b5ecb1666b52ab15607bf870da3853`
 - `NEXT_TASK.yaml` — `292ff5f5f74e323a7e263e6c5653cdd7808c96ef45326a79173b90b3d7074ddf`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `4d07967e54b9ad5832586dfb0a9117cc81d9b89ab76fd376e4ae3e240c9ccd1e`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `1b11d4faa01bd053abdefc606a49786722dc7704b3ce985eb63f0c9cd195be3c`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223`
-- `.continuity/EVENT_LOG.jsonl` — `66207579bb173158d2efdf855ead3311ae9e54ab3b411a518b1d14cf80749d12`
-- `.continuity/SESSION_INDEX.yaml` — `5c4514bece8204eda92356395785a98f28b3d9c54fdc40998b6c2b7ec6ab2d50`
-- `.continuity/TASK_CLAIMS.yaml` — `885dc997370733b9b7a03ac494ab7f4d74cbb93c87fced6dd27b9fc4d416c1eb`
-- `.continuity/TASK_TRANSITIONS.yaml` — `c258ba5d72db8f26815084542d7757427aa084946966fcae10bee8a3c08e84e9`
+- `.continuity/EVENT_LOG.jsonl` — `cd105857ddc3da4199423de4da1a40db8eecf93d8f3729e52384112984ce4628`
+- `.continuity/SESSION_INDEX.yaml` — `223d2e97b28a50d13648e8a6ed961728fff025d6b12fc27f2b3c277f5492457e`
+- `.continuity/TASK_CLAIMS.yaml` — `1be8c4c65a135dc1f5654bab88dc1c7d434dbbe65568246bf2197a9b406f0a2d`
+- `.continuity/TASK_TRANSITIONS.yaml` — `2e1090b09da4c94124263b0878328d6f7fcb3d2d923e01ba934251347fe426ca`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c187fe4a88dd354ac7612fe44761326dae4e21494ed981f490abfce3167d91dd`
-- `.continuity/ACTIVE_SESSION.yaml` — `9390dd6a24cf699bb50789e7902e9757872f8a3a9744de6d206541068cbbc12b`
+- `.continuity/ACTIVE_SESSION.yaml` — `2d25228737c13a0995f7822378e640496b74e2d554e1e31743b0f8793b52431e`
+- `releases/R01/RELEASE_MANIFEST.yaml` — `bb986f651fd20c30ddbabeb81ef31351b6aab527bf6d65833262ce6bee30893f`
+- `releases/R01/DEFINITION_OF_READY.yaml` — `ed81dd9db760893207515b8c0a5cc2f80ac5b7f358d00fb7b71276b8931100e5`
+- `releases/R01/STORIES.yaml` — `368e786cf97c2b244d5bbf21acedcdefacbf5f4a4b42c7780db5b1accb5dd86e`
+- `releases/R01/TASKS.yaml` — `6d4d4841bf39880ea669ad426e4d8a4860975e098bca6e0796ce56dc990b21a2`
+- `releases/R01/ACCEPTANCE_MATRIX.csv` — `a668129234acb184110e076cd021c95c0747d0c6139035c28a42cbd2f68ca127`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md` — `4f617c111af2d575bc358cc93df12f20f4df3b20c45a86d281fdbddfed0c71df`
+- `.continuity/checkpoints/SES-20260717T141717Z-A01412D7/0001.yaml` — `17d29298b0ea70b1fd2b048ed46887098134ec545e3f601b00809fcc6ce5e92d`
 
 ## 接手硬规则
 

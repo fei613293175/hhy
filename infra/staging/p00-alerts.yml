@@ -8,17 +8,17 @@ groups:
         annotations:
           summary: 合伙云 P00 Staging 后端不可用
       - alert: HhyHighServerErrorRate
-        expr: sum(rate(http_server_requests_seconds_count{job="hhy-backend-p00",status=~"5.."}[1m])) / clamp_min(sum(rate(http_server_requests_seconds_count{job="hhy-backend-p00"}[1m])), 0.001) > 0.05
+        expr: sum(rate(http_server_requests_seconds_count{job="hhy-backend-p00",status=~"5.."}[1m])) / clamp_min(sum(rate(http_server_requests_seconds_count{job="hhy-backend-p00"}[1m])), 0.001) > 0.02
         for: 1m
         labels: { severity: warning, release: P00 }
         annotations:
-          summary: 合伙云 P00 Staging 5xx 比例超过 5%
+          summary: 合伙云 P00 Staging 5xx 比例超过冻结阈值 2%
       - alert: HhyHighP95Latency
-        expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="hhy-backend-p00"}[5m]))) > 1
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="hhy-backend-p00"}[5m]))) > 0.5
         for: 2m
         labels: { severity: warning, release: P00 }
         annotations:
-          summary: 合伙云 P00 Staging P95 延迟超过 1 秒
+          summary: 合伙云 P00 Staging P95 延迟超过冻结阈值 500ms
       - alert: HhyOutboxBacklog
         expr: hhy_outbox_backlog > 100
         for: 2m
