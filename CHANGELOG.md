@@ -66,3 +66,12 @@
 - 摘要：PostgreSQL 17.10空库/升级、并发不变量、Flyway重复迁移与U010/U011回滚重放全部通过
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T023226Z-06841AFC.md`
 
+## TASK-P00-003 · COMPLETED · 2026-07-17T02:37:21Z
+
+- Task close: TASK-P00-003 / SES-20260717T023511Z-C6513BB0
+- Release：`P00`
+- Story：`STORY-P00-001`
+- Actor：`codex-root`
+- 摘要：三个P00 operationId、权限/错误码/审计、模块边界与真实数据库版本策略全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T023511Z-C6513BB0.md`
+
