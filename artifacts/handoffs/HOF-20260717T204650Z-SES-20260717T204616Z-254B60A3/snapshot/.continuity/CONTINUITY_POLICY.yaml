@@ -1,0 +1,290 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+mode: ENFORCED
+conversation_context:
+  allowed_as_source_of_truth: false
+  rule: 需求、决策、进度和WIP必须进入仓库；对话只能触发CR或任务，不能成为唯一依据。
+bootstrap:
+  allow_without_git_task_ids:
+  - TASK-P00-001
+  require_git_before_task_close: true
+lease:
+  duration_minutes: 240
+  runtime_heartbeat_extension_minutes: 60
+  ci_grace_minutes: 15
+  takeover_requires_handoff_or_expiry: true
+parallel_development:
+  authoritative_active_sessions: 1
+  max_delegated_workers: 3
+  worker_workspace: ISOLATED_SCRATCH_WORKTREE
+  require_disjoint_path_leases: true
+  worker_may_modify_continuity_records: false
+  worker_may_commit_or_push: false
+  worker_output:
+  - patch
+  - changed_paths
+  - module_test_evidence
+  integration_owner: ACTIVE_SESSION_ACTOR
+  source_of_truth_rule: 受托执行代理的scratch worktree不是事实源；主控验证范围与证据并应用到事实分支后才形成项目变化。
+verification_profiles:
+  FAST: 连续性核心、范围、秘密、CR、Fingerprint、Commit Trailer与受影响轻量测试
+  MODULE: 受影响模块的单元、类型、契约和静态检查
+  INTEGRATION: 后端、Web、PostgreSQL、Android、连续性协议全量集成
+  RELEASE: 全量集成、Staging、E2E、APK四方哈希与项目所有者真机验收
+checkpoint:
+  max_age_minutes: 60
+  mandatory_triggers:
+  - 首次产生项目文件变更后
+  - 每60分钟或更短
+  - 执行关键测试后
+  - 作出不可逆架构或业务决策后
+  - 切换模型、AI、人员、设备或对话前
+  - 提交、推送、PR、交接和会话关闭前
+  required_fields:
+  - summary
+  - next_step
+  - project_fingerprint
+  - changed_files
+  - change_classification
+  - tests_or_no_test_reason
+  - blockers
+  - decisions
+  tests_required_when_project_changed: true
+  active_pointer_refreshed_every_checkpoint: true
+commit:
+  prohibit_partial_project_commit: true
+  require_latest_checkpoint_fingerprint: true
+  required_trailers:
+  - Task-ID
+  - Session-ID
+  - Checkpoint-ID
+  - Tests
+  - CR
+  story_trailer_when_story_exists: true
+  require_all_project_changes_staged: true
+  subject_pattern: ^\[(TASK|STORY)-[A-Z0-9_-]+\]\s+(feat|fix|docs|test|refactor|chore|build|ci|perf|style)(\([a-z0-9._/-]+\))?:\s+.{5,100}$
+  reject_placeholder_trailers: true
+  validate_every_non_merge_commit_in_ci: true
+  baseline_commit:
+    task_id: TASK-P00-001
+    session_id: V1.2.3-PACKAGE-BASELINE
+    checkpoint_id: PACKAGE-BASELINE
+    tests: PASS:documentation+continuity
+    cr: NONE
+push:
+  require_clean_worktree: true
+  require_fresh_context_pack: true
+  require_valid_event_hash_chain: true
+  validate_unpushed_commit_trailers: true
+  require_upstream_or_explicit_range: false
+merge:
+  protected_branches:
+  - main
+  - master
+  require_closed_session: true
+  require_ci_continuity_gate: true
+change_control:
+  source_of_truth_change_requires_approved_cr: true
+  requester_cannot_approve: true
+  bugfix_requires_problem_registry_and_regression_test: true
+  database_change_requires_migration_or_invariant_evidence: true
+  user_visible_change_requires_changelog: true
+  approval_requires_complete_contract: true
+  required_cr_contract_fields:
+  - original_rule
+  - new_rule
+  - impact_summary
+  - impact.files
+  - impact.tests
+  - impact.releases
+  - impact.migration_and_compatibility
+  - user_confirmation
+handoff:
+  require_latest_checkpoint: true
+  require_context_pack: true
+  include_working_tree_patch: true
+  include_safe_untracked_snapshot: true
+  include_git_bundle_when_available: true
+  manifest_sha256_required: true
+  portable_zip_supported: true
+  old_conversation_required: false
+scope_rules:
+  CROSS_PLATFORM:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  ANDROID:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  H5:
+  - apps/h5/**
+  - apps/cashier-h5/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  ADMIN:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+path_classes:
+  source_of_truth:
+  - 合伙云Pro_完整项目开发文档_*.md
+  - docs/00-baseline/**
+  - docs/01-architecture/**
+  - docs/02-ui/**
+  - docs/02-config/**
+  - docs/02-contracts/**
+  - catalogs/requirements_catalog.csv
+  - catalogs/ui_templates.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_page_fields.csv
+  - catalogs/ui_page_states.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/admin_page_operation_specs.csv
+  - catalogs/config_registry.csv
+  - catalogs/config_cross_field_rules.csv
+  - catalogs/config_role_matrix.csv
+  - catalogs/TRACEABILITY_MATRIX.csv
+  - contracts/**
+  - database/enum_registry.yaml
+  - database/state_machines.yaml
+  - database/schema_dictionary.csv
+  - releases/*/RELEASE_MANIFEST.yaml
+  - releases/*/DEFINITION_OF_READY.yaml
+  - releases/*/STORIES.yaml
+  contracts:
+  - contracts/**
+  - packages/api-client/src/generated/**
+  database:
+  - database/**
+  - services/backend/**/db/**
+  - services/backend/**/migration/**
+  code:
+  - apps/**
+  - services/**
+  - packages/**
+  - scripts/**
+  tests:
+  - tests/**
+  - apps/**/test/**
+  - apps/**/src/test/**
+  - services/**/src/test/**
+  - packages/**/test/**
+  infrastructure:
+  - infra/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  user_visible:
+  - apps/android/**
+  - apps/admin-web/**
+  - apps/h5/**
+  - apps/cashier-h5/**
+  - contracts/**
+  - docs/02-ui/**
+  - README.md
+  - START_HERE.md
+  continuity:
+  - .continuity/**
+  - docs/03-continuity/**
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - artifacts/context/**
+  - artifacts/handoffs/**
+mandatory_records:
+  every_project_change:
+  - active_session_machine_record
+  - session_log
+  - checkpoint
+  - CURRENT_STATUS.yaml
+  - EVENT_LOG.jsonl
+  - Context Pack
+  source_of_truth_change:
+  - approved_change_request
+  - updated_traceability
+  - updated_tests
+  bugfix:
+  - problem_registry
+  - regression_test
+forbidden:
+- 未领取任务直接编辑项目内容
+- 同一任务或Story存在两个ACTIVE领取
+- 检查点之后继续修改却直接提交
+- 只提交部分项目变更，留下无法解释的本地差异
+- 冻结事实变化没有已批准CR
+- Bug修复没有根因登记和回归测试
+- 交接时只说“继续开发”而不生成Handoff Bundle
+- 依赖旧对话解释仓库已有需求
+- 受托执行代理修改连续性事实、Release事实或直接提交推送
+- 两个执行代理领取重叠路径后并行写入
+close:
+  protocol: IMPLEMENTATION_CHECKPOINT -> IMPLEMENTATION_COMMIT -> CLOSE -> CLOSURE_CHECKPOINT -> CLOSURE_METADATA_COMMIT
+  require_implementation_commit: true
+  require_latest_tests_pass: true
+  update_release_task_state: true
+  update_task_transition_ledger: true
+  append_changelog_entry: true
+  final_metadata_commit_required: true
+export:
+  clean_project_bundle_supported: true
+  require_clean_worktree: true
+  require_no_active_session: true
+  include_git_bundle: true
+  include_source_archive: true
+  include_context_pack: true
+  manifest_sha256_required: true

@@ -1,0 +1,13 @@
+ M .continuity/ACTIVE_SESSION.yaml
+ M .continuity/EVENT_LOG.jsonl
+ M .continuity/SESSION_INDEX.yaml
+ M .continuity/STATE.yaml
+ M .continuity/TASK_CLAIMS.yaml
+ M .continuity/TASK_TRANSITIONS.yaml
+ M .continuity/sessions/SES-20260717T200842Z-456B8F52.yaml
+ M CURRENT_STATUS.yaml
+ M artifacts/context/CURRENT_CONTEXT_PACK.md
+ M artifacts/context/CURRENT_CONTEXT_PACK.yaml
+ M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+ M catalogs/session_index.csv
+ M catalogs/task_transition_ledger.csv
