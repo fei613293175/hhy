@@ -6,7 +6,7 @@
         android:name=".HhyApplication"
         android:allowBackup="false"
         android:fullBackupContent="false"
-        android:label="合伙云 Pro"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.HhyPro"
         android:usesCleartextTraffic="false">

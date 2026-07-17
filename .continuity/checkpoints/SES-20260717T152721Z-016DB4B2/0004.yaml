@@ -1,0 +1,154 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T152721Z-016DB4B2-0004
+session_id: SES-20260717T152721Z-016DB4B2
+sequence: 4
+created_at: '2026-07-17T16:40:15Z'
+summary: 补齐Android debug包测试标识、变更记录与可复现工具链；待基于该源码提交重构APK并替换桌面副本
+next_step: 提交测试标识与工具链变更后，使用该精确Commit重建并替换桌面APK
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R01-debug-test-label-source
+  result: PASS
+  evidence: apps/android/app/build.gradle.kts;apps/android/app/src/main/AndroidManifest.xml
+  note: debug包显示合伙云 Pro 测试
+- name: R01-changelog-test-apk-entry
+  result: PASS
+  evidence: CHANGELOG.md
+  note: 测试包用户可见标识已记录
+- name: R01-git-diff-check
+  result: PASS
+  evidence: git diff --check
+  note: 无空白错误
+git:
+  initialized: true
+  branch: task/TASK-R01-007
+  head: 46fb27372f2e62f3fe83d9f43f8e2189bbed4757
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0001.yaml
+  - A  .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0002.yaml
+  - A  .continuity/checkpoints/SES-20260717T152721Z-016DB4B2/0003.yaml
+  - A  .continuity/sessions/SES-20260717T152721Z-016DB4B2.yaml
+  - ' M CHANGELOG.md'
+  - M  CURRENT_STATUS.yaml
+  - M  apps/android/app/build.gradle.kts
+  - M  apps/android/app/src/main/AndroidManifest.xml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - A  docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md
+  - A  infra/toolchains/android/Dockerfile
+  recent_commits:
+  - "46fb27372f2e62f3fe83d9f43f8e2189bbed4757\t2026-07-17T23:21:14+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-006\
+    \ as completed"
+  - "e898018f12371c30992111df508972ab48937f6e\t2026-07-17T23:19:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive task006\
+    \ staging evidence"
+  - "72de42c90f71438cdf5a2cc274277fecfa7a6cbd\t2026-07-17T23:11:15+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): make snapshot corruption\
+    \ deterministic"
+  - "b8edbc0924157c8c03d4463c15b4301477cb5a8c\t2026-07-17T22:52:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): map unsupported\
+    \ media type to validation"
+  - "99f73023565acaa8c47001f1161b66a9447b845c\t2026-07-17T22:37:42+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): use portable interval\
+    \ syntax"
+  - "f685a0778ea9b3b723d68d3d9fc6cf639aa4d4b5\t2026-07-17T22:34:49+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): harden observability\
+    \ error paths"
+  - "580981d4d9404bb52d34c5d25a7e6450f31697cf\t2026-07-17T22:26:34+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] feat(r01): add isolated staging\
+    \ observability"
+  - "b9211c60e67b375f33f8522948fc1e19dc0b54e7\t2026-07-17T22:02:27+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-005\
+    \ as completed"
+project_fingerprint:
+  sha256: 26be9333b362e7b7b3e54ebd0d2e020152ff18368b0122581e20029b0126f934
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/AndroidManifest.xml
+  - infra/toolchains/android/Dockerfile
+  file_count: 4
+  payload:
+    base_commit: 46fb27372f2e62f3fe83d9f43f8e2189bbed4757
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 10799
+      sha256: 9aff56fe066c5f3841c08bbf1ce741971229360982cbc1abd500d546e892722f
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 2695
+      sha256: b4801231bea96b00f401ce0dd21013f0394627e4c05106684d12ab01fe68ba45
+    - path: apps/android/app/src/main/AndroidManifest.xml
+      state: FILE
+      size: 827
+      sha256: a4a8afdea84e04a65751148fd3f68e09fd2ab04d96bcfc9131be5d2d9d6f054e
+    - path: infra/toolchains/android/Dockerfile
+      state: FILE
+      size: 1107
+      sha256: 3a8b95720587cce665c50b5d5e338a8a08491a1c7b35657943671bc166de37a5
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/AndroidManifest.xml
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/AndroidManifest.xml
+  infrastructure:
+  - infra/toolchains/android/Dockerfile
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - artifacts/apk/**
+  - artifacts/reports/**
+  - artifacts/validation/**
+  approved_exceptions: []
+  source: story+explicit+apk-delivery-artifacts
+event_hash: 04b1f8610fbb80cd2ea6528f81183e0dfe97753578829f39d9d00f65ba797947

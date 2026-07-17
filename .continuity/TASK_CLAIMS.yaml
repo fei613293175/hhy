@@ -43,6 +43,9 @@ claims:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  - artifacts/apk/**
+  - artifacts/reports/**
+  - artifacts/validation/**
   closed_at: '2026-07-17T02:26:55Z'
 - claim_id: CLM-821BE587CF3B
   session_id: SES-20260717T023226Z-06841AFC
@@ -534,3 +537,44 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-17T15:20:32Z'
+- claim_id: CLM-4E518B8F5FFF
+  session_id: SES-20260717T152721Z-016DB4B2
+  task_id: TASK-R01-007
+  story_id: STORY-R01-003
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-17T15:27:21Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - artifacts/apk/**
+  - artifacts/reports/**
+  - artifacts/validation/**

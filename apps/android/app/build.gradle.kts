@@ -26,6 +26,7 @@ android {
         debug {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
+            resValue("string", "app_name", "合伙云 Pro 测试")
         }
         release {
             isMinifyEnabled = true

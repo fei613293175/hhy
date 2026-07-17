@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## R01 Android 测试 APK 交付准备 · 2026-07-18
+
+- Debug 测试包使用独立包名、测试签名，并在应用名称中明确显示“合伙云 Pro 测试”，避免与正式包混淆。
+- 新增基于 Java 21、Android SDK Platform 37.0 与 Build Tools 36.0.0 的可复现 Docker 工具链，供后续测试 APK 复用。
+
 ## R01 管理员认证与个人安全前端 · 2026-07-17
 
 - 管理后台新增真实登录、MFA 二次验证与管理员安全设置三页面，联通 R01 冻结的 8 个后台安全接口。
@@ -189,4 +194,3 @@
 - Actor：`codex-root`
 - 摘要：R01独立预发布栈、结构化日志与TraceId、RED和九类业务监控序列、双告警firing/resolved、日志脱敏、最终镜像回滚及AC-R01-004现场证据全部通过
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T141717Z-A01412D7.md`
-
