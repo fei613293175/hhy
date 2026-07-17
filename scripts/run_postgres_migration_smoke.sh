@@ -97,6 +97,73 @@ echo "BASELINE_VERIFICATION PASS"
 
 bash "$ROOT/scripts/run_p00_database_invariants.sh"
 bash "$ROOT/scripts/run_r01_database_invariants.sh"
+# The R01 invariant suite intentionally rebuilds its final baseline only
+# through V012. Restore the next forward migration before exercising R01 RBAC
+# and administrator bootstrap behavior.
+"${PSQL[@]}" --single-transaction \
+  -f "$ROOT/database/migrations/V013__r01_admin_self_rbac.sql" >/dev/null
+echo "R01_V013_AFTER_SECURITY_INVARIANTS PASS"
+"${PSQL[@]}" -f "$ROOT/database/tests/r01_admin_self_rbac.sql" >/dev/null
+echo "R01_ADMIN_SELF_RBAC PASS"
+
+BOOTSTRAP_ADMIN_HASH='$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy'
+DATABASE_URL="$DATABASE_URL" \
+HHY_BOOTSTRAP_ADMIN_CONFIRM=YES \
+HHY_BOOTSTRAP_ADMIN_USERNAME=r01-bootstrap-admin \
+HHY_BOOTSTRAP_ADMIN_PASSWORD_HASH="$BOOTSTRAP_ADMIN_HASH" \
+  bash "$ROOT/scripts/bootstrap-admin.sh" >/dev/null
+DATABASE_URL="$DATABASE_URL" \
+HHY_BOOTSTRAP_ADMIN_CONFIRM=YES \
+HHY_BOOTSTRAP_ADMIN_USERNAME=r01-bootstrap-admin \
+HHY_BOOTSTRAP_ADMIN_PASSWORD_HASH="$BOOTSTRAP_ADMIN_HASH" \
+  bash "$ROOT/scripts/bootstrap-admin.sh" >/dev/null
+BOOTSTRAP_STATE="$("${PSQL[@]}" -qAt -c "
+  SELECT count(*), min(admin.version), count(user_role.id)
+  FROM hhy.admin_users AS admin
+  JOIN hhy.admin_user_roles AS user_role ON user_role.admin_id=admin.id
+  JOIN hhy.admin_roles AS role ON role.id=user_role.role_id AND role.code='SUPER_ADMIN'
+  WHERE admin.username='r01-bootstrap-admin' AND admin.status='ACTIVE';")"
+[[ "$BOOTSTRAP_STATE" == "1|0|1" ]] || {
+  echo "Administrator bootstrap is not idempotent: $BOOTSTRAP_STATE" >&2
+  exit 1
+}
+BOOTSTRAP_CONFLICT_HASH="${BOOTSTRAP_ADMIN_HASH%?}x"
+BOOTSTRAP_CONFLICT_LOG="$(mktemp)"
+set +e
+DATABASE_URL="$DATABASE_URL" \
+HHY_BOOTSTRAP_ADMIN_CONFIRM=YES \
+HHY_BOOTSTRAP_ADMIN_USERNAME=r01-bootstrap-admin \
+HHY_BOOTSTRAP_ADMIN_PASSWORD_HASH="$BOOTSTRAP_CONFLICT_HASH" \
+  bash "$ROOT/scripts/bootstrap-admin.sh" >"$BOOTSTRAP_CONFLICT_LOG" 2>&1
+BOOTSTRAP_CONFLICT_RC=$?
+set -e
+if [[ "$BOOTSTRAP_CONFLICT_RC" -eq 0 ]] \
+  || ! grep -q "ADMIN_BOOTSTRAP_CREDENTIAL_CONFLICT" "$BOOTSTRAP_CONFLICT_LOG"; then
+  cat "$BOOTSTRAP_CONFLICT_LOG" >&2
+  rm -f "$BOOTSTRAP_CONFLICT_LOG"
+  echo "Administrator bootstrap must reject credential replacement" >&2
+  exit 1
+fi
+rm -f "$BOOTSTRAP_CONFLICT_LOG"
+echo "R01_BOOTSTRAP_ADMIN PASS"
+
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/rollback/U013__r01_admin_self_rbac.sql" >/dev/null
+RBAC_ROLLBACK_STATE="$("${PSQL[@]}" -qAt -c "
+  SELECT
+    (SELECT count(*) FROM hhy.admin_permissions
+      WHERE code IN ('admin.self.read','admin.self.security')),
+    (SELECT count(*) FROM hhy.admin_role_permissions AS role_permission
+      JOIN hhy.admin_roles AS role ON role.id=role_permission.role_id
+      JOIN hhy.admin_permissions AS permission ON permission.id=role_permission.permission_id
+      WHERE role.code='SUPER_ADMIN'
+        AND permission.code IN ('admin.self.read','admin.self.security'));")"
+[[ "$RBAC_ROLLBACK_STATE" == "0|0" ]] || {
+  echo "U013 did not cleanly roll back the baseline RBAC seed: $RBAC_ROLLBACK_STATE" >&2
+  exit 1
+}
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V013__r01_admin_self_rbac.sql" >/dev/null
+"${PSQL[@]}" -f "$ROOT/database/tests/r01_admin_self_rbac.sql" >/dev/null
+echo "U013_REAPPLY_V013 PASS"
 
 "${PSQL[@]}" --single-transaction -f "$ROOT/database/rollback/U012__r01_admin_security_invariants.sql" >/dev/null
 "${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V012__r01_admin_security_invariants.sql" >/dev/null

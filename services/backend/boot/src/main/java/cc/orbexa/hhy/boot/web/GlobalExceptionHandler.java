@@ -6,8 +6,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
 import java.time.Clock;
 import java.time.Instant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +20,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 @RestControllerAdvice
 public final class GlobalExceptionHandler {
+    private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     private final Clock clock;
 
     public GlobalExceptionHandler(Clock clock) {
@@ -30,7 +34,11 @@ public final class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     ResponseEntity<ApiErrorResponse> business(BusinessException ex, HttpServletRequest request) {
-        return ResponseEntity.status(ex.httpStatus())
+        ResponseEntity.BodyBuilder response = ResponseEntity.status(ex.httpStatus());
+        if (ex.httpStatus() == 429) {
+            response.header("Retry-After", "900");
+        }
+        return response
                 .body(error(request, ex.code(), ex.getMessage(), ex.retryable()));
     }
 
@@ -50,8 +58,19 @@ public final class GlobalExceptionHandler {
                 false));
     }
 
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    ResponseEntity<ApiErrorResponse> forbidden(
+            AuthorizationDeniedException ex, HttpServletRequest request) {
+        return ResponseEntity.status(403).body(error(
+                request,
+                "COMMON-403-FORBIDDEN",
+                "缺少访问权限",
+                false));
+    }
+
     @ExceptionHandler(Exception.class)
     ResponseEntity<ApiErrorResponse> unexpected(Exception ex, HttpServletRequest request) {
+        LOG.error("unhandled_api_exception requestId={}", requestId(request), ex);
         return ResponseEntity.internalServerError().body(error(
                 request,
                 "COMMON-500-INTERNAL",

@@ -47,6 +47,17 @@ management:
       probes:
         enabled: true
 hhy:
+  admin-security:
+    jwt-secret: ${HHY_ADMIN_JWT_SECRET}
+    mfa-root-secret: ${HHY_ADMIN_MFA_ROOT_SECRET}
+    issuer: ${HHY_ADMIN_TOKEN_ISSUER:orbexa.cc/admin}
+    access-ttl: ${HHY_ADMIN_ACCESS_TTL:PT8H}
+    mfa-ticket-ttl: ${HHY_ADMIN_MFA_TICKET_TTL:PT5M}
+    enrollment-ttl: ${HHY_ADMIN_MFA_ENROLLMENT_TTL:PT10M}
+    password-min-length: ${HHY_ADMIN_PASSWORD_MIN_LENGTH:8}
+    password-max-length: ${HHY_ADMIN_PASSWORD_MAX_LENGTH:20}
+    password-max-failures: ${HHY_ADMIN_PASSWORD_MAX_FAILURES:5}
+    password-lock-seconds: ${HHY_ADMIN_PASSWORD_LOCK_SECONDS:900}
   platform:
     maintenance: ${HHY_MAINTENANCE:false}
     maintenance-message: ${HHY_MAINTENANCE_MESSAGE:系统维护中}

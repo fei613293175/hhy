@@ -38,6 +38,8 @@ if "V010__p00_event_ledger_invariants.sql" not in {path.name for path in root_mi
     errors.append("migration chain is missing V010 P00 event/ledger invariants")
 if "V012__r01_admin_security_invariants.sql" not in {path.name for path in root_migrations}:
     errors.append("migration chain is missing V012 R01 admin security invariants")
+if "V013__r01_admin_self_rbac.sql" not in {path.name for path in root_migrations}:
+    errors.append("migration chain is missing V013 R01 administrator self-service RBAC")
 if len(catalog_tables) != 198:
     errors.append(f"catalog table count expected=198 actual={len(catalog_tables)}")
 if catalog_tables != dictionary_tables:
@@ -87,7 +89,11 @@ r01_required_files = (
     "database/migrations/V012__r01_admin_security_invariants.sql",
     "database/rollback/U012__r01_admin_security_invariants.sql",
     "database/tests/r01_admin_security_invariants.sql",
+    "database/migrations/V013__r01_admin_self_rbac.sql",
+    "database/rollback/U013__r01_admin_self_rbac.sql",
+    "database/tests/r01_admin_self_rbac.sql",
     "scripts/run_r01_database_invariants.sh",
+    "scripts/bootstrap-admin.sh",
     "docs/01-architecture/adr/ADR-008-R01管理员认证安全不变量.md",
 )
 for relative in r01_required_files:
@@ -105,6 +111,25 @@ for marker in (
 ):
     if marker not in r01_migration:
         errors.append(f"V012 missing R01 invariant marker: {marker}")
+
+r01_rbac_migration = (ROOT / "database/migrations/V013__r01_admin_self_rbac.sql").read_text(encoding="utf-8")
+for marker in ("admin.self.read", "admin.self.security", "SUPER_ADMIN", "ON CONFLICT"):
+    if marker not in r01_rbac_migration:
+        errors.append(f"V013 missing R01 RBAC marker: {marker}")
+
+bootstrap_admin = (ROOT / "scripts/bootstrap-admin.sh").read_text(encoding="utf-8")
+for marker in (
+    "HHY_BOOTSTRAP_ADMIN_PASSWORD_HASH",
+    "HHY_BOOTSTRAP_ADMIN_CONFIRM",
+    "ADMIN_BOOTSTRAP_CREDENTIAL_CONFLICT",
+    "ON CONFLICT (admin_id, role_id) DO NOTHING",
+):
+    if marker not in bootstrap_admin:
+        errors.append(f"administrator bootstrap is missing safety marker: {marker}")
+if "\\getenv bootstrap_hash" not in bootstrap_admin:
+    errors.append("administrator bootstrap must not expose the BCrypt hash in process arguments")
+if 'HHY_BOOTSTRAP_ADMIN_PASSWORD:-' not in bootstrap_admin:
+    errors.append("administrator bootstrap must explicitly reject a plaintext password variable")
 
 state_machines = (ROOT / "database/state_machines.yaml").read_text(encoding="utf-8")
 for marker in ("ADMIN_SESSION_MFA_LEVEL", "ADMIN_MFA_METHOD_STATUS"):
