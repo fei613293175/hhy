@@ -120,3 +120,12 @@
 - 摘要：P00八项任务、六项验收、59项测试、Staging可观测性、APK真机验收及无状态交接全部完成；按项目所有者要求封板后暂停
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T054147Z-7AE51A86.md`
 
+## TASK-R01-001 · COMPLETED · 2026-07-17T08:03:00Z
+
+- Task close: TASK-R01-001 / SES-20260717T074317Z-C575A687
+- Release：`R01`
+- Story：`STORY-R01-003`
+- Actor：`codex-root`
+- 摘要：完成R01开发就绪、三故事领取、验证器语义修复、NEXT_TASK命令集和8接口/27测试任务合同对齐
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T074317Z-C575A687.md`
+

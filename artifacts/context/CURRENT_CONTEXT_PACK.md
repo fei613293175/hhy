@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T08:02:26Z
-- Context Hash：`46b511058d1601fed1b81578d875986eb45a9f83ddc1be8aabee15b9f3146875`
+- 生成时间：2026-07-17T08:03:38Z
+- Context Hash：`2a8702bbd4a8403d05f360b3fb9e3abbf781d9126125b5ca81ae754936747a21`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R01-002
 ```
 
 ## 当前状态
@@ -17,8 +17,8 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R01
 active_release: R01
-active_task: TASK-R01-001
-status: IN_PROGRESS
+active_task: TASK-R01-002
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: fcb95056b606dfe6e8d0623e83a0526df80bf43e
 last_staging_apk: null
@@ -42,11 +42,11 @@ completed_tasks:
 - TASK-P00-006
 - TASK-P00-007
 - TASK-P00-008
-in_progress_tasks:
 - TASK-R01-001
+in_progress_tasks: []
 blocked_tasks: []
-next_task: TASK-R01-001
-updated_at: '2026-07-17T08:02:24Z'
+next_task: TASK-R01-002
+updated_at: '2026-07-17T08:03:03Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -78,26 +78,24 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260717T074317Z-C575A687
-  actor_id: codex-root
-  story_id: STORY-R01-003
-  lease_expires_at: '2026-07-17T12:02:24Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T074317Z-C575A687/0005.yaml
-  project_fingerprint: eda919a120a8e3d4537aea86ba5a523da84866b355c7109df64ae77b12e5dda0
+  active_session_id: null
+  last_session_id: SES-20260717T074317Z-C575A687
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260717T074317Z-C575A687/0006.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: a3cbaa73735a12ed177cc26d40439f9e6319b99f1906dc0a6c17e7073a955e32
-    generated_at: '2026-07-17T08:00:48Z'
-  handoff_bundle: null
+    context_hash: 101172a3e22da7d8df1cda5e5757d8870460b2604776e127afe5c3d80a68dc93
+    generated_at: '2026-07-17T08:03:02Z'
 ```
 
 ## 下一任务
 
 ```yaml
-id: TASK-R01-001
-title: Design System与契约工程化开发就绪核验、故事领取与变更基线
+id: TASK-R01-002
+title: Design System与契约工程化数据迁移与领域不变量
 status: READY
 release: R01
 requirements:
@@ -110,26 +108,23 @@ requirements:
 - REQ-EVENT-001
 - REQ-ADMIN-BASE-001
 - REQ-OBS-002
-depends_on: []
+depends_on:
+- TASK-R01-001
 definition_of_ready: releases/R01/DEFINITION_OF_READY.yaml
 stories: releases/R01/STORIES.yaml
 steps:
-- releases/R01/DEFINITION_OF_READY.yaml 全部适用项PASS
-- releases/R01/STORIES.yaml 故事责任人和依赖已领取
-- 更新Release Manifest与CR记录
-- python scripts/check_v122_documentation.py --release R01
+- Flyway前向迁移与空库/升级库测试
+- 不变量属性测试
 acceptance:
-- 页面、字段、状态、动作、API、配置、数据和测试无TBD
-- 不适用项明确N/A及原因
-- releases/R01/DEFINITION_OF_READY.yaml 全部适用项PASS
-- releases/R01/STORIES.yaml 故事责任人和依赖已领取
-- 更新Release Manifest与CR记录
-- python scripts/check_v122_documentation.py --release R01
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- Flyway前向迁移与空库/升级库测试
+- 不变量属性测试
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R01-001
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R01-002
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R01-001
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R01-002
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
   export_clean: python3 scripts/continuity.py export-clean --portable-zip <OUTPUT.zip>
@@ -141,261 +136,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260717T074317Z-C575A687
-status: ACTIVE
-actor:
-  id: codex-root
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R01
-task_id: TASK-R01-001
-story_id: STORY-R01-003
-goal: 核验R01开发就绪、领取三项故事并建立可追溯变更基线
-started_at: '2026-07-17T07:43:17Z'
-updated_at: '2026-07-17T08:02:24Z'
-takeover_of: null
-change_requests:
-- CR-0011
-- CR-0012
-- CR-0013
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
-git:
-  initialized: true
-  branch: task/TASK-R01-001
-  base_commit: 67f7e4568097660589139fb9ba0baf42c9398dfb
-  start_head: 67f7e4568097660589139fb9ba0baf42c9398dfb
-  upstream: null
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-17T08:02:24Z'
-  expires_at: '2026-07-17T12:02:24Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260717T074317Z-C575A687/0005.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260717T074317Z-C575A687.md
-next_step: 关闭TASK-R01-001并切换TASK-R01-002
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T074317Z-C575A687-0005
-session_id: SES-20260717T074317Z-C575A687
-sequence: 5
-created_at: '2026-07-17T08:02:24Z'
-summary: CR-0011/0012/0013已绑定实现Commit并关闭，TASK-R01-001进入最终关闭
-next_step: 关闭TASK-R01-001并切换TASK-R01-002
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: CR-0011 closure
-  result: PASS
-  evidence: .continuity/change_requests/CR-0011.yaml
-  note: commit 79dd639
-- name: CR-0012 closure
-  result: PASS
-  evidence: .continuity/change_requests/CR-0012.yaml
-  note: commit 79dd639
-- name: CR-0013 closure
-  result: PASS
-  evidence: .continuity/change_requests/CR-0013.yaml
-  note: commit 79dd639
-git:
-  initialized: true
-  branch: task/TASK-R01-001
-  head: 79dd63915e4554bfd73a84f7e97a465896347176
-  upstream: null
-  ahead: null
-  behind: null
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0011.yaml'
-  - ' M .continuity/change_requests/CR-0012.yaml'
-  - ' M .continuity/change_requests/CR-0013.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0011-修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆.md'
-  - ' M docs/03-continuity/change-requests/CR-0012-补齐NEXT_TASK无状态接续强制命令集.md'
-  - ' M docs/03-continuity/change-requests/CR-0013-纠正R01任务合同的接口与测试数量漂移.md'
-  recent_commits:
-  - "79dd63915e4554bfd73a84f7e97a465896347176\t2026-07-17T16:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): establish development\
-    \ baseline"
-  - "67f7e4568097660589139fb9ba0baf42c9398dfb\t2026-07-17T13:51:37+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close release\
-    \ and pause"
-  - "4d5e344076898e34f7741e146a6fa21d144caf11\t2026-07-17T13:50:24+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): prepare release\
-    \ closure"
-  - "d9b276872dd7390c2b1a22a0065973e6c314534e\t2026-07-17T13:40:57+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close APK acceptance\
-    \ task"
-  - "752a3a96b9b3c4ecec3492a2fe01b4150a8a3626\t2026-07-17T13:39:51+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): archive APK acceptance\
-    \ manifest"
-  - "cf701e7768970ede7c89a2321afae8a50e76453e\t2026-07-17T13:38:11+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close staging\
-    \ acceptance task"
-  - "d51fae87e5b1df39ea364c82968888aa46ddfee5\t2026-07-17T13:36:46+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): record staging\
-    \ acceptance session"
-  - "cc879b53e2d637f4076f35d27712cefcf7a92c31\t2026-07-17T13:35:48+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close test matrix\
-    \ task"
-project_fingerprint:
-  sha256: eda919a120a8e3d4537aea86ba5a523da84866b355c7109df64ae77b12e5dda0
-  files:
-  - docs/03-continuity/change-requests/CR-0011-修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆.md
-  - docs/03-continuity/change-requests/CR-0012-补齐NEXT_TASK无状态接续强制命令集.md
-  - docs/03-continuity/change-requests/CR-0013-纠正R01任务合同的接口与测试数量漂移.md
-  - releases/R01/RELEASE_MANIFEST.yaml
-  - releases/R01/STORIES.yaml
-  - releases/R01/TASKS.yaml
-  - scripts/check_v122_documentation.py
-  - scripts/continuity.py
-  - tests/test_continuity_cross_release_close.py
-  - tests/test_documentation_baseline_version.py
-  file_count: 10
-  payload:
-    base_commit: 67f7e4568097660589139fb9ba0baf42c9398dfb
-    files:
-    - path: docs/03-continuity/change-requests/CR-0011-修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆.md
-      state: FILE
-      size: 2772
-      sha256: 2d6500645802e622a1ba72ece374cbb9c1c0fc112d7cacd0ed30ec61c1574354
-    - path: docs/03-continuity/change-requests/CR-0012-补齐NEXT_TASK无状态接续强制命令集.md
-      state: FILE
-      size: 2841
-      sha256: a72d28acc4382c68a0bf5e7a9dad85a58893b76d515877d753599d77d141d588
-    - path: docs/03-continuity/change-requests/CR-0013-纠正R01任务合同的接口与测试数量漂移.md
-      state: FILE
-      size: 2717
-      sha256: f209cb8f78fc43d1fcebacc6ffac34de404bf0ef9b2f939f9f6d8c152502db7a
-    - path: releases/R01/RELEASE_MANIFEST.yaml
-      state: FILE
-      size: 3967
-      sha256: bb986f651fd20c30ddbabeb81ef31351b6aab527bf6d65833262ce6bee30893f
-    - path: releases/R01/STORIES.yaml
-      state: FILE
-      size: 10386
-      sha256: 368e786cf97c2b244d5bbf21acedcdefacbf5f4a4b42c7780db5b1accb5dd86e
-    - path: releases/R01/TASKS.yaml
-      state: FILE
-      size: 5601
-      sha256: 5a9794494312094f9eae65b7109993c86ba50c888acbed02acd3bb0c69ac1a97
-    - path: scripts/check_v122_documentation.py
-      state: FILE
-      size: 14987
-      sha256: 3d24602d9ec3ada1fc80fa28921c3ddb7718d3b9fd37cc89f09d8c6ad70fe388
-    - path: scripts/continuity.py
-      state: FILE
-      size: 56269
-      sha256: b887d0751fdcce308b7d0db01524c64a41fada82f44217b06376a3158c1ef262
-    - path: tests/test_continuity_cross_release_close.py
-      state: FILE
-      size: 11904
-      sha256: 29ac21e24a03f3be6b6444e2b0fe28d75f85a7e372fd60d9b5dda280a146a30a
-    - path: tests/test_documentation_baseline_version.py
-      state: FILE
-      size: 1620
-      sha256: 0e112a5e6513dc36d8624ab4e1fcbd2f08a77baccaa93833e85e58acfe51bed4
-change_classification:
-  continuity:
-  - docs/03-continuity/change-requests/CR-0011-修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆.md
-  - docs/03-continuity/change-requests/CR-0012-补齐NEXT_TASK无状态接续强制命令集.md
-  - docs/03-continuity/change-requests/CR-0013-纠正R01任务合同的接口与测试数量漂移.md
-  source_of_truth:
-  - releases/R01/RELEASE_MANIFEST.yaml
-  - releases/R01/STORIES.yaml
-  other:
-  - releases/R01/TASKS.yaml
-  code:
-  - scripts/check_v122_documentation.py
-  - scripts/continuity.py
-  tests:
-  - tests/test_continuity_cross_release_close.py
-  - tests/test_documentation_baseline_version.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- APPROVED_CHANGE_REQUEST
-change_requests:
-- CR-0011
-- CR-0012
-- CR-0013
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
-event_hash: 5b48199d118ea9d3ab452c08b27bfc251caa6b450467b35e24c105e2b1dff8fe
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -403,12 +150,12 @@ event_hash: 5b48199d118ea9d3ab452c08b27bfc251caa6b450467b35e24c105e2b1dff8fe
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260717T074317Z-C575A687
-last_session_id: SES-20260717T054147Z-7AE51A86
+active_session_id: null
+last_session_id: SES-20260717T074317Z-C575A687
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260717T054147Z-7AE51A86-0002
-event_count: 128
-event_head_hash: 5b48199d118ea9d3ab452c08b27bfc251caa6b450467b35e24c105e2b1dff8fe
+last_closure_checkpoint_id: CP-SES-20260717T074317Z-C575A687-0006
+event_count: 131
+event_head_hash: 986b5d694f3024287c2245131f2dc93a5e6aa935b1288e1373cbbb416f2cd3e0
 event_chain_valid: true
 ```
 
@@ -527,13 +274,13 @@ recent_sessions: - session_id: SES-V123-PACKAGE-BASELINE
   task_id: TASK-R01-001
   story_id: STORY-R01-003
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-17T07:43:17Z'
   record: .continuity/sessions/SES-20260717T074317Z-C575A687.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T074317Z-C575A687.md
-  updated_at: '2026-07-17T08:02:24Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T074317Z-C575A687/0005.yaml
+  updated_at: '2026-07-17T08:03:03Z'
+  closed_at: '2026-07-17T08:03:03Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T074317Z-C575A687/0006.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -858,7 +605,7 @@ task_claims: - task_id: TASK-P00-001
   task_id: TASK-R01-001
   story_id: STORY-R01-003
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-17T07:43:17Z'
   allowed_paths:
   - apps/**
@@ -891,6 +638,7 @@ task_claims: - task_id: TASK-P00-001
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-17T08:03:03Z'
 recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
   timestamp: '2026-07-16T00:30:00Z'
   release: P00
@@ -998,30 +746,31 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
 ```yaml
 initialized: true
 branch: task/TASK-R01-001
-head: 79dd63915e4554bfd73a84f7e97a465896347176
+head: 2cdba75fa45c01fc33818d12b93c488391344a18
 upstream: null
 ahead: null
 behind: null
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0011.yaml'
-- ' M .continuity/change_requests/CR-0012.yaml'
-- ' M .continuity/change_requests/CR-0013.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260717T074317Z-C575A687.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0011-修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆.md'
-- ' M docs/03-continuity/change-requests/CR-0012-补齐NEXT_TASK无状态接续强制命令集.md'
-- ' M docs/03-continuity/change-requests/CR-0013-纠正R01任务合同的接口与测试数量漂移.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260717T074317Z-C575A687.md'
-- ?? .continuity/checkpoints/SES-20260717T074317Z-C575A687/0005.yaml
+- ' M releases/R01/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260717T074317Z-C575A687/0006.yaml
 recent_commits:
+- "2cdba75fa45c01fc33818d12b93c488391344a18\t2026-07-17T16:02:36+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close baseline change\
+  \ requests"
 - "79dd63915e4554bfd73a84f7e97a465896347176\t2026-07-17T16:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): establish development\
   \ baseline"
 - "67f7e4568097660589139fb9ba0baf42c9398dfb\t2026-07-17T13:51:37+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close release and\
@@ -1036,25 +785,14 @@ recent_commits:
   \ task"
 - "d51fae87e5b1df39ea364c82968888aa46ddfee5\t2026-07-17T13:36:46+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): record staging acceptance\
   \ session"
-- "cc879b53e2d637f4076f35d27712cefcf7a92c31\t2026-07-17T13:35:48+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(p00): close test matrix\
-  \ task"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`eda919a120a8e3d4537aea86ba5a523da84866b355c7109df64ae77b12e5dda0`
-- 文件数：10
+- 指纹：`ee9edbc5ac6d8e9910b2e385a2e6c3fef7359592986b08cd305993a987b2c66c`
+- 文件数：0
 
-- `docs/03-continuity/change-requests/CR-0011-修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆.md`
-- `docs/03-continuity/change-requests/CR-0012-补齐NEXT_TASK无状态接续强制命令集.md`
-- `docs/03-continuity/change-requests/CR-0013-纠正R01任务合同的接口与测试数量漂移.md`
-- `releases/R01/RELEASE_MANIFEST.yaml`
-- `releases/R01/STORIES.yaml`
-- `releases/R01/TASKS.yaml`
-- `scripts/check_v122_documentation.py`
-- `scripts/continuity.py`
-- `tests/test_continuity_cross_release_close.py`
-- `tests/test_documentation_baseline_version.py`
+- 无
 
 ## 当前 Release
 
@@ -1676,7 +1414,7 @@ TASKS.yaml:
   tasks:
   - id: TASK-R01-001
     title: Design System与契约工程化开发就绪核验、故事领取与变更基线
-    status: READY
+    status: DONE
     depends_on: []
     requirements: &id001
     - REQ-UI-001
@@ -1702,9 +1440,10 @@ TASKS.yaml:
     - 更新Release Manifest与CR记录
     - python scripts/check_v122_documentation.py --release R01
     session_log_required: true
+    completed_at: '2026-07-17T08:03:00Z'
   - id: TASK-R01-002
     title: Design System与契约工程化数据迁移与领域不变量
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R01-001
     requirements: *id001
@@ -1927,30 +1666,20 @@ TASKS.yaml:
 
 - `AGENTS.md` — `387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `3ab1a5911c8217434faa7fa5a6ccb9e934fe59454c5e78826d5b0f693726039d`
-- `NEXT_TASK.yaml` — `2c095f7b55c21602fb1915847433e01e2f5febfec68b83b6fdf9343d5d7b32b2`
+- `CURRENT_STATUS.yaml` — `699e4597d30e82e1ccc72d2f29f448059e91935fd31352b91ad25b2c02fa48a9`
+- `NEXT_TASK.yaml` — `a84231fba9b51c5c76a84cd91c786b8632a7a604eebd38832461591d81339f04`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `995159654d81a16927c34dd10a0c1f444c08626210f901112e82d8f2684dbf97`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223`
-- `.continuity/EVENT_LOG.jsonl` — `203b07a11f30a96b9d3fe958fc9cbbf040b1ccc06e4650e10bf524e3063e2f92`
-- `.continuity/SESSION_INDEX.yaml` — `6df3c3d9723c7ffaea964e82ef0fd32df2f5c1917a1b554df5cd377b033eb1f1`
-- `.continuity/TASK_CLAIMS.yaml` — `cb556453cc00c4bda1ea6c1b178c8e7b985fca7b033d9d134b5effd9f9e1b562`
+- `.continuity/EVENT_LOG.jsonl` — `21970f20f49318f506c6658241a744613c20e119b1d252ee2774d29b2a506dec`
+- `.continuity/SESSION_INDEX.yaml` — `1a751b3cd4535bfc05dc305983f6bc7c846ac2e9af7548e4f35daed5b7daef71`
+- `.continuity/TASK_CLAIMS.yaml` — `2222fca15269637cac24779064a52cfc40c6d59c035c8815d286308a8e9d0956`
 - `.continuity/TASK_TRANSITIONS.yaml` — `8cd04493cf17554cf9fbd7dd8e7424aac243d600fa174f2697a762ff5abba55d`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `eafc36eb1eca5db155fa28203c87192f68ba1dfb6b900b96fd821ccb3af9d059`
-- `.continuity/ACTIVE_SESSION.yaml` — `45ee90d307ec8a844c553502acab524e0ea5ba8ba6e649fcace65b808dd3d602`
-- `releases/R01/RELEASE_MANIFEST.yaml` — `bb986f651fd20c30ddbabeb81ef31351b6aab527bf6d65833262ce6bee30893f`
-- `releases/R01/DEFINITION_OF_READY.yaml` — `ed81dd9db760893207515b8c0a5cc2f80ac5b7f358d00fb7b71276b8931100e5`
-- `releases/R01/STORIES.yaml` — `368e786cf97c2b244d5bbf21acedcdefacbf5f4a4b42c7780db5b1accb5dd86e`
-- `releases/R01/TASKS.yaml` — `5a9794494312094f9eae65b7109993c86ba50c888acbed02acd3bb0c69ac1a97`
-- `releases/R01/ACCEPTANCE_MATRIX.csv` — `a668129234acb184110e076cd021c95c0747d0c6139035c28a42cbd2f68ca127`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T074317Z-C575A687.md` — `9e314f6c6b9ca49ccf42ffbf7785c47aeed86e337c71953b98c6c27109ebd94e`
-- `.continuity/checkpoints/SES-20260717T074317Z-C575A687/0005.yaml` — `8ddf7ba330606476d02ac93170c54803821f38a9d857c67400cece0f9dc38252`
-- `docs/03-continuity/change-requests/CR-0011-修正V1.2.2产品基线校验与V1.2.3接续包版本字段混淆.md` — `2d6500645802e622a1ba72ece374cbb9c1c0fc112d7cacd0ed30ec61c1574354`
-- `docs/03-continuity/change-requests/CR-0012-补齐NEXT_TASK无状态接续强制命令集.md` — `a72d28acc4382c68a0bf5e7a9dad85a58893b76d515877d753599d77d141d588`
-- `docs/03-continuity/change-requests/CR-0013-纠正R01任务合同的接口与测试数量漂移.md` — `f209cb8f78fc43d1fcebacc6ffac34de404bf0ef9b2f939f9f6d8c152502db7a`
+- `.continuity/ACTIVE_SESSION.yaml` — `a8820e74eff98575f5361486729b886528e50f2e0a94fcde6aaceb38e9d5b14b`
 
 ## 接手硬规则
 
