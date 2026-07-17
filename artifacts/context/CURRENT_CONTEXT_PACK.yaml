@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-17T17:47:09Z'
+generated_at: '2026-07-17T19:28:22Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -10,7 +10,7 @@ current_status:
   phase: R02
   active_release: R02
   active_task: TASK-R02-001
-  status: READY
+  status: IN_PROGRESS
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
   last_green_commit: db3cfddcc4cda84265ec18f24de972804d62a08f
   last_staging_apk: null
@@ -42,10 +42,11 @@ current_status:
   - TASK-R01-006
   - TASK-R01-007
   - TASK-R01-008
-  in_progress_tasks: []
+  in_progress_tasks:
+  - TASK-R02-001
   blocked_tasks: []
   next_task: TASK-R02-001
-  updated_at: '2026-07-17T17:45:22Z'
+  updated_at: '2026-07-17T19:28:21Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -77,17 +78,19 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: null
-    last_session_id: SES-20260717T171412Z-7CD86701
-    last_session_result: COMPLETED
-    last_checkpoint: .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0002.yaml
-    last_handoff_bundle: null
+    active_session_id: SES-20260717T183459Z-D64E7407
+    actor_id: codex-master
+    story_id: STORY-R02-009
+    lease_expires_at: '2026-07-17T23:28:21Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0003.yaml
+    project_fingerprint: 9d2f2f08ff48c80645396825b15336f7ef1dddac2dc4af7bcc1e952d2c9d4336
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: fa030c9beb7c1d705b6db327e681d956049c57ba3584272415a87db052d19136
-      generated_at: '2026-07-17T17:45:22Z'
+      context_hash: e86947f0438ef889207a5a38327b960f821961231dc42fdc7fccc9b7acc51ee7
+      generated_at: '2026-07-17T19:27:21Z'
+    handoff_bundle: null
 next_task:
   id: TASK-R02-001
   title: 账号、登录、注册与安全会话开发就绪核验、故事领取与变更基线
@@ -126,34 +129,443 @@ next_task:
     cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
       '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
   next_after: 由当前TASKS.yaml依赖关系决定
-active_session: null
-latest_checkpoint: null
+active_session:
+  protocol_version: '1.0'
+  package_version: 1.2.3
+  session_id: SES-20260717T183459Z-D64E7407
+  status: ACTIVE
+  actor:
+    id: codex-master
+    kind: AI_OR_HUMAN
+    host: unknown
+  release: R02
+  task_id: TASK-R02-001
+  story_id: STORY-R02-009
+  goal: 核验R02开发就绪并建立主控加三执行代理、独立工作区、分层测试、生成代码和APK交付的加速开发基线
+  started_at: '2026-07-17T18:34:59Z'
+  updated_at: '2026-07-17T19:28:21Z'
+  takeover_of: null
+  change_requests:
+  - CR-0018
+  scope:
+    allowed_paths:
+    - apps/**
+    - services/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - catalogs/**
+    - tests/**
+    - infra/**
+    - design/**
+    - docs/**
+    - releases/**
+    - scripts/**
+    - templates/**
+    - .github/**
+    - .githooks/**
+    - AGENTS.md
+    - START_HERE.md
+    - README.md
+    - CHANGELOG.md
+    - Makefile
+    - .gitignore
+    - .gitattributes
+    - .dockerignore
+    - package.json
+    - pnpm-lock.yaml
+    - pnpm-workspace.yaml
+    - requirements-dev.txt
+    - PROJECT_*.yaml
+    - PROJECT_*.json
+    approved_exceptions: []
+    source: story+explicit
+  git:
+    initialized: true
+    branch: task/TASK-R02-001
+    base_commit: 878abc7f51eb3724703d5ff72d78d5eaed1cff30
+    start_head: 878abc7f51eb3724703d5ff72d78d5eaed1cff30
+    upstream: null
+    initial_worktree_state: CLEAN
+  lease:
+    duration_minutes: 240
+    renewed_at: '2026-07-17T19:28:21Z'
+    expires_at: '2026-07-17T23:28:21Z'
+  checkpoint_sequence: 3
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0003.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md
+  next_step: 暂存全部受控变更，运行Git Hooks提交并推送；随后关闭TASK-R02-001。
+  context_pack: THIS_CONTEXT_PACK
+  handoff_bundle: null
+  closure: null
+latest_checkpoint:
+  protocol_version: '1.0'
+  checkpoint_id: CP-SES-20260717T183459Z-D64E7407-0003
+  session_id: SES-20260717T183459Z-D64E7407
+  sequence: 3
+  created_at: '2026-07-17T19:28:20Z'
+  summary: CR-0018实现状态已登记，严格连续性与R02文档门禁均PASS，准备提交并行加速开发基线。
+  next_step: 暂存全部受控变更，运行Git Hooks提交并推送；随后关闭TASK-R02-001。
+  blockers: []
+  decisions: []
+  note: ''
+  tests:
+  - name: check-v123-continuity-strict
+    result: PASS
+    evidence: errors=0 warnings=0 integration=9 lifecycle=14
+    note: ''
+  - name: check-v122-r02-strict
+    result: PASS
+    evidence: errors=0 warnings=0 documentation gaps=0
+    note: ''
+  - name: acceleration-unit-suite
+    result: PASS
+    evidence: 29/29
+    note: ''
+  - name: generated-assets
+    result: PASS
+    evidence: all deterministic assets VERIFIED
+    note: ''
+  git:
+    initialized: true
+    branch: task/TASK-R02-001
+    head: 878abc7f51eb3724703d5ff72d78d5eaed1cff30
+    upstream: null
+    ahead: null
+    behind: null
+    dirty: true
+    status_porcelain:
+    - ' M .continuity/ACTIVE_SESSION.yaml'
+    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+    - ' M .continuity/CONTINUITY_POLICY.yaml'
+    - ' M .continuity/EVENT_LOG.jsonl'
+    - ' M .continuity/SESSION_INDEX.yaml'
+    - ' M .continuity/STATE.yaml'
+    - ' M .continuity/TASK_CLAIMS.yaml'
+    - ' M .continuity/TASK_TRANSITIONS.yaml'
+    - ' M .github/workflows/ci.yml'
+    - ' M AGENTS.md'
+    - ' M CHANGELOG.md'
+    - ' M CURRENT_STATUS.yaml'
+    - ' M Makefile'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+    - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+    - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+    - ' M artifacts/validation/project-doctor-v1.2.2.json'
+    - ' M artifacts/validation/project-doctor-v1.2.3.json'
+    - ' M catalogs/change_request_index.csv'
+    - ' M catalogs/session_index.csv'
+    - ' M catalogs/task_transition_ledger.csv'
+    - ' M docs/05-app-build/APK持续交付强制规则_V1.2.2.md'
+    - ' M package.json'
+    - ' M releases/R02/RELEASE_MANIFEST.yaml'
+    - ' M releases/R02/TASKS.yaml'
+    - ' M scripts/continuity_gate.py'
+    - ' M scripts/continuity_lib.py'
+    - ?? .continuity/change_requests/CR-0018.yaml
+    - ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0001.yaml
+    - ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0002.yaml
+    - ?? .continuity/sessions/SES-20260717T183459Z-D64E7407.yaml
+    - ?? .github/workflows/daily-integration.yml
+    - ?? config/test-impact-map.yaml
+    - ?? docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
+    - ?? docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md
+    - ?? docs/03-continuity/并行加速开发运行手册_V1.0.md
+    - ?? releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+    - ?? scripts/check_generated_assets.py
+    - ?? scripts/deliver_android_test_apk.py
+    - ?? scripts/generate_release_slice.py
+    - ?? scripts/prepare_parallel_worktrees.ps1
+    - ?? scripts/run_affected_tests.py
+    - ?? tests/test_android_apk_delivery.py
+    - ?? tests/test_generated_assets.py
+    - ?? tests/test_parallel_worktrees.py
+    - ?? tests/test_run_affected_tests.py
+    recent_commits:
+    - "878abc7f51eb3724703d5ff72d78d5eaed1cff30\t2026-07-18T01:47:21+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close\
+      \ TASK-R01-008 as completed"
+    - "2e6c8dc68303b32ce154e4a3567dd36b0c0c225f\t2026-07-18T01:44:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): finalize release\
+      \ closure evidence"
+    - "e3d4d3782f067ebe963856d741dd4cd6be3d16ca\t2026-07-18T01:07:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close\
+      \ TASK-R01-007 as completed"
+    - "d32ad36e5b0f838c16df57c1246230c995229c8e\t2026-07-18T01:05:47+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): record owner\
+      \ APK acceptance"
+    - "920daf4e314c80f37a324c863f988dd6fc57ec8c\t2026-07-18T00:54:39+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive Android\
+      \ APK traceability"
+    - "db3cfddcc4cda84265ec18f24de972804d62a08f\t2026-07-18T00:44:24+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): enable debug\
+      \ resource overrides"
+    - "06b705ed53d83258e8d4b166909c5c21384f4b02\t2026-07-18T00:40:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): mark debug APK\
+      \ test build"
+    - "46fb27372f2e62f3fe83d9f43f8e2189bbed4757\t2026-07-17T23:21:14+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close\
+      \ TASK-R01-006 as completed"
+  project_fingerprint:
+    sha256: 9d2f2f08ff48c80645396825b15336f7ef1dddac2dc4af7bcc1e952d2c9d4336
+    files:
+    - .github/workflows/ci.yml
+    - .github/workflows/daily-integration.yml
+    - AGENTS.md
+    - CHANGELOG.md
+    - Makefile
+    - config/test-impact-map.yaml
+    - docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
+    - docs/03-continuity/并行加速开发运行手册_V1.0.md
+    - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+    - package.json
+    - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+    - releases/R02/RELEASE_MANIFEST.yaml
+    - releases/R02/TASKS.yaml
+    - scripts/check_generated_assets.py
+    - scripts/continuity_gate.py
+    - scripts/continuity_lib.py
+    - scripts/deliver_android_test_apk.py
+    - scripts/generate_release_slice.py
+    - scripts/prepare_parallel_worktrees.ps1
+    - scripts/run_affected_tests.py
+    - tests/test_android_apk_delivery.py
+    - tests/test_generated_assets.py
+    - tests/test_parallel_worktrees.py
+    - tests/test_run_affected_tests.py
+    file_count: 24
+    payload:
+      base_commit: 878abc7f51eb3724703d5ff72d78d5eaed1cff30
+      files:
+      - path: .github/workflows/ci.yml
+        state: FILE
+        size: 5354
+        sha256: 2ae002e2a94695bf4e8a097b8c24016bc36f542f91c1082b2505cd4592f8d082
+      - path: .github/workflows/daily-integration.yml
+        state: FILE
+        size: 198
+        sha256: f692e4e93d84510443d1e0d0635a99188df973bcfcd447dd835b47736944e997
+      - path: AGENTS.md
+        state: FILE
+        size: 4254
+        sha256: c8948610f3e08b25002fc73c0bec6335ba7d19326a7bce4c6ebad2a30ea8164e
+      - path: CHANGELOG.md
+        state: FILE
+        size: 12324
+        sha256: 08f197c4b12af2507750281cd9006770386bd9f52283c2cd93364d0a90b23abf
+      - path: Makefile
+        state: FILE
+        size: 2354
+        sha256: 0b6c6aa4b79c7d77406fa6875c010910a6c944e456381e388e404c73f83c873a
+      - path: config/test-impact-map.yaml
+        state: FILE
+        size: 4760
+        sha256: 573a57a98773d0b7a02c2fc23dcaefcd112029bb67f6a59180844c579851cb76
+      - path: docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
+        state: FILE
+        size: 4945
+        sha256: 75e3005287b763f9e0d6dd875ba0aa220f448d6d2dfeecddfc8e6dc57784998c
+      - path: docs/03-continuity/并行加速开发运行手册_V1.0.md
+        state: FILE
+        size: 5493
+        sha256: 198591c280b362f1f41b747a6a079cb7a01553f7d58bfc7ff25a5741fff5c72b
+      - path: docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+        state: FILE
+        size: 5640
+        sha256: f04913e42cb41823da1b87e46520bdf3d680ce63a35334970dff592e03cc5e1c
+      - path: package.json
+        state: FILE
+        size: 1034
+        sha256: 563880f971857e6f6c25ff4b6407881ad9dc4ce1c22947415877ade91ba8e3b0
+      - path: releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+        state: FILE
+        size: 1991
+        sha256: afa1a5a89dde1fe8f2bd00479dcf4db48eb6fa2a876f511f6722deff8ac2ccdf
+      - path: releases/R02/RELEASE_MANIFEST.yaml
+        state: FILE
+        size: 4270
+        sha256: 19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d
+      - path: releases/R02/TASKS.yaml
+        state: FILE
+        size: 7336
+        sha256: c06d92360ac9d2e563b08d38c6e5dc094116cfed1f79c1b13bfebba3c826296f
+      - path: scripts/check_generated_assets.py
+        state: FILE
+        size: 9152
+        sha256: 5d1455ba6716285e6f36ebf310949bf882079b58556e635d148ea9fb5b37c451
+      - path: scripts/continuity_gate.py
+        state: FILE
+        size: 37340
+        sha256: 46a0993543d851df557fb622d4b4352930aea204e84c19bff93ca5ce52cd4003
+      - path: scripts/continuity_lib.py
+        state: FILE
+        size: 98926
+        sha256: 6df7dc697adaebae64dec6cbb4c8057475bdab723e7baa7ec0630a4dfc2a7449
+      - path: scripts/deliver_android_test_apk.py
+        state: FILE
+        size: 41478
+        sha256: 2ca4159ee4b0d48abbb8ba10da7300057fdc9d8ae8acb51b9918981cd51c4f9d
+      - path: scripts/generate_release_slice.py
+        state: FILE
+        size: 10036
+        sha256: 02f4f0f6ad1a33296340a356c770f614eac2baeacc432869bb7e086d7abf3cda
+      - path: scripts/prepare_parallel_worktrees.ps1
+        state: FILE
+        size: 5831
+        sha256: 55c503f3c73d81597b744b1da7583b7523d497dfe58c7ccab1315227044aaca9
+      - path: scripts/run_affected_tests.py
+        state: FILE
+        size: 11031
+        sha256: ff7eb3f1a9133f0109204db08e56115f64b89d40a50d321365dc17b1cba694f1
+      - path: tests/test_android_apk_delivery.py
+        state: FILE
+        size: 17882
+        sha256: 05ed1ace13017a4d5037cf3a5a7276c45c50dc9096c492e2fa840f57a0081a76
+      - path: tests/test_generated_assets.py
+        state: FILE
+        size: 3375
+        sha256: 28e22f37345a845f34673604c94ab3eeae27d70b965be0f563b7e9ceda38a271
+      - path: tests/test_parallel_worktrees.py
+        state: FILE
+        size: 4147
+        sha256: 4ebdd87ffa8694e58db995caf68dd16d3df331359a386f76c82b63de7e720b1d
+      - path: tests/test_run_affected_tests.py
+        state: FILE
+        size: 5324
+        sha256: d8a20b8c0c2a80bd897d50d68f9acde174074b998d7f1aee71c628d740463714
+  change_classification:
+    infrastructure:
+    - .github/workflows/ci.yml
+    - .github/workflows/daily-integration.yml
+    other:
+    - AGENTS.md
+    - CHANGELOG.md
+    - Makefile
+    - config/test-impact-map.yaml
+    - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+    - package.json
+    - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+    - releases/R02/TASKS.yaml
+    continuity:
+    - docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
+    - docs/03-continuity/并行加速开发运行手册_V1.0.md
+    source_of_truth:
+    - releases/R02/RELEASE_MANIFEST.yaml
+    code:
+    - scripts/check_generated_assets.py
+    - scripts/continuity_gate.py
+    - scripts/continuity_lib.py
+    - scripts/deliver_android_test_apk.py
+    - scripts/generate_release_slice.py
+    - scripts/prepare_parallel_worktrees.ps1
+    - scripts/run_affected_tests.py
+    tests:
+    - tests/test_android_apk_delivery.py
+    - tests/test_generated_assets.py
+    - tests/test_parallel_worktrees.py
+    - tests/test_run_affected_tests.py
+  required_records:
+  - SESSION_RECORD
+  - SESSION_LOG
+  - CHECKPOINT
+  - CURRENT_STATUS
+  - EVENT_LOG
+  - APPROVED_CHANGE_REQUEST
+  change_requests:
+  - CR-0018
+  scope:
+    allowed_paths:
+    - apps/**
+    - services/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - catalogs/**
+    - tests/**
+    - infra/**
+    - design/**
+    - docs/**
+    - releases/**
+    - scripts/**
+    - templates/**
+    - .github/**
+    - .githooks/**
+    - AGENTS.md
+    - START_HERE.md
+    - README.md
+    - CHANGELOG.md
+    - Makefile
+    - .gitignore
+    - .gitattributes
+    - .dockerignore
+    - package.json
+    - pnpm-lock.yaml
+    - pnpm-workspace.yaml
+    - requirements-dev.txt
+    - PROJECT_*.yaml
+    - PROJECT_*.json
+    approved_exceptions: []
+    source: story+explicit
+  event_hash: 95f8509a8a5dfcb261ea44b0c6109b2aceb90b03dcb046d2804711d968a96617
 git:
   initialized: true
-  branch: task/TASK-R01-008
-  head: 2e6c8dc68303b32ce154e4a3567dd36b0c0c225f
+  branch: task/TASK-R02-001
+  head: 878abc7f51eb3724703d5ff72d78d5eaed1cff30
   upstream: null
   ahead: null
   behind: null
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/CONTINUITY_POLICY.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/sessions/SES-20260717T171412Z-7CD86701.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M .github/workflows/ci.yml'
+  - ' M AGENTS.md'
   - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M NEXT_TASK.yaml'
+  - ' M Makefile'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md'
-  - ' M releases/R01/TASKS.yaml'
-  - ?? .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0002.yaml
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/05-app-build/APK持续交付强制规则_V1.2.2.md'
+  - ' M package.json'
+  - ' M releases/R02/RELEASE_MANIFEST.yaml'
+  - ' M releases/R02/TASKS.yaml'
+  - ' M scripts/continuity_gate.py'
+  - ' M scripts/continuity_lib.py'
+  - ?? .continuity/change_requests/CR-0018.yaml
+  - ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0002.yaml
+  - ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0003.yaml
+  - ?? .continuity/sessions/SES-20260717T183459Z-D64E7407.yaml
+  - ?? .github/workflows/daily-integration.yml
+  - ?? config/test-impact-map.yaml
+  - ?? docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md
+  - ?? docs/03-continuity/并行加速开发运行手册_V1.0.md
+  - ?? releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - ?? scripts/check_generated_assets.py
+  - ?? scripts/deliver_android_test_apk.py
+  - ?? scripts/generate_release_slice.py
+  - ?? scripts/prepare_parallel_worktrees.ps1
+  - ?? scripts/run_affected_tests.py
+  - ?? tests/test_android_apk_delivery.py
+  - ?? tests/test_generated_assets.py
+  - ?? tests/test_parallel_worktrees.py
+  - ?? tests/test_run_affected_tests.py
   recent_commits:
+  - "878abc7f51eb3724703d5ff72d78d5eaed1cff30\t2026-07-18T01:47:21+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-008\
+    \ as completed"
   - "2e6c8dc68303b32ce154e4a3567dd36b0c0c225f\t2026-07-18T01:44:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): finalize release\
     \ closure evidence"
   - "e3d4d3782f067ebe963856d741dd4cd6be3d16ca\t2026-07-18T01:07:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-007\
@@ -168,12 +580,133 @@ git:
     \ test build"
   - "46fb27372f2e62f3fe83d9f43f8e2189bbed4757\t2026-07-17T23:21:14+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-006\
     \ as completed"
-  - "e898018f12371c30992111df508972ab48937f6e\t2026-07-17T23:19:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive task006\
-    \ staging evidence"
 project_fingerprint:
-  sha256: add8091be276f354ea9cf9343e9bfed95cfade3394d578fb47403a6d9ba5012e
-  files: []
-  file_count: 0
+  sha256: 9d2f2f08ff48c80645396825b15336f7ef1dddac2dc4af7bcc1e952d2c9d4336
+  files:
+  - .github/workflows/ci.yml
+  - .github/workflows/daily-integration.yml
+  - AGENTS.md
+  - CHANGELOG.md
+  - Makefile
+  - config/test-impact-map.yaml
+  - docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
+  - docs/03-continuity/并行加速开发运行手册_V1.0.md
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - package.json
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R02/RELEASE_MANIFEST.yaml
+  - releases/R02/TASKS.yaml
+  - scripts/check_generated_assets.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/deliver_android_test_apk.py
+  - scripts/generate_release_slice.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - scripts/run_affected_tests.py
+  - tests/test_android_apk_delivery.py
+  - tests/test_generated_assets.py
+  - tests/test_parallel_worktrees.py
+  - tests/test_run_affected_tests.py
+  file_count: 24
+  payload:
+    base_commit: 878abc7f51eb3724703d5ff72d78d5eaed1cff30
+    files:
+    - path: .github/workflows/ci.yml
+      state: FILE
+      size: 5354
+      sha256: 2ae002e2a94695bf4e8a097b8c24016bc36f542f91c1082b2505cd4592f8d082
+    - path: .github/workflows/daily-integration.yml
+      state: FILE
+      size: 198
+      sha256: f692e4e93d84510443d1e0d0635a99188df973bcfcd447dd835b47736944e997
+    - path: AGENTS.md
+      state: FILE
+      size: 4254
+      sha256: c8948610f3e08b25002fc73c0bec6335ba7d19326a7bce4c6ebad2a30ea8164e
+    - path: CHANGELOG.md
+      state: FILE
+      size: 12324
+      sha256: 08f197c4b12af2507750281cd9006770386bd9f52283c2cd93364d0a90b23abf
+    - path: Makefile
+      state: FILE
+      size: 2354
+      sha256: 0b6c6aa4b79c7d77406fa6875c010910a6c944e456381e388e404c73f83c873a
+    - path: config/test-impact-map.yaml
+      state: FILE
+      size: 4760
+      sha256: 573a57a98773d0b7a02c2fc23dcaefcd112029bb67f6a59180844c579851cb76
+    - path: docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
+      state: FILE
+      size: 4945
+      sha256: 75e3005287b763f9e0d6dd875ba0aa220f448d6d2dfeecddfc8e6dc57784998c
+    - path: docs/03-continuity/并行加速开发运行手册_V1.0.md
+      state: FILE
+      size: 5493
+      sha256: 198591c280b362f1f41b747a6a079cb7a01553f7d58bfc7ff25a5741fff5c72b
+    - path: docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+      state: FILE
+      size: 5640
+      sha256: f04913e42cb41823da1b87e46520bdf3d680ce63a35334970dff592e03cc5e1c
+    - path: package.json
+      state: FILE
+      size: 1034
+      sha256: 563880f971857e6f6c25ff4b6407881ad9dc4ce1c22947415877ade91ba8e3b0
+    - path: releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 1991
+      sha256: afa1a5a89dde1fe8f2bd00479dcf4db48eb6fa2a876f511f6722deff8ac2ccdf
+    - path: releases/R02/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4270
+      sha256: 19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d
+    - path: releases/R02/TASKS.yaml
+      state: FILE
+      size: 7336
+      sha256: c06d92360ac9d2e563b08d38c6e5dc094116cfed1f79c1b13bfebba3c826296f
+    - path: scripts/check_generated_assets.py
+      state: FILE
+      size: 9152
+      sha256: 5d1455ba6716285e6f36ebf310949bf882079b58556e635d148ea9fb5b37c451
+    - path: scripts/continuity_gate.py
+      state: FILE
+      size: 37340
+      sha256: 46a0993543d851df557fb622d4b4352930aea204e84c19bff93ca5ce52cd4003
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 98926
+      sha256: 6df7dc697adaebae64dec6cbb4c8057475bdab723e7baa7ec0630a4dfc2a7449
+    - path: scripts/deliver_android_test_apk.py
+      state: FILE
+      size: 41478
+      sha256: 2ca4159ee4b0d48abbb8ba10da7300057fdc9d8ae8acb51b9918981cd51c4f9d
+    - path: scripts/generate_release_slice.py
+      state: FILE
+      size: 10036
+      sha256: 02f4f0f6ad1a33296340a356c770f614eac2baeacc432869bb7e086d7abf3cda
+    - path: scripts/prepare_parallel_worktrees.ps1
+      state: FILE
+      size: 5831
+      sha256: 55c503f3c73d81597b744b1da7583b7523d497dfe58c7ccab1315227044aaca9
+    - path: scripts/run_affected_tests.py
+      state: FILE
+      size: 11031
+      sha256: ff7eb3f1a9133f0109204db08e56115f64b89d40a50d321365dc17b1cba694f1
+    - path: tests/test_android_apk_delivery.py
+      state: FILE
+      size: 17882
+      sha256: 05ed1ace13017a4d5037cf3a5a7276c45c50dc9096c492e2fa840f57a0081a76
+    - path: tests/test_generated_assets.py
+      state: FILE
+      size: 3375
+      sha256: 28e22f37345a845f34673604c94ab3eeae27d70b965be0f563b7e9ceda38a271
+    - path: tests/test_parallel_worktrees.py
+      state: FILE
+      size: 4147
+      sha256: 4ebdd87ffa8694e58db995caf68dd16d3df331359a386f76c82b63de7e720b1d
+    - path: tests/test_run_affected_tests.py
+      state: FILE
+      size: 5324
+      sha256: d8a20b8c0c2a80bd897d50d68f9acde174074b998d7f1aee71c628d740463714
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R02
@@ -210,6 +743,10 @@ release_context:
       - ADM-USER-001
       - ADM-USER-002
     contracts:
+      implementation_endpoint_count: 19
+      story_unique_operation_count: 27
+      reused_dependency_operation_count: 8
+      interpretation: 本版本实现19个新增端点；9个纵向故事共集成验证27个唯一operationId，其中8个是跨版本复用依赖。
       client_api:
       - POST /api/v1/auth/security-challenges
       - POST /api/v1/auth/password/login
@@ -287,6 +824,8 @@ release_context:
     - TST-AUTH_005-REJECT
     - TST-AUTH_005-SECURITY
     - TST-V122-011
+    test_count: 25
+    parallel_execution_plan: releases/R02/PARALLEL_EXECUTION_PLAN.yaml
     entry_gate:
     - releases/R02/DEFINITION_OF_READY.yaml 全部适用项为PASS
     - releases/R02/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
@@ -1279,11 +1818,12 @@ release_context:
       - REQ-AUTH-004
       - REQ-AUTH-005
       - REQ-APK-001
-      description: 核验 6 项需求、19 个接口、28 张相关表、14 个页面/交互面和 9 个故事；全部适用DoR必须PASS。
+      description: 核验6项需求、19个本版本新增端点、27个故事唯一operationId（含8个复用依赖）、28张相关表、14个页面/交互面、9个故事和25项测试；全部适用DoR必须PASS。
       deliverables:
       - releases/R02/DEFINITION_OF_READY.yaml 全部适用项PASS
       - releases/R02/STORIES.yaml 故事责任人和依赖已领取
       - 更新Release Manifest与CR记录
+      - releases/R02/PARALLEL_EXECUTION_PLAN.yaml 已冻结4个纵向批次和互斥责任边界
       - python scripts/check_v122_documentation.py --release R02
       acceptance:
       - 页面、字段、状态、动作、API、配置、数据和测试无TBD
@@ -1291,91 +1831,124 @@ release_context:
       - releases/R02/DEFINITION_OF_READY.yaml 全部适用项PASS
       - releases/R02/STORIES.yaml 故事责任人和依赖已领取
       - 更新Release Manifest与CR记录
+      - 19个新增端点、27个故事唯一operationId与25项测试口径一致
+      - 4个纵向批次均可在独立worktree领取且汇合条件明确
       - python scripts/check_v122_documentation.py --release R02
       session_log_required: true
     - id: TASK-R02-002
-      title: 账号、登录、注册与安全会话数据迁移与领域不变量
+      title: 纵向批次A：Android启动、登录与邀请注册闭环
       status: BLOCKED
       depends_on:
       - TASK-R02-001
+      parallelizable_with:
+      - TASK-R02-003
+      - TASK-R02-004
+      - TASK-R02-005
+      stories:
+      - STORY-R02-003
+      - STORY-R02-004
       requirements: *id001
-      description: 实现/演进users, user_credentials, auth_security_challenges, password_reset_sessions, registration_records, user_profiles, user_sessions,
-        user_devices等，补齐唯一约束、状态历史、幂等键和回滚验证
+      description: 同一批次完成启动门禁、密码/短信登录、邀请注册所需数据迁移、领域不变量、后端接口、Android页面、契约和自动化测试。
       deliverables:
-      - Flyway前向迁移与空库/升级库测试
-      - 不变量属性测试
+      - STORY-R02-003与STORY-R02-004的数据、API、Android和测试真实闭环
+      - Flyway前向/升级/回滚证据与登录注册并发、幂等、安全测试
+      - 无页面级手写重复DTO，动作绑定生成API类型
       acceptance:
       - 无TODO/生产Mock
       - 代码、文档、测试、追踪同步更新
-      - Flyway前向迁移与空库/升级库测试
-      - 不变量属性测试
+      - 启动、登录、注册的加载、拒绝、离线、冲突和成功导航有证据
+      - MODULE门禁通过并可独立合入主控分支
       session_log_required: true
     - id: TASK-R02-003
-      title: 账号、登录、注册与安全会话后端应用服务与接口
+      title: 纵向批次B：安全会话、冻结与注销闭环
+      status: BLOCKED
+      depends_on:
+      - TASK-R02-001
+      parallelizable_with:
+      - TASK-R02-002
+      - TASK-R02-004
+      - TASK-R02-005
+      stories:
+      - STORY-R02-005
+      - STORY-R02-006
+      - STORY-R02-007
+      requirements: *id001
+      description: 同一批次完成密码修改、安全会话管理、冻结提示、申诉入口与注销申请所需数据、API、Android页面和自动化测试。
+      deliverables:
+      - STORY-R02-005、006、007的数据、API、Android和测试真实闭环
+      - 会话撤销、冻结、注销状态机与审计/幂等/并发证据
+      acceptance:
+      - 无TODO/生产Mock
+      - 代码、文档、测试、追踪同步更新
+      - 权限、错误码、敏感数据和高风险动作审计覆盖
+      - MODULE门禁通过并可独立合入主控分支
+      session_log_required: true
+    - id: TASK-R02-004
+      title: 纵向批次C：后台用户列表、详情与管控闭环
+      status: BLOCKED
+      depends_on:
+      - TASK-R02-001
+      parallelizable_with:
+      - TASK-R02-002
+      - TASK-R02-003
+      - TASK-R02-005
+      stories:
+      - STORY-R02-001
+      - STORY-R02-002
+      requirements: *id001
+      description: 同一批次完成用户列表/详情、限制、冻结、解冻和强制退出所需数据、7个后台新增端点、后台页面和自动化测试。
+      deliverables:
+      - STORY-R02-001与STORY-R02-002的数据、API、后台和测试真实闭环
+      - ADM-USER-001与ADM-USER-002绑定页面及后台运营规格
+      - 禁止页面级手写重复DTO
+      - 全部动作绑定生成API类型
+      acceptance:
+      - 两个后台页面故事验收条件通过
+      - 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
+      - MODULE门禁通过并可独立合入主控分支
+      session_log_required: true
+    - id: TASK-R02-005
+      title: 纵向批次D：H5邀请注册闭环
+      status: BLOCKED
+      depends_on:
+      - TASK-R02-001
+      parallelizable_with:
+      - TASK-R02-002
+      - TASK-R02-003
+      - TASK-R02-004
+      stories:
+      - STORY-R02-008
+      requirements: *id001
+      description: 同一批次完成邀请配置、安全验证、短信和注册所需数据、4个调用链端点、H5邀请注册页面和自动化测试。
+      deliverables:
+      - STORY-R02-008的数据、API、H5和测试真实闭环
+      - 邀请码、安全验证、短信供应商异常、幂等和成功跳转证据
+      acceptance:
+      - 无TODO/生产Mock
+      - 代码、文档、测试、追踪同步更新
+      - H5-013加载、拒绝、离线、重试和成功导航有证据
+      - MODULE门禁通过并可独立合入主控分支
+      session_log_required: true
+    - id: TASK-R02-006
+      title: 四批次全量集成、专项测试、可观测性与预发布验收
       status: BLOCKED
       depends_on:
       - TASK-R02-002
-      requirements: *id001
-      description: 实现范围内26个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
-      deliverables:
-      - OpenAPI契约测试
-      - 权限/幂等/错误码/审计覆盖
-      acceptance:
-      - 无TODO/生产Mock
-      - 代码、文档、测试、追踪同步更新
-      - OpenAPI契约测试
-      - 权限/幂等/错误码/审计覆盖
-      session_log_required: true
-    - id: TASK-R02-004
-      title: 账号、登录、注册与安全会话客户端/H5/后台实现
-      status: BLOCKED
-      depends_on:
-      - TASK-R02-003
-      requirements: *id001
-      description: 按 14 个页面/交互面的逐页施工规格和 9 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
-      deliverables:
-      - 全部页面绑定catalogs/ui_page_specifications.csv
-      - 字段/状态/动作/导航与后台运营规格通过契约测试
-      - 禁止页面级手写重复DTO
-      - 全部动作绑定生成API类型
-      acceptance:
-      - 所有页面故事验收条件通过
-      - 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
-      - 全部页面绑定catalogs/ui_page_specifications.csv
-      - 字段/状态/动作/导航与后台运营规格通过契约测试
-      - 禁止页面级手写重复DTO
-      - 全部动作绑定生成API类型
-      session_log_required: true
-    - id: TASK-R02-005
-      title: 账号、登录、注册与安全会话专项测试与故障注入
-      status: BLOCKED
-      depends_on:
       - TASK-R02-003
       - TASK-R02-004
-      requirements: *id001
-      description: 执行20项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
-      deliverables:
-      - 测试报告和失败证据归档
-      - 关键缺陷清零
-      acceptance:
-      - 无TODO/生产Mock
-      - 代码、文档、测试、追踪同步更新
-      - 测试报告和失败证据归档
-      - 关键缺陷清零
-      session_log_required: true
-    - id: TASK-R02-006
-      title: 账号、登录、注册与安全会话可观测性与预发布验收
-      status: BLOCKED
-      depends_on:
       - TASK-R02-005
       requirements: *id001
-      description: 部署Staging，验证结构化日志、TraceId、RED指标、业务指标、告警和回滚
+      description: 汇合四个纵向批次，执行Release Manifest权威25项测试以及重复请求、并发、超时、消息重复、供应商异常、结构化日志、TraceId、RED指标、业务指标、告警和回滚。
       deliverables:
+      - 25项权威测试、E2E、故障注入与失败证据归档
+      - 四批次生成物和契约无漂移
       - 运行手册演练
       - 验收矩阵签字
       acceptance:
       - 无TODO/生产Mock
       - 代码、文档、测试、追踪同步更新
+      - 25项测试全部PASS且关键缺陷清零
+      - INTEGRATION与预发布门禁通过
       - 运行手册演练
       - 验收矩阵签字
       session_log_required: true
@@ -1414,30 +1987,18 @@ release_context:
     version: 1.2.2
     definition_of_ready: releases/R02/DEFINITION_OF_READY.yaml
     story_backlog: releases/R02/STORIES.yaml
-    execution_rule: TASKS定义治理顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。
+    execution_rule: TASK-R02-001完成后，TASK-R02-002至005按四个纵向Story批次并行；TASK-R02-006等待四批次汇合。TASKS定义治理与汇合顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: null
+  active_session_id: SES-20260717T183459Z-D64E7407
   last_session_id: SES-20260717T171412Z-7CD86701
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260717T171412Z-7CD86701-0002
-  event_count: 208
-  event_head_hash: 5203866eee43c25f4a22476ee53a099e8976c19c7113761bc45fa38de16194d0
+  event_count: 217
+  event_head_hash: 95f8509a8a5dfcb261ea44b0c6109b2aceb90b03dcb046d2804711d968a96617
   event_chain_valid: true
 recent_sessions:
-- session_id: SES-20260717T053909Z-3A8B6A51
-  task_id: TASK-P00-007
-  story_id: STORY-P00-001
-  actor_id: codex-root
-  status: CLOSED
-  started_at: '2026-07-17T05:39:09Z'
-  record: .continuity/sessions/SES-20260717T053909Z-3A8B6A51.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260717T053909Z-3A8B6A51.md
-  updated_at: '2026-07-17T05:40:22Z'
-  closed_at: '2026-07-17T05:40:22Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T053909Z-3A8B6A51/0002.yaml
-  handoff_bundle: null
 - session_id: SES-20260717T054147Z-7AE51A86
   task_id: TASK-P00-008
   story_id: STORY-P00-001
@@ -1545,6 +2106,18 @@ recent_sessions:
   updated_at: '2026-07-17T17:45:22Z'
   closed_at: '2026-07-17T17:45:22Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0002.yaml
+  handoff_bundle: null
+- session_id: SES-20260717T183459Z-D64E7407
+  task_id: TASK-R02-001
+  story_id: STORY-R02-009
+  actor_id: codex-master
+  status: ACTIVE
+  started_at: '2026-07-17T18:34:59Z'
+  record: .continuity/sessions/SES-20260717T183459Z-D64E7407.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md
+  updated_at: '2026-07-17T19:28:21Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0003.yaml
   handoff_bundle: null
 task_claims:
 - task_id: TASK-P00-001
@@ -2165,6 +2738,44 @@ task_claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-17T17:45:22Z'
+- claim_id: CLM-C40E17896B67
+  session_id: SES-20260717T183459Z-D64E7407
+  task_id: TASK-R02-001
+  story_id: STORY-R02-009
+  actor_id: codex-master
+  status: ACTIVE
+  claimed_at: '2026-07-17T18:34:59Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
 recent_task_transitions:
 - transition_id: TRN-V123-PACKAGE-BASELINE
   timestamp: '2026-07-16T00:30:00Z'
@@ -2336,6 +2947,16 @@ recent_task_transitions:
   session_id: SES-20260717T171412Z-7CD86701
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-1F2460258754
+  timestamp: '2026-07-17T18:35:00Z'
+  release: R02
+  task_id: TASK-R02-001
+  story_id: STORY-R02-009
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260717T183459Z-D64E7407
+  actor_id: codex-master
+  reason: 会话领取任务
 open_change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0007
@@ -2472,16 +3093,100 @@ open_change_requests:
     note: 独立审阅：实际差异仅含R01关闭元数据、验收证据指针、Context Pack运行时指纹排除与隔离回归；8条既有admin API路径逐项与HEAD基线一致，且首3个operationId与contracts/admin-openapi.yaml一致。未变更页面、API、数据库、配置、资金或业务语义；tests.test_continuity_cross_release_close与tests.test_release_close_gate共6项通过。
   machine_record: .continuity/change_requests/CR-0017.yaml
   document: docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
+- protocol_version: '1.0'
+  cr_id: CR-0018
+  title: 建立主控与受托执行代理的并行开发、分层测试及APK交付基线
+  status: IMPLEMENTED
+  created_at: '2026-07-17T18:40:25Z'
+  updated_at: '2026-07-17T19:28:10Z'
+  requester_actor_id: codex-master
+  approver_actor_id: codex-architecture-reviewer
+  task_id: TASK-R02-001
+  session_id: SES-20260717T183459Z-D64E7407
+  user_request: 用户要求立即采用可提升开发效率的开发方式：主控加并行执行代理、纵向Story切片、代码生成、分层测试与当天APK验收。
+  reason: 当前门禁重复、R02任务横向串行、APK签名与版本身份漂移，必须在R02业务编码前完成受控治理改造。
+  original_rule: R02按数据库、后端、客户端横向串行；每次Git Hook无条件运行完整文档门禁；仅允许单一执行者直接在事实工作区开发；APK构建、桌面复制、上传和用户验收主要依赖人工命令。
+  new_rule: 保留唯一主控Session和事件哈希链；最多三个受托执行代理在独立scratch worktree按互斥路径并行，禁止修改连续性事实和直接提交推送，由主控校验补丁与模块证据后集成。R02改为四个纵向Story批次并行汇合。门禁分为FAST、MODULE、INTEGRATION、RELEASE；确定性生成物必须可漂移检查；APK执行固定签名、单调versionCode、桌面和公网四方哈希验证，用户真机验收独立置PASS。
+  impact_summary: 新增并行开发运行手册、代理角色、worktree编排、测试影响映射、生成漂移检查和APK交付入口；消除重复门禁与CI；修复冷启动遍历依赖目录；重排R02后续任务为纵向切片并统一19个新增端点、27个故事依赖operationId、25项专项测试口径。
+  impact:
+    files:
+    - AGENTS.md
+    - .continuity/CONTINUITY_POLICY.yaml
+    - scripts/continuity_lib.py
+    - scripts/continuity_gate.py
+    - config/test-impact-map.yaml
+    - scripts/run_affected_tests.py
+    - scripts/prepare_parallel_worktrees.ps1
+    - scripts/check_generated_assets.py
+    - scripts/generate_release_slice.py
+    - scripts/deliver_android_test_apk.py
+    - tests/test_run_affected_tests.py
+    - tests/test_parallel_worktrees.py
+    - tests/test_generated_assets.py
+    - tests/test_android_apk_delivery.py
+    - .codex/agents/hhy-backend-data.toml
+    - .codex/agents/hhy-clients.toml
+    - .codex/agents/hhy-quality-delivery.toml
+    - .codex/agents/hhy-reviewer.toml
+    - docs/03-continuity/并行加速开发运行手册_V1.0.md
+    - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+    - releases/R02/TASKS.yaml
+    - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+    - releases/R02/RELEASE_MANIFEST.yaml
+    - package.json
+    - Makefile
+    - .github/workflows/ci.yml
+    - .github/workflows/daily-integration.yml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - development.parallel_workers=3
+    - development.test_gate_profiles=FAST,MODULE,INTEGRATION,RELEASE
+    - android.test_signing=SECRET_REF
+    ledger: []
+    tests:
+    - python scripts/test_continuity_protocol.py
+    - python tests/test_run_affected_tests.py
+    - python tests/test_parallel_worktrees.py
+    - python tests/test_generated_assets.py
+    - python tests/test_android_apk_delivery.py
+    - python scripts/check_v123_continuity.py --strict
+    - python scripts/check_v122_documentation.py --release R02
+    releases:
+    - R02
+    migration_and_compatibility: P00/R01历史记录和manifest保持只读兼容；连续性协议仍为1.0且只有一个ACTIVE主控Session；scratch工作区不是事实源。普通本地Debug仍可临时签名，R02正式测试APK缺少固定签名时失败。现有全量门禁保留在日集成、合并和Release阶段。
+  user_confirmation: 用户于2026-07-18明确要求立即开始采用主控加并行执行代理、纵向Story、代码生成、分层测试和当天APK验收的提速方式。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T18:42:55Z'
+    note: 独立复核通过：保持单主控Session可避免事件链冲突；受托代理必须独占路径且不得改连续性事实或直接提交；全量质量门禁保留在集成与Release；APK签名仅使用SecretRef。
+  machine_record: .continuity/change_requests/CR-0018.yaml
+  document: docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
+  decision_log:
+  - at: '2026-07-17T18:43:12Z'
+    actor_id: codex-master
+    status: IMPLEMENTING
+    note: 审批后开始并行落地治理、门禁、生成和APK交付基线。
+    session_id: SES-20260717T183459Z-D64E7407
+  - at: '2026-07-17T19:28:10Z'
+    actor_id: codex-master
+    status: IMPLEMENTED
+    note: 并行开发治理、R02纵向批次、分层门禁、生成漂移检查、影响测试、每日全量CI和APK交付状态机已实现；严格文档与连续性门禁通过。
+    session_id: SES-20260717T183459Z-D64E7407
+  session_ids:
+  - SES-20260717T183459Z-D64E7407
 source_manifest:
 - path: AGENTS.md
-  sha256: 387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440
-  bytes: 2719
+  sha256: c8948610f3e08b25002fc73c0bec6335ba7d19326a7bce4c6ebad2a30ea8164e
+  bytes: 4254
 - path: START_HERE.md
   sha256: 1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc
   bytes: 1433
 - path: CURRENT_STATUS.yaml
-  sha256: 7d28a2dce5f0deab691943fde71314cd4265a87b112fd1afb252ebb9a47f6389
-  bytes: 3032
+  sha256: b906840dc881a1f04250cea89e3d4109880241824adfcb291c6209d03be8c515
+  bytes: 3172
 - path: NEXT_TASK.yaml
   sha256: e14f3a97dc8e38d2806c741405455168fb038d18020a822f4941c0977c1eb800
   bytes: 1853
@@ -2501,31 +3206,55 @@ source_manifest:
   sha256: ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30
   bytes: 229
 - path: .continuity/CONTINUITY_POLICY.yaml
-  sha256: 69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223
-  bytes: 6783
+  sha256: 773902bbbc9c470d6bc10721aacd315a85a9775c895107304d338272e89b0f4d
+  bytes: 7824
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 78869b998299a49ba082bbb8837da50b6bbb3851a84a08a6ba0dd35d49b4e92d
-  bytes: 107922
+  sha256: af7c721e16ef88ef36d0dc47a9037e45d9702126074d7836c3cd98eee3da9dce
+  bytes: 113404
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 69a3a1172e18b69db110b08b1401274455273be5d84091384b30bc7c902534dc
-  bytes: 8612
+  sha256: f1cd90b3ad924de47ae73b9d4b3960d5c55110ffb0fe3811278c98416d4fac14
+  bytes: 9098
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: f67ceac69efb681a78e4deb4ea1c97b1f70d4d61d874f63baa24824e5b033ea6
-  bytes: 11977
+  sha256: c86b0a2dc9a891e31ed566e6c40517979b6f9947c4effcfc34ee49fba4726b9f
+  bytes: 12686
 - path: .continuity/TASK_TRANSITIONS.yaml
-  sha256: f5f1711d4a5fd8ccdb0716908017d021204b90616d5a1ecba5d7864d8a78b503
-  bytes: 4804
+  sha256: 61f182996ab18c624e190a3e42c8a22440e918e4405fd48de4b03f25996a0433
+  bytes: 5083
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 5c1a2b0da7446113f2d423f834eaf51ea5404f259d1d94354918168f88eee46c
-  bytes: 48522
+  sha256: 9338892bf8d1ba2f951560cc342d3c8878f3b222abc66efc713351634c4429b3
+  bytes: 53583
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: ac9e43f2ffbe73d2398e43f57bb16b58b93f20c985a857c1ae1806ef5fae35b2
-  bytes: 143
-exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R02-001
+  sha256: 46e85872176472141cd150c0c02b0588809a9ebe41f653f9c78194d48fea2dac
+  bytes: 527
+- path: releases/R02/RELEASE_MANIFEST.yaml
+  sha256: 19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d
+  bytes: 4270
+- path: releases/R02/DEFINITION_OF_READY.yaml
+  sha256: 9a3113b85d8dd96ea04a908a277c9da3374531ec06dd5eb91dfd539e4351d33c
+  bytes: 7091
+- path: releases/R02/STORIES.yaml
+  sha256: 966e57d10e36269465e74318903ffa0aa5c49d205ba38cce3ba5ebbdbe9ca571
+  bytes: 27370
+- path: releases/R02/TASKS.yaml
+  sha256: c06d92360ac9d2e563b08d38c6e5dc094116cfed1f79c1b13bfebba3c826296f
+  bytes: 7336
+- path: releases/R02/ACCEPTANCE_MATRIX.csv
+  sha256: 687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0
+  bytes: 691
+- path: docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md
+  sha256: 8660534a41260cdf683bf3db17696661f993a5c42e372e000ae2ffe08979b211
+  bytes: 7144
+- path: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0003.yaml
+  sha256: b842abdce2e015f00fa8c6f0e8fbef7237064ba2fd1494da94c7a169001cb7af
+  bytes: 11543
+- path: docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md
+  sha256: 75e3005287b763f9e0d6dd875ba0aa220f448d6d2dfeecddfc8e6dc57784998c
+  bytes: 4945
+exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>'
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
 - 项目内容变化后必须先创建检查点再提交
 - 冻结事实变化必须关联已批准CR
 - 交接必须生成Handoff Bundle或完成干净提交
-context_hash: ce0d3977bca11eab6dc9b3f47b167d3385ef938dacbc4948012bf32bddbe3441
+context_hash: a74fe9c54e8d57d125720c9ae89d61b96568dc9c0246be8be4600aa1b03be30c

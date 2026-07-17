@@ -32,6 +32,10 @@ ui:
   - ADM-USER-001
   - ADM-USER-002
 contracts:
+  implementation_endpoint_count: 19
+  story_unique_operation_count: 27
+  reused_dependency_operation_count: 8
+  interpretation: 本版本实现19个新增端点；9个纵向故事共集成验证27个唯一operationId，其中8个是跨版本复用依赖。
   client_api:
   - POST /api/v1/auth/security-challenges
   - POST /api/v1/auth/password/login
@@ -109,6 +113,8 @@ tests:
 - TST-AUTH_005-REJECT
 - TST-AUTH_005-SECURITY
 - TST-V122-011
+test_count: 25
+parallel_execution_plan: releases/R02/PARALLEL_EXECUTION_PLAN.yaml
 entry_gate:
 - releases/R02/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R02/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A

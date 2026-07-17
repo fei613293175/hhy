@@ -2,10 +2,10 @@ SHELL := /bin/bash
 export LANG := C.UTF-8
 export LC_ALL := C.UTF-8
 .DEFAULT_GOAL := help
-.PHONY: continuity-doctor continuity-self-test continuity-lifecycle-test  help setup install generate doctor legacy-doctor backend-test web-install web-test web-build db-test android-test verify verify-all infra-up infra-down clean
+.PHONY: continuity-doctor continuity-self-test continuity-lifecycle-test help setup install generate generate-check release-slice doctor legacy-doctor backend-test web-install web-test web-build db-test android-test verify verify-all verify-fast verify-module verify-integration verify-release infra-up infra-down clean
 
 help:
-	@printf '%s\n' 'setup install generate doctor legacy-doctor backend-test web-test web-build db-test android-test verify verify-all infra-up infra-down clean'
+	@printf '%s\n' 'setup install generate generate-check release-slice doctor legacy-doctor backend-test web-test web-build db-test android-test verify verify-all verify-fast verify-module verify-integration verify-release infra-up infra-down clean'
 
 setup: install generate doctor
 
@@ -15,6 +15,12 @@ install:
 
 generate:
 	pnpm generate
+
+generate-check:
+	python3 scripts/check_generated_assets.py
+
+release-slice:
+	python3 scripts/generate_release_slice.py --release $${RELEASE:-R02}
 
 doctor:
 	python3 scripts/check_v122_documentation.py --strict
@@ -43,6 +49,19 @@ android-test:
 verify: doctor backend-test web-test web-build
 
 verify-all: verify db-test android-test
+
+verify-fast:
+	python3 scripts/run_affected_tests.py --profile FAST --execute
+
+verify-module:
+	python3 scripts/run_affected_tests.py --profile MODULE --execute
+
+verify-integration:
+	python3 scripts/run_affected_tests.py --profile INTEGRATION --execute
+
+verify-release:
+	test -n "$$RELEASE"
+	python3 scripts/run_affected_tests.py --profile RELEASE --release "$$RELEASE" --execute
 
 infra-up:
 	docker compose -f infra/docker-compose.yml up -d --wait

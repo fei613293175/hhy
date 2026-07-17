@@ -170,3 +170,13 @@ transitions:
   session_id: SES-20260717T171412Z-7CD86701
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-1F2460258754
+  timestamp: '2026-07-17T18:35:00Z'
+  release: R02
+  task_id: TASK-R02-001
+  story_id: STORY-R02-009
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260717T183459Z-D64E7407
+  actor_id: codex-master
+  reason: 会话领取任务

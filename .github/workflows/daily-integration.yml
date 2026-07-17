@@ -1,0 +1,13 @@
+name: Daily Integration
+on:
+  schedule:
+    - cron: '0 15 * * *'
+  workflow_dispatch:
+
+permissions: { contents: read }
+
+jobs:
+  full:
+    uses: ./.github/workflows/ci.yml
+    with:
+      full: true

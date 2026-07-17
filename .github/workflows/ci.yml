@@ -1,5 +1,14 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_call:
+    inputs:
+      full:
+        description: Run every integration partition
+        required: false
+        type: boolean
+        default: false
 permissions: { contents: read }
 env:
   LANG: C.UTF-8
@@ -9,7 +18,50 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      tooling: ${{ steps.plan.outputs.tooling }}
+      contracts: ${{ steps.plan.outputs.contracts }}
+      web: ${{ steps.plan.outputs.web }}
+      backend: ${{ steps.plan.outputs.backend }}
+      database: ${{ steps.plan.outputs.database }}
+      android: ${{ steps.plan.outputs.android }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install --disable-pip-version-check pyyaml
+      - id: plan
+        shell: bash
+        run: |
+          if [ "${{ inputs.full || false }}" = "true" ]; then
+            for job in tooling contracts web backend database android; do
+              echo "$job=true" >> "$GITHUB_OUTPUT"
+            done
+          else
+            python scripts/run_affected_tests.py \
+              --profile MODULE \
+              --base-ref "${{ github.event.pull_request.base.sha || github.event.before }}" \
+              --head-ref HEAD \
+              --github-output "$GITHUB_OUTPUT"
+          fi
+
+  tooling:
+    needs: changes
+    if: needs.changes.outputs.tooling == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install --disable-pip-version-check pyyaml pglast
+      - run: python -m unittest discover -s tests -p 'test_*.py'
+
   contracts:
+    needs: changes
+    if: needs.changes.outputs.contracts == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,6 +80,8 @@ jobs:
       - run: python scripts/run_p00_test_matrix.py --list
 
   web:
+    needs: changes
+    if: needs.changes.outputs.web == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,9 +90,11 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '24', cache: 'pnpm' }
       - run: pnpm install --frozen-lockfile
-      - run: pnpm generate && pnpm typecheck && pnpm test && pnpm build
+      - run: pnpm generate:check && pnpm typecheck && pnpm test && pnpm build
 
   backend:
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -47,6 +103,8 @@ jobs:
       - run: cd services/backend && ./mvnw clean verify
 
   database:
+    needs: changes
+    if: needs.changes.outputs.database == 'true'
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -79,6 +137,8 @@ jobs:
           HHY_DB_SMOKE_CONFIRM: YES
 
   android:
+    needs: changes
+    if: needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -90,32 +150,3 @@ jobs:
       - run: cd apps/android && ./gradlew --no-daemon clean lintDebug testDebugUnitTest assembleDebug
       - uses: actions/upload-artifact@v4
         with: { name: hhy-debug-apk, path: apps/android/app/build/outputs/apk/debug/*.apk }
-
-  continuity-protocol:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
-      - uses: actions/setup-python@v5
-        with: { python-version: '3.12' }
-      - run: pip install --disable-pip-version-check pyyaml
-      - name: Initial repository push continuity validation
-        run: |
-          if git rev-parse HEAD^ >/dev/null 2>&1; then
-            python3 scripts/continuity_gate.py --mode ci --strict --base-ref HEAD^ --head-ref HEAD
-          else
-            echo 'Initial repository push'
-            python3 scripts/continuity_gate.py --mode ci --strict --head-ref HEAD
-          fi
-      - run: python3 scripts/run_continuity_self_test.py
-      - run: python3 scripts/test_continuity_protocol.py
-      - run: python3 tests/test_continuity_bootstrap_recovery.py
-      - run: python3 tests/test_continuity_cross_release_close.py
-      - run: python3 tests/test_release_close_gate.py
-      - run: python3 scripts/check_v123_continuity.py --strict
-      - uses: actions/upload-artifact@v4
-        with:
-          name: continuity-reports
-          path: |
-            artifacts/validation/continuity-integration-v1.2.3.json
-            artifacts/validation/continuity-lifecycle-integration-v1.2.3.json

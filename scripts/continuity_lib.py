@@ -89,6 +89,13 @@ PORTABLE_EXCLUDE_PATTERNS = (
     "**/*private_key*",
 )
 
+# Directory names that must be removed from os.walk's traversal list. The
+# equivalent glob rules above still protect individual files; this set avoids
+# discovering dependency and build files at all.
+FINGERPRINT_PRUNE_DIRECTORY_NAMES = frozenset(
+    {".git", "node_modules", "dist", "target", ".gradle", "build", "__pycache__"}
+)
+
 SUSPICIOUS_SECRET_REGEXES = {
     "private_key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     "aws_like_access_key": re.compile(r"\b(?:AKIA|ASIA)[A-Z0-9]{16}\b"),
@@ -439,18 +446,31 @@ def project_fingerprint(root: Path, session: dict[str, Any] | None = None) -> di
 
 def tree_fingerprint(root: Path) -> dict[str, Any]:
     tokens: list[dict[str, Any]] = []
-    for path in sorted(root.rglob("*")):
-        if not path.is_file():
-            continue
-        relative = path.relative_to(root).as_posix()
-        # build_context_pack writes STATE after computing this fingerprint.  STATE is
-        # runtime metadata rather than project content, so including it would make a
-        # no-session Context Pack stale immediately after it is generated.
-        if relative in {"MANIFEST_SHA256.txt", STATE_FILE} or is_managed_record(relative):
-            continue
-        if any(path_matches(relative, pattern) for pattern in PORTABLE_EXCLUDE_PATTERNS):
-            continue
-        tokens.append(file_content_token(root, relative))
+    # Path.rglob descends into excluded dependency/build trees before filtering.
+    # Prune them top-down so a cold resume remains fast in an installed checkout.
+    for current, directories, filenames in os.walk(root, topdown=True):
+        current_path = Path(current)
+        retained_directories: list[str] = []
+        for name in sorted(directories):
+            candidate = (current_path / name).relative_to(root).as_posix()
+            if name in FINGERPRINT_PRUNE_DIRECTORY_NAMES:
+                continue
+            if is_managed_record(candidate + "/"):
+                continue
+            if any(path_matches(candidate, pattern) for pattern in PORTABLE_EXCLUDE_PATTERNS):
+                continue
+            retained_directories.append(name)
+        directories[:] = retained_directories
+
+        for name in sorted(filenames):
+            path = current_path / name
+            relative = path.relative_to(root).as_posix()
+            if relative in {"MANIFEST_SHA256.txt", STATE_FILE} or is_managed_record(relative):
+                continue
+            if any(path_matches(relative, pattern) for pattern in PORTABLE_EXCLUDE_PATTERNS):
+                continue
+            tokens.append(file_content_token(root, relative))
+    tokens.sort(key=lambda token: token["path"])
     payload = {"files": tokens}
     return {"sha256": sha256_text(canonical_json(payload)), "file_count": len(tokens)}
 

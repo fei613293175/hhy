@@ -10,6 +10,8 @@
     "contracts:types": "openapi-typescript contracts/openapi.yaml -o packages/api-client/src/client.generated.ts && openapi-typescript contracts/admin-openapi.yaml -o packages/api-client/src/admin.generated.ts && node scripts/postprocess-openapi-types.mjs",
     "types:domain": "node scripts/run-python.mjs scripts/generate_frontend_types.py",
     "generate": "pnpm contracts:types && pnpm types:domain",
+    "generate:check": "node scripts/run-python.mjs scripts/check_generated_assets.py",
+    "release:slice": "node scripts/run-python.mjs scripts/generate_release_slice.py --release R02",
     "typecheck": "pnpm --recursive typecheck",
     "test": "pnpm --recursive test",
     "build": "pnpm --recursive build",

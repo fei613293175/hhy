@@ -6,11 +6,11 @@
   "source_manifest": [
     {
       "path": ".continuity/CONTINUITY_POLICY.yaml",
-      "sha256": "69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223"
+      "sha256": "773902bbbc9c470d6bc10721aacd315a85a9775c895107304d338272e89b0f4d"
     },
     {
       "path": "scripts/continuity_lib.py",
-      "sha256": "a3dfc869dd56765d2712e55a00c3452123a28f93f76689eef91a2afccd2b778c"
+      "sha256": "6df7dc697adaebae64dec6cbb4c8057475bdab723e7baa7ec0630a4dfc2a7449"
     },
     {
       "path": "scripts/continuity.py",
@@ -18,7 +18,7 @@
     },
     {
       "path": "scripts/continuity_gate.py",
-      "sha256": "888111dfe7085ad8165458d3c9ec39b48a39db49a954a2ee17976cfc0c7070a4"
+      "sha256": "46a0993543d851df557fb622d4b4352930aea204e84c19bff93ca5ce52cd4003"
     },
     {
       "path": "scripts/prepare_commit_message.py",
@@ -88,7 +88,7 @@
     {
       "name": "portable_clone_fingerprint",
       "status": "PASS",
-      "evidence": "cb9a15c79adcadf0d76900b7f4f13aef0e00227057e1b4a17277b82de4f51d39"
+      "evidence": "9355d69a71341d73d607e555fc52c12ae8f32aaa92564e87b0e65f8b91c5b14c"
     },
     {
       "name": "handoff_tamper_rejected",
@@ -98,8 +98,8 @@
   ],
   "check_count": 9,
   "lifecycle_report": "artifacts\\validation\\continuity-lifecycle-integration-v1.2.3.json",
-  "handoff_sha256": "62391e4c422d00574cce6749f008662584bfdb9496c056290e1c2e80c5be1c57",
-  "portable_project_fingerprint": "cb9a15c79adcadf0d76900b7f4f13aef0e00227057e1b4a17277b82de4f51d39",
+  "handoff_sha256": "66ee5f1e745a1f77ebf10c9bc3ad8e0534178ead2c00141f7a14d1b24967af86",
+  "portable_project_fingerprint": "9355d69a71341d73d607e555fc52c12ae8f32aaa92564e87b0e65f8b91c5b14c",
   "commands": [
     {
       "name": "lifecycle",

@@ -102,6 +102,27 @@ REQUIRED_ROOT_FILES = [
     "docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml",
 ]
 
+# Application-only commits cannot invalidate the frozen documentation baseline.
+# Doctor/release modes still force the complete check.
+DOCUMENT_GATE_INPUT_PATTERNS = (
+    "PROJECT_BASELINE.yaml",
+    "PROJECT_BASELINE.json",
+    "V1.2.2_最终文档冻结说明.md",
+    "合伙云Pro_完整项目开发文档_*.md",
+    "catalogs/**",
+    "contracts/**",
+    "config/**",
+    "database/**",
+    "docs/00-baseline/**",
+    "docs/01-architecture/**",
+    "docs/02-config/**",
+    "docs/02-contracts/**",
+    "docs/02-ui/**",
+    "releases/**",
+    "scripts/check_v122_documentation.py",
+    "scripts/check_v123_documentation.py",
+)
+
 
 class Report:
     def __init__(self, mode: str) -> None:
@@ -553,7 +574,27 @@ def validate_commit_identity(
     return checkpoint, checkpoint_path
 
 
-def run_document_gate(report: Report) -> None:
+def document_gate_required(paths: Iterable[str]) -> bool:
+    return any(
+        path_matches(relative, pattern)
+        for relative in paths
+        for pattern in DOCUMENT_GATE_INPUT_PATTERNS
+    )
+
+
+def run_document_gate(report: Report, paths: Iterable[str] = (), *, force: bool = False) -> None:
+    normalized_paths = sorted({path.replace("\\", "/") for path in paths if path})
+    required = force or document_gate_required(normalized_paths)
+    report.metrics["document_gate"] = {
+        "status": "EXECUTED" if required else "SKIPPED_UNAFFECTED",
+        "forced": force,
+        "affected_inputs": [
+            path for path in normalized_paths
+            if any(path_matches(path, pattern) for pattern in DOCUMENT_GATE_INPUT_PATTERNS)
+        ],
+    }
+    if not required:
+        return
     script = ROOT / "scripts/check_v123_documentation.py"
     result = run_command([
         sys.executable,
@@ -567,7 +608,7 @@ def run_document_gate(report: Report) -> None:
 
 def main() -> int:
     parser = ArgumentParser(description="持续开发无状态接续强制门禁")
-    parser.add_argument("--mode", choices=["doctor", "pre-commit", "commit-msg", "pre-push", "ci"], default="doctor")
+    parser.add_argument("--mode", choices=["doctor", "release", "pre-commit", "commit-msg", "pre-push", "ci"], default="doctor")
     parser.add_argument("--strict", action="store_true")
     parser.add_argument("--base-ref")
     parser.add_argument("--head-ref", default="HEAD")
@@ -595,11 +636,10 @@ def main() -> int:
             validate_session_structure(report, session, policy)
         validate_current_next_consistency(report, session)
         validate_indexes(report, session)
-        run_document_gate(report)
-
         message = ""
         if args.commit_message_file:
             message = Path(args.commit_message_file).read_text(encoding="utf-8")
+        document_paths: list[str] = []
 
         if args.mode == "pre-commit":
             if not is_git_repo(ROOT):
@@ -611,6 +651,7 @@ def main() -> int:
             report.require(staged_project == full_project, "PARTIAL_COMMIT", "禁止部分提交项目内容；先创建检查点并一次性暂存全部项目变更")
             relevant = latest_relevant_session(staged)
             validate_change_set(report, policy, staged, relevant, mode=args.mode)
+            document_paths = staged
 
         elif args.mode == "commit-msg":
             if not args.commit_message_file:
@@ -624,6 +665,7 @@ def main() -> int:
                 report, policy, changed, relevant, mode=args.mode, commit_message=message,
                 checkpoint_override=checkpoint, checkpoint_path_override=checkpoint_path,
             )
+            document_paths = changed
 
         elif args.mode == "pre-push":
             if not is_git_repo(ROOT):
@@ -640,6 +682,7 @@ def main() -> int:
             upstream = info.get("upstream")
             records = commit_records(upstream, "HEAD") if is_git_repo(ROOT) else []
             report.metrics["unpushed_commits"] = len(records)
+            document_paths = sorted({path for record in records for path in record["paths"]})
             for record in records:
                 trailers = parse_trailers(record["message"])
                 sid = trailers.get("session-id")
@@ -662,6 +705,7 @@ def main() -> int:
         elif args.mode == "ci":
             records = commit_records(args.base_ref, args.head_ref)
             report.metrics["validated_commits"] = len(records)
+            document_paths = sorted({path for record in records for path in record["paths"]})
             require_closed = args.require_closed or os.environ.get("GITHUB_BASE_REF") in {"main", "master"}
             for record in records:
                 trailers = parse_trailers(record["message"])
@@ -686,12 +730,18 @@ def main() -> int:
             fresh, reason = context_is_fresh(ROOT, relevant if relevant and relevant.get("status") in {"ACTIVE", "HANDED_OFF", "CLOSING"} else None)
             report.require(fresh, "CONTEXT_STALE", reason)
 
-        else:  # doctor
+        else:  # doctor/release
             fresh, reason = context_is_fresh(ROOT, session)
             report.require(fresh, "CONTEXT_STALE", reason)
             if session and session.get("status") == "ACTIVE" and session.get("latest_checkpoint"):
                 cp = latest_checkpoint(ROOT, session)
                 report.require(project_fingerprint(ROOT, session)["sha256"] == cp.get("project_fingerprint", {}).get("sha256"), "CHECKPOINT_STALE", "最新检查点与工作区不一致")
+
+        run_document_gate(
+            report,
+            document_paths,
+            force=args.mode in {"doctor", "release"},
+        )
 
     except (ContinuityError, OSError, ValueError, yaml.YAMLError) as exc:
         report.errors.append({"code": "GATE_EXCEPTION", "message": str(exc)})

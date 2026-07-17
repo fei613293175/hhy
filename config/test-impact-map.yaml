@@ -1,0 +1,188 @@
+version: '1.0'
+profiles:
+  FAST:
+    affected_only: true
+    includes: []
+  MODULE:
+    affected_only: true
+    includes: [FAST]
+  INTEGRATION:
+    affected_only: false
+    includes: []
+  RELEASE:
+    affected_only: false
+    includes: [INTEGRATION]
+
+checks:
+- id: acceleration-tooling-unit
+  profiles: [FAST]
+  ci_job: tooling
+  paths:
+  - scripts/run_affected_tests.py
+  - scripts/continuity_lib.py
+  - scripts/continuity_gate.py
+  - scripts/check_generated_assets.py
+  - scripts/generate_release_slice.py
+  - scripts/deliver_android_test_apk.py
+  - tests/test_run_affected_tests.py
+  - tests/test_generated_assets.py
+  - tests/test_android_apk_delivery.py
+  - config/test-impact-map.yaml
+  - .github/**
+  - Makefile
+  cwd: .
+  command: ['{python}', -m, unittest, tests.test_run_affected_tests, tests.test_generated_assets, tests.test_android_apk_delivery]
+  timeout_seconds: 300
+- id: contract-runtime-assets
+  profiles: [FAST]
+  ci_job: contracts
+  paths: &contract_paths
+  - contracts/**
+  - catalogs/**
+  - database/**
+  - packages/api-client/**
+  - packages/domain-types/**
+  - scripts/generate_*.py
+  - scripts/sync_runtime_assets.py
+  cwd: .
+  command: ['{python}', scripts/sync_runtime_assets.py, --check]
+  timeout_seconds: 180
+- id: contract-openapi
+  profiles: [FAST]
+  ci_job: contracts
+  paths: *contract_paths
+  cwd: .
+  command: ['{python}', scripts/check_api_contract.py]
+  timeout_seconds: 180
+- id: admin-web-typecheck
+  profiles: [FAST]
+  ci_job: web
+  paths: &admin_paths
+  - apps/admin-web/**
+  - packages/**
+  - contracts/**
+  - package.json
+  - pnpm-lock.yaml
+  cwd: .
+  command: ['{pnpm}', --filter, '@hhy/admin-web', typecheck]
+  timeout_seconds: 300
+- id: h5-typecheck
+  profiles: [FAST]
+  ci_job: web
+  paths: &h5_paths
+  - apps/h5/**
+  - packages/**
+  - contracts/**
+  - package.json
+  - pnpm-lock.yaml
+  cwd: .
+  command: ['{pnpm}', --filter, '@hhy/h5', typecheck]
+  timeout_seconds: 300
+- id: backend-module
+  profiles: [MODULE]
+  ci_job: backend
+  paths:
+  - services/backend/**
+  - database/**
+  - contracts/**
+  cwd: services/backend
+  command: ['{maven_wrapper}', -pl, 'access,boot', -am, test]
+  timeout_seconds: 900
+- id: admin-web-module
+  profiles: [MODULE]
+  ci_job: web
+  paths: *admin_paths
+  cwd: .
+  command: ['{pnpm}', --filter, '@hhy/admin-web', test]
+  timeout_seconds: 300
+- id: h5-module
+  profiles: [MODULE]
+  ci_job: web
+  paths: *h5_paths
+  cwd: .
+  command: ['{pnpm}', --filter, '@hhy/h5', test]
+  timeout_seconds: 300
+- id: android-module
+  profiles: [MODULE]
+  ci_job: android
+  paths:
+  - apps/android/**
+  - contracts/**
+  - packages/domain-types/**
+  cwd: apps/android
+  command: ['{gradle_wrapper}', --no-daemon, testDebugUnitTest, lintDebug]
+  timeout_seconds: 1200
+- id: database-module
+  profiles: [MODULE]
+  ci_job: database
+  paths:
+  - database/**
+  - services/backend/**/migration/**
+  cwd: .
+  command: ['{python}', scripts/check_db_schema.py]
+  timeout_seconds: 180
+- id: python-project-tests
+  profiles: [MODULE]
+  ci_job: tooling
+  paths:
+  - tests/**
+  - scripts/**
+  - config/**
+  cwd: .
+  command: ['{python}', -m, unittest, discover, -s, tests, -p, 'test_*.py']
+  timeout_seconds: 900
+- id: integration-documentation
+  profiles: [INTEGRATION]
+  ci_job: contracts
+  cwd: .
+  command: ['{python}', scripts/check_v123_documentation.py, --strict]
+  timeout_seconds: 300
+- id: integration-generated-assets
+  profiles: [INTEGRATION]
+  ci_job: contracts
+  cwd: .
+  command: ['{python}', scripts/check_generated_assets.py]
+  timeout_seconds: 600
+- id: integration-python-tests
+  profiles: [INTEGRATION]
+  ci_job: tooling
+  cwd: .
+  command: ['{python}', -m, unittest, discover, -s, tests, -p, 'test_*.py']
+  timeout_seconds: 900
+- id: integration-continuity
+  profiles: [INTEGRATION]
+  ci_job: continuity
+  cwd: .
+  command: ['{python}', scripts/run_continuity_self_test.py]
+  timeout_seconds: 900
+- id: integration-web
+  profiles: [INTEGRATION]
+  ci_job: web
+  cwd: .
+  command: ['{pnpm}', typecheck]
+  timeout_seconds: 600
+- id: integration-backend
+  profiles: [INTEGRATION]
+  ci_job: backend
+  cwd: services/backend
+  command: ['{maven_wrapper}', verify]
+  timeout_seconds: 1200
+- id: integration-postgres-migration
+  profiles: [INTEGRATION]
+  ci_job: database
+  cwd: .
+  command: [bash, scripts/run_postgres_migration_smoke.sh]
+  env: { HHY_DB_SMOKE_CONFIRM: 'YES' }
+  timeout_seconds: 600
+- id: integration-android
+  profiles: [INTEGRATION]
+  ci_job: android
+  cwd: apps/android
+  command: ['{gradle_wrapper}', --no-daemon, lintDebug, testDebugUnitTest, assembleDebug]
+  timeout_seconds: 1800
+- id: release-close-gate
+  profiles: [RELEASE]
+  ci_job: release
+  cwd: .
+  command: ['{python}', scripts/check_release_artifacts.py, --release, '{release}', --close-gate]
+  timeout_seconds: 300

@@ -13,6 +13,24 @@ lease:
   runtime_heartbeat_extension_minutes: 60
   ci_grace_minutes: 15
   takeover_requires_handoff_or_expiry: true
+parallel_development:
+  authoritative_active_sessions: 1
+  max_delegated_workers: 3
+  worker_workspace: ISOLATED_SCRATCH_WORKTREE
+  require_disjoint_path_leases: true
+  worker_may_modify_continuity_records: false
+  worker_may_commit_or_push: false
+  worker_output:
+  - patch
+  - changed_paths
+  - module_test_evidence
+  integration_owner: ACTIVE_SESSION_ACTOR
+  source_of_truth_rule: 受托执行代理的scratch worktree不是事实源；主控验证范围与证据并应用到事实分支后才形成项目变化。
+verification_profiles:
+  FAST: 连续性核心、范围、秘密、CR、Fingerprint、Commit Trailer与受影响轻量测试
+  MODULE: 受影响模块的单元、类型、契约和静态检查
+  INTEGRATION: 后端、Web、PostgreSQL、Android、连续性协议全量集成
+  RELEASE: 全量集成、Staging、E2E、APK四方哈希与项目所有者真机验收
 checkpoint:
   max_age_minutes: 60
   mandatory_triggers:
@@ -108,6 +126,7 @@ scope_rules:
   - templates/**
   - .github/**
   - .githooks/**
+  - .codex/**
   - AGENTS.md
   - START_HERE.md
   - README.md
@@ -210,6 +229,7 @@ path_classes:
   - infra/**
   - .github/**
   - .githooks/**
+  - .codex/**
   user_visible:
   - apps/android/**
   - apps/admin-web/**
@@ -250,6 +270,8 @@ forbidden:
 - Bug修复没有根因登记和回归测试
 - 交接时只说“继续开发”而不生成Handoff Bundle
 - 依赖旧对话解释仓库已有需求
+- 受托执行代理修改连续性事实、Release事实或直接提交推送
+- 两个执行代理领取重叠路径后并行写入
 close:
   protocol: IMPLEMENTATION_CHECKPOINT -> IMPLEMENTATION_COMMIT -> CLOSE -> CLOSURE_CHECKPOINT -> CLOSURE_METADATA_COMMIT
   require_implementation_commit: true
