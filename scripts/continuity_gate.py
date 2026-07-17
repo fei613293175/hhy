@@ -583,7 +583,11 @@ def document_gate_required(paths: Iterable[str]) -> bool:
 
 
 def run_document_gate(report: Report, paths: Iterable[str] = (), *, force: bool = False) -> None:
-    normalized_paths = sorted({path.replace("\\", "/") for path in paths if path})
+    # Checkpoint/session indexes are mandatory on every commit but are runtime
+    # continuity records, not frozen documentation inputs.
+    normalized_paths = filter_project_files(
+        path.replace("\\", "/") for path in paths if path
+    )
     required = force or document_gate_required(normalized_paths)
     report.metrics["document_gate"] = {
         "status": "EXECUTED" if required else "SKIPPED_UNAFFECTED",

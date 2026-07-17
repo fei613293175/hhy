@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T19:35:54Z
-- Context Hash：`f3da6785ecb3505f4334c232f5adc1e7af424e161762775a1f228f131ebdb5d0`
+- 生成时间：2026-07-17T19:40:13Z
+- Context Hash：`53e55f71a5c1c862b518d387e8f190739d52d90d92a007489301eb20dcd401c1`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -54,7 +54,7 @@ in_progress_tasks:
 - TASK-R02-001
 blocked_tasks: []
 next_task: TASK-R02-001
-updated_at: '2026-07-17T19:35:52Z'
+updated_at: '2026-07-17T19:40:11Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -89,15 +89,15 @@ continuity:
   active_session_id: SES-20260717T183459Z-D64E7407
   actor_id: codex-master
   story_id: STORY-R02-009
-  lease_expires_at: '2026-07-17T23:35:52Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0004.yaml
-  project_fingerprint: f7c1b1d121711de8dab79579cc7f69cbe54ced8ef46d0309fdea5316ab8dc8ee
+  lease_expires_at: '2026-07-17T23:40:11Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0005.yaml
+  project_fingerprint: c992cff089f54279535299e81f8902d413c8a491df5db4d76be4ad68f3851e6a
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: a74fe9c54e8d57d125720c9ae89d61b96568dc9c0246be8be4600aa1b03be30c
-    generated_at: '2026-07-17T19:28:22Z'
+    context_hash: f3da6785ecb3505f4334c232f5adc1e7af424e161762775a1f228f131ebdb5d0
+    generated_at: '2026-07-17T19:35:54Z'
   handoff_bundle: null
 ```
 
@@ -159,7 +159,7 @@ task_id: TASK-R02-001
 story_id: STORY-R02-009
 goal: 核验R02开发就绪并建立主控加三执行代理、独立工作区、分层测试、生成代码和APK交付的加速开发基线
 started_at: '2026-07-17T18:34:59Z'
-updated_at: '2026-07-17T19:35:52Z'
+updated_at: '2026-07-17T19:40:11Z'
 takeover_of: null
 change_requests:
 - CR-0018
@@ -206,12 +206,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T19:35:52Z'
-  expires_at: '2026-07-17T23:35:52Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0004.yaml
+  renewed_at: '2026-07-17T19:40:11Z'
+  expires_at: '2026-07-17T23:40:11Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md
-next_step: 严格门禁后提交首推优化并推送，然后关闭TASK-R02-001。
+next_step: 提交并推送最终门禁优化，关闭TASK-R02-001。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -221,30 +221,30 @@ closure: null
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T183459Z-D64E7407-0004
+checkpoint_id: CP-SES-20260717T183459Z-D64E7407-0005
 session_id: SES-20260717T183459Z-D64E7407
-sequence: 4
-created_at: '2026-07-17T19:35:52Z'
-summary: 修复新任务分支首次推送误验全历史：无upstream时使用Session base_commit，仅验证本任务提交。
-next_step: 严格门禁后提交首推优化并推送，然后关闭TASK-R02-001。
+sequence: 5
+created_at: '2026-07-17T19:40:11Z'
+summary: 排除强制Session/Checkpoint运行索引对文档Doctor的误触发，普通应用提交只运行连续性核心与受影响测试。
+next_step: 提交并推送最终门禁优化，关闭TASK-R02-001。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: prepush-base-unit
+- name: document-impact-unit
   result: PASS
-  evidence: 9/9 test_run_affected_tests; session base and upstream priority covered
+  evidence: managed session index does not trigger document subprocess
   note: ''
 - name: continuity-self-test
   result: PASS
-  evidence: 9/9 integration and 14/14 lifecycle after prepush optimization
+  evidence: 9/9 integration and 14/14 lifecycle after managed-record filter
   note: ''
 git:
   initialized: true
   branch: task/TASK-R02-001
-  head: c19f6d6259801d785dc70eb2a81dfac5c41278ec
+  head: 919b095307a366c88c1cd0c6c0b48c4f03dff574
   upstream: origin/task/TASK-R02-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
@@ -254,6 +254,8 @@ git:
   - ' M scripts/continuity_gate.py'
   - ' M tests/test_run_affected_tests.py'
   recent_commits:
+  - "919b095307a366c88c1cd0c6c0b48c4f03dff574\t2026-07-18T03:36:23+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(continuity): limit first\
+    \ push validation range"
   - "c19f6d6259801d785dc70eb2a81dfac5c41278ec\t2026-07-18T03:28:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(dev): establish parallel\
     \ acceleration baseline"
   - "878abc7f51eb3724703d5ff72d78d5eaed1cff30\t2026-07-18T01:47:21+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-008\
@@ -268,10 +270,8 @@ git:
     \ APK traceability"
   - "db3cfddcc4cda84265ec18f24de972804d62a08f\t2026-07-18T00:44:24+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): enable debug resource\
     \ overrides"
-  - "06b705ed53d83258e8d4b166909c5c21384f4b02\t2026-07-18T00:40:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): mark debug APK\
-    \ test build"
 project_fingerprint:
-  sha256: f7c1b1d121711de8dab79579cc7f69cbe54ced8ef46d0309fdea5316ab8dc8ee
+  sha256: c992cff089f54279535299e81f8902d413c8a491df5db4d76be4ad68f3851e6a
   files:
   - .github/workflows/ci.yml
   - .github/workflows/daily-integration.yml
@@ -359,8 +359,8 @@ project_fingerprint:
       sha256: 5d1455ba6716285e6f36ebf310949bf882079b58556e635d148ea9fb5b37c451
     - path: scripts/continuity_gate.py
       state: FILE
-      size: 37677
-      sha256: d3e3b687df3e04d6d3bd91eea28353111a9d71d86a31322f6e6322231338a7a6
+      size: 37841
+      sha256: d43a321ac22660207d5276cca23eda5c5373c947ff87fae11ab87ac1d7c2249f
     - path: scripts/continuity_lib.py
       state: FILE
       size: 98926
@@ -395,8 +395,8 @@ project_fingerprint:
       sha256: 4ebdd87ffa8694e58db995caf68dd16d3df331359a386f76c82b63de7e720b1d
     - path: tests/test_run_affected_tests.py
       state: FILE
-      size: 5762
-      sha256: 9945c5d0d6bd7b549bd76c6b62edc522a067ab22cd6dfbebb2d9014e85698e7c
+      size: 5827
+      sha256: 18f4811c38a18f966458c949708d2ba1abb6b8bf67293c63fe44b995cb883c39
 change_classification:
   infrastructure:
   - .github/workflows/ci.yml
@@ -471,7 +471,7 @@ scope:
   - PROJECT_*.json
   approved_exceptions: []
   source: story+explicit
-event_hash: 01a2fb6eeffb379f330751d1dec2eac0ffd05a4bf8f6678e3fbd867c6674a3ae
+event_hash: bddf15f887de4d84481bd7fb99c65ddd1396f5114e50b893fe2b7ae08a8d9370
 ```
 
 ## 接续状态与事件头
@@ -483,8 +483,8 @@ active_session_id: SES-20260717T183459Z-D64E7407
 last_session_id: SES-20260717T171412Z-7CD86701
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T171412Z-7CD86701-0002
-event_count: 218
-event_head_hash: 01a2fb6eeffb379f330751d1dec2eac0ffd05a4bf8f6678e3fbd867c6674a3ae
+event_count: 219
+event_head_hash: bddf15f887de4d84481bd7fb99c65ddd1396f5114e50b893fe2b7ae08a8d9370
 event_chain_valid: true
 ```
 
@@ -607,9 +607,9 @@ recent_sessions: - session_id: SES-20260717T054147Z-7AE51A86
   started_at: '2026-07-17T18:34:59Z'
   record: .continuity/sessions/SES-20260717T183459Z-D64E7407.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md
-  updated_at: '2026-07-17T19:35:52Z'
+  updated_at: '2026-07-17T19:40:11Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0004.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0005.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -1454,9 +1454,9 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
 ```yaml
 initialized: true
 branch: task/TASK-R02-001
-head: c19f6d6259801d785dc70eb2a81dfac5c41278ec
+head: 919b095307a366c88c1cd0c6c0b48c4f03dff574
 upstream: origin/task/TASK-R02-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
@@ -1473,8 +1473,10 @@ status_porcelain:
 - ' M docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md'
 - ' M scripts/continuity_gate.py'
 - ' M tests/test_run_affected_tests.py'
-- ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0004.yaml
+- ?? .continuity/checkpoints/SES-20260717T183459Z-D64E7407/0005.yaml
 recent_commits:
+- "919b095307a366c88c1cd0c6c0b48c4f03dff574\t2026-07-18T03:36:23+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(continuity): limit first\
+  \ push validation range"
 - "c19f6d6259801d785dc70eb2a81dfac5c41278ec\t2026-07-18T03:28:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(dev): establish parallel\
   \ acceleration baseline"
 - "878abc7f51eb3724703d5ff72d78d5eaed1cff30\t2026-07-18T01:47:21+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-008\
@@ -1489,13 +1491,11 @@ recent_commits:
   \ traceability"
 - "db3cfddcc4cda84265ec18f24de972804d62a08f\t2026-07-18T00:44:24+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): enable debug resource\
   \ overrides"
-- "06b705ed53d83258e8d4b166909c5c21384f4b02\t2026-07-18T00:40:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): mark debug APK test\
-  \ build"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`f7c1b1d121711de8dab79579cc7f69cbe54ced8ef46d0309fdea5316ab8dc8ee`
+- 指纹：`c992cff089f54279535299e81f8902d413c8a491df5db4d76be4ad68f3851e6a`
 - 文件数：24
 
 - `.github/workflows/ci.yml`
@@ -3036,7 +3036,7 @@ TASKS.yaml:
 
 - `AGENTS.md` — `c8948610f3e08b25002fc73c0bec6335ba7d19326a7bce4c6ebad2a30ea8164e`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `fd6390497a09c0168e1319db99ba5de4a141249da205570c336c0a67d907272e`
+- `CURRENT_STATUS.yaml` — `b93124df78c8e37c511c68ea14e98916939c17840e716beda00848613b82c597`
 - `NEXT_TASK.yaml` — `e14f3a97dc8e38d2806c741405455168fb038d18020a822f4941c0977c1eb800`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3044,19 +3044,19 @@ TASKS.yaml:
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `773902bbbc9c470d6bc10721aacd315a85a9775c895107304d338272e89b0f4d`
-- `.continuity/EVENT_LOG.jsonl` — `14d4dd7ad22441c63a676167ef826ea253fd1d1b8e03710f70353a9d49995048`
-- `.continuity/SESSION_INDEX.yaml` — `0ce48dcd59d7a018d0af27f555f1d1c54a47fe2a28363cf3e6275ef609739c5e`
+- `.continuity/EVENT_LOG.jsonl` — `be0d93ba67ca3f076966d10663754dfcdfec920e91186be7842f84b39c7bd0a3`
+- `.continuity/SESSION_INDEX.yaml` — `5f3447cd0cde14c447943d3d58f8d15db7184593cdf44fb14c8e2cb6c0695b8c`
 - `.continuity/TASK_CLAIMS.yaml` — `c86b0a2dc9a891e31ed566e6c40517979b6f9947c4effcfc34ee49fba4726b9f`
 - `.continuity/TASK_TRANSITIONS.yaml` — `61f182996ab18c624e190a3e42c8a22440e918e4405fd48de4b03f25996a0433`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `9338892bf8d1ba2f951560cc342d3c8878f3b222abc66efc713351634c4429b3`
-- `.continuity/ACTIVE_SESSION.yaml` — `3c60456aa9723255185c5c702db43d1448fb806656638507a72e326c13bf09bc`
+- `.continuity/ACTIVE_SESSION.yaml` — `32aeb17b3d986c6f465a67652cdf33664e557673a1f16cb71bb629d12034c465`
 - `releases/R02/RELEASE_MANIFEST.yaml` — `19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d`
 - `releases/R02/DEFINITION_OF_READY.yaml` — `9a3113b85d8dd96ea04a908a277c9da3374531ec06dd5eb91dfd539e4351d33c`
 - `releases/R02/STORIES.yaml` — `966e57d10e36269465e74318903ffa0aa5c49d205ba38cce3ba5ebbdbe9ca571`
 - `releases/R02/TASKS.yaml` — `c06d92360ac9d2e563b08d38c6e5dc094116cfed1f79c1b13bfebba3c826296f`
 - `releases/R02/ACCEPTANCE_MATRIX.csv` — `687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md` — `ebbd96463226172cc4dd3e1427d403055189c434a233cf6353d4b9eeb13f7226`
-- `.continuity/checkpoints/SES-20260717T183459Z-D64E7407/0004.yaml` — `7f885693563f05995bf87dd66b933fbcffd207d42600f1ac8a329353e5a1bc68`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md` — `72785ae840f3d0be669c30569a9c34e4314983509f10eb664b279b0c54fc3fc3`
+- `.continuity/checkpoints/SES-20260717T183459Z-D64E7407/0005.yaml` — `6d28e3775ba1503cefa9ad2ef929453616a3ab6adfc639f4a70ca0bd265458ce`
 - `docs/03-continuity/change-requests/CR-0018-建立主控与受托执行代理的并行开发、分层测试及APK交付基线.md` — `75e3005287b763f9e0d6dd875ba0aa220f448d6d2dfeecddfc8e6dc57784998c`
 
 ## 接手硬规则

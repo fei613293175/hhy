@@ -81,7 +81,10 @@ class TestConditionalDocumentationGate(TestCase):
     @mock.patch.object(continuity_gate, "run_command")
     def test_unaffected_gate_is_skipped_without_subprocess(self, run_command: mock.Mock) -> None:
         report = continuity_gate.Report("pre-commit")
-        continuity_gate.run_document_gate(report, ["apps/android/app/Main.kt"])
+        continuity_gate.run_document_gate(
+            report,
+            ["apps/android/app/Main.kt", "catalogs/session_index.csv"],
+        )
         run_command.assert_not_called()
         self.assertEqual("SKIPPED_UNAFFECTED", report.metrics["document_gate"]["status"])
 
