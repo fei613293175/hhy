@@ -204,3 +204,12 @@
 - 摘要：R01 Android测试APK已按固定工具链构建、签名和归档；项目所有者于2026-07-18提供真机截图确认安装、启动、首页和五项导航均通过。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T152721Z-016DB4B2.md`
 
+## TASK-R01-008 · COMPLETED · 2026-07-17T17:45:20Z
+
+- Task close: TASK-R01-008 / SES-20260717T171412Z-7CD86701
+- Release：`R01`
+- Story：`STORY-R01-003`
+- Actor：`codex-root`
+- 摘要：R01全部验收证据、真机APK、HTTPS下载、发布标签和无状态交接均已完成。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md`
+

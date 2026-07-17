@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-17T17:44:46Z
-- Context Hash：`3dc89dcc17a734389ccec147fc8ab71a5674e409660435b395accabe20c45a91`
+- 生成时间：2026-07-17T17:47:09Z
+- Context Hash：`ce0d3977bca11eab6dc9b3f47b167d3385ef938dacbc4948012bf32bddbe3441`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R02-001
 ```
 
 ## 当前状态
@@ -15,12 +15,12 @@ python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step 
 ```yaml
 project: hhy-pro-platform
 baseline_version: 1.2.3
-phase: R01
-active_release: R01
-active_task: TASK-R01-008
-status: IN_PROGRESS
+phase: R02
+active_release: R02
+active_task: TASK-R02-001
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: fcb95056b606dfe6e8d0623e83a0526df80bf43e
+last_green_commit: db3cfddcc4cda84265ec18f24de972804d62a08f
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -49,11 +49,11 @@ completed_tasks:
 - TASK-R01-005
 - TASK-R01-006
 - TASK-R01-007
-in_progress_tasks:
 - TASK-R01-008
+in_progress_tasks: []
 blocked_tasks: []
-next_task: TASK-R01-008
-updated_at: '2026-07-17T17:44:44Z'
+next_task: TASK-R02-001
+updated_at: '2026-07-17T17:45:22Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -85,55 +85,53 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260717T171412Z-7CD86701
-  actor_id: codex-root
-  story_id: STORY-R01-003
-  lease_expires_at: '2026-07-17T21:44:44Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0001.yaml
-  project_fingerprint: f7b41dfd68f56eae80c0d5cbc2724a25c632529f22ece5e91e27c5c0dba6c7d1
+  active_session_id: null
+  last_session_id: SES-20260717T171412Z-7CD86701
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0002.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 2263181adbd1983b476cda39e8179e7ba75e867c9337c75861c3cb9859bf3930
-    generated_at: '2026-07-17T17:23:39Z'
-  handoff_bundle: null
+    context_hash: fa030c9beb7c1d705b6db327e681d956049c57ba3584272415a87db052d19136
+    generated_at: '2026-07-17T17:45:22Z'
 ```
 
 ## 下一任务
 
 ```yaml
-id: TASK-R01-008
-title: Design System与契约工程化版本关闭与无状态交接
+id: TASK-R02-001
+title: 账号、登录、注册与安全会话开发就绪核验、故事领取与变更基线
 status: READY
-release: R01
+release: R02
 requirements:
-- REQ-UI-001
-- REQ-DESIGN-001
-- REQ-CONTRACT-001
+- REQ-AUTH-001
+- REQ-AUTH-002
+- REQ-AUTH-003
+- REQ-AUTH-004
+- REQ-AUTH-005
 - REQ-APK-001
-- REQ-ARCH-001
-- REQ-DATA-001
-- REQ-EVENT-001
-- REQ-ADMIN-BASE-001
-- REQ-OBS-002
-depends_on:
-- TASK-R01-007
-definition_of_ready: releases/R01/DEFINITION_OF_READY.yaml
-stories: releases/R01/STORIES.yaml
+depends_on: []
+definition_of_ready: releases/R02/DEFINITION_OF_READY.yaml
+stories: releases/R02/STORIES.yaml
 steps:
-- 全新AI仅凭仓库可继续
-- 工作区干净且Tag可追溯
+- releases/R02/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R02/STORIES.yaml 故事责任人和依赖已领取
+- 更新Release Manifest与CR记录
+- python scripts/check_v122_documentation.py --release R02
 acceptance:
-- 无TODO/生产Mock
-- 代码、文档、测试、追踪同步更新
-- 全新AI仅凭仓库可继续
-- 工作区干净且Tag可追溯
+- 页面、字段、状态、动作、API、配置、数据和测试无TBD
+- 不适用项明确N/A及原因
+- releases/R02/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R02/STORIES.yaml 故事责任人和依赖已领取
+- 更新Release Manifest与CR记录
+- python scripts/check_v122_documentation.py --release R02
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R01-008
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R02-001
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R01-008
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R02-001
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
   export_clean: python3 scripts/continuity.py export-clean --portable-zip <OUTPUT.zip>
@@ -145,266 +143,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260717T171412Z-7CD86701
-status: ACTIVE
-actor:
-  id: codex-root
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R01
-task_id: TASK-R01-008
-story_id: STORY-R01-003
-goal: 完成R01版本关闭、无状态交接与发布门禁修复
-started_at: '2026-07-17T17:14:12Z'
-updated_at: '2026-07-17T17:44:44Z'
-takeover_of: null
-change_requests:
-- CR-0017
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  - artifacts/apk/**
-  approved_exceptions: []
-  source: story+explicit
-git:
-  initialized: true
-  branch: task/TASK-R01-008
-  base_commit: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
-  start_head: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
-  upstream: null
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-17T17:44:44Z'
-  expires_at: '2026-07-17T21:44:44Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0001.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md
-next_step: 提交R01收尾变更，运行最终关闭门禁并关闭TASK-R01-008。
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T171412Z-7CD86701-0001
-session_id: SES-20260717T171412Z-7CD86701
-sequence: 1
-created_at: '2026-07-17T17:44:44Z'
-summary: R01 APK已发布至download.orbexa.cc；源站与公网HTTPS均验证文件长度、MIME、Range下载，服务器文件SHA256与桌面真机测试包一致。
-next_step: 提交R01收尾变更，运行最终关闭门禁并关闭TASK-R01-008。
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: R01-public-apk-https
-  result: PASS
-  evidence: https://download.orbexa.cc/r01-artifacts/hhy-r01-db3cfdd-debug.apk
-  note: HTTPS 200、长度和Range下载通过
-- name: R01-public-apk-sha256
-  result: PASS
-  evidence: artifacts/apk/R01/APK_MANIFEST.yaml
-  note: 源站文件SHA256等于7dcd2e86
-- name: continuity-cross-release-close
-  result: PASS
-  evidence: tests/test_continuity_cross_release_close.py
-  note: 6项隔离回归通过
-- name: git-diff-check
-  result: PASS
-  evidence: git diff --check
-  note: 无空白错误
-git:
-  initialized: true
-  branch: task/TASK-R01-008
-  head: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
-  upstream: null
-  ahead: null
-  behind: null
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/apk/R01/APK_MANIFEST.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M releases/R01/ACCEPTANCE_MATRIX.csv'
-  - ' M releases/R01/RELEASE_MANIFEST.yaml'
-  - ' M scripts/continuity_lib.py'
-  - ' M tests/test_continuity_cross_release_close.py'
-  - ?? .continuity/change_requests/CR-0017.yaml
-  - ?? .continuity/sessions/SES-20260717T171412Z-7CD86701.yaml
-  - ?? docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md
-  - ?? infra/nginx/download.orbexa.cc.conf
-  recent_commits:
-  - "e3d4d3782f067ebe963856d741dd4cd6be3d16ca\t2026-07-18T01:07:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-007\
-    \ as completed"
-  - "d32ad36e5b0f838c16df57c1246230c995229c8e\t2026-07-18T01:05:47+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): record owner APK\
-    \ acceptance"
-  - "920daf4e314c80f37a324c863f988dd6fc57ec8c\t2026-07-18T00:54:39+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive Android\
-    \ APK traceability"
-  - "db3cfddcc4cda84265ec18f24de972804d62a08f\t2026-07-18T00:44:24+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): enable debug resource\
-    \ overrides"
-  - "06b705ed53d83258e8d4b166909c5c21384f4b02\t2026-07-18T00:40:51+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] build(r01): mark debug APK\
-    \ test build"
-  - "46fb27372f2e62f3fe83d9f43f8e2189bbed4757\t2026-07-17T23:21:14+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-006\
-    \ as completed"
-  - "e898018f12371c30992111df508972ab48937f6e\t2026-07-17T23:19:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive task006\
-    \ staging evidence"
-  - "72de42c90f71438cdf5a2cc274277fecfa7a6cbd\t2026-07-17T23:11:15+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): make snapshot corruption\
-    \ deterministic"
-project_fingerprint:
-  sha256: f7b41dfd68f56eae80c0d5cbc2724a25c632529f22ece5e91e27c5c0dba6c7d1
-  files:
-  - artifacts/apk/R01/APK_MANIFEST.yaml
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
-  - infra/nginx/download.orbexa.cc.conf
-  - releases/R01/ACCEPTANCE_MATRIX.csv
-  - releases/R01/RELEASE_MANIFEST.yaml
-  - scripts/continuity_lib.py
-  - tests/test_continuity_cross_release_close.py
-  file_count: 8
-  payload:
-    base_commit: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
-    files:
-    - path: artifacts/apk/R01/APK_MANIFEST.yaml
-      state: FILE
-      size: 1138
-      sha256: 3bae8966ccff77983203e5399922e8bfc0514de1a314059ba33354865d412f90
-    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-      state: FILE
-      size: 8805
-      sha256: 0ea69b49c36d5593d3e03187356a9ecbe148c792b175bac760296997a3e770a5
-    - path: docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
-      state: FILE
-      size: 2626
-      sha256: 36b6b0c5c7e92ba262c8c49c3a44f44511e3bc1db65786b50e603ebf8a87a4e1
-    - path: infra/nginx/download.orbexa.cc.conf
-      state: FILE
-      size: 483
-      sha256: c8f8b26b356f7440d017ad53af844db45af10b6063f92a28c116e4a9a0ee85c7
-    - path: releases/R01/ACCEPTANCE_MATRIX.csv
-      state: FILE
-      size: 876
-      sha256: 7b22cb81cf2acdc7af0f7faaafc4975e2bc2a0fffb25d731e728768a80e52b20
-    - path: releases/R01/RELEASE_MANIFEST.yaml
-      state: FILE
-      size: 4195
-      sha256: 30eda70884cb3e9f7c3e5760c63c6bf41576fc526373866e8765b35fc78a0b2a
-    - path: scripts/continuity_lib.py
-      state: FILE
-      size: 97976
-      sha256: 185f565067e812e9fd6a7cca3fac507a50207a810b7760b74a22602e0812666b
-    - path: tests/test_continuity_cross_release_close.py
-      state: FILE
-      size: 12342
-      sha256: b58b1f986016e52aa79d459606e82f1f9e614674b5d77eef5762238e48118dc9
-change_classification:
-  other:
-  - artifacts/apk/R01/APK_MANIFEST.yaml
-  - releases/R01/ACCEPTANCE_MATRIX.csv
-  continuity:
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
-  infrastructure:
-  - infra/nginx/download.orbexa.cc.conf
-  source_of_truth:
-  - releases/R01/RELEASE_MANIFEST.yaml
-  code:
-  - scripts/continuity_lib.py
-  tests:
-  - tests/test_continuity_cross_release_close.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- APPROVED_CHANGE_REQUEST
-change_requests:
-- CR-0017
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  - artifacts/apk/**
-  approved_exceptions: []
-  source: story+explicit
-event_hash: d54ec6ab259905b3f35ef8e2fced9eea0ba9aa48d6fc53acd89965b1f431a609
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -412,12 +157,12 @@ event_hash: d54ec6ab259905b3f35ef8e2fced9eea0ba9aa48d6fc53acd89965b1f431a609
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260717T171412Z-7CD86701
-last_session_id: SES-20260717T152721Z-016DB4B2
+active_session_id: null
+last_session_id: SES-20260717T171412Z-7CD86701
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260717T152721Z-016DB4B2-0009
-event_count: 205
-event_head_hash: d54ec6ab259905b3f35ef8e2fced9eea0ba9aa48d6fc53acd89965b1f431a609
+last_closure_checkpoint_id: CP-SES-20260717T171412Z-7CD86701-0002
+event_count: 208
+event_head_hash: 5203866eee43c25f4a22476ee53a099e8976c19c7113761bc45fa38de16194d0
 event_chain_valid: true
 ```
 
@@ -536,13 +281,13 @@ recent_sessions: - session_id: SES-20260717T053909Z-3A8B6A51
   task_id: TASK-R01-008
   story_id: STORY-R01-003
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-17T17:14:12Z'
   record: .continuity/sessions/SES-20260717T171412Z-7CD86701.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md
-  updated_at: '2026-07-17T17:44:44Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0001.yaml
+  updated_at: '2026-07-17T17:45:22Z'
+  closed_at: '2026-07-17T17:45:22Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0002.yaml
   handoff_bundle: null
 task_claims: - task_id: TASK-P00-001
   story_id: STORY-P00-001
@@ -1128,7 +873,7 @@ task_claims: - task_id: TASK-P00-001
   task_id: TASK-R01-008
   story_id: STORY-R01-003
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-17T17:14:12Z'
   allowed_paths:
   - apps/**
@@ -1161,6 +906,7 @@ task_claims: - task_id: TASK-P00-001
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-17T17:45:22Z'
 recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
   timestamp: '2026-07-16T00:30:00Z'
   release: P00
@@ -1338,39 +1084,31 @@ recent_task_transitions: - transition_id: TRN-V123-PACKAGE-BASELINE
 ```yaml
 initialized: true
 branch: task/TASK-R01-008
-head: e3d4d3782f067ebe963856d741dd4cd6be3d16ca
+head: 2e6c8dc68303b32ce154e4a3567dd36b0c0c225f
 upstream: null
 ahead: null
 behind: null
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
+- ' M .continuity/sessions/SES-20260717T171412Z-7CD86701.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/apk/R01/APK_MANIFEST.yaml'
+- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M releases/R01/ACCEPTANCE_MATRIX.csv'
-- ' M releases/R01/RELEASE_MANIFEST.yaml'
-- ' M scripts/continuity_lib.py'
-- ' M tests/test_continuity_cross_release_close.py'
-- ?? .continuity/change_requests/CR-0017.yaml
-- ?? .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0001.yaml
-- ?? .continuity/sessions/SES-20260717T171412Z-7CD86701.yaml
-- ?? docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md
-- ?? infra/nginx/download.orbexa.cc.conf
+- ' M docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md'
+- ' M releases/R01/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260717T171412Z-7CD86701/0002.yaml
 recent_commits:
+- "2e6c8dc68303b32ce154e4a3567dd36b0c0c225f\t2026-07-18T01:44:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): finalize release\
+  \ closure evidence"
 - "e3d4d3782f067ebe963856d741dd4cd6be3d16ca\t2026-07-18T01:07:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-007\
   \ as completed"
 - "d32ad36e5b0f838c16df57c1246230c995229c8e\t2026-07-18T01:05:47+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): record owner APK\
@@ -1385,99 +1123,76 @@ recent_commits:
   \ as completed"
 - "e898018f12371c30992111df508972ab48937f6e\t2026-07-17T23:19:54+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): archive task006 staging\
   \ evidence"
-- "72de42c90f71438cdf5a2cc274277fecfa7a6cbd\t2026-07-17T23:11:15+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): make snapshot corruption\
-  \ deterministic"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`f7b41dfd68f56eae80c0d5cbc2724a25c632529f22ece5e91e27c5c0dba6c7d1`
-- 文件数：8
+- 指纹：`add8091be276f354ea9cf9343e9bfed95cfade3394d578fb47403a6d9ba5012e`
+- 文件数：0
 
-- `artifacts/apk/R01/APK_MANIFEST.yaml`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
-- `docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md`
-- `infra/nginx/download.orbexa.cc.conf`
-- `releases/R01/ACCEPTANCE_MATRIX.csv`
-- `releases/R01/RELEASE_MANIFEST.yaml`
-- `scripts/continuity_lib.py`
-- `tests/test_continuity_cross_release_close.py`
+- 无
 
 ## 当前 Release
 
 ```yaml
 RELEASE_MANIFEST.yaml:
-  release: R01
-  title: Design System与契约工程化
-  status: DONE
-  release_commit: db3cfddcc4cda84265ec18f24de972804d62a08f
-  release_tag: R01-db3cfdd
-  development_baseline:
-    session_id: SES-20260717T074317Z-C575A687
-    actor_id: codex-root
-    started_at: '2026-07-17T07:43:17Z'
-    claimed_stories:
-    - STORY-R01-001
-    - STORY-R01-002
-    - STORY-R01-003
-    verified_dependencies:
-    - P00
-    change_requests:
-    - CR-0011
-    - CR-0012
-    - CR-0013
+  release: R02
+  title: 账号、登录、注册与安全会话
+  status: READY_WHEN_DEPENDENCIES_GREEN
   milestone: M0_ENGINEERING_FOUNDATION
   depends_on:
-  - P00
-  scope: 完整Token、组件库、OpenAPI/DB/WebSocket契约生成与校验、基础主题Demo
+  - R01
+  scope: 密码默认登录、图形安全验证、阿里云短信登录/注册、邀请注册、Token、设备和后台用户管理
   android_test_apk_required: true
   requirements:
-  - REQ-UI-001
-  - REQ-DESIGN-001
-  - REQ-CONTRACT-001
-  - REQ-APK-001
-  - REQ-ARCH-001
-  - REQ-DATA-001
-  - REQ-EVENT-001
-  - REQ-ADMIN-BASE-001
-  - REQ-OBS-002
-  - REQ-PAGE-SPEC-001
+  - REQ-AUTH-001
+  - REQ-AUTH-002
+  - REQ-AUTH-003
+  - REQ-AUTH-004
+  - REQ-AUTH-005
   - REQ-ADMIN-OPS-001
-  - REQ-ADMIN-SECURITY-001
-  - REQ-DOR-001
   ui:
-    android: []
-    h5: []
+    android:
+    - SCR-APP-001
+    - SCR-APP-002
+    - SCR-APP-003
+    - SCR-AUTH-001
+    - SCR-AUTH-002
+    - SCR-AUTH-003
+    - SCR-AUTH-004
+    - SCR-AUTH-005
+    - SCR-AUTH-006
+    - SCR-AUTH-007
+    - SCR-AUTH-008
+    h5:
+    - H5-013
     admin:
-    - ADM-AUTH-001
-    - ADM-AUTH-002
-    - ADM-SECURITY-001
+    - ADM-USER-001
+    - ADM-USER-002
   contracts:
-    client_api: []
+    client_api:
+    - POST /api/v1/auth/security-challenges
+    - POST /api/v1/auth/password/login
+    - POST /api/v1/auth/sms/send
+    - POST /api/v1/auth/sms/login
+    - POST /api/v1/auth/invite-codes/validate
+    - POST /api/v1/auth/register
+    - POST /api/v1/auth/password/reset
+    - POST /api/v1/me/security/password/change
+    - POST /api/v1/auth/refresh
+    - POST /api/v1/auth/logout
+    - GET /api/v1/auth/sessions
+    - DELETE /api/v1/auth/sessions/{id}
     admin_api:
-      operation_ids:
-      - adminAdminAuthPostAuthLogin
-      - adminAdminAuthPostAuthMfaVerify
-      - adminAdminAuthPostAuthLogout
-      paths:
-      - POST /admin-api/v1/auth/login
-      - POST /admin-api/v1/auth/mfa/verify
-      - POST /admin-api/v1/auth/logout
-      - GET /admin-api/v1/me/security
-      - POST /admin-api/v1/me/security/password/change
-      - POST /admin-api/v1/me/security/mfa/enroll
-      - POST /admin-api/v1/me/security/mfa/confirm
-      - POST /admin-api/v1/me/security/mfa/disable
+    - GET /admin-api/v1/users
+    - GET /admin-api/v1/users/{id}
+    - POST /admin-api/v1/users/{id}/restrictions
+    - DELETE /admin-api/v1/users/{id}/restrictions/{type}
+    - POST /admin-api/v1/users/{id}/freeze
+    - POST /admin-api/v1/users/{id}/unfreeze
+    - POST /admin-api/v1/users/{id}/force-logout
     websocket: []
   database_tables:
-  - outbox_events
-  - inbox_messages
-  - ledger_accounts
-  - accounting_transactions
-  - accounting_entries
-  - balance_snapshots
-  - reconciliation_runs
-  - reconciliation_differences
   - h5_page_configs
   - cms_articles
   - agreements
@@ -1492,10 +1207,13 @@ RELEASE_MANIFEST.yaml:
   - user_devices
   - sms_verification_codes
   - login_logs
-  - app_build_profiles
-  - app_build_jobs
-  - app_build_job_steps
-  - app_signing_profiles
+  - user_profiles
+  - user_settings
+  - user_status_logs
+  - support_tickets
+  - ticket_messages
+  - ticket_attachments
+  - ticket_status_logs
   - admin_users
   - admin_roles
   - admin_permissions
@@ -1503,41 +1221,35 @@ RELEASE_MANIFEST.yaml:
   - admin_role_permissions
   - admin_operation_logs
   - admin_approval_requests
-  - admin_sessions
-  - admin_mfa_methods
-  - admin_recovery_codes
-  - admin_login_logs
   tests:
   - TST-ADMIN_OPS_001-DRIFT
   - TST-ADMIN_OPS_001-HAPPY
   - TST-ADMIN_OPS_001-REJECT
   - TST-ADMIN_OPS_001-SECURITY
-  - TST-ADMIN_SECURITY_001-DRIFT
-  - TST-ADMIN_SECURITY_001-HAPPY
-  - TST-ADMIN_SECURITY_001-REJECT
-  - TST-ADMIN_SECURITY_001-SECURITY
-  - TST-DESIGN_001-HAPPY
-  - TST-DESIGN_001-IDEMPOTENT
-  - TST-DESIGN_001-REJECT
-  - TST-DOR_001-DRIFT
-  - TST-DOR_001-HAPPY
-  - TST-DOR_001-REJECT
-  - TST-DOR_001-SECURITY
-  - TST-PAGE_SPEC_001-DRIFT
-  - TST-PAGE_SPEC_001-HAPPY
-  - TST-PAGE_SPEC_001-REJECT
-  - TST-PAGE_SPEC_001-SECURITY
-  - TST-V122-012
-  - TST-V122-013
-  - TST-V122-014
-  - TST-V122-056
-  - TST-V122-057
-  - TST-V122-058
-  - TST-V122-059
-  - TST-V122-060
+  - TST-AUTH_001-HAPPY
+  - TST-AUTH_001-IDEMPOTENT
+  - TST-AUTH_001-REJECT
+  - TST-AUTH_001-SECURITY
+  - TST-AUTH_002-HAPPY
+  - TST-AUTH_002-IDEMPOTENT
+  - TST-AUTH_002-REJECT
+  - TST-AUTH_002-SECURITY
+  - TST-AUTH_003-HAPPY
+  - TST-AUTH_003-IDEMPOTENT
+  - TST-AUTH_003-REJECT
+  - TST-AUTH_003-SECURITY
+  - TST-AUTH_004-HAPPY
+  - TST-AUTH_004-IDEMPOTENT
+  - TST-AUTH_004-REJECT
+  - TST-AUTH_004-SECURITY
+  - TST-AUTH_005-HAPPY
+  - TST-AUTH_005-IDEMPOTENT
+  - TST-AUTH_005-REJECT
+  - TST-AUTH_005-SECURITY
+  - TST-V122-011
   entry_gate:
-  - releases/R01/DEFINITION_OF_READY.yaml 全部适用项为PASS
-  - releases/R01/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+  - releases/R02/DEFINITION_OF_READY.yaml 全部适用项为PASS
+  - releases/R02/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
   - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
   - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
   - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
@@ -1551,8 +1263,8 @@ RELEASE_MANIFEST.yaml:
   change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
   documentation_baseline: V1.2.2
   document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
-  definition_of_ready: releases/R01/DEFINITION_OF_READY.yaml
-  story_backlog: releases/R01/STORIES.yaml
+  definition_of_ready: releases/R02/DEFINITION_OF_READY.yaml
+  story_backlog: releases/R02/STORIES.yaml
   continuity:
     policy: .continuity/CONTINUITY_POLICY.yaml
     protocol_version: '1.0'
@@ -1563,133 +1275,133 @@ RELEASE_MANIFEST.yaml:
     handoff_bundle_required_for_actor_switch: true
 DEFINITION_OF_READY.yaml:
   version: 1.2.2
-  release: R01
-  title: Design System与契约工程化
+  release: R02
+  title: 账号、登录、注册与安全会话
   status: PASS_DOCUMENTATION_READY
   interpretation: 该结论仅表示开发前文档和施工契约完整；软件编译、运行、供应商联调、压测和上线验收仍在对应实施/退出门禁完成。
   gates:
-  - 版本: R01
-    门禁ID: R01-DOR-01
+  - 版本: R02
+    门禁ID: R02-DOR-01
     类别: 范围与需求
     门禁条件: 本版本需求、非目标、业务规则和变更边界已冻结；每个需求在追踪矩阵有明确行
     适用性: 是
     证据: catalogs/requirements_catalog.csv;catalogs/TRACEABILITY_MATRIX.csv
     当前结论: PASS
-    说明: 需求13条，页面/交互面3个，接口8个，故事3个
+    说明: 需求6条，页面/交互面14个，接口19个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R01
-    门禁ID: R01-DOR-02
+  - 版本: R02
+    门禁ID: R02-DOR-02
     类别: 页面与模板
     门禁条件: 本版本所有页面/弹层已绑定标准模板，入口、退出、角色、数据分级和主要区域无TBD
     适用性: 是
     证据: catalogs/ui_page_specifications.csv;catalogs/ui_templates.csv
     当前结论: PASS
-    说明: 需求13条，页面/交互面3个，接口8个，故事3个
+    说明: 需求6条，页面/交互面14个，接口19个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R01
-    门禁ID: R01-DOR-03
+  - 版本: R02
+    门禁ID: R02-DOR-03
     类别: 字段施工规格
     门禁条件: 每个页面展示、输入、筛选、路由、敏感字段均有类型、控件、必填、校验、显示/编辑条件和错误文案
     适用性: 是
     证据: catalogs/ui_page_fields.csv
     当前结论: PASS
-    说明: 需求13条，页面/交互面3个，接口8个，故事3个
+    说明: 需求6条，页面/交互面14个，接口19个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R01
-    门禁ID: R01-DOR-04
+  - 版本: R02
+    门禁ID: R02-DOR-04
     类别: 状态与恢复
     门禁条件: 首屏、内容、空、刷新、局部失败、无权限、404、离线、提交、成功、冲突和领域状态已定义
     适用性: 是
     证据: catalogs/ui_page_states.csv
     当前结论: PASS
-    说明: 需求13条，页面/交互面3个，接口8个，故事3个
+    说明: 需求6条，页面/交互面14个，接口19个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R01
-    门禁ID: R01-DOR-05
+  - 版本: R02
+    门禁ID: R02-DOR-05
     类别: 动作与导航
     门禁条件: 每个操作定义触发、显示/可用、确认、请求映射、幂等/版本、加载、成功、错误、重试、导航和审计
     适用性: 是
     证据: catalogs/ui_action_matrix.csv;catalogs/ui_navigation_specifications.csv
     当前结论: PASS
-    说明: 需求13条，页面/交互面3个，接口8个，故事3个
+    说明: 需求6条，页面/交互面14个，接口19个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R01
-    门禁ID: R01-DOR-06
+  - 版本: R02
+    门禁ID: R02-DOR-06
     类别: 接口所有权
     门禁条件: 本版本每个OpenAPI operationId均有页面动作或显式系统所有者；核心请求响应禁止自由对象代替领域Schema
     适用性: 是
     证据: catalogs/api_ui_ownership.csv;contracts/openapi.yaml;contracts/admin-openapi.yaml
     当前结论: PASS
-    说明: 需求13条，页面/交互面3个，接口8个，故事3个
+    说明: 需求6条，页面/交互面14个，接口19个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R01
-    门禁ID: R01-DOR-07
+  - 版本: R02
+    门禁ID: R02-DOR-07
     类别: 数据与状态机
     门禁条件: 涉及表、约束、状态机、历史、幂等和账务不变量已登记；新增运营能力有明确数据事实源
     适用性: 是
     证据: catalogs/data_tables.csv;database/schema_dictionary.csv;database/state_machines.yaml
     当前结论: PASS
-    说明: 需求13条，页面/交互面3个，接口8个，故事3个
+    说明: 需求6条，页面/交互面14个，接口19个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R01
-    门禁ID: R01-DOR-08
+  - 版本: R02
+    门禁ID: R02-DOR-08
     类别: 配置与权限
     门禁条件: 相关配置具有控件、单位、范围、依赖、跨字段规则、编辑角色、复核角色、生效预览和回滚；权限与数据分级明确
     适用性: 是
     证据: catalogs/config_registry.csv;catalogs/config_cross_field_rules.csv;catalogs/config_role_matrix.csv
     当前结论: PASS
-    说明: 需求13条，页面/交互面3个，接口8个，故事3个
+    说明: 需求6条，页面/交互面14个，接口19个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R01
-    门禁ID: R01-DOR-09
+  - 版本: R02
+    门禁ID: R02-DOR-09
     类别: 后台运营规格
     门禁条件: 涉及后台页面时，筛选、表格列、排序、批量/行操作、Tab、导出、脱敏、审批、确认和审计已冻结
     适用性: 是
     证据: catalogs/admin_page_operation_specs.csv
     当前结论: PASS
-    说明: 需求13条，页面/交互面3个，接口8个，故事3个
+    说明: 需求6条，页面/交互面14个，接口19个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R01
-    门禁ID: R01-DOR-10
+  - 版本: R02
+    门禁ID: R02-DOR-10
     类别: 测试与验收
     门禁条件: 主路径、拒绝、幂等、并发、故障、安全和防漂移测试ID已存在并绑定到页面/动作/需求
     适用性: 是
     证据: catalogs/test_cases.csv
     当前结论: PASS
-    说明: 需求13条，页面/交互面3个，接口8个，故事3个
+    说明: 需求6条，页面/交互面14个，接口19个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R01
-    门禁ID: R01-DOR-11
+  - 版本: R02
+    门禁ID: R02-DOR-11
     类别: 故事与责任
     门禁条件: 本版本工作已拆为可领取的用户故事/工程治理故事，包含责任角色、依赖、页面、接口、数据、配置和验收条件
     适用性: 是
-    证据: catalogs/release_story_backlog.csv;releases/R01/STORIES.yaml
+    证据: catalogs/release_story_backlog.csv;releases/R02/STORIES.yaml
     当前结论: PASS
-    说明: 需求13条，页面/交互面3个，接口8个，故事3个
+    说明: 需求6条，页面/交互面14个，接口19个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R01
-    门禁ID: R01-DOR-12
+  - 版本: R02
+    门禁ID: R02-DOR-12
     类别: 外部事项记录
     门禁条件: 需要SDK、数据库、供应商、域名、证书、签名、法务或上线验证的事项已分类到实施/外部/生产门禁；不再误标为开发前文档缺口
     适用性: 是
     证据: DEVELOPMENT_RISK_REGISTER.md;catalogs/development_risk_register.csv
     当前结论: PASS
-    说明: 需求13条，页面/交互面3个，接口8个，故事3个
+    说明: 需求6条，页面/交互面14个，接口19个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R01
-    门禁ID: R01-DOR-CONTINUITY
+  - 版本: R02
+    门禁ID: R02-DOR-CONTINUITY
     类别: 持续开发无状态接续
     门禁条件: 编码前必须可仅凭仓库恢复任务；唯一Session/Claim、检查点、Commit Trailer、CR、Context Pack和交接协议已启用
     适用性: 是
@@ -1704,229 +1416,200 @@ DEFINITION_OF_READY.yaml:
     conversation_context_required: false
 STORIES.yaml:
   version: 1.2.2
-  release: R01
-  title: Design System与契约工程化
+  release: R02
+  title: 账号、登录、注册与安全会话
   source_of_truth: catalogs/release_story_backlog.csv
   rules:
   - 故事未通过definition_of_ready不得进入编码
   - 页面故事不得增加未登记字段、状态、按钮、接口或配置
   - 工程治理故事负责契约、数据、配置、测试、观测和交接
-  delivery_claims:
-  - story_id: STORY-R01-001
-    actor_id: codex-root
-    session_id: SES-20260717T074317Z-C575A687
-    claimed_at: '2026-07-17T07:43:17Z'
-    dependencies_verified:
-    - P00
-    responsibility_roles:
-    - admin_frontend_engineer
-    - backend_engineer
-    - test_engineer
-  - story_id: STORY-R01-002
-    actor_id: codex-root
-    session_id: SES-20260717T074317Z-C575A687
-    claimed_at: '2026-07-17T07:43:17Z'
-    dependencies_verified:
-    - P00
-    responsibility_roles:
-    - admin_frontend_engineer
-    - backend_engineer
-    - test_engineer
-  - story_id: STORY-R01-003
-    actor_id: codex-root
-    session_id: SES-20260717T074317Z-C575A687
-    claimed_at: '2026-07-17T07:43:17Z'
-    dependencies_verified:
-    - P00
-    responsibility_roles:
-    - tech_lead
-    - backend_engineer
-    - database_engineer
-    - test_engineer
-    - devops_engineer
   stories:
-  - story_id: STORY-R01-001
-    release: R01
-    title: 个人安全：管理员安全设置
-    user_story: 作为具备 admin.self.read 的后台员工；写操作另需 admin.self.security，我需要完成管理员安全设置的完整业务流程，以便在不依赖研发临时决策的情况下实现修改密码、MFA绑定/解绑、恢复码、活跃会话、登录历史和安全提醒。
+  - story_id: STORY-R02-001
+    release: R02
+    title: 用户：用户详情
+    user_story: 作为具备 user.read 的后台员工；写操作另需 user.manage，我需要完成用户详情的完整业务流程，以便在不依赖研发临时决策的情况下实现全景业务和操作。
     platform: ADMIN
-    module: 个人安全
-    template_id: ADM-SECURITY
+    module: 用户
+    template_id: ADM-DETAIL
     page_ids:
-    - ADM-SECURITY-001
+    - ADM-USER-002
     operation_ids:
-    - adminAdminAuthPostAuthLogout
-    - adminSelfGetSecurity
-    - adminSelfPostPasswordChange
-    - adminSelfPostMfaEnroll
-    - adminSelfPostMfaConfirm
-    - adminSelfPostMfaDisable
+    - adminUsersGetUsers
+    - adminUsersGetUsersById
+    - adminUsersPostUsersByIdRestrictions
+    - adminUsersDeleteUsersByIdRestrictionsByType
+    - adminUsersPostUsersByIdFreeze
+    - adminUsersPostUsersByIdUnfreeze
+    - adminUsersPostUsersByIdForceLogout
     api_contracts:
-    - POST /admin-api/v1/auth/logout
-    - GET /admin-api/v1/me/security
-    - POST /admin-api/v1/me/security/password/change
-    - POST /admin-api/v1/me/security/mfa/enroll
-    - POST /admin-api/v1/me/security/mfa/confirm
-    - POST /admin-api/v1/me/security/mfa/disable
+    - GET /admin-api/v1/users
+    - GET /admin-api/v1/users/{id}
+    - POST /admin-api/v1/users/{id}/restrictions
+    - DELETE /admin-api/v1/users/{id}/restrictions/{type}
+    - POST /admin-api/v1/users/{id}/freeze
+    - POST /admin-api/v1/users/{id}/unfreeze
+    - POST /admin-api/v1/users/{id}/force-logout
     requirement_ids:
-    - REQ-ADMIN-SECURITY-001
-    - REQ-RBAC-001
+    - REQ-AUTH-001
+    - REQ-ADMIN-001
     config_keys:
-    - auth.default_login_method
-    - auth.security_challenge.provider
-    - auth.security_challenge.mode
-    - auth.password.min_length
-    - auth.password.max_length
-    - auth.password.max_failures
-    - auth.password.lock_seconds
-    - auth.invite.app_required
-    - system.maintenance.enabled
-    - system.maintenance.message
-    - system.registration.enabled
-    - system.publish.enabled
-    - system.red_packet.enabled
-    - system.withdrawal.enabled
+    - platform.brand.name
+    - platform.brand.slogan
+    - platform.brand.logo_media_id
+    - platform.customer_service.name
+    - platform.customer_service.contact
     data_tables:
-    - admin_users
-    - admin_sessions
-    - admin_mfa_methods
-    - admin_recovery_codes
-    - admin_login_logs
-    - admin_operation_logs
-    - admin_roles
-    - admin_permissions
-    - admin_user_roles
-    - admin_role_permissions
-    - sensitive_data_access_logs
+    - users
+    - user_profiles
+    - user_status_logs
+    - user_sessions
+    - h5_page_configs
+    - cms_articles
+    - agreements
+    - app_versions
+    - content_posts
+    - app_release_records
+    - app_build_artifacts
+    - user_credentials
+    - auth_security_challenges
+    - user_devices
+    - sms_verification_codes
+    - login_logs
+    - user_settings
+    - support_tickets
+    - ticket_messages
+    - ticket_attachments
+    - ticket_status_logs
+    - daily_kpis
+    - analytics_events
     test_ids:
-    - TST-V122-014
-    - TST-V122-056
-    - TST-V122-057
-    - TST-V122-058
-    - TST-V122-059
-    - TST-V122-060
+    - TST-AUTH_001-HAPPY
+    - TST-ADMIN_001-HAPPY
+    - TST-AUTH_001-IDEMPOTENT
+    - TST-ADMIN_001-IDEMPOTENT
     dependencies:
-    - P00
+    - R01
     owner_roles:
     - admin_frontend_engineer
     - backend_engineer
     - test_engineer
     acceptance_criteria:
-    - ADM-SECURITY-001 全部绑定模板 ADM-SECURITY，字段、状态、动作、导航和错误恢复无TBD
-    - 页面调用 operationId：adminAdminAuthPostAuthLogout;adminSelfGetSecurity;adminSelfPostPasswordChange;adminSelfPostMfaEnroll;adminSelfPostMfaConfirm;adminSelfPostMfaDisable；请求/响应字段不得另行发明
+    - ADM-USER-002 全部绑定模板 ADM-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+    - 页面调用 operationId：adminUsersGetUsers;adminUsersGetUsersById;adminUsersPostUsersByIdRestrictions;adminUsersDeleteUsersByIdRestrictionsByType;adminUsersPostUsersByIdFreeze;adminUsersPostUsersByIdUnfreeze;adminUsersPostUsersByIdForceLogout；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
     - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-    - 自动化覆盖：TST-V122-014;TST-V122-056;TST-V122-057;TST-V122-058;TST-V122-059;TST-V122-060
+    - 自动化覆盖：TST-AUTH_001-HAPPY;TST-ADMIN_001-HAPPY;TST-AUTH_001-IDEMPOTENT;TST-ADMIN_001-IDEMPOTENT
     definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
     status: READY_FOR_IMPLEMENTATION
-  - story_id: STORY-R01-002
-    release: R01
-    title: 后台认证：后台登录、二次验证
-    user_story: 作为具备 public 的后台员工；写操作另需 admin.auth.login，我需要完成后台登录、二次验证的完整业务流程，以便在不依赖研发临时决策的情况下实现账号密码、验证码、登录风险提示和登录失败锁定策略。
+  - story_id: STORY-R02-002
+    release: R02
+    title: 用户：用户列表
+    user_story: 作为具备 user.read 的后台员工；写操作另需 user.manage，我需要完成用户列表的完整业务流程，以便在不依赖研发临时决策的情况下实现筛选、导出、状态和风险。
     platform: ADMIN
-    module: 后台认证
-    template_id: ADM-AUTH
+    module: 用户
+    template_id: ADM-LIST
     page_ids:
-    - ADM-AUTH-001
-    - ADM-AUTH-002
+    - ADM-USER-001
     operation_ids:
-    - adminAdminAuthPostAuthLogin
-    - adminAdminAuthPostAuthMfaVerify
+    - adminUsersGetUsers
+    - adminUsersGetUsersById
     api_contracts:
-    - POST /admin-api/v1/auth/login
-    - POST /admin-api/v1/auth/mfa/verify
+    - GET /admin-api/v1/users
+    - GET /admin-api/v1/users/{id}
     requirement_ids:
-    - REQ-ADMIN-BASE-001
-    - REQ-ADMIN-SECURITY-001
+    - REQ-AUTH-001
+    - REQ-ADMIN-001
     config_keys:
-    - auth.default_login_method
-    - auth.security_challenge.provider
-    - auth.security_challenge.mode
-    - auth.password.min_length
-    - auth.password.max_length
-    - auth.password.max_failures
-    - auth.password.lock_seconds
-    - auth.invite.app_required
-    - system.maintenance.enabled
-    - system.maintenance.message
-    - system.registration.enabled
-    - system.publish.enabled
-    - system.red_packet.enabled
-    - system.withdrawal.enabled
+    - platform.brand.name
+    - platform.brand.slogan
+    - platform.brand.logo_media_id
+    - platform.customer_service.name
+    - platform.customer_service.contact
     data_tables:
-    - admin_users
-    - admin_roles
-    - admin_permissions
-    - admin_user_roles
-    - admin_role_permissions
-    - admin_sessions
-    - admin_mfa_methods
-    - admin_recovery_codes
-    - admin_login_logs
-    - admin_operation_logs
+    - users
+    - user_profiles
+    - user_status_logs
+    - user_sessions
+    - h5_page_configs
+    - cms_articles
+    - agreements
+    - app_versions
+    - content_posts
+    - app_release_records
+    - app_build_artifacts
+    - user_credentials
+    - auth_security_challenges
+    - user_devices
+    - sms_verification_codes
+    - login_logs
+    - user_settings
+    - support_tickets
+    - ticket_messages
+    - ticket_attachments
+    - ticket_status_logs
+    - daily_kpis
+    - analytics_events
     test_ids:
-    - TST-V122-012
-    - TST-V122-013
+    - TST-AUTH_001-HAPPY
+    - TST-ADMIN_001-HAPPY
     dependencies:
-    - P00
+    - R01
     owner_roles:
     - admin_frontend_engineer
     - backend_engineer
     - test_engineer
     acceptance_criteria:
-    - ADM-AUTH-001;ADM-AUTH-002 全部绑定模板 ADM-AUTH，字段、状态、动作、导航和错误恢复无TBD
-    - 页面调用 operationId：adminAdminAuthPostAuthLogin;adminAdminAuthPostAuthMfaVerify；请求/响应字段不得另行发明
+    - ADM-USER-001 全部绑定模板 ADM-LIST，字段、状态、动作、导航和错误恢复无TBD
+    - 页面调用 operationId：adminUsersGetUsers;adminUsersGetUsersById；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
     - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-    - 自动化覆盖：TST-V122-012;TST-V122-013
+    - 自动化覆盖：TST-AUTH_001-HAPPY;TST-ADMIN_001-HAPPY
     definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
     status: READY_FOR_IMPLEMENTATION
-  - story_id: STORY-R01-003
-    release: R01
-    title: Design System与契约工程化：契约、数据、配置、测试与交接
-    user_story: 作为技术负责人，我需要按冻结的 R01 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
-    platform: CROSS_PLATFORM
-    module: 工程治理
-    template_id: N/A
+  - story_id: STORY-R02-003
+    release: R02
+    title: 启动：启动页、系统维护页、更新提示
+    user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成启动页、系统维护页、更新提示的完整业务流程，以便在不依赖研发临时决策的情况下实现品牌展示、版本/维护/Token并行检查。
+    platform: ANDROID
+    module: 启动
+    template_id: MOB-GATE
     page_ids:
-    - ADM-AUTH-001
-    - ADM-AUTH-002
-    - ADM-SECURITY-001
+    - SCR-APP-001
+    - SCR-APP-002
+    - SCR-APP-003
     operation_ids:
-    - adminAdminAuthPostAuthLogin
-    - adminAdminAuthPostAuthMfaVerify
-    - adminAdminAuthPostAuthLogout
-    - adminSelfGetSecurity
-    - adminSelfPostPasswordChange
-    - adminSelfPostMfaEnroll
-    - adminSelfPostMfaConfirm
-    - adminSelfPostMfaDisable
+    - publicGetPlatformStatus
+    - appReleasePostAppVersionCheck
+    - authPostAuthRefresh
+    - appReleaseGetAppVersionCheck
+    - publicGetAppLatest
     api_contracts:
-    - POST /admin-api/v1/auth/login
-    - POST /admin-api/v1/auth/mfa/verify
-    - POST /admin-api/v1/auth/logout
-    - GET /admin-api/v1/me/security
-    - POST /admin-api/v1/me/security/password/change
-    - POST /admin-api/v1/me/security/mfa/enroll
-    - POST /admin-api/v1/me/security/mfa/confirm
-    - POST /admin-api/v1/me/security/mfa/disable
+    - GET /public-api/v1/platform/status
+    - POST /public-api/v1/app/version-check
+    - POST /api/v1/auth/refresh
+    - GET /api/v1/app/version-check
+    - GET /public-api/v1/app/latest
     requirement_ids:
-    - REQ-UI-001
-    - REQ-DESIGN-001
-    - REQ-CONTRACT-001
+    - REQ-AUTH-001
+    - REQ-APP-RELEASE-001
     - REQ-APK-001
-    - REQ-ARCH-001
-    - REQ-DATA-001
-    - REQ-EVENT-001
-    - REQ-ADMIN-BASE-001
-    - REQ-OBS-002
     - REQ-PAGE-SPEC-001
-    - REQ-ADMIN-OPS-001
-    - REQ-ADMIN-SECURITY-001
-    - REQ-DOR-001
     config_keys:
+    - platform.brand.name
+    - platform.brand.slogan
+    - platform.brand.logo_media_id
+    - platform.customer_service.name
+    - platform.customer_service.contact
+    - app.android.application_id
+    - app.android.staging_application_id
+    - app.android.display_name
+    - app.android.signing.staging_profile
+    - app.android.signing.production_profile
+    - app.build.runner
+    - app.build.allowed_ref_patterns
+    - app.build.artifact_storage_scope
     - auth.default_login_method
     - auth.security_challenge.provider
     - auth.security_challenge.mode
@@ -1935,22 +1618,7 @@ STORIES.yaml:
     - auth.password.max_failures
     - auth.password.lock_seconds
     - auth.invite.app_required
-    - system.maintenance.enabled
-    - system.maintenance.message
-    - system.registration.enabled
-    - system.publish.enabled
-    - system.red_packet.enabled
-    - system.withdrawal.enabled
     data_tables:
-    - outbox_events
-    - inbox_messages
-    - ledger_accounts
-    - accounting_transactions
-    - accounting_entries
-    - balance_snapshots
-    - reconciliation_runs
-    - reconciliation_differences
-    - N/A_DOCUMENT_CONTRACT
     - h5_page_configs
     - cms_articles
     - agreements
@@ -1965,10 +1633,548 @@ STORIES.yaml:
     - user_devices
     - sms_verification_codes
     - login_logs
+    - user_profiles
+    - user_settings
+    - user_status_logs
+    - support_tickets
+    - ticket_messages
+    - ticket_attachments
+    - ticket_status_logs
     - app_build_profiles
     - app_build_jobs
     - app_build_job_steps
     - app_signing_profiles
+    test_ids:
+    - TST-AUTH_001-HAPPY
+    - TST-APP_RELEASE_001-HAPPY
+    - TST-APK_001-HAPPY
+    - TST-AUTH_001-IDEMPOTENT
+    - TST-APP_RELEASE_001-IDEMPOTENT
+    - TST-APK_001-IDEMPOTENT
+    - TST-V122-011
+    dependencies:
+    - R01
+    owner_roles:
+    - android_engineer
+    - backend_engineer
+    - test_engineer
+    acceptance_criteria:
+    - SCR-APP-001;SCR-APP-002;SCR-APP-003 全部绑定模板 MOB-GATE，字段、状态、动作、导航和错误恢复无TBD
+    - 页面调用 operationId：publicGetPlatformStatus;appReleasePostAppVersionCheck;authPostAuthRefresh;appReleaseGetAppVersionCheck;publicGetAppLatest；请求/响应字段不得另行发明
+    - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+    - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+    - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+    - 自动化覆盖：TST-AUTH_001-HAPPY;TST-APP_RELEASE_001-HAPPY;TST-APK_001-HAPPY;TST-AUTH_001-IDEMPOTENT;TST-APP_RELEASE_001-IDEMPOTENT;TST-APK_001-IDEMPOTENT;TST-V122-011
+    definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+    status: READY_FOR_IMPLEMENTATION
+  - story_id: STORY-R02-004
+    release: R02
+    title: 账号：密码登录、短信验证码登录、注册账号、忘记密码
+    user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成密码登录、短信验证码登录、注册账号、忘记密码的完整业务流程，以便在不依赖研发临时决策的情况下实现默认手机号+密码、安全验证、协议。
+    platform: ANDROID
+    module: 账号
+    template_id: MOB-AUTH-FORM
+    page_ids:
+    - SCR-AUTH-001
+    - SCR-AUTH-002
+    - SCR-AUTH-003
+    - SCR-AUTH-004
+    operation_ids:
+    - authPostAuthSecurityChallenges
+    - authPostAuthPasswordLogin
+    - authPostAuthSmsSend
+    - authPostAuthSmsLogin
+    - authPostAuthInviteCodesValidate
+    - authPostAuthRegister
+    - authPostAuthPasswordReset
+    api_contracts:
+    - POST /api/v1/auth/security-challenges
+    - POST /api/v1/auth/password/login
+    - POST /api/v1/auth/sms/send
+    - POST /api/v1/auth/sms/login
+    - POST /api/v1/auth/invite-codes/validate
+    - POST /api/v1/auth/register
+    - POST /api/v1/auth/password/reset
+    requirement_ids:
+    - REQ-AUTH-001
+    - REQ-AUTH-002
+    - REQ-AUTH-003
+    - REQ-AUTH-004
+    - REQ-AUTH-005
+    config_keys:
+    - auth.default_login_method
+    - auth.security_challenge.provider
+    - auth.security_challenge.mode
+    - auth.password.min_length
+    - auth.password.max_length
+    - auth.password.max_failures
+    - auth.password.lock_seconds
+    - auth.invite.app_required
+    data_tables:
+    - users
+    - user_credentials
+    - auth_security_challenges
+    - user_sessions
+    - user_devices
+    - sms_verification_codes
+    - login_logs
+    - h5_page_configs
+    - cms_articles
+    - agreements
+    - app_versions
+    - content_posts
+    - app_release_records
+    - app_build_artifacts
+    - user_profiles
+    - user_settings
+    - user_status_logs
+    - support_tickets
+    - ticket_messages
+    - ticket_attachments
+    - ticket_status_logs
+    test_ids:
+    - TST-AUTH_001-HAPPY
+    - TST-AUTH_002-HAPPY
+    - TST-AUTH_003-HAPPY
+    - TST-AUTH_004-HAPPY
+    - TST-AUTH_001-IDEMPOTENT
+    - TST-AUTH_002-IDEMPOTENT
+    - TST-AUTH_003-IDEMPOTENT
+    - TST-AUTH_004-IDEMPOTENT
+    - TST-AUTH_005-HAPPY
+    - TST-AUTH_005-IDEMPOTENT
+    dependencies:
+    - R01
+    owner_roles:
+    - android_engineer
+    - backend_engineer
+    - test_engineer
+    acceptance_criteria:
+    - SCR-AUTH-001;SCR-AUTH-002;SCR-AUTH-003;SCR-AUTH-004 全部绑定模板 MOB-AUTH-FORM，字段、状态、动作、导航和错误恢复无TBD
+    - 页面调用 operationId：authPostAuthSecurityChallenges;authPostAuthPasswordLogin;authPostAuthSmsSend;authPostAuthSmsLogin;authPostAuthInviteCodesValidate;authPostAuthRegister;authPostAuthPasswordReset；请求/响应字段不得另行发明
+    - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+    - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+    - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+    - 自动化覆盖：TST-AUTH_001-HAPPY;TST-AUTH_002-HAPPY;TST-AUTH_003-HAPPY;TST-AUTH_004-HAPPY;TST-AUTH_001-IDEMPOTENT;TST-AUTH_002-IDEMPOTENT;TST-AUTH_003-IDEMPOTENT;TST-AUTH_004-IDEMPOTENT;TST-AUTH_005-HAPPY;TST-AUTH_005-IDEMPOTENT
+    definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+    status: READY_FOR_IMPLEMENTATION
+  - story_id: STORY-R02-005
+    release: R02
+    title: 账号：登录设备、修改登录密码
+    user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成登录设备、修改登录密码的完整业务流程，以便在不依赖研发临时决策的情况下实现设备列表与下线。
+    platform: ANDROID
+    module: 账号
+    template_id: MOB-AUTH-FORM
+    page_ids:
+    - SCR-AUTH-006
+    - SCR-AUTH-007
+    operation_ids:
+    - authGetAuthSessions
+    - authDeleteAuthSessionsById
+    - authPostMeSecurityPasswordChange
+    api_contracts:
+    - GET /api/v1/auth/sessions
+    - DELETE /api/v1/auth/sessions/{id}
+    - POST /api/v1/me/security/password/change
+    requirement_ids:
+    - REQ-AUTH-001
+    - REQ-AUTH-002
+    - REQ-AUTH-003
+    - REQ-AUTH-004
+    config_keys:
+    - auth.default_login_method
+    - auth.security_challenge.provider
+    - auth.security_challenge.mode
+    - auth.password.min_length
+    - auth.password.max_length
+    - auth.password.max_failures
+    - auth.password.lock_seconds
+    - auth.invite.app_required
+    data_tables:
+    - users
+    - user_credentials
+    - auth_security_challenges
+    - user_sessions
+    - user_devices
+    - sms_verification_codes
+    - login_logs
+    - h5_page_configs
+    - cms_articles
+    - agreements
+    - app_versions
+    - content_posts
+    - app_release_records
+    - app_build_artifacts
+    - user_profiles
+    - user_settings
+    - user_status_logs
+    - support_tickets
+    - ticket_messages
+    - ticket_attachments
+    - ticket_status_logs
+    test_ids:
+    - TST-AUTH_001-HAPPY
+    - TST-AUTH_002-HAPPY
+    - TST-AUTH_003-HAPPY
+    - TST-AUTH_004-HAPPY
+    - TST-AUTH_001-IDEMPOTENT
+    - TST-AUTH_002-IDEMPOTENT
+    - TST-AUTH_003-IDEMPOTENT
+    - TST-AUTH_004-IDEMPOTENT
+    dependencies:
+    - R01
+    owner_roles:
+    - android_engineer
+    - backend_engineer
+    - test_engineer
+    acceptance_criteria:
+    - SCR-AUTH-006;SCR-AUTH-007 全部绑定模板 MOB-AUTH-FORM，字段、状态、动作、导航和错误恢复无TBD
+    - 页面调用 operationId：authGetAuthSessions;authDeleteAuthSessionsById;authPostMeSecurityPasswordChange；请求/响应字段不得另行发明
+    - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+    - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+    - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+    - 自动化覆盖：TST-AUTH_001-HAPPY;TST-AUTH_002-HAPPY;TST-AUTH_003-HAPPY;TST-AUTH_004-HAPPY;TST-AUTH_001-IDEMPOTENT;TST-AUTH_002-IDEMPOTENT;TST-AUTH_003-IDEMPOTENT;TST-AUTH_004-IDEMPOTENT
+    definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+    status: READY_FOR_IMPLEMENTATION
+  - story_id: STORY-R02-006
+    release: R02
+    title: 账号：账号冻结
+    user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成账号冻结的完整业务流程，以便在不依赖研发临时决策的情况下实现原因、期限、申诉。
+    platform: ANDROID
+    module: 账号
+    template_id: MOB-GATE
+    page_ids:
+    - SCR-AUTH-005
+    operation_ids:
+    - userGetMe
+    - supportPostSupportTickets
+    api_contracts:
+    - GET /api/v1/me
+    - POST /api/v1/support/tickets
+    requirement_ids:
+    - REQ-AUTH-001
+    - REQ-AUTH-002
+    - REQ-AUTH-003
+    - REQ-AUTH-004
+    config_keys:
+    - auth.default_login_method
+    - auth.security_challenge.provider
+    - auth.security_challenge.mode
+    - auth.password.min_length
+    - auth.password.max_length
+    - auth.password.max_failures
+    - auth.password.lock_seconds
+    - auth.invite.app_required
+    - system.maintenance.enabled
+    - system.maintenance.message
+    - system.registration.enabled
+    - system.publish.enabled
+    - system.red_packet.enabled
+    - system.withdrawal.enabled
+    data_tables:
+    - users
+    - user_profiles
+    - user_settings
+    - user_status_logs
+    - support_tickets
+    - ticket_messages
+    - ticket_attachments
+    - ticket_status_logs
+    - h5_page_configs
+    - cms_articles
+    - agreements
+    - app_versions
+    - content_posts
+    - app_release_records
+    - app_build_artifacts
+    - user_credentials
+    - auth_security_challenges
+    - user_sessions
+    - user_devices
+    - sms_verification_codes
+    - login_logs
+    test_ids:
+    - TST-AUTH_001-HAPPY
+    - TST-AUTH_002-HAPPY
+    - TST-AUTH_003-HAPPY
+    - TST-AUTH_004-HAPPY
+    - TST-AUTH_001-IDEMPOTENT
+    - TST-AUTH_002-IDEMPOTENT
+    - TST-AUTH_003-IDEMPOTENT
+    - TST-AUTH_004-IDEMPOTENT
+    dependencies:
+    - R01
+    owner_roles:
+    - android_engineer
+    - backend_engineer
+    - test_engineer
+    acceptance_criteria:
+    - SCR-AUTH-005 全部绑定模板 MOB-GATE，字段、状态、动作、导航和错误恢复无TBD
+    - 页面调用 operationId：userGetMe;supportPostSupportTickets；请求/响应字段不得另行发明
+    - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+    - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+    - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+    - 自动化覆盖：TST-AUTH_001-HAPPY;TST-AUTH_002-HAPPY;TST-AUTH_003-HAPPY;TST-AUTH_004-HAPPY;TST-AUTH_001-IDEMPOTENT;TST-AUTH_002-IDEMPOTENT;TST-AUTH_003-IDEMPOTENT;TST-AUTH_004-IDEMPOTENT
+    definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+    status: READY_FOR_IMPLEMENTATION
+  - story_id: STORY-R02-007
+    release: R02
+    title: 账号：注销账号
+    user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成注销账号的完整业务流程，以便在不依赖研发临时决策的情况下实现校验、申请与状态。
+    platform: ANDROID
+    module: 账号
+    template_id: MOB-SETTINGS
+    page_ids:
+    - SCR-AUTH-008
+    operation_ids:
+    - userPostMeCancellation
+    api_contracts:
+    - POST /api/v1/me/cancellation
+    requirement_ids:
+    - REQ-AUTH-001
+    - REQ-AUTH-002
+    - REQ-AUTH-003
+    - REQ-AUTH-004
+    config_keys:
+    - auth.default_login_method
+    - auth.security_challenge.provider
+    - auth.security_challenge.mode
+    - auth.password.min_length
+    - auth.password.max_length
+    - auth.password.max_failures
+    - auth.password.lock_seconds
+    - auth.invite.app_required
+    data_tables:
+    - users
+    - user_profiles
+    - user_settings
+    - user_status_logs
+    - h5_page_configs
+    - cms_articles
+    - agreements
+    - app_versions
+    - content_posts
+    - app_release_records
+    - app_build_artifacts
+    - user_credentials
+    - auth_security_challenges
+    - user_sessions
+    - user_devices
+    - sms_verification_codes
+    - login_logs
+    - support_tickets
+    - ticket_messages
+    - ticket_attachments
+    - ticket_status_logs
+    test_ids:
+    - TST-AUTH_001-HAPPY
+    - TST-AUTH_002-HAPPY
+    - TST-AUTH_003-HAPPY
+    - TST-AUTH_004-HAPPY
+    - TST-AUTH_001-IDEMPOTENT
+    - TST-AUTH_002-IDEMPOTENT
+    - TST-AUTH_003-IDEMPOTENT
+    - TST-AUTH_004-IDEMPOTENT
+    dependencies:
+    - R01
+    owner_roles:
+    - android_engineer
+    - backend_engineer
+    - test_engineer
+    acceptance_criteria:
+    - SCR-AUTH-008 全部绑定模板 MOB-SETTINGS，字段、状态、动作、导航和错误恢复无TBD
+    - 页面调用 operationId：userPostMeCancellation；请求/响应字段不得另行发明
+    - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+    - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+    - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+    - 自动化覆盖：TST-AUTH_001-HAPPY;TST-AUTH_002-HAPPY;TST-AUTH_003-HAPPY;TST-AUTH_004-HAPPY;TST-AUTH_001-IDEMPOTENT;TST-AUTH_002-IDEMPOTENT;TST-AUTH_003-IDEMPOTENT;TST-AUTH_004-IDEMPOTENT
+    definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+    status: READY_FOR_IMPLEMENTATION
+  - story_id: STORY-R02-008
+    release: R02
+    title: H5：H5邀请注册页
+    user_story: 作为公开访客或从分享/邀请/支付/实名流程进入的用户，我需要完成H5邀请注册页的完整业务流程，以便在不依赖研发临时决策的情况下实现邀请码必填，密码注册+安全验证+阿里云短信，成功跳下载页。
+    platform: H5
+    module: H5
+    template_id: MOB-AUTH-FORM
+    page_ids:
+    - H5-013
+    operation_ids:
+    - publicGetInviteByCodeRegistrationConfig
+    - authPostAuthSecurityChallenges
+    - authPostAuthSmsSend
+    - authPostAuthRegister
+    api_contracts:
+    - GET /public-api/v1/invite/{code}/registration-config
+    - POST /api/v1/auth/security-challenges
+    - POST /api/v1/auth/sms/send
+    - POST /api/v1/auth/register
+    requirement_ids:
+    - REQ-AUTH-005
+    config_keys:
+    - platform.brand.name
+    - platform.brand.slogan
+    - platform.brand.logo_media_id
+    - platform.customer_service.name
+    - platform.customer_service.contact
+    - auth.default_login_method
+    - auth.security_challenge.provider
+    - auth.security_challenge.mode
+    - auth.password.min_length
+    - auth.password.max_length
+    - auth.password.max_failures
+    - auth.password.lock_seconds
+    - auth.invite.app_required
+    data_tables:
+    - h5_page_configs
+    - cms_articles
+    - agreements
+    - app_versions
+    - content_posts
+    - users
+    - user_credentials
+    - auth_security_challenges
+    - user_sessions
+    - user_devices
+    - sms_verification_codes
+    - login_logs
+    test_ids:
+    - TST-AUTH_005-HAPPY
+    - TST-AUTH_005-IDEMPOTENT
+    dependencies:
+    - R01
+    owner_roles:
+    - web_frontend_engineer
+    - backend_engineer
+    - test_engineer
+    acceptance_criteria:
+    - H5-013 全部绑定模板 MOB-AUTH-FORM，字段、状态、动作、导航和错误恢复无TBD
+    - 页面调用 operationId：publicGetInviteByCodeRegistrationConfig;authPostAuthSecurityChallenges;authPostAuthSmsSend;authPostAuthRegister；请求/响应字段不得另行发明
+    - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
+    - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
+    - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
+    - 自动化覆盖：TST-AUTH_005-HAPPY;TST-AUTH_005-IDEMPOTENT
+    definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
+    status: READY_FOR_IMPLEMENTATION
+  - story_id: STORY-R02-009
+    release: R02
+    title: 账号、登录、注册与安全会话：契约、数据、配置、测试与交接
+    user_story: 作为技术负责人，我需要按冻结的 R02 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+    platform: CROSS_PLATFORM
+    module: 工程治理
+    template_id: N/A
+    page_ids:
+    - SCR-APP-001
+    - SCR-APP-002
+    - SCR-APP-003
+    - SCR-AUTH-001
+    - SCR-AUTH-002
+    - SCR-AUTH-003
+    - SCR-AUTH-004
+    - SCR-AUTH-005
+    - SCR-AUTH-006
+    - SCR-AUTH-007
+    - SCR-AUTH-008
+    - H5-013
+    - ADM-USER-001
+    - ADM-USER-002
+    operation_ids:
+    - authPostAuthSecurityChallenges
+    - authPostAuthPasswordLogin
+    - authPostAuthSmsSend
+    - authPostAuthSmsLogin
+    - authPostAuthInviteCodesValidate
+    - authPostAuthRegister
+    - authPostAuthPasswordReset
+    - authPostMeSecurityPasswordChange
+    - authPostAuthRefresh
+    - authPostAuthLogout
+    - authGetAuthSessions
+    - authDeleteAuthSessionsById
+    - adminUsersGetUsers
+    - adminUsersGetUsersById
+    - adminUsersPostUsersByIdRestrictions
+    - adminUsersDeleteUsersByIdRestrictionsByType
+    - adminUsersPostUsersByIdFreeze
+    - adminUsersPostUsersByIdUnfreeze
+    - adminUsersPostUsersByIdForceLogout
+    api_contracts:
+    - POST /api/v1/auth/security-challenges
+    - POST /api/v1/auth/password/login
+    - POST /api/v1/auth/sms/send
+    - POST /api/v1/auth/sms/login
+    - POST /api/v1/auth/invite-codes/validate
+    - POST /api/v1/auth/register
+    - POST /api/v1/auth/password/reset
+    - POST /api/v1/me/security/password/change
+    - POST /api/v1/auth/refresh
+    - POST /api/v1/auth/logout
+    - GET /api/v1/auth/sessions
+    - DELETE /api/v1/auth/sessions/{id}
+    - GET /admin-api/v1/users
+    - GET /admin-api/v1/users/{id}
+    - POST /admin-api/v1/users/{id}/restrictions
+    - DELETE /admin-api/v1/users/{id}/restrictions/{type}
+    - POST /admin-api/v1/users/{id}/freeze
+    - POST /admin-api/v1/users/{id}/unfreeze
+    - POST /admin-api/v1/users/{id}/force-logout
+    requirement_ids:
+    - REQ-AUTH-001
+    - REQ-AUTH-002
+    - REQ-AUTH-003
+    - REQ-AUTH-004
+    - REQ-AUTH-005
+    - REQ-ADMIN-OPS-001
+    config_keys:
+    - platform.brand.name
+    - platform.brand.slogan
+    - platform.brand.logo_media_id
+    - platform.customer_service.name
+    - platform.customer_service.contact
+    - app.android.application_id
+    - app.android.staging_application_id
+    - app.android.display_name
+    - app.android.signing.staging_profile
+    - app.android.signing.production_profile
+    - app.build.runner
+    - app.build.allowed_ref_patterns
+    - app.build.artifact_storage_scope
+    - auth.default_login_method
+    - auth.security_challenge.provider
+    - auth.security_challenge.mode
+    - auth.password.min_length
+    - auth.password.max_length
+    - auth.password.max_failures
+    - auth.password.lock_seconds
+    - auth.invite.app_required
+    - system.maintenance.enabled
+    - system.maintenance.message
+    - system.registration.enabled
+    - system.publish.enabled
+    - system.red_packet.enabled
+    - system.withdrawal.enabled
+    data_tables:
+    - h5_page_configs
+    - cms_articles
+    - agreements
+    - app_versions
+    - content_posts
+    - app_release_records
+    - app_build_artifacts
+    - users
+    - user_credentials
+    - auth_security_challenges
+    - user_sessions
+    - user_devices
+    - sms_verification_codes
+    - login_logs
+    - user_profiles
+    - user_settings
+    - user_status_logs
+    - support_tickets
+    - ticket_messages
+    - ticket_attachments
+    - ticket_status_logs
     - admin_users
     - admin_roles
     - admin_permissions
@@ -1976,40 +2182,34 @@ STORIES.yaml:
     - admin_role_permissions
     - admin_operation_logs
     - admin_approval_requests
-    - admin_sessions
-    - admin_mfa_methods
-    - admin_recovery_codes
-    - admin_login_logs
     test_ids:
     - TST-ADMIN_OPS_001-DRIFT
     - TST-ADMIN_OPS_001-HAPPY
     - TST-ADMIN_OPS_001-REJECT
     - TST-ADMIN_OPS_001-SECURITY
-    - TST-ADMIN_SECURITY_001-DRIFT
-    - TST-ADMIN_SECURITY_001-HAPPY
-    - TST-ADMIN_SECURITY_001-REJECT
-    - TST-ADMIN_SECURITY_001-SECURITY
-    - TST-DESIGN_001-HAPPY
-    - TST-DESIGN_001-IDEMPOTENT
-    - TST-DESIGN_001-REJECT
-    - TST-DOR_001-DRIFT
-    - TST-DOR_001-HAPPY
-    - TST-DOR_001-REJECT
-    - TST-DOR_001-SECURITY
-    - TST-PAGE_SPEC_001-DRIFT
-    - TST-PAGE_SPEC_001-HAPPY
-    - TST-PAGE_SPEC_001-REJECT
-    - TST-PAGE_SPEC_001-SECURITY
-    - TST-V122-012
-    - TST-V122-013
-    - TST-V122-014
-    - TST-V122-056
-    - TST-V122-057
-    - TST-V122-058
-    - TST-V122-059
-    - TST-V122-060
+    - TST-AUTH_001-HAPPY
+    - TST-AUTH_001-IDEMPOTENT
+    - TST-AUTH_001-REJECT
+    - TST-AUTH_001-SECURITY
+    - TST-AUTH_002-HAPPY
+    - TST-AUTH_002-IDEMPOTENT
+    - TST-AUTH_002-REJECT
+    - TST-AUTH_002-SECURITY
+    - TST-AUTH_003-HAPPY
+    - TST-AUTH_003-IDEMPOTENT
+    - TST-AUTH_003-REJECT
+    - TST-AUTH_003-SECURITY
+    - TST-AUTH_004-HAPPY
+    - TST-AUTH_004-IDEMPOTENT
+    - TST-AUTH_004-REJECT
+    - TST-AUTH_004-SECURITY
+    - TST-AUTH_005-HAPPY
+    - TST-AUTH_005-IDEMPOTENT
+    - TST-AUTH_005-REJECT
+    - TST-AUTH_005-SECURITY
+    - TST-V122-011
     dependencies:
-    - P00
+    - R01
     owner_roles:
     - tech_lead
     - backend_engineer
@@ -2025,45 +2225,42 @@ STORIES.yaml:
     definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
     status: READY_FOR_IMPLEMENTATION
 TASKS.yaml:
-  release: R01
-  title: Design System与契约工程化
+  release: R02
+  title: 账号、登录、注册与安全会话
   tasks:
-  - id: TASK-R01-001
-    title: Design System与契约工程化开发就绪核验、故事领取与变更基线
-    status: DONE
+  - id: TASK-R02-001
+    title: 账号、登录、注册与安全会话开发就绪核验、故事领取与变更基线
+    status: READY
     depends_on: []
     requirements: &id001
-    - REQ-UI-001
-    - REQ-DESIGN-001
-    - REQ-CONTRACT-001
+    - REQ-AUTH-001
+    - REQ-AUTH-002
+    - REQ-AUTH-003
+    - REQ-AUTH-004
+    - REQ-AUTH-005
     - REQ-APK-001
-    - REQ-ARCH-001
-    - REQ-DATA-001
-    - REQ-EVENT-001
-    - REQ-ADMIN-BASE-001
-    - REQ-OBS-002
-    description: 核验 13 项需求、8 个接口、37 张相关表、3 个页面/交互面和 3 个故事；全部适用DoR必须PASS。
+    description: 核验 6 项需求、19 个接口、28 张相关表、14 个页面/交互面和 9 个故事；全部适用DoR必须PASS。
     deliverables:
-    - releases/R01/DEFINITION_OF_READY.yaml 全部适用项PASS
-    - releases/R01/STORIES.yaml 故事责任人和依赖已领取
+    - releases/R02/DEFINITION_OF_READY.yaml 全部适用项PASS
+    - releases/R02/STORIES.yaml 故事责任人和依赖已领取
     - 更新Release Manifest与CR记录
-    - python scripts/check_v122_documentation.py --release R01
+    - python scripts/check_v122_documentation.py --release R02
     acceptance:
     - 页面、字段、状态、动作、API、配置、数据和测试无TBD
     - 不适用项明确N/A及原因
-    - releases/R01/DEFINITION_OF_READY.yaml 全部适用项PASS
-    - releases/R01/STORIES.yaml 故事责任人和依赖已领取
+    - releases/R02/DEFINITION_OF_READY.yaml 全部适用项PASS
+    - releases/R02/STORIES.yaml 故事责任人和依赖已领取
     - 更新Release Manifest与CR记录
-    - python scripts/check_v122_documentation.py --release R01
+    - python scripts/check_v122_documentation.py --release R02
     session_log_required: true
-    completed_at: '2026-07-17T08:03:00Z'
-  - id: TASK-R01-002
-    title: Design System与契约工程化数据迁移与领域不变量
-    status: DONE
+  - id: TASK-R02-002
+    title: 账号、登录、注册与安全会话数据迁移与领域不变量
+    status: BLOCKED
     depends_on:
-    - TASK-R01-001
+    - TASK-R02-001
     requirements: *id001
-    description: 实现/演进，补齐唯一约束、状态历史、幂等键和回滚验证
+    description: 实现/演进users, user_credentials, auth_security_challenges, password_reset_sessions, registration_records, user_profiles, user_sessions,
+      user_devices等，补齐唯一约束、状态历史、幂等键和回滚验证
     deliverables:
     - Flyway前向迁移与空库/升级库测试
     - 不变量属性测试
@@ -2073,14 +2270,13 @@ TASKS.yaml:
     - Flyway前向迁移与空库/升级库测试
     - 不变量属性测试
     session_log_required: true
-    completed_at: '2026-07-17T08:41:19Z'
-  - id: TASK-R01-003
-    title: Design System与契约工程化后端应用服务与接口
-    status: DONE
+  - id: TASK-R02-003
+    title: 账号、登录、注册与安全会话后端应用服务与接口
+    status: BLOCKED
     depends_on:
-    - TASK-R01-002
+    - TASK-R02-002
     requirements: *id001
-    description: 实现权威Manifest与Stories范围内8个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
+    description: 实现范围内26个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
     deliverables:
     - OpenAPI契约测试
     - 权限/幂等/错误码/审计覆盖
@@ -2090,14 +2286,13 @@ TASKS.yaml:
     - OpenAPI契约测试
     - 权限/幂等/错误码/审计覆盖
     session_log_required: true
-    completed_at: '2026-07-17T11:11:58Z'
-  - id: TASK-R01-004
-    title: Design System与契约工程化客户端/H5/后台实现
-    status: DONE
+  - id: TASK-R02-004
+    title: 账号、登录、注册与安全会话客户端/H5/后台实现
+    status: BLOCKED
     depends_on:
-    - TASK-R01-003
+    - TASK-R02-003
     requirements: *id001
-    description: 按 3 个页面/交互面的逐页施工规格和 3 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
+    description: 按 14 个页面/交互面的逐页施工规格和 9 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
     deliverables:
     - 全部页面绑定catalogs/ui_page_specifications.csv
     - 字段/状态/动作/导航与后台运营规格通过契约测试
@@ -2111,15 +2306,14 @@ TASKS.yaml:
     - 禁止页面级手写重复DTO
     - 全部动作绑定生成API类型
     session_log_required: true
-    completed_at: '2026-07-17T12:20:19Z'
-  - id: TASK-R01-005
-    title: Design System与契约工程化专项测试与故障注入
-    status: DONE
+  - id: TASK-R02-005
+    title: 账号、登录、注册与安全会话专项测试与故障注入
+    status: BLOCKED
     depends_on:
-    - TASK-R01-003
-    - TASK-R01-004
+    - TASK-R02-003
+    - TASK-R02-004
     requirements: *id001
-    description: 执行权威Manifest声明的27项测试，覆盖重复请求、并发、超时、消息重复和供应商异常，并逐项归档证据
+    description: 执行20项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
     deliverables:
     - 测试报告和失败证据归档
     - 关键缺陷清零
@@ -2129,12 +2323,11 @@ TASKS.yaml:
     - 测试报告和失败证据归档
     - 关键缺陷清零
     session_log_required: true
-    completed_at: '2026-07-17T13:55:41Z'
-  - id: TASK-R01-006
-    title: Design System与契约工程化可观测性与预发布验收
-    status: DONE
+  - id: TASK-R02-006
+    title: 账号、登录、注册与安全会话可观测性与预发布验收
+    status: BLOCKED
     depends_on:
-    - TASK-R01-005
+    - TASK-R02-005
     requirements: *id001
     description: 部署Staging，验证结构化日志、TraceId、RED指标、业务指标、告警和回滚
     deliverables:
@@ -2146,12 +2339,11 @@ TASKS.yaml:
     - 运行手册演练
     - 验收矩阵签字
     session_log_required: true
-    completed_at: '2026-07-17T15:20:29Z'
-  - id: TASK-R01-007
-    title: Design System与契约工程化Android测试APK与产物追溯
-    status: DONE
+  - id: TASK-R02-007
+    title: 账号、登录、注册与安全会话Android测试APK与产物追溯
+    status: BLOCKED
     depends_on:
-    - TASK-R01-006
+    - TASK-R02-006
     requirements: *id001
     description: 使用固定工具链构建、签名、安装冒烟并生成APK_MANIFEST
     deliverables:
@@ -2163,12 +2355,11 @@ TASKS.yaml:
     - APK可下载/可安装
     - SHA256、Commit、versionName/versionCode、测试结果齐全
     session_log_required: true
-    completed_at: '2026-07-17T17:06:16Z'
-  - id: TASK-R01-008
-    title: Design System与契约工程化版本关闭与无状态交接
-    status: READY
+  - id: TASK-R02-008
+    title: 账号、登录、注册与安全会话版本关闭与无状态交接
+    status: BLOCKED
     depends_on:
-    - TASK-R01-007
+    - TASK-R02-007
     requirements: *id001
     description: 回填追踪矩阵、Session Log、问题登记、可复用模式、CURRENT_STATUS和NEXT_TASK
     deliverables:
@@ -2181,8 +2372,8 @@ TASKS.yaml:
     - 工作区干净且Tag可追溯
     session_log_required: true
   version: 1.2.2
-  definition_of_ready: releases/R01/DEFINITION_OF_READY.yaml
-  story_backlog: releases/R01/STORIES.yaml
+  definition_of_ready: releases/R02/DEFINITION_OF_READY.yaml
+  story_backlog: releases/R02/STORIES.yaml
   execution_rule: TASKS定义治理顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。
 ```
 
@@ -2330,28 +2521,20 @@ TASKS.yaml:
 
 - `AGENTS.md` — `387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440`
 - `START_HERE.md` — `1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc`
-- `CURRENT_STATUS.yaml` — `1c6e7370ccfe5b8eaff3f2eccece26c4aec9b5713c6429b990a5d93e3f5d4e45`
-- `NEXT_TASK.yaml` — `20a4325ac176e02cab9cd6e3bef3eefa4e9d5bc531ce4ca50d671c2227cd797a`
+- `CURRENT_STATUS.yaml` — `7d28a2dce5f0deab691943fde71314cd4265a87b112fd1afb252ebb9a47f6389`
+- `NEXT_TASK.yaml` — `e14f3a97dc8e38d2806c741405455168fb038d18020a822f4941c0977c1eb800`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `0ea69b49c36d5593d3e03187356a9ecbe148c792b175bac760296997a3e770a5`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `.continuity/CONTINUITY_POLICY.yaml` — `69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223`
-- `.continuity/EVENT_LOG.jsonl` — `3b65ef59cfc67fd1ab23fcecfe7d59d1482eb12fdb9b9014b3430934e852deac`
-- `.continuity/SESSION_INDEX.yaml` — `a014eb3b348d2b3cccea4a947bcf40380ca206c88abb3583c451f25c37349548`
-- `.continuity/TASK_CLAIMS.yaml` — `a45f826faad060e74a417edf8ddefd8652970bc84317876786889241ffe3c3c2`
+- `.continuity/EVENT_LOG.jsonl` — `78869b998299a49ba082bbb8837da50b6bbb3851a84a08a6ba0dd35d49b4e92d`
+- `.continuity/SESSION_INDEX.yaml` — `69a3a1172e18b69db110b08b1401274455273be5d84091384b30bc7c902534dc`
+- `.continuity/TASK_CLAIMS.yaml` — `f67ceac69efb681a78e4deb4ea1c97b1f70d4d61d874f63baa24824e5b033ea6`
 - `.continuity/TASK_TRANSITIONS.yaml` — `f5f1711d4a5fd8ccdb0716908017d021204b90616d5a1ecba5d7864d8a78b503`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5c1a2b0da7446113f2d423f834eaf51ea5404f259d1d94354918168f88eee46c`
-- `.continuity/ACTIVE_SESSION.yaml` — `a3cb1aeae795c4219b9b0f921fe0dc98949c09ddf55644086e6f158f9f36022c`
-- `releases/R01/RELEASE_MANIFEST.yaml` — `30eda70884cb3e9f7c3e5760c63c6bf41576fc526373866e8765b35fc78a0b2a`
-- `releases/R01/DEFINITION_OF_READY.yaml` — `ed81dd9db760893207515b8c0a5cc2f80ac5b7f358d00fb7b71276b8931100e5`
-- `releases/R01/STORIES.yaml` — `368e786cf97c2b244d5bbf21acedcdefacbf5f4a4b42c7780db5b1accb5dd86e`
-- `releases/R01/TASKS.yaml` — `7a6d3dc95ab7ba5387785f87e1d37de6f4229742606a5e342bb580068a992234`
-- `releases/R01/ACCEPTANCE_MATRIX.csv` — `9bc05f6487a713879b1a1c6a30d51387a01d4b0db161c2ad2e8033294f6b21f5`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T171412Z-7CD86701.md` — `515e709d599eb629253fc23fdf19cd620f4e87253c9ff8e474ee0952575a8797`
-- `.continuity/checkpoints/SES-20260717T171412Z-7CD86701/0001.yaml` — `6d0dc91806d5e35cb7778b00855725cff347418a526e72857260d17a49c19eaa`
-- `docs/03-continuity/change-requests/CR-0017-R01版本关闭元数据与无会话Context-Pack门禁修复.md` — `36b6b0c5c7e92ba262c8c49c3a44f44511e3bc1db65786b50e603ebf8a87a4e1`
+- `.continuity/ACTIVE_SESSION.yaml` — `ac9e43f2ffbe73d2398e43f57bb16b58b93f20c985a857c1ae1806ef5fae35b2`
 
 ## 接手硬规则
 

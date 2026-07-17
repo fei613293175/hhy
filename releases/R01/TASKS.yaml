@@ -139,7 +139,7 @@ tasks:
   completed_at: '2026-07-17T17:06:16Z'
 - id: TASK-R01-008
   title: Design System与契约工程化版本关闭与无状态交接
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R01-007
   requirements: *id001
@@ -153,6 +153,7 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  completed_at: '2026-07-17T17:45:20Z'
 version: 1.2.2
 definition_of_ready: releases/R01/DEFINITION_OF_READY.yaml
 story_backlog: releases/R01/STORIES.yaml

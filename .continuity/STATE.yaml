@@ -1,21 +1,21 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 mode: ENFORCED
-active_session_id: SES-20260717T171412Z-7CD86701
+active_session_id: null
 event_log:
-  sequence: 205
-  head_hash: d54ec6ab259905b3f35ef8e2fced9eea0ba9aa48d6fc53acd89965b1f431a609
-  last_event_type: CHECKPOINT_CREATED
-  last_event_at: '2026-07-17T17:44:44Z'
+  sequence: 208
+  head_hash: 5203866eee43c25f4a22476ee53a099e8976c19c7113761bc45fa38de16194d0
+  last_event_type: SESSION_CLOSED
+  last_event_at: '2026-07-17T17:45:23Z'
 package_baseline:
   product_spec_baseline: V1.2.2
   continuity_baseline: V1.2.3
   created_at: '2026-07-16T21:49:57Z'
-updated_at: '2026-07-17T17:44:46Z'
+updated_at: '2026-07-17T17:47:09Z'
 context_pack:
   path: artifacts/context/CURRENT_CONTEXT_PACK.md
-  hash: 3dc89dcc17a734389ccec147fc8ab71a5674e409660435b395accabe20c45a91
-  generated_at: '2026-07-17T17:44:46Z'
+  hash: ce0d3977bca11eab6dc9b3f47b167d3385ef938dacbc4948012bf32bddbe3441
+  generated_at: '2026-07-17T17:47:09Z'
 git_bootstrap:
   initialized: true
   branch: task/TASK-P00-001
@@ -23,6 +23,6 @@ git_bootstrap:
   actor_id: codex-root
   hooks_path: .githooks
   prepared_at: '2026-07-16T23:28:21Z'
-last_session_id: SES-20260717T152721Z-016DB4B2
+last_session_id: SES-20260717T171412Z-7CD86701
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260717T152721Z-016DB4B2-0009
+last_closure_checkpoint_id: CP-SES-20260717T171412Z-7CD86701-0002
