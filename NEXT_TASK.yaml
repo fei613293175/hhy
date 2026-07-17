@@ -1,5 +1,5 @@
-id: TASK-P00-007
-title: 仓库、环境、契约与无状态接续Android测试APK与产物追溯
+id: TASK-P00-008
+title: 仓库、环境、契约与无状态接续版本关闭与无状态交接
 status: READY
 release: P00
 requirements:
@@ -16,19 +16,17 @@ requirements:
 - REQ-OBS-002
 - REQ-SECRET-001
 depends_on:
-- TASK-P00-006
+- TASK-P00-007
 definition_of_ready: releases/P00/DEFINITION_OF_READY.yaml
 stories: releases/P00/STORIES.yaml
 steps:
-- APK可下载/可安装
-- SHA256、Commit、versionName/versionCode、测试结果齐全
-- 项目所有者明确反馈真机安装与启动验收结果
+- 全新AI仅凭仓库可继续
+- 工作区干净且Tag可追溯
 acceptance:
 - 无TODO/生产Mock
 - 代码、文档、测试、追踪同步更新
-- APK可下载/可安装
-- SHA256、Commit、versionName/versionCode、测试结果齐全
-- 仅在项目所有者明确确认真机安装与启动通过后标记DONE
+- 全新AI仅凭仓库可继续
+- 工作区干净且Tag可追溯
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-P00-007
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-P00-008
 next_after: 由当前TASKS.yaml依赖关系决定

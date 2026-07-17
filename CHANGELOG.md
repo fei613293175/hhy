@@ -102,3 +102,12 @@
 - 摘要：P00可观测性、预发布环境、告警故障注入和回滚验收全部通过
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T053626Z-25451510.md`
 
+## TASK-P00-007 · COMPLETED · 2026-07-17T05:40:19Z
+
+- Task close: TASK-P00-007 / SES-20260717T053909Z-3A8B6A51
+- Release：`P00`
+- Story：`STORY-P00-001`
+- Actor：`codex-root`
+- 摘要：P00 Android APK可下载、清洁构建、签名、SHA256和版本信息完整，项目所有者真机安装启动验收通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T053909Z-3A8B6A51.md`
+

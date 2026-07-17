@@ -244,7 +244,7 @@ claims:
   task_id: TASK-P00-007
   story_id: STORY-P00-001
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-17T05:39:09Z'
   allowed_paths:
   - apps/**
@@ -278,3 +278,4 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   - artifacts/apk/**
+  closed_at: '2026-07-17T05:40:22Z'

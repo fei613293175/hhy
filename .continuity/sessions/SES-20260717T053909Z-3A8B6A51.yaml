@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260717T053909Z-3A8B6A51
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-P00-007
 story_id: STORY-P00-001
 goal: 归档P00 Android APK构建、签名、下载、SHA与项目所有者真机验收结果
 started_at: '2026-07-17T05:39:09Z'
-updated_at: '2026-07-17T05:39:51Z'
+updated_at: '2026-07-17T05:40:22Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -58,17 +58,28 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-17T05:39:49Z'
-  expires_at: '2026-07-17T09:39:49Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260717T053909Z-3A8B6A51/0001.yaml
+  renewed_at: '2026-07-17T05:40:20Z'
+  expires_at: '2026-07-17T09:40:20Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260717T053909Z-3A8B6A51/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T053909Z-3A8B6A51.md
-next_step: 提交APK产物追溯记录并关闭TASK-P00-007
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 6bb1b47fa90aafce339bbfec442a3e40251728df27735a8e666d3c49bad2a44b
-  generated_at: '2026-07-17T05:39:50Z'
+  context_hash: d588e5e538bbf44ea4fb7c5e17d29335f52f6a068b721b09d730d275ed0b57a8
+  generated_at: '2026-07-17T05:40:21Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: P00 Android APK可下载、清洁构建、签名、SHA256和版本信息完整，项目所有者真机安装启动验收通过
+  code_commit: fcb95056b606dfe6e8d0623e83a0526df80bf43e
+  next_release: P00
+  next_task: TASK-P00-008
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-17T05:40:19Z'
+  closure_checkpoint_id: CP-SES-20260717T053909Z-3A8B6A51-0002
+  closed_at: '2026-07-17T05:40:22Z'
+closed_at: '2026-07-17T05:40:22Z'

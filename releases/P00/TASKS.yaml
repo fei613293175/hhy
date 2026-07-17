@@ -126,7 +126,7 @@ tasks:
   completed_at: '2026-07-17T05:37:35Z'
 - id: TASK-P00-007
   title: 仓库、环境、契约与无状态接续Android测试APK与产物追溯
-  status: READY
+  status: DONE
   depends_on:
   - TASK-P00-006
   requirements: *id001
@@ -142,9 +142,10 @@ tasks:
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   - 仅在项目所有者明确确认真机安装与启动通过后标记DONE
   session_log_required: true
+  completed_at: '2026-07-17T05:40:19Z'
 - id: TASK-P00-008
   title: 仓库、环境、契约与无状态接续版本关闭与无状态交接
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-P00-007
   requirements: *id001
