@@ -32,13 +32,13 @@ class BusinessGaugeBinderTest {
                 + "(102, 21, 10, 700, 'CNY', 'DEBIT'), (103, 21, 11, 600, 'CNY', 'CREDIT')");
         jdbc.update("INSERT INTO hhy.reconciliation_differences(id, status) VALUES (30, 'OPEN'), (31, 'RESOLVED')");
         jdbc.update("INSERT INTO hhy.admin_sessions(id, expires_at, revoked_at) VALUES "
-                + "(40, CURRENT_TIMESTAMP + INTERVAL '1 hour', NULL), "
-                + "(41, CURRENT_TIMESTAMP - INTERVAL '1 hour', NULL), "
-                + "(42, CURRENT_TIMESTAMP + INTERVAL '1 hour', CURRENT_TIMESTAMP)");
+                + "(40, CURRENT_TIMESTAMP + INTERVAL '1' HOUR, NULL), "
+                + "(41, CURRENT_TIMESTAMP - INTERVAL '1' HOUR, NULL), "
+                + "(42, CURRENT_TIMESTAMP + INTERVAL '1' HOUR, CURRENT_TIMESTAMP)");
         jdbc.update("INSERT INTO hhy.admin_login_logs(id, result, created_at) VALUES "
                 + "(50, 'FAILED', CURRENT_TIMESTAMP), "
                 + "(51, 'SUCCESS', CURRENT_TIMESTAMP), "
-                + "(52, 'FAILED', CURRENT_TIMESTAMP - INTERVAL '10 minutes')");
+                + "(52, 'FAILED', CURRENT_TIMESTAMP - INTERVAL '10' MINUTE)");
         jdbc.update("INSERT INTO hhy.admin_mfa_methods(id, status) VALUES (60, 'ACTIVE'), (61, 'DISABLED')");
         jdbc.update("INSERT INTO hhy.idempotency_records(id, scope, response_type, response_payload_ciphertext) VALUES "
                 + "(70, 'admin.login', 'LoginResponse', 'ciphertext'), "

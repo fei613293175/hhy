@@ -59,7 +59,7 @@ public final class BusinessGaugeBinder implements MeterBinder {
             SELECT COUNT(*)
             FROM hhy.admin_login_logs
             WHERE upper(result) NOT IN ('SUCCESS', 'SUCCEEDED')
-              AND created_at >= CURRENT_TIMESTAMP - INTERVAL '5 minutes'
+              AND created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
             """;
     static final String ADMIN_MFA_ACTIVE_METHODS_SQL = """
             SELECT COUNT(*)
