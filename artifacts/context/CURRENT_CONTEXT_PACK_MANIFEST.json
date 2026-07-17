@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-17T03:18:58Z",
-  "context_hash": "c26b3857544a59ade5ab885742f71dc08d84acb8b96f255436562e1577cac2d8",
+  "generated_at": "2026-07-17T04:16:46Z",
+  "context_hash": "ce9356327a0b4f9284cf786d71abfc046b4ff9d5ccc98706d99b28d749f64685",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "6130489c8b862c49ce613ac27f6fc4e45f0bb7b2e35b93eb5d1af052f77d26e9",
-    "file_count": 4
+    "sha256": "f0da7909615b6679c8e4781c40b605b43936aeb6e804fb7d8f667eb9d726a754",
+    "file_count": 7
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "a07efdc7b3222093485ffba12fcb22d570946e7f41c2b88344854a7f0835a629"
+    "sha256": "bee497b59e0c32d91aa5e8f4bb7e40e2c7c7d4424e45dc81297a24cd4253a127"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "69abf9ba50360eca869eb70f4ba101ff1956acbe4b38b062142c8cf2182252f8"
+    "sha256": "1eda64a60778b4dd4e2e45e16c1011b0de26c626b1bc9db7c21f131ed19635da"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "34fdb4401b6f9b332180fefe695464ee966867c095d66150eca37a51c2eab4d6",
+      "sha256": "f615ac280c4f7a23e3b52b53976fa85232ac46aa584fb83a1ff98be961453458",
       "bytes": 2965
     },
     {
@@ -68,12 +68,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "b471dbefa5b7db4982eb2864b47598f1aa337ade73ac0ac7d089ade8985c490a",
-      "bytes": 31587
+      "sha256": "9a1db6852ae4bea9721862545a11bb1aec30fd3f364e7bef3f0306fde4906e86",
+      "bytes": 33836
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "693f69e16f4c9e99553cadfbcd37a38e308d9ad93968fb9414204f93c6f48bf1",
+      "sha256": "7d1341721946cf05ccb947e09874a8c49a06a5d047f93133a68cf255b05bdebe",
       "bytes": 3072
     },
     {
@@ -88,12 +88,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "c9486be217b6176fb730ee9ae9ecd3ca715981491a0fd5a5d4ec50e1990f557d",
-      "bytes": 15465
+      "sha256": "d8253868fb8e97d29b4b09bf8e1620d547d3a6b913d566ebe794c348b05521c6",
+      "bytes": 18120
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "ce9c12b1e759e6859764c6d0becd6053d9055ef6de66912110381cd25b84bcbf",
+      "sha256": "af1460659cfcff70a1534b679a278a5dd20dc5259716385db7f8ae3367279148",
       "bytes": 525
     },
     {
@@ -113,8 +113,8 @@
     },
     {
       "path": "releases/P00/TASKS.yaml",
-      "sha256": "1e7af033758f7834c0c451b49edc1eb892c120ebbc29ebf46f4b1eafc03be27b",
-      "bytes": 5988
+      "sha256": "7210cd2760192238b6805c503abf36b948b06ea84663e5aeb0eb875f9a9a86dc",
+      "bytes": 6214
     },
     {
       "path": "releases/P00/ACCEPTANCE_MATRIX.csv",
@@ -123,18 +123,23 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260717T024407Z-B03C9375.md",
-      "sha256": "5480840b159d55bf027149b279772ca1b97ee1f19b98d8722c50f7fbfc8ff909",
-      "bytes": 3857
+      "sha256": "1ba248d0289574fbdee62aea72db93690719d95ad114e83b138a441e2925de59",
+      "bytes": 5304
     },
     {
-      "path": ".continuity/checkpoints/SES-20260717T024407Z-B03C9375/0002.yaml",
-      "sha256": "e955585b39b9dcae16a57c6f335c45c283b8752f361aa594bd0f0683dc02dc1a",
-      "bytes": 5140
+      "path": ".continuity/checkpoints/SES-20260717T024407Z-B03C9375/0003.yaml",
+      "sha256": "32010dca513179849456505e14a1dc42ad995500ddd2ddf74a044edbdab797e3",
+      "bytes": 6661
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md",
       "sha256": "e0a775c2d0aac2c87befa19c89127b9195284243eb954f609d60e128bd3b045d",
       "bytes": 2352
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0008-每版本Android-APK由项目所有者真机验收.md",
+      "sha256": "10ebf8f0c364d9ab11288ecd636958c2c30e817c6169db0fbf9f83abaf828f87",
+      "bytes": 2671
     }
   ]
 }

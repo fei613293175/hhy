@@ -1,0 +1,162 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T024407Z-B03C9375-0003
+session_id: SES-20260717T024407Z-B03C9375
+sequence: 3
+created_at: '2026-07-17T04:16:44Z'
+summary: CR-0008已独立批准并实施项目所有者真机验收规则；P00 Staging版本接口、HTTPS下载、监控告警和恢复链路实测通过
+next_step: 提交CR-0008实施基线，绑定最终Commit后重新构建APK与Staging镜像并归档59项证据
+blockers: []
+decisions:
+- Android测试APK=YES版本由Codex交付桌面APK，项目所有者明确真机通过后方可关闭
+note: ''
+tests:
+- name: P00 strict documentation
+  result: PASS
+  evidence: artifacts/validation/p00-policy-documentation.json
+  note: 189 UI面、198业务表、无文档错误
+- name: P00 staging download
+  result: PASS
+  evidence: https://obx.orbexa.cc/p00-artifacts/hhy-p00-11f14e1e-debug.apk
+  note: TLS SNI与工作站HTTP 200，SHA256匹配
+- name: P00 staging version API
+  result: PASS
+  evidence: releases/P00/RELEASE_MANIFEST.yaml
+  note: FORCED OPTIONAL NONE 404 400 compatibility场景通过
+- name: P00 alert delivery
+  result: PASS
+  evidence: infra/staging/p00-alerts.yml
+  note: firing与resolved均到达隐私最小化接收器
+git:
+  initialized: true
+  branch: task/TASK-P00-005
+  head: 11f14e1e2d178172dea5f63d78084b29dd88d0ef
+  upstream: null
+  ahead: null
+  behind: null
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260717T024407Z-B03C9375.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/05-app-build/APK持续交付强制规则_V1.2.2.md'
+  - ' M releases/P00/TASKS.yaml'
+  - ?? .continuity/change_requests/CR-0008.yaml
+  - ?? artifacts/validation/p00-policy-documentation.json
+  - ?? docs/03-continuity/change-requests/CR-0008-每版本Android-APK由项目所有者真机验收.md
+  recent_commits:
+  - "11f14e1e2d178172dea5f63d78084b29dd88d0ef\t2026-07-17T11:19:08+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(staging): record Flyway\
+    \ empty-database verification"
+  - "7e6bfd70c9f4127f2778b1423d03ed619bcab25b\t2026-07-17T11:15:08+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] fix(staging): restore Boot\
+    \ 4 Flyway startup migration"
+  - "34580dcf7e06934e635ba07d059cafc629956e3c\t2026-07-17T10:43:27+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-004\
+    \ as completed"
+  - "125d3dbf304210153e8d8b649c7d59182438c4d1\t2026-07-17T10:42:04+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): verify generated\
+    \ client contract bindings"
+  - "f26e4668cbab36411918b566edbb61b14f1dac78\t2026-07-17T10:38:15+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-003\
+    \ as completed"
+  - "093b92f4d691fd69440a90505e323bb5510a8d9e\t2026-07-17T10:36:55+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): verify backend\
+    \ application services"
+  - "5fe1b87eba013cdd010ee3de8c88f2bd6376d510\t2026-07-17T10:34:42+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] chore(continuity): close TASK-P00-002\
+    \ as completed"
+  - "89c202107ef229018e11db593bb8dfc5fa627364\t2026-07-17T10:33:26+08:00\tHHY Continuity Bootstrap\t[STORY-P00-001] test(p00): verify database\
+    \ invariants on PostgreSQL 17.10"
+project_fingerprint:
+  sha256: f0da7909615b6679c8e4781c40b605b43936aeb6e804fb7d8f667eb9d726a754
+  files:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
+  - docs/03-continuity/change-requests/CR-0008-每版本Android-APK由项目所有者真机验收.md
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - releases/P00/TASKS.yaml
+  - services/backend/boot/pom.xml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+  file_count: 7
+  payload:
+    base_commit: 34580dcf7e06934e635ba07d059cafc629956e3c
+    files:
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 3341
+      sha256: 5ac0cfd0423c847064ebe09037bf9da137eda834a84c8c2ef1ad2727dd1ae307
+    - path: docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
+      state: FILE
+      size: 2352
+      sha256: e0a775c2d0aac2c87befa19c89127b9195284243eb954f609d60e128bd3b045d
+    - path: docs/03-continuity/change-requests/CR-0008-每版本Android-APK由项目所有者真机验收.md
+      state: FILE
+      size: 2671
+      sha256: 10ebf8f0c364d9ab11288ecd636958c2c30e817c6169db0fbf9f83abaf828f87
+    - path: docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+      state: FILE
+      size: 1216
+      sha256: 0f6172572f9bd97606bfa5e7167f6a87390c123ce1fbac6ca905bc6c1460ec77
+    - path: releases/P00/TASKS.yaml
+      state: FILE
+      size: 6214
+      sha256: 7210cd2760192238b6805c503abf36b948b06ea84663e5aeb0eb875f9a9a86dc
+    - path: services/backend/boot/pom.xml
+      state: FILE
+      size: 3277
+      sha256: 56599c9774ac406fecabc97926f5475b2db3d744fd983e712cd7795fce6dd18b
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+      state: FILE
+      size: 391
+      sha256: e4dcc4ada753afaf5e1a176ad76d98e15a9ca9dc38d487eda50ea49cef72b281
+change_classification:
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0007-修复Spring-Boot-4-staging-Flyway自动迁移未启用.md
+  - docs/03-continuity/change-requests/CR-0008-每版本Android-APK由项目所有者真机验收.md
+  other:
+  - docs/05-app-build/APK持续交付强制规则_V1.2.2.md
+  - releases/P00/TASKS.yaml
+  code:
+  - services/backend/boot/pom.xml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/P00FlywayAutoConfigurationTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0007
+- CR-0008
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 16e1e233383eeb0a142777bbc942f0fa29df598a103b538c5aa234aa3f112782
