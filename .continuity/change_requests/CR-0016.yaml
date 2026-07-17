@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0016
 title: 端到端持久化幂等首次响应与撤销会话安全重放
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-17T12:38:22Z'
-updated_at: '2026-07-17T13:11:30Z'
+updated_at: '2026-07-17T13:54:15Z'
 requester_actor_id: codex-root
 approver_actor_id: codex-engineering-audit
 task_id: TASK-R01-005
@@ -48,5 +48,12 @@ decision_log:
   status: IMPLEMENTED
   note: 实现与本地静态/契约/前端测试完成；待云端Maven21、PostgreSQL17和真实HTTP验证后关闭
   session_id: SES-20260717T122518Z-91E6F4D6
+- at: '2026-07-17T13:54:15Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 云端Java21全模块74项测试、PostgreSQL17十一个迁移不变量、真实PG集成测试与隔离真实API故障注入全部通过；27项R01权威测试矩阵27/27 PASS，失败或缺失为0，端到端幂等安全重放变更关闭。
+  session_id: SES-20260717T122518Z-91E6F4D6
 session_ids:
 - SES-20260717T122518Z-91E6F4D6
+implementation_commits:
+- 79bbd45d22d16b334330b4b36f2fbb489d5e73f0

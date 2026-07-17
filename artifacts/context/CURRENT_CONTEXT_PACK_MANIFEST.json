@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-17T13:28:27Z",
-  "context_hash": "94fd946602aa86225cce855db9a6c5c0b9832460dec94b57ba40c7d03d82cfcd",
+  "generated_at": "2026-07-17T13:54:53Z",
+  "context_hash": "3e2986147dea1825897451f8c9d2bf870c2b247d23ae9873b5f7af073c8db834",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "53403bc9f0505f588c1a0a3fdf5b7dc056a2334db8a1cbe82b91d960fdc5a9a0",
+    "sha256": "d47a8344d0d56742b9af380007b1f2e0efde5fcaf7df82e79835817dd9534003",
     "file_count": 73
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "810326039e44d4506794a91b3094d9c0c1d0cf8db88f2d2c76491ace3549f2de"
+    "sha256": "73ea2adae8bbd948c62f1acf5cefcae0f2b6b8f998d18443cbda287b3fba2628"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "5301e86e70d4d7d95257f3bb41a4f78900b637930e12ab041f8a53aeebb5a6ad"
+    "sha256": "c415cf164e0391affe1366e1c9f0b002c04d45f5dc43b01f6ad5f624e45d1f0d"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "8a63c055752332c6e41ceddb3ada6c686f320e60a5cf63c524ad5167c1e08d8d",
+      "sha256": "505cc71326dc88fce64c7d4f189f15bb0cd68893f6c506e553126a11d56dc96b",
       "bytes": 3110
     },
     {
@@ -68,12 +68,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "c4c58c44759f621e2b578fa9925def1e1cc51be955deab754b7332d840de8b8f",
-      "bytes": 86997
+      "sha256": "f30c9c9d57d4df280f8740104f71b1e75bd6e3afe6b77cffe466f4f2ae110c77",
+      "bytes": 88061
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "b6049000a66d882aa3ec116424cb2fc35695a318967e03f445cc39111dd75f96",
+      "sha256": "5e5c6e1f5b67bedaaa08ac458bcbf7713f43227063e25a684218ff9242289b52",
       "bytes": 7088
     },
     {
@@ -88,12 +88,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "a41aa866ce3b7d317ca2d5d58d37ed9cc66e14731d4cd7865f8d47a36d244436",
-      "bytes": 45414
+      "sha256": "c187fe4a88dd354ac7612fe44761326dae4e21494ed981f490abfce3167d91dd",
+      "bytes": 45854
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "4af1ab322399338e39256bbe957f6fa44a2066c9c3c8d9b1921a320762c794f4",
+      "sha256": "93e9962750c3b3cfa229420e6321999618a13f8d1d2a153935ed754bfde0b76e",
       "bytes": 525
     },
     {
@@ -123,13 +123,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md",
-      "sha256": "e2494a5440cbce8212883b453f54c5b3cdcdf824acbf50ca81133430a63ca922",
-      "bytes": 29375
+      "sha256": "5230e666a4044890048ce5cbdda576a965505c49b7bae1df79d2d6408b63d9c0",
+      "bytes": 35185
     },
     {
-      "path": ".continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0006.yaml",
-      "sha256": "2cf56ec9e817e7ab6cd2d48b992daa9b78cc66f09024733edebc55786d0c5dd6",
-      "bytes": 27557
+      "path": ".continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0007.yaml",
+      "sha256": "fe2096f20c781e3f5f7cb14e3e7b2412b70a3cd491fb0f068d3993d68c29c97d",
+      "bytes": 28133
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md",
@@ -138,8 +138,8 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md",
-      "sha256": "3a2017a341b073448b42be5a6aec7f01b60a5b7820f2ed16fcf8e2ebe15b7755",
-      "bytes": 4986
+      "sha256": "08bbc43606dcae3950f2ddd1623cb01ab6ba92be3436afe89bc3fe768dd72ef6",
+      "bytes": 5367
     }
   ]
 }

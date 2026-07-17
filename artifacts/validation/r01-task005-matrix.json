@@ -1,0 +1,835 @@
+{
+  "schema": "hhy.r01.test-matrix-result/v1",
+  "mode": "check",
+  "status": "PASS",
+  "source_commit": "79bbd45d22d16b334330b4b36f2fbb489d5e73f0",
+  "summary": {
+    "expected": 27,
+    "manifest": 27,
+    "catalog_matched": 27,
+    "local": 24,
+    "external": 3,
+    "passed": 27,
+    "failed_or_missing": 0
+  },
+  "results": [
+    {
+      "test_id": "TST-ADMIN_OPS_001-DRIFT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-r01",
+      "runner_result": {
+        "status": "PASS",
+        "description": "strict R01 documentation, DoR and traceability contract",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "R01",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-r01-matrix-b80is8aa\\documentation-r01-0.json"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:33.678833+08:00",
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R01\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ADMIN_OPS_001-HAPPY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-r01",
+      "runner_result": {
+        "status": "PASS",
+        "description": "strict R01 documentation, DoR and traceability contract",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "R01",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-r01-matrix-b80is8aa\\documentation-r01-0.json"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:33.678833+08:00",
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R01\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ADMIN_OPS_001-REJECT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-r01",
+      "runner_result": {
+        "status": "PASS",
+        "description": "strict R01 documentation, DoR and traceability contract",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "R01",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-r01-matrix-b80is8aa\\documentation-r01-0.json"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:33.678833+08:00",
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R01\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ADMIN_OPS_001-SECURITY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-r01",
+      "runner_result": {
+        "status": "PASS",
+        "description": "strict R01 documentation, DoR and traceability contract",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "R01",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-r01-matrix-b80is8aa\\documentation-r01-0.json"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:33.678833+08:00",
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R01\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ADMIN_SECURITY_001-DRIFT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "api-db-contract",
+      "runner_result": {
+        "status": "PASS",
+        "description": "OpenAPI/generated-client and database migration contract gates",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_api_contract.py"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:32.601257+08:00",
+            "exit_code": 0,
+            "stdout": "API_CONTRACT_OK client=131 admin=184 websocket=10 runtime_hashes=PASS\n",
+            "stderr": ""
+          },
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_db_schema.py"
+            ],
+            "started_at": "2026-07-17T21:53:32.607832+08:00",
+            "finished_at": "2026-07-17T21:53:32.804166+08:00",
+            "exit_code": 0,
+            "stdout": "DB_SCHEMA_OK tables=198 migrations=16 runtime_hashes=PASS\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ADMIN_SECURITY_001-HAPPY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "r01-backend-maven-pg17-real-api",
+      "report": "r01-79bbd45.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "79bbd45d22d16b334330b4b36f2fbb489d5e73f0",
+        "current_head": "79bbd45d22d16b334330b4b36f2fbb489d5e73f0",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ADMIN_SECURITY_001-REJECT",
+      "status": "PASS",
+      "source": "external",
+      "runner": "r01-backend-maven-pg17-real-api",
+      "report": "r01-79bbd45.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "79bbd45d22d16b334330b4b36f2fbb489d5e73f0",
+        "current_head": "79bbd45d22d16b334330b4b36f2fbb489d5e73f0",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-ADMIN_SECURITY_001-SECURITY",
+      "status": "PASS",
+      "source": "external",
+      "runner": "r01-backend-maven-pg17-real-api",
+      "report": "r01-79bbd45.evidence.json",
+      "source_commit_validation": {
+        "source_commit": "79bbd45d22d16b334330b4b36f2fbb489d5e73f0",
+        "current_head": "79bbd45d22d16b334330b4b36f2fbb489d5e73f0",
+        "relationship": "HEAD",
+        "post_test_changes": []
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DESIGN_001-HAPPY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "ui-token-contract",
+      "runner_result": {
+        "status": "PASS",
+        "description": "shared design token and component catalog gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_ui_tokens.py"
+            ],
+            "started_at": "2026-07-17T21:53:26.634134+08:00",
+            "finished_at": "2026-07-17T21:53:26.903612+08:00",
+            "exit_code": 0,
+            "stdout": "UI_TOKENS_OK 52\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DESIGN_001-IDEMPOTENT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "ui-token-contract",
+      "runner_result": {
+        "status": "PASS",
+        "description": "shared design token and component catalog gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_ui_tokens.py"
+            ],
+            "started_at": "2026-07-17T21:53:26.634134+08:00",
+            "finished_at": "2026-07-17T21:53:26.903612+08:00",
+            "exit_code": 0,
+            "stdout": "UI_TOKENS_OK 52\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DESIGN_001-REJECT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "ui-token-contract",
+      "runner_result": {
+        "status": "PASS",
+        "description": "shared design token and component catalog gate",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_ui_tokens.py"
+            ],
+            "started_at": "2026-07-17T21:53:26.634134+08:00",
+            "finished_at": "2026-07-17T21:53:26.903612+08:00",
+            "exit_code": 0,
+            "stdout": "UI_TOKENS_OK 52\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DOR_001-DRIFT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-r01",
+      "runner_result": {
+        "status": "PASS",
+        "description": "strict R01 documentation, DoR and traceability contract",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "R01",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-r01-matrix-b80is8aa\\documentation-r01-0.json"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:33.678833+08:00",
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R01\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DOR_001-HAPPY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-r01",
+      "runner_result": {
+        "status": "PASS",
+        "description": "strict R01 documentation, DoR and traceability contract",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "R01",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-r01-matrix-b80is8aa\\documentation-r01-0.json"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:33.678833+08:00",
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R01\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DOR_001-REJECT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-r01",
+      "runner_result": {
+        "status": "PASS",
+        "description": "strict R01 documentation, DoR and traceability contract",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "R01",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-r01-matrix-b80is8aa\\documentation-r01-0.json"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:33.678833+08:00",
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R01\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-DOR_001-SECURITY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-r01",
+      "runner_result": {
+        "status": "PASS",
+        "description": "strict R01 documentation, DoR and traceability contract",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "R01",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-r01-matrix-b80is8aa\\documentation-r01-0.json"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:33.678833+08:00",
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R01\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-PAGE_SPEC_001-DRIFT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-r01",
+      "runner_result": {
+        "status": "PASS",
+        "description": "strict R01 documentation, DoR and traceability contract",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "R01",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-r01-matrix-b80is8aa\\documentation-r01-0.json"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:33.678833+08:00",
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R01\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-PAGE_SPEC_001-HAPPY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-r01",
+      "runner_result": {
+        "status": "PASS",
+        "description": "strict R01 documentation, DoR and traceability contract",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "R01",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-r01-matrix-b80is8aa\\documentation-r01-0.json"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:33.678833+08:00",
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R01\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-PAGE_SPEC_001-REJECT",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-r01",
+      "runner_result": {
+        "status": "PASS",
+        "description": "strict R01 documentation, DoR and traceability contract",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "R01",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-r01-matrix-b80is8aa\\documentation-r01-0.json"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:33.678833+08:00",
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R01\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-PAGE_SPEC_001-SECURITY",
+      "status": "PASS",
+      "source": "local",
+      "runner": "documentation-r01",
+      "runner_result": {
+        "status": "PASS",
+        "description": "strict R01 documentation, DoR and traceability contract",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+              "scripts/check_v123_documentation.py",
+              "--strict",
+              "--release",
+              "R01",
+              "--json-out",
+              "C:\\Users\\小白\\AppData\\Local\\Temp\\hhy-r01-matrix-b80is8aa\\documentation-r01-0.json"
+            ],
+            "started_at": "2026-07-17T21:53:26.632119+08:00",
+            "finished_at": "2026-07-17T21:53:33.678833+08:00",
+            "exit_code": 0,
+            "stdout": "{\n  \"version\": \"1.2.3\",\n  \"product_spec_baseline\": \"V1.2.2\",\n  \"status\": \"PASS\",\n  \"strict\": true,\n  \"release_filter\": \"R01\",\n  \"metrics\": {\n    \"android_surfaces\": 102,\n    \"h5_pages\": 13,\n    \"admin_pages\": 74,\n    \"ui_surfaces\": 189,\n    \"templates\": 30,\n    \"fields\": 5159,\n    \"states\": 1633,\n    \"actions\": 606,\n    \"configs\": 314,\n    \"config_rules\": 58,\n    \"config_roles\": 21,\n    \"requirements\": 84,\n    \"tests\": 376,\n    \"stories\": 163,\n    \"dor_gates\": 396,\n    \"tables\": 198,\n    \"rest_operations\": 315,\n    \"websocket_events\": 10,\n    \"unassigned_api_operations\": 0,\n    \"open_document_gaps\": 0\n  },\n  \"errors\": [],\n  \"warnings\": []\n}\n",
+            "stderr": ""
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-V122-012",
+      "status": "PASS",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "runner_result": {
+        "status": "PASS",
+        "description": "administrator web unit tests, typecheck and production build",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "test"
+            ],
+            "started_at": "2026-07-17T21:53:26.633131+08:00",
+            "finished_at": "2026-07-17T21:53:32.950974+08:00",
+            "exit_code": 0,
+            "stdout": "\n RUN  v4.1.10 C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版/apps/admin-web\n\n\n Test Files  5 passed (5)\n      Tests  41 passed (41)\n   Start at  21:53:28\n   Duration  4.46s (transform 1.29s, setup 0ms, import 2.21s, tests 837ms, environment 2.12s)\n\n",
+            "stderr": "$ vitest run\n"
+          },
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "run",
+              "build"
+            ],
+            "started_at": "2026-07-17T21:53:32.955961+08:00",
+            "finished_at": "2026-07-17T21:53:39.953328+08:00",
+            "exit_code": 0,
+            "stdout": "\u001b[36mvite v8.1.4 \u001b[32mbuilding client environment for production...\u001b[36m\u001b[39m\n\u001b[2K\ntransforming...✓ 49 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.31 kB\ndist/assets/index-B7hCrD1x.css   17.83 kB │ gzip:  3.91 kB\ndist/assets/index-BbuHrgxD.js   174.27 kB │ gzip: 54.34 kB │ map: 871.11 kB\n\n\u001b[32m✓ built in 617ms\u001b[39m\n",
+            "stderr": "$ vue-tsc --noEmit && vite build\n"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-V122-013",
+      "status": "PASS",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "runner_result": {
+        "status": "PASS",
+        "description": "administrator web unit tests, typecheck and production build",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "test"
+            ],
+            "started_at": "2026-07-17T21:53:26.633131+08:00",
+            "finished_at": "2026-07-17T21:53:32.950974+08:00",
+            "exit_code": 0,
+            "stdout": "\n RUN  v4.1.10 C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版/apps/admin-web\n\n\n Test Files  5 passed (5)\n      Tests  41 passed (41)\n   Start at  21:53:28\n   Duration  4.46s (transform 1.29s, setup 0ms, import 2.21s, tests 837ms, environment 2.12s)\n\n",
+            "stderr": "$ vitest run\n"
+          },
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "run",
+              "build"
+            ],
+            "started_at": "2026-07-17T21:53:32.955961+08:00",
+            "finished_at": "2026-07-17T21:53:39.953328+08:00",
+            "exit_code": 0,
+            "stdout": "\u001b[36mvite v8.1.4 \u001b[32mbuilding client environment for production...\u001b[36m\u001b[39m\n\u001b[2K\ntransforming...✓ 49 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.31 kB\ndist/assets/index-B7hCrD1x.css   17.83 kB │ gzip:  3.91 kB\ndist/assets/index-BbuHrgxD.js   174.27 kB │ gzip: 54.34 kB │ map: 871.11 kB\n\n\u001b[32m✓ built in 617ms\u001b[39m\n",
+            "stderr": "$ vue-tsc --noEmit && vite build\n"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-V122-014",
+      "status": "PASS",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "runner_result": {
+        "status": "PASS",
+        "description": "administrator web unit tests, typecheck and production build",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "test"
+            ],
+            "started_at": "2026-07-17T21:53:26.633131+08:00",
+            "finished_at": "2026-07-17T21:53:32.950974+08:00",
+            "exit_code": 0,
+            "stdout": "\n RUN  v4.1.10 C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版/apps/admin-web\n\n\n Test Files  5 passed (5)\n      Tests  41 passed (41)\n   Start at  21:53:28\n   Duration  4.46s (transform 1.29s, setup 0ms, import 2.21s, tests 837ms, environment 2.12s)\n\n",
+            "stderr": "$ vitest run\n"
+          },
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "run",
+              "build"
+            ],
+            "started_at": "2026-07-17T21:53:32.955961+08:00",
+            "finished_at": "2026-07-17T21:53:39.953328+08:00",
+            "exit_code": 0,
+            "stdout": "\u001b[36mvite v8.1.4 \u001b[32mbuilding client environment for production...\u001b[36m\u001b[39m\n\u001b[2K\ntransforming...✓ 49 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.31 kB\ndist/assets/index-B7hCrD1x.css   17.83 kB │ gzip:  3.91 kB\ndist/assets/index-BbuHrgxD.js   174.27 kB │ gzip: 54.34 kB │ map: 871.11 kB\n\n\u001b[32m✓ built in 617ms\u001b[39m\n",
+            "stderr": "$ vue-tsc --noEmit && vite build\n"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-V122-056",
+      "status": "PASS",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "runner_result": {
+        "status": "PASS",
+        "description": "administrator web unit tests, typecheck and production build",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "test"
+            ],
+            "started_at": "2026-07-17T21:53:26.633131+08:00",
+            "finished_at": "2026-07-17T21:53:32.950974+08:00",
+            "exit_code": 0,
+            "stdout": "\n RUN  v4.1.10 C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版/apps/admin-web\n\n\n Test Files  5 passed (5)\n      Tests  41 passed (41)\n   Start at  21:53:28\n   Duration  4.46s (transform 1.29s, setup 0ms, import 2.21s, tests 837ms, environment 2.12s)\n\n",
+            "stderr": "$ vitest run\n"
+          },
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "run",
+              "build"
+            ],
+            "started_at": "2026-07-17T21:53:32.955961+08:00",
+            "finished_at": "2026-07-17T21:53:39.953328+08:00",
+            "exit_code": 0,
+            "stdout": "\u001b[36mvite v8.1.4 \u001b[32mbuilding client environment for production...\u001b[36m\u001b[39m\n\u001b[2K\ntransforming...✓ 49 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.31 kB\ndist/assets/index-B7hCrD1x.css   17.83 kB │ gzip:  3.91 kB\ndist/assets/index-BbuHrgxD.js   174.27 kB │ gzip: 54.34 kB │ map: 871.11 kB\n\n\u001b[32m✓ built in 617ms\u001b[39m\n",
+            "stderr": "$ vue-tsc --noEmit && vite build\n"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-V122-057",
+      "status": "PASS",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "runner_result": {
+        "status": "PASS",
+        "description": "administrator web unit tests, typecheck and production build",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "test"
+            ],
+            "started_at": "2026-07-17T21:53:26.633131+08:00",
+            "finished_at": "2026-07-17T21:53:32.950974+08:00",
+            "exit_code": 0,
+            "stdout": "\n RUN  v4.1.10 C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版/apps/admin-web\n\n\n Test Files  5 passed (5)\n      Tests  41 passed (41)\n   Start at  21:53:28\n   Duration  4.46s (transform 1.29s, setup 0ms, import 2.21s, tests 837ms, environment 2.12s)\n\n",
+            "stderr": "$ vitest run\n"
+          },
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "run",
+              "build"
+            ],
+            "started_at": "2026-07-17T21:53:32.955961+08:00",
+            "finished_at": "2026-07-17T21:53:39.953328+08:00",
+            "exit_code": 0,
+            "stdout": "\u001b[36mvite v8.1.4 \u001b[32mbuilding client environment for production...\u001b[36m\u001b[39m\n\u001b[2K\ntransforming...✓ 49 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.31 kB\ndist/assets/index-B7hCrD1x.css   17.83 kB │ gzip:  3.91 kB\ndist/assets/index-BbuHrgxD.js   174.27 kB │ gzip: 54.34 kB │ map: 871.11 kB\n\n\u001b[32m✓ built in 617ms\u001b[39m\n",
+            "stderr": "$ vue-tsc --noEmit && vite build\n"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-V122-058",
+      "status": "PASS",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "runner_result": {
+        "status": "PASS",
+        "description": "administrator web unit tests, typecheck and production build",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "test"
+            ],
+            "started_at": "2026-07-17T21:53:26.633131+08:00",
+            "finished_at": "2026-07-17T21:53:32.950974+08:00",
+            "exit_code": 0,
+            "stdout": "\n RUN  v4.1.10 C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版/apps/admin-web\n\n\n Test Files  5 passed (5)\n      Tests  41 passed (41)\n   Start at  21:53:28\n   Duration  4.46s (transform 1.29s, setup 0ms, import 2.21s, tests 837ms, environment 2.12s)\n\n",
+            "stderr": "$ vitest run\n"
+          },
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "run",
+              "build"
+            ],
+            "started_at": "2026-07-17T21:53:32.955961+08:00",
+            "finished_at": "2026-07-17T21:53:39.953328+08:00",
+            "exit_code": 0,
+            "stdout": "\u001b[36mvite v8.1.4 \u001b[32mbuilding client environment for production...\u001b[36m\u001b[39m\n\u001b[2K\ntransforming...✓ 49 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.31 kB\ndist/assets/index-B7hCrD1x.css   17.83 kB │ gzip:  3.91 kB\ndist/assets/index-BbuHrgxD.js   174.27 kB │ gzip: 54.34 kB │ map: 871.11 kB\n\n\u001b[32m✓ built in 617ms\u001b[39m\n",
+            "stderr": "$ vue-tsc --noEmit && vite build\n"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-V122-059",
+      "status": "PASS",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "runner_result": {
+        "status": "PASS",
+        "description": "administrator web unit tests, typecheck and production build",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "test"
+            ],
+            "started_at": "2026-07-17T21:53:26.633131+08:00",
+            "finished_at": "2026-07-17T21:53:32.950974+08:00",
+            "exit_code": 0,
+            "stdout": "\n RUN  v4.1.10 C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版/apps/admin-web\n\n\n Test Files  5 passed (5)\n      Tests  41 passed (41)\n   Start at  21:53:28\n   Duration  4.46s (transform 1.29s, setup 0ms, import 2.21s, tests 837ms, environment 2.12s)\n\n",
+            "stderr": "$ vitest run\n"
+          },
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "run",
+              "build"
+            ],
+            "started_at": "2026-07-17T21:53:32.955961+08:00",
+            "finished_at": "2026-07-17T21:53:39.953328+08:00",
+            "exit_code": 0,
+            "stdout": "\u001b[36mvite v8.1.4 \u001b[32mbuilding client environment for production...\u001b[36m\u001b[39m\n\u001b[2K\ntransforming...✓ 49 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.31 kB\ndist/assets/index-B7hCrD1x.css   17.83 kB │ gzip:  3.91 kB\ndist/assets/index-BbuHrgxD.js   174.27 kB │ gzip: 54.34 kB │ map: 871.11 kB\n\n\u001b[32m✓ built in 617ms\u001b[39m\n",
+            "stderr": "$ vue-tsc --noEmit && vite build\n"
+          }
+        ]
+      },
+      "errors": []
+    },
+    {
+      "test_id": "TST-V122-060",
+      "status": "PASS",
+      "source": "local",
+      "runner": "admin-web-test-build",
+      "runner_result": {
+        "status": "PASS",
+        "description": "administrator web unit tests, typecheck and production build",
+        "invocations": [
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "test"
+            ],
+            "started_at": "2026-07-17T21:53:26.633131+08:00",
+            "finished_at": "2026-07-17T21:53:32.950974+08:00",
+            "exit_code": 0,
+            "stdout": "\n RUN  v4.1.10 C:/Users/小白/Desktop/workspace/hhy-v1.2.3-handoff/合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版/apps/admin-web\n\n\n Test Files  5 passed (5)\n      Tests  41 passed (41)\n   Start at  21:53:28\n   Duration  4.46s (transform 1.29s, setup 0ms, import 2.21s, tests 837ms, environment 2.12s)\n\n",
+            "stderr": "$ vitest run\n"
+          },
+          {
+            "command": [
+              "C:\\Users\\小白\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\fallback\\pnpm.cmd",
+              "--dir",
+              "apps/admin-web",
+              "run",
+              "build"
+            ],
+            "started_at": "2026-07-17T21:53:32.955961+08:00",
+            "finished_at": "2026-07-17T21:53:39.953328+08:00",
+            "exit_code": 0,
+            "stdout": "\u001b[36mvite v8.1.4 \u001b[32mbuilding client environment for production...\u001b[36m\u001b[39m\n\u001b[2K\ntransforming...✓ 49 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.46 kB │ gzip:  0.31 kB\ndist/assets/index-B7hCrD1x.css   17.83 kB │ gzip:  3.91 kB\ndist/assets/index-BbuHrgxD.js   174.27 kB │ gzip: 54.34 kB │ map: 871.11 kB\n\n\u001b[32m✓ built in 617ms\u001b[39m\n",
+            "stderr": "$ vue-tsc --noEmit && vite build\n"
+          }
+        ]
+      },
+      "errors": []
+    }
+  ],
+  "errors": []
+}

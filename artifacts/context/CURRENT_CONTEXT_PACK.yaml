@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-17T13:28:27Z'
+generated_at: '2026-07-17T13:54:53Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -42,7 +42,7 @@ current_status:
   - TASK-R01-005
   blocked_tasks: []
   next_task: TASK-R01-005
-  updated_at: '2026-07-17T13:28:25Z'
+  updated_at: '2026-07-17T13:54:51Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -77,15 +77,15 @@ current_status:
     active_session_id: SES-20260717T122518Z-91E6F4D6
     actor_id: codex-root
     story_id: STORY-R01-003
-    lease_expires_at: '2026-07-17T17:28:25Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0006.yaml
-    project_fingerprint: 53403bc9f0505f588c1a0a3fdf5b7dc056a2334db8a1cbe82b91d960fdc5a9a0
+    lease_expires_at: '2026-07-17T17:54:51Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0007.yaml
+    project_fingerprint: d47a8344d0d56742b9af380007b1f2e0efde5fcaf7df82e79835817dd9534003
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 3377adec58862d3b0b2e745608d7fd8e321a34ac86556cab354063a49e1fed3b
-      generated_at: '2026-07-17T13:27:27Z'
+      context_hash: 94fd946602aa86225cce855db9a6c5c0b9832460dec94b57ba40c7d03d82cfcd
+      generated_at: '2026-07-17T13:28:27Z'
     handoff_bundle: null
 next_task:
   id: TASK-R01-005
@@ -140,7 +140,7 @@ active_session:
   story_id: STORY-R01-003
   goal: Design System与契约工程化专项测试与故障注入
   started_at: '2026-07-17T12:25:18Z'
-  updated_at: '2026-07-17T13:28:25Z'
+  updated_at: '2026-07-17T13:54:51Z'
   takeover_of: null
   change_requests:
   - CR-0015
@@ -188,60 +188,74 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-17T13:28:25Z'
-    expires_at: '2026-07-17T17:28:25Z'
-  checkpoint_sequence: 6
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0006.yaml
+    renewed_at: '2026-07-17T13:54:51Z'
+    expires_at: '2026-07-17T17:54:51Z'
+  checkpoint_sequence: 7
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0007.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md
-  next_step: 提交修复并完整重跑云端Maven21和PostgreSQL17
+  next_step: 提交测试证据和关闭记录，关闭TASK-R01-005并启动TASK-R01-006预发布验收
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260717T122518Z-91E6F4D6-0006
+  checkpoint_id: CP-SES-20260717T122518Z-91E6F4D6-0007
   session_id: SES-20260717T122518Z-91E6F4D6
-  sequence: 6
-  created_at: '2026-07-17T13:28:25Z'
-  summary: PROB-0007已登记：Java Time快照依赖、requestURI重放白名单与final Mock问题修复
-  next_step: 提交修复并完整重跑云端Maven21和PostgreSQL17
+  sequence: 7
+  created_at: '2026-07-17T13:54:51Z'
+  summary: TASK-R01-005权威27项测试与故障注入全部完成，CR-0016在云端真实环境验证后关闭
+  next_step: 提交测试证据和关闭记录，关闭TASK-R01-005并启动TASK-R01-006预发布验收
   blockers: []
-  decisions: []
-  note: ''
+  decisions:
+  - 外部测试证据严格绑定源码提交79bbd45及四份SHA256日志，后续仅允许证据和关闭元数据提交
+  note: 首轮失败证据已归档且PROB-0007关闭修复路径；CR-0015拒绝归档、CR-0016 CLOSED。
   tests:
-  - name: problem-registry
+  - name: R01权威测试矩阵
     result: PASS
-    evidence: PROB-0007 SOLVED
-    note: 根因、修复、回归和禁复发规则齐全
+    evidence: artifacts/validation/r01-task005-matrix.json
+    note: 27/27通过，失败或缺失0
+  - name: Java21 Maven全模块
+    result: PASS
+    evidence: artifacts/validation/r01-test-evidence/maven-java21.log
+    note: 74 tests, 0 failure, 0 error
+  - name: PostgreSQL17迁移与集成
+    result: PASS
+    evidence: artifacts/validation/r01-test-evidence/maven-postgres17.log
+    note: 16 migrations, Store integration PASS
+  - name: 真实API故障注入
+    result: PASS
+    evidence: artifacts/validation/r01-test-evidence/real-api.log
+    note: 7 POST快照、撤销会话重放、并发与零副作用PASS
+  - name: 数据库不变量
+    result: PASS
+    evidence: artifacts/validation/r01-test-evidence/postgres17-invariants.log
+    note: 11项迁移并发回滚不变量PASS
   git:
     initialized: true
     branch: task/TASK-R01-005
-    head: cbf3a6d7d553e30bca12913021fa180d53e443ec
+    head: 79bbd45d22d16b334330b4b36f2fbb489d5e73f0
     upstream: null
     ahead: null
     behind: null
     dirty: true
     status_porcelain:
-    - M  .continuity/ACTIVE_SESSION.yaml
-    - M  .continuity/EVENT_LOG.jsonl
-    - M  .continuity/SESSION_INDEX.yaml
-    - M  .continuity/STATE.yaml
-    - A  .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0005.yaml
-    - M  .continuity/sessions/SES-20260717T122518Z-91E6F4D6.yaml
-    - M  CURRENT_STATUS.yaml
-    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    - A  artifacts/validation/r01-task005-maven-failure-cbf3a6d.log
-    - M  catalogs/session_index.csv
-    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-    - M  docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md
-    - M  services/backend/access/pom.xml
-    - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
-    - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipherTest.java
-    - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
-    - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
+    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+    - ' M .continuity/EVENT_LOG.jsonl'
+    - ' M .continuity/STATE.yaml'
+    - ' M .continuity/change_requests/CR-0016.yaml'
+    - ' M catalogs/change_request_index.csv'
+    - ' M catalogs/session_index.csv'
+    - ' M docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md'
+    - ?? artifacts/reports/R01/TASK-R01-005-specialized-testing.md
+    - ?? artifacts/validation/r01-task005-matrix.json
+    - ?? artifacts/validation/r01-test-evidence/maven-java21.log
+    - ?? artifacts/validation/r01-test-evidence/maven-postgres17.log
+    - ?? artifacts/validation/r01-test-evidence/postgres17-invariants.log
+    - ?? artifacts/validation/r01-test-evidence/r01-79bbd45.evidence.json
+    - ?? artifacts/validation/r01-test-evidence/real-api.log
     recent_commits:
+    - "79bbd45d22d16b334330b4b36f2fbb489d5e73f0\t2026-07-17T21:28:35+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): pass encrypted\
+      \ replay runtime gates"
     - "cbf3a6d7d553e30bca12913021fa180d53e443ec\t2026-07-17T21:13:05+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): harden fault\
       \ injection and idempotent replay"
     - "2ef830ea980cbf445dc419379059f2d60ec7356e\t2026-07-17T20:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] chore(continuity): close\
@@ -256,10 +270,8 @@ latest_checkpoint:
       \ authentication security APIs"
     - "a72a8621fe69e60ebcbb73a0533ada111effe4fc\t2026-07-17T16:42:44+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close\
       \ TASK-R01-002 as completed"
-    - "dc205fd0ea0b65975332733c0b991696f96dd432\t2026-07-17T16:40:37+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close admin\
-      \ security change request"
   project_fingerprint:
-    sha256: 53403bc9f0505f588c1a0a3fdf5b7dc056a2334db8a1cbe82b91d960fdc5a9a0
+    sha256: d47a8344d0d56742b9af380007b1f2e0efde5fcaf7df82e79835817dd9534003
     files:
     - CHANGELOG.md
     - apps/admin-web/src/r01Pages.test.ts
@@ -412,8 +424,8 @@ latest_checkpoint:
         sha256: d934f8ebab912da758e1d657d70d8c240f6797615443ced2276d3ed61d2a44c5
       - path: docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
         state: FILE
-        size: 4986
-        sha256: 3a2017a341b073448b42be5a6aec7f01b60a5b7820f2ed16fcf8e2ebe15b7755
+        size: 5367
+        sha256: 08bbc43606dcae3950f2ddd1623cb01ab6ba92be3436afe89bc3fe768dd72ef6
       - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
         state: FILE
         size: 8812
@@ -769,37 +781,39 @@ latest_checkpoint:
     - PROJECT_*.json
     approved_exceptions: []
     source: story+explicit
-  event_hash: 85667ddfb64296cfc32a80a4a08fb52dcf7418ed55cc35ec0a9d93483afd9c3a
+  event_hash: 853e8b58277e874783495f7e9b85b929e711f58722074f1f572cf80bddd1a53e
 git:
   initialized: true
   branch: task/TASK-R01-005
-  head: cbf3a6d7d553e30bca12913021fa180d53e443ec
+  head: 79bbd45d22d16b334330b4b36f2fbb489d5e73f0
   upstream: null
   ahead: null
   behind: null
   dirty: true
   status_porcelain:
-  - MM .continuity/ACTIVE_SESSION.yaml
-  - MM .continuity/EVENT_LOG.jsonl
-  - MM .continuity/SESSION_INDEX.yaml
-  - MM .continuity/STATE.yaml
-  - A  .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0005.yaml
-  - MM .continuity/sessions/SES-20260717T122518Z-91E6F4D6.yaml
-  - MM CURRENT_STATUS.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - A  artifacts/validation/r01-task005-maven-failure-cbf3a6d.log
-  - MM catalogs/session_index.csv
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - MM docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md
-  - M  services/backend/access/pom.xml
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminIdempotencySnapshotCipherTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityIdempotencySnapshotServiceTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminSecurityWebSecurityTest.java
-  - ?? .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0006.yaml
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0016.yaml'
+  - ' M .continuity/sessions/SES-20260717T122518Z-91E6F4D6.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md'
+  - ?? .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0007.yaml
+  - ?? artifacts/reports/R01/TASK-R01-005-specialized-testing.md
+  - ?? artifacts/validation/r01-task005-matrix.json
+  - ?? artifacts/validation/r01-test-evidence/maven-java21.log
+  - ?? artifacts/validation/r01-test-evidence/maven-postgres17.log
+  - ?? artifacts/validation/r01-test-evidence/postgres17-invariants.log
+  - ?? artifacts/validation/r01-test-evidence/r01-79bbd45.evidence.json
+  - ?? artifacts/validation/r01-test-evidence/real-api.log
   recent_commits:
+  - "79bbd45d22d16b334330b4b36f2fbb489d5e73f0\t2026-07-17T21:28:35+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] fix(r01): pass encrypted replay\
+    \ runtime gates"
   - "cbf3a6d7d553e30bca12913021fa180d53e443ec\t2026-07-17T21:13:05+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] test(r01): harden fault injection\
     \ and idempotent replay"
   - "2ef830ea980cbf445dc419379059f2d60ec7356e\t2026-07-17T20:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R01-001] chore(continuity): close TASK-R01-004\
@@ -814,10 +828,8 @@ git:
     \ authentication security APIs"
   - "a72a8621fe69e60ebcbb73a0533ada111effe4fc\t2026-07-17T16:42:44+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(continuity): close TASK-R01-002\
     \ as completed"
-  - "dc205fd0ea0b65975332733c0b991696f96dd432\t2026-07-17T16:40:37+08:00\tHHY Continuity Bootstrap\t[STORY-R01-003] chore(r01): close admin security\
-    \ change request"
 project_fingerprint:
-  sha256: 53403bc9f0505f588c1a0a3fdf5b7dc056a2334db8a1cbe82b91d960fdc5a9a0
+  sha256: d47a8344d0d56742b9af380007b1f2e0efde5fcaf7df82e79835817dd9534003
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r01Pages.test.ts
@@ -970,8 +982,8 @@ project_fingerprint:
       sha256: d934f8ebab912da758e1d657d70d8c240f6797615443ced2276d3ed61d2a44c5
     - path: docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
       state: FILE
-      size: 4986
-      sha256: 3a2017a341b073448b42be5a6aec7f01b60a5b7820f2ed16fcf8e2ebe15b7755
+      size: 5367
+      sha256: 08bbc43606dcae3950f2ddd1623cb01ab6ba92be3436afe89bc3fe768dd72ef6
     - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
       state: FILE
       size: 8812
@@ -1964,8 +1976,8 @@ continuity_state:
   last_session_id: SES-20260717T111928Z-C383F7A2
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260717T111928Z-C383F7A2-0004
-  event_count: 173
-  event_head_hash: 85667ddfb64296cfc32a80a4a08fb52dcf7418ed55cc35ec0a9d93483afd9c3a
+  event_count: 175
+  event_head_hash: 853e8b58277e874783495f7e9b85b929e711f58722074f1f572cf80bddd1a53e
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260717T023848Z-9F352CA9
@@ -2084,9 +2096,9 @@ recent_sessions:
   started_at: '2026-07-17T12:25:18Z'
   record: .continuity/sessions/SES-20260717T122518Z-91E6F4D6.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md
-  updated_at: '2026-07-17T13:28:25Z'
+  updated_at: '2026-07-17T13:54:51Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0006.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0007.yaml
   handoff_bundle: null
 task_claims:
 - task_id: TASK-P00-001
@@ -2818,58 +2830,6 @@ open_change_requests:
     note: 确认仅收口P00 RELEASE_MANIFEST与ACCEPTANCE_MATRIX终态元数据：保留3条HTTP paths并绑定现有3个OpenAPI operationId，6项证据均为仓库内实际文件，59项矩阵PASS，release commit、tag与APK基线一致；禁止修改运行时代码或接口
   machine_record: .continuity/change_requests/CR-0010.yaml
   document: docs/03-continuity/change-requests/CR-0010-P00封板清单以OpenAPI-operationId机器化绑定.md
-- protocol_version: '1.0'
-  cr_id: CR-0016
-  title: 端到端持久化幂等首次响应与撤销会话安全重放
-  status: IMPLEMENTED
-  created_at: '2026-07-17T12:38:22Z'
-  updated_at: '2026-07-17T13:11:30Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-engineering-audit
-  task_id: TASK-R01-005
-  session_id: SES-20260717T122518Z-91E6F4D6
-  user_request: 用户已授权继续开发并完整交付R01
-  reason: CR-0015独立审核拒绝后重构方案：除响应快照外必须覆盖认证层对已撤销会话的严格replay-only通道，并补齐版本化AEAD、密钥轮换、AAD和闭锁边界
-  original_rule: R01七个POST仅保存可变资源引用，认证层拒绝已撤销会话，无法在响应丢失后端到端返回首次结果
-  new_rule: 七个POST原子保存版本化AEAD首次响应快照；AES-256-GCM使用随机96位nonce，密钥从版本化MFA根密钥经SHA-256域分离派生，AAD严格绑定scope+idem_key+request_hash+response_type；密文信封包含算法和密钥版本，当前与previous
-    root key均可解密，未知版本/篡改/类型不符立即闭锁且绝不记录明文或密文。认证过滤器仅对签名有效且未过期、会话已撤销、携带幂等键、命中白名单R01重放端点的Bearer建立replayOnly主体；Service对replayOnly仅允许已完成且摘要匹配的快照，缺失快照或新业务请求返回401且零副作用
-  impact_summary: 修复login、mfa verify、logout、password change、MFA enroll/confirm/disable在提交后响应丢失、状态变化及会话撤销后的端到端首次响应一致性；新增认证层replay-only最小权限通道、AEAD组件、V016迁移/回滚和HTTP/篡改/轮换回归，不改变OpenAPI字段
-  impact:
-    files:
-    - services/backend/**;database/**;catalogs/data_tables.csv;database/schema_dictionary.csv;docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    pages: []
-    apis:
-    - R01七个POST的认证后幂等重放
-    database:
-    - idempotency_records
-    configuration:
-    - HHY_ADMIN_MFA_ROOT_SECRET_VERSION;HHY_ADMIN_MFA_PREVIOUS_ROOT_SECRETS
-    ledger: []
-    tests:
-    - 七POST首次响应快照/会话撤销HTTP重放/AAD篡改/随机nonce/previous-key轮换/回滚阻断/并发单副作用
-    releases:
-    - R01
-    migration_and_compatibility: V016新增nullable response_type/response_payload_ciphertext；旧记录继续按response_ref兼容回放；新密文以版本化信封写入且轮换期间由HHY_ADMIN_MFA_PREVIOUS_ROOT_SECRETS保留旧版本至少24小时；U016在存在任何密文快照时硬失败，避免数据丢失；响应快照TTL届满后按现有记录清理
-  user_confirmation: 用户已授权继续开发并完整交付R01
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-17T12:39:48Z'
-    note: APPROVED，严格限于R01七个既有POST及其幂等基础设施，不得借此新增接口、业务或放宽普通认证。replay-only仅允许精确白名单POST路径，必须同时满足签名有效且未过期的ACCESS Bearer、数据库中sid/sub/jti严格匹配且会话已撤销、X-Idempotency-Key存在；主体只能携带专用replayOnly标记，不授予可复用业务权限。Service必须先命中同scope/key的已完成快照再返回；无记录、未完成或非白名单一律401且零副作用，摘要不一致仍按冻结契约返回COMMON-409-IDEMPOTENCY_CONFLICT。AEAD仅AES-256-GCM，SecureRandom每次生成独立96位nonce和128位tag；使用固定独立域标签从版本化MFA根密钥派生，信封显式保存算法/格式版本/密钥版本/nonce/密文，AAD用无歧义规范编码绑定scope、idem_key、request_hash、response_type。未知版本、AAD/密文篡改、类型不符或反序列化失败必须闭锁：禁止回退重建、删除/覆盖记录、执行业务副作用或记录明文/密文/令牌/QR秘密。旧记录仅在两个新列均为空时继续response_ref兼容；新记录必须response_type与TEXT密文同事务原子完成，禁止半快照。previous密钥至少保留完整24小时TTL且版本唯一。U016只要任一快照列存在数据即硬失败，确认无快照后方可删列。必须覆盖七POST首次结果、logout/changePassword撤销后HTTP重放、白名单越界、摘要冲突、并发单副作用、随机nonce、AAD/密文/类型篡改、当前/previous轮换、未知版本闭锁、旧记录兼容及U016阻断测试。
-  machine_record: .continuity/change_requests/CR-0016.yaml
-  document: docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
-  decision_log:
-  - at: '2026-07-17T12:41:32Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 按独立审批边界实施版本化AEAD快照与replay-only端到端重放
-    session_id: SES-20260717T122518Z-91E6F4D6
-  - at: '2026-07-17T13:11:30Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: 实现与本地静态/契约/前端测试完成；待云端Maven21、PostgreSQL17和真实HTTP验证后关闭
-    session_id: SES-20260717T122518Z-91E6F4D6
-  session_ids:
-  - SES-20260717T122518Z-91E6F4D6
 source_manifest:
 - path: AGENTS.md
   sha256: 387c1057c4698600a2340d17274664824018fd16c9218ed86222eeef8c77b440
@@ -2878,7 +2838,7 @@ source_manifest:
   sha256: 1b2dd0ea2da0c1f37bd9d5387e62e865052b45ad7e0b8ce7d75ee18efdce5afc
   bytes: 1433
 - path: CURRENT_STATUS.yaml
-  sha256: 8a63c055752332c6e41ceddb3ada6c686f320e60a5cf63c524ad5167c1e08d8d
+  sha256: 505cc71326dc88fce64c7d4f189f15bb0cd68893f6c506e553126a11d56dc96b
   bytes: 3110
 - path: NEXT_TASK.yaml
   sha256: 2643892269b06015588148a12fb2af0c0bd9601f64b259f5e9376252b2ca2715
@@ -2902,10 +2862,10 @@ source_manifest:
   sha256: 69a81daf8e6a8b9aef1a73bcbcd070932530b8ec4f8100e1b28ac33394a31223
   bytes: 6783
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: c4c58c44759f621e2b578fa9925def1e1cc51be955deab754b7332d840de8b8f
-  bytes: 86997
+  sha256: f30c9c9d57d4df280f8740104f71b1e75bd6e3afe6b77cffe466f4f2ae110c77
+  bytes: 88061
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: b6049000a66d882aa3ec116424cb2fc35695a318967e03f445cc39111dd75f96
+  sha256: 5e5c6e1f5b67bedaaa08ac458bcbf7713f43227063e25a684218ff9242289b52
   bytes: 7088
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 31b4d41d6a763518c409afbe3498b3f3429809589fdad705256fef6695e701b6
@@ -2914,10 +2874,10 @@ source_manifest:
   sha256: c258ba5d72db8f26815084542d7757427aa084946966fcae10bee8a3c08e84e9
   bytes: 3973
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: a41aa866ce3b7d317ca2d5d58d37ed9cc66e14731d4cd7865f8d47a36d244436
-  bytes: 45414
+  sha256: c187fe4a88dd354ac7612fe44761326dae4e21494ed981f490abfce3167d91dd
+  bytes: 45854
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 4af1ab322399338e39256bbe957f6fa44a2066c9c3c8d9b1921a320762c794f4
+  sha256: 93e9962750c3b3cfa229420e6321999618a13f8d1d2a153935ed754bfde0b76e
   bytes: 525
 - path: releases/R01/RELEASE_MANIFEST.yaml
   sha256: bb986f651fd20c30ddbabeb81ef31351b6aab527bf6d65833262ce6bee30893f
@@ -2935,17 +2895,17 @@ source_manifest:
   sha256: a668129234acb184110e076cd021c95c0747d0c6139035c28a42cbd2f68ca127
   bytes: 691
 - path: docs/03-continuity/sessions/2026-07/SES-20260717T122518Z-91E6F4D6.md
-  sha256: e2494a5440cbce8212883b453f54c5b3cdcdf824acbf50ca81133430a63ca922
-  bytes: 29375
-- path: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0006.yaml
-  sha256: 2cf56ec9e817e7ab6cd2d48b992daa9b78cc66f09024733edebc55786d0c5dd6
-  bytes: 27557
+  sha256: 5230e666a4044890048ce5cbdda576a965505c49b7bae1df79d2d6408b63d9c0
+  bytes: 35185
+- path: .continuity/checkpoints/SES-20260717T122518Z-91E6F4D6/0007.yaml
+  sha256: fe2096f20c781e3f5f7cb14e3e7b2412b70a3cd491fb0f068d3993d68c29c97d
+  bytes: 28133
 - path: docs/03-continuity/change-requests/CR-0015-持久化幂等首次响应以保证延迟重放一致.md
   sha256: d934f8ebab912da758e1d657d70d8c240f6797615443ced2276d3ed61d2a44c5
   bytes: 3427
 - path: docs/03-continuity/change-requests/CR-0016-端到端持久化幂等首次响应与撤销会话安全重放.md
-  sha256: 3a2017a341b073448b42be5a6aec7f01b60a5b7820f2ed16fcf8e2ebe15b7755
-  bytes: 4986
+  sha256: 08bbc43606dcae3950f2ddd1623cb01ab6ba92be3436afe89bc3fe768dd72ef6
+  bytes: 5367
 exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>'
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
@@ -2953,4 +2913,4 @@ hard_rules:
 - 项目内容变化后必须先创建检查点再提交
 - 冻结事实变化必须关联已批准CR
 - 交接必须生成Handoff Bundle或完成干净提交
-context_hash: 94fd946602aa86225cce855db9a6c5c0b9832460dec94b57ba40c7d03d82cfcd
+context_hash: 3e2986147dea1825897451f8c9d2bf870c2b247d23ae9873b5f7af073c8db834
