@@ -59,9 +59,48 @@ def copy_fixture(target: Path) -> None:
 
     status_path = target / "CURRENT_STATUS.yaml"
     status = yaml.safe_load(status_path.read_text(encoding="utf-8")) or {}
-    status.update({"status": "READY", "active_task": None, "in_progress_tasks": []})
+    status.update({
+        "phase": "P00",
+        "active_release": "P00",
+        "active_task": None,
+        "status": "READY",
+        "in_progress_tasks": [],
+        "next_task": "TASK-P00-001",
+        "completed_tasks": [
+            item for item in status.get("completed_tasks", [])
+            if not str(item).startswith("TASK-P00-")
+        ],
+    })
     status_path.write_text(
         yaml.safe_dump(status, allow_unicode=True, sort_keys=False), encoding="utf-8"
+    )
+
+    tasks_path = target / "releases/P00/TASKS.yaml"
+    task_document = yaml.safe_load(tasks_path.read_text(encoding="utf-8")) or {}
+    tasks = task_document.get("tasks") or []
+    for task in tasks:
+        task["status"] = "READY" if task.get("id") == "TASK-P00-001" else "BLOCKED"
+        task.pop("completed_at", None)
+    tasks_path.write_text(
+        yaml.safe_dump(task_document, allow_unicode=True, sort_keys=False), encoding="utf-8"
+    )
+
+    first_task = next(task for task in tasks if task.get("id") == "TASK-P00-001")
+    next_path = target / "NEXT_TASK.yaml"
+    next_task = yaml.safe_load(next_path.read_text(encoding="utf-8")) or {}
+    next_task.update({
+        "id": first_task["id"],
+        "title": first_task["title"],
+        "status": "READY",
+        "release": "P00",
+        "requirements": first_task.get("requirements", []),
+        "depends_on": first_task.get("depends_on", []),
+        "steps": first_task.get("deliverables", []),
+        "acceptance": first_task.get("acceptance", []),
+        "start_command": "python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-P00-001",
+    })
+    next_path.write_text(
+        yaml.safe_dump(next_task, allow_unicode=True, sort_keys=False), encoding="utf-8"
     )
 
 

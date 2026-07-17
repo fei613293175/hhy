@@ -53,3 +53,15 @@ problems:
   do_not_repeat:
   - 不得以应用HTTP健康替代数据库迁移完成验证
   - Spring Boot大版本升级后必须核对已拆分starter及自动配置模块
+- id: PROB-0006
+  title: 连续性隔离测试继承当前NEXT_TASK导致P00后期误失败
+  status: SOLVED
+  root_cause: 冷启动和全生命周期测试复制真实仓库后只清空Session活动状态，未把NEXT_TASK、P00任务状态和已完成任务恢复到测试所需的P00初始场景
+  resolution: 两个隔离夹具显式恢复TASK-P00-001为READY、后续任务为BLOCKED、NEXT_TASK指向TASK-P00-001，并移除当前P00完成记录；真实仓库状态保持不变
+  regression_checks:
+  - tests/test_continuity_bootstrap_recovery.py
+  - scripts/test_continuity_protocol.py
+  - scripts/run_p00_test_matrix.py --check
+  do_not_repeat:
+  - 隔离生命周期测试不得隐式继承真实仓库当前任务指针
+  - 固定从P00初始任务启动的测试必须同时重置NEXT_TASK、TASKS和CURRENT_STATUS
