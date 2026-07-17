@@ -1,5 +1,5 @@
-id: TASK-P00-005
-title: 仓库、环境、契约与无状态接续专项测试与故障注入
+id: TASK-P00-006
+title: 仓库、环境、契约与无状态接续可观测性与预发布验收
 status: READY
 release: P00
 requirements:
@@ -16,18 +16,17 @@ requirements:
 - REQ-OBS-002
 - REQ-SECRET-001
 depends_on:
-- TASK-P00-003
-- TASK-P00-004
+- TASK-P00-005
 definition_of_ready: releases/P00/DEFINITION_OF_READY.yaml
 stories: releases/P00/STORIES.yaml
 steps:
-- 测试报告和失败证据归档
-- 关键缺陷清零
+- 运行手册演练
+- 验收矩阵签字
 acceptance:
 - 无TODO/生产Mock
 - 代码、文档、测试、追踪同步更新
-- 测试报告和失败证据归档
-- 关键缺陷清零
+- 运行手册演练
+- 验收矩阵签字
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-P00-005
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-P00-006
 next_after: 由当前TASKS.yaml依赖关系决定

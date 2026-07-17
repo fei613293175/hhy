@@ -91,7 +91,7 @@ tasks:
   completed_at: '2026-07-17T02:42:30Z'
 - id: TASK-P00-005
   title: 仓库、环境、契约与无状态接续专项测试与故障注入
-  status: READY
+  status: DONE
   depends_on:
   - TASK-P00-003
   - TASK-P00-004
@@ -106,9 +106,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-17T05:31:12Z'
 - id: TASK-P00-006
   title: 仓库、环境、契约与无状态接续可观测性与预发布验收
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-P00-005
   requirements: *id001
