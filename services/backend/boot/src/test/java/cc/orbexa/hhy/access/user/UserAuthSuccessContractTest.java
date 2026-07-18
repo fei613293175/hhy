@@ -104,7 +104,7 @@ class UserAuthSuccessContractTest {
     }
 
     @Test
-    void registrationBindsInviteAgreementAndDeviceFieldsToFrozenRequest() throws Exception {
+    void registrationBindsInviteChallengeAndDeviceFieldsToFrozenRequest() throws Exception {
         Instant expiresAt = Instant.parse("2026-07-18T01:15:00Z");
         when(service.register(any(RegisterRequest.class), eq("register-idem-key-0001"), anyString()))
                 .thenReturn(new UserSessionResource(
@@ -118,8 +118,9 @@ class UserAuthSuccessContractTest {
                         .header("X-Idempotency-Key", "register-idem-key-0001")
                         .contentType("application/json")
                         .content("""
-                                {"phone":"13900000000","smsCode":"481516","password":"Correct99","inviteCode":"INVITE-R02",
-                                 "agreementVersions":["101","102"],"device":{"deviceFingerprint":"install-fingerprint","platform":"ANDROID"}}
+                                {"phone":"13900000000","password":"Correct99","inviteCode":"INVITE-R02",
+                                 "challengeId":"challenge-register-0001","challengeProof":"proof-register-0001",
+                                 "device":{"deviceFingerprint":"install-fingerprint","platform":"ANDROID"}}
                                 """))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
@@ -130,7 +131,8 @@ class UserAuthSuccessContractTest {
         var request = org.mockito.ArgumentCaptor.forClass(RegisterRequest.class);
         verify(service).register(request.capture(), eq("register-idem-key-0001"), anyString());
         org.junit.jupiter.api.Assertions.assertEquals("INVITE-R02", request.getValue().inviteCode());
-        org.junit.jupiter.api.Assertions.assertEquals(List.of("101", "102"), request.getValue().agreementVersions());
+        org.junit.jupiter.api.Assertions.assertEquals("challenge-register-0001", request.getValue().challengeId());
+        org.junit.jupiter.api.Assertions.assertEquals("proof-register-0001", request.getValue().challengeProof());
         org.junit.jupiter.api.Assertions.assertEquals("install-fingerprint", request.getValue().device().get("deviceFingerprint"));
     }
 

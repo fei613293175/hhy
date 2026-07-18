@@ -41,6 +41,9 @@
       "success": "#12B76A",
       "warning": "#F79009",
       "error": "#F04438"
+    },
+    "overlay": {
+      "scrim": "#1822307A"
     }
   },
   "gradient": {
@@ -151,6 +154,11 @@
       "size": 24,
       "lineHeight": 32,
       "weight": 700
+    },
+    "challengeSuccessIcon": {
+      "size": 48,
+      "lineHeight": 56,
+      "weight": 600
     }
   },
   "previewSheet": {
@@ -254,6 +262,13 @@
     "listRowMinHeight": 64,
     "snackbarMinHeight": 48,
     "dialogMinWidth": 280,
+    "challengeDialogWidth": 328,
+    "challengeDialogMaxHeight": 560,
+    "challengeImageWidth": 216,
+    "challengeImageHeight": 72,
+    "challengeCancelButtonWidth": 84,
+    "challengeLoadingMinHeight": 144,
+    "challengeInputHorizontalPadding": 14,
     "bottomSheetHandleWidth": 32,
     "bottomSheetHandleHeight": 4,
     "skeletonRadius": 8,

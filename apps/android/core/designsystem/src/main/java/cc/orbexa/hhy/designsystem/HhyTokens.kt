@@ -64,6 +64,8 @@ object HhyType {
     val CaptionLineHeight = 18.sp
     val NavigationSize = 11.sp
     val NavigationLineHeight = 16.sp
+    val ChallengeSuccessIconSize = 48.sp
+    val ChallengeSuccessIconLineHeight = 56.sp
 }
 
 /** Frozen component dimensions used by the B01 mobile authentication pages. */
@@ -75,4 +77,18 @@ object HhySize {
     val MinimumTouchTarget = 48.dp
     val AppLogo = 64.dp
     val TabHeight = 48.dp
+    val DialogMinWidth = 280.dp
+    val ChallengeDialogWidth = 328.dp
+    val ChallengeDialogMaxHeight = 560.dp
+    val ChallengeImageWidth = 216.dp
+    val ChallengeImageHeight = 72.dp
+    val ChallengeCancelButtonWidth = 84.dp
+}
+
+object HhyElevation {
+    val Dialog = 8.dp
+}
+
+object HhyOpacity {
+    const val Scrim = 0.48f
 }

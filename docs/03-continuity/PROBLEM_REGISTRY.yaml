@@ -368,19 +368,39 @@ problems:
   - 不得把跳过证书校验的curl结果作为TLS证据
 - id: PROB-0032
   title: R02安全验证码模态交互与视觉规格待网页端设计回传
-  status: OPEN
+  status: SOLVED
   blocking: false
   root_cause: 既有认证规格定义了挑战API和功能流程，但没有完整冻结验证码承载形式、自动触发、加载、错误、过期、刷新、成功续办以及布局、字号、动画和无障碍数字参数；当前Android以内联展开和二次点击继续作为临时实现。
-  impact: 当前认证页安全验证码UI不是最终设计；按项目所有者明确指令，本问题不阻断R03及后续版本推进，设计回传后再无缝补开发并重新交付APK。
-  current_behavior: 桌面源包合伙云Pro_R02安全验证码UI交互设计补充包_20260719.zip已交给ChatGPT网页端，源提交为18e2db65b65afeb1e69d0c382ab53963fc97adec，源包SHA-256为82df3ea78cffa9395d96204813619d8ab57ed40763db231e0df1ee076dd90181。
-  next_owner: CHATGPT_WEB_DESIGN
-  resume_condition: 网页端返回包含EDITABLE_OVERLAY的完整ZIP后运行scripts/check_r02_security_challenge_design_package.py并通过验收。
-  required_evidence:
-  - CHATGPT_WEB_CHANGE_SUMMARY.md和RETURN_MANIFEST.json无占位内容
-  - B01-CAPTCHA八状态PNG、Manifest和精确dp/sp/颜色/动画/无障碍参数
-  - REFERENCE_ONLY按源包SHA256SUMS.txt保持逐文件不变
-  - 合入前独立批准CR，合入后Android单元/UI测试、真机构建和新APK交付证据
+  resolution: 已验收并导入冻结回传包，安全验证改为业务按钮自动触发的328dp模态弹层；完成加载、就绪、输错换图、过期自动换图、限流倒计时、网络恢复、成功360ms自动续办及小屏键盘适配，不再要求用户二次点击原业务按钮。
+  current_behavior: 冻结回传包SHA-256为cff3989e5fa7d9f8e956762f052a063eda814d9b728da31c5b6a8087b953b8dd；REFERENCE_ONLY哈希、八状态图、Manifest、布局字号圆角参数和只读属性均通过设计包门禁。
+  regression_checks:
+  - scripts/check_r02_security_challenge_design_package.py
+  - tests/test_r02_security_challenge_design_package.py
+  - tests/test_r02_auth_slice_contract.py
+  - apps/android :feature:auth:testDebugUnitTest :core:network:testDebugUnitTest
   do_not_repeat:
   - 不得再次向普通用户展示创建安全验证按钮、请求编号、challengeId或其他技术字段
-  - 不得在外部方案待回传时猜测最终模态视觉或让该非阻断问题停止后续版本开发
-  - 不得把当前临时内联实现误记为最终UI验收通过
+  - 不得用内联验证码、二次点击续办或Material默认参数替代冻结模态设计
+  - 不得忽略expiresAt、Retry-After、取消、换图、错误恢复或成功自动续办状态
+- id: PROB-0033
+  title: 商业前端曾展示请求标识和认证内部说明
+  status: SOLVED
+  root_cause: 早期切片把服务端请求标识和内部隐私实现说明直接渲染到登录、启动及管理端页面，用联调排障需求覆盖了正式商业产品文案边界。
+  resolution: Android、H5和管理端移除请求编号、请求标识、挑战字段及敏感信息日志说明；新增商业UI静态门禁并把禁令写入AGENTS、START_HERE、连续性策略和冻结全局边界文档。
+  regression_checks:
+  - scripts/check_commercial_ui_boundaries.py
+  - tests/test_commercial_ui_boundaries.py
+  - apps/admin-web src/r01Pages.test.ts
+  do_not_repeat:
+  - 任何正式前端页面不得展示请求编号、TraceId、challengeId、幂等键、Base64或日志实现说明
+  - 临时排障文案只允许在明确调试期间存在，修复完成前必须删除并通过静态门禁
+- id: PROB-0034
+  title: 冻结设计回传包校验器与实际Manifest结构不兼容
+  status: SOLVED
+  root_cause: 原校验器只接受字符串文件清单、根相对效果图路径和旧dimensions_dp字段，冻结回包使用对象清单、EDITABLE_OVERLAY前缀及dialog结构，导致完整合法设计包被误拒绝。
+  resolution: 校验器兼容两种确定性Manifest表达并新增回归测试；不放宽参考资料哈希、八状态文件、效果图尺寸、只读属性或占位内容门禁。
+  regression_checks:
+  - tests/test_r02_security_challenge_design_package.py
+  do_not_repeat:
+  - 不得因校验器自身schema漂移把合格回包误判为不完整
+  - 修复兼容性时不得绕过文件哈希、必需状态、只读或敏感文件检查

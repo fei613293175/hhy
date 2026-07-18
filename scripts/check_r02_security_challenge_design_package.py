@@ -210,14 +210,25 @@ def validate_editable(root: Path, expected_source_commit: str) -> dict:
     if return_manifest.get("status") in {None, "", "TO_BE_COMPLETED_BY_CHATGPT_WEB"}:
         raise PackageError("RETURN_MANIFEST.status尚未完成")
     changed = return_manifest.get("created_or_modified_files")
-    if not isinstance(changed, list) or not changed or not all(isinstance(item, str) and item for item in changed):
+    def declared_change_path(item: object) -> str | None:
+        if isinstance(item, str) and item.strip():
+            return item.strip()
+        if isinstance(item, dict):
+            value = item.get("path")
+            if isinstance(value, str) and value.strip():
+                return value.strip()
+        return None
+
+    declared_paths = [declared_change_path(item) for item in changed] if isinstance(changed, list) else []
+    if not declared_paths or any(path is None for path in declared_paths):
         raise PackageError("RETURN_MANIFEST.created_or_modified_files必须列出实际变化")
 
     effect_path = editable / EXPECTED_EFFECT
     effect_sha = digest(effect_path)
     width, height = png_dimensions(effect_path)
     effect_record = return_manifest.get("effect_preview")
-    if not isinstance(effect_record, dict) or effect_record.get("file") != EXPECTED_EFFECT:
+    accepted_effect_paths = {EXPECTED_EFFECT, f"EDITABLE_OVERLAY/{EXPECTED_EFFECT}"}
+    if not isinstance(effect_record, dict) or effect_record.get("file") not in accepted_effect_paths:
         raise PackageError("RETURN_MANIFEST.effect_preview.file不匹配")
     optional_hash_matches(effect_record.get("sha256"), effect_sha, "RETURN_MANIFEST.effect_preview.sha256")
 
@@ -231,9 +242,11 @@ def validate_editable(root: Path, expected_source_commit: str) -> dict:
     if panel_ids != {f"P{number:02d}" for number in range(1, 9)}:
         raise PackageError("B01 Manifest必须完整列出P01—P08")
     parameters = effect_manifest.get("implementation_parameters")
-    required_parameters = {"canvas", "dimensions_dp", "typography_sp", "colors", "motion_ms", "accessibility"}
+    required_parameters = {"typography_sp", "colors", "motion_ms", "accessibility"}
     if not isinstance(parameters, dict) or any(parameters.get(key) in (None, "", [], {}) for key in required_parameters):
         raise PackageError("B01 Manifest的精确实现参数不完整")
+    if not any(parameters.get(key) not in (None, "", [], {}) for key in ("dialog", "dimensions_dp")):
+        raise PackageError("B01 Manifest缺少弹层尺寸参数")
     optional_hash_matches(effect_manifest.get("sha256"), effect_sha, "B01 Manifest.sha256")
     return {
         "effect_preview": EXPECTED_EFFECT,

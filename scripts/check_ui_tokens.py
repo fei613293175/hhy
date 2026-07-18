@@ -57,6 +57,41 @@ def expected_css_declarations(
     tokens: dict[str, Any], *, include_admin: bool
 ) -> list[tuple[str, str]]:
     declarations = list(_flatten_colors(tokens.get("color", {})))
+    for name, values in tokens.get("typographySp", {}).items():
+        kebab = _camel_to_kebab(name)
+        declarations.append((f"--hhy-type-{kebab}-size", f"{values['size']}px"))
+        declarations.append((f"--hhy-type-{kebab}-line-height", f"{values['lineHeight']}px"))
+    declarations.extend(
+        (f"--hhy-size-{_camel_to_kebab(name)}", f"{value}px")
+        for name, value in tokens.get("sizeDp", {}).items()
+    )
+    declarations.extend(
+        (f"--hhy-component-{_camel_to_kebab(name)}", f"{value}px")
+        for name, value in tokens.get("componentDp", {}).items()
+    )
+    declarations.extend(
+        (f"--hhy-opacity-{_camel_to_kebab(name)}", str(value))
+        for name, value in tokens.get("opacity", {}).items()
+    )
+    declarations.extend(
+        (f"--hhy-elevation-{_camel_to_kebab(name)}", f"{value}px")
+        for name, value in tokens.get("elevationDp", {}).items()
+    )
+    declarations.extend(
+        (f"--hhy-border-{_camel_to_kebab(name)}", f"{value}px")
+        for name, value in tokens.get("borderWidthDp", {}).items()
+    )
+    declarations.extend(
+        (f"--hhy-z-{_camel_to_kebab(name)}", str(value))
+        for name, value in tokens.get("zIndex", {}).items()
+    )
+    declarations.extend(
+        (
+            f"--hhy-shadow-{_camel_to_kebab(name)}",
+            f"0 {values['y']}px {values['blur']}px {values['spread']}px {values['color']}",
+        )
+        for name, values in tokens.get("shadow", {}).items()
+    )
     declarations.extend(
         (f"--hhy-space-{value}", f"{value}px")
         for value in tokens.get("spacingDp", [])
@@ -167,6 +202,8 @@ object HhyType {{
     val CaptionLineHeight = {typography['caption']['lineHeight']}.sp
     val NavigationSize = {typography['navigation']['size']}.sp
     val NavigationLineHeight = {typography['navigation']['lineHeight']}.sp
+    val ChallengeSuccessIconSize = {typography['challengeSuccessIcon']['size']}.sp
+    val ChallengeSuccessIconLineHeight = {typography['challengeSuccessIcon']['lineHeight']}.sp
 }}
 
 /** Frozen component dimensions used by the B01 mobile authentication pages. */
@@ -178,6 +215,20 @@ object HhySize {{
     val MinimumTouchTarget = {size['minimumTouchTarget']}.dp
     val AppLogo = {size['appLogo']}.dp
     val TabHeight = {component['tabHeight']}.dp
+    val DialogMinWidth = {component['dialogMinWidth']}.dp
+    val ChallengeDialogWidth = {component['challengeDialogWidth']}.dp
+    val ChallengeDialogMaxHeight = {component['challengeDialogMaxHeight']}.dp
+    val ChallengeImageWidth = {component['challengeImageWidth']}.dp
+    val ChallengeImageHeight = {component['challengeImageHeight']}.dp
+    val ChallengeCancelButtonWidth = {component['challengeCancelButtonWidth']}.dp
+}}
+
+object HhyElevation {{
+    val Dialog = {tokens['elevationDp']['dialog']}.dp
+}}
+
+object HhyOpacity {{
+    const val Scrim = {tokens['opacity']['scrim']}f
 }}
 """
 
@@ -300,12 +351,32 @@ def validate(root: Path = ROOT) -> list[str]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
+    parser.add_argument(
+        "--write",
+        action="store_true",
+        help="deterministically refresh Android and CSS derivatives before validation",
+    )
     args = parser.parse_args(argv)
-    errors = validate(args.root.resolve())
+    root = args.root.resolve()
+    if args.write:
+        token_bytes = (root / TOKEN_RELATIVE_PATH).read_bytes()
+        tokens = json.loads(token_bytes.decode("utf-8"))
+        (root / ANDROID_ASSET_RELATIVE_PATH).write_bytes(token_bytes)
+        for relative_path, include_admin in (
+            (Path("packages/design-tokens/h5.css"), False),
+            (Path("packages/design-tokens/admin.css"), True),
+        ):
+            (root / relative_path).write_text(
+                render_css(tokens, include_admin=include_admin), encoding="utf-8"
+            )
+        (root / KOTLIN_RELATIVE_PATH).write_text(
+            render_kotlin_tokens(tokens), encoding="utf-8"
+        )
+    errors = validate(root)
     if errors:
         print("\n".join(errors))
         return 1
-    with (args.root / "design/component-catalog.csv").open(
+    with (root / "design/component-catalog.csv").open(
         encoding="utf-8-sig", newline=""
     ) as handle:
         component_count = len(list(csv.DictReader(handle)))

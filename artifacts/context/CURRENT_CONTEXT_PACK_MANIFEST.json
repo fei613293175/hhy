@@ -1,34 +1,34 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-18T20:50:01Z",
-  "context_hash": "838ba61d4914f0e06b602f8363551d2ded68d9b5d8e632940ca61ba317190c3b",
+  "generated_at": "2026-07-18T22:48:40Z",
+  "context_hash": "abd072f66c5317d77c5d8c76542149b5c4da0a5fff71f441f269f47b977f8c5c",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "6a55ae2986626fb3e7a54195098980b65dd9110fd9c888b233338d6b3e0209d2",
-    "file_count": 12
+    "sha256": "f4bd8ed068e019a4aa7cded0eca1c9607617f2e3c44a3aefcc285cb233fdae93",
+    "file_count": 87
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "cb659c2bd9021163c1f65cad07fb96a2db171cd4aec83028b1c51cd60d5febfc"
+    "sha256": "2c1123f4a89a1213ec7e17ccdb5969ffc6617f6c5de492e24fe8d328ba704985"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "974f19af539580971178136e1799220436c7e471868e5c4f8902762d3e0bd60f"
+    "sha256": "b6d08f9cd8a17a020eb5f5bbef4845212d623d83b798c6315a2f179ca3afda7d"
   },
   "sources": [
     {
       "path": "AGENTS.md",
-      "sha256": "04c48ef8087599bf1ef602b43c959fe095ad44b17948c31076209809d261d56e",
-      "bytes": 6689
+      "sha256": "fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db",
+      "bytes": 7562
     },
     {
       "path": "START_HERE.md",
-      "sha256": "26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0",
-      "bytes": 3190
+      "sha256": "038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a",
+      "bytes": 3477
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "edcf68c27f5d4bfaecd19ec2577cae871ad901e61090f492ce2f8d57502dad56",
+      "sha256": "bb3a6ac171ba3f2c206a6ed1d630c0c73533f1f997235b9ca39674731ef1844f",
       "bytes": 3377
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "e9cd6bfdd701f8204b5d4421a1f78dbd0d96db5bd33a84f74121648b37fbaf1f",
-      "bytes": 29583
+      "sha256": "7ec32b7a833696922cac1d5d9c53e4694bf630bb7897244f7b8516400aedc9fe",
+      "bytes": 31103
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -78,17 +78,17 @@
     },
     {
       "path": ".continuity/CONTINUITY_POLICY.yaml",
-      "sha256": "7e59a879f04cabd5150628908d785d317a58d2114b0d111f689a213665ee3e34",
-      "bytes": 10667
+      "sha256": "35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6",
+      "bytes": 11116
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "4bdfdcbdbab78713104241142c52fb68564af9f4c9d98c88a7aaf38e400e108a",
-      "bytes": 356761
+      "sha256": "728b29117e7893ff1eb7653e615fa72ce8b1ac8860103261465e8167d7a8165f",
+      "bytes": 392898
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "f0ebcae103879896fc9475af62ee9fa16e87670bd603b236c77f5a041a1fa3ce",
+      "sha256": "9259d9bbe30adf24e829baa380ec2d384a6005f070e274eed56b24c9857f6600",
       "bytes": 17274
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "10319a46415fafa1bc404173ff0b8906d8b6b866c23d195a5796010d1e7682f6",
-      "bytes": 160081
+      "sha256": "1a46d7a2c270cd61c3ed009a50e37ea7f0dc9589ea0c8d09d8939ba0774f2847",
+      "bytes": 190395
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "1951e9f73aecfa4ebec8b39e03f3dbb42e4d285f0a7c0c425f02932d0d46dd52",
+      "sha256": "0cac465c8c1f88366678e827d13ba8b34f2e60c6ead06465528c7a17dabcf6e3",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md",
-      "sha256": "4fceed90479fe43f34231d8a1b79804fd01789647312a9a280aea7f406428b76",
-      "bytes": 12031
+      "sha256": "1c4f3225d7175d6e42877694fbd6af669904926a6ef51de47422584468e7dc4e",
+      "bytes": 32908
     },
     {
-      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0007.yaml",
-      "sha256": "20434503b1399501bb57362c9c39f50b571c86abbc324e374329dbb644913658",
-      "bytes": 8945
+      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0010.yaml",
+      "sha256": "202a18965cff6fb041b1a4fb730d9ae272322f44d8a8da6a31034388bce01396",
+      "bytes": 47277
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md",
@@ -165,6 +165,56 @@
       "path": "docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md",
       "sha256": "d34b7054137e69b320623c2971b6b89fdc8c26644170a1cbc9ab29dbc2fb1ab0",
       "bytes": 2615
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md",
+      "sha256": "570569e64f28338335fdac3500133ad7f40abec4bf8090430a2dc9e78af43838",
+      "bytes": 7188
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md",
+      "sha256": "2f7db76799a9cb572ce609aa9afb8be0187d694ac15fd220d562b91f7cfbedd3",
+      "bytes": 3292
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md",
+      "sha256": "b93de35bf64993bf081bcdad7925c9622d380cee943c5e57e63092cc0d7432c4",
+      "bytes": 2465
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md",
+      "sha256": "12bc90c1d1dc3e298b346ed9698fd14680d63a32b96ddce49b453e81002f18f8",
+      "bytes": 2387
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md",
+      "sha256": "92b48e492037e26be0f617c90490599e84b0531df853f2f2446811df5437f0f5",
+      "bytes": 2907
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md",
+      "sha256": "fe30c350a27877d95f97627ead6e233589a510c552d70248b2143002def3f6ce",
+      "bytes": 2314
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md",
+      "sha256": "54f30119acbf54bb77ce6ff56d4062832df36764dd971f4c8de17330b997e14f",
+      "bytes": 2381
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md",
+      "sha256": "295e4066edcb0c8045b5f20d050bee97574b383ee50ef3254f52a21f71b16933",
+      "bytes": 2129
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md",
+      "sha256": "474b814936d47e04b628904e99ef438c7220f2d2611faafefbf950783e1dacfa",
+      "bytes": 2044
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md",
+      "sha256": "2c09fe83410224d6c2b15d4237a85d8c55edcab204906156fe5345c6763bd4b8",
+      "bytes": 2834
     }
   ]
 }

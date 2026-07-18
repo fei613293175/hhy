@@ -308,7 +308,7 @@ onBeforeUnmount(() => {
     <StatusNotice v-if="stale" tone="warning" title="当前配置需要刷新" detail="检测到服务端版本冲突，所有写操作已暂停。刷新并核对最新状态后才能继续。" />
 
     <section v-if="loading" class="provider-grid" aria-label="正在加载供应商配置"><div v-for="index in (provider ? 3 : 4)" :key="index" class="card skeleton skeleton-tall" /></section>
-    <section v-else-if="error && !(page || detail)" class="card error-state" aria-live="polite"><div class="avatar centered-mark">!</div><h2>{{ forbidden ? '无法访问供应商配置' : '供应商配置暂时无法加载' }}</h2><p>{{ error.message }}</p><small v-if="error.requestId">请求编号：{{ error.requestId }}</small><div><button v-if="!forbidden" class="primary-button" :disabled="!online" @click="load()">重新加载</button></div></section>
+    <section v-else-if="error && !(page || detail)" class="card error-state" aria-live="polite"><div class="avatar centered-mark">!</div><h2>{{ forbidden ? '无法访问供应商配置' : '供应商配置暂时无法加载' }}</h2><p>{{ error.message }}</p><div><button v-if="!forbidden" class="primary-button" :disabled="!online" @click="load()">重新加载</button></div></section>
 
     <template v-else-if="!provider && page">
       <section class="provider-grid">

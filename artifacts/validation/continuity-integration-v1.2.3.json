@@ -6,7 +6,7 @@
   "source_manifest": [
     {
       "path": ".continuity/CONTINUITY_POLICY.yaml",
-      "sha256": "7e59a879f04cabd5150628908d785d317a58d2114b0d111f689a213665ee3e34"
+      "sha256": "35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6"
     },
     {
       "path": "config/REPOSITORY_TRANSPORT.yaml",
@@ -118,7 +118,7 @@
     {
       "name": "portable_clone_fingerprint",
       "status": "PASS",
-      "evidence": "aef289c249535f5050ffb7963e665b5d993bfc85fbe2d8525dc2ea6dd7694ed7"
+      "evidence": "47d198f488f76b0ff02666a2b7ddfc2d964c6775922760d4c0b7e0450d0e4a3c"
     },
     {
       "name": "handoff_tamper_rejected",
@@ -128,8 +128,8 @@
   ],
   "check_count": 11,
   "lifecycle_report": "artifacts\\validation\\continuity-lifecycle-integration-v1.2.3.json",
-  "handoff_sha256": "258879951251988e42e711b98858dacb39f9881559d04ffabb5624118d93b69d",
-  "portable_project_fingerprint": "aef289c249535f5050ffb7963e665b5d993bfc85fbe2d8525dc2ea6dd7694ed7",
+  "handoff_sha256": "093855b185bb79b6c37b00eb11acba8a12b8e5eb0185852b5074d44ec68ba5ec",
+  "portable_project_fingerprint": "47d198f488f76b0ff02666a2b7ddfc2d964c6775922760d4c0b7e0450d0e4a3c",
   "commands": [
     {
       "name": "lifecycle",

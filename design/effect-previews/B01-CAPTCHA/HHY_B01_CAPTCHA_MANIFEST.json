@@ -1,0 +1,204 @@
+{
+  "project": "合伙云 Pro",
+  "batch_id": "B01-CAPTCHA",
+  "version": "1.0",
+  "status": "FROZEN_UI_REFERENCE",
+  "title": "登录注册安全验证码八状态交互",
+  "file": "HHY_B01_CAPTCHA_8STATE_UI_REFERENCE.png",
+  "sha256": "aef7be5ca306d5cc4a8b524d9f4812d11b71b15ff1b72e638aaaa0ba423d34ac",
+  "role": "UI布局、状态与交互参考；功能、API与安全事实以开发文档为准",
+  "sources": [
+    {
+      "file": "REFERENCE_ONLY/02_现有B01效果图/HHY_B01_8PAGE_UI_REFERENCE.png",
+      "usage": "品牌、认证页面语言和效果图版式"
+    },
+    {
+      "file": "REFERENCE_ONLY/03_设计系统/hhy_design_tokens_v1.2.2.json",
+      "usage": "颜色、字号、间距、圆角、阴影、动画"
+    },
+    {
+      "file": "REFERENCE_ONLY/01_现有真机截图/",
+      "usage": "现有页面结构和需要移除的内联技术控件"
+    }
+  ],
+  "canvas": {
+    "width_px": 3072,
+    "height_px": 3072,
+    "grid": {
+      "columns": 4,
+      "rows": 2
+    },
+    "state_image_px": [
+      1080,
+      2280
+    ]
+  },
+  "panels": [
+    {
+      "panel": "P01",
+      "name": "初始页：验证码隐藏",
+      "file": "states/P01_初始页_验证码隐藏.png",
+      "sha256": "61c9404264f59e8fcb8694008ea4a39c579b42603f39a6b1414d7cf172e5eabc"
+    },
+    {
+      "panel": "P02",
+      "name": "点击登录：挑战加载",
+      "file": "states/P02_点击登录_挑战加载.png",
+      "sha256": "71c30d0e076f53ffc347fe8a7c6486232afbac698f5c3a42a0a2b25c076494b3"
+    },
+    {
+      "panel": "P03",
+      "name": "验证码就绪：等待输入",
+      "file": "states/P03_验证码就绪_等待输入.png",
+      "sha256": "37607fa00d76ac47f6333e8c3f1e60bc4b8595d2892af4fdc06c698541d4b3f2"
+    },
+    {
+      "panel": "P04",
+      "name": "答案错误：原位重试",
+      "file": "states/P04_答案错误_原位重试.png",
+      "sha256": "2ec1531b08e422bf581599e0156b3c239353ed7772aa4c61bd2be86b06130d34"
+    },
+    {
+      "panel": "P05",
+      "name": "过期/刷新：旧答案清空",
+      "file": "states/P05_过期-刷新_旧答案清空.png",
+      "sha256": "e0a2f5d104b73c0707625a221453c464378fb0e01a2a0d04f53c751f3ac15fa2"
+    },
+    {
+      "panel": "P06",
+      "name": "短信/注册：发送前验证",
+      "file": "states/P06_短信-注册_发送前验证.png",
+      "sha256": "24ce064ef2d18b329ae40a74a0e77ba01585d120934d3fffe0b5c60a1e240f9e"
+    },
+    {
+      "panel": "P07",
+      "name": "验证通过：自动续办",
+      "file": "states/P07_验证通过_自动续办.png",
+      "sha256": "f14db134edaad57be9507ec29d412a1a964f64a1652b5c0249ea7d867fe0ec9f"
+    },
+    {
+      "panel": "P08",
+      "name": "网络失败：键盘/小屏适配",
+      "file": "states/P08_网络失败_键盘-小屏适配.png",
+      "sha256": "25ce92324d073d6f762ee604747f64caa4e454147004e16dc587eb8dc35867e9"
+    }
+  ],
+  "implementation_parameters": {
+    "baseline_width_dp": 360,
+    "dialog": {
+      "width_dp": 328,
+      "min_width_dp": 280,
+      "max_width_dp": 360,
+      "radius_dp": 20,
+      "elevation_dp": 8,
+      "horizontal_margin_dp": 16,
+      "content_padding_dp": 24,
+      "max_height_rule": "min(560dp, availableHeight-48dp)"
+    },
+    "scrim": {
+      "color": "#182230",
+      "opacity": 0.48,
+      "outside_tap_dismiss": false
+    },
+    "captcha_image": {
+      "width_dp": 216,
+      "height_dp": 72,
+      "radius_dp": 12,
+      "border_dp": 1
+    },
+    "input": {
+      "height_dp": 52,
+      "radius_dp": 12,
+      "max_visible_characters": 32,
+      "keyboard": "ASCII, autoCorrect=false, no autofill"
+    },
+    "buttons": {
+      "height_dp": 48,
+      "radius_dp": 12,
+      "cancel_width_dp": 84,
+      "primary_width_dp": 200,
+      "gap_dp": 12,
+      "minimum_touch_target_dp": 48
+    },
+    "typography_sp": {
+      "title": 20,
+      "subtitle": 13,
+      "body": 14,
+      "button": 15,
+      "caption": 12
+    },
+    "colors": {
+      "primary": "#1677FF",
+      "secondary": "#13B8A6",
+      "page": "#F5F7FA",
+      "surface": "#FFFFFF",
+      "text": "#182230",
+      "secondaryText": "#667085",
+      "border": "#E4E7EC",
+      "error": "#F04438",
+      "warning": "#F79009",
+      "success": "#12B76A"
+    },
+    "motion_ms": {
+      "scrim": 200,
+      "dialog_enter": 200,
+      "dialog_exit": 120,
+      "content_crossfade": 120,
+      "image_refresh": 160,
+      "input_error_shake": 240,
+      "success_hold": 360
+    },
+    "accessibility": {
+      "minimum_touch_target_dp": 48,
+      "font_scales": [
+        1.0,
+        1.15,
+        1.3
+      ],
+      "talkback_error_live_region": "assertive",
+      "captcha_description": "图形验证码图片，请根据图片输入字符"
+    }
+  },
+  "single_state_files": [
+    {
+      "panel": "P01",
+      "file": "states/P01_初始页_验证码隐藏.png",
+      "sha256": "61c9404264f59e8fcb8694008ea4a39c579b42603f39a6b1414d7cf172e5eabc"
+    },
+    {
+      "panel": "P02",
+      "file": "states/P02_点击登录_挑战加载.png",
+      "sha256": "71c30d0e076f53ffc347fe8a7c6486232afbac698f5c3a42a0a2b25c076494b3"
+    },
+    {
+      "panel": "P03",
+      "file": "states/P03_验证码就绪_等待输入.png",
+      "sha256": "37607fa00d76ac47f6333e8c3f1e60bc4b8595d2892af4fdc06c698541d4b3f2"
+    },
+    {
+      "panel": "P04",
+      "file": "states/P04_答案错误_原位重试.png",
+      "sha256": "2ec1531b08e422bf581599e0156b3c239353ed7772aa4c61bd2be86b06130d34"
+    },
+    {
+      "panel": "P05",
+      "file": "states/P05_过期-刷新_旧答案清空.png",
+      "sha256": "e0a2f5d104b73c0707625a221453c464378fb0e01a2a0d04f53c751f3ac15fa2"
+    },
+    {
+      "panel": "P06",
+      "file": "states/P06_短信-注册_发送前验证.png",
+      "sha256": "24ce064ef2d18b329ae40a74a0e77ba01585d120934d3fffe0b5c60a1e240f9e"
+    },
+    {
+      "panel": "P07",
+      "file": "states/P07_验证通过_自动续办.png",
+      "sha256": "f14db134edaad57be9507ec29d412a1a964f64a1652b5c0249ea7d867fe0ec9f"
+    },
+    {
+      "panel": "P08",
+      "file": "states/P08_网络失败_键盘-小屏适配.png",
+      "sha256": "25ce92324d073d6f762ee604747f64caa4e454147004e16dc587eb8dc35867e9"
+    }
+  ]
+}

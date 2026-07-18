@@ -231,7 +231,7 @@ onBeforeUnmount(() => {
     <StatusNotice v-if="staleCodes.size" tone="warning" title="部分域名需要刷新" detail="检测到服务端版本冲突，受影响域名的写操作已暂停。" />
 
     <section v-if="loading" class="domain-grid" aria-label="正在加载域名配置"><div v-for="index in 6" :key="index" class="card skeleton domain-skeleton" /></section>
-    <section v-else-if="error && !domains" class="card error-state" aria-live="polite"><div class="avatar centered-mark">!</div><h2>{{ forbidden ? '无法访问域名配置' : '域名配置暂时无法加载' }}</h2><p>{{ error.message }}</p><small v-if="error.requestId">请求编号：{{ error.requestId }}</small><div><button v-if="!forbidden" class="primary-button" :disabled="!online" @click="load()">重新加载</button></div></section>
+    <section v-else-if="error && !domains" class="card error-state" aria-live="polite"><div class="avatar centered-mark">!</div><h2>{{ forbidden ? '无法访问域名配置' : '域名配置暂时无法加载' }}</h2><p>{{ error.message }}</p><div><button v-if="!forbidden" class="primary-button" :disabled="!online" @click="load()">重新加载</button></div></section>
 
     <template v-else-if="domains">
       <section class="domain-summary metric-grid"><div class="metric"><span>受控域名</span><strong>{{ items.length }}</strong></div><div class="metric"><span>DNS 待办</span><strong>{{ actionItems.length }}</strong></div><div class="metric"><span>根域名</span><strong class="metric-value-compact">orbexa.cc</strong></div><div class="metric"><span>可用判定</span><strong class="metric-value-compact">三层全通过</strong></div></section>

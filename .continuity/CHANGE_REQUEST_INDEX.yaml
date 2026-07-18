@@ -3114,3 +3114,615 @@ change_requests:
   - SES-20260718T200607Z-3569D212
   implementation_commits:
   - 30a397bf2f2dbffbde976cbb93f6f3b216eb16a4
+- protocol_version: '1.0'
+  cr_id: CR-0054
+  title: 接入R02安全验证冻结设计并简化测试注册流程
+  status: IMPLEMENTED
+  created_at: '2026-07-18T21:38:39Z'
+  updated_at: '2026-07-18T22:34:32Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 接入20260719冻结安全验证码需求包；注册无需短信验证码；提供测试万能邀请码；全局禁止技术性提示；严格按文档参数；每个大版本桌面交付测试说明。
+  reason: 项目所有者提供新的冻结UI事实和注册契约变更，并新增跨AI跨电脑商业产品硬边界，需要在当前R03线上以R02认证热修方式完整接入。
+  original_rule: R02旧实现把图形验证码作为页面内联字段并要求用户二次点击；注册请求强制短信验证码和协议版本；仓库未统一禁止技术字段面向用户展示，也未强制每个大版本生成桌面测试说明。
+  new_rule: 四个认证页面按冻结B01-CAPTCHA参数使用业务动作触发的居中安全验证弹窗，成功后自动续办原动作；注册可见必填仅手机号、密码、确认密码、邀请码且不发送注册短信，注册请求以图形挑战证明保护；万能邀请码仅在DEV/TEST/STAGING且显式配置时可用，PROD硬拒绝；全局禁止用户界面展示请求编号和内部技术字段；每个大版本必须文档核对并向桌面交付完整测试反馈说明。
+  impact_summary: 接入冻结视觉资产和规格，修改注册OpenAPI、后端和Android认证流程，新增测试环境邀请码策略、商业UI静态门禁、回包验收兼容修复及R02热修追溯。
+  impact:
+    files:
+    - AGENTS.md
+    - templates/AGENTS.md
+    - .continuity/CONTINUITY_POLICY.yaml
+    - START_HERE.md
+    - CHANGELOG.md
+    - docs/00-baseline/正式商业系统全局硬性开发边界.md
+    - docs/01-authentication/登录注册与安全验证详细规格_V1.2.2.md
+    - docs/02-ui/12批UI参考图绑定索引_V1.2.2.md
+    - docs/02-ui/R02安全验证码弹层交互与视觉规格_V1.2.2.md
+    - docs/02-ui/页面施工规格总索引_V1.2.2.md
+    - docs/02-ui/页面模板字段状态动作唯一事实源_V1.2.2.md
+    - docs/02-ui/page-specs/android/SCR-AUTH-001_密码登录.md
+    - docs/02-ui/page-specs/android/SCR-AUTH-002_短信验证码登录.md
+    - docs/02-ui/page-specs/android/SCR-AUTH-003_注册账号.md
+    - docs/02-ui/page-specs/android/SCR-AUTH-004_忘记密码.md
+    - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_8STATE_UI_REFERENCE.png
+    - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_MANIFEST.json
+    - design/effect-previews/B01-CAPTCHA/OUTPUT_REQUIREMENTS.md
+    - design/effect-previews/B01-CAPTCHA/states/P01_初始页_验证码隐藏.png
+    - design/effect-previews/B01-CAPTCHA/states/P02_点击登录_挑战加载.png
+    - design/effect-previews/B01-CAPTCHA/states/P03_验证码就绪_等待输入.png
+    - design/effect-previews/B01-CAPTCHA/states/P04_答案错误_原位重试.png
+    - design/effect-previews/B01-CAPTCHA/states/P05_过期-刷新_旧答案清空.png
+    - design/effect-previews/B01-CAPTCHA/states/P06_短信-注册_发送前验证.png
+    - design/effect-previews/B01-CAPTCHA/states/P07_验证通过_自动续办.png
+    - design/effect-previews/B01-CAPTCHA/states/P08_网络失败_键盘-小屏适配.png
+    - scripts/check_r02_security_challenge_design_package.py
+    - tests/test_r02_security_challenge_design_package.py
+    - scripts/check_commercial_ui_boundaries.py
+    - tests/test_commercial_ui_boundaries.py
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
+    - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+    - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java
+    - services/backend/boot/src/main/resources/application.yaml
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+    - contracts/openapi.yaml
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - packages/api-client/src/generated/openapi.yaml
+    - tests/test_r02_auth_slice_contract.py
+    - config/PROBLEM_REGISTRY.yaml
+    - releases/R02/R02_AUTH_HOTFIX_20260719.md
+    - docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md
+    - .continuity/change_requests/CR-0054.yaml
+    - .continuity/CHANGE_REQUEST_INDEX.yaml
+    pages:
+    - SCR-AUTH-001
+    - SCR-AUTH-002
+    - SCR-AUTH-003
+    - SCR-AUTH-004
+    apis:
+    - POST /api/v1/auth/register
+    - POST /api/v1/auth/security-challenges
+    - POST /api/v1/auth/invite-codes/validate
+    database: []
+    configuration:
+    - HHY_TEST_UNIVERSAL_INVITE_CODE
+    - HHY_TEST_UNIVERSAL_INVITER_ID
+    - Spring profiles DEV/TEST/STAGING only
+    ledger: []
+    tests:
+    - python -m unittest tests.test_r02_security_challenge_design_package
+    - python -m unittest tests.test_commercial_ui_boundaries
+    - python -m unittest tests.test_r02_auth_slice_contract
+    - Gradle Android auth/network tests
+    - Gradle backend UserAuthServiceTest
+    - python scripts/check_v123_continuity.py --strict
+    releases:
+    - R02
+    - R03
+    migration_and_compatibility: 注册API为有意的不兼容契约升级：移除smsCode和agreementVersions，新增challengeId和challengeProof；Android与后端在同一热修交付中同步。数据库无结构迁移。万能邀请码默认关闭，仅受控非生产环境变量启用，生产无法启用。
+  user_confirmation: R02的安全验证码开发问题已由ChatGPT制作好需求包，现在已经给你了，请你理解后开始开发；注册无需短信验证码；新增四项全局硬性开发边界。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T21:39:46Z'
+    note: 项目所有者本轮明确提供冻结设计包及注册和全局硬边界，批准按完整影响范围接入；万能邀请码必须保持非生产环境硬隔离。
+  machine_record: .continuity/change_requests/CR-0054.yaml
+  document: docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md
+  decision_log:
+  - at: '2026-07-18T21:39:49Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始接入冻结设计事实、注册契约和商业UI硬门禁
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T22:34:32Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0055
+  title: 移除管理端技术请求标识展示
+  status: IMPLEMENTED
+  created_at: '2026-07-18T21:41:48Z'
+  updated_at: '2026-07-18T22:34:33Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 正式商业系统前端全局任何页面不允许展示技术性提示词和请求编号。
+  reason: 全局扫描发现管理端StatusNotice和多个错误空态仍会渲染requestId，违反本轮新增硬边界。
+  original_rule: 管理端错误组件和部分空态直接显示请求标识或请求编号。
+  new_rule: 请求标识仅保留在网络诊断数据中，不得由正式用户界面组件或页面渲染；错误页面只展示可操作的商业文案。
+  impact_summary: 删除StatusNotice和管理端页面的requestId展示绑定，保留内部网络错误对象以支持日志排障，并更新相关UI测试。
+  impact:
+    files:
+    - apps/admin-web/src/components/StatusNotice.vue
+    - apps/admin-web/src/views/AdminLoginPage.vue
+    - apps/admin-web/src/views/AdminMfaPage.vue
+    - apps/admin-web/src/views/AdminUserDetailPage.vue
+    - apps/admin-web/src/views/AdminUsersListPage.vue
+    - apps/admin-web/src/views/AdminSecurityPage.vue
+    - apps/admin-web/src/views/DomainConfigPage.vue
+    - apps/admin-web/src/views/ProviderConfigPage.vue
+    - apps/admin-web/src/components/ProviderCertificatePanel.vue
+    - apps/admin-web/src/r01Pages.test.ts
+    - apps/admin-web/src/r03DomainPage.test.ts
+    - apps/admin-web/src/r03ProviderPage.test.ts
+    - config/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    - docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md
+    - .continuity/change_requests/CR-0055.yaml
+    - .continuity/CHANGE_REQUEST_INDEX.yaml
+    pages:
+    - ADMIN-LOGIN
+    - ADMIN-MFA
+    - ADMIN-USERS
+    - ADMIN-SECURITY
+    - R03-DOMAIN
+    - R03-PROVIDER
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - pnpm --filter @hhy/admin-web test
+    - python -m unittest tests.test_commercial_ui_boundaries
+    releases:
+    - R01
+    - R03
+    migration_and_compatibility: 纯前端展示兼容修复，不改变API、网络诊断结构或数据库；自动化测试改为断言请求标识不出现在DOM。
+  user_confirmation: 前端全局任何页面不允许展示技术性提示词和请求编号，即便换电脑换AI都要明确。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T21:41:50Z'
+    note: 用户明确要求前端全局移除技术提示，批准清理管理端所有请求标识展示。
+  machine_record: .continuity/change_requests/CR-0055.yaml
+  document: docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md
+  decision_log:
+  - at: '2026-07-18T21:41:52Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始清理管理端技术请求标识展示
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T22:34:33Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0056
+  title: 更正测试邀请码运行配置文件范围
+  status: IMPLEMENTED
+  created_at: '2026-07-18T21:45:21Z'
+  updated_at: '2026-07-18T22:34:34Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 注册测试阶段需要万能邀请码且生产不得形成后门。
+  reason: CR-0054影响清单误写application.yaml，实际Spring Boot配置文件为application.yml，必须通过派生CR精确更正。
+  original_rule: CR-0054登记了不存在的services/backend/boot/src/main/resources/application.yaml。
+  new_rule: 在实际application.yml中声明默认关闭的HHY_TEST_UNIVERSAL_INVITE_CODE和HHY_TEST_UNIVERSAL_INVITER_ID，并由非生产Profile策略共同约束。
+  impact_summary: 仅更正测试邀请码配置文件事实路径，不扩大功能范围。
+  impact:
+    files:
+    - services/backend/boot/src/main/resources/application.yml
+    - docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md
+    - .continuity/change_requests/CR-0056.yaml
+    - .continuity/CHANGE_REQUEST_INDEX.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - HHY_TEST_UNIVERSAL_INVITE_CODE
+    - HHY_TEST_UNIVERSAL_INVITER_ID
+    ledger: []
+    tests:
+    - Gradle backend UserAuthServiceTest
+    releases:
+    - R02
+    - R03
+    migration_and_compatibility: 默认值为空和0，未配置时行为不变；生产Profile仍硬拒绝。
+  user_confirmation: 测试阶段提供万能注册邀请码，且正式商业系统不得留生产后门。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T21:45:23Z'
+    note: 批准修正到实际application.yml并保持默认关闭和生产硬隔离。
+  machine_record: .continuity/change_requests/CR-0056.yaml
+  document: docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md
+  decision_log:
+  - at: '2026-07-18T21:45:24Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 更正运行配置路径并同步实施
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T22:34:34Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0057
+  title: 更正注册契约生成客户端范围
+  status: IMPLEMENTED
+  created_at: '2026-07-18T21:47:45Z'
+  updated_at: '2026-07-18T22:34:35Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 注册契约取消短信验证码并由图形安全验证保护。
+  reason: CR-0054误写不存在的generated/openapi.yaml，实际生成产物为packages/api-client/src/client.generated.ts。
+  original_rule: CR-0054登记了不存在的packages/api-client/src/generated/openapi.yaml。
+  new_rule: 从更新后的contracts/openapi.yaml重新生成packages/api-client/src/client.generated.ts并通过生成资产门禁。
+  impact_summary: 更正注册OpenAPI的生成客户端事实路径。
+  impact:
+    files:
+    - packages/api-client/src/client.generated.ts
+    - docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md
+    - .continuity/change_requests/CR-0057.yaml
+    - .continuity/CHANGE_REQUEST_INDEX.yaml
+    pages: []
+    apis:
+    - POST /api/v1/auth/register
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_generated_assets.py
+    - pnpm --filter @hhy/api-client typecheck
+    releases:
+    - R02
+    - R03
+    migration_and_compatibility: 生成类型同步移除smsCode和agreementVersions并加入challengeId和challengeProof，与同批Android和后端升级一致。
+  user_confirmation: 注册无需短信验证码，安全验证按新冻结设计接入。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T21:47:47Z'
+    note: 批准更正到实际生成客户端并保持同批契约同步。
+  machine_record: .continuity/change_requests/CR-0057.yaml
+  document: docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md
+  decision_log:
+  - at: '2026-07-18T21:47:49Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 重新生成注册契约客户端
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T22:34:35Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0058
+  title: 同步H5无短信注册与自动安全验证
+  status: IMPLEMENTED
+  created_at: '2026-07-18T21:54:47Z'
+  updated_at: '2026-07-18T22:34:36Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 注册账号无需发送短信验证码，正式前端不展示技术性提示。
+  reason: 注册OpenAPI变化同时影响H5邀请注册；旧H5仍依赖短信、协议版本和手动获取安全验证，必须同批同步避免契约断裂。
+  original_rule: H5邀请注册要求用户手动获取安全验证、发送注册短信、输入短信码并提交协议版本。
+  new_rule: H5注册以手机号、密码、确认密码和URL邀请码为可见注册字段；点击注册后自动弹出安全验证，验证并继续直接提交注册；不发送注册短信、不提交协议版本、不展示技术提示。
+  impact_summary: 同步H5页面、服务类型、测试与H5页面规格到新注册契约。
+  impact:
+    files:
+    - apps/h5/src/views/InviteRegistrationPage.vue
+    - apps/h5/src/services/inviteRegistration.ts
+    - apps/h5/src/views/InviteRegistrationPage.test.ts
+    - apps/h5/src/services/inviteRegistration.test.ts
+    - docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md
+    - CHANGELOG.md
+    - docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md
+    - .continuity/change_requests/CR-0058.yaml
+    - .continuity/CHANGE_REQUEST_INDEX.yaml
+    pages:
+    - H5-013
+    apis:
+    - POST /api/v1/auth/register
+    - POST /api/v1/auth/security-challenges
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - pnpm --filter @hhy/h5 test
+    - pnpm --filter @hhy/h5 typecheck
+    releases:
+    - R02
+    - R03
+    migration_and_compatibility: 与CR-0054注册API同步升级；旧H5请求不再兼容，前后端必须同批部署。协议内容可继续作为只读链接/说明，但不作为本次注册请求字段。
+  user_confirmation: 注册账号无需发送短信验证码，前端全局不允许技术性提示。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T21:54:49Z'
+    note: 批准H5与Android、后端同批同步，避免旧短信注册契约残留。
+  machine_record: .continuity/change_requests/CR-0058.yaml
+  document: docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md
+  decision_log:
+  - at: '2026-07-18T21:54:51Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 同步H5注册流程与自动安全验证
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T22:34:36Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0059
+  title: 补清管理端说明文案中的技术请求标识
+  status: IMPLEMENTED
+  created_at: '2026-07-18T21:58:02Z'
+  updated_at: '2026-07-18T22:34:37Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 正式前端全局不允许展示技术性提示词。
+  reason: 商业UI静态门禁发现AuthShell安全说明和安全空态仍提到请求标识，属于CR-0055遗漏。
+  original_rule: 管理端安全说明将内部请求标识作为用户可见排障说明。
+  new_rule: 改为业务化的操作审计和重新加载说明，不向管理员展示或提及内部请求标识。
+  impact_summary: 清理两个遗漏文案并纳入全局静态门禁。
+  impact:
+    files:
+    - apps/admin-web/src/components/AuthShell.vue
+    - apps/admin-web/src/views/AdminSecurityPage.vue
+    - docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md
+    - .continuity/change_requests/CR-0059.yaml
+    - .continuity/CHANGE_REQUEST_INDEX.yaml
+    pages:
+    - ADMIN-LOGIN
+    - ADMIN-SECURITY
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_commercial_ui_boundaries
+    - pnpm --filter @hhy/admin-web test
+    releases:
+    - R01
+    - R03
+    migration_and_compatibility: 纯文案，无接口或数据变化。
+  user_confirmation: 前端全局任何页面不允许展示技术性提示词。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T21:58:04Z'
+    note: 批准清理静态门禁发现的遗漏技术文案。
+  machine_record: .continuity/change_requests/CR-0059.yaml
+  document: docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md
+  decision_log:
+  - at: '2026-07-18T21:58:06Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 清理遗漏技术文案
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T22:34:37Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0060
+  title: 同步注册成功契约测试至无短信注册模型
+  status: IMPLEMENTED
+  created_at: '2026-07-18T22:03:28Z'
+  updated_at: '2026-07-18T22:34:39Z'
+  requester_actor_id: codex
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: R02安全验证码冻结需求包及无短信注册硬性要求
+  reason: 主注册契约已移除短信码和协议版本字段，旧成功契约测试仍引用已删除访问器，必须同步才能恢复后端测试门禁
+  original_rule: 注册成功契约测试提交短信验证码及协议版本并断言agreementVersions访问器
+  new_rule: 注册成功契约测试提交手机号、密码、邀请码、图片验证challengeId与challengeProof，并断言新字段及不再要求短信注册
+  impact_summary: 仅同步UserAuthSuccessContractTest到冻结后的注册请求契约，不扩大业务范围
+  impact:
+    files:
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - Maven UserAuthSuccessContractTest与UserAuthServiceTest
+    releases:
+    - R02安全验证码交互热修复
+    migration_and_compatibility: 保留短信验证码登录和找回密码测试；仅注册接口移除短信码与协议版本
+  user_confirmation: 2026-07-19用户明确提出手机号+密码+重复密码+邀请码即可注册
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T22:03:46Z'
+    note: 用户已明确要求无短信注册并授权后续此类问题自行决定
+  machine_record: .continuity/change_requests/CR-0060.yaml
+  document: docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md
+  decision_log:
+  - at: '2026-07-18T22:03:48Z'
+    actor_id: codex
+    status: IMPLEMENTING
+    note: 开始同步注册成功契约测试
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T22:34:39Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0061
+  title: 更正全局问题登记文件并补记R02认证偏差
+  status: IMPLEMENTED
+  created_at: '2026-07-18T22:16:09Z'
+  updated_at: '2026-07-18T22:34:40Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 硬性记录后续跨电脑跨AI开发边界
+  reason: CR-0054误列不存在的config/PROBLEM_REGISTRY.yaml，仓库实际权威问题登记位于docs/03-continuity/PROBLEM_REGISTRY.yaml
+  original_rule: 将本次问题追加到不存在的config/PROBLEM_REGISTRY.yaml
+  new_rule: 将设计校验器兼容、技术信息泄漏和手动验证码交互偏差追加到实际权威docs/03-continuity/PROBLEM_REGISTRY.yaml
+  impact_summary: 修正问题登记路径并确保跨AI接续能够检索本次根因和防复发措施
+  impact:
+    files:
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - continuity context与YAML解析门禁
+    releases:
+    - R02安全验证码交互热修复
+    migration_and_compatibility: 不改业务接口；仅更正治理记录路径
+  user_confirmation: 2026-07-19全局硬性开发边界
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T22:16:11Z'
+    note: 用户已明确要求硬性记录并保证换电脑换AI无缝接续
+  machine_record: .continuity/change_requests/CR-0061.yaml
+  document: docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md
+  decision_log:
+  - at: '2026-07-18T22:16:12Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始更新实际权威问题登记
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T22:34:40Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0062
+  title: 同步无短信注册契约状态哈希
+  status: IMPLEMENTED
+  created_at: '2026-07-18T22:19:08Z'
+  updated_at: '2026-07-18T22:34:41Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 严格按开发文档开发且不遗漏任何契约细节
+  reason: OpenAPI注册请求变更后contract_status.csv的131项客户端操作源哈希必须确定性刷新
+  original_rule: contract_status.csv记录变更前OpenAPI事实源哈希
+  new_rule: 保持全部契约元数据不变，仅用安全状态同步器刷新OpenAPI事实源SHA-256
+  impact_summary: 同步无短信注册OpenAPI派生状态，恢复API契约门禁
+  impact:
+    files:
+    - contracts/contract_status.csv
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - scripts/generate_contracts.py --check和scripts/check_api_contract.py
+    releases:
+    - R02安全验证码交互热修复
+    migration_and_compatibility: 不运行旧全量契约重建，不覆盖富化Schema
+  user_confirmation: 2026-07-19无短信注册与严格契约要求
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T22:19:11Z'
+    note: 属于用户明确注册契约变更的确定性派生资产
+  machine_record: .continuity/change_requests/CR-0062.yaml
+  document: docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md
+  decision_log:
+  - at: '2026-07-18T22:19:12Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 刷新契约事实源哈希
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T22:34:41Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0063
+  title: 固化安全验证设计Token并修复主文档门禁路径
+  status: IMPLEMENTED
+  created_at: '2026-07-18T22:26:31Z'
+  updated_at: '2026-07-18T22:34:42Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 后续UI必须严格按效果图字号圆角等硬性参数且不遗漏
+  reason: 冻结弹层精确值仍以内联dp/sp/颜色存在并触发Token门禁；主文档门禁仍指向旧根目录文件名
+  original_rule: 页面代码禁止原始dp/sp/颜色但安全验证冻结值尚无专用Token，主文档检查读取已迁移的旧路径
+  new_rule: 把安全验证精确尺寸、字体、颜色引用纳入全局Token派生，H5与Android只引用Token；主文档检查读取docs/00-baseline权威文件
+  impact_summary: 消除页面原始视觉值并恢复UI Token和主文档机器门禁
+  impact:
+    files:
+    - design/tokens/hhy_design_tokens_v1.2.2.json
+    - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+    - packages/design-tokens/h5.css
+    - packages/design-tokens/admin.css
+    - scripts/check_ui_tokens.py
+    - scripts/check_main_doc.py
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+    - apps/h5/src/views/InviteRegistrationPage.vue
+    - apps/admin-web/src/components/ProviderCertificatePanel.vue
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - scripts/check_ui_tokens.py、scripts/check_main_doc.py、tests/test_ui_tokens.py、Android/H5/admin编译测试
+    releases:
+    - R02安全验证码交互热修复
+    migration_and_compatibility: 视觉数值保持冻结包一致，不改变业务接口
+  user_confirmation: 2026-07-19严格按效果图字号布局圆角参数开发
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T22:26:33Z'
+    note: 落实用户新增的全局UI参数硬边界并恢复现有门禁
+  machine_record: .continuity/change_requests/CR-0063.yaml
+  document: docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md
+  decision_log:
+  - at: '2026-07-18T22:26:35Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始Token化冻结安全验证视觉参数并修复文档门禁
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T22:34:42Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212

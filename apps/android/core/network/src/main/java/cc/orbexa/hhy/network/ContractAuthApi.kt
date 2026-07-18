@@ -38,10 +38,10 @@ interface ContractAuthApi {
     suspend fun registrationConfig(): AuthCallResult
     suspend fun register(
         phone: String,
-        smsCode: String,
         password: String,
         inviteCode: String,
-        agreementVersions: List<String>,
+        challengeId: String,
+        challengeProof: String,
     ): AuthCallResult
     suspend fun resetPassword(phone: String, smsCode: String, newPassword: String): AuthCallResult
     suspend fun refresh(refreshToken: String, deviceId: String): AuthCallResult
@@ -118,9 +118,9 @@ class UrlConnectionContractAuthApi(
 
     override suspend fun registrationConfig() = get("/api/v1/auth/registration-config")
 
-    override suspend fun register(phone: String, smsCode: String, password: String, inviteCode: String, agreementVersions: List<String>) = post(
+    override suspend fun register(phone: String, password: String, inviteCode: String, challengeId: String, challengeProof: String) = post(
         "/api/v1/auth/register",
-        AuthRegisterRequest(phone, smsCode, password, inviteCode, agreementVersions, device),
+        AuthRegisterRequest(phone, password, inviteCode, challengeId, challengeProof, device),
         AuthRegisterRequest.serializer(),
     )
 

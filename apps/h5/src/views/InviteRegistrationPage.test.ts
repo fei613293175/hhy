@@ -87,7 +87,7 @@ describe('InviteRegistrationPage', () => {
     });
   });
 
-  it('completes challenge, SMS and registration before navigating to download', async () => {
+  it('opens the challenge from register and continues registration without SMS', async () => {
     const { wrapper, router } = await render();
     expect(wrapper.text()).toContain('加入测试团队');
     expect(wrapper.text()).toContain('INVITE-R02');
@@ -96,28 +96,29 @@ describe('InviteRegistrationPage', () => {
     await wrapper.get('input[autocomplete="new-password"]').setValue('StrongPass9');
     const passwords = wrapper.findAll('input[autocomplete="new-password"]');
     await passwords[1]!.setValue('StrongPass9');
-    await wrapper.findAll('button').find((button) => button.text().includes('获取安全验证'))!.trigger('click');
+    await wrapper.get('form').trigger('submit');
     await flushPromises();
     await wrapper.get('input[autocomplete="off"]').setValue('proof-r02');
-    await wrapper.findAll('button').find((button) => button.text().includes('发送验证码'))!.trigger('click');
-    await flushPromises();
-    await wrapper.get('input[autocomplete="one-time-code"]').setValue('123456');
-    await wrapper.get('input[type="checkbox"]').setValue(true);
-    await wrapper.get('form').trigger('submit');
+    await wrapper.findAll('button').find((button) => button.text().includes('验证并继续'))!.trigger('click');
     await flushPromises();
 
     expect(api.createChallenge).toHaveBeenCalledWith({
       scene: 'REGISTER', clientNonce: expect.any(String),
     });
-    expect(api.sendSms).toHaveBeenCalledWith({
-      phone: '13800000000', scene: 'REGISTER',
+    expect(api.sendSms).not.toHaveBeenCalled();
+    expect(api.register).toHaveBeenCalledWith({
+      phone: '13800000000', password: 'StrongPass9', inviteCode: 'INVITE-R02',
       challengeId: 'challenge-1', challengeProof: 'proof-r02',
     });
-    expect(api.register).toHaveBeenCalledWith({
-      phone: '13800000000', smsCode: '123456', password: 'StrongPass9',
-      inviteCode: 'INVITE-R02', agreementVersions: ['91'],
-    });
     expect(router.currentRoute.value.fullPath).toBe('/?registered=1&invite_code=INVITE-R02');
+  });
+
+  it('does not expose a manual challenge button or registration SMS field', async () => {
+    const { wrapper } = await render();
+    expect(wrapper.text()).not.toContain('获取安全验证');
+    expect(wrapper.text()).not.toContain('发送验证码');
+    expect(wrapper.find('input[autocomplete="one-time-code"]').exists()).toBe(false);
+    expect(wrapper.find('.challenge-dialog').exists()).toBe(false);
   });
 
   it('renders an unrecoverable state for an invalid invite', async () => {

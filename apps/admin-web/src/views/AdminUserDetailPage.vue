@@ -108,7 +108,7 @@ onBeforeUnmount(()=>{activeRequest?.abort();window.removeEventListener('online',
     <header class="page-heading"><div><div class="eyebrow">用户详情 · 编号 {{userId}}</div><h1>{{user?.nickname || '用户详情'}}</h1><p>基础资料、状态与关联业务的统一只读视图。</p></div><div class="page-actions"><RouterLink class="ghost-button table-link" to="/users">返回列表</RouterLink><button class="ghost-button" :disabled="loading||!online" @click="load">刷新</button></div></header>
     <StatusNotice v-if="!online&&user" tone="warning" title="当前设备离线" detail="正在显示最近一次成功读取的详情。"/>
     <section v-if="loading" class="card skeleton-stack"><div class="skeleton skeleton-tall"/><div class="skeleton"/><div class="skeleton"/></section>
-    <section v-else-if="error&&!user" class="card error-state"><div class="avatar centered-mark">!</div><h2>{{missing?'用户不存在':forbidden?'无权查看该用户':'详情暂时无法加载'}}</h2><p>{{error.message}}</p><small v-if="error.requestId">请求编号：{{error.requestId}}</small><div><button v-if="!forbidden&&!missing" class="primary-button" :disabled="!online" @click="load">重新加载</button></div></section>
+    <section v-else-if="error&&!user" class="card error-state"><div class="avatar centered-mark">!</div><h2>{{missing?'用户不存在':forbidden?'无权查看该用户':'详情暂时无法加载'}}</h2><p>{{error.message}}</p><div><button v-if="!forbidden&&!missing" class="primary-button" :disabled="!online" @click="load">重新加载</button></div></section>
     <template v-else-if="user&&!forbidden">
       <StatusNotice v-if="notice" :tone="notice.tone" :title="notice.title" :detail="notice.detail" :request-id="notice.requestId"/>
       <StatusNotice v-if="stale" tone="warning" title="当前详情需要刷新" detail="检测到版本冲突，所有写操作已暂停。刷新并核对最新状态后才能继续。"/>

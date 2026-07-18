@@ -1,7 +1,6 @@
 package cc.orbexa.hhy.access.user;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -87,10 +86,10 @@ public final class UserAuthContracts {
 
     public record RegisterRequest(
             @NotBlank @Pattern(regexp = "^1[3-9]\\d{9}$") String phone,
-            @NotBlank @Size(min = 4, max = 10) String smsCode,
             @NotBlank @Size(min = 8, max = 72) String password,
             @NotBlank @Size(max = 2000) String inviteCode,
-            @NotEmpty @Size(max = 100) List<@NotBlank String> agreementVersions,
+            @NotBlank @Size(max = 64) String challengeId,
+            @NotBlank @Size(max = 2000) String challengeProof,
             Map<String, Object> device) { }
 
     public record PasswordResetRequest(

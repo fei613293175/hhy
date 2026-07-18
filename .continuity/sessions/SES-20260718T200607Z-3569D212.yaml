@@ -11,12 +11,22 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-18T20:50:01Z'
+updated_at: '2026-07-18T22:48:40Z'
 takeover_of: null
 change_requests:
 - CR-0051
 - CR-0052
 - CR-0053
+- CR-0054
+- CR-0055
+- CR-0056
+- CR-0057
+- CR-0058
+- CR-0059
+- CR-0060
+- CR-0061
+- CR-0062
+- CR-0063
 scope:
   allowed_paths:
   - apps/**
@@ -65,7 +75,92 @@ scope:
   - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
   - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053
+  - AGENTS.md
+  - START_HERE.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/01-authentication/登录注册与安全验证详细规格_V1.2.2.md
+  - docs/02-ui/12批UI参考图绑定索引_V1.2.2.md
+  - docs/02-ui/R02安全验证码弹层交互与视觉规格_V1.2.2.md
+  - docs/02-ui/页面施工规格总索引_V1.2.2.md
+  - docs/02-ui/页面模板字段状态动作唯一事实源_V1.2.2.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-001_密码登录.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-002_短信验证码登录.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-003_注册账号.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-004_忘记密码.md
+  - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_8STATE_UI_REFERENCE.png
+  - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_MANIFEST.json
+  - design/effect-previews/B01-CAPTCHA/OUTPUT_REQUIREMENTS.md
+  - design/effect-previews/B01-CAPTCHA/states/P01_初始页_验证码隐藏.png
+  - design/effect-previews/B01-CAPTCHA/states/P02_点击登录_挑战加载.png
+  - design/effect-previews/B01-CAPTCHA/states/P03_验证码就绪_等待输入.png
+  - design/effect-previews/B01-CAPTCHA/states/P04_答案错误_原位重试.png
+  - design/effect-previews/B01-CAPTCHA/states/P05_过期-刷新_旧答案清空.png
+  - design/effect-previews/B01-CAPTCHA/states/P06_短信-注册_发送前验证.png
+  - design/effect-previews/B01-CAPTCHA/states/P07_验证通过_自动续办.png
+  - design/effect-previews/B01-CAPTCHA/states/P08_网络失败_键盘-小屏适配.png
+  - scripts/check_commercial_ui_boundaries.py
+  - tests/test_commercial_ui_boundaries.py
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
+  - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java
+  - services/backend/boot/src/main/resources/application.yaml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/generated/openapi.yaml
+  - tests/test_r02_auth_slice_contract.py
+  - config/PROBLEM_REGISTRY.yaml
+  - releases/R02/R02_AUTH_HOTFIX_20260719.md
+  - docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md
+  - .continuity/change_requests/CR-0054.yaml
+  - .continuity/CHANGE_REQUEST_INDEX.yaml
+  - apps/admin-web/src/components/StatusNotice.vue
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/AdminMfaPage.vue
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - apps/admin-web/src/views/DomainConfigPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - apps/admin-web/src/components/ProviderCertificatePanel.vue
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/r03DomainPage.test.ts
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md
+  - .continuity/change_requests/CR-0055.yaml
+  - services/backend/boot/src/main/resources/application.yml
+  - docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md
+  - .continuity/change_requests/CR-0056.yaml
+  - packages/api-client/src/client.generated.ts
+  - docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md
+  - .continuity/change_requests/CR-0057.yaml
+  - apps/h5/src/views/InviteRegistrationPage.vue
+  - apps/h5/src/services/inviteRegistration.ts
+  - apps/h5/src/views/InviteRegistrationPage.test.ts
+  - apps/h5/src/services/inviteRegistration.test.ts
+  - docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md
+  - docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md
+  - .continuity/change_requests/CR-0058.yaml
+  - apps/admin-web/src/components/AuthShell.vue
+  - docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md
+  - .continuity/change_requests/CR-0059.yaml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
+  - contracts/contract_status.csv
+  - design/tokens/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - packages/design-tokens/h5.css
+  - packages/design-tokens/admin.css
+  - scripts/check_ui_tokens.py
+  - scripts/check_main_doc.py
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -75,22 +170,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T20:49:59Z'
-  expires_at: '2026-07-19T00:49:59Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0007.yaml
+  renewed_at: '2026-07-18T22:48:38Z'
+  expires_at: '2026-07-19T02:48:38Z'
+checkpoint_sequence: 10
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0010.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 等待项目所有者对桌面hhy-r03-3a913c9-debug.apk完成真机验收；PASS后关闭TASK-R03-007/008并进入R04
+next_step: 使用绑定Python执行提交钩子，提交推送后部署测试邀请码并构建交付桌面APK。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 838ba61d4914f0e06b602f8363551d2ded68d9b5d8e632940ca61ba317190c3b
-  generated_at: '2026-07-18T20:50:01Z'
+  context_hash: abd072f66c5317d77c5d8c76542149b5c4da0a5fff71f441f269f47b977f8c5c
+  generated_at: '2026-07-18T22:48:40Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前剩余项是项目所有者物理设备验收，不能由执行代理、模拟器或后台线程替代；R04声明依赖R03不得越过
+  reason: 提交、推送、部署和APK构建是严格前后依赖。

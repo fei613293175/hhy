@@ -172,6 +172,19 @@ change_control:
   - impact.releases
   - impact.migration_and_compatibility
   - user_confirmation
+commercial_product_boundaries:
+  source_of_truth: docs/00-baseline/正式商业系统全局硬性开发边界.md
+  prohibit_technical_fields_in_user_interface: true
+  require_frozen_ui_parameter_alignment: true
+  require_release_document_reconciliation: true
+  require_desktop_owner_test_guide_for_major_release: true
+  test_capabilities_allowed_profiles:
+  - dev
+  - test
+  - staging
+  test_capabilities_forbidden_profiles:
+  - prod
+  - production
 handoff:
   require_latest_checkpoint: true
   require_context_pack: true

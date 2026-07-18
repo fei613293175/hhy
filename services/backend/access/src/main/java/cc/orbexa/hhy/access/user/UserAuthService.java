@@ -52,6 +52,7 @@ public class UserAuthService {
     private final UserAuthProperties properties;
     private final UserAuthPolicy policy;
     private final UserAuthVerificationService verification;
+    private final TestRegistrationInvitePolicy testRegistrationInvite;
     private final PasswordEncoder passwords;
     private final ObjectMapper objectMapper;
     private final Clock clock;
@@ -59,6 +60,7 @@ public class UserAuthService {
     public UserAuthService(UserAuthStore repository, UserTokenService tokens,
                            UserIdempotencySnapshotCipher snapshots, UserAuthProperties properties,
                            UserAuthPolicy policy, UserAuthVerificationService verification,
+                           TestRegistrationInvitePolicy testRegistrationInvite,
                            PasswordEncoder passwords, ObjectMapper objectMapper, Clock clock) {
         this.repository = repository;
         this.tokens = tokens;
@@ -66,6 +68,7 @@ public class UserAuthService {
         this.properties = properties;
         this.policy = policy;
         this.verification = verification;
+        this.testRegistrationInvite = testRegistrationInvite;
         this.passwords = passwords;
         this.objectMapper = objectMapper;
         this.clock = clock;
@@ -139,8 +142,7 @@ public class UserAuthService {
 
     @Transactional(readOnly = true)
     public CommandResultResource validateInvite(InviteCodeValidateRequest request) {
-        long inviterId = repository.findActiveInviter(request.inviteCode())
-                .orElseThrow(() -> business("邀请码无效"));
+        long inviterId = resolveInviter(request.inviteCode());
         return new CommandResultResource(Long.toString(inviterId), null, "VALID", 0L, Instant.now(clock));
     }
 
@@ -156,9 +158,7 @@ public class UserAuthService {
     @Transactional(readOnly = true)
     public InviteRegistrationConfigPageResource inviteRegistrationConfig(
             String inviteCode, int page, int pageSize) {
-        repository.findActiveInviter(inviteCode)
-                .orElseThrow(() -> new BusinessException(
-                        "COMMON-404-NOT_FOUND", "邀请码不存在或已经失效", 404, false));
+        resolveInviter(inviteCode);
         UserAuthStore.H5RegistrationPageRow pageConfig = repository.findH5RegistrationPage()
                 .orElseThrow(() -> business("邀请注册页面暂未发布"));
         List<PublicPageBlockResource> agreements = repository.findCurrentAgreementVersions().stream()
@@ -166,7 +166,6 @@ public class UserAuthService {
                         Long.toString(value.id()), "RICH_TEXT", value.code(),
                         value.effectiveAt().toString(), null, null, value.id()))
                 .toList();
-        if (agreements.isEmpty()) throw business("注册协议暂未发布");
         List<PublicPageResource> items = page == 1
                 ? List.of(new PublicPageResource(
                         inviteCode,
@@ -183,20 +182,17 @@ public class UserAuthService {
 
     @Transactional(noRollbackFor = BusinessException.class)
     public UserSessionResource register(RegisterRequest request, String key, String ip) {
-        String hash = tokens.intentHash("authPostAuthRegister", request.phone(), request.smsCode(),
-                request.password(), request.inviteCode(), String.join("\u001f", request.agreementVersions()),
+        String hash = tokens.intentHash("authPostAuthRegister", request.phone(), request.password(),
+                request.inviteCode(), request.challengeId(), request.challengeProof(),
                 deviceIntent(request.device()));
         return idempotent(scope("rg", request.phone()), key, hash, "user-auth-session-v1",
                 UserSessionResource.class, () -> {
                     validatePassword(request.phone(), request.password());
-                    List<Long> agreements;
-                    try { agreements = repository.validateAgreementVersions(request.agreementVersions()); }
-                    catch (IllegalArgumentException exception) { throw business("协议版本不符合要求"); }
+                    verification.verifyChallenge(
+                            request.challengeId(), request.challengeProof(), AuthScene.REGISTER);
                     repository.lockRegistration(request.phone());
                     if (repository.findUser(request.phone()).isPresent()) throw business("手机号已注册");
-                    long inviterId = repository.findActiveInviter(request.inviteCode())
-                            .orElseThrow(() -> business("邀请码无效"));
-                    verification.verifySms(request.phone(), AuthScene.REGISTER, request.smsCode());
+                    long inviterId = resolveInviter(request.inviteCode());
                     Instant now = Instant.now(clock);
                     long userId = repository.createUser(request.phone());
                     repository.createCredential(userId, passwords.encode(request.password()), now);
@@ -204,9 +200,14 @@ public class UserAuthService {
                     Device device = upsertDevice(userId, request.device(), now);
                     repository.recordRegistration(userId, request.phone(), request.inviteCode(),
                             inviterId, device.id(), ip);
-                    repository.acceptAgreementVersions(userId, device.id(), agreements);
                     return createSession(userId, request.phone(), request.device(), ip, "REGISTER", device);
                 });
+    }
+
+    private long resolveInviter(String inviteCode) {
+        return testRegistrationInvite.inviterIdFor(inviteCode)
+                .or(() -> repository.findActiveInviter(inviteCode))
+                .orElseThrow(() -> business("邀请码无效"));
     }
 
     @Transactional(noRollbackFor = BusinessException.class)

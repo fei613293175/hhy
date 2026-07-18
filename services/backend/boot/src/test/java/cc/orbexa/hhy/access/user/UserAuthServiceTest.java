@@ -36,6 +36,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.mock.env.MockEnvironment;
 
 @ExtendWith(MockitoExtension.class)
 class UserAuthServiceTest {
@@ -47,6 +48,7 @@ class UserAuthServiceTest {
     @Mock UserAuthStore repository;
     @Mock UserAuthPolicy policy;
     @Mock UserAuthVerificationService verification;
+    @Mock TestRegistrationInvitePolicy testRegistrationInvite;
     @Mock PasswordEncoder passwords;
 
     private UserTokenService tokens;
@@ -64,6 +66,7 @@ class UserAuthServiceTest {
                 properties,
                 policy,
                 verification,
+                testRegistrationInvite,
                 passwords,
                 objectMapper,
                 Clock.fixed(NOW, ZoneOffset.UTC));
@@ -240,9 +243,9 @@ class UserAuthServiceTest {
     }
 
     @Test
-    void registrationPersistsValidatedInviteAgreementsDeviceAndSessionTogether() {
+    void registrationVerifiesImageChallengeAndPersistsInviteDeviceAndSessionTogether() {
         RegisterRequest request = new RegisterRequest(
-                "13900000000", "481516", "Correct99", "INVITE-R02", List.of("101", "102"),
+                "13900000000", "Correct99", "INVITE-R02", "challenge-register", "proof-register",
                 Map.of(
                         "deviceFingerprint", "install-fingerprint-2",
                         "model", "Pixel 9",
@@ -256,8 +259,8 @@ class UserAuthServiceTest {
         when(policy.passwordMaxLength()).thenReturn(72);
         when(policy.passwordRequireLetters()).thenReturn(true);
         when(policy.passwordRequireDigits()).thenReturn(true);
-        when(repository.validateAgreementVersions(List.of("101", "102"))).thenReturn(List.of(101L, 102L));
         when(repository.findUser("13900000000")).thenReturn(Optional.empty());
+        when(testRegistrationInvite.inviterIdFor("INVITE-R02")).thenReturn(Optional.empty());
         when(repository.findActiveInviter("INVITE-R02")).thenReturn(Optional.of(13L));
         when(passwords.encode("Correct99")).thenReturn("bcrypt-new-hash");
         when(repository.createUser("13900000000")).thenReturn(17L);
@@ -270,14 +273,44 @@ class UserAuthServiceTest {
         assertEquals("17", session.userId());
         assertEquals("23", session.sessionId());
         verify(repository).lockRegistration("13900000000");
-        verify(verification).verifySms("13900000000", UserAuthContracts.AuthScene.REGISTER, "481516");
+        verify(verification).verifyChallenge(
+                "challenge-register", "proof-register", UserAuthContracts.AuthScene.REGISTER);
         verify(repository).createCredential(17L, "bcrypt-new-hash", NOW);
         verify(repository).createProfile(17L);
         verify(repository).recordRegistration(17L, "13900000000", "INVITE-R02", 13L, 31L, "203.0.113.8");
-        verify(repository).acceptAgreementVersions(17L, 31L, List.of(101L, 102L));
+        verify(verification, never()).verifySms(anyString(), eq(UserAuthContracts.AuthScene.REGISTER), anyString());
         verify(repository).recordLogin(17L, "13900000000", 31L, "203.0.113.8", "REGISTER");
         verify(repository).completeIdempotencySnapshot(
                 eq(96L), eq("user-auth-session-v1:ok"), eq("user-auth-session-v1"), anyString());
+    }
+
+    @Test
+    void testUniversalInviteIsAcceptedWithoutDatabaseLookup() {
+        when(testRegistrationInvite.inviterIdFor("HHYTEST2026")).thenReturn(Optional.of(88L));
+
+        var result = service.validateInvite(new UserAuthContracts.InviteCodeValidateRequest("HHYTEST2026"));
+
+        assertEquals("88", result.resourceId());
+        verify(repository, never()).findActiveInviter(anyString());
+    }
+
+    @Test
+    void universalInvitePolicyRequiresExplicitNonProductionProfileAndConfiguration() {
+        MockEnvironment staging = new MockEnvironment();
+        staging.setActiveProfiles("staging");
+        var stagingPolicy = new TestRegistrationInvitePolicy(staging, "HHYTEST2026", 88L);
+        assertEquals(Optional.of(88L), stagingPolicy.inviterIdFor("HHYTEST2026"));
+        assertEquals(Optional.empty(), stagingPolicy.inviterIdFor("WRONG"));
+
+        MockEnvironment production = new MockEnvironment();
+        production.setActiveProfiles("production", "staging");
+        var productionPolicy = new TestRegistrationInvitePolicy(production, "HHYTEST2026", 88L);
+        assertEquals(Optional.empty(), productionPolicy.inviterIdFor("HHYTEST2026"));
+
+        MockEnvironment unconfigured = new MockEnvironment();
+        unconfigured.setActiveProfiles("test");
+        assertEquals(Optional.empty(), new TestRegistrationInvitePolicy(unconfigured, "", 0L)
+                .inviterIdFor("HHYTEST2026"));
     }
 
     @Test

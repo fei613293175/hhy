@@ -9,7 +9,7 @@ defineProps<{ eyebrow: string; title: string; description: string }>()
       <div class="auth-story-copy">
         <p class="eyebrow">运营控制台 · 安全域</p>
         <h1>重要业务，始终在可审计的边界内运行。</h1>
-        <p>管理员会话与用户会话完全隔离。登录、二次验证及高风险操作均记录请求标识，敏感凭证不会保存在浏览器中。</p>
+        <p>管理员会话与用户会话完全隔离。登录、二次验证及高风险操作均纳入操作审计。</p>
       </div>
       <ul class="trust-list">
         <li><span>01</span>独立管理员权限域</li>

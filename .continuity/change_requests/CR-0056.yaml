@@ -1,0 +1,54 @@
+protocol_version: '1.0'
+cr_id: CR-0056
+title: 更正测试邀请码运行配置文件范围
+status: IMPLEMENTED
+created_at: '2026-07-18T21:45:21Z'
+updated_at: '2026-07-18T22:34:34Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 注册测试阶段需要万能邀请码且生产不得形成后门。
+reason: CR-0054影响清单误写application.yaml，实际Spring Boot配置文件为application.yml，必须通过派生CR精确更正。
+original_rule: CR-0054登记了不存在的services/backend/boot/src/main/resources/application.yaml。
+new_rule: 在实际application.yml中声明默认关闭的HHY_TEST_UNIVERSAL_INVITE_CODE和HHY_TEST_UNIVERSAL_INVITER_ID，并由非生产Profile策略共同约束。
+impact_summary: 仅更正测试邀请码配置文件事实路径，不扩大功能范围。
+impact:
+  files:
+  - services/backend/boot/src/main/resources/application.yml
+  - docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md
+  - .continuity/change_requests/CR-0056.yaml
+  - .continuity/CHANGE_REQUEST_INDEX.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - HHY_TEST_UNIVERSAL_INVITE_CODE
+  - HHY_TEST_UNIVERSAL_INVITER_ID
+  ledger: []
+  tests:
+  - Gradle backend UserAuthServiceTest
+  releases:
+  - R02
+  - R03
+  migration_and_compatibility: 默认值为空和0，未配置时行为不变；生产Profile仍硬拒绝。
+user_confirmation: 测试阶段提供万能注册邀请码，且正式商业系统不得留生产后门。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T21:45:23Z'
+  note: 批准修正到实际application.yml并保持默认关闭和生产硬隔离。
+machine_record: .continuity/change_requests/CR-0056.yaml
+document: docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md
+decision_log:
+- at: '2026-07-18T21:45:24Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 更正运行配置路径并同步实施
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T22:34:34Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212

@@ -144,10 +144,10 @@ data class AuthRegistrationConfigResource(
 @Serializable
 data class AuthRegisterRequest(
     val phone: String,
-    val smsCode: String,
     val password: String,
     val inviteCode: String,
-    val agreementVersions: List<String>,
+    val challengeId: String,
+    val challengeProof: String,
     val device: AuthDevicePayload,
 )
 

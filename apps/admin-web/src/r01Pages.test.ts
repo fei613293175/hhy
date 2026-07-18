@@ -95,7 +95,7 @@ describe('R01 admin routes and page states', () => {
 
     expect((passwordInput.element as HTMLInputElement).value).toBe('');
     expect(wrapper.text()).toContain('账号或密码错误');
-    expect(wrapper.text()).toContain('请求标识：req-login-failed');
+    expect(wrapper.text()).not.toContain('req-login-failed');
     wrapper.unmount();
   });
 
@@ -263,7 +263,7 @@ describe('R01 admin routes and page states', () => {
     wrapper.unmount();
   });
 
-  it('renders structured request identifiers for support diagnostics', () => {
+  it('keeps request identifiers out of commercial user-facing notices', () => {
     const wrapper = mount(StatusNotice, {
       props: {
         tone: 'danger',
@@ -272,7 +272,9 @@ describe('R01 admin routes and page states', () => {
         requestId: 'req-r01-0001',
       },
     });
-    expect(wrapper.text()).toContain('请求标识：req-r01-0001');
+    expect(wrapper.text()).toContain('请求失败');
+    expect(wrapper.text()).toContain('请稍后重试');
+    expect(wrapper.text()).not.toContain('req-r01-0001');
   });
 
   it('labels, focuses, traps and restores focus for critical security dialogs', async () => {

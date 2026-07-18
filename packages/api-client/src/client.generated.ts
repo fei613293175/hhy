@@ -117,7 +117,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** 密码注册、短信校验、邀请码绑定、随机用户名 */
+        /** 密码注册、图形安全验证、邀请码绑定、随机用户名 */
         post: operations["authPostAuthRegister"];
         delete?: never;
         options?: never;
@@ -2879,11 +2879,11 @@ export interface components {
         AuthPostAuthRegisterRequest: {
             /** @example 13800000000 */
             phone: string;
-            smsCode: string;
             /** Format: password */
             password: string;
             inviteCode: string;
-            agreementVersions: string[];
+            challengeId: string;
+            challengeProof: string;
             device?: {
                 [key: string]: components["schemas"]["JsonValue"];
             };

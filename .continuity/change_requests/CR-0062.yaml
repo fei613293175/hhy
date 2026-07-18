@@ -1,0 +1,48 @@
+protocol_version: '1.0'
+cr_id: CR-0062
+title: 同步无短信注册契约状态哈希
+status: IMPLEMENTED
+created_at: '2026-07-18T22:19:08Z'
+updated_at: '2026-07-18T22:34:41Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 严格按开发文档开发且不遗漏任何契约细节
+reason: OpenAPI注册请求变更后contract_status.csv的131项客户端操作源哈希必须确定性刷新
+original_rule: contract_status.csv记录变更前OpenAPI事实源哈希
+new_rule: 保持全部契约元数据不变，仅用安全状态同步器刷新OpenAPI事实源SHA-256
+impact_summary: 同步无短信注册OpenAPI派生状态，恢复API契约门禁
+impact:
+  files:
+  - contracts/contract_status.csv
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - scripts/generate_contracts.py --check和scripts/check_api_contract.py
+  releases:
+  - R02安全验证码交互热修复
+  migration_and_compatibility: 不运行旧全量契约重建，不覆盖富化Schema
+user_confirmation: 2026-07-19无短信注册与严格契约要求
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T22:19:11Z'
+  note: 属于用户明确注册契约变更的确定性派生资产
+machine_record: .continuity/change_requests/CR-0062.yaml
+document: docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md
+decision_log:
+- at: '2026-07-18T22:19:12Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 刷新契约事实源哈希
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T22:34:41Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212

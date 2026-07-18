@@ -1,0 +1,114 @@
+protocol_version: '1.0'
+cr_id: CR-0054
+title: 接入R02安全验证冻结设计并简化测试注册流程
+status: IMPLEMENTED
+created_at: '2026-07-18T21:38:39Z'
+updated_at: '2026-07-18T22:34:32Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 接入20260719冻结安全验证码需求包；注册无需短信验证码；提供测试万能邀请码；全局禁止技术性提示；严格按文档参数；每个大版本桌面交付测试说明。
+reason: 项目所有者提供新的冻结UI事实和注册契约变更，并新增跨AI跨电脑商业产品硬边界，需要在当前R03线上以R02认证热修方式完整接入。
+original_rule: R02旧实现把图形验证码作为页面内联字段并要求用户二次点击；注册请求强制短信验证码和协议版本；仓库未统一禁止技术字段面向用户展示，也未强制每个大版本生成桌面测试说明。
+new_rule: 四个认证页面按冻结B01-CAPTCHA参数使用业务动作触发的居中安全验证弹窗，成功后自动续办原动作；注册可见必填仅手机号、密码、确认密码、邀请码且不发送注册短信，注册请求以图形挑战证明保护；万能邀请码仅在DEV/TEST/STAGING且显式配置时可用，PROD硬拒绝；全局禁止用户界面展示请求编号和内部技术字段；每个大版本必须文档核对并向桌面交付完整测试反馈说明。
+impact_summary: 接入冻结视觉资产和规格，修改注册OpenAPI、后端和Android认证流程，新增测试环境邀请码策略、商业UI静态门禁、回包验收兼容修复及R02热修追溯。
+impact:
+  files:
+  - AGENTS.md
+  - templates/AGENTS.md
+  - .continuity/CONTINUITY_POLICY.yaml
+  - START_HERE.md
+  - CHANGELOG.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/01-authentication/登录注册与安全验证详细规格_V1.2.2.md
+  - docs/02-ui/12批UI参考图绑定索引_V1.2.2.md
+  - docs/02-ui/R02安全验证码弹层交互与视觉规格_V1.2.2.md
+  - docs/02-ui/页面施工规格总索引_V1.2.2.md
+  - docs/02-ui/页面模板字段状态动作唯一事实源_V1.2.2.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-001_密码登录.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-002_短信验证码登录.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-003_注册账号.md
+  - docs/02-ui/page-specs/android/SCR-AUTH-004_忘记密码.md
+  - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_8STATE_UI_REFERENCE.png
+  - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_MANIFEST.json
+  - design/effect-previews/B01-CAPTCHA/OUTPUT_REQUIREMENTS.md
+  - design/effect-previews/B01-CAPTCHA/states/P01_初始页_验证码隐藏.png
+  - design/effect-previews/B01-CAPTCHA/states/P02_点击登录_挑战加载.png
+  - design/effect-previews/B01-CAPTCHA/states/P03_验证码就绪_等待输入.png
+  - design/effect-previews/B01-CAPTCHA/states/P04_答案错误_原位重试.png
+  - design/effect-previews/B01-CAPTCHA/states/P05_过期-刷新_旧答案清空.png
+  - design/effect-previews/B01-CAPTCHA/states/P06_短信-注册_发送前验证.png
+  - design/effect-previews/B01-CAPTCHA/states/P07_验证通过_自动续办.png
+  - design/effect-previews/B01-CAPTCHA/states/P08_网络失败_键盘-小屏适配.png
+  - scripts/check_r02_security_challenge_design_package.py
+  - tests/test_r02_security_challenge_design_package.py
+  - scripts/check_commercial_ui_boundaries.py
+  - tests/test_commercial_ui_boundaries.py
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
+  - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java
+  - services/backend/boot/src/main/resources/application.yaml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/generated/openapi.yaml
+  - tests/test_r02_auth_slice_contract.py
+  - config/PROBLEM_REGISTRY.yaml
+  - releases/R02/R02_AUTH_HOTFIX_20260719.md
+  - docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md
+  - .continuity/change_requests/CR-0054.yaml
+  - .continuity/CHANGE_REQUEST_INDEX.yaml
+  pages:
+  - SCR-AUTH-001
+  - SCR-AUTH-002
+  - SCR-AUTH-003
+  - SCR-AUTH-004
+  apis:
+  - POST /api/v1/auth/register
+  - POST /api/v1/auth/security-challenges
+  - POST /api/v1/auth/invite-codes/validate
+  database: []
+  configuration:
+  - HHY_TEST_UNIVERSAL_INVITE_CODE
+  - HHY_TEST_UNIVERSAL_INVITER_ID
+  - Spring profiles DEV/TEST/STAGING only
+  ledger: []
+  tests:
+  - python -m unittest tests.test_r02_security_challenge_design_package
+  - python -m unittest tests.test_commercial_ui_boundaries
+  - python -m unittest tests.test_r02_auth_slice_contract
+  - Gradle Android auth/network tests
+  - Gradle backend UserAuthServiceTest
+  - python scripts/check_v123_continuity.py --strict
+  releases:
+  - R02
+  - R03
+  migration_and_compatibility: 注册API为有意的不兼容契约升级：移除smsCode和agreementVersions，新增challengeId和challengeProof；Android与后端在同一热修交付中同步。数据库无结构迁移。万能邀请码默认关闭，仅受控非生产环境变量启用，生产无法启用。
+user_confirmation: R02的安全验证码开发问题已由ChatGPT制作好需求包，现在已经给你了，请你理解后开始开发；注册无需短信验证码；新增四项全局硬性开发边界。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T21:39:46Z'
+  note: 项目所有者本轮明确提供冻结设计包及注册和全局硬边界，批准按完整影响范围接入；万能邀请码必须保持非生产环境硬隔离。
+machine_record: .continuity/change_requests/CR-0054.yaml
+document: docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md
+decision_log:
+- at: '2026-07-18T21:39:49Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始接入冻结设计事实、注册契约和商业UI硬门禁
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T22:34:32Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212

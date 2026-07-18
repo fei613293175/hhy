@@ -98,6 +98,22 @@ class DesignReturnPackageTest(unittest.TestCase):
             self.assertEqual(result["reference_files_verified"], 1)
             self.assertEqual(result["effect_dimensions_px"], {"width": 1, "height": 1})
 
+    def test_web_return_object_change_records_and_prefixed_effect_path_pass(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            root = self.make_package(Path(temp))
+            manifest = root / "EDITABLE_OVERLAY/RETURN_MANIFEST.json"
+            payload = json.loads(manifest.read_text(encoding="utf-8"))
+            payload["created_or_modified_files"] = [
+                {
+                    "path": "EDITABLE_OVERLAY/docs/02-ui/R02安全验证码弹层交互与视觉规格_V1.2.2.md",
+                    "change": "MODIFIED",
+                    "sha256": "0" * 64,
+                }
+            ]
+            payload["effect_preview"]["file"] = f"EDITABLE_OVERLAY/{EXPECTED_EFFECT}"
+            manifest.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+            self.assertEqual(validate(root)["status"], "PASS")
+
     def test_missing_effect_or_placeholder_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             root = self.make_package(Path(temp))

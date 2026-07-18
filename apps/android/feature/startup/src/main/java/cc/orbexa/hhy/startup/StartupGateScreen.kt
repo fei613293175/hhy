@@ -61,7 +61,7 @@ fun StartupGateScreen(
         }
         is StartupGateState.Unavailable -> GateMessage(
             title = "暂时无法连接",
-            message = current.requestId?.let { "请求编号：$it" },
+            message = null,
         ) {
             RetryButton { retryKey += 1 }
         }

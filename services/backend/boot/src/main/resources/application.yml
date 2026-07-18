@@ -47,6 +47,9 @@ management:
       probes:
         enabled: true
 hhy:
+  test-registration:
+    universal-invite-code: ${HHY_TEST_UNIVERSAL_INVITE_CODE:}
+    universal-inviter-id: ${HHY_TEST_UNIVERSAL_INVITER_ID:0}
   user-security:
     jwt-secret: ${HHY_USER_JWT_SECRET}
     token-hmac-secret: ${HHY_USER_TOKEN_HMAC_SECRET}

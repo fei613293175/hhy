@@ -1,0 +1,56 @@
+protocol_version: '1.0'
+cr_id: CR-0059
+title: 补清管理端说明文案中的技术请求标识
+status: IMPLEMENTED
+created_at: '2026-07-18T21:58:02Z'
+updated_at: '2026-07-18T22:34:37Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 正式前端全局不允许展示技术性提示词。
+reason: 商业UI静态门禁发现AuthShell安全说明和安全空态仍提到请求标识，属于CR-0055遗漏。
+original_rule: 管理端安全说明将内部请求标识作为用户可见排障说明。
+new_rule: 改为业务化的操作审计和重新加载说明，不向管理员展示或提及内部请求标识。
+impact_summary: 清理两个遗漏文案并纳入全局静态门禁。
+impact:
+  files:
+  - apps/admin-web/src/components/AuthShell.vue
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md
+  - .continuity/change_requests/CR-0059.yaml
+  - .continuity/CHANGE_REQUEST_INDEX.yaml
+  pages:
+  - ADMIN-LOGIN
+  - ADMIN-SECURITY
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python -m unittest tests.test_commercial_ui_boundaries
+  - pnpm --filter @hhy/admin-web test
+  releases:
+  - R01
+  - R03
+  migration_and_compatibility: 纯文案，无接口或数据变化。
+user_confirmation: 前端全局任何页面不允许展示技术性提示词。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T21:58:04Z'
+  note: 批准清理静态门禁发现的遗漏技术文案。
+machine_record: .continuity/change_requests/CR-0059.yaml
+document: docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md
+decision_log:
+- at: '2026-07-18T21:58:06Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 清理遗漏技术文案
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T22:34:37Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212

@@ -131,7 +131,7 @@ onBeforeUnmount(() => {
     </form>
 
     <section v-if="loading" class="card skeleton-stack" aria-label="正在加载用户列表"><div v-for="index in 6" :key="index" class="skeleton user-row-skeleton" /></section>
-    <section v-else-if="error && !result" class="card error-state" aria-live="polite"><div class="avatar centered-mark">!</div><h2>{{ forbidden ? '无法访问用户列表' : '列表暂时无法加载' }}</h2><p>{{ error.message }}</p><small v-if="error.requestId">请求编号：{{ error.requestId }}</small><div><button v-if="!forbidden" class="primary-button" :disabled="!online" @click="load()">重新加载</button></div></section>
+    <section v-else-if="error && !result" class="card error-state" aria-live="polite"><div class="avatar centered-mark">!</div><h2>{{ forbidden ? '无法访问用户列表' : '列表暂时无法加载' }}</h2><p>{{ error.message }}</p><div><button v-if="!forbidden" class="primary-button" :disabled="!online" @click="load()">重新加载</button></div></section>
     <section v-else-if="isEmpty" class="card empty-state"><div class="avatar centered-mark">0</div><h2>当前筛选没有用户</h2><p>请调整关键词或状态条件后重新查询。</p><button class="ghost-button" @click="filters.keyword=''; filters.status=''; submitFilters()">清除筛选</button></section>
     <section v-else-if="result && !forbidden" class="card user-table-card" :aria-busy="refreshing">
       <div class="section-heading"><div><h2>查询结果</h2><p>共 {{ total }} 条，当前第 {{ page }} 页</p></div><span class="tag tag-success">已脱敏</span></div>

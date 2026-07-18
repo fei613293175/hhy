@@ -49,6 +49,25 @@ class ApiModelsSerializationTest {
         assertFalse(fields.containsKey("challenge_id"))
     }
 
+    @Test fun registrationUsesImageChallengeAndDoesNotSendSmsOrAgreementFields() {
+        val request = AuthRegisterRequest(
+            phone = "13800000000",
+            password = "password1",
+            inviteCode = "HHYTEST2026",
+            challengeId = "challenge-register",
+            challengeProof = "7K3M",
+            device = AuthDevicePayload("fingerprint", "Pixel", "ANDROID", "15", "1.2.2-debug"),
+        )
+        val fields = HhyNetworkJson.value.parseToJsonElement(
+            HhyNetworkJson.value.encodeToString(AuthRegisterRequest.serializer(), request),
+        ).jsonObject
+
+        assertTrue(fields.containsKey("challengeId"))
+        assertTrue(fields.containsKey("challengeProof"))
+        assertFalse(fields.containsKey("smsCode"))
+        assertFalse(fields.containsKey("agreementVersions"))
+    }
+
     @Test fun securitySessionListDecodesWithoutCredentialFields() {
         val page = HhyNetworkJson.value.decodeFromString<UserSecuritySessionPageResource>(
             """{"items":[{"sessionId":"23","device":{"deviceId":"device-1","deviceName":"Pixel"},"createdAt":"2026-07-18T00:00:00Z","expiresAt":"2026-08-18T00:00:00Z","status":"ACTIVE","current":true}],"page":{"page":1,"pageSize":20,"total":1,"hasMore":false}}""",

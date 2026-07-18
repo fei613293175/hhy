@@ -127,13 +127,14 @@ class R02AuthSliceContractTests(unittest.TestCase):
         self.assertIn("BitmapFactory.decodeByteArray", auth_screen)
         self.assertIn("'auth.password.max_length','72'::jsonb", migration)
 
-    def test_auth_ui_keeps_error_codes_internal_and_shows_request_id_for_support(self) -> None:
+    def test_auth_ui_keeps_error_codes_and_request_ids_out_of_user_visible_copy(self) -> None:
         auth_screen = read(
             "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt"
         )
 
         self.assertIn("errorForStatus(it, result.errorCode, result.retryAfterSeconds)", auth_screen)
-        self.assertIn('Text("请求编号：$it"', auth_screen)
+        self.assertNotIn('Text("请求编号：$it"', auth_screen)
+        self.assertNotIn("敏感信息仅用于本次认证", auth_screen)
         self.assertNotIn("错误码：", auth_screen)
         self.assertNotIn("val errorCode: String?", auth_screen)
 
@@ -167,29 +168,32 @@ class R02AuthSliceContractTests(unittest.TestCase):
             "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt"
         )
 
-        self.assertIn("fun requestChallenge()", auth_screen)
-        self.assertIn("if (challengeId.isBlank()) requestChallenge()", auth_screen)
-        self.assertIn("canStartPasswordChallenge", auth_screen)
+        self.assertIn("fun requestChallenge(intent: PendingAuthIntent", auth_screen)
+        self.assertIn("SecurityChallengeDialog", auth_screen)
+        self.assertIn("验证并继续", auth_screen)
+        self.assertIn("delay(360)", auth_screen)
         self.assertNotIn('Text("创建安全验证")', auth_screen)
-        self.assertIn('Text("发送验证码")', auth_screen)
+        self.assertIn('else "发送验证码"', auth_screen)
+        self.assertIn('秒后可重新发送', auth_screen)
 
-    def test_registration_uses_server_current_versions_and_never_manual_version_input(self) -> None:
+    def test_registration_uses_password_invite_and_image_challenge_without_sms(self) -> None:
         auth_screen = read(
             "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt"
         )
         auth_api = read(
             "apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt"
         )
-        store = read(
-            "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java"
-        )
+        api_models = read("apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt")
 
-        self.assertIn("api.registrationConfig()", auth_screen)
-        self.assertIn("agreementVersionIds", auth_screen)
-        self.assertIn("我已阅读并同意当前协议", auth_screen)
-        self.assertNotIn("协议版本（逗号分隔）", auth_screen)
-        self.assertIn('get("/api/v1/auth/registration-config")', auth_api)
-        self.assertIn("agreement.current_version_id", store)
+        self.assertIn("api.register(phone, password, inviteCode, dialog.challengeId, dialog.proof)", auth_screen)
+        self.assertNotIn("agreementVersionIds", auth_screen)
+        self.assertNotIn("加载当前注册协议", auth_screen)
+        self.assertNotIn("校验邀请码", auth_screen)
+        self.assertIn("val challengeId: String", api_models)
+        register_model = api_models.split("data class AuthRegisterRequest(", 1)[1].split(")", 1)[0]
+        self.assertNotIn("smsCode", register_model)
+        self.assertNotIn("agreementVersions", register_model)
+        self.assertIn('"/api/v1/auth/register"', auth_api)
 
     def test_debug_startup_defaults_to_the_published_staging_channel(self) -> None:
         app_build = read("apps/android/app/build.gradle.kts")
