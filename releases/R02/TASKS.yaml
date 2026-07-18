@@ -56,7 +56,7 @@ tasks:
   - 启动、登录、注册的加载、拒绝、离线、冲突和成功导航有证据
   - MODULE门禁通过并可独立合入主控分支
   session_log_required: true
-  completed_at: '2026-07-18T05:27:28Z'
+  completed_at: '2026-07-18T05:31:33Z'
 - id: TASK-R02-003
   title: 纵向批次B：安全会话、冻结与注销闭环
   status: READY

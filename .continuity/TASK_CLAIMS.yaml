@@ -706,7 +706,7 @@ claims:
   task_id: TASK-R02-002
   story_id: STORY-R02-003
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-17T21:09:27Z'
   allowed_paths:
   - apps/android/**
@@ -722,3 +722,4 @@ claims:
   - design/**
   - scripts/**
   - STORY-R02-003,STORY-R02-004及其直接实现、测试与生成契约
+  closed_at: '2026-07-18T05:31:36Z'
