@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0040
 title: 同步R02端点计数的滚动总计划派生结果
-status: APPROVED
+status: CLOSED
 created_at: '2026-07-18T09:02:53Z'
-updated_at: '2026-07-18T09:03:07Z'
+updated_at: '2026-07-18T10:47:53Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-standing-authorization
 task_id: TASK-R02-006
@@ -33,3 +33,23 @@ approval:
   note: 批准根据CR-0039重新生成单一派生总计划文件，禁止改变其他版本事实和调度规则。
 machine_record: .continuity/change_requests/CR-0040.yaml
 document: docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
+decision_log:
+- at: '2026-07-18T10:47:52Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: R02集成与预发布验收实施完成，进入证据绑定
+  session_id: SES-20260718T084729Z-BD53B7C4
+- at: '2026-07-18T10:47:53Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 实现与回归证据已绑定到最终集成提交
+  session_id: SES-20260718T084729Z-BD53B7C4
+- at: '2026-07-18T10:47:53Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 25项矩阵、131项Maven、预发布可观测性与故障注入均通过，关闭变更请求
+  session_id: SES-20260718T084729Z-BD53B7C4
+implementation_commits:
+- 4d5598286a7158f50960e1dfa45db5390d83863d
+session_ids:
+- SES-20260718T084729Z-BD53B7C4
