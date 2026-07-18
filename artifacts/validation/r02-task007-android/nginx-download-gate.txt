@@ -1,13 +1,21 @@
-checked_at=2026-07-18T11:13:49Z
-host=obx-test
-config=/www/server/panel/vhost/nginx/download.orbexa.cc.conf
-config_sha256=22f25cc6d52e3a88e6b3b6ce33157d331493c2097947f755f8243346e57d9acb
-backup=/www/server/panel/vhost/nginx/download.orbexa.cc.conf.pre-r02-bbad603
-backup_sha256=c8f8b26b356f7440d017ad53af844db45af10b6063f92a28c116e4a9a0ee85c7
-nginx_config_test=PASS
-nginx_reload=PASS
-location=/r02-artifacts/hhy-r02-bbad603-debug.apk
-content_type=application/vnd.android.package-archive
-https_status=200
-range_status=206
+﻿HTTP/1.1 200 OK
+Date: Sat, 18 Jul 2026 12:19:08 GMT
+Content-Type: application/vnd.android.package-archive
+Content-Length: 11923821
+Connection: keep-alive
+Server: cloudflare
+Last-Modified: Sat, 18 Jul 2026 12:15:35 GMT
+ETag: "6a5b6e67-b5f16d"
+Content-Disposition: attachment; filename="hhy-r02-2bbfa9b-debug.apk"
+X-Content-Type-Options: nosniff
+Accept-Ranges: bytes
+Age: 148
+Cache-Control: max-age=14400
+cf-cache-status: HIT
+Speculation-Rules: "/cdn-cgi/speculation"
+Vary: accept-encoding
+Report-To: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=ACai5om%2BIbs1CbnX7EtWYZ4vsb9i53Juvt30dPD%2BTeJEKyD1KQBEX7NCw%2FEuH78csceYOUO8bUJdvqzxr9nOmIJWn%2FkizS%2FkVZuWyEiIfFavmlal3xt4iDiqz2osckIZG6YDWw%3D%3D"}]}
+Nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+CF-RAY: a1d16ed7ade4fd90-SIN
+alt-svc: h3=":443"; ma=86400
 

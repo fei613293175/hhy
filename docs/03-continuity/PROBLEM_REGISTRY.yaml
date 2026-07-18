@@ -280,3 +280,14 @@ problems:
   do_not_repeat:
   - 不得只校验platform status 200就认定APK依赖的全部公开认证端点可用
   - 公网APK交付门禁必须实测本版本新增的匿名端点及其鉴权策略
+- id: PROB-0025
+  title: 新APK精确下载路径首次404被Cloudflare负缓存
+  status: SOLVED
+  root_cause: 新Commit文件名首次交付时Nginx精确白名单尚未登记，Cloudflare把源站404缓存四小时；源站随后已有同哈希APK并返回200，但普通HTTPS校验仍命中缓存404。
+  resolution: 下载站先登记精确只读白名单并通过Nginx配置检查，再发布同哈希APK；交付校验的完整与Range请求均携带Cache-Control no-cache强制回源复核，同时HTTPError记录实际状态码。缓存回源后200、MIME、长度、Range 206和四方SHA-256全部通过。
+  regression_checks:
+  - tests/test_android_apk_delivery.py#test_https_verifier_checks_full_hash_and_range_body
+  - scripts/deliver_android_test_apk.py verify --release R02
+  do_not_repeat:
+  - 不得在下载站精确白名单生效前请求新的Commit APK路径
+  - CDN缓存状态不得替代源站文件、MIME、Range与哈希联合验证

@@ -1,12 +1,12 @@
 {
   "schema_version": 1,
   "release": "R02",
-  "commit": "bbad603ed7136e1fc1d9fbcf03ca414c6862d16e",
-  "apk_file": "hhy-r02-bbad603-debug.apk",
+  "commit": "2bbfa9b7c6cb52457841a8cdd1a0e12b467de494",
+  "apk_file": "hhy-r02-2bbfa9b-debug.apk",
   "version_name": "1.2.2-debug",
   "version_code": 10202,
-  "sha256": "0e9f0b2c004fd839f4811bcce5b103111d435167c774812c0b97b90d7b345cf6",
-  "size_bytes": 11907437,
+  "sha256": "0ae7d292097d2b0bb5aaff1873229a1a766218500d1fe0f62494fb34109a66af",
+  "size_bytes": 11923821,
   "signing": {
     "status": "PASS",
     "profile_id": "hhy-staging-test-v1",
@@ -15,33 +15,33 @@
   },
   "local": {
     "status": "PASS",
-    "artifact_copy": "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\artifacts\\apk\\R02\\hhy-r02-bbad603-debug.apk"
+    "artifact_copy": "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\artifacts\\apk\\R02\\hhy-r02-2bbfa9b-debug.apk"
   },
   "desktop": {
     "status": "PASS",
-    "path": "C:\\Users\\小白\\Desktop\\hhy-r02-bbad603-debug.apk",
-    "sha256": "0e9f0b2c004fd839f4811bcce5b103111d435167c774812c0b97b90d7b345cf6"
+    "path": "C:\\Users\\小白\\Desktop\\hhy-r02-2bbfa9b-debug.apk",
+    "sha256": "0ae7d292097d2b0bb5aaff1873229a1a766218500d1fe0f62494fb34109a66af"
   },
   "remote": {
     "status": "PASS",
-    "sha256": "0e9f0b2c004fd839f4811bcce5b103111d435167c774812c0b97b90d7b345cf6",
-    "size_bytes": 11907437,
-    "path": "/www/wwwroot/download.orbexa.cc/r02-artifacts/hhy-r02-bbad603-debug.apk",
-    "publish_state": "CREATED"
+    "sha256": "0ae7d292097d2b0bb5aaff1873229a1a766218500d1fe0f62494fb34109a66af",
+    "size_bytes": 11923821,
+    "path": "/www/wwwroot/download.orbexa.cc/r02-artifacts/hhy-r02-2bbfa9b-debug.apk",
+    "publish_state": "EXISTING"
   },
   "https": {
     "status": "PASS",
     "http_status": 200,
     "range_status": 206,
     "content_type": "application/vnd.android.package-archive",
-    "sha256": "0e9f0b2c004fd839f4811bcce5b103111d435167c774812c0b97b90d7b345cf6",
-    "size_bytes": 11907437,
-    "verified_at": "2026-07-18T11:14:09.004440Z",
-    "url": "https://download.orbexa.cc/r02-artifacts/hhy-r02-bbad603-debug.apk"
+    "sha256": "0ae7d292097d2b0bb5aaff1873229a1a766218500d1fe0f62494fb34109a66af",
+    "size_bytes": 11923821,
+    "verified_at": "2026-07-18T12:19:05.956419Z",
+    "url": "https://download.orbexa.cc/r02-artifacts/hhy-r02-2bbfa9b-debug.apk"
   },
   "owner_physical_test": {
     "status": "PENDING"
   },
-  "created_at": "2026-07-18T11:13:49.209651Z",
-  "last_verified_at": "2026-07-18T11:14:09.004440Z"
+  "created_at": "2026-07-18T12:17:16.561090Z",
+  "last_verified_at": "2026-07-18T12:19:05.956419Z"
 }

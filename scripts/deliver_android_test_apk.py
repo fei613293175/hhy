@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Mapping, Protocol, Sequence
+from urllib.error import HTTPError
 from urllib.parse import urlsplit
 from urllib.request import Request, urlopen
 import hashlib
@@ -520,7 +521,10 @@ def verify_https_download(
         or parsed.fragment
     ):
         raise DeliveryError("download URL is outside the approved HTTPS host")
-    request = Request(url, headers={"User-Agent": "hhy-apk-delivery/1"})
+    request = Request(url, headers={
+        "User-Agent": "hhy-apk-delivery/1",
+        "Cache-Control": "no-cache",
+    })
     digest = hashlib.sha256()
     downloaded = 0
     try:
@@ -547,6 +551,8 @@ def verify_https_download(
                 downloaded += len(block)
     except DeliveryError:
         raise
+    except HTTPError as exc:
+        raise DeliveryError(f"APK HTTPS download returned HTTP {exc.code}") from exc
     except Exception as exc:
         raise DeliveryError(f"APK HTTPS download failed: {type(exc).__name__}") from exc
     if downloaded != expected_size or digest.hexdigest() != expected_sha:
@@ -557,7 +563,11 @@ def verify_https_download(
         raise DeliveryError("APK is empty")
     range_request = Request(
         url,
-        headers={"User-Agent": "hhy-apk-delivery/1", "Range": f"bytes=0-{range_end}"},
+        headers={
+            "User-Agent": "hhy-apk-delivery/1",
+            "Cache-Control": "no-cache",
+            "Range": f"bytes=0-{range_end}",
+        },
     )
     try:
         with opener(range_request, timeout) as response:
@@ -570,6 +580,8 @@ def verify_https_download(
             range_body = response.read(range_end + 2)
     except DeliveryError:
         raise
+    except HTTPError as exc:
+        raise DeliveryError(f"APK Range request returned HTTP {exc.code}") from exc
     except Exception as exc:
         raise DeliveryError(f"APK Range verification failed: {type(exc).__name__}") from exc
     with local_apk.open("rb") as handle:

@@ -374,7 +374,10 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             apk.write_bytes(body)
             url = "https://download.orbexa.cc/r02-artifacts/hhy-r02-1234567-debug.apk"
 
+            observed_requests: list[Request] = []
+
             def opener(request: Request, timeout: int) -> FakeHttpResponse:
+                observed_requests.append(request)
                 range_header = request.headers.get("Range")
                 if range_header:
                     end = min(1023, len(body) - 1)
@@ -403,6 +406,8 @@ class AndroidApkDeliveryTest(unittest.TestCase):
                 opener=opener,
             )
             self.assertEqual("PASS", result["status"])
+            self.assertEqual(2, len(observed_requests))
+            self.assertTrue(all(request.headers.get("Cache-control") == "no-cache" for request in observed_requests))
             with self.assertRaises(delivery.DeliveryError):
                 delivery.verify_https_download(
                     url,

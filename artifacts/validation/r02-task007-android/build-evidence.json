@@ -1,6 +1,6 @@
 {
   "release": "R02",
-  "commit": "bbad603ed7136e1fc1d9fbcf03ca414c6862d16e",
+  "commit": "2bbfa9b7c6cb52457841a8cdd1a0e12b467de494",
   "version_name": "1.2.2-debug",
   "version_code": 10202,
   "build_status": "PASS",
@@ -16,8 +16,8 @@
   "api_base_url": "https://api.orbexa.cc",
   "toolchain_image": "hhy-android-toolchain:r01-46fb273",
   "toolchain_image_id": "sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607",
-  "source_archive_sha256": "078f1d8eb324970b96c618117e9a5a3eb636ae89d26274be1f73e61ca9e7667a",
-  "apk_sha256": "0e9f0b2c004fd839f4811bcce5b103111d435167c774812c0b97b90d7b345cf6",
-  "apk_size_bytes": 11907437,
-  "built_at": "2026-07-18T11:03:53Z"
+  "source_archive_sha256": "3f818101871a192d6cbb24c9630483fa08f76c535e2b00c0a45ed59239f1c308",
+  "apk_sha256": "0ae7d292097d2b0bb5aaff1873229a1a766218500d1fe0f62494fb34109a66af",
+  "apk_size_bytes": 11923821,
+  "built_at": "2026-07-18T12:10:23Z"
 }

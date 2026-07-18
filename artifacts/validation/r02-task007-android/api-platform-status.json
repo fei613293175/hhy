@@ -1,1 +1,1 @@
-{"success":true,"requestId":"4f42581a-72ac-492f-8e29-5de6aaf7d94f","timestamp":"2026-07-18T11:03:53.272025633Z","data":{"maintenance":false,"maintenanceMessage":"系统维护中","capabilities":{"registration":true,"publishing":true,"redPacket":false,"withdrawal":false},"serverTime":"2026-07-18T11:03:53.272018339Z"}}
+﻿{"api_base_url": "https://api.orbexa.cc", "challenge_request_id": "7ccf100d-8b98-48a8-be12-95f02d67a64c", "registration_config_http": 200, "registration_request_id": "7b8fc16a-7bd2-498f-bb9a-1a7192501a03", "security_challenge_http": 200, "status": "PASS"}
