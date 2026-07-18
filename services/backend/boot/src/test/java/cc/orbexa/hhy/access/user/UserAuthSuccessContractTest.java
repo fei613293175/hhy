@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cc.orbexa.hhy.access.user.UserAuthContracts.DeviceSummaryResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordLoginRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RefreshRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.RegisterRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.UserSessionResource;
 import java.time.Instant;
 import java.util.List;
@@ -98,6 +99,37 @@ class UserAuthSuccessContractTest {
         var request = org.mockito.ArgumentCaptor.forClass(PasswordLoginRequest.class);
         verify(service).passwordLogin(request.capture(), eq("password-idem-key-0001"), anyString());
         org.junit.jupiter.api.Assertions.assertEquals("13800000000", request.getValue().phone());
+        org.junit.jupiter.api.Assertions.assertEquals("install-fingerprint", request.getValue().device().get("deviceFingerprint"));
+    }
+
+    @Test
+    void registrationBindsInviteAgreementAndDeviceFieldsToFrozenRequest() throws Exception {
+        Instant expiresAt = Instant.parse("2026-07-18T01:15:00Z");
+        when(service.register(any(RegisterRequest.class), eq("register-idem-key-0001"), anyString()))
+                .thenReturn(new UserSessionResource(
+                        "access-token", "refresh-token", expiresAt,
+                        "17", "23",
+                        new DeviceSummaryResource("31", "Pixel 9", "ANDROID", "16", "1.2.3", expiresAt, true),
+                        List.of("content.read")));
+
+        mvc.perform(post("/api/v1/auth/register")
+                        .header("X-Request-Id", "contract-registration")
+                        .header("X-Idempotency-Key", "register-idem-key-0001")
+                        .contentType("application/json")
+                        .content("""
+                                {"phone":"13900000000","smsCode":"481516","password":"Correct99","inviteCode":"INVITE-R02",
+                                 "agreementVersions":["101","102"],"device":{"deviceFingerprint":"install-fingerprint","platform":"ANDROID"}}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.requestId").value("contract-registration"))
+                .andExpect(jsonPath("$.data.sessionId").value("23"))
+                .andExpect(jsonPath("$.data.device.deviceId").value("31"));
+
+        var request = org.mockito.ArgumentCaptor.forClass(RegisterRequest.class);
+        verify(service).register(request.capture(), eq("register-idem-key-0001"), anyString());
+        org.junit.jupiter.api.Assertions.assertEquals("INVITE-R02", request.getValue().inviteCode());
+        org.junit.jupiter.api.Assertions.assertEquals(List.of("101", "102"), request.getValue().agreementVersions());
         org.junit.jupiter.api.Assertions.assertEquals("install-fingerprint", request.getValue().device().get("deviceFingerprint"));
     }
 }
