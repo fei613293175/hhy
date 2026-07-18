@@ -28,10 +28,12 @@ class R03ProviderConfigurationMigrationTest(unittest.TestCase):
             "service_health_status",
             "('stg_download','STAGING','stg-download.orbexa.cc'",
             "approval_requester_id <> approval_reviewer_id",
+            "char_length(item.value #>> '{}') > 512",
         )
         for marker in required:
             with self.subTest(marker=marker):
                 self.assertIn(marker, sql)
+        self.assertNotIn("{3,512}", sql)
 
     def test_all_frozen_r03_permissions_are_seeded_and_granted(self) -> None:
         sql = SOURCE.read_text(encoding="utf-8")

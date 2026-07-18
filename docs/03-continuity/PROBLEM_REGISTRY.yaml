@@ -326,3 +326,15 @@ problems:
   do_not_repeat:
   - 高敏命令不得只凭审批ID和APPROVED状态放行
   - 审批必须同时绑定操作类型、目标资源、申请人和独立复核人
+- id: PROB-0029
+  title: R03 SecretRef正则和基线表数只通过静态门禁但在真实PostgreSQL失败
+  status: SOLVED
+  root_cause: V019最初使用PostgreSQL不支持的超大有界量词{3,512}，迁移创建阶段不会编译CHECK内部正则，首次写入才报invalid repetition count；同时旧verify_baseline只允许198或199张表，未接受R03新增表后的200张表。
+  resolution: SecretRef数据库约束改为三字符下限正则与独立总长度上限组合，Java证书引用同步限制总长度；基线验证保持198/199兼容并新增200；在一次性PostgreSQL17.10执行V001至V019、历史回滚重放和R03正负不变量。
+  regression_checks:
+  - tests/test_r03_provider_configuration_migration.py
+  - scripts/check_db_schema.py
+  - obx-test postgres:17.10 scripts/run_postgres_migration_smoke.sh
+  do_not_repeat:
+  - 不得把迁移DDL成功等同于CHECK约束表达式已在数据路径执行
+  - 新增表时必须同步基线计数、数据目录、字段字典和真实空库回归

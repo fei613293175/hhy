@@ -44,8 +44,8 @@ if "V014__r01_idempotency_scope_capacity.sql" not in {path.name for path in root
     errors.append("migration chain is missing V014 R01 idempotency scope capacity")
 if "V015__r01_totp_replay_guard.sql" not in {path.name for path in root_migrations}:
     errors.append("migration chain is missing V015 R01 TOTP replay guard")
-if len(catalog_tables) != 199:
-    errors.append(f"catalog table count expected=199 actual={len(catalog_tables)}")
+if len(catalog_tables) != 200:
+    errors.append(f"catalog table count expected=200 actual={len(catalog_tables)}")
 if catalog_tables != dictionary_tables:
     errors.append(f"dictionary drift missing={sorted(catalog_tables - dictionary_tables)[:10]} extra={sorted(dictionary_tables - catalog_tables)[:10]}")
 if catalog_tables != created_tables:
@@ -57,11 +57,11 @@ else:
         if sha256(source) != sha256(target):
             errors.append(f"runtime migration hash drift: {target.name}")
 verification = (ROOT / "database/verification/verify_baseline.sql").read_text(encoding="utf-8")
-if "v_count NOT IN (198,199)" not in verification:
-    errors.append("verify_baseline.sql does not preserve 198-to-199 migration compatibility")
+if "v_count NOT IN (198,199,200)" not in verification:
+    errors.append("verify_baseline.sql does not preserve 198-to-200 migration compatibility")
 migration_smoke = (ROOT / "scripts/run_postgres_migration_smoke.sh").read_text(encoding="utf-8")
-if '"$TABLE_COUNT" == "199"' not in migration_smoke:
-    errors.append("current migration smoke does not enforce exactly 199 tables")
+if '"$TABLE_COUNT" == "200"' not in migration_smoke:
+    errors.append("current migration smoke does not enforce exactly 200 tables")
 if "assert_balanced_transaction" not in verification or "balance_snapshots" not in verification:
     errors.append("verify_baseline.sql does not enforce P00 accounting/snapshot invariants")
 

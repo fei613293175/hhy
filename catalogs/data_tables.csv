@@ -164,12 +164,13 @@ CMS,h5_page_configs,H5页面配置,"page_code, config_json, version, status",版
 分析,analytics_events,行为事件,"user_id, event_name, biz_type, biz_id, traffic_type, properties, occurred_at",可分区,R23/R30
 分析,daily_kpis,每日指标,"stat_date, metric_code, dimensions, value",维度唯一,R23/R30
 配置中心,provider_config_definitions,供应商配置定义,"provider_code, field_code, field_type, secret, required, validation_json",provider+field唯一,R01/R03/R30
-配置中心,provider_config_versions,供应商配置版本,"provider_code, version_no, encrypted_values, status, created_by, activated_at",版本不可覆盖；激活唯一,R01/R03/R30
+配置中心,provider_config_versions,供应商配置版本,"provider_code, version_no, status, environment, values_json, secret_refs_json, connection_successful, approval_ref, version",版本载荷不可覆盖；供应商激活唯一；SecretRef仅Vault/KMS,R01/R03/R30
 配置中心,provider_connection_tests,供应商连接测试,"provider_code, config_version_id, test_type, status, masked_result, requested_by, created_at",不保存明文秘密,R01/R03/R30
-配置中心,provider_certificates,证书与私钥元数据,"provider_code, cert_type, object_key, fingerprint, encrypted_password_ref, valid_from, valid_to, status",私有存储；原文不可读回,R01/R03/R30
+配置中心,provider_certificates,证书与私钥元数据,"provider_code, cert_type, alias, fingerprint, secret_ref, valid_from, valid_to, status, rotated_to_id, approval_ref, version",私有存储；原文不可读回；材料字段不可变；类型激活唯一,R01/R03/R30
 配置中心,provider_certificate_access_logs,证书访问审计,"certificate_id, admin_id, operation, reason, ip, created_at",不可删除,R01/R03/R30
-配置中心,domain_configs,域名配置,"code, environment, host, purpose, status, verified_at",environment+code唯一,R01/R03/R30
-配置中心,dns_action_items,DNS操作清单,"domain_config_id, record_type, name, value, status, user_action_required",解析由用户完成,R01/R03/R30
+配置中心,domain_configs,域名配置,"code, environment, host, purpose, status, certificate_mode, dns_status, https_status, certificate_status, service_health_status, last_probe_code, last_verified_at, version",code唯一；DNS/TLS/证书/服务健康分层保存,R01/R03/R30
+配置中心,domain_command_receipts,域名命令幂等回执,"domain_config_id, operation, idempotency_key, fingerprint, result_json, created_at, expires_at",资源+操作+幂等键唯一；请求指纹和首个结果不可变,R03
+配置中心,dns_action_items,DNS操作清单,"domain_config_id, record_type, name, value, record_value, status, user_action_required, owner_admin_id, due_at, last_error_code",解析由用户完成；失败码不得保存供应商原文,R01/R03/R30
 配置中心,storage_scope_bindings,存储Scope绑定,"scope_code, provider_code, config_version_id, bucket, public_domain, status",scope唯一激活,R01/R03/R30
 配置中心,storage_migration_jobs,跨存储迁移任务,"source_binding_id, target_binding_id, scope_code, cursor, total, success, failed, status",可断点续传,R01/R03/R30
 App构建,app_build_profiles,构建配置,"id, name, environment, application_id, display_name, gradle_params, allowed_refs, status",环境+名称唯一,R29

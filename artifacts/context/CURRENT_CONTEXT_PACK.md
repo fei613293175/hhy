@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T16:01:27Z
-- Context Hash：`8a7601ac2abe2f2555d8a346d8b61ad53da24055be782e43f41cb764a91d21ea`
+- 生成时间：2026-07-18T16:18:47Z
+- Context Hash：`2c011eb131f1b7f316cb76f3b15d1d6375a652b156a6297968710feaea661263`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -65,7 +65,7 @@ in_progress_tasks:
 blocked_tasks:
 - TASK-R02-007
 next_task: TASK-R03-005
-updated_at: '2026-07-18T16:01:25Z'
+updated_at: '2026-07-18T16:18:45Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -100,15 +100,15 @@ continuity:
   active_session_id: SES-20260718T152013Z-8B704646
   actor_id: codex-root
   story_id: STORY-R03-004
-  lease_expires_at: '2026-07-18T20:01:25Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T152013Z-8B704646/0008.yaml
-  project_fingerprint: 32a957c11b39c065648b3199bdaa2c14225dedebed7aa53bbecc1e01006754c3
+  lease_expires_at: '2026-07-18T20:18:45Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T152013Z-8B704646/0009.yaml
+  project_fingerprint: 1229b0b26c3300541f37da6f32f0b368239c43de86e3e9c603e8e2efc7533dfc
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 4d9ef3bb3035305e3d88d4bb35fee8743d0bef9ce5feccadc720d5eb555e5e20
-    generated_at: '2026-07-18T16:00:11Z'
+    context_hash: 8a7601ac2abe2f2555d8a346d8b61ad53da24055be782e43f41cb764a91d21ea
+    generated_at: '2026-07-18T16:01:27Z'
   handoff_bundle: null
 ```
 
@@ -305,9 +305,10 @@ task_id: TASK-R03-005
 story_id: STORY-R03-004
 goal: 汇合三条业务切片，统一共享迁移、权限、SecretRef、审批、审计、契约生成并完成18项权威测试与故障注入
 started_at: '2026-07-18T15:20:13Z'
-updated_at: '2026-07-18T16:01:25Z'
+updated_at: '2026-07-18T16:18:45Z'
 takeover_of: null
-change_requests: []
+change_requests:
+- CR-0048
 scope:
   allowed_paths:
   - apps/**
@@ -341,8 +342,18 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - catalogs/data_tables.csv
+  - database/schema_dictionary.csv
+  - database/verification/verify_baseline.sql
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - database/migrations/V019__r03_provider_configuration_center.sql
+  - database/rollback/U019__r03_provider_configuration_center.sql
+  - database/tests/r03_provider_configuration_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+  - tests/test_r03_provider_configuration_migration.py
+  source: story+explicit+approved-cr:CR-0048
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -352,12 +363,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T16:01:25Z'
-  expires_at: '2026-07-18T20:01:25Z'
-checkpoint_sequence: 8
-latest_checkpoint: .continuity/checkpoints/SES-20260718T152013Z-8B704646/0008.yaml
+  renewed_at: '2026-07-18T16:18:45Z'
+  expires_at: '2026-07-18T20:18:45Z'
+checkpoint_sequence: 9
+latest_checkpoint: .continuity/checkpoints/SES-20260718T152013Z-8B704646/0009.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md
-next_step: 提交并在obx-test PostgreSQL17.10一次性容器执行V001-V019真实迁移与不变量测试
+next_step: 提交CR-0048实现并关闭TASK-R03-005，进入TASK-R03-006 Staging可观测性与回滚演练
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -365,63 +376,71 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前为共享审批接口与迁移脚本串行加固，存在同文件冲突
+  reason: 当前为共享迁移、目录、CR和关闭状态串行收口，存在同文件和唯一状态机冲突
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T152013Z-8B704646-0008
+checkpoint_id: CP-SES-20260718T152013Z-8B704646-0009
 session_id: SES-20260718T152013Z-8B704646
-sequence: 8
-created_at: '2026-07-18T16:01:25Z'
-summary: R03审批单资源绑定、数据库不变量与问题登记完成
-next_step: 提交并在obx-test PostgreSQL17.10一次性容器执行V001-V019真实迁移与不变量测试
+sequence: 9
+created_at: '2026-07-18T16:18:45Z'
+summary: R03真实PostgreSQL17、全量后端和管理端集成门禁通过
+next_step: 提交CR-0048实现并关闭TASK-R03-005，进入TASK-R03-006 Staging可观测性与回滚演练
 blockers: []
-decisions: []
+decisions:
+- R03运行时新增不可变domain_command_receipts表，基线兼容198/199/200表；SecretRef使用字符集正则加独立总长度约束
 note: ''
 tests:
-- name: r03-approval-binding
+- name: postgres17-v001-v019
   result: PASS
-  evidence: ProviderConfigVersionServiceTest,ProviderCertificateServiceTest 10 tests
-  note: 审批类型和具体资源强绑定
-- name: r03-migration-static
+  evidence: obx-test postgres:17.10 POSTGRESQL_MIGRATION_SMOKE PASS
+  note: 200表、历史回滚和R03正负不变量
+- name: backend-full
   result: PASS
-  evidence: tests.test_r03_provider_configuration_migration 5 tests
-  note: 真实SQL测试已接入smoke
+  evidence: Maven verify 193 tests,0 failures,0 errors,2 environment skips
+  note: Java21全模块
+- name: admin-web
+  result: PASS
+  evidence: Vitest 73 tests and production build
+  note: 12 files
+- name: r03-documentation-generated
+  result: PASS
+  evidence: V1.2.2/V1.2.3 R03 docs,generated assets,program plan,DB schema,runtime hashes
+  note: tables=200
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 3efc85ec67b1890b381091d022e28806e8dbd226
+  head: ba6cab5414c9954f7cadb244d5d825f0e903714d
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - A  .continuity/checkpoints/SES-20260718T152013Z-8B704646/0007.yaml
-  - M  .continuity/sessions/SES-20260718T152013Z-8B704646.yaml
-  - M  CURRENT_STATUS.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  catalogs/session_index.csv
-  - A  database/tests/r03_provider_configuration_invariants.sql
-  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - M  docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md
-  - M  scripts/run_postgres_migration_smoke.sh
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigVersionService.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificatePostgresStore.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigPostgresStore.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigVersionServiceTest.java
-  - M  tests/test_r03_provider_configuration_migration.py
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260718T152013Z-8B704646.yaml'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/data_tables.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M database/migrations/V019__r03_provider_configuration_center.sql'
+  - ' M database/schema_dictionary.csv'
+  - ' M database/verification/verify_baseline.sql'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M scripts/check_db_schema.py'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java'
+  - ' M services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql'
+  - ' M tests/test_r03_provider_configuration_migration.py'
+  - ?? .continuity/change_requests/CR-0048.yaml
+  - ?? docs/03-continuity/change-requests/CR-0048-R03域名命令持久幂等回执与200表基线.md
   recent_commits:
+  - "ba6cab5414c9954f7cadb244d5d825f0e903714d\t2026-07-19T00:01:37+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(r03): bind approvals and\
+    \ database invariants"
   - "3efc85ec67b1890b381091d022e28806e8dbd226\t2026-07-18T23:52:39+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): integrate domain\
     \ verification commands"
   - "1da4c855bf3b9b2d4dcf0ed4d0bc656920f91461\t2026-07-18T23:45:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): integrate certificate\
@@ -436,15 +455,18 @@ git:
     \ task"
   - "d54b5e2d019ec48a866d0559b24bcaf996e8aef6\t2026-07-18T23:19:12+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(continuity): close TASK-R03-004\
     \ as completed"
-  - "bc96c003b7ff8283e3b302a2d7097da7be94ca2d\t2026-07-18T23:17:32+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(r03): close payment\
-    \ slice evidence"
 project_fingerprint:
-  sha256: 32a957c11b39c065648b3199bdaa2c14225dedebed7aa53bbecc1e01006754c3
+  sha256: 1229b0b26c3300541f37da6f32f0b368239c43de86e3e9c603e8e2efc7533dfc
   files:
+  - catalogs/data_tables.csv
   - database/migrations/V019__r03_provider_configuration_center.sql
   - database/rollback/U019__r03_provider_configuration_center.sql
+  - database/schema_dictionary.csv
   - database/tests/r03_provider_configuration_invariants.sql
+  - database/verification/verify_baseline.sql
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0048-R03域名命令持久幂等回执与200表基线.md
+  - scripts/check_db_schema.py
   - scripts/run_postgres_migration_smoke.sh
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
@@ -471,26 +493,46 @@ project_fingerprint:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandControllerContractTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandControllerContractTest.java
   - tests/test_r03_provider_configuration_migration.py
-  file_count: 30
+  file_count: 35
   payload:
     base_commit: d54b5e2d019ec48a866d0559b24bcaf996e8aef6
     files:
+    - path: catalogs/data_tables.csv
+      state: FILE
+      size: 25927
+      sha256: 232590603df85073b70fcea623fab1d19a8c55a3bb84f9e753331efcaeb3b54a
     - path: database/migrations/V019__r03_provider_configuration_center.sql
       state: FILE
-      size: 10878
-      sha256: d57ab649a5532a76b9bb58a38ee0e42307a51e2a33f9c109e091d91db1109b4b
+      size: 11071
+      sha256: c08f1f4e4ce22d87e57a69a930551151a6ac91b919dcca8c2cde6d16343a9a19
     - path: database/rollback/U019__r03_provider_configuration_center.sql
       state: FILE
       size: 4295
       sha256: 29e27fa510f1492a1fd9ab6857808e32dd8cff363a4dd23decbd9b2d35bf2e2f
+    - path: database/schema_dictionary.csv
+      state: FILE
+      size: 147258
+      sha256: ddc10d90d09549f0aa684c01c293ff491269673d1e105c11a9d250e29864843d
     - path: database/tests/r03_provider_configuration_invariants.sql
       state: FILE
       size: 4957
       sha256: ed878371a34f6884b2639d4fd20fbaf92332010e34b46b022e47175e486b2793
+    - path: database/verification/verify_baseline.sql
+      state: FILE
+      size: 4069
+      sha256: 8d4a48f69cdfc09ba869978a976f14adec740df8e08a7a6e8ae55da981ef9003
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 24765
-      sha256: 0194069b4cd5214e67d2d20bee5752577c6757b6af1e4ecfed5a9b93b1aab706
+      size: 25797
+      sha256: 84d789252f972608ea06d5b5797e3f515121e22694dc6f66f8a67bc18344831e
+    - path: docs/03-continuity/change-requests/CR-0048-R03域名命令持久幂等回执与200表基线.md
+      state: FILE
+      size: 3095
+      sha256: dbb9e7ed8c098de91a37925564924609e314a5ca475c01eedf0819df963c0473
+    - path: scripts/check_db_schema.py
+      state: FILE
+      size: 8742
+      sha256: 98f7324d6b2c3fbba298303ac05bd0d2fb6143b526ec15b12df5b5262be80b72
     - path: scripts/run_postgres_migration_smoke.sh
       state: FILE
       size: 14302
@@ -501,8 +543,8 @@ project_fingerprint:
       sha256: c525447171b1535089bce735e52487dc79f8f2b56f6ef8349164e8bf2b5e1b0e
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
       state: FILE
-      size: 12806
-      sha256: 0f39869c6d895dd5b593608f77028e7b0cc21ff75fc83bd9406eda50f54c9437
+      size: 12986
+      sha256: 892ba4b5aff75e60ead0e592f373d33cf6cb7479aaf574555935a801824a3de4
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigVersionService.java
       state: FILE
       size: 13155
@@ -557,8 +599,8 @@ project_fingerprint:
       sha256: fabaf1292537f6274602cce2139b8ca099e841d64ea1e042e8ba2fbf1aa25d8a
     - path: services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
       state: FILE
-      size: 10878
-      sha256: d57ab649a5532a76b9bb58a38ee0e42307a51e2a33f9c109e091d91db1109b4b
+      size: 11071
+      sha256: c08f1f4e4ce22d87e57a69a930551151a6ac91b919dcca8c2cde6d16343a9a19
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
       state: FILE
       size: 10974
@@ -593,16 +635,24 @@ project_fingerprint:
       sha256: bcff86390462ed6302fe906d947950cd8c6e517b2f51f014d070652c94a0cd0a
     - path: tests/test_r03_provider_configuration_migration.py
       state: FILE
-      size: 3518
-      sha256: 80021c42ae0878cecf6fe6a74ea68613eeb719c0dd9e2aca6d2b986489dc5d6a
+      size: 3613
+      sha256: 8c530b504beb8b9bead8cf882b874b3a6ce52a6c0f2dc3561537b2e017ebf4b6
 change_classification:
+  other:
+  - catalogs/data_tables.csv
   database:
   - database/migrations/V019__r03_provider_configuration_center.sql
   - database/rollback/U019__r03_provider_configuration_center.sql
+  - database/schema_dictionary.csv
   - database/tests/r03_provider_configuration_invariants.sql
+  - database/verification/verify_baseline.sql
+  source_of_truth:
+  - database/schema_dictionary.csv
   continuity:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0048-R03域名命令持久幂等回执与200表基线.md
   code:
+  - scripts/check_db_schema.py
   - scripts/run_postgres_migration_smoke.sh
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
@@ -636,9 +686,11 @@ required_records:
 - CHECKPOINT
 - CURRENT_STATUS
 - EVENT_LOG
+- APPROVED_CHANGE_REQUEST
 - DATABASE_TEST_EVIDENCE
 - SCHEMA_TRACEABILITY
-change_requests: []
+change_requests:
+- CR-0048
 scope:
   allowed_paths:
   - apps/**
@@ -672,14 +724,24 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - catalogs/data_tables.csv
+  - database/schema_dictionary.csv
+  - database/verification/verify_baseline.sql
+  - scripts/check_db_schema.py
+  - scripts/run_postgres_migration_smoke.sh
+  - database/migrations/V019__r03_provider_configuration_center.sql
+  - database/rollback/U019__r03_provider_configuration_center.sql
+  - database/tests/r03_provider_configuration_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+  - tests/test_r03_provider_configuration_migration.py
+  source: story+explicit+approved-cr:CR-0048
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前为共享审批接口与迁移脚本串行加固，存在同文件冲突
-event_hash: d4509ceaf156e6342dee6336dbb85c72591cad2c1ddd36ce677711f468aa874c
+  reason: 当前为共享迁移、目录、CR和关闭状态串行收口，存在同文件和唯一状态机冲突
+event_hash: bc15676a4db3943ebb39690838a64ead92f163be7de5cf2be1b98fc994f0c2dc
 ```
 
 ## 接续状态与事件头
@@ -691,8 +753,8 @@ active_session_id: SES-20260718T152013Z-8B704646
 last_session_id: SES-20260718T145327Z-DEA562CB
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T145327Z-DEA562CB-0007
-event_count: 585
-event_head_hash: d4509ceaf156e6342dee6336dbb85c72591cad2c1ddd36ce677711f468aa874c
+event_count: 591
+event_head_hash: bc15676a4db3943ebb39690838a64ead92f163be7de5cf2be1b98fc994f0c2dc
 event_chain_valid: true
 ```
 
@@ -815,9 +877,9 @@ recent_sessions: - session_id: SES-20260718T053331Z-F0ED92BF
   started_at: '2026-07-18T15:20:13Z'
   record: .continuity/sessions/SES-20260718T152013Z-8B704646.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md
-  updated_at: '2026-07-18T16:01:25Z'
+  updated_at: '2026-07-18T16:18:45Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T152013Z-8B704646/0008.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T152013Z-8B704646/0009.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-ECF1C5F92B79
   session_id: SES-20260717T084524Z-9FE47D9F
@@ -1636,36 +1698,39 @@ recent_task_transitions: - transition_id: TRN-1761A3AB96DB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 3efc85ec67b1890b381091d022e28806e8dbd226
+head: ba6cab5414c9954f7cadb244d5d825f0e903714d
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/checkpoints/SES-20260718T152013Z-8B704646/0007.yaml
-- MM .continuity/sessions/SES-20260718T152013Z-8B704646.yaml
-- MM CURRENT_STATUS.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- MM catalogs/session_index.csv
-- A  database/tests/r03_provider_configuration_invariants.sql
-- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-- MM docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md
-- M  scripts/run_postgres_migration_smoke.sh
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigVersionService.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificatePostgresStore.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigPostgresStore.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigVersionServiceTest.java
-- M  tests/test_r03_provider_configuration_migration.py
-- ?? .continuity/checkpoints/SES-20260718T152013Z-8B704646/0008.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/sessions/SES-20260718T152013Z-8B704646.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M artifacts/validation/project-doctor-v1.2.2.json'
+- ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/data_tables.csv'
+- ' M catalogs/session_index.csv'
+- ' M database/migrations/V019__r03_provider_configuration_center.sql'
+- ' M database/schema_dictionary.csv'
+- ' M database/verification/verify_baseline.sql'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md'
+- ' M scripts/check_db_schema.py'
+- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java'
+- ' M services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql'
+- ' M tests/test_r03_provider_configuration_migration.py'
+- ?? .continuity/change_requests/CR-0048.yaml
+- ?? .continuity/checkpoints/SES-20260718T152013Z-8B704646/0009.yaml
+- ?? docs/03-continuity/change-requests/CR-0048-R03域名命令持久幂等回执与200表基线.md
 recent_commits:
+- "ba6cab5414c9954f7cadb244d5d825f0e903714d\t2026-07-19T00:01:37+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(r03): bind approvals and\
+  \ database invariants"
 - "3efc85ec67b1890b381091d022e28806e8dbd226\t2026-07-18T23:52:39+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): integrate domain\
   \ verification commands"
 - "1da4c855bf3b9b2d4dcf0ed4d0bc656920f91461\t2026-07-18T23:45:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): integrate certificate\
@@ -1680,19 +1745,22 @@ recent_commits:
   \ task"
 - "d54b5e2d019ec48a866d0559b24bcaf996e8aef6\t2026-07-18T23:19:12+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(continuity): close TASK-R03-004\
   \ as completed"
-- "bc96c003b7ff8283e3b302a2d7097da7be94ca2d\t2026-07-18T23:17:32+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(r03): close payment slice\
-  \ evidence"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`32a957c11b39c065648b3199bdaa2c14225dedebed7aa53bbecc1e01006754c3`
-- 文件数：30
+- 指纹：`1229b0b26c3300541f37da6f32f0b368239c43de86e3e9c603e8e2efc7533dfc`
+- 文件数：35
 
+- `catalogs/data_tables.csv`
 - `database/migrations/V019__r03_provider_configuration_center.sql`
 - `database/rollback/U019__r03_provider_configuration_center.sql`
+- `database/schema_dictionary.csv`
 - `database/tests/r03_provider_configuration_invariants.sql`
+- `database/verification/verify_baseline.sql`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/change-requests/CR-0048-R03域名命令持久幂等回执与200表基线.md`
+- `scripts/check_db_schema.py`
 - `scripts/run_postgres_migration_smoke.sh`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java`
@@ -3704,37 +3772,97 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 依据项目所有者长期授权，仅批准CHANGELOG.md单文件范围补充，不扩大产品或发布范围。
   machine_record: .continuity/change_requests/CR-0036.yaml
   document: docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
+- protocol_version: '1.0'
+  cr_id: CR-0048
+  title: R03域名命令持久幂等回执与200表基线
+  status: IMPLEMENTING
+  created_at: '2026-07-18T16:07:30Z'
+  updated_at: '2026-07-18T16:14:51Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-005
+  session_id: SES-20260718T152013Z-8B704646
+  user_request: 后续这种问题不要问我确认，你自己决定；继续推进开发下一个版本，我不让你暂停就不用停止
+  reason: 真实PostgreSQL17迁移证明R03新增不可变域名命令回执表后运行时为200表，旧基线验证和数据目录必须同步
+  original_rule: R03冻结目录只有199张基线表，域名命令幂等回执没有独立持久化表，基线验证只接受198或199张表
+  new_rule: R03新增domain_command_receipts不可变幂等回执表并纳入数据目录与字段字典；升级后基线验证接受200张表且PostgreSQL17执行正负不变量
+  impact_summary: 只扩展R03域名更新和验证命令的持久幂等与审计能力，同一资源操作键永久绑定请求指纹和首个结果，不改变冻结API字段
+  impact:
+    files:
+    - catalogs/data_tables.csv
+    - database/schema_dictionary.csv
+    - database/verification/verify_baseline.sql
+    - scripts/check_db_schema.py
+    - scripts/run_postgres_migration_smoke.sh
+    - database/migrations/V019__r03_provider_configuration_center.sql
+    - database/rollback/U019__r03_provider_configuration_center.sql
+    - database/tests/r03_provider_configuration_invariants.sql
+    - services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+    - tests/test_r03_provider_configuration_migration.py
+    pages: []
+    apis: []
+    database:
+    - domain_command_receipts
+    - provider_config_versions
+    - provider_certificates
+    - domain_configs
+    - dns_action_items
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_db_schema.py
+    - python -m unittest tests.test_r03_provider_configuration_migration
+    - PostgreSQL17 scripts/run_postgres_migration_smoke.sh
+    releases:
+    - R03
+    migration_and_compatibility: V019前向新增表和追加字段；U019按依赖顺序移除；V1.2.2和R02的198/199表验证继续兼容，R03为200表
+  user_confirmation: 后续这种问题不要问我确认，你自己决定；继续推进开发下一个版本，我不让你暂停就不用停止
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T16:07:51Z'
+    note: 项目所有者已授权常规实现由Codex自行决定并持续推进；该变更是R03冻结API落地所需的可逆数据库与目录同步
+  machine_record: .continuity/change_requests/CR-0048.yaml
+  document: docs/03-continuity/change-requests/CR-0048-R03域名命令持久幂等回执与200表基线.md
+  decision_log:
+  - at: '2026-07-18T16:14:51Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: V019与R03不变量已在obx-test一次性PostgreSQL17.10容器完整通过，正在执行全量回归和提交绑定
+    session_id: SES-20260718T152013Z-8B704646
+  session_ids:
+  - SES-20260718T152013Z-8B704646
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `04c48ef8087599bf1ef602b43c959fe095ad44b17948c31076209809d261d56e`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `6ba65f8940bcf3eed4f023e85ecd98e3fc95db748c36220221579b5b2e0bade0`
+- `CURRENT_STATUS.yaml` — `e208de7051b26dd7033a016058841bf6fa827ad6ca442b5a5838c2eb1a6b21ad`
 - `NEXT_TASK.yaml` — `fe66abfbfb0f248dffde7d1482a28f3e76e93632a9302c403848394b1adc4079`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `0194069b4cd5214e67d2d20bee5752577c6757b6af1e4ecfed5a9b93b1aab706`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `84d789252f972608ea06d5b5797e3f515121e22694dc6f66f8a67bc18344831e`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `9038d154242cb59dc132fdc82aeb4d5a7045e68397b9489b1991ff59b92b5e94`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `a16351c5e292e352990e58efa1941911b73b16b35b8b7c0a9528c4f937ee30d0`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `de19045f455501f77bc8679366433b330c30b85f33073bb823067912c2721259`
-- `.continuity/EVENT_LOG.jsonl` — `80f7ab589fb8e240affc8d9f0c3aaedcfec4b52ecd98ce92a5ea572fa2c4aeb5`
-- `.continuity/SESSION_INDEX.yaml` — `e51d0bc488ba0ce972ffed7301ca5ba4e0d28677081400ee520a7950918eaf99`
+- `.continuity/EVENT_LOG.jsonl` — `79958d25467d4496ff04fbdb5cddf1c76caf8c56dae793f7ebcada392fd2cf87`
+- `.continuity/SESSION_INDEX.yaml` — `6d5c0a5e429fbbe8605ba7afcce3b6d5909cfe54a67eddf20671cbb83d4be1c6`
 - `.continuity/TASK_CLAIMS.yaml` — `3c08fbdc82ac5c7042b50edca65c13de62fa0d2ba3dc13023a4067a4d1db1300`
 - `.continuity/TASK_TRANSITIONS.yaml` — `4048a851ac4e831c5541e237e50eedde9e744304bb9cf14f1d31fdc235851bf6`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e540795ef9d6c7a461c942bfb601978414508779cc5bf8a7271df702fef01699`
-- `.continuity/ACTIVE_SESSION.yaml` — `94b24423d907a1ad3e1ae4336007551d6ff8e60e32e0bac6495ca417311e4101`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `f435ed43cad55e2896621d2e443040c58d8ac096629c511026d0407ce0a81d45`
+- `.continuity/ACTIVE_SESSION.yaml` — `ada3b96bbcb33e76ac6faf6e2cbb113a5d0111ed8114083ad769725df985b885`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `04bb1d4b70b4b28ad7223d032542dd76034c4e11f2355d100578ffa66a4d8b88`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `2ad175f8ded2d53496bb90ea3763c089862235c0abb238ecf68ff440a680a952`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md` — `a33fb20385b32f98c654a4feb94c38fa912af6b0545b5e3fc9ca51dd9210617c`
-- `.continuity/checkpoints/SES-20260718T152013Z-8B704646/0008.yaml` — `0a65e160e45b24cc3185608983392031e671a27dc8a70e41a26176d46dccdd36`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md` — `7333727318afffbfafc6d38c66a8b3ed7241db60fb7c7682de6220409edf8429`
+- `.continuity/checkpoints/SES-20260718T152013Z-8B704646/0009.yaml` — `3b2e7b2a668cc194cc98a14cec5939bb1dcd6578caa3c0e5acd97c91691328ee`
+- `docs/03-continuity/change-requests/CR-0048-R03域名命令持久幂等回执与200表基线.md` — `dbb9e7ed8c098de91a37925564924609e314a5ca475c01eedf0819df963c0473`
 
 ## 接手硬规则
 

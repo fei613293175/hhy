@@ -1,7 +1,7 @@
 {
   "version": "1.2.2",
   "status": "PASS",
-  "strict": true,
+  "strict": false,
   "release_filter": "R03",
   "metrics": {
     "android_surfaces": 102,
@@ -19,7 +19,7 @@
     "tests": 376,
     "stories": 163,
     "dor_gates": 396,
-    "tables": 199,
+    "tables": 200,
     "rest_operations": 316,
     "websocket_events": 10,
     "unassigned_api_operations": 0,

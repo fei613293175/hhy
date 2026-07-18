@@ -1251,6 +1251,18 @@ CMS,h5_page_configs,7,updated_at,timestamptz,否,now(),,统一审计字段,R28,F
 配置中心,provider_config_versions,6,created_by,varchar(255),是,,,版本不可覆盖；激活唯一,R01/R03/R30,FROZEN
 配置中心,provider_config_versions,7,activated_at,timestamptz,是,,INDEX,版本不可覆盖；激活唯一,R01/R03/R30,FROZEN
 配置中心,provider_config_versions,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
+配置中心,provider_config_versions,9,environment,varchar(16),否,'STAGING',INDEX,仅DEV/TEST/STAGING/PROD,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,10,values_json,jsonb,否,'{}',,非秘密配置对象；版本载荷不可变,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,11,secret_refs_json,jsonb,否,'{}',,只允许vault://或kms://引用；版本载荷不可变,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,12,remark,varchar(500),否,'',,创建备注不可变,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,13,connection_successful,boolean,是,,,与tested_at同时为空或同时非空,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,14,masked_test_result,varchar(255),是,,,只保存安全结果码和脱敏摘要,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,15,tested_at,timestamptz,是,,INDEX,连接测试时间,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,16,approval_ref,varchar(64),是,,,激活或回滚审批引用,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,17,approval_requester_id,bigint,是,,INDEX,与复核管理员必须不同,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,18,approval_reviewer_id,bigint,是,,INDEX,与申请管理员必须不同,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,19,version,bigint,否,0,,乐观锁,R03,IMPLEMENTED_R03
+配置中心,provider_config_versions,20,updated_at,timestamptz,否,now(),,统一审计字段,R03,IMPLEMENTED_R03
 配置中心,provider_connection_tests,1,id,bigint,否,generated,PRIMARY KEY,不保存明文秘密,R01/R03/R30,FROZEN
 配置中心,provider_connection_tests,2,provider_code,varchar(64),否,,,不保存明文秘密,R01/R03/R30,FROZEN
 配置中心,provider_connection_tests,3,config_version_id,bigint,是,,INDEX,不保存明文秘密,R01/R03/R30,FROZEN
@@ -1271,6 +1283,12 @@ CMS,h5_page_configs,7,updated_at,timestamptz,否,now(),,统一审计字段,R28,F
 配置中心,provider_certificates,9,status,varchar(64),否,,,私有存储；原文不可读回,R01/R03/R30,FROZEN
 配置中心,provider_certificates,10,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
 配置中心,provider_certificates,11,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+配置中心,provider_certificates,12,alias,varchar(200),否,'',,证书显示别名,R03,IMPLEMENTED_R03
+配置中心,provider_certificates,13,secret_ref,varchar(512),是,,,仅Vault/KMS引用；材料不可变,R03,IMPLEMENTED_R03
+配置中心,provider_certificates,14,created_by,bigint,是,,INDEX,创建管理员,R03,IMPLEMENTED_R03
+配置中心,provider_certificates,15,rotated_to_id,bigint,是,,INDEX,轮换目标证书,R03,IMPLEMENTED_R03
+配置中心,provider_certificates,16,approval_ref,varchar(64),是,,,轮换审批引用,R03,IMPLEMENTED_R03
+配置中心,provider_certificates,17,version,bigint,否,0,,乐观锁,R03,IMPLEMENTED_R03
 配置中心,provider_certificate_access_logs,1,id,bigint,否,generated,PRIMARY KEY,不可删除,R01/R03/R30,FROZEN
 配置中心,provider_certificate_access_logs,2,certificate_id,bigint,否,,INDEX,不可删除,R01/R03/R30,FROZEN
 配置中心,provider_certificate_access_logs,3,admin_id,bigint,是,,INDEX,不可删除,R01/R03/R30,FROZEN
@@ -1288,6 +1306,21 @@ CMS,h5_page_configs,7,updated_at,timestamptz,否,now(),,统一审计字段,R28,F
 配置中心,domain_configs,8,version,bigint,否,0,,乐观锁,R01/R03/R30,FROZEN
 配置中心,domain_configs,9,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
 配置中心,domain_configs,10,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+配置中心,domain_configs,11,certificate_mode,varchar(32),否,'MANAGED',,仅MANAGED或EXTERNAL,R03,IMPLEMENTED_R03
+配置中心,domain_configs,12,dns_status,varchar(32),否,'PENDING',INDEX,DNS分层状态,R03,IMPLEMENTED_R03
+配置中心,domain_configs,13,https_status,varchar(32),否,'PENDING',INDEX,TLS分层状态,R03,IMPLEMENTED_R03
+配置中心,domain_configs,14,certificate_status,varchar(32),否,'PENDING',INDEX,证书分层状态,R03,IMPLEMENTED_R03
+配置中心,domain_configs,15,service_health_status,varchar(32),否,'PENDING',INDEX,服务健康分层状态,R03,IMPLEMENTED_R03
+配置中心,domain_configs,16,last_probe_code,varchar(64),是,,,只保存安全分类码,R03,IMPLEMENTED_R03
+配置中心,domain_configs,17,last_verified_at,timestamptz,是,,INDEX,最近分层验证时间,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,2,domain_config_id,bigint,否,,INDEX,绑定域名配置,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,3,operation,varchar(16),否,,,仅UPDATE或VERIFY,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,4,idempotency_key,varchar(128),否,,,资源+操作+键唯一,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,5,fingerprint,text,否,,,请求指纹不可变,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,6,result_json,jsonb,否,,,首个响应快照不可变,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,7,created_at,timestamptz,否,now(),INDEX,创建时间,R03,IMPLEMENTED_R03
+配置中心,domain_command_receipts,8,expires_at,timestamptz,否,,INDEX,必须晚于创建时间,R03,IMPLEMENTED_R03
 配置中心,dns_action_items,1,id,bigint,否,generated,PRIMARY KEY,解析由用户完成,R01/R03/R30,FROZEN
 配置中心,dns_action_items,2,domain_config_id,bigint,否,,INDEX,解析由用户完成,R01/R03/R30,FROZEN
 配置中心,dns_action_items,3,record_type,varchar(255),是,,,解析由用户完成,R01/R03/R30,FROZEN
@@ -1297,6 +1330,10 @@ CMS,h5_page_configs,7,updated_at,timestamptz,否,now(),,统一审计字段,R28,F
 配置中心,dns_action_items,7,user_action_required,boolean,是,,,解析由用户完成,R01/R03/R30,FROZEN
 配置中心,dns_action_items,8,created_at,timestamptz,否,now(),INDEX,统一审计字段,R01/R03/R30,FROZEN
 配置中心,dns_action_items,9,updated_at,timestamptz,否,now(),,统一审计字段,R01/R03/R30,FROZEN
+配置中心,dns_action_items,10,record_value,text,是,,,DNS记录文本值,R03,IMPLEMENTED_R03
+配置中心,dns_action_items,11,owner_admin_id,bigint,是,,INDEX,责任管理员,R03,IMPLEMENTED_R03
+配置中心,dns_action_items,12,due_at,timestamptz,是,,INDEX,必须晚于创建时间,R03,IMPLEMENTED_R03
+配置中心,dns_action_items,13,last_error_code,varchar(64),是,,,只保存安全失败码,R03,IMPLEMENTED_R03
 配置中心,storage_scope_bindings,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R01/R03/R30,FROZEN
 配置中心,storage_scope_bindings,2,scope_code,varchar(255),否,,,scope唯一激活,R01/R03/R30,FROZEN
 配置中心,storage_scope_bindings,3,provider_code,varchar(64),否,,,scope唯一激活,R01/R03/R30,FROZEN

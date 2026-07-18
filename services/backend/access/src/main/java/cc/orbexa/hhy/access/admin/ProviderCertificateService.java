@@ -173,11 +173,14 @@ public final class ProviderCertificateService {
 
     private static String optionalSecretReference(String value) {
         if (value == null || value.isBlank()) return null;
-        return requireSecretReference(value, "证书密码引用");
+        String reference = requireSecretReference(value, "证书密码引用");
+        if (reference.length() > 255) throw validation("证书密码引用长度不能超过255字符");
+        return reference;
     }
 
     private static String requireSecretReference(String value, String field) {
-        if (value == null || !value.matches("^(vault|kms)://[A-Za-z0-9_./:@-]{3,512}$")) {
+        if (value == null || value.length() > 512
+                || !value.matches("^(vault|kms)://[A-Za-z0-9_./:@-]{3,}$")) {
             throw validation(field + "必须是Vault或KMS引用");
         }
         return value;

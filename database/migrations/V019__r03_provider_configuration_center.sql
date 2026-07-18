@@ -7,7 +7,8 @@ RETURNS boolean LANGUAGE sql IMMUTABLE AS $$
     AND NOT EXISTS (
       SELECT 1 FROM jsonb_each(payload) item
       WHERE jsonb_typeof(item.value) <> 'string'
-         OR item.value #>> '{}' !~ '^(vault|kms)://[A-Za-z0-9_./:@-]{3,512}$'
+         OR char_length(item.value #>> '{}') > 512
+         OR item.value #>> '{}' !~ '^(vault|kms)://[A-Za-z0-9_./:@-]{3}[A-Za-z0-9_./:@-]*$'
     );
 $$;
 
@@ -74,10 +75,12 @@ ALTER TABLE hhy.provider_certificates
   ADD CONSTRAINT ck_provider_certificates_status_r03
     CHECK (status IN ('STAGED','ACTIVE','ROTATED','REVOKED')),
   ADD CONSTRAINT ck_provider_certificates_secret_ref
-    CHECK (secret_ref IS NULL OR secret_ref ~ '^(vault|kms)://[A-Za-z0-9_./:@-]{3,512}$'),
+    CHECK (secret_ref IS NULL OR (char_length(secret_ref) <= 512
+      AND secret_ref ~ '^(vault|kms)://[A-Za-z0-9_./:@-]{3}[A-Za-z0-9_./:@-]*$')),
   ADD CONSTRAINT ck_provider_certificates_password_ref
     CHECK (encrypted_password_ref IS NULL
-      OR encrypted_password_ref ~ '^(vault|kms)://[A-Za-z0-9_./:@-]{3,255}$'),
+      OR (char_length(encrypted_password_ref) <= 255
+        AND encrypted_password_ref ~ '^(vault|kms)://[A-Za-z0-9_./:@-]{3}[A-Za-z0-9_./:@-]*$')),
   ADD CONSTRAINT ck_provider_certificates_fingerprint
     CHECK (fingerprint IS NULL OR fingerprint ~ '^[a-f0-9]{64}$'),
   ADD CONSTRAINT ck_provider_certificates_validity
