@@ -150,3 +150,16 @@ problems:
   do_not_repeat:
   - 不得为了部署通过而生成临时管理员密钥
   - 不得将密钥写入仓库、命令输出或普通部署日志
+- id: PROB-0014
+  title: R02 Android注册缺少受控的协议版本配置来源
+  status: OPEN
+  root_cause: authPostAuthRegister要求提交有效agreementVersions，字段目录要求版本由服务端、配置或上下文提供且禁止客户端硬编码；R02公开契约未提供Android可调用的协议版本配置接口，现有H5注册配置接口计划归属R28。
+  impact: Android可以验证手机号、密码、邀请码和安全挑战，但不能在不伪造协议版本的前提下完成真实注册验收。
+  current_behavior: 注册页保留显式协议版本输入与服务端校验；不写入猜测的默认版本、不把同意状态伪装为已取得有效版本。
+  next_owner: TASK-R02-006
+  required_evidence:
+  - 已发布且生效的协议版本来源，或经CR冻结的R02兼容读取接口
+  - Android同意勾选、版本回显、注册成功和user_agreement_acceptances审计证据
+  do_not_repeat:
+  - 不得在客户端散落硬编码协议版本
+  - 不得跳过服务端有效期校验或伪造协议同意记录
