@@ -73,6 +73,7 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
     var passwordAgain by remember { mutableStateOf("") }
     var smsCode by remember { mutableStateOf("") }
     var inviteCode by remember { mutableStateOf("") }
+    var validatedInviteCode by remember { mutableStateOf("") }
     var agreementVersions by remember { mutableStateOf("") }
     var challengeId by remember { mutableStateOf("") }
     var challengeImageBase64 by remember { mutableStateOf("") }
@@ -130,11 +131,20 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
             }
             if (route == AuthRoute.REGISTER) {
                 SecretField("确认密码", passwordAgain) { passwordAgain = it; state = AuthUiState.Editing }
-                TextField("邀请码", inviteCode, { inviteCode = it; state = AuthUiState.Editing }, false)
+                TextField("邀请码", inviteCode, {
+                    inviteCode = it
+                    validatedInviteCode = ""
+                    state = AuthUiState.Editing
+                }, false)
                 TextField("协议版本（逗号分隔）", agreementVersions, { agreementVersions = it; state = AuthUiState.Editing }, false)
                 OutlinedButton(
-                    modifier = Modifier.fillMaxWidth(), enabled = !submitting,
-                    onClick = { launchCall({ api.validateInviteCode(inviteCode) }) },
+                    modifier = Modifier.fillMaxWidth(), enabled = !submitting && inviteCode.isNotBlank(),
+                    onClick = {
+                        launchCall({ api.validateInviteCode(inviteCode) }) { result ->
+                            validatedInviteCode = inviteCode
+                            state = AuthUiState.Message("邀请码校验通过", result.requestId)
+                        }
+                    },
                 ) { Text("校验邀请码") }
             }
             if (route != AuthRoute.PASSWORD) {
@@ -165,7 +175,10 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
             }
 
             Button(
-                modifier = Modifier.fillMaxWidth(), enabled = !submitting && AuthFormRules.canSubmit(route, phone, password, passwordAgain, smsCode, inviteCode, agreementVersions, challengeId, challengeProof),
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !submitting && AuthFormRules.canSubmit(
+                    route, phone, password, passwordAgain, smsCode, inviteCode, agreementVersions, challengeId, challengeProof,
+                ) && (route != AuthRoute.REGISTER || AuthFormRules.hasValidatedInvite(inviteCode, validatedInviteCode)),
                 onClick = {
                     when (route) {
                         AuthRoute.PASSWORD -> launchCall({ api.passwordLogin(phone, password, challengeId, challengeProof) }) {
@@ -176,7 +189,10 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                         }
                         AuthRoute.REGISTER -> launchCall({
                             api.register(phone, smsCode, password, inviteCode, agreementVersions.split(',').map(String::trim).filter(String::isNotEmpty))
-                        }) { password = ""; passwordAgain = ""; smsCode = ""; challengeProof = ""; completeAuthentication(it) }
+                        }) {
+                            password = ""; passwordAgain = ""; smsCode = ""; challengeProof = ""; validatedInviteCode = ""
+                            completeAuthentication(it)
+                        }
                         AuthRoute.RESET -> launchCall({ api.resetPassword(phone, smsCode, password) }) {
                             password = ""; passwordAgain = ""; smsCode = ""; challengeProof = ""
                         }

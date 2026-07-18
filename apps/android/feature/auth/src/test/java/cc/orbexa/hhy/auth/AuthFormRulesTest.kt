@@ -15,5 +15,10 @@ class AuthFormRulesTest {
         assertFalse(AuthFormRules.canSubmit(AuthRoute.REGISTER, "13800000000", "password1", "password1", "1234", "INVITE", "", "", ""))
         assertTrue(AuthFormRules.canSubmit(AuthRoute.REGISTER, "13800000000", "password1", "password1", "1234", "INVITE", "v1", "", ""))
     }
-}
 
+    @Test fun inviteMustBeValidatedAgainstTheCurrentValue() {
+        assertFalse(AuthFormRules.hasValidatedInvite("INVITE-A", ""))
+        assertFalse(AuthFormRules.hasValidatedInvite("INVITE-A", "INVITE-B"))
+        assertTrue(AuthFormRules.hasValidatedInvite("INVITE-A", "INVITE-A"))
+    }
+}

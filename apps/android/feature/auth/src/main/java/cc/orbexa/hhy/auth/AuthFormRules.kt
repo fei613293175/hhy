@@ -4,6 +4,8 @@ internal object AuthFormRules {
     fun validPhone(value: String) = Regex("^1[3-9]\\d{9}$").matches(value)
     fun validPassword(value: String) = value.length in 8..72
     fun validSms(value: String) = value.length in 4..10
+    fun hasValidatedInvite(currentInvite: String, validatedInvite: String) =
+        currentInvite.isNotBlank() && currentInvite == validatedInvite
 
     fun canSubmit(
         route: AuthRoute,
@@ -22,4 +24,3 @@ internal object AuthFormRules {
         AuthRoute.RESET -> validPhone(phone) && validPassword(password) && validSms(smsCode)
     }
 }
-

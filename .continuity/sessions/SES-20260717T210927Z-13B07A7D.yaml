@@ -11,7 +11,7 @@ task_id: TASK-R02-002
 story_id: STORY-R02-003
 goal: 接管 SES-20260717T204616Z-254B60A3：接管 SES-20260717T200842Z-456B8F52：完成Android启动、登录与邀请注册纵向闭环，覆盖数据、API、Android、测试与模块门禁
 started_at: '2026-07-17T21:09:27Z'
-updated_at: '2026-07-18T02:28:03Z'
+updated_at: '2026-07-18T02:32:18Z'
 takeover_of: SES-20260717T204616Z-254B60A3
 change_requests:
 - CR-0019
@@ -100,22 +100,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T02:28:01Z'
-  expires_at: '2026-07-18T06:28:01Z'
-checkpoint_sequence: 19
-latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0019.yaml
+  renewed_at: '2026-07-18T02:32:16Z'
+  expires_at: '2026-07-18T06:32:16Z'
+checkpoint_sequence: 20
+latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0020.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-next_step: 继续补齐R02认证页面状态与非外部依赖链路；短信、协议版本和公网后端部署依赖仍按问题登记等待集成处理。
+next_step: 继续补齐R02认证流程的状态恢复与集成证据；短信、协议版本和公网部署依赖仍以问题登记为准。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: cadbe3980de2a9fb12aed482c9d80cfbe4107ea2af5c6e0169c1aeed2f8682b6
-  generated_at: '2026-07-18T02:28:03Z'
+  context_hash: 186c7c0b96958600a47c36947b6a9c499ec9ceea1c28c8252c7d72b1da9a649b
+  generated_at: '2026-07-18T02:32:17Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 新增密码登录服务测试与既有刷新会话测试共享同一mocked存储、令牌和快照边界，合并维护可避免测试夹具分叉。
+  reason: 邀请码验证状态、表单可用条件和注册动作属于同一UI状态机，拆分修改会产生已校验状态与提交条件不一致。
