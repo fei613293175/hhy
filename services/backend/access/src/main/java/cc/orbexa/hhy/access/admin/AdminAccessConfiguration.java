@@ -74,4 +74,24 @@ public class AdminAccessConfiguration {
             Clock clock) {
         return new ProviderCertificateService(store, vault, store, clock);
     }
+
+    @Bean
+    DomainConfigPolicy domainConfigPolicy() {
+        return new DomainConfigPolicy();
+    }
+
+    @Bean
+    DomainVerificationCoordinator domainVerificationCoordinator(
+            R03DomainNetworkProbes probes, Clock clock) {
+        return new DomainVerificationCoordinator(probes, probes, probes, clock);
+    }
+
+    @Bean
+    DomainConfigService domainConfigService(
+            DomainConfigPolicy policy,
+            DomainVerificationCoordinator verification,
+            R03DomainConfigPostgresStore store,
+            Clock clock) {
+        return new DomainConfigService(policy, verification, store, store, clock);
+    }
 }

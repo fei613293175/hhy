@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T15:45:00Z
-- Context Hash：`022d9d7139bbd7d6f09a920190e0b66d780c5a4455b6d03f092d976a5f99ace9`
+- 生成时间：2026-07-18T15:52:12Z
+- Context Hash：`6a99421a6c6bf52b8f4f42034074227a711dccbdc4230cb4915ff2d93434e99b`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -65,7 +65,7 @@ in_progress_tasks:
 blocked_tasks:
 - TASK-R02-007
 next_task: TASK-R03-005
-updated_at: '2026-07-18T15:44:59Z'
+updated_at: '2026-07-18T15:52:10Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -100,15 +100,15 @@ continuity:
   active_session_id: SES-20260718T152013Z-8B704646
   actor_id: codex-root
   story_id: STORY-R03-004
-  lease_expires_at: '2026-07-18T19:44:59Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T152013Z-8B704646/0005.yaml
-  project_fingerprint: 62f3fceb036684fe72bbeecef3ac86aa47d29cbdc8cd5b7ac234fd8a681b530a
+  lease_expires_at: '2026-07-18T19:52:10Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T152013Z-8B704646/0006.yaml
+  project_fingerprint: 645866d80b0a0906b3519a584337d78cca9b39baea4cf86300f02a568283b356
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 87b2b85cb3d998e36144a50507040cb0b20a0fe827f3b590ff51b786fe04e6db
-    generated_at: '2026-07-18T15:40:16Z'
+    context_hash: 022d9d7139bbd7d6f09a920190e0b66d780c5a4455b6d03f092d976a5f99ace9
+    generated_at: '2026-07-18T15:45:00Z'
   handoff_bundle: null
 ```
 
@@ -305,7 +305,7 @@ task_id: TASK-R03-005
 story_id: STORY-R03-004
 goal: 汇合三条业务切片，统一共享迁移、权限、SecretRef、审批、审计、契约生成并完成18项权威测试与故障注入
 started_at: '2026-07-18T15:20:13Z'
-updated_at: '2026-07-18T15:44:59Z'
+updated_at: '2026-07-18T15:52:10Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -352,12 +352,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T15:44:59Z'
-  expires_at: '2026-07-18T19:44:59Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260718T152013Z-8B704646/0005.yaml
+  renewed_at: '2026-07-18T15:52:10Z'
+  expires_at: '2026-07-18T19:52:10Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260718T152013Z-8B704646/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md
-next_step: 接入域名更新与分层验证2个冻结写API，并执行完整回归、PostgreSQL迁移门禁和R03关闭证据
+next_step: 执行PostgreSQL V001-V019空库升级回滚与数据不变量、管理端回归和R03关闭门禁
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -365,47 +365,55 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 域名写侧与证书状态共享V019和同一管理端幂等审计边界
+  reason: 剩余真实数据库和关闭门禁必须基于同一提交顺序执行并保留可追溯结果
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T152013Z-8B704646-0005
+checkpoint_id: CP-SES-20260718T152013Z-8B704646-0006
 session_id: SES-20260718T152013Z-8B704646
-sequence: 5
-created_at: '2026-07-18T15:44:58Z'
-summary: R03证书上传与审批轮换已接入PostgreSQL元数据、Vault补偿删除、加密首响应幂等和不透明证书ID
-next_step: 接入域名更新与分层验证2个冻结写API，并执行完整回归、PostgreSQL迁移门禁和R03关闭证据
+sequence: 6
+created_at: '2026-07-18T15:52:10Z'
+summary: R03域名更新与验证已接入持久化幂等回执、12项受控域名种子及限时DNS/TLS/HTTP/WebSocket真实探测，13个冻结API全部落地
+next_step: 执行PostgreSQL V001-V019空库升级回滚与数据不变量、管理端回归和R03关闭门禁
 blockers: []
 decisions:
-- 证书API统一使用cert_数字不透明标识；Vault材料写入成功但SQL事务失败时必须补偿删除，安全存储未配置时明确拒绝上传
+- 域名代码作为冻结API唯一资源地址；分层探测只持久化安全分类码，失败不泄露网络异常细节，幂等回执永久不可变
 note: ''
 tests:
-- name: R03 certificate command and fault injection
+- name: backend full regression
   result: PASS
-  evidence: mvnw ProviderCertificateServiceTest,R03ConfigurationQueryStoreTest,R03ProviderCertificateCommandControllerContractTest
-  note: 9 tests
+  evidence: services/backend mvnw test
+  note: 191 tests, 2 environment skips
+- name: R03 migration static invariants
+  result: PASS
+  evidence: tests/test_r03_provider_configuration_migration.py
+  note: 4 tests
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 32c3ac70b088824fdcd0c4dac2b695cde3c33cc5
+  head: 1da4c855bf3b9b2d4dcf0ed4d0bc656920f91461
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
+  - ' M database/migrations/V019__r03_provider_configuration_center.sql'
+  - ' M database/rollback/U019__r03_provider_configuration_center.sql'
+  - ' M scripts/run_postgres_migration_smoke.sh'
   - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStore.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStoreTest.java'
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificateCommandService.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificatePostgresStore.java
-  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandController.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandControllerContractTest.java
+  - ' M services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql'
+  - ' M tests/test_r03_provider_configuration_migration.py'
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03DomainConfigPostgresStore.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03DomainNetworkProbes.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03DomainCommandController.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03DomainCommandControllerContractTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03FrozenApiCoverageTest.java
   recent_commits:
+  - "1da4c855bf3b9b2d4dcf0ed4d0bc656920f91461\t2026-07-18T23:45:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): integrate certificate\
+    \ commands"
   - "32c3ac70b088824fdcd0c4dac2b695cde3c33cc5\t2026-07-18T23:40:38+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): integrate provider\
     \ configuration commands"
   - "31a3e6ae2f063449c4387e1736cde1d54ab4ae73\t2026-07-18T23:33:04+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): expose configuration\
@@ -420,47 +428,55 @@ git:
     \ slice evidence"
   - "b3a90b52062bd227ac40c4f6a9d6e7c7282de43e\t2026-07-18T23:14:33+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): deliver payment\
     \ and payout admin pages"
-  - "ea17e6835282cf7f9da16be714c1ad6610261ad2\t2026-07-18T23:05:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): secure provider\
-    \ certificate rotation"
 project_fingerprint:
-  sha256: 62f3fceb036684fe72bbeecef3ac86aa47d29cbdc8cd5b7ac234fd8a681b530a
+  sha256: 645866d80b0a0906b3519a584337d78cca9b39baea4cf86300f02a568283b356
   files:
   - database/migrations/V019__r03_provider_configuration_center.sql
   - database/rollback/U019__r03_provider_configuration_center.sql
+  - scripts/run_postgres_migration_smoke.sh
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationContracts.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03DomainConfigPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03DomainNetworkProbes.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificateCommandService.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificatePostgresStore.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigCommandService.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigPostgresStore.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03DomainCommandController.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandController.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandController.java
   - services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStoreTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03DomainCommandControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03FrozenApiCoverageTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandControllerContractTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandControllerContractTest.java
   - tests/test_r03_provider_configuration_migration.py
-  file_count: 20
+  file_count: 26
   payload:
     base_commit: d54b5e2d019ec48a866d0559b24bcaf996e8aef6
     files:
     - path: database/migrations/V019__r03_provider_configuration_center.sql
       state: FILE
-      size: 8675
-      sha256: 07bb6ec40cba39e1e4231752afa2777b569c3a61498651dff859540a6b5af4fd
+      size: 10878
+      sha256: d57ab649a5532a76b9bb58a38ee0e42307a51e2a33f9c109e091d91db1109b4b
     - path: database/rollback/U019__r03_provider_configuration_center.sql
       state: FILE
-      size: 4096
-      sha256: 7d76918c594e67466ce7e17a8cd008c1367e94f6301dfe40d7a9baefa4784249
+      size: 4295
+      sha256: 29e27fa510f1492a1fd9ab6857808e32dd8cff363a4dd23decbd9b2d35bf2e2f
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 14160
+      sha256: 2d184c937a9fa72b4fd497f0b1bbc9e0113584fd5e82bd7232a4b5c93b621eb3
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
       state: FILE
-      size: 3455
-      sha256: fc26a51158d3e7ebe484840e9c89dcd67b1522cced019123c2b4c7e2c7c0b07b
+      size: 4095
+      sha256: c525447171b1535089bce735e52487dc79f8f2b56f6ef8349164e8bf2b5e1b0e
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
       state: FILE
       size: 12485
@@ -473,6 +489,14 @@ project_fingerprint:
       state: FILE
       size: 15102
       sha256: bd0ebcc784404fa8e4980d22f6a96bdea0e5a7a8c2c999a557690a13af8436b2
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03DomainConfigPostgresStore.java
+      state: FILE
+      size: 10631
+      sha256: cf0b7aac680e2f47fe04e290bc5ada08ffba2c35b6f31987a096725e7a6f4a07
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03DomainNetworkProbes.java
+      state: FILE
+      size: 3882
+      sha256: 2af09adfdf5c75c1a89c0fbffb7de370327eae83fd372e1e92c6ef76b8c6672f
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificateCommandService.java
       state: FILE
       size: 6276
@@ -493,6 +517,10 @@ project_fingerprint:
       state: FILE
       size: 5307
       sha256: 844249600cd872bc62b78571d466f4c09982c90e46b231c3e2b431f30b7c6639
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03DomainCommandController.java
+      state: FILE
+      size: 4230
+      sha256: ad8f034bac767eb676269bd839ce5bf1b46f297f9438e9bddba01c8b66f78415
     - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandController.java
       state: FILE
       size: 4004
@@ -503,8 +531,8 @@ project_fingerprint:
       sha256: fabaf1292537f6274602cce2139b8ca099e841d64ea1e042e8ba2fbf1aa25d8a
     - path: services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
       state: FILE
-      size: 8675
-      sha256: 07bb6ec40cba39e1e4231752afa2777b569c3a61498651dff859540a6b5af4fd
+      size: 10878
+      sha256: d57ab649a5532a76b9bb58a38ee0e42307a51e2a33f9c109e091d91db1109b4b
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
       state: FILE
       size: 10108
@@ -517,6 +545,14 @@ project_fingerprint:
       state: FILE
       size: 1653
       sha256: b3137a2a8bf89abab51aa1f0922bf0e5888c0ce0bff9a8b07e9434f01f773bb4
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03DomainCommandControllerContractTest.java
+      state: FILE
+      size: 1132
+      sha256: 3586bb754073f65d724a1b5632c1c917d35ab1d302dd87f2edc0f56c6ea0f77e
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03FrozenApiCoverageTest.java
+      state: FILE
+      size: 2821
+      sha256: b8e534dc1362635e6b97d94ba7a3e392aaa8f04a8b3264501ff3aed10a56cea6
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandControllerContractTest.java
       state: FILE
       size: 1283
@@ -527,28 +563,34 @@ project_fingerprint:
       sha256: bcff86390462ed6302fe906d947950cd8c6e517b2f51f014d070652c94a0cd0a
     - path: tests/test_r03_provider_configuration_migration.py
       state: FILE
-      size: 2391
-      sha256: a7aef4cb5847a77794cf933445d756625fe8e421c9af8db25b3815302204e7a7
+      size: 2618
+      sha256: 928138a6ec3d03c541ac624b6543d9079b26ae1ddde1841884f3fda00c7b53da
 change_classification:
   database:
   - database/migrations/V019__r03_provider_configuration_center.sql
   - database/rollback/U019__r03_provider_configuration_center.sql
   code:
+  - scripts/run_postgres_migration_smoke.sh
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationContracts.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03DomainConfigPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03DomainNetworkProbes.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificateCommandService.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificatePostgresStore.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigCommandService.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigPostgresStore.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03DomainCommandController.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandController.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandController.java
   - services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStoreTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03DomainCommandControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03FrozenApiCoverageTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandControllerContractTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandControllerContractTest.java
   tests:
@@ -601,8 +643,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 域名写侧与证书状态共享V019和同一管理端幂等审计边界
-event_hash: e1826f657a55202b199b8fd948a531daa39e42fd9c18f82e03083402f54702d8
+  reason: 剩余真实数据库和关闭门禁必须基于同一提交顺序执行并保留可追溯结果
+event_hash: a9cfbac3d91b904a594f2ffa4928048f405afa162315c3b02aca4e0067f60eea
 ```
 
 ## 接续状态与事件头
@@ -614,8 +656,8 @@ active_session_id: SES-20260718T152013Z-8B704646
 last_session_id: SES-20260718T145327Z-DEA562CB
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T145327Z-DEA562CB-0007
-event_count: 582
-event_head_hash: e1826f657a55202b199b8fd948a531daa39e42fd9c18f82e03083402f54702d8
+event_count: 583
+event_head_hash: a9cfbac3d91b904a594f2ffa4928048f405afa162315c3b02aca4e0067f60eea
 event_chain_valid: true
 ```
 
@@ -738,9 +780,9 @@ recent_sessions: - session_id: SES-20260718T053331Z-F0ED92BF
   started_at: '2026-07-18T15:20:13Z'
   record: .continuity/sessions/SES-20260718T152013Z-8B704646.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md
-  updated_at: '2026-07-18T15:44:59Z'
+  updated_at: '2026-07-18T15:52:10Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T152013Z-8B704646/0005.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T152013Z-8B704646/0006.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-ECF1C5F92B79
   session_id: SES-20260717T084524Z-9FE47D9F
@@ -1559,7 +1601,7 @@ recent_task_transitions: - transition_id: TRN-1761A3AB96DB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 32c3ac70b088824fdcd0c4dac2b695cde3c33cc5
+head: 1da4c855bf3b9b2d4dcf0ed4d0bc656920f91461
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1572,18 +1614,22 @@ status_porcelain:
 - ' M .continuity/sessions/SES-20260718T152013Z-8B704646.yaml'
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/session_index.csv'
+- ' M database/migrations/V019__r03_provider_configuration_center.sql'
+- ' M database/rollback/U019__r03_provider_configuration_center.sql'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md'
+- ' M scripts/run_postgres_migration_smoke.sh'
 - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStore.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStoreTest.java'
-- ?? .continuity/checkpoints/SES-20260718T152013Z-8B704646/0005.yaml
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificateCommandService.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificatePostgresStore.java
-- ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandController.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandControllerContractTest.java
+- ' M services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql'
+- ' M tests/test_r03_provider_configuration_migration.py'
+- ?? .continuity/checkpoints/SES-20260718T152013Z-8B704646/0006.yaml
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03DomainConfigPostgresStore.java
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03DomainNetworkProbes.java
+- ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03DomainCommandController.java
+- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03DomainCommandControllerContractTest.java
+- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03FrozenApiCoverageTest.java
 recent_commits:
+- "1da4c855bf3b9b2d4dcf0ed4d0bc656920f91461\t2026-07-18T23:45:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): integrate certificate\
+  \ commands"
 - "32c3ac70b088824fdcd0c4dac2b695cde3c33cc5\t2026-07-18T23:40:38+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): integrate provider\
   \ configuration commands"
 - "31a3e6ae2f063449c4387e1736cde1d54ab4ae73\t2026-07-18T23:33:04+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): expose configuration\
@@ -1598,32 +1644,36 @@ recent_commits:
   \ evidence"
 - "b3a90b52062bd227ac40c4f6a9d6e7c7282de43e\t2026-07-18T23:14:33+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): deliver payment and\
   \ payout admin pages"
-- "ea17e6835282cf7f9da16be714c1ad6610261ad2\t2026-07-18T23:05:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): secure provider certificate\
-  \ rotation"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`62f3fceb036684fe72bbeecef3ac86aa47d29cbdc8cd5b7ac234fd8a681b530a`
-- 文件数：20
+- 指纹：`645866d80b0a0906b3519a584337d78cca9b39baea4cf86300f02a568283b356`
+- 文件数：26
 
 - `database/migrations/V019__r03_provider_configuration_center.sql`
 - `database/rollback/U019__r03_provider_configuration_center.sql`
+- `scripts/run_postgres_migration_smoke.sh`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationContracts.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStore.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03DomainConfigPostgresStore.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03DomainNetworkProbes.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificateCommandService.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderCertificatePostgresStore.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigCommandService.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigPostgresStore.java`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryController.java`
+- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03DomainCommandController.java`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandController.java`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandController.java`
 - `services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStoreTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryControllerContractTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03DomainCommandControllerContractTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03FrozenApiCoverageTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderCertificateCommandControllerContractTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandControllerContractTest.java`
 - `tests/test_r03_provider_configuration_migration.py`
@@ -3618,7 +3668,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `04c48ef8087599bf1ef602b43c959fe095ad44b17948c31076209809d261d56e`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `6a2e0526476e9dbe7ec5b93ef923219e4a48d05fb81b92aa3bb2492279503a8e`
+- `CURRENT_STATUS.yaml` — `4a6404ba4f3bf43408a4fd35548ffa4978397455935fb1cb93c6ef0b6b9595d1`
 - `NEXT_TASK.yaml` — `fe66abfbfb0f248dffde7d1482a28f3e76e93632a9302c403848394b1adc4079`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3629,20 +3679,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `de19045f455501f77bc8679366433b330c30b85f33073bb823067912c2721259`
-- `.continuity/EVENT_LOG.jsonl` — `94f4a4320849473188f584eb1f39c41cf8d873883b0e9a659bdb999e1b967586`
-- `.continuity/SESSION_INDEX.yaml` — `f0f2f5a7f58290b2e884be35717c2304da083334d064eb64d194001f5e458c67`
+- `.continuity/EVENT_LOG.jsonl` — `70e62f5c004fc4e398a55d949b1094edefe43f2d77af2a32027f605a6ecac9da`
+- `.continuity/SESSION_INDEX.yaml` — `6435dbad363cf271c08ae2f0157f62d21f91135e116321ed001e12530e8a4ab9`
 - `.continuity/TASK_CLAIMS.yaml` — `3c08fbdc82ac5c7042b50edca65c13de62fa0d2ba3dc13023a4067a4d1db1300`
 - `.continuity/TASK_TRANSITIONS.yaml` — `4048a851ac4e831c5541e237e50eedde9e744304bb9cf14f1d31fdc235851bf6`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e540795ef9d6c7a461c942bfb601978414508779cc5bf8a7271df702fef01699`
-- `.continuity/ACTIVE_SESSION.yaml` — `5b6c74d444f17202bfa8215fdaaa1219c424b3aa7f58bb59e17cc299fa1f7115`
+- `.continuity/ACTIVE_SESSION.yaml` — `7670a809073add6477f1db7c2c104067084eaf0c2a2fe9921ad57d0c53634c8a`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `04bb1d4b70b4b28ad7223d032542dd76034c4e11f2355d100578ffa66a4d8b88`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `2ad175f8ded2d53496bb90ea3763c089862235c0abb238ecf68ff440a680a952`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md` — `9ba728d9f738be6a41a9456f97fe074efab259d7c967ed2650274c58551a0c42`
-- `.continuity/checkpoints/SES-20260718T152013Z-8B704646/0005.yaml` — `126090403aa87b110f3bc245cdac77102f229372c559bd6dd40082709ad2979e`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md` — `7b3b9a088f750de67dcbe4eaf45cd229f8dd73f1ac60ec9a13b9e05790949fc4`
+- `.continuity/checkpoints/SES-20260718T152013Z-8B704646/0006.yaml` — `c420a366bba3dc1f444dacc03604aea363b09f92f5a705bfe0db26919f9a11d4`
 
 ## 接手硬规则
 

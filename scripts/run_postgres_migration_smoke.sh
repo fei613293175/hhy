@@ -58,7 +58,7 @@ TOTP_REPLAY_COLUMN_COUNT="$("${PSQL[@]}" -Atc "
 echo "R01_TOTP_REPLAY_COLUMN PASS"
 
 TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
-[[ "$TABLE_COUNT" == "199" ]] || { echo "Expected 199 hhy tables, got $TABLE_COUNT" >&2; exit 1; }
+[[ "$TABLE_COUNT" == "200" ]] || { echo "Expected 200 hhy tables, got $TABLE_COUNT" >&2; exit 1; }
 echo "TABLE_COUNT $TABLE_COUNT"
 
 "${PSQL[@]}" -f "$ROOT/database/tests/postgres_smoke_success.sql" >/dev/null
@@ -299,10 +299,11 @@ echo "U010_REAPPLY_V010 PASS"
 
 "${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V017__r02_user_auth_invariants.sql" >/dev/null
 "${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V018__r02_admin_user_controls.sql" >/dev/null
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V019__r03_provider_configuration_center.sql" >/dev/null
 "${PSQL[@]}" -f "$ROOT/database/tests/r02_admin_user_controls.sql" >/dev/null
 FINAL_TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
-[[ "$FINAL_TABLE_COUNT" == "199" ]] || {
-  echo "Final R02 schema must contain 199 tables, got $FINAL_TABLE_COUNT" >&2
+[[ "$FINAL_TABLE_COUNT" == "200" ]] || {
+  echo "Final R03 schema must contain 200 tables, got $FINAL_TABLE_COUNT" >&2
   exit 1
 }
 echo "R02_ADMIN_USER_CONTROLS PASS"

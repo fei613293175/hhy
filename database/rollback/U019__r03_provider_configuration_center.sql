@@ -1,5 +1,9 @@
 SET search_path TO hhy, public;
 
+DROP TRIGGER IF EXISTS trg_domain_command_receipts_append_only ON hhy.domain_command_receipts;
+DROP TABLE IF EXISTS hhy.domain_command_receipts;
+DROP INDEX IF EXISTS hhy.uq_domain_configs_code_r03;
+
 DELETE FROM hhy.admin_role_permissions role_permission
 USING hhy.admin_permissions permission
 WHERE role_permission.permission_id=permission.id

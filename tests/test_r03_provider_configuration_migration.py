@@ -21,7 +21,10 @@ class R03ProviderConfigurationMigrationTest(unittest.TestCase):
             "uq_provider_certificates_active_type",
             "trg_provider_certificates_material_guard",
             "trg_provider_certificate_access_logs_append_only",
+            "trg_domain_command_receipts_append_only",
+            "uq_domain_configs_code_r03",
             "service_health_status",
+            "('stg_download','STAGING','stg-download.orbexa.cc'",
             "approval_requester_id <> approval_reviewer_id",
         )
         for marker in required:
@@ -44,6 +47,7 @@ class R03ProviderConfigurationMigrationTest(unittest.TestCase):
         for marker in (
             "DROP FUNCTION IF EXISTS hhy.r03_secret_refs_valid(jsonb)",
             "DROP COLUMN IF EXISTS service_health_status",
+            "DROP TABLE IF EXISTS hhy.domain_command_receipts",
             "DROP COLUMN IF EXISTS secret_ref",
             "DROP COLUMN IF EXISTS secret_refs_json",
             "DELETE FROM hhy.admin_permissions",
