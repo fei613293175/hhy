@@ -28,7 +28,7 @@ tasks:
   completed_at: '2026-07-18T13:30:28Z'
 - id: TASK-R03-002
   title: 纵向批次A：短信、存储与实名供应商配置闭环
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R03-001
   parallelizable_with:
@@ -47,9 +47,10 @@ tasks:
   - STORY-R03-001全部页面动作使用冻结生成类型
   - MODULE门禁通过并可独立交给主控集成
   session_log_required: true
+  completed_at: '2026-07-18T14:21:44Z'
 - id: TASK-R03-003
   title: 纵向批次B：orbexa.cc域名与环境配置闭环
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R03-001
   parallelizable_with:

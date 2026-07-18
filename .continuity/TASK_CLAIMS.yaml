@@ -912,7 +912,7 @@ claims:
   task_id: TASK-R03-002
   story_id: STORY-R03-001
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-18T13:31:51Z'
   allowed_paths:
   - apps/admin-web/**
@@ -927,3 +927,4 @@ claims:
   - releases/**
   - design/**
   - scripts/**
+  closed_at: '2026-07-18T14:21:48Z'
