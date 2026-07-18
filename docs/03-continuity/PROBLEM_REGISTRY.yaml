@@ -137,3 +137,16 @@ problems:
   do_not_repeat:
   - 不得将验证码写入日志、响应体或测试生产路径
   - 不得以模拟发送成功替代外部通道验收
+- id: PROB-0013
+  title: 现有开发后端缺少受控管理员安全密钥的部署来源
+  status: OPEN
+  root_cause: 服务器上的旧P00后端容器和其保留的.env文件均不含HHY_ADMIN_JWT_SECRET及HHY_ADMIN_MFA_ROOT_SECRET，而当前后端启动配置要求它们满足最小长度。
+  impact: 已构建的R02后端镜像不能替换现有api.orbexa.cc开发容器；自动健康检查失败后已回退到旧健康容器，公网启动接口继续可用。
+  current_behavior: 新镜像hhy-backend-p00:r02-b4ec470已保留；旧容器已恢复并通过本地和公网健康探针。未生成、猜测或输出任何密钥。
+  next_owner: TASK-R03-002
+  required_evidence:
+  - 通过SecretRef或等价受控机制提供管理员JWT与MFA根密钥
+  - 新镜像启动、Flyway升级和api.orbexa.cc认证端点健康回执
+  do_not_repeat:
+  - 不得为了部署通过而生成临时管理员密钥
+  - 不得将密钥写入仓库、命令输出或普通部署日志

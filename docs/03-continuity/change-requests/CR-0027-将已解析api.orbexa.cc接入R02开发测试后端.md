@@ -77,3 +77,17 @@ R02开发测试允许新增并部署精确的infra/nginx/api.orbexa.cc.conf：Cl
 - 决定：`APPROVED`
 - 时间：`2026-07-18T01:22:47Z`
 - 说明：独立审核确认：用户已授权服务器和已解析子域名操作；该变更仅接通受控开发代理，保留loopback上游和公网验证。
+
+## 状态记录 · 2026-07-18T01:36:33Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260717T210927Z-13B07A7D`
+- Note：开始部署并公网验证api.orbexa.cc受控loopback反向代理。
+
+## 状态记录 · 2026-07-18T01:36:33Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260717T210927Z-13B07A7D`
+- Note：已部署并验证api.orbexa.cc受控loopback反向代理，公网平台状态与official/STAGING版本策略均返回200；R02新后端镜像因独立PROB-0013密钥来源缺口自动回退，旧健康后端保持服务。

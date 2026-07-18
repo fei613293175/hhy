@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T01:24:02Z
-- Context Hash：`0f999b4da983e46a181291fe197d8ecc73473e56b973d42d4a49bb66033d58fe`
+- 生成时间：2026-07-18T01:37:18Z
+- Context Hash：`5dda8a91936cd04ad8af9ee9d0c32df949c851977e02319d432bbb4b77fdd99f`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -55,7 +55,7 @@ in_progress_tasks:
 - TASK-R02-002
 blocked_tasks: []
 next_task: TASK-R02-002
-updated_at: '2026-07-18T01:24:00Z'
+updated_at: '2026-07-18T01:37:16Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -90,15 +90,15 @@ continuity:
   active_session_id: SES-20260717T210927Z-13B07A7D
   actor_id: codex-root
   story_id: STORY-R02-003
-  lease_expires_at: '2026-07-18T05:24:00Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0012.yaml
-  project_fingerprint: 3be7520f4a1625576b2336d25e5266ae9a8688db3c2d1a6aa3a4c16687e4f1f6
+  lease_expires_at: '2026-07-18T05:37:16Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0013.yaml
+  project_fingerprint: 1bc3dbff08d083a60ee691fe047b879a96f4872def76b9719152fd2f047d03ae
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 7ae397f302efe107a2c7eaf4a53d079324382117f35f596c8fcb21791e49b42a
-    generated_at: '2026-07-18T01:23:05Z'
+    context_hash: 0f999b4da983e46a181291fe197d8ecc73473e56b973d42d4a49bb66033d58fe
+    generated_at: '2026-07-18T01:24:02Z'
   handoff_bundle: null
 ```
 
@@ -293,7 +293,7 @@ task_id: TASK-R02-002
 story_id: STORY-R02-003
 goal: 接管 SES-20260717T204616Z-254B60A3：接管 SES-20260717T200842Z-456B8F52：完成Android启动、登录与邀请注册纵向闭环，覆盖数据、API、Android、测试与模块门禁
 started_at: '2026-07-17T21:09:27Z'
-updated_at: '2026-07-18T01:24:00Z'
+updated_at: '2026-07-18T01:37:16Z'
 takeover_of: SES-20260717T204616Z-254B60A3
 change_requests:
 - CR-0019
@@ -382,12 +382,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T01:24:00Z'
-  expires_at: '2026-07-18T05:24:00Z'
-checkpoint_sequence: 12
-latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0012.yaml
+  renewed_at: '2026-07-18T01:37:16Z'
+  expires_at: '2026-07-18T05:37:16Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0013.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-next_step: 提交认证首切片并将受测后端部署到api.orbexa.cc，再完成真实端到端和短信供应商待办闭环。
+next_step: 在不触碰密钥的前提下继续扩展TASK-R02-002自动化覆盖；R03建立SecretRef后再部署b4ec470新后端并完成真实认证端到端。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -403,103 +403,54 @@ parallel_execution:
     responsibility: R02 contract guardrails
     allowed_paths:
     - tests/**
-  reason: One master plus Android and quality partitions executed; backend handoff was integrated and validated by the master after worker interruption.
+  reason: Completed Android and quality partitions remain the applicable parallel evidence; server recovery and secret-bound deployment were serialized
+    by master.
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0012
+checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0013
 session_id: SES-20260717T210927Z-13B07A7D
-sequence: 12
-created_at: '2026-07-18T01:24:00Z'
-summary: R02认证首切片完成后端、Android、安全挑战渲染、V017迁移、api.orbexa.cc开发反向代理与Changelog；修复真机启动的域名与STAGING版本策略失配。
-next_step: 提交认证首切片并将受测后端部署到api.orbexa.cc，再完成真实端到端和短信供应商待办闭环。
+sequence: 13
+created_at: '2026-07-18T01:37:16Z'
+summary: R02认证首切片已提交；api.orbexa.cc代理公网可用。R02新镜像构建完成但因PROB-0013缺少受控管理员密钥而健康检查失败，已自动并人工确认回退到旧健康后端。
+next_step: 在不触碰密钥的前提下继续扩展TASK-R02-002自动化覆盖；R03建立SecretRef后再部署b4ec470新后端并完成真实认证端到端。
 blockers:
-- PROB-0012：阿里云短信供应商SecretRef、模板和已激活实现归属R03；当前未配置时服务端显式失败，不伪造成功。
+- PROB-0012短信供应商未激活；PROB-0013现有开发部署缺少HHY_ADMIN_JWT_SECRET和HHY_ADMIN_MFA_ROOT_SECRET的受控来源。
 decisions:
-- CR-0027批准：公网测试APK默认环境设为STAGING，api.orbexa.cc反向代理仅指向服务器loopback的开发后端。
-note: 用户真机报告的暂时无法连接已定位并修复；新APK已写入桌面；CR-0027记录infra范围扩展。
+- 保留已构建hhy-backend-p00:r02-b4ec470，删除失败新容器并恢复旧容器；不生成、猜测或输出管理员密钥。
+note: PROB-0013已登记，CR-0027的api反向代理部分标记IMPLEMENTED。
 tests:
 - name: r02_auth_slice_contract
   result: PASS
-  evidence: 7 unit/static checks
-  note: Auth routes, captcha renderer, staging startup default
-- name: backend_maven_21
+  evidence: 7 checks
+  note: Post-recovery static guardrails
+- name: api_orbexa_recovery_probe
   result: PASS
-  evidence: 84 tests, 2 environment skips
-  note: Remote hhy-android-toolchain r01-46fb273
-- name: postgres_migration_v001_v017
-  result: PASS
-  evidence: Fresh PostgreSQL 17 container
-  note: V017 and r02_user_auth_invariants.sql
-- name: android_cloud_build
-  result: PASS
-  evidence: feature auth unit+lint+app debug assemble
-  note: APK sha256 fb339701fe851e2029db583551d4d67234573c0e391a78dd9f952057bdbff2bd
-- name: api_orbexa_public_probe
-  result: PASS
-  evidence: HTTPS platform status and official/STAGING 10201 version check
-  note: Cloudflare public endpoint
-- name: schema_contract_guards
-  result: PASS
-  evidence: check_db_schema,sync_runtime_assets,check_api_contract,execution plan
-  note: 17 migrations and runtime hash parity
+  evidence: HTTPS platform status 200
+  note: Old healthy backend restored after failed replacement
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: 2074eb54a6cd11fe7910d57d3e1ae15f46fcbf76
+  head: b4ec470570295906e2d0d72ee5bbf59fab7bdef7
   upstream: origin/task/TASK-R02-002
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - A  .continuity/change_requests/CR-0027.yaml
-  - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0010.yaml
-  - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0011.yaml
-  - M  .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
-  - ' M CHANGELOG.md'
-  - M  CURRENT_STATUS.yaml
-  - M  apps/android/app/build.gradle.kts
-  - M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - A  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
-  - A  apps/android/feature/auth/build.gradle.kts
-  - A  apps/android/feature/auth/src/main/AndroidManifest.xml
-  - A  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
-  - A  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
-  - A  apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
-  - M  apps/android/settings.gradle.kts
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/session_index.csv
-  - A  database/migrations/V017__r02_user_auth_invariants.sql
-  - A  database/rollback/U017__r02_user_auth_invariants.sql
-  - A  database/tests/r02_user_auth_invariants.sql
-  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - A  docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md
-  - M  docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-  - A  infra/nginx/api.orbexa.cc.conf
-  - A  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/SmsProvider.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
-  - A  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthPolicy.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
-  - A  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthVerificationService.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
-  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
-  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
-  - A  services/backend/boot/src/main/resources/db/migration/V017__r02_user_auth_invariants.sql
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
-  - A  tests/test_r02_auth_slice_contract.py
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0027.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md'
   recent_commits:
+  - "b4ec470570295906e2d0d72ee5bbf59fab7bdef7\t2026-07-18T09:24:42+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] feat(r02): deliver authentication\
+    \ startup slice"
   - "2074eb54a6cd11fe7910d57d3e1ae15f46fcbf76\t2026-07-18T08:06:26+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): record\
     \ pushed governance handoff"
   - "9b42188a18fb59f2e8f88bc27f815ad524297e7e\t2026-07-18T08:03:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] feat(r02): persist vertical\
@@ -514,10 +465,8 @@ git:
     \ as completed"
   - "5aa51aef6db3889e339b41ef0d2831bace30d9dc\t2026-07-18T04:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(dev): close acceleration\
     \ change request"
-  - "cd44628d800b0369c286093d0f5e4c69de67a54b\t2026-07-18T03:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(continuity): skip docs\
-    \ for runtime records"
 project_fingerprint:
-  sha256: 3be7520f4a1625576b2336d25e5266ae9a8688db3c2d1a6aa3a4c16687e4f1f6
+  sha256: 1bc3dbff08d083a60ee691fe047b879a96f4872def76b9719152fd2f047d03ae
   files:
   - .githooks/pre-push
   - .github/workflows/continuity-gate.yml
@@ -781,8 +730,8 @@ project_fingerprint:
       sha256: c31bdf68b336a243144991d52e8d7967e6d78272cfd7d1463c66028dcae53715
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 9670
-      sha256: 34ca14cfad71da1a4ddd523671f85f78694586a0db6ea11230e307436e014763
+      size: 10653
+      sha256: a5ea7b9a0ada282bb7bb4f9f44961b5e462194ac574e37a7278e7b74293c1d26
     - path: docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
       state: FILE
       size: 3611
@@ -817,8 +766,8 @@ project_fingerprint:
       sha256: 4a00a0d54cfbb134697e889e3b1c0fdc5bbb2bd12cb195592ef02215e2fa47e4
     - path: docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md
       state: FILE
-      size: 2472
-      sha256: 813b5a76b8e370578f5a7e96c67d3bb3a6744e3253a678ba386e80cdb82ebb75
+      size: 3053
+      sha256: 0b789d83de90f13bb641a9882b4d9d911dc9383a21a9bf8e232b1ee5efd6d3c8
     - path: docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
       state: FILE
       size: 14346
@@ -1300,8 +1249,9 @@ parallel_execution:
     responsibility: R02 contract guardrails
     allowed_paths:
     - tests/**
-  reason: One master plus Android and quality partitions executed; backend handoff was integrated and validated by the master after worker interruption.
-event_hash: 5da906801e0eaf21346e1d93000b7b9de86b6cc718b6d6340a60b3e228df3fb0
+  reason: Completed Android and quality partitions remain the applicable parallel evidence; server recovery and secret-bound deployment were serialized
+    by master.
+event_hash: 576abc2271c4db9d16cc0b3566706bdcddc32352c0b4de7c2ccc94bfe7dffd68
 ```
 
 ## 接续状态与事件头
@@ -1313,8 +1263,8 @@ active_session_id: SES-20260717T210927Z-13B07A7D
 last_session_id: SES-20260717T183459Z-D64E7407
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T183459Z-D64E7407-0007
-event_count: 298
-event_head_hash: 5da906801e0eaf21346e1d93000b7b9de86b6cc718b6d6340a60b3e228df3fb0
+event_count: 301
+event_head_hash: 576abc2271c4db9d16cc0b3566706bdcddc32352c0b4de7c2ccc94bfe7dffd68
 event_chain_valid: true
 ```
 
@@ -1437,9 +1387,9 @@ recent_sessions: - session_id: SES-20260717T084524Z-9FE47D9F
   started_at: '2026-07-17T21:09:27Z'
   record: .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-  updated_at: '2026-07-18T01:24:00Z'
+  updated_at: '2026-07-18T01:37:16Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0012.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0013.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1BBC8343F3B4
   session_id: SES-20260716T232809Z-B4A980AF
@@ -2362,58 +2312,29 @@ recent_task_transitions: - transition_id: TRN-BE280508920D
 ```yaml
 initialized: true
 branch: task/TASK-R02-002
-head: 2074eb54a6cd11fe7910d57d3e1ae15f46fcbf76
+head: b4ec470570295906e2d0d72ee5bbf59fab7bdef7
 upstream: origin/task/TASK-R02-002
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- M  .continuity/CHANGE_REQUEST_INDEX.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/change_requests/CR-0027.yaml
-- A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0010.yaml
-- A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0011.yaml
-- MM .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
-- ' M CHANGELOG.md'
-- MM CURRENT_STATUS.yaml
-- M  apps/android/app/build.gradle.kts
-- M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-- A  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
-- A  apps/android/feature/auth/build.gradle.kts
-- A  apps/android/feature/auth/src/main/AndroidManifest.xml
-- A  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
-- A  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
-- A  apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
-- M  apps/android/settings.gradle.kts
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- M  catalogs/change_request_index.csv
-- MM catalogs/session_index.csv
-- A  database/migrations/V017__r02_user_auth_invariants.sql
-- A  database/rollback/U017__r02_user_auth_invariants.sql
-- A  database/tests/r02_user_auth_invariants.sql
-- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-- A  docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md
-- MM docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-- A  infra/nginx/api.orbexa.cc.conf
-- A  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/SmsProvider.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
-- A  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthPolicy.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
-- A  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthVerificationService.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
-- M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
-- M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
-- A  services/backend/boot/src/main/resources/db/migration/V017__r02_user_auth_invariants.sql
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
-- A  tests/test_r02_auth_slice_contract.py
-- ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0012.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0027.yaml'
+- ' M .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md'
+- ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0013.yaml
 recent_commits:
+- "b4ec470570295906e2d0d72ee5bbf59fab7bdef7\t2026-07-18T09:24:42+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] feat(r02): deliver authentication\
+  \ startup slice"
 - "2074eb54a6cd11fe7910d57d3e1ae15f46fcbf76\t2026-07-18T08:06:26+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): record pushed\
   \ governance handoff"
 - "9b42188a18fb59f2e8f88bc27f815ad524297e7e\t2026-07-18T08:03:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] feat(r02): persist vertical\
@@ -2428,13 +2349,11 @@ recent_commits:
   \ as completed"
 - "5aa51aef6db3889e339b41ef0d2831bace30d9dc\t2026-07-18T04:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(dev): close acceleration\
   \ change request"
-- "cd44628d800b0369c286093d0f5e4c69de67a54b\t2026-07-18T03:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(continuity): skip docs\
-  \ for runtime records"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`3be7520f4a1625576b2336d25e5266ae9a8688db3c2d1a6aa3a4c16687e4f1f6`
+- 指纹：`1bc3dbff08d083a60ee691fe047b879a96f4872def76b9719152fd2f047d03ae`
 - 文件数：108
 
 - `.githooks/pre-push`
@@ -4506,9 +4425,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0027
   title: 将已解析api.orbexa.cc接入R02开发测试后端
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-18T01:22:21Z'
-  updated_at: '2026-07-18T01:22:47Z'
+  updated_at: '2026-07-18T01:36:33Z'
   requester_actor_id: codex-root
   approver_actor_id: codex-runtime-governance-reviewer
   task_id: TASK-R02-002
@@ -4542,37 +4461,52 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 独立审核确认：用户已授权服务器和已解析子域名操作；该变更仅接通受控开发代理，保留loopback上游和公网验证。
   machine_record: .continuity/change_requests/CR-0027.yaml
   document: docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md
+  decision_log:
+  - at: '2026-07-18T01:36:33Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始部署并公网验证api.orbexa.cc受控loopback反向代理。
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T01:36:33Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 已部署并验证api.orbexa.cc受控loopback反向代理，公网平台状态与official/STAGING版本策略均返回200；R02新后端镜像因独立PROB-0013密钥来源缺口自动回退，旧健康后端保持服务。
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+  implementation_commits:
+  - b4ec470
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `5197fe40f98156f4b3695eb0179815323e2b0b78a8ded4524170f48c40f3b12e`
+- `CURRENT_STATUS.yaml` — `a5074eb1212167d7888fb2a20d9aed63dc9155bb2fda971e6ca3234a30cccb78`
 - `NEXT_TASK.yaml` — `3e619f3004a0a8b1d13dbd60e06e2ab8291566c6299bf36fe763af51b17a9c97`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `34ca14cfad71da1a4ddd523671f85f78694586a0db6ea11230e307436e014763`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `a5ea7b9a0ada282bb7bb4f9f44961b5e462194ac574e37a7278e7b74293c1d26`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `6d427b3a9a095ae17f8676da8c92ec1f8d21679f7a00e6f898bf1971cf6112fc`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7`
-- `.continuity/EVENT_LOG.jsonl` — `8129226550a675a5e7d2ceb899fd8246256e9fad134224eb36782d33d3a1b929`
-- `.continuity/SESSION_INDEX.yaml` — `c33b921ee57827f8bc1962dfb34ff91cf0e2bcbd85b07d0e1f496384bba36689`
+- `.continuity/EVENT_LOG.jsonl` — `a12afa317517d6f40f883d2f2925bda27044466fe1d090cec54864b29050fc43`
+- `.continuity/SESSION_INDEX.yaml` — `847d1fedfd90ad9040d48108af540f18fdb4ee81121c8d34b874c822d3941ab9`
 - `.continuity/TASK_CLAIMS.yaml` — `d48d579192aebf3dee4f0d48a63f7629813dedc4580399b2caef6e21041ca91c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `df13b60a1f650a20a1bc3076063770d6b5958cab47774ccfcde648184f6aadb6`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `99612625f3c0e45c05d92551455f270992e11cf7e84dbda11930a283e7f5c11d`
-- `.continuity/ACTIVE_SESSION.yaml` — `8fd401112874737060260fff2e44852d1a84210217a998c9d41b17bc887679a8`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `37cfc9993861a7d6584f23fc1a902a0716937791cef139117e90a1e1400a3c85`
+- `.continuity/ACTIVE_SESSION.yaml` — `7aa33c9dd2aeaa755010afb97b4b7ce9a996969330e000250859a61e55280844`
 - `releases/R02/RELEASE_MANIFEST.yaml` — `19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d`
 - `releases/R02/DEFINITION_OF_READY.yaml` — `9a3113b85d8dd96ea04a908a277c9da3374531ec06dd5eb91dfd539e4351d33c`
 - `releases/R02/STORIES.yaml` — `966e57d10e36269465e74318903ffa0aa5c49d205ba38cce3ba5ebbdbe9ca571`
 - `releases/R02/TASKS.yaml` — `048d5453a94058ef04b704a67d55ad28182d040eee384d4d65794e19c90a949a`
 - `releases/R02/ACCEPTANCE_MATRIX.csv` — `687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0`
 - `releases/R02/PARALLEL_EXECUTION_PLAN.yaml` — `c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md` — `732942ca5d79008a7f70c50154ed2b3a1d63aca377255d5d13f06bb5d970e5e2`
-- `.continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0012.yaml` — `7651a75ba5d9c6b136e7dfd3bf2a061182015ea3c59d16f600ca42217a035cfe`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md` — `191108057bc005c5e16cf636b46a3fbab50e04886bac8dcdb7840cd657215832`
+- `.continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0013.yaml` — `ec950e181f09660176e10a676baf0446f0967f314cba3759fc68a79c7db0014c`
 - `docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md` — `4cacbe331c6591b0701ebaef11bb67567f831baf4d5fa3fd443c68c0d7465fc8`
 - `docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md` — `62beadfa0bcedbb97d6e763ed08b26d2ed8a76317716783cd1118a313f66706e`
 - `docs/03-continuity/change-requests/CR-0021-将1主控加3执行代理设为跨AI跨设备默认自动并行规则.md` — `5ef2b90effc14bd5b5b8ab561dc10a597ebd1061a3836a3d937e1f1ac7738ae8`
@@ -4581,7 +4515,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0024-固化跨电脑Git推送、模型分级与云端既有环境前置规则.md` — `fc2a63bda08358eb3046a7023c9d299fb58f99df2ac47a60a008dec6eb9db70c`
 - `docs/03-continuity/change-requests/CR-0025-绑定Git-pre-push实际目标以消除跨remote绕过.md` — `9c1233a603d9b373a4f01d02eea992e960e26caa51fd077b68524bafd2440777`
 - `docs/03-continuity/change-requests/CR-0026-让连续性生命周期演练使用真实本地transport.md` — `4a00a0d54cfbb134697e889e3b1c0fdc5bbb2bd12cb195592ef02215e2fa47e4`
-- `docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md` — `813b5a76b8e370578f5a7e96c67d3bb3a6744e3253a678ba386e80cdb82ebb75`
+- `docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md` — `0b789d83de90f13bb641a9882b4d9d911dc9383a21a9bf8e232b1ee5efd6d3c8`
 
 ## 接手硬规则
 
