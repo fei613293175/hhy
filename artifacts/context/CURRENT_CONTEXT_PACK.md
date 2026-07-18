@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T14:10:02Z
-- Context Hash：`50dca28213b26b5424bd17c271ac18900ed409149333127dee10fb436f088c6c`
+- 生成时间：2026-07-18T14:13:01Z
+- Context Hash：`83457b7d6781f01461d542b729b3d6edf09431b7f9777253482f723a35e604cf`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -62,7 +62,7 @@ in_progress_tasks:
 blocked_tasks:
 - TASK-R02-007
 next_task: TASK-R03-002
-updated_at: '2026-07-18T14:10:00Z'
+updated_at: '2026-07-18T14:13:00Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -97,15 +97,15 @@ continuity:
   active_session_id: SES-20260718T133151Z-12DB5949
   actor_id: codex-root
   story_id: STORY-R03-001
-  lease_expires_at: '2026-07-18T18:10:00Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0007.yaml
-  project_fingerprint: 185cd1043e687e6cde2cc59815701c44de3b06768e37d9971a0cf26dbd211532
+  lease_expires_at: '2026-07-18T18:13:00Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0008.yaml
+  project_fingerprint: aaa935cc8c1d9ae5ca8f0794f7902e2819e3775947c924f49335411ca7d2259b
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: ae989f3c83e82ee0649b47655dd944f44ffbdb7ddd4841a81322e89ff82d75b8
-    generated_at: '2026-07-18T14:04:03Z'
+    context_hash: 50dca28213b26b5424bd17c271ac18900ed409149333127dee10fb436f088c6c
+    generated_at: '2026-07-18T14:10:02Z'
   handoff_bundle: null
 ```
 
@@ -300,7 +300,7 @@ task_id: TASK-R03-002
 story_id: STORY-R03-001
 goal: 实现短信、R2/OSS与实名供应商配置的版本、SecretRef、连接测试、审批、激活回滚及Admin页面真实闭环
 started_at: '2026-07-18T13:31:51Z'
-updated_at: '2026-07-18T14:10:00Z'
+updated_at: '2026-07-18T14:13:00Z'
 takeover_of: null
 change_requests:
 - CR-0045
@@ -330,12 +330,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T14:10:00Z'
-  expires_at: '2026-07-18T18:10:00Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0007.yaml
+  renewed_at: '2026-07-18T14:13:00Z'
+  expires_at: '2026-07-18T18:13:00Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T133151Z-12DB5949.md
-next_step: 实现短信、存储与实名ProviderConnector的受控传输适配，并为TASK-R03-005共享服务集成准备持久化接口
+next_step: 为TASK-R03-002实现独立可集成的配置版本存储端口与原子激活回滚服务，公共Flyway和HTTP控制器仍留待TASK-R03-005
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -343,41 +343,43 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 连接测试编排直接跨越SecretRef解析、状态机和安全摘要，需主控串行复核
+  reason: 供应商适配与SSRF边界共享同一秘密作用域和连接测试状态机，需主控串行复核
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T133151Z-12DB5949-0007
+checkpoint_id: CP-SES-20260718T133151Z-12DB5949-0008
 session_id: SES-20260718T133151Z-12DB5949
-sequence: 7
-created_at: '2026-07-18T14:10:00Z'
-summary: R03短信、R2/OSS与实名真实连接测试编排和秘密短生命周期已实现
-next_step: 实现短信、存储与实名ProviderConnector的受控传输适配，并为TASK-R03-005共享服务集成准备持久化接口
+sequence: 8
+created_at: '2026-07-18T14:12:59Z'
+summary: R03短信、R2/OSS和实名供应商专用连接器适配层已实现
+next_step: 为TASK-R03-002实现独立可集成的配置版本存储端口与原子激活回滚服务，公共Flyway和HTTP控制器仍留待TASK-R03-005
 blockers: []
 decisions:
-- 连接器只接收短生命周期char[]秘密，调用结束立即清零；持久化结果仅保留安全枚举，不保留供应商响应或异常消息
+- 连接器端点强制HTTPS、默认端口、无凭据查询片段并拒绝回环私网；不同供应商只允许固定探测动作
 note: ''
 tests:
-- name: provider backend module
+- name: provider connector module
   result: PASS
-  evidence: Maven 17 tests, 0 failures
-  note: 覆盖校验、生命周期、连接成功失败、SecretRef不可用和秘密清零
+  evidence: Maven 21 tests, 0 failures
+  note: 覆盖短信、R2、实名映射与SSRF拒绝
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: b1c5c7f7f416fd87c5d6fc06ca32d7c9e6c06743
+  head: ade76ab4f6521bc193dcab8bd0c85e493ad1e933
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M CHANGELOG.md'
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinatorTest.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
   recent_commits:
+  - "ade76ab4f6521bc193dcab8bd0c85e493ad1e933\t2026-07-18T22:10:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): secure provider\
+    \ connection tests"
   - "b1c5c7f7f416fd87c5d6fc06ca32d7c9e6c06743\t2026-07-18T22:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): connect provider\
     \ config write flows"
   - "e5e5661ab1e9076ff8b9b6acb975316e85abfe1e\t2026-07-18T21:58:38+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] chore(continuity): close CR-0045"
@@ -391,10 +393,8 @@ git:
     \ as completed"
   - "1277725fb77832168dc0634e6af8081fdf4e770e\t2026-07-18T21:29:00+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] docs(r03): freeze implementation\
     \ entry gate"
-  - "315bdf261fd7f4b0cf5c89af5106050b3a580445\t2026-07-18T21:25:40+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close TASK-R02-007\
-    \ as blocked"
 project_fingerprint:
-  sha256: 185cd1043e687e6cde2cc59815701c44de3b06768e37d9971a0cf26dbd211532
+  sha256: aaa935cc8c1d9ae5ca8f0794f7902e2819e3775947c924f49335411ca7d2259b
   files:
   - CHANGELOG.md
   - apps/admin-web/src/provider-config.css
@@ -409,17 +409,19 @@ project_fingerprint:
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinatorTest.java
-  file_count: 16
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+  file_count: 18
   payload:
     base_commit: d37d08cb5a691f7605844742cbe645c01bf2b4f4
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 24959
-      sha256: 50ccdb9534fab9b5275ff311fa746e97c588670dd301c904fac45d34ab398947
+      size: 25028
+      sha256: 59ebc43b48e29964baade5c891ce27f0373c8eaa9db8e8e9bd978cc61377acce
     - path: apps/admin-web/src/provider-config.css
       state: FILE
       size: 3332
@@ -468,6 +470,10 @@ project_fingerprint:
       state: FILE
       size: 12902
       sha256: 47dcb476401b861c50282286eaafa0beb37f2ace9019e3606a48db6510a3fd81
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+      state: FILE
+      size: 8909
+      sha256: ddd29e7fe7acf8c639f88beccc2ec4f1a3b42bf64e432744267fc9d8ee900fb6
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java
       state: FILE
       size: 4321
@@ -480,6 +486,10 @@ project_fingerprint:
       state: FILE
       size: 8411
       sha256: 0bd98467ae5a9e2bc6c7474800ccdf764244d522150c71059ab4e268df6740d7
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+      state: FILE
+      size: 7269
+      sha256: 9df2170b4f28f12586deb1b339aee77ede683a42bad05b3ed0515c4fa949906b
 change_classification:
   other:
   - CHANGELOG.md
@@ -495,9 +505,11 @@ change_classification:
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinatorTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
   user_visible:
   - apps/admin-web/src/provider-config.css
   - apps/admin-web/src/r03ProviderPage.test.ts
@@ -539,8 +551,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 连接测试编排直接跨越SecretRef解析、状态机和安全摘要，需主控串行复核
-event_hash: 74ce29db8c075413c05cfbc6895163a16458190e8ac9500a78b73912ca542ed5
+  reason: 供应商适配与SSRF边界共享同一秘密作用域和连接测试状态机，需主控串行复核
+event_hash: eefb254bdf635f522ca64399cb8b719e74c4c46f30a4a3f9604a11b5029dda32
 ```
 
 ## 接续状态与事件头
@@ -552,8 +564,8 @@ active_session_id: SES-20260718T133151Z-12DB5949
 last_session_id: SES-20260718T132650Z-C5038104
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T132650Z-C5038104-0002
-event_count: 531
-event_head_hash: 74ce29db8c075413c05cfbc6895163a16458190e8ac9500a78b73912ca542ed5
+event_count: 532
+event_head_hash: eefb254bdf635f522ca64399cb8b719e74c4c46f30a4a3f9604a11b5029dda32
 event_chain_valid: true
 ```
 
@@ -676,9 +688,9 @@ recent_sessions: - session_id: SES-20260717T200842Z-456B8F52
   started_at: '2026-07-18T13:31:51Z'
   record: .continuity/sessions/SES-20260718T133151Z-12DB5949.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T133151Z-12DB5949.md
-  updated_at: '2026-07-18T14:10:00Z'
+  updated_at: '2026-07-18T14:13:00Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0007.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0008.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-E43F5E0BFE13
   session_id: SES-20260717T054147Z-7AE51A86
@@ -1532,7 +1544,7 @@ recent_task_transitions: - transition_id: TRN-3AE48C86CF61
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: b1c5c7f7f416fd87c5d6fc06ca32d7c9e6c06743
+head: ade76ab4f6521bc193dcab8bd0c85e493ad1e933
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1547,10 +1559,12 @@ status_porcelain:
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T133151Z-12DB5949.md'
-- ?? .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0007.yaml
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinatorTest.java
+- ?? .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0008.yaml
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
 recent_commits:
+- "ade76ab4f6521bc193dcab8bd0c85e493ad1e933\t2026-07-18T22:10:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): secure provider connection\
+  \ tests"
 - "b1c5c7f7f416fd87c5d6fc06ca32d7c9e6c06743\t2026-07-18T22:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): connect provider\
   \ config write flows"
 - "e5e5661ab1e9076ff8b9b6acb975316e85abfe1e\t2026-07-18T21:58:38+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] chore(continuity): close CR-0045"
@@ -1564,14 +1578,12 @@ recent_commits:
   \ as completed"
 - "1277725fb77832168dc0634e6af8081fdf4e770e\t2026-07-18T21:29:00+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] docs(r03): freeze implementation\
   \ entry gate"
-- "315bdf261fd7f4b0cf5c89af5106050b3a580445\t2026-07-18T21:25:40+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close TASK-R02-007\
-  \ as blocked"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`185cd1043e687e6cde2cc59815701c44de3b06768e37d9971a0cf26dbd211532`
-- 文件数：16
+- 指纹：`aaa935cc8c1d9ae5ca8f0794f7902e2819e3775947c924f49335411ca7d2259b`
+- 文件数：18
 
 - `CHANGELOG.md`
 - `apps/admin-web/src/provider-config.css`
@@ -1586,9 +1598,11 @@ recent_commits:
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinatorTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java`
 
 ## 当前 Release
 
@@ -3577,7 +3591,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `04c48ef8087599bf1ef602b43c959fe095ad44b17948c31076209809d261d56e`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `5c25affc008552e75660c3c3e40fec6208208bf9ee00472d29bff33c6789ed95`
+- `CURRENT_STATUS.yaml` — `7d98aa569e8243f5b87b8201529930172338914e10f90ab2d74423948a50345a`
 - `NEXT_TASK.yaml` — `586223faaabb65c6fe3d06df684818d8fc90af575b3f0fe15809f9ed5a2048ce`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3588,20 +3602,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `de19045f455501f77bc8679366433b330c30b85f33073bb823067912c2721259`
-- `.continuity/EVENT_LOG.jsonl` — `606a6a7256506a6cff9c687038e0c5a64a3beb0a31c7c6f9060fd09fd57a481f`
-- `.continuity/SESSION_INDEX.yaml` — `5b9dc766bc6590251b6cdd9adfc5d2ad547bd8679cd0ad1d8e07e13b411d9cc3`
+- `.continuity/EVENT_LOG.jsonl` — `42430c4ba1e969d201cd35f208d2ec9cce7cdbb7d14039b245be1ebf5b20fd90`
+- `.continuity/SESSION_INDEX.yaml` — `fe56470baa4ad243961bc51e69f6388faa6df18b7e91f5d6bafa0d9f5e212f7f`
 - `.continuity/TASK_CLAIMS.yaml` — `77d142757ab6e699d7fb2163bb44c7d02ca5492a3d8c6b354e266e500523b455`
 - `.continuity/TASK_TRANSITIONS.yaml` — `22f28d9352332526bdb3dbfa98652c7701f67dc92e96722d49dc2ca640699940`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `22f46c2a0025fb427fe3293d9cab4baaed94fb97e37c578dc4d6813c77350c5b`
-- `.continuity/ACTIVE_SESSION.yaml` — `68479fe2e0a651d11559eb703e1309f56cca3b6e8a8cf69c3134fe0dc3d4e874`
+- `.continuity/ACTIVE_SESSION.yaml` — `33e4a79af31b687a3d1558c36233daef4437a95679dde24d0a61d1276440fb82`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `50249bb46564c5f3965af9bd74da4e2d52302e04664d5a9715f8bc57226f413f`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `2ad175f8ded2d53496bb90ea3763c089862235c0abb238ecf68ff440a680a952`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T133151Z-12DB5949.md` — `8f8a3a9dd6b7e4a770723be93e02fceec468d84174204f0afd2dea9ea23f290e`
-- `.continuity/checkpoints/SES-20260718T133151Z-12DB5949/0007.yaml` — `c01c06c580ddcdc7ddc5bc9ceed33dbd7c8b353f48f7e502a1a57ee24b29c170`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T133151Z-12DB5949.md` — `4c03172851713298e7d9fe6b689c85c58949de5a26d9923994d4b8aa4437b5bc`
+- `.continuity/checkpoints/SES-20260718T133151Z-12DB5949/0008.yaml` — `431c94ab96981dc3eeb6dede9cb8c696f6d20301fbc9c9115d03b75299c307fb`
 - `docs/03-continuity/change-requests/CR-0045-允许R03用户可见Admin变更同步根CHANGELOG.md` — `51a58b7a2082fd8a683580bc61468afb1e9b8e6a576eda62435db529ca690ca6`
 
 ## 接手硬规则
