@@ -928,3 +928,23 @@ claims:
   - design/**
   - scripts/**
   closed_at: '2026-07-18T14:21:48Z'
+- claim_id: CLM-05902C997273
+  session_id: SES-20260718T142638Z-EF4C3723
+  task_id: TASK-R03-003
+  story_id: STORY-R03-002
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-18T14:26:38Z'
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**

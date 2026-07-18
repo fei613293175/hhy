@@ -1,0 +1,60 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T142638Z-EF4C3723
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R03
+task_id: TASK-R03-003
+story_id: STORY-R03-002
+goal: 纵向批次B：orbexa.cc域名与环境配置闭环
+started_at: '2026-07-18T14:26:38Z'
+updated_at: '2026-07-18T14:26:52Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 6bb0f76ca9b2287848e00b2dbcc8b28e2c9d21ef
+  start_head: 6bb0f76ca9b2287848e00b2dbcc8b28e2c9d21ef
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T14:26:50Z'
+  expires_at: '2026-07-18T18:26:50Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T142638Z-EF4C3723.md
+next_step: 实现域名配置校验、DNS/TLS/服务健康三层状态机与验证编排
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: b8e69cfdd36bbe4ec9bd26a8137886d817d53f89e3173d4be256be6a1f90451f
+  generated_at: '2026-07-18T14:26:51Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 任务领取和状态基线必须由唯一事实主控串行完成
