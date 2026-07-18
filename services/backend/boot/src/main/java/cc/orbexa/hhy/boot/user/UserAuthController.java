@@ -1,7 +1,6 @@
 package cc.orbexa.hhy.boot.user;
 
-import cc.orbexa.hhy.access.user.UserAuthContracts.RefreshRequest;
-import cc.orbexa.hhy.access.user.UserAuthContracts.UserSessionResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.*;
 import cc.orbexa.hhy.access.user.UserAuthService;
 import cc.orbexa.hhy.shared.api.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,6 +28,61 @@ public class UserAuthController {
         this.clock = clock;
     }
 
+    @PostMapping("/security-challenges")
+    public ApiResponse<ChallengeResource> createChallenge(
+            @Valid @RequestBody SecurityChallengeRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.createChallenge(body, key));
+    }
+
+    @PostMapping("/password/login")
+    public ApiResponse<UserSessionResource> passwordLogin(
+            @Valid @RequestBody PasswordLoginRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.passwordLogin(body, key, clientIp(request)));
+    }
+
+    @PostMapping("/sms/send")
+    public ApiResponse<CommandResultResource> sendSms(
+            @Valid @RequestBody SmsSendRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.sendSms(body, key, clientIp(request)));
+    }
+
+    @PostMapping("/sms/login")
+    public ApiResponse<UserSessionResource> smsLogin(
+            @Valid @RequestBody SmsLoginRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.smsLogin(body, key, clientIp(request)));
+    }
+
+    @PostMapping("/invite-codes/validate")
+    public ApiResponse<CommandResultResource> validateInvite(
+            @Valid @RequestBody InviteCodeValidateRequest body,
+            HttpServletRequest request) {
+        return success(request, service.validateInvite(body));
+    }
+
+    @PostMapping("/register")
+    public ApiResponse<UserSessionResource> register(
+            @Valid @RequestBody RegisterRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.register(body, key, clientIp(request)));
+    }
+
+    @PostMapping("/password/reset")
+    public ApiResponse<CommandResultResource> resetPassword(
+            @Valid @RequestBody PasswordResetRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.resetPassword(body, key));
+    }
+
     @PostMapping("/refresh")
     public ApiResponse<UserSessionResource> refresh(
             @Valid @RequestBody RefreshRequest body,
@@ -37,6 +91,15 @@ public class UserAuthController {
             HttpServletRequest request) {
         return ApiResponse.success(
                 requestId(request), service.refresh(body, refreshToken, key), Instant.now(clock));
+    }
+
+    private <T> ApiResponse<T> success(HttpServletRequest request, T data) {
+        return ApiResponse.success(requestId(request), data, Instant.now(clock));
+    }
+
+    private static String clientIp(HttpServletRequest request) {
+        String value = request.getRemoteAddr();
+        return value == null || value.isBlank() ? "unknown" : value;
     }
 
     private static String requestId(HttpServletRequest request) {

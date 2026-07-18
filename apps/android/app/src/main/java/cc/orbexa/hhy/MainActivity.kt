@@ -4,7 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import cc.orbexa.hhy.auth.AuthScreen
 import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.network.StartupGate
 import cc.orbexa.hhy.network.StartupGateRequest
@@ -29,13 +33,21 @@ class MainActivity : ComponentActivity() {
                         environment = BuildConfig.APP_ENVIRONMENT,
                     )
                 }
+                var authenticated by remember { mutableStateOf(false) }
                 StartupGateScreen(gate = gate, request = request) {
-                    HhyShellScreen(
-                        versionName = BuildConfig.VERSION_NAME,
-                        buildType = BuildConfig.BUILD_TYPE,
-                        apiBaseUrl = BuildConfig.API_BASE_URL,
-                        contractVersion = BuildConfig.CONTRACT_VERSION,
-                    )
+                    if (authenticated) {
+                        HhyShellScreen(
+                            versionName = BuildConfig.VERSION_NAME,
+                            buildType = BuildConfig.BUILD_TYPE,
+                            apiBaseUrl = BuildConfig.API_BASE_URL,
+                            contractVersion = BuildConfig.CONTRACT_VERSION,
+                        )
+                    } else {
+                        AuthScreen(
+                            apiBaseUrl = BuildConfig.API_BASE_URL,
+                            onAuthenticated = { authenticated = true },
+                        )
+                    }
                 }
             }
         }

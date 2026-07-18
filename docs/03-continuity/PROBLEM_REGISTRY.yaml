@@ -124,3 +124,16 @@ problems:
   - scripts/continuity.py context
   do_not_repeat:
   - 无活跃会话的Context Pack生成不得改变自己的树指纹来源
+- id: PROB-0012
+  title: R02短信认证缺少已激活的阿里云短信供应商
+  status: OPEN
+  root_cause: 当前接续环境未提供可激活的短信供应商版本、SecretRef或模板配置；该配置生命周期归属R03。
+  impact: R02的安全挑战、密码登录、注册和会话逻辑可验证，但短信发送、短信登录、注册短信校验及密码重置不能在真实外部通道完成。
+  current_behavior: 服务端在未发现SmsProvider实现时显式失败并返回可追踪错误，不生成测试验证码、不伪造发送成功。
+  next_owner: TASK-R03-002
+  required_evidence:
+  - 受控的阿里云短信SecretRef与模板映射
+  - 连接测试、真实发送回执和限流回归
+  do_not_repeat:
+  - 不得将验证码写入日志、响应体或测试生产路径
+  - 不得以模拟发送成功替代外部通道验收

@@ -1581,3 +1581,42 @@ change_requests:
     session_id: SES-20260717T210927Z-13B07A7D
   session_ids:
   - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0027
+  title: 将已解析api.orbexa.cc接入R02开发测试后端
+  status: APPROVED
+  created_at: '2026-07-18T01:22:21Z'
+  updated_at: '2026-07-18T01:22:47Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-runtime-governance-reviewer
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 项目所有者已解析api和download子域名，并在真机反馈R02 APK启动暂时无法连接后，授权持续开发与服务器操作。
+  reason: 真机证据确认公网DNS可达但Nginx无api虚拟主机，导致启动门禁无法调用平台状态和版本策略。
+  original_rule: R02当前会话范围不含infra，api.orbexa.cc虽已解析但没有受版本控制的开发反向代理，Android启动门禁只能进入暂时无法连接兜底页。
+  new_rule: R02开发测试允许新增并部署精确的infra/nginx/api.orbexa.cc.conf：Cloudflare公网TLS入口转发到服务器loopback-only的P00/R02开发后端；不得暴露上游端口、不得包含秘密。
+  impact_summary: 新增开发API虚拟主机和真机启动环境对齐；不改变冻结业务契约、数据库语义或生产短信配置。
+  impact:
+    files:
+    - infra/nginx/api.orbexa.cc.conf
+    - apps/android/app/build.gradle.kts
+    pages:
+    - SCR-AUTH-001,启动门禁
+    apis:
+    - GET /public-api/v1/platform/status;POST /public-api/v1/app/version-check
+    database: []
+    configuration:
+    - Cloudflare api.orbexa.cc,Nginx loopback proxy,HHY_APP_ENVIRONMENT
+    ledger: []
+    tests:
+    - public HTTPS platform status and STAGING version-policy probes;Nginx syntax validation;Android cloud build
+    releases:
+    - R02
+    migration_and_compatibility: 先执行nginx -t后reload；代理上游限定127.0.0.1:28080，失败可移除唯一新增虚拟主机恢复默认404；Android可用HHY_APP_ENVIRONMENT覆盖，默认对齐已发布STAGING渠道。
+  user_confirmation: 项目所有者在本会话确认api/download已解析，并要求持续开发、服务器由Codex操作；真机截图提供了该修复的直接验收证据。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T01:22:47Z'
+    note: 独立审核确认：用户已授权服务器和已解析子域名操作；该变更仅接通受控开发代理，保留loopback上游和公网验证。
+  machine_record: .continuity/change_requests/CR-0027.yaml
+  document: docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md

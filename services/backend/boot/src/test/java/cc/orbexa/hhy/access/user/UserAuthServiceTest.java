@@ -27,6 +27,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 class UserAuthServiceTest {
@@ -36,6 +37,9 @@ class UserAuthServiceTest {
     private static final String IDEMPOTENCY_KEY = "refresh-idem-key-0001";
 
     @Mock UserAuthStore repository;
+    @Mock UserAuthPolicy policy;
+    @Mock UserAuthVerificationService verification;
+    @Mock PasswordEncoder passwords;
 
     private UserTokenService tokens;
     private UserAuthService service;
@@ -50,6 +54,9 @@ class UserAuthServiceTest {
                 tokens,
                 new UserIdempotencySnapshotCipher(properties),
                 properties,
+                policy,
+                verification,
+                passwords,
                 objectMapper,
                 Clock.fixed(NOW, ZoneOffset.UTC));
     }
@@ -60,7 +67,7 @@ class UserAuthServiceTest {
         String oldHash = tokens.refreshHash(OLD_REFRESH_TOKEN);
         String requestHash = tokens.intentHash(
                 "authPostAuthRefresh", OLD_REFRESH_TOKEN, "31");
-        String scope = "user-auth-refresh:" + oldHash;
+        String scope = "ua:rf:" + tokens.intentHash("idempotency-scope", oldHash).substring(0, 48);
         var firstRow = new UserAuthStore.IdempotencyRow(91L, requestHash, null, null, null);
         when(repository.claimIdempotency(
                 eq(scope), eq(IDEMPOTENCY_KEY), eq(requestHash), any(Instant.class)))
@@ -91,13 +98,13 @@ class UserAuthServiceTest {
         ArgumentCaptor<String> responseType = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> ciphertext = ArgumentCaptor.forClass(String.class);
         verify(repository).completeIdempotencySnapshot(
-                eq(91L), eq("user-session:23"), responseType.capture(), ciphertext.capture());
+                eq(91L), eq("user-auth-session-v1:ok"), responseType.capture(), ciphertext.capture());
         assertEquals("user-auth-session-v1", responseType.getValue());
         assertFalse(ciphertext.getValue().contains(first.refreshToken()));
         assertFalse(ciphertext.getValue().contains(first.accessToken()));
 
         var replayRow = new UserAuthStore.IdempotencyRow(
-                91L, requestHash, "user-session:23", responseType.getValue(), ciphertext.getValue());
+                91L, requestHash, "user-auth-session-v1:ok", responseType.getValue(), ciphertext.getValue());
         when(repository.claimIdempotency(
                 eq(scope), eq(IDEMPOTENCY_KEY), eq(requestHash), any(Instant.class)))
                 .thenReturn(new UserAuthStore.IdempotencyClaim(replayRow, true));

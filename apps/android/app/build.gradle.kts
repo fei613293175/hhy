@@ -6,7 +6,9 @@ plugins {
 val apiBaseUrl = providers.environmentVariable("HHY_API_BASE_URL")
     .orElse("https://api.example.invalid")
 val appChannel = providers.environmentVariable("HHY_APP_CHANNEL").orElse("official")
-val appEnvironment = providers.environmentVariable("HHY_APP_ENVIRONMENT").orElse("TEST")
+// The publicly reachable development API publishes its test artefacts in STAGING.
+// Individual CI jobs can still override this with HHY_APP_ENVIRONMENT.
+val appEnvironment = providers.environmentVariable("HHY_APP_ENVIRONMENT").orElse("STAGING")
 
 android {
     namespace = "cc.orbexa.hhy"
@@ -75,6 +77,7 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":feature:shell"))
     implementation(project(":feature:startup"))
+    implementation(project(":feature:auth"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 

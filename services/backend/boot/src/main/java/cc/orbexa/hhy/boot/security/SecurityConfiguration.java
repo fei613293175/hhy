@@ -29,7 +29,15 @@ public class SecurityConfiguration {
                                 "/actuator/info",
                                 "/actuator/prometheus").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/app/version-check").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/refresh").permitAll()
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/v1/auth/security-challenges",
+                                "/api/v1/auth/password/login",
+                                "/api/v1/auth/sms/send",
+                                "/api/v1/auth/sms/login",
+                                "/api/v1/auth/invite-codes/validate",
+                                "/api/v1/auth/register",
+                                "/api/v1/auth/password/reset",
+                                "/api/v1/auth/refresh").permitAll()
                         .requestMatchers(HttpMethod.POST,
                                 "/admin-api/v1/auth/login",
                                 "/admin-api/v1/auth/mfa/verify").permitAll()

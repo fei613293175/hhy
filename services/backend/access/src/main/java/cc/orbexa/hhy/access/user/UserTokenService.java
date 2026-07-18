@@ -57,6 +57,13 @@ public final class UserTokenService {
         return REFRESH_PREFIX + BASE64.encodeToString(value);
     }
 
+    public String newNumericCode(int length) {
+        if (length < 4 || length > 8) throw new IllegalArgumentException("Verification code length out of range");
+        StringBuilder value = new StringBuilder(length);
+        for (int i = 0; i < length; i++) value.append(random.nextInt(10));
+        return value.toString();
+    }
+
     public String refreshHash(String refreshToken) {
         return HexFormat.of().formatHex(hmac(
                 properties.tokenHmacSecret(), refreshToken.getBytes(StandardCharsets.UTF_8)));
