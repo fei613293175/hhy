@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0065
 title: 同步R03发布计划与回归APK硬门禁
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-18T23:28:09Z'
-updated_at: '2026-07-18T23:29:46Z'
+updated_at: '2026-07-18T23:32:35Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R03-007
@@ -46,5 +46,12 @@ decision_log:
   status: IMPLEMENTED
   note: R03总发布计划Android测试APK策略已同步为YES，R03发布产物门禁和严格连续性门禁均通过。
   session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T23:32:35Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: R03发布计划APK策略已与版本清单统一，常规发布产物和严格连续性门禁均通过，证据提交已推送。
+  session_id: SES-20260718T200607Z-3569D212
 session_ids:
 - SES-20260718T200607Z-3569D212
+implementation_commits:
+- f7b1279ede9d481a957d588c03624862227a52c3

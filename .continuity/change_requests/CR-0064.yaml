@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0064
 title: 纳入R02认证补开发的R03 APK当前与历史交付证据
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-18T23:24:40Z'
-updated_at: '2026-07-18T23:29:45Z'
+updated_at: '2026-07-18T23:32:34Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R03-007
@@ -54,5 +54,12 @@ decision_log:
   status: IMPLEMENTED
   note: 最新固定签名R03测试APK已完成仓库、服务器、公网和桌面四方交付验证，上一交付证据已归档，真机验收保持PENDING。
   session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T23:32:34Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 交付证据、历史归档和R02认证补开发报告已在证据提交中落库并推送；项目所有者真机验收字段按规则保持PENDING。
+  session_id: SES-20260718T200607Z-3569D212
 session_ids:
 - SES-20260718T200607Z-3569D212
+implementation_commits:
+- f7b1279ede9d481a957d588c03624862227a52c3

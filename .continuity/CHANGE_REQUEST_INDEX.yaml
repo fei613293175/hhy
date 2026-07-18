@@ -3799,9 +3799,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0064
   title: 纳入R02认证补开发的R03 APK当前与历史交付证据
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-18T23:24:40Z'
-  updated_at: '2026-07-18T23:29:45Z'
+  updated_at: '2026-07-18T23:32:34Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3852,14 +3852,21 @@ change_requests:
     status: IMPLEMENTED
     note: 最新固定签名R03测试APK已完成仓库、服务器、公网和桌面四方交付验证，上一交付证据已归档，真机验收保持PENDING。
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:32:34Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 交付证据、历史归档和R02认证补开发报告已在证据提交中落库并推送；项目所有者真机验收字段按规则保持PENDING。
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - f7b1279ede9d481a957d588c03624862227a52c3
 - protocol_version: '1.0'
   cr_id: CR-0065
   title: 同步R03发布计划与回归APK硬门禁
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-18T23:28:09Z'
-  updated_at: '2026-07-18T23:29:46Z'
+  updated_at: '2026-07-18T23:32:35Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3902,5 +3909,12 @@ change_requests:
     status: IMPLEMENTED
     note: R03总发布计划Android测试APK策略已同步为YES，R03发布产物门禁和严格连续性门禁均通过。
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:32:35Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: R03发布计划APK策略已与版本清单统一，常规发布产物和严格连续性门禁均通过，证据提交已推送。
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - f7b1279ede9d481a957d588c03624862227a52c3

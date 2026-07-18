@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T23:29:51Z
-- Context Hash：`b09680a1ccfa7ff7b0671a6eb75a0454249f58daf37ad4207d25288a916d54dd`
+- 生成时间：2026-07-18T23:32:39Z
+- Context Hash：`36ac6a0a3f43755ac31c6cb5351854f253f3693cd23b3bc4509640a5b4e981f2`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -68,7 +68,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R03-007
-updated_at: '2026-07-18T23:29:49Z'
+updated_at: '2026-07-18T23:32:38Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -103,15 +103,15 @@ continuity:
   active_session_id: SES-20260718T200607Z-3569D212
   actor_id: codex-root
   story_id: STORY-R03-004
-  lease_expires_at: '2026-07-19T03:29:49Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0013.yaml
-  project_fingerprint: 6e6fb434fc92b18952f97e786d227b6d530cc0d7269709c2d86870006cb202ce
+  lease_expires_at: '2026-07-19T03:32:38Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0014.yaml
+  project_fingerprint: 27da948b46eb7df59980d66c071801753ca3ba8c1ac498bcb4669c45c3c186eb
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 3501224f9a2b37247dd816fd816b0563cb95a72aa11818021ced98d8b8442a9d
-    generated_at: '2026-07-18T23:28:58Z'
+    context_hash: b09680a1ccfa7ff7b0671a6eb75a0454249f58daf37ad4207d25288a916d54dd
+    generated_at: '2026-07-18T23:29:51Z'
   handoff_bundle: null
 ```
 
@@ -308,7 +308,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-18T23:29:49Z'
+updated_at: '2026-07-18T23:32:38Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -478,12 +478,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T23:29:49Z'
-  expires_at: '2026-07-19T03:29:49Z'
-checkpoint_sequence: 13
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0013.yaml
+  renewed_at: '2026-07-18T23:32:38Z'
+  expires_at: '2026-07-19T03:32:38Z'
+checkpoint_sequence: 14
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0014.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 提交并推送R02认证补开发的APK交付证据与发布计划修正；以该提交号关闭CR-0064和CR-0065，再提交推送关闭记录。
+next_step: 提交推送CR-0064/0065关闭记录；确认工作树和远端一致后，保留用户真机验收PENDING并继续TASK-R03-007后续版本工作。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -491,96 +491,49 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 只剩同一提交链的变更单状态、检查点和Git推送，必须串行绑定确切提交号。
+  reason: 治理关闭记录必须引用刚推送的唯一证据提交号，无法安全并行。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T200607Z-3569D212-0013
+checkpoint_id: CP-SES-20260718T200607Z-3569D212-0014
 session_id: SES-20260718T200607Z-3569D212
-sequence: 13
-created_at: '2026-07-18T23:29:48Z'
-summary: CR-0064和CR-0065实现完成：0958f1f固定签名回归APK已四方交付并通过外网校验，历史交付证据已归档，R03发布计划APK策略已与版本清单统一为YES。
-next_step: 提交并推送R02认证补开发的APK交付证据与发布计划修正；以该提交号关闭CR-0064和CR-0065，再提交推送关闭记录。
+sequence: 14
+created_at: '2026-07-18T23:32:37Z'
+summary: 证据提交f7b1279已推送；CR-0064和CR-0065已用该提交号关闭。R02冻结设计补开发、无短信注册、测试万能邀请码、商业UI硬边界、测试环境部署和固定签名APK交付均已有可追溯记录。
+next_step: 提交推送CR-0064/0065关闭记录；确认工作树和远端一致后，保留用户真机验收PENDING并继续TASK-R03-007后续版本工作。
 blockers: []
 decisions:
-- 项目所有者真机验收继续为PENDING；仅在用户测试反馈通过后更新，不把测试APK误标为正式发布产物。
+- R02补开发实现与工程交付已完成；是否通过项目所有者真机体验仍以用户反馈为准，未提前关闭R03版本。
 note: ''
 tests:
-- name: release-artifacts
+- name: evidence-commit-push
   result: PASS
-  evidence: releases/R03/RELEASE_MANIFEST.yaml
-  note: R03发布产物常规门禁通过
-- name: apk-delivery
-  result: PASS
-  evidence: artifacts/validation/r03-apk-delivery/delivery-evidence.json
-  note: 四方SHA、HTTPS、签名与真实API配置通过
-- name: continuity-strict
-  result: PASS
-  evidence: artifacts/validation/project-doctor-v1.2.3.json
-  note: 63个变更单和全部连续性集成/生命周期检查通过
+  evidence: f7b1279ede9d481a957d588c03624862227a52c3
+  note: 远端task/TASK-R03-001已包含交付证据
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 0958f1f96ff12b769647c293082e5a4fadd7cb78
+  head: f7b1279ede9d481a957d588c03624862227a52c3
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0054.yaml'
-  - ' M .continuity/change_requests/CR-0055.yaml'
-  - ' M .continuity/change_requests/CR-0056.yaml'
-  - ' M .continuity/change_requests/CR-0057.yaml'
-  - ' M .continuity/change_requests/CR-0058.yaml'
-  - ' M .continuity/change_requests/CR-0059.yaml'
-  - ' M .continuity/change_requests/CR-0060.yaml'
-  - ' M .continuity/change_requests/CR-0061.yaml'
-  - ' M .continuity/change_requests/CR-0062.yaml'
-  - ' M .continuity/change_requests/CR-0063.yaml'
-  - ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/apk/R03/APK_MANIFEST.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/reports/R03/TASK-R03-007-android-apk.md'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
-  - ' M artifacts/validation/r03-apk-delivery/delivery-evidence.json'
-  - ' M artifacts/validation/r03-task007-android/apk-signing.txt'
-  - ' M artifacts/validation/r03-task007-android/build-evidence.json'
-  - ' M artifacts/validation/r03-task007-android/gradle-build.log'
+  - ' M .continuity/change_requests/CR-0064.yaml'
+  - ' M .continuity/change_requests/CR-0065.yaml'
   - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/release_plan.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md'
-  - ' M docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md'
-  - ' M docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md'
-  - ' M docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md'
-  - ' M docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md'
-  - ' M docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md'
-  - ' M docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md'
-  - ' M docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md'
-  - ' M docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md'
-  - ' M docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md'
-  - ' M releases/R02/R02_AUTH_HOTFIX_20260719.md'
-  - ?? .continuity/change_requests/CR-0064.yaml
-  - ?? .continuity/change_requests/CR-0065.yaml
-  - ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0011.yaml
-  - ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0012.yaml
-  - ?? artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
-  - ?? artifacts/validation/r03-apk-delivery/history/3a913c9/delivery-evidence.json
-  - ?? docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md
-  - ?? docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md
+  - ' M docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md'
+  - ' M docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md'
   recent_commits:
+  - "f7b1279ede9d481a957d588c03624862227a52c3\t2026-07-19T07:31:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): record auth hotfix\
+    \ APK delivery"
   - "0958f1f96ff12b769647c293082e5a4fadd7cb78\t2026-07-19T06:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r02): freeze security\
     \ challenge and password registration"
   - "655e1eebbdd2df3ce1f527b7d77601826cb11c55\t2026-07-19T04:50:09+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): restore desktop\
@@ -595,10 +548,8 @@ git:
     \ activation gate"
   - "5cdfd38e50c563b345203b1255dc7fb67e618c46\t2026-07-19T01:23:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): deliver regression\
     \ apk evidence"
-  - "3a913c95265f93b815042389d573f4804137c0c0\t2026-07-19T01:05:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): freeze external\
-    \ and apk baseline"
 project_fingerprint:
-  sha256: 6e6fb434fc92b18952f97e786d227b6d530cc0d7269709c2d86870006cb202ce
+  sha256: 27da948b46eb7df59980d66c071801753ca3ba8c1ac498bcb4669c45c3c186eb
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -970,12 +921,12 @@ project_fingerprint:
       sha256: abd7fb668023ad07d9204904c2c3cd113b59182b8840a3ab83a3809b84573b73
     - path: docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md
       state: FILE
-      size: 3605
-      sha256: 99c4de90c614cd793d02f3dc81ae1f9ebc1bde447b7889994d966015d680590f
+      size: 3895
+      sha256: c9b1313e784c07559258d05188bd7ffbb41124fe2f4e719231b35bf50774516d
     - path: docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md
       state: FILE
-      size: 2603
-      sha256: 939f5902819d81604335a51b6afd1317a1bc134031eec812b6d38cc022cd630d
+      size: 2871
+      sha256: 607b0de5dd9f5f3cb9a1a03c640b55f2df1d0f4b5c7646dc05a7b8047b4b825f
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 610915
@@ -1372,8 +1323,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 只剩同一提交链的变更单状态、检查点和Git推送，必须串行绑定确切提交号。
-event_hash: 1a07661e4c5f8d1a3eeebc639d0196dba54bf292fa7af79f3463c422ea089b4f
+  reason: 治理关闭记录必须引用刚推送的唯一证据提交号，无法安全并行。
+event_hash: cf7fe97f08106711d847b05602ef9fb282f9589165c65a8c7dfab71af2e32e16
 ```
 
 ## 接续状态与事件头
@@ -1385,8 +1336,8 @@ active_session_id: SES-20260718T200607Z-3569D212
 last_session_id: SES-20260718T165842Z-356A8138
 last_session_result: BLOCKED
 last_closure_checkpoint_id: CP-SES-20260718T165842Z-356A8138-0005
-event_count: 738
-event_head_hash: 1a07661e4c5f8d1a3eeebc639d0196dba54bf292fa7af79f3463c422ea089b4f
+event_count: 741
+event_head_hash: cf7fe97f08106711d847b05602ef9fb282f9589165c65a8c7dfab71af2e32e16
 event_chain_valid: true
 ```
 
@@ -1509,9 +1460,9 @@ recent_sessions: - session_id: SES-20260718T084729Z-BD53B7C4
   started_at: '2026-07-18T20:06:07Z'
   record: .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  updated_at: '2026-07-18T23:29:49Z'
+  updated_at: '2026-07-18T23:32:38Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0013.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0014.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-3E379E115FA4
   session_id: SES-20260717T141717Z-A01412D7
@@ -2351,7 +2302,7 @@ recent_task_transitions: - transition_id: TRN-23D2BAB015EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 0958f1f96ff12b769647c293082e5a4fadd7cb78
+head: f7b1279ede9d481a957d588c03624862227a52c3
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2362,53 +2313,19 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0054.yaml'
-- ' M .continuity/change_requests/CR-0055.yaml'
-- ' M .continuity/change_requests/CR-0056.yaml'
-- ' M .continuity/change_requests/CR-0057.yaml'
-- ' M .continuity/change_requests/CR-0058.yaml'
-- ' M .continuity/change_requests/CR-0059.yaml'
-- ' M .continuity/change_requests/CR-0060.yaml'
-- ' M .continuity/change_requests/CR-0061.yaml'
-- ' M .continuity/change_requests/CR-0062.yaml'
-- ' M .continuity/change_requests/CR-0063.yaml'
+- ' M .continuity/change_requests/CR-0064.yaml'
+- ' M .continuity/change_requests/CR-0065.yaml'
 - ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/apk/R03/APK_MANIFEST.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/reports/R03/TASK-R03-007-android-apk.md'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
-- ' M artifacts/validation/r03-apk-delivery/delivery-evidence.json'
-- ' M artifacts/validation/r03-task007-android/apk-signing.txt'
-- ' M artifacts/validation/r03-task007-android/build-evidence.json'
-- ' M artifacts/validation/r03-task007-android/gradle-build.log'
 - ' M catalogs/change_request_index.csv'
-- ' M catalogs/release_plan.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md'
-- ' M docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md'
-- ' M docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md'
-- ' M docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md'
-- ' M docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md'
-- ' M docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md'
-- ' M docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md'
-- ' M docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md'
-- ' M docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md'
-- ' M docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md'
+- ' M docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md'
+- ' M docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md'
-- ' M releases/R02/R02_AUTH_HOTFIX_20260719.md'
-- ?? .continuity/change_requests/CR-0064.yaml
-- ?? .continuity/change_requests/CR-0065.yaml
-- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0011.yaml
-- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0012.yaml
-- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0013.yaml
-- ?? artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
-- ?? artifacts/validation/r03-apk-delivery/history/3a913c9/delivery-evidence.json
-- ?? docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md
-- ?? docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md
+- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0014.yaml
 recent_commits:
+- "f7b1279ede9d481a957d588c03624862227a52c3\t2026-07-19T07:31:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): record auth hotfix\
+  \ APK delivery"
 - "0958f1f96ff12b769647c293082e5a4fadd7cb78\t2026-07-19T06:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r02): freeze security challenge\
   \ and password registration"
 - "655e1eebbdd2df3ce1f527b7d77601826cb11c55\t2026-07-19T04:50:09+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): restore desktop\
@@ -2423,13 +2340,11 @@ recent_commits:
   \ gate"
 - "5cdfd38e50c563b345203b1255dc7fb67e618c46\t2026-07-19T01:23:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): deliver regression\
   \ apk evidence"
-- "3a913c95265f93b815042389d573f4804137c0c0\t2026-07-19T01:05:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): freeze external\
-  \ and apk baseline"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`6e6fb434fc92b18952f97e786d227b6d530cc0d7269709c2d86870006cb202ce`
+- 指纹：`27da948b46eb7df59980d66c071801753ca3ba8c1ac498bcb4669c45c3c186eb`
 - 文件数：92
 
 - `AGENTS.md`
@@ -4579,121 +4494,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260718T152013Z-8B704646
   implementation_commits:
   - 650fdee862405db673ed5f3f856611356508e337
-- protocol_version: '1.0'
-  cr_id: CR-0064
-  title: 纳入R02认证补开发的R03 APK当前与历史交付证据
-  status: IMPLEMENTED
-  created_at: '2026-07-18T23:24:40Z'
-  updated_at: '2026-07-18T23:29:45Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 用户要求理解冻结设计包后立即完成R02安全验证码与无短信注册补开发，生成桌面APK并按无状态交接边界持续推进。
-  reason: 最新固定签名回归APK替换当前R03测试交付物时，需要保留上一份交付证据并同步构建、下载、版本和桌面交付记录；这些路径未包含在原功能变更范围。
-  original_rule: TASK-R03-007原允许范围仅覆盖R03既有构建证据，未包含当前APK清单、历史交付快照和R02认证补开发交付报告。
-  new_rule: 允许用固定签名、真实HTTPS API、四方SHA一致的最新R03测试APK替换当前交付清单，同时将上一份清单和交付证据只读归档；同步更新构建、签名、下载、版本和R02认证补开发交付记录。
-  impact_summary: 仅扩展交付证据与报告路径，不改变已冻结业务实现；真机项目所有者验收继续保持PENDING，测试APK不得标记为正式发布。
-  impact:
-    files:
-    - artifacts/apk/R03/APK_MANIFEST.yaml
-    - artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
-    - artifacts/validation/r03-apk-delivery/delivery-evidence.json
-    - artifacts/validation/r03-apk-delivery/history/3a913c9/delivery-evidence.json
-    - artifacts/validation/r03-task007-android/build-evidence.json
-    - artifacts/validation/r03-task007-android/gradle-build.log
-    - artifacts/validation/r03-task007-android/apk-signing.txt
-    - artifacts/reports/R03/TASK-R03-007-android-apk.md
-    - releases/R02/R02_AUTH_HOTFIX_20260719.md
-    pages: []
-    apis: []
-    database: []
-    configuration:
-    - R03测试APK清单与下载白名单证据
-    ledger:
-    - CR-0064及连续性检查点
-    tests:
-    - R03 APK prepare/verify、外网HTTPS 200、源站/外网/服务器/桌面SHA-256一致、签名v2/v3、真实API嵌入、严格连续性门禁
-    releases:
-    - R02认证补开发/R03测试APK
-    migration_and_compatibility: 现有3a913c9交付证据移入按提交号命名的history目录；0958f1f成为当前测试交付，旧APK不删除且不再作为当前验证目标。
-  user_confirmation: 用户在2026-07-19明确要求立即理解并开发冻结包，完成后生成桌面APK并持续推进。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T23:25:21Z'
-    note: 用户已明确要求冻结设计补开发、桌面APK交付、无状态连续开发，并授权后续非紧急判断由开发端自行决定；批准仅扩展交付证据范围，真机验收仍由用户反馈。
-  machine_record: .continuity/change_requests/CR-0064.yaml
-  document: docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md
-  decision_log:
-  - at: '2026-07-18T23:25:23Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 已纳入最新固定签名测试APK、历史交付快照、构建签名证据和R02认证补开发交付报告，开始最终门禁与提交。
-    session_id: SES-20260718T200607Z-3569D212
-  - at: '2026-07-18T23:29:45Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: 最新固定签名R03测试APK已完成仓库、服务器、公网和桌面四方交付验证，上一交付证据已归档，真机验收保持PENDING。
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
-- protocol_version: '1.0'
-  cr_id: CR-0065
-  title: 同步R03发布计划与回归APK硬门禁
-  status: IMPLEMENTED
-  created_at: '2026-07-18T23:28:09Z'
-  updated_at: '2026-07-18T23:29:46Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 用户要求每个版本完成测试、桌面APK交付和可无状态接续，并严格按开发文档逐项核对。
-  reason: R03 RELEASE_MANIFEST自滚动计划建立时已要求回归APK，但catalogs/release_plan.csv仍标记Android测试APK=NO，导致发布产物常规门禁APK_POLICY_MISMATCH。
-  original_rule: catalogs/release_plan.csv中R03的Android测试APK字段为NO，而releases/R03/RELEASE_MANIFEST.yaml和滚动执行计划要求回归APK。
-  new_rule: R03发布计划Android测试APK字段统一为YES；版本退出前必须交付固定签名回归APK并完成仓库、桌面、公网和项目所有者真机验收。
-  impact_summary: 仅修正发布计划元数据与既有R03硬门禁一致，不新增业务功能、不将当前PENDING真机验收提前标记为PASS。
-  impact:
-    files:
-    - catalogs/release_plan.csv
-    pages: []
-    apis: []
-    database: []
-    configuration:
-    - R03 Android测试APK策略
-    ledger:
-    - CR-0065及连续性检查点
-    tests:
-    - check_release_artifacts.py --release R03 与严格连续性门禁
-    releases:
-    - R03
-    migration_and_compatibility: 后续所有R03发布产物检查均以YES执行；当前0958f1f测试APK继续作为待项目所有者真机反馈的回归包。
-  user_confirmation: 用户已明确要求每个版本测试、桌面APK、追溯和版本开发说明完整交付，并授权非紧急问题自行决策。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T23:28:27Z'
-    note: 该修正落实用户已明确要求的每版本APK交付与文档一致性硬边界，不改变业务范围。
-  machine_record: .continuity/change_requests/CR-0065.yaml
-  document: docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md
-  decision_log:
-  - at: '2026-07-18T23:28:29Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 开始将R03发布计划APK策略同步为YES并复跑发布产物门禁。
-    session_id: SES-20260718T200607Z-3569D212
-  - at: '2026-07-18T23:29:46Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: R03总发布计划Android测试APK策略已同步为YES，R03发布产物门禁和严格连续性门禁均通过。
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `572e7bcb21e374a6b2d84718e43eaa7130129c220b30ce2c7492a2f3886be446`
+- `CURRENT_STATUS.yaml` — `9a5ba23afaa49abeab4c414a6b68bf76f1d4b4226a2022b6b90c5d08ecbffd97`
 - `NEXT_TASK.yaml` — `d3331935c15deb5ebd04b02689837403e53e8bc65c8813529359515257a7edc1`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -4704,20 +4511,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `f94a2ec6b21ddffcbef8e91a3ea5fe1984d6e50451e488f04a74d3e7c75e0a16`
-- `.continuity/SESSION_INDEX.yaml` — `f40539eab8dd5eb992853791853a1b3401e0dd4b23e9fd1ab9aa57dd56c1530e`
+- `.continuity/EVENT_LOG.jsonl` — `ca88ff42082e50bcfaa6997ce86978508dbd0325d63216ea39a48df63ee2fa12`
+- `.continuity/SESSION_INDEX.yaml` — `167a28c8bc637fc81066bb8849a6fa07ad799e46ff0955048d72dae9663a38f5`
 - `.continuity/TASK_CLAIMS.yaml` — `dae3c46345cf6361b9487cc9878bf5cd6bd3775ec390315b8036208feb5d7b19`
 - `.continuity/TASK_TRANSITIONS.yaml` — `49b2f0e5fdabc44f56af3c9fdeefd1971b4d3462167a3c93ba796bb4b3be1ada`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `9b87d5f8b089ec1e6faf2d038b8b452ce90934239e10dcfc68e954c2f711de88`
-- `.continuity/ACTIVE_SESSION.yaml` — `ba86ff9ea902b5086997fce5da795b9a263cbe107c0d609ec10b1748df8e3003`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `2e213c8a60d6d0e8f4b8012412be67086be72dffa1f712b4e6a02cf37793e67d`
+- `.continuity/ACTIVE_SESSION.yaml` — `c5faefa32df0ed45d47be95a1a67d12711d54ced7542b80930d34a8c69771765`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `577a231d7cc655f126187950d05277a67d9e877ddb87a52721b2b634a21f12eb`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `de226ffec9d6cb0da7242d9febfae3ac023875c3b1d167894739ca4f8dc9ac47`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `3c9c629a04b4578fcc2a22c6162a2a1cc8140d02017948a06a494fb1c4295447`
-- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0013.yaml` — `51bedc205916c5e73827e09299aebb95e2b97906281c96a8eb2440675261599c`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `71cfb4ef166c9a943c71a4381a443370dc05c747ab2295e8ffdeccd83629032a`
+- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0014.yaml` — `2189f855fc7df55ed1dc94081bbd1cb8bb3d5ffaa04b28f3893b248c819ac9e9`
 - `docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md` — `09124eace840cbac05b094cb44ba6e9b2baf894d33b663a5eecc21a271fd9f27`
 - `docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md` — `657fe94cc6f260b297cb45642322801c84f680a89018c9e6679469eaecfc7689`
 - `docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md` — `d34b7054137e69b320623c2971b6b89fdc8c26644170a1cbc9ab29dbc2fb1ab0`
@@ -4731,8 +4538,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md` — `d58e137c26203c9328f0fb43e495b5f45fdf37e744eec54e1b4e8112ec4170de`
 - `docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md` — `bc26d3d2324bb3839f5b08dfa97438996e3fc874421ebea3bbef41f1593ea328`
 - `docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md` — `abd7fb668023ad07d9204904c2c3cd113b59182b8840a3ab83a3809b84573b73`
-- `docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md` — `99c4de90c614cd793d02f3dc81ae1f9ebc1bde447b7889994d966015d680590f`
-- `docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md` — `939f5902819d81604335a51b6afd1317a1bc134031eec812b6d38cc022cd630d`
+- `docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md` — `c9b1313e784c07559258d05188bd7ffbb41124fe2f4e719231b35bf50774516d`
+- `docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md` — `607b0de5dd9f5f3cb9a1a03c640b55f2df1d0f4b5c7646dc05a7b8047b4b825f`
 
 ## 接手硬规则
 
