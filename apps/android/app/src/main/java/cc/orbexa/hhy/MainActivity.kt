@@ -20,17 +20,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import cc.orbexa.hhy.auth.AuthScreen
 import cc.orbexa.hhy.auth.ChangeLoginPasswordScreen
+import cc.orbexa.hhy.auth.AccountBlockedScreen
 import cc.orbexa.hhy.auth.LoginDevicesScreen
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.network.AuthCallResult
 import cc.orbexa.hhy.network.AuthSessionResource
 import cc.orbexa.hhy.network.AuthSessionStore
+import cc.orbexa.hhy.network.UserSelfResource
 import cc.orbexa.hhy.network.StartupGate
 import cc.orbexa.hhy.network.StartupGateRequest
 import cc.orbexa.hhy.network.UrlConnectionHhyPublicApi
 import cc.orbexa.hhy.network.UrlConnectionContractAuthApi
 import cc.orbexa.hhy.network.sessionOrNull
+import cc.orbexa.hhy.network.userSelfOrNull
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 
@@ -67,7 +70,7 @@ class MainActivity : ComponentActivity() {
                     } else {
                         sessionState = when (val result = authApi.refresh(stored.refreshToken, stored.deviceId)) {
                             is AuthCallResult.Success -> if (result.sessionOrNull()?.let(sessionStore::save) == true) {
-                                SessionState.Authenticated(requireNotNull(result.sessionOrNull()))
+                                SessionState.Verifying(requireNotNull(result.sessionOrNull()))
                             } else {
                                 sessionStore.clear()
                                 SessionState.AuthenticationRequired
@@ -79,9 +82,26 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
+                LaunchedEffect(sessionState) {
+                    val verifying = sessionState as? SessionState.Verifying ?: return@LaunchedEffect
+                    sessionState = when (val result = authApi.self(verifying.session.accessToken)) {
+                        is AuthCallResult.Success -> {
+                            val user = result.userSelfOrNull()
+                            when {
+                                user == null -> SessionState.AuthenticationRequired
+                                user.status == "ACTIVE" -> SessionState.Authenticated(verifying.session)
+                                else -> SessionState.Restricted(verifying.session, user)
+                            }
+                        }
+                        is AuthCallResult.Failure -> {
+                            if (result.statusCode == 401) sessionStore.clear()
+                            SessionState.AuthenticationRequired
+                        }
+                    }
+                }
                 StartupGateScreen(gate = gate, request = request) {
                     when (sessionState) {
-                        SessionState.Restoring -> RestoringSessionScreen()
+                        SessionState.Restoring, is SessionState.Verifying -> RestoringSessionScreen()
                         is SessionState.Authenticated -> {
                             val authenticated = sessionState as SessionState.Authenticated
                             when (securityDestination) {
@@ -103,11 +123,18 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         }
+                        is SessionState.Restricted -> {
+                            val restricted = sessionState as SessionState.Restricted
+                            AccountBlockedScreen(authApi, restricted.session.accessToken, restricted.user) {
+                                sessionStore.clear()
+                                sessionState = SessionState.AuthenticationRequired
+                            }
+                        }
                         SessionState.AuthenticationRequired -> AuthScreen(
                             apiBaseUrl = BuildConfig.API_BASE_URL,
                             onAuthenticated = { session ->
                                 sessionStore.save(session).also { saved ->
-                                    if (saved) sessionState = SessionState.Authenticated(session)
+                                    if (saved) sessionState = SessionState.Verifying(session)
                                 }
                             },
                         )
@@ -121,7 +148,9 @@ class MainActivity : ComponentActivity() {
 private sealed interface SessionState {
     data object Restoring : SessionState
     data object AuthenticationRequired : SessionState
+    data class Verifying(val session: AuthSessionResource) : SessionState
     data class Authenticated(val session: AuthSessionResource) : SessionState
+    data class Restricted(val session: AuthSessionResource, val user: UserSelfResource) : SessionState
 }
 
 private enum class SecurityDestination { Shell, LoginDevices, ChangePassword }

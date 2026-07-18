@@ -48,6 +48,8 @@ interface ContractAuthApi {
     suspend fun sessions(accessToken: String, page: Int = 1, pageSize: Int = 20): AuthCallResult
     suspend fun revokeSession(accessToken: String, sessionId: String): AuthCallResult
     suspend fun changePassword(accessToken: String, currentPassword: String, newPassword: String, smsCode: String? = null): AuthCallResult
+    suspend fun self(accessToken: String): AuthCallResult
+    suspend fun createSupportTicket(accessToken: String, category: String, subject: String, content: String): AuthCallResult
 }
 
 sealed interface AuthCallResult {
@@ -70,6 +72,14 @@ fun AuthCallResult.Success.registrationConfigOrNull(): AuthRegistrationConfigRes
 
 fun AuthCallResult.Success.securitySessionsOrNull(): UserSecuritySessionPageResource? = runCatching {
     HhyNetworkJson.value.decodeFromJsonElement(UserSecuritySessionPageResource.serializer(), data)
+}.getOrNull()
+
+fun AuthCallResult.Success.userSelfOrNull(): UserSelfResource? = runCatching {
+    HhyNetworkJson.value.decodeFromJsonElement(UserSelfResource.serializer(), data)
+}.getOrNull()
+
+fun AuthCallResult.Success.supportTicketOrNull(): SupportTicketResource? = runCatching {
+    HhyNetworkJson.value.decodeFromJsonElement(SupportTicketResource.serializer(), data)
 }.getOrNull()
 
 class UrlConnectionContractAuthApi(
@@ -136,6 +146,20 @@ class UrlConnectionContractAuthApi(
     override suspend fun changePassword(accessToken: String, currentPassword: String, newPassword: String, smsCode: String?) = post(
         "/api/v1/me/security/password/change", AuthPasswordChangeRequest(currentPassword, newPassword, smsCode),
         AuthPasswordChangeRequest.serializer(), headers = bearer(accessToken),
+    )
+
+    override suspend fun self(accessToken: String) = get("/api/v1/me", headers = bearer(accessToken))
+
+    override suspend fun createSupportTicket(
+        accessToken: String,
+        category: String,
+        subject: String,
+        content: String,
+    ) = post(
+        "/api/v1/support/tickets",
+        SupportTicketCreateRequest(category, subject, content),
+        SupportTicketCreateRequest.serializer(),
+        headers = bearer(accessToken),
     )
 
     private suspend fun <T> post(

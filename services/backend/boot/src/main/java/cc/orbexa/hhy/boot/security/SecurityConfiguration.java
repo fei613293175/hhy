@@ -44,6 +44,11 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST,
                                 "/admin-api/v1/auth/login",
                                 "/admin-api/v1/auth/mfa/verify").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/me")
+                                .hasAnyRole("USER", "RESTRICTED_USER")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/support/tickets")
+                                .hasAnyRole("USER", "RESTRICTED_USER")
+                        .requestMatchers("/api/v1/**").hasRole("USER")
                         .anyRequest().authenticated())
                 .exceptionHandling(e -> e
                         .authenticationEntryPoint((request, response, exception) ->

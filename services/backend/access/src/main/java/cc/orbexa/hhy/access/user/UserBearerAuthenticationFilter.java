@@ -42,9 +42,10 @@ public final class UserBearerAuthenticationFilter extends OncePerRequestFilter {
                 UserTokenService.AccessClaims claims = tokens.parseAccess(authorization.substring(7));
                 UserPrincipal principal = store.authenticate(claims, Instant.now(clock)).orElse(null);
                 if (principal != null) {
+                    String role = principal.active() ? "ROLE_USER" : "ROLE_RESTRICTED_USER";
                     SecurityContextHolder.getContext().setAuthentication(
                             UsernamePasswordAuthenticationToken.authenticated(principal, null,
-                                    List.of(new SimpleGrantedAuthority("ROLE_USER"))));
+                                    List.of(new SimpleGrantedAuthority(role))));
                 }
             } catch (UserTokenService.InvalidAccessTokenException ignored) {
                 SecurityContextHolder.clearContext();

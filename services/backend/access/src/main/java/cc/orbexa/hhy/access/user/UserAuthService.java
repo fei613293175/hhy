@@ -15,6 +15,9 @@ import cc.orbexa.hhy.access.user.UserAuthContracts.RegisterRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SecurityChallengeRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SmsLoginRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SmsSendRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.SupportTicketCreateRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.SupportTicketResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.UserResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.UserSessionResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SecuritySessionResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SessionPageResource;
@@ -82,7 +85,7 @@ public class UserAuthService {
                     UserAuthStore.CredentialRow credential = repository.findCredentialForUpdate(request.phone())
                             .orElseThrow(UserAuthService::badCredentials);
                     Instant now = Instant.now(clock);
-                    if (!"ACTIVE".equals(credential.userStatus())) throw accountRestricted();
+                    if (!loginAllowedStatus(credential.userStatus())) throw accountRestricted();
                     if (credential.lockedUntil() != null && credential.lockedUntil().isAfter(now)) {
                         throw accountRestricted();
                     }
@@ -117,7 +120,7 @@ public class UserAuthService {
                 UserSessionResource.class, () -> {
                     UserAuthStore.UserRow user = repository.findUser(request.phone())
                             .orElseThrow(UserAuthService::badCredentials);
-                    if (!"ACTIVE".equals(user.status())) throw accountRestricted();
+                    if (!loginAllowedStatus(user.status())) throw accountRestricted();
                     verification.verifySms(request.phone(), AuthScene.LOGIN, request.smsCode());
                     return createSession(user.id(), request.phone(), request.device(), ip, "SMS");
                 });
@@ -249,11 +252,38 @@ public class UserAuthService {
                 });
     }
 
+    @Transactional(readOnly = true)
+    public UserResource self(UserPrincipal principal) {
+        UserAuthStore.SelfRow row = repository.findSelf(principal.userId())
+                .orElseThrow(UserAuthService::sessionRevoked);
+        return new UserResource(Long.toString(row.id()), maskPhone(row.phone()), row.nickname(),
+                row.avatarUrl(), row.bio(), row.status(), null, null, row.createdAt(), row.version());
+    }
+
+    @Transactional(noRollbackFor = BusinessException.class)
+    public SupportTicketResource createSupportTicket(UserPrincipal principal,
+                                                     SupportTicketCreateRequest request, String key) {
+        List<Long> attachments = attachmentIds(request.attachments());
+        String requestHash = tokens.intentHash("supportPostSupportTickets", request.category(),
+                request.subject(), request.content(), attachments.toString());
+        return idempotent(scope("st", Long.toString(principal.userId())), key, requestHash,
+                "support-ticket-v1", SupportTicketResource.class, () -> {
+                    Instant now = Instant.now(clock);
+                    String ticketNo = "HHY" + now.toEpochMilli() + UUID.randomUUID().toString().substring(0, 8);
+                    UserAuthStore.TicketRow row = repository.createSupportTicket(principal.userId(), ticketNo,
+                            request.category().trim(), request.subject().trim(), request.content().trim(),
+                            attachments, now);
+                    return new SupportTicketResource(Long.toString(row.id()), row.ticketNo(), row.category(),
+                            row.subject(), row.status(), row.assignee(), row.lastMessageAt(), row.createdAt(),
+                            row.version());
+                });
+    }
+
     private UserSessionResource refreshSession(RefreshRequest request, String oldRefreshHash) {
         Instant now = Instant.now(clock);
         UserAuthStore.UserSessionRow session = repository.findSessionForUpdate(oldRefreshHash)
                 .orElseThrow(UserAuthService::sessionRevoked);
-        if (!"ACTIVE".equals(session.userStatus())) throw accountRestricted();
+        if (!loginAllowedStatus(session.userStatus())) throw accountRestricted();
         if (session.expiresAt() == null || !session.expiresAt().isAfter(now)
                 || session.deviceId() == null
                 || !tokens.sameSecret(Long.toString(session.deviceId()), request.deviceId())) {
@@ -307,7 +337,8 @@ public class UserAuthService {
         if (rawFingerprint == null || rawFingerprint.isBlank()) return new Device(null, null, "ANDROID", null, null);
         String model = limited(string(values, "model"), 255);
         String platform = string(values, "platform");
-        platform = Set.of("ANDROID", "WEB", "ADMIN_WEB").contains(platform) ? platform : "ANDROID";
+        platform = platform != null && Set.of("ANDROID", "WEB", "ADMIN_WEB").contains(platform)
+                ? platform : "ANDROID";
         long id = repository.upsertDevice(userId,
                 tokens.intentHash("device-fingerprint", rawFingerprint), model, now);
         return new Device(id, model, platform,
@@ -386,6 +417,21 @@ public class UserAuthService {
         return value == null ? null : value.substring(0, Math.min(value.length(), max));
     }
     private static String nullable(String value) { return value == null ? "" : value; }
+    private static boolean loginAllowedStatus(String status) {
+        return Set.of("ACTIVE", "FROZEN", "RESTRICTED").contains(status);
+    }
+    private static String maskPhone(String phone) {
+        if (phone == null || phone.length() < 7) return null;
+        return phone.substring(0, 3) + "****" + phone.substring(phone.length() - 4);
+    }
+    private static List<Long> attachmentIds(List<String> values) {
+        if (values == null) return List.of();
+        try {
+            return values.stream().map(Long::parseLong).filter(id -> id > 0).distinct().toList();
+        } catch (NumberFormatException exception) {
+            throw business("附件标识无效");
+        }
+    }
     private static BusinessException badCredentials() {
         return new BusinessException("COMMON-401-UNAUTHENTICATED", "账号或凭证不正确", 401, false);
     }

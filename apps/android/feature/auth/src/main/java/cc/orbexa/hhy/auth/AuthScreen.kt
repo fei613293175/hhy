@@ -38,10 +38,12 @@ import cc.orbexa.hhy.network.AuthCallResult
 import cc.orbexa.hhy.network.ContractAuthApi
 import cc.orbexa.hhy.network.AuthSessionResource
 import cc.orbexa.hhy.network.UserSecuritySessionResource
+import cc.orbexa.hhy.network.UserSelfResource
 import cc.orbexa.hhy.network.UrlConnectionContractAuthApi
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.registrationConfigOrNull
 import cc.orbexa.hhy.network.securitySessionsOrNull
+import cc.orbexa.hhy.network.supportTicketOrNull
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.jsonPrimitive
 
@@ -371,6 +373,81 @@ fun ChangeLoginPasswordScreen(api: ContractAuthApi, accessToken: String, onPassw
             }
         }) { Text("修改密码") }
     }
+}
+
+/** SCR-AUTH-005: terminal account gate with the sole permitted recovery action. */
+@Composable
+fun AccountBlockedScreen(
+    api: ContractAuthApi,
+    accessToken: String,
+    user: UserSelfResource,
+    onSignOut: () -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    var appeal by remember { mutableStateOf("") }
+    var state by remember { mutableStateOf<AuthUiState>(AuthUiState.Editing) }
+    val submitting = state is AuthUiState.Submitting
+
+    Surface(color = HhyColors.PageBackground) {
+        Column(
+            modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(HhySpacing.Lg),
+            verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+        ) {
+            Text("账号已受限", style = MaterialTheme.typography.titleLarge)
+            Text("当前账号无法使用业务功能，只能提交申诉或退出登录。", color = HhyColors.Warning)
+            Text("账号：${user.phoneMasked ?: user.id}")
+            Text("账号状态：${restrictedStatusLabel(user.status)}", color = HhyColors.TextSecondary)
+            if (state is AuthUiState.Message) {
+                val message = state as AuthUiState.Message
+                Text(message.text, color = HhyColors.Warning)
+                message.requestId?.let { Text("请求编号：$it", color = HhyColors.TextSecondary) }
+            }
+            OutlinedTextField(
+                value = appeal,
+                onValueChange = { appeal = it.take(2000); state = AuthUiState.Editing },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("申诉说明") },
+                minLines = 5,
+                enabled = !submitting,
+            )
+            Text("请说明需要复核的情况，不要填写密码或短信验证码。", color = HhyColors.TextSecondary)
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !submitting && appeal.isNotBlank(),
+                onClick = {
+                    scope.launch {
+                        state = AuthUiState.Submitting
+                        when (val result = api.createSupportTicket(
+                            accessToken, "ACCOUNT_APPEAL", "账号冻结申诉", appeal.trim(),
+                        )) {
+                            is AuthCallResult.Success -> {
+                                val ticket = result.supportTicketOrNull()
+                                appeal = ""
+                                state = if (ticket == null) {
+                                    AuthUiState.Message("申诉已提交，请留意后续处理结果", result.requestId)
+                                } else {
+                                    AuthUiState.Message("申诉已提交，工单号：${ticket.ticketNo}", result.requestId)
+                                }
+                            }
+                            is AuthCallResult.Failure -> state = AuthUiState.Message(
+                                result.statusCode?.let { errorForStatus(it, result.errorCode, result.retryAfterSeconds) }
+                                    ?: "网络不可用，申诉内容已保留", result.requestId,
+                            )
+                        }
+                    }
+                },
+            ) { Text("提交申诉") }
+            OutlinedButton(modifier = Modifier.fillMaxWidth(), enabled = !submitting, onClick = onSignOut) {
+                Text("退出登录")
+            }
+        }
+    }
+}
+
+private fun restrictedStatusLabel(status: String) = when (status) {
+    "FROZEN" -> "已冻结"
+    "RESTRICTED" -> "已受限"
+    else -> "当前不可用"
 }
 
 @Composable private fun RouteSelector(selected: AuthRoute, enabled: Boolean, onSelect: (AuthRoute) -> Unit) = Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {

@@ -71,6 +71,24 @@ class ApiModelsSerializationTest {
         assertTrue(fields.containsKey("newPassword"))
         assertFalse(fields.containsKey("smsCode"))
     }
+
+    @Test fun restrictedSelfAndAppealModelsKeepFrozenFieldNames() {
+        val user = HhyNetworkJson.value.decodeFromString<UserSelfResource>(
+            """{"id":"17","phoneMasked":"138****0000","status":"FROZEN","version":2}""",
+        )
+        val request = SupportTicketCreateRequest(
+            category = "ACCOUNT_APPEAL", subject = "账号冻结申诉", content = "请复核账号状态",
+        )
+        val fields = HhyNetworkJson.value.parseToJsonElement(
+            HhyNetworkJson.value.encodeToString(SupportTicketCreateRequest.serializer(), request),
+        ).jsonObject
+
+        assertEquals("FROZEN", user.status)
+        assertEquals("138****0000", user.phoneMasked)
+        assertTrue(fields.containsKey("category"))
+        assertTrue(fields.containsKey("subject"))
+        assertTrue(fields.containsKey("content"))
+    }
     private val json = HhyNetworkJson.value
 
     @Test

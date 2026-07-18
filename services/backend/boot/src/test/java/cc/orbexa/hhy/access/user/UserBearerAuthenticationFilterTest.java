@@ -33,7 +33,7 @@ class UserBearerAuthenticationFilterTest {
     void bindsSignedAccessTokenToCurrentDatabaseSession() throws Exception {
         UserAuthStore store = mock(UserAuthStore.class);
         UserTokenService tokens = new UserTokenService(new ObjectMapper(), properties(), clock);
-        UserPrincipal expected = new UserPrincipal(17L, 23L, 4L, "access-jti-17");
+        UserPrincipal expected = new UserPrincipal(17L, 23L, 4L, "access-jti-17", "ACTIVE");
         when(store.authenticate(any(), any())).thenReturn(Optional.of(expected));
         UserBearerAuthenticationFilter filter = new UserBearerAuthenticationFilter(tokens, store, clock);
         String bearer = tokens.issueAccess(17L, 23L, 4L, "access-jti-17", NOW.plusSeconds(300));
@@ -58,6 +58,23 @@ class UserBearerAuthenticationFilterTest {
         filter.doFilter(request, new MockHttpServletResponse(), new MockFilterChain());
 
         assertNull(SecurityContextHolder.getContext().getAuthentication());
+    }
+
+    @Test
+    void bindsFrozenSessionWithRestrictedRoleOnly() throws Exception {
+        UserAuthStore store = mock(UserAuthStore.class);
+        UserTokenService tokens = new UserTokenService(new ObjectMapper(), properties(), clock);
+        UserPrincipal expected = new UserPrincipal(17L, 23L, 4L, "access-jti-17", "FROZEN");
+        when(store.authenticate(any(), any())).thenReturn(Optional.of(expected));
+        UserBearerAuthenticationFilter filter = new UserBearerAuthenticationFilter(tokens, store, clock);
+        String bearer = tokens.issueAccess(17L, 23L, 4L, "access-jti-17", NOW.plusSeconds(300));
+
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/v1/me");
+        request.addHeader("Authorization", "Bearer " + bearer);
+        filter.doFilter(request, new MockHttpServletResponse(), new MockFilterChain());
+
+        assertEquals("ROLE_RESTRICTED_USER", SecurityContextHolder.getContext().getAuthentication()
+                .getAuthorities().iterator().next().getAuthority());
     }
 
     @Test

@@ -207,6 +207,41 @@ data class AuthPasswordChangeRequest(
     val smsCode: String? = null,
 )
 
+@Serializable
+data class UserSelfResource(
+    val id: String,
+    val phoneMasked: String? = null,
+    val nickname: String? = null,
+    val avatarUrl: String? = null,
+    val bio: String? = null,
+    val status: String,
+    val identityStatus: String? = null,
+    val membershipStatus: String? = null,
+    val createdAt: String? = null,
+    val version: Long,
+)
+
+@Serializable
+data class SupportTicketCreateRequest(
+    val category: String,
+    val subject: String,
+    val content: String,
+    val attachments: List<String> = emptyList(),
+)
+
+@Serializable
+data class SupportTicketResource(
+    val id: String,
+    val ticketNo: String,
+    val category: String? = null,
+    val subject: String? = null,
+    val status: String,
+    val assignee: String? = null,
+    val lastMessageAt: String? = null,
+    val createdAt: String? = null,
+    val version: Long,
+)
+
 object HhyNetworkJson {
     val value: Json = Json {
         explicitNulls = false

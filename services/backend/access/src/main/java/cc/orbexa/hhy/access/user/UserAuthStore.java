@@ -166,14 +166,51 @@ public class UserAuthStore {
     public Optional<UserPrincipal> authenticate(UserTokenService.AccessClaims claims, Instant now) {
         long userId = Long.parseLong(claims.sub());
         return jdbc.query("""
-                SELECT s.user_id,s.id AS session_id,s.version,s.access_jti
+                SELECT s.user_id,s.id AS session_id,s.version,s.access_jti,u.status AS user_status
                 FROM hhy.user_sessions s JOIN hhy.users u ON u.id=s.user_id
                 WHERE s.id=? AND s.user_id=? AND s.version=? AND s.access_jti=?
-                  AND s.refresh_hash IS NOT NULL AND s.expires_at>? AND u.status='ACTIVE'
+                  AND s.refresh_hash IS NOT NULL AND s.expires_at>?
+                  AND u.status IN ('ACTIVE','FROZEN','RESTRICTED')
                 """, (rs, row) -> new UserPrincipal(
                 rs.getLong("user_id"), rs.getLong("session_id"), rs.getLong("version"),
-                rs.getString("access_jti")), claims.sid(), userId, claims.ver(), claims.jti(), time(now))
+                rs.getString("access_jti"), rs.getString("user_status")),
+                claims.sid(), userId, claims.ver(), claims.jti(), time(now))
                 .stream().findFirst();
+    }
+
+    public Optional<SelfRow> findSelf(long userId) {
+        return jdbc.query("""
+                SELECT u.id,u.phone,u.status,u.created_at,u.version,
+                       p.nickname,p.avatar,p.bio
+                FROM hhy.users u
+                LEFT JOIN hhy.user_profiles p ON p.user_id=u.id
+                WHERE u.id=?
+                """, (rs, row) -> new SelfRow(
+                rs.getLong("id"), rs.getString("phone"), rs.getString("nickname"),
+                rs.getString("avatar"), rs.getString("bio"), rs.getString("status"),
+                instant(rs.getObject("created_at", OffsetDateTime.class)), rs.getLong("version")), userId)
+                .stream().findFirst();
+    }
+
+    public TicketRow createSupportTicket(long userId, String ticketNo, String category,
+                                         String subject, String content, List<Long> attachmentIds,
+                                         Instant now) {
+        Long ticketId = jdbc.queryForObject("""
+                INSERT INTO hhy.support_tickets(ticket_no,user_id,type,biz_type,status)
+                VALUES (?,?,?,?,'OPEN') RETURNING id
+                """, Long.class, ticketNo, userId, category, subject);
+        if (ticketId == null) throw new IllegalStateException("Support ticket insert did not return an id");
+        Long messageId = jdbc.queryForObject("""
+                INSERT INTO hhy.ticket_messages(ticket_id,sender_type,sender_id,body)
+                VALUES (?,'USER',?,?) RETURNING id
+                """, Long.class, ticketId, userId, content);
+        for (long mediaId : attachmentIds) {
+            jdbc.update("""
+                    INSERT INTO hhy.ticket_attachments(ticket_id,message_id,media_id)
+                    SELECT ?,?,id FROM hhy.media_objects WHERE id=? AND owner_id=?
+                    """, ticketId, messageId, mediaId, userId);
+        }
+        return new TicketRow(ticketId, ticketNo, category, subject, "OPEN", null, now, now, 0L);
     }
 
     public List<SecuritySessionRow> listActiveSessions(long userId, int offset, int limit,
@@ -417,4 +454,8 @@ public class UserAuthStore {
     public record SecuritySessionRow(long id, long version, Long deviceId, String deviceName,
                                      Instant lastActiveAt, Instant createdAt, Instant expiresAt,
                                      boolean current) { }
+    public record SelfRow(long id, String phone, String nickname, String avatarUrl, String bio,
+                          String status, Instant createdAt, long version) { }
+    public record TicketRow(long id, String ticketNo, String category, String subject, String status,
+                            String assignee, Instant lastMessageAt, Instant createdAt, long version) { }
 }

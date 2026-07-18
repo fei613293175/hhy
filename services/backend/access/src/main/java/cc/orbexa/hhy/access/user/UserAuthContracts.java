@@ -116,4 +116,33 @@ public final class UserAuthContracts {
             PageMetaResource page) { }
 
     public record PageMetaResource(int page, int pageSize, long total, boolean hasMore) { }
+
+    public record UserResource(
+            String id,
+            String phoneMasked,
+            String nickname,
+            String avatarUrl,
+            String bio,
+            String status,
+            String identityStatus,
+            String membershipStatus,
+            Instant createdAt,
+            long version) { }
+
+    public record SupportTicketCreateRequest(
+            @NotBlank @Size(max = 2000) String category,
+            @NotBlank @Size(max = 2000) String subject,
+            @NotBlank @Size(max = 2000) String content,
+            @Size(max = 100) List<@NotBlank String> attachments) { }
+
+    public record SupportTicketResource(
+            String id,
+            String ticketNo,
+            String category,
+            String subject,
+            String status,
+            String assignee,
+            Instant lastMessageAt,
+            Instant createdAt,
+            long version) { }
 }

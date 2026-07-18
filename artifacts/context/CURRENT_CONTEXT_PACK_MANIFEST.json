@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-18T06:19:48Z",
-  "context_hash": "ea34f29029987d12a1c3dfbffc2dc467865709ef8ee585a554ccaccf6d0208f3",
+  "generated_at": "2026-07-18T06:39:05Z",
+  "context_hash": "ab11e27df769cfc634f709410908f6c42731e2800ef18870819089811f7e2feb",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "9197d3e38e61a4b3ce8c37f65bb8d9937b885956b0965a36df05fb269529f88b",
-    "file_count": 26
+    "sha256": "f4cda1dbb346c161e829a945a4d9362c12ee966f802b40e47683c1f2e364ca2f",
+    "file_count": 28
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "37784479bbf227b56d3516c60594ef618b54e6d6e1eddceed63b93f73f6656ae"
+    "sha256": "2f2090d02e45b71c02cc9071457ee4d69d8a8866a2b844582b679283d2a18207"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "bd7cef6882677fafc8454eeef07fa2718a859f8fd015140cbb7a8ea1d27db14f"
+    "sha256": "f2cca4491bc27e3b3d03d69e9faec20b86c4101ef9f4190dbcc8106afcde44f5"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "0b4331502bd95af07e81c6eb191754857a25baf8a8dcdc765d6ffa797c41dbc7",
+      "sha256": "967be66b5adebe71d30a4af378a537f2c3ec4e5a609b6c56939444441c5e4ff0",
       "bytes": 3200
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "48c1746df75e1c91283664ac9e2f9cc3ecc154b091389291220a82cef777c237",
-      "bytes": 217081
+      "sha256": "99b94d57e5f828af18475c05194c16710590df830004756793fe4bbb98578396",
+      "bytes": 217841
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "8336d231f59c96a80e71fb085ae29118c380d5ae85c2bc6d4fcf497236a39776",
+      "sha256": "4bc1dba8d7a42378666921ddc34428136d45a74aa4774d502b1a77ad910d456f",
       "bytes": 11250
     },
     {
@@ -108,7 +108,7 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "2985f0449844f43acff8c78a0a91ab82e668eb48c8ac96713b886220a0b4b1a9",
+      "sha256": "3d041916ececbd6f67c6c090396e0351af7e2d54d2f710b6c3db7ed612e82e4d",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260718T053331Z-F0ED92BF.md",
-      "sha256": "f560db1ee0183d2ae68bd9f596b65a16186ddb109bb907baeb5c6bc06349e543",
-      "bytes": 21098
+      "sha256": "067a69db0fa2b5ef6bdc32f9ad97bec87cdb7b0fdabf6fd3cbd113774d06a9f0",
+      "bytes": 24650
     },
     {
-      "path": ".continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0009.yaml",
-      "sha256": "a5d354f183d0ac549a5a637ae171b3f08d85badf9165665ab4c24026fc38ddb0",
-      "bytes": 17174
+      "path": ".continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0010.yaml",
+      "sha256": "76e4134de5e301fe0d0b72a33c847c71b033e4feae6e41ebd807628db607bba5",
+      "bytes": 16813
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0033-设备会话列表移除令牌回显字段.md",

@@ -18,6 +18,7 @@ import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordLoginRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordResetRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RegisterRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SmsLoginRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.SupportTicketCreateRequest;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Clock;
@@ -135,7 +136,7 @@ class UserAuthServiceTest {
     }
 
     @Test
-    void restrictedAccountCannotRotateTheSession() {
+    void cancelledAccountCannotRotateTheSession() {
         RefreshRequest request = new RefreshRequest(OLD_REFRESH_TOKEN, "31");
         String oldHash = tokens.refreshHash(OLD_REFRESH_TOKEN);
         String requestHash = tokens.intentHash(
@@ -146,7 +147,7 @@ class UserAuthServiceTest {
         when(repository.findSessionForUpdate(oldHash)).thenReturn(Optional.of(
                 new UserAuthStore.UserSessionRow(
                         23L, 17L, "old-access-jti", oldHash, 31L,
-                        NOW.plusSeconds(60), 4L, "FROZEN", "Pixel 9", NOW)));
+                        NOW.plusSeconds(60), 4L, "CANCELLED", "Pixel 9", NOW)));
 
         BusinessException error = assertThrows(BusinessException.class,
                 () -> service.refresh(request, OLD_REFRESH_TOKEN, IDEMPOTENCY_KEY));
@@ -322,19 +323,57 @@ class UserAuthServiceTest {
     }
 
     @Test
-    void smsLoginDoesNotConsumeCodeForRestrictedAccount() {
-        SmsLoginRequest request = new SmsLoginRequest("13800000000", "481516", Map.of());
+    void smsLoginCreatesRestrictedSessionForFrozenAccount() {
+        SmsLoginRequest request = new SmsLoginRequest("13800000000", "481516", Map.of(
+                "deviceFingerprint", "install-fingerprint-frozen", "model", "Pixel 9"));
         when(repository.claimIdempotency(anyString(), eq("sms-login-idem-key-0002"), anyString(), any(Instant.class)))
                 .thenReturn(new UserAuthStore.IdempotencyClaim(
                         new UserAuthStore.IdempotencyRow(99L, "request-hash", null, null, null), false));
         when(repository.findUser("13800000000")).thenReturn(Optional.of(new UserAuthStore.UserRow(17L, "FROZEN")));
+        when(repository.upsertDevice(eq(17L), anyString(), eq("Pixel 9"), any(Instant.class))).thenReturn(31L);
+        when(repository.createSession(eq(17L), eq(31L), anyString(), anyString(), any(Instant.class)))
+                .thenReturn(23L);
 
-        BusinessException error = assertThrows(BusinessException.class,
-                () -> service.smsLogin(request, "sms-login-idem-key-0002", "203.0.113.9"));
+        var session = service.smsLogin(request, "sms-login-idem-key-0002", "203.0.113.9");
 
-        assertEquals("AUTH-423-ACCOUNT_RESTRICTED", error.code());
-        verify(verification, never()).verifySms(anyString(), any(), anyString());
-        verify(repository, never()).createSession(anyLong(), any(), anyString(), anyString(), any(Instant.class));
+        assertEquals("17", session.userId());
+        assertEquals("23", session.sessionId());
+        verify(verification).verifySms("13800000000", UserAuthContracts.AuthScene.LOGIN, "481516");
+    }
+
+    @Test
+    void selfReturnsMaskedProfileForFrozenSession() {
+        UserPrincipal principal = new UserPrincipal(17L, 23L, 4L, "access-jti-17", "FROZEN");
+        when(repository.findSelf(17L)).thenReturn(Optional.of(new UserAuthStore.SelfRow(
+                17L, "13800000000", "合伙人17", null, "bio", "FROZEN", NOW.minusSeconds(60), 2L)));
+
+        var result = service.self(principal);
+
+        assertEquals("17", result.id());
+        assertEquals("138****0000", result.phoneMasked());
+        assertEquals("FROZEN", result.status());
+    }
+
+    @Test
+    void frozenSessionCanCreateIdempotentAppealTicket() {
+        UserPrincipal principal = new UserPrincipal(17L, 23L, 4L, "access-jti-17", "FROZEN");
+        SupportTicketCreateRequest request = new SupportTicketCreateRequest(
+                "ACCOUNT_APPEAL", "账号冻结申诉", "请复核账号状态", List.of());
+        when(repository.claimIdempotency(anyString(), eq("appeal-idem-key-0001"), anyString(), any(Instant.class)))
+                .thenReturn(new UserAuthStore.IdempotencyClaim(
+                        new UserAuthStore.IdempotencyRow(101L, "request-hash", null, null, null), false));
+        when(repository.createSupportTicket(eq(17L), anyString(), eq("ACCOUNT_APPEAL"),
+                eq("账号冻结申诉"), eq("请复核账号状态"), eq(List.of()), eq(NOW)))
+                .thenReturn(new UserAuthStore.TicketRow(
+                        81L, "HHY81", "ACCOUNT_APPEAL", "账号冻结申诉", "OPEN", null, NOW, NOW, 0L));
+
+        var result = service.createSupportTicket(principal, request, "appeal-idem-key-0001");
+
+        assertEquals("81", result.id());
+        assertEquals("HHY81", result.ticketNo());
+        assertEquals("OPEN", result.status());
+        verify(repository).completeIdempotencySnapshot(
+                eq(101L), eq("support-ticket-v1:ok"), eq("support-ticket-v1"), anyString());
     }
 
     private static UserAuthProperties properties() {
