@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T14:59:52Z
-- Context Hash：`2fb6dedf8cf9f539b5be133f2f9d184bdd1b0b5b235b9b0c7c2e06a6973b916f`
+- 生成时间：2026-07-18T15:05:19Z
+- Context Hash：`e73421de580f9f0be7db32535e7df6095234ac37d4c7bfbe59ffc7d4d4d22021`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -64,7 +64,7 @@ in_progress_tasks:
 blocked_tasks:
 - TASK-R02-007
 next_task: TASK-R03-004
-updated_at: '2026-07-18T14:59:51Z'
+updated_at: '2026-07-18T15:05:18Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -99,15 +99,15 @@ continuity:
   active_session_id: SES-20260718T145327Z-DEA562CB
   actor_id: codex-root
   story_id: STORY-R03-003
-  lease_expires_at: '2026-07-18T18:59:51Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0003.yaml
-  project_fingerprint: 31c5a566c710194a0d685bafedc7604eebbf24828ec07bc7ed1499b8e8dcadf3
+  lease_expires_at: '2026-07-18T19:05:18Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0004.yaml
+  project_fingerprint: d7786cade69e1e8da5b22a3dee27616df6abc6aa6a91a1ad59b12ebd59076d38
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: edc2cdefbb69c696e9bcc1b4a2a699109aee33a28742053013a174d33eab53d9
-    generated_at: '2026-07-18T14:57:07Z'
+    context_hash: 2fb6dedf8cf9f539b5be133f2f9d184bdd1b0b5b235b9b0c7c2e06a6973b916f
+    generated_at: '2026-07-18T14:59:52Z'
   handoff_bundle: null
 ```
 
@@ -302,7 +302,7 @@ task_id: TASK-R03-004
 story_id: STORY-R03-003
 goal: 纵向批次C：支付、出款与证书生命周期配置闭环
 started_at: '2026-07-18T14:53:27Z'
-updated_at: '2026-07-18T14:59:51Z'
+updated_at: '2026-07-18T15:05:18Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -330,12 +330,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T14:59:51Z'
-  expires_at: '2026-07-18T18:59:51Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0003.yaml
+  renewed_at: '2026-07-18T15:05:18Z'
+  expires_at: '2026-07-18T19:05:18Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md
-next_step: 实现供应商证书上传与轮换生命周期，只持久化指纹和秘密引用
+next_step: 接入支付与出款后台页面以及冻结证书API客户端
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -343,45 +343,42 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 金融连接测试与秘密材料清零边界需要串行审计
+  reason: 证书秘密材料、双人审批和API投影边界需由同一主控串行验证
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T145327Z-DEA562CB-0003
+checkpoint_id: CP-SES-20260718T145327Z-DEA562CB-0004
 session_id: SES-20260718T145327Z-DEA562CB
-sequence: 3
-created_at: '2026-07-18T14:59:50Z'
-summary: 支付与支付宝企业出款连接测试已接入只读探测，危险URL在传输前拒绝且测试不会创建支付单或出款单
-next_step: 实现供应商证书上传与轮换生命周期，只持久化指纹和秘密引用
+sequence: 4
+created_at: '2026-07-18T15:05:17Z'
+summary: 供应商证书上传与轮换安全内核已实现，原始材料零化，API投影仅含指纹，轮换受乐观锁和双人审批约束
+next_step: 接入支付与出款后台页面以及冻结证书API客户端
 blockers: []
 decisions:
-- 彩虹支付连接测试固定为签名账户查询；支付宝出款固定为证书认证查询，禁止复用真实交易命令
+- 首张同类型证书直接ACTIVE，后续上传为STAGED；经双人审批后原证书ROTATED且新证书原子激活
 note: ''
 tests:
-- name: financial provider connectors
+- name: provider certificate lifecycle
   result: PASS
-  evidence: services/backend/boot/target/surefire-reports/TEST-cc.orbexa.hhy.access.admin.ProviderConnectorAdaptersTest.xml
-  note: 7 tests
-- name: connection test coordinator
-  result: PASS
-  evidence: services/backend/boot/target/surefire-reports/TEST-cc.orbexa.hhy.access.admin.ProviderConnectionTestCoordinatorTest.xml
-  note: 5 tests
+  evidence: services/backend/boot/target/surefire-reports/TEST-cc.orbexa.hhy.access.admin.ProviderCertificateServiceTest.xml
+  note: 4 tests
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: ce50e363bf861c8a5480881778fa4cbdf81a9856
+  head: 125d3b816f5d03a79ed745575c70e00e33b92620
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java'
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
   recent_commits:
+  - "125d3b816f5d03a79ed745575c70e00e33b92620\t2026-07-18T23:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): add safe financial\
+    \ provider probes"
   - "ce50e363bf861c8a5480881778fa4cbdf81a9856\t2026-07-18T22:57:25+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): validate payment\
     \ provider secrets"
   - "7f37a5226bde9afe6e658c7f73e0665c05ba46e5\t2026-07-18T22:53:52+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(r03): start payment\
@@ -396,20 +393,24 @@ git:
     \ R03 domain module gate"
   - "5827214d3002165927d627dd370b5d45b0ecdc12\t2026-07-18T22:47:09+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): implement domain\
     \ configuration page"
-  - "88906d71b8dd4197d65ab626add9a4fd56afebe7\t2026-07-18T22:42:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): add domain admin\
-    \ client"
 project_fingerprint:
-  sha256: 31c5a566c710194a0d685bafedc7604eebbf24828ec07bc7ed1499b8e8dcadf3
+  sha256: d7786cade69e1e8da5b22a3dee27616df6abc6aa6a91a1ad59b12ebd59076d38
   files:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
-  file_count: 5
+  file_count: 7
   payload:
     base_commit: 8cfa5f515b29ac0095e16e1d839c48caf391758d
     files:
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
+      state: FILE
+      size: 11940
+      sha256: 26c8a74134f59da984820fc50d0718243b2017c31e75f6ed84436076d7a34c82
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
       state: FILE
       size: 11734
@@ -422,6 +423,10 @@ project_fingerprint:
       state: FILE
       size: 10879
       sha256: 33cc8a75b81bd85d3b9d6253ab9a78fa304a10667f00361440aac25defee718a
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
+      state: FILE
+      size: 8966
+      sha256: dc25a1c0280b25c029e84a5a2d2ff3e76f7918549437f37cecd8f9f87e6dbd1a
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
       state: FILE
       size: 7024
@@ -432,9 +437,11 @@ project_fingerprint:
       sha256: d3a3e6ef57ff7e6d9902314657d0a89268f09c76b9ee2cf0abf7c9f3593f3545
 change_classification:
   code:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
 required_records:
@@ -464,8 +471,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 金融连接测试与秘密材料清零边界需要串行审计
-event_hash: 5c590cb292d48047f45c6fb3913c267c9e2811057f5cfe62b3cd069a77bf5d98
+  reason: 证书秘密材料、双人审批和API投影边界需由同一主控串行验证
+event_hash: 5879a72ee065a6d8b4499eaaafd3c923836ec58aad1658e156059237e7bdaf10
 ```
 
 ## 接续状态与事件头
@@ -477,8 +484,8 @@ active_session_id: SES-20260718T145327Z-DEA562CB
 last_session_id: SES-20260718T142638Z-EF4C3723
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T142638Z-EF4C3723-0011
-event_count: 563
-event_head_hash: 5c590cb292d48047f45c6fb3913c267c9e2811057f5cfe62b3cd069a77bf5d98
+event_count: 564
+event_head_hash: 5879a72ee065a6d8b4499eaaafd3c923836ec58aad1658e156059237e7bdaf10
 event_chain_valid: true
 ```
 
@@ -601,9 +608,9 @@ recent_sessions: - session_id: SES-20260717T210927Z-13B07A7D
   started_at: '2026-07-18T14:53:27Z'
   record: .continuity/sessions/SES-20260718T145327Z-DEA562CB.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md
-  updated_at: '2026-07-18T14:59:51Z'
+  updated_at: '2026-07-18T15:05:18Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D697723983C7
   session_id: SES-20260717T080633Z-7A2C9226
@@ -1421,7 +1428,7 @@ recent_task_transitions: - transition_id: TRN-18D676E8D73B
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: ce50e363bf861c8a5480881778fa4cbdf81a9856
+head: 125d3b816f5d03a79ed745575c70e00e33b92620
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1435,11 +1442,12 @@ status_porcelain:
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java'
-- ?? .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0003.yaml
+- ?? .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0004.yaml
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
+- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
 recent_commits:
+- "125d3b816f5d03a79ed745575c70e00e33b92620\t2026-07-18T23:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): add safe financial\
+  \ provider probes"
 - "ce50e363bf861c8a5480881778fa4cbdf81a9856\t2026-07-18T22:57:25+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): validate payment\
   \ provider secrets"
 - "7f37a5226bde9afe6e658c7f73e0665c05ba46e5\t2026-07-18T22:53:52+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(r03): start payment configuration\
@@ -1454,18 +1462,18 @@ recent_commits:
   \ domain module gate"
 - "5827214d3002165927d627dd370b5d45b0ecdc12\t2026-07-18T22:47:09+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): implement domain\
   \ configuration page"
-- "88906d71b8dd4197d65ab626add9a4fd56afebe7\t2026-07-18T22:42:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): add domain admin\
-  \ client"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`31c5a566c710194a0d685bafedc7604eebbf24828ec07bc7ed1499b8e8dcadf3`
-- 文件数：5
+- 指纹：`d7786cade69e1e8da5b22a3dee27616df6abc6aa6a91a1ad59b12ebd59076d38`
+- 文件数：7
 
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java`
 
@@ -3458,7 +3466,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `04c48ef8087599bf1ef602b43c959fe095ad44b17948c31076209809d261d56e`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `b22cfd15ed7e2d3aa35d4b4559fb69b87a365ea0e8ba1e2d6ade1cbd01e57b4c`
+- `CURRENT_STATUS.yaml` — `4d8808b9b12d59257930eb0c17b9127a9e1e35d7f0a1d0ccac256c1f564754e4`
 - `NEXT_TASK.yaml` — `c9c593bbc5b7d4c5fae412733ffb2baa29f0ad6466004a479fca4bccb1152877`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3469,20 +3477,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `de19045f455501f77bc8679366433b330c30b85f33073bb823067912c2721259`
-- `.continuity/EVENT_LOG.jsonl` — `816926360bae889feccd3afa0ee6761fcedb11cfe5370bf73a8185d2f8f75da6`
-- `.continuity/SESSION_INDEX.yaml` — `3c5fa93845a51a87b594e8e2147a24cc3653af13ad24d6c822af5933d3474bbd`
+- `.continuity/EVENT_LOG.jsonl` — `5b178e81b74d0b1d50c1aceb5dc217121633f457376c39e13c424e1c249a6140`
+- `.continuity/SESSION_INDEX.yaml` — `9c1317c996919bde9a49349f77e5eecb488d02b580c6457d7aa6c2b4cdf8dd6d`
 - `.continuity/TASK_CLAIMS.yaml` — `f8c2312feb109e448077817b54a722870eaf24a3fca8521fb890ba983f83ef50`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b3baede05e075e61bc021daba12962a665045f063a19f1aad80c224aa09493ba`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ca0ec52fef235f0679849a23994457a0d2dc8dff2a1707de766e6e86cbb1b799`
-- `.continuity/ACTIVE_SESSION.yaml` — `a72bbb9caa6ebd581614599891d692027042152ce6c163f926ff9cfeedf33e6a`
+- `.continuity/ACTIVE_SESSION.yaml` — `c7f92dc176b34a373855eecab767f352032069712b3fc36fa5fefc0c9c79670e`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `95fda8c37b0da8f734a40e2d0afd252d0e600f1894ef7c9e3055c42fc809702d`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `2ad175f8ded2d53496bb90ea3763c089862235c0abb238ecf68ff440a680a952`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md` — `72014e7445656eb841858aa2462ecfbd0fd6daf033df9c973ab38c397d399e50`
-- `.continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0003.yaml` — `3f68920906bca63f0e17d0fd007dfefdfdaedbd094f255704ee431190f774d01`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md` — `12c30d379bf38ffe74c09be725b911900913956209bf05b31a1789ebb8efc5eb`
+- `.continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0004.yaml` — `40edaabb7c7eaf7bed921096c3b2f9fae68658274b8520a58f6fa40cdf7a11b8`
 
 ## 接手硬规则
 
