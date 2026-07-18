@@ -376,3 +376,13 @@
 - Actor：`codex-root`
 - 摘要：TASK-R03-003完成orbexa.cc域名计划、DNS待办、DNS/TLS/服务健康分层验证、expectedVersion和幂等阻断、ADM-CONFIG-008页面及69项Admin与14项后端测试闭环
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T142638Z-EF4C3723.md`
+
+## TASK-R03-004 · COMPLETED · 2026-07-18T15:18:31Z
+
+- Task close: TASK-R03-004 / SES-20260718T145327Z-DEA562CB
+- Release：`R03`
+- Story：`STORY-R03-003`
+- Actor：`codex-root`
+- 摘要：支付、企业出款、证书生命周期、只读连接测试和ADM-CONFIG-005/006后台闭环完成，全量测试与文档门禁通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md`
+

@@ -1,5 +1,5 @@
-id: TASK-R03-004
-title: 纵向批次C：支付、出款与证书生命周期配置闭环
+id: TASK-R03-005
+title: 三批次汇合、工程治理、专项测试与故障注入
 status: READY
 release: R03
 requirements:
@@ -10,22 +10,24 @@ requirements:
 - REQ-CONFIG-UX-001
 - REQ-APK-001
 depends_on:
-- TASK-R03-001
+- TASK-R03-002
+- TASK-R03-003
+- TASK-R03-004
 definition_of_ready: releases/R03/DEFINITION_OF_READY.yaml
 stories: releases/R03/STORIES.yaml
 steps:
-- 支付、出款、证书的数据、API、Admin页面与测试闭环
-- 证书原文不可回读，指纹、轮换、访问和审批审计完整
-- 幂等、乐观锁、错误码和回滚证据
+- Flyway空库、升级库、回滚和数据不变量证据
+- 18项权威测试、契约、页面动作、安全和故障注入报告
+- 生成物漂移为零，关键缺陷清零
 acceptance:
-- 无明文私钥、口令或生产凭据进入仓库和日志
-- STORY-R03-003全部页面动作使用冻结生成类型
-- MODULE门禁通过并可独立交给主控集成
+- STORY-R03-004工程治理验收全部通过
+- INTEGRATION门禁、数据库测试和安全专项全部PASS
+- 共享API和DTO只有主控最终集成版本
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-004
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-005
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-004
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-005
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
