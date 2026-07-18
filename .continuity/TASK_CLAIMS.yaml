@@ -770,7 +770,7 @@ claims:
   task_id: TASK-R02-005
   story_id: STORY-R02-008
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-18T08:17:44Z'
   allowed_paths:
   - apps/h5/**
@@ -786,3 +786,4 @@ claims:
   - releases/**
   - design/**
   - scripts/**
+  closed_at: '2026-07-18T08:45:02Z'

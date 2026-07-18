@@ -296,3 +296,13 @@
 - Actor：`codex-root`
 - 摘要：完成TASK-R02-004：用户列表、详情、限制、双人冻结、解冻、强制下线、到期恢复、V018迁移和全部模块门禁真实闭环。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md`
+
+## TASK-R02-005 · COMPLETED · 2026-07-18T08:44:58Z
+
+- Task close: TASK-R02-005 / SES-20260718T081744Z-71EAAA84
+- Release：`R02`
+- Story：`STORY-R02-008`
+- Actor：`codex-root`
+- 摘要：完成TASK-R02-005：公开邀请注册配置、H5四端点安全调用链、MOB-AUTH-FORM页面、加载/失效/离线/重试/限流/成功导航与幂等自动化全部闭环。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md`
+

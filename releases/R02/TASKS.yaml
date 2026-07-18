@@ -109,7 +109,7 @@ tasks:
   completed_at: '2026-07-18T08:14:54Z'
 - id: TASK-R02-005
   title: 纵向批次D：H5邀请注册闭环
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R02-001
   parallelizable_with:
@@ -129,9 +129,10 @@ tasks:
   - H5-013加载、拒绝、离线、重试和成功导航有证据
   - MODULE门禁通过并可独立合入主控分支
   session_log_required: true
+  completed_at: '2026-07-18T08:44:58Z'
 - id: TASK-R02-006
   title: 四批次全量集成、专项测试、可观测性与预发布验收
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R02-002
   - TASK-R02-003
