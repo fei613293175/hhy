@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T14:30:47Z
-- Context Hash：`085d17bcb4ab7633e4b2d0695ce79efdaec0accc4e2e6c638ea0c5abe6ca184d`
+- 生成时间：2026-07-18T14:33:19Z
+- Context Hash：`be0ad9b340896d894f0e4f6d385bd9cf8493b6128b233ce781ab23c042cdd3ea`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -63,7 +63,7 @@ in_progress_tasks:
 blocked_tasks:
 - TASK-R02-007
 next_task: TASK-R03-003
-updated_at: '2026-07-18T14:30:45Z'
+updated_at: '2026-07-18T14:33:17Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -98,15 +98,15 @@ continuity:
   active_session_id: SES-20260718T142638Z-EF4C3723
   actor_id: codex-root
   story_id: STORY-R03-002
-  lease_expires_at: '2026-07-18T18:30:45Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0002.yaml
-  project_fingerprint: 60c5e9b148ab8c4c12641b51a4c0e381c68a42147f1835cdd9407951fcce676e
+  lease_expires_at: '2026-07-18T18:33:17Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0003.yaml
+  project_fingerprint: 7ba6644556b1df1f0642ceb7e8f5f544ddb7bcc9b545d211c0d9240853917657
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: b8e69cfdd36bbe4ec9bd26a8137886d817d53f89e3173d4be256be6a1f90451f
-    generated_at: '2026-07-18T14:26:51Z'
+    context_hash: 085d17bcb4ab7633e4b2d0695ce79efdaec0accc4e2e6c638ea0c5abe6ca184d
+    generated_at: '2026-07-18T14:30:47Z'
   handoff_bundle: null
 ```
 
@@ -301,7 +301,7 @@ task_id: TASK-R03-003
 story_id: STORY-R03-002
 goal: 纵向批次B：orbexa.cc域名与环境配置闭环
 started_at: '2026-07-18T14:26:38Z'
-updated_at: '2026-07-18T14:30:45Z'
+updated_at: '2026-07-18T14:33:17Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -329,12 +329,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T14:30:45Z'
-  expires_at: '2026-07-18T18:30:45Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0002.yaml
+  renewed_at: '2026-07-18T14:33:17Z'
+  expires_at: '2026-07-18T18:33:17Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T142638Z-EF4C3723.md
-next_step: 实现DNS、TLS、证书与服务健康分层验证编排及失败短路
+next_step: 实现域名配置更新、expectedVersion、verify幂等和审计事务应用服务
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -342,24 +342,28 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 领域校验与即将实现的验证状态机共享不变量，保持单主控串行可避免状态语义分叉
+  reason: 三层状态和应用服务的幂等事务语义紧密耦合，继续由唯一主控维护一致性
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T142638Z-EF4C3723-0002
+checkpoint_id: CP-SES-20260718T142638Z-EF4C3723-0003
 session_id: SES-20260718T142638Z-EF4C3723
-sequence: 2
-created_at: '2026-07-18T14:30:45Z'
-summary: 完成orbexa.cc受控域名计划校验器，固定生产与预发布环境映射并拒绝外部或歧义主机名
-next_step: 实现DNS、TLS、证书与服务健康分层验证编排及失败短路
+sequence: 3
+created_at: '2026-07-18T14:33:17Z'
+summary: 完成DNS、TLS证书与业务服务健康三层串行验证编排，任何前层失败均阻断后续探测和可用标记
+next_step: 实现域名配置更新、expectedVersion、verify幂等和审计事务应用服务
 blockers: []
 decisions:
-- 只接受DOMAIN_PLAN登记的12个域名；默认托管证书，允许受控外部证书模式
+- DNS成功仅记录DNS层通过，必须TLS和按域名类型定义的健康协议同时通过才写verifiedAt
 note: ''
 tests:
+- name: domain verification coordinator
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports/TEST-cc.orbexa.hhy.access.admin.DomainVerificationCoordinatorTest.xml
+  note: 5 tests
 - name: domain config policy
   result: PASS
   evidence: services/backend/boot/target/surefire-reports/TEST-cc.orbexa.hhy.access.admin.DomainConfigPolicyTest.xml
@@ -367,15 +371,17 @@ tests:
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 60377915ef33d69bebc3fa96a440abfcdca74686
+  head: 49a2074284ba24a96774596f89cd14c1d57f1fff
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigPolicy.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigPolicyTest.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java
   recent_commits:
+  - "49a2074284ba24a96774596f89cd14c1d57f1fff\t2026-07-18T22:30:58+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): validate managed\
+    \ domain plan"
   - "60377915ef33d69bebc3fa96a440abfcdca74686\t2026-07-18T22:27:35+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(r03): start domain configuration\
     \ slice"
   - "6bb0f76ca9b2287848e00b2dbcc8b28e2c9d21ef\t2026-07-18T22:21:58+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] chore(continuity): close TASK-R03-002\
@@ -390,14 +396,14 @@ git:
     \ adapters"
   - "ade76ab4f6521bc193dcab8bd0c85e493ad1e933\t2026-07-18T22:10:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): secure provider\
     \ connection tests"
-  - "b1c5c7f7f416fd87c5d6fc06ca32d7c9e6c06743\t2026-07-18T22:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): connect provider\
-    \ config write flows"
 project_fingerprint:
-  sha256: 60c5e9b148ab8c4c12641b51a4c0e381c68a42147f1835cdd9407951fcce676e
+  sha256: 7ba6644556b1df1f0642ceb7e8f5f544ddb7bcc9b545d211c0d9240853917657
   files:
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigPolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigPolicyTest.java
-  file_count: 2
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java
+  file_count: 4
   payload:
     base_commit: 6bb0f76ca9b2287848e00b2dbcc8b28e2c9d21ef
     files:
@@ -405,14 +411,24 @@ project_fingerprint:
       state: FILE
       size: 6094
       sha256: c4bf3c7aed089d802860c365c2b7423ae63d0f4a597a6b8ec5d4284a8aa1c5a3
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java
+      state: FILE
+      size: 7543
+      sha256: b27bf76f2bc0e2c62758e47f7de618eda6190ae60e69dc05d216b74e21c36431
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigPolicyTest.java
       state: FILE
       size: 2466
       sha256: 2378d26a3cb2181ad8b52b149cc4f13ac73849f6fa0742dacc5511d4c0a98ee5
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java
+      state: FILE
+      size: 6631
+      sha256: a323213ca9c1c611f8b7cf8933b1a1c7be195da81c727a55eb2d2115c0823c6e
 change_classification:
   code:
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigPolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigPolicyTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
@@ -440,8 +456,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 领域校验与即将实现的验证状态机共享不变量，保持单主控串行可避免状态语义分叉
-event_hash: 76030e020c90d0b99070dab8fcc31056dea592908ada5c46a951ad2d0b5692b8
+  reason: 三层状态和应用服务的幂等事务语义紧密耦合，继续由唯一主控维护一致性
+event_hash: ac7d5cb62df9c321f33c2ab8eabcfcd14990627359a6525ee51944de4d3afe49
 ```
 
 ## 接续状态与事件头
@@ -453,8 +469,8 @@ active_session_id: SES-20260718T142638Z-EF4C3723
 last_session_id: SES-20260718T133151Z-12DB5949
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T133151Z-12DB5949-0012
-event_count: 541
-event_head_hash: 76030e020c90d0b99070dab8fcc31056dea592908ada5c46a951ad2d0b5692b8
+event_count: 542
+event_head_hash: ac7d5cb62df9c321f33c2ab8eabcfcd14990627359a6525ee51944de4d3afe49
 event_chain_valid: true
 ```
 
@@ -577,9 +593,9 @@ recent_sessions: - session_id: SES-20260717T204616Z-254B60A3
   started_at: '2026-07-18T14:26:38Z'
   record: .continuity/sessions/SES-20260718T142638Z-EF4C3723.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T142638Z-EF4C3723.md
-  updated_at: '2026-07-18T14:30:45Z'
+  updated_at: '2026-07-18T14:33:17Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0003.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-C2CBC38A6309
   session_id: SES-20260717T074317Z-C575A687
@@ -1415,7 +1431,7 @@ recent_task_transitions: - transition_id: TRN-F766B96B877D
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 60377915ef33d69bebc3fa96a440abfcdca74686
+head: 49a2074284ba24a96774596f89cd14c1d57f1fff
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1429,10 +1445,12 @@ status_porcelain:
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T142638Z-EF4C3723.md'
-- ?? .continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0002.yaml
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigPolicy.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigPolicyTest.java
+- ?? .continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0003.yaml
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java
+- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java
 recent_commits:
+- "49a2074284ba24a96774596f89cd14c1d57f1fff\t2026-07-18T22:30:58+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): validate managed\
+  \ domain plan"
 - "60377915ef33d69bebc3fa96a440abfcdca74686\t2026-07-18T22:27:35+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(r03): start domain configuration\
   \ slice"
 - "6bb0f76ca9b2287848e00b2dbcc8b28e2c9d21ef\t2026-07-18T22:21:58+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] chore(continuity): close TASK-R03-002\
@@ -1447,17 +1465,17 @@ recent_commits:
   \ adapters"
 - "ade76ab4f6521bc193dcab8bd0c85e493ad1e933\t2026-07-18T22:10:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): secure provider connection\
   \ tests"
-- "b1c5c7f7f416fd87c5d6fc06ca32d7c9e6c06743\t2026-07-18T22:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): connect provider\
-  \ config write flows"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`60c5e9b148ab8c4c12641b51a4c0e381c68a42147f1835cdd9407951fcce676e`
-- 文件数：2
+- 指纹：`7ba6644556b1df1f0642ceb7e8f5f544ddb7bcc9b545d211c0d9240853917657`
+- 文件数：4
 
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigPolicy.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigPolicyTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java`
 
 ## 当前 Release
 
@@ -3447,7 +3465,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `04c48ef8087599bf1ef602b43c959fe095ad44b17948c31076209809d261d56e`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `3bc52bf3ccdf8cded623fcbfbd9243f51677427502abb8f40f32fa8f28f17cfb`
+- `CURRENT_STATUS.yaml` — `3fa0616b433b6decf3c844c5afe796e90ab69917afd5634467f843710bb40d86`
 - `NEXT_TASK.yaml` — `1fbeaaf882d9e30f36bfcd54ae7e4cda33185c3547c11ebbabdf01b3cec298f8`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3458,20 +3476,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `de19045f455501f77bc8679366433b330c30b85f33073bb823067912c2721259`
-- `.continuity/EVENT_LOG.jsonl` — `404e1ae770a0fbbc8cb2a94c4e2eceb79abccf3432a3da59d05e5e3634616698`
-- `.continuity/SESSION_INDEX.yaml` — `4c49541f0b264ee53469a4f7fa4e6f096f355f0ddf987aa12ae831e3db9f5908`
+- `.continuity/EVENT_LOG.jsonl` — `abc04983fced7b1754e16e2959e2b39bd14c329979fd6f69d96aa71d75332782`
+- `.continuity/SESSION_INDEX.yaml` — `f65901377a31d5a1ce5d443397b2e8cd836026461fae35b4470bc00627c7e38f`
 - `.continuity/TASK_CLAIMS.yaml` — `54b01c672ec48235432e25121e60ba02f80aaba53e4d4035f367df90bb603994`
 - `.continuity/TASK_TRANSITIONS.yaml` — `432af8ffe3636c8e8bbfca7ac8954e3c6d7487fcce4ed0cc13ce1fc7a7c43343`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `22f46c2a0025fb427fe3293d9cab4baaed94fb97e37c578dc4d6813c77350c5b`
-- `.continuity/ACTIVE_SESSION.yaml` — `840921ef67898838a3469106698534cbd3e3db77293eb09becfbbf2b65d6a732`
+- `.continuity/ACTIVE_SESSION.yaml` — `95ef34630fa15f0b07280ef386b7e603045ecfc17e6434c0d7329c1234f50a13`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `3fcb35467e023181b868d22cd0ef0b123735f58992b89c45ba25b0f76a052f1f`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `2ad175f8ded2d53496bb90ea3763c089862235c0abb238ecf68ff440a680a952`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T142638Z-EF4C3723.md` — `b1a71d9f6625c783e588364b3bca8ffc580c53fba35804348b88edc8e2422b24`
-- `.continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0002.yaml` — `a1545930fd9e528389226298678bb7b0641065921db43a4de4ec954936213b08`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T142638Z-EF4C3723.md` — `57478e89cf7e39828fbf7cb46a63dc7445c8d627f3fcb7c3797926f3fb3c0140`
+- `.continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0003.yaml` — `bd5971c9b686e3b35d7e94432d547f5d8d850443c3838c444432bddecf349e8f`
 
 ## 接手硬规则
 
