@@ -2230,3 +2230,112 @@ change_requests:
   - SES-20260718T081744Z-71EAAA84
   implementation_commits:
   - '1948136'
+- protocol_version: '1.0'
+  cr_id: CR-0039
+  title: 同步R02新增注册协议配置端点后的权威计数
+  status: APPROVED
+  created_at: '2026-07-18T08:57:23Z'
+  updated_at: '2026-07-18T08:57:46Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-standing-authorization
+  task_id: TASK-R02-006
+  session_id: SES-20260718T084729Z-BD53B7C4
+  user_request: 用户要求持续完成R02并自行处理非紧急实现问题
+  reason: 已批准CR-0029/0030新增并登记GET /api/v1/auth/registration-config后，生成切片稳定识别20个R02精确端点，但Release Manifest、DoR、TASKS和回归测试仍保留19。
+  original_rule: R02权威文档和生成切片测试仍声明19个本版本精确端点，未计入已批准CR-0029/0030新增并登记的注册协议配置GET端点。
+  new_rule: R02本版本精确端点数同步为20；故事唯一operationId仍为27、复用依赖仍为8，API路径和运行时行为不变。
+  impact_summary: 只修正已批准增量接口造成的事实计数和确定性测试，不新增端点、不改变请求响应或版本范围。
+  impact:
+    files:
+    - releases/R02/RELEASE_MANIFEST.yaml
+    - releases/R02/TASKS.yaml
+    - releases/R02/DEFINITION_OF_READY.yaml
+    - tests/test_generated_assets.py
+    pages: []
+    apis:
+    - GET /api/v1/auth/registration-config
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - ReleaseSliceTests deterministic R02 count; strict documentation; generated assets
+    releases:
+    - R02
+    migration_and_compatibility: 纯文档与测试计数同步，无运行时、数据库或客户端迁移。
+  user_confirmation: 后续这种问题不要问我确认，你自己决定
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T08:57:46Z'
+    note: 批准仅将CR-0029/0030既有新增端点的权威计数从19同步为20；不得新增其他接口或改变契约。
+  machine_record: .continuity/change_requests/CR-0039.yaml
+  document: docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
+- protocol_version: '1.0'
+  cr_id: CR-0040
+  title: 同步R02端点计数的滚动总计划派生结果
+  status: APPROVED
+  created_at: '2026-07-18T09:02:53Z'
+  updated_at: '2026-07-18T09:03:07Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-standing-authorization
+  task_id: TASK-R02-006
+  session_id: SES-20260718T084729Z-BD53B7C4
+  user_request: 用户要求持续完成R02并自行处理非紧急实现问题
+  reason: CR-0039批准R02端点计数同步为20后，确定性PROGRAM_EXECUTION_PLAN派生汇总必须一并再生成，否则总计划严格门禁漂移。
+  original_rule: 滚动总计划仍是R02端点计数19时的确定性派生结果。
+  new_rule: 使用已批准CR-0039的R02端点计数20重新生成滚动总计划，其他版本和调度规则不变。
+  impact_summary: 仅更新确定性派生计划中的R02与组合总数，不改变任何运行时、依赖关系或任务状态。
+  impact:
+    files:
+    - releases/PROGRAM_EXECUTION_PLAN.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_program_execution_plan.py; ProgramExecutionPlanTest
+    releases:
+    - R02
+    migration_and_compatibility: 纯派生YAML更新，无运行时迁移。
+  user_confirmation: 后续这种问题不要问我确认，你自己决定
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T09:03:07Z'
+    note: 批准根据CR-0039重新生成单一派生总计划文件，禁止改变其他版本事实和调度规则。
+  machine_record: .continuity/change_requests/CR-0040.yaml
+  document: docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
+- protocol_version: '1.0'
+  cr_id: CR-0041
+  title: TASK-R02-006允许同步集成修正变更日志
+  status: APPROVED
+  created_at: '2026-07-18T09:07:16Z'
+  updated_at: '2026-07-18T09:07:31Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-standing-authorization
+  task_id: TASK-R02-006
+  session_id: SES-20260718T084729Z-BD53B7C4
+  user_request: 用户要求持续完成R02并自行处理非紧急实现问题
+  reason: Design Token集成修正触及H5用户可见样式，提交门禁要求更新CHANGELOG.md，但当前会话允许路径遗漏该治理文件。
+  original_rule: TASK-R02-006会话范围未包含根目录CHANGELOG.md。
+  new_rule: TASK-R02-006发生用户可见集成修正时允许同步根目录CHANGELOG.md，其他范围不变。
+  impact_summary: 仅登记H5 Design Token和R02事实计数集成修正，不改变产品契约、版本号或发布状态。
+  impact:
+    files:
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - continuity pre-commit CHANGELOG_REQUIRED gate
+    releases:
+    - R02
+    migration_and_compatibility: 纯文档追加，无运行时迁移。
+  user_confirmation: 后续这种问题不要问我确认，你自己决定
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T09:07:31Z'
+    note: 仅批准CHANGELOG.md单文件治理记录，不扩大TASK-R02-006产品或发布范围。
+  machine_record: .continuity/change_requests/CR-0041.yaml
+  document: docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md

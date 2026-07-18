@@ -11,9 +11,12 @@ task_id: TASK-R02-006
 story_id: STORY-R02-009
 goal: 汇合R02四个纵向批次，执行25项权威测试、故障注入、可观测性和预发布验收并归档证据。
 started_at: '2026-07-18T08:47:29Z'
-updated_at: '2026-07-18T08:49:03Z'
+updated_at: '2026-07-18T09:08:03Z'
 takeover_of: null
-change_requests: []
+change_requests:
+- CR-0039
+- CR-0040
+- CR-0041
 scope:
   allowed_paths:
   - apps/**
@@ -47,8 +50,14 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - releases/R02/RELEASE_MANIFEST.yaml
+  - releases/R02/TASKS.yaml
+  - releases/R02/DEFINITION_OF_READY.yaml
+  - tests/test_generated_assets.py
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0039+approved-cr:CR-0040+approved-cr:CR-0041
 git:
   initialized: true
   branch: task/TASK-R02-002
@@ -58,22 +67,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T08:49:01Z'
-  expires_at: '2026-07-18T12:49:01Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0001.yaml
+  renewed_at: '2026-07-18T09:08:02Z'
+  expires_at: '2026-07-18T13:08:02Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-next_step: 建立25项权威测试到实际自动化命令的证据矩阵并执行INTEGRATION计划
+next_step: 提交本轮集成修正，随后执行continuity、backend、database和android服务器集成作业并建立25项证据矩阵
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 7fed8d48e428837374c15da8eab847d227cffd504d9416ff47a77b05252bc7e3
-  generated_at: '2026-07-18T08:49:03Z'
+  context_hash: 5e6c0d92eba671e4c8f4b567a353ead32fde99eba6eab0e90fee5473af6ac8c6
+  generated_at: '2026-07-18T09:08:03Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前仅修正单个集成静态断言并核对同一认证状态不变量，工作量小且不可形成互斥并行包
+  reason: 本轮由完整集成测试串行暴露并修正同一R02事实链的连续漂移，CR、派生计划和事实分支必须由主控一致更新；下一轮按独立作业并行机会重新评估

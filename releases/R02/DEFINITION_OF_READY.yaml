@@ -11,7 +11,7 @@ gates:
   适用性: 是
   证据: catalogs/requirements_catalog.csv;catalogs/TRACEABILITY_MATRIX.csv
   当前结论: PASS
-  说明: 需求6条，页面/交互面14个，接口19个，故事9个
+  说明: 需求6条，页面/交互面14个，接口20个，故事9个
   阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
   成熟度: FROZEN_DOR_V1.2.2
 - 版本: R02
@@ -21,7 +21,7 @@ gates:
   适用性: 是
   证据: catalogs/ui_page_specifications.csv;catalogs/ui_templates.csv
   当前结论: PASS
-  说明: 需求6条，页面/交互面14个，接口19个，故事9个
+  说明: 需求6条，页面/交互面14个，接口20个，故事9个
   阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
   成熟度: FROZEN_DOR_V1.2.2
 - 版本: R02
@@ -31,7 +31,7 @@ gates:
   适用性: 是
   证据: catalogs/ui_page_fields.csv
   当前结论: PASS
-  说明: 需求6条，页面/交互面14个，接口19个，故事9个
+  说明: 需求6条，页面/交互面14个，接口20个，故事9个
   阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
   成熟度: FROZEN_DOR_V1.2.2
 - 版本: R02
@@ -41,7 +41,7 @@ gates:
   适用性: 是
   证据: catalogs/ui_page_states.csv
   当前结论: PASS
-  说明: 需求6条，页面/交互面14个，接口19个，故事9个
+  说明: 需求6条，页面/交互面14个，接口20个，故事9个
   阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
   成熟度: FROZEN_DOR_V1.2.2
 - 版本: R02
@@ -51,7 +51,7 @@ gates:
   适用性: 是
   证据: catalogs/ui_action_matrix.csv;catalogs/ui_navigation_specifications.csv
   当前结论: PASS
-  说明: 需求6条，页面/交互面14个，接口19个，故事9个
+  说明: 需求6条，页面/交互面14个，接口20个，故事9个
   阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
   成熟度: FROZEN_DOR_V1.2.2
 - 版本: R02
@@ -61,7 +61,7 @@ gates:
   适用性: 是
   证据: catalogs/api_ui_ownership.csv;contracts/openapi.yaml;contracts/admin-openapi.yaml
   当前结论: PASS
-  说明: 需求6条，页面/交互面14个，接口19个，故事9个
+  说明: 需求6条，页面/交互面14个，接口20个，故事9个
   阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
   成熟度: FROZEN_DOR_V1.2.2
 - 版本: R02
@@ -71,7 +71,7 @@ gates:
   适用性: 是
   证据: catalogs/data_tables.csv;database/schema_dictionary.csv;database/state_machines.yaml
   当前结论: PASS
-  说明: 需求6条，页面/交互面14个，接口19个，故事9个
+  说明: 需求6条，页面/交互面14个，接口20个，故事9个
   阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
   成熟度: FROZEN_DOR_V1.2.2
 - 版本: R02
@@ -81,7 +81,7 @@ gates:
   适用性: 是
   证据: catalogs/config_registry.csv;catalogs/config_cross_field_rules.csv;catalogs/config_role_matrix.csv
   当前结论: PASS
-  说明: 需求6条，页面/交互面14个，接口19个，故事9个
+  说明: 需求6条，页面/交互面14个，接口20个，故事9个
   阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
   成熟度: FROZEN_DOR_V1.2.2
 - 版本: R02
@@ -91,7 +91,7 @@ gates:
   适用性: 是
   证据: catalogs/admin_page_operation_specs.csv
   当前结论: PASS
-  说明: 需求6条，页面/交互面14个，接口19个，故事9个
+  说明: 需求6条，页面/交互面14个，接口20个，故事9个
   阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
   成熟度: FROZEN_DOR_V1.2.2
 - 版本: R02
@@ -101,7 +101,7 @@ gates:
   适用性: 是
   证据: catalogs/test_cases.csv
   当前结论: PASS
-  说明: 需求6条，页面/交互面14个，接口19个，故事9个
+  说明: 需求6条，页面/交互面14个，接口20个，故事9个
   阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
   成熟度: FROZEN_DOR_V1.2.2
 - 版本: R02
@@ -111,7 +111,7 @@ gates:
   适用性: 是
   证据: catalogs/release_story_backlog.csv;releases/R02/STORIES.yaml
   当前结论: PASS
-  说明: 需求6条，页面/交互面14个，接口19个，故事9个
+  说明: 需求6条，页面/交互面14个，接口20个，故事9个
   阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
   成熟度: FROZEN_DOR_V1.2.2
 - 版本: R02
@@ -121,7 +121,7 @@ gates:
   适用性: 是
   证据: DEVELOPMENT_RISK_REGISTER.md;catalogs/development_risk_register.csv
   当前结论: PASS
-  说明: 需求6条，页面/交互面14个，接口19个，故事9个
+  说明: 需求6条，页面/交互面14个，接口20个，故事9个
   阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
   成熟度: FROZEN_DOR_V1.2.2
 - 版本: R02

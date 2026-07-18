@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T08:49:03Z
-- Context Hash：`7fed8d48e428837374c15da8eab847d227cffd504d9416ff47a77b05252bc7e3`
+- 生成时间：2026-07-18T09:08:03Z
+- Context Hash：`5e6c0d92eba671e4c8f4b567a353ead32fde99eba6eab0e90fee5473af6ac8c6`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -59,7 +59,7 @@ in_progress_tasks:
 - TASK-R02-006
 blocked_tasks: []
 next_task: TASK-R02-006
-updated_at: '2026-07-18T08:49:01Z'
+updated_at: '2026-07-18T09:08:02Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -94,15 +94,15 @@ continuity:
   active_session_id: SES-20260718T084729Z-BD53B7C4
   actor_id: codex-root
   story_id: STORY-R02-009
-  lease_expires_at: '2026-07-18T12:49:01Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0001.yaml
-  project_fingerprint: b03d6c7bc5eee01a47f5eb1c42d4feae8c5be9cf2004f428cd57dbc9357947fd
+  lease_expires_at: '2026-07-18T13:08:02Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0003.yaml
+  project_fingerprint: ba9a163fbdc9bd1d5af7e99df65c34ec4db94b54d9ed50265ff955223ca4c784
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: fd0122598d5f349fe711abb1557e02aad0f74f730b737b52683971e03515c6e5
-    generated_at: '2026-07-18T08:47:31Z'
+    context_hash: 10715c54b7066edff2ec31626907eebabd312c66276183c5a9511cafd4595922
+    generated_at: '2026-07-18T09:06:46Z'
   handoff_bundle: null
 ```
 
@@ -304,9 +304,12 @@ task_id: TASK-R02-006
 story_id: STORY-R02-009
 goal: 汇合R02四个纵向批次，执行25项权威测试、故障注入、可观测性和预发布验收并归档证据。
 started_at: '2026-07-18T08:47:29Z'
-updated_at: '2026-07-18T08:49:01Z'
+updated_at: '2026-07-18T09:08:02Z'
 takeover_of: null
-change_requests: []
+change_requests:
+- CR-0039
+- CR-0040
+- CR-0041
 scope:
   allowed_paths:
   - apps/**
@@ -340,8 +343,14 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - releases/R02/RELEASE_MANIFEST.yaml
+  - releases/R02/TASKS.yaml
+  - releases/R02/DEFINITION_OF_READY.yaml
+  - tests/test_generated_assets.py
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0039+approved-cr:CR-0040+approved-cr:CR-0041
 git:
   initialized: true
   branch: task/TASK-R02-002
@@ -351,12 +360,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T08:49:01Z'
-  expires_at: '2026-07-18T12:49:01Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0001.yaml
+  renewed_at: '2026-07-18T09:08:02Z'
+  expires_at: '2026-07-18T13:08:02Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-next_step: 建立25项权威测试到实际自动化命令的证据矩阵并执行INTEGRATION计划
+next_step: 提交本轮集成修正，随后执行continuity、backend、database和android服务器集成作业并建立25项证据矩阵
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -364,53 +373,88 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前仅修正单个集成静态断言并核对同一认证状态不变量，工作量小且不可形成互斥并行包
+  reason: 本轮由完整集成测试串行暴露并修正同一R02事实链的连续漂移，CR、派生计划和事实分支必须由主控一致更新；下一轮按独立作业并行机会重新评估
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0001
+checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0003
 session_id: SES-20260718T084729Z-BD53B7C4
-sequence: 1
-created_at: '2026-07-18T08:49:01Z'
-summary: TASK-R02-006启动并完成首个R02集成静态契约漂移修复
-next_step: 建立25项权威测试到实际自动化命令的证据矩阵并执行INTEGRATION计划
+sequence: 3
+created_at: '2026-07-18T09:08:01Z'
+summary: TASK-R02-006本地contracts、web与tooling首轮集成完成，四类漂移修正及变更日志同步完毕
+next_step: 提交本轮集成修正，随后执行continuity、backend、database和android服务器集成作业并建立25项证据矩阵
 blockers: []
 decisions:
-- 刷新会话契约断言与已验收受限账号自助申诉模型保持一致：ACTIVE、FROZEN、RESTRICTED可持有会话，能力由受限路由白名单控制
-note: 未改变运行时代码或冻结API，仅消除测试与已完成受限账户模型的漂移
+- CR-0039同步R02精确端点计数为20；CR-0040重生成派生滚动总计划；CR-0041仅授权CHANGELOG治理记录
+note: 首次7个Git环境错误和2个真实失败、第二次1个派生计划失败已修正；最终95项通过
 tests:
-- name: r02-auth-slice-contract
+- name: r02-auth-contract
   result: PASS
-  evidence: 'python -m unittest tests.test_r02_auth_slice_contract -v: 9 tests'
-  note: 初次发现旧ACTIVE-only断言，更新后9项通过
+  evidence: 'tests.test_r02_auth_slice_contract: 9 tests'
+  note: 受限刷新契约一致
+- name: integration-contracts
+  result: PASS
+  evidence: strict documentation plus generated assets
+  note: 199表316 REST且生成资产一致
+- name: integration-web
+  result: PASS
+  evidence: pnpm recursive typecheck
+  note: api/domain/admin/h5类型通过
+- name: ui-token
+  result: PASS
+  evidence: 'tests.test_ui_tokens: 5 tests'
+  note: H5无原始色值
+- name: program-plan
+  result: PASS
+  evidence: check_program_execution_plan and 6 tests
+  note: 31版本派生计划一致
+- name: integration-python
+  result: PASS
+  evidence: 'unittest discover: 95 tests, 5 skipped'
+  note: 完整tooling测试面通过
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: 342e70b9ceb649821e08b3977abd8bef31cfd45b
+  head: 6d1cb7eaf2064311ce4a841807dd4a31a3548124
   upstream: origin/task/TASK-R02-002
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml'
+  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
+  - ' M apps/h5/src/styles.css'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M tests/test_r02_auth_slice_contract.py'
-  - ?? .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md'
+  - ' M releases/PROGRAM_EXECUTION_PLAN.yaml'
+  - ' M releases/R02/DEFINITION_OF_READY.yaml'
+  - ' M releases/R02/RELEASE_MANIFEST.yaml'
+  - ' M releases/R02/TASKS.yaml'
+  - ' M tests/test_generated_assets.py'
+  - ?? .continuity/change_requests/CR-0039.yaml
+  - ?? .continuity/change_requests/CR-0040.yaml
+  - ?? .continuity/change_requests/CR-0041.yaml
+  - ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0002.yaml
+  - ?? docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
+  - ?? docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
+  - ?? docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
   recent_commits:
+  - "6d1cb7eaf2064311ce4a841807dd4a31a3548124\t2026-07-18T16:49:24+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(auth): align restricted\
+    \ refresh contract"
   - "342e70b9ceb649821e08b3977abd8bef31cfd45b\t2026-07-18T16:45:40+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close TASK-R02-005\
     \ as completed"
   - "0d49f7c62f4602d77c5231ae02221c8cc9dc9ec7\t2026-07-18T16:44:46+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close CR-0038"
@@ -423,22 +467,86 @@ git:
     \ control operations"
   - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
     \ read views"
-  - "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
-    \ as completed"
 project_fingerprint:
-  sha256: b03d6c7bc5eee01a47f5eb1c42d4feae8c5be9cf2004f428cd57dbc9357947fd
+  sha256: ba9a163fbdc9bd1d5af7e99df65c34ec4db94b54d9ed50265ff955223ca4c784
   files:
+  - CHANGELOG.md
+  - apps/h5/src/styles.css
+  - docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
+  - docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
+  - docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/DEFINITION_OF_READY.yaml
+  - releases/R02/RELEASE_MANIFEST.yaml
+  - releases/R02/TASKS.yaml
+  - tests/test_generated_assets.py
   - tests/test_r02_auth_slice_contract.py
-  file_count: 1
+  file_count: 11
   payload:
     base_commit: 342e70b9ceb649821e08b3977abd8bef31cfd45b
     files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 20751
+      sha256: de2481fa978e607db553a4d99c7d2ad22459ed51258033b2dc0f321951be2770
+    - path: apps/h5/src/styles.css
+      state: FILE
+      size: 6209
+      sha256: ac0f5bbbead5925439fec133f1b4610f057baec71e2b0bc1c50fa6fcd3c427f3
+    - path: docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
+      state: FILE
+      size: 2122
+      sha256: 941bdab0b59baca63a321469d2309959fcae7dee37789052b37ee13ea52d0937
+    - path: docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
+      state: FILE
+      size: 1789
+      sha256: 1e50caa216a54eca560abd87929000ca8b6ba2da9a8d6c2121eaf253a52945ae
+    - path: docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
+      state: FILE
+      size: 1699
+      sha256: 134b2c55024d59aef5587c77bb668698f55395e0194c880d69962d437cb3170a
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 35804
+      sha256: a16351c5e292e352990e58efa1941911b73b16b35b8b7c0a9528c4f937ee30d0
+    - path: releases/R02/DEFINITION_OF_READY.yaml
+      state: FILE
+      size: 7091
+      sha256: 56bb6f71390ee34bf92eac60dc7276dd90f969781bf32eac0028eff48972c0dc
+    - path: releases/R02/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4311
+      sha256: 18bddf632011b122311da03f361f90a853bc7469f7af784900d49e30c1cb5633
+    - path: releases/R02/TASKS.yaml
+      state: FILE
+      size: 7545
+      sha256: 234fa8e540106bcbed790b160e4d2d343ea6370630744c104e0bc6c57fc5f429
+    - path: tests/test_generated_assets.py
+      state: FILE
+      size: 3375
+      sha256: bb6a8e7610e25e2f80c29e962cfa628a528dfadee2c59718788099061c445ac4
     - path: tests/test_r02_auth_slice_contract.py
       state: FILE
       size: 7156
       sha256: d0cc375053dbd64fa6072905e8958482e4622906c50641ca1625f150e9e4875b
 change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/TASKS.yaml
+  code:
+  - apps/h5/src/styles.css
+  user_visible:
+  - apps/h5/src/styles.css
+  continuity:
+  - docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
+  - docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
+  - docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
+  source_of_truth:
+  - releases/R02/DEFINITION_OF_READY.yaml
+  - releases/R02/RELEASE_MANIFEST.yaml
   tests:
+  - tests/test_generated_assets.py
   - tests/test_r02_auth_slice_contract.py
 required_records:
 - SESSION_RECORD
@@ -446,7 +554,12 @@ required_records:
 - CHECKPOINT
 - CURRENT_STATUS
 - EVENT_LOG
-change_requests: []
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0039
+- CR-0040
+- CR-0041
 scope:
   allowed_paths:
   - apps/**
@@ -480,14 +593,20 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - releases/R02/RELEASE_MANIFEST.yaml
+  - releases/R02/TASKS.yaml
+  - releases/R02/DEFINITION_OF_READY.yaml
+  - tests/test_generated_assets.py
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0039+approved-cr:CR-0040+approved-cr:CR-0041
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前仅修正单个集成静态断言并核对同一认证状态不变量，工作量小且不可形成互斥并行包
-event_hash: af043bad737cb4c84b32fc3dcb20cae2fe0752d02113b533448be8047b5a1773
+  reason: 本轮由完整集成测试串行暴露并修正同一R02事实链的连续漂移，CR、派生计划和事实分支必须由主控一致更新；下一轮按独立作业并行机会重新评估
+event_hash: 3af69a12250d7d77efbb908b7bed641ed38ff70e9633a81d879d3961dc007913
 ```
 
 ## 接续状态与事件头
@@ -499,8 +618,8 @@ active_session_id: SES-20260718T084729Z-BD53B7C4
 last_session_id: SES-20260718T081744Z-71EAAA84
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T081744Z-71EAAA84-0004
-event_count: 440
-event_head_hash: af043bad737cb4c84b32fc3dcb20cae2fe0752d02113b533448be8047b5a1773
+event_count: 455
+event_head_hash: 3af69a12250d7d77efbb908b7bed641ed38ff70e9633a81d879d3961dc007913
 event_chain_valid: true
 ```
 
@@ -623,9 +742,9 @@ recent_sessions: - session_id: SES-20260717T152721Z-016DB4B2
   started_at: '2026-07-18T08:47:29Z'
   record: .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-  updated_at: '2026-07-18T08:49:01Z'
+  updated_at: '2026-07-18T09:08:02Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0001.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0003.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-E58E42235FFA
   session_id: SES-20260717T024407Z-B03C9375
@@ -1496,29 +1615,44 @@ recent_task_transitions: - transition_id: TRN-700F522BD35A
 ```yaml
 initialized: true
 branch: task/TASK-R02-002
-head: 342e70b9ceb649821e08b3977abd8bef31cfd45b
+head: 6d1cb7eaf2064311ce4a841807dd4a31a3548124
 upstream: origin/task/TASK-R02-002
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
+- ' M .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M apps/h5/src/styles.css'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M tests/test_r02_auth_slice_contract.py'
-- ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0001.yaml
-- ?? .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
-- ?? docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
+- ' M docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md'
+- ' M releases/PROGRAM_EXECUTION_PLAN.yaml'
+- ' M releases/R02/DEFINITION_OF_READY.yaml'
+- ' M releases/R02/RELEASE_MANIFEST.yaml'
+- ' M releases/R02/TASKS.yaml'
+- ' M tests/test_generated_assets.py'
+- ?? .continuity/change_requests/CR-0039.yaml
+- ?? .continuity/change_requests/CR-0040.yaml
+- ?? .continuity/change_requests/CR-0041.yaml
+- ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0002.yaml
+- ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0003.yaml
+- ?? docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
+- ?? docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
+- ?? docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
 recent_commits:
+- "6d1cb7eaf2064311ce4a841807dd4a31a3548124\t2026-07-18T16:49:24+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(auth): align restricted\
+  \ refresh contract"
 - "342e70b9ceb649821e08b3977abd8bef31cfd45b\t2026-07-18T16:45:40+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close TASK-R02-005\
   \ as completed"
 - "0d49f7c62f4602d77c5231ae02221c8cc9dc9ec7\t2026-07-18T16:44:46+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close CR-0038"
@@ -1531,15 +1665,23 @@ recent_commits:
   \ operations"
 - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
   \ read views"
-- "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`b03d6c7bc5eee01a47f5eb1c42d4feae8c5be9cf2004f428cd57dbc9357947fd`
-- 文件数：1
+- 指纹：`ba9a163fbdc9bd1d5af7e99df65c34ec4db94b54d9ed50265ff955223ca4c784`
+- 文件数：11
 
+- `CHANGELOG.md`
+- `apps/h5/src/styles.css`
+- `docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md`
+- `docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md`
+- `docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md`
+- `releases/PROGRAM_EXECUTION_PLAN.yaml`
+- `releases/R02/DEFINITION_OF_READY.yaml`
+- `releases/R02/RELEASE_MANIFEST.yaml`
+- `releases/R02/TASKS.yaml`
+- `tests/test_generated_assets.py`
 - `tests/test_r02_auth_slice_contract.py`
 
 ## 当前 Release
@@ -1580,16 +1722,17 @@ RELEASE_MANIFEST.yaml:
     - ADM-USER-001
     - ADM-USER-002
   contracts:
-    implementation_endpoint_count: 19
+    implementation_endpoint_count: 20
     story_unique_operation_count: 27
     reused_dependency_operation_count: 8
-    interpretation: 本版本实现19个新增端点；9个纵向故事共集成验证27个唯一operationId，其中8个是跨版本复用依赖。
+    interpretation: 本版本实现20个新增端点；9个纵向故事共集成验证27个唯一operationId，其中8个是跨版本复用依赖。
     client_api:
     - POST /api/v1/auth/security-challenges
     - POST /api/v1/auth/password/login
     - POST /api/v1/auth/sms/send
     - POST /api/v1/auth/sms/login
     - POST /api/v1/auth/invite-codes/validate
+    - GET /api/v1/auth/registration-config
     - POST /api/v1/auth/register
     - POST /api/v1/auth/password/reset
     - POST /api/v1/me/security/password/change
@@ -1703,7 +1846,7 @@ DEFINITION_OF_READY.yaml:
     适用性: 是
     证据: catalogs/requirements_catalog.csv;catalogs/TRACEABILITY_MATRIX.csv
     当前结论: PASS
-    说明: 需求6条，页面/交互面14个，接口19个，故事9个
+    说明: 需求6条，页面/交互面14个，接口20个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
   - 版本: R02
@@ -1713,7 +1856,7 @@ DEFINITION_OF_READY.yaml:
     适用性: 是
     证据: catalogs/ui_page_specifications.csv;catalogs/ui_templates.csv
     当前结论: PASS
-    说明: 需求6条，页面/交互面14个，接口19个，故事9个
+    说明: 需求6条，页面/交互面14个，接口20个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
   - 版本: R02
@@ -1723,7 +1866,7 @@ DEFINITION_OF_READY.yaml:
     适用性: 是
     证据: catalogs/ui_page_fields.csv
     当前结论: PASS
-    说明: 需求6条，页面/交互面14个，接口19个，故事9个
+    说明: 需求6条，页面/交互面14个，接口20个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
   - 版本: R02
@@ -1733,7 +1876,7 @@ DEFINITION_OF_READY.yaml:
     适用性: 是
     证据: catalogs/ui_page_states.csv
     当前结论: PASS
-    说明: 需求6条，页面/交互面14个，接口19个，故事9个
+    说明: 需求6条，页面/交互面14个，接口20个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
   - 版本: R02
@@ -1743,7 +1886,7 @@ DEFINITION_OF_READY.yaml:
     适用性: 是
     证据: catalogs/ui_action_matrix.csv;catalogs/ui_navigation_specifications.csv
     当前结论: PASS
-    说明: 需求6条，页面/交互面14个，接口19个，故事9个
+    说明: 需求6条，页面/交互面14个，接口20个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
   - 版本: R02
@@ -1753,7 +1896,7 @@ DEFINITION_OF_READY.yaml:
     适用性: 是
     证据: catalogs/api_ui_ownership.csv;contracts/openapi.yaml;contracts/admin-openapi.yaml
     当前结论: PASS
-    说明: 需求6条，页面/交互面14个，接口19个，故事9个
+    说明: 需求6条，页面/交互面14个，接口20个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
   - 版本: R02
@@ -1763,7 +1906,7 @@ DEFINITION_OF_READY.yaml:
     适用性: 是
     证据: catalogs/data_tables.csv;database/schema_dictionary.csv;database/state_machines.yaml
     当前结论: PASS
-    说明: 需求6条，页面/交互面14个，接口19个，故事9个
+    说明: 需求6条，页面/交互面14个，接口20个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
   - 版本: R02
@@ -1773,7 +1916,7 @@ DEFINITION_OF_READY.yaml:
     适用性: 是
     证据: catalogs/config_registry.csv;catalogs/config_cross_field_rules.csv;catalogs/config_role_matrix.csv
     当前结论: PASS
-    说明: 需求6条，页面/交互面14个，接口19个，故事9个
+    说明: 需求6条，页面/交互面14个，接口20个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
   - 版本: R02
@@ -1783,7 +1926,7 @@ DEFINITION_OF_READY.yaml:
     适用性: 是
     证据: catalogs/admin_page_operation_specs.csv
     当前结论: PASS
-    说明: 需求6条，页面/交互面14个，接口19个，故事9个
+    说明: 需求6条，页面/交互面14个，接口20个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
   - 版本: R02
@@ -1793,7 +1936,7 @@ DEFINITION_OF_READY.yaml:
     适用性: 是
     证据: catalogs/test_cases.csv
     当前结论: PASS
-    说明: 需求6条，页面/交互面14个，接口19个，故事9个
+    说明: 需求6条，页面/交互面14个，接口20个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
   - 版本: R02
@@ -1803,7 +1946,7 @@ DEFINITION_OF_READY.yaml:
     适用性: 是
     证据: catalogs/release_story_backlog.csv;releases/R02/STORIES.yaml
     当前结论: PASS
-    说明: 需求6条，页面/交互面14个，接口19个，故事9个
+    说明: 需求6条，页面/交互面14个，接口20个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
   - 版本: R02
@@ -1813,7 +1956,7 @@ DEFINITION_OF_READY.yaml:
     适用性: 是
     证据: DEVELOPMENT_RISK_REGISTER.md;catalogs/development_risk_register.csv
     当前结论: PASS
-    说明: 需求6条，页面/交互面14个，接口19个，故事9个
+    说明: 需求6条，页面/交互面14个，接口20个，故事9个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
   - 版本: R02
@@ -2658,7 +2801,7 @@ TASKS.yaml:
     - REQ-AUTH-004
     - REQ-AUTH-005
     - REQ-APK-001
-    description: 核验6项需求、19个本版本新增端点、27个故事唯一operationId（含8个复用依赖）、28张相关表、14个页面/交互面、9个故事和25项测试；全部适用DoR必须PASS。
+    description: 核验6项需求、20个本版本新增端点、27个故事唯一operationId（含8个复用依赖）、28张相关表、14个页面/交互面、9个故事和25项测试；全部适用DoR必须PASS。
     deliverables:
     - releases/R02/DEFINITION_OF_READY.yaml 全部适用项PASS
     - releases/R02/STORIES.yaml 故事责任人和依赖已领取
@@ -2671,7 +2814,7 @@ TASKS.yaml:
     - releases/R02/DEFINITION_OF_READY.yaml 全部适用项PASS
     - releases/R02/STORIES.yaml 故事责任人和依赖已领取
     - 更新Release Manifest与CR记录
-    - 19个新增端点、27个故事唯一operationId与25项测试口径一致
+    - 20个新增端点、27个故事唯一operationId与25项测试口径一致
     - 4个纵向批次均可在独立worktree领取且汇合条件明确
     - python scripts/check_v122_documentation.py --release R02
     session_log_required: true
@@ -3972,37 +4115,149 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 依据项目所有者长期授权，仅批准CHANGELOG.md单文件范围补充，不扩大产品或发布范围。
   machine_record: .continuity/change_requests/CR-0036.yaml
   document: docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
+- protocol_version: '1.0'
+  cr_id: CR-0039
+  title: 同步R02新增注册协议配置端点后的权威计数
+  status: APPROVED
+  created_at: '2026-07-18T08:57:23Z'
+  updated_at: '2026-07-18T08:57:46Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-standing-authorization
+  task_id: TASK-R02-006
+  session_id: SES-20260718T084729Z-BD53B7C4
+  user_request: 用户要求持续完成R02并自行处理非紧急实现问题
+  reason: 已批准CR-0029/0030新增并登记GET /api/v1/auth/registration-config后，生成切片稳定识别20个R02精确端点，但Release Manifest、DoR、TASKS和回归测试仍保留19。
+  original_rule: R02权威文档和生成切片测试仍声明19个本版本精确端点，未计入已批准CR-0029/0030新增并登记的注册协议配置GET端点。
+  new_rule: R02本版本精确端点数同步为20；故事唯一operationId仍为27、复用依赖仍为8，API路径和运行时行为不变。
+  impact_summary: 只修正已批准增量接口造成的事实计数和确定性测试，不新增端点、不改变请求响应或版本范围。
+  impact:
+    files:
+    - releases/R02/RELEASE_MANIFEST.yaml
+    - releases/R02/TASKS.yaml
+    - releases/R02/DEFINITION_OF_READY.yaml
+    - tests/test_generated_assets.py
+    pages: []
+    apis:
+    - GET /api/v1/auth/registration-config
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - ReleaseSliceTests deterministic R02 count; strict documentation; generated assets
+    releases:
+    - R02
+    migration_and_compatibility: 纯文档与测试计数同步，无运行时、数据库或客户端迁移。
+  user_confirmation: 后续这种问题不要问我确认，你自己决定
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T08:57:46Z'
+    note: 批准仅将CR-0029/0030既有新增端点的权威计数从19同步为20；不得新增其他接口或改变契约。
+  machine_record: .continuity/change_requests/CR-0039.yaml
+  document: docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
+- protocol_version: '1.0'
+  cr_id: CR-0040
+  title: 同步R02端点计数的滚动总计划派生结果
+  status: APPROVED
+  created_at: '2026-07-18T09:02:53Z'
+  updated_at: '2026-07-18T09:03:07Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-standing-authorization
+  task_id: TASK-R02-006
+  session_id: SES-20260718T084729Z-BD53B7C4
+  user_request: 用户要求持续完成R02并自行处理非紧急实现问题
+  reason: CR-0039批准R02端点计数同步为20后，确定性PROGRAM_EXECUTION_PLAN派生汇总必须一并再生成，否则总计划严格门禁漂移。
+  original_rule: 滚动总计划仍是R02端点计数19时的确定性派生结果。
+  new_rule: 使用已批准CR-0039的R02端点计数20重新生成滚动总计划，其他版本和调度规则不变。
+  impact_summary: 仅更新确定性派生计划中的R02与组合总数，不改变任何运行时、依赖关系或任务状态。
+  impact:
+    files:
+    - releases/PROGRAM_EXECUTION_PLAN.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_program_execution_plan.py; ProgramExecutionPlanTest
+    releases:
+    - R02
+    migration_and_compatibility: 纯派生YAML更新，无运行时迁移。
+  user_confirmation: 后续这种问题不要问我确认，你自己决定
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T09:03:07Z'
+    note: 批准根据CR-0039重新生成单一派生总计划文件，禁止改变其他版本事实和调度规则。
+  machine_record: .continuity/change_requests/CR-0040.yaml
+  document: docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
+- protocol_version: '1.0'
+  cr_id: CR-0041
+  title: TASK-R02-006允许同步集成修正变更日志
+  status: APPROVED
+  created_at: '2026-07-18T09:07:16Z'
+  updated_at: '2026-07-18T09:07:31Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-standing-authorization
+  task_id: TASK-R02-006
+  session_id: SES-20260718T084729Z-BD53B7C4
+  user_request: 用户要求持续完成R02并自行处理非紧急实现问题
+  reason: Design Token集成修正触及H5用户可见样式，提交门禁要求更新CHANGELOG.md，但当前会话允许路径遗漏该治理文件。
+  original_rule: TASK-R02-006会话范围未包含根目录CHANGELOG.md。
+  new_rule: TASK-R02-006发生用户可见集成修正时允许同步根目录CHANGELOG.md，其他范围不变。
+  impact_summary: 仅登记H5 Design Token和R02事实计数集成修正，不改变产品契约、版本号或发布状态。
+  impact:
+    files:
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - continuity pre-commit CHANGELOG_REQUIRED gate
+    releases:
+    - R02
+    migration_and_compatibility: 纯文档追加，无运行时迁移。
+  user_confirmation: 后续这种问题不要问我确认，你自己决定
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T09:07:31Z'
+    note: 仅批准CHANGELOG.md单文件治理记录，不扩大TASK-R02-006产品或发布范围。
+  machine_record: .continuity/change_requests/CR-0041.yaml
+  document: docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `8c056765d205ba35e992796feb5feee6b958ab9745c9cfe947b853f16346d205`
+- `CURRENT_STATUS.yaml` — `a4c705686edb28be6673a8c2b5ed3936a6bb16b4d707e49e8924e108c834b8e3`
 - `NEXT_TASK.yaml` — `08706a9f6d63c4f553a340aca63b0b94e46f2b401f3b348fd372d893516a7877`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `b12427737bdedd5ae1581ae40b19f57c8ba2e8a56beeb617333611c079f75442`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
-- `releases/PROGRAM_EXECUTION_PLAN.yaml` — `6d427b3a9a095ae17f8676da8c92ec1f8d21679f7a00e6f898bf1971cf6112fc`
+- `releases/PROGRAM_EXECUTION_PLAN.yaml` — `a16351c5e292e352990e58efa1941911b73b16b35b8b7c0a9528c4f937ee30d0`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7`
-- `.continuity/EVENT_LOG.jsonl` — `9405c4e11f161e677f0c681992df9fb95ac0961d30c1e9aa64a2b6e1ecbe6243`
-- `.continuity/SESSION_INDEX.yaml` — `b430c2e7d8dfe325c2551652c65b78591b1a1f630ac1bc4aba817082006224f3`
+- `.continuity/EVENT_LOG.jsonl` — `80d434668de307d7b7f832440b3cbbf20fd0bce8242951770756c89c0fc033d8`
+- `.continuity/SESSION_INDEX.yaml` — `8a8c970fafa7e2472768c11d1c24989ec61009691d8d2fedbe3e6004b0fe4dca`
 - `.continuity/TASK_CLAIMS.yaml` — `3f2ef2a78deb2e20c2d82e3093e5eb022fa15534950ccd23b2f0a94076bc4239`
 - `.continuity/TASK_TRANSITIONS.yaml` — `1d3191b4b8c851913dd73e0f07f4a8b2e81590918eaa59c9a7214282f9afed4c`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `22cf43d47250054c546266db81fdf5cd88d9b4331f9fe56b23e7ee5619cd2804`
-- `.continuity/ACTIVE_SESSION.yaml` — `b2bbe5efcc2219161a5f409a8e9a3e70c77846410375ccb00e5d273c3f476a71`
-- `releases/R02/RELEASE_MANIFEST.yaml` — `19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d`
-- `releases/R02/DEFINITION_OF_READY.yaml` — `9a3113b85d8dd96ea04a908a277c9da3374531ec06dd5eb91dfd539e4351d33c`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5714c0840e347f648524adabdf9ce241786093e66f53ceb6347ae8839f7274ad`
+- `.continuity/ACTIVE_SESSION.yaml` — `a10f30e6ebc5bc85ca16c0821f97c292e931b2fdd43fe5ee9921df6b0dbf41c8`
+- `releases/R02/RELEASE_MANIFEST.yaml` — `18bddf632011b122311da03f361f90a853bc7469f7af784900d49e30c1cb5633`
+- `releases/R02/DEFINITION_OF_READY.yaml` — `56bb6f71390ee34bf92eac60dc7276dd90f969781bf32eac0028eff48972c0dc`
 - `releases/R02/STORIES.yaml` — `cbc199fd846c42cbb50f02af53969fb914f16a814de2d459a7f929509a9226cf`
-- `releases/R02/TASKS.yaml` — `78e82ead7831b3da393f6700968481792ffe2cb33d0c266ff752f725d9d644ef`
+- `releases/R02/TASKS.yaml` — `234fa8e540106bcbed790b160e4d2d343ea6370630744c104e0bc6c57fc5f429`
 - `releases/R02/ACCEPTANCE_MATRIX.csv` — `687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0`
 - `releases/R02/PARALLEL_EXECUTION_PLAN.yaml` — `c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md` — `40594596b133395f15b10ce16b8b041a0291fbfa681891d33fdeb6ab29704bd1`
-- `.continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0001.yaml` — `4bb515758cc05bfa49578f867b5b4bb299dd73bc749ef93a8ae8d1bbd0aa982d`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md` — `9efad193e30f9eec90f017f17af91e9b0acff0ec5c04d6fa119a1bc7c910b57b`
+- `.continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0003.yaml` — `adf64b787f549ee37188bae1c15c483e3914c04ce319ea357ed1c0b38f2b0735`
+- `docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md` — `941bdab0b59baca63a321469d2309959fcae7dee37789052b37ee13ea52d0937`
+- `docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md` — `1e50caa216a54eca560abd87929000ca8b6ba2da9a8d6c2121eaf253a52945ae`
+- `docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md` — `134b2c55024d59aef5587c77bb668698f55395e0194c880d69962d437cb3170a`
 
 ## 接手硬规则
 

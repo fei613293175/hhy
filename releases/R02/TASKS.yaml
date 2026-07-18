@@ -14,7 +14,7 @@ tasks:
   - REQ-AUTH-004
   - REQ-AUTH-005
   - REQ-APK-001
-  description: 核验6项需求、19个本版本新增端点、27个故事唯一operationId（含8个复用依赖）、28张相关表、14个页面/交互面、9个故事和25项测试；全部适用DoR必须PASS。
+  description: 核验6项需求、20个本版本新增端点、27个故事唯一operationId（含8个复用依赖）、28张相关表、14个页面/交互面、9个故事和25项测试；全部适用DoR必须PASS。
   deliverables:
   - releases/R02/DEFINITION_OF_READY.yaml 全部适用项PASS
   - releases/R02/STORIES.yaml 故事责任人和依赖已领取
@@ -27,7 +27,7 @@ tasks:
   - releases/R02/DEFINITION_OF_READY.yaml 全部适用项PASS
   - releases/R02/STORIES.yaml 故事责任人和依赖已领取
   - 更新Release Manifest与CR记录
-  - 19个新增端点、27个故事唯一operationId与25项测试口径一致
+  - 20个新增端点、27个故事唯一operationId与25项测试口径一致
   - 4个纵向批次均可在独立worktree领取且汇合条件明确
   - python scripts/check_v122_documentation.py --release R02
   session_log_required: true

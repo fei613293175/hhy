@@ -32,16 +32,17 @@ ui:
   - ADM-USER-001
   - ADM-USER-002
 contracts:
-  implementation_endpoint_count: 19
+  implementation_endpoint_count: 20
   story_unique_operation_count: 27
   reused_dependency_operation_count: 8
-  interpretation: 本版本实现19个新增端点；9个纵向故事共集成验证27个唯一operationId，其中8个是跨版本复用依赖。
+  interpretation: 本版本实现20个新增端点；9个纵向故事共集成验证27个唯一operationId，其中8个是跨版本复用依赖。
   client_api:
   - POST /api/v1/auth/security-challenges
   - POST /api/v1/auth/password/login
   - POST /api/v1/auth/sms/send
   - POST /api/v1/auth/sms/login
   - POST /api/v1/auth/invite-codes/validate
+  - GET /api/v1/auth/registration-config
   - POST /api/v1/auth/register
   - POST /api/v1/auth/password/reset
   - POST /api/v1/me/security/password/change

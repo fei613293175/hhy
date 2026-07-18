@@ -2,7 +2,7 @@
   "version": "1.2.3",
   "product_spec_baseline": "V1.2.2",
   "status": "PASS",
-  "strict": false,
+  "strict": true,
   "release_filter": "R02",
   "metrics": {
     "android_surfaces": 102,

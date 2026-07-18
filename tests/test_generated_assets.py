@@ -31,7 +31,7 @@ class ReleaseSliceTests(unittest.TestCase):
         first = release_slice.build_release_slice("R02")
         second = release_slice.build_release_slice("R02")
         self.assertEqual(first, second)
-        self.assertEqual(19, first["counts"]["catalog_release_exact_operations"])
+        self.assertEqual(20, first["counts"]["catalog_release_exact_operations"])
         self.assertEqual(27, first["counts"]["story_unique_operations"])
         self.assertEqual(9, first["counts"]["stories"])
         self.assertEqual(14, first["counts"]["story_unique_pages"])
