@@ -34,7 +34,7 @@ tasks:
   completed_at: '2026-07-17T20:02:09Z'
 - id: TASK-R02-002
   title: 纵向批次A：Android启动、登录与邀请注册闭环
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R02-001
   parallelizable_with:
@@ -56,9 +56,10 @@ tasks:
   - 启动、登录、注册的加载、拒绝、离线、冲突和成功导航有证据
   - MODULE门禁通过并可独立合入主控分支
   session_log_required: true
+  completed_at: '2026-07-18T05:27:28Z'
 - id: TASK-R02-003
   title: 纵向批次B：安全会话、冻结与注销闭环
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R02-001
   parallelizable_with:
