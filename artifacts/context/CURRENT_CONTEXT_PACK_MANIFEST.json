@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-18T14:50:10Z",
-  "context_hash": "846d82911e0c0b1e42ec696514e642a824fa18e97f0bf4e481b939466a3b9ea2",
+  "generated_at": "2026-07-18T14:50:59Z",
+  "context_hash": "d2461f915b7f1e8218869b71b4712d521eb52f640f9b3ccc2a3a2ffa8c4bf8fc",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "f782cd636c4062d102ae4b3b4cdd4b152c0ea2377fcf9c939230c382db5fee74",
+    "sha256": "c91bed830dd23571babbbea1711144de5fcdc94d0e9d25671848185d34ff07be",
     "file_count": 16
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "2511e799916e684becb45c14b5e854c081b5267025f4e439465950bb132fff34"
+    "sha256": "f9d0dc223aab2e0f75d7f2c11b120bbadffd9edcfa208392d296be8f75a4c65d"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "bf7366be2f642a15e21e370677ac9a8b54a027c7b2e6e4b1877c525e0a6de838"
+    "sha256": "a255a5c566d8372f53d079985894c5c2aa7e8817127cfaa4623b22b29a17aa73"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "3608c788a328f17a63e0e2b7b90fb18da2e53cc33bd9922e557af3d71aa0dd79",
+      "sha256": "bc46d2fee80df468be53dbc18b8fcad0c4e6da3a782a569dc709bea7cb61fde6",
       "bytes": 3302
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "19c76a42faf94ce10cfb29312a3b7c4e25d20b0c587003549b0beaa020916ab5",
-      "bytes": 304044
+      "sha256": "62f366af1d1ba897c1ebdc68a5de9c117528cbb46c66b8028999ebae0af45095",
+      "bytes": 305440
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "53cf346c062be99c0a699cb596388ec258c3ba5e75f3ae56918c201462dc5d0f",
+      "sha256": "f2bf955061163f92107111ca012a3cb55b35335152ce1def6d13a6c35cfb05f8",
       "bytes": 14764
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "4ae8789f52e6f38c4d37514ea5f5683b6158bb743bd445113e7ef6538d57e3aa",
-      "bytes": 138175
+      "sha256": "ca0ec52fef235f0679849a23994457a0d2dc8dff2a1707de766e6e86cbb1b799",
+      "bytes": 138677
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "aef6306dbd5bd621fd8e507de4374a30e6ab121bc9aae680dec067ea48761768",
+      "sha256": "26d0b655878f5aace69f0fa04b61d0c0b91ffe92cf99b98a925c87f95fcf25e5",
       "bytes": 525
     },
     {
@@ -143,18 +143,18 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260718T142638Z-EF4C3723.md",
-      "sha256": "a1d09cf1ead0473c8529a1d96fec0099c48e90502b8c0a0340bdb12ce98e1666",
-      "bytes": 14493
+      "sha256": "a78172e4631ed237ddfbf53396a841f067d0b4c91d68b80ffd707f7f008d1f35",
+      "bytes": 16233
     },
     {
-      "path": ".continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0009.yaml",
-      "sha256": "39d31685fc4daf7e149778c16194c36a04d7ff88258aee0e71704aba171855d4",
-      "bytes": 8658
+      "path": ".continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0010.yaml",
+      "sha256": "1bbc66520ecbbf2a62feb4d364888d340a01407e40a936eaf1a382994ef6e581",
+      "bytes": 8957
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0046-允许R03域名Admin变更同步根CHANGELOG.md",
-      "sha256": "bece42b9992c7a15d13c2ae36ea49de98c66c605fc7bc7ad9bc811141a033fab",
-      "bytes": 1918
+      "sha256": "51487a97c4ff261a2a355f249ee2b383f122e6a53b1e447e8d8c44a3a05f832a",
+      "bytes": 2324
     }
   ]
 }
