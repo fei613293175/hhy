@@ -5,8 +5,13 @@
   "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 151,
-    "event_head_hash": "b835585d5f1e5a9143466531a70de5845bb186057b7be9a27488fff6e02c7619"
+    "event_count": 641,
+    "event_head_hash": "3fd4845b554c32539945b83e52485618fc32eefdebcf61b9fb777a028ac2fd92",
+    "document_gate": {
+      "status": "EXECUTED",
+      "forced": true,
+      "affected_inputs": []
+    }
   },
   "errors": [],
   "warnings": []

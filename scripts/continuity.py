@@ -128,6 +128,29 @@ def select_story(root: Path, release: str, requested: str | None) -> dict[str, A
     return story
 
 
+def blocked_resume_command(task_id: str) -> str:
+    """Return the only command that may explicitly resume a blocked task."""
+    return f"python3 scripts/continuity.py start --actor <ACTOR_ID> --task {task_id}"
+
+
+def blocked_resume_is_authorized(
+    task_id: str, task: dict[str, Any], next_task: dict[str, Any]
+) -> bool:
+    """Narrowly authorize a blocked task that close explicitly made resumable.
+
+    A generic BLOCKED task is never startable. Both state sources must point to the
+    same blocked task and NEXT_TASK must carry the exact command emitted by close.
+    The caller separately enforces that no active session exists.
+    """
+    return (
+        task.get("id") == task_id
+        and task.get("status") == "BLOCKED"
+        and next_task.get("id") == task_id
+        and next_task.get("status") == "BLOCKED"
+        and next_task.get("resume_command") == blocked_resume_command(task_id)
+    )
+
+
 def create_session(
     root: Path,
     policy: dict[str, Any],
@@ -152,7 +175,11 @@ def create_session(
             f"只能领取 NEXT_TASK.yaml 中的任务：期望 {next_task.get('id')}，收到 {task_id}"
         )
     task = release_task(root, release, task_id)
-    if task.get("status") not in {"READY", "IN_PROGRESS"} and next_task.get("status") not in {"READY", "IN_PROGRESS"}:
+    normally_startable = (
+        task.get("status") in {"READY", "IN_PROGRESS"}
+        or next_task.get("status") in {"READY", "IN_PROGRESS"}
+    )
+    if not normally_startable and not blocked_resume_is_authorized(task_id, task, next_task):
         raise ContinuityError(f"任务不是READY/IN_PROGRESS：{task_id} / plan={task.get('status')} / next={next_task.get('status')}")
     story = select_story(root, release, story_id)
     if not story:
@@ -1041,7 +1068,7 @@ def command_close(args: Namespace) -> None:
                 next_document = read_next_task(ROOT)
                 next_document["status"] = "BLOCKED"
                 next_document["blocker"] = args.summary
-                next_document["resume_command"] = f"python3 scripts/continuity.py start --actor <ACTOR_ID> --task {session['task_id']}"
+                next_document["resume_command"] = blocked_resume_command(session["task_id"])
                 atomic_write_yaml(ROOT / "NEXT_TASK.yaml", next_document)
                 transition_to = "BLOCKED"
         else:

@@ -1,0 +1,202 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T200607Z-3569D212-0001
+session_id: SES-20260718T200607Z-3569D212
+sequence: 1
+created_at: '2026-07-18T20:17:13Z'
+summary: 修复BLOCKED任务接续死锁并建立R02验证码设计回传非阻断接入门禁
+next_step: 运行V1.2.3连续性与R03文档严格门禁，提交并推送实现
+blockers: []
+decisions:
+- 安全验证码网页端设计等待明确登记为PROB-0032且blocking=false，不阻断R03及后续版本线
+- BLOCKED只在Release任务、NEXT_TASK、任务ID和close生成的resume_command全部精确一致时可接续，不改变验收状态
+note: 首次测试未注入Git PATH导致旧跨版本测试环境错误；补入内置Git路径后11项全部通过
+tests:
+- name: blocked-resume-regression
+  result: PASS
+  evidence: tests/test_continuity_blocked_resume.py
+  note: 4项窄授权与拒绝路径通过
+- name: design-return-gate
+  result: PASS
+  evidence: tests/test_r02_security_challenge_design_package.py
+  note: 5项目录ZIP占位哈希越界敏感文件回归通过
+- name: cross-release-close
+  result: PASS
+  evidence: tests/test_continuity_cross_release_close.py
+  note: 2项跨版本关闭与外部门禁隔离回归通过
+- name: source-package-negative-control
+  result: PASS
+  evidence: 桌面原始设计包
+  note: 因效果图未生成按预期FAIL且退出码1
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 18e2db65b65afeb1e69d0c382ab53963fc97adec
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/CONTINUITY_POLICY.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
+  - ' M scripts/continuity.py'
+  - ?? .continuity/change_requests/CR-0051.yaml
+  - ?? .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
+  - ?? docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  - ?? docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
+  - ?? scripts/check_r02_security_challenge_design_package.py
+  - ?? tests/test_continuity_blocked_resume.py
+  - ?? tests/test_r02_security_challenge_design_package.py
+  recent_commits:
+  - "18e2db65b65afeb1e69d0c382ab53963fc97adec\t2026-07-19T01:25:54+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-007\
+    \ as blocked"
+  - "16023e53e214d0f82486783578657814f4671f85\t2026-07-19T01:24:12+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): sign external\
+    \ activation gate"
+  - "5cdfd38e50c563b345203b1255dc7fb67e618c46\t2026-07-19T01:23:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): deliver regression\
+    \ apk evidence"
+  - "3a913c95265f93b815042389d573f4804137c0c0\t2026-07-19T01:05:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): freeze external\
+    \ and apk baseline"
+  - "25d8171c76e0cef323a717ad66ac85ccd69371c3\t2026-07-19T00:57:28+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-006\
+    \ as completed"
+  - "f41c84e6df03f49cd5c21537ea6a1235471006ba\t2026-07-19T00:55:29+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): record staging\
+    \ rollback evidence"
+  - "2950cb64d0ed5887725bc20afe4c6d148c22335a\t2026-07-19T00:32:41+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): add staging observability\
+    \ gates"
+  - "b4edfff1f81359677d87bc8486da2d9330926e20\t2026-07-19T00:22:27+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-005\
+    \ as completed"
+project_fingerprint:
+  sha256: 65544f3ccf6ea7c7cf40a19b41af673bfc89a11a14c0810370b11931dcbb036b
+  files:
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+  - scripts/check_r02_security_challenge_design_package.py
+  - scripts/continuity.py
+  - tests/test_continuity_blocked_resume.py
+  - tests/test_r02_security_challenge_design_package.py
+  file_count: 8
+  payload:
+    base_commit: 18e2db65b65afeb1e69d0c382ab53963fc97adec
+    files:
+    - path: docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+      state: FILE
+      size: 2240
+      sha256: c71c5da647afd89f5562840664279e2cbde5bb9fa8506ec5a07b1139813c95a4
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 29583
+      sha256: e9cd6bfdd701f8204b5d4421a1f78dbd0d96db5bd33a84f74121648b37fbaf1f
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 2093
+      sha256: 6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969
+    - path: docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+      state: FILE
+      size: 3497
+      sha256: 4052419b8dbe3f138de227082d45f0a975f081a3647fc776470ae0891d81698f
+    - path: scripts/check_r02_security_challenge_design_package.py
+      state: FILE
+      size: 12106
+      sha256: a03dea9e374b686da6897919686f58f3142f889ab750e8601b47a9e1d0cacb16
+    - path: scripts/continuity.py
+      state: FILE
+      size: 65887
+      sha256: bc77db7ccffa3bd20979c5cf14446a9a95bf425a2272b5910fad9ddc51feb457
+    - path: tests/test_continuity_blocked_resume.py
+      state: FILE
+      size: 2469
+      sha256: 93473df248dd8d7cbf514945c9087c6bd9830b9094dcdbe2c729503bc40feeb2
+    - path: tests/test_r02_security_challenge_design_package.py
+      state: FILE
+      size: 6206
+      sha256: d796dd889d2847b843c49ecce34c9b7905c74deb22cbf7659c96f609a652a2af
+change_classification:
+  source_of_truth:
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  user_visible:
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+  code:
+  - scripts/check_r02_security_challenge_design_package.py
+  - scripts/continuity.py
+  tests:
+  - tests/test_continuity_blocked_resume.py
+  - tests/test_r02_security_challenge_design_package.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0051
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - scripts/continuity.py
+  - tests/test_continuity_blocked_resume.py
+  - .continuity/CONTINUITY_POLICY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  - scripts/check_r02_security_challenge_design_package.py
+  - tests/test_r02_security_challenge_design_package.py
+  source: story+explicit+approved-cr:CR-0051
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 连续性核心授权、CR状态、问题登记和回包门禁构成同一原子安全变更，必须由活动会话串行集成验证
+event_hash: 4091763b23601c78d17ca284b7037bd6ac637b1d5043437e1b023a3ab4e05464

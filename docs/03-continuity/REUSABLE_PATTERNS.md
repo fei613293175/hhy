@@ -20,3 +20,11 @@ CURRENT_STATUS + NEXT_TASK + Release Manifest + Context Pack + Session Log构成
 
 ## PATTERN-CONTINUITY-002 外部门禁不扩大为全项目停工
 APK机器交付完成但项目所有者真机验收尚未返回时，原任务保持BLOCKED且绝不标记DONE。只有项目所有者明确要求继续、目标Release从首个READY任务开始、并且其声明依赖全部DONE时，才使用受控blocked-and-advance转换继续独立依赖图分支；NEXT_TASK必须携带deferred_task及恢复条件。
+
+## PATTERN-CONTINUITY-003 BLOCKED任务精确接续
+
+关闭会话时若为同一任务写入了标准 `resume_command`，后续只可在 Release 任务与 `NEXT_TASK` 均为该任务的 `BLOCKED`、命令逐字匹配且当前无活动会话时恢复。普通 `BLOCKED` 任务仍拒绝启动；恢复只表示继续解决或补证，不得改变验收、APK或任务完成状态。
+
+## PATTERN-EXTERNAL-DESIGN-001 非阻断设计回传
+
+外部设计尚未回传时，把确定的源包、源提交、回传清单和接入步骤登记进仓库，但不得凭空实现最终视觉，也不得阻断无依赖的版本工作。回包先经过只读结构、占位符、效果图、哈希、参考资料不变性和敏感文件门禁，再通过独立 CR 合入、实现、测试并重新交付 APK。

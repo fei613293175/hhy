@@ -1,0 +1,96 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T200607Z-3569D212
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R03
+task_id: TASK-R03-007
+story_id: STORY-R03-004
+goal: ??BLOCKED?????????R02???????????????????
+started_at: '2026-07-18T20:06:07Z'
+updated_at: '2026-07-18T20:44:55Z'
+takeover_of: null
+change_requests:
+- CR-0051
+- CR-0052
+- CR-0053
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - scripts/continuity.py
+  - tests/test_continuity_blocked_resume.py
+  - .continuity/CONTINUITY_POLICY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  - scripts/check_r02_security_challenge_design_package.py
+  - tests/test_r02_security_challenge_design_package.py
+  - templates/AGENTS.md
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 18e2db65b65afeb1e69d0c382ab53963fc97adec
+  start_head: 18e2db65b65afeb1e69d0c382ab53963fc97adec
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: DIRTY_TAKEOVER
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T20:44:53Z'
+  expires_at: '2026-07-19T00:44:53Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0005.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
+next_step: 形成实现提交并推送，随后更新CR并继续R03关闭条件检查
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 28ec4d4580d02ded80d50a0b788b9dac3c6b5d8c0ede17c48bbf67a32560e333
+  generated_at: '2026-07-18T20:44:55Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 重启后的恢复验证、最终检查点和提交必须由同一活动会话绑定，避免第二任务或重复提交

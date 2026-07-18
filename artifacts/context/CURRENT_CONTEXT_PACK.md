@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T17:25:03Z
-- Context Hash：`7e6690d18d68fb4535b10c9bdcae104702908af801f4bfbf1a57232d7537eb61`
+- 生成时间：2026-07-18T20:44:55Z
+- Context Hash：`28ec4d4580d02ded80d50a0b788b9dac3c6b5d8c0ede17c48bbf67a32560e333`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-007
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 当前状态
@@ -18,7 +18,7 @@ baseline_version: 1.2.3
 phase: R03
 active_release: R03
 active_task: TASK-R03-007
-status: BLOCKED
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: db3cfddcc4cda84265ec18f24de972804d62a08f
 last_staging_apk: null
@@ -62,12 +62,13 @@ completed_tasks:
 - TASK-R03-004
 - TASK-R03-005
 - TASK-R03-006
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R03-007
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R03-007
-updated_at: '2026-07-18T17:24:52Z'
+updated_at: '2026-07-18T20:44:53Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -99,17 +100,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260718T165842Z-356A8138
-  last_session_result: BLOCKED
-  last_checkpoint: .continuity/checkpoints/SES-20260718T165842Z-356A8138/0005.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260718T200607Z-3569D212
+  actor_id: codex-root
+  story_id: STORY-R03-004
+  lease_expires_at: '2026-07-19T00:44:53Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0005.yaml
+  project_fingerprint: 0640793da012c45de58f948faad577b3ef35a30c0835353ca08f9f16367db5b4
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 7b975ef41a470d3aedb0f159a6c514f054239eed89f38116928c37ea1baec861
-    generated_at: '2026-07-18T17:24:51Z'
+    context_hash: 864dad4e95943b2249987ffde18b511c69694f447b337df8502d6a58dfe90d39
+    generated_at: '2026-07-18T20:44:02Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -292,13 +295,346 @@ resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TA
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T200607Z-3569D212
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R03
+task_id: TASK-R03-007
+story_id: STORY-R03-004
+goal: ??BLOCKED?????????R02???????????????????
+started_at: '2026-07-18T20:06:07Z'
+updated_at: '2026-07-18T20:44:53Z'
+takeover_of: null
+change_requests:
+- CR-0051
+- CR-0052
+- CR-0053
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - scripts/continuity.py
+  - tests/test_continuity_blocked_resume.py
+  - .continuity/CONTINUITY_POLICY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  - scripts/check_r02_security_challenge_design_package.py
+  - tests/test_r02_security_challenge_design_package.py
+  - templates/AGENTS.md
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 18e2db65b65afeb1e69d0c382ab53963fc97adec
+  start_head: 18e2db65b65afeb1e69d0c382ab53963fc97adec
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: DIRTY_TAKEOVER
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T20:44:53Z'
+  expires_at: '2026-07-19T00:44:53Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0005.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
+next_step: 形成实现提交并推送，随后更新CR并继续R03关闭条件检查
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 重启后的恢复验证、最终检查点和提交必须由同一活动会话绑定，避免第二任务或重复提交
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T200607Z-3569D212-0005
+session_id: SES-20260718T200607Z-3569D212
+sequence: 5
+created_at: '2026-07-18T20:44:52Z'
+summary: Codex重启后从仓库检查点恢复并重新验证全部严格门禁
+next_step: 形成实现提交并推送，随后更新CR并继续R03关闭条件检查
+blockers: []
+decisions: []
+note: 外部重启未形成半提交，HEAD仍为18e2db65，全部变更完整保留
+tests:
+- name: v123-continuity-strict
+  result: PASS
+  evidence: scripts/check_v123_continuity.py --strict
+  note: 51个CR、事件链、11项集成与14项生命周期通过
+- name: continuity-doctor-strict
+  result: PASS
+  evidence: scripts/continuity_gate.py --mode doctor --strict
+  note: 恢复后上下文、事件链和状态一致
+- name: r03-documentation
+  result: PASS
+  evidence: scripts/check_v122_documentation.py --release R03
+  note: R03文档门禁通过
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 18e2db65b65afeb1e69d0c382ab53963fc97adec
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/CONTINUITY_POLICY.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0051.yaml
+  - A  .continuity/change_requests/CR-0052.yaml
+  - A  .continuity/change_requests/CR-0053.yaml
+  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0001.yaml
+  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0002.yaml
+  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0003.yaml
+  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0004.yaml
+  - AM .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
+  - M  CHANGELOG.md
+  - M  CURRENT_STATUS.yaml
+  - MM artifacts/context/CURRENT_CONTEXT_PACK.md
+  - MM artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - MM artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - MM artifacts/validation/continuity-gate-v1.2.3.json
+  - M  artifacts/validation/continuity-integration-v1.2.3.json
+  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - MM artifacts/validation/project-doctor-v1.2.3.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - A  docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - M  docs/03-continuity/REUSABLE_PATTERNS.md
+  - A  docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+  - A  docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md
+  - A  docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md
+  - A  docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
+  - A  scripts/check_r02_security_challenge_design_package.py
+  - M  scripts/continuity.py
+  - M  templates/AGENTS.md
+  - A  tests/test_continuity_blocked_resume.py
+  - A  tests/test_r02_security_challenge_design_package.py
+  recent_commits:
+  - "18e2db65b65afeb1e69d0c382ab53963fc97adec\t2026-07-19T01:25:54+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-007\
+    \ as blocked"
+  - "16023e53e214d0f82486783578657814f4671f85\t2026-07-19T01:24:12+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): sign external\
+    \ activation gate"
+  - "5cdfd38e50c563b345203b1255dc7fb67e618c46\t2026-07-19T01:23:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): deliver regression\
+    \ apk evidence"
+  - "3a913c95265f93b815042389d573f4804137c0c0\t2026-07-19T01:05:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): freeze external\
+    \ and apk baseline"
+  - "25d8171c76e0cef323a717ad66ac85ccd69371c3\t2026-07-19T00:57:28+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-006\
+    \ as completed"
+  - "f41c84e6df03f49cd5c21537ea6a1235471006ba\t2026-07-19T00:55:29+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): record staging\
+    \ rollback evidence"
+  - "2950cb64d0ed5887725bc20afe4c6d148c22335a\t2026-07-19T00:32:41+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): add staging observability\
+    \ gates"
+  - "b4edfff1f81359677d87bc8486da2d9330926e20\t2026-07-19T00:22:27+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-005\
+    \ as completed"
+project_fingerprint:
+  sha256: 0640793da012c45de58f948faad577b3ef35a30c0835353ca08f9f16367db5b4
+  files:
+  - CHANGELOG.md
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+  - docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md
+  - docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md
+  - scripts/check_r02_security_challenge_design_package.py
+  - scripts/continuity.py
+  - templates/AGENTS.md
+  - tests/test_continuity_blocked_resume.py
+  - tests/test_r02_security_challenge_design_package.py
+  file_count: 12
+  payload:
+    base_commit: 18e2db65b65afeb1e69d0c382ab53963fc97adec
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 30878
+      sha256: b1a363386b01598ac45ae2089286e99578f1d2cef3d0942f35a7c2f994a3e7b4
+    - path: docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+      state: FILE
+      size: 2240
+      sha256: c71c5da647afd89f5562840664279e2cbde5bb9fa8506ec5a07b1139813c95a4
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 29583
+      sha256: e9cd6bfdd701f8204b5d4421a1f78dbd0d96db5bd33a84f74121648b37fbaf1f
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 2093
+      sha256: 6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969
+    - path: docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+      state: FILE
+      size: 3497
+      sha256: 4052419b8dbe3f138de227082d45f0a975f081a3647fc776470ae0891d81698f
+    - path: docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md
+      state: FILE
+      size: 2648
+      sha256: 375952f214f6c9fa78c7f0ebabb2d6177bcf70b5f50ad91f6fab82fe3dbe6789
+    - path: docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md
+      state: FILE
+      size: 2157
+      sha256: 7e8f00904ddefd6a3212c46937cd31e7256b56c13a041533a3125163bcf605e2
+    - path: scripts/check_r02_security_challenge_design_package.py
+      state: FILE
+      size: 12106
+      sha256: a03dea9e374b686da6897919686f58f3142f889ab750e8601b47a9e1d0cacb16
+    - path: scripts/continuity.py
+      state: FILE
+      size: 65887
+      sha256: bc77db7ccffa3bd20979c5cf14446a9a95bf425a2272b5910fad9ddc51feb457
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 6689
+      sha256: 04c48ef8087599bf1ef602b43c959fe095ad44b17948c31076209809d261d56e
+    - path: tests/test_continuity_blocked_resume.py
+      state: FILE
+      size: 2469
+      sha256: 93473df248dd8d7cbf514945c9087c6bd9830b9094dcdbe2c729503bc40feeb2
+    - path: tests/test_r02_security_challenge_design_package.py
+      state: FILE
+      size: 6206
+      sha256: d796dd889d2847b843c49ecce34c9b7905c74deb22cbf7659c96f609a652a2af
+change_classification:
+  other:
+  - CHANGELOG.md
+  - templates/AGENTS.md
+  source_of_truth:
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  user_visible:
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+  - docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md
+  - docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md
+  code:
+  - scripts/check_r02_security_challenge_design_package.py
+  - scripts/continuity.py
+  tests:
+  - tests/test_continuity_blocked_resume.py
+  - tests/test_r02_security_challenge_design_package.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0051
+- CR-0052
+- CR-0053
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - scripts/continuity.py
+  - tests/test_continuity_blocked_resume.py
+  - .continuity/CONTINUITY_POLICY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+  - scripts/check_r02_security_challenge_design_package.py
+  - tests/test_r02_security_challenge_design_package.py
+  - templates/AGENTS.md
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 重启后的恢复验证、最终检查点和提交必须由同一活动会话绑定，避免第二任务或重复提交
+event_hash: b4bdb19cc8427758bb7c1b83412b9cdb6244910da1e2deca9b5c77e54d6871b1
 ```
 
 ## 接续状态与事件头
@@ -306,31 +642,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260718T200607Z-3569D212
 last_session_id: SES-20260718T165842Z-356A8138
 last_session_result: BLOCKED
 last_closure_checkpoint_id: CP-SES-20260718T165842Z-356A8138-0005
-event_count: 621
-event_head_hash: 0f71daed9586db69f3495ddc399055fc5223303eac77b52e9e85160df641b25e
+event_count: 642
+event_head_hash: b4bdb19cc8427758bb7c1b83412b9cdb6244910da1e2deca9b5c77e54d6871b1
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260718T081744Z-71EAAA84
-  task_id: TASK-R02-005
-  story_id: STORY-R02-008
-  actor_id: codex-root
-  status: CLOSED
-  started_at: '2026-07-18T08:17:44Z'
-  record: .continuity/sessions/SES-20260718T081744Z-71EAAA84.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md
-  updated_at: '2026-07-18T08:45:02Z'
-  closed_at: '2026-07-18T08:45:02Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0004.yaml
-  handoff_bundle: null
-- session_id: SES-20260718T084729Z-BD53B7C4
+recent_sessions: - session_id: SES-20260718T084729Z-BD53B7C4
   task_id: TASK-R02-006
   story_id: STORY-R02-009
   actor_id: codex-root
@@ -438,46 +762,19 @@ recent_sessions: - session_id: SES-20260718T081744Z-71EAAA84
   closed_at: '2026-07-18T17:24:52Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260718T165842Z-356A8138/0005.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-6569C39B27C5
-  session_id: SES-20260717T122518Z-91E6F4D6
-  task_id: TASK-R01-005
-  story_id: STORY-R01-003
+- session_id: SES-20260718T200607Z-3569D212
+  task_id: TASK-R03-007
+  story_id: STORY-R03-004
   actor_id: codex-root
-  status: CLOSED
-  claimed_at: '2026-07-17T12:25:18Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-17T13:55:44Z'
-- claim_id: CLM-3E379E115FA4
+  status: ACTIVE
+  started_at: '2026-07-18T20:06:07Z'
+  record: .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
+  updated_at: '2026-07-18T20:44:53Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0005.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-3E379E115FA4
   session_id: SES-20260717T141717Z-A01412D7
   task_id: TASK-R01-006
   story_id: STORY-R01-003
@@ -1069,17 +1366,46 @@ task_claims: - claim_id: CLM-6569C39B27C5
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-18T17:24:52Z'
-recent_task_transitions: - transition_id: TRN-3A769D7B294C
-  timestamp: '2026-07-17T15:27:21Z'
-  release: R01
-  task_id: TASK-R01-007
-  story_id: STORY-R01-003
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260717T152721Z-016DB4B2
+- claim_id: CLM-B88F73D8F717
+  session_id: SES-20260718T200607Z-3569D212
+  task_id: TASK-R03-007
+  story_id: STORY-R03-004
   actor_id: codex-root
-  reason: 会话领取任务
-- transition_id: TRN-23D2BAB015EB
+  status: ACTIVE
+  claimed_at: '2026-07-18T20:06:07Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-23D2BAB015EB
   timestamp: '2026-07-17T17:14:12Z'
   release: R01
   task_id: TASK-R01-008
@@ -1269,6 +1595,16 @@ recent_task_transitions: - transition_id: TRN-3A769D7B294C
   session_id: SES-20260718T165842Z-356A8138
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-719577C27F1C
+  timestamp: '2026-07-18T20:06:08Z'
+  release: R03
+  task_id: TASK-R03-007
+  story_id: STORY-R03-004
+  from_status: IN_PROGRESS
+  to_status: IN_PROGRESS
+  session_id: SES-20260718T200607Z-3569D212
+  actor_id: codex-root
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1276,29 +1612,57 @@ recent_task_transitions: - transition_id: TRN-3A769D7B294C
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 16023e53e214d0f82486783578657814f4671f85
+head: 18e2db65b65afeb1e69d0c382ab53963fc97adec
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260718T165842Z-356A8138.yaml'
-- ' M CHANGELOG.md'
-- ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260718T165842Z-356A8138.md'
-- ' M releases/R03/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260718T165842Z-356A8138/0005.yaml
+- MM .continuity/ACTIVE_SESSION.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- M  .continuity/CONTINUITY_POLICY.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- M  .continuity/TASK_CLAIMS.yaml
+- M  .continuity/TASK_TRANSITIONS.yaml
+- A  .continuity/change_requests/CR-0051.yaml
+- A  .continuity/change_requests/CR-0052.yaml
+- A  .continuity/change_requests/CR-0053.yaml
+- A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0001.yaml
+- A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0002.yaml
+- A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0003.yaml
+- A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0004.yaml
+- AM .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
+- M  CHANGELOG.md
+- MM CURRENT_STATUS.yaml
+- MM artifacts/context/CURRENT_CONTEXT_PACK.md
+- MM artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- MM artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- MM artifacts/validation/continuity-gate-v1.2.3.json
+- M  artifacts/validation/continuity-integration-v1.2.3.json
+- M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+- M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+- MM artifacts/validation/project-doctor-v1.2.3.json
+- M  catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
+- M  catalogs/task_transition_ledger.csv
+- A  docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+- M  docs/03-continuity/REUSABLE_PATTERNS.md
+- A  docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+- A  docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md
+- A  docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md
+- AM docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
+- A  scripts/check_r02_security_challenge_design_package.py
+- M  scripts/continuity.py
+- M  templates/AGENTS.md
+- A  tests/test_continuity_blocked_resume.py
+- A  tests/test_r02_security_challenge_design_package.py
+- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0005.yaml
 recent_commits:
+- "18e2db65b65afeb1e69d0c382ab53963fc97adec\t2026-07-19T01:25:54+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-007\
+  \ as blocked"
 - "16023e53e214d0f82486783578657814f4671f85\t2026-07-19T01:24:12+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): sign external activation\
   \ gate"
 - "5cdfd38e50c563b345203b1255dc7fb67e618c46\t2026-07-19T01:23:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): deliver regression\
@@ -1313,16 +1677,25 @@ recent_commits:
   \ gates"
 - "b4edfff1f81359677d87bc8486da2d9330926e20\t2026-07-19T00:22:27+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-005\
   \ as completed"
-- "cd9d6a4771451e2b34bfa94dc7dec08b5b7898f4\t2026-07-19T00:20:48+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] docs(r03): bind integration\
-  \ gate evidence"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`d759d7af1548426866b1db4e85f23c775adf439af7e3a24e6984d217fee79404`
-- 文件数：0
+- 指纹：`0640793da012c45de58f948faad577b3ef35a30c0835353ca08f9f16367db5b4`
+- 文件数：12
 
-- 无
+- `CHANGELOG.md`
+- `docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/REUSABLE_PATTERNS.md`
+- `docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md`
+- `docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md`
+- `docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md`
+- `scripts/check_r02_security_challenge_design_package.py`
+- `scripts/continuity.py`
+- `templates/AGENTS.md`
+- `tests/test_continuity_blocked_resume.py`
+- `tests/test_r02_security_challenge_design_package.py`
 
 ## 当前 Release
 
@@ -3378,29 +3751,186 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260718T152013Z-8B704646
   implementation_commits:
   - 650fdee862405db673ed5f3f856611356508e337
+- protocol_version: '1.0'
+  cr_id: CR-0051
+  title: 修复BLOCKED任务接续命令死锁并登记非阻断设计回传
+  status: IMPLEMENTING
+  created_at: '2026-07-18T20:08:46Z'
+  updated_at: '2026-07-18T20:17:11Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 继续推进开发的意思是不管这个问题，可以持续推进版本，如果R03完成可以继续做R04，以此类推
+  reason: continuity close会为BLOCKED任务写入resume_command，但start仅允许READY或IN_PROGRESS，导致持续开发接续在协议层自动停止；同时安全验证码设计回传需要非阻断追溯与自动验收
+  original_rule: continuity close可把当前任务关闭为BLOCKED并写入精确resume_command，但create_session只允许Release任务或NEXT_TASK状态为READY/IN_PROGRESS；安全验证码外部设计回传只有临时桌面包，尚无仓库内非阻断接入记录和自动验收。
+  new_rule: 仅当Release任务与NEXT_TASK均为同一TASK的BLOCKED状态、NEXT_TASK.resume_command严格等于该TASK的标准start命令且当前无活动会话时，允许接续；普通BLOCKED仍拒绝。R02安全验证码设计回传登记为非阻断问题，回包必须先通过只读自动验收再以独立CR合入、测试并重新交付APK。
+  impact_summary: 消除自动接续死锁，保留阻断安全边界；建立安全验证码外部设计成果的可追溯无缝接入门禁，不改变当前认证API、数据库或R03验收结论。
+  impact:
+    files:
+    - scripts/continuity.py
+    - tests/test_continuity_blocked_resume.py
+    - .continuity/CONTINUITY_POLICY.yaml
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/02-ui/R02安全验证码UI设计回传接入记录_V1.2.2.md
+    - scripts/check_r02_security_challenge_design_package.py
+    - tests/test_r02_security_challenge_design_package.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_continuity_blocked_resume
+    - python -m unittest tests.test_r02_security_challenge_design_package
+    - python -m unittest tests.test_continuity_cross_release_close
+    releases:
+    - R02
+    - R03
+    migration_and_compatibility: 连续性CLI向后兼容READY/IN_PROGRESS启动；仅为close生成的精确BLOCKED接续状态增加窄授权。设计包验证器为新增只读工具，不修改回包；当前R03机器验收和项目所有者真机门禁保持不变。
+  user_confirmation: 继续推进开发的意思是不管这个问题，可以持续推进版本，如果R03完成可以继续做R04，以此类推
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T20:09:05Z'
+    note: 项目所有者已明确该设计问题不阻断版本推进并授权常规问题自行决定；批准窄范围接续修复和只读回包验收门禁
+  machine_record: .continuity/change_requests/CR-0051.yaml
+  document: docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
+  decision_log:
+  - at: '2026-07-18T20:17:11Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已实现BLOCKED精确接续保护、非阻断设计回传登记和只读回包验证器，回归测试通过，进入严格门禁验证
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0052
+  title: 同步连续性模板并重生成协议验证报告
+  status: IMPLEMENTING
+  created_at: '2026-07-18T20:18:52Z'
+  updated_at: '2026-07-18T20:18:56Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 继续推进开发的意思是不管这个问题，可以持续推进版本，如果R03完成可以继续做R04，以此类推
+  reason: CR-0051修改连续性策略和脚本后严格门禁要求同步AGENTS导出模板并重生成集成与生命周期验证报告
+  original_rule: AGENTS根入口与templates/AGENTS.md必须逐字一致；协议源文件变更后两份连续性验证报告必须记录最新源文件SHA-256。
+  new_rule: 把根AGENTS.md现有外部门禁持续开发规则同步到导出模板，并用当前CR-0051协议实现重跑连续性自测与全生命周期测试，生成新报告和日志。
+  impact_summary: 只同步连续性派生模板和验证证据，修复严格门禁漂移，不改变产品功能、API、数据库、版本依赖或验收状态。
+  impact:
+    files:
+    - templates/AGENTS.md
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-integration-v1.2.3.log
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/run_continuity_self_test.py
+    - python scripts/test_continuity_protocol.py
+    - python scripts/check_v123_continuity.py --strict
+    releases:
+    - R03
+    migration_and_compatibility: 模板内容与根入口对齐；报告覆盖新旧启动、关闭、接管和拒绝路径；没有运行时迁移。
+  user_confirmation: 继续推进开发的意思是不管这个问题，可以持续推进版本，如果R03完成可以继续做R04，以此类推
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T20:18:54Z'
+    note: 这是CR-0051严格门禁要求的派生模板和验证报告同步，批准执行
+  machine_record: .continuity/change_requests/CR-0052.yaml
+  document: docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md
+  decision_log:
+  - at: '2026-07-18T20:18:56Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始同步模板并重跑连续性协议集成与生命周期测试
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0053
+  title: 补齐非阻断设计接入与连续性修复Changelog
+  status: IMPLEMENTING
+  created_at: '2026-07-18T20:31:22Z'
+  updated_at: '2026-07-18T20:31:26Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 继续推进开发的意思是不管这个问题，可以持续推进版本，如果R03完成可以继续做R04，以此类推
+  reason: docs/02-ui接入记录被用户可见分类器识别，预提交门禁要求同步根CHANGELOG
+  original_rule: 用户可见规格或体验变化必须在根CHANGELOG追溯，当前CR-0051新增UI接入记录但尚未登记。
+  new_rule: 在R03条目登记BLOCKED精确接续修复、R02安全验证码外部设计非阻断回传和只读验收门禁，明确不改变R03验收或把临时UI视为最终完成。
+  impact_summary: 只增加版本追溯文案，满足用户可见变更门禁；不修改产品运行时、API、数据库或版本状态。
+  impact:
+    files:
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_v123_continuity.py --strict
+    releases:
+    - R02
+    - R03
+    migration_and_compatibility: 纯文档追溯，无迁移；与CR-0051和CR-0052同一实现提交绑定。
+  user_confirmation: 继续推进开发的意思是不管这个问题，可以持续推进版本，如果R03完成可以继续做R04，以此类推
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T20:31:24Z'
+    note: 预提交用户可见变更门禁要求补齐根CHANGELOG，批准仅限追溯文案
+  machine_record: .continuity/change_requests/CR-0053.yaml
+  document: docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md
+  decision_log:
+  - at: '2026-07-18T20:31:26Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 补写根CHANGELOG并重新执行检查点与预提交门禁
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `04c48ef8087599bf1ef602b43c959fe095ad44b17948c31076209809d261d56e`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `5f2a29c405330e5c8092ed79051fca62e37e73169695a9752952672a73ad1c6c`
+- `CURRENT_STATUS.yaml` — `a986da5abe11a74823a50b2a861dbb0f92321621d69d36903a7292cfc08f6d66`
 - `NEXT_TASK.yaml` — `d3331935c15deb5ebd04b02689837403e53e8bc65c8813529359515257a7edc1`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `0237d673837cbafb9020cfa1fc5c35f5a5f1ca1b0f84a7254d816de13b185634`
-- `docs/03-continuity/REUSABLE_PATTERNS.md` — `9038d154242cb59dc132fdc82aeb4d5a7045e68397b9489b1991ff59b92b5e94`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `e9cd6bfdd701f8204b5d4421a1f78dbd0d96db5bd33a84f74121648b37fbaf1f`
+- `docs/03-continuity/REUSABLE_PATTERNS.md` — `6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `a16351c5e292e352990e58efa1941911b73b16b35b8b7c0a9528c4f937ee30d0`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
-- `.continuity/CONTINUITY_POLICY.yaml` — `de19045f455501f77bc8679366433b330c30b85f33073bb823067912c2721259`
-- `.continuity/EVENT_LOG.jsonl` — `d169d54e046a42880d6ead53efa882da3370294d97e824f2efa20770a6d2da12`
-- `.continuity/SESSION_INDEX.yaml` — `2122be340422c0f32d349653475adce0c58663b73bddc70fa6a694f83472b6bb`
-- `.continuity/TASK_CLAIMS.yaml` — `0d78bf4e4393d1d5f1c1487107c7fe100b83884af82e413dad7cd2ac02366637`
-- `.continuity/TASK_TRANSITIONS.yaml` — `a144d59ace9243d03bcdc7781e54e64d6de3bf6a9c17023bfd4f599ccfc1d1da`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e47d29fe726aca711d6eb7707e9048c200902c7e273ce864fa49b1453671c1ae`
-- `.continuity/ACTIVE_SESSION.yaml` — `437dffe3c96e01227954cb272fc6624210119e5ecf316425011e6b57ed197ba3`
+- `.continuity/CONTINUITY_POLICY.yaml` — `7e59a879f04cabd5150628908d785d317a58d2114b0d111f689a213665ee3e34`
+- `.continuity/EVENT_LOG.jsonl` — `7d9aa47e280c9dd7628c24e09301e831f0cdde614defdf95928d173adcb7a148`
+- `.continuity/SESSION_INDEX.yaml` — `7102308f28a83a9e57d9a6b1f8220541fb902d133a148d51bf1d47d19334c2d7`
+- `.continuity/TASK_CLAIMS.yaml` — `dae3c46345cf6361b9487cc9878bf5cd6bd3775ec390315b8036208feb5d7b19`
+- `.continuity/TASK_TRANSITIONS.yaml` — `49b2f0e5fdabc44f56af3c9fdeefd1971b4d3462167a3c93ba796bb4b3be1ada`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `19033ec398cafdfb14cba061e551d203ac9de86bfc8e5c3f506e6af9fcccb12c`
+- `.continuity/ACTIVE_SESSION.yaml` — `e280dbe5e043672e798bad42e82def1d536e79615e54963bc2073689d47655f1`
+- `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
+- `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
+- `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
+- `releases/R03/TASKS.yaml` — `577a231d7cc655f126187950d05277a67d9e877ddb87a52721b2b634a21f12eb`
+- `releases/R03/ACCEPTANCE_MATRIX.csv` — `de226ffec9d6cb0da7242d9febfae3ac023875c3b1d167894739ca4f8dc9ac47`
+- `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `be9e52066ad4575f84e20764c25daac6be696bd6b3940fcdb90d7911c072b2af`
+- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0005.yaml` — `e74f7db214b38b140f6768744e57f60629b47cda9057bf3b2344adaa786d2fb4`
+- `docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md` — `4052419b8dbe3f138de227082d45f0a975f081a3647fc776470ae0891d81698f`
+- `docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md` — `375952f214f6c9fa78c7f0ebabb2d6177bcf70b5f50ad91f6fab82fe3dbe6789`
+- `docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md` — `7e8f00904ddefd6a3212c46937cd31e7256b56c13a041533a3125163bcf605e2`
 
 ## 接手硬规则
 

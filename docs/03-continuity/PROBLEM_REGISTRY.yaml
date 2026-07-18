@@ -366,3 +366,21 @@ problems:
   do_not_repeat:
   - 不得把根域或其他子域可用推断为未解析子域已通过
   - 不得把跳过证书校验的curl结果作为TLS证据
+- id: PROB-0032
+  title: R02安全验证码模态交互与视觉规格待网页端设计回传
+  status: OPEN
+  blocking: false
+  root_cause: 既有认证规格定义了挑战API和功能流程，但没有完整冻结验证码承载形式、自动触发、加载、错误、过期、刷新、成功续办以及布局、字号、动画和无障碍数字参数；当前Android以内联展开和二次点击继续作为临时实现。
+  impact: 当前认证页安全验证码UI不是最终设计；按项目所有者明确指令，本问题不阻断R03及后续版本推进，设计回传后再无缝补开发并重新交付APK。
+  current_behavior: 桌面源包合伙云Pro_R02安全验证码UI交互设计补充包_20260719.zip已交给ChatGPT网页端，源提交为18e2db65b65afeb1e69d0c382ab53963fc97adec，源包SHA-256为82df3ea78cffa9395d96204813619d8ab57ed40763db231e0df1ee076dd90181。
+  next_owner: CHATGPT_WEB_DESIGN
+  resume_condition: 网页端返回包含EDITABLE_OVERLAY的完整ZIP后运行scripts/check_r02_security_challenge_design_package.py并通过验收。
+  required_evidence:
+  - CHATGPT_WEB_CHANGE_SUMMARY.md和RETURN_MANIFEST.json无占位内容
+  - B01-CAPTCHA八状态PNG、Manifest和精确dp/sp/颜色/动画/无障碍参数
+  - REFERENCE_ONLY按源包SHA256SUMS.txt保持逐文件不变
+  - 合入前独立批准CR，合入后Android单元/UI测试、真机构建和新APK交付证据
+  do_not_repeat:
+  - 不得再次向普通用户展示创建安全验证按钮、请求编号、challengeId或其他技术字段
+  - 不得在外部方案待回传时猜测最终模态视觉或让该非阻断问题停止后续版本开发
+  - 不得把当前临时内联实现误记为最终UI验收通过

@@ -57,6 +57,15 @@ external_gate_continuation:
   prohibit_marking_deferred_task_done: true
   resume_deferred_task_when_owner_feedback_arrives: true
   command_flag: --allow-independent-release
+blocked_task_resume:
+  enabled: true
+  require_release_task_status: BLOCKED
+  require_next_task_status: BLOCKED
+  require_same_task_id: true
+  require_exact_resume_command: true
+  require_no_active_session: true
+  preserve_acceptance_status: true
+  rule: 仅允许close命令显式生成且双状态源一致的BLOCKED任务接续；不得把接续视为验收通过或任务完成。
 execution_routing:
   descriptor: config/DEVELOPMENT_RUNTIME.yaml
   complexity_profiles:
