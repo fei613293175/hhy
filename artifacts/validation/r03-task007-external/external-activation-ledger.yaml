@@ -1,0 +1,54 @@
+schema_version: 1
+release: R03
+verified_at: '2026-07-18T17:01:31Z'
+policy: 缺少真实测试环境凭据时保持BLOCKED，不生成临时Secret，不伪造连接成功。
+providers:
+- provider: SMS
+  status: BLOCKED
+  connection_test: NOT_RUN
+  secret_ref: MISSING
+  certificate_fingerprint: NOT_APPLICABLE
+  owner: PROJECT_OWNER
+  deadline_release: R03
+  blocker: PROB-0012
+  required_action: 提供受控阿里云短信AccessKey SecretRef、签名和模板映射并完成真实发送回执。
+- provider: STORAGE
+  status: BLOCKED
+  connection_test: NOT_RUN
+  secret_ref: MISSING
+  certificate_fingerprint: NOT_APPLICABLE
+  owner: PROJECT_OWNER
+  deadline_release: R04
+  blocker: PROB-0030
+  required_action: 提供测试桶、最小权限SecretRef、区域、CORS和生命周期策略。
+- provider: IDENTITY
+  status: BLOCKED
+  connection_test: NOT_RUN
+  secret_ref: MISSING
+  certificate_fingerprint: MISSING
+  owner: PROJECT_OWNER
+  deadline_release: R05
+  blocker: PROB-0030
+  required_action: 提供实名/活体沙箱账号、签名SecretRef、回调白名单和测试证书。
+- provider: PAYMENT
+  status: BLOCKED
+  connection_test: NOT_RUN
+  secret_ref: MISSING
+  certificate_fingerprint: MISSING
+  owner: PROJECT_OWNER
+  deadline_release: R16
+  blocker: PROB-0030
+  required_action: 提供测试商户、网关、商户密钥SecretRef、证书和回调配置。
+- provider: PAYOUT
+  status: BLOCKED
+  connection_test: NOT_RUN
+  secret_ref: MISSING
+  certificate_fingerprint: MISSING
+  owner: PROJECT_OWNER
+  deadline_release: R22
+  blocker: PROB-0030
+  required_action: 提供支付宝企业付款测试主体、应用SecretRef、证书和回调配置。
+invariants:
+- 连接测试失败不得激活对应配置版本。
+- SecretRef只允许vault://或kms://元数据，报告不得包含解析值。
+- 证书只记录SHA-256指纹、有效期和状态，不记录证书或私钥原文。

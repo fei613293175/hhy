@@ -338,3 +338,31 @@ problems:
   do_not_repeat:
   - 不得把迁移DDL成功等同于CHECK约束表达式已在数据路径执行
   - 新增表时必须同步基线计数、数据目录、字段字典和真实空库回归
+- id: PROB-0030
+  title: R03外部供应商测试环境SecretRef和证书尚未提供
+  status: OPEN
+  root_cause: 当前受控环境没有对象存储、实名、支付和出款测试账号对应的Vault/KMS SecretRef、证书指纹或回调白名单，不能执行真实连接探针。
+  impact: R03配置生命周期、故障注入和安全闭锁可验证，但不得把模拟连接冒充外部供应商激活；后续业务版本到达各自截止版本前必须补齐。
+  current_behavior: artifacts/validation/r03-task007-external/external-activation-ledger.yaml逐项记录BLOCKED、负责人、截止版本和所需材料；配置保持非ACTIVE。
+  next_owner: PROJECT_OWNER
+  required_evidence:
+  - STORAGE在R04前提供测试桶、最小权限SecretRef和CORS/生命周期
+  - IDENTITY在R05前提供沙箱、回调白名单和证书
+  - PAYMENT在R16前提供测试商户、SecretRef和证书
+  - PAYOUT在R22前提供测试主体、SecretRef和证书
+  do_not_repeat:
+  - 不得生成临时供应商密钥或把测试Mock标为VERIFIED
+  - 不得在连接测试失败或未运行时激活配置版本
+- id: PROB-0031
+  title: R03域名计划中十个主机尚未配置DNS
+  status: OPEN
+  root_cause: 2026-07-18实时探测仅api.orbexa.cc和download.orbexa.cc解析并通过TLS，其余www、ws、admin、h5、assets及stg-*主机均返回DNS gaierror。
+  impact: 未解析域名不能取得TLS证书或服务健康证据，管理后台、H5、WebSocket、媒体和独立预发布入口不能标为已激活。
+  current_behavior: artifacts/validation/r03-task007-external/domain-probe.json保存DNS/TLS/服务三层状态、已解析地址和证书SHA-256；未解析项保持FAILED并绑定项目所有者。
+  next_owner: PROJECT_OWNER
+  required_evidence:
+  - 按config/DOMAIN_PLAN.yaml创建十个待办DNS记录
+  - DNS生效后重新采集TLS证书SHA-256、有效期和业务健康状态
+  do_not_repeat:
+  - 不得把根域或其他子域可用推断为未解析子域已通过
+  - 不得把跳过证书校验的curl结果作为TLS证据
