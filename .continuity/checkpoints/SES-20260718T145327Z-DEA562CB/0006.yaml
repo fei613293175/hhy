@@ -1,0 +1,224 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T145327Z-DEA562CB-0006
+session_id: SES-20260718T145327Z-DEA562CB
+sequence: 6
+created_at: '2026-07-18T15:17:01Z'
+summary: TASK-R03-004后端全量182项测试、Admin 73项测试和生产构建、R03严格文档门禁全部通过，CR-0047已关闭
+next_step: 关闭TASK-R03-004并按R03计划领取TASK-R03-005共享迁移权限与审计汇合
+blockers: []
+decisions:
+- 支付出款业务切片完成，冻结API控制器、共享迁移、权限和持久化适配器由TASK-R03-005统一集成
+note: CR-0047 CLOSED，implementation commit b3a90b52062bd227ac40c4f6a9d6e7c7282de43e
+tests:
+- name: backend full suite
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports
+  note: 182 tests, 2 skipped
+- name: admin web full suite
+  result: PASS
+  evidence: apps/admin-web
+  note: 73 tests
+- name: admin web production build
+  result: PASS
+  evidence: apps/admin-web/dist/index.html
+  note: vue-tsc and vite build
+- name: R03 documentation strict gate
+  result: PASS
+  evidence: artifacts/validation/project-doctor-v1.2.2.json
+  note: 0 errors, 0 warnings
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: b3a90b52062bd227ac40c4f6a9d6e7c7282de43e
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0047.yaml'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md'
+  recent_commits:
+  - "b3a90b52062bd227ac40c4f6a9d6e7c7282de43e\t2026-07-18T23:14:33+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): deliver payment\
+    \ and payout admin pages"
+  - "ea17e6835282cf7f9da16be714c1ad6610261ad2\t2026-07-18T23:05:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): secure provider\
+    \ certificate rotation"
+  - "125d3b816f5d03a79ed745575c70e00e33b92620\t2026-07-18T23:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): add safe financial\
+    \ provider probes"
+  - "ce50e363bf861c8a5480881778fa4cbdf81a9856\t2026-07-18T22:57:25+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): validate payment\
+    \ provider secrets"
+  - "7f37a5226bde9afe6e658c7f73e0665c05ba46e5\t2026-07-18T22:53:52+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(r03): start payment\
+    \ configuration slice"
+  - "8cfa5f515b29ac0095e16e1d839c48caf391758d\t2026-07-18T22:52:48+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(continuity): close TASK-R03-003\
+    \ as completed"
+  - "92dcd82614ba0cc719f7005aaea40a70c3525efc\t2026-07-18T22:51:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(continuity): close domain\
+    \ slice governance"
+  - "5b6daf124d4b55f3d2d7781d180571c6fb8751fb\t2026-07-18T22:50:23+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(validation): normalize\
+    \ R03 domain gate evidence"
+project_fingerprint:
+  sha256: 5706852f03758a29d47aa0b9a44fa463bdf8ae708e5225654965037cb5131763
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/components/ProviderCertificatePanel.vue
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminProviderCertificates.test.ts
+  - apps/admin-web/src/services/adminProviderCertificates.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+  file_count: 17
+  payload:
+    base_commit: 8cfa5f515b29ac0095e16e1d839c48caf391758d
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 28174
+      sha256: 3d7399cf6842a904d67f4e598beddd81be397a871a6a368537c7f98125b74284
+    - path: apps/admin-web/src/components/ProviderCertificatePanel.vue
+      state: FILE
+      size: 10352
+      sha256: 32db54c812b9a368e221d0f14202978b695f7d023a079ffc5db7ed47cef9b575
+    - path: apps/admin-web/src/r03ProviderPage.test.ts
+      state: FILE
+      size: 10096
+      sha256: ac86075ddb71aaabf04a499683e48ee2bf29180f293b457b1f89958394ab0296
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 3505
+      sha256: d649078daa3029fc4442fab939c99944a427146070fa606c2ac997a4c58a58a9
+    - path: apps/admin-web/src/services/adminProviderCertificates.test.ts
+      state: FILE
+      size: 3978
+      sha256: 77ef4cc8ec834f634e857f3baf003fbea4613ee328305a690ccb1e507700e3b6
+    - path: apps/admin-web/src/services/adminProviderCertificates.ts
+      state: FILE
+      size: 6117
+      sha256: 660c337f42bdfaf75d0c7b9c6aac97e9e1b49bdbc1dc1660fb0d9d0528a6f8e8
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 2241
+      sha256: 6d6fb3ac3817054b34cc54cc309efea09b73c3e68aead720dc5bd916aab1316a
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 271
+      sha256: 57951f171b4a6d3187ac0368f129688965621c3844a909c6f6e3633f9ed5a567
+    - path: apps/admin-web/src/views/ProviderConfigPage.vue
+      state: FILE
+      size: 24711
+      sha256: 91fdad3f377cb65beef78f35a7eec0b02df2f9c84988902b862745238ffba963
+    - path: docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md
+      state: FILE
+      size: 2927
+      sha256: 2f7c2d8c17737c917678c5351d972a12aa5b272ef8da6693c6f070e71cb79039
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
+      state: FILE
+      size: 11940
+      sha256: 26c8a74134f59da984820fc50d0718243b2017c31e75f6ed84436076d7a34c82
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+      state: FILE
+      size: 11734
+      sha256: be2e583aa3e340d333ffd8256495c5b81e4f6d0826860b36a8187314cad230ce
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
+      state: FILE
+      size: 14039
+      sha256: ea5787b6d82511ef1625fff6114ca51d1f251ba55dce8da2ff6553a9e4721695
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+      state: FILE
+      size: 10879
+      sha256: 33cc8a75b81bd85d3b9d6253ab9a78fa304a10667f00361440aac25defee718a
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
+      state: FILE
+      size: 8966
+      sha256: dc25a1c0280b25c029e84a5a2d2ff3e76f7918549437f37cecd8f9f87e6dbd1a
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+      state: FILE
+      size: 7024
+      sha256: 37239a9a58d7cad1714cbb9d21b241e78cb21dfb261ff57c85416cc8eb18498c
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+      state: FILE
+      size: 12386
+      sha256: d3a3e6ef57ff7e6d9902314657d0a89268f09c76b9ee2cf0abf7c9f3593f3545
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/admin-web/src/components/ProviderCertificatePanel.vue
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminProviderCertificates.test.ts
+  - apps/admin-web/src/services/adminProviderCertificates.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderCertificateServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+  user_visible:
+  - apps/admin-web/src/components/ProviderCertificatePanel.vue
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminProviderCertificates.test.ts
+  - apps/admin-web/src/services/adminProviderCertificates.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  continuity:
+  - docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0047
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - apps/admin-web/src/components/ProviderCertificatePanel.vue
+  - apps/admin-web/src/services/adminProviderCertificates.ts
+  - apps/admin-web/src/services/adminProviderCertificates.test.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0047
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 任务关闭与下一共享汇合任务必须在唯一事实分支串行切换
+event_hash: 0bb8c6e19c13ad5c7f2d494a7ab69d06fc8f7234479b566c30b05d039c5d2bf4

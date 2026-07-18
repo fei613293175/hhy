@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T15:13:34Z
-- Context Hash：`c590b38eacd22031f2fc7d2d26544f9021f54cd59a5cb32728558f52aadb2d7f`
+- 生成时间：2026-07-18T15:17:03Z
+- Context Hash：`153895bc4b79fef9593ee92007e6a96a9a840fd60f7137285f22c9e2cf6421cc`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -64,7 +64,7 @@ in_progress_tasks:
 blocked_tasks:
 - TASK-R02-007
 next_task: TASK-R03-004
-updated_at: '2026-07-18T15:13:32Z'
+updated_at: '2026-07-18T15:17:01Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -99,15 +99,15 @@ continuity:
   active_session_id: SES-20260718T145327Z-DEA562CB
   actor_id: codex-root
   story_id: STORY-R03-003
-  lease_expires_at: '2026-07-18T19:13:32Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0005.yaml
-  project_fingerprint: e0e1c5fa29de80f7adf275dba41cf832632cdbfdc23061d1c42db2da7bbd0310
+  lease_expires_at: '2026-07-18T19:17:01Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0006.yaml
+  project_fingerprint: 5706852f03758a29d47aa0b9a44fa463bdf8ae708e5225654965037cb5131763
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: e73421de580f9f0be7db32535e7df6095234ac37d4c7bfbe59ffc7d4d4d22021
-    generated_at: '2026-07-18T15:05:19Z'
+    context_hash: c590b38eacd22031f2fc7d2d26544f9021f54cd59a5cb32728558f52aadb2d7f
+    generated_at: '2026-07-18T15:13:34Z'
   handoff_bundle: null
 ```
 
@@ -302,7 +302,7 @@ task_id: TASK-R03-004
 story_id: STORY-R03-003
 goal: 纵向批次C：支付、出款与证书生命周期配置闭环
 started_at: '2026-07-18T14:53:27Z'
-updated_at: '2026-07-18T15:13:32Z'
+updated_at: '2026-07-18T15:17:01Z'
 takeover_of: null
 change_requests:
 - CR-0047
@@ -340,12 +340,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T15:13:32Z'
-  expires_at: '2026-07-18T19:13:32Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0005.yaml
+  renewed_at: '2026-07-18T15:17:01Z'
+  expires_at: '2026-07-18T19:17:01Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md
-next_step: 执行TASK-R03-004模块全量门禁、更新任务证据并关闭任务
+next_step: 关闭TASK-R03-004并按R03计划领取TASK-R03-005共享迁移权限与审计汇合
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -353,24 +353,28 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 用户可见金融配置与证书安全门禁需要串行完成关闭审计
+  reason: 任务关闭与下一共享汇合任务必须在唯一事实分支串行切换
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T145327Z-DEA562CB-0005
+checkpoint_id: CP-SES-20260718T145327Z-DEA562CB-0006
 session_id: SES-20260718T145327Z-DEA562CB
-sequence: 5
-created_at: '2026-07-18T15:13:31Z'
-summary: 支付网关和支付宝企业付款真实后台页面、冻结证书API客户端及证书上传轮换面板已接入
-next_step: 执行TASK-R03-004模块全量门禁、更新任务证据并关闭任务
+sequence: 6
+created_at: '2026-07-18T15:17:01Z'
+summary: TASK-R03-004后端全量182项测试、Admin 73项测试和生产构建、R03严格文档门禁全部通过，CR-0047已关闭
+next_step: 关闭TASK-R03-004并按R03计划领取TASK-R03-005共享迁移权限与审计汇合
 blockers: []
 decisions:
-- ADM-CONFIG-005/006复用供应商版本页面；仅payout页面追加不可回读的证书指纹与轮换面板
-note: CR-0047已批准并应用用户可见页面及CHANGELOG范围
+- 支付出款业务切片完成，冻结API控制器、共享迁移、权限和持久化适配器由TASK-R03-005统一集成
+note: CR-0047 CLOSED，implementation commit b3a90b52062bd227ac40c4f6a9d6e7c7282de43e
 tests:
+- name: backend full suite
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports
+  note: 182 tests, 2 skipped
 - name: admin web full suite
   result: PASS
   evidence: apps/admin-web
@@ -379,10 +383,14 @@ tests:
   result: PASS
   evidence: apps/admin-web/dist/index.html
   note: vue-tsc and vite build
+- name: R03 documentation strict gate
+  result: PASS
+  evidence: artifacts/validation/project-doctor-v1.2.2.json
+  note: 0 errors, 0 warnings
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: ea17e6835282cf7f9da16be714c1ad6610261ad2
+  head: b3a90b52062bd227ac40c4f6a9d6e7c7282de43e
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -391,21 +399,14 @@ git:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260718T145327Z-DEA562CB.yaml'
-  - ' M CHANGELOG.md'
-  - ' M apps/admin-web/src/r03ProviderPage.test.ts'
-  - ' M apps/admin-web/src/router.ts'
-  - ' M apps/admin-web/src/services/idempotency.ts'
-  - ' M apps/admin-web/src/services/index.ts'
-  - ' M apps/admin-web/src/views/ProviderConfigPage.vue'
+  - ' M .continuity/change_requests/CR-0047.yaml'
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ?? .continuity/change_requests/CR-0047.yaml
-  - ?? apps/admin-web/src/components/ProviderCertificatePanel.vue
-  - ?? apps/admin-web/src/services/adminProviderCertificates.test.ts
-  - ?? apps/admin-web/src/services/adminProviderCertificates.ts
-  - ?? docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md
+  - ' M docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md'
   recent_commits:
+  - "b3a90b52062bd227ac40c4f6a9d6e7c7282de43e\t2026-07-18T23:14:33+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): deliver payment\
+    \ and payout admin pages"
   - "ea17e6835282cf7f9da16be714c1ad6610261ad2\t2026-07-18T23:05:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): secure provider\
     \ certificate rotation"
   - "125d3b816f5d03a79ed745575c70e00e33b92620\t2026-07-18T23:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): add safe financial\
@@ -420,10 +421,8 @@ git:
     \ slice governance"
   - "5b6daf124d4b55f3d2d7781d180571c6fb8751fb\t2026-07-18T22:50:23+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(validation): normalize\
     \ R03 domain gate evidence"
-  - "ea6e6c96bd4768aeb9a3e9c2c26d26d18649a853\t2026-07-18T22:48:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(continuity): record\
-    \ R03 domain module gate"
 project_fingerprint:
-  sha256: e0e1c5fa29de80f7adf275dba41cf832632cdbfdc23061d1c42db2da7bbd0310
+  sha256: 5706852f03758a29d47aa0b9a44fa463bdf8ae708e5225654965037cb5131763
   files:
   - CHANGELOG.md
   - apps/admin-web/src/components/ProviderCertificatePanel.vue
@@ -484,8 +483,8 @@ project_fingerprint:
       sha256: 91fdad3f377cb65beef78f35a7eec0b02df2f9c84988902b862745238ffba963
     - path: docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md
       state: FILE
-      size: 2256
-      sha256: e12f3071c857cfa4e6694b27dcf3552b28cd0f3fcaf83ee525dcfba826c3bfc7
+      size: 2927
+      sha256: 2f7c2d8c17737c917678c5351d972a12aa5b272ef8da6693c6f070e71cb79039
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderCertificateService.java
       state: FILE
       size: 11940
@@ -582,8 +581,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 用户可见金融配置与证书安全门禁需要串行完成关闭审计
-event_hash: 85fedcdda09a9f328a2413d584cf223833af5f30197a9600a8222dc2b5956306
+  reason: 任务关闭与下一共享汇合任务必须在唯一事实分支串行切换
+event_hash: 0bb8c6e19c13ad5c7f2d494a7ab69d06fc8f7234479b566c30b05d039c5d2bf4
 ```
 
 ## 接续状态与事件头
@@ -595,8 +594,8 @@ active_session_id: SES-20260718T145327Z-DEA562CB
 last_session_id: SES-20260718T142638Z-EF4C3723
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T142638Z-EF4C3723-0011
-event_count: 569
-event_head_hash: 85fedcdda09a9f328a2413d584cf223833af5f30197a9600a8222dc2b5956306
+event_count: 573
+event_head_hash: 0bb8c6e19c13ad5c7f2d494a7ab69d06fc8f7234479b566c30b05d039c5d2bf4
 event_chain_valid: true
 ```
 
@@ -719,9 +718,9 @@ recent_sessions: - session_id: SES-20260717T210927Z-13B07A7D
   started_at: '2026-07-18T14:53:27Z'
   record: .continuity/sessions/SES-20260718T145327Z-DEA562CB.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md
-  updated_at: '2026-07-18T15:13:32Z'
+  updated_at: '2026-07-18T15:17:01Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0005.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0006.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D697723983C7
   session_id: SES-20260717T080633Z-7A2C9226
@@ -1539,7 +1538,7 @@ recent_task_transitions: - transition_id: TRN-18D676E8D73B
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: ea17e6835282cf7f9da16be714c1ad6610261ad2
+head: b3a90b52062bd227ac40c4f6a9d6e7c7282de43e
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1550,24 +1549,18 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0047.yaml'
 - ' M .continuity/sessions/SES-20260718T145327Z-DEA562CB.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/admin-web/src/r03ProviderPage.test.ts'
-- ' M apps/admin-web/src/router.ts'
-- ' M apps/admin-web/src/services/idempotency.ts'
-- ' M apps/admin-web/src/services/index.ts'
-- ' M apps/admin-web/src/views/ProviderConfigPage.vue'
+- ' M artifacts/validation/project-doctor-v1.2.2.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md'
-- ?? .continuity/change_requests/CR-0047.yaml
-- ?? .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0005.yaml
-- ?? apps/admin-web/src/components/ProviderCertificatePanel.vue
-- ?? apps/admin-web/src/services/adminProviderCertificates.test.ts
-- ?? apps/admin-web/src/services/adminProviderCertificates.ts
-- ?? docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md
+- ?? .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0006.yaml
 recent_commits:
+- "b3a90b52062bd227ac40c4f6a9d6e7c7282de43e\t2026-07-18T23:14:33+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): deliver payment and\
+  \ payout admin pages"
 - "ea17e6835282cf7f9da16be714c1ad6610261ad2\t2026-07-18T23:05:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): secure provider certificate\
   \ rotation"
 - "125d3b816f5d03a79ed745575c70e00e33b92620\t2026-07-18T23:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): add safe financial\
@@ -1582,13 +1575,11 @@ recent_commits:
   \ slice governance"
 - "5b6daf124d4b55f3d2d7781d180571c6fb8751fb\t2026-07-18T22:50:23+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(validation): normalize\
   \ R03 domain gate evidence"
-- "ea6e6c96bd4768aeb9a3e9c2c26d26d18649a853\t2026-07-18T22:48:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(continuity): record R03\
-  \ domain module gate"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`e0e1c5fa29de80f7adf275dba41cf832632cdbfdc23061d1c42db2da7bbd0310`
+- 指纹：`5706852f03758a29d47aa0b9a44fa463bdf8ae708e5225654965037cb5131763`
 - 文件数：17
 
 - `CHANGELOG.md`
@@ -3592,61 +3583,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 依据项目所有者长期授权，仅批准CHANGELOG.md单文件范围补充，不扩大产品或发布范围。
   machine_record: .continuity/change_requests/CR-0036.yaml
   document: docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
-- protocol_version: '1.0'
-  cr_id: CR-0047
-  title: R03支付出款后台页面与证书管理交付
-  status: APPROVED
-  created_at: '2026-07-18T15:12:29Z'
-  updated_at: '2026-07-18T15:12:52Z'
-  requester_actor_id: codex
-  approver_actor_id: project-owner
-  task_id: TASK-R03-004
-  session_id: SES-20260718T145327Z-DEA562CB
-  user_request: 先继续推进开发下一个版本，我不让你暂停就不用停止
-  reason: ADM-CONFIG-005和ADM-CONFIG-006由目录占位升级为真实页面，需要更新根CHANGELOG形成用户可见追溯
-  original_rule: TASK-R03-004仅允许会话范围内文件，根CHANGELOG不在初始范围
-  new_rule: 允许本任务更新支付/出款页面、证书客户端与根CHANGELOG，并保留冻结契约不变
-  impact_summary: 新增支付和企业出款真实配置路由、证书元数据上传轮换面板以及冻结API客户端
-  impact:
-    files:
-    - apps/admin-web/src/router.ts
-    - apps/admin-web/src/views/ProviderConfigPage.vue
-    - apps/admin-web/src/components/ProviderCertificatePanel.vue
-    - apps/admin-web/src/services/adminProviderCertificates.ts
-    - apps/admin-web/src/services/adminProviderCertificates.test.ts
-    - apps/admin-web/src/services/idempotency.ts
-    - apps/admin-web/src/services/index.ts
-    - apps/admin-web/src/r03ProviderPage.test.ts
-    - CHANGELOG.md
-    pages:
-    - ADM-CONFIG-005
-    - ADM-CONFIG-006
-    apis:
-    - adminProviderCertificateGetProviderCertificates
-    - adminProviderCertificatePostProviderCertificates
-    - adminProviderCertificatePostProviderCertificatesByIdRotate
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - admin-web 73 tests and production build
-    releases:
-    - R03
-    migration_and_compatibility: 不修改冻结OpenAPI和数据库；旧路由及既有供应商页面保持兼容
-  user_confirmation: 先继续推进开发下一个版本，我不让你暂停就不用停止
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T15:12:52Z'
-    note: 用户已明确要求持续推进下一版本并自行决定常规实现，批准当前R03用户可见页面和追溯更新
-  machine_record: .continuity/change_requests/CR-0047.yaml
-  document: docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `04c48ef8087599bf1ef602b43c959fe095ad44b17948c31076209809d261d56e`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `59a11e8f800cab7e8bd4357c0f15d4487a4ae9eb37285a92b1ea27de5b83cb5b`
+- `CURRENT_STATUS.yaml` — `086a342f3d08860a20b989a2aae9ae88e08ae7aba25f1a66e89a8417728101ba`
 - `NEXT_TASK.yaml` — `c9c593bbc5b7d4c5fae412733ffb2baa29f0ad6466004a479fca4bccb1152877`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3657,21 +3600,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `de19045f455501f77bc8679366433b330c30b85f33073bb823067912c2721259`
-- `.continuity/EVENT_LOG.jsonl` — `ecff8299451dee3446c03f00a724c9cfe96149f1add64ff66c56c63f2966a75b`
-- `.continuity/SESSION_INDEX.yaml` — `0210f87f1178cbb9fcdedf0a6d5d4c55f9aa3bc85cc5e21a4a2738b59aa3d470`
+- `.continuity/EVENT_LOG.jsonl` — `727077419a13ddc165cb08dfb64988996758faf2a2ddacf575f3f61cb346248a`
+- `.continuity/SESSION_INDEX.yaml` — `7e9cc9a54c39a24c3e211daec695e32c1a32d5a31f34ef9f672fa8fe5ce1a234`
 - `.continuity/TASK_CLAIMS.yaml` — `f8c2312feb109e448077817b54a722870eaf24a3fca8521fb890ba983f83ef50`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b3baede05e075e61bc021daba12962a665045f063a19f1aad80c224aa09493ba`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `10887ff81c9a1c1ea158d0e6ad5651d5f232fd47601cda3684dac65f6ff1c37e`
-- `.continuity/ACTIVE_SESSION.yaml` — `27f33b5b6de5279a346f13e7067583f5f95fa85cb90a23dfda82c91207b888bf`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e540795ef9d6c7a461c942bfb601978414508779cc5bf8a7271df702fef01699`
+- `.continuity/ACTIVE_SESSION.yaml` — `35a951970393a5f5481512b07e37d9ac4f81d932487e653b724a9496ca355875`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `95fda8c37b0da8f734a40e2d0afd252d0e600f1894ef7c9e3055c42fc809702d`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `2ad175f8ded2d53496bb90ea3763c089862235c0abb238ecf68ff440a680a952`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md` — `1999d4368e4cf6943d63a2d7fb29386f07b02fb1220fb6f38ef234ab6cd1a553`
-- `.continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0005.yaml` — `54c3e527fe6af13b3ddf99f8b829a0e41e61b4a253f344b18c2fff3ce83ff132`
-- `docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md` — `e12f3071c857cfa4e6694b27dcf3552b28cd0f3fcaf83ee525dcfba826c3bfc7`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md` — `b9236c2cd9596ea0a86b0367d1dc512cbba9484852a853e315c3909e57618b15`
+- `.continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0006.yaml` — `c7c5962f1973b846b54f4ca1b6995598bc77e85f28a2fdd4cc2613ca670c02be`
+- `docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md` — `2f7c2d8c17737c917678c5351d972a12aa5b272ef8da6693c6f070e71cb79039`
 
 ## 接手硬规则
 

@@ -2695,9 +2695,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0047
   title: R03支付出款后台页面与证书管理交付
-  status: APPROVED
+  status: CLOSED
   created_at: '2026-07-18T15:12:29Z'
-  updated_at: '2026-07-18T15:12:52Z'
+  updated_at: '2026-07-18T15:16:48Z'
   requester_actor_id: codex
   approver_actor_id: project-owner
   task_id: TASK-R03-004
@@ -2740,3 +2740,23 @@ change_requests:
     note: 用户已明确要求持续推进下一版本并自行决定常规实现，批准当前R03用户可见页面和追溯更新
   machine_record: .continuity/change_requests/CR-0047.yaml
   document: docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md
+  decision_log:
+  - at: '2026-07-18T15:16:46Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已进入受批准范围实施，页面和证书客户端实现已提交
+    session_id: SES-20260718T145327Z-DEA562CB
+  - at: '2026-07-18T15:16:47Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 支付/出款页面、证书客户端和CHANGELOG已实现，Admin 73项测试与生产构建通过
+    session_id: SES-20260718T145327Z-DEA562CB
+  - at: '2026-07-18T15:16:48Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 实现已推送，后端全量182项测试及R03严格文档门禁通过
+    session_id: SES-20260718T145327Z-DEA562CB
+  implementation_commits:
+  - b3a90b52062bd227ac40c4f6a9d6e7c7282de43e
+  session_ids:
+  - SES-20260718T145327Z-DEA562CB
