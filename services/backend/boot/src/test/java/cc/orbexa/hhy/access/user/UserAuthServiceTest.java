@@ -203,6 +203,29 @@ class UserAuthServiceTest {
                 eq(94L), eq("user-auth-session-v1:ok"), eq("user-auth-session-v1"), anyString());
     }
 
+    @Test
+    void passwordLoginLocksAccountAfterConfiguredFailureThresholdWithoutCreatingSession() {
+        PasswordLoginRequest request = new PasswordLoginRequest(
+                "13800000000", "WrongPass99", "challenge-2", "proof-2", Map.of());
+        when(repository.claimIdempotency(anyString(), eq("password-idem-key-0002"), anyString(), any(Instant.class)))
+                .thenReturn(new UserAuthStore.IdempotencyClaim(
+                        new UserAuthStore.IdempotencyRow(95L, "request-hash", null, null, null), false));
+        when(repository.findCredentialForUpdate("13800000000")).thenReturn(Optional.of(
+                new UserAuthStore.CredentialRow(17L, "ACTIVE", 71L, "bcrypt-hash", 2, null)));
+        when(passwords.matches("WrongPass99", "bcrypt-hash")).thenReturn(false);
+        when(policy.passwordMaxFailures()).thenReturn(3);
+        when(policy.passwordLockDuration()).thenReturn(Duration.ofMinutes(10));
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> service.passwordLogin(request, "password-idem-key-0002", "203.0.113.7"));
+
+        assertEquals("COMMON-401-UNAUTHENTICATED", error.code());
+        verify(verification).verifyChallenge("challenge-2", "proof-2", UserAuthContracts.AuthScene.LOGIN);
+        verify(repository).recordPasswordFailure(71L, 3, NOW.plus(Duration.ofMinutes(10)));
+        verify(repository, never()).createSession(anyLong(), any(), anyString(), anyString(), any(Instant.class));
+        verify(repository).abandonIdempotency(95L);
+    }
+
     private static UserAuthProperties properties() {
         return new UserAuthProperties(
                 "test-only-user-jwt-secret-at-least-32-characters",
