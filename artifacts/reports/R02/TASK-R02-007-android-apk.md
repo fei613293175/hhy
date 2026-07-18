@@ -12,24 +12,24 @@
 
 | 项目 | 值 |
 | --- | --- |
-| 源码 Commit | `2bbfa9b7c6cb52457841a8cdd1a0e12b467de494` |
-| APK 文件 | `hhy-r02-2bbfa9b-debug.apk` |
+| 源码 Commit | `7b425c4e4ca7aa53eef142fd00172bbdc761afd5` |
+| APK 文件 | `hhy-r02-7b425c4-debug.apk` |
 | 包名 | `cc.orbexa.hhy.debug` |
 | 应用名称 | `合伙云 Pro 测试` |
 | versionName / versionCode | `1.2.2-debug` / `10202` |
 | minSdk / targetSdk / compileSdk | `26` / `36` / `37` |
 | APK 大小 | `11,923,821` bytes |
-| APK SHA-256 | `0ae7d292097d2b0bb5aaff1873229a1a766218500d1fe0f62494fb34109a66af` |
+| APK SHA-256 | `3104c3de17efc175512a7e4466844450362285ad79b03d7c3e845e72dcbb9768` |
 | 签名证书 SHA-256 | `f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873` |
 | API Base URL | `https://api.orbexa.cc` |
-| 桌面副本 | `C:\Users\小白\Desktop\hhy-r02-2bbfa9b-debug.apk` |
-| 下载地址 | `https://download.orbexa.cc/r02-artifacts/hhy-r02-2bbfa9b-debug.apk` |
+| 桌面副本 | `C:\Users\小白\Desktop\hhy-r02-7b425c4-debug.apk` |
+| 下载地址 | `https://download.orbexa.cc/r02-artifacts/hhy-r02-7b425c4-debug.apk` |
 
 ## 工具链与构建
 
-固定镜像为 `hhy-android-toolchain:r01-46fb273`，镜像摘要为 `sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607`。源码归档 SHA-256 为 `3f818101871a192d6cbb24c9630483fa08f76c535e2b00c0a45ed59239f1c308`。
+固定镜像为 `hhy-android-toolchain:r01-46fb273`，镜像摘要为 `sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607`。源码归档 SHA-256 为 `6cba3726ee0da3900cdf7cdab2c4aa3a9dd393226897b1a513056dbeaee153ec`。
 
-执行 `testDebugUnitTest lintDebug assembleDebug`，结果为 `BUILD SUCCESSFUL in 1m 29s`，共 `289 actionable tasks`。完整日志见 `artifacts/validation/r02-task007-android/gradle-build.log`。
+从精确 Commit 执行 `testDebugUnitTest lintDebug assembleDebug`，结果为 `BUILD SUCCESSFUL in 39s`，共 `199 actionable tasks`。完整日志见 `artifacts/validation/r02-task007-android/gradle-build.log`。
 
 首次正式构建由 `VersionMetadataTest` 阻止了 Gradle `10202` 与应用内发布策略 `10201` 的漂移；修正、登记问题并加入显式回归断言后才重新构建。失败 APK 未交付。
 
@@ -42,6 +42,7 @@
 - `https://api.orbexa.cc/public-api/v1/platform/status`、`registration-config` 与 `security-challenges`：全部返回 HTTP 200；后端已从旧P00旁路升级到R02并完成Flyway V018。
 - 交付脚本首次公网校验发现公开目录错误继承 `umask 077` 为 700，已修复为公开目录 755、私有上传暂存目录 700并增加回归测试；失败上传被自动回撤。
 - 修复后 `prepare` 与独立 `verify` 均 PASS，HTTPS 完整下载为 200，Range 验证为 206。
+- 新后端镜像 `hhy-backend-r02:7b425c4` readiness 为 `UP`；公开安全挑战门禁已解码响应并确认 `PNG 160x56`，不再只判断 Base64 字段非空。
 
 ## 真机首轮反馈与修复
 
@@ -53,4 +54,4 @@
 
 ## 待完成门禁
 
-必须从包含 PNG 与自动触发修复的新 Commit 重新构建、签名和四方哈希交付 APK。项目所有者看到真实四位验证码并完成登录/注册入口复测后，才执行 `accept`、关闭 TASK-R02-007 并进入 TASK-R02-008。
+包含 PNG 与自动触发修复的 `7b425c4` 已重新构建、固定签名并完成桌面/仓库/服务器/HTTPS 四方哈希交付，机器状态为 `PASS`、真机状态为 `PENDING`。项目所有者看到真实四位验证码并完成登录/注册入口复测后，才执行 `accept`、关闭 TASK-R02-007 并进入 TASK-R02-008。

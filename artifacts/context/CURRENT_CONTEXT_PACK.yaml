@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-18T12:51:24Z'
+generated_at: '2026-07-18T13:03:21Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -52,7 +52,7 @@ current_status:
   - TASK-R02-007
   blocked_tasks: []
   next_task: TASK-R02-007
-  updated_at: '2026-07-18T12:51:22Z'
+  updated_at: '2026-07-18T13:03:19Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -87,15 +87,15 @@ current_status:
     active_session_id: SES-20260718T105025Z-0B8DE284
     actor_id: codex-root
     story_id: STORY-R02-009
-    lease_expires_at: '2026-07-18T16:51:22Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0009.yaml
-    project_fingerprint: 21e0ee679d1e8b71de53384bfd4286f1cc4fd8f2aebb183539cf7c74a9786f74
+    lease_expires_at: '2026-07-18T17:03:19Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0010.yaml
+    project_fingerprint: d6139742b89070471d88274a4edc17c6478ca2f6818c486a30dd9e5971678564
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: a5f36fe4f11b416cd0ae11706e8b4cdf4500f0a2ab7086dda3741730071f3041
-      generated_at: '2026-07-18T12:39:00Z'
+      context_hash: a9a2a33fb946b73b98e1ddd990638992ace8b55431b00b352783ca1fb2b9baac
+      generated_at: '2026-07-18T12:51:24Z'
     handoff_bundle: null
 next_task:
   id: TASK-R02-007
@@ -147,7 +147,7 @@ active_session:
   story_id: STORY-R02-009
   goal: 使用固定Android工具链和稳定测试签名构建R02 APK，验证真实API地址、签名、安装可行性、桌面与下载产物哈希并生成完整追溯清单
   started_at: '2026-07-18T10:50:25Z'
-  updated_at: '2026-07-18T12:51:22Z'
+  updated_at: '2026-07-18T13:03:19Z'
   takeover_of: null
   change_requests:
   - CR-0042
@@ -208,12 +208,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-18T12:51:22Z'
-    expires_at: '2026-07-18T16:51:22Z'
-  checkpoint_sequence: 9
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0009.yaml
+    renewed_at: '2026-07-18T13:03:19Z'
+    expires_at: '2026-07-18T17:03:19Z'
+  checkpoint_sequence: 10
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0010.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md
-  next_step: 提交并推送源码修复，部署新后端并验证公网PNG，再从精确Commit构建签名APK和完成四方哈希交付
+  next_step: 等待项目所有者安装hhy-r02-7b425c4-debug.apk，验证点击登录自动出现真实四位验证码；通过后accept并关闭TASK-R02-007进入TASK-R02-008
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -221,59 +221,53 @@ active_session:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 后端格式、Android交互、公网部署与同一APK交付构成单一顺序依赖链，当前步骤不存在可安全并行的互斥写入范围
+    reason: 公开服务切换、精确提交构建、固定签名和同一版本四方交付必须串行，避免产物与运行时不一致
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260718T105025Z-0B8DE284-0009
+  checkpoint_id: CP-SES-20260718T105025Z-0B8DE284-0010
   session_id: SES-20260718T105025Z-0B8DE284
-  sequence: 9
-  created_at: '2026-07-18T12:51:22Z'
-  summary: 修复第二轮真机反馈：后端安全挑战改为可被Android解码的160x56真实PNG，认证与注销页面移除创建安全验证技术按钮并由登录/发送验证码自动触发
-  next_step: 提交并推送源码修复，部署新后端并验证公网PNG，再从精确Commit构建签名APK和完成四方哈希交付
+  sequence: 10
+  created_at: '2026-07-18T13:03:18Z'
+  summary: 精确提交7b425c4已推送并部署：公网安全挑战通过PNG 160x56门禁；同提交Android APK完成固定签名、桌面仓库服务器HTTPS四方哈希交付和独立复核
+  next_step: 等待项目所有者安装hhy-r02-7b425c4-debug.apk，验证点击登录自动出现真实四位验证码；通过后accept并关闭TASK-R02-007进入TASK-R02-008
   blockers: []
   decisions:
-  - 项目所有者20:35至20:37第二轮真机确认UI与公开连接改善，但2bbfa9b不显示验证码且技术按钮不可理解，因此该APK判定FAILED、禁止accept
+  - 2bbfa9b保持FAILED，不得accept；新7b425c4机器交付PASS但真机状态严格保持PENDING
   note: ''
   tests:
-  - name: backend-challenge-png
+  - name: public-r02-auth-png
     result: PASS
-    evidence: obx-test Maven UserAuthVerificationServiceTest 7 tests
-    note: PNG签名、160x56 IHDR和非数字拒绝通过
-  - name: android-auth-auto-challenge
+    evidence: scripts/check_r02_public_auth.py https://api.orbexa.cc
+    note: registration和challenge均200且图片PNG 160x56
+  - name: exact-commit-android-build
     result: PASS
-    evidence: obx-test Gradle testDebugUnitTest lintDebug assembleDebug
-    note: BUILD SUCCESSFUL 199 tasks
-  - name: r02-auth-static
+    evidence: obx-test 7b425c4 Gradle log
+    note: BUILD SUCCESSFUL 39s 199 tasks
+  - name: stable-apk-signing
     result: PASS
-    evidence: python -m unittest tests.test_r02_auth_slice_contract -v
-    note: 12 tests通过且无创建安全验证按钮
-  - name: ui-token-gate
+    evidence: apksigner verify hhy-r02-7b425c4-debug.apk
+    note: v2 v3 单签名者 指纹f17b0407
+  - name: apk-four-way-delivery
     result: PASS
-    evidence: scripts/check_ui_tokens.py
-    note: UI_TOKENS_OK 52
+    evidence: deliver_android_test_apk.py prepare and verify
+    note: SHA256 3104c3de17efc175512a7e4466844450362285ad79b03d7c3e845e72dcbb9768
   git:
     initialized: true
     branch: task/TASK-R02-002
-    head: de1b78eab288f71e68a7a00db15b4549a47bc3bf
+    head: 7b425c4e4ca7aa53eef142fd00172bbdc761afd5
     upstream: origin/task/TASK-R02-002
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M .continuity/STATE.yaml'
-    - ' M .continuity/sessions/SES-20260718T105025Z-0B8DE284.yaml'
-    - ' M CHANGELOG.md'
-    - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M artifacts/apk/R02/APK_MANIFEST.yaml'
     - ' M artifacts/reports/R02/TASK-R02-007-android-apk.md'
-    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-    - ' M scripts/check_r02_public_auth.py'
-    - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthVerificationService.java'
-    - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthVerificationServiceTest.java'
-    - ' M tests/test_r02_auth_slice_contract.py'
+    - ' M artifacts/validation/r02-apk-delivery/delivery-evidence.json'
+    - ' M artifacts/validation/r02-task007-android/build-evidence.json'
+    - ' M artifacts/validation/r02-task007-android/gradle-build.log'
     recent_commits:
+    - "7b425c4e4ca7aa53eef142fd00172bbdc761afd5\t2026-07-18T20:52:41+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(auth): render captcha\
+      \ and automate challenge"
     - "de1b78eab288f71e68a7a00db15b4549a47bc3bf\t2026-07-18T20:20:36+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(delivery): replace failed\
       \ R02 test APK"
     - "2bbfa9b7c6cb52457841a8cdd1a0e12b467de494\t2026-07-18T20:05:25+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(auth): align B01 UI\
@@ -288,10 +282,8 @@ latest_checkpoint:
       \ test APK identity"
     - "c82f53671c1184c3bb8612fcbef5e5dd35d4e962\t2026-07-18T18:49:10+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close\
       \ TASK-R02-006 as completed"
-    - "892e4a7bee5e88395e97817db8a67030edd2f135\t2026-07-18T18:48:11+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close\
-      \ R02 integration changes"
   project_fingerprint:
-    sha256: 21e0ee679d1e8b71de53384bfd4286f1cc4fd8f2aebb183539cf7c74a9786f74
+    sha256: d6139742b89070471d88274a4edc17c6478ca2f6818c486a30dd9e5971678564
     files:
     - CHANGELOG.md
     - apps/android/app/build.gradle.kts
@@ -347,7 +339,7 @@ latest_checkpoint:
       - path: artifacts/apk/R02/APK_MANIFEST.yaml
         state: FILE
         size: 673
-        sha256: 98af112ae980f13266948ab1410daeeaff7b142b39106ba71c68f58702077fcc
+        sha256: 0065ed02dd40da8996f6b7d2ac21a0ca3e0bbe6e564176cfcc0e35c67c3dddb2
       - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
         state: FILE
         size: 23714
@@ -485,12 +477,12 @@ latest_checkpoint:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 后端格式、Android交互、公网部署与同一APK交付构成单一顺序依赖链，当前步骤不存在可安全并行的互斥写入范围
-  event_hash: b07f53123837d4b0b5eb03cddc5901116f65f1edf9a054d98fd05be694d48168
+    reason: 公开服务切换、精确提交构建、固定签名和同一版本四方交付必须串行，避免产物与运行时不一致
+  event_hash: 181d922bd137be0458ca8c89dfc4f5c18e834f6a77626245ecc4f6c8147d0cf2
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: de1b78eab288f71e68a7a00db15b4549a47bc3bf
+  head: 7b425c4e4ca7aa53eef142fd00172bbdc761afd5
   upstream: origin/task/TASK-R02-002
   ahead: 0
   behind: 0
@@ -501,22 +493,18 @@ git:
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/sessions/SES-20260718T105025Z-0B8DE284.yaml'
-  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/apk/R02/APK_MANIFEST.yaml'
   - ' M artifacts/reports/R02/TASK-R02-007-android-apk.md'
+  - ' M artifacts/validation/r02-apk-delivery/delivery-evidence.json'
+  - ' M artifacts/validation/r02-task007-android/build-evidence.json'
+  - ' M artifacts/validation/r02-task007-android/gradle-build.log'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md'
-  - ' M scripts/check_r02_public_auth.py'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthVerificationService.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthVerificationServiceTest.java'
-  - ' M tests/test_r02_auth_slice_contract.py'
-  - ?? .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0009.yaml
+  - ?? .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0010.yaml
   recent_commits:
+  - "7b425c4e4ca7aa53eef142fd00172bbdc761afd5\t2026-07-18T20:52:41+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(auth): render captcha\
+    \ and automate challenge"
   - "de1b78eab288f71e68a7a00db15b4549a47bc3bf\t2026-07-18T20:20:36+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(delivery): replace failed\
     \ R02 test APK"
   - "2bbfa9b7c6cb52457841a8cdd1a0e12b467de494\t2026-07-18T20:05:25+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(auth): align B01 UI and\
@@ -531,10 +519,8 @@ git:
     \ APK identity"
   - "c82f53671c1184c3bb8612fcbef5e5dd35d4e962\t2026-07-18T18:49:10+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close TASK-R02-006\
     \ as completed"
-  - "892e4a7bee5e88395e97817db8a67030edd2f135\t2026-07-18T18:48:11+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close R02\
-    \ integration changes"
 project_fingerprint:
-  sha256: 21e0ee679d1e8b71de53384bfd4286f1cc4fd8f2aebb183539cf7c74a9786f74
+  sha256: d6139742b89070471d88274a4edc17c6478ca2f6818c486a30dd9e5971678564
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -590,7 +576,7 @@ project_fingerprint:
     - path: artifacts/apk/R02/APK_MANIFEST.yaml
       state: FILE
       size: 673
-      sha256: 98af112ae980f13266948ab1410daeeaff7b142b39106ba71c68f58702077fcc
+      sha256: 0065ed02dd40da8996f6b7d2ac21a0ca3e0bbe6e564176cfcc0e35c67c3dddb2
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
       size: 23714
@@ -2134,8 +2120,8 @@ continuity_state:
   last_session_id: SES-20260718T084729Z-BD53B7C4
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0013
-  event_count: 497
-  event_head_hash: b07f53123837d4b0b5eb03cddc5901116f65f1edf9a054d98fd05be694d48168
+  event_count: 498
+  event_head_hash: 181d922bd137be0458ca8c89dfc4f5c18e834f6a77626245ecc4f6c8147d0cf2
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260717T171412Z-7CD86701
@@ -2254,9 +2240,9 @@ recent_sessions:
   started_at: '2026-07-18T10:50:25Z'
   record: .continuity/sessions/SES-20260718T105025Z-0B8DE284.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md
-  updated_at: '2026-07-18T12:51:22Z'
+  updated_at: '2026-07-18T13:03:19Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0009.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0010.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-F706F445AEA2
@@ -4175,7 +4161,7 @@ source_manifest:
   sha256: 26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0
   bytes: 3190
 - path: CURRENT_STATUS.yaml
-  sha256: 8173e17e845e6b9dc41219ed61425d907ee1c42d7a1b5a37d23f50e02c6863f5
+  sha256: 14b136c0ae51ecbeccd2952b7cbdedc48eca3b2d8251d5ba0c32c41ff0d4de01
   bytes: 3260
 - path: NEXT_TASK.yaml
   sha256: 904efcedb858e683cf980413d2116efad899451db3d32663c7ae9cd93ba11ce6
@@ -4208,10 +4194,10 @@ source_manifest:
   sha256: b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7
   bytes: 9739
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 78cd9484346754ca842e055a332211704a43b08de183d8dd299f52da9a48548d
-  bytes: 272777
+  sha256: 4327bcda922c021653a05e4af8ddd53215a7830989434d2f71d9711b778c07c2
+  bytes: 273618
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: b7bd935547ffa048984336935a53c0b719864b7703296a13c54c74d3f0f08eb3
+  sha256: 65126bae887cebc5d2a3371281405243977113eca52dcf2de5ea975300084b91
   bytes: 13258
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: f769d7ab1960df4368130d4014f7539139ad0258bc217d6965afaee608251b04
@@ -4223,7 +4209,7 @@ source_manifest:
   sha256: d41fbb17dcdaeef02230305f83f4c11d75ae8eb4461946b1af40ed7b489c0f7e
   bytes: 130225
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 18bcd0ae62da3b1eeeba6173f6e4b57334d4465c60d81c4506b434fc6c0a375c
+  sha256: 5876e26c46199244e1ec3299167e22e44e6572479f94260e7fcbb5292c46355e
   bytes: 525
 - path: releases/R02/RELEASE_MANIFEST.yaml
   sha256: 18bddf632011b122311da03f361f90a853bc7469f7af784900d49e30c1cb5633
@@ -4244,11 +4230,11 @@ source_manifest:
   sha256: c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184
   bytes: 2849
 - path: docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md
-  sha256: 3d844bcca83ba4726f0a8cb6447eaa7d31b2c4865a82d4692483073fea1799a3
-  bytes: 15073
-- path: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0009.yaml
-  sha256: 77db330290a1da2f3cfdec776779a517e2bb1e541f42d1864974a598cd08d12e
-  bytes: 11957
+  sha256: 70f0c43449e1a32d91fe0f81dd3cda31141b0616395086d4dd21f1fb763dd4d7
+  bytes: 17370
+- path: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0010.yaml
+  sha256: d0934a6498022c1e4e26b9dd43c573516cd6d01d0649f60c9bce4e58b8c91c0b
+  bytes: 11460
 - path: docs/03-continuity/change-requests/CR-0042-TASK-R02-007允许写入APK交付与追溯证据.md
   sha256: f741747a857d81238a5ba72c9412d575bcfba43276b82512f9c5a791226c9964
   bytes: 2264
@@ -4269,4 +4255,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: a9a2a33fb946b73b98e1ddd990638992ace8b55431b00b352783ca1fb2b9baac
+context_hash: 4d5fec14aaefc57b933de936c159861af5f473c372809a7a10876e73eb954ee1
