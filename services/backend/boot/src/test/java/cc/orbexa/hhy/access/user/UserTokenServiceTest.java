@@ -1,14 +1,19 @@
 package cc.orbexa.hhy.access.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Base64;
 import org.junit.jupiter.api.Test;
 
 class UserTokenServiceTest {
+    private static final String BASE64_URL_ALPHABET =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+
     @Test
     void accessTokenRoundTripsWithSessionBindingClaims() {
         UserTokenService tokens = new UserTokenService(new ObjectMapper(), properties());
@@ -25,13 +30,21 @@ class UserTokenServiceTest {
     }
 
     @Test
-    void rejectsTamperedAccessTokenWithoutParsingDetails() {
+    void rejectsNonCanonicalSignatureEncodingEvenWhenBytesAreUnchanged() {
         UserTokenService tokens = new UserTokenService(new ObjectMapper(), properties());
         String token = tokens.issueAccess(17L, 23L, 4L, "access-jti-17", Instant.now().plusSeconds(300));
-        char replacement = token.charAt(token.length() - 1) == 'A' ? 'B' : 'A';
+        String[] parts = token.split("\\.");
+        String signature = parts[2];
+        int canonicalIndex = BASE64_URL_ALPHABET.indexOf(signature.charAt(signature.length() - 1));
+        assertEquals(0, canonicalIndex & 3);
+        String nonCanonicalSignature = signature.substring(0, signature.length() - 1)
+                + BASE64_URL_ALPHABET.charAt(canonicalIndex | 1);
+        assertArrayEquals(
+                Base64.getUrlDecoder().decode(signature),
+                Base64.getUrlDecoder().decode(nonCanonicalSignature));
 
         assertThrows(UserTokenService.InvalidAccessTokenException.class,
-                () -> tokens.parseAccess(token.substring(0, token.length() - 1) + replacement));
+                () -> tokens.parseAccess(parts[0] + "." + parts[1] + "." + nonCanonicalSignature));
     }
 
     private static UserAuthProperties properties() {

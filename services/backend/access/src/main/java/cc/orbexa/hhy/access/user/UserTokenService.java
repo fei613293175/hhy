@@ -72,7 +72,10 @@ public final class UserTokenService {
             byte[] expected = hmac(properties.jwtSecret(), (parts[0] + "." + parts[1])
                     .getBytes(StandardCharsets.US_ASCII));
             byte[] actual = BASE64_DECODER.decode(parts[2]);
-            if (!MessageDigest.isEqual(expected, actual)) throw invalidAccessToken();
+            if (!BASE64.encodeToString(actual).equals(parts[2])
+                    || !MessageDigest.isEqual(expected, actual)) {
+                throw invalidAccessToken();
+            }
             AccessClaims claims = objectMapper.readValue(BASE64_DECODER.decode(parts[1]), AccessClaims.class);
             if (!properties.issuer().equals(claims.iss())
                     || !"ACCESS".equals(claims.typ())

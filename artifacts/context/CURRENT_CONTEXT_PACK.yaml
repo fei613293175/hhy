@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-18T09:08:03Z'
+generated_at: '2026-07-18T09:23:28Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -51,7 +51,7 @@ current_status:
   - TASK-R02-006
   blocked_tasks: []
   next_task: TASK-R02-006
-  updated_at: '2026-07-18T09:08:02Z'
+  updated_at: '2026-07-18T09:23:26Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -86,15 +86,15 @@ current_status:
     active_session_id: SES-20260718T084729Z-BD53B7C4
     actor_id: codex-root
     story_id: STORY-R02-009
-    lease_expires_at: '2026-07-18T13:08:02Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0003.yaml
-    project_fingerprint: ba9a163fbdc9bd1d5af7e99df65c34ec4db94b54d9ed50265ff955223ca4c784
+    lease_expires_at: '2026-07-18T13:23:26Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0005.yaml
+    project_fingerprint: eac49981bf7dbb5bda644eb2c784df633646cc077e435cc5f17c0c2ffb0a16db
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 10715c54b7066edff2ec31626907eebabd312c66276183c5a9511cafd4595922
-      generated_at: '2026-07-18T09:06:46Z'
+      context_hash: 510e42e59f28e7272933c2398e08fe4246331443958d543594df1eca2549d19b
+      generated_at: '2026-07-18T09:20:21Z'
     handoff_bundle: null
 next_task:
   id: TASK-R02-006
@@ -153,7 +153,7 @@ active_session:
   story_id: STORY-R02-009
   goal: 汇合R02四个纵向批次，执行25项权威测试、故障注入、可观测性和预发布验收并归档证据。
   started_at: '2026-07-18T08:47:29Z'
-  updated_at: '2026-07-18T09:08:02Z'
+  updated_at: '2026-07-18T09:23:26Z'
   takeover_of: null
   change_requests:
   - CR-0039
@@ -209,12 +209,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-18T09:08:02Z'
-    expires_at: '2026-07-18T13:08:02Z'
-  checkpoint_sequence: 3
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0003.yaml
+    renewed_at: '2026-07-18T09:23:26Z'
+    expires_at: '2026-07-18T13:23:26Z'
+  checkpoint_sequence: 5
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0005.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-  next_step: 提交本轮集成修正，随后执行continuity、backend、database和android服务器集成作业并建立25项证据矩阵
+  next_step: 提交PROB-0019、令牌验签和确定性回归测试，随后按提交SHA重跑全量后端并归档证据
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -222,82 +222,55 @@ active_session:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 本轮由完整集成测试串行暴露并修正同一R02事实链的连续漂移，CR、派生计划和事实分支必须由主控一致更新；下一轮按独立作业并行机会重新评估
+    reason: 生产验签、唯一回归类和问题登记构成一个原子安全修复提交
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0003
+  checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0005
   session_id: SES-20260718T084729Z-BD53B7C4
-  sequence: 3
-  created_at: '2026-07-18T09:08:01Z'
-  summary: TASK-R02-006本地contracts、web与tooling首轮集成完成，四类漂移修正及变更日志同步完毕
-  next_step: 提交本轮集成修正，随后执行continuity、backend、database和android服务器集成作业并建立25项证据矩阵
+  sequence: 5
+  created_at: '2026-07-18T09:23:26Z'
+  summary: PROB-0019登记完成并将非规范Base64URL等价签名构造成确定性安全回归测试
+  next_step: 提交PROB-0019、令牌验签和确定性回归测试，随后按提交SHA重跑全量后端并归档证据
   blockers: []
   decisions:
-  - CR-0039同步R02精确端点计数为20；CR-0040重生成派生滚动总计划；CR-0041仅授权CHANGELOG治理记录
-  note: 首次7个Git环境错误和2个真实失败、第二次1个派生计划失败已修正；最终95项通过
+  - 回归测试必须证明被篡改签名文本与规范签名解码字节相同但仍被拒绝
+  note: 补齐提交门禁要求；未绕过Problem Registry或回归测试
   tests:
-  - name: r02-auth-contract
+  - name: user-token-canonical-regression
     result: PASS
-    evidence: 'tests.test_r02_auth_slice_contract: 9 tests'
-    note: 受限刷新契约一致
-  - name: integration-contracts
+    evidence: 'obx-test Maven UserTokenServiceTest: 2 tests'
+    note: 确定性非规范等价编码被拒绝
+  - name: problem-registry
     result: PASS
-    evidence: strict documentation plus generated assets
-    note: 199表316 REST且生成资产一致
-  - name: integration-web
-    result: PASS
-    evidence: pnpm recursive typecheck
-    note: api/domain/admin/h5类型通过
-  - name: ui-token
-    result: PASS
-    evidence: 'tests.test_ui_tokens: 5 tests'
-    note: H5无原始色值
-  - name: program-plan
-    result: PASS
-    evidence: check_program_execution_plan and 6 tests
-    note: 31版本派生计划一致
-  - name: integration-python
-    result: PASS
-    evidence: 'unittest discover: 95 tests, 5 skipped'
-    note: 完整tooling测试面通过
+    evidence: docs/03-continuity/PROBLEM_REGISTRY.yaml PROB-0019
+    note: 根因、修复和防复发规则齐全
   git:
     initialized: true
     branch: task/TASK-R02-002
-    head: 6d1cb7eaf2064311ce4a841807dd4a31a3548124
+    head: 61d125dc354803d943d9881e81cfb9c8a291dd97
     upstream: origin/task/TASK-R02-002
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M .continuity/ACTIVE_SESSION.yaml'
-    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-    - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/SESSION_INDEX.yaml'
-    - ' M .continuity/STATE.yaml'
-    - ' M .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml'
-    - ' M CHANGELOG.md'
-    - ' M CURRENT_STATUS.yaml'
-    - ' M apps/h5/src/styles.css'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-    - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
-    - ' M catalogs/change_request_index.csv'
-    - ' M catalogs/session_index.csv'
-    - ' M docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md'
-    - ' M releases/PROGRAM_EXECUTION_PLAN.yaml'
-    - ' M releases/R02/DEFINITION_OF_READY.yaml'
-    - ' M releases/R02/RELEASE_MANIFEST.yaml'
-    - ' M releases/R02/TASKS.yaml'
-    - ' M tests/test_generated_assets.py'
-    - ?? .continuity/change_requests/CR-0039.yaml
-    - ?? .continuity/change_requests/CR-0040.yaml
-    - ?? .continuity/change_requests/CR-0041.yaml
-    - ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0002.yaml
-    - ?? docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
-    - ?? docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
-    - ?? docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
+    - M  .continuity/ACTIVE_SESSION.yaml
+    - M  .continuity/EVENT_LOG.jsonl
+    - M  .continuity/SESSION_INDEX.yaml
+    - M  .continuity/STATE.yaml
+    - A  .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0004.yaml
+    - M  .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
+    - M  CURRENT_STATUS.yaml
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+    - M  catalogs/session_index.csv
+    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+    - M  docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
+    - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+    - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java'
     recent_commits:
+    - "61d125dc354803d943d9881e81cfb9c8a291dd97\t2026-07-18T17:08:24+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): align\
+      \ R02 release facts"
     - "6d1cb7eaf2064311ce4a841807dd4a31a3548124\t2026-07-18T16:49:24+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(auth): align restricted\
       \ refresh contract"
     - "342e70b9ceb649821e08b3977abd8bef31cfd45b\t2026-07-18T16:45:40+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close\
@@ -312,13 +285,12 @@ latest_checkpoint:
       \ CR-0037"
     - "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user\
       \ control operations"
-    - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
-      \ read views"
   project_fingerprint:
-    sha256: ba9a163fbdc9bd1d5af7e99df65c34ec4db94b54d9ed50265ff955223ca4c784
+    sha256: eac49981bf7dbb5bda644eb2c784df633646cc077e435cc5f17c0c2ffb0a16db
     files:
     - CHANGELOG.md
     - apps/h5/src/styles.css
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
     - docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
     - docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
@@ -326,9 +298,11 @@ latest_checkpoint:
     - releases/R02/DEFINITION_OF_READY.yaml
     - releases/R02/RELEASE_MANIFEST.yaml
     - releases/R02/TASKS.yaml
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
     - tests/test_generated_assets.py
     - tests/test_r02_auth_slice_contract.py
-    file_count: 11
+    file_count: 14
     payload:
       base_commit: 342e70b9ceb649821e08b3977abd8bef31cfd45b
       files:
@@ -340,6 +314,10 @@ latest_checkpoint:
         state: FILE
         size: 6209
         sha256: ac0f5bbbead5925439fec133f1b4610f057baec71e2b0bc1c50fa6fcd3c427f3
+      - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+        state: FILE
+        size: 16007
+        sha256: 20dc7cf5a24e22c033a5102a8e85432f4ebf3f33c0773c77f462ef2778eb5a65
       - path: docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
         state: FILE
         size: 2122
@@ -368,6 +346,14 @@ latest_checkpoint:
         state: FILE
         size: 7545
         sha256: 234fa8e540106bcbed790b160e4d2d343ea6370630744c104e0bc6c57fc5f429
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+        state: FILE
+        size: 6636
+        sha256: 0928b9e19608b05dde6901a0b82afeffabe394080e0d96045cbb792011c2c0d3
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+        state: FILE
+        size: 2589
+        sha256: 69c46b58387631c182242f5682231fdbe5751e49f7c6dc82070a61e94223a22b
       - path: tests/test_generated_assets.py
         state: FILE
         size: 3375
@@ -383,9 +369,12 @@ latest_checkpoint:
     - releases/R02/TASKS.yaml
     code:
     - apps/h5/src/styles.css
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
     user_visible:
     - apps/h5/src/styles.css
     continuity:
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
     - docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
     - docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
@@ -452,47 +441,36 @@ latest_checkpoint:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 本轮由完整集成测试串行暴露并修正同一R02事实链的连续漂移，CR、派生计划和事实分支必须由主控一致更新；下一轮按独立作业并行机会重新评估
-  event_hash: 3af69a12250d7d77efbb908b7bed641ed38ff70e9633a81d879d3961dc007913
+    reason: 生产验签、唯一回归类和问题登记构成一个原子安全修复提交
+  event_hash: d077e34bf1e21200865b87d691d82e6feebd10bc4a13babeb2876a287f7d8892
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: 6d1cb7eaf2064311ce4a841807dd4a31a3548124
+  head: 61d125dc354803d943d9881e81cfb9c8a291dd97
   upstream: origin/task/TASK-R02-002
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M apps/h5/src/styles.css'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md'
-  - ' M releases/PROGRAM_EXECUTION_PLAN.yaml'
-  - ' M releases/R02/DEFINITION_OF_READY.yaml'
-  - ' M releases/R02/RELEASE_MANIFEST.yaml'
-  - ' M releases/R02/TASKS.yaml'
-  - ' M tests/test_generated_assets.py'
-  - ?? .continuity/change_requests/CR-0039.yaml
-  - ?? .continuity/change_requests/CR-0040.yaml
-  - ?? .continuity/change_requests/CR-0041.yaml
-  - ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0002.yaml
-  - ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0003.yaml
-  - ?? docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
-  - ?? docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
-  - ?? docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
+  - MM .continuity/ACTIVE_SESSION.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - MM .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - A  .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0004.yaml
+  - MM .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
+  - MM CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - MM catalogs/session_index.csv
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - MM docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
+  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java'
+  - ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0005.yaml
   recent_commits:
+  - "61d125dc354803d943d9881e81cfb9c8a291dd97\t2026-07-18T17:08:24+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): align R02\
+    \ release facts"
   - "6d1cb7eaf2064311ce4a841807dd4a31a3548124\t2026-07-18T16:49:24+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(auth): align restricted\
     \ refresh contract"
   - "342e70b9ceb649821e08b3977abd8bef31cfd45b\t2026-07-18T16:45:40+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close TASK-R02-005\
@@ -505,13 +483,12 @@ git:
   - "6d28613c19d0f64986aac5b4d7a51276bd3ff440\t2026-07-18T16:14:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close CR-0037"
   - "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user\
     \ control operations"
-  - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
-    \ read views"
 project_fingerprint:
-  sha256: ba9a163fbdc9bd1d5af7e99df65c34ec4db94b54d9ed50265ff955223ca4c784
+  sha256: eac49981bf7dbb5bda644eb2c784df633646cc077e435cc5f17c0c2ffb0a16db
   files:
   - CHANGELOG.md
   - apps/h5/src/styles.css
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
   - docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
   - docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
@@ -519,9 +496,11 @@ project_fingerprint:
   - releases/R02/DEFINITION_OF_READY.yaml
   - releases/R02/RELEASE_MANIFEST.yaml
   - releases/R02/TASKS.yaml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
   - tests/test_generated_assets.py
   - tests/test_r02_auth_slice_contract.py
-  file_count: 11
+  file_count: 14
   payload:
     base_commit: 342e70b9ceb649821e08b3977abd8bef31cfd45b
     files:
@@ -533,6 +512,10 @@ project_fingerprint:
       state: FILE
       size: 6209
       sha256: ac0f5bbbead5925439fec133f1b4610f057baec71e2b0bc1c50fa6fcd3c427f3
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 16007
+      sha256: 20dc7cf5a24e22c033a5102a8e85432f4ebf3f33c0773c77f462ef2778eb5a65
     - path: docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
       state: FILE
       size: 2122
@@ -561,6 +544,14 @@ project_fingerprint:
       state: FILE
       size: 7545
       sha256: 234fa8e540106bcbed790b160e4d2d343ea6370630744c104e0bc6c57fc5f429
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+      state: FILE
+      size: 6636
+      sha256: 0928b9e19608b05dde6901a0b82afeffabe394080e0d96045cbb792011c2c0d3
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+      state: FILE
+      size: 2589
+      sha256: 69c46b58387631c182242f5682231fdbe5751e49f7c6dc82070a61e94223a22b
     - path: tests/test_generated_assets.py
       state: FILE
       size: 3375
@@ -2067,8 +2058,8 @@ continuity_state:
   last_session_id: SES-20260718T081744Z-71EAAA84
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260718T081744Z-71EAAA84-0004
-  event_count: 455
-  event_head_hash: 3af69a12250d7d77efbb908b7bed641ed38ff70e9633a81d879d3961dc007913
+  event_count: 457
+  event_head_hash: d077e34bf1e21200865b87d691d82e6feebd10bc4a13babeb2876a287f7d8892
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260717T152721Z-016DB4B2
@@ -2187,9 +2178,9 @@ recent_sessions:
   started_at: '2026-07-18T08:47:29Z'
   record: .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-  updated_at: '2026-07-18T09:08:02Z'
+  updated_at: '2026-07-18T09:23:26Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0005.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-E58E42235FFA
@@ -4216,7 +4207,7 @@ source_manifest:
   sha256: 26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0
   bytes: 3190
 - path: CURRENT_STATUS.yaml
-  sha256: a4c705686edb28be6673a8c2b5ed3936a6bb16b4d707e49e8924e108c834b8e3
+  sha256: aee0b2974068452fcbe96c4ff7ec58c6ed09e1adb3066fecd57109edc1b79e55
   bytes: 3245
 - path: NEXT_TASK.yaml
   sha256: 08706a9f6d63c4f553a340aca63b0b94e46f2b401f3b348fd372d893516a7877
@@ -4228,8 +4219,8 @@ source_manifest:
   sha256: 045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511
   bytes: 1442
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: b12427737bdedd5ae1581ae40b19f57c8ba2e8a56beeb617333611c079f75442
-  bytes: 15125
+  sha256: 20dc7cf5a24e22c033a5102a8e85432f4ebf3f33c0773c77f462ef2778eb5a65
+  bytes: 16007
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
   sha256: 402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1
   bytes: 872
@@ -4249,10 +4240,10 @@ source_manifest:
   sha256: b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7
   bytes: 9739
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 80d434668de307d7b7f832440b3cbbf20fd0bce8242951770756c89c0fc033d8
-  bytes: 248888
+  sha256: 9f6ba0a8c6a0ff4b5c7e615762c2b82c02436471e4cac45d8889a5c8191afc5a
+  bytes: 250287
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 8a8c970fafa7e2472768c11d1c24989ec61009691d8d2fedbe3e6004b0fe4dca
+  sha256: b70314308a47a42fe017a46f43e57a44b7443f4d2b2c9cb8203763522a820972
   bytes: 12756
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 3f2ef2a78deb2e20c2d82e3093e5eb022fa15534950ccd23b2f0a94076bc4239
@@ -4264,7 +4255,7 @@ source_manifest:
   sha256: 5714c0840e347f648524adabdf9ce241786093e66f53ceb6347ae8839f7274ad
   bytes: 122632
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: a10f30e6ebc5bc85ca16c0821f97c292e931b2fdd43fe5ee9921df6b0dbf41c8
+  sha256: a97201fb22157a0b4bc96abab833eeaaa5bc70cb911f974f23e94319005ef0b7
   bytes: 525
 - path: releases/R02/RELEASE_MANIFEST.yaml
   sha256: 18bddf632011b122311da03f361f90a853bc7469f7af784900d49e30c1cb5633
@@ -4285,11 +4276,11 @@ source_manifest:
   sha256: c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184
   bytes: 2849
 - path: docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-  sha256: 9efad193e30f9eec90f017f17af91e9b0acff0ec5c04d6fa119a1bc7c910b57b
-  bytes: 5766
-- path: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0003.yaml
-  sha256: adf64b787f549ee37188bae1c15c483e3914c04ce319ea357ed1c0b38f2b0735
-  bytes: 9253
+  sha256: 11a6d32dd152f722d66f69e8da640002d5cb4a2b104ee42326da801b493ca025
+  bytes: 8890
+- path: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0005.yaml
+  sha256: ef97bff10657167932c60d235a715ba4aa9b30829992945f8c0576ed57f998bc
+  bytes: 8985
 - path: docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
   sha256: 941bdab0b59baca63a321469d2309959fcae7dee37789052b37ee13ea52d0937
   bytes: 2122
@@ -4313,4 +4304,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 5e6c0d92eba671e4c8f4b567a353ead32fde99eba6eab0e90fee5473af6ac8c6
+context_hash: 050be69411d0f7806b4b24034cf328dc9062e12cd06bde2940cb464a058dd510

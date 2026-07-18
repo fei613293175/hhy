@@ -209,3 +209,15 @@ problems:
   do_not_repeat:
   - 不得因WIP或手工构建绕过HHY_API_BASE_URL与内嵌地址检查
   - 不得交付任何包含.example.invalid或.invalid端点的APK
+- id: PROB-0019
+  title: Access Token签名段接受非规范Base64URL编码
+  status: SOLVED
+  root_cause: 令牌验签只比较Base64URL解码后的签名字节；签名末尾未使用位被改写时，文本已被篡改但Java解码器仍可产生相同字节，导致非规范编码被误接受。
+  resolution: 验签前将解码后的签名重新编码并与原始签名段精确比较，只接受无填充Base64URL规范编码，再执行常量时间HMAC字节比较。
+  regression_checks:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+  - obx-test Maven UserTokenServiceTest 2项通过
+  - obx-test Maven verify 129项通过、2项条件式跳过
+  do_not_repeat:
+  - 不得只按解码后字节等价判断JWT文本签名段有效
+  - 所有自定义令牌编码都必须拒绝非规范、带填充或可替代的文本表示
