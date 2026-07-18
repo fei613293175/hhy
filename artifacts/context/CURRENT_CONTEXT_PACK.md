@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T09:23:28Z
-- Context Hash：`050be69411d0f7806b4b24034cf328dc9062e12cd06bde2940cb464a058dd510`
+- 生成时间：2026-07-18T09:43:56Z
+- Context Hash：`b9ff37577a7607b7460baceccfd0ce7014932910fe36a38a10bffb1153cf03ba`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -59,7 +59,7 @@ in_progress_tasks:
 - TASK-R02-006
 blocked_tasks: []
 next_task: TASK-R02-006
-updated_at: '2026-07-18T09:23:26Z'
+updated_at: '2026-07-18T09:43:54Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -94,15 +94,15 @@ continuity:
   active_session_id: SES-20260718T084729Z-BD53B7C4
   actor_id: codex-root
   story_id: STORY-R02-009
-  lease_expires_at: '2026-07-18T13:23:26Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0005.yaml
-  project_fingerprint: eac49981bf7dbb5bda644eb2c784df633646cc077e435cc5f17c0c2ffb0a16db
+  lease_expires_at: '2026-07-18T13:43:54Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0007.yaml
+  project_fingerprint: 98ba0c0b5bc90bdd7393f63148f60b6e0da90335edf7b07b68b5317555e74910
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 510e42e59f28e7272933c2398e08fe4246331443958d543594df1eca2549d19b
-    generated_at: '2026-07-18T09:20:21Z'
+    context_hash: 4a6ad7fb245c1eb310529bccfea66f56abfb7ae97ba673d3845c13dfa8d9ad6a
+    generated_at: '2026-07-18T09:36:50Z'
   handoff_bundle: null
 ```
 
@@ -304,7 +304,7 @@ task_id: TASK-R02-006
 story_id: STORY-R02-009
 goal: 汇合R02四个纵向批次，执行25项权威测试、故障注入、可观测性和预发布验收并归档证据。
 started_at: '2026-07-18T08:47:29Z'
-updated_at: '2026-07-18T09:23:26Z'
+updated_at: '2026-07-18T09:43:54Z'
 takeover_of: null
 change_requests:
 - CR-0039
@@ -360,12 +360,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T09:23:26Z'
-  expires_at: '2026-07-18T13:23:26Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0005.yaml
+  renewed_at: '2026-07-18T09:43:54Z'
+  expires_at: '2026-07-18T13:43:54Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-next_step: 提交PROB-0019、令牌验签和确定性回归测试，随后按提交SHA重跑全量后端并归档证据
+next_step: 提交矩阵基础设施，按新提交SHA重跑Maven/PostgreSQL/Android/H5并生成21项外部证据后执行25/25检查
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -373,57 +373,91 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 生产验签、唯一回归类和问题登记构成一个原子安全修复提交
+  reason: 中央执行器、Schema、catalog适配器和兼容测试是同一闭合协议变更，拆分会产生暂时不可执行库存
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0005
+checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0007
 session_id: SES-20260718T084729Z-BD53B7C4
-sequence: 5
-created_at: '2026-07-18T09:23:26Z'
-summary: PROB-0019登记完成并将非规范Base64URL等价签名构造成确定性安全回归测试
-next_step: 提交PROB-0019、令牌验签和确定性回归测试，随后按提交SHA重跑全量后端并归档证据
+sequence: 7
+created_at: '2026-07-18T09:43:54Z'
+summary: 建立R02 25项权威测试中央执行器、21个缺失/共享适配器、外部证据Schema及防伪回归测试
+next_step: 提交矩阵基础设施，按新提交SHA重跑Maven/PostgreSQL/Android/H5并生成21项外部证据后执行25/25检查
 blockers: []
 decisions:
-- 回归测试必须证明被篡改签名文本与规范签名解码字节相同但仍被拒绝
-note: 补齐提交门禁要求；未绕过Problem Registry或回归测试
+- R02 Manifest 25项是本版本权威库存；外部21项必须绑定当前HEAD、真实日志和SHA256，list模式不得宣称PASS
+note: 不将已完成环境作业直接冒充25项PASS；提交后重新生成绑定SHA证据
 tests:
-- name: user-token-canonical-regression
+- name: r02-matrix-inventory
   result: PASS
-  evidence: 'obx-test Maven UserTokenServiceTest: 2 tests'
-  note: 确定性非规范等价编码被拒绝
-- name: problem-registry
+  evidence: run_r02_test_matrix.py --list
+  note: 25项路由齐全且25项保持NOT_RUN
+- name: r02-r01-matrix-regression
   result: PASS
-  evidence: docs/03-continuity/PROBLEM_REGISTRY.yaml PROB-0019
-  note: 根因、修复和防复发规则齐全
+  evidence: 22 unittest
+  note: 共享adapter v2兼容R01且R02防伪门禁通过
+- name: r02-strict-docs-generated
+  result: PASS
+  evidence: strict documentation and generated assets
+  note: 199表316 REST无漂移
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: 61d125dc354803d943d9881e81cfb9c8a291dd97
+  head: 7be251616ec184894a5341ede6b1ce51d1211fcc
   upstream: origin/task/TASK-R02-002
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - A  .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0004.yaml
-  - M  .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
-  - M  CURRENT_STATUS.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  catalogs/session_index.csv
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - M  docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java'
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md'
+  - ' M scripts/run_r01_test_matrix.py'
+  - ' M tests/v1.2.2/requirements/req-admin-ops-001_drift'
+  - ' M tests/v1.2.2/requirements/req-admin-ops-001_happy'
+  - ' M tests/v1.2.2/requirements/req-admin-ops-001_reject'
+  - ' M tests/v1.2.2/requirements/req-admin-ops-001_security'
+  - ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0006.yaml
+  - ?? scripts/generate_r02_test_adapters.py
+  - ?? scripts/run_r02_test_matrix.py
+  - ?? tests/r02/README.md
+  - ?? tests/r02/evidence.schema.json
+  - ?? tests/r02/req-auth-001_happy
+  - ?? tests/r02/req-auth-001_idempotent
+  - ?? tests/r02/req-auth-001_reject
+  - ?? tests/r02/req-auth-001_security
+  - ?? tests/r02/req-auth-002_happy
+  - ?? tests/r02/req-auth-002_idempotent
+  - ?? tests/r02/req-auth-002_reject
+  - ?? tests/r02/req-auth-002_security
+  - ?? tests/r02/req-auth-003_happy
+  - ?? tests/r02/req-auth-003_idempotent
+  - ?? tests/r02/req-auth-003_reject
+  - ?? tests/r02/req-auth-003_security
+  - ?? tests/r02/req-auth-004_happy
+  - ?? tests/r02/req-auth-004_idempotent
+  - ?? tests/r02/req-auth-004_reject
+  - ?? tests/r02/req-auth-004_security
+  - ?? tests/r02/req-auth-005_happy
+  - ?? tests/r02/req-auth-005_idempotent
+  - ?? tests/r02/req-auth-005_reject
+  - ?? tests/r02/req-auth-005_security
+  - ?? tests/r02/test_r02_test_matrix.py
+  - ?? tests/v1.2.2/ui/scr-app-001_appReleaseGetAppVersionCheck
   recent_commits:
+  - "7be251616ec184894a5341ede6b1ce51d1211fcc\t2026-07-18T17:23:39+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(auth): reject noncanonical\
+    \ access signatures"
   - "61d125dc354803d943d9881e81cfb9c8a291dd97\t2026-07-18T17:08:24+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): align R02\
     \ release facts"
   - "6d1cb7eaf2064311ce4a841807dd4a31a3548124\t2026-07-18T16:49:24+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(auth): align restricted\
@@ -436,10 +470,8 @@ git:
   - "1e41f587985849538b8ba2f6b5d0ee24e0652223\t2026-07-18T16:15:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close TASK-R02-004\
     \ as completed"
   - "6d28613c19d0f64986aac5b4d7a51276bd3ff440\t2026-07-18T16:14:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close CR-0037"
-  - "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user\
-    \ control operations"
 project_fingerprint:
-  sha256: eac49981bf7dbb5bda644eb2c784df633646cc077e435cc5f17c0c2ffb0a16db
+  sha256: 98ba0c0b5bc90bdd7393f63148f60b6e0da90335edf7b07b68b5317555e74910
   files:
   - CHANGELOG.md
   - apps/h5/src/styles.css
@@ -451,11 +483,42 @@ project_fingerprint:
   - releases/R02/DEFINITION_OF_READY.yaml
   - releases/R02/RELEASE_MANIFEST.yaml
   - releases/R02/TASKS.yaml
+  - scripts/generate_r02_test_adapters.py
+  - scripts/run_r01_test_matrix.py
+  - scripts/run_r02_test_matrix.py
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+  - tests/r02/README.md
+  - tests/r02/evidence.schema.json
+  - tests/r02/req-auth-001_happy
+  - tests/r02/req-auth-001_idempotent
+  - tests/r02/req-auth-001_reject
+  - tests/r02/req-auth-001_security
+  - tests/r02/req-auth-002_happy
+  - tests/r02/req-auth-002_idempotent
+  - tests/r02/req-auth-002_reject
+  - tests/r02/req-auth-002_security
+  - tests/r02/req-auth-003_happy
+  - tests/r02/req-auth-003_idempotent
+  - tests/r02/req-auth-003_reject
+  - tests/r02/req-auth-003_security
+  - tests/r02/req-auth-004_happy
+  - tests/r02/req-auth-004_idempotent
+  - tests/r02/req-auth-004_reject
+  - tests/r02/req-auth-004_security
+  - tests/r02/req-auth-005_happy
+  - tests/r02/req-auth-005_idempotent
+  - tests/r02/req-auth-005_reject
+  - tests/r02/req-auth-005_security
+  - tests/r02/test_r02_test_matrix.py
   - tests/test_generated_assets.py
   - tests/test_r02_auth_slice_contract.py
-  file_count: 14
+  - tests/v1.2.2/requirements/req-admin-ops-001_drift
+  - tests/v1.2.2/requirements/req-admin-ops-001_happy
+  - tests/v1.2.2/requirements/req-admin-ops-001_reject
+  - tests/v1.2.2/requirements/req-admin-ops-001_security
+  - tests/v1.2.2/ui/scr-app-001_appReleaseGetAppVersionCheck
+  file_count: 45
   payload:
     base_commit: 342e70b9ceb649821e08b3977abd8bef31cfd45b
     files:
@@ -499,6 +562,18 @@ project_fingerprint:
       state: FILE
       size: 7545
       sha256: 234fa8e540106bcbed790b160e4d2d343ea6370630744c104e0bc6c57fc5f429
+    - path: scripts/generate_r02_test_adapters.py
+      state: FILE
+      size: 2590
+      sha256: 6f3534fad246132c51f4ede3bbb920e32576293971701d3b20fbc81e255c2eca
+    - path: scripts/run_r01_test_matrix.py
+      state: FILE
+      size: 36678
+      sha256: e43744c862f927deeef4355d5f37a05929fc19acc7d0555930d577fba9b66d48
+    - path: scripts/run_r02_test_matrix.py
+      state: FILE
+      size: 16755
+      sha256: 0e08efb716c89325ed2da582d5fe5aa226a2c8f005019b8a85eea8a23672028b
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
       state: FILE
       size: 6636
@@ -507,6 +582,98 @@ project_fingerprint:
       state: FILE
       size: 2589
       sha256: 69c46b58387631c182242f5682231fdbe5751e49f7c6dc82070a61e94223a22b
+    - path: tests/r02/README.md
+      state: FILE
+      size: 1344
+      sha256: 82dfe2b60dddaabe771d631fcc6f0a256fc79824664c92e6c6afacf9c755a2fa
+    - path: tests/r02/evidence.schema.json
+      state: FILE
+      size: 3030
+      sha256: b9b179b17b8571fff8df6bfafd58de77a61226c350f40158c2dc3fdeae3011d9
+    - path: tests/r02/req-auth-001_happy
+      state: FILE
+      size: 214
+      sha256: 7ee27958d02da3a549f42813e3982212d04c144f06d1999e33c6be854ec63e20
+    - path: tests/r02/req-auth-001_idempotent
+      state: FILE
+      size: 219
+      sha256: 41689ca18eab2556102c677f73186e514c76ff6f8d803c8604d891c57af048d2
+    - path: tests/r02/req-auth-001_reject
+      state: FILE
+      size: 215
+      sha256: 2510c60d43c2982948c42266f37d84d625dfd3fb4870df13745f8bcaeb17969b
+    - path: tests/r02/req-auth-001_security
+      state: FILE
+      size: 217
+      sha256: 9a3845825ab5ce4a0d6de08642d8f45e701d0290cec3cc4f4bbba5a5d1cc187e
+    - path: tests/r02/req-auth-002_happy
+      state: FILE
+      size: 214
+      sha256: ce8d62c55dbac9e0843dba37a6dfaa067bf74ac088f13666c821ebf91c9e01a2
+    - path: tests/r02/req-auth-002_idempotent
+      state: FILE
+      size: 219
+      sha256: 7e0f04dee7fb9d4ba1e92419ac57cd5b475e1ea917613ff05de9e4fc53290154
+    - path: tests/r02/req-auth-002_reject
+      state: FILE
+      size: 215
+      sha256: eccfe99c14aa140c7d2226795fd131dc78510578ddd7187df9943334a75401b6
+    - path: tests/r02/req-auth-002_security
+      state: FILE
+      size: 217
+      sha256: b7d426c0c7ffb7975f4251e5185e1a3db8e39723af90667892cc9e21ae377a64
+    - path: tests/r02/req-auth-003_happy
+      state: FILE
+      size: 214
+      sha256: 25a67b2605538796354169f3624ffe9c2efa170ddf92f8dc89862e90f8ccaeaa
+    - path: tests/r02/req-auth-003_idempotent
+      state: FILE
+      size: 219
+      sha256: 1d7358eb3fc83faa2eebfb8f18ddcaae0c066c0fbe54afd3ee4b5a2020a81fb7
+    - path: tests/r02/req-auth-003_reject
+      state: FILE
+      size: 215
+      sha256: 6b15f3997b64e45b835f6cfe0a18a43fb4838c090005083119ee7f23e0c88927
+    - path: tests/r02/req-auth-003_security
+      state: FILE
+      size: 217
+      sha256: a1aa9b1b185477ded1db535c921ce5558487bf619324ae760192f475b3fb4031
+    - path: tests/r02/req-auth-004_happy
+      state: FILE
+      size: 214
+      sha256: e82897012c1194511c1953849fc6ae80965336849022719e4c8575787e8b6d07
+    - path: tests/r02/req-auth-004_idempotent
+      state: FILE
+      size: 219
+      sha256: 8d6e3844853704afb581ab43b9fa26da1c3291bd62264abf334677e83b141f3b
+    - path: tests/r02/req-auth-004_reject
+      state: FILE
+      size: 215
+      sha256: 6fa4933c5e7d575b5bfcc169f413f29b91ecde82df86ce07bb0c787041daa172
+    - path: tests/r02/req-auth-004_security
+      state: FILE
+      size: 217
+      sha256: 6a4ebe1dd6bd82c8493021d41f8f7caccbfe49603175a19fa692623581b6fcfc
+    - path: tests/r02/req-auth-005_happy
+      state: FILE
+      size: 214
+      sha256: b07337c2ecb9781311cf957371d08b7f6f9456678e3d27d5e442814892bf1ab5
+    - path: tests/r02/req-auth-005_idempotent
+      state: FILE
+      size: 219
+      sha256: c2d688be4898a63829e3b3c6edb8c7cd99e3f18deb6cde5bfbdd9151a38a8757
+    - path: tests/r02/req-auth-005_reject
+      state: FILE
+      size: 215
+      sha256: 6d40060b5a35eaa1045d990d7f1f71645b97ed37023a793e0a773a1cd5053ca9
+    - path: tests/r02/req-auth-005_security
+      state: FILE
+      size: 217
+      sha256: 0ad417b55191cb0a14d7f74639a05b588d5299c1e6248b450d18b0ca85484691
+    - path: tests/r02/test_r02_test_matrix.py
+      state: FILE
+      size: 2556
+      sha256: a8937d3aa7a695a2d50f31ec80f3a22b44b6c0faaeeb1e651a89f08c09bd0194
     - path: tests/test_generated_assets.py
       state: FILE
       size: 3375
@@ -515,6 +682,26 @@ project_fingerprint:
       state: FILE
       size: 7156
       sha256: d0cc375053dbd64fa6072905e8958482e4622906c50641ca1625f150e9e4875b
+    - path: tests/v1.2.2/requirements/req-admin-ops-001_drift
+      state: FILE
+      size: 401
+      sha256: 758754c3d0a36062420a9d50ea7cdf5505258e2e4eb185b976a0790da371e7c4
+    - path: tests/v1.2.2/requirements/req-admin-ops-001_happy
+      state: FILE
+      size: 405
+      sha256: e722abbcefac720d38c5dc7890c6403cd9d4ca9f4209e31475bb2379f1fb4479
+    - path: tests/v1.2.2/requirements/req-admin-ops-001_reject
+      state: FILE
+      size: 406
+      sha256: 1a4fbde91f2df568a0b8708dea7ca4d9b64820d948a1d1c21cf69cb99c5d2062
+    - path: tests/v1.2.2/requirements/req-admin-ops-001_security
+      state: FILE
+      size: 408
+      sha256: defc8b6a6c659903ba07deb06a8c8e465b97aeb6fbc87529bd1df97b799ca450
+    - path: tests/v1.2.2/ui/scr-app-001_appReleaseGetAppVersionCheck
+      state: FILE
+      size: 208
+      sha256: 8194b38e6261c4e9ba099cb255679e954718e631c2499240eb44ccdf159c5632
 change_classification:
   other:
   - CHANGELOG.md
@@ -522,6 +709,9 @@ change_classification:
   - releases/R02/TASKS.yaml
   code:
   - apps/h5/src/styles.css
+  - scripts/generate_r02_test_adapters.py
+  - scripts/run_r01_test_matrix.py
+  - scripts/run_r02_test_matrix.py
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
   user_visible:
@@ -535,8 +725,36 @@ change_classification:
   - releases/R02/DEFINITION_OF_READY.yaml
   - releases/R02/RELEASE_MANIFEST.yaml
   tests:
+  - tests/r02/README.md
+  - tests/r02/evidence.schema.json
+  - tests/r02/req-auth-001_happy
+  - tests/r02/req-auth-001_idempotent
+  - tests/r02/req-auth-001_reject
+  - tests/r02/req-auth-001_security
+  - tests/r02/req-auth-002_happy
+  - tests/r02/req-auth-002_idempotent
+  - tests/r02/req-auth-002_reject
+  - tests/r02/req-auth-002_security
+  - tests/r02/req-auth-003_happy
+  - tests/r02/req-auth-003_idempotent
+  - tests/r02/req-auth-003_reject
+  - tests/r02/req-auth-003_security
+  - tests/r02/req-auth-004_happy
+  - tests/r02/req-auth-004_idempotent
+  - tests/r02/req-auth-004_reject
+  - tests/r02/req-auth-004_security
+  - tests/r02/req-auth-005_happy
+  - tests/r02/req-auth-005_idempotent
+  - tests/r02/req-auth-005_reject
+  - tests/r02/req-auth-005_security
+  - tests/r02/test_r02_test_matrix.py
   - tests/test_generated_assets.py
   - tests/test_r02_auth_slice_contract.py
+  - tests/v1.2.2/requirements/req-admin-ops-001_drift
+  - tests/v1.2.2/requirements/req-admin-ops-001_happy
+  - tests/v1.2.2/requirements/req-admin-ops-001_reject
+  - tests/v1.2.2/requirements/req-admin-ops-001_security
+  - tests/v1.2.2/ui/scr-app-001_appReleaseGetAppVersionCheck
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
@@ -594,8 +812,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 生产验签、唯一回归类和问题登记构成一个原子安全修复提交
-event_hash: d077e34bf1e21200865b87d691d82e6feebd10bc4a13babeb2876a287f7d8892
+  reason: 中央执行器、Schema、catalog适配器和兼容测试是同一闭合协议变更，拆分会产生暂时不可执行库存
+event_hash: 42f76af34fbed1b33cb6fc639092b4ae450d1d41613432c8bce50c3ea062d8f7
 ```
 
 ## 接续状态与事件头
@@ -607,8 +825,8 @@ active_session_id: SES-20260718T084729Z-BD53B7C4
 last_session_id: SES-20260718T081744Z-71EAAA84
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T081744Z-71EAAA84-0004
-event_count: 457
-event_head_hash: d077e34bf1e21200865b87d691d82e6feebd10bc4a13babeb2876a287f7d8892
+event_count: 459
+event_head_hash: 42f76af34fbed1b33cb6fc639092b4ae450d1d41613432c8bce50c3ea062d8f7
 event_chain_valid: true
 ```
 
@@ -731,9 +949,9 @@ recent_sessions: - session_id: SES-20260717T152721Z-016DB4B2
   started_at: '2026-07-18T08:47:29Z'
   record: .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-  updated_at: '2026-07-18T09:23:26Z'
+  updated_at: '2026-07-18T09:43:54Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0005.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0007.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-E58E42235FFA
   session_id: SES-20260717T024407Z-B03C9375
@@ -1604,29 +1822,59 @@ recent_task_transitions: - transition_id: TRN-700F522BD35A
 ```yaml
 initialized: true
 branch: task/TASK-R02-002
-head: 61d125dc354803d943d9881e81cfb9c8a291dd97
+head: 7be251616ec184894a5341ede6b1ce51d1211fcc
 upstream: origin/task/TASK-R02-002
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0004.yaml
-- MM .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
-- MM CURRENT_STATUS.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- MM catalogs/session_index.csv
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- MM docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java'
-- ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0005.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md'
+- ' M scripts/run_r01_test_matrix.py'
+- ' M tests/v1.2.2/requirements/req-admin-ops-001_drift'
+- ' M tests/v1.2.2/requirements/req-admin-ops-001_happy'
+- ' M tests/v1.2.2/requirements/req-admin-ops-001_reject'
+- ' M tests/v1.2.2/requirements/req-admin-ops-001_security'
+- ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0006.yaml
+- ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0007.yaml
+- ?? scripts/generate_r02_test_adapters.py
+- ?? scripts/run_r02_test_matrix.py
+- ?? tests/r02/README.md
+- ?? tests/r02/evidence.schema.json
+- ?? tests/r02/req-auth-001_happy
+- ?? tests/r02/req-auth-001_idempotent
+- ?? tests/r02/req-auth-001_reject
+- ?? tests/r02/req-auth-001_security
+- ?? tests/r02/req-auth-002_happy
+- ?? tests/r02/req-auth-002_idempotent
+- ?? tests/r02/req-auth-002_reject
+- ?? tests/r02/req-auth-002_security
+- ?? tests/r02/req-auth-003_happy
+- ?? tests/r02/req-auth-003_idempotent
+- ?? tests/r02/req-auth-003_reject
+- ?? tests/r02/req-auth-003_security
+- ?? tests/r02/req-auth-004_happy
+- ?? tests/r02/req-auth-004_idempotent
+- ?? tests/r02/req-auth-004_reject
+- ?? tests/r02/req-auth-004_security
+- ?? tests/r02/req-auth-005_happy
+- ?? tests/r02/req-auth-005_idempotent
+- ?? tests/r02/req-auth-005_reject
+- ?? tests/r02/req-auth-005_security
+- ?? tests/r02/test_r02_test_matrix.py
+- ?? tests/v1.2.2/ui/scr-app-001_appReleaseGetAppVersionCheck
 recent_commits:
+- "7be251616ec184894a5341ede6b1ce51d1211fcc\t2026-07-18T17:23:39+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(auth): reject noncanonical\
+  \ access signatures"
 - "61d125dc354803d943d9881e81cfb9c8a291dd97\t2026-07-18T17:08:24+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): align R02\
   \ release facts"
 - "6d1cb7eaf2064311ce4a841807dd4a31a3548124\t2026-07-18T16:49:24+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(auth): align restricted\
@@ -1639,14 +1887,12 @@ recent_commits:
 - "1e41f587985849538b8ba2f6b5d0ee24e0652223\t2026-07-18T16:15:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close TASK-R02-004\
   \ as completed"
 - "6d28613c19d0f64986aac5b4d7a51276bd3ff440\t2026-07-18T16:14:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close CR-0037"
-- "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user control\
-  \ operations"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`eac49981bf7dbb5bda644eb2c784df633646cc077e435cc5f17c0c2ffb0a16db`
-- 文件数：14
+- 指纹：`98ba0c0b5bc90bdd7393f63148f60b6e0da90335edf7b07b68b5317555e74910`
+- 文件数：45
 
 - `CHANGELOG.md`
 - `apps/h5/src/styles.css`
@@ -1658,10 +1904,41 @@ recent_commits:
 - `releases/R02/DEFINITION_OF_READY.yaml`
 - `releases/R02/RELEASE_MANIFEST.yaml`
 - `releases/R02/TASKS.yaml`
+- `scripts/generate_r02_test_adapters.py`
+- `scripts/run_r01_test_matrix.py`
+- `scripts/run_r02_test_matrix.py`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java`
+- `tests/r02/README.md`
+- `tests/r02/evidence.schema.json`
+- `tests/r02/req-auth-001_happy`
+- `tests/r02/req-auth-001_idempotent`
+- `tests/r02/req-auth-001_reject`
+- `tests/r02/req-auth-001_security`
+- `tests/r02/req-auth-002_happy`
+- `tests/r02/req-auth-002_idempotent`
+- `tests/r02/req-auth-002_reject`
+- `tests/r02/req-auth-002_security`
+- `tests/r02/req-auth-003_happy`
+- `tests/r02/req-auth-003_idempotent`
+- `tests/r02/req-auth-003_reject`
+- `tests/r02/req-auth-003_security`
+- `tests/r02/req-auth-004_happy`
+- `tests/r02/req-auth-004_idempotent`
+- `tests/r02/req-auth-004_reject`
+- `tests/r02/req-auth-004_security`
+- `tests/r02/req-auth-005_happy`
+- `tests/r02/req-auth-005_idempotent`
+- `tests/r02/req-auth-005_reject`
+- `tests/r02/req-auth-005_security`
+- `tests/r02/test_r02_test_matrix.py`
 - `tests/test_generated_assets.py`
 - `tests/test_r02_auth_slice_contract.py`
+- `tests/v1.2.2/requirements/req-admin-ops-001_drift`
+- `tests/v1.2.2/requirements/req-admin-ops-001_happy`
+- `tests/v1.2.2/requirements/req-admin-ops-001_reject`
+- `tests/v1.2.2/requirements/req-admin-ops-001_security`
+- `tests/v1.2.2/ui/scr-app-001_appReleaseGetAppVersionCheck`
 
 ## 当前 Release
 
@@ -4209,7 +4486,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `aee0b2974068452fcbe96c4ff7ec58c6ed09e1adb3066fecd57109edc1b79e55`
+- `CURRENT_STATUS.yaml` — `82f1e3a4438f27ca6b4ea62d60b83bc3d60fd2999443ea0226223821f0b663ae`
 - `NEXT_TASK.yaml` — `08706a9f6d63c4f553a340aca63b0b94e46f2b401f3b348fd372d893516a7877`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -4220,20 +4497,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7`
-- `.continuity/EVENT_LOG.jsonl` — `9f6ba0a8c6a0ff4b5c7e615762c2b82c02436471e4cac45d8889a5c8191afc5a`
-- `.continuity/SESSION_INDEX.yaml` — `b70314308a47a42fe017a46f43e57a44b7443f4d2b2c9cb8203763522a820972`
+- `.continuity/EVENT_LOG.jsonl` — `f6461a51fcc37ea07978726c4cfbc8b3d9f203471ebc28b4d8beef88d926badd`
+- `.continuity/SESSION_INDEX.yaml` — `da579cac529ca7bb18faf6d67ef4a46074f5842cb33a4bd40ff1fcee3ddb0f70`
 - `.continuity/TASK_CLAIMS.yaml` — `3f2ef2a78deb2e20c2d82e3093e5eb022fa15534950ccd23b2f0a94076bc4239`
 - `.continuity/TASK_TRANSITIONS.yaml` — `1d3191b4b8c851913dd73e0f07f4a8b2e81590918eaa59c9a7214282f9afed4c`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5714c0840e347f648524adabdf9ce241786093e66f53ceb6347ae8839f7274ad`
-- `.continuity/ACTIVE_SESSION.yaml` — `a97201fb22157a0b4bc96abab833eeaaa5bc70cb911f974f23e94319005ef0b7`
+- `.continuity/ACTIVE_SESSION.yaml` — `106f7174482af35fb746a53f48904ba52a80953229ea68988f6defce9df5760e`
 - `releases/R02/RELEASE_MANIFEST.yaml` — `18bddf632011b122311da03f361f90a853bc7469f7af784900d49e30c1cb5633`
 - `releases/R02/DEFINITION_OF_READY.yaml` — `56bb6f71390ee34bf92eac60dc7276dd90f969781bf32eac0028eff48972c0dc`
 - `releases/R02/STORIES.yaml` — `cbc199fd846c42cbb50f02af53969fb914f16a814de2d459a7f929509a9226cf`
 - `releases/R02/TASKS.yaml` — `234fa8e540106bcbed790b160e4d2d343ea6370630744c104e0bc6c57fc5f429`
 - `releases/R02/ACCEPTANCE_MATRIX.csv` — `687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0`
 - `releases/R02/PARALLEL_EXECUTION_PLAN.yaml` — `c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md` — `11a6d32dd152f722d66f69e8da640002d5cb4a2b104ee42326da801b493ca025`
-- `.continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0005.yaml` — `ef97bff10657167932c60d235a715ba4aa9b30829992945f8c0576ed57f998bc`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md` — `f4670b14b962547c4fac30c67e74191e62c2860efae826614f74bbae9c7de9ba`
+- `.continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0007.yaml` — `a24eef45b8a838c4f6d5be37006a603dd3d58bd05d1122837dc2337e664912fa`
 - `docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md` — `941bdab0b59baca63a321469d2309959fcae7dee37789052b37ee13ea52d0937`
 - `docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md` — `1e50caa216a54eca560abd87929000ca8b6ba2da9a8d6c2121eaf253a52945ae`
 - `docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md` — `134b2c55024d59aef5587c77bb668698f55395e0194c880d69962d437cb3170a`

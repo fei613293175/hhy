@@ -1,7 +1,16 @@
 {
-  "schema": "hhy.r01.test-adapter/v1",
+  "schema": "hhy.test-adapter/v2",
   "test_id": "TST-ADMIN_OPS_001-SECURITY",
-  "central_runner": "scripts/run_r01_test_matrix.py",
-  "assignment_source": "local",
-  "runner": "documentation-r01"
+  "assignments": {
+    "R01": {
+      "central_runner": "scripts/run_r01_test_matrix.py",
+      "assignment_source": "local",
+      "runner": "documentation-r01"
+    },
+    "R02": {
+      "central_runner": "scripts/run_r02_test_matrix.py",
+      "assignment_source": "local",
+      "runner": "admin-web-integration"
+    }
+  }
 }

@@ -253,17 +253,28 @@ def load_inventory(
             errors.append(f"{label}: adapter must be a JSON object")
             continue
         assignment = assignments.get(test_id)
-        expected = {
-            "schema": "hhy.r01.test-adapter/v1",
-            "test_id": test_id,
-            "central_runner": "scripts/run_r01_test_matrix.py",
-            "assignment_source": assignment.source if assignment else None,
-            "runner": assignment.runner if assignment else None,
-        }
+        if adapter.get("schema") == "hhy.test-adapter/v2":
+            release_assignment = adapter.get("assignments", {}).get("R01", {})
+            expected = {
+                "test_id": test_id,
+                "central_runner": "scripts/run_r01_test_matrix.py",
+                "assignment_source": assignment.source if assignment else None,
+                "runner": assignment.runner if assignment else None,
+            }
+            actual = {"test_id": adapter.get("test_id"), **release_assignment}
+        else:
+            expected = {
+                "schema": "hhy.r01.test-adapter/v1",
+                "test_id": test_id,
+                "central_runner": "scripts/run_r01_test_matrix.py",
+                "assignment_source": assignment.source if assignment else None,
+                "runner": assignment.runner if assignment else None,
+            }
+            actual = adapter
         for field, expected_value in expected.items():
-            if adapter.get(field) != expected_value:
+            if actual.get(field) != expected_value:
                 errors.append(
-                    f"{label}: {field} expected={expected_value!r} actual={adapter.get(field)!r}"
+                    f"{label}: {field} expected={expected_value!r} actual={actual.get(field)!r}"
                 )
     return list(manifest_ids), catalog, errors
 
