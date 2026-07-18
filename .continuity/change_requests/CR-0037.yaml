@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0037
 title: R02用户限制持久化与细粒度权限补齐
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-18T07:28:11Z'
-updated_at: '2026-07-18T08:11:41Z'
+updated_at: '2026-07-18T08:13:39Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-standing-authorization
 task_id: TASK-R02-004
@@ -49,5 +49,17 @@ decision_log:
   status: IMPLEMENTING
   note: 已完成V018、用户管控服务、管理页面、到期恢复和数据库/前后端门禁，进入提交绑定。
   session_id: SES-20260718T070836Z-25E39817
+- at: '2026-07-18T08:13:13Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: V018、用户管控、双人冻结、到期恢复、管理页面及数据库/前后端门禁均已实现并绑定提交。
+  session_id: SES-20260718T070836Z-25E39817
+- at: '2026-07-18T08:13:39Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 实现提交已通过Maven、47项管理端测试、生产构建、V001-V018数据库烟测及契约/生成资产门禁，CR关闭。
+  session_id: SES-20260718T070836Z-25E39817
 session_ids:
 - SES-20260718T070836Z-25E39817
+implementation_commits:
+- 2317ead

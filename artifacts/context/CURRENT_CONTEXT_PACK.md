@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T08:12:03Z
-- Context Hash：`1f7513a1dfa1064f6d31dac92dd615d314d58e88f0bbe0e94f709759685e31c4`
+- 生成时间：2026-07-18T08:14:19Z
+- Context Hash：`d62eef92632d0c4ffe0cfca190a2e2fc454b7c664281e5024b67260e5f921a80`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -57,7 +57,7 @@ in_progress_tasks:
 - TASK-R02-004
 blocked_tasks: []
 next_task: TASK-R02-004
-updated_at: '2026-07-18T08:12:01Z'
+updated_at: '2026-07-18T08:14:17Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -92,15 +92,15 @@ continuity:
   active_session_id: SES-20260718T070836Z-25E39817
   actor_id: codex-root
   story_id: STORY-R02-001
-  lease_expires_at: '2026-07-18T12:12:01Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0003.yaml
-  project_fingerprint: 65020790454afde21a520ecbb6df904e26cb9eff30d9f418571f318eb66acf45
+  lease_expires_at: '2026-07-18T12:14:17Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0004.yaml
+  project_fingerprint: b2e1d1b618cefb474c6491edc544587510165cf42ab0c5291246cf9ce646a0f0
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: c7065bb1bccbdf07d70746c41ed3c041bb27a0c671c17dc7f0c58d95293e8533
-    generated_at: '2026-07-18T07:26:22Z'
+    context_hash: 1f7513a1dfa1064f6d31dac92dd615d314d58e88f0bbe0e94f709759685e31c4
+    generated_at: '2026-07-18T08:12:03Z'
   handoff_bundle: null
 ```
 
@@ -296,7 +296,7 @@ task_id: TASK-R02-004
 story_id: STORY-R02-001
 goal: 完成后台用户列表的数据、生成契约、API、管理页面、权限状态和自动化测试闭环，再推进用户详情与管控。
 started_at: '2026-07-18T07:08:36Z'
-updated_at: '2026-07-18T08:12:01Z'
+updated_at: '2026-07-18T08:14:17Z'
 takeover_of: null
 change_requests:
 - CR-0036
@@ -335,12 +335,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T08:12:01Z'
-  expires_at: '2026-07-18T12:12:01Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0003.yaml
+  renewed_at: '2026-07-18T08:14:17Z'
+  expires_at: '2026-07-18T12:14:17Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md
-next_step: 提交并推送TASK-R02-004实现，绑定CR-0037后执行关闭门禁并进入TASK-R02-005。
+next_step: 提交CR关闭记录并执行TASK-R02-004完成关闭。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -348,88 +348,47 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 本检查点处于共享V018迁移、用户状态机和连续性提交汇合阶段，继续并行写同一事实源会引入冲突，需主控串行固化。
+  reason: 连续性关闭记录必须由唯一主控串行更新事件链和上下文包。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T070836Z-25E39817-0003
+checkpoint_id: CP-SES-20260718T070836Z-25E39817-0004
 session_id: SES-20260718T070836Z-25E39817
-sequence: 3
-created_at: '2026-07-18T08:12:00Z'
-summary: 完成STORY-R02-001/002后台用户列表详情及管控闭环：V018限制表和权限、读写服务、双人冻结、幂等审计、到期恢复、页面和测试全部落地。
-next_step: 提交并推送TASK-R02-004实现，绑定CR-0037后执行关闭门禁并进入TASK-R02-005。
+sequence: 4
+created_at: '2026-07-18T08:14:17Z'
+summary: CR-0037已绑定实现提交2317ead并在全部门禁通过后关闭。
+next_step: 提交CR关闭记录并执行TASK-R02-004完成关闭。
 blockers: []
 decisions:
-- 冻结采用两名不同管理员审批；限制到期在登录、刷新和Bearer鉴权路径串行恢复；写请求按管理员主体隔离幂等范围。
-note: 桌面R02 WIP APK已由接口地址门禁保护，正式发布门禁尚未执行，不误标正式产物。
+- CR仅在实现提交和数据库、后端、前端、契约门禁全部通过后关闭。
+note: 本检查点只固化已验证CR关闭状态。
 tests:
-- name: admin-web-typecheck-build
+- name: cr0037-closure-gates
   result: PASS
-  evidence: vue-tsc与vite生产构建通过
-  note: 管理页面可生产构建
-- name: admin-web-tests
-  result: PASS
-  evidence: 7 files 47 tests passed
-  note: 含五个写端点和双人冻结页面流程
-- name: backend-user-tests
-  result: PASS
-  evidence: Maven 21 tests passed
-  note: 用户认证13项与用户管理8项
-- name: postgres-migration-smoke
-  result: PASS
-  evidence: V001-V018 199 tables and historical rollback replay PASS
-  note: 一次性PostgreSQL 17.10容器
-- name: schema-contract-gates
-  result: PASS
-  evidence: DB_SCHEMA_OK GENERATED_ASSETS_OK API_CONTRACT_OK documentation PASS
-  note: 运行时迁移哈希一致
+  evidence: commit 2317ead plus recorded gate evidence
+  note: CR status CLOSED
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: 38026234165906db0432eece6203c790aba4851b
+  head: 2317ead46211c9bcfddbf7b77af8f76059325606
   upstream: origin/task/TASK-R02-002
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260718T070836Z-25E39817.yaml'
-  - ' M CHANGELOG.md'
-  - ' M apps/admin-web/src/services/adminUsers.test.ts'
-  - ' M apps/admin-web/src/services/adminUsers.ts'
-  - ' M apps/admin-web/src/services/idempotency.ts'
-  - ' M apps/admin-web/src/views/AdminUserDetailPage.vue'
-  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/data_tables.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M database/schema_dictionary.csv'
-  - ' M database/verification/verify_baseline.sql'
-  - ' M releases/R02/STORIES.yaml'
-  - ' M scripts/check_db_schema.py'
-  - ' M scripts/run_postgres_migration_smoke.sh'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java'
-  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java'
-  - ?? .continuity/change_requests/CR-0037.yaml
-  - ?? apps/admin-web/src/r02UsersPage.test.ts
-  - ?? database/migrations/V018__r02_admin_user_controls.sql
-  - ?? database/rollback/U018__r02_admin_user_controls.sql
-  - ?? database/tests/r02_admin_user_controls.sql
-  - ?? docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserCommandService.java
-  - ?? services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/STATE.yaml
+  - M  .continuity/change_requests/CR-0037.yaml
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
   recent_commits:
+  - "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user\
+    \ control operations"
   - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
     \ read views"
   - "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
@@ -444,10 +403,8 @@ git:
     \ sessions and password change"
   - "6d4ad64b271c91565aaeee42074aa5a989a1af74\t2026-07-18T13:32:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): close TASK-R02-002\
     \ as completed"
-  - "26955b8bcb8687734b4c96aafefd1dcb90bbbccc\t2026-07-18T13:30:38+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(release): advance to\
-    \ security session batch"
 project_fingerprint:
-  sha256: 65020790454afde21a520ecbb6df904e26cb9eff30d9f418571f318eb66acf45
+  sha256: b2e1d1b618cefb474c6491edc544587510165cf42ab0c5291246cf9ce646a0f0
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r02UsersPage.test.ts
@@ -555,8 +512,8 @@ project_fingerprint:
       sha256: caa3a18d9e0271663c93ee4ace2e4465b96e54e36322dbdd0a5b3b02a68761d9
     - path: docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
       state: FILE
-      size: 2987
-      sha256: ec209feee41c50a7d9fc2df763cc1412f77a7e541f55f1ed1cb837d367eccdb0
+      size: 3525
+      sha256: 6cbbfaf42e2d13041b3e35dc0f8d990f88faa936cc1d264101bf12b8bc735152
     - path: releases/R02/STORIES.yaml
       state: FILE
       size: 27392
@@ -704,8 +661,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 本检查点处于共享V018迁移、用户状态机和连续性提交汇合阶段，继续并行写同一事实源会引入冲突，需主控串行固化。
-event_hash: baf0a64127f8579bcf88e26ceef919c4df05c0f72e831a417e85c45c9b5eb6ae
+  reason: 连续性关闭记录必须由唯一主控串行更新事件链和上下文包。
+event_hash: 340a6beb330da8abb59998fb9c48244afe7082bbc018bd0738a60a41f47f57b8
 ```
 
 ## 接续状态与事件头
@@ -717,8 +674,8 @@ active_session_id: SES-20260718T070836Z-25E39817
 last_session_id: SES-20260718T053331Z-F0ED92BF
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T053331Z-F0ED92BF-0015
-event_count: 418
-event_head_hash: baf0a64127f8579bcf88e26ceef919c4df05c0f72e831a417e85c45c9b5eb6ae
+event_count: 421
+event_head_hash: 340a6beb330da8abb59998fb9c48244afe7082bbc018bd0738a60a41f47f57b8
 event_chain_valid: true
 ```
 
@@ -841,9 +798,9 @@ recent_sessions: - session_id: SES-20260717T122518Z-91E6F4D6
   started_at: '2026-07-18T07:08:36Z'
   record: .continuity/sessions/SES-20260718T070836Z-25E39817.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md
-  updated_at: '2026-07-18T08:12:01Z'
+  updated_at: '2026-07-18T08:14:17Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-7942880F386B
   session_id: SES-20260717T023511Z-C6513BB0
@@ -1730,52 +1687,28 @@ recent_task_transitions: - transition_id: TRN-B087F7FC31DE
 ```yaml
 initialized: true
 branch: task/TASK-R02-002
-head: 38026234165906db0432eece6203c790aba4851b
+head: 2317ead46211c9bcfddbf7b77af8f76059325606
 upstream: origin/task/TASK-R02-002
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
 - ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
+- MM .continuity/STATE.yaml
+- M  .continuity/change_requests/CR-0037.yaml
 - ' M .continuity/sessions/SES-20260718T070836Z-25E39817.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/admin-web/src/services/adminUsers.test.ts'
-- ' M apps/admin-web/src/services/adminUsers.ts'
-- ' M apps/admin-web/src/services/idempotency.ts'
-- ' M apps/admin-web/src/views/AdminUserDetailPage.vue'
-- ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/data_tables.csv'
-- ' M catalogs/session_index.csv'
-- ' M database/schema_dictionary.csv'
-- ' M database/verification/verify_baseline.sql'
+- M  catalogs/change_request_index.csv
+- M  catalogs/session_index.csv
+- M  docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md'
-- ' M releases/R02/STORIES.yaml'
-- ' M scripts/check_db_schema.py'
-- ' M scripts/run_postgres_migration_smoke.sh'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java'
-- ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java'
-- ?? .continuity/change_requests/CR-0037.yaml
-- ?? .continuity/checkpoints/SES-20260718T070836Z-25E39817/0003.yaml
-- ?? apps/admin-web/src/r02UsersPage.test.ts
-- ?? database/migrations/V018__r02_admin_user_controls.sql
-- ?? database/rollback/U018__r02_admin_user_controls.sql
-- ?? database/tests/r02_admin_user_controls.sql
-- ?? docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserCommandService.java
-- ?? services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java
+- ?? .continuity/checkpoints/SES-20260718T070836Z-25E39817/0004.yaml
 recent_commits:
+- "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user control\
+  \ operations"
 - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
   \ read views"
 - "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
@@ -1790,13 +1723,11 @@ recent_commits:
   \ and password change"
 - "6d4ad64b271c91565aaeee42074aa5a989a1af74\t2026-07-18T13:32:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): close TASK-R02-002\
   \ as completed"
-- "26955b8bcb8687734b4c96aafefd1dcb90bbbccc\t2026-07-18T13:30:38+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(release): advance to security\
-  \ session batch"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`65020790454afde21a520ecbb6df904e26cb9eff30d9f418571f318eb66acf45`
+- 指纹：`b2e1d1b618cefb474c6491edc544587510165cf42ab0c5291246cf9ce646a0f0`
 - 文件数：32
 
 - `CHANGELOG.md`
@@ -4260,66 +4191,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 依据项目所有者长期授权，仅批准CHANGELOG.md单文件范围补充，不扩大产品或发布范围。
   machine_record: .continuity/change_requests/CR-0036.yaml
   document: docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
-- protocol_version: '1.0'
-  cr_id: CR-0037
-  title: R02用户限制持久化与细粒度权限补齐
-  status: IMPLEMENTING
-  created_at: '2026-07-18T07:28:11Z'
-  updated_at: '2026-07-18T08:11:41Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-standing-authorization
-  task_id: TASK-R02-004
-  session_id: SES-20260718T070836Z-25E39817
-  user_request: 用户要求持续推进R02并由Codex自行决定非紧急实现问题
-  reason: 冻结API要求限制类型、过期时间、解除和幂等，但当前数据目录只有用户状态日志，无法可靠表达多个当前限制及自动到期；同时user.restrict、user.freeze、user.security权限未落库。
-  original_rule: R02故事仅列出users与user_status_logs等既有表，数据库基线为198表，细粒度user.restrict、user.freeze、user.security权限未物化。
-  new_rule: 新增R02 user_restrictions表保存每用户每类型当前限制、原因、到期、状态和版本；数据库事实调整为199表；物化三项冻结API权限并授予SUPER_ADMIN。
-  impact_summary: 使新增/修改限制、解除限制、到期判定和细粒度授权具备真实持久化与审计基础，不改变既有API路径或请求响应字段。
-  impact:
-    files:
-    - database/migrations/V018__r02_admin_user_controls.sql
-    - services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
-    - database/rollback/U018__r02_admin_user_controls.sql
-    - database/schema_dictionary.csv
-    - catalogs/data_tables.csv
-    - releases/R02/STORIES.yaml
-    - scripts/check_db_schema.py
-    - database/verification/verify_baseline.sql
-    pages:
-    - ADM-USER-002
-    apis:
-    - adminUsersPostUsersByIdRestrictions;adminUsersDeleteUsersByIdRestrictionsByType;adminUsersPostUsersByIdFreeze;adminUsersPostUsersByIdUnfreeze;adminUsersPostUsersByIdForceLogout
-    database:
-    - user_restrictions;admin_permissions;admin_role_permissions
-    configuration: []
-    ledger: []
-    tests:
-    - R02 migration forward/rollback;AdminUserService state/idempotency/security tests;DB schema checker
-    releases:
-    - R02
-    migration_and_compatibility: 仅前向新增表、索引、权限和授权；既有用户与会话无需回填；回滚先删除授权权限再删除空的新表；旧客户端兼容。
-  user_confirmation: 后续这种问题不要问我确认，你自己决定
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T07:28:39Z'
-    note: 依据项目所有者长期授权，批准为冻结R02写操作补齐最小持久化和权限事实；禁止改变现有API字段与路径。
-  machine_record: .continuity/change_requests/CR-0037.yaml
-  document: docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
-  decision_log:
-  - at: '2026-07-18T08:11:41Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 已完成V018、用户管控服务、管理页面、到期恢复和数据库/前后端门禁，进入提交绑定。
-    session_id: SES-20260718T070836Z-25E39817
-  session_ids:
-  - SES-20260718T070836Z-25E39817
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `70c816e280fc4f38b68c5fd53c28cafd63a7ffa908385b8b19f42092b329b3fc`
+- `CURRENT_STATUS.yaml` — `1ecad8f772dd92b73e952d7c8b45aff7bb1d3c2c3a4f9f426b9b7ce342fc1a82`
 - `NEXT_TASK.yaml` — `05dc4e82b8c54a45ce0d06ff4b8f879b90bc1a6b3e15b2650e54618a2d9420f5`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -4330,22 +4208,22 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7`
-- `.continuity/EVENT_LOG.jsonl` — `1a2b204594c30b26c99ca01826e7efe76f2bdda21455cead99896a2df805359a`
-- `.continuity/SESSION_INDEX.yaml` — `2647609076592b77c7d2bb37c44ebb24f3d9cceb911c7227ba546bb6e6e9efbb`
+- `.continuity/EVENT_LOG.jsonl` — `062cd238d3f08b746138cc7ed1b3d88d64055d39f5e8df3c4b57435c36b3ae86`
+- `.continuity/SESSION_INDEX.yaml` — `0d4fd7528952c0afe3d4b4b59a24c3ba341d6ff3372c800fb0b723cc5033ce5a`
 - `.continuity/TASK_CLAIMS.yaml` — `81a0990ecae2a8c9b84b23b455010f22b9fc44cb300a6aba56e4ef0b94c34991`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b831d9c0e05b3120e3ffee54ac598fcc0b4dcbb23fdd8d676f2c2d1506dd1c21`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `85d6b44cb864ccf5f581863cbe78f01f5b540cb39a6d421a317c03728d1d84c4`
-- `.continuity/ACTIVE_SESSION.yaml` — `fd928fe95e1d1700612d52f18114ff93b31dc495a0a61935276c571bac70b11c`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `d258a184692746636c3a27d8ea20b146ca3d6aef0c6fcf0676bee2f33b2fa071`
+- `.continuity/ACTIVE_SESSION.yaml` — `f107f0ab419a329729abbba5cb1870e861eecabb57de5f136f7d8bd4cf6a4f2a`
 - `releases/R02/RELEASE_MANIFEST.yaml` — `19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d`
 - `releases/R02/DEFINITION_OF_READY.yaml` — `9a3113b85d8dd96ea04a908a277c9da3374531ec06dd5eb91dfd539e4351d33c`
 - `releases/R02/STORIES.yaml` — `cbc199fd846c42cbb50f02af53969fb914f16a814de2d459a7f929509a9226cf`
 - `releases/R02/TASKS.yaml` — `fad118051c8721b2f95138e3192bc13715b5622a2a3715808b21d3288a6e27d6`
 - `releases/R02/ACCEPTANCE_MATRIX.csv` — `687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0`
 - `releases/R02/PARALLEL_EXECUTION_PLAN.yaml` — `c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md` — `c7b2ec02f988e7d7dd158ca17ad4fa3c2042ee99d3777654367f5079b7f223b6`
-- `.continuity/checkpoints/SES-20260718T070836Z-25E39817/0003.yaml` — `2f2999cfc4799e0e4160046d15cde1d016997c024f33bb00a2b4147686830eab`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md` — `66e877de9e8e82ac3841e24d67ffdb8519414b807a261a674ef6f9c695871b66`
+- `.continuity/checkpoints/SES-20260718T070836Z-25E39817/0004.yaml` — `267c1288ff79a2d7e7b37ea1e8d85731edfea400decf289e5c1a63cddcb4d3fb`
 - `docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md` — `caa3a18d9e0271663c93ee4ace2e4465b96e54e36322dbdd0a5b3b02a68761d9`
-- `docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md` — `ec209feee41c50a7d9fc2df763cc1412f77a7e541f55f1ed1cb837d367eccdb0`
+- `docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md` — `6cbbfaf42e2d13041b3e35dc0f8d990f88faa936cc1d264101bf12b8bc735152`
 
 ## 接手硬规则
 
