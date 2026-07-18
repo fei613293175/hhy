@@ -15,6 +15,7 @@ import static org.mockito.Mockito.when;
 
 import cc.orbexa.hhy.access.user.UserAuthContracts.RefreshRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordLoginRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.RegisterRequest;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Clock;
@@ -22,6 +23,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.Optional;
+import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -224,6 +226,47 @@ class UserAuthServiceTest {
         verify(repository).recordPasswordFailure(71L, 3, NOW.plus(Duration.ofMinutes(10)));
         verify(repository, never()).createSession(anyLong(), any(), anyString(), anyString(), any(Instant.class));
         verify(repository).abandonIdempotency(95L);
+    }
+
+    @Test
+    void registrationPersistsValidatedInviteAgreementsDeviceAndSessionTogether() {
+        RegisterRequest request = new RegisterRequest(
+                "13900000000", "481516", "Correct99", "INVITE-R02", List.of("101", "102"),
+                Map.of(
+                        "deviceFingerprint", "install-fingerprint-2",
+                        "model", "Pixel 9",
+                        "platform", "ANDROID",
+                        "osVersion", "15",
+                        "appVersion", "1.2.2-debug"));
+        when(repository.claimIdempotency(anyString(), eq("register-idem-key-0001"), anyString(), any(Instant.class)))
+                .thenReturn(new UserAuthStore.IdempotencyClaim(
+                        new UserAuthStore.IdempotencyRow(96L, "request-hash", null, null, null), false));
+        when(policy.passwordMinLength()).thenReturn(8);
+        when(policy.passwordMaxLength()).thenReturn(72);
+        when(policy.passwordRequireLetters()).thenReturn(true);
+        when(policy.passwordRequireDigits()).thenReturn(true);
+        when(repository.validateAgreementVersions(List.of("101", "102"))).thenReturn(List.of(101L, 102L));
+        when(repository.findUser("13900000000")).thenReturn(Optional.empty());
+        when(repository.findActiveInviter("INVITE-R02")).thenReturn(Optional.of(13L));
+        when(passwords.encode("Correct99")).thenReturn("bcrypt-new-hash");
+        when(repository.createUser("13900000000")).thenReturn(17L);
+        when(repository.upsertDevice(eq(17L), anyString(), eq("Pixel 9"), any(Instant.class))).thenReturn(31L);
+        when(repository.createSession(eq(17L), eq(31L), anyString(), anyString(), any(Instant.class)))
+                .thenReturn(23L);
+
+        var session = service.register(request, "register-idem-key-0001", "203.0.113.8");
+
+        assertEquals("17", session.userId());
+        assertEquals("23", session.sessionId());
+        verify(repository).lockRegistration("13900000000");
+        verify(verification).verifySms("13900000000", UserAuthContracts.AuthScene.REGISTER, "481516");
+        verify(repository).createCredential(17L, "bcrypt-new-hash", NOW);
+        verify(repository).createProfile(17L);
+        verify(repository).recordRegistration(17L, "13900000000", "INVITE-R02", 13L, 31L, "203.0.113.8");
+        verify(repository).acceptAgreementVersions(17L, 31L, List.of(101L, 102L));
+        verify(repository).recordLogin(17L, "13900000000", 31L, "203.0.113.8", "REGISTER");
+        verify(repository).completeIdempotencySnapshot(
+                eq(96L), eq("user-auth-session-v1:ok"), eq("user-auth-session-v1"), anyString());
     }
 
     private static UserAuthProperties properties() {
