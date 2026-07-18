@@ -1,0 +1,46 @@
+protocol_version: '1.0'
+cr_id: CR-0049
+title: 允许R03 APK交付证据进入仓库追溯范围
+status: SUPERSEDED
+created_at: '2026-07-18T17:20:32Z'
+updated_at: '2026-07-18T17:21:35Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R03-007
+session_id: SES-20260718T165842Z-356A8138
+user_request: 项目所有者要求持续推进R03并将每版APK放到桌面供真机测试
+reason: TASK-R03-007明确要求APK Manifest、构建日志、签名与四方SHA证据，但当前Story默认范围未包含artifacts目录
+original_rule: TASK-R03-007当前Story范围不包含artifacts目录，不能持久化任务要求的APK交付证据
+new_rule: 仅允许TASK-R03-007写入R03 APK Manifest、构建签名日志、四方交付证据和对应报告
+impact_summary: 扩大范围只覆盖R03交付追溯文件，不改变产品代码、API、数据库、配置或验收标准
+impact:
+  files:
+  - artifacts/apk/R03/**
+  - artifacts/validation/r03-apk-delivery/**
+  - artifacts/validation/r03-task007-android/**
+  - artifacts/reports/R03/TASK-R03-007-android-apk.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - deliver_android_test_apk.py prepare/verify PASS
+  releases:
+  - R03
+  migration_and_compatibility: 仅新增证据和Manifest，无运行时迁移；真机状态继续保持PENDING直到项目所有者明确通过
+user_confirmation: 先继续推进开发下一个版本，我不让你暂停就不用停止，这个版本apk一会我测完告诉你
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T17:21:05Z'
+  note: 项目所有者已明确要求持续推进并将每版APK放到桌面供测试；批准仅限R03交付证据范围
+machine_record: .continuity/change_requests/CR-0049.yaml
+document: docs/03-continuity/change-requests/CR-0049-允许R03-APK交付证据进入仓库追溯范围.md
+decision_log:
+- at: '2026-07-18T17:21:35Z'
+  actor_id: codex-root
+  status: SUPERSEDED
+  note: 范围应用器要求精确文件路径；由后继CR用六个精确证据文件替代通配范围
+  session_id: SES-20260718T165842Z-356A8138
+session_ids:
+- SES-20260718T165842Z-356A8138

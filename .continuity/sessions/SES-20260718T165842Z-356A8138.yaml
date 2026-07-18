@@ -11,9 +11,11 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: 完成R03外部激活清单、Android回归APK、桌面/服务器/公网追溯和真机验收前机器门禁
 started_at: '2026-07-18T16:58:42Z'
-updated_at: '2026-07-18T17:05:05Z'
+updated_at: '2026-07-18T17:22:50Z'
 takeover_of: null
-change_requests: []
+change_requests:
+- CR-0049
+- CR-0050
 scope:
   allowed_paths:
   - apps/**
@@ -47,8 +49,14 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - artifacts/apk/R03/APK_MANIFEST.yaml
+  - artifacts/validation/r03-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r03-task007-android/apk-signing.txt
+  - artifacts/validation/r03-task007-android/build-evidence.json
+  - artifacts/validation/r03-task007-android/gradle-build.log
+  - artifacts/reports/R03/TASK-R03-007-android-apk.md
+  source: story+explicit+approved-cr:CR-0050
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -58,22 +66,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T17:05:03Z'
-  expires_at: '2026-07-18T21:05:03Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260718T165842Z-356A8138/0002.yaml
+  renewed_at: '2026-07-18T17:22:48Z'
+  expires_at: '2026-07-18T21:22:48Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260718T165842Z-356A8138/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T165842Z-356A8138.md
-next_step: 提交精确构建基线并在固定云端工具链构建签名APK
+next_step: 提交并推送R03 APK证据；将TASK-R03-007按真机PENDING挂起并准备R03关闭恢复条件
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 093f22a4293ee918e4e43fbd6e1d0409c32bee52fbb0036a4d9c4829da07fc40
-  generated_at: '2026-07-18T17:05:05Z'
+  context_hash: b090eefd0c3d50ce6568b1c7dcc42222ef427e83755032f6db35f9507688e39a
+  generated_at: '2026-07-18T17:22:50Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: APK精确Commit构建前的版本身份与证据必须原子一致
+  reason: APK Commit、Manifest、签名、四方SHA和真机PENDING状态必须原子一致
