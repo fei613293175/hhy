@@ -50,7 +50,7 @@ tasks:
   completed_at: '2026-07-18T14:21:44Z'
 - id: TASK-R03-003
   title: 纵向批次B：orbexa.cc域名与环境配置闭环
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R03-001
   parallelizable_with:
@@ -69,9 +69,10 @@ tasks:
   - STORY-R03-002全部页面动作使用冻结生成类型
   - MODULE门禁通过并可独立交给主控集成
   session_log_required: true
+  completed_at: '2026-07-18T14:52:05Z'
 - id: TASK-R03-004
   title: 纵向批次C：支付、出款与证书生命周期配置闭环
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R03-001
   parallelizable_with:

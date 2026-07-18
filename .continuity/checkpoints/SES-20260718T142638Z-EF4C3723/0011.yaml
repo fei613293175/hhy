@@ -1,0 +1,210 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T142638Z-EF4C3723-0011
+session_id: SES-20260718T142638Z-EF4C3723
+sequence: 11
+created_at: '2026-07-18T14:52:06Z'
+summary: 关闭 TASK-R03-003：TASK-R03-003完成orbexa.cc域名计划、DNS待办、DNS/TLS/服务健康分层验证、expectedVersion和幂等阻断、ADM-CONFIG-008页面及69项Admin与14项后端测试闭环
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：5827214d3002165927d627dd370b5d45b0ecdc12
+- 任务转换：TRN-20260718T145205Z-SES-20260718T142638Z-EF4C3723
+- 下一Release：R03
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: R03 domain closure gate
+  result: PASS
+  evidence: checkpoint CP-SES-20260718T142638Z-EF4C3723-0008
+  note: all module gates
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 92dcd82614ba0cc719f7005aaea40a70c3525efc
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260718T142638Z-EF4C3723.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R03/TASKS.yaml'
+  recent_commits:
+  - "92dcd82614ba0cc719f7005aaea40a70c3525efc\t2026-07-18T22:51:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(continuity): close domain\
+    \ slice governance"
+  - "5b6daf124d4b55f3d2d7781d180571c6fb8751fb\t2026-07-18T22:50:23+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(validation): normalize\
+    \ R03 domain gate evidence"
+  - "ea6e6c96bd4768aeb9a3e9c2c26d26d18649a853\t2026-07-18T22:48:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(continuity): record\
+    \ R03 domain module gate"
+  - "5827214d3002165927d627dd370b5d45b0ecdc12\t2026-07-18T22:47:09+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): implement domain\
+    \ configuration page"
+  - "88906d71b8dd4197d65ab626add9a4fd56afebe7\t2026-07-18T22:42:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): add domain admin\
+    \ client"
+  - "be8b5260c4c35873ca3ec0a89c51be4a548dc219\t2026-07-18T22:36:45+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): orchestrate domain\
+    \ configuration"
+  - "a00cdc845cb7bbe8ffcba76a2e65922389319226\t2026-07-18T22:33:41+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): gate domain health\
+    \ in layers"
+  - "49a2074284ba24a96774596f89cd14c1d57f1fff\t2026-07-18T22:30:58+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): validate managed\
+    \ domain plan"
+project_fingerprint:
+  sha256: a697d2e6acd82592e1f9e0c271f7d35069b875150cb7824ae386974302871c9e
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/domain-config.css
+  - apps/admin-web/src/r03DomainPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminDomains.test.ts
+  - apps/admin-web/src/services/adminDomains.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/DomainConfigPage.vue
+  - docs/03-continuity/change-requests/CR-0046-允许R03域名Admin变更同步根CHANGELOG.md
+  - releases/R03/TASKS.yaml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigPolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigPolicyTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java
+  file_count: 17
+  payload:
+    base_commit: 6bb0f76ca9b2287848e00b2dbcc8b28e2c9d21ef
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 27423
+      sha256: e55d80375993c60995a0216739ee79324b595e2ec60eaabd8b1fdf722808ed64
+    - path: apps/admin-web/src/domain-config.css
+      state: FILE
+      size: 2832
+      sha256: 680fb921c26a7c5858ba53e87f95c5d3ac4ef22d358008ead4fa61b80b5ae80d
+    - path: apps/admin-web/src/r03DomainPage.test.ts
+      state: FILE
+      size: 5306
+      sha256: ae4d750df871bb4910f0101de609c08ad07afe6a27448d66d4d96f577b5602b5
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 3091
+      sha256: 110c7c493cb165a338104f138da3fe45ac5682a56134d8774a20ec5e91f75044
+    - path: apps/admin-web/src/services/adminDomains.test.ts
+      state: FILE
+      size: 4451
+      sha256: 58bb70e2f85b5ffb0f2f8749cb22505247c90915c13eebfed0d5f096a395d58e
+    - path: apps/admin-web/src/services/adminDomains.ts
+      state: FILE
+      size: 6436
+      sha256: 285c852a021b0a058c9b6f42afd5d7cc1fc10d73ae0a0a87d86be4f3b3928907
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 2123
+      sha256: 832bebaf1cfb32c723713c5d36733228e07eea504f9be6b574f834f7c675ac0d
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 226
+      sha256: e9890a61cd6bfae7b7c650f63bf1824a9f77b9f1d3b362f3a93eb9156e327980
+    - path: apps/admin-web/src/views/DomainConfigPage.vue
+      state: FILE
+      size: 15170
+      sha256: 216cdec96ae325dcbe67baffae959637b8c446f13fabebe010e7b16f334fe90e
+    - path: docs/03-continuity/change-requests/CR-0046-允许R03域名Admin变更同步根CHANGELOG.md
+      state: FILE
+      size: 2324
+      sha256: 51487a97c4ff261a2a355f249ee2b383f122e6a53b1e447e8d8c44a3a05f832a
+    - path: releases/R03/TASKS.yaml
+      state: FILE
+      size: 6998
+      sha256: 95fda8c37b0da8f734a40e2d0afd252d0e600f1894ef7c9e3055c42fc809702d
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigPolicy.java
+      state: FILE
+      size: 6094
+      sha256: c4bf3c7aed089d802860c365c2b7423ae63d0f4a597a6b8ec5d4284a8aa1c5a3
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigService.java
+      state: FILE
+      size: 10480
+      sha256: ffc57e097152d68a5ac69ca77d0ea8704e3a27556412dc87ba1b49ec92bafc05
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java
+      state: FILE
+      size: 7543
+      sha256: b27bf76f2bc0e2c62758e47f7de618eda6190ae60e69dc05d216b74e21c36431
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigPolicyTest.java
+      state: FILE
+      size: 2466
+      sha256: 2378d26a3cb2181ad8b52b149cc4f13ac73849f6fa0742dacc5511d4c0a98ee5
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigServiceTest.java
+      state: FILE
+      size: 9670
+      sha256: 14f9d0fc707aecbad913271d47bc1a0b67049ca6636baf58cf248fdcee6470c4
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java
+      state: FILE
+      size: 6631
+      sha256: a323213ca9c1c611f8b7cf8933b1a1c7be195da81c727a55eb2d2115c0823c6e
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R03/TASKS.yaml
+  code:
+  - apps/admin-web/src/domain-config.css
+  - apps/admin-web/src/r03DomainPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminDomains.test.ts
+  - apps/admin-web/src/services/adminDomains.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/DomainConfigPage.vue
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigPolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainConfigService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinator.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigPolicyTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainConfigServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/DomainVerificationCoordinatorTest.java
+  user_visible:
+  - apps/admin-web/src/domain-config.css
+  - apps/admin-web/src/r03DomainPage.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminDomains.test.ts
+  - apps/admin-web/src/services/adminDomains.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/DomainConfigPage.vue
+  continuity:
+  - docs/03-continuity/change-requests/CR-0046-允许R03域名Admin变更同步根CHANGELOG.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0046
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0046
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 关闭CR和任务切换属于唯一事实写入，必须串行完成
+event_hash: 8dcbd30da277b86542186a2cc48f4bfaba5234ab3038824e418f37e87c0f7ff7

@@ -1,5 +1,5 @@
-id: TASK-R03-003
-title: 纵向批次B：orbexa.cc域名与环境配置闭环
+id: TASK-R03-004
+title: 纵向批次C：支付、出款与证书生命周期配置闭环
 status: READY
 release: R03
 requirements:
@@ -14,18 +14,18 @@ depends_on:
 definition_of_ready: releases/R03/DEFINITION_OF_READY.yaml
 stories: releases/R03/STORIES.yaml
 steps:
-- 域名数据、API、Admin页面和测试真实闭环
-- api/download当前验证状态与其余域名待办可追踪
-- expectedVersion、重复verify幂等和失败阻断证据
+- 支付、出款、证书的数据、API、Admin页面与测试闭环
+- 证书原文不可回读，指纹、轮换、访问和审批审计完整
+- 幂等、乐观锁、错误码和回滚证据
 acceptance:
-- 不把DNS解析成功等同于服务健康或生产激活
-- STORY-R03-002全部页面动作使用冻结生成类型
+- 无明文私钥、口令或生产凭据进入仓库和日志
+- STORY-R03-003全部页面动作使用冻结生成类型
 - MODULE门禁通过并可独立交给主控集成
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-003
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-004
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-003
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-004
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
