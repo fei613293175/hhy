@@ -395,3 +395,12 @@
 - 摘要：TASK-R03-005完成：13个冻结API、共享V019迁移、审批资源绑定、真实PostgreSQL17.10、193项后端测试、73项管理端测试、生产构建、文档与生成物门禁全绿
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T152013Z-8B704646.md`
 
+## TASK-R03-006 · COMPLETED · 2026-07-18T16:56:21Z
+
+- Task close: TASK-R03-006 / SES-20260718T162320Z-23C14331
+- Release：`R03`
+- Story：`STORY-R03-004`
+- Actor：`codex-root`
+- 摘要：R03可观测性、隔离Staging、两组业务告警和同库卷应用回切演练全部通过，AC-R03-004已签PASS
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T162320Z-23C14331.md`
+

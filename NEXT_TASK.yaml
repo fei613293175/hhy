@@ -1,5 +1,5 @@
-id: TASK-R03-006
-title: 可观测性、Staging部署与回滚演练
+id: TASK-R03-007
+title: 外部激活证据、Android回归APK与产物追溯
 status: READY
 release: R03
 requirements:
@@ -10,20 +10,22 @@ requirements:
 - REQ-CONFIG-UX-001
 - REQ-APK-001
 depends_on:
-- TASK-R03-005
+- TASK-R03-006
 definition_of_ready: releases/R03/DEFINITION_OF_READY.yaml
 stories: releases/R03/STORIES.yaml
 steps:
-- 运行手册与回滚演练证据
-- 验收矩阵自动化条目签字
+- 外部激活清单、连接报告、SecretRef和证书指纹
+- DNS、TLS、服务健康三层状态和责任人
+- APK Commit、versionName、versionCode、签名指纹、四方SHA和桌面副本
 acceptance:
-- 日志不包含秘密、证书原文或敏感供应商响应
-- Staging与INTEGRATION门禁通过
+- 每项外部依赖为VERIFIED或具备负责人、截止版本和阻断状态
+- 连接测试失败不得激活对应配置版本
+- APK机器交付PASS和项目所有者真机PASS分别记录；真机反馈前保持PENDING
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-006
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-007
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-006
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-007
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
