@@ -1,0 +1,194 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T070836Z-25E39817-0001
+session_id: SES-20260718T070836Z-25E39817
+sequence: 1
+created_at: '2026-07-18T07:24:34Z'
+summary: 完成R02后台用户读取纵向切片：服务端用户列表/筛选/白名单排序/分页/脱敏与详情404；管理端生成类型客户端及ADM-USER-001/002真实页面，覆盖加载、空、离线、无权限、重试与详情导航。
+next_step: 提交读取闭环，随后实现限制、解除限制、冻结、解冻和强制下线的状态机、幂等、审计与管理页面动作。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: backend_admin_user_read
+  result: PASS
+  evidence: remote JDK21 Maven AdminUserServiceTest
+  note: 4 tests, 0 failures; reactor BUILD SUCCESS
+- name: admin_web_tests
+  result: PASS
+  evidence: pnpm --filter @hhy/admin-web test
+  note: 6 files, 44 tests passed
+- name: admin_web_typecheck
+  result: PASS
+  evidence: pnpm --filter @hhy/admin-web typecheck
+  note: vue-tsc no errors
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: 67d189bb50a96bad6e6d1acf54983162130a9299
+  upstream: origin/task/TASK-R02-002
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/admin-web/src/router.ts'
+  - ' M apps/admin-web/src/services/index.ts'
+  - ' M apps/admin-web/src/styles.css'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260718T070836Z-25E39817.yaml
+  - ?? apps/admin-web/src/services/adminUsers.test.ts
+  - ?? apps/admin-web/src/services/adminUsers.ts
+  - ?? apps/admin-web/src/views/AdminUserDetailPage.vue
+  - ?? apps/admin-web/src/views/AdminUsersListPage.vue
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
+  recent_commits:
+  - "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
+    \ as completed"
+  - "8573731b1f0fa26af70f5b2eb67e18f37263470a\t2026-07-18T15:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] fix(android): reject APK builds\
+    \ with placeholder API"
+  - "4ea46c06c62b14eda09b9d1d533962bdfcc731cf\t2026-07-18T14:49:43+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close account\
+    \ cancellation flow"
+  - "93be8d6799542112ee63db6d1c9d6c3735766d1c\t2026-07-18T14:39:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close restricted\
+    \ account appeal flow"
+  - "03c95d7c05145165305b7b5934710b3c5c744605\t2026-07-18T14:19:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close security\
+    \ sessions and password change"
+  - "6d4ad64b271c91565aaeee42074aa5a989a1af74\t2026-07-18T13:32:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): close TASK-R02-002\
+    \ as completed"
+  - "26955b8bcb8687734b4c96aafefd1dcb90bbbccc\t2026-07-18T13:30:38+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(release): advance to\
+    \ security session batch"
+  - "f74b49367168311b5ed605c988c0cbbd364850cf\t2026-07-18T13:27:28+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] feat(auth): source controlled\
+    \ registration agreements"
+project_fingerprint:
+  sha256: d5a609e55a161e18d06dd9b46b6d449887f19b6c65cca660d013f675e018e4a2
+  files:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminUsers.test.ts
+  - apps/admin-web/src/services/adminUsers.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
+  file_count: 12
+  payload:
+    base_commit: 67d189bb50a96bad6e6d1acf54983162130a9299
+    files:
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 2015
+      sha256: 27194ee2827fa4df286b4f78692887622d251349af6fa7dce68c19bc66e98ce8
+    - path: apps/admin-web/src/services/adminUsers.test.ts
+      state: FILE
+      size: 3680
+      sha256: be2afee414851fa15f7a33e56a4b0d65db7c1542fafa8d56b10ad6f8939375bf
+    - path: apps/admin-web/src/services/adminUsers.ts
+      state: FILE
+      size: 3957
+      sha256: 4489af905ed867a69415865dafe72f1dfc111b903995bed4a4d07c43cc0d29fe
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 154
+      sha256: 464b0b2aa452b05b72dc24c70232c0314281888ad0a0eb01d78945fbc8877f0d
+    - path: apps/admin-web/src/styles.css
+      state: FILE
+      size: 19892
+      sha256: c2cdd26df445dae9086e8eae59e0c5645796b884e514d461c9e97d810232fbb7
+    - path: apps/admin-web/src/views/AdminUserDetailPage.vue
+      state: FILE
+      size: 6218
+      sha256: 18a0fd08b10a11aa1c2cb3b6b3a4f48394d703dc00f38879a0c93e73889e3411
+    - path: apps/admin-web/src/views/AdminUsersListPage.vue
+      state: FILE
+      size: 7897
+      sha256: 2f4508495c1a527813a075dbc1d8cbe2c46763218c906bfe4aafaaab13fad346
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
+      state: FILE
+      size: 850
+      sha256: 5d1b0034fd64fc05f75c3217dd766985cd8b998896f80d23f120f9b9d3916b91
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
+      state: FILE
+      size: 3399
+      sha256: 6e88aa150d9d585d694ab8a972d77ac2743e614282426a35c878930e88289817
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
+      state: FILE
+      size: 4871
+      sha256: f6240c5d8b9a3ab64138280bb397c4aa452e61fc36cd18bd3ec3829d4247ae55
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
+      state: FILE
+      size: 2522
+      sha256: 12f293ceac674810210027c4eddb361de4df4d7b166a6782104070ab7dc22404
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
+      state: FILE
+      size: 3433
+      sha256: 48ed774ade3c595e9b1366432c8717bbffc1be0b64e9dbc45732612c1997b842
+change_classification:
+  code:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminUsers.test.ts
+  - apps/admin-web/src/services/adminUsers.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
+  user_visible:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminUsers.test.ts
+  - apps/admin-web/src/services/adminUsers.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 读取切片同时绑定同一UserResource契约、服务端投影和两个共享路由；先串行固化契约边界，下一写操作切片再按互斥路径评估。
+event_hash: 1014e1be1c364f14d9dabe7aefe5280471ce1bc9f38d494d400b53651c9227b2

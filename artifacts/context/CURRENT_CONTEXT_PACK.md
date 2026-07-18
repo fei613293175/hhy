@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T07:05:27Z
-- Context Hash：`f9f2474f899aae65612ceee22b610ac12bcc3a9d4179f5927f000896b9a7db0d`
+- 生成时间：2026-07-18T07:26:22Z
+- Context Hash：`c7065bb1bccbdf07d70746c41ed3c041bb27a0c671c17dc7f0c58d95293e8533`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R02-004
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 当前状态
@@ -18,7 +18,7 @@ baseline_version: 1.2.3
 phase: R02
 active_release: R02
 active_task: TASK-R02-004
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: db3cfddcc4cda84265ec18f24de972804d62a08f
 last_staging_apk: null
@@ -53,10 +53,11 @@ completed_tasks:
 - TASK-R02-001
 - TASK-R02-002
 - TASK-R02-003
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R02-004
 blocked_tasks: []
 next_task: TASK-R02-004
-updated_at: '2026-07-18T07:05:25Z'
+updated_at: '2026-07-18T07:26:21Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -88,17 +89,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260718T053331Z-F0ED92BF
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0015.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260718T070836Z-25E39817
+  actor_id: codex-root
+  story_id: STORY-R02-001
+  lease_expires_at: '2026-07-18T11:26:21Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0002.yaml
+  project_fingerprint: 6fe9ae61e36d307368d3d57592f2fccbd6b619096066a8d968003ab162734b01
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: ded2b8a27618e2e9bef8522ba13a3aba329229d4dfa79156f0b7df295a9ddd77
-    generated_at: '2026-07-18T07:05:25Z'
+    context_hash: a24bfb3bfbbf23690f3ef514cae7cf88249fb88022118ca5228ae368ac74f8d5
+    generated_at: '2026-07-18T07:24:36Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -280,13 +283,285 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T070836Z-25E39817
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R02
+task_id: TASK-R02-004
+story_id: STORY-R02-001
+goal: 完成后台用户列表的数据、生成契约、API、管理页面、权限状态和自动化测试闭环，再推进用户详情与管控。
+started_at: '2026-07-18T07:08:36Z'
+updated_at: '2026-07-18T07:26:21Z'
+takeover_of: null
+change_requests:
+- CR-0036
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0036
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  base_commit: 67d189bb50a96bad6e6d1acf54983162130a9299
+  start_head: 67d189bb50a96bad6e6d1acf54983162130a9299
+  upstream: origin/task/TASK-R02-002
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T07:26:21Z'
+  expires_at: '2026-07-18T11:26:21Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md
+next_step: 提交读取闭环，随后实现用户限制、冻结、解冻和强制下线的状态机、幂等与审计。
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 本检查点包含同一读取契约与单文件治理范围修正，先串行固化后再拆分写操作。
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T070836Z-25E39817-0002
+session_id: SES-20260718T070836Z-25E39817
+sequence: 2
+created_at: '2026-07-18T07:26:20Z'
+summary: 完成后台用户读取闭环，并通过CR-0036精确补充CHANGELOG.md单文件会话范围以满足用户可见变更门禁。
+next_step: 提交读取闭环，随后实现用户限制、冻结、解冻和强制下线的状态机、幂等与审计。
+blockers: []
+decisions:
+- CR-0036仅允许TASK-R02-004同步CHANGELOG.md，不扩大产品、数据库或发布范围。
+note: ''
+tests:
+- name: backend_admin_user_read
+  result: PASS
+  evidence: remote JDK21 Maven AdminUserServiceTest
+  note: 4 tests, 0 failures; reactor BUILD SUCCESS
+- name: admin_web_tests
+  result: PASS
+  evidence: pnpm --filter @hhy/admin-web test
+  note: 6 files, 44 tests passed
+- name: admin_web_typecheck
+  result: PASS
+  evidence: pnpm --filter @hhy/admin-web typecheck
+  note: vue-tsc no errors
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: 67d189bb50a96bad6e6d1acf54983162130a9299
+  upstream: origin/task/TASK-R02-002
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - MM .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/checkpoints/SES-20260718T070836Z-25E39817/0001.yaml
+  - AM .continuity/sessions/SES-20260718T070836Z-25E39817.yaml
+  - ' M CHANGELOG.md'
+  - M  CURRENT_STATUS.yaml
+  - M  apps/admin-web/src/router.ts
+  - A  apps/admin-web/src/services/adminUsers.test.ts
+  - A  apps/admin-web/src/services/adminUsers.ts
+  - M  apps/admin-web/src/services/index.ts
+  - M  apps/admin-web/src/styles.css
+  - A  apps/admin-web/src/views/AdminUserDetailPage.vue
+  - A  apps/admin-web/src/views/AdminUsersListPage.vue
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - ' M catalogs/change_request_index.csv'
+  - MM catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - A  docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md
+  - A  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
+  - A  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
+  - A  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
+  - A  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
+  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
+  - ?? .continuity/change_requests/CR-0036.yaml
+  - ?? docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
+  recent_commits:
+  - "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
+    \ as completed"
+  - "8573731b1f0fa26af70f5b2eb67e18f37263470a\t2026-07-18T15:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] fix(android): reject APK builds\
+    \ with placeholder API"
+  - "4ea46c06c62b14eda09b9d1d533962bdfcc731cf\t2026-07-18T14:49:43+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close account\
+    \ cancellation flow"
+  - "93be8d6799542112ee63db6d1c9d6c3735766d1c\t2026-07-18T14:39:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close restricted\
+    \ account appeal flow"
+  - "03c95d7c05145165305b7b5934710b3c5c744605\t2026-07-18T14:19:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close security\
+    \ sessions and password change"
+  - "6d4ad64b271c91565aaeee42074aa5a989a1af74\t2026-07-18T13:32:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): close TASK-R02-002\
+    \ as completed"
+  - "26955b8bcb8687734b4c96aafefd1dcb90bbbccc\t2026-07-18T13:30:38+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(release): advance to\
+    \ security session batch"
+  - "f74b49367168311b5ed605c988c0cbbd364850cf\t2026-07-18T13:27:28+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] feat(auth): source controlled\
+    \ registration agreements"
+project_fingerprint:
+  sha256: 6fe9ae61e36d307368d3d57592f2fccbd6b619096066a8d968003ab162734b01
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminUsers.test.ts
+  - apps/admin-web/src/services/adminUsers.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  - docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
+  file_count: 14
+  payload:
+    base_commit: 67d189bb50a96bad6e6d1acf54983162130a9299
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 18966
+      sha256: ee60489758b7c048519a161947db0c67c4ef85c11e3e2837dfd64496806d5044
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 2015
+      sha256: 27194ee2827fa4df286b4f78692887622d251349af6fa7dce68c19bc66e98ce8
+    - path: apps/admin-web/src/services/adminUsers.test.ts
+      state: FILE
+      size: 3680
+      sha256: be2afee414851fa15f7a33e56a4b0d65db7c1542fafa8d56b10ad6f8939375bf
+    - path: apps/admin-web/src/services/adminUsers.ts
+      state: FILE
+      size: 3957
+      sha256: 4489af905ed867a69415865dafe72f1dfc111b903995bed4a4d07c43cc0d29fe
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 154
+      sha256: 464b0b2aa452b05b72dc24c70232c0314281888ad0a0eb01d78945fbc8877f0d
+    - path: apps/admin-web/src/styles.css
+      state: FILE
+      size: 19892
+      sha256: c2cdd26df445dae9086e8eae59e0c5645796b884e514d461c9e97d810232fbb7
+    - path: apps/admin-web/src/views/AdminUserDetailPage.vue
+      state: FILE
+      size: 6218
+      sha256: 18a0fd08b10a11aa1c2cb3b6b3a4f48394d703dc00f38879a0c93e73889e3411
+    - path: apps/admin-web/src/views/AdminUsersListPage.vue
+      state: FILE
+      size: 7897
+      sha256: 2f4508495c1a527813a075dbc1d8cbe2c46763218c906bfe4aafaaab13fad346
+    - path: docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
+      state: FILE
+      size: 1836
+      sha256: caa3a18d9e0271663c93ee4ace2e4465b96e54e36322dbdd0a5b3b02a68761d9
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
+      state: FILE
+      size: 850
+      sha256: 5d1b0034fd64fc05f75c3217dd766985cd8b998896f80d23f120f9b9d3916b91
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
+      state: FILE
+      size: 3399
+      sha256: 6e88aa150d9d585d694ab8a972d77ac2743e614282426a35c878930e88289817
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
+      state: FILE
+      size: 4871
+      sha256: f6240c5d8b9a3ab64138280bb397c4aa452e61fc36cd18bd3ec3829d4247ae55
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
+      state: FILE
+      size: 2522
+      sha256: 12f293ceac674810210027c4eddb361de4df4d7b166a6782104070ab7dc22404
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
+      state: FILE
+      size: 3433
+      sha256: 48ed774ade3c595e9b1366432c8717bbffc1be0b64e9dbc45732612c1997b842
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminUsers.test.ts
+  - apps/admin-web/src/services/adminUsers.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
+  user_visible:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminUsers.test.ts
+  - apps/admin-web/src/services/adminUsers.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  continuity:
+  - docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0036
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0036
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 本检查点包含同一读取契约与单文件治理范围修正，先串行固化后再拆分写操作。
+event_hash: ca8b49ddb91e7a3da110d9ec558edb212875f71c3a2b5832353c3fb4ade22590
 ```
 
 ## 接续状态与事件头
@@ -294,31 +569,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260718T070836Z-25E39817
 last_session_id: SES-20260718T053331Z-F0ED92BF
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T053331Z-F0ED92BF-0015
-event_count: 405
-event_head_hash: 31b11177fa2141c9be4f07bfecd9b31ec30101c2e86b5717f4ad8c24e1d5ba12
+event_count: 412
+event_head_hash: ca8b49ddb91e7a3da110d9ec558edb212875f71c3a2b5832353c3fb4ade22590
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260717T111928Z-C383F7A2
-  task_id: TASK-R01-004
-  story_id: STORY-R01-001
-  actor_id: codex-root
-  status: CLOSED
-  started_at: '2026-07-17T11:19:28Z'
-  record: .continuity/sessions/SES-20260717T111928Z-C383F7A2.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260717T111928Z-C383F7A2.md
-  updated_at: '2026-07-17T12:20:22Z'
-  closed_at: '2026-07-17T12:20:22Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T111928Z-C383F7A2/0004.yaml
-  handoff_bundle: null
-- session_id: SES-20260717T122518Z-91E6F4D6
+recent_sessions: - session_id: SES-20260717T122518Z-91E6F4D6
   task_id: TASK-R01-005
   story_id: STORY-R01-003
   actor_id: codex-root
@@ -426,46 +689,19 @@ recent_sessions: - session_id: SES-20260717T111928Z-C383F7A2
   closed_at: '2026-07-18T07:05:25Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0015.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-821BE587CF3B
-  session_id: SES-20260717T023226Z-06841AFC
-  task_id: TASK-P00-002
-  story_id: STORY-P00-001
+- session_id: SES-20260718T070836Z-25E39817
+  task_id: TASK-R02-004
+  story_id: STORY-R02-001
   actor_id: codex-root
-  status: CLOSED
-  claimed_at: '2026-07-17T02:32:26Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-17T02:33:58Z'
-- claim_id: CLM-7942880F386B
+  status: ACTIVE
+  started_at: '2026-07-18T07:08:36Z'
+  record: .continuity/sessions/SES-20260718T070836Z-25E39817.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md
+  updated_at: '2026-07-18T07:26:21Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0002.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-7942880F386B
   session_id: SES-20260717T023511Z-C6513BB0
   task_id: TASK-P00-003
   story_id: STORY-P00-001
@@ -1123,17 +1359,27 @@ task_claims: - claim_id: CLM-821BE587CF3B
   - design/**
   - scripts/**
   closed_at: '2026-07-18T07:05:25Z'
-recent_task_transitions: - transition_id: TRN-1B9F92EC13B6
-  timestamp: '2026-07-17T02:38:48Z'
-  release: P00
-  task_id: TASK-P00-004
-  story_id: STORY-P00-001
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260717T023848Z-9F352CA9
+- claim_id: CLM-496A3EFF20D2
+  session_id: SES-20260718T070836Z-25E39817
+  task_id: TASK-R02-004
+  story_id: STORY-R02-001
   actor_id: codex-root
-  reason: 会话领取任务
-- transition_id: TRN-B087F7FC31DE
+  status: ACTIVE
+  claimed_at: '2026-07-18T07:08:36Z'
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+recent_task_transitions: - transition_id: TRN-B087F7FC31DE
   timestamp: '2026-07-17T02:44:07Z'
   release: P00
   task_id: TASK-P00-005
@@ -1323,6 +1569,16 @@ recent_task_transitions: - transition_id: TRN-1B9F92EC13B6
   session_id: SES-20260718T053331Z-F0ED92BF
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-3B63590CF0E6
+  timestamp: '2026-07-18T07:08:36Z'
+  release: R02
+  task_id: TASK-R02-004
+  story_id: STORY-R02-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260718T070836Z-25E39817
+  actor_id: codex-root
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1330,29 +1586,48 @@ recent_task_transitions: - transition_id: TRN-1B9F92EC13B6
 ```yaml
 initialized: true
 branch: task/TASK-R02-002
-head: 8573731b1f0fa26af70f5b2eb67e18f37263470a
+head: 67d189bb50a96bad6e6d1acf54983162130a9299
 upstream: origin/task/TASK-R02-002
-ahead: 2
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260718T053331Z-F0ED92BF.yaml'
+- MM .continuity/ACTIVE_SESSION.yaml
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- M  .continuity/TASK_CLAIMS.yaml
+- M  .continuity/TASK_TRANSITIONS.yaml
+- A  .continuity/checkpoints/SES-20260718T070836Z-25E39817/0001.yaml
+- AM .continuity/sessions/SES-20260718T070836Z-25E39817.yaml
 - ' M CHANGELOG.md'
-- ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260718T053331Z-F0ED92BF.md'
-- ' M releases/R02/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0015.yaml
+- MM CURRENT_STATUS.yaml
+- M  apps/admin-web/src/router.ts
+- A  apps/admin-web/src/services/adminUsers.test.ts
+- A  apps/admin-web/src/services/adminUsers.ts
+- M  apps/admin-web/src/services/index.ts
+- M  apps/admin-web/src/styles.css
+- A  apps/admin-web/src/views/AdminUserDetailPage.vue
+- A  apps/admin-web/src/views/AdminUsersListPage.vue
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- ' M catalogs/change_request_index.csv'
+- MM catalogs/session_index.csv
+- M  catalogs/task_transition_ledger.csv
+- AM docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md
+- A  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
+- A  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
+- A  services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
+- A  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
+- A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
+- ?? .continuity/change_requests/CR-0036.yaml
+- ?? .continuity/checkpoints/SES-20260718T070836Z-25E39817/0002.yaml
+- ?? docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
 recent_commits:
+- "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
+  \ as completed"
 - "8573731b1f0fa26af70f5b2eb67e18f37263470a\t2026-07-18T15:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] fix(android): reject APK builds\
   \ with placeholder API"
 - "4ea46c06c62b14eda09b9d1d533962bdfcc731cf\t2026-07-18T14:49:43+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close account cancellation\
@@ -1367,16 +1642,27 @@ recent_commits:
   \ session batch"
 - "f74b49367168311b5ed605c988c0cbbd364850cf\t2026-07-18T13:27:28+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] feat(auth): source controlled\
   \ registration agreements"
-- "7779031c00a3e6a2fd202cd2800175b5727f58cf\t2026-07-18T12:46:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): record automated\
-  \ R02 resume"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`5652d5560a12036d89666b8932993baf26172a8ec8d6dd49ed5c1fbf07b0f859`
-- 文件数：0
+- 指纹：`6fe9ae61e36d307368d3d57592f2fccbd6b619096066a8d968003ab162734b01`
+- 文件数：14
 
-- 无
+- `CHANGELOG.md`
+- `apps/admin-web/src/router.ts`
+- `apps/admin-web/src/services/adminUsers.test.ts`
+- `apps/admin-web/src/services/adminUsers.ts`
+- `apps/admin-web/src/services/index.ts`
+- `apps/admin-web/src/styles.css`
+- `apps/admin-web/src/views/AdminUserDetailPage.vue`
+- `apps/admin-web/src/views/AdminUsersListPage.vue`
+- `docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java`
+- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java`
 
 ## 当前 Release
 
@@ -3770,13 +4056,48 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260718T053331Z-F0ED92BF
   implementation_commits:
   - 4ea46c0
+- protocol_version: '1.0'
+  cr_id: CR-0036
+  title: TASK-R02-004允许同步用户可见变更日志
+  status: APPROVED
+  created_at: '2026-07-18T07:25:29Z'
+  updated_at: '2026-07-18T07:25:55Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-standing-authorization
+  task_id: TASK-R02-004
+  session_id: SES-20260718T070836Z-25E39817
+  user_request: 用户要求R02-R32持续开发并自行处理非紧急确认事项
+  reason: 提交门禁要求用户可见后台页面更新CHANGELOG.md，但当前会话允许路径遗漏该治理文件。
+  original_rule: TASK-R02-004会话仅允许apps、services、packages、contracts、database、config、tests、docs、catalogs、releases、design与scripts路径。
+  new_rule: TASK-R02-004在用户可见变更触发门禁时额外允许同步根目录CHANGELOG.md，其他范围保持不变。
+  impact_summary: 仅补充本任务真实用户可见变更的版本记录，不改变产品契约、版本号、数据库或发布范围。
+  impact:
+    files:
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - continuity pre-commit CHANGELOG_REQUIRED gate
+    releases:
+    - R02
+    migration_and_compatibility: 仅文档追加，向后兼容，无运行时迁移。
+  user_confirmation: 后续这种问题不要问我确认，你自己决定
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T07:25:55Z'
+    note: 依据项目所有者长期授权，仅批准CHANGELOG.md单文件范围补充，不扩大产品或发布范围。
+  machine_record: .continuity/change_requests/CR-0036.yaml
+  document: docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `82eca271809921409ae198c8f302fbdb3e61c225e5d3238fdeb332050552cf70`
+- `CURRENT_STATUS.yaml` — `205a80bbe19c8926b43f25401fd9d05582aa91f9b603dd64d50e4202bfda84b5`
 - `NEXT_TASK.yaml` — `05dc4e82b8c54a45ce0d06ff4b8f879b90bc1a6b3e15b2650e54618a2d9420f5`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3787,12 +4108,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7`
-- `.continuity/EVENT_LOG.jsonl` — `e3a0b6e22782d374952d78cd5026143aa37c18ac0d309216e9cf1ac3e55d490f`
-- `.continuity/SESSION_INDEX.yaml` — `a4a2b008ab5edd0668d244c64fda66ffc9c5d85f006bdce296a057a07f33cd84`
-- `.continuity/TASK_CLAIMS.yaml` — `4c6b060709160e6af0a8b589de0b9506ae7196eda917be020f7a34716bcad49a`
-- `.continuity/TASK_TRANSITIONS.yaml` — `2cb1d6c8e9ebc60151fef8021586aa5625c05f383299de8b4dd395543fd8bb6b`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `9cba66b428626cf907bd5b6bed5cabd5ec59b00788685f0cedebe6b00e359869`
-- `.continuity/ACTIVE_SESSION.yaml` — `ffbc67e6a518441cf8e8370b5940ff17f0d0b25518e2b1f26a6cfe00ca272863`
+- `.continuity/EVENT_LOG.jsonl` — `b1d6f96884a0d4e7baf3a2591bf7497d70130e3fd5496ee95fbf262e1a5b9be1`
+- `.continuity/SESSION_INDEX.yaml` — `78855a7bc2086ad6247a621d6bacc4a24ffc037a3632717fca44c187ea70265d`
+- `.continuity/TASK_CLAIMS.yaml` — `81a0990ecae2a8c9b84b23b455010f22b9fc44cb300a6aba56e4ef0b94c34991`
+- `.continuity/TASK_TRANSITIONS.yaml` — `b831d9c0e05b3120e3ffee54ac598fcc0b4dcbb23fdd8d676f2c2d1506dd1c21`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `6ab296e771ffaff6cb1044ba0659512bc610160f16112d4601c55e4f83817a2e`
+- `.continuity/ACTIVE_SESSION.yaml` — `1772c60a7a1e536437b68f3bc67c98729c1232a2fbfd7c500b91d02e1692ea2d`
+- `releases/R02/RELEASE_MANIFEST.yaml` — `19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d`
+- `releases/R02/DEFINITION_OF_READY.yaml` — `9a3113b85d8dd96ea04a908a277c9da3374531ec06dd5eb91dfd539e4351d33c`
+- `releases/R02/STORIES.yaml` — `966e57d10e36269465e74318903ffa0aa5c49d205ba38cce3ba5ebbdbe9ca571`
+- `releases/R02/TASKS.yaml` — `fad118051c8721b2f95138e3192bc13715b5622a2a3715808b21d3288a6e27d6`
+- `releases/R02/ACCEPTANCE_MATRIX.csv` — `687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0`
+- `releases/R02/PARALLEL_EXECUTION_PLAN.yaml` — `c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md` — `ec5587717be1408b09cb1cb3af887c46ee748e430f0e7c949a1e9725092dd363`
+- `.continuity/checkpoints/SES-20260718T070836Z-25E39817/0002.yaml` — `0c576be9fc557dc333fa0ad278e9e3af6a3563954034975213cc8e56f3646cec`
+- `docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md` — `caa3a18d9e0271663c93ee4ace2e4465b96e54e36322dbdd0a5b3b02a68761d9`
 
 ## 接手硬规则
 

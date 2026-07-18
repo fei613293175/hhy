@@ -1,0 +1,62 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T070836Z-25E39817
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R02
+task_id: TASK-R02-004
+story_id: STORY-R02-001
+goal: 完成后台用户列表的数据、生成契约、API、管理页面、权限状态和自动化测试闭环，再推进用户详情与管控。
+started_at: '2026-07-18T07:08:36Z'
+updated_at: '2026-07-18T07:26:23Z'
+takeover_of: null
+change_requests:
+- CR-0036
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0036
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  base_commit: 67d189bb50a96bad6e6d1acf54983162130a9299
+  start_head: 67d189bb50a96bad6e6d1acf54983162130a9299
+  upstream: origin/task/TASK-R02-002
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T07:26:21Z'
+  expires_at: '2026-07-18T11:26:21Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md
+next_step: 提交读取闭环，随后实现用户限制、冻结、解冻和强制下线的状态机、幂等与审计。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: c7065bb1bccbdf07d70746c41ed3c041bb27a0c671c17dc7f0c58d95293e8533
+  generated_at: '2026-07-18T07:26:22Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 本检查点包含同一读取契约与单文件治理范围修正，先串行固化后再拆分写操作。

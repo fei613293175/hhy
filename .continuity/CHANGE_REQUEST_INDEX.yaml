@@ -2075,3 +2075,38 @@ change_requests:
   - SES-20260718T053331Z-F0ED92BF
   implementation_commits:
   - 4ea46c0
+- protocol_version: '1.0'
+  cr_id: CR-0036
+  title: TASK-R02-004允许同步用户可见变更日志
+  status: APPROVED
+  created_at: '2026-07-18T07:25:29Z'
+  updated_at: '2026-07-18T07:25:55Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-standing-authorization
+  task_id: TASK-R02-004
+  session_id: SES-20260718T070836Z-25E39817
+  user_request: 用户要求R02-R32持续开发并自行处理非紧急确认事项
+  reason: 提交门禁要求用户可见后台页面更新CHANGELOG.md，但当前会话允许路径遗漏该治理文件。
+  original_rule: TASK-R02-004会话仅允许apps、services、packages、contracts、database、config、tests、docs、catalogs、releases、design与scripts路径。
+  new_rule: TASK-R02-004在用户可见变更触发门禁时额外允许同步根目录CHANGELOG.md，其他范围保持不变。
+  impact_summary: 仅补充本任务真实用户可见变更的版本记录，不改变产品契约、版本号、数据库或发布范围。
+  impact:
+    files:
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - continuity pre-commit CHANGELOG_REQUIRED gate
+    releases:
+    - R02
+    migration_and_compatibility: 仅文档追加，向后兼容，无运行时迁移。
+  user_confirmation: 后续这种问题不要问我确认，你自己决定
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T07:25:55Z'
+    note: 依据项目所有者长期授权，仅批准CHANGELOG.md单文件范围补充，不扩大产品或发布范围。
+  machine_record: .continuity/change_requests/CR-0036.yaml
+  document: docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
