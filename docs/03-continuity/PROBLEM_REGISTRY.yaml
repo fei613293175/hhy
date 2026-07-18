@@ -233,3 +233,15 @@ problems:
   do_not_repeat:
   - 新增非可选安全配置时必须同步所有部署和预发布编排
   - 不得用弱默认值绕过配置绑定或启动安全校验
+- id: PROB-0021
+  title: R02 Android构建号与应用内发布策略常量不一致
+  status: SOLVED
+  root_cause: TASK-R02-007将Gradle versionCode升级为10202时，应用内ReleasePolicy仍保留R01的10201；固定工具链的VersionMetadataTest在APK交付前发现漂移并阻止构建。
+  resolution: 将Gradle与ReleasePolicy统一为10202，并增加R02单调构建号显式断言；所有APK身份、版本检查请求和交付证据绑定同一源码提交。
+  regression_checks:
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - 固定工具链testDebugUnitTest lintDebug assembleDebug
+  - APK badging必须报告versionCode 10202
+  do_not_repeat:
+  - 版本切换时必须同时更新Gradle构建身份和应用内发布策略常量
+  - 不得绕过VersionMetadataTest交付未对齐版本身份的APK

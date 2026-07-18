@@ -11,7 +11,7 @@ task_id: TASK-R02-007
 story_id: STORY-R02-009
 goal: 使用固定Android工具链和稳定测试签名构建R02 APK，验证真实API地址、签名、安装可行性、桌面与下载产物哈希并生成完整追溯清单
 started_at: '2026-07-18T10:50:25Z'
-updated_at: '2026-07-18T10:52:01Z'
+updated_at: '2026-07-18T10:59:54Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -58,22 +58,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T10:51:59Z'
-  expires_at: '2026-07-18T14:51:59Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0001.yaml
+  renewed_at: '2026-07-18T10:59:52Z'
+  expires_at: '2026-07-18T14:59:52Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md
-next_step: 提交APK构建基线并使用固定远端工具链构建、签名和生成机器证据
+next_step: 提交修复并以新提交重跑Android全量构建
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: ca35e066c9f3bf8a268123520fc122ffe7a67f3d1f667873a4a5cf5ff087e7d3
-  generated_at: '2026-07-18T10:52:00Z'
+  context_hash: 67c78b96a82a7dc7f92da5fa2da8cb7d09ab4b532a9e3317af5d8641aee16ab6
+  generated_at: '2026-07-18T10:59:53Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: APK源码提交、构建证据Commit和签名产物必须严格串行绑定
+  reason: APK构建证据必须绑定修复后的单一Commit
