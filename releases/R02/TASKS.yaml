@@ -156,7 +156,7 @@ tasks:
   completed_at: '2026-07-18T10:48:30Z'
 - id: TASK-R02-007
   title: 账号、登录、注册与安全会话Android测试APK与产物追溯
-  status: READY
+  status: BLOCKED
   depends_on:
   - TASK-R02-006
   requirements: *id001
@@ -170,6 +170,8 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  blocker: R02机器交付与公网PNG门禁均PASS，等待项目所有者对hhy-r02-7b425c4-debug.apk完成真机验证码与登录路径验收
+  blocked_at: '2026-07-18T13:23:29Z'
 - id: TASK-R02-008
   title: 账号、登录、注册与安全会话版本关闭与无状态交接
   status: BLOCKED
