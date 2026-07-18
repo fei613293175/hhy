@@ -3,9 +3,9 @@ title: 供应商配置、密钥、证书与域名中心
 tasks:
 - id: TASK-R03-001
   title: 供应商配置、密钥、证书与域名中心开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
-  requirements: &requirements
+  requirements: &id001
   - REQ-CONFIG-001
   - REQ-DOMAIN-001
   - REQ-STORAGE-001
@@ -25,9 +25,10 @@ tasks:
   - 供应商、域名、支付/出款的共享API所有权和主控合并边界明确
   - python scripts/check_v122_documentation.py --release R03
   session_log_required: true
+  completed_at: '2026-07-18T13:30:28Z'
 - id: TASK-R03-002
   title: 纵向批次A：短信、存储与实名供应商配置闭环
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R03-001
   parallelizable_with:
@@ -35,7 +36,7 @@ tasks:
   - TASK-R03-004
   stories:
   - STORY-R03-001
-  requirements: *requirements
+  requirements: *id001
   description: 完成供应商定义、不可变版本、连接测试、SecretRef、证书状态、双人审批、激活/回滚、后台页面和自动化测试的真实闭环。
   deliverables:
   - 短信、R2/OSS和实名配置的数据、API、Admin页面与测试闭环
@@ -56,7 +57,7 @@ tasks:
   - TASK-R03-004
   stories:
   - STORY-R03-002
-  requirements: *requirements
+  requirements: *id001
   description: 完成域名版本、环境隔离、DNS动作、DNS/TLS/服务健康验证、负责人和截止条件、Admin页面及自动化测试。
   deliverables:
   - 域名数据、API、Admin页面和测试真实闭环
@@ -77,7 +78,7 @@ tasks:
   - TASK-R03-003
   stories:
   - STORY-R03-003
-  requirements: *requirements
+  requirements: *id001
   description: 完成支付网关、支付宝出款和证书上传/轮换的版本化、SecretRef、双人审批、连接测试、后台页面和安全测试。
   deliverables:
   - 支付、出款、证书的数据、API、Admin页面与测试闭环
@@ -97,7 +98,7 @@ tasks:
   - TASK-R03-004
   stories:
   - STORY-R03-004
-  requirements: *requirements
+  requirements: *id001
   description: 主控汇合三条业务切片，统一共享迁移、权限、SecretRef、审批、审计、契约生成，并执行18项权威测试和供应商故障注入。
   deliverables:
   - Flyway空库、升级库、回滚和数据不变量证据
@@ -113,7 +114,7 @@ tasks:
   status: BLOCKED
   depends_on:
   - TASK-R03-005
-  requirements: *requirements
+  requirements: *id001
   description: 部署Staging，验证结构化日志、TraceId、RED指标、连接测试指标、业务告警、配置激活和回滚演练。
   deliverables:
   - 运行手册与回滚演练证据
@@ -127,7 +128,7 @@ tasks:
   status: BLOCKED
   depends_on:
   - TASK-R03-006
-  requirements: *requirements
+  requirements: *id001
   description: 完成短信、实名、支付、出款、存储的测试环境连接与脱敏证据；使用固定Staging签名构建回归APK，完成桌面、服务器、公网下载和项目所有者真机验收。
   deliverables:
   - 外部激活清单、连接报告、SecretRef和证书指纹
@@ -143,7 +144,7 @@ tasks:
   status: BLOCKED
   depends_on:
   - TASK-R03-007
-  requirements: *requirements
+  requirements: *id001
   description: 回填追踪矩阵、Session Log、问题登记、可复用模式、CURRENT_STATUS和NEXT_TASK。
   deliverables:
   - 全新AI仅凭仓库可继续

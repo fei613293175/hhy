@@ -1,5 +1,5 @@
-id: TASK-R03-001
-title: 供应商配置、密钥、证书与域名中心开发就绪核验、故事领取与变更基线
+id: TASK-R03-002
+title: 纵向批次A：短信、存储与实名供应商配置闭环
 status: READY
 release: R03
 requirements:
@@ -9,25 +9,23 @@ requirements:
 - REQ-SECRET-001
 - REQ-CONFIG-UX-001
 - REQ-APK-001
-depends_on: []
+depends_on:
+- TASK-R03-001
 definition_of_ready: releases/R03/DEFINITION_OF_READY.yaml
 stories: releases/R03/STORIES.yaml
 steps:
-- releases/R03/DEFINITION_OF_READY.yaml 全部适用项PASS
-- releases/R03/STORIES.yaml 故事责任人和依赖已领取
-- releases/R03/PARALLEL_EXECUTION_PLAN.yaml 的三条业务切片与互斥路径已冻结
-- R03回归APK、固定Staging签名、桌面副本和真机验收门禁明确
-- python scripts/check_v122_documentation.py --release R03
+- 短信、R2/OSS和实名配置的数据、API、Admin页面与测试闭环
+- 连接测试失败不得激活，秘密只暴露配置状态和SecretRef元数据
+- 幂等、乐观锁、审批、审计和回滚证据
 acceptance:
-- 页面、字段、状态、动作、API、配置、数据和测试无TBD
-- 不适用项明确N/A及原因
-- 供应商、域名、支付/出款的共享API所有权和主控合并边界明确
-- python scripts/check_v122_documentation.py --release R03
+- 无TODO/生产Mock或明文秘密
+- STORY-R03-001全部页面动作使用冻结生成类型
+- MODULE门禁通过并可独立交给主控集成
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-001
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-002
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-001
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-002
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -35,9 +33,3 @@ commands:
   cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
     '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
 next_after: 由当前TASKS.yaml依赖关系决定
-deferred_task:
-  id: TASK-R02-007
-  release: R02
-  status: BLOCKED
-  reason: R02机器交付与公网PNG门禁均PASS，等待项目所有者对hhy-r02-7b425c4-debug.apk完成真机验证码与登录路径验收
-  resume_after: 项目所有者真机反馈到达后，在当前安全检查点恢复验收与关闭
