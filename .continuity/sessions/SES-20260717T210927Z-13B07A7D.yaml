@@ -11,7 +11,7 @@ task_id: TASK-R02-002
 story_id: STORY-R02-003
 goal: 接管 SES-20260717T204616Z-254B60A3：接管 SES-20260717T200842Z-456B8F52：完成Android启动、登录与邀请注册纵向闭环，覆盖数据、API、Android、测试与模块门禁
 started_at: '2026-07-17T21:09:27Z'
-updated_at: '2026-07-18T02:58:58Z'
+updated_at: '2026-07-18T03:02:02Z'
 takeover_of: SES-20260717T204616Z-254B60A3
 change_requests:
 - CR-0019
@@ -100,22 +100,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T02:58:56Z'
-  expires_at: '2026-07-18T06:58:56Z'
-checkpoint_sequence: 27
-latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0027.yaml
+  renewed_at: '2026-07-18T03:02:00Z'
+  expires_at: '2026-07-18T07:02:00Z'
+checkpoint_sequence: 29
+latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0029.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-next_step: 继续 R02 启动门禁的网络拒绝与恢复边界验证；生产部署仍等待 PROB-0013 的受控密钥来源。
+next_step: 继续 R02 启动门禁和认证流程的端到端行为验证；生产部署仍等待 PROB-0013 的受控密钥来源。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 1c1249c9efc1bba6e69ff6adc9a9aa55e98a717c4275a83f3cf36760b348569e
-  generated_at: '2026-07-18T02:58:58Z'
+  context_hash: a20cb9b852f5994bb2597995d4280e906e59464529d334edf55163872a82b55f
+  generated_at: '2026-07-18T03:02:02Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: HTTP 契约测试与认证服务共用安全请求模型和响应信封，需保持单一契约基线，避免并发产生字段漂移。
+  reason: 启动门禁决定维护、更新与认证入口，状态优先级和异常映射共享同一状态机，需串行验证。

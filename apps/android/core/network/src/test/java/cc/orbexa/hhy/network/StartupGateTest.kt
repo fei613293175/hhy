@@ -46,6 +46,19 @@ class StartupGateTest {
     }
 
     @Test
+    fun forcedUpdateStillBlocksWhenLatestContentFails() = runBlocking {
+        val api = FakeApi(
+            policy = versionPolicy(UpdateType.FORCED),
+            latestFailure = HhyApiException(503, "request_latest_failed"),
+        )
+
+        val result = StartupGate(api).evaluate(request) as StartupGateState.UpdateRequired
+
+        assertTrue(result.forced)
+        assertNull(result.page)
+    }
+
+    @Test
     fun currentVersionContinuesToApplication() = runBlocking {
         val api = FakeApi(policy = versionPolicy(UpdateType.NONE))
 
@@ -64,10 +77,20 @@ class StartupGateTest {
         assertEquals(StartupGateState.Unavailable("request_status_failed"), result)
     }
 
+    @Test
+    fun versionCheckFailurePreservesRequestIdForRecovery() = runBlocking {
+        val api = FakeApi(versionFailure = HhyApiException(503, "request_version_failed"))
+
+        val result = StartupGate(api).evaluate(request)
+
+        assertEquals(StartupGateState.Unavailable("request_version_failed"), result)
+    }
+
     private class FakeApi(
         private val status: PlatformStatus = platformStatus(),
         private val policy: VersionPolicy = versionPolicy(UpdateType.NONE),
         private val statusFailure: Exception? = null,
+        private val versionFailure: Exception? = null,
         private val latestFailure: Exception? = null,
     ) : HhyPublicApi {
         var versionCalls = 0
@@ -80,6 +103,7 @@ class StartupGateTest {
 
         override suspend fun versionCheck(request: VersionCheckRequest): ApiEnvelope<VersionPolicy> {
             versionCalls += 1
+            versionFailure?.let { throw it }
             return envelope(policy)
         }
 
