@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T22:48:40Z
-- Context Hash：`abd072f66c5317d77c5d8c76542149b5c4da0a5fff71f441f269f47b977f8c5c`
+- 生成时间：2026-07-18T23:29:51Z
+- Context Hash：`b09680a1ccfa7ff7b0671a6eb75a0454249f58daf37ad4207d25288a916d54dd`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -68,7 +68,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R03-007
-updated_at: '2026-07-18T22:48:38Z'
+updated_at: '2026-07-18T23:29:49Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -103,15 +103,15 @@ continuity:
   active_session_id: SES-20260718T200607Z-3569D212
   actor_id: codex-root
   story_id: STORY-R03-004
-  lease_expires_at: '2026-07-19T02:48:38Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0010.yaml
-  project_fingerprint: f4bd8ed068e019a4aa7cded0eca1c9607617f2e3c44a3aefcc285cb233fdae93
+  lease_expires_at: '2026-07-19T03:29:49Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0013.yaml
+  project_fingerprint: 6e6fb434fc92b18952f97e786d227b6d530cc0d7269709c2d86870006cb202ce
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: c167902a05b516ca79caab396e55582b1ff7c6d15b1761ee82f366db16831166
-    generated_at: '2026-07-18T22:46:52Z'
+    context_hash: 3501224f9a2b37247dd816fd816b0563cb95a72aa11818021ced98d8b8442a9d
+    generated_at: '2026-07-18T23:28:58Z'
   handoff_bundle: null
 ```
 
@@ -308,7 +308,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-18T22:48:38Z'
+updated_at: '2026-07-18T23:29:49Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -324,6 +324,8 @@ change_requests:
 - CR-0061
 - CR-0062
 - CR-0063
+- CR-0064
+- CR-0065
 scope:
   allowed_paths:
   - apps/**
@@ -457,7 +459,16 @@ scope:
   - packages/design-tokens/admin.css
   - scripts/check_ui_tokens.py
   - scripts/check_main_doc.py
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063
+  - artifacts/apk/R03/APK_MANIFEST.yaml
+  - artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
+  - artifacts/validation/r03-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r03-apk-delivery/history/3a913c9/delivery-evidence.json
+  - artifacts/validation/r03-task007-android/build-evidence.json
+  - artifacts/validation/r03-task007-android/gradle-build.log
+  - artifacts/validation/r03-task007-android/apk-signing.txt
+  - artifacts/reports/R03/TASK-R03-007-android-apk.md
+  - catalogs/release_plan.csv
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -467,12 +478,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T22:48:38Z'
-  expires_at: '2026-07-19T02:48:38Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0010.yaml
+  renewed_at: '2026-07-18T23:29:49Z'
+  expires_at: '2026-07-19T03:29:49Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0013.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 使用绑定Python执行提交钩子，提交推送后部署测试邀请码并构建交付桌面APK。
+next_step: 提交并推送R02认证补开发的APK交付证据与发布计划修正；以该提交号关闭CR-0064和CR-0065，再提交推送关闭记录。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -480,155 +491,98 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 提交、推送、部署和APK构建是严格前后依赖。
+  reason: 只剩同一提交链的变更单状态、检查点和Git推送，必须串行绑定确切提交号。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T200607Z-3569D212-0010
+checkpoint_id: CP-SES-20260718T200607Z-3569D212-0013
 session_id: SES-20260718T200607Z-3569D212
-sequence: 10
-created_at: '2026-07-18T22:48:37Z'
-summary: R02认证热修复实现、全量测试、冻结包校验及连续性演练通过；提交前文档行尾规范已清理。
-next_step: 使用绑定Python执行提交钩子，提交推送后部署测试邀请码并构建交付桌面APK。
+sequence: 13
+created_at: '2026-07-18T23:29:48Z'
+summary: CR-0064和CR-0065实现完成：0958f1f固定签名回归APK已四方交付并通过外网校验，历史交付证据已归档，R03发布计划APK策略已与版本清单统一为YES。
+next_step: 提交并推送R02认证补开发的APK交付证据与发布计划修正；以该提交号关闭CR-0064和CR-0065，再提交推送关闭记录。
 blockers: []
-decisions: []
+decisions:
+- 项目所有者真机验收继续为PENDING；仅在用户测试反馈通过后更新，不把测试APK误标为正式发布产物。
 note: ''
 tests:
+- name: release-artifacts
+  result: PASS
+  evidence: releases/R03/RELEASE_MANIFEST.yaml
+  note: R03发布产物常规门禁通过
+- name: apk-delivery
+  result: PASS
+  evidence: artifacts/validation/r03-apk-delivery/delivery-evidence.json
+  note: 四方SHA、HTTPS、签名与真实API配置通过
 - name: continuity-strict
   result: PASS
-  evidence: check_v123_continuity --strict
-  note: all 42 rules passed
-- name: design-package
-  result: PASS
-  evidence: 35 hashes and 23 changes verified
-  note: frozen package read-only
-- name: diff-check
-  result: PASS
-  evidence: trailing whitespace cleaned
-  note: commit format gate ready
+  evidence: artifacts/validation/project-doctor-v1.2.3.json
+  note: 63个变更单和全部连续性集成/生命周期检查通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 655e1eebbdd2df3ce1f527b7d77601826cb11c55
+  head: 0958f1f96ff12b769647c293082e5a4fadd7cb78
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/CONTINUITY_POLICY.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - A  .continuity/change_requests/CR-0054.yaml
-  - A  .continuity/change_requests/CR-0055.yaml
-  - A  .continuity/change_requests/CR-0056.yaml
-  - A  .continuity/change_requests/CR-0057.yaml
-  - A  .continuity/change_requests/CR-0058.yaml
-  - A  .continuity/change_requests/CR-0059.yaml
-  - A  .continuity/change_requests/CR-0060.yaml
-  - A  .continuity/change_requests/CR-0061.yaml
-  - A  .continuity/change_requests/CR-0062.yaml
-  - A  .continuity/change_requests/CR-0063.yaml
-  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0008.yaml
-  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0009.yaml
-  - M  .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
-  - M  AGENTS.md
-  - M  CHANGELOG.md
-  - M  CURRENT_STATUS.yaml
-  - M  START_HERE.md
-  - M  apps/admin-web/src/components/AuthShell.vue
-  - M  apps/admin-web/src/components/ProviderCertificatePanel.vue
-  - M  apps/admin-web/src/components/StatusNotice.vue
-  - M  apps/admin-web/src/r01Pages.test.ts
-  - M  apps/admin-web/src/views/AdminSecurityPage.vue
-  - M  apps/admin-web/src/views/AdminUserDetailPage.vue
-  - M  apps/admin-web/src/views/AdminUsersListPage.vue
-  - M  apps/admin-web/src/views/DomainConfigPage.vue
-  - M  apps/admin-web/src/views/ProviderConfigPage.vue
-  - M  apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
-  - M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
-  - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-  - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
-  - M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-  - M  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
-  - M  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
-  - M  apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
-  - M  apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
-  - M  apps/h5/src/services/inviteRegistration.test.ts
-  - M  apps/h5/src/views/InviteRegistrationPage.test.ts
-  - M  apps/h5/src/views/InviteRegistrationPage.vue
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  artifacts/validation/continuity-integration-v1.2.3.json
-  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-  - M  artifacts/validation/project-doctor-v1.2.3.json
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/session_index.csv
-  - M  contracts/contract_status.csv
-  - M  contracts/openapi.yaml
-  - A  design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_8STATE_UI_REFERENCE.png
-  - A  design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_MANIFEST.json
-  - A  design/effect-previews/B01-CAPTCHA/OUTPUT_REQUIREMENTS.md
-  - A  design/effect-previews/B01-CAPTCHA/states/P01_初始页_验证码隐藏.png
-  - A  design/effect-previews/B01-CAPTCHA/states/P02_点击登录_挑战加载.png
-  - A  design/effect-previews/B01-CAPTCHA/states/P03_验证码就绪_等待输入.png
-  - A  design/effect-previews/B01-CAPTCHA/states/P04_答案错误_原位重试.png
-  - A  design/effect-previews/B01-CAPTCHA/states/P05_过期-刷新_旧答案清空.png
-  - A  design/effect-previews/B01-CAPTCHA/states/P06_短信-注册_发送前验证.png
-  - A  design/effect-previews/B01-CAPTCHA/states/P07_验证通过_自动续办.png
-  - A  design/effect-previews/B01-CAPTCHA/states/P08_网络失败_键盘-小屏适配.png
-  - M  design/tokens/hhy_design_tokens_v1.2.2.json
-  - AM docs/00-baseline/正式商业系统全局硬性开发边界.md
-  - M  docs/01-authentication/登录注册与安全验证详细规格_V1.2.2.md
-  - M  docs/02-ui/12批UI参考图绑定索引_V1.2.2.md
-  - AM docs/02-ui/R02安全验证码弹层交互与视觉规格_V1.2.2.md
-  - M  docs/02-ui/page-specs/android/SCR-AUTH-001_密码登录.md
-  - M  docs/02-ui/page-specs/android/SCR-AUTH-002_短信验证码登录.md
-  - M  docs/02-ui/page-specs/android/SCR-AUTH-003_注册账号.md
-  - M  docs/02-ui/page-specs/android/SCR-AUTH-004_忘记密码.md
-  - M  docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md
-  - M  docs/02-ui/页面施工规格总索引_V1.2.2.md
-  - M  docs/02-ui/页面模板字段状态动作唯一事实源_V1.2.2.md
-  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - A  docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md
-  - A  docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md
-  - A  docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md
-  - A  docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md
-  - A  docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md
-  - A  docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md
-  - A  docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md
-  - A  docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md
-  - A  docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md
-  - A  docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md
-  - M  docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  - M  packages/api-client/src/client.generated.ts
-  - M  packages/design-tokens/admin.css
-  - M  packages/design-tokens/h5.css
-  - A  releases/R02/R02_AUTH_HOTFIX_20260719.md
-  - A  scripts/check_commercial_ui_boundaries.py
-  - M  scripts/check_main_doc.py
-  - M  scripts/check_r02_security_challenge_design_package.py
-  - M  scripts/check_ui_tokens.py
-  - A  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
-  - M  services/backend/boot/src/main/resources/application.yml
-  - M  services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
-  - M  templates/AGENTS.md
-  - M  templates/START_HERE.md
-  - A  tests/test_commercial_ui_boundaries.py
-  - M  tests/test_r02_auth_slice_contract.py
-  - M  tests/test_r02_security_challenge_design_package.py
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0054.yaml'
+  - ' M .continuity/change_requests/CR-0055.yaml'
+  - ' M .continuity/change_requests/CR-0056.yaml'
+  - ' M .continuity/change_requests/CR-0057.yaml'
+  - ' M .continuity/change_requests/CR-0058.yaml'
+  - ' M .continuity/change_requests/CR-0059.yaml'
+  - ' M .continuity/change_requests/CR-0060.yaml'
+  - ' M .continuity/change_requests/CR-0061.yaml'
+  - ' M .continuity/change_requests/CR-0062.yaml'
+  - ' M .continuity/change_requests/CR-0063.yaml'
+  - ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/apk/R03/APK_MANIFEST.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/reports/R03/TASK-R03-007-android-apk.md'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M artifacts/validation/r03-apk-delivery/delivery-evidence.json'
+  - ' M artifacts/validation/r03-task007-android/apk-signing.txt'
+  - ' M artifacts/validation/r03-task007-android/build-evidence.json'
+  - ' M artifacts/validation/r03-task007-android/gradle-build.log'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/release_plan.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md'
+  - ' M docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md'
+  - ' M docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md'
+  - ' M docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md'
+  - ' M docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md'
+  - ' M docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md'
+  - ' M docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md'
+  - ' M docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md'
+  - ' M docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md'
+  - ' M docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md'
+  - ' M releases/R02/R02_AUTH_HOTFIX_20260719.md'
+  - ?? .continuity/change_requests/CR-0064.yaml
+  - ?? .continuity/change_requests/CR-0065.yaml
+  - ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0011.yaml
+  - ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0012.yaml
+  - ?? artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
+  - ?? artifacts/validation/r03-apk-delivery/history/3a913c9/delivery-evidence.json
+  - ?? docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md
+  - ?? docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md
   recent_commits:
+  - "0958f1f96ff12b769647c293082e5a4fadd7cb78\t2026-07-19T06:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r02): freeze security\
+    \ challenge and password registration"
   - "655e1eebbdd2df3ce1f527b7d77601826cb11c55\t2026-07-19T04:50:09+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): restore desktop\
     \ apk evidence"
   - "ab17752eabb6db73f0438fd5048ec45ef0247921\t2026-07-19T04:46:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close resume\
@@ -643,10 +597,8 @@ git:
     \ apk evidence"
   - "3a913c95265f93b815042389d573f4804137c0c0\t2026-07-19T01:05:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): freeze external\
     \ and apk baseline"
-  - "25d8171c76e0cef323a717ad66ac85ccd69371c3\t2026-07-19T00:57:28+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-006\
-    \ as completed"
 project_fingerprint:
-  sha256: f4bd8ed068e019a4aa7cded0eca1c9607617f2e3c44a3aefcc285cb233fdae93
+  sha256: 6e6fb434fc92b18952f97e786d227b6d530cc0d7269709c2d86870006cb202ce
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -672,6 +624,9 @@ project_fingerprint:
   - apps/h5/src/services/inviteRegistration.test.ts
   - apps/h5/src/views/InviteRegistrationPage.test.ts
   - apps/h5/src/views/InviteRegistrationPage.vue
+  - artifacts/apk/R03/APK_MANIFEST.yaml
+  - artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
+  - catalogs/release_plan.csv
   - contracts/contract_status.csv
   - contracts/openapi.yaml
   - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_8STATE_UI_REFERENCE.png
@@ -713,6 +668,8 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md
   - docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md
   - docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md
+  - docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md
+  - docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md
   - packages/api-client/src/client.generated.ts
   - packages/design-tokens/admin.css
   - packages/design-tokens/h5.css
@@ -735,7 +692,7 @@ project_fingerprint:
   - tests/test_continuity_blocked_resume.py
   - tests/test_r02_auth_slice_contract.py
   - tests/test_r02_security_challenge_design_package.py
-  file_count: 87
+  file_count: 92
   payload:
     base_commit: 18e2db65b65afeb1e69d0c382ab53963fc97adec
     files:
@@ -835,6 +792,18 @@ project_fingerprint:
       state: FILE
       size: 12176
       sha256: 92ef0dca8f59c69d050b8a2e1adc037f6859b49f693082abf5b70eab92832188
+    - path: artifacts/apk/R03/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: fe0dc014f9c1702df00dc8b6f5119eee09c2edd12d7f871052aae965cb4ee826
+    - path: artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 4f29b72895f47d666882bb9223e51c6103d94ce427f8f7bbc3297b6b2d593846
+    - path: catalogs/release_plan.csv
+      state: FILE
+      size: 15548
+      sha256: b7d4aadd7fed9df1838707eb90e5b31f7d82047b59c783afae0763fe4d3ae67c
     - path: contracts/contract_status.csv
       state: FILE
       size: 139188
@@ -961,44 +930,52 @@ project_fingerprint:
       sha256: d34b7054137e69b320623c2971b6b89fdc8c26644170a1cbc9ab29dbc2fb1ab0
     - path: docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md
       state: FILE
-      size: 7188
-      sha256: 570569e64f28338335fdac3500133ad7f40abec4bf8090430a2dc9e78af43838
+      size: 7503
+      sha256: 2ce5d467153c78df455f5931dcf0f966a58230c024d2fda05a2ccbe677155d6a
     - path: docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md
       state: FILE
-      size: 3292
-      sha256: 2f7db76799a9cb572ce609aa9afb8be0187d694ac15fd220d562b91f7cfbedd3
+      size: 3555
+      sha256: 81d272c00dc12a1481281e73eeaf8c7b36bf0466323bca9f2aa32ba9738e6708
     - path: docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md
       state: FILE
-      size: 2465
-      sha256: b93de35bf64993bf081bcdad7925c9622d380cee943c5e57e63092cc0d7432c4
+      size: 2728
+      sha256: 8e513b90d185be07c6b7f1a7e2880a873e65c244f8f903a2b61bdf73cdcab21d
     - path: docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md
       state: FILE
-      size: 2387
-      sha256: 12bc90c1d1dc3e298b346ed9698fd14680d63a32b96ddce49b453e81002f18f8
+      size: 2650
+      sha256: 645b337fe879c63672ca7ca5b50d09d49978ea7861e66d741f011eb628a888ce
     - path: docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md
       state: FILE
-      size: 2907
-      sha256: 92b48e492037e26be0f617c90490599e84b0531df853f2f2446811df5437f0f5
+      size: 3170
+      sha256: 207ed1fdeb748ec8c52cb64b116014cb8dac9c7ff815269c2a1e36aac6a4177c
     - path: docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md
       state: FILE
-      size: 2314
-      sha256: fe30c350a27877d95f97627ead6e233589a510c552d70248b2143002def3f6ce
+      size: 2577
+      sha256: 603886f4fb41dbff9fc2d24be5b73524b413cc0c9956d4b57dbc3d1a9d1b2529
     - path: docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md
       state: FILE
-      size: 2381
-      sha256: 54f30119acbf54bb77ce6ff56d4062832df36764dd971f4c8de17330b997e14f
+      size: 2644
+      sha256: 4e77e0a0cc2f9ee4b35926b4abb418a6a131ba875b7853495e9677c59586898c
     - path: docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md
       state: FILE
-      size: 2129
-      sha256: 295e4066edcb0c8045b5f20d050bee97574b383ee50ef3254f52a21f71b16933
+      size: 2392
+      sha256: d58e137c26203c9328f0fb43e495b5f45fdf37e744eec54e1b4e8112ec4170de
     - path: docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md
       state: FILE
-      size: 2044
-      sha256: 474b814936d47e04b628904e99ef438c7220f2d2611faafefbf950783e1dacfa
+      size: 2307
+      sha256: bc26d3d2324bb3839f5b08dfa97438996e3fc874421ebea3bbef41f1593ea328
     - path: docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md
       state: FILE
-      size: 2834
-      sha256: 2c09fe83410224d6c2b15d4237a85d8c55edcab204906156fe5345c6763bd4b8
+      size: 3097
+      sha256: abd7fb668023ad07d9204904c2c3cd113b59182b8840a3ab83a3809b84573b73
+    - path: docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md
+      state: FILE
+      size: 3605
+      sha256: 99c4de90c614cd793d02f3dc81ae1f9ebc1bde447b7889994d966015d680590f
+    - path: docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md
+      state: FILE
+      size: 2603
+      sha256: 939f5902819d81604335a51b6afd1317a1bc134031eec812b6d38cc022cd630d
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 610915
@@ -1013,8 +990,8 @@ project_fingerprint:
       sha256: 7d7730836de5d729b9522ca3fab2bb20555df8fab8212f9e8f52fac699957f2c
     - path: releases/R02/R02_AUTH_HOTFIX_20260719.md
       state: FILE
-      size: 3033
-      sha256: 1c31e969306cd88e94f0b1d8b018163127c1986147b20c5d997d3a6511494199
+      size: 4272
+      sha256: b6243dbe8e4ab2aa42e8172242a3b55533ad55150fa3da0aedb43d3113fad007
     - path: scripts/check_commercial_ui_boundaries.py
       state: FILE
       size: 1984
@@ -1091,6 +1068,9 @@ change_classification:
   other:
   - AGENTS.md
   - CHANGELOG.md
+  - artifacts/apk/R03/APK_MANIFEST.yaml
+  - artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
+  - catalogs/release_plan.csv
   - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_8STATE_UI_REFERENCE.png
   - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_MANIFEST.json
   - design/effect-previews/B01-CAPTCHA/OUTPUT_REQUIREMENTS.md
@@ -1212,6 +1192,8 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md
   - docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md
   - docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md
+  - docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md
+  - docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md
   tests:
   - tests/test_commercial_ui_boundaries.py
   - tests/test_continuity_blocked_resume.py
@@ -1241,6 +1223,8 @@ change_requests:
 - CR-0061
 - CR-0062
 - CR-0063
+- CR-0064
+- CR-0065
 scope:
   allowed_paths:
   - apps/**
@@ -1374,13 +1358,22 @@ scope:
   - packages/design-tokens/admin.css
   - scripts/check_ui_tokens.py
   - scripts/check_main_doc.py
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063
+  - artifacts/apk/R03/APK_MANIFEST.yaml
+  - artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
+  - artifacts/validation/r03-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r03-apk-delivery/history/3a913c9/delivery-evidence.json
+  - artifacts/validation/r03-task007-android/build-evidence.json
+  - artifacts/validation/r03-task007-android/gradle-build.log
+  - artifacts/validation/r03-task007-android/apk-signing.txt
+  - artifacts/reports/R03/TASK-R03-007-android-apk.md
+  - catalogs/release_plan.csv
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 提交、推送、部署和APK构建是严格前后依赖。
-event_hash: e29ba5173ff624ed258fa66145b2075402206903955a92a10241fcb26b520953
+  reason: 只剩同一提交链的变更单状态、检查点和Git推送，必须串行绑定确切提交号。
+event_hash: 1a07661e4c5f8d1a3eeebc639d0196dba54bf292fa7af79f3463c422ea089b4f
 ```
 
 ## 接续状态与事件头
@@ -1392,8 +1385,8 @@ active_session_id: SES-20260718T200607Z-3569D212
 last_session_id: SES-20260718T165842Z-356A8138
 last_session_result: BLOCKED
 last_closure_checkpoint_id: CP-SES-20260718T165842Z-356A8138-0005
-event_count: 713
-event_head_hash: e29ba5173ff624ed258fa66145b2075402206903955a92a10241fcb26b520953
+event_count: 738
+event_head_hash: 1a07661e4c5f8d1a3eeebc639d0196dba54bf292fa7af79f3463c422ea089b4f
 event_chain_valid: true
 ```
 
@@ -1516,9 +1509,9 @@ recent_sessions: - session_id: SES-20260718T084729Z-BD53B7C4
   started_at: '2026-07-18T20:06:07Z'
   record: .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  updated_at: '2026-07-18T22:48:38Z'
+  updated_at: '2026-07-18T23:29:49Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0010.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0013.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-3E379E115FA4
   session_id: SES-20260717T141717Z-A01412D7
@@ -2358,124 +2351,66 @@ recent_task_transitions: - transition_id: TRN-23D2BAB015EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 655e1eebbdd2df3ce1f527b7d77601826cb11c55
+head: 0958f1f96ff12b769647c293082e5a4fadd7cb78
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- M  .continuity/CHANGE_REQUEST_INDEX.yaml
-- M  .continuity/CONTINUITY_POLICY.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/change_requests/CR-0054.yaml
-- A  .continuity/change_requests/CR-0055.yaml
-- A  .continuity/change_requests/CR-0056.yaml
-- A  .continuity/change_requests/CR-0057.yaml
-- A  .continuity/change_requests/CR-0058.yaml
-- A  .continuity/change_requests/CR-0059.yaml
-- A  .continuity/change_requests/CR-0060.yaml
-- A  .continuity/change_requests/CR-0061.yaml
-- A  .continuity/change_requests/CR-0062.yaml
-- A  .continuity/change_requests/CR-0063.yaml
-- A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0008.yaml
-- A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0009.yaml
-- MM .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
-- M  AGENTS.md
-- M  CHANGELOG.md
-- MM CURRENT_STATUS.yaml
-- M  START_HERE.md
-- M  apps/admin-web/src/components/AuthShell.vue
-- M  apps/admin-web/src/components/ProviderCertificatePanel.vue
-- M  apps/admin-web/src/components/StatusNotice.vue
-- M  apps/admin-web/src/r01Pages.test.ts
-- M  apps/admin-web/src/views/AdminSecurityPage.vue
-- M  apps/admin-web/src/views/AdminUserDetailPage.vue
-- M  apps/admin-web/src/views/AdminUsersListPage.vue
-- M  apps/admin-web/src/views/DomainConfigPage.vue
-- M  apps/admin-web/src/views/ProviderConfigPage.vue
-- M  apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
-- M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
-- M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-- M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
-- M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-- M  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
-- M  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
-- M  apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
-- M  apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
-- M  apps/h5/src/services/inviteRegistration.test.ts
-- M  apps/h5/src/views/InviteRegistrationPage.test.ts
-- M  apps/h5/src/views/InviteRegistrationPage.vue
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- M  artifacts/validation/continuity-integration-v1.2.3.json
-- M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-- M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-- M  artifacts/validation/project-doctor-v1.2.3.json
-- M  catalogs/change_request_index.csv
-- MM catalogs/session_index.csv
-- M  contracts/contract_status.csv
-- M  contracts/openapi.yaml
-- A  design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_8STATE_UI_REFERENCE.png
-- A  design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_MANIFEST.json
-- A  design/effect-previews/B01-CAPTCHA/OUTPUT_REQUIREMENTS.md
-- A  design/effect-previews/B01-CAPTCHA/states/P01_初始页_验证码隐藏.png
-- A  design/effect-previews/B01-CAPTCHA/states/P02_点击登录_挑战加载.png
-- A  design/effect-previews/B01-CAPTCHA/states/P03_验证码就绪_等待输入.png
-- A  design/effect-previews/B01-CAPTCHA/states/P04_答案错误_原位重试.png
-- A  design/effect-previews/B01-CAPTCHA/states/P05_过期-刷新_旧答案清空.png
-- A  design/effect-previews/B01-CAPTCHA/states/P06_短信-注册_发送前验证.png
-- A  design/effect-previews/B01-CAPTCHA/states/P07_验证通过_自动续办.png
-- A  design/effect-previews/B01-CAPTCHA/states/P08_网络失败_键盘-小屏适配.png
-- M  design/tokens/hhy_design_tokens_v1.2.2.json
-- AM docs/00-baseline/正式商业系统全局硬性开发边界.md
-- M  docs/01-authentication/登录注册与安全验证详细规格_V1.2.2.md
-- M  docs/02-ui/12批UI参考图绑定索引_V1.2.2.md
-- AM docs/02-ui/R02安全验证码弹层交互与视觉规格_V1.2.2.md
-- M  docs/02-ui/page-specs/android/SCR-AUTH-001_密码登录.md
-- M  docs/02-ui/page-specs/android/SCR-AUTH-002_短信验证码登录.md
-- M  docs/02-ui/page-specs/android/SCR-AUTH-003_注册账号.md
-- M  docs/02-ui/page-specs/android/SCR-AUTH-004_忘记密码.md
-- M  docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md
-- M  docs/02-ui/页面施工规格总索引_V1.2.2.md
-- M  docs/02-ui/页面模板字段状态动作唯一事实源_V1.2.2.md
-- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-- A  docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md
-- A  docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md
-- A  docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md
-- A  docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md
-- A  docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md
-- A  docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md
-- A  docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md
-- A  docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md
-- A  docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md
-- A  docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md
-- MM docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-- M  packages/api-client/src/client.generated.ts
-- M  packages/design-tokens/admin.css
-- M  packages/design-tokens/h5.css
-- A  releases/R02/R02_AUTH_HOTFIX_20260719.md
-- A  scripts/check_commercial_ui_boundaries.py
-- M  scripts/check_main_doc.py
-- M  scripts/check_r02_security_challenge_design_package.py
-- M  scripts/check_ui_tokens.py
-- A  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
-- M  services/backend/boot/src/main/resources/application.yml
-- M  services/backend/boot/src/main/resources/contracts/openapi.yaml
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
-- M  templates/AGENTS.md
-- M  templates/START_HERE.md
-- A  tests/test_commercial_ui_boundaries.py
-- M  tests/test_r02_auth_slice_contract.py
-- M  tests/test_r02_security_challenge_design_package.py
-- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0010.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0054.yaml'
+- ' M .continuity/change_requests/CR-0055.yaml'
+- ' M .continuity/change_requests/CR-0056.yaml'
+- ' M .continuity/change_requests/CR-0057.yaml'
+- ' M .continuity/change_requests/CR-0058.yaml'
+- ' M .continuity/change_requests/CR-0059.yaml'
+- ' M .continuity/change_requests/CR-0060.yaml'
+- ' M .continuity/change_requests/CR-0061.yaml'
+- ' M .continuity/change_requests/CR-0062.yaml'
+- ' M .continuity/change_requests/CR-0063.yaml'
+- ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M artifacts/apk/R03/APK_MANIFEST.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/reports/R03/TASK-R03-007-android-apk.md'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
+- ' M artifacts/validation/r03-apk-delivery/delivery-evidence.json'
+- ' M artifacts/validation/r03-task007-android/apk-signing.txt'
+- ' M artifacts/validation/r03-task007-android/build-evidence.json'
+- ' M artifacts/validation/r03-task007-android/gradle-build.log'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/release_plan.csv'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md'
+- ' M docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md'
+- ' M docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md'
+- ' M docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md'
+- ' M docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md'
+- ' M docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md'
+- ' M docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md'
+- ' M docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md'
+- ' M docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md'
+- ' M docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md'
+- ' M releases/R02/R02_AUTH_HOTFIX_20260719.md'
+- ?? .continuity/change_requests/CR-0064.yaml
+- ?? .continuity/change_requests/CR-0065.yaml
+- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0011.yaml
+- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0012.yaml
+- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0013.yaml
+- ?? artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
+- ?? artifacts/validation/r03-apk-delivery/history/3a913c9/delivery-evidence.json
+- ?? docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md
+- ?? docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md
 recent_commits:
+- "0958f1f96ff12b769647c293082e5a4fadd7cb78\t2026-07-19T06:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r02): freeze security challenge\
+  \ and password registration"
 - "655e1eebbdd2df3ce1f527b7d77601826cb11c55\t2026-07-19T04:50:09+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): restore desktop\
   \ apk evidence"
 - "ab17752eabb6db73f0438fd5048ec45ef0247921\t2026-07-19T04:46:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close resume\
@@ -2490,14 +2425,12 @@ recent_commits:
   \ apk evidence"
 - "3a913c95265f93b815042389d573f4804137c0c0\t2026-07-19T01:05:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): freeze external\
   \ and apk baseline"
-- "25d8171c76e0cef323a717ad66ac85ccd69371c3\t2026-07-19T00:57:28+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-006\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`f4bd8ed068e019a4aa7cded0eca1c9607617f2e3c44a3aefcc285cb233fdae93`
-- 文件数：87
+- 指纹：`6e6fb434fc92b18952f97e786d227b6d530cc0d7269709c2d86870006cb202ce`
+- 文件数：92
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -2523,6 +2456,9 @@ recent_commits:
 - `apps/h5/src/services/inviteRegistration.test.ts`
 - `apps/h5/src/views/InviteRegistrationPage.test.ts`
 - `apps/h5/src/views/InviteRegistrationPage.vue`
+- `artifacts/apk/R03/APK_MANIFEST.yaml`
+- `artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml`
+- `catalogs/release_plan.csv`
 - `contracts/contract_status.csv`
 - `contracts/openapi.yaml`
 - `design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_8STATE_UI_REFERENCE.png`
@@ -2564,6 +2500,8 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md`
 - `docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md`
 - `docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md`
+- `docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md`
+- `docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md`
 - `packages/api-client/src/client.generated.ts`
 - `packages/design-tokens/admin.css`
 - `packages/design-tokens/h5.css`
@@ -4642,614 +4580,110 @@ PARALLEL_EXECUTION_PLAN.yaml:
   implementation_commits:
   - 650fdee862405db673ed5f3f856611356508e337
 - protocol_version: '1.0'
-  cr_id: CR-0054
-  title: 接入R02安全验证冻结设计并简化测试注册流程
+  cr_id: CR-0064
+  title: 纳入R02认证补开发的R03 APK当前与历史交付证据
   status: IMPLEMENTED
-  created_at: '2026-07-18T21:38:39Z'
-  updated_at: '2026-07-18T22:34:32Z'
+  created_at: '2026-07-18T23:24:40Z'
+  updated_at: '2026-07-18T23:29:45Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
   session_id: SES-20260718T200607Z-3569D212
-  user_request: 接入20260719冻结安全验证码需求包；注册无需短信验证码；提供测试万能邀请码；全局禁止技术性提示；严格按文档参数；每个大版本桌面交付测试说明。
-  reason: 项目所有者提供新的冻结UI事实和注册契约变更，并新增跨AI跨电脑商业产品硬边界，需要在当前R03线上以R02认证热修方式完整接入。
-  original_rule: R02旧实现把图形验证码作为页面内联字段并要求用户二次点击；注册请求强制短信验证码和协议版本；仓库未统一禁止技术字段面向用户展示，也未强制每个大版本生成桌面测试说明。
-  new_rule: 四个认证页面按冻结B01-CAPTCHA参数使用业务动作触发的居中安全验证弹窗，成功后自动续办原动作；注册可见必填仅手机号、密码、确认密码、邀请码且不发送注册短信，注册请求以图形挑战证明保护；万能邀请码仅在DEV/TEST/STAGING且显式配置时可用，PROD硬拒绝；全局禁止用户界面展示请求编号和内部技术字段；每个大版本必须文档核对并向桌面交付完整测试反馈说明。
-  impact_summary: 接入冻结视觉资产和规格，修改注册OpenAPI、后端和Android认证流程，新增测试环境邀请码策略、商业UI静态门禁、回包验收兼容修复及R02热修追溯。
+  user_request: 用户要求理解冻结设计包后立即完成R02安全验证码与无短信注册补开发，生成桌面APK并按无状态交接边界持续推进。
+  reason: 最新固定签名回归APK替换当前R03测试交付物时，需要保留上一份交付证据并同步构建、下载、版本和桌面交付记录；这些路径未包含在原功能变更范围。
+  original_rule: TASK-R03-007原允许范围仅覆盖R03既有构建证据，未包含当前APK清单、历史交付快照和R02认证补开发交付报告。
+  new_rule: 允许用固定签名、真实HTTPS API、四方SHA一致的最新R03测试APK替换当前交付清单，同时将上一份清单和交付证据只读归档；同步更新构建、签名、下载、版本和R02认证补开发交付记录。
+  impact_summary: 仅扩展交付证据与报告路径，不改变已冻结业务实现；真机项目所有者验收继续保持PENDING，测试APK不得标记为正式发布。
   impact:
     files:
-    - AGENTS.md
-    - templates/AGENTS.md
-    - .continuity/CONTINUITY_POLICY.yaml
-    - START_HERE.md
-    - CHANGELOG.md
-    - docs/00-baseline/正式商业系统全局硬性开发边界.md
-    - docs/01-authentication/登录注册与安全验证详细规格_V1.2.2.md
-    - docs/02-ui/12批UI参考图绑定索引_V1.2.2.md
-    - docs/02-ui/R02安全验证码弹层交互与视觉规格_V1.2.2.md
-    - docs/02-ui/页面施工规格总索引_V1.2.2.md
-    - docs/02-ui/页面模板字段状态动作唯一事实源_V1.2.2.md
-    - docs/02-ui/page-specs/android/SCR-AUTH-001_密码登录.md
-    - docs/02-ui/page-specs/android/SCR-AUTH-002_短信验证码登录.md
-    - docs/02-ui/page-specs/android/SCR-AUTH-003_注册账号.md
-    - docs/02-ui/page-specs/android/SCR-AUTH-004_忘记密码.md
-    - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_8STATE_UI_REFERENCE.png
-    - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_MANIFEST.json
-    - design/effect-previews/B01-CAPTCHA/OUTPUT_REQUIREMENTS.md
-    - design/effect-previews/B01-CAPTCHA/states/P01_初始页_验证码隐藏.png
-    - design/effect-previews/B01-CAPTCHA/states/P02_点击登录_挑战加载.png
-    - design/effect-previews/B01-CAPTCHA/states/P03_验证码就绪_等待输入.png
-    - design/effect-previews/B01-CAPTCHA/states/P04_答案错误_原位重试.png
-    - design/effect-previews/B01-CAPTCHA/states/P05_过期-刷新_旧答案清空.png
-    - design/effect-previews/B01-CAPTCHA/states/P06_短信-注册_发送前验证.png
-    - design/effect-previews/B01-CAPTCHA/states/P07_验证通过_自动续办.png
-    - design/effect-previews/B01-CAPTCHA/states/P08_网络失败_键盘-小屏适配.png
-    - scripts/check_r02_security_challenge_design_package.py
-    - tests/test_r02_security_challenge_design_package.py
-    - scripts/check_commercial_ui_boundaries.py
-    - tests/test_commercial_ui_boundaries.py
-    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
-    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
-    - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
-    - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
-    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
-    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
-    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java
-    - services/backend/boot/src/main/resources/application.yaml
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
-    - contracts/openapi.yaml
-    - services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - packages/api-client/src/generated/openapi.yaml
-    - tests/test_r02_auth_slice_contract.py
-    - config/PROBLEM_REGISTRY.yaml
+    - artifacts/apk/R03/APK_MANIFEST.yaml
+    - artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
+    - artifacts/validation/r03-apk-delivery/delivery-evidence.json
+    - artifacts/validation/r03-apk-delivery/history/3a913c9/delivery-evidence.json
+    - artifacts/validation/r03-task007-android/build-evidence.json
+    - artifacts/validation/r03-task007-android/gradle-build.log
+    - artifacts/validation/r03-task007-android/apk-signing.txt
+    - artifacts/reports/R03/TASK-R03-007-android-apk.md
     - releases/R02/R02_AUTH_HOTFIX_20260719.md
-    - docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md
-    - .continuity/change_requests/CR-0054.yaml
-    - .continuity/CHANGE_REQUEST_INDEX.yaml
-    pages:
-    - SCR-AUTH-001
-    - SCR-AUTH-002
-    - SCR-AUTH-003
-    - SCR-AUTH-004
-    apis:
-    - POST /api/v1/auth/register
-    - POST /api/v1/auth/security-challenges
-    - POST /api/v1/auth/invite-codes/validate
-    database: []
-    configuration:
-    - HHY_TEST_UNIVERSAL_INVITE_CODE
-    - HHY_TEST_UNIVERSAL_INVITER_ID
-    - Spring profiles DEV/TEST/STAGING only
-    ledger: []
-    tests:
-    - python -m unittest tests.test_r02_security_challenge_design_package
-    - python -m unittest tests.test_commercial_ui_boundaries
-    - python -m unittest tests.test_r02_auth_slice_contract
-    - Gradle Android auth/network tests
-    - Gradle backend UserAuthServiceTest
-    - python scripts/check_v123_continuity.py --strict
-    releases:
-    - R02
-    - R03
-    migration_and_compatibility: 注册API为有意的不兼容契约升级：移除smsCode和agreementVersions，新增challengeId和challengeProof；Android与后端在同一热修交付中同步。数据库无结构迁移。万能邀请码默认关闭，仅受控非生产环境变量启用，生产无法启用。
-  user_confirmation: R02的安全验证码开发问题已由ChatGPT制作好需求包，现在已经给你了，请你理解后开始开发；注册无需短信验证码；新增四项全局硬性开发边界。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T21:39:46Z'
-    note: 项目所有者本轮明确提供冻结设计包及注册和全局硬边界，批准按完整影响范围接入；万能邀请码必须保持非生产环境硬隔离。
-  machine_record: .continuity/change_requests/CR-0054.yaml
-  document: docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md
-  decision_log:
-  - at: '2026-07-18T21:39:49Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 开始接入冻结设计事实、注册契约和商业UI硬门禁
-    session_id: SES-20260718T200607Z-3569D212
-  - at: '2026-07-18T22:34:32Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
-- protocol_version: '1.0'
-  cr_id: CR-0055
-  title: 移除管理端技术请求标识展示
-  status: IMPLEMENTED
-  created_at: '2026-07-18T21:41:48Z'
-  updated_at: '2026-07-18T22:34:33Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 正式商业系统前端全局任何页面不允许展示技术性提示词和请求编号。
-  reason: 全局扫描发现管理端StatusNotice和多个错误空态仍会渲染requestId，违反本轮新增硬边界。
-  original_rule: 管理端错误组件和部分空态直接显示请求标识或请求编号。
-  new_rule: 请求标识仅保留在网络诊断数据中，不得由正式用户界面组件或页面渲染；错误页面只展示可操作的商业文案。
-  impact_summary: 删除StatusNotice和管理端页面的requestId展示绑定，保留内部网络错误对象以支持日志排障，并更新相关UI测试。
-  impact:
-    files:
-    - apps/admin-web/src/components/StatusNotice.vue
-    - apps/admin-web/src/views/AdminLoginPage.vue
-    - apps/admin-web/src/views/AdminMfaPage.vue
-    - apps/admin-web/src/views/AdminUserDetailPage.vue
-    - apps/admin-web/src/views/AdminUsersListPage.vue
-    - apps/admin-web/src/views/AdminSecurityPage.vue
-    - apps/admin-web/src/views/DomainConfigPage.vue
-    - apps/admin-web/src/views/ProviderConfigPage.vue
-    - apps/admin-web/src/components/ProviderCertificatePanel.vue
-    - apps/admin-web/src/r01Pages.test.ts
-    - apps/admin-web/src/r03DomainPage.test.ts
-    - apps/admin-web/src/r03ProviderPage.test.ts
-    - config/PROBLEM_REGISTRY.yaml
-    - CHANGELOG.md
-    - docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md
-    - .continuity/change_requests/CR-0055.yaml
-    - .continuity/CHANGE_REQUEST_INDEX.yaml
-    pages:
-    - ADMIN-LOGIN
-    - ADMIN-MFA
-    - ADMIN-USERS
-    - ADMIN-SECURITY
-    - R03-DOMAIN
-    - R03-PROVIDER
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - pnpm --filter @hhy/admin-web test
-    - python -m unittest tests.test_commercial_ui_boundaries
-    releases:
-    - R01
-    - R03
-    migration_and_compatibility: 纯前端展示兼容修复，不改变API、网络诊断结构或数据库；自动化测试改为断言请求标识不出现在DOM。
-  user_confirmation: 前端全局任何页面不允许展示技术性提示词和请求编号，即便换电脑换AI都要明确。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T21:41:50Z'
-    note: 用户明确要求前端全局移除技术提示，批准清理管理端所有请求标识展示。
-  machine_record: .continuity/change_requests/CR-0055.yaml
-  document: docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md
-  decision_log:
-  - at: '2026-07-18T21:41:52Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 开始清理管理端技术请求标识展示
-    session_id: SES-20260718T200607Z-3569D212
-  - at: '2026-07-18T22:34:33Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
-- protocol_version: '1.0'
-  cr_id: CR-0056
-  title: 更正测试邀请码运行配置文件范围
-  status: IMPLEMENTED
-  created_at: '2026-07-18T21:45:21Z'
-  updated_at: '2026-07-18T22:34:34Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 注册测试阶段需要万能邀请码且生产不得形成后门。
-  reason: CR-0054影响清单误写application.yaml，实际Spring Boot配置文件为application.yml，必须通过派生CR精确更正。
-  original_rule: CR-0054登记了不存在的services/backend/boot/src/main/resources/application.yaml。
-  new_rule: 在实际application.yml中声明默认关闭的HHY_TEST_UNIVERSAL_INVITE_CODE和HHY_TEST_UNIVERSAL_INVITER_ID，并由非生产Profile策略共同约束。
-  impact_summary: 仅更正测试邀请码配置文件事实路径，不扩大功能范围。
-  impact:
-    files:
-    - services/backend/boot/src/main/resources/application.yml
-    - docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md
-    - .continuity/change_requests/CR-0056.yaml
-    - .continuity/CHANGE_REQUEST_INDEX.yaml
     pages: []
     apis: []
     database: []
     configuration:
-    - HHY_TEST_UNIVERSAL_INVITE_CODE
-    - HHY_TEST_UNIVERSAL_INVITER_ID
-    ledger: []
+    - R03测试APK清单与下载白名单证据
+    ledger:
+    - CR-0064及连续性检查点
     tests:
-    - Gradle backend UserAuthServiceTest
+    - R03 APK prepare/verify、外网HTTPS 200、源站/外网/服务器/桌面SHA-256一致、签名v2/v3、真实API嵌入、严格连续性门禁
     releases:
-    - R02
+    - R02认证补开发/R03测试APK
+    migration_and_compatibility: 现有3a913c9交付证据移入按提交号命名的history目录；0958f1f成为当前测试交付，旧APK不删除且不再作为当前验证目标。
+  user_confirmation: 用户在2026-07-19明确要求立即理解并开发冻结包，完成后生成桌面APK并持续推进。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T23:25:21Z'
+    note: 用户已明确要求冻结设计补开发、桌面APK交付、无状态连续开发，并授权后续非紧急判断由开发端自行决定；批准仅扩展交付证据范围，真机验收仍由用户反馈。
+  machine_record: .continuity/change_requests/CR-0064.yaml
+  document: docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md
+  decision_log:
+  - at: '2026-07-18T23:25:23Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已纳入最新固定签名测试APK、历史交付快照、构建签名证据和R02认证补开发交付报告，开始最终门禁与提交。
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:29:45Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 最新固定签名R03测试APK已完成仓库、服务器、公网和桌面四方交付验证，上一交付证据已归档，真机验收保持PENDING。
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0065
+  title: 同步R03发布计划与回归APK硬门禁
+  status: IMPLEMENTED
+  created_at: '2026-07-18T23:28:09Z'
+  updated_at: '2026-07-18T23:29:46Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 用户要求每个版本完成测试、桌面APK交付和可无状态接续，并严格按开发文档逐项核对。
+  reason: R03 RELEASE_MANIFEST自滚动计划建立时已要求回归APK，但catalogs/release_plan.csv仍标记Android测试APK=NO，导致发布产物常规门禁APK_POLICY_MISMATCH。
+  original_rule: catalogs/release_plan.csv中R03的Android测试APK字段为NO，而releases/R03/RELEASE_MANIFEST.yaml和滚动执行计划要求回归APK。
+  new_rule: R03发布计划Android测试APK字段统一为YES；版本退出前必须交付固定签名回归APK并完成仓库、桌面、公网和项目所有者真机验收。
+  impact_summary: 仅修正发布计划元数据与既有R03硬门禁一致，不新增业务功能、不将当前PENDING真机验收提前标记为PASS。
+  impact:
+    files:
+    - catalogs/release_plan.csv
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - R03 Android测试APK策略
+    ledger:
+    - CR-0065及连续性检查点
+    tests:
+    - check_release_artifacts.py --release R03 与严格连续性门禁
+    releases:
     - R03
-    migration_and_compatibility: 默认值为空和0，未配置时行为不变；生产Profile仍硬拒绝。
-  user_confirmation: 测试阶段提供万能注册邀请码，且正式商业系统不得留生产后门。
+    migration_and_compatibility: 后续所有R03发布产物检查均以YES执行；当前0958f1f测试APK继续作为待项目所有者真机反馈的回归包。
+  user_confirmation: 用户已明确要求每个版本测试、桌面APK、追溯和版本开发说明完整交付，并授权非紧急问题自行决策。
   approval:
     decision: APPROVED
-    decided_at: '2026-07-18T21:45:23Z'
-    note: 批准修正到实际application.yml并保持默认关闭和生产硬隔离。
-  machine_record: .continuity/change_requests/CR-0056.yaml
-  document: docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md
+    decided_at: '2026-07-18T23:28:27Z'
+    note: 该修正落实用户已明确要求的每版本APK交付与文档一致性硬边界，不改变业务范围。
+  machine_record: .continuity/change_requests/CR-0065.yaml
+  document: docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md
   decision_log:
-  - at: '2026-07-18T21:45:24Z'
+  - at: '2026-07-18T23:28:29Z'
     actor_id: codex-root
     status: IMPLEMENTING
-    note: 更正运行配置路径并同步实施
+    note: 开始将R03发布计划APK策略同步为YES并复跑发布产物门禁。
     session_id: SES-20260718T200607Z-3569D212
-  - at: '2026-07-18T22:34:34Z'
+  - at: '2026-07-18T23:29:46Z'
     actor_id: codex-root
     status: IMPLEMENTED
-    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
-- protocol_version: '1.0'
-  cr_id: CR-0057
-  title: 更正注册契约生成客户端范围
-  status: IMPLEMENTED
-  created_at: '2026-07-18T21:47:45Z'
-  updated_at: '2026-07-18T22:34:35Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 注册契约取消短信验证码并由图形安全验证保护。
-  reason: CR-0054误写不存在的generated/openapi.yaml，实际生成产物为packages/api-client/src/client.generated.ts。
-  original_rule: CR-0054登记了不存在的packages/api-client/src/generated/openapi.yaml。
-  new_rule: 从更新后的contracts/openapi.yaml重新生成packages/api-client/src/client.generated.ts并通过生成资产门禁。
-  impact_summary: 更正注册OpenAPI的生成客户端事实路径。
-  impact:
-    files:
-    - packages/api-client/src/client.generated.ts
-    - docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md
-    - .continuity/change_requests/CR-0057.yaml
-    - .continuity/CHANGE_REQUEST_INDEX.yaml
-    pages: []
-    apis:
-    - POST /api/v1/auth/register
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python scripts/check_generated_assets.py
-    - pnpm --filter @hhy/api-client typecheck
-    releases:
-    - R02
-    - R03
-    migration_and_compatibility: 生成类型同步移除smsCode和agreementVersions并加入challengeId和challengeProof，与同批Android和后端升级一致。
-  user_confirmation: 注册无需短信验证码，安全验证按新冻结设计接入。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T21:47:47Z'
-    note: 批准更正到实际生成客户端并保持同批契约同步。
-  machine_record: .continuity/change_requests/CR-0057.yaml
-  document: docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md
-  decision_log:
-  - at: '2026-07-18T21:47:49Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 重新生成注册契约客户端
-    session_id: SES-20260718T200607Z-3569D212
-  - at: '2026-07-18T22:34:35Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
-- protocol_version: '1.0'
-  cr_id: CR-0058
-  title: 同步H5无短信注册与自动安全验证
-  status: IMPLEMENTED
-  created_at: '2026-07-18T21:54:47Z'
-  updated_at: '2026-07-18T22:34:36Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 注册账号无需发送短信验证码，正式前端不展示技术性提示。
-  reason: 注册OpenAPI变化同时影响H5邀请注册；旧H5仍依赖短信、协议版本和手动获取安全验证，必须同批同步避免契约断裂。
-  original_rule: H5邀请注册要求用户手动获取安全验证、发送注册短信、输入短信码并提交协议版本。
-  new_rule: H5注册以手机号、密码、确认密码和URL邀请码为可见注册字段；点击注册后自动弹出安全验证，验证并继续直接提交注册；不发送注册短信、不提交协议版本、不展示技术提示。
-  impact_summary: 同步H5页面、服务类型、测试与H5页面规格到新注册契约。
-  impact:
-    files:
-    - apps/h5/src/views/InviteRegistrationPage.vue
-    - apps/h5/src/services/inviteRegistration.ts
-    - apps/h5/src/views/InviteRegistrationPage.test.ts
-    - apps/h5/src/services/inviteRegistration.test.ts
-    - docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md
-    - CHANGELOG.md
-    - docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md
-    - .continuity/change_requests/CR-0058.yaml
-    - .continuity/CHANGE_REQUEST_INDEX.yaml
-    pages:
-    - H5-013
-    apis:
-    - POST /api/v1/auth/register
-    - POST /api/v1/auth/security-challenges
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - pnpm --filter @hhy/h5 test
-    - pnpm --filter @hhy/h5 typecheck
-    releases:
-    - R02
-    - R03
-    migration_and_compatibility: 与CR-0054注册API同步升级；旧H5请求不再兼容，前后端必须同批部署。协议内容可继续作为只读链接/说明，但不作为本次注册请求字段。
-  user_confirmation: 注册账号无需发送短信验证码，前端全局不允许技术性提示。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T21:54:49Z'
-    note: 批准H5与Android、后端同批同步，避免旧短信注册契约残留。
-  machine_record: .continuity/change_requests/CR-0058.yaml
-  document: docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md
-  decision_log:
-  - at: '2026-07-18T21:54:51Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 同步H5注册流程与自动安全验证
-    session_id: SES-20260718T200607Z-3569D212
-  - at: '2026-07-18T22:34:36Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
-- protocol_version: '1.0'
-  cr_id: CR-0059
-  title: 补清管理端说明文案中的技术请求标识
-  status: IMPLEMENTED
-  created_at: '2026-07-18T21:58:02Z'
-  updated_at: '2026-07-18T22:34:37Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 正式前端全局不允许展示技术性提示词。
-  reason: 商业UI静态门禁发现AuthShell安全说明和安全空态仍提到请求标识，属于CR-0055遗漏。
-  original_rule: 管理端安全说明将内部请求标识作为用户可见排障说明。
-  new_rule: 改为业务化的操作审计和重新加载说明，不向管理员展示或提及内部请求标识。
-  impact_summary: 清理两个遗漏文案并纳入全局静态门禁。
-  impact:
-    files:
-    - apps/admin-web/src/components/AuthShell.vue
-    - apps/admin-web/src/views/AdminSecurityPage.vue
-    - docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md
-    - .continuity/change_requests/CR-0059.yaml
-    - .continuity/CHANGE_REQUEST_INDEX.yaml
-    pages:
-    - ADMIN-LOGIN
-    - ADMIN-SECURITY
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python -m unittest tests.test_commercial_ui_boundaries
-    - pnpm --filter @hhy/admin-web test
-    releases:
-    - R01
-    - R03
-    migration_and_compatibility: 纯文案，无接口或数据变化。
-  user_confirmation: 前端全局任何页面不允许展示技术性提示词。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T21:58:04Z'
-    note: 批准清理静态门禁发现的遗漏技术文案。
-  machine_record: .continuity/change_requests/CR-0059.yaml
-  document: docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md
-  decision_log:
-  - at: '2026-07-18T21:58:06Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 清理遗漏技术文案
-    session_id: SES-20260718T200607Z-3569D212
-  - at: '2026-07-18T22:34:37Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
-- protocol_version: '1.0'
-  cr_id: CR-0060
-  title: 同步注册成功契约测试至无短信注册模型
-  status: IMPLEMENTED
-  created_at: '2026-07-18T22:03:28Z'
-  updated_at: '2026-07-18T22:34:39Z'
-  requester_actor_id: codex
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: R02安全验证码冻结需求包及无短信注册硬性要求
-  reason: 主注册契约已移除短信码和协议版本字段，旧成功契约测试仍引用已删除访问器，必须同步才能恢复后端测试门禁
-  original_rule: 注册成功契约测试提交短信验证码及协议版本并断言agreementVersions访问器
-  new_rule: 注册成功契约测试提交手机号、密码、邀请码、图片验证challengeId与challengeProof，并断言新字段及不再要求短信注册
-  impact_summary: 仅同步UserAuthSuccessContractTest到冻结后的注册请求契约，不扩大业务范围
-  impact:
-    files:
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - Maven UserAuthSuccessContractTest与UserAuthServiceTest
-    releases:
-    - R02安全验证码交互热修复
-    migration_and_compatibility: 保留短信验证码登录和找回密码测试；仅注册接口移除短信码与协议版本
-  user_confirmation: 2026-07-19用户明确提出手机号+密码+重复密码+邀请码即可注册
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T22:03:46Z'
-    note: 用户已明确要求无短信注册并授权后续此类问题自行决定
-  machine_record: .continuity/change_requests/CR-0060.yaml
-  document: docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md
-  decision_log:
-  - at: '2026-07-18T22:03:48Z'
-    actor_id: codex
-    status: IMPLEMENTING
-    note: 开始同步注册成功契约测试
-    session_id: SES-20260718T200607Z-3569D212
-  - at: '2026-07-18T22:34:39Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
-- protocol_version: '1.0'
-  cr_id: CR-0061
-  title: 更正全局问题登记文件并补记R02认证偏差
-  status: IMPLEMENTED
-  created_at: '2026-07-18T22:16:09Z'
-  updated_at: '2026-07-18T22:34:40Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 硬性记录后续跨电脑跨AI开发边界
-  reason: CR-0054误列不存在的config/PROBLEM_REGISTRY.yaml，仓库实际权威问题登记位于docs/03-continuity/PROBLEM_REGISTRY.yaml
-  original_rule: 将本次问题追加到不存在的config/PROBLEM_REGISTRY.yaml
-  new_rule: 将设计校验器兼容、技术信息泄漏和手动验证码交互偏差追加到实际权威docs/03-continuity/PROBLEM_REGISTRY.yaml
-  impact_summary: 修正问题登记路径并确保跨AI接续能够检索本次根因和防复发措施
-  impact:
-    files:
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - continuity context与YAML解析门禁
-    releases:
-    - R02安全验证码交互热修复
-    migration_and_compatibility: 不改业务接口；仅更正治理记录路径
-  user_confirmation: 2026-07-19全局硬性开发边界
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T22:16:11Z'
-    note: 用户已明确要求硬性记录并保证换电脑换AI无缝接续
-  machine_record: .continuity/change_requests/CR-0061.yaml
-  document: docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md
-  decision_log:
-  - at: '2026-07-18T22:16:12Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 开始更新实际权威问题登记
-    session_id: SES-20260718T200607Z-3569D212
-  - at: '2026-07-18T22:34:40Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
-- protocol_version: '1.0'
-  cr_id: CR-0062
-  title: 同步无短信注册契约状态哈希
-  status: IMPLEMENTED
-  created_at: '2026-07-18T22:19:08Z'
-  updated_at: '2026-07-18T22:34:41Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 严格按开发文档开发且不遗漏任何契约细节
-  reason: OpenAPI注册请求变更后contract_status.csv的131项客户端操作源哈希必须确定性刷新
-  original_rule: contract_status.csv记录变更前OpenAPI事实源哈希
-  new_rule: 保持全部契约元数据不变，仅用安全状态同步器刷新OpenAPI事实源SHA-256
-  impact_summary: 同步无短信注册OpenAPI派生状态，恢复API契约门禁
-  impact:
-    files:
-    - contracts/contract_status.csv
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - scripts/generate_contracts.py --check和scripts/check_api_contract.py
-    releases:
-    - R02安全验证码交互热修复
-    migration_and_compatibility: 不运行旧全量契约重建，不覆盖富化Schema
-  user_confirmation: 2026-07-19无短信注册与严格契约要求
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T22:19:11Z'
-    note: 属于用户明确注册契约变更的确定性派生资产
-  machine_record: .continuity/change_requests/CR-0062.yaml
-  document: docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md
-  decision_log:
-  - at: '2026-07-18T22:19:12Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 刷新契约事实源哈希
-    session_id: SES-20260718T200607Z-3569D212
-  - at: '2026-07-18T22:34:41Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
-- protocol_version: '1.0'
-  cr_id: CR-0063
-  title: 固化安全验证设计Token并修复主文档门禁路径
-  status: IMPLEMENTED
-  created_at: '2026-07-18T22:26:31Z'
-  updated_at: '2026-07-18T22:34:42Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 后续UI必须严格按效果图字号圆角等硬性参数且不遗漏
-  reason: 冻结弹层精确值仍以内联dp/sp/颜色存在并触发Token门禁；主文档门禁仍指向旧根目录文件名
-  original_rule: 页面代码禁止原始dp/sp/颜色但安全验证冻结值尚无专用Token，主文档检查读取已迁移的旧路径
-  new_rule: 把安全验证精确尺寸、字体、颜色引用纳入全局Token派生，H5与Android只引用Token；主文档检查读取docs/00-baseline权威文件
-  impact_summary: 消除页面原始视觉值并恢复UI Token和主文档机器门禁
-  impact:
-    files:
-    - design/tokens/hhy_design_tokens_v1.2.2.json
-    - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
-    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
-    - packages/design-tokens/h5.css
-    - packages/design-tokens/admin.css
-    - scripts/check_ui_tokens.py
-    - scripts/check_main_doc.py
-    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
-    - apps/h5/src/views/InviteRegistrationPage.vue
-    - apps/admin-web/src/components/ProviderCertificatePanel.vue
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - scripts/check_ui_tokens.py、scripts/check_main_doc.py、tests/test_ui_tokens.py、Android/H5/admin编译测试
-    releases:
-    - R02安全验证码交互热修复
-    migration_and_compatibility: 视觉数值保持冻结包一致，不改变业务接口
-  user_confirmation: 2026-07-19严格按效果图字号布局圆角参数开发
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T22:26:33Z'
-    note: 落实用户新增的全局UI参数硬边界并恢复现有门禁
-  machine_record: .continuity/change_requests/CR-0063.yaml
-  document: docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md
-  decision_log:
-  - at: '2026-07-18T22:26:35Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 开始Token化冻结安全验证视觉参数并修复文档门禁
-    session_id: SES-20260718T200607Z-3569D212
-  - at: '2026-07-18T22:34:42Z'
-    actor_id: codex-root
-    status: IMPLEMENTED
-    note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+    note: R03总发布计划Android测试APK策略已同步为YES，R03发布产物门禁和严格连续性门禁均通过。
     session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
@@ -5259,7 +4693,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `bb3a6ac171ba3f2c206a6ed1d630c0c73533f1f997235b9ca39674731ef1844f`
+- `CURRENT_STATUS.yaml` — `572e7bcb21e374a6b2d84718e43eaa7130129c220b30ce2c7492a2f3886be446`
 - `NEXT_TASK.yaml` — `d3331935c15deb5ebd04b02689837403e53e8bc65c8813529359515257a7edc1`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -5270,33 +4704,35 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `728b29117e7893ff1eb7653e615fa72ce8b1ac8860103261465e8167d7a8165f`
-- `.continuity/SESSION_INDEX.yaml` — `9259d9bbe30adf24e829baa380ec2d384a6005f070e274eed56b24c9857f6600`
+- `.continuity/EVENT_LOG.jsonl` — `f94a2ec6b21ddffcbef8e91a3ea5fe1984d6e50451e488f04a74d3e7c75e0a16`
+- `.continuity/SESSION_INDEX.yaml` — `f40539eab8dd5eb992853791853a1b3401e0dd4b23e9fd1ab9aa57dd56c1530e`
 - `.continuity/TASK_CLAIMS.yaml` — `dae3c46345cf6361b9487cc9878bf5cd6bd3775ec390315b8036208feb5d7b19`
 - `.continuity/TASK_TRANSITIONS.yaml` — `49b2f0e5fdabc44f56af3c9fdeefd1971b4d3462167a3c93ba796bb4b3be1ada`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `1a46d7a2c270cd61c3ed009a50e37ea7f0dc9589ea0c8d09d8939ba0774f2847`
-- `.continuity/ACTIVE_SESSION.yaml` — `0cac465c8c1f88366678e827d13ba8b34f2e60c6ead06465528c7a17dabcf6e3`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `9b87d5f8b089ec1e6faf2d038b8b452ce90934239e10dcfc68e954c2f711de88`
+- `.continuity/ACTIVE_SESSION.yaml` — `ba86ff9ea902b5086997fce5da795b9a263cbe107c0d609ec10b1748df8e3003`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `577a231d7cc655f126187950d05277a67d9e877ddb87a52721b2b634a21f12eb`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `de226ffec9d6cb0da7242d9febfae3ac023875c3b1d167894739ca4f8dc9ac47`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `1c4f3225d7175d6e42877694fbd6af669904926a6ef51de47422584468e7dc4e`
-- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0010.yaml` — `202a18965cff6fb041b1a4fb730d9ae272322f44d8a8da6a31034388bce01396`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `3c9c629a04b4578fcc2a22c6162a2a1cc8140d02017948a06a494fb1c4295447`
+- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0013.yaml` — `51bedc205916c5e73827e09299aebb95e2b97906281c96a8eb2440675261599c`
 - `docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md` — `09124eace840cbac05b094cb44ba6e9b2baf894d33b663a5eecc21a271fd9f27`
 - `docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md` — `657fe94cc6f260b297cb45642322801c84f680a89018c9e6679469eaecfc7689`
 - `docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md` — `d34b7054137e69b320623c2971b6b89fdc8c26644170a1cbc9ab29dbc2fb1ab0`
-- `docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md` — `570569e64f28338335fdac3500133ad7f40abec4bf8090430a2dc9e78af43838`
-- `docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md` — `2f7db76799a9cb572ce609aa9afb8be0187d694ac15fd220d562b91f7cfbedd3`
-- `docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md` — `b93de35bf64993bf081bcdad7925c9622d380cee943c5e57e63092cc0d7432c4`
-- `docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md` — `12bc90c1d1dc3e298b346ed9698fd14680d63a32b96ddce49b453e81002f18f8`
-- `docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md` — `92b48e492037e26be0f617c90490599e84b0531df853f2f2446811df5437f0f5`
-- `docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md` — `fe30c350a27877d95f97627ead6e233589a510c552d70248b2143002def3f6ce`
-- `docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md` — `54f30119acbf54bb77ce6ff56d4062832df36764dd971f4c8de17330b997e14f`
-- `docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md` — `295e4066edcb0c8045b5f20d050bee97574b383ee50ef3254f52a21f71b16933`
-- `docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md` — `474b814936d47e04b628904e99ef438c7220f2d2611faafefbf950783e1dacfa`
-- `docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md` — `2c09fe83410224d6c2b15d4237a85d8c55edcab204906156fe5345c6763bd4b8`
+- `docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md` — `2ce5d467153c78df455f5931dcf0f966a58230c024d2fda05a2ccbe677155d6a`
+- `docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md` — `81d272c00dc12a1481281e73eeaf8c7b36bf0466323bca9f2aa32ba9738e6708`
+- `docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md` — `8e513b90d185be07c6b7f1a7e2880a873e65c244f8f903a2b61bdf73cdcab21d`
+- `docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md` — `645b337fe879c63672ca7ca5b50d09d49978ea7861e66d741f011eb628a888ce`
+- `docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md` — `207ed1fdeb748ec8c52cb64b116014cb8dac9c7ff815269c2a1e36aac6a4177c`
+- `docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md` — `603886f4fb41dbff9fc2d24be5b73524b413cc0c9956d4b57dbc3d1a9d1b2529`
+- `docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md` — `4e77e0a0cc2f9ee4b35926b4abb418a6a131ba875b7853495e9677c59586898c`
+- `docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md` — `d58e137c26203c9328f0fb43e495b5f45fdf37e744eec54e1b4e8112ec4170de`
+- `docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md` — `bc26d3d2324bb3839f5b08dfa97438996e3fc874421ebea3bbef41f1593ea328`
+- `docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md` — `abd7fb668023ad07d9204904c2c3cd113b59182b8840a3ab83a3809b84573b73`
+- `docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md` — `99c4de90c614cd793d02f3dc81ae1f9ebc1bde447b7889994d966015d680590f`
+- `docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md` — `939f5902819d81604335a51b6afd1317a1bc134031eec812b6d38cc022cd630d`
 
 ## 接手硬规则
 

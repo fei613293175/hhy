@@ -4,7 +4,7 @@
 
 - 冻结需求包：`合伙云Pro_R02安全验证码UI交互设计补充包_20260719_已完善冻结版.zip`
 - 冻结包 SHA-256：`cff3989e5fa7d9f8e956762f052a063eda814d9b728da31c5b6a8087b953b8dd`
-- 变更请求：`CR-0054`—`CR-0061`
+- 变更请求：`CR-0054`—`CR-0063`
 - 全局商业边界：`docs/00-baseline/正式商业系统全局硬性开发边界.md`
 
 ## 已实现
@@ -30,10 +30,22 @@
 - R02 认证、冻结设计包、商业 UI 边界 Python 测试：19 项通过。
 - 既有云端 Android 环境检查：通过。
 
-## 尚未关闭的门禁
+## 环境与 APK 交付
 
-- 重新运行后端受影响测试及完整确定性同步检查。
-- 使用 `HHY_API_BASE_URL=https://api.orbexa.cc` 构建本次测试 APK。
-- 校验 APK 内嵌 API 地址、签名、版本、启动和公网匿名认证端点。
-- 将 APK 和面向项目所有者的详细测试说明复制到桌面，并记录 SHA-256。
-- 项目所有者真机反馈属于交付后的验收输入，不得在收到反馈前伪记为真机通过。
+- 精确源码提交：`0958f1f96ff12b769647c293082e5a4fadd7cb78`，已推送 `origin/task/TASK-R03-001`。
+- 公网测试后端已切换为镜像 `sha256:6ca4a34645443f0d1f73dd0e6aa23cc9729b8540499e944f4ff5bc907ba38dea`；旧镜像以停止状态的回滚容器保留。
+- 测试万能邀请码：`HHYTEST2026`；只在当前 `staging` 环境显式启用，未写入普通邀请码表，生产环境策略强制拒绝。
+- 公网 `https://api.orbexa.cc` 的平台状态、万能邀请码校验和安全验证码创建均为 HTTP 200。
+- 本次修复随当前 R03 测试包交付，文件为 `hhy-r03-0958f1f-debug.apk`，不会误标为已验收正式包。
+- APK：versionName `1.2.2-debug`，versionCode `10203`，大小 `11,940,205` bytes。
+- APK SHA-256：`64f1b9df021091ad3866998babdba073308489d7e1480548339a2b04a686750d`。
+- 固定测试签名证书 SHA-256：`f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873`；v2/v3 签名通过。
+- APK 内嵌 `https://api.orbexa.cc` 1 次，占位地址 0 次；桌面、仓库忽略副本、服务器与 HTTPS 下载四方哈希一致。
+- 桌面副本：`C:\Users\小白\Desktop\hhy-r03-0958f1f-debug.apk`。
+- 下载地址：`https://download.orbexa.cc/r03-artifacts/hhy-r03-0958f1f-debug.apk`。
+- 详细真机测试说明：`C:\Users\小白\Desktop\合伙云Pro_R02安全验证码与无短信注册_真机测试说明_20260719.md`。
+
+## 待项目所有者输入
+
+- 机器构建、部署和交付均已通过；项目所有者真机安装、启动、页面视觉和认证交互仍保持 `PENDING`。
+- 收到明确真机反馈前，不把 R03 APK 的 `owner_physical_test` 或 `test_status` 写成 `PASS`。

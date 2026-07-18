@@ -1,6 +1,6 @@
 {
   "release": "R03",
-  "commit": "3a913c95265f93b815042389d573f4804137c0c0",
+  "commit": "0958f1f96ff12b769647c293082e5a4fadd7cb78",
   "version_name": "1.2.2-debug",
   "version_code": 10203,
   "build_status": "PASS",
@@ -20,8 +20,8 @@
   "embedded_placeholder_occurrences": 0,
   "toolchain_image": "hhy-android-toolchain:r01-46fb273",
   "toolchain_image_id": "sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607",
-  "source_archive_sha256": "768778c5a13d6464f308ed360c165439327b3229fe18b4d1e769a5c75fbf8bed",
-  "apk_sha256": "9b0aadba2609a1d135701b7fe0319a2a3a898340dd0499845af95968e107a32e",
-  "apk_size_bytes": 11923821,
-  "built_at": "2026-07-18T17:15:16Z"
+  "source_archive_sha256": "110fdd123253bd4c70444000b5a6e693f58f964d45b054de4a626eab8eb53617",
+  "apk_sha256": "64f1b9df021091ad3866998babdba073308489d7e1480548339a2b04a686750d",
+  "apk_size_bytes": 11940205,
+  "built_at": "2026-07-18T23:12:15Z"
 }

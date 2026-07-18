@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0058
 title: 同步H5无短信注册与自动安全验证
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-18T21:54:47Z'
-updated_at: '2026-07-18T22:34:36Z'
+updated_at: '2026-07-18T23:22:51Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R03-007
@@ -57,5 +57,12 @@ decision_log:
   status: IMPLEMENTED
   note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
   session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-18T23:22:51Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 变更已包含在0958f1f精确提交，相关测试与连续性门禁通过，并随最新R03测试APK完成机器交付。
+  session_id: SES-20260718T200607Z-3569D212
 session_ids:
 - SES-20260718T200607Z-3569D212
+implementation_commits:
+- 0958f1f96ff12b769647c293082e5a4fadd7cb78

@@ -3117,9 +3117,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0054
   title: 接入R02安全验证冻结设计并简化测试注册流程
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-18T21:38:39Z'
-  updated_at: '2026-07-18T22:34:32Z'
+  updated_at: '2026-07-18T23:22:46Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3226,14 +3226,21 @@ change_requests:
     status: IMPLEMENTED
     note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:22:46Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 精确源码已推送，staging后端已部署并启用非生产万能邀请码，固定签名APK及桌面测试说明已完成四方交付；真机验收独立保持PENDING。
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 0958f1f96ff12b769647c293082e5a4fadd7cb78
 - protocol_version: '1.0'
   cr_id: CR-0055
   title: 移除管理端技术请求标识展示
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-18T21:41:48Z'
-  updated_at: '2026-07-18T22:34:33Z'
+  updated_at: '2026-07-18T23:22:47Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3298,14 +3305,21 @@ change_requests:
     status: IMPLEMENTED
     note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:22:47Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 变更已包含在0958f1f精确提交，相关测试与连续性门禁通过，并随最新R03测试APK完成机器交付。
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 0958f1f96ff12b769647c293082e5a4fadd7cb78
 - protocol_version: '1.0'
   cr_id: CR-0056
   title: 更正测试邀请码运行配置文件范围
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-18T21:45:21Z'
-  updated_at: '2026-07-18T22:34:34Z'
+  updated_at: '2026-07-18T23:22:49Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3352,14 +3366,21 @@ change_requests:
     status: IMPLEMENTED
     note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:22:49Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 变更已包含在0958f1f精确提交，相关测试与连续性门禁通过，并随最新R03测试APK完成机器交付。
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 0958f1f96ff12b769647c293082e5a4fadd7cb78
 - protocol_version: '1.0'
   cr_id: CR-0057
   title: 更正注册契约生成客户端范围
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-18T21:47:45Z'
-  updated_at: '2026-07-18T22:34:35Z'
+  updated_at: '2026-07-18T23:22:50Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3406,14 +3427,21 @@ change_requests:
     status: IMPLEMENTED
     note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:22:50Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 变更已包含在0958f1f精确提交，相关测试与连续性门禁通过，并随最新R03测试APK完成机器交付。
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 0958f1f96ff12b769647c293082e5a4fadd7cb78
 - protocol_version: '1.0'
   cr_id: CR-0058
   title: 同步H5无短信注册与自动安全验证
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-18T21:54:47Z'
-  updated_at: '2026-07-18T22:34:36Z'
+  updated_at: '2026-07-18T23:22:51Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3467,14 +3495,21 @@ change_requests:
     status: IMPLEMENTED
     note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:22:51Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 变更已包含在0958f1f精确提交，相关测试与连续性门禁通过，并随最新R03测试APK完成机器交付。
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 0958f1f96ff12b769647c293082e5a4fadd7cb78
 - protocol_version: '1.0'
   cr_id: CR-0059
   title: 补清管理端说明文案中的技术请求标识
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-18T21:58:02Z'
-  updated_at: '2026-07-18T22:34:37Z'
+  updated_at: '2026-07-18T23:22:52Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3523,14 +3558,21 @@ change_requests:
     status: IMPLEMENTED
     note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:22:52Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 变更已包含在0958f1f精确提交，相关测试与连续性门禁通过，并随最新R03测试APK完成机器交付。
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 0958f1f96ff12b769647c293082e5a4fadd7cb78
 - protocol_version: '1.0'
   cr_id: CR-0060
   title: 同步注册成功契约测试至无短信注册模型
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-18T22:03:28Z'
-  updated_at: '2026-07-18T22:34:39Z'
+  updated_at: '2026-07-18T23:22:53Z'
   requester_actor_id: codex
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3571,14 +3613,21 @@ change_requests:
     status: IMPLEMENTED
     note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:22:53Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 变更已包含在0958f1f精确提交，相关测试与连续性门禁通过，并随最新R03测试APK完成机器交付。
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 0958f1f96ff12b769647c293082e5a4fadd7cb78
 - protocol_version: '1.0'
   cr_id: CR-0061
   title: 更正全局问题登记文件并补记R02认证偏差
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-18T22:16:09Z'
-  updated_at: '2026-07-18T22:34:40Z'
+  updated_at: '2026-07-18T23:22:54Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3619,14 +3668,21 @@ change_requests:
     status: IMPLEMENTED
     note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:22:54Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 变更已包含在0958f1f精确提交，相关测试与连续性门禁通过，并随最新R03测试APK完成机器交付。
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 0958f1f96ff12b769647c293082e5a4fadd7cb78
 - protocol_version: '1.0'
   cr_id: CR-0062
   title: 同步无短信注册契约状态哈希
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-18T22:19:08Z'
-  updated_at: '2026-07-18T22:34:41Z'
+  updated_at: '2026-07-18T23:22:55Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3667,14 +3723,21 @@ change_requests:
     status: IMPLEMENTED
     note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:22:55Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 变更已包含在0958f1f精确提交，相关测试与连续性门禁通过，并随最新R03测试APK完成机器交付。
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 0958f1f96ff12b769647c293082e5a4fadd7cb78
 - protocol_version: '1.0'
   cr_id: CR-0063
   title: 固化安全验证设计Token并修复主文档门禁路径
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-18T22:26:31Z'
-  updated_at: '2026-07-18T22:34:42Z'
+  updated_at: '2026-07-18T23:22:56Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3723,6 +3786,121 @@ change_requests:
     actor_id: codex-root
     status: IMPLEMENTED
     note: 冻结安全验证、无短信注册、商业UI边界及对应测试门禁已完成，等待精确提交与发布交付
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:22:56Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 变更已包含在0958f1f精确提交，相关测试与连续性门禁通过，并随最新R03测试APK完成机器交付。
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 0958f1f96ff12b769647c293082e5a4fadd7cb78
+- protocol_version: '1.0'
+  cr_id: CR-0064
+  title: 纳入R02认证补开发的R03 APK当前与历史交付证据
+  status: IMPLEMENTED
+  created_at: '2026-07-18T23:24:40Z'
+  updated_at: '2026-07-18T23:29:45Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 用户要求理解冻结设计包后立即完成R02安全验证码与无短信注册补开发，生成桌面APK并按无状态交接边界持续推进。
+  reason: 最新固定签名回归APK替换当前R03测试交付物时，需要保留上一份交付证据并同步构建、下载、版本和桌面交付记录；这些路径未包含在原功能变更范围。
+  original_rule: TASK-R03-007原允许范围仅覆盖R03既有构建证据，未包含当前APK清单、历史交付快照和R02认证补开发交付报告。
+  new_rule: 允许用固定签名、真实HTTPS API、四方SHA一致的最新R03测试APK替换当前交付清单，同时将上一份清单和交付证据只读归档；同步更新构建、签名、下载、版本和R02认证补开发交付记录。
+  impact_summary: 仅扩展交付证据与报告路径，不改变已冻结业务实现；真机项目所有者验收继续保持PENDING，测试APK不得标记为正式发布。
+  impact:
+    files:
+    - artifacts/apk/R03/APK_MANIFEST.yaml
+    - artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
+    - artifacts/validation/r03-apk-delivery/delivery-evidence.json
+    - artifacts/validation/r03-apk-delivery/history/3a913c9/delivery-evidence.json
+    - artifacts/validation/r03-task007-android/build-evidence.json
+    - artifacts/validation/r03-task007-android/gradle-build.log
+    - artifacts/validation/r03-task007-android/apk-signing.txt
+    - artifacts/reports/R03/TASK-R03-007-android-apk.md
+    - releases/R02/R02_AUTH_HOTFIX_20260719.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - R03测试APK清单与下载白名单证据
+    ledger:
+    - CR-0064及连续性检查点
+    tests:
+    - R03 APK prepare/verify、外网HTTPS 200、源站/外网/服务器/桌面SHA-256一致、签名v2/v3、真实API嵌入、严格连续性门禁
+    releases:
+    - R02认证补开发/R03测试APK
+    migration_and_compatibility: 现有3a913c9交付证据移入按提交号命名的history目录；0958f1f成为当前测试交付，旧APK不删除且不再作为当前验证目标。
+  user_confirmation: 用户在2026-07-19明确要求立即理解并开发冻结包，完成后生成桌面APK并持续推进。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T23:25:21Z'
+    note: 用户已明确要求冻结设计补开发、桌面APK交付、无状态连续开发，并授权后续非紧急判断由开发端自行决定；批准仅扩展交付证据范围，真机验收仍由用户反馈。
+  machine_record: .continuity/change_requests/CR-0064.yaml
+  document: docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md
+  decision_log:
+  - at: '2026-07-18T23:25:23Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已纳入最新固定签名测试APK、历史交付快照、构建签名证据和R02认证补开发交付报告，开始最终门禁与提交。
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:29:45Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 最新固定签名R03测试APK已完成仓库、服务器、公网和桌面四方交付验证，上一交付证据已归档，真机验收保持PENDING。
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0065
+  title: 同步R03发布计划与回归APK硬门禁
+  status: IMPLEMENTED
+  created_at: '2026-07-18T23:28:09Z'
+  updated_at: '2026-07-18T23:29:46Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 用户要求每个版本完成测试、桌面APK交付和可无状态接续，并严格按开发文档逐项核对。
+  reason: R03 RELEASE_MANIFEST自滚动计划建立时已要求回归APK，但catalogs/release_plan.csv仍标记Android测试APK=NO，导致发布产物常规门禁APK_POLICY_MISMATCH。
+  original_rule: catalogs/release_plan.csv中R03的Android测试APK字段为NO，而releases/R03/RELEASE_MANIFEST.yaml和滚动执行计划要求回归APK。
+  new_rule: R03发布计划Android测试APK字段统一为YES；版本退出前必须交付固定签名回归APK并完成仓库、桌面、公网和项目所有者真机验收。
+  impact_summary: 仅修正发布计划元数据与既有R03硬门禁一致，不新增业务功能、不将当前PENDING真机验收提前标记为PASS。
+  impact:
+    files:
+    - catalogs/release_plan.csv
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - R03 Android测试APK策略
+    ledger:
+    - CR-0065及连续性检查点
+    tests:
+    - check_release_artifacts.py --release R03 与严格连续性门禁
+    releases:
+    - R03
+    migration_and_compatibility: 后续所有R03发布产物检查均以YES执行；当前0958f1f测试APK继续作为待项目所有者真机反馈的回归包。
+  user_confirmation: 用户已明确要求每个版本测试、桌面APK、追溯和版本开发说明完整交付，并授权非紧急问题自行决策。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T23:28:27Z'
+    note: 该修正落实用户已明确要求的每版本APK交付与文档一致性硬边界，不改变业务范围。
+  machine_record: .continuity/change_requests/CR-0065.yaml
+  document: docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md
+  decision_log:
+  - at: '2026-07-18T23:28:29Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始将R03发布计划APK策略同步为YES并复跑发布产物门禁。
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-18T23:29:46Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: R03总发布计划Android测试APK策略已同步为YES，R03发布产物门禁和严格连续性门禁均通过。
     session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212

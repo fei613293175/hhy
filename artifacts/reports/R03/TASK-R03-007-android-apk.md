@@ -12,23 +12,23 @@
 
 | 项目 | 值 |
 | --- | --- |
-| 源码 Commit | `3a913c95265f93b815042389d573f4804137c0c0` |
-| APK 文件 | `hhy-r03-3a913c9-debug.apk` |
+| 源码 Commit | `0958f1f96ff12b769647c293082e5a4fadd7cb78` |
+| APK 文件 | `hhy-r03-0958f1f-debug.apk` |
 | 包名 / 应用名称 | `cc.orbexa.hhy.debug` / `合伙云 Pro 测试` |
 | versionName / versionCode | `1.2.2-debug` / `10203` |
 | minSdk / targetSdk / compileSdk | `26` / `36` / `37` |
-| APK 大小 | `11,923,821` bytes |
-| APK SHA-256 | `9b0aadba2609a1d135701b7fe0319a2a3a898340dd0499845af95968e107a32e` |
+| APK 大小 | `11,940,205` bytes |
+| APK SHA-256 | `64f1b9df021091ad3866998babdba073308489d7e1480548339a2b04a686750d` |
 | 签名证书 SHA-256 | `f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873` |
 | API Base URL | `https://api.orbexa.cc` |
-| 桌面副本 | `C:\Users\小白\Desktop\hhy-r03-3a913c9-debug.apk` |
-| 下载地址 | `https://download.orbexa.cc/r03-artifacts/hhy-r03-3a913c9-debug.apk` |
+| 桌面副本 | `C:\Users\小白\Desktop\hhy-r03-0958f1f-debug.apk` |
+| 下载地址 | `https://download.orbexa.cc/r03-artifacts/hhy-r03-0958f1f-debug.apk` |
 
 ## 构建、签名与联网门禁
 
 - 固定工具链：`hhy-android-toolchain:r01-46fb273`，镜像 ID `sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607`。
-- 源码归档 SHA-256：`768778c5a13d6464f308ed360c165439327b3229fe18b4d1e769a5c75fbf8bed`。
-- Gradle：`testDebugUnitTest lintDebug assembleDebug`，`BUILD SUCCESSFUL in 1m48s`，289 个 actionable task。
+- 源码归档 SHA-256：`110fdd123253bd4c70444000b5a6e693f58f964d45b054de4a626eab8eb53617`。
+- Gradle：`testDebugUnitTest lintDebug assembleDebug`，`BUILD SUCCESSFUL in 3m2s`，289 个 actionable task。
 - `apksigner`：v2/v3 PASS、单一签名者、RSA 3072；`zipalign -c -v 4` PASS。
 - DEX：真实 API 精确出现 1 次，占位端点 0 次。
 - 公开认证：注册配置与安全挑战均为 200，挑战图片解码为 PNG 160x56。
@@ -51,4 +51,4 @@
 
 ## 待完成门禁
 
-项目所有者需安装桌面 APK，至少确认安装、启动、认证页、点击登录自动出现真实验证码且不再显示“创建安全验证”技术按钮。收到明确 PASS 前，`owner_physical_test` 保持 `PENDING`，TASK-R03-007 不得标记 DONE，R03 不得关闭。
+项目所有者需安装桌面 `hhy-r03-0958f1f-debug.apk`，至少确认安装、启动、四个认证页、点击业务按钮自动出现真实验证码、无短信注册和全局无技术提示。收到明确 PASS 前，`owner_physical_test` 保持 `PENDING`，TASK-R03-007 不得标记 DONE，R03 不得关闭。
