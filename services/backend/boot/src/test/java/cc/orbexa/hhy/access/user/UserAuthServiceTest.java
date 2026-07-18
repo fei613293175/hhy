@@ -14,6 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import cc.orbexa.hhy.access.user.UserAuthContracts.RefreshRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordLoginRequest;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Clock;
@@ -21,6 +22,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.Optional;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -166,6 +168,39 @@ class UserAuthServiceTest {
         assertEquals("COMMON-409-IDEMPOTENCY_CONFLICT", error.code());
         assertEquals(409, error.httpStatus());
         verify(repository, never()).findSessionForUpdate(anyString());
+    }
+
+    @Test
+    void passwordLoginVerifiesChallengeAndCreatesDeviceBoundSession() {
+        PasswordLoginRequest request = new PasswordLoginRequest(
+                "13800000000", "Correct99", "challenge-1", "proof-1",
+                Map.of(
+                        "deviceFingerprint", "install-fingerprint-1",
+                        "model", "Pixel 9",
+                        "platform", "ANDROID",
+                        "osVersion", "15",
+                        "appVersion", "1.2.2-debug"));
+        when(repository.claimIdempotency(anyString(), eq("password-idem-key-0001"), anyString(), any(Instant.class)))
+                .thenReturn(new UserAuthStore.IdempotencyClaim(
+                        new UserAuthStore.IdempotencyRow(94L, "request-hash", null, null, null), false));
+        when(repository.findCredentialForUpdate("13800000000")).thenReturn(Optional.of(
+                new UserAuthStore.CredentialRow(17L, "ACTIVE", 71L, "bcrypt-hash", 0, null)));
+        when(passwords.matches("Correct99", "bcrypt-hash")).thenReturn(true);
+        when(repository.upsertDevice(eq(17L), anyString(), eq("Pixel 9"), any(Instant.class))).thenReturn(31L);
+        when(repository.createSession(eq(17L), eq(31L), anyString(), anyString(), any(Instant.class)))
+                .thenReturn(23L);
+
+        var session = service.passwordLogin(request, "password-idem-key-0001", "203.0.113.7");
+
+        assertEquals("17", session.userId());
+        assertEquals("23", session.sessionId());
+        assertEquals("31", session.device().deviceId());
+        assertEquals("ANDROID", session.device().platform());
+        verify(verification).verifyChallenge("challenge-1", "proof-1", UserAuthContracts.AuthScene.LOGIN);
+        verify(repository).clearPasswordFailures(71L);
+        verify(repository).recordLogin(17L, "13800000000", 31L, "203.0.113.7", "PASSWORD");
+        verify(repository).completeIdempotencySnapshot(
+                eq(94L), eq("user-auth-session-v1:ok"), eq("user-auth-session-v1"), anyString());
     }
 
     private static UserAuthProperties properties() {
