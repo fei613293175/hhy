@@ -27,6 +27,23 @@ EVIDENCE_SCHEMA = "hhy.r02.test-evidence/v1"
 RESULT_SCHEMA = "hhy.r02.test-matrix-result/v1"
 SHA_PATTERN = re.compile(r"^[0-9a-f]{40,64}$", re.IGNORECASE)
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$", re.IGNORECASE)
+POST_TEST_ALLOWED_EXACT = {
+    "CURRENT_STATUS.yaml",
+    "NEXT_TASK.yaml",
+    ".continuity/ACTIVE_SESSION.yaml",
+    ".continuity/EVENT_LOG.jsonl",
+    ".continuity/SESSION_INDEX.yaml",
+    ".continuity/STATE.yaml",
+    "catalogs/session_index.csv",
+}
+POST_TEST_ALLOWED_PREFIXES = (
+    ".continuity/checkpoints/",
+    ".continuity/sessions/",
+    "artifacts/context/",
+    "artifacts/validation/r02-test-evidence/",
+    "artifacts/reports/R02/",
+    "docs/03-continuity/sessions/",
+)
 
 
 @dataclass(frozen=True)
@@ -193,6 +210,41 @@ def git_head() -> str | None:
     return value if completed.returncode == 0 and SHA_PATTERN.fullmatch(value) else None
 
 
+def validate_source_commit(source_commit: str, head: str | None) -> list[str]:
+    if not head:
+        return ["cannot resolve current Git HEAD"]
+    if not SHA_PATTERN.fullmatch(str(source_commit)):
+        return [f"invalid evidence source_commit {source_commit!r}"]
+    if source_commit == head:
+        return []
+    git = os.environ.get("HHY_GIT", "git")
+    shallow = subprocess.run(
+        [git, "rev-parse", "--is-shallow-repository"],
+        cwd=ROOT, text=True, capture_output=True, check=False,
+    )
+    if shallow.returncode != 0 or shallow.stdout.strip() == "true":
+        return ["ancestor evidence is forbidden in a shallow or unreadable repository"]
+    ancestor = subprocess.run(
+        [git, "merge-base", "--is-ancestor", source_commit, head],
+        cwd=ROOT, text=True, capture_output=True, check=False,
+    )
+    if ancestor.returncode != 0:
+        return [f"evidence source_commit is not an ancestor of HEAD: {source_commit}"]
+    changed = subprocess.run(
+        [git, "diff", "--name-only", f"{source_commit}..{head}"],
+        cwd=ROOT, text=True, capture_output=True, check=False,
+    )
+    if changed.returncode != 0:
+        return ["cannot inspect paths changed after evidence source commit"]
+    disallowed = []
+    for raw_path in changed.stdout.splitlines():
+        path = raw_path.strip().replace("\\", "/")
+        if path in POST_TEST_ALLOWED_EXACT or path.startswith(POST_TEST_ALLOWED_PREFIXES):
+            continue
+        disallowed.append(path)
+    return [f"evidence is stale because executable/source paths changed: {disallowed}"] if disallowed else []
+
+
 def parse_time(value: Any, label: str, errors: list[str]) -> datetime | None:
     if not isinstance(value, str):
         errors.append(f"{label} must be RFC3339 text")
@@ -230,8 +282,7 @@ def validate_evidence(evidence_dir: Path, head: str | None) -> tuple[dict[str, d
         errors.append(f"evidence schema must be {EVIDENCE_SCHEMA}")
     if report.get("suite") != "r02-java21-pg17-android-real-api":
         errors.append("evidence suite is not the frozen R02 external runner")
-    if not head or report.get("source_commit") != head:
-        errors.append(f"evidence source_commit must equal HEAD expected={head!r} actual={report.get('source_commit')!r}")
+    errors.extend(validate_source_commit(str(report.get("source_commit", "")), head))
     if not isinstance(report.get("command"), list) or not report.get("command"):
         errors.append("evidence command must be a non-empty list")
     environment = report.get("environment")
