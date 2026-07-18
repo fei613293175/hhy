@@ -14,6 +14,7 @@ import cc.orbexa.hhy.access.user.UserAuthContracts.DeviceSummaryResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordLoginRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RefreshRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RegisterRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.SmsLoginRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.UserSessionResource;
 import java.time.Instant;
 import java.util.List;
@@ -130,6 +131,35 @@ class UserAuthSuccessContractTest {
         verify(service).register(request.capture(), eq("register-idem-key-0001"), anyString());
         org.junit.jupiter.api.Assertions.assertEquals("INVITE-R02", request.getValue().inviteCode());
         org.junit.jupiter.api.Assertions.assertEquals(List.of("101", "102"), request.getValue().agreementVersions());
+        org.junit.jupiter.api.Assertions.assertEquals("install-fingerprint", request.getValue().device().get("deviceFingerprint"));
+    }
+
+    @Test
+    void smsLoginBindsFrozenRequestAndReturnsSessionEnvelope() throws Exception {
+        Instant expiresAt = Instant.parse("2026-07-18T01:15:00Z");
+        when(service.smsLogin(any(SmsLoginRequest.class), eq("sms-login-idem-key-0001"), anyString()))
+                .thenReturn(new UserSessionResource(
+                        "access-token", "refresh-token", expiresAt,
+                        "17", "23",
+                        new DeviceSummaryResource("31", "Pixel 9", "ANDROID", "16", "1.2.3", expiresAt, true),
+                        List.of("content.read")));
+
+        mvc.perform(post("/api/v1/auth/sms/login")
+                        .header("X-Request-Id", "contract-sms-login")
+                        .header("X-Idempotency-Key", "sms-login-idem-key-0001")
+                        .contentType("application/json")
+                        .content("""
+                                {"phone":"13800000000","smsCode":"481516",
+                                 "device":{"deviceFingerprint":"install-fingerprint","platform":"ANDROID"}}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.requestId").value("contract-sms-login"))
+                .andExpect(jsonPath("$.data.sessionId").value("23"));
+
+        var request = org.mockito.ArgumentCaptor.forClass(SmsLoginRequest.class);
+        verify(service).smsLogin(request.capture(), eq("sms-login-idem-key-0001"), anyString());
+        org.junit.jupiter.api.Assertions.assertEquals("481516", request.getValue().smsCode());
         org.junit.jupiter.api.Assertions.assertEquals("install-fingerprint", request.getValue().device().get("deviceFingerprint"));
     }
 }

@@ -174,3 +174,14 @@ problems:
   do_not_repeat:
   - 异步认证回调不得直接把请求前可变输入当作当前已验证值
   - 认证请求提交期间不得允许修改路由或请求字段
+- id: PROB-0016
+  title: 启动更新链路会直接打开服务端下发的下载地址
+  status: SOLVED
+  root_cause: StartupGateScreen未校验downloadUrl的协议、主机、端口、用户信息或片段，可能将受污染的更新策略导向任意外部地址。
+  resolution: 新增DownloadUrlPolicy，仅接受DOMAIN_PLAN登记的download.orbexa.cc与stg-download.orbexa.cc HTTPS默认端口地址，并拒绝凭据、片段、伪造子域和非法URI；无效地址只显示通用错误且禁用下载按钮。
+  regression_checks:
+  - apps/android/feature/startup/src/test/java/cc/orbexa/hhy/startup/DownloadUrlPolicyTest.kt
+  - obx-test :feature:startup:testDebugUnitTest
+  do_not_repeat:
+  - 不得把服务端下发的外部URL未经协议与受信主机校验直接交给系统URI处理器
+  - 更新下载URL不得携带用户信息、非默认端口或片段

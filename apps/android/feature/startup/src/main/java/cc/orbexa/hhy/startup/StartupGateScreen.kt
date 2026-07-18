@@ -88,13 +88,19 @@ private fun UpdateScreen(
     val title = state.page?.title ?: "发现新版本 ${state.policy.latestVersionName}"
     val notes = state.page?.description ?: state.policy.releaseNotes
     val downloadUrl = state.page?.download?.downloadUrl ?: state.policy.downloadUrl
+    val trustedDownloadUrl = DownloadUrlPolicy.trustedOrNull(downloadUrl)
     GateMessage(
         title = title,
-        message = notes,
+        message = if (trustedDownloadUrl == null) {
+            "更新地址无效，请联系支持人员。"
+        } else {
+            notes
+        },
     ) {
         Button(
             modifier = Modifier.fillMaxWidth(),
-            onClick = { uriHandler.openUri(downloadUrl) },
+            enabled = trustedDownloadUrl != null,
+            onClick = { trustedDownloadUrl?.let(uriHandler::openUri) },
         ) {
             Text(if (state.forced) "立即更新" else "下载更新")
         }
