@@ -117,6 +117,31 @@ class ProviderCertificateServiceTest {
         assertEquals("COMMON-400-VALIDATION", content.code());
     }
 
+    @Test
+    void metadataFailureCompensatesPreviouslyStoredVaultMaterial() {
+        InMemoryStore store = new InMemoryStore();
+        store.rejectInsert = true;
+        AtomicReference<String> deleted = new AtomicReference<>();
+        var vault = new ProviderCertificateService.MaterialVault() {
+            @Override
+            public String store(
+                    ProviderCertificateService.MaterialDescriptor descriptor,
+                    byte[] material, String passwordSecretRef) {
+                return "vault://prod/payout/orphan-candidate";
+            }
+
+            @Override
+            public void delete(String secretReference) {
+                deleted.set(secretReference);
+            }
+        };
+
+        assertThrows(IllegalStateException.class, () -> service(store, vault).upload(
+                "payout", "alipay_private_key", "私钥", CONTENT,
+                null, NOW.plusSeconds(60), 11L));
+        assertEquals("vault://prod/payout/orphan-candidate", deleted.get());
+    }
+
     private static ProviderCertificateService service(
             InMemoryStore store, ProviderCertificateService.MaterialVault vault) {
         ProviderCertificateService.TransactionRunner direct =
@@ -151,6 +176,7 @@ class ProviderCertificateServiceTest {
         private final Map<String, Approval> approvals = new LinkedHashMap<>();
         private AuditEvent lastAudit;
         private int sequence;
+        private boolean rejectInsert;
 
         @Override
         public String nextId() {
@@ -176,6 +202,7 @@ class ProviderCertificateServiceTest {
 
         @Override
         public void insert(StoredCertificate certificate, AuditEvent audit) {
+            if (rejectInsert) throw new IllegalStateException("metadata insert failed");
             rows.put(certificate.id(), certificate);
             lastAudit = audit;
         }

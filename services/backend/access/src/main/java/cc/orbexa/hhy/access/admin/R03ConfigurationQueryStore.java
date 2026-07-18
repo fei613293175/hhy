@@ -97,7 +97,8 @@ public class R03ConfigurationQueryStore {
                 """ + filter.where() + " ORDER BY "
                         + order(CERTIFICATE_SORTS, sort, "createdAt:desc") + " LIMIT ? OFFSET ?",
                 (rs, row) -> new CertificateResource(
-                        Long.toString(rs.getLong("id")), rs.getString("provider_code"),
+                        R03ProviderCertificatePostgresStore.externalId(rs.getLong("id")),
+                        rs.getString("provider_code"),
                         rs.getString("cert_type"), rs.getString("alias"),
                         rs.getString("fingerprint"), stringTime(rs.getObject("valid_from", OffsetDateTime.class)),
                         instant(rs.getObject("valid_to", OffsetDateTime.class)),

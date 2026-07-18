@@ -57,4 +57,21 @@ public class AdminAccessConfiguration {
             Clock clock) {
         return new ProviderConfigVersionService(validator, connectionTests, store, store, clock);
     }
+
+    @Bean
+    @ConditionalOnMissingBean(ProviderCertificateService.MaterialVault.class)
+    ProviderCertificateService.MaterialVault unavailableCertificateMaterialVault() {
+        return (descriptor, material, passwordSecretRef) -> {
+            throw new cc.orbexa.hhy.shared.api.BusinessException(
+                    "COMMON-422-BUSINESS_RULE", "证书安全存储尚未配置", 422, false);
+        };
+    }
+
+    @Bean
+    ProviderCertificateService providerCertificateService(
+            R03ProviderCertificatePostgresStore store,
+            ProviderCertificateService.MaterialVault vault,
+            Clock clock) {
+        return new ProviderCertificateService(store, vault, store, clock);
+    }
 }

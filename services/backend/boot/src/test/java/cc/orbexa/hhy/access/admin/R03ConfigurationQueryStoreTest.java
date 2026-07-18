@@ -25,4 +25,12 @@ class R03ConfigurationQueryStoreTest {
         assertThrows(BusinessException.class, () -> R03ConfigurationQueryStore.order(
                 allowed, "created_at; DROP TABLE hhy.admin_users", "createdAt:desc"));
     }
+
+    @Test
+    void certificateIdsHaveAStableOpaqueApiForm() {
+        assertEquals("cert_42", R03ProviderCertificatePostgresStore.externalId(42L));
+        assertEquals(42L, R03ProviderCertificatePostgresStore.internalId("cert_42"));
+        assertThrows(BusinessException.class,
+                () -> R03ProviderCertificatePostgresStore.internalId("42"));
+    }
 }

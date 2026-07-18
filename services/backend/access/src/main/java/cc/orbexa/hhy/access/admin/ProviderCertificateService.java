@@ -57,18 +57,27 @@ public final class ProviderCertificateService {
                     new MaterialDescriptor(safeProvider, safeType, safeAlias),
                     material, safePasswordRef);
             requireSecretReference(secretRef, "证书存储引用");
-            return transactions.inTransaction(() -> {
-                String id = store.nextId();
-                Status status = store.activeForUpdate(safeProvider, safeType).isPresent()
-                        ? Status.STAGED : Status.ACTIVE;
-                StoredCertificate stored = new StoredCertificate(
-                        id, safeProvider, safeType, safeAlias, fingerprint, secretRef,
-                        clock.instant(), expiresAt, status, 0L);
-                store.insert(stored, new AuditEvent(
-                        "PROVIDER_CERTIFICATE_UPLOADED", id, safeProvider, safeType,
-                        actorId, "fingerprint=" + fingerprint, clock.instant()));
-                return view(stored);
-            });
+            try {
+                return transactions.inTransaction(() -> {
+                    String id = store.nextId();
+                    Status status = store.activeForUpdate(safeProvider, safeType).isPresent()
+                            ? Status.STAGED : Status.ACTIVE;
+                    StoredCertificate stored = new StoredCertificate(
+                            id, safeProvider, safeType, safeAlias, fingerprint, secretRef,
+                            clock.instant(), expiresAt, status, 0L);
+                    store.insert(stored, new AuditEvent(
+                            "PROVIDER_CERTIFICATE_UPLOADED", id, safeProvider, safeType,
+                            actorId, "fingerprint=" + fingerprint, clock.instant()));
+                    return view(stored);
+                });
+            } catch (RuntimeException persistenceFailure) {
+                try {
+                    materialVault.delete(secretRef);
+                } catch (RuntimeException cleanupFailure) {
+                    persistenceFailure.addSuppressed(cleanupFailure);
+                }
+                throw persistenceFailure;
+            }
         } finally {
             Arrays.fill(material, (byte) 0);
         }
@@ -210,6 +219,9 @@ public final class ProviderCertificateService {
     public interface MaterialVault {
         /** Stores an owned, short-lived byte array and returns an opaque Vault/KMS reference. */
         String store(MaterialDescriptor descriptor, byte[] material, String passwordSecretRef);
+
+        /** Compensates a successful store when the metadata transaction fails. */
+        default void delete(String secretReference) { }
     }
 
     public interface TransactionRunner {
