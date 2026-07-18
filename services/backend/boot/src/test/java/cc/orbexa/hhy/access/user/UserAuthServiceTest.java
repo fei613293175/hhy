@@ -15,6 +15,7 @@ import static org.mockito.Mockito.when;
 
 import cc.orbexa.hhy.access.user.UserAuthContracts.RefreshRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordLoginRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordResetRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RegisterRequest;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -267,6 +268,31 @@ class UserAuthServiceTest {
         verify(repository).recordLogin(17L, "13900000000", 31L, "203.0.113.8", "REGISTER");
         verify(repository).completeIdempotencySnapshot(
                 eq(96L), eq("user-auth-session-v1:ok"), eq("user-auth-session-v1"), anyString());
+    }
+
+    @Test
+    void passwordResetVerifiesSmsAndRevokesExistingSessionsBeforeReturningSuccess() {
+        PasswordResetRequest request = new PasswordResetRequest("13800000000", "481516", "NewPass99");
+        when(repository.claimIdempotency(anyString(), eq("reset-idem-key-0001"), anyString(), any(Instant.class)))
+                .thenReturn(new UserAuthStore.IdempotencyClaim(
+                        new UserAuthStore.IdempotencyRow(97L, "request-hash", null, null, null), false));
+        when(policy.passwordMinLength()).thenReturn(8);
+        when(policy.passwordMaxLength()).thenReturn(72);
+        when(policy.passwordRequireLetters()).thenReturn(true);
+        when(policy.passwordRequireDigits()).thenReturn(true);
+        when(repository.findCredentialForUpdate("13800000000")).thenReturn(Optional.of(
+                new UserAuthStore.CredentialRow(17L, "ACTIVE", 71L, "bcrypt-old-hash", 2, null)));
+        when(passwords.encode("NewPass99")).thenReturn("bcrypt-reset-hash");
+
+        var result = service.resetPassword(request, "reset-idem-key-0001");
+
+        assertEquals("17", result.resourceId());
+        assertEquals("PASSWORD_RESET", result.status());
+        assertEquals(NOW, result.acceptedAt());
+        verify(verification).verifySms("13800000000", UserAuthContracts.AuthScene.RESET_PASSWORD, "481516");
+        verify(repository).updatePasswordAndRevokeSessions(71L, 17L, "bcrypt-reset-hash", NOW);
+        verify(repository).completeIdempotencySnapshot(
+                eq(97L), eq("password-reset-v1:ok"), eq("password-reset-v1"), anyString());
     }
 
     private static UserAuthProperties properties() {
