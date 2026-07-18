@@ -49,7 +49,7 @@ internal enum class AuthRoute(val title: String, val scene: String) {
 private sealed interface AuthUiState {
     data object Editing : AuthUiState
     data object Submitting : AuthUiState
-    data class Message(val text: String, val requestId: String? = null) : AuthUiState
+    data class Message(val text: String, val requestId: String? = null, val errorCode: String? = null) : AuthUiState
 }
 
 /** R02 authentication routes; all requests are live frozen-contract operations, never mocks. */
@@ -88,8 +88,10 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: () -> Unit) {
                     if (state is AuthUiState.Submitting) state = AuthUiState.Message("操作成功", result.requestId)
                 }
                 is AuthCallResult.Failure -> state = AuthUiState.Message(
-                    text = result.statusCode?.let(::errorForStatus) ?: "网络不可用，请检查连接后重试",
+                    text = result.statusCode?.let { errorForStatus(it, result.errorCode, result.retryAfterSeconds) }
+                        ?: "网络不可用，请检查连接后重试",
                     requestId = result.requestId,
+                    errorCode = result.errorCode,
                 )
             }
         }
@@ -107,6 +109,7 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: () -> Unit) {
             if (state is AuthUiState.Message) {
                 val message = state as AuthUiState.Message
                 Text(message.text, color = HhyColors.Warning)
+                message.errorCode?.let { Text("错误码：$it", color = HhyColors.TextSecondary) }
                 message.requestId?.let { Text("请求编号：$it", color = HhyColors.TextSecondary) }
             }
             if (submitting) CircularProgressIndicator()
@@ -212,7 +215,10 @@ private fun primaryAction(route: AuthRoute) = when (route) {
     AuthRoute.REGISTER -> "注册"
     AuthRoute.RESET -> "重置密码"
 }
-private fun errorForStatus(status: Int) = when (status) {
+private fun errorForStatus(status: Int, errorCode: String?, retryAfterSeconds: Long?) = when {
+    errorCode == "AUTH-423-ACCOUNT_RESTRICTED" -> "账号当前受限，请联系平台客服处理"
+    status == 429 && retryAfterSeconds != null -> "操作过于频繁，请在 $retryAfterSeconds 秒后重试"
+    else -> when (status) {
     400, 422 -> "输入或安全验证未通过，请检查后重试"
     401 -> "认证已失效，请重新开始"
     403 -> "当前操作不可用"
@@ -220,4 +226,5 @@ private fun errorForStatus(status: Int) = when (status) {
     409 -> "数据已变化，请重新获取安全验证后重试"
     429 -> "操作过于频繁，请稍后重试"
     else -> "服务暂时不可用，请稍后重试"
+    }
 }

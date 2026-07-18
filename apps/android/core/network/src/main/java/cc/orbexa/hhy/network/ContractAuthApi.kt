@@ -9,6 +9,7 @@ import java.util.UUID
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonObject
@@ -43,7 +44,12 @@ interface ContractAuthApi {
 
 sealed interface AuthCallResult {
     data class Success(val data: JsonObject, val requestId: String) : AuthCallResult
-    data class Failure(val statusCode: Int?, val requestId: String?) : AuthCallResult
+    data class Failure(
+        val statusCode: Int?,
+        val requestId: String?,
+        val errorCode: String? = null,
+        val retryAfterSeconds: Long? = null,
+    ) : AuthCallResult
 }
 
 class UrlConnectionContractAuthApi(
@@ -109,7 +115,15 @@ class UrlConnectionContractAuthApi(
                 val requestId = connection.getHeaderField("X-Request-Id") ?: localRequestId
                 val response = (if (status in 200..299) connection.inputStream else connection.errorStream)
                     ?.bufferedReader(Charsets.UTF_8)?.use { it.readText() }.orEmpty()
-                if (status !in 200..299) return@withContext AuthCallResult.Failure(status, requestId)
+                if (status !in 200..299) {
+                    val error = runCatching { HhyNetworkJson.value.decodeFromString<ApiErrorEnvelope>(response) }.getOrNull()
+                    return@withContext AuthCallResult.Failure(
+                        statusCode = status,
+                        requestId = error?.requestId ?: requestId,
+                        errorCode = error?.error?.code,
+                        retryAfterSeconds = connection.getHeaderField("Retry-After")?.toLongOrNull(),
+                    )
+                }
                 val envelope = HhyNetworkJson.value.parseToJsonElement(response).jsonObject
                 val data = envelope["data"]?.jsonObject
                     ?: return@withContext AuthCallResult.Failure(status, requestId)

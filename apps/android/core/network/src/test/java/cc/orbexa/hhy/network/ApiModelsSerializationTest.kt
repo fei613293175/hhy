@@ -13,6 +13,16 @@ import org.junit.Test
 
 class ApiModelsSerializationTest {
 
+    @Test fun errorEnvelopeDecodesStableCodeWithoutRelaxingUnknownFields() {
+        val decoded = HhyNetworkJson.value.decodeFromString<ApiErrorEnvelope>(
+            """{"success":false,"requestId":"request_429","error":{"code":"COMMON-429-RATE_LIMITED","message":"请求过于频繁","retryable":true}}""",
+        )
+
+        assertFalse(decoded.success)
+        assertEquals("COMMON-429-RATE_LIMITED", decoded.error.code)
+        assertEquals(true, decoded.error.retryable)
+    }
+
     @Test fun authRequestsKeepFrozenContractFieldNames() {
         val request = AuthPasswordLoginRequest(
             phone = "13800000000",

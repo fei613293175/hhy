@@ -12,6 +12,20 @@ data class ApiEnvelope<T>(
 )
 
 @Serializable
+data class ApiErrorEnvelope(
+    val success: Boolean,
+    val requestId: String,
+    val error: ApiErrorBody,
+)
+
+@Serializable
+data class ApiErrorBody(
+    val code: String,
+    val message: String,
+    val retryable: Boolean? = null,
+)
+
+@Serializable
 data class PlatformCapabilities(
     val registration: Boolean,
     val publishing: Boolean,
