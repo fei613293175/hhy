@@ -1,5 +1,6 @@
 package cc.orbexa.hhy.network
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
@@ -57,6 +58,12 @@ class AuthSessionStore(context: Context) {
         null
     }
 
+    /**
+     * Make credential removal durable before any caller continues to the anonymous flow.
+     * An asynchronous write could leave a refresh credential recoverable after logout or
+     * cryptographic invalidation if the process is terminated immediately.
+     */
+    @SuppressLint("ApplySharedPref")
     fun clear() {
         preferences.edit().remove(CIPHERTEXT_KEY).remove(IV_KEY).commit()
     }

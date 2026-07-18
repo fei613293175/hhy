@@ -163,3 +163,14 @@ problems:
   do_not_repeat:
   - 不得在客户端散落硬编码协议版本
   - 不得跳过服务端有效期校验或伪造协议同意记录
+- id: PROB-0015
+  title: Android邀请码异步校验可误标记已变更的输入值
+  status: SOLVED
+  root_cause: 注册页发起邀请码校验后仍允许编辑输入，异步成功回调读取可变状态，可能把旧请求的成功结果标记到新邀请码。
+  resolution: 提交期间冻结认证表单输入和路由；邀请码校验保存请求快照，只有快照与当前输入完全一致时才记录已校验状态。
+  regression_checks:
+  - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+  - obx-test :feature:auth:testDebugUnitTest
+  do_not_repeat:
+  - 异步认证回调不得直接把请求前可变输入当作当前已验证值
+  - 认证请求提交期间不得允许修改路由或请求字段

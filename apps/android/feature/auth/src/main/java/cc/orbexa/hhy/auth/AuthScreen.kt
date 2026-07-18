@@ -115,7 +115,14 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
         ) {
             Text("合伙云 Pro", style = MaterialTheme.typography.headlineSmall)
             Text(route.title, style = MaterialTheme.typography.titleLarge)
-            RouteSelector(route) { route = it; state = AuthUiState.Editing }
+            RouteSelector(route, enabled = !submitting) {
+                route = it
+                smsCode = ""
+                challengeId = ""
+                challengeImageBase64 = ""
+                challengeProof = ""
+                state = AuthUiState.Editing
+            }
 
             if (state is AuthUiState.Message) {
                 val message = state as AuthUiState.Message
@@ -125,30 +132,33 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
             }
             if (submitting) CircularProgressIndicator()
 
-            PhoneField(phone) { phone = it; state = AuthUiState.Editing }
+            PhoneField(phone, enabled = !submitting) { phone = it; smsCode = ""; state = AuthUiState.Editing }
             if (route == AuthRoute.PASSWORD || route == AuthRoute.REGISTER || route == AuthRoute.RESET) {
-                SecretField(if (route == AuthRoute.RESET) "新密码" else "密码", password) { password = it; state = AuthUiState.Editing }
+                SecretField(if (route == AuthRoute.RESET) "新密码" else "密码", password, enabled = !submitting) { password = it; state = AuthUiState.Editing }
             }
             if (route == AuthRoute.REGISTER) {
-                SecretField("确认密码", passwordAgain) { passwordAgain = it; state = AuthUiState.Editing }
+                SecretField("确认密码", passwordAgain, enabled = !submitting) { passwordAgain = it; state = AuthUiState.Editing }
                 TextField("邀请码", inviteCode, {
                     inviteCode = it
                     validatedInviteCode = ""
                     state = AuthUiState.Editing
-                }, false)
-                TextField("协议版本（逗号分隔）", agreementVersions, { agreementVersions = it; state = AuthUiState.Editing }, false)
+                }, false, enabled = !submitting)
+                TextField("协议版本（逗号分隔）", agreementVersions, { agreementVersions = it; state = AuthUiState.Editing }, false, enabled = !submitting)
                 OutlinedButton(
                     modifier = Modifier.fillMaxWidth(), enabled = !submitting && inviteCode.isNotBlank(),
                     onClick = {
-                        launchCall({ api.validateInviteCode(inviteCode) }) { result ->
-                            validatedInviteCode = inviteCode
-                            state = AuthUiState.Message("邀请码校验通过", result.requestId)
+                        val inviteCodeSnapshot = inviteCode
+                        launchCall({ api.validateInviteCode(inviteCodeSnapshot) }) { result ->
+                            if (AuthFormRules.isInviteValidationForCurrentInput(inviteCodeSnapshot, inviteCode)) {
+                                validatedInviteCode = inviteCodeSnapshot
+                                state = AuthUiState.Message("邀请码校验通过", result.requestId)
+                            }
                         }
                     },
                 ) { Text("校验邀请码") }
             }
             if (route != AuthRoute.PASSWORD) {
-                SecretField("短信验证码", smsCode) { smsCode = it; state = AuthUiState.Editing }
+                SecretField("短信验证码", smsCode, enabled = !submitting) { smsCode = it; state = AuthUiState.Editing }
             }
 
             if (route == AuthRoute.PASSWORD || route == AuthRoute.SMS || route == AuthRoute.REGISTER || route == AuthRoute.RESET) {
@@ -164,7 +174,7 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                 ) { Text("创建安全验证") }
                 if (challengeId.isNotBlank()) {
                     ChallengeImage(challengeImageBase64)
-                    SecretField("安全验证结果", challengeProof) { challengeProof = it; state = AuthUiState.Editing }
+                    SecretField("安全验证结果", challengeProof, enabled = !submitting) { challengeProof = it; state = AuthUiState.Editing }
                 }
             }
             if (route != AuthRoute.PASSWORD) {
@@ -205,17 +215,17 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
     }
 }
 
-@Composable private fun RouteSelector(selected: AuthRoute, onSelect: (AuthRoute) -> Unit) = Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+@Composable private fun RouteSelector(selected: AuthRoute, enabled: Boolean, onSelect: (AuthRoute) -> Unit) = Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
     AuthRoute.entries.forEach { route ->
-        OutlinedButton(onClick = { onSelect(route) }, enabled = route != selected) { Text(route.title) }
+        OutlinedButton(onClick = { onSelect(route) }, enabled = enabled && route != selected) { Text(route.title) }
     }
 }
 
-@Composable private fun PhoneField(value: String, onValueChange: (String) -> Unit) = TextField("手机号", value, onValueChange, false)
-@Composable private fun SecretField(label: String, value: String, onValueChange: (String) -> Unit) = TextField(label, value, onValueChange, true)
-@Composable private fun TextField(label: String, value: String, onValueChange: (String) -> Unit, secret: Boolean) = OutlinedTextField(
+@Composable private fun PhoneField(value: String, enabled: Boolean, onValueChange: (String) -> Unit) = TextField("手机号", value, onValueChange, false, enabled)
+@Composable private fun SecretField(label: String, value: String, enabled: Boolean, onValueChange: (String) -> Unit) = TextField(label, value, onValueChange, true, enabled)
+@Composable private fun TextField(label: String, value: String, onValueChange: (String) -> Unit, secret: Boolean, enabled: Boolean) = OutlinedTextField(
     value = value, onValueChange = onValueChange, modifier = Modifier.fillMaxWidth(), label = { Text(label) },
-    singleLine = true, visualTransformation = if (secret) PasswordVisualTransformation() else VisualTransformation.None,
+    singleLine = true, enabled = enabled, visualTransformation = if (secret) PasswordVisualTransformation() else VisualTransformation.None,
 )
 
 @Composable

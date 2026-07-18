@@ -7,6 +7,9 @@ internal object AuthFormRules {
     fun hasValidatedInvite(currentInvite: String, validatedInvite: String) =
         currentInvite.isNotBlank() && currentInvite == validatedInvite
 
+    fun isInviteValidationForCurrentInput(requestedInvite: String, currentInvite: String) =
+        requestedInvite.isNotBlank() && requestedInvite == currentInvite
+
     fun canSubmit(
         route: AuthRoute,
         phone: String,

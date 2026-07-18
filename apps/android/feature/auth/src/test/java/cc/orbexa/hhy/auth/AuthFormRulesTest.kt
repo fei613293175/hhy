@@ -21,4 +21,10 @@ class AuthFormRulesTest {
         assertFalse(AuthFormRules.hasValidatedInvite("INVITE-A", "INVITE-B"))
         assertTrue(AuthFormRules.hasValidatedInvite("INVITE-A", "INVITE-A"))
     }
+
+    @Test fun inviteValidationResponseCanOnlyApplyToItsOriginalInputValue() {
+        assertFalse(AuthFormRules.isInviteValidationForCurrentInput("", "INVITE-A"))
+        assertFalse(AuthFormRules.isInviteValidationForCurrentInput("INVITE-A", "INVITE-B"))
+        assertTrue(AuthFormRules.isInviteValidationForCurrentInput("INVITE-A", "INVITE-A"))
+    }
 }
