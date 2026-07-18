@@ -11,7 +11,7 @@ task_id: TASK-R03-006
 story_id: STORY-R03-004
 goal: 可观测性、Staging部署与回滚演练
 started_at: '2026-07-18T16:23:20Z'
-updated_at: '2026-07-18T16:32:33Z'
+updated_at: '2026-07-18T16:55:21Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -58,22 +58,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T16:32:31Z'
-  expires_at: '2026-07-18T20:32:31Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260718T162320Z-23C14331/0001.yaml
+  renewed_at: '2026-07-18T16:55:19Z'
+  expires_at: '2026-07-18T20:55:19Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260718T162320Z-23C14331/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T162320Z-23C14331.md
-next_step: 提交并推送可观测性切片，然后在obx-test启动独立R03 Staging完成现场告警与应用回切演练
+next_step: 提交并推送现场证据，关闭TASK-R03-006并启动TASK-R03-007外部激活证据与Android回归APK
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 81b8286bbb18cefc1806f28850ae4d460518c1ae923172a51cd25f585fde7020
-  generated_at: '2026-07-18T16:32:32Z'
+  context_hash: cc458e0c19d498d43e6ac632f373df544bc86357a9a488f448d95653c5edec7f
+  generated_at: '2026-07-18T16:55:21Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前切片同时修改共享可观测性Binder、Compose和连续性账本，拆分会造成同一证据链冲突
+  reason: 现场演练必须串行验证同一隔离Compose项目的状态迁移、告警窗口和数据库卷连续性
