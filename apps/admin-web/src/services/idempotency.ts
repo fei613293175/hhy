@@ -13,6 +13,10 @@ export const ADMIN_SECURITY_IDEMPOTENT_OPERATIONS = [
   'adminUsersPostUsersByIdFreeze',
   'adminUsersPostUsersByIdUnfreeze',
   'adminUsersPostUsersByIdForceLogout',
+  'adminProviderConfigPostProviderConfigsByProviderVersions',
+  'adminProviderConfigPostProviderConfigsByProviderTest',
+  'adminProviderConfigPostProviderConfigsByProviderActivate',
+  'adminProviderConfigPostProviderConfigsByProviderRollback',
 ] as const satisfies readonly (keyof AdminContract.operations)[];
 
 export type AdminSecurityIdempotentOperation =
