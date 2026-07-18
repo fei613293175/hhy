@@ -73,6 +73,22 @@ public final class BusinessGaugeBinder implements MeterBinder {
               AND ((response_type IS NULL AND response_payload_ciphertext IS NOT NULL)
                 OR (response_type IS NOT NULL AND response_payload_ciphertext IS NULL))
             """;
+    static final String USER_ACTIVE_SESSIONS_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.user_sessions
+            WHERE refresh_hash IS NOT NULL AND expires_at > CURRENT_TIMESTAMP
+            """;
+    static final String USER_SECURITY_CHALLENGE_FAILURES_5M_SQL = """
+            SELECT COALESCE(SUM(attempts), 0)
+            FROM hhy.auth_security_challenges
+            WHERE attempts > 0
+              AND created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String USER_EXPIRED_UNUSED_SMS_CODES_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.sms_verification_codes
+            WHERE used_at IS NULL AND expires_at <= CURRENT_TIMESTAMP
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -91,6 +107,9 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.admin.auth.failures.5m", "Rejected administrator authentication attempts in the last five minutes", ADMIN_AUTH_FAILURES_5M_SQL);
         register(registry, "hhy.admin.mfa.active.methods", "Active administrator MFA methods", ADMIN_MFA_ACTIVE_METHODS_SQL);
         register(registry, "hhy.admin.idempotency.incomplete.snapshots", "Administrator idempotency records with a partial encrypted response snapshot", ADMIN_IDEMPOTENCY_INCOMPLETE_SNAPSHOTS_SQL);
+        register(registry, "hhy.user.active.sessions", "Active user refresh sessions that have not expired", USER_ACTIVE_SESSIONS_SQL);
+        register(registry, "hhy.user.security.challenge.failures.5m", "Rejected user security challenge proofs in the last five minutes", USER_SECURITY_CHALLENGE_FAILURES_5M_SQL);
+        register(registry, "hhy.user.sms.expired.unused", "Expired user SMS verification codes that were never consumed", USER_EXPIRED_UNUSED_SMS_CODES_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

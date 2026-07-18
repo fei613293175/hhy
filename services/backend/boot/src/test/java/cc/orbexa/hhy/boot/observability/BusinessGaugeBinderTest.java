@@ -23,6 +23,9 @@ class BusinessGaugeBinderTest {
         jdbc.execute("CREATE TABLE hhy.admin_login_logs (id bigint PRIMARY KEY, result varchar(32) NOT NULL, created_at timestamp with time zone NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.admin_mfa_methods (id bigint PRIMARY KEY, status varchar(32) NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.idempotency_records (id bigint PRIMARY KEY, scope varchar(64) NOT NULL, response_type varchar(128), response_payload_ciphertext text)");
+        jdbc.execute("CREATE TABLE hhy.user_sessions (id bigint PRIMARY KEY, refresh_hash varchar(128), expires_at timestamp with time zone)");
+        jdbc.execute("CREATE TABLE hhy.auth_security_challenges (id bigint PRIMARY KEY, attempts integer NOT NULL, created_at timestamp with time zone NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.sms_verification_codes (id bigint PRIMARY KEY, used_at timestamp with time zone, expires_at timestamp with time zone NOT NULL)");
 
         jdbc.update("INSERT INTO hhy.outbox_events(id, status) VALUES (1, 'PENDING'), (2, 'RETRY_WAIT'), (3, 'DEAD_LETTER'), (4, 'PUBLISHED')");
         jdbc.update("INSERT INTO hhy.ledger_accounts(id, currency) VALUES (10, 'CNY'), (11, 'CNY')");
@@ -44,6 +47,17 @@ class BusinessGaugeBinderTest {
                 + "(70, 'admin.login', 'LoginResponse', 'ciphertext'), "
                 + "(71, 'admin.logout', 'LogoutResponse', NULL), "
                 + "(72, 'public.status', 'StatusResponse', NULL)");
+        jdbc.update("INSERT INTO hhy.user_sessions(id, refresh_hash, expires_at) VALUES "
+                + "(80, 'active-refresh', CURRENT_TIMESTAMP + INTERVAL '1' HOUR), "
+                + "(81, NULL, CURRENT_TIMESTAMP + INTERVAL '1' HOUR), "
+                + "(82, 'expired-refresh', CURRENT_TIMESTAMP - INTERVAL '1' HOUR)");
+        jdbc.update("INSERT INTO hhy.auth_security_challenges(id, attempts, created_at) VALUES "
+                + "(90, 2, CURRENT_TIMESTAMP), (91, 0, CURRENT_TIMESTAMP), "
+                + "(92, 4, CURRENT_TIMESTAMP - INTERVAL '10' MINUTE)");
+        jdbc.update("INSERT INTO hhy.sms_verification_codes(id, used_at, expires_at) VALUES "
+                + "(100, NULL, CURRENT_TIMESTAMP - INTERVAL '1' MINUTE), "
+                + "(101, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP - INTERVAL '1' MINUTE), "
+                + "(102, NULL, CURRENT_TIMESTAMP + INTERVAL '1' MINUTE)");
 
         SimpleMeterRegistry registry = new SimpleMeterRegistry();
         new BusinessGaugeBinder(jdbc).bindTo(registry);
@@ -56,6 +70,9 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.admin.auth.failures.5m").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.admin.mfa.active.methods").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.admin.idempotency.incomplete.snapshots").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.user.active.sessions").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.user.security.challenge.failures.5m").gauge().value()).isEqualTo(2.0);
+        assertThat(registry.get("hhy.user.sms.expired.unused").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.business.metric.query.failures")
                 .tag("metric", "hhy.admin.active.sessions").counter().count()).isZero();
     }

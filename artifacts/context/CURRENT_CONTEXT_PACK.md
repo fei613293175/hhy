@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T09:46:36Z
-- Context Hash：`69a180eb667ee24b49ade703b599f4a8a4c9cecf112289f348aaae6f3278eec8`
+- 生成时间：2026-07-18T10:06:07Z
+- Context Hash：`f990332149ad8c9b0ed92f15216ce085638f9c8c4812b506c19ad6e51b6a0338`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -59,7 +59,7 @@ in_progress_tasks:
 - TASK-R02-006
 blocked_tasks: []
 next_task: TASK-R02-006
-updated_at: '2026-07-18T09:46:35Z'
+updated_at: '2026-07-18T10:06:05Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -94,15 +94,15 @@ continuity:
   active_session_id: SES-20260718T084729Z-BD53B7C4
   actor_id: codex-root
   story_id: STORY-R02-009
-  lease_expires_at: '2026-07-18T13:46:35Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0008.yaml
-  project_fingerprint: 2e2b1cdee0b5561e9b0b04d50743fe9da89ece4d6b35c7f2742b5a695b9f6462
+  lease_expires_at: '2026-07-18T14:06:05Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0009.yaml
+  project_fingerprint: 92a89e49d40c92c110eb46eb6abddee55c93bb41edfd5a6b4c84830ceea5b3ce
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: b9ff37577a7607b7460baceccfd0ce7014932910fe36a38a10bffb1153cf03ba
-    generated_at: '2026-07-18T09:43:56Z'
+    context_hash: 69a180eb667ee24b49ade703b599f4a8a4c9cecf112289f348aaae6f3278eec8
+    generated_at: '2026-07-18T09:46:36Z'
   handoff_bundle: null
 ```
 
@@ -304,7 +304,7 @@ task_id: TASK-R02-006
 story_id: STORY-R02-009
 goal: 汇合R02四个纵向批次，执行25项权威测试、故障注入、可观测性和预发布验收并归档证据。
 started_at: '2026-07-18T08:47:29Z'
-updated_at: '2026-07-18T09:46:35Z'
+updated_at: '2026-07-18T10:06:05Z'
 takeover_of: null
 change_requests:
 - CR-0039
@@ -360,12 +360,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T09:46:35Z'
-  expires_at: '2026-07-18T13:46:35Z'
-checkpoint_sequence: 8
-latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0008.yaml
+  renewed_at: '2026-07-18T10:06:05Z'
+  expires_at: '2026-07-18T14:06:05Z'
+checkpoint_sequence: 9
+latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0009.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-next_step: 提交证据防伪工具后，以该提交为被测基线重跑四类作业并生成25/25矩阵
+next_step: 提交可观测性基线，随后按新提交SHA刷新四类全量外部证据与25项权威矩阵
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -373,44 +373,64 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 新鲜度策略和证据生成格式必须先提交冻结，后续环境作业才能绑定稳定SHA
+  reason: 本阶段提交、Git指纹和证据SHA必须串行冻结；同一云端此前并发SSH连接被服务端拒绝，刷新作业按顺序执行以避免互相终止
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0008
+checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0009
 session_id: SES-20260718T084729Z-BD53B7C4
-sequence: 8
-created_at: '2026-07-18T09:46:34Z'
-summary: R02矩阵增加提交祖先新鲜度证明和外部证据生成器，允许仅证据/连续性后续提交且拒绝任何源码漂移
-next_step: 提交证据防伪工具后，以该提交为被测基线重跑四类作业并生成25/25矩阵
+sequence: 9
+created_at: '2026-07-18T10:06:05Z'
+summary: R02可观测性、隔离预发布编排和短信供应商失败关闭故障注入已实现，云端定向测试10/10及静态配置门禁通过
+next_step: 提交可观测性基线，随后按新提交SHA刷新四类全量外部证据与25项权威矩阵
 blockers: []
 decisions:
-- 证据提交后可接受被测SHA祖先，但其后路径严格限于R02证据、报告和连续性元数据
-note: 下一提交仅冻结证据协议，不声明外部21项已经通过
+- 隔离预发布网络、端口与测试密钥只用于R02 smoke，不触碰现有长期运行环境
+note: 本机Python未安装pytest；权威脚本均已单独PASS，pytest封装不是本次门禁来源
 tests:
-- name: matrix-freshness-regression
+- name: R02 observability static gate
   result: PASS
-  evidence: 22 unittest
-  note: 错误SHA、缺失证据、共享适配器和库存门禁通过
-- name: matrix-list
+  evidence: scripts/check_r02_observability.py
+  note: R02_OBSERVABILITY_CONFIG_OK
+- name: Generated assets gate
   result: PASS
-  evidence: run_r02_test_matrix.py --list
-  note: 25 NOT_RUN且无伪PASS
+  evidence: scripts/check_generated_assets.py
+  note: GENERATED_ASSETS_OK
+- name: R02 strict documentation
+  result: PASS
+  evidence: scripts/check_v123_documentation.py --strict --release R02
+  note: 199 tables, 316 REST, 0 gaps
+- name: R02 targeted backend fault and metrics tests
+  result: PASS
+  evidence: remote Maven 3 classes
+  note: 10 tests, 0 failures, BUILD SUCCESS
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: 7a348bdad2ba42a96594cb8df65110e3ae6382dd
+  head: c65239ab22d5ea8573ec39eb2df7a953d2bad094
   upstream: origin/task/TASK-R02-002
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M scripts/run_r02_test_matrix.py'
-  - ?? scripts/build_r02_external_evidence.py
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthVerificationServiceTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java'
+  - ?? infra/staging/r02-smoke/alertmanager.yml
+  - ?? infra/staging/r02-smoke/docker-compose.yml
+  - ?? infra/staging/r02-smoke/nginx.conf
+  - ?? infra/staging/r02-smoke/prometheus.yml
+  - ?? infra/staging/r02-smoke/r02-alerts.yml
+  - ?? scripts/check_r02_observability.py
   recent_commits:
+  - "c65239ab22d5ea8573ec39eb2df7a953d2bad094\t2026-07-18T17:46:57+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): bind R02\
+    \ external evidence"
   - "7a348bdad2ba42a96594cb8df65110e3ae6382dd\t2026-07-18T17:44:04+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): add R02\
     \ release matrix"
   - "7be251616ec184894a5341ede6b1ce51d1211fcc\t2026-07-18T17:23:39+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(auth): reject noncanonical\
@@ -424,10 +444,8 @@ git:
   - "0d49f7c62f4602d77c5231ae02221c8cc9dc9ec7\t2026-07-18T16:44:46+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close CR-0038"
   - "194813662259dde14a320111dfe5db44b5066082\t2026-07-18T16:43:45+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] feat(h5): complete invite\
     \ registration flow"
-  - "1e41f587985849538b8ba2f6b5d0ee24e0652223\t2026-07-18T16:15:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close TASK-R02-004\
-    \ as completed"
 project_fingerprint:
-  sha256: 2e2b1cdee0b5561e9b0b04d50743fe9da89ece4d6b35c7f2742b5a695b9f6462
+  sha256: 92a89e49d40c92c110eb46eb6abddee55c93bb41edfd5a6b4c84830ceea5b3ce
   files:
   - CHANGELOG.md
   - apps/h5/src/styles.css
@@ -435,16 +453,27 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
   - docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
   - docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - infra/staging/r02-smoke/alertmanager.yml
+  - infra/staging/r02-smoke/docker-compose.yml
+  - infra/staging/r02-smoke/nginx.conf
+  - infra/staging/r02-smoke/prometheus.yml
+  - infra/staging/r02-smoke/r02-alerts.yml
   - releases/PROGRAM_EXECUTION_PLAN.yaml
   - releases/R02/DEFINITION_OF_READY.yaml
   - releases/R02/RELEASE_MANIFEST.yaml
   - releases/R02/TASKS.yaml
   - scripts/build_r02_external_evidence.py
+  - scripts/check_r02_observability.py
   - scripts/generate_r02_test_adapters.py
   - scripts/run_r01_test_matrix.py
   - scripts/run_r02_test_matrix.py
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthVerificationServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
   - tests/r02/README.md
   - tests/r02/evidence.schema.json
   - tests/r02/req-auth-001_happy
@@ -475,7 +504,7 @@ project_fingerprint:
   - tests/v1.2.2/requirements/req-admin-ops-001_reject
   - tests/v1.2.2/requirements/req-admin-ops-001_security
   - tests/v1.2.2/ui/scr-app-001_appReleaseGetAppVersionCheck
-  file_count: 46
+  file_count: 57
   payload:
     base_commit: 342e70b9ceb649821e08b3977abd8bef31cfd45b
     files:
@@ -489,8 +518,8 @@ project_fingerprint:
       sha256: ac0f5bbbead5925439fec133f1b4610f057baec71e2b0bc1c50fa6fcd3c427f3
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 16007
-      sha256: 20dc7cf5a24e22c033a5102a8e85432f4ebf3f33c0773c77f462ef2778eb5a65
+      size: 16130
+      sha256: 3b7c9170b16f5b4492ca229c923ba655956a9902005b7020ad5de21fc55270ee
     - path: docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
       state: FILE
       size: 2122
@@ -503,6 +532,30 @@ project_fingerprint:
       state: FILE
       size: 1699
       sha256: 134b2c55024d59aef5587c77bb668698f55395e0194c880d69962d437cb3170a
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 12708
+      sha256: 07b625056402009c2855576f91971ce826b0dcbade90f6644a02a40a2ee75260
+    - path: infra/staging/r02-smoke/alertmanager.yml
+      state: FILE
+      size: 277
+      sha256: 404ed26159c682796c5e77f376765aba5041981bebbd0d3895532048192da626
+    - path: infra/staging/r02-smoke/docker-compose.yml
+      state: FILE
+      size: 3963
+      sha256: ea5d49833aebdba3b9e52a9dcb6d3954d3b7fc311c7c1ddf0ac55c63964c265f
+    - path: infra/staging/r02-smoke/nginx.conf
+      state: FILE
+      size: 318
+      sha256: b13f1e9d43e52a8469a988d1af9de051dfdcba2724df5c754793993f7fe41f98
+    - path: infra/staging/r02-smoke/prometheus.yml
+      state: FILE
+      size: 401
+      sha256: 5c25b538077f60d780c844894f1e75c6306dd2fa81578d03ea8120a0a28ff169
+    - path: infra/staging/r02-smoke/r02-alerts.yml
+      state: FILE
+      size: 1866
+      sha256: 8c3c70e810a09f2ef67b752dba8f9da4128163e5a2bc48f9e94d31c0b8070cc1
     - path: releases/PROGRAM_EXECUTION_PLAN.yaml
       state: FILE
       size: 35804
@@ -523,6 +576,10 @@ project_fingerprint:
       state: FILE
       size: 6343
       sha256: 7b0008157239553a19d422d98266504b4983e427e717fa05ca689cdf2a46e9e2
+    - path: scripts/check_r02_observability.py
+      state: FILE
+      size: 3951
+      sha256: 8e318d38ddea7f852a953cc9127847b8870f636042a5e9bbf1769dfa60cda046
     - path: scripts/generate_r02_test_adapters.py
       state: FILE
       size: 2590
@@ -539,10 +596,26 @@ project_fingerprint:
       state: FILE
       size: 6636
       sha256: 0928b9e19608b05dde6901a0b82afeffabe394080e0d96045cbb792011c2c0d3
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 7153
+      sha256: 5102023a49efe01fa32747d40a42a5f3de1cdcc3e47e5bb4e3a5c679959dd38f
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthVerificationServiceTest.java
+      state: FILE
+      size: 4559
+      sha256: 9560d4f39d89cc7a54868996417fe8ff1c3715533492058433267737c9539835
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
       state: FILE
       size: 2589
       sha256: 69c46b58387631c182242f5682231fdbe5751e49f7c6dc82070a61e94223a22b
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 7263
+      sha256: 9e3165ba290c628d6e4c25d6fb7ef13b7b5cf7c7445710966d4e0bdd8dbc5b48
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 7129
+      sha256: 027cef36602ae5b736f6f4110b681ad9cc2c53ade116b555e8b4b0a6382e0348
     - path: tests/r02/README.md
       state: FILE
       size: 1344
@@ -666,16 +739,22 @@ project_fingerprint:
 change_classification:
   other:
   - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
   - releases/PROGRAM_EXECUTION_PLAN.yaml
   - releases/R02/TASKS.yaml
   code:
   - apps/h5/src/styles.css
   - scripts/build_r02_external_evidence.py
+  - scripts/check_r02_observability.py
   - scripts/generate_r02_test_adapters.py
   - scripts/run_r01_test_matrix.py
   - scripts/run_r02_test_matrix.py
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthVerificationServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
   user_visible:
   - apps/h5/src/styles.css
   continuity:
@@ -683,6 +762,12 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md
   - docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md
   - docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md
+  infrastructure:
+  - infra/staging/r02-smoke/alertmanager.yml
+  - infra/staging/r02-smoke/docker-compose.yml
+  - infra/staging/r02-smoke/nginx.conf
+  - infra/staging/r02-smoke/prometheus.yml
+  - infra/staging/r02-smoke/r02-alerts.yml
   source_of_truth:
   - releases/R02/DEFINITION_OF_READY.yaml
   - releases/R02/RELEASE_MANIFEST.yaml
@@ -774,8 +859,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 新鲜度策略和证据生成格式必须先提交冻结，后续环境作业才能绑定稳定SHA
-event_hash: 19633aacb27a65140b0dad6ad145a3b9dea77e5469b859402b92f24d063f114b
+  reason: 本阶段提交、Git指纹和证据SHA必须串行冻结；同一云端此前并发SSH连接被服务端拒绝，刷新作业按顺序执行以避免互相终止
+event_hash: b42cf311ca3bf960baa95c57335fd588f584a9c69f8ca37cd6396be26a9568a7
 ```
 
 ## 接续状态与事件头
@@ -787,8 +872,8 @@ active_session_id: SES-20260718T084729Z-BD53B7C4
 last_session_id: SES-20260718T081744Z-71EAAA84
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T081744Z-71EAAA84-0004
-event_count: 460
-event_head_hash: 19633aacb27a65140b0dad6ad145a3b9dea77e5469b859402b92f24d063f114b
+event_count: 461
+event_head_hash: b42cf311ca3bf960baa95c57335fd588f584a9c69f8ca37cd6396be26a9568a7
 event_chain_valid: true
 ```
 
@@ -911,9 +996,9 @@ recent_sessions: - session_id: SES-20260717T152721Z-016DB4B2
   started_at: '2026-07-18T08:47:29Z'
   record: .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-  updated_at: '2026-07-18T09:46:35Z'
+  updated_at: '2026-07-18T10:06:05Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0008.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0009.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-E58E42235FFA
   session_id: SES-20260717T024407Z-B03C9375
@@ -1784,7 +1869,7 @@ recent_task_transitions: - transition_id: TRN-700F522BD35A
 ```yaml
 initialized: true
 branch: task/TASK-R02-002
-head: 7a348bdad2ba42a96594cb8df65110e3ae6382dd
+head: c65239ab22d5ea8573ec39eb2df7a953d2bad094
 upstream: origin/task/TASK-R02-002
 ahead: 0
 behind: 0
@@ -1797,11 +1882,23 @@ status_porcelain:
 - ' M .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml'
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md'
-- ' M scripts/run_r02_test_matrix.py'
-- ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0008.yaml
-- ?? scripts/build_r02_external_evidence.py
+- ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+- ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java'
+- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthVerificationServiceTest.java'
+- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
+- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java'
+- ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0009.yaml
+- ?? infra/staging/r02-smoke/alertmanager.yml
+- ?? infra/staging/r02-smoke/docker-compose.yml
+- ?? infra/staging/r02-smoke/nginx.conf
+- ?? infra/staging/r02-smoke/prometheus.yml
+- ?? infra/staging/r02-smoke/r02-alerts.yml
+- ?? scripts/check_r02_observability.py
 recent_commits:
+- "c65239ab22d5ea8573ec39eb2df7a953d2bad094\t2026-07-18T17:46:57+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): bind R02\
+  \ external evidence"
 - "7a348bdad2ba42a96594cb8df65110e3ae6382dd\t2026-07-18T17:44:04+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): add R02 release\
   \ matrix"
 - "7be251616ec184894a5341ede6b1ce51d1211fcc\t2026-07-18T17:23:39+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(auth): reject noncanonical\
@@ -1815,14 +1912,12 @@ recent_commits:
 - "0d49f7c62f4602d77c5231ae02221c8cc9dc9ec7\t2026-07-18T16:44:46+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close CR-0038"
 - "194813662259dde14a320111dfe5db44b5066082\t2026-07-18T16:43:45+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] feat(h5): complete invite registration\
   \ flow"
-- "1e41f587985849538b8ba2f6b5d0ee24e0652223\t2026-07-18T16:15:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close TASK-R02-004\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`2e2b1cdee0b5561e9b0b04d50743fe9da89ece4d6b35c7f2742b5a695b9f6462`
-- 文件数：46
+- 指纹：`92a89e49d40c92c110eb46eb6abddee55c93bb41edfd5a6b4c84830ceea5b3ce`
+- 文件数：57
 
 - `CHANGELOG.md`
 - `apps/h5/src/styles.css`
@@ -1830,16 +1925,27 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md`
 - `docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md`
 - `docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md`
+- `docs/07-operations/DEPLOYMENT_RUNBOOK.md`
+- `infra/staging/r02-smoke/alertmanager.yml`
+- `infra/staging/r02-smoke/docker-compose.yml`
+- `infra/staging/r02-smoke/nginx.conf`
+- `infra/staging/r02-smoke/prometheus.yml`
+- `infra/staging/r02-smoke/r02-alerts.yml`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml`
 - `releases/R02/DEFINITION_OF_READY.yaml`
 - `releases/R02/RELEASE_MANIFEST.yaml`
 - `releases/R02/TASKS.yaml`
 - `scripts/build_r02_external_evidence.py`
+- `scripts/check_r02_observability.py`
 - `scripts/generate_r02_test_adapters.py`
 - `scripts/run_r01_test_matrix.py`
 - `scripts/run_r02_test_matrix.py`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java`
+- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthVerificationServiceTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java`
 - `tests/r02/README.md`
 - `tests/r02/evidence.schema.json`
 - `tests/r02/req-auth-001_happy`
@@ -4417,31 +4523,31 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `6f8f5591abf51eeffcab77468d1917b25adb3a4a83e8900fbd7773348d40f9c7`
+- `CURRENT_STATUS.yaml` — `ea8de893d8597829d677374a893a7fcad94bfbab9717920d6a91c0368b7fa84b`
 - `NEXT_TASK.yaml` — `08706a9f6d63c4f553a340aca63b0b94e46f2b401f3b348fd372d893516a7877`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `20dc7cf5a24e22c033a5102a8e85432f4ebf3f33c0773c77f462ef2778eb5a65`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `3b7c9170b16f5b4492ca229c923ba655956a9902005b7020ad5de21fc55270ee`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `402b6f205aaa81ce2e936c31eb8a3f026c5fec324f50713899996a1c69d1f5e1`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `a16351c5e292e352990e58efa1941911b73b16b35b8b7c0a9528c4f937ee30d0`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7`
-- `.continuity/EVENT_LOG.jsonl` — `61c7cb3e490719680c73474bb03ecab6fe69473b46a054d211a6492760a0ae29`
-- `.continuity/SESSION_INDEX.yaml` — `6b46fd4a31a09810c4cb4a70c3ba4e591b193823acab128eaab95c41d6167a27`
+- `.continuity/EVENT_LOG.jsonl` — `1c47af110194158df7aa25be95fe57ba882c8b7404ee6cae8eec6b004b815f0e`
+- `.continuity/SESSION_INDEX.yaml` — `2b604d098da86ce052128318ab2b70fbed2ba9cfa25f4d016f6ed8d93501354c`
 - `.continuity/TASK_CLAIMS.yaml` — `3f2ef2a78deb2e20c2d82e3093e5eb022fa15534950ccd23b2f0a94076bc4239`
 - `.continuity/TASK_TRANSITIONS.yaml` — `1d3191b4b8c851913dd73e0f07f4a8b2e81590918eaa59c9a7214282f9afed4c`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5714c0840e347f648524adabdf9ce241786093e66f53ceb6347ae8839f7274ad`
-- `.continuity/ACTIVE_SESSION.yaml` — `b149e8f44c82b5faa61f21a08d4e2d65c2668ce91a82c670b187c86ac3dbe36b`
+- `.continuity/ACTIVE_SESSION.yaml` — `b09b51b10349db4a31774563bcac74b7874e9edfabd7bdfaf404b4ced43f80b4`
 - `releases/R02/RELEASE_MANIFEST.yaml` — `18bddf632011b122311da03f361f90a853bc7469f7af784900d49e30c1cb5633`
 - `releases/R02/DEFINITION_OF_READY.yaml` — `56bb6f71390ee34bf92eac60dc7276dd90f969781bf32eac0028eff48972c0dc`
 - `releases/R02/STORIES.yaml` — `cbc199fd846c42cbb50f02af53969fb914f16a814de2d459a7f929509a9226cf`
 - `releases/R02/TASKS.yaml` — `234fa8e540106bcbed790b160e4d2d343ea6370630744c104e0bc6c57fc5f429`
 - `releases/R02/ACCEPTANCE_MATRIX.csv` — `687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0`
 - `releases/R02/PARALLEL_EXECUTION_PLAN.yaml` — `c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md` — `f4d0432d2e530ad3a618e0848fec5870327a15e62e9b2f7bcd62189c91912700`
-- `.continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0008.yaml` — `a43934053dae52fbad4058a94f73e675454c262fbeb390f4e2c4b99a7ba67c5f`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md` — `ad68d38695645d164b369448efffb4792b7a90c95041c7f7eaadb779768d06b4`
+- `.continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0009.yaml` — `c4c98c74ea1ce42c52ccf7f4f529b88883ea573fd576bd28c0f4c1332ee560cf`
 - `docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md` — `941bdab0b59baca63a321469d2309959fcae7dee37789052b37ee13ea52d0937`
 - `docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md` — `1e50caa216a54eca560abd87929000ca8b6ba2da9a8d6c2121eaf253a52945ae`
 - `docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md` — `134b2c55024d59aef5587c77bb668698f55395e0194c880d69962d437cb3170a`

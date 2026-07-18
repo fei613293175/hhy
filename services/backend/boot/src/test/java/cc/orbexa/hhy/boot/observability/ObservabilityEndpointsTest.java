@@ -47,6 +47,9 @@ class ObservabilityEndpointsTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_admin_auth_failures_5m")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_admin_mfa_active_methods")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_admin_idempotency_incomplete_snapshots")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_user_active_sessions")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_user_security_challenge_failures_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_user_sms_expired_unused")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_business_metric_query_failures_total")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("http_server_requests_seconds_bucket")));
         mvc.perform(get("/actuator").with(user("observability-auditor")))

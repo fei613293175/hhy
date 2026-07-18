@@ -157,3 +157,18 @@ docker compose -p hhy-r01-staging -f infra/staging/r01-smoke/docker-compose.yml 
 6. R01 没有资金入口，资金业务单号端到端追踪在本版本明确记为 N/A；账务不变量 Gauge 仍必须保持 0。
 
 R01 证据统一写入 `artifacts/validation/r01-task006-staging/`，并绑定精确 Commit、镜像 ID、数据库容器/卷连续性与每个证据文件的 SHA-256。只有现场证据齐全后才能把 `AC-R01-004` 签为 PASS。
+
+## 7. R02 隔离预发布验收
+
+R02 使用 `infra/staging/r02-smoke/docker-compose.yml`，必须采用独立 Compose project、端口、子网和数据卷，不复用 R01 的运行证据。执行前先运行 `python3 scripts/check_r02_observability.py`，然后以被测 Commit 作为不可变 `HHY_SMOKE_ID` 渲染配置。测试 Secret 只能注入隔离进程环境，不得写入仓库、报告或 Shell 历史。
+
+R02 现场演练至少覆盖：
+
+1. `mvn verify` 与 PostgreSQL 17 的完整迁移脚本均以退出码 0 结束，日志必须包含 `POSTGRESQL_MIGRATION_SMOKE PASS` 和最终 199 张表。
+2. Prometheus target `hhy-backend-r02` 为 UP；RED count/bucket 非空，并存在 `hhy_user_active_sessions`、`hhy_user_security_challenge_failures_5m`、`hhy_user_sms_expired_unused` 三项业务 Gauge。
+3. 对安全挑战失败计数使用隔离测试数据触发 `HhyR02UserChallengeFailureBurst`，对 API 停止/恢复触发 `HhyR02BackendDown`；两个告警均必须取得 firing、resolved 和 alert-sink 送达回执。
+4. 验证 2xx、401、403、429 和 5xx 的 `requestId`、`traceId`、状态码与结构化完成日志可关联，且密码、验证码、挑战答案、Bearer、Cookie 和 Secret 探针均不出现在日志中。
+5. 短信供应商缺失、供应商异常、网络超时、重复提交、相同幂等键不同请求体、验证码重复消费和会话并发撤销均必须闭锁；不得生成测试验证码或伪造外部供应商回执。
+6. 演练回滚时只回退应用镜像，数据库坚持前向修复；隔离项目可以在证据归档后 `down -v` 清理。现有公网开发环境不属于本演练范围。
+
+R02 证据统一写入 `artifacts/validation/r02-task006-staging/` 并绑定精确 Commit 和 SHA-256。以上现场证据齐全后才可把 `AC-R02-004` 签为 PASS；APK 安装和四方哈希仍由 TASK-R02-007 单独完成。

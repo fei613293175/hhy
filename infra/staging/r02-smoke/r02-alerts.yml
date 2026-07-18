@@ -1,0 +1,39 @@
+groups:
+  - name: hhy-r02-user-auth
+    rules:
+      - alert: HhyR02BackendDown
+        expr: up{job="hhy-backend-r02"} == 0
+        for: 15s
+        labels: { severity: critical, release: R02 }
+        annotations:
+          summary: 合伙云 R02 Staging 后端不可用
+      - alert: HhyR02HighServerErrorRate
+        expr: sum(rate(http_server_requests_seconds_count{job="hhy-backend-r02",status=~"5.."}[1m])) / clamp_min(sum(rate(http_server_requests_seconds_count{job="hhy-backend-r02"}[1m])), 0.001) > 0.02
+        for: 1m
+        labels: { severity: warning, release: R02 }
+        annotations:
+          summary: 合伙云 R02 Staging 5xx 比例超过冻结阈值 2%
+      - alert: HhyR02HighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="hhy-backend-r02"}[5m]))) > 0.5
+        for: 2m
+        labels: { severity: warning, release: R02 }
+        annotations:
+          summary: 合伙云 R02 Staging P95 延迟超过冻结阈值 500ms
+      - alert: HhyR02UserChallengeFailureBurst
+        expr: hhy_user_security_challenge_failures_5m{job="hhy-backend-r02"} > 10
+        for: 30s
+        labels: { severity: warning, release: R02 }
+        annotations:
+          summary: 用户安全挑战失败在五分钟窗口内超过 10 次
+      - alert: HhyR02ExpiredUnusedSmsCodes
+        expr: hhy_user_sms_expired_unused{job="hhy-backend-r02"} > 20
+        for: 5m
+        labels: { severity: warning, release: R02 }
+        annotations:
+          summary: 过期未使用短信验证码持续积压
+      - alert: HhyR02BusinessMetricQueryFailure
+        expr: sum(hhy_business_metric_query_failures_total{job="hhy-backend-r02"}) > 0
+        for: 15s
+        labels: { severity: critical, release: R02 }
+        annotations:
+          summary: R02 业务指标查询失败，监控结果不可信

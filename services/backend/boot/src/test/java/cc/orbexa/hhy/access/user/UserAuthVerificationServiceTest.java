@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import cc.orbexa.hhy.access.user.UserAuthContracts.AuthScene;
@@ -85,5 +86,18 @@ class UserAuthVerificationServiceTest {
         assertEquals("COMMON-422-BUSINESS_RULE", error.code());
         verify(repository, never()).failChallenge(anyLong());
         verify(repository, never()).consumeChallenge(anyLong());
+    }
+
+    @Test
+    void missingSmsProviderFailsClosedBeforeChallengeOrCodePersistence() {
+        when(smsProviders.getIfAvailable()).thenReturn(null);
+        var request = new UserAuthContracts.SmsSendRequest(
+                PHONE, AuthScene.LOGIN, "71", "challenge-proof");
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> verification.sendSms(request, "127.0.0.1"));
+
+        assertEquals("COMMON-500-INTERNAL", error.code());
+        verifyNoInteractions(repository, policy);
     }
 }
