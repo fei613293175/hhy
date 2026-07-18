@@ -11,7 +11,7 @@ task_id: TASK-R03-004
 story_id: STORY-R03-003
 goal: 纵向批次C：支付、出款与证书生命周期配置闭环
 started_at: '2026-07-18T14:53:27Z'
-updated_at: '2026-07-18T14:57:07Z'
+updated_at: '2026-07-18T14:59:53Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -39,22 +39,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T14:57:05Z'
-  expires_at: '2026-07-18T18:57:05Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0002.yaml
+  renewed_at: '2026-07-18T14:59:51Z'
+  expires_at: '2026-07-18T18:59:51Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md
-next_step: 实现支付和支付宝出款连接测试适配器及安全URL/回调边界
+next_step: 实现供应商证书上传与轮换生命周期，只持久化指纹和秘密引用
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: edc2cdefbb69c696e9bcc1b4a2a699109aee33a28742053013a174d33eab53d9
-  generated_at: '2026-07-18T14:57:07Z'
+  context_hash: 2fb6dedf8cf9f539b5be133f2f9d184bdd1b0b5b235b9b0c7c2e06a6973b916f
+  generated_at: '2026-07-18T14:59:52Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 金融供应商字段边界与连接器不变量紧密耦合，由唯一主控串行维护
+  reason: 金融连接测试与秘密材料清零边界需要串行审计

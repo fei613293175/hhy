@@ -1,0 +1,117 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T145327Z-DEA562CB-0003
+session_id: SES-20260718T145327Z-DEA562CB
+sequence: 3
+created_at: '2026-07-18T14:59:50Z'
+summary: 支付与支付宝企业出款连接测试已接入只读探测，危险URL在传输前拒绝且测试不会创建支付单或出款单
+next_step: 实现供应商证书上传与轮换生命周期，只持久化指纹和秘密引用
+blockers: []
+decisions:
+- 彩虹支付连接测试固定为签名账户查询；支付宝出款固定为证书认证查询，禁止复用真实交易命令
+note: ''
+tests:
+- name: financial provider connectors
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports/TEST-cc.orbexa.hhy.access.admin.ProviderConnectorAdaptersTest.xml
+  note: 7 tests
+- name: connection test coordinator
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports/TEST-cc.orbexa.hhy.access.admin.ProviderConnectionTestCoordinatorTest.xml
+  note: 5 tests
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: ce50e363bf861c8a5480881778fa4cbdf81a9856
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java'
+  recent_commits:
+  - "ce50e363bf861c8a5480881778fa4cbdf81a9856\t2026-07-18T22:57:25+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): validate payment\
+    \ provider secrets"
+  - "7f37a5226bde9afe6e658c7f73e0665c05ba46e5\t2026-07-18T22:53:52+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(r03): start payment\
+    \ configuration slice"
+  - "8cfa5f515b29ac0095e16e1d839c48caf391758d\t2026-07-18T22:52:48+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(continuity): close TASK-R03-003\
+    \ as completed"
+  - "92dcd82614ba0cc719f7005aaea40a70c3525efc\t2026-07-18T22:51:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(continuity): close domain\
+    \ slice governance"
+  - "5b6daf124d4b55f3d2d7781d180571c6fb8751fb\t2026-07-18T22:50:23+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(validation): normalize\
+    \ R03 domain gate evidence"
+  - "ea6e6c96bd4768aeb9a3e9c2c26d26d18649a853\t2026-07-18T22:48:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(continuity): record\
+    \ R03 domain module gate"
+  - "5827214d3002165927d627dd370b5d45b0ecdc12\t2026-07-18T22:47:09+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): implement domain\
+    \ configuration page"
+  - "88906d71b8dd4197d65ab626add9a4fd56afebe7\t2026-07-18T22:42:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): add domain admin\
+    \ client"
+project_fingerprint:
+  sha256: 31c5a566c710194a0d685bafedc7604eebbf24828ec07bc7ed1499b8e8dcadf3
+  files:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+  file_count: 5
+  payload:
+    base_commit: 8cfa5f515b29ac0095e16e1d839c48caf391758d
+    files:
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+      state: FILE
+      size: 11734
+      sha256: be2e583aa3e340d333ffd8256495c5b81e4f6d0826860b36a8187314cad230ce
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
+      state: FILE
+      size: 14039
+      sha256: ea5787b6d82511ef1625fff6114ca51d1f251ba55dce8da2ff6553a9e4721695
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+      state: FILE
+      size: 10879
+      sha256: 33cc8a75b81bd85d3b9d6253ab9a78fa304a10667f00361440aac25defee718a
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+      state: FILE
+      size: 7024
+      sha256: 37239a9a58d7cad1714cbb9d21b241e78cb21dfb261ff57c85416cc8eb18498c
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+      state: FILE
+      size: 12386
+      sha256: d3a3e6ef57ff7e6d9902314657d0a89268f09c76b9ee2cf0abf7c9f3593f3545
+change_classification:
+  code:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectionTestCoordinator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 金融连接测试与秘密材料清零边界需要串行审计
+event_hash: 5c590cb292d48047f45c6fb3913c267c9e2811057f5cfe62b3cd069a77bf5d98

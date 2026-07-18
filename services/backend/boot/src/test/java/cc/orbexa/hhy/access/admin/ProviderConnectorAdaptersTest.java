@@ -116,6 +116,85 @@ class ProviderConnectorAdaptersTest {
         }
     }
 
+    @Test
+    void paymentAdapterCreatesOnlyReadOnlySignedAccountQuery() {
+        AtomicReference<ProbeCommand> observed = new AtomicReference<>();
+        var connector = ProviderConnectorAdapters.payment((command, secrets) -> {
+            observed.set(command);
+            assertTrue(secrets.secret("payment.caihong.merchant_key").length > 0);
+            return ProbeResult.success();
+        });
+        ObjectNode values = JSON.createObjectNode()
+                .put("payment.active_gateway", "CAIHONG_EPAY")
+                .put("payment.caihong.base_url", "https://pay.example.test/api")
+                .put("payment.caihong.sign_type", "MD5");
+        ObjectNode refs = JSON.createObjectNode()
+                .put("payment.caihong.merchant_id", "vault://staging/payment/merchant-id")
+                .put("payment.caihong.merchant_key", "kms://staging/payment/merchant-key");
+
+        var outcome = coordinator(connector).test(
+                validated("payment", values, refs), config("payment", values, refs), null, 1L);
+
+        assertTrue(outcome.successful());
+        assertEquals(ProbeOperation.CAIHONG_SIGNED_ACCOUNT_QUERY, observed.get().operation());
+        assertEquals("https://pay.example.test/api", observed.get().endpoint().toString());
+        assertEquals("MD5", observed.get().parameters().get("signType"));
+    }
+
+    @Test
+    void payoutAdapterUsesAllCertificateReferencesForReadOnlyAuthentication() {
+        AtomicReference<ProbeCommand> observed = new AtomicReference<>();
+        var connector = ProviderConnectorAdapters.payout((command, secrets) -> {
+            observed.set(command);
+            assertTrue(secrets.secret("payout.alipay.private_key_certificate_id").length > 0);
+            assertTrue(secrets.secret("payout.alipay.root_certificate_id").length > 0);
+            return ProbeResult.success();
+        });
+        ObjectNode values = JSON.createObjectNode()
+                .put("payout.active_gateway", "ALIPAY_ENTERPRISE")
+                .put("payout.alipay.app_id", "app-id")
+                .put("payout.alipay.merchant_id", "merchant-id")
+                .put("payout.alipay.gateway_url", "https://openapi.alipay.com/gateway.do");
+        ObjectNode refs = payoutCertificateRefs();
+
+        var outcome = coordinator(connector).test(
+                validated("payout", values, refs), config("payout", values, refs), null, 1L);
+
+        assertTrue(outcome.successful());
+        assertEquals(ProbeOperation.ALIPAY_CERTIFICATE_AUTH_QUERY, observed.get().operation());
+        assertEquals("https://openapi.alipay.com/gateway.do", observed.get().endpoint().toString());
+        assertEquals("app-id", observed.get().parameters().get("appId"));
+    }
+
+    @Test
+    void financialAdaptersRejectUnsafeEndpointsBeforeTransport() {
+        ObjectNode paymentValues = JSON.createObjectNode()
+                .put("payment.active_gateway", "CAIHONG_EPAY")
+                .put("payment.caihong.base_url", "https://127.0.0.1/query")
+                .put("payment.caihong.sign_type", "MD5");
+        ObjectNode paymentRefs = JSON.createObjectNode()
+                .put("payment.caihong.merchant_id", "vault://staging/payment/id")
+                .put("payment.caihong.merchant_key", "vault://staging/payment/key");
+        BusinessException paymentError = assertThrows(BusinessException.class,
+                () -> coordinator(ProviderConnectorAdapters.payment((command, secrets) -> {
+                    throw new AssertionError("unsafe endpoint must not reach transport");
+                })).test(validated("payment", paymentValues, paymentRefs),
+                        config("payment", paymentValues, paymentRefs), null, 1L));
+        assertEquals("COMMON-400-VALIDATION", paymentError.code());
+
+        ObjectNode payoutValues = JSON.createObjectNode()
+                .put("payout.active_gateway", "ALIPAY_ENTERPRISE")
+                .put("payout.alipay.app_id", "app-id")
+                .put("payout.alipay.merchant_id", "merchant-id")
+                .put("payout.alipay.gateway_url", "https://user:pass@openapi.alipay.com/gateway.do");
+        BusinessException payoutError = assertThrows(BusinessException.class,
+                () -> coordinator(ProviderConnectorAdapters.payout((command, secrets) -> {
+                    throw new AssertionError("unsafe endpoint must not reach transport");
+                })).test(validated("payout", payoutValues, payoutCertificateRefs()),
+                        config("payout", payoutValues, payoutCertificateRefs()), null, 1L));
+        assertEquals("COMMON-400-VALIDATION", payoutError.code());
+    }
+
     private ProviderConnectionTestCoordinator coordinator(
             ProviderConnectionTestCoordinator.ProviderConnector connector) {
         return new ProviderConnectionTestCoordinator(List.of(connector),
@@ -140,5 +219,13 @@ class ProviderConnectorAdaptersTest {
                 .put("sms.aliyun.region_id", "cn-hangzhou")
                 .put("sms.aliyun.endpoint", endpoint)
                 .put("sms.aliyun.sign_name", "合伙云");
+    }
+
+    private static ObjectNode payoutCertificateRefs() {
+        return JSON.createObjectNode()
+                .put("payout.alipay.private_key_certificate_id", "vault://staging/payout/private")
+                .put("payout.alipay.app_public_certificate_id", "vault://staging/payout/app-public")
+                .put("payout.alipay.alipay_public_certificate_id", "vault://staging/payout/alipay-public")
+                .put("payout.alipay.root_certificate_id", "vault://staging/payout/root");
     }
 }

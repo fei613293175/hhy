@@ -111,6 +111,24 @@ public final class ProviderConnectionTestCoordinator {
                         "identity.liveness.result_url", "identity.face_compare.url");
                 yield new ProviderTestPlan(java.util.List.of("identity.provider.appcode"));
             }
+            case "payment" -> {
+                requireValue(config, "payment.active_gateway", "CAIHONG_EPAY");
+                requireValues(config, "payment.caihong.base_url", "payment.caihong.sign_type");
+                requireHttpsValues(config, "payment.caihong.base_url");
+                yield new ProviderTestPlan(java.util.List.of(
+                        "payment.caihong.merchant_id", "payment.caihong.merchant_key"));
+            }
+            case "payout" -> {
+                requireValue(config, "payout.active_gateway", "ALIPAY_ENTERPRISE");
+                requireValues(config, "payout.alipay.app_id", "payout.alipay.merchant_id",
+                        "payout.alipay.gateway_url");
+                requireHttpsValues(config, "payout.alipay.gateway_url");
+                yield new ProviderTestPlan(java.util.List.of(
+                        "payout.alipay.private_key_certificate_id",
+                        "payout.alipay.app_public_certificate_id",
+                        "payout.alipay.alipay_public_certificate_id",
+                        "payout.alipay.root_certificate_id"));
+            }
             default -> throw validation("不支持的供应商连接测试: " + config.provider());
         };
     }
@@ -209,7 +227,7 @@ public final class ProviderConnectionTestCoordinator {
                 throw validation("供应商连接器定义无效");
             }
             String provider = connector.provider().strip().toLowerCase(Locale.ROOT);
-            if (!provider.matches("^(sms|storage|identity)$")) {
+            if (!provider.matches("^(sms|storage|identity|payment|payout)$")) {
                 throw validation("供应商连接器标识不在当前切片范围内");
             }
             if (result.putIfAbsent(provider, connector) != null) {

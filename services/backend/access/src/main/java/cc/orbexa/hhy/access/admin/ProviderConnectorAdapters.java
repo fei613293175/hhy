@@ -83,6 +83,38 @@ public final class ProviderConnectorAdapters {
         });
     }
 
+    public static ProviderConnector payment(ProviderProbeTransport transport) {
+        Objects.requireNonNull(transport, "transport");
+        return connector("payment", request -> {
+            requireSecret(request, "payment.caihong.merchant_id");
+            requireSecret(request, "payment.caihong.merchant_key");
+            ProbeCommand command = new ProbeCommand(
+                    ProbeOperation.CAIHONG_SIGNED_ACCOUNT_QUERY,
+                    safeEndpoint(text(request, "payment.caihong.base_url"), false),
+                    Map.of("signType", text(request, "payment.caihong.sign_type")),
+                    null);
+            return transport.probe(command, request.secrets());
+        });
+    }
+
+    public static ProviderConnector payout(ProviderProbeTransport transport) {
+        Objects.requireNonNull(transport, "transport");
+        return connector("payout", request -> {
+            requireSecret(request, "payout.alipay.private_key_certificate_id");
+            requireSecret(request, "payout.alipay.app_public_certificate_id");
+            requireSecret(request, "payout.alipay.alipay_public_certificate_id");
+            requireSecret(request, "payout.alipay.root_certificate_id");
+            ProbeCommand command = new ProbeCommand(
+                    ProbeOperation.ALIPAY_CERTIFICATE_AUTH_QUERY,
+                    safeEndpoint(text(request, "payout.alipay.gateway_url"), false),
+                    Map.of(
+                            "appId", text(request, "payout.alipay.app_id"),
+                            "merchantId", text(request, "payout.alipay.merchant_id")),
+                    null);
+            return transport.probe(command, request.secrets());
+        });
+    }
+
     private static ProviderConnector connector(
             String provider, java.util.function.Function<ProbeRequest, ProbeResult> probe) {
         return new ProviderConnector() {
@@ -191,6 +223,10 @@ public final class ProviderConnectorAdapters {
         ALIYUN_SMS_ACCOUNT,
         CLOUDFLARE_R2_BUCKET_ACCESS,
         ALIYUN_OSS_BUCKET_ACCESS,
-        ALIYUN_MARKET_IDENTITY_AUTH
+        ALIYUN_MARKET_IDENTITY_AUTH,
+        /** Read-only signed account query; it must never create a payment order. */
+        CAIHONG_SIGNED_ACCOUNT_QUERY,
+        /** Read-only certificate authentication query; it must never create a payout. */
+        ALIPAY_CERTIFICATE_AUTH_QUERY
     }
 }
