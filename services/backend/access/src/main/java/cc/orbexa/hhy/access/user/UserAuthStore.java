@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class UserAuthStore {
@@ -106,6 +107,35 @@ public class UserAuthStore {
                 instant(rs.getObject("locked_until", OffsetDateTime.class))), userId).stream().findFirst();
     }
 
+    /**
+     * Serializes expiry reconciliation with administrator writes so an expired
+     * restriction cannot leave the account permanently marked RESTRICTED.
+     */
+    public boolean reconcileExpiredRestrictions(long userId, Instant now) {
+        if (jdbc.queryForList("SELECT id FROM hhy.users WHERE id=? FOR UPDATE", Long.class, userId).isEmpty()) {
+            return false;
+        }
+        jdbc.update("""
+                UPDATE hhy.user_restrictions SET status='EXPIRED',removed_at=?,version=version+1
+                WHERE user_id=? AND status='ACTIVE' AND expires_at IS NOT NULL AND expires_at<=?
+                """, time(now), userId, time(now));
+        int restored = jdbc.update("""
+                UPDATE hhy.users SET status='ACTIVE',version=version+1
+                WHERE id=? AND status='RESTRICTED' AND NOT EXISTS (
+                  SELECT 1 FROM hhy.user_restrictions
+                  WHERE user_id=? AND status='ACTIVE'
+                    AND (expires_at IS NULL OR expires_at>?)
+                )
+                """, userId, userId, time(now));
+        if (restored == 1) {
+            jdbc.update("""
+                    INSERT INTO hhy.user_status_logs(user_id,from_status,to_status,reason,operator)
+                    VALUES (?,'RESTRICTED','ACTIVE','全部账号限制已到期','SYSTEM:RESTRICTION_EXPIRY')
+                    """, userId);
+        }
+        return restored == 1;
+    }
+
     public void recordPasswordFailure(long credentialId, int nextCount, Instant lockedUntil) {
         jdbc.update("UPDATE hhy.user_credentials SET failed_count=?,locked_until=? WHERE id=?",
                 nextCount, time(lockedUntil), credentialId);
@@ -158,13 +188,20 @@ public class UserAuthStore {
                 instant(rs.getObject("last_seen", OffsetDateTime.class))), refreshHash).stream().findFirst();
     }
 
+    public Optional<Long> findSessionUserId(String refreshHash) {
+        return jdbc.query("SELECT user_id FROM hhy.user_sessions WHERE refresh_hash=?",
+                (rs, row) -> rs.getLong("user_id"), refreshHash).stream().findFirst();
+    }
+
     /**
      * Re-validates a signed access token against the live user/session state.
      * A signature alone is insufficient because password changes and device
      * revocations must take effect before a token's own expiry time.
      */
+    @Transactional
     public Optional<UserPrincipal> authenticate(UserTokenService.AccessClaims claims, Instant now) {
         long userId = Long.parseLong(claims.sub());
+        reconcileExpiredRestrictions(userId, now);
         return jdbc.query("""
                 SELECT s.user_id,s.id AS session_id,s.version,s.access_jti,u.status AS user_status
                 FROM hhy.user_sessions s JOIN hhy.users u ON u.id=s.user_id

@@ -80,6 +80,7 @@ class UserAuthServiceTest {
         when(repository.claimIdempotency(
                 eq(scope), eq(IDEMPOTENCY_KEY), eq(requestHash), any(Instant.class)))
                 .thenReturn(new UserAuthStore.IdempotencyClaim(firstRow, false));
+        when(repository.findSessionUserId(oldHash)).thenReturn(Optional.of(17L));
         when(repository.findSessionForUpdate(oldHash)).thenReturn(Optional.of(
                 new UserAuthStore.UserSessionRow(
                         23L, 17L, "old-access-jti", oldHash, 31L,
@@ -145,6 +146,7 @@ class UserAuthServiceTest {
         when(repository.claimIdempotency(anyString(), anyString(), eq(requestHash), any(Instant.class)))
                 .thenReturn(new UserAuthStore.IdempotencyClaim(
                         new UserAuthStore.IdempotencyRow(92L, requestHash, null, null, null), false));
+        when(repository.findSessionUserId(oldHash)).thenReturn(Optional.of(17L));
         when(repository.findSessionForUpdate(oldHash)).thenReturn(Optional.of(
                 new UserAuthStore.UserSessionRow(
                         23L, 17L, "old-access-jti", oldHash, 31L,
@@ -191,6 +193,8 @@ class UserAuthServiceTest {
                         new UserAuthStore.IdempotencyRow(94L, "request-hash", null, null, null), false));
         when(repository.findCredentialForUpdate("13800000000")).thenReturn(Optional.of(
                 new UserAuthStore.CredentialRow(17L, "ACTIVE", 71L, "bcrypt-hash", 0, null)));
+        when(repository.findCredentialForUpdate(17L)).thenReturn(Optional.of(
+                new UserAuthStore.CredentialRow(17L, "ACTIVE", 71L, "bcrypt-hash", 0, null)));
         when(passwords.matches("Correct99", "bcrypt-hash")).thenReturn(true);
         when(repository.upsertDevice(eq(17L), anyString(), eq("Pixel 9"), any(Instant.class))).thenReturn(31L);
         when(repository.createSession(eq(17L), eq(31L), anyString(), anyString(), any(Instant.class)))
@@ -203,6 +207,7 @@ class UserAuthServiceTest {
         assertEquals("31", session.device().deviceId());
         assertEquals("ANDROID", session.device().platform());
         verify(verification).verifyChallenge("challenge-1", "proof-1", UserAuthContracts.AuthScene.LOGIN);
+        verify(repository).reconcileExpiredRestrictions(17L, NOW);
         verify(repository).clearPasswordFailures(71L);
         verify(repository).recordLogin(17L, "13800000000", 31L, "203.0.113.7", "PASSWORD");
         verify(repository).completeIdempotencySnapshot(
@@ -217,6 +222,8 @@ class UserAuthServiceTest {
                 .thenReturn(new UserAuthStore.IdempotencyClaim(
                         new UserAuthStore.IdempotencyRow(95L, "request-hash", null, null, null), false));
         when(repository.findCredentialForUpdate("13800000000")).thenReturn(Optional.of(
+                new UserAuthStore.CredentialRow(17L, "ACTIVE", 71L, "bcrypt-hash", 2, null)));
+        when(repository.findCredentialForUpdate(17L)).thenReturn(Optional.of(
                 new UserAuthStore.CredentialRow(17L, "ACTIVE", 71L, "bcrypt-hash", 2, null)));
         when(passwords.matches("WrongPass99", "bcrypt-hash")).thenReturn(false);
         when(policy.passwordMaxFailures()).thenReturn(3);

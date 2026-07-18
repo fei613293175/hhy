@@ -105,6 +105,18 @@
 账号,user_status_logs,5,reason,text,是,,,不可删除,R02,FROZEN
 账号,user_status_logs,6,operator,varchar(255),是,,,不可删除,R02,FROZEN
 账号,user_status_logs,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN
+账号,user_restrictions,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R02,FROZEN_CR-0037
+账号,user_restrictions,2,user_id,bigint,否,,INDEX;FOREIGN KEY hhy.users(id),用户+类型唯一活动限制,R02,FROZEN_CR-0037
+账号,user_restrictions,3,restriction_type,varchar(128),否,,INDEX,限制类型,R02,FROZEN_CR-0037
+账号,user_restrictions,4,reason,text,否,,,限制原因,R02,FROZEN_CR-0037
+账号,user_restrictions,5,expires_at,timestamptz,是,,INDEX,可选到期时间,R02,FROZEN_CR-0037
+账号,user_restrictions,6,status,varchar(64),否,'ACTIVE',INDEX,ACTIVE/REMOVED/EXPIRED,R02,FROZEN_CR-0037
+账号,user_restrictions,7,created_by,bigint,否,,INDEX;FOREIGN KEY hhy.admin_users(id),创建管理员,R02,FROZEN_CR-0037
+账号,user_restrictions,8,removed_by,bigint,是,,INDEX;FOREIGN KEY hhy.admin_users(id),解除管理员,R02,FROZEN_CR-0037
+账号,user_restrictions,9,removed_at,timestamptz,是,,,解除或到期时间,R02,FROZEN_CR-0037
+账号,user_restrictions,10,version,bigint,否,0,,乐观锁,R02,FROZEN_CR-0037
+账号,user_restrictions,11,created_at,timestamptz,否,now(),INDEX,统一审计字段,R02,FROZEN_CR-0037
+账号,user_restrictions,12,updated_at,timestamptz,否,now(),,统一审计字段,R02,FROZEN_CR-0037
 实名,identity_profiles,1,id,bigint,否,generated,PRIMARY KEY,技术主键,R05,FROZEN
 实名,identity_profiles,2,user_id,bigint,否,,INDEX,id_hash唯一策略,R05,FROZEN
 实名,identity_profiles,3,name_cipher,varchar(255),否,,,id_hash唯一策略,R05,FROZEN

@@ -86,6 +86,9 @@ public class UserAuthService {
                     UserAuthStore.CredentialRow credential = repository.findCredentialForUpdate(request.phone())
                             .orElseThrow(UserAuthService::badCredentials);
                     Instant now = Instant.now(clock);
+                    repository.reconcileExpiredRestrictions(credential.userId(), now);
+                    credential = repository.findCredentialForUpdate(credential.userId())
+                            .orElseThrow(UserAuthService::badCredentials);
                     if (!loginAllowedStatus(credential.userStatus())) throw accountRestricted();
                     if (credential.lockedUntil() != null && credential.lockedUntil().isAfter(now)) {
                         throw accountRestricted();
@@ -120,6 +123,9 @@ public class UserAuthService {
         return idempotent(scope("sl", request.phone()), key, hash, "user-auth-session-v1",
                 UserSessionResource.class, () -> {
                     UserAuthStore.UserRow user = repository.findUser(request.phone())
+                            .orElseThrow(UserAuthService::badCredentials);
+                    repository.reconcileExpiredRestrictions(user.id(), Instant.now(clock));
+                    user = repository.findUser(request.phone())
                             .orElseThrow(UserAuthService::badCredentials);
                     if (!loginAllowedStatus(user.status())) throw accountRestricted();
                     verification.verifySms(request.phone(), AuthScene.LOGIN, request.smsCode());
@@ -307,6 +313,9 @@ public class UserAuthService {
 
     private UserSessionResource refreshSession(RefreshRequest request, String oldRefreshHash) {
         Instant now = Instant.now(clock);
+        long userId = repository.findSessionUserId(oldRefreshHash)
+                .orElseThrow(UserAuthService::sessionRevoked);
+        repository.reconcileExpiredRestrictions(userId, now);
         UserAuthStore.UserSessionRow session = repository.findSessionForUpdate(oldRefreshHash)
                 .orElseThrow(UserAuthService::sessionRevoked);
         if (!loginAllowedStatus(session.userStatus())) throw accountRestricted();

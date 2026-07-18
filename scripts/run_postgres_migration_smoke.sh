@@ -58,7 +58,7 @@ TOTP_REPLAY_COLUMN_COUNT="$("${PSQL[@]}" -Atc "
 echo "R01_TOTP_REPLAY_COLUMN PASS"
 
 TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
-[[ "$TABLE_COUNT" == "198" ]] || { echo "Expected 198 hhy tables, got $TABLE_COUNT" >&2; exit 1; }
+[[ "$TABLE_COUNT" == "199" ]] || { echo "Expected 199 hhy tables, got $TABLE_COUNT" >&2; exit 1; }
 echo "TABLE_COUNT $TABLE_COUNT"
 
 "${PSQL[@]}" -f "$ROOT/database/tests/postgres_smoke_success.sql" >/dev/null
@@ -119,18 +119,8 @@ echo "BASELINE_VERIFICATION PASS"
 
 bash "$ROOT/scripts/run_p00_database_invariants.sh"
 bash "$ROOT/scripts/run_r01_database_invariants.sh"
-# The R01 invariant suite intentionally rebuilds its final baseline only
-# through V012. Restore every later forward migration before exercising R01
-# RBAC, idempotency capacity, and administrator bootstrap behavior.
-"${PSQL[@]}" --single-transaction \
-  -f "$ROOT/database/migrations/V013__r01_admin_self_rbac.sql" >/dev/null
-echo "R01_V013_AFTER_SECURITY_INVARIANTS PASS"
-"${PSQL[@]}" --single-transaction \
-  -f "$ROOT/database/migrations/V014__r01_idempotency_scope_capacity.sql" >/dev/null
-echo "R01_V014_AFTER_SECURITY_INVARIANTS PASS"
-"${PSQL[@]}" --single-transaction \
-  -f "$ROOT/database/migrations/V015__r01_totp_replay_guard.sql" >/dev/null
-echo "R01_V015_AFTER_SECURITY_INVARIANTS PASS"
+# The R01 invariant suite leaves a verified V016 schema. Continue its rollback
+# checks from that exact historical point, then restore R02 below.
 
 "${PSQL[@]}" -q <<'SQL' >/dev/null
 INSERT INTO hhy.idempotency_records(scope,idem_key,request_hash,response_ref)
@@ -306,6 +296,17 @@ echo "U012_REAPPLY_V012 PASS"
 "${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V010__p00_event_ledger_invariants.sql" >/dev/null
 "${PSQL[@]}" -f "$ROOT/database/tests/p00_event_ledger_invariants.sql" >/dev/null
 echo "U010_REAPPLY_V010 PASS"
+
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V017__r02_user_auth_invariants.sql" >/dev/null
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V018__r02_admin_user_controls.sql" >/dev/null
+"${PSQL[@]}" -f "$ROOT/database/tests/r02_admin_user_controls.sql" >/dev/null
+FINAL_TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
+[[ "$FINAL_TABLE_COUNT" == "199" ]] || {
+  echo "Final R02 schema must contain 199 tables, got $FINAL_TABLE_COUNT" >&2
+  exit 1
+}
+echo "R02_ADMIN_USER_CONTROLS PASS"
+echo "FINAL_TABLE_COUNT $FINAL_TABLE_COUNT"
 
 "${PSQL[@]}" -f "$ROOT/database/verification/verify_baseline.sql" >/dev/null
 FINAL_IDEMPOTENCY_SCOPE_WIDTH="$("${PSQL[@]}" -Atc "

@@ -52,7 +52,7 @@ public class AdminUserService {
                 .orElseThrow(AdminUserService::notFound);
     }
 
-    private static UserResource resource(AdminUserStore.UserRow row) {
+    static UserResource resource(AdminUserStore.UserRow row) {
         return new UserResource(
                 Long.toString(row.id()),
                 maskPhone(row.phone()),

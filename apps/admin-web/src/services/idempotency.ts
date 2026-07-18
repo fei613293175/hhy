@@ -8,6 +8,11 @@ export const ADMIN_SECURITY_IDEMPOTENT_OPERATIONS = [
   'adminSelfPostMfaEnroll',
   'adminSelfPostMfaConfirm',
   'adminSelfPostMfaDisable',
+  'adminUsersPostUsersByIdRestrictions',
+  'adminUsersDeleteUsersByIdRestrictionsByType',
+  'adminUsersPostUsersByIdFreeze',
+  'adminUsersPostUsersByIdUnfreeze',
+  'adminUsersPostUsersByIdForceLogout',
 ] as const satisfies readonly (keyof AdminContract.operations)[];
 
 export type AdminSecurityIdempotentOperation =

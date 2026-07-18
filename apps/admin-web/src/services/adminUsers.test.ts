@@ -101,4 +101,61 @@ describe('AdminUsersApi', () => {
     await expect(api.getUser('invalid/value')).rejects.toBeInstanceOf(RangeError);
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
+
+  it('binds every user control write to its frozen path with one idempotent request', async () => {
+    const session = authenticatedSession();
+    const api = new AdminUsersApi(
+      new AdminSecurityApi(BASE_URL, session, new IdempotencyKeyFactory()),
+      session,
+      new IdempotencyKeyFactory(),
+    );
+    const key = '00000000-0000-4000-8000-000000000042';
+    fetchMock.mockImplementation(async () => success({
+      id: '42', status: 'RESTRICTED', version: 4, resourceId: '42', commandStatus: 'SUCCEEDED',
+    }));
+
+    await api.restrict('42', {
+      restrictionType: 'LOGIN',
+      reason: '异常登录处置',
+      expectedVersion: 3,
+    }, { idempotencyKey: key });
+    await api.removeRestriction('42', 'LOGIN', { idempotencyKey: key });
+    await api.freeze('42', { reason: '冻结复核', expectedVersion: 4 }, { idempotencyKey: key });
+    await api.unfreeze('42', { reason: '解除冻结', expectedVersion: 5 }, { idempotencyKey: key });
+    await api.forceLogout('42', { reason: '安全下线', expectedVersion: 6 }, { idempotencyKey: key });
+
+    const expected = [
+      ['POST', '/admin-api/v1/users/42/restrictions'],
+      ['DELETE', '/admin-api/v1/users/42/restrictions/LOGIN'],
+      ['POST', '/admin-api/v1/users/42/freeze'],
+      ['POST', '/admin-api/v1/users/42/unfreeze'],
+      ['POST', '/admin-api/v1/users/42/force-logout'],
+    ];
+    expect(fetchMock).toHaveBeenCalledTimes(expected.length);
+    fetchMock.mock.calls.forEach((call, index) => {
+      const [url, init] = call as [URL, RequestInit];
+      expect(url.pathname).toBe(expected[index][1]);
+      expect(init.method).toBe(expected[index][0]);
+      const headers = new Headers(init.headers);
+      expect(headers.get('X-Idempotency-Key')).toBe(key);
+      expect(headers.get('Authorization')).toBe('Bearer admin-access-token');
+    });
+  });
+
+  it('never retries a user control write after a network failure', async () => {
+    const session = authenticatedSession();
+    const api = new AdminUsersApi(
+      new AdminSecurityApi(BASE_URL, session, new IdempotencyKeyFactory()),
+      session,
+      new IdempotencyKeyFactory(),
+    );
+    fetchMock.mockRejectedValueOnce(new TypeError('offline'));
+
+    await expect(api.freeze(
+      '42',
+      { reason: '冻结复核', expectedVersion: 3 },
+      { idempotencyKey: '00000000-0000-4000-8000-000000000043' },
+    )).rejects.toMatchObject({ code: 'NETWORK_ERROR' });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
 });

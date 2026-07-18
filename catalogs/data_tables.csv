@@ -12,6 +12,7 @@
 账号,login_logs,登录日志,"user_id, phone, ip, device_id, result",时间索引,R02
 账号,user_settings,用户设置,"user_id, notification_json, privacy_json",user_id唯一,R02
 账号,user_status_logs,账号状态历史,"user_id, from_status, to_status, reason, operator",不可删除,R02
+账号,user_restrictions,用户当前限制,"user_id, restriction_type, reason, expires_at, status, created_by, removed_by, version",用户+类型唯一活动限制；到期与解除可追溯,R02
 实名,identity_profiles,当前实名资料,"user_id, name_cipher, id_no_cipher, id_hash, status",id_hash唯一策略,R05
 实名,identity_verification_sessions,实名尝试,"user_id, state, status, provider, expires_at",state唯一,R05
 实名,identity_provider_requests,第三方请求记录,"session_id, request_type, provider_order_no, response_cipher",订单号索引,R05
