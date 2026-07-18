@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-18T10:41:30Z",
-  "context_hash": "c1347ad4263a2793848de0a81b311112716c09739b6e9f7760e2b74e00d57cd9",
+  "generated_at": "2026-07-18T10:46:14Z",
+  "context_hash": "881570cd493813348affa8cffda6cc06e77aca9266552d75f403c76c06ae7eb3",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
     "sha256": "fd7b97c608e477ffeddf1e62d1c85fec84453f127c4beb0c101d2b118f3b7d74",
@@ -9,11 +9,11 @@
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "a60929fea0acdea745c8a3d8968645e6e80500dcba6122356a67263999a0f64a"
+    "sha256": "e5ad360ea4d05a14a5c9636ac04668e31b9516b13b5f959cc4fe419132884629"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "8610978b500186f25b23059b4c0e128883c49586ee8b38a6748e5338d345afc1"
+    "sha256": "a20538998ecc2d39b9fd3a8ba76763040ee0d2e9af665fbd664d92f57368fb6d"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "e5d20119eea514e893adcdc4218dc09a2d4d8243e35b41a41151784eba52a505",
+      "sha256": "1599a7918f9acfab739ea4deaecf84d719199306616ac1619263001eddda8300",
       "bytes": 3245
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "7ccee4522cbb29d17d401465b7b0c8ad8c603f3b3d6984fec4c398789c7b7de1",
-      "bytes": 253908
+      "sha256": "9da1a3a18c8773ae7ba7b1609abbefd5b68c5fe68afc1e37c9da18aba44fdaac",
+      "bytes": 254559
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "25db8b09ff0f2f4c4fde9406ce1b3a58b9180b69e9fcacd2cf80ddbe64242d67",
+      "sha256": "6271cc5a9952aecb0581821a8f4fc9d760d99566ff00e655c0b630edfd1bdf1b",
       "bytes": 12756
     },
     {
@@ -108,7 +108,7 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "32f06354cfeb6ab2ae1733e9dea966a91f9131331096b82f05d6d0279277ba0e",
+      "sha256": "09bcd4e9c9800dd55fa7662563fa98d5e198187f77d465c13ffca108d45fb52d",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md",
-      "sha256": "991f0d41c8183d2a9e7c8396b2fda9865a02c85b9e225597261b106c958ce064",
-      "bytes": 24938
+      "sha256": "4bf42a9f4cb5cdbaf1e180296720f93ba6a055b043c893fc7501f6a4fcfacc4e",
+      "bytes": 28633
     },
     {
-      "path": ".continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0010.yaml",
-      "sha256": "49aa064d80cbe785357d295be1aef76813874d224afce5a6c14c8ebc95783f59",
-      "bytes": 22450
+      "path": ".continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0011.yaml",
+      "sha256": "71b822fafeaa6c873cc5a28423c0340b7745cbdda03e44052feba9ac1730eed9",
+      "bytes": 19854
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md",

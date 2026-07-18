@@ -1,10 +1,10 @@
 {
   "schema": "hhy.r02.test-evidence/v1",
-  "report_id": "r02-d26aff1b-external",
+  "report_id": "r02-a1893b20-external",
   "suite": "r02-java21-pg17-android-real-api",
   "producer": "TASK-R02-006 controlled integration",
-  "generated_at": "2026-07-18T10:16:50.110106Z",
-  "source_commit": "d26aff1b69cbe5d94ee64d47042ddd9d56a22070",
+  "generated_at": "2026-07-18T10:44:03.726509Z",
+  "source_commit": "a1893b20709c474c4cbe421f4bd1dc7eecaacebf",
   "command": [
     "mvn verify",
     "bash scripts/run_postgres_migration_smoke.sh",
@@ -24,8 +24,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthSuccessContractTest#refreshSuccessMatchesFrozenEnvelopeAndSessionShape",
@@ -35,7 +35,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -49,8 +49,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthServiceTest#refreshRotatesSecretsAndReplaysTheEncryptedFirstResponse",
@@ -60,7 +60,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -74,8 +74,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserBearerAuthenticationFilterTest#deniesTokenWhenItsPersistedSessionIsNoLongerActive",
@@ -85,7 +85,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -99,8 +99,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserTokenServiceTest#rejectsNonCanonicalSignatureEncodingEvenWhenBytesAreUnchanged",
@@ -110,7 +110,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -124,8 +124,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthServiceTest#passwordLoginVerifiesChallengeAndCreatesDeviceBoundSession",
@@ -135,7 +135,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -149,8 +149,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthServiceTest#sameKeyWithDifferentIntentReturnsFrozenIdempotencyConflict",
@@ -160,7 +160,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -174,8 +174,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthServiceTest#passwordLoginLocksAccountAfterConfiguredFailureThresholdWithoutCreatingSession",
@@ -185,7 +185,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -199,8 +199,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthPublicRejectionContractTest#shortIdempotencyHeaderRejectsPasswordLoginBeforeServiceInvocation",
@@ -210,7 +210,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -224,8 +224,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthServiceTest#smsLoginVerifiesCodeAndCreatesDeviceBoundSession",
@@ -235,7 +235,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -249,8 +249,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthVerificationServiceTest#validSmsCodeIsConsumedExactlyOnce",
@@ -260,7 +260,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -274,8 +274,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthVerificationServiceTest#invalidSmsCodeRecordsFailureWithoutConsumingTheCode",
@@ -285,7 +285,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -299,8 +299,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthVerificationServiceTest#challengeCannotBeReusedAcrossAuthenticationScenes",
@@ -310,7 +310,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -324,8 +324,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthServiceTest#registrationPersistsValidatedInviteAgreementsDeviceAndSessionTogether",
@@ -335,7 +335,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -349,8 +349,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthPublicSuccessContractTest#securityChallengeBindsFrozenRequestAndIdempotencyHeader",
@@ -360,7 +360,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -374,8 +374,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserAuthPublicRejectionContractTest#malformedRegistrationPayloadReturnsSafeValidationEnvelopeBeforeServiceInvocation",
@@ -385,7 +385,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -399,8 +399,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "UserSecurityWebSecurityTest#authenticatedUserCanRevokeDeviceAndChangePasswordWithoutEchoingSecrets",
@@ -410,7 +410,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -424,8 +424,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "H5 invite registration success navigation and sensitive field cleanup",
@@ -435,7 +435,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -453,8 +453,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "H5 same-intent retry keeps a stable idempotency key and write is never auto-retried",
@@ -464,7 +464,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -482,8 +482,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "H5 invalid invite offline and rate-limit states preserve safe retry boundaries",
@@ -493,7 +493,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -511,8 +511,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "H5 password SMS code and challenge proof stay in memory and are scrubbed after completion",
@@ -522,7 +522,7 @@
       "artifacts": [
         {
           "path": "maven-verify.log",
-          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+          "sha256": "dabc4376718aca1128429369abc346b25c3fe54a7bbd330260f90be0bd6efd4a"
         },
         {
           "path": "postgres17-smoke.log",
@@ -540,8 +540,8 @@
       "status": "PASS",
       "executed": true,
       "exit_code": 0,
-      "started_at": "2026-07-18T10:10:30Z",
-      "finished_at": "2026-07-18T10:16:49Z",
+      "started_at": "2026-07-18T10:42:45Z",
+      "finished_at": "2026-07-18T10:43:31Z",
       "assertions": [
         {
           "name": "Android startup version check tests lint and APK assembly with verified HTTPS API base URL",

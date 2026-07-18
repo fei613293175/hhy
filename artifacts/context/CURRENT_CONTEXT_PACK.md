@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T10:41:30Z
-- Context Hash：`c1347ad4263a2793848de0a81b311112716c09739b6e9f7760e2b74e00d57cd9`
+- 生成时间：2026-07-18T10:46:14Z
+- Context Hash：`881570cd493813348affa8cffda6cc06e77aca9266552d75f403c76c06ae7eb3`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -59,7 +59,7 @@ in_progress_tasks:
 - TASK-R02-006
 blocked_tasks: []
 next_task: TASK-R02-006
-updated_at: '2026-07-18T10:41:28Z'
+updated_at: '2026-07-18T10:46:12Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -94,15 +94,15 @@ continuity:
   active_session_id: SES-20260718T084729Z-BD53B7C4
   actor_id: codex-root
   story_id: STORY-R02-009
-  lease_expires_at: '2026-07-18T14:41:28Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0010.yaml
+  lease_expires_at: '2026-07-18T14:46:12Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0011.yaml
   project_fingerprint: fd7b97c608e477ffeddf1e62d1c85fec84453f127c4beb0c101d2b118f3b7d74
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: f990332149ad8c9b0ed92f15216ce085638f9c8c4812b506c19ad6e51b6a0338
-    generated_at: '2026-07-18T10:06:07Z'
+    context_hash: c1347ad4263a2793848de0a81b311112716c09739b6e9f7760e2b74e00d57cd9
+    generated_at: '2026-07-18T10:41:30Z'
   handoff_bundle: null
 ```
 
@@ -304,7 +304,7 @@ task_id: TASK-R02-006
 story_id: STORY-R02-009
 goal: 汇合R02四个纵向批次，执行25项权威测试、故障注入、可观测性和预发布验收并归档证据。
 started_at: '2026-07-18T08:47:29Z'
-updated_at: '2026-07-18T10:41:28Z'
+updated_at: '2026-07-18T10:46:12Z'
 takeover_of: null
 change_requests:
 - CR-0039
@@ -360,12 +360,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T10:41:28Z'
-  expires_at: '2026-07-18T14:41:28Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0010.yaml
+  renewed_at: '2026-07-18T10:46:12Z'
+  expires_at: '2026-07-18T14:46:12Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-next_step: 提交预发布修复与现场证据，以新提交SHA重跑Maven全量并刷新25项证据后关闭TASK-R02-006
+next_step: 提交并推送最终集成证据，关闭CR-0039至CR-0041及TASK-R02-006
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -373,94 +373,52 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终提交SHA、Maven日志、外部证据和矩阵必须严格串行绑定；同一服务器并发SSH已实测会拒绝或中断连接
+  reason: 最终提交SHA与证据基线必须串行绑定，避免并发写入连续性状态或产生漂移
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0010
+checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0011
 session_id: SES-20260718T084729Z-BD53B7C4
-sequence: 10
-created_at: '2026-07-18T10:41:28Z'
-summary: R02 25项权威矩阵25/25通过；隔离预发布API、指标和两类告警firing/resolved闭环完成；修复用户密钥编排缺口并补充短信供应商超时故障注入
-next_step: 提交预发布修复与现场证据，以新提交SHA重跑Maven全量并刷新25项证据后关闭TASK-R02-006
+sequence: 11
+created_at: '2026-07-18T10:46:12Z'
+summary: a1893b20基线的Maven 131项全量回归与R02中央矩阵25/25证据刷新完成
+next_step: 提交并推送最终集成证据，关闭CR-0039至CR-0041及TASK-R02-006
 blockers: []
-decisions:
-- TASK-R02-006签署AC-R02-001至004；AC-R02-005和006继续留给TASK-R02-008与007
-- 公网短信供应商和受控SecretRef不以隔离测试密钥替代，继续由TASK-R03-002接管
-note: 隔离hhy-r02-d26aff1的容器、卷和网络已down -v清理；保留证据与构建镜像，不触碰公网/R01环境
+decisions: []
+note: ''
 tests:
+- name: Backend full final
+  result: PASS
+  evidence: artifacts/validation/r02-test-evidence/maven-verify.log
+  note: 131 tests, 0 failures/errors, 2 skipped
 - name: R02 authoritative matrix
   result: PASS
   evidence: artifacts/validation/r02-task006-matrix.json
-  note: 25/25 PASS, 0 failed, 0 not-run
-- name: Backend full integration
+  note: 25/25 PASS, source a1893b20709c474c4cbe421f4bd1dc7eecaacebf
+- name: Evidence uniqueness
   result: PASS
-  evidence: artifacts/validation/r02-test-evidence/maven-verify.log
-  note: 130 tests, 0 failures, 2 skipped
-- name: PostgreSQL 17 migration smoke
-  result: PASS
-  evidence: artifacts/validation/r02-test-evidence/postgres17-smoke.log
-  note: V001-V018, 199 product tables, rollback and invariants PASS
-- name: Android fixed toolchain
-  result: PASS
-  evidence: artifacts/validation/r02-test-evidence/android-gradle.log
-  note: 289 tasks, real HTTPS API, BUILD SUCCESSFUL
-- name: H5 integration
-  result: PASS
-  evidence: artifacts/validation/r02-test-evidence/h5-test-build.log
-  note: 3 files 8 tests, typecheck and build PASS
-- name: SMS supplier fault injection
-  result: PASS
-  evidence: remote UserAuthVerificationServiceTest
-  note: 5 tests, missing provider and timeout fail-closed PASS
-- name: R02 staging observability
-  result: PASS
-  evidence: artifacts/validation/r02-task006-staging/
-  note: API UP, target UP, gauges zero-query-failures, 2 alerts firing/resolved
-- name: R02 staging evidence hashes
-  result: PASS
-  evidence: artifacts/validation/r02-task006-staging/SHA256SUMS
-  note: 9/9 content hashes verified
-- name: R02 strict docs and generated assets
-  result: PASS
-  evidence: scripts/check_v123_documentation.py and check_generated_assets.py
-  note: 199 tables, 316 REST, 0 gaps, generated assets OK
+  evidence: artifacts/validation/r02-test-evidence/r02-a1893b20.evidence.json
+  note: single authoritative evidence JSON
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: d26aff1b69cbe5d94ee64d47042ddd9d56a22070
+  head: a1893b20709c474c4cbe421f4bd1dc7eecaacebf
   upstream: origin/task/TASK-R02-002
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
-  - ' M infra/staging/r02-smoke/docker-compose.yml'
-  - ' M releases/R02/ACCEPTANCE_MATRIX.csv'
-  - ' M scripts/check_r02_observability.py'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthVerificationServiceTest.java'
-  - ?? artifacts/reports/R02/TASK-R02-006-integration.md
-  - ?? artifacts/validation/r02-task006-matrix.json
-  - ?? artifacts/validation/r02-task006-staging/SHA256SUMS
-  - ?? artifacts/validation/r02-task006-staging/alert-deliveries.jsonl
-  - ?? artifacts/validation/r02-task006-staging/all-metrics.txt
-  - ?? artifacts/validation/r02-task006-staging/api-current.log
-  - ?? artifacts/validation/r02-task006-staging/compose-ps.txt
-  - ?? artifacts/validation/r02-task006-staging/database-state.txt
-  - ?? artifacts/validation/r02-task006-staging/prometheus-config-check.log
-  - ?? artifacts/validation/r02-task006-staging/prometheus-up.json
-  - ?? artifacts/validation/r02-task006-staging/public-status.json
-  - ?? artifacts/validation/r02-task006-staging/summary.txt
-  - ?? artifacts/validation/r02-test-evidence/android-gradle.log
-  - ?? artifacts/validation/r02-test-evidence/h5-test-build.log
-  - ?? artifacts/validation/r02-test-evidence/maven-verify.log
-  - ?? artifacts/validation/r02-test-evidence/postgres17-smoke.log
-  - ?? artifacts/validation/r02-test-evidence/r02-d26aff1b.evidence.json
+  - ' M artifacts/reports/R02/TASK-R02-006-integration.md'
+  - ' M artifacts/validation/r02-task006-matrix.json'
+  - ' M artifacts/validation/r02-test-evidence/maven-verify.log'
+  - ' D artifacts/validation/r02-test-evidence/r02-d26aff1b.evidence.json'
+  - ?? artifacts/validation/r02-test-evidence/r02-a1893b20.evidence.json
   recent_commits:
+  - "a1893b20709c474c4cbe421f4bd1dc7eecaacebf\t2026-07-18T18:42:22+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(staging): require R02\
+    \ user security secrets"
   - "d26aff1b69cbe5d94ee64d47042ddd9d56a22070\t2026-07-18T18:06:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] feat(observability): add R02\
     \ auth release gates"
   - "c65239ab22d5ea8573ec39eb2df7a953d2bad094\t2026-07-18T17:46:57+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): bind R02\
@@ -475,7 +433,6 @@ git:
     \ refresh contract"
   - "342e70b9ceb649821e08b3977abd8bef31cfd45b\t2026-07-18T16:45:40+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close TASK-R02-005\
     \ as completed"
-  - "0d49f7c62f4602d77c5231ae02221c8cc9dc9ec7\t2026-07-18T16:44:46+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close CR-0038"
 project_fingerprint:
   sha256: fd7b97c608e477ffeddf1e62d1c85fec84453f127c4beb0c101d2b118f3b7d74
   files:
@@ -897,8 +854,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终提交SHA、Maven日志、外部证据和矩阵必须严格串行绑定；同一服务器并发SSH已实测会拒绝或中断连接
-event_hash: f8042eb0a55e71319b412e98312e932737db0552c4551c99f2e5eff288fc941e
+  reason: 最终提交SHA与证据基线必须串行绑定，避免并发写入连续性状态或产生漂移
+event_hash: 9f5e182262b88c9f4e6d17759aed53b9d08a8a09799d7f0eaa575cc610a950dc
 ```
 
 ## 接续状态与事件头
@@ -910,8 +867,8 @@ active_session_id: SES-20260718T084729Z-BD53B7C4
 last_session_id: SES-20260718T081744Z-71EAAA84
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T081744Z-71EAAA84-0004
-event_count: 462
-event_head_hash: f8042eb0a55e71319b412e98312e932737db0552c4551c99f2e5eff288fc941e
+event_count: 463
+event_head_hash: 9f5e182262b88c9f4e6d17759aed53b9d08a8a09799d7f0eaa575cc610a950dc
 event_chain_valid: true
 ```
 
@@ -1034,9 +991,9 @@ recent_sessions: - session_id: SES-20260717T152721Z-016DB4B2
   started_at: '2026-07-18T08:47:29Z'
   record: .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
-  updated_at: '2026-07-18T10:41:28Z'
+  updated_at: '2026-07-18T10:46:12Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0010.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0011.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-E58E42235FFA
   session_id: SES-20260717T024407Z-B03C9375
@@ -1907,9 +1864,9 @@ recent_task_transitions: - transition_id: TRN-700F522BD35A
 ```yaml
 initialized: true
 branch: task/TASK-R02-002
-head: d26aff1b69cbe5d94ee64d47042ddd9d56a22070
+head: a1893b20709c474c4cbe421f4bd1dc7eecaacebf
 upstream: origin/task/TASK-R02-002
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
@@ -1919,33 +1876,17 @@ status_porcelain:
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/reports/R02/TASK-R02-006-integration.md'
+- ' M artifacts/validation/r02-task006-matrix.json'
+- ' M artifacts/validation/r02-test-evidence/maven-verify.log'
+- ' D artifacts/validation/r02-test-evidence/r02-d26aff1b.evidence.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md'
-- ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
-- ' M infra/staging/r02-smoke/docker-compose.yml'
-- ' M releases/R02/ACCEPTANCE_MATRIX.csv'
-- ' M scripts/check_r02_observability.py'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthVerificationServiceTest.java'
-- ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0010.yaml
-- ?? artifacts/reports/R02/TASK-R02-006-integration.md
-- ?? artifacts/validation/r02-task006-matrix.json
-- ?? artifacts/validation/r02-task006-staging/SHA256SUMS
-- ?? artifacts/validation/r02-task006-staging/alert-deliveries.jsonl
-- ?? artifacts/validation/r02-task006-staging/all-metrics.txt
-- ?? artifacts/validation/r02-task006-staging/api-current.log
-- ?? artifacts/validation/r02-task006-staging/compose-ps.txt
-- ?? artifacts/validation/r02-task006-staging/database-state.txt
-- ?? artifacts/validation/r02-task006-staging/prometheus-config-check.log
-- ?? artifacts/validation/r02-task006-staging/prometheus-up.json
-- ?? artifacts/validation/r02-task006-staging/public-status.json
-- ?? artifacts/validation/r02-task006-staging/summary.txt
-- ?? artifacts/validation/r02-test-evidence/android-gradle.log
-- ?? artifacts/validation/r02-test-evidence/h5-test-build.log
-- ?? artifacts/validation/r02-test-evidence/maven-verify.log
-- ?? artifacts/validation/r02-test-evidence/postgres17-smoke.log
-- ?? artifacts/validation/r02-test-evidence/r02-d26aff1b.evidence.json
+- ?? .continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0011.yaml
+- ?? artifacts/validation/r02-test-evidence/r02-a1893b20.evidence.json
 recent_commits:
+- "a1893b20709c474c4cbe421f4bd1dc7eecaacebf\t2026-07-18T18:42:22+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(staging): require R02 user\
+  \ security secrets"
 - "d26aff1b69cbe5d94ee64d47042ddd9d56a22070\t2026-07-18T18:06:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] feat(observability): add R02\
   \ auth release gates"
 - "c65239ab22d5ea8573ec39eb2df7a953d2bad094\t2026-07-18T17:46:57+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] test(integration): bind R02\
@@ -1960,7 +1901,6 @@ recent_commits:
   \ refresh contract"
 - "342e70b9ceb649821e08b3977abd8bef31cfd45b\t2026-07-18T16:45:40+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close TASK-R02-005\
   \ as completed"
-- "0d49f7c62f4602d77c5231ae02221c8cc9dc9ec7\t2026-07-18T16:44:46+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close CR-0038"
 ```
 
 ## 会话累计项目变更
@@ -4573,7 +4513,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `e5d20119eea514e893adcdc4218dc09a2d4d8243e35b41a41151784eba52a505`
+- `CURRENT_STATUS.yaml` — `1599a7918f9acfab739ea4deaecf84d719199306616ac1619263001eddda8300`
 - `NEXT_TASK.yaml` — `08706a9f6d63c4f553a340aca63b0b94e46f2b401f3b348fd372d893516a7877`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -4584,20 +4524,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7`
-- `.continuity/EVENT_LOG.jsonl` — `7ccee4522cbb29d17d401465b7b0c8ad8c603f3b3d6984fec4c398789c7b7de1`
-- `.continuity/SESSION_INDEX.yaml` — `25db8b09ff0f2f4c4fde9406ce1b3a58b9180b69e9fcacd2cf80ddbe64242d67`
+- `.continuity/EVENT_LOG.jsonl` — `9da1a3a18c8773ae7ba7b1609abbefd5b68c5fe68afc1e37c9da18aba44fdaac`
+- `.continuity/SESSION_INDEX.yaml` — `6271cc5a9952aecb0581821a8f4fc9d760d99566ff00e655c0b630edfd1bdf1b`
 - `.continuity/TASK_CLAIMS.yaml` — `3f2ef2a78deb2e20c2d82e3093e5eb022fa15534950ccd23b2f0a94076bc4239`
 - `.continuity/TASK_TRANSITIONS.yaml` — `1d3191b4b8c851913dd73e0f07f4a8b2e81590918eaa59c9a7214282f9afed4c`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5714c0840e347f648524adabdf9ce241786093e66f53ceb6347ae8839f7274ad`
-- `.continuity/ACTIVE_SESSION.yaml` — `32f06354cfeb6ab2ae1733e9dea966a91f9131331096b82f05d6d0279277ba0e`
+- `.continuity/ACTIVE_SESSION.yaml` — `09bcd4e9c9800dd55fa7662563fa98d5e198187f77d465c13ffca108d45fb52d`
 - `releases/R02/RELEASE_MANIFEST.yaml` — `18bddf632011b122311da03f361f90a853bc7469f7af784900d49e30c1cb5633`
 - `releases/R02/DEFINITION_OF_READY.yaml` — `56bb6f71390ee34bf92eac60dc7276dd90f969781bf32eac0028eff48972c0dc`
 - `releases/R02/STORIES.yaml` — `cbc199fd846c42cbb50f02af53969fb914f16a814de2d459a7f929509a9226cf`
 - `releases/R02/TASKS.yaml` — `234fa8e540106bcbed790b160e4d2d343ea6370630744c104e0bc6c57fc5f429`
 - `releases/R02/ACCEPTANCE_MATRIX.csv` — `04d4de1a4c584a1e2e0ab3737344f6a259d099bc7bedcae9295c24eb0c37c0ac`
 - `releases/R02/PARALLEL_EXECUTION_PLAN.yaml` — `c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md` — `991f0d41c8183d2a9e7c8396b2fda9865a02c85b9e225597261b106c958ce064`
-- `.continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0010.yaml` — `49aa064d80cbe785357d295be1aef76813874d224afce5a6c14c8ebc95783f59`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md` — `4bf42a9f4cb5cdbaf1e180296720f93ba6a055b043c893fc7501f6a4fcfacc4e`
+- `.continuity/checkpoints/SES-20260718T084729Z-BD53B7C4/0011.yaml` — `71b822fafeaa6c873cc5a28423c0340b7745cbdda03e44052feba9ac1730eed9`
 - `docs/03-continuity/change-requests/CR-0039-同步R02新增注册协议配置端点后的权威计数.md` — `941bdab0b59baca63a321469d2309959fcae7dee37789052b37ee13ea52d0937`
 - `docs/03-continuity/change-requests/CR-0040-同步R02端点计数的滚动总计划派生结果.md` — `1e50caa216a54eca560abd87929000ca8b6ba2da9a8d6c2121eaf253a52945ae`
 - `docs/03-continuity/change-requests/CR-0041-TASK-R02-006允许同步集成修正变更日志.md` — `134b2c55024d59aef5587c77bb668698f55395e0194c880d69962d437cb3170a`

@@ -4,7 +4,7 @@
 
 ## 被测基线
 
-- 产品代码与四类外部作业基线：`d26aff1b69cbe5d94ee64d47042ddd9d56a22070`。
+- 最终证据基线：`a1893b20709c474c4cbe421f4bd1dc7eecaacebf`；该提交包含预发布密钥门禁与供应商超时测试，数据库、Android、H5 产品输入相对前一被测提交未变化。
 - 权威矩阵：`artifacts/validation/r02-task006-matrix.json`，25/25 PASS，0 FAIL，0 NOT_RUN。
 - 外部日志：`artifacts/validation/r02-test-evidence/`，每项由证据 JSON 绑定 SHA-256。
 - 隔离预发布：`artifacts/validation/r02-task006-staging/`；Compose 只使用独立项目、端口、子网和数据卷，未修改公网与 R01 环境。
@@ -13,7 +13,7 @@
 
 | 门禁 | 结果 |
 |---|---|
-| Java 21 / Maven 全模块 | 130 项，0 failure，0 error，2 项条件式 skip，BUILD SUCCESS |
+| Java 21 / Maven 全模块 | 131 项，0 failure，0 error，2 项条件式 skip，BUILD SUCCESS |
 | PostgreSQL 17.10 | V001-V018、升级、前向修复、受限回滚、并发与状态不变量 PASS；产品表 199 张 |
 | Android 固定工具链 | `testDebugUnitTest lintDebug assembleDebug`，289 tasks，真实地址 `https://api.orbexa.cc` |
 | H5 | 3 files / 8 tests，typecheck 与生产 build PASS |
