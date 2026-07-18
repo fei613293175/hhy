@@ -132,7 +132,7 @@ tasks:
   completed_at: '2026-07-18T08:44:58Z'
 - id: TASK-R02-006
   title: 四批次全量集成、专项测试、可观测性与预发布验收
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R02-002
   - TASK-R02-003
@@ -153,9 +153,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-18T10:48:30Z'
 - id: TASK-R02-007
   title: 账号、登录、注册与安全会话Android测试APK与产物追溯
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R02-006
   requirements: *id001
