@@ -85,11 +85,16 @@ public class R03ProviderConfigPostgresStore
             return Optional.empty();
         }
         return jdbc.query("""
-                SELECT id,requester,reviewer,status FROM hhy.admin_approval_requests
-                WHERE id=? FOR UPDATE
+                SELECT approval.id,approval.type,config.provider_code,config.version_no,
+                       approval.requester,approval.reviewer,approval.status
+                FROM hhy.admin_approval_requests approval
+                JOIN hhy.provider_config_versions config ON config.id=approval.biz_id
+                WHERE approval.id=? FOR UPDATE OF approval
                 """, (rs, row) -> new Approval(
-                Long.toString(rs.getLong("id")), actor(rs.getString("requester")),
-                actor(rs.getString("reviewer")), ApprovalStatus.valueOf(rs.getString("status"))),
+                Long.toString(rs.getLong("id")), rs.getString("type"),
+                rs.getString("provider_code"), rs.getString("version_no"),
+                actor(rs.getString("requester")), actor(rs.getString("reviewer")),
+                ApprovalStatus.valueOf(rs.getString("status"))),
                 id).stream().findFirst();
     }
 

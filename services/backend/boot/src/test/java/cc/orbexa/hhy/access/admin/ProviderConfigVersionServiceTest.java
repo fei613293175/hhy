@@ -35,9 +35,12 @@ class ProviderConfigVersionServiceTest {
     void fullFlowCreatesTestsActivatesSupersedesAndRollsBackAtomically() {
         InMemoryStore store = new InMemoryStore();
         ProviderConfigVersionService service = service(store);
-        store.approvals.put("APR-1", approved("APR-1", 10L, 20L));
-        store.approvals.put("APR-2", approved("APR-2", 30L, 40L));
-        store.approvals.put("APR-R", approved("APR-R", 50L, 60L));
+        store.approvals.put("APR-1", approved(
+                "APR-1", "PROVIDER_CONFIG_ACTIVATE", "sms-v1", 10L, 20L));
+        store.approvals.put("APR-2", approved(
+                "APR-2", "PROVIDER_CONFIG_ACTIVATE", "sms-v2", 30L, 40L));
+        store.approvals.put("APR-R", approved(
+                "APR-R", "PROVIDER_CONFIG_ROLLBACK", "sms-v1", 50L, 60L));
 
         VersionAggregate first = service.create(
                 "sms", "STAGING", smsValues("签名一"), smsSecrets(), "首个版本", 10L);
@@ -77,8 +80,12 @@ class ProviderConfigVersionServiceTest {
                 "sms", "STAGING", smsValues("合伙云"), smsSecrets(), null, 10L);
         version = service.testConnection("sms", version.lifecycle().versionId(),
                 null, version.lifecycle().version(), 10L);
-        store.approvals.put("APR-P", new Approval("APR-P", 10L, 0L, ApprovalStatus.PENDING));
-        store.approvals.put("APR-S", new Approval("APR-S", 10L, 10L, ApprovalStatus.APPROVED));
+        store.approvals.put("APR-P", new Approval(
+                "APR-P", "PROVIDER_CONFIG_ACTIVATE", "sms", "sms-v1",
+                10L, 0L, ApprovalStatus.PENDING));
+        store.approvals.put("APR-S", new Approval(
+                "APR-S", "PROVIDER_CONFIG_ACTIVATE", "sms", "sms-v1",
+                10L, 10L, ApprovalStatus.APPROVED));
         long expected = version.lifecycle().version();
 
         BusinessException pending = assertThrows(BusinessException.class,
@@ -90,6 +97,29 @@ class ProviderConfigVersionServiceTest {
         assertEquals(422, selfReviewed.httpStatus());
         assertEquals(Status.CONNECTION_TESTED,
                 store.versions.get("sms-v1").lifecycle().status());
+    }
+
+    @Test
+    void activationRejectsApprovalForAnotherOperationOrVersion() {
+        InMemoryStore store = new InMemoryStore();
+        ProviderConfigVersionService service = service(store);
+        VersionAggregate version = service.create(
+                "sms", "STAGING", smsValues("合伙云"), smsSecrets(), null, 10L);
+        version = service.testConnection("sms", version.lifecycle().versionId(),
+                null, version.lifecycle().version(), 10L);
+        store.approvals.put("APR-TYPE", approved(
+                "APR-TYPE", "PROVIDER_CONFIG_ROLLBACK", "sms-v1", 10L, 20L));
+        store.approvals.put("APR-VERSION", approved(
+                "APR-VERSION", "PROVIDER_CONFIG_ACTIVATE", "sms-v2", 10L, 20L));
+        long expected = version.lifecycle().version();
+
+        BusinessException wrongType = assertThrows(BusinessException.class,
+                () -> service.activate("sms", "sms-v1", "APR-TYPE", expected, 20L));
+        BusinessException wrongVersion = assertThrows(BusinessException.class,
+                () -> service.activate("sms", "sms-v1", "APR-VERSION", expected, 20L));
+
+        assertEquals("COMMON-422-BUSINESS_RULE", wrongType.code());
+        assertEquals("COMMON-422-BUSINESS_RULE", wrongVersion.code());
     }
 
     @Test
@@ -122,8 +152,10 @@ class ProviderConfigVersionServiceTest {
                 }, CLOCK);
     }
 
-    private static Approval approved(String id, long requester, long reviewer) {
-        return new Approval(id, requester, reviewer, ApprovalStatus.APPROVED);
+    private static Approval approved(
+            String id, String type, String versionId, long requester, long reviewer) {
+        return new Approval(
+                id, type, "sms", versionId, requester, reviewer, ApprovalStatus.APPROVED);
     }
 
     private static ObjectNode smsValues(String sign) {

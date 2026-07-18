@@ -66,7 +66,8 @@ class ProviderCertificateServiceTest {
                 "payout", "alipay_private_key", "新证书", CONTENT,
                 null, NOW.plusSeconds(172_800), 12L);
         store.approvals.put("approval-1",
-                new Approval("approval-1", 21L, 22L, ApprovalStatus.APPROVED));
+                new Approval("approval-1", "PROVIDER_CERTIFICATE_ROTATE", "cert-1",
+                        21L, 22L, ApprovalStatus.APPROVED));
 
         var activated = service.rotate(
                 current.id(), replacement.id(), "approval-1", "到期前轮换", 0L, 23L);
@@ -82,7 +83,8 @@ class ProviderCertificateServiceTest {
     void rotationRejectsSelfApprovalAndStaleVersion() {
         InMemoryStore selfApprovalStore = preparedRotationStore();
         selfApprovalStore.approvals.put("approval-1",
-                new Approval("approval-1", 21L, 21L, ApprovalStatus.APPROVED));
+                new Approval("approval-1", "PROVIDER_CERTIFICATE_ROTATE", "cert-1",
+                        21L, 21L, ApprovalStatus.APPROVED));
         var selfApproval = service(selfApprovalStore,
                 (descriptor, material, passwordRef) -> "vault://unused/material");
 
@@ -92,12 +94,28 @@ class ProviderCertificateServiceTest {
 
         InMemoryStore staleStore = preparedRotationStore();
         staleStore.approvals.put("approval-1",
-                new Approval("approval-1", 21L, 22L, ApprovalStatus.APPROVED));
+                new Approval("approval-1", "PROVIDER_CERTIFICATE_ROTATE", "cert-1",
+                        21L, 22L, ApprovalStatus.APPROVED));
         var stale = service(staleStore,
                 (descriptor, material, passwordRef) -> "vault://unused/material");
         BusinessException staleError = assertThrows(BusinessException.class,
                 () -> stale.rotate("cert-1", "cert-2", "approval-1", "轮换", 1L, 23L));
         assertEquals("COMMON-409-VERSION_CONFLICT", staleError.code());
+    }
+
+    @Test
+    void rotationRejectsApprovalBoundToAnotherCertificate() {
+        InMemoryStore store = preparedRotationStore();
+        store.approvals.put("approval-1",
+                new Approval("approval-1", "PROVIDER_CERTIFICATE_ROTATE", "cert-9",
+                        21L, 22L, ApprovalStatus.APPROVED));
+        var service = service(store,
+                (descriptor, material, passwordRef) -> "vault://unused/material");
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> service.rotate("cert-1", "cert-2", "approval-1", "轮换", 2L, 23L));
+
+        assertEquals("COMMON-422-BUSINESS_RULE", error.code());
     }
 
     @Test

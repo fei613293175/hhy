@@ -106,7 +106,7 @@ public final class ProviderCertificateService {
                     || !current.certificateType().equals(replacement.certificateType())) {
                 throw businessRule("轮换证书的供应商和类型必须一致");
             }
-            Approval approval = approved(approvalId);
+            Approval approval = approved(approvalId, current.id());
             StoredCertificate retired = current.withStatus(Status.ROTATED, current.version() + 1);
             StoredCertificate activated = replacement.withStatus(
                     Status.ACTIVE, replacement.version() + 1);
@@ -124,10 +124,14 @@ public final class ProviderCertificateService {
         return store.findForUpdate(id).orElseThrow(() -> notFound("供应商证书不存在"));
     }
 
-    private Approval approved(String approvalId) {
+    private Approval approved(String approvalId, String requiredCertificateId) {
         String safeApprovalId = identifier(approvalId, "审批单");
         Approval approval = store.approvalForUpdate(safeApprovalId)
                 .orElseThrow(() -> notFound("审批单不存在"));
+        if (!"PROVIDER_CERTIFICATE_ROTATE".equals(approval.type())
+                || !requiredCertificateId.equals(approval.certificateId())) {
+            throw businessRule("审批单与当前证书轮换不匹配");
+        }
         if (approval.status() != ApprovalStatus.APPROVED) throw businessRule("审批单尚未通过");
         if (approval.requesterId() <= 0 || approval.reviewerId() <= 0
                 || approval.requesterId() == approval.reviewerId()) {
@@ -280,7 +284,8 @@ public final class ProviderCertificateService {
             long version) { }
 
     public record Approval(
-            String id, long requesterId, long reviewerId, ApprovalStatus status) { }
+            String id, String type, String certificateId,
+            long requesterId, long reviewerId, ApprovalStatus status) { }
 
     public record AuditEvent(
             String action,

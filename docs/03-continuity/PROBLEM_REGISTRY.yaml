@@ -314,3 +314,15 @@ problems:
   do_not_repeat:
   - 不得向普通用户暴露挑战创建、协议版本ID或幂等键等内部步骤
   - 安全校验应从明确的登录、发送验证码或敏感操作意图自动触发
+- id: PROB-0028
+  title: R03高敏激活与证书轮换审批未绑定操作类型和目标资源
+  status: SOLVED
+  root_cause: 初版PostgreSQL适配器只按审批ID、状态和双人分离读取审批单，配置激活未校验审批类型，配置与证书流程均未校验biz_id对应的具体版本或证书，存在复用其他已通过审批单的风险。
+  resolution: 配置审批通过provider_config_versions联表返回并校验操作类型、供应商和目标版本；证书审批通过provider_certificates联表返回并校验轮换类型和当前证书；补充跨操作、跨版本及跨证书拒绝测试。
+  regression_checks:
+  - ProviderConfigVersionServiceTest#activationRejectsApprovalForAnotherOperationOrVersion
+  - ProviderCertificateServiceTest#rotationRejectsApprovalBoundToAnotherCertificate
+  - database/tests/r03_provider_configuration_invariants.sql
+  do_not_repeat:
+  - 高敏命令不得只凭审批ID和APPROVED状态放行
+  - 审批必须同时绑定操作类型、目标资源、申请人和独立复核人

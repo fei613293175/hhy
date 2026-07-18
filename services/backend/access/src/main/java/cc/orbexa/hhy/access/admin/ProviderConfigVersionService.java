@@ -82,7 +82,9 @@ public final class ProviderConfigVersionService {
         requireActor(actorId);
         return transactions.inTransaction(() -> {
             VersionAggregate target = locked(provider, versionId);
-            Approval approval = approved(approvalId);
+            Approval approval = approved(
+                    approvalId, "PROVIDER_CONFIG_ACTIVATE",
+                    target.config().provider(), target.lifecycle().versionId());
             Snapshot pending = ProviderConfigLifecycle.approvalRequested(
                     target.lifecycle(), approval.id(), approval.requesterId(), expectedVersion);
             Snapshot reviewed = ProviderConfigLifecycle.approved(
@@ -126,7 +128,9 @@ public final class ProviderConfigVersionService {
             if (current.lifecycle().versionId().equals(targetVersionId)) {
                 throw businessRule("回滚目标不能是当前激活版本");
             }
-            Approval approval = approved(approvalId);
+            Approval approval = approved(
+                    approvalId, "PROVIDER_CONFIG_ROLLBACK",
+                    target.config().provider(), target.lifecycle().versionId());
             Instant now = clock.instant();
             VersionAggregate nextCurrent = current.withLifecycle(
                     ProviderConfigLifecycle.rollbackApproved(
@@ -152,12 +156,19 @@ public final class ProviderConfigVersionService {
                 .orElseThrow(() -> notFound("供应商配置版本不存在"));
     }
 
-    private Approval approved(String approvalId) {
+    private Approval approved(
+            String approvalId, String requiredType,
+            String requiredProvider, String requiredVersionId) {
         if (approvalId == null || !approvalId.matches("^[A-Za-z0-9_-]{1,64}$")) {
             throw validation("审批标识无效");
         }
         Approval approval = store.approvalForUpdate(approvalId)
                 .orElseThrow(() -> notFound("审批单不存在"));
+        if (!requiredType.equals(approval.type())
+                || !requiredProvider.equals(approval.provider())
+                || !requiredVersionId.equals(approval.versionId())) {
+            throw businessRule("审批单与当前配置操作不匹配");
+        }
         if (approval.status() != ApprovalStatus.APPROVED) {
             throw businessRule("审批单尚未完成复核");
         }
@@ -262,9 +273,13 @@ public final class ProviderConfigVersionService {
     }
 
     public record Approval(
-            String id, long requesterId, long reviewerId, ApprovalStatus status) {
+            String id, String type, String provider, String versionId,
+            long requesterId, long reviewerId, ApprovalStatus status) {
         public Approval {
             Objects.requireNonNull(id, "id");
+            Objects.requireNonNull(type, "type");
+            Objects.requireNonNull(provider, "provider");
+            Objects.requireNonNull(versionId, "versionId");
             Objects.requireNonNull(status, "status");
         }
     }

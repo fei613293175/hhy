@@ -6,6 +6,8 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "database/migrations/V019__r03_provider_configuration_center.sql"
 RUNTIME = ROOT / "services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql"
 ROLLBACK = ROOT / "database/rollback/U019__r03_provider_configuration_center.sql"
+INVARIANTS = ROOT / "database/tests/r03_provider_configuration_invariants.sql"
+SMOKE = ROOT / "scripts/run_postgres_migration_smoke.sh"
 
 
 class R03ProviderConfigurationMigrationTest(unittest.TestCase):
@@ -53,6 +55,23 @@ class R03ProviderConfigurationMigrationTest(unittest.TestCase):
             "DELETE FROM hhy.admin_permissions",
         ):
             self.assertIn(marker, sql)
+
+    def test_real_postgres_smoke_executes_r03_positive_and_negative_invariants(self) -> None:
+        sql = INVARIANTS.read_text(encoding="utf-8")
+        for marker in (
+            "R03_PLAINTEXT_SECRET_WAS_ACCEPTED",
+            "R03_DUPLICATE_ACTIVE_CONFIG_WAS_ACCEPTED",
+            "R03_PROVIDER_PAYLOAD_MUTATION_WAS_ACCEPTED",
+            "R03_DUPLICATE_ACTIVE_CERTIFICATE_WAS_ACCEPTED",
+            "R03_CERTIFICATE_AUDIT_MUTATION_WAS_ACCEPTED",
+            "R03_DOMAIN_RECEIPT_DELETE_WAS_ACCEPTED",
+            "R03_INVALID_DOMAIN_STATE_WAS_ACCEPTED",
+        ):
+            self.assertIn(marker, sql)
+        self.assertIn(
+            'database/tests/r03_provider_configuration_invariants.sql',
+            SMOKE.read_text(encoding="utf-8"),
+        )
 
 
 if __name__ == "__main__":

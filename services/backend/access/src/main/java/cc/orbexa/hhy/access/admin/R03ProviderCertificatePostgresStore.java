@@ -74,10 +74,14 @@ public class R03ProviderCertificatePostgresStore
             return Optional.empty();
         }
         return jdbc.query("""
-                SELECT id,requester,reviewer,status FROM hhy.admin_approval_requests
-                WHERE id=? AND type='PROVIDER_CERTIFICATE_ROTATE' FOR UPDATE
+                SELECT approval.id,approval.type,certificate.id AS certificate_id,
+                       approval.requester,approval.reviewer,approval.status
+                FROM hhy.admin_approval_requests approval
+                JOIN hhy.provider_certificates certificate ON certificate.id=approval.biz_id
+                WHERE approval.id=? FOR UPDATE OF approval
                 """, (rs, row) -> new Approval(
-                Long.toString(rs.getLong("id")), actor(rs.getString("requester")),
+                Long.toString(rs.getLong("id")), rs.getString("type"),
+                externalId(rs.getLong("certificate_id")), actor(rs.getString("requester")),
                 actor(rs.getString("reviewer")), ApprovalStatus.valueOf(rs.getString("status"))),
                 id).stream().findFirst();
     }
