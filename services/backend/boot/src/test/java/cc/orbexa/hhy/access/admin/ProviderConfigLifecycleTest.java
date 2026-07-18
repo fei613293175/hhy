@@ -86,6 +86,45 @@ class ProviderConfigLifecycleTest {
         assertEquals(400, error.httpStatus());
     }
 
+    @Test
+    void rollbackUsesANewTwoPersonApprovalAndRestoresOnlyTestedHistory() {
+        var approved = ProviderConfigLifecycle.approved(pending(), "APR-103", 22L, 3L);
+        var active = ProviderConfigLifecycle.activated(approved, "APR-103", NOW, 4L);
+        var historical = ProviderConfigLifecycle.superseded(active, 5L);
+        var current = ProviderConfigLifecycle.activated(
+                ProviderConfigLifecycle.approved(
+                        ProviderConfigLifecycle.approvalRequested(
+                                ProviderConfigLifecycle.connectionTested(
+                                        ProviderConfigLifecycle.validated(
+                                                ProviderConfigLifecycle.draft("sms", "sms-v2", 33L), 0L),
+                                        true, "sms:OK", NOW, 1L),
+                                "APR-104", 33L, 2L),
+                        "APR-104", 44L, 3L),
+                "APR-104", NOW, 4L);
+
+        var rolledBackCurrent = ProviderConfigLifecycle.rollbackApproved(
+                current, "APR-ROLLBACK-1", 55L, 66L, 5L);
+        var restoredHistory = ProviderConfigLifecycle.restored(
+                historical, "APR-ROLLBACK-1", 55L, 66L, NOW.plusSeconds(60), 6L);
+
+        assertEquals(Status.ROLLED_BACK, rolledBackCurrent.status());
+        assertEquals(Status.ACTIVE, restoredHistory.status());
+        assertEquals("APR-ROLLBACK-1", restoredHistory.approvalId());
+        assertEquals(66L, restoredHistory.approvalReviewerId());
+    }
+
+    @Test
+    void rollbackApprovalCannotBeSelfReviewed() {
+        var approved = ProviderConfigLifecycle.approved(pending(), "APR-103", 22L, 3L);
+        var active = ProviderConfigLifecycle.activated(approved, "APR-103", NOW, 4L);
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> ProviderConfigLifecycle.rollbackApproved(
+                        active, "APR-ROLLBACK-2", 55L, 55L, 5L));
+
+        assertEquals("COMMON-422-BUSINESS_RULE", error.code());
+    }
+
     private static ProviderConfigLifecycle.Snapshot pending() {
         var draft = ProviderConfigLifecycle.draft("sms", "sms-v1", 11L);
         var validated = ProviderConfigLifecycle.validated(draft, 0L);

@@ -112,6 +112,41 @@ public final class ProviderConfigLifecycle {
                 current.approvalReviewerId(), current.activatedAt(), current.version() + 1);
     }
 
+    public static Snapshot rollbackApproved(
+            Snapshot current,
+            String approvalId,
+            long requesterId,
+            long reviewerId,
+            long expectedVersion) {
+        requireVersion(current, expectedVersion);
+        requireStatus(current, Status.ACTIVE);
+        requireApprovalActors(approvalId, requesterId, reviewerId);
+        return new Snapshot(current.provider(), current.versionId(), Status.ROLLED_BACK,
+                current.creatorId(), current.connectionSuccessful(), current.maskedTestResult(),
+                current.testedAt(), approvalId, requesterId, reviewerId,
+                current.activatedAt(), current.version() + 1);
+    }
+
+    public static Snapshot restored(
+            Snapshot target,
+            String approvalId,
+            long requesterId,
+            long reviewerId,
+            Instant restoredAt,
+            long expectedVersion) {
+        requireVersion(target, expectedVersion);
+        if (target.status() != Status.SUPERSEDED && target.status() != Status.ROLLED_BACK) {
+            throw businessRule("只有已被替代或已回滚的历史版本可以恢复激活");
+        }
+        requireSuccessfulTest(target);
+        requireApprovalActors(approvalId, requesterId, reviewerId);
+        if (restoredAt == null) throw validation("回滚恢复时间不能为空");
+        return new Snapshot(target.provider(), target.versionId(), Status.ACTIVE,
+                target.creatorId(), target.connectionSuccessful(), target.maskedTestResult(),
+                target.testedAt(), approvalId, requesterId, reviewerId,
+                restoredAt, target.version() + 1);
+    }
+
     private static void requireVersion(Snapshot current, long expectedVersion) {
         if (current == null) throw validation("配置版本不能为空");
         if (current.version() != expectedVersion) {
@@ -129,6 +164,17 @@ public final class ProviderConfigLifecycle {
     private static void requireSuccessfulTest(Snapshot current) {
         if (!Boolean.TRUE.equals(current.connectionSuccessful()) || current.testedAt() == null) {
             throw businessRule("连接测试未成功，禁止进入审批或激活");
+        }
+    }
+
+    private static void requireApprovalActors(
+            String approvalId, long requesterId, long reviewerId) {
+        if (approvalId == null || !approvalId.matches("^[A-Za-z0-9_-]{1,64}$")) {
+            throw validation("审批标识无效");
+        }
+        if (requesterId <= 0 || reviewerId <= 0) throw validation("审批参与人无效");
+        if (requesterId == reviewerId) {
+            throw businessRule("审批申请人与复核人必须是不同管理员");
         }
     }
 

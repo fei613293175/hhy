@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-18T14:13:01Z'
+generated_at: '2026-07-18T14:15:22Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -54,7 +54,7 @@ current_status:
   blocked_tasks:
   - TASK-R02-007
   next_task: TASK-R03-002
-  updated_at: '2026-07-18T14:13:00Z'
+  updated_at: '2026-07-18T14:15:20Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -89,15 +89,15 @@ current_status:
     active_session_id: SES-20260718T133151Z-12DB5949
     actor_id: codex-root
     story_id: STORY-R03-001
-    lease_expires_at: '2026-07-18T18:13:00Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0008.yaml
-    project_fingerprint: aaa935cc8c1d9ae5ca8f0794f7902e2819e3775947c924f49335411ca7d2259b
+    lease_expires_at: '2026-07-18T18:15:20Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0009.yaml
+    project_fingerprint: 5d3c66728790ee27259d3d407a93d69215eb7f8d6ac32b2bd5fa54035aa081a3
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 50dca28213b26b5424bd17c271ac18900ed409149333127dee10fb436f088c6c
-      generated_at: '2026-07-18T14:10:02Z'
+      context_hash: 83457b7d6781f01461d542b729b3d6edf09431b7f9777253482f723a35e604cf
+      generated_at: '2026-07-18T14:13:01Z'
     handoff_bundle: null
 next_task:
   id: TASK-R03-002
@@ -149,7 +149,7 @@ active_session:
   story_id: STORY-R03-001
   goal: 实现短信、R2/OSS与实名供应商配置的版本、SecretRef、连接测试、审批、激活回滚及Admin页面真实闭环
   started_at: '2026-07-18T13:31:51Z'
-  updated_at: '2026-07-18T14:13:00Z'
+  updated_at: '2026-07-18T14:15:20Z'
   takeover_of: null
   change_requests:
   - CR-0045
@@ -179,12 +179,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-18T14:13:00Z'
-    expires_at: '2026-07-18T18:13:00Z'
-  checkpoint_sequence: 8
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0008.yaml
+    renewed_at: '2026-07-18T14:15:20Z'
+    expires_at: '2026-07-18T18:15:20Z'
+  checkpoint_sequence: 9
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0009.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T133151Z-12DB5949.md
-  next_step: 为TASK-R03-002实现独立可集成的配置版本存储端口与原子激活回滚服务，公共Flyway和HTTP控制器仍留待TASK-R03-005
+  next_step: 实现ProviderConfigVersionService及事务存储端口，原子组合创建、测试、激活和回滚
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -192,37 +192,39 @@ active_session:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 供应商适配与SSRF边界共享同一秘密作用域和连接测试状态机，需主控串行复核
+    reason: 双版本原子回滚影响核心状态机和审批安全，由主控串行复核
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260718T133151Z-12DB5949-0008
+  checkpoint_id: CP-SES-20260718T133151Z-12DB5949-0009
   session_id: SES-20260718T133151Z-12DB5949
-  sequence: 8
-  created_at: '2026-07-18T14:12:59Z'
-  summary: R03短信、R2/OSS和实名供应商专用连接器适配层已实现
-  next_step: 为TASK-R03-002实现独立可集成的配置版本存储端口与原子激活回滚服务，公共Flyway和HTTP控制器仍留待TASK-R03-005
+  sequence: 9
+  created_at: '2026-07-18T14:15:19Z'
+  summary: R03供应商回滚新增独立双人审批与历史已验证版本恢复语义
+  next_step: 实现ProviderConfigVersionService及事务存储端口，原子组合创建、测试、激活和回滚
   blockers: []
   decisions:
-  - 连接器端点强制HTTPS、默认端口、无凭据查询片段并拒绝回环私网；不同供应商只允许固定探测动作
+  - 回滚不得复用首次激活审批；当前ACTIVE转ROLLED_BACK与目标SUPERSEDED转ACTIVE必须绑定同一新审批且申请复核人不同
   note: ''
   tests:
-  - name: provider connector module
+  - name: provider lifecycle regression
     result: PASS
-    evidence: Maven 21 tests, 0 failures
-    note: 覆盖短信、R2、实名映射与SSRF拒绝
+    evidence: Maven 18 tests, 0 failures
+    note: 新增独立回滚审批、历史恢复和禁止自审
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: ade76ab4f6521bc193dcab8bd0c85e493ad1e933
+    head: b3c64cb8dc9b292b11ab077de3c719b777195a73
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
     - ' M CHANGELOG.md'
-    - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
-    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+    - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java'
+    - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java'
     recent_commits:
+    - "b3c64cb8dc9b292b11ab077de3c719b777195a73\t2026-07-18T22:13:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): add provider\
+      \ connector adapters"
     - "ade76ab4f6521bc193dcab8bd0c85e493ad1e933\t2026-07-18T22:10:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): secure provider\
       \ connection tests"
     - "b1c5c7f7f416fd87c5d6fc06ca32d7c9e6c06743\t2026-07-18T22:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): connect provider\
@@ -237,10 +239,8 @@ latest_checkpoint:
       \ secret boundaries"
     - "d37d08cb5a691f7605844742cbe645c01bf2b4f4\t2026-07-18T21:30:49+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close\
       \ TASK-R03-001 as completed"
-    - "1277725fb77832168dc0634e6af8081fdf4e770e\t2026-07-18T21:29:00+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] docs(r03): freeze implementation\
-      \ entry gate"
   project_fingerprint:
-    sha256: aaa935cc8c1d9ae5ca8f0794f7902e2819e3775947c924f49335411ca7d2259b
+    sha256: 5d3c66728790ee27259d3d407a93d69215eb7f8d6ac32b2bd5fa54035aa081a3
     files:
     - CHANGELOG.md
     - apps/admin-web/src/provider-config.css
@@ -266,8 +266,8 @@ latest_checkpoint:
       files:
       - path: CHANGELOG.md
         state: FILE
-        size: 25028
-        sha256: 59ebc43b48e29964baade5c891ce27f0373c8eaa9db8e8e9bd978cc61377acce
+        size: 25241
+        sha256: 04a63d6664ae6e9b333bfb6ef2e9a08d471f8c6c7bf81cc167d4758e52d2a3ab
       - path: apps/admin-web/src/provider-config.css
         state: FILE
         size: 3332
@@ -306,8 +306,8 @@ latest_checkpoint:
         sha256: 51a58b7a2082fd8a683580bc61468afb1e9b8e6a576eda62435db529ca690ca6
       - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java
         state: FILE
-        size: 9026
-        sha256: 474e9ed84a837c55b0a0edc45aa77a7f8e2390dfe9abf378f71f5c0f2e02f3e1
+        size: 11189
+        sha256: 06948bd4cccf08aa58ace45aa72caefd7d5e1e738e8e41017915a0c8434b63af
       - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
         state: FILE
         size: 10254
@@ -322,8 +322,8 @@ latest_checkpoint:
         sha256: ddd29e7fe7acf8c639f88beccc2ec4f1a3b42bf64e432744267fc9d8ee900fb6
       - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java
         state: FILE
-        size: 4321
-        sha256: 81f30e8efd46a9e2cc9ea2cf495aa8e66ae4a4f22ea95959098e9cb4454b6953
+        size: 6347
+        sha256: 6aa028bb58c9ba286d48a06fdf6572c9d9db42f00c9ecd94d49e93f0dd2632fd
       - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
         state: FILE
         size: 3868
@@ -397,12 +397,12 @@ latest_checkpoint:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 供应商适配与SSRF边界共享同一秘密作用域和连接测试状态机，需主控串行复核
-  event_hash: eefb254bdf635f522ca64399cb8b719e74c4c46f30a4a3f9604a11b5029dda32
+    reason: 双版本原子回滚影响核心状态机和审批安全，由主控串行复核
+  event_hash: 668c8751988795dc5f69621a184322dde2cdf46a494ab7dde408bcf0440bd433
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: ade76ab4f6521bc193dcab8bd0c85e493ad1e933
+  head: b3c64cb8dc9b292b11ab077de3c719b777195a73
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -417,10 +417,12 @@ git:
   - ' M CURRENT_STATUS.yaml'
   - ' M catalogs/session_index.csv'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260718T133151Z-12DB5949.md'
-  - ?? .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0008.yaml
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdapters.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConnectorAdaptersTest.java
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java'
+  - ?? .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0009.yaml
   recent_commits:
+  - "b3c64cb8dc9b292b11ab077de3c719b777195a73\t2026-07-18T22:13:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): add provider connector\
+    \ adapters"
   - "ade76ab4f6521bc193dcab8bd0c85e493ad1e933\t2026-07-18T22:10:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): secure provider\
     \ connection tests"
   - "b1c5c7f7f416fd87c5d6fc06ca32d7c9e6c06743\t2026-07-18T22:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R03-001] feat(r03): connect provider\
@@ -434,10 +436,8 @@ git:
     \ secret boundaries"
   - "d37d08cb5a691f7605844742cbe645c01bf2b4f4\t2026-07-18T21:30:49+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-001\
     \ as completed"
-  - "1277725fb77832168dc0634e6af8081fdf4e770e\t2026-07-18T21:29:00+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] docs(r03): freeze implementation\
-    \ entry gate"
 project_fingerprint:
-  sha256: aaa935cc8c1d9ae5ca8f0794f7902e2819e3775947c924f49335411ca7d2259b
+  sha256: 5d3c66728790ee27259d3d407a93d69215eb7f8d6ac32b2bd5fa54035aa081a3
   files:
   - CHANGELOG.md
   - apps/admin-web/src/provider-config.css
@@ -463,8 +463,8 @@ project_fingerprint:
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 25028
-      sha256: 59ebc43b48e29964baade5c891ce27f0373c8eaa9db8e8e9bd978cc61377acce
+      size: 25241
+      sha256: 04a63d6664ae6e9b333bfb6ef2e9a08d471f8c6c7bf81cc167d4758e52d2a3ab
     - path: apps/admin-web/src/provider-config.css
       state: FILE
       size: 3332
@@ -503,8 +503,8 @@ project_fingerprint:
       sha256: 51a58b7a2082fd8a683580bc61468afb1e9b8e6a576eda62435db529ca690ca6
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycle.java
       state: FILE
-      size: 9026
-      sha256: 474e9ed84a837c55b0a0edc45aa77a7f8e2390dfe9abf378f71f5c0f2e02f3e1
+      size: 11189
+      sha256: 06948bd4cccf08aa58ace45aa72caefd7d5e1e738e8e41017915a0c8434b63af
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
       state: FILE
       size: 10254
@@ -519,8 +519,8 @@ project_fingerprint:
       sha256: ddd29e7fe7acf8c639f88beccc2ec4f1a3b42bf64e432744267fc9d8ee900fb6
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigLifecycleTest.java
       state: FILE
-      size: 4321
-      sha256: 81f30e8efd46a9e2cc9ea2cf495aa8e66ae4a4f22ea95959098e9cb4454b6953
+      size: 6347
+      sha256: 6aa028bb58c9ba286d48a06fdf6572c9d9db42f00c9ecd94d49e93f0dd2632fd
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
       state: FILE
       size: 3868
@@ -1581,8 +1581,8 @@ continuity_state:
   last_session_id: SES-20260718T132650Z-C5038104
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260718T132650Z-C5038104-0002
-  event_count: 532
-  event_head_hash: eefb254bdf635f522ca64399cb8b719e74c4c46f30a4a3f9604a11b5029dda32
+  event_count: 533
+  event_head_hash: 668c8751988795dc5f69621a184322dde2cdf46a494ab7dde408bcf0440bd433
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260717T200842Z-456B8F52
@@ -1701,9 +1701,9 @@ recent_sessions:
   started_at: '2026-07-18T13:31:51Z'
   record: .continuity/sessions/SES-20260718T133151Z-12DB5949.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T133151Z-12DB5949.md
-  updated_at: '2026-07-18T14:13:00Z'
+  updated_at: '2026-07-18T14:15:20Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0008.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0009.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-E43F5E0BFE13
@@ -3604,7 +3604,7 @@ source_manifest:
   sha256: 26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0
   bytes: 3190
 - path: CURRENT_STATUS.yaml
-  sha256: 7d98aa569e8243f5b87b8201529930172338914e10f90ab2d74423948a50345a
+  sha256: a859eb11546fe4ea092f15698993d3cc9237c00bcce84a2780f93a919c5af23a
   bytes: 3287
 - path: NEXT_TASK.yaml
   sha256: 586223faaabb65c6fe3d06df684818d8fc90af575b3f0fe15809f9ed5a2048ce
@@ -3637,10 +3637,10 @@ source_manifest:
   sha256: de19045f455501f77bc8679366433b330c30b85f33073bb823067912c2721259
   bytes: 10282
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 42430c4ba1e969d201cd35f208d2ec9cce7cdbb7d14039b245be1ebf5b20fd90
-  bytes: 291895
+  sha256: 684aff8fd3da744aab6d445c90ecfccf3c87b007d632a8dce32deaaa8d29355e
+  bytes: 292571
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: fe56470baa4ad243961bc51e69f6388faa6df18b7e91f5d6bafa0d9f5e212f7f
+  sha256: eda8eadc06d89b6296435e9848f55695949055ab8961723872433dfcf6caf557
   bytes: 14262
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 77d142757ab6e699d7fb2163bb44c7d02ca5492a3d8c6b354e266e500523b455
@@ -3652,7 +3652,7 @@ source_manifest:
   sha256: 22f46c2a0025fb427fe3293d9cab4baaed94fb97e37c578dc4d6813c77350c5b
   bytes: 136038
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 33e4a79af31b687a3d1558c36233daef4437a95679dde24d0a61d1276440fb82
+  sha256: a7dc843746f1d419b24bbff412c6b5b9662e756332b3c188d4eb300608dfc109
   bytes: 525
 - path: releases/R03/RELEASE_MANIFEST.yaml
   sha256: d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318
@@ -3673,11 +3673,11 @@ source_manifest:
   sha256: 1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39
   bytes: 3566
 - path: docs/03-continuity/sessions/2026-07/SES-20260718T133151Z-12DB5949.md
-  sha256: 4c03172851713298e7d9fe6b689c85c58949de5a26d9923994d4b8aa4437b5bc
-  bytes: 13785
-- path: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0008.yaml
-  sha256: 431c94ab96981dc3eeb6dede9cb8c696f6d20301fbc9c9115d03b75299c307fb
-  bytes: 10013
+  sha256: 0dcbaa759d96a8ec861c73e72a8cc5f7a61117d1bb473c1787aba199c8536e08
+  bytes: 15843
+- path: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0009.yaml
+  sha256: d20c83c84f4f66095a29234d07d2bb5bdccb2089b950e826fb90366182a6831f
+  bytes: 9987
 - path: docs/03-continuity/change-requests/CR-0045-允许R03用户可见Admin变更同步根CHANGELOG.md
   sha256: 51a58b7a2082fd8a683580bc61468afb1e9b8e6a576eda62435db529ca690ca6
   bytes: 2423
@@ -3695,4 +3695,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 83457b7d6781f01461d542b729b3d6edf09431b7f9777253482f723a35e604cf
+context_hash: c1851f2e697405b5a03605420e46336f573e163bbeec96b45fe2bd3b268abbaf
