@@ -1,0 +1,560 @@
+{
+  "schema": "hhy.r02.test-evidence/v1",
+  "report_id": "r02-d26aff1b-external",
+  "suite": "r02-java21-pg17-android-real-api",
+  "producer": "TASK-R02-006 controlled integration",
+  "generated_at": "2026-07-18T10:16:50.110106Z",
+  "source_commit": "d26aff1b69cbe5d94ee64d47042ddd9d56a22070",
+  "command": [
+    "mvn verify",
+    "bash scripts/run_postgres_migration_smoke.sh",
+    "./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug",
+    "pnpm --dir apps/h5 test && pnpm --dir apps/h5 run typecheck && pnpm --dir apps/h5 run build"
+  ],
+  "environment": {
+    "java": "Eclipse Temurin 21",
+    "maven": "Apache Maven 3.9.11",
+    "postgresql": "PostgreSQL 17.10 disposable container",
+    "android_image": "hhy-android-toolchain:r01-46fb273@sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607",
+    "api_base_url": "https://api.orbexa.cc"
+  },
+  "results": [
+    {
+      "test_id": "TST-AUTH_001-HAPPY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthSuccessContractTest#refreshSuccessMatchesFrozenEnvelopeAndSessionShape",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_001-IDEMPOTENT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthServiceTest#refreshRotatesSecretsAndReplaysTheEncryptedFirstResponse",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_001-REJECT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserBearerAuthenticationFilterTest#deniesTokenWhenItsPersistedSessionIsNoLongerActive",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_001-SECURITY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserTokenServiceTest#rejectsNonCanonicalSignatureEncodingEvenWhenBytesAreUnchanged",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_002-HAPPY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthServiceTest#passwordLoginVerifiesChallengeAndCreatesDeviceBoundSession",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_002-IDEMPOTENT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthServiceTest#sameKeyWithDifferentIntentReturnsFrozenIdempotencyConflict",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_002-REJECT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthServiceTest#passwordLoginLocksAccountAfterConfiguredFailureThresholdWithoutCreatingSession",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_002-SECURITY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthPublicRejectionContractTest#shortIdempotencyHeaderRejectsPasswordLoginBeforeServiceInvocation",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_003-HAPPY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthServiceTest#smsLoginVerifiesCodeAndCreatesDeviceBoundSession",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_003-IDEMPOTENT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthVerificationServiceTest#validSmsCodeIsConsumedExactlyOnce",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_003-REJECT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthVerificationServiceTest#invalidSmsCodeRecordsFailureWithoutConsumingTheCode",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_003-SECURITY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthVerificationServiceTest#challengeCannotBeReusedAcrossAuthenticationScenes",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_004-HAPPY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthServiceTest#registrationPersistsValidatedInviteAgreementsDeviceAndSessionTogether",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_004-IDEMPOTENT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthPublicSuccessContractTest#securityChallengeBindsFrozenRequestAndIdempotencyHeader",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_004-REJECT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserAuthPublicRejectionContractTest#malformedRegistrationPayloadReturnsSafeValidationEnvelopeBeforeServiceInvocation",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_004-SECURITY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "UserSecurityWebSecurityTest#authenticatedUserCanRevokeDeviceAndChangePasswordWithoutEchoingSecrets",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_005-HAPPY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "H5 invite registration success navigation and sensitive field cleanup",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        },
+        {
+          "path": "h5-test-build.log",
+          "sha256": "d918588f12753516650c584aef4bcaa81ef9c9e1e6a97a76f36480b067eed34b"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_005-IDEMPOTENT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "H5 same-intent retry keeps a stable idempotency key and write is never auto-retried",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        },
+        {
+          "path": "h5-test-build.log",
+          "sha256": "d918588f12753516650c584aef4bcaa81ef9c9e1e6a97a76f36480b067eed34b"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_005-REJECT",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "H5 invalid invite offline and rate-limit states preserve safe retry boundaries",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        },
+        {
+          "path": "h5-test-build.log",
+          "sha256": "d918588f12753516650c584aef4bcaa81ef9c9e1e6a97a76f36480b067eed34b"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-AUTH_005-SECURITY",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "H5 password SMS code and challenge proof stay in memory and are scrubbed after completion",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "maven-verify.log",
+          "sha256": "b595dcc9191f7e19517e6bccd273dee6e71806ad23c2c3a85a2e8b4aa7120e46"
+        },
+        {
+          "path": "postgres17-smoke.log",
+          "sha256": "60edb27f8d28013a4b0739156a92f866a84b73974c633440154af70a62f3c2b2"
+        },
+        {
+          "path": "h5-test-build.log",
+          "sha256": "d918588f12753516650c584aef4bcaa81ef9c9e1e6a97a76f36480b067eed34b"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    },
+    {
+      "test_id": "TST-V122-011",
+      "status": "PASS",
+      "executed": true,
+      "exit_code": 0,
+      "started_at": "2026-07-18T10:10:30Z",
+      "finished_at": "2026-07-18T10:16:49Z",
+      "assertions": [
+        {
+          "name": "Android startup version check tests lint and APK assembly with verified HTTPS API base URL",
+          "status": "PASS"
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "android-gradle.log",
+          "sha256": "52b68cb58830412ab542ce1664cec0c917b6768b4e906fe08d7871b61e4b4cb0"
+        }
+      ],
+      "details": "Executed by the frozen R02 external integration jobs; artifacts are content-addressed."
+    }
+  ]
+}

@@ -3,6 +3,8 @@ package cc.orbexa.hhy.access.user;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -31,6 +33,7 @@ class UserAuthVerificationServiceTest {
     @Mock UserAuthStore repository;
     @Mock UserAuthPolicy policy;
     @Mock ObjectProvider<SmsProvider> smsProviders;
+    @Mock SmsProvider smsProvider;
 
     private UserTokenService tokens;
     private UserAuthVerificationService verification;
@@ -99,5 +102,33 @@ class UserAuthVerificationServiceTest {
 
         assertEquals("COMMON-500-INTERNAL", error.code());
         verifyNoInteractions(repository, policy);
+    }
+
+    @Test
+    void smsProviderTimeoutDoesNotRecordAFalseDeliveryReceipt() {
+        String challengeHash = tokens.intentHash("challenge:" + AuthScene.LOGIN, "challenge-proof");
+        when(smsProviders.getIfAvailable()).thenReturn(smsProvider);
+        when(repository.findChallengeForUpdate(71L)).thenReturn(Optional.of(
+                new UserAuthStore.ChallengeRow(
+                        71L, AuthScene.LOGIN.name(), challengeHash,
+                        NOW.plus(Duration.ofMinutes(5)), null, 0, 3)));
+        when(repository.consumeChallenge(71L)).thenReturn(true);
+        when(policy.smsCooldown()).thenReturn(Duration.ofSeconds(60));
+        when(policy.smsDailyPhoneLimit()).thenReturn(5);
+        when(policy.smsDailyIpLimit()).thenReturn(5);
+        when(policy.smsCodeLength()).thenReturn(6);
+        when(policy.smsTtl()).thenReturn(Duration.ofMinutes(5));
+        when(policy.smsMaxAttempts()).thenReturn(3);
+        when(repository.createSmsCode(eq(PHONE), eq(AuthScene.LOGIN.name()), anyString(),
+                eq(NOW.plus(Duration.ofMinutes(5))), eq(3))).thenReturn(81L);
+        when(smsProvider.sendVerificationCode(eq(PHONE), eq(AuthScene.LOGIN), anyString()))
+                .thenThrow(new RuntimeException("provider timeout"));
+        var request = new UserAuthContracts.SmsSendRequest(
+                PHONE, AuthScene.LOGIN, "71", "challenge-proof");
+
+        assertThrows(RuntimeException.class, () -> verification.sendSms(request, "127.0.0.1"));
+
+        verify(repository, never()).recordSmsDelivery(
+                anyLong(), anyString(), anyString(), anyString(), anyString(), anyString());
     }
 }

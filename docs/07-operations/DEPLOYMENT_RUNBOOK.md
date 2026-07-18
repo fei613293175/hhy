@@ -160,7 +160,7 @@ R01 证据统一写入 `artifacts/validation/r01-task006-staging/`，并绑定�
 
 ## 7. R02 隔离预发布验收
 
-R02 使用 `infra/staging/r02-smoke/docker-compose.yml`，必须采用独立 Compose project、端口、子网和数据卷，不复用 R01 的运行证据。执行前先运行 `python3 scripts/check_r02_observability.py`，然后以被测 Commit 作为不可变 `HHY_SMOKE_ID` 渲染配置。测试 Secret 只能注入隔离进程环境，不得写入仓库、报告或 Shell 历史。
+R02 使用 `infra/staging/r02-smoke/docker-compose.yml`，必须采用独立 Compose project、端口、子网和数据卷，不复用 R01 的运行证据。执行前先运行 `python3 scripts/check_r02_observability.py`，然后以被测 Commit 作为不可变 `HHY_SMOKE_ID` 渲染配置。除三项管理员密钥外，必须分别注入 `HHY_USER_JWT_SECRET`、`HHY_USER_TOKEN_HMAC_SECRET` 和 `HHY_USER_SNAPSHOT_ROOT_SECRET`；六项应用密钥必须相互独立且满足启动安全策略。测试 Secret 只能注入隔离进程环境，不得写入仓库、报告或 Shell 历史。
 
 R02 现场演练至少覆盖：
 

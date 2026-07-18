@@ -217,7 +217,19 @@ problems:
   regression_checks:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
   - obx-test Maven UserTokenServiceTest 2项通过
-  - obx-test Maven verify 129项通过、2项条件式跳过
+  - obx-test Maven verify 130项通过、2项条件式跳过
   do_not_repeat:
   - 不得只按解码后字节等价判断JWT文本签名段有效
   - 所有自定义令牌编码都必须拒绝非规范、带填充或可替代的文本表示
+- id: PROB-0020
+  title: R02隔离预发布编排缺少用户认证密钥导致API拒绝启动
+  status: SOLVED
+  root_cause: R02新增用户会话安全配置后，隔离Compose仍只注入三项管理员密钥，未注入用户JWT、Token HMAC和幂等快照根密钥；Spring配置校验因此在启动阶段失败。
+  resolution: R02隔离编排将三项用户密钥声明为必填环境变量，静态可观测性门禁逐项验证必填表达式，运行手册同步要求六项应用密钥相互独立并由隔离进程环境注入。
+  regression_checks:
+  - scripts/check_r02_observability.py
+  - docker compose config缺少任一HHY_USER密钥时必须失败
+  - R02隔离API完成Flyway V018并通过readiness
+  do_not_repeat:
+  - 新增非可选安全配置时必须同步所有部署和预发布编排
+  - 不得用弱默认值绕过配置绑定或启动安全校验

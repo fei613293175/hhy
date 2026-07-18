@@ -1,0 +1,1 @@
+{"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"up","environment":"staging","instance":"api:9091","job":"hhy-backend-r02","release":"R02"},"value":[1784370573.420,"1"]}]}}

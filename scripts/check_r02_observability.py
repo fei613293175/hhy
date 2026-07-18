@@ -37,6 +37,11 @@ api = services.get("api") or {}
 api_environment = api.get("environment") or {}
 require(api_environment.get("HHY_MANAGEMENT_PORT") == 9091, "R02_MANAGEMENT_PORT_MISSING")
 require("9091" not in "\n".join(str(value) for value in api.get("ports") or []), "R02_MANAGEMENT_PORT_PUBLISHED")
+for secret in ("HHY_USER_JWT_SECRET", "HHY_USER_TOKEN_HMAC_SECRET", "HHY_USER_SNAPSHOT_ROOT_SECRET"):
+    require(
+        str(api_environment.get(secret, "")) == f"${{{secret}:?{secret} is required}}",
+        f"R02_USER_SECRET_REQUIRED_{secret}",
+    )
 require("${HHY_R02_TRUSTED_PROXY_CIDRS:-" in str(api_environment.get("HHY_ADMIN_TRUSTED_PROXY_CIDRS")), "R02_TRUSTED_PROXY_NOT_CONFIGURABLE")
 require("${HHY_R02_SMOKE_SUBNET:-" in str(compose.get("networks")), "R02_SUBNET_NOT_CONFIGURABLE")
 
@@ -66,6 +71,7 @@ for metric in metric_names:
 for token in ("hhy_user_active_sessions", "hhy_user_security_challenge_failures_5m", "hhy_user_sms_expired_unused"):
     require(token in endpoint_test, f"R02_PROMETHEUS_ENDPOINT_TEST_MISSING_{token}")
 require("missingSmsProviderFailsClosedBeforeChallengeOrCodePersistence" in provider_test, "R02_SMS_PROVIDER_FAILURE_INJECTION_MISSING")
+require("smsProviderTimeoutDoesNotRecordAFalseDeliveryReceipt" in provider_test, "R02_SMS_PROVIDER_TIMEOUT_INJECTION_MISSING")
 
 for token in (
     "R02 隔离预发布验收",

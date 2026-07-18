@@ -1,0 +1,990 @@
+NOTICE:  schema "hhy" does not exist, skipping
+V001__extensions_and_schema.sql APPLY
+V001__extensions_and_schema.sql PASS
+V002__access_admin_and_platform.sql APPLY
+V002__access_admin_and_platform.sql PASS
+V003__content_identity_and_communication.sql APPLY
+V003__content_identity_and_communication.sql PASS
+V004__commerce_redpacket_and_finance.sql APPLY
+V004__commerce_redpacket_and_finance.sql PASS
+V005__growth_operations_and_delivery.sql APPLY
+V005__growth_operations_and_delivery.sql PASS
+V006__constraints_indexes_and_triggers.sql APPLY
+V006__constraints_indexes_and_triggers.sql PASS
+V007__state_money_and_accounting_invariants.sql APPLY
+V007__state_money_and_accounting_invariants.sql PASS
+V008__baseline_rbac_and_feature_flags.sql APPLY
+V008__baseline_rbac_and_feature_flags.sql PASS
+V009__v122_operational_governance.sql APPLY
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:31: NOTICE:  trigger "trg_admin_sessions_updated_at" for relation "hhy.admin_sessions" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:53: NOTICE:  trigger "trg_admin_mfa_methods_updated_at" for relation "hhy.admin_mfa_methods" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:121: NOTICE:  trigger "trg_accounting_reversal_requests_updated_at" for relation "hhy.accounting_reversal_requests" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:205: NOTICE:  trigger "trg_export_jobs_updated_at" for relation "hhy.export_jobs" does not exist, skipping
+V009__v122_operational_governance.sql PASS
+V009_TO_V010 UPGRADE
+V010__p00_event_ledger_invariants.sql PASS
+V011__app_release_version_policy.sql APPLY
+V011__app_release_version_policy.sql PASS
+V012__r01_admin_security_invariants.sql APPLY
+V012__r01_admin_security_invariants.sql PASS
+V013__r01_admin_self_rbac.sql APPLY
+V013__r01_admin_self_rbac.sql PASS
+V014__r01_idempotency_scope_capacity.sql APPLY
+V014__r01_idempotency_scope_capacity.sql PASS
+V015__r01_totp_replay_guard.sql APPLY
+V015__r01_totp_replay_guard.sql PASS
+V016__r01_idempotency_response_snapshots.sql APPLY
+V016__r01_idempotency_response_snapshots.sql PASS
+V017__r02_user_auth_invariants.sql APPLY
+V017__r02_user_auth_invariants.sql PASS
+V018__r02_admin_user_controls.sql APPLY
+V018__r02_admin_user_controls.sql PASS
+R01_IDEMPOTENCY_SCOPE_WIDTH 128
+R01_TOTP_REPLAY_COLUMN PASS
+TABLE_COUNT 199
+BALANCED_TRANSACTION PASS
+UNBALANCED_TRANSACTION BLOCKED
+POSTED_ENTRY_MUTATION BLOCKED
+SEEDED_ROLES AUDITOR,OPERATOR,SUPER_ADMIN
+DEFAULT_ADMIN_COUNT 0
+BASELINE_VERIFICATION PASS
+SET
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+INSERT 0 1
+UPDATE 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+UPDATE 1
+UPDATE 1
+UPDATE 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+INSERT 0 1
+UPDATE 1
+UPDATE 1
+UPDATE 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+DO
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+INSERT 0 4
+UPDATE 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+UPDATE 1
+UPDATE 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+DO
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ set_config 
+------------
+ on
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+DO
+DO
+DO
+DO
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+INSERT 0 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+UPDATE 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+INSERT 0 1
+UPDATE 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+UPDATE 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+INSERT 0 1
+ assert_true 
+-------------
+ 
+(1 row)
+
+ROLLBACK
+P00_EVENT_LEDGER_INVARIANTS_OK
+SET
+INSERT 0 2
+P00_DATABASE_CONCURRENCY_OK
+SET
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+INSERT 0 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+INSERT 0 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+UPDATE 1
+UPDATE 1
+UPDATE 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+UPDATE 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+INSERT 0 1
+UPDATE 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+UPDATE 1
+UPDATE 1
+INSERT 0 1
+INSERT 0 1
+UPDATE 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+INSERT 0 1
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ expect_sqlstate 
+-----------------
+ 
+(1 row)
+
+ assert_true 
+-------------
+ 
+(1 row)
+
+ROLLBACK
+              result              
+----------------------------------
+ R01_ADMIN_SECURITY_INVARIANTS_OK
+(1 row)
+
+R01_RECOVERY_CODE_CONCURRENCY_OK
+R01_SESSION_CONCURRENCY_OK
+R01_MFA_ENROLLMENT_CONCURRENCY_OK
+R01_IDEMPOTENCY_CONCURRENCY_OK
+NOTICE:  drop cascades to 221 other objects
+DETAIL:  drop cascades to extension pgcrypto
+drop cascades to extension pg_trgm
+drop cascades to function hhy.set_updated_at()
+drop cascades to table hhy.users
+drop cascades to table hhy.user_credentials
+drop cascades to table hhy.auth_security_challenges
+drop cascades to table hhy.password_reset_sessions
+drop cascades to table hhy.registration_records
+drop cascades to table hhy.user_profiles
+drop cascades to table hhy.user_sessions
+drop cascades to table hhy.user_devices
+drop cascades to table hhy.sms_verification_codes
+drop cascades to table hhy.sms_send_logs
+drop cascades to table hhy.login_logs
+drop cascades to table hhy.user_settings
+drop cascades to table hhy.user_status_logs
+drop cascades to table hhy.app_versions
+drop cascades to table hhy.admin_users
+drop cascades to table hhy.admin_roles
+drop cascades to table hhy.admin_permissions
+drop cascades to table hhy.admin_user_roles
+drop cascades to table hhy.admin_role_permissions
+drop cascades to table hhy.admin_operation_logs
+drop cascades to table hhy.admin_approval_requests
+drop cascades to table hhy.system_configs
+drop cascades to table hhy.system_config_versions
+drop cascades to table hhy.feature_flags
+drop cascades to table hhy.idempotency_records
+drop cascades to table hhy.provider_config_definitions
+drop cascades to table hhy.provider_config_versions
+drop cascades to table hhy.provider_connection_tests
+drop cascades to table hhy.provider_certificates
+drop cascades to table hhy.provider_certificate_access_logs
+drop cascades to table hhy.domain_configs
+drop cascades to table hhy.dns_action_items
+drop cascades to table hhy.storage_scope_bindings
+drop cascades to table hhy.storage_migration_jobs
+drop cascades to table hhy.outbox_events
+drop cascades to table hhy.inbox_messages
+drop cascades to table hhy.ledger_accounts
+drop cascades to table hhy.accounting_transactions
+drop cascades to table hhy.accounting_entries
+drop cascades to table hhy.balance_snapshots
+drop cascades to table hhy.reconciliation_runs
+drop cascades to table hhy.reconciliation_differences
+drop cascades to table hhy.identity_profiles
+drop cascades to table hhy.identity_verification_sessions
+drop cascades to table hhy.identity_provider_requests
+drop cascades to table hhy.identity_media
+drop cascades to table hhy.identity_review_records
+drop cascades to table hhy.sensitive_data_access_logs
+drop cascades to table hhy.media_objects
+drop cascades to table hhy.upload_sessions
+drop cascades to table hhy.media_access_tokens
+drop cascades to table hhy.content_posts
+drop cascades to table hhy.project_details
+drop cascades to table hhy.app_details
+drop cascades to table hhy.group_details
+drop cascades to table hhy.team_leader_details
+drop cascades to table hhy.content_media
+drop cascades to table hhy.content_contacts
+drop cascades to table hhy.content_versions
+drop cascades to table hhy.content_status_logs
+drop cascades to table hhy.content_review_records
+drop cascades to table hhy.content_stats
+drop cascades to table hhy.content_daily_stats
+drop cascades to table hhy.content_favorites
+drop cascades to table hhy.content_view_logs
+drop cascades to table hhy.content_contact_access_logs
+drop cascades to table hhy.content_reports
+drop cascades to table hhy.content_appeals
+drop cascades to table hhy.publisher_follows
+drop cascades to table hhy.search_histories
+drop cascades to table hhy.hot_search_terms
+drop cascades to table hhy.conversations
+drop cascades to table hhy.conversation_members
+drop cascades to table hhy.chat_messages
+drop cascades to table hhy.chat_message_attachments
+drop cascades to table hhy.chat_read_receipts
+drop cascades to table hhy.user_blocks
+drop cascades to table hhy.chat_reports
+drop cascades to table hhy.notifications
+drop cascades to table hhy.notification_templates
+drop cascades to table hhy.notification_deliveries
+drop cascades to table hhy.push_tokens
+drop cascades to table hhy.announcements
+drop cascades to table hhy.announcement_reads
+drop cascades to table hhy.support_tickets
+drop cascades to table hhy.ticket_messages
+drop cascades to table hhy.ticket_attachments
+drop cascades to table hhy.ticket_status_logs
+drop cascades to table hhy.products
+drop cascades to table hhy.product_skus
+drop cascades to table hhy.sku_commission_policies
+drop cascades to table hhy.coupons
+drop cascades to table hhy.user_coupons
+drop cascades to table hhy.orders
+drop cascades to table hhy.order_items
+drop cascades to table hhy.order_price_snapshots
+drop cascades to table hhy.payment_transactions
+and 121 other objects (see server log for list)
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:31: NOTICE:  trigger "trg_admin_sessions_updated_at" for relation "hhy.admin_sessions" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:53: NOTICE:  trigger "trg_admin_mfa_methods_updated_at" for relation "hhy.admin_mfa_methods" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:121: NOTICE:  trigger "trg_accounting_reversal_requests_updated_at" for relation "hhy.accounting_reversal_requests" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:205: NOTICE:  trigger "trg_export_jobs_updated_at" for relation "hhy.export_jobs" does not exist, skipping
+R01_V011_UPGRADE_U012_REAPPLY_OK
+NOTICE:  drop cascades to 220 other objects
+DETAIL:  drop cascades to extension pgcrypto
+drop cascades to extension pg_trgm
+drop cascades to function hhy.set_updated_at()
+drop cascades to table hhy.users
+drop cascades to table hhy.user_credentials
+drop cascades to table hhy.auth_security_challenges
+drop cascades to table hhy.password_reset_sessions
+drop cascades to table hhy.registration_records
+drop cascades to table hhy.user_profiles
+drop cascades to table hhy.user_sessions
+drop cascades to table hhy.user_devices
+drop cascades to table hhy.sms_verification_codes
+drop cascades to table hhy.sms_send_logs
+drop cascades to table hhy.login_logs
+drop cascades to table hhy.user_settings
+drop cascades to table hhy.user_status_logs
+drop cascades to table hhy.app_versions
+drop cascades to table hhy.admin_users
+drop cascades to table hhy.admin_roles
+drop cascades to table hhy.admin_permissions
+drop cascades to table hhy.admin_user_roles
+drop cascades to table hhy.admin_role_permissions
+drop cascades to table hhy.admin_operation_logs
+drop cascades to table hhy.admin_approval_requests
+drop cascades to table hhy.system_configs
+drop cascades to table hhy.system_config_versions
+drop cascades to table hhy.feature_flags
+drop cascades to table hhy.idempotency_records
+drop cascades to table hhy.provider_config_definitions
+drop cascades to table hhy.provider_config_versions
+drop cascades to table hhy.provider_connection_tests
+drop cascades to table hhy.provider_certificates
+drop cascades to table hhy.provider_certificate_access_logs
+drop cascades to table hhy.domain_configs
+drop cascades to table hhy.dns_action_items
+drop cascades to table hhy.storage_scope_bindings
+drop cascades to table hhy.storage_migration_jobs
+drop cascades to table hhy.outbox_events
+drop cascades to table hhy.inbox_messages
+drop cascades to table hhy.ledger_accounts
+drop cascades to table hhy.accounting_transactions
+drop cascades to table hhy.accounting_entries
+drop cascades to table hhy.balance_snapshots
+drop cascades to table hhy.reconciliation_runs
+drop cascades to table hhy.reconciliation_differences
+drop cascades to table hhy.identity_profiles
+drop cascades to table hhy.identity_verification_sessions
+drop cascades to table hhy.identity_provider_requests
+drop cascades to table hhy.identity_media
+drop cascades to table hhy.identity_review_records
+drop cascades to table hhy.sensitive_data_access_logs
+drop cascades to table hhy.media_objects
+drop cascades to table hhy.upload_sessions
+drop cascades to table hhy.media_access_tokens
+drop cascades to table hhy.content_posts
+drop cascades to table hhy.project_details
+drop cascades to table hhy.app_details
+drop cascades to table hhy.group_details
+drop cascades to table hhy.team_leader_details
+drop cascades to table hhy.content_media
+drop cascades to table hhy.content_contacts
+drop cascades to table hhy.content_versions
+drop cascades to table hhy.content_status_logs
+drop cascades to table hhy.content_review_records
+drop cascades to table hhy.content_stats
+drop cascades to table hhy.content_daily_stats
+drop cascades to table hhy.content_favorites
+drop cascades to table hhy.content_view_logs
+drop cascades to table hhy.content_contact_access_logs
+drop cascades to table hhy.content_reports
+drop cascades to table hhy.content_appeals
+drop cascades to table hhy.publisher_follows
+drop cascades to table hhy.search_histories
+drop cascades to table hhy.hot_search_terms
+drop cascades to table hhy.conversations
+drop cascades to table hhy.conversation_members
+drop cascades to table hhy.chat_messages
+drop cascades to table hhy.chat_message_attachments
+drop cascades to table hhy.chat_read_receipts
+drop cascades to table hhy.user_blocks
+drop cascades to table hhy.chat_reports
+drop cascades to table hhy.notifications
+drop cascades to table hhy.notification_templates
+drop cascades to table hhy.notification_deliveries
+drop cascades to table hhy.push_tokens
+drop cascades to table hhy.announcements
+drop cascades to table hhy.announcement_reads
+drop cascades to table hhy.support_tickets
+drop cascades to table hhy.ticket_messages
+drop cascades to table hhy.ticket_attachments
+drop cascades to table hhy.ticket_status_logs
+drop cascades to table hhy.products
+drop cascades to table hhy.product_skus
+drop cascades to table hhy.sku_commission_policies
+drop cascades to table hhy.coupons
+drop cascades to table hhy.user_coupons
+drop cascades to table hhy.orders
+drop cascades to table hhy.order_items
+drop cascades to table hhy.order_price_snapshots
+drop cascades to table hhy.payment_transactions
+and 120 other objects (see server log for list)
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:31: NOTICE:  trigger "trg_admin_sessions_updated_at" for relation "hhy.admin_sessions" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:53: NOTICE:  trigger "trg_admin_mfa_methods_updated_at" for relation "hhy.admin_mfa_methods" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:121: NOTICE:  trigger "trg_accounting_reversal_requests_updated_at" for relation "hhy.accounting_reversal_requests" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:205: NOTICE:  trigger "trg_export_jobs_updated_at" for relation "hhy.export_jobs" does not exist, skipping
+R01_LEGACY_MFA_CONFLICT_ROLLBACK_OK
+NOTICE:  drop cascades to 216 other objects
+DETAIL:  drop cascades to extension pgcrypto
+drop cascades to extension pg_trgm
+drop cascades to function hhy.set_updated_at()
+drop cascades to table hhy.users
+drop cascades to table hhy.user_credentials
+drop cascades to table hhy.auth_security_challenges
+drop cascades to table hhy.password_reset_sessions
+drop cascades to table hhy.registration_records
+drop cascades to table hhy.user_profiles
+drop cascades to table hhy.user_sessions
+drop cascades to table hhy.user_devices
+drop cascades to table hhy.sms_verification_codes
+drop cascades to table hhy.sms_send_logs
+drop cascades to table hhy.login_logs
+drop cascades to table hhy.user_settings
+drop cascades to table hhy.user_status_logs
+drop cascades to table hhy.app_versions
+drop cascades to table hhy.admin_users
+drop cascades to table hhy.admin_roles
+drop cascades to table hhy.admin_permissions
+drop cascades to table hhy.admin_user_roles
+drop cascades to table hhy.admin_role_permissions
+drop cascades to table hhy.admin_operation_logs
+drop cascades to table hhy.admin_approval_requests
+drop cascades to table hhy.system_configs
+drop cascades to table hhy.system_config_versions
+drop cascades to table hhy.feature_flags
+drop cascades to table hhy.idempotency_records
+drop cascades to table hhy.provider_config_definitions
+drop cascades to table hhy.provider_config_versions
+drop cascades to table hhy.provider_connection_tests
+drop cascades to table hhy.provider_certificates
+drop cascades to table hhy.provider_certificate_access_logs
+drop cascades to table hhy.domain_configs
+drop cascades to table hhy.dns_action_items
+drop cascades to table hhy.storage_scope_bindings
+drop cascades to table hhy.storage_migration_jobs
+drop cascades to table hhy.outbox_events
+drop cascades to table hhy.inbox_messages
+drop cascades to table hhy.ledger_accounts
+drop cascades to table hhy.accounting_transactions
+drop cascades to table hhy.accounting_entries
+drop cascades to table hhy.balance_snapshots
+drop cascades to table hhy.reconciliation_runs
+drop cascades to table hhy.reconciliation_differences
+drop cascades to table hhy.identity_profiles
+drop cascades to table hhy.identity_verification_sessions
+drop cascades to table hhy.identity_provider_requests
+drop cascades to table hhy.identity_media
+drop cascades to table hhy.identity_review_records
+drop cascades to table hhy.sensitive_data_access_logs
+drop cascades to table hhy.media_objects
+drop cascades to table hhy.upload_sessions
+drop cascades to table hhy.media_access_tokens
+drop cascades to table hhy.content_posts
+drop cascades to table hhy.project_details
+drop cascades to table hhy.app_details
+drop cascades to table hhy.group_details
+drop cascades to table hhy.team_leader_details
+drop cascades to table hhy.content_media
+drop cascades to table hhy.content_contacts
+drop cascades to table hhy.content_versions
+drop cascades to table hhy.content_status_logs
+drop cascades to table hhy.content_review_records
+drop cascades to table hhy.content_stats
+drop cascades to table hhy.content_daily_stats
+drop cascades to table hhy.content_favorites
+drop cascades to table hhy.content_view_logs
+drop cascades to table hhy.content_contact_access_logs
+drop cascades to table hhy.content_reports
+drop cascades to table hhy.content_appeals
+drop cascades to table hhy.publisher_follows
+drop cascades to table hhy.search_histories
+drop cascades to table hhy.hot_search_terms
+drop cascades to table hhy.conversations
+drop cascades to table hhy.conversation_members
+drop cascades to table hhy.chat_messages
+drop cascades to table hhy.chat_message_attachments
+drop cascades to table hhy.chat_read_receipts
+drop cascades to table hhy.user_blocks
+drop cascades to table hhy.chat_reports
+drop cascades to table hhy.notifications
+drop cascades to table hhy.notification_templates
+drop cascades to table hhy.notification_deliveries
+drop cascades to table hhy.push_tokens
+drop cascades to table hhy.announcements
+drop cascades to table hhy.announcement_reads
+drop cascades to table hhy.support_tickets
+drop cascades to table hhy.ticket_messages
+drop cascades to table hhy.ticket_attachments
+drop cascades to table hhy.ticket_status_logs
+drop cascades to table hhy.products
+drop cascades to table hhy.product_skus
+drop cascades to table hhy.sku_commission_policies
+drop cascades to table hhy.coupons
+drop cascades to table hhy.user_coupons
+drop cascades to table hhy.orders
+drop cascades to table hhy.order_items
+drop cascades to table hhy.order_price_snapshots
+drop cascades to table hhy.payment_transactions
+and 116 other objects (see server log for list)
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:31: NOTICE:  trigger "trg_admin_sessions_updated_at" for relation "hhy.admin_sessions" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:53: NOTICE:  trigger "trg_admin_mfa_methods_updated_at" for relation "hhy.admin_mfa_methods" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:121: NOTICE:  trigger "trg_accounting_reversal_requests_updated_at" for relation "hhy.accounting_reversal_requests" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:205: NOTICE:  trigger "trg_export_jobs_updated_at" for relation "hhy.export_jobs" does not exist, skipping
+R01_V012_ATOMIC_CONFLICT_ROLLBACK_OK
+NOTICE:  drop cascades to 216 other objects
+DETAIL:  drop cascades to extension pgcrypto
+drop cascades to extension pg_trgm
+drop cascades to function hhy.set_updated_at()
+drop cascades to table hhy.users
+drop cascades to table hhy.user_credentials
+drop cascades to table hhy.auth_security_challenges
+drop cascades to table hhy.password_reset_sessions
+drop cascades to table hhy.registration_records
+drop cascades to table hhy.user_profiles
+drop cascades to table hhy.user_sessions
+drop cascades to table hhy.user_devices
+drop cascades to table hhy.sms_verification_codes
+drop cascades to table hhy.sms_send_logs
+drop cascades to table hhy.login_logs
+drop cascades to table hhy.user_settings
+drop cascades to table hhy.user_status_logs
+drop cascades to table hhy.app_versions
+drop cascades to table hhy.admin_users
+drop cascades to table hhy.admin_roles
+drop cascades to table hhy.admin_permissions
+drop cascades to table hhy.admin_user_roles
+drop cascades to table hhy.admin_role_permissions
+drop cascades to table hhy.admin_operation_logs
+drop cascades to table hhy.admin_approval_requests
+drop cascades to table hhy.system_configs
+drop cascades to table hhy.system_config_versions
+drop cascades to table hhy.feature_flags
+drop cascades to table hhy.idempotency_records
+drop cascades to table hhy.provider_config_definitions
+drop cascades to table hhy.provider_config_versions
+drop cascades to table hhy.provider_connection_tests
+drop cascades to table hhy.provider_certificates
+drop cascades to table hhy.provider_certificate_access_logs
+drop cascades to table hhy.domain_configs
+drop cascades to table hhy.dns_action_items
+drop cascades to table hhy.storage_scope_bindings
+drop cascades to table hhy.storage_migration_jobs
+drop cascades to table hhy.outbox_events
+drop cascades to table hhy.inbox_messages
+drop cascades to table hhy.ledger_accounts
+drop cascades to table hhy.accounting_transactions
+drop cascades to table hhy.accounting_entries
+drop cascades to table hhy.balance_snapshots
+drop cascades to table hhy.reconciliation_runs
+drop cascades to table hhy.reconciliation_differences
+drop cascades to table hhy.identity_profiles
+drop cascades to table hhy.identity_verification_sessions
+drop cascades to table hhy.identity_provider_requests
+drop cascades to table hhy.identity_media
+drop cascades to table hhy.identity_review_records
+drop cascades to table hhy.sensitive_data_access_logs
+drop cascades to table hhy.media_objects
+drop cascades to table hhy.upload_sessions
+drop cascades to table hhy.media_access_tokens
+drop cascades to table hhy.content_posts
+drop cascades to table hhy.project_details
+drop cascades to table hhy.app_details
+drop cascades to table hhy.group_details
+drop cascades to table hhy.team_leader_details
+drop cascades to table hhy.content_media
+drop cascades to table hhy.content_contacts
+drop cascades to table hhy.content_versions
+drop cascades to table hhy.content_status_logs
+drop cascades to table hhy.content_review_records
+drop cascades to table hhy.content_stats
+drop cascades to table hhy.content_daily_stats
+drop cascades to table hhy.content_favorites
+drop cascades to table hhy.content_view_logs
+drop cascades to table hhy.content_contact_access_logs
+drop cascades to table hhy.content_reports
+drop cascades to table hhy.content_appeals
+drop cascades to table hhy.publisher_follows
+drop cascades to table hhy.search_histories
+drop cascades to table hhy.hot_search_terms
+drop cascades to table hhy.conversations
+drop cascades to table hhy.conversation_members
+drop cascades to table hhy.chat_messages
+drop cascades to table hhy.chat_message_attachments
+drop cascades to table hhy.chat_read_receipts
+drop cascades to table hhy.user_blocks
+drop cascades to table hhy.chat_reports
+drop cascades to table hhy.notifications
+drop cascades to table hhy.notification_templates
+drop cascades to table hhy.notification_deliveries
+drop cascades to table hhy.push_tokens
+drop cascades to table hhy.announcements
+drop cascades to table hhy.announcement_reads
+drop cascades to table hhy.support_tickets
+drop cascades to table hhy.ticket_messages
+drop cascades to table hhy.ticket_attachments
+drop cascades to table hhy.ticket_status_logs
+drop cascades to table hhy.products
+drop cascades to table hhy.product_skus
+drop cascades to table hhy.sku_commission_policies
+drop cascades to table hhy.coupons
+drop cascades to table hhy.user_coupons
+drop cascades to table hhy.orders
+drop cascades to table hhy.order_items
+drop cascades to table hhy.order_price_snapshots
+drop cascades to table hhy.payment_transactions
+and 116 other objects (see server log for list)
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:31: NOTICE:  trigger "trg_admin_sessions_updated_at" for relation "hhy.admin_sessions" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:53: NOTICE:  trigger "trg_admin_mfa_methods_updated_at" for relation "hhy.admin_mfa_methods" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:121: NOTICE:  trigger "trg_accounting_reversal_requests_updated_at" for relation "hhy.accounting_reversal_requests" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:205: NOTICE:  trigger "trg_export_jobs_updated_at" for relation "hhy.export_jobs" does not exist, skipping
+R01_FINAL_EMPTY_DATABASE_OK
+NOTICE:  drop cascades to 220 other objects
+DETAIL:  drop cascades to extension pgcrypto
+drop cascades to extension pg_trgm
+drop cascades to function hhy.set_updated_at()
+drop cascades to table hhy.users
+drop cascades to table hhy.user_credentials
+drop cascades to table hhy.auth_security_challenges
+drop cascades to table hhy.password_reset_sessions
+drop cascades to table hhy.registration_records
+drop cascades to table hhy.user_profiles
+drop cascades to table hhy.user_sessions
+drop cascades to table hhy.user_devices
+drop cascades to table hhy.sms_verification_codes
+drop cascades to table hhy.sms_send_logs
+drop cascades to table hhy.login_logs
+drop cascades to table hhy.user_settings
+drop cascades to table hhy.user_status_logs
+drop cascades to table hhy.app_versions
+drop cascades to table hhy.admin_users
+drop cascades to table hhy.admin_roles
+drop cascades to table hhy.admin_permissions
+drop cascades to table hhy.admin_user_roles
+drop cascades to table hhy.admin_role_permissions
+drop cascades to table hhy.admin_operation_logs
+drop cascades to table hhy.admin_approval_requests
+drop cascades to table hhy.system_configs
+drop cascades to table hhy.system_config_versions
+drop cascades to table hhy.feature_flags
+drop cascades to table hhy.idempotency_records
+drop cascades to table hhy.provider_config_definitions
+drop cascades to table hhy.provider_config_versions
+drop cascades to table hhy.provider_connection_tests
+drop cascades to table hhy.provider_certificates
+drop cascades to table hhy.provider_certificate_access_logs
+drop cascades to table hhy.domain_configs
+drop cascades to table hhy.dns_action_items
+drop cascades to table hhy.storage_scope_bindings
+drop cascades to table hhy.storage_migration_jobs
+drop cascades to table hhy.outbox_events
+drop cascades to table hhy.inbox_messages
+drop cascades to table hhy.ledger_accounts
+drop cascades to table hhy.accounting_transactions
+drop cascades to table hhy.accounting_entries
+drop cascades to table hhy.balance_snapshots
+drop cascades to table hhy.reconciliation_runs
+drop cascades to table hhy.reconciliation_differences
+drop cascades to table hhy.identity_profiles
+drop cascades to table hhy.identity_verification_sessions
+drop cascades to table hhy.identity_provider_requests
+drop cascades to table hhy.identity_media
+drop cascades to table hhy.identity_review_records
+drop cascades to table hhy.sensitive_data_access_logs
+drop cascades to table hhy.media_objects
+drop cascades to table hhy.upload_sessions
+drop cascades to table hhy.media_access_tokens
+drop cascades to table hhy.content_posts
+drop cascades to table hhy.project_details
+drop cascades to table hhy.app_details
+drop cascades to table hhy.group_details
+drop cascades to table hhy.team_leader_details
+drop cascades to table hhy.content_media
+drop cascades to table hhy.content_contacts
+drop cascades to table hhy.content_versions
+drop cascades to table hhy.content_status_logs
+drop cascades to table hhy.content_review_records
+drop cascades to table hhy.content_stats
+drop cascades to table hhy.content_daily_stats
+drop cascades to table hhy.content_favorites
+drop cascades to table hhy.content_view_logs
+drop cascades to table hhy.content_contact_access_logs
+drop cascades to table hhy.content_reports
+drop cascades to table hhy.content_appeals
+drop cascades to table hhy.publisher_follows
+drop cascades to table hhy.search_histories
+drop cascades to table hhy.hot_search_terms
+drop cascades to table hhy.conversations
+drop cascades to table hhy.conversation_members
+drop cascades to table hhy.chat_messages
+drop cascades to table hhy.chat_message_attachments
+drop cascades to table hhy.chat_read_receipts
+drop cascades to table hhy.user_blocks
+drop cascades to table hhy.chat_reports
+drop cascades to table hhy.notifications
+drop cascades to table hhy.notification_templates
+drop cascades to table hhy.notification_deliveries
+drop cascades to table hhy.push_tokens
+drop cascades to table hhy.announcements
+drop cascades to table hhy.announcement_reads
+drop cascades to table hhy.support_tickets
+drop cascades to table hhy.ticket_messages
+drop cascades to table hhy.ticket_attachments
+drop cascades to table hhy.ticket_status_logs
+drop cascades to table hhy.products
+drop cascades to table hhy.product_skus
+drop cascades to table hhy.sku_commission_policies
+drop cascades to table hhy.coupons
+drop cascades to table hhy.user_coupons
+drop cascades to table hhy.orders
+drop cascades to table hhy.order_items
+drop cascades to table hhy.order_price_snapshots
+drop cascades to table hhy.payment_transactions
+and 120 other objects (see server log for list)
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:31: NOTICE:  trigger "trg_admin_sessions_updated_at" for relation "hhy.admin_sessions" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:53: NOTICE:  trigger "trg_admin_mfa_methods_updated_at" for relation "hhy.admin_mfa_methods" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:121: NOTICE:  trigger "trg_accounting_reversal_requests_updated_at" for relation "hhy.accounting_reversal_requests" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:205: NOTICE:  trigger "trg_export_jobs_updated_at" for relation "hhy.export_jobs" does not exist, skipping
+R01_V016_SNAPSHOT_PAIR_OK
+R01_U016_BLOCKED_WITH_SNAPSHOT_OK
+NOTICE:  drop cascades to 220 other objects
+DETAIL:  drop cascades to extension pgcrypto
+drop cascades to extension pg_trgm
+drop cascades to function hhy.set_updated_at()
+drop cascades to table hhy.users
+drop cascades to table hhy.user_credentials
+drop cascades to table hhy.auth_security_challenges
+drop cascades to table hhy.password_reset_sessions
+drop cascades to table hhy.registration_records
+drop cascades to table hhy.user_profiles
+drop cascades to table hhy.user_sessions
+drop cascades to table hhy.user_devices
+drop cascades to table hhy.sms_verification_codes
+drop cascades to table hhy.sms_send_logs
+drop cascades to table hhy.login_logs
+drop cascades to table hhy.user_settings
+drop cascades to table hhy.user_status_logs
+drop cascades to table hhy.app_versions
+drop cascades to table hhy.admin_users
+drop cascades to table hhy.admin_roles
+drop cascades to table hhy.admin_permissions
+drop cascades to table hhy.admin_user_roles
+drop cascades to table hhy.admin_role_permissions
+drop cascades to table hhy.admin_operation_logs
+drop cascades to table hhy.admin_approval_requests
+drop cascades to table hhy.system_configs
+drop cascades to table hhy.system_config_versions
+drop cascades to table hhy.feature_flags
+drop cascades to table hhy.idempotency_records
+drop cascades to table hhy.provider_config_definitions
+drop cascades to table hhy.provider_config_versions
+drop cascades to table hhy.provider_connection_tests
+drop cascades to table hhy.provider_certificates
+drop cascades to table hhy.provider_certificate_access_logs
+drop cascades to table hhy.domain_configs
+drop cascades to table hhy.dns_action_items
+drop cascades to table hhy.storage_scope_bindings
+drop cascades to table hhy.storage_migration_jobs
+drop cascades to table hhy.outbox_events
+drop cascades to table hhy.inbox_messages
+drop cascades to table hhy.ledger_accounts
+drop cascades to table hhy.accounting_transactions
+drop cascades to table hhy.accounting_entries
+drop cascades to table hhy.balance_snapshots
+drop cascades to table hhy.reconciliation_runs
+drop cascades to table hhy.reconciliation_differences
+drop cascades to table hhy.identity_profiles
+drop cascades to table hhy.identity_verification_sessions
+drop cascades to table hhy.identity_provider_requests
+drop cascades to table hhy.identity_media
+drop cascades to table hhy.identity_review_records
+drop cascades to table hhy.sensitive_data_access_logs
+drop cascades to table hhy.media_objects
+drop cascades to table hhy.upload_sessions
+drop cascades to table hhy.media_access_tokens
+drop cascades to table hhy.content_posts
+drop cascades to table hhy.project_details
+drop cascades to table hhy.app_details
+drop cascades to table hhy.group_details
+drop cascades to table hhy.team_leader_details
+drop cascades to table hhy.content_media
+drop cascades to table hhy.content_contacts
+drop cascades to table hhy.content_versions
+drop cascades to table hhy.content_status_logs
+drop cascades to table hhy.content_review_records
+drop cascades to table hhy.content_stats
+drop cascades to table hhy.content_daily_stats
+drop cascades to table hhy.content_favorites
+drop cascades to table hhy.content_view_logs
+drop cascades to table hhy.content_contact_access_logs
+drop cascades to table hhy.content_reports
+drop cascades to table hhy.content_appeals
+drop cascades to table hhy.publisher_follows
+drop cascades to table hhy.search_histories
+drop cascades to table hhy.hot_search_terms
+drop cascades to table hhy.conversations
+drop cascades to table hhy.conversation_members
+drop cascades to table hhy.chat_messages
+drop cascades to table hhy.chat_message_attachments
+drop cascades to table hhy.chat_read_receipts
+drop cascades to table hhy.user_blocks
+drop cascades to table hhy.chat_reports
+drop cascades to table hhy.notifications
+drop cascades to table hhy.notification_templates
+drop cascades to table hhy.notification_deliveries
+drop cascades to table hhy.push_tokens
+drop cascades to table hhy.announcements
+drop cascades to table hhy.announcement_reads
+drop cascades to table hhy.support_tickets
+drop cascades to table hhy.ticket_messages
+drop cascades to table hhy.ticket_attachments
+drop cascades to table hhy.ticket_status_logs
+drop cascades to table hhy.products
+drop cascades to table hhy.product_skus
+drop cascades to table hhy.sku_commission_policies
+drop cascades to table hhy.coupons
+drop cascades to table hhy.user_coupons
+drop cascades to table hhy.orders
+drop cascades to table hhy.order_items
+drop cascades to table hhy.order_price_snapshots
+drop cascades to table hhy.payment_transactions
+and 120 other objects (see server log for list)
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:31: NOTICE:  trigger "trg_admin_sessions_updated_at" for relation "hhy.admin_sessions" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:53: NOTICE:  trigger "trg_admin_mfa_methods_updated_at" for relation "hhy.admin_mfa_methods" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:121: NOTICE:  trigger "trg_accounting_reversal_requests_updated_at" for relation "hhy.accounting_reversal_requests" does not exist, skipping
+psql:/workspace/database/migrations/V009__v122_operational_governance.sql:205: NOTICE:  trigger "trg_export_jobs_updated_at" for relation "hhy.export_jobs" does not exist, skipping
+R01_U016_SAFE_ROLLBACK_REAPPLY_OK
+U014_SAFE_ROLLBACK_REAPPLY_V014 PASS
+U014_LONG_SCOPE_ROLLBACK_BLOCKED PASS
+U015_SAFE_ROLLBACK_REAPPLY_V015 PASS
+NOTICE:  truncate cascades to table "admin_user_roles"
+NOTICE:  truncate cascades to table "admin_sessions"
+NOTICE:  truncate cascades to table "admin_recovery_codes"
+NOTICE:  truncate cascades to table "admin_login_logs"
+NOTICE:  truncate cascades to table "accounting_reversal_requests"
+NOTICE:  truncate cascades to table "risk_rule_simulations"
+NOTICE:  truncate cascades to table "export_jobs"
+NOTICE:  truncate cascades to table "export_download_logs"
+NOTICE:  truncate cascades to table "export_job_files"
+U015_CONSUMED_STEP_ROLLBACK_BLOCKED PASS
+R01_ADMIN_SELF_RBAC PASS
+R01_BOOTSTRAP_ADMIN PASS
+U013_REAPPLY_V013 PASS
+U012_REAPPLY_V012 PASS
+psql:/workspace/database/migrations/V010__p00_event_ledger_invariants.sql:5: NOTICE:  extension "btree_gist" already exists, skipping
+U010_REAPPLY_V010 PASS
+R02_ADMIN_USER_CONTROLS PASS
+FINAL_TABLE_COUNT 199
+FINAL_R01_IDEMPOTENCY_SCOPE_WIDTH 128
+FINAL_R01_TOTP_REPLAY_COLUMN PASS
+FINAL_BASELINE_VERIFICATION PASS
+POSTGRESQL_MIGRATION_SMOKE PASS

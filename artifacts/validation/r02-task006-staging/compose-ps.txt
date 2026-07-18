@@ -1,0 +1,7 @@
+NAME                             IMAGE                           COMMAND                  SERVICE        CREATED         STATUS                   PORTS
+hhy-r02-d26aff1-alert-sink-1     hhy-alert-sink-r02:d26aff1      "python /app/alert_s…"   alert-sink     9 minutes ago   Up 9 minutes (healthy)   8080/tcp
+hhy-r02-d26aff1-alertmanager-1   prom/alertmanager:v0.28.1       "/bin/alertmanager -…"   alertmanager   9 minutes ago   Up 9 minutes             127.0.0.1:39193->9093/tcp
+hhy-r02-d26aff1-api-1            hhy-backend-r02-smoke:d26aff1   "java -XX:MaxRAMPerc…"   api            7 minutes ago   Up 4 minutes (healthy)   8080/tcp, 9091/tcp
+hhy-r02-d26aff1-nginx-1          nginx:1.28.0-alpine             "/docker-entrypoint.…"   nginx          7 minutes ago   Up 6 minutes             127.0.0.1:38102->80/tcp
+hhy-r02-d26aff1-postgres-1       postgres:17.10-alpine           "docker-entrypoint.s…"   postgres       9 minutes ago   Up 9 minutes (healthy)   5432/tcp
+hhy-r02-d26aff1-prometheus-1     prom/prometheus:v3.5.0          "/bin/prometheus --c…"   prometheus     7 minutes ago   Up 6 minutes             127.0.0.1:39190->9090/tcp
