@@ -1,5 +1,5 @@
-id: TASK-R03-005
-title: 三批次汇合、工程治理、专项测试与故障注入
+id: TASK-R03-006
+title: 可观测性、Staging部署与回滚演练
 status: READY
 release: R03
 requirements:
@@ -10,24 +10,20 @@ requirements:
 - REQ-CONFIG-UX-001
 - REQ-APK-001
 depends_on:
-- TASK-R03-002
-- TASK-R03-003
-- TASK-R03-004
+- TASK-R03-005
 definition_of_ready: releases/R03/DEFINITION_OF_READY.yaml
 stories: releases/R03/STORIES.yaml
 steps:
-- Flyway空库、升级库、回滚和数据不变量证据
-- 18项权威测试、契约、页面动作、安全和故障注入报告
-- 生成物漂移为零，关键缺陷清零
+- 运行手册与回滚演练证据
+- 验收矩阵自动化条目签字
 acceptance:
-- STORY-R03-004工程治理验收全部通过
-- INTEGRATION门禁、数据库测试和安全专项全部PASS
-- 共享API和DTO只有主控最终集成版本
+- 日志不包含秘密、证书原文或敏感供应商响应
+- Staging与INTEGRATION门禁通过
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-005
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-006
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-005
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-006
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'

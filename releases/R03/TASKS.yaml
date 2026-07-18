@@ -94,7 +94,7 @@ tasks:
   completed_at: '2026-07-18T15:18:31Z'
 - id: TASK-R03-005
   title: 三批次汇合、工程治理、专项测试与故障注入
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R03-002
   - TASK-R03-003
@@ -112,9 +112,10 @@ tasks:
   - INTEGRATION门禁、数据库测试和安全专项全部PASS
   - 共享API和DTO只有主控最终集成版本
   session_log_required: true
+  completed_at: '2026-07-18T16:21:43Z'
 - id: TASK-R03-006
   title: 可观测性、Staging部署与回滚演练
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R03-005
   requirements: *id001
