@@ -80,6 +80,7 @@ def validate_plan(root: Path, plan: dict[str, Any]) -> list[str]:
         errors.append("invalid plan schema")
 
     model = plan.get("operating_model", {})
+    parallel_policy = load_yaml(root / ".continuity" / "CONTINUITY_POLICY.yaml").get("parallel_development", {})
     if model.get("actual_concurrency_slots") != 4:
         errors.append("actual concurrency must remain 4 until runtime evidence changes")
     if model.get("coordinator_slots") != 1 or model.get("delegated_worker_slots") != 3:
@@ -88,6 +89,13 @@ def validate_plan(root: Path, plan: dict[str, Any]) -> list[str]:
         errors.append("only one authoritative session is allowed")
     if model.get("simultaneous_business_release_limit") != 1:
         errors.append("only one business release may be implemented at a time")
+    mirrored_fields = [
+        "default_delegation_mode", "review_triggers", "per_task_user_confirmation_required",
+        "non_delegation_requires_checkpoint_reason", "capability_fallback", "user_override_allowed",
+    ]
+    for key in mirrored_fields:
+        if model.get(key) != parallel_policy.get(key):
+            errors.append(f"operating model parallel policy drifted: {key}")
 
     release_entries = plan.get("release_plan", [])
     actual_release_ids = [entry.get("release") for entry in release_entries]
@@ -132,10 +140,17 @@ def validate_plan(root: Path, plan: dict[str, Any]) -> list[str]:
             errors.append(f"{release}: missing parallel execution plan")
             continue
         parallel = load_yaml(parallel_path)
+        if parallel.get("mode") != "ONE_MASTER_THREE_DELEGATED_WORKERS":
+            errors.append(f"{release}: invalid parallel mode")
         if parallel.get("authoritative_session_count") != 1:
             errors.append(f"{release}: parallel plan must keep one authoritative session")
-        if int(parallel.get("max_parallel_workers", 0)) > 3:
-            errors.append(f"{release}: parallel plan exceeds three delegated workers")
+        if parallel.get("max_parallel_workers") != 3:
+            errors.append(f"{release}: parallel plan must keep exactly three delegated worker slots")
+        if parallel.get("simultaneous_claim_limit") != 1:
+            errors.append(f"{release}: parallel plan must keep one claim")
+        for key in mirrored_fields:
+            if parallel.get(key) != parallel_policy.get(key):
+                errors.append(f"{release}: parallel policy drifted: {key}")
         expected_stories = story_ids(root / "releases" / release / "STORIES.yaml")
         covered = {
             str(story)

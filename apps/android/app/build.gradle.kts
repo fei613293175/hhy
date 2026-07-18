@@ -5,6 +5,8 @@ plugins {
 
 val apiBaseUrl = providers.environmentVariable("HHY_API_BASE_URL")
     .orElse("https://api.example.invalid")
+val appChannel = providers.environmentVariable("HHY_APP_CHANNEL").orElse("official")
+val appEnvironment = providers.environmentVariable("HHY_APP_ENVIRONMENT").orElse("TEST")
 
 android {
     namespace = "cc.orbexa.hhy"
@@ -20,6 +22,8 @@ android {
         vectorDrawables.useSupportLibrary = true
         buildConfigField("String", "API_BASE_URL", "\"${apiBaseUrl.get()}\"")
         buildConfigField("String", "CONTRACT_VERSION", "\"1.2.2\"")
+        buildConfigField("String", "APP_CHANNEL", "\"${appChannel.get()}\"")
+        buildConfigField("String", "APP_ENVIRONMENT", "\"${appEnvironment.get()}\"")
     }
 
     buildTypes {
@@ -70,6 +74,7 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:network"))
     implementation(project(":feature:shell"))
+    implementation(project(":feature:startup"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 

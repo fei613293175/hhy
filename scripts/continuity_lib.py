@@ -258,15 +258,26 @@ def run_command(
     text: bool = True,
     timeout: int = 60,
 ) -> subprocess.CompletedProcess[str]:
-    result = subprocess.run(
-        list(args),
-        cwd=str(cwd),
-        capture_output=True,
-        text=text,
-        timeout=timeout,
-        encoding="utf-8" if text else None,
-        errors="replace" if text else None,
-    )
+    command = list(args)
+    if command and command[0] == "git":
+        git_override = os.environ.get("HHY_GIT_BIN")
+        bundled_git = Path.home() / ".cache/codex-runtimes/codex-primary-runtime/dependencies/native/git/cmd/git.exe"
+        git_executable = git_override or shutil.which("git") or (str(bundled_git) if bundled_git.is_file() else None)
+        if not git_executable:
+            raise ContinuityError("Git不可执行：请安装Git或设置HHY_GIT_BIN；不得把缺少Git误判为无历史源码并重建仓库")
+        command[0] = git_executable
+    try:
+        result = subprocess.run(
+            command,
+            cwd=str(cwd),
+            capture_output=True,
+            text=text,
+            timeout=timeout,
+            encoding="utf-8" if text else None,
+            errors="replace" if text else None,
+        )
+    except FileNotFoundError as exc:
+        raise ContinuityError(f"命令不可执行：{command[0]}") from exc
     if check and result.returncode != 0:
         raise ContinuityError(
             f"命令失败 ({result.returncode})：{' '.join(args)}\n{result.stdout}\n{result.stderr}"
@@ -1172,6 +1183,9 @@ def context_source_paths(root: Path, session: dict[str, Any] | None) -> list[Pat
         root / "docs/03-continuity/PROBLEM_REGISTRY.yaml",
         root / "docs/03-continuity/REUSABLE_PATTERNS.md",
         root / "docs/03-continuity/PITFALLS.md",
+        root / "releases/PROGRAM_EXECUTION_PLAN.yaml",
+        root / "config/REPOSITORY_TRANSPORT.yaml",
+        root / "config/DEVELOPMENT_RUNTIME.yaml",
         root / POLICY_FILE,
         root / EVENT_LOG_FILE,
         root / SESSION_INDEX_FILE,
@@ -1191,6 +1205,7 @@ def context_source_paths(root: Path, session: dict[str, Any] | None) -> list[Pat
                 root / "releases" / release / "STORIES.yaml",
                 root / "releases" / release / "TASKS.yaml",
                 root / "releases" / release / "ACCEPTANCE_MATRIX.csv",
+                root / "releases" / release / "PARALLEL_EXECUTION_PLAN.yaml",
                 # The machine session record receives the generated Context Pack
                 # pointer after generation, so it must not fingerprint itself.
                 root / session["session_log"],
@@ -1232,16 +1247,19 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
     release = (session or {}).get("release") or status.get("active_release") or next_task.get("release")
     release_docs: dict[str, Any] = {}
     if release:
-        for name in ["RELEASE_MANIFEST.yaml", "DEFINITION_OF_READY.yaml", "STORIES.yaml", "TASKS.yaml"]:
+        for name in ["RELEASE_MANIFEST.yaml", "DEFINITION_OF_READY.yaml", "STORIES.yaml", "TASKS.yaml", "PARALLEL_EXECUTION_PLAN.yaml"]:
             path = root / "releases" / release / name
             if path.exists():
                 release_docs[name] = load_yaml(path, {})
-    bootstrap_tasks = set(load_policy(root).get("bootstrap", {}).get("allow_without_git_task_ids", []))
+    policy = load_policy(root)
+    repository_transport = load_yaml(root / "config/REPOSITORY_TRANSPORT.yaml", {})
+    development_runtime = load_yaml(root / "config/DEVELOPMENT_RUNTIME.yaml", {})
+    bootstrap_tasks = set(policy.get("bootstrap", {}).get("allow_without_git_task_ids", []))
     handoff_instruction = (
         f"python3 scripts/continuity.py takeover --actor <NEW_ACTOR> --session {session['session_id']}"
         if session and session.get("status") == "HANDED_OFF"
         else (
-            f"python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>'"
+            f"python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'"
             if session
             else (
                 f"python3 scripts/continuity.py bootstrap --actor <ACTOR_ID> --init-git --initial-commit --task {next_task.get('id')} --branch task/{next_task.get('id')}"
@@ -1272,6 +1290,10 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
         "git": git_state,
         "project_fingerprint": fingerprint,
         "release_context": release_docs,
+        "parallel_development_policy": policy.get("parallel_development", {}),
+        "execution_routing_policy": development_runtime.get("model_routing", {}),
+        "development_runtime": development_runtime,
+        "repository_transport": repository_transport,
         "continuity_state": {
             "mode": state.get("mode"),
             "protocol_version": state.get("protocol_version"),
@@ -1295,6 +1317,12 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
             "项目内容变化后必须先创建检查点再提交",
             "冻结事实变化必须关联已批准CR",
             "交接必须生成Handoff Bundle或完成干净提交",
+            "存在安全且路径互斥的工作包时主控自动委托1至3个执行代理，无需逐次用户确认",
+            "未委托或运行环境不支持代理时必须记录原因，禁止伪造并行证据",
+            "复杂/高风险使用Sol，中等使用Terra，轻量使用Luna；不可用时记录目标、实际模型和回退原因，不得伪称",
+            "除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告",
+            "禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存",
+            "Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push",
         ],
     }
     context_hash = sha256_text(canonical_json(payload))
@@ -1329,6 +1357,25 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
 
 ```yaml
 {dump_yaml(status)}
+```
+
+## 默认并行规则
+
+```yaml
+{dump_yaml(payload['parallel_development_policy'])}
+```
+
+## 模型路由与云端既有环境
+
+```yaml
+execution_routing_policy: {dump_yaml(payload['execution_routing_policy'])}
+development_runtime: {dump_yaml(payload['development_runtime'])}
+```
+
+## 仓库传输恢复
+
+```yaml
+{dump_yaml(payload['repository_transport'])}
 ```
 
 ## 下一任务
@@ -1399,6 +1446,12 @@ recent_task_transitions: {dump_yaml(payload['recent_task_transitions'])}
 3. 所有变更必须在活跃会话、任务和故事范围内。
 4. 每次上下文切换、关键测试、提交和交接前必须创建检查点。
 5. 冻结事实变化必须关联已批准 CR。
+6. 存在安全且路径互斥的工作包时自动委托 1 至 3 个执行代理，无需逐次用户确认。
+7. 未委托或运行时不支持代理时必须记录原因，禁止伪造并行证据。
+8. 复杂/高风险使用 Sol，中等使用 Terra，轻量使用 Luna；不可用时记录实际回退，禁止虚构模型使用记录。
+9. 除非项目所有者明确报告未连接，默认 Codex 已连接 `obx-test` 且既有项目环境可用；预检失败必须阻断并报告。
+10. 禁止以无服务器状态开发或重建本地 Android SDK；只能复用登记的远端镜像和 Gradle 缓存。
+11. Git remote/upstream 仅按 tracked transport descriptor 受控恢复，推送前必须通过 preflight，禁止 force push。
 """
     atomic_write_text(md_path, markdown)
     manifest = {
@@ -1476,6 +1529,49 @@ def context_is_fresh(root: Path, session: dict[str, Any] | None = None) -> tuple
     return True, "PASS"
 
 
+def normalize_parallel_execution(policy: dict[str, Any], value: dict[str, Any] | None) -> dict[str, Any]:
+    execution = dict(value or {})
+    assessment = str(execution.get("assessment") or "").upper()
+    allowed_assessments = {"DELEGATED", "NO_SAFE_PARALLEL", "CAPABILITY_UNAVAILABLE", "USER_SERIAL_OVERRIDE"}
+    if assessment not in allowed_assessments:
+        raise ContinuityError("检查点必须记录有效的parallel_execution.assessment")
+    workers = [dict(worker) for worker in (execution.get("workers") or [])]
+    reason = str(execution.get("reason") or "").strip()
+    max_workers = int(policy.get("parallel_development", {}).get("max_delegated_workers", 3))
+    if assessment == "DELEGATED":
+        if not 1 <= len(workers) <= max_workers:
+            raise ContinuityError(f"DELEGATED必须记录1至{max_workers}个执行代理")
+    else:
+        if workers:
+            raise ContinuityError(f"{assessment}不得记录执行代理")
+        if policy.get("parallel_development", {}).get("non_delegation_requires_checkpoint_reason") and not reason:
+            raise ContinuityError(f"{assessment}必须记录未委托原因")
+    seen_ids: set[str] = set()
+    claimed_roots: list[tuple[str, str]] = []
+    for worker in workers:
+        worker_id = str(worker.get("worker_id") or "").strip()
+        responsibility = str(worker.get("responsibility") or "").strip()
+        paths = [normalize_repo_path(str(path).strip()) for path in worker.get("allowed_paths", []) if str(path).strip()]
+        if not worker_id or worker_id in seen_ids or not responsibility or not paths:
+            raise ContinuityError("执行代理必须具有唯一worker_id、responsibility和allowed_paths")
+        seen_ids.add(worker_id)
+        for path in paths:
+            root_path = re.split(r"[?*\[]", path, maxsplit=1)[0].rstrip("/")
+            if not root_path:
+                raise ContinuityError(f"执行代理路径不得覆盖整个仓库：{path}")
+            for existing_worker, existing_root in claimed_roots:
+                if root_path == existing_root or root_path.startswith(existing_root + "/") or existing_root.startswith(root_path + "/"):
+                    raise ContinuityError(f"执行代理路径租约重叠：{worker_id}:{path} <-> {existing_worker}:{existing_root}")
+            claimed_roots.append((worker_id, root_path))
+        worker.update({"worker_id": worker_id, "responsibility": responsibility, "allowed_paths": paths})
+    return {
+        "assessment": assessment,
+        "delegated_workers": len(workers),
+        "workers": workers,
+        "reason": reason,
+    }
+
+
 def write_checkpoint(
     root: Path,
     session: dict[str, Any],
@@ -1486,6 +1582,7 @@ def write_checkpoint(
     blockers: Sequence[str],
     decisions: Sequence[str],
     tests: Sequence[dict[str, str]],
+    parallel_execution: dict[str, Any] | None = None,
     note: str = "",
 ) -> dict[str, Any]:
     if session.get("status") not in {"ACTIVE", "CLOSING"}:
@@ -1511,6 +1608,7 @@ def write_checkpoint(
     checkpoint_id = make_checkpoint_id(session["session_id"], sequence)
     created_at = iso_utc()
     git_state = git_info(root)
+    parallel_execution = normalize_parallel_execution(policy, parallel_execution or session.get("parallel_execution"))
     checkpoint = {
         "protocol_version": PROTOCOL_VERSION,
         "checkpoint_id": checkpoint_id,
@@ -1529,6 +1627,7 @@ def write_checkpoint(
         "required_records": required,
         "change_requests": session.get("change_requests", []),
         "scope": session.get("scope", {}),
+        "parallel_execution": parallel_execution,
     }
     if not checkpoint["summary"] or not checkpoint["next_step"]:
         raise ContinuityError("检查点必须填写 summary 和 next_step")
@@ -1547,6 +1646,7 @@ def write_checkpoint(
     session["checkpoint_sequence"] = sequence
     session["latest_checkpoint"] = cp_path.relative_to(root).as_posix()
     session["next_step"] = checkpoint["next_step"]
+    session["parallel_execution"] = parallel_execution
     renew_lease(session, policy)
     save_session(root, session)
     # The active pointer is a first-class recovery record. Refresh it on every
@@ -2318,6 +2418,80 @@ def approve_change_request(
     _persist_change_request(root, index, record)
     append_event(root, "CHANGE_REQUEST_DECIDED", {"cr_id": cr_id, "decision": decision, "approver_actor_id": approver_actor_id})
     return record
+
+
+def apply_change_request_scope(
+    root: Path,
+    *,
+    session: dict[str, Any],
+    cr_id: str,
+    actor_id: str,
+) -> dict[str, Any]:
+    """Apply an approved CR's exact impact files to the current session scope."""
+    if session.get("status") != "ACTIVE":
+        raise ContinuityError("只有ACTIVE会话可以应用CR范围")
+    if session.get("actor", {}).get("id") != actor_id:
+        raise ContinuityError("只有当前ACTIVE会话Actor可以应用CR范围")
+    if cr_id not in session.get("change_requests", []):
+        raise ContinuityError(f"CR未关联当前会话：{cr_id}")
+
+    index = load_index(root, CR_INDEX_FILE, "change_requests")
+    record = next((row for row in index["change_requests"] if row.get("cr_id") == cr_id), None)
+    if not record:
+        raise ContinuityError(f"CR不存在：{cr_id}")
+    if record.get("status") not in {"APPROVED", "IMPLEMENTING", "IMPLEMENTED", "CLOSED"}:
+        raise ContinuityError(f"CR尚未批准：{cr_id} / {record.get('status')}")
+    if record.get("approval", {}).get("decision") != "APPROVED":
+        raise ContinuityError(f"CR缺少明确批准决定：{cr_id}")
+    if record.get("requester_actor_id") == record.get("approver_actor_id"):
+        raise ContinuityError(f"CR申请人与审批人相同：{cr_id}")
+    if record.get("task_id") != session.get("task_id"):
+        raise ContinuityError(f"CR不属于当前任务：{cr_id}")
+
+    exact_paths: list[str] = []
+    for raw in (record.get("impact") or {}).get("files", []):
+        value = str(raw).strip().replace("\\", "/")
+        if (
+            not value
+            or value.startswith(("/", "\\"))
+            or re.match(r"^[A-Za-z]:", value)
+            or any(char in value for char in "*?[]")
+            or any(part in {"", ".", ".."} for part in value.split("/"))
+            or value == ".git"
+            or value.startswith(".git/")
+        ):
+            raise ContinuityError(f"CR范围只允许仓库内精确文件路径：{raw}")
+        exact_paths.append(value)
+    if not exact_paths:
+        raise ContinuityError(f"CR未声明影响文件：{cr_id}")
+
+    scope = dict(session.get("scope") or {})
+    exceptions = list(scope.get("approved_exceptions", []))
+    for path in exact_paths:
+        if path not in exceptions:
+            exceptions.append(path)
+    scope["approved_exceptions"] = exceptions
+    source = str(scope.get("source") or "story+explicit")
+    marker = f"approved-cr:{cr_id}"
+    if marker not in source.split("+"):
+        scope["source"] = source + "+" + marker
+    session["scope"] = scope
+    session["updated_at"] = iso_utc()
+    save_session(root, session)
+    append_event(root, "CHANGE_REQUEST_STATUS_UPDATED", {
+        "cr_id": cr_id,
+        "status": record.get("status"),
+        "actor_id": actor_id,
+        "session_id": session.get("session_id"),
+        "operation": "SCOPE_APPLIED",
+        "files": exact_paths,
+    })
+    return {
+        "session_id": session.get("session_id"),
+        "cr_id": cr_id,
+        "applied_files": exact_paths,
+        "checkpoint_required": True,
+    }
 
 
 def sanitize_filename(value: str) -> str:

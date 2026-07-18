@@ -20,15 +20,30 @@ AGP 9 已启用 Built-in Kotlin，因此禁止重新应用 `org.jetbrains.kotlin
 - `core:network`：公共接口模型与网络边界；后续由冻结 OpenAPI 生成客户端实现。
 - `feature:shell`：启动后的五主导航壳层和开发基线状态页。
 
-## 首次构建
+## 固定云端构建环境
+
+除非项目所有者明确报告未连接，否则默认 Codex 客户端已经连接项目云服务器 `obx-test`，且项目既有 Android 环境可用。每次开发先执行：
+
+```bash
+python3 scripts/verify_cloud_environment.py --check-android
+```
+
+预检只验证现有资源，不创建、下载或重建任何基础设施：
+
+- Docker image: `hhy-android-toolchain:r01-46fb273`
+- Image ID: `sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607`
+- Gradle cache volume: `hhy-r01-android-gradle-cache`
+
+失败时必须停止开发并报告；不得切换到无服务器状态，也不得安装或重建本地 Android SDK 作为回退。
+
+## 构建
 
 ```bash
 export HHY_API_BASE_URL=https://api.dev.example.com
-./gradlew --version
-./gradlew testDebugUnitTest lintDebug assembleDebug
+ssh -o BatchMode=yes obx-test '<在既有 hhy-android-toolchain:r01-46fb273 容器内运行 ./gradlew testDebugUnitTest lintDebug assembleDebug>'
 ```
 
-本地必须安装 Android SDK API 37 和 Build Tools 36.0.0。签名材料不得提交到仓库；Release 构建由 CI 注入 keystore 和密码。
+本地 Android SDK 不是项目开发前提，禁止执行本地 SDK bootstrap/rebuild。签名材料不得提交到仓库；Release 构建由 CI 注入 keystore 和密码。
 
 ## 硬约束
 

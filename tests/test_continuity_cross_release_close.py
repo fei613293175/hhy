@@ -191,6 +191,8 @@ class CrossReleaseCloseTest(unittest.TestCase):
                 repo, "checkpoint", "--summary", "实现跨Release关闭隔离验证",
                 "--next-step", "提交实现后关闭P00-008", "--test",
                 "cross-release-close|PASS|tests/test_continuity_cross_release_close.py|隔离回归通过",
+                "--parallel-assessment", "NO_SAFE_PARALLEL", "--parallel-reason",
+                "跨Release关闭原子性回归必须串行操作同一状态链",
             )
             self.git(repo, "add", "-A")
             self.git(

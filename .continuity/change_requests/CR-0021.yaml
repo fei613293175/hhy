@@ -1,0 +1,115 @@
+protocol_version: '1.0'
+cr_id: CR-0021
+title: 将1主控加3执行代理设为跨AI跨设备默认自动并行规则
+status: IMPLEMENTED
+created_at: '2026-07-17T22:16:06Z'
+updated_at: '2026-07-17T23:07:15Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-governance-reviewer
+task_id: TASK-R02-002
+session_id: SES-20260717T210927Z-13B07A7D
+user_request: 用户于2026-07-18明确授权主控从现在起可自行使用多线程代理开发，无需逐次确认，并要求硬性记录为后续任意AI工具和任意电脑默认规则
+reason: 现有仓库仅记录最多3个执行代理的能力上限，未规定主控在可并行任务中默认自动启用，导致实际开发可能退化为单线程并依赖聊天授权
+original_rule: 仓库仅声明主控最多可委托3个执行代理；是否启用可能依赖当次聊天授权，未强制主控主动评估并行机会，也未结构化记录未委托原因或拒绝第4个活跃代理。
+new_rule: 项目所有者提供长期仓库级授权：主控必须在Task开始及范围变化时评估并行机会；存在边界清晰、路径互斥且可安全并行的工作包时，应自行启用1至3个执行代理且不得再次请求逐次授权；未委托时必须在Checkpoint记录原因。始终只允许1个ACTIVE主控Session、1个Claim、1个事实分支和1个提交/推送/发布者；高风险变更与最终集成由主控串行复核；不支持代理的AI必须记录能力限制。
+impact_summary: 将1主控加最多3执行代理的长期授权写入机器策略、启动入口、上下文交接包、计划生成器、并行worktree门禁、Checkpoint结构和严格测试，确保跨AI与跨设备恢复。
+impact:
+  files:
+  - AGENTS.md
+  - START_HERE.md
+  - .continuity/CONTINUITY_POLICY.yaml
+  - config/CONTINUITY_POLICY.yaml
+  - templates/AGENTS.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  - scripts/generate_program_execution_plan.py
+  - scripts/check_program_execution_plan.py
+  - tests/test_program_execution_plan.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - tests/test_parallel_worktrees.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  - scripts/test_continuity_protocol.py
+  - docs/03-continuity/CHECKPOINT_SCHEMA.yaml
+  - docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml
+  - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+  - docs/03-continuity/并行加速开发运行手册_V1.0.md
+  - artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - artifacts/context/CURRENT_CONTEXT_PACK.md
+  - artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - MANIFEST_SHA256.txt
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - parallel_development.default_delegation_mode
+  - parallel_development.per_task_user_confirmation_required
+  - parallel_development.non_delegation_requires_checkpoint_reason
+  - parallel_development.max_delegated_workers
+  - checkpoint.parallel_execution
+  ledger: []
+  tests:
+  - program-plan-default-delegation-strict-validation
+  - parallel-worktree-three-worker-cap-and-atomic-registry
+  - checkpoint-structured-parallel-decision-validation
+  - context-pack-cross-ai-authorization-reconstruction
+  - continuity-strict-and-secret-scope-gates
+  - deterministic-plan-generation
+  - documentation-strict-gate
+  releases:
+  - R02
+  - R03
+  - R04
+  - R05
+  - R06
+  - R07
+  - R08
+  - R09
+  - R10
+  - R11
+  - R12
+  - R13
+  - R14
+  - R15
+  - R16
+  - R17
+  - R18
+  - R19
+  - R20
+  - R21
+  - R22
+  - R23
+  - R24
+  - R25
+  - R26
+  - R27
+  - R28
+  - R29
+  - R30
+  - R31
+  - R32
+  migration_and_compatibility: 纯工程治理与调度规则增强，不改变业务API、数据库、页面或发布语义；旧AI或不具备代理能力的环境允许单主控继续，但必须记录CAPABILITY_UNAVAILABLE且不得伪造并行证据。
+user_confirmation: 项目所有者于2026-07-18明确授权：从现在起主控可自行代理使用多线程开发，无需逐次确认；该规则硬性记录并作为后续任意AI工具及任意电脑开发的默认规则。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-17T22:25:22Z'
+  note: 独立只读审查确认：长期授权应为MUST；实际委托为有安全并行工作时SHOULD；保留单主控、最多3执行代理、隔离路径租约、主控最终集成和高风险串行复核，并补齐容量、上下文与Checkpoint机器门禁。
+machine_record: .continuity/change_requests/CR-0021.yaml
+document: docs/03-continuity/change-requests/CR-0021-将1主控加3执行代理设为跨AI跨设备默认自动并行规则.md
+decision_log:
+- at: '2026-07-17T22:25:24Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 按已批准长期授权开始落地机器策略、上下文包、计划、并行worktree、Checkpoint和严格验证。
+  session_id: SES-20260717T210927Z-13B07A7D
+- at: '2026-07-17T23:07:15Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 长期1主控加最多3执行代理规则已写入权威策略、入口、计划、worktree与Checkpoint门禁，并通过模块及重建验证。
+  session_id: SES-20260717T210927Z-13B07A7D
+session_ids:
+- SES-20260717T210927Z-13B07A7D

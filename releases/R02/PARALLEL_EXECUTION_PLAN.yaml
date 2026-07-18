@@ -6,6 +6,12 @@ authoritative_session_count: 1
 max_parallel_workers: 3
 simultaneous_claim_limit: 1
 worker_parallelism_scope: WITHIN_ACTIVE_TASK_ONLY
+default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
+review_triggers: [TASK_START, SCOPE_CHANGE]
+per_task_user_confirmation_required: false
+non_delegation_requires_checkpoint_reason: true
+capability_fallback: RECORD_LIMITATION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+user_override_allowed: true
 source_of_truth_branch: task/TASK-R02-001
 rules:
 - TASK-R02-002至005是依赖层面的候选集合；现行连续性协议下主控仍须逐个领取Task，三个执行代理只能在当前Claim内部按互斥路径并行。

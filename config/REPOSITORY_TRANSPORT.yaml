@@ -1,0 +1,38 @@
+schema_version: 1
+repository:
+  name: hhy
+  canonical_url: https://github.com/fei613293175/hhy.git
+  remote_name: origin
+  default_branch: main
+security:
+  prohibit_url_credentials: true
+  prohibit_force_push: true
+  tracked_secrets_forbidden:
+  - personal_access_token
+  - ssh_private_key
+  - ssh_identity_path
+  - credential_helper_output
+  - .git/config
+branch_policy:
+  allowed_patterns:
+  - main
+  - master
+  - task/*
+  - release/*
+  - hotfix/*
+  upstream_remote: origin
+  upstream_merge_template: refs/heads/{branch}
+recovery:
+  bundle_filename: repository.bundle
+  require_bundle_verification: true
+  raw_source_without_git_or_bundle: BLOCK
+  repair_mismatched_remote_requires_explicit_flag: true
+push_preflight:
+  fetch_before_compare: true
+  require_clean_worktree: true
+  require_exact_remote_url: true
+  require_exact_upstream: true
+  reject_behind: true
+  reject_diverged: true
+  allow_new_remote_branch: true
+

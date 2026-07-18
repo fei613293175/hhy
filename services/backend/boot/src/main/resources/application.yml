@@ -47,6 +47,14 @@ management:
       probes:
         enabled: true
 hhy:
+  user-security:
+    jwt-secret: ${HHY_USER_JWT_SECRET}
+    token-hmac-secret: ${HHY_USER_TOKEN_HMAC_SECRET}
+    snapshot-root-secret: ${HHY_USER_SNAPSHOT_ROOT_SECRET}
+    issuer: ${HHY_USER_TOKEN_ISSUER:orbexa.cc/user}
+    access-ttl: ${HHY_USER_ACCESS_TTL:PT15M}
+    refresh-ttl: ${HHY_USER_REFRESH_TTL:P30D}
+    idempotency-ttl: ${HHY_USER_IDEMPOTENCY_TTL:PT24H}
   admin-security:
     jwt-secret: ${HHY_ADMIN_JWT_SECRET}
     mfa-root-secret: ${HHY_ADMIN_MFA_ROOT_SECRET}

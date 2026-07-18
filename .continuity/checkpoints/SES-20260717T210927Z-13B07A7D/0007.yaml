@@ -1,0 +1,858 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0007
+session_id: SES-20260717T210927Z-13B07A7D
+sequence: 7
+created_at: '2026-07-18T00:00:56Z'
+summary: 完成CR-0024至CR-0026治理实现：跨电脑Git transport恢复与不可绕过推送预检、Sol/Terra/Luna模型分级、obx-test既有云环境强制预检、Context Pack无状态重建及生命周期测试适配
+next_step: 运行严格文档/连续性门禁，完成CR状态，提交全项目变更并通过pre-push安全推送task/TASK-R02-002
+blockers: []
+decisions:
+- 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有环境可用；预检失败只阻断报告，禁止无服务器开发或重建本地Android SDK
+- 复杂高风险使用Sol、中等使用Terra、轻量使用Luna；本运行时Luna不可用时审计回退Terra low且不得伪称
+- Git remote/upstream以config/REPOSITORY_TRANSPORT.yaml为非秘密事实源，Hook必须绑定Git实际push remote/URL并拒绝force、漂移、behind/diverged
+note: ''
+tests:
+- name: git-transport
+  result: PASS
+  evidence: tests/test_git_transport_recovery.py
+  note: 8项本地bare恢复和推送安全测试通过，不访问GitHub
+- name: model-cloud-policy
+  result: PASS
+  evidence: tests/test_model_routing.py+tests/test_cloud_environment.py
+  note: 6项模型路由与云端预检mock测试通过
+- name: cloud-real-preflight
+  result: PASS
+  evidence: obx-test:ebs-178264
+  note: 固定Android image ID和Gradle cache只读验证通过
+- name: continuity-lifecycle
+  result: PASS
+  evidence: artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  note: 14项真实Git生命周期通过
+- name: repository-only-reconstruction
+  result: PASS
+  evidence: artifacts/validation/continuity-integration-v1.2.3.json
+  note: 11项Bundle/Handoff无对话重建通过
+- name: context-policy
+  result: PASS
+  evidence: tests/test_context_pack_parallel_policy.py
+  note: Context携带并行、模型、云端与Git descriptor
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: bdebdcadf025e8ce3f6d1703a3eaea097f45a7c1
+  upstream: origin/task/TASK-R02-002
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/CONTINUITY_POLICY.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M .continuity/sessions/SES-20260717T204616Z-254B60A3.yaml'
+  - ' M .githooks/pre-push'
+  - ' M .github/workflows/continuity-gate.yml'
+  - ' M .gitignore'
+  - ' M AGENTS.md'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M PROJECT_MANIFEST.yaml'
+  - ' M README.md'
+  - ' M START_HERE.md'
+  - ' M apps/android/README.md'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+  - ' M apps/android/core/network/build.gradle.kts'
+  - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt'
+  - ' M apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt'
+  - ' M apps/android/gradle/libs.versions.toml'
+  - ' M apps/android/settings.gradle.kts'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M config/CONTINUITY_POLICY.yaml'
+  - ' M docs/03-continuity/CHECKPOINT_SCHEMA.yaml'
+  - ' M docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml'
+  - ' M docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md'
+  - ' M docs/03-continuity/并行加速开发运行手册_V1.0.md'
+  - ' M docs/03-continuity/无状态接续运行手册_V1.2.3.md'
+  - ' M releases/PROGRAM_EXECUTION_PLAN.yaml'
+  - ' M releases/R02/PARALLEL_EXECUTION_PLAN.yaml'
+  - ' M releases/R03/PARALLEL_EXECUTION_PLAN.yaml'
+  - ' M releases/R04/PARALLEL_EXECUTION_PLAN.yaml'
+  - ' M scripts/check_program_execution_plan.py'
+  - ' M scripts/check_v123_continuity.py'
+  - ' M scripts/continuity.py'
+  - ' M scripts/continuity_gate.py'
+  - ' M scripts/continuity_lib.py'
+  - ' M scripts/generate_program_execution_plan.py'
+  - ' M scripts/prepare_parallel_worktrees.ps1'
+  - ' M scripts/run_continuity_self_test.py'
+  - ' M scripts/test_continuity_protocol.py'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java'
+  - ' M services/backend/boot/src/main/resources/application.yml'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java'
+  - ' M services/backend/boot/src/test/resources/application-test.yml'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java'
+  - ' M templates/AGENTS.md'
+  - ' M templates/START_HERE.md'
+  - ' M tests/test_continuity_bootstrap_recovery.py'
+  - ' M tests/test_continuity_cross_release_close.py'
+  - ' M tests/test_parallel_worktrees.py'
+  - ' M tests/test_program_execution_plan.py'
+  - ?? .continuity/change_requests/CR-0021.yaml
+  - ?? .continuity/change_requests/CR-0022.yaml
+  - ?? .continuity/change_requests/CR-0023.yaml
+  - ?? .continuity/change_requests/CR-0024.yaml
+  - ?? .continuity/change_requests/CR-0025.yaml
+  - ?? .continuity/change_requests/CR-0026.yaml
+  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0002.yaml
+  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0003.yaml
+  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0004.yaml
+  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0005.yaml
+  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0006.yaml
+  - ?? .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
+  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
+  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
+  - ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
+  - ?? apps/android/feature/startup/build.gradle.kts
+  - ?? apps/android/feature/startup/src/main/AndroidManifest.xml
+  - ?? apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - ?? config/DEVELOPMENT_RUNTIME.yaml
+  - ?? config/REPOSITORY_TRANSPORT.yaml
+  - ?? docs/03-continuity/change-requests/CR-0021-将1主控加3执行代理设为跨AI跨设备默认自动并行规则.md
+  - ?? docs/03-continuity/change-requests/CR-0022-补齐并行长期授权的模板与跨设备恢复回归.md
+  - ?? docs/03-continuity/change-requests/CR-0023-补齐Checkpoint并行决策的提交门禁与兼容回归.md
+  - ?? docs/03-continuity/change-requests/CR-0024-固化跨电脑Git推送、模型分级与云端既有环境前置规则.md
+  - ?? docs/03-continuity/change-requests/CR-0025-绑定Git-pre-push实际目标以消除跨remote绕过.md
+  - ?? docs/03-continuity/change-requests/CR-0026-让连续性生命周期演练使用真实本地transport.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
+  - ?? scripts/restore_git_transport.py
+  - ?? scripts/select_execution_profile.py
+  - ?? scripts/verify_cloud_environment.py
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthProperties.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserIdempotencySnapshotCipher.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
+  - ?? services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppLatestView.java
+  - ?? tests/test_cloud_environment.py
+  - ?? tests/test_context_pack_parallel_policy.py
+  - ?? tests/test_git_transport_recovery.py
+  - ?? tests/test_model_routing.py
+  - ?? tests/test_parallel_checkpoint_policy.py
+  recent_commits:
+  - "bdebdcadf025e8ce3f6d1703a3eaea097f45a7c1\t2026-07-18T04:48:14+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): pause TASK-R02-002\
+    \ after planning"
+  - "6cbd84a9f6c225d832fc89a4bd819cb03c5d1b93\t2026-07-18T04:44:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(plan): close project\
+    \ planning change requests"
+  - "f9f06a6cc1ffa68c4a8aaa3c21a522811726838a\t2026-07-18T04:42:50+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] docs(plan): establish R02-R32\
+    \ rolling execution plan"
+  - "3e5e39d7ef1501cc6d93856cde11fb880dfcc21e\t2026-07-18T04:06:37+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close TASK-R02-001\
+    \ as completed"
+  - "5aa51aef6db3889e339b41ef0d2831bace30d9dc\t2026-07-18T04:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(dev): close acceleration\
+    \ change request"
+  - "cd44628d800b0369c286093d0f5e4c69de67a54b\t2026-07-18T03:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(continuity): skip docs\
+    \ for runtime records"
+  - "919b095307a366c88c1cd0c6c0b48c4f03dff574\t2026-07-18T03:36:23+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(continuity): limit first\
+    \ push validation range"
+  - "c19f6d6259801d785dc70eb2a81dfac5c41278ec\t2026-07-18T03:28:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(dev): establish parallel\
+    \ acceleration baseline"
+project_fingerprint:
+  sha256: 63e45b5ea12225653822157ecdb72cbe5af26e455bdce1fc0d4922f9312710a4
+  files:
+  - .githooks/pre-push
+  - .github/workflows/continuity-gate.yml
+  - .gitignore
+  - AGENTS.md
+  - CHANGELOG.md
+  - PROJECT_MANIFEST.yaml
+  - README.md
+  - START_HERE.md
+  - apps/android/README.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
+  - apps/android/feature/startup/build.gradle.kts
+  - apps/android/feature/startup/src/main/AndroidManifest.xml
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/settings.gradle.kts
+  - config/CONTINUITY_POLICY.yaml
+  - config/DEVELOPMENT_RUNTIME.yaml
+  - config/REPOSITORY_TRANSPORT.yaml
+  - config/test-impact-map.yaml
+  - docs/03-continuity/CHECKPOINT_SCHEMA.yaml
+  - docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml
+  - docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
+  - docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md
+  - docs/03-continuity/change-requests/CR-0021-将1主控加3执行代理设为跨AI跨设备默认自动并行规则.md
+  - docs/03-continuity/change-requests/CR-0022-补齐并行长期授权的模板与跨设备恢复回归.md
+  - docs/03-continuity/change-requests/CR-0023-补齐Checkpoint并行决策的提交门禁与兼容回归.md
+  - docs/03-continuity/change-requests/CR-0024-固化跨电脑Git推送、模型分级与云端既有环境前置规则.md
+  - docs/03-continuity/change-requests/CR-0025-绑定Git-pre-push实际目标以消除跨remote绕过.md
+  - docs/03-continuity/change-requests/CR-0026-让连续性生命周期演练使用真实本地transport.md
+  - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+  - docs/03-continuity/并行加速开发运行手册_V1.0.md
+  - docs/03-continuity/无状态接续运行手册_V1.2.3.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R02/TASKS.yaml
+  - releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R03/RELEASE_MANIFEST.yaml
+  - releases/R03/TASKS.yaml
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R04/RELEASE_MANIFEST.yaml
+  - releases/R04/TASKS.yaml
+  - releases/R32/RELEASE_MANIFEST.yaml
+  - releases/RELEASE_DEPENDENCIES.yaml
+  - scripts/check_program_execution_plan.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/generate_program_execution_plan.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - scripts/restore_git_transport.py
+  - scripts/run_continuity_self_test.py
+  - scripts/select_execution_profile.py
+  - scripts/test_continuity_protocol.py
+  - scripts/verify_cloud_environment.py
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserIdempotencySnapshotCipher.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppLatestView.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
+  - templates/AGENTS.md
+  - templates/START_HERE.md
+  - tests/test_cloud_environment.py
+  - tests/test_context_pack_parallel_policy.py
+  - tests/test_continuity_bootstrap_recovery.py
+  - tests/test_continuity_cross_release_close.py
+  - tests/test_git_transport_recovery.py
+  - tests/test_model_routing.py
+  - tests/test_parallel_checkpoint_policy.py
+  - tests/test_parallel_worktrees.py
+  - tests/test_program_execution_plan.py
+  file_count: 91
+  payload:
+    base_commit: 3e5e39d7ef1501cc6d93856cde11fb880dfcc21e
+    files:
+    - path: .githooks/pre-push
+      state: FILE
+      size: 246
+      sha256: 8ea08d11764a313318fef560694cbf6db45f34ee96561c060c693664b3993d27
+    - path: .github/workflows/continuity-gate.yml
+      state: FILE
+      size: 1831
+      sha256: b2be6728f06a49ac657539117fdafa8935288f58efdbb0ab3da749572b5de249
+    - path: .gitignore
+      state: FILE
+      size: 569
+      sha256: 55f7d851615d433872632b5c60ac40e2f7beee053892f81a846f657f6566b9af
+    - path: AGENTS.md
+      state: FILE
+      size: 6312
+      sha256: 823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871
+    - path: CHANGELOG.md
+      state: FILE
+      size: 14094
+      sha256: e3a8abb994728a0429574f5f7b64400c062faca3366357b9134412f06fdd6dad
+    - path: PROJECT_MANIFEST.yaml
+      state: FILE
+      size: 2320
+      sha256: 4aeaf4e07aef59ee00323b72c7de6262995386c3980077f3dcb011c3f1117a6f
+    - path: README.md
+      state: FILE
+      size: 1943
+      sha256: 20dbd3407f234097ac822d66e389c803e367019b64fffcdbadf3839190c5aa71
+    - path: START_HERE.md
+      state: FILE
+      size: 3190
+      sha256: 26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0
+    - path: apps/android/README.md
+      state: FILE
+      size: 2410
+      sha256: 51f8c5d8a5202d9348ba631c9ec140ee5d43d89c281ab7156f24a00f927890c5
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 3104
+      sha256: 83730914cdd1f22570225a41021f02da3dfcb14ab53eac293f22992cfd77cc7f
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 1669
+      sha256: 9b236a004da4b3025192d29130302522b22a1e62b494821919ddab7030a88423
+    - path: apps/android/core/network/build.gradle.kts
+      state: FILE
+      size: 494
+      sha256: 2f809cfd7e89d1b60bcaefcc74076ca448c92ba9b0c23a7f1c115782ab9325c5
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+      state: FILE
+      size: 1930
+      sha256: e985b03f96d359bddac0045d7ac433407a3c3ca0b53b8aa15e76c41dcf783c6d
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
+      state: FILE
+      size: 2654
+      sha256: 235a8f4798e02f78dce2c6682b51fc4c4f3148d90b064033639e55fa4e2fb222
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
+      state: FILE
+      size: 3272
+      sha256: 0856533c514b3c775ff130c53b127a5d738fb611dbad6af65741331bf09963f4
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+      state: FILE
+      size: 4810
+      sha256: 0aca8485b96f6cb8af3ca9f7b6d70ee83b0af900934a3c7a4f310c940ab430fd
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
+      state: FILE
+      size: 4568
+      sha256: a7c7ea6cc296436aa1cfcee6581b28c8ef2d697adbb4a9e3e3f4dbbe31ff804c
+    - path: apps/android/feature/startup/build.gradle.kts
+      state: FILE
+      size: 978
+      sha256: da84be88c155004e2221a517517718e63b498b40b56d9c1cfa24b53110eddf5b
+    - path: apps/android/feature/startup/src/main/AndroidManifest.xml
+      state: FILE
+      size: 52
+      sha256: daa0fb1f32ba7ea85a07ef6302ab3d58c3407d7fd2aa03ec132cb9e38e8d9849
+    - path: apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+      state: FILE
+      size: 5065
+      sha256: 4f7be59fff47c690daeefd68e722b8e5baa3bccd57bd63294f67da3c45476dc3
+    - path: apps/android/gradle/libs.versions.toml
+      state: FILE
+      size: 1940
+      sha256: 9bbd9b95cea7a6fa5ba42344a8bc07611a23af835e1774be35f6c615dd298f80
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 440
+      sha256: 4def225b6fc75e0c8d174f67d84f8625333b3f41886e81077a69f537b063824a
+    - path: config/CONTINUITY_POLICY.yaml
+      state: FILE
+      size: 1890
+      sha256: dd485415373b6f9e830e3cf213717715668a32a1e080fe162df1355f061e024a
+    - path: config/DEVELOPMENT_RUNTIME.yaml
+      state: FILE
+      size: 1185
+      sha256: ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244
+    - path: config/REPOSITORY_TRANSPORT.yaml
+      state: FILE
+      size: 923
+      sha256: 383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407
+    - path: config/test-impact-map.yaml
+      state: FILE
+      size: 5203
+      sha256: ca7314be13ff6181ee303e49a792ff90aa15bc49c4000a3f76fb804605d6c888
+    - path: docs/03-continuity/CHECKPOINT_SCHEMA.yaml
+      state: FILE
+      size: 624
+      sha256: bbc0e616c4762bf3d7817d001e46bb13a21bf7be967d1dae6e099ea8b0fdf9e8
+    - path: docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml
+      state: FILE
+      size: 1650
+      sha256: c31bdf68b336a243144991d52e8d7967e6d78272cfd7d1463c66028dcae53715
+    - path: docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
+      state: FILE
+      size: 3611
+      sha256: 4cacbe331c6591b0701ebaef11bb67567f831baf4d5fa3fd443c68c0d7465fc8
+    - path: docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md
+      state: FILE
+      size: 3581
+      sha256: 62beadfa0bcedbb97d6e763ed08b26d2ed8a76317716783cd1118a313f66706e
+    - path: docs/03-continuity/change-requests/CR-0021-将1主控加3执行代理设为跨AI跨设备默认自动并行规则.md
+      state: FILE
+      size: 5359
+      sha256: 5ef2b90effc14bd5b5b8ab561dc10a597ebd1061a3836a3d937e1f1ac7738ae8
+    - path: docs/03-continuity/change-requests/CR-0022-补齐并行长期授权的模板与跨设备恢复回归.md
+      state: FILE
+      size: 2623
+      sha256: 91d691e4af81cb60b2e22ea70a134cb078e35d6251e2fc4756610103e70d9db0
+    - path: docs/03-continuity/change-requests/CR-0023-补齐Checkpoint并行决策的提交门禁与兼容回归.md
+      state: FILE
+      size: 2801
+      sha256: b0734e703b061430abc50bc65412f10f99d46c317e40097abbcb78b720468aa7
+    - path: docs/03-continuity/change-requests/CR-0024-固化跨电脑Git推送、模型分级与云端既有环境前置规则.md
+      state: FILE
+      size: 5142
+      sha256: 509dc3406013babf537e5132407a01ab29859d68409a161f523252756707ff21
+    - path: docs/03-continuity/change-requests/CR-0025-绑定Git-pre-push实际目标以消除跨remote绕过.md
+      state: FILE
+      size: 2249
+      sha256: 7c62a821b028501de500a422693708af2fdf6711f05c93865aebceee341d109a
+    - path: docs/03-continuity/change-requests/CR-0026-让连续性生命周期演练使用真实本地transport.md
+      state: FILE
+      size: 2028
+      sha256: 6af3fe4c9a0c00944f75ab8fc2242185e24c83f87d1e8974685bedbced09f6b4
+    - path: docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+      state: FILE
+      size: 14346
+      sha256: 5351e14f2edb0072bb41216ab06ece18b6a70ac287c1cf11f55f5365f1777abf
+    - path: docs/03-continuity/并行加速开发运行手册_V1.0.md
+      state: FILE
+      size: 6312
+      sha256: 77f9825e8e4a9db0fc25aa58e64ce499a22fb5b8cb28acc1f12a0b5048b102da
+    - path: docs/03-continuity/无状态接续运行手册_V1.2.3.md
+      state: FILE
+      size: 6304
+      sha256: 415b96bb9b2fe71d60a628c1d425c05fb73ebf54d2800955232c198c079b6c3a
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 35804
+      sha256: 6d427b3a9a095ae17f8676da8c92ec1f8d21679f7a00e6f898bf1971cf6112fc
+    - path: releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 2761
+      sha256: c9a4e55f52dead941a18be96a38428a375eb6cb48db4f1e996db6ebcd134c33c
+    - path: releases/R02/TASKS.yaml
+      state: FILE
+      size: 7401
+      sha256: 048d5453a94058ef04b704a67d55ad28182d040eee384d4d65794e19c90a949a
+    - path: releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 3566
+      sha256: 1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39
+    - path: releases/R03/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3921
+      sha256: d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318
+    - path: releases/R03/TASKS.yaml
+      state: FILE
+      size: 6946
+      sha256: 3174139a7f38e481b1b9eaf6aede6c8d2933ec23a35d34c756825f469666d20c
+    - path: releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 3147
+      sha256: ab61f6d841c9b7b0627a7c55afe1b9959b724aed2f143ac158527b6e44214214
+    - path: releases/R04/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 2484
+      sha256: c897c4706cdcb53bde1c053a6515a12fbad0fc3f01b24ae891b7426df203f3c6
+    - path: releases/R04/TASKS.yaml
+      state: FILE
+      size: 6100
+      sha256: 3c50b02ed3601ee5756d4383b6f1fe8f15f94a450905de68c2fd5ea2a71d8ccb
+    - path: releases/R32/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 2953
+      sha256: 79a286c42539c25b5168c36508ec0279fb902adc64040ae1e375d3beb63b72aa
+    - path: releases/RELEASE_DEPENDENCIES.yaml
+      state: FILE
+      size: 1846
+      sha256: 7fdd2ee6b1f8a1f2b8f14d1eeb399916f42d8eb3846efc032342cb926a0d15e6
+    - path: scripts/check_program_execution_plan.py
+      state: FILE
+      size: 9334
+      sha256: 9313c81f40d4748220a38ae4631985a46899a6b2734c8951a961f518a4551839
+    - path: scripts/check_v123_continuity.py
+      state: FILE
+      size: 32361
+      sha256: dcec17658451e02e88318688229623f8eb45ff6f87b640048cb455c8c086a042
+    - path: scripts/continuity.py
+      state: FILE
+      size: 58799
+      sha256: 73b7728e0f3e76909d191ec6094642786d6a91501f46467aa71df19fe6bdb7d7
+    - path: scripts/continuity_gate.py
+      state: FILE
+      size: 40601
+      sha256: 96756dc8b02037319ae69e27d67649585ee73bd3f2dfe62c5e910d1b32bd8035
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 108327
+      sha256: 71c0f466d3d8fe01acc853ed1ead9e37142cad0a1709ab234d33b0c60eba9a9c
+    - path: scripts/generate_program_execution_plan.py
+      state: FILE
+      size: 16246
+      sha256: 0e9b95f0b4a7d5993a2d94dafc629dd1b95cc73d02020239365230f4a089aada
+    - path: scripts/prepare_parallel_worktrees.ps1
+      state: FILE
+      size: 9061
+      sha256: 677546370f5995fb85e80159f63e0e87deca4aecb99ce7fce3b54cf0cc06e372
+    - path: scripts/restore_git_transport.py
+      state: FILE
+      size: 21280
+      sha256: 494a8dcfe657c861f6e3058c1d8455453e60688341b7eb40f1ad320c70086f34
+    - path: scripts/run_continuity_self_test.py
+      state: FILE
+      size: 10327
+      sha256: 3676ec60854ada225075b979cc59a3828008449e490c43027ae2a3a2dda1d197
+    - path: scripts/select_execution_profile.py
+      state: FILE
+      size: 3407
+      sha256: 2e38626f57171f0529bd3780c52dc7609c06967e2fb28ca4541baa2374acef56
+    - path: scripts/test_continuity_protocol.py
+      state: FILE
+      size: 26547
+      sha256: ca9a2bcc1a907f8d320cb78cc3116ff694380485040cc09a6af89dd2590e293d
+    - path: scripts/verify_cloud_environment.py
+      state: FILE
+      size: 3699
+      sha256: e6166a0bd556b37455947825cc7d6673063a6cdd05735ace9d7493bb9fbb0b42
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+      state: FILE
+      size: 319
+      sha256: ac6052b3b4c9db6d13a743e66164ce266374f0244b2e3422f4e7a05d7c106814
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+      state: FILE
+      size: 947
+      sha256: 5adf4ea30aaed0645ccccf525e06d34b929701694be8842cde766bd6f7255568
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthProperties.java
+      state: FILE
+      size: 1138
+      sha256: 56769de77f3fb8253014eee35fb24bddaf860a270eb05a9455013fbc07b038c9
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+      state: FILE
+      size: 7119
+      sha256: 6d503aa188912cb9860e79b872084a77bb17f1ec90af23f84c9176d33fadf3a4
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+      state: FILE
+      size: 5111
+      sha256: 6f7de4a36f72f34d5744c44551c7f53cd0f6689c9cb48f0dac1949be8e5a4777
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserIdempotencySnapshotCipher.java
+      state: FILE
+      size: 6074
+      sha256: 0c3053880ddf726ed9629432f2a1d598b73a8febb6deeef286229619c85f17c4
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+      state: FILE
+      size: 4283
+      sha256: 7b9399fb434b82d820b969f32ae18abf5866d500e64cc93adc66664615b809f9
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+      state: FILE
+      size: 2509
+      sha256: b9a825dac561978ef67a2cd53e0aa22a3bce63cf6180f435d465d487f2cd3396
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+      state: FILE
+      size: 1869
+      sha256: 79ca742f0f8eca9d8546db40e7197dceb6859ff13b1b8618a07f4f14469915d7
+    - path: services/backend/boot/src/main/resources/application.yml
+      state: FILE
+      size: 2788
+      sha256: ac03c5a8086d07d736ec0aa3a1ef3350ba3bb521040b09249dc5ca4e183c62af
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
+      state: FILE
+      size: 9082
+      sha256: dc5ecb891779a774425556484ac0c58fa975013fcbe9dc5744403a3b6a2e13cd
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+      state: FILE
+      size: 8549
+      sha256: d4a538268a0c2a700cbd472a646d351688a6f33dd6a4cfbbb15f51d4e9aa030a
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
+      state: FILE
+      size: 3762
+      sha256: 4ebe594257d16a7630ba05afd8bdd7dfef28d2b4da45ffc7a6f692459302c49e
+    - path: services/backend/boot/src/test/resources/application-test.yml
+      state: FILE
+      size: 1397
+      sha256: 7047f5f23719354e4b07fa4bfef2844b911c568527012a2d77b00e94523c598e
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppLatestView.java
+      state: FILE
+      size: 385
+      sha256: 3670c9420ad89f486a756cc80ce2ac9abaaf893fb8e79e282d0b0d4387dfc128
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java
+      state: FILE
+      size: 2009
+      sha256: 7d26cfa6e2c0175d17ff173bb19696cc5a4fc352916b13dc961f86ebc9d05c4e
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java
+      state: FILE
+      size: 4492
+      sha256: 783a7c91f477278abf01c607d3a82ae22c176ba4ff9648062162c34f237c8ed3
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
+      state: FILE
+      size: 4112
+      sha256: d16f0ee193b069b8a25a31ac2b58f3427945d0a3affd63cae018df2647887287
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 6312
+      sha256: 823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871
+    - path: templates/START_HERE.md
+      state: FILE
+      size: 3190
+      sha256: 26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0
+    - path: tests/test_cloud_environment.py
+      state: FILE
+      size: 2537
+      sha256: 236f930e65ddf86951e5f00c5f1f20a290a4409cbc0a20ff40cb6d685bdc3b47
+    - path: tests/test_context_pack_parallel_policy.py
+      state: FILE
+      size: 2619
+      sha256: 3ccb6835a80609f981ca42dfdf8a0d763f7f5648615945b3090d28ce56c83be6
+    - path: tests/test_continuity_bootstrap_recovery.py
+      state: FILE
+      size: 11090
+      sha256: d3457d1a180401a6d0fc7e5fb199ac8bf44da32583c7af9303734ffb59c2489f
+    - path: tests/test_continuity_cross_release_close.py
+      state: FILE
+      size: 12508
+      sha256: 081ceac4d40542eb58aa4ab9ab2ffbe99b9add96ed511498445c36cf256b10ed
+    - path: tests/test_git_transport_recovery.py
+      state: FILE
+      size: 10734
+      sha256: cbe81575a84ab637d8fd6477e2dd66dce060538cc1c0d9c1a6232ba3e818ad00
+    - path: tests/test_model_routing.py
+      state: FILE
+      size: 1461
+      sha256: 75a398cd625cf4396befc0599a7ff34522288028b223e213a1b0bfc63e54d754
+    - path: tests/test_parallel_checkpoint_policy.py
+      state: FILE
+      size: 2531
+      sha256: b07283e7bbc68604a1fbffbbd7d1b475fcc0462bfacd89dd67184cfe2c236aa2
+    - path: tests/test_parallel_worktrees.py
+      state: FILE
+      size: 6125
+      sha256: 028911d44aeff341acf6a709b43f1f667e845ad57e269eb2138011b85736e46e
+    - path: tests/test_program_execution_plan.py
+      state: FILE
+      size: 2493
+      sha256: 2698bb95eb78e7870bbaea3663b0475680aa6dd1a1ec15454f171e69a8d0d635
+change_classification:
+  infrastructure:
+  - .githooks/pre-push
+  - .github/workflows/continuity-gate.yml
+  other:
+  - .gitignore
+  - AGENTS.md
+  - CHANGELOG.md
+  - PROJECT_MANIFEST.yaml
+  - config/CONTINUITY_POLICY.yaml
+  - config/DEVELOPMENT_RUNTIME.yaml
+  - config/REPOSITORY_TRANSPORT.yaml
+  - config/test-impact-map.yaml
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R02/TASKS.yaml
+  - releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R03/TASKS.yaml
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R04/TASKS.yaml
+  - releases/RELEASE_DEPENDENCIES.yaml
+  - templates/AGENTS.md
+  - templates/START_HERE.md
+  user_visible:
+  - README.md
+  - START_HERE.md
+  - apps/android/README.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
+  - apps/android/feature/startup/build.gradle.kts
+  - apps/android/feature/startup/src/main/AndroidManifest.xml
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/settings.gradle.kts
+  code:
+  - apps/android/README.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
+  - apps/android/feature/startup/build.gradle.kts
+  - apps/android/feature/startup/src/main/AndroidManifest.xml
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/settings.gradle.kts
+  - scripts/check_program_execution_plan.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/generate_program_execution_plan.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - scripts/restore_git_transport.py
+  - scripts/run_continuity_self_test.py
+  - scripts/select_execution_profile.py
+  - scripts/test_continuity_protocol.py
+  - scripts/verify_cloud_environment.py
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserIdempotencySnapshotCipher.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
+  - services/backend/boot/src/test/resources/application-test.yml
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppLatestView.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
+  continuity:
+  - docs/03-continuity/CHECKPOINT_SCHEMA.yaml
+  - docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml
+  - docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
+  - docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md
+  - docs/03-continuity/change-requests/CR-0021-将1主控加3执行代理设为跨AI跨设备默认自动并行规则.md
+  - docs/03-continuity/change-requests/CR-0022-补齐并行长期授权的模板与跨设备恢复回归.md
+  - docs/03-continuity/change-requests/CR-0023-补齐Checkpoint并行决策的提交门禁与兼容回归.md
+  - docs/03-continuity/change-requests/CR-0024-固化跨电脑Git推送、模型分级与云端既有环境前置规则.md
+  - docs/03-continuity/change-requests/CR-0025-绑定Git-pre-push实际目标以消除跨remote绕过.md
+  - docs/03-continuity/change-requests/CR-0026-让连续性生命周期演练使用真实本地transport.md
+  - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+  - docs/03-continuity/并行加速开发运行手册_V1.0.md
+  - docs/03-continuity/无状态接续运行手册_V1.2.3.md
+  source_of_truth:
+  - releases/R03/RELEASE_MANIFEST.yaml
+  - releases/R04/RELEASE_MANIFEST.yaml
+  - releases/R32/RELEASE_MANIFEST.yaml
+  tests:
+  - tests/test_cloud_environment.py
+  - tests/test_context_pack_parallel_policy.py
+  - tests/test_continuity_bootstrap_recovery.py
+  - tests/test_continuity_cross_release_close.py
+  - tests/test_git_transport_recovery.py
+  - tests/test_model_routing.py
+  - tests/test_parallel_checkpoint_policy.py
+  - tests/test_parallel_worktrees.py
+  - tests/test_program_execution_plan.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0019
+- CR-0020
+- CR-0021
+- CR-0022
+- CR-0023
+- CR-0024
+- CR-0025
+- CR-0026
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - STORY-R02-003,STORY-R02-004及其直接实现、测试与生成契约
+  approved_exceptions:
+  - AGENTS.md
+  - START_HERE.md
+  - .continuity/CONTINUITY_POLICY.yaml
+  - config/CONTINUITY_POLICY.yaml
+  - templates/AGENTS.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  - scripts/generate_program_execution_plan.py
+  - scripts/check_program_execution_plan.py
+  - tests/test_program_execution_plan.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - tests/test_parallel_worktrees.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  - scripts/test_continuity_protocol.py
+  - docs/03-continuity/CHECKPOINT_SCHEMA.yaml
+  - docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml
+  - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+  - docs/03-continuity/并行加速开发运行手册_V1.0.md
+  - artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - artifacts/context/CURRENT_CONTEXT_PACK.md
+  - artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - MANIFEST_SHA256.txt
+  - CHANGELOG.md
+  - templates/START_HERE.md
+  - scripts/run_continuity_self_test.py
+  - tests/test_context_pack_parallel_policy.py
+  - scripts/continuity_gate.py
+  - tests/test_continuity_bootstrap_recovery.py
+  - tests/test_continuity_cross_release_close.py
+  - tests/test_parallel_checkpoint_policy.py
+  - README.md
+  - .gitignore
+  - config/REPOSITORY_TRANSPORT.yaml
+  - config/DEVELOPMENT_RUNTIME.yaml
+  - PROJECT_MANIFEST.yaml
+  - apps/android/README.md
+  - scripts/restore_git_transport.py
+  - scripts/select_execution_profile.py
+  - scripts/verify_cloud_environment.py
+  - tests/test_git_transport_recovery.py
+  - tests/test_model_routing.py
+  - tests/test_cloud_environment.py
+  - docs/03-continuity/无状态接续运行手册_V1.2.3.md
+  - .github/workflows/continuity-gate.yml
+  - .githooks/pre-push
+  source: story+explicit+approved-cr:CR-0021+approved-cr:CR-0022+approved-cr:CR-0023+approved-cr:CR-0024+approved-cr:CR-0025+approved-cr:CR-0026
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: git-transport
+    responsibility: Git transport恢复、推送安全与本地bare回归，实际Sol high
+    allowed_paths:
+    - config/REPOSITORY_TRANSPORT.yaml
+    - scripts/restore_git_transport.py
+    - tests/test_git_transport_recovery.py
+    - scripts/continuity_gate.py
+  - worker_id: runtime-policy
+    responsibility: 模型分级与云端既有环境门禁，实际Terra medium
+    allowed_paths:
+    - config/DEVELOPMENT_RUNTIME.yaml
+    - scripts/select_execution_profile.py
+    - scripts/verify_cloud_environment.py
+    - tests/test_model_routing.py
+    - tests/test_cloud_environment.py
+  reason: 实际委托2个路径互斥执行代理；第三个轻量文档代理因并发线程槽被既有失败线程占用而无法启动，主控串行完成文档与最终集成；Luna当前不可用，轻量档位按策略记录Terra low回退。
+event_hash: f0d07eeeb55eb332dae60b37aba7107913999c6e6906c27f24b2ff02f10f3222

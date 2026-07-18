@@ -1,0 +1,366 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0002
+session_id: SES-20260717T210927Z-13B07A7D
+sequence: 2
+created_at: '2026-07-17T21:39:58Z'
+summary: 完成STORY-R02-003启动门禁纵向切片：新增正式发布latest接口、Android HTTPS客户端、StartupGate状态机、Compose启动页与测试
+next_step: 复用P00/R01云端镜像hhy-android-toolchain:r01-46fb273完成Android testDebugUnitTest lintDebug assembleDebug；并继续实现authPostAuthRefresh真实会话刷新闭环
+blockers:
+- 当前Windows会话缺少obx-test既有SSH连接配置；禁止重建本地Android SDK，需恢复P00/R01云端入口或使用现有CI
+decisions:
+- Android验证必须优先复用既有P00/R01云端工具链镜像，不重复搭建本地SDK
+note: Android新增代码尚无真实Kotlin编译证据；先前仅在C:\tmp创建临时JDK/SDK目录，未修改云服务器、注册表或仓库，也未安装API 37/Build Tools
+tests:
+- name: backend-java21-suite
+  result: PASS
+  evidence: Maven全套79 tests, 0 failures, 0 errors, 2 PostgreSQL条件测试skipped
+  note: 包含/public-api/v1/app/latest真实HTTP 200集成验证
+- name: api-contracts
+  result: PASS
+  evidence: client 131, admin 184, WebSocket 10
+  note: 冻结契约通过
+- name: database-static
+  result: PASS
+  evidence: 198 tables, 16 migrations
+  note: 数据库结构门禁通过
+- name: generated-assets
+  result: PASS
+  evidence: 生成资产检查
+  note: 运行时契约资产同步
+- name: r02-strict-doc-gate
+  result: PASS
+  evidence: 0 errors, 0 warnings
+  note: R02严格文档门禁通过
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: bdebdcadf025e8ce3f6d1703a3eaea097f45a7c1
+  upstream: origin/task/TASK-R02-002
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M .continuity/sessions/SES-20260717T204616Z-254B60A3.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+  - ' M apps/android/core/network/build.gradle.kts'
+  - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt'
+  - ' M apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt'
+  - ' M apps/android/gradle/libs.versions.toml'
+  - ' M apps/android/settings.gradle.kts'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java'
+  - ' M services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java'
+  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0001.yaml
+  - ?? .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
+  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
+  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
+  - ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
+  - ?? apps/android/feature/startup/build.gradle.kts
+  - ?? apps/android/feature/startup/src/main/AndroidManifest.xml
+  - ?? apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
+  - ?? services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppLatestView.java
+  recent_commits:
+  - "bdebdcadf025e8ce3f6d1703a3eaea097f45a7c1\t2026-07-18T04:48:14+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): pause TASK-R02-002\
+    \ after planning"
+  - "6cbd84a9f6c225d832fc89a4bd819cb03c5d1b93\t2026-07-18T04:44:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(plan): close project\
+    \ planning change requests"
+  - "f9f06a6cc1ffa68c4a8aaa3c21a522811726838a\t2026-07-18T04:42:50+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] docs(plan): establish R02-R32\
+    \ rolling execution plan"
+  - "3e5e39d7ef1501cc6d93856cde11fb880dfcc21e\t2026-07-18T04:06:37+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(continuity): close TASK-R02-001\
+    \ as completed"
+  - "5aa51aef6db3889e339b41ef0d2831bace30d9dc\t2026-07-18T04:01:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(dev): close acceleration\
+    \ change request"
+  - "cd44628d800b0369c286093d0f5e4c69de67a54b\t2026-07-18T03:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(continuity): skip docs\
+    \ for runtime records"
+  - "919b095307a366c88c1cd0c6c0b48c4f03dff574\t2026-07-18T03:36:23+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(continuity): limit first\
+    \ push validation range"
+  - "c19f6d6259801d785dc70eb2a81dfac5c41278ec\t2026-07-18T03:28:34+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] perf(dev): establish parallel\
+    \ acceleration baseline"
+project_fingerprint:
+  sha256: 764dc8ae711b1c35591fb005733806f386bb688e67892bb9ffb95cc4a900b30c
+  files:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
+  - apps/android/feature/startup/build.gradle.kts
+  - apps/android/feature/startup/src/main/AndroidManifest.xml
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/settings.gradle.kts
+  - config/test-impact-map.yaml
+  - docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
+  - docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md
+  - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R02/TASKS.yaml
+  - releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R03/RELEASE_MANIFEST.yaml
+  - releases/R03/TASKS.yaml
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R04/RELEASE_MANIFEST.yaml
+  - releases/R04/TASKS.yaml
+  - releases/R32/RELEASE_MANIFEST.yaml
+  - releases/RELEASE_DEPENDENCIES.yaml
+  - scripts/check_program_execution_plan.py
+  - scripts/generate_program_execution_plan.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppLatestView.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
+  - tests/test_program_execution_plan.py
+  file_count: 36
+  payload:
+    base_commit: 3e5e39d7ef1501cc6d93856cde11fb880dfcc21e
+    files:
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 3104
+      sha256: 83730914cdd1f22570225a41021f02da3dfcb14ab53eac293f22992cfd77cc7f
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 1669
+      sha256: 9b236a004da4b3025192d29130302522b22a1e62b494821919ddab7030a88423
+    - path: apps/android/core/network/build.gradle.kts
+      state: FILE
+      size: 494
+      sha256: 2f809cfd7e89d1b60bcaefcc74076ca448c92ba9b0c23a7f1c115782ab9325c5
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+      state: FILE
+      size: 1930
+      sha256: e985b03f96d359bddac0045d7ac433407a3c3ca0b53b8aa15e76c41dcf783c6d
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
+      state: FILE
+      size: 2654
+      sha256: 235a8f4798e02f78dce2c6682b51fc4c4f3148d90b064033639e55fa4e2fb222
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
+      state: FILE
+      size: 3272
+      sha256: 0856533c514b3c775ff130c53b127a5d738fb611dbad6af65741331bf09963f4
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+      state: FILE
+      size: 4810
+      sha256: 0aca8485b96f6cb8af3ca9f7b6d70ee83b0af900934a3c7a4f310c940ab430fd
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
+      state: FILE
+      size: 4568
+      sha256: a7c7ea6cc296436aa1cfcee6581b28c8ef2d697adbb4a9e3e3f4dbbe31ff804c
+    - path: apps/android/feature/startup/build.gradle.kts
+      state: FILE
+      size: 978
+      sha256: da84be88c155004e2221a517517718e63b498b40b56d9c1cfa24b53110eddf5b
+    - path: apps/android/feature/startup/src/main/AndroidManifest.xml
+      state: FILE
+      size: 52
+      sha256: daa0fb1f32ba7ea85a07ef6302ab3d58c3407d7fd2aa03ec132cb9e38e8d9849
+    - path: apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+      state: FILE
+      size: 5065
+      sha256: 4f7be59fff47c690daeefd68e722b8e5baa3bccd57bd63294f67da3c45476dc3
+    - path: apps/android/gradle/libs.versions.toml
+      state: FILE
+      size: 1940
+      sha256: 9bbd9b95cea7a6fa5ba42344a8bc07611a23af835e1774be35f6c615dd298f80
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 440
+      sha256: 4def225b6fc75e0c8d174f67d84f8625333b3f41886e81077a69f537b063824a
+    - path: config/test-impact-map.yaml
+      state: FILE
+      size: 5203
+      sha256: ca7314be13ff6181ee303e49a792ff90aa15bc49c4000a3f76fb804605d6c888
+    - path: docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
+      state: FILE
+      size: 3611
+      sha256: 4cacbe331c6591b0701ebaef11bb67567f831baf4d5fa3fd443c68c0d7465fc8
+    - path: docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md
+      state: FILE
+      size: 3581
+      sha256: 62beadfa0bcedbb97d6e763ed08b26d2ed8a76317716783cd1118a313f66706e
+    - path: docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+      state: FILE
+      size: 13751
+      sha256: cc4e5228c8a8c44edbcb2842a8330292c54703f9ad3bbc80b00d893a71faa3e5
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 35485
+      sha256: 6e7bb2bec611ff0ea359353ecbceec7594c4e987eaccd2cab858c3e135ab8adc
+    - path: releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 2459
+      sha256: 8cae594afb488230141c1bba966bcd38f826019788f088f2123650872748df20
+    - path: releases/R02/TASKS.yaml
+      state: FILE
+      size: 7401
+      sha256: 048d5453a94058ef04b704a67d55ad28182d040eee384d4d65794e19c90a949a
+    - path: releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 3264
+      sha256: 34227e64fee654e4af825fafba6a57982611de0f88765fd96c50b709ae4b7a3b
+    - path: releases/R03/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3921
+      sha256: d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318
+    - path: releases/R03/TASKS.yaml
+      state: FILE
+      size: 6946
+      sha256: 3174139a7f38e481b1b9eaf6aede6c8d2933ec23a35d34c756825f469666d20c
+    - path: releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 2845
+      sha256: 7e094f0929e642ad506160458832e5bfb903a79e581f4ca6313d6b9de882b114
+    - path: releases/R04/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 2484
+      sha256: c897c4706cdcb53bde1c053a6515a12fbad0fc3f01b24ae891b7426df203f3c6
+    - path: releases/R04/TASKS.yaml
+      state: FILE
+      size: 6100
+      sha256: 3c50b02ed3601ee5756d4383b6f1fe8f15f94a450905de68c2fd5ea2a71d8ccb
+    - path: releases/R32/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 2953
+      sha256: 79a286c42539c25b5168c36508ec0279fb902adc64040ae1e375d3beb63b72aa
+    - path: releases/RELEASE_DEPENDENCIES.yaml
+      state: FILE
+      size: 1846
+      sha256: 7fdd2ee6b1f8a1f2b8f14d1eeb399916f42d8eb3846efc032342cb926a0d15e6
+    - path: scripts/check_program_execution_plan.py
+      state: FILE
+      size: 8382
+      sha256: 9b728efcaccbe74cb7ae866ac5342ba64a456249485aa0b00cd136758d305978
+    - path: scripts/generate_program_execution_plan.py
+      state: FILE
+      size: 15477
+      sha256: 8b309da50a39d8a9fe08a5e66070570a4b8cefe929314594f7d9dea5fdc5cb42
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
+      state: FILE
+      size: 9082
+      sha256: dc5ecb891779a774425556484ac0c58fa975013fcbe9dc5744403a3b6a2e13cd
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppLatestView.java
+      state: FILE
+      size: 385
+      sha256: 3670c9420ad89f486a756cc80ce2ac9abaaf893fb8e79e282d0b0d4387dfc128
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java
+      state: FILE
+      size: 2009
+      sha256: 7d26cfa6e2c0175d17ff173bb19696cc5a4fc352916b13dc961f86ebc9d05c4e
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java
+      state: FILE
+      size: 4492
+      sha256: 783a7c91f477278abf01c607d3a82ae22c176ba4ff9648062162c34f237c8ed3
+    - path: services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
+      state: FILE
+      size: 4112
+      sha256: d16f0ee193b069b8a25a31ac2b58f3427945d0a3affd63cae018df2647887287
+    - path: tests/test_program_execution_plan.py
+      state: FILE
+      size: 1638
+      sha256: 261476f6d5b59e86e6cdbd7469cb9945865a3e6271f5812e4f96db4b6a2ad3b0
+change_classification:
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
+  - apps/android/feature/startup/build.gradle.kts
+  - apps/android/feature/startup/src/main/AndroidManifest.xml
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/settings.gradle.kts
+  - scripts/check_program_execution_plan.py
+  - scripts/generate_program_execution_plan.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppLatestView.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java
+  - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
+  - apps/android/feature/startup/build.gradle.kts
+  - apps/android/feature/startup/src/main/AndroidManifest.xml
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/settings.gradle.kts
+  other:
+  - config/test-impact-map.yaml
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R02/TASKS.yaml
+  - releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R03/TASKS.yaml
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R04/TASKS.yaml
+  - releases/RELEASE_DEPENDENCIES.yaml
+  continuity:
+  - docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
+  - docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md
+  - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+  source_of_truth:
+  - releases/R03/RELEASE_MANIFEST.yaml
+  - releases/R04/RELEASE_MANIFEST.yaml
+  - releases/R32/RELEASE_MANIFEST.yaml
+  tests:
+  - tests/test_program_execution_plan.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0019
+- CR-0020
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - STORY-R02-003,STORY-R02-004及其直接实现、测试与生成契约
+  approved_exceptions: []
+  source: story+explicit
+event_hash: 37b5c47c9700d04df29ccb5bbb65ed8a2567248dca15ccd797038ad834ffc7b7

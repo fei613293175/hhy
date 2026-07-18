@@ -17,6 +17,12 @@ import sys
 
 import yaml
 
+from restore_git_transport import (
+    TransportError as GitTransportError,
+    load_descriptor as load_git_transport_descriptor,
+    push_preflight as git_transport_push_preflight,
+)
+
 from continuity_lib import (
     ACTIVE_FILE,
     CONTINUITY_DIR,
@@ -90,6 +96,7 @@ REQUIRED_ROOT_FILES = [
     "NEXT_TASK.yaml",
     "AGENTS.md",
     "START_HERE.md",
+    "config/REPOSITORY_TRANSPORT.yaml",
     "scripts/continuity.py",
     "scripts/continuity_gate.py",
     "scripts/build_context_pack.py",
@@ -424,6 +431,33 @@ def validate_change_set(
         report.require(bool(checkpoint.get("summary")), "CHECKPOINT_SUMMARY", "检查点缺少summary")
         report.require(bool(checkpoint.get("next_step")), "CHECKPOINT_NEXT", "检查点缺少next_step")
         report.require(checkpoint.get("session_id") == session.get("session_id"), "CHECKPOINT_SESSION", "检查点不属于当前会话")
+        parallel_policy = policy.get("parallel_development", {})
+        authorization_at = str(parallel_policy.get("authorization", {}).get("granted_at") or "")
+        if not authorization_at or str(checkpoint.get("created_at") or "") >= authorization_at:
+            execution = checkpoint.get("parallel_execution") or {}
+            assessment = execution.get("assessment")
+            workers = list(execution.get("workers") or [])
+            report.require(
+                assessment in {"DELEGATED", "NO_SAFE_PARALLEL", "CAPABILITY_UNAVAILABLE", "USER_SERIAL_OVERRIDE"},
+                "CHECKPOINT_PARALLEL_ASSESSMENT",
+                "检查点缺少有效parallel_execution.assessment",
+            )
+            report.require(
+                execution.get("delegated_workers") == len(workers),
+                "CHECKPOINT_PARALLEL_COUNT",
+                "parallel_execution.delegated_workers与workers不一致",
+            )
+            max_workers = int(parallel_policy.get("max_delegated_workers", 3))
+            if assessment == "DELEGATED":
+                report.require(1 <= len(workers) <= max_workers, "CHECKPOINT_PARALLEL_WORKERS", f"DELEGATED必须记录1至{max_workers}个执行代理")
+                report.require(
+                    all(worker.get("worker_id") and worker.get("responsibility") and worker.get("allowed_paths") for worker in workers),
+                    "CHECKPOINT_PARALLEL_WORKER_CONTRACT",
+                    "每个执行代理必须记录身份、职责和路径租约",
+                )
+            else:
+                report.require(not workers, "CHECKPOINT_PARALLEL_UNEXPECTED_WORKERS", "未委托评估不得记录执行代理")
+                report.require(bool(str(execution.get("reason") or "").strip()), "CHECKPOINT_PARALLEL_REASON", "未委托必须记录具体原因")
         if commit_sha:
             historical_fp = project_fingerprint_at_commit(session, commit_sha)
             report.require(
@@ -622,6 +656,8 @@ def main() -> int:
     parser.add_argument("--base-ref")
     parser.add_argument("--head-ref", default="HEAD")
     parser.add_argument("--commit-message-file")
+    parser.add_argument("--push-remote")
+    parser.add_argument("--push-url")
     parser.add_argument("--require-closed", action="store_true")
     parser.add_argument("--json-out", default="artifacts/validation/continuity-gate-v1.2.3.json")
     args = parser.parse_args()
@@ -679,6 +715,18 @@ def main() -> int:
         elif args.mode == "pre-push":
             if not is_git_repo(ROOT):
                 report.errors.append({"code": "GIT_REQUIRED", "message": "pre-push必须在Git仓库中运行"})
+            else:
+                try:
+                    transport = load_git_transport_descriptor(ROOT / "config/REPOSITORY_TRANSPORT.yaml")
+                    transport_result = git_transport_push_preflight(
+                        ROOT,
+                        transport,
+                        remote_name=args.push_remote,
+                        push_url=args.push_url,
+                    )
+                    report.metrics["git_transport"] = transport_result
+                except GitTransportError as exc:
+                    report.errors.append({"code": "GIT_TRANSPORT", "message": str(exc)})
             info = git_info(ROOT)
             report.require(not info.get("dirty"), "DIRTY_PUSH", "推送前工作区必须完全干净，避免远程状态落后于本地记录")
             if session:

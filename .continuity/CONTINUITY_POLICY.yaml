@@ -14,6 +14,19 @@ lease:
   ci_grace_minutes: 15
   takeover_requires_handoff_or_expiry: true
 parallel_development:
+  authorization:
+    status: PROJECT_OWNER_STANDING_AUTHORIZATION
+    granted_on: '2026-07-18'
+    granted_at: '2026-07-17T22:16:06Z'
+    scope: ALL_R02_R32_DEVELOPMENT
+  default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
+  review_triggers:
+  - TASK_START
+  - SCOPE_CHANGE
+  per_task_user_confirmation_required: false
+  non_delegation_requires_checkpoint_reason: true
+  capability_fallback: RECORD_LIMITATION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+  user_override_allowed: true
   authoritative_active_sessions: 1
   max_delegated_workers: 3
   worker_workspace: ISOLATED_SCRATCH_WORKTREE
@@ -25,7 +38,44 @@ parallel_development:
   - changed_paths
   - module_test_evidence
   integration_owner: ACTIVE_SESSION_ACTOR
+  coordinator_serial_review_domains:
+  - FUNDS
+  - SECURITY
+  - STATE_MACHINE
+  - CONCURRENCY
+  - DESTRUCTIVE_MIGRATION
+  - FINAL_INTEGRATION
   source_of_truth_rule: 受托执行代理的scratch worktree不是事实源；主控验证范围与证据并应用到事实分支后才形成项目变化。
+execution_routing:
+  descriptor: config/DEVELOPMENT_RUNTIME.yaml
+  complexity_profiles:
+    COMPLEX_HIGH_RISK: SOL
+    MEDIUM: TERRA
+    LIGHT_MECHANICAL_READ_ONLY: LUNA
+  selection_must_be_auditable: true
+  record_target_and_actual_model: true
+  unavailable_model_fallback_must_be_recorded: true
+  luna_unavailable_fallback: TERRA_LOW
+  prohibit_claiming_unavailable_model_was_used: true
+development_environment:
+  descriptor: config/DEVELOPMENT_RUNTIME.yaml
+  default_assumption_when_user_did_not_report_disconnect: CODEX_CONNECTED_TO_EXISTING_PROJECT_CLOUD
+  cloud_alias: obx-test
+  startup_preflight_required: true
+  preflight_failure_action: BLOCK_AND_REPORT
+  prohibit_serverless_assumption: true
+  prohibit_local_android_sdk_bootstrap_or_rebuild: true
+  android_execution: EXISTING_REMOTE_CONTAINER_ONLY
+git_transport:
+  descriptor: config/REPOSITORY_TRANSPORT.yaml
+  tracked_secrets_allowed: false
+  restore_via_controlled_script_only: true
+  push_preflight_required: true
+  require_matching_remote_and_upstream: true
+  reject_force_push: true
+  reject_credentials_in_url: true
+  reject_behind_or_diverged: true
+  raw_source_without_git_or_verified_bundle_may_push_existing_history: false
 verification_profiles:
   FAST: 连续性核心、范围、秘密、CR、Fingerprint、Commit Trailer与受影响轻量测试
   MODULE: 受影响模块的单元、类型、契约和静态检查
@@ -49,6 +99,7 @@ checkpoint:
   - tests_or_no_test_reason
   - blockers
   - decisions
+  - parallel_execution
   tests_required_when_project_changed: true
   active_pointer_refreshed_every_checkpoint: true
 commit:
@@ -76,7 +127,9 @@ push:
   require_fresh_context_pack: true
   require_valid_event_hash_chain: true
   validate_unpushed_commit_trailers: true
-  require_upstream_or_explicit_range: false
+  require_upstream_or_explicit_range: true
+  require_transport_descriptor_match: true
+  prohibit_force: true
 merge:
   protected_branches:
   - main

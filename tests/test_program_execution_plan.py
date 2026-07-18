@@ -30,6 +30,22 @@ class ProgramExecutionPlanTest(unittest.TestCase):
         changed["operating_model"]["delegated_worker_slots"] = 4
         self.assertTrue(any("three delegated" in item for item in validate_plan(ROOT, changed)))
 
+    def test_rejects_default_delegation_drift(self) -> None:
+        changed = copy.deepcopy(self.plan)
+        changed["operating_model"]["default_delegation_mode"] = "MANUAL"
+        self.assertTrue(any("default_delegation_mode" in item for item in validate_plan(ROOT, changed)))
+
+    def test_rejects_missing_near_term_parallel_capacity(self) -> None:
+        path = ROOT / "releases/R02/PARALLEL_EXECUTION_PLAN.yaml"
+        original = path.read_text(encoding="utf-8")
+        try:
+            data = yaml.safe_load(original)
+            data["max_parallel_workers"] = 2
+            path.write_text(yaml.safe_dump(data, allow_unicode=True, sort_keys=False), encoding="utf-8")
+            self.assertTrue(any("exactly three" in item for item in validate_plan(ROOT, self.plan)))
+        finally:
+            path.write_text(original, encoding="utf-8")
+
     def test_rejects_missing_release(self) -> None:
         changed = copy.deepcopy(self.plan)
         changed["release_plan"] = changed["release_plan"][:-1]

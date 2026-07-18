@@ -1,69 +1,70 @@
-# AGENTS.md — 合伙云 Pro V1.2 最高工程约束
+# AGENTS.md — 合伙云 Pro V1.2.3 最高工程与无状态接续约束
 
-## 0. 接手顺序
+## 0. 对话不是事实源
 
-收到“请继续开发这个项目”后必须：
+旧对话、聊天摘要和个人记忆不得作为继续开发的必要输入。需求、决策、WIP、测试、阻塞和下一步必须写入仓库。新 AI 接手时不得要求用户重新解释仓库已有需求。
 
-1. 读取 `START_HERE.md`、主开发文档、`CURRENT_STATUS.yaml`、`NEXT_TASK.yaml`。
-2. 运行 `./scripts/resume-project.sh`。
-3. 只执行 `NEXT_TASK.yaml` 和对应 `releases/<版本>/TASKS.yaml` 中已READY任务。
-4. 开发前查询 ADR、CR、Problem Registry、Pitfalls 和 Reusable Patterns。
-5. 不得要求用户重新解释已经写入仓库的需求。
+## 1. 冷启动唯一流程
 
-## 1. 唯一事实源与优先级
+1. 运行 `python3 scripts/continuity.py resume`。
+2. 阅读输出指定的 Context Pack、`CURRENT_STATUS.yaml`、`NEXT_TASK.yaml`、Release DoR、Stories 和当前 Session/Checkpoint。
+3. 没有活跃会话时，只能执行输出的 `bootstrap` 或 `start` 命令。
+4. 存在 `HANDED_OFF` 会话时必须 `takeover`；过期/异常会话必须 `recover`。
+5. 禁止跳过唯一任务领取和租约直接修改项目文件。
+6. 运行 `python3 scripts/verify_cloud_environment.py --check-android` 验证 `obx-test` 上的既有项目环境；失败必须阻断并报告。
 
-1. 主开发文档、已批准CR/ADR
-2. 冻结的OpenAPI/DB/WebSocket/Config契约
-3. Design Token与组件目录
-4. 页面—前后端追踪矩阵
-5. 12批UI参考图
-6. AI或开发者推测
+除非项目所有者明确报告云服务器未连接，否则任何 AI 和任何电脑都必须以“Codex 客户端已连接项目云服务器且既有环境可用”为开发前提。不得把换电脑、换 AI、SSH 预检失败或本机缺少 Android SDK 解释为无服务器开发许可；禁止下载、安装或重建本地 Android SDK 作为回退。
 
-效果图只提供布局、样式和信息层级。不得从图中新增商豆、充值、多会员身份、CRM、第三方登录或其他未定义功能。
+## 2. 每次开发强制协议
 
-## 2. 禁止开发漂移
+- 同一时间只允许一个 ACTIVE Session 和一个相同 Task/Story Claim。
+- 项目所有者已提供长期仓库级授权：主控在每个 Task 开始及范围变化时必须评估并行机会；存在边界清晰、路径互斥且可安全并行的工作包时，应自行委托 1 至 3 个执行代理，不得再次请求逐次用户确认。
+- 主控必须按实际复杂度选择执行模型并留下可审计记录：复杂/高风险使用 Sol，中等使用 Terra，轻量/机械/只读使用 Luna。目标模型不可用时只允许按 `config/DEVELOPMENT_RUNTIME.yaml` 降级并记录实际模型；不得虚构目标模型已被使用。Luna 不可用时默认降级为 Terra low。
+- 未委托时必须在 Checkpoint 的 `parallel_execution` 中记录 `NO_SAFE_PARALLEL`、`CAPABILITY_UNAVAILABLE` 或 `USER_SERIAL_OVERRIDE` 及具体原因；不具备代理能力的 AI 必须记录能力限制，不得伪造代理或并行测试证据。
+- 用户可以在具体请求中临时要求串行；长期授权只消除“是否启用代理”的逐次确认，不扩大任务范围、外部权限、生产权限或秘密访问权限。
+- 每个执行代理必须使用独立 scratch worktree 和互不重叠的路径租约；总模型固定为 1 个事实主控加最多 3 个执行代理，不是 4 个子代理，也不是 4 个并行事实分支。
+- 执行代理不是独立事实源：不得修改 `.continuity/**`、`CURRENT_STATUS.yaml`、`NEXT_TASK.yaml`、`releases/**`，不得提交、推送、合并或发布；只能返回补丁和模块测试证据。
+- 主控必须先验证执行代理的修改范围与测试证据，再把补丁应用到事实分支；只有进入事实分支并完成 Checkpoint 的变化才算项目进度。
+- 资金、安全、状态机、并发、破坏性迁移、签名、生产变更和最终集成必须由主控串行复核。
+- 首次产生项目变化、每60分钟、关键测试后、提交/推送/交接/切换AI前必须 `checkpoint`。
+- 项目变化时检查点必须记录测试；不能用聊天中的“测过了”替代证据。
+- 检查点后再次修改文件必须重新检查点，旧检查点不能提交。
+- 每个 Commit 必须绑定 Task、Story（存在时）、Session、Checkpoint、Tests、CR。
+- Git Hooks 和 CI 对每个非合并 Commit 重验，禁止通过 `--no-verify` 绕过远程门禁。
+- 交接必须生成 Handoff Bundle；另一个 AI 仅凭仓库/交接包恢复，不读取旧对话。
+- Git 远程和 upstream 只能按 `config/REPOSITORY_TRANSPORT.yaml` 及受控脚本恢复。推送前必须执行 transport/push preflight；禁止 force push、含凭据 URL、错误 remote/upstream、behind/diverged 推送，以及从无 `.git` 且无已验证 Bundle 的纯源码伪造历史。
 
-- 不得静默扩大范围、改变业务规则或恢复旧V2方案。
-- 用户提出修改时，先运行 `scripts/create_change_request.py` 创建CR，更新主文档、追踪矩阵、版本任务和测试，再编码。
-- API开发前必须把相应契约从 `CATALOG_BOUND` 提升为 `FROZEN`，补齐DTO、错误码和示例。
-- 数据库只能通过版本化迁移修改；不得手工改生产Schema。
-- 页面不得自定义接口字段、金额计算、状态机或权限。
+### 2.1 分层验证
 
-## 3. UI强制规则
+- `FAST`：每次本地变化与提交，校验 Session、Scope、Secret、CR、Fingerprint、Trailer 和受影响的轻量测试。
+- `MODULE`：执行代理交付补丁前，运行其修改模块的单元、类型、契约或静态检查。
+- `INTEGRATION`：每天一次或纵向切片汇合时，运行后端、Web、数据库、Android 和连续性全量集成。
+- `RELEASE`：版本封板前运行全量集成、Staging/E2E、APK 四方哈希与用户真机验收。
+- 完整文档 Doctor 仅在其事实输入变化、手动 Doctor、集成或发布阶段运行；不得因此跳过任何连续性核心校验。
 
-- 所有字号、行高、间距、圆角、颜色、边框、阴影、透明度、动画、图片比例和断点必须引用 `design/tokens/`。
-- 页面代码禁止出现未登记原始dp/sp/px/Hex；CI Token Lint必须通过。
-- Android/H5/后台优先使用 `design/component-catalog.*` 中成熟组件。
-- 不为文字容器写死高度；测试360/390/412/430dp和字体1.0/1.15/1.30。
-- 每个页面覆盖加载、空、错误、权限、禁用和业务状态。
+## 3. 变更控制
 
-## 4. 资金、红包和奖励
+冻结需求、页面、API、数据库、配置、状态机、资金或架构发生变化前必须：
 
-- 金额统一整数分；禁止浮点金额。
-- 支付、红包、佣金、任务、奖励、提现各自独立账本，管理员不得直接改余额。
-- 资金、库存和状态变更接口必须幂等；红包不得超发；支付回调不得重复履约。
-- 红包本金不参与佣金；广告主不充值通用钱包；虚拟服务不提供正常退款。
+`cr-create → cr-amend → 不同Actor cr-approve → checkpoint → commit`
 
-## 5. 后台配置和密钥
+申请人不得自审；空壳 CR 不得审批。Bug 修复同时更新 Problem Registry 和回归测试。
 
-- 阿里云短信、Cloudflare R2、阿里云OSS、实名、彩虹易支付、支付宝出款、域名和App构建均经配置中心管理。
-- Secret、私钥、证书不得提交Git、打印日志或返回前端；保存后只显示已配置、指纹、末四位或有效期。
-- 正式配置激活、生产签名和生产发布必须双人复核。
+## 4. 产品与工程事实源
 
-## 6. App构建与APK
+1. V1.2.2 产品/页面施工主文档和已批准 CR/ADR。
+2. OpenAPI、WebSocket、数据库、状态机和配置契约。
+3. 页面字段/状态/动作/后台运营规格和追踪矩阵。
+4. Release DoR、Stories、Tasks、Acceptance。
+5. `.continuity/` 会话、检查点、事件哈希链和 Context Pack。
+6. UI 参考图只提供视觉参考，不能新增业务。
 
-- 自助构建中心仅构建合伙云Pro官方Android App，不允许任意Shell、第三方APK或白标工厂。
-- `release_plan.csv` 标记YES的版本未产生测试APK不得关闭。
-- APK必须绑定唯一Commit、版本号、签名指纹、SHA256、测试报告和Artifact Manifest。
-- 正式签名只在受保护CI使用，不得放入普通Codex工作区。
+## 5. 资金、安全、配置和发布
 
-## 7. Git与环境
+沿用 V1.2.2 全部硬规则：整数分、不可变账本、幂等、红包不超发、秘密只存 SecretRef、生产变更双人复核、Android 产物绑定 Commit/签名/SHA/测试。
 
-- 用户自有私有仓库；禁止直接推送main。
-- 使用task分支、PR、CI、Staging验收和Release Tag。
-- Codex不得直接修改生产目录或读取生产数据库/密钥。
-- 域名根为 `orbexa.cc`；需要DNS解析时生成明确待办提醒用户。
+测试 APK 必须使用跨版本稳定的测试签名 SecretRef 和单调递增的 `versionCode`；仓库副本、桌面副本、服务器文件和公网下载必须四方 SHA-256 一致。机器交付通过与项目所有者真机验收是两个独立状态，未经项目所有者明确反馈不得把真机状态写为 PASS。
 
-## 8. 每次结束硬规则
+## 6. 会话结束
 
-必须提交并推送：代码、迁移、契约、测试、文档、Session Log、状态、下一任务、Changelog、Problem Registry/Reusable Patterns/Pitfalls（如适用）和追踪矩阵。未推送远程的工作不算完成。Bug修复必须有根因和回归测试。
+完成实现 Commit 后执行 `continuity.py close`，生成关闭检查点和关闭元数据 Commit；更新 Release、Task、Changelog、Context Pack、CURRENT_STATUS 和 NEXT_TASK。未形成可验证仓库记录的工作不算完成。

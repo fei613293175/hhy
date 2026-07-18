@@ -46,6 +46,12 @@ class TestParallelWorktreePreparation(TestCase):
         subprocess.run([self.git, "-C", str(repository), "config", "user.name", "test"], check=True)
         subprocess.run([self.git, "-C", str(repository), "config", "user.email", "test@example.invalid"], check=True)
         (repository / "README.md").write_text("baseline\n", encoding="utf-8")
+        policy = repository / ".continuity/CONTINUITY_POLICY.yaml"
+        policy.parent.mkdir()
+        policy.write_text(
+            "parallel_development:\n  authoritative_active_sessions: 1\n  max_delegated_workers: 3\n",
+            encoding="utf-8",
+        )
         subprocess.run([self.git, "-C", str(repository), "add", "README.md"], check=True)
         subprocess.run([self.git, "-C", str(repository), "commit", "-m", "baseline"], check=True, stdout=subprocess.PIPE)
         return repository
@@ -80,7 +86,34 @@ class TestParallelWorktreePreparation(TestCase):
             payload = json.loads(first.stdout)
             self.assertEqual("ACTIVE", payload["status"])
             self.assertTrue((worktrees / "backend-1" / ".git").is_file())
-            self.assertTrue((worktrees / ".assignments" / "backend-1.json").is_file())
+            self.assertTrue((repository / ".git/hhy-parallel-assignments/backend-1.json").is_file())
+            blocked_commit = subprocess.run(
+                [self.git, "-C", str(worktrees / "backend-1"), "commit", "--allow-empty", "-m", "blocked"],
+                text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            )
+            self.assertNotEqual(0, blocked_commit.returncode)
             second = self.run_script(repository, worktrees, "backend-2", "services/backend/access/**")
             self.assertNotEqual(0, second.returncode)
             self.assertIn("overlaps active worker", second.stderr)
+
+    def test_three_active_workers_succeed_and_fourth_is_rejected(self) -> None:
+        with TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            repository = self.make_repository(base)
+            worktrees = base / "workers"
+            for index, claim in enumerate(["apps/android/**", "services/backend/**", "tests/**"], start=1):
+                result = self.run_script(repository, worktrees, f"worker-{index}", claim, execute=True)
+                self.assertEqual(0, result.returncode, result.stderr)
+            fourth = self.run_script(repository, base / "other-workers", "worker-4", "packages/**", execute=True)
+            self.assertNotEqual(0, fourth.returncode)
+            self.assertIn("capacity reached", fourth.stderr)
+
+    def test_duplicate_worker_id_is_rejected(self) -> None:
+        with TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            repository = self.make_repository(base)
+            first = self.run_script(repository, base / "workers", "same-worker", "apps/android/**", execute=True)
+            self.assertEqual(0, first.returncode, first.stderr)
+            duplicate = self.run_script(repository, base / "other-workers", "same-worker", "services/backend/**")
+            self.assertNotEqual(0, duplicate.returncode)
+            self.assertIn("already has an active assignment", duplicate.stderr)

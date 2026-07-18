@@ -38,9 +38,14 @@ def sha256(path: Path) -> str:
 def source_manifest() -> list[dict[str, str]]:
     critical = [
         ".continuity/CONTINUITY_POLICY.yaml",
+        "config/REPOSITORY_TRANSPORT.yaml",
+        "config/DEVELOPMENT_RUNTIME.yaml",
         "scripts/continuity_lib.py",
         "scripts/continuity.py",
         "scripts/continuity_gate.py",
+        "scripts/restore_git_transport.py",
+        "scripts/select_execution_profile.py",
+        "scripts/verify_cloud_environment.py",
         "scripts/prepare_commit_message.py",
         "scripts/install_git_hooks.py",
         "scripts/test_continuity_protocol.py",
@@ -223,6 +228,15 @@ def main() -> int:
         shutil.rmtree(repo)
     copy_repository(ROOT, repo)
     reset_continuity_fixture(repo)
+    remote = base_dir / "transport-remote.git"
+    subprocess.run(["git", "init", "--bare", str(remote)], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    transport_path = repo / "config/REPOSITORY_TRANSPORT.yaml"
+    transport = yaml.safe_load(transport_path.read_text(encoding="utf-8")) or {}
+    transport.setdefault("repository", {})["canonical_url"] = remote.as_uri()
+    transport_path.write_text(
+        yaml.safe_dump(transport, allow_unicode=True, sort_keys=False),
+        encoding="utf-8",
+    )
     smoke = Smoke(repo, outputs)
 
     try:
@@ -236,6 +250,11 @@ def main() -> int:
         base_commit = smoke.run("01_base_head", ["git", "rev-parse", "HEAD"]).stdout.strip()
         if smoke.run("01_clean", ["git", "status", "--porcelain"]).stdout:
             raise RuntimeError("bootstrap did not leave a clean worktree")
+        smoke.run("01_transport_remote", ["git", "remote", "add", "origin", remote.as_uri()])
+        smoke.run("01_transport_upstream", [
+            "git", "-c", "core.hooksPath=.git/no-hooks", "push", "--set-upstream",
+            "origin", "task/TASK-P00-001",
+        ])
         smoke.pass_check("bootstrap_atomic", base_commit)
 
         # No session means project commits are blocked.
@@ -272,9 +291,14 @@ def main() -> int:
         probe = repo / "scripts/smoke/protocol_probe.txt"
         probe.parent.mkdir(parents=True, exist_ok=True)
         probe.write_text("continuity-probe-v1\n", encoding="utf-8")
+        serial_parallel = [
+            "--parallel-assessment", "NO_SAFE_PARALLEL", "--parallel-reason",
+            "生命周期演练按单一状态链串行验证",
+        ]
         no_test = smoke.run("04_checkpoint_without_test", [
             "python3", "scripts/continuity.py", "checkpoint",
             "--summary", "首次变更", "--next-step", "记录测试",
+            *serial_parallel,
         ], expected={2})
         if "必须记录测试" not in no_test.stderr:
             raise RuntimeError("checkpoint without test was not rejected")
@@ -284,6 +308,7 @@ def main() -> int:
             "python3", "scripts/continuity.py", "checkpoint",
             "--summary", "完成首次协议变更", "--next-step", "提交实现变更",
             "--test", "continuity-smoke|PASS|scripts/check_v123_continuity.py|联合门禁作为证据",
+            *serial_parallel,
         ])
         pointer = smoke.load_yaml(".continuity/ACTIVE_SESSION.yaml")
         if not pointer.get("checkpoint_id") or not pointer.get("project_fingerprint"):
@@ -306,6 +331,7 @@ def main() -> int:
             "python3", "scripts/continuity.py", "checkpoint",
             "--summary", "更新协议探针", "--next-step", "验证完整CR合同",
             "--test", f"stale-gate|PASS|{outputs / 'stale-checkpoint.json'}|旧检查点已阻断",
+            *serial_parallel,
         ])
         commit2, _ = smoke.commit("09_second", "test(continuity): verify stale checkpoint rejection")
         smoke.pass_check("historical_checkpoint_commit", commit2)
@@ -318,6 +344,7 @@ def main() -> int:
             "python3", "scripts/continuity.py", "checkpoint",
             "--summary", "无CR冻结事实变更", "--next-step", "应阻断",
             "--test", "cr-negative|PASS|docs/00-baseline/SOURCE_OF_TRUTH.md|负向门禁",
+            *serial_parallel,
         ], expected={2})
         if "CR" not in no_cr.stderr:
             raise RuntimeError("frozen fact without CR was not rejected")
@@ -365,6 +392,7 @@ def main() -> int:
             "python3", "scripts/continuity.py", "checkpoint",
             "--summary", "批准CR后的冻结事实变更", "--next-step", "提交并演练WIP交接",
             "--test", "cr-positive|PASS|.continuity/CHANGE_REQUEST_INDEX.yaml|完整合同和不同Actor审批通过",
+            *serial_parallel,
         ])
         commit3, msg3 = smoke.commit("15_cr", "docs(continuity): verify approved change request path")
         if f"CR: {cr}" not in msg3:
@@ -378,6 +406,7 @@ def main() -> int:
             "python3", "scripts/continuity.py", "checkpoint",
             "--summary", "形成可移交WIP", "--next-step", "新AI验证Manifest后提交WIP",
             "--test", "handoff-prep|PASS|scripts/continuity.py|交接前检查点",
+            *serial_parallel,
         ])
         handoff_zip = outputs / "wip-handoff.zip"
         smoke.run("17_handoff", [
@@ -398,6 +427,7 @@ def main() -> int:
             "python3", "scripts/continuity.py", "checkpoint",
             "--summary", "接管并验证WIP", "--next-step", "提交接管后的实现",
             "--test", "takeover-verify|PASS|artifacts/context/CURRENT_CONTEXT_PACK.md|无需旧对话恢复",
+            *serial_parallel,
         ])
         commit4, _ = smoke.commit("20_takeover", "chore(continuity): continue handed-off work without dialog")
         smoke.pass_check("wip_handoff_and_takeover", commit4)

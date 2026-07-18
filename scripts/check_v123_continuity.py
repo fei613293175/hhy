@@ -79,10 +79,14 @@ def main() -> int:
         ".continuity/CHANGE_REQUEST_INDEX.yaml",
         "CONTINUITY_POLICY.yaml",
         "config/CONTINUITY_POLICY.yaml",
+        "config/REPOSITORY_TRANSPORT.yaml",
+        "config/DEVELOPMENT_RUNTIME.yaml",
         "CURRENT_STATUS.yaml",
         "NEXT_TASK.yaml",
         "AGENTS.md",
         "START_HERE.md",
+        "templates/AGENTS.md",
+        "templates/START_HERE.md",
         "README.md",
         "scripts/continuity.py",
         "scripts/continuity_lib.py",
@@ -90,6 +94,9 @@ def main() -> int:
         "scripts/check_v123_documentation.py",
         "scripts/check_v123_continuity.py",
         "scripts/run_continuity_self_test.py",
+        "scripts/restore_git_transport.py",
+        "scripts/select_execution_profile.py",
+        "scripts/verify_cloud_environment.py",
         "scripts/install_git_hooks.py",
         "scripts/prepare_commit_message.py",
         "scripts/create_handoff_bundle.py",
@@ -115,6 +122,9 @@ def main() -> int:
         "docs/03-continuity/HANDOFF_SCHEMA.yaml",
         "docs/03-continuity/EVENT_LOG_SCHEMA.yaml",
         "docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml",
+        "tests/test_git_transport_recovery.py",
+        "tests/test_model_routing.py",
+        "tests/test_cloud_environment.py",
         ".github/workflows/continuity-gate.yml",
         ".github/workflows/ci.yml",
         ".githooks/pre-commit",
@@ -158,6 +168,46 @@ def main() -> int:
     require(policy.get("checkpoint", {}).get("active_pointer_refreshed_every_checkpoint") is True, "ACTIVE_POINTER_POLICY", "每个检查点必须刷新ACTIVE_SESSION指针")
     require(policy.get("change_control", {}).get("approval_requires_complete_contract") is True, "CR_CONTRACT_POLICY", "CR审批必须要求完整变更合同")
     require(operational_policy.get("change_control", {}).get("approval_requires_complete_contract") is True, "CR_OPERATIONAL_POLICY", "运营视图必须显示完整CR审批要求")
+    parallel = policy.get("parallel_development", {})
+    operational_parallel = operational_policy.get("parallel_development", {})
+    require(parallel.get("authorization", {}).get("status") == "PROJECT_OWNER_STANDING_AUTHORIZATION", "PARALLEL_AUTHORIZATION", "必须记录项目所有者长期多代理授权")
+    require(parallel.get("default_delegation_mode") == "AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS", "PARALLEL_DEFAULT_MODE", "存在安全并行工作时必须默认自动委托")
+    require(parallel.get("review_triggers") == ["TASK_START", "SCOPE_CHANGE"], "PARALLEL_REVIEW_TRIGGERS", "必须在Task开始和范围变化时评估并行")
+    require(parallel.get("per_task_user_confirmation_required") is False, "PARALLEL_CONFIRMATION", "长期授权后不得逐Task重复请求确认")
+    require(parallel.get("non_delegation_requires_checkpoint_reason") is True, "PARALLEL_REASON", "未委托必须写入Checkpoint原因")
+    require(parallel.get("capability_fallback") == "RECORD_LIMITATION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE", "PARALLEL_CAPABILITY_FALLBACK", "不支持代理的AI必须记录限制且禁止伪造证据")
+    require(parallel.get("authoritative_active_sessions") == 1 and parallel.get("max_delegated_workers") == 3, "PARALLEL_ONE_PLUS_THREE", "并行模型必须为1主控加最多3执行代理")
+    for key in ["default_delegation_mode", "review_triggers", "per_task_user_confirmation_required", "non_delegation_requires_checkpoint_reason", "capability_fallback", "user_override_allowed", "authoritative_active_sessions", "max_delegated_workers", "worker_workspace", "require_disjoint_path_leases", "integration_owner"]:
+        require(operational_parallel.get(key) == parallel.get(key), "PARALLEL_OPERATIONAL_DRIFT", f"运营策略并行字段漂移：{key}")
+    require(operational_parallel.get("authorization_status") == parallel.get("authorization", {}).get("status"), "PARALLEL_AUTHORIZATION_DRIFT", "运营策略长期授权状态漂移")
+
+    runtime = read_yaml("config/DEVELOPMENT_RUNTIME.yaml")
+    routing = runtime.get("model_routing", {})
+    require(routing.get("complex_or_high_risk", {}).get("model") == "Sol", "MODEL_SOL_ROUTE", "复杂/高风险任务必须路由到Sol")
+    require(routing.get("medium", {}).get("model") == "Terra", "MODEL_TERRA_ROUTE", "中等任务必须路由到Terra")
+    light_route = routing.get("lightweight_or_mechanical_or_read_only", {})
+    require(light_route.get("model") == "Luna", "MODEL_LUNA_ROUTE", "轻量/机械/只读任务必须优先路由到Luna")
+    require(light_route.get("unavailable_fallback", {}).get("model") == "Terra", "MODEL_LUNA_FALLBACK", "Luna不可用时必须审计回退到Terra")
+    cloud = runtime.get("cloud_environment", {})
+    require(cloud.get("default_assumption") == "CODEX_ALREADY_CONNECTED_UNLESS_USER_DECLARES_DISCONNECTED", "CLOUD_DEFAULT_ASSUMPTION", "除非用户声明断连，必须默认Codex已连接项目云服务器")
+    require(cloud.get("ssh_alias") == "obx-test", "CLOUD_ALIAS", "云端项目SSH alias必须为obx-test")
+    require(cloud.get("startup_preflight_required") is True and cloud.get("preflight_failure") == "BLOCK_DEVELOPMENT_AND_REPORT", "CLOUD_PREFLIGHT", "云端启动预检失败必须阻断并报告")
+    android_runtime = cloud.get("android", {})
+    require(android_runtime.get("image") == "hhy-android-toolchain:r01-46fb273", "ANDROID_EXISTING_IMAGE", "Android必须复用固定云端镜像")
+    require(android_runtime.get("gradle_cache") == "hhy-r01-android-gradle-cache", "ANDROID_EXISTING_CACHE", "Android必须复用固定Gradle缓存")
+    prohibited_runtime = set(cloud.get("prohibited", []))
+    require({"LOCAL_ANDROID_SDK_BOOTSTRAP", "LOCAL_ANDROID_SDK_REBUILD"} <= prohibited_runtime, "ANDROID_LOCAL_REBUILD", "必须禁止本地Android SDK bootstrap/rebuild")
+
+    transport = read_yaml("config/REPOSITORY_TRANSPORT.yaml")
+    repository = transport.get("repository", {})
+    require(repository.get("canonical_url") == "https://github.com/fei613293175/hhy.git", "GIT_CANONICAL_REMOTE", "Git canonical remote必须可由仓库恢复")
+    require(repository.get("remote_name") == "origin", "GIT_REMOTE_NAME", "Git remote必须为origin")
+    require(transport.get("security", {}).get("prohibit_url_credentials") is True, "GIT_URL_CREDENTIALS", "tracked remote URL必须禁止凭据")
+    require(transport.get("security", {}).get("prohibit_force_push") is True, "GIT_FORCE_PUSH", "必须禁止force push")
+    require(transport.get("recovery", {}).get("raw_source_without_git_or_bundle") == "BLOCK", "GIT_RAW_SOURCE_HISTORY", "纯源码无Git/Bundle时必须阻断历史推送")
+    require(policy.get("development_environment", {}).get("prohibit_serverless_assumption") is True, "POLICY_SERVERLESS_PROHIBITED", "权威策略必须禁止无服务器假设")
+    require(policy.get("development_environment", {}).get("prohibit_local_android_sdk_bootstrap_or_rebuild") is True, "POLICY_LOCAL_ANDROID_PROHIBITED", "权威策略必须禁止本地Android SDK重建")
+    require(policy.get("git_transport", {}).get("push_preflight_required") is True, "POLICY_GIT_PREFLIGHT", "权威策略必须要求Git推送预检")
 
     obsolete = [".continuity/LAST_CHECKPOINT.yaml", ".continuity/HANDOFF_STATE.yaml"]
     for relative in obsolete:
@@ -314,10 +364,18 @@ def main() -> int:
             require(token not in text, "SECOND_STATE_SCRIPT", f"{relative}仍引用旧状态：{token}")
 
     # Context pack must be self-contained and explicitly repository-only.
+    require((ROOT / "AGENTS.md").read_bytes() == (ROOT / "templates/AGENTS.md").read_bytes(), "AGENTS_TEMPLATE_DRIFT", "AGENTS根入口与导出模板必须完全一致")
+    require((ROOT / "START_HERE.md").read_bytes() == (ROOT / "templates/START_HERE.md").read_bytes(), "START_TEMPLATE_DRIFT", "START_HERE根入口与导出模板必须完全一致")
     context = read_yaml("artifacts/context/CURRENT_CONTEXT_PACK.yaml")
     require(context.get("conversation_dependency") == "PROHIBITED", "CONTEXT_CONVERSATION", "Context Pack必须禁止对话依赖")
     require(context.get("source_of_truth") == "REPOSITORY_ONLY", "CONTEXT_SOURCE", "Context Pack事实源必须为仓库")
     require(bool(context.get("exact_resume_command")), "CONTEXT_COMMAND", "Context Pack必须提供精确恢复命令")
+    require(context.get("parallel_development_policy") == parallel, "CONTEXT_PARALLEL_POLICY", "Context Pack必须完整携带权威并行策略")
+    require(context.get("execution_routing_policy") == runtime.get("model_routing"), "CONTEXT_MODEL_ROUTING", "Context Pack必须携带模型分级策略")
+    require(context.get("development_runtime") == runtime, "CONTEXT_RUNTIME", "Context Pack必须携带云端既有环境策略")
+    require(context.get("repository_transport") == transport, "CONTEXT_GIT_TRANSPORT", "Context Pack必须携带Git transport descriptor")
+    if context.get("active_session") and context.get("latest_checkpoint"):
+        require(bool(context.get("latest_checkpoint", {}).get("parallel_execution")), "CONTEXT_PARALLEL_CHECKPOINT", "最新Checkpoint必须记录结构化并行决策")
     context_manifest = json.loads((ROOT / "artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json").read_text(encoding="utf-8"))
     require(bool(context_manifest.get("project_fingerprint", {}).get("sha256")), "CONTEXT_TREE_FINGERPRINT", "Context Manifest必须记录项目树/会话指纹")
     for key in ["yaml", "markdown"]:
@@ -331,6 +389,13 @@ def main() -> int:
         require(path.is_file(), "CONTEXT_SOURCE_MISSING", source.get("path", ""))
         if path.is_file():
             require(sha256(path) == source.get("sha256"), "CONTEXT_SOURCE_STALE", source.get("path", ""))
+    context_sources = {row.get("path") for row in context_manifest.get("sources", [])}
+    require("releases/PROGRAM_EXECUTION_PLAN.yaml" in context_sources, "CONTEXT_PROGRAM_PLAN", "Context Pack来源必须包含总执行计划")
+    require("config/REPOSITORY_TRANSPORT.yaml" in context_sources, "CONTEXT_TRANSPORT_SOURCE", "Context Pack来源必须包含Git transport descriptor")
+    require("config/DEVELOPMENT_RUNTIME.yaml" in context_sources, "CONTEXT_RUNTIME_SOURCE", "Context Pack来源必须包含开发运行时策略")
+    active_release = context.get("active_session", {}).get("release") if context.get("active_session") else None
+    if active_release:
+        require(f"releases/{active_release}/PARALLEL_EXECUTION_PLAN.yaml" in context_sources, "CONTEXT_RELEASE_PARALLEL_PLAN", "Context Pack来源必须包含当前Release并行计划")
 
     # Commands exposed to the next AI must be valid unified CLI commands.
     next_text = (ROOT / "NEXT_TASK.yaml").read_text(encoding="utf-8")
@@ -344,7 +409,7 @@ def main() -> int:
 
     # Package must not contain tracked transient caches or plaintext secret files.
     ignore_text = (ROOT / ".gitignore").read_text(encoding="utf-8")
-    for required_ignore in ["**/target/", "**/.gradle/", "**/node_modules/", "**/__pycache__/", "*.py[cod]"]:
+    for required_ignore in ["**/target/", "**/.gradle/", "**/node_modules/", "**/__pycache__/", "*.py[cod]", ".git-credentials", ".netrc", ".ssh/"]:
         require(required_ignore in ignore_text, "TRANSIENT_IGNORE_MISSING", f".gitignore缺少 {required_ignore}")
     tracked = subprocess.run(
         ["git", "ls-files"], cwd=ROOT, text=True, capture_output=True

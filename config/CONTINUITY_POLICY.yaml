@@ -5,6 +5,35 @@ session:
   single_active_session: true
   max_checkpoint_age_minutes: 60
   lease_minutes: 240
+parallel_development:
+  authorization_status: PROJECT_OWNER_STANDING_AUTHORIZATION
+  default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
+  review_triggers:
+  - TASK_START
+  - SCOPE_CHANGE
+  per_task_user_confirmation_required: false
+  non_delegation_requires_checkpoint_reason: true
+  capability_fallback: RECORD_LIMITATION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
+  user_override_allowed: true
+  authoritative_active_sessions: 1
+  max_delegated_workers: 3
+  worker_workspace: ISOLATED_SCRATCH_WORKTREE
+  require_disjoint_path_leases: true
+  integration_owner: ACTIVE_SESSION_ACTOR
+execution_routing:
+  descriptor: config/DEVELOPMENT_RUNTIME.yaml
+  complex_or_high_risk: SOL
+  medium: TERRA
+  light_mechanical_or_read_only: LUNA
+  luna_unavailable_fallback: TERRA_LOW
+  audit_target_actual_and_reason: true
+development_environment:
+  descriptor: config/DEVELOPMENT_RUNTIME.yaml
+  default_when_user_did_not_report_disconnect: CODEX_CONNECTED_TO_EXISTING_PROJECT_CLOUD
+  cloud_alias: obx-test
+  preflight_required: true
+  failure_action: BLOCK_AND_REPORT
+  local_android_sdk_bootstrap_or_rebuild: FORBIDDEN
 git:
   required_commit_trailers:
   - Task-ID
@@ -14,6 +43,11 @@ git:
   - CR
   hooks_path: .githooks
   ci_validates_every_commit: true
+  transport_descriptor: config/REPOSITORY_TRANSPORT.yaml
+  restore_via_controlled_script_only: true
+  push_preflight_required: true
+  force_push: FORBIDDEN
+  credentials_in_tracked_url: FORBIDDEN
 change_control:
   approval_requires_complete_contract: true
   requester_cannot_approve: true

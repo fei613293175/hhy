@@ -1,4 +1,7 @@
 #!/bin/sh
 set -eu
 ROOT=$(git rev-parse --show-toplevel)
-exec "${HHY_PYTHON:-python3}" "$ROOT/scripts/continuity_gate.py" --mode pre-push --strict --json-out .continuity/runtime/pre-push.json
+exec "${HHY_PYTHON:-python3}" "$ROOT/scripts/continuity_gate.py" \
+  --mode pre-push --strict \
+  --push-remote "${1:-}" --push-url "${2:-}" \
+  --json-out .continuity/runtime/pre-push.json

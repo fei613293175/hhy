@@ -52,6 +52,24 @@ data class VersionPolicy(
     val serverTime: String,
 )
 
+@Serializable
+data class DownloadInfo(
+    val platform: String,
+    val versionName: String,
+    val versionCode: Long,
+    val downloadUrl: String,
+    val sha256: String,
+)
+
+@Serializable
+data class PublicPage(
+    val code: String,
+    val title: String? = null,
+    val description: String? = null,
+    val download: DownloadInfo? = null,
+    val version: Long,
+)
+
 object HhyNetworkJson {
     val value: Json = Json {
         explicitNulls = false
@@ -63,4 +81,5 @@ object HhyNetworkJson {
 interface HhyPublicApi {
     suspend fun platformStatus(): ApiEnvelope<PlatformStatus>
     suspend fun versionCheck(request: VersionCheckRequest): ApiEnvelope<VersionPolicy>
+    suspend fun latestApp(): ApiEnvelope<PublicPage>
 }

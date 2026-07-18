@@ -1,0 +1,133 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260717T210927Z-13B07A7D
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R02
+task_id: TASK-R02-002
+story_id: STORY-R02-003
+goal: 接管 SES-20260717T204616Z-254B60A3：接管 SES-20260717T200842Z-456B8F52：完成Android启动、登录与邀请注册纵向闭环，覆盖数据、API、Android、测试与模块门禁
+started_at: '2026-07-17T21:09:27Z'
+updated_at: '2026-07-18T00:02:36Z'
+takeover_of: SES-20260717T204616Z-254B60A3
+change_requests:
+- CR-0019
+- CR-0020
+- CR-0021
+- CR-0022
+- CR-0023
+- CR-0024
+- CR-0025
+- CR-0026
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - STORY-R02-003,STORY-R02-004及其直接实现、测试与生成契约
+  approved_exceptions:
+  - AGENTS.md
+  - START_HERE.md
+  - .continuity/CONTINUITY_POLICY.yaml
+  - config/CONTINUITY_POLICY.yaml
+  - templates/AGENTS.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  - scripts/generate_program_execution_plan.py
+  - scripts/check_program_execution_plan.py
+  - tests/test_program_execution_plan.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - tests/test_parallel_worktrees.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  - scripts/test_continuity_protocol.py
+  - docs/03-continuity/CHECKPOINT_SCHEMA.yaml
+  - docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml
+  - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+  - docs/03-continuity/并行加速开发运行手册_V1.0.md
+  - artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - artifacts/context/CURRENT_CONTEXT_PACK.md
+  - artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - MANIFEST_SHA256.txt
+  - CHANGELOG.md
+  - templates/START_HERE.md
+  - scripts/run_continuity_self_test.py
+  - tests/test_context_pack_parallel_policy.py
+  - scripts/continuity_gate.py
+  - tests/test_continuity_bootstrap_recovery.py
+  - tests/test_continuity_cross_release_close.py
+  - tests/test_parallel_checkpoint_policy.py
+  - README.md
+  - .gitignore
+  - config/REPOSITORY_TRANSPORT.yaml
+  - config/DEVELOPMENT_RUNTIME.yaml
+  - PROJECT_MANIFEST.yaml
+  - apps/android/README.md
+  - scripts/restore_git_transport.py
+  - scripts/select_execution_profile.py
+  - scripts/verify_cloud_environment.py
+  - tests/test_git_transport_recovery.py
+  - tests/test_model_routing.py
+  - tests/test_cloud_environment.py
+  - docs/03-continuity/无状态接续运行手册_V1.2.3.md
+  - .github/workflows/continuity-gate.yml
+  - .githooks/pre-push
+  source: story+explicit+approved-cr:CR-0021+approved-cr:CR-0022+approved-cr:CR-0023+approved-cr:CR-0024+approved-cr:CR-0025+approved-cr:CR-0026
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  base_commit: 3e5e39d7ef1501cc6d93856cde11fb880dfcc21e
+  start_head: bdebdcadf025e8ce3f6d1703a3eaea097f45a7c1
+  upstream: origin/task/TASK-R02-002
+  initial_worktree_state: DIRTY_TAKEOVER
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T00:02:34Z'
+  expires_at: '2026-07-18T04:02:34Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0008.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
+next_step: 暂存全部项目变化，运行pre-commit与提交Hook，执行Git transport pre-push后安全推送task/TASK-R02-002
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: f11e62d76f1f04b9497216891e062e1c493b338afccacba2cf8e1201a1677847
+  generated_at: '2026-07-18T00:02:35Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: git-transport
+    responsibility: Sol high完成高风险Git transport与推送门禁
+    allowed_paths:
+    - config/REPOSITORY_TRANSPORT.yaml
+    - scripts/restore_git_transport.py
+    - tests/test_git_transport_recovery.py
+    - scripts/continuity_gate.py
+  - worker_id: runtime-policy
+    responsibility: Terra medium完成模型路由与云端环境门禁
+    allowed_paths:
+    - config/DEVELOPMENT_RUNTIME.yaml
+    - scripts/select_execution_profile.py
+    - scripts/verify_cloud_environment.py
+    - tests/test_model_routing.py
+    - tests/test_cloud_environment.py
+  reason: 2个执行代理实际完成并由主控集成；Luna不可用，轻量工作按规则记录Terra low回退；第三代理受线程槽限制未启动。

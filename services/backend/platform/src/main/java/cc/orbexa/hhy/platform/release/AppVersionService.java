@@ -42,6 +42,25 @@ public final class AppVersionService {
                 now);
     }
 
+    public AppLatestView latestPublic() {
+        Instant now = Instant.now(clock);
+        PublishedAppRelease release = repository.findLatestPublic(now)
+                .orElseThrow(() -> new BusinessException(
+                        "COMMON-404-NOT_FOUND", "当前没有可公开下载的正式版本", 404, false));
+        validatePublishedRelease(release);
+        return new AppLatestView(
+                "app-latest",
+                "合伙云 Pro " + release.versionName(),
+                release.releaseNotes(),
+                new AppLatestView.DownloadInfo(
+                        "ANDROID",
+                        release.versionName(),
+                        release.versionCode(),
+                        downloadUrl(release.downloadDomain(), release.objectKey()),
+                        release.sha256()),
+                release.versionCode());
+    }
+
     private static String resolveUpdateType(long currentVersionCode, PublishedAppRelease release) {
         if (currentVersionCode >= release.versionCode()) {
             return "NONE";

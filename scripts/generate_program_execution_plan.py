@@ -195,6 +195,7 @@ def client_partition(platforms: list[str]) -> str:
 def build_plan(root: Path) -> dict[str, Any]:
     dependency_doc = load_yaml(root / "releases" / "RELEASE_DEPENDENCIES.yaml")
     dependencies = dependency_doc["dependencies"]
+    parallel_policy = load_yaml(root / ".continuity" / "CONTINUITY_POLICY.yaml")["parallel_development"]
     waves = topological_waves(dependencies)
     critical_path = longest_path_to("R32", dependencies, {})
 
@@ -260,7 +261,7 @@ def build_plan(root: Path) -> dict[str, Any]:
     return {
         "schema": "hhy.program-execution-plan/v1",
         "version": "1.0",
-        "change_request": "CR-0019",
+        "change_request": "CR-0021",
         "scope": {"from": "R02", "through": "R32", "completed_baseline": ["P00", "R01"]},
         "source_of_truth": {
             "dependencies": "releases/RELEASE_DEPENDENCIES.yaml",
@@ -270,10 +271,16 @@ def build_plan(root: Path) -> dict[str, Any]:
         },
         "portfolio_totals": totals,
         "operating_model": {
-            "actual_concurrency_slots": 4,
+            "actual_concurrency_slots": 1 + int(parallel_policy["max_delegated_workers"]),
             "coordinator_slots": 1,
-            "delegated_worker_slots": 3,
-            "authoritative_session_count": 1,
+            "delegated_worker_slots": parallel_policy["max_delegated_workers"],
+            "authoritative_session_count": parallel_policy["authoritative_active_sessions"],
+            "default_delegation_mode": parallel_policy["default_delegation_mode"],
+            "review_triggers": parallel_policy["review_triggers"],
+            "per_task_user_confirmation_required": parallel_policy["per_task_user_confirmation_required"],
+            "non_delegation_requires_checkpoint_reason": parallel_policy["non_delegation_requires_checkpoint_reason"],
+            "capability_fallback": parallel_policy["capability_fallback"],
+            "user_override_allowed": parallel_policy["user_override_allowed"],
             "simultaneous_business_release_limit": 1,
             "cross_release_parallelism": "PLANNING_AND_EXTERNAL_PREPARATION_ONLY",
             "worker_rules": [

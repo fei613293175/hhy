@@ -25,6 +25,7 @@ from continuity_lib import (
     STATE_FILE,
     ContinuityError,
     active_change_requests,
+    apply_change_request_scope,
     amend_change_request,
     append_event,
     approve_change_request,
@@ -411,7 +412,7 @@ def command_bootstrap(args: Namespace) -> None:
         "reconciled_session_id": reconciled_session_id,
         "metadata_commit_required": bool(reconciled_session_id),
         "next_command": (
-            "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence'"
+            "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'"
             if reconciled_session_id
             else f"python3 scripts/continuity.py start --actor {actor} --task {args.task} --story <STORY_ID> --goal '<精确目标>'"
         ),
@@ -455,7 +456,7 @@ def command_start(args: Namespace) -> None:
             "story_id": session.get("story_id"),
             "lease_expires_at": session["lease"]["expires_at"],
             "session_log": session["session_log"],
-            "next_command": "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence'",
+            "next_command": "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'",
         }
     )
 
@@ -471,6 +472,19 @@ def command_checkpoint(args: Namespace) -> None:
         tests = [parse_test_spec(item) for item in args.test]
         if not tests and args.no_test_reason:
             tests = [{"name": "本阶段未执行测试", "result": "NOT_RUN", "evidence": "", "note": args.no_test_reason}]
+        workers = []
+        for spec in args.delegated_worker:
+            parts = spec.split("|", 2)
+            if len(parts) != 3:
+                raise ContinuityError("--delegated-worker格式必须为 worker_id|responsibility|path1,path2")
+            worker_id, responsibility, raw_paths = (part.strip() for part in parts)
+            paths = [path.strip() for path in raw_paths.split(",") if path.strip()]
+            workers.append({"worker_id": worker_id, "responsibility": responsibility, "allowed_paths": paths})
+        parallel_execution = {
+            "assessment": args.parallel_assessment,
+            "workers": workers,
+            "reason": args.parallel_reason,
+        }
         checkpoint = write_checkpoint(
             ROOT,
             session,
@@ -480,6 +494,7 @@ def command_checkpoint(args: Namespace) -> None:
             blockers=args.blocker,
             decisions=args.decision,
             tests=tests,
+            parallel_execution=parallel_execution,
             note=args.note,
         )
     print_yaml(
@@ -587,6 +602,11 @@ def command_takeover(args: Namespace) -> None:
             blockers=[],
             decisions=[f"接管来源：{old['session_id']}", f"原Actor：{old['actor']['id']}"],
             tests=tests or [{"name": "Handoff Manifest", "result": "PASS", "evidence": old.get("handoff_bundle") or "lease recovery", "note": "接管校验"}],
+            parallel_execution={
+                "assessment": "NO_SAFE_PARALLEL",
+                "workers": [],
+                "reason": "会话接管与事实源恢复必须由新主控串行完成",
+            },
             note=args.reason,
         )
     print_yaml(
@@ -631,6 +651,11 @@ def command_recover(args: Namespace) -> None:
             blockers=[f"原会话异常中断：{args.reason}"],
             decisions=["采用显式recover，不覆盖原会话记录"],
             tests=[{"name": "Event Chain / Worktree Recovery", "result": "PASS", "evidence": session["session_log"], "note": "异常恢复检查点"}],
+            parallel_execution={
+                "assessment": "NO_SAFE_PARALLEL",
+                "workers": [],
+                "reason": "异常恢复与事件链校验必须由主控串行完成",
+            },
         )
         append_event(ROOT, "SESSION_RECOVERED", {"old_session": old["session_id"], "new_session": session["session_id"], "reason": args.reason})
     print_yaml({"status": "RECOVERED", "old_session": old["session_id"], "new_session": session["session_id"], "checkpoint": checkpoint["checkpoint_id"]})
@@ -655,7 +680,7 @@ def resolve_next_task(root: Path, release: str, next_task_id: str) -> dict[str, 
         "commands": {
             "resume": "python3 scripts/continuity.py resume",
             "start": start_command,
-            "checkpoint": "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note'",
+            "checkpoint": "python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'",
             "handoff": "python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'",
             "export_clean": "python3 scripts/continuity.py export-clean --portable-zip <OUTPUT.zip>",
             "cr_amend": "python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>",
@@ -1164,6 +1189,21 @@ def command_cr_update(args: Namespace) -> None:
         )
     print_yaml(record)
 
+
+def command_scope_apply_cr(args: Namespace) -> None:
+    actor = get_actor(args)
+    with continuity_lock(ROOT):
+        session = current_session(ROOT, allow_handoff=False)
+        if not session:
+            raise ContinuityError("没有ACTIVE会话")
+        result = apply_change_request_scope(
+            ROOT,
+            session=session,
+            cr_id=args.cr,
+            actor_id=actor,
+        )
+    print_yaml(result)
+
 def build_parser() -> ArgumentParser:
     parser = ArgumentParser(description="持续开发无状态接续强制门禁")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -1194,6 +1234,13 @@ def build_parser() -> ArgumentParser:
     checkpoint.add_argument("--decision", action="append", default=[])
     checkpoint.add_argument("--test", action="append", default=[], help="name|PASS|evidence|note")
     checkpoint.add_argument("--no-test-reason", default="")
+    checkpoint.add_argument(
+        "--parallel-assessment",
+        required=True,
+        choices=["DELEGATED", "NO_SAFE_PARALLEL", "CAPABILITY_UNAVAILABLE", "USER_SERIAL_OVERRIDE"],
+    )
+    checkpoint.add_argument("--delegated-worker", action="append", default=[], help="worker_id|responsibility|path1,path2")
+    checkpoint.add_argument("--parallel-reason", default="")
     checkpoint.add_argument("--note", default="")
     checkpoint.set_defaults(func=command_checkpoint)
 
@@ -1287,6 +1334,11 @@ def build_parser() -> ArgumentParser:
     cr_update.add_argument("--note", required=True)
     cr_update.add_argument("--commit", action="append", default=[])
     cr_update.set_defaults(func=command_cr_update)
+
+    scope_apply_cr = sub.add_parser("scope-apply-cr", help="将已批准CR的精确影响文件应用到当前会话范围")
+    scope_apply_cr.add_argument("--actor")
+    scope_apply_cr.add_argument("--cr", required=True)
+    scope_apply_cr.set_defaults(func=command_scope_apply_cr)
     return parser
 
 

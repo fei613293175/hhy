@@ -8,6 +8,11 @@
 *.pem
 *.key
 secrets/
+.git-credentials
+.netrc
+.ssh/
+*github-token*
+*github_pat*
 # builds
 **/build/
 **/dist/

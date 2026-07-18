@@ -92,6 +92,36 @@ class ApiModelsSerializationTest {
     }
 
     @Test
+    fun latestAppDecodesFrozenPublicPageShape() {
+        val envelope = json.decodeFromString<ApiEnvelope<PublicPage>>(
+            """
+            {
+              "success": true,
+              "requestId": "request_latest",
+              "timestamp": "2026-07-17T00:00:00Z",
+              "data": {
+                "code": "app-latest",
+                "title": "合伙云 Pro 1.2.3",
+                "description": "安全更新",
+                "download": {
+                  "platform": "ANDROID",
+                  "versionName": "1.2.3",
+                  "versionCode": 10202,
+                  "downloadUrl": "https://downloads.example.com/hhy.apk",
+                  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                },
+                "version": 10202
+              }
+            }
+            """.trimIndent(),
+        )
+
+        assertEquals("app-latest", envelope.data.code)
+        assertEquals(10202L, envelope.data.download?.versionCode)
+        assertEquals(64, envelope.data.download?.sha256?.length)
+    }
+
+    @Test
     fun unknownResponseFieldsAreRejected() {
         assertThrows(SerializationException::class.java) {
             json.decodeFromString<PlatformCapabilities>(

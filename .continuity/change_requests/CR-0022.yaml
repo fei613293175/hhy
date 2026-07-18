@@ -1,0 +1,53 @@
+protocol_version: '1.0'
+cr_id: CR-0022
+title: 补齐并行长期授权的模板与跨设备恢复回归
+status: IMPLEMENTED
+created_at: '2026-07-17T22:30:46Z'
+updated_at: '2026-07-17T23:07:17Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-governance-reviewer
+task_id: TASK-R02-002
+session_id: SES-20260717T210927Z-13B07A7D
+user_request: 项目所有者要求长期多代理授权在任意AI工具和任意电脑上默认恢复。
+reason: CR-0021独立审查后发现导出模板START_HERE和无状态恢复自测未列入原影响文件，若不补齐可能在新包或新电脑恢复时丢失授权。
+original_rule: 根入口可更新，但导出模板START_HERE仍可能保留旧规则，且自测未断言新目录只靠仓库恢复长期授权。
+new_rule: 导出模板必须携带与根入口一致的长期自动委托规则；生命周期自测和专门回归必须证明复制到新目录或新电脑后Context Pack仍显式恢复该授权。
+impact_summary: 补齐模板入口和跨设备Context Pack恢复回归，防止打包、换AI或换电脑时授权漂移。
+impact:
+  files:
+  - templates/START_HERE.md
+  - scripts/run_continuity_self_test.py
+  - tests/test_context_pack_parallel_policy.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - template-entry-parallel-policy-drift
+  - repository-only-context-parallel-policy-reconstruction
+  releases:
+  - R02
+  - R03
+  - R04
+  migration_and_compatibility: 只增强模板和测试，不改变业务行为；旧包重新生成后获得相同长期授权。
+user_confirmation: 项目所有者要求长期多代理默认规则可由其他AI工具和任意电脑仅凭项目包恢复。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-17T22:31:08Z'
+  note: 独立审查已确认模板和无状态恢复回归是跨AI跨设备持久化的必要补充，范围仅限模板与测试。
+machine_record: .continuity/change_requests/CR-0022.yaml
+document: docs/03-continuity/change-requests/CR-0022-补齐并行长期授权的模板与跨设备恢复回归.md
+decision_log:
+- at: '2026-07-17T22:31:10Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 补齐模板入口与repository-only恢复测试。
+  session_id: SES-20260717T210927Z-13B07A7D
+- at: '2026-07-17T23:07:17Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 导出模板与repository-only Context Pack授权恢复回归已通过。
+  session_id: SES-20260717T210927Z-13B07A7D
+session_ids:
+- SES-20260717T210927Z-13B07A7D

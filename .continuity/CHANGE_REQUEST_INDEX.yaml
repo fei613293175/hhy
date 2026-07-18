@@ -1141,3 +1141,443 @@ change_requests:
   - SES-20260717T200842Z-456B8F52
   implementation_commits:
   - f9f06a6fd3cbb518a1b2d78b0ce86bb45b5b05b0
+- protocol_version: '1.0'
+  cr_id: CR-0021
+  title: 将1主控加3执行代理设为跨AI跨设备默认自动并行规则
+  status: IMPLEMENTED
+  created_at: '2026-07-17T22:16:06Z'
+  updated_at: '2026-07-17T23:07:15Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-governance-reviewer
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 用户于2026-07-18明确授权主控从现在起可自行使用多线程代理开发，无需逐次确认，并要求硬性记录为后续任意AI工具和任意电脑默认规则
+  reason: 现有仓库仅记录最多3个执行代理的能力上限，未规定主控在可并行任务中默认自动启用，导致实际开发可能退化为单线程并依赖聊天授权
+  original_rule: 仓库仅声明主控最多可委托3个执行代理；是否启用可能依赖当次聊天授权，未强制主控主动评估并行机会，也未结构化记录未委托原因或拒绝第4个活跃代理。
+  new_rule: 项目所有者提供长期仓库级授权：主控必须在Task开始及范围变化时评估并行机会；存在边界清晰、路径互斥且可安全并行的工作包时，应自行启用1至3个执行代理且不得再次请求逐次授权；未委托时必须在Checkpoint记录原因。始终只允许1个ACTIVE主控Session、1个Claim、1个事实分支和1个提交/推送/发布者；高风险变更与最终集成由主控串行复核；不支持代理的AI必须记录能力限制。
+  impact_summary: 将1主控加最多3执行代理的长期授权写入机器策略、启动入口、上下文交接包、计划生成器、并行worktree门禁、Checkpoint结构和严格测试，确保跨AI与跨设备恢复。
+  impact:
+    files:
+    - AGENTS.md
+    - START_HERE.md
+    - .continuity/CONTINUITY_POLICY.yaml
+    - config/CONTINUITY_POLICY.yaml
+    - templates/AGENTS.md
+    - releases/PROGRAM_EXECUTION_PLAN.yaml
+    - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
+    - releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+    - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+    - scripts/generate_program_execution_plan.py
+    - scripts/check_program_execution_plan.py
+    - tests/test_program_execution_plan.py
+    - scripts/prepare_parallel_worktrees.ps1
+    - tests/test_parallel_worktrees.py
+    - scripts/check_v123_continuity.py
+    - scripts/continuity.py
+    - scripts/continuity_lib.py
+    - scripts/test_continuity_protocol.py
+    - docs/03-continuity/CHECKPOINT_SCHEMA.yaml
+    - docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml
+    - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
+    - docs/03-continuity/并行加速开发运行手册_V1.0.md
+    - artifacts/context/CURRENT_CONTEXT_PACK.yaml
+    - artifacts/context/CURRENT_CONTEXT_PACK.md
+    - artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+    - MANIFEST_SHA256.txt
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - parallel_development.default_delegation_mode
+    - parallel_development.per_task_user_confirmation_required
+    - parallel_development.non_delegation_requires_checkpoint_reason
+    - parallel_development.max_delegated_workers
+    - checkpoint.parallel_execution
+    ledger: []
+    tests:
+    - program-plan-default-delegation-strict-validation
+    - parallel-worktree-three-worker-cap-and-atomic-registry
+    - checkpoint-structured-parallel-decision-validation
+    - context-pack-cross-ai-authorization-reconstruction
+    - continuity-strict-and-secret-scope-gates
+    - deterministic-plan-generation
+    - documentation-strict-gate
+    releases:
+    - R02
+    - R03
+    - R04
+    - R05
+    - R06
+    - R07
+    - R08
+    - R09
+    - R10
+    - R11
+    - R12
+    - R13
+    - R14
+    - R15
+    - R16
+    - R17
+    - R18
+    - R19
+    - R20
+    - R21
+    - R22
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R28
+    - R29
+    - R30
+    - R31
+    - R32
+    migration_and_compatibility: 纯工程治理与调度规则增强，不改变业务API、数据库、页面或发布语义；旧AI或不具备代理能力的环境允许单主控继续，但必须记录CAPABILITY_UNAVAILABLE且不得伪造并行证据。
+  user_confirmation: 项目所有者于2026-07-18明确授权：从现在起主控可自行代理使用多线程开发，无需逐次确认；该规则硬性记录并作为后续任意AI工具及任意电脑开发的默认规则。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T22:25:22Z'
+    note: 独立只读审查确认：长期授权应为MUST；实际委托为有安全并行工作时SHOULD；保留单主控、最多3执行代理、隔离路径租约、主控最终集成和高风险串行复核，并补齐容量、上下文与Checkpoint机器门禁。
+  machine_record: .continuity/change_requests/CR-0021.yaml
+  document: docs/03-continuity/change-requests/CR-0021-将1主控加3执行代理设为跨AI跨设备默认自动并行规则.md
+  decision_log:
+  - at: '2026-07-17T22:25:24Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 按已批准长期授权开始落地机器策略、上下文包、计划、并行worktree、Checkpoint和严格验证。
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-17T23:07:15Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 长期1主控加最多3执行代理规则已写入权威策略、入口、计划、worktree与Checkpoint门禁，并通过模块及重建验证。
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0022
+  title: 补齐并行长期授权的模板与跨设备恢复回归
+  status: IMPLEMENTED
+  created_at: '2026-07-17T22:30:46Z'
+  updated_at: '2026-07-17T23:07:17Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-governance-reviewer
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 项目所有者要求长期多代理授权在任意AI工具和任意电脑上默认恢复。
+  reason: CR-0021独立审查后发现导出模板START_HERE和无状态恢复自测未列入原影响文件，若不补齐可能在新包或新电脑恢复时丢失授权。
+  original_rule: 根入口可更新，但导出模板START_HERE仍可能保留旧规则，且自测未断言新目录只靠仓库恢复长期授权。
+  new_rule: 导出模板必须携带与根入口一致的长期自动委托规则；生命周期自测和专门回归必须证明复制到新目录或新电脑后Context Pack仍显式恢复该授权。
+  impact_summary: 补齐模板入口和跨设备Context Pack恢复回归，防止打包、换AI或换电脑时授权漂移。
+  impact:
+    files:
+    - templates/START_HERE.md
+    - scripts/run_continuity_self_test.py
+    - tests/test_context_pack_parallel_policy.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - template-entry-parallel-policy-drift
+    - repository-only-context-parallel-policy-reconstruction
+    releases:
+    - R02
+    - R03
+    - R04
+    migration_and_compatibility: 只增强模板和测试，不改变业务行为；旧包重新生成后获得相同长期授权。
+  user_confirmation: 项目所有者要求长期多代理默认规则可由其他AI工具和任意电脑仅凭项目包恢复。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T22:31:08Z'
+    note: 独立审查已确认模板和无状态恢复回归是跨AI跨设备持久化的必要补充，范围仅限模板与测试。
+  machine_record: .continuity/change_requests/CR-0022.yaml
+  document: docs/03-continuity/change-requests/CR-0022-补齐并行长期授权的模板与跨设备恢复回归.md
+  decision_log:
+  - at: '2026-07-17T22:31:10Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 补齐模板入口与repository-only恢复测试。
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-17T23:07:17Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 导出模板与repository-only Context Pack授权恢复回归已通过。
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0023
+  title: 补齐Checkpoint并行决策的提交门禁与兼容回归
+  status: IMPLEMENTED
+  created_at: '2026-07-17T22:36:43Z'
+  updated_at: '2026-07-17T23:07:19Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-governance-reviewer
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 项目所有者要求默认多代理规则成为硬性、可跨AI恢复的仓库规则。
+  reason: CR-0021引入结构化并行决策后，提交门禁与现有bootstrap/cross-release回归必须同步，否则规则不能在每次提交强制且测试会漂移。
+  original_rule: Checkpoint和提交门禁只验证摘要、下一步、测试与指纹，不验证任务开始或范围变化时是否评估并行机会。
+  new_rule: Checkpoint必须携带结构化parallel_execution；DELEGATED记录1至3个代理及互斥路径，未委托必须使用受控原因并填写说明；提交和严格门禁拒绝缺失、超过3个代理或伪造/空原因。
+  impact_summary: 让长期自动委托授权进入每个Checkpoint和提交门禁，并同步现有生命周期回归。
+  impact:
+    files:
+    - scripts/continuity_gate.py
+    - tests/test_continuity_bootstrap_recovery.py
+    - tests/test_continuity_cross_release_close.py
+    - tests/test_parallel_checkpoint_policy.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - checkpoint-parallel-policy-strict-gate
+    - bootstrap-parallel-decision-compatibility
+    - cross-release-parallel-decision-compatibility
+    releases:
+    - R02
+    - R03
+    - R04
+    migration_and_compatibility: 现有历史Checkpoint保持可读；新建Checkpoint必须提供结构化并行决策，测试夹具显式记录NO_SAFE_PARALLEL原因。
+  user_confirmation: 项目所有者要求长期多代理默认规则硬性记录并供后续AI与电脑默认执行。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T22:37:05Z'
+    note: 独立审查要求Checkpoint结构化并行决策必须由提交门禁验证，并同步既有生命周期回归；影响限于门禁和测试。
+  machine_record: .continuity/change_requests/CR-0023.yaml
+  document: docs/03-continuity/change-requests/CR-0023-补齐Checkpoint并行决策的提交门禁与兼容回归.md
+  decision_log:
+  - at: '2026-07-17T22:37:07Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 实现Checkpoint并行决策与提交门禁。
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-17T23:07:19Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Checkpoint结构化并行决策、提交门禁与兼容回归已完成。
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0024
+  title: 固化跨电脑Git推送、模型分级与云端既有环境前置规则
+  status: IMPLEMENTED
+  created_at: '2026-07-17T23:18:43Z'
+  updated_at: '2026-07-18T00:01:48Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-runtime-governance-reviewer
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 项目所有者要求换电脑或换AI后可恢复Git远程并正常推送；复杂/中等/轻量场景分别自动选择Sol/Terra/Luna；Codex默认已连接obx-test且既有环境可用，连接异常必须阻断而不能无服务器开发或重建本地Android环境。
+  reason: 当前Git remote仅存在.git/config，Git Bundle不携带remote/upstream；模型路由和云端环境只存在聊天/会话日志，无法被新AI和新电脑可靠恢复。
+  original_rule: GitHub remote和upstream仅存在本机.git/config，Handoff Git Bundle不携带；模型选择依赖当前客户端默认，未按复杂度路由；obx-test与固定Android镜像只在会话日志中，换AI或电脑可能误判为无服务器并重建本地环境。
+  new_rule: 仓库跟踪非秘密Git transport descriptor并提供受控恢复/推送预检；复杂、高风险任务选择Sol，中等任务选择Terra，轻量任务选择Luna，模型不可用时必须可审计fallback且不得伪称；正常开发硬前提为Codex已连接obx-test且既有云环境可用，启动必须预检，失败立即阻断并报告，禁止以无服务器状态继续或重建本地Android
+    SDK，Android固定复用hhy-android-toolchain:r01-46fb273与hhy-r01-android-gradle-cache。
+  impact_summary: 把远程仓库、分支推送、模型分级和云端既有环境从本机/聊天事实提升为跨AI跨电脑的跟踪配置、Context Pack、恢复脚本和严格门禁。
+  impact:
+    files:
+    - AGENTS.md
+    - START_HERE.md
+    - templates/AGENTS.md
+    - templates/START_HERE.md
+    - README.md
+    - CHANGELOG.md
+    - .gitignore
+    - .continuity/CONTINUITY_POLICY.yaml
+    - config/CONTINUITY_POLICY.yaml
+    - config/REPOSITORY_TRANSPORT.yaml
+    - config/DEVELOPMENT_RUNTIME.yaml
+    - PROJECT_MANIFEST.yaml
+    - apps/android/README.md
+    - scripts/continuity.py
+    - scripts/continuity_lib.py
+    - scripts/continuity_gate.py
+    - scripts/check_v123_continuity.py
+    - scripts/restore_git_transport.py
+    - scripts/select_execution_profile.py
+    - scripts/verify_cloud_environment.py
+    - scripts/run_continuity_self_test.py
+    - tests/test_git_transport_recovery.py
+    - tests/test_model_routing.py
+    - tests/test_cloud_environment.py
+    - tests/test_context_pack_parallel_policy.py
+    - docs/03-continuity/CONTEXT_PACK_SCHEMA.yaml
+    - docs/03-continuity/无状态接续运行手册_V1.2.3.md
+    - .github/workflows/continuity-gate.yml
+    - artifacts/context/CURRENT_CONTEXT_PACK.yaml
+    - artifacts/context/CURRENT_CONTEXT_PACK.md
+    - artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - git_transport
+    - runtime_policy.task_model_routing
+    - runtime_policy.execution_environment
+    - context.development_runtime
+    ledger: []
+    tests:
+    - git-transport-three-mode-recovery
+    - git-push-preflight-no-credentials-no-force
+    - model-routing-sol-terra-luna-and-auditable-fallback
+    - cloud-obx-test-required-preflight-and-fixed-android-image
+    - context-pack-runtime-policy-reconstruction
+    - continuity-strict-and-documentation-gate
+    releases:
+    - R02
+    - R03
+    - R04
+    - R05
+    - R06
+    - R07
+    - R08
+    - R09
+    - R10
+    - R11
+    - R12
+    - R13
+    - R14
+    - R15
+    - R16
+    - R17
+    - R18
+    - R19
+    - R20
+    - R21
+    - R22
+    - R23
+    - R24
+    - R25
+    - R26
+    - R27
+    - R28
+    - R29
+    - R30
+    - R31
+    - R32
+    migration_and_compatibility: 不改变业务API、数据库或页面；remote URL和SSH alias可跟踪但PAT、私钥和credential内容禁止入库。已有.git仓库校验/修复origin与upstream；Git Bundle恢复后重建transport；纯源码无历史时禁止覆盖远端。运行时缺Luna时退回Terra低推理并记录，不得冒充Luna。
+  user_confirmation: 项目所有者于2026-07-18明确确认：若未主动说明未连接，必须默认Codex客户端已连接项目云服务器且已有对应环境，禁止按无服务器状态开发或重建本地Android环境；同时要求跨电脑Git推送恢复及Sol/Terra/Luna分级成为硬性规则。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T23:21:03Z'
+    note: 独立审核通过：规则与用户最新澄清一致；默认云端已连接且既有环境可用，只有用户明确报告未连接时才能改变此前提。Git传输仅跟踪非秘密信息，模型降级必须审计。
+  machine_record: .continuity/change_requests/CR-0024.yaml
+  document: docs/03-continuity/change-requests/CR-0024-固化跨电脑Git推送、模型分级与云端既有环境前置规则.md
+  decision_log:
+  - at: '2026-07-17T23:21:06Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现跨电脑Git transport、模型分级与云端既有环境强制前置门禁。
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T00:01:48Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Git transport、模型分级、obx-test既有环境预检、Context Pack与严格门禁均已实现；专项、真实云端、14项生命周期和11项仓库重建通过。
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0025
+  title: 绑定Git pre-push实际目标以消除跨remote绕过
+  status: IMPLEMENTED
+  created_at: '2026-07-17T23:31:46Z'
+  updated_at: '2026-07-18T00:01:49Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-git-safety-reviewer
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 项目所有者要求跨电脑和跨AI均可安全恢复并正常推送，且推送必须不可绕过transport规则。
+  reason: CR-0024集成复核发现现有pre-push Hook未把Git传入的remote名称和URL交给门禁，直接push到非origin目标可能绕过受控descriptor校验。
+  original_rule: pre-push Hook仅调用通用门禁，不传递Git提供的实际remote名称和URL，门禁只能读取tracked origin。
+  new_rule: pre-push Hook必须把实际remote名称和URL传入continuity_gate；门禁将其与tracked descriptor精确比对，任何非origin或URL漂移均拒绝。
+  impact_summary: 消除直接git push到错误remote时绕过transport descriptor的路径。
+  impact:
+    files:
+    - .githooks/pre-push
+    - scripts/continuity_gate.py
+    - tests/test_git_transport_recovery.py
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - git_transport.actual_push_target
+    ledger: []
+    tests:
+    - pre-push hook actual remote and URL rejection
+    releases:
+    - R02
+    migration_and_compatibility: 仅扩展Hook与门禁参数；正常origin推送保持兼容，错误remote/URL将被明确拒绝。
+  user_confirmation: 项目所有者已要求跨电脑/跨AI能够正常且安全推送；该修复是CR-0024推送安全规则的必要实现。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T23:32:08Z'
+    note: 独立安全复核通过：透传Git实际目标是实现不可绕过推送门禁所必需的最小变更。
+  machine_record: .continuity/change_requests/CR-0025.yaml
+  document: docs/03-continuity/change-requests/CR-0025-绑定Git-pre-push实际目标以消除跨remote绕过.md
+  decision_log:
+  - at: '2026-07-17T23:32:10Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现pre-push实际remote/URL绑定。
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T00:01:49Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: pre-push Hook已透传Git实际remote/URL，错误目标和force路径不可绕过；本地bare回归通过。
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0026
+  title: 让连续性生命周期演练使用真实本地transport
+  status: IMPLEMENTED
+  created_at: '2026-07-17T23:46:06Z'
+  updated_at: '2026-07-18T00:01:52Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-continuity-test-reviewer
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 项目所有者要求跨电脑Git恢复和安全推送可由项目测试持续验证。
+  reason: 新push门禁正确拒绝了没有remote/upstream的旧生命周期夹具；夹具必须建立本地bare remote并验证合法transport路径。
+  original_rule: 生命周期演练在无remote/upstream仓库中直接运行pre-push。
+  new_rule: 生命周期演练在baseline前生成本地bare remote descriptor，baseline后建立origin/upstream，再验证pre-push；不访问GitHub。
+  impact_summary: 让真实Git生命周期演练覆盖新transport门禁的合法推送路径。
+  impact:
+    files:
+    - scripts/test_continuity_protocol.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - lifecycle local bare transport pre-push
+    releases:
+    - R02
+    migration_and_compatibility: 仅影响隔离测试夹具和验证证据，不改变生产Git远程或业务实现。
+  user_confirmation: 项目所有者要求跨电脑和跨AI的Git推送能力成为可持续验证的硬规则。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-17T23:46:09Z'
+    note: 独立复核通过：本地bare remote可验证transport且不会写GitHub。
+  machine_record: .continuity/change_requests/CR-0026.yaml
+  document: docs/03-continuity/change-requests/CR-0026-让连续性生命周期演练使用真实本地transport.md
+  decision_log:
+  - at: '2026-07-17T23:46:11Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始适配生命周期本地transport夹具。
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T00:01:52Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 生命周期夹具已使用本地bare transport和真实upstream；14项演练与Handoff重建通过。
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D

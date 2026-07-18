@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## 跨电脑 Git、模型分级与云端既有环境门禁 · 2026-07-18
+
+- 跟踪不含秘密的仓库 transport descriptor，支持在新电脑、完整仓库或已验证 Git Bundle 中恢复 `origin`/upstream，并拒绝 force、错误 remote、behind/diverged 和含凭据 URL 的推送。
+- 固化任务模型路由：复杂/高风险使用 Sol，中等使用 Terra，轻量/机械/只读使用 Luna；目标模型不可用时必须记录实际回退且不得伪称。
+- 固化 Codex 默认已连接 `obx-test` 和项目既有环境的前提；启动预检失败必须阻断，禁止按无服务器状态开发或重建本地 Android SDK，Android 继续复用固定镜像和 Gradle 缓存。
+
+## 跨 AI / 跨设备默认多代理授权 · 2026-07-18
+
+- 将项目所有者长期授权写入权威连续性策略、AGENTS、START_HERE、导出模板、Context Pack、R02—R32 总计划和 R02—R04 并行计划；后续无需逐 Task 再确认是否启用执行代理。
+- 固定调度模型为 1 个事实主控加最多 3 个隔离执行代理；未委托必须在 Checkpoint 记录原因，不支持代理的 AI 禁止伪造并行证据。
+- 新增已批准 CR 精确范围应用、Checkpoint 结构化并行决策、第 4 个代理拒绝、路径租约与模板/Context Pack 防漂移门禁。
+
 ## R02 并行加速开发基线 · 2026-07-18
 
 - 保留唯一主控 Session，引入最多 3 个受托执行代理、独立 scratch worktree、互斥路径租约和主控统一集成，避免事件哈希链及 Release 事实冲突。
@@ -228,4 +240,3 @@
 - Actor：`codex-master`
 - 摘要：完成R02开发就绪与并行加速基线：主控与隔离执行机制、纵向切片任务图、分层测试、确定性代码生成、APK持续交付和CI全量集成已落地并验证
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T183459Z-D64E7407.md`
-

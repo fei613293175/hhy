@@ -29,6 +29,10 @@ jobs:
       - run: python3 scripts/test_continuity_protocol.py
       - run: python3 tests/test_continuity_bootstrap_recovery.py
       - run: python3 tests/test_continuity_cross_release_close.py
+      - run: python3 tests/test_git_transport_recovery.py
+      - run: python3 tests/test_model_routing.py
+      - run: python3 tests/test_cloud_environment.py
+      - run: python3 tests/test_context_pack_parallel_policy.py
       - run: python3 tests/test_release_close_gate.py
       - run: python3 scripts/check_v123_continuity.py --strict
       - uses: actions/upload-artifact@v4

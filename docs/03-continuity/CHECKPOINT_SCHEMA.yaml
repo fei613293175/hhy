@@ -8,8 +8,12 @@ required:
 - project_fingerprint
 - changed_files
 - tests
+- parallel_execution
 - created_at
 invariants:
 - 项目变化时tests至少一项
 - project_fingerprint包含sha256和逐文件哈希
 - 检查点创建后项目再变化即失效
+- parallel_execution.assessment只能为DELEGATED、NO_SAFE_PARALLEL、CAPABILITY_UNAVAILABLE或USER_SERIAL_OVERRIDE
+- DELEGATED必须记录1至3个执行代理、职责和互不重叠的allowed_paths
+- 未委托时delegated_workers必须为0且reason非空；能力不足不得伪造代理或并行证据
