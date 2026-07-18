@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T13:21:38Z
-- Context Hash：`b4aa6fbcb48c9b6ae1ba1721abf7d5bbdf4a43c3b8ac7cb2817d6e2f431fdab0`
+- 生成时间：2026-07-18T13:22:40Z
+- Context Hash：`5baa3be710825545a4e3fc8eea334fd2960fe217a4bdef021f32ac5fe426761f`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -60,7 +60,7 @@ in_progress_tasks:
 - TASK-R02-007
 blocked_tasks: []
 next_task: TASK-R02-007
-updated_at: '2026-07-18T13:21:36Z'
+updated_at: '2026-07-18T13:22:39Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -95,15 +95,15 @@ continuity:
   active_session_id: SES-20260718T105025Z-0B8DE284
   actor_id: codex-root
   story_id: STORY-R02-009
-  lease_expires_at: '2026-07-18T17:21:36Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0011.yaml
-  project_fingerprint: 219699de29f2533f7fabd09f9b2ba1af07bbc8bd448cab634b2ad771336f839f
+  lease_expires_at: '2026-07-18T17:22:39Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0012.yaml
+  project_fingerprint: 91979161e7b6cf71deffd4f9fc0a82cbd1e61b27c932da3935694ba25cc144f1
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 4d5fec14aaefc57b933de936c159861af5f473c372809a7a10876e73eb954ee1
-    generated_at: '2026-07-18T13:03:21Z'
+    context_hash: b4aa6fbcb48c9b6ae1ba1721abf7d5bbdf4a43c3b8ac7cb2817d6e2f431fdab0
+    generated_at: '2026-07-18T13:21:38Z'
   handoff_bundle: null
 ```
 
@@ -298,7 +298,7 @@ task_id: TASK-R02-007
 story_id: STORY-R02-009
 goal: 使用固定Android工具链和稳定测试签名构建R02 APK，验证真实API地址、签名、安装可行性、桌面与下载产物哈希并生成完整追溯清单
 started_at: '2026-07-18T10:50:25Z'
-updated_at: '2026-07-18T13:21:36Z'
+updated_at: '2026-07-18T13:22:39Z'
 takeover_of: null
 change_requests:
 - CR-0042
@@ -365,12 +365,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T13:21:36Z'
-  expires_at: '2026-07-18T17:21:36Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0011.yaml
+  renewed_at: '2026-07-18T13:22:39Z'
+  expires_at: '2026-07-18T17:22:39Z'
+checkpoint_sequence: 12
+latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0012.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md
-next_step: 提交并推送CR-0044实现，标记CR完成后将R02 TASK-007按真机待验挂起并切换到R03 TASK-001
+next_step: 将R02 TASK-007按真机待验BLOCKED挂起并原子切换NEXT_TASK到R03 TASK-001
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -378,55 +378,47 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 连续性事件链、NEXT_TASK和CURRENT_STATUS原子转换必须由唯一主控串行修改
+  reason: CR状态、事件链和任务切换元数据需由唯一主控串行维护
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T105025Z-0B8DE284-0011
+checkpoint_id: CP-SES-20260718T105025Z-0B8DE284-0012
 session_id: SES-20260718T105025Z-0B8DE284
-sequence: 11
-created_at: '2026-07-18T13:21:36Z'
-summary: 实现CR-0044：外部APK真机门禁可保留BLOCKED事实并原子切换至依赖全绿的独立Release首任务；新增显式授权、依赖验证、deferred_task与隔离回归
-next_step: 提交并推送CR-0044实现，标记CR完成后将R02 TASK-007按真机待验挂起并切换到R03 TASK-001
+sequence: 12
+created_at: '2026-07-18T13:22:38Z'
+summary: CR-0044实现已推送并关闭，外部真机待验挂起后继续独立Release规则可执行
+next_step: 将R02 TASK-007按真机待验BLOCKED挂起并原子切换NEXT_TASK到R03 TASK-001
 blockers: []
 decisions:
-- R02 TASK-007不标记完成；R03仅依赖已DONE的R01，因此允许作为独立DAG分支继续
+- 保留R02 TASK-007未完成和恢复条件；R03全部声明依赖R01已DONE
 note: ''
 tests:
 - name: external-gate-continuation
   result: PASS
-  evidence: python -m unittest tests.test_continuity_cross_release_close -v
-  note: 2项隔离仓库生命周期测试通过
-- name: continuity-python-compile
-  result: PASS
-  evidence: python -m py_compile scripts/continuity.py
-  note: CLI语法通过
+  evidence: tests/test_continuity_cross_release_close.py
+  note: 2项隔离生命周期回归通过
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: bac0889da24869e731f35353b2601b35ede4a577
+  head: 4acdf682149786255d25d67e043fa2e5c991c46e
   upstream: origin/task/TASK-R02-002
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/CONTINUITY_POLICY.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260718T105025Z-0B8DE284.yaml'
-  - ' M AGENTS.md'
+  - ' M .continuity/change_requests/CR-0044.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
-  - ' M scripts/continuity.py'
-  - ' M tests/test_continuity_cross_release_close.py'
-  - ?? .continuity/change_requests/CR-0044.yaml
-  - ?? docs/03-continuity/change-requests/CR-0044-允许外部真机待验任务挂起时继续独立依赖版本.md
+  - ' M docs/03-continuity/change-requests/CR-0044-允许外部真机待验任务挂起时继续独立依赖版本.md'
   recent_commits:
+  - "4acdf682149786255d25d67e043fa2e5c991c46e\t2026-07-18T21:21:56+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] feat(continuity): continue\
+    \ independent release on external gate"
   - "bac0889da24869e731f35353b2601b35ede4a577\t2026-07-18T21:03:56+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(release): deliver validated\
     \ R02 apk evidence"
   - "7b425c4e4ca7aa53eef142fd00172bbdc761afd5\t2026-07-18T20:52:41+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(auth): render captcha\
@@ -441,10 +433,8 @@ git:
     \ test APK safely"
   - "bbad603ed7136e1fc1d9fbcf03ca414c6862d16e\t2026-07-18T18:59:54+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(android): align R02 release\
     \ identity"
-  - "c5e6ce27a843a83e835472be61301d0c074019c4\t2026-07-18T18:52:01+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] build(android): set R02 test\
-    \ APK identity"
 project_fingerprint:
-  sha256: 219699de29f2533f7fabd09f9b2ba1af07bbc8bd448cab634b2ad771336f839f
+  sha256: 91979161e7b6cf71deffd4f9fc0a82cbd1e61b27c932da3935694ba25cc144f1
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -528,8 +518,8 @@ project_fingerprint:
       sha256: 0baed73e20769bd80c56d9e6cec07a375a802fbcb997ef579e703f209eb95514
     - path: docs/03-continuity/change-requests/CR-0044-允许外部真机待验任务挂起时继续独立依赖版本.md
       state: FILE
-      size: 2785
-      sha256: 70dfba4ab41b4f6004ce1206a2ec46a927c4b44ab05b9e3eeffdcf3cf0fbbde9
+      size: 3232
+      sha256: 52e092986c0ba14e1b38eb14b3efa2095c50b62770ad88d27d219f2892948701
     - path: infra/staging/docker-compose.p00.yml
       state: FILE
       size: 4392
@@ -674,8 +664,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 连续性事件链、NEXT_TASK和CURRENT_STATUS原子转换必须由唯一主控串行修改
-event_hash: 6a0dde11628403999e7325384b3202d9bc0726f9e3dbf12b721c04e78b9e6c87
+  reason: CR状态、事件链和任务切换元数据需由唯一主控串行维护
+event_hash: ebe6f077cc6135256d306b3406dbffafafc344c1abb4f5d8844329cc588d37a8
 ```
 
 ## 接续状态与事件头
@@ -687,8 +677,8 @@ active_session_id: SES-20260718T105025Z-0B8DE284
 last_session_id: SES-20260718T084729Z-BD53B7C4
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0013
-event_count: 505
-event_head_hash: 6a0dde11628403999e7325384b3202d9bc0726f9e3dbf12b721c04e78b9e6c87
+event_count: 508
+event_head_hash: ebe6f077cc6135256d306b3406dbffafafc344c1abb4f5d8844329cc588d37a8
 event_chain_valid: true
 ```
 
@@ -811,9 +801,9 @@ recent_sessions: - session_id: SES-20260717T171412Z-7CD86701
   started_at: '2026-07-18T10:50:25Z'
   record: .continuity/sessions/SES-20260718T105025Z-0B8DE284.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md
-  updated_at: '2026-07-18T13:21:36Z'
+  updated_at: '2026-07-18T13:22:39Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0011.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0012.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-F706F445AEA2
   session_id: SES-20260717T053626Z-25451510
@@ -1685,7 +1675,7 @@ recent_task_transitions: - transition_id: TRN-CA226174CBFC
 ```yaml
 initialized: true
 branch: task/TASK-R02-002
-head: bac0889da24869e731f35353b2601b35ede4a577
+head: 4acdf682149786255d25d67e043fa2e5c991c46e
 upstream: origin/task/TASK-R02-002
 ahead: 0
 behind: 0
@@ -1693,23 +1683,20 @@ dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
 - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/CONTINUITY_POLICY.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0044.yaml'
 - ' M .continuity/sessions/SES-20260718T105025Z-0B8DE284.yaml'
-- ' M AGENTS.md'
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/REUSABLE_PATTERNS.md'
+- ' M docs/03-continuity/change-requests/CR-0044-允许外部真机待验任务挂起时继续独立依赖版本.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md'
-- ' M scripts/continuity.py'
-- ' M tests/test_continuity_cross_release_close.py'
-- ?? .continuity/change_requests/CR-0044.yaml
-- ?? .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0011.yaml
-- ?? docs/03-continuity/change-requests/CR-0044-允许外部真机待验任务挂起时继续独立依赖版本.md
+- ?? .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0012.yaml
 recent_commits:
+- "4acdf682149786255d25d67e043fa2e5c991c46e\t2026-07-18T21:21:56+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] feat(continuity): continue independent\
+  \ release on external gate"
 - "bac0889da24869e731f35353b2601b35ede4a577\t2026-07-18T21:03:56+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] chore(release): deliver validated\
   \ R02 apk evidence"
 - "7b425c4e4ca7aa53eef142fd00172bbdc761afd5\t2026-07-18T20:52:41+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(auth): render captcha and\
@@ -1724,13 +1711,11 @@ recent_commits:
   \ APK safely"
 - "bbad603ed7136e1fc1d9fbcf03ca414c6862d16e\t2026-07-18T18:59:54+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] fix(android): align R02 release\
   \ identity"
-- "c5e6ce27a843a83e835472be61301d0c074019c4\t2026-07-18T18:52:01+08:00\tHHY Continuity Bootstrap\t[STORY-R02-009] build(android): set R02 test\
-  \ APK identity"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`219699de29f2533f7fabd09f9b2ba1af07bbc8bd448cab634b2ad771336f839f`
+- 指纹：`91979161e7b6cf71deffd4f9fc0a82cbd1e61b27c932da3935694ba25cc144f1`
 - 文件数：24
 
 - `AGENTS.md`
@@ -4190,61 +4175,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 依据项目所有者长期授权，仅批准CHANGELOG.md单文件范围补充，不扩大产品或发布范围。
   machine_record: .continuity/change_requests/CR-0036.yaml
   document: docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
-- protocol_version: '1.0'
-  cr_id: CR-0044
-  title: 允许外部真机待验任务挂起时继续独立依赖版本
-  status: IMPLEMENTING
-  created_at: '2026-07-18T13:14:50Z'
-  updated_at: '2026-07-18T13:15:39Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner
-  task_id: TASK-R02-007
-  session_id: SES-20260718T105025Z-0B8DE284
-  user_request: 项目所有者明确要求先继续推进下一个版本，R02 APK稍后完成真机测试并反馈；未明确暂停前持续开发
-  reason: R03仅依赖已完成的R01，现行唯一NEXT_TASK规则会把R02外部真机等待错误扩大为全项目停工，需要保留R02未完成事实并允许进入依赖已全绿的独立版本
-  original_rule: 唯一NEXT_TASK只能在当前任务COMPLETED后跨Release切换；外部真机验收PENDING会阻断所有后续版本
-  new_rule: 当当前任务仅因项目所有者真机验收等外部门禁待定时，可显式记录BLOCKED并保留未完成事实；只有提供项目所有者继续授权，且目标Release全部声明依赖均已GREEN、目标为首个READY任务时，才允许切换到该独立Release继续开发。不得将挂起任务标记DONE，后续必须恢复其验收与关闭。
-  impact_summary: 扩展continuity close命令支持受控的blocked-and-advance原子转换；更新硬规则和回归测试，不改变产品契约、API、数据库或APK验收标准
-  impact:
-    files:
-    - scripts/continuity.py
-    - tests/test_continuity_cross_release_close.py
-    - .continuity/CONTINUITY_POLICY.yaml
-    - AGENTS.md
-    - docs/03-continuity/REUSABLE_PATTERNS.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - tests/test_continuity_cross_release_close.py
-    releases:
-    - R02
-    - R03
-    migration_and_compatibility: 现有COMPLETED/BLOCKED/ABANDONED关闭行为保持兼容；新路径必须显式--allow-independent-release和--user-confirmation，非法依赖或非首任务原子拒绝
-  user_confirmation: 先继续推进开发下一个版本，我不让你暂停就不用停止，这个版本apk一会我测完告诉你
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T13:15:29Z'
-    note: 项目所有者要求R02真机测试期间不要暂停，立即继续下一个版本；保留R02真实待验状态
-  machine_record: .continuity/change_requests/CR-0044.yaml
-  document: docs/03-continuity/change-requests/CR-0044-允许外部真机待验任务挂起时继续独立依赖版本.md
-  decision_log:
-  - at: '2026-07-18T13:15:39Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 开始实现外部真机待验挂起并继续独立依赖版本的原子转换与测试
-    session_id: SES-20260718T105025Z-0B8DE284
-  session_ids:
-  - SES-20260718T105025Z-0B8DE284
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `04c48ef8087599bf1ef602b43c959fe095ad44b17948c31076209809d261d56e`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `cfe8a552a28f64d2d30f3e852af4c4a877f4e5dbd234edea7525d30bd4400f71`
+- `CURRENT_STATUS.yaml` — `a56830cd6a8f573b2cc3dcf757fac74edc992a816459b2b62fe53919d16d7617`
 - `NEXT_TASK.yaml` — `904efcedb858e683cf980413d2116efad899451db3d32663c7ae9cd93ba11ce6`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -4255,23 +4192,23 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `de19045f455501f77bc8679366433b330c30b85f33073bb823067912c2721259`
-- `.continuity/EVENT_LOG.jsonl` — `9f71abc5250b13288f9f98fe19363b84a247a78e3dbc281209f6f3029188c2d6`
-- `.continuity/SESSION_INDEX.yaml` — `e54f78a23ff109fc8578478d3ce66828bea1945a87410204db979cbcb2a45b07`
+- `.continuity/EVENT_LOG.jsonl` — `afc96e24bb75e8b6fb7f3f2c210392e400f0c0759746a5ab343e5cb0936276f2`
+- `.continuity/SESSION_INDEX.yaml` — `8b333d02f08a7c89c39909f5a3319589ec0e96b1c8f468d87bc4a975b4e4ef95`
 - `.continuity/TASK_CLAIMS.yaml` — `f769d7ab1960df4368130d4014f7539139ad0258bc217d6965afaee608251b04`
 - `.continuity/TASK_TRANSITIONS.yaml` — `1f28e0bfca3eb5584898331e4e11824782c78e9e546493a8b9b539cce3e5f690`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ee157f90815d35941234023682089f94e321a689f1fe4c49fc5c0bffdebaba44`
-- `.continuity/ACTIVE_SESSION.yaml` — `b20b8917bb4ff452031af6d726d72be79576a6fe7cde14ea6d9ebf589fe185d9`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `9c83f2b3b0431ad3cd9a8284cc2783b93583865336d047e713bfd88bb461ec96`
+- `.continuity/ACTIVE_SESSION.yaml` — `5d4673620b5648531cdec42450cb594d3fee891616522f199a6fdc913b9bd202`
 - `releases/R02/RELEASE_MANIFEST.yaml` — `18bddf632011b122311da03f361f90a853bc7469f7af784900d49e30c1cb5633`
 - `releases/R02/DEFINITION_OF_READY.yaml` — `56bb6f71390ee34bf92eac60dc7276dd90f969781bf32eac0028eff48972c0dc`
 - `releases/R02/STORIES.yaml` — `cbc199fd846c42cbb50f02af53969fb914f16a814de2d459a7f929509a9226cf`
 - `releases/R02/TASKS.yaml` — `5b7d567ab01791d15810a5c289ca9d4874a1fbc7d93e49504ec1fd1075b1a077`
 - `releases/R02/ACCEPTANCE_MATRIX.csv` — `04d4de1a4c584a1e2e0ab3737344f6a259d099bc7bedcae9295c24eb0c37c0ac`
 - `releases/R02/PARALLEL_EXECUTION_PLAN.yaml` — `c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md` — `863f84a7692295a768040b704b6c07be500fe8dda76dc374c913bcaaf468cff9`
-- `.continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0011.yaml` — `ef8e441166a7b7bb8e1c1d754ec0c703bb598df0cd08e3c28f6e0365fabde6bd`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md` — `1abc548eb2756a403677884ad6497485a8ec4018d3a1bd3be785a0a7edf812ee`
+- `.continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0012.yaml` — `5da76e58d4a66fabf348ab10ff709c3493707c2e2724a8f5f3e291b6ef8cbe2d`
 - `docs/03-continuity/change-requests/CR-0042-TASK-R02-007允许写入APK交付与追溯证据.md` — `f741747a857d81238a5ba72c9412d575bcfba43276b82512f9c5a791226c9964`
 - `docs/03-continuity/change-requests/CR-0043-TASK-R02-007精确登记APK交付证据文件.md` — `0baed73e20769bd80c56d9e6cec07a375a802fbcb997ef579e703f209eb95514`
-- `docs/03-continuity/change-requests/CR-0044-允许外部真机待验任务挂起时继续独立依赖版本.md` — `70dfba4ab41b4f6004ce1206a2ec46a927c4b44ab05b9e3eeffdcf3cf0fbbde9`
+- `docs/03-continuity/change-requests/CR-0044-允许外部真机待验任务挂起时继续独立依赖版本.md` — `52e092986c0ba14e1b38eb14b3efa2095c50b62770ad88d27d219f2892948701`
 
 ## 接手硬规则
 
