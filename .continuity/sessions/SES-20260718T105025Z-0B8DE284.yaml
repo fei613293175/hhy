@@ -11,9 +11,11 @@ task_id: TASK-R02-007
 story_id: STORY-R02-009
 goal: 使用固定Android工具链和稳定测试签名构建R02 APK，验证真实API地址、签名、安装可行性、桌面与下载产物哈希并生成完整追溯清单
 started_at: '2026-07-18T10:50:25Z'
-updated_at: '2026-07-18T10:59:54Z'
+updated_at: '2026-07-18T11:19:25Z'
 takeover_of: null
-change_requests: []
+change_requests:
+- CR-0042
+- CR-0043
 scope:
   allowed_paths:
   - apps/**
@@ -47,8 +49,20 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - artifacts/apk/R02/APK_MANIFEST.yaml
+  - artifacts/reports/R02/TASK-R02-007-android-apk.md
+  - artifacts/validation/r02-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r02-task007-android/api-platform-status.json
+  - artifacts/validation/r02-task007-android/apk-badging.txt
+  - artifacts/validation/r02-task007-android/apk-signing.txt
+  - artifacts/validation/r02-task007-android/build-evidence.json
+  - artifacts/validation/r02-task007-android/gradle-build.exit
+  - artifacts/validation/r02-task007-android/gradle-build.log
+  - artifacts/validation/r02-task007-android/nginx-download-gate.txt
+  - artifacts/validation/r02-task007-android/zipalign.txt
+  - artifacts/validation/project-doctor-v1.2.2.json
+  source: story+explicit+approved-cr:CR-0043
 git:
   initialized: true
   branch: task/TASK-R02-002
@@ -58,22 +72,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T10:59:52Z'
-  expires_at: '2026-07-18T14:59:52Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0004.yaml
+  renewed_at: '2026-07-18T11:19:23Z'
+  expires_at: '2026-07-18T15:19:23Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260718T105025Z-0B8DE284/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T105025Z-0B8DE284.md
-next_step: 提交修复并以新提交重跑Android全量构建
+next_step: 提交并推送TASK-R02-007机器交付证据，等待项目所有者真机安装与认证入口反馈后执行accept
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 67c78b96a82a7dc7f92da5fa2da8cb7d09ab4b532a9e3317af5d8641aee16ab6
-  generated_at: '2026-07-18T10:59:53Z'
+  context_hash: 321410706b84bd7a8c1055807781821aee3c62a3870f7b01a063fab8dcf60d08
+  generated_at: '2026-07-18T11:19:25Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: APK构建证据必须绑定修复后的单一Commit
+  reason: 单一APK、签名、远端原子发布和Manifest必须串行绑定；当前仅真机验收不可由并行代理替代

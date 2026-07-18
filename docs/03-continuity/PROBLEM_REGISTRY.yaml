@@ -245,3 +245,15 @@ problems:
   do_not_repeat:
   - 版本切换时必须同时更新Gradle构建身份和应用内发布策略常量
   - 不得绕过VersionMetadataTest交付未对齐版本身份的APK
+- id: PROB-0022
+  title: APK交付脚本将公开版本目录创建为仅root可访问
+  status: SOLVED
+  root_cause: 远端暂存准备在umask 077生效后同时创建公开版本目录和私有上传目录，导致首次创建的r02-artifacts权限为700；Nginx无法遍历目录，HTTPS完整下载返回404并触发安全回撤。
+  resolution: 公开版本目录显式创建并校正为0755，随后才启用umask 077创建私有.uploads暂存目录；交付失败仍只回撤本次新建且哈希匹配的APK。
+  regression_checks:
+  - tests/test_android_apk_delivery.py#test_remote_chunk_failure_never_runs_atomic_publish
+  - scripts/deliver_android_test_apk.py prepare与verify
+  - HTTPS完整下载、Range 206、Content-Type和四方SHA-256校验
+  do_not_repeat:
+  - 公开下载目录与私有上传暂存目录不得共享同一限制性umask创建步骤
+  - 不得因服务器文件存在就跳过Nginx进程可读性和公网完整下载验证

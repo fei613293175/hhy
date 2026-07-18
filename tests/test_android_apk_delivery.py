@@ -363,6 +363,8 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             with self.assertRaises(delivery.DeliveryError):
                 publisher.publish(apk, identity)
             remote_commands = [args[-1] for args in commands if args and args[0] == "ssh"]
+            self.assertIn("chmod 0755 /www/wwwroot/download.orbexa.cc/r02-artifacts", remote_commands[0])
+            self.assertIn("umask 077", remote_commands[0])
             self.assertFalse(any("HHY_ATOMIC_PUBLISH" in command for command in remote_commands))
 
     def test_https_verifier_checks_full_hash_and_range_body(self) -> None:

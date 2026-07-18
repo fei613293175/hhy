@@ -371,7 +371,9 @@ class RemotePublisher:
         staging_dir = str(PurePosixPath(release_dir) / ".uploads" / f"{identity.apk_file}.{nonce}")
         quoted_stage = shlex.quote(staging_dir)
         self._ssh(
-            f"set -eu; umask 077; mkdir -p {shlex.quote(release_dir)} {quoted_stage}",
+            f"set -eu; mkdir -p {shlex.quote(release_dir)}; "
+            f"chmod 0755 {shlex.quote(release_dir)}; "
+            f"umask 077; mkdir -p {quoted_stage}",
             "remote staging preparation",
         )
         uploaded: list[str] = []
