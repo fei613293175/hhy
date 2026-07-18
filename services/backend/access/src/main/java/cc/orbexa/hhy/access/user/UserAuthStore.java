@@ -192,6 +192,37 @@ public class UserAuthStore {
                 .stream().findFirst();
     }
 
+    public Optional<SelfRow> findSelfForUpdate(long userId) {
+        return jdbc.query("""
+                SELECT u.id,u.phone,u.status,u.created_at,u.version,
+                       p.nickname,p.avatar,p.bio
+                FROM hhy.users u
+                LEFT JOIN hhy.user_profiles p ON p.user_id=u.id
+                WHERE u.id=? FOR UPDATE OF u
+                """, (rs, row) -> new SelfRow(
+                rs.getLong("id"), rs.getString("phone"), rs.getString("nickname"),
+                rs.getString("avatar"), rs.getString("bio"), rs.getString("status"),
+                instant(rs.getObject("created_at", OffsetDateTime.class)), rs.getLong("version")), userId)
+                .stream().findFirst();
+    }
+
+    public Optional<Long> requestCancellation(long userId, long expectedVersion, String reason, Instant now) {
+        Optional<Long> nextVersion = jdbc.query("""
+                UPDATE hhy.users SET status='CANCEL_PENDING',version=version+1
+                WHERE id=? AND status='ACTIVE' AND version=? RETURNING version
+                """, (rs, row) -> rs.getLong("version"), userId, expectedVersion).stream().findFirst();
+        if (nextVersion.isEmpty()) return Optional.empty();
+        jdbc.update("""
+                INSERT INTO hhy.user_status_logs(user_id,from_status,to_status,reason,operator)
+                VALUES (?,'ACTIVE','CANCEL_PENDING',?,'SELF_SERVICE')
+                """, userId, reason);
+        jdbc.update("""
+                UPDATE hhy.user_sessions SET refresh_hash=NULL,expires_at=?,version=version+1
+                WHERE user_id=? AND refresh_hash IS NOT NULL
+                """, time(now), userId);
+        return nextVersion;
+    }
+
     public TicketRow createSupportTicket(long userId, String ticketNo, String category,
                                          String subject, String content, List<Long> attachmentIds,
                                          Instant now) {

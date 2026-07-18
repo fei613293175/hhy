@@ -52,6 +52,7 @@ fun HhyShellScreen(
     contractVersion: String,
     onOpenLoginDevices: () -> Unit = {},
     onOpenChangePassword: () -> Unit = {},
+    onOpenCancellation: () -> Unit = {},
 ) {
     var selectedIndex by remember { mutableIntStateOf(0) }
     Scaffold(
@@ -105,6 +106,9 @@ fun HhyShellScreen(
                             }
                             OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = onOpenChangePassword) {
                                 Text("修改登录密码")
+                            }
+                            OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = onOpenCancellation) {
+                                Text("注销账号")
                             }
                         }
                     }

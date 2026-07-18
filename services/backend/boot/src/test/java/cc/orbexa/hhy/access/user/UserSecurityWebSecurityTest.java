@@ -130,6 +130,23 @@ class UserSecurityWebSecurityTest {
                 .andExpect(jsonPath("$.error.code").value("COMMON-403-FORBIDDEN"));
     }
 
+    @Test
+    void activeUserCanRequestVersionBoundCancellationWithoutSmsEcho() throws Exception {
+        when(service.requestCancellation(eq(PRINCIPAL), any(), eq(IDEMPOTENCY_KEY)))
+                .thenReturn(new CommandResultResource(
+                        "17", null, "CANCELLATION_PENDING", 3L, Instant.parse("2026-07-18T04:02:00Z")));
+
+        mvc.perform(post("/api/v1/me/cancellation").with(userAuthentication())
+                        .header("X-Idempotency-Key", IDEMPOTENCY_KEY)
+                        .contentType("application/json")
+                        .content("{\"reason\":\"不再使用\",\"smsCode\":\"481516\",\"expectedVersion\":2}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.status").value("CANCELLATION_PENDING"))
+                .andExpect(jsonPath("$.data.version").value(3))
+                .andExpect(content().string(not(containsString("481516"))));
+        verify(service).requestCancellation(eq(PRINCIPAL), any(), eq(IDEMPOTENCY_KEY));
+    }
+
     private static org.springframework.test.web.servlet.request.RequestPostProcessor userAuthentication() {
         return authentication(UsernamePasswordAuthenticationToken.authenticated(
                 PRINCIPAL, null, List.of(new SimpleGrantedAuthority("ROLE_USER"))));

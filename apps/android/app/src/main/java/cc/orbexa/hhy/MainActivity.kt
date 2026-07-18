@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import cc.orbexa.hhy.auth.AuthScreen
 import cc.orbexa.hhy.auth.ChangeLoginPasswordScreen
 import cc.orbexa.hhy.auth.AccountBlockedScreen
+import cc.orbexa.hhy.auth.AccountCancellationScreen
 import cc.orbexa.hhy.auth.LoginDevicesScreen
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyTheme
@@ -89,7 +90,7 @@ class MainActivity : ComponentActivity() {
                             val user = result.userSelfOrNull()
                             when {
                                 user == null -> SessionState.AuthenticationRequired
-                                user.status == "ACTIVE" -> SessionState.Authenticated(verifying.session)
+                                user.status == "ACTIVE" -> SessionState.Authenticated(verifying.session, user)
                                 else -> SessionState.Restricted(verifying.session, user)
                             }
                         }
@@ -112,10 +113,18 @@ class MainActivity : ComponentActivity() {
                                     contractVersion = BuildConfig.CONTRACT_VERSION,
                                     onOpenLoginDevices = { securityDestination = SecurityDestination.LoginDevices },
                                     onOpenChangePassword = { securityDestination = SecurityDestination.ChangePassword },
+                                    onOpenCancellation = { securityDestination = SecurityDestination.Cancellation },
                                 )
                                 SecurityDestination.LoginDevices -> LoginDevicesScreen(authApi, authenticated.session.accessToken)
                                 SecurityDestination.ChangePassword -> ChangeLoginPasswordScreen(
                                     authApi, authenticated.session.accessToken,
+                                ) {
+                                    sessionStore.clear()
+                                    securityDestination = SecurityDestination.Shell
+                                    sessionState = SessionState.AuthenticationRequired
+                                }
+                                SecurityDestination.Cancellation -> AccountCancellationScreen(
+                                    authApi, authenticated.session.accessToken, authenticated.user,
                                 ) {
                                     sessionStore.clear()
                                     securityDestination = SecurityDestination.Shell
@@ -149,11 +158,11 @@ private sealed interface SessionState {
     data object Restoring : SessionState
     data object AuthenticationRequired : SessionState
     data class Verifying(val session: AuthSessionResource) : SessionState
-    data class Authenticated(val session: AuthSessionResource) : SessionState
+    data class Authenticated(val session: AuthSessionResource, val user: UserSelfResource) : SessionState
     data class Restricted(val session: AuthSessionResource, val user: UserSelfResource) : SessionState
 }
 
-private enum class SecurityDestination { Shell, LoginDevices, ChangePassword }
+private enum class SecurityDestination { Shell, LoginDevices, ChangePassword, Cancellation }
 
 @androidx.compose.runtime.Composable
 private fun RestoringSessionScreen() {

@@ -1,6 +1,8 @@
 package cc.orbexa.hhy.boot.user;
 
 import cc.orbexa.hhy.access.user.UserAuthContracts.SupportTicketCreateRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.AccountCancellationRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.CommandResultResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SupportTicketResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.UserResource;
 import cc.orbexa.hhy.access.user.UserAuthService;
@@ -44,6 +46,15 @@ public class UserSelfServiceController {
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
         return success(request, service.createSupportTicket(principal, body, key));
+    }
+
+    @PostMapping("/api/v1/me/cancellation")
+    public ApiResponse<CommandResultResource> requestCancellation(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @Valid @RequestBody AccountCancellationRequest body,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.requestCancellation(principal, body, key));
     }
 
     private <T> ApiResponse<T> success(HttpServletRequest request, T data) {

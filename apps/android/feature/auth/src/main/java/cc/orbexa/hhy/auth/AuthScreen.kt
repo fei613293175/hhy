@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +22,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -449,6 +451,120 @@ private fun restrictedStatusLabel(status: String) = when (status) {
     "RESTRICTED" -> "已受限"
     else -> "当前不可用"
 }
+
+/** SCR-AUTH-008: version-bound cancellation with in-memory OTP and explicit confirmation. */
+@Composable
+fun AccountCancellationScreen(
+    api: ContractAuthApi,
+    accessToken: String,
+    user: UserSelfResource,
+    onReturnToLogin: () -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    var phone by remember { mutableStateOf("") }
+    var reason by remember { mutableStateOf("") }
+    var smsCode by remember { mutableStateOf("") }
+    var challengeId by remember { mutableStateOf("") }
+    var challengeImageBase64 by remember { mutableStateOf("") }
+    var challengeProof by remember { mutableStateOf("") }
+    var confirmVisible by remember { mutableStateOf(false) }
+    var submitted by remember { mutableStateOf(false) }
+    var state by remember { mutableStateOf<AuthUiState>(AuthUiState.Editing) }
+    val submitting = state is AuthUiState.Submitting
+    val phoneMatches = AuthFormRules.validPhone(phone) && maskedPhone(phone) == user.phoneMasked
+
+    fun launchCall(call: suspend () -> AuthCallResult, success: (AuthCallResult.Success) -> Unit = {}) {
+        if (submitting || submitted) return
+        scope.launch {
+            state = AuthUiState.Submitting
+            when (val result = call()) {
+                is AuthCallResult.Success -> {
+                    success(result)
+                    if (state is AuthUiState.Submitting) state = AuthUiState.Message("操作成功", result.requestId)
+                }
+                is AuthCallResult.Failure -> state = AuthUiState.Message(
+                    result.statusCode?.let { errorForStatus(it, result.errorCode, result.retryAfterSeconds) }
+                        ?: "网络不可用，请检查连接后重试", result.requestId,
+                )
+            }
+        }
+    }
+
+    Column(
+        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(HhySpacing.Lg),
+        verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+    ) {
+        Text("注销账号", style = MaterialTheme.typography.titleLarge)
+        Text("申请后账号将进入注销处理状态，当前设备和其他设备均需重新登录。", color = HhyColors.Warning)
+        Text("当前账号：${user.phoneMasked ?: user.id}", color = HhyColors.TextSecondary)
+        if (state is AuthUiState.Message) {
+            val message = state as AuthUiState.Message
+            Text(message.text, color = HhyColors.Warning)
+            message.requestId?.let { Text("请求编号：$it", color = HhyColors.TextSecondary) }
+        }
+        if (submitted) {
+            Text("注销申请已提交，安全会话已清理。")
+            Button(modifier = Modifier.fillMaxWidth(), onClick = onReturnToLogin) { Text("返回登录") }
+        } else {
+            PhoneField(phone, enabled = !submitting) { phone = it; state = AuthUiState.Editing }
+            if (phone.isNotBlank() && !phoneMatches) {
+                Text("请输入与当前账号一致的完整手机号", color = HhyColors.Warning)
+            }
+            OutlinedTextField(
+                value = reason,
+                onValueChange = { reason = it.take(2000); state = AuthUiState.Editing },
+                modifier = Modifier.fillMaxWidth(), label = { Text("注销原因") },
+                minLines = 3, enabled = !submitting,
+            )
+            SecretField("短信验证码", smsCode, enabled = !submitting) { smsCode = it; state = AuthUiState.Editing }
+            OutlinedButton(modifier = Modifier.fillMaxWidth(), enabled = !submitting && phoneMatches, onClick = {
+                launchCall({ api.securityChallenge("SENSITIVE_OPERATION") }) { result ->
+                    challengeId = result.data["challengeId"]?.jsonPrimitive?.content.orEmpty()
+                    challengeImageBase64 = result.data["imageBase64"]?.jsonPrimitive?.content.orEmpty()
+                    state = AuthUiState.Message("安全验证已创建", result.requestId)
+                }
+            }) { Text("创建安全验证") }
+            if (challengeId.isNotBlank()) {
+                ChallengeImage(challengeImageBase64)
+                SecretField("安全验证结果", challengeProof, enabled = !submitting) {
+                    challengeProof = it; state = AuthUiState.Editing
+                }
+                OutlinedButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !submitting && phoneMatches && challengeProof.isNotBlank(),
+                    onClick = { launchCall({ api.sendSms(phone, "SENSITIVE_OPERATION", challengeId, challengeProof) }) },
+                ) { Text("发送短信验证码") }
+            }
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !submitting && phoneMatches && reason.isNotBlank() && smsCode.length in 4..10,
+                onClick = { confirmVisible = true },
+            ) { Text("申请注销") }
+        }
+    }
+    if (confirmVisible) {
+        AlertDialog(
+            onDismissRequest = { if (!submitting) confirmVisible = false },
+            title = { Text("确认申请注销？") },
+            text = { Text("提交后账号将进入注销处理，所有已登录设备将立即失效。注销原因：${reason.trim()}") },
+            dismissButton = { TextButton(enabled = !submitting, onClick = { confirmVisible = false }) { Text("取消") } },
+            confirmButton = {
+                TextButton(enabled = !submitting, onClick = {
+                    confirmVisible = false
+                    launchCall({ api.requestCancellation(accessToken, reason.trim(), smsCode, user.version) }) { result ->
+                        phone = ""; smsCode = ""; challengeProof = ""; challengeId = ""; reason = ""
+                        submitted = true
+                        state = AuthUiState.Message("注销申请已提交", result.requestId)
+                    }
+                }) { Text("确认提交") }
+            },
+        )
+    }
+}
+
+private fun maskedPhone(phone: String): String? = if (phone.length == 11) {
+    phone.take(3) + "****" + phone.takeLast(4)
+} else null
 
 @Composable private fun RouteSelector(selected: AuthRoute, enabled: Boolean, onSelect: (AuthRoute) -> Unit) = Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
     AuthRoute.entries.forEach { route ->

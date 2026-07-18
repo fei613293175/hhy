@@ -1,6 +1,7 @@
 package cc.orbexa.hhy.access.user;
 
 import cc.orbexa.hhy.access.user.UserAuthContracts.AuthScene;
+import cc.orbexa.hhy.access.user.UserAuthContracts.AccountCancellationRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.ChallengeResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.CommandResultResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.DeviceSummaryResource;
@@ -276,6 +277,31 @@ public class UserAuthService {
                     return new SupportTicketResource(Long.toString(row.id()), row.ticketNo(), row.category(),
                             row.subject(), row.status(), row.assignee(), row.lastMessageAt(), row.createdAt(),
                             row.version());
+                });
+    }
+
+    @Transactional(noRollbackFor = BusinessException.class)
+    public CommandResultResource requestCancellation(UserPrincipal principal,
+                                                     AccountCancellationRequest request, String key) {
+        String requestHash = tokens.intentHash("userPostMeCancellation", request.reason(),
+                request.smsCode(), Long.toString(request.expectedVersion()));
+        return idempotent(scope("ac", Long.toString(principal.userId())), key, requestHash,
+                "account-cancellation-v1", CommandResultResource.class, () -> {
+                    UserAuthStore.SelfRow user = repository.findSelfForUpdate(principal.userId())
+                            .orElseThrow(UserAuthService::sessionRevoked);
+                    if (!"ACTIVE".equals(user.status())) throw business("当前账号状态不允许申请注销");
+                    if (user.version() != request.expectedVersion()) {
+                        throw new BusinessException("COMMON-409-VERSION_CONFLICT",
+                                "账号状态已变化，请刷新后重试", 409, false);
+                    }
+                    verification.verifySms(user.phone(), AuthScene.SENSITIVE_OPERATION, request.smsCode());
+                    Instant now = Instant.now(clock);
+                    long version = repository.requestCancellation(principal.userId(), request.expectedVersion(),
+                                    request.reason().trim(), now)
+                            .orElseThrow(() -> new BusinessException("COMMON-409-VERSION_CONFLICT",
+                                    "账号状态已变化，请刷新后重试", 409, false));
+                    return new CommandResultResource(Long.toString(principal.userId()), null,
+                            "CANCELLATION_PENDING", version, now);
                 });
     }
 

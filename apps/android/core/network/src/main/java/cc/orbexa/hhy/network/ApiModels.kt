@@ -242,6 +242,13 @@ data class SupportTicketResource(
     val version: Long,
 )
 
+@Serializable
+data class AccountCancellationRequest(
+    val reason: String,
+    val smsCode: String,
+    val expectedVersion: Long,
+)
+
 object HhyNetworkJson {
     val value: Json = Json {
         explicitNulls = false

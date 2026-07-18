@@ -145,4 +145,9 @@ public final class UserAuthContracts {
             Instant lastMessageAt,
             Instant createdAt,
             long version) { }
+
+    public record AccountCancellationRequest(
+            @NotBlank @Size(max = 2000) String reason,
+            @NotBlank @Size(min = 4, max = 10) String smsCode,
+            @NotNull Long expectedVersion) { }
 }

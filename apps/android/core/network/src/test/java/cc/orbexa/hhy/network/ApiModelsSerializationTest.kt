@@ -89,6 +89,18 @@ class ApiModelsSerializationTest {
         assertTrue(fields.containsKey("subject"))
         assertTrue(fields.containsKey("content"))
     }
+
+    @Test fun cancellationRequestKeepsVersionAndNeverAddsPhone() {
+        val encoded = HhyNetworkJson.value.encodeToString(
+            AccountCancellationRequest("不再使用", "481516", 7L),
+        )
+        val fields = HhyNetworkJson.value.parseToJsonElement(encoded).jsonObject
+
+        assertEquals(7L, fields.getValue("expectedVersion").jsonPrimitive.content.toLong())
+        assertTrue(fields.containsKey("reason"))
+        assertTrue(fields.containsKey("smsCode"))
+        assertFalse(fields.containsKey("phone"))
+    }
     private val json = HhyNetworkJson.value
 
     @Test

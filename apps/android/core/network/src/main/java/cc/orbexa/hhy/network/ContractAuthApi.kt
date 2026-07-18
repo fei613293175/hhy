@@ -50,6 +50,7 @@ interface ContractAuthApi {
     suspend fun changePassword(accessToken: String, currentPassword: String, newPassword: String, smsCode: String? = null): AuthCallResult
     suspend fun self(accessToken: String): AuthCallResult
     suspend fun createSupportTicket(accessToken: String, category: String, subject: String, content: String): AuthCallResult
+    suspend fun requestCancellation(accessToken: String, reason: String, smsCode: String, expectedVersion: Long): AuthCallResult
 }
 
 sealed interface AuthCallResult {
@@ -159,6 +160,18 @@ class UrlConnectionContractAuthApi(
         "/api/v1/support/tickets",
         SupportTicketCreateRequest(category, subject, content),
         SupportTicketCreateRequest.serializer(),
+        headers = bearer(accessToken),
+    )
+
+    override suspend fun requestCancellation(
+        accessToken: String,
+        reason: String,
+        smsCode: String,
+        expectedVersion: Long,
+    ) = post(
+        "/api/v1/me/cancellation",
+        AccountCancellationRequest(reason, smsCode, expectedVersion),
+        AccountCancellationRequest.serializer(),
         headers = bearer(accessToken),
     )
 

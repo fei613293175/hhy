@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T06:39:05Z
-- Context Hash：`ab11e27df769cfc634f709410908f6c42731e2800ef18870819089811f7e2feb`
+- 生成时间：2026-07-18T06:49:27Z
+- Context Hash：`6bb9894e6218d7422fbfbcdcdcd3a60908a310344c0296061cf417805f3eb80d`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -56,7 +56,7 @@ in_progress_tasks:
 - TASK-R02-003
 blocked_tasks: []
 next_task: TASK-R02-003
-updated_at: '2026-07-18T06:39:03Z'
+updated_at: '2026-07-18T06:49:25Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -91,15 +91,15 @@ continuity:
   active_session_id: SES-20260718T053331Z-F0ED92BF
   actor_id: codex-root
   story_id: STORY-R02-005
-  lease_expires_at: '2026-07-18T10:39:03Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0010.yaml
-  project_fingerprint: f4cda1dbb346c161e829a945a4d9362c12ee966f802b40e47683c1f2e364ca2f
+  lease_expires_at: '2026-07-18T10:49:25Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0011.yaml
+  project_fingerprint: b6d7874adce69c7d64c141a2d2e3d4ca397644f91899c4fea4f3dbe04757792e
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: ea34f29029987d12a1c3dfbffc2dc467865709ef8ee585a554ccaccf6d0208f3
-    generated_at: '2026-07-18T06:19:48Z'
+    context_hash: ab11e27df769cfc634f709410908f6c42731e2800ef18870819089811f7e2feb
+    generated_at: '2026-07-18T06:39:05Z'
   handoff_bundle: null
 ```
 
@@ -294,11 +294,12 @@ task_id: TASK-R02-003
 story_id: STORY-R02-005
 goal: 完成R02安全会话批次的登录设备与修改登录密码纵向闭环，先实现冻结契约内的会话列表、下线设备和改密最小闭环。
 started_at: '2026-07-18T05:33:31Z'
-updated_at: '2026-07-18T06:39:03Z'
+updated_at: '2026-07-18T06:49:25Z'
 takeover_of: null
 change_requests:
 - CR-0033
 - CR-0034
+- CR-0035
 scope:
   allowed_paths:
   - apps/android/**
@@ -330,12 +331,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T06:39:03Z'
-  expires_at: '2026-07-18T10:39:03Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0010.yaml
+  renewed_at: '2026-07-18T06:49:25Z'
+  expires_at: '2026-07-18T10:49:25Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T053331Z-F0ED92BF.md
-next_step: 实现 STORY-R02-007 账号注销：核对 SCR-AUTH 注销页与 /api/v1/me/cancellation 合同，完成后端状态机、Android 页面和测试。
+next_step: 收口 TASK-R02-003 固定批次并进入 TASK-R02-004 管理端用户列表、详情与冻结控制。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -343,63 +344,69 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 认证主体、受限授权、会话状态和 Android 导航是同一安全纵向切片且共享文件，串行集成可避免竞态与重复回合。
+  reason: 注销事务、短信验证、同一认证API和Android安全导航共享关键状态与文件，当前纵向切片必须由唯一主控串行集成。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T053331Z-F0ED92BF-0010
+checkpoint_id: CP-SES-20260718T053331Z-F0ED92BF-0011
 session_id: SES-20260718T053331Z-F0ED92BF
-sequence: 10
-created_at: '2026-07-18T06:39:03Z'
-summary: 完成 STORY-R02-006 账号冻结受限会话、本人资料、申诉工单与 Android 账号阻断页纵向闭环。
-next_step: 实现 STORY-R02-007 账号注销：核对 SCR-AUTH 注销页与 /api/v1/me/cancellation 合同，完成后端状态机、Android 页面和测试。
+sequence: 11
+created_at: '2026-07-18T06:49:24Z'
+summary: 完成 STORY-R02-007 账号注销：敏感短信验证、expectedVersion乐观锁、CANCEL_PENDING状态历史、全会话失效、Android二次确认与成功清凭据。
+next_step: 收口 TASK-R02-003 固定批次并进入 TASK-R02-004 管理端用户列表、详情与冻结控制。
 blockers: []
 decisions:
-- 冻结和受限账号可完成认证但仅授予 ROLE_RESTRICTED_USER；只允许 GET /api/v1/me 与 POST /api/v1/support/tickets。
-- WIP APK 仅用于当前开发快照测试，不标记为 R02 正式发布产物。
+- CR-0035已批准：注销页重新输入完整手机号仅用于既有SENSITIVE_OPERATION短信发送，不进入注销请求或持久化。
 note: ''
 tests:
-- name: backend restricted self-service tests
+- name: backend account cancellation tests
   result: PASS
-  evidence: remote Maven UserAuthServiceTest,UserBearerAuthenticationFilterTest,UserSecurityWebSecurityTest,PublicEndpointsTest
-  note: 28 tests pass after restricted-session policy update
-- name: android account appeal build
+  evidence: remote Maven UserAuthServiceTest and UserSecurityWebSecurityTest
+  note: service transaction and HTTP security contract pass
+- name: android account cancellation build
   result: PASS
-  evidence: remote Gradle core network tests + feature auth compile + app assembleDebug
-  note: APK SHA256 D723F34BBF50773F8153B9C291CCF4CA7AC6B7164235BB547B8A116AA5FDD062
-- name: desktop WIP APK trace
+  evidence: remote Gradle network unit tests, auth/shell compile and app assembleDebug
+  note: BUILD SUCCESSFUL; 135 tasks
+- name: desktop WIP cancellation APK
   result: PASS
-  evidence: C:\Users\小白\Desktop\合伙云Pro-R02-WIP-account-appeal-debug.apk
-  note: 11872156 bytes; not a formal release
+  evidence: C:\Users\小白\Desktop\合伙云Pro-R02-WIP-account-cancellation-debug.apk
+  note: SHA256 B68B384CF9EE5358F949D46EE9618E07A179756607CA1EDB6A73869C573B1663
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: 03c95d7c05145165305b7b5934710b3c5c744605
+  head: 93be8d6799542112ee63db6d1c9d6c3735766d1c
   upstream: origin/task/TASK-R02-002
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260718T053331Z-F0ED92BF.yaml'
   - ' M CHANGELOG.md'
   - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
   - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt'
   - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt'
   - ' M apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt'
   - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
+  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
   - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java'
   - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
   - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilter.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserPrincipal.java'
-  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java'
   - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilterTest.java'
   - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserSecurityWebSecurityTest.java'
-  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java
+  - ?? .continuity/change_requests/CR-0035.yaml
+  - ?? docs/03-continuity/change-requests/CR-0035-补齐注销短信发送所需手机号确认字段.md
   recent_commits:
+  - "93be8d6799542112ee63db6d1c9d6c3735766d1c\t2026-07-18T14:39:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close restricted\
+    \ account appeal flow"
   - "03c95d7c05145165305b7b5934710b3c5c744605\t2026-07-18T14:19:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close security\
     \ sessions and password change"
   - "6d4ad64b271c91565aaeee42074aa5a989a1af74\t2026-07-18T13:32:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): close TASK-R02-002\
@@ -414,10 +421,8 @@ git:
     \ snapshot APK"
   - "4b4da23dca1859a40c8b2465af29a356f367dbc4\t2026-07-18T12:31:30+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] fix(auth): hide technical\
     \ failure codes"
-  - "9d80bcf0a7e9823a41703df93bbedb5c0f698c1f\t2026-07-18T12:25:27+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover public rejection\
-    \ contracts"
 project_fingerprint:
-  sha256: f4cda1dbb346c161e829a945a4d9362c12ee966f802b40e47683c1f2e364ca2f
+  sha256: b6d7874adce69c7d64c141a2d2e3d4ca397644f91899c4fea4f3dbe04757792e
   files:
   - CHANGELOG.md
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
@@ -430,6 +435,7 @@ project_fingerprint:
   - contracts/openapi.yaml
   - docs/03-continuity/change-requests/CR-0033-设备会话列表移除令牌回显字段.md
   - docs/03-continuity/change-requests/CR-0034-补录R02安全会话用户可见变更日志.md
+  - docs/03-continuity/change-requests/CR-0035-补齐注销短信发送所需手机号确认字段.md
   - packages/api-client/src/client.generated.ts
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
@@ -447,38 +453,38 @@ project_fingerprint:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilterTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserSecurityWebSecurityTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
-  file_count: 28
+  file_count: 29
   payload:
     base_commit: 6d4ad64b271c91565aaeee42074aa5a989a1af74
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 17888
-      sha256: d919ddf562fecd8b15a78b7df09632976387a863ab4c784a6e789d2140c6e89a
+      size: 18038
+      sha256: 71af669f48d81dcd2d44eb67f9c83fce190f9960f8a7504cda9e57314333db58
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
       state: FILE
-      size: 8638
-      sha256: cb3059f3986424c1da69f4a617de246d46b2f7f505d86abcf49295e2b27ec0ab
+      size: 9348
+      sha256: c800bd9803d0b8bf7895453ac45c43b3b8800366d5b9774e64e4438486adef39
     - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
       state: FILE
-      size: 5927
-      sha256: 36244fa54f03f37e9770cb2437b1651b0fde3832c29deedc9a05ea88081cd2d5
+      size: 6063
+      sha256: 44cfe85db6500c5c9e31fa7193f5b689c3127903d881b0abd3a28829e4439480
     - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
       state: FILE
-      size: 16342
-      sha256: f6610d8e4079a49358e0d36f500f3e30a4ceee462335066c98091fe5ec058e03
+      size: 16840
+      sha256: 83c9c6ba3c7aaa5fef0b3c284f0e8bbb97499b9ea7adfdfa014214acf5a3333e
     - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
       state: FILE
-      size: 8708
-      sha256: 602418bed6bacfbf8fbf27b182c9f3de2814e07122a0c276c4e0ad21677016b1
+      size: 9243
+      sha256: 608d3724052282160ef13b4b2d3df9834a13e7f0be0e3607d60a6f3a8ef4178d
     - path: apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
       state: FILE
-      size: 26748
-      sha256: 315973fcc22fa218e4e8c7afd212cc3c835bf640c0a4f2a577989c48562cc3ca
+      size: 32938
+      sha256: 503ca6390218e44d33049e848c0c088e2f1dca78323f766f17baedbfaa76a2d1
     - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
       state: FILE
-      size: 7033
-      sha256: c5e64be0a2a7debd1572ddd956a5264f0ec957b7ee10f30d3ad57d7c4147cd2b
+      size: 7268
+      sha256: 41c6b44310ca60a28f4dbdec4cbd94fa1d4c5cc177edcba5552e1c1666f72bf1
     - path: contracts/contract_status.csv
       state: FILE
       size: 139188
@@ -495,6 +501,10 @@ project_fingerprint:
       state: FILE
       size: 1714
       sha256: ca8a53cb2f995222df5e78dec45f5f9ae5f3d8593802891b7b5770e052a8e58f
+    - path: docs/03-continuity/change-requests/CR-0035-补齐注销短信发送所需手机号确认字段.md
+      state: FILE
+      size: 2374
+      sha256: e3c3e7341bf19878514204245b1f3ff0fea4533c7fe80e6322c5c8e9c41287cc
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 610910
@@ -505,16 +515,16 @@ project_fingerprint:
       sha256: 9224be859c2a8eb05386e87d23fb77d0780c571bc6f3234a9c574a1768f20c29
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
       state: FILE
-      size: 5370
-      sha256: 980812a1a61ee89652c4c9c35a2db3d4c1a6e7690e8fe7acf6cdf3af635985d4
+      size: 5582
+      sha256: e9b37e57fe33facdcd2cd7f8d6cf982ec67661a00ba8006be44b716d8d388413
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
       state: FILE
-      size: 27634
-      sha256: 97afde7bc2483274905c6cfd84eb567c61c3ab56022e408cb565006cb0dd245b
+      size: 29576
+      sha256: 3b69dee206f1765d995804e4251adfb04e99f708530536c81dcf5176c79fabad
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
       state: FILE
-      size: 24904
-      sha256: 02cf0739c6e5aba6621c06c4f317bd9050b220b438c8b87df41c2188df5c915f
+      size: 26592
+      sha256: 456304946f50d1be14924b9879b3100212228b0e654e81de6f44100df18f1064
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilter.java
       state: FILE
       size: 2528
@@ -541,24 +551,24 @@ project_fingerprint:
       sha256: 2e06c070029ab6a791dad4a653f33bc9ce6984fe9de1bc77333186b3194da442
     - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java
       state: FILE
-      size: 2346
-      sha256: ba8c7f0f86ce19cbc83ff228ee61420e8413a781d2ee2c9bb9725e4a24b102ae
+      size: 2967
+      sha256: f7b9ced7becb141c5e6e94fd513db15378a9812312297d0734933d395a720e0a
     - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
       state: FILE
       size: 591153
       sha256: f70df6efd741a9626ff56bd4beabd2b018224948d2e87fa17bc1abd681adcc78
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
       state: FILE
-      size: 21711
-      sha256: d71311cbfb21c024449f83c4fc650a0e8ca45c513576b798566843976ac688ed
+      size: 23144
+      sha256: a07b953171455bd91b3be89e565215cee2edf484154b74b108c4ec7d3cf62409
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilterTest.java
       state: FILE
       size: 4954
       sha256: b279487a9f1824785129bc5074e56235e41a611f460e9c4f1a905897579abf26
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserSecurityWebSecurityTest.java
       state: FILE
-      size: 8186
-      sha256: 47620e617f91b79c306a38383418b30f992b045e9503c7c6aeb0563e25aa5b63
+      size: 9213
+      sha256: 4069ab31be4d5c84f854eb67b72ddc48e28a5e9bc3b8837f01df1287bfbac560
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
       state: FILE
       size: 1891
@@ -608,6 +618,7 @@ change_classification:
   continuity:
   - docs/03-continuity/change-requests/CR-0033-设备会话列表移除令牌回显字段.md
   - docs/03-continuity/change-requests/CR-0034-补录R02安全会话用户可见变更日志.md
+  - docs/03-continuity/change-requests/CR-0035-补齐注销短信发送所需手机号确认字段.md
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
@@ -621,6 +632,7 @@ required_records:
 change_requests:
 - CR-0033
 - CR-0034
+- CR-0035
 scope:
   allowed_paths:
   - apps/android/**
@@ -647,8 +659,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 认证主体、受限授权、会话状态和 Android 导航是同一安全纵向切片且共享文件，串行集成可避免竞态与重复回合。
-event_hash: 7c478fcf2cd266676ff186356ef095f77e09b0c320554a99b78ecb8161039484
+  reason: 注销事务、短信验证、同一认证API和Android安全导航共享关键状态与文件，当前纵向切片必须由唯一主控串行集成。
+event_hash: d413cb6b992f447d83d30f31fc42e51d160d552cb0a9c79c18fca78866056c2a
 ```
 
 ## 接续状态与事件头
@@ -660,8 +672,8 @@ active_session_id: SES-20260718T053331Z-F0ED92BF
 last_session_id: SES-20260717T210927Z-13B07A7D
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0051
-event_count: 393
-event_head_hash: 7c478fcf2cd266676ff186356ef095f77e09b0c320554a99b78ecb8161039484
+event_count: 398
+event_head_hash: d413cb6b992f447d83d30f31fc42e51d160d552cb0a9c79c18fca78866056c2a
 event_chain_valid: true
 ```
 
@@ -784,9 +796,9 @@ recent_sessions: - session_id: SES-20260717T111928Z-C383F7A2
   started_at: '2026-07-18T05:33:31Z'
   record: .continuity/sessions/SES-20260718T053331Z-F0ED92BF.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T053331Z-F0ED92BF.md
-  updated_at: '2026-07-18T06:39:03Z'
+  updated_at: '2026-07-18T06:49:25Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0010.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0011.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-821BE587CF3B
   session_id: SES-20260717T023226Z-06841AFC
@@ -1691,13 +1703,14 @@ recent_task_transitions: - transition_id: TRN-1B9F92EC13B6
 ```yaml
 initialized: true
 branch: task/TASK-R02-002
-head: 03c95d7c05145165305b7b5934710b3c5c744605
+head: 93be8d6799542112ee63db6d1c9d6c3735766d1c
 upstream: origin/task/TASK-R02-002
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
@@ -1709,20 +1722,22 @@ status_porcelain:
 - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt'
 - ' M apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt'
 - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
+- ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T053331Z-F0ED92BF.md'
 - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java'
 - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
 - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilter.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserPrincipal.java'
-- ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java'
+- ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java'
 - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilterTest.java'
 - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserSecurityWebSecurityTest.java'
-- ?? .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0010.yaml
-- ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSelfServiceController.java
+- ?? .continuity/change_requests/CR-0035.yaml
+- ?? .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0011.yaml
+- ?? docs/03-continuity/change-requests/CR-0035-补齐注销短信发送所需手机号确认字段.md
 recent_commits:
+- "93be8d6799542112ee63db6d1c9d6c3735766d1c\t2026-07-18T14:39:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close restricted\
+  \ account appeal flow"
 - "03c95d7c05145165305b7b5934710b3c5c744605\t2026-07-18T14:19:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close security sessions\
   \ and password change"
 - "6d4ad64b271c91565aaeee42074aa5a989a1af74\t2026-07-18T13:32:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): close TASK-R02-002\
@@ -1737,14 +1752,12 @@ recent_commits:
   \ APK"
 - "4b4da23dca1859a40c8b2465af29a356f367dbc4\t2026-07-18T12:31:30+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] fix(auth): hide technical failure\
   \ codes"
-- "9d80bcf0a7e9823a41703df93bbedb5c0f698c1f\t2026-07-18T12:25:27+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover public rejection\
-  \ contracts"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`f4cda1dbb346c161e829a945a4d9362c12ee966f802b40e47683c1f2e364ca2f`
-- 文件数：28
+- 指纹：`b6d7874adce69c7d64c141a2d2e3d4ca397644f91899c4fea4f3dbe04757792e`
+- 文件数：29
 
 - `CHANGELOG.md`
 - `apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt`
@@ -1757,6 +1770,7 @@ recent_commits:
 - `contracts/openapi.yaml`
 - `docs/03-continuity/change-requests/CR-0033-设备会话列表移除令牌回显字段.md`
 - `docs/03-continuity/change-requests/CR-0034-补录R02安全会话用户可见变更日志.md`
+- `docs/03-continuity/change-requests/CR-0035-补齐注销短信发送所需手机号确认字段.md`
 - `packages/api-client/src/client.generated.ts`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java`
@@ -4114,13 +4128,58 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260718T053331Z-F0ED92BF
   session_ids:
   - SES-20260718T053331Z-F0ED92BF
+- protocol_version: '1.0'
+  cr_id: CR-0035
+  title: 补齐注销短信发送所需手机号确认字段
+  status: IMPLEMENTING
+  created_at: '2026-07-18T06:48:41Z'
+  updated_at: '2026-07-18T06:49:07Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R02-003
+  session_id: SES-20260718T053331Z-F0ED92BF
+  user_request: 后续这种问题不要问我确认，你自己决定；持续推进R02-R32。
+  reason: SCR-AUTH-008要求smsCode但既有sms/send合同必须提供完整phone，GET /me仅返回phoneMasked，需最小UI补足才能形成可用闭环。
+  original_rule: SCR-AUTH-008仅登记reason、smsCode、expectedVersion，但依赖的authPostAuthSmsSend必须接收完整phone，当前页面无可用短信发送来源。
+  new_rule: 注销页允许用户重新输入与phoneMasked匹配的完整手机号，仅用于调用既有SENSITIVE_OPERATION短信发送操作；phone不进入注销请求、不持久化、不记录日志，提交或离开页面立即清空。
+  impact_summary: 仅补齐Android注销页面的短信获取可用性；不修改冻结OpenAPI、后端注销请求或数据库结构。
+  impact:
+    files:
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+    pages:
+    - SCR-AUTH-008
+    apis:
+    - POST /api/v1/auth/security-challenges;POST /api/v1/auth/sms/send;POST /api/v1/me/cancellation
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - Android cancellation screen compile; cancellation request serialization excludes phone
+    releases:
+    - R02
+    migration_and_compatibility: 无数据迁移；旧客户端不受影响，新客户端复用现有安全挑战和短信发送合同。
+  user_confirmation: 后续这种问题不要问我确认，你自己决定
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T06:49:06Z'
+    note: 依据项目所有者对同类开发缺口自行决策的长期授权，批准最小手机号确认字段；禁止进入注销请求或持久化。
+  machine_record: .continuity/change_requests/CR-0035.yaml
+  document: docs/03-continuity/change-requests/CR-0035-补齐注销短信发送所需手机号确认字段.md
+  decision_log:
+  - at: '2026-07-18T06:49:07Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: Android实现及编译已完成，准备形成检查点和提交。
+    session_id: SES-20260718T053331Z-F0ED92BF
+  session_ids:
+  - SES-20260718T053331Z-F0ED92BF
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `967be66b5adebe71d30a4af378a537f2c3ec4e5a609b6c56939444441c5e4ff0`
+- `CURRENT_STATUS.yaml` — `f41839a7704726cacc69e13595fd0fea3a1a9d4a9f21d9a63f3d24bc2cf90559`
 - `NEXT_TASK.yaml` — `8efd8038496d11f3f9d6f991f1adfd8e2c253a68d3c59608e1a8d2e88f43d437`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -4131,22 +4190,23 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7`
-- `.continuity/EVENT_LOG.jsonl` — `99b94d57e5f828af18475c05194c16710590df830004756793fe4bbb98578396`
-- `.continuity/SESSION_INDEX.yaml` — `4bc1dba8d7a42378666921ddc34428136d45a74aa4774d502b1a77ad910d456f`
+- `.continuity/EVENT_LOG.jsonl` — `63b8d35e21f4cb4272e20dd3e0db6a3f26a52c07bc6a5dc81992c36dedce243c`
+- `.continuity/SESSION_INDEX.yaml` — `a769e7d79541679a0acb600d78ca5750f1427139cedd38d41ec324ecb0fa48d1`
 - `.continuity/TASK_CLAIMS.yaml` — `ac86e937387c9eea7ca1476223f1c3fd36edebb6fe41137376d518ff26b34595`
 - `.continuity/TASK_TRANSITIONS.yaml` — `2cb1d6c8e9ebc60151fef8021586aa5625c05f383299de8b4dd395543fd8bb6b`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `2e2e6b3250d6b0082c43aea7f097da2241a5849cdb9c8c5abe7b36d4282607b4`
-- `.continuity/ACTIVE_SESSION.yaml` — `3d041916ececbd6f67c6c090396e0351af7e2d54d2f710b6c3db7ed612e82e4d`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `0da5062f2b066a4559e08b3ff0d5ba1a8b401e7cf7a0269b43c9433aaa3a7bbd`
+- `.continuity/ACTIVE_SESSION.yaml` — `5aec8d9027f4bc8a0c46861e1bcab2ba9f80d07b172f775a2e8100c9b41f3b81`
 - `releases/R02/RELEASE_MANIFEST.yaml` — `19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d`
 - `releases/R02/DEFINITION_OF_READY.yaml` — `9a3113b85d8dd96ea04a908a277c9da3374531ec06dd5eb91dfd539e4351d33c`
 - `releases/R02/STORIES.yaml` — `966e57d10e36269465e74318903ffa0aa5c49d205ba38cce3ba5ebbdbe9ca571`
 - `releases/R02/TASKS.yaml` — `22baa670160630e662b9766c6157afe3c3db90184d5c247831efd006b27aa267`
 - `releases/R02/ACCEPTANCE_MATRIX.csv` — `687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0`
 - `releases/R02/PARALLEL_EXECUTION_PLAN.yaml` — `c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T053331Z-F0ED92BF.md` — `067a69db0fa2b5ef6bdc32f9ad97bec87cdb7b0fdabf6fd3cbd113774d06a9f0`
-- `.continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0010.yaml` — `76e4134de5e301fe0d0b72a33c847c71b033e4feae6e41ebd807628db607bba5`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T053331Z-F0ED92BF.md` — `3f25cbd9416a268ba3c7f9b210ec3f43a7bd171b1ea311e9a3359b8ed2e2c11f`
+- `.continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0011.yaml` — `477befb077a5f4fd7e057b2c47889b3df5fb74239bec324baaa47570710184e6`
 - `docs/03-continuity/change-requests/CR-0033-设备会话列表移除令牌回显字段.md` — `654d734e0193cae835467db8097aff3d76ab961272c2b1e08e4c9adda20c45ac`
 - `docs/03-continuity/change-requests/CR-0034-补录R02安全会话用户可见变更日志.md` — `ca8a53cb2f995222df5e78dec45f5f9ae5f3d8593802891b7b5770e052a8e58f`
+- `docs/03-continuity/change-requests/CR-0035-补齐注销短信发送所需手机号确认字段.md` — `e3c3e7341bf19878514204245b1f3ff0fea4533c7fe80e6322c5c8e9c41287cc`
 
 ## 接手硬规则
 

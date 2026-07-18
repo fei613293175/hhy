@@ -14,6 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import cc.orbexa.hhy.access.user.UserAuthContracts.RefreshRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.AccountCancellationRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordLoginRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordResetRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RegisterRequest;
@@ -374,6 +375,26 @@ class UserAuthServiceTest {
         assertEquals("OPEN", result.status());
         verify(repository).completeIdempotencySnapshot(
                 eq(101L), eq("support-ticket-v1:ok"), eq("support-ticket-v1"), anyString());
+    }
+
+    @Test
+    void cancellationVerifiesSmsAndAtomicallyTransitionsVersion() {
+        UserPrincipal principal = new UserPrincipal(17L, 23L, 4L, "access-jti-17", "ACTIVE");
+        AccountCancellationRequest request = new AccountCancellationRequest("不再使用", "481516", 2L);
+        when(repository.claimIdempotency(anyString(), eq("cancel-idem-key-0001"), anyString(), any(Instant.class)))
+                .thenReturn(new UserAuthStore.IdempotencyClaim(
+                        new UserAuthStore.IdempotencyRow(102L, "request-hash", null, null, null), false));
+        when(repository.findSelfForUpdate(17L)).thenReturn(Optional.of(new UserAuthStore.SelfRow(
+                17L, "13800000000", "合伙人17", null, null, "ACTIVE", NOW.minusSeconds(60), 2L)));
+        when(repository.requestCancellation(17L, 2L, "不再使用", NOW)).thenReturn(Optional.of(3L));
+
+        var result = service.requestCancellation(principal, request, "cancel-idem-key-0001");
+
+        assertEquals("CANCELLATION_PENDING", result.status());
+        assertEquals(3L, result.version());
+        verify(verification).verifySms("13800000000", UserAuthContracts.AuthScene.SENSITIVE_OPERATION, "481516");
+        verify(repository).completeIdempotencySnapshot(eq(102L), eq("account-cancellation-v1:ok"),
+                eq("account-cancellation-v1"), anyString());
     }
 
     private static UserAuthProperties properties() {
