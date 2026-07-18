@@ -1,0 +1,60 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T133151Z-12DB5949
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R03
+task_id: TASK-R03-002
+story_id: STORY-R03-001
+goal: 实现短信、R2/OSS与实名供应商配置的版本、SecretRef、连接测试、审批、激活回滚及Admin页面真实闭环
+started_at: '2026-07-18T13:31:51Z'
+updated_at: '2026-07-18T13:41:01Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: d37d08cb5a691f7605844742cbe645c01bf2b4f4
+  start_head: d37d08cb5a691f7605844742cbe645c01bf2b4f4
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T13:41:00Z'
+  expires_at: '2026-07-18T17:41:00Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260718T133151Z-12DB5949/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T133151Z-12DB5949.md
+next_step: 实现POST /admin-api/v1/provider-configs/{provider}/versions并接入持久化，保持明文秘密拒绝和幂等语义
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: b85f2dbef38ab34b84b7a2a1ca44425c78688b4917dc14b77a9a87e6f1f00ad2
+  generated_at: '2026-07-18T13:41:01Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 本步骤冻结同一供应商配置领域边界且用户未要求子代理；避免共享Java包并发冲突
