@@ -2,7 +2,7 @@
   "version": "1.2.2",
   "status": "PASS",
   "strict": false,
-  "release_filter": "R03",
+  "release_filter": "R04",
   "metrics": {
     "android_surfaces": 102,
     "h5_pages": 13,
