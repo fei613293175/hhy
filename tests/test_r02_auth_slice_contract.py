@@ -65,7 +65,7 @@ class R02AuthSliceContractTests(unittest.TestCase):
             '"authPostAuthRefresh"',
             "repository.claimIdempotency(",
             "repository.findSessionForUpdate(oldRefreshHash)",
-            '"ACTIVE".equals(session.userStatus())',
+            "loginAllowedStatus(session.userStatus())",
             "session.expiresAt().isAfter(now)",
             "tokens.newRefreshToken()",
             "repository.rotateSession(",
@@ -74,6 +74,10 @@ class R02AuthSliceContractTests(unittest.TestCase):
         )
         for fragment in required_fragments:
             self.assertIn(fragment, service)
+        self.assertIn(
+            'Set.of("ACTIVE", "FROZEN", "RESTRICTED").contains(status)',
+            service,
+        )
 
     def test_backend_slice_covers_frozen_login_registration_handlers(self) -> None:
         """All R02 authentication adapters must remain present once implemented."""

@@ -1,0 +1,118 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T084729Z-BD53B7C4-0001
+session_id: SES-20260718T084729Z-BD53B7C4
+sequence: 1
+created_at: '2026-07-18T08:49:01Z'
+summary: TASK-R02-006启动并完成首个R02集成静态契约漂移修复
+next_step: 建立25项权威测试到实际自动化命令的证据矩阵并执行INTEGRATION计划
+blockers: []
+decisions:
+- 刷新会话契约断言与已验收受限账号自助申诉模型保持一致：ACTIVE、FROZEN、RESTRICTED可持有会话，能力由受限路由白名单控制
+note: 未改变运行时代码或冻结API，仅消除测试与已完成受限账户模型的漂移
+tests:
+- name: r02-auth-slice-contract
+  result: PASS
+  evidence: 'python -m unittest tests.test_r02_auth_slice_contract -v: 9 tests'
+  note: 初次发现旧ACTIVE-only断言，更新后9项通过
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: 342e70b9ceb649821e08b3977abd8bef31cfd45b
+  upstream: origin/task/TASK-R02-002
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M tests/test_r02_auth_slice_contract.py'
+  - ?? .continuity/sessions/SES-20260718T084729Z-BD53B7C4.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260718T084729Z-BD53B7C4.md
+  recent_commits:
+  - "342e70b9ceb649821e08b3977abd8bef31cfd45b\t2026-07-18T16:45:40+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close TASK-R02-005\
+    \ as completed"
+  - "0d49f7c62f4602d77c5231ae02221c8cc9dc9ec7\t2026-07-18T16:44:46+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] chore(continuity): close CR-0038"
+  - "194813662259dde14a320111dfe5db44b5066082\t2026-07-18T16:43:45+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] feat(h5): complete invite\
+    \ registration flow"
+  - "1e41f587985849538b8ba2f6b5d0ee24e0652223\t2026-07-18T16:15:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close TASK-R02-004\
+    \ as completed"
+  - "6d28613c19d0f64986aac5b4d7a51276bd3ff440\t2026-07-18T16:14:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close CR-0037"
+  - "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user\
+    \ control operations"
+  - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
+    \ read views"
+  - "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
+    \ as completed"
+project_fingerprint:
+  sha256: b03d6c7bc5eee01a47f5eb1c42d4feae8c5be9cf2004f428cd57dbc9357947fd
+  files:
+  - tests/test_r02_auth_slice_contract.py
+  file_count: 1
+  payload:
+    base_commit: 342e70b9ceb649821e08b3977abd8bef31cfd45b
+    files:
+    - path: tests/test_r02_auth_slice_contract.py
+      state: FILE
+      size: 7156
+      sha256: d0cc375053dbd64fa6072905e8958482e4622906c50641ca1625f150e9e4875b
+change_classification:
+  tests:
+  - tests/test_r02_auth_slice_contract.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前仅修正单个集成静态断言并核对同一认证状态不变量，工作量小且不可形成互斥并行包
+event_hash: af043bad737cb4c84b32fc3dcb20cae2fe0752d02113b533448be8047b5a1773
