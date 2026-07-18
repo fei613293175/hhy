@@ -2,6 +2,7 @@ package cc.orbexa.hhy.designsystem
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 object HhyColors {
     val BrandPrimary = Color(0xFF1677FF)
@@ -43,4 +44,35 @@ object HhyRadius {
     val Dialog = 20.dp
     val BottomSheetTop = 24.dp
     val Pill = 999.dp
+}
+
+/** Frozen Android type scale from hhy_design_tokens_v1.2.2.json. */
+object HhyType {
+    val PageTitleSize = 20.sp
+    val PageTitleLineHeight = 28.sp
+    val SectionTitleSize = 18.sp
+    val SectionTitleLineHeight = 26.sp
+    val CardTitleSize = 16.sp
+    val CardTitleLineHeight = 24.sp
+    val ButtonSize = 15.sp
+    val ButtonLineHeight = 22.sp
+    val BodySize = 14.sp
+    val BodyLineHeight = 22.sp
+    val SecondaryBodySize = 13.sp
+    val SecondaryBodyLineHeight = 20.sp
+    val CaptionSize = 12.sp
+    val CaptionLineHeight = 18.sp
+    val NavigationSize = 11.sp
+    val NavigationLineHeight = 16.sp
+}
+
+/** Frozen component dimensions used by the B01 mobile authentication pages. */
+object HhySize {
+    val Hairline = 1.dp
+    val TopAppBarHeight = 56.dp
+    val PrimaryButtonHeight = 48.dp
+    val InputHeight = 52.dp
+    val MinimumTouchTarget = 48.dp
+    val AppLogo = 64.dp
+    val TabHeight = 48.dp
 }

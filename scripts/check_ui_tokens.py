@@ -97,10 +97,15 @@ def _kotlin_color(value: str) -> str:
 def render_kotlin_tokens(tokens: dict[str, Any]) -> str:
     colors = tokens["color"]
     radius = tokens["radiusDp"]
+    typography = tokens["typographySp"]
+    size = tokens["sizeDp"]
+    component = tokens["componentDp"]
+    border = tokens["borderWidthDp"]
     return f"""package cc.orbexa.hhy.designsystem
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 object HhyColors {{
     val BrandPrimary = {_kotlin_color(colors['brand']['primary'])}
@@ -142,6 +147,37 @@ object HhyRadius {{
     val Dialog = {radius['dialog']}.dp
     val BottomSheetTop = {radius['bottomSheetTop']}.dp
     val Pill = {radius['pill']}.dp
+}}
+
+/** Frozen Android type scale from hhy_design_tokens_v1.2.2.json. */
+object HhyType {{
+    val PageTitleSize = {typography['pageTitle']['size']}.sp
+    val PageTitleLineHeight = {typography['pageTitle']['lineHeight']}.sp
+    val SectionTitleSize = {typography['sectionTitle']['size']}.sp
+    val SectionTitleLineHeight = {typography['sectionTitle']['lineHeight']}.sp
+    val CardTitleSize = {typography['cardTitle']['size']}.sp
+    val CardTitleLineHeight = {typography['cardTitle']['lineHeight']}.sp
+    val ButtonSize = {typography['button']['size']}.sp
+    val ButtonLineHeight = {typography['button']['lineHeight']}.sp
+    val BodySize = {typography['body']['size']}.sp
+    val BodyLineHeight = {typography['body']['lineHeight']}.sp
+    val SecondaryBodySize = {typography['secondaryBody']['size']}.sp
+    val SecondaryBodyLineHeight = {typography['secondaryBody']['lineHeight']}.sp
+    val CaptionSize = {typography['caption']['size']}.sp
+    val CaptionLineHeight = {typography['caption']['lineHeight']}.sp
+    val NavigationSize = {typography['navigation']['size']}.sp
+    val NavigationLineHeight = {typography['navigation']['lineHeight']}.sp
+}}
+
+/** Frozen component dimensions used by the B01 mobile authentication pages. */
+object HhySize {{
+    val Hairline = {border['standard']}.dp
+    val TopAppBarHeight = {size['topAppBarContentHeight']}.dp
+    val PrimaryButtonHeight = {size['primaryButtonHeight']}.dp
+    val InputHeight = {size['singleLineInputHeight']}.dp
+    val MinimumTouchTarget = {size['minimumTouchTarget']}.dp
+    val AppLogo = {size['appLogo']}.dp
+    val TabHeight = {component['tabHeight']}.dp
 }}
 """
 

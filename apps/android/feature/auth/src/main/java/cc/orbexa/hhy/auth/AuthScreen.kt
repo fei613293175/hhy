@@ -2,17 +2,25 @@ package cc.orbexa.hhy.auth
 
 import android.graphics.BitmapFactory
 import android.util.Base64
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Checkbox
@@ -29,12 +37,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import cc.orbexa.hhy.designsystem.HhyColors
+import cc.orbexa.hhy.designsystem.HhyRadius
+import cc.orbexa.hhy.designsystem.HhySize
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.network.AuthCallResult
 import cc.orbexa.hhy.network.ContractAuthApi
@@ -116,34 +129,59 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
             state = AuthUiState.Message("无法安全保存登录会话，请重新登录", result.requestId)
         }
     }
+    fun selectRoute(next: AuthRoute) {
+        if (submitting || route == next) return
+        route = next
+        smsCode = ""
+        challengeId = ""
+        challengeImageBase64 = ""
+        challengeProof = ""
+        agreementVersionIds = emptyList()
+        agreementCodes = emptyList()
+        agreementsAccepted = false
+        state = AuthUiState.Editing
+    }
 
     Surface(color = HhyColors.PageBackground) {
         Column(
-            modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(HhySpacing.Lg),
-            verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .navigationBarsPadding()
+                .imePadding()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = HhySpacing.Xxl, vertical = HhySpacing.Xxxl),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text("合伙云 Pro", style = MaterialTheme.typography.headlineSmall)
-            Text(route.title, style = MaterialTheme.typography.titleLarge)
-            RouteSelector(route, enabled = !submitting) {
-                route = it
-                smsCode = ""
-                challengeId = ""
-                challengeImageBase64 = ""
-                challengeProof = ""
-                agreementVersionIds = emptyList()
-                agreementCodes = emptyList()
-                agreementsAccepted = false
-                state = AuthUiState.Editing
+            BrandHeader(route)
+            Spacer(Modifier.height(HhySpacing.Xl))
+            if (route == AuthRoute.PASSWORD || route == AuthRoute.SMS) {
+                LoginModeSelector(route, enabled = !submitting, onSelect = ::selectRoute)
+            } else {
+                BackRouteHeader(route, enabled = !submitting) { selectRoute(AuthRoute.PASSWORD) }
             }
+            Spacer(Modifier.height(HhySpacing.Lg))
 
-            if (state is AuthUiState.Message) {
-                val message = state as AuthUiState.Message
-                Text(message.text, color = HhyColors.Warning)
-                message.requestId?.let { Text("请求编号：$it", color = HhyColors.TextSecondary) }
-            }
-            if (submitting) CircularProgressIndicator()
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = HhyColors.Surface,
+                shape = RoundedCornerShape(HhyRadius.LargeCard),
+            ) {
+                Column(
+                    modifier = Modifier.padding(HhySpacing.Lg),
+                    verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+                ) {
+                    if (state is AuthUiState.Message) {
+                        StatusMessage(state as AuthUiState.Message)
+                    }
+                    if (submitting) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                        ) { CircularProgressIndicator() }
+                    }
 
-            PhoneField(phone, enabled = !submitting) { phone = it; smsCode = ""; state = AuthUiState.Editing }
+                    PhoneField(phone, enabled = !submitting) { phone = it; smsCode = ""; state = AuthUiState.Editing }
             if (route == AuthRoute.PASSWORD || route == AuthRoute.REGISTER || route == AuthRoute.RESET) {
                 SecretField(if (route == AuthRoute.RESET) "新密码" else "密码", password, enabled = !submitting) { password = it; state = AuthUiState.Editing }
             }
@@ -223,7 +261,7 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
             }
 
             Button(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
                 enabled = !submitting && AuthFormRules.canSubmit(
                     route, phone, password, passwordAgain, smsCode, inviteCode, agreementVersionIds, agreementsAccepted, challengeId, challengeProof,
                 ) && (route != AuthRoute.REGISTER || AuthFormRules.hasValidatedInvite(inviteCode, validatedInviteCode)),
@@ -247,8 +285,19 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                         }
                     }
                 },
-            ) { Text(primaryAction(route)) }
-            Text("敏感信息仅用于本次认证，不会展示或写入日志。", color = HhyColors.TextSecondary)
+            ) { Text(primaryAction(route), maxLines = 1, overflow = TextOverflow.Ellipsis) }
+                }
+            }
+            if (route == AuthRoute.PASSWORD || route == AuthRoute.SMS) {
+                AuxiliaryRoutes(enabled = !submitting, onSelect = ::selectRoute)
+            }
+            Text(
+                "敏感信息仅用于本次认证，不会展示或写入日志。",
+                modifier = Modifier.fillMaxWidth().padding(top = HhySpacing.Md),
+                color = HhyColors.TextSecondary,
+                style = MaterialTheme.typography.bodySmall,
+                textAlign = TextAlign.Center,
+            )
             Spacer(Modifier.height(HhySpacing.Lg))
         }
     }
@@ -566,17 +615,121 @@ private fun maskedPhone(phone: String): String? = if (phone.length == 11) {
     phone.take(3) + "****" + phone.takeLast(4)
 } else null
 
-@Composable private fun RouteSelector(selected: AuthRoute, enabled: Boolean, onSelect: (AuthRoute) -> Unit) = Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
-    AuthRoute.entries.forEach { route ->
-        OutlinedButton(onClick = { onSelect(route) }, enabled = enabled && route != selected) { Text(route.title) }
+@Composable
+private fun BrandHeader(route: AuthRoute) {
+    Surface(
+        modifier = Modifier.size(HhySize.AppLogo),
+        color = HhyColors.BrandPrimary,
+        shape = RoundedCornerShape(HhyRadius.LargeCard),
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Text(
+                "合",
+                color = HhyColors.TextInverse,
+                style = MaterialTheme.typography.headlineSmall,
+            )
+        }
+    }
+    Spacer(Modifier.height(HhySpacing.Md))
+    Text("合伙云 Pro", style = MaterialTheme.typography.headlineSmall)
+    Text(
+        when (route) {
+            AuthRoute.PASSWORD, AuthRoute.SMS -> "安全登录，开启协作"
+            AuthRoute.REGISTER -> "创建账号，加入可信协作"
+            AuthRoute.RESET -> "验证身份，重置登录密码"
+        },
+        color = HhyColors.TextSecondary,
+        style = MaterialTheme.typography.bodyMedium,
+    )
+}
+
+@Composable
+private fun LoginModeSelector(
+    selected: AuthRoute,
+    enabled: Boolean,
+    onSelect: (AuthRoute) -> Unit,
+) = Row(
+    modifier = Modifier.fillMaxWidth(),
+    horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+) {
+    listOf(AuthRoute.PASSWORD, AuthRoute.SMS).forEach { route ->
+        val selectedRoute = route == selected
+        Surface(
+            modifier = Modifier.weight(1f).height(HhySize.TabHeight),
+            color = if (selectedRoute) HhyColors.SoftBlue else HhyColors.Surface,
+            shape = RoundedCornerShape(HhyRadius.Pill),
+            border = BorderStroke(
+                HhySize.Hairline,
+                if (selectedRoute) HhyColors.BrandPrimary else HhyColors.Border,
+            ),
+            enabled = enabled,
+            onClick = { onSelect(route) },
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Text(
+                    route.title,
+                    color = if (selectedRoute) HhyColors.BrandPrimary else HhyColors.TextSecondary,
+                    style = MaterialTheme.typography.labelLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun BackRouteHeader(route: AuthRoute, enabled: Boolean, onBack: () -> Unit) {
+    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        TextButton(enabled = enabled, onClick = onBack) { Text("返回登录") }
+        Text(
+            route.title,
+            modifier = Modifier.weight(1f),
+            style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.End,
+        )
+    }
+}
+
+@Composable
+private fun AuxiliaryRoutes(enabled: Boolean, onSelect: (AuthRoute) -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(top = HhySpacing.Sm),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        TextButton(enabled = enabled, onClick = { onSelect(AuthRoute.REGISTER) }) { Text("注册账号") }
+        TextButton(enabled = enabled, onClick = { onSelect(AuthRoute.RESET) }) { Text("忘记密码") }
+    }
+}
+
+@Composable
+private fun StatusMessage(message: AuthUiState.Message) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = HhyColors.SoftBlue,
+        shape = RoundedCornerShape(HhyRadius.Input),
+    ) {
+        Column(
+            modifier = Modifier.padding(HhySpacing.Md),
+            verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs),
+        ) {
+            Text(message.text, color = HhyColors.TextPrimary, style = MaterialTheme.typography.bodyLarge)
+            message.requestId?.let {
+                Text("请求编号：$it", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+            }
+        }
     }
 }
 
 @Composable private fun PhoneField(value: String, enabled: Boolean, onValueChange: (String) -> Unit) = TextField("手机号", value, onValueChange, false, enabled)
 @Composable private fun SecretField(label: String, value: String, enabled: Boolean, onValueChange: (String) -> Unit) = TextField(label, value, onValueChange, true, enabled)
 @Composable private fun TextField(label: String, value: String, onValueChange: (String) -> Unit, secret: Boolean, enabled: Boolean) = OutlinedTextField(
-    value = value, onValueChange = onValueChange, modifier = Modifier.fillMaxWidth(), label = { Text(label) },
+    value = value,
+    onValueChange = onValueChange,
+    modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = HhySize.InputHeight),
+    label = { Text(label) },
     singleLine = true, enabled = enabled, visualTransformation = if (secret) PasswordVisualTransformation() else VisualTransformation.None,
+    shape = RoundedCornerShape(HhyRadius.Input),
 )
 
 @Composable

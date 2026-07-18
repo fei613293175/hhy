@@ -257,3 +257,26 @@ problems:
   do_not_repeat:
   - 公开下载目录与私有上传暂存目录不得共享同一限制性umask创建步骤
   - 不得因服务器文件存在就跳过Nginx进程可读性和公网完整下载验证
+- id: PROB-0023
+  title: R02认证页未落实B01参考图与冻结Android设计令牌
+  status: SOLVED
+  root_cause: 首版认证纵向切片直接使用Material默认排版，并把密码、短信、注册和忘记密码四个路由同时塞入单行按钮，未接入冻结字号、行高、组件高度、圆角及B01页面层级。
+  resolution: 设计系统接入冻结Typography、Shapes和组件尺寸；登录只保留两个等宽模式页签，注册与忘记密码改为辅助入口，认证表单使用B01品牌头、卡片层级、48dp主按钮、52dp输入框及IME安全滚动布局。
+  regression_checks:
+  - tests/test_r02_auth_slice_contract.py#test_auth_ui_follows_b01_tokens_and_keeps_auxiliary_routes_responsive
+  - obx-test :feature:auth:testDebugUnitTest lintDebug assembleDebug
+  do_not_repeat:
+  - 不得以Material默认值替代冻结Android设计令牌
+  - 不得把四个认证路由压缩在同一行或允许按钮文字纵向折行
+- id: PROB-0024
+  title: 公网API仍运行P00后端导致R02公开认证端点返回401
+  status: SOLVED
+  root_cause: api.orbexa.cc当前上游仍是旧P00后端镜像；APK已正确嵌入正式HTTPS域名，但R02新增的security-challenges与registration-config没有进入该公网运行时的公开白名单。
+  resolution: 在保留旧P00服务和回滚配置的前提下先创建数据库备份，再以root-only持久化staging SecretRef等价文件旁路启动R02镜像；Flyway从V011迁移到V018，候选健康及匿名端点通过后将Nginx切到R02端口。公网registration-config、security-challenges和platform status均返回200。
+  regression_checks:
+  - scripts/check_r02_public_auth.py --api-base-url https://api.orbexa.cc
+  - infra/staging/docker-compose.p00.yml必须声明三项HHY_USER安全密钥为必填
+  - 修复后APK真机复测不再出现认证已失效
+  do_not_repeat:
+  - 不得只校验platform status 200就认定APK依赖的全部公开认证端点可用
+  - 公网APK交付门禁必须实测本版本新增的匿名端点及其鉴权策略

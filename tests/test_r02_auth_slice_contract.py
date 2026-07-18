@@ -137,6 +137,31 @@ class R02AuthSliceContractTests(unittest.TestCase):
         self.assertNotIn("错误码：", auth_screen)
         self.assertNotIn("val errorCode: String?", auth_screen)
 
+    def test_auth_ui_follows_b01_tokens_and_keeps_auxiliary_routes_responsive(self) -> None:
+        auth_screen = read(
+            "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt"
+        )
+        tokens = read(
+            "apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt"
+        )
+        theme = read(
+            "apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTheme.kt"
+        )
+        ui_index = read("docs/02-ui/12批UI参考图绑定索引_V1.2.2.md")
+
+        self.assertIn("design/effect-previews/B01/HHY_B01_8PAGE_UI_REFERENCE.png", ui_index)
+        self.assertIn("private fun LoginModeSelector", auth_screen)
+        self.assertIn("private fun AuxiliaryRoutes", auth_screen)
+        self.assertIn("Modifier.weight(1f).height(HhySize.TabHeight)", auth_screen)
+        self.assertIn(".imePadding()", auth_screen)
+        self.assertIn("HhySize.PrimaryButtonHeight", auth_screen)
+        self.assertNotIn("AuthRoute.entries.forEach", auth_screen)
+        self.assertIn("val PageTitleSize = 20.sp", tokens)
+        self.assertIn("val PrimaryButtonHeight = 48.dp", tokens)
+        self.assertIn("val InputHeight = 52.dp", tokens)
+        self.assertIn("typography = HhyTypography", theme)
+        self.assertIn("shapes = HhyShapes", theme)
+
     def test_registration_uses_server_current_versions_and_never_manual_version_input(self) -> None:
         auth_screen = read(
             "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt"
@@ -160,6 +185,20 @@ class R02AuthSliceContractTests(unittest.TestCase):
 
         self.assertIn('environmentVariable("HHY_APP_CHANNEL").orElse("official")', app_build)
         self.assertIn('environmentVariable("HHY_APP_ENVIRONMENT").orElse("STAGING")', app_build)
+
+    def test_staging_requires_r02_user_secrets_and_has_public_auth_gate(self) -> None:
+        compose = read("infra/staging/docker-compose.p00.yml")
+        gate = read("scripts/check_r02_public_auth.py")
+
+        for name in (
+            "HHY_USER_JWT_SECRET",
+            "HHY_USER_TOKEN_HMAC_SECRET",
+            "HHY_USER_SNAPSHOT_ROOT_SECRET",
+        ):
+            self.assertIn(f"{name}: ${{{name}:?{name} is required}}", compose)
+        self.assertIn("/api/v1/auth/registration-config", gate)
+        self.assertIn("/api/v1/auth/security-challenges", gate)
+        self.assertIn('parsed.hostname != "api.orbexa.cc"', gate)
 
 
 if __name__ == "__main__":
