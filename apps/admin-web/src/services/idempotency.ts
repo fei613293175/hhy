@@ -17,6 +17,8 @@ export const ADMIN_SECURITY_IDEMPOTENT_OPERATIONS = [
   'adminProviderConfigPostProviderConfigsByProviderTest',
   'adminProviderConfigPostProviderConfigsByProviderActivate',
   'adminProviderConfigPostProviderConfigsByProviderRollback',
+  'adminDomainConfigPutDomainsByCode',
+  'adminDomainConfigPostDomainsByCodeVerify',
 ] as const satisfies readonly (keyof AdminContract.operations)[];
 
 export type AdminSecurityIdempotentOperation =
