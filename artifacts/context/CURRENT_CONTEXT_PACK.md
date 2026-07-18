@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T03:02:02Z
-- Context Hash：`a20cb9b852f5994bb2597995d4280e906e59464529d334edf55163872a82b55f`
+- 生成时间：2026-07-18T03:12:43Z
+- Context Hash：`ebb0d21df7c6730b91bd7a70fe391caf1c453e123e58bd50ad013cd42335014f`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -55,7 +55,7 @@ in_progress_tasks:
 - TASK-R02-002
 blocked_tasks: []
 next_task: TASK-R02-002
-updated_at: '2026-07-18T03:02:00Z'
+updated_at: '2026-07-18T03:12:41Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -90,15 +90,15 @@ continuity:
   active_session_id: SES-20260717T210927Z-13B07A7D
   actor_id: codex-root
   story_id: STORY-R02-003
-  lease_expires_at: '2026-07-18T07:02:00Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0029.yaml
-  project_fingerprint: b6fc2a08cdf227fe9839016856393cd67a3e0510157843128fa7d6e790c78e1a
+  lease_expires_at: '2026-07-18T07:12:41Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0030.yaml
+  project_fingerprint: cd2df32aa1ab6f052b20f5ffb4fc563a82d5ab8e6acffc0f96cb33d866110a32
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: ab7c0a96fd8912cceb2826b34ecf53b16a485cdc522e504a19a87a1715cd25b1
-    generated_at: '2026-07-18T03:01:27Z'
+    context_hash: a20cb9b852f5994bb2597995d4280e906e59464529d334edf55163872a82b55f
+    generated_at: '2026-07-18T03:02:02Z'
   handoff_bundle: null
 ```
 
@@ -293,7 +293,7 @@ task_id: TASK-R02-002
 story_id: STORY-R02-003
 goal: 接管 SES-20260717T204616Z-254B60A3：接管 SES-20260717T200842Z-456B8F52：完成Android启动、登录与邀请注册纵向闭环，覆盖数据、API、Android、测试与模块门禁
 started_at: '2026-07-17T21:09:27Z'
-updated_at: '2026-07-18T03:02:00Z'
+updated_at: '2026-07-18T03:12:41Z'
 takeover_of: SES-20260717T204616Z-254B60A3
 change_requests:
 - CR-0019
@@ -382,12 +382,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T03:02:00Z'
-  expires_at: '2026-07-18T07:02:00Z'
-checkpoint_sequence: 29
-latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0029.yaml
+  renewed_at: '2026-07-18T03:12:41Z'
+  expires_at: '2026-07-18T07:12:41Z'
+checkpoint_sequence: 30
+latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0030.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-next_step: 继续 R02 启动门禁和认证流程的端到端行为验证；生产部署仍等待 PROB-0013 的受控密钥来源。
+next_step: 继续 R02 认证接口成功、拒绝与幂等行为验证；生产部署仍等待 PROB-0013 的受控密钥来源。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -395,55 +395,44 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 启动门禁决定维护、更新与认证入口，状态优先级和异常映射共享同一状态机，需串行验证。
+  reason: 短信登录涉及验证码一次性消费、账号状态与会话创建的安全顺序，需在单一事务基线串行复核。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0029
+checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0030
 session_id: SES-20260717T210927Z-13B07A7D
-sequence: 29
-created_at: '2026-07-18T03:01:59Z'
-summary: 补齐启动门禁强制更新与版本检查失败边界回归的用户可见变更记录。
-next_step: 继续 R02 启动门禁和认证流程的端到端行为验证；生产部署仍等待 PROB-0013 的受控密钥来源。
+sequence: 30
+created_at: '2026-07-18T03:12:41Z'
+summary: 补齐短信登录成功与冻结账号拒绝回归，确认受限账号不会消费短信验证码或创建会话。
+next_step: 继续 R02 认证接口成功、拒绝与幂等行为验证；生产部署仍等待 PROB-0013 的受控密钥来源。
 blockers:
 - 'PROB-0012: 短信服务商未激活，不能提供真实验证码发送。'
 - 'PROB-0013: 缺少受控的管理员部署密钥来源，不能安全切换 R02 新认证后端。'
 - 'PROB-0014: Android 注册尚缺受控的协议版本配置来源，不能硬编码生产协议版本。'
 decisions:
-- 即使公开下载内容暂不可取，强制更新策略仍必须保持阻断；任一启动 API 的 HhyApiException 必须回传请求编号供用户重试排查。
-note: CHANGELOG 已按用户可见门禁补齐。
+- SMS 登录必须先验证用户状态；受限账号不得校验或消费验证码，也不得创建会话。
+note: 远程 Surefire 最终报告 10 项通过，Maven 本地等待窗口超时未被视为测试失败。
 tests:
-- name: android_startup_gate_boundaries
+- name: backend_sms_login_security
   result: PASS
-  evidence: 'obx-test core:network testDebugUnitTest and lintDebug: BUILD SUCCESSFUL'
+  evidence: 'obx-test Maven UserAuthServiceTest: Tests run: 10, Failures: 0, Errors: 0'
   note: ''
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: bed5ea906e629f7e6313c58227893d9cb92dfa91
+  head: 1308be372c6720d518481a4ffc7fcd3b95a7c4d3
   upstream: origin/task/TASK-R02-002
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0028.yaml
-  - M  .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
-  - ' M CHANGELOG.md'
-  - M  CURRENT_STATUS.yaml
-  - M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  catalogs/session_index.csv
-  - M  docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java'
   recent_commits:
+  - "1308be372c6720d518481a4ffc7fcd3b95a7c4d3\t2026-07-18T11:02:11+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(startup): cover forced\
+    \ update failure boundaries"
   - "bed5ea906e629f7e6313c58227893d9cb92dfa91\t2026-07-18T10:59:08+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover password\
     \ login http contract"
   - "d8ef79f28af589afbbc5c39fbce7950d4f07287d\t2026-07-18T10:55:28+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover password\
@@ -458,10 +447,8 @@ git:
     \ registration invites"
   - "3e47a4bd4323ad4744fb843256c89a8d99892380\t2026-07-18T10:28:14+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover password\
     \ session issuance"
-  - "e56e127f5af9ba2d5787406e72471e79b2178610\t2026-07-18T10:22:36+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] docs(r02): record agreement\
-    \ version integration dependency"
 project_fingerprint:
-  sha256: b6fc2a08cdf227fe9839016856393cd67a3e0510157843128fa7d6e790c78e1a
+  sha256: cd2df32aa1ab6f052b20f5ffb4fc563a82d5ab8e6acffc0f96cb33d866110a32
   files:
   - .githooks/pre-push
   - .github/workflows/continuity-gate.yml
@@ -938,8 +925,8 @@ project_fingerprint:
       sha256: dc5ecb891779a774425556484ac0c58fa975013fcbe9dc5744403a3b6a2e13cd
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
       state: FILE
-      size: 16922
-      sha256: 922bd2ead1927ecc6d68309f567ad9cdc7ee6daa797969848c024d494d8c899a
+      size: 19523
+      sha256: 418182492640cfcfb8a0bcb776c3cebb2fd1047f2c8080c3fc888684426cd896
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
       state: FILE
       size: 5968
@@ -1243,8 +1230,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 启动门禁决定维护、更新与认证入口，状态优先级和异常映射共享同一状态机，需串行验证。
-event_hash: 294d9fb32ae043833a7afd8527162f8b582182a260a081137a0cb34372cbb5ee
+  reason: 短信登录涉及验证码一次性消费、账号状态与会话创建的安全顺序，需在单一事务基线串行复核。
+event_hash: 2fe006c1f2b84d3ed9c5df1b33bdcbdfba5f920c259e031140446b7d24e73f50
 ```
 
 ## 接续状态与事件头
@@ -1256,8 +1243,8 @@ active_session_id: SES-20260717T210927Z-13B07A7D
 last_session_id: SES-20260717T183459Z-D64E7407
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T183459Z-D64E7407-0007
-event_count: 317
-event_head_hash: 294d9fb32ae043833a7afd8527162f8b582182a260a081137a0cb34372cbb5ee
+event_count: 318
+event_head_hash: 2fe006c1f2b84d3ed9c5df1b33bdcbdfba5f920c259e031140446b7d24e73f50
 event_chain_valid: true
 ```
 
@@ -1380,9 +1367,9 @@ recent_sessions: - session_id: SES-20260717T084524Z-9FE47D9F
   started_at: '2026-07-17T21:09:27Z'
   record: .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-  updated_at: '2026-07-18T03:02:00Z'
+  updated_at: '2026-07-18T03:12:41Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0029.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0030.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1BBC8343F3B4
   session_id: SES-20260716T232809Z-B4A980AF
@@ -2305,28 +2292,25 @@ recent_task_transitions: - transition_id: TRN-BE280508920D
 ```yaml
 initialized: true
 branch: task/TASK-R02-002
-head: bed5ea906e629f7e6313c58227893d9cb92dfa91
+head: 1308be372c6720d518481a4ffc7fcd3b95a7c4d3
 upstream: origin/task/TASK-R02-002
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0028.yaml
-- MM .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
-- ' M CHANGELOG.md'
-- MM CURRENT_STATUS.yaml
-- M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- MM catalogs/session_index.csv
-- MM docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-- ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0029.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md'
+- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java'
+- ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0030.yaml
 recent_commits:
+- "1308be372c6720d518481a4ffc7fcd3b95a7c4d3\t2026-07-18T11:02:11+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(startup): cover forced\
+  \ update failure boundaries"
 - "bed5ea906e629f7e6313c58227893d9cb92dfa91\t2026-07-18T10:59:08+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover password login\
   \ http contract"
 - "d8ef79f28af589afbbc5c39fbce7950d4f07287d\t2026-07-18T10:55:28+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover password reset\
@@ -2341,13 +2325,11 @@ recent_commits:
   \ registration invites"
 - "3e47a4bd4323ad4744fb843256c89a8d99892380\t2026-07-18T10:28:14+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover password session\
   \ issuance"
-- "e56e127f5af9ba2d5787406e72471e79b2178610\t2026-07-18T10:22:36+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] docs(r02): record agreement\
-  \ version integration dependency"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`b6fc2a08cdf227fe9839016856393cd67a3e0510157843128fa7d6e790c78e1a`
+- 指纹：`cd2df32aa1ab6f052b20f5ffb4fc563a82d5ab8e6acffc0f96cb33d866110a32`
 - 文件数：109
 
 - `.githooks/pre-push`
@@ -4477,7 +4459,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `019b37b5bd34477e0efc24f6ebc506dc86aa91ac63144dafb5218e7cdf3ebc93`
+- `CURRENT_STATUS.yaml` — `fb399e0d373aae3a20c323b85ffcf4316d8d9057f284d38377d02f32199541f0`
 - `NEXT_TASK.yaml` — `3e619f3004a0a8b1d13dbd60e06e2ab8291566c6299bf36fe763af51b17a9c97`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -4488,20 +4470,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7`
-- `.continuity/EVENT_LOG.jsonl` — `0b40e2946681172c25689da6da0b433ee3d241e052a009bf5b572e10cbf73254`
-- `.continuity/SESSION_INDEX.yaml` — `4829ed5d4f73f3d46f56236475784253016cf2313b238de8d17dac1c7b6face6`
+- `.continuity/EVENT_LOG.jsonl` — `ac9611cf4b5967b461b49937dc21c853c3a05d21a34ea256ae467f26e2f9b337`
+- `.continuity/SESSION_INDEX.yaml` — `7dc3c661291a52c2e61fc3dbbaf1698a246bced061ef760863260bd3f07dd112`
 - `.continuity/TASK_CLAIMS.yaml` — `d48d579192aebf3dee4f0d48a63f7629813dedc4580399b2caef6e21041ca91c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `df13b60a1f650a20a1bc3076063770d6b5958cab47774ccfcde648184f6aadb6`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `37cfc9993861a7d6584f23fc1a902a0716937791cef139117e90a1e1400a3c85`
-- `.continuity/ACTIVE_SESSION.yaml` — `2ab7f6e81158172de8b4c02f6248cc017f7567ae99d76c75b908a7fe01d01e6c`
+- `.continuity/ACTIVE_SESSION.yaml` — `b2e9f783850f351c90c7c7c93274a9d0566e5de41d28e3c00e0b858d278ee8fb`
 - `releases/R02/RELEASE_MANIFEST.yaml` — `19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d`
 - `releases/R02/DEFINITION_OF_READY.yaml` — `9a3113b85d8dd96ea04a908a277c9da3374531ec06dd5eb91dfd539e4351d33c`
 - `releases/R02/STORIES.yaml` — `966e57d10e36269465e74318903ffa0aa5c49d205ba38cce3ba5ebbdbe9ca571`
 - `releases/R02/TASKS.yaml` — `048d5453a94058ef04b704a67d55ad28182d040eee384d4d65794e19c90a949a`
 - `releases/R02/ACCEPTANCE_MATRIX.csv` — `687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0`
 - `releases/R02/PARALLEL_EXECUTION_PLAN.yaml` — `c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md` — `a446414fa2a257285588d21f175d2ba7cf311c041cd90d42702bc7624209f04d`
-- `.continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0029.yaml` — `6c9b39b84be10f0257ef6c1782be1ef292e473e34928c8ae6b028a4b112189e8`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md` — `a6d4285b52c3713760dcdccb74dc4988a669ce1d73c300fb10f3a26989bf0e18`
+- `.continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0030.yaml` — `4ad7eeb46d08573b7fa5472a73a096ef010d9f818c6e70cf0be3d0b06037e0e8`
 - `docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md` — `4cacbe331c6591b0701ebaef11bb67567f831baf4d5fa3fd443c68c0d7465fc8`
 - `docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md` — `62beadfa0bcedbb97d6e763ed08b26d2ed8a76317716783cd1118a313f66706e`
 - `docs/03-continuity/change-requests/CR-0021-将1主控加3执行代理设为跨AI跨设备默认自动并行规则.md` — `5ef2b90effc14bd5b5b8ab561dc10a597ebd1061a3836a3d937e1f1ac7738ae8`

@@ -17,6 +17,7 @@ import cc.orbexa.hhy.access.user.UserAuthContracts.RefreshRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordLoginRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordResetRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RegisterRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.SmsLoginRequest;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Clock;
@@ -293,6 +294,47 @@ class UserAuthServiceTest {
         verify(repository).updatePasswordAndRevokeSessions(71L, 17L, "bcrypt-reset-hash", NOW);
         verify(repository).completeIdempotencySnapshot(
                 eq(97L), eq("password-reset-v1:ok"), eq("password-reset-v1"), anyString());
+    }
+
+    @Test
+    void smsLoginVerifiesCodeAndCreatesDeviceBoundSession() {
+        SmsLoginRequest request = new SmsLoginRequest(
+                "13800000000", "481516", Map.of(
+                        "deviceFingerprint", "install-fingerprint-sms",
+                        "model", "Pixel 9",
+                        "platform", "ANDROID"));
+        when(repository.claimIdempotency(anyString(), eq("sms-login-idem-key-0001"), anyString(), any(Instant.class)))
+                .thenReturn(new UserAuthStore.IdempotencyClaim(
+                        new UserAuthStore.IdempotencyRow(98L, "request-hash", null, null, null), false));
+        when(repository.findUser("13800000000")).thenReturn(Optional.of(new UserAuthStore.UserRow(17L, "ACTIVE")));
+        when(repository.upsertDevice(eq(17L), anyString(), eq("Pixel 9"), any(Instant.class))).thenReturn(31L);
+        when(repository.createSession(eq(17L), eq(31L), anyString(), anyString(), any(Instant.class)))
+                .thenReturn(23L);
+
+        var session = service.smsLogin(request, "sms-login-idem-key-0001", "203.0.113.9");
+
+        assertEquals("17", session.userId());
+        assertEquals("23", session.sessionId());
+        verify(verification).verifySms("13800000000", UserAuthContracts.AuthScene.LOGIN, "481516");
+        verify(repository).recordLogin(17L, "13800000000", 31L, "203.0.113.9", "SMS");
+        verify(repository).completeIdempotencySnapshot(
+                eq(98L), eq("user-auth-session-v1:ok"), eq("user-auth-session-v1"), anyString());
+    }
+
+    @Test
+    void smsLoginDoesNotConsumeCodeForRestrictedAccount() {
+        SmsLoginRequest request = new SmsLoginRequest("13800000000", "481516", Map.of());
+        when(repository.claimIdempotency(anyString(), eq("sms-login-idem-key-0002"), anyString(), any(Instant.class)))
+                .thenReturn(new UserAuthStore.IdempotencyClaim(
+                        new UserAuthStore.IdempotencyRow(99L, "request-hash", null, null, null), false));
+        when(repository.findUser("13800000000")).thenReturn(Optional.of(new UserAuthStore.UserRow(17L, "FROZEN")));
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> service.smsLogin(request, "sms-login-idem-key-0002", "203.0.113.9"));
+
+        assertEquals("AUTH-423-ACCOUNT_RESTRICTED", error.code());
+        verify(verification, never()).verifySms(anyString(), any(), anyString());
+        verify(repository, never()).createSession(anyLong(), any(), anyString(), anyString(), any(Instant.class));
     }
 
     private static UserAuthProperties properties() {
