@@ -162,6 +162,17 @@ class R02AuthSliceContractTests(unittest.TestCase):
         self.assertIn("typography = HhyTypography", theme)
         self.assertIn("shapes = HhyShapes", theme)
 
+    def test_auth_ui_auto_loads_challenge_from_user_intent_without_a_technical_button(self) -> None:
+        auth_screen = read(
+            "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt"
+        )
+
+        self.assertIn("fun requestChallenge()", auth_screen)
+        self.assertIn("if (challengeId.isBlank()) requestChallenge()", auth_screen)
+        self.assertIn("canStartPasswordChallenge", auth_screen)
+        self.assertNotIn('Text("创建安全验证")', auth_screen)
+        self.assertIn('Text("发送验证码")', auth_screen)
+
     def test_registration_uses_server_current_versions_and_never_manual_version_input(self) -> None:
         auth_screen = read(
             "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt"

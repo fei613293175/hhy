@@ -291,3 +291,26 @@ problems:
   do_not_repeat:
   - 不得在下载站精确白名单生效前请求新的Commit APK路径
   - CDN缓存状态不得替代源站文件、MIME、Range与哈希联合验证
+- id: PROB-0026
+  title: 安全挑战返回SVG但Android按位图解码导致验证码不可见
+  status: SOLVED
+  root_cause: 后端把SVG文本编码进imageBase64，而Android使用BitmapFactory解码栅格图片、H5也按PNG数据URI消费；接口信封虽成功，真机实际无法显示验证码内容。
+  resolution: 后端改用不依赖桌面图形库的纯Java PNG编码器生成160x56四位数字图片；服务单测验证PNG签名、IHDR尺寸和像素格式，公网认证门禁同时解码并校验真实PNG。
+  regression_checks:
+  - UserAuthVerificationServiceTest#challengeImageIsARealPngThatRasterClientsCanDecode
+  - scripts/check_r02_public_auth.py --api-base-url https://api.orbexa.cc
+  - Android真机必须实际看到四位图形验证码
+  do_not_repeat:
+  - 不得只校验imageBase64非空而忽略客户端可解码的真实图片格式
+  - 修改挑战图片格式时必须同时验证Android、H5与公网响应字节
+- id: PROB-0027
+  title: 认证页暴露创建安全验证技术按钮导致用户流程不明确
+  status: SOLVED
+  root_cause: 首个认证切片直接暴露了后端安全挑战创建步骤，要求用户理解并主动点击技术按钮，违背登录和短信验证的业务意图流程。
+  resolution: 所有认证与注销页面移除创建安全验证按钮；用户首次点击登录、发送验证码等业务按钮时自动加载图形验证，完成图形输入后再次点击同一业务按钮继续提交。
+  regression_checks:
+  - tests/test_r02_auth_slice_contract.py#test_auth_ui_auto_loads_challenge_from_user_intent_without_a_technical_button
+  - obx-test :feature:auth:testDebugUnitTest lintDebug assembleDebug
+  do_not_repeat:
+  - 不得向普通用户暴露挑战创建、协议版本ID或幂等键等内部步骤
+  - 安全校验应从明确的登录、发送验证码或敏感操作意图自动触发

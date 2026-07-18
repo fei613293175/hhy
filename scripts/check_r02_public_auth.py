@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 import json
 import ssl
+import struct
 import sys
 import uuid
 from urllib.error import HTTPError, URLError
@@ -60,6 +63,18 @@ def verify(api_base_url: str, timeout: int) -> dict[str, object]:
     challenge_data = challenge.get("data")
     if challenge_status != 200 or challenge.get("success") is not True or not isinstance(challenge_data, dict) or not challenge_data.get("challengeId"):
         raise RuntimeError("security-challenges did not return a usable frozen success envelope")
+    image_base64 = challenge_data.get("imageBase64")
+    if not isinstance(image_base64, str):
+        raise RuntimeError("security-challenges did not return a raster challenge image")
+    try:
+        image = base64.b64decode(image_base64, validate=True)
+    except (binascii.Error, ValueError) as exc:
+        raise RuntimeError("security-challenges returned invalid imageBase64") from exc
+    if len(image) < 24 or image[:8] != b"\x89PNG\r\n\x1a\n":
+        raise RuntimeError("security-challenges challenge image is not PNG")
+    width, height = struct.unpack(">II", image[16:24])
+    if (width, height) != (160, 56):
+        raise RuntimeError(f"security-challenges challenge PNG has unexpected dimensions {width}x{height}")
     return {
         "status": "PASS",
         "api_base_url": base,
@@ -67,6 +82,7 @@ def verify(api_base_url: str, timeout: int) -> dict[str, object]:
         "security_challenge_http": challenge_status,
         "registration_request_id": registration.get("requestId"),
         "challenge_request_id": challenge.get("requestId"),
+        "challenge_image": f"PNG {width}x{height}",
     }
 
 

@@ -6,15 +6,35 @@ import cc.orbexa.hhy.access.user.UserAuthContracts.CommandResultResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SecurityChallengeRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SmsSendRequest;
 import cc.orbexa.hhy.shared.api.BusinessException;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Base64;
+import java.util.zip.CRC32;
+import java.util.zip.DeflaterOutputStream;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserAuthVerificationService {
+    private static final int CHALLENGE_WIDTH = 160;
+    private static final int CHALLENGE_HEIGHT = 56;
+    private static final int GLYPH_SCALE = 4;
+    private static final String[][] DIGIT_GLYPHS = {
+            {"11111", "10001", "10011", "10101", "11001", "10001", "11111"},
+            {"00100", "01100", "00100", "00100", "00100", "00100", "01110"},
+            {"11110", "00001", "00001", "11110", "10000", "10000", "11111"},
+            {"11110", "00001", "00001", "01110", "00001", "00001", "11110"},
+            {"10010", "10010", "10010", "11111", "00010", "00010", "00010"},
+            {"11111", "10000", "10000", "11110", "00001", "00001", "11110"},
+            {"01111", "10000", "10000", "11110", "10001", "10001", "01110"},
+            {"11111", "00001", "00010", "00100", "01000", "01000", "01000"},
+            {"01110", "10001", "10001", "01110", "10001", "10001", "01110"},
+            {"01110", "10001", "10001", "01111", "00001", "00001", "11110"},
+    };
     private final UserAuthStore repository;
     private final UserAuthPolicy policy;
     private final UserTokenService tokens;
@@ -114,12 +134,82 @@ public class UserAuthVerificationService {
         catch (NumberFormatException exception) { throw invalid(message); }
     }
 
-    private static String renderChallenge(String answer) {
-        String svg = "<svg xmlns='http://www.w3.org/2000/svg' width='160' height='56'>"
-                + "<rect width='160' height='56' fill='#f2f4f8'/><text x='24' y='39' "
-                + "font-family='monospace' font-size='32' letter-spacing='9' fill='#172033'>"
-                + answer + "</text></svg>";
-        return Base64.getEncoder().encodeToString(svg.getBytes(StandardCharsets.UTF_8));
+    static String renderChallenge(String answer) {
+        if (answer == null || !answer.matches("\\d{4}")) {
+            throw new IllegalArgumentException("challenge answer must contain four digits");
+        }
+        byte[] rgb = new byte[CHALLENGE_WIDTH * CHALLENGE_HEIGHT * 3];
+        for (int offset = 0; offset < rgb.length; offset += 3) {
+            rgb[offset] = (byte) 0xF2;
+            rgb[offset + 1] = (byte) 0xF4;
+            rgb[offset + 2] = (byte) 0xF8;
+        }
+        for (int index = 0; index < answer.length(); index++) {
+            drawDigit(rgb, DIGIT_GLYPHS[answer.charAt(index) - '0'], 24 + index * 29, 14);
+        }
+        return Base64.getEncoder().encodeToString(encodePng(rgb));
+    }
+
+    private static void drawDigit(byte[] rgb, String[] glyph, int startX, int startY) {
+        for (int row = 0; row < glyph.length; row++) {
+            for (int column = 0; column < glyph[row].length(); column++) {
+                if (glyph[row].charAt(column) != '1') continue;
+                for (int dy = 0; dy < GLYPH_SCALE; dy++) {
+                    for (int dx = 0; dx < GLYPH_SCALE; dx++) {
+                        int x = startX + column * GLYPH_SCALE + dx;
+                        int y = startY + row * GLYPH_SCALE + dy;
+                        int offset = (y * CHALLENGE_WIDTH + x) * 3;
+                        rgb[offset] = 0x17;
+                        rgb[offset + 1] = 0x20;
+                        rgb[offset + 2] = 0x33;
+                    }
+                }
+            }
+        }
+    }
+
+    private static byte[] encodePng(byte[] rgb) {
+        try {
+            ByteArrayOutputStream compressed = new ByteArrayOutputStream();
+            try (DeflaterOutputStream deflater = new DeflaterOutputStream(compressed)) {
+                int rowBytes = CHALLENGE_WIDTH * 3;
+                for (int y = 0; y < CHALLENGE_HEIGHT; y++) {
+                    deflater.write(0);
+                    deflater.write(rgb, y * rowBytes, rowBytes);
+                }
+            }
+            ByteArrayOutputStream png = new ByteArrayOutputStream();
+            try (DataOutputStream output = new DataOutputStream(png)) {
+                output.write(new byte[]{(byte) 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A});
+                ByteArrayOutputStream headerBytes = new ByteArrayOutputStream();
+                try (DataOutputStream header = new DataOutputStream(headerBytes)) {
+                    header.writeInt(CHALLENGE_WIDTH);
+                    header.writeInt(CHALLENGE_HEIGHT);
+                    header.writeByte(8);
+                    header.writeByte(2);
+                    header.writeByte(0);
+                    header.writeByte(0);
+                    header.writeByte(0);
+                }
+                writeChunk(output, "IHDR", headerBytes.toByteArray());
+                writeChunk(output, "IDAT", compressed.toByteArray());
+                writeChunk(output, "IEND", new byte[0]);
+            }
+            return png.toByteArray();
+        } catch (IOException exception) {
+            throw new IllegalStateException("unable to encode challenge image", exception);
+        }
+    }
+
+    private static void writeChunk(DataOutputStream output, String type, byte[] data) throws IOException {
+        byte[] typeBytes = type.getBytes(StandardCharsets.US_ASCII);
+        CRC32 crc = new CRC32();
+        crc.update(typeBytes);
+        crc.update(data);
+        output.writeInt(data.length);
+        output.write(typeBytes);
+        output.write(data);
+        output.writeInt((int) crc.getValue());
     }
 
     private static BusinessException invalid(String message) {

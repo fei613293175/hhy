@@ -17,6 +17,8 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.nio.ByteBuffer;
+import java.util.Base64;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,6 +50,26 @@ class UserAuthVerificationServiceTest {
         tokens = new UserTokenService(new ObjectMapper().findAndRegisterModules(), properties);
         verification = new UserAuthVerificationService(repository, policy, tokens, smsProviders,
                 Clock.fixed(NOW, ZoneOffset.UTC));
+    }
+
+    @Test
+    void challengeImageIsARealPngThatRasterClientsCanDecode() {
+        byte[] image = Base64.getDecoder().decode(UserAuthVerificationService.renderChallenge("6406"));
+
+        assertEquals((byte) 0x89, image[0]);
+        assertEquals('P', image[1]);
+        assertEquals('N', image[2]);
+        assertEquals('G', image[3]);
+        assertEquals(160, ByteBuffer.wrap(image, 16, 4).getInt());
+        assertEquals(56, ByteBuffer.wrap(image, 20, 4).getInt());
+        assertEquals(8, image[24]);
+        assertEquals(2, image[25]);
+    }
+
+    @Test
+    void challengeRendererRejectsUnexpectedNonNumericContent() {
+        assertThrows(IllegalArgumentException.class,
+                () -> UserAuthVerificationService.renderChallenge("<svg"));
     }
 
     @Test

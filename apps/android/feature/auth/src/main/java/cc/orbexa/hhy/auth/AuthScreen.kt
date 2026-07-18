@@ -129,6 +129,14 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
             state = AuthUiState.Message("无法安全保存登录会话，请重新登录", result.requestId)
         }
     }
+    fun requestChallenge() {
+        launchCall({ api.securityChallenge(route.scene) }) { result ->
+            challengeId = result.data["challengeId"]?.jsonPrimitive?.content.orEmpty()
+            challengeImageBase64 = result.data["imageBase64"]?.jsonPrimitive?.content.orEmpty()
+            challengeProof = ""
+            state = AuthUiState.Message("请完成图形验证后继续", result.requestId)
+        }
+    }
     fun selectRoute(next: AuthRoute) {
         if (submitting || route == next) return
         route = next
@@ -237,39 +245,42 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                 SecretField("短信验证码", smsCode, enabled = !submitting) { smsCode = it; state = AuthUiState.Editing }
             }
 
-            if (route == AuthRoute.PASSWORD || route == AuthRoute.SMS || route == AuthRoute.REGISTER || route == AuthRoute.RESET) {
-                OutlinedButton(
-                    modifier = Modifier.fillMaxWidth(), enabled = !submitting,
-                    onClick = {
-                        launchCall({ api.securityChallenge(route.scene) }) { result ->
-                            challengeId = result.data["challengeId"]?.jsonPrimitive?.content.orEmpty()
-                            challengeImageBase64 = result.data["imageBase64"]?.jsonPrimitive?.content.orEmpty()
-                            state = AuthUiState.Message("安全验证已创建，请完成验证", result.requestId)
-                        }
-                    },
-                ) { Text("创建安全验证") }
-                if (challengeId.isNotBlank()) {
-                    ChallengeImage(challengeImageBase64)
-                    SecretField("安全验证结果", challengeProof, enabled = !submitting) { challengeProof = it; state = AuthUiState.Editing }
+            if (challengeId.isNotBlank()) {
+                ChallengeImage(challengeImageBase64)
+                SecretField("安全验证结果", challengeProof, enabled = !submitting) {
+                    challengeProof = it
+                    state = AuthUiState.Editing
                 }
             }
             if (route != AuthRoute.PASSWORD) {
                 OutlinedButton(
-                    modifier = Modifier.fillMaxWidth(), enabled = !submitting && AuthFormRules.validPhone(phone) && challengeId.isNotBlank() && challengeProof.isNotBlank(),
-                    onClick = { launchCall({ api.sendSms(phone, route.scene, challengeId, challengeProof) }) },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !submitting && AuthFormRules.validPhone(phone)
+                            && (challengeId.isBlank() || challengeProof.isNotBlank()),
+                    onClick = {
+                        if (challengeId.isBlank()) requestChallenge()
+                        else launchCall({ api.sendSms(phone, route.scene, challengeId, challengeProof) })
+                    },
                 ) { Text("发送验证码") }
             }
 
+            val canStartPasswordChallenge = route == AuthRoute.PASSWORD
+                    && AuthFormRules.validPhone(phone)
+                    && AuthFormRules.validPassword(password)
+                    && challengeId.isBlank()
+            val canSubmitForm = AuthFormRules.canSubmit(
+                route, phone, password, passwordAgain, smsCode, inviteCode,
+                agreementVersionIds, agreementsAccepted, challengeId, challengeProof,
+            ) && (route != AuthRoute.REGISTER || AuthFormRules.hasValidatedInvite(inviteCode, validatedInviteCode))
             Button(
                 modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
-                enabled = !submitting && AuthFormRules.canSubmit(
-                    route, phone, password, passwordAgain, smsCode, inviteCode, agreementVersionIds, agreementsAccepted, challengeId, challengeProof,
-                ) && (route != AuthRoute.REGISTER || AuthFormRules.hasValidatedInvite(inviteCode, validatedInviteCode)),
+                enabled = !submitting && (canStartPasswordChallenge || canSubmitForm),
                 onClick = {
                     when (route) {
-                        AuthRoute.PASSWORD -> launchCall({ api.passwordLogin(phone, password, challengeId, challengeProof) }) {
-                            password = ""; challengeProof = ""; completeAuthentication(it)
-                        }
+                        AuthRoute.PASSWORD -> if (challengeId.isBlank()) requestChallenge()
+                        else launchCall({ api.passwordLogin(phone, password, challengeId, challengeProof) }) {
+                                password = ""; challengeProof = ""; completeAuthentication(it)
+                            }
                         AuthRoute.SMS -> launchCall({ api.smsLogin(phone, smsCode) }) {
                             smsCode = ""; completeAuthentication(it)
                         }
@@ -566,24 +577,29 @@ fun AccountCancellationScreen(
                 minLines = 3, enabled = !submitting,
             )
             SecretField("短信验证码", smsCode, enabled = !submitting) { smsCode = it; state = AuthUiState.Editing }
-            OutlinedButton(modifier = Modifier.fillMaxWidth(), enabled = !submitting && phoneMatches, onClick = {
-                launchCall({ api.securityChallenge("SENSITIVE_OPERATION") }) { result ->
-                    challengeId = result.data["challengeId"]?.jsonPrimitive?.content.orEmpty()
-                    challengeImageBase64 = result.data["imageBase64"]?.jsonPrimitive?.content.orEmpty()
-                    state = AuthUiState.Message("安全验证已创建", result.requestId)
-                }
-            }) { Text("创建安全验证") }
             if (challengeId.isNotBlank()) {
                 ChallengeImage(challengeImageBase64)
                 SecretField("安全验证结果", challengeProof, enabled = !submitting) {
                     challengeProof = it; state = AuthUiState.Editing
                 }
-                OutlinedButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = !submitting && phoneMatches && challengeProof.isNotBlank(),
-                    onClick = { launchCall({ api.sendSms(phone, "SENSITIVE_OPERATION", challengeId, challengeProof) }) },
-                ) { Text("发送短信验证码") }
             }
+            OutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !submitting && phoneMatches &&
+                    (challengeId.isBlank() || challengeProof.isNotBlank()),
+                onClick = {
+                    if (challengeId.isBlank()) {
+                        launchCall({ api.securityChallenge("SENSITIVE_OPERATION") }) { result ->
+                            challengeId = result.data["challengeId"]?.jsonPrimitive?.content.orEmpty()
+                            challengeImageBase64 = result.data["imageBase64"]?.jsonPrimitive?.content.orEmpty()
+                            challengeProof = ""
+                            state = AuthUiState.Message("请完成图形验证后继续", result.requestId)
+                        }
+                    } else {
+                        launchCall({ api.sendSms(phone, "SENSITIVE_OPERATION", challengeId, challengeProof) })
+                    }
+                },
+            ) { Text("发送短信验证码") }
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !submitting && phoneMatches && reason.isNotBlank() && smsCode.length in 4..10,
