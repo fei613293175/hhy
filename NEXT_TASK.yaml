@@ -1,6 +1,6 @@
 id: TASK-R03-007
 title: 外部激活证据、Android回归APK与产物追溯
-status: READY
+status: BLOCKED
 release: R03
 requirements:
 - REQ-CONFIG-001
@@ -33,3 +33,5 @@ commands:
   cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
     '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
 next_after: 由当前TASKS.yaml依赖关系决定
+blocker: R03机器实现、测试、外部清单和固定签名APK四方交付均PASS；等待项目所有者对hhy-r03-3a913c9-debug.apk完成真机安装、启动与自动验证码路径验收
+resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-007
