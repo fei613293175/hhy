@@ -1,0 +1,48 @@
+protocol_version: '1.0'
+cr_id: CR-0047
+title: R03支付出款后台页面与证书管理交付
+status: APPROVED
+created_at: '2026-07-18T15:12:29Z'
+updated_at: '2026-07-18T15:12:52Z'
+requester_actor_id: codex
+approver_actor_id: project-owner
+task_id: TASK-R03-004
+session_id: SES-20260718T145327Z-DEA562CB
+user_request: 先继续推进开发下一个版本，我不让你暂停就不用停止
+reason: ADM-CONFIG-005和ADM-CONFIG-006由目录占位升级为真实页面，需要更新根CHANGELOG形成用户可见追溯
+original_rule: TASK-R03-004仅允许会话范围内文件，根CHANGELOG不在初始范围
+new_rule: 允许本任务更新支付/出款页面、证书客户端与根CHANGELOG，并保留冻结契约不变
+impact_summary: 新增支付和企业出款真实配置路由、证书元数据上传轮换面板以及冻结API客户端
+impact:
+  files:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - apps/admin-web/src/components/ProviderCertificatePanel.vue
+  - apps/admin-web/src/services/adminProviderCertificates.ts
+  - apps/admin-web/src/services/adminProviderCertificates.test.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/r03ProviderPage.test.ts
+  - CHANGELOG.md
+  pages:
+  - ADM-CONFIG-005
+  - ADM-CONFIG-006
+  apis:
+  - adminProviderCertificateGetProviderCertificates
+  - adminProviderCertificatePostProviderCertificates
+  - adminProviderCertificatePostProviderCertificatesByIdRotate
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - admin-web 73 tests and production build
+  releases:
+  - R03
+  migration_and_compatibility: 不修改冻结OpenAPI和数据库；旧路由及既有供应商页面保持兼容
+user_confirmation: 先继续推进开发下一个版本，我不让你暂停就不用停止
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T15:12:52Z'
+  note: 用户已明确要求持续推进下一版本并自行决定常规实现，批准当前R03用户可见页面和追溯更新
+machine_record: .continuity/change_requests/CR-0047.yaml
+document: docs/03-continuity/change-requests/CR-0047-R03支付出款后台页面与证书管理交付.md

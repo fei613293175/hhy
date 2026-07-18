@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import StatusNotice from '../components/StatusNotice.vue'
+import ProviderCertificatePanel from '../components/ProviderCertificatePanel.vue'
 import {
   adminProviderConfigsApi,
   adminSession,
@@ -13,13 +14,15 @@ import {
   type TestProviderConfigRequest,
 } from '../services'
 
-type ProviderCode = 'sms' | 'storage' | 'identity'
+type ProviderCode = 'sms' | 'storage' | 'payment' | 'payout' | 'identity'
 type ProviderAction = 'create' | 'test' | 'activate' | 'rollback'
 const props = defineProps<{ provider?: ProviderCode }>()
 
 const providerMeta: Record<ProviderCode, { name: string; summary: string; mark: string; route: string }> = {
   sms: { name: '阿里云短信', summary: 'AccessKey、Region、签名、模板、限流和发送测试', mark: '短', route: '/system/providers/sms' },
   storage: { name: '对象存储', summary: 'Cloudflare R2、阿里云 OSS、Scope 绑定和迁移状态', mark: '存', route: '/system/providers/storage' },
+  payment: { name: '支付网关', summary: '彩虹易支付商户、签名、渠道、回调和只读连接测试', mark: '付', route: '/system/providers/payment' },
+  payout: { name: '支付宝企业付款', summary: 'AppID、商家ID、证书引用、网关和只读认证测试', mark: '款', route: '/system/providers/payout' },
   identity: { name: '实名认证', summary: 'APPCODE、活体检测、身份比对、超时和结果映射', mark: '实', route: '/system/providers/identity' },
 }
 
@@ -295,7 +298,7 @@ onBeforeUnmount(() => {
 <template>
   <article class="page provider-page">
     <header class="page-heading">
-      <div><div class="eyebrow">配置中心 · 版本化与秘密隔离</div><h1>{{ meta?.name ?? '供应商配置中心' }}</h1><p>{{ meta?.summary ?? '集中查看短信、对象存储与实名认证配置；秘密只展示配置状态和脱敏引用。' }}</p></div>
+      <div><div class="eyebrow">配置中心 · 版本化与秘密隔离</div><h1>{{ meta?.name ?? '供应商配置中心' }}</h1><p>{{ meta?.summary ?? '集中查看短信、存储、支付、企业出款与实名认证配置；秘密只展示配置状态和脱敏引用。' }}</p></div>
       <div class="page-actions"><RouterLink v-if="provider" class="ghost-button provider-back" to="/system/providers">返回配置中心</RouterLink><button class="ghost-button" :disabled="refreshing || !online || forbidden" @click="load('refresh')">{{ refreshing ? '刷新中…' : '刷新' }}</button></div>
     </header>
 
@@ -309,7 +312,7 @@ onBeforeUnmount(() => {
 
     <template v-else-if="!provider && page">
       <section class="provider-grid">
-        <RouterLink v-for="code in (['sms','storage','identity'] as ProviderCode[])" :key="code" class="card provider-card" :to="providerMeta[code].route">
+        <RouterLink v-for="code in (['sms','storage','payment','payout','identity'] as ProviderCode[])" :key="code" class="card provider-card" :to="providerMeta[code].route">
           <div class="provider-card-top"><span class="provider-mark">{{ providerMeta[code].mark }}</span><span class="status-chip" :data-status="resource(code)?.connectionStatus">{{ statusLabel(resource(code)?.connectionStatus) }}</span></div>
           <h2>{{ providerMeta[code].name }}</h2><p>{{ providerMeta[code].summary }}</p>
           <dl class="provider-facts"><dt>当前环境</dt><dd>{{ resource(code)?.environment ?? '尚未配置' }}</dd><dt>激活版本</dt><dd>{{ resource(code)?.activeVersion ?? '无' }}</dd><dt>草稿版本</dt><dd>{{ resource(code)?.draftVersion ?? '无' }}</dd></dl>
@@ -326,6 +329,8 @@ onBeforeUnmount(() => {
         <aside class="card account-summary"><div class="section-heading"><div><h2>连接与版本门禁</h2><p>连接失败时禁止激活。</p></div><span v-if="writeForbidden" class="tag tag-warning">写权限已收回</span></div><dl class="facts"><dt>连接状态</dt><dd><span class="status-chip" :data-status="detail.connectionStatus">{{ statusLabel(detail.connectionStatus) }}</span></dd><dt>最近测试</dt><dd>{{ formatDate(detail.lastTestAt) }}</dd><dt>乐观锁版本</dt><dd>v{{ detail.version }}</dd></dl><div class="provider-actions"><button class="primary-button" :disabled="!writable" @click="openAction('create')">创建新版本</button><button class="secondary-button" :disabled="!writable || !canTest" @click="openAction('test')">连接测试</button><button class="secondary-button" :disabled="!writable || !canActivate" @click="openAction('activate')">审批并激活</button><button class="danger-button" :disabled="!writable || !canRollback" @click="openAction('rollback')">回滚版本</button></div><p class="field-help provider-action-help">所有写入均携带幂等键且不自动重试。激活和回滚必须填写由另一名管理员批准的审批单编号。</p></aside>
       </section>
     </template>
+
+    <ProviderCertificatePanel v-if="provider === 'payout' && detail" />
 
     <div v-if="action && detail && provider" class="modal-backdrop" @click.self="closeAction">
       <section ref="modalElement" class="modal provider-modal" role="dialog" aria-modal="true" aria-labelledby="provider-action-title" tabindex="-1" @keydown="handleModalKeydown">

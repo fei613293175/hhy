@@ -2,7 +2,9 @@
 import { flushPromises, mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import ProviderConfigPage from './views/ProviderConfigPage.vue';
-import { ApiRequestError, adminProviderConfigsApi, adminSession } from './services';
+import {
+  ApiRequestError, adminProviderCertificatesApi, adminProviderConfigsApi, adminSession,
+} from './services';
 
 const global = {
   stubs: {
@@ -55,9 +57,35 @@ describe('R03 provider configuration pages', () => {
 
     expect(wrapper.text()).toContain('供应商配置中心');
     expect(wrapper.text()).toContain('阿里云短信');
+    expect(wrapper.text()).toContain('支付网关');
+    expect(wrapper.text()).toContain('支付宝企业付款');
     expect(wrapper.text()).toContain('sms-v1');
     expect(wrapper.text()).toContain('storage-v2');
     expect(wrapper.text()).toContain('激活受严格门禁保护');
+    wrapper.unmount();
+  });
+
+  it('shows payout certificate fingerprints without exposing certificate material', async () => {
+    authorize();
+    vi.spyOn(adminProviderConfigsApi, 'get').mockResolvedValue(detail({
+      provider: 'payout', activeVersion: 'payout-v1', draftVersion: 'payout-v2',
+    }));
+    vi.spyOn(adminProviderCertificatesApi, 'list').mockResolvedValue({
+      items: [{
+        id: 'cert-1', provider: 'payout', certificateType: 'ALIPAY_PRIVATE_KEY',
+        alias: '主私钥', fingerprint: 'a'.repeat(64), status: 'ACTIVE', version: 3,
+      }],
+      page: { page: 1, pageSize: 100, total: '1', hasMore: 'false' },
+    });
+
+    const wrapper = mount(ProviderConfigPage, { props: { provider: 'payout' }, global });
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('支付宝企业付款');
+    expect(wrapper.text()).toContain('证书上传与轮换');
+    expect(wrapper.text()).toContain('a'.repeat(64));
+    expect(wrapper.text()).toContain('原文不可回读');
+    expect(wrapper.text()).not.toContain('encrypted-private-key');
     wrapper.unmount();
   });
 

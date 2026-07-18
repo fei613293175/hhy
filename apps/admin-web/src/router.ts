@@ -12,7 +12,8 @@ import DomainConfigPage from './views/DomainConfigPage.vue'
 
 const implemented = new Set([
   'ADM-AUTH-001', 'ADM-AUTH-002', 'ADM-SECURITY-001', 'ADM-USER-001', 'ADM-USER-002',
-  'ADM-CONFIG-002', 'ADM-CONFIG-003', 'ADM-CONFIG-004', 'ADM-CONFIG-007', 'ADM-CONFIG-008',
+  'ADM-CONFIG-002', 'ADM-CONFIG-003', 'ADM-CONFIG-004', 'ADM-CONFIG-005',
+  'ADM-CONFIG-006', 'ADM-CONFIG-007', 'ADM-CONFIG-008',
 ])
 
 export const router = createRouter({
@@ -26,6 +27,8 @@ export const router = createRouter({
     { path: '/system/providers', name: 'ADM-CONFIG-002', component: ProviderConfigPage, meta: { requiresAuth: true, permission: 'config.manage' } },
     { path: '/system/providers/sms', name: 'ADM-CONFIG-003', component: ProviderConfigPage, props: { provider: 'sms' }, meta: { requiresAuth: true, permission: 'config.manage' } },
     { path: '/system/providers/storage', name: 'ADM-CONFIG-004', component: ProviderConfigPage, props: { provider: 'storage' }, meta: { requiresAuth: true, permission: 'config.manage' } },
+    { path: '/system/providers/payment', name: 'ADM-CONFIG-005', component: ProviderConfigPage, props: { provider: 'payment' }, meta: { requiresAuth: true, permission: 'config.manage' } },
+    { path: '/system/providers/payout', name: 'ADM-CONFIG-006', component: ProviderConfigPage, props: { provider: 'payout' }, meta: { requiresAuth: true, permission: 'config.manage' } },
     { path: '/system/providers/identity', name: 'ADM-CONFIG-007', component: ProviderConfigPage, props: { provider: 'identity' }, meta: { requiresAuth: true, permission: 'config.manage' } },
     { path: '/system/domains', name: 'ADM-CONFIG-008', component: DomainConfigPage, meta: { requiresAuth: true, permission: 'config.manage' } },
     ...adminPages.filter((page) => !implemented.has(page.ID)).map((page) => ({
