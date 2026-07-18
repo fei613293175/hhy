@@ -1,0 +1,60 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T145327Z-DEA562CB
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R03
+task_id: TASK-R03-004
+story_id: STORY-R03-003
+goal: 纵向批次C：支付、出款与证书生命周期配置闭环
+started_at: '2026-07-18T14:53:27Z'
+updated_at: '2026-07-18T14:53:42Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 8cfa5f515b29ac0095e16e1d839c48caf391758d
+  start_head: 8cfa5f515b29ac0095e16e1d839c48caf391758d
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T14:53:40Z'
+  expires_at: '2026-07-18T18:53:40Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260718T145327Z-DEA562CB/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T145327Z-DEA562CB.md
+next_step: 核对STORY-R03-003冻结页面、支付与出款供应商字段、证书生命周期及审批边界
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 3348120a41913d6a4c44ddec57b18e17127ca63eee3cff828da8c647936c5955
+  generated_at: '2026-07-18T14:53:42Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 任务领取与初始事实基线必须由唯一主控串行完成
