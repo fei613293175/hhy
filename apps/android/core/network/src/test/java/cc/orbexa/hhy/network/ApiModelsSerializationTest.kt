@@ -48,6 +48,29 @@ class ApiModelsSerializationTest {
         assertTrue(fields["device"]!!.jsonObject.containsKey("deviceFingerprint"))
         assertFalse(fields.containsKey("challenge_id"))
     }
+
+    @Test fun securitySessionListDecodesWithoutCredentialFields() {
+        val page = HhyNetworkJson.value.decodeFromString<UserSecuritySessionPageResource>(
+            """{"items":[{"sessionId":"23","device":{"deviceId":"device-1","deviceName":"Pixel"},"createdAt":"2026-07-18T00:00:00Z","expiresAt":"2026-08-18T00:00:00Z","status":"ACTIVE","current":true}],"page":{"page":1,"pageSize":20,"total":1,"hasMore":false}}""",
+        )
+
+        val encoded = HhyNetworkJson.value.encodeToString(UserSecuritySessionPageResource.serializer(), page)
+        assertEquals("23", page.items.single().sessionId)
+        assertTrue(page.items.single().current)
+        assertFalse(encoded.contains("accessToken"))
+        assertFalse(encoded.contains("refreshToken"))
+    }
+
+    @Test fun passwordChangeRequestOmitsOptionalSmsCodeWhenAbsent() {
+        val encoded = HhyNetworkJson.value.encodeToString(
+            AuthPasswordChangeRequest("Current!234", "New!56789"),
+        )
+        val fields = HhyNetworkJson.value.parseToJsonElement(encoded).jsonObject
+
+        assertTrue(fields.containsKey("currentPassword"))
+        assertTrue(fields.containsKey("newPassword"))
+        assertFalse(fields.containsKey("smsCode"))
+    }
     private val json = HhyNetworkJson.value
 
     @Test

@@ -175,6 +175,38 @@ data class AuthSessionResource(
     val capabilities: List<String> = emptyList(),
 )
 
+/** Credential-free response for the R02 device-management screen. */
+@Serializable
+data class UserSecuritySessionResource(
+    val sessionId: String,
+    val device: kotlinx.serialization.json.JsonObject? = null,
+    val createdAt: String,
+    val expiresAt: String,
+    val status: String,
+    val current: Boolean,
+)
+
+@Serializable
+data class UserSecuritySessionPageMeta(
+    val page: Int,
+    val pageSize: Int,
+    val total: Long,
+    val hasMore: Boolean,
+)
+
+@Serializable
+data class UserSecuritySessionPageResource(
+    val items: List<UserSecuritySessionResource>,
+    val page: UserSecuritySessionPageMeta,
+)
+
+@Serializable
+data class AuthPasswordChangeRequest(
+    val currentPassword: String,
+    val newPassword: String,
+    val smsCode: String? = null,
+)
+
 object HhyNetworkJson {
     val value: Json = Json {
         explicitNulls = false

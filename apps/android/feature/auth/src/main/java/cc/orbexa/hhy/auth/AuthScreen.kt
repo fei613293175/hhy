@@ -37,9 +37,11 @@ import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.network.AuthCallResult
 import cc.orbexa.hhy.network.ContractAuthApi
 import cc.orbexa.hhy.network.AuthSessionResource
+import cc.orbexa.hhy.network.UserSecuritySessionResource
 import cc.orbexa.hhy.network.UrlConnectionContractAuthApi
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.registrationConfigOrNull
+import cc.orbexa.hhy.network.securitySessionsOrNull
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.jsonPrimitive
 
@@ -245,6 +247,129 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
             Text("敏感信息仅用于本次认证，不会展示或写入日志。", color = HhyColors.TextSecondary)
             Spacer(Modifier.height(HhySpacing.Lg))
         }
+    }
+}
+
+/** SCR-AUTH-006: a credential-free list of the user's active login devices. */
+@Composable
+fun LoginDevicesScreen(api: ContractAuthApi, accessToken: String) {
+    val scope = rememberCoroutineScope()
+    var sessions by remember { mutableStateOf<List<UserSecuritySessionResource>>(emptyList()) }
+    var pendingRevokeId by remember { mutableStateOf<String?>(null) }
+    var state by remember { mutableStateOf<AuthUiState>(AuthUiState.Editing) }
+    val submitting = state is AuthUiState.Submitting
+
+    fun load() {
+        if (submitting) return
+        scope.launch {
+            state = AuthUiState.Submitting
+            when (val result = api.sessions(accessToken)) {
+                is AuthCallResult.Success -> {
+                    val page = result.securitySessionsOrNull()
+                    if (page == null) state = AuthUiState.Message("设备信息格式无效，请稍后重试", result.requestId)
+                    else {
+                        sessions = page.items
+                        state = AuthUiState.Editing
+                    }
+                }
+                is AuthCallResult.Failure -> state = AuthUiState.Message(
+                    result.statusCode?.let { errorForStatus(it, result.errorCode, result.retryAfterSeconds) }
+                        ?: "网络不可用，请检查连接后重试", result.requestId,
+                )
+            }
+        }
+    }
+
+    Column(
+        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(HhySpacing.Lg),
+        verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+    ) {
+        Text("登录设备", style = MaterialTheme.typography.titleLarge)
+        Text("仅显示当前有效会话，不展示任何登录令牌。", color = HhyColors.TextSecondary)
+        if (state is AuthUiState.Message) {
+            val message = state as AuthUiState.Message
+            Text(message.text, color = HhyColors.Warning)
+            message.requestId?.let { Text("请求编号：$it", color = HhyColors.TextSecondary) }
+        }
+        Button(modifier = Modifier.fillMaxWidth(), enabled = !submitting, onClick = ::load) {
+            Text(if (sessions.isEmpty()) "加载登录设备" else "刷新登录设备")
+        }
+        sessions.forEach { session ->
+            val deviceName = session.device?.get("deviceName")?.jsonPrimitive?.content ?: "未知设备"
+            Text(if (session.current) "当前设备：$deviceName" else "设备：$deviceName")
+            Text("最近活跃：${session.createdAt}", color = HhyColors.TextSecondary)
+            if (!session.current) {
+                if (pendingRevokeId == session.sessionId) {
+                    Text("确认下线后，该设备需要重新登录。", color = HhyColors.Warning)
+                    Button(modifier = Modifier.fillMaxWidth(), enabled = !submitting, onClick = {
+                        scope.launch {
+                            state = AuthUiState.Submitting
+                            when (val result = api.revokeSession(accessToken, session.sessionId)) {
+                                is AuthCallResult.Success -> {
+                                    pendingRevokeId = null
+                                    sessions = sessions.filterNot { it.sessionId == session.sessionId }
+                                    state = AuthUiState.Message("设备已下线", result.requestId)
+                                }
+                                is AuthCallResult.Failure -> state = AuthUiState.Message(
+                                    result.statusCode?.let { errorForStatus(it, result.errorCode, result.retryAfterSeconds) }
+                                        ?: "网络不可用，请检查连接后重试", result.requestId,
+                                )
+                            }
+                        }
+                    }) { Text("确认下线") }
+                } else {
+                    OutlinedButton(modifier = Modifier.fillMaxWidth(), enabled = !submitting,
+                        onClick = { pendingRevokeId = session.sessionId }) { Text("下线此设备") }
+                }
+            }
+        }
+    }
+}
+
+/** SCR-AUTH-007: password change keeps both password values in composition memory only. */
+@Composable
+fun ChangeLoginPasswordScreen(api: ContractAuthApi, accessToken: String, onPasswordChanged: () -> Unit) {
+    val scope = rememberCoroutineScope()
+    var currentPassword by remember { mutableStateOf("") }
+    var newPassword by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+    var state by remember { mutableStateOf<AuthUiState>(AuthUiState.Editing) }
+    val submitting = state is AuthUiState.Submitting
+    val canSubmit = currentPassword.length in 8..72 && newPassword.length in 8..72 && newPassword == confirmPassword
+
+    Column(
+        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(HhySpacing.Lg),
+        verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+    ) {
+        Text("修改登录密码", style = MaterialTheme.typography.titleLarge)
+        Text("修改成功后，所有设备都需要重新登录。", color = HhyColors.TextSecondary)
+        if (state is AuthUiState.Message) {
+            val message = state as AuthUiState.Message
+            Text(message.text, color = HhyColors.Warning)
+            message.requestId?.let { Text("请求编号：$it", color = HhyColors.TextSecondary) }
+        }
+        SecretField("当前密码", currentPassword, enabled = !submitting) { currentPassword = it; state = AuthUiState.Editing }
+        SecretField("新密码", newPassword, enabled = !submitting) { newPassword = it; state = AuthUiState.Editing }
+        SecretField("确认新密码", confirmPassword, enabled = !submitting) { confirmPassword = it; state = AuthUiState.Editing }
+        Button(modifier = Modifier.fillMaxWidth(), enabled = !submitting && canSubmit, onClick = {
+            scope.launch {
+                state = AuthUiState.Submitting
+                when (val result = api.changePassword(accessToken, currentPassword, newPassword)) {
+                    is AuthCallResult.Success -> {
+                        currentPassword = ""; newPassword = ""; confirmPassword = ""
+                        state = AuthUiState.Message("登录密码已修改，请重新登录", result.requestId)
+                        onPasswordChanged()
+                    }
+                    is AuthCallResult.Failure -> {
+                        currentPassword = ""; newPassword = ""; confirmPassword = ""
+                        state = AuthUiState.Message(
+                            result.statusCode?.let { errorForStatus(it, result.errorCode, result.retryAfterSeconds) }
+                                ?: "网络不可用，请检查连接后重试", result.requestId,
+                        )
+                    }
+                }
+            }
+        }) { Text("修改密码") }
     }
 }
 

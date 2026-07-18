@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -48,6 +50,8 @@ fun HhyShellScreen(
     buildType: String,
     apiBaseUrl: String,
     contractVersion: String,
+    onOpenLoginDevices: () -> Unit = {},
+    onOpenChangePassword: () -> Unit = {},
 ) {
     var selectedIndex by remember { mutableIntStateOf(0) }
     Scaffold(
@@ -83,6 +87,28 @@ fun HhyShellScreen(
                     text = "首批开发从登录、平台状态、版本检查与基础 RBAC 开始。",
                     color = HhyColors.TextSecondary,
                 )
+            }
+            if (selectedIndex == 4) {
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(HhyRadius.LargeCard),
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+                            verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+                        ) {
+                            Text("账号与安全", fontWeight = FontWeight.SemiBold)
+                            Button(modifier = Modifier.fillMaxWidth(), onClick = onOpenLoginDevices) {
+                                Text("登录设备")
+                            }
+                            OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = onOpenChangePassword) {
+                                Text("修改登录密码")
+                            }
+                        }
+                    }
+                }
             }
             item { ReadinessCard("契约", "OpenAPI / WebSocket 已冻结", true) }
             item { ReadinessCard("数据", "Flyway 迁移与资金硬约束已落地", true) }

@@ -2,6 +2,9 @@
 
 ## R02 认证启动首切片 · 2026-07-18
 
+- 已登录用户新增登录设备列表、远端设备二次确认下线和修改登录密码入口；修改密码成功后清除本机刷新凭据并强制重新登录。
+- 用户 Bearer 令牌现在必须同时通过签名与数据库活跃会话校验；改密、设备下线或会话版本变化会立即使旧访问令牌失效。
+- 登录设备接口改用不含 accessToken/refreshToken 的安全会话摘要，Android 页面与生成客户端类型同步阻止凭据回显。
 - Android 新增密码登录、短信登录、注册、忘记密码与图形安全验证入口；启动完成后未认证用户进入认证页，安全验证图片在端内渲染。
 - 后端新增认证挑战、密码/短信登录、邀请码校验、注册、重置密码和刷新令牌接口，并补齐密码失败锁定、幂等快照、验证码尝试限制和 V017 数据库不变量。
 - `api.orbexa.cc` 已作为受控开发 API 入口接入服务器 loopback 后端；测试 APK 默认使用已发布的 `official/STAGING` 版本策略，修复真机“暂时无法连接”启动兜底。
@@ -267,4 +270,3 @@
 - Actor：`codex-root`
 - 摘要：TASK-R02-002 completed: startup, password/SMS authentication, invite registration, controlled agreement versions, source/runtime contract synchronization, cloud backend test, fixed-image Android tests, WIP APK, and trace records delivered.
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md`
-

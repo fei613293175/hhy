@@ -19,9 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import cc.orbexa.hhy.auth.AuthScreen
+import cc.orbexa.hhy.auth.ChangeLoginPasswordScreen
+import cc.orbexa.hhy.auth.LoginDevicesScreen
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.network.AuthCallResult
+import cc.orbexa.hhy.network.AuthSessionResource
 import cc.orbexa.hhy.network.AuthSessionStore
 import cc.orbexa.hhy.network.StartupGate
 import cc.orbexa.hhy.network.StartupGateRequest
@@ -55,7 +58,8 @@ class MainActivity : ComponentActivity() {
                         environment = BuildConfig.APP_ENVIRONMENT,
                     )
                 }
-                var sessionState by remember { mutableStateOf(SessionState.Restoring) }
+                var sessionState by remember { mutableStateOf<SessionState>(SessionState.Restoring) }
+                var securityDestination by remember { mutableStateOf(SecurityDestination.Shell) }
                 LaunchedEffect(authApi, sessionStore) {
                     val stored = sessionStore.load()
                     if (stored == null) {
@@ -63,7 +67,7 @@ class MainActivity : ComponentActivity() {
                     } else {
                         sessionState = when (val result = authApi.refresh(stored.refreshToken, stored.deviceId)) {
                             is AuthCallResult.Success -> if (result.sessionOrNull()?.let(sessionStore::save) == true) {
-                                SessionState.Authenticated
+                                SessionState.Authenticated(requireNotNull(result.sessionOrNull()))
                             } else {
                                 sessionStore.clear()
                                 SessionState.AuthenticationRequired
@@ -78,17 +82,32 @@ class MainActivity : ComponentActivity() {
                 StartupGateScreen(gate = gate, request = request) {
                     when (sessionState) {
                         SessionState.Restoring -> RestoringSessionScreen()
-                        SessionState.Authenticated -> HhyShellScreen(
-                            versionName = BuildConfig.VERSION_NAME,
-                            buildType = BuildConfig.BUILD_TYPE,
-                            apiBaseUrl = BuildConfig.API_BASE_URL,
-                            contractVersion = BuildConfig.CONTRACT_VERSION,
-                        )
+                        is SessionState.Authenticated -> {
+                            val authenticated = sessionState as SessionState.Authenticated
+                            when (securityDestination) {
+                                SecurityDestination.Shell -> HhyShellScreen(
+                                    versionName = BuildConfig.VERSION_NAME,
+                                    buildType = BuildConfig.BUILD_TYPE,
+                                    apiBaseUrl = BuildConfig.API_BASE_URL,
+                                    contractVersion = BuildConfig.CONTRACT_VERSION,
+                                    onOpenLoginDevices = { securityDestination = SecurityDestination.LoginDevices },
+                                    onOpenChangePassword = { securityDestination = SecurityDestination.ChangePassword },
+                                )
+                                SecurityDestination.LoginDevices -> LoginDevicesScreen(authApi, authenticated.session.accessToken)
+                                SecurityDestination.ChangePassword -> ChangeLoginPasswordScreen(
+                                    authApi, authenticated.session.accessToken,
+                                ) {
+                                    sessionStore.clear()
+                                    securityDestination = SecurityDestination.Shell
+                                    sessionState = SessionState.AuthenticationRequired
+                                }
+                            }
+                        }
                         SessionState.AuthenticationRequired -> AuthScreen(
                             apiBaseUrl = BuildConfig.API_BASE_URL,
                             onAuthenticated = { session ->
                                 sessionStore.save(session).also { saved ->
-                                    if (saved) sessionState = SessionState.Authenticated
+                                    if (saved) sessionState = SessionState.Authenticated(session)
                                 }
                             },
                         )
@@ -99,7 +118,13 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private enum class SessionState { Restoring, AuthenticationRequired, Authenticated }
+private sealed interface SessionState {
+    data object Restoring : SessionState
+    data object AuthenticationRequired : SessionState
+    data class Authenticated(val session: AuthSessionResource) : SessionState
+}
+
+private enum class SecurityDestination { Shell, LoginDevices, ChangePassword }
 
 @androidx.compose.runtime.Composable
 private fun RestoringSessionScreen() {

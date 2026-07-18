@@ -1,0 +1,68 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T053331Z-F0ED92BF
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R02
+task_id: TASK-R02-003
+story_id: STORY-R02-005
+goal: 完成R02安全会话批次的登录设备与修改登录密码纵向闭环，先实现冻结契约内的会话列表、下线设备和改密最小闭环。
+started_at: '2026-07-18T05:33:31Z'
+updated_at: '2026-07-18T06:19:48Z'
+takeover_of: null
+change_requests:
+- CR-0033
+- CR-0034
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0033+approved-cr:CR-0034
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  base_commit: 6d4ad64b271c91565aaeee42074aa5a989a1af74
+  start_head: 6d4ad64b271c91565aaeee42074aa5a989a1af74
+  upstream: origin/task/TASK-R02-002
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T06:19:46Z'
+  expires_at: '2026-07-18T10:19:46Z'
+checkpoint_sequence: 9
+latest_checkpoint: .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0009.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T053331Z-F0ED92BF.md
+next_step: 提交 STORY-R02-005 后继续 STORY-R02-006 账号冻结。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: ea34f29029987d12a1c3dfbffc2dc467865709ef8ee585a554ccaccf6d0208f3
+  generated_at: '2026-07-18T06:19:48Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 门禁补录与提交共享 Git 索引，必须串行。

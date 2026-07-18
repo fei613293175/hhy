@@ -6,6 +6,7 @@ import cc.orbexa.hhy.access.user.UserAuthContracts.CommandResultResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.DeviceSummaryResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.InviteCodeValidateRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordLoginRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordChangeRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordResetRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RefreshRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RegistrationAgreementVersionResource;
@@ -15,6 +16,9 @@ import cc.orbexa.hhy.access.user.UserAuthContracts.SecurityChallengeRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SmsLoginRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SmsSendRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.UserSessionResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.SecuritySessionResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.SessionPageResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.PageMetaResource;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Clock;
@@ -190,6 +194,61 @@ public class UserAuthService {
                 UserSessionResource.class, () -> refreshSession(request, oldHash));
     }
 
+    @Transactional(readOnly = true)
+    public SessionPageResource sessions(UserPrincipal principal, int page, int pageSize) {
+        Instant now = Instant.now(clock);
+        long total = repository.countActiveSessions(principal.userId(), now);
+        int offset = Math.multiplyExact(page - 1, pageSize);
+        List<SecuritySessionResource> items = repository.listActiveSessions(
+                        principal.userId(), offset, pageSize, principal.sessionId(), now).stream()
+                .map(row -> new SecuritySessionResource(
+                        Long.toString(row.id()), new DeviceSummaryResource(
+                        row.deviceId() == null ? null : Long.toString(row.deviceId()), row.deviceName(),
+                        "ANDROID", null, null, row.lastActiveAt(), null), row.createdAt(), row.expiresAt(),
+                        "ACTIVE", row.current()))
+                .toList();
+        return new SessionPageResource(items, new PageMetaResource(page, pageSize, total,
+                ((long) offset + items.size()) < total));
+    }
+
+    @Transactional(noRollbackFor = BusinessException.class)
+    public CommandResultResource revokeSession(UserPrincipal principal, String sessionId, String key) {
+        long targetSessionId = numericSessionId(sessionId);
+        String requestHash = tokens.intentHash("authDeleteAuthSessionsById", sessionId);
+        return idempotent(scope("rs", Long.toString(principal.userId())), key, requestHash,
+                "user-session-revoke-v1", CommandResultResource.class, () -> {
+                    Instant now = Instant.now(clock);
+                    long version = repository.revokeSession(principal.userId(), targetSessionId, now)
+                            .orElseThrow(UserAuthService::sessionRevoked);
+                    return new CommandResultResource(sessionId, null, "REVOKED", version, now);
+                });
+    }
+
+    @Transactional(noRollbackFor = BusinessException.class)
+    public CommandResultResource changePassword(UserPrincipal principal, PasswordChangeRequest request, String key) {
+        String requestHash = tokens.intentHash("authPostMeSecurityPasswordChange", request.currentPassword(),
+                request.newPassword(), nullable(request.smsCode()));
+        return idempotent(scope("cp", Long.toString(principal.userId())), key, requestHash,
+                "password-change-v1", CommandResultResource.class, () -> {
+                    UserAuthStore.CredentialRow credential = repository.findCredentialForUpdate(principal.userId())
+                            .orElseThrow(UserAuthService::sessionRevoked);
+                    if (!"ACTIVE".equals(credential.userStatus())) throw accountRestricted();
+                    boolean matches;
+                    try { matches = passwords.matches(request.currentPassword(), credential.passwordHash()); }
+                    catch (RuntimeException exception) { matches = false; }
+                    if (!matches) throw badCredentials();
+                    if (passwords.matches(request.newPassword(), credential.passwordHash())) {
+                        throw business("新密码不能与当前密码相同");
+                    }
+                    validatePassword("", request.newPassword());
+                    Instant now = Instant.now(clock);
+                    repository.updatePasswordAndRevokeSessions(credential.credentialId(), principal.userId(),
+                            passwords.encode(request.newPassword()), now);
+                    return new CommandResultResource(Long.toString(principal.userId()), null,
+                            "PASSWORD_CHANGED", null, now);
+                });
+    }
+
     private UserSessionResource refreshSession(RefreshRequest request, String oldRefreshHash) {
         Instant now = Instant.now(clock);
         UserAuthStore.UserSessionRow session = repository.findSessionForUpdate(oldRefreshHash)
@@ -306,6 +365,15 @@ public class UserAuthService {
 
     private String scope(String operation, String actor) {
         return "ua:" + operation + ":" + tokens.intentHash("idempotency-scope", actor).substring(0, 48);
+    }
+    private static long numericSessionId(String value) {
+        try {
+            long id = Long.parseLong(value);
+            if (id < 1) throw new NumberFormatException();
+            return id;
+        } catch (NumberFormatException exception) {
+            throw business("会话标识无效");
+        }
     }
     private String deviceIntent(Map<String, Object> device) {
         try { return device == null ? "" : objectMapper.writeValueAsString(device); }

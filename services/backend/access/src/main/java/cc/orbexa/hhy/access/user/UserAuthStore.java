@@ -95,6 +95,17 @@ public class UserAuthStore {
                 instant(rs.getObject("locked_until", OffsetDateTime.class))), phone).stream().findFirst();
     }
 
+    public Optional<CredentialRow> findCredentialForUpdate(long userId) {
+        return jdbc.query("""
+                SELECT u.id AS user_id,u.status,c.id AS credential_id,c.password_hash,c.failed_count,c.locked_until
+                FROM hhy.users u JOIN hhy.user_credentials c ON c.user_id=u.id
+                WHERE u.id=? FOR UPDATE OF c
+                """, (rs, row) -> new CredentialRow(
+                rs.getLong("user_id"), rs.getString("status"), rs.getLong("credential_id"),
+                rs.getString("password_hash"), rs.getInt("failed_count"),
+                instant(rs.getObject("locked_until", OffsetDateTime.class))), userId).stream().findFirst();
+    }
+
     public void recordPasswordFailure(long credentialId, int nextCount, Instant lockedUntil) {
         jdbc.update("UPDATE hhy.user_credentials SET failed_count=?,locked_until=? WHERE id=?",
                 nextCount, time(lockedUntil), credentialId);
@@ -145,6 +156,57 @@ public class UserAuthStore {
                 instant(rs.getObject("expires_at", OffsetDateTime.class)), rs.getLong("version"),
                 rs.getString("user_status"), rs.getString("model"),
                 instant(rs.getObject("last_seen", OffsetDateTime.class))), refreshHash).stream().findFirst();
+    }
+
+    /**
+     * Re-validates a signed access token against the live user/session state.
+     * A signature alone is insufficient because password changes and device
+     * revocations must take effect before a token's own expiry time.
+     */
+    public Optional<UserPrincipal> authenticate(UserTokenService.AccessClaims claims, Instant now) {
+        long userId = Long.parseLong(claims.sub());
+        return jdbc.query("""
+                SELECT s.user_id,s.id AS session_id,s.version,s.access_jti
+                FROM hhy.user_sessions s JOIN hhy.users u ON u.id=s.user_id
+                WHERE s.id=? AND s.user_id=? AND s.version=? AND s.access_jti=?
+                  AND s.refresh_hash IS NOT NULL AND s.expires_at>? AND u.status='ACTIVE'
+                """, (rs, row) -> new UserPrincipal(
+                rs.getLong("user_id"), rs.getLong("session_id"), rs.getLong("version"),
+                rs.getString("access_jti")), claims.sid(), userId, claims.ver(), claims.jti(), time(now))
+                .stream().findFirst();
+    }
+
+    public List<SecuritySessionRow> listActiveSessions(long userId, int offset, int limit,
+                                                        long currentSessionId, Instant now) {
+        return jdbc.query("""
+                SELECT s.id,s.version,s.device_id,s.created_at,s.expires_at,d.model,d.last_seen
+                FROM hhy.user_sessions s
+                LEFT JOIN hhy.user_devices d ON d.id=s.device_id AND d.user_id=s.user_id
+                WHERE s.user_id=? AND s.refresh_hash IS NOT NULL AND s.expires_at>?
+                ORDER BY s.created_at DESC,s.id DESC OFFSET ? LIMIT ?
+                """, (rs, row) -> new SecuritySessionRow(
+                rs.getLong("id"), rs.getLong("version"), nullableLong(rs, "device_id"),
+                rs.getString("model"), instant(rs.getObject("last_seen", OffsetDateTime.class)),
+                instant(rs.getObject("created_at", OffsetDateTime.class)),
+                instant(rs.getObject("expires_at", OffsetDateTime.class)), rs.getLong("id") == currentSessionId),
+                userId, time(now), offset, limit);
+    }
+
+    public long countActiveSessions(long userId, Instant now) {
+        Long count = jdbc.queryForObject("""
+                SELECT count(*) FROM hhy.user_sessions
+                WHERE user_id=? AND refresh_hash IS NOT NULL AND expires_at>?
+                """, Long.class, userId, time(now));
+        return count == null ? 0L : count;
+    }
+
+    public Optional<Long> revokeSession(long userId, long sessionId, Instant now) {
+        return jdbc.query("""
+                UPDATE hhy.user_sessions SET refresh_hash=NULL,expires_at=?,version=version+1
+                WHERE id=? AND user_id=? AND refresh_hash IS NOT NULL AND expires_at>?
+                RETURNING version
+                """, (rs, row) -> rs.getLong("version"), time(now), sessionId, userId, time(now))
+                .stream().findFirst();
     }
 
     public boolean rotateSession(long sessionId, long expectedVersion, String oldRefreshHash,
@@ -352,4 +414,7 @@ public class UserAuthStore {
                                  String responseType, String responsePayloadCiphertext) { }
     public record IdempotencyClaim(IdempotencyRow row, boolean replay) { }
     public record CurrentAgreementVersion(long id, String code, Instant effectiveAt) { }
+    public record SecuritySessionRow(long id, long version, Long deviceId, String deviceName,
+                                     Instant lastActiveAt, Instant createdAt, Instant expiresAt,
+                                     boolean current) { }
 }

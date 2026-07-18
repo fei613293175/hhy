@@ -2151,6 +2151,25 @@ export interface components {
             device?: components["schemas"]["DeviceSummaryResource"];
             capabilities?: string[];
         };
+        UserSecuritySessionResource: {
+            sessionId: string;
+            device?: components["schemas"]["DeviceSummaryResource"];
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            expiresAt: string;
+            status: string;
+            current: boolean;
+        };
+        UserSecuritySessionPageMeta: {
+            /** Format: int64 */
+            page: number;
+            /** Format: int64 */
+            pageSize: number;
+            /** Format: int64 */
+            total: number;
+            hasMore: boolean;
+        };
         AdminSessionResource: {
             accessToken?: string;
             /** Format: date-time */
@@ -2942,8 +2961,8 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: {
-                items: components["schemas"]["AuthSessionResource"][];
-                page: components["schemas"]["PageMeta"];
+                items: components["schemas"]["UserSecuritySessionResource"][];
+                page: components["schemas"]["UserSecuritySessionPageMeta"];
             };
         };
         AuthGetAuthSessionsParameters: {

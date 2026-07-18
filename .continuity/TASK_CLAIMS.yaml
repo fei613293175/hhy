@@ -723,3 +723,23 @@ claims:
   - scripts/**
   - STORY-R02-003,STORY-R02-004及其直接实现、测试与生成契约
   closed_at: '2026-07-18T05:31:36Z'
+- claim_id: CLM-9F61C3DE5FFC
+  session_id: SES-20260718T053331Z-F0ED92BF
+  task_id: TASK-R02-003
+  story_id: STORY-R02-005
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-18T05:33:31Z'
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**

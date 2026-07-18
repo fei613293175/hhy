@@ -1,6 +1,7 @@
 package cc.orbexa.hhy.boot.security;
 
 import cc.orbexa.hhy.access.admin.AdminBearerAuthenticationFilter;
+import cc.orbexa.hhy.access.user.UserBearerAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,7 +19,8 @@ public class SecurityConfiguration {
     SecurityFilterChain apiSecurity(
             HttpSecurity http,
             SecurityErrorResponseWriter errorWriter,
-            AdminBearerAuthenticationFilter adminBearerAuthenticationFilter) throws Exception {
+            AdminBearerAuthenticationFilter adminBearerAuthenticationFilter,
+            UserBearerAuthenticationFilter userBearerAuthenticationFilter) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -46,9 +48,10 @@ public class SecurityConfiguration {
                 .exceptionHandling(e -> e
                         .authenticationEntryPoint((request, response, exception) ->
                                 errorWriter.writeUnauthenticated(request, response))
-                        .accessDeniedHandler((request, response, exception) ->
+                .accessDeniedHandler((request, response, exception) ->
                                 errorWriter.writeForbidden(request, response)))
                 .addFilterBefore(adminBearerAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(userBearerAuthenticationFilter, AdminBearerAuthenticationFilter.class)
                 .build();
     }
 }

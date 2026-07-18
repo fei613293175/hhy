@@ -68,6 +68,11 @@ public final class UserAuthContracts {
             @NotBlank @Size(min = 4, max = 10) String smsCode,
             @NotBlank @Size(min = 8, max = 72) String newPassword) { }
 
+    public record PasswordChangeRequest(
+            @NotBlank @Size(min = 8, max = 72) String currentPassword,
+            @NotBlank @Size(min = 8, max = 72) String newPassword,
+            @Size(min = 4, max = 10) String smsCode) { }
+
     public record CommandResultResource(
             String resourceId,
             String businessNo,
@@ -96,4 +101,19 @@ public final class UserAuthContracts {
             String sessionId,
             DeviceSummaryResource device,
             List<String> capabilities) { }
+
+    /** Safe projection for the device-management screen; never serializes credentials. */
+    public record SecuritySessionResource(
+            String sessionId,
+            DeviceSummaryResource device,
+            Instant createdAt,
+            Instant expiresAt,
+            String status,
+            boolean current) { }
+
+    public record SessionPageResource(
+            List<SecuritySessionResource> items,
+            PageMetaResource page) { }
+
+    public record PageMetaResource(int page, int pageSize, long total, boolean hasMore) { }
 }

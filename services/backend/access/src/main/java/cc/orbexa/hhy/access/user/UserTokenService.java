@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
+import java.time.Clock;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.HexFormat;
@@ -17,22 +18,29 @@ import org.springframework.stereotype.Component;
 @Component
 public final class UserTokenService {
     private static final Base64.Encoder BASE64 = Base64.getUrlEncoder().withoutPadding();
+    private static final Base64.Decoder BASE64_DECODER = Base64.getUrlDecoder();
     private static final String HEADER = BASE64.encodeToString(
             "{\"alg\":\"HS256\",\"typ\":\"JWT\"}".getBytes(StandardCharsets.US_ASCII));
     private static final String REFRESH_PREFIX = "hhy_rt1_";
 
     private final ObjectMapper objectMapper;
     private final UserAuthProperties properties;
+    private final Clock clock;
     private final SecureRandom random;
 
     @Autowired
-    public UserTokenService(ObjectMapper objectMapper, UserAuthProperties properties) {
-        this(objectMapper, properties, new SecureRandom());
+    public UserTokenService(ObjectMapper objectMapper, UserAuthProperties properties, Clock clock) {
+        this(objectMapper, properties, clock, new SecureRandom());
     }
 
-    UserTokenService(ObjectMapper objectMapper, UserAuthProperties properties, SecureRandom random) {
+    UserTokenService(ObjectMapper objectMapper, UserAuthProperties properties) {
+        this(objectMapper, properties, Clock.systemUTC(), new SecureRandom());
+    }
+
+    UserTokenService(ObjectMapper objectMapper, UserAuthProperties properties, Clock clock, SecureRandom random) {
         this.objectMapper = objectMapper;
         this.properties = properties;
+        this.clock = clock;
         this.random = random;
     }
 
@@ -55,6 +63,31 @@ public final class UserTokenService {
         byte[] value = new byte[32];
         random.nextBytes(value);
         return REFRESH_PREFIX + BASE64.encodeToString(value);
+    }
+
+    public AccessClaims parseAccess(String token) {
+        try {
+            String[] parts = token == null ? new String[0] : token.split("\\.", -1);
+            if (parts.length != 3 || !HEADER.equals(parts[0])) throw invalidAccessToken();
+            byte[] expected = hmac(properties.jwtSecret(), (parts[0] + "." + parts[1])
+                    .getBytes(StandardCharsets.US_ASCII));
+            byte[] actual = BASE64_DECODER.decode(parts[2]);
+            if (!MessageDigest.isEqual(expected, actual)) throw invalidAccessToken();
+            AccessClaims claims = objectMapper.readValue(BASE64_DECODER.decode(parts[1]), AccessClaims.class);
+            if (!properties.issuer().equals(claims.iss())
+                    || !"ACCESS".equals(claims.typ())
+                    || claims.exp() <= Instant.now(clock).getEpochSecond()
+                    || claims.sid() < 1 || claims.ver() < 0
+                    || claims.jti() == null || claims.jti().isBlank()) {
+                throw invalidAccessToken();
+            }
+            Long.parseLong(claims.sub());
+            return claims;
+        } catch (InvalidAccessTokenException exception) {
+            throw exception;
+        } catch (Exception exception) {
+            throw invalidAccessToken();
+        }
     }
 
     public String newNumericCode(int length) {
@@ -104,6 +137,14 @@ public final class UserTokenService {
         }
     }
 
-    private record AccessClaims(
+    public record AccessClaims(
             String iss, String typ, String sub, long sid, long ver, String jti, long exp) { }
+
+    public static final class InvalidAccessTokenException extends RuntimeException {
+        private static final long serialVersionUID = 1L;
+    }
+
+    private static InvalidAccessTokenException invalidAccessToken() {
+        return new InvalidAccessTokenException();
+    }
 }

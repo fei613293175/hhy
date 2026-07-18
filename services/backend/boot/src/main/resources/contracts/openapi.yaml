@@ -13201,6 +13201,55 @@ components:
       - expiresAt
       - userId
       - sessionId
+    UserSecuritySessionResource:
+      type: object
+      additionalProperties: false
+      properties:
+        sessionId:
+          type: string
+          maxLength: 64
+        device:
+          $ref: '#/components/schemas/DeviceSummaryResource'
+        createdAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          maxLength: 64
+        current:
+          type: boolean
+      required:
+      - sessionId
+      - createdAt
+      - expiresAt
+      - status
+      - current
+    UserSecuritySessionPageMeta:
+      type: object
+      additionalProperties: false
+      properties:
+        page:
+          type: integer
+          format: int64
+          minimum: 1
+        pageSize:
+          type: integer
+          format: int64
+          minimum: 1
+        total:
+          type: integer
+          format: int64
+          minimum: 0
+        hasMore:
+          type: boolean
+      required:
+      - page
+      - pageSize
+      - total
+      - hasMore
     AdminSessionResource:
       type: object
       additionalProperties: false
@@ -15391,9 +15440,9 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/AuthSessionResource'
+                $ref: '#/components/schemas/UserSecuritySessionResource'
             page:
-              $ref: '#/components/schemas/PageMeta'
+              $ref: '#/components/schemas/UserSecuritySessionPageMeta'
     AuthGetAuthSessionsParameters:
       type: object
       additionalProperties: false

@@ -45,6 +45,9 @@ interface ContractAuthApi {
     ): AuthCallResult
     suspend fun resetPassword(phone: String, smsCode: String, newPassword: String): AuthCallResult
     suspend fun refresh(refreshToken: String, deviceId: String): AuthCallResult
+    suspend fun sessions(accessToken: String, page: Int = 1, pageSize: Int = 20): AuthCallResult
+    suspend fun revokeSession(accessToken: String, sessionId: String): AuthCallResult
+    suspend fun changePassword(accessToken: String, currentPassword: String, newPassword: String, smsCode: String? = null): AuthCallResult
 }
 
 sealed interface AuthCallResult {
@@ -63,6 +66,10 @@ fun AuthCallResult.Success.sessionOrNull(): AuthSessionResource? = runCatching {
 
 fun AuthCallResult.Success.registrationConfigOrNull(): AuthRegistrationConfigResource? = runCatching {
     HhyNetworkJson.value.decodeFromJsonElement(AuthRegistrationConfigResource.serializer(), data)
+}.getOrNull()
+
+fun AuthCallResult.Success.securitySessionsOrNull(): UserSecuritySessionPageResource? = runCatching {
+    HhyNetworkJson.value.decodeFromJsonElement(UserSecuritySessionPageResource.serializer(), data)
 }.getOrNull()
 
 class UrlConnectionContractAuthApi(
@@ -117,6 +124,20 @@ class UrlConnectionContractAuthApi(
         headers = mapOf("X-Refresh-Token" to refreshToken),
     )
 
+    override suspend fun sessions(accessToken: String, page: Int, pageSize: Int) = get(
+        "/api/v1/auth/sessions?page=$page&pageSize=$pageSize",
+        headers = bearer(accessToken),
+    )
+
+    override suspend fun revokeSession(accessToken: String, sessionId: String) = delete(
+        "/api/v1/auth/sessions/$sessionId", headers = bearer(accessToken),
+    )
+
+    override suspend fun changePassword(accessToken: String, currentPassword: String, newPassword: String, smsCode: String?) = post(
+        "/api/v1/me/security/password/change", AuthPasswordChangeRequest(currentPassword, newPassword, smsCode),
+        AuthPasswordChangeRequest.serializer(), headers = bearer(accessToken),
+    )
+
     private suspend fun <T> post(
         path: String,
         body: T,
@@ -166,7 +187,7 @@ class UrlConnectionContractAuthApi(
         }
     }
 
-    private suspend fun get(path: String): AuthCallResult = withContext(Dispatchers.IO) {
+    private suspend fun get(path: String, headers: Map<String, String> = emptyMap()): AuthCallResult = withContext(Dispatchers.IO) {
         val localRequestId = UUID.randomUUID().toString()
         try {
             val connection = URI.create(root + path).toURL().openConnection() as HttpURLConnection
@@ -176,6 +197,7 @@ class UrlConnectionContractAuthApi(
                 connection.readTimeout = READ_TIMEOUT_MILLIS
                 connection.setRequestProperty("Accept", "application/json")
                 connection.setRequestProperty("X-Request-Id", localRequestId)
+                headers.forEach { (name, value) -> connection.setRequestProperty(name, value) }
                 val status = connection.responseCode
                 val requestId = connection.getHeaderField("X-Request-Id") ?: localRequestId
                 val response = (if (status in 200..299) connection.inputStream else connection.errorStream)
@@ -202,6 +224,41 @@ class UrlConnectionContractAuthApi(
             AuthCallResult.Failure(null, null)
         }
     }
+
+    private suspend fun delete(path: String, headers: Map<String, String>): AuthCallResult = withContext(Dispatchers.IO) {
+        val localRequestId = UUID.randomUUID().toString()
+        try {
+            val connection = URI.create(root + path).toURL().openConnection() as HttpURLConnection
+            try {
+                connection.requestMethod = "DELETE"
+                connection.connectTimeout = CONNECT_TIMEOUT_MILLIS
+                connection.readTimeout = READ_TIMEOUT_MILLIS
+                connection.setRequestProperty("Accept", "application/json")
+                connection.setRequestProperty("X-Request-Id", localRequestId)
+                connection.setRequestProperty("X-Idempotency-Key", localRequestId)
+                headers.forEach { (name, value) -> connection.setRequestProperty(name, value) }
+                val status = connection.responseCode
+                val requestId = connection.getHeaderField("X-Request-Id") ?: localRequestId
+                val response = (if (status in 200..299) connection.inputStream else connection.errorStream)
+                    ?.bufferedReader(Charsets.UTF_8)?.use { it.readText() }.orEmpty()
+                if (status !in 200..299) {
+                    val error = runCatching { HhyNetworkJson.value.decodeFromString<ApiErrorEnvelope>(response) }.getOrNull()
+                    return@withContext AuthCallResult.Failure(status, error?.requestId ?: requestId,
+                        error?.error?.code, connection.getHeaderField("Retry-After")?.toLongOrNull())
+                }
+                val envelope = HhyNetworkJson.value.parseToJsonElement(response).jsonObject
+                val data = envelope["data"]?.jsonObject
+                    ?: return@withContext AuthCallResult.Failure(status, requestId)
+                AuthCallResult.Success(data, envelope["requestId"]?.let { (it as? JsonPrimitive)?.content } ?: requestId)
+            } finally { connection.disconnect() }
+        } catch (exception: CancellationException) {
+            throw exception
+        } catch (_: Exception) {
+            AuthCallResult.Failure(null, null)
+        }
+    }
+
+    private fun bearer(accessToken: String): Map<String, String> = mapOf("Authorization" to "Bearer $accessToken")
 
     private companion object {
         const val CONNECT_TIMEOUT_MILLIS = 8_000

@@ -11,11 +11,15 @@ import java.time.Clock;
 import java.time.Instant;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import cc.orbexa.hhy.access.user.UserPrincipal;
 
 @Validated
 @RestController
@@ -97,6 +101,26 @@ public class UserAuthController {
             HttpServletRequest request) {
         return ApiResponse.success(
                 requestId(request), service.refresh(body, refreshToken, key), Instant.now(clock));
+    }
+
+    @GetMapping("/sessions")
+    public ApiResponse<SessionPageResource> sessions(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "1")
+                    @jakarta.validation.constraints.Min(1) int page,
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "20")
+                    @jakarta.validation.constraints.Min(1) @jakarta.validation.constraints.Max(100) int pageSize,
+            HttpServletRequest request) {
+        return success(request, service.sessions(principal, page, pageSize));
+    }
+
+    @DeleteMapping("/sessions/{id}")
+    public ApiResponse<CommandResultResource> revokeSession(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable @NotBlank @Size(max = 64) String id,
+            @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
+            HttpServletRequest request) {
+        return success(request, service.revokeSession(principal, id, key));
     }
 
     private <T> ApiResponse<T> success(HttpServletRequest request, T data) {

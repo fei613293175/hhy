@@ -1,0 +1,230 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T053331Z-F0ED92BF-0003
+session_id: SES-20260718T053331Z-F0ED92BF
+sequence: 3
+created_at: '2026-07-18T05:57:30Z'
+summary: 完成 STORY-R02-005 后端用户会话鉴权、设备列表/下线与改密纵向切片。CR-0033 已批准并实施：设备列表改为安全会话摘要，禁止令牌回显。
+next_step: 实现 Android SCR-AUTH-006/007 的网络适配与页面，再执行 Android 构建及合同门禁。
+blockers: []
+decisions: []
+note: CR-0033 由项目所有者授权的自主安全决策规则批准并进入 IMPLEMENTING；云端重传已排除 target/.gradle 后测试成功。
+tests:
+- name: R02 auth static contract
+  result: PASS
+  evidence: python -m unittest tests/test_r02_auth_slice_contract.py
+  note: 9 tests passed
+- name: R02 user security backend
+  result: PASS
+  evidence: cloud Maven targeted tests
+  note: 8 tests passed, zero failures
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: 6d4ad64b271c91565aaeee42074aa5a989a1af74
+  upstream: origin/task/TASK-R02-002
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M contracts/openapi.yaml'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java'
+  - ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
+  - ?? .continuity/change_requests/CR-0033.yaml
+  - ?? .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260718T053331Z-F0ED92BF/0002.yaml
+  - ?? .continuity/sessions/SES-20260718T053331Z-F0ED92BF.yaml
+  - ?? docs/03-continuity/change-requests/CR-0033-设备会话列表移除令牌回显字段.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260718T053331Z-F0ED92BF.md
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilter.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserPrincipal.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSecurityController.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilterTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserSecurityWebSecurityTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+  recent_commits:
+  - "6d4ad64b271c91565aaeee42074aa5a989a1af74\t2026-07-18T13:32:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): close TASK-R02-002\
+    \ as completed"
+  - "26955b8bcb8687734b4c96aafefd1dcb90bbbccc\t2026-07-18T13:30:38+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(release): advance to\
+    \ security session batch"
+  - "f74b49367168311b5ed605c988c0cbbd364850cf\t2026-07-18T13:27:28+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] feat(auth): source controlled\
+    \ registration agreements"
+  - "7779031c00a3e6a2fd202cd2800175b5727f58cf\t2026-07-18T12:46:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): record\
+    \ automated R02 resume"
+  - "3d1f3ffdf2bd19c9d0cfe021b75cc8a36459cbd5\t2026-07-18T12:35:41+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] build(android): record WIP\
+    \ snapshot APK"
+  - "4b4da23dca1859a40c8b2465af29a356f367dbc4\t2026-07-18T12:31:30+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] fix(auth): hide technical\
+    \ failure codes"
+  - "9d80bcf0a7e9823a41703df93bbedb5c0f698c1f\t2026-07-18T12:25:27+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover public rejection\
+    \ contracts"
+  - "a7b67ec0810847dfeab1b4b85a4714eaab9c3561\t2026-07-18T12:15:02+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover public contracts\
+    \ and update URL trust"
+project_fingerprint:
+  sha256: 9a8f374ed323ec546f9cc7e9a15acf7d5376e0a2bce7370d25db2b5db9ab8464
+  files:
+  - contracts/openapi.yaml
+  - docs/03-continuity/change-requests/CR-0033-设备会话列表移除令牌回显字段.md
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserPrincipal.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSecurityController.java
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilterTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserSecurityWebSecurityTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+  file_count: 16
+  payload:
+    base_commit: 6d4ad64b271c91565aaeee42074aa5a989a1af74
+    files:
+    - path: contracts/openapi.yaml
+      state: FILE
+      size: 591153
+      sha256: f70df6efd741a9626ff56bd4beabd2b018224948d2e87fa17bc1abd681adcc78
+    - path: docs/03-continuity/change-requests/CR-0033-设备会话列表移除令牌回显字段.md
+      state: FILE
+      size: 2908
+      sha256: 654d734e0193cae835467db8097aff3d76ab961272c2b1e08e4c9adda20c45ac
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
+      state: FILE
+      size: 3893
+      sha256: 9224be859c2a8eb05386e87d23fb77d0780c571bc6f3234a9c574a1768f20c29
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+      state: FILE
+      size: 4451
+      sha256: 2f8605a1fea2aee238eff96fb9cc6a9f13653ccb9826747cbe94c0e42b3f394e
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+      state: FILE
+      size: 24865
+      sha256: 7ecc9c3f2b68a423b0649d14a60a49c6ae0cb798f0f55adc11b4a8f7473d20dc
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+      state: FILE
+      size: 22435
+      sha256: faf87abeee15c195081f2d774f0080ac0e4e708d3216a128eb7ad6cbaec86415
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilter.java
+      state: FILE
+      size: 2442
+      sha256: c6891ab91c34f2304eabec3a4ec3513c1ed63bd1dde872de708dc294ed541bf9
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserPrincipal.java
+      state: FILE
+      size: 209
+      sha256: 577a889142cc3b4c258b405c418cef46fb4cf433358d19f1186f14c3090de6b0
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+      state: FILE
+      size: 6533
+      sha256: 4ba483a482b1027497499e3332b3a8a6daa3fec3c87f0270482efe07537f538e
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+      state: FILE
+      size: 3317
+      sha256: bda71b2d4ecb86b7a010f29f168fb575470a9dda0eab89113ba725e5f5ace7cc
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+      state: FILE
+      size: 6238
+      sha256: ddd2439bdaa431f84816c3dab84c2b2dd42f60f1fabaabde7377bed3db2f1b45
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSecurityController.java
+      state: FILE
+      size: 1916
+      sha256: 2e06c070029ab6a791dad4a653f33bc9ce6984fe9de1bc77333186b3194da442
+    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+      state: FILE
+      size: 591153
+      sha256: f70df6efd741a9626ff56bd4beabd2b018224948d2e87fa17bc1abd681adcc78
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilterTest.java
+      state: FILE
+      size: 3911
+      sha256: 18cb817f3df46fc5599a9fb5d390d746be178daa8c8ee177a4897af370c7fa83
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserSecurityWebSecurityTest.java
+      state: FILE
+      size: 6159
+      sha256: 48dba2f03eeea468c7e1078f682846f829f29523da2b7c9f6bf4f2a77cac4e62
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+      state: FILE
+      size: 1891
+      sha256: db1c47ce009eb48019d6bef39de1392130bd1d2846fcd495e4ec47f082bbf632
+change_classification:
+  source_of_truth:
+  - contracts/openapi.yaml
+  contracts:
+  - contracts/openapi.yaml
+  user_visible:
+  - contracts/openapi.yaml
+  continuity:
+  - docs/03-continuity/change-requests/CR-0033-设备会话列表移除令牌回显字段.md
+  code:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminBearerAuthenticationFilter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserPrincipal.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserTokenService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserSecurityController.java
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserBearerAuthenticationFilterTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserSecurityWebSecurityTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserTokenServiceTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CONTRACT_TEST_EVIDENCE
+- GENERATED_CLIENTS_OR_GENERATION_RECORD
+- CHANGELOG
+change_requests:
+- CR-0033
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+  source: story+explicit+approved-cr:CR-0033
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前共享工作区存在未提交会话续接和认证合同修改；按开发规则串行推进，避免覆盖同一合同与认证链路。
+event_hash: f906d66d54ef6450d8ed927c9b8fabbb412194e81be5dcce7c01fe0a1dc189fe

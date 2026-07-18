@@ -34,6 +34,11 @@ public final class AdminBearerAuthenticationFilter extends OncePerRequestFilter 
     }
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return !request.getRequestURI().startsWith("/admin-api/");
+    }
+
+    @Override
     protected void doFilterInternal(
             HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {

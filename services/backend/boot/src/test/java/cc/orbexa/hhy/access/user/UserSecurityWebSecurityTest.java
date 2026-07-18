@@ -1,0 +1,106 @@
+package cc.orbexa.hhy.access.user;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import cc.orbexa.hhy.access.user.UserAuthContracts.CommandResultResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.PageMetaResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.SessionPageResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.SecuritySessionResource;
+import java.time.Instant;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+@SpringBootTest(properties =
+        "spring.datasource.url=jdbc:h2:mem:hhy-user-security;MODE=PostgreSQL;DB_CLOSE_DELAY=-1")
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+class UserSecurityWebSecurityTest {
+    private static final UserPrincipal PRINCIPAL = new UserPrincipal(17L, 23L, 4L, "access-jti-17");
+    private static final String IDEMPOTENCY_KEY = "idem-user-security-0001";
+
+    @Autowired MockMvc mvc;
+    @MockitoBean UserAuthService service;
+    @MockitoBean UserAuthStore store;
+
+    @Test
+    void anonymousDeviceAndPasswordRequestsAreRejected() throws Exception {
+        mvc.perform(get("/api/v1/auth/sessions").header("X-Request-Id", "anonymous-device-list"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error.code").value("COMMON-401-UNAUTHENTICATED"));
+        mvc.perform(post("/api/v1/me/security/password/change")
+                        .header("X-Request-Id", "anonymous-password-change")
+                        .header("X-Idempotency-Key", IDEMPOTENCY_KEY)
+                        .contentType("application/json")
+                        .content("{\"currentPassword\":\"Current!234\",\"newPassword\":\"New!56789\"}"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.error.code").value("COMMON-401-UNAUTHENTICATED"));
+        verifyNoInteractions(service);
+    }
+
+    @Test
+    void authenticatedUserGetsSafeSessionListWithoutCredentials() throws Exception {
+        when(service.sessions(eq(PRINCIPAL), anyInt(), anyInt())).thenReturn(new SessionPageResource(
+                List.of(new SecuritySessionResource("23", null, Instant.parse("2026-07-18T04:00:00Z"),
+                        Instant.parse("2026-08-18T04:00:00Z"), "ACTIVE", true)),
+                new PageMetaResource(1, 20, 1, false)));
+
+        mvc.perform(get("/api/v1/auth/sessions").with(userAuthentication()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.items[0].sessionId").value("23"))
+                .andExpect(jsonPath("$.data.items[0].current").value(true))
+                .andExpect(content().string(not(containsString("accessToken"))))
+                .andExpect(content().string(not(containsString("refreshToken"))));
+        verify(service).sessions(PRINCIPAL, 1, 20);
+    }
+
+    @Test
+    void authenticatedUserCanRevokeDeviceAndChangePasswordWithoutEchoingSecrets() throws Exception {
+        when(service.revokeSession(eq(PRINCIPAL), eq("24"), anyString()))
+                .thenReturn(new CommandResultResource("24", null, "REVOKED", 2L, Instant.now()));
+        when(service.changePassword(eq(PRINCIPAL), any(), anyString()))
+                .thenReturn(new CommandResultResource("17", null, "PASSWORD_CHANGED", null, Instant.now()));
+
+        mvc.perform(delete("/api/v1/auth/sessions/24").with(userAuthentication())
+                        .header("X-Idempotency-Key", IDEMPOTENCY_KEY))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.status").value("REVOKED"));
+        mvc.perform(post("/api/v1/me/security/password/change").with(userAuthentication())
+                        .header("X-Idempotency-Key", IDEMPOTENCY_KEY)
+                        .contentType("application/json")
+                        .content("{\"currentPassword\":\"Current!234\",\"newPassword\":\"New!56789\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.status").value("PASSWORD_CHANGED"))
+                .andExpect(content().string(not(containsString("Current!234"))))
+                .andExpect(content().string(not(containsString("New!56789"))));
+        verify(service).revokeSession(PRINCIPAL, "24", IDEMPOTENCY_KEY);
+        verify(service).changePassword(eq(PRINCIPAL), any(), eq(IDEMPOTENCY_KEY));
+    }
+
+    private static org.springframework.test.web.servlet.request.RequestPostProcessor userAuthentication() {
+        return authentication(UsernamePasswordAuthenticationToken.authenticated(
+                PRINCIPAL, null, List.of(new SimpleGrantedAuthority("ROLE_USER"))));
+    }
+}
