@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -38,6 +39,7 @@ import cc.orbexa.hhy.network.ContractAuthApi
 import cc.orbexa.hhy.network.AuthSessionResource
 import cc.orbexa.hhy.network.UrlConnectionContractAuthApi
 import cc.orbexa.hhy.network.sessionOrNull
+import cc.orbexa.hhy.network.registrationConfigOrNull
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.jsonPrimitive
 
@@ -74,7 +76,9 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
     var smsCode by remember { mutableStateOf("") }
     var inviteCode by remember { mutableStateOf("") }
     var validatedInviteCode by remember { mutableStateOf("") }
-    var agreementVersions by remember { mutableStateOf("") }
+    var agreementVersionIds by remember { mutableStateOf<List<String>>(emptyList()) }
+    var agreementCodes by remember { mutableStateOf<List<String>>(emptyList()) }
+    var agreementsAccepted by remember { mutableStateOf(false) }
     var challengeId by remember { mutableStateOf("") }
     var challengeImageBase64 by remember { mutableStateOf("") }
     var challengeProof by remember { mutableStateOf("") }
@@ -120,6 +124,9 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                 challengeId = ""
                 challengeImageBase64 = ""
                 challengeProof = ""
+                agreementVersionIds = emptyList()
+                agreementCodes = emptyList()
+                agreementsAccepted = false
                 state = AuthUiState.Editing
             }
 
@@ -141,7 +148,34 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                     validatedInviteCode = ""
                     state = AuthUiState.Editing
                 }, false, enabled = !submitting)
-                TextField("协议版本（逗号分隔）", agreementVersions, { agreementVersions = it; state = AuthUiState.Editing }, false, enabled = !submitting)
+                OutlinedButton(
+                    modifier = Modifier.fillMaxWidth(), enabled = !submitting,
+                    onClick = {
+                        launchCall({ api.registrationConfig() }) { result ->
+                            val config = result.registrationConfigOrNull()
+                            if (config == null || config.agreementVersions.isEmpty()) {
+                                agreementVersionIds = emptyList()
+                                agreementCodes = emptyList()
+                                agreementsAccepted = false
+                                state = AuthUiState.Message("当前没有可用于注册的协议，请稍后重试", result.requestId)
+                            } else {
+                                agreementVersionIds = config.agreementVersions.map { it.versionId }
+                                agreementCodes = config.agreementVersions.map { it.code }
+                                agreementsAccepted = false
+                                state = AuthUiState.Message("已加载当前注册协议", result.requestId)
+                            }
+                        }
+                    },
+                ) { Text(if (agreementVersionIds.isEmpty()) "加载当前注册协议" else "已加载 ${agreementVersionIds.size} 项注册协议") }
+                if (agreementVersionIds.isNotEmpty()) {
+                    Row {
+                        Checkbox(checked = agreementsAccepted, enabled = !submitting, onCheckedChange = {
+                            agreementsAccepted = it
+                            state = AuthUiState.Editing
+                        })
+                        Text("我已阅读并同意当前协议（${agreementCodes.joinToString("、")}）")
+                    }
+                }
                 OutlinedButton(
                     modifier = Modifier.fillMaxWidth(), enabled = !submitting && inviteCode.isNotBlank(),
                     onClick = {
@@ -185,7 +219,7 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !submitting && AuthFormRules.canSubmit(
-                    route, phone, password, passwordAgain, smsCode, inviteCode, agreementVersions, challengeId, challengeProof,
+                    route, phone, password, passwordAgain, smsCode, inviteCode, agreementVersionIds, agreementsAccepted, challengeId, challengeProof,
                 ) && (route != AuthRoute.REGISTER || AuthFormRules.hasValidatedInvite(inviteCode, validatedInviteCode)),
                 onClick = {
                     when (route) {
@@ -196,9 +230,10 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                             smsCode = ""; completeAuthentication(it)
                         }
                         AuthRoute.REGISTER -> launchCall({
-                            api.register(phone, smsCode, password, inviteCode, agreementVersions.split(',').map(String::trim).filter(String::isNotEmpty))
+                            api.register(phone, smsCode, password, inviteCode, agreementVersionIds)
                         }) {
                             password = ""; passwordAgain = ""; smsCode = ""; challengeProof = ""; validatedInviteCode = ""
+                            agreementVersionIds = emptyList(); agreementCodes = emptyList(); agreementsAccepted = false
                             completeAuthentication(it)
                         }
                         AuthRoute.RESET -> launchCall({ api.resetPassword(phone, smsCode, password) }) {

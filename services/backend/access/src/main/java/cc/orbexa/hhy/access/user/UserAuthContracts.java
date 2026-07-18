@@ -47,6 +47,14 @@ public final class UserAuthContracts {
     public record InviteCodeValidateRequest(
             @NotBlank @Size(max = 2000) String inviteCode) { }
 
+    public record RegistrationAgreementVersionResource(
+            String versionId,
+            String code,
+            Instant effectiveAt) { }
+
+    public record RegistrationConfigResource(
+            List<RegistrationAgreementVersionResource> agreementVersions) { }
+
     public record RegisterRequest(
             @NotBlank @Pattern(regexp = "^1[3-9]\\d{9}$") String phone,
             @NotBlank @Size(min = 4, max = 10) String smsCode,

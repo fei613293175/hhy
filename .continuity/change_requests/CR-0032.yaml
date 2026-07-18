@@ -1,0 +1,56 @@
+protocol_version: '1.0'
+cr_id: CR-0032
+title: 登记R02注册协议配置接口的页面所有权与变更日志
+status: IMPLEMENTED
+created_at: '2026-07-18T05:24:40Z'
+updated_at: '2026-07-18T05:26:22Z'
+requester_actor_id: codex-root
+approver_actor_id: user-project-owner
+task_id: TASK-R02-002
+session_id: SES-20260717T210927Z-13B07A7D
+user_request: 现在立即开始开发，这次必须把这个版本收尾做完，不允许进入无限做不完的状态，做完后立即推进下一版本
+reason: The strict documentation gate requires every REST operation to have exact UI/system ownership, and the pre-commit gate requires the new
+  user-visible registration flow to be recorded in CHANGELOG.
+original_rule: The frozen registration screen owns only challenge, SMS, invite validation, and register operations.
+new_rule: The registration screen also owns the read-only current agreement-version configuration load; CHANGELOG records that users no longer
+  enter version IDs manually.
+impact_summary: Documentation and ownership metadata only; no product behavior, endpoint, or database change.
+impact:
+  files:
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_specifications.csv
+  - CHANGELOG.md
+  pages: []
+  apis:
+  - GET /api/v1/auth/registration-config
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python scripts/check_v122_documentation.py --strict
+  - pre-commit continuity gate
+  releases:
+  - R02
+  migration_and_compatibility: No migration. Existing registration action remains unchanged; one additive GET action is documented as prerequisite
+    to registration.
+user_confirmation: User explicitly authorized immediate R02 closure and the exact gate-mandated records needed to deliver it.
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-18T05:24:42Z'
+  note: User directs bounded immediate R02 closure; approve the mandatory ownership and changelog records.
+machine_record: .continuity/change_requests/CR-0032.yaml
+document: docs/03-continuity/change-requests/CR-0032-登记R02注册协议配置接口的页面所有权与变更日志.md
+decision_log:
+- at: '2026-07-18T05:24:43Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: Adding the exact UI ownership/action metadata and user-visible release note.
+  session_id: SES-20260717T210927Z-13B07A7D
+- at: '2026-07-18T05:26:22Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: Exact UI ownership/action metadata and changelog are recorded; strict documentation gate passes.
+  session_id: SES-20260717T210927Z-13B07A7D
+session_ids:
+- SES-20260717T210927Z-13B07A7D

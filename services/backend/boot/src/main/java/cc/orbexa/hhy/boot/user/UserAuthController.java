@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Size;
 import java.time.Clock;
 import java.time.Instant;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -65,6 +66,11 @@ public class UserAuthController {
             @Valid @RequestBody InviteCodeValidateRequest body,
             HttpServletRequest request) {
         return success(request, service.validateInvite(body));
+    }
+
+    @GetMapping("/registration-config")
+    public ApiResponse<RegistrationConfigResource> registrationConfig(HttpServletRequest request) {
+        return success(request, service.registrationConfig());
     }
 
     @PostMapping("/register")

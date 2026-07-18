@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-18T04:45:23Z'
+generated_at: '2026-07-18T05:27:15Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -47,7 +47,7 @@ current_status:
   - TASK-R02-002
   blocked_tasks: []
   next_task: TASK-R02-002
-  updated_at: '2026-07-18T04:45:21Z'
+  updated_at: '2026-07-18T05:27:13Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -82,15 +82,15 @@ current_status:
     active_session_id: SES-20260717T210927Z-13B07A7D
     actor_id: codex-root
     story_id: STORY-R02-003
-    lease_expires_at: '2026-07-18T08:45:21Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0044.yaml
-    project_fingerprint: bf4921f08915ecf7b02ddedb4be39c2dbe1078744b89e8b794efd531eb3bc086
+    lease_expires_at: '2026-07-18T09:27:13Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0049.yaml
+    project_fingerprint: 1f2cb72fc629cdea1d2f180caab3051acc31e0962022e887adfc4f1a49c436c4
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 6074a0a2bd5f6310f6b9d04f7d66ff9445fb0b8cf0bb254f086c0fe59e6c357d
-      generated_at: '2026-07-18T04:39:53Z'
+      context_hash: 17c225933ea7a50b0abba46d81ff7976da053b62b7edb6c354503f4a3fb652fd
+      generated_at: '2026-07-18T05:26:26Z'
     handoff_bundle: null
 next_task:
   id: TASK-R02-002
@@ -142,7 +142,7 @@ active_session:
   story_id: STORY-R02-003
   goal: 接管 SES-20260717T204616Z-254B60A3：接管 SES-20260717T200842Z-456B8F52：完成Android启动、登录与邀请注册纵向闭环，覆盖数据、API、Android、测试与模块门禁
   started_at: '2026-07-17T21:09:27Z'
-  updated_at: '2026-07-18T04:45:21Z'
+  updated_at: '2026-07-18T05:27:13Z'
   takeover_of: SES-20260717T204616Z-254B60A3
   change_requests:
   - CR-0019
@@ -154,6 +154,11 @@ active_session:
   - CR-0025
   - CR-0026
   - CR-0027
+  - CR-0028
+  - CR-0029
+  - CR-0030
+  - CR-0031
+  - CR-0032
   scope:
     allowed_paths:
     - apps/android/**
@@ -221,7 +226,26 @@ active_session:
     - .githooks/pre-push
     - infra/nginx/api.orbexa.cc.conf
     - apps/android/app/build.gradle.kts
-    source: story+explicit+approved-cr:CR-0021+approved-cr:CR-0022+approved-cr:CR-0023+approved-cr:CR-0024+approved-cr:CR-0025+approved-cr:CR-0026+approved-cr:CR-0027
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+    - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - contracts/openapi.yaml
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+    - tests/test_r02_auth_slice_contract.py
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - catalogs/api_endpoints.csv
+    - packages/api-client/src/client.generated.ts
+    - contracts/contract_status.csv
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+    - catalogs/api_ui_ownership.csv
+    - catalogs/ui_action_matrix.csv
+    - catalogs/ui_page_specifications.csv
+    source: story+explicit+approved-cr:CR-0021+approved-cr:CR-0022+approved-cr:CR-0023+approved-cr:CR-0024+approved-cr:CR-0025+approved-cr:CR-0026+approved-cr:CR-0027+approved-cr:CR-0028+approved-cr:CR-0029+approved-cr:CR-0030+approved-cr:CR-0031+approved-cr:CR-0032
   git:
     initialized: true
     branch: task/TASK-R02-002
@@ -231,51 +255,97 @@ active_session:
     initial_worktree_state: DIRTY_TAKEOVER
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-18T04:45:21Z'
-    expires_at: '2026-07-18T08:45:21Z'
-  checkpoint_sequence: 44
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0044.yaml
+    renewed_at: '2026-07-18T05:27:13Z'
+    expires_at: '2026-07-18T09:27:13Z'
+  checkpoint_sequence: 49
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0049.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-  next_step: 继续R02 TASK-R02-002；心跳自动化将从本检查点恢复，优先完成可验证的认证与注册闭环工作。
+  next_step: Commit the validated slice and run the fixed R02 release-close checklist; do not add scope beyond explicit R02 exit gates.
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
+    assessment: USER_SERIAL_OVERRIDE
     delegated_workers: 0
     workers: []
-    reason: 本轮为执行持续性与自动恢复机制配置，必须由主控串行记录，避免重复唤醒造成多事实源。
+    reason: User requires a bounded serialized R02 closure path; release evidence and close gates share the same artifact set.
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0044
+  checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0049
   session_id: SES-20260717T210927Z-13B07A7D
-  sequence: 44
-  created_at: '2026-07-18T04:45:20Z'
-  summary: 为防止对话结束后R02停止，已创建Codex桌面心跳自动化r02：每15分钟恢复当前任务并继续实际开发；仅失败运行提醒。
-  next_step: 继续R02 TASK-R02-002；心跳自动化将从本检查点恢复，优先完成可验证的认证与注册闭环工作。
+  sequence: 49
+  created_at: '2026-07-18T05:27:13Z'
+  summary: Corrected CR-0032 action-column alignment; strict ownership and documentation gates now pass with the registration configuration action
+    recorded.
+  next_step: Commit the validated slice and run the fixed R02 release-close checklist; do not add scope beyond explicit R02 exit gates.
   blockers: []
   decisions: []
-  note: 自动化ID r02，目标当前Codex任务；用户明确要求持续开发。真正紧急且需用户决定时才提醒。
+  note: ''
   tests:
-  - name: 本阶段未执行测试
-    result: NOT_RUN
-    evidence: ''
-    note: 本轮仅配置Codex桌面心跳自动化并恢复连续性运行时状态，未修改项目代码或构建输入；后续实现改动仍须执行对应门禁。
+  - name: documentation-strict
+    result: PASS
+    evidence: scripts/check_v122_documentation.py --strict
+    note: ownership/action metadata aligned
   git:
     initialized: true
     branch: task/TASK-R02-002
-    head: 3d1f3ffdf2bd19c9d0cfe021b75cc8a36459cbd5
+    head: 7779031c00a3e6a2fd202cd2800175b5727f58cf
     upstream: origin/task/TASK-R02-002
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M .continuity/STATE.yaml'
-    - ' M .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - MM .continuity/ACTIVE_SESSION.yaml
+    - MM .continuity/CHANGE_REQUEST_INDEX.yaml
+    - MM .continuity/EVENT_LOG.jsonl
+    - MM .continuity/SESSION_INDEX.yaml
+    - MM .continuity/STATE.yaml
+    - A  .continuity/change_requests/CR-0028.yaml
+    - A  .continuity/change_requests/CR-0029.yaml
+    - A  .continuity/change_requests/CR-0030.yaml
+    - A  .continuity/change_requests/CR-0031.yaml
+    - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0045.yaml
+    - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0046.yaml
+    - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0047.yaml
+    - MM .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
+    - ' M CHANGELOG.md'
+    - MM CURRENT_STATUS.yaml
+    - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+    - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
+    - M  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
+    - M  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+    - M  apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+    - MM artifacts/context/CURRENT_CONTEXT_PACK.md
+    - MM artifacts/context/CURRENT_CONTEXT_PACK.yaml
+    - MM artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+    - ' M artifacts/validation/project-doctor-v1.2.2.json'
+    - M  catalogs/api_endpoints.csv
+    - ' M catalogs/api_ui_ownership.csv'
+    - MM catalogs/change_request_index.csv
+    - M  catalogs/session_index.csv
+    - ' M catalogs/ui_action_matrix.csv'
+    - M  contracts/contract_status.csv
+    - M  contracts/openapi.yaml
+    - A  docs/03-continuity/change-requests/CR-0028-提前实现冻结的邀请码注册配置读取以解除R02协议版本来源缺口.md
+    - A  docs/03-continuity/change-requests/CR-0029-新增R02只读协议版本配置接口以完成Android受控注册.md
+    - A  docs/03-continuity/change-requests/CR-0030-同步R02注册协议配置接口的契约镜像与生成客户端.md
+    - A  docs/03-continuity/change-requests/CR-0031-允许R02公开读取注册协议版本配置.md
+    - MM docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
+    - M  packages/api-client/src/client.generated.ts
+    - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+    - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+    - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+    - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+    - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+    - M  services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+    - M  tests/test_r02_auth_slice_contract.py
+    - ?? .continuity/change_requests/CR-0032.yaml
+    - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0048.yaml
+    - ?? docs/03-continuity/change-requests/CR-0032-登记R02注册协议配置接口的页面所有权与变更日志.md
     recent_commits:
+    - "7779031c00a3e6a2fd202cd2800175b5727f58cf\t2026-07-18T12:46:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): record\
+      \ automated R02 resume"
     - "3d1f3ffdf2bd19c9d0cfe021b75cc8a36459cbd5\t2026-07-18T12:35:41+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] build(android): record WIP\
       \ snapshot APK"
     - "4b4da23dca1859a40c8b2465af29a356f367dbc4\t2026-07-18T12:31:30+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] fix(auth): hide technical\
@@ -290,10 +360,8 @@ latest_checkpoint:
       \ http contract"
     - "fa38c728a2e2e0814161985d831ea9d0314d4204\t2026-07-18T11:16:13+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover sms verification\
       \ invariants"
-    - "e51992173a0a57edc63706adc8866d99c0a10f94\t2026-07-18T11:12:52+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover sms login\
-      \ account restrictions"
   project_fingerprint:
-    sha256: bf4921f08915ecf7b02ddedb4be39c2dbe1078744b89e8b794efd531eb3bc086
+    sha256: 1f2cb72fc629cdea1d2f180caab3051acc31e0962022e887adfc4f1a49c436c4
     files:
     - .githooks/pre-push
     - .github/workflows/continuity-gate.yml
@@ -326,10 +394,15 @@ latest_checkpoint:
     - apps/android/feature/startup/src/test/java/cc/orbexa/hhy/startup/DownloadUrlPolicyTest.kt
     - apps/android/gradle/libs.versions.toml
     - apps/android/settings.gradle.kts
+    - catalogs/api_endpoints.csv
+    - catalogs/api_ui_ownership.csv
+    - catalogs/ui_action_matrix.csv
     - config/CONTINUITY_POLICY.yaml
     - config/DEVELOPMENT_RUNTIME.yaml
     - config/REPOSITORY_TRANSPORT.yaml
     - config/test-impact-map.yaml
+    - contracts/contract_status.csv
+    - contracts/openapi.yaml
     - database/migrations/V017__r02_user_auth_invariants.sql
     - database/rollback/U017__r02_user_auth_invariants.sql
     - database/tests/r02_user_auth_invariants.sql
@@ -345,10 +418,16 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0025-绑定Git-pre-push实际目标以消除跨remote绕过.md
     - docs/03-continuity/change-requests/CR-0026-让连续性生命周期演练使用真实本地transport.md
     - docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md
+    - docs/03-continuity/change-requests/CR-0028-提前实现冻结的邀请码注册配置读取以解除R02协议版本来源缺口.md
+    - docs/03-continuity/change-requests/CR-0029-新增R02只读协议版本配置接口以完成Android受控注册.md
+    - docs/03-continuity/change-requests/CR-0030-同步R02注册协议配置接口的契约镜像与生成客户端.md
+    - docs/03-continuity/change-requests/CR-0031-允许R02公开读取注册协议版本配置.md
+    - docs/03-continuity/change-requests/CR-0032-登记R02注册协议配置接口的页面所有权与变更日志.md
     - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
     - docs/03-continuity/并行加速开发运行手册_V1.0.md
     - docs/03-continuity/无状态接续运行手册_V1.2.3.md
     - infra/nginx/api.orbexa.cc.conf
+    - packages/api-client/src/client.generated.ts
     - releases/PROGRAM_EXECUTION_PLAN.yaml
     - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
     - releases/R02/TASKS.yaml
@@ -385,6 +464,7 @@ latest_checkpoint:
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
     - services/backend/boot/src/main/resources/application.yml
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
     - services/backend/boot/src/main/resources/db/migration/V017__r02_user_auth_invariants.sql
     - services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicRejectionContractTest.java
@@ -409,7 +489,7 @@ latest_checkpoint:
     - tests/test_parallel_worktrees.py
     - tests/test_program_execution_plan.py
     - tests/test_r02_auth_slice_contract.py
-    file_count: 114
+    file_count: 126
     payload:
       base_commit: 3e5e39d7ef1501cc6d93856cde11fb880dfcc21e
       files:
@@ -431,8 +511,8 @@ latest_checkpoint:
         sha256: 823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871
       - path: CHANGELOG.md
         state: FILE
-        size: 16566
-        sha256: ae4d1fbcf43b4f88f4cd3215315d940b7a511f42dd4f257a5adb2fc2f9796fea
+        size: 16740
+        sha256: fed47a8668304c7cadf001dc545778bb4d6fac1b7ec7263febf67be5bbfd416e
       - path: PROJECT_MANIFEST.yaml
         state: FILE
         size: 2320
@@ -463,16 +543,16 @@ latest_checkpoint:
         sha256: 2f809cfd7e89d1b60bcaefcc74076ca448c92ba9b0c23a7f1c115782ab9325c5
       - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
         state: FILE
-        size: 4008
-        sha256: bb6c8c8f59a52cd38a795efe17f41699ca7f816a50101bc9231bd16590c200f8
+        size: 4291
+        sha256: 50dd4f1af5f9f76432e8bd5d2af3dcd3642bc62b2cce4ce93b0e4abc196a89b2
       - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/AuthSessionStore.kt
         state: FILE
         size: 4141
         sha256: 30b185b4080089a15bb26e4f6190c781c109932dd2c87783e03b89a392b786d2
       - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
         state: FILE
-        size: 9238
-        sha256: e91e1ad205ae9b25076a73553131e4914c05916e12e064781f7df12f5cdd5429
+        size: 11697
+        sha256: fdf050dcf0057bec3e401d03de6f3b3c599525ce5b27a66ee7693bd92a797962
       - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
         state: FILE
         size: 2654
@@ -499,16 +579,16 @@ latest_checkpoint:
         sha256: d7515ce7c0dd98942c0e3c7c780321a98aad76f85518134c33e7d0766c959b91
       - path: apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
         state: FILE
-        size: 1340
-        sha256: 9e767e5be431948cd675cab0d9657c128499a9a8d418571fb3aed4b07291050d
+        size: 1401
+        sha256: 5162a4a3937b2fd17fa766be51fe124203ff6a9350992f9a0dd7e4667a7a9cff
       - path: apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
         state: FILE
-        size: 13790
-        sha256: c5590acb00c52ebb44241d68fd6f9301431f26c02172151490bd8ca7d4ce3dd9
+        size: 15920
+        sha256: 564425b18857a73658faa20861122f5408141354cfe6bdd7741a1d3367341806
       - path: apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
         state: FILE
-        size: 1609
-        sha256: daec448b18d211d74a98444518c10b07578773e744cee37a3a9be8fdedb3237f
+        size: 1837
+        sha256: d3fe38f817ea08951017c96278a7d91dc8b65ce9260e0ca96916608feae865c0
       - path: apps/android/feature/startup/build.gradle.kts
         state: FILE
         size: 1013
@@ -537,6 +617,18 @@ latest_checkpoint:
         state: FILE
         size: 465
         sha256: 5d1fdc92d124d4e1bd1afc56ccb6783858f52fae8d03fbc11781530831548242
+      - path: catalogs/api_endpoints.csv
+        state: FILE
+        size: 10897
+        sha256: 861a3b5aa40328995a618664230a1c82414fac9f86067bc3ae73db0e458c0f2d
+      - path: catalogs/api_ui_ownership.csv
+        state: FILE
+        size: 74834
+        sha256: c6b88336f7d5fd13a74835bae669912c12bf53b469e4883d91d1a1b70ee9f4ad
+      - path: catalogs/ui_action_matrix.csv
+        state: FILE
+        size: 1418379
+        sha256: efffddb3dc2ecf19f903111dc2de06c6d4f5ac4ebdea01ddb2d10c62bf4d261c
       - path: config/CONTINUITY_POLICY.yaml
         state: FILE
         size: 1890
@@ -553,6 +645,14 @@ latest_checkpoint:
         state: FILE
         size: 5203
         sha256: ca7314be13ff6181ee303e49a792ff90aa15bc49c4000a3f76fb804605d6c888
+      - path: contracts/contract_status.csv
+        state: FILE
+        size: 139188
+        sha256: b7586f2b56ca3bb51d0d7322d257af08328169ac2d6a648bd829d6bcfe5edb6d
+      - path: contracts/openapi.yaml
+        state: FILE
+        size: 590059
+        sha256: 8cf609eab4079eba8078400787acf0260bc9fcbb7b86593421dfd3bfc0fb5c42
       - path: database/migrations/V017__r02_user_auth_invariants.sql
         state: FILE
         size: 2419
@@ -613,6 +713,26 @@ latest_checkpoint:
         state: FILE
         size: 3053
         sha256: 0b789d83de90f13bb641a9882b4d9d911dc9383a21a9bf8e232b1ee5efd6d3c8
+      - path: docs/03-continuity/change-requests/CR-0028-提前实现冻结的邀请码注册配置读取以解除R02协议版本来源缺口.md
+        state: FILE
+        size: 3627
+        sha256: a04432f111acf02f44b5da42ec6ee05b7654e72f4eada0568c558f2d1f1eebbe
+      - path: docs/03-continuity/change-requests/CR-0029-新增R02只读协议版本配置接口以完成Android受控注册.md
+        state: FILE
+        size: 3668
+        sha256: 33550ac541a38a75130901041319605005f25394af88a36ffad84d41532e789d
+      - path: docs/03-continuity/change-requests/CR-0030-同步R02注册协议配置接口的契约镜像与生成客户端.md
+        state: FILE
+        size: 2751
+        sha256: 75b9e49434acddc5d421cf78b29c8bc17722c73dcdc1909e662899dab5ef1042
+      - path: docs/03-continuity/change-requests/CR-0031-允许R02公开读取注册协议版本配置.md
+        state: FILE
+        size: 2561
+        sha256: 37c1bb6e40a5805357baa041d25e6710e0b67ddf79ca447a41eb93c099a3ee70
+      - path: docs/03-continuity/change-requests/CR-0032-登记R02注册协议配置接口的页面所有权与变更日志.md
+        state: FILE
+        size: 2652
+        sha256: 6d62502efea7747b6ea87d87e28f5f84e60b82e104542965296e8a0200116fc4
       - path: docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
         state: FILE
         size: 14346
@@ -629,6 +749,10 @@ latest_checkpoint:
         state: FILE
         size: 557
         sha256: 4e78dd60e0ead8e9735384b7bb20ee3b1596df41ee2c33e2df908d9b0c8965d8
+      - path: packages/api-client/src/client.generated.ts
+        state: FILE
+        size: 610277
+        sha256: d50a9ed883bed899d22f21680d3a080dd2a8a4dbac28f827f8923bbb8166049d
       - path: releases/PROGRAM_EXECUTION_PLAN.yaml
         state: FILE
         size: 35804
@@ -731,8 +855,8 @@ latest_checkpoint:
         sha256: ac6052b3b4c9db6d13a743e66164ce266374f0244b2e3422f4e7a05d7c106814
       - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
         state: FILE
-        size: 3390
-        sha256: 7c1986e9ca872974f2535390e1c1c79d177621fe6ce3652e775f7cb68a378fb3
+        size: 3664
+        sha256: b36ff9d3429ac975c05badd7360a0e82a982e54d9a0c3c7e90397807b337fb24
       - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthPolicy.java
         state: FILE
         size: 2443
@@ -743,12 +867,12 @@ latest_checkpoint:
         sha256: 56769de77f3fb8253014eee35fb24bddaf860a270eb05a9455013fbc07b038c9
       - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
         state: FILE
-        size: 19957
-        sha256: c1104e615dbb34b1fbc16fa3ce158e69d29a38ce0ab03029c680a87f4a7ade9d
+        size: 20585
+        sha256: 731b205e0dfa3e34998dff08301ee77c8c6c7700d91b864a126cffc549201c7b
       - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
         state: FILE
-        size: 17603
-        sha256: 0caf7395cbc476e4db985e9749faa5068d8de129e17d0e349d9d5643d535b7a2
+        size: 18566
+        sha256: 3498f169c9bc6663e451a42c2d05ec169b8a09d83147bc7de1c7cda1d9fe9d0b
       - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthVerificationService.java
         state: FILE
         size: 6888
@@ -763,16 +887,20 @@ latest_checkpoint:
         sha256: 84bbbc3a7903d23525d0aa7a8f5c3772973529378715da3482153b6c18a73ae5
       - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
         state: FILE
-        size: 2977
-        sha256: 9f5acea7198082f9595e564f0b5dd0da533609c2d9229cc9ffec3e10e67a94ea
+        size: 3082
+        sha256: 5d43bfff8a58a1c41fe06018cab3cad16f9dbdc13c483c6fcad2723639b8a318
       - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
         state: FILE
-        size: 4648
-        sha256: aad8f74fc6135a779a721b02b14f06eada04b2e8e21f5759d52f7d765632c15e
+        size: 4917
+        sha256: c5566ac68a0a50539086c943801e45d5d11dbb2eac62e9f890e8ec544916624b
       - path: services/backend/boot/src/main/resources/application.yml
         state: FILE
         size: 2788
         sha256: ac03c5a8086d07d736ec0aa3a1ef3350ba3bb521040b09249dc5ca4e183c62af
+      - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+        state: FILE
+        size: 590059
+        sha256: 8cf609eab4079eba8078400787acf0260bc9fcbb7b86593421dfd3bfc0fb5c42
       - path: services/backend/boot/src/main/resources/db/migration/V017__r02_user_auth_invariants.sql
         state: FILE
         size: 2419
@@ -787,8 +915,8 @@ latest_checkpoint:
         sha256: 5f4636e526e2a7e39bd76ee16fafa21c0a4bda4c3b62d10d8e448317b2ae3637
       - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
         state: FILE
-        size: 9684
-        sha256: 85513ea0ba9660fbcc23b90b4dd3a1f61f96810b156e546245730d8d3f337f02
+        size: 11039
+        sha256: d60392f90d7f94ef8ef57d53d12f8cda314438097c7c43afd326708ba876617e
       - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
         state: FILE
         size: 19523
@@ -867,8 +995,8 @@ latest_checkpoint:
         sha256: 2698bb95eb78e7870bbaea3663b0475680aa6dd1a1ec15454f171e69a8d0d635
       - path: tests/test_r02_auth_slice_contract.py
         state: FILE
-        size: 6012
-        sha256: cb0e7178dfabe23ada31b95bae82b862eb99d00ab4b103803f83ca7f0681a99e
+        size: 7026
+        sha256: 3437b7fc7a916094aa96bd69598d004245612e01fd98377ab1e5834ee8846335
   change_classification:
     infrastructure:
     - .githooks/pre-push
@@ -879,6 +1007,8 @@ latest_checkpoint:
     - AGENTS.md
     - CHANGELOG.md
     - PROJECT_MANIFEST.yaml
+    - catalogs/api_endpoints.csv
+    - catalogs/api_ui_ownership.csv
     - config/CONTINUITY_POLICY.yaml
     - config/DEVELOPMENT_RUNTIME.yaml
     - config/REPOSITORY_TRANSPORT.yaml
@@ -919,6 +1049,8 @@ latest_checkpoint:
     - apps/android/feature/startup/src/test/java/cc/orbexa/hhy/startup/DownloadUrlPolicyTest.kt
     - apps/android/gradle/libs.versions.toml
     - apps/android/settings.gradle.kts
+    - contracts/contract_status.csv
+    - contracts/openapi.yaml
     code:
     - apps/android/README.md
     - apps/android/app/build.gradle.kts
@@ -943,6 +1075,7 @@ latest_checkpoint:
     - apps/android/feature/startup/src/test/java/cc/orbexa/hhy/startup/DownloadUrlPolicyTest.kt
     - apps/android/gradle/libs.versions.toml
     - apps/android/settings.gradle.kts
+    - packages/api-client/src/client.generated.ts
     - scripts/check_program_execution_plan.py
     - scripts/check_v123_continuity.py
     - scripts/continuity.py
@@ -968,6 +1101,7 @@ latest_checkpoint:
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
     - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
     - services/backend/boot/src/main/resources/application.yml
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
     - services/backend/boot/src/main/resources/db/migration/V017__r02_user_auth_invariants.sql
     - services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicRejectionContractTest.java
@@ -980,6 +1114,16 @@ latest_checkpoint:
     - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionController.java
     - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/AppVersionService.java
     - services/backend/platform/src/main/java/cc/orbexa/hhy/platform/release/PublishedAppReleaseRepository.java
+    source_of_truth:
+    - catalogs/ui_action_matrix.csv
+    - contracts/contract_status.csv
+    - contracts/openapi.yaml
+    - releases/R03/RELEASE_MANIFEST.yaml
+    - releases/R04/RELEASE_MANIFEST.yaml
+    - releases/R32/RELEASE_MANIFEST.yaml
+    contracts:
+    - contracts/contract_status.csv
+    - contracts/openapi.yaml
     database:
     - database/migrations/V017__r02_user_auth_invariants.sql
     - database/rollback/U017__r02_user_auth_invariants.sql
@@ -997,13 +1141,14 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0025-绑定Git-pre-push实际目标以消除跨remote绕过.md
     - docs/03-continuity/change-requests/CR-0026-让连续性生命周期演练使用真实本地transport.md
     - docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md
+    - docs/03-continuity/change-requests/CR-0028-提前实现冻结的邀请码注册配置读取以解除R02协议版本来源缺口.md
+    - docs/03-continuity/change-requests/CR-0029-新增R02只读协议版本配置接口以完成Android受控注册.md
+    - docs/03-continuity/change-requests/CR-0030-同步R02注册协议配置接口的契约镜像与生成客户端.md
+    - docs/03-continuity/change-requests/CR-0031-允许R02公开读取注册协议版本配置.md
+    - docs/03-continuity/change-requests/CR-0032-登记R02注册协议配置接口的页面所有权与变更日志.md
     - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
     - docs/03-continuity/并行加速开发运行手册_V1.0.md
     - docs/03-continuity/无状态接续运行手册_V1.2.3.md
-    source_of_truth:
-    - releases/R03/RELEASE_MANIFEST.yaml
-    - releases/R04/RELEASE_MANIFEST.yaml
-    - releases/R32/RELEASE_MANIFEST.yaml
     tests:
     - tests/test_cloud_environment.py
     - tests/test_context_pack_parallel_policy.py
@@ -1024,6 +1169,8 @@ latest_checkpoint:
   - APPROVED_CHANGE_REQUEST
   - DATABASE_TEST_EVIDENCE
   - SCHEMA_TRACEABILITY
+  - CONTRACT_TEST_EVIDENCE
+  - GENERATED_CLIENTS_OR_GENERATION_RECORD
   - CHANGELOG
   change_requests:
   - CR-0019
@@ -1035,6 +1182,11 @@ latest_checkpoint:
   - CR-0025
   - CR-0026
   - CR-0027
+  - CR-0028
+  - CR-0029
+  - CR-0030
+  - CR-0031
+  - CR-0032
   scope:
     allowed_paths:
     - apps/android/**
@@ -1102,35 +1254,93 @@ latest_checkpoint:
     - .githooks/pre-push
     - infra/nginx/api.orbexa.cc.conf
     - apps/android/app/build.gradle.kts
-    source: story+explicit+approved-cr:CR-0021+approved-cr:CR-0022+approved-cr:CR-0023+approved-cr:CR-0024+approved-cr:CR-0025+approved-cr:CR-0026+approved-cr:CR-0027
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+    - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - contracts/openapi.yaml
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+    - tests/test_r02_auth_slice_contract.py
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - catalogs/api_endpoints.csv
+    - packages/api-client/src/client.generated.ts
+    - contracts/contract_status.csv
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+    - catalogs/api_ui_ownership.csv
+    - catalogs/ui_action_matrix.csv
+    - catalogs/ui_page_specifications.csv
+    source: story+explicit+approved-cr:CR-0021+approved-cr:CR-0022+approved-cr:CR-0023+approved-cr:CR-0024+approved-cr:CR-0025+approved-cr:CR-0026+approved-cr:CR-0027+approved-cr:CR-0028+approved-cr:CR-0029+approved-cr:CR-0030+approved-cr:CR-0031+approved-cr:CR-0032
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
+    assessment: USER_SERIAL_OVERRIDE
     delegated_workers: 0
     workers: []
-    reason: 本轮为执行持续性与自动恢复机制配置，必须由主控串行记录，避免重复唤醒造成多事实源。
-  event_hash: 9a9b6564bac6bdd21e3ee90ce47fab57c14fca27d0bfa4f748d081fc89c62ade
+    reason: User requires a bounded serialized R02 closure path; release evidence and close gates share the same artifact set.
+  event_hash: 36f9943f644236899e3084e0b315edc797af6f37da4017bf1275bf6a67c94f1b
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: 3d1f3ffdf2bd19c9d0cfe021b75cc8a36459cbd5
+  head: 7779031c00a3e6a2fd202cd2800175b5727f58cf
   upstream: origin/task/TASK-R02-002
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md'
-  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0044.yaml
+  - MM .continuity/ACTIVE_SESSION.yaml
+  - MM .continuity/CHANGE_REQUEST_INDEX.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - MM .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0028.yaml
+  - A  .continuity/change_requests/CR-0029.yaml
+  - A  .continuity/change_requests/CR-0030.yaml
+  - A  .continuity/change_requests/CR-0031.yaml
+  - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0045.yaml
+  - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0046.yaml
+  - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0047.yaml
+  - MM .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
+  - ' M CHANGELOG.md'
+  - MM CURRENT_STATUS.yaml
+  - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
+  - M  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
+  - M  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - M  apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+  - MM artifacts/context/CURRENT_CONTEXT_PACK.md
+  - MM artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - MM artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - M  catalogs/api_endpoints.csv
+  - ' M catalogs/api_ui_ownership.csv'
+  - MM catalogs/change_request_index.csv
+  - MM catalogs/session_index.csv
+  - ' M catalogs/ui_action_matrix.csv'
+  - M  contracts/contract_status.csv
+  - M  contracts/openapi.yaml
+  - A  docs/03-continuity/change-requests/CR-0028-提前实现冻结的邀请码注册配置读取以解除R02协议版本来源缺口.md
+  - A  docs/03-continuity/change-requests/CR-0029-新增R02只读协议版本配置接口以完成Android受控注册.md
+  - A  docs/03-continuity/change-requests/CR-0030-同步R02注册协议配置接口的契约镜像与生成客户端.md
+  - A  docs/03-continuity/change-requests/CR-0031-允许R02公开读取注册协议版本配置.md
+  - MM docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
+  - M  packages/api-client/src/client.generated.ts
+  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+  - M  services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+  - M  tests/test_r02_auth_slice_contract.py
+  - ?? .continuity/change_requests/CR-0032.yaml
+  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0048.yaml
+  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0049.yaml
+  - ?? docs/03-continuity/change-requests/CR-0032-登记R02注册协议配置接口的页面所有权与变更日志.md
   recent_commits:
+  - "7779031c00a3e6a2fd202cd2800175b5727f58cf\t2026-07-18T12:46:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): record\
+    \ automated R02 resume"
   - "3d1f3ffdf2bd19c9d0cfe021b75cc8a36459cbd5\t2026-07-18T12:35:41+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] build(android): record WIP\
     \ snapshot APK"
   - "4b4da23dca1859a40c8b2465af29a356f367dbc4\t2026-07-18T12:31:30+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] fix(auth): hide technical\
@@ -1145,10 +1355,8 @@ git:
     \ http contract"
   - "fa38c728a2e2e0814161985d831ea9d0314d4204\t2026-07-18T11:16:13+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover sms verification\
     \ invariants"
-  - "e51992173a0a57edc63706adc8866d99c0a10f94\t2026-07-18T11:12:52+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover sms login\
-    \ account restrictions"
 project_fingerprint:
-  sha256: bf4921f08915ecf7b02ddedb4be39c2dbe1078744b89e8b794efd531eb3bc086
+  sha256: 1f2cb72fc629cdea1d2f180caab3051acc31e0962022e887adfc4f1a49c436c4
   files:
   - .githooks/pre-push
   - .github/workflows/continuity-gate.yml
@@ -1181,10 +1389,15 @@ project_fingerprint:
   - apps/android/feature/startup/src/test/java/cc/orbexa/hhy/startup/DownloadUrlPolicyTest.kt
   - apps/android/gradle/libs.versions.toml
   - apps/android/settings.gradle.kts
+  - catalogs/api_endpoints.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_action_matrix.csv
   - config/CONTINUITY_POLICY.yaml
   - config/DEVELOPMENT_RUNTIME.yaml
   - config/REPOSITORY_TRANSPORT.yaml
   - config/test-impact-map.yaml
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
   - database/migrations/V017__r02_user_auth_invariants.sql
   - database/rollback/U017__r02_user_auth_invariants.sql
   - database/tests/r02_user_auth_invariants.sql
@@ -1200,10 +1413,16 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0025-绑定Git-pre-push实际目标以消除跨remote绕过.md
   - docs/03-continuity/change-requests/CR-0026-让连续性生命周期演练使用真实本地transport.md
   - docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md
+  - docs/03-continuity/change-requests/CR-0028-提前实现冻结的邀请码注册配置读取以解除R02协议版本来源缺口.md
+  - docs/03-continuity/change-requests/CR-0029-新增R02只读协议版本配置接口以完成Android受控注册.md
+  - docs/03-continuity/change-requests/CR-0030-同步R02注册协议配置接口的契约镜像与生成客户端.md
+  - docs/03-continuity/change-requests/CR-0031-允许R02公开读取注册协议版本配置.md
+  - docs/03-continuity/change-requests/CR-0032-登记R02注册协议配置接口的页面所有权与变更日志.md
   - docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
   - docs/03-continuity/并行加速开发运行手册_V1.0.md
   - docs/03-continuity/无状态接续运行手册_V1.2.3.md
   - infra/nginx/api.orbexa.cc.conf
+  - packages/api-client/src/client.generated.ts
   - releases/PROGRAM_EXECUTION_PLAN.yaml
   - releases/R02/PARALLEL_EXECUTION_PLAN.yaml
   - releases/R02/TASKS.yaml
@@ -1240,6 +1459,7 @@ project_fingerprint:
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
   - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
   - services/backend/boot/src/main/resources/db/migration/V017__r02_user_auth_invariants.sql
   - services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicRejectionContractTest.java
@@ -1264,7 +1484,7 @@ project_fingerprint:
   - tests/test_parallel_worktrees.py
   - tests/test_program_execution_plan.py
   - tests/test_r02_auth_slice_contract.py
-  file_count: 114
+  file_count: 126
   payload:
     base_commit: 3e5e39d7ef1501cc6d93856cde11fb880dfcc21e
     files:
@@ -1286,8 +1506,8 @@ project_fingerprint:
       sha256: 823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871
     - path: CHANGELOG.md
       state: FILE
-      size: 16566
-      sha256: ae4d1fbcf43b4f88f4cd3215315d940b7a511f42dd4f257a5adb2fc2f9796fea
+      size: 16740
+      sha256: fed47a8668304c7cadf001dc545778bb4d6fac1b7ec7263febf67be5bbfd416e
     - path: PROJECT_MANIFEST.yaml
       state: FILE
       size: 2320
@@ -1318,16 +1538,16 @@ project_fingerprint:
       sha256: 2f809cfd7e89d1b60bcaefcc74076ca448c92ba9b0c23a7f1c115782ab9325c5
     - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
       state: FILE
-      size: 4008
-      sha256: bb6c8c8f59a52cd38a795efe17f41699ca7f816a50101bc9231bd16590c200f8
+      size: 4291
+      sha256: 50dd4f1af5f9f76432e8bd5d2af3dcd3642bc62b2cce4ce93b0e4abc196a89b2
     - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/AuthSessionStore.kt
       state: FILE
       size: 4141
       sha256: 30b185b4080089a15bb26e4f6190c781c109932dd2c87783e03b89a392b786d2
     - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
       state: FILE
-      size: 9238
-      sha256: e91e1ad205ae9b25076a73553131e4914c05916e12e064781f7df12f5cdd5429
+      size: 11697
+      sha256: fdf050dcf0057bec3e401d03de6f3b3c599525ce5b27a66ee7693bd92a797962
     - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
       state: FILE
       size: 2654
@@ -1354,16 +1574,16 @@ project_fingerprint:
       sha256: d7515ce7c0dd98942c0e3c7c780321a98aad76f85518134c33e7d0766c959b91
     - path: apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
       state: FILE
-      size: 1340
-      sha256: 9e767e5be431948cd675cab0d9657c128499a9a8d418571fb3aed4b07291050d
+      size: 1401
+      sha256: 5162a4a3937b2fd17fa766be51fe124203ff6a9350992f9a0dd7e4667a7a9cff
     - path: apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
       state: FILE
-      size: 13790
-      sha256: c5590acb00c52ebb44241d68fd6f9301431f26c02172151490bd8ca7d4ce3dd9
+      size: 15920
+      sha256: 564425b18857a73658faa20861122f5408141354cfe6bdd7741a1d3367341806
     - path: apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
       state: FILE
-      size: 1609
-      sha256: daec448b18d211d74a98444518c10b07578773e744cee37a3a9be8fdedb3237f
+      size: 1837
+      sha256: d3fe38f817ea08951017c96278a7d91dc8b65ce9260e0ca96916608feae865c0
     - path: apps/android/feature/startup/build.gradle.kts
       state: FILE
       size: 1013
@@ -1392,6 +1612,18 @@ project_fingerprint:
       state: FILE
       size: 465
       sha256: 5d1fdc92d124d4e1bd1afc56ccb6783858f52fae8d03fbc11781530831548242
+    - path: catalogs/api_endpoints.csv
+      state: FILE
+      size: 10897
+      sha256: 861a3b5aa40328995a618664230a1c82414fac9f86067bc3ae73db0e458c0f2d
+    - path: catalogs/api_ui_ownership.csv
+      state: FILE
+      size: 74834
+      sha256: c6b88336f7d5fd13a74835bae669912c12bf53b469e4883d91d1a1b70ee9f4ad
+    - path: catalogs/ui_action_matrix.csv
+      state: FILE
+      size: 1418379
+      sha256: efffddb3dc2ecf19f903111dc2de06c6d4f5ac4ebdea01ddb2d10c62bf4d261c
     - path: config/CONTINUITY_POLICY.yaml
       state: FILE
       size: 1890
@@ -1408,6 +1640,14 @@ project_fingerprint:
       state: FILE
       size: 5203
       sha256: ca7314be13ff6181ee303e49a792ff90aa15bc49c4000a3f76fb804605d6c888
+    - path: contracts/contract_status.csv
+      state: FILE
+      size: 139188
+      sha256: b7586f2b56ca3bb51d0d7322d257af08328169ac2d6a648bd829d6bcfe5edb6d
+    - path: contracts/openapi.yaml
+      state: FILE
+      size: 590059
+      sha256: 8cf609eab4079eba8078400787acf0260bc9fcbb7b86593421dfd3bfc0fb5c42
     - path: database/migrations/V017__r02_user_auth_invariants.sql
       state: FILE
       size: 2419
@@ -1468,6 +1708,26 @@ project_fingerprint:
       state: FILE
       size: 3053
       sha256: 0b789d83de90f13bb641a9882b4d9d911dc9383a21a9bf8e232b1ee5efd6d3c8
+    - path: docs/03-continuity/change-requests/CR-0028-提前实现冻结的邀请码注册配置读取以解除R02协议版本来源缺口.md
+      state: FILE
+      size: 3627
+      sha256: a04432f111acf02f44b5da42ec6ee05b7654e72f4eada0568c558f2d1f1eebbe
+    - path: docs/03-continuity/change-requests/CR-0029-新增R02只读协议版本配置接口以完成Android受控注册.md
+      state: FILE
+      size: 3668
+      sha256: 33550ac541a38a75130901041319605005f25394af88a36ffad84d41532e789d
+    - path: docs/03-continuity/change-requests/CR-0030-同步R02注册协议配置接口的契约镜像与生成客户端.md
+      state: FILE
+      size: 2751
+      sha256: 75b9e49434acddc5d421cf78b29c8bc17722c73dcdc1909e662899dab5ef1042
+    - path: docs/03-continuity/change-requests/CR-0031-允许R02公开读取注册协议版本配置.md
+      state: FILE
+      size: 2561
+      sha256: 37c1bb6e40a5805357baa041d25e6710e0b67ddf79ca447a41eb93c099a3ee70
+    - path: docs/03-continuity/change-requests/CR-0032-登记R02注册协议配置接口的页面所有权与变更日志.md
+      state: FILE
+      size: 2652
+      sha256: 6d62502efea7747b6ea87d87e28f5f84e60b82e104542965296e8a0200116fc4
     - path: docs/03-continuity/全项目滚动开发总计划_R02-R32_V1.0.md
       state: FILE
       size: 14346
@@ -1484,6 +1744,10 @@ project_fingerprint:
       state: FILE
       size: 557
       sha256: 4e78dd60e0ead8e9735384b7bb20ee3b1596df41ee2c33e2df908d9b0c8965d8
+    - path: packages/api-client/src/client.generated.ts
+      state: FILE
+      size: 610277
+      sha256: d50a9ed883bed899d22f21680d3a080dd2a8a4dbac28f827f8923bbb8166049d
     - path: releases/PROGRAM_EXECUTION_PLAN.yaml
       state: FILE
       size: 35804
@@ -1586,8 +1850,8 @@ project_fingerprint:
       sha256: ac6052b3b4c9db6d13a743e66164ce266374f0244b2e3422f4e7a05d7c106814
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
       state: FILE
-      size: 3390
-      sha256: 7c1986e9ca872974f2535390e1c1c79d177621fe6ce3652e775f7cb68a378fb3
+      size: 3664
+      sha256: b36ff9d3429ac975c05badd7360a0e82a982e54d9a0c3c7e90397807b337fb24
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthPolicy.java
       state: FILE
       size: 2443
@@ -1598,12 +1862,12 @@ project_fingerprint:
       sha256: 56769de77f3fb8253014eee35fb24bddaf860a270eb05a9455013fbc07b038c9
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
       state: FILE
-      size: 19957
-      sha256: c1104e615dbb34b1fbc16fa3ce158e69d29a38ce0ab03029c680a87f4a7ade9d
+      size: 20585
+      sha256: 731b205e0dfa3e34998dff08301ee77c8c6c7700d91b864a126cffc549201c7b
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
       state: FILE
-      size: 17603
-      sha256: 0caf7395cbc476e4db985e9749faa5068d8de129e17d0e349d9d5643d535b7a2
+      size: 18566
+      sha256: 3498f169c9bc6663e451a42c2d05ec169b8a09d83147bc7de1c7cda1d9fe9d0b
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthVerificationService.java
       state: FILE
       size: 6888
@@ -1618,16 +1882,20 @@ project_fingerprint:
       sha256: 84bbbc3a7903d23525d0aa7a8f5c3772973529378715da3482153b6c18a73ae5
     - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
       state: FILE
-      size: 2977
-      sha256: 9f5acea7198082f9595e564f0b5dd0da533609c2d9229cc9ffec3e10e67a94ea
+      size: 3082
+      sha256: 5d43bfff8a58a1c41fe06018cab3cad16f9dbdc13c483c6fcad2723639b8a318
     - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
       state: FILE
-      size: 4648
-      sha256: aad8f74fc6135a779a721b02b14f06eada04b2e8e21f5759d52f7d765632c15e
+      size: 4917
+      sha256: c5566ac68a0a50539086c943801e45d5d11dbb2eac62e9f890e8ec544916624b
     - path: services/backend/boot/src/main/resources/application.yml
       state: FILE
       size: 2788
       sha256: ac03c5a8086d07d736ec0aa3a1ef3350ba3bb521040b09249dc5ca4e183c62af
+    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+      state: FILE
+      size: 590059
+      sha256: 8cf609eab4079eba8078400787acf0260bc9fcbb7b86593421dfd3bfc0fb5c42
     - path: services/backend/boot/src/main/resources/db/migration/V017__r02_user_auth_invariants.sql
       state: FILE
       size: 2419
@@ -1642,8 +1910,8 @@ project_fingerprint:
       sha256: 5f4636e526e2a7e39bd76ee16fafa21c0a4bda4c3b62d10d8e448317b2ae3637
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
       state: FILE
-      size: 9684
-      sha256: 85513ea0ba9660fbcc23b90b4dd3a1f61f96810b156e546245730d8d3f337f02
+      size: 11039
+      sha256: d60392f90d7f94ef8ef57d53d12f8cda314438097c7c43afd326708ba876617e
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
       state: FILE
       size: 19523
@@ -1722,8 +1990,8 @@ project_fingerprint:
       sha256: 2698bb95eb78e7870bbaea3663b0475680aa6dd1a1ec15454f171e69a8d0d635
     - path: tests/test_r02_auth_slice_contract.py
       state: FILE
-      size: 6012
-      sha256: cb0e7178dfabe23ada31b95bae82b862eb99d00ab4b103803f83ca7f0681a99e
+      size: 7026
+      sha256: 3437b7fc7a916094aa96bd69598d004245612e01fd98377ab1e5834ee8846335
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R02
@@ -3216,8 +3484,8 @@ continuity_state:
   last_session_id: SES-20260717T183459Z-D64E7407
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260717T183459Z-D64E7407-0007
-  event_count: 332
-  event_head_hash: 9a9b6564bac6bdd21e3ee90ce47fab57c14fca27d0bfa4f748d081fc89c62ade
+  event_count: 368
+  event_head_hash: 36f9943f644236899e3084e0b315edc797af6f37da4017bf1275bf6a67c94f1b
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260717T084524Z-9FE47D9F
@@ -3336,9 +3604,9 @@ recent_sessions:
   started_at: '2026-07-17T21:09:27Z'
   record: .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-  updated_at: '2026-07-18T04:45:21Z'
+  updated_at: '2026-07-18T05:27:13Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0044.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0049.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-1BBC8343F3B4
@@ -4886,6 +5154,236 @@ open_change_requests:
   - SES-20260717T210927Z-13B07A7D
   implementation_commits:
   - b4ec470
+- protocol_version: '1.0'
+  cr_id: CR-0029
+  title: 新增R02只读协议版本配置接口以完成Android受控注册
+  status: IMPLEMENTED
+  created_at: '2026-07-18T05:03:14Z'
+  updated_at: '2026-07-18T05:23:08Z'
+  requester_actor_id: codex-root
+  approver_actor_id: user-project-owner
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 项目所有者要求立即完成R02并进入下一版本，不允许无限做不完。
+  reason: R02注册必须提交服务端生效协议版本ID；现有R28通用页面读取契约不承载该数据，需最小非破坏性R02接口，且不得伪造法律协议数据。
+  original_rule: R02 Android注册页只能手工输入协议版本ID，无法从受控来源取得可提交版本。
+  new_rule: R02新增只读兼容端点GET /api/v1/auth/registration-config，返回当前生效协议版本ID与公开协议代码；Android只提交该端点返回的ID。协议内容、版本创建和后台管理仍归R28。
+  impact_summary: 解除R02协议版本来源缺口并移除客户端手输版本ID；不生成或写入法律协议数据，数据为空时注册不可提交。
+  impact:
+    files:
+    - contracts/openapi.yaml
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+    - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+    - tests/test_r02_auth_slice_contract.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages:
+    - SCR-AUTH-004
+    - SCR-AUTH-005
+    apis:
+    - GET /api/v1/auth/registration-config
+    database:
+    - hhy.agreements,hhy.agreement_versions (read only)
+    configuration:
+    - 无；仍由受控协议版本数据发布决定生效内容
+    ledger:
+    - 无资金或账本影响
+    tests:
+    - OpenAPI contract;backend registration-config HTTP contract;Android auth form regression;cloud Maven and feature:auth unit tests
+    releases:
+    - R02
+    migration_and_compatibility: 新增非破坏性R02公开读取接口和DTO；复用agreements/agreement_versions只读查询，无迁移。Android在读取失败或无生效版本时禁用注册并显示通用可恢复提示，绝不回退到客户端默认值。
+  user_confirmation: 项目所有者在当前对话明确要求：现在立即开始开发，这次必须把这个版本收尾做完，不允许进入无限做不完的状态，做完后立即推进下一版本。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T05:03:39Z'
+    note: 项目所有者要求完成R02；批准最小只读R02兼容接口，以移除Android客户端手输协议版本。
+  machine_record: .continuity/change_requests/CR-0029.yaml
+  document: docs/03-continuity/change-requests/CR-0029-新增R02只读协议版本配置接口以完成Android受控注册.md
+  decision_log:
+  - at: '2026-07-18T05:03:40Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现R02只读协议版本配置接口及Android绑定。
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T05:23:08Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Read-only current agreement-version source, Android controlled submission, and regression evidence are implemented; R28 agreement-management
+      ownership remains unchanged.
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0030
+  title: 同步R02注册协议配置接口的契约镜像与生成客户端
+  status: IMPLEMENTED
+  created_at: '2026-07-18T05:06:12Z'
+  updated_at: '2026-07-18T05:23:08Z'
+  requester_actor_id: codex
+  approver_actor_id: user-project-owner
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 现在立即开始开发，这次必须把这个版本收尾做完，不允许进入无限做不完的状态，做完后立即推进下一版本
+  reason: CR-0029 adds one public endpoint. The API gate requires its boot contract mirror, endpoint catalog, generated client, and contract-status
+    hashes to stay synchronized.
+  original_rule: contracts/openapi.yaml is the only approved contract artifact in CR-0029.
+  new_rule: The same R02 read-only registration configuration operation must remain identical across the source contract, boot mirror, endpoint
+    catalog, generated TypeScript client, and contract-status hashes.
+  impact_summary: Adds only the required contract-governance mirrors; no business behavior, schema migration, or R28 agreement-management ownership
+    changes.
+  impact:
+    files:
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - catalogs/api_endpoints.csv
+    - packages/api-client/src/client.generated.ts
+    - contracts/contract_status.csv
+    pages: []
+    apis:
+    - GET /api/v1/auth/registration-config
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_api_contract.py
+    - generated client operation/type parity inspection
+    releases:
+    - R02
+    migration_and_compatibility: Additive public GET endpoint. No database migration and no modification to existing frozen R28 registration-config
+      contract.
+  user_confirmation: User explicitly authorized immediate R02 closure and the next version after completion in the current task.
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T05:07:39Z'
+    note: User ordered immediate bounded R02 closure; approve exact API-governance companion scope.
+  machine_record: .continuity/change_requests/CR-0030.yaml
+  document: docs/03-continuity/change-requests/CR-0030-同步R02注册协议配置接口的契约镜像与生成客户端.md
+  decision_log:
+  - at: '2026-07-18T05:07:41Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: Implementing synchronized contract mirrors alongside CR-0029.
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T05:23:08Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Source contract, runtime mirror, endpoint catalog, generated TypeScript client, and status hashes are synchronized and passed contract
+      gates.
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0031
+  title: 允许R02公开读取注册协议版本配置
+  status: IMPLEMENTED
+  created_at: '2026-07-18T05:08:50Z'
+  updated_at: '2026-07-18T05:23:09Z'
+  requester_actor_id: codex-root
+  approver_actor_id: user-project-owner
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 现在立即开始开发，这次必须把这个版本收尾做完，不允许进入无限做不完的状态，做完后立即推进下一版本
+  reason: SecurityConfiguration currently permits only listed auth POST operations. The new read-only public registration configuration GET must
+    be explicitly allowed or Android registration cannot load governed agreement versions.
+  original_rule: Only the enumerated auth POST operations are publicly accessible.
+  new_rule: GET /api/v1/auth/registration-config is publicly accessible; all other auth routes retain their existing authorization.
+  impact_summary: One allow-list entry only; no authentication policy relaxation beyond the new read-only configuration endpoint.
+  impact:
+    files:
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+    pages: []
+    apis:
+    - GET /api/v1/auth/registration-config
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - UserAuthPublicSuccessContractTest public GET contract test
+    - Spring Security route authorization through MockMvc
+    releases:
+    - R02
+    migration_and_compatibility: Additive route authorization. No database migration or change to existing route access.
+  user_confirmation: User explicitly authorized immediate R02 closure and the exact supporting changes required to complete it.
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T05:08:52Z'
+    note: User directs immediate bounded R02 closure; approve the single public GET allow-list entry.
+  machine_record: .continuity/change_requests/CR-0031.yaml
+  document: docs/03-continuity/change-requests/CR-0031-允许R02公开读取注册协议版本配置.md
+  decision_log:
+  - at: '2026-07-18T05:08:53Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: Implementing the reviewed read-only route authorization with the endpoint.
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T05:23:09Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Only GET /api/v1/auth/registration-config was added to the public allow-list; MockMvc proved anonymous access.
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0032
+  title: 登记R02注册协议配置接口的页面所有权与变更日志
+  status: IMPLEMENTED
+  created_at: '2026-07-18T05:24:40Z'
+  updated_at: '2026-07-18T05:26:22Z'
+  requester_actor_id: codex-root
+  approver_actor_id: user-project-owner
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 现在立即开始开发，这次必须把这个版本收尾做完，不允许进入无限做不完的状态，做完后立即推进下一版本
+  reason: The strict documentation gate requires every REST operation to have exact UI/system ownership, and the pre-commit gate requires the
+    new user-visible registration flow to be recorded in CHANGELOG.
+  original_rule: The frozen registration screen owns only challenge, SMS, invite validation, and register operations.
+  new_rule: The registration screen also owns the read-only current agreement-version configuration load; CHANGELOG records that users no longer
+    enter version IDs manually.
+  impact_summary: Documentation and ownership metadata only; no product behavior, endpoint, or database change.
+  impact:
+    files:
+    - catalogs/api_ui_ownership.csv
+    - catalogs/ui_action_matrix.csv
+    - catalogs/ui_page_specifications.csv
+    - CHANGELOG.md
+    pages: []
+    apis:
+    - GET /api/v1/auth/registration-config
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_v122_documentation.py --strict
+    - pre-commit continuity gate
+    releases:
+    - R02
+    migration_and_compatibility: No migration. Existing registration action remains unchanged; one additive GET action is documented as prerequisite
+      to registration.
+  user_confirmation: User explicitly authorized immediate R02 closure and the exact gate-mandated records needed to deliver it.
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T05:24:42Z'
+    note: User directs bounded immediate R02 closure; approve the mandatory ownership and changelog records.
+  machine_record: .continuity/change_requests/CR-0032.yaml
+  document: docs/03-continuity/change-requests/CR-0032-登记R02注册协议配置接口的页面所有权与变更日志.md
+  decision_log:
+  - at: '2026-07-18T05:24:43Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: Adding the exact UI ownership/action metadata and user-visible release note.
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T05:26:22Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Exact UI ownership/action metadata and changelog are recorded; strict documentation gate passes.
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
 source_manifest:
 - path: AGENTS.md
   sha256: 823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871
@@ -4894,7 +5392,7 @@ source_manifest:
   sha256: 26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0
   bytes: 3190
 - path: CURRENT_STATUS.yaml
-  sha256: 956bdb9ab9d89abadb72c0238f984bce8df8dfce918478d43117c2bc8fa7ea2d
+  sha256: 25e9418e01f6b297b8f147f0554924f6cb7b970e8a1d2c41472e44894f949767
   bytes: 3185
 - path: NEXT_TASK.yaml
   sha256: 3e619f3004a0a8b1d13dbd60e06e2ab8291566c6299bf36fe763af51b17a9c97
@@ -4927,10 +5425,10 @@ source_manifest:
   sha256: b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7
   bytes: 9739
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 65fe0b808d65fa16f0d0105f8d99992c22efd2c91e007e6c9f791f5ffd416e85
-  bytes: 183081
+  sha256: 47f50786869b2430e751a9cc87e11ada0c1c3fc17d1712bd439e674f9126494a
+  bytes: 202602
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: daf9c8ddfabac07d905eccc2dc9c57913aabd8387ef12ed0f0f1bfff064cfe5c
+  sha256: ad619620027a141eb1fe73e463597b1121a9a9f4a7cc318fb987a752f9cb6771
   bytes: 10748
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: d48d579192aebf3dee4f0d48a63f7629813dedc4580399b2caef6e21041ca91c
@@ -4939,10 +5437,10 @@ source_manifest:
   sha256: df13b60a1f650a20a1bc3076063770d6b5958cab47774ccfcde648184f6aadb6
   bytes: 6567
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 37cfc9993861a7d6584f23fc1a902a0716937791cef139117e90a1e1400a3c85
-  bytes: 85939
+  sha256: c858fd9660c3410f45edb41fa456f4c5245ceae1590f4d4b21b80d6dba179c67
+  bytes: 101875
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 21d59051ea4659d21aea813045af437a315c87336139c6308639b97991e97230
+  sha256: 7363ff24bd168d5b3bbde9945d584046349da2edb5e271c128f3e591700378c9
   bytes: 525
 - path: releases/R02/RELEASE_MANIFEST.yaml
   sha256: 19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d
@@ -4963,11 +5461,11 @@ source_manifest:
   sha256: c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184
   bytes: 2849
 - path: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-  sha256: a8b7beb16865157e86030031985ad251ac8e53b9c4218b9aec8753d0e1cfe0fa
-  bytes: 329820
-- path: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0044.yaml
-  sha256: 4e49e686ac9a941f558aedc9a9ae977ae76677a8d4ff34b6dcd6fcc749d99ce9
-  bytes: 42906
+  sha256: 841865ecebf4c82e230faea057db887ac5136ce0c249d6463caeaa0433a7af39
+  bytes: 373002
+- path: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0049.yaml
+  sha256: d62c98a953784060d4e8528790aec203872cb41903ef97ca154569cf4cfa9e79
+  bytes: 51146
 - path: docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
   sha256: 4cacbe331c6591b0701ebaef11bb67567f831baf4d5fa3fd443c68c0d7465fc8
   bytes: 3611
@@ -4995,6 +5493,21 @@ source_manifest:
 - path: docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md
   sha256: 0b789d83de90f13bb641a9882b4d9d911dc9383a21a9bf8e232b1ee5efd6d3c8
   bytes: 3053
+- path: docs/03-continuity/change-requests/CR-0028-提前实现冻结的邀请码注册配置读取以解除R02协议版本来源缺口.md
+  sha256: a04432f111acf02f44b5da42ec6ee05b7654e72f4eada0568c558f2d1f1eebbe
+  bytes: 3627
+- path: docs/03-continuity/change-requests/CR-0029-新增R02只读协议版本配置接口以完成Android受控注册.md
+  sha256: 33550ac541a38a75130901041319605005f25394af88a36ffad84d41532e789d
+  bytes: 3668
+- path: docs/03-continuity/change-requests/CR-0030-同步R02注册协议配置接口的契约镜像与生成客户端.md
+  sha256: 75b9e49434acddc5d421cf78b29c8bc17722c73dcdc1909e662899dab5ef1042
+  bytes: 2751
+- path: docs/03-continuity/change-requests/CR-0031-允许R02公开读取注册协议版本配置.md
+  sha256: 37c1bb6e40a5805357baa041d25e6710e0b67ddf79ca447a41eb93c099a3ee70
+  bytes: 2561
+- path: docs/03-continuity/change-requests/CR-0032-登记R02注册协议配置接口的页面所有权与变更日志.md
+  sha256: 6d62502efea7747b6ea87d87e28f5f84e60b82e104542965296e8a0200116fc4
+  bytes: 2652
 exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
   '<未委托原因>'
 hard_rules:
@@ -5009,4 +5522,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 2044346943e504054bd7bbbeacfdb4e2c2b40731f4e50c5c548243c50dfd28b9
+context_hash: 38a2a3fb92218cd97adbe45f7b9760429f72b070b670abed84132c24e439ff40

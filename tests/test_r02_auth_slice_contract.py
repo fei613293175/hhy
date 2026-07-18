@@ -28,6 +28,7 @@ class R02AuthSliceContractTests(unittest.TestCase):
             "/api/v1/auth/sms/send",
             "/api/v1/auth/sms/login",
             "/api/v1/auth/invite-codes/validate",
+            "/api/v1/auth/registration-config",
             "/api/v1/auth/register",
             "/api/v1/auth/refresh",
         }
@@ -37,6 +38,7 @@ class R02AuthSliceContractTests(unittest.TestCase):
         self.assertIn("operationId: authPostAuthRefresh", contract)
         self.assertIn("x-idempotent: true", contract)
         self.assertIn("RefreshTokenAuth", contract)
+        self.assertIn("operationId: authGetAuthRegistrationConfig", contract)
 
     def test_refresh_endpoint_is_wired_with_required_security_headers(self) -> None:
         controller = read(
@@ -130,6 +132,24 @@ class R02AuthSliceContractTests(unittest.TestCase):
         self.assertIn('Text("请求编号：$it"', auth_screen)
         self.assertNotIn("错误码：", auth_screen)
         self.assertNotIn("val errorCode: String?", auth_screen)
+
+    def test_registration_uses_server_current_versions_and_never_manual_version_input(self) -> None:
+        auth_screen = read(
+            "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt"
+        )
+        auth_api = read(
+            "apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt"
+        )
+        store = read(
+            "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java"
+        )
+
+        self.assertIn("api.registrationConfig()", auth_screen)
+        self.assertIn("agreementVersionIds", auth_screen)
+        self.assertIn("我已阅读并同意当前协议", auth_screen)
+        self.assertNotIn("协议版本（逗号分隔）", auth_screen)
+        self.assertIn('get("/api/v1/auth/registration-config")', auth_api)
+        self.assertIn("agreement.current_version_id", store)
 
     def test_debug_startup_defaults_to_the_published_staging_channel(self) -> None:
         app_build = read("apps/android/app/build.gradle.kts")

@@ -17,13 +17,14 @@ internal object AuthFormRules {
         passwordAgain: String,
         smsCode: String,
         invite: String,
-        agreements: String,
+        agreementVersionIds: List<String>,
+        agreementsAccepted: Boolean,
         challengeId: String,
         proof: String,
     ): Boolean = when (route) {
         AuthRoute.PASSWORD -> validPhone(phone) && validPassword(password) && challengeId.isNotBlank() && proof.isNotBlank()
         AuthRoute.SMS -> validPhone(phone) && validSms(smsCode)
-        AuthRoute.REGISTER -> validPhone(phone) && validPassword(password) && password == passwordAgain && validSms(smsCode) && invite.isNotBlank() && agreements.split(',').any { it.isNotBlank() }
+        AuthRoute.REGISTER -> validPhone(phone) && validPassword(password) && password == passwordAgain && validSms(smsCode) && invite.isNotBlank() && agreementVersionIds.isNotEmpty() && agreementsAccepted
         AuthRoute.RESET -> validPhone(phone) && validPassword(password) && validSms(smsCode)
     }
 }

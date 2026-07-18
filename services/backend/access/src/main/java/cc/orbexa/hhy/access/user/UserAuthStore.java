@@ -271,6 +271,18 @@ public class UserAuthStore {
                 """, userId, phone, inviteCode, inviterId, ip, deviceId);
     }
 
+    public List<CurrentAgreementVersion> findCurrentAgreementVersions() {
+        return jdbc.query("""
+                SELECT version_row.id,agreement.code,version_row.effective_at
+                FROM hhy.agreements agreement
+                JOIN hhy.agreement_versions version_row ON version_row.id=agreement.current_version_id
+                WHERE version_row.effective_at IS NOT NULL AND version_row.effective_at<=clock_timestamp()
+                ORDER BY agreement.code ASC
+                """, (rs, row) -> new CurrentAgreementVersion(
+                rs.getLong("id"), rs.getString("code"),
+                instant(rs.getObject("effective_at", OffsetDateTime.class))));
+    }
+
     public List<Long> validateAgreementVersions(List<String> versionIds) {
         List<Long> ids = new java.util.ArrayList<>();
         for (String value : versionIds) {
@@ -278,8 +290,11 @@ public class UserAuthStore {
             try { versionId = Long.parseLong(value); }
             catch (NumberFormatException exception) { throw new IllegalArgumentException("Agreement version id must be numeric"); }
             Integer exists = jdbc.queryForObject("""
-                    SELECT count(*) FROM hhy.agreement_versions
-                    WHERE id=? AND effective_at IS NOT NULL AND effective_at<=clock_timestamp()
+                    SELECT count(*)
+                    FROM hhy.agreements agreement
+                    JOIN hhy.agreement_versions version_row ON version_row.id=agreement.current_version_id
+                    WHERE version_row.id=? AND version_row.effective_at IS NOT NULL
+                      AND version_row.effective_at<=clock_timestamp()
                     """, Integer.class, versionId);
             if (exists == null || exists != 1) throw new IllegalArgumentException("Agreement version is not active");
             ids.add(versionId);
@@ -336,4 +351,5 @@ public class UserAuthStore {
     public record IdempotencyRow(long id, String requestHash, String responseRef,
                                  String responseType, String responsePayloadCiphertext) { }
     public record IdempotencyClaim(IdempotencyRow row, boolean replay) { }
+    public record CurrentAgreementVersion(long id, String code, Instant effectiveAt) { }
 }

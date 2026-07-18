@@ -4,6 +4,7 @@ authPostAuthPasswordLogin,CLIENT,POST,/api/v1/auth/password/login,手机号+密�
 authPostAuthSmsSend,CLIENT,POST,/api/v1/auth/sms/send,阿里云短信验证码：LOGIN/REGISTER/RESET_PASSWORD,PAGE_ACTION,H5-013;SCR-AUTH-002;SCR-AUTH-003;SCR-AUTH-004,Auth,R02,公开+安全挑战,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostAuthSmsLogin,CLIENT,POST,/api/v1/auth/sms/login,已注册手机号短信验证码登录,PAGE_ACTION,SCR-AUTH-002,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostAuthInviteCodesValidate,CLIENT,POST,/api/v1/auth/invite-codes/validate,校验邀请码和注册必填规则,PAGE_ACTION,SCR-AUTH-003,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
+authGetAuthRegistrationConfig,CLIENT,GET,/api/v1/auth/registration-config,读取当前注册协议版本配置,PAGE_ACTION,SCR-AUTH-003,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostAuthRegister,CLIENT,POST,/api/v1/auth/register,密码注册、短信校验、邀请码绑定、随机用户名,PAGE_ACTION,H5-013;SCR-AUTH-003,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostAuthPasswordReset,CLIENT,POST,/api/v1/auth/password/reset,短信校验后重置密码,PAGE_ACTION,SCR-AUTH-004,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostMeSecurityPasswordChange,CLIENT,POST,/api/v1/me/security/password/change,修改登录密码,PAGE_ACTION,SCR-AUTH-007,Auth,R02,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN

@@ -1635,3 +1635,294 @@ change_requests:
   - SES-20260717T210927Z-13B07A7D
   implementation_commits:
   - b4ec470
+- protocol_version: '1.0'
+  cr_id: CR-0028
+  title: 提前实现冻结的邀请码注册配置读取以解除R02协议版本来源缺口
+  status: SUPERSEDED
+  created_at: '2026-07-18T05:01:17Z'
+  updated_at: '2026-07-18T05:03:13Z'
+  requester_actor_id: codex-root
+  approver_actor_id: user-project-owner
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 项目所有者要求立即完成R02并进入下一版本，不允许无限做不完。
+  reason: R02 Android注册必须从受控来源读取有效协议版本；现有R28冻结契约已定义只读注册配置，复用该契约比新增临时接口风险更低。
+  original_rule: 注册协议版本读取接口实现归属R28；R02 Android注册页只能手工输入版本ID，无法从受控来源完成真实注册。
+  new_rule: R02可提前实现既有冻结且只读的GET /public-api/v1/invite/{code}/registration-config，供Android读取邀请码状态与当前生效协议版本；不新增接口、不修改R28契约、不写入协议或伪造版本。
+  impact_summary: 解除R02 Android注册的客户端手输协议版本缺口，使客户端只提交服务端返回的生效版本ID；协议内容、版本创建和后台管理仍归R28。
+  impact:
+    files:
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+    - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages:
+    - SCR-AUTH-004
+    - SCR-AUTH-005
+    apis:
+    - GET /public-api/v1/invite/{code}/registration-config
+    database:
+    - hhy.agreements,hhy.agreement_versions (read only)
+    configuration:
+    - 无；仍由受控协议版本数据发布决定生效内容
+    ledger:
+    - 无资金或账本影响
+    tests:
+    - backend registration-config contract;Android auth form regression;cloud Maven and feature:auth unit tests
+    releases:
+    - R02
+    migration_and_compatibility: 复用已有agreements/agreement_versions数据表和冻结OpenAPI模型；无迁移、无破坏性契约变化。接口为空或邀请码无效时Android禁用注册并显示可恢复提示，绝不回退到客户端默认版本。
+  user_confirmation: 项目所有者在当前对话明确要求：现在立即开始开发，这次必须把这个版本收尾做完，不允许进入无限做不完的状态，做完后立即推进下一版本。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T05:01:50Z'
+    note: 项目所有者要求立即完成R02并继续下一版本；采用既有冻结只读契约可最小化范围并解除客户端手输协议版本问题。
+  machine_record: .continuity/change_requests/CR-0028.yaml
+  document: docs/03-continuity/change-requests/CR-0028-提前实现冻结的邀请码注册配置读取以解除R02协议版本来源缺口.md
+  decision_log:
+  - at: '2026-07-18T05:02:02Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现只读邀请码注册配置、Android受控协议版本绑定与回归测试。
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T05:03:13Z'
+    actor_id: codex-root
+    status: SUPERSEDED
+    note: 既有R28通用页面响应不含可提交协议版本ID，不能满足R02注册安全语义；由CR-0029最小R02兼容读取接口替代。
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0029
+  title: 新增R02只读协议版本配置接口以完成Android受控注册
+  status: IMPLEMENTED
+  created_at: '2026-07-18T05:03:14Z'
+  updated_at: '2026-07-18T05:23:08Z'
+  requester_actor_id: codex-root
+  approver_actor_id: user-project-owner
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 项目所有者要求立即完成R02并进入下一版本，不允许无限做不完。
+  reason: R02注册必须提交服务端生效协议版本ID；现有R28通用页面读取契约不承载该数据，需最小非破坏性R02接口，且不得伪造法律协议数据。
+  original_rule: R02 Android注册页只能手工输入协议版本ID，无法从受控来源取得可提交版本。
+  new_rule: R02新增只读兼容端点GET /api/v1/auth/registration-config，返回当前生效协议版本ID与公开协议代码；Android只提交该端点返回的ID。协议内容、版本创建和后台管理仍归R28。
+  impact_summary: 解除R02协议版本来源缺口并移除客户端手输版本ID；不生成或写入法律协议数据，数据为空时注册不可提交。
+  impact:
+    files:
+    - contracts/openapi.yaml
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/UserAuthController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+    - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+    - tests/test_r02_auth_slice_contract.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages:
+    - SCR-AUTH-004
+    - SCR-AUTH-005
+    apis:
+    - GET /api/v1/auth/registration-config
+    database:
+    - hhy.agreements,hhy.agreement_versions (read only)
+    configuration:
+    - 无；仍由受控协议版本数据发布决定生效内容
+    ledger:
+    - 无资金或账本影响
+    tests:
+    - OpenAPI contract;backend registration-config HTTP contract;Android auth form regression;cloud Maven and feature:auth unit tests
+    releases:
+    - R02
+    migration_and_compatibility: 新增非破坏性R02公开读取接口和DTO；复用agreements/agreement_versions只读查询，无迁移。Android在读取失败或无生效版本时禁用注册并显示通用可恢复提示，绝不回退到客户端默认值。
+  user_confirmation: 项目所有者在当前对话明确要求：现在立即开始开发，这次必须把这个版本收尾做完，不允许进入无限做不完的状态，做完后立即推进下一版本。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T05:03:39Z'
+    note: 项目所有者要求完成R02；批准最小只读R02兼容接口，以移除Android客户端手输协议版本。
+  machine_record: .continuity/change_requests/CR-0029.yaml
+  document: docs/03-continuity/change-requests/CR-0029-新增R02只读协议版本配置接口以完成Android受控注册.md
+  decision_log:
+  - at: '2026-07-18T05:03:40Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现R02只读协议版本配置接口及Android绑定。
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T05:23:08Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Read-only current agreement-version source, Android controlled submission, and regression evidence are implemented; R28 agreement-management
+      ownership remains unchanged.
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0030
+  title: 同步R02注册协议配置接口的契约镜像与生成客户端
+  status: IMPLEMENTED
+  created_at: '2026-07-18T05:06:12Z'
+  updated_at: '2026-07-18T05:23:08Z'
+  requester_actor_id: codex
+  approver_actor_id: user-project-owner
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 现在立即开始开发，这次必须把这个版本收尾做完，不允许进入无限做不完的状态，做完后立即推进下一版本
+  reason: CR-0029 adds one public endpoint. The API gate requires its boot contract mirror, endpoint catalog, generated client, and contract-status
+    hashes to stay synchronized.
+  original_rule: contracts/openapi.yaml is the only approved contract artifact in CR-0029.
+  new_rule: The same R02 read-only registration configuration operation must remain identical across the source contract, boot mirror, endpoint
+    catalog, generated TypeScript client, and contract-status hashes.
+  impact_summary: Adds only the required contract-governance mirrors; no business behavior, schema migration, or R28 agreement-management ownership
+    changes.
+  impact:
+    files:
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - catalogs/api_endpoints.csv
+    - packages/api-client/src/client.generated.ts
+    - contracts/contract_status.csv
+    pages: []
+    apis:
+    - GET /api/v1/auth/registration-config
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_api_contract.py
+    - generated client operation/type parity inspection
+    releases:
+    - R02
+    migration_and_compatibility: Additive public GET endpoint. No database migration and no modification to existing frozen R28 registration-config
+      contract.
+  user_confirmation: User explicitly authorized immediate R02 closure and the next version after completion in the current task.
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T05:07:39Z'
+    note: User ordered immediate bounded R02 closure; approve exact API-governance companion scope.
+  machine_record: .continuity/change_requests/CR-0030.yaml
+  document: docs/03-continuity/change-requests/CR-0030-同步R02注册协议配置接口的契约镜像与生成客户端.md
+  decision_log:
+  - at: '2026-07-18T05:07:41Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: Implementing synchronized contract mirrors alongside CR-0029.
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T05:23:08Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Source contract, runtime mirror, endpoint catalog, generated TypeScript client, and status hashes are synchronized and passed contract
+      gates.
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0031
+  title: 允许R02公开读取注册协议版本配置
+  status: IMPLEMENTED
+  created_at: '2026-07-18T05:08:50Z'
+  updated_at: '2026-07-18T05:23:09Z'
+  requester_actor_id: codex-root
+  approver_actor_id: user-project-owner
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 现在立即开始开发，这次必须把这个版本收尾做完，不允许进入无限做不完的状态，做完后立即推进下一版本
+  reason: SecurityConfiguration currently permits only listed auth POST operations. The new read-only public registration configuration GET must
+    be explicitly allowed or Android registration cannot load governed agreement versions.
+  original_rule: Only the enumerated auth POST operations are publicly accessible.
+  new_rule: GET /api/v1/auth/registration-config is publicly accessible; all other auth routes retain their existing authorization.
+  impact_summary: One allow-list entry only; no authentication policy relaxation beyond the new read-only configuration endpoint.
+  impact:
+    files:
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+    pages: []
+    apis:
+    - GET /api/v1/auth/registration-config
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - UserAuthPublicSuccessContractTest public GET contract test
+    - Spring Security route authorization through MockMvc
+    releases:
+    - R02
+    migration_and_compatibility: Additive route authorization. No database migration or change to existing route access.
+  user_confirmation: User explicitly authorized immediate R02 closure and the exact supporting changes required to complete it.
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T05:08:52Z'
+    note: User directs immediate bounded R02 closure; approve the single public GET allow-list entry.
+  machine_record: .continuity/change_requests/CR-0031.yaml
+  document: docs/03-continuity/change-requests/CR-0031-允许R02公开读取注册协议版本配置.md
+  decision_log:
+  - at: '2026-07-18T05:08:53Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: Implementing the reviewed read-only route authorization with the endpoint.
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T05:23:09Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Only GET /api/v1/auth/registration-config was added to the public allow-list; MockMvc proved anonymous access.
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D
+- protocol_version: '1.0'
+  cr_id: CR-0032
+  title: 登记R02注册协议配置接口的页面所有权与变更日志
+  status: IMPLEMENTED
+  created_at: '2026-07-18T05:24:40Z'
+  updated_at: '2026-07-18T05:26:22Z'
+  requester_actor_id: codex-root
+  approver_actor_id: user-project-owner
+  task_id: TASK-R02-002
+  session_id: SES-20260717T210927Z-13B07A7D
+  user_request: 现在立即开始开发，这次必须把这个版本收尾做完，不允许进入无限做不完的状态，做完后立即推进下一版本
+  reason: The strict documentation gate requires every REST operation to have exact UI/system ownership, and the pre-commit gate requires the
+    new user-visible registration flow to be recorded in CHANGELOG.
+  original_rule: The frozen registration screen owns only challenge, SMS, invite validation, and register operations.
+  new_rule: The registration screen also owns the read-only current agreement-version configuration load; CHANGELOG records that users no longer
+    enter version IDs manually.
+  impact_summary: Documentation and ownership metadata only; no product behavior, endpoint, or database change.
+  impact:
+    files:
+    - catalogs/api_ui_ownership.csv
+    - catalogs/ui_action_matrix.csv
+    - catalogs/ui_page_specifications.csv
+    - CHANGELOG.md
+    pages: []
+    apis:
+    - GET /api/v1/auth/registration-config
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_v122_documentation.py --strict
+    - pre-commit continuity gate
+    releases:
+    - R02
+    migration_and_compatibility: No migration. Existing registration action remains unchanged; one additive GET action is documented as prerequisite
+      to registration.
+  user_confirmation: User explicitly authorized immediate R02 closure and the exact gate-mandated records needed to deliver it.
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-18T05:24:42Z'
+    note: User directs bounded immediate R02 closure; approve the mandatory ownership and changelog records.
+  machine_record: .continuity/change_requests/CR-0032.yaml
+  document: docs/03-continuity/change-requests/CR-0032-登记R02注册协议配置接口的页面所有权与变更日志.md
+  decision_log:
+  - at: '2026-07-18T05:24:43Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: Adding the exact UI ownership/action metadata and user-visible release note.
+    session_id: SES-20260717T210927Z-13B07A7D
+  - at: '2026-07-18T05:26:22Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Exact UI ownership/action metadata and changelog are recorded; strict documentation gate passes.
+    session_id: SES-20260717T210927Z-13B07A7D
+  session_ids:
+  - SES-20260717T210927Z-13B07A7D

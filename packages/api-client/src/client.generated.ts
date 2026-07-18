@@ -91,6 +91,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/auth/registration-config": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取当前注册协议版本配置 */
+        get: operations["authGetAuthRegistrationConfig"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/register": {
         parameters: {
             query?: never;
@@ -2115,6 +2132,15 @@ export interface components {
             imageBase64?: string;
             token?: string;
         };
+        RegistrationAgreementVersionResource: {
+            versionId: string;
+            code: string;
+            /** Format: date-time */
+            effectiveAt: string;
+        };
+        RegistrationConfigResource: {
+            agreementVersions: components["schemas"]["RegistrationAgreementVersionResource"][];
+        };
         AuthSessionResource: {
             accessToken: string;
             refreshToken: string;
@@ -2821,6 +2847,15 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: components["schemas"]["AuthSessionResource"] | components["schemas"]["CommandResultResource"];
+        };
+        AuthGetAuthRegistrationConfigParameters: Record<string, never>;
+        AuthGetAuthRegistrationConfigResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["RegistrationConfigResource"];
         };
         AuthPostAuthRegisterRequest: {
             /** @example 13800000000 */
@@ -5849,6 +5884,35 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    authGetAuthRegistrationConfig: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthGetAuthRegistrationConfigResponse"];
                 };
             };
             /** @description 内部错误 */

@@ -130,6 +130,18 @@ data class AuthSmsLoginRequest(
 data class AuthInviteCodeValidateRequest(val inviteCode: String)
 
 @Serializable
+data class AuthRegistrationAgreementVersionResource(
+    val versionId: String,
+    val code: String,
+    val effectiveAt: String,
+)
+
+@Serializable
+data class AuthRegistrationConfigResource(
+    val agreementVersions: List<AuthRegistrationAgreementVersionResource>,
+)
+
+@Serializable
 data class AuthRegisterRequest(
     val phone: String,
     val smsCode: String,

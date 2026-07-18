@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -14,9 +15,12 @@ import cc.orbexa.hhy.access.user.UserAuthContracts.ChallengeResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.CommandResultResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.InviteCodeValidateRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordResetRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.RegistrationAgreementVersionResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.RegistrationConfigResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SecurityChallengeRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SmsSendRequest;
 import java.time.Instant;
+import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -125,6 +129,24 @@ class UserAuthPublicSuccessContractTest {
         ArgumentCaptor<InviteCodeValidateRequest> request = ArgumentCaptor.forClass(InviteCodeValidateRequest.class);
         verify(service).validateInvite(request.capture());
         Assertions.assertEquals("INVITE-R02", request.getValue().inviteCode());
+    }
+
+    @Test
+    void registrationConfigIsPublicAndReturnsOnlyCurrentAgreementVersionIdentifiers() throws Exception {
+        when(service.registrationConfig()).thenReturn(new RegistrationConfigResource(List.of(
+                new RegistrationAgreementVersionResource("91", "USER_SERVICE", ACCEPTED_AT))));
+
+        mvc.perform(get("/api/v1/auth/registration-config")
+                        .header("X-Request-Id", "contract-registration-config"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("application/json"))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.requestId").value("contract-registration-config"))
+                .andExpect(jsonPath("$.data.agreementVersions[0].versionId").value("91"))
+                .andExpect(jsonPath("$.data.agreementVersions[0].code").value("USER_SERVICE"))
+                .andExpect(jsonPath("$.data.agreementVersions[0].effectiveAt").value("2026-07-18T02:30:00Z"));
+
+        verify(service).registrationConfig();
     }
 
     @Test

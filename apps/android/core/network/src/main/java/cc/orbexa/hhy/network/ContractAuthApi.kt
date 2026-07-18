@@ -35,6 +35,7 @@ interface ContractAuthApi {
     ): AuthCallResult
     suspend fun smsLogin(phone: String, smsCode: String): AuthCallResult
     suspend fun validateInviteCode(inviteCode: String): AuthCallResult
+    suspend fun registrationConfig(): AuthCallResult
     suspend fun register(
         phone: String,
         smsCode: String,
@@ -58,6 +59,10 @@ sealed interface AuthCallResult {
 
 fun AuthCallResult.Success.sessionOrNull(): AuthSessionResource? = runCatching {
     HhyNetworkJson.value.decodeFromJsonElement(AuthSessionResource.serializer(), data)
+}.getOrNull()
+
+fun AuthCallResult.Success.registrationConfigOrNull(): AuthRegistrationConfigResource? = runCatching {
+    HhyNetworkJson.value.decodeFromJsonElement(AuthRegistrationConfigResource.serializer(), data)
 }.getOrNull()
 
 class UrlConnectionContractAuthApi(
@@ -92,6 +97,8 @@ class UrlConnectionContractAuthApi(
     override suspend fun validateInviteCode(inviteCode: String) = post(
         "/api/v1/auth/invite-codes/validate", AuthInviteCodeValidateRequest(inviteCode), AuthInviteCodeValidateRequest.serializer(),
     )
+
+    override suspend fun registrationConfig() = get("/api/v1/auth/registration-config")
 
     override suspend fun register(phone: String, smsCode: String, password: String, inviteCode: String, agreementVersions: List<String>) = post(
         "/api/v1/auth/register",
@@ -132,6 +139,43 @@ class UrlConnectionContractAuthApi(
                 connection.outputStream.bufferedWriter(Charsets.UTF_8).use {
                     it.write(HhyNetworkJson.value.encodeToString(serializer, body))
                 }
+                val status = connection.responseCode
+                val requestId = connection.getHeaderField("X-Request-Id") ?: localRequestId
+                val response = (if (status in 200..299) connection.inputStream else connection.errorStream)
+                    ?.bufferedReader(Charsets.UTF_8)?.use { it.readText() }.orEmpty()
+                if (status !in 200..299) {
+                    val error = runCatching { HhyNetworkJson.value.decodeFromString<ApiErrorEnvelope>(response) }.getOrNull()
+                    return@withContext AuthCallResult.Failure(
+                        statusCode = status,
+                        requestId = error?.requestId ?: requestId,
+                        errorCode = error?.error?.code,
+                        retryAfterSeconds = connection.getHeaderField("Retry-After")?.toLongOrNull(),
+                    )
+                }
+                val envelope = HhyNetworkJson.value.parseToJsonElement(response).jsonObject
+                val data = envelope["data"]?.jsonObject
+                    ?: return@withContext AuthCallResult.Failure(status, requestId)
+                AuthCallResult.Success(data, envelope["requestId"]?.let { (it as? JsonPrimitive)?.content } ?: requestId)
+            } finally {
+                connection.disconnect()
+            }
+        } catch (exception: CancellationException) {
+            throw exception
+        } catch (_: Exception) {
+            AuthCallResult.Failure(null, null)
+        }
+    }
+
+    private suspend fun get(path: String): AuthCallResult = withContext(Dispatchers.IO) {
+        val localRequestId = UUID.randomUUID().toString()
+        try {
+            val connection = URI.create(root + path).toURL().openConnection() as HttpURLConnection
+            try {
+                connection.requestMethod = "GET"
+                connection.connectTimeout = CONNECT_TIMEOUT_MILLIS
+                connection.readTimeout = READ_TIMEOUT_MILLIS
+                connection.setRequestProperty("Accept", "application/json")
+                connection.setRequestProperty("X-Request-Id", localRequestId)
                 val status = connection.responseCode
                 val requestId = connection.getHeaderField("X-Request-Id") ?: localRequestId
                 val response = (if (status in 200..299) connection.inputStream else connection.errorStream)

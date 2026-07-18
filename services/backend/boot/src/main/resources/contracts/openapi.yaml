@@ -420,6 +420,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/auth/registration-config:
+    get:
+      operationId: authGetAuthRegistrationConfig
+      summary: 获取当前注册协议版本配置
+      tags:
+      - Auth
+      security: []
+      x-permission: 公开
+      x-idempotent: false
+      x-release: R02
+      x-contract-maturity: FROZEN
+      x-error-codes:
+      - COMMON-500-INTERNAL
+      x-request-schema: '#/components/schemas/AuthGetAuthRegistrationConfigParameters'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthGetAuthRegistrationConfigResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /api/v1/auth/register:
     post:
       operationId: authPostAuthRegister
@@ -13115,6 +13142,34 @@ components:
       - challengeId
       - challengeType
       - expiresAt
+    RegistrationAgreementVersionResource:
+      type: object
+      additionalProperties: false
+      properties:
+        versionId:
+          type: string
+          maxLength: 64
+        code:
+          type: string
+          maxLength: 2000
+        effectiveAt:
+          type: string
+          format: date-time
+      required:
+      - versionId
+      - code
+      - effectiveAt
+    RegistrationConfigResource:
+      type: object
+      additionalProperties: false
+      properties:
+        agreementVersions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegistrationAgreementVersionResource'
+          maxItems: 100
+      required:
+      - agreementVersions
     AuthSessionResource:
       type: object
       additionalProperties: false
@@ -15073,6 +15128,29 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AuthSessionResource'
           - $ref: '#/components/schemas/CommandResultResource'
+    AuthGetAuthRegistrationConfigParameters:
+      type: object
+      additionalProperties: false
+      properties: {}
+    AuthGetAuthRegistrationConfigResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - success
+      - requestId
+      - data
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/RegistrationConfigResource'
     AuthPostAuthRegisterRequest:
       type: object
       additionalProperties: false

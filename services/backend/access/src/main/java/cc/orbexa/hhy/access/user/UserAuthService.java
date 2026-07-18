@@ -8,6 +8,8 @@ import cc.orbexa.hhy.access.user.UserAuthContracts.InviteCodeValidateRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordLoginRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordResetRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RefreshRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.RegistrationAgreementVersionResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.RegistrationConfigResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RegisterRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SecurityChallengeRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SmsLoginRequest;
@@ -122,6 +124,15 @@ public class UserAuthService {
         long inviterId = repository.findActiveInviter(request.inviteCode())
                 .orElseThrow(() -> business("邀请码无效"));
         return new CommandResultResource(Long.toString(inviterId), null, "VALID", 0L, Instant.now(clock));
+    }
+
+    @Transactional(readOnly = true)
+    public RegistrationConfigResource registrationConfig() {
+        List<RegistrationAgreementVersionResource> versions = repository.findCurrentAgreementVersions().stream()
+                .map(value -> new RegistrationAgreementVersionResource(
+                        Long.toString(value.id()), value.code(), value.effectiveAt()))
+                .toList();
+        return new RegistrationConfigResource(versions);
     }
 
     @Transactional(noRollbackFor = BusinessException.class)

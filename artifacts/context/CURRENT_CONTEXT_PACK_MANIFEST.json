@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-18T04:45:23Z",
-  "context_hash": "2044346943e504054bd7bbbeacfdb4e2c2b40731f4e50c5c548243c50dfd28b9",
+  "generated_at": "2026-07-18T05:27:15Z",
+  "context_hash": "38a2a3fb92218cd97adbe45f7b9760429f72b070b670abed84132c24e439ff40",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "bf4921f08915ecf7b02ddedb4be39c2dbe1078744b89e8b794efd531eb3bc086",
-    "file_count": 114
+    "sha256": "1f2cb72fc629cdea1d2f180caab3051acc31e0962022e887adfc4f1a49c436c4",
+    "file_count": 126
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "65d82ba27258e017f0cbec46dad543cd8bea1f970024f6335ac963ff587c0e54"
+    "sha256": "6c50c1c6e6caa43f2a43137e8bab63b622147455f95e518bb4232ef7d61ce3e5"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "2dcba9fb1942e8fc9b5d15bcfeeb74f969f41c5073cb4621b2080f90b31f4302"
+    "sha256": "99417d6bc1c7e7a5cd58069777a06d42f4f1782b8bb85b48b3e6b7ceddcf2905"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "956bdb9ab9d89abadb72c0238f984bce8df8dfce918478d43117c2bc8fa7ea2d",
+      "sha256": "25e9418e01f6b297b8f147f0554924f6cb7b970e8a1d2c41472e44894f949767",
       "bytes": 3185
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "65fe0b808d65fa16f0d0105f8d99992c22efd2c91e007e6c9f791f5ffd416e85",
-      "bytes": 183081
+      "sha256": "47f50786869b2430e751a9cc87e11ada0c1c3fc17d1712bd439e674f9126494a",
+      "bytes": 202602
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "daf9c8ddfabac07d905eccc2dc9c57913aabd8387ef12ed0f0f1bfff064cfe5c",
+      "sha256": "ad619620027a141eb1fe73e463597b1121a9a9f4a7cc318fb987a752f9cb6771",
       "bytes": 10748
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "37cfc9993861a7d6584f23fc1a902a0716937791cef139117e90a1e1400a3c85",
-      "bytes": 85939
+      "sha256": "c858fd9660c3410f45edb41fa456f4c5245ceae1590f4d4b21b80d6dba179c67",
+      "bytes": 101875
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "21d59051ea4659d21aea813045af437a315c87336139c6308639b97991e97230",
+      "sha256": "7363ff24bd168d5b3bbde9945d584046349da2edb5e271c128f3e591700378c9",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md",
-      "sha256": "a8b7beb16865157e86030031985ad251ac8e53b9c4218b9aec8753d0e1cfe0fa",
-      "bytes": 329820
+      "sha256": "841865ecebf4c82e230faea057db887ac5136ce0c249d6463caeaa0433a7af39",
+      "bytes": 373002
     },
     {
-      "path": ".continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0044.yaml",
-      "sha256": "4e49e686ac9a941f558aedc9a9ae977ae76677a8d4ff34b6dcd6fcc749d99ce9",
-      "bytes": 42906
+      "path": ".continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0049.yaml",
+      "sha256": "d62c98a953784060d4e8528790aec203872cb41903ef97ca154569cf4cfa9e79",
+      "bytes": 51146
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md",
@@ -195,6 +195,31 @@
       "path": "docs/03-continuity/change-requests/CR-0027-将已解析api.orbexa.cc接入R02开发测试后端.md",
       "sha256": "0b789d83de90f13bb641a9882b4d9d911dc9383a21a9bf8e232b1ee5efd6d3c8",
       "bytes": 3053
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0028-提前实现冻结的邀请码注册配置读取以解除R02协议版本来源缺口.md",
+      "sha256": "a04432f111acf02f44b5da42ec6ee05b7654e72f4eada0568c558f2d1f1eebbe",
+      "bytes": 3627
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0029-新增R02只读协议版本配置接口以完成Android受控注册.md",
+      "sha256": "33550ac541a38a75130901041319605005f25394af88a36ffad84d41532e789d",
+      "bytes": 3668
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0030-同步R02注册协议配置接口的契约镜像与生成客户端.md",
+      "sha256": "75b9e49434acddc5d421cf78b29c8bc17722c73dcdc1909e662899dab5ef1042",
+      "bytes": 2751
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0031-允许R02公开读取注册协议版本配置.md",
+      "sha256": "37c1bb6e40a5805357baa041d25e6710e0b67ddf79ca447a41eb93c099a3ee70",
+      "bytes": 2561
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0032-登记R02注册协议配置接口的页面所有权与变更日志.md",
+      "sha256": "6d62502efea7747b6ea87d87e28f5f84e60b82e104542965296e8a0200116fc4",
+      "bytes": 2652
     }
   ]
 }

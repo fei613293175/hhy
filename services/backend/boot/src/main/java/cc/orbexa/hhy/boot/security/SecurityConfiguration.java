@@ -29,6 +29,7 @@ public class SecurityConfiguration {
                                 "/actuator/info",
                                 "/actuator/prometheus").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/app/version-check").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/auth/registration-config").permitAll()
                         .requestMatchers(HttpMethod.POST,
                                 "/api/v1/auth/security-challenges",
                                 "/api/v1/auth/password/login",
