@@ -285,6 +285,128 @@ class CrossReleaseCloseTest(unittest.TestCase):
             closed_event = next(event for event in reversed(events) if event["event_type"] == "SESSION_CLOSED")
             self.assertEqual(closed_event["payload"]["next_release"], "R01")
 
+    def test_external_apk_gate_can_wait_while_independent_release_starts(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-external-gate-continue-") as temp:
+            repo = Path(temp) / "repository"
+            copy_fixture(repo)
+
+            r02_path = repo / "releases/R02/TASKS.yaml"
+            r02 = yaml.safe_load(r02_path.read_text(encoding="utf-8")) or {}
+            for task in r02["tasks"]:
+                if task["id"] == "TASK-R02-007":
+                    task["status"] = "READY"
+                    task.pop("completed_at", None)
+                elif task["id"] == "TASK-R02-008":
+                    task["status"] = "BLOCKED"
+                    task.pop("completed_at", None)
+                else:
+                    task["status"] = "DONE"
+                    task["completed_at"] = "2026-07-18T00:00:00Z"
+            dump_yaml(r02_path, r02)
+
+            r03_path = repo / "releases/R03/TASKS.yaml"
+            r03 = yaml.safe_load(r03_path.read_text(encoding="utf-8")) or {}
+            for index, task in enumerate(r03["tasks"]):
+                task["status"] = "READY" if index == 0 else "BLOCKED"
+                task.pop("completed_at", None)
+            dump_yaml(r03_path, r03)
+            r03_before = r03_path.read_bytes()
+
+            r02_task = next(row for row in r02["tasks"] if row["id"] == "TASK-R02-007")
+            next_task = yaml.safe_load((repo / "NEXT_TASK.yaml").read_text(encoding="utf-8")) or {}
+            next_task.update({
+                "id": "TASK-R02-007",
+                "title": r02_task["title"],
+                "status": "READY",
+                "release": "R02",
+                "definition_of_ready": "releases/R02/DEFINITION_OF_READY.yaml",
+                "stories": "releases/R02/STORIES.yaml",
+                "requirements": r02_task.get("requirements", []),
+                "steps": r02_task.get("deliverables", []),
+                "acceptance": r02_task.get("acceptance", []),
+                "claim_required": True,
+                "start_command": (
+                    "python3 scripts/continuity.py start --actor <ACTOR_ID> "
+                    "--task TASK-R02-007"
+                ),
+            })
+            dump_yaml(repo / "NEXT_TASK.yaml", next_task)
+            status = yaml.safe_load((repo / "CURRENT_STATUS.yaml").read_text(encoding="utf-8")) or {}
+            status.update({
+                "phase": "R02", "active_release": "R02", "status": "READY",
+                "active_task": None, "next_task": "TASK-R02-007",
+                "in_progress_tasks": [], "blocked_tasks": [],
+            })
+            dump_yaml(repo / "CURRENT_STATUS.yaml", status)
+
+            self.git(repo, "init")
+            self.git(repo, "config", "user.name", "External Gate Test")
+            self.git(repo, "config", "user.email", "external-gate@test.invalid")
+            self.git(repo, "add", "-A")
+            self.git(repo, "commit", "--no-verify", "-m", "fixture baseline")
+
+            started = yaml.safe_load(self.cli(
+                repo, "start", "--actor", ACTOR, "--task", "TASK-R02-007",
+                "--story", "STORY-R02-009", "--goal", "等待真机时继续独立R03",
+                "--scope", "scripts/smoke/external_gate_probe.txt",
+            ).stdout)
+            probe = repo / "scripts/smoke/external_gate_probe.txt"
+            probe.parent.mkdir(parents=True, exist_ok=True)
+            probe.write_text("R02 waits for owner device; R03 depends only on green R01.\n", encoding="utf-8")
+            self.cli(
+                repo, "checkpoint", "--summary", "记录R02机器交付完成",
+                "--next-step", "挂起真机门禁并继续R03", "--test",
+                "machine-delivery|PASS|fixture-apk-evidence|机器交付通过",
+                "--parallel-assessment", "NO_SAFE_PARALLEL", "--parallel-reason",
+                "任务状态原子转换必须串行",
+            )
+            self.git(repo, "add", "-A")
+            self.git(repo, "commit", "--no-verify", "-m", "record machine delivery")
+            code_commit = self.git(repo, "rev-parse", "HEAD").stdout.strip()
+
+            before_rejected = repository_snapshot(repo)
+            rejected = self.cli(
+                repo, "close", "--actor", ACTOR, "--result", "BLOCKED",
+                "--summary", "等待项目所有者真机验收", "--next-release", "R03",
+                "--next-task", "TASK-R03-001", "--code-commit", code_commit,
+                expected=2,
+            )
+            self.assertIn("--allow-independent-release", rejected.stderr)
+            self.assertEqual(repository_snapshot(repo), before_rejected)
+
+            closed = yaml.safe_load(self.cli(
+                repo, "close", "--actor", ACTOR, "--result", "BLOCKED",
+                "--summary", "等待项目所有者真机验收", "--next-release", "R03",
+                "--next-task", "TASK-R03-001", "--code-commit", code_commit,
+                "--allow-independent-release", "--user-confirmation",
+                "项目所有者要求APK稍后测试，当前立即继续下一版本",
+            ).stdout)
+            self.assertEqual(closed["result"], "BLOCKED")
+            self.assertEqual(closed["next_release"], "R03")
+            self.assertEqual(closed["next_task"], "TASK-R03-001")
+
+            r02_after = yaml.safe_load(r02_path.read_text(encoding="utf-8"))
+            deferred = next(row for row in r02_after["tasks"] if row["id"] == "TASK-R02-007")
+            self.assertEqual(deferred["status"], "BLOCKED")
+            self.assertIn("真机", deferred["blocker"])
+            self.assertEqual(r03_path.read_bytes(), r03_before)
+
+            next_after = yaml.safe_load((repo / "NEXT_TASK.yaml").read_text(encoding="utf-8"))
+            self.assertEqual(
+                (next_after["id"], next_after["release"], next_after["status"]),
+                ("TASK-R03-001", "R03", "READY"),
+            )
+            self.assertEqual(next_after["deferred_task"]["id"], "TASK-R02-007")
+            current = yaml.safe_load((repo / "CURRENT_STATUS.yaml").read_text(encoding="utf-8"))
+            self.assertEqual(current["status"], "READY")
+            self.assertEqual(current["active_release"], "R03")
+            self.assertIn("TASK-R02-007", current["blocked_tasks"])
+            session = yaml.safe_load(
+                (repo / f".continuity/sessions/{started['session_id']}.yaml").read_text(encoding="utf-8")
+            )
+            self.assertEqual(session["closure"]["result"], "BLOCKED")
+            self.assertTrue(session["closure"]["blocked_advance"])
+
 
 if __name__ == "__main__":
     unittest.main()

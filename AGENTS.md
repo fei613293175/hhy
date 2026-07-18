@@ -65,6 +65,8 @@
 
 测试 APK 必须使用跨版本稳定的测试签名 SecretRef 和单调递增的 `versionCode`；仓库副本、桌面副本、服务器文件和公网下载必须四方 SHA-256 一致。机器交付通过与项目所有者真机验收是两个独立状态，未经项目所有者明确反馈不得把真机状态写为 PASS。
 
+若当前任务仅等待项目所有者真机验收，不得把它伪标为完成。项目所有者明确要求继续开发时，可将该任务保留为 `BLOCKED`，并仅切换到依赖图中全部声明依赖已经 `DONE` 的独立 Release 首个 `READY` 任务；必须记录原任务、阻断原因和恢复条件，收到真机反馈后仍须恢复其验收与关闭。
+
 ## 6. 会话结束
 
 完成实现 Commit 后执行 `continuity.py close`，生成关闭检查点和关闭元数据 Commit；更新 Release、Task、Changelog、Context Pack、CURRENT_STATUS 和 NEXT_TASK。未形成可验证仓库记录的工作不算完成。

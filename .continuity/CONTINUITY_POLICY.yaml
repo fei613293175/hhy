@@ -46,6 +46,17 @@ parallel_development:
   - DESTRUCTIVE_MIGRATION
   - FINAL_INTEGRATION
   source_of_truth_rule: 受托执行代理的scratch worktree不是事实源；主控验证范围与证据并应用到事实分支后才形成项目变化。
+external_gate_continuation:
+  enabled: true
+  standing_user_instruction: 未收到项目所有者暂停指令时持续推进可安全开发的版本
+  eligible_blocker: APK_PROJECT_OWNER_PHYSICAL_TEST_PENDING
+  preserve_blocked_task_as_incomplete: true
+  require_explicit_owner_confirmation_record: true
+  target_must_be_first_ready_task: true
+  target_declared_dependencies_must_all_be_done: true
+  prohibit_marking_deferred_task_done: true
+  resume_deferred_task_when_owner_feedback_arrives: true
+  command_flag: --allow-independent-release
 execution_routing:
   descriptor: config/DEVELOPMENT_RUNTIME.yaml
   complexity_profiles:

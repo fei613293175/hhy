@@ -755,6 +755,85 @@ def validate_next_task_transition(
     return next_document
 
 
+def validate_independent_release_start(
+    root: Path,
+    *,
+    current_release: str,
+    current_task: str,
+    next_release: str,
+    next_task: str,
+) -> dict[str, Any]:
+    """Allow an external-gate task to wait without stopping an independent DAG lane."""
+    if next_release == current_release:
+        raise ContinuityError("外部门禁挂起只能切换到独立Release")
+    if not re.fullmatch(r"[A-Z][0-9]{2}", next_release):
+        raise ContinuityError(f"非法下一Release：{next_release}")
+
+    current = release_task(root, current_release, current_task)
+    current_text = " ".join(
+        str(value)
+        for value in (
+            current.get("title"), current.get("description"),
+            current.get("deliverables"), current.get("acceptance"),
+        )
+    )
+    if "APK" not in current_text:
+        raise ContinuityError("只有APK/项目所有者真机等外部交付门禁可挂起后继续独立Release")
+
+    target_path = root / "releases" / next_release / "TASKS.yaml"
+    if not target_path.is_file():
+        raise ContinuityError(f"下一Release不存在或缺少TASKS.yaml：{next_release}")
+    target_plan = yaml.safe_load(target_path.read_text(encoding="utf-8")) or {}
+    target_tasks = list(target_plan.get("tasks", []))
+    if not target_tasks or target_tasks[0].get("id") != next_task:
+        raise ContinuityError(
+            f"独立Release只能从首个任务开始：{next_release}/{next_task}"
+        )
+    if target_tasks[0].get("status") != "READY":
+        raise ContinuityError(
+            f"独立Release首个任务尚未READY：{next_release}/{next_task} / {target_tasks[0].get('status')}"
+        )
+
+    dependency_path = root / "releases" / "RELEASE_DEPENDENCIES.yaml"
+    dependency_document = yaml.safe_load(dependency_path.read_text(encoding="utf-8")) or {}
+    declared_dependencies = list(
+        (dependency_document.get("dependencies", {}) or {}).get(next_release, []) or []
+    )
+    if not declared_dependencies:
+        raise ContinuityError(f"目标Release没有声明依赖，禁止外部门禁旁路：{next_release}")
+    incomplete_dependencies: list[str] = []
+    for dependency in declared_dependencies:
+        plan_path = root / "releases" / dependency / "TASKS.yaml"
+        if not plan_path.is_file():
+            incomplete_dependencies.append(f"{dependency}:MISSING")
+            continue
+        plan = yaml.safe_load(plan_path.read_text(encoding="utf-8")) or {}
+        unfinished = [
+            str(row.get("id") or "")
+            for row in plan.get("tasks", [])
+            if row.get("status") != "DONE"
+        ]
+        if unfinished:
+            incomplete_dependencies.append(f"{dependency}:{','.join(unfinished)}")
+    if incomplete_dependencies:
+        raise ContinuityError(
+            "目标Release依赖尚未全部GREEN：" + "; ".join(incomplete_dependencies)
+        )
+    return resolve_next_task(root, next_release, next_task)
+
+
+def mark_release_task_blocked(root: Path, release: str, task_id: str, reason: str) -> None:
+    path = root / "releases" / release / "TASKS.yaml"
+    document = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    for task in document.get("tasks", []):
+        if task.get("id") == task_id:
+            task["status"] = "BLOCKED"
+            task["blocker"] = reason
+            task["blocked_at"] = iso_utc()
+            break
+    atomic_write_yaml(path, document)
+
+
 def update_release_task_states(root: Path, release: str, completed_task: str, next_task: str | None) -> None:
     path = root / "releases" / release / "TASKS.yaml"
     document = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
@@ -848,8 +927,18 @@ def command_close(args: Namespace) -> None:
     result = args.result.upper()
     if result not in {"COMPLETED", "BLOCKED", "ABANDONED"}:
         raise ContinuityError("result必须为 COMPLETED/BLOCKED/ABANDONED")
-    if args.next_release and result != "COMPLETED":
-        raise ContinuityError("--next-release 仅允许用于 COMPLETED 关闭")
+    blocked_advance = result == "BLOCKED" and bool(args.next_release or args.next_task)
+    if result == "BLOCKED" and bool(args.next_release) != bool(args.next_task):
+        raise ContinuityError("BLOCKED继续独立Release必须同时提供--next-release和--next-task")
+    if blocked_advance:
+        if not args.allow_independent_release:
+            raise ContinuityError("BLOCKED继续独立Release必须显式提供--allow-independent-release")
+        if len((args.user_confirmation or "").strip()) < 10:
+            raise ContinuityError("BLOCKED继续独立Release必须记录项目所有者明确授权")
+    elif args.allow_independent_release or args.user_confirmation:
+        raise ContinuityError("独立Release授权参数只允许用于BLOCKED继续开发")
+    if result == "ABANDONED" and (args.next_release or args.next_task):
+        raise ContinuityError("ABANDONED不得切换NEXT_TASK")
     with continuity_lock(ROOT):
         policy = load_policy(ROOT)
         session = current_session(ROOT, allow_handoff=False)
@@ -898,6 +987,14 @@ def command_close(args: Namespace) -> None:
                 next_release=next_release,
                 next_task=args.next_task,
             )
+        elif blocked_advance:
+            next_document = validate_independent_release_start(
+                ROOT,
+                current_release=session["release"],
+                current_task=session["task_id"],
+                next_release=args.next_release,
+                next_task=args.next_task,
+            )
 
         code_commit = args.code_commit or git_state.get("head") or "NOT_INITIALIZED"
         session["status"] = "CLOSING"
@@ -905,8 +1002,10 @@ def command_close(args: Namespace) -> None:
             "result": result,
             "summary": args.summary,
             "code_commit": code_commit,
-            "next_release": next_release if result == "COMPLETED" else None,
+            "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
             "next_task": args.next_task,
+            "blocked_advance": blocked_advance,
+            "user_confirmation": (args.user_confirmation or "").strip() or None,
             "metadata_commit": "PENDING",
             "push_verification": "CI_REQUIRED_AFTER_METADATA_COMMIT",
             "started_at": iso_utc(),
@@ -925,12 +1024,26 @@ def command_close(args: Namespace) -> None:
             atomic_write_yaml(ROOT / "NEXT_TASK.yaml", next_document)
             transition_to = "DONE"
         elif result == "BLOCKED":
-            next_document = read_next_task(ROOT)
-            next_document["status"] = "BLOCKED"
-            next_document["blocker"] = args.summary
-            next_document["resume_command"] = f"python3 scripts/continuity.py start --actor <ACTOR_ID> --task {session['task_id']}"
-            atomic_write_yaml(ROOT / "NEXT_TASK.yaml", next_document)
-            transition_to = "BLOCKED"
+            mark_release_task_blocked(ROOT, session["release"], session["task_id"], args.summary)
+            if blocked_advance:
+                assert next_document is not None
+                next_document["status"] = "READY"
+                next_document["deferred_task"] = {
+                    "id": session["task_id"],
+                    "release": session["release"],
+                    "status": "BLOCKED",
+                    "reason": args.summary,
+                    "resume_after": "项目所有者真机反馈到达后，在当前安全检查点恢复验收与关闭",
+                }
+                atomic_write_yaml(ROOT / "NEXT_TASK.yaml", next_document)
+                transition_to = "BLOCKED_EXTERNAL_GATE"
+            else:
+                next_document = read_next_task(ROOT)
+                next_document["status"] = "BLOCKED"
+                next_document["blocker"] = args.summary
+                next_document["resume_command"] = f"python3 scripts/continuity.py start --actor <ACTOR_ID> --task {session['task_id']}"
+                atomic_write_yaml(ROOT / "NEXT_TASK.yaml", next_document)
+                transition_to = "BLOCKED"
         else:
             transition_to = "ABANDONED"
 
@@ -945,7 +1058,7 @@ def command_close(args: Namespace) -> None:
             "session_id": session["session_id"],
             "result": result,
             "code_commit": code_commit,
-            "next_release": next_release if result == "COMPLETED" else None,
+            "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
             "next_task": args.next_task,
             "transition_id": transition_id,
         })
@@ -998,6 +1111,17 @@ def command_close(args: Namespace) -> None:
         update_current_status_closed(
             ROOT, session, result=result, next_task_id=args.next_task or session["task_id"]
         )
+        if blocked_advance:
+            status = read_current_status(ROOT)
+            status.update({
+                "phase": next_release,
+                "active_release": next_release,
+                "status": "READY",
+                "active_task": args.next_task,
+                "next_task": args.next_task,
+                "updated_at": iso_utc(),
+            })
+            atomic_write_yaml(ROOT / "CURRENT_STATUS.yaml", status)
         append_closure_to_log(
             ROOT,
             session,
@@ -1005,13 +1129,13 @@ def command_close(args: Namespace) -> None:
             args.summary,
             code_commit,
             args.next_task,
-            next_release if result == "COMPLETED" else None,
+            next_release if result == "COMPLETED" or blocked_advance else None,
         )
         append_event(ROOT, "SESSION_CLOSED", {
             "session_id": session["session_id"],
             "result": result,
             "code_commit": code_commit,
-            "next_release": next_release if result == "COMPLETED" else None,
+            "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
             "next_task": args.next_task,
             "closure_checkpoint_id": closure_checkpoint["checkpoint_id"],
         })
@@ -1021,7 +1145,7 @@ def command_close(args: Namespace) -> None:
         "status": "SESSION_CLOSED",
         "session_id": session["session_id"],
         "result": result,
-        "next_release": next_release if result == "COMPLETED" else None,
+        "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
         "next_task": args.next_task,
         "closure_checkpoint": closure_checkpoint["checkpoint_id"],
         "final_metadata_commit_required": True,
@@ -1283,6 +1407,8 @@ def build_parser() -> ArgumentParser:
     close.add_argument("--next-release")
     close.add_argument("--next-task")
     close.add_argument("--code-commit")
+    close.add_argument("--allow-independent-release", action="store_true")
+    close.add_argument("--user-confirmation")
     close.set_defaults(func=command_close)
 
     context = sub.add_parser("context", help="重建机器和人类可读Context Pack")
