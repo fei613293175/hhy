@@ -5,8 +5,8 @@ session_record: .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
 actor_id: codex-root
 task_id: TASK-R02-002
 story_id: STORY-R02-003
-latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0030.yaml
-checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0030
-project_fingerprint: cd2df32aa1ab6f052b20f5ffb4fc563a82d5ab8e6acffc0f96cb33d866110a32
-lease_expires_at: '2026-07-18T07:12:41Z'
-updated_at: '2026-07-18T03:12:41Z'
+latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0031.yaml
+checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0031
+project_fingerprint: 2da783969d008d1015434ba90fa28440d3e4998b9a138a2df2b309acf38202ea
+lease_expires_at: '2026-07-18T07:16:01Z'
+updated_at: '2026-07-18T03:16:01Z'
