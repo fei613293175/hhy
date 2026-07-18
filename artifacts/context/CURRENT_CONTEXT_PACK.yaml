@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-18T08:43:15Z'
+generated_at: '2026-07-18T08:44:25Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -50,7 +50,7 @@ current_status:
   - TASK-R02-005
   blocked_tasks: []
   next_task: TASK-R02-005
-  updated_at: '2026-07-18T08:43:14Z'
+  updated_at: '2026-07-18T08:44:24Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -85,15 +85,15 @@ current_status:
     active_session_id: SES-20260718T081744Z-71EAAA84
     actor_id: codex-root
     story_id: STORY-R02-008
-    lease_expires_at: '2026-07-18T12:43:13Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0002.yaml
-    project_fingerprint: 5a0f17b7817a2f9339cd39310d8c5ea87d4eb477f21c0145444a8c003cb83eff
+    lease_expires_at: '2026-07-18T12:44:24Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0003.yaml
+    project_fingerprint: 833a1596049c99bf78b5f28204900bffcdff4e29ab3b814eecacf7687d8297a1
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: a3321e72e6a8d83c56e24243df4a8c9d3a7443f17e44633c4462e20324bef41b
-      generated_at: '2026-07-18T08:39:18Z'
+      context_hash: 28f5343de606e6d397af04d8ba6b0e4d21549d5a8099bf992aaad62a02d01458
+      generated_at: '2026-07-18T08:43:15Z'
     handoff_bundle: null
 next_task:
   id: TASK-R02-005
@@ -145,7 +145,7 @@ active_session:
   story_id: STORY-R02-008
   goal: 完成H5邀请注册的数据、四端点调用链、页面状态、幂等安全和自动化测试闭环。
   started_at: '2026-07-18T08:17:44Z'
-  updated_at: '2026-07-18T08:43:13Z'
+  updated_at: '2026-07-18T08:44:24Z'
   takeover_of: null
   change_requests:
   - CR-0038
@@ -176,12 +176,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-18T08:43:13Z'
-    expires_at: '2026-07-18T12:43:13Z'
-  checkpoint_sequence: 2
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0002.yaml
+    renewed_at: '2026-07-18T08:44:24Z'
+    expires_at: '2026-07-18T12:44:24Z'
+  checkpoint_sequence: 3
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0003.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md
-  next_step: 提交实现Commit，关闭CR-0038与TASK-R02-005并启动TASK-R02-006全量集成
+  next_step: 提交CR关闭记录后关闭TASK-R02-005
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -189,107 +189,42 @@ active_session:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 进入共享契约、后端控制器、H5页面和连续性事实的最终集成与提交阶段，拆分会造成同一事实分支和验收证据冲突，主控串行复核
+    reason: 仅更新当前会话唯一CR和连续性事实，必须由事实主控串行完成
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260718T081744Z-71EAAA84-0002
+  checkpoint_id: CP-SES-20260718T081744Z-71EAAA84-0003
   session_id: SES-20260718T081744Z-71EAAA84
-  sequence: 2
-  created_at: '2026-07-18T08:43:13Z'
-  summary: STORY-R02-008实现与MODULE门禁全部完成，追踪和用户可见变更记录已同步
-  next_step: 提交实现Commit，关闭CR-0038与TASK-R02-005并启动TASK-R02-006全量集成
+  sequence: 3
+  created_at: '2026-07-18T08:44:23Z'
+  summary: CR-0038最小CHANGELOG范围记录已实现并关闭
+  next_step: 提交CR关闭记录后关闭TASK-R02-005
   blockers: []
-  decisions:
-  - 冻结PublicPageResource承载邀请注册配置，协议版本ID映射为RICH_TEXT块blockId，不增加未冻结字段
-  note: CR-0038仅授权CHANGELOG.md单文件治理记录；暂时无法连接问题沿用APK端点硬门禁；本Task未生成或误标正式APK
+  decisions: []
+  note: CR仅涉及CHANGELOG.md单文件治理范围
   tests:
-  - name: h5-typecheck
+  - name: implementation-commit-gates
     result: PASS
-    evidence: pnpm --filter @hhy/h5 typecheck
-    note: 生成契约类型无错误
-  - name: h5-unit
-    result: PASS
-    evidence: 'pnpm --filter @hhy/h5 test: 3 files 8 tests'
-    note: TST-AUTH_005 happy/idempotent及页面状态
-  - name: h5-build
-    result: PASS
-    evidence: pnpm --filter @hhy/h5 build
-    note: 生产构建成功
-  - name: backend-service
-    result: PASS
-    evidence: 'Maven UserAuthServiceTest: 14 tests'
-    note: Java21服务验证
-  - name: backend-public-contract
-    result: PASS
-    evidence: 'Maven UserAuthPublicSuccessContractTest: 6 tests'
-    note: 公开路由冻结信封验证
-  - name: r02-documentation
-    result: PASS
-    evidence: check_v123_documentation.py --release R02
-    note: 199表316 REST无文档缺口
-  - name: generated-assets
-    result: PASS
-    evidence: check_generated_assets.py
-    note: 生成资产一致
-  - name: api-contract
-    result: PASS
-    evidence: check_api_contract.py
-    note: client131 admin184 runtime hash通过
-  - name: db-schema
-    result: PASS
-    evidence: check_db_schema.py
-    note: 199表18迁移通过
-  - name: traceability
-    result: PASS
-    evidence: check_traceability.py
-    note: 84需求追踪通过
-  - name: continuity
-    result: PASS
-    evidence: check_v123_continuity.py
-    note: 连续性门禁通过
+    evidence: commit 1948136 pre-commit and commit-msg
+    note: 34 files strict gates pass
   git:
     initialized: true
     branch: task/TASK-R02-002
-    head: 1e41f587985849538b8ba2f6b5d0ee24e0652223
+    head: 194813662259dde14a320111dfe5db44b5066082
     upstream: origin/task/TASK-R02-002
-    ahead: 0
+    ahead: 1
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M .continuity/ACTIVE_SESSION.yaml'
     - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
     - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/SESSION_INDEX.yaml'
     - ' M .continuity/STATE.yaml'
-    - ' M .continuity/TASK_CLAIMS.yaml'
-    - ' M .continuity/TASK_TRANSITIONS.yaml'
-    - ' M CHANGELOG.md'
-    - ' M CURRENT_STATUS.yaml'
-    - ' M apps/h5/src/router.ts'
-    - ' M apps/h5/src/styles.css'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-    - ' M artifacts/validation/project-doctor-v1.2.3.json'
+    - ' M .continuity/change_requests/CR-0038.yaml'
     - ' M catalogs/change_request_index.csv'
     - ' M catalogs/session_index.csv'
-    - ' M catalogs/task_transition_ledger.csv'
-    - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java'
-    - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
-    - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java'
-    - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java'
-    - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java'
-    - ?? .continuity/change_requests/CR-0038.yaml
-    - ?? .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0001.yaml
-    - ?? .continuity/sessions/SES-20260718T081744Z-71EAAA84.yaml
-    - ?? apps/h5/src/services/inviteRegistration.test.ts
-    - ?? apps/h5/src/services/inviteRegistration.ts
-    - ?? apps/h5/src/views/InviteRegistrationPage.test.ts
-    - ?? apps/h5/src/views/InviteRegistrationPage.vue
-    - ?? docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
-    - ?? docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md
-    - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+    - ' M docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md'
     recent_commits:
+    - "194813662259dde14a320111dfe5db44b5066082\t2026-07-18T16:43:45+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] feat(h5): complete invite\
+      \ registration flow"
     - "1e41f587985849538b8ba2f6b5d0ee24e0652223\t2026-07-18T16:15:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close\
       \ TASK-R02-004 as completed"
     - "6d28613c19d0f64986aac5b4d7a51276bd3ff440\t2026-07-18T16:14:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close\
@@ -304,10 +239,8 @@ latest_checkpoint:
       \ builds with placeholder API"
     - "4ea46c06c62b14eda09b9d1d533962bdfcc731cf\t2026-07-18T14:49:43+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close account\
       \ cancellation flow"
-    - "93be8d6799542112ee63db6d1c9d6c3735766d1c\t2026-07-18T14:39:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close restricted\
-      \ account appeal flow"
   project_fingerprint:
-    sha256: 5a0f17b7817a2f9339cd39310d8c5ea87d4eb477f21c0145444a8c003cb83eff
+    sha256: 833a1596049c99bf78b5f28204900bffcdff4e29ab3b814eecacf7687d8297a1
     files:
     - CHANGELOG.md
     - apps/h5/src/router.ts
@@ -357,8 +290,8 @@ latest_checkpoint:
         sha256: ff2a0cd8bde099f18b636572772ca6fca22b98981d1b926f98edf28547b52d56
       - path: docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
         state: FILE
-        size: 1836
-        sha256: 3f7fac50b137568d77d0107705cac64a686451f1af86a9786b4fdcee785dabf7
+        size: 2515
+        sha256: 48589fdfbb842a3a3b8c9ba18381735e948499a8e035f3bc8f644e50a53d359a
       - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
         state: FILE
         size: 6454
@@ -439,14 +372,14 @@ latest_checkpoint:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 进入共享契约、后端控制器、H5页面和连续性事实的最终集成与提交阶段，拆分会造成同一事实分支和验收证据冲突，主控串行复核
-  event_hash: d833ea09c5d3b51c1377b439f9dcf3b9bb14b08b2a3942f2fb8fe95b53dfd6b3
+    reason: 仅更新当前会话唯一CR和连续性事实，必须由事实主控串行完成
+  event_hash: 3793708dabd97b144f008be6196ae41573a0f594d8979daf42d6b0ddced32dc0
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: 1e41f587985849538b8ba2f6b5d0ee24e0652223
+  head: 194813662259dde14a320111dfe5db44b5066082
   upstream: origin/task/TASK-R02-002
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
@@ -455,36 +388,17 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CHANGELOG.md'
+  - ' M .continuity/change_requests/CR-0038.yaml'
+  - ' M .continuity/sessions/SES-20260718T081744Z-71EAAA84.yaml'
   - ' M CURRENT_STATUS.yaml'
-  - ' M apps/h5/src/router.ts'
-  - ' M apps/h5/src/styles.css'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java'
-  - ?? .continuity/change_requests/CR-0038.yaml
-  - ?? .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0001.yaml
-  - ?? .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0002.yaml
-  - ?? .continuity/sessions/SES-20260718T081744Z-71EAAA84.yaml
-  - ?? apps/h5/src/services/inviteRegistration.test.ts
-  - ?? apps/h5/src/services/inviteRegistration.ts
-  - ?? apps/h5/src/views/InviteRegistrationPage.test.ts
-  - ?? apps/h5/src/views/InviteRegistrationPage.vue
-  - ?? docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md
-  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+  - ' M docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md'
+  - ?? .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0003.yaml
   recent_commits:
+  - "194813662259dde14a320111dfe5db44b5066082\t2026-07-18T16:43:45+08:00\tHHY Continuity Bootstrap\t[STORY-R02-008] feat(h5): complete invite\
+    \ registration flow"
   - "1e41f587985849538b8ba2f6b5d0ee24e0652223\t2026-07-18T16:15:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close TASK-R02-004\
     \ as completed"
   - "6d28613c19d0f64986aac5b4d7a51276bd3ff440\t2026-07-18T16:14:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close CR-0037"
@@ -498,10 +412,8 @@ git:
     \ with placeholder API"
   - "4ea46c06c62b14eda09b9d1d533962bdfcc731cf\t2026-07-18T14:49:43+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close account\
     \ cancellation flow"
-  - "93be8d6799542112ee63db6d1c9d6c3735766d1c\t2026-07-18T14:39:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close restricted\
-    \ account appeal flow"
 project_fingerprint:
-  sha256: 5a0f17b7817a2f9339cd39310d8c5ea87d4eb477f21c0145444a8c003cb83eff
+  sha256: 833a1596049c99bf78b5f28204900bffcdff4e29ab3b814eecacf7687d8297a1
   files:
   - CHANGELOG.md
   - apps/h5/src/router.ts
@@ -551,8 +463,8 @@ project_fingerprint:
       sha256: ff2a0cd8bde099f18b636572772ca6fca22b98981d1b926f98edf28547b52d56
     - path: docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
       state: FILE
-      size: 1836
-      sha256: 3f7fac50b137568d77d0107705cac64a686451f1af86a9786b4fdcee785dabf7
+      size: 2515
+      sha256: 48589fdfbb842a3a3b8c9ba18381735e948499a8e035f3bc8f644e50a53d359a
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
       state: FILE
       size: 6454
@@ -2073,8 +1985,8 @@ continuity_state:
   last_session_id: SES-20260718T070836Z-25E39817
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260718T070836Z-25E39817-0005
-  event_count: 431
-  event_head_hash: d833ea09c5d3b51c1377b439f9dcf3b9bb14b08b2a3942f2fb8fe95b53dfd6b3
+  event_count: 435
+  event_head_hash: 3793708dabd97b144f008be6196ae41573a0f594d8979daf42d6b0ddced32dc0
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260717T141717Z-A01412D7
@@ -2193,9 +2105,9 @@ recent_sessions:
   started_at: '2026-07-18T08:17:44Z'
   record: .continuity/sessions/SES-20260718T081744Z-71EAAA84.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md
-  updated_at: '2026-07-18T08:43:13Z'
+  updated_at: '2026-07-18T08:44:24Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0003.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-B8CCD3FD98BA
@@ -4104,41 +4016,6 @@ open_change_requests:
     note: 依据项目所有者长期授权，仅批准CHANGELOG.md单文件范围补充，不扩大产品或发布范围。
   machine_record: .continuity/change_requests/CR-0036.yaml
   document: docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
-- protocol_version: '1.0'
-  cr_id: CR-0038
-  title: TASK-R02-005允许同步H5用户可见变更日志
-  status: APPROVED
-  created_at: '2026-07-18T08:42:39Z'
-  updated_at: '2026-07-18T08:42:57Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-standing-authorization
-  task_id: TASK-R02-005
-  session_id: SES-20260718T081744Z-71EAAA84
-  user_request: 用户要求R02-R32持续开发并自行处理非紧急确认事项
-  reason: 提交门禁要求用户可见H5页面更新CHANGELOG.md，但当前会话允许路径遗漏该治理文件。
-  original_rule: TASK-R02-005会话仅允许apps、services、packages、contracts、database、config、tests、docs、catalogs、releases、design与scripts路径。
-  new_rule: TASK-R02-005在用户可见变更触发门禁时额外允许同步根目录CHANGELOG.md，其他范围保持不变。
-  impact_summary: 仅补充本任务真实H5用户可见变更的版本记录，不改变产品契约、版本号、数据库或发布范围。
-  impact:
-    files:
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - continuity pre-commit CHANGELOG_REQUIRED gate
-    releases:
-    - R02
-    migration_and_compatibility: 仅文档追加，向后兼容，无运行时迁移。
-  user_confirmation: 后续这种问题不要问我确认，你自己决定
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-18T08:42:57Z'
-    note: 依据项目所有者长期授权，仅批准CHANGELOG.md单文件范围补充，不扩大产品或发布范围。
-  machine_record: .continuity/change_requests/CR-0038.yaml
-  document: docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
 source_manifest:
 - path: AGENTS.md
   sha256: 823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871
@@ -4147,7 +4024,7 @@ source_manifest:
   sha256: 26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0
   bytes: 3190
 - path: CURRENT_STATUS.yaml
-  sha256: 2c58f20154986b3efd801ff0ff14d5b90b2eb5a8697faa65b0dc4f2f3480b798
+  sha256: 0e29c405aea4efb74714561576bbcff70876e9568775a4b527e86b14b86d0789
   bytes: 3230
 - path: NEXT_TASK.yaml
   sha256: 1c9b73f303bde1b935243a2a593310d3f53d8fb6044d3b9b45b65661e10f5198
@@ -4180,10 +4057,10 @@ source_manifest:
   sha256: b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7
   bytes: 9739
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: b42295b5268e82e93832df3b8194f127f3400cbd780f1ae6ee861a39b4a97846
-  bytes: 237583
+  sha256: 66227e647a80bd158e219d956f08fc4a06126d9d5925539bece04b53b61a499d
+  bytes: 239313
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 4cb05848e0f2435e98f1c08c825dfd603e2a1ec9d9d2b247722c64bbe030f390
+  sha256: 0fa4007d5f9e369500d4e5f255eea8706bbab220266d54206d0d3c0e081b04a9
   bytes: 12254
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 58f8bda8a40c748dd1dcd7c31e664f75a3345d4149d82aadf76f2ef9b1e836b9
@@ -4192,10 +4069,10 @@ source_manifest:
   sha256: ffbf921933c0a6a9e66434241858bcadc4655c9d21d5482cf0371dfc4a8bbe09
   bytes: 7398
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: d261e005c6d3490984c163d879fca1dff5191b5112b16d6a2769d48144416792
-  bytes: 116487
+  sha256: 22cf43d47250054c546266db81fdf5cd88d9b4331f9fe56b23e7ee5619cd2804
+  bytes: 117248
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 061f93de8d1b32a862046b62d4b167cd31183f7ad2659f710683e3a1d24d01ba
+  sha256: 2d204184cfec952815a4f0bf68f2bbb464ab2559a1838fdaae9344fa493e045d
   bytes: 525
 - path: releases/R02/RELEASE_MANIFEST.yaml
   sha256: 19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d
@@ -4216,14 +4093,14 @@ source_manifest:
   sha256: c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184
   bytes: 2849
 - path: docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md
-  sha256: 8389f9d25af04be7a63d698dd98b1d381bc0b3d9091a7b60259b00d637063d65
-  bytes: 5455
-- path: .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0002.yaml
-  sha256: ef4ab3d63b0e69dc52f924fb38dc95e1ca66b89c6bcd6ec362863976b5562887
-  bytes: 11233
+  sha256: 400192dc986620a4c360836fe62acd1c74d56caf62ebae6bf04726abab3df4ed
+  bytes: 6907
+- path: .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0003.yaml
+  sha256: 0e8f7ae774276618a828fd885f6f6718e445f401ac834a20edca760d543549d9
+  bytes: 8163
 - path: docs/03-continuity/change-requests/CR-0038-TASK-R02-005允许同步H5用户可见变更日志.md
-  sha256: 3f7fac50b137568d77d0107705cac64a686451f1af86a9786b4fdcee785dabf7
-  bytes: 1836
+  sha256: 48589fdfbb842a3a3b8c9ba18381735e948499a8e035f3bc8f644e50a53d359a
+  bytes: 2515
 exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
   '<未委托原因>'
 hard_rules:
@@ -4238,4 +4115,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 28f5343de606e6d397af04d8ba6b0e4d21549d5a8099bf992aaad62a02d01458
+context_hash: 04fb842366959ec08a227d21a101d4185eb90473a80f0c783ba3aa06c7748a1a
