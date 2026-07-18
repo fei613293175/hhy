@@ -72,4 +72,18 @@ class UserAuthVerificationServiceTest {
         verify(repository).consumeSmsCode(61L);
         verify(repository, never()).failSmsCode(anyLong());
     }
+
+    @Test
+    void challengeCannotBeReusedAcrossAuthenticationScenes() {
+        when(repository.findChallengeForUpdate(71L)).thenReturn(Optional.of(
+                new UserAuthStore.ChallengeRow(
+                        71L, AuthScene.REGISTER.name(), "challenge-hash", NOW.plus(Duration.ofMinutes(5)), null, 0, 3)));
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> verification.verifyChallenge("71", "proof", AuthScene.LOGIN));
+
+        assertEquals("COMMON-422-BUSINESS_RULE", error.code());
+        verify(repository, never()).failChallenge(anyLong());
+        verify(repository, never()).consumeChallenge(anyLong());
+    }
 }
