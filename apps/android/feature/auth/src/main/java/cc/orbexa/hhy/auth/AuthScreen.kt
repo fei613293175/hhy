@@ -28,6 +28,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import cc.orbexa.hhy.designsystem.HhyColors
@@ -54,7 +55,10 @@ private sealed interface AuthUiState {
 /** R02 authentication routes; all requests are live frozen-contract operations, never mocks. */
 @Composable
 fun AuthScreen(apiBaseUrl: String, onAuthenticated: () -> Unit) {
-    val api = remember(apiBaseUrl) { UrlConnectionContractAuthApi(apiBaseUrl) }
+    val context = LocalContext.current
+    val api = remember(apiBaseUrl, context.applicationContext) {
+        UrlConnectionContractAuthApi(apiBaseUrl, context.applicationContext)
+    }
     AuthScreen(api, onAuthenticated)
 }
 

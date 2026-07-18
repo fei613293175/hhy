@@ -8,9 +8,27 @@ import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class ApiModelsSerializationTest {
+
+    @Test fun authRequestsKeepFrozenContractFieldNames() {
+        val request = AuthPasswordLoginRequest(
+            phone = "13800000000",
+            password = "password1",
+            challengeId = "challenge-1",
+            challengeProof = "1234",
+            device = AuthDevicePayload("fingerprint", "Pixel", "ANDROID", "15", "1.2.2-debug"),
+        )
+
+        val encoded = HhyNetworkJson.value.encodeToString(AuthPasswordLoginRequest.serializer(), request)
+        val fields = HhyNetworkJson.value.parseToJsonElement(encoded).jsonObject
+        assertTrue(fields.containsKey("challengeId"))
+        assertTrue(fields.containsKey("challengeProof"))
+        assertTrue(fields["device"]!!.jsonObject.containsKey("deviceFingerprint"))
+        assertFalse(fields.containsKey("challenge_id"))
+    }
     private val json = HhyNetworkJson.value
 
     @Test

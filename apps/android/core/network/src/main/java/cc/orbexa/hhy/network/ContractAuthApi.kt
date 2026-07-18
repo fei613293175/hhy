@@ -1,22 +1,20 @@
 package cc.orbexa.hhy.network
 
+import android.content.Context
+import android.os.Build
+import java.security.MessageDigest
 import java.net.HttpURLConnection
 import java.net.URI
 import java.util.UUID
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.put
+import kotlinx.serialization.KSerializer
 
-/**
- * Thin transport for frozen authentication operations. Request bodies deliberately remain
- * contract JSON instead of duplicating OpenAPI DTOs in an Android feature module.
- */
+/** Thin transport for frozen authentication operations and their core-network contract types. */
 interface ContractAuthApi {
     suspend fun securityChallenge(scene: String): AuthCallResult
     suspend fun passwordLogin(
@@ -48,56 +46,50 @@ sealed interface AuthCallResult {
     data class Failure(val statusCode: Int?, val requestId: String?) : AuthCallResult
 }
 
-class UrlConnectionContractAuthApi(baseUrl: String) : ContractAuthApi {
+class UrlConnectionContractAuthApi(
+    baseUrl: String,
+    context: Context,
+) : ContractAuthApi {
     private val root = validateRoot(baseUrl)
+    private val device = AndroidAuthDevicePayload.create(context.applicationContext)
 
     override suspend fun securityChallenge(scene: String): AuthCallResult = post(
         "/api/v1/auth/security-challenges",
-        buildJsonObject {
-            put("scene", scene)
-            put("clientNonce", UUID.randomUUID().toString())
-        },
+        AuthSecurityChallengeRequest(scene, UUID.randomUUID().toString(), device.deviceFingerprint),
+        AuthSecurityChallengeRequest.serializer(),
     )
 
     override suspend fun passwordLogin(phone: String, password: String, challengeId: String, challengeProof: String) = post(
         "/api/v1/auth/password/login",
-        buildJsonObject {
-            put("phone", phone); put("password", password)
-            put("challengeId", challengeId); put("challengeProof", challengeProof)
-        },
+        AuthPasswordLoginRequest(phone, password, challengeId, challengeProof, device),
+        AuthPasswordLoginRequest.serializer(),
     )
 
     override suspend fun sendSms(phone: String, scene: String, challengeId: String, challengeProof: String) = post(
         "/api/v1/auth/sms/send",
-        buildJsonObject {
-            put("phone", phone); put("scene", scene)
-            put("challengeId", challengeId); put("challengeProof", challengeProof)
-        },
+        AuthSmsSendRequest(phone, scene, challengeId, challengeProof),
+        AuthSmsSendRequest.serializer(),
     )
 
     override suspend fun smsLogin(phone: String, smsCode: String) = post(
-        "/api/v1/auth/sms/login", buildJsonObject { put("phone", phone); put("smsCode", smsCode) },
+        "/api/v1/auth/sms/login", AuthSmsLoginRequest(phone, smsCode, device), AuthSmsLoginRequest.serializer(),
     )
 
     override suspend fun validateInviteCode(inviteCode: String) = post(
-        "/api/v1/auth/invite-codes/validate", buildJsonObject { put("inviteCode", inviteCode) },
+        "/api/v1/auth/invite-codes/validate", AuthInviteCodeValidateRequest(inviteCode), AuthInviteCodeValidateRequest.serializer(),
     )
 
     override suspend fun register(phone: String, smsCode: String, password: String, inviteCode: String, agreementVersions: List<String>) = post(
         "/api/v1/auth/register",
-        buildJsonObject {
-            put("phone", phone); put("smsCode", smsCode); put("password", password); put("inviteCode", inviteCode)
-            put("agreementVersions", kotlinx.serialization.json.JsonArray(agreementVersions.map(::JsonPrimitive)))
-        },
+        AuthRegisterRequest(phone, smsCode, password, inviteCode, agreementVersions, device),
+        AuthRegisterRequest.serializer(),
     )
 
     override suspend fun resetPassword(phone: String, smsCode: String, newPassword: String) = post(
-        "/api/v1/auth/password/reset", buildJsonObject {
-            put("phone", phone); put("smsCode", smsCode); put("newPassword", newPassword)
-        },
+        "/api/v1/auth/password/reset", AuthPasswordResetRequest(phone, smsCode, newPassword), AuthPasswordResetRequest.serializer(),
     )
 
-    private suspend fun post(path: String, body: JsonObject): AuthCallResult = withContext(Dispatchers.IO) {
+    private suspend fun <T> post(path: String, body: T, serializer: KSerializer<T>): AuthCallResult = withContext(Dispatchers.IO) {
         val localRequestId = UUID.randomUUID().toString()
         try {
             val connection = URI.create(root + path).toURL().openConnection() as HttpURLConnection
@@ -111,7 +103,7 @@ class UrlConnectionContractAuthApi(baseUrl: String) : ContractAuthApi {
                 connection.setRequestProperty("X-Request-Id", localRequestId)
                 connection.setRequestProperty("X-Idempotency-Key", localRequestId)
                 connection.outputStream.bufferedWriter(Charsets.UTF_8).use {
-                    it.write(HhyNetworkJson.value.encodeToString(JsonObject.serializer(), body))
+                    it.write(HhyNetworkJson.value.encodeToString(serializer, body))
                 }
                 val status = connection.responseCode
                 val requestId = connection.getHeaderField("X-Request-Id") ?: localRequestId
@@ -144,4 +136,34 @@ class UrlConnectionContractAuthApi(baseUrl: String) : ContractAuthApi {
             return value.trim().trimEnd('/')
         }
     }
+}
+
+private object AndroidAuthDevicePayload {
+    fun create(context: Context): AuthDevicePayload {
+        val packageName = context.packageName
+        val installationFingerprint = context
+            .getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
+            .getString(INSTALLATION_FINGERPRINT_KEY, null)
+            ?: sha256(UUID.randomUUID().toString()).also { fingerprint ->
+                context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
+                    .edit()
+                    .putString(INSTALLATION_FINGERPRINT_KEY, fingerprint)
+                    .apply()
+            }
+        return AuthDevicePayload(
+            // A per-installation random identifier avoids collecting hardware IDs. It is
+            // hashed again before leaving the device and the server applies its own HMAC.
+            deviceFingerprint = sha256("$packageName:$installationFingerprint"),
+            model = Build.MODEL.take(64),
+            platform = "ANDROID",
+            osVersion = Build.VERSION.RELEASE.take(64),
+            appVersion = context.packageManager.getPackageInfo(packageName, 0).versionName.orEmpty().take(32),
+        )
+    }
+
+    private fun sha256(value: String): String = MessageDigest.getInstance("SHA-256")
+        .digest(value.toByteArray(Charsets.UTF_8)).joinToString("") { "%02x".format(it) }
+
+    private const val PREFERENCES_NAME = "hhy_auth_device"
+    private const val INSTALLATION_FINGERPRINT_KEY = "installation_fingerprint"
 }

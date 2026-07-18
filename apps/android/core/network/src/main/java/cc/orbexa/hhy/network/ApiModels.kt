@@ -70,6 +70,68 @@ data class PublicPage(
     val version: Long,
 )
 
+// Frozen R02 operation types. They live in core/network so Android features never own
+// duplicate request DTOs or manually reconstruct contract field names.
+@Serializable
+data class AuthSecurityChallengeRequest(
+    val scene: String,
+    val clientNonce: String,
+    val deviceFingerprint: String? = null,
+)
+
+@Serializable
+data class AuthDevicePayload(
+    val deviceFingerprint: String,
+    val model: String,
+    val platform: String,
+    val osVersion: String,
+    val appVersion: String,
+)
+
+@Serializable
+data class AuthPasswordLoginRequest(
+    val phone: String,
+    val password: String,
+    val challengeId: String,
+    val challengeProof: String,
+    val device: AuthDevicePayload,
+)
+
+@Serializable
+data class AuthSmsSendRequest(
+    val phone: String,
+    val scene: String,
+    val challengeId: String,
+    val challengeProof: String,
+)
+
+@Serializable
+data class AuthSmsLoginRequest(
+    val phone: String,
+    val smsCode: String,
+    val device: AuthDevicePayload,
+)
+
+@Serializable
+data class AuthInviteCodeValidateRequest(val inviteCode: String)
+
+@Serializable
+data class AuthRegisterRequest(
+    val phone: String,
+    val smsCode: String,
+    val password: String,
+    val inviteCode: String,
+    val agreementVersions: List<String>,
+    val device: AuthDevicePayload,
+)
+
+@Serializable
+data class AuthPasswordResetRequest(
+    val phone: String,
+    val smsCode: String,
+    val newPassword: String,
+)
+
 object HhyNetworkJson {
     val value: Json = Json {
         explicitNulls = false
