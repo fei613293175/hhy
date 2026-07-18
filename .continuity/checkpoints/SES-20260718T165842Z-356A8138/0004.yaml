@@ -1,0 +1,187 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T165842Z-356A8138-0004
+session_id: SES-20260718T165842Z-356A8138
+sequence: 4
+created_at: '2026-07-18T17:24:01Z'
+summary: R03 APK交付证据提交已推送，AC-R03-006外部激活项按VERIFIED或明确阻断签署PASS
+next_step: 将TASK-R03-007按项目所有者真机PENDING阻断关闭；等待明确真机PASS后恢复并进入TASK-R03-008
+blockers:
+- owner_physical_test=PENDING：等待项目所有者测试C:\Users\小白\Desktop\hhy-r03-3a913c9-debug.apk
+decisions:
+- R04依赖R03，R03未完成真机门禁前不得把R04标记为开发中；仅允许只读准备
+note: ''
+tests:
+- name: APK delivery reverify
+  result: PASS
+  evidence: artifacts/validation/r03-apk-delivery/delivery-evidence.json
+  note: commit 5cdfd38已推送且四方SHA一致
+- name: AC-R03-006
+  result: PASS
+  evidence: releases/R03/ACCEPTANCE_MATRIX.csv
+  note: 全部外部项已验证或登记负责人、截止版本和阻断
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 5cdfd38e50c563b345203b1255dc7fb67e618c46
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0050.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0050-精确登记R03-APK交付证据文件.md'
+  - ' M releases/R03/ACCEPTANCE_MATRIX.csv'
+  recent_commits:
+  - "5cdfd38e50c563b345203b1255dc7fb67e618c46\t2026-07-19T01:23:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): deliver regression\
+    \ apk evidence"
+  - "3a913c95265f93b815042389d573f4804137c0c0\t2026-07-19T01:05:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): freeze external\
+    \ and apk baseline"
+  - "25d8171c76e0cef323a717ad66ac85ccd69371c3\t2026-07-19T00:57:28+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-006\
+    \ as completed"
+  - "f41c84e6df03f49cd5c21537ea6a1235471006ba\t2026-07-19T00:55:29+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] test(r03): record staging\
+    \ rollback evidence"
+  - "2950cb64d0ed5887725bc20afe4c6d148c22335a\t2026-07-19T00:32:41+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): add staging observability\
+    \ gates"
+  - "b4edfff1f81359677d87bc8486da2d9330926e20\t2026-07-19T00:22:27+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-005\
+    \ as completed"
+  - "cd9d6a4771451e2b34bfa94dc7dec08b5b7898f4\t2026-07-19T00:20:48+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] docs(r03): bind integration\
+    \ gate evidence"
+  - "650fdee862405db673ed5f3f856611356508e337\t2026-07-19T00:19:23+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): close integration\
+    \ database gates"
+project_fingerprint:
+  sha256: 7344f2a85d98fe7c34f426b482322694d7148cfb842428f37627c11ec0cbd9bd
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - artifacts/apk/R03/APK_MANIFEST.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0049-允许R03-APK交付证据进入仓库追溯范围.md
+  - docs/03-continuity/change-requests/CR-0050-精确登记R03-APK交付证据文件.md
+  - releases/R03/ACCEPTANCE_MATRIX.csv
+  - scripts/check_r03_external_activation.py
+  file_count: 10
+  payload:
+    base_commit: 25d8171c76e0cef323a717ad66ac85ccd69371c3
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 29894
+      sha256: b4edb31062427b6b3cada8f01d86e928cc14b2bc714189abe33703046170b6d3
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4445
+      sha256: 6d878f835144961c5567c991879dfdd85c934489d7cecb13c8245de88fe2ffa4
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 00b8e359a420a9ca406995fcae05522885f76a95d1709d482007a0c2514c7f96
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1025
+      sha256: 1cf28ae442ae3888e00ee500253cc51b8de893aa558cf5b17caa2f8755f95278
+    - path: artifacts/apk/R03/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 4f29b72895f47d666882bb9223e51c6103d94ce427f8f7bbc3297b6b2d593846
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 27862
+      sha256: 0237d673837cbafb9020cfa1fc5c35f5a5f1ca1b0f84a7254d816de13b185634
+    - path: docs/03-continuity/change-requests/CR-0049-允许R03-APK交付证据进入仓库追溯范围.md
+      state: FILE
+      size: 2256
+      sha256: 61e4b41dea2fb765e7610d4d09e6661670f08e82ffe8d8f33e86b7b469330f46
+    - path: docs/03-continuity/change-requests/CR-0050-精确登记R03-APK交付证据文件.md
+      state: FILE
+      size: 2701
+      sha256: 2ea327bc907c3200bf14530ebe2e0fce692b19d46d69a181d0330df7ace23b2e
+    - path: releases/R03/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 762
+      sha256: 4ee3d026891e45b84869ae72a6efa738a873a13b4ee0e38d60628f84fe9dd0b4
+    - path: scripts/check_r03_external_activation.py
+      state: FILE
+      size: 4184
+      sha256: 0120a9a24924cc4b8f372f4a855f91de454fa94c65214e4be8dee58651ec3084
+change_classification:
+  other:
+  - CHANGELOG.md
+  - artifacts/apk/R03/APK_MANIFEST.yaml
+  - releases/R03/ACCEPTANCE_MATRIX.csv
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - scripts/check_r03_external_activation.py
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0049-允许R03-APK交付证据进入仓库追溯范围.md
+  - docs/03-continuity/change-requests/CR-0050-精确登记R03-APK交付证据文件.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0049
+- CR-0050
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - artifacts/apk/R03/APK_MANIFEST.yaml
+  - artifacts/validation/r03-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r03-task007-android/apk-signing.txt
+  - artifacts/validation/r03-task007-android/build-evidence.json
+  - artifacts/validation/r03-task007-android/gradle-build.log
+  - artifacts/reports/R03/TASK-R03-007-android-apk.md
+  source: story+explicit+approved-cr:CR-0050
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 只剩项目所有者真机外部门禁，无法由并行工作替代
+event_hash: 8587298086d3ef451679dd3c2d21791267b646273825e3bde2e37c704c0b2cdd
