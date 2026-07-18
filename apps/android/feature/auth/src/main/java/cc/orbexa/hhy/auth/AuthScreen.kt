@@ -51,7 +51,7 @@ internal enum class AuthRoute(val title: String, val scene: String) {
 private sealed interface AuthUiState {
     data object Editing : AuthUiState
     data object Submitting : AuthUiState
-    data class Message(val text: String, val requestId: String? = null, val errorCode: String? = null) : AuthUiState
+    data class Message(val text: String, val requestId: String? = null) : AuthUiState
 }
 
 /** R02 authentication routes; all requests are live frozen-contract operations, never mocks. */
@@ -94,7 +94,6 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                     text = result.statusCode?.let { errorForStatus(it, result.errorCode, result.retryAfterSeconds) }
                         ?: "网络不可用，请检查连接后重试",
                     requestId = result.requestId,
-                    errorCode = result.errorCode,
                 )
             }
         }
@@ -127,7 +126,6 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
             if (state is AuthUiState.Message) {
                 val message = state as AuthUiState.Message
                 Text(message.text, color = HhyColors.Warning)
-                message.errorCode?.let { Text("错误码：$it", color = HhyColors.TextSecondary) }
                 message.requestId?.let { Text("请求编号：$it", color = HhyColors.TextSecondary) }
             }
             if (submitting) CircularProgressIndicator()

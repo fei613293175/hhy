@@ -121,6 +121,16 @@ class R02AuthSliceContractTests(unittest.TestCase):
         self.assertIn("BitmapFactory.decodeByteArray", auth_screen)
         self.assertIn("'auth.password.max_length','72'::jsonb", migration)
 
+    def test_auth_ui_keeps_error_codes_internal_and_shows_request_id_for_support(self) -> None:
+        auth_screen = read(
+            "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt"
+        )
+
+        self.assertIn("errorForStatus(it, result.errorCode, result.retryAfterSeconds)", auth_screen)
+        self.assertIn('Text("请求编号：$it"', auth_screen)
+        self.assertNotIn("错误码：", auth_screen)
+        self.assertNotIn("val errorCode: String?", auth_screen)
+
     def test_debug_startup_defaults_to_the_published_staging_channel(self) -> None:
         app_build = read("apps/android/app/build.gradle.kts")
 

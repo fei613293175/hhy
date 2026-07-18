@@ -185,3 +185,14 @@ problems:
   do_not_repeat:
   - 不得把服务端下发的外部URL未经协议与受信主机校验直接交给系统URI处理器
   - 更新下载URL不得携带用户信息、非默认端口或片段
+- id: PROB-0017
+  title: Android认证失败提示直接展示服务端错误码
+  status: SOLVED
+  root_cause: 认证页将内部错误码保存在可见UI状态中，并直接渲染为“错误码：...”，导致技术实现字段进入用户界面。
+  resolution: 保留错误码用于内部文案映射，但从可见状态移除该字段；页面仅展示面向用户的提示与请求编号，供支持人员关联服务端日志。
+  regression_checks:
+  - tests/test_r02_auth_slice_contract.py
+  - obx-test :feature:auth:testDebugUnitTest
+  do_not_repeat:
+  - Android面向用户的认证提示不得直接渲染后端错误码、枚举值或内部字段名
+  - 需要排障时应显示请求编号，而不是服务端实现细节
