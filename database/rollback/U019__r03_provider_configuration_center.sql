@@ -60,7 +60,7 @@ DROP TRIGGER IF EXISTS trg_provider_config_versions_updated_at
   ON hhy.provider_config_versions;
 DROP FUNCTION IF EXISTS hhy.r03_provider_config_payload_guard();
 DROP INDEX IF EXISTS hhy.ix_provider_config_versions_provider_environment_status;
-DROP INDEX IF EXISTS hhy.uq_provider_config_versions_active_environment;
+DROP INDEX IF EXISTS hhy.uq_provider_config_versions_active_provider;
 ALTER TABLE hhy.provider_config_versions
   DROP CONSTRAINT IF EXISTS ck_provider_config_versions_approval_separation,
   DROP CONSTRAINT IF EXISTS ck_provider_config_versions_test_result,

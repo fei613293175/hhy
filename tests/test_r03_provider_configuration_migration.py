@@ -16,7 +16,7 @@ class R03ProviderConfigurationMigrationTest(unittest.TestCase):
         sql = SOURCE.read_text(encoding="utf-8")
         required = (
             "r03_secret_refs_valid",
-            "uq_provider_config_versions_active_environment",
+            "uq_provider_config_versions_active_provider",
             "trg_provider_config_versions_payload_guard",
             "uq_provider_certificates_active_type",
             "trg_provider_certificates_material_guard",

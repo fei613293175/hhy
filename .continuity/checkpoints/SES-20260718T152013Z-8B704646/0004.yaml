@@ -1,0 +1,200 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T152013Z-8B704646-0004
+session_id: SES-20260718T152013Z-8B704646
+sequence: 4
+created_at: '2026-07-18T15:40:14Z'
+summary: R03供应商配置4个冻结写API已接入PostgreSQL事务、加密首响应幂等、连接测试安全降级、审批激活回滚和操作审计
+next_step: 接入证书上传轮换与域名更新验证4个冻结写API，并补PostgreSQL真实迁移及故障注入证据
+blockers: []
+decisions:
+- 供应商激活版本按开发文档实施全局唯一；无真实SecretResolver或探测传输时连接测试安全失败且不得伪报成功
+note: ''
+tests:
+- name: backend full regression
+  result: PASS
+  evidence: services/backend mvnw test
+  note: 186 tests, 2 environment skips
+- name: R03 migration static invariants
+  result: PASS
+  evidence: tests/test_r03_provider_configuration_migration.py
+  note: 4 tests
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 31a3e6ae2f063449c4387e1736cde1d54ab4ae73
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M database/migrations/V019__r03_provider_configuration_center.sql'
+  - ' M database/rollback/U019__r03_provider_configuration_center.sql'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java'
+  - ' M services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql'
+  - ' M tests/test_r03_provider_configuration_migration.py'
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigCommandService.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigPostgresStore.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandController.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandControllerContractTest.java
+  recent_commits:
+  - "31a3e6ae2f063449c4387e1736cde1d54ab4ae73\t2026-07-18T23:33:04+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): expose configuration\
+    \ read APIs"
+  - "3e09f9ef8c5de9ca26e8105e67c467130df2b6c1\t2026-07-18T23:27:21+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r03): add provider configuration\
+    \ migration"
+  - "a5a0629f18b4ad3b69d28116c5a45d3fd129f1fd\t2026-07-18T23:20:53+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): start shared integration\
+    \ task"
+  - "d54b5e2d019ec48a866d0559b24bcaf996e8aef6\t2026-07-18T23:19:12+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(continuity): close TASK-R03-004\
+    \ as completed"
+  - "bc96c003b7ff8283e3b302a2d7097da7be94ca2d\t2026-07-18T23:17:32+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(r03): close payment\
+    \ slice evidence"
+  - "b3a90b52062bd227ac40c4f6a9d6e7c7282de43e\t2026-07-18T23:14:33+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): deliver payment\
+    \ and payout admin pages"
+  - "ea17e6835282cf7f9da16be714c1ad6610261ad2\t2026-07-18T23:05:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): secure provider\
+    \ certificate rotation"
+  - "125d3b816f5d03a79ed745575c70e00e33b92620\t2026-07-18T23:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] feat(r03): add safe financial\
+    \ provider probes"
+project_fingerprint:
+  sha256: 195f4e719a55711861f484cf9733b550e1c228fe2c1d6aba8d48d1e0fc0a489f
+  files:
+  - database/migrations/V019__r03_provider_configuration_center.sql
+  - database/rollback/U019__r03_provider_configuration_center.sql
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigCommandService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigPostgresStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandController.java
+  - services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandControllerContractTest.java
+  - tests/test_r03_provider_configuration_migration.py
+  file_count: 14
+  payload:
+    base_commit: d54b5e2d019ec48a866d0559b24bcaf996e8aef6
+    files:
+    - path: database/migrations/V019__r03_provider_configuration_center.sql
+      state: FILE
+      size: 8675
+      sha256: 07bb6ec40cba39e1e4231752afa2777b569c3a61498651dff859540a6b5af4fd
+    - path: database/rollback/U019__r03_provider_configuration_center.sql
+      state: FILE
+      size: 4096
+      sha256: 7d76918c594e67466ce7e17a8cd008c1367e94f6301dfe40d7a9baefa4784249
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
+      state: FILE
+      size: 2748
+      sha256: 4ba6b4d1bc20eb067f4755248627c8087835809c206070ca7cf6af9c13ac18e6
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationContracts.java
+      state: FILE
+      size: 1684
+      sha256: 583ea8ed3a45de9dab85843169a5c00862d46cf3f2dcd7c3dbdea55fa740364a
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStore.java
+      state: FILE
+      size: 15045
+      sha256: 4da98f644e140b0f75cee434ae4af1b052429d524483d4d5a2d53580492439e3
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigCommandService.java
+      state: FILE
+      size: 7652
+      sha256: 670d242074b8130cca7c6b1d735cec9d5045d96669888d3aa58389253b0626cc
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigPostgresStore.java
+      state: FILE
+      size: 11756
+      sha256: 434965e9afde32084d2b134afbeec2f2b77a4b1d687322197acb1b5d8df5b9ff
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryController.java
+      state: FILE
+      size: 5307
+      sha256: 844249600cd872bc62b78571d466f4c09982c90e46b231c3e2b431f30b7c6639
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandController.java
+      state: FILE
+      size: 5877
+      sha256: fabaf1292537f6274602cce2139b8ca099e841d64ea1e042e8ba2fbf1aa25d8a
+    - path: services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+      state: FILE
+      size: 8675
+      sha256: 07bb6ec40cba39e1e4231752afa2777b569c3a61498651dff859540a6b5af4fd
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStoreTest.java
+      state: FILE
+      size: 1218
+      sha256: 179868bbcacb2367c0440fc7ea5d11e65e3c1ecc2a93ea8f76966df6ee8ca39c
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryControllerContractTest.java
+      state: FILE
+      size: 1653
+      sha256: b3137a2a8bf89abab51aa1f0922bf0e5888c0ce0bff9a8b07e9434f01f773bb4
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandControllerContractTest.java
+      state: FILE
+      size: 1565
+      sha256: bcff86390462ed6302fe906d947950cd8c6e517b2f51f014d070652c94a0cd0a
+    - path: tests/test_r03_provider_configuration_migration.py
+      state: FILE
+      size: 2391
+      sha256: a7aef4cb5847a77794cf933445d756625fe8e421c9af8db25b3815302204e7a7
+change_classification:
+  database:
+  - database/migrations/V019__r03_provider_configuration_center.sql
+  - database/rollback/U019__r03_provider_configuration_center.sql
+  code:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigCommandService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/R03ProviderConfigPostgresStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandController.java
+  - services/backend/boot/src/main/resources/db/migration/V019__r03_provider_configuration_center.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/R03ConfigurationQueryStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ConfigurationQueryControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/R03ProviderConfigCommandControllerContractTest.java
+  tests:
+  - tests/test_r03_provider_configuration_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 证书和域名写侧继续复用同一幂等、审批、审计与V019事务边界
+event_hash: 77b95ca304fac49b024e8f68dd8370da45db47aa9d0ba53a8b2214821b032a24

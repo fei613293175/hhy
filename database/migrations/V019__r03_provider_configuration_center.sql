@@ -37,8 +37,8 @@ ALTER TABLE hhy.provider_config_versions
     CHECK (approval_requester_id IS NULL OR approval_reviewer_id IS NULL
       OR approval_requester_id <> approval_reviewer_id);
 
-CREATE UNIQUE INDEX uq_provider_config_versions_active_environment
-  ON hhy.provider_config_versions(provider_code, environment)
+CREATE UNIQUE INDEX uq_provider_config_versions_active_provider
+  ON hhy.provider_config_versions(provider_code)
   WHERE status='ACTIVE';
 CREATE INDEX ix_provider_config_versions_provider_environment_status
   ON hhy.provider_config_versions(provider_code, environment, status, created_at DESC);
