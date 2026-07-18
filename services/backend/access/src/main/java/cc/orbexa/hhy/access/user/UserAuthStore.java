@@ -450,6 +450,18 @@ public class UserAuthStore {
                 instant(rs.getObject("effective_at", OffsetDateTime.class))));
     }
 
+    public Optional<H5RegistrationPageRow> findH5RegistrationPage() {
+        return jdbc.query("""
+                SELECT version,config_json->>'title' AS title,
+                       config_json->>'description' AS description
+                FROM hhy.h5_page_configs
+                WHERE page_code='H5-013' AND status IN ('ACTIVE','PUBLISHED')
+                ORDER BY version DESC,id DESC LIMIT 1
+                """, (rs, row) -> new H5RegistrationPageRow(
+                rs.getLong("version"), rs.getString("title"), rs.getString("description")))
+                .stream().findFirst();
+    }
+
     public List<Long> validateAgreementVersions(List<String> versionIds) {
         List<Long> ids = new java.util.ArrayList<>();
         for (String value : versionIds) {
@@ -519,6 +531,7 @@ public class UserAuthStore {
                                  String responseType, String responsePayloadCiphertext) { }
     public record IdempotencyClaim(IdempotencyRow row, boolean replay) { }
     public record CurrentAgreementVersion(long id, String code, Instant effectiveAt) { }
+    public record H5RegistrationPageRow(long version, String title, String description) { }
     public record SecuritySessionRow(long id, long version, Long deviceId, String deviceName,
                                      Instant lastActiveAt, Instant createdAt, Instant expiresAt,
                                      boolean current) { }

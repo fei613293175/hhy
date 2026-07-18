@@ -1,0 +1,63 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260718T081744Z-71EAAA84
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R02
+task_id: TASK-R02-005
+story_id: STORY-R02-008
+goal: 完成H5邀请注册的数据、四端点调用链、页面状态、幂等安全和自动化测试闭环。
+started_at: '2026-07-18T08:17:44Z'
+updated_at: '2026-07-18T08:43:15Z'
+takeover_of: null
+change_requests:
+- CR-0038
+scope:
+  allowed_paths:
+  - apps/h5/**
+  - apps/cashier-h5/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions:
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0038
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  base_commit: 1e41f587985849538b8ba2f6b5d0ee24e0652223
+  start_head: 1e41f587985849538b8ba2f6b5d0ee24e0652223
+  upstream: origin/task/TASK-R02-002
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-18T08:43:13Z'
+  expires_at: '2026-07-18T12:43:13Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260718T081744Z-71EAAA84/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md
+next_step: 提交实现Commit，关闭CR-0038与TASK-R02-005并启动TASK-R02-006全量集成
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 28f5343de606e6d397af04d8ba6b0e4d21549d5a8099bf992aaad62a02d01458
+  generated_at: '2026-07-18T08:43:15Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 进入共享契约、后端控制器、H5页面和连续性事实的最终集成与提交阶段，拆分会造成同一事实分支和验收证据冲突，主控串行复核

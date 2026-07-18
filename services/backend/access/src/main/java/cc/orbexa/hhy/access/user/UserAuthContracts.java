@@ -55,6 +55,36 @@ public final class UserAuthContracts {
     public record RegistrationConfigResource(
             List<RegistrationAgreementVersionResource> agreementVersions) { }
 
+    public record PublicPageBlockResource(
+            String blockId,
+            String blockType,
+            String heading,
+            String body,
+            List<Object> media,
+            Object action,
+            long sortOrder) { }
+
+    public record PublicPageResource(
+            String code,
+            String title,
+            String description,
+            List<PublicPageBlockResource> content,
+            Object seoMetadata,
+            Object download,
+            Object trackingContext,
+            long version) { }
+
+    public record PublicPageMetaResource(
+            int page,
+            int pageSize,
+            String total,
+            String nextCursor,
+            String hasMore) { }
+
+    public record InviteRegistrationConfigPageResource(
+            List<PublicPageResource> items,
+            PublicPageMetaResource page) { }
+
     public record RegisterRequest(
             @NotBlank @Pattern(regexp = "^1[3-9]\\d{9}$") String phone,
             @NotBlank @Size(min = 4, max = 10) String smsCode,

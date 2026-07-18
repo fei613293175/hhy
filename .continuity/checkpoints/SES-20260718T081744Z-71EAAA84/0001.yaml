@@ -1,0 +1,202 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T081744Z-71EAAA84-0001
+session_id: SES-20260718T081744Z-71EAAA84
+sequence: 1
+created_at: '2026-07-18T08:39:16Z'
+summary: STORY-R02-008完成邀请配置公开端点、H5四端点调用链及页面状态自动化闭环
+next_step: 执行R02文档与契约门禁，提交并关闭TASK-R02-005后进入TASK-R02-006
+blockers: []
+decisions:
+- H5邀请注册配置复用冻结PublicPageResource，协议版本ID映射为RICH_TEXT块blockId，不新增契约字段
+note: 写操作不自动重试；相同未确认意图沿用稳定幂等键；敏感表单仅在内存并在成功或卸载时清除
+tests:
+- name: h5-typecheck
+  result: PASS
+  evidence: pnpm --filter @hhy/h5 typecheck
+  note: Vue与生成契约类型无错误
+- name: h5-unit
+  result: PASS
+  evidence: 'pnpm --filter @hhy/h5 test: 3 files 8 tests'
+  note: 覆盖happy path、无效邀请、离线重试、GET退避和写操作幂等
+- name: h5-build
+  result: PASS
+  evidence: pnpm --filter @hhy/h5 build
+  note: Vite生产构建成功
+- name: backend-service
+  result: PASS
+  evidence: 'Maven UserAuthServiceTest: 14 tests'
+  note: 邀请配置与原认证服务Java21验证
+- name: backend-public-contract
+  result: PASS
+  evidence: 'Maven UserAuthPublicSuccessContractTest: 6 tests'
+  note: 公开邀请配置路由200及冻结响应模型验证
+git:
+  initialized: true
+  branch: task/TASK-R02-002
+  head: 1e41f587985849538b8ba2f6b5d0ee24e0652223
+  upstream: origin/task/TASK-R02-002
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/h5/src/router.ts'
+  - ' M apps/h5/src/styles.css'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java'
+  - ?? .continuity/sessions/SES-20260718T081744Z-71EAAA84.yaml
+  - ?? apps/h5/src/services/inviteRegistration.test.ts
+  - ?? apps/h5/src/services/inviteRegistration.ts
+  - ?? apps/h5/src/views/InviteRegistrationPage.test.ts
+  - ?? apps/h5/src/views/InviteRegistrationPage.vue
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260718T081744Z-71EAAA84.md
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+  recent_commits:
+  - "1e41f587985849538b8ba2f6b5d0ee24e0652223\t2026-07-18T16:15:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close TASK-R02-004\
+    \ as completed"
+  - "6d28613c19d0f64986aac5b4d7a51276bd3ff440\t2026-07-18T16:14:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close CR-0037"
+  - "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user\
+    \ control operations"
+  - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
+    \ read views"
+  - "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
+    \ as completed"
+  - "8573731b1f0fa26af70f5b2eb67e18f37263470a\t2026-07-18T15:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] fix(android): reject APK builds\
+    \ with placeholder API"
+  - "4ea46c06c62b14eda09b9d1d533962bdfcc731cf\t2026-07-18T14:49:43+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close account\
+    \ cancellation flow"
+  - "93be8d6799542112ee63db6d1c9d6c3735766d1c\t2026-07-18T14:39:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close restricted\
+    \ account appeal flow"
+project_fingerprint:
+  sha256: cda5e4cb45a470e9efd9304534191637420379ac2da625e5e30f29ff3e824786
+  files:
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/inviteRegistration.test.ts
+  - apps/h5/src/services/inviteRegistration.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/InviteRegistrationPage.test.ts
+  - apps/h5/src/views/InviteRegistrationPage.vue
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  file_count: 12
+  payload:
+    base_commit: 1e41f587985849538b8ba2f6b5d0ee24e0652223
+    files:
+    - path: apps/h5/src/router.ts
+      state: FILE
+      size: 548
+      sha256: b4ee92c7528d4ddaa9d6202e2669791f4cd98ea4a38837a2644135b0366a0f8b
+    - path: apps/h5/src/services/inviteRegistration.test.ts
+      state: FILE
+      size: 4081
+      sha256: c3d6cb75aabfbec27775babbdcc59c72ca5c670ebd2b3ff929fc1b584567a039
+    - path: apps/h5/src/services/inviteRegistration.ts
+      state: FILE
+      size: 8048
+      sha256: 678d140990e66c350c42d7aeae666dc0857bf9ad9090830ccce013232a754a27
+    - path: apps/h5/src/styles.css
+      state: FILE
+      size: 6187
+      sha256: 5dda2ba7e6b0ab4ff03fda2470d1d2777e8ce92bbb1c84049f9d98ca626bef51
+    - path: apps/h5/src/views/InviteRegistrationPage.test.ts
+      state: FILE
+      size: 5154
+      sha256: 15a7817d773018adb2b789416c78e7b0e3d0fc0a6c1a7508117f94ffca4a0b69
+    - path: apps/h5/src/views/InviteRegistrationPage.vue
+      state: FILE
+      size: 12127
+      sha256: ff2a0cd8bde099f18b636572772ca6fca22b98981d1b926f98edf28547b52d56
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+      state: FILE
+      size: 6454
+      sha256: 1b849df3bea4e5d54fb5ec4c0a07ee8bd21eab27a4422b910071bb6178b5c378
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+      state: FILE
+      size: 32085
+      sha256: 83a4adab6ca34a4930e59c786a6a0e145a727cc4b1388f13df5863bc653759ef
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+      state: FILE
+      size: 29097
+      sha256: 95cfbe3fb1a2462cdcba91d692486ed99e64f7f56055ad8077e5e82472203340
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+      state: FILE
+      size: 2496
+      sha256: a412382acbd578a4129af5311e198adef45a90ce9d2897bc76d336f98e51fc65
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+      state: FILE
+      size: 13253
+      sha256: 6f32c1090181ffa941d5e409f2cd651342a77a63491883dfe6cda5d747945e68
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+      state: FILE
+      size: 24922
+      sha256: 9b913af8066c320555025e45255033661b0709ffd292a325e2ef458830a2f4e7
+change_classification:
+  code:
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/inviteRegistration.test.ts
+  - apps/h5/src/services/inviteRegistration.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/InviteRegistrationPage.test.ts
+  - apps/h5/src/views/InviteRegistrationPage.vue
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/InviteRegistrationController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  user_visible:
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/inviteRegistration.test.ts
+  - apps/h5/src/services/inviteRegistration.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/InviteRegistrationPage.test.ts
+  - apps/h5/src/views/InviteRegistrationPage.vue
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/h5/**
+  - apps/cashier-h5/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前工作为已领取STORY-R02-008的共享契约、后端控制器与H5最终集成复核，继续拆分会同时触碰生成契约边界和事实分支，采用主控串行完成门禁
+event_hash: 4f1e9c1f5202146a41360d2ea77039c76cd3fae0109e1e3d75783c320e5c4dca

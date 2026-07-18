@@ -14,7 +14,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import cc.orbexa.hhy.access.user.UserAuthContracts.ChallengeResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.CommandResultResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.InviteCodeValidateRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.InviteRegistrationConfigPageResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordResetRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.PublicPageBlockResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.PublicPageMetaResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.PublicPageResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RegistrationAgreementVersionResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RegistrationConfigResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SecurityChallengeRequest;
@@ -147,6 +151,36 @@ class UserAuthPublicSuccessContractTest {
                 .andExpect(jsonPath("$.data.agreementVersions[0].effectiveAt").value("2026-07-18T02:30:00Z"));
 
         verify(service).registrationConfig();
+    }
+
+    @Test
+    void inviteRegistrationConfigUsesFrozenPublicPageEnvelope() throws Exception {
+        when(service.inviteRegistrationConfig("INVITE-R02", 1, 20)).thenReturn(
+                new InviteRegistrationConfigPageResource(
+                        List.of(new PublicPageResource(
+                                "INVITE-R02", "加入合伙云", "完成安全验证后注册",
+                                List.of(new PublicPageBlockResource(
+                                        "91", "RICH_TEXT", "USER_SERVICE",
+                                        "2026-07-18T02:30:00Z", List.of(), null, 0)),
+                                null, null, null, 7)),
+                        new PublicPageMetaResource(1, 20, "1", null, "false")));
+
+        mvc.perform(get("/public-api/v1/invite/INVITE-R02/registration-config")
+                        .header("X-Request-Id", "contract-invite-registration-config"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith("application/json"))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.requestId").value("contract-invite-registration-config"))
+                .andExpect(jsonPath("$.data.items[0].code").value("INVITE-R02"))
+                .andExpect(jsonPath("$.data.items[0].content[0].blockId").value("91"))
+                .andExpect(jsonPath("$.data.items[0].content[0].blockType").value("RICH_TEXT"))
+                .andExpect(jsonPath("$.data.items[0].version").value(7))
+                .andExpect(jsonPath("$.data.page.page").value(1))
+                .andExpect(jsonPath("$.data.page.pageSize").value(20))
+                .andExpect(jsonPath("$.data.page.total").value("1"))
+                .andExpect(jsonPath("$.data.page.hasMore").value("false"));
+
+        verify(service).inviteRegistrationConfig("INVITE-R02", 1, 20);
     }
 
     @Test

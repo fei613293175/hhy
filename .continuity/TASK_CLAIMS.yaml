@@ -765,3 +765,24 @@ claims:
   - design/**
   - scripts/**
   closed_at: '2026-07-18T08:14:58Z'
+- claim_id: CLM-3476836A7869
+  session_id: SES-20260718T081744Z-71EAAA84
+  task_id: TASK-R02-005
+  story_id: STORY-R02-008
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-18T08:17:44Z'
+  allowed_paths:
+  - apps/h5/**
+  - apps/cashier-h5/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**

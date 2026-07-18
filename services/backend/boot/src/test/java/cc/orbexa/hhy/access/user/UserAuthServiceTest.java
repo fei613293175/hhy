@@ -350,6 +350,26 @@ class UserAuthServiceTest {
     }
 
     @Test
+    void inviteRegistrationConfigValidatesInviteAndPublishesAgreementBlocks() {
+        when(repository.findActiveInviter("INVITE-R02")).thenReturn(Optional.of(17L));
+        when(repository.findH5RegistrationPage()).thenReturn(Optional.of(
+                new UserAuthStore.H5RegistrationPageRow(6L, "加入合伙云", "完成安全注册后下载 App")));
+        when(repository.findCurrentAgreementVersions()).thenReturn(List.of(
+                new UserAuthStore.CurrentAgreementVersion(101L, "USER_AGREEMENT", NOW.minusSeconds(60)),
+                new UserAuthStore.CurrentAgreementVersion(102L, "PRIVACY_POLICY", NOW.minusSeconds(30))));
+
+        var result = service.inviteRegistrationConfig("INVITE-R02", 1, 20);
+
+        assertEquals(1, result.items().size());
+        assertEquals("INVITE-R02", result.items().getFirst().code());
+        assertEquals(6L, result.items().getFirst().version());
+        assertEquals(List.of("101", "102"), result.items().getFirst().content().stream()
+                .map(UserAuthContracts.PublicPageBlockResource::blockId).toList());
+        assertEquals("1", result.page().total());
+        assertEquals("false", result.page().hasMore());
+    }
+
+    @Test
     void selfReturnsMaskedProfileForFrozenSession() {
         UserPrincipal principal = new UserPrincipal(17L, 23L, 4L, "access-jti-17", "FROZEN");
         when(repository.findSelf(17L)).thenReturn(Optional.of(new UserAuthStore.SelfRow(

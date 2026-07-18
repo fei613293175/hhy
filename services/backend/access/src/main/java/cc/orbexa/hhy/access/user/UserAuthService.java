@@ -16,6 +16,10 @@ import cc.orbexa.hhy.access.user.UserAuthContracts.RegisterRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SecurityChallengeRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SmsLoginRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SmsSendRequest;
+import cc.orbexa.hhy.access.user.UserAuthContracts.InviteRegistrationConfigPageResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.PublicPageBlockResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.PublicPageMetaResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.PublicPageResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SupportTicketCreateRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.SupportTicketResource;
 import cc.orbexa.hhy.access.user.UserAuthContracts.UserResource;
@@ -147,6 +151,34 @@ public class UserAuthService {
                         Long.toString(value.id()), value.code(), value.effectiveAt()))
                 .toList();
         return new RegistrationConfigResource(versions);
+    }
+
+    @Transactional(readOnly = true)
+    public InviteRegistrationConfigPageResource inviteRegistrationConfig(
+            String inviteCode, int page, int pageSize) {
+        repository.findActiveInviter(inviteCode)
+                .orElseThrow(() -> new BusinessException(
+                        "COMMON-404-NOT_FOUND", "邀请码不存在或已经失效", 404, false));
+        UserAuthStore.H5RegistrationPageRow pageConfig = repository.findH5RegistrationPage()
+                .orElseThrow(() -> business("邀请注册页面暂未发布"));
+        List<PublicPageBlockResource> agreements = repository.findCurrentAgreementVersions().stream()
+                .map(value -> new PublicPageBlockResource(
+                        Long.toString(value.id()), "RICH_TEXT", value.code(),
+                        value.effectiveAt().toString(), null, null, value.id()))
+                .toList();
+        if (agreements.isEmpty()) throw business("注册协议暂未发布");
+        List<PublicPageResource> items = page == 1
+                ? List.of(new PublicPageResource(
+                        inviteCode,
+                        pageConfig.title(),
+                        pageConfig.description(),
+                        agreements,
+                        null, null, null,
+                        pageConfig.version()))
+                : List.of();
+        return new InviteRegistrationConfigPageResource(
+                items,
+                new PublicPageMetaResource(page, pageSize, "1", null, "false"));
     }
 
     @Transactional(noRollbackFor = BusinessException.class)
