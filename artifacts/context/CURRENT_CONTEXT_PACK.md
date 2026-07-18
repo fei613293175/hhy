@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T08:14:19Z
-- Context Hash：`d62eef92632d0c4ffe0cfca190a2e2fc454b7c664281e5024b67260e5f921a80`
+- 生成时间：2026-07-18T08:15:00Z
+- Context Hash：`e7fc249b190819a59b11d1937f21ae30e043f90474ebd3bef5dda2547f4c6d42`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R02-005
 ```
 
 ## 当前状态
@@ -17,8 +17,8 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R02
 active_release: R02
-active_task: TASK-R02-004
-status: IN_PROGRESS
+active_task: TASK-R02-005
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: db3cfddcc4cda84265ec18f24de972804d62a08f
 last_staging_apk: null
@@ -53,11 +53,11 @@ completed_tasks:
 - TASK-R02-001
 - TASK-R02-002
 - TASK-R02-003
-in_progress_tasks:
 - TASK-R02-004
+in_progress_tasks: []
 blocked_tasks: []
-next_task: TASK-R02-004
-updated_at: '2026-07-18T08:14:17Z'
+next_task: TASK-R02-005
+updated_at: '2026-07-18T08:14:58Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -89,19 +89,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260718T070836Z-25E39817
-  actor_id: codex-root
-  story_id: STORY-R02-001
-  lease_expires_at: '2026-07-18T12:14:17Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0004.yaml
-  project_fingerprint: b2e1d1b618cefb474c6491edc544587510165cf42ab0c5291246cf9ce646a0f0
+  active_session_id: null
+  last_session_id: SES-20260718T070836Z-25E39817
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0005.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 1f7513a1dfa1064f6d31dac92dd615d314d58e88f0bbe0e94f709759685e31c4
-    generated_at: '2026-07-18T08:12:03Z'
-  handoff_bundle: null
+    context_hash: fd6e8c33a640b6d19938ecefea796bd526c67bea7d8af080ba01b346a736b766
+    generated_at: '2026-07-18T08:14:57Z'
 ```
 
 ## 默认并行规则
@@ -242,8 +240,8 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R02-004
-title: 纵向批次C：后台用户列表、详情与管控闭环
+id: TASK-R02-005
+title: 纵向批次D：H5邀请注册闭环
 status: READY
 release: R02
 requirements:
@@ -258,19 +256,18 @@ depends_on:
 definition_of_ready: releases/R02/DEFINITION_OF_READY.yaml
 stories: releases/R02/STORIES.yaml
 steps:
-- STORY-R02-001与STORY-R02-002的数据、API、后台和测试真实闭环
-- ADM-USER-001与ADM-USER-002绑定页面及后台运营规格
-- 禁止页面级手写重复DTO
-- 全部动作绑定生成API类型
+- STORY-R02-008的数据、API、H5和测试真实闭环
+- 邀请码、安全验证、短信供应商异常、幂等和成功跳转证据
 acceptance:
-- 两个后台页面故事验收条件通过
-- 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- H5-013加载、拒绝、离线、重试和成功导航有证据
 - MODULE门禁通过并可独立合入主控分支
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R02-004
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R02-005
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R02-004
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R02-005
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -283,386 +280,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260718T070836Z-25E39817
-status: ACTIVE
-actor:
-  id: codex-root
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R02
-task_id: TASK-R02-004
-story_id: STORY-R02-001
-goal: 完成后台用户列表的数据、生成契约、API、管理页面、权限状态和自动化测试闭环，再推进用户详情与管控。
-started_at: '2026-07-18T07:08:36Z'
-updated_at: '2026-07-18T08:14:17Z'
-takeover_of: null
-change_requests:
-- CR-0036
-- CR-0037
-scope:
-  allowed_paths:
-  - apps/admin-web/**
-  - services/backend/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - tests/**
-  - docs/**
-  - catalogs/**
-  - releases/**
-  - design/**
-  - scripts/**
-  approved_exceptions:
-  - CHANGELOG.md
-  - database/migrations/V018__r02_admin_user_controls.sql
-  - services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
-  - database/rollback/U018__r02_admin_user_controls.sql
-  - database/schema_dictionary.csv
-  - catalogs/data_tables.csv
-  - releases/R02/STORIES.yaml
-  - scripts/check_db_schema.py
-  - database/verification/verify_baseline.sql
-  source: story+explicit+approved-cr:CR-0036+approved-cr:CR-0037
-git:
-  initialized: true
-  branch: task/TASK-R02-002
-  base_commit: 67d189bb50a96bad6e6d1acf54983162130a9299
-  start_head: 67d189bb50a96bad6e6d1acf54983162130a9299
-  upstream: origin/task/TASK-R02-002
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-18T08:14:17Z'
-  expires_at: '2026-07-18T12:14:17Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0004.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md
-next_step: 提交CR关闭记录并执行TASK-R02-004完成关闭。
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: 连续性关闭记录必须由唯一主控串行更新事件链和上下文包。
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T070836Z-25E39817-0004
-session_id: SES-20260718T070836Z-25E39817
-sequence: 4
-created_at: '2026-07-18T08:14:17Z'
-summary: CR-0037已绑定实现提交2317ead并在全部门禁通过后关闭。
-next_step: 提交CR关闭记录并执行TASK-R02-004完成关闭。
-blockers: []
-decisions:
-- CR仅在实现提交和数据库、后端、前端、契约门禁全部通过后关闭。
-note: 本检查点只固化已验证CR关闭状态。
-tests:
-- name: cr0037-closure-gates
-  result: PASS
-  evidence: commit 2317ead plus recorded gate evidence
-  note: CR status CLOSED
-git:
-  initialized: true
-  branch: task/TASK-R02-002
-  head: 2317ead46211c9bcfddbf7b77af8f76059325606
-  upstream: origin/task/TASK-R02-002
-  ahead: 1
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/STATE.yaml
-  - M  .continuity/change_requests/CR-0037.yaml
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/session_index.csv
-  - M  docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
-  recent_commits:
-  - "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user\
-    \ control operations"
-  - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
-    \ read views"
-  - "67d189bb50a96bad6e6d1acf54983162130a9299\t2026-07-18T15:06:32+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] chore(continuity): close TASK-R02-003\
-    \ as completed"
-  - "8573731b1f0fa26af70f5b2eb67e18f37263470a\t2026-07-18T15:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] fix(android): reject APK builds\
-    \ with placeholder API"
-  - "4ea46c06c62b14eda09b9d1d533962bdfcc731cf\t2026-07-18T14:49:43+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close account\
-    \ cancellation flow"
-  - "93be8d6799542112ee63db6d1c9d6c3735766d1c\t2026-07-18T14:39:48+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close restricted\
-    \ account appeal flow"
-  - "03c95d7c05145165305b7b5934710b3c5c744605\t2026-07-18T14:19:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close security\
-    \ sessions and password change"
-  - "6d4ad64b271c91565aaeee42074aa5a989a1af74\t2026-07-18T13:32:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): close TASK-R02-002\
-    \ as completed"
-project_fingerprint:
-  sha256: b2e1d1b618cefb474c6491edc544587510165cf42ab0c5291246cf9ce646a0f0
-  files:
-  - CHANGELOG.md
-  - apps/admin-web/src/r02UsersPage.test.ts
-  - apps/admin-web/src/router.ts
-  - apps/admin-web/src/services/adminUsers.test.ts
-  - apps/admin-web/src/services/adminUsers.ts
-  - apps/admin-web/src/services/idempotency.ts
-  - apps/admin-web/src/services/index.ts
-  - apps/admin-web/src/styles.css
-  - apps/admin-web/src/views/AdminUserDetailPage.vue
-  - apps/admin-web/src/views/AdminUsersListPage.vue
-  - catalogs/data_tables.csv
-  - database/migrations/V018__r02_admin_user_controls.sql
-  - database/rollback/U018__r02_admin_user_controls.sql
-  - database/schema_dictionary.csv
-  - database/tests/r02_admin_user_controls.sql
-  - database/verification/verify_baseline.sql
-  - docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
-  - docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
-  - releases/R02/STORIES.yaml
-  - scripts/check_db_schema.py
-  - scripts/run_postgres_migration_smoke.sh
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserCommandService.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
-  - services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
-  file_count: 32
-  payload:
-    base_commit: 67d189bb50a96bad6e6d1acf54983162130a9299
-    files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 19354
-      sha256: d442ce59b0d9006c81429ae378ab96bba5c1e8d7f505c8f8c8f4e0eb9009e274
-    - path: apps/admin-web/src/r02UsersPage.test.ts
-      state: FILE
-      size: 2729
-      sha256: 881ee4cd77d74d4ea601a5627eead38fc877412a2e8db1c14970a8f68880b9d8
-    - path: apps/admin-web/src/router.ts
-      state: FILE
-      size: 2015
-      sha256: 27194ee2827fa4df286b4f78692887622d251349af6fa7dce68c19bc66e98ce8
-    - path: apps/admin-web/src/services/adminUsers.test.ts
-      state: FILE
-      size: 6157
-      sha256: 0eab3ea64a9b36748b8c2d59918ce2aad9e95de6229fa18236c53ba471519948
-    - path: apps/admin-web/src/services/adminUsers.ts
-      state: FILE
-      size: 8167
-      sha256: 14f26a19db07d6fd48c5f5c24aadfb3ea3ac94450dce7d14e64ec010463caa4e
-    - path: apps/admin-web/src/services/idempotency.ts
-      state: FILE
-      size: 1794
-      sha256: ebc0d84b0147f0c8ef885f74bc6ad17c4c02b7893eec08931a9f938deb5e6161
-    - path: apps/admin-web/src/services/index.ts
-      state: FILE
-      size: 154
-      sha256: 464b0b2aa452b05b72dc24c70232c0314281888ad0a0eb01d78945fbc8877f0d
-    - path: apps/admin-web/src/styles.css
-      state: FILE
-      size: 19892
-      sha256: c2cdd26df445dae9086e8eae59e0c5645796b884e514d461c9e97d810232fbb7
-    - path: apps/admin-web/src/views/AdminUserDetailPage.vue
-      state: FILE
-      size: 14181
-      sha256: 5f3e49eee232a6c6ee090f3a1f6ddd41ad7a7e4a4b042b933d26979cf1e32e2e
-    - path: apps/admin-web/src/views/AdminUsersListPage.vue
-      state: FILE
-      size: 7897
-      sha256: 2f4508495c1a527813a075dbc1d8cbe2c46763218c906bfe4aafaaab13fad346
-    - path: catalogs/data_tables.csv
-      state: FILE
-      size: 25302
-      sha256: 24a5fe6c06c8af6bd1e47deb77469f8c138c4460212802e8a53dce354c11fdee
-    - path: database/migrations/V018__r02_admin_user_controls.sql
-      state: FILE
-      size: 2801
-      sha256: b84f10b84fb7967939aa5623791a412103c328d760392bcb4e6b4aeef86ac5f8
-    - path: database/rollback/U018__r02_admin_user_controls.sql
-      state: FILE
-      size: 395
-      sha256: 597bcb442d864a44890791ac16a35d006cea028e030a3d4de6c0c624329c1d54
-    - path: database/schema_dictionary.csv
-      state: FILE
-      size: 142991
-      sha256: d8621710966ebad91e9696f2a9082c0b93a485a5db7a07659e80d0ba0c557bf8
-    - path: database/tests/r02_admin_user_controls.sql
-      state: FILE
-      size: 2003
-      sha256: 949df0b457834c0864589491a4ea97ce899bc24bcef5cb03cddc169ba520ec59
-    - path: database/verification/verify_baseline.sql
-      state: FILE
-      size: 4061
-      sha256: eff012832c0eadd7b55b27199bd81e78f091e5abab919f3a46bac369390bd867
-    - path: docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
-      state: FILE
-      size: 1836
-      sha256: caa3a18d9e0271663c93ee4ace2e4465b96e54e36322dbdd0a5b3b02a68761d9
-    - path: docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
-      state: FILE
-      size: 3525
-      sha256: 6cbbfaf42e2d13041b3e35dc0f8d990f88faa936cc1d264101bf12b8bc735152
-    - path: releases/R02/STORIES.yaml
-      state: FILE
-      size: 27392
-      sha256: cbc199fd846c42cbb50f02af53969fb914f16a814de2d459a7f929509a9226cf
-    - path: scripts/check_db_schema.py
-      state: FILE
-      size: 8738
-      sha256: 74ef5e710d54eb58af9530103a918d7ba6382d696ef666af56d73d70ec0eb035
-    - path: scripts/run_postgres_migration_smoke.sh
-      state: FILE
-      size: 14040
-      sha256: 6d6c7f9be03a5c70a671bd61e29d53c2c832e59f6ddd6f5fa8ec2ed0317d11ee
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserCommandService.java
-      state: FILE
-      size: 14855
-      sha256: c2dfbd6f6e1e05cf7b7b58705fa01cddbe626eb311c1160519b2c95197963bce
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
-      state: FILE
-      size: 1686
-      sha256: 1215d5861aad664e8b49da16f0d7a1eae885cb4cdb8869643dffdc386b7981ba
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
-      state: FILE
-      size: 3391
-      sha256: 0c6b818de7ade5703d330671f789c3fb12a473c8db802bbe06d3440432a9825c
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
-      state: FILE
-      size: 11468
-      sha256: aea58a0d5aca9988fc545fdfbadd85b9b2587c4dec747b47315ae4520c7fcda0
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
-      state: FILE
-      size: 30250
-      sha256: b4dbe55ccf9a0265218f9096d9e3096ba570e3844a2ccfe0c658ad1bf956548b
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
-      state: FILE
-      size: 28404
-      sha256: 886c6d552a77c2372b9e701592137d3b3ed51347b2ecf9615c0a201b77db0070
-    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
-      state: FILE
-      size: 6792
-      sha256: b0ea4bc94ee5b8c3f59e0875b004e58d33f4a8abd71a0234e69385aae7657ed3
-    - path: services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
-      state: FILE
-      size: 2801
-      sha256: b84f10b84fb7967939aa5623791a412103c328d760392bcb4e6b4aeef86ac5f8
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java
-      state: FILE
-      size: 6571
-      sha256: 55ce9a3cc651425e8b9573f55c96a0334643880415e4320fec37ebc9291c6028
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
-      state: FILE
-      size: 3433
-      sha256: 48ed774ade3c595e9b1366432c8717bbffc1be0b64e9dbc45732612c1997b842
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
-      state: FILE
-      size: 23721
-      sha256: 22111b60d27ff7e1b8331f855637c956382678be334898957e060ffc3d6a7fb2
-change_classification:
-  other:
-  - CHANGELOG.md
-  - catalogs/data_tables.csv
-  code:
-  - apps/admin-web/src/r02UsersPage.test.ts
-  - apps/admin-web/src/router.ts
-  - apps/admin-web/src/services/adminUsers.test.ts
-  - apps/admin-web/src/services/adminUsers.ts
-  - apps/admin-web/src/services/idempotency.ts
-  - apps/admin-web/src/services/index.ts
-  - apps/admin-web/src/styles.css
-  - apps/admin-web/src/views/AdminUserDetailPage.vue
-  - apps/admin-web/src/views/AdminUsersListPage.vue
-  - scripts/check_db_schema.py
-  - scripts/run_postgres_migration_smoke.sh
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserCommandService.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java
-  - services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
-  user_visible:
-  - apps/admin-web/src/r02UsersPage.test.ts
-  - apps/admin-web/src/router.ts
-  - apps/admin-web/src/services/adminUsers.test.ts
-  - apps/admin-web/src/services/adminUsers.ts
-  - apps/admin-web/src/services/idempotency.ts
-  - apps/admin-web/src/services/index.ts
-  - apps/admin-web/src/styles.css
-  - apps/admin-web/src/views/AdminUserDetailPage.vue
-  - apps/admin-web/src/views/AdminUsersListPage.vue
-  database:
-  - database/migrations/V018__r02_admin_user_controls.sql
-  - database/rollback/U018__r02_admin_user_controls.sql
-  - database/schema_dictionary.csv
-  - database/tests/r02_admin_user_controls.sql
-  - database/verification/verify_baseline.sql
-  source_of_truth:
-  - database/schema_dictionary.csv
-  - releases/R02/STORIES.yaml
-  continuity:
-  - docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md
-  - docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- APPROVED_CHANGE_REQUEST
-- DATABASE_TEST_EVIDENCE
-- SCHEMA_TRACEABILITY
-- CHANGELOG
-change_requests:
-- CR-0036
-- CR-0037
-scope:
-  allowed_paths:
-  - apps/admin-web/**
-  - services/backend/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - tests/**
-  - docs/**
-  - catalogs/**
-  - releases/**
-  - design/**
-  - scripts/**
-  approved_exceptions:
-  - CHANGELOG.md
-  - database/migrations/V018__r02_admin_user_controls.sql
-  - services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql
-  - database/rollback/U018__r02_admin_user_controls.sql
-  - database/schema_dictionary.csv
-  - catalogs/data_tables.csv
-  - releases/R02/STORIES.yaml
-  - scripts/check_db_schema.py
-  - database/verification/verify_baseline.sql
-  source: story+explicit+approved-cr:CR-0036+approved-cr:CR-0037
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: 连续性关闭记录必须由唯一主控串行更新事件链和上下文包。
-event_hash: 340a6beb330da8abb59998fb9c48244afe7082bbc018bd0738a60a41f47f57b8
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -670,12 +294,12 @@ event_hash: 340a6beb330da8abb59998fb9c48244afe7082bbc018bd0738a60a41f47f57b8
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260718T070836Z-25E39817
-last_session_id: SES-20260718T053331Z-F0ED92BF
+active_session_id: null
+last_session_id: SES-20260718T070836Z-25E39817
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260718T053331Z-F0ED92BF-0015
-event_count: 421
-event_head_hash: 340a6beb330da8abb59998fb9c48244afe7082bbc018bd0738a60a41f47f57b8
+last_closure_checkpoint_id: CP-SES-20260718T070836Z-25E39817-0005
+event_count: 424
+event_head_hash: 06f6161286b06f3d342693be1e58f8e18023bad8464c015462d7a41a59c4078f
 event_chain_valid: true
 ```
 
@@ -794,13 +418,13 @@ recent_sessions: - session_id: SES-20260717T122518Z-91E6F4D6
   task_id: TASK-R02-004
   story_id: STORY-R02-001
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-18T07:08:36Z'
   record: .continuity/sessions/SES-20260718T070836Z-25E39817.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md
-  updated_at: '2026-07-18T08:14:17Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0004.yaml
+  updated_at: '2026-07-18T08:14:58Z'
+  closed_at: '2026-07-18T08:14:58Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T070836Z-25E39817/0005.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-7942880F386B
   session_id: SES-20260717T023511Z-C6513BB0
@@ -1465,7 +1089,7 @@ task_claims: - claim_id: CLM-7942880F386B
   task_id: TASK-R02-004
   story_id: STORY-R02-001
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-18T07:08:36Z'
   allowed_paths:
   - apps/admin-web/**
@@ -1480,6 +1104,7 @@ task_claims: - claim_id: CLM-7942880F386B
   - releases/**
   - design/**
   - scripts/**
+  closed_at: '2026-07-18T08:14:58Z'
 recent_task_transitions: - transition_id: TRN-B087F7FC31DE
   timestamp: '2026-07-17T02:44:07Z'
   release: P00
@@ -1687,26 +1312,30 @@ recent_task_transitions: - transition_id: TRN-B087F7FC31DE
 ```yaml
 initialized: true
 branch: task/TASK-R02-002
-head: 2317ead46211c9bcfddbf7b77af8f76059325606
+head: 6d28613c19d0f64986aac5b4d7a51276bd3ff440
 upstream: origin/task/TASK-R02-002
-ahead: 1
+ahead: 2
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- M  .continuity/CHANGE_REQUEST_INDEX.yaml
-- MM .continuity/EVENT_LOG.jsonl
+- ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
-- MM .continuity/STATE.yaml
-- M  .continuity/change_requests/CR-0037.yaml
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260718T070836Z-25E39817.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- M  catalogs/change_request_index.csv
-- M  catalogs/session_index.csv
-- M  docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md'
-- ?? .continuity/checkpoints/SES-20260718T070836Z-25E39817/0004.yaml
+- ' M releases/R02/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260718T070836Z-25E39817/0005.yaml
 recent_commits:
+- "6d28613c19d0f64986aac5b4d7a51276bd3ff440\t2026-07-18T16:14:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] chore(continuity): close CR-0037"
 - "2317ead46211c9bcfddbf7b77af8f76059325606\t2026-07-18T16:12:31+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): complete user control\
   \ operations"
 - "38026234165906db0432eece6203c790aba4851b\t2026-07-18T15:26:29+08:00\tHHY Continuity Bootstrap\t[STORY-R02-001] feat(admin): implement user\
@@ -1721,47 +1350,14 @@ recent_commits:
   \ account appeal flow"
 - "03c95d7c05145165305b7b5934710b3c5c744605\t2026-07-18T14:19:49+08:00\tHHY Continuity Bootstrap\t[STORY-R02-005] feat(auth): close security sessions\
   \ and password change"
-- "6d4ad64b271c91565aaeee42074aa5a989a1af74\t2026-07-18T13:32:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(continuity): close TASK-R02-002\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`b2e1d1b618cefb474c6491edc544587510165cf42ab0c5291246cf9ce646a0f0`
-- 文件数：32
+- 指纹：`c4c8c60d5a8ac2a1ee2c3de7e9239ebc107ffb5e87046c2f6b6a835b252454cb`
+- 文件数：0
 
-- `CHANGELOG.md`
-- `apps/admin-web/src/r02UsersPage.test.ts`
-- `apps/admin-web/src/router.ts`
-- `apps/admin-web/src/services/adminUsers.test.ts`
-- `apps/admin-web/src/services/adminUsers.ts`
-- `apps/admin-web/src/services/idempotency.ts`
-- `apps/admin-web/src/services/index.ts`
-- `apps/admin-web/src/styles.css`
-- `apps/admin-web/src/views/AdminUserDetailPage.vue`
-- `apps/admin-web/src/views/AdminUsersListPage.vue`
-- `catalogs/data_tables.csv`
-- `database/migrations/V018__r02_admin_user_controls.sql`
-- `database/rollback/U018__r02_admin_user_controls.sql`
-- `database/schema_dictionary.csv`
-- `database/tests/r02_admin_user_controls.sql`
-- `database/verification/verify_baseline.sql`
-- `docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md`
-- `docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md`
-- `releases/R02/STORIES.yaml`
-- `scripts/check_db_schema.py`
-- `scripts/run_postgres_migration_smoke.sh`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserCommandService.java`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserContracts.java`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserService.java`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminUserStore.java`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java`
-- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminUserController.java`
-- `services/backend/boot/src/main/resources/db/migration/V018__r02_admin_user_controls.sql`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserServiceTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java`
+- 无
 
 ## 当前 Release
 
@@ -2949,7 +2545,7 @@ TASKS.yaml:
     completed_at: '2026-07-18T07:05:22Z'
   - id: TASK-R02-004
     title: 纵向批次C：后台用户列表、详情与管控闭环
-    status: READY
+    status: DONE
     depends_on:
     - TASK-R02-001
     parallelizable_with:
@@ -2971,9 +2567,10 @@ TASKS.yaml:
     - 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
     - MODULE门禁通过并可独立合入主控分支
     session_log_required: true
+    completed_at: '2026-07-18T08:14:54Z'
   - id: TASK-R02-005
     title: 纵向批次D：H5邀请注册闭环
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R02-001
     parallelizable_with:
@@ -4197,8 +3794,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `1ecad8f772dd92b73e952d7c8b45aff7bb1d3c2c3a4f9f426b9b7ce342fc1a82`
-- `NEXT_TASK.yaml` — `05dc4e82b8c54a45ce0d06ff4b8f879b90bc1a6b3e15b2650e54618a2d9420f5`
+- `CURRENT_STATUS.yaml` — `f5dc596f2065f7b9ebd86c663ee3d2cf1cd241a679422a73d4b161db21124c8e`
+- `NEXT_TASK.yaml` — `1c9b73f303bde1b935243a2a593310d3f53d8fb6044d3b9b45b65661e10f5198`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `b12427737bdedd5ae1581ae40b19f57c8ba2e8a56beeb617333611c079f75442`
@@ -4208,22 +3805,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7`
-- `.continuity/EVENT_LOG.jsonl` — `062cd238d3f08b746138cc7ed1b3d88d64055d39f5e8df3c4b57435c36b3ae86`
-- `.continuity/SESSION_INDEX.yaml` — `0d4fd7528952c0afe3d4b4b59a24c3ba341d6ff3372c800fb0b723cc5033ce5a`
-- `.continuity/TASK_CLAIMS.yaml` — `81a0990ecae2a8c9b84b23b455010f22b9fc44cb300a6aba56e4ef0b94c34991`
+- `.continuity/EVENT_LOG.jsonl` — `ffa12872b88da888bf7b62281ff0b2da2494d626f880f2b8766999b4bae639a7`
+- `.continuity/SESSION_INDEX.yaml` — `00c99a1cd56a565f1e508fd0fec103b360d26b3615241cb8a12b16a32a1fa9ab`
+- `.continuity/TASK_CLAIMS.yaml` — `98a8e240c3127e0308c01e2f76d4999270e48907015dcbc88db62c5779500e57`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b831d9c0e05b3120e3ffee54ac598fcc0b4dcbb23fdd8d676f2c2d1506dd1c21`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `d258a184692746636c3a27d8ea20b146ca3d6aef0c6fcf0676bee2f33b2fa071`
-- `.continuity/ACTIVE_SESSION.yaml` — `f107f0ab419a329729abbba5cb1870e861eecabb57de5f136f7d8bd4cf6a4f2a`
-- `releases/R02/RELEASE_MANIFEST.yaml` — `19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d`
-- `releases/R02/DEFINITION_OF_READY.yaml` — `9a3113b85d8dd96ea04a908a277c9da3374531ec06dd5eb91dfd539e4351d33c`
-- `releases/R02/STORIES.yaml` — `cbc199fd846c42cbb50f02af53969fb914f16a814de2d459a7f929509a9226cf`
-- `releases/R02/TASKS.yaml` — `fad118051c8721b2f95138e3192bc13715b5622a2a3715808b21d3288a6e27d6`
-- `releases/R02/ACCEPTANCE_MATRIX.csv` — `687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0`
-- `releases/R02/PARALLEL_EXECUTION_PLAN.yaml` — `c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md` — `66e877de9e8e82ac3841e24d67ffdb8519414b807a261a674ef6f9c695871b66`
-- `.continuity/checkpoints/SES-20260718T070836Z-25E39817/0004.yaml` — `267c1288ff79a2d7e7b37ea1e8d85731edfea400decf289e5c1a63cddcb4d3fb`
-- `docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md` — `caa3a18d9e0271663c93ee4ace2e4465b96e54e36322dbdd0a5b3b02a68761d9`
-- `docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md` — `6cbbfaf42e2d13041b3e35dc0f8d990f88faa936cc1d264101bf12b8bc735152`
+- `.continuity/ACTIVE_SESSION.yaml` — `5a28151ca058e16218915eec302bd8ee8a8df62f1ccfad7ad36a63571b5038ff`
 
 ## 接手硬规则
 

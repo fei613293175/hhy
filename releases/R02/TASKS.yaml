@@ -84,7 +84,7 @@ tasks:
   completed_at: '2026-07-18T07:05:22Z'
 - id: TASK-R02-004
   title: 纵向批次C：后台用户列表、详情与管控闭环
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R02-001
   parallelizable_with:
@@ -106,9 +106,10 @@ tasks:
   - 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
   - MODULE门禁通过并可独立合入主控分支
   session_log_required: true
+  completed_at: '2026-07-18T08:14:54Z'
 - id: TASK-R02-005
   title: 纵向批次D：H5邀请注册闭环
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R02-001
   parallelizable_with:

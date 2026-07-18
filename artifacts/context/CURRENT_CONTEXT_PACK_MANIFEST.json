@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-18T08:14:19Z",
-  "context_hash": "d62eef92632d0c4ffe0cfca190a2e2fc454b7c664281e5024b67260e5f921a80",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-18T08:15:00Z",
+  "context_hash": "e7fc249b190819a59b11d1937f21ae30e043f90474ebd3bef5dda2547f4c6d42",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "b2e1d1b618cefb474c6491edc544587510165cf42ab0c5291246cf9ce646a0f0",
-    "file_count": 32
+    "sha256": "c4c8c60d5a8ac2a1ee2c3de7e9239ebc107ffb5e87046c2f6b6a835b252454cb",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "8706e4bbf78d999a41504b7610f7ebfcb4ea8ebc36d9493ca4d3000c86c93fef"
+    "sha256": "18a9c93789ee8851291c16d1634ce5494e1ae52deb76e419401a3400f621f96b"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "6f5d794515fa2312ce0d047e838ad95159ecac1d01a9c4ed23d0a3fe9ccfe052"
+    "sha256": "07c6a365892cfd2d7d55328ffc27d73eb8f6a352f37a581d0ccb5e61fcde1e03"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "1ecad8f772dd92b73e952d7c8b45aff7bb1d3c2c3a4f9f426b9b7ce342fc1a82",
-      "bytes": 3215
+      "sha256": "f5dc596f2065f7b9ebd86c663ee3d2cf1cd241a679422a73d4b161db21124c8e",
+      "bytes": 3092
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "05dc4e82b8c54a45ce0d06ff4b8f879b90bc1a6b3e15b2650e54618a2d9420f5",
-      "bytes": 1769
+      "sha256": "1c9b73f303bde1b935243a2a593310d3f53d8fb6044d3b9b45b65661e10f5198",
+      "bytes": 1673
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "062cd238d3f08b746138cc7ed1b3d88d64055d39f5e8df3c4b57435c36b3ae86",
-      "bytes": 232637
+      "sha256": "ffa12872b88da888bf7b62281ff0b2da2494d626f880f2b8766999b4bae639a7",
+      "bytes": 234291
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "0d4fd7528952c0afe3d4b4b59a24c3ba341d6ff3372c800fb0b723cc5033ce5a",
-      "bytes": 11752
+      "sha256": "00c99a1cd56a565f1e508fd0fec103b360d26b3615241cb8a12b16a32a1fa9ab",
+      "bytes": 11770
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "81a0990ecae2a8c9b84b23b455010f22b9fc44cb300a6aba56e4ef0b94c34991",
-      "bytes": 15152
+      "sha256": "98a8e240c3127e0308c01e2f76d4999270e48907015dcbc88db62c5779500e57",
+      "bytes": 15188
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,58 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "f107f0ab419a329729abbba5cb1870e861eecabb57de5f136f7d8bd4cf6a4f2a",
-      "bytes": 525
-    },
-    {
-      "path": "releases/R02/RELEASE_MANIFEST.yaml",
-      "sha256": "19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d",
-      "bytes": 4270
-    },
-    {
-      "path": "releases/R02/DEFINITION_OF_READY.yaml",
-      "sha256": "9a3113b85d8dd96ea04a908a277c9da3374531ec06dd5eb91dfd539e4351d33c",
-      "bytes": 7091
-    },
-    {
-      "path": "releases/R02/STORIES.yaml",
-      "sha256": "cbc199fd846c42cbb50f02af53969fb914f16a814de2d459a7f929509a9226cf",
-      "bytes": 27392
-    },
-    {
-      "path": "releases/R02/TASKS.yaml",
-      "sha256": "fad118051c8721b2f95138e3192bc13715b5622a2a3715808b21d3288a6e27d6",
-      "bytes": 7473
-    },
-    {
-      "path": "releases/R02/ACCEPTANCE_MATRIX.csv",
-      "sha256": "687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0",
-      "bytes": 691
-    },
-    {
-      "path": "releases/R02/PARALLEL_EXECUTION_PLAN.yaml",
-      "sha256": "c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184",
-      "bytes": 2849
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md",
-      "sha256": "66e877de9e8e82ac3841e24d67ffdb8519414b807a261a674ef6f9c695871b66",
-      "bytes": 10881
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260718T070836Z-25E39817/0004.yaml",
-      "sha256": "267c1288ff79a2d7e7b37ea1e8d85731edfea400decf289e5c1a63cddcb4d3fb",
-      "bytes": 14386
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0036-TASK-R02-004允许同步用户可见变更日志.md",
-      "sha256": "caa3a18d9e0271663c93ee4ace2e4465b96e54e36322dbdd0a5b3b02a68761d9",
-      "bytes": 1836
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0037-R02用户限制持久化与细粒度权限补齐.md",
-      "sha256": "6cbbfaf42e2d13041b3e35dc0f8d990f88faa936cc1d264101bf12b8bc735152",
-      "bytes": 3525
+      "sha256": "5a28151ca058e16218915eec302bd8ee8a8df62f1ccfad7ad36a63571b5038ff",
+      "bytes": 143
     }
   ]
 }

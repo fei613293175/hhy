@@ -286,3 +286,13 @@
 - Actor：`codex-root`
 - 摘要：完成R02账户安全批次：受限账户申诉、账户注销与短信敏感操作闭环；修复测试APK因遗漏API地址导致暂时无法连接的问题，并建立打包阻断与自动回归测试。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T053331Z-F0ED92BF.md`
+
+## TASK-R02-004 · COMPLETED · 2026-07-18T08:14:54Z
+
+- Task close: TASK-R02-004 / SES-20260718T070836Z-25E39817
+- Release：`R02`
+- Story：`STORY-R02-001`
+- Actor：`codex-root`
+- 摘要：完成TASK-R02-004：用户列表、详情、限制、双人冻结、解冻、强制下线、到期恢复、V018迁移和全部模块门禁真实闭环。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T070836Z-25E39817.md`
+
