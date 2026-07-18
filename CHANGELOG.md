@@ -273,3 +273,13 @@
 - Actor：`codex-root`
 - 摘要：TASK-R02-002 completed: startup, password/SMS authentication, invite registration, controlled agreement versions, source/runtime contract synchronization, cloud backend test, fixed-image Android tests, WIP APK, and trace records delivered.
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md`
+
+## TASK-R02-003 · COMPLETED · 2026-07-18T07:05:22Z
+
+- Task close: TASK-R02-003 / SES-20260718T053331Z-F0ED92BF
+- Release：`R02`
+- Story：`STORY-R02-005`
+- Actor：`codex-root`
+- 摘要：完成R02账户安全批次：受限账户申诉、账户注销与短信敏感操作闭环；修复测试APK因遗漏API地址导致暂时无法连接的问题，并建立打包阻断与自动回归测试。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260718T053331Z-F0ED92BF.md`
+
