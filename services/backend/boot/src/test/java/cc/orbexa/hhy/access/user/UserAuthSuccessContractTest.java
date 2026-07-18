@@ -2,6 +2,8 @@ package cc.orbexa.hhy.access.user;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -9,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import cc.orbexa.hhy.access.user.UserAuthContracts.DeviceSummaryResource;
+import cc.orbexa.hhy.access.user.UserAuthContracts.PasswordLoginRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.RefreshRequest;
 import cc.orbexa.hhy.access.user.UserAuthContracts.UserSessionResource;
 import java.time.Instant;
@@ -65,5 +68,36 @@ class UserAuthSuccessContractTest {
                 .andExpect(jsonPath("$.data.device.platform").value("ANDROID"))
                 .andExpect(jsonPath("$.data.capabilities[0]").value("content.read"))
                 .andExpect(jsonPath("$.error").doesNotExist());
+    }
+
+    @Test
+    void passwordLoginBindsFrozenRequestAndReturnsTheSameSessionEnvelope() throws Exception {
+        Instant expiresAt = Instant.parse("2026-07-18T01:15:00Z");
+        when(service.passwordLogin(any(PasswordLoginRequest.class), eq("password-idem-key-0001"), anyString()))
+                .thenReturn(new UserSessionResource(
+                        "access-token", "refresh-token", expiresAt,
+                        "17", "23",
+                        new DeviceSummaryResource("31", "Pixel 9", "ANDROID", "16", "1.2.3", expiresAt, true),
+                        List.of("content.read")));
+
+        mvc.perform(post("/api/v1/auth/password/login")
+                        .header("X-Request-Id", "contract-password-login")
+                        .header("X-Idempotency-Key", "password-idem-key-0001")
+                        .contentType("application/json")
+                        .content("""
+                                {"phone":"13800000000","password":"Correct99","challengeId":"challenge-1","challengeProof":"proof-1",
+                                 "device":{"deviceFingerprint":"install-fingerprint","platform":"ANDROID"}}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.requestId").value("contract-password-login"))
+                .andExpect(jsonPath("$.data.accessToken").value("access-token"))
+                .andExpect(jsonPath("$.data.refreshToken").value("refresh-token"))
+                .andExpect(jsonPath("$.data.device.deviceId").value("31"));
+
+        var request = org.mockito.ArgumentCaptor.forClass(PasswordLoginRequest.class);
+        verify(service).passwordLogin(request.capture(), eq("password-idem-key-0001"), anyString());
+        org.junit.jupiter.api.Assertions.assertEquals("13800000000", request.getValue().phone());
+        org.junit.jupiter.api.Assertions.assertEquals("install-fingerprint", request.getValue().device().get("deviceFingerprint"));
     }
 }
