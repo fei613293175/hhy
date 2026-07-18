@@ -55,3 +55,20 @@ docker compose -p hhy-r01-staging -f infra/staging/r01-smoke/docker-compose.yml 
 ```
 
 若旧镜像不兼容已执行的 V016 或更高迁移，停止应用回切并走更高版本 Flyway 前向修复；禁止 U016、降版本 DDL、`down -v` 或重建 PostgreSQL。回切旧镜像和恢复当前镜像前后都要记录数据库容器 ID、卷名、Flyway 版本、Prometheus target、RED、全部业务 Gauge、告警与恢复时间，且 `hhy_admin_idempotency_incomplete_snapshots` 和 `hhy_business_metric_query_failures_total` 必须为 0。
+
+## 7. R03 配置中心隔离回滚演练
+
+R03 回滚包含两个互不替代的层次：供应商配置版本回滚使用已批准的管理端命令，应用镜像回切使用 Compose；两者都不得回滚数据库结构。
+
+配置版本回滚前必须确认目标历史版本已有成功连接测试、审批状态为 `APPROVED`、申请人与审核人不同且审批资源精确绑定目标版本。回滚后验证当前版本为 `ROLLED_BACK`、目标版本恢复为 `ACTIVE`、审计事件可按 requestId/traceId 追踪，重复提交不产生第二次状态变化。任一连接测试或审批检查失败时保持原 ACTIVE 版本不变。
+
+应用镜像演练保持同一个 PostgreSQL 容器和卷，只切换 `api`：
+
+```bash
+export HHY_SMOKE_ID='<previous-approved-v019-compatible-tag>'
+docker compose -p hhy-r03-staging -f infra/staging/r03-smoke/docker-compose.yml up -d --no-deps api
+docker compose -p hhy-r03-staging -f infra/staging/r03-smoke/docker-compose.yml exec -T api \
+  curl -fsS http://127.0.0.1:9091/actuator/health/readiness
+```
+
+回切前后记录 `api` 镜像 ID、PostgreSQL 容器 ID、卷名、Flyway V019、200 表基线、Prometheus target、RED 和四项 R03 Gauge。随后恢复当前镜像并重复 readiness 与指标验证。若旧镜像不兼容 V019，停止回切并走更高版本 Flyway 前向修复；禁止 U019、降版本 DDL、删除配置/审计记录或重建数据库。

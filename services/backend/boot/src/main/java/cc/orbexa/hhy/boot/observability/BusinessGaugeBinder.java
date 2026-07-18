@@ -89,6 +89,34 @@ public final class BusinessGaugeBinder implements MeterBinder {
             FROM hhy.sms_verification_codes
             WHERE used_at IS NULL AND expires_at <= CURRENT_TIMESTAMP
             """;
+    static final String PROVIDER_CONNECTION_TEST_FAILURES_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.provider_connection_tests
+            WHERE test_type LIKE 'R03_SAFE_PROBE:%'
+              AND test_type <> 'R03_SAFE_PROBE:OK'
+              AND created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String PROVIDER_UNTESTED_ACTIVE_CONFIGS_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.provider_config_versions
+            WHERE status = 'ACTIVE'
+              AND connection_successful IS DISTINCT FROM TRUE
+            """;
+    static final String PROVIDER_CERTIFICATES_EXPIRING_30D_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.provider_certificates
+            WHERE status = 'ACTIVE'
+              AND valid_to IS NOT NULL
+              AND valid_to <= CURRENT_TIMESTAMP + INTERVAL '30' DAY
+            """;
+    static final String DOMAIN_VERIFICATION_FAILURES_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.domain_configs
+            WHERE dns_status = 'FAILED'
+               OR https_status = 'FAILED'
+               OR certificate_status = 'INVALID'
+               OR service_health_status = 'FAILED'
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -110,6 +138,10 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.user.active.sessions", "Active user refresh sessions that have not expired", USER_ACTIVE_SESSIONS_SQL);
         register(registry, "hhy.user.security.challenge.failures.5m", "Rejected user security challenge proofs in the last five minutes", USER_SECURITY_CHALLENGE_FAILURES_5M_SQL);
         register(registry, "hhy.user.sms.expired.unused", "Expired user SMS verification codes that were never consumed", USER_EXPIRED_UNUSED_SMS_CODES_SQL);
+        register(registry, "hhy.provider.connection.test.failures.5m", "Failed R03 provider safe probes in the last five minutes", PROVIDER_CONNECTION_TEST_FAILURES_5M_SQL);
+        register(registry, "hhy.provider.config.untested.active", "Active provider configurations without a successful connection test", PROVIDER_UNTESTED_ACTIVE_CONFIGS_SQL);
+        register(registry, "hhy.provider.certificates.expiring.30d", "Active provider certificates expiring in the next thirty days", PROVIDER_CERTIFICATES_EXPIRING_30D_SQL);
+        register(registry, "hhy.domain.verification.failures", "Domains failing DNS, HTTPS, certificate, or service-health verification", DOMAIN_VERIFICATION_FAILURES_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

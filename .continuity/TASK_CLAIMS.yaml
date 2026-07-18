@@ -1010,3 +1010,42 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-18T16:21:46Z'
+- claim_id: CLM-D402CCF0F4A1
+  session_id: SES-20260718T162320Z-23C14331
+  task_id: TASK-R03-006
+  story_id: STORY-R03-004
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-18T16:23:20Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json

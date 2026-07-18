@@ -26,6 +26,10 @@ class BusinessGaugeBinderTest {
         jdbc.execute("CREATE TABLE hhy.user_sessions (id bigint PRIMARY KEY, refresh_hash varchar(128), expires_at timestamp with time zone)");
         jdbc.execute("CREATE TABLE hhy.auth_security_challenges (id bigint PRIMARY KEY, attempts integer NOT NULL, created_at timestamp with time zone NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.sms_verification_codes (id bigint PRIMARY KEY, used_at timestamp with time zone, expires_at timestamp with time zone NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.provider_connection_tests (id bigint PRIMARY KEY, test_type varchar(255), created_at timestamp with time zone NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.provider_config_versions (id bigint PRIMARY KEY, status varchar(64) NOT NULL, connection_successful boolean)");
+        jdbc.execute("CREATE TABLE hhy.provider_certificates (id bigint PRIMARY KEY, status varchar(64) NOT NULL, valid_to timestamp with time zone)");
+        jdbc.execute("CREATE TABLE hhy.domain_configs (id bigint PRIMARY KEY, dns_status varchar(32) NOT NULL, https_status varchar(32) NOT NULL, certificate_status varchar(32) NOT NULL, service_health_status varchar(32) NOT NULL)");
 
         jdbc.update("INSERT INTO hhy.outbox_events(id, status) VALUES (1, 'PENDING'), (2, 'RETRY_WAIT'), (3, 'DEAD_LETTER'), (4, 'PUBLISHED')");
         jdbc.update("INSERT INTO hhy.ledger_accounts(id, currency) VALUES (10, 'CNY'), (11, 'CNY')");
@@ -58,6 +62,19 @@ class BusinessGaugeBinderTest {
                 + "(100, NULL, CURRENT_TIMESTAMP - INTERVAL '1' MINUTE), "
                 + "(101, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP - INTERVAL '1' MINUTE), "
                 + "(102, NULL, CURRENT_TIMESTAMP + INTERVAL '1' MINUTE)");
+        jdbc.update("INSERT INTO hhy.provider_connection_tests(id, test_type, created_at) VALUES "
+                + "(110, 'R03_SAFE_PROBE:TIMEOUT', CURRENT_TIMESTAMP), "
+                + "(111, 'R03_SAFE_PROBE:OK', CURRENT_TIMESTAMP), "
+                + "(112, 'R03_SAFE_PROBE:PROVIDER_ERROR', CURRENT_TIMESTAMP - INTERVAL '10' MINUTE)");
+        jdbc.update("INSERT INTO hhy.provider_config_versions(id, status, connection_successful) VALUES "
+                + "(120, 'ACTIVE', FALSE), (121, 'ACTIVE', TRUE), (122, 'DRAFT', NULL)");
+        jdbc.update("INSERT INTO hhy.provider_certificates(id, status, valid_to) VALUES "
+                + "(130, 'ACTIVE', CURRENT_TIMESTAMP + INTERVAL '20' DAY), "
+                + "(131, 'ACTIVE', CURRENT_TIMESTAMP + INTERVAL '60' DAY), "
+                + "(132, 'ROTATED', CURRENT_TIMESTAMP + INTERVAL '5' DAY)");
+        jdbc.update("INSERT INTO hhy.domain_configs(id, dns_status, https_status, certificate_status, service_health_status) VALUES "
+                + "(140, 'FAILED', 'PENDING', 'PENDING', 'PENDING'), "
+                + "(141, 'PASSED', 'PASSED', 'VALID', 'PASSED')");
 
         SimpleMeterRegistry registry = new SimpleMeterRegistry();
         new BusinessGaugeBinder(jdbc).bindTo(registry);
@@ -73,6 +90,10 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.user.active.sessions").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.user.security.challenge.failures.5m").gauge().value()).isEqualTo(2.0);
         assertThat(registry.get("hhy.user.sms.expired.unused").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.provider.connection.test.failures.5m").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.provider.config.untested.active").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.provider.certificates.expiring.30d").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.domain.verification.failures").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.business.metric.query.failures")
                 .tag("metric", "hhy.admin.active.sessions").counter().count()).isZero();
     }

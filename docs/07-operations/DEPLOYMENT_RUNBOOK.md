@@ -172,3 +172,19 @@ R02 现场演练至少覆盖：
 6. 演练回滚时只回退应用镜像，数据库坚持前向修复；隔离项目可以在证据归档后 `down -v` 清理。现有公网开发环境不属于本演练范围。
 
 R02 证据统一写入 `artifacts/validation/r02-task006-staging/` 并绑定精确 Commit 和 SHA-256。以上现场证据齐全后才可把 `AC-R02-004` 签为 PASS；APK 安装和四方哈希仍由 TASK-R02-007 单独完成。
+
+## 8. R03 隔离预发布验收
+
+R03 使用 `infra/staging/r03-smoke/docker-compose.yml`，必须采用独立 Compose project、回环端口、`172.31.248.0/24` 默认子网和独立数据卷；不得改动或重启现有公网、R01、R02 环境。执行前运行 `python3 scripts/check_r03_observability.py`，并用被测 Commit 作为不可变 `HHY_SMOKE_ID`。测试 Secret 只在隔离进程环境注入，不写入仓库、命令输出或证据文件。
+
+R03 现场演练至少覆盖：
+
+1. Java 21 全量测试、管理端测试与生产构建通过；PostgreSQL 17 完整迁移以退出码 0 结束，最终基线为 200 张表。
+2. Prometheus target `hhy-backend-r03` 为 UP，RED count/bucket 非空，并存在 `hhy_provider_connection_test_failures_5m`、`hhy_provider_config_untested_active`、`hhy_provider_certificates_expiring_30d`、`hhy_domain_verification_failures` 四项业务 Gauge；正常空载时后两项不变量与业务指标查询失败计数必须为 0。
+3. 停止/恢复 API 触发 `HhyR03BackendDown`；插入隔离失败探针数据触发 `HhyR03ProviderConnectionFailureBurst`。两项告警均需取得 firing、resolved 和 alert-sink 送达回执。
+4. 2xx/401/403/5xx 响应中的 `requestId`、`traceId`、状态码与 `http_request_completed` 日志可关联。日志不得包含 SecretRef 解析值、证书原文/私钥、密码、Bearer、Cookie 或供应商敏感响应。
+5. 连接测试超时、秘密不可用、供应商异常和连接器缺失均按安全错误分类失败；连接测试失败不得激活配置，也不得伪造成功回执。
+6. 配置激活和回滚演练必须验证双人审批、目标资源绑定、成功连接测试前置、原 ACTIVE 版本状态切换、审计记录和幂等重放。失败步骤不得修改当前 ACTIVE 配置。
+7. 应用回切只替换 `api` 镜像，保持同一 PostgreSQL 容器、卷和 V019 迁移；禁止执行 U019 或降版本 DDL。证据归档完成后才允许对本次隔离项目执行 `down -v`。
+
+R03 证据统一写入 `artifacts/validation/r03-task006-staging/`，绑定被测 Commit、两个不可变镜像 ID、数据库容器/卷连续性和证据 SHA-256。现场证据齐全后才能关闭 TASK-R03-006；真实供应商测试环境、外部 DNS/TLS、Android APK 和项目所有者真机验收仍由 TASK-R03-007 单独完成。
