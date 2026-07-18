@@ -196,3 +196,16 @@ problems:
   do_not_repeat:
   - Android面向用户的认证提示不得直接渲染后端错误码、枚举值或内部字段名
   - 需要排障时应显示请求编号，而不是服务端实现细节
+- id: PROB-0018
+  title: 手工WIP APK未注入真实API地址导致启动显示暂时无法连接
+  status: SOLVED
+  root_cause: 手工Docker/Gradle构建未传入HHY_API_BASE_URL，BuildConfig回退为安全占位地址https://api.example.invalid；该手工路径未执行正式APK交付证据门禁。
+  resolution: 所有assemble/package/bundle任务增加verifyApiBaseUrl前置门禁，拒绝.invalid、非HTTPS、带凭据或带fragment的地址；使用https://api.orbexa.cc重建APK，并从BuildConfig和APK DEX双重反查内嵌地址。
+  regression_checks:
+  - 未设置HHY_API_BASE_URL时:app:verifyApiBaseUrl必须失败
+  - HHY_API_BASE_URL=https://api.orbexa.cc时:app:testDebugUnitTest与:app:assembleDebug通过
+  - APK classes8.dex包含https://api.orbexa.cc且与服务器产物SHA-256一致
+  - https://api.orbexa.cc/public-api/v1/platform/status返回200
+  do_not_repeat:
+  - 不得因WIP或手工构建绕过HHY_API_BASE_URL与内嵌地址检查
+  - 不得交付任何包含.example.invalid或.invalid端点的APK

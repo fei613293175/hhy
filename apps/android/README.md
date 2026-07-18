@@ -50,5 +50,5 @@ ssh -o BatchMode=yes obx-test '<在既有 hhy-android-toolchain:r01-46fb273 容�
 1. 页面代码禁止直接新增颜色、间距和字号常量，必须通过 `core:designsystem`。
 2. API DTO 不得由页面手写；契约冻结后从根目录 `contracts/openapi.yaml` 生成。
 3. 任何 Token、手机号、身份证号和支付字段不得写日志。
-4. `api.example.invalid` 仅为安全占位，未设置 `HHY_API_BASE_URL` 时不得发布。
+4. `api.example.invalid` 仅为安全占位，未设置 `HHY_API_BASE_URL` 时不得发布。`assemble*`/`package*`/`bundle*` 现会在产生 APK/AAB 前强制执行 `verifyApiBaseUrl`，占位域名、非 HTTPS 或带凭据地址必须构建失败。
 5. 102 个页面的机器可读目录位于 `app/src/main/assets/android-screens.v1.2.2.json`。

@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0035
 title: 补齐注销短信发送所需手机号确认字段
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-18T06:48:41Z'
-updated_at: '2026-07-18T06:49:07Z'
+updated_at: '2026-07-18T06:49:59Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner
 task_id: TASK-R02-003
@@ -41,5 +41,12 @@ decision_log:
   status: IMPLEMENTING
   note: Android实现及编译已完成，准备形成检查点和提交。
   session_id: SES-20260718T053331Z-F0ED92BF
+- at: '2026-07-18T06:49:59Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 注销页面、网络请求、后端状态机和测试均已实现并提交。
+  session_id: SES-20260718T053331Z-F0ED92BF
 session_ids:
 - SES-20260718T053331Z-F0ED92BF
+implementation_commits:
+- 4ea46c0

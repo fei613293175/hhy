@@ -1,3 +1,5 @@
+import java.net.URI
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
@@ -9,6 +11,38 @@ val appChannel = providers.environmentVariable("HHY_APP_CHANNEL").orElse("offici
 // The publicly reachable development API publishes its test artefacts in STAGING.
 // Individual CI jobs can still override this with HHY_APP_ENVIRONMENT.
 val appEnvironment = providers.environmentVariable("HHY_APP_ENVIRONMENT").orElse("STAGING")
+
+val packagingTaskRequested = gradle.startParameter.taskNames.any { requested ->
+    val name = requested.substringAfterLast(':')
+    name == "verifyApiBaseUrl" || name == "build" ||
+        name.startsWith("package") || name.startsWith("assemble") || name.startsWith("bundle")
+}
+if (packagingTaskRequested) {
+    val value = apiBaseUrl.get()
+    val uri = runCatching { URI(value) }.getOrNull()
+    require(
+        uri?.scheme == "https" &&
+            !uri.host.isNullOrBlank() &&
+            !uri.host.endsWith(".invalid") &&
+            uri.userInfo == null &&
+            uri.fragment == null
+    ) {
+        "APK packaging requires a safe HHY_API_BASE_URL; refusing placeholder or unsafe endpoint: $value"
+    }
+}
+
+val verifyApiBaseUrl by tasks.registering {
+    group = "verification"
+    description = "Rejects APK packaging when HHY_API_BASE_URL is missing or unsafe."
+}
+
+tasks.configureEach {
+    if ((name.startsWith("package") || name.startsWith("assemble") || name.startsWith("bundle")) &&
+        (name.endsWith("Debug") || name.endsWith("Release"))
+    ) {
+        dependsOn(verifyApiBaseUrl)
+    }
+}
 
 android {
     namespace = "cc.orbexa.hhy"
