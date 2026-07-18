@@ -192,7 +192,27 @@ public final class ProviderConfigValidator {
                         "identity.face_compare.manual_review_code",
                         "identity.photo.preview_watermark", "identity.photo.retention_days",
                         "identity.admin_preview_ttl_seconds"), Set.of(
-                        "identity.provider.appcode")));
+                        "identity.provider.appcode")),
+                "payment", new Definition(Set.of(
+                        "payment.active_gateway", "payment.caihong.base_url",
+                        "payment.caihong.sign_type", "payment.caihong.enabled_channels",
+                        "payment.notify_url", "payment.return_url",
+                        "payment.order_timeout_seconds", "payment.query.max_attempts",
+                        "payment.query.interval_seconds",
+                        "payment.callback.ip_whitelist_enabled",
+                        "payment.webview.allowed_hosts", "payment.webview.allowed_schemes",
+                        "payment.channel.reversal_auto_freeze"), Set.of(
+                        "payment.caihong.merchant_id", "payment.caihong.merchant_key")),
+                "payout", new Definition(Set.of(
+                        "payout.active_gateway", "payout.alipay.app_id",
+                        "payout.alipay.merchant_id", "payout.alipay.gateway_url",
+                        "payout.notify_url", "payout.request.timeout_ms",
+                        "payout.query.max_attempts", "payout.query.interval_seconds",
+                        "payout.account_name_must_match_identity", "payout.auto_enabled"), Set.of(
+                        "payout.alipay.private_key_certificate_id",
+                        "payout.alipay.app_public_certificate_id",
+                        "payout.alipay.alipay_public_certificate_id",
+                        "payout.alipay.root_certificate_id")));
     }
 
     private record Definition(Set<String> valueKeys, Set<String> secretKeys) {

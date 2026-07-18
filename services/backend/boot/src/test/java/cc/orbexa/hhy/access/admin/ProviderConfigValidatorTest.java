@@ -74,10 +74,67 @@ class ProviderConfigValidatorTest {
     }
 
     @Test
-    void supportsFrozenSmsStorageAndIdentityCatalogs() {
-        assertEquals(3, validator.providers().size());
+    void supportsFrozenSmsStorageIdentityPaymentAndPayoutCatalogs() {
+        assertEquals(5, validator.providers().size());
         assertTrue(validator.secretKeys("sms").contains("sms.aliyun.access_key_secret"));
         assertTrue(validator.secretKeys("storage").contains("storage.r2.secret_access_key"));
         assertTrue(validator.secretKeys("identity").contains("identity.provider.appcode"));
+        assertTrue(validator.secretKeys("payment").contains("payment.caihong.merchant_key"));
+        assertTrue(validator.secretKeys("payout").contains(
+                "payout.alipay.private_key_certificate_id"));
+    }
+
+    @Test
+    void acceptsPaymentOnlyWhenMerchantCredentialsRemainSecretReferences() throws Exception {
+        var result = validator.validate(
+                "payment", "STAGING",
+                json.readTree("""
+                        {"payment.active_gateway":"CAIHONG_EPAY",
+                         "payment.caihong.base_url":"https://pay.example.test",
+                         "payment.caihong.sign_type":"MD5",
+                         "payment.notify_url":"https://api.orbexa.cc/callbacks/payment/caihong"}
+                        """),
+                json.readTree("""
+                        {"payment.caihong.merchant_id":"vault://hhy/staging/payment/merchant-id",
+                         "payment.caihong.merchant_key":"kms://hhy/staging/payment/merchant-key"}
+                        """));
+
+        assertEquals(4, result.values().size());
+        assertEquals(2, result.secretRefs().size());
+        assertFalse(result.values().containsKey("payment.caihong.merchant_key"));
+
+        BusinessException raw = assertThrows(BusinessException.class, () -> validator.validate(
+                "payment", "STAGING",
+                json.readTree("{\"payment.caihong.merchant_key\":\"plaintext\"}"),
+                json.createObjectNode()));
+        assertTrue(raw.getMessage().contains("secretRefs"));
+    }
+
+    @Test
+    void payoutCertificateIdentifiersNeverEnterPublicValues() throws Exception {
+        var result = validator.validate(
+                "payout", "PROD",
+                json.readTree("""
+                        {"payout.active_gateway":"ALIPAY_ENTERPRISE",
+                         "payout.alipay.app_id":"app-id",
+                         "payout.alipay.merchant_id":"merchant-id",
+                         "payout.alipay.gateway_url":"https://openapi.alipay.com/gateway.do",
+                         "payout.notify_url":"https://api.orbexa.cc/callbacks/payout/alipay"}
+                        """),
+                json.readTree("""
+                        {"payout.alipay.private_key_certificate_id":"vault://hhy/prod/payout/private-cert",
+                         "payout.alipay.app_public_certificate_id":"vault://hhy/prod/payout/app-public-cert",
+                         "payout.alipay.alipay_public_certificate_id":"vault://hhy/prod/payout/alipay-public-cert",
+                         "payout.alipay.root_certificate_id":"vault://hhy/prod/payout/root-cert"}
+                        """));
+
+        assertEquals(4, result.secretRefs().size());
+        assertTrue(result.values().keySet().stream().noneMatch(key -> key.contains("certificate")));
+
+        BusinessException raw = assertThrows(BusinessException.class, () -> validator.validate(
+                "payout", "PROD",
+                json.readTree("{\"payout.alipay.private_key_certificate_id\":\"cert-raw\"}"),
+                json.createObjectNode()));
+        assertTrue(raw.getMessage().contains("secretRefs"));
     }
 }

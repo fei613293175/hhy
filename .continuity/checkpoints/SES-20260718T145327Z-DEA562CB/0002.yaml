@@ -1,0 +1,94 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260718T145327Z-DEA562CB-0002
+session_id: SES-20260718T145327Z-DEA562CB
+sequence: 2
+created_at: '2026-07-18T14:57:05Z'
+summary: 支付与企业出款供应商字段白名单和SecretRef边界已接入，商户密钥与四类证书引用禁止进入公开values
+next_step: 实现支付和支付宝出款连接测试适配器及安全URL/回调边界
+blockers: []
+decisions:
+- payment和payout分别作为独立Provider配置；商户ID/密钥及证书引用按CONFIG_REGISTRY密级进入Vault/KMS SecretRef
+note: ''
+tests:
+- name: provider config validator
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports/TEST-cc.orbexa.hhy.access.admin.ProviderConfigValidatorTest.xml
+  note: 7 tests
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 7f37a5226bde9afe6e658c7f73e0665c05ba46e5
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java'
+  recent_commits:
+  - "7f37a5226bde9afe6e658c7f73e0665c05ba46e5\t2026-07-18T22:53:52+08:00\tHHY Continuity Bootstrap\t[STORY-R03-003] chore(r03): start payment\
+    \ configuration slice"
+  - "8cfa5f515b29ac0095e16e1d839c48caf391758d\t2026-07-18T22:52:48+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(continuity): close TASK-R03-003\
+    \ as completed"
+  - "92dcd82614ba0cc719f7005aaea40a70c3525efc\t2026-07-18T22:51:11+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(continuity): close domain\
+    \ slice governance"
+  - "5b6daf124d4b55f3d2d7781d180571c6fb8751fb\t2026-07-18T22:50:23+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(validation): normalize\
+    \ R03 domain gate evidence"
+  - "ea6e6c96bd4768aeb9a3e9c2c26d26d18649a853\t2026-07-18T22:48:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] chore(continuity): record\
+    \ R03 domain module gate"
+  - "5827214d3002165927d627dd370b5d45b0ecdc12\t2026-07-18T22:47:09+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): implement domain\
+    \ configuration page"
+  - "88906d71b8dd4197d65ab626add9a4fd56afebe7\t2026-07-18T22:42:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): add domain admin\
+    \ client"
+  - "be8b5260c4c35873ca3ec0a89c51be4a548dc219\t2026-07-18T22:36:45+08:00\tHHY Continuity Bootstrap\t[STORY-R03-002] feat(r03): orchestrate domain\
+    \ configuration"
+project_fingerprint:
+  sha256: 771c076bba42a3e3c4c037c3af6826ce42fb15b6db1289fc0cb8b72622c9aff2
+  files:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+  file_count: 2
+  payload:
+    base_commit: 8cfa5f515b29ac0095e16e1d839c48caf391758d
+    files:
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+      state: FILE
+      size: 11734
+      sha256: be2e583aa3e340d333ffd8256495c5b81e4f6d0826860b36a8187314cad230ce
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+      state: FILE
+      size: 7024
+      sha256: 37239a9a58d7cad1714cbb9d21b241e78cb21dfb261ff57c85416cc8eb18498c
+change_classification:
+  code:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderConfigValidator.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/ProviderConfigValidatorTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 金融供应商字段边界与连接器不变量紧密耦合，由唯一主控串行维护
+event_hash: 2a23ac969f653cc286eac96b2fe054ec129e4d7c1e4a755389b7a314b6a918f9
