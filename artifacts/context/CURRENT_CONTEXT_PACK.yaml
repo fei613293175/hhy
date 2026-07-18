@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-18T04:14:31Z'
+generated_at: '2026-07-18T04:24:31Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -47,7 +47,7 @@ current_status:
   - TASK-R02-002
   blocked_tasks: []
   next_task: TASK-R02-002
-  updated_at: '2026-07-18T04:14:29Z'
+  updated_at: '2026-07-18T04:24:29Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -82,15 +82,15 @@ current_status:
     active_session_id: SES-20260717T210927Z-13B07A7D
     actor_id: codex-root
     story_id: STORY-R02-003
-    lease_expires_at: '2026-07-18T08:14:29Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0037.yaml
-    project_fingerprint: 2a7eb2928fbd1c8624ac0d5e3d600d9ff38e86f3e7ca4fb8c4ce3de0cbc0380e
+    lease_expires_at: '2026-07-18T08:24:29Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0039.yaml
+    project_fingerprint: 90705c63c2b44c0ef15c1e5cd95198f487f74f6049fb85fd5397d9a8589ae89e
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 528400550c9e330276cd653da533a7d703e44b2cac2cabfa4f60c85d26671ef4
-      generated_at: '2026-07-18T04:12:36Z'
+      context_hash: 70bea1655231bf3b8016377594b2bcda507d0d5e9016be4136ba7b26fdb16551
+      generated_at: '2026-07-18T04:19:27Z'
     handoff_bundle: null
 next_task:
   id: TASK-R02-002
@@ -142,7 +142,7 @@ active_session:
   story_id: STORY-R02-003
   goal: 接管 SES-20260717T204616Z-254B60A3：接管 SES-20260717T200842Z-456B8F52：完成Android启动、登录与邀请注册纵向闭环，覆盖数据、API、Android、测试与模块门禁
   started_at: '2026-07-17T21:09:27Z'
-  updated_at: '2026-07-18T04:14:29Z'
+  updated_at: '2026-07-18T04:24:29Z'
   takeover_of: SES-20260717T204616Z-254B60A3
   change_requests:
   - CR-0019
@@ -231,88 +231,75 @@ active_session:
     initial_worktree_state: DIRTY_TAKEOVER
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-18T04:14:29Z'
-    expires_at: '2026-07-18T08:14:29Z'
-  checkpoint_sequence: 37
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0037.yaml
+    renewed_at: '2026-07-18T04:24:29Z'
+    expires_at: '2026-07-18T08:24:29Z'
+  checkpoint_sequence: 39
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0039.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-  next_step: 按连续性门禁提交本批已验证变更，继续R02认证拒绝、幂等与外部依赖问题收口。
+  next_step: 复跑严格连续性门禁，随后提交和推送本轮公开认证拒绝契约回归；继续 R02 的可交付闭环。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: DELEGATED
-    delegated_workers: 2
-    workers:
-    - worker_id: r02_current_backend_contracts
-      responsibility: 四个公开认证端点MockMvc成功契约
-      allowed_paths:
-      - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
-    - worker_id: r02_current_android_security
-      responsibility: 启动下载URL安全校验与单测
-      allowed_paths:
-      - apps/android/feature/startup/build.gradle.kts
-      - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/DownloadUrlPolicy.kt
-      - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
-      - apps/android/feature/startup/src/test/java/cc/orbexa/hhy/startup/DownloadUrlPolicyTest.kt
-    reason: ''
+    assessment: NO_SAFE_PARALLEL
+    delegated_workers: 0
+    workers: []
+    reason: 本轮仅新增一个与既有 MockMvc 固定契约紧耦合的测试文件；拆分会增加相同测试上下文的重复和整合风险。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0037
+  checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0039
   session_id: SES-20260717T210927Z-13B07A7D
-  sequence: 37
-  created_at: '2026-07-18T04:14:29Z'
-  summary: 补齐R02用户可见启动下载安全与认证契约变更记录，提交门禁所需CHANGELOG已更新。
-  next_step: 按连续性门禁提交本批已验证变更，继续R02认证拒绝、幂等与外部依赖问题收口。
+  sequence: 39
+  created_at: '2026-07-18T04:24:29Z'
+  summary: R02 公开认证拒绝契约已通过云端 Maven 验证：缺失或过短幂等键、畸形注册体与非法邀请码均安全拒绝，认证服务零调用；变更已登记。
+  next_step: 复跑严格连续性门禁，随后提交和推送本轮公开认证拒绝契约回归；继续 R02 的可交付闭环。
   blockers: []
   decisions: []
-  note: CHANGELOG已补充用户可见启动下载安全行为和认证契约回归；无紧急需用户决策事项。
+  note: 上一检查点后的 CHANGELOG 写入导致严格门禁短暂报 stale，已在本检查点纳入；无紧急用户决策阻塞。
   tests:
-  - name: strict_continuity
+  - name: backend_user_auth_rejection_contracts
     result: PASS
-    evidence: python scripts/check_v123_continuity.py --strict with bundled Git PATH
-    note: 0 errors 0 warnings
-  - name: backend_auth_success_contracts
+    evidence: obx-test maven:3.9.11-eclipse-temurin-21, Tests run:12 Failures:0 Errors:0
+    note: MockMvc success and rejection auth contract tests
+  - name: api_contract
     result: PASS
-    evidence: obx-test Maven UserAuthSuccessContractTest,UserAuthPublicSuccessContractTest
-    note: Tests run8 Failures0 Errors0
-  - name: android_startup_download_url_policy
+    evidence: API_CONTRACT_OK client=131 admin=184 websocket=10 runtime_hashes=PASS
+    note: frozen contract static gate
+  - name: r02_auth_slice_contract
     result: PASS
-    evidence: obx-test :feature:startup:testDebugUnitTest
-    note: BUILD SUCCESSFUL 35 tasks
+    evidence: Ran 7 tests OK
+    note: R02 slice source contract gate
+  - name: program_execution_plan
+    result: PASS
+    evidence: PROGRAM_PLAN_PASS releases=31 errors=0
+    note: rolling plan gate
   git:
     initialized: true
     branch: task/TASK-R02-002
-    head: 16cacdcc049d07e79ff97826fc27af38f44bd96a
+    head: a7b67ec0810847dfeab1b4b85a4714eaab9c3561
     upstream: origin/task/TASK-R02-002
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - M  .continuity/ACTIVE_SESSION.yaml
-    - M  .continuity/EVENT_LOG.jsonl
-    - M  .continuity/SESSION_INDEX.yaml
-    - M  .continuity/STATE.yaml
-    - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0034.yaml
-    - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0035.yaml
-    - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0036.yaml
-    - M  .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
+    - ' M .continuity/ACTIVE_SESSION.yaml'
+    - ' M .continuity/EVENT_LOG.jsonl'
+    - ' M .continuity/SESSION_INDEX.yaml'
+    - ' M .continuity/STATE.yaml'
+    - ' M .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml'
     - ' M CHANGELOG.md'
-    - M  CURRENT_STATUS.yaml
-    - M  apps/android/feature/startup/build.gradle.kts
-    - A  apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/DownloadUrlPolicy.kt
-    - M  apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
-    - A  apps/android/feature/startup/src/test/java/cc/orbexa/hhy/startup/DownloadUrlPolicyTest.kt
-    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    - M  artifacts/validation/project-doctor-v1.2.3.json
-    - M  catalogs/session_index.csv
-    - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - M  docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-    - A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
-    - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
+    - ' M CURRENT_STATUS.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M artifacts/validation/project-doctor-v1.2.3.json'
+    - ' M catalogs/session_index.csv'
+    - ' M docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md'
+    - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0038.yaml
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicRejectionContractTest.java
     recent_commits:
+    - "a7b67ec0810847dfeab1b4b85a4714eaab9c3561\t2026-07-18T12:15:02+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover public\
+      \ contracts and update URL trust"
     - "16cacdcc049d07e79ff97826fc27af38f44bd96a\t2026-07-18T11:29:14+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): bind security\
       \ challenges to scenes"
     - "43811937a068e77f503a3845a2b00840db6d58ad\t2026-07-18T11:26:18+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover registration\
@@ -327,10 +314,8 @@ latest_checkpoint:
       \ login http contract"
     - "d8ef79f28af589afbbc5c39fbce7950d4f07287d\t2026-07-18T10:55:28+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover password\
       \ reset session revocation"
-    - "f5acc1e90f70249e6a9dba3a90c16d0e39369707\t2026-07-18T10:52:22+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] fix(auth): prevent form\
-      \ request state races"
   project_fingerprint:
-    sha256: 2a7eb2928fbd1c8624ac0d5e3d600d9ff38e86f3e7ca4fb8c4ce3de0cbc0380e
+    sha256: 90705c63c2b44c0ef15c1e5cd95198f487f74f6049fb85fd5397d9a8589ae89e
     files:
     - .githooks/pre-push
     - .github/workflows/continuity-gate.yml
@@ -424,6 +409,7 @@ latest_checkpoint:
     - services/backend/boot/src/main/resources/application.yml
     - services/backend/boot/src/main/resources/db/migration/V017__r02_user_auth_invariants.sql
     - services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicRejectionContractTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
@@ -445,7 +431,7 @@ latest_checkpoint:
     - tests/test_parallel_worktrees.py
     - tests/test_program_execution_plan.py
     - tests/test_r02_auth_slice_contract.py
-    file_count: 113
+    file_count: 114
     payload:
       base_commit: 3e5e39d7ef1501cc6d93856cde11fb880dfcc21e
       files:
@@ -467,8 +453,8 @@ latest_checkpoint:
         sha256: 823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871
       - path: CHANGELOG.md
         state: FILE
-        size: 16246
-        sha256: 741a5becf3f2e27dccfc0bd0efdeadc8c096a394d08504e9a402a3a8c8e4bfb1
+        size: 16417
+        sha256: 9953e16e2dc953fb26f2ecf5e31d65d862e0251e9c46bfcdfa994434ce4938e8
       - path: PROJECT_MANIFEST.yaml
         state: FILE
         size: 2320
@@ -817,6 +803,10 @@ latest_checkpoint:
         state: FILE
         size: 9082
         sha256: dc5ecb891779a774425556484ac0c58fa975013fcbe9dc5744403a3b6a2e13cd
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicRejectionContractTest.java
+        state: FILE
+        size: 5069
+        sha256: 5f4636e526e2a7e39bd76ee16fafa21c0a4bda4c3b62d10d8e448317b2ae3637
       - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
         state: FILE
         size: 9684
@@ -1002,6 +992,7 @@ latest_checkpoint:
     - services/backend/boot/src/main/resources/application.yml
     - services/backend/boot/src/main/resources/db/migration/V017__r02_user_auth_invariants.sql
     - services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicRejectionContractTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
@@ -1135,56 +1126,39 @@ latest_checkpoint:
     - apps/android/app/build.gradle.kts
     source: story+explicit+approved-cr:CR-0021+approved-cr:CR-0022+approved-cr:CR-0023+approved-cr:CR-0024+approved-cr:CR-0025+approved-cr:CR-0026+approved-cr:CR-0027
   parallel_execution:
-    assessment: DELEGATED
-    delegated_workers: 2
-    workers:
-    - worker_id: r02_current_backend_contracts
-      responsibility: 四个公开认证端点MockMvc成功契约
-      allowed_paths:
-      - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
-    - worker_id: r02_current_android_security
-      responsibility: 启动下载URL安全校验与单测
-      allowed_paths:
-      - apps/android/feature/startup/build.gradle.kts
-      - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/DownloadUrlPolicy.kt
-      - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
-      - apps/android/feature/startup/src/test/java/cc/orbexa/hhy/startup/DownloadUrlPolicyTest.kt
-    reason: ''
-  event_hash: 1ae26055a630d449d7a236b5178a3c669ec24a43ac0b79927788568839e637b6
+    assessment: NO_SAFE_PARALLEL
+    delegated_workers: 0
+    workers: []
+    reason: 本轮仅新增一个与既有 MockMvc 固定契约紧耦合的测试文件；拆分会增加相同测试上下文的重复和整合风险。
+  event_hash: 87f00175287a6b7799b8153224c03ba3c517ea3d0fbf28ac8a1140350991fd52
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: 16cacdcc049d07e79ff97826fc27af38f44bd96a
+  head: a7b67ec0810847dfeab1b4b85a4714eaab9c3561
   upstream: origin/task/TASK-R02-002
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - MM .continuity/ACTIVE_SESSION.yaml
-  - MM .continuity/EVENT_LOG.jsonl
-  - MM .continuity/SESSION_INDEX.yaml
-  - MM .continuity/STATE.yaml
-  - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0034.yaml
-  - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0035.yaml
-  - A  .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0036.yaml
-  - MM .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml'
   - ' M CHANGELOG.md'
-  - MM CURRENT_STATUS.yaml
-  - M  apps/android/feature/startup/build.gradle.kts
-  - A  apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/DownloadUrlPolicy.kt
-  - M  apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
-  - A  apps/android/feature/startup/src/test/java/cc/orbexa/hhy/startup/DownloadUrlPolicyTest.kt
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  artifacts/validation/project-doctor-v1.2.3.json
-  - MM catalogs/session_index.csv
-  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - MM docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
-  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0037.yaml
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md'
+  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0038.yaml
+  - ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0039.yaml
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicRejectionContractTest.java
   recent_commits:
+  - "a7b67ec0810847dfeab1b4b85a4714eaab9c3561\t2026-07-18T12:15:02+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover public contracts\
+    \ and update URL trust"
   - "16cacdcc049d07e79ff97826fc27af38f44bd96a\t2026-07-18T11:29:14+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): bind security\
     \ challenges to scenes"
   - "43811937a068e77f503a3845a2b00840db6d58ad\t2026-07-18T11:26:18+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover registration\
@@ -1199,10 +1173,8 @@ git:
     \ login http contract"
   - "d8ef79f28af589afbbc5c39fbce7950d4f07287d\t2026-07-18T10:55:28+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] test(auth): cover password\
     \ reset session revocation"
-  - "f5acc1e90f70249e6a9dba3a90c16d0e39369707\t2026-07-18T10:52:22+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] fix(auth): prevent form request\
-    \ state races"
 project_fingerprint:
-  sha256: 2a7eb2928fbd1c8624ac0d5e3d600d9ff38e86f3e7ca4fb8c4ce3de0cbc0380e
+  sha256: 90705c63c2b44c0ef15c1e5cd95198f487f74f6049fb85fd5397d9a8589ae89e
   files:
   - .githooks/pre-push
   - .github/workflows/continuity-gate.yml
@@ -1296,6 +1268,7 @@ project_fingerprint:
   - services/backend/boot/src/main/resources/application.yml
   - services/backend/boot/src/main/resources/db/migration/V017__r02_user_auth_invariants.sql
   - services/backend/boot/src/test/java/cc/orbexa/hhy/PublicEndpointsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicRejectionContractTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthSuccessContractTest.java
@@ -1317,7 +1290,7 @@ project_fingerprint:
   - tests/test_parallel_worktrees.py
   - tests/test_program_execution_plan.py
   - tests/test_r02_auth_slice_contract.py
-  file_count: 113
+  file_count: 114
   payload:
     base_commit: 3e5e39d7ef1501cc6d93856cde11fb880dfcc21e
     files:
@@ -1339,8 +1312,8 @@ project_fingerprint:
       sha256: 823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871
     - path: CHANGELOG.md
       state: FILE
-      size: 16246
-      sha256: 741a5becf3f2e27dccfc0bd0efdeadc8c096a394d08504e9a402a3a8c8e4bfb1
+      size: 16417
+      sha256: 9953e16e2dc953fb26f2ecf5e31d65d862e0251e9c46bfcdfa994434ce4938e8
     - path: PROJECT_MANIFEST.yaml
       state: FILE
       size: 2320
@@ -1689,6 +1662,10 @@ project_fingerprint:
       state: FILE
       size: 9082
       sha256: dc5ecb891779a774425556484ac0c58fa975013fcbe9dc5744403a3b6a2e13cd
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicRejectionContractTest.java
+      state: FILE
+      size: 5069
+      sha256: 5f4636e526e2a7e39bd76ee16fafa21c0a4bda4c3b62d10d8e448317b2ae3637
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicSuccessContractTest.java
       state: FILE
       size: 9684
@@ -3265,8 +3242,8 @@ continuity_state:
   last_session_id: SES-20260717T183459Z-D64E7407
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260717T183459Z-D64E7407-0007
-  event_count: 325
-  event_head_hash: 1ae26055a630d449d7a236b5178a3c669ec24a43ac0b79927788568839e637b6
+  event_count: 327
+  event_head_hash: 87f00175287a6b7799b8153224c03ba3c517ea3d0fbf28ac8a1140350991fd52
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260717T084524Z-9FE47D9F
@@ -3385,9 +3362,9 @@ recent_sessions:
   started_at: '2026-07-17T21:09:27Z'
   record: .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-  updated_at: '2026-07-18T04:14:29Z'
+  updated_at: '2026-07-18T04:24:29Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0037.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0039.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-1BBC8343F3B4
@@ -4943,7 +4920,7 @@ source_manifest:
   sha256: 26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0
   bytes: 3190
 - path: CURRENT_STATUS.yaml
-  sha256: 7bdec1dc3053b21169d967f69dcf7b18e5e8e3b1e2e85f6d25ad3649042b136f
+  sha256: 50713c5056a4284fd1fef66caa9c85dbecd5651fbce358b01839f274f3ced4a0
   bytes: 3185
 - path: NEXT_TASK.yaml
   sha256: 3e619f3004a0a8b1d13dbd60e06e2ab8291566c6299bf36fe763af51b17a9c97
@@ -4976,10 +4953,10 @@ source_manifest:
   sha256: b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7
   bytes: 9739
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 4bff28529cc02a7f317a230b2cafbbd6ba114d2628eea89841be1fc4a8fdf260
-  bytes: 177703
+  sha256: e7856e29bcc95949cc2f5a2df6b8a9b0e59dbd6478add8b9c16a7df6f0e18bc6
+  bytes: 179282
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 3d4abd046efec4f9c4ecc99eb5621e2d47dd0c9a7aad2c8203ee18099d5d1ff5
+  sha256: 5f48f3fa56c1d4c729cb94acdc3a19bd84621a162f09cbae1995672461f5b0a9
   bytes: 10748
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: d48d579192aebf3dee4f0d48a63f7629813dedc4580399b2caef6e21041ca91c
@@ -4991,7 +4968,7 @@ source_manifest:
   sha256: 37cfc9993861a7d6584f23fc1a902a0716937791cef139117e90a1e1400a3c85
   bytes: 85939
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 25328a0adf3d309ec4314c3ca1f19f3bd2e25f7b0b673d96151438f95866fec3
+  sha256: 5d3261a0484a11c191cf6390045b83a0c1d901685c721018b85918ba164c7302
   bytes: 525
 - path: releases/R02/RELEASE_MANIFEST.yaml
   sha256: 19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d
@@ -5012,11 +4989,11 @@ source_manifest:
   sha256: c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184
   bytes: 2849
 - path: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-  sha256: 14d8671eca9fb98ab9d194e79b7a1d2f70aedc598324500416f3ddaf06c6c395
-  bytes: 272502
-- path: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0037.yaml
-  sha256: 0415accac4fb1fc731b20b3452aae77ebf0d247586070ad0af0c0089cb440ead
-  bytes: 44333
+  sha256: 59b1f9cabdc6b25356f5ee64224868676299aa81e5c3776051f747d34035a582
+  bytes: 288921
+- path: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0039.yaml
+  sha256: c7e78baa5b86a39a3180da0d714c3b352240f53812164429ec204d77334fd511
+  bytes: 43868
 - path: docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md
   sha256: 4cacbe331c6591b0701ebaef11bb67567f831baf4d5fa3fd443c68c0d7465fc8
   bytes: 3611
@@ -5058,4 +5035,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: d2d8c26b81b973a523294db914caf9a6cb6d61c9f484d16b2af394f86b57db46
+context_hash: 7e3f3c3b3df409574e8631ff822b67ad7344e18a99cc774910a0ac6663899f13
