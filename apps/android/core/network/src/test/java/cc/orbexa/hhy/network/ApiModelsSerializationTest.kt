@@ -13,6 +13,15 @@ import org.junit.Test
 
 class ApiModelsSerializationTest {
 
+    @Test fun sessionResponseKeepsRefreshCredentialAndDeviceSessionBinding() {
+        val session = HhyNetworkJson.value.decodeFromString<AuthSessionResource>(
+            """{"accessToken":"access","refreshToken":"refresh","expiresAt":"2026-07-18T00:00:00Z","userId":"42","sessionId":"session-1","device":{"deviceId":"device-1"}}""",
+        )
+
+        assertEquals("refresh", session.refreshToken)
+        assertEquals("device-1", session.device?.get("deviceId")?.jsonPrimitive?.content)
+    }
+
     @Test fun errorEnvelopeDecodesStableCodeWithoutRelaxingUnknownFields() {
         val decoded = HhyNetworkJson.value.decodeFromString<ApiErrorEnvelope>(
             """{"success":false,"requestId":"request_429","error":{"code":"COMMON-429-RATE_LIMITED","message":"请求过于频繁","retryable":true}}""",

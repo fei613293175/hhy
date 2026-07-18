@@ -35,7 +35,9 @@ import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.network.AuthCallResult
 import cc.orbexa.hhy.network.ContractAuthApi
+import cc.orbexa.hhy.network.AuthSessionResource
 import cc.orbexa.hhy.network.UrlConnectionContractAuthApi
+import cc.orbexa.hhy.network.sessionOrNull
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.jsonPrimitive
 
@@ -54,7 +56,7 @@ private sealed interface AuthUiState {
 
 /** R02 authentication routes; all requests are live frozen-contract operations, never mocks. */
 @Composable
-fun AuthScreen(apiBaseUrl: String, onAuthenticated: () -> Unit) {
+fun AuthScreen(apiBaseUrl: String, onAuthenticated: (AuthSessionResource) -> Boolean) {
     val context = LocalContext.current
     val api = remember(apiBaseUrl, context.applicationContext) {
         UrlConnectionContractAuthApi(apiBaseUrl, context.applicationContext)
@@ -63,7 +65,7 @@ fun AuthScreen(apiBaseUrl: String, onAuthenticated: () -> Unit) {
 }
 
 @Composable
-internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: () -> Unit) {
+internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResource) -> Boolean) {
     val scope = rememberCoroutineScope()
     var route by remember { mutableStateOf(AuthRoute.PASSWORD) }
     var phone by remember { mutableStateOf("") }
@@ -94,6 +96,14 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: () -> Unit) {
                     errorCode = result.errorCode,
                 )
             }
+        }
+    }
+    fun completeAuthentication(result: AuthCallResult.Success) {
+        val session = result.sessionOrNull()
+        if (session != null && onAuthenticated(session)) {
+            state = AuthUiState.Message("登录成功", result.requestId)
+        } else {
+            state = AuthUiState.Message("无法安全保存登录会话，请重新登录", result.requestId)
         }
     }
 
@@ -159,14 +169,14 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: () -> Unit) {
                 onClick = {
                     when (route) {
                         AuthRoute.PASSWORD -> launchCall({ api.passwordLogin(phone, password, challengeId, challengeProof) }) {
-                            password = ""; challengeProof = ""; onAuthenticated()
+                            password = ""; challengeProof = ""; completeAuthentication(it)
                         }
                         AuthRoute.SMS -> launchCall({ api.smsLogin(phone, smsCode) }) {
-                            smsCode = ""; onAuthenticated()
+                            smsCode = ""; completeAuthentication(it)
                         }
                         AuthRoute.REGISTER -> launchCall({
                             api.register(phone, smsCode, password, inviteCode, agreementVersions.split(',').map(String::trim).filter(String::isNotEmpty))
-                        }) { password = ""; passwordAgain = ""; smsCode = ""; challengeProof = ""; onAuthenticated() }
+                        }) { password = ""; passwordAgain = ""; smsCode = ""; challengeProof = ""; completeAuthentication(it) }
                         AuthRoute.RESET -> launchCall({ api.resetPassword(phone, smsCode, password) }) {
                             password = ""; passwordAgain = ""; smsCode = ""; challengeProof = ""
                         }

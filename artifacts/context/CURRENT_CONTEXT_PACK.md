@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-18T02:08:14Z
-- Context Hash：`d555e39a2414a4aa75c9c54e0dc79d56aafb09a9ff298f3ff86a9dc45650898e`
+- 生成时间：2026-07-18T02:19:45Z
+- Context Hash：`c85b78c9154fc0e951f5907280b21008507c87adf248a5e538385bcd58acbe0a`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -55,7 +55,7 @@ in_progress_tasks:
 - TASK-R02-002
 blocked_tasks: []
 next_task: TASK-R02-002
-updated_at: '2026-07-18T02:08:12Z'
+updated_at: '2026-07-18T02:19:43Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -90,15 +90,15 @@ continuity:
   active_session_id: SES-20260717T210927Z-13B07A7D
   actor_id: codex-root
   story_id: STORY-R02-003
-  lease_expires_at: '2026-07-18T06:08:12Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0016.yaml
-  project_fingerprint: 29e64c865c3ca6fac3a596749d1705ade5ad87d6f11baa9ae61934174901d6a3
+  lease_expires_at: '2026-07-18T06:19:43Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0017.yaml
+  project_fingerprint: ece3a2cb84f4e5bf6c2c21817118c564e1c77484397fe563c81d0537b56e075a
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: bb18d197509051a456e716c4b9149e558001d337932568d45869573785512c05
-    generated_at: '2026-07-18T02:02:16Z'
+    context_hash: d555e39a2414a4aa75c9c54e0dc79d56aafb09a9ff298f3ff86a9dc45650898e
+    generated_at: '2026-07-18T02:08:14Z'
   handoff_bundle: null
 ```
 
@@ -293,7 +293,7 @@ task_id: TASK-R02-002
 story_id: STORY-R02-003
 goal: 接管 SES-20260717T204616Z-254B60A3：接管 SES-20260717T200842Z-456B8F52：完成Android启动、登录与邀请注册纵向闭环，覆盖数据、API、Android、测试与模块门禁
 started_at: '2026-07-17T21:09:27Z'
-updated_at: '2026-07-18T02:08:12Z'
+updated_at: '2026-07-18T02:19:43Z'
 takeover_of: SES-20260717T204616Z-254B60A3
 change_requests:
 - CR-0019
@@ -382,12 +382,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T02:08:12Z'
-  expires_at: '2026-07-18T06:08:12Z'
-checkpoint_sequence: 16
-latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0016.yaml
+  renewed_at: '2026-07-18T02:19:43Z'
+  expires_at: '2026-07-18T06:19:43Z'
+checkpoint_sequence: 17
+latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0017.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-next_step: 继续扩展STORY-R02-004的认证流程状态证据和真实后端端到端覆盖；PROB-0013保持记录，不触碰未受控密钥。
+next_step: 继续补齐STORY-R02-004的真实认证后端端到端覆盖与页面状态证据；PROB-0013在R03 SecretRef就绪前保持阻塞。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -395,53 +395,53 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 错误Envelope解析、认证状态映射和Compose展示属于同一失败恢复链路，拆分会导致接口与状态语义交叉。
+  reason: 认证会话响应模型、Keystore持久化、刷新传输和启动路由构成单条安全边界，独立修改会削弱令牌不落盘与失败清理保证。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0016
+checkpoint_id: CP-SES-20260717T210927Z-13B07A7D-0017
 session_id: SES-20260717T210927Z-13B07A7D
-sequence: 16
-created_at: '2026-07-18T02:08:12Z'
-summary: R02认证失败态已解析冻结错误码、请求编号和Retry-After，并完成Android完整构建。
-next_step: 继续扩展STORY-R02-004的认证流程状态证据和真实后端端到端覆盖；PROB-0013保持记录，不触碰未受控密钥。
+sequence: 17
+created_at: '2026-07-18T02:19:43Z'
+summary: R02 Android认证安全会话恢复完成：Keystore加密保存refresh凭据、启动刷新并在失败时安全回到认证页。
+next_step: 继续补齐STORY-R02-004的真实认证后端端到端覆盖与页面状态证据；PROB-0013在R03 SecretRef就绪前保持阻塞。
 blockers:
 - PROB-0012：短信供应商未激活
 - PROB-0013：开发部署缺少受控管理员密钥来源
 decisions:
-- 认证页仅呈现稳定错误码与安全恢复文案，不回显服务端自由错误文本或敏感请求内容。
-note: CHANGELOG同步用户可见失败恢复能力；上一轮代码已安全推送，当前继续R02。
+- 持久化范围仅限Keystore加密的refreshToken和deviceId；accessToken、密码、短信验证码均不写入磁盘。
+note: 会话恢复失败统一清理本地加密材料并回到登录，不保留不可验证的认证状态。
 tests:
-- name: android_auth_error_unit
+- name: android_session_unit
   result: PASS
-  evidence: 固定云端镜像执行:core:network:testDebugUnitTest与:feature:auth:testDebugUnitTest，XML无failure/error
+  evidence: 固定云端镜像执行:core:network:testDebugUnitTest与:feature:auth:testDebugUnitTest，全部通过
   note: ''
-- name: android_auth_error_lint
+- name: android_session_lint_assembly
   result: PASS
-  evidence: 固定云端镜像执行:core:network:lintDebug与:feature:auth:lintDebug，报告无Error/Warning
-  note: ''
-- name: android_auth_error_assembly
-  result: PASS
-  evidence: 固定云端镜像执行:app:assembleDebug，产物SHA256=a3e6d1f2be7b1be4a16983f1aaff901ff5b5207ba3279d9f9d3225a1ba298876
+  evidence: 固定云端镜像执行:core:network:lintDebug、:feature:auth:lintDebug、:app:assembleDebug，APK SHA256=6e10f573c923ed8b15b5ae74578cdb988855b954f8d3954905a42b4b48247538
   note: ''
 git:
   initialized: true
   branch: task/TASK-R02-002
-  head: b0dfaecc7bb301b65939925aa621a9ef91a7fee2
+  head: 48dbdf76546f9954529019674001c9c101808b3f
   upstream: origin/task/TASK-R02-002
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M CHANGELOG.md'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
   - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt'
   - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt'
   - ' M apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt'
   - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
+  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/AuthSessionStore.kt
   recent_commits:
+  - "48dbdf76546f9954529019674001c9c101808b3f\t2026-07-18T10:08:23+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] feat(auth): map contract failure\
+    \ recovery"
   - "b0dfaecc7bb301b65939925aa621a9ef91a7fee2\t2026-07-18T10:02:38+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] feat(auth): type Android authentication\
     \ transport"
   - "cdf840af344f69b40d7d887da7ec8c394f1d5247\t2026-07-18T09:37:45+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] docs(r02): record deployment\
@@ -456,10 +456,8 @@ git:
     \ after planning"
   - "6cbd84a9f6c225d832fc89a4bd819cb03c5d1b93\t2026-07-18T04:44:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(plan): close project\
     \ planning change requests"
-  - "f9f06a6cc1ffa68c4a8aaa3c21a522811726838a\t2026-07-18T04:42:50+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] docs(plan): establish R02-R32\
-    \ rolling execution plan"
 project_fingerprint:
-  sha256: 29e64c865c3ca6fac3a596749d1705ade5ad87d6f11baa9ae61934174901d6a3
+  sha256: ece3a2cb84f4e5bf6c2c21817118c564e1c77484397fe563c81d0537b56e075a
   files:
   - .githooks/pre-push
   - .github/workflows/continuity-gate.yml
@@ -474,6 +472,7 @@ project_fingerprint:
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
   - apps/android/core/network/build.gradle.kts
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/AuthSessionStore.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
@@ -569,7 +568,7 @@ project_fingerprint:
   - tests/test_parallel_worktrees.py
   - tests/test_program_execution_plan.py
   - tests/test_r02_auth_slice_contract.py
-  file_count: 108
+  file_count: 109
   payload:
     base_commit: 3e5e39d7ef1501cc6d93856cde11fb880dfcc21e
     files:
@@ -591,8 +590,8 @@ project_fingerprint:
       sha256: 823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871
     - path: CHANGELOG.md
       state: FILE
-      size: 15238
-      sha256: 1da700da5d08ba4f369d31bccf289d2642112a3b658da8c72e31e0897fd8669c
+      size: 15424
+      sha256: d0208da256f8761968787cb6b41639d07f4460b390a5f9ee61b3f667443b88bb
     - path: PROJECT_MANIFEST.yaml
       state: FILE
       size: 2320
@@ -615,20 +614,24 @@ project_fingerprint:
       sha256: f47ec4b876b584bb55164996f55e263b6c181cb473f8bea7864de02ef56445e6
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
       state: FILE
-      size: 2224
-      sha256: a54519475b8357d730e73697bd6cbe1dabc9233369a958a383b8c3bf4db5ebec
+      size: 5192
+      sha256: 157f5eeb25713216ca3d48cb4f7d42a28b7cb7aae02c305584a1d6ade6b51514
     - path: apps/android/core/network/build.gradle.kts
       state: FILE
       size: 494
       sha256: 2f809cfd7e89d1b60bcaefcc74076ca448c92ba9b0c23a7f1c115782ab9325c5
     - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
       state: FILE
-      size: 3605
-      sha256: 5c693ae11792aebd5a1da72b55f2769de4e1115acbd8666466b3d6ed911320e0
+      size: 4008
+      sha256: bb6c8c8f59a52cd38a795efe17f41699ca7f816a50101bc9231bd16590c200f8
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/AuthSessionStore.kt
+      state: FILE
+      size: 3793
+      sha256: 59079148c86a986e41f1d8dace9c5085dfb12cb66d87e912f6ad487d0ef95d8e
     - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
       state: FILE
-      size: 8372
-      sha256: d3a1dfad23385dbc7b0cb3241aab77837ed30abd1e62398711d2551a7eb7366f
+      size: 9238
+      sha256: e91e1ad205ae9b25076a73553131e4914c05916e12e064781f7df12f5cdd5429
     - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
       state: FILE
       size: 2654
@@ -639,8 +642,8 @@ project_fingerprint:
       sha256: 0856533c514b3c775ff130c53b127a5d738fb611dbad6af65741331bf09963f4
     - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
       state: FILE
-      size: 6137
-      sha256: 600caca9c30e2cd75b1f1768bac3a33a86222d0bdf61b73f5067bc758e547dd5
+      size: 6635
+      sha256: 55c0a4ab2add02488e050468c84702d54e8143631c4308b73b8ac115fb250de0
     - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/StartupGateTest.kt
       state: FILE
       size: 4568
@@ -659,8 +662,8 @@ project_fingerprint:
       sha256: 5f87d33b5ccac7fe1e82b79a1b0b5f3ce02cb4746951c7f743091a1f3a5ad1a4
     - path: apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
       state: FILE
-      size: 11998
-      sha256: 1d05f4cbb66504cb8f129b9c312b8f7c4bbc12fa7dd28138fd14117e86d7b97e
+      size: 12547
+      sha256: 98ee731d92a743b5d9dcb6c8cf1cbaffdccbaa32199244e40cf26973c767ab71
     - path: apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
       state: FILE
       size: 961
@@ -1037,6 +1040,7 @@ change_classification:
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
   - apps/android/core/network/build.gradle.kts
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/AuthSessionStore.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
@@ -1058,6 +1062,7 @@ change_classification:
   - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
   - apps/android/core/network/build.gradle.kts
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/AuthSessionStore.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt
@@ -1234,8 +1239,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 错误Envelope解析、认证状态映射和Compose展示属于同一失败恢复链路，拆分会导致接口与状态语义交叉。
-event_hash: e8edc4920da5729af88e7adf51ff3074724b6f302c9ec8f0f53a53c95e9193e3
+  reason: 认证会话响应模型、Keystore持久化、刷新传输和启动路由构成单条安全边界，独立修改会削弱令牌不落盘与失败清理保证。
+event_hash: ad8baea0252fc3c2ecb09918e38e723161dbcd323888b2f0adb1f40f8684abd6
 ```
 
 ## 接续状态与事件头
@@ -1247,8 +1252,8 @@ active_session_id: SES-20260717T210927Z-13B07A7D
 last_session_id: SES-20260717T183459Z-D64E7407
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260717T183459Z-D64E7407-0007
-event_count: 304
-event_head_hash: e8edc4920da5729af88e7adf51ff3074724b6f302c9ec8f0f53a53c95e9193e3
+event_count: 305
+event_head_hash: ad8baea0252fc3c2ecb09918e38e723161dbcd323888b2f0adb1f40f8684abd6
 event_chain_valid: true
 ```
 
@@ -1371,9 +1376,9 @@ recent_sessions: - session_id: SES-20260717T084524Z-9FE47D9F
   started_at: '2026-07-17T21:09:27Z'
   record: .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md
-  updated_at: '2026-07-18T02:08:12Z'
+  updated_at: '2026-07-18T02:19:43Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0016.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0017.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1BBC8343F3B4
   session_id: SES-20260716T232809Z-B4A980AF
@@ -2296,7 +2301,7 @@ recent_task_transitions: - transition_id: TRN-BE280508920D
 ```yaml
 initialized: true
 branch: task/TASK-R02-002
-head: b0dfaecc7bb301b65939925aa621a9ef91a7fee2
+head: 48dbdf76546f9954529019674001c9c101808b3f
 upstream: origin/task/TASK-R02-002
 ahead: 0
 behind: 0
@@ -2309,14 +2314,18 @@ status_porcelain:
 - ' M .continuity/sessions/SES-20260717T210927Z-13B07A7D.yaml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
 - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt'
 - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt'
 - ' M apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt'
 - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md'
-- ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0016.yaml
+- ?? .continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0017.yaml
+- ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/AuthSessionStore.kt
 recent_commits:
+- "48dbdf76546f9954529019674001c9c101808b3f\t2026-07-18T10:08:23+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] feat(auth): map contract failure\
+  \ recovery"
 - "b0dfaecc7bb301b65939925aa621a9ef91a7fee2\t2026-07-18T10:02:38+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] feat(auth): type Android authentication\
   \ transport"
 - "cdf840af344f69b40d7d887da7ec8c394f1d5247\t2026-07-18T09:37:45+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] docs(r02): record deployment\
@@ -2331,14 +2340,12 @@ recent_commits:
   \ after planning"
 - "6cbd84a9f6c225d832fc89a4bd819cb03c5d1b93\t2026-07-18T04:44:35+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] chore(plan): close project planning\
   \ change requests"
-- "f9f06a6cc1ffa68c4a8aaa3c21a522811726838a\t2026-07-18T04:42:50+08:00\tHHY Continuity Bootstrap\t[STORY-R02-003] docs(plan): establish R02-R32\
-  \ rolling execution plan"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`29e64c865c3ca6fac3a596749d1705ade5ad87d6f11baa9ae61934174901d6a3`
-- 文件数：108
+- 指纹：`ece3a2cb84f4e5bf6c2c21817118c564e1c77484397fe563c81d0537b56e075a`
+- 文件数：109
 
 - `.githooks/pre-push`
 - `.github/workflows/continuity-gate.yml`
@@ -2353,6 +2360,7 @@ recent_commits:
 - `apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt`
 - `apps/android/core/network/build.gradle.kts`
 - `apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt`
+- `apps/android/core/network/src/main/java/cc/orbexa/hhy/network/AuthSessionStore.kt`
 - `apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractAuthApi.kt`
 - `apps/android/core/network/src/main/java/cc/orbexa/hhy/network/StartupGate.kt`
 - `apps/android/core/network/src/main/java/cc/orbexa/hhy/network/UrlConnectionHhyPublicApi.kt`
@@ -4466,7 +4474,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `823058e339f7f3063f6f1858ce995dacc5de18cf0ff4bddf2b544c3fb2042871`
 - `START_HERE.md` — `26b2e58249365afaa405bf166ff84d4f2293dea856801349f4d2e7e623a64dd0`
-- `CURRENT_STATUS.yaml` — `ed6cd278fc9d1d4495e9330b9ac045ddc241a56224bea0d81aca12fdaae16a64`
+- `CURRENT_STATUS.yaml` — `ce6cd04a0521ac3a9510c65718a610269a8912c68e9e97dfdeb6b949b82f24f4`
 - `NEXT_TASK.yaml` — `3e619f3004a0a8b1d13dbd60e06e2ab8291566c6299bf36fe763af51b17a9c97`
 - `DEVELOPMENT_RISK_REGISTER.md` — `7b5b054b6c9968bedf1ee9dbcd699394dd6a260ce35529e4d2fc9842e7f737bf`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -4477,20 +4485,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `b12a33c5388bf9fc47e3860b9e5ca2d383e7f5ce950d39450242d464b47a2cb7`
-- `.continuity/EVENT_LOG.jsonl` — `8afeb27dd1ccf16daff0e5adf19e6508b6ce9fcaeb58443f1b85a64baf2b78a4`
-- `.continuity/SESSION_INDEX.yaml` — `6697c3a0fa9490e079d8d294bb2b9c52529d321a733d9fcdcab13638fa7711fe`
+- `.continuity/EVENT_LOG.jsonl` — `7a1da1cab7c7ccc7feca0bc10b4828ce0548702b1e71b86563835ff0b5a84cca`
+- `.continuity/SESSION_INDEX.yaml` — `9ca23dcad97add71b4b18b0a182aefb32d60d660d394d3ee1f78e986607f9723`
 - `.continuity/TASK_CLAIMS.yaml` — `d48d579192aebf3dee4f0d48a63f7629813dedc4580399b2caef6e21041ca91c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `df13b60a1f650a20a1bc3076063770d6b5958cab47774ccfcde648184f6aadb6`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `37cfc9993861a7d6584f23fc1a902a0716937791cef139117e90a1e1400a3c85`
-- `.continuity/ACTIVE_SESSION.yaml` — `2ab67db0bb1f59f613bc08f5f9d4438cb49ee28f9254986369eeebf3ae0d5951`
+- `.continuity/ACTIVE_SESSION.yaml` — `ab2291705fcb9ee1ac7899578403840b688a09b3a5a660f23f5ab536362252fa`
 - `releases/R02/RELEASE_MANIFEST.yaml` — `19e4b7d065970c607389acb9485b41efcfa81cb51e6e72464c05bfb60606074d`
 - `releases/R02/DEFINITION_OF_READY.yaml` — `9a3113b85d8dd96ea04a908a277c9da3374531ec06dd5eb91dfd539e4351d33c`
 - `releases/R02/STORIES.yaml` — `966e57d10e36269465e74318903ffa0aa5c49d205ba38cce3ba5ebbdbe9ca571`
 - `releases/R02/TASKS.yaml` — `048d5453a94058ef04b704a67d55ad28182d040eee384d4d65794e19c90a949a`
 - `releases/R02/ACCEPTANCE_MATRIX.csv` — `687b012600ac5081b5f2a325f6af9777958ccd7e625036d534a47d7130b946d0`
 - `releases/R02/PARALLEL_EXECUTION_PLAN.yaml` — `c52898b08a5357074cbf1b92b9972f0e560fc950ea73f38a36135751fba68184`
-- `docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md` — `9d4832123cb5c4994759ec8e26277071d9bac99aff0a821f3875fae9eaa1453d`
-- `.continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0016.yaml` — `f8e3edaca1b02d4f9666dddde53593a3e5867ec0dcce41af2fc318b835eb75f3`
+- `docs/03-continuity/sessions/2026-07/SES-20260717T210927Z-13B07A7D.md` — `692d5f534a5c2253173beaf132610bf09c2c2a464b74d07cc6a928acf8dd47a1`
+- `.continuity/checkpoints/SES-20260717T210927Z-13B07A7D/0017.yaml` — `6df1c67d1d0fad09007d81cd042b0584ff0137cfd04667269b0cb39e14f7645d`
 - `docs/03-continuity/change-requests/CR-0019-建立R02至R32全项目滚动开发总计划与近三版本精细执行包.md` — `4cacbe331c6591b0701ebaef11bb67567f831baf4d5fa3fd443c68c0d7465fc8`
 - `docs/03-continuity/change-requests/CR-0020-补齐每版本APK、R32全版本完整性与项目计划自动验证门禁.md` — `62beadfa0bcedbb97d6e763ed08b26d2ed8a76317716783cd1118a313f66706e`
 - `docs/03-continuity/change-requests/CR-0021-将1主控加3执行代理设为跨AI跨设备默认自动并行规则.md` — `5ef2b90effc14bd5b5b8ab561dc10a597ebd1061a3836a3d937e1f1ac7738ae8`

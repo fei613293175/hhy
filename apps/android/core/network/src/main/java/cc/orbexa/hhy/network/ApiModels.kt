@@ -146,6 +146,23 @@ data class AuthPasswordResetRequest(
     val newPassword: String,
 )
 
+@Serializable
+data class AuthRefreshRequest(
+    val refreshToken: String,
+    val deviceId: String,
+)
+
+@Serializable
+data class AuthSessionResource(
+    val accessToken: String,
+    val refreshToken: String,
+    val expiresAt: String,
+    val userId: String,
+    val sessionId: String,
+    val device: kotlinx.serialization.json.JsonObject? = null,
+    val capabilities: List<String> = emptyList(),
+)
+
 object HhyNetworkJson {
     val value: Json = Json {
         explicitNulls = false

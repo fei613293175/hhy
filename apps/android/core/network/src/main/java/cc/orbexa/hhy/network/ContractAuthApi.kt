@@ -10,9 +10,12 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.KSerializer
 
 /** Thin transport for frozen authentication operations and their core-network contract types. */
@@ -40,6 +43,7 @@ interface ContractAuthApi {
         agreementVersions: List<String>,
     ): AuthCallResult
     suspend fun resetPassword(phone: String, smsCode: String, newPassword: String): AuthCallResult
+    suspend fun refresh(refreshToken: String, deviceId: String): AuthCallResult
 }
 
 sealed interface AuthCallResult {
@@ -51,6 +55,10 @@ sealed interface AuthCallResult {
         val retryAfterSeconds: Long? = null,
     ) : AuthCallResult
 }
+
+fun AuthCallResult.Success.sessionOrNull(): AuthSessionResource? = runCatching {
+    HhyNetworkJson.value.decodeFromJsonElement(AuthSessionResource.serializer(), data)
+}.getOrNull()
 
 class UrlConnectionContractAuthApi(
     baseUrl: String,
@@ -95,7 +103,19 @@ class UrlConnectionContractAuthApi(
         "/api/v1/auth/password/reset", AuthPasswordResetRequest(phone, smsCode, newPassword), AuthPasswordResetRequest.serializer(),
     )
 
-    private suspend fun <T> post(path: String, body: T, serializer: KSerializer<T>): AuthCallResult = withContext(Dispatchers.IO) {
+    override suspend fun refresh(refreshToken: String, deviceId: String) = post(
+        "/api/v1/auth/refresh",
+        AuthRefreshRequest(refreshToken, deviceId),
+        AuthRefreshRequest.serializer(),
+        headers = mapOf("X-Refresh-Token" to refreshToken),
+    )
+
+    private suspend fun <T> post(
+        path: String,
+        body: T,
+        serializer: KSerializer<T>,
+        headers: Map<String, String> = emptyMap(),
+    ): AuthCallResult = withContext(Dispatchers.IO) {
         val localRequestId = UUID.randomUUID().toString()
         try {
             val connection = URI.create(root + path).toURL().openConnection() as HttpURLConnection
@@ -108,6 +128,7 @@ class UrlConnectionContractAuthApi(
                 connection.setRequestProperty("Content-Type", "application/json")
                 connection.setRequestProperty("X-Request-Id", localRequestId)
                 connection.setRequestProperty("X-Idempotency-Key", localRequestId)
+                headers.forEach { (name, value) -> connection.setRequestProperty(name, value) }
                 connection.outputStream.bufferedWriter(Charsets.UTF_8).use {
                     it.write(HhyNetworkJson.value.encodeToString(serializer, body))
                 }
