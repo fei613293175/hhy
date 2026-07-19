@@ -4783,3 +4783,46 @@ change_requests:
   - SES-20260718T200607Z-3569D212
   implementation_commits:
   - d81cc45a51a69338525d8acd61ae67a757029669
+- protocol_version: '1.0'
+  cr_id: CR-0080
+  title: 同步R03阻断说明到当前10205真机APK
+  status: IMPLEMENTING
+  created_at: '2026-07-19T05:13:40Z'
+  updated_at: '2026-07-19T05:13:44Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 用户要求换电脑换AI可无缝接续且开发不依赖聊天上下文
+  reason: NEXT_TASK仍引用3a913c9旧包，会误导后续接手者验收非当前APK
+  original_rule: TASK-R03-007阻断说明要求验收旧hhy-r03-3a913c9-debug.apk
+  new_rule: 阻断说明唯一指向当前已四方交付的hhy-r03-c257aee-debug.apk、versionCode10205
+  impact_summary: 只修正无状态接续下一任务说明，不改变任务状态和验收要求
+  impact:
+    files:
+    - NEXT_TASK.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - NEXT_TASK当前APK身份与artifacts/apk/R03/APK_MANIFEST.yaml一致
+    releases:
+    - R03
+    migration_and_compatibility: 旧包历史证据保留；项目所有者仍需对当前包真机PASS后才能关闭R03
+  user_confirmation: 用户要求跨电脑跨AI无缝接续并持续开发
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T05:13:43Z'
+    note: 交接事实必须唯一指向当前APK，不能依赖聊天说明纠正旧文件名
+  machine_record: .continuity/change_requests/CR-0080.yaml
+  document: docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md
+  decision_log:
+  - at: '2026-07-19T05:13:44Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 同步TASK-R03-007阻断说明到c257aee/10205
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
