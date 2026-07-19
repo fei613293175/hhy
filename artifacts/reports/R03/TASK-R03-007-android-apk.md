@@ -6,7 +6,7 @@
 - APK 内嵌真实 API `https://api.orbexa.cc` 1 次，占位端点 `https://api.example.invalid` 0 次；公开注册配置与安全验证接口均为 HTTP 200，挑战图片为 PNG 160x56。
 - 桌面、仓库忽略副本、服务器和 HTTPS 完整下载四方 SHA-256 一致；公网完整下载 200、Range 206、MIME 与下载文件名检查通过。
 - 外部供应商、SecretRef、证书和域名均已逐项登记为 VERIFIED 或明确的负责人、截止版本和阻断编号，没有伪造连接成功或临时生产凭据。
-- 机器交付状态为 `PASS`；项目所有者真机安装、启动和核心路径状态严格保持 `PENDING`。
+- 机器交付状态为 `PASS`；项目所有者已于 2026-07-19 明确确认 versionCode 10206 真机安装、启动和核心路径测试 `PASS`。
 
 ## APK 产物身份
 
@@ -49,6 +49,6 @@
 
 详细 SecretRef、证书指纹要求和 DNS/TLS/服务健康三层证据见 `artifacts/validation/r03-task007-external/`。连接测试未通过的配置版本不得激活。
 
-## 待完成门禁
+## 真机验收结论
 
-项目所有者需覆盖安装桌面 `hhy-r03-660d148-debug.apk`，重点确认：已注册手机号明确提示“该手机号已注册，请直接登录或找回密码”；不存在或失效邀请码明确提示“邀请码无效或已失效，请检查后重试”，不得再出现笼统注册失败或服务暂不可用。收到明确 PASS 前，`owner_physical_test` 保持 `PENDING`，TASK-R03-007 不得标记 DONE，R03 不得关闭。
+项目所有者已覆盖安装桌面 `hhy-r03-660d148-debug.apk`，并于 2026-07-19 明确确认 R03 versionCode 10206 真机测试通过。`artifacts/apk/R03/APK_MANIFEST.yaml` 与 `artifacts/validation/r03-apk-delivery/delivery-evidence.json` 均已记录 `owner_physical_test: PASS`，TASK-R03-007 的机器交付和项目所有者真机门禁全部关闭。

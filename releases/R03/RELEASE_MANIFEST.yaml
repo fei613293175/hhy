@@ -1,6 +1,8 @@
 release: R03
 title: 供应商配置、密钥、证书与域名中心
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: DONE
+release_commit: 660d148d0743e796a9b77558bed68f046197519e
+release_tag: R03-660d148
 milestone: M0_ENGINEERING_FOUNDATION
 depends_on:
 - R01
@@ -27,19 +29,24 @@ ui:
 contracts:
   client_api: []
   admin_api:
-  - GET /admin-api/v1/provider-configs
-  - GET /admin-api/v1/provider-configs/{provider}
-  - POST /admin-api/v1/provider-configs/{provider}/versions
-  - POST /admin-api/v1/provider-configs/{provider}/test
-  - POST /admin-api/v1/provider-configs/{provider}/activate
-  - POST /admin-api/v1/provider-configs/{provider}/rollback
-  - POST /admin-api/v1/provider-certificates
-  - GET /admin-api/v1/provider-certificates
-  - POST /admin-api/v1/provider-certificates/{id}/rotate
-  - GET /admin-api/v1/domains
-  - PUT /admin-api/v1/domains/{code}
-  - GET /admin-api/v1/domains/dns-actions
-  - POST /admin-api/v1/domains/{code}/verify
+    operation_ids:
+    - adminProviderConfigPostProviderConfigsByProviderVersions
+    - adminProviderCertificatePostProviderCertificatesByIdRotate
+    - adminDomainConfigPostDomainsByCodeVerify
+    paths:
+    - GET /admin-api/v1/provider-configs
+    - GET /admin-api/v1/provider-configs/{provider}
+    - POST /admin-api/v1/provider-configs/{provider}/versions
+    - POST /admin-api/v1/provider-configs/{provider}/test
+    - POST /admin-api/v1/provider-configs/{provider}/activate
+    - POST /admin-api/v1/provider-configs/{provider}/rollback
+    - POST /admin-api/v1/provider-certificates
+    - GET /admin-api/v1/provider-certificates
+    - POST /admin-api/v1/provider-certificates/{id}/rotate
+    - GET /admin-api/v1/domains
+    - PUT /admin-api/v1/domains/{code}
+    - GET /admin-api/v1/domains/dns-actions
+    - POST /admin-api/v1/domains/{code}/verify
   websocket: []
 database_tables:
 - system_configs
