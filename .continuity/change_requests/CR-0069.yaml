@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0069
 title: 允许同一版本热修复APK使用更高单调versionCode
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-19T02:32:20Z'
-updated_at: '2026-07-19T02:32:42Z'
+updated_at: '2026-07-19T02:41:43Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R03-007
@@ -40,5 +40,17 @@ decision_log:
   status: IMPLEMENTING
   note: 更新交付版本码门禁并补回归测试
   session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T02:41:38Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 交付工具允许高于Release基线的单调热修复版本码，14项回归及10204交付通过
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T02:41:43Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 热修复版本码下限门禁与14项交付工具回归通过
+  session_id: SES-20260718T200607Z-3569D212
 session_ids:
 - SES-20260718T200607Z-3569D212
+implementation_commits:
+- 33a0700

@@ -3921,9 +3921,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0066
   title: 修复R02安全验证码结果与后续业务错误混淆
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-19T00:44:38Z'
-  updated_at: '2026-07-19T02:40:09Z'
+  updated_at: '2026-07-19T02:41:39Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3995,16 +3995,22 @@ change_requests:
     status: IMPLEMENTED
     note: 专用验证码错误码、Android/H5分类、后端部署和公网黑盒均通过
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T02:41:39Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 后端公网黑盒、双端回归、10204固定签名APK与桌面交付全部通过，真机验收保持PENDING
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
   implementation_commits:
   - 0560fd3203484c9a7672626033189bbe025ea08e
+  - 33a0700
 - protocol_version: '1.0'
   cr_id: CR-0067
   title: 递增R03真机回归APK版本并更新交付证据
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-19T02:01:09Z'
-  updated_at: '2026-07-19T02:40:11Z'
+  updated_at: '2026-07-19T02:41:41Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4051,16 +4057,22 @@ change_requests:
     status: IMPLEMENTED
     note: Gradle versionCode 10204及当前APK交付证据已实现
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T02:41:41Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: versionCode 10204、历史归档和当前APK四方交付证据闭环
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
   implementation_commits:
   - 25e9e5bff1490887fea94c44a756bb86ec297a34
+  - 33a0700
 - protocol_version: '1.0'
   cr_id: CR-0068
   title: 同步R03测试包应用版本策略与交付门禁
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-19T02:03:24Z'
-  updated_at: '2026-07-19T02:40:12Z'
+  updated_at: '2026-07-19T02:41:42Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4107,16 +4119,22 @@ change_requests:
     status: IMPLEMENTED
     note: 应用发布策略、版本测试和R03门禁统一10204
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T02:41:42Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: Gradle、ReleasePolicy、版本测试和当前交付证据身份一致
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
   implementation_commits:
   - 25e9e5bff1490887fea94c44a756bb86ec297a34
+  - 33a0700
 - protocol_version: '1.0'
   cr_id: CR-0069
   title: 允许同一版本热修复APK使用更高单调versionCode
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T02:32:20Z'
-  updated_at: '2026-07-19T02:32:42Z'
+  updated_at: '2026-07-19T02:41:43Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4153,5 +4171,17 @@ change_requests:
     status: IMPLEMENTING
     note: 更新交付版本码门禁并补回归测试
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T02:41:38Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 交付工具允许高于Release基线的单调热修复版本码，14项回归及10204交付通过
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T02:41:43Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 热修复版本码下限门禁与14项交付工具回归通过
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 33a0700
