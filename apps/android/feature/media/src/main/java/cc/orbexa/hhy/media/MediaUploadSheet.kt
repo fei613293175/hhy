@@ -45,6 +45,8 @@ import cc.orbexa.hhy.designsystem.HhyType
 import cc.orbexa.hhy.network.ContractMediaApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,9 +56,12 @@ fun MediaUploadSheet(
     purpose: String,
     onCompleted: (List<MediaUploadSelection>) -> Unit,
     onDismiss: () -> Unit,
+    maxConcurrentUploads: Int,
     onAuthenticationRequired: () -> Unit = {},
+    onPreview: (MediaUploadSelection) -> Unit = {},
     acceptedTypes: Array<String> = arrayOf("image/*"),
 ) {
+    require(maxConcurrentUploads > 0)
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val manager = remember(api, accessToken, purpose) {
@@ -64,6 +69,7 @@ fun MediaUploadSheet(
     }
     val uploadItems by manager.items.collectAsState()
     val jobs = remember { mutableStateMapOf<String, Job>() }
+    val uploadPermits = remember(maxConcurrentUploads) { Semaphore(maxConcurrentUploads) }
     var confirmDismiss by remember { mutableStateOf(false) }
     var deleteTarget by remember { mutableStateOf<String?>(null) }
 
@@ -86,7 +92,7 @@ fun MediaUploadSheet(
             val id = manager.add(file)
             jobs[id] = scope.launch {
                 try {
-                    manager.upload(id)
+                    uploadPermits.withPermit { manager.upload(id) }
                 } finally {
                     jobs.remove(id)
                 }
@@ -134,8 +140,12 @@ fun MediaUploadSheet(
                             onCancel = { jobs.remove(item.localId)?.cancel() },
                             onRetry = {
                                 jobs[item.localId] = scope.launch {
-                                    try { manager.retry(item.localId) } finally { jobs.remove(item.localId) }
+                                    try { uploadPermits.withPermit { manager.retry(item.localId) } }
+                                    finally { jobs.remove(item.localId) }
                                 }
+                            },
+                            onPreview = manager.completedSelection(item.localId)?.takeIf { it.readUrl != null }?.let { selection ->
+                                { onPreview(selection) }
                             },
                             onRemove = {
                                 if (item.phase == MediaUploadPhase.COMPLETED) deleteTarget = item.localId
@@ -198,6 +208,7 @@ private fun UploadItemCard(
     onCancel: () -> Unit,
     onRetry: () -> Unit,
     onRemove: () -> Unit,
+    onPreview: (() -> Unit)?,
 ) {
     val progress = if (item.sizeBytes == 0L) 0f else item.uploadedBytes.toFloat() / item.sizeBytes
     Card(
@@ -226,7 +237,10 @@ private fun UploadItemCard(
                         TextButton(onClick = onRemove) { Text("移除") }
                         TextButton(onClick = onRetry) { Text("重试") }
                     }
-                    MediaUploadPhase.COMPLETED -> TextButton(onClick = onRemove) { Text("删除") }
+                    MediaUploadPhase.COMPLETED -> {
+                        onPreview?.let { TextButton(onClick = it) { Text("预览") } }
+                        TextButton(onClick = onRemove) { Text("删除") }
+                    }
                     MediaUploadPhase.DELETING -> Unit
                 }
             }

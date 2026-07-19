@@ -176,6 +176,13 @@ class MediaUploadManager(
         }
     }
 
+    fun completedSelection(localId: String): MediaUploadSelection? = synchronized(lock) {
+        val item = records[localId] ?: return@synchronized null
+        val media = item.resource?.takeIf { item.state.phase == MediaUploadPhase.COMPLETED }
+            ?: return@synchronized null
+        MediaUploadSelection(media.id, item.file.displayName, item.file.contentType, item.file.sizeBytes, media.readUrl)
+    }
+
     private suspend fun createSession(item: MutableItem): MediaResource? {
         setState(item, MediaUploadPhase.PREPARING, uploadedBytes = 0)
         val sha256 = item.file.openInput().use { source -> sha256(source, item.file.sizeBytes) }

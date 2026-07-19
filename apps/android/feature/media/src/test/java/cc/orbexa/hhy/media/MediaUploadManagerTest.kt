@@ -34,6 +34,7 @@ class MediaUploadManagerTest {
         assertEquals(1, api.completeKeys.size)
         assertFalse(item.toString().contains("https://"))
         assertEquals("media-1", manager.completedSelections().single().mediaId)
+        assertEquals("media-1", manager.completedSelection(id)?.mediaId)
     }
 
     @Test

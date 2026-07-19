@@ -2,7 +2,7 @@
 
 ## 实现范围
 
-- 新增 `:feature:media`，实现 `SHEET-MEDIA-001` 标准底部面板、文件选择、逐文件进度、取消、失败重试、完成回传与删除确认。
+- 新增 `:feature:media`，实现 `SHEET-MEDIA-001` 标准底部面板、文件选择、配置驱动并发上限、逐文件进度、取消、失败重试、完成回传、受信任私有预览回调与删除确认。
 - `core:network` 新增冻结 R04 Media DTO 与 `ContractMediaApi`，仅调用三个登记 operationId 对应接口及服务端签发的 HTTPS 上传地址。
 - 创建、完成、删除分别持有稳定幂等键；重试复用原键，删除只在用户明确操作后执行，不进入自动重试队列。
 - 上传 URL、私有读取 URL、Token、请求编号、错误码和幂等键均不进入可见 UI，也没有日志输出。
@@ -32,7 +32,7 @@
 
 ## 测试证据
 
-- Android MODULE：`./gradlew --no-daemon testDebugUnitTest lintDebug` → `BUILD SUCCESSFUL`，297 个 Gradle task；日志 `/tmp/hhy-r04-android-04FDBE70-a2/android-module.log`，SHA-256 `193307a2a13614528466e4d1e66e44b2f0913645debb6b9631a2f96077d4fb41`。
+- Android MODULE：`./gradlew --no-daemon testDebugUnitTest lintDebug` → `BUILD SUCCESSFUL`，297 个 Gradle task；最终日志 `/tmp/hhy-r04-android-04FDBE70-a2/android-module-final.log`，SHA-256 `fbe2496f23f530ce99f353102069c89715ac036f8e6a6ae228b19440c6bd993a`。
 - Media 专项：`MediaUploadManagerTest` 6 tests，0 skipped / 0 failures / 0 errors；包含上传闭环、创建/完成/删除稳定幂等键、取消和全部冻结错误分支。
 - Network 契约：`ApiModelsSerializationTest` 14 tests、`RequestIdPolicyTest` 2 tests、`StartupGateTest` 7 tests，全部通过。
 - Android Lint：`core:network`、`feature:media` 及全 Android 工程 `lintDebug` 均通过。
