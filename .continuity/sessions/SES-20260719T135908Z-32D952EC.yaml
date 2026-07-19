@@ -11,7 +11,7 @@ task_id: TASK-R04-006
 story_id: STORY-R04-002
 goal: 完成R04可观测性、Staging部署、供应商故障和回滚演练，确保日志无签名URL、Secret或私有内容并通过Staging与RELEASE前置门禁
 started_at: '2026-07-19T13:59:08Z'
-updated_at: '2026-07-19T14:11:40Z'
+updated_at: '2026-07-19T14:39:40Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -58,22 +58,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T14:11:37Z'
-  expires_at: '2026-07-19T18:11:37Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260719T135908Z-32D952EC/0001.yaml
+  renewed_at: '2026-07-19T14:39:38Z'
+  expires_at: '2026-07-19T18:39:38Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260719T135908Z-32D952EC/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T135908Z-32D952EC.md
-next_step: 提交并推送实现，然后在obx-test部署独立R04 Staging并完成告警与同库卷应用回切演练
+next_step: 提交并推送现场证据，关闭TASK-R04-006并立即进入TASK-R04-007正式测试APK门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 51c69c6b336171c8917053a154c555984a63b73f56999d13384c918d2ca6f680
-  generated_at: '2026-07-19T14:11:39Z'
+  context_hash: 0dce48881289fb9aa6c233c0ce21256c6c700d5dd1ac02e0dc5f9963240464ce
+  generated_at: '2026-07-19T14:39:39Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 后续为同一隔离Compose项目的顺序部署、告警触发和同库卷回切，拆分会竞争唯一Staging状态
+  reason: 现场演练依赖同一Compose项目、告警状态与数据库卷顺序变化，必须串行保持证据因果链

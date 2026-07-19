@@ -1,0 +1,3 @@
+Checking /etc/prometheus/r04-alerts.yml
+  SUCCESS: 8 rules found
+

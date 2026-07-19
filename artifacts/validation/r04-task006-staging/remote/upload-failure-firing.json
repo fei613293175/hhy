@@ -1,0 +1,1 @@
+{"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"ALERTS","alertname":"HhyR04MediaUploadFailureBurst","alertstate":"firing","environment":"staging","instance":"api:9091","job":"hhy-backend-r04","release":"R04","severity":"warning"},"value":[1784471142.238,"1"]}]}}
