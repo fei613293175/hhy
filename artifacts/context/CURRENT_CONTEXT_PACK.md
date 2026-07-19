@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T16:52:22Z
-- Context Hash：`f4e59576608f1cbb647a0f326211702beb2550406af75427f7812732b25ade7d`
+- 生成时间：2026-07-19T17:03:26Z
+- Context Hash：`b3748ca4b84bf3a9a71a28714125f215d7560ad301e027bbbd0ea6f6743c69d9`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R05-003
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 当前状态
@@ -18,7 +18,7 @@ baseline_version: 1.2.3
 phase: R05
 active_release: R05
 active_task: TASK-R05-003
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: fc002aa2ce8103a12aa2af12e396238690ae5b63
 last_staging_apk: null
@@ -74,12 +74,13 @@ completed_tasks:
 - TASK-R04-008
 - TASK-R05-001
 - TASK-R05-002
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R05-003
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-003
-updated_at: '2026-07-19T16:52:19Z'
+updated_at: '2026-07-19T17:03:25Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -111,17 +112,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260719T162332Z-9372DEF2
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0008.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260719T165401Z-12791729
+  actor_id: codex-root
+  story_id: STORY-R05-008
+  lease_expires_at: '2026-07-19T21:03:25Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T165401Z-12791729/0001.yaml
+  project_fingerprint: 99f08b026126552328927183b32d6a284f386e350bf33865311b47a0c201333e
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: add33e4cf9d4f017b7a9f75f6ed61adfc26045138283d0ec4a36430427b7de04
-    generated_at: '2026-07-19T16:52:18Z'
+    context_hash: 1ed0232612ce482f1a63913e0c29586b7504971949c375542f9add9a9b720775
+    generated_at: '2026-07-19T16:54:03Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -299,13 +302,243 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T165401Z-12791729
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R05
+task_id: TASK-R05-003
+story_id: STORY-R05-008
+goal: 实现R05范围内9个实名认证客户端与后台接口，覆盖权限、幂等、错误码、状态机、供应商调用边界与敏感审计
+started_at: '2026-07-19T16:54:01Z'
+updated_at: '2026-07-19T17:03:25Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: fa3f2bc052b4446a92757ab0cb0b2086d50e4754
+  start_head: fa3f2bc052b4446a92757ab0cb0b2086d50e4754
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T17:03:25Z'
+  expires_at: '2026-07-19T21:03:25Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260719T165401Z-12791729/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md
+next_step: 提交推送领域切片；新增V024接口存储字段并实现R05 PostgreSQL Store、配置策略、供应商Gateway和4个客户端Controller端点
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: Controller与PostgreSQL Store必须依赖当前冻结的领域接口稳定后串行接入，避免并发修改同一接口
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T165401Z-12791729-0001
+session_id: SES-20260719T165401Z-12791729
+sequence: 1
+created_at: '2026-07-19T17:03:24Z'
+summary: 完成R05客户端身份会话领域第一切片：冻结DTO、创建/活体/查询/重试状态机、敏感字段AEAD加密与密钥哈希、持久加密幂等快照及8项单测
+next_step: 提交推送领域切片；新增V024接口存储字段并实现R05 PostgreSQL Store、配置策略、供应商Gateway和4个客户端Controller端点
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R05身份领域与幂等单测
+  result: PASS
+  evidence: mvn -Dtest=IdentityServiceTest,IdentityIdempotencyServiceTest test
+  note: 8 tests passed
+- name: R05 access编译
+  result: PASS
+  evidence: mvn -pl access -am -DskipTests compile
+  note: 65 source files compile
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: fa3f2bc052b4446a92757ab0cb0b2086d50e4754
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260719T165401Z-12791729.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  recent_commits:
+  - "fa3f2bc052b4446a92757ab0cb0b2086d50e4754\t2026-07-20T00:53:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-002\
+    \ as completed"
+  - "9ded6d084a4c073b9c2d739d0340506f369e9893\t2026-07-20T00:51:31+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] docs(identity): record PostgreSQL\
+    \ 17 gate evidence"
+  - "fc002aa2ce8103a12aa2af12e396238690ae5b63\t2026-07-20T00:46:59+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] test(identity): assert immutable\
+    \ audit SQLSTATE"
+  - "855df4a218879481e961c174da763eace8ed32c4\t2026-07-20T00:44:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(identity): reject null\
+    \ provider completion state"
+  - "e952473677bfb56527c811530509d619bbf562e4\t2026-07-20T00:37:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] test(identity): verify PostgreSQL\
+    \ invariants and rollback"
+  - "441cd6bf3fbb483f2d7f1ed1dfe437332c973ccb\t2026-07-20T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): enforce verification\
+    \ data invariants"
+  - "2282bc24a3b771715582514a939cffb481920749\t2026-07-20T00:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-001\
+    \ as completed"
+  - "9e4e50a75c9d8373c5c5c9770407b413ef85633c\t2026-07-20T00:22:12+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): close R04\
+    \ and R05 entry decisions"
+project_fingerprint:
+  sha256: 99f08b026126552328927183b32d6a284f386e350bf33865311b47a0c201333e
+  files:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  file_count: 6
+  payload:
+    base_commit: fa3f2bc052b4446a92757ab0cb0b2086d50e4754
+    files:
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+      state: FILE
+      size: 1230
+      sha256: f580d9f0a0f527de5b7b5204d2b6e0a37f29c47b9dc997dbc83c06eccc232c64
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+      state: FILE
+      size: 3569
+      sha256: cce9866b7d4fb2efaf0212efd217271bb9aeb5b5521eec1d956bd469272e556a
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
+      state: FILE
+      size: 5565
+      sha256: 426397fa7048c5dd46e6670baae960c409242aa2a84b7c94ae0aa0c565d993e6
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+      state: FILE
+      size: 12131
+      sha256: 4e0077cca3ed994175c2074d9491066651757056d3a94963e61a459015560d85
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+      state: FILE
+      size: 4627
+      sha256: 9204b0570ee7a3786c2a7b679973ed06fa82765ac75be2293c5f67c30e199101
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+      state: FILE
+      size: 11812
+      sha256: 7a5fd4102f34e793e6f799e2dd658dc858b995473a4397d31f81e245a562a610
+change_classification:
+  code:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: Controller与PostgreSQL Store必须依赖当前冻结的领域接口稳定后串行接入，避免并发修改同一接口
+event_hash: 8fac5119049c503cdbf23124c84ac8c351a490d7d7bf591b2ea24c1444ba69df
 ```
 
 ## 接续状态与事件头
@@ -313,31 +546,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260719T165401Z-12791729
 last_session_id: SES-20260719T162332Z-9372DEF2
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T162332Z-9372DEF2-0008
-event_count: 1017
-event_head_hash: 257540ef5e9ea02fdf447906dbd19a89d1d146cb78b8ed761e0b0c144e981def
+event_count: 1019
+event_head_hash: 8fac5119049c503cdbf23124c84ac8c351a490d7d7bf591b2ea24c1444ba69df
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260719T083704Z-6E4CE28F
-  task_id: TASK-R04-001
-  story_id: STORY-R04-002
-  actor_id: codex-root
-  status: CLOSED
-  started_at: '2026-07-19T08:37:04Z'
-  record: .continuity/sessions/SES-20260719T083704Z-6E4CE28F.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md
-  updated_at: '2026-07-19T08:53:03Z'
-  closed_at: '2026-07-19T08:53:03Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0005.yaml
-  handoff_bundle: null
-- session_id: SES-20260719T085423Z-0385FEE0
+recent_sessions: - session_id: SES-20260719T085423Z-0385FEE0
   task_id: TASK-R04-002
   story_id: STORY-R04-002
   actor_id: codex-root
@@ -445,47 +666,19 @@ recent_sessions: - session_id: SES-20260719T083704Z-6E4CE28F
   closed_at: '2026-07-19T16:52:19Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0008.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-B4B0636F4556
-  session_id: SES-20260718T105025Z-0B8DE284
-  task_id: TASK-R02-007
-  story_id: STORY-R02-009
+- session_id: SES-20260719T165401Z-12791729
+  task_id: TASK-R05-003
+  story_id: STORY-R05-008
   actor_id: codex-root
-  status: CLOSED
-  claimed_at: '2026-07-18T10:50:25Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-18T13:23:32Z'
-- claim_id: CLM-1E804AB6298F
+  status: ACTIVE
+  started_at: '2026-07-19T16:54:01Z'
+  record: .continuity/sessions/SES-20260719T165401Z-12791729.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md
+  updated_at: '2026-07-19T17:03:25Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T165401Z-12791729/0001.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-1E804AB6298F
   session_id: SES-20260718T132650Z-C5038104
   task_id: TASK-R03-001
   story_id: STORY-R03-004
@@ -1133,17 +1326,46 @@ task_claims: - claim_id: CLM-B4B0636F4556
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-19T16:52:19Z'
-recent_task_transitions: - transition_id: TRN-0BCEACF492B2
-  timestamp: '2026-07-18T10:50:25Z'
-  release: R02
-  task_id: TASK-R02-007
-  story_id: STORY-R02-009
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260718T105025Z-0B8DE284
+- claim_id: CLM-D4590DC555CA
+  session_id: SES-20260719T165401Z-12791729
+  task_id: TASK-R05-003
+  story_id: STORY-R05-008
   actor_id: codex-root
-  reason: 会话领取任务
-- transition_id: TRN-3BD6303A80B9
+  status: ACTIVE
+  claimed_at: '2026-07-19T16:54:01Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-3BD6303A80B9
   timestamp: '2026-07-18T13:26:50Z'
   release: R03
   task_id: TASK-R03-001
@@ -1333,6 +1555,16 @@ recent_task_transitions: - transition_id: TRN-0BCEACF492B2
   session_id: SES-20260719T162332Z-9372DEF2
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-9845FD50E711
+  timestamp: '2026-07-19T16:54:02Z'
+  release: R05
+  task_id: TASK-R05-003
+  story_id: STORY-R05-008
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260719T165401Z-12791729
+  actor_id: codex-root
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1340,7 +1572,7 @@ recent_task_transitions: - transition_id: TRN-0BCEACF492B2
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 9ded6d084a4c073b9c2d739d0340506f369e9893
+head: fa3f2bc052b4446a92757ab0cb0b2086d50e4754
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1351,18 +1583,25 @@ status_porcelain:
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260719T162332Z-9372DEF2.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md'
-- ' M releases/R05/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0008.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ?? .continuity/checkpoints/SES-20260719T165401Z-12791729/0001.yaml
+- ?? .continuity/sessions/SES-20260719T165401Z-12791729.yaml
+- ?? docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
 recent_commits:
+- "fa3f2bc052b4446a92757ab0cb0b2086d50e4754\t2026-07-20T00:53:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-002\
+  \ as completed"
 - "9ded6d084a4c073b9c2d739d0340506f369e9893\t2026-07-20T00:51:31+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] docs(identity): record PostgreSQL\
   \ 17 gate evidence"
 - "fc002aa2ce8103a12aa2af12e396238690ae5b63\t2026-07-20T00:46:59+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] test(identity): assert immutable\
@@ -1377,16 +1616,19 @@ recent_commits:
   \ as completed"
 - "9e4e50a75c9d8373c5c5c9770407b413ef85633c\t2026-07-20T00:22:12+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): close R04\
   \ and R05 entry decisions"
-- "b2ee5df5be707774ec7276a68f45473f94535448\t2026-07-20T00:20:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): finalize\
-  \ R05 entry gate"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`47d4cf7b59f2730128c9a1c639f0b9ca5643e6d8b985eb4141601762bffcb340`
-- 文件数：0
+- 指纹：`99f08b026126552328927183b32d6a284f386e350bf33865311b47a0c201333e`
+- 文件数：6
 
-- 无
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java`
 
 ## 当前 Release
 
@@ -3652,7 +3894,7 @@ TASKS.yaml:
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `b0c9cf6061443e82cf33a07d577a6b1cd440e9f8b9ef5c1a2a791a5c317b583d`
+- `CURRENT_STATUS.yaml` — `288c710c6add77c4c2b09e1a5f7eca7019bf92e57bea692ac7db9037f7a6ead4`
 - `NEXT_TASK.yaml` — `694f13cd4173635abf21c3f1f533cbacf3f646b01c13bfcef2c681ad0a47d627`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3663,12 +3905,19 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `f3415dabd26f25d09059cc806aebadff6098f3f944c26c0191e74166254570cd`
-- `.continuity/SESSION_INDEX.yaml` — `17e8ed25debc37d4c594257efd11ab1da0cdee1c2a00e173bc9b9a559276c713`
-- `.continuity/TASK_CLAIMS.yaml` — `f919ec4ed0b9cb656db8a6e1fa124ed52d23cb8af94a183d32490407c838b5f1`
-- `.continuity/TASK_TRANSITIONS.yaml` — `eb175fbb748ec55b519adc58ea40afda028861c68c103bb57de2c2172848c287`
+- `.continuity/EVENT_LOG.jsonl` — `21a4c1baa808ac50edc31886fffd30796bc4700647f09a61188a372a98a40ee9`
+- `.continuity/SESSION_INDEX.yaml` — `38eaff09a417d7b4279e664761e980e5e3f2a11fd619cd074f240c9e277fd2ae`
+- `.continuity/TASK_CLAIMS.yaml` — `cdfe6d34fe6aae7aa3dd5993df1ee7a7a340460b2df7330bf666b603a2bbe1d2`
+- `.continuity/TASK_TRANSITIONS.yaml` — `870032c70346cad8df645520a6e9aabb47697f606cded0178cfb3c50928769cd`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c5058129a53f2224844f2fca88bc0e92ff6d6bf6cd5861983ce3d741baa88b6f`
-- `.continuity/ACTIVE_SESSION.yaml` — `1a2c67be02f030dd31ccd00f3a09c76465fe46429608039e6ab1c8fed030d459`
+- `.continuity/ACTIVE_SESSION.yaml` — `523d4d9b22cf4106e823532e2cdb144cdef3bbaa99136b4d9e70314a55636a20`
+- `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
+- `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
+- `releases/R05/STORIES.yaml` — `e2748a2bda2bf2cb053cb49eafa127cac66c27e0d3f1ed36232c0c0ba93fd96c`
+- `releases/R05/TASKS.yaml` — `459041ee4f47569bb2d3b57fe288d555d61ab12446af0715f88a470116d90c35`
+- `releases/R05/ACCEPTANCE_MATRIX.csv` — `506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md` — `c082cfa22dd3e23c2260a26d6c7af8f73683ba584ca2a424177d70c757d84eb4`
+- `.continuity/checkpoints/SES-20260719T165401Z-12791729/0001.yaml` — `8174aa240bc3af468acb971fe13819e163573b8775768e5f6dfe716e5869fbf4`
 
 ## 接手硬规则
 
