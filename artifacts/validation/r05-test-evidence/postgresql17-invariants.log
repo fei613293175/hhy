@@ -1,0 +1,10 @@
+NOTICE:  schema "hhy" does not exist, skipping
+psql:/tmp/hhy-r05-consent-build-20260720-0350-b6e2/database/migrations/V009__v122_operational_governance.sql:31: NOTICE:  trigger "trg_admin_sessions_updated_at" for relation "hhy.admin_sessions" does not exist, skipping
+psql:/tmp/hhy-r05-consent-build-20260720-0350-b6e2/database/migrations/V009__v122_operational_governance.sql:53: NOTICE:  trigger "trg_admin_mfa_methods_updated_at" for relation "hhy.admin_mfa_methods" does not exist, skipping
+psql:/tmp/hhy-r05-consent-build-20260720-0350-b6e2/database/migrations/V009__v122_operational_governance.sql:121: NOTICE:  trigger "trg_accounting_reversal_requests_updated_at" for relation "hhy.accounting_reversal_requests" does not exist, skipping
+psql:/tmp/hhy-r05-consent-build-20260720-0350-b6e2/database/migrations/V009__v122_operational_governance.sql:205: NOTICE:  trigger "trg_export_jobs_updated_at" for relation "hhy.export_jobs" does not exist, skipping
+R05_EMPTY_DATABASE_TO_V028 PASS tables=200
+R05_IDENTITY_INVARIANTS PASS
+R05_U028_U027_U026_U025_U024_U023_ROLLBACK PASS
+R05_V023_V024_V025_V026_V027_V028_REAPPLY PASS constraints=32 indexes=14 trigger=1 columns=31 payload=text consent=1
+R05_DISPOSABLE_POSTGRES_CONTAINER PASS

@@ -1,0 +1,97 @@
+{
+  "schema": "hhy.r05.specialized-evidence/v1",
+  "suite": "r05-java21-postgresql17-identity",
+  "source_commit": "3ec3ba2fdcb2063c658c467710e294b1f9b92dbb",
+  "generated_at": "2026-07-19T22:56:30Z",
+  "environment": {
+    "java": "Eclipse Temurin 21",
+    "maven": "3.9.11",
+    "postgresql": "17.10-alpine",
+    "database": "disposable hhy_r05 with trust auth and no host port"
+  },
+  "commands": [
+    "mvn test",
+    "mvn -pl boot -am -Dtest=R05IdentityPostgresStoreTest,R05PrivateIdentityEvidenceStorageTest -Dsurefire.failIfNoSpecifiedTests=false test",
+    "HHY_R05_DB_CONTAINER=hhy-r05-task005-invariants-3ec3ba2 sh scripts/run_r05_disposable_postgres_container.sh"
+  ],
+  "results": [
+    {
+      "test_id": "TST-ID_001-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": ["encrypted identity session", "provider pass to private evidence", "atomic PostgreSQL completion"],
+      "artifacts": [
+        {"path": "maven-java21.log", "sha256": "52290208bcb6a59380b47e8963b364346f16b2a9bc1cfa4143a391a7bcc57cae"},
+        {"path": "maven-postgresql17.log", "sha256": "3c3556079a0d7aeb4e92c9e283a223b4d5f34ab76303eadb157adcb18292afe4"}
+      ]
+    },
+    {
+      "test_id": "TST-ID_001-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": ["encrypted first-response replay", "changed payload conflict", "sixteen concurrent callbacks produce exactly one result"],
+      "artifacts": [
+        {"path": "maven-java21.log", "sha256": "52290208bcb6a59380b47e8963b364346f16b2a9bc1cfa4143a391a7bcc57cae"},
+        {"path": "postgresql17-invariants.log", "sha256": "a68e9f05f5ab7abbc34bb87662405f95ecd9b8227be5754f83034f2aab493bfe"}
+      ]
+    },
+    {
+      "test_id": "TST-ID_001-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": ["stale consent rejected before sensitive processing", "provider order mismatch is retryable", "no state mutation on invalid provider response"],
+      "artifacts": [
+        {"path": "maven-java21.log", "sha256": "52290208bcb6a59380b47e8963b364346f16b2a9bc1cfa4143a391a7bcc57cae"}
+      ]
+    },
+    {
+      "test_id": "TST-ID_001-SECURITY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": ["AEAD field binding", "private evidence digest tamper rejection", "provider timeout keeps secret zeroized"],
+      "artifacts": [
+        {"path": "maven-java21.log", "sha256": "52290208bcb6a59380b47e8963b364346f16b2a9bc1cfa4143a391a7bcc57cae"},
+        {"path": "maven-postgresql17.log", "sha256": "3c3556079a0d7aeb4e92c9e283a223b4d5f34ab76303eadb157adcb18292afe4"}
+      ]
+    },
+    {
+      "test_id": "TST-ID_002-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": ["short-lived private preview", "watermark and reason", "immutable sensitive-access audit"],
+      "artifacts": [
+        {"path": "maven-java21.log", "sha256": "52290208bcb6a59380b47e8963b364346f16b2a9bc1cfa4143a391a7bcc57cae"},
+        {"path": "maven-postgresql17.log", "sha256": "3c3556079a0d7aeb4e92c9e283a223b4d5f34ab76303eadb157adcb18292afe4"}
+      ]
+    },
+    {
+      "test_id": "TST-ID_002-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": ["review first-response snapshot", "duplicate review key is unique", "different payload conflict"],
+      "artifacts": [
+        {"path": "maven-java21.log", "sha256": "52290208bcb6a59380b47e8963b364346f16b2a9bc1cfa4143a391a7bcc57cae"},
+        {"path": "postgresql17-invariants.log", "sha256": "a68e9f05f5ab7abbc34bb87662405f95ecd9b8227be5754f83034f2aab493bfe"}
+      ]
+    },
+    {
+      "test_id": "TST-ID_002-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": ["stale review version rejected", "freeze requires distinct second administrator", "no mutation before approval"],
+      "artifacts": [
+        {"path": "maven-java21.log", "sha256": "52290208bcb6a59380b47e8963b364346f16b2a9bc1cfa4143a391a7bcc57cae"}
+      ]
+    },
+    {
+      "test_id": "TST-ID_002-SECURITY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": ["private_kyc scope only", "audited media access", "immutable review and access records"],
+      "artifacts": [
+        {"path": "maven-java21.log", "sha256": "52290208bcb6a59380b47e8963b364346f16b2a9bc1cfa4143a391a7bcc57cae"},
+        {"path": "postgresql17-invariants.log", "sha256": "a68e9f05f5ab7abbc34bb87662405f95ecd9b8227be5754f83034f2aab493bfe"}
+      ]
+    }
+  ]
+}
