@@ -6,6 +6,7 @@ ALTER TABLE hhy.sensitive_data_access_logs
   DROP CONSTRAINT IF EXISTS ck_r05_sensitive_access_resource,
   DROP CONSTRAINT IF EXISTS ck_r05_sensitive_access_reason,
   DROP CONSTRAINT IF EXISTS fk_r05_sensitive_media,
+  DROP CONSTRAINT IF EXISTS fk_r05_sensitive_admin,
   DROP COLUMN IF EXISTS media_object_id,
   DROP COLUMN IF EXISTS request_id,
   DROP COLUMN IF EXISTS operation;
@@ -17,6 +18,7 @@ ALTER TABLE hhy.identity_review_records
   DROP CONSTRAINT IF EXISTS ck_r05_identity_review_history,
   DROP CONSTRAINT IF EXISTS ck_r05_identity_review_reason,
   DROP CONSTRAINT IF EXISTS ck_r05_identity_review_decision,
+  DROP CONSTRAINT IF EXISTS fk_r05_identity_review_admin,
   DROP COLUMN IF EXISTS expected_version,
   DROP COLUMN IF EXISTS idempotency_key,
   DROP COLUMN IF EXISTS event,
@@ -28,6 +30,7 @@ DROP INDEX IF EXISTS hhy.uq_r05_identity_media_type;
 ALTER TABLE hhy.identity_media
   DROP CONSTRAINT IF EXISTS ck_r05_identity_media_version,
   DROP CONSTRAINT IF EXISTS ck_r05_identity_media_type,
+  DROP CONSTRAINT IF EXISTS ck_r05_identity_media_binding,
   DROP CONSTRAINT IF EXISTS ck_r05_identity_media_scope,
   DROP COLUMN IF EXISTS version,
   DROP COLUMN IF EXISTS purpose,
@@ -41,6 +44,7 @@ ALTER TABLE hhy.identity_provider_requests
   DROP CONSTRAINT IF EXISTS ck_r05_identity_provider_history,
   DROP CONSTRAINT IF EXISTS ck_r05_identity_provider_status,
   DROP CONSTRAINT IF EXISTS ck_r05_identity_provider_hash,
+  DROP CONSTRAINT IF EXISTS ck_r05_identity_provider_request_type,
   DROP CONSTRAINT IF EXISTS ck_r05_identity_provider_attempt,
   DROP COLUMN IF EXISTS completed_at,
   DROP COLUMN IF EXISTS error_code,

@@ -21,14 +21,18 @@ class R05IdentityMigrationTest(unittest.TestCase):
             "ck_r05_identity_session_completion",
             "uq_r05_identity_provider_idempotency",
             "uq_r05_identity_provider_order",
+            "ck_r05_identity_provider_request_type",
             "ck_r05_identity_provider_history",
             "storage_scope = 'private_kyc'",
+            "ck_r05_identity_media_binding",
             "uq_r05_identity_media_object",
             "ck_r05_identity_review_history",
+            "fk_r05_identity_review_admin",
             "trg_r05_identity_review_immutable",
             "ck_r05_sensitive_access_reason",
             "ck_r05_sensitive_access_request",
             "fk_r05_sensitive_media",
+            "fk_r05_sensitive_admin",
         )
         for marker in required:
             with self.subTest(marker=marker):
@@ -51,6 +55,9 @@ class R05IdentityMigrationTest(unittest.TestCase):
             "DROP INDEX IF EXISTS hhy.uq_r05_identity_media_object",
             "DROP CONSTRAINT IF EXISTS ck_r05_identity_session_completion",
             "DROP CONSTRAINT IF EXISTS ck_r05_identity_provider_history",
+            "DROP CONSTRAINT IF EXISTS ck_r05_identity_media_binding",
+            "DROP CONSTRAINT IF EXISTS fk_r05_identity_review_admin",
+            "DROP CONSTRAINT IF EXISTS fk_r05_sensitive_admin",
             "DROP CONSTRAINT IF EXISTS ck_r05_sensitive_access_request",
             "DROP COLUMN IF EXISTS idempotency_key",
             "DROP COLUMN IF EXISTS storage_scope",

@@ -76,6 +76,8 @@ ALTER TABLE hhy.identity_provider_requests
 ALTER TABLE hhy.identity_provider_requests
   ADD CONSTRAINT ck_r05_identity_provider_attempt
     CHECK (attempt_no > 0 AND version >= 0) NOT VALID,
+  ADD CONSTRAINT ck_r05_identity_provider_request_type
+    CHECK (request_type IS NOT NULL AND btrim(request_type) <> '') NOT VALID,
   ADD CONSTRAINT ck_r05_identity_provider_hash
     CHECK (request_hash IS NULL OR request_hash ~ '^[0-9A-Fa-f]{64}$') NOT VALID,
   ADD CONSTRAINT ck_r05_identity_provider_status
@@ -91,8 +93,12 @@ ALTER TABLE hhy.identity_provider_requests
     ) NOT VALID,
   ADD CONSTRAINT ck_r05_identity_provider_completion
     CHECK (
-      (status IN ('SUCCEEDED','FAILED','TIMED_OUT')) = (completed_at IS NOT NULL)
-      AND (completed_at IS NULL OR completed_at >= created_at)
+      (status IS NULL AND completed_at IS NULL)
+      OR (status IN ('CREATED','PROCESSING') AND completed_at IS NULL)
+      OR (
+        status IN ('SUCCEEDED','FAILED','TIMED_OUT')
+        AND completed_at IS NOT NULL AND completed_at >= created_at
+      )
     ) NOT VALID;
 
 CREATE UNIQUE INDEX uq_r05_identity_provider_idempotency
@@ -112,6 +118,12 @@ ALTER TABLE hhy.identity_media
 ALTER TABLE hhy.identity_media
   ADD CONSTRAINT ck_r05_identity_media_scope
     CHECK (storage_scope = 'private_kyc') NOT VALID,
+  ADD CONSTRAINT ck_r05_identity_media_binding
+    CHECK (
+      media_object_id IS NOT NULL
+      AND media_type IS NOT NULL
+      AND purpose IS NOT NULL AND btrim(purpose) <> ''
+    ) NOT VALID,
   ADD CONSTRAINT ck_r05_identity_media_type
     CHECK (media_type IS NULL OR media_type IN ('ID_CARD_FRONT','ID_CARD_BACK','LIVENESS_PHOTO','FACE_COMPARE')) NOT VALID,
   ADD CONSTRAINT ck_r05_identity_media_version
@@ -132,6 +144,8 @@ ALTER TABLE hhy.identity_review_records
   ADD COLUMN expected_version bigint;
 
 ALTER TABLE hhy.identity_review_records
+  ADD CONSTRAINT fk_r05_identity_review_admin
+    FOREIGN KEY (admin_id) REFERENCES hhy.admin_users(id) ON DELETE RESTRICT NOT VALID,
   ADD CONSTRAINT ck_r05_identity_review_decision
     CHECK (decision IS NULL OR decision IN ('APPROVE','REJECT','FREEZE')) NOT VALID,
   ADD CONSTRAINT ck_r05_identity_review_reason
@@ -158,6 +172,8 @@ ALTER TABLE hhy.sensitive_data_access_logs
   ADD COLUMN media_object_id bigint;
 
 ALTER TABLE hhy.sensitive_data_access_logs
+  ADD CONSTRAINT fk_r05_sensitive_admin
+    FOREIGN KEY (admin_id) REFERENCES hhy.admin_users(id) ON DELETE RESTRICT NOT VALID,
   ADD CONSTRAINT fk_r05_sensitive_media
     FOREIGN KEY (media_object_id) REFERENCES hhy.media_objects(id) ON DELETE RESTRICT NOT VALID,
   ADD CONSTRAINT ck_r05_sensitive_access_reason
