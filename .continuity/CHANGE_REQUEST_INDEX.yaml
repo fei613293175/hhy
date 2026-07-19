@@ -6005,9 +6005,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0101
   title: 接通R05身份照片与R04私有媒体写入生命周期
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T21:10:00Z'
-  updated_at: '2026-07-19T21:10:28Z'
+  updated_at: '2026-07-19T21:34:07Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-004
@@ -6054,14 +6054,21 @@ change_requests:
     status: IMPLEMENTING
     note: 开始实现private_kyc服务端上传、幂等媒体登记和V028门禁
     session_id: SES-20260719T183335Z-535311E4
+  - at: '2026-07-19T21:34:07Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: ACTIVE private_kyc服务端签名上传、完整性校验、PRIVATE READY幂等登记、V028和PostgreSQL17验证完成
+    session_id: SES-20260719T183335Z-535311E4
   session_ids:
   - SES-20260719T183335Z-535311E4
+  implementation_commits:
+  - 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5
 - protocol_version: '1.0'
   cr_id: CR-0102
   title: 同步V028至R05一次性PostgreSQL回滚重放门禁
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T21:22:10Z'
-  updated_at: '2026-07-19T21:22:26Z'
+  updated_at: '2026-07-19T21:34:09Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-004
@@ -6100,14 +6107,21 @@ change_requests:
     status: IMPLEMENTING
     note: 开始补齐U028和V028的一次性PostgreSQL回滚重放门禁
     session_id: SES-20260719T183335Z-535311E4
+  - at: '2026-07-19T21:34:09Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: R05一次性数据库门禁已覆盖V028空库、U028-U023回滚和V023-V028重放
+    session_id: SES-20260719T183335Z-535311E4
   session_ids:
   - SES-20260719T183335Z-535311E4
+  implementation_commits:
+  - 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5
 - protocol_version: '1.0'
   cr_id: CR-0103
   title: 同步R05私有身份媒体桥接事实与剩余缺口
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T21:29:45Z'
-  updated_at: '2026-07-19T21:30:02Z'
+  updated_at: '2026-07-19T21:34:10Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-004
@@ -6144,5 +6158,12 @@ change_requests:
     status: IMPLEMENTING
     note: 开始同步私有媒体桥接证据和下一生产端口缺口
     session_id: SES-20260719T183335Z-535311E4
+  - at: '2026-07-19T21:34:10Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 供应商契约与问题登记已同步CR-0101事实和真实PortResolver剩余缺口
+    session_id: SES-20260719T183335Z-535311E4
   session_ids:
   - SES-20260719T183335Z-535311E4
+  implementation_commits:
+  - 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5

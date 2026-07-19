@@ -85,3 +85,10 @@ V028迁移已生效，但R05一次性数据库脚本仍只回滚重放至V027，
 - Status：`IMPLEMENTING`
 - Session：`SES-20260719T183335Z-535311E4`
 - Note：开始补齐U028和V028的一次性PostgreSQL回滚重放门禁
+
+## 状态记录 · 2026-07-19T21:34:09Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260719T183335Z-535311E4`
+- Note：R05一次性数据库门禁已覆盖V028空库、U028-U023回滚和V023-V028重放

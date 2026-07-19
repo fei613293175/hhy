@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T21:31:59Z
-- Context Hash：`a180957cc2265c061d151fc8e04db49e958ce4b2ea73d2190733cb6d398ca043`
+- 生成时间：2026-07-19T21:34:24Z
+- Context Hash：`fa2560f6f23911c3805e34b5ffa1f8a3045dddf109abca4d5eda75db5dc5d40b`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -81,7 +81,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-004
-updated_at: '2026-07-19T21:31:57Z'
+updated_at: '2026-07-19T21:34:22Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -116,15 +116,15 @@ continuity:
   active_session_id: SES-20260719T183335Z-535311E4
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T01:31:57Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0016.yaml
-  project_fingerprint: 583f5a55ca586ee96d9d9d7e00a6bb6337732df0d460882b3a1dbbd061b713f4
+  lease_expires_at: '2026-07-20T01:34:22Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0017.yaml
+  project_fingerprint: 25fa026ef68e992e0ae1100a3ca6db45b7e1b8c7acc2789d7bba0ace14b7bda7
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 5e3bfdf1dcc0f52801b9ed8bb401504d63b1a518c02e3c90837384f45520f303
-    generated_at: '2026-07-19T21:07:20Z'
+    context_hash: a180957cc2265c061d151fc8e04db49e958ce4b2ea73d2190733cb6d398ca043
+    generated_at: '2026-07-19T21:31:59Z'
   handoff_bundle: null
 ```
 
@@ -320,7 +320,7 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T21:31:57Z'
+updated_at: '2026-07-19T21:34:22Z'
 takeover_of: null
 change_requests:
 - CR-0090
@@ -442,12 +442,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T21:31:57Z'
-  expires_at: '2026-07-20T01:31:57Z'
-checkpoint_sequence: 16
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0016.yaml
+  renewed_at: '2026-07-19T21:34:22Z'
+  expires_at: '2026-07-20T01:34:22Z'
+checkpoint_sequence: 17
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0017.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 提交并推送本段实现，关闭CR-0101至CR-0103后进入Cloudflare R2与阿里云OSS真实PortResolver
+next_step: 实现Cloudflare R2与阿里云OSS真实StorageObjectPort PortResolver并接入激活配置
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -455,52 +455,32 @@ parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 用户未要求子代理；共享存储安全边界和连续性收口保持单线执行
+  reason: 用户未要求子代理，继续沿R05共享存储安全边界串行推进
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T183335Z-535311E4-0016
+checkpoint_id: CP-SES-20260719T183335Z-535311E4-0017
 session_id: SES-20260719T183335Z-535311E4
-sequence: 16
-created_at: '2026-07-19T21:31:56Z'
-summary: 完成CR-0101私有身份照片写入桥接、CR-0102 V028数据库门禁同步和CR-0103仓库事实同步
-next_step: 提交并推送本段实现，关闭CR-0101至CR-0103后进入Cloudflare R2与阿里云OSS真实PortResolver
+sequence: 17
+created_at: '2026-07-19T21:34:21Z'
+summary: CR-0101、CR-0102、CR-0103均已绑定提交4e970ae并标记IMPLEMENTED
+next_step: 实现Cloudflare R2与阿里云OSS真实StorageObjectPort PortResolver并接入激活配置
 blockers: []
 decisions:
-- 实名照片仅通过ACTIVE private_kyc签名上传并登记PRIVATE READY内部媒体；真实供应商端口未激活前保持可重试且不写终态
-note: 测试中发现并修复Instant PostgreSQL绑定及容器TCP就绪竞态；均已纳入回归证据
+- 私有身份媒体桥接已完成但R05继续保持未关闭，直到真实对象存储端口和正式环境证据完成
+note: 下一段不得复用未激活占位PortResolver，也不得把桥接完成等同于正式存储完成
 tests:
-- name: backend-full
+- name: implementation-commit
   result: PASS
-  evidence: remote Maven 261 tests, 0 failures
-  note: 4 environment-gated tests skipped as designed
-- name: postgres-private-media
-  result: PASS
-  evidence: PostgreSQL17 Flyway V001-V028 and 4 R05PrivateIdentityEvidenceStorage tests
-  note: idempotency, conflict, private ready and outbox verified
-- name: postgres-migration-replay
-  result: PASS
-  evidence: R05_EMPTY_DATABASE_TO_V028 and U028-U023 rollback plus V023-V028 reapply
-  note: indexes=14
-- name: r05-python
-  result: PASS
-  evidence: 20 R05 migration and vendor tests
-  note: 0 failures
-- name: generated-assets
-  result: PASS
-  evidence: GENERATED_ASSETS_OK
-  note: all generated assets verified
-- name: documentation
-  result: PASS
-  evidence: check_v123_documentation.py
-  note: 318 REST operations and 0 gaps
+  evidence: 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5 pushed
+  note: CR-0101 through CR-0103 bound
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 6d56e21aed734dd2511a14a55e361c194296c9fc
+  head: 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -509,30 +489,17 @@ git:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
+  - ' M .continuity/change_requests/CR-0101.yaml'
+  - ' M .continuity/change_requests/CR-0102.yaml'
+  - ' M .continuity/change_requests/CR-0103.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/04-vendors/identity/实名认证供应商接口契约_R05.md'
-  - ' M scripts/run_r05_database_invariants.sh'
-  - ' M scripts/run_r05_disposable_postgres_container.sh'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java'
-  - ' M tests/test_r05_identity_database_scripts.py'
-  - ?? .continuity/change_requests/CR-0101.yaml
-  - ?? .continuity/change_requests/CR-0102.yaml
-  - ?? .continuity/change_requests/CR-0103.yaml
-  - ?? database/migrations/V028__r05_private_identity_evidence.sql
-  - ?? database/rollback/U028__r05_private_identity_evidence.sql
-  - ?? docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md
-  - ?? docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md
-  - ?? docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorage.java
-  - ?? services/backend/boot/src/main/resources/db/migration/V028__r05_private_identity_evidence.sql
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
-  - ?? tests/test_r05_private_identity_evidence_migration.py
+  - ' M docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md'
+  - ' M docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md'
+  - ' M docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md'
   recent_commits:
+  - "4e970aeeebbec1c7f679dc3ac75dad1d11e122c5\t2026-07-20T05:32:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): persist private\
+    \ evidence safely"
   - "6d56e21aed734dd2511a14a55e361c194296c9fc\t2026-07-20T05:07:57+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): record callback\
     \ startup closure"
   - "86121701f43259231ecdd8aa0c5953e48d9394df\t2026-07-20T05:06:37+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): reconcile\
@@ -547,10 +514,8 @@ git:
     \ provider results"
   - "fa9770715cf9d6f75bee41bf0e7b276832dea507\t2026-07-20T04:24:06+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close consent\
     \ CR"
-  - "c9e0b2ef1602aaa2935a472abbe96fb51e825f9c\t2026-07-20T04:22:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): load controlled\
-    \ consent"
 project_fingerprint:
-  sha256: 583f5a55ca586ee96d9d9d7e00a6bb6337732df0d460882b3a1dbbd061b713f4
+  sha256: 25fa026ef68e992e0ae1100a3ca6db45b7e1b8c7acc2789d7bba0ace14b7bda7
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r05IdentityPages.test.ts
@@ -877,16 +842,16 @@ project_fingerprint:
       sha256: 89dcac9ad36299e5151ce6a4b004b0be38355de6c97b8b520e25caed79f53477
     - path: docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md
       state: FILE
-      size: 3262
-      sha256: 7e282f58ee4494a0fab6c8651d0fd0516bca58c17da7bab4c25257b38ace0143
+      size: 3525
+      sha256: 866f506a6102a1e8169fb0dc9374689b0498d15e4124c5c2ef0ab8696e6b4611
     - path: docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md
       state: FILE
-      size: 2100
-      sha256: 50fedb305cf801ac35878780c4ad422d5e39005c0bbf792f9109f6db5f63de3d
+      size: 2326
+      sha256: 95722415da26767608e5d89f54f3e5ef5e30f5538037e19f5925e0e4411636b4
     - path: docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md
       state: FILE
-      size: 2169
-      sha256: b2459be43117ba4269bd9a291542fe857b52615902ef6983be65c4097f69e0a4
+      size: 2398
+      sha256: c2abea5833c737a1430ba2d143d8f487d85c23d8f1d4241b14c8cd43ce076597
     - path: docs/04-vendors/identity/实名认证供应商接口契约_R05.md
       state: FILE
       size: 4214
@@ -1320,8 +1285,8 @@ parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 用户未要求子代理；共享存储安全边界和连续性收口保持单线执行
-event_hash: bca4f0a540fdd534a6c985a6778183513cc4846286098bab04167bcd3adb9097
+  reason: 用户未要求子代理，继续沿R05共享存储安全边界串行推进
+event_hash: a2d043cd05dd9b0f071f80e826370f675955c727e53353b6dfc455698afe8748
 ```
 
 ## 接续状态与事件头
@@ -1333,8 +1298,8 @@ active_session_id: SES-20260719T183335Z-535311E4
 last_session_id: SES-20260719T165401Z-12791729
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T165401Z-12791729-0009
-event_count: 1121
-event_head_hash: bca4f0a540fdd534a6c985a6778183513cc4846286098bab04167bcd3adb9097
+event_count: 1125
+event_head_hash: a2d043cd05dd9b0f071f80e826370f675955c727e53353b6dfc455698afe8748
 event_chain_valid: true
 ```
 
@@ -1457,9 +1422,9 @@ recent_sessions: - session_id: SES-20260719T113522Z-6B27AD4B
   started_at: '2026-07-19T18:33:35Z'
   record: .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-  updated_at: '2026-07-19T21:31:57Z'
+  updated_at: '2026-07-19T21:34:22Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0016.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0017.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-36454E5FF743
   session_id: SES-20260718T133151Z-12DB5949
@@ -2337,7 +2302,7 @@ recent_task_transitions: - transition_id: TRN-C720E2A1E5C3
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 6d56e21aed734dd2511a14a55e361c194296c9fc
+head: 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2348,33 +2313,21 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0101.yaml'
+- ' M .continuity/change_requests/CR-0102.yaml'
+- ' M .continuity/change_requests/CR-0103.yaml'
 - ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md'
+- ' M docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md'
+- ' M docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md'
-- ' M docs/04-vendors/identity/实名认证供应商接口契约_R05.md'
-- ' M scripts/run_r05_database_invariants.sh'
-- ' M scripts/run_r05_disposable_postgres_container.sh'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java'
-- ' M tests/test_r05_identity_database_scripts.py'
-- ?? .continuity/change_requests/CR-0101.yaml
-- ?? .continuity/change_requests/CR-0102.yaml
-- ?? .continuity/change_requests/CR-0103.yaml
-- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0016.yaml
-- ?? database/migrations/V028__r05_private_identity_evidence.sql
-- ?? database/rollback/U028__r05_private_identity_evidence.sql
-- ?? docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md
-- ?? docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md
-- ?? docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorage.java
-- ?? services/backend/boot/src/main/resources/db/migration/V028__r05_private_identity_evidence.sql
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
-- ?? tests/test_r05_private_identity_evidence_migration.py
+- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0017.yaml
 recent_commits:
+- "4e970aeeebbec1c7f679dc3ac75dad1d11e122c5\t2026-07-20T05:32:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): persist private\
+  \ evidence safely"
 - "6d56e21aed734dd2511a14a55e361c194296c9fc\t2026-07-20T05:07:57+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): record callback\
   \ startup closure"
 - "86121701f43259231ecdd8aa0c5953e48d9394df\t2026-07-20T05:06:37+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): reconcile provider\
@@ -2389,13 +2342,11 @@ recent_commits:
   \ provider results"
 - "fa9770715cf9d6f75bee41bf0e7b276832dea507\t2026-07-20T04:24:06+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close consent\
   \ CR"
-- "c9e0b2ef1602aaa2935a472abbe96fb51e825f9c\t2026-07-20T04:22:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): load controlled\
-  \ consent"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`583f5a55ca586ee96d9d9d7e00a6bb6337732df0d460882b3a1dbbd061b713f4`
+- 指纹：`25fa026ef68e992e0ae1100a3ca6db45b7e1b8c7acc2789d7bba0ace14b7bda7`
 - 文件数：99
 
 - `CHANGELOG.md`
@@ -5413,9 +5364,9 @@ TASKS.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0101
   title: 接通R05身份照片与R04私有媒体写入生命周期
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T21:10:00Z'
-  updated_at: '2026-07-19T21:10:28Z'
+  updated_at: '2026-07-19T21:34:07Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-004
@@ -5462,14 +5413,21 @@ TASKS.yaml:
     status: IMPLEMENTING
     note: 开始实现private_kyc服务端上传、幂等媒体登记和V028门禁
     session_id: SES-20260719T183335Z-535311E4
+  - at: '2026-07-19T21:34:07Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: ACTIVE private_kyc服务端签名上传、完整性校验、PRIVATE READY幂等登记、V028和PostgreSQL17验证完成
+    session_id: SES-20260719T183335Z-535311E4
   session_ids:
   - SES-20260719T183335Z-535311E4
+  implementation_commits:
+  - 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5
 - protocol_version: '1.0'
   cr_id: CR-0102
   title: 同步V028至R05一次性PostgreSQL回滚重放门禁
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T21:22:10Z'
-  updated_at: '2026-07-19T21:22:26Z'
+  updated_at: '2026-07-19T21:34:09Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-004
@@ -5508,14 +5466,21 @@ TASKS.yaml:
     status: IMPLEMENTING
     note: 开始补齐U028和V028的一次性PostgreSQL回滚重放门禁
     session_id: SES-20260719T183335Z-535311E4
+  - at: '2026-07-19T21:34:09Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: R05一次性数据库门禁已覆盖V028空库、U028-U023回滚和V023-V028重放
+    session_id: SES-20260719T183335Z-535311E4
   session_ids:
   - SES-20260719T183335Z-535311E4
+  implementation_commits:
+  - 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5
 - protocol_version: '1.0'
   cr_id: CR-0103
   title: 同步R05私有身份媒体桥接事实与剩余缺口
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T21:29:45Z'
-  updated_at: '2026-07-19T21:30:02Z'
+  updated_at: '2026-07-19T21:34:10Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-004
@@ -5552,15 +5517,22 @@ TASKS.yaml:
     status: IMPLEMENTING
     note: 开始同步私有媒体桥接证据和下一生产端口缺口
     session_id: SES-20260719T183335Z-535311E4
+  - at: '2026-07-19T21:34:10Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 供应商契约与问题登记已同步CR-0101事实和真实PortResolver剩余缺口
+    session_id: SES-20260719T183335Z-535311E4
   session_ids:
   - SES-20260719T183335Z-535311E4
+  implementation_commits:
+  - 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `bee89563105e005e2fa157991b12efaf55b74031a8eb3a9664690a2f4b6c4f28`
+- `CURRENT_STATUS.yaml` — `85dce2aff00e645d59fb9a2aa88dbb55054665aed509b5e3cdd1ea88c29d1e22`
 - `NEXT_TASK.yaml` — `a128e578a72108ea0d43225dbb48325c5315983581433490c186a6d1cf9cb484`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -5571,19 +5543,19 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `70dd73f13d68dbdfeb79926dcc927df2d908334ccbfbf112012b0738309f0602`
-- `.continuity/SESSION_INDEX.yaml` — `11cf74556ab7cd69d8535adac5a41bcf9843b9cf83999507196c6a11dfde1408`
+- `.continuity/EVENT_LOG.jsonl` — `7ff40d715f9476adfc675d61029e094e1c746527f011e2a775ad7dacf32c9899`
+- `.continuity/SESSION_INDEX.yaml` — `18ff47a10e7bae26c135fec4fd645cbab8d63b4942da059946279d25e515ada6`
 - `.continuity/TASK_CLAIMS.yaml` — `d584e4085c5320e27ccbdba4878c79ea2ca13ee854840c495f1e9a059064bb7c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b7bff921a7901affc662c17b2fe95e1556eb192d3c9ea7147d548a863c93ba9d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `cf1edbcac44102bdd888b2e2104af3275a84927f1a1664bbb8d424b8c98148ed`
-- `.continuity/ACTIVE_SESSION.yaml` — `c72ee8b90a076b7c36e90ac8b190bc58a0d567ac6730bb2ec97cb96693c0e035`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `868a23df46a0257017fa14c1aae02c8d95bb302cc10182b9a4b2791ec57d33b2`
+- `.continuity/ACTIVE_SESSION.yaml` — `38adf62b9372c8f446b1f76e5362f21b6fd92a5a240fa76ca01f0d7e76173bdb`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `fbdff289348fbe15d4527cad6f1d5955322270725e80cc0e99ee291a6bbe05de`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `316fc0614812998c71738ca5df934361b9cbffa1bf9db5f4335b978f980fd528`
-- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0016.yaml` — `76897e66efe8fc647c4f2f29486e17ed5f0f9370d22509bf75b7282641e06a29`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `6ef4eea9a0ebc532376b54410d5c07e5ce89113554cceb83aea3601abe445544`
+- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0017.yaml` — `fc772242ff0d091c9240a868f03ef931e43f0411e7560335847ebcace95b19e5`
 - `docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md` — `978668dbafbcbbf0bb325a72beb141a1160bec7fefd9a08ed2f1fc0df4208fee`
 - `docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md` — `075fb50fab65446223ec017ced1402afc87a3db6074a4746bccf94833ba8bb7b`
 - `docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md` — `5e73eaa93bbb356709e0ea6c3c5c3413fada20f07f9b227a7c90ac8ddb698db7`
@@ -5595,9 +5567,9 @@ TASKS.yaml:
 - `docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md` — `788449076a8b0c83f3ba51037c28f13fab0828a27abb09366f9c8cad8139accd`
 - `docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md` — `b38d6ccf7d7016f5de19377377fee150b411e017a5b9e5369fcd00861d2fed2b`
 - `docs/03-continuity/change-requests/CR-0100-修复R05公开回跳控制器校验代理启动失败.md` — `89dcac9ad36299e5151ce6a4b004b0be38355de6c97b8b520e25caed79f53477`
-- `docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md` — `7e282f58ee4494a0fab6c8651d0fd0516bca58c17da7bab4c25257b38ace0143`
-- `docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md` — `50fedb305cf801ac35878780c4ad422d5e39005c0bbf792f9109f6db5f63de3d`
-- `docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md` — `b2459be43117ba4269bd9a291542fe857b52615902ef6983be65c4097f69e0a4`
+- `docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md` — `866f506a6102a1e8169fb0dc9374689b0498d15e4124c5c2ef0ab8696e6b4611`
+- `docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md` — `95722415da26767608e5d89f54f3e5ef5e30f5538037e19f5925e0e4411636b4`
+- `docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md` — `c2abea5833c737a1430ba2d143d8f487d85c23d8f1d4241b14c8cd43ce076597`
 
 ## 接手硬规则
 
