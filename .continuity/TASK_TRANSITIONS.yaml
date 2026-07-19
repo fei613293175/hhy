@@ -400,3 +400,13 @@ transitions:
   session_id: SES-20260719T113522Z-6B27AD4B
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-3264F09DDD79
+  timestamp: '2026-07-19T12:26:08Z'
+  release: R04
+  task_id: TASK-R04-004
+  story_id: STORY-R04-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260719T122607Z-04FDBE70
+  actor_id: codex-root
+  reason: 会话领取任务

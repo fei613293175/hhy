@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T12:17:46Z
-- Context Hash：`2f9dc4109489b0274a3d78382ac131a761818bdec3a915bc778c34fb9bd226b8`
+- 生成时间：2026-07-19T12:54:15Z
+- Context Hash：`72d4f076ed2c19b2b03d5346a112230841986f40bd55501fb12363842f2c41fb`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-004
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 当前状态
@@ -18,7 +18,7 @@ baseline_version: 1.2.3
 phase: R04
 active_release: R04
 active_task: TASK-R04-004
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 951970ee2f30b11915e8ab5236171621c365da2e
 last_staging_apk: null
@@ -67,12 +67,13 @@ completed_tasks:
 - TASK-R04-001
 - TASK-R04-002
 - TASK-R04-003
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R04-004
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R04-004
-updated_at: '2026-07-19T12:17:44Z'
+updated_at: '2026-07-19T12:54:13Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -104,17 +105,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260719T113522Z-6B27AD4B
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0004.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260719T122607Z-04FDBE70
+  actor_id: codex-root
+  story_id: STORY-R04-001
+  lease_expires_at: '2026-07-19T16:54:13Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T122607Z-04FDBE70/0002.yaml
+  project_fingerprint: ea2b9982eae6304334a76cbcf0c151457d59bd1de3a175602848a7f486f87add
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 750392a177c56d4d44fef6cd662990196a0cfe1d75c504e4637d97679a0a3f78
-    generated_at: '2026-07-19T12:17:43Z'
+    context_hash: 537b2388a29a046fb8be9242b9eba9cf60975be9e710be8996a1ac4c69baad01
+    generated_at: '2026-07-19T12:52:38Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -292,13 +295,256 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T122607Z-04FDBE70
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R04
+task_id: TASK-R04-004
+story_id: STORY-R04-001
+goal: 实现Android媒体上传管理器闭环：创建会话、上传进度、取消重试、完成确认、删除未绑定媒体及冻结错误状态
+started_at: '2026-07-19T12:26:07Z'
+updated_at: '2026-07-19T12:54:13Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 6ee17b68303f6bfea0de2dd39896c9a690a93b7d
+  start_head: 6ee17b68303f6bfea0de2dd39896c9a690a93b7d
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T12:54:13Z'
+  expires_at: '2026-07-19T16:54:13Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260719T122607Z-04FDBE70/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T122607Z-04FDBE70.md
+next_step: 提交实现并核对TASK-R04-004关闭条件
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前会话策略禁止创建子代理；Android共享状态与同一模块写路径由主控串行实现
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T122607Z-04FDBE70-0002
+session_id: SES-20260719T122607Z-04FDBE70
+sequence: 2
+created_at: '2026-07-19T12:54:13Z'
+summary: 完成TASK-R04-004媒体管理器第一闭环并同步R04用户可见变更记录
+next_step: 提交实现并核对TASK-R04-004关闭条件
+blockers: []
+decisions:
+- 技术字段由网络层自动管理，上传URL、Token、请求编号、错误码和幂等键不得展示
+- 删除仅显式触发，手动重试复用稳定删除幂等键，不进入自动重试队列
+note: ''
+tests:
+- name: android-module
+  result: PASS
+  evidence: artifacts/validation/r04-task004-android-media.md
+  note: 远端固定镜像testDebugUnitTest+lintDebug BUILD SUCCESSFUL，297 tasks
+- name: media-manager
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r04-android-04FDBE70-a2/feature/media/build/test-results/testDebugUnitTest
+  note: 6 tests，0 failures/errors
+- name: commercial-ui-static
+  result: PASS
+  evidence: apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  note: 无技术提示字段与敏感日志
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 6ee17b68303f6bfea0de2dd39896c9a690a93b7d
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt'
+  - ' M apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt'
+  - ' M apps/android/settings.gradle.kts'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/checkpoints/SES-20260719T122607Z-04FDBE70/0001.yaml
+  - ?? .continuity/sessions/SES-20260719T122607Z-04FDBE70.yaml
+  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+  - ?? apps/android/feature/media/build.gradle.kts
+  - ?? apps/android/feature/media/src/main/AndroidManifest.xml
+  - ?? apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt
+  - ?? apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - ?? apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt
+  - ?? artifacts/validation/r04-task004-android-media.md
+  - ?? artifacts/validation/r04-task004-module-plan.json
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260719T122607Z-04FDBE70.md
+  recent_commits:
+  - "6ee17b68303f6bfea0de2dd39896c9a690a93b7d\t2026-07-19T20:19:52+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(continuity): close TASK-R04-003\
+    \ as completed"
+  - "951970ee2f30b11915e8ab5236171621c365da2e\t2026-07-19T20:07:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): close media upload\
+    \ API lifecycle"
+  - "0d8e00b45e02a388b557b6a9b8f2539283028673\t2026-07-19T19:45:53+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): add media upload\
+    \ lifecycle schema"
+  - "cf9799948953f6b8e2f918414c1c8e700ef748aa\t2026-07-19T19:34:22+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-002\
+    \ as completed"
+  - "1d3f2adc7f9c8a4e7863639c1aa3ff6b7748dd7b\t2026-07-19T19:31:59+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(storage): close database\
+    \ and module gates"
+  - "0520113a2981439c9bcdeb6e5afb1ed26bf3c8d5\t2026-07-19T19:16:34+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): persist resumable\
+    \ cross-provider migration"
+  - "ec6919b45a107a770fd13d86b7c3a38103415c67\t2026-07-19T19:06:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): add provider-neutral\
+    \ object port"
+  - "77eb7d6797b0c90213616823872b7f9b4148b193\t2026-07-19T16:57:32+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): enforce media\
+    \ storage invariants"
+project_fingerprint:
+  sha256: ea2b9982eae6304334a76cbcf0c151457d59bd1de3a175602848a7f486f87add
+  files:
+  - CHANGELOG.md
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/media/build.gradle.kts
+  - apps/android/feature/media/src/main/AndroidManifest.xml
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt
+  - apps/android/settings.gradle.kts
+  file_count: 10
+  payload:
+    base_commit: 6ee17b68303f6bfea0de2dd39896c9a690a93b7d
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 36595
+      sha256: 82eb7c80bae7a2a7ddc5b6b6ea11f915ccabe7971b34cc813baf8a6beda96daa
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+      state: FILE
+      size: 7362
+      sha256: 18cad447bf7db7854daf90358065f6ae065482ae7bfafe366a98a3b54fce14c0
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+      state: FILE
+      size: 8923
+      sha256: 7e2553dac04b8076fe9cd117ff9effb4a76328adb95382f221320db6b58e5db6
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+      state: FILE
+      size: 11426
+      sha256: 48fb243622540284180bf7effd16e6e3295d6f8a37638db7e7b57e2f3b0d884c
+    - path: apps/android/feature/media/build.gradle.kts
+      state: FILE
+      size: 1114
+      sha256: 5ca1123118181b8b325475967b003ed39c28ad28bd17470cabd2bb23023ecccd
+    - path: apps/android/feature/media/src/main/AndroidManifest.xml
+      state: FILE
+      size: 72
+      sha256: 343d5be1ac17cdd45d1a2f2ddc616c509290e655869125a9422a96d88aa66066
+    - path: apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt
+      state: FILE
+      size: 10988
+      sha256: fb58582a4440e680b21bfebae8ddb054e75e6260b5160f34af23b982ca2dda2e
+    - path: apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+      state: FILE
+      size: 12151
+      sha256: 2d36526eb8846041862b2eebd43f1de3d5777bf80b50f35e4b3e2a9ab1eed54e
+    - path: apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt
+      state: FILE
+      size: 8121
+      sha256: 4c8d521a3225c7d10f1392a3fc05731752e59e0efcb42aec64f5863809ef39e6
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 491
+      sha256: db6edff6bcb19e983e81dc3bd8480e69c7bb03de1418f3b24ae195aadaf801fa
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/media/build.gradle.kts
+  - apps/android/feature/media/src/main/AndroidManifest.xml
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt
+  - apps/android/settings.gradle.kts
+  user_visible:
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/media/build.gradle.kts
+  - apps/android/feature/media/src/main/AndroidManifest.xml
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt
+  - apps/android/settings.gradle.kts
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前会话策略禁止创建子代理；Android共享状态与同一模块写路径由主控串行实现
+event_hash: 8179024f30fe74bf93b394622579bc02a65b78eb9805e659ee0bbb97aae914a2
 ```
 
 ## 接续状态与事件头
@@ -306,31 +552,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260719T122607Z-04FDBE70
 last_session_id: SES-20260719T113522Z-6B27AD4B
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T113522Z-6B27AD4B-0004
-event_count: 942
-event_head_hash: 50b294333c7df4bd841e2be893e3217468724ab1cc65362b362be1d1bd89f365
+event_count: 945
+event_head_hash: 8179024f30fe74bf93b394622579bc02a65b78eb9805e659ee0bbb97aae914a2
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260718T142638Z-EF4C3723
-  task_id: TASK-R03-003
-  story_id: STORY-R03-002
-  actor_id: codex-root
-  status: CLOSED
-  started_at: '2026-07-18T14:26:38Z'
-  record: .continuity/sessions/SES-20260718T142638Z-EF4C3723.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260718T142638Z-EF4C3723.md
-  updated_at: '2026-07-18T14:52:08Z'
-  closed_at: '2026-07-18T14:52:08Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T142638Z-EF4C3723/0011.yaml
-  handoff_bundle: null
-- session_id: SES-20260718T145327Z-DEA562CB
+recent_sessions: - session_id: SES-20260718T145327Z-DEA562CB
   task_id: TASK-R03-004
   story_id: STORY-R03-003
   actor_id: codex-root
@@ -438,29 +672,19 @@ recent_sessions: - session_id: SES-20260718T142638Z-EF4C3723
   closed_at: '2026-07-19T12:17:44Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0004.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-9842C34B7B1D
-  session_id: SES-20260717T200842Z-456B8F52
-  task_id: TASK-R02-002
-  story_id: STORY-R02-003
-  actor_id: codex-master
-  status: HANDED_OFF
-  claimed_at: '2026-07-17T20:08:42Z'
-  allowed_paths:
-  - apps/android/**
-  - services/backend/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - tests/**
-  - docs/**
-  - catalogs/**
-  - releases/**
-  - design/**
-  - scripts/**
-  - STORY-R02-003,STORY-R02-004及其直接实现、测试与生成契约
-  closed_at: '2026-07-17T20:45:10Z'
-- claim_id: CLM-9A39E30266D5
+- session_id: SES-20260719T122607Z-04FDBE70
+  task_id: TASK-R04-004
+  story_id: STORY-R04-001
+  actor_id: codex-root
+  status: ACTIVE
+  started_at: '2026-07-19T12:26:07Z'
+  record: .continuity/sessions/SES-20260719T122607Z-04FDBE70.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260719T122607Z-04FDBE70.md
+  updated_at: '2026-07-19T12:54:13Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T122607Z-04FDBE70/0002.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-9A39E30266D5
   session_id: SES-20260717T204616Z-254B60A3
   task_id: TASK-R02-002
   story_id: STORY-R02-003
@@ -1052,17 +1276,28 @@ task_claims: - claim_id: CLM-9842C34B7B1D
   - design/**
   - scripts/**
   closed_at: '2026-07-19T12:17:44Z'
-recent_task_transitions: - transition_id: TRN-06568A6A9C43
-  timestamp: '2026-07-17T20:46:16Z'
-  release: R02
-  task_id: TASK-R02-002
-  story_id: STORY-R02-003
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260717T204616Z-254B60A3
-  actor_id: codex-master
-  reason: 会话领取任务
-- transition_id: TRN-CF07AD7C81E8
+- claim_id: CLM-1FAFC6109B31
+  session_id: SES-20260719T122607Z-04FDBE70
+  task_id: TASK-R04-004
+  story_id: STORY-R04-001
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-19T12:26:07Z'
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+recent_task_transitions: - transition_id: TRN-CF07AD7C81E8
   timestamp: '2026-07-17T20:46:50Z'
   release: R02
   task_id: TASK-R02-002
@@ -1252,6 +1487,16 @@ recent_task_transitions: - transition_id: TRN-06568A6A9C43
   session_id: SES-20260719T113522Z-6B27AD4B
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-3264F09DDD79
+  timestamp: '2026-07-19T12:26:08Z'
+  release: R04
+  task_id: TASK-R04-004
+  story_id: STORY-R04-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260719T122607Z-04FDBE70
+  actor_id: codex-root
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1259,7 +1504,7 @@ recent_task_transitions: - transition_id: TRN-06568A6A9C43
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 951970ee2f30b11915e8ab5236171621c365da2e
+head: 6ee17b68303f6bfea0de2dd39896c9a690a93b7d
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1270,21 +1515,32 @@ status_porcelain:
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260719T113522Z-6B27AD4B.yaml'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
+- ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt'
+- ' M apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt'
+- ' M apps/android/settings.gradle.kts'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260719T113522Z-6B27AD4B.md'
-- ' M releases/R04/TASKS.yaml'
-- ' M scripts/continuity.py'
-- ' M scripts/continuity_lib.py'
-- ?? .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0003.yaml
-- ?? .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0004.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ?? .continuity/checkpoints/SES-20260719T122607Z-04FDBE70/0001.yaml
+- ?? .continuity/checkpoints/SES-20260719T122607Z-04FDBE70/0002.yaml
+- ?? .continuity/sessions/SES-20260719T122607Z-04FDBE70.yaml
+- ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt
+- ?? apps/android/feature/media/build.gradle.kts
+- ?? apps/android/feature/media/src/main/AndroidManifest.xml
+- ?? apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt
+- ?? apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+- ?? apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt
+- ?? artifacts/validation/r04-task004-android-media.md
+- ?? artifacts/validation/r04-task004-module-plan.json
+- ?? docs/03-continuity/sessions/2026-07/SES-20260719T122607Z-04FDBE70.md
 recent_commits:
+- "6ee17b68303f6bfea0de2dd39896c9a690a93b7d\t2026-07-19T20:19:52+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(continuity): close TASK-R04-003\
+  \ as completed"
 - "951970ee2f30b11915e8ab5236171621c365da2e\t2026-07-19T20:07:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): close media upload\
   \ API lifecycle"
 - "0d8e00b45e02a388b557b6a9b8f2539283028673\t2026-07-19T19:45:53+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): add media upload\
@@ -1299,16 +1555,23 @@ recent_commits:
   \ object port"
 - "77eb7d6797b0c90213616823872b7f9b4148b193\t2026-07-19T16:57:32+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): enforce media\
   \ storage invariants"
-- "7ae235681e92565971eb53a999a72fc88f9f8f39\t2026-07-19T16:53:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-001\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`14b191d6829a9e71c29bb3c7f5448debc0328b99ad1c86e392a92fe8e7401c62`
-- 文件数：0
+- 指纹：`ea2b9982eae6304334a76cbcf0c151457d59bd1de3a175602848a7f486f87add`
+- 文件数：10
 
-- 无
+- `CHANGELOG.md`
+- `apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt`
+- `apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt`
+- `apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt`
+- `apps/android/feature/media/build.gradle.kts`
+- `apps/android/feature/media/src/main/AndroidManifest.xml`
+- `apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt`
+- `apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt`
+- `apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt`
+- `apps/android/settings.gradle.kts`
 
 ## 当前 Release
 
@@ -3205,7 +3468,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `10bc6eab7c18005152a43bd83ec14d35fb8fc585c93b7fd62e10012c9a578098`
+- `CURRENT_STATUS.yaml` — `3197240ab0cc52e91715f6b9c4ba5f58c6f50cd5876dca2ec49268ebe7b269da`
 - `NEXT_TASK.yaml` — `0a67a33dfe5799da11b39101daad94461dfb924234429e728bf5d3804d0ce407`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3216,12 +3479,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `5160cb8fe783acae333bf3813506b73f036db07b989694b38cffd4517f425739`
-- `.continuity/SESSION_INDEX.yaml` — `070a3a43a82e41f0e0284598370bc0f3f40611a5c6f223d372db4d16db642d46`
-- `.continuity/TASK_CLAIMS.yaml` — `7e0fc9caa0d1ca7ba4e1b5c12451b5ee5a81543c661cb5dc42f983351eddfc0e`
-- `.continuity/TASK_TRANSITIONS.yaml` — `fb8a45e89540be088ac78063026f9ea98f4029a8f9a2b585e9d5fc9b56e6cdf1`
+- `.continuity/EVENT_LOG.jsonl` — `5964d19dbea0c208f90956ed6ee003df19a6b5247a6fd51a486f99ac9b185774`
+- `.continuity/SESSION_INDEX.yaml` — `8cfab5de3b3bd78bd5e1ff2f91fcf2e2d49313f07165421878b8880f74ac26ec`
+- `.continuity/TASK_CLAIMS.yaml` — `7542d6564d6bb6285a0d6926634db28983bf6587bd6a530c1bc18ed043dd3eb4`
+- `.continuity/TASK_TRANSITIONS.yaml` — `ac1a1fd8eff45cf636dd6ca28c64a498a6b86f432aa720da4d6f48d35df045ac`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c9d9a42ce1b9abb8d959a6e8f83046746650ac1c4c6d8a7d1b60372e8f7701ec`
-- `.continuity/ACTIVE_SESSION.yaml` — `a1e91cd6316d6a9adb03beb3e48de5b9cca5ee84edc688c75f30259834c437ff`
+- `.continuity/ACTIVE_SESSION.yaml` — `ea13719474bab34eb43eceda8cc204d4d8dad10533dd5f5b6d570a5e7baa8d39`
+- `releases/R04/RELEASE_MANIFEST.yaml` — `c897c4706cdcb53bde1c053a6515a12fbad0fc3f01b24ae891b7426df203f3c6`
+- `releases/R04/DEFINITION_OF_READY.yaml` — `41aef5956ff6a2ab80957f9b477a5957fc26940eb502c6d67e3a7a5ae97fd84c`
+- `releases/R04/STORIES.yaml` — `aa71e87c502b76dbc59bff0fa6efe957f7855158cde1c7818bda636bfe41469e`
+- `releases/R04/TASKS.yaml` — `69c84b4d0e885d33f4c66c93161043b10f1069e6009de8b0037d3fc5e174c2e6`
+- `releases/R04/ACCEPTANCE_MATRIX.csv` — `bf28fec8769cdcc468565a3f1300f1f0f16a43623a301cb94c7d8e37a6011df2`
+- `releases/R04/PARALLEL_EXECUTION_PLAN.yaml` — `9f76b85f11c0293ce8930f1068cf1fc5582242753ff141b5b6134d8e44e5f2dd`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T122607Z-04FDBE70.md` — `e2ae90000fa89024394b10aaf40ff6594e08f8f02ecbda86a4a24e84ab42f1ee`
+- `.continuity/checkpoints/SES-20260719T122607Z-04FDBE70/0002.yaml` — `32cc5182d8f811d88564c4e3602f654ca06bd33eb980c66f1f55023efa724db8`
 
 ## 接手硬规则
 

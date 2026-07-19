@@ -1,0 +1,38 @@
+{
+  "schema": "hhy.test-impact-plan/v1",
+  "profile": "MODULE",
+  "affected_only": true,
+  "changed_files": [
+    "apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt",
+    "apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractMediaApi.kt",
+    "apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt",
+    "apps/android/feature/media/build.gradle.kts",
+    "apps/android/feature/media/src/main/AndroidManifest.xml",
+    "apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadManager.kt",
+    "apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt",
+    "apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadManagerTest.kt",
+    "apps/android/settings.gradle.kts"
+  ],
+  "job_filter": null,
+  "checks": [
+    {
+      "id": "android-module",
+      "ci_job": "android",
+      "cwd": "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\apps\\android",
+      "command": [
+        "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\apps\\android\\gradlew.bat",
+        "--no-daemon",
+        "testDebugUnitTest",
+        "lintDebug"
+      ],
+      "env": {},
+      "timeout_seconds": 1200
+    }
+  ],
+  "ci_jobs": [
+    "android"
+  ],
+  "status": "DRY_RUN",
+  "executed": false,
+  "results": []
+}

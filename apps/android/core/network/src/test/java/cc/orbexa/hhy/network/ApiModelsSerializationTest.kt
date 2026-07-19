@@ -13,6 +13,31 @@ import org.junit.Test
 
 class ApiModelsSerializationTest {
 
+    @Test fun mediaRequestsKeepFrozenR04FieldNames() {
+        val create = MediaCreateUploadSessionRequest(
+            purpose = "public_media",
+            fileName = "cover.jpg",
+            contentType = "image/jpeg",
+            sizeBytes = 1024,
+            sha256 = "a".repeat(64),
+        )
+        val complete = MediaCompleteUploadSessionRequest(
+            etag = "etag-1",
+            parts = listOf(MediaCompletedPart(number = 1, etag = "part-1")),
+        )
+
+        val createFields = HhyNetworkJson.value.parseToJsonElement(
+            HhyNetworkJson.value.encodeToString(MediaCreateUploadSessionRequest.serializer(), create),
+        ).jsonObject
+        val completeFields = HhyNetworkJson.value.parseToJsonElement(
+            HhyNetworkJson.value.encodeToString(MediaCompleteUploadSessionRequest.serializer(), complete),
+        ).jsonObject
+
+        assertEquals(setOf("purpose", "fileName", "contentType", "sizeBytes", "sha256"), createFields.keys)
+        assertEquals(setOf("etag", "parts"), completeFields.keys)
+        assertFalse(createFields.containsKey("uploadUrl"))
+    }
+
     @Test fun sessionResponseKeepsRefreshCredentialAndDeviceSessionBinding() {
         val session = HhyNetworkJson.value.decodeFromString<AuthSessionResource>(
             """{"accessToken":"access","refreshToken":"refresh","expiresAt":"2026-07-18T00:00:00Z","userId":"42","sessionId":"session-1","device":{"deviceId":"device-1"}}""",

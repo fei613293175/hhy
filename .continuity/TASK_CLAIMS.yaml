@@ -1271,3 +1271,24 @@ claims:
   - design/**
   - scripts/**
   closed_at: '2026-07-19T12:17:44Z'
+- claim_id: CLM-1FAFC6109B31
+  session_id: SES-20260719T122607Z-04FDBE70
+  task_id: TASK-R04-004
+  story_id: STORY-R04-001
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-19T12:26:07Z'
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md

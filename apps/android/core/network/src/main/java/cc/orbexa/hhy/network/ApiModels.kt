@@ -259,6 +259,51 @@ data class AccountCancellationRequest(
     val expectedVersion: Long,
 )
 
+// Frozen R04 media operation types. Feature modules consume these canonical
+// contract models and must not recreate request/response DTOs at page level.
+@Serializable
+data class MediaCreateUploadSessionRequest(
+    val purpose: String,
+    val fileName: String,
+    val contentType: String,
+    val sizeBytes: Long,
+    val sha256: String,
+)
+
+@Serializable
+data class MediaCompletedPart(
+    val number: Int,
+    val etag: String,
+)
+
+@Serializable
+data class MediaCompleteUploadSessionRequest(
+    val etag: String,
+    val parts: List<MediaCompletedPart> = emptyList(),
+)
+
+@Serializable
+data class MediaResource(
+    val id: String,
+    val purpose: String? = null,
+    val contentType: String? = null,
+    val sizeBytes: Long? = null,
+    val sha256: String? = null,
+    val uploadUrl: String? = null,
+    val readUrl: String? = null,
+    val status: String,
+    val expiresAt: String? = null,
+)
+
+@Serializable
+data class CommandResultResource(
+    val resourceId: String? = null,
+    val businessNo: String? = null,
+    val status: String,
+    val version: Long? = null,
+    val acceptedAt: String,
+)
+
 object HhyNetworkJson {
     val value: Json = Json {
         explicitNulls = false
