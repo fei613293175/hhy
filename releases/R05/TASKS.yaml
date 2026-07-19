@@ -3,7 +3,7 @@ title: 单一实名认证
 tasks:
 - id: TASK-R05-001
   title: 单一实名认证开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-ID-001
@@ -23,9 +23,10 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R05
   session_log_required: true
+  completed_at: '2026-07-19T16:22:45Z'
 - id: TASK-R05-002
   title: 单一实名认证数据迁移与领域不变量
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R05-001
   requirements: *id001
