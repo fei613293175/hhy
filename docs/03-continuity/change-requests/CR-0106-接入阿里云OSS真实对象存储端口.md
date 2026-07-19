@@ -92,3 +92,10 @@ ALIYUN_OSS路由当前仍失败关闭，需完成签名上传、完整性校验�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260719T183335Z-535311E4`
 - Note：OSS V4真实端口、作用域精确配置、双供应商路由和专项测试已实现，进入提交与关闭门禁
+
+## 状态记录 · 2026-07-19T22:25:32Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260719T183335Z-535311E4`
+- Note：阿里云OSS V4端口、作用域精确激活配置、SecretRef凭据、HEAD完整性及双端口路由已实现；专项13项与全量279项测试通过

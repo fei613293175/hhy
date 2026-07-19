@@ -6290,9 +6290,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0106
   title: 接入阿里云OSS真实对象存储端口
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T22:13:06Z'
-  updated_at: '2026-07-19T22:24:57Z'
+  updated_at: '2026-07-19T22:25:32Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-004
@@ -6338,5 +6338,12 @@ change_requests:
     status: IMPLEMENTING
     note: OSS V4真实端口、作用域精确配置、双供应商路由和专项测试已实现，进入提交与关闭门禁
     session_id: SES-20260719T183335Z-535311E4
+  - at: '2026-07-19T22:25:32Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 阿里云OSS V4端口、作用域精确激活配置、SecretRef凭据、HEAD完整性及双端口路由已实现；专项13项与全量279项测试通过
+    session_id: SES-20260719T183335Z-535311E4
   session_ids:
   - SES-20260719T183335Z-535311E4
+  implementation_commits:
+  - 9fc38ff
