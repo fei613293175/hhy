@@ -18,7 +18,10 @@ public class R04MediaAccessConfiguration {
         StorageObjectPort r2 = new StorageProviderAdapter(
                 StorageObjectPort.Provider.CLOUDFLARE_R2,
                 new R04S3StorageTransport(settings, secrets, clock), clock);
-        return new R04StoragePortResolver(r2);
+        StorageObjectPort oss = new StorageProviderAdapter(
+                StorageObjectPort.Provider.ALIYUN_OSS,
+                new R04OssStorageTransport(settings, secrets, clock), clock);
+        return new R04StoragePortResolver(r2, oss);
     }
 
     @Bean

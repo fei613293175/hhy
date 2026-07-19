@@ -13,6 +13,7 @@
     <dependency><groupId>com.fasterxml.jackson.datatype</groupId><artifactId>jackson-datatype-jsr310</artifactId></dependency>
     <dependency><groupId>software.amazon.awssdk</groupId><artifactId>s3</artifactId></dependency>
     <dependency><groupId>software.amazon.awssdk</groupId><artifactId>url-connection-client</artifactId></dependency>
+    <dependency><groupId>com.aliyun.oss</groupId><artifactId>aliyun-sdk-oss</artifactId></dependency>
   </dependencies>
 
 </project>

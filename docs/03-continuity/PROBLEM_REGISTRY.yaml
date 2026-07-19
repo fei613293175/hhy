@@ -566,18 +566,19 @@ problems:
 - id: PROB-0046
   title: R05第三方活体结果查询与人脸比对缺少已冻结供应商响应契约
   status: OPEN
-  root_cause: 仓库原有用户提供的已购接口资料和R04私有存储未完整接入R05生产链路；CR-0097已冻结真实响应契约，CR-0098已补安全下载，CR-0099已补加密响应与乐观锁事务状态机，CR-0101已补private_kyc服务端上传和媒体登记桥接，CR-0104已补Cloudflare R2真实S3兼容端口，CR-0105已补生产SecretRef只读物化解析。剩余缺口是阿里云OSS真实端口及正式环境端到端证据。
-  impact: Android和H5已能触发真实供应商结果协调，private_kyc桥接已具备R2签名上传、完整性校验、SecretRef生产解析和幂等登记；正式挂载或激活配置缺失时仍会安全保持可重试，不能把会话推进到VERIFIED、MANUAL_REVIEW或REJECTED，R05仍不得标记为完整实名闭环。
-  current_behavior: AliyunMarketIdentityProviderClient按原始资料解析真实结果，安全下载器阻断SSRF和伪造图片；IdentityProviderResultCoordinator在图片下载前加密保存活体通过原文，并要求先获得private_kyc内部媒体ID，再以expectedVersion原子写入人脸比对密文、媒体绑定、会话、档案和Outbox。CR-0101解析ACTIVE private_kyc绑定并以V028唯一索引幂等登记PRIVATE READY媒体；CR-0104按绑定的精确ACTIVE且连接测试成功配置版本生成R2 presigned PUT/GET，绑定Content-Type和SHA元数据，HEAD复核大小、SHA和ETag；CR-0105从Vault/KMS/CSI只读物化目录按SecretRef哈希即时读取凭据、不缓存并清零缓冲，生产缺少挂载时拒绝启动。挂载、配置或供应商不可用时只返回可重试商业错误，不写伪终态。
+  root_cause: 仓库原有用户提供的已购接口资料和R04私有存储未完整接入R05生产链路；CR-0097已冻结真实响应契约，CR-0098已补安全下载，CR-0099已补加密响应与乐观锁事务状态机，CR-0101已补private_kyc服务端上传和媒体登记桥接，CR-0104已补Cloudflare R2真实S3兼容端口，CR-0105已补生产SecretRef只读物化解析，CR-0106已补阿里云OSS V4真实端口。剩余缺口是正式环境端到端证据。
+  impact: Android和H5已能触发真实供应商结果协调，private_kyc桥接已具备R2或OSS签名上传、完整性校验、SecretRef生产解析和幂等登记；正式挂载或激活配置缺失时仍会安全保持可重试，不能把会话推进到VERIFIED、MANUAL_REVIEW或REJECTED，R05仍不得标记为完整实名闭环。
+  current_behavior: AliyunMarketIdentityProviderClient按原始资料解析真实结果，安全下载器阻断SSRF和伪造图片；IdentityProviderResultCoordinator在图片下载前加密保存活体通过原文，并要求先获得private_kyc内部媒体ID，再以expectedVersion原子写入人脸比对密文、媒体绑定、会话、档案和Outbox。CR-0101解析ACTIVE private_kyc绑定并以V028唯一索引幂等登记PRIVATE READY媒体；CR-0104按精确激活配置生成R2 presigned PUT/GET并执行HEAD三要素校验；CR-0105从Vault/KMS/CSI只读物化目录按SecretRef哈希即时读取凭据、不缓存并清零缓冲；CR-0106按作用域供应商和精确配置生成OSS V4 presigned PUT/GET，绑定Content-Type和SHA元数据并执行HEAD三要素校验。挂载、配置或供应商不可用时只返回可重试商业错误，不写伪终态。
   next_owner: TASK-R05-004
   required_evidence:
   - CR-0097已按原始资料SHA-256冻结结果查询、APPCODE认证和错误映射契约，Java 21专项测试9项通过
   - CR-0098安全下载器已覆盖公网解析、禁止重定向、100KiB上限、JPEG/PNG魔数和SHA-256，Java 21专项测试4项通过
   - CR-0099协调器5项分支测试及PostgreSQL 17密文、待处理、拒绝、档案同步和重试集成验证通过
   - CR-0101私有上传3项单元测试、PostgreSQL17媒体幂等登记集成测试、V001-V028空库及U028-U023回滚重放通过
-  - CR-0104精确配置、AWS真实预签名、幂等对象键、HEAD完整性、私有读取、凭据清零和OSS失败关闭专项测试通过
+  - CR-0104精确配置、AWS真实预签名、幂等对象键、HEAD完整性、私有读取和凭据清零专项测试通过
   - CR-0105引用规范、确定性文件名、UTF-8/大小/权限/软链接边界、轮换无缓存及生产启动门禁专项测试通过
-  - 活体照片下载后进入私有R2且不产生公开URL，原始供应商响应加密保存
+  - CR-0106作用域供应商、OSS V4真实预签名、幂等对象键、HEAD完整性、私有读取、双端口路由和凭据清零专项测试通过
+  - 活体照片下载后进入私有R2或OSS且不产生公开URL，原始供应商响应加密保存
   - 人脸比对通过、人工复核、拒绝、超时和供应商异常的状态机及真实适配测试
   - 正式环境最小端到端验收且页面不出现内部供应商字段
   do_not_repeat:

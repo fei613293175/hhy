@@ -1,11 +1,12 @@
 package cc.orbexa.hhy.access.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import cc.orbexa.hhy.access.storage.R04S3StorageTransport.Head;
-import cc.orbexa.hhy.access.storage.R04S3StorageTransport.S3Facade;
+import cc.orbexa.hhy.access.storage.R04OssStorageTransport.Head;
+import cc.orbexa.hhy.access.storage.R04OssStorageTransport.OssFacade;
 import cc.orbexa.hhy.access.storage.R04StorageProviderSettings.Settings;
 import cc.orbexa.hhy.access.storage.StorageObjectPort.Binding;
 import cc.orbexa.hhy.access.storage.StorageObjectPort.CompleteUpload;
@@ -25,16 +26,16 @@ import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 
-class R04S3StorageTransportTest {
+class R04OssStorageTransportTest {
     private static final Instant NOW = Instant.parse("2026-07-20T00:00:00Z");
     private static final Clock CLOCK = Clock.fixed(NOW, ZoneOffset.UTC);
-    private static final String SHA = "a".repeat(64);
+    private static final String SHA = "b".repeat(64);
     private static final Binding BINDING = new Binding(
-            Scope.PRIVATE_KYC, Provider.CLOUDFLARE_R2, "hhy-private-kyc",
-            URI.create("https://account.r2.cloudflarestorage.com"), null, 91L);
+            Scope.PRIVATE_KYC, Provider.ALIYUN_OSS, "hhy-private-kyc",
+            URI.create("https://oss-cn-hangzhou.aliyuncs.com"), null, 92L);
     private static final Settings SETTINGS = new Settings(
-            BINDING.endpoint(), "auto", BINDING.bucket(), Duration.ofSeconds(120),
-            "vault://r2/access", "vault://r2/secret");
+            BINDING.endpoint(), "cn-hangzhou", BINDING.bucket(), Duration.ofSeconds(120),
+            "vault://oss/access", "vault://oss/secret");
 
     @Test
     void uploadKeyIsIdempotentAndCredentialsAreCleared() {
@@ -43,36 +44,35 @@ class R04S3StorageTransportTest {
         FakeFacade facade = new FakeFacade();
         var transport = transport(primaryMaterial, secondaryMaterial, facade);
         UploadIntent intent = new UploadIntent(
-                7L, "private_kyc", "face.jpg", "image/jpeg", 12L, SHA, "same-request");
+                8L, "private_kyc", "face.png", "image/png", 13L, SHA, "same-request");
 
         UploadTicket first = transport.createUpload(BINDING, intent);
         UploadTicket second = transport.createUpload(BINDING, intent);
 
         assertEquals(first.objectKey(), second.objectKey());
-        assertTrue(first.objectKey().startsWith("private_kyc/7/"));
-        assertEquals("image/jpeg", first.headers().get("content-type"));
-        assertEquals(SHA, first.headers().get("x-amz-meta-sha256"));
+        assertTrue(first.objectKey().startsWith("private_kyc/8/"));
+        assertEquals("image/png", first.headers().get("content-type"));
+        assertEquals(SHA, first.headers().get("x-oss-meta-sha256"));
         assertTrue(allZero(primaryMaterial));
         assertTrue(allZero(secondaryMaterial));
     }
 
     @Test
-    void awsPresignerBindsContentTypeAndShaMetadataWithoutNetworkAccess() {
+    void ossV4PresignerBindsContentTypeAndShaMetadataWithoutNetworkAccess() {
         char[] primaryMaterial = "fixture-primary".toCharArray();
         char[] secondaryMaterial = "fixture-secondary".toCharArray();
-        var transport = new R04S3StorageTransport(
+        var transport = new R04OssStorageTransport(
                 binding -> SETTINGS,
                 reference -> reference.endsWith("access") ? primaryMaterial : secondaryMaterial,
                 CLOCK);
 
         UploadTicket ticket = transport.createUpload(BINDING, new UploadIntent(
-                7L, "private_kyc", "face.jpg", "image/jpeg", 12L, SHA, "aws-presign-request"));
+                8L, "private_kyc", "face.png", "image/png", 13L, SHA, "oss-presign-request"));
 
         assertEquals("https", ticket.uploadUrl().getScheme());
-        assertEquals("account.r2.cloudflarestorage.com", ticket.uploadUrl().getHost());
-        assertTrue(ticket.uploadUrl().getQuery().contains("X-Amz-Signature="));
-        assertEquals("image/jpeg", ticket.headers().get("content-type"));
-        assertEquals(SHA, ticket.headers().get("x-amz-meta-sha256"));
+        assertTrue(ticket.uploadUrl().getQuery().toLowerCase().contains("x-oss-signature"));
+        assertEquals("image/png", ticket.headers().get("content-type"));
+        assertEquals(SHA, ticket.headers().get("x-oss-meta-sha256"));
         assertTrue(allZero(primaryMaterial));
         assertTrue(allZero(secondaryMaterial));
     }
@@ -81,28 +81,30 @@ class R04S3StorageTransportTest {
     void completionRequiresSizeShaAndEtagToMatchHead() {
         FakeFacade facade = new FakeFacade();
         var transport = transport("a".toCharArray(), "b".toCharArray(), facade);
-        String key = "private_kyc/7/object.jpg";
-        facade.head = new Head("\"provider-etag\"", 12L, SHA);
-        var command = new CompleteUpload(7L, key, "provider-etag", List.of(), SHA, 12L, "request");
+        String key = "private_kyc/8/object.png";
+        facade.head = new Head("\"provider-etag\"", 13L, SHA);
+        var command = new CompleteUpload(8L, key, "provider-etag", List.of(), SHA, 13L, "request");
 
         assertEquals(SHA, transport.completeUpload(BINDING, command).sha256());
         assertThrows(IllegalStateException.class, () -> transport.completeUpload(
-                BINDING, new CompleteUpload(7L, key, "different", List.of(), SHA, 12L, "request")));
+                BINDING, new CompleteUpload(8L, key, "different", List.of(), SHA, 13L, "request")));
     }
 
     @Test
-    void privateReadIsSigned() {
-        FakeFacade facade = new FakeFacade();
-        var transport = transport("a".toCharArray(), "b".toCharArray(), facade);
-        ReadTicket ticket = transport.createReadUrl(
-                BINDING, new ObjectRef(7L, "private_kyc/7/object.jpg", SHA), Duration.ofSeconds(60));
-        assertEquals(NOW.plusSeconds(60), ticket.expiresAt());
+    void resolverRoutesBothProductionPorts() {
+        StorageObjectPort r2 = new StorageProviderAdapter(
+                Provider.CLOUDFLARE_R2, new NoopTransport(), CLOCK);
+        StorageObjectPort oss = new StorageProviderAdapter(
+                Provider.ALIYUN_OSS, new NoopTransport(), CLOCK);
+        var resolver = new R04StoragePortResolver(r2, oss);
 
+        assertSame(r2, resolver.resolve(Provider.CLOUDFLARE_R2));
+        assertSame(oss, resolver.resolve(Provider.ALIYUN_OSS));
     }
 
-    private static R04S3StorageTransport transport(
+    private static R04OssStorageTransport transport(
             char[] access, char[] secret, FakeFacade facade) {
-        return new R04S3StorageTransport(
+        return new R04OssStorageTransport(
                 binding -> SETTINGS,
                 reference -> reference.endsWith("access") ? access : secret,
                 CLOCK, (settings, accessValue, secretValue) -> facade);
@@ -113,34 +115,41 @@ class R04S3StorageTransportTest {
         return true;
     }
 
-    private static final class FakeFacade implements S3Facade {
-        private Head head = new Head("provider-etag", 12L, SHA);
+    private static final class FakeFacade implements OssFacade {
+        private Head head = new Head("provider-etag", 13L, SHA);
 
         @Override
         public UploadTicket signPut(
-                String bucket, String key, String contentType, long sizeBytes,
+                String bucket, String key, String contentType,
                 String sha256, Duration ttl, Instant now) {
             return new UploadTicket(key,
-                    URI.create("https://account.r2.cloudflarestorage.com/upload?signature=redacted"),
+                    URI.create("https://hhy-private-kyc.oss-cn-hangzhou.aliyuncs.com/upload?signature=redacted"),
                     now.plus(ttl), Map.of(
                             "content-type", contentType,
-                            "x-amz-meta-sha256", sha256));
+                            "x-oss-meta-sha256", sha256));
         }
 
         @Override public Head head(String bucket, String key) { return head; }
-
-        @Override
-        public ReadTicket signGet(String bucket, String key, Duration ttl, Instant now) {
+        @Override public ReadTicket signGet(String bucket, String key, Duration ttl, Instant now) {
             return new ReadTicket(
-                    URI.create("https://account.r2.cloudflarestorage.com/read?signature=redacted"),
+                    URI.create("https://hhy-private-kyc.oss-cn-hangzhou.aliyuncs.com/read?signature=redacted"),
                     now.plus(ttl));
         }
-
         @Override public void delete(String bucket, String key) { }
         @Override public MigrationPage scan(String bucket, String cursor, int limit) {
             return new MigrationPage(List.of(), null, true);
         }
         @Override public void copy(String sourceBucket, String targetBucket, String key) { }
         @Override public void close() { }
+    }
+
+    private static final class NoopTransport implements StorageProviderAdapter.StorageTransport {
+        @Override public UploadTicket createUpload(Binding binding, UploadIntent intent) { return null; }
+        @Override public StorageObjectPort.StoredObject completeUpload(
+                Binding binding, CompleteUpload command) { return null; }
+        @Override public ReadTicket createReadUrl(Binding binding, ObjectRef object, Duration ttl) { return null; }
+        @Override public void delete(Binding binding, ObjectRef object) { }
+        @Override public MigrationPage scan(Binding binding, String cursor, int limit) { return null; }
+        @Override public void copy(Binding source, Binding target, ObjectRef object) { }
     }
 }

@@ -32,6 +32,30 @@ class R04StorageProviderSettingsTest {
     }
 
     @Test
+    void ossScopeUsesItsOwnProviderSettingsAndReferences() {
+        var source = new R04StorageProviderSettings(null, new ObjectMapper());
+        URI endpoint = URI.create("https://oss-cn-hangzhou.aliyuncs.com");
+        Binding binding = new Binding(Scope.PRIVATE_KYC, Provider.ALIYUN_OSS,
+                "hhy-private-kyc-oss", endpoint, null, 92L);
+        var result = source.settings(binding, """
+                {"storage.default_provider":"CLOUDFLARE_R2",
+                 "storage.scope.private_kyc.provider":"ALIYUN_OSS",
+                 "storage.aliyun_oss.endpoint":"https://oss-cn-hangzhou.aliyuncs.com",
+                 "storage.aliyun_oss.region":"cn-hangzhou",
+                 "storage.aliyun_oss.bucket.private_kyc":"hhy-private-kyc-oss",
+                 "storage.signed_url.ttl_seconds":120}
+                """, """
+                {"storage.aliyun_oss.access_key_id":"vault://oss/access",
+                 "storage.aliyun_oss.access_key_secret":"vault://oss/secret"}
+                """);
+
+        assertEquals(endpoint, result.endpoint());
+        assertEquals("cn-hangzhou", result.region());
+        assertEquals("vault://oss/access", result.accessKeyReference());
+        assertEquals("vault://oss/secret", result.secretAccessKeyReference());
+    }
+
+    @Test
     void bindingCannotDriftFromItsExactActivatedVersion() {
         var source = new R04StorageProviderSettings(null, new ObjectMapper());
         assertThrows(IllegalStateException.class, () -> source.settings(
@@ -92,6 +116,7 @@ class R04StorageProviderSettingsTest {
     private static String values() {
         return """
                 {"storage.default_provider":"CLOUDFLARE_R2",
+                 "storage.scope.private_kyc.provider":"CLOUDFLARE_R2",
                  "storage.r2.endpoint":"https://account.r2.cloudflarestorage.com",
                  "storage.r2.bucket.private_kyc":"hhy-private-kyc",
                  "storage.signed_url.ttl_seconds":120}

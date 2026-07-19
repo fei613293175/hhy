@@ -13,7 +13,8 @@ import org.springframework.stereotype.Component;
 
 /** Loads the exact activated and connection-tested storage configuration bound to an object scope. */
 @Component
-public final class R04StorageProviderSettings implements R04S3StorageTransport.ConfigurationSource {
+public final class R04StorageProviderSettings implements
+        R04S3StorageTransport.ConfigurationSource, R04OssStorageTransport.ConfigurationSource {
     private final JdbcTemplate jdbc;
     private final ObjectMapper objectMapper;
 
@@ -26,8 +27,7 @@ public final class R04StorageProviderSettings implements R04S3StorageTransport.C
 
     @Override
     public Settings current(Binding binding) {
-        if (binding == null || binding.provider() != Provider.CLOUDFLARE_R2
-                || binding.configVersionId() <= 0) {
+        if (binding == null || binding.provider() == null || binding.configVersionId() <= 0) {
             throw unavailable();
         }
         return jdbc.query("""
@@ -44,20 +44,28 @@ public final class R04StorageProviderSettings implements R04S3StorageTransport.C
         try {
             JsonNode values = objectMapper.readTree(valuesJson == null ? "{}" : valuesJson);
             JsonNode refs = objectMapper.readTree(refsJson == null ? "{}" : refsJson);
-            if (!"CLOUDFLARE_R2".equalsIgnoreCase(text(values, "storage.default_provider"))) {
+            String provider = binding.provider().name();
+            if (!provider.equalsIgnoreCase(text(
+                    values, "storage.scope." + scopeCode(binding) + ".provider"))) {
                 throw unavailable();
             }
-            URI endpoint = safeEndpoint(text(values, "storage.r2.endpoint"));
-            String bucket = text(values, "storage.r2.bucket." + scopeCode(binding));
+            String prefix = binding.provider() == Provider.CLOUDFLARE_R2
+                    ? "storage.r2" : "storage.aliyun_oss";
+            URI endpoint = safeEndpoint(text(values, prefix + ".endpoint"));
+            String bucket = text(values, prefix + ".bucket." + scopeCode(binding));
             if (!endpoint.equals(binding.endpoint()) || !bucket.equals(binding.bucket())) {
                 throw unavailable();
             }
             int ttl = integer(values, "storage.signed_url.ttl_seconds");
             if (ttl < 30 || ttl > 1800) throw unavailable();
             return new Settings(
-                    endpoint, "auto", bucket, Duration.ofSeconds(ttl),
-                    text(refs, "storage.r2.access_key_id"),
-                    text(refs, "storage.r2.secret_access_key"));
+                    endpoint,
+                    binding.provider() == Provider.CLOUDFLARE_R2
+                            ? "auto" : text(values, "storage.aliyun_oss.region"),
+                    bucket, Duration.ofSeconds(ttl),
+                    text(refs, prefix + ".access_key_id"),
+                    text(refs, prefix + (binding.provider() == Provider.CLOUDFLARE_R2
+                            ? ".secret_access_key" : ".access_key_secret")));
         } catch (IllegalStateException invalid) {
             throw invalid;
         } catch (Exception invalid) {
