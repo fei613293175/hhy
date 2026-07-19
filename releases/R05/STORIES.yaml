@@ -391,9 +391,9 @@ stories:
   page_ids:
   - H5-012
   operation_ids:
-  - identityGetIdentitySessionsById
+  - publicPostIdentityCallbackConsume
   api_contracts:
-  - GET /api/v1/identity/sessions/{id}
+  - POST /public-api/v1/identity/callback/consume
   requirement_ids:
   - REQ-ID-001
   config_keys:
@@ -426,7 +426,7 @@ stories:
   - test_engineer
   acceptance_criteria:
   - H5-012 全部绑定模板 H5-LANDING，字段、状态、动作、导航和错误恢复无TBD
-  - 页面调用 operationId：identityGetIdentitySessionsById；请求/响应字段不得另行发明
+  - 页面调用 operationId：publicPostIdentityCallbackConsume；请求/响应字段不得另行发明
   - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
   - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
   - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计

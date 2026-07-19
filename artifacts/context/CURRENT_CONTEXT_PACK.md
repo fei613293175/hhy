@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T19:07:42Z
-- Context Hash：`0a5545b1cf7b35f4d09cc03f256f534d39e0c0c4d3397f556caf62c41890aa02`
+- 生成时间：2026-07-19T19:39:22Z
+- Context Hash：`e6c5ae7a1420f389fa73d1f3382f8422cef5cdcbf11d8769f76e6ee2fe0be602`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -81,7 +81,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-004
-updated_at: '2026-07-19T19:07:40Z'
+updated_at: '2026-07-19T19:39:21Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -116,15 +116,15 @@ continuity:
   active_session_id: SES-20260719T183335Z-535311E4
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-19T23:07:40Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0003.yaml
-  project_fingerprint: 156d3e153814a904e0c3140630490fb11e3a586f702d1e4b4be593943c5ecd02
+  lease_expires_at: '2026-07-19T23:39:20Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0005.yaml
+  project_fingerprint: b9930c74002ee46a015dc1eb6a4ed2188f9383f7ca1d5eda3e22de1d0aa95138
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 2c8ca6541ae2c5d1b38a68c420abd76ff6659472d836d2db0d67f11d27c83e80
-    generated_at: '2026-07-19T19:06:22Z'
+    context_hash: a72b09bba33606d4fdf4c4f3490f57297715dcd294455892eca3951b8a1a8b4b
+    generated_at: '2026-07-19T19:38:29Z'
   handoff_bundle: null
 ```
 
@@ -320,11 +320,15 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T19:07:40Z'
+updated_at: '2026-07-19T19:39:20Z'
 takeover_of: null
 change_requests:
 - CR-0090
 - CR-0091
+- CR-0092
+- CR-0093
+- CR-0094
+- CR-0095
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -353,7 +357,38 @@ scope:
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
   - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
-  source: story+explicit+approved-cr:CR-0091
+  - contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - database/migrations/V026__r05_identity_callback_consumption.sql
+  - database/rollback/U026__r05_identity_callback_consumption.sql
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+  - apps/h5/src/router.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/services/identityCallback.ts
+  - apps/h5/src/services/identityCallback.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - catalogs/api_endpoints.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/frontend_backend_matrix.csv
+  - releases/R05/STORIES.yaml
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  - scripts/generate_contracts.py
+  - services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+  - scripts/run_r05_database_invariants.sh
+  - tests/test_r05_identity_database_scripts.py
+  - tests/test_r05_identity_callback_migration.py
+  - scripts/run_r05_disposable_postgres_container.sh
+  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -363,63 +398,57 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T19:07:40Z'
-  expires_at: '2026-07-19T23:07:40Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0003.yaml
+  renewed_at: '2026-07-19T19:39:20Z'
+  expires_at: '2026-07-19T23:39:20Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 提交推送当前切片，随后通过补充契约实现实名协议版本读取和H5一次性state消费闭环
+next_step: 提交并推送本纵切片，然后继续实名授权协议版本来源和第三方结果查询契约。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: DELEGATED
-  delegated_workers: 2
-  workers:
-  - worker_id: r05_h5_audit
-    responsibility: 审计H5-012冻结页面与回跳契约缺口
-    allowed_paths:
-    - apps/h5
-    - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
-  - worker_id: r05_admin_audit
-    responsibility: 审计ADM-ID-001/002页面、权限与五个operation绑定
-    allowed_paths:
-    - apps/admin-web
-    - docs/02-ui/page-specs/admin/ADM-ID-001_实名列表.md
-    - docs/02-ui/page-specs/admin/ADM-ID-002_实名详情与复核.md
-  reason: ''
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 原子汇合与连续性元数据更新不可安全拆分，且当前系统规则不允许未经用户明确要求启动子代理。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T183335Z-535311E4-0003
+checkpoint_id: CP-SES-20260719T183335Z-535311E4-0005
 session_id: SES-20260719T183335Z-535311E4
-sequence: 3
-created_at: '2026-07-19T19:07:39Z'
-summary: R05-004 Android与Admin实名纵向切片完成并补齐用户可见CHANGELOG，模块构建、测试、商业UI与Token门禁全部通过
-next_step: 提交推送当前切片，随后通过补充契约实现实名协议版本读取和H5一次性state消费闭环
+sequence: 5
+created_at: '2026-07-19T19:39:20Z'
+summary: R05-004一次性活体回跳接口、H5状态页、V026迁移及回滚重放门禁实现完成；CR-0092至CR-0095进入IMPLEMENTING并已验证。
+next_step: 提交并推送本纵切片，然后继续实名授权协议版本来源和第三方结果查询契约。
 blockers: []
-decisions: []
-note: PROB-0044/0045保持OPEN并作为下一实现步骤；CHANGELOG已记录用户可见变化。
+decisions:
+- 保持第三方结果查询PROB-0046为OPEN，不猜测已采购市场接口字段。
+note: 替换旧检查点以吸收CR状态更新，解决CHECKPOINT_STALE。
 tests:
-- name: Admin production and tests
+- name: backend-callback
   result: PASS
-  evidence: build passed; 14 files 80 tests passed
-  note: 生成类型、页面交互与业务文案通过
-- name: Android fixed toolchain
+  evidence: fixed Java21 Maven tests passed
+  note: 3 tests
+- name: h5-callback
   result: PASS
-  evidence: identity unit+lint and app compile BUILD SUCCESSFUL
-  note: 四页面和网络绑定通过
-- name: UI static gates
+  evidence: Vitest 17 tests and production build
+  note: commercial H5 callback
+- name: postgres-v026
   result: PASS
-  evidence: UI_TOKENS_OK 52; COMMERCIAL_UI_BOUNDARY PASS 33
-  note: 无页面局部原值和技术提示
+  evidence: PostgreSQL17 disposable rollback reapply
+  note: 32 constraints 13 indexes 31 columns
+- name: documentation-generated-ui
+  result: PASS
+  evidence: 0 docs gaps and all generation/UI gates
+  note: R05
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: d08b5d91ed2f83ddfa377fc806470d2385887f53
+  head: de9abe444e0475f59d979fab71f02cb05dfd1007
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -430,47 +459,57 @@ git:
   - M  .continuity/EVENT_LOG.jsonl
   - M  .continuity/SESSION_INDEX.yaml
   - M  .continuity/STATE.yaml
-  - M  .continuity/TASK_CLAIMS.yaml
-  - M  .continuity/TASK_TRANSITIONS.yaml
-  - A  .continuity/change_requests/CR-0090.yaml
-  - A  .continuity/change_requests/CR-0091.yaml
-  - A  .continuity/checkpoints/SES-20260719T183335Z-535311E4/0001.yaml
-  - A  .continuity/checkpoints/SES-20260719T183335Z-535311E4/0002.yaml
-  - A  .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
-  - ' M CHANGELOG.md'
+  - A  .continuity/change_requests/CR-0092.yaml
+  - A  .continuity/change_requests/CR-0093.yaml
+  - A  .continuity/change_requests/CR-0094.yaml
+  - A  .continuity/change_requests/CR-0095.yaml
+  - A  .continuity/checkpoints/SES-20260719T183335Z-535311E4/0004.yaml
+  - M  .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
+  - M  CHANGELOG.md
   - M  CURRENT_STATUS.yaml
-  - A  apps/admin-web/src/r05IdentityPages.test.ts
-  - M  apps/admin-web/src/router.ts
-  - A  apps/admin-web/src/services/adminIdentities.test.ts
-  - A  apps/admin-web/src/services/adminIdentities.ts
-  - M  apps/admin-web/src/services/idempotency.ts
-  - M  apps/admin-web/src/services/index.ts
-  - A  apps/admin-web/src/views/AdminIdentityDetailPage.vue
-  - A  apps/admin-web/src/views/AdminIdentityListPage.vue
-  - M  apps/android/app/build.gradle.kts
-  - M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-  - A  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
-  - M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-  - A  apps/android/feature/identity/build.gradle.kts
-  - A  apps/android/feature/identity/src/main/AndroidManifest.xml
-  - A  apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
-  - A  apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
-  - A  apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
-  - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-  - M  apps/android/settings.gradle.kts
+  - M  apps/h5/src/router.ts
+  - A  apps/h5/src/services/identityCallback.test.ts
+  - A  apps/h5/src/services/identityCallback.ts
+  - M  apps/h5/src/styles.css
+  - A  apps/h5/src/views/IdentityCallbackPage.test.ts
+  - A  apps/h5/src/views/IdentityCallbackPage.vue
   - M  artifacts/context/CURRENT_CONTEXT_PACK.md
   - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
   - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - M  artifacts/validation/project-doctor-v1.2.2.json
+  - M  catalogs/api_endpoints.csv
+  - M  catalogs/api_ui_ownership.csv
   - M  catalogs/change_request_index.csv
+  - M  catalogs/frontend_backend_matrix.csv
   - M  catalogs/session_index.csv
-  - M  catalogs/task_transition_ledger.csv
+  - M  catalogs/ui_action_matrix.csv
+  - M  catalogs/ui_page_specifications.csv
+  - M  contracts/contract_status.csv
+  - M  contracts/openapi.yaml
+  - A  database/migrations/V026__r05_identity_callback_consumption.sql
+  - A  database/rollback/U026__r05_identity_callback_consumption.sql
+  - M  docs/02-ui/page-specs/h5/H5-012_活体回跳.md
   - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - A  docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
-  - A  docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md
-  - A  docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
+  - A  docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md
+  - A  docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md
+  - A  docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md
+  - A  docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
+  - M  packages/api-client/src/client.generated.ts
+  - M  releases/R05/STORIES.yaml
+  - M  scripts/run_r05_database_invariants.sh
+  - M  scripts/run_r05_disposable_postgres_container.sh
+  - A  services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+  - A  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+  - M  services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - A  services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+  - A  tests/test_r05_identity_callback_migration.py
+  - M  tests/test_r05_identity_database_scripts.py
   recent_commits:
+  - "de9abe444e0475f59d979fab71f02cb05dfd1007\t2026-07-20T03:08:57+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): implement\
+    \ Android and admin identity flows"
   - "d08b5d91ed2f83ddfa377fc806470d2385887f53\t2026-07-20T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-003\
     \ as completed"
   - "d4386cb733fe80b3d0282e2d91d6902bdef8bda7\t2026-07-20T02:29:11+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(identity): preserve PostgreSQL\
@@ -485,10 +524,8 @@ git:
     \ identity API"
   - "5b69dc75936e98ca1315b19b543ab7c5cd7d526b\t2026-07-20T01:05:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): align API\
     \ storage migration"
-  - "1156f1d2f1688ebfce813600ed82cfd381444ef2\t2026-07-20T01:03:47+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): implement\
-    \ client session domain"
 project_fingerprint:
-  sha256: 156d3e153814a904e0c3140630490fb11e3a586f702d1e4b4be593943c5ecd02
+  sha256: b9930c74002ee46a015dc1eb6a4ed2188f9383f7ca1d5eda3e22de1d0aa95138
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r05IdentityPages.test.ts
@@ -511,17 +548,49 @@ project_fingerprint:
   - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
   - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
   - apps/android/settings.gradle.kts
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/identityCallback.test.ts
+  - apps/h5/src/services/identityCallback.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - catalogs/api_endpoints.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/frontend_backend_matrix.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_specifications.csv
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - database/migrations/V026__r05_identity_callback_consumption.sql
+  - database/rollback/U026__r05_identity_callback_consumption.sql
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
   - docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md
-  file_count: 24
+  - docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md
+  - docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md
+  - docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md
+  - docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md
+  - packages/api-client/src/client.generated.ts
+  - releases/R05/STORIES.yaml
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+  - tests/test_r05_identity_callback_migration.py
+  - tests/test_r05_identity_database_scripts.py
+  file_count: 56
   payload:
     base_commit: d08b5d91ed2f83ddfa377fc806470d2385887f53
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 41471
-      sha256: c9716c1aad05dc347f416bb4c796cc67116024f8ba12630fde300f7282fa8810
+      size: 41685
+      sha256: 4c1cf79857ae750d9c9104e2ab76df124417082d5589e008c1686a8da19ec66a
     - path: apps/admin-web/src/r05IdentityPages.test.ts
       state: FILE
       size: 4035
@@ -602,10 +671,74 @@ project_fingerprint:
       state: FILE
       size: 520
       sha256: a2f5c6cc7238da471c06cdb5b3bd487d424d7f63664566717febe0a2176a9ad2
+    - path: apps/h5/src/router.ts
+      state: FILE
+      size: 679
+      sha256: b7daf95582626ea1e8e9ee759ec87b4f0900b753b8a76b8cbda42e7c945e80c6
+    - path: apps/h5/src/services/identityCallback.test.ts
+      state: FILE
+      size: 1591
+      sha256: 97d6bb46a5ea76e07d42f5490d7b142b381e870e53182719568dbf432762a11d
+    - path: apps/h5/src/services/identityCallback.ts
+      state: FILE
+      size: 2760
+      sha256: d5f309bdf26a15dcf742adfa5e7fac2b2e3022dfa27d0994bdb8a6e8ad65a4d5
+    - path: apps/h5/src/styles.css
+      state: FILE
+      size: 7987
+      sha256: 685cc3d1bdad78c53f3ef0088b7902fd7818093b6d6139555a8e00588a11ca2b
+    - path: apps/h5/src/views/IdentityCallbackPage.test.ts
+      state: FILE
+      size: 2628
+      sha256: b122bf0c00baa9c666ff980450ee150b1a784ee8479b5fc747d08fc69bdf0cd0
+    - path: apps/h5/src/views/IdentityCallbackPage.vue
+      state: FILE
+      size: 3599
+      sha256: ecf52f1737c1e9ab79c69a4a7fde4c7d8db580693ed5137efea54baacc66b3ec
+    - path: catalogs/api_endpoints.csv
+      state: FILE
+      size: 10993
+      sha256: b3495e0d6deba6224d78050c991b4cfe8cbfb58ebc8c4298da78c9be3689c896
+    - path: catalogs/api_ui_ownership.csv
+      state: FILE
+      size: 75079
+      sha256: 2a62058e28efab5e7f7e840e2acf5ed70e0063f55a671ee04da2fdbebfc146a8
+    - path: catalogs/frontend_backend_matrix.csv
+      state: FILE
+      size: 205949
+      sha256: a45f4a25e4f8ced7b124089913e0e2e5902bafa6397f121a12333f527280d3fe
+    - path: catalogs/ui_action_matrix.csv
+      state: FILE
+      size: 1418061
+      sha256: b4b4631ea561bb20fc92ba1b1ff81df57b0140ca02fb03b8aa7c63f940408a37
+    - path: catalogs/ui_page_specifications.csv
+      state: FILE
+      size: 293291
+      sha256: 3194833fce022d895471798bcdedd024c5270457ae88c75a2d5b7151df39e6ba
+    - path: contracts/contract_status.csv
+      state: FILE
+      size: 139577
+      sha256: 4b3e0e6f7eebd3ec5ffd5caee4442418e767d4fa24495f42a4540a48126788b5
+    - path: contracts/openapi.yaml
+      state: FILE
+      size: 594312
+      sha256: d5609ec9231498f31f175c65750b2231c62b7ea1e8896e4a448745f11dc0c1af
+    - path: database/migrations/V026__r05_identity_callback_consumption.sql
+      state: FILE
+      size: 335
+      sha256: cc74b5a8fc7ede1d6038252dd5210ba59094bc6369e732223559b8d1e1baae16
+    - path: database/rollback/U026__r05_identity_callback_consumption.sql
+      state: FILE
+      size: 156
+      sha256: 9c23f8f9dc8024a4e7c95feedf11e28a1b546ec6de99accccd41c13a06f870d0
+    - path: docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+      state: FILE
+      size: 7790
+      sha256: 2a29fb3ca0d5eaf74f66d637dfa9d0b8fb5fe62aa7af212ba5acd84aee58234f
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 46198
-      sha256: 707c26f5e5561e96aea946f0132071aae58011f43aaf351a004f28d5c5e3e846
+      size: 47802
+      sha256: 2c6ae0e9ce839d1b919e572749e2a15b6f175482fb57f40d305e3bcb2c70c962
     - path: docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
       state: FILE
       size: 2078
@@ -614,9 +747,76 @@ project_fingerprint:
       state: FILE
       size: 2768
       sha256: 075fb50fab65446223ec017ced1402afc87a3db6074a4746bccf94833ba8bb7b
+    - path: docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md
+      state: FILE
+      size: 3766
+      sha256: 12ef92aa65e70314b33da07879cd7efd15a5e4a378077f8c6d1e552367892bb7
+    - path: docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md
+      state: FILE
+      size: 2064
+      sha256: 3442d4645063619a9fd46b3c047f39c12dbde580956c6156cf1e2dc6a83d57a6
+    - path: docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md
+      state: FILE
+      size: 2088
+      sha256: 3a2f56a6a1585f16884ed11ccc4243776fe1cc1af04341e6dc08b1ca4551f167
+    - path: docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md
+      state: FILE
+      size: 1701
+      sha256: eef4c0455952d55804ad62a00aa20161f554c2ecbe3369b51777be5a1abc1fab
+    - path: packages/api-client/src/client.generated.ts
+      state: FILE
+      size: 613914
+      sha256: 01618e2c2373a16e9ca2fe28d925e025d5c548755ae257986e3c204145cf9ea9
+    - path: releases/R05/STORIES.yaml
+      state: FILE
+      size: 19073
+      sha256: a78fb4553902097f9ce19a90c9a6d6bc7e4ddf7f1de653a61de00e8f5bcfaadd
+    - path: scripts/run_r05_database_invariants.sh
+      state: FILE
+      size: 6470
+      sha256: a7be2355ac6a31e90d6071df3287143d2605fc13be1006eaf913c03c03a336c5
+    - path: scripts/run_r05_disposable_postgres_container.sh
+      state: FILE
+      size: 1784
+      sha256: ef2315faadfc216b63a7003de359aef77696d34f2fa30bb7bce6d2c98583735f
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+      state: FILE
+      size: 2596
+      sha256: 4fe850fb900855263f08ab0222db18240c163593c2cfbcc57c608860898fda2f
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+      state: FILE
+      size: 1643
+      sha256: 0a2911769142fdc19b3efd3aec4159c14b029bca23ae1c4b7a504bb32b3bafc9
+    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+      state: FILE
+      size: 594312
+      sha256: d5609ec9231498f31f175c65750b2231c62b7ea1e8896e4a448745f11dc0c1af
+    - path: services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+      state: FILE
+      size: 335
+      sha256: cc74b5a8fc7ede1d6038252dd5210ba59094bc6369e732223559b8d1e1baae16
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+      state: FILE
+      size: 1964
+      sha256: 437fd4567f82f246501ba53706c6ca1d06b0884cdbbcfb7b2d792a77132436f5
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+      state: FILE
+      size: 2065
+      sha256: 9ba9964747329df4b3ce258cb104f3de34af287c696543ae1c7970a76c3da9b6
+    - path: tests/test_r05_identity_callback_migration.py
+      state: FILE
+      size: 1234
+      sha256: d46dd38f4f8b2257af67ab373fba0bcad19d103c85ffeecb7a1eda7cc46332ba
+    - path: tests/test_r05_identity_database_scripts.py
+      state: FILE
+      size: 2630
+      sha256: 624215bda44019a117d0bd364af1b7a4e3fc8d78951697e5ca5eeb405873fc68
 change_classification:
   other:
   - CHANGELOG.md
+  - catalogs/api_endpoints.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/frontend_backend_matrix.csv
   code:
   - apps/admin-web/src/r05IdentityPages.test.ts
   - apps/admin-web/src/router.ts
@@ -638,6 +838,21 @@ change_classification:
   - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
   - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
   - apps/android/settings.gradle.kts
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/identityCallback.test.ts
+  - apps/h5/src/services/identityCallback.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - packages/api-client/src/client.generated.ts
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
   user_visible:
   - apps/admin-web/src/r05IdentityPages.test.ts
   - apps/admin-web/src/router.ts
@@ -659,20 +874,58 @@ change_classification:
   - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
   - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
   - apps/android/settings.gradle.kts
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/identityCallback.test.ts
+  - apps/h5/src/services/identityCallback.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  source_of_truth:
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_specifications.csv
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - releases/R05/STORIES.yaml
+  contracts:
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  database:
+  - database/migrations/V026__r05_identity_callback_consumption.sql
+  - database/rollback/U026__r05_identity_callback_consumption.sql
   continuity:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
   - docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md
+  - docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md
+  - docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md
+  - docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md
+  - docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md
+  tests:
+  - tests/test_r05_identity_callback_migration.py
+  - tests/test_r05_identity_database_scripts.py
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
 - CHECKPOINT
 - CURRENT_STATUS
 - EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+- CONTRACT_TEST_EVIDENCE
+- GENERATED_CLIENTS_OR_GENERATION_RECORD
 - CHANGELOG
 change_requests:
 - CR-0090
 - CR-0091
+- CR-0092
+- CR-0093
+- CR-0094
+- CR-0095
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -701,24 +954,44 @@ scope:
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
   - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
-  source: story+explicit+approved-cr:CR-0091
+  - contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - database/migrations/V026__r05_identity_callback_consumption.sql
+  - database/rollback/U026__r05_identity_callback_consumption.sql
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+  - apps/h5/src/router.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/services/identityCallback.ts
+  - apps/h5/src/services/identityCallback.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - catalogs/api_endpoints.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/frontend_backend_matrix.csv
+  - releases/R05/STORIES.yaml
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  - scripts/generate_contracts.py
+  - services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+  - scripts/run_r05_database_invariants.sh
+  - tests/test_r05_identity_database_scripts.py
+  - tests/test_r05_identity_callback_migration.py
+  - scripts/run_r05_disposable_postgres_container.sh
+  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095
 parallel_execution:
-  assessment: DELEGATED
-  delegated_workers: 2
-  workers:
-  - worker_id: r05_h5_audit
-    responsibility: 审计H5-012冻结页面与回跳契约缺口
-    allowed_paths:
-    - apps/h5
-    - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
-  - worker_id: r05_admin_audit
-    responsibility: 审计ADM-ID-001/002页面、权限与五个operation绑定
-    allowed_paths:
-    - apps/admin-web
-    - docs/02-ui/page-specs/admin/ADM-ID-001_实名列表.md
-    - docs/02-ui/page-specs/admin/ADM-ID-002_实名详情与复核.md
-  reason: ''
-event_hash: 89fe64d1db99522c42775e137d573fda11e067389d81923d4e454a2d57462129
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 原子汇合与连续性元数据更新不可安全拆分，且当前系统规则不允许未经用户明确要求启动子代理。
+event_hash: 38fd448289a3861050e77aee0a95902e80854275f1f237512a31bd3779ec26fe
 ```
 
 ## 接续状态与事件头
@@ -730,8 +1003,8 @@ active_session_id: SES-20260719T183335Z-535311E4
 last_session_id: SES-20260719T165401Z-12791729
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T165401Z-12791729-0009
-event_count: 1040
-event_head_hash: 89fe64d1db99522c42775e137d573fda11e067389d81923d4e454a2d57462129
+event_count: 1062
+event_head_hash: 38fd448289a3861050e77aee0a95902e80854275f1f237512a31bd3779ec26fe
 event_chain_valid: true
 ```
 
@@ -854,9 +1127,9 @@ recent_sessions: - session_id: SES-20260719T113522Z-6B27AD4B
   started_at: '2026-07-19T18:33:35Z'
   record: .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-  updated_at: '2026-07-19T19:07:40Z'
+  updated_at: '2026-07-19T19:39:20Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0005.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-36454E5FF743
   session_id: SES-20260718T133151Z-12DB5949
@@ -1734,7 +2007,7 @@ recent_task_transitions: - transition_id: TRN-C720E2A1E5C3
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: d08b5d91ed2f83ddfa377fc806470d2385887f53
+head: de9abe444e0475f59d979fab71f02cb05dfd1007
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1745,48 +2018,58 @@ status_porcelain:
 - MM .continuity/EVENT_LOG.jsonl
 - MM .continuity/SESSION_INDEX.yaml
 - MM .continuity/STATE.yaml
-- M  .continuity/TASK_CLAIMS.yaml
-- M  .continuity/TASK_TRANSITIONS.yaml
-- A  .continuity/change_requests/CR-0090.yaml
-- A  .continuity/change_requests/CR-0091.yaml
-- A  .continuity/checkpoints/SES-20260719T183335Z-535311E4/0001.yaml
-- A  .continuity/checkpoints/SES-20260719T183335Z-535311E4/0002.yaml
-- AM .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
-- ' M CHANGELOG.md'
+- A  .continuity/change_requests/CR-0092.yaml
+- A  .continuity/change_requests/CR-0093.yaml
+- A  .continuity/change_requests/CR-0094.yaml
+- A  .continuity/change_requests/CR-0095.yaml
+- A  .continuity/checkpoints/SES-20260719T183335Z-535311E4/0004.yaml
+- MM .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
+- M  CHANGELOG.md
 - MM CURRENT_STATUS.yaml
-- A  apps/admin-web/src/r05IdentityPages.test.ts
-- M  apps/admin-web/src/router.ts
-- A  apps/admin-web/src/services/adminIdentities.test.ts
-- A  apps/admin-web/src/services/adminIdentities.ts
-- M  apps/admin-web/src/services/idempotency.ts
-- M  apps/admin-web/src/services/index.ts
-- A  apps/admin-web/src/views/AdminIdentityDetailPage.vue
-- A  apps/admin-web/src/views/AdminIdentityListPage.vue
-- M  apps/android/app/build.gradle.kts
-- M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-- M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-- A  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
-- M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-- A  apps/android/feature/identity/build.gradle.kts
-- A  apps/android/feature/identity/src/main/AndroidManifest.xml
-- A  apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
-- A  apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
-- A  apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
-- M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-- M  apps/android/settings.gradle.kts
+- M  apps/h5/src/router.ts
+- A  apps/h5/src/services/identityCallback.test.ts
+- A  apps/h5/src/services/identityCallback.ts
+- M  apps/h5/src/styles.css
+- A  apps/h5/src/views/IdentityCallbackPage.test.ts
+- A  apps/h5/src/views/IdentityCallbackPage.vue
 - M  artifacts/context/CURRENT_CONTEXT_PACK.md
 - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
 - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- ' M artifacts/validation/continuity-gate-v1.2.3.json'
+- M  artifacts/validation/project-doctor-v1.2.2.json
+- M  catalogs/api_endpoints.csv
+- M  catalogs/api_ui_ownership.csv
 - M  catalogs/change_request_index.csv
-- MM catalogs/session_index.csv
-- M  catalogs/task_transition_ledger.csv
+- M  catalogs/frontend_backend_matrix.csv
+- M  catalogs/session_index.csv
+- M  catalogs/ui_action_matrix.csv
+- M  catalogs/ui_page_specifications.csv
+- M  contracts/contract_status.csv
+- M  contracts/openapi.yaml
+- A  database/migrations/V026__r05_identity_callback_consumption.sql
+- A  database/rollback/U026__r05_identity_callback_consumption.sql
+- M  docs/02-ui/page-specs/h5/H5-012_活体回跳.md
 - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-- A  docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
-- A  docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md
-- AM docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0003.yaml
+- A  docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md
+- A  docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md
+- A  docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md
+- A  docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md
+- MM docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
+- M  packages/api-client/src/client.generated.ts
+- M  releases/R05/STORIES.yaml
+- M  scripts/run_r05_database_invariants.sh
+- M  scripts/run_r05_disposable_postgres_container.sh
+- A  services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+- A  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+- M  services/backend/boot/src/main/resources/contracts/openapi.yaml
+- A  services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+- A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+- A  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+- A  tests/test_r05_identity_callback_migration.py
+- M  tests/test_r05_identity_database_scripts.py
+- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0005.yaml
 recent_commits:
+- "de9abe444e0475f59d979fab71f02cb05dfd1007\t2026-07-20T03:08:57+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): implement Android\
+  \ and admin identity flows"
 - "d08b5d91ed2f83ddfa377fc806470d2385887f53\t2026-07-20T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-003\
   \ as completed"
 - "d4386cb733fe80b3d0282e2d91d6902bdef8bda7\t2026-07-20T02:29:11+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(identity): preserve PostgreSQL\
@@ -1801,14 +2084,12 @@ recent_commits:
   \ identity API"
 - "5b69dc75936e98ca1315b19b543ab7c5cd7d526b\t2026-07-20T01:05:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): align API storage\
   \ migration"
-- "1156f1d2f1688ebfce813600ed82cfd381444ef2\t2026-07-20T01:03:47+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): implement client\
-  \ session domain"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`156d3e153814a904e0c3140630490fb11e3a586f702d1e4b4be593943c5ecd02`
-- 文件数：24
+- 指纹：`b9930c74002ee46a015dc1eb6a4ed2188f9383f7ca1d5eda3e22de1d0aa95138`
+- 文件数：56
 
 - `CHANGELOG.md`
 - `apps/admin-web/src/r05IdentityPages.test.ts`
@@ -1831,9 +2112,41 @@ recent_commits:
 - `apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt`
 - `apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt`
 - `apps/android/settings.gradle.kts`
+- `apps/h5/src/router.ts`
+- `apps/h5/src/services/identityCallback.test.ts`
+- `apps/h5/src/services/identityCallback.ts`
+- `apps/h5/src/styles.css`
+- `apps/h5/src/views/IdentityCallbackPage.test.ts`
+- `apps/h5/src/views/IdentityCallbackPage.vue`
+- `catalogs/api_endpoints.csv`
+- `catalogs/api_ui_ownership.csv`
+- `catalogs/frontend_backend_matrix.csv`
+- `catalogs/ui_action_matrix.csv`
+- `catalogs/ui_page_specifications.csv`
+- `contracts/contract_status.csv`
+- `contracts/openapi.yaml`
+- `database/migrations/V026__r05_identity_callback_consumption.sql`
+- `database/rollback/U026__r05_identity_callback_consumption.sql`
+- `docs/02-ui/page-specs/h5/H5-012_活体回跳.md`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md`
 - `docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md`
+- `docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md`
+- `docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md`
+- `docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md`
+- `docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md`
+- `packages/api-client/src/client.generated.ts`
+- `releases/R05/STORIES.yaml`
+- `scripts/run_r05_database_invariants.sh`
+- `scripts/run_r05_disposable_postgres_container.sh`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java`
+- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java`
+- `services/backend/boot/src/main/resources/contracts/openapi.yaml`
+- `services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java`
+- `tests/test_r05_identity_callback_migration.py`
+- `tests/test_r05_identity_database_scripts.py`
 
 ## 当前 Release
 
@@ -2478,9 +2791,9 @@ STORIES.yaml:
     page_ids:
     - H5-012
     operation_ids:
-    - identityGetIdentitySessionsById
+    - publicPostIdentityCallbackConsume
     api_contracts:
-    - GET /api/v1/identity/sessions/{id}
+    - POST /public-api/v1/identity/callback/consume
     requirement_ids:
     - REQ-ID-001
     config_keys:
@@ -2513,7 +2826,7 @@ STORIES.yaml:
     - test_engineer
     acceptance_criteria:
     - H5-012 全部绑定模板 H5-LANDING，字段、状态、动作、导航和错误恢复无TBD
-    - 页面调用 operationId：identityGetIdentitySessionsById；请求/响应字段不得另行发明
+    - 页面调用 operationId：publicPostIdentityCallbackConsume；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
     - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
@@ -4195,38 +4508,249 @@ TASKS.yaml:
     note: 精确文件清单与已批准CR-0090和TASK-R05-004原目标一致
   machine_record: .continuity/change_requests/CR-0091.yaml
   document: docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md
+- protocol_version: '1.0'
+  cr_id: CR-0092
+  title: 补齐R05一次性活体回跳消费契约与H5实施范围
+  status: IMPLEMENTING
+  created_at: '2026-07-19T19:15:03Z'
+  updated_at: '2026-07-19T19:38:42Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求不暂停并严格完成R05全部功能；H5回跳不得泄露技术参数或要求用户处理state
+  reason: 冻结H5页面声明一次性state，但登记的Bearer加路径id查询无法由公开回跳安全调用，需要新增最小公开消费契约并精确纳入H5文件
+  original_rule: H5-012以一次性state公开进入，但唯一登记查询要求Bearer和路径id，当前会话范围也遗漏apps/h5实施文件
+  new_rule: 新增POST /public-api/v1/identity/callback/consume，仅原子消费一次高熵state并返回最小业务状态；URL参数立即清理；精确纳入列出的H5、契约、迁移和测试文件
+  impact_summary: 修复公开回跳无法安全查询的冻结契约冲突；不返回用户ID、会话ID、供应商、失败代码、URL、版本或请求编号，不改变现有四个已认证接口
+  impact:
+    files:
+    - contracts/openapi.yaml
+    - contracts/contract_status.csv
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - packages/api-client/src/client.generated.ts
+    - database/migrations/V026__r05_identity_callback_consumption.sql
+    - database/rollback/U026__r05_identity_callback_consumption.sql
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+    - apps/h5/src/router.ts
+    - apps/h5/src/styles.css
+    - apps/h5/src/services/identityCallback.ts
+    - apps/h5/src/services/identityCallback.test.ts
+    - apps/h5/src/views/IdentityCallbackPage.vue
+    - apps/h5/src/views/IdentityCallbackPage.test.ts
+    - catalogs/api_endpoints.csv
+    - catalogs/api_ui_ownership.csv
+    - catalogs/ui_action_matrix.csv
+    - catalogs/ui_page_specifications.csv
+    - catalogs/frontend_backend_matrix.csv
+    - releases/R05/STORIES.yaml
+    - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - H5-012
+    apis:
+    - publicPostIdentityCallbackConsume
+    database:
+    - identity_verification_sessions.callback_consumed_at
+    configuration:
+    - 无新增配置
+    ledger: []
+    tests:
+    - backend identity callback unit/controller tests; H5 callback service/page tests; generated assets; documentation gates
+    releases:
+    - R05
+    migration_and_compatibility: 新增可空callback_consumed_at列，旧会话兼容；首次合法消费原子写入，重复、过期、无效state统一返回业务失效；现有Android回跳拦截与已认证轮询保持兼容
+  user_confirmation: 用户已明确要求严格完成每个版本全部功能、后续问题自主决定并持续推进，不得因非紧急问题停工
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T19:15:42Z'
+    note: 该增量契约是完成既有H5-012一次性state安全回跳目标的最小修正，文件范围精确且不破坏现有接口
+  machine_record: .continuity/change_requests/CR-0092.yaml
+  document: docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md
+  decision_log:
+  - at: '2026-07-19T19:38:42Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 回跳接口、H5页面、V026与全部门禁已实现，准备形成实现提交
+    session_id: SES-20260719T183335Z-535311E4
+  session_ids:
+  - SES-20260719T183335Z-535311E4
+- protocol_version: '1.0'
+  cr_id: CR-0093
+  title: 补齐R05回跳契约生成器与运行时迁移精确范围
+  status: IMPLEMENTING
+  created_at: '2026-07-19T19:18:50Z'
+  updated_at: '2026-07-19T19:38:43Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求严格按文档持续开发并保证换AI可由仓库生成资产
+  reason: CR-0092新增精确接口必须由权威目录可重复生成，且前向迁移必须同步到Spring运行时资源
+  original_rule: CR-0092列出OpenAPI与源迁移，但遗漏生成器特例和运行时迁移副本的精确文件范围
+  new_rule: 仅将契约生成器和V026运行时迁移副本加入范围，确保生成检查与部署迁移同源
+  impact_summary: 不扩大业务范围；使publicPostIdentityCallbackConsume请求state和最小状态响应可从目录稳定生成
+  impact:
+    files:
+    - scripts/generate_contracts.py
+    - services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+    pages: []
+    apis:
+    - publicPostIdentityCallbackConsume
+    database:
+    - identity_verification_sessions.callback_consumed_at
+    configuration: []
+    ledger: []
+    tests:
+    - generate_contracts --check; sync_runtime_assets --check
+    releases:
+    - R05
+    migration_and_compatibility: 生成器只增加该精确路径特例；运行时V026与权威迁移字节一致
+  user_confirmation: 用户已授权对后续开发问题自主决定并持续推进
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T19:18:53Z'
+    note: 只补可重复生成与运行时同步所需精确文件，不增加业务面
+  machine_record: .continuity/change_requests/CR-0093.yaml
+  document: docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md
+  decision_log:
+  - at: '2026-07-19T19:38:43Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 生成契约和运行时迁移同步已完成
+    session_id: SES-20260719T183335Z-535311E4
+  session_ids:
+  - SES-20260719T183335Z-535311E4
+- protocol_version: '1.0'
+  cr_id: CR-0094
+  title: 补齐V026回跳消费迁移回滚重放门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-19T19:33:27Z'
+  updated_at: '2026-07-19T19:38:45Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求严格完成版本全部细节并持续推进，简单问题直接解决
+  reason: V026已新增callback_consumed_at但R05数据库门禁仍只回滚重放到V025，无法验证新迁移可逆性与重放结果
+  original_rule: R05数据库回滚重放门禁只覆盖V023到V025
+  new_rule: 将V026加入同一一次性PostgreSQL回滚重放链，并验证callback_consumed_at与未消费state索引被移除和恢复
+  impact_summary: 只补数据库迁移验证与对应静态回归测试，不改变接口和业务规则
+  impact:
+    files:
+    - scripts/run_r05_database_invariants.sh
+    - tests/test_r05_identity_database_scripts.py
+    - tests/test_r05_identity_callback_migration.py
+    pages: []
+    apis: []
+    database:
+    - identity_verification_sessions.callback_consumed_at
+    configuration: []
+    ledger: []
+    tests:
+    - Python迁移静态测试；PostgreSQL17一次性容器回滚重放与不变量门禁
+    releases:
+    - R05
+    migration_and_compatibility: 先回滚U026再执行既有U025至U023，重放时最后执行V026；旧数据因新增列可空保持兼容
+  user_confirmation: 用户已明确要求后续简单开发问题自主解决并持续推进
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T19:33:43Z'
+    note: 属于V026上线必需的最小可逆迁移验证，不增加业务范围
+  machine_record: .continuity/change_requests/CR-0094.yaml
+  document: docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md
+  decision_log:
+  - at: '2026-07-19T19:38:45Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: V026回滚重放门禁已通过PostgreSQL17验证
+    session_id: SES-20260719T183335Z-535311E4
+  session_ids:
+  - SES-20260719T183335Z-535311E4
+- protocol_version: '1.0'
+  cr_id: CR-0095
+  title: 修正R05空库迁移门禁版本标识
+  status: IMPLEMENTING
+  created_at: '2026-07-19T19:36:53Z'
+  updated_at: '2026-07-19T19:38:46Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求提高开发效率并确保换AI可准确接续
+  reason: 空库实际已遍历到V026但成功标识仍写V025，可能误导后续验收
+  original_rule: 空库迁移成功输出固定标识为V025
+  new_rule: 成功输出与当前R05最新迁移V026一致并由测试锁定
+  impact_summary: 只修正门禁证据标识，不改变迁移执行和业务逻辑
+  impact:
+    files:
+    - scripts/run_r05_disposable_postgres_container.sh
+    - tests/test_r05_identity_database_scripts.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - Python脚本静态回归；PostgreSQL17一次性容器
+    releases:
+    - R05
+    migration_and_compatibility: 无数据或运行时影响
+  user_confirmation: 用户已授权简单问题自主修复并持续推进
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T19:36:56Z'
+    note: 修正已验证事实的最小门禁文案
+  machine_record: .continuity/change_requests/CR-0095.yaml
+  document: docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md
+  decision_log:
+  - at: '2026-07-19T19:38:46Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 空库迁移成功标识已与V026一致
+    session_id: SES-20260719T183335Z-535311E4
+  session_ids:
+  - SES-20260719T183335Z-535311E4
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `e40998458c453ba70df999038f3f1921af06583296ac7b9f5f2c14356af1a7ee`
+- `CURRENT_STATUS.yaml` — `0913ee3a719d246a5bf01818916fd0342e378c520e8dd8f681f82ee2a587839d`
 - `NEXT_TASK.yaml` — `a128e578a72108ea0d43225dbb48325c5315983581433490c186a6d1cf9cb484`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `707c26f5e5561e96aea946f0132071aae58011f43aaf351a004f28d5c5e3e846`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `2c6ae0e9ce839d1b919e572749e2a15b6f175482fb57f40d305e3bcb2c70c962`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `c0daccded5cf57ac8f58d93f90aef0d4b9d60aabceb5c0d0f5c19aa03ef1f515`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `7e9b2e26a8e8eac184b87ecbd20aeb2801bc46214c530ecb44d5307d2a92a581`
-- `.continuity/SESSION_INDEX.yaml` — `42ef86c59b9730a6b9d1cae857f1a7d08dbe6c28f00ed0bc8ae5f71d622e9e25`
+- `.continuity/EVENT_LOG.jsonl` — `6c19a9496e772fda09d03ce2f1d031ea7934f7b325527afa1c5d20b085b620f9`
+- `.continuity/SESSION_INDEX.yaml` — `007716965df217c2c8f374576bfaf66c3538600679d5235921f38d67e4486e37`
 - `.continuity/TASK_CLAIMS.yaml` — `d584e4085c5320e27ccbdba4878c79ea2ca13ee854840c495f1e9a059064bb7c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b7bff921a7901affc662c17b2fe95e1556eb192d3c9ea7147d548a863c93ba9d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `f63250a5dac8fe8ff87ba4ee22e6124e4ff8535281de32f1bde1c87fed72309d`
-- `.continuity/ACTIVE_SESSION.yaml` — `b09bb77df2f3bb939bdcbbe9b095c4764e1f08d3f910d42838232464f9563ffb`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `0848c7c81cea8b07b956f5ff4c515d03ff2783087bb79d12343a8136a3d3370f`
+- `.continuity/ACTIVE_SESSION.yaml` — `bba4774ee2543758fcb3ae2b4ca98d9485977106a1da01fa2f89bdbd4a55ac01`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
-- `releases/R05/STORIES.yaml` — `e2748a2bda2bf2cb053cb49eafa127cac66c27e0d3f1ed36232c0c0ba93fd96c`
+- `releases/R05/STORIES.yaml` — `a78fb4553902097f9ce19a90c9a6d6bc7e4ddf7f1de653a61de00e8f5bcfaadd`
 - `releases/R05/TASKS.yaml` — `fbdff289348fbe15d4527cad6f1d5955322270725e80cc0e99ee291a6bbe05de`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `f956f5af9a4e0c09901c50829b23b371d0bbe2f6c2bd298ca780470e664264c4`
-- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0003.yaml` — `0c009afb2a666e72354f650686993a6a5cf2ce0bcf1e6381827ca1a19d3da2c2`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `73c05f9638e7c9fea4dc7c60528df51cad3a6bc2c223af6ff371398f3a75f40d`
+- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0005.yaml` — `33b76a91e547f00dac3442c625fef31165ea2042d66cac4dc2d8a4728e3bcb12`
 - `docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md` — `978668dbafbcbbf0bb325a72beb141a1160bec7fefd9a08ed2f1fc0df4208fee`
 - `docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md` — `075fb50fab65446223ec017ced1402afc87a3db6074a4746bccf94833ba8bb7b`
+- `docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md` — `12ef92aa65e70314b33da07879cd7efd15a5e4a378077f8c6d1e552367892bb7`
+- `docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md` — `3442d4645063619a9fd46b3c047f39c12dbde580956c6156cf1e2dc6a83d57a6`
+- `docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md` — `3a2f56a6a1585f16884ed11ccc4243776fe1cc1af04341e6dc08b1ca4551f167`
+- `docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md` — `eef4c0455952d55804ad62a00aa20161f554c2ecbe3369b51777be5a1abc1fab`
 
 ## 接手硬规则
 

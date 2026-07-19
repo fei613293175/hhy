@@ -20,6 +20,7 @@ identityPostIdentitySessions,CLIENT,POST,/api/v1/identity/sessions,创建实名�
 identityPostIdentitySessionsByIdLivenessToken,CLIENT,POST,/api/v1/identity/sessions/{id}/liveness-token,获取活体H5,PAGE_ACTION,SCR-ID-003,Identity,R05,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 identityGetIdentitySessionsById,CLIENT,GET,/api/v1/identity/sessions/{id},查询实名状态,PAGE_ACTION,H5-012;SCR-ID-003;SCR-ID-004,Identity,R05,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 identityPostIdentitySessionsByIdRetry,CLIENT,POST,/api/v1/identity/sessions/{id}/retry,重新认证,PAGE_ACTION,SCR-ID-004,Identity,R05,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
+publicPostIdentityCallbackConsume,CLIENT,POST,/public-api/v1/identity/callback/consume,消费一次性活体回跳,PAGE_ACTION,H5-012,Public,R05,公开,仅消费一次性state并返回最小业务状态；不得展示state或技术字段,FROZEN
 mediaPostMediaUploadSessions,CLIENT,POST,/api/v1/media/upload-sessions,创建上传会话,PAGE_ACTION,SHEET-MEDIA-001,Media,R04,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 mediaPostMediaUploadSessionsByIdComplete,CLIENT,POST,/api/v1/media/upload-sessions/{id}/complete,完成上传,PAGE_ACTION,SHEET-MEDIA-001,Media,R04,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 mediaDeleteMediaById,CLIENT,DELETE,/api/v1/media/{id},删除未绑定媒体,PAGE_ACTION,SHEET-MEDIA-001,Media,R04,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN

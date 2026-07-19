@@ -295,6 +295,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/public-api/v1/identity/callback/consume": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** 消费一次性活体回跳 */
+        post: operations["publicPostIdentityCallbackConsume"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/identity/sessions": {
         parameters: {
             query?: never;
@@ -3047,6 +3064,21 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: components["schemas"]["UserResource"] | components["schemas"]["CommandResultResource"];
+        };
+        PublicPostIdentityCallbackConsumeRequest: {
+            state: string;
+        };
+        IdentityCallbackStatusResource: {
+            /** @enum {string} */
+            status: "SESSION_CREATED" | "LIVENESS_PENDING" | "PROVIDER_PROCESSING" | "MANUAL_REVIEW" | "VERIFIED" | "REJECTED" | "EXPIRED";
+        };
+        PublicPostIdentityCallbackConsumeResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["IdentityCallbackStatusResource"];
         };
         IdentityPostIdentitySessionsRequest: {
             realName: string;
@@ -6964,6 +6996,66 @@ export interface operations {
                 };
             };
             /** @description 业务规则不满足 */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    publicPostIdentityCallbackConsume: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PublicPostIdentityCallbackConsumeRequest"];
+            };
+        };
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PublicPostIdentityCallbackConsumeResponse"];
+                };
+            };
+            /** @description 请求参数错误 */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 回跳已失效、过期或已经消费 */
             422: {
                 headers: {
                     [name: string]: unknown;

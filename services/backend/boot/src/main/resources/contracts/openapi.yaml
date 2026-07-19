@@ -1408,6 +1408,60 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /public-api/v1/identity/callback/consume:
+    post:
+      operationId: publicPostIdentityCallbackConsume
+      summary: 消费一次性活体回跳
+      tags:
+      - Public
+      security: []
+      x-permission: 公开
+      x-idempotent: false
+      x-release: R05
+      x-contract-maturity: FROZEN
+      x-error-codes:
+      - COMMON-400-VALIDATION
+      - COMMON-422-BUSINESS_RULE
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      x-request-schema: '#/components/schemas/PublicPostIdentityCallbackConsumeRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublicPostIdentityCallbackConsumeRequest'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicPostIdentityCallbackConsumeResponse'
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: 回跳已失效、过期或已经消费
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /api/v1/identity/sessions:
     post:
       operationId: identityPostIdentitySessions
@@ -15644,6 +15698,52 @@ components:
           oneOf:
           - $ref: '#/components/schemas/UserResource'
           - $ref: '#/components/schemas/CommandResultResource'
+    PublicPostIdentityCallbackConsumeRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        state:
+          type: string
+          minLength: 36
+          maxLength: 36
+          pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$
+      required:
+      - state
+    IdentityCallbackStatusResource:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum:
+          - SESSION_CREATED
+          - LIVENESS_PENDING
+          - PROVIDER_PROCESSING
+          - MANUAL_REVIEW
+          - VERIFIED
+          - REJECTED
+          - EXPIRED
+      required:
+      - status
+    PublicPostIdentityCallbackConsumeResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - success
+      - requestId
+      - data
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/IdentityCallbackStatusResource'
     IdentityPostIdentitySessionsRequest:
       type: object
       additionalProperties: false

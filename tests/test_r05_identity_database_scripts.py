@@ -33,11 +33,13 @@ class R05IdentityDatabaseScriptsTest(unittest.TestCase):
         self.assertIn("U023__r05_identity_invariants.sql", shell)
         self.assertIn("U024__r05_identity_api_storage.sql", shell)
         self.assertIn("U025__r05_identity_provider_payload.sql", shell)
+        self.assertIn("U026__r05_identity_callback_consumption.sql", shell)
         self.assertIn("V023__r05_identity_invariants.sql", shell)
         self.assertIn("V024__r05_identity_api_storage.sql", shell)
         self.assertIn("V025__r05_identity_provider_payload.sql", shell)
+        self.assertIn("V026__r05_identity_callback_consumption.sql", shell)
         self.assertIn('[[ "${remaining}" == "0|0|0|0" ]]', shell)
-        self.assertIn('[[ "${reapplied}" == "32|12|1|30" ]]', shell)
+        self.assertIn('[[ "${reapplied}" == "32|13|1|31" ]]', shell)
 
     def test_container_is_postgres_17_disposable_and_not_published(self) -> None:
         shell = CONTAINER.read_text(encoding="utf-8")
@@ -46,6 +48,7 @@ class R05IdentityDatabaseScriptsTest(unittest.TestCase):
         self.assertIn("trap cleanup EXIT", shell)
         self.assertNotIn("-p 5432", shell)
         self.assertIn("run_r05_database_invariants.sh", shell)
+        self.assertIn("R05_EMPTY_DATABASE_TO_V026 PASS", shell)
 
 
 if __name__ == "__main__":

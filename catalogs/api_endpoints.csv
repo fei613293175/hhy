@@ -20,6 +20,7 @@ Identity,POST,/api/v1/identity/sessions,登录,创建实名会话,是,R05
 Identity,POST,/api/v1/identity/sessions/{id}/liveness-token,登录,获取活体H5,是,R05
 Identity,GET,/api/v1/identity/sessions/{id},登录,查询实名状态,否,R05
 Identity,POST,/api/v1/identity/sessions/{id}/retry,登录,重新认证,是,R05
+Public,POST,/public-api/v1/identity/callback/consume,公开,消费一次性活体回跳,否,R05
 Media,POST,/api/v1/media/upload-sessions,登录,创建上传会话,是,R04
 Media,POST,/api/v1/media/upload-sessions/{id}/complete,登录,完成上传,是,R04
 Media,DELETE,/api/v1/media/{id},登录,删除未绑定媒体,是,R04

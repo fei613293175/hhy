@@ -551,10 +551,10 @@ problems:
   - 不得在页面局部硬编码协议版本或允许空版本提交
 - id: PROB-0045
   title: R05活体回跳仅携带state但H5查询接口要求会话ID和Bearer
-  status: OPEN
+  status: SOLVED
   root_cause: 供应商按冻结安全边界只向H5回跳地址携带一次性state，而H5-012登记的GET身份会话接口同时要求路径id与登录Bearer；现有契约没有state消费或安全换取结果的操作，H5无法从回跳事实构造合法查询。
-  impact: Android内嵌活体容器可拦截回跳后使用内存中的会话ID和登录会话查询结果，但独立H5-012不能完成真实回跳闭环，也不能安全展示认证结果。
-  current_behavior: 不伪造id、不把Bearer写入URL、不展示技术参数；Android流程继续实现，H5正式回跳页等待契约补齐。
+  impact: 已通过CR-0092补齐公开一次性state消费契约，独立H5-012不再需要会话ID或Bearer即可安全完成回跳状态交接。
+  current_behavior: H5读取state后立即清理URL，调用公开原子消费接口并只展示最小业务状态；重复、过期、篡改state统一进入商业失效页，技术参数不进入DOM。
   next_owner: TASK-R05-004
   required_evidence:
   - 通过CR冻结一次性state消费接口、重放防护、过期和结果最小披露
@@ -563,3 +563,19 @@ problems:
   do_not_repeat:
   - 不得把会话ID、Bearer、姓名或身份证号追加到供应商回跳URL
   - 不得用客户端缓存猜测state对应会话或把通用占位页标为H5闭环完成
+- id: PROB-0046
+  title: R05第三方活体结果查询与人脸比对缺少已冻结供应商响应契约
+  status: OPEN
+  root_cause: 当前AliyunMarketIdentityProviderClient只实现活体令牌创建；配置目录虽然包含identity.liveness.result_url和identity.face_compare.url，但仓库没有已采购市场接口的结果响应字段、签名校验、活体照片下载和人脸比对响应契约，不能依据同类产品文档猜测字段或伪造通过结果。
+  impact: Android和H5可完成会话创建、供应商活体页面及安全回跳，但服务端尚不能把LIVENESS_PENDING会话按真实供应商结果推进到VERIFIED、MANUAL_REVIEW或REJECTED；R05不得因此标记为完整实名闭环。
+  current_behavior: 回跳后只返回处理中或既有安全业务状态，不展示供应商原文、失败代码或技术字段，也不使用模拟响应改变用户实名状态。
+  next_owner: TASK-R05-004
+  required_evidence:
+  - 冻结已采购市场接口的结果查询、签名校验和错误映射契约
+  - 活体照片下载后进入私有R2且不产生公开URL，原始供应商响应加密保存
+  - 人脸比对通过、人工复核、拒绝、超时和供应商异常的状态机及真实适配测试
+  - 正式环境最小端到端验收且页面不出现内部供应商字段
+  do_not_repeat:
+  - 不得用其他阿里云实名产品的字段结构替代当前市场接口响应契约
+  - 不得把供应商返回原文、照片地址、订单号或内部失败码展示给用户
+  - 不得以H5回跳成功代替服务端实名结果已完成

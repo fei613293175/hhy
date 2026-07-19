@@ -11,11 +11,15 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T19:07:42Z'
+updated_at: '2026-07-19T19:39:23Z'
 takeover_of: null
 change_requests:
 - CR-0090
 - CR-0091
+- CR-0092
+- CR-0093
+- CR-0094
+- CR-0095
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -44,7 +48,38 @@ scope:
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
   - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
-  source: story+explicit+approved-cr:CR-0091
+  - contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - database/migrations/V026__r05_identity_callback_consumption.sql
+  - database/rollback/U026__r05_identity_callback_consumption.sql
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+  - apps/h5/src/router.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/services/identityCallback.ts
+  - apps/h5/src/services/identityCallback.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - catalogs/api_endpoints.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/frontend_backend_matrix.csv
+  - releases/R05/STORIES.yaml
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  - scripts/generate_contracts.py
+  - services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+  - scripts/run_r05_database_invariants.sh
+  - tests/test_r05_identity_database_scripts.py
+  - tests/test_r05_identity_callback_migration.py
+  - scripts/run_r05_disposable_postgres_container.sh
+  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -54,33 +89,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T19:07:40Z'
-  expires_at: '2026-07-19T23:07:40Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0003.yaml
+  renewed_at: '2026-07-19T19:39:20Z'
+  expires_at: '2026-07-19T23:39:20Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 提交推送当前切片，随后通过补充契约实现实名协议版本读取和H5一次性state消费闭环
+next_step: 提交并推送本纵切片，然后继续实名授权协议版本来源和第三方结果查询契约。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 0a5545b1cf7b35f4d09cc03f256f534d39e0c0c4d3397f556caf62c41890aa02
-  generated_at: '2026-07-19T19:07:42Z'
+  context_hash: e6c5ae7a1420f389fa73d1f3382f8422cef5cdcbf11d8769f76e6ee2fe0be602
+  generated_at: '2026-07-19T19:39:22Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: DELEGATED
-  delegated_workers: 2
-  workers:
-  - worker_id: r05_h5_audit
-    responsibility: 审计H5-012冻结页面与回跳契约缺口
-    allowed_paths:
-    - apps/h5
-    - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
-  - worker_id: r05_admin_audit
-    responsibility: 审计ADM-ID-001/002页面、权限与五个operation绑定
-    allowed_paths:
-    - apps/admin-web
-    - docs/02-ui/page-specs/admin/ADM-ID-001_实名列表.md
-    - docs/02-ui/page-specs/admin/ADM-ID-002_实名详情与复核.md
-  reason: ''
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 原子汇合与连续性元数据更新不可安全拆分，且当前系统规则不允许未经用户明确要求启动子代理。

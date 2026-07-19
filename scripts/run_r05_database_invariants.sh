@@ -15,6 +15,7 @@ PSQL=(psql "${DATABASE_URL}" -X -v ON_ERROR_STOP=1)
 echo "R05_IDENTITY_INVARIANTS PASS"
 
 "${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/rollback/U026__r05_identity_callback_consumption.sql" \
   -f "${ROOT}/database/rollback/U025__r05_identity_provider_payload.sql" \
   -f "${ROOT}/database/rollback/U024__r05_identity_api_storage.sql" \
   -f "${ROOT}/database/rollback/U023__r05_identity_invariants.sql" >/dev/null
@@ -37,6 +38,7 @@ remaining="$(${PSQL[@]} -qAt -c "
         ('identity_verification_sessions','completed_at'),
         ('identity_verification_sessions','consent_version'),
         ('identity_verification_sessions','failure_code'),
+        ('identity_verification_sessions','callback_consumed_at'),
         ('identity_provider_requests','idempotency_key'),
         ('identity_provider_requests','request_hash'),
         ('identity_provider_requests','status'),
@@ -60,7 +62,7 @@ remaining="$(${PSQL[@]} -qAt -c "
   echo "R05 rollback left constraints, indexes, triggers, or columns: ${remaining}" >&2
   exit 1
 }
-echo "R05_U025_U024_U023_ROLLBACK PASS"
+echo "R05_U026_U025_U024_U023_ROLLBACK PASS"
 
 "${PSQL[@]}" --single-transaction \
   -f "${ROOT}/database/migrations/V023__r05_identity_invariants.sql" >/dev/null
@@ -68,6 +70,8 @@ echo "R05_U025_U024_U023_ROLLBACK PASS"
   -f "${ROOT}/database/migrations/V024__r05_identity_api_storage.sql" >/dev/null
 "${PSQL[@]}" --single-transaction \
   -f "${ROOT}/database/migrations/V025__r05_identity_provider_payload.sql" >/dev/null
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V026__r05_identity_callback_consumption.sql" >/dev/null
 reapplied="$(${PSQL[@]} -qAt -c "
   SELECT
     (SELECT count(*) FROM pg_constraint
@@ -87,6 +91,7 @@ reapplied="$(${PSQL[@]} -qAt -c "
         ('identity_verification_sessions','completed_at'),
         ('identity_verification_sessions','consent_version'),
         ('identity_verification_sessions','failure_code'),
+        ('identity_verification_sessions','callback_consumed_at'),
         ('identity_provider_requests','idempotency_key'),
         ('identity_provider_requests','request_hash'),
         ('identity_provider_requests','status'),
@@ -106,7 +111,7 @@ reapplied="$(${PSQL[@]} -qAt -c "
         ('sensitive_data_access_logs','request_id'),
         ('sensitive_data_access_logs','media_object_id')
       ));")"
-[[ "${reapplied}" == "32|12|1|30" ]] || {
+[[ "${reapplied}" == "32|13|1|31" ]] || {
   echo "R05 reapply counts were unexpected: ${reapplied}" >&2
   exit 1
 }
@@ -119,4 +124,4 @@ payload_type="$(${PSQL[@]} -qAt -c "
   echo "R05 provider response ciphertext type was not restored: ${payload_type}" >&2
   exit 1
 }
-echo "R05_V023_V024_V025_REAPPLY PASS constraints=32 indexes=12 trigger=1 columns=30 payload=text"
+echo "R05_V023_V024_V025_V026_REAPPLY PASS constraints=32 indexes=13 trigger=1 columns=31 payload=text"

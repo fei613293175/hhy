@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { h5Pages } from './catalog';
 import InviteRegistrationPage from './views/InviteRegistrationPage.vue';
+import IdentityCallbackPage from './views/IdentityCallbackPage.vue';
 import PublicPage from './views/PublicPage.vue';
 
 export const router = createRouter({
@@ -9,7 +10,9 @@ export const router = createRouter({
     ...h5Pages.map((page) => ({
       path: page.vueRoute,
       name: page.ID,
-      component: page.ID === 'H5-013' ? InviteRegistrationPage : PublicPage,
+      component: page.ID === 'H5-013'
+        ? InviteRegistrationPage
+        : page.ID === 'H5-012' ? IdentityCallbackPage : PublicPage,
       props: { page },
     })),
     { path: '/:pathMatch(.*)*', redirect: '/' },
