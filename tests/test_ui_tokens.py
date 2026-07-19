@@ -22,6 +22,13 @@ class UiTokenCheckerTest(unittest.TestCase):
     def test_repository_is_fully_aligned(self) -> None:
         self.assertEqual([], CHECKER.validate(ROOT))
 
+    def test_r04_media_sheet_uses_frozen_button_height_token(self) -> None:
+        source = (ROOT / "apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt").read_text(
+            encoding="utf-8"
+        )
+        self.assertEqual(2, source.count("height(HhySize.PrimaryButtonHeight)"))
+        self.assertNotIn("48.dp", source)
+
     def test_missing_token_group_is_rejected(self) -> None:
         broken = copy.deepcopy(TOKENS)
         del broken["motionMs"]

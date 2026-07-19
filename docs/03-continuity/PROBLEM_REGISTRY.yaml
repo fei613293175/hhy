@@ -492,3 +492,16 @@ problems:
   - 版本关闭不得只在Session和事件中记录code_commit而遗漏CURRENT_STATUS.last_green_commit
   - 发布关闭门禁发现绿提交漂移时必须修复状态生成逻辑，不得逐版本手工改值后忽略根因
   - COMPLETED以外的BLOCKED或ABANDONED结果不得把未通过版本误标为last_green_commit
+- id: PROB-0041
+  title: R04媒体上传面板按钮高度绕过冻结UI Token
+  status: SOLVED
+  root_cause: 媒体面板首版直接写入两个48.dp按钮高度，视觉值虽与设计系统一致，但绕过HhySize唯一事实源；模块测试和Lint不检查Token归属，直到TASK-R04-005全量Python集成才被全项目UI Token门禁发现。
+  resolution: 两个按钮高度统一改用HhySize.PrimaryButtonHeight，保持48dp视觉尺寸不变；增加R04媒体面板专用回归断言，并继续由全项目UI Token静态门禁兜底。
+  regression_checks:
+  - UiTokenCheckerTest#test_r04_media_sheet_uses_frozen_button_height_token
+  - scripts/check_ui_tokens.py
+  - obx-test固定Android镜像lintDebug testDebugUnitTest assembleDebug
+  do_not_repeat:
+  - Compose页面不得因数值恰好与设计Token相同而直接写dp或sp
+  - 新增页面或组件必须同时通过模块测试、Lint和全项目UI Token门禁
+  - 修复Token归属不得改变冻结视觉尺寸或自行新增同值Token

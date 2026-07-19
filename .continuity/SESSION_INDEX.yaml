@@ -476,7 +476,7 @@ sessions:
   started_at: '2026-07-19T13:08:24Z'
   record: .continuity/sessions/SES-20260719T130824Z-06DC3492.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T130824Z-06DC3492.md
-  updated_at: '2026-07-19T13:30:17Z'
+  updated_at: '2026-07-19T13:46:28Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0005.yaml
   handoff_bundle: null

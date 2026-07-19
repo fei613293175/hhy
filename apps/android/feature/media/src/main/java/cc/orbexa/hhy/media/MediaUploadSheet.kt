@@ -37,9 +37,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyRadius
+import cc.orbexa.hhy.designsystem.HhySize
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.designsystem.HhyType
 import cc.orbexa.hhy.network.ContractMediaApi
@@ -156,12 +156,12 @@ fun MediaUploadSheet(
                 }
             }
             OutlinedButton(
-                modifier = Modifier.fillMaxWidth().height(48.dp),
+                modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
                 enabled = !hasActiveUploads(),
                 onClick = { picker.launch(acceptedTypes) },
             ) { Text("选择文件") }
             Button(
-                modifier = Modifier.fillMaxWidth().height(48.dp),
+                modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
                 enabled = manager.completedSelections().isNotEmpty() && !hasActiveUploads(),
                 onClick = { onCompleted(manager.completedSelections()) },
             ) { Text("完成") }
