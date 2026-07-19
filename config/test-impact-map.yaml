@@ -49,6 +49,18 @@ checks:
   cwd: .
   command: ['{python}', -m, unittest, tests.test_hhy_workflow, tests.test_run_affected_tests, tests.test_generated_assets, tests.test_android_apk_delivery]
   timeout_seconds: 300
+- id: r04-authoritative-matrix-unit
+  profiles: [MODULE, INTEGRATION]
+  ci_job: tooling
+  paths:
+  - releases/R04/**
+  - catalogs/test_cases.csv
+  - scripts/run_r04_test_matrix.py
+  - tests/r04/**
+  - tests/v1.2.2/ui/sheet-media-001_*
+  cwd: .
+  command: ['{python}', -m, unittest, tests.r04.test_r04_test_matrix]
+  timeout_seconds: 180
 - id: contract-runtime-assets
   profiles: [FAST]
   ci_job: contracts

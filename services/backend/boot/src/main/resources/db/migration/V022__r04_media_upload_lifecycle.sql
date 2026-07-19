@@ -1,5 +1,5 @@
--- Runtime mirror of database/migrations/V022__r04_media_upload_lifecycle.sql.
--- This file is verified byte-for-byte (after the comment header) by repository tests.
+-- R04 media upload lifecycle. The API purpose is kept verbatim while the
+-- trusted server-side policy resolves it to an isolated storage scope.
 
 ALTER TABLE hhy.upload_sessions
   ADD COLUMN purpose varchar(2000),

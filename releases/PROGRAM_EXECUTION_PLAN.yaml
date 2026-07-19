@@ -22,9 +22,9 @@ portfolio_totals:
   h5_surfaces: 13
   admin_surfaces: 71
   client_api_references: 86
-  admin_api_references: 162
+  admin_api_references: 151
   websocket_references: 0
-  manifest_endpoint_references: 248
+  manifest_endpoint_references: 237
   story_operation_references: 707
   story_unique_operation_ids: 393
   database_table_references: 646
@@ -320,9 +320,9 @@ release_plan:
     h5_surfaces: 0
     admin_surfaces: 7
     client_api_references: 0
-    admin_api_references: 13
+    admin_api_references: 2
     websocket_references: 0
-    manifest_endpoint_references: 13
+    manifest_endpoint_references: 2
     story_operation_references: 46
     story_unique_operation_ids: 17
     database_table_references: 26
