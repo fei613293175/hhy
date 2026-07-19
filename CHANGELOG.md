@@ -567,3 +567,13 @@
 - Actor：`codex-root`
 - 摘要：R05-003九个冻结实名认证接口、生产活体供应商适配、权限幂等审计Outbox、V023-V025迁移回滚及PostgreSQL17真实存储集成门禁全部完成
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md`
+
+## TASK-R05-004 · COMPLETED · 2026-07-19T22:38:18Z
+
+- Task close: TASK-R05-004 / SES-20260719T183335Z-535311E4
+- Release：`R05`
+- Story：`STORY-R05-001`
+- Actor：`codex-root`
+- 摘要：R05-004 七端页面恢复态与无技术字段验证完成：Android 单元测试、lint、固定 API 地址校验和 debug 构建成功；H5/Admin 全量测试与生产构建通过；补齐空态、403、404、处理中、人工复核、拒绝、离线和服务不可用测试。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md`
+

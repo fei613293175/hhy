@@ -60,7 +60,7 @@ tasks:
   completed_at: '2026-07-19T18:30:04Z'
 - id: TASK-R05-004
   title: 单一实名认证客户端/H5/后台实现
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R05-003
   requirements: *id001
@@ -78,9 +78,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-19T22:38:18Z'
 - id: TASK-R05-005
   title: 单一实名认证专项测试与故障注入
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R05-003
   - TASK-R05-004
