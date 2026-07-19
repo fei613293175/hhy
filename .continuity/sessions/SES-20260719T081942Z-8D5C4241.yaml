@@ -11,7 +11,7 @@ task_id: TASK-R03-008
 story_id: STORY-R03-004
 goal: 完成R03版本关闭、追踪核对、桌面完整测试说明与无状态交接，然后进入R04
 started_at: '2026-07-19T08:19:42Z'
-updated_at: '2026-07-19T08:28:20Z'
+updated_at: '2026-07-19T08:30:02Z'
 takeover_of: null
 change_requests:
 - CR-0083
@@ -64,22 +64,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T08:28:17Z'
-  expires_at: '2026-07-19T12:28:17Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260719T081942Z-8D5C4241/0001.yaml
+  renewed_at: '2026-07-19T08:29:59Z'
+  expires_at: '2026-07-19T12:29:59Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260719T081942Z-8D5C4241/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T081942Z-8D5C4241.md
-next_step: 提交R03关闭证据后关闭TASK-R03-008并把连续性指针推进至R04 TASK-R04-001
+next_step: 关闭TASK-R03-008并将CURRENT_STATUS和NEXT_TASK原子推进到R04 TASK-R04-001
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: d8bf8f826cdfe687ed12c536f3a0331391c6dcb5054f4395a57890536b0b1702
-  generated_at: '2026-07-19T08:28:19Z'
+  context_hash: 4690deac2148a7fb88847ab4a337fbbab479d834c2995c91c0ffdf1be65f676a
+  generated_at: '2026-07-19T08:30:01Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 项目所有者要求立即连续推进；本阶段为同一组发布元数据的原子收尾，串行避免标签、Manifest和连续性指针竞态
+  reason: 关闭任务和跨版本指针必须原子串行更新，禁止并发写连续性状态

@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0083
 title: R03版本关闭元数据、验收证据与终态标签规范化
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-19T08:27:19Z'
-updated_at: '2026-07-19T08:28:04Z'
+updated_at: '2026-07-19T08:29:57Z'
 requester_actor_id: codex-root
 approver_actor_id: r03-release-review
 task_id: TASK-R03-008
@@ -46,5 +46,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始归档R03关闭元数据与验收证据
   session_id: SES-20260719T081942Z-8D5C4241
+- at: '2026-07-19T08:29:57Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: R03终态Manifest、验收矩阵、单文件测试证据、真机结论和桌面说明已归档并通过文档与生成物门禁
+  session_id: SES-20260719T081942Z-8D5C4241
 session_ids:
 - SES-20260719T081942Z-8D5C4241
+implementation_commits:
+- e37faeaa31714e4026132b426acb0bd956032d84
