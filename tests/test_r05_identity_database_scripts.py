@@ -25,6 +25,7 @@ class R05IdentityDatabaseScriptsTest(unittest.TestCase):
             with self.subTest(marker=marker):
                 self.assertIn(marker, sql)
         self.assertTrue(sql.rstrip().endswith("ROLLBACK;"))
+        self.assertEqual(sql.count("WHEN object_not_in_prerequisite_state"), 2)
 
     def test_database_runner_requires_disposable_confirmation_and_replays_v023(self) -> None:
         shell = RUNNER.read_text(encoding="utf-8")

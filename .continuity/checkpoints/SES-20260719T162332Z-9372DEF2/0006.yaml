@@ -1,0 +1,159 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T162332Z-9372DEF2-0006
+session_id: SES-20260719T162332Z-9372DEF2
+sequence: 6
+created_at: '2026-07-19T16:46:35Z'
+summary: R05真实数据库不变量测试按prevent_immutable_mutation实际SQLSTATE 55000捕获不可变拒绝，避免把正确拒绝误判为测试失败
+next_step: 提交推送SQLSTATE回归修正并第三次执行PostgreSQL17.10完整空库、拒绝、回滚、重放
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R05数据库静态测试
+  result: PASS
+  evidence: python -m unittest tests.test_r05_identity_migration tests.test_r05_identity_database_scripts
+  note: 7 tests passed
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 855df4a218879481e961c174da763eace8ed32c4
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M database/tests/r05_identity_invariants.sql'
+  - ' M tests/test_r05_identity_database_scripts.py'
+  recent_commits:
+  - "855df4a218879481e961c174da763eace8ed32c4\t2026-07-20T00:44:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(identity): reject null\
+    \ provider completion state"
+  - "e952473677bfb56527c811530509d619bbf562e4\t2026-07-20T00:37:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] test(identity): verify PostgreSQL\
+    \ invariants and rollback"
+  - "441cd6bf3fbb483f2d7f1ed1dfe437332c973ccb\t2026-07-20T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): enforce verification\
+    \ data invariants"
+  - "2282bc24a3b771715582514a939cffb481920749\t2026-07-20T00:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-001\
+    \ as completed"
+  - "9e4e50a75c9d8373c5c5c9770407b413ef85633c\t2026-07-20T00:22:12+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): close R04\
+    \ and R05 entry decisions"
+  - "b2ee5df5be707774ec7276a68f45473f94535448\t2026-07-20T00:20:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): finalize\
+    \ R05 entry gate"
+  - "6377d6f2c34841a1a3bde1f1c8e75083dabefa4e\t2026-07-20T00:10:46+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-008\
+    \ as completed"
+  - "07da0def4caee01a8d450b4bd69bc8676480e367\t2026-07-20T00:08:57+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(release): record R04\
+    \ closure evidence"
+project_fingerprint:
+  sha256: b8ddd5f9bb8ff407bf9008c34cf83023ec5d2aef0f93fc60116cb37c28974dbd
+  files:
+  - database/migrations/V023__r05_identity_invariants.sql
+  - database/rollback/U023__r05_identity_invariants.sql
+  - database/tests/r05_identity_invariants.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+  - tests/test_r05_identity_database_scripts.py
+  - tests/test_r05_identity_migration.py
+  file_count: 9
+  payload:
+    base_commit: 2282bc24a3b771715582514a939cffb481920749
+    files:
+    - path: database/migrations/V023__r05_identity_invariants.sql
+      state: FILE
+      size: 8528
+      sha256: 6f2c4f1f7a2b0c9e4fc460650a1bf35bdf8e6f457390191d753bd962775751d1
+    - path: database/rollback/U023__r05_identity_invariants.sql
+      state: FILE
+      size: 3870
+      sha256: e39d17f1152f14e8c665b444c2e55a4aa3df3a5b8c96c6e0f3acbd7a917e4578
+    - path: database/tests/r05_identity_invariants.sql
+      state: FILE
+      size: 7483
+      sha256: 3297fca042b83f33bec584cf1d6bc55408514822c69487b6c7cda7a9f5ab4cc6
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 41607
+      sha256: 82ec940b6b48952dde58d752de676dd8d3ae69e857221254f27c361726dcd28b
+    - path: scripts/run_r05_database_invariants.sh
+      state: FILE
+      size: 5126
+      sha256: dff4a6910ef9c75b5947bd3e93e6a3f29cf986c96fe09a8aea0eb1abc24ac58a
+    - path: scripts/run_r05_disposable_postgres_container.sh
+      state: FILE
+      size: 1784
+      sha256: 84366f016ea3e2089a6e58d8c9b0c5460fbff82da2e3ef40f1e5b8e52a1ae86a
+    - path: services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+      state: FILE
+      size: 8528
+      sha256: 6f2c4f1f7a2b0c9e4fc460650a1bf35bdf8e6f457390191d753bd962775751d1
+    - path: tests/test_r05_identity_database_scripts.py
+      state: FILE
+      size: 2136
+      sha256: 97335533eb465b25ad2fa4e353c2b71846fa5dc183725ceb2d842f151f297d6b
+    - path: tests/test_r05_identity_migration.py
+      state: FILE
+      size: 3232
+      sha256: 67d5eade74fdcd3053d1a2d5b0c0439088c268a37c056caecc6698fd5896a31e
+change_classification:
+  database:
+  - database/migrations/V023__r05_identity_invariants.sql
+  - database/rollback/U023__r05_identity_invariants.sql
+  - database/tests/r05_identity_invariants.sql
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  code:
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+  tests:
+  - tests/test_r05_identity_database_scripts.py
+  - tests/test_r05_identity_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 测试SQLSTATE修正必须回到同一真实PostgreSQL链路验证
+event_hash: 30239b0ef7cc603fd7e4c1e8b6e87781521609fc6f4151683ede8344d50b0454

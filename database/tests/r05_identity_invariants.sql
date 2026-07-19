@@ -161,7 +161,7 @@ BEGIN
   BEGIN
     UPDATE identity_review_records SET reason='不得修改' WHERE id=review_id;
     RAISE EXCEPTION 'R05_REVIEW_MUTATION_WAS_ACCEPTED';
-  EXCEPTION WHEN raise_exception THEN NULL;
+  EXCEPTION WHEN object_not_in_prerequisite_state THEN NULL;
   END;
 
   BEGIN
@@ -184,7 +184,7 @@ BEGIN
   BEGIN
     UPDATE sensitive_data_access_logs SET reason='不得修改' WHERE id=access_id;
     RAISE EXCEPTION 'R05_ACCESS_AUDIT_MUTATION_WAS_ACCEPTED';
-  EXCEPTION WHEN raise_exception THEN NULL;
+  EXCEPTION WHEN object_not_in_prerequisite_state THEN NULL;
   END;
 
   BEGIN
