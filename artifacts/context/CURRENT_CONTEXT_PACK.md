@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T20:22:07Z
-- Context Hash：`e3f5203a096b5c9755adae957415520d6c5dd4810f7f5f34ba6baee44e6e9037`
+- 生成时间：2026-07-19T20:23:55Z
+- Context Hash：`2ff9b8d5d237ca20ec7d8fa1c6c49dc0f4b3a8b85e8af63324bc2971b4a31163`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -81,7 +81,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-004
-updated_at: '2026-07-19T20:22:05Z'
+updated_at: '2026-07-19T20:23:53Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -116,15 +116,15 @@ continuity:
   active_session_id: SES-20260719T183335Z-535311E4
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T00:22:05Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0007.yaml
-  project_fingerprint: da6c127aebffd45fa1585f0f549d8d492d2d94bc21db8baabbdc243527423c38
+  lease_expires_at: '2026-07-20T00:23:53Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0008.yaml
+  project_fingerprint: c6a4e89b17b3a8a229a7dbd92bfaa3b9212fb4866092a2930dcb36a3b6d9f3c3
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 5aaee435085ca190a9ff38dc2046b855fc2810f2e4c05209431fa8d5f404595a
-    generated_at: '2026-07-19T19:41:07Z'
+    context_hash: e3f5203a096b5c9755adae957415520d6c5dd4810f7f5f34ba6baee44e6e9037
+    generated_at: '2026-07-19T20:22:07Z'
   handoff_bundle: null
 ```
 
@@ -320,7 +320,7 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T20:22:05Z'
+updated_at: '2026-07-19T20:23:53Z'
 takeover_of: null
 change_requests:
 - CR-0090
@@ -414,12 +414,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T20:22:05Z'
-  expires_at: '2026-07-20T00:22:05Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0007.yaml
+  renewed_at: '2026-07-19T20:23:53Z'
+  expires_at: '2026-07-20T00:23:53Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 提交并推送CR-0096实现，回填IMPLEMENTED状态后继续TASK-R05-004剩余供应商闭环
+next_step: 提交并推送CR-0096状态元数据，然后继续TASK-R05-004供应商结果闭环
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -427,94 +427,47 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一CR同时修改OpenAPI生成物、数据库迁移、Android调用和连续性状态，收尾门禁需要串行一致快照
+  reason: 连续性CR状态与检查点必须在单一事件链串行更新
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T183335Z-535311E4-0007
+checkpoint_id: CP-SES-20260719T183335Z-535311E4-0008
 session_id: SES-20260719T183335Z-535311E4
-sequence: 7
-created_at: '2026-07-19T20:22:05Z'
-summary: CR-0096已补齐实名授权协议受控读取、当前版本二次校验、Android自动加载阅读及V027受控种子；后端、Android、PostgreSQL17和本地门禁通过
-next_step: 提交并推送CR-0096实现，回填IMPLEMENTED状态后继续TASK-R05-004剩余供应商闭环
+sequence: 8
+created_at: '2026-07-19T20:23:52Z'
+summary: CR-0096实现提交c9e0b2e已推送并回填IMPLEMENTED状态
+next_step: 提交并推送CR-0096状态元数据，然后继续TASK-R05-004供应商结果闭环
 blockers: []
 decisions:
-- V027按Asia/Shanghai业务日零点生效；有真实签署时U027拒绝有损回滚
-note: 远程Gradle首次容器未持久化用户目录导致重复下载与任务图重算，后续构建改用宿主机持久缓存
+- CR状态只在实现提交远端成功后标记IMPLEMENTED
+note: 刷新IMPLEMENTED后的连续性快照
 tests:
-- name: backend-identity
+- name: cr-implementation-push
   result: PASS
-  evidence: Java21 IdentityServiceTest和IdentityControllerTest共8项
-  note: 远程固定工具链
-- name: android-identity-consent
-  result: PASS
-  evidence: 网络层24项且identity与app Kotlin编译通过
-  note: 远程固定工具链
-- name: postgres17-v027
-  result: PASS
-  evidence: 空库、回滚、重装全部通过
-  note: 200表 consent=1
-- name: r05-local-gates
-  result: PASS
-  evidence: 7项专项测试、文档、商业UI、UI Token、生成资产
-  note: 0文档缺口
+  evidence: c9e0b2ef1602aaa2935a472abbe96fb51e825f9c
+  note: 严格pre-push通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 7b91bc8886974a772a900d2c0a343e2febc9b80f
+  head: c9e0b2ef1602aaa2935a472abbe96fb51e825f9c
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - MM .continuity/CHANGE_REQUEST_INDEX.yaml
-  - MM .continuity/EVENT_LOG.jsonl
-  - MM .continuity/STATE.yaml
-  - AM .continuity/change_requests/CR-0096.yaml
-  - M  .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
-  - ' M CHANGELOG.md'
-  - M  apps/android/app/build.gradle.kts
-  - M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-  - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
-  - M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-  - M  apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
-  - M  artifacts/validation/project-doctor-v1.2.2.json
-  - M  catalogs/api_endpoints.csv
-  - M  catalogs/api_ui_ownership.csv
-  - MM catalogs/change_request_index.csv
-  - M  catalogs/frontend_backend_matrix.csv
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/STATE.yaml
+  - M  .continuity/change_requests/CR-0096.yaml
+  - M  catalogs/change_request_index.csv
   - M  catalogs/session_index.csv
-  - M  catalogs/ui_action_matrix.csv
-  - M  catalogs/ui_page_specifications.csv
-  - M  contracts/contract_status.csv
-  - M  contracts/openapi.yaml
-  - M  contracts/operation-error-matrix.csv
-  - AM database/migrations/V027__r05_identity_consent.sql
-  - AM database/rollback/U027__r05_identity_consent.sql
-  - M  docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - AM docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md
-  - M  packages/api-client/src/client.generated.ts
-  - M  releases/R05/STORIES.yaml
-  - M  scripts/run_r05_database_invariants.sh
-  - M  scripts/run_r05_disposable_postgres_container.sh
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
-  - MM services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
-  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
-  - M  services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - AM services/backend/boot/src/main/resources/db/migration/V027__r05_identity_consent.sql
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
-  - A  tests/test_android_identity_consent_source.py
-  - AM tests/test_r05_identity_consent_migration.py
-  - M  tests/test_r05_identity_database_scripts.py
+  - M  docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md
   recent_commits:
+  - "c9e0b2ef1602aaa2935a472abbe96fb51e825f9c\t2026-07-20T04:22:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): load controlled\
+    \ consent"
   - "7b91bc8886974a772a900d2c0a343e2febc9b80f\t2026-07-20T03:41:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): record callback\
     \ implementation"
   - "f5a6e4ff3be6556bf8680d794f1d9ff2588b940d\t2026-07-20T03:39:31+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): secure one-time\
@@ -529,10 +482,8 @@ git:
     \ timestamps explicitly"
   - "d8d7921d359e74398f6e4997858325deebc02de6\t2026-07-20T01:59:03+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): connect production\
     \ liveness provider"
-  - "ceb4c9bbbf107633462e051adbb72b019fd13533\t2026-07-20T01:42:51+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): implement\
-    \ admin review API"
 project_fingerprint:
-  sha256: da6c127aebffd45fa1585f0f549d8d492d2d94bc21db8baabbdc243527423c38
+  sha256: c6a4e89b17b3a8a229a7dbd92bfaa3b9212fb4866092a2930dcb36a3b6d9f3c3
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r05IdentityPages.test.ts
@@ -803,8 +754,8 @@ project_fingerprint:
       sha256: 049e05ab80154a67d466978fafe63acba5fccbcb020fdfe839a4f7e629c75fef
     - path: docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md
       state: FILE
-      size: 4614
-      sha256: 1ede3c32037173b6f15399cac9ef87d1db36b8f1e923ac253bdbbf2d50a94c67
+      size: 4874
+      sha256: f4eb911398b209d1d9583a772a7917ce55359282fa0fa6c04fa3e2cbb4ba530e
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 616567
@@ -1106,8 +1057,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一CR同时修改OpenAPI生成物、数据库迁移、Android调用和连续性状态，收尾门禁需要串行一致快照
-event_hash: 5cb5c1e1ecfbb9222ba4b897ef15e13400f27a82b4d689ed6310888d3e2151f7
+  reason: 连续性CR状态与检查点必须在单一事件链串行更新
+event_hash: dd0292c43a8afab7ea12d2928628e75d390a31b1bdaaa18029cdde3477461185
 ```
 
 ## 接续状态与事件头
@@ -1119,8 +1070,8 @@ active_session_id: SES-20260719T183335Z-535311E4
 last_session_id: SES-20260719T165401Z-12791729
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T165401Z-12791729-0009
-event_count: 1073
-event_head_hash: 5cb5c1e1ecfbb9222ba4b897ef15e13400f27a82b4d689ed6310888d3e2151f7
+event_count: 1075
+event_head_hash: dd0292c43a8afab7ea12d2928628e75d390a31b1bdaaa18029cdde3477461185
 event_chain_valid: true
 ```
 
@@ -1243,9 +1194,9 @@ recent_sessions: - session_id: SES-20260719T113522Z-6B27AD4B
   started_at: '2026-07-19T18:33:35Z'
   record: .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-  updated_at: '2026-07-19T20:22:05Z'
+  updated_at: '2026-07-19T20:23:53Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0007.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0008.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-36454E5FF743
   session_id: SES-20260718T133151Z-12DB5949
@@ -2123,62 +2074,28 @@ recent_task_transitions: - transition_id: TRN-C720E2A1E5C3
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 7b91bc8886974a772a900d2c0a343e2febc9b80f
+head: c9e0b2ef1602aaa2935a472abbe96fb51e825f9c
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- MM .continuity/CHANGE_REQUEST_INDEX.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
 - MM .continuity/EVENT_LOG.jsonl
 - ' M .continuity/SESSION_INDEX.yaml'
 - MM .continuity/STATE.yaml
-- AM .continuity/change_requests/CR-0096.yaml
-- MM .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
-- ' M CHANGELOG.md'
+- M  .continuity/change_requests/CR-0096.yaml
+- ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
 - ' M CURRENT_STATUS.yaml'
-- M  apps/android/app/build.gradle.kts
-- M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-- M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-- M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
-- M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-- M  apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
-- M  artifacts/validation/project-doctor-v1.2.2.json
-- M  catalogs/api_endpoints.csv
-- M  catalogs/api_ui_ownership.csv
-- MM catalogs/change_request_index.csv
-- M  catalogs/frontend_backend_matrix.csv
+- M  catalogs/change_request_index.csv
 - M  catalogs/session_index.csv
-- M  catalogs/ui_action_matrix.csv
-- M  catalogs/ui_page_specifications.csv
-- M  contracts/contract_status.csv
-- M  contracts/openapi.yaml
-- M  contracts/operation-error-matrix.csv
-- AM database/migrations/V027__r05_identity_consent.sql
-- AM database/rollback/U027__r05_identity_consent.sql
-- M  docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- AM docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md
+- M  docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md'
-- M  packages/api-client/src/client.generated.ts
-- M  releases/R05/STORIES.yaml
-- M  scripts/run_r05_database_invariants.sh
-- M  scripts/run_r05_disposable_postgres_container.sh
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
-- MM services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
-- M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
-- M  services/backend/boot/src/main/resources/contracts/openapi.yaml
-- AM services/backend/boot/src/main/resources/db/migration/V027__r05_identity_consent.sql
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
-- A  tests/test_android_identity_consent_source.py
-- AM tests/test_r05_identity_consent_migration.py
-- M  tests/test_r05_identity_database_scripts.py
-- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0007.yaml
+- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0008.yaml
 recent_commits:
+- "c9e0b2ef1602aaa2935a472abbe96fb51e825f9c\t2026-07-20T04:22:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): load controlled\
+  \ consent"
 - "7b91bc8886974a772a900d2c0a343e2febc9b80f\t2026-07-20T03:41:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): record callback\
   \ implementation"
 - "f5a6e4ff3be6556bf8680d794f1d9ff2588b940d\t2026-07-20T03:39:31+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): secure one-time\
@@ -2193,13 +2110,11 @@ recent_commits:
   \ timestamps explicitly"
 - "d8d7921d359e74398f6e4997858325deebc02de6\t2026-07-20T01:59:03+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): connect production\
   \ liveness provider"
-- "ceb4c9bbbf107633462e051adbb72b019fd13533\t2026-07-20T01:42:51+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): implement admin\
-  \ review API"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`da6c127aebffd45fa1585f0f549d8d492d2d94bc21db8baabbdc243527423c38`
+- 指纹：`c6a4e89b17b3a8a229a7dbd92bfaa3b9212fb4866092a2930dcb36a3b6d9f3c3`
 - 文件数：71
 
 - `CHANGELOG.md`
@@ -4876,9 +4791,9 @@ TASKS.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0096
   title: 补齐R05实名授权协议受控读取与提交校验
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T19:46:31Z'
-  updated_at: '2026-07-19T20:20:28Z'
+  updated_at: '2026-07-19T20:23:26Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-004
@@ -4954,15 +4869,22 @@ TASKS.yaml:
     status: IMPLEMENTING
     note: 实现已完成并通过后端、Android与PostgreSQL专项验证，进入全量门禁与提交阶段
     session_id: SES-20260719T183335Z-535311E4
+  - at: '2026-07-19T20:23:26Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 受控协议读取、当前版本校验、Android自动加载阅读、V027迁移及专项门禁均已实现并推送
+    session_id: SES-20260719T183335Z-535311E4
   session_ids:
   - SES-20260719T183335Z-535311E4
+  implementation_commits:
+  - c9e0b2ef1602aaa2935a472abbe96fb51e825f9c
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `b83be3db922708cbe4a7702acd54a2128ef4cac34331369eac7f28af46c2abeb`
+- `CURRENT_STATUS.yaml` — `d2e1e08574b7c8deab2d41643f6b2975de0b9b47bd9ee5c1ae868be1885c64ef`
 - `NEXT_TASK.yaml` — `a128e578a72108ea0d43225dbb48325c5315983581433490c186a6d1cf9cb484`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -4973,26 +4895,26 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `a67cb89c072b59cf96743181f6b450d9fe6fb735606add94faa0486dfbc3b2d3`
-- `.continuity/SESSION_INDEX.yaml` — `46c14ea8cea66764fdf64ea8cbba13dee191e0929a56b39c3cfe60c66f2e2a7d`
+- `.continuity/EVENT_LOG.jsonl` — `cf119bdd6f587bfe95d7b0da6f5bfe7d5c5f2afbd388e2635beda4cf3dee05a6`
+- `.continuity/SESSION_INDEX.yaml` — `c4b5a70a6544fc1076eedb09be2b87eead7ba2258c229442f3cf15821eb24006`
 - `.continuity/TASK_CLAIMS.yaml` — `d584e4085c5320e27ccbdba4878c79ea2ca13ee854840c495f1e9a059064bb7c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b7bff921a7901affc662c17b2fe95e1556eb192d3c9ea7147d548a863c93ba9d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `7ff12c7176bbf45160d5e81bb662b6fe3725d64fb7e102b81664f4d063097570`
-- `.continuity/ACTIVE_SESSION.yaml` — `6da7c67926d9a4b26c8ae93462bfd5fb23c63e745b8af66324b56782f42f1d08`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b9420fe4eb44d7626603d02e9e9575d768ec62768c3f98aecc9d1c165c262153`
+- `.continuity/ACTIVE_SESSION.yaml` — `0f2fd9c6887f1af270e417293926101f75775166e78f2b68feb52565f5a55a11`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `fbdff289348fbe15d4527cad6f1d5955322270725e80cc0e99ee291a6bbe05de`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `b50bc1d68438219089bb1be058d43f3dc7bdcb43bcd2ceb651b371105600d77b`
-- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0007.yaml` — `33ab8361f764588bc6940fed1b7df1c3b84a3b192f2dd2f29aa675813ebc6ecd`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `3d2fa1f5bb4b1ea185af09ff1df8ea8dc746f78fa344369d7519688515d11d54`
+- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0008.yaml` — `ff6297993fb86e42795809be91755f2a009bae124378caaa4c85cda1a84ef20e`
 - `docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md` — `978668dbafbcbbf0bb325a72beb141a1160bec7fefd9a08ed2f1fc0df4208fee`
 - `docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md` — `075fb50fab65446223ec017ced1402afc87a3db6074a4746bccf94833ba8bb7b`
 - `docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md` — `5e73eaa93bbb356709e0ea6c3c5c3413fada20f07f9b227a7c90ac8ddb698db7`
 - `docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md` — `f5626ddaf579ce2eae6734e5fe94288de4dc0a9f27192105c5dd14e9de4fa9f7`
 - `docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md` — `b399c1de310153a5e8facc88071be31add2e66fd6123102aaa857d4ff57a3bab`
 - `docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md` — `049e05ab80154a67d466978fafe63acba5fccbcb020fdfe839a4f7e629c75fef`
-- `docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md` — `1ede3c32037173b6f15399cac9ef87d1db36b8f1e923ac253bdbbf2d50a94c67`
+- `docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md` — `f4eb911398b209d1d9583a772a7917ce55359282fa0fa6c04fa3e2cbb4ba530e`
 
 ## 接手硬规则
 
