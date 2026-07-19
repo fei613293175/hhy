@@ -11,7 +11,7 @@ task_id: TASK-R04-005
 story_id: STORY-R04-002
 goal: 汇合存储、媒体API与Android分区，完成6项权威测试、E2E、安全、并发、供应商故障与生成物漂移门禁
 started_at: '2026-07-19T13:08:24Z'
-updated_at: '2026-07-19T13:46:31Z'
+updated_at: '2026-07-19T13:56:57Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -58,22 +58,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T13:46:28Z'
-  expires_at: '2026-07-19T17:46:28Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0005.yaml
+  renewed_at: '2026-07-19T13:56:55Z'
+  expires_at: '2026-07-19T17:56:55Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T130824Z-06DC3492.md
-next_step: 提交UI Token修复后，在新提交上重跑最终三路集成并重新生成六项证据
+next_step: 提交最终六项证据并执行TASK-R04-005关闭门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 30db20dd850c816ae54df113488364e9f2e5772b4489319aa3f92ccbde86c516
-  generated_at: '2026-07-19T13:46:30Z'
+  context_hash: 380d9bd6d70892baa8033f64b89d442de4e6c883c8f2d51eec7739eff1f7b86c
+  generated_at: '2026-07-19T13:56:56Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最小单文件修复、问题登记和回归测试必须同一提交，避免治理记录与代码状态分离
+  reason: 最终证据汇总、检查点与任务关闭必须由唯一主控原子提交，避免证据提交哈希和会话状态分离

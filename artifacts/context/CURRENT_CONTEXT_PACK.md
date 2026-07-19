@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T13:46:30Z
-- Context Hash：`30db20dd850c816ae54df113488364e9f2e5772b4489319aa3f92ccbde86c516`
+- 生成时间：2026-07-19T13:56:56Z
+- Context Hash：`380d9bd6d70892baa8033f64b89d442de4e6c883c8f2d51eec7739eff1f7b86c`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -74,7 +74,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R04-005
-updated_at: '2026-07-19T13:46:28Z'
+updated_at: '2026-07-19T13:56:55Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -109,15 +109,15 @@ continuity:
   active_session_id: SES-20260719T130824Z-06DC3492
   actor_id: codex-root
   story_id: STORY-R04-002
-  lease_expires_at: '2026-07-19T17:46:28Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0005.yaml
+  lease_expires_at: '2026-07-19T17:56:55Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0006.yaml
   project_fingerprint: c88a4d9ff257d623736d4e53d85d2802b2e59b7179577cdc922536eb67a009a2
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d031b06412df594f718a0f93964a043dd22b7b19ea77da41a8618637f3cbb446
-    generated_at: '2026-07-19T13:45:00Z'
+    context_hash: 30db20dd850c816ae54df113488364e9f2e5772b4489319aa3f92ccbde86c516
+    generated_at: '2026-07-19T13:46:30Z'
   handoff_bundle: null
 ```
 
@@ -310,7 +310,7 @@ task_id: TASK-R04-005
 story_id: STORY-R04-002
 goal: 汇合存储、媒体API与Android分区，完成6项权威测试、E2E、安全、并发、供应商故障与生成物漂移门禁
 started_at: '2026-07-19T13:08:24Z'
-updated_at: '2026-07-19T13:46:28Z'
+updated_at: '2026-07-19T13:56:55Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -357,12 +357,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T13:46:28Z'
-  expires_at: '2026-07-19T17:46:28Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0005.yaml
+  renewed_at: '2026-07-19T13:56:55Z'
+  expires_at: '2026-07-19T17:56:55Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T130824Z-06DC3492.md
-next_step: 提交UI Token修复后，在新提交上重跑最终三路集成并重新生成六项证据
+next_step: 提交最终六项证据并执行TASK-R04-005关闭门禁
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -370,66 +370,63 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最小单文件修复、问题登记和回归测试必须同一提交，避免治理记录与代码状态分离
+  reason: 最终证据汇总、检查点与任务关闭必须由唯一主控原子提交，避免证据提交哈希和会话状态分离
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T130824Z-06DC3492-0005
+checkpoint_id: CP-SES-20260719T130824Z-06DC3492-0006
 session_id: SES-20260719T130824Z-06DC3492
-sequence: 5
-created_at: '2026-07-19T13:46:28Z'
-summary: R04媒体按钮Token缺陷已完成最小修复、PROB-0041根因登记与专用回归测试，视觉尺寸保持48dp不变
-next_step: 提交UI Token修复后，在新提交上重跑最终三路集成并重新生成六项证据
+sequence: 6
+created_at: '2026-07-19T13:56:54Z'
+summary: TASK-R04-005最终集成证据完成：六项权威测试6/6、Python144项、连续性11项、Contracts/Web/Backend/PostgreSQL17/Android全部PASS
+next_step: 提交最终六项证据并执行TASK-R04-005关闭门禁
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: ui-token-regression
+- name: r04-authoritative-six
   result: PASS
-  evidence: tests/test_ui_tokens.py
-  note: 6 tests通过，专用断言验证两个按钮均使用HhySize.PrimaryButtonHeight
-- name: ui-token-static
+  evidence: artifacts/validation/r04-test-evidence/r04-final.evidence.json
+  note: 六项逐项PASS且中央执行器验签通过
+- name: integration-tooling
   result: PASS
-  evidence: apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
-  note: UI_TOKENS_OK 52
-- name: android-integration
+  evidence: artifacts/validation/r04-task005-authoritative-matrix.md
+  note: 全仓Python 144 tests通过
+- name: integration-continuity
   result: PASS
-  evidence: apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
-  note: 固定镜像lint、unit test、assemble通过，331 tasks
+  evidence: artifacts/validation/continuity-integration-v1.2.3.json
+  note: 11项接续和生命周期测试通过
+- name: integration-contracts-web
+  result: PASS
+  evidence: artifacts/validation/r04-task005-authoritative-matrix.md
+  note: 严格文档、生成物和五工作区typecheck通过
+- name: integration-backend-db-android
+  result: PASS
+  evidence: artifacts/validation/r04-task005-authoritative-matrix.md
+  note: Java21 216 tests、PostgreSQL17、Android 331 tasks通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 0e5010f900b2e441f7358ad3e66d491322091e82
+  head: 3fb6405ad6161c09f73c1fd5274edd8140567b08
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - A  .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0003.yaml
-  - A  .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0004.yaml
-  - M  .continuity/sessions/SES-20260719T130824Z-06DC3492.yaml
-  - M  CHANGELOG.md
-  - M  CURRENT_STATUS.yaml
-  - M  apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  artifacts/validation/continuity-integration-v1.2.3.json
-  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-  - M  artifacts/validation/project-doctor-v1.2.3-documentation.json
-  - M  catalogs/session_index.csv
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - M  docs/03-continuity/sessions/2026-07/SES-20260719T130824Z-06DC3492.md
-  - ' M tests/test_ui_tokens.py'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M artifacts/validation/r04-task005-authoritative-matrix.md'
+  - ?? artifacts/validation/r04-test-evidence/r04-final.evidence.json
+  - ?? artifacts/validation/r04-test-evidence/raw/android-integration.log
+  - ?? artifacts/validation/r04-test-evidence/raw/backend-integration.log
+  - ?? artifacts/validation/r04-test-evidence/raw/postgres17-integration.log
   recent_commits:
+  - "3fb6405ad6161c09f73c1fd5274edd8140567b08\t2026-07-19T21:46:47+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(media): use frozen button\
+    \ height token"
   - "0e5010f900b2e441f7358ad3e66d491322091e82\t2026-07-19T21:30:45+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): run reproducible\
     \ remote integration gates"
   - "1fcc52f2a34047d8ed6bde02463a278323fe24b6\t2026-07-19T21:16:42+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): add authoritative\
@@ -444,8 +441,6 @@ git:
     \ as completed"
   - "951970ee2f30b11915e8ab5236171621c365da2e\t2026-07-19T20:07:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): close media upload\
     \ API lifecycle"
-  - "0d8e00b45e02a388b557b6a9b8f2539283028673\t2026-07-19T19:45:53+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): add media upload\
-    \ lifecycle schema"
 project_fingerprint:
   sha256: c88a4d9ff257d623736d4e53d85d2802b2e59b7179577cdc922536eb67a009a2
   files:
@@ -615,8 +610,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最小单文件修复、问题登记和回归测试必须同一提交，避免治理记录与代码状态分离
-event_hash: bd5fbc5f2ac77b33709e4ae3742559e5f0fa1f1b047cdfedb57033821fd013ae
+  reason: 最终证据汇总、检查点与任务关闭必须由唯一主控原子提交，避免证据提交哈希和会话状态分离
+event_hash: f97c7e61e981615064e11a874d178497069e6133166b926edea3b0a0f877af5a
 ```
 
 ## 接续状态与事件头
@@ -628,8 +623,8 @@ active_session_id: SES-20260719T130824Z-06DC3492
 last_session_id: SES-20260719T122607Z-04FDBE70
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T122607Z-04FDBE70-0005
-event_count: 956
-event_head_hash: bd5fbc5f2ac77b33709e4ae3742559e5f0fa1f1b047cdfedb57033821fd013ae
+event_count: 957
+event_head_hash: f97c7e61e981615064e11a874d178497069e6133166b926edea3b0a0f877af5a
 event_chain_valid: true
 ```
 
@@ -752,9 +747,9 @@ recent_sessions: - session_id: SES-20260718T152013Z-8B704646
   started_at: '2026-07-19T13:08:24Z'
   record: .continuity/sessions/SES-20260719T130824Z-06DC3492.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T130824Z-06DC3492.md
-  updated_at: '2026-07-19T13:46:28Z'
+  updated_at: '2026-07-19T13:56:55Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0005.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0006.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-50B2FBE97B5F
   session_id: SES-20260717T210927Z-13B07A7D
@@ -1594,35 +1589,32 @@ recent_task_transitions: - transition_id: TRN-E5F162DB4E05
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 0e5010f900b2e441f7358ad3e66d491322091e82
+head: 3fb6405ad6161c09f73c1fd5274edd8140567b08
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0003.yaml
-- A  .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0004.yaml
-- MM .continuity/sessions/SES-20260719T130824Z-06DC3492.yaml
-- M  CHANGELOG.md
-- MM CURRENT_STATUS.yaml
-- M  apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- M  artifacts/validation/continuity-integration-v1.2.3.json
-- M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-- M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-- M  artifacts/validation/project-doctor-v1.2.3-documentation.json
-- MM catalogs/session_index.csv
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- MM docs/03-continuity/sessions/2026-07/SES-20260719T130824Z-06DC3492.md
-- ' M tests/test_ui_tokens.py'
-- ?? .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0005.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/sessions/SES-20260719T130824Z-06DC3492.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M artifacts/validation/continuity-integration-v1.2.3.json'
+- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+- ' M artifacts/validation/r04-task005-authoritative-matrix.md'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260719T130824Z-06DC3492.md'
+- ?? .continuity/checkpoints/SES-20260719T130824Z-06DC3492/0006.yaml
+- ?? artifacts/validation/r04-test-evidence/r04-final.evidence.json
+- ?? artifacts/validation/r04-test-evidence/raw/android-integration.log
+- ?? artifacts/validation/r04-test-evidence/raw/backend-integration.log
+- ?? artifacts/validation/r04-test-evidence/raw/postgres17-integration.log
 recent_commits:
+- "3fb6405ad6161c09f73c1fd5274edd8140567b08\t2026-07-19T21:46:47+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(media): use frozen button\
+  \ height token"
 - "0e5010f900b2e441f7358ad3e66d491322091e82\t2026-07-19T21:30:45+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): run reproducible\
   \ remote integration gates"
 - "1fcc52f2a34047d8ed6bde02463a278323fe24b6\t2026-07-19T21:16:42+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): add authoritative\
@@ -1637,8 +1629,6 @@ recent_commits:
   \ as completed"
 - "951970ee2f30b11915e8ab5236171621c365da2e\t2026-07-19T20:07:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): close media upload\
   \ API lifecycle"
-- "0d8e00b45e02a388b557b6a9b8f2539283028673\t2026-07-19T19:45:53+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): add media upload\
-  \ lifecycle schema"
 ```
 
 ## 会话累计项目变更
@@ -3561,7 +3551,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `576edac878ecdc79cef3c90487e5f6b7752499c9b7b10672517fb3cee9e2a301`
+- `CURRENT_STATUS.yaml` — `7d0906f6edd43b1091e63d3c5b5ce5189f4a5f4024ceddd9d0c98bb26459386a`
 - `NEXT_TASK.yaml` — `7f89029461c59fa297306a0db6a75d1e8eca8a801536ed57f19bfaf865df40f6`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3572,20 +3562,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `c597a871ef1c57c0c7d7541a07691f470206235b06ff60fe9fc1feff47b6d1ba`
-- `.continuity/SESSION_INDEX.yaml` — `4f38235510c6ac86df82efba5f9dfe56f500a9b3e1d372c80e90bdab9e021c21`
+- `.continuity/EVENT_LOG.jsonl` — `56f275dfe7c01fb204da7224d89de9058f62d28356742095371bbf3105509a49`
+- `.continuity/SESSION_INDEX.yaml` — `abaced31e48be7c64089a292244cd2f88415805d74e193ca1f0e3a0edfc6fc6e`
 - `.continuity/TASK_CLAIMS.yaml` — `3604adb68bf7f4845ee89bfdce6d2a5998d4a4490db53767fb99e7929bb7c8b3`
 - `.continuity/TASK_TRANSITIONS.yaml` — `41a972a23203b41f2d345682ed730e63b4b2564e1440984ab13592fd8ca81503`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c9d9a42ce1b9abb8d959a6e8f83046746650ac1c4c6d8a7d1b60372e8f7701ec`
-- `.continuity/ACTIVE_SESSION.yaml` — `7a8c7b7aabf1e99d9d3e246c5608867c8a91fb7469253e74871b78667caa93d2`
+- `.continuity/ACTIVE_SESSION.yaml` — `e0b2fb08f0f8b1b47648d5d4343187a011a45ba997e0182f5c4c0f0dcf306e1f`
 - `releases/R04/RELEASE_MANIFEST.yaml` — `c897c4706cdcb53bde1c053a6515a12fbad0fc3f01b24ae891b7426df203f3c6`
 - `releases/R04/DEFINITION_OF_READY.yaml` — `41aef5956ff6a2ab80957f9b477a5957fc26940eb502c6d67e3a7a5ae97fd84c`
 - `releases/R04/STORIES.yaml` — `aa71e87c502b76dbc59bff0fa6efe957f7855158cde1c7818bda636bfe41469e`
 - `releases/R04/TASKS.yaml` — `91c8b7a196380a692eab06818f9e95186f50588f6ec186d55127f779cc188a3a`
 - `releases/R04/ACCEPTANCE_MATRIX.csv` — `bf28fec8769cdcc468565a3f1300f1f0f16a43623a301cb94c7d8e37a6011df2`
 - `releases/R04/PARALLEL_EXECUTION_PLAN.yaml` — `9f76b85f11c0293ce8930f1068cf1fc5582242753ff141b5b6134d8e44e5f2dd`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T130824Z-06DC3492.md` — `d889acfa697fc99ca153948ecdc8d53a16a0acf44a17354b6b17eaed1ec27d76`
-- `.continuity/checkpoints/SES-20260719T130824Z-06DC3492/0005.yaml` — `1d4dc12d98ed5f889ae9dd8fcbcec0d48adbd12712a227f970aba62ca66dce00`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T130824Z-06DC3492.md` — `3b67cba1f65a72062a6a450f6286947b977bdf039d052d91dd7c82fbb17f8426`
+- `.continuity/checkpoints/SES-20260719T130824Z-06DC3492/0006.yaml` — `007f8fdd2973c2eca7f3f81a513cbff6b51a6bf930334ba68c20eae2eb4a37b1`
 
 ## 接手硬规则
 
