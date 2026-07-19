@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T06:52:32Z
-- Context Hash：`69eaa4b559a02feb7badec70311fd8523fcd393b3d0e54de8f082b5f4892d3d3`
+- 生成时间：2026-07-19T07:18:20Z
+- Context Hash：`f08a9b9339b817c736844c74f0ecde61ed18d1ed131e7e626356288a233b9b59`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -68,7 +68,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R03-007
-updated_at: '2026-07-19T06:52:30Z'
+updated_at: '2026-07-19T07:18:18Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -103,15 +103,15 @@ continuity:
   active_session_id: SES-20260718T200607Z-3569D212
   actor_id: codex-root
   story_id: STORY-R03-004
-  lease_expires_at: '2026-07-19T10:52:30Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0038.yaml
-  project_fingerprint: 4aabe414c85efb26643d8b3a94eeef3213a812247578b3bbb1b357e2d41bee98
+  lease_expires_at: '2026-07-19T11:18:18Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0039.yaml
+  project_fingerprint: ff849487694686bbeb52a1f84becdd8dbab93e9d3eb684b3c98634114a58b2e4
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 6a34b0d116adcb41ac8e0eeaaa7d453eaec8b24162f4f35cb664952ef4c6c05d
-    generated_at: '2026-07-19T06:49:31Z'
+    context_hash: 69eaa4b559a02feb7badec70311fd8523fcd393b3d0e54de8f082b5f4892d3d3
+    generated_at: '2026-07-19T06:52:32Z'
   handoff_bundle: null
 ```
 
@@ -288,7 +288,7 @@ commands:
   cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
     '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
 next_after: 由当前TASKS.yaml依赖关系决定
-blocker: R03机器实现、测试、外部清单和固定签名APK四方交付均PASS；等待项目所有者对hhy-r03-c257aee-debug.apk（versionCode 10205）完成真机安装、启动及四项注册体验验收
+blocker: R03机器实现、测试、外部清单和固定签名APK四方交付均PASS；等待项目所有者对hhy-r03-660d148-debug.apk（versionCode 10206）完成真机安装，并验收已注册手机号与无效邀请码的分场景提示
 resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-007
 ```
 
@@ -308,7 +308,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-19T06:52:30Z'
+updated_at: '2026-07-19T07:18:18Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -532,12 +532,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T06:52:30Z'
-  expires_at: '2026-07-19T10:52:30Z'
-checkpoint_sequence: 38
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0038.yaml
+  renewed_at: '2026-07-19T07:18:18Z'
+  expires_at: '2026-07-19T11:18:18Z'
+checkpoint_sequence: 39
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0039.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 暂存全部变更，严格pre-commit后提交推送并按提交构建交付APK
+next_step: 等待项目所有者真机验收10206的已注册手机号和无效邀请码提示；验收PASS后关闭TASK-R03-007
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -545,61 +545,53 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 提交、版本身份、固定签名和交付事实必须由唯一主控串行冻结
+  reason: 本次为同一注册链路的后端事务、错误协议、Android解析与测试包交付，需共享同一提交和产物身份串行闭环
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T200607Z-3569D212-0038
+checkpoint_id: CP-SES-20260718T200607Z-3569D212-0039
 session_id: SES-20260718T200607Z-3569D212
-sequence: 38
-created_at: '2026-07-19T06:52:29Z'
-summary: 注册提示修复、10206版本身份与CHANGELOG已同步，完整门禁和公网两场景均PASS
-next_step: 暂存全部变更，严格pre-commit后提交推送并按提交构建交付APK
+sequence: 39
+created_at: '2026-07-19T07:18:18Z'
+summary: 注册分场景错误提示修复及10206测试APK四端交付完成
+next_step: 等待项目所有者真机验收10206的已注册手机号和无效邀请码提示；验收PASS后关闭TASK-R03-007
 blockers: []
 decisions: []
-note: CHANGELOG records user-visible registration error fix and 10206 monotonic version
+note: ''
 tests:
-- name: pre-apk-gates
+- name: android-full
   result: PASS
-  evidence: backend full module plus Android test/lint/assemble plus public 409/422
-  note: cloud fixed runtimes
+  evidence: artifacts/validation/r03-task007-android/gradle-build.log
+  note: clean testDebugUnitTest lintDebug assembleDebug
+- name: backend-full
+  result: PASS
+  evidence: public-api-and-maven-gates
+  note: UserAuthService 18项与完整Maven测试通过
+- name: apk-delivery
+  result: PASS
+  evidence: artifacts/validation/r03-apk-delivery/delivery-evidence.json
+  note: 桌面仓库服务器HTTPS四方SHA一致
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 9890a50b504e3fea58d2561d0f9bfe80c35dac38
+  head: 660d148d0743e796a9b77558bed68f046197519e
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0036.yaml
-  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0037.yaml
-  - M  .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
-  - ' M CHANGELOG.md'
-  - M  CURRENT_STATUS.yaml
-  - M  apps/android/app/build.gradle.kts
-  - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-  - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-  - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-  - M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - MM artifacts/validation/continuity-gate-v1.2.3.json
-  - M  catalogs/session_index.csv
-  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - M  docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
-  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  - ' M NEXT_TASK.yaml'
+  - ' M artifacts/apk/R03/APK_MANIFEST.yaml'
+  - ' M artifacts/reports/R03/TASK-R03-007-android-apk.md'
+  - ' M artifacts/validation/r03-apk-delivery/delivery-evidence.json'
+  - ' M artifacts/validation/r03-task007-android/build-evidence.json'
+  - ' M artifacts/validation/r03-task007-android/gradle-build.log'
   recent_commits:
+  - "660d148d0743e796a9b77558bed68f046197519e\t2026-07-19T14:54:26+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): preserve registration\
+    \ error scenarios"
   - "9890a50b504e3fea58d2561d0f9bfe80c35dac38\t2026-07-19T14:07:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close proportionate\
     \ workflow CR"
   - "bbacee4b1ec4b8ede823a8fa5af032525e01f833\t2026-07-19T14:05:59+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(workflow): add proportionate\
@@ -614,10 +606,8 @@ git:
     \ rename paths in fingerprints"
   - "c0bf69fffaa3fe957a04ac56bbee75e41efbece1\t2026-07-19T12:59:17+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close auth\
     \ regression delivery changes"
-  - "b476e37730f7b0855e6a07333e0ea90eba6f3198\t2026-07-19T12:57:54+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): publish 10205\
-    \ auth regression APK"
 project_fingerprint:
-  sha256: 4aabe414c85efb26643d8b3a94eeef3213a812247578b3bbb1b357e2d41bee98
+  sha256: ff849487694686bbeb52a1f84becdd8dbab93e9d3eb684b3c98634114a58b2e4
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -879,7 +869,7 @@ project_fingerprint:
     - path: artifacts/apk/R03/APK_MANIFEST.yaml
       state: FILE
       size: 673
-      sha256: feea7fb63d96ca392181d3c47d5b9d54c0b3cf1d12ba493a1a073a3122774637
+      sha256: 9e9db429096d732991e7823dc421044703427a9c42a70e8333446269a6fc229b
     - path: artifacts/apk/R03/history/0958f1f/APK_MANIFEST.yaml
       state: FILE
       size: 689
@@ -1749,8 +1739,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 提交、版本身份、固定签名和交付事实必须由唯一主控串行冻结
-event_hash: 88179aed78c1bc0c12d7953a217eda7107eca8fe90a0811fc15e3a42c3d0203c
+  reason: 本次为同一注册链路的后端事务、错误协议、Android解析与测试包交付，需共享同一提交和产物身份串行闭环
+event_hash: b5ec8ea4a40e9ded7e59eb809661f484facdbed6e2421da3469c4e970845d3e2
 ```
 
 ## 接续状态与事件头
@@ -1762,8 +1752,8 @@ active_session_id: SES-20260718T200607Z-3569D212
 last_session_id: SES-20260718T165842Z-356A8138
 last_session_result: BLOCKED
 last_closure_checkpoint_id: CP-SES-20260718T165842Z-356A8138-0005
-event_count: 879
-event_head_hash: 88179aed78c1bc0c12d7953a217eda7107eca8fe90a0811fc15e3a42c3d0203c
+event_count: 880
+event_head_hash: b5ec8ea4a40e9ded7e59eb809661f484facdbed6e2421da3469c4e970845d3e2
 event_chain_valid: true
 ```
 
@@ -1886,9 +1876,9 @@ recent_sessions: - session_id: SES-20260718T084729Z-BD53B7C4
   started_at: '2026-07-18T20:06:07Z'
   record: .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  updated_at: '2026-07-19T06:52:30Z'
+  updated_at: '2026-07-19T07:18:18Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0038.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0039.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-3E379E115FA4
   session_id: SES-20260717T141717Z-A01412D7
@@ -2728,38 +2718,30 @@ recent_task_transitions: - transition_id: TRN-23D2BAB015EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 9890a50b504e3fea58d2561d0f9bfe80c35dac38
+head: 660d148d0743e796a9b77558bed68f046197519e
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0036.yaml
-- A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0037.yaml
-- MM .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
-- ' M CHANGELOG.md'
-- MM CURRENT_STATUS.yaml
-- M  apps/android/app/build.gradle.kts
-- M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-- M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-- M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-- M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- MM artifacts/validation/continuity-gate-v1.2.3.json
-- MM catalogs/session_index.csv
-- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-- MM docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
-- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthStore.java
-- M  services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
-- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0038.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/apk/R03/APK_MANIFEST.yaml'
+- ' M artifacts/reports/R03/TASK-R03-007-android-apk.md'
+- ' M artifacts/validation/r03-apk-delivery/delivery-evidence.json'
+- ' M artifacts/validation/r03-task007-android/build-evidence.json'
+- ' M artifacts/validation/r03-task007-android/gradle-build.log'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md'
+- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0039.yaml
 recent_commits:
+- "660d148d0743e796a9b77558bed68f046197519e\t2026-07-19T14:54:26+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): preserve registration\
+  \ error scenarios"
 - "9890a50b504e3fea58d2561d0f9bfe80c35dac38\t2026-07-19T14:07:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close proportionate\
   \ workflow CR"
 - "bbacee4b1ec4b8ede823a8fa5af032525e01f833\t2026-07-19T14:05:59+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(workflow): add proportionate\
@@ -2774,13 +2756,11 @@ recent_commits:
   \ paths in fingerprints"
 - "c0bf69fffaa3fe957a04ac56bbee75e41efbece1\t2026-07-19T12:59:17+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close auth\
   \ regression delivery changes"
-- "b476e37730f7b0855e6a07333e0ea90eba6f3198\t2026-07-19T12:57:54+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): publish 10205\
-  \ auth regression APK"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`4aabe414c85efb26643d8b3a94eeef3213a812247578b3bbb1b357e2d41bee98`
+- 指纹：`ff849487694686bbeb52a1f84becdd8dbab93e9d3eb684b3c98634114a58b2e4`
 - 文件数：141
 
 - `AGENTS.md`
@@ -4985,8 +4965,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `9a05b3995b595252533650b41a9844ff9640845355d7092dc53eca664e61ca38`
-- `NEXT_TASK.yaml` — `1ed7596994f053f70215331bf435184999c167dd0e110e3c799b03fa121cc02f`
+- `CURRENT_STATUS.yaml` — `7b515bec66260b49230db25761f7151eb96c7c7e60c09ae3b1f4374f459cc7a3`
+- `NEXT_TASK.yaml` — `4dd8aa3f013d97d340b39ab3f5dadc7ee35f3b7e9e557dc401f85e4185da395a`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `4e1a535106260cf79ec11e3599cbb4600ac2cb90f196461c200da6cac93ed394`
@@ -4996,20 +4976,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `f49303cf3c76721b4435fcb7a4b012271209d987b431b406fa27f1fcd0ff5840`
-- `.continuity/SESSION_INDEX.yaml` — `763af8a58a2f7dba675f9cc034ed6a06679b47447336b6da9eed934252f51733`
+- `.continuity/EVENT_LOG.jsonl` — `24092c835dd57fe9bdf73922c3543b2bb5d1111038e4654426e5f0b3dbed9cd8`
+- `.continuity/SESSION_INDEX.yaml` — `b69872384d38c5114d709474529318103dc9fe77d39ca91f43a20d3cc1c3d10c`
 - `.continuity/TASK_CLAIMS.yaml` — `dae3c46345cf6361b9487cc9878bf5cd6bd3775ec390315b8036208feb5d7b19`
 - `.continuity/TASK_TRANSITIONS.yaml` — `49b2f0e5fdabc44f56af3c9fdeefd1971b4d3462167a3c93ba796bb4b3be1ada`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `a77ff01e505bb59583e4f3a874e498b4d9cfd3ab659c5a1d0f34fcecdf0a7361`
-- `.continuity/ACTIVE_SESSION.yaml` — `f017f6e2c47942749cf70be77134a30554b3f4fac31d55288c83ea9b114d2e62`
+- `.continuity/ACTIVE_SESSION.yaml` — `bb92d5498c63425eccc9cdf6c2c66a253b05d5ebc23e228ae1eaac9f10053bb8`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `577a231d7cc655f126187950d05277a67d9e877ddb87a52721b2b634a21f12eb`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `de226ffec9d6cb0da7242d9febfae3ac023875c3b1d167894739ca4f8dc9ac47`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `1797b3c60bc31f6cf648edba8a56fe887d98eedb9dd072efdec3a13af0a19ee9`
-- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0038.yaml` — `84b6ef232e3240b83f57a55422ca9150ad4997d6465ec54d007675a0c1aea7ec`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `7fd57d8aa0e45348bd5c127ab22588d8b3074f93f1f13a67600f922a933e8cc4`
+- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0039.yaml` — `8fa0298e0dfa7a0a29b1904b78a1b5661babd0a04bfaf29c2bca99d414d7f435`
 - `docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md` — `09124eace840cbac05b094cb44ba6e9b2baf894d33b663a5eecc21a271fd9f27`
 - `docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md` — `657fe94cc6f260b297cb45642322801c84f680a89018c9e6679469eaecfc7689`
 - `docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md` — `d34b7054137e69b320623c2971b6b89fdc8c26644170a1cbc9ab29dbc2fb1ab0`
