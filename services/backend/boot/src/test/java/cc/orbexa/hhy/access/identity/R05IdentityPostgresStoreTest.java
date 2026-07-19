@@ -12,7 +12,10 @@ import cc.orbexa.hhy.access.identity.IdentityService.SessionDraft;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Assumptions;
@@ -28,7 +31,7 @@ class R05IdentityPostgresStoreTest {
     private final String password = System.getenv().getOrDefault("HHY_DB_MIGRATION_TEST_PASSWORD", "");
 
     @Test
-    void createAttachReadAndRetryUseEncryptedProviderPayloadOnPostgres() {
+    void createAttachReadAndRetryBindUtcTimestampsAndEncryptProviderPayloadOnPostgres() {
         Assumptions.assumeTrue(
                 url != null && !url.isBlank()
                         && "YES".equals(System.getenv("HHY_DB_SMOKE_CONFIRM")),
@@ -54,6 +57,8 @@ class R05IdentityPostgresStoreTest {
                     "consent-v1", "ALIYUN_MARKET_FACE", "create-" + suffix,
                     now.plusSeconds(600), now));
             assertFalse(created.state().isBlank());
+            assertTrue(Duration.between(now.plusSeconds(600), created.expiresAt()).abs().toMillis() <= 1,
+                    "PostgreSQL must preserve the UTC session expiry bound by the store");
             assertEquals(created.state(), store.find(created.id(), userId).orElseThrow().state());
 
             URI providerUrl = URI.create(
@@ -76,7 +81,7 @@ class R05IdentityPostgresStoreTest {
                     UPDATE hhy.identity_verification_sessions
                     SET status='REJECTED',completed_at=?,failure_code='TEST_REJECTED'
                     WHERE id=?
-                    """, now.plusSeconds(2), created.id());
+                    """, OffsetDateTime.ofInstant(now.plusSeconds(2), ZoneOffset.UTC), created.id());
             var rejected = store.find(created.id(), userId).orElseThrow();
             var retried = store.retry(rejected, "ALIYUN_MARKET_FACE",
                     "retry-" + suffix, now.plusSeconds(900), now.plusSeconds(3));

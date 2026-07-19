@@ -519,3 +519,16 @@ problems:
   - PostgreSQL CHECK不得依赖NULL传播后仍期望约束拒绝，必填状态必须用IS NOT NULL显式收口
   - 数据库状态与时间不变量必须在真实PostgreSQL执行错误数据拒绝测试，不能只做SQL文本匹配
   - 迁移完成必须验证空库、回滚、重放和回归数据四个阶段
+- id: PROB-0043
+  title: R05身份存储直接绑定Instant导致PostgreSQL JDBC拒绝时间参数
+  status: SOLVED
+  root_cause: R05客户端和后台身份存储把java.time.Instant直接作为JdbcTemplate参数写入timestamptz列；H2测试接受该类型，但PostgreSQL JDBC无法推断Instant对应的SQL类型，首次创建认证会话即失败，原有本地条件测试因未连接真实PostgreSQL而未暴露差异。
+  resolution: 两套R05 PostgreSQL存储的创建、计数、活体绑定、过期、重试、审核、冻结和媒体令牌时间参数统一转换为UTC OffsetDateTime；真实PostgreSQL集成测试显式验证会话到期时间保存精度，并让测试自身的数据库准备语句使用同一明确类型。
+  regression_checks:
+  - R05IdentityPostgresStoreTest#createAttachReadAndRetryBindUtcTimestampsAndEncryptProviderPayloadOnPostgres
+  - services/backend/mvnw.cmd -pl boot -am test
+  - obx-test PostgreSQL17 disposable integration gate
+  do_not_repeat:
+  - PostgreSQL timestamptz参数不得依赖驱动推断java.time.Instant，统一绑定OffsetDateTime或显式SQL类型
+  - H2通过不得替代真实PostgreSQL的存储适配验证
+  - 新增PostgreSQL存储方法时必须覆盖至少一次真实写入和回读，不得只做SQL文本或Mock验证

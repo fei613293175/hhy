@@ -11,6 +11,8 @@ import java.security.MessageDigest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.HexFormat;
 import java.util.Map;
 import java.util.Optional;
@@ -69,7 +71,7 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
         Long count = jdbc.queryForObject("""
                 SELECT count(*) FROM hhy.identity_verification_sessions
                 WHERE user_id=? AND created_at>=?
-                """, Long.class, userId, since);
+                """, Long.class, userId, time(since));
         return count == null ? 0 : count;
     }
 
@@ -87,7 +89,7 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                           version=hhy.identity_profiles.version+1,updated_at=?
                         WHERE hhy.identity_profiles.status<>'VERIFIED'
                         """, draft.userId(), draft.identity().nameCipher(),
-                        draft.identity().idNumberCipher(), draft.identity().idHash(), draft.createdAt());
+                        draft.identity().idNumberCipher(), draft.identity().idHash(), time(draft.createdAt()));
                 if (profile != 1) throw business("当前账号已完成实名认证");
 
                 Session created = jdbc.queryForObject("""
@@ -97,8 +99,8 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                         VALUES (?,?,'SESSION_CREATED',?,?,?,?, 'SESSION_CREATED',?,0,?,?)
                         RETURNING id,user_id,state,status,provider,expires_at,version,attempt_no,failure_code
                         """, this::sessionWithoutLiveness, draft.userId(), UUID.randomUUID().toString(),
-                        draft.provider(), draft.expiresAt(), draft.idempotencyKey(), 1,
-                        draft.consentVersion(), draft.createdAt(), draft.createdAt());
+                        draft.provider(), time(draft.expiresAt()), draft.idempotencyKey(), 1,
+                        draft.consentVersion(), time(draft.createdAt()), time(draft.createdAt()));
                 outbox(draft.userId(), "identity.session.created.v1", "IDENTITY_SESSION",
                         Long.toString(created.id()), created.status(), draft.createdAt());
                 return created;
@@ -129,7 +131,7 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                         SET status='LIVENESS_PENDING',last_event='LIVENESS_TOKEN_CREATED',
                             failure_code=NULL,version=version+1,updated_at=?
                         WHERE id=? AND user_id=? AND version=?
-                        """, now, locked.id(), locked.userId(), locked.version());
+                        """, time(now), locked.id(), locked.userId(), locked.version());
                 requireOne(changed);
                 jdbc.update("""
                         INSERT INTO hhy.identity_provider_requests(
@@ -141,7 +143,7 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                         """, locked.id(), ticket.providerOrderNo(),
                         idempotencyKey, digest(ticket.url().toString()),
                         sensitiveData.encrypt(locked.userId(), "liveness-url", ticket.url().toString()),
-                        locked.status(), now, now, now);
+                        locked.status(), time(now), time(now), time(now));
                 outbox(locked.userId(), "identity.liveness.created.v1", "IDENTITY_SESSION",
                         Long.toString(locked.id()), "LIVENESS_PENDING", now);
                 Session updated = find(locked.id(), locked.userId()).orElseThrow();
@@ -164,7 +166,7 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                         last_event='SESSION_EXPIRED',version=version+1,updated_at=?
                     WHERE id=? AND user_id=? AND version=?
                       AND status IN ('SESSION_CREATED','LIVENESS_PENDING','PROVIDER_PROCESSING','MANUAL_REVIEW')
-                    """, now, now, id, userId, expectedVersion);
+                    """, time(now), time(now), id, userId, expectedVersion);
             if (changed == 1) {
                 outbox(userId, "identity.session.expired.v1", "IDENTITY_SESSION",
                         Long.toString(id), "EXPIRED", now);
@@ -191,8 +193,8 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                                'RETRY_CREATED',consent_version,0,?,?
                         FROM hhy.identity_verification_sessions WHERE id=? AND user_id=?
                         RETURNING id,user_id,state,status,provider,expires_at,version,attempt_no,failure_code
-                        """, this::sessionWithoutLiveness, UUID.randomUUID().toString(), provider, expiresAt,
-                        idempotencyKey, now, now, locked.id(), locked.userId());
+                        """, this::sessionWithoutLiveness, UUID.randomUUID().toString(), provider, time(expiresAt),
+                        idempotencyKey, time(now), time(now), locked.id(), locked.userId());
                 outbox(locked.userId(), "identity.session.retried.v1", "IDENTITY_SESSION",
                         Long.toString(retried.id()), retried.status(), now);
                 return retried;
@@ -276,5 +278,9 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
 
     private static BusinessException notFound() {
         return new BusinessException("COMMON-404-NOT_FOUND", "资源不存在或不可见", 404, false);
+    }
+
+    private static OffsetDateTime time(Instant value) {
+        return value == null ? null : OffsetDateTime.ofInstant(value, ZoneOffset.UTC);
     }
 }

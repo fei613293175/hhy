@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -107,7 +108,7 @@ public class AdminIdentityStore {
         Long id = jdbc.queryForObject("""
                 INSERT INTO hhy.media_access_tokens(media_id,subject,expires_at)
                 VALUES (?,?,?) RETURNING id
-                """, Long.class, mediaId, subject, expiresAt);
+                """, Long.class, mediaId, subject, time(expiresAt));
         if (id == null) throw new IllegalStateException("Identity media token insert returned no id");
         return id;
     }
@@ -141,8 +142,8 @@ public class AdminIdentityStore {
                 SET status=?,completed_at=?,failure_code=?,last_event=?,version=version+1,updated_at=?
                 WHERE id=? AND version=?
                   AND status IN ('PROVIDER_PROCESSING','MANUAL_REVIEW','LIVENESS_PENDING')
-                """, toStatus, completedAt, failureCode, "MANUAL_" + decision,
-                now, before.id(), before.version());
+                """, toStatus, time(completedAt), failureCode, "MANUAL_" + decision,
+                time(now), before.id(), before.version());
         if (changed != 1) throw new IllegalStateException("Identity review changed concurrently");
         jdbc.update("""
                 INSERT INTO hhy.identity_review_records(
@@ -157,13 +158,13 @@ public class AdminIdentityStore {
                     UPDATE hhy.identity_profiles
                     SET status='VERIFIED',verified_at=?,frozen_at=NULL,freeze_reason=NULL,
                         version=version+1,updated_at=? WHERE user_id=?
-                    """, now, now, before.userId());
+                    """, time(now), time(now), before.userId());
         } else if ("REJECT".equals(decision)) {
             jdbc.update("""
                     UPDATE hhy.identity_profiles
                     SET status='REJECTED',verified_at=NULL,version=version+1,updated_at=?
                     WHERE user_id=? AND status<>'VERIFIED'
-                    """, now, before.userId());
+                    """, time(now), before.userId());
         }
         outbox(adminId, "identity.reviewed.v1", before.id(), toStatus, now);
         return sessionForUpdate(before.id()).orElseThrow();
@@ -203,7 +204,7 @@ public class AdminIdentityStore {
                 UPDATE hhy.identity_profiles
                 SET status='FROZEN',frozen_at=?,freeze_reason=?,version=version+1,updated_at=?
                 WHERE user_id=? AND frozen_at IS NULL
-                """, now, reason, now, session.userId());
+                """, time(now), reason, time(now), session.userId());
         if (changed != 1) throw new IllegalStateException("Identity profile cannot be frozen");
         jdbc.update("""
                 INSERT INTO hhy.identity_review_records(
@@ -284,6 +285,10 @@ public class AdminIdentityStore {
             arguments.add(pattern);
         }
         return new Filter(sql.toString(), List.copyOf(arguments));
+    }
+
+    private static OffsetDateTime time(Instant value) {
+        return value == null ? null : OffsetDateTime.ofInstant(value, ZoneOffset.UTC);
     }
 
     public record IdentityPage(List<Session> items, long total) { }
