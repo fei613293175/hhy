@@ -56,6 +56,26 @@ tests:
 - TST-ID_002-SECURITY
 - TST-V122-015
 - TST-V122-016
+test_count: 10
+planning_depth: STORY_READY
+apk_gate: DESKTOP_PUBLIC_AND_OWNER_DEVICE_REQUIRED
+entry_baseline:
+  checked_at: '2026-07-19'
+  documentation_status: PASS_DOCUMENTATION_READY
+  implementation_start: ALLOWED
+  dependency_state:
+    R04:
+      status: DONE
+      release_commit: 04cda65d4a0749727a482526b616fb56cb475f34
+      release_tag: R04-04cda65
+    R02:
+      implementation_tasks: TASK-R02-001_TO_006_DONE
+      machine_apk_delivery: PASS
+      owner_physical_test: PENDING
+      implementation_effect: NON_BLOCKING
+      release_close_effect: BLOCKING
+      policy: CR-0089
+  rule: R02真机待验事实不得改写为PASS；允许可验证的R05本地实现，但R05最终Release关闭和生产激活必须等待该门禁解决
 entry_gate:
 - releases/R05/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R05/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A

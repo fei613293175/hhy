@@ -1,0 +1,80 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T161434Z-47C1FAA4
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R05
+task_id: TASK-R05-001
+story_id: STORY-R05-008
+goal: 核验R05单一实名认证2项需求、9个接口、10张相关表、7个页面交互面和8个故事，冻结实施边界并进入数据与领域开发
+started_at: '2026-07-19T16:14:34Z'
+updated_at: '2026-07-19T16:20:39Z'
+takeover_of: null
+change_requests:
+- CR-0089
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 6377d6f2c34841a1a3bde1f1c8e75083dabefa4e
+  start_head: 6377d6f2c34841a1a3bde1f1c8e75083dabefa4e
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T16:20:36Z'
+  expires_at: '2026-07-19T20:20:36Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260719T161434Z-47C1FAA4/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T161434Z-47C1FAA4.md
+next_step: 提交并推送R05入口基线，然后关闭CR-0089和TASK-R05-001，立即进入TASK-R05-002数据迁移与领域不变量
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 2acee3ec6faf185741c292ac8bd524cca8b9b75445a5596dc810947f1115483f
+  generated_at: '2026-07-19T16:20:38Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 开发入口Manifest、依赖门禁解释和唯一事实源必须由主控原子冻结；数据、后端和页面任务存在严格依赖，暂不提前修改
