@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T04:23:56Z
-- Context Hash：`718a1c5e20aae07b5ab8473d21b6b863a77a237601a898f213eb5259fd04d7c2`
+- 生成时间：2026-07-19T04:36:06Z
+- Context Hash：`310589f266d71a70654635551829ad6579b72c47b8b0147b9abea40c75cde966`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -68,7 +68,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R03-007
-updated_at: '2026-07-19T04:23:54Z'
+updated_at: '2026-07-19T04:36:04Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -103,15 +103,15 @@ continuity:
   active_session_id: SES-20260718T200607Z-3569D212
   actor_id: codex-root
   story_id: STORY-R03-004
-  lease_expires_at: '2026-07-19T08:23:54Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0023.yaml
-  project_fingerprint: 46947338f9f979b5f8ad9d787549c9fbc97a8f68767f7b6bbb9863e5c78ec30a
+  lease_expires_at: '2026-07-19T08:36:04Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0024.yaml
+  project_fingerprint: bf738d5d528f2f2714bf9dfce67654b2a2ad48e27def14e86496d3f89e112a14
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 2db0bf41b580708e7336aaf427f9eb7d823b154296663a221a571f2319b9d2f9
-    generated_at: '2026-07-19T04:21:27Z'
+    context_hash: 718a1c5e20aae07b5ab8473d21b6b863a77a237601a898f213eb5259fd04d7c2
+    generated_at: '2026-07-19T04:23:56Z'
   handoff_bundle: null
 ```
 
@@ -308,7 +308,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-19T04:23:54Z'
+updated_at: '2026-07-19T04:36:04Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -336,6 +336,7 @@ change_requests:
 - CR-0073
 - CR-0074
 - CR-0075
+- CR-0076
 scope:
   allowed_paths:
   - apps/**
@@ -504,7 +505,9 @@ scope:
   - services/backend/boot/src/main/resources/db/migration/V020__r03_auth_registration_policy_alignment.sql
   - database/migrations/V020__r03_auth_registration_policy_alignment.sql
   - database/rollback/U020__r03_auth_registration_policy_alignment.sql
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075
+  - artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
+  - artifacts/validation/r03-apk-delivery/history/25e9e5b/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -514,12 +517,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T04:23:54Z'
-  expires_at: '2026-07-19T08:23:54Z'
-checkpoint_sequence: 23
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0023.yaml
+  renewed_at: '2026-07-19T04:36:04Z'
+  expires_at: '2026-07-19T08:36:04Z'
+checkpoint_sequence: 24
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0024.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 提交精确10205源版本并在云端构建APK
+next_step: 执行10205 APK桌面、仓库、服务器和HTTPS四方交付事务并复核SHA-256
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -527,68 +530,61 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 精确提交哈希是后续APK构建和交付清单的输入
+  reason: 当前清单为空窗必须立即由单一交付事务原子创建，禁止并发写入
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T200607Z-3569D212-0023
+checkpoint_id: CP-SES-20260718T200607Z-3569D212-0024
 session_id: SES-20260718T200607Z-3569D212
-sequence: 23
-created_at: '2026-07-19T04:23:53Z'
-summary: 注册修复新后端已上线并记录验证证据；10205版本身份及变更日志已完成
-next_step: 提交精确10205源版本并在云端构建APK
+sequence: 24
+created_at: '2026-07-19T04:36:03Z'
+summary: 35ee8ba APK云端全量构建通过，10204当前交付证据已移动至不可变历史目录，10205签名与构建证据已刷新
+next_step: 执行10205 APK桌面、仓库、服务器和HTTPS四方交付事务并复核SHA-256
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: public-auth-gate
+- name: android-gradle
   result: PASS
-  evidence: scripts/check_r02_public_auth.py
-  note: 公网认证门禁通过
-- name: flyway-v020
+  evidence: artifacts/validation/r03-task007-android/gradle-build.log
+  note: 31项单测、Lint、assemble通过
+- name: apk-identity
   result: PASS
-  evidence: hhy.flyway_schema_history:020
-  note: 策略迁移成功
-- name: version-identity-source
+  evidence: remote badging/apksigner
+  note: versionCode10205且固定签名指纹匹配
+- name: embedded-api
   result: PASS
-  evidence: Gradle ReleasePolicy VersionMetadataTest
-  note: 三处均为10205
+  evidence: generated BuildConfig.java
+  note: API_BASE_URL为https://api.orbexa.cc
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: e4994ed06131f3d3207c36c1b83f589ef2e58fe1
+  head: 35ee8bad7c905c29d271640fff8bef042825dc0d
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - MM .continuity/CHANGE_REQUEST_INDEX.yaml
-  - MM .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - MM .continuity/STATE.yaml
-  - A  .continuity/change_requests/CR-0074.yaml
-  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0022.yaml
-  - MM .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
-  - ' M CHANGELOG.md'
-  - M  CURRENT_STATUS.yaml
-  - M  apps/android/app/build.gradle.kts
-  - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-  - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - ' M artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md'
-  - MM catalogs/change_request_index.csv
-  - MM catalogs/session_index.csv
-  - A  docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
-  - M  docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  - ?? .continuity/change_requests/CR-0075.yaml
-  - ?? docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
+  - ' D artifacts/apk/R03/APK_MANIFEST.yaml'
+  - ' D artifacts/validation/r03-apk-delivery/delivery-evidence.json'
+  - ' M artifacts/validation/r03-task007-android/build-evidence.json'
+  - ' M artifacts/validation/r03-task007-android/gradle-build.log'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ?? .continuity/change_requests/CR-0076.yaml
+  - ?? artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
+  - ?? artifacts/validation/r03-apk-delivery/history/25e9e5b/delivery-evidence.json
+  - ?? docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md
   recent_commits:
+  - "35ee8bad7c905c29d271640fff8bef042825dc0d\t2026-07-19T12:24:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(android): bump auth\
+    \ regression APK to 10205"
   - "e4994ed06131f3d3207c36c1b83f589ef2e58fe1\t2026-07-19T12:08:44+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): clarify registration\
     \ failures and policy"
   - "335c18749879520f2b4885cf52330f22ea8fabbc\t2026-07-19T10:42:33+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): close auth regression\
@@ -603,10 +599,8 @@ git:
     \ delivery record"
   - "f7b1279ede9d481a957d588c03624862227a52c3\t2026-07-19T07:31:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): record auth hotfix\
     \ APK delivery"
-  - "0958f1f96ff12b769647c293082e5a4fadd7cb78\t2026-07-19T06:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r02): freeze security\
-    \ challenge and password registration"
 project_fingerprint:
-  sha256: 46947338f9f979b5f8ad9d787549c9fbc97a8f68767f7b6bbb9863e5c78ec30a
+  sha256: bf738d5d528f2f2714bf9dfce67654b2a2ad48e27def14e86496d3f89e112a14
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -638,6 +632,7 @@ project_fingerprint:
   - apps/h5/src/views/InviteRegistrationPage.vue
   - artifacts/apk/R03/APK_MANIFEST.yaml
   - artifacts/apk/R03/history/0958f1f/APK_MANIFEST.yaml
+  - artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
   - artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
   - catalogs/config_cross_field_rules.csv
   - catalogs/config_registry.csv
@@ -700,6 +695,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md
   - docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
   - docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
+  - docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md
   - packages/api-client/src/client.generated.ts
   - packages/design-tokens/admin.css
   - packages/design-tokens/h5.css
@@ -732,7 +728,7 @@ project_fingerprint:
   - tests/test_continuity_blocked_resume.py
   - tests/test_r02_auth_slice_contract.py
   - tests/test_r02_security_challenge_design_package.py
-  file_count: 124
+  file_count: 126
   payload:
     base_commit: 18e2db65b65afeb1e69d0c382ab53963fc97adec
     files:
@@ -849,13 +845,15 @@ project_fingerprint:
       size: 13647
       sha256: bb415a74f0f82730b3168496ea31ed2a16c3606ac9d9d7d2e468d500075e0c5e
     - path: artifacts/apk/R03/APK_MANIFEST.yaml
-      state: FILE
-      size: 673
-      sha256: 9e3fa1795c58b8d3c56fd8796c422842b42935a1eab29be2f5303c7f20f7d961
+      state: DELETED
     - path: artifacts/apk/R03/history/0958f1f/APK_MANIFEST.yaml
       state: FILE
       size: 689
       sha256: b3a905667afa59e6415f61fc271ea4f3602d0e24a02f2860d666c9cc6a84d953
+    - path: artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 9e3fa1795c58b8d3c56fd8796c422842b42935a1eab29be2f5303c7f20f7d961
     - path: artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
       state: FILE
       size: 673
@@ -1104,6 +1102,10 @@ project_fingerprint:
       state: FILE
       size: 1886
       sha256: 4da1c47a78edd7787e945ecfe6e39bab8d1fda1d58c01d06521fcfbf108347e2
+    - path: docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md
+      state: FILE
+      size: 2593
+      sha256: 864a9d3664a1ec179b0dffa187155e499aff33d83d7042cefeb078134735f00c
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 610906
@@ -1239,6 +1241,7 @@ change_classification:
   - DEVELOPMENT_RISK_REGISTER.md
   - artifacts/apk/R03/APK_MANIFEST.yaml
   - artifacts/apk/R03/history/0958f1f/APK_MANIFEST.yaml
+  - artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
   - artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
   - catalogs/development_risk_register.csv
   - catalogs/release_plan.csv
@@ -1401,6 +1404,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md
   - docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
   - docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
+  - docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md
   tests:
   - tests/test_android_apk_delivery.py
   - tests/test_commercial_ui_boundaries.py
@@ -1445,6 +1449,7 @@ change_requests:
 - CR-0073
 - CR-0074
 - CR-0075
+- CR-0076
 scope:
   allowed_paths:
   - apps/**
@@ -1613,13 +1618,15 @@ scope:
   - services/backend/boot/src/main/resources/db/migration/V020__r03_auth_registration_policy_alignment.sql
   - database/migrations/V020__r03_auth_registration_policy_alignment.sql
   - database/rollback/U020__r03_auth_registration_policy_alignment.sql
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075
+  - artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
+  - artifacts/validation/r03-apk-delivery/history/25e9e5b/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 精确提交哈希是后续APK构建和交付清单的输入
-event_hash: 0f232bd1ff4194e2399721e83121f504ffc38820707f53a80ad776f4628c4128
+  reason: 当前清单为空窗必须立即由单一交付事务原子创建，禁止并发写入
+event_hash: 7bf2568175f1a5b6f1347ef3efd1dfb7c4a9d6a315d633b462a73e1ea4d13db2
 ```
 
 ## 接续状态与事件头
@@ -1631,8 +1638,8 @@ active_session_id: SES-20260718T200607Z-3569D212
 last_session_id: SES-20260718T165842Z-356A8138
 last_session_result: BLOCKED
 last_closure_checkpoint_id: CP-SES-20260718T165842Z-356A8138-0005
-event_count: 809
-event_head_hash: 0f232bd1ff4194e2399721e83121f504ffc38820707f53a80ad776f4628c4128
+event_count: 815
+event_head_hash: 7bf2568175f1a5b6f1347ef3efd1dfb7c4a9d6a315d633b462a73e1ea4d13db2
 event_chain_valid: true
 ```
 
@@ -1755,9 +1762,9 @@ recent_sessions: - session_id: SES-20260718T084729Z-BD53B7C4
   started_at: '2026-07-18T20:06:07Z'
   record: .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  updated_at: '2026-07-19T04:23:54Z'
+  updated_at: '2026-07-19T04:36:04Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0023.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0024.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-3E379E115FA4
   session_id: SES-20260717T141717Z-A01412D7
@@ -2597,37 +2604,34 @@ recent_task_transitions: - transition_id: TRN-23D2BAB015EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: e4994ed06131f3d3207c36c1b83f589ef2e58fe1
+head: 35ee8bad7c905c29d271640fff8bef042825dc0d
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- MM .continuity/CHANGE_REQUEST_INDEX.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/change_requests/CR-0074.yaml
-- A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0022.yaml
-- MM .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
-- ' M CHANGELOG.md'
-- MM CURRENT_STATUS.yaml
-- M  apps/android/app/build.gradle.kts
-- M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
-- M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- ' M artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md'
-- MM catalogs/change_request_index.csv
-- MM catalogs/session_index.csv
-- A  docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
-- MM docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-- ?? .continuity/change_requests/CR-0075.yaml
-- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0023.yaml
-- ?? docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' D artifacts/apk/R03/APK_MANIFEST.yaml'
+- ' D artifacts/validation/r03-apk-delivery/delivery-evidence.json'
+- ' M artifacts/validation/r03-task007-android/build-evidence.json'
+- ' M artifacts/validation/r03-task007-android/gradle-build.log'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md'
+- ?? .continuity/change_requests/CR-0076.yaml
+- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0024.yaml
+- ?? artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
+- ?? artifacts/validation/r03-apk-delivery/history/25e9e5b/delivery-evidence.json
+- ?? docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md
 recent_commits:
+- "35ee8bad7c905c29d271640fff8bef042825dc0d\t2026-07-19T12:24:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(android): bump auth regression\
+  \ APK to 10205"
 - "e4994ed06131f3d3207c36c1b83f589ef2e58fe1\t2026-07-19T12:08:44+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): clarify registration\
   \ failures and policy"
 - "335c18749879520f2b4885cf52330f22ea8fabbc\t2026-07-19T10:42:33+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): close auth regression\
@@ -2642,14 +2646,12 @@ recent_commits:
   \ delivery record"
 - "f7b1279ede9d481a957d588c03624862227a52c3\t2026-07-19T07:31:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): record auth hotfix\
   \ APK delivery"
-- "0958f1f96ff12b769647c293082e5a4fadd7cb78\t2026-07-19T06:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r02): freeze security challenge\
-  \ and password registration"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`46947338f9f979b5f8ad9d787549c9fbc97a8f68767f7b6bbb9863e5c78ec30a`
-- 文件数：124
+- 指纹：`bf738d5d528f2f2714bf9dfce67654b2a2ad48e27def14e86496d3f89e112a14`
+- 文件数：126
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -2681,6 +2683,7 @@ recent_commits:
 - `apps/h5/src/views/InviteRegistrationPage.vue`
 - `artifacts/apk/R03/APK_MANIFEST.yaml`
 - `artifacts/apk/R03/history/0958f1f/APK_MANIFEST.yaml`
+- `artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml`
 - `artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml`
 - `catalogs/config_cross_field_rules.csv`
 - `catalogs/config_registry.csv`
@@ -2743,6 +2746,7 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md`
 - `docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md`
 - `docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md`
+- `docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md`
 - `packages/api-client/src/client.generated.ts`
 - `packages/design-tokens/admin.css`
 - `packages/design-tokens/h5.css`
@@ -5127,13 +5131,64 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0076
+  title: 交付10205注册体验修复真机APK并归档上一包
+  status: IMPLEMENTING
+  created_at: '2026-07-19T04:33:10Z'
+  updated_at: '2026-07-19T04:33:14Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 用户完成注册页面真机测试并要求修复四项问题后持续推进
+  reason: 新包必须完成固定签名、正式API、桌面/仓库/服务器/HTTPS四方哈希和上一包不可变归档
+  original_rule: R03当前交付指向25e9e5b、versionCode10204的测试APK
+  new_rule: 归档25e9e5b交付证据，当前交付切换为35ee8ba、versionCode10205注册体验修复测试APK
+  impact_summary: 刷新R03 APK清单、构建/签名/交付证据和测试报告，保留上一版本历史，不标记项目所有者真机通过
+  impact:
+    files:
+    - artifacts/apk/R03/APK_MANIFEST.yaml
+    - artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
+    - artifacts/validation/r03-apk-delivery/delivery-evidence.json
+    - artifacts/validation/r03-apk-delivery/history/25e9e5b/delivery-evidence.json
+    - artifacts/validation/r03-task007-android/build-evidence.json
+    - artifacts/validation/r03-task007-android/apk-signing.txt
+    - artifacts/validation/r03-task007-android/gradle-build.log
+    - artifacts/reports/R03/TASK-R03-007-android-apk.md
+    - artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - testDebugUnitTest、lintDebug、assembleDebug、zipalign、apksigner、versionCode、API端点、四方SHA-256
+    releases:
+    - R03
+    migration_and_compatibility: 应用ID和固定测试签名不变，可覆盖安装10204；旧APK与证据只归档不删除；新包仍为测试APK
+  user_confirmation: 用户2026-07-19四项注册真机反馈及持续开发授权
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T04:33:12Z'
+    note: 用户已授权持续开发和桌面APK交付，历史归档与四方门禁是安全交付必需
+  machine_record: .continuity/change_requests/CR-0076.yaml
+  document: docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md
+  decision_log:
+  - at: '2026-07-19T04:33:14Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 归档10204并准备35ee8ba固定签名测试APK四方交付
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `81365e0893d245acf95c784b791290358c042a1de489fd0a79128c915e58e7ef`
+- `CURRENT_STATUS.yaml` — `cecff858426b7f223790146f9a783a5e4c058dc53f96b7ba6dcaeacc52230808`
 - `NEXT_TASK.yaml` — `d3331935c15deb5ebd04b02689837403e53e8bc65c8813529359515257a7edc1`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -5144,20 +5199,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `8add960c1e87facc9b0aa468ed7351237421fb1089e5a00d13b88474a9c7acbd`
-- `.continuity/SESSION_INDEX.yaml` — `774e06c410e6ed1be2a5eac9ef25b90edf0247149a242f1b4c43754b7c48562f`
+- `.continuity/EVENT_LOG.jsonl` — `35e31ab2d3f86b7fded97f5d3816d37eb85389aa74ceda061af1bd36cdb548a4`
+- `.continuity/SESSION_INDEX.yaml` — `a570bcce18d098c2bb87db75252a4d8ca1c58fd2100413bbcddbcc349fb7423d`
 - `.continuity/TASK_CLAIMS.yaml` — `dae3c46345cf6361b9487cc9878bf5cd6bd3775ec390315b8036208feb5d7b19`
 - `.continuity/TASK_TRANSITIONS.yaml` — `49b2f0e5fdabc44f56af3c9fdeefd1971b4d3462167a3c93ba796bb4b3be1ada`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `391feeb99d5d6402be458cb242b74fbc1d76eb546b7bbc639cfb49ea93691c90`
-- `.continuity/ACTIVE_SESSION.yaml` — `20210bceb6509f53cf4b7d24d17f215f46b0feba62443a51e2d1e464e10e4c5d`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `502c68f0134d448c82c369ab5c6245d937a6c82a32fdf9331d65cb984da61510`
+- `.continuity/ACTIVE_SESSION.yaml` — `7d8ec3906aa97feaf0c4dd1957f03285305781e3adb8a35c88693ca5f65f4388`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `577a231d7cc655f126187950d05277a67d9e877ddb87a52721b2b634a21f12eb`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `de226ffec9d6cb0da7242d9febfae3ac023875c3b1d167894739ca4f8dc9ac47`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `5b77cecb0093879b2030983b23a96f69f8a126101918100eb603b474999e82d1`
-- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0023.yaml` — `85dd887cfb1b6df5b8be47e1bbb7cf3eaf316a612ac6dfc8a9a95211f79d4893`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `ed5a1fbe2891d7812e106accc35a9c079d12aa8df83a6af22f3cb6cb94d3256b`
+- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0024.yaml` — `fd036615a40b3d93bc10eb0b85eb87b56c2db5a2ffd2986230e8e7043f58bf70`
 - `docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md` — `09124eace840cbac05b094cb44ba6e9b2baf894d33b663a5eecc21a271fd9f27`
 - `docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md` — `657fe94cc6f260b297cb45642322801c84f680a89018c9e6679469eaecfc7689`
 - `docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md` — `d34b7054137e69b320623c2971b6b89fdc8c26644170a1cbc9ab29dbc2fb1ab0`
@@ -5183,6 +5238,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md` — `99f970a267f44dc87cf195111b08330b08afaad36f8f14b18ecf3b924904ce6f`
 - `docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md` — `6a7ac7a57fc73b98de141559440ce907da4e17c3b8e908e7d90a1ea2a5f7ce6b`
 - `docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md` — `4da1c47a78edd7787e945ecfe6e39bab8d1fda1d58c01d06521fcfbf108347e2`
+- `docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md` — `864a9d3664a1ec179b0dffa187155e499aff33d83d7042cefeb078134735f00c`
 
 ## 接手硬规则
 
