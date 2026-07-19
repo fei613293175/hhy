@@ -30,16 +30,24 @@ public class IdentityService {
     private final Provider provider;
     private final SensitiveData sensitiveData;
     private final Idempotency idempotency;
+    private final IdentityProviderResultCoordinator results;
     private final Clock clock;
 
     public IdentityService(
             Store store, Policy policy, Provider provider, SensitiveData sensitiveData,
             Idempotency idempotency, Clock clock) {
+        this(store, policy, provider, sensitiveData, idempotency, null, clock);
+    }
+
+    public IdentityService(
+            Store store, Policy policy, Provider provider, SensitiveData sensitiveData,
+            Idempotency idempotency, IdentityProviderResultCoordinator results, Clock clock) {
         this.store = store;
         this.policy = policy;
         this.provider = provider;
         this.sensitiveData = sensitiveData;
         this.idempotency = idempotency;
+        this.results = results;
         this.clock = clock;
     }
 
@@ -81,6 +89,9 @@ public class IdentityService {
         Instant now = Instant.now(clock);
         if (ACTIVE.contains(session.status()) && !session.expiresAt().isAfter(now)) {
             session = store.expire(session.id(), userId, session.version(), now);
+        } else if (results != null
+                && List.of("LIVENESS_PENDING", "PROVIDER_PROCESSING").contains(session.status())) {
+            session = results.reconcile(session.id(), userId);
         }
         return resource(session);
     }

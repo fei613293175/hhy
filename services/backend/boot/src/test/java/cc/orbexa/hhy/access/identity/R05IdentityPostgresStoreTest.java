@@ -9,13 +9,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import cc.orbexa.hhy.access.identity.IdentityService.LivenessTicket;
 import cc.orbexa.hhy.access.identity.IdentityService.ProtectedIdentity;
 import cc.orbexa.hhy.access.identity.IdentityService.SessionDraft;
+import cc.orbexa.hhy.access.identity.IdentityProviderResultCoordinator.ProviderCompletion;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.UUID;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Assumptions;
@@ -54,9 +55,11 @@ class R05IdentityPostgresStoreTest {
         assertNotNull(userId);
         try {
             Instant now = Instant.now();
+            ProtectedIdentity protectedIdentity = cipher.protect(
+                    userId, "张三", "110101199001010011");
             var created = store.create(new SessionDraft(
                     userId,
-                    new ProtectedIdentity("cipher-name", "cipher-id", hex(suffix)),
+                    protectedIdentity,
                     "consent-v1", "ALIYUN_MARKET_FACE", "create-" + suffix,
                     now.plusSeconds(600), now));
             assertFalse(created.state().isBlank());
@@ -80,14 +83,38 @@ class R05IdentityPostgresStoreTest {
             assertNotEquals(providerUrl.toString(), stored);
             assertTrue(stored.startsWith("hhy-id-v1."));
 
-            jdbc.update("""
-                    UPDATE hhy.identity_verification_sessions
-                    SET status='REJECTED',completed_at=?,failure_code='TEST_REJECTED'
-                    WHERE id=?
-                    """, OffsetDateTime.ofInstant(now.plusSeconds(2), ZoneOffset.UTC), created.id());
-            var rejected = store.find(created.id(), userId).orElseThrow();
+            var context = store.context(created.id(), userId).orElseThrow();
+            assertEquals("张三", context.realName());
+            assertEquals("110101199001010011", context.idNumber());
+            byte[] pendingRaw = "provider-pending".getBytes(StandardCharsets.UTF_8);
+            var processing = store.recordPending(context, pendingRaw, now.plusSeconds(2));
+            assertEquals("PROVIDER_PROCESSING", processing.status());
+            String pendingCipher = jdbc.queryForObject("""
+                    SELECT response_cipher FROM hhy.identity_provider_requests
+                    WHERE session_id=? AND request_type='LIVENESS_RESULT'
+                      AND idempotency_key='liveness-result-pending'
+                    """, String.class, created.id());
+            assertNotEquals(Base64.getEncoder().encodeToString(pendingRaw), pendingCipher);
+            assertEquals(Base64.getEncoder().encodeToString(pendingRaw),
+                    cipher.decrypt(userId, "provider-liveness_result", pendingCipher));
+
+            var processingContext = store.context(created.id(), userId).orElseThrow();
+            var rejected = store.complete(processingContext, new ProviderCompletion(
+                    "REJECTED", "LIVENESS_REJECTED", null, null,
+                    "provider-rejected".getBytes(StandardCharsets.UTF_8),
+                    new byte[0], null), now.plusSeconds(3));
+            assertEquals("REJECTED", rejected.status());
+            assertEquals("REJECTED", jdbc.queryForObject(
+                    "SELECT status FROM hhy.identity_profiles WHERE user_id=?", String.class, userId));
+            assertTrue(jdbc.queryForObject("""
+                    SELECT response_cipher <> convert_from(decode(?, 'base64'),'UTF8')
+                    FROM hhy.identity_provider_requests
+                    WHERE session_id=? AND idempotency_key='liveness-result-final'
+                    """, Boolean.class,
+                    Base64.getEncoder().encodeToString("provider-rejected".getBytes(StandardCharsets.UTF_8)),
+                    created.id()));
             var retried = store.retry(rejected, "ALIYUN_MARKET_FACE",
-                    "retry-" + suffix, now.plusSeconds(900), now.plusSeconds(3));
+                    "retry-" + suffix, now.plusSeconds(900), now.plusSeconds(4));
             assertEquals(2, retried.attemptNo());
             assertFalse(retried.state().isBlank());
             assertNotEquals(created.state(), retried.state());

@@ -8,6 +8,8 @@ import java.time.Clock;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import cc.orbexa.hhy.shared.api.BusinessException;
 
 @Configuration(proxyBeanMethods = false)
 public class R05IdentityAccessConfiguration {
@@ -36,10 +38,29 @@ public class R05IdentityAccessConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean(IdentityProviderResultCoordinator.EvidenceStorage.class)
+    IdentityProviderResultCoordinator.EvidenceStorage unavailableIdentityEvidenceStorage() {
+        return command -> { throw new BusinessException(
+                "COMMON-500-INTERNAL", "实名认证服务暂时不可用", 500, true); };
+    }
+
+    @Bean
+    IdentityProviderResultCoordinator identityProviderResultCoordinator(
+            R05IdentityPostgresStore store, R05IdentityProviderGateway provider,
+            ProviderFaceImageDownloader downloader,
+            IdentityProviderResultCoordinator.EvidenceStorage evidenceStorage,
+            Clock clock) {
+        return new IdentityProviderResultCoordinator(
+                store, provider, downloader, evidenceStorage, clock);
+    }
+
+    @Bean
     IdentityService identityService(
             R05IdentityPostgresStore store, R05IdentityRuntimePolicy policy,
             R05IdentityProviderGateway provider, IdentitySensitiveCipher sensitiveData,
-            IdentityIdempotencyService idempotency, Clock clock) {
-        return new IdentityService(store, policy, provider, sensitiveData, idempotency, clock);
+            IdentityIdempotencyService idempotency,
+            IdentityProviderResultCoordinator results, Clock clock) {
+        return new IdentityService(
+                store, policy, provider, sensitiveData, idempotency, results, clock);
     }
 }

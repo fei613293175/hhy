@@ -5896,3 +5896,102 @@ change_requests:
   - SES-20260719T183335Z-535311E4
   implementation_commits:
   - 6d8956a193b3771c29c8b421a5c035e51e75e75a
+- protocol_version: '1.0'
+  cr_id: CR-0099
+  title: 补齐R05供应商结果事务状态机与加密证据编排
+  status: IMPLEMENTING
+  created_at: '2026-07-19T20:49:29Z'
+  updated_at: '2026-07-19T20:51:36Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求持续推进R05至可落地的正式商业实名认证闭环
+  reason: 真实供应商结果查询和安全照片下载已具备，但尚未以乐观锁事务把原始响应、私有媒体和终态一致落库
+  original_rule: 活体回跳只消费state并返回当前状态；供应商查询、照片下载和人脸比对结果尚未以统一事务编排写入身份会话
+  new_rule: 仅对LIVENESS_PENDING或PROVIDER_PROCESSING会话查询真实供应商结果；原始响应按用户和字段域AEAD加密，照片先写private_kyc并返回内部media_object_id，随后以expectedVersion事务写入供应商历史、identity_media、会话、身份档案和Outbox；重复和并发调用必须幂等
+  impact_summary: 新增供应商结果协调器、私有证据存储端口和PostgreSQL乐观锁完成接口，使H5回跳和App轮询安全推进实名状态，不向页面暴露订单号、原始响应、照片URL或内部失败码
+  impact:
+    files:
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinator.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinatorTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
+    pages: []
+    apis:
+    - POST /public-api/v1/identity/callback/consume
+    - GET /api/v1/identity/sessions/{id}
+    database:
+    - identity_verification_sessions
+    - identity_profiles
+    - identity_provider_requests
+    - identity_media
+    configuration: []
+    ledger: []
+    tests:
+    - 供应商待处理、活体拒绝、人脸通过、人工复核、拒绝、并发冲突和异常安全映射测试
+    - PostgreSQL原始响应密文、媒体绑定、会话档案原子状态与Outbox集成测试
+    releases:
+    - R05
+    migration_and_compatibility: 复用V023至V025已有字段和约束，不新增公开API字段；存储供应商未激活时保持会话可重试且不写伪终态
+  user_confirmation: 用户已授权后续开发问题自主决定并要求持续推进项目落地
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T20:51:34Z'
+    note: 现有冻结供应商契约进入正式身份状态前所需的最小安全编排，不新增页面字段
+  machine_record: .continuity/change_requests/CR-0099.yaml
+  document: docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md
+  decision_log:
+  - at: '2026-07-19T20:51:36Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现供应商结果协调器、加密历史和乐观锁终态写入
+    session_id: SES-20260719T183335Z-535311E4
+  session_ids:
+  - SES-20260719T183335Z-535311E4
+- protocol_version: '1.0'
+  cr_id: CR-0100
+  title: 修复R05公开回跳控制器校验代理启动失败
+  status: IMPLEMENTING
+  created_at: '2026-07-19T21:02:55Z'
+  updated_at: '2026-07-19T21:03:11Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求持续推进并对简单问题采用最小修复
+  reason: 全应用上下文回归发现@Validated控制器被声明为final，Spring CGLIB无法创建校验代理
+  original_rule: PublicIdentityCallbackController同时声明为final并启用@Validated，直接单元测试可通过但全应用启动时CGLIB代理失败
+  new_rule: 保留@Validated请求校验并允许Spring为公开回跳控制器创建代理；控制器业务逻辑、路由和响应契约不变
+  impact_summary: 仅移除控制器类的final修饰并执行全应用上下文回归，修复正式服务启动门禁
+  impact:
+    files:
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - Spring Boot全应用上下文与公开回跳控制器契约回归
+    releases:
+    - R05
+    migration_and_compatibility: 无API、数据库或页面兼容变化，仅修复Spring代理兼容性
+  user_confirmation: 用户明确要求简单问题最小化快速修复并持续推进
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T21:03:09Z'
+    note: 单行代理兼容修复，不改变业务行为
+  machine_record: .continuity/change_requests/CR-0100.yaml
+  document: docs/03-continuity/change-requests/CR-0100-修复R05公开回跳控制器校验代理启动失败.md
+  decision_log:
+  - at: '2026-07-19T21:03:11Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 移除final并执行应用上下文回归
+    session_id: SES-20260719T183335Z-535311E4
+  session_ids:
+  - SES-20260719T183335Z-535311E4

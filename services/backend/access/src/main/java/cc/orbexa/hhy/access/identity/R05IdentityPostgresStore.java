@@ -4,6 +4,8 @@ import cc.orbexa.hhy.access.identity.IdentityService.LivenessTicket;
 import cc.orbexa.hhy.access.identity.IdentityService.IdentityConsent;
 import cc.orbexa.hhy.access.identity.IdentityService.Session;
 import cc.orbexa.hhy.access.identity.IdentityService.SessionDraft;
+import cc.orbexa.hhy.access.identity.IdentityProviderResultCoordinator.ProcessingContext;
+import cc.orbexa.hhy.access.identity.IdentityProviderResultCoordinator.ProviderCompletion;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
@@ -15,6 +17,7 @@ import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.HexFormat;
+import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,7 +29,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 /** PostgreSQL identity aggregate store; state mutation and Outbox fact are atomic. */
 @Component
-public final class R05IdentityPostgresStore implements IdentityService.Store {
+public final class R05IdentityPostgresStore
+        implements IdentityService.Store, IdentityProviderResultCoordinator.Store {
     private static final String SESSION_SELECT = """
             SELECT s.id,s.user_id,s.state,s.status,s.provider,s.expires_at,s.version,
                    s.attempt_no,s.failure_code,
@@ -133,6 +137,153 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
     public Optional<Session> find(long id, long userId) {
         return jdbc.query(SESSION_SELECT + " WHERE id=? AND user_id=?",
                 this::session, id, userId).stream().findFirst();
+    }
+
+    @Override
+    public Optional<ProcessingContext> context(long sessionId, long userId) {
+        Optional<Session> current = find(sessionId, userId);
+        if (current.isEmpty()) return Optional.empty();
+        return jdbc.query("""
+                SELECT request.provider_order_no,profile.name_cipher,profile.id_no_cipher
+                FROM hhy.identity_profiles profile
+                JOIN hhy.identity_verification_sessions session
+                  ON session.user_id=profile.user_id
+                JOIN LATERAL (
+                  SELECT provider_order_no
+                  FROM hhy.identity_provider_requests
+                  WHERE session_id=session.id AND request_type='LIVENESS_TOKEN'
+                    AND status='SUCCEEDED' AND provider_order_no IS NOT NULL
+                  ORDER BY created_at DESC,id DESC LIMIT 1
+                ) request ON true
+                WHERE session.id=? AND session.user_id=?
+                """, (rs, row) -> new ProcessingContext(
+                        current.orElseThrow(), rs.getString("provider_order_no"),
+                        sensitiveData.decrypt(userId, "name", rs.getString("name_cipher")),
+                        sensitiveData.decrypt(userId, "id-number", rs.getString("id_no_cipher"))),
+                sessionId, userId).stream().findFirst();
+    }
+
+    @Override
+    public Session recordPending(ProcessingContext context, byte[] raw, Instant now) {
+        return required(transactions.execute(transaction -> {
+            Session locked = lock(context.session().id(), context.session().userId());
+            if (!java.util.List.of("LIVENESS_PENDING", "PROVIDER_PROCESSING").contains(locked.status())) {
+                return locked;
+            }
+            if (locked.version() != context.session().version()) {
+                throw conflict("认证状态已变化，请刷新后重试");
+            }
+            if (!providerRequestExists(locked.id(), "LIVENESS_RESULT", "liveness-result-pending")) {
+                insertProviderResult(locked, "LIVENESS_RESULT", "liveness-result-pending",
+                        "PROVIDER_PROCESSING", "LIVENESS_RESULT_PENDING", raw, now);
+            }
+            if ("LIVENESS_PENDING".equals(locked.status())) {
+                int changed = jdbc.update("""
+                        UPDATE hhy.identity_verification_sessions
+                        SET status='PROVIDER_PROCESSING',last_event='LIVENESS_RESULT_PENDING',
+                            version=version+1,updated_at=?
+                        WHERE id=? AND user_id=? AND version=? AND status='LIVENESS_PENDING'
+                        """, time(now), locked.id(), locked.userId(), locked.version());
+                requireOne(changed);
+            }
+            return find(locked.id(), locked.userId()).orElseThrow();
+        }));
+    }
+
+    @Override
+    public ProcessingContext recordLivenessPassed(
+            ProcessingContext context, byte[] raw, Instant now) {
+        Session processing = required(transactions.execute(transaction -> {
+            Session locked = lock(context.session().id(), context.session().userId());
+            if (!java.util.List.of("LIVENESS_PENDING", "PROVIDER_PROCESSING").contains(locked.status())) {
+                return locked;
+            }
+            if (locked.version() != context.session().version()) {
+                throw conflict("认证状态已变化，请刷新后重试");
+            }
+            if (!providerRequestExists(locked.id(), "LIVENESS_RESULT", "liveness-result-passed")) {
+                insertProviderResult(locked, "LIVENESS_RESULT", "liveness-result-passed",
+                        "PROVIDER_PROCESSING", "LIVENESS_RESULT_PASSED", raw, now);
+            }
+            if ("LIVENESS_PENDING".equals(locked.status())) {
+                int changed = jdbc.update("""
+                        UPDATE hhy.identity_verification_sessions
+                        SET status='PROVIDER_PROCESSING',last_event='LIVENESS_RESULT_PASSED',
+                            version=version+1,updated_at=?
+                        WHERE id=? AND user_id=? AND version=? AND status='LIVENESS_PENDING'
+                        """, time(now), locked.id(), locked.userId(), locked.version());
+                requireOne(changed);
+            }
+            return find(locked.id(), locked.userId()).orElseThrow();
+        }));
+        return new ProcessingContext(
+                processing, context.providerOrderNo(), context.realName(), context.idNumber());
+    }
+
+    @Override
+    public Session complete(ProcessingContext context, ProviderCompletion completion, Instant now) {
+        return required(transactions.execute(transaction -> {
+            Session locked = lock(context.session().id(), context.session().userId());
+            if (!java.util.List.of("LIVENESS_PENDING", "PROVIDER_PROCESSING").contains(locked.status())) {
+                return locked;
+            }
+            if (locked.version() != context.session().version()) {
+                throw conflict("认证状态已变化，请刷新后重试");
+            }
+            if (!java.util.List.of("VERIFIED", "MANUAL_REVIEW", "REJECTED")
+                    .contains(completion.status())) {
+                throw new IllegalArgumentException("unsupported provider completion status");
+            }
+            insertProviderResult(locked, "LIVENESS_RESULT", "liveness-result-final",
+                    completion.status(), "LIVENESS_RESULT_COMPLETED", completion.livenessRaw(), now);
+            if (completion.comparisonRaw().length > 0) {
+                insertProviderResult(locked, "FACE_COMPARE", "face-compare-final",
+                        completion.status(), "FACE_COMPARE_COMPLETED", completion.comparisonRaw(), now);
+            }
+            if (completion.mediaObjectId() != null) {
+                int media = jdbc.update("""
+                        INSERT INTO hhy.identity_media(
+                          session_id,media_object_id,media_type,storage_scope,purpose,version)
+                        VALUES (?,?,'LIVENESS_PHOTO','private_kyc','identity_liveness',0)
+                        ON CONFLICT (session_id,media_type) WHERE media_type IS NOT NULL DO NOTHING
+                        """, locked.id(), completion.mediaObjectId());
+                if (media == 0) {
+                    Long existing = jdbc.queryForObject("""
+                            SELECT media_object_id FROM hhy.identity_media
+                            WHERE session_id=? AND media_type='LIVENESS_PHOTO'
+                            """, Long.class, locked.id());
+                    if (!completion.mediaObjectId().equals(existing)) {
+                        throw conflict("认证状态已变化，请刷新后重试");
+                    }
+                }
+            }
+            boolean terminal = java.util.List.of("VERIFIED", "REJECTED").contains(completion.status());
+            String event = switch (completion.status()) {
+                case "VERIFIED" -> "IDENTITY_VERIFIED";
+                case "MANUAL_REVIEW" -> "IDENTITY_MANUAL_REVIEW";
+                case "REJECTED" -> "IDENTITY_REJECTED";
+                default -> throw new IllegalStateException();
+            };
+            int changed = jdbc.update("""
+                    UPDATE hhy.identity_verification_sessions
+                    SET status=?,failure_code=?,last_event=?,completed_at=?,
+                        version=version+1,updated_at=?
+                    WHERE id=? AND user_id=? AND version=?
+                      AND status IN ('LIVENESS_PENDING','PROVIDER_PROCESSING')
+                    """, completion.status(), completion.failureCode(), event,
+                    terminal ? time(now) : null, time(now), locked.id(), locked.userId(), locked.version());
+            requireOne(changed);
+            int profile = jdbc.update("""
+                    UPDATE hhy.identity_profiles
+                    SET status=?,verified_at=CASE WHEN ?='VERIFIED' THEN ? ELSE NULL END,
+                        version=version+1,updated_at=?
+                    WHERE user_id=? AND status<>'VERIFIED'
+                    """, completion.status(), completion.status(), time(now), time(now), locked.userId());
+            requireOne(profile);
+            outbox(locked.userId(), "identity.provider.completed.v1", "IDENTITY_SESSION",
+                    Long.toString(locked.id()), completion.status(), now);
+            return find(locked.id(), locked.userId()).orElseThrow();
+        }));
     }
 
     @Override
@@ -260,6 +411,29 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                 json(Map.of("source", "identity-api")), json(Map.of(
                         "actorId", actorId, "resourceId", aggregateId,
                         "status", state, "occurredAt", occurredAt.toString())));
+    }
+
+    private boolean providerRequestExists(long sessionId, String type, String idempotencyKey) {
+        Boolean found = jdbc.queryForObject("""
+                SELECT EXISTS(SELECT 1 FROM hhy.identity_provider_requests
+                  WHERE session_id=? AND request_type=? AND idempotency_key=?)
+                """, Boolean.class, sessionId, type, idempotencyKey);
+        return Boolean.TRUE.equals(found);
+    }
+
+    private void insertProviderResult(
+            Session session, String requestType, String idempotencyKey,
+            String toStatus, String event, byte[] raw, Instant now) {
+        String encoded = Base64.getEncoder().encodeToString(raw == null ? new byte[0] : raw);
+        jdbc.update("""
+                INSERT INTO hhy.identity_provider_requests(
+                  session_id,request_type,provider_order_no,idempotency_key,request_hash,
+                  response_cipher,status,attempt_no,from_status,to_status,event,completed_at,
+                  version,created_at,updated_at)
+                VALUES (?,?,NULL,?,?,?,'SUCCEEDED',1,?,?,?, ?,0,?,?)
+                """, session.id(), requestType, idempotencyKey, digest(encoded),
+                sensitiveData.encrypt(session.userId(), "provider-" + requestType.toLowerCase(), encoded),
+                session.status(), toStatus, event, time(now), time(now), time(now));
     }
 
     private String json(Object value) {

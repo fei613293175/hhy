@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequestMapping("/public-api/v1/identity/callback")
-public final class PublicIdentityCallbackController {
+public class PublicIdentityCallbackController {
     private final IdentityCallbackService service;
     private final Clock clock;
 

@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-19T20:47:29Z",
-  "context_hash": "332058ffa4ec6d2f24b0e564fc9d64c03f565db201930d9a5bfe60b76875f63c",
+  "generated_at": "2026-07-19T21:06:17Z",
+  "context_hash": "1411c6c689a1bc8f4e8af00fd73bd831649de9ef88042498981151c8898f35fd",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "5bf0c7f90ec385385c75be02196422c3a52f7d49e701fc0eab4d39601af82c16",
-    "file_count": 83
+    "sha256": "7e42c0e5e01c2dd759c2dff6a7bd3b866296aa584e18ba023542126037794264",
+    "file_count": 88
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "859adf6b9e80155fadcc52b37be443fbfa6f051f4a131b2d9064250e8c6ae868"
+    "sha256": "7d9a29d5f6a26bcd9ddb731fc6c8244d04b66cc53f0178450e2f35fcadac2dae"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "59077a1f8f6c4a5d206b887c25e87fc97d6dd58f23823d18263c2f03aa7ef1c9"
+    "sha256": "8cad1aaccc5260dfc13bbefcc4fb961e30a4cdc136ce3166119f18c865d6885c"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "edb275ac1497fb1535081e34f1eaf1570c9e728f5dd695a295155dcd023b2afa",
+      "sha256": "f714fe0ccd2011dd141533ee6959828d159f13e55cbcb7ff5cf431682d65b7fb",
       "bytes": 3572
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "3f2fadeeb43f48e1193c122a14b075fc9e14e4a29c3af95d89abc0b0e9391186",
-      "bytes": 48216
+      "sha256": "ff400a3a3f1967f803357e02d5a7f7acf97336a9f285d3b739b0d61b6a7762ea",
+      "bytes": 48445
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "3522e39bcc40193019478e45a125cbbd57200264a1eb35e7601c3a252fe4b48b",
-      "bytes": 604527
+      "sha256": "57941fbc206eddf8110605a62a60f68dcfc2e1475e6b3b96a0e5e46f745f7562",
+      "bytes": 610587
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "23fb0d91bb43ce89616eae2f4a72f4dfd652288d45c9c435ad827ea6f6a325f0",
+      "sha256": "f5ad9287b5f127de649d2e6896e2d2bd533bf6056b5dcd4a5d83c747d4e3a8d7",
       "bytes": 23800
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "e7fab6df0746110c1dd19b401e40872b168064a21d0feaf671296b1e2c74d255",
-      "bytes": 300572
+      "sha256": "ca8bbb2c5fdb8e847a30625fe69f4fcf827b61a57acd281c899947541b62071e",
+      "bytes": 306120
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "d4abf9dd3e1d41d6c76aa0225d5ded0d362a28357b0f488d380d176aec917790",
+      "sha256": "a98b1b4198e13963bc1d5a1877c8015dd49e9bc5aaba8532ea70176635d3c965",
       "bytes": 525
     },
     {
@@ -138,13 +138,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md",
-      "sha256": "d118f7320b6276dcd72008a4968c284be1e1f84e3a8c6c1afe3558783f65fa6d",
-      "bytes": 66863
+      "sha256": "4ba067b00a0273b899625789b85caae10b09cf538072fc64bd4176102b54c7d3",
+      "bytes": 74573
     },
     {
-      "path": ".continuity/checkpoints/SES-20260719T183335Z-535311E4/0013.yaml",
-      "sha256": "6c0dfc7e2bbf44b3f29030f85906c737b3706850480f30d757d52b59319b65aa",
-      "bytes": 38709
+      "path": ".continuity/checkpoints/SES-20260719T183335Z-535311E4/0014.yaml",
+      "sha256": "6ad1b08100815c76a1e0812dfca571c17e317107ecdc4023af77a54d00f89b69",
+      "bytes": 42857
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md",
@@ -190,6 +190,16 @@
       "path": "docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md",
       "sha256": "788449076a8b0c83f3ba51037c28f13fab0828a27abb09366f9c8cad8139accd",
       "bytes": 3002
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md",
+      "sha256": "b38d6ccf7d7016f5de19377377fee150b411e017a5b9e5369fcd00861d2fed2b",
+      "bytes": 3420
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0100-修复R05公开回跳控制器校验代理启动失败.md",
+      "sha256": "767535d9a1066aa14d2146c5afa822fe5aa10c839092c94a3075149c8b2e0519",
+      "bytes": 2018
     }
   ]
 }
