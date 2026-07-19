@@ -1,0 +1,61 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T144443Z-BF11796E
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R04
+task_id: TASK-R04-007
+story_id: STORY-R04-001
+goal: 完成R04固定测试签名APK、生产API地址门禁、桌面/仓库/服务器/公网四方SHA追溯并交给项目所有者真机验收
+started_at: '2026-07-19T14:44:43Z'
+updated_at: '2026-07-19T14:50:39Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 4520cfdbcf774d31ae70f7215885935d11db5d1e
+  start_head: 4520cfdbcf774d31ae70f7215885935d11db5d1e
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T14:50:36Z'
+  expires_at: '2026-07-19T18:50:36Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260719T144443Z-BF11796E/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T144443Z-BF11796E.md
+next_step: 提交并推送APK身份后执行固定工具链构建、固定签名和四方交付
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 12b2e174c1617d871114363d4a812e288185f77beefa88efadc3daa1d2a7980a
+  generated_at: '2026-07-19T14:50:38Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 固定签名与唯一交付事务必须串行
