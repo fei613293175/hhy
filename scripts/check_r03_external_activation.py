@@ -60,7 +60,7 @@ gradle = (ROOT / "apps/android/app/build.gradle.kts").read_text(encoding="utf-8"
 policy = (ROOT / "apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt").read_text(encoding="utf-8")
 version_test = (ROOT / "apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt").read_text(encoding="utf-8")
 for source, code in ((gradle, "GRADLE"), (policy, "POLICY"), (version_test, "TEST")):
-    require("10203" in source, f"R03_ANDROID_VERSION_CODE_{code}")
+    require("10204" in source, f"R03_ANDROID_VERSION_CODE_{code}")
 
 registry = (ROOT / "docs/03-continuity/PROBLEM_REGISTRY.yaml").read_text(encoding="utf-8")
 for problem in ("PROB-0012", "PROB-0030", "PROB-0031"):

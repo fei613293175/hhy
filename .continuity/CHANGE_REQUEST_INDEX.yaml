@@ -3992,3 +3992,101 @@ change_requests:
     session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0067
+  title: 递增R03真机回归APK版本并更新交付证据
+  status: IMPLEMENTING
+  created_at: '2026-07-19T02:01:09Z'
+  updated_at: '2026-07-19T02:01:48Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 真机录像问题修复后继续开发并生成桌面APK供测试
+  reason: 修复包必须使用高于10203的versionCode以支持覆盖安装
+  original_rule: 当前R03测试包versionCode为10203
+  new_rule: 本次验证码修复回归包使用versionCode 10204并绑定新提交
+  impact_summary: 仅递增Android测试包版本并刷新APK交付、真机测试与版本记录
+  impact:
+    files:
+    - apps/android/app/build.gradle.kts
+    - artifacts/apk/R03/APK_MANIFEST.yaml
+    - artifacts/apk/R03/history/0958f1f/APK_MANIFEST.yaml
+    - artifacts/validation/r03-apk-delivery/delivery-evidence.json
+    - artifacts/validation/r03-apk-delivery/history/0958f1f/delivery-evidence.json
+    - releases/R02/R02_AUTH_HOTFIX_20260719.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - android:testDebugUnitTest,lintDebug,assembleDebug,APK签名/API/SHA门禁
+    releases:
+    - R03
+    migration_and_compatibility: 应用ID与固定测试签名不变，可覆盖安装10203；不改变后端和业务数据
+  user_confirmation: 用户2026-07-19真机录像反馈及持续开发授权
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T02:01:26Z'
+    note: 用户已明确要求修复后继续开发并生成桌面APK，单调版本码为安全覆盖安装必需
+  machine_record: .continuity/change_requests/CR-0067.yaml
+  document: docs/03-continuity/change-requests/CR-0067-递增R03真机回归APK版本并更新交付证据.md
+  decision_log:
+  - at: '2026-07-19T02:01:48Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始递增versionCode并构建精确提交测试APK
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0068
+  title: 同步R03测试包应用版本策略与交付门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-19T02:03:24Z'
+  updated_at: '2026-07-19T02:03:45Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 验证码修复后生成可覆盖安装的桌面APK
+  reason: Gradle versionCode递增后应用发布策略、测试和交付证据必须保持同一身份
+  original_rule: 应用发布策略与交付门禁仍固定10203
+  new_rule: 应用发布策略、版本测试、外部激活检查和当前交付证据统一为10204
+  impact_summary: 同步测试APK全部版本身份来源与验证证据
+  impact:
+    files:
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - scripts/check_r03_external_activation.py
+    - artifacts/validation/r03-task007-android/build-evidence.json
+    - artifacts/validation/r03-task007-android/apk-signing.txt
+    - artifacts/validation/r03-task007-android/gradle-build.log
+    - artifacts/reports/R03/TASK-R03-007-android-apk.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - android:VersionMetadataTest,full-build,signing-and-version-inspection
+    releases:
+    - R03
+    migration_and_compatibility: 最低版本基线仍为10203；历史10203归档保持不变；10204使用相同应用ID和签名覆盖安装
+  user_confirmation: 用户要求持续开发并交付可真机测试APK
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T02:03:42Z'
+    note: 覆盖安装要求版本身份所有来源一致，范围限于发布策略、检查和当前证据
+  machine_record: .continuity/change_requests/CR-0068.yaml
+  document: docs/03-continuity/change-requests/CR-0068-同步R03测试包应用版本策略与交付门禁.md
+  decision_log:
+  - at: '2026-07-19T02:03:45Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 同步10204版本身份并准备云端APK构建
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212

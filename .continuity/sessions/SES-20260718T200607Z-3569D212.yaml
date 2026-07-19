@@ -11,7 +11,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-19T01:46:30Z'
+updated_at: '2026-07-19T02:06:41Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -30,6 +30,8 @@ change_requests:
 - CR-0064
 - CR-0065
 - CR-0066
+- CR-0067
+- CR-0068
 scope:
   allowed_paths:
   - apps/**
@@ -183,7 +185,11 @@ scope:
   - artifacts/validation/r02-auth-video-feedback/analysis.md
   - artifacts/apk/R03/history/0958f1f/APK_MANIFEST.yaml
   - artifacts/validation/r03-apk-delivery/history/0958f1f/delivery-evidence.json
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - scripts/check_r03_external_activation.py
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -193,22 +199,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T01:46:27Z'
-  expires_at: '2026-07-19T05:46:27Z'
-checkpoint_sequence: 17
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0017.yaml
+  renewed_at: '2026-07-19T02:06:38Z'
+  expires_at: '2026-07-19T06:06:38Z'
+checkpoint_sequence: 18
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0018.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 提交推送精确源码，部署后端并构建新版桌面APK
+next_step: 提交推送后在云端固定工具链构建签名APK并刷新交付证据
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 0a4023a1d36de060a5860911bcb803df730d90f92a7a7a0501a63a52039b5b30
-  generated_at: '2026-07-19T01:46:29Z'
+  context_hash: 534a046275b24504d26106074fb7f416b5be62869ecda30942b4bf42a7bb1c23
+  generated_at: '2026-07-19T02:06:40Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 验证码错误码、后端契约与双端错误映射构成同一原子安全链，需串行保持一致
+  reason: 版本号、应用发布策略、签名构建与交付证据必须基于同一精确提交串行闭环
