@@ -300,8 +300,12 @@ echo "U010_REAPPLY_V010 PASS"
 "${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V017__r02_user_auth_invariants.sql" >/dev/null
 "${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V018__r02_admin_user_controls.sql" >/dev/null
 "${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V019__r03_provider_configuration_center.sql" >/dev/null
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V020__r03_auth_registration_policy_alignment.sql" >/dev/null
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V021__r04_storage_media_invariants.sql" >/dev/null
 "${PSQL[@]}" -f "$ROOT/database/tests/r02_admin_user_controls.sql" >/dev/null
 "${PSQL[@]}" -f "$ROOT/database/tests/r03_provider_configuration_invariants.sql" >/dev/null
+DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \
+  bash "$ROOT/scripts/run_r04_database_invariants.sh"
 FINAL_TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_type='BASE TABLE';")"
 [[ "$FINAL_TABLE_COUNT" == "200" ]] || {
   echo "Final R03 schema must contain 200 tables, got $FINAL_TABLE_COUNT" >&2
@@ -309,6 +313,7 @@ FINAL_TABLE_COUNT="$("${PSQL[@]}" -Atc "SELECT count(*) FROM information_schema.
 }
 echo "R02_ADMIN_USER_CONTROLS PASS"
 echo "R03_PROVIDER_CONFIGURATION_INVARIANTS PASS"
+echo "R04_STORAGE_MEDIA_INVARIANTS PASS"
 echo "FINAL_TABLE_COUNT $FINAL_TABLE_COUNT"
 
 "${PSQL[@]}" -f "$ROOT/database/verification/verify_baseline.sql" >/dev/null

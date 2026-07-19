@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T11:15:18Z
-- Context Hash：`397ec894823ff4eb995e18bff0d53b119c9f8ebd485b4f0411f4cab4ea043b3f`
+- 生成时间：2026-07-19T11:31:41Z
+- Context Hash：`ad83079e75d6be15ab4312621cf4edb9338ce5eef7ce297237f75823242ff25e`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -71,7 +71,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R04-002
-updated_at: '2026-07-19T11:15:16Z'
+updated_at: '2026-07-19T11:31:39Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -106,15 +106,15 @@ continuity:
   active_session_id: SES-20260719T085423Z-0385FEE0
   actor_id: codex-root
   story_id: STORY-R04-002
-  lease_expires_at: '2026-07-19T15:15:16Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0003.yaml
-  project_fingerprint: ff7b3d6919fc3dd9f625651fcb52f8208e679826515baa1a4d045d2c82a2c4e1
+  lease_expires_at: '2026-07-19T15:31:39Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0004.yaml
+  project_fingerprint: 3210a09a6c9a8e889449fcc0e9e87b6e1c8318f130dfe45cf1feb70441d26aaa
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 1ad6879509e5887ef343071ec337ccdd50086be7b40f2a93fce38802991d8d6e
-    generated_at: '2026-07-19T11:13:31Z'
+    context_hash: 397ec894823ff4eb995e18bff0d53b119c9f8ebd485b4f0411f4cab4ea043b3f
+    generated_at: '2026-07-19T11:15:18Z'
   handoff_bundle: null
 ```
 
@@ -306,7 +306,7 @@ task_id: TASK-R04-002
 story_id: STORY-R04-002
 goal: 完成存储Scope隔离、R2/OSS适配端口、媒体数据不变量、私有签名URL、迁移恢复与访问审计的可验证基线
 started_at: '2026-07-19T08:54:23Z'
-updated_at: '2026-07-19T11:15:16Z'
+updated_at: '2026-07-19T11:31:39Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -353,12 +353,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T11:15:16Z'
-  expires_at: '2026-07-19T15:15:16Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0003.yaml
+  renewed_at: '2026-07-19T11:31:39Z'
+  expires_at: '2026-07-19T15:31:39Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md
-next_step: 提交并推送迁移服务切片，然后运行MODULE影响门禁并在可用的一次性PostgreSQL上补齐V021空库、升级、回滚和不变量实测
+next_step: 提交并推送TASK-R04-002最终证据，关闭TASK-R04-002并领取TASK-R04-003媒体上传、完成、私有readUrl与删除API闭环
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -366,56 +366,64 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前执行约束未授权创建子代理；本切片同时修改共享存储端口与同一迁移状态机，需由单一主控原子落库与验证
+  reason: 当前执行约束未授权创建子代理；TASK-R04-002最终收口同时修改共享迁移、质量脚本与连续性证据，由单一主控原子提交
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T085423Z-0385FEE0-0003
+checkpoint_id: CP-SES-20260719T085423Z-0385FEE0-0004
 session_id: SES-20260719T085423Z-0385FEE0
-sequence: 3
-created_at: '2026-07-19T11:15:15Z'
-summary: R04 PostgreSQL存储Scope查询、迁移任务领取/游标持久化/失败暂停恢复和最小化访问审计完成；跨R2/OSS同Scope复制适配已修正
-next_step: 提交并推送迁移服务切片，然后运行MODULE影响门禁并在可用的一次性PostgreSQL上补齐V021空库、升级、回滚和不变量实测
+sequence: 4
+created_at: '2026-07-19T11:31:39Z'
+summary: TASK-R04-002全部实现门禁完成：V021补齐私有域名与活动桶隔离，PostgreSQL 17空库升级/不变量/U021回滚重放通过，MODULE 208项通过，Windows影响测试运行器可跨机器执行
+next_step: 提交并推送TASK-R04-002最终证据，关闭TASK-R04-002并领取TASK-R04-003媒体上传、完成、私有readUrl与删除API闭环
 blockers: []
 decisions:
-- 供应商网络I/O不得持有数据库事务；批次失败保持原游标并暂停，重试复制依赖对象身份幂等，审计仅记录Scope与计数不记录URL、对象键或Secret
+- R04数据库实测只使用无端口映射的一次性PostgreSQL容器，失败和成功均自动清理；Windows质量计划使用仓库包装器绝对路径避免PATH差异
 note: ''
 tests:
-- name: storage-migration-service
+- name: r04-postgres-empty-upgrade-rollback
   result: PASS
-  evidence: mvnw -pl boot -am -Dtest=StorageProviderAdapterTest,StorageMigrationServiceTest test
-  note: 8 tests 0 failures 0 errors; cross-provider, cursor, pause and resume covered
-- name: db-schema
+  evidence: artifacts/validation/r04-task002-postgres.md
+  note: V001-V021 200 tables; invariants, U021 rollback and V021 reapply pass
+- name: backend-module
   result: PASS
-  evidence: python scripts/check_db_schema.py
-  note: 200 tables, 21 migrations, runtime hashes PASS
-- name: generated-assets
+  evidence: artifacts/validation/r04-task002-module.json
+  note: 208 tests 0 failures 0 errors 2 skipped
+- name: test-impact-runner
   result: PASS
-  evidence: python scripts/check_generated_assets.py
-  note: android/frontend/openapi/runtime generated assets verified
+  evidence: python -m unittest tests.test_run_affected_tests
+  note: 11 tests OK
+- name: r04-static-db-contract
+  result: PASS
+  evidence: python -m unittest tests.test_r04_storage_media_migration
+  note: 4 tests OK and runtime migration exact mirror
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: ec6919b45a107a770fd13d86b7c3a38103415c67
+  head: 0520113a2981439c9bcdeb6e5afb1ed26bf3c8d5
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260719T085423Z-0385FEE0.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageProviderAdapter.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageProviderAdapterTest.java'
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageMigrationService.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageMigrationServiceTest.java
+  - ' M database/migrations/V021__r04_storage_media_invariants.sql'
+  - ' M database/rollback/U021__r04_storage_media_invariants.sql'
+  - ' M scripts/run_affected_tests.py'
+  - ' M scripts/run_postgres_migration_smoke.sh'
+  - ' M services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql'
+  - ' M tests/test_r04_storage_media_migration.py'
+  - ' M tests/test_run_affected_tests.py'
+  - ?? artifacts/validation/r04-task002-module.json
+  - ?? artifacts/validation/r04-task002-postgres.md
+  - ?? database/tests/r04_storage_media_invariants.sql
+  - ?? scripts/run_r04_database_invariants.sh
+  - ?? scripts/run_r04_disposable_postgres_container.sh
   recent_commits:
+  - "0520113a2981439c9bcdeb6e5afb1ed26bf3c8d5\t2026-07-19T19:16:34+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): persist resumable\
+    \ cross-provider migration"
   - "ec6919b45a107a770fd13d86b7c3a38103415c67\t2026-07-19T19:06:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): add provider-neutral\
     \ object port"
   - "77eb7d6797b0c90213616823872b7f9b4148b193\t2026-07-19T16:57:32+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): enforce media\
@@ -430,14 +438,17 @@ git:
     \ as completed"
   - "40807dc3d8e1dcfa56334d37cf8646bf9db483dd\t2026-07-19T16:30:34+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): finalize R03\
     \ acceptance matrix"
-  - "e37faeaa31714e4026132b426acb0bd956032d84\t2026-07-19T16:28:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): archive R03\
-    \ close evidence"
 project_fingerprint:
-  sha256: ff7b3d6919fc3dd9f625651fcb52f8208e679826515baa1a4d045d2c82a2c4e1
+  sha256: 3210a09a6c9a8e889449fcc0e9e87b6e1c8318f130dfe45cf1feb70441d26aaa
   files:
   - database/migrations/V021__r04_storage_media_invariants.sql
   - database/rollback/U021__r04_storage_media_invariants.sql
+  - database/tests/r04_storage_media_invariants.sql
   - docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+  - scripts/run_affected_tests.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r04_database_invariants.sh
+  - scripts/run_r04_disposable_postgres_container.sh
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageMigrationService.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
@@ -446,22 +457,43 @@ project_fingerprint:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageMigrationServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageProviderAdapterTest.java
   - tests/test_r04_storage_media_migration.py
-  file_count: 11
+  - tests/test_run_affected_tests.py
+  file_count: 17
   payload:
     base_commit: 7ae235681e92565971eb53a999a72fc88f9f8f39
     files:
     - path: database/migrations/V021__r04_storage_media_invariants.sql
       state: FILE
-      size: 3067
-      sha256: b4168d9f33301155f954fba9a440ad8ee6315a9088144dbad684ebf1b333d969
+      size: 3419
+      sha256: 060e1bf4ddd55885b69f99e2cd5dd17733881288d766cf88be4ac9da2b0e825c
     - path: database/rollback/U021__r04_storage_media_invariants.sql
       state: FILE
-      size: 1431
-      sha256: 45a10c91db525772ac1d48f4e0a4ba3d3b3bc3425496fb3e84a70284b6918ebb
+      size: 1604
+      sha256: de8dbed3ea50943b9b551abea3f7680dad2f610d3383e29a7025ef885da81dc9
+    - path: database/tests/r04_storage_media_invariants.sql
+      state: FILE
+      size: 4311
+      sha256: 0067bd72420caef825a3e76f1c1576a8731586b43d6c689d5a258d237050cb42
     - path: docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
       state: FILE
       size: 2986
       sha256: b10a54785471c3eb3e49d1e4886f7ae510a0b3104e211cdf7d02679d327ef3eb
+    - path: scripts/run_affected_tests.py
+      state: FILE
+      size: 12838
+      sha256: 3af3dbc25dd63453aac298ec9fc9a14123632ede8da7aa43e780d253454524f9
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 14693
+      sha256: c200e1ded5c2f2965f2c8f5b5dd50a35bbc61bccf964d67b4e3f7ee1d051f1f7
+    - path: scripts/run_r04_database_invariants.sh
+      state: FILE
+      size: 1367
+      sha256: 44a0e44c9bed741e963c20d1de095a40f79f047f8176406574f323f752d343b2
+    - path: scripts/run_r04_disposable_postgres_container.sh
+      state: FILE
+      size: 1779
+      sha256: 19b06075ea80d3b22efc1f37e352133f7cd7477a88ef5e71b98c681b4b186684
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
       state: FILE
       size: 6711
@@ -480,8 +512,8 @@ project_fingerprint:
       sha256: 096ae47141a841f1ab4f870eaddfcef17459392bfc4814f731bb884c2e204d22
     - path: services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
       state: FILE
-      size: 3067
-      sha256: b4168d9f33301155f954fba9a440ad8ee6315a9088144dbad684ebf1b333d969
+      size: 3419
+      sha256: 060e1bf4ddd55885b69f99e2cd5dd17733881288d766cf88be4ac9da2b0e825c
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageMigrationServiceTest.java
       state: FILE
       size: 6332
@@ -492,15 +524,24 @@ project_fingerprint:
       sha256: 9a42f76f8e781a94facaca951eb4ced2c2517af1477bedb75a1c3ff144f5d31b
     - path: tests/test_r04_storage_media_migration.py
       state: FILE
-      size: 2280
-      sha256: 41befb9bc07c7847794740b1b9cac491e306f4b5b9aff26480e83912c085ca85
+      size: 2554
+      sha256: 6f9e23e6c78a351cc405c7437c5e80c1a6f091c9ecc8eb1c5f63ae540401213f
+    - path: tests/test_run_affected_tests.py
+      state: FILE
+      size: 6998
+      sha256: 2ad17b0b1ff5b9fb945f2a13bad024bf642db74082dc7738fcaf7a85295680ce
 change_classification:
   database:
   - database/migrations/V021__r04_storage_media_invariants.sql
   - database/rollback/U021__r04_storage_media_invariants.sql
+  - database/tests/r04_storage_media_invariants.sql
   continuity:
   - docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
   code:
+  - scripts/run_affected_tests.py
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r04_database_invariants.sh
+  - scripts/run_r04_disposable_postgres_container.sh
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageMigrationService.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
@@ -510,6 +551,7 @@ change_classification:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageProviderAdapterTest.java
   tests:
   - tests/test_r04_storage_media_migration.py
+  - tests/test_run_affected_tests.py
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
@@ -558,8 +600,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前执行约束未授权创建子代理；本切片同时修改共享存储端口与同一迁移状态机，需由单一主控原子落库与验证
-event_hash: 43b206fdddeec07ddb2ceb2d21f9b5d2fb5946dd6fa14d84f086ae1b98bae981
+  reason: 当前执行约束未授权创建子代理；TASK-R04-002最终收口同时修改共享迁移、质量脚本与连续性证据，由单一主控原子提交
+event_hash: 82837625a05af54979ba20a05a187ae963e318806c0d8bee98c4c88b8b79f8e2
 ```
 
 ## 接续状态与事件头
@@ -571,8 +613,8 @@ active_session_id: SES-20260719T085423Z-0385FEE0
 last_session_id: SES-20260719T083704Z-6E4CE28F
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T083704Z-6E4CE28F-0005
-event_count: 931
-event_head_hash: 43b206fdddeec07ddb2ceb2d21f9b5d2fb5946dd6fa14d84f086ae1b98bae981
+event_count: 932
+event_head_hash: 82837625a05af54979ba20a05a187ae963e318806c0d8bee98c4c88b8b79f8e2
 event_chain_valid: true
 ```
 
@@ -695,9 +737,9 @@ recent_sessions: - session_id: SES-20260718T133151Z-12DB5949
   started_at: '2026-07-19T08:54:23Z'
   record: .continuity/sessions/SES-20260719T085423Z-0385FEE0.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md
-  updated_at: '2026-07-19T11:15:16Z'
+  updated_at: '2026-07-19T11:31:39Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-C40E17896B67
   session_id: SES-20260717T183459Z-D64E7407
@@ -1537,7 +1579,7 @@ recent_task_transitions: - transition_id: TRN-1EAFE057F615
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: ec6919b45a107a770fd13d86b7c3a38103415c67
+head: 0520113a2981439c9bcdeb6e5afb1ed26bf3c8d5
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1549,18 +1591,24 @@ status_porcelain:
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260719T085423Z-0385FEE0.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
+- ' M database/migrations/V021__r04_storage_media_invariants.sql'
+- ' M database/rollback/U021__r04_storage_media_invariants.sql'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageProviderAdapter.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageProviderAdapterTest.java'
-- ?? .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0003.yaml
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageMigrationService.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageMigrationServiceTest.java
+- ' M scripts/run_affected_tests.py'
+- ' M scripts/run_postgres_migration_smoke.sh'
+- ' M services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql'
+- ' M tests/test_r04_storage_media_migration.py'
+- ' M tests/test_run_affected_tests.py'
+- ?? .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0004.yaml
+- ?? artifacts/validation/r04-task002-module.json
+- ?? artifacts/validation/r04-task002-postgres.md
+- ?? database/tests/r04_storage_media_invariants.sql
+- ?? scripts/run_r04_database_invariants.sh
+- ?? scripts/run_r04_disposable_postgres_container.sh
 recent_commits:
+- "0520113a2981439c9bcdeb6e5afb1ed26bf3c8d5\t2026-07-19T19:16:34+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): persist resumable\
+  \ cross-provider migration"
 - "ec6919b45a107a770fd13d86b7c3a38103415c67\t2026-07-19T19:06:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): add provider-neutral\
   \ object port"
 - "77eb7d6797b0c90213616823872b7f9b4148b193\t2026-07-19T16:57:32+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): enforce media\
@@ -1575,18 +1623,21 @@ recent_commits:
   \ as completed"
 - "40807dc3d8e1dcfa56334d37cf8646bf9db483dd\t2026-07-19T16:30:34+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): finalize R03\
   \ acceptance matrix"
-- "e37faeaa31714e4026132b426acb0bd956032d84\t2026-07-19T16:28:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): archive R03\
-  \ close evidence"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`ff7b3d6919fc3dd9f625651fcb52f8208e679826515baa1a4d045d2c82a2c4e1`
-- 文件数：11
+- 指纹：`3210a09a6c9a8e889449fcc0e9e87b6e1c8318f130dfe45cf1feb70441d26aaa`
+- 文件数：17
 
 - `database/migrations/V021__r04_storage_media_invariants.sql`
 - `database/rollback/U021__r04_storage_media_invariants.sql`
+- `database/tests/r04_storage_media_invariants.sql`
 - `docs/03-continuity/R04_TASK-001_ENTRY_GATE.md`
+- `scripts/run_affected_tests.py`
+- `scripts/run_postgres_migration_smoke.sh`
+- `scripts/run_r04_database_invariants.sh`
+- `scripts/run_r04_disposable_postgres_container.sh`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageMigrationService.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java`
@@ -1595,6 +1646,7 @@ recent_commits:
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageMigrationServiceTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageProviderAdapterTest.java`
 - `tests/test_r04_storage_media_migration.py`
+- `tests/test_run_affected_tests.py`
 
 ## 当前 Release
 
@@ -3489,7 +3541,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `8ce93992807560c60b661e59cd1e7854fc6d5006ddde81a20b7362bc4212783f`
+- `CURRENT_STATUS.yaml` — `9d55aeb8f8eae0d2c825e7886311baa726a46c6b8f65c7aa17ac26ebedba5f59`
 - `NEXT_TASK.yaml` — `a58c76da69db3149420f3a7516ec69c95e64a536af966a6c26b582ac6fcb8595`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3500,20 +3552,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `570f4f66a59d46961abbc272378cbe71083bb74553604a49cefda31af0a9a7c7`
-- `.continuity/SESSION_INDEX.yaml` — `d0544b0a3688dd6c1967a5999204cd6edcf2101fba86f587b287f0eb1e7dd08c`
+- `.continuity/EVENT_LOG.jsonl` — `73ca31fbda7c5ac1f1e5656fb6997de4f5d8be8b75bb7eba035ca688880443b9`
+- `.continuity/SESSION_INDEX.yaml` — `6b1e2d2ea28628ddc8c17fb587f6a4ee08ab3d5dad86b3adf48ed8209e38c453`
 - `.continuity/TASK_CLAIMS.yaml` — `dcb1a1253c264a6883b1320118afab162bd392746f2e584047a610d5ac32c8ff`
 - `.continuity/TASK_TRANSITIONS.yaml` — `ecc9e1c4526162348ef7c5006fcfb2b2bf623d15f5de746e0f1d5491080f87e3`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c9d9a42ce1b9abb8d959a6e8f83046746650ac1c4c6d8a7d1b60372e8f7701ec`
-- `.continuity/ACTIVE_SESSION.yaml` — `3b59eee81a58e40a3e4dfb094e3372b4322d78d3762db20ccc076e36b68421b1`
+- `.continuity/ACTIVE_SESSION.yaml` — `b5d84a70148944e8f4c869cc015ceb945ed516b6f3862386c9a99b98e923751b`
 - `releases/R04/RELEASE_MANIFEST.yaml` — `c897c4706cdcb53bde1c053a6515a12fbad0fc3f01b24ae891b7426df203f3c6`
 - `releases/R04/DEFINITION_OF_READY.yaml` — `41aef5956ff6a2ab80957f9b477a5957fc26940eb502c6d67e3a7a5ae97fd84c`
 - `releases/R04/STORIES.yaml` — `aa71e87c502b76dbc59bff0fa6efe957f7855158cde1c7818bda636bfe41469e`
 - `releases/R04/TASKS.yaml` — `ac6d2deb7019fb0da29a35a793f92b645c913668c3ab719d33ca76ffaf88d3a3`
 - `releases/R04/ACCEPTANCE_MATRIX.csv` — `bf28fec8769cdcc468565a3f1300f1f0f16a43623a301cb94c7d8e37a6011df2`
 - `releases/R04/PARALLEL_EXECUTION_PLAN.yaml` — `9f76b85f11c0293ce8930f1068cf1fc5582242753ff141b5b6134d8e44e5f2dd`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md` — `de3a063efd1f8542d928594008d844b62f1d37c71eab70b03c9e5142f391876d`
-- `.continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0003.yaml` — `9b608fcab4ee3de00588536bc94647e7a3e6d1f99bf5a32292dbdfe1f870657b`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md` — `def218a751fd926a125d5a64be0b074d17def78333fa9dda78ac4e27989201de`
+- `.continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0004.yaml` — `20a221551f0c7afc4c73015fe5a5c9f92bd85a2980837fdfb28f80963b34d2d1`
 
 ## 接手硬规则
 

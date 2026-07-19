@@ -24,7 +24,10 @@ ALTER TABLE hhy.media_objects
   DROP CONSTRAINT IF EXISTS ck_r04_media_object_key;
 
 DROP INDEX IF EXISTS hhy.uq_r04_storage_scope_active;
+DROP INDEX IF EXISTS hhy.uq_r04_storage_active_bucket;
 ALTER TABLE hhy.storage_scope_bindings
+  DROP CONSTRAINT IF EXISTS ck_r04_storage_private_domain,
+  DROP CONSTRAINT IF EXISTS ck_r04_storage_binding_config,
   DROP CONSTRAINT IF EXISTS ck_r04_storage_binding_bucket,
   DROP CONSTRAINT IF EXISTS ck_r04_storage_binding_status,
   DROP CONSTRAINT IF EXISTS ck_r04_storage_provider_code,

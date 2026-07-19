@@ -163,12 +163,17 @@ def select_checks(
 
 def _tool_values(root: Path, release: str | None) -> dict[str, str]:
     windows = os.name == "nt"
+    maven_wrapper = root / "services" / "backend" / ("mvnw.cmd" if windows else "mvnw")
+    gradle_wrapper = root / "apps" / "android" / ("gradlew.bat" if windows else "gradlew")
     return {
         "python": sys.executable,
         "pnpm": resolve_pnpm_executable(),
         "git": resolve_git_executable(),
-        "maven_wrapper": "mvnw.cmd" if windows else "./mvnw",
-        "gradle_wrapper": "gradlew.bat" if windows else "./gradlew",
+        # subprocess does not reliably resolve wrappers from cwd on Windows after
+        # the portable tool PATH is assembled. Absolute repository paths keep the
+        # same quality plan executable across shells, computers and agents.
+        "maven_wrapper": str(maven_wrapper.resolve()),
+        "gradle_wrapper": str(gradle_wrapper.resolve()),
         "root": str(root),
         "release": release or "",
     }

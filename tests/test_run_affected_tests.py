@@ -60,6 +60,15 @@ class TestImpactMap(TestCase):
             self.assertEqual("X:/portable/git.exe", affected.resolve_git_executable())
             self.assertEqual("X:/portable/pnpm.cmd", affected.resolve_pnpm_executable())
 
+    def test_repository_wrappers_are_absolute_for_portable_execution(self) -> None:
+        tools = affected._tool_values(ROOT, None)
+        self.assertTrue(Path(tools["maven_wrapper"]).is_absolute())
+        self.assertTrue(Path(tools["gradle_wrapper"]).is_absolute())
+        self.assertEqual("mvnw.cmd" if os.name == "nt" else "mvnw",
+                         Path(tools["maven_wrapper"]).name)
+        self.assertEqual("gradlew.bat" if os.name == "nt" else "gradlew",
+                         Path(tools["gradle_wrapper"]).name)
+
     @mock.patch.object(affected.subprocess, "run")
     def test_execute_plan_records_failures_without_stopping(self, run: mock.Mock) -> None:
         run.side_effect = [

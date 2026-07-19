@@ -9,10 +9,18 @@ ALTER TABLE hhy.storage_scope_bindings
   ADD CONSTRAINT ck_r04_storage_binding_status
   CHECK (status IN ('DRAFT','TESTING','VERIFIED','ACTIVE','INACTIVE','FAILED')) NOT VALID,
   ADD CONSTRAINT ck_r04_storage_binding_bucket
-  CHECK (bucket IS NOT NULL AND btrim(bucket) <> '') NOT VALID;
+  CHECK (bucket IS NOT NULL AND btrim(bucket) <> '') NOT VALID,
+  ADD CONSTRAINT ck_r04_storage_binding_config
+  CHECK (config_version_id IS NOT NULL) NOT VALID,
+  ADD CONSTRAINT ck_r04_storage_private_domain
+  CHECK (scope_code = 'public_media' OR public_domain IS NULL) NOT VALID;
 
 CREATE UNIQUE INDEX uq_r04_storage_scope_active
   ON hhy.storage_scope_bindings (scope_code)
+  WHERE status = 'ACTIVE';
+
+CREATE UNIQUE INDEX uq_r04_storage_active_bucket
+  ON hhy.storage_scope_bindings (provider_code, bucket)
   WHERE status = 'ACTIVE';
 
 ALTER TABLE hhy.media_objects
