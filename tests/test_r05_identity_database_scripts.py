@@ -31,9 +31,11 @@ class R05IdentityDatabaseScriptsTest(unittest.TestCase):
         shell = RUNNER.read_text(encoding="utf-8")
         self.assertIn("HHY_DB_SMOKE_CONFIRM", shell)
         self.assertIn("U023__r05_identity_invariants.sql", shell)
+        self.assertIn("U024__r05_identity_api_storage.sql", shell)
         self.assertIn("V023__r05_identity_invariants.sql", shell)
+        self.assertIn("V024__r05_identity_api_storage.sql", shell)
         self.assertIn('[[ "${remaining}" == "0|0|0|0" ]]', shell)
-        self.assertIn('[[ "${reapplied}" == "30|12|1|28" ]]', shell)
+        self.assertIn('[[ "${reapplied}" == "32|12|1|30" ]]', shell)
 
     def test_container_is_postgres_17_disposable_and_not_published(self) -> None:
         shell = CONTAINER.read_text(encoding="utf-8")

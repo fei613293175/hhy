@@ -32,38 +32,38 @@ BEGIN
   END;
 
   INSERT INTO identity_verification_sessions(
-    user_id,state,status,expires_at,idempotency_key,attempt_no,last_event)
+    user_id,state,status,expires_at,idempotency_key,attempt_no,last_event,consent_version)
   VALUES (
     user_id,'r05-session-1','SESSION_CREATED',now()+interval '5 minutes',
-    'r05-session-key-1',1,'SESSION_CREATED')
+    'r05-session-key-1',1,'SESSION_CREATED','consent-v1')
   RETURNING id INTO session_id;
 
   BEGIN
     INSERT INTO identity_verification_sessions(
-      user_id,state,status,expires_at,idempotency_key)
+      user_id,state,status,expires_at,idempotency_key,consent_version)
     VALUES (
       user_id,'r05-session-duplicate-key','SESSION_CREATED',now()+interval '5 minutes',
-      'r05-session-key-1');
+      'r05-session-key-1','consent-v1');
     RAISE EXCEPTION 'R05_DUPLICATE_SESSION_IDEMPOTENCY_WAS_ACCEPTED';
   EXCEPTION WHEN unique_violation THEN NULL;
   END;
 
   BEGIN
     INSERT INTO identity_verification_sessions(
-      user_id,state,status,expires_at,idempotency_key)
+      user_id,state,status,expires_at,idempotency_key,consent_version)
     VALUES (
       user_id,'r05-session-second-active','LIVENESS_PENDING',now()+interval '5 minutes',
-      'r05-session-key-2');
+      'r05-session-key-2','consent-v1');
     RAISE EXCEPTION 'R05_SECOND_ACTIVE_SESSION_WAS_ACCEPTED';
   EXCEPTION WHEN unique_violation THEN NULL;
   END;
 
   BEGIN
     INSERT INTO identity_verification_sessions(
-      user_id,state,status,expires_at,idempotency_key)
+      user_id,state,status,expires_at,idempotency_key,consent_version)
     VALUES (
       other_user_id,'r05-session-bad-terminal','REJECTED',now()+interval '5 minutes',
-      'r05-session-key-bad-terminal');
+      'r05-session-key-bad-terminal','consent-v1');
     RAISE EXCEPTION 'R05_TERMINAL_SESSION_WITHOUT_COMPLETION_WAS_ACCEPTED';
   EXCEPTION WHEN check_violation THEN NULL;
   END;
@@ -73,10 +73,11 @@ BEGIN
   WHERE id=session_id;
 
   INSERT INTO identity_verification_sessions(
-    user_id,state,status,expires_at,idempotency_key,attempt_no,retry_of_session_id,last_event)
+    user_id,state,status,expires_at,idempotency_key,attempt_no,retry_of_session_id,last_event,
+    consent_version)
   VALUES (
     user_id,'r05-session-retry','SESSION_CREATED',now()+interval '5 minutes',
-    'r05-session-key-retry',2,session_id,'RETRY_CREATED')
+    'r05-session-key-retry',2,session_id,'RETRY_CREATED','consent-v1')
   RETURNING id INTO retry_session_id;
 
   BEGIN

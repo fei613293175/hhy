@@ -15,6 +15,7 @@ PSQL=(psql "${DATABASE_URL}" -X -v ON_ERROR_STOP=1)
 echo "R05_IDENTITY_INVARIANTS PASS"
 
 "${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/rollback/U024__r05_identity_api_storage.sql" \
   -f "${ROOT}/database/rollback/U023__r05_identity_invariants.sql" >/dev/null
 remaining="$(${PSQL[@]} -qAt -c "
   SELECT
@@ -33,6 +34,8 @@ remaining="$(${PSQL[@]} -qAt -c "
         ('identity_verification_sessions','retry_of_session_id'),
         ('identity_verification_sessions','last_event'),
         ('identity_verification_sessions','completed_at'),
+        ('identity_verification_sessions','consent_version'),
+        ('identity_verification_sessions','failure_code'),
         ('identity_provider_requests','idempotency_key'),
         ('identity_provider_requests','request_hash'),
         ('identity_provider_requests','status'),
@@ -56,10 +59,12 @@ remaining="$(${PSQL[@]} -qAt -c "
   echo "R05 rollback left constraints, indexes, triggers, or columns: ${remaining}" >&2
   exit 1
 }
-echo "R05_U023_ROLLBACK PASS"
+echo "R05_U024_U023_ROLLBACK PASS"
 
 "${PSQL[@]}" --single-transaction \
   -f "${ROOT}/database/migrations/V023__r05_identity_invariants.sql" >/dev/null
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V024__r05_identity_api_storage.sql" >/dev/null
 reapplied="$(${PSQL[@]} -qAt -c "
   SELECT
     (SELECT count(*) FROM pg_constraint
@@ -77,6 +82,8 @@ reapplied="$(${PSQL[@]} -qAt -c "
         ('identity_verification_sessions','retry_of_session_id'),
         ('identity_verification_sessions','last_event'),
         ('identity_verification_sessions','completed_at'),
+        ('identity_verification_sessions','consent_version'),
+        ('identity_verification_sessions','failure_code'),
         ('identity_provider_requests','idempotency_key'),
         ('identity_provider_requests','request_hash'),
         ('identity_provider_requests','status'),
@@ -96,9 +103,9 @@ reapplied="$(${PSQL[@]} -qAt -c "
         ('sensitive_data_access_logs','request_id'),
         ('sensitive_data_access_logs','media_object_id')
       ));")"
-[[ "${reapplied}" == "30|12|1|28" ]] || {
+[[ "${reapplied}" == "32|12|1|30" ]] || {
   echo "R05 reapply counts were unexpected: ${reapplied}" >&2
   exit 1
 }
 "${PSQL[@]}" -f "${ROOT}/database/tests/r05_identity_invariants.sql" >/dev/null
-echo "R05_V023_REAPPLY PASS constraints=30 indexes=12 trigger=1 columns=28"
+echo "R05_V023_V024_REAPPLY PASS constraints=32 indexes=12 trigger=1 columns=30"
