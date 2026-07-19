@@ -456,3 +456,12 @@
 - 摘要：R04开发就绪核验完成：2项需求、3个冻结媒体API、12张相关表、1个Android交互面、2个故事和6项测试均无TBD；存储外部阻断边界、10207 APK基线与last_green自动回填防复发修复全部落地
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md`
 
+## TASK-R04-002 · COMPLETED · 2026-07-19T11:33:01Z
+
+- Task close: TASK-R04-002 / SES-20260719T085423Z-0385FEE0
+- Release：`R04`
+- Story：`STORY-R04-002`
+- Actor：`codex-root`
+- 摘要：TASK-R04-002完成：存储Scope与活动桶隔离、R2/OSS端口、私有短期URL、跨供应商迁移游标恢复、访问审计、PostgreSQL空库/回滚重放及MODULE门禁全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md`
+

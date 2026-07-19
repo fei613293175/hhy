@@ -1,5 +1,5 @@
-id: TASK-R04-002
-title: 纵向批次A：存储Scope、R2/OSS适配与媒体数据基线
+id: TASK-R04-003
+title: 纵向批次B：媒体上传、完成与删除API闭环
 status: READY
 release: R04
 requirements:
@@ -7,22 +7,21 @@ requirements:
 - REQ-STORAGE-001
 - REQ-APK-001
 depends_on:
-- TASK-R04-001
+- TASK-R04-002
 definition_of_ready: releases/R04/DEFINITION_OF_READY.yaml
 stories: releases/R04/STORIES.yaml
 steps:
-- Flyway空库、升级库、回滚和不变量证据
-- R2/OSS合同测试、Scope隔离、私有URL TTL、迁移游标恢复证据
-- 供应商超时、重试和恢复测试
+- 三个冻结operationId的数据、领域、API和测试闭环
+- 越权、过期、哈希不符、重复完成、重复删除和审计证据
 acceptance:
-- 无TODO/生产Mock或跨Scope数据泄漏
-- 私有预览、迁移和审计不需要新增冻结外部API；若需要则先走CR
+- 控制器仅编排应用服务，跨模块副作用使用Outbox
+- 不手写重复DTO，不新增未批准API
 - MODULE门禁通过
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-002
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-003
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-002
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-003
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'

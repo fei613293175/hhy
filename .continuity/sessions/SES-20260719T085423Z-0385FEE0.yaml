@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260719T085423Z-0385FEE0
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R04-002
 story_id: STORY-R04-002
 goal: 完成存储Scope隔离、R2/OSS适配端口、媒体数据不变量、私有签名URL、迁移恢复与访问审计的可验证基线
 started_at: '2026-07-19T08:54:23Z'
-updated_at: '2026-07-19T11:31:42Z'
+updated_at: '2026-07-19T11:33:05Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -58,22 +58,35 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T11:31:39Z'
-  expires_at: '2026-07-19T15:31:39Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0004.yaml
+  renewed_at: '2026-07-19T11:33:03Z'
+  expires_at: '2026-07-19T15:33:03Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md
-next_step: 提交并推送TASK-R04-002最终证据，关闭TASK-R04-002并领取TASK-R04-003媒体上传、完成、私有readUrl与删除API闭环
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: ad83079e75d6be15ab4312621cf4edb9338ce5eef7ce297237f75823242ff25e
-  generated_at: '2026-07-19T11:31:41Z'
+  context_hash: 59e419b993c486c3ab9e7fba2607b054d548172fb309f0a9aec09f723611c6b5
+  generated_at: '2026-07-19T11:33:05Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R04-002完成：存储Scope与活动桶隔离、R2/OSS端口、私有短期URL、跨供应商迁移游标恢复、访问审计、PostgreSQL空库/回滚重放及MODULE门禁全部通过
+  code_commit: 1d3f2adc7f9c8a4e7863639c1aa3ff6b7748dd7b
+  next_release: R04
+  next_task: TASK-R04-003
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-19T11:33:01Z'
+  closure_checkpoint_id: CP-SES-20260719T085423Z-0385FEE0-0005
+  closed_at: '2026-07-19T11:33:05Z'
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
   reason: 当前执行约束未授权创建子代理；TASK-R04-002最终收口同时修改共享迁移、质量脚本与连续性证据，由单一主控原子提交
+closed_at: '2026-07-19T11:33:05Z'
