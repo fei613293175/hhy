@@ -447,3 +447,12 @@
 - 摘要：R03版本关闭完成：13个冻结API、V019迁移、193项后端测试、73项管理端测试、Staging可观测与回滚、10206固定签名APK四方交付及项目所有者真机验收全部PASS，终态Manifest、Tag和桌面测试说明已归档
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T081942Z-8D5C4241.md`
 
+## TASK-R04-001 · COMPLETED · 2026-07-19T08:52:59Z
+
+- Task close: TASK-R04-001 / SES-20260719T083704Z-6E4CE28F
+- Release：`R04`
+- Story：`STORY-R04-002`
+- Actor：`codex-root`
+- 摘要：R04开发就绪核验完成：2项需求、3个冻结媒体API、12张相关表、1个Android交互面、2个故事和6项测试均无TBD；存储外部阻断边界、10207 APK基线与last_green自动回填防复发修复全部落地
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md`
+

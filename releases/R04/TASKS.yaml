@@ -3,9 +3,9 @@ title: 媒体与多对象存储
 tasks:
 - id: TASK-R04-001
   title: 媒体与多对象存储开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
-  requirements: &requirements
+  requirements: &id001
   - REQ-MEDIA-001
   - REQ-STORAGE-001
   - REQ-APK-001
@@ -20,16 +20,17 @@ tasks:
   - R03存储Scope与供应商连接门禁具备明确前置状态
   - R04固定测试签名和APK交付要求可执行
   session_log_required: true
+  completed_at: '2026-07-19T08:52:59Z'
 - id: TASK-R04-002
   title: 纵向批次A：存储Scope、R2/OSS适配与媒体数据基线
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R04-001
   parallelizable_with:
   - TASK-R04-004
   stories:
   - STORY-R04-002
-  requirements: *requirements
+  requirements: *id001
   description: 完成媒体迁移、状态不变量、Scope隔离、公开/私有桶策略、签名URL、迁移恢复、访问审计以及R2/OSS适配器合同。
   deliverables:
   - Flyway空库、升级库、回滚和不变量证据
@@ -47,7 +48,7 @@ tasks:
   - TASK-R04-002
   stories:
   - STORY-R04-001
-  requirements: *requirements
+  requirements: *id001
   description: 完成创建上传会话、直传/分片完成、私有readUrl和未绑定媒体删除，验证owner、purpose、大小、SHA、过期、幂等和审计。
   deliverables:
   - 三个冻结operationId的数据、领域、API和测试闭环
@@ -66,7 +67,7 @@ tasks:
   - TASK-R04-002
   stories:
   - STORY-R04-001
-  requirements: *requirements
+  requirements: *id001
   description: 使用冻结生成类型实现SHEET-MEDIA-001选择、并发进度、失败分片重试、取消、完成回传、私有预览与删除确认。
   deliverables:
   - Android媒体Feature及模块测试
@@ -86,7 +87,7 @@ tasks:
   - TASK-R04-004
   stories:
   - STORY-R04-002
-  requirements: *requirements
+  requirements: *id001
   description: 主控汇合存储、媒体API和Android分区，执行6项权威测试、契约/E2E、安全、并发、供应商故障与生成物漂移检查。
   deliverables:
   - 6项权威测试、E2E、安全和故障注入报告
@@ -101,7 +102,7 @@ tasks:
   status: BLOCKED
   depends_on:
   - TASK-R04-005
-  requirements: *requirements
+  requirements: *id001
   description: 部署Staging，验证上传/存储结构化日志、TraceId、RED指标、业务指标、告警、生命周期和回滚。
   deliverables:
   - 运行手册与回滚演练证据
@@ -115,7 +116,7 @@ tasks:
   status: BLOCKED
   depends_on:
   - TASK-R04-006
-  requirements: *requirements
+  requirements: *id001
   description: 使用固定Staging签名和单调versionCode构建，完成桌面、仓库忽略副本、服务器与公网下载四方SHA校验并等待项目所有者真机验收。
   deliverables:
   - APK可下载、可安装且桌面副本保留
@@ -129,7 +130,7 @@ tasks:
   status: BLOCKED
   depends_on:
   - TASK-R04-007
-  requirements: *requirements
+  requirements: *id001
   description: 回填追踪矩阵、Session Log、问题登记、可复用模式、CURRENT_STATUS和NEXT_TASK。
   deliverables:
   - 全新AI仅凭仓库可继续
