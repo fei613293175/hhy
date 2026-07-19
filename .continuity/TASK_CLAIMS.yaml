@@ -1582,7 +1582,7 @@ claims:
   task_id: TASK-R05-005
   story_id: STORY-R05-001
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-19T22:40:52Z'
   allowed_paths:
   - apps/admin-web/**
@@ -1599,3 +1599,4 @@ claims:
   - scripts/**
   - R05 身份认证后端、H5回调、管理端审核、PostgreSQL不变量、供应商回调故障注入与专项测试报告
   - CHANGELOG.md
+  closed_at: '2026-07-19T23:04:20Z'

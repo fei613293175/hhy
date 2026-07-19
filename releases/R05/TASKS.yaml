@@ -81,7 +81,7 @@ tasks:
   completed_at: '2026-07-19T22:38:18Z'
 - id: TASK-R05-005
   title: 单一实名认证专项测试与故障注入
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R05-003
   - TASK-R05-004
@@ -96,9 +96,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-19T23:04:16Z'
 - id: TASK-R05-006
   title: 单一实名认证可观测性与预发布验收
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R05-005
   requirements: *id001
