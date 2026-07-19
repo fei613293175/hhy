@@ -1,0 +1,20 @@
+{
+  "release": "R04",
+  "commit": "04cda65d4a0749727a482526b616fb56cb475f34",
+  "version_name": "1.2.2-debug",
+  "version_code": 10207,
+  "build_status": "PASS",
+  "checks": ["testDebugUnitTest", "lintDebug", "assembleDebug", "apksigner", "zipalign", "embeddedApiBaseUrl"],
+  "stable_signing": true,
+  "signing_profile_id": "hhy-staging-test-v1",
+  "signing_fingerprint": "f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873",
+  "api_base_url": "https://api.orbexa.cc",
+  "embedded_api_base_url_occurrences": 1,
+  "embedded_placeholder_occurrences": 0,
+  "toolchain_image": "hhy-android-toolchain:r01-46fb273",
+  "toolchain_image_id": "sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607",
+  "source_archive_sha256": "bc3587241865c5ac4f041d51bfe39daab28b6b7a42e7e1e6de439499e013fb55",
+  "apk_sha256": "381d91e047c225009f38b152b790fb6f0fac14320d983be463f9ff368327bfce",
+  "apk_size_bytes": 11956589,
+  "built_at": "2026-07-19T14:59:35Z"
+}

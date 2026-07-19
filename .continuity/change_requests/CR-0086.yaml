@@ -1,0 +1,47 @@
+protocol_version: '1.0'
+cr_id: CR-0086
+title: 纳入R04测试APK交付与验证证据目录
+status: SUPERSEDED
+created_at: '2026-07-19T15:10:31Z'
+updated_at: '2026-07-19T15:11:31Z'
+requester_actor_id: codex-root
+approver_actor_id: r04-apk-scope-review
+task_id: TASK-R04-007
+session_id: SES-20260719T144443Z-BF11796E
+user_request: 项目所有者要求持续推进版本开发、完成后将APK放桌面并保证换电脑换AI可无状态接续
+reason: TASK-R04-007的定义交付物包含APK Manifest、机器验证、测试报告和真机说明，但自动领取范围漏掉artifacts目录，必须登记精确例外后才能由连续性门禁追溯
+original_rule: TASK-R04-007会话自动范围未包含artifacts目录，导致任务规定的APK Manifest、验证证据和报告无法建立检查点
+new_rule: 仅为TASK-R04-007允许写入R04 APK Manifest、两组验证证据和R04测试报告；不扩大业务代码、API、数据库或用户界面范围
+impact_summary: 补齐任务定义中已要求的产物追溯目录，使机器交付和项目所有者真机门禁可跨电脑跨AI恢复
+impact:
+  files:
+  - artifacts/apk/R04/**
+  - artifacts/validation/r04-apk-delivery/**
+  - artifacts/validation/r04-task007-android/**
+  - artifacts/reports/R04/**
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python scripts/check_v122_documentation.py --release R04
+  - python scripts/deliver_android_test_apk.py verify --manifest artifacts/apk/R04/APK_MANIFEST.yaml
+  releases:
+  - R04
+  migration_and_compatibility: 仅新增测试产物元数据、验证证据和说明文档；无运行时、数据库、API或客户端迁移
+user_confirmation: 项目所有者已明确要求每版APK桌面交付、完整追溯、测试说明和跨AI无状态接续
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T15:10:49Z'
+  note: 独立核对：新增路径均是TASK-R04-007明示交付物，范围精确且不改变产品功能
+machine_record: .continuity/change_requests/CR-0086.yaml
+document: docs/03-continuity/change-requests/CR-0086-纳入R04测试APK交付与验证证据目录.md
+decision_log:
+- at: '2026-07-19T15:11:31Z'
+  actor_id: codex-root
+  status: SUPERSEDED
+  note: 范围申请包含通配符，不符合连续性门禁的精确文件要求；由精确文件CR替代
+  session_id: SES-20260719T144443Z-BF11796E
+session_ids:
+- SES-20260719T144443Z-BF11796E

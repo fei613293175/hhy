@@ -11,9 +11,11 @@ task_id: TASK-R04-007
 story_id: STORY-R04-001
 goal: 完成R04固定测试签名APK、生产API地址门禁、桌面/仓库/服务器/公网四方SHA追溯并交给项目所有者真机验收
 started_at: '2026-07-19T14:44:43Z'
-updated_at: '2026-07-19T14:50:39Z'
+updated_at: '2026-07-19T15:16:33Z'
 takeover_of: null
-change_requests: []
+change_requests:
+- CR-0086
+- CR-0087
 scope:
   allowed_paths:
   - apps/android/**
@@ -29,8 +31,23 @@ scope:
   - design/**
   - scripts/**
   - CHANGELOG.md
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - artifacts/apk/R04/APK_MANIFEST.yaml
+  - artifacts/validation/r04-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r04-task007-android/api-public-auth.json
+  - artifacts/validation/r04-task007-android/apk-badging.txt
+  - artifacts/validation/r04-task007-android/apk-signing.txt
+  - artifacts/validation/r04-task007-android/build-evidence.json
+  - artifacts/validation/r04-task007-android/embedded-api-count.txt
+  - artifacts/validation/r04-task007-android/embedded-placeholder-count.txt
+  - artifacts/validation/r04-task007-android/evidence-sha256.txt
+  - artifacts/validation/r04-task007-android/gradle-build.log
+  - artifacts/validation/r04-task007-android/source-archive-sha256.txt
+  - artifacts/validation/r04-task007-android/toolchain-image-id.txt
+  - artifacts/validation/r04-task007-android/zipalign.txt
+  - artifacts/reports/R04/R04-version-test-guide.md
+  - artifacts/reports/R04/TASK-R04-007-android-apk.md
+  source: story+explicit+approved-cr:CR-0087
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -40,22 +57,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T14:50:36Z'
-  expires_at: '2026-07-19T18:50:36Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260719T144443Z-BF11796E/0002.yaml
+  renewed_at: '2026-07-19T15:16:30Z'
+  expires_at: '2026-07-19T19:16:30Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260719T144443Z-BF11796E/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T144443Z-BF11796E.md
-next_step: 提交并推送APK身份后执行固定工具链构建、固定签名和四方交付
+next_step: 等待项目所有者按桌面R04 versionCode 10207测试说明完成真机安装启动与基础回归，收到明确PASS后回填owner门禁并关闭TASK-R04-007
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 12b2e174c1617d871114363d4a812e288185f77beefa88efadc3daa1d2a7980a
-  generated_at: '2026-07-19T14:50:38Z'
+  context_hash: 0ca6a9050a5d5aecf21e9ed53676c057958aa00ca76d39b760d0d870c37e98d1
+  generated_at: '2026-07-19T15:16:32Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 固定签名与唯一交付事务必须串行
+  reason: 固定签名、精确下载路由与四方哈希属于同一不可分割交付事务；项目所有者真机门禁必须由所有者独立执行

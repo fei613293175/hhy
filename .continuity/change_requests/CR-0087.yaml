@@ -1,0 +1,50 @@
+protocol_version: '1.0'
+cr_id: CR-0087
+title: 精确纳入R04测试APK交付证据文件
+status: APPROVED
+created_at: '2026-07-19T15:11:32Z'
+updated_at: '2026-07-19T15:11:57Z'
+requester_actor_id: codex-root
+approver_actor_id: r04-apk-scope-review
+task_id: TASK-R04-007
+session_id: SES-20260719T144443Z-BF11796E
+user_request: 项目所有者要求持续推进版本开发、完成后将APK放桌面并保证换电脑换AI可无状态接续
+reason: 以精确文件替代CR-0086通配符范围，纳入TASK-R04-007规定的APK Manifest、机器验证和测试说明
+original_rule: TASK-R04-007会话自动范围未包含artifacts精确文件，无法建立交付检查点
+new_rule: 仅允许写入本次R04测试APK的精确Manifest、交付验证、构建证据和两份测试报告文件
+impact_summary: 补齐任务定义中已要求的产物追溯精确文件，使机器交付和项目所有者真机门禁可跨电脑跨AI恢复
+impact:
+  files:
+  - artifacts/apk/R04/APK_MANIFEST.yaml
+  - artifacts/validation/r04-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r04-task007-android/api-public-auth.json
+  - artifacts/validation/r04-task007-android/apk-badging.txt
+  - artifacts/validation/r04-task007-android/apk-signing.txt
+  - artifacts/validation/r04-task007-android/build-evidence.json
+  - artifacts/validation/r04-task007-android/embedded-api-count.txt
+  - artifacts/validation/r04-task007-android/embedded-placeholder-count.txt
+  - artifacts/validation/r04-task007-android/evidence-sha256.txt
+  - artifacts/validation/r04-task007-android/gradle-build.log
+  - artifacts/validation/r04-task007-android/source-archive-sha256.txt
+  - artifacts/validation/r04-task007-android/toolchain-image-id.txt
+  - artifacts/validation/r04-task007-android/zipalign.txt
+  - artifacts/reports/R04/R04-version-test-guide.md
+  - artifacts/reports/R04/TASK-R04-007-android-apk.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python scripts/check_v122_documentation.py --release R04
+  - python scripts/deliver_android_test_apk.py verify --manifest artifacts/apk/R04/APK_MANIFEST.yaml
+  releases:
+  - R04
+  migration_and_compatibility: 仅新增测试产物元数据、验证证据和说明文档；无运行时、数据库、API或客户端迁移
+user_confirmation: 项目所有者已明确要求每版APK桌面交付、完整追溯、测试说明和跨AI无状态接续
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T15:11:57Z'
+  note: 独立核对：全部为TASK-R04-007明示交付物的精确文件，不改变产品功能
+machine_record: .continuity/change_requests/CR-0087.yaml
+document: docs/03-continuity/change-requests/CR-0087-精确纳入R04测试APK交付证据文件.md
