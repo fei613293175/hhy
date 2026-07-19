@@ -33,19 +33,21 @@ checks:
   ci_job: tooling
   paths:
   - scripts/run_affected_tests.py
+  - scripts/hhy_workflow.py
   - scripts/continuity_lib.py
   - scripts/continuity_gate.py
   - scripts/check_generated_assets.py
   - scripts/generate_release_slice.py
   - scripts/deliver_android_test_apk.py
   - tests/test_run_affected_tests.py
+  - tests/test_hhy_workflow.py
   - tests/test_generated_assets.py
   - tests/test_android_apk_delivery.py
   - config/test-impact-map.yaml
   - .github/**
   - Makefile
   cwd: .
-  command: ['{python}', -m, unittest, tests.test_run_affected_tests, tests.test_generated_assets, tests.test_android_apk_delivery]
+  command: ['{python}', -m, unittest, tests.test_hhy_workflow, tests.test_run_affected_tests, tests.test_generated_assets, tests.test_android_apk_delivery]
   timeout_seconds: 300
 - id: contract-runtime-assets
   profiles: [FAST]

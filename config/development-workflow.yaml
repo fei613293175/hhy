@@ -1,0 +1,89 @@
+schema_version: 1
+purpose: 跨电脑跨AI的轻重分级开发入口，简单任务不得被无理由升级为版本级发布
+
+intents:
+  auto:
+    description: 根据影响路径保守判定；产品代码默认STANDARD，避免误降级
+  maintenance:
+    description: 文档、测试、工具或机械维护
+  bugfix:
+    description: 已知缺陷的最小修复和回归测试
+  feature:
+    description: 正式功能或行为变更
+  test-apk:
+    description: 需要项目所有者真机回归的测试APK
+  release-close:
+    description: 大版本正式关闭
+
+modes:
+  SIMPLE:
+    quality_profile: FAST
+    bugfix_quality_profile: MODULE
+    full_integration: false
+    release_gate: false
+    rule: 单模块、低风险、小范围任务只运行受影响检查；除冻结事实变化外不强制拆分多个CR
+  STANDARD:
+    quality_profile: MODULE
+    full_integration: false
+    release_gate: false
+    rule: 单一产品域的正式功能或高风险小范围变更运行模块门禁
+  CROSS_LAYER:
+    quality_profile: MODULE
+    full_integration: on_vertical_slice_completion
+    release_gate: false
+    rule: 多产品域先并行模块验证，主控串行完成契约与纵向集成
+  TEST_APK:
+    quality_profile: MODULE
+    full_integration: false
+    release_gate: false
+    apk_route_preflight: required_before_build
+    rule: 只增加真机回归所需的签名、端点、路由和四方SHA门禁，不冒充版本关闭
+  RELEASE_CLOSE:
+    quality_profile: RELEASE
+    full_integration: true
+    release_gate: true
+    rule: 仅在大版本封板时执行全量集成、正式APK、文档核对和交接关闭
+
+simple_task:
+  max_classified_files: 6
+  max_product_domains: 1
+  allowed_intents: [maintenance, bugfix]
+
+classification:
+  ignored_paths:
+  - .continuity/**
+  - artifacts/context/**
+  - catalogs/session_index.csv
+  - catalogs/change_request_index.csv
+  domains:
+    android: [apps/android/**]
+    h5: [apps/h5/**]
+    admin: [apps/admin-web/**]
+    backend: [services/backend/**]
+    database: [database/**, services/backend/**/db/migration/**]
+    contracts: [contracts/**, packages/api-client/**, packages/domain-types/**]
+    infrastructure: [infra/**, config/DOMAIN_PLAN.yaml]
+    tooling: [scripts/**, tests/**, config/**, .github/**, Makefile]
+    documentation: [docs/**, releases/**, AGENTS.md, START_HERE.md, CHANGELOG.md]
+  product_domains: [android, h5, admin, backend, database, contracts, infrastructure]
+  escalation_paths:
+  - database/migrations/**
+  - database/rollback/**
+  - contracts/openapi.yaml
+  - services/backend/**/db/migration/**
+  - services/backend/**/ledger/**
+  - services/backend/**/payment/**
+  - services/backend/**/payout/**
+  - infra/**
+  - artifacts/apk/**
+  - scripts/deliver_android_test_apk.py
+  - scripts/check_release_artifacts.py
+
+duration_budgets_seconds:
+  SIMPLE: 1800
+  STANDARD: 3600
+  CROSS_LAYER: 5400
+  TEST_APK: 4500
+  RELEASE_CLOSE: 10800
+  single_check_warning: 600
+

@@ -36,6 +36,20 @@ class FakePublisher:
         self.publish_calls = 0
         self.verify_calls = 0
         self.retract_calls = 0
+        self.preflight_calls = 0
+        self.preflight_error: Exception | None = None
+
+    def preflight_route(self, release: str, commit: str) -> dict[str, Any]:
+        self.preflight_calls += 1
+        if self.preflight_error is not None:
+            raise self.preflight_error
+        apk_file = delivery.canonical_apk_name(release, commit)
+        return {
+            "status": "PASS",
+            "route": f"/{release.lower()}-artifacts/{apk_file}",
+            "remote_path": f"/www/download/{release.lower()}-artifacts/{apk_file}",
+            "checked_at": "2026-07-19T00:00:00Z",
+        }
 
     def publish(self, apk_path: Path, identity: Any) -> Any:
         self.publish_calls += 1
@@ -203,6 +217,7 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             )
             self.assertTrue(result["dry_run"])
             self.assertEqual(0, publisher.publish_calls)
+            self.assertEqual(0, publisher.preflight_calls)
             self.assertFalse(fixture.artifact_root.exists())
             self.assertFalse(fixture.desktop.exists())
 
@@ -214,12 +229,16 @@ class AndroidApkDeliveryTest(unittest.TestCase):
                 fixture.config(), publisher, https_verifier=passing_https
             )
             self.assertEqual("PENDING_OWNER_ACCEPTANCE", result["status"])
+            self.assertEqual(1, publisher.preflight_calls)
             self.assertEqual(1, publisher.publish_calls)
             manifest_path = fixture.artifact_root / "R02" / "APK_MANIFEST.yaml"
             manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
             self.assertEqual("PENDING", manifest["test_status"])
             self.assertEqual("PENDING", manifest["owner_physical_test"])
             self.assertEqual("PASS", manifest["delivery_status"])
+            evidence_path = fixture.evidence_root / "r02-apk-delivery" / "delivery-evidence.json"
+            evidence = json.loads(evidence_path.read_text(encoding="utf-8"))
+            self.assertEqual("PASS", evidence["route_preflight"]["status"])
             artifact = fixture.artifact_root / "R02" / manifest["apk_file"]
             desktop = fixture.desktop / manifest["apk_file"]
             self.assertEqual(manifest["sha256"], delivery.stream_sha256(artifact))
@@ -241,6 +260,38 @@ class AndroidApkDeliveryTest(unittest.TestCase):
                     )
                 self.assertEqual(0, publisher.publish_calls)
                 self.assertFalse((fixture.artifact_root / "R02" / "APK_MANIFEST.yaml").exists())
+
+    def test_prepare_stops_before_copy_or_publish_when_exact_route_is_missing(self) -> None:
+        with TemporaryDirectory() as temporary:
+            fixture = DeliveryFixture(Path(temporary))
+            publisher = FakePublisher()
+            publisher.preflight_error = delivery.DeliveryError("exact route is missing")
+            with self.assertRaises(delivery.DeliveryError):
+                delivery.prepare_delivery(fixture.config(), publisher, https_verifier=passing_https)
+            self.assertEqual(1, publisher.preflight_calls)
+            self.assertEqual(0, publisher.publish_calls)
+            self.assertFalse(fixture.artifact_root.exists())
+            self.assertFalse(fixture.desktop.exists())
+
+    def test_remote_route_preflight_checks_exact_nginx_location(self) -> None:
+        commands: list[list[str]] = []
+        expected_route = "/r02-artifacts/hhy-r02-1234567-debug.apk"
+
+        def route_runner(args: Sequence[str], timeout: int) -> Any:
+            commands.append(list(args))
+            return delivery.CommandResult(0, expected_route + "\n", "")
+
+        publisher = delivery.RemotePublisher(
+            "obx-test",
+            "/www/wwwroot/download.orbexa.cc",
+            runner=route_runner,
+        )
+        result = publisher.preflight_route("R02", COMMIT)
+        self.assertEqual("PASS", result["status"])
+        self.assertEqual(expected_route, result["route"])
+        self.assertEqual(1, len(commands))
+        self.assertIn("nginx -T", commands[0][-1])
+        self.assertIn("location = /r02-artifacts/hhy-r02-1234567-debug.apk {", commands[0][-1])
 
     def test_prepare_rejects_wrong_version_before_publish(self) -> None:
         with TemporaryDirectory() as temporary:

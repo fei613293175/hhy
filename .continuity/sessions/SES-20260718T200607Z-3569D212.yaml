@@ -11,7 +11,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-19T05:15:04Z'
+updated_at: '2026-07-19T06:03:02Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -44,6 +44,7 @@ change_requests:
 - CR-0078
 - CR-0079
 - CR-0080
+- CR-0081
 scope:
   allowed_paths:
   - apps/**
@@ -217,7 +218,14 @@ scope:
   - scripts/continuity_gate.py
   - tests/test_continuity_historical_fingerprint.py
   - NEXT_TASK.yaml
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079+approved-cr:CR-0080
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - scripts/hhy_workflow.py
+  - scripts/run_affected_tests.py
+  - tests/test_hhy_workflow.py
+  - tests/test_run_affected_tests.py
+  - docs/09-development/统一开发与交付效率规范.md
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079+approved-cr:CR-0080+approved-cr:CR-0081
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -227,22 +235,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T05:15:01Z'
-  expires_at: '2026-07-19T09:15:01Z'
-checkpoint_sequence: 31
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0031.yaml
+  renewed_at: '2026-07-19T06:02:59Z'
+  expires_at: '2026-07-19T10:02:59Z'
+checkpoint_sequence: 34
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0034.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 提交并推送交接关闭记录；等待项目所有者真机测试，同时保持后端和下载服务健康
+next_step: 暂存最终检查点与门禁证据，提交并推送统一工作流改造
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 505ed80e9c834ab59b97f4070c31350078d66bc921b9d59c9a0abd02f400eab3
-  generated_at: '2026-07-19T05:15:04Z'
+  context_hash: e438e230023c7dd4410f10d6b9d592bedcf1463f8f4bb974137e03ef7bc9ccd5
+  generated_at: '2026-07-19T06:03:01Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 关闭记录与唯一接续指针必须同步推送
+  reason: 最终连续性、测试运行器和发布脚本需要由唯一事实主控串行关闭

@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T05:15:04Z
-- Context Hash：`505ed80e9c834ab59b97f4070c31350078d66bc921b9d59c9a0abd02f400eab3`
+- 生成时间：2026-07-19T06:03:01Z
+- Context Hash：`e438e230023c7dd4410f10d6b9d592bedcf1463f8f4bb974137e03ef7bc9ccd5`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -68,7 +68,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R03-007
-updated_at: '2026-07-19T05:15:01Z'
+updated_at: '2026-07-19T06:02:59Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -103,15 +103,15 @@ continuity:
   active_session_id: SES-20260718T200607Z-3569D212
   actor_id: codex-root
   story_id: STORY-R03-004
-  lease_expires_at: '2026-07-19T09:15:01Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0031.yaml
-  project_fingerprint: ff8eac7fe673dabb4290b8c119ca2440e34c3e4866f1aa99a1522fd47df6de87
+  lease_expires_at: '2026-07-19T10:02:59Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0034.yaml
+  project_fingerprint: 8f494275a4edf259d674f94f744c5e18713c7aa490bacbe7435b31507c476ad0
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 709987ab9bf2b84928e4c364810a301bf32cee749472ca0fcdcce9df140b45f7
-    generated_at: '2026-07-19T05:14:25Z'
+    context_hash: 35a158a00be3c0162b6ca7d783b965f0b7758a7a67f4c3a568bf4fde92064c55
+    generated_at: '2026-07-19T06:01:26Z'
   handoff_bundle: null
 ```
 
@@ -308,7 +308,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-19T05:15:01Z'
+updated_at: '2026-07-19T06:02:59Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -341,6 +341,7 @@ change_requests:
 - CR-0078
 - CR-0079
 - CR-0080
+- CR-0081
 scope:
   allowed_paths:
   - apps/**
@@ -514,7 +515,14 @@ scope:
   - scripts/continuity_gate.py
   - tests/test_continuity_historical_fingerprint.py
   - NEXT_TASK.yaml
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079+approved-cr:CR-0080
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - scripts/hhy_workflow.py
+  - scripts/run_affected_tests.py
+  - tests/test_hhy_workflow.py
+  - tests/test_run_affected_tests.py
+  - docs/09-development/统一开发与交付效率规范.md
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079+approved-cr:CR-0080+approved-cr:CR-0081
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -524,12 +532,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T05:15:01Z'
-  expires_at: '2026-07-19T09:15:01Z'
-checkpoint_sequence: 31
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0031.yaml
+  renewed_at: '2026-07-19T06:02:59Z'
+  expires_at: '2026-07-19T10:02:59Z'
+checkpoint_sequence: 34
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0034.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 提交并推送交接关闭记录；等待项目所有者真机测试，同时保持后端和下载服务健康
+next_step: 暂存最终检查点与门禁证据，提交并推送统一工作流改造
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -537,49 +545,86 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 关闭记录与唯一接续指针必须同步推送
+  reason: 最终连续性、测试运行器和发布脚本需要由唯一事实主控串行关闭
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T200607Z-3569D212-0031
+checkpoint_id: CP-SES-20260718T200607Z-3569D212-0034
 session_id: SES-20260718T200607Z-3569D212
-sequence: 31
-created_at: '2026-07-19T05:15:01Z'
-summary: CR-0080已关闭，R03唯一待验收APK为桌面c257aee/10205
-next_step: 提交并推送交接关闭记录；等待项目所有者真机测试，同时保持后端和下载服务健康
+sequence: 34
+created_at: '2026-07-19T06:02:58Z'
+summary: CR-0081实现与严格预提交门禁通过
+next_step: 暂存最终检查点与门禁证据，提交并推送统一工作流改造
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: next-task-apk-identity
+- name: workflow-targeted
   result: PASS
-  evidence: NEXT_TASK.yaml and APK_MANIFEST.yaml
-  note: 身份一致
-- name: apk-delivery-verify
+  evidence: 40 unittest cases
+  note: 分类、工具注入、交付预检和模板一致性通过
+- name: workflow-project-python
   result: PASS
-  evidence: delivery-evidence.json
-  note: 机器交付PASS
+  evidence: 129 unittest cases
+  note: 完整Python项目回归通过
+- name: workflow-resume-cache
+  result: PASS
+  evidence: hhy-workflow state fingerprint
+  note: 相同输入3项检查0秒复用
+- name: apk-route-preflight-live
+  result: PASS
+  evidence: download.orbexa.cc c257aee exact route
+  note: Nginx精确路由预检通过
+- name: continuity-precommit
+  result: PASS
+  evidence: artifacts/validation/continuity-gate-v1.2.3.json
+  note: 31变更、14项目文件、0错误0警告
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 8df5eb5329e4925df867fe68e272a0b3adb61e93
+  head: 1849f4ee398fb55977162ddb844884617c048bd7
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0080.yaml'
-  - ' M artifacts/validation/r03-apk-delivery/delivery-evidence.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md'
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0081.yaml
+  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0032.yaml
+  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0033.yaml
+  - M  .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
+  - M  AGENTS.md
+  - M  CHANGELOG.md
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - MM artifacts/validation/continuity-gate-v1.2.3.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - A  config/development-workflow.yaml
+  - M  config/test-impact-map.yaml
+  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - A  docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
+  - A  docs/09-development/统一开发与交付效率规范.md
+  - M  scripts/deliver_android_test_apk.py
+  - A  scripts/hhy_workflow.py
+  - M  scripts/run_affected_tests.py
+  - M  templates/AGENTS.md
+  - M  tests/test_android_apk_delivery.py
+  - A  tests/test_hhy_workflow.py
+  - M  tests/test_run_affected_tests.py
   recent_commits:
+  - "1849f4ee398fb55977162ddb844884617c048bd7\t2026-07-19T13:15:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close APK\
+    \ handoff identity CR"
   - "8df5eb5329e4925df867fe68e272a0b3adb61e93\t2026-07-19T13:14:27+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(handoff): point R03\
     \ acceptance to 10205 APK"
   - "654f9bd52a1d46038bb49ef665db14998aeb941b\t2026-07-19T13:09:54+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close continuity\
@@ -594,10 +639,8 @@ git:
     \ APK delivery"
   - "35ee8bad7c905c29d271640fff8bef042825dc0d\t2026-07-19T12:24:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(android): bump auth\
     \ regression APK to 10205"
-  - "e4994ed06131f3d3207c36c1b83f589ef2e58fe1\t2026-07-19T12:08:44+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): clarify registration\
-    \ failures and policy"
 project_fingerprint:
-  sha256: ff8eac7fe673dabb4290b8c119ca2440e34c3e4866f1aa99a1522fd47df6de87
+  sha256: 8f494275a4edf259d674f94f744c5e18713c7aa490bacbe7435b31507c476ad0
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -635,6 +678,8 @@ project_fingerprint:
   - catalogs/config_registry.csv
   - catalogs/development_risk_register.csv
   - catalogs/release_plan.csv
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
   - contracts/contract_status.csv
   - contracts/error-codes.csv
   - contracts/openapi.yaml
@@ -697,6 +742,8 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md
   - docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md
   - docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md
+  - docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md
+  - docs/09-development/统一开发与交付效率规范.md
   - packages/api-client/src/client.generated.ts
   - packages/design-tokens/admin.css
   - packages/design-tokens/h5.css
@@ -710,6 +757,8 @@ project_fingerprint:
   - scripts/continuity.py
   - scripts/continuity_gate.py
   - scripts/deliver_android_test_apk.py
+  - scripts/hhy_workflow.py
+  - scripts/run_affected_tests.py
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthPolicy.java
@@ -729,20 +778,22 @@ project_fingerprint:
   - tests/test_commercial_ui_boundaries.py
   - tests/test_continuity_blocked_resume.py
   - tests/test_continuity_historical_fingerprint.py
+  - tests/test_hhy_workflow.py
   - tests/test_r02_auth_slice_contract.py
   - tests/test_r02_security_challenge_design_package.py
-  file_count: 132
+  - tests/test_run_affected_tests.py
+  file_count: 140
   payload:
     base_commit: 18e2db65b65afeb1e69d0c382ab53963fc97adec
     files:
     - path: AGENTS.md
       state: FILE
-      size: 7562
-      sha256: fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db
+      size: 8510
+      sha256: eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686
     - path: CHANGELOG.md
       state: FILE
-      size: 32903
-      sha256: 50e2475ac4641c27d7d8f365738aa9cf718f6ad1ab72317744dc3d5028aadeff
+      size: 33162
+      sha256: 5d6475b1823209360c6e774f51ae0e03d3df83beb832abaf2cac36b0020c17bf
     - path: DEVELOPMENT_RISK_REGISTER.md
       state: FILE
       size: 8289
@@ -879,6 +930,14 @@ project_fingerprint:
       state: FILE
       size: 15548
       sha256: b7d4aadd7fed9df1838707eb90e5b31f7d82047b59c783afae0763fe4d3ae67c
+    - path: config/development-workflow.yaml
+      state: FILE
+      size: 2965
+      sha256: 2126c9ca978d8ca679140af618a136ec0dcfba9d0b09c010b587574b91761fb2
+    - path: config/test-impact-map.yaml
+      state: FILE
+      size: 5287
+      sha256: 4538b9336e009202ed67ca1799bcb9529af7f53bc1902f37ce0b262b6beff050
     - path: contracts/contract_status.csv
       state: FILE
       size: 139188
@@ -1001,8 +1060,8 @@ project_fingerprint:
       sha256: 306eb10e65c24655d543aac54094c2b99d4fc192c7907e24e9041ffeb12a72e3
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 35187
-      sha256: fc6e9320935f00c13194671a8689e23685aeeed92c945b6cdfb849bfc2608db3
+      size: 36497
+      sha256: 5bd4a1679639a44c893f270a80b6d5e4dcdd9255ddc3c04506dbc42002ae4cd6
     - path: docs/03-continuity/REUSABLE_PATTERNS.md
       state: FILE
       size: 2093
@@ -1127,6 +1186,14 @@ project_fingerprint:
       state: FILE
       size: 2232
       sha256: 312de36c4ecfe0fba3ffd4df1bf3bb895cffbb61bc89e57fd5166be06beee4e4
+    - path: docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md
+      state: FILE
+      size: 3602
+      sha256: 15478b3edfdcf5b1f4c487a8c57fda9ee47824ac8ce305f8370312290900aaf2
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 4097
+      sha256: 6dcf5fc4749a82799dd6616b9c6df2de1cbe7d70c8898aed31a78df9cb492305
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 610906
@@ -1177,8 +1244,16 @@ project_fingerprint:
       sha256: 03ec9e8792b67889d75944991435dae6d04e9c4f1a1965ebe2d90d87e42078ff
     - path: scripts/deliver_android_test_apk.py
       state: FILE
-      size: 41954
-      sha256: aa2521f30ea00d8b70d3b602bd61bc18d4547d959c451ee3140d9e35987f2257
+      size: 43855
+      sha256: d519ac996d076932f70cb5b18167702d6eab40f2e11a187d35e7b91efac7306e
+    - path: scripts/hhy_workflow.py
+      state: FILE
+      size: 12681
+      sha256: 63d6c7881ea130626f6aeaa2169eb8a02ef34f44d55acc40b7f90b82e1c1f3e8
+    - path: scripts/run_affected_tests.py
+      state: FILE
+      size: 12438
+      sha256: 6c23515bb34a0ed5d0bde75c04de03ab78db47e204a0785f4e1c70080a0fa832
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java
       state: FILE
       size: 1705
@@ -1233,16 +1308,16 @@ project_fingerprint:
       sha256: f0c51b2c6d5711fcfd55be6e5e8a939e4bca8016b2e30e001ef487a6d2498eff
     - path: templates/AGENTS.md
       state: FILE
-      size: 7562
-      sha256: fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db
+      size: 8510
+      sha256: eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686
     - path: templates/START_HERE.md
       state: FILE
       size: 3477
       sha256: 038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a
     - path: tests/test_android_apk_delivery.py
       state: FILE
-      size: 18512
-      sha256: c7a85f2f073b036c0ed716bdcfad22ed96c74817c085cec9e5dc14356d0c7a23
+      size: 21088
+      sha256: 65d23819ae7707526172ecaab742a973c58e10ea586fa6b33aee9bb991d43626
     - path: tests/test_commercial_ui_boundaries.py
       state: FILE
       size: 431
@@ -1255,6 +1330,10 @@ project_fingerprint:
       state: FILE
       size: 1714
       sha256: 6d85b3533339847fdc201c7b3bd4cafc9617ad1331f322e04adb28600ed8b8cb
+    - path: tests/test_hhy_workflow.py
+      state: FILE
+      size: 5602
+      sha256: 3c4b0fbdf81b91299039290fba2b4ca02f71a3833cff249c66f71d740bf74419
     - path: tests/test_r02_auth_slice_contract.py
       state: FILE
       size: 11042
@@ -1263,6 +1342,10 @@ project_fingerprint:
       state: FILE
       size: 7080
       sha256: cb6b58642e846c18349fb674693046cd3b09a9da21ec7e9e46c087bba159b6d8
+    - path: tests/test_run_affected_tests.py
+      state: FILE
+      size: 6463
+      sha256: 488b0919f65e7b6d808b1b211268248584d5fc34cbcc1c1fb302cc50c40ac56f
 change_classification:
   other:
   - AGENTS.md
@@ -1274,6 +1357,8 @@ change_classification:
   - artifacts/apk/R03/history/3a913c9/APK_MANIFEST.yaml
   - catalogs/development_risk_register.csv
   - catalogs/release_plan.csv
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
   - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_8STATE_UI_REFERENCE.png
   - design/effect-previews/B01-CAPTCHA/HHY_B01_CAPTCHA_MANIFEST.json
   - design/effect-previews/B01-CAPTCHA/OUTPUT_REQUIREMENTS.md
@@ -1287,6 +1372,7 @@ change_classification:
   - design/effect-previews/B01-CAPTCHA/states/P08_网络失败_键盘-小屏适配.png
   - design/tokens/hhy_design_tokens_v1.2.2.json
   - docs/01-authentication/登录注册与安全验证详细规格_V1.2.2.md
+  - docs/09-development/统一开发与交付效率规范.md
   - releases/R02/R02_AUTH_HOTFIX_20260719.md
   - templates/AGENTS.md
   - templates/START_HERE.md
@@ -1367,6 +1453,8 @@ change_classification:
   - scripts/continuity.py
   - scripts/continuity_gate.py
   - scripts/deliver_android_test_apk.py
+  - scripts/hhy_workflow.py
+  - scripts/run_affected_tests.py
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthPolicy.java
@@ -1439,13 +1527,16 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md
   - docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md
   - docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md
+  - docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md
   tests:
   - tests/test_android_apk_delivery.py
   - tests/test_commercial_ui_boundaries.py
   - tests/test_continuity_blocked_resume.py
   - tests/test_continuity_historical_fingerprint.py
+  - tests/test_hhy_workflow.py
   - tests/test_r02_auth_slice_contract.py
   - tests/test_r02_security_challenge_design_package.py
+  - tests/test_run_affected_tests.py
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
@@ -1489,6 +1580,7 @@ change_requests:
 - CR-0078
 - CR-0079
 - CR-0080
+- CR-0081
 scope:
   allowed_paths:
   - apps/**
@@ -1662,13 +1754,20 @@ scope:
   - scripts/continuity_gate.py
   - tests/test_continuity_historical_fingerprint.py
   - NEXT_TASK.yaml
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079+approved-cr:CR-0080
+  - config/development-workflow.yaml
+  - config/test-impact-map.yaml
+  - scripts/hhy_workflow.py
+  - scripts/run_affected_tests.py
+  - tests/test_hhy_workflow.py
+  - tests/test_run_affected_tests.py
+  - docs/09-development/统一开发与交付效率规范.md
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079+approved-cr:CR-0080+approved-cr:CR-0081
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 关闭记录与唯一接续指针必须同步推送
-event_hash: f7a2715fc2cbde6665190d701a7a9f75de2752cf07e5d5de54191b86c49d6260
+  reason: 最终连续性、测试运行器和发布脚本需要由唯一事实主控串行关闭
+event_hash: e5e838bba553cdff9d7a8ddd66b8a8cf785b5dc9a7a2ce65bb306cc9f8c01884
 ```
 
 ## 接续状态与事件头
@@ -1680,8 +1779,8 @@ active_session_id: SES-20260718T200607Z-3569D212
 last_session_id: SES-20260718T165842Z-356A8138
 last_session_result: BLOCKED
 last_closure_checkpoint_id: CP-SES-20260718T165842Z-356A8138-0005
-event_count: 864
-event_head_hash: f7a2715fc2cbde6665190d701a7a9f75de2752cf07e5d5de54191b86c49d6260
+event_count: 874
+event_head_hash: e5e838bba553cdff9d7a8ddd66b8a8cf785b5dc9a7a2ce65bb306cc9f8c01884
 event_chain_valid: true
 ```
 
@@ -1804,9 +1903,9 @@ recent_sessions: - session_id: SES-20260718T084729Z-BD53B7C4
   started_at: '2026-07-18T20:06:07Z'
   record: .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  updated_at: '2026-07-19T05:15:01Z'
+  updated_at: '2026-07-19T06:02:59Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0031.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0034.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-3E379E115FA4
   session_id: SES-20260717T141717Z-A01412D7
@@ -2646,27 +2745,47 @@ recent_task_transitions: - transition_id: TRN-23D2BAB015EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 8df5eb5329e4925df867fe68e272a0b3adb61e93
+head: 1849f4ee398fb55977162ddb844884617c048bd7
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0080.yaml'
-- ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
-- ' M CURRENT_STATUS.yaml'
-- ' M artifacts/validation/r03-apk-delivery/delivery-evidence.json'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md'
-- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0031.yaml
+- MM .continuity/ACTIVE_SESSION.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- A  .continuity/change_requests/CR-0081.yaml
+- A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0032.yaml
+- A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0033.yaml
+- MM .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
+- M  AGENTS.md
+- M  CHANGELOG.md
+- MM CURRENT_STATUS.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- MM artifacts/validation/continuity-gate-v1.2.3.json
+- M  catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
+- A  config/development-workflow.yaml
+- M  config/test-impact-map.yaml
+- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+- A  docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md
+- MM docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
+- A  docs/09-development/统一开发与交付效率规范.md
+- M  scripts/deliver_android_test_apk.py
+- A  scripts/hhy_workflow.py
+- M  scripts/run_affected_tests.py
+- M  templates/AGENTS.md
+- M  tests/test_android_apk_delivery.py
+- A  tests/test_hhy_workflow.py
+- M  tests/test_run_affected_tests.py
+- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0034.yaml
 recent_commits:
+- "1849f4ee398fb55977162ddb844884617c048bd7\t2026-07-19T13:15:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close APK\
+  \ handoff identity CR"
 - "8df5eb5329e4925df867fe68e272a0b3adb61e93\t2026-07-19T13:14:27+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(handoff): point R03 acceptance\
   \ to 10205 APK"
 - "654f9bd52a1d46038bb49ef665db14998aeb941b\t2026-07-19T13:09:54+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close continuity\
@@ -2681,14 +2800,12 @@ recent_commits:
   \ APK delivery"
 - "35ee8bad7c905c29d271640fff8bef042825dc0d\t2026-07-19T12:24:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(android): bump auth regression\
   \ APK to 10205"
-- "e4994ed06131f3d3207c36c1b83f589ef2e58fe1\t2026-07-19T12:08:44+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): clarify registration\
-  \ failures and policy"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`ff8eac7fe673dabb4290b8c119ca2440e34c3e4866f1aa99a1522fd47df6de87`
-- 文件数：132
+- 指纹：`8f494275a4edf259d674f94f744c5e18713c7aa490bacbe7435b31507c476ad0`
+- 文件数：140
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -2726,6 +2843,8 @@ recent_commits:
 - `catalogs/config_registry.csv`
 - `catalogs/development_risk_register.csv`
 - `catalogs/release_plan.csv`
+- `config/development-workflow.yaml`
+- `config/test-impact-map.yaml`
 - `contracts/contract_status.csv`
 - `contracts/error-codes.csv`
 - `contracts/openapi.yaml`
@@ -2788,6 +2907,8 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md`
 - `docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md`
 - `docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md`
+- `docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md`
+- `docs/09-development/统一开发与交付效率规范.md`
 - `packages/api-client/src/client.generated.ts`
 - `packages/design-tokens/admin.css`
 - `packages/design-tokens/h5.css`
@@ -2801,6 +2922,8 @@ recent_commits:
 - `scripts/continuity.py`
 - `scripts/continuity_gate.py`
 - `scripts/deliver_android_test_apk.py`
+- `scripts/hhy_workflow.py`
+- `scripts/run_affected_tests.py`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthPolicy.java`
@@ -2820,8 +2943,10 @@ recent_commits:
 - `tests/test_commercial_ui_boundaries.py`
 - `tests/test_continuity_blocked_resume.py`
 - `tests/test_continuity_historical_fingerprint.py`
+- `tests/test_hhy_workflow.py`
 - `tests/test_r02_auth_slice_contract.py`
 - `tests/test_r02_security_challenge_design_package.py`
+- `tests/test_run_affected_tests.py`
 
 ## 当前 Release
 
@@ -4877,37 +5002,98 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260718T152013Z-8B704646
   implementation_commits:
   - 650fdee862405db673ed5f3f856611356508e337
+- protocol_version: '1.0'
+  cr_id: CR-0081
+  title: 建立轻重分级统一工作流并前置APK路由预检
+  status: IMPLEMENTED
+  created_at: '2026-07-19T05:37:09Z'
+  updated_at: '2026-07-19T06:01:05Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 项目所有者要求立即落地跨电脑跨AI高效开发方案，并明确简单开发和Bug不得复杂化、不得用大炮打蚊子
+  reason: 把现有分层测试、运行时发现、任务复杂度和APK交付预检整合为可执行且可恢复的仓库事实源
+  original_rule: FAST、MODULE、INTEGRATION、RELEASE虽已存在，但缺少按任务风险自动选择的统一入口；简单Bug可能被人工升级为完整发布流程，APK精确下载路由也未在构建发布前验证
+  new_rule: 统一入口必须先按影响范围和高风险触发器选择SIMPLE、STANDARD、CROSS_LAYER、TEST_APK或RELEASE_CLOSE；简单单模块任务默认只跑受影响FAST检查，不得无理由升级；升级必须给出机器可读原因。APK在构建发布前必须独立校验精确Nginx路由，所有阶段记录耗时并支持从失败节点继续
+  impact_summary: 新增轻量工作流配置和薄编排器，复用既有影响测试引擎；增强跨电脑工具发现和APK路由前置预检，不改变现有正式发布安全门禁
+  impact:
+    files:
+    - AGENTS.md
+    - CHANGELOG.md
+    - config/development-workflow.yaml
+    - config/test-impact-map.yaml
+    - scripts/hhy_workflow.py
+    - scripts/run_affected_tests.py
+    - scripts/deliver_android_test_apk.py
+    - tests/test_hhy_workflow.py
+    - tests/test_run_affected_tests.py
+    - tests/test_android_apk_delivery.py
+    - docs/09-development/统一开发与交付效率规范.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_hhy_workflow tests.test_run_affected_tests tests.test_android_apk_delivery
+    - python scripts/hhy_workflow.py plan --intent bugfix --changed-file apps/h5/src/views/InviteRegistrationPage.vue
+    - python scripts/deliver_android_test_apk.py preflight-route --help
+    releases:
+    - R03
+    migration_and_compatibility: 现有Make目标和deliver prepare/verify/accept保持兼容；新入口为增量能力，旧命令仍可使用；未指定高风险触发器的简单任务不会自动执行全量集成或版本关闭
+  user_confirmation: 立即开始落地这个方案；简单开发和Bug修复不要复杂化，不要用大炮打蚊子
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T05:37:39Z'
+    note: 项目所有者明确要求立即落地，并要求简单任务保持轻量灵活
+  machine_record: .continuity/change_requests/CR-0081.yaml
+  document: docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md
+  decision_log:
+  - at: '2026-07-19T06:01:03Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现统一轻重分级入口、断点复用和APK路由前置预检
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T06:01:05Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 统一轻重分级入口、跨电脑运行时注入、断点复用和APK精确路由预检均已实现；针对性40项与项目Python 129项回归通过，当前线上c257aee路由预检PASS
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
 ```
 
 ## 上下文来源及哈希
 
-- `AGENTS.md` — `fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db`
+- `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `ae5db7c79fccabca94985673635fe196161bd35cfad04ac83afc51006d761214`
+- `CURRENT_STATUS.yaml` — `b09513429ee6fa0bdd8ce9633700e07fa36640ad655082ee2ed1a6524ecb684e`
 - `NEXT_TASK.yaml` — `1ed7596994f053f70215331bf435184999c167dd0e110e3c799b03fa121cc02f`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `fc6e9320935f00c13194671a8689e23685aeeed92c945b6cdfb849bfc2608db3`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `5bd4a1679639a44c893f270a80b6d5e4dcdd9255ddc3c04506dbc42002ae4cd6`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `a16351c5e292e352990e58efa1941911b73b16b35b8b7c0a9528c4f937ee30d0`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `a36f31a13c0028360d557ad49a2cba62eee6f9cb00d5b1d6b8e0bef8c7afa2aa`
-- `.continuity/SESSION_INDEX.yaml` — `00261c4c4c813a5e42ffd147335052c57b04cedd964911e76fb97e16d393ea37`
+- `.continuity/EVENT_LOG.jsonl` — `fac09307f9abcd71ca05f355c66bfac3a090aedc02571c61cb7b1785bbb527dd`
+- `.continuity/SESSION_INDEX.yaml` — `072830120a019d2672df8227a4a8c420d328d69b054ab7180236fbde929274af`
 - `.continuity/TASK_CLAIMS.yaml` — `dae3c46345cf6361b9487cc9878bf5cd6bd3775ec390315b8036208feb5d7b19`
 - `.continuity/TASK_TRANSITIONS.yaml` — `49b2f0e5fdabc44f56af3c9fdeefd1971b4d3462167a3c93ba796bb4b3be1ada`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5f8c6ad6b6c8ffd88bf84e64ffba22ee4999c39b468c98db28cd14310ec2c0b9`
-- `.continuity/ACTIVE_SESSION.yaml` — `6f235d8fe1ba73b85c5157d66538194a9ca9908fca7a9b32587c8e7f1adfd2e2`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `0f73bd024a25e6dab1ee664a2ed1eab7fba8354f557142451d08b08d61e35fde`
+- `.continuity/ACTIVE_SESSION.yaml` — `0a88ce43ab52dfe0c436e79d972f6c824cac83906acadb3d0718fae2cfe07d52`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `577a231d7cc655f126187950d05277a67d9e877ddb87a52721b2b634a21f12eb`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `de226ffec9d6cb0da7242d9febfae3ac023875c3b1d167894739ca4f8dc9ac47`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `8a24a4cd30cd3c6ab636a7859078494250f910fae5e386109deb0345af2100c3`
-- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0031.yaml` — `d252d74a4515a53444722cdac74d7667b1e9208f9ed832dfe692d1d3a0640fd4`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `3785aa1417c2b735fcd4be45c3636c2a75773052979628ae7a73f6ee341999e3`
+- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0034.yaml` — `353322952775c91a893238accde621c2f64dd7ac5e4d001617c9a1e0de8a085b`
 - `docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md` — `09124eace840cbac05b094cb44ba6e9b2baf894d33b663a5eecc21a271fd9f27`
 - `docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md` — `657fe94cc6f260b297cb45642322801c84f680a89018c9e6679469eaecfc7689`
 - `docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md` — `d34b7054137e69b320623c2971b6b89fdc8c26644170a1cbc9ab29dbc2fb1ab0`
@@ -4938,6 +5124,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md` — `eee03a6b87c5c07a4c6e11237e539cf9ad5fed24414ff069a20021b879fc8fcd`
 - `docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md` — `d2bb3a6f739484d09997c08e8646177e08d5b2cf1248e8b455e5563aad3c76be`
 - `docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md` — `312de36c4ecfe0fba3ffd4df1bf3bb895cffbb61bc89e57fd5166be06beee4e4`
+- `docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md` — `15478b3edfdcf5b1f4c487a8c57fda9ee47824ac8ce305f8370312290900aaf2`
 
 ## 接手硬规则
 

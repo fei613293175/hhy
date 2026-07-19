@@ -1,25 +1,25 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-19T05:15:04Z",
-  "context_hash": "505ed80e9c834ab59b97f4070c31350078d66bc921b9d59c9a0abd02f400eab3",
+  "generated_at": "2026-07-19T06:03:01Z",
+  "context_hash": "e438e230023c7dd4410f10d6b9d592bedcf1463f8f4bb974137e03ef7bc9ccd5",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "ff8eac7fe673dabb4290b8c119ca2440e34c3e4866f1aa99a1522fd47df6de87",
-    "file_count": 132
+    "sha256": "8f494275a4edf259d674f94f744c5e18713c7aa490bacbe7435b31507c476ad0",
+    "file_count": 140
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "52d3112e91073fad2415dd62055d67a95c9223fc46885437d0c6151ea84a8e4f"
+    "sha256": "7b774f4a9a2c4dee3bb4d80da76fcdd2491d4ab5e2393c953eb13b8d19c80ec6"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "fb4dc03f59960a973ce471d24b32a36d974835ca66ff2df84ee64680b069f3bc"
+    "sha256": "71dc78a1aae42efc366dd92495f9d4a04494e70b9faa93e96813f47d89e4f740"
   },
   "sources": [
     {
       "path": "AGENTS.md",
-      "sha256": "fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db",
-      "bytes": 7562
+      "sha256": "eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686",
+      "bytes": 8510
     },
     {
       "path": "START_HERE.md",
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "ae5db7c79fccabca94985673635fe196161bd35cfad04ac83afc51006d761214",
+      "sha256": "b09513429ee6fa0bdd8ce9633700e07fa36640ad655082ee2ed1a6524ecb684e",
       "bytes": 3377
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "fc6e9320935f00c13194671a8689e23685aeeed92c945b6cdfb849bfc2608db3",
-      "bytes": 35187
+      "sha256": "5bd4a1679639a44c893f270a80b6d5e4dcdd9255ddc3c04506dbc42002ae4cd6",
+      "bytes": 36497
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "a36f31a13c0028360d557ad49a2cba62eee6f9cb00d5b1d6b8e0bef8c7afa2aa",
-      "bytes": 467705
+      "sha256": "fac09307f9abcd71ca05f355c66bfac3a090aedc02571c61cb7b1785bbb527dd",
+      "bytes": 473418
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "00261c4c4c813a5e42ffd147335052c57b04cedd964911e76fb97e16d393ea37",
+      "sha256": "072830120a019d2672df8227a4a8c420d328d69b054ab7180236fbde929274af",
       "bytes": 17274
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "5f8c6ad6b6c8ffd88bf84e64ffba22ee4999c39b468c98db28cd14310ec2c0b9",
-      "bytes": 244235
+      "sha256": "0f73bd024a25e6dab1ee664a2ed1eab7fba8354f557142451d08b08d61e35fde",
+      "bytes": 247842
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "6f235d8fe1ba73b85c5157d66538194a9ca9908fca7a9b32587c8e7f1adfd2e2",
+      "sha256": "0a88ce43ab52dfe0c436e79d972f6c824cac83906acadb3d0718fae2cfe07d52",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md",
-      "sha256": "8a24a4cd30cd3c6ab636a7859078494250f910fae5e386109deb0345af2100c3",
-      "bytes": 212632
+      "sha256": "3785aa1417c2b735fcd4be45c3636c2a75773052979628ae7a73f6ee341999e3",
+      "bytes": 240628
     },
     {
-      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0031.yaml",
-      "sha256": "d252d74a4515a53444722cdac74d7667b1e9208f9ed832dfe692d1d3a0640fd4",
-      "bytes": 59394
+      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0034.yaml",
+      "sha256": "353322952775c91a893238accde621c2f64dd7ac5e4d001617c9a1e0de8a085b",
+      "bytes": 63212
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md",
@@ -300,6 +300,11 @@
       "path": "docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md",
       "sha256": "312de36c4ecfe0fba3ffd4df1bf3bb895cffbb61bc89e57fd5166be06beee4e4",
       "bytes": 2232
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md",
+      "sha256": "15478b3edfdcf5b1f4c487a8c57fda9ee47824ac8ce305f8370312290900aaf2",
+      "bytes": 3602
     }
   ]
 }

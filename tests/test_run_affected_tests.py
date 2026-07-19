@@ -55,6 +55,11 @@ class TestImpactMap(TestCase):
         release = next(row for row in plan["checks"] if row["id"] == "release-close-gate")
         self.assertIn("R02", release["command"])
 
+    def test_runtime_overrides_avoid_machine_path_assumptions(self) -> None:
+        with mock.patch.dict(os.environ, {"HHY_GIT_BIN": "X:/portable/git.exe", "HHY_PNPM_BIN": "X:/portable/pnpm.cmd"}):
+            self.assertEqual("X:/portable/git.exe", affected.resolve_git_executable())
+            self.assertEqual("X:/portable/pnpm.cmd", affected.resolve_pnpm_executable())
+
     @mock.patch.object(affected.subprocess, "run")
     def test_execute_plan_records_failures_without_stopping(self, run: mock.Mock) -> None:
         run.side_effect = [
@@ -70,6 +75,9 @@ class TestImpactMap(TestCase):
         result = affected.execute_plan(plan)
         self.assertEqual("FAIL", result["status"])
         self.assertEqual(["FAIL", "PASS"], [row["status"] for row in result["results"]])
+        child_environment = run.call_args_list[0].kwargs["env"]
+        self.assertEqual(affected.resolve_git_executable(), child_environment["HHY_GIT_BIN"])
+        self.assertIn(str(Path(affected.resolve_git_executable()).parent), child_environment["PATH"])
 
 
 class TestConditionalDocumentationGate(TestCase):

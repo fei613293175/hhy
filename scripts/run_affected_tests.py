@@ -24,6 +24,36 @@ class ImpactMapError(RuntimeError):
     pass
 
 
+def _bundled_dependency_path(*parts: str) -> Path:
+    return Path.home() / ".cache" / "codex-runtimes" / "codex-primary-runtime" / "dependencies" / Path(*parts)
+
+
+def resolve_git_executable() -> str:
+    override = os.environ.get("HHY_GIT_BIN") or os.environ.get("HHY_GIT")
+    if override:
+        return override
+    found = shutil.which("git.exe" if os.name == "nt" else "git") or shutil.which("git")
+    bundled = _bundled_dependency_path("native", "git", "cmd", "git.exe")
+    if found:
+        return found
+    if bundled.is_file():
+        return str(bundled)
+    return "git.exe" if os.name == "nt" else "git"
+
+
+def resolve_pnpm_executable() -> str:
+    override = os.environ.get("HHY_PNPM_BIN")
+    if override:
+        return override
+    found = shutil.which("pnpm.cmd" if os.name == "nt" else "pnpm") or shutil.which("pnpm")
+    bundled = _bundled_dependency_path("bin", "fallback", "pnpm.cmd")
+    if found:
+        return found
+    if bundled.is_file():
+        return str(bundled)
+    return "pnpm.cmd" if os.name == "nt" else "pnpm"
+
+
 def normalize_path(value: str) -> str:
     normalized = value.replace("\\", "/")
     while normalized.startswith("./"):
@@ -42,7 +72,7 @@ def path_matches(path: str, pattern: str) -> bool:
 
 
 def _git(root: Path, *arguments: str, check: bool = True) -> str:
-    executable = os.environ.get("HHY_GIT") or shutil.which("git.exe" if os.name == "nt" else "git") or "git"
+    executable = resolve_git_executable()
     completed = subprocess.run(
         [executable, *arguments], cwd=root, text=True,
         stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -135,8 +165,8 @@ def _tool_values(root: Path, release: str | None) -> dict[str, str]:
     windows = os.name == "nt"
     return {
         "python": sys.executable,
-        "pnpm": shutil.which("pnpm.cmd" if windows else "pnpm") or ("pnpm.cmd" if windows else "pnpm"),
-        "git": os.environ.get("HHY_GIT") or shutil.which("git.exe" if windows else "git") or ("git.exe" if windows else "git"),
+        "pnpm": resolve_pnpm_executable(),
+        "git": resolve_git_executable(),
         "maven_wrapper": "mvnw.cmd" if windows else "./mvnw",
         "gradle_wrapper": "gradlew.bat" if windows else "./gradlew",
         "root": str(root),
@@ -187,6 +217,16 @@ def execute_plan(plan: dict[str, Any]) -> dict[str, Any]:
         started = time.monotonic()
         environment = os.environ.copy()
         environment.update(check["env"])
+        git_executable = resolve_git_executable()
+        pnpm_executable = resolve_pnpm_executable()
+        environment.setdefault("HHY_GIT_BIN", git_executable)
+        environment.setdefault("HHY_PNPM_BIN", pnpm_executable)
+        portable_directories = [str(Path(git_executable).parent), str(Path(pnpm_executable).parent)]
+        existing_path = environment.get("PATH", "")
+        environment["PATH"] = os.pathsep.join(
+            [directory for directory in portable_directories if directory]
+            + ([existing_path] if existing_path else [])
+        )
         try:
             completed = subprocess.run(
                 check["command"], cwd=check["cwd"], env=environment, text=True,

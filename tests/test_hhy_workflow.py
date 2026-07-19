@@ -1,0 +1,133 @@
+from __future__ import annotations
+
+from argparse import Namespace
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest import TestCase, mock
+import sys
+
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import hhy_workflow as workflow  # noqa: E402
+
+
+class WorkflowClassificationTest(TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.policy = workflow.load_policy()
+
+    def test_small_single_module_bugfix_stays_simple_but_runs_module_regression(self) -> None:
+        result = workflow.classify_work(
+            self.policy,
+            "bugfix",
+            ["apps/h5/src/views/LoginPage.vue", "apps/h5/src/views/LoginPage.test.ts"],
+        )
+        self.assertEqual("SIMPLE", result["mode"])
+        self.assertEqual("MODULE", result["quality_profile"])
+        self.assertEqual(["h5"], result["product_domains"])
+        self.assertNotIn("high_risk_path_present", result["reasons"])
+
+    def test_simple_document_maintenance_uses_fast_checks(self) -> None:
+        result = workflow.classify_work(
+            self.policy, "maintenance", ["docs/09-development/guide.md"]
+        )
+        self.assertEqual("SIMPLE", result["mode"])
+        self.assertEqual("FAST", result["quality_profile"])
+
+    def test_feature_is_not_silently_downgraded_to_simple(self) -> None:
+        result = workflow.classify_work(
+            self.policy, "feature", ["apps/android/feature/auth/src/AuthScreen.kt"]
+        )
+        self.assertEqual("STANDARD", result["mode"])
+        self.assertEqual("MODULE", result["quality_profile"])
+
+    def test_cross_layer_change_is_detected(self) -> None:
+        result = workflow.classify_work(
+            self.policy,
+            "bugfix",
+            ["apps/android/feature/auth/src/AuthScreen.kt", "services/backend/access/src/Auth.java"],
+        )
+        self.assertEqual("CROSS_LAYER", result["mode"])
+        self.assertEqual({"android", "backend"}, set(result["product_domains"]))
+
+    def test_database_migration_forces_escalation(self) -> None:
+        result = workflow.classify_work(
+            self.policy, "bugfix", ["database/migrations/V021__fix.sql"]
+        )
+        self.assertEqual("STANDARD", result["mode"])
+        self.assertIn("high_risk_path_present", result["reasons"])
+
+    def test_explicit_delivery_modes_are_never_inferred_as_simple(self) -> None:
+        apk = workflow.classify_work(self.policy, "test-apk", ["apps/android/app/Main.kt"])
+        release = workflow.classify_work(self.policy, "release-close", [])
+        self.assertEqual("TEST_APK", apk["mode"])
+        self.assertEqual("RELEASE_CLOSE", release["mode"])
+        self.assertEqual("RELEASE", release["quality_profile"])
+
+    def test_generated_continuity_files_do_not_inflate_product_scope(self) -> None:
+        result = workflow.classify_work(
+            self.policy,
+            "bugfix",
+            ["apps/h5/src/Login.vue", ".continuity/STATE.yaml", "artifacts/context/CURRENT_CONTEXT_PACK.md"],
+        )
+        self.assertEqual("SIMPLE", result["mode"])
+        self.assertEqual(["apps/h5/src/Login.vue"], result["classified_files"])
+
+    def test_plan_reuses_existing_affected_test_engine(self) -> None:
+        args = Namespace(
+            policy=workflow.DEFAULT_POLICY,
+            impact_map=workflow.DEFAULT_IMPACT_MAP,
+            changed_file=["apps/h5/src/views/LoginPage.vue"],
+            base_ref=None,
+            head_ref="HEAD",
+            intent="bugfix",
+            release=None,
+        )
+        plan = workflow.create_plan(args)
+        ids = {row["id"] for row in plan["quality_plan"]["checks"]}
+        self.assertEqual("SIMPLE", plan["workflow"]["mode"])
+        self.assertIn("h5-module", ids)
+        self.assertNotIn("integration-web", ids)
+        self.assertNotIn("release-close-gate", ids)
+
+    def test_resumable_execution_skips_prior_pass_for_unchanged_inputs(self) -> None:
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "change.txt"
+            source.write_text("same input", encoding="utf-8")
+            plan = {
+                "workflow": {
+                    "mode": "SIMPLE",
+                    "quality_profile": "FAST",
+                    "classified_files": ["change.txt"],
+                    "duration_budget_seconds": 60,
+                },
+                "quality_plan": {
+                    "checks": [
+                        {"id": "one", "command": ["one"], "cwd": str(root), "env": {}, "timeout_seconds": 1},
+                        {"id": "two", "command": ["two"], "cwd": str(root), "env": {}, "timeout_seconds": 1},
+                    ]
+                },
+            }
+            state = root / "state.json"
+
+            def passing(single: dict) -> dict:
+                return {
+                    "results": [{
+                        "id": single["checks"][0]["id"],
+                        "status": "PASS",
+                        "duration_seconds": 0.1,
+                    }]
+                }
+
+            with mock.patch.object(workflow, "ROOT", root), mock.patch.object(
+                workflow.affected, "execute_plan", side_effect=passing
+            ) as execute:
+                first = workflow.execute_resumable(plan, state)
+                second = workflow.execute_resumable(plan, state)
+            self.assertEqual("PASS", first["status"])
+            self.assertEqual("PASS", second["status"])
+            self.assertEqual(["one", "two"], second["resumed_checks"])
+            self.assertEqual(2, execute.call_count)

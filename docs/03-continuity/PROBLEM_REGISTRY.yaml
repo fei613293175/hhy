@@ -448,3 +448,18 @@ problems:
   - 历史检查点指纹不得启用Git rename/copy折叠后再与工作区逐路径指纹比较
   - 修复假失败不得跳过检查点哈希、使用--no-verify或改写已生成的历史提交
   - APK当前清单移入history后必须让旧路径删除和新路径新增都参与历史复算
+- id: PROB-0038
+  title: 简单修复被版本级流程放大且APK精确路由检查过晚
+  status: SOLVED
+  root_cause: 分层测试和APK交付脚本虽已存在，但没有统一任务意图与风险分类入口；人工把一批局部Bug连同完整发布治理串行执行。APK脚本又只在上传后通过HTTPS发现精确Nginx路由缺失，导致业务代码已完成后继续修版本、路由和交付证据。
+  resolution: 新增SIMPLE至RELEASE_CLOSE五级工作模式和统一hhy_workflow入口；简单Bug只运行受影响模块回归，高风险路径机器化升级。APK增加独立preflight-route并在正式prepare复制上传前重验，跨电脑工具解析兼容环境变量、PATH和Codex捆绑运行时。
+  regression_checks:
+  - tests/test_hhy_workflow.py
+  - tests/test_run_affected_tests.py
+  - tests/test_android_apk_delivery.py
+  - scripts/deliver_android_test_apk.py preflight-route
+  do_not_repeat:
+  - 不得对单模块低风险Bug无理由执行全量集成、版本关闭或拆分多个CR
+  - 不得在APK精确下载路由未通过时开始正式构建或请求尚不存在的公网URL
+  - 不得因PATH缺少Git、pnpm或本机Android工具链而重复安装、重建或误判仓库
+  - 门禁升级必须给出命中路径和风险原因，不得只写为了保险

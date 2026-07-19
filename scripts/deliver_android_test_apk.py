@@ -364,6 +364,29 @@ class RemotePublisher:
         final_path = str(PurePosixPath(release_dir) / apk_file)
         return release_dir, final_path
 
+    def preflight_route(self, release: str, commit: str) -> dict[str, Any]:
+        apk_file = canonical_apk_name(release, commit)
+        release_dir, final_path = self._paths(release, apk_file)
+        route = f"/{validate_release(release).lower()}-artifacts/{apk_file}"
+        exact_location = f"location = {route} {{"
+        command = (
+            "set -eu; : HHY_APK_ROUTE_PREFLIGHT; "
+            f"test -d {shlex.quote(self.remote_root)}; "
+            f"test -w {shlex.quote(self.remote_root)}; "
+            f"nginx -T 2>&1 | grep -F -- {shlex.quote(exact_location)} >/dev/null; "
+            f"mkdir -p {shlex.quote(release_dir)}; chmod 0755 {shlex.quote(release_dir)}; "
+            f"printf '%s\n' {shlex.quote(route)}"
+        )
+        result = self._ssh(command, "exact APK download route preflight", timeout=60)
+        if result.stdout.strip() != route:
+            raise DeliveryError("exact APK download route preflight returned an unexpected result")
+        return {
+            "status": "PASS",
+            "route": route,
+            "remote_path": final_path,
+            "checked_at": utc_now(),
+        }
+
     def publish(self, apk_path: Path, identity: ArtifactIdentity) -> RemotePublication:
         release_dir, final_path = self._paths(identity.release, identity.apk_file)
         nonce = self.nonce_factory()
@@ -615,6 +638,9 @@ class PrepareConfig:
 
 
 class Publisher(Protocol):
+    def preflight_route(self, release: str, commit: str) -> dict[str, Any]:
+        ...
+
     def publish(self, apk_path: Path, identity: ArtifactIdentity) -> RemotePublication:
         ...
 
@@ -680,6 +706,9 @@ def prepare_delivery(
     if manifest_path.exists() or evidence_path.exists():
         raise DeliveryError("delivery state already exists; use verify or accept instead of prepare")
 
+    route_evidence = publisher.preflight_route(release, commit)
+    if route_evidence.get("status") != "PASS":
+        raise DeliveryError("exact APK download route preflight did not pass")
     verified_copy(config.apk, artifact_apk, sha, size)
     verified_copy(config.apk, desktop_apk, sha, size)
     publication: RemotePublication | None = None
@@ -707,6 +736,7 @@ def prepare_delivery(
             },
             "local": {"status": "PASS", "artifact_copy": str(artifact_apk)},
             "desktop": {"status": "PASS", "path": str(desktop_apk), "sha256": sha},
+            "route_preflight": route_evidence,
             "remote": {**remote_evidence, "path": publication.remote_path, "publish_state": publication.state},
             "https": {**https_evidence, "url": download_url},
             "owner_physical_test": {"status": "PENDING"},
@@ -904,6 +934,13 @@ def build_parser() -> ArgumentParser:
     add_storage_arguments(prepare)
     add_remote_arguments(prepare)
 
+    preflight_route = subparsers.add_parser(
+        "preflight-route", help="Verify the exact Nginx APK route before starting a build"
+    )
+    preflight_route.add_argument("--release", required=True)
+    preflight_route.add_argument("--commit", required=True)
+    add_remote_arguments(preflight_route)
+
     verify = subparsers.add_parser("verify", help="Re-verify local, desktop, remote, and HTTPS copies")
     verify.add_argument("--release", required=True)
     verify.add_argument("--dry-run", action="store_true")
@@ -940,7 +977,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     try:
         reject_credential_arguments(actual)
         args = build_parser().parse_args(actual)
-        if args.command == "prepare":
+        if args.command == "preflight-route":
+            result = make_publisher(args).preflight_route(args.release, args.commit)
+        elif args.command == "prepare":
             result = prepare_delivery(
                 PrepareConfig(
                     args.release,
