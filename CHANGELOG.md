@@ -498,3 +498,12 @@
 - 摘要：TASK-R04-005完成：三分区汇合、六项权威测试6/6、Java21后端216项、PostgreSQL17迁移回滚重放、Android331任务、Python144项、连续性11项、Contracts与Web全部通过，生成物漂移和关键缺陷清零
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T130824Z-06DC3492.md`
 
+## TASK-R04-006 · COMPLETED · 2026-07-19T14:41:52Z
+
+- Task close: TASK-R04-006 / SES-20260719T135908Z-32D952EC
+- Release：`R04`
+- Story：`STORY-R04-002`
+- Actor：`codex-root`
+- 摘要：R04可观测性、隔离Staging、两组业务告警、日志脱敏和同库卷应用回切全部通过，AC-R04-004已签PASS
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T135908Z-32D952EC.md`
+

@@ -1,0 +1,223 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T135908Z-32D952EC-0003
+session_id: SES-20260719T135908Z-32D952EC
+sequence: 3
+created_at: '2026-07-19T14:41:53Z'
+summary: 关闭 TASK-R04-006：R04可观测性、隔离Staging、两组业务告警、日志脱敏和同库卷应用回切全部通过，AC-R04-004已签PASS
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：fe31d579d15c305f28cfac03c03ed026da6bfb66
+- 任务转换：TRN-20260719T144152Z-SES-20260719T135908Z-32D952EC
+- 下一Release：R04
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: Backend full test
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports
+  note: 217 tests, zero failures/errors, two skips
+- name: R04 staging evidence
+  result: PASS
+  evidence: artifacts/validation/r04-task006-staging/remote/machine-summary.txt
+  note: Staging health, metrics, alerts and rollback pass
+- name: R04 evidence SHA
+  result: PASS
+  evidence: artifacts/validation/r04-task006-staging/remote/SHA256SUMS
+  note: all evidence hashes verified
+- name: R04 observability static gate
+  result: PASS
+  evidence: scripts/check_r04_observability.py
+  note: R04_OBSERVABILITY_CONFIG_OK
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: fe31d579d15c305f28cfac03c03ed026da6bfb66
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260719T135908Z-32D952EC.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R04/TASKS.yaml'
+  recent_commits:
+  - "fe31d579d15c305f28cfac03c03ed026da6bfb66\t2026-07-19T22:40:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(staging): attest R04\
+    \ observability and rollback"
+  - "4bbf6e23c0a6f1b2773e60182fde4683deeb6d0d\t2026-07-19T22:11:51+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(observability): add R04\
+    \ staging gates"
+  - "73a0e7db60711a00fd7b3a9a0f2a15d609f37ef7\t2026-07-19T21:58:16+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-005\
+    \ as completed"
+  - "ccf2ed56a8f90181a9da018b83b8cd59262d952f\t2026-07-19T21:57:10+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): attest six-test\
+    \ integration matrix"
+  - "3fb6405ad6161c09f73c1fd5274edd8140567b08\t2026-07-19T21:46:47+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(media): use frozen button\
+    \ height token"
+  - "0e5010f900b2e441f7358ad3e66d491322091e82\t2026-07-19T21:30:45+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): run reproducible\
+    \ remote integration gates"
+  - "1fcc52f2a34047d8ed6bde02463a278323fe24b6\t2026-07-19T21:16:42+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): add authoritative\
+    \ six-test matrix"
+  - "3168e38e19a3a8cf9ffde87927266b1a3c755dc9\t2026-07-19T21:07:24+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(continuity): close TASK-R04-004\
+    \ as completed"
+project_fingerprint:
+  sha256: bed49f062c7d508218edfdfd04447c536b088b0912c9164a4d617695701ea2a4
+  files:
+  - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/r04-smoke/alertmanager.yml
+  - infra/staging/r04-smoke/docker-compose.yml
+  - infra/staging/r04-smoke/nginx.conf
+  - infra/staging/r04-smoke/prometheus.yml
+  - infra/staging/r04-smoke/r04-alerts.yml
+  - releases/R04/ACCEPTANCE_MATRIX.csv
+  - releases/R04/TASKS.yaml
+  - scripts/check_r04_observability.py
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+  file_count: 16
+  payload:
+    base_commit: 73a0e7db60711a00fd7b3a9a0f2a15d609f37ef7
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 38150
+      sha256: 67262b4506ba132b7c14966fa59b585923651f82a6c6ec70b715954699b43532
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 17639
+      sha256: 71496b63eec1f71c537cd5ecd4414fd7c727e174cd11416d3ff514108dd73f72
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 6290
+      sha256: 8d067a5e76a8b8a441528f3129831727d4005286594f85391ccb0ad54e6bcbd0
+    - path: infra/staging/r04-smoke/alertmanager.yml
+      state: FILE
+      size: 277
+      sha256: 83a253d649f66d6bd6353d62d6fa9ce78d8eaf7e9cde27af17eb5074d1cd4830
+    - path: infra/staging/r04-smoke/docker-compose.yml
+      state: FILE
+      size: 4263
+      sha256: abc2ebe0a71612fc746f1dc3b1213474f14fc84bf624c0ed907d6c59a5bcbc11
+    - path: infra/staging/r04-smoke/nginx.conf
+      state: FILE
+      size: 318
+      sha256: b13f1e9d43e52a8469a988d1af9de051dfdcba2724df5c754793993f7fe41f98
+    - path: infra/staging/r04-smoke/prometheus.yml
+      state: FILE
+      size: 401
+      sha256: c31758f27c1819f7cd2bc85dc917d205432c8055984db375315290c56bcaab98
+    - path: infra/staging/r04-smoke/r04-alerts.yml
+      state: FILE
+      size: 2375
+      sha256: 484d3c222d8096fb23deed98c32912453b085cfacfbeaa10250b19d33e3ac249
+    - path: releases/R04/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 704
+      sha256: 44f0814dbfe3e01a73d5a18cfcac6841e8ad4fbbafc98845443364659fedb72b
+    - path: releases/R04/TASKS.yaml
+      state: FILE
+      size: 6260
+      sha256: 67755a27fdb84337d0671e81aac80e20531f5d99e0b8696ef21b5527898ff9a4
+    - path: scripts/check_r04_observability.py
+      state: FILE
+      size: 5462
+      sha256: 488b9561690cbb95de3b4e00bd315c2df0096a3a82ad4a953909757de4b97638
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 10515
+      sha256: a30ed6f8c65b973a966c69bedb8f051eec7eaad4e87a0770b64338cf8c9f798b
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+      state: FILE
+      size: 4630
+      sha256: b849f39ec3df50d9999dc27b8ca4a52a526870982c2e6a48ef05967702ce0709
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 11106
+      sha256: 7ee87024d1ad378b79fc50f800c24e79350d09fdb95cb87127daf07991aec855
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 8080
+      sha256: cdf1ec44dd03e14347585482f946c4a0be2844b1caa573e4e6a81a5f0d6664f6
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+      state: FILE
+      size: 1989
+      sha256: 7971b54181737fbce81fd5e672c10cd31c6f510d4c3ce9a3bd53b0bc48f71c3b
+change_classification:
+  other:
+  - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - releases/R04/ACCEPTANCE_MATRIX.csv
+  - releases/R04/TASKS.yaml
+  infrastructure:
+  - infra/staging/r04-smoke/alertmanager.yml
+  - infra/staging/r04-smoke/docker-compose.yml
+  - infra/staging/r04-smoke/nginx.conf
+  - infra/staging/r04-smoke/prometheus.yml
+  - infra/staging/r04-smoke/r04-alerts.yml
+  code:
+  - scripts/check_r04_observability.py
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 现场演练依赖同一Compose项目、告警状态与数据库卷顺序变化，必须串行保持证据因果链
+event_hash: de8787480689c401f6296fd05f80f3e2ea84517633bb9e03c092d8dfb2dd67bd

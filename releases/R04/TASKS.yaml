@@ -103,7 +103,7 @@ tasks:
   completed_at: '2026-07-19T13:57:40Z'
 - id: TASK-R04-006
   title: 可观测性、Staging部署与回滚演练
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R04-005
   requirements: *id001
@@ -115,9 +115,10 @@ tasks:
   - 日志不包含签名URL、Secret或私有对象内容
   - Staging和RELEASE前置门禁通过
   session_log_required: true
+  completed_at: '2026-07-19T14:41:52Z'
 - id: TASK-R04-007
   title: 媒体与多对象存储Android测试APK与产物追溯
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R04-006
   requirements: *id001
