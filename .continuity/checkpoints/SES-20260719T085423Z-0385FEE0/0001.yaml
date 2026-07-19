@@ -1,0 +1,161 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T085423Z-0385FEE0-0001
+session_id: SES-20260719T085423Z-0385FEE0
+sequence: 1
+created_at: '2026-07-19T08:57:19Z'
+summary: R04存储与媒体V021安全基线完成：六类Scope、R2/OSS供应商、单一ACTIVE绑定、媒体SHA/大小/可见性、上传与令牌过期、迁移恢复计数均有数据库不变量与回滚
+next_step: 提交V021与4项回归测试，然后实现StorageObjectPort、R2/OSS适配器合同和迁移游标服务
+blockers: []
+decisions:
+- V020已被R03注册策略占用，R04使用V021；迁移约束采用NOT VALID兼容历史行但立即约束新写入，后续真实PostgreSQL门禁再验证存量
+note: ''
+tests:
+- name: r04-storage-migration
+  result: PASS
+  evidence: python -m unittest tests.test_r04_storage_media_migration
+  note: 4 tests OK
+- name: db-schema
+  result: PASS
+  evidence: scripts/check_db_schema.py
+  note: 200 tables 21 migrations runtime hashes PASS
+- name: generated-assets
+  result: PASS
+  evidence: scripts/check_generated_assets.py
+  note: runtime contracts and generated assets verified
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 7ae235681e92565971eb53a999a72fc88f9f8f39
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/R04_TASK-001_ENTRY_GATE.md'
+  - ?? .continuity/sessions/SES-20260719T085423Z-0385FEE0.yaml
+  - ?? database/migrations/V021__r04_storage_media_invariants.sql
+  - ?? database/rollback/U021__r04_storage_media_invariants.sql
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md
+  - ?? services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
+  - ?? tests/test_r04_storage_media_migration.py
+  recent_commits:
+  - "7ae235681e92565971eb53a999a72fc88f9f8f39\t2026-07-19T16:53:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-001\
+    \ as completed"
+  - "34d9e7790319e603d58f531e314a442a893c32ea\t2026-07-19T16:52:24+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(governance): finalize\
+    \ R04 entry gate"
+  - "09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8\t2026-07-19T16:49:36+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(continuity): persist release\
+    \ green commit"
+  - "cf597bba9422b4dc9abd4a95806efa99ea6c5b12\t2026-07-19T16:31:45+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-008\
+    \ as completed"
+  - "40807dc3d8e1dcfa56334d37cf8646bf9db483dd\t2026-07-19T16:30:34+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): finalize R03\
+    \ acceptance matrix"
+  - "e37faeaa31714e4026132b426acb0bd956032d84\t2026-07-19T16:28:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): archive R03\
+    \ close evidence"
+  - "d492370ddccf7adcbe935be008dd9b5c70471832\t2026-07-19T16:18:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-007\
+    \ as completed"
+  - "442b2ad431bec3e3250ca40a1ac7e9a2dc0a1ab7\t2026-07-19T16:16:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): record R03\
+    \ owner acceptance"
+project_fingerprint:
+  sha256: 115072ee852dfb11e09b730352518ac01271f940cdb3f2f36511360f1a633520
+  files:
+  - database/migrations/V021__r04_storage_media_invariants.sql
+  - database/rollback/U021__r04_storage_media_invariants.sql
+  - docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+  - services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
+  - tests/test_r04_storage_media_migration.py
+  file_count: 5
+  payload:
+    base_commit: 7ae235681e92565971eb53a999a72fc88f9f8f39
+    files:
+    - path: database/migrations/V021__r04_storage_media_invariants.sql
+      state: FILE
+      size: 3067
+      sha256: b4168d9f33301155f954fba9a440ad8ee6315a9088144dbad684ebf1b333d969
+    - path: database/rollback/U021__r04_storage_media_invariants.sql
+      state: FILE
+      size: 1431
+      sha256: 45a10c91db525772ac1d48f4e0a4ba3d3b3bc3425496fb3e84a70284b6918ebb
+    - path: docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+      state: FILE
+      size: 2986
+      sha256: b10a54785471c3eb3e49d1e4886f7ae510a0b3104e211cdf7d02679d327ef3eb
+    - path: services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
+      state: FILE
+      size: 3067
+      sha256: b4168d9f33301155f954fba9a440ad8ee6315a9088144dbad684ebf1b333d969
+    - path: tests/test_r04_storage_media_migration.py
+      state: FILE
+      size: 2280
+      sha256: 41befb9bc07c7847794740b1b9cac491e306f4b5b9aff26480e83912c085ca85
+change_classification:
+  database:
+  - database/migrations/V021__r04_storage_media_invariants.sql
+  - database/rollback/U021__r04_storage_media_invariants.sql
+  continuity:
+  - docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+  code:
+  - services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
+  tests:
+  - tests/test_r04_storage_media_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前执行约束未授权创建子代理；Flyway编号、源/运行时副本与回滚必须由主控原子提交
+event_hash: f3e9620be06ddd34857a43f807ecc20c0c982c310340f3e7a2f256e573e74383

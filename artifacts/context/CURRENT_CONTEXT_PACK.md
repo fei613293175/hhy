@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T08:53:06Z
-- Context Hash：`d93667c6d6a68cb514a284592fe53a945f427a5a5c5980c3f6c8a5e7081abfa1`
+- 生成时间：2026-07-19T08:57:21Z
+- Context Hash：`a3adf7200882c1838ad994bfbc4fdcc72119e8470112b1544dd358f14e99030a`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-002
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 当前状态
@@ -18,7 +18,7 @@ baseline_version: 1.2.3
 phase: R04
 active_release: R04
 active_task: TASK-R04-002
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 34d9e7790319e603d58f531e314a442a893c32ea
 last_staging_apk: null
@@ -65,12 +65,13 @@ completed_tasks:
 - TASK-R03-007
 - TASK-R03-008
 - TASK-R04-001
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R04-002
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R04-002
-updated_at: '2026-07-19T08:53:03Z'
+updated_at: '2026-07-19T08:57:19Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -102,17 +103,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260719T083704Z-6E4CE28F
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0005.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260719T085423Z-0385FEE0
+  actor_id: codex-root
+  story_id: STORY-R04-002
+  lease_expires_at: '2026-07-19T12:57:19Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0001.yaml
+  project_fingerprint: 115072ee852dfb11e09b730352518ac01271f940cdb3f2f36511360f1a633520
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: fd004a032918a8b696b24a96e745cb7d554855af871c478b473e3b7db4533adc
-    generated_at: '2026-07-19T08:53:02Z'
+    context_hash: ad5f53d4a5b0a54b5d50ccc204956d756b0e850eb106b981b205961a893f65e7
+    generated_at: '2026-07-19T08:54:25Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -290,13 +293,246 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T085423Z-0385FEE0
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R04
+task_id: TASK-R04-002
+story_id: STORY-R04-002
+goal: 完成存储Scope隔离、R2/OSS适配端口、媒体数据不变量、私有签名URL、迁移恢复与访问审计的可验证基线
+started_at: '2026-07-19T08:54:23Z'
+updated_at: '2026-07-19T08:57:19Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 7ae235681e92565971eb53a999a72fc88f9f8f39
+  start_head: 7ae235681e92565971eb53a999a72fc88f9f8f39
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T08:57:19Z'
+  expires_at: '2026-07-19T12:57:19Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md
+next_step: 提交V021与4项回归测试，然后实现StorageObjectPort、R2/OSS适配器合同和迁移游标服务
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前执行约束未授权创建子代理；Flyway编号、源/运行时副本与回滚必须由主控原子提交
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T085423Z-0385FEE0-0001
+session_id: SES-20260719T085423Z-0385FEE0
+sequence: 1
+created_at: '2026-07-19T08:57:19Z'
+summary: R04存储与媒体V021安全基线完成：六类Scope、R2/OSS供应商、单一ACTIVE绑定、媒体SHA/大小/可见性、上传与令牌过期、迁移恢复计数均有数据库不变量与回滚
+next_step: 提交V021与4项回归测试，然后实现StorageObjectPort、R2/OSS适配器合同和迁移游标服务
+blockers: []
+decisions:
+- V020已被R03注册策略占用，R04使用V021；迁移约束采用NOT VALID兼容历史行但立即约束新写入，后续真实PostgreSQL门禁再验证存量
+note: ''
+tests:
+- name: r04-storage-migration
+  result: PASS
+  evidence: python -m unittest tests.test_r04_storage_media_migration
+  note: 4 tests OK
+- name: db-schema
+  result: PASS
+  evidence: scripts/check_db_schema.py
+  note: 200 tables 21 migrations runtime hashes PASS
+- name: generated-assets
+  result: PASS
+  evidence: scripts/check_generated_assets.py
+  note: runtime contracts and generated assets verified
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 7ae235681e92565971eb53a999a72fc88f9f8f39
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/R04_TASK-001_ENTRY_GATE.md'
+  - ?? .continuity/sessions/SES-20260719T085423Z-0385FEE0.yaml
+  - ?? database/migrations/V021__r04_storage_media_invariants.sql
+  - ?? database/rollback/U021__r04_storage_media_invariants.sql
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md
+  - ?? services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
+  - ?? tests/test_r04_storage_media_migration.py
+  recent_commits:
+  - "7ae235681e92565971eb53a999a72fc88f9f8f39\t2026-07-19T16:53:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-001\
+    \ as completed"
+  - "34d9e7790319e603d58f531e314a442a893c32ea\t2026-07-19T16:52:24+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(governance): finalize\
+    \ R04 entry gate"
+  - "09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8\t2026-07-19T16:49:36+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(continuity): persist release\
+    \ green commit"
+  - "cf597bba9422b4dc9abd4a95806efa99ea6c5b12\t2026-07-19T16:31:45+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-008\
+    \ as completed"
+  - "40807dc3d8e1dcfa56334d37cf8646bf9db483dd\t2026-07-19T16:30:34+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): finalize R03\
+    \ acceptance matrix"
+  - "e37faeaa31714e4026132b426acb0bd956032d84\t2026-07-19T16:28:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): archive R03\
+    \ close evidence"
+  - "d492370ddccf7adcbe935be008dd9b5c70471832\t2026-07-19T16:18:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-007\
+    \ as completed"
+  - "442b2ad431bec3e3250ca40a1ac7e9a2dc0a1ab7\t2026-07-19T16:16:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): record R03\
+    \ owner acceptance"
+project_fingerprint:
+  sha256: 115072ee852dfb11e09b730352518ac01271f940cdb3f2f36511360f1a633520
+  files:
+  - database/migrations/V021__r04_storage_media_invariants.sql
+  - database/rollback/U021__r04_storage_media_invariants.sql
+  - docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+  - services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
+  - tests/test_r04_storage_media_migration.py
+  file_count: 5
+  payload:
+    base_commit: 7ae235681e92565971eb53a999a72fc88f9f8f39
+    files:
+    - path: database/migrations/V021__r04_storage_media_invariants.sql
+      state: FILE
+      size: 3067
+      sha256: b4168d9f33301155f954fba9a440ad8ee6315a9088144dbad684ebf1b333d969
+    - path: database/rollback/U021__r04_storage_media_invariants.sql
+      state: FILE
+      size: 1431
+      sha256: 45a10c91db525772ac1d48f4e0a4ba3d3b3bc3425496fb3e84a70284b6918ebb
+    - path: docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+      state: FILE
+      size: 2986
+      sha256: b10a54785471c3eb3e49d1e4886f7ae510a0b3104e211cdf7d02679d327ef3eb
+    - path: services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
+      state: FILE
+      size: 3067
+      sha256: b4168d9f33301155f954fba9a440ad8ee6315a9088144dbad684ebf1b333d969
+    - path: tests/test_r04_storage_media_migration.py
+      state: FILE
+      size: 2280
+      sha256: 41befb9bc07c7847794740b1b9cac491e306f4b5b9aff26480e83912c085ca85
+change_classification:
+  database:
+  - database/migrations/V021__r04_storage_media_invariants.sql
+  - database/rollback/U021__r04_storage_media_invariants.sql
+  continuity:
+  - docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+  code:
+  - services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
+  tests:
+  - tests/test_r04_storage_media_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前执行约束未授权创建子代理；Flyway编号、源/运行时副本与回滚必须由主控原子提交
+event_hash: f3e9620be06ddd34857a43f807ecc20c0c982c310340f3e7a2f256e573e74383
 ```
 
 ## 接续状态与事件头
@@ -304,31 +540,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260719T085423Z-0385FEE0
 last_session_id: SES-20260719T083704Z-6E4CE28F
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T083704Z-6E4CE28F-0005
-event_count: 927
-event_head_hash: 24ef7aa8dbaf657303ffcc0a9ec129689b6a60cf982efb65af90bbac79482767
+event_count: 929
+event_head_hash: f3e9620be06ddd34857a43f807ecc20c0c982c310340f3e7a2f256e573e74383
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260718T132650Z-C5038104
-  task_id: TASK-R03-001
-  story_id: STORY-R03-004
-  actor_id: codex-root
-  status: CLOSED
-  started_at: '2026-07-18T13:26:50Z'
-  record: .continuity/sessions/SES-20260718T132650Z-C5038104.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260718T132650Z-C5038104.md
-  updated_at: '2026-07-18T13:30:31Z'
-  closed_at: '2026-07-18T13:30:31Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T132650Z-C5038104/0002.yaml
-  handoff_bundle: null
-- session_id: SES-20260718T133151Z-12DB5949
+recent_sessions: - session_id: SES-20260718T133151Z-12DB5949
   task_id: TASK-R03-002
   story_id: STORY-R03-001
   actor_id: codex-root
@@ -436,46 +660,19 @@ recent_sessions: - session_id: SES-20260718T132650Z-C5038104
   closed_at: '2026-07-19T08:53:03Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0005.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-E45608E07944
-  session_id: SES-20260717T171412Z-7CD86701
-  task_id: TASK-R01-008
-  story_id: STORY-R01-003
+- session_id: SES-20260719T085423Z-0385FEE0
+  task_id: TASK-R04-002
+  story_id: STORY-R04-002
   actor_id: codex-root
-  status: CLOSED
-  claimed_at: '2026-07-17T17:14:12Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-17T17:45:22Z'
-- claim_id: CLM-C40E17896B67
+  status: ACTIVE
+  started_at: '2026-07-19T08:54:23Z'
+  record: .continuity/sessions/SES-20260719T085423Z-0385FEE0.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md
+  updated_at: '2026-07-19T08:57:19Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0001.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-C40E17896B67
   session_id: SES-20260717T183459Z-D64E7407
   task_id: TASK-R02-001
   story_id: STORY-R02-009
@@ -1067,17 +1264,46 @@ task_claims: - claim_id: CLM-E45608E07944
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-19T08:53:03Z'
-recent_task_transitions: - transition_id: TRN-1C8D7CBE6956
-  timestamp: '2026-07-17T20:08:42Z'
-  release: R02
-  task_id: TASK-R02-002
-  story_id: STORY-R02-003
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260717T200842Z-456B8F52
-  actor_id: codex-master
-  reason: 会话领取任务
-- transition_id: TRN-1EAFE057F615
+- claim_id: CLM-D14F24DD0A84
+  session_id: SES-20260719T085423Z-0385FEE0
+  task_id: TASK-R04-002
+  story_id: STORY-R04-002
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-19T08:54:23Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-1EAFE057F615
   timestamp: '2026-07-17T20:45:10Z'
   release: R02
   task_id: TASK-R02-002
@@ -1267,6 +1493,16 @@ recent_task_transitions: - transition_id: TRN-1C8D7CBE6956
   session_id: SES-20260719T083704Z-6E4CE28F
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-6110C7612C53
+  timestamp: '2026-07-19T08:54:23Z'
+  release: R04
+  task_id: TASK-R04-002
+  story_id: STORY-R04-002
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260719T085423Z-0385FEE0
+  actor_id: codex-root
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1274,7 +1510,7 @@ recent_task_transitions: - transition_id: TRN-1C8D7CBE6956
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 34d9e7790319e603d58f531e314a442a893c32ea
+head: 7ae235681e92565971eb53a999a72fc88f9f8f39
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1285,18 +1521,24 @@ status_porcelain:
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260719T083704Z-6E4CE28F.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md'
-- ' M releases/R04/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0005.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ' M docs/03-continuity/R04_TASK-001_ENTRY_GATE.md'
+- ?? .continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0001.yaml
+- ?? .continuity/sessions/SES-20260719T085423Z-0385FEE0.yaml
+- ?? database/migrations/V021__r04_storage_media_invariants.sql
+- ?? database/rollback/U021__r04_storage_media_invariants.sql
+- ?? docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md
+- ?? services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
+- ?? tests/test_r04_storage_media_migration.py
 recent_commits:
+- "7ae235681e92565971eb53a999a72fc88f9f8f39\t2026-07-19T16:53:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-001\
+  \ as completed"
 - "34d9e7790319e603d58f531e314a442a893c32ea\t2026-07-19T16:52:24+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(governance): finalize\
   \ R04 entry gate"
 - "09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8\t2026-07-19T16:49:36+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(continuity): persist release\
@@ -1311,16 +1553,18 @@ recent_commits:
   \ as completed"
 - "442b2ad431bec3e3250ca40a1ac7e9a2dc0a1ab7\t2026-07-19T16:16:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): record R03 owner\
   \ acceptance"
-- "6c7b8891af999e75610a03aeedfefc536faeb608\t2026-07-19T15:51:29+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): refresh fast-path\
-  \ context"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`6618ddce0b4e739ebcb1a6674adafaf6270571897f739734f6c5baaca016c2ce`
-- 文件数：0
+- 指纹：`115072ee852dfb11e09b730352518ac01271f940cdb3f2f36511360f1a633520`
+- 文件数：5
 
-- 无
+- `database/migrations/V021__r04_storage_media_invariants.sql`
+- `database/rollback/U021__r04_storage_media_invariants.sql`
+- `docs/03-continuity/R04_TASK-001_ENTRY_GATE.md`
+- `services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql`
+- `tests/test_r04_storage_media_migration.py`
 
 ## 当前 Release
 
@@ -3215,7 +3459,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `6e5b9d2e3bbeff86e8a5ae312ccc8ad65ee99d665daf7a926c3f4cc4ffb43177`
+- `CURRENT_STATUS.yaml` — `60a3f497c8d56b4d9c29db13e6e9115fccdc7ac6ee12449e115d0042d3075105`
 - `NEXT_TASK.yaml` — `a58c76da69db3149420f3a7516ec69c95e64a536af966a6c26b582ac6fcb8595`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3226,12 +3470,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `c43ae85d1a07df0e0fae0f603fffa55a336a738b8f3f56492de3a20b8c6b3029`
-- `.continuity/SESSION_INDEX.yaml` — `896a288ffc4eb4f0a52aa252d42687f06fc0868b618af792349796200c73b1d3`
-- `.continuity/TASK_CLAIMS.yaml` — `3c317fcc1925a594aee05f910b91df3fefb9a0ca0e31f636155d969b2d99cb98`
-- `.continuity/TASK_TRANSITIONS.yaml` — `467391578457c46d5e599965b3fc17cba43b88cd331495ddad1effa5cd5dd04c`
+- `.continuity/EVENT_LOG.jsonl` — `9ac32c3c2ee51f382f25765e5bec96277a76ee382f4fb3a9342f9c3114c01fca`
+- `.continuity/SESSION_INDEX.yaml` — `d1cafa1191d19f596124f5514e5bbc193c383951c52f292acd9bb9db1ec0fcf8`
+- `.continuity/TASK_CLAIMS.yaml` — `dcb1a1253c264a6883b1320118afab162bd392746f2e584047a610d5ac32c8ff`
+- `.continuity/TASK_TRANSITIONS.yaml` — `ecc9e1c4526162348ef7c5006fcfb2b2bf623d15f5de746e0f1d5491080f87e3`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c9d9a42ce1b9abb8d959a6e8f83046746650ac1c4c6d8a7d1b60372e8f7701ec`
-- `.continuity/ACTIVE_SESSION.yaml` — `783d0f6de0e6cecf8d2a1fd9a92131fa12166eecc31a3aa2c26ed68af12b94ac`
+- `.continuity/ACTIVE_SESSION.yaml` — `8d35aca63eba046f2d33ae4376779bd89c3ea7ad0b805b46e10ad34babd5f235`
+- `releases/R04/RELEASE_MANIFEST.yaml` — `c897c4706cdcb53bde1c053a6515a12fbad0fc3f01b24ae891b7426df203f3c6`
+- `releases/R04/DEFINITION_OF_READY.yaml` — `41aef5956ff6a2ab80957f9b477a5957fc26940eb502c6d67e3a7a5ae97fd84c`
+- `releases/R04/STORIES.yaml` — `aa71e87c502b76dbc59bff0fa6efe957f7855158cde1c7818bda636bfe41469e`
+- `releases/R04/TASKS.yaml` — `ac6d2deb7019fb0da29a35a793f92b645c913668c3ab719d33ca76ffaf88d3a3`
+- `releases/R04/ACCEPTANCE_MATRIX.csv` — `bf28fec8769cdcc468565a3f1300f1f0f16a43623a301cb94c7d8e37a6011df2`
+- `releases/R04/PARALLEL_EXECUTION_PLAN.yaml` — `9f76b85f11c0293ce8930f1068cf1fc5582242753ff141b5b6134d8e44e5f2dd`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md` — `26ec782cf4da4aef0b2aea4687b24e11e2bc46d690cfd32557a2a1910662199c`
+- `.continuity/checkpoints/SES-20260719T085423Z-0385FEE0/0001.yaml` — `b5fc1cf1d290162166c58283f73c5cddea28e481726eb81b71aedb763d4f3c23`
 
 ## 接手硬规则
 
