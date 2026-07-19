@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T22:25:37Z
-- Context Hash：`82bbae9431a6d6b9f990e16afafb3a2355f5236773073a1fe41fa769a380773a`
+- 生成时间：2026-07-19T22:27:37Z
+- Context Hash：`54f91c830a17c079baa82579e4c7aa7c32ed59879801f814e76ddc8d67a38fac`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -81,7 +81,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-004
-updated_at: '2026-07-19T22:25:35Z'
+updated_at: '2026-07-19T22:27:35Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -116,15 +116,15 @@ continuity:
   active_session_id: SES-20260719T183335Z-535311E4
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T02:25:35Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0023.yaml
-  project_fingerprint: 5ff5f8d228589bbc611d4e99f23401e6e51c142e6e88f50d9834e5c05867b16f
+  lease_expires_at: '2026-07-20T02:27:35Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0024.yaml
+  project_fingerprint: 4f80b0cc030c9708b11f89a23a742f735ffe298574b8afa14b9e69ae496ee042
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 29694ab10572c18f64d5dc06358b50eb52c60aa87abe9bdd87df66ed79adffba
-    generated_at: '2026-07-19T22:25:02Z'
+    context_hash: 82bbae9431a6d6b9f990e16afafb3a2355f5236773073a1fe41fa769a380773a
+    generated_at: '2026-07-19T22:25:37Z'
   handoff_bundle: null
 ```
 
@@ -320,7 +320,7 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T22:25:35Z'
+updated_at: '2026-07-19T22:27:35Z'
 takeover_of: null
 change_requests:
 - CR-0090
@@ -465,12 +465,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T22:25:35Z'
-  expires_at: '2026-07-20T02:25:35Z'
-checkpoint_sequence: 23
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0023.yaml
+  renewed_at: '2026-07-19T22:27:35Z'
+  expires_at: '2026-07-20T02:27:35Z'
+checkpoint_sequence: 24
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0024.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 执行Git传输门禁并推送CR-0106，然后继续CR-0099/R05正式环境闭环中仍可本地验证的下一项
+next_step: 执行R05-004 Android、H5和后台页面专项回归并对照7个页面验收条件，满足后关闭TASK-R05-004进入专项故障注入
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -478,44 +478,46 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 本步骤仅关闭同一变更记录与推送，不存在独立并行实现单元
+  reason: 变更请求关闭与当前任务验收必须顺序进行，避免状态先于代码证据
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T183335Z-535311E4-0023
+checkpoint_id: CP-SES-20260719T183335Z-535311E4-0024
 session_id: SES-20260719T183335Z-535311E4
-sequence: 23
-created_at: '2026-07-19T22:25:34Z'
-summary: 关闭CR-0106：阿里云OSS真实端口实现提交9fc38ff，专项13项与后端全量279项测试均零失败
-next_step: 执行Git传输门禁并推送CR-0106，然后继续CR-0099/R05正式环境闭环中仍可本地验证的下一项
+sequence: 24
+created_at: '2026-07-19T22:27:34Z'
+summary: 关闭CR-0099供应商结果事务状态机：协调器、加密证据、私有媒体、R2/OSS真实端口和生产SecretRef已形成完整实现链
+next_step: 执行R05-004 Android、H5和后台页面专项回归并对照7个页面验收条件，满足后关闭TASK-R05-004进入专项故障注入
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: CR-0106 implementation commit
+- name: backend full Maven test
   result: PASS
-  evidence: 9fc38ff
-  note: continuity pre-commit and commit-msg gates passed
+  evidence: 279 tests, 0 failures, 5 explicit environment skips
+  note: covers coordinator, storage routes and API regression
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 9fc38ff37d2b0b7421c5f0a13205088308f664fc
+  head: 3041af56480ff9f225e997db9335e936a5986bed
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0106.yaml'
+  - ' M .continuity/change_requests/CR-0099.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0106-接入阿里云OSS真实对象存储端口.md'
+  - ' M docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md'
   recent_commits:
+  - "3041af56480ff9f225e997db9335e936a5986bed\t2026-07-20T06:25:44+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(storage): close Aliyun\
+    \ OSS runtime change"
   - "9fc38ff37d2b0b7421c5f0a13205088308f664fc\t2026-07-20T06:25:11+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(storage): activate Aliyun\
     \ OSS runtime port"
   - "0e3e8563fb89acd9c3ae66ce208d88ba0f2dde59\t2026-07-20T06:10:37+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(security): record provider\
@@ -530,10 +532,8 @@ git:
     \ evidence bridge CRs"
   - "4e970aeeebbec1c7f679dc3ac75dad1d11e122c5\t2026-07-20T05:32:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): persist private\
     \ evidence safely"
-  - "6d56e21aed734dd2511a14a55e361c194296c9fc\t2026-07-20T05:07:57+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): record callback\
-    \ startup closure"
 project_fingerprint:
-  sha256: 5ff5f8d228589bbc611d4e99f23401e6e51c142e6e88f50d9834e5c05867b16f
+  sha256: 4f80b0cc030c9708b11f89a23a742f735ffe298574b8afa14b9e69ae496ee042
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r05IdentityPages.test.ts
@@ -875,8 +875,8 @@ project_fingerprint:
       sha256: 788449076a8b0c83f3ba51037c28f13fab0828a27abb09366f9c8cad8139accd
     - path: docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md
       state: FILE
-      size: 3420
-      sha256: b38d6ccf7d7016f5de19377377fee150b411e017a5b9e5369fcd00861d2fed2b
+      size: 3735
+      sha256: edd72681734939abe8fd2af1e3c9b5326ce62458a8b9e07c7dc1a57cb4d7d765
     - path: docs/03-continuity/change-requests/CR-0100-修复R05公开回跳控制器校验代理启动失败.md
       state: FILE
       size: 2265
@@ -1464,8 +1464,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 本步骤仅关闭同一变更记录与推送，不存在独立并行实现单元
-event_hash: 4230de50b4a7bc3a5431dd6e7c3a2a272f79888a85440368ed255cb6189a99e4
+  reason: 变更请求关闭与当前任务验收必须顺序进行，避免状态先于代码证据
+event_hash: 799db908ece15dd59a557c4ed7b2b069b2b9d02352fbf2904b065c1d3d4af7e1
 ```
 
 ## 接续状态与事件头
@@ -1477,8 +1477,8 @@ active_session_id: SES-20260719T183335Z-535311E4
 last_session_id: SES-20260719T165401Z-12791729
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T165401Z-12791729-0009
-event_count: 1149
-event_head_hash: 4230de50b4a7bc3a5431dd6e7c3a2a272f79888a85440368ed255cb6189a99e4
+event_count: 1151
+event_head_hash: 799db908ece15dd59a557c4ed7b2b069b2b9d02352fbf2904b065c1d3d4af7e1
 event_chain_valid: true
 ```
 
@@ -1601,9 +1601,9 @@ recent_sessions: - session_id: SES-20260719T113522Z-6B27AD4B
   started_at: '2026-07-19T18:33:35Z'
   record: .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-  updated_at: '2026-07-19T22:25:35Z'
+  updated_at: '2026-07-19T22:27:35Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0023.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0024.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-36454E5FF743
   session_id: SES-20260718T133151Z-12DB5949
@@ -2481,9 +2481,9 @@ recent_task_transitions: - transition_id: TRN-C720E2A1E5C3
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 9fc38ff37d2b0b7421c5f0a13205088308f664fc
+head: 3041af56480ff9f225e997db9335e936a5986bed
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
@@ -2492,15 +2492,17 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0106.yaml'
+- ' M .continuity/change_requests/CR-0099.yaml'
 - ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0106-接入阿里云OSS真实对象存储端口.md'
+- ' M docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md'
-- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0023.yaml
+- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0024.yaml
 recent_commits:
+- "3041af56480ff9f225e997db9335e936a5986bed\t2026-07-20T06:25:44+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(storage): close Aliyun\
+  \ OSS runtime change"
 - "9fc38ff37d2b0b7421c5f0a13205088308f664fc\t2026-07-20T06:25:11+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(storage): activate Aliyun\
   \ OSS runtime port"
 - "0e3e8563fb89acd9c3ae66ce208d88ba0f2dde59\t2026-07-20T06:10:37+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(security): record provider\
@@ -2515,13 +2517,11 @@ recent_commits:
   \ evidence bridge CRs"
 - "4e970aeeebbec1c7f679dc3ac75dad1d11e122c5\t2026-07-20T05:32:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): persist private\
   \ evidence safely"
-- "6d56e21aed734dd2511a14a55e361c194296c9fc\t2026-07-20T05:07:57+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): record callback\
-  \ startup closure"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`5ff5f8d228589bbc611d4e99f23401e6e51c142e6e88f50d9834e5c05867b16f`
+- 指纹：`4f80b0cc030c9708b11f89a23a742f735ffe298574b8afa14b9e69ae496ee042`
 - 文件数：122
 
 - `CHANGELOG.md`
@@ -5456,9 +5456,9 @@ TASKS.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0099
   title: 补齐R05供应商结果事务状态机与加密证据编排
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T20:49:29Z'
-  updated_at: '2026-07-19T20:51:36Z'
+  updated_at: '2026-07-19T22:27:32Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-004
@@ -5507,8 +5507,15 @@ TASKS.yaml:
     status: IMPLEMENTING
     note: 开始实现供应商结果协调器、加密历史和乐观锁终态写入
     session_id: SES-20260719T183335Z-535311E4
+  - at: '2026-07-19T22:27:32Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 供应商结果协调器、AEAD原文、private_kyc媒体桥接、乐观锁终态与Outbox已由8612170及后续CR-0101至CR-0106完整接通；后端全量279项零失败
+    session_id: SES-20260719T183335Z-535311E4
   session_ids:
   - SES-20260719T183335Z-535311E4
+  implementation_commits:
+  - '8612170'
 - protocol_version: '1.0'
   cr_id: CR-0100
   title: 修复R05公开回跳控制器校验代理启动失败
@@ -5910,7 +5917,7 @@ TASKS.yaml:
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `0f73976fb1f8b3ac4467b20e85814690d7cd1f00512256699febbd05cb6273ce`
+- `CURRENT_STATUS.yaml` — `2cb5fc33abeff0da39dc9a5a8d80ca24c07f36e31e56d18678308827ff3fcae2`
 - `NEXT_TASK.yaml` — `a128e578a72108ea0d43225dbb48325c5315983581433490c186a6d1cf9cb484`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -5921,19 +5928,19 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `a661d59e2c7772d6799a52000f109dbb07c0dad810dab04f240203b448c79205`
-- `.continuity/SESSION_INDEX.yaml` — `faafa606619857a3489a7b759e2d0e67c12de54beb4b96a1c714e9544bd06f94`
+- `.continuity/EVENT_LOG.jsonl` — `a61aa6137aae234101b5ea84b736f848651cbcca6a3867ebb877d8161b2a3d2f`
+- `.continuity/SESSION_INDEX.yaml` — `6c6591ac72615b567da303fb6805b438fd74c6c6d6804cf7357cc39e716a3ee1`
 - `.continuity/TASK_CLAIMS.yaml` — `d584e4085c5320e27ccbdba4878c79ea2ca13ee854840c495f1e9a059064bb7c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b7bff921a7901affc662c17b2fe95e1556eb192d3c9ea7147d548a863c93ba9d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `595511ea5e465aac37f583e672c960e2395abcdbef25a63632c0378c467c7555`
-- `.continuity/ACTIVE_SESSION.yaml` — `5cdcbce04c97fb271cdc48b7151d51ba7e423e7b1ccc2ddba5062c6a82f044fb`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `7635e8aeba29240280fe1af657b191a32285b01a2fb07c1db5bf4a9b0584f44d`
+- `.continuity/ACTIVE_SESSION.yaml` — `d4b5ba09f5e251fb5752ba99e6346268c4df10e7cb28b7e26d64de58ba1db8d3`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `fbdff289348fbe15d4527cad6f1d5955322270725e80cc0e99ee291a6bbe05de`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `44cf456cea52e840d468a42be4045e1dde6853df4daf8fddb3ad23cf5227717a`
-- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0023.yaml` — `f38307ee5199fd232a89df98ca0906f32e674062ded317b36b95b84125c6e16f`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `06e7bfd63249c8879032e5aedd9d312f99a42f69c36158794fc38596b6a6d86f`
+- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0024.yaml` — `e86027410420965ca1c399d6518a4f1f2bab6d748393d9b4c0a59b34dbb9038e`
 - `docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md` — `978668dbafbcbbf0bb325a72beb141a1160bec7fefd9a08ed2f1fc0df4208fee`
 - `docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md` — `075fb50fab65446223ec017ced1402afc87a3db6074a4746bccf94833ba8bb7b`
 - `docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md` — `5e73eaa93bbb356709e0ea6c3c5c3413fada20f07f9b227a7c90ac8ddb698db7`
@@ -5943,7 +5950,7 @@ TASKS.yaml:
 - `docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md` — `f4eb911398b209d1d9583a772a7917ce55359282fa0fa6c04fa3e2cbb4ba530e`
 - `docs/03-continuity/change-requests/CR-0097-冻结已购R05活体结果与人脸比对供应商契约.md` — `89c2929f00f1d5a179328d5e0756c400b2f70526b3e70b9e675bd3f555ac0a2f`
 - `docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md` — `788449076a8b0c83f3ba51037c28f13fab0828a27abb09366f9c8cad8139accd`
-- `docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md` — `b38d6ccf7d7016f5de19377377fee150b411e017a5b9e5369fcd00861d2fed2b`
+- `docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md` — `edd72681734939abe8fd2af1e3c9b5326ce62458a8b9e07c7dc1a57cb4d7d765`
 - `docs/03-continuity/change-requests/CR-0100-修复R05公开回跳控制器校验代理启动失败.md` — `89dcac9ad36299e5151ce6a4b004b0be38355de6c97b8b520e25caed79f53477`
 - `docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md` — `866f506a6102a1e8169fb0dc9374689b0498d15e4124c5c2ef0ab8696e6b4611`
 - `docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md` — `95722415da26767608e5d89f54f3e5ef5e30f5538037e19f5925e0e4411636b4`
