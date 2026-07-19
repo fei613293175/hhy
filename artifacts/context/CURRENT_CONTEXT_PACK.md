@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T20:44:12Z
-- Context Hash：`98077e620df612c00bd086a67c94836c0e672a0c8bfce102e04810a66400c7e3`
+- 生成时间：2026-07-19T20:47:29Z
+- Context Hash：`332058ffa4ec6d2f24b0e564fc9d64c03f565db201930d9a5bfe60b76875f63c`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -81,7 +81,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-004
-updated_at: '2026-07-19T20:44:10Z'
+updated_at: '2026-07-19T20:47:27Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -116,15 +116,15 @@ continuity:
   active_session_id: SES-20260719T183335Z-535311E4
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T00:44:10Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0011.yaml
-  project_fingerprint: 0ef6d86eefc340ae4e59d94f698105dbfd37d8cf9365400e287352803442f1aa
+  lease_expires_at: '2026-07-20T00:47:27Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0013.yaml
+  project_fingerprint: 5bf0c7f90ec385385c75be02196422c3a52f7d49e701fc0eab4d39601af82c16
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: c2ffdba846a8a064c073430c631ed1f7e29baf8b30bafa092fef8c5ff73f8643
-    generated_at: '2026-07-19T20:37:33Z'
+    context_hash: 75172e364e5c1911a358c5777666f6bcfbe83bfa6270e6a4aadedbdba5182412
+    generated_at: '2026-07-19T20:46:17Z'
   handoff_bundle: null
 ```
 
@@ -320,7 +320,7 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T20:44:10Z'
+updated_at: '2026-07-19T20:47:27Z'
 takeover_of: null
 change_requests:
 - CR-0090
@@ -426,69 +426,73 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T20:44:10Z'
-  expires_at: '2026-07-20T00:44:10Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0011.yaml
+  renewed_at: '2026-07-19T20:47:27Z'
+  expires_at: '2026-07-20T00:47:27Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0013.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 提交推送CR-0098后实现private_kyc存储与供应商结果事务状态机
+next_step: 继续TASK-R05-004，设计并实现private_kyc私有证据存储与供应商结果事务状态机。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 下载器网络安全策略、实现与测试需在同一快照闭环
+  reason: 当前R05身份状态机纵切片共享数据库与同一业务边界，按当前未要求子代理的串行规则推进。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T183335Z-535311E4-0011
+checkpoint_id: CP-SES-20260719T183335Z-535311E4-0013
 session_id: SES-20260719T183335Z-535311E4
-sequence: 11
-created_at: '2026-07-19T20:44:09Z'
-summary: CR-0098已实现活体照片安全下载器，阻断SSRF、重定向、超限和伪造图片并返回SHA-256
-next_step: 提交推送CR-0098后实现private_kyc存储与供应商结果事务状态机
+sequence: 13
+created_at: '2026-07-19T20:47:26Z'
+summary: R05-004已将CR-0098活体照片安全下载边界标记IMPLEMENTED，功能提交6d8956a已与远端一致。
+next_step: 继续TASK-R05-004，设计并实现private_kyc私有证据存储与供应商结果事务状态机。
 blockers: []
 decisions:
-- 第三方照片仅允许JPEG或PNG且不超过100KiB，不落临时文件
-note: 继续TASK-R05-004，不关闭任务
+- 后续临时打包与远程传输只用唯一文件名，不执行Remove-Item或覆盖前清理。
+note: ''
 tests:
-- name: face-download-java21
+- name: ProviderFaceImageDownloaderTest
   result: PASS
-  evidence: ProviderFaceImageDownloaderTest 4项
-  note: 远程Java21全模块编译
-- name: r05-docs
+  evidence: 4项专项测试
+  note: 覆盖HTTPS、公网DNS、禁重定向、媒体类型、大小与SHA-256
+- name: backend-java21-compile
   result: PASS
-  evidence: 318 REST操作且0文档缺口
-  note: R05文档门禁
+  evidence: 全模块编译通过
+  note: CR-0098已验证并实施
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 14a88a1b2d162ef29b03e102c134b1ab4738f36e
+  head: 6d8956a193b3771c29c8b421a5c035e51e75e75a
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
-  - ' M CHANGELOG.md'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/04-vendors/identity/实名认证供应商接口契约_R05.md'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java'
-  - ?? .continuity/change_requests/CR-0098.yaml
-  - ?? docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/change_requests/CR-0098.yaml
+  - A  .continuity/checkpoints/SES-20260719T183335Z-535311E4/0012.yaml
+  - M  .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
   recent_commits:
+  - "6d8956a193b3771c29c8b421a5c035e51e75e75a\t2026-07-20T04:44:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): bound provider\
+    \ face download"
   - "14a88a1b2d162ef29b03e102c134b1ab4738f36e\t2026-07-20T04:37:45+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close provider\
     \ contract CR"
   - "82f6e40bdcf53bb2bb572b61cf28fd3d40e23795\t2026-07-20T04:36:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): parse purchased\
@@ -503,10 +507,8 @@ git:
     \ liveness callback"
   - "de9abe444e0475f59d979fab71f02cb05dfd1007\t2026-07-20T03:08:57+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): implement\
     \ Android and admin identity flows"
-  - "d08b5d91ed2f83ddfa377fc806470d2385887f53\t2026-07-20T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-003\
-    \ as completed"
 project_fingerprint:
-  sha256: 0ef6d86eefc340ae4e59d94f698105dbfd37d8cf9365400e287352803442f1aa
+  sha256: 5bf0c7f90ec385385c75be02196422c3a52f7d49e701fc0eab4d39601af82c16
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r05IdentityPages.test.ts
@@ -797,8 +799,8 @@ project_fingerprint:
       sha256: 89c2929f00f1d5a179328d5e0756c400b2f70526b3e70b9e675bd3f555ac0a2f
     - path: docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
       state: FILE
-      size: 2745
-      sha256: e4c8534416b6e73191e3a93d09c1fe38c0dc1cbe36108a61cc77ab082703965c
+      size: 3002
+      sha256: 788449076a8b0c83f3ba51037c28f13fab0828a27abb09366f9c8cad8139accd
     - path: docs/04-vendors/identity/实名认证供应商接口契约_R05.md
       state: FILE
       size: 3255
@@ -1161,11 +1163,11 @@ scope:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
   source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097+approved-cr:CR-0098
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 下载器网络安全策略、实现与测试需在同一快照闭环
-event_hash: ee88fcc47ce347ed12ea48285cfc03e1290bdf91106794ed36d914502b3acb7a
+  reason: 当前R05身份状态机纵切片共享数据库与同一业务边界，按当前未要求子代理的串行规则推进。
+event_hash: 892ce09a78b1fc8f6e19ac10af05a980697f49548fb5df68053a127bc9a4fb9b
 ```
 
 ## 接续状态与事件头
@@ -1177,8 +1179,8 @@ active_session_id: SES-20260719T183335Z-535311E4
 last_session_id: SES-20260719T165401Z-12791729
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T165401Z-12791729-0009
-event_count: 1089
-event_head_hash: ee88fcc47ce347ed12ea48285cfc03e1290bdf91106794ed36d914502b3acb7a
+event_count: 1092
+event_head_hash: 892ce09a78b1fc8f6e19ac10af05a980697f49548fb5df68053a127bc9a4fb9b
 event_chain_valid: true
 ```
 
@@ -1301,9 +1303,9 @@ recent_sessions: - session_id: SES-20260719T113522Z-6B27AD4B
   started_at: '2026-07-19T18:33:35Z'
   record: .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-  updated_at: '2026-07-19T20:44:10Z'
+  updated_at: '2026-07-19T20:47:27Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0011.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0013.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-36454E5FF743
   session_id: SES-20260718T133151Z-12DB5949
@@ -2181,32 +2183,32 @@ recent_task_transitions: - transition_id: TRN-C720E2A1E5C3
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 14a88a1b2d162ef29b03e102c134b1ab4738f36e
+head: 6d8956a193b3771c29c8b421a5c035e51e75e75a
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
-- ' M CHANGELOG.md'
-- ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md'
-- ' M docs/04-vendors/identity/实名认证供应商接口契约_R05.md'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java'
-- ?? .continuity/change_requests/CR-0098.yaml
-- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0011.yaml
-- ?? docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
+- MM .continuity/ACTIVE_SESSION.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- M  .continuity/change_requests/CR-0098.yaml
+- A  .continuity/checkpoints/SES-20260719T183335Z-535311E4/0012.yaml
+- MM .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
+- MM CURRENT_STATUS.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- M  catalogs/change_request_index.csv
+- M  catalogs/session_index.csv
+- M  docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
+- MM docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
+- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0013.yaml
 recent_commits:
+- "6d8956a193b3771c29c8b421a5c035e51e75e75a\t2026-07-20T04:44:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): bound provider\
+  \ face download"
 - "14a88a1b2d162ef29b03e102c134b1ab4738f36e\t2026-07-20T04:37:45+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close provider\
   \ contract CR"
 - "82f6e40bdcf53bb2bb572b61cf28fd3d40e23795\t2026-07-20T04:36:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): parse purchased\
@@ -2221,13 +2223,11 @@ recent_commits:
   \ liveness callback"
 - "de9abe444e0475f59d979fab71f02cb05dfd1007\t2026-07-20T03:08:57+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): implement Android\
   \ and admin identity flows"
-- "d08b5d91ed2f83ddfa377fc806470d2385887f53\t2026-07-20T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-003\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`0ef6d86eefc340ae4e59d94f698105dbfd37d8cf9365400e287352803442f1aa`
+- 指纹：`5bf0c7f90ec385385c75be02196422c3a52f7d49e701fc0eab4d39601af82c16`
 - 文件数：83
 
 - `CHANGELOG.md`
@@ -5068,9 +5068,9 @@ TASKS.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0098
   title: 补齐R05活体照片安全下载边界
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T20:39:24Z'
-  updated_at: '2026-07-19T20:39:46Z'
+  updated_at: '2026-07-19T20:46:29Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-004
@@ -5111,15 +5111,22 @@ TASKS.yaml:
     status: IMPLEMENTING
     note: 开始实现安全下载器和专项测试
     session_id: SES-20260719T183335Z-535311E4
+  - at: '2026-07-19T20:46:29Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 活体照片安全下载边界已实现并通过Java 21全模块编译及4项专项测试，功能提交已推送
+    session_id: SES-20260719T183335Z-535311E4
   session_ids:
   - SES-20260719T183335Z-535311E4
+  implementation_commits:
+  - 6d8956a193b3771c29c8b421a5c035e51e75e75a
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `7b0fa5d10eee4262ea0e6b9dd057edb37b1669e5b6ef6bc66b8dfefa86fa410c`
+- `CURRENT_STATUS.yaml` — `edb275ac1497fb1535081e34f1eaf1570c9e728f5dd695a295155dcd023b2afa`
 - `NEXT_TASK.yaml` — `a128e578a72108ea0d43225dbb48325c5315983581433490c186a6d1cf9cb484`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -5130,19 +5137,19 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `71ea49f7d4b6d9cd826cb81134a720c6f2e546bcdeca37de8f913b1dddcf50a1`
-- `.continuity/SESSION_INDEX.yaml` — `d0ff4353fb0e6753dbf303810154f2f3a86c28fe70a04de9a5971b5e17e2b4ff`
+- `.continuity/EVENT_LOG.jsonl` — `3522e39bcc40193019478e45a125cbbd57200264a1eb35e7601c3a252fe4b48b`
+- `.continuity/SESSION_INDEX.yaml` — `23fb0d91bb43ce89616eae2f4a72f4dfd652288d45c9c435ad827ea6f6a325f0`
 - `.continuity/TASK_CLAIMS.yaml` — `d584e4085c5320e27ccbdba4878c79ea2ca13ee854840c495f1e9a059064bb7c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b7bff921a7901affc662c17b2fe95e1556eb192d3c9ea7147d548a863c93ba9d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b8deba2778b452fc9b92792abe4e14b01bc5832f7e9eb471e4e0453470dc467a`
-- `.continuity/ACTIVE_SESSION.yaml` — `e3fb771471edd8863e700e3aa256e5a4af0724a40c5f767ba7ea8737c58de735`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e7fab6df0746110c1dd19b401e40872b168064a21d0feaf671296b1e2c74d255`
+- `.continuity/ACTIVE_SESSION.yaml` — `d4abf9dd3e1d41d6c76aa0225d5ded0d362a28357b0f488d380d176aec917790`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `fbdff289348fbe15d4527cad6f1d5955322270725e80cc0e99ee291a6bbe05de`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `79df8250d022f5f9965f01c09f86d78d720bb2ac40a56073850b18eb2c61c3ee`
-- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0011.yaml` — `d77709f394b20b2c50936864c2e2d8f2de57ae2d2a0106419eaf1234a6868d03`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `d118f7320b6276dcd72008a4968c284be1e1f84e3a8c6c1afe3558783f65fa6d`
+- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0013.yaml` — `6c0dfc7e2bbf44b3f29030f85906c737b3706850480f30d757d52b59319b65aa`
 - `docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md` — `978668dbafbcbbf0bb325a72beb141a1160bec7fefd9a08ed2f1fc0df4208fee`
 - `docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md` — `075fb50fab65446223ec017ced1402afc87a3db6074a4746bccf94833ba8bb7b`
 - `docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md` — `5e73eaa93bbb356709e0ea6c3c5c3413fada20f07f9b227a7c90ac8ddb698db7`
@@ -5151,7 +5158,7 @@ TASKS.yaml:
 - `docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md` — `049e05ab80154a67d466978fafe63acba5fccbcb020fdfe839a4f7e629c75fef`
 - `docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md` — `f4eb911398b209d1d9583a772a7917ce55359282fa0fa6c04fa3e2cbb4ba530e`
 - `docs/03-continuity/change-requests/CR-0097-冻结已购R05活体结果与人脸比对供应商契约.md` — `89c2929f00f1d5a179328d5e0756c400b2f70526b3e70b9e675bd3f555ac0a2f`
-- `docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md` — `e4c8534416b6e73191e3a93d09c1fe38c0dc1cbe36108a61cc77ab082703965c`
+- `docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md` — `788449076a8b0c83f3ba51037c28f13fab0828a27abb09366f9c8cad8139accd`
 
 ## 接手硬规则
 
