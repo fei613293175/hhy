@@ -89,9 +89,6 @@ class R05IdentityPostgresStoreTest {
             assertFalse(retried.state().isBlank());
             assertNotEquals(created.state(), retried.state());
         } finally {
-            jdbc.update("DELETE FROM hhy.outbox_events WHERE aggregate_type='IDENTITY_SESSION' "
-                    + "AND aggregate_id IN (SELECT id::text FROM hhy.identity_verification_sessions WHERE user_id=?)",
-                    userId);
             jdbc.update("DELETE FROM hhy.identity_provider_requests WHERE session_id IN "
                     + "(SELECT id FROM hhy.identity_verification_sessions WHERE user_id=?)", userId);
             jdbc.update("DELETE FROM hhy.identity_verification_sessions WHERE user_id=?", userId);

@@ -522,13 +522,16 @@ problems:
 - id: PROB-0043
   title: R05身份存储直接绑定Instant导致PostgreSQL JDBC拒绝时间参数
   status: SOLVED
-  root_cause: R05客户端和后台身份存储把java.time.Instant直接作为JdbcTemplate参数写入timestamptz列；H2测试接受该类型，但PostgreSQL JDBC无法推断Instant对应的SQL类型，首次创建认证会话即失败，原有本地条件测试因未连接真实PostgreSQL而未暴露差异。
-  resolution: 两套R05 PostgreSQL存储的创建、计数、活体绑定、过期、重试、审核、冻结和媒体令牌时间参数统一转换为UTC OffsetDateTime；真实PostgreSQL集成测试显式验证会话到期时间保存精度，并让测试自身的数据库准备语句使用同一明确类型。
+  root_cause: R05客户端和后台身份存储把java.time.Instant直接作为JdbcTemplate参数写入timestamptz列；H2测试接受该类型，但PostgreSQL JDBC无法推断Instant对应的SQL类型，首次创建认证会话即失败。存储层又把全部DataIntegrityViolationException都误映射为唯一键业务冲突，遮蔽了真实SQL状态；修正异常保真后进一步发现新建身份档案写入了冻结状态机不存在的PENDING值；原有本地条件测试因未连接真实PostgreSQL而未暴露这些差异。
+  resolution: 两套R05 PostgreSQL存储的创建、计数、活体绑定、过期、重试、审核、冻结和媒体令牌时间参数统一转换为UTC OffsetDateTime，新建档案使用冻结状态机中的SESSION_CREATED；只有PostgreSQL SQLSTATE 23505才映射为重复业务冲突，其他完整性错误保留原始异常用于正确诊断；真实PostgreSQL集成测试显式验证会话到期时间保存精度，并让测试自身的数据库准备语句使用同一明确类型，清理阶段不再违反不可变Outbox规则。
   regression_checks:
   - R05IdentityPostgresStoreTest#createAttachReadAndRetryBindUtcTimestampsAndEncryptProviderPayloadOnPostgres
   - services/backend/mvnw.cmd -pl boot -am test
   - obx-test PostgreSQL17 disposable integration gate
   do_not_repeat:
   - PostgreSQL timestamptz参数不得依赖驱动推断java.time.Instant，统一绑定OffsetDateTime或显式SQL类型
+  - 不得把所有DataIntegrityViolationException统一翻译成重复业务提示，必须先核对SQLSTATE或约束名
+  - 身份档案和身份会话写入值必须来自数据库冻结状态集合，不得自行引入PENDING等近义状态
   - H2通过不得替代真实PostgreSQL的存储适配验证
   - 新增PostgreSQL存储方法时必须覆盖至少一次真实写入和回读，不得只做SQL文本或Mock验证
+  - 集成测试不得为清理数据而删除或篡改不可变Outbox事件，一次性数据库由容器整体销毁

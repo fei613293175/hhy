@@ -82,10 +82,10 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                 int profile = jdbc.update("""
                         INSERT INTO hhy.identity_profiles(
                           user_id,name_cipher,id_no_cipher,id_hash,status,version)
-                        VALUES (?,?,?,?, 'PENDING',0)
+                        VALUES (?,?,?,?, 'SESSION_CREATED',0)
                         ON CONFLICT (user_id) DO UPDATE SET
                           name_cipher=EXCLUDED.name_cipher,id_no_cipher=EXCLUDED.id_no_cipher,
-                          id_hash=EXCLUDED.id_hash,status='PENDING',verified_at=NULL,
+                          id_hash=EXCLUDED.id_hash,status='SESSION_CREATED',verified_at=NULL,
                           version=hhy.identity_profiles.version+1,updated_at=?
                         WHERE hhy.identity_profiles.status<>'VERIFIED'
                         """, draft.userId(), draft.identity().nameCipher(),
@@ -106,6 +106,7 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                 return created;
             }));
         } catch (DataIntegrityViolationException conflict) {
+            if (!isUniqueViolation(conflict)) throw conflict;
             throw new BusinessException(
                     "COMMON-422-BUSINESS_RULE", "该实名信息已绑定其他账号或已有认证流程", 422, false);
         }
@@ -153,6 +154,7 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                         updated.version(), updated.attemptNo());
             }));
         } catch (DataIntegrityViolationException duplicateProviderOrder) {
+            if (!isUniqueViolation(duplicateProviderOrder)) throw duplicateProviderOrder;
             throw conflict("活体检测请求已受理，请查询认证状态");
         }
     }
@@ -200,6 +202,7 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                 return retried;
             }));
         } catch (DataIntegrityViolationException duplicateActive) {
+            if (!isUniqueViolation(duplicateActive)) throw duplicateActive;
             throw conflict("已有进行中的实名认证，请先完成当前流程");
         }
     }
@@ -282,5 +285,12 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
 
     private static OffsetDateTime time(Instant value) {
         return value == null ? null : OffsetDateTime.ofInstant(value, ZoneOffset.UTC);
+    }
+
+    private static boolean isUniqueViolation(Throwable failure) {
+        for (Throwable current = failure; current != null; current = current.getCause()) {
+            if (current instanceof SQLException sql && "23505".equals(sql.getSQLState())) return true;
+        }
+        return false;
     }
 }
