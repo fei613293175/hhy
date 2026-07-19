@@ -5,6 +5,7 @@ import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URLEncoder;
@@ -14,13 +15,15 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Locale;
 import java.util.Objects;
 
-/** Bounded Aliyun Market APPCODE adapter for creating the provider H5 liveness order. */
+/** Bounded Aliyun Market APPCODE adapter for the purchased R05 identity APIs. */
 public final class AliyunMarketIdentityProviderClient implements IdentityProviderClient {
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(8);
     private static final int MAX_RESPONSE_BYTES = 64 * 1024;
+    private static final int MAX_FACE_IMAGE_BYTES = 100 * 1024;
     private final ConfigurationSource configuration;
     private final SecretResolver secrets;
     private final ObjectMapper objectMapper;
@@ -46,11 +49,41 @@ public final class AliyunMarketIdentityProviderClient implements IdentityProvide
         requireCommand(command, settings);
         URI callback = callback(settings.returnUrl(), command.state());
         String body = "returnUrl=" + encode(callback.toString());
-        char[] appCode = resolve(settings.appCodeReference());
+        return parseToken(post(settings.tokenEndpoint(), settings.appCodeReference(), body));
+    }
+
+    @Override
+    public ProviderLivenessOutcome queryLiveness(ProviderLivenessQuery query) {
+        Settings settings = configuration.current();
+        requireQuery(query, settings);
+        String body = "orderNo=" + encode(query.providerOrderNo());
+        return parseLivenessResult(
+                post(settings.resultEndpoint(), settings.appCodeReference(), body),
+                query.providerOrderNo());
+    }
+
+    @Override
+    public ProviderFaceComparison compareFace(ProviderFaceComparisonCommand command) {
+        Settings settings = configuration.current();
+        requireFaceCommand(command, settings);
+        String body = "idcard=" + encode(command.idNumber())
+                + "&name=" + encode(command.realName())
+                + "&image=" + encode(Base64.getEncoder().encodeToString(command.image()));
+        return parseFaceComparison(
+                post(settings.faceCompareEndpoint(), settings.appCodeReference(), body), settings);
+    }
+
+    private Response post(URI endpoint, String appCodeReference, String body) {
+        char[] appCode = resolve(appCodeReference);
         try {
             Response response = transport.postForm(
-                    settings.tokenEndpoint(), appCode, body, REQUEST_TIMEOUT, MAX_RESPONSE_BYTES);
-            return parse(response);
+                    endpoint, appCode, body, REQUEST_TIMEOUT, MAX_RESPONSE_BYTES);
+            if (response == null || response.statusCode() < 200 || response.statusCode() >= 300
+                    || response.body() == null || response.body().length == 0
+                    || response.body().length > MAX_RESPONSE_BYTES) {
+                throw unavailable();
+            }
+            return response;
         } catch (BusinessException known) {
             throw known;
         } catch (InterruptedException interrupted) {
@@ -63,19 +96,9 @@ public final class AliyunMarketIdentityProviderClient implements IdentityProvide
         }
     }
 
-    private ProviderLivenessResult parse(Response response) {
-        if (response == null || response.statusCode() < 200 || response.statusCode() >= 300
-                || response.body() == null || response.body().length == 0
-                || response.body().length > MAX_RESPONSE_BYTES) {
-            throw unavailable();
-        }
+    private ProviderLivenessResult parseToken(Response response) {
         try {
-            JsonNode root = objectMapper.readTree(response.body());
-            JsonNode data = root.path("data");
-            if (!root.path("success").asBoolean(false) || root.path("code").asInt(0) != 200
-                    || !data.isObject()) {
-                throw unavailable();
-            }
+            JsonNode data = successfulData(response);
             String orderNo = firstText(data, "orderNo", "order_no");
             String url = firstText(data, "url", "h5Url", "h5_url", "livenessUrl", "tokenUrl");
             URI liveness = safeHttps(URI.create(url), true);
@@ -90,8 +113,73 @@ public final class AliyunMarketIdentityProviderClient implements IdentityProvide
         }
     }
 
+    private ProviderLivenessOutcome parseLivenessResult(Response response, String expectedOrderNo) {
+        try {
+            JsonNode data = successfulData(response);
+            String orderNo = firstText(data, "orderNo");
+            if (!expectedOrderNo.equals(orderNo)) throw unavailable();
+            int result = requiredInt(data, "result");
+            return switch (result) {
+                case 0 -> new ProviderLivenessOutcome(
+                        LivenessDecision.PASSED, orderNo,
+                        safeHttps(URI.create(firstText(data, "faceImageUrl")), true), response.body());
+                case 1 -> new ProviderLivenessOutcome(
+                        LivenessDecision.REJECTED, orderNo, null, response.body());
+                case 2 -> new ProviderLivenessOutcome(
+                        LivenessDecision.PENDING, orderNo, null, response.body());
+                default -> throw unavailable();
+            };
+        } catch (BusinessException invalid) {
+            throw invalid;
+        } catch (Exception invalid) {
+            throw unavailable();
+        }
+    }
+
+    private ProviderFaceComparison parseFaceComparison(Response response, Settings settings) {
+        try {
+            JsonNode data = successfulData(response);
+            int resultCode = requiredInt(data, "resultCode");
+            FaceDecision decision;
+            if (resultCode == settings.autoPassCode()) {
+                decision = FaceDecision.VERIFIED;
+            } else if (resultCode == settings.manualReviewCode()) {
+                decision = FaceDecision.MANUAL_REVIEW;
+            } else if (resultCode == 1003 || resultCode == 1004) {
+                decision = FaceDecision.REJECTED;
+            } else {
+                throw unavailable();
+            }
+            JsonNode rawScore = data.get("score");
+            BigDecimal score = rawScore != null && rawScore.isNumber()
+                    ? rawScore.decimalValue() : null;
+            if (score != null && (score.compareTo(BigDecimal.ZERO) < 0
+                    || score.compareTo(BigDecimal.ONE) > 0)) {
+                throw unavailable();
+            }
+            String orderNo = firstText(data, "orderNo");
+            return new ProviderFaceComparison(
+                    decision, resultCode, score, orderNo, response.body());
+        } catch (BusinessException invalid) {
+            throw invalid;
+        } catch (Exception invalid) {
+            throw unavailable();
+        }
+    }
+
+    private JsonNode successfulData(Response response) throws Exception {
+        JsonNode root = objectMapper.readTree(response.body());
+        JsonNode data = root.path("data");
+        if (!root.path("success").asBoolean(false) || root.path("code").asInt(0) != 200
+                || !data.isObject()) {
+            throw unavailable();
+        }
+        return data;
+    }
+
     private static void requireCommand(ProviderLivenessCommand command, Settings settings) {
-        if (command == null || settings == null
+        requireSettings(settings);
+        if (command == null
                 || command.provider() == null
                 || !command.provider().equalsIgnoreCase(settings.provider())
                 || command.sessionId() < 1 || command.userId() < 1
@@ -105,6 +193,50 @@ public final class AliyunMarketIdentityProviderClient implements IdentityProvide
         if (!configuredReturn.equals(requestedReturn) || tokenEndpoint.equals(configuredReturn)) {
             throw new BusinessException(
                     "COMMON-400-VALIDATION", "回跳地址不符合要求", 400, false);
+        }
+    }
+
+    private static void requireQuery(ProviderLivenessQuery query, Settings settings) {
+        requireSettings(settings);
+        if (query == null || query.provider() == null
+                || !query.provider().equalsIgnoreCase(settings.provider())) {
+            throw unavailable();
+        }
+        requireOrderNo(query.providerOrderNo());
+        safeHttps(settings.resultEndpoint(), false);
+    }
+
+    private static void requireFaceCommand(
+            ProviderFaceComparisonCommand command, Settings settings) {
+        requireSettings(settings);
+        if (command == null || command.provider() == null
+                || !command.provider().equalsIgnoreCase(settings.provider())
+                || command.realName() == null || command.realName().isBlank()
+                || command.realName().length() > 64 || hasControl(command.realName())
+                || command.idNumber() == null || !command.idNumber().matches("^[0-9]{17}[0-9Xx]$")
+                || command.image().length == 0 || command.image().length > MAX_FACE_IMAGE_BYTES) {
+            throw unavailable();
+        }
+        safeHttps(settings.faceCompareEndpoint(), false);
+    }
+
+    private static void requireSettings(Settings settings) {
+        if (settings == null || settings.provider() == null || settings.provider().isBlank()
+                || settings.appCodeReference() == null || settings.appCodeReference().isBlank()
+                || settings.autoPassCode() == settings.manualReviewCode()
+                || !isKnownFaceCode(settings.autoPassCode())
+                || !isKnownFaceCode(settings.manualReviewCode())) {
+            throw unavailable();
+        }
+    }
+
+    private static boolean isKnownFaceCode(int code) {
+        return code >= 1001 && code <= 1004;
+    }
+
+    private static void requireOrderNo(String value) {
+        if (value == null || value.length() > 128 || !value.matches("^[A-Za-z0-9_-]+$")) {
+            throw unavailable();
         }
     }
 
@@ -165,6 +297,12 @@ public final class AliyunMarketIdentityProviderClient implements IdentityProvide
         throw unavailable();
     }
 
+    private static int requiredInt(JsonNode object, String key) {
+        JsonNode value = object.get(key);
+        if (value == null || !value.isIntegralNumber()) throw unavailable();
+        return value.intValue();
+    }
+
     private static String encode(String value) {
         return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
@@ -194,7 +332,8 @@ public final class AliyunMarketIdentityProviderClient implements IdentityProvide
     }
 
     public record Settings(
-            String provider, URI tokenEndpoint, URI returnUrl, String appCodeReference) { }
+            String provider, URI tokenEndpoint, URI resultEndpoint, URI faceCompareEndpoint,
+            URI returnUrl, int autoPassCode, int manualReviewCode, String appCodeReference) { }
 
     record Response(int statusCode, byte[] body) { }
 

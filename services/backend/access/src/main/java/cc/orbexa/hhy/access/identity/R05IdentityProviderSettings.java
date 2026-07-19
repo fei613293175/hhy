@@ -32,14 +32,18 @@ public final class R05IdentityProviderSettings
                 .stream().findFirst().orElse(null);
     }
 
-    private AliyunMarketIdentityProviderClient.Settings settings(String valuesJson, String refsJson) {
+    AliyunMarketIdentityProviderClient.Settings settings(String valuesJson, String refsJson) {
         try {
             JsonNode values = objectMapper.readTree(valuesJson == null ? "{}" : valuesJson);
             JsonNode refs = objectMapper.readTree(refsJson == null ? "{}" : refsJson);
             return new AliyunMarketIdentityProviderClient.Settings(
                     text(values, "identity.active_provider"),
                     URI.create(text(values, "identity.liveness.token_url")),
+                    URI.create(text(values, "identity.liveness.result_url")),
+                    URI.create(text(values, "identity.face_compare.url")),
                     URI.create(text(values, "identity.liveness.return_url")),
+                    integer(values, "identity.face_compare.auto_pass_code"),
+                    integer(values, "identity.face_compare.manual_review_code"),
                     text(refs, "identity.provider.appcode"));
         } catch (RuntimeException invalid) {
             throw invalid;
@@ -54,5 +58,13 @@ public final class R05IdentityProviderSettings
             throw new IllegalStateException("Activated identity provider configuration is incomplete");
         }
         return value.textValue().strip();
+    }
+
+    private static int integer(JsonNode object, String key) {
+        JsonNode value = object.get(key);
+        if (value == null || !value.canConvertToInt()) {
+            throw new IllegalStateException("Activated identity provider configuration is incomplete");
+        }
+        return value.intValue();
     }
 }

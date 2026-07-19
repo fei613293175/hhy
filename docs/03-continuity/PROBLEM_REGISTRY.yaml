@@ -566,12 +566,12 @@ problems:
 - id: PROB-0046
   title: R05第三方活体结果查询与人脸比对缺少已冻结供应商响应契约
   status: OPEN
-  root_cause: 当前AliyunMarketIdentityProviderClient只实现活体令牌创建；配置目录虽然包含identity.liveness.result_url和identity.face_compare.url，但仓库没有已采购市场接口的结果响应字段、签名校验、活体照片下载和人脸比对响应契约，不能依据同类产品文档猜测字段或伪造通过结果。
+  root_cause: 仓库原有用户提供的已购接口资料未被关联到适配器，导致结果字段被误判为缺失；CR-0097已冻结并实现真实响应契约，剩余缺口是活体照片私有保存、加密原始响应和乐观锁状态机的生产编排。
   impact: Android和H5可完成会话创建、供应商活体页面及安全回跳，但服务端尚不能把LIVENESS_PENDING会话按真实供应商结果推进到VERIFIED、MANUAL_REVIEW或REJECTED；R05不得因此标记为完整实名闭环。
-  current_behavior: 回跳后只返回处理中或既有安全业务状态，不展示供应商原文、失败代码或技术字段，也不使用模拟响应改变用户实名状态。
+  current_behavior: AliyunMarketIdentityProviderClient已按原始资料查询活体result=0/1/2并比对resultCode=1001/1002/1003/1004，APPCODE仅在请求期间存在；回跳仍只返回处理中或既有安全业务状态，完成私有存储和事务编排前不使用适配器结果改变用户实名状态。
   next_owner: TASK-R05-004
   required_evidence:
-  - 冻结已采购市场接口的结果查询、签名校验和错误映射契约
+  - CR-0097已按原始资料SHA-256冻结结果查询、APPCODE认证和错误映射契约，Java 21专项测试9项通过
   - 活体照片下载后进入私有R2且不产生公开URL，原始供应商响应加密保存
   - 人脸比对通过、人工复核、拒绝、超时和供应商异常的状态机及真实适配测试
   - 正式环境最小端到端验收且页面不出现内部供应商字段

@@ -11,7 +11,7 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T20:23:55Z'
+updated_at: '2026-07-19T20:36:26Z'
 takeover_of: null
 change_requests:
 - CR-0090
@@ -21,6 +21,7 @@ change_requests:
 - CR-0094
 - CR-0095
 - CR-0096
+- CR-0097
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -95,7 +96,14 @@ scope:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
   - tests/test_android_identity_consent_source.py
-  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettings.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClientTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java
+  - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
+  - tests/test_r05_identity_vendor_contract.py
+  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -105,22 +113,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T20:23:53Z'
-  expires_at: '2026-07-20T00:23:53Z'
-checkpoint_sequence: 8
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0008.yaml
+  renewed_at: '2026-07-19T20:36:23Z'
+  expires_at: '2026-07-20T00:36:23Z'
+checkpoint_sequence: 9
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0009.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 提交并推送CR-0096状态元数据，然后继续TASK-R05-004供应商结果闭环
+next_step: 提交推送CR-0097适配器契约后，继续实现活体图片安全下载、private_kyc保存和乐观锁状态转换
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 2ff9b8d5d237ca20ec7d8fa1c6c49dc0f4b3a8b85e8af63324bc2971b4a31163
-  generated_at: '2026-07-19T20:23:55Z'
+  context_hash: 56594be8effe4ae345c3474e2fb78c4ae26871912d3d3caa5bd241e2e737493b
+  generated_at: '2026-07-19T20:36:25Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 连续性CR状态与检查点必须在单一事件链串行更新
+  reason: 同一供应商契约的端口、解析器、配置模型和证据测试必须在单一编译快照内保持一致
