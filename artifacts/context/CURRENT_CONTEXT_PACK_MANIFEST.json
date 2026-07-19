@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-19T19:39:22Z",
-  "context_hash": "e6c5ae7a1420f389fa73d1f3382f8422cef5cdcbf11d8769f76e6ee2fe0be602",
+  "generated_at": "2026-07-19T19:41:07Z",
+  "context_hash": "5aaee435085ca190a9ff38dc2046b855fc2810f2e4c05209431fa8d5f404595a",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "b9930c74002ee46a015dc1eb6a4ed2188f9383f7ca1d5eda3e22de1d0aa95138",
+    "sha256": "64b9f94adac17115f5bc3e1a1266b2a43dc97ef48040dee844f69420e93fd9ec",
     "file_count": 56
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "72f6fda26ed14fa6a07bb4fe9b4b2448803eaedb5beceb206bab5ca527d6723c"
+    "sha256": "3492a1a7e57ef2ed423fea476869165964245b5470ec49cd32309559d7d162a4"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "c34663bf06272415ebe443c17c5d2680407eb96cc0452dcae260e0e09d1d3a55"
+    "sha256": "ba1eb6e656773f3ec585c25f5358823d3d295e8c343d325d9502e8e098d72e74"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "0913ee3a719d246a5bf01818916fd0342e378c520e8dd8f681f82ee2a587839d",
+      "sha256": "46c010b9250dadbf69771d4688da80f6ed78409156eeb123bafe42fe9a600a86",
       "bytes": 3572
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "6c19a9496e772fda09d03ce2f1d031ea7934f7b325527afa1c5d20b085b620f9",
-      "bytes": 584121
+      "sha256": "ad531f6f055c6a8146cca6c292927c95dc1ee9a75b816d12051523c808f09138",
+      "bytes": 586371
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "007716965df217c2c8f374576bfaf66c3538600679d5235921f38d67e4486e37",
+      "sha256": "278816be2390b821075f171de52d92a8b2f6cc9c4266601f591fa8f3f435d7ea",
       "bytes": 23800
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "0848c7c81cea8b07b956f5ff4c515d03ff2783087bb79d12343a8136a3d3370f",
-      "bytes": 287444
+      "sha256": "b157a241a9afdc287d147f3e04141b04a121e597033251be37f89b7c872a1089",
+      "bytes": 288526
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "bba4774ee2543758fcb3ae2b4ca98d9485977106a1da01fa2f89bdbd4a55ac01",
+      "sha256": "2cfdba346e52e3dd249852cc9832c4eb30dc2ab236efa84cd6e9c8943fdde7ad",
       "bytes": 525
     },
     {
@@ -138,13 +138,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md",
-      "sha256": "73c05f9638e7c9fea4dc7c60528df51cad3a6bc2c223af6ff371398f3a75f40d",
-      "bytes": 18046
+      "sha256": "4c01bfddd783d3f185d6a1dbc1263c43f974953904a77916d1d858fc287c1672",
+      "bytes": 22329
     },
     {
-      "path": ".continuity/checkpoints/SES-20260719T183335Z-535311E4/0005.yaml",
-      "sha256": "33b76a91e547f00dac3442c625fef31165ea2042d66cac4dc2d8a4728e3bcb12",
-      "bytes": 28520
+      "path": ".continuity/checkpoints/SES-20260719T183335Z-535311E4/0006.yaml",
+      "sha256": "5d58a4282194612ba2a7d3c335bd35ef13f32eebd723dd4a7168f3c7797ccd82",
+      "bytes": 25844
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md",
@@ -158,23 +158,23 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md",
-      "sha256": "12ef92aa65e70314b33da07879cd7efd15a5e4a378077f8c6d1e552367892bb7",
-      "bytes": 3766
+      "sha256": "5e73eaa93bbb356709e0ea6c3c5c3413fada20f07f9b227a7c90ac8ddb698db7",
+      "bytes": 3999
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md",
-      "sha256": "3442d4645063619a9fd46b3c047f39c12dbde580956c6156cf1e2dc6a83d57a6",
-      "bytes": 2064
+      "sha256": "f5626ddaf579ce2eae6734e5fe94288de4dc0a9f27192105c5dd14e9de4fa9f7",
+      "bytes": 2266
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md",
-      "sha256": "3a2f56a6a1585f16884ed11ccc4243776fe1cc1af04341e6dc08b1ca4551f167",
-      "bytes": 2088
+      "sha256": "b399c1de310153a5e8facc88071be31add2e66fd6123102aaa857d4ff57a3bab",
+      "bytes": 2281
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md",
-      "sha256": "eef4c0455952d55804ad62a00aa20161f554c2ecbe3369b51777be5a1abc1fab",
-      "bytes": 1701
+      "sha256": "049e05ab80154a67d466978fafe63acba5fccbcb020fdfe839a4f7e629c75fef",
+      "bytes": 1903
     }
   ]
 }
