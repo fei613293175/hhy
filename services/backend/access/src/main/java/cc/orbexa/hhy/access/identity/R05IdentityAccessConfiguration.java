@@ -2,21 +2,20 @@ package cc.orbexa.hhy.access.identity;
 
 import cc.orbexa.hhy.access.user.UserAuthStore;
 import cc.orbexa.hhy.access.user.UserIdempotencySnapshotCipher;
-import cc.orbexa.hhy.shared.api.BusinessException;
+import cc.orbexa.hhy.access.admin.ProviderConnectionTestCoordinator.SecretResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Clock;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration(proxyBeanMethods = false)
 public class R05IdentityAccessConfiguration {
     @Bean
-    @ConditionalOnMissingBean(IdentityProviderClient.class)
-    IdentityProviderClient unavailableIdentityProviderClient() {
-        return command -> { throw new BusinessException(
-                "COMMON-500-INTERNAL", "活体检测服务暂时不可用", 500, true); };
+    IdentityProviderClient identityProviderClient(
+            R05IdentityProviderSettings settings, SecretResolver secrets,
+            @Qualifier("adminSecurityObjectMapper") ObjectMapper objectMapper) {
+        return new AliyunMarketIdentityProviderClient(settings, secrets, objectMapper);
     }
 
     @Bean

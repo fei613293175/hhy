@@ -69,7 +69,7 @@ public final class IdentitySensitiveCipher implements IdentityService.SensitiveD
         }
     }
 
-    private String encrypt(long userId, String field, String plain) {
+    String encrypt(long userId, String field, String plain) {
         try {
             byte[] nonce = new byte[NONCE_BYTES];
             random.nextBytes(nonce);

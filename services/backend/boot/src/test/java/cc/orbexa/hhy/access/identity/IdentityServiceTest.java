@@ -112,7 +112,7 @@ class IdentityServiceTest {
     void expiresSessionDuringStatusRead() {
         service.create(principal(11), request(), KEY);
         store.sessions.compute(1L, (id, session) -> new Session(
-                session.id(), session.userId(), session.status(), session.provider(),
+                session.id(), session.userId(), session.state(), session.status(), session.provider(),
                 session.livenessUrl(), session.failureCode(), NOW.minusSeconds(1),
                 session.version(), session.attemptNo()));
 
@@ -130,7 +130,7 @@ class IdentityServiceTest {
         assertEquals(409, active.httpStatus());
 
         store.sessions.compute(1L, (id, session) -> new Session(
-                session.id(), session.userId(), "REJECTED", session.provider(), null,
+                session.id(), session.userId(), session.state(), "REJECTED", session.provider(), null,
                 "FACE_MISMATCH", session.expiresAt(), 2, session.attemptNo()));
         BusinessException stale = assertThrows(BusinessException.class,
                 () -> service.retry(principal(11), "1", new RetrySessionRequest("重试", 1L, Map.of()),
@@ -222,7 +222,8 @@ class IdentityServiceTest {
         public Session create(SessionDraft draft) {
             lastDraft = draft;
             long id = sessions.size() + 1L;
-            Session session = new Session(id, draft.userId(), "SESSION_CREATED", draft.provider(),
+            Session session = new Session(id, draft.userId(), "state-for-session-" + id,
+                    "SESSION_CREATED", draft.provider(),
                     null, null, draft.expiresAt(), 0, 1);
             sessions.put(id, session);
             dailyAttempts++;
@@ -237,7 +238,7 @@ class IdentityServiceTest {
         @Override
         public Session attachLiveness(
                 Session current, LivenessTicket ticket, String idempotencyKey, Instant now) {
-            Session changed = new Session(current.id(), current.userId(), "LIVENESS_PENDING",
+            Session changed = new Session(current.id(), current.userId(), current.state(), "LIVENESS_PENDING",
                     current.provider(), ticket.url(), null, current.expiresAt(),
                     current.version() + 1, current.attemptNo());
             sessions.put(changed.id(), changed);
@@ -247,7 +248,7 @@ class IdentityServiceTest {
         @Override
         public Session expire(long id, long userId, long expectedVersion, Instant now) {
             Session current = find(id, userId).orElseThrow();
-            Session changed = new Session(current.id(), current.userId(), "EXPIRED",
+            Session changed = new Session(current.id(), current.userId(), current.state(), "EXPIRED",
                     current.provider(), current.livenessUrl(), "SESSION_EXPIRED", current.expiresAt(),
                     current.version() + 1, current.attemptNo());
             sessions.put(id, changed);
@@ -258,7 +259,8 @@ class IdentityServiceTest {
         public Session retry(
                 Session previous, String provider, String key, Instant expiresAt, Instant now) {
             long id = sessions.size() + 1L;
-            Session retried = new Session(id, previous.userId(), "SESSION_CREATED", provider,
+            Session retried = new Session(id, previous.userId(), "state-for-session-" + id,
+                    "SESSION_CREATED", provider,
                     null, null, expiresAt, 0, previous.attemptNo() + 1);
             sessions.put(id, retried);
             return retried;

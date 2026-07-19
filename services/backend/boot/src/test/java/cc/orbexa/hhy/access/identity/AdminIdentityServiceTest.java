@@ -95,7 +95,7 @@ class AdminIdentityServiceTest {
     @Test
     void reviewWritesImmutableHistorySensitiveAuditAndIdempotentSnapshot() {
         Session before = session(8L, 42L, 3L);
-        Session after = new Session(8L, 42L, "VERIFIED", "ALIYUN_MARKET_FACE", null,
+        Session after = new Session(8L, 42L, null, "VERIFIED", "ALIYUN_MARKET_FACE", null,
                 null, NOW.plusSeconds(120), 4L, 1);
         when(store.sessionForUpdate(8L)).thenReturn(Optional.of(before));
         when(store.evidenceBelongsToSession(8L, List.of(71L))).thenReturn(true);
@@ -182,7 +182,7 @@ class AdminIdentityServiceTest {
     }
 
     private static Session session(long id, long userId, long version) {
-        return new Session(id, userId, "MANUAL_REVIEW", "ALIYUN_MARKET_FACE", null,
+        return new Session(id, userId, null, "MANUAL_REVIEW", "ALIYUN_MARKET_FACE", null,
                 null, NOW.plusSeconds(120), version, 1);
     }
 

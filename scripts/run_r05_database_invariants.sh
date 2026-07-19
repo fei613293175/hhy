@@ -15,6 +15,7 @@ PSQL=(psql "${DATABASE_URL}" -X -v ON_ERROR_STOP=1)
 echo "R05_IDENTITY_INVARIANTS PASS"
 
 "${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/rollback/U025__r05_identity_provider_payload.sql" \
   -f "${ROOT}/database/rollback/U024__r05_identity_api_storage.sql" \
   -f "${ROOT}/database/rollback/U023__r05_identity_invariants.sql" >/dev/null
 remaining="$(${PSQL[@]} -qAt -c "
@@ -59,12 +60,14 @@ remaining="$(${PSQL[@]} -qAt -c "
   echo "R05 rollback left constraints, indexes, triggers, or columns: ${remaining}" >&2
   exit 1
 }
-echo "R05_U024_U023_ROLLBACK PASS"
+echo "R05_U025_U024_U023_ROLLBACK PASS"
 
 "${PSQL[@]}" --single-transaction \
   -f "${ROOT}/database/migrations/V023__r05_identity_invariants.sql" >/dev/null
 "${PSQL[@]}" --single-transaction \
   -f "${ROOT}/database/migrations/V024__r05_identity_api_storage.sql" >/dev/null
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V025__r05_identity_provider_payload.sql" >/dev/null
 reapplied="$(${PSQL[@]} -qAt -c "
   SELECT
     (SELECT count(*) FROM pg_constraint
@@ -108,4 +111,12 @@ reapplied="$(${PSQL[@]} -qAt -c "
   exit 1
 }
 "${PSQL[@]}" -f "${ROOT}/database/tests/r05_identity_invariants.sql" >/dev/null
-echo "R05_V023_V024_REAPPLY PASS constraints=32 indexes=12 trigger=1 columns=30"
+payload_type="$(${PSQL[@]} -qAt -c "
+  SELECT data_type FROM information_schema.columns
+  WHERE table_schema='hhy' AND table_name='identity_provider_requests'
+    AND column_name='response_cipher';")"
+[[ "${payload_type}" == "text" ]] || {
+  echo "R05 provider response ciphertext type was not restored: ${payload_type}" >&2
+  exit 1
+}
+echo "R05_V023_V024_V025_REAPPLY PASS constraints=32 indexes=12 trigger=1 columns=30 payload=text"

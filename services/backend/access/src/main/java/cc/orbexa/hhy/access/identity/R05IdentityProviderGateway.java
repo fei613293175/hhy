@@ -17,7 +17,8 @@ public final class R05IdentityProviderGateway implements IdentityService.Provide
     @Override
     public LivenessTicket issue(Session session, URI returnUrl, String idempotencyKey) {
         ProviderLivenessResult result = client.createLiveness(new ProviderLivenessCommand(
-                session.provider(), session.id(), session.userId(), returnUrl, idempotencyKey));
+                session.provider(), session.id(), session.userId(), session.state(),
+                returnUrl, idempotencyKey));
         return result == null ? null
                 : new LivenessTicket(result.providerOrderNo(), result.livenessUrl());
     }

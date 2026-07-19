@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
-/** PostgreSQL queries for administrator identity review; sensitive ciphertext is never selected. */
+/** PostgreSQL queries for administrator identity review; only the authorized liveness URL is decrypted. */
 @Component
 public class AdminIdentityStore {
     private static final String LATEST_SESSIONS = """
@@ -27,16 +27,23 @@ public class AdminIdentityStore {
             ) latest ON latest.latest_id=s.id
             """;
     private static final String SELECT_SESSION = """
-            SELECT s.id,s.user_id,s.status,s.provider,s.expires_at,s.version,s.attempt_no,s.failure_code
+            SELECT s.id,s.user_id,s.status,s.provider,s.expires_at,s.version,s.attempt_no,s.failure_code,
+                   (SELECT p.response_cipher FROM hhy.identity_provider_requests p
+                    WHERE p.session_id=s.id AND p.request_type='LIVENESS_TOKEN'
+                      AND p.status='SUCCEEDED' AND p.response_cipher IS NOT NULL
+                    ORDER BY p.created_at DESC,p.id DESC LIMIT 1) liveness_url_cipher
             """;
     private final JdbcTemplate jdbc;
     private final ObjectMapper objectMapper;
+    private final IdentitySensitiveCipher sensitiveData;
 
     public AdminIdentityStore(
             JdbcTemplate jdbc,
-            @Qualifier("adminSecurityObjectMapper") ObjectMapper objectMapper) {
+            @Qualifier("adminSecurityObjectMapper") ObjectMapper objectMapper,
+            IdentitySensitiveCipher sensitiveData) {
         this.jdbc = jdbc;
         this.objectMapper = objectMapper;
+        this.sensitiveData = sensitiveData;
     }
 
     public IdentityPage page(
@@ -220,9 +227,12 @@ public class AdminIdentityStore {
 
     private Session session(ResultSet rs, int row) throws SQLException {
         OffsetDateTime expiry = rs.getObject("expires_at", OffsetDateTime.class);
+        String protectedUrl = rs.getString("liveness_url_cipher");
         return new Session(
-                rs.getLong("id"), rs.getLong("user_id"), rs.getString("status"),
-                rs.getString("provider"), null, rs.getString("failure_code"),
+                rs.getLong("id"), rs.getLong("user_id"), null, rs.getString("status"),
+                rs.getString("provider"), protectedUrl == null ? null : java.net.URI.create(
+                        sensitiveData.decrypt(rs.getLong("user_id"), "liveness-url", protectedUrl)),
+                rs.getString("failure_code"),
                 expiry == null ? null : expiry.toInstant(), rs.getLong("version"),
                 rs.getInt("attempt_no"));
     }

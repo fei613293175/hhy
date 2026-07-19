@@ -32,8 +32,10 @@ class R05IdentityDatabaseScriptsTest(unittest.TestCase):
         self.assertIn("HHY_DB_SMOKE_CONFIRM", shell)
         self.assertIn("U023__r05_identity_invariants.sql", shell)
         self.assertIn("U024__r05_identity_api_storage.sql", shell)
+        self.assertIn("U025__r05_identity_provider_payload.sql", shell)
         self.assertIn("V023__r05_identity_invariants.sql", shell)
         self.assertIn("V024__r05_identity_api_storage.sql", shell)
+        self.assertIn("V025__r05_identity_provider_payload.sql", shell)
         self.assertIn('[[ "${remaining}" == "0|0|0|0" ]]', shell)
         self.assertIn('[[ "${reapplied}" == "32|12|1|30" ]]', shell)
 

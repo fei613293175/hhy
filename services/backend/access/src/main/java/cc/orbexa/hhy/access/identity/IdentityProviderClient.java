@@ -7,7 +7,8 @@ public interface IdentityProviderClient {
     ProviderLivenessResult createLiveness(ProviderLivenessCommand command);
 
     record ProviderLivenessCommand(
-            String provider, long sessionId, long userId, URI returnUrl, String idempotencyKey) { }
+            String provider, long sessionId, long userId, String state,
+            URI returnUrl, String idempotencyKey) { }
 
     record ProviderLivenessResult(String providerOrderNo, URI livenessUrl) { }
 }

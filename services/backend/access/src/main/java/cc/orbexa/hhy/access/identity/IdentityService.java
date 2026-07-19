@@ -257,6 +257,6 @@ public class IdentityService {
             long userId, ProtectedIdentity identity, String consentVersion, String provider,
             String idempotencyKey, Instant expiresAt, Instant createdAt) { }
     public record Session(
-            long id, long userId, String status, String provider, URI livenessUrl,
+            long id, long userId, String state, String status, String provider, URI livenessUrl,
             String failureCode, Instant expiresAt, long version, int attemptNo) { }
 }

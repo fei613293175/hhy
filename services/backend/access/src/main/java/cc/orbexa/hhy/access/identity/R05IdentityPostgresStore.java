@@ -25,19 +25,27 @@ import org.springframework.transaction.support.TransactionTemplate;
 @Component
 public final class R05IdentityPostgresStore implements IdentityService.Store {
     private static final String SESSION_SELECT = """
-            SELECT id,user_id,status,provider,expires_at,version,attempt_no,failure_code
-            FROM hhy.identity_verification_sessions
+            SELECT s.id,s.user_id,s.state,s.status,s.provider,s.expires_at,s.version,
+                   s.attempt_no,s.failure_code,
+                   (SELECT p.response_cipher FROM hhy.identity_provider_requests p
+                    WHERE p.session_id=s.id AND p.request_type='LIVENESS_TOKEN'
+                      AND p.status='SUCCEEDED' AND p.response_cipher IS NOT NULL
+                    ORDER BY p.created_at DESC,p.id DESC LIMIT 1) liveness_url_cipher
+            FROM hhy.identity_verification_sessions s
             """;
     private final JdbcTemplate jdbc;
     private final TransactionTemplate transactions;
     private final ObjectMapper objectMapper;
+    private final IdentitySensitiveCipher sensitiveData;
 
     public R05IdentityPostgresStore(
             JdbcTemplate jdbc, TransactionTemplate transactions,
-            @Qualifier("adminSecurityObjectMapper") ObjectMapper objectMapper) {
+            @Qualifier("adminSecurityObjectMapper") ObjectMapper objectMapper,
+            IdentitySensitiveCipher sensitiveData) {
         this.jdbc = jdbc;
         this.transactions = transactions;
         this.objectMapper = objectMapper;
+        this.sensitiveData = sensitiveData;
     }
 
     @Override
@@ -87,8 +95,8 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                           user_id,state,status,provider,expires_at,idempotency_key,attempt_no,
                           last_event,consent_version,version,created_at,updated_at)
                         VALUES (?,?,'SESSION_CREATED',?,?,?,?, 'SESSION_CREATED',?,0,?,?)
-                        RETURNING id,user_id,status,provider,expires_at,version,attempt_no,failure_code
-                        """, this::session, draft.userId(), UUID.randomUUID().toString(),
+                        RETURNING id,user_id,state,status,provider,expires_at,version,attempt_no,failure_code
+                        """, this::sessionWithoutLiveness, draft.userId(), UUID.randomUUID().toString(),
                         draft.provider(), draft.expiresAt(), draft.idempotencyKey(), 1,
                         draft.consentVersion(), draft.createdAt(), draft.createdAt());
                 outbox(draft.userId(), "identity.session.created.v1", "IDENTITY_SESSION",
@@ -126,16 +134,19 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                 jdbc.update("""
                         INSERT INTO hhy.identity_provider_requests(
                           session_id,request_type,provider_order_no,idempotency_key,request_hash,
-                          status,attempt_no,from_status,to_status,event,completed_at,version,created_at,updated_at)
-                        VALUES (?,'LIVENESS_TOKEN',?,?,?,'SUCCEEDED',1,?,
+                          response_cipher,status,attempt_no,from_status,to_status,event,completed_at,
+                          version,created_at,updated_at)
+                        VALUES (?,'LIVENESS_TOKEN',?,?,?,?, 'SUCCEEDED',1,?,
                                 'LIVENESS_PENDING','LIVENESS_TOKEN_CREATED',?,0,?,?)
                         """, locked.id(), ticket.providerOrderNo(),
                         idempotencyKey, digest(ticket.url().toString()),
+                        sensitiveData.encrypt(locked.userId(), "liveness-url", ticket.url().toString()),
                         locked.status(), now, now, now);
                 outbox(locked.userId(), "identity.liveness.created.v1", "IDENTITY_SESSION",
                         Long.toString(locked.id()), "LIVENESS_PENDING", now);
                 Session updated = find(locked.id(), locked.userId()).orElseThrow();
-                return new Session(updated.id(), updated.userId(), updated.status(), updated.provider(),
+                return new Session(updated.id(), updated.userId(), updated.state(),
+                        updated.status(), updated.provider(),
                         ticket.url(), updated.failureCode(), updated.expiresAt(),
                         updated.version(), updated.attemptNo());
             }));
@@ -179,8 +190,8 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
                         SELECT user_id,?,'SESSION_CREATED',?,?,?,attempt_no+1,id,
                                'RETRY_CREATED',consent_version,0,?,?
                         FROM hhy.identity_verification_sessions WHERE id=? AND user_id=?
-                        RETURNING id,user_id,status,provider,expires_at,version,attempt_no,failure_code
-                        """, this::session, UUID.randomUUID().toString(), provider, expiresAt,
+                        RETURNING id,user_id,state,status,provider,expires_at,version,attempt_no,failure_code
+                        """, this::sessionWithoutLiveness, UUID.randomUUID().toString(), provider, expiresAt,
                         idempotencyKey, now, now, locked.id(), locked.userId());
                 outbox(locked.userId(), "identity.session.retried.v1", "IDENTITY_SESSION",
                         Long.toString(retried.id()), retried.status(), now);
@@ -198,9 +209,20 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
     }
 
     private Session session(ResultSet rs, int row) throws SQLException {
+        String protectedUrl = rs.getString("liveness_url_cipher");
+        URI livenessUrl = protectedUrl == null ? null : URI.create(
+                sensitiveData.decrypt(rs.getLong("user_id"), "liveness-url", protectedUrl));
+        return session(rs, livenessUrl);
+    }
+
+    private Session sessionWithoutLiveness(ResultSet rs, int row) throws SQLException {
+        return session(rs, null);
+    }
+
+    private static Session session(ResultSet rs, URI livenessUrl) throws SQLException {
         return new Session(
-                rs.getLong("id"), rs.getLong("user_id"), rs.getString("status"),
-                rs.getString("provider"), null, rs.getString("failure_code"),
+                rs.getLong("id"), rs.getLong("user_id"), rs.getString("state"), rs.getString("status"),
+                rs.getString("provider"), livenessUrl, rs.getString("failure_code"),
                 rs.getTimestamp("expires_at").toInstant(), rs.getLong("version"),
                 rs.getInt("attempt_no"));
     }
