@@ -14,12 +14,13 @@ import cc.orbexa.hhy.access.storage.StorageObjectPort.CompletedPart;
 import cc.orbexa.hhy.access.storage.StorageObjectPort.ObjectRef;
 import cc.orbexa.hhy.access.storage.StorageObjectPort.UploadIntent;
 import cc.orbexa.hhy.shared.api.BusinessException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /** Adapts the media aggregate to the provider-neutral R2/OSS port. */
-public final class R04MediaStorageGateway implements MediaUploadService.MediaStorageGateway {
+public class R04MediaStorageGateway implements MediaUploadService.MediaStorageGateway {
     private final R04StoragePostgresStore bindings;
     private final PortResolver ports;
 
@@ -53,10 +54,26 @@ public final class R04MediaStorageGateway implements MediaUploadService.MediaSto
     @Override
     public ReadTicket createReadUrl(MediaObject media) {
         MediaBindingRecord binding = active(media.bindingId());
+        return createReadUrl(media, binding, binding.privatePreviewTtl());
+    }
+
+    /** Creates a shorter administrator preview without exceeding the activated storage ceiling. */
+    public ReadTicket createReadUrl(MediaObject media, Duration requestedTtl) {
+        MediaBindingRecord binding = active(media.bindingId());
+        if (requestedTtl == null || requestedTtl.isZero() || requestedTtl.isNegative()
+                || requestedTtl.compareTo(binding.privatePreviewTtl()) > 0) {
+            throw new BusinessException(
+                    "COMMON-400-VALIDATION", "预览有效期不符合要求", 400, false);
+        }
+        return createReadUrl(media, binding, requestedTtl);
+    }
+
+    private ReadTicket createReadUrl(
+            MediaObject media, MediaBindingRecord binding, Duration requestedTtl) {
         if (binding.binding().scope() != media.scope()) throw unavailable();
         StorageObjectPort.ReadTicket ticket = ports.resolve(binding.binding().provider()).createReadUrl(
                 binding.binding(), new ObjectRef(media.ownerId(), media.objectKey(), media.sha256()),
-                binding.privatePreviewTtl());
+                requestedTtl);
         return new ReadTicket(ticket.readUrl(), ticket.expiresAt());
     }
 

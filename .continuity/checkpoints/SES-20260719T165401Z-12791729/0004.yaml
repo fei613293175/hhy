@@ -1,0 +1,297 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T165401Z-12791729-0004
+session_id: SES-20260719T165401Z-12791729
+sequence: 4
+created_at: '2026-07-19T17:42:26Z'
+summary: 完成R05五个后台实名认证接口：列表、详情、短时原图、人工复核、双人冻结；补齐权限、幂等、敏感访问审计、管理员操作审计、Outbox和激活TTL门禁
+next_step: 提交推送后台身份API切片，然后实现并验证生产实名认证供应商适配与PostgreSQL集成门禁
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r05-admin-identity-targeted
+  result: PASS
+  evidence: Maven 15 tests,0 failures,0 errors
+  note: 客户端与后台身份服务和Controller契约
+- name: backend-module
+  result: PASS
+  evidence: Maven 234 tests,0 failures,0 errors,2 skipped
+  note: access与boot模块门禁
+- name: api-contract
+  result: PASS
+  evidence: client=131 admin=184 websocket=10 runtime_hashes=PASS
+  note: 冻结OpenAPI契约
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 1dba453909fdcd40b57fe0da1c1e05aea9ef64da
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260719T165401Z-12791729.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java'
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityContracts.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityPolicy.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityService.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityStore.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminIdentityController.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AdminIdentityServiceTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminIdentityControllerTest.java
+  recent_commits:
+  - "1dba453909fdcd40b57fe0da1c1e05aea9ef64da\t2026-07-20T01:22:37+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): wire client\
+    \ identity API"
+  - "5b69dc75936e98ca1315b19b543ab7c5cd7d526b\t2026-07-20T01:05:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): align API\
+    \ storage migration"
+  - "1156f1d2f1688ebfce813600ed82cfd381444ef2\t2026-07-20T01:03:47+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): implement\
+    \ client session domain"
+  - "fa3f2bc052b4446a92757ab0cb0b2086d50e4754\t2026-07-20T00:53:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-002\
+    \ as completed"
+  - "9ded6d084a4c073b9c2d739d0340506f369e9893\t2026-07-20T00:51:31+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] docs(identity): record PostgreSQL\
+    \ 17 gate evidence"
+  - "fc002aa2ce8103a12aa2af12e396238690ae5b63\t2026-07-20T00:46:59+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] test(identity): assert immutable\
+    \ audit SQLSTATE"
+  - "855df4a218879481e961c174da763eace8ed32c4\t2026-07-20T00:44:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(identity): reject null\
+    \ provider completion state"
+  - "e952473677bfb56527c811530509d619bbf562e4\t2026-07-20T00:37:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] test(identity): verify PostgreSQL\
+    \ invariants and rollback"
+project_fingerprint:
+  sha256: b0e7c13656a651177bd8b0b0ca52b4ec8cc21a38c35077a617baf3f2ebd3636c
+  files:
+  - database/migrations/V024__r05_identity_api_storage.sql
+  - database/rollback/U024__r05_identity_api_storage.sql
+  - database/tests/r05_identity_invariants.sql
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityPolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminIdentityController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+  - services/backend/boot/src/main/resources/db/migration/V024__r05_identity_api_storage.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AdminIdentityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminIdentityControllerTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+  - tests/test_r05_identity_api_storage_migration.py
+  - tests/test_r05_identity_database_scripts.py
+  file_count: 29
+  payload:
+    base_commit: fa3f2bc052b4446a92757ab0cb0b2086d50e4754
+    files:
+    - path: database/migrations/V024__r05_identity_api_storage.sql
+      state: FILE
+      size: 728
+      sha256: 62f110ebc9dd0a9415ad06ad519843f16ef6c3626bb8eff8843e37c623fc1e35
+    - path: database/rollback/U024__r05_identity_api_storage.sql
+      state: FILE
+      size: 628
+      sha256: 6b3aad51f8c1aacdd0f97ae8605403979d481780aa1c3f54831f8b4a0ec7367e
+    - path: database/tests/r05_identity_invariants.sql
+      state: FILE
+      size: 7633
+      sha256: 02a51940fd96e482ef78bcdfcee8261d44f17719b25df21bbbb9baf21e8247e0
+    - path: scripts/run_r05_database_invariants.sh
+      state: FILE
+      size: 5565
+      sha256: 0fa5ee858c27d61edea73a38f4eb5ad7cf18c14ee059b1416fd6b5aeabc6ae46
+    - path: scripts/run_r05_disposable_postgres_container.sh
+      state: FILE
+      size: 1784
+      sha256: d075f79dc304937cf0007fc920fb7537ec1f9690b185e719086198159d854f02
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityContracts.java
+      state: FILE
+      size: 1503
+      sha256: a36868c677c32630a36aa4659f2e7e14f303054dc8224eac56fe735afa3de785
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityPolicy.java
+      state: FILE
+      size: 1798
+      sha256: a7c20c52dfd54422883e45f411495e0f4d2373ab4528ba31332a9650397188d5
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityService.java
+      state: FILE
+      size: 16259
+      sha256: f97eaa034a9ca0d7a507f75c06cce40829a8b0bf49fff25f1993fb0ba7042dc9
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityStore.java
+      state: FILE
+      size: 14004
+      sha256: e4fab12d0d2865b88665302d8dd28992d6d3c6e1ac3fcd9b7db3f2ce9c3c6730
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+      state: FILE
+      size: 1230
+      sha256: f580d9f0a0f527de5b7b5204d2b6e0a37f29c47b9dc997dbc83c06eccc232c64
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+      state: FILE
+      size: 3569
+      sha256: cce9866b7d4fb2efaf0212efd217271bb9aeb5b5521eec1d956bd469272e556a
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
+      state: FILE
+      size: 502
+      sha256: ba1ecf78ea9b271c46a350ddfd77eb96948ec85c178283f181a02ad8b324cf43
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
+      state: FILE
+      size: 5643
+      sha256: 0619ac7ef68635b15b4c8fa6b73e43044091be2128c915dfd9c2d2607ac12a9d
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+      state: FILE
+      size: 12170
+      sha256: a567bcedca7f0d479e5cf0c235f3431cb3aa35e15f7a8a8d99d4d88aede1b559
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+      state: FILE
+      size: 1791
+      sha256: 4cca123b25fde8820822354140ad14854e13c36eead578ee575f851067392d9e
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+      state: FILE
+      size: 13029
+      sha256: b55cbbba650b145d41ae657b36c710accf6fa140141b95780791926b3ec98492
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+      state: FILE
+      size: 1125
+      sha256: d7998a8fd26965b2588c23439464ebdf87927b033134ca9926a1d8a9e2e731b2
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+      state: FILE
+      size: 2727
+      sha256: d2fbe15c3a6f1d362e2042a0a06958ed16bed14673081440607e4108ba975b19
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+      state: FILE
+      size: 5662
+      sha256: 108b37a3667e818ca6273996d8efdffa353a41a000ee7614553bd72fae256a71
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminIdentityController.java
+      state: FILE
+      size: 5858
+      sha256: bfc79284a36a792ade592a8844eefc742ca620d9acccfa08a3da8f32b200db0b
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+      state: FILE
+      size: 3916
+      sha256: d2e0aa5fcce40e450670556272818f2ccc7534e42cd9bc4a2f999873b22d87fe
+    - path: services/backend/boot/src/main/resources/db/migration/V024__r05_identity_api_storage.sql
+      state: FILE
+      size: 728
+      sha256: 62f110ebc9dd0a9415ad06ad519843f16ef6c3626bb8eff8843e37c623fc1e35
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AdminIdentityServiceTest.java
+      state: FILE
+      size: 9316
+      sha256: 1b893d1ff866335d22e5d36344ebe202482a9038cb820e209cb69fe32036ed6d
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+      state: FILE
+      size: 4627
+      sha256: 9204b0570ee7a3786c2a7b679973ed06fa82765ac75be2293c5f67c30e199101
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+      state: FILE
+      size: 11852
+      sha256: e7c144b0e3aa6bd01984eb4f1ec45ab9eacba25b5c5249cb8bc9318827d6fd76
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminIdentityControllerTest.java
+      state: FILE
+      size: 2952
+      sha256: 24b35d41f8e19a0136a2addb9095ec7787ba30d033289a75ef7087584f3172c3
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+      state: FILE
+      size: 4783
+      sha256: 4870d0e76299c7ff6b7c1dc17bb8a3cb0c1f9a8faff7b43570b0a579dd225ce7
+    - path: tests/test_r05_identity_api_storage_migration.py
+      state: FILE
+      size: 1408
+      sha256: 28b15efa0e030455c7b8e228c30989674befb63e706cfc67edb4c24dadcae708
+    - path: tests/test_r05_identity_database_scripts.py
+      state: FILE
+      size: 2270
+      sha256: 0e1b7665dd349c07c73a6d623fdfff39f243e673ebfc19ac13e4a3608944dc84
+change_classification:
+  database:
+  - database/migrations/V024__r05_identity_api_storage.sql
+  - database/rollback/U024__r05_identity_api_storage.sql
+  - database/tests/r05_identity_invariants.sql
+  code:
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityPolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AdminIdentityStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminIdentityController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+  - services/backend/boot/src/main/resources/db/migration/V024__r05_identity_api_storage.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AdminIdentityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminIdentityControllerTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+  tests:
+  - tests/test_r05_identity_api_storage_migration.py
+  - tests/test_r05_identity_database_scripts.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前运行约束禁止在用户未显式要求本回合子代理时创建代理，主控串行完成同一后端域切片
+event_hash: bbc6bdb21c6fc21e02791b38d196d9d224efe4581a85a3a22c20c7d4bf68f64b
