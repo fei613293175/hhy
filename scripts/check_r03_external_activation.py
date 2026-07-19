@@ -59,8 +59,28 @@ require(all(rows[host]["dns_status"] == "PASSED" for host in ("api.orbexa.cc", "
 gradle = (ROOT / "apps/android/app/build.gradle.kts").read_text(encoding="utf-8")
 policy = (ROOT / "apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt").read_text(encoding="utf-8")
 version_test = (ROOT / "apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt").read_text(encoding="utf-8")
-for source, code in ((gradle, "GRADLE"), (policy, "POLICY"), (version_test, "TEST")):
-    require("10204" in source, f"R03_ANDROID_VERSION_CODE_{code}")
+version_patterns = (
+    (gradle, "GRADLE", r"\bversionCode\s*=\s*(\d+)"),
+    (policy, "POLICY", r"\bVERSION_CODE\s*:\s*Int\s*=\s*(\d+)"),
+    (version_test, "TEST", r",\s*(\d+),\s*ReleasePolicy\.VERSION_CODE\)"),
+)
+versions: dict[str, int] = {}
+for source, code, pattern in version_patterns:
+    match = re.search(pattern, source)
+    require(match is not None, f"R03_ANDROID_VERSION_CODE_{code}_MISSING")
+    if match is not None:
+        versions[code] = int(match.group(1))
+
+require(len(versions) == 3, "R03_ANDROID_VERSION_CODE_INCOMPLETE")
+if len(versions) == 3:
+    require(len(set(versions.values())) == 1, "R03_ANDROID_VERSION_CODE_MISMATCH")
+    current_version = versions["GRADLE"]
+    require(current_version >= 10203, "R03_ANDROID_VERSION_CODE_ROLLBACK")
+    manifest_path = ROOT / "artifacts/apk/R03/APK_MANIFEST.yaml"
+    require(manifest_path.is_file(), "R03_ANDROID_APK_MANIFEST_MISSING")
+    if manifest_path.is_file():
+        manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+        require(manifest.get("version_code") == current_version, "R03_ANDROID_MANIFEST_VERSION_MISMATCH")
 
 registry = (ROOT / "docs/03-continuity/PROBLEM_REGISTRY.yaml").read_text(encoding="utf-8")
 for problem in ("PROB-0012", "PROB-0030", "PROB-0031"):

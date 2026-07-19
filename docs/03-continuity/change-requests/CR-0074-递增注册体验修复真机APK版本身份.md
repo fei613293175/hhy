@@ -85,3 +85,17 @@ versionCode单调递增至10205，可覆盖安装10204；后端和用户数据�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260718T200607Z-3569D212`
 - Note：开始同步10205版本身份并准备云端构建
+
+## 状态记录 · 2026-07-19T04:54:01Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260718T200607Z-3569D212`
+- Note：Android Gradle、ReleasePolicy和版本测试已统一为10205
+
+## 状态记录 · 2026-07-19T04:54:03Z
+
+- Actor：`codex-root`
+- Status：`CLOSED`
+- Session：`SES-20260718T200607Z-3569D212`
+- Note：10205固定签名真机APK构建与覆盖安装身份门禁通过

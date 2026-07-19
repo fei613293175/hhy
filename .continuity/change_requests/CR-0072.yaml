@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0072
 title: 同步注册专用错误码的冻结契约派生产物
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-19T03:44:26Z'
-updated_at: '2026-07-19T03:44:30Z'
+updated_at: '2026-07-19T04:53:58Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R03-007
@@ -43,5 +43,17 @@ decision_log:
   status: IMPLEMENTING
   note: 生成并校验注册错误码运行时契约。
   session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:53:57Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: Android、H5、后端及运行时派生契约已同步并通过哈希与契约门禁
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:53:58Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 派生契约与运行时资产一致性门禁闭环
+  session_id: SES-20260718T200607Z-3569D212
 session_ids:
 - SES-20260718T200607Z-3569D212
+implementation_commits:
+- e4994ed06131f3d3207c36c1b83f589ef2e58fe1

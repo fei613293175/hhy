@@ -4188,9 +4188,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0070
   title: 注册表单提示错误细化状态隔离与验证码时效边界修复
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T03:31:10Z'
-  updated_at: '2026-07-19T03:32:22Z'
+  updated_at: '2026-07-19T04:53:54Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4250,14 +4250,26 @@ change_requests:
     status: IMPLEMENTING
     note: 开始实现注册提示、专用错误码、认证页状态隔离及TTL配置范围门禁。
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:53:53Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 注册规则提示、专用错误文案和认证路由输入隔离已实现并通过端到端验证
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:53:54Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 注册体验修复实现、云端测试与公网部署证据闭环
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - e4994ed06131f3d3207c36c1b83f589ef2e58fe1
 - protocol_version: '1.0'
   cr_id: CR-0071
   title: 认证策略运行时边界与数据库冻结值对齐
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T03:34:07Z'
-  updated_at: '2026-07-19T03:34:34Z'
+  updated_at: '2026-07-19T04:53:56Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4298,14 +4310,26 @@ change_requests:
     status: IMPLEMENTING
     note: 实施V020配置纠正和TTL运行时边界校验。
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:53:55Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 密码策略迁移及安全验证码TTL运行时范围已实现并通过V020线上验证
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:53:56Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: V020成功，数据库值20/120且公网新实例健康
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - e4994ed06131f3d3207c36c1b83f589ef2e58fe1
 - protocol_version: '1.0'
   cr_id: CR-0072
   title: 同步注册专用错误码的冻结契约派生产物
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T03:44:26Z'
-  updated_at: '2026-07-19T03:44:30Z'
+  updated_at: '2026-07-19T04:53:58Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4345,14 +4369,26 @@ change_requests:
     status: IMPLEMENTING
     note: 生成并校验注册错误码运行时契约。
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:53:57Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Android、H5、后端及运行时派生契约已同步并通过哈希与契约门禁
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:53:58Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 派生契约与运行时资产一致性门禁闭环
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - e4994ed06131f3d3207c36c1b83f589ef2e58fe1
 - protocol_version: '1.0'
   cr_id: CR-0073
   title: 登记认证策略V020权威迁移与安全回滚
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T03:45:53Z'
-  updated_at: '2026-07-19T03:45:56Z'
+  updated_at: '2026-07-19T04:54:00Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4391,14 +4427,26 @@ change_requests:
     status: IMPLEMENTING
     note: 登记V020权威迁移和no-op安全回滚。
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:53:59Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 权威V020迁移和无操作回滚策略已实现并在上线前完成数据库备份
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:54:00Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 权威迁移线上成功且回滚备份可用
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - e4994ed06131f3d3207c36c1b83f589ef2e58fe1
 - protocol_version: '1.0'
   cr_id: CR-0074
   title: 递增注册体验修复真机APK版本身份
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T04:19:42Z'
-  updated_at: '2026-07-19T04:20:02Z'
+  updated_at: '2026-07-19T04:54:03Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4436,8 +4484,20 @@ change_requests:
     status: IMPLEMENTING
     note: 开始同步10205版本身份并准备云端构建
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:54:01Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Android Gradle、ReleasePolicy和版本测试已统一为10205
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:54:03Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 10205固定签名真机APK构建与覆盖安装身份门禁通过
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 35ee8bad7c905c29d271640fff8bef042825dc0d
 - protocol_version: '1.0'
   cr_id: CR-0075
   title: 记录注册体验修复上线与真机包验证证据
@@ -4530,6 +4590,49 @@ change_requests:
     actor_id: codex-root
     status: IMPLEMENTING
     note: 归档10204并准备35ee8ba固定签名测试APK四方交付
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0077
+  title: 修复R03外部激活门禁对APK版本号的硬编码
+  status: IMPLEMENTING
+  created_at: '2026-07-19T04:55:41Z'
+  updated_at: '2026-07-19T04:55:44Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 用户要求注册修复后持续开发并交付可覆盖安装新APK
+  reason: 外部激活检查固定匹配10204会错误阻断合法单调递增的10205及后续测试包
+  original_rule: 外部激活门禁要求三处Android版本文件都包含固定字符串10204
+  new_rule: 门禁解析三处versionCode并要求相互一致、不得低于R03基线10203，且与当前APK清单一致
+  impact_summary: 消除合法APK版本递增后的假失败，不放宽版本回退、身份不一致和交付清单门禁
+  impact:
+    files:
+    - scripts/check_r03_external_activation.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 脚本本身、10205当前清单、严格pre-commit/pre-push门禁
+    releases:
+    - R03
+    migration_and_compatibility: 仅检查脚本变化；10203以上一致版本兼容，低版本或三处不一致仍失败
+  user_confirmation: 用户要求10205修复包继续交付且后续持续推进
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T04:55:43Z'
+    note: 固定版本字符串会导致每次合法APK递增都阻塞持续开发，应改为单调基线与一致性校验
+  machine_record: .continuity/change_requests/CR-0077.yaml
+  document: docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md
+  decision_log:
+  - at: '2026-07-19T04:55:44Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 改造外部激活版本身份门禁为解析与一致性校验
     session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212

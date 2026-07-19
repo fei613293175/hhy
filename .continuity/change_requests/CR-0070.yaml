@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0070
 title: 注册表单提示错误细化状态隔离与验证码时效边界修复
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-19T03:31:10Z'
-updated_at: '2026-07-19T03:32:22Z'
+updated_at: '2026-07-19T04:53:54Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R03-007
@@ -63,5 +63,17 @@ decision_log:
   status: IMPLEMENTING
   note: 开始实现注册提示、专用错误码、认证页状态隔离及TTL配置范围门禁。
   session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:53:53Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 注册规则提示、专用错误文案和认证路由输入隔离已实现并通过端到端验证
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:53:54Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 注册体验修复实现、云端测试与公网部署证据闭环
+  session_id: SES-20260718T200607Z-3569D212
 session_ids:
 - SES-20260718T200607Z-3569D212
+implementation_commits:
+- e4994ed06131f3d3207c36c1b83f589ef2e58fe1

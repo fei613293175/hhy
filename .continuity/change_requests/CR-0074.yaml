@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0074
 title: 递增注册体验修复真机APK版本身份
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-19T04:19:42Z'
-updated_at: '2026-07-19T04:20:02Z'
+updated_at: '2026-07-19T04:54:03Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R03-007
@@ -41,5 +41,17 @@ decision_log:
   status: IMPLEMENTING
   note: 开始同步10205版本身份并准备云端构建
   session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:54:01Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: Android Gradle、ReleasePolicy和版本测试已统一为10205
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T04:54:03Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 10205固定签名真机APK构建与覆盖安装身份门禁通过
+  session_id: SES-20260718T200607Z-3569D212
 session_ids:
 - SES-20260718T200607Z-3569D212
+implementation_commits:
+- 35ee8bad7c905c29d271640fff8bef042825dc0d
