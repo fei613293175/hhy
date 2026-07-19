@@ -1605,7 +1605,7 @@ claims:
   task_id: TASK-R05-006
   story_id: STORY-R05-001
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-19T23:05:26Z'
   allowed_paths:
   - apps/admin-web/**
@@ -1622,3 +1622,4 @@ claims:
   - scripts/**
   - R05后端可观测性、Staging部署验证、结构化日志与Trace、RED/业务指标、告警规则、回滚演练、运行手册和Acceptance
   - CHANGELOG.md
+  closed_at: '2026-07-19T23:42:03Z'
