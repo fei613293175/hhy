@@ -30,6 +30,9 @@ class BusinessGaugeBinderTest {
         jdbc.execute("CREATE TABLE hhy.provider_config_versions (id bigint PRIMARY KEY, status varchar(64) NOT NULL, connection_successful boolean)");
         jdbc.execute("CREATE TABLE hhy.provider_certificates (id bigint PRIMARY KEY, status varchar(64) NOT NULL, valid_to timestamp with time zone)");
         jdbc.execute("CREATE TABLE hhy.domain_configs (id bigint PRIMARY KEY, dns_status varchar(32) NOT NULL, https_status varchar(32) NOT NULL, certificate_status varchar(32) NOT NULL, service_health_status varchar(32) NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.upload_sessions (id bigint PRIMARY KEY, status varchar(32) NOT NULL, expires_at timestamp with time zone NOT NULL, updated_at timestamp with time zone NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.media_objects (id bigint PRIMARY KEY, status varchar(32))");
+        jdbc.execute("CREATE TABLE hhy.storage_migration_jobs (id bigint PRIMARY KEY, status varchar(32) NOT NULL)");
 
         jdbc.update("INSERT INTO hhy.outbox_events(id, status) VALUES (1, 'PENDING'), (2, 'RETRY_WAIT'), (3, 'DEAD_LETTER'), (4, 'PUBLISHED')");
         jdbc.update("INSERT INTO hhy.ledger_accounts(id, currency) VALUES (10, 'CNY'), (11, 'CNY')");
@@ -75,6 +78,14 @@ class BusinessGaugeBinderTest {
         jdbc.update("INSERT INTO hhy.domain_configs(id, dns_status, https_status, certificate_status, service_health_status) VALUES "
                 + "(140, 'FAILED', 'PENDING', 'PENDING', 'PENDING'), "
                 + "(141, 'PASSED', 'PASSED', 'VALID', 'PASSED')");
+        jdbc.update("INSERT INTO hhy.upload_sessions(id, status, expires_at, updated_at) VALUES "
+                + "(150, 'FAILED', CURRENT_TIMESTAMP + INTERVAL '5' MINUTE, CURRENT_TIMESTAMP), "
+                + "(151, 'CREATED', CURRENT_TIMESTAMP - INTERVAL '1' MINUTE, CURRENT_TIMESTAMP), "
+                + "(152, 'COMPLETED', CURRENT_TIMESTAMP - INTERVAL '1' MINUTE, CURRENT_TIMESTAMP), "
+                + "(153, 'FAILED', CURRENT_TIMESTAMP + INTERVAL '5' MINUTE, CURRENT_TIMESTAMP - INTERVAL '10' MINUTE)");
+        jdbc.update("INSERT INTO hhy.media_objects(id, status) VALUES (160, 'DELETE_PENDING'), (161, 'READY')");
+        jdbc.update("INSERT INTO hhy.storage_migration_jobs(id, status) VALUES "
+                + "(170, 'PAUSED'), (171, 'FAILED'), (172, 'RUNNING')");
 
         SimpleMeterRegistry registry = new SimpleMeterRegistry();
         new BusinessGaugeBinder(jdbc).bindTo(registry);
@@ -94,6 +105,10 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.provider.config.untested.active").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.provider.certificates.expiring.30d").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.domain.verification.failures").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.media.upload.failures.5m").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.media.upload.expired.open").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.media.delete.pending").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.storage.migration.blocked").gauge().value()).isEqualTo(2.0);
         assertThat(registry.get("hhy.business.metric.query.failures")
                 .tag("metric", "hhy.admin.active.sessions").counter().count()).isZero();
     }

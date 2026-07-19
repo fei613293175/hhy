@@ -117,6 +117,28 @@ public final class BusinessGaugeBinder implements MeterBinder {
                OR certificate_status = 'INVALID'
                OR service_health_status = 'FAILED'
             """;
+    static final String MEDIA_UPLOAD_FAILURES_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.upload_sessions
+            WHERE status = 'FAILED'
+              AND updated_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String MEDIA_UPLOAD_EXPIRED_OPEN_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.upload_sessions
+            WHERE status IN ('CREATED', 'UPLOADING', 'COMPLETING')
+              AND expires_at <= CURRENT_TIMESTAMP
+            """;
+    static final String MEDIA_DELETE_PENDING_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.media_objects
+            WHERE status = 'DELETE_PENDING'
+            """;
+    static final String STORAGE_MIGRATION_BLOCKED_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.storage_migration_jobs
+            WHERE status IN ('PAUSED', 'FAILED')
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -142,6 +164,10 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.provider.config.untested.active", "Active provider configurations without a successful connection test", PROVIDER_UNTESTED_ACTIVE_CONFIGS_SQL);
         register(registry, "hhy.provider.certificates.expiring.30d", "Active provider certificates expiring in the next thirty days", PROVIDER_CERTIFICATES_EXPIRING_30D_SQL);
         register(registry, "hhy.domain.verification.failures", "Domains failing DNS, HTTPS, certificate, or service-health verification", DOMAIN_VERIFICATION_FAILURES_SQL);
+        register(registry, "hhy.media.upload.failures.5m", "Failed media upload sessions in the last five minutes", MEDIA_UPLOAD_FAILURES_5M_SQL);
+        register(registry, "hhy.media.upload.expired.open", "Expired media upload sessions still in an open state", MEDIA_UPLOAD_EXPIRED_OPEN_SQL);
+        register(registry, "hhy.media.delete.pending", "Media objects waiting for provider deletion", MEDIA_DELETE_PENDING_SQL);
+        register(registry, "hhy.storage.migration.blocked", "Storage migration jobs paused or failed", STORAGE_MIGRATION_BLOCKED_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

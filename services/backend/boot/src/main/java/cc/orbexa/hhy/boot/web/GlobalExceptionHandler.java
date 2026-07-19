@@ -90,7 +90,10 @@ public final class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     ResponseEntity<ApiErrorResponse> unexpected(Exception ex, HttpServletRequest request) {
-        LOG.error("unhandled_api_exception requestId={}", requestId(request), ex);
+        LOG.atError()
+                .addKeyValue("requestId", requestId(request))
+                .addKeyValue("errorType", ex.getClass().getSimpleName())
+                .log("unhandled_api_exception");
         return ResponseEntity.internalServerError().body(error(
                 request,
                 "COMMON-500-INTERNAL",

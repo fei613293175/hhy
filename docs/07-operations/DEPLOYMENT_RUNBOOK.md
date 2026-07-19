@@ -188,3 +188,17 @@ R03 现场演练至少覆盖：
 7. 应用回切只替换 `api` 镜像，保持同一 PostgreSQL 容器、卷和 V019 迁移；禁止执行 U019 或降版本 DDL。证据归档完成后才允许对本次隔离项目执行 `down -v`。
 
 R03 证据统一写入 `artifacts/validation/r03-task006-staging/`，绑定被测 Commit、两个不可变镜像 ID、数据库容器/卷连续性和证据 SHA-256。现场证据齐全后才能关闭 TASK-R03-006；真实供应商测试环境、外部 DNS/TLS、Android APK 和项目所有者真机验收仍由 TASK-R03-007 单独完成。
+
+## 9. R04 隔离预发布验收
+
+R04 使用 `infra/staging/r04-smoke/docker-compose.yml`，必须采用独立 Compose project、回环端口、`172.31.247.0/24` 默认子网和独立数据卷；不得改动或重启现有公网、R01、R02、R03 环境。执行前运行 `python3 scripts/check_r04_observability.py`，并用被测 Commit 作为不可变 `HHY_SMOKE_ID`。测试 Secret 只在隔离进程环境注入，不写入仓库、命令输出或证据文件。
+
+R04 现场演练至少覆盖：
+
+1. Java 21 全量测试与生产构建通过；PostgreSQL 17 完整迁移以退出码 0 结束，最终基线为 200 张表且 Flyway 已到 V022。
+2. Prometheus target `hhy-backend-r04` 为 UP，RED count/bucket 非空，并存在 `hhy_media_upload_failures_5m`、`hhy_media_upload_expired_open`、`hhy_media_delete_pending`、`hhy_storage_migration_blocked` 四项业务 Gauge；正常空载与业务指标查询失败计数必须为 0。
+3. 停止/恢复 API 触发 `HhyR04BackendDown`；插入四条隔离的 FAILED 上传会话触发 `HhyR04MediaUploadFailureBurst`，清除隔离数据后取得 resolved。两项告警均需取得 firing、resolved 和 alert-sink 送达回执。
+4. 上传会话创建、完成、删除与认证拒绝响应中的 `requestId`、`traceId`、状态码和 `http_request_completed` 日志可关联。日志不得包含签名 URL、查询参数、Secret、对象键、文件内容、SHA-256、Bearer、Cookie、密码或供应商敏感响应；异常日志只允许事件名、requestId 和异常类型。
+5. R2/OSS 合同、私有签名 URL TTL、跨 Scope 拒绝、供应商异常暂停迁移以及游标恢复必须由自动化测试验证。未提供真实供应商凭据时只能签署受控适配器故障演练，禁止伪造真实供应商成功回执。
+6. 应用回切只替换 `api` 镜像，保持同一 PostgreSQL 容器、卷和 V022 迁移；禁止执行 U022、降版本 DDL或删除媒体/审计记录。恢复当前镜像后再次验证 readiness、RED、四项 R04 Gauge 和数据库容器/卷连续性。
+7. 证据统一写入 `artifacts/validation/r04-task006-staging/`，绑定被测 Commit、不可变镜像 ID、数据库容器/卷、Flyway 版本与每个证据文件 SHA-256。TASK-R04-006 只关闭机器侧 Staging 门禁；Android APK 和项目所有者真机验收仍由 TASK-R04-007 单独完成。

@@ -1,0 +1,214 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T135908Z-32D952EC-0001
+session_id: SES-20260719T135908Z-32D952EC
+sequence: 1
+created_at: '2026-07-19T14:11:36Z'
+summary: R04专属业务Gauge、告警、隔离Staging编排、异常日志脱敏和运行/回滚手册已实现
+next_step: 提交并推送实现，然后在obx-test部署独立R04 Staging并完成告警与同库卷应用回切演练
+blockers: []
+decisions:
+- 异常日志只记录requestId与异常类型，不记录Throwable消息或堆栈，避免签名URL、对象键和私有内容泄漏
+note: ''
+tests:
+- name: R04 observability static gate
+  result: PASS
+  evidence: scripts/check_r04_observability.py
+  note: R04_OBSERVABILITY_CONFIG_OK
+- name: R04 observability backend tests
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports
+  note: 7 tests, zero failures
+- name: R04 documentation gate
+  result: PASS
+  evidence: scripts/check_v122_documentation.py --release R04
+  note: strict inputs pass
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 73a0e7db60711a00fd7b3a9a0f2a15d609f37ef7
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - M  docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - M  docs/07-operations/ROLLBACK_RUNBOOK.md
+  - A  infra/staging/r04-smoke/alertmanager.yml
+  - A  infra/staging/r04-smoke/docker-compose.yml
+  - A  infra/staging/r04-smoke/nginx.conf
+  - A  infra/staging/r04-smoke/prometheus.yml
+  - A  infra/staging/r04-smoke/r04-alerts.yml
+  - A  scripts/check_r04_observability.py
+  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+  - ?? .continuity/sessions/SES-20260719T135908Z-32D952EC.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260719T135908Z-32D952EC.md
+  recent_commits:
+  - "73a0e7db60711a00fd7b3a9a0f2a15d609f37ef7\t2026-07-19T21:58:16+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-005\
+    \ as completed"
+  - "ccf2ed56a8f90181a9da018b83b8cd59262d952f\t2026-07-19T21:57:10+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): attest six-test\
+    \ integration matrix"
+  - "3fb6405ad6161c09f73c1fd5274edd8140567b08\t2026-07-19T21:46:47+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(media): use frozen button\
+    \ height token"
+  - "0e5010f900b2e441f7358ad3e66d491322091e82\t2026-07-19T21:30:45+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): run reproducible\
+    \ remote integration gates"
+  - "1fcc52f2a34047d8ed6bde02463a278323fe24b6\t2026-07-19T21:16:42+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): add authoritative\
+    \ six-test matrix"
+  - "3168e38e19a3a8cf9ffde87927266b1a3c755dc9\t2026-07-19T21:07:24+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(continuity): close TASK-R04-004\
+    \ as completed"
+  - "9ea17abdebfa34c232c2158cf39660b9b35b93fa\t2026-07-19T21:03:36+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(media): enforce upload\
+    \ concurrency and preview boundary"
+  - "1ff3e9e4297292f588fe78449c64316df6a5dd58\t2026-07-19T20:54:28+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(media): add Android upload\
+    \ manager"
+project_fingerprint:
+  sha256: d062f936cdb96730bde8cce6895e1beb6c459ca49362761fed149fa4830255d0
+  files:
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/r04-smoke/alertmanager.yml
+  - infra/staging/r04-smoke/docker-compose.yml
+  - infra/staging/r04-smoke/nginx.conf
+  - infra/staging/r04-smoke/prometheus.yml
+  - infra/staging/r04-smoke/r04-alerts.yml
+  - scripts/check_r04_observability.py
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+  file_count: 13
+  payload:
+    base_commit: 73a0e7db60711a00fd7b3a9a0f2a15d609f37ef7
+    files:
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 17639
+      sha256: 71496b63eec1f71c537cd5ecd4414fd7c727e174cd11416d3ff514108dd73f72
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 6290
+      sha256: 8d067a5e76a8b8a441528f3129831727d4005286594f85391ccb0ad54e6bcbd0
+    - path: infra/staging/r04-smoke/alertmanager.yml
+      state: FILE
+      size: 277
+      sha256: 83a253d649f66d6bd6353d62d6fa9ce78d8eaf7e9cde27af17eb5074d1cd4830
+    - path: infra/staging/r04-smoke/docker-compose.yml
+      state: FILE
+      size: 4263
+      sha256: abc2ebe0a71612fc746f1dc3b1213474f14fc84bf624c0ed907d6c59a5bcbc11
+    - path: infra/staging/r04-smoke/nginx.conf
+      state: FILE
+      size: 318
+      sha256: b13f1e9d43e52a8469a988d1af9de051dfdcba2724df5c754793993f7fe41f98
+    - path: infra/staging/r04-smoke/prometheus.yml
+      state: FILE
+      size: 401
+      sha256: c31758f27c1819f7cd2bc85dc917d205432c8055984db375315290c56bcaab98
+    - path: infra/staging/r04-smoke/r04-alerts.yml
+      state: FILE
+      size: 2375
+      sha256: 484d3c222d8096fb23deed98c32912453b085cfacfbeaa10250b19d33e3ac249
+    - path: scripts/check_r04_observability.py
+      state: FILE
+      size: 5462
+      sha256: 488b9561690cbb95de3b4e00bd315c2df0096a3a82ad4a953909757de4b97638
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 10515
+      sha256: a30ed6f8c65b973a966c69bedb8f051eec7eaad4e87a0770b64338cf8c9f798b
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+      state: FILE
+      size: 4630
+      sha256: b849f39ec3df50d9999dc27b8ca4a52a526870982c2e6a48ef05967702ce0709
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 11106
+      sha256: 7ee87024d1ad378b79fc50f800c24e79350d09fdb95cb87127daf07991aec855
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 8080
+      sha256: cdf1ec44dd03e14347585482f946c4a0be2844b1caa573e4e6a81a5f0d6664f6
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+      state: FILE
+      size: 1989
+      sha256: 7971b54181737fbce81fd5e672c10cd31c6f510d4c3ce9a3bd53b0bc48f71c3b
+change_classification:
+  other:
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  infrastructure:
+  - infra/staging/r04-smoke/alertmanager.yml
+  - infra/staging/r04-smoke/docker-compose.yml
+  - infra/staging/r04-smoke/nginx.conf
+  - infra/staging/r04-smoke/prometheus.yml
+  - infra/staging/r04-smoke/r04-alerts.yml
+  code:
+  - scripts/check_r04_observability.py
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandler.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/web/GlobalExceptionHandlerTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 后续为同一隔离Compose项目的顺序部署、告警触发和同库卷回切，拆分会竞争唯一Staging状态
+event_hash: 2a28aad66b923af6da548c24e9786df508941841fafdfc414a475996d998490b

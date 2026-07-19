@@ -72,3 +72,16 @@ docker compose -p hhy-r03-staging -f infra/staging/r03-smoke/docker-compose.yml 
 ```
 
 回切前后记录 `api` 镜像 ID、PostgreSQL 容器 ID、卷名、Flyway V019、200 表基线、Prometheus target、RED 和四项 R03 Gauge。随后恢复当前镜像并重复 readiness 与指标验证。若旧镜像不兼容 V019，停止回切并走更高版本 Flyway 前向修复；禁止 U019、降版本 DDL、删除配置/审计记录或重建数据库。
+
+## 8. R04 媒体与存储隔离回滚演练
+
+R04 应用回切必须保持同一个 PostgreSQL 容器和数据卷，只切换 `api` 镜像。回切目标必须是已通过测试且兼容 V022 的不可变镜像；若没有兼容镜像，则停止回切并采用更高版本 Flyway 与应用前向修复，禁止以历史镜像强行启动。
+
+```bash
+export HHY_SMOKE_ID='<previous-approved-v022-compatible-tag>'
+docker compose -p hhy-r04-staging -f infra/staging/r04-smoke/docker-compose.yml up -d --no-deps api
+docker compose -p hhy-r04-staging -f infra/staging/r04-smoke/docker-compose.yml exec -T api \
+  curl -fsS http://127.0.0.1:9091/actuator/health/readiness
+```
+
+回切前后记录 `api` 镜像 ID、PostgreSQL 容器 ID、卷名、Flyway V022、200 表基线、Prometheus target、RED 与四项 R04 Gauge。验证同一测试媒体元数据仍可读取、未完成上传会话状态未被篡改、私有对象未变为公开访问；随后恢复当前镜像并重复 readiness 与指标验证。禁止 U022、U021、降版本 DDL、删除媒体/访问审计记录、重建数据库或对真实供应商对象执行破坏性清理。
