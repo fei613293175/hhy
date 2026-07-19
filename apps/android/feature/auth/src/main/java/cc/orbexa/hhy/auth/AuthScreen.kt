@@ -263,19 +263,29 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                                 ?.let { SystemClock.elapsedRealtime() + it * 1_000L }
                                 ?: 0L,
                         )
-                        result.statusCode == null || (result.statusCode ?: 0) >= 500 -> challengeDialog = dialog.copy(
+                        result.statusCode == null -> challengeDialog = dialog.copy(
                             phase = ChallengePhase.NETWORK_ERROR,
                             message = "网络连接失败，请检查网络后重试",
                         )
-                        result.statusCode in setOf(409, 422) -> {
+                        AuthFormRules.challengeRejected(result.errorCode) -> {
                             challengeDialog = dialog.copy(phase = ChallengePhase.READY, proof = "")
                             requestChallenge(dialog.intent, "输入不正确，请根据新图片重新输入")
                         }
                         else -> {
                             challengeDialog = null
+                            val route = when (dialog.intent) {
+                                PendingAuthIntent.PASSWORD_LOGIN -> AuthRoute.PASSWORD
+                                PendingAuthIntent.SMS_CODE -> AuthRoute.SMS
+                                PendingAuthIntent.REGISTER -> AuthRoute.REGISTER
+                                PendingAuthIntent.RESET_CODE -> AuthRoute.RESET
+                            }
                             state = AuthUiState.Message(
-                                result.statusCode?.let { errorForStatus(it, result.errorCode, result.retryAfterSeconds) }
-                                    ?: "操作未完成，请重试",
+                                AuthFormRules.challengeBusinessFailure(
+                                    route,
+                                    result.statusCode,
+                                    result.errorCode,
+                                    result.retryAfterSeconds,
+                                ),
                             )
                         }
                     }

@@ -68,11 +68,11 @@ async function loadConfig(): Promise<void> {
   }
 }
 
-async function requestChallenge(): Promise<void> {
+async function requestChallenge(message = ''): Promise<void> {
   if (challengeBusy.value) return;
   challengeBusy.value = true;
   challengeVisible.value = true;
-  notice.value = '';
+  notice.value = message;
   try {
     challenge.value = await inviteRegistrationApi.createChallenge({
       scene: 'REGISTER',
@@ -114,16 +114,29 @@ async function verifyAndRegister(): Promise<void> {
   } catch (caught) {
     if (caught instanceof InviteApiError && caught.status === 429) {
       notice.value = messageFor(caught, '操作过于频繁，请稍后重试');
-    } else if (caught instanceof InviteApiError && [409, 422].includes(caught.status)) {
-      notice.value = '输入不正确，请根据新图片重新输入';
-      await requestChallenge();
+    } else if (caught instanceof InviteApiError
+        && caught.code === 'AUTH-422-SECURITY_CHALLENGE_INVALID') {
+      await requestChallenge('输入不正确，请根据新图片重新输入');
     } else {
-      notice.value = messageFor(caught, '注册失败，请核对信息后重试');
+      notice.value = registrationFailureMessage(caught);
       challengeVisible.value = false;
     }
   } finally {
     registerBusy.value = false;
   }
+}
+
+function registrationFailureMessage(caught: unknown): string {
+  if (!(caught instanceof InviteApiError)) return '注册服务暂时不可用，请稍后再试';
+  if (caught.code === 'NETWORK_ERROR') return '网络连接失败，请检查网络后重试';
+  if (caught.status === 429) {
+    const seconds = caught.retryAfterSeconds ?? 60;
+    return `操作过于频繁，请在 ${seconds} 秒后重试`;
+  }
+  if ([400, 409, 422].includes(caught.status)) {
+    return '注册信息未通过，请检查手机号、密码和邀请码';
+  }
+  return '注册服务暂时不可用，请稍后再试';
 }
 
 function canSubmitForm(): boolean {
@@ -232,7 +245,7 @@ onBeforeUnmount(() => {
         <div v-if="challengeBusy" class="challenge-loading" aria-live="polite">请稍候…</div>
         <template v-else>
           <img v-if="safeChallengeImage" class="challenge-image" :src="safeChallengeImage" alt="图形验证码图片，请根据图片输入字符">
-          <button class="challenge-refresh" type="button" :disabled="registerBusy" @click="requestChallenge">换一张</button>
+          <button class="challenge-refresh" type="button" :disabled="registerBusy" @click="requestChallenge()">换一张</button>
           <input v-model.trim="form.proof" class="challenge-input" autocomplete="off" maxlength="32" placeholder="请输入图中字符">
           <p v-if="notice" class="form-notice" role="alert">{{ notice }}</p>
           <div class="challenge-actions">

@@ -11,7 +11,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-18T23:32:40Z'
+updated_at: '2026-07-19T01:46:30Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -29,6 +29,7 @@ change_requests:
 - CR-0063
 - CR-0064
 - CR-0065
+- CR-0066
 scope:
   allowed_paths:
   - apps/**
@@ -171,7 +172,18 @@ scope:
   - artifacts/validation/r03-task007-android/apk-signing.txt
   - artifacts/reports/R03/TASK-R03-007-android-apk.md
   - catalogs/release_plan.csv
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthVerificationService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthVerificationServiceTest.java
+  - contracts/error-codes.csv
+  - contracts/operation-error-matrix.csv
+  - services/backend/boot/src/main/resources/contracts/error-codes.csv
+  - scripts/check_r02_public_auth.py
+  - DEVELOPMENT_RISK_REGISTER.md
+  - catalogs/development_risk_register.csv
+  - artifacts/validation/r02-auth-video-feedback/analysis.md
+  - artifacts/apk/R03/history/0958f1f/APK_MANIFEST.yaml
+  - artifacts/validation/r03-apk-delivery/history/0958f1f/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -181,22 +193,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-18T23:32:38Z'
-  expires_at: '2026-07-19T03:32:38Z'
-checkpoint_sequence: 14
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0014.yaml
+  renewed_at: '2026-07-19T01:46:27Z'
+  expires_at: '2026-07-19T05:46:27Z'
+checkpoint_sequence: 17
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0017.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 提交推送CR-0064/0065关闭记录；确认工作树和远端一致后，保留用户真机验收PENDING并继续TASK-R03-007后续版本工作。
+next_step: 提交推送精确源码，部署后端并构建新版桌面APK
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 36ac6a0a3f43755ac31c6cb5351854f253f3693cd23b3bc4509640a5b4e981f2
-  generated_at: '2026-07-18T23:32:39Z'
+  context_hash: 0a4023a1d36de060a5860911bcb803df730d90f92a7a7a0501a63a52039b5b30
+  generated_at: '2026-07-19T01:46:29Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 治理关闭记录必须引用刚推送的唯一证据提交号，无法安全并行。
+  reason: 验证码错误码、后端契约与双端错误映射构成同一原子安全链，需串行保持一致

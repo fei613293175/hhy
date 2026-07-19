@@ -404,3 +404,18 @@ problems:
   do_not_repeat:
   - 不得因校验器自身schema漂移把合格回包误判为不完整
   - 修复兼容性时不得绕过文件哈希、必需状态、只读或敏感文件检查
+- id: PROB-0035
+  title: 验证码通过后的业务失败被客户端误判为验证码错误或网络失败
+  status: SOLVED
+  root_cause: 后端对图片安全验证和普通业务规则共用通用422错误码，Android与H5又按HTTP状态而非专用错误码分类，导致正确输入验证码后仍可能换图并提示输入错误；401账号凭证失败被误报认证失效，短信供应商500被误报网络连接失败。
+  resolution: 后端新增AUTH-422-SECURITY_CHALLENGE_INVALID并只用于图片安全验证错误、过期或已使用；Android与H5仅对该错误码刷新验证码，其余账号、注册和短信服务失败按业务场景展示安全商业文案。
+  regression_checks:
+  - UserAuthVerificationServiceTest#incorrectChallengeUsesDedicatedErrorCodeWithoutConsumingChallenge
+  - AuthFormRulesTest#only dedicated security error refreshes challenge
+  - InviteRegistrationPage.test.ts ordinary registration 422 does not refresh challenge
+  - scripts/check_r02_public_auth.py --api-base-url https://api.orbexa.cc
+  - tests/test_r02_auth_slice_contract.py
+  do_not_repeat:
+  - 不得按所有401、409、422或500状态统一推断验证码结果
+  - 只有图片安全验证专用错误码可以显示验证码错误并刷新图片
+  - 网络失败文案只用于未收到HTTP响应的真实连接失败

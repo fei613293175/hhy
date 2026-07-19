@@ -49,7 +49,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** 阿里云短信验证码：LOGIN/REGISTER/RESET_PASSWORD */
+        /** 阿里云短信验证码：LOGIN/RESET_PASSWORD */
         post: operations["authPostAuthSmsSend"];
         delete?: never;
         options?: never;

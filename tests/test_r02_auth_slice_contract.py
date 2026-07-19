@@ -176,6 +176,24 @@ class R02AuthSliceContractTests(unittest.TestCase):
         self.assertIn('else "发送验证码"', auth_screen)
         self.assertIn('秒后可重新发送', auth_screen)
 
+    def test_auth_ui_distinguishes_challenge_errors_from_downstream_business_errors(self) -> None:
+        auth_screen = read(
+            "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt"
+        )
+        rules = read(
+            "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt"
+        )
+        verification = read(
+            "services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthVerificationService.java"
+        )
+
+        self.assertIn('"AUTH-422-SECURITY_CHALLENGE_INVALID"', verification)
+        self.assertIn("AuthFormRules.challengeRejected(result.errorCode)", auth_screen)
+        self.assertIn("AuthFormRules.challengeBusinessFailure(", auth_screen)
+        self.assertNotIn("result.statusCode in setOf(409, 422)", auth_screen)
+        self.assertIn('"手机号或密码不正确"', rules)
+        self.assertIn('"短信服务暂时不可用，请稍后再试"', rules)
+
     def test_registration_uses_password_invite_and_image_challenge_without_sms(self) -> None:
         auth_screen = read(
             "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt"

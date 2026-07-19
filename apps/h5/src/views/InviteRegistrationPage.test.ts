@@ -67,6 +67,15 @@ async function render() {
   return { wrapper, router };
 }
 
+async function fillFormAndOpenChallenge(wrapper: Awaited<ReturnType<typeof render>>['wrapper']) {
+  await wrapper.get('input[autocomplete="tel"]').setValue('13800000000');
+  const passwords = wrapper.findAll('input[autocomplete="new-password"]');
+  await passwords[0]!.setValue('StrongPass9');
+  await passwords[1]!.setValue('StrongPass9');
+  await wrapper.get('form').trigger('submit');
+  await flushPromises();
+}
+
 describe('InviteRegistrationPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -92,12 +101,7 @@ describe('InviteRegistrationPage', () => {
     expect(wrapper.text()).toContain('加入测试团队');
     expect(wrapper.text()).toContain('INVITE-R02');
 
-    await wrapper.get('input[autocomplete="tel"]').setValue('13800000000');
-    await wrapper.get('input[autocomplete="new-password"]').setValue('StrongPass9');
-    const passwords = wrapper.findAll('input[autocomplete="new-password"]');
-    await passwords[1]!.setValue('StrongPass9');
-    await wrapper.get('form').trigger('submit');
-    await flushPromises();
+    await fillFormAndOpenChallenge(wrapper);
     await wrapper.get('input[autocomplete="off"]').setValue('proof-r02');
     await wrapper.findAll('button').find((button) => button.text().includes('验证并继续'))!.trigger('click');
     await flushPromises();
@@ -111,6 +115,51 @@ describe('InviteRegistrationPage', () => {
       challengeId: 'challenge-1', challengeProof: 'proof-r02',
     });
     expect(router.currentRoute.value.fullPath).toBe('/?registered=1&invite_code=INVITE-R02');
+  });
+
+  it('refreshes only for the dedicated security challenge error', async () => {
+    api.register.mockRejectedValueOnce(new InviteApiError(
+      422, 'AUTH-422-SECURITY_CHALLENGE_INVALID', '安全验证失败',
+    ));
+    const { wrapper } = await render();
+    await fillFormAndOpenChallenge(wrapper);
+    await wrapper.get('input[autocomplete="off"]').setValue('0000');
+    await wrapper.findAll('button').find((button) => button.text().includes('验证并继续'))!.trigger('click');
+    await flushPromises();
+
+    expect(api.createChallenge).toHaveBeenCalledTimes(2);
+    expect(wrapper.find('.challenge-dialog').exists()).toBe(true);
+    expect(wrapper.text()).toContain('输入不正确，请根据新图片重新输入');
+  });
+
+  it('does not misreport a registration business rule as a challenge failure', async () => {
+    api.register.mockRejectedValueOnce(new InviteApiError(
+      422, 'COMMON-422-BUSINESS_RULE', '邀请码无效',
+    ));
+    const { wrapper } = await render();
+    await fillFormAndOpenChallenge(wrapper);
+    await wrapper.get('input[autocomplete="off"]').setValue('1458');
+    await wrapper.findAll('button').find((button) => button.text().includes('验证并继续'))!.trigger('click');
+    await flushPromises();
+
+    expect(api.createChallenge).toHaveBeenCalledTimes(1);
+    expect(wrapper.find('.challenge-dialog').exists()).toBe(false);
+    expect(wrapper.text()).toContain('注册信息未通过，请检查手机号、密码和邀请码');
+    expect(wrapper.text()).not.toContain('输入不正确');
+  });
+
+  it('does not label a server-side registration failure as a network outage', async () => {
+    api.register.mockRejectedValueOnce(new InviteApiError(
+      500, 'COMMON-500-INTERNAL', '内部错误',
+    ));
+    const { wrapper } = await render();
+    await fillFormAndOpenChallenge(wrapper);
+    await wrapper.get('input[autocomplete="off"]').setValue('8937');
+    await wrapper.findAll('button').find((button) => button.text().includes('验证并继续'))!.trigger('click');
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('注册服务暂时不可用，请稍后再试');
+    expect(wrapper.text()).not.toContain('网络连接失败');
   });
 
   it('does not expose a manual challenge button or registration SMS field', async () => {

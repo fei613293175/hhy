@@ -71,7 +71,7 @@ public class UserAuthVerificationService {
             throw new BusinessException("COMMON-500-INTERNAL", "短信供应商尚未激活", 500, false);
         }
         if (request.scene() == AuthScene.SENSITIVE_OPERATION) {
-            throw invalid("短信场景无效");
+            throw businessRuleInvalid("短信场景无效");
         }
         verifyChallenge(request.challengeId(), request.challengeProof(), request.scene());
         Instant now = Instant.now(clock);
@@ -97,41 +97,41 @@ public class UserAuthVerificationService {
     }
 
     public void verifyChallenge(String challengeId, String proof, AuthScene scene) {
-        long id = parseId(challengeId, "安全挑战无效");
+        long id = parseChallengeId(challengeId, "安全挑战无效");
         UserAuthStore.ChallengeRow row = repository.findChallengeForUpdate(id)
-                .orElseThrow(() -> invalid("安全挑战无效或已过期"));
+                .orElseThrow(() -> challengeInvalid("安全挑战无效或已过期"));
         Instant now = Instant.now(clock);
         if (!scene.name().equals(row.type()) || row.usedAt() != null || row.expiresAt() == null
                 || !row.expiresAt().isAfter(now) || row.attempts() >= row.maxAttempts()) {
-            throw invalid("安全挑战无效或已过期");
+            throw challengeInvalid("安全挑战无效或已过期");
         }
         String actual = tokens.intentHash("challenge:" + scene, proof);
         if (!tokens.sameSecret(row.answerHash(), actual)) {
             repository.failChallenge(id);
-            throw invalid("安全验证失败");
+            throw challengeInvalid("安全验证失败");
         }
-        if (!repository.consumeChallenge(id)) throw invalid("安全挑战已被使用");
+        if (!repository.consumeChallenge(id)) throw challengeInvalid("安全挑战已被使用");
     }
 
     public void verifySms(String phone, AuthScene scene, String code) {
         UserAuthStore.SmsCodeRow row = repository.findSmsCodeForUpdate(phone, scene.name())
-                .orElseThrow(() -> invalid("短信验证码无效或已过期"));
+                .orElseThrow(() -> businessRuleInvalid("短信验证码无效或已过期"));
         Instant now = Instant.now(clock);
         if (row.usedAt() != null || row.expiresAt() == null || !row.expiresAt().isAfter(now)
                 || row.attempts() >= row.maxAttempts()) {
-            throw invalid("短信验证码无效或已过期");
+            throw businessRuleInvalid("短信验证码无效或已过期");
         }
         String actual = tokens.intentHash("sms:" + scene, phone, code);
         if (!tokens.sameSecret(row.codeHash(), actual)) {
             repository.failSmsCode(row.id());
-            throw invalid("短信验证码无效或已过期");
+            throw businessRuleInvalid("短信验证码无效或已过期");
         }
-        if (!repository.consumeSmsCode(row.id())) throw invalid("短信验证码已被使用");
+        if (!repository.consumeSmsCode(row.id())) throw businessRuleInvalid("短信验证码已被使用");
     }
 
-    private static long parseId(String value, String message) {
+    private static long parseChallengeId(String value, String message) {
         try { return Long.parseLong(value); }
-        catch (NumberFormatException exception) { throw invalid(message); }
+        catch (NumberFormatException exception) { throw challengeInvalid(message); }
     }
 
     static String renderChallenge(String answer) {
@@ -212,7 +212,11 @@ public class UserAuthVerificationService {
         output.writeInt((int) crc.getValue());
     }
 
-    private static BusinessException invalid(String message) {
+    private static BusinessException challengeInvalid(String message) {
+        return new BusinessException("AUTH-422-SECURITY_CHALLENGE_INVALID", message, 422, false);
+    }
+
+    private static BusinessException businessRuleInvalid(String message) {
         return new BusinessException("COMMON-422-BUSINESS_RULE", message, 422, false);
     }
 }

@@ -147,6 +147,7 @@ paths:
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
       - AUTH-401-SESSION_REVOKED
+      - AUTH-422-SECURITY_CHALLENGE_INVALID
       - AUTH-423-ACCOUNT_RESTRICTED
       parameters:
       - $ref: '#/components/parameters/XIdempotencyKey'
@@ -203,7 +204,7 @@ paths:
   /api/v1/auth/sms/send:
     post:
       operationId: authPostAuthSmsSend
-      summary: 阿里云短信验证码：LOGIN/REGISTER/RESET_PASSWORD
+      summary: 阿里云短信验证码：LOGIN/RESET_PASSWORD
       tags:
       - Auth
       security: []
@@ -221,6 +222,7 @@ paths:
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
       - AUTH-401-SESSION_REVOKED
+      - AUTH-422-SECURITY_CHALLENGE_INVALID
       - AUTH-423-ACCOUNT_RESTRICTED
       parameters:
       - $ref: '#/components/parameters/XIdempotencyKey'
@@ -468,6 +470,7 @@ paths:
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
       - AUTH-401-SESSION_REVOKED
+      - AUTH-422-SECURITY_CHALLENGE_INVALID
       - AUTH-423-ACCOUNT_RESTRICTED
       parameters:
       - $ref: '#/components/parameters/XIdempotencyKey'

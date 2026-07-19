@@ -108,8 +108,24 @@ class UserAuthVerificationServiceTest {
         BusinessException error = assertThrows(BusinessException.class,
                 () -> verification.verifyChallenge("71", "proof", AuthScene.LOGIN));
 
-        assertEquals("COMMON-422-BUSINESS_RULE", error.code());
+        assertEquals("AUTH-422-SECURITY_CHALLENGE_INVALID", error.code());
         verify(repository, never()).failChallenge(anyLong());
+        verify(repository, never()).consumeChallenge(anyLong());
+    }
+
+    @Test
+    void incorrectChallengeProofUsesDedicatedErrorCodeAndRecordsFailure() {
+        String validHash = tokens.intentHash("challenge:" + AuthScene.LOGIN, "4815");
+        when(repository.findChallengeForUpdate(71L)).thenReturn(Optional.of(
+                new UserAuthStore.ChallengeRow(
+                        71L, AuthScene.LOGIN.name(), validHash,
+                        NOW.plus(Duration.ofMinutes(5)), null, 0, 3)));
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> verification.verifyChallenge("71", "0000", AuthScene.LOGIN));
+
+        assertEquals("AUTH-422-SECURITY_CHALLENGE_INVALID", error.code());
+        verify(repository).failChallenge(71L);
         verify(repository, never()).consumeChallenge(anyLong());
     }
 
