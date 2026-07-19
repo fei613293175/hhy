@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T04:59:16Z
-- Context Hash：`1f21a400a26129d3d2fa663778508f9b184db394b26b2ac340482432193a3625`
+- 生成时间：2026-07-19T05:08:28Z
+- Context Hash：`a00b760d8c46b0f0363b93b083676caf7f99d426e2dc457fb2dfefc3e2df2102`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -68,7 +68,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R03-007
-updated_at: '2026-07-19T04:59:14Z'
+updated_at: '2026-07-19T05:08:25Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -103,15 +103,15 @@ continuity:
   active_session_id: SES-20260718T200607Z-3569D212
   actor_id: codex-root
   story_id: STORY-R03-004
-  lease_expires_at: '2026-07-19T08:59:14Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0026.yaml
-  project_fingerprint: d80226c9647cbff795d8a22bb5c7db52f28c3406d2a2535119d82d36fde96fd5
+  lease_expires_at: '2026-07-19T09:08:25Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0028.yaml
+  project_fingerprint: e70b422f53f5de5ca132c6ea35dd919b3e2a8fdb58a1cb77e888b1989a55955e
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: c3e830cebd6fb597513e4eb0aac42cef4fd52f9ef4b885861ebfd00b4aafab31
-    generated_at: '2026-07-19T04:57:20Z'
+    context_hash: ab9d94e5399ac15e02b2a8be75656103c100f2e416358ba2ca0e59196f77249a
+    generated_at: '2026-07-19T05:07:00Z'
   handoff_bundle: null
 ```
 
@@ -308,7 +308,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-19T04:59:14Z'
+updated_at: '2026-07-19T05:08:25Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -338,6 +338,8 @@ change_requests:
 - CR-0075
 - CR-0076
 - CR-0077
+- CR-0078
+- CR-0079
 scope:
   allowed_paths:
   - apps/**
@@ -508,7 +510,9 @@ scope:
   - database/rollback/U020__r03_auth_registration_policy_alignment.sql
   - artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
   - artifacts/validation/r03-apk-delivery/history/25e9e5b/delivery-evidence.json
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077
+  - scripts/continuity_gate.py
+  - tests/test_continuity_historical_fingerprint.py
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -518,12 +522,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T04:59:14Z'
-  expires_at: '2026-07-19T08:59:14Z'
-checkpoint_sequence: 26
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0026.yaml
+  renewed_at: '2026-07-19T05:08:25Z'
+  expires_at: '2026-07-19T09:08:25Z'
+checkpoint_sequence: 28
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0028.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 提交并推送CR关闭记录，然后继续TASK-R03-007未完成的外部激活与关闭门禁；等待项目所有者并行真机测试10205
+next_step: 提交门禁修复并重新执行严格预推送验证
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -531,56 +535,68 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 连续性账本关闭提交与后续任务识别有严格先后依赖
+  reason: 连续性门禁、回归测试和问题登记构成同一原子修复
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T200607Z-3569D212-0026
+checkpoint_id: CP-SES-20260718T200607Z-3569D212-0028
 session_id: SES-20260718T200607Z-3569D212
-sequence: 26
-created_at: '2026-07-19T04:59:13Z'
-summary: CR-0070至CR-0077已全部关闭；10205注册体验修复APK在桌面并通过公网交付复核
-next_step: 提交并推送CR关闭记录，然后继续TASK-R03-007未完成的外部激活与关闭门禁；等待项目所有者并行真机测试10205
+sequence: 28
+created_at: '2026-07-19T05:08:25Z'
+summary: 历史指纹rename误判修复与PROB-0037防复发记录均完成，真实c257检查点重放和单测通过
+next_step: 提交门禁修复并重新执行严格预推送验证
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: apk-delivery-verify
+- name: historical-fingerprint-unit
   result: PASS
-  evidence: artifacts/validation/r03-apk-delivery/delivery-evidence.json
-  note: 四方SHA-256及HTTPS 200/206通过
-- name: r03-external
+  evidence: tests/test_continuity_historical_fingerprint.py
+  note: 删除与新增路径分别保留
+- name: c257-checkpoint-replay
   result: PASS
-  evidence: scripts/check_r03_external_activation.py
-  note: 版本和外部证据门禁通过
-- name: public-auth
+  evidence: CP-0024
+  note: 历史哈希与检查点一致
+- name: problem-registry
   result: PASS
-  evidence: scripts/check_r02_public_auth.py
-  note: 公网认证回归通过
+  evidence: PROB-0037
+  note: 根因、修复和防复发规则已登记
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: b476e37730f7b0855e6a07333e0ea90eba6f3198
+  head: c0bf69fffaa3fe957a04ac56bbee75e41efbece1
   upstream: origin/task/TASK-R03-001
-  ahead: 2
+  ahead: 3
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0075.yaml'
-  - ' M .continuity/change_requests/CR-0076.yaml'
-  - ' M .continuity/change_requests/CR-0077.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md'
-  - ' M docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md'
-  - ' M docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md'
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - MM .continuity/CHANGE_REQUEST_INDEX.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0078.yaml
+  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0027.yaml
+  - MM .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - MM catalogs/change_request_index.csv
+  - MM catalogs/session_index.csv
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - A  docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
+  - M  scripts/continuity_gate.py
+  - A  tests/test_continuity_historical_fingerprint.py
+  - ?? .continuity/change_requests/CR-0079.yaml
+  - ?? docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md
   recent_commits:
+  - "c0bf69fffaa3fe957a04ac56bbee75e41efbece1\t2026-07-19T12:59:17+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close auth\
+    \ regression delivery changes"
   - "b476e37730f7b0855e6a07333e0ea90eba6f3198\t2026-07-19T12:57:54+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): publish 10205\
     \ auth regression APK"
   - "c257aee9b1533495aa192c50da69216f5f4214bf\t2026-07-19T12:45:55+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): prepare 10205\
@@ -595,10 +611,8 @@ git:
     \ APK"
   - "25e9e5bff1490887fea94c44a756bb86ec297a34\t2026-07-19T10:06:55+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(android): bump regression\
     \ APK to 10204"
-  - "0560fd3203484c9a7672626033189bbe025ea08e\t2026-07-19T09:46:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): classify security\
-    \ challenge failures"
 project_fingerprint:
-  sha256: d80226c9647cbff795d8a22bb5c7db52f28c3406d2a2535119d82d36fde96fd5
+  sha256: e70b422f53f5de5ca132c6ea35dd919b3e2a8fdb58a1cb77e888b1989a55955e
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -695,6 +709,8 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
   - docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md
   - docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md
+  - docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md
+  - docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md
   - packages/api-client/src/client.generated.ts
   - packages/design-tokens/admin.css
   - packages/design-tokens/h5.css
@@ -706,6 +722,7 @@ project_fingerprint:
   - scripts/check_r03_external_activation.py
   - scripts/check_ui_tokens.py
   - scripts/continuity.py
+  - scripts/continuity_gate.py
   - scripts/deliver_android_test_apk.py
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
@@ -725,9 +742,10 @@ project_fingerprint:
   - tests/test_android_apk_delivery.py
   - tests/test_commercial_ui_boundaries.py
   - tests/test_continuity_blocked_resume.py
+  - tests/test_continuity_historical_fingerprint.py
   - tests/test_r02_auth_slice_contract.py
   - tests/test_r02_security_challenge_design_package.py
-  file_count: 127
+  file_count: 131
   payload:
     base_commit: 18e2db65b65afeb1e69d0c382ab53963fc97adec
     files:
@@ -997,8 +1015,8 @@ project_fingerprint:
       sha256: 306eb10e65c24655d543aac54094c2b99d4fc192c7907e24e9041ffeb12a72e3
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 33955
-      sha256: e71df6c1e66b2a0cd59b52b920884939bdb62f917ed5d6116b79aeb8d22cc904
+      size: 35187
+      sha256: fc6e9320935f00c13194671a8689e23685aeeed92c945b6cdfb849bfc2608db3
     - path: docs/03-continuity/REUSABLE_PATTERNS.md
       state: FILE
       size: 2093
@@ -1111,6 +1129,14 @@ project_fingerprint:
       state: FILE
       size: 2444
       sha256: 20ef98bdf0fe72a912f353565d5137bf81eea1400f14b6577f3063c5db08bd61
+    - path: docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md
+      state: FILE
+      size: 2096
+      sha256: 781ad0ad1b1a1e536e0de8bdca8cd1ef7ed49c16c1d843fbd7f835a0f14e30e9
+    - path: docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md
+      state: FILE
+      size: 1729
+      sha256: 0e7aaa3c04aab177cb877d4b1de839b385b3ed9f0f9cde5e5f37e57d2eb89ce0
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 610906
@@ -1155,6 +1181,10 @@ project_fingerprint:
       state: FILE
       size: 65887
       sha256: bc77db7ccffa3bd20979c5cf14446a9a95bf425a2272b5910fad9ddc51feb457
+    - path: scripts/continuity_gate.py
+      state: FILE
+      size: 40617
+      sha256: 03ec9e8792b67889d75944991435dae6d04e9c4f1a1965ebe2d90d87e42078ff
     - path: scripts/deliver_android_test_apk.py
       state: FILE
       size: 41954
@@ -1231,6 +1261,10 @@ project_fingerprint:
       state: FILE
       size: 2469
       sha256: 93473df248dd8d7cbf514945c9087c6bd9830b9094dcdbe2c729503bc40feeb2
+    - path: tests/test_continuity_historical_fingerprint.py
+      state: FILE
+      size: 1714
+      sha256: 6d85b3533339847fdc201c7b3bd4cafc9617ad1331f322e04adb28600ed8b8cb
     - path: tests/test_r02_auth_slice_contract.py
       state: FILE
       size: 11042
@@ -1341,6 +1375,7 @@ change_classification:
   - scripts/check_r03_external_activation.py
   - scripts/check_ui_tokens.py
   - scripts/continuity.py
+  - scripts/continuity_gate.py
   - scripts/deliver_android_test_apk.py
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java
@@ -1411,10 +1446,13 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
   - docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md
   - docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md
+  - docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md
+  - docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md
   tests:
   - tests/test_android_apk_delivery.py
   - tests/test_commercial_ui_boundaries.py
   - tests/test_continuity_blocked_resume.py
+  - tests/test_continuity_historical_fingerprint.py
   - tests/test_r02_auth_slice_contract.py
   - tests/test_r02_security_challenge_design_package.py
 required_records:
@@ -1457,6 +1495,8 @@ change_requests:
 - CR-0075
 - CR-0076
 - CR-0077
+- CR-0078
+- CR-0079
 scope:
   allowed_paths:
   - apps/**
@@ -1627,13 +1667,15 @@ scope:
   - database/rollback/U020__r03_auth_registration_policy_alignment.sql
   - artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
   - artifacts/validation/r03-apk-delivery/history/25e9e5b/delivery-evidence.json
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077
+  - scripts/continuity_gate.py
+  - tests/test_continuity_historical_fingerprint.py
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 连续性账本关闭提交与后续任务识别有严格先后依赖
-event_hash: 6613d3717dbfe518c1c97cfcf2ba87b9583d218b33f25930c3e4a1e0ebffe7ea
+  reason: 连续性门禁、回归测试和问题登记构成同一原子修复
+event_hash: 4d34b980f4bbd93f41ff7b4bbe3016850222022ed515c45d13bffc7f044f8568
 ```
 
 ## 接续状态与事件头
@@ -1645,8 +1687,8 @@ active_session_id: SES-20260718T200607Z-3569D212
 last_session_id: SES-20260718T165842Z-356A8138
 last_session_result: BLOCKED
 last_closure_checkpoint_id: CP-SES-20260718T165842Z-356A8138-0005
-event_count: 838
-event_head_hash: 6613d3717dbfe518c1c97cfcf2ba87b9583d218b33f25930c3e4a1e0ebffe7ea
+event_count: 850
+event_head_hash: 4d34b980f4bbd93f41ff7b4bbe3016850222022ed515c45d13bffc7f044f8568
 event_chain_valid: true
 ```
 
@@ -1769,9 +1811,9 @@ recent_sessions: - session_id: SES-20260718T084729Z-BD53B7C4
   started_at: '2026-07-18T20:06:07Z'
   record: .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  updated_at: '2026-07-19T04:59:14Z'
+  updated_at: '2026-07-19T05:08:25Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0026.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0028.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-3E379E115FA4
   session_id: SES-20260717T141717Z-A01412D7
@@ -2611,30 +2653,37 @@ recent_task_transitions: - transition_id: TRN-23D2BAB015EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: b476e37730f7b0855e6a07333e0ea90eba6f3198
+head: c0bf69fffaa3fe957a04ac56bbee75e41efbece1
 upstream: origin/task/TASK-R03-001
-ahead: 2
+ahead: 3
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0075.yaml'
-- ' M .continuity/change_requests/CR-0076.yaml'
-- ' M .continuity/change_requests/CR-0077.yaml'
-- ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
-- ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md'
-- ' M docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md'
-- ' M docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md'
-- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0026.yaml
+- MM .continuity/ACTIVE_SESSION.yaml
+- MM .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- A  .continuity/change_requests/CR-0078.yaml
+- A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0027.yaml
+- MM .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
+- MM CURRENT_STATUS.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- MM catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- A  docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md
+- MM docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
+- M  scripts/continuity_gate.py
+- A  tests/test_continuity_historical_fingerprint.py
+- ?? .continuity/change_requests/CR-0079.yaml
+- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0028.yaml
+- ?? docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md
 recent_commits:
+- "c0bf69fffaa3fe957a04ac56bbee75e41efbece1\t2026-07-19T12:59:17+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close auth\
+  \ regression delivery changes"
 - "b476e37730f7b0855e6a07333e0ea90eba6f3198\t2026-07-19T12:57:54+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): publish 10205\
   \ auth regression APK"
 - "c257aee9b1533495aa192c50da69216f5f4214bf\t2026-07-19T12:45:55+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): prepare 10205\
@@ -2649,14 +2698,12 @@ recent_commits:
   \ APK"
 - "25e9e5bff1490887fea94c44a756bb86ec297a34\t2026-07-19T10:06:55+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(android): bump regression\
   \ APK to 10204"
-- "0560fd3203484c9a7672626033189bbe025ea08e\t2026-07-19T09:46:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): classify security\
-  \ challenge failures"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`d80226c9647cbff795d8a22bb5c7db52f28c3406d2a2535119d82d36fde96fd5`
-- 文件数：127
+- 指纹：`e70b422f53f5de5ca132c6ea35dd919b3e2a8fdb58a1cb77e888b1989a55955e`
+- 文件数：131
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -2753,6 +2800,8 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md`
 - `docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md`
 - `docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md`
+- `docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md`
+- `docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md`
 - `packages/api-client/src/client.generated.ts`
 - `packages/design-tokens/admin.css`
 - `packages/design-tokens/h5.css`
@@ -2764,6 +2813,7 @@ recent_commits:
 - `scripts/check_r03_external_activation.py`
 - `scripts/check_ui_tokens.py`
 - `scripts/continuity.py`
+- `scripts/continuity_gate.py`
 - `scripts/deliver_android_test_apk.py`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/TestRegistrationInvitePolicy.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthContracts.java`
@@ -2783,6 +2833,7 @@ recent_commits:
 - `tests/test_android_apk_delivery.py`
 - `tests/test_commercial_ui_boundaries.py`
 - `tests/test_continuity_blocked_resume.py`
+- `tests/test_continuity_historical_fingerprint.py`
 - `tests/test_r02_auth_slice_contract.py`
 - `tests/test_r02_security_challenge_design_package.py`
 
@@ -4840,37 +4891,124 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260718T152013Z-8B704646
   implementation_commits:
   - 650fdee862405db673ed5f3f856611356508e337
+- protocol_version: '1.0'
+  cr_id: CR-0078
+  title: 修复历史检查点对Git重命名折叠的误判
+  status: IMPLEMENTING
+  created_at: '2026-07-19T05:05:33Z'
+  updated_at: '2026-07-19T05:05:36Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 用户要求持续推进且不得因自动门禁错误停止开发
+  reason: 历史指纹复算启用Git重命名检测时会漏掉原删除路径，导致合法APK清单归档提交被误报CHECKPOINT_STALE
+  original_rule: 历史项目指纹使用默认Git diff重命名检测，重命名只返回新路径
+  new_rule: 历史项目指纹使用--no-renames，删除路径和新增路径分别参与指纹，与检查点工作区语义一致
+  impact_summary: 修复预推送门禁的假失败，并增加针对重命名归档场景的单元测试
+  impact:
+    files:
+    - scripts/continuity_gate.py
+    - tests/test_continuity_historical_fingerprint.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 历史指纹重命名回归测试、严格pre-commit/pre-push
+    releases:
+    - R03
+    migration_and_compatibility: 仅连续性验证工具变化；不改业务代码、历史提交或远端分支；真实内容变化仍会触发过期检查点
+  user_confirmation: 用户明确要求解决自动停止问题并持续推进开发
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T05:05:35Z'
+    note: 门禁应保留删除与新增两侧路径，禁止重命名折叠造成假停止；修复不放宽实际哈希一致性
+  machine_record: .continuity/change_requests/CR-0078.yaml
+  document: docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md
+  decision_log:
+  - at: '2026-07-19T05:05:36Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 为历史指纹禁用rename折叠并补回归测试
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0079
+  title: 登记历史检查点重命名误判问题与防复发规则
+  status: IMPLEMENTING
+  created_at: '2026-07-19T05:07:39Z'
+  updated_at: '2026-07-19T05:07:43Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 用户要求持续开发并解决自动停止原因
+  reason: Bug修复必须同步问题登记、根因、回归检查和禁止复发规则
+  original_rule: 问题登记未记录Git重命名检测导致历史检查点假过期
+  new_rule: PROB-0037记录根因、--no-renames修复、回归测试和不得折叠删除路径的规则
+  impact_summary: 仅补充全局问题登记，不修改实现
+  impact:
+    files:
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - PROB-0037内容检查与严格提交门禁
+    releases:
+    - R03
+    migration_and_compatibility: 文档追溯变更，无运行时迁移
+  user_confirmation: 用户明确要求解决停止原因且后续不得复发
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T05:07:42Z'
+    note: 连续性门禁假停止属于必须跨AI记录的开发陷阱
+  machine_record: .continuity/change_requests/CR-0079.yaml
+  document: docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md
+  decision_log:
+  - at: '2026-07-19T05:07:43Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 登记PROB-0037并绑定回归测试
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `7581525f6a7ee421fb7de80a5033b838efde1386206321aa10a757e6703ebeba`
+- `CURRENT_STATUS.yaml` — `b2d9bbcffa7649c8df48d3a284ff68613a0abafa21b42e8c103ad0e1818ac62f`
 - `NEXT_TASK.yaml` — `d3331935c15deb5ebd04b02689837403e53e8bc65c8813529359515257a7edc1`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `e71df6c1e66b2a0cd59b52b920884939bdb62f917ed5d6116b79aeb8d22cc904`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `fc6e9320935f00c13194671a8689e23685aeeed92c945b6cdfb849bfc2608db3`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `a16351c5e292e352990e58efa1941911b73b16b35b8b7c0a9528c4f937ee30d0`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `88eee1ca5c5a4688546a4c32c8e4cf5da08283714c3093a8002f6787ce070b1f`
-- `.continuity/SESSION_INDEX.yaml` — `697367924960f6fc2a3497d7d441672f372dde44fe93667e9b93716c91747853`
+- `.continuity/EVENT_LOG.jsonl` — `399a2d9059260c0e4dc28c192b9b60f6eff72d4b200f0ac5f5c427a76d50a986`
+- `.continuity/SESSION_INDEX.yaml` — `126720c3518453295799178be75f4c8dcf93f33cff0b8d8c0e8ceee127462244`
 - `.continuity/TASK_CLAIMS.yaml` — `dae3c46345cf6361b9487cc9878bf5cd6bd3775ec390315b8036208feb5d7b19`
 - `.continuity/TASK_TRANSITIONS.yaml` — `49b2f0e5fdabc44f56af3c9fdeefd1971b4d3462167a3c93ba796bb4b3be1ada`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `d00b59e5abb53c1aa53b36bc778e83ab41359e02feb1fea1e9e1a0f39e62c58f`
-- `.continuity/ACTIVE_SESSION.yaml` — `53a3f32f9de4371560ee75b6c333169625789ffd83baad448ad3a732fcd350d9`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `0a12bd3e2c940a67552bd607e17b2018155ed19f4f20390800076f36cd0c7f13`
+- `.continuity/ACTIVE_SESSION.yaml` — `bcbeb3f2962507b393f8f4f492dfbe364129acd217e86b0fe89d124bfc541cf2`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `577a231d7cc655f126187950d05277a67d9e877ddb87a52721b2b634a21f12eb`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `de226ffec9d6cb0da7242d9febfae3ac023875c3b1d167894739ca4f8dc9ac47`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `3d2561816b481f635b665126c677a35adb851c067dd1fc4006e25672865d7e3d`
-- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0026.yaml` — `fa2fe14d1cef3be63bfdd012ef5881ca741599d15fa709e661b8d42d55f4d0d9`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `6eb23b51f8600c0d740186e0e7be43df160ed6b1884a4b89f13b5c3425ee266b`
+- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0028.yaml` — `60553b085aee1d7d7c0ab72f8c031e82effd2561bd0db8a28ac9485b6b9f00a0`
 - `docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md` — `09124eace840cbac05b094cb44ba6e9b2baf894d33b663a5eecc21a271fd9f27`
 - `docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md` — `657fe94cc6f260b297cb45642322801c84f680a89018c9e6679469eaecfc7689`
 - `docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md` — `d34b7054137e69b320623c2971b6b89fdc8c26644170a1cbc9ab29dbc2fb1ab0`
@@ -4898,6 +5036,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md` — `975cff22f722cbec898468f78fb99c2e8a733f5ec0cdb1598dafb537e80eec50`
 - `docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md` — `29b9b368d1e12506e9e4fcec21c638e1e04cbbec77bc4edb3bd1bbffffaf701c`
 - `docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md` — `20ef98bdf0fe72a912f353565d5137bf81eea1400f14b6577f3063c5db08bd61`
+- `docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md` — `781ad0ad1b1a1e536e0de8bdca8cd1ef7ed49c16c1d843fbd7f835a0f14e30e9`
+- `docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md` — `0e7aaa3c04aab177cb877d4b1de839b385b3ed9f0f9cde5e5f37e57d2eb89ce0`
 
 ## 接手硬规则
 

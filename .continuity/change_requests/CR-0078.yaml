@@ -1,0 +1,44 @@
+protocol_version: '1.0'
+cr_id: CR-0078
+title: 修复历史检查点对Git重命名折叠的误判
+status: IMPLEMENTING
+created_at: '2026-07-19T05:05:33Z'
+updated_at: '2026-07-19T05:05:36Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 用户要求持续推进且不得因自动门禁错误停止开发
+reason: 历史指纹复算启用Git重命名检测时会漏掉原删除路径，导致合法APK清单归档提交被误报CHECKPOINT_STALE
+original_rule: 历史项目指纹使用默认Git diff重命名检测，重命名只返回新路径
+new_rule: 历史项目指纹使用--no-renames，删除路径和新增路径分别参与指纹，与检查点工作区语义一致
+impact_summary: 修复预推送门禁的假失败，并增加针对重命名归档场景的单元测试
+impact:
+  files:
+  - scripts/continuity_gate.py
+  - tests/test_continuity_historical_fingerprint.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - 历史指纹重命名回归测试、严格pre-commit/pre-push
+  releases:
+  - R03
+  migration_and_compatibility: 仅连续性验证工具变化；不改业务代码、历史提交或远端分支；真实内容变化仍会触发过期检查点
+user_confirmation: 用户明确要求解决自动停止问题并持续推进开发
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T05:05:35Z'
+  note: 门禁应保留删除与新增两侧路径，禁止重命名折叠造成假停止；修复不放宽实际哈希一致性
+machine_record: .continuity/change_requests/CR-0078.yaml
+document: docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md
+decision_log:
+- at: '2026-07-19T05:05:36Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 为历史指纹禁用rename折叠并补回归测试
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212

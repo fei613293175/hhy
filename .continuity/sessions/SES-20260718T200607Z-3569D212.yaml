@@ -11,7 +11,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-19T04:59:17Z'
+updated_at: '2026-07-19T05:08:28Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -41,6 +41,8 @@ change_requests:
 - CR-0075
 - CR-0076
 - CR-0077
+- CR-0078
+- CR-0079
 scope:
   allowed_paths:
   - apps/**
@@ -211,7 +213,9 @@ scope:
   - database/rollback/U020__r03_auth_registration_policy_alignment.sql
   - artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
   - artifacts/validation/r03-apk-delivery/history/25e9e5b/delivery-evidence.json
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077
+  - scripts/continuity_gate.py
+  - tests/test_continuity_historical_fingerprint.py
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -221,22 +225,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T04:59:14Z'
-  expires_at: '2026-07-19T08:59:14Z'
-checkpoint_sequence: 26
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0026.yaml
+  renewed_at: '2026-07-19T05:08:25Z'
+  expires_at: '2026-07-19T09:08:25Z'
+checkpoint_sequence: 28
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0028.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 提交并推送CR关闭记录，然后继续TASK-R03-007未完成的外部激活与关闭门禁；等待项目所有者并行真机测试10205
+next_step: 提交门禁修复并重新执行严格预推送验证
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 1f21a400a26129d3d2fa663778508f9b184db394b26b2ac340482432193a3625
-  generated_at: '2026-07-19T04:59:16Z'
+  context_hash: a00b760d8c46b0f0363b93b083676caf7f99d426e2dc457fb2dfefc3e2df2102
+  generated_at: '2026-07-19T05:08:28Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 连续性账本关闭提交与后续任务识别有严格先后依赖
+  reason: 连续性门禁、回归测试和问题登记构成同一原子修复

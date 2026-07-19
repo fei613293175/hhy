@@ -1,0 +1,43 @@
+protocol_version: '1.0'
+cr_id: CR-0079
+title: 登记历史检查点重命名误判问题与防复发规则
+status: IMPLEMENTING
+created_at: '2026-07-19T05:07:39Z'
+updated_at: '2026-07-19T05:07:43Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 用户要求持续开发并解决自动停止原因
+reason: Bug修复必须同步问题登记、根因、回归检查和禁止复发规则
+original_rule: 问题登记未记录Git重命名检测导致历史检查点假过期
+new_rule: PROB-0037记录根因、--no-renames修复、回归测试和不得折叠删除路径的规则
+impact_summary: 仅补充全局问题登记，不修改实现
+impact:
+  files:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - PROB-0037内容检查与严格提交门禁
+  releases:
+  - R03
+  migration_and_compatibility: 文档追溯变更，无运行时迁移
+user_confirmation: 用户明确要求解决停止原因且后续不得复发
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T05:07:42Z'
+  note: 连续性门禁假停止属于必须跨AI记录的开发陷阱
+machine_record: .continuity/change_requests/CR-0079.yaml
+document: docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md
+decision_log:
+- at: '2026-07-19T05:07:43Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 登记PROB-0037并绑定回归测试
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212

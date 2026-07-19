@@ -435,3 +435,16 @@ problems:
   - 不得在不同认证页面间自动携带手机号、密码、短信码或邀请码
   - 不得用通用注册失败文案掩盖用户可自行处理的明确原因
   - 安全挑战TTL不得超出60至300秒，一次性使用、尝试次数和接口限流不得因调整TTL而移除
+- id: PROB-0037
+  title: 历史检查点复算因Git重命名折叠误报过期并阻断推送
+  status: SOLVED
+  root_cause: 历史项目指纹通过Git diff收集基线到提交的路径时沿用默认重命名检测；APK清单从当前目录归档到history后，Git把删除与新增折叠成单一重命名，只返回新路径，而工作区检查点同时记录了旧路径删除和新路径新增，导致相同内容被误报CHECKPOINT_STALE。
+  resolution: 历史指纹复算固定使用--no-renames，使删除与新增路径分别进入规范化指纹；新增回归测试验证归档重命名同时保留DELETED与FILE状态，并用真实c257aee提交重放确认哈希与CP-0024一致。
+  regression_checks:
+  - tests/test_continuity_historical_fingerprint.py
+  - scripts/continuity_gate.py pre-push --strict
+  - c257aee9b1533495aa192c50da69216f5f4214bf against CP-SES-20260718T200607Z-3569D212-0024
+  do_not_repeat:
+  - 历史检查点指纹不得启用Git rename/copy折叠后再与工作区逐路径指纹比较
+  - 修复假失败不得跳过检查点哈希、使用--no-verify或改写已生成的历史提交
+  - APK当前清单移入history后必须让旧路径删除和新路径新增都参与历史复算

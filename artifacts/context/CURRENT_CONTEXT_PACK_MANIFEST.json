@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-19T04:59:16Z",
-  "context_hash": "1f21a400a26129d3d2fa663778508f9b184db394b26b2ac340482432193a3625",
+  "generated_at": "2026-07-19T05:08:28Z",
+  "context_hash": "a00b760d8c46b0f0363b93b083676caf7f99d426e2dc457fb2dfefc3e2df2102",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "d80226c9647cbff795d8a22bb5c7db52f28c3406d2a2535119d82d36fde96fd5",
-    "file_count": 127
+    "sha256": "e70b422f53f5de5ca132c6ea35dd919b3e2a8fdb58a1cb77e888b1989a55955e",
+    "file_count": 131
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "effee12ed4e37ae2b30d7178fc37cffb2d3ee0ae5c1da106a2a6ea8f1ea41c86"
+    "sha256": "887cbc9eeb31c42a423cfee8820dcf5b9a8e30d5313198f27d99d9d130f13269"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "6a01d6ce350e87e912e3e32149c6f174422bdb108500b7ed1caa4be149ef6f47"
+    "sha256": "e7a0e02c816f3cc242d73a7cb7710feeae7be2e04bf1be92b4c8341001943e99"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "7581525f6a7ee421fb7de80a5033b838efde1386206321aa10a757e6703ebeba",
+      "sha256": "b2d9bbcffa7649c8df48d3a284ff68613a0abafa21b42e8c103ad0e1818ac62f",
       "bytes": 3377
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "e71df6c1e66b2a0cd59b52b920884939bdb62f917ed5d6116b79aeb8d22cc904",
-      "bytes": 33955
+      "sha256": "fc6e9320935f00c13194671a8689e23685aeeed92c945b6cdfb849bfc2608db3",
+      "bytes": 35187
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "88eee1ca5c5a4688546a4c32c8e4cf5da08283714c3093a8002f6787ce070b1f",
-      "bytes": 456348
+      "sha256": "399a2d9059260c0e4dc28c192b9b60f6eff72d4b200f0ac5f5c427a76d50a986",
+      "bytes": 461570
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "697367924960f6fc2a3497d7d441672f372dde44fe93667e9b93716c91747853",
+      "sha256": "126720c3518453295799178be75f4c8dcf93f33cff0b8d8c0e8ceee127462244",
       "bytes": 17274
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "d00b59e5abb53c1aa53b36bc778e83ab41359e02feb1fea1e9e1a0f39e62c58f",
-      "bytes": 237260
+      "sha256": "0a12bd3e2c940a67552bd607e17b2018155ed19f4f20390800076f36cd0c7f13",
+      "bytes": 241058
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "53a3f32f9de4371560ee75b6c333169625789ffd83baad448ad3a732fcd350d9",
+      "sha256": "bcbeb3f2962507b393f8f4f492dfbe364129acd217e86b0fe89d124bfc541cf2",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md",
-      "sha256": "3d2561816b481f635b665126c677a35adb851c067dd1fc4006e25672865d7e3d",
-      "bytes": 165969
+      "sha256": "6eb23b51f8600c0d740186e0e7be43df160ed6b1884a4b89f13b5c3425ee266b",
+      "bytes": 184667
     },
     {
-      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0026.yaml",
-      "sha256": "fa2fe14d1cef3be63bfdd012ef5881ca741599d15fa709e661b8d42d55f4d0d9",
-      "bytes": 57926
+      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0028.yaml",
+      "sha256": "60553b085aee1d7d7c0ab72f8c031e82effd2561bd0db8a28ac9485b6b9f00a0",
+      "bytes": 59783
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md",
@@ -285,6 +285,16 @@
       "path": "docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md",
       "sha256": "20ef98bdf0fe72a912f353565d5137bf81eea1400f14b6577f3063c5db08bd61",
       "bytes": 2444
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md",
+      "sha256": "781ad0ad1b1a1e536e0de8bdca8cd1ef7ed49c16c1d843fbd7f835a0f14e30e9",
+      "bytes": 2096
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md",
+      "sha256": "0e7aaa3c04aab177cb877d4b1de839b385b3ed9f0f9cde5e5f37e57d2eb89ce0",
+      "bytes": 1729
     }
   ]
 }

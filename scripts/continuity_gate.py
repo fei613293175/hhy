@@ -334,7 +334,7 @@ def project_fingerprint_at_commit(session: dict[str, Any], commit_sha: str) -> d
         ]
     else:
         result = run_command(
-            ["git", "diff", "--name-only", "--diff-filter=ACDMRTUXB", f"{base}..{commit_sha}"],
+            ["git", "diff", "--no-renames", "--name-only", "--diff-filter=ACDMRTUXB", f"{base}..{commit_sha}"],
             cwd=ROOT, timeout=120,
         )
         if result.returncode != 0:
