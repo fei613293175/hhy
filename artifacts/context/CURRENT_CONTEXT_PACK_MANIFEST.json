@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-19T08:14:58Z",
-  "context_hash": "91c8e0865ec5a0e6b35bc9890a6c862a981c6b174ae81a4d6e01257c889e54ab",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-19T08:17:04Z",
+  "context_hash": "3033a067980ca9af6379b1ed51ad3c36e18519335bab35d0e53a77f3c8186d16",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "4ec0b0bd4f1bd3347f4de87c2e90fdf824223cd75501962909fc302629d9ecdb",
-    "file_count": 142
+    "sha256": "d5a51c217a1f1041cb26da48181e5c96d0dde07f7c2b4fb2d57520a47970f4a4",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "4f5650529a59fb615b0f366b1726dbad7ed6f27cb35ab095a32995e94c90a975"
+    "sha256": "bb2628100679d77972d46b2d45a9cef5fdc7eda654dbf5c2e7da305bd75598cc"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "3700bf260954fb6aa6606d258da2fe50d3d64894541231a95bf6c41e9c1b6580"
+    "sha256": "ff89b27c009fd1783df38f1256f2aa51745b0313aef2e13b04b4b4c84470f826"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "a9d49c631a085048b2b2c72acc6d164bc1eaabb58af94acbf31b1cf34e2d32f8",
-      "bytes": 3377
+      "sha256": "36b4ffcd39cffba6b00759b82a717f5c8624b92973f472a23e6b9f99416957ff",
+      "bytes": 3254
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "4dd8aa3f013d97d340b39ab3f5dadc7ee35f3b7e9e557dc401f85e4185da395a",
-      "bytes": 2138
+      "sha256": "2ce284d85549390b008c88ebc5c6af773a86bd76f5bcc6415873fbbeb42e166b",
+      "bytes": 1595
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "4572ddce5e29215cc8201395f878d9b9e1e1d5d3f9577647d7060e794db5be5c",
-      "bytes": 483685
+      "sha256": "9c3dfe23224c9e7a75413f2281c397539d12fdaeff8940da49aae1b9a01abe57",
+      "bytes": 485348
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "182c4a569225a52336b2223c20b1301783f9d2dbbc4447770fac1f29c053ab8c",
-      "bytes": 17274
+      "sha256": "19559639950aca32a910b56b45c0ef298289791d18e60e177fadb18f3bc95d70",
+      "bytes": 17292
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "dae3c46345cf6361b9487cc9878bf5cd6bd3775ec390315b8036208feb5d7b19",
-      "bytes": 22259
+      "sha256": "3a9f134c3fd50bb384b7e4a40c02da9f64982345851a1661045893c0a6cc9825",
+      "bytes": 22295
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,208 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "a15e9f91f5d419ef927f2573f1695940ecc337cdbfa59b8582a0fc4d7de1f9c3",
-      "bytes": 525
-    },
-    {
-      "path": "releases/R03/RELEASE_MANIFEST.yaml",
-      "sha256": "d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318",
-      "bytes": 3921
-    },
-    {
-      "path": "releases/R03/DEFINITION_OF_READY.yaml",
-      "sha256": "dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575",
-      "bytes": 7088
-    },
-    {
-      "path": "releases/R03/STORIES.yaml",
-      "sha256": "9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522",
-      "bytes": 15975
-    },
-    {
-      "path": "releases/R03/TASKS.yaml",
-      "sha256": "577a231d7cc655f126187950d05277a67d9e877ddb87a52721b2b634a21f12eb",
-      "bytes": 7342
-    },
-    {
-      "path": "releases/R03/ACCEPTANCE_MATRIX.csv",
-      "sha256": "de226ffec9d6cb0da7242d9febfae3ac023875c3b1d167894739ca4f8dc9ac47",
-      "bytes": 767
-    },
-    {
-      "path": "releases/R03/PARALLEL_EXECUTION_PLAN.yaml",
-      "sha256": "1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39",
-      "bytes": 3566
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md",
-      "sha256": "48a8c2784d97eb75d932912356e24e397128f06a104c2e924d82446d19cb5dea",
-      "bytes": 333388
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0044.yaml",
-      "sha256": "8e9301b7e8d825c5cac5c7e28403dd0dd3ef1e17e1dbe8f0d1ccc06bf82ba000",
-      "bytes": 62704
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md",
-      "sha256": "09124eace840cbac05b094cb44ba6e9b2baf894d33b663a5eecc21a271fd9f27",
-      "bytes": 3955
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md",
-      "sha256": "657fe94cc6f260b297cb45642322801c84f680a89018c9e6679469eaecfc7689",
-      "bytes": 3106
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md",
-      "sha256": "d34b7054137e69b320623c2971b6b89fdc8c26644170a1cbc9ab29dbc2fb1ab0",
-      "bytes": 2615
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0054-接入R02安全验证冻结设计并简化测试注册流程.md",
-      "sha256": "2ce5d467153c78df455f5931dcf0f966a58230c024d2fda05a2ccbe677155d6a",
-      "bytes": 7503
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0055-移除管理端技术请求标识展示.md",
-      "sha256": "81d272c00dc12a1481281e73eeaf8c7b36bf0466323bca9f2aa32ba9738e6708",
-      "bytes": 3555
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0056-更正测试邀请码运行配置文件范围.md",
-      "sha256": "8e513b90d185be07c6b7f1a7e2880a873e65c244f8f903a2b61bdf73cdcab21d",
-      "bytes": 2728
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0057-更正注册契约生成客户端范围.md",
-      "sha256": "645b337fe879c63672ca7ca5b50d09d49978ea7861e66d741f011eb628a888ce",
-      "bytes": 2650
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0058-同步H5无短信注册与自动安全验证.md",
-      "sha256": "207ed1fdeb748ec8c52cb64b116014cb8dac9c7ff815269c2a1e36aac6a4177c",
-      "bytes": 3170
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0059-补清管理端说明文案中的技术请求标识.md",
-      "sha256": "603886f4fb41dbff9fc2d24be5b73524b413cc0c9956d4b57dbc3d1a9d1b2529",
-      "bytes": 2577
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0060-同步注册成功契约测试至无短信注册模型.md",
-      "sha256": "4e77e0a0cc2f9ee4b35926b4abb418a6a131ba875b7853495e9677c59586898c",
-      "bytes": 2644
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0061-更正全局问题登记文件并补记R02认证偏差.md",
-      "sha256": "d58e137c26203c9328f0fb43e495b5f45fdf37e744eec54e1b4e8112ec4170de",
-      "bytes": 2392
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0062-同步无短信注册契约状态哈希.md",
-      "sha256": "bc26d3d2324bb3839f5b08dfa97438996e3fc874421ebea3bbef41f1593ea328",
-      "bytes": 2307
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0063-固化安全验证设计Token并修复主文档门禁路径.md",
-      "sha256": "abd7fb668023ad07d9204904c2c3cd113b59182b8840a3ab83a3809b84573b73",
-      "bytes": 3097
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0064-纳入R02认证补开发的R03-APK当前与历史交付证据.md",
-      "sha256": "c9b1313e784c07559258d05188bd7ffbb41124fe2f4e719231b35bf50774516d",
-      "bytes": 3895
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0065-同步R03发布计划与回归APK硬门禁.md",
-      "sha256": "607b0de5dd9f5f3cb9a1a03c640b55f2df1d0f4b5c7646dc05a7b8047b4b825f",
-      "bytes": 2871
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0066-修复R02安全验证码结果与后续业务错误混淆.md",
-      "sha256": "ecc45243a3a58900a11280459f88d9d694e29a29f8a98a785a37af8c5bd5fb8d",
-      "bytes": 5489
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0067-递增R03真机回归APK版本并更新交付证据.md",
-      "sha256": "654d87fdedeeca2a261b94671f298bb00ef154bcdd45a640255b9e4e4ab673ad",
-      "bytes": 2550
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0068-同步R03测试包应用版本策略与交付门禁.md",
-      "sha256": "85bb5bec84079e0e756890eb6d178c23e2fb0cdaa26f67293c45e7c31e582abd",
-      "bytes": 2647
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0069-允许同一版本热修复APK使用更高单调versionCode.md",
-      "sha256": "6a6f6ee2c92f2412fb15a41f4b8e3f868a6f9a37534acce36dda35f0c0a54101",
-      "bytes": 2334
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0070-注册表单提示错误细化状态隔离与验证码时效边界修复.md",
-      "sha256": "fd42660cefc472688521640967011cf8b02606aa9584de64a9a5c294f29b1490",
-      "bytes": 4315
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0071-认证策略运行时边界与数据库冻结值对齐.md",
-      "sha256": "576cc019bbdb5445286e872003e4ca129e4f90bb1658460fd219e39867a54b22",
-      "bytes": 2866
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0072-同步注册专用错误码的冻结契约派生产物.md",
-      "sha256": "c69a796fe440ef2704f17919c9d4de09c4c6b850252cd17bc7fdc4ac5c325f9e",
-      "bytes": 2498
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md",
-      "sha256": "5786b5ebd71eaab89540c81d00a56ff756b3f9c3330caed67c2cd803bde569e9",
-      "bytes": 2484
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md",
-      "sha256": "8ec7c19f18850b4d023e0ec02fbf7d2b936184cf01b82102a3bf8ef0909c5a69",
-      "bytes": 2414
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md",
-      "sha256": "975cff22f722cbec898468f78fb99c2e8a733f5ec0cdb1598dafb537e80eec50",
-      "bytes": 2293
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md",
-      "sha256": "29b9b368d1e12506e9e4fcec21c638e1e04cbbec77bc4edb3bd1bbffffaf701c",
-      "bytes": 3026
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md",
-      "sha256": "20ef98bdf0fe72a912f353565d5137bf81eea1400f14b6577f3063c5db08bd61",
-      "bytes": 2444
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md",
-      "sha256": "eee03a6b87c5c07a4c6e11237e539cf9ad5fed24414ff069a20021b879fc8fcd",
-      "bytes": 2518
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md",
-      "sha256": "d2bb3a6f739484d09997c08e8646177e08d5b2cf1248e8b455e5563aad3c76be",
-      "bytes": 2125
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md",
-      "sha256": "312de36c4ecfe0fba3ffd4df1bf3bb895cffbb61bc89e57fd5166be06beee4e4",
-      "bytes": 2232
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md",
-      "sha256": "6282439ebf59d74fa09ec65650794895b5769ace0becea0ebbdc840fdc3bafc7",
-      "bytes": 3855
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0082-补强热修复快速通道与APK自动换版交付.md",
-      "sha256": "0101a69ab253caf6a888191fd3b7e5a4066bb09d761e6f65d5a01f85be82476d",
-      "bytes": 3621
+      "sha256": "29031905a00cba18357fc008a1cec05b98cff855cc162a9f5457da73bc1a7fc1",
+      "bytes": 143
     }
   ]
 }

@@ -130,7 +130,7 @@ tasks:
   completed_at: '2026-07-18T16:56:21Z'
 - id: TASK-R03-007
   title: 外部激活证据、Android回归APK与产物追溯
-  status: BLOCKED
+  status: DONE
   depends_on:
   - TASK-R03-006
   requirements: *id001
@@ -146,9 +146,10 @@ tasks:
   session_log_required: true
   blocker: R03机器实现、测试、外部清单和固定签名APK四方交付均PASS；等待项目所有者对hhy-r03-3a913c9-debug.apk完成真机安装、启动与自动验证码路径验收
   blocked_at: '2026-07-18T17:24:49Z'
+  completed_at: '2026-07-19T08:16:56Z'
 - id: TASK-R03-008
   title: 供应商配置、密钥、证书与域名中心版本关闭与无状态交接
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R03-007
   requirements: *id001

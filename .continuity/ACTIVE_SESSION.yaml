@@ -1,12 +1,5 @@
 protocol_version: '1.0'
-active_session_id: SES-20260718T200607Z-3569D212
-status: ACTIVE
-session_record: .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
-actor_id: codex-root
-task_id: TASK-R03-007
-story_id: STORY-R03-004
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0044.yaml
-checkpoint_id: CP-SES-20260718T200607Z-3569D212-0044
-project_fingerprint: 4ec0b0bd4f1bd3347f4de87c2e90fdf824223cd75501962909fc302629d9ecdb
-lease_expires_at: '2026-07-19T12:14:56Z'
-updated_at: '2026-07-19T08:14:56Z'
+active_session_id: null
+status: NONE
+last_session_id: SES-20260718T200607Z-3569D212
+updated_at: '2026-07-19T08:17:01Z'
