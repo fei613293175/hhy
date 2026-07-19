@@ -118,7 +118,7 @@ tasks:
   completed_at: '2026-07-19T14:41:52Z'
 - id: TASK-R04-007
   title: 媒体与多对象存储Android测试APK与产物追溯
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R04-006
   requirements: *id001
@@ -130,9 +130,10 @@ tasks:
   - 机器交付PASS不能替代项目所有者真机PASS
   - 真机结论未收到前owner_physical_test保持PENDING
   session_log_required: true
+  completed_at: '2026-07-19T16:00:22Z'
 - id: TASK-R04-008
   title: 媒体与多对象存储版本关闭与无状态交接
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R04-007
   requirements: *id001
