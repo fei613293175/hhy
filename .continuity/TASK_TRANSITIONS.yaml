@@ -440,3 +440,13 @@ transitions:
   session_id: SES-20260719T144443Z-BF11796E
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-FF85FC3E3B68
+  timestamp: '2026-07-19T16:04:38Z'
+  release: R04
+  task_id: TASK-R04-008
+  story_id: STORY-R04-002
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260719T160438Z-BF4F2F1D
+  actor_id: codex-root
+  reason: 会话领取任务

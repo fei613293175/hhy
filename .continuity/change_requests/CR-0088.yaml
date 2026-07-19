@@ -1,0 +1,49 @@
+protocol_version: '1.0'
+cr_id: CR-0088
+title: R04版本关闭元数据、验收证据与终态标签规范化
+status: IMPLEMENTING
+created_at: '2026-07-19T16:05:58Z'
+updated_at: '2026-07-19T16:08:40Z'
+requester_actor_id: codex-root
+approver_actor_id: r04-release-review
+task_id: TASK-R04-008
+session_id: SES-20260719T160438Z-BF4F2F1D
+user_request: 项目所有者确认R04真机测试通过并要求立即继续推进开发
+reason: 将既有全绿实现、六项专项测试、Staging、APK和真机证据写入R04关闭矩阵，并按冻结OpenAPI绑定operationId、Release Commit和Tag，不改变业务范围
+original_rule: R04 Manifest仍为READY_WHEN_DEPENDENCIES_GREEN、client_api为原始路径列表，AC-R04-001至003、005、006尚未绑定单文件PASS证据且无Release Commit/Tag
+new_rule: R04关闭时保留三条既有API路径并绑定冻结operationId，以APK源码Commit 04cda65和Tag R04-04cda65作为发布身份；六项验收分别绑定既有专项、Staging、会话和APK真机证据并标记PASS
+impact_summary: 仅规范化R04关闭元数据、证据指针和终态身份；不新增、删除或改变页面、API、数据库、配置及运行时语义
+impact:
+  files:
+  - releases/R04/RELEASE_MANIFEST.yaml
+  - releases/R04/ACCEPTANCE_MATRIX.csv
+  pages: []
+  apis:
+  - mediaPostMediaUploadSessions
+  - mediaPostMediaUploadSessionsByIdComplete
+  - mediaDeleteMediaById
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python scripts/check_v123_documentation.py --strict
+  - python scripts/check_generated_assets.py
+  - python scripts/check_release_artifacts.py --release R04 --close-gate
+  releases:
+  - R04
+  migration_and_compatibility: 无需数据库、API消费者或客户端迁移；三条既有API路径保持不变，只补充operationId表示并归档现有测试证据
+user_confirmation: 项目所有者已确认R04真机测试通过并要求立即推进下一版本
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T16:06:26Z'
+  note: 独立核对：三条operationId存在于冻结OpenAPI，04cda65是已验收APK源码Commit，六项证据均已真实PASS；无业务语义变化
+machine_record: .continuity/change_requests/CR-0088.yaml
+document: docs/03-continuity/change-requests/CR-0088-R04版本关闭元数据、验收证据与终态标签规范化.md
+decision_log:
+- at: '2026-07-19T16:08:40Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始回填R04终态Manifest、六项验收证据与Release Commit/Tag
+  session_id: SES-20260719T160438Z-BF4F2F1D
+session_ids:
+- SES-20260719T160438Z-BF4F2F1D
