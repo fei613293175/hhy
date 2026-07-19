@@ -1,0 +1,188 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T085423Z-0385FEE0-0003
+session_id: SES-20260719T085423Z-0385FEE0
+sequence: 3
+created_at: '2026-07-19T11:15:15Z'
+summary: R04 PostgreSQL存储Scope查询、迁移任务领取/游标持久化/失败暂停恢复和最小化访问审计完成；跨R2/OSS同Scope复制适配已修正
+next_step: 提交并推送迁移服务切片，然后运行MODULE影响门禁并在可用的一次性PostgreSQL上补齐V021空库、升级、回滚和不变量实测
+blockers: []
+decisions:
+- 供应商网络I/O不得持有数据库事务；批次失败保持原游标并暂停，重试复制依赖对象身份幂等，审计仅记录Scope与计数不记录URL、对象键或Secret
+note: ''
+tests:
+- name: storage-migration-service
+  result: PASS
+  evidence: mvnw -pl boot -am -Dtest=StorageProviderAdapterTest,StorageMigrationServiceTest test
+  note: 8 tests 0 failures 0 errors; cross-provider, cursor, pause and resume covered
+- name: db-schema
+  result: PASS
+  evidence: python scripts/check_db_schema.py
+  note: 200 tables, 21 migrations, runtime hashes PASS
+- name: generated-assets
+  result: PASS
+  evidence: python scripts/check_generated_assets.py
+  note: android/frontend/openapi/runtime generated assets verified
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: ec6919b45a107a770fd13d86b7c3a38103415c67
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260719T085423Z-0385FEE0.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageProviderAdapter.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageProviderAdapterTest.java'
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageMigrationService.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageMigrationServiceTest.java
+  recent_commits:
+  - "ec6919b45a107a770fd13d86b7c3a38103415c67\t2026-07-19T19:06:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): add provider-neutral\
+    \ object port"
+  - "77eb7d6797b0c90213616823872b7f9b4148b193\t2026-07-19T16:57:32+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): enforce media\
+    \ storage invariants"
+  - "7ae235681e92565971eb53a999a72fc88f9f8f39\t2026-07-19T16:53:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-001\
+    \ as completed"
+  - "34d9e7790319e603d58f531e314a442a893c32ea\t2026-07-19T16:52:24+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(governance): finalize\
+    \ R04 entry gate"
+  - "09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8\t2026-07-19T16:49:36+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(continuity): persist release\
+    \ green commit"
+  - "cf597bba9422b4dc9abd4a95806efa99ea6c5b12\t2026-07-19T16:31:45+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-008\
+    \ as completed"
+  - "40807dc3d8e1dcfa56334d37cf8646bf9db483dd\t2026-07-19T16:30:34+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): finalize R03\
+    \ acceptance matrix"
+  - "e37faeaa31714e4026132b426acb0bd956032d84\t2026-07-19T16:28:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): archive R03\
+    \ close evidence"
+project_fingerprint:
+  sha256: ff7b3d6919fc3dd9f625651fcb52f8208e679826515baa1a4d045d2c82a2c4e1
+  files:
+  - database/migrations/V021__r04_storage_media_invariants.sql
+  - database/rollback/U021__r04_storage_media_invariants.sql
+  - docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageMigrationService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageProviderAdapter.java
+  - services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageMigrationServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageProviderAdapterTest.java
+  - tests/test_r04_storage_media_migration.py
+  file_count: 11
+  payload:
+    base_commit: 7ae235681e92565971eb53a999a72fc88f9f8f39
+    files:
+    - path: database/migrations/V021__r04_storage_media_invariants.sql
+      state: FILE
+      size: 3067
+      sha256: b4168d9f33301155f954fba9a440ad8ee6315a9088144dbad684ebf1b333d969
+    - path: database/rollback/U021__r04_storage_media_invariants.sql
+      state: FILE
+      size: 1431
+      sha256: 45a10c91db525772ac1d48f4e0a4ba3d3b3bc3425496fb3e84a70284b6918ebb
+    - path: docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+      state: FILE
+      size: 2986
+      sha256: b10a54785471c3eb3e49d1e4886f7ae510a0b3104e211cdf7d02679d327ef3eb
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+      state: FILE
+      size: 6711
+      sha256: 8b551e4b49b033a4c21dd025b01100149c39b74f6dd3e07ee7cb9b5070aae7da
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageMigrationService.java
+      state: FILE
+      size: 7649
+      sha256: d70bb6c487a38288b9534dc2a2e5300743bd91d1d012506c8fc5009ce410db14
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+      state: FILE
+      size: 2396
+      sha256: 7f8e6bf16eb18eebad8cac40ca8937a6925307f8ef094f976b6895f33b871bae
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageProviderAdapter.java
+      state: FILE
+      size: 8548
+      sha256: 096ae47141a841f1ab4f870eaddfcef17459392bfc4814f731bb884c2e204d22
+    - path: services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
+      state: FILE
+      size: 3067
+      sha256: b4168d9f33301155f954fba9a440ad8ee6315a9088144dbad684ebf1b333d969
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageMigrationServiceTest.java
+      state: FILE
+      size: 6332
+      sha256: f19f3baff3da48f96ab0fb14b8b4be459c8cd7bb73f31fee14ecee2d0bd4fc27
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageProviderAdapterTest.java
+      state: FILE
+      size: 5795
+      sha256: 9a42f76f8e781a94facaca951eb4ced2c2517af1477bedb75a1c3ff144f5d31b
+    - path: tests/test_r04_storage_media_migration.py
+      state: FILE
+      size: 2280
+      sha256: 41befb9bc07c7847794740b1b9cac491e306f4b5b9aff26480e83912c085ca85
+change_classification:
+  database:
+  - database/migrations/V021__r04_storage_media_invariants.sql
+  - database/rollback/U021__r04_storage_media_invariants.sql
+  continuity:
+  - docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+  code:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageMigrationService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageProviderAdapter.java
+  - services/backend/boot/src/main/resources/db/migration/V021__r04_storage_media_invariants.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageMigrationServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/StorageProviderAdapterTest.java
+  tests:
+  - tests/test_r04_storage_media_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前执行约束未授权创建子代理；本切片同时修改共享存储端口与同一迁移状态机，需由单一主控原子落库与验证
+event_hash: 43b206fdddeec07ddb2ceb2d21f9b5d2fb5946dd6fa14d84f086ae1b98bae981

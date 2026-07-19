@@ -96,12 +96,21 @@ public final class StorageProviderAdapter implements StorageObjectPort {
 
     @Override
     public void copy(Binding source, Binding target, ObjectRef object) {
-        requireBinding(source);
         requireBinding(target);
+        requireSourceBinding(source);
         requireObjectKey(object.objectKey());
         if (source.scope() != target.scope()) throw new IllegalArgumentException("cross-scope copy rejected");
         if (source.equals(target)) throw new IllegalArgumentException("source and target must differ");
         transport.copy(source, target, object);
+    }
+
+    private static void requireSourceBinding(Binding binding) {
+        Objects.requireNonNull(binding, "source binding");
+        if (blank(binding.bucket())) throw new IllegalArgumentException("source bucket is required");
+        requireHttps(binding.endpoint(), false);
+        if (binding.scope().privateAccess() && binding.publicBaseUrl() != null) {
+            throw new IllegalArgumentException("private scope cannot expose a public base url");
+        }
     }
 
     private void requireBinding(Binding binding) {

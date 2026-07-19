@@ -53,6 +53,15 @@ class StorageProviderAdapterTest {
     }
 
     @Test
+    void targetAdapterAcceptsSameScopeCrossProviderMigration() {
+        var adapter = adapter(Provider.ALIYUN_OSS);
+        adapter.copy(
+                binding(Scope.BACKUP, Provider.CLOUDFLARE_R2, null),
+                binding(Scope.BACKUP, Provider.ALIYUN_OSS, null),
+                new ObjectRef(7L, "backup/7/a.bin", SHA));
+    }
+
+    @Test
     void completionMustMatchExpectedSizeAndSha() {
         var adapter = adapter(Provider.CLOUDFLARE_R2);
         Binding binding = binding(Scope.PUBLIC_MEDIA, Provider.CLOUDFLARE_R2, URI.create("https://cdn.example.test/"));
