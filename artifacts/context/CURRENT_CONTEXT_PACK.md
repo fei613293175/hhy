@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T22:09:41Z
-- Context Hash：`aa1c2eabdb2791a8e3d3bd52926ba90f70385bc32dd59422d51ed8de524df46c`
+- 生成时间：2026-07-19T22:10:35Z
+- Context Hash：`44abf0460e100b34519a35ce96aa83f458240e3999a25a916725e984f6452a3d`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -81,7 +81,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-004
-updated_at: '2026-07-19T22:09:39Z'
+updated_at: '2026-07-19T22:10:33Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -116,15 +116,15 @@ continuity:
   active_session_id: SES-20260719T183335Z-535311E4
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T02:09:39Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0020.yaml
-  project_fingerprint: dc99b9c5e4cbd43d12a6271ab6c2a52f254d4190e0efd5c4f0555d8cb3b034a3
+  lease_expires_at: '2026-07-20T02:10:33Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0021.yaml
+  project_fingerprint: da4a35d3f75cde9ec967258364aa0d785d34f7392de0ce5fefdf65dd4489e1f1
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 677ff31e9a45ccc39ca57bdcf081f1ecb52ba6dedccb03a9b686cf1d650e5aeb
-    generated_at: '2026-07-19T21:57:21Z'
+    context_hash: aa1c2eabdb2791a8e3d3bd52926ba90f70385bc32dd59422d51ed8de524df46c
+    generated_at: '2026-07-19T22:09:41Z'
   handoff_bundle: null
 ```
 
@@ -320,7 +320,7 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T22:09:39Z'
+updated_at: '2026-07-19T22:10:33Z'
 takeover_of: null
 change_requests:
 - CR-0090
@@ -462,12 +462,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T22:09:39Z'
-  expires_at: '2026-07-20T02:09:39Z'
-checkpoint_sequence: 20
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0020.yaml
+  renewed_at: '2026-07-19T22:10:33Z'
+  expires_at: '2026-07-20T02:10:33Z'
+checkpoint_sequence: 21
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0021.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 实现阿里云OSS真实对象存储端口并接入R04StoragePortResolver，保持R2与OSS精确配置版本隔离
+next_step: 创建并实现阿里云OSS真实对象存储端口，接入精确激活配置、签名URL、HEAD完整性与私有读取
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -475,40 +475,32 @@ parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 用户未要求子代理，生产秘密解析与共享配置文件串行修改避免冲突
+  reason: 用户未要求子代理，继续沿R05对象存储端口串行推进
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T183335Z-535311E4-0020
+checkpoint_id: CP-SES-20260719T183335Z-535311E4-0021
 session_id: SES-20260719T183335Z-535311E4
-sequence: 20
-created_at: '2026-07-19T22:09:39Z'
-summary: CR-0105完成Vault/KMS/CSI只读物化SecretRef解析、生产启动门禁、引用哈希映射、权限与软链接边界、即时轮换和缓冲清零
-next_step: 实现阿里云OSS真实对象存储端口并接入R04StoragePortResolver，保持R2与OSS精确配置版本隔离
+sequence: 21
+created_at: '2026-07-19T22:10:33Z'
+summary: CR-0105已实现并推送，R05供应商客户端与R2端口可共享生产SecretRef解析
+next_step: 创建并实现阿里云OSS真实对象存储端口，接入精确激活配置、签名URL、HEAD完整性与私有读取
 blockers: []
 decisions:
-- 生产凭据通过HHY_PROVIDER_SECRET_DIR只读挂载；非生产未配置时安全不可用，production/prod未配置时拒绝启动
+- 生产只接受只读物化SecretRef；不增加环境变量明文凭据回退
 note: ''
 tests:
-- name: secret resolver
+- name: implementation push
   result: PASS
-  evidence: MountedProviderSecretResolverTest
-  note: 5 tests on Linux including read-only permissions, symlink, size, rotation and startup gate
-- name: backend full
-  result: PASS
-  evidence: obx-test mvn test and Surefire XML
-  note: 274 tests, 0 failures, 0 errors, 5 intended skips
-- name: repository gates
-  result: PASS
-  evidence: documentation and generated assets
-  note: 318 REST, zero documentation gaps, generated assets verified
+  evidence: b0a76d369c1475ba2a404b2cb2040286885b36a7
+  note: continuity and pre-push gates passed
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: aeaa075c068ce491f4e2be1cfc1ab70063f60e5f
+  head: b0a76d369c1475ba2a404b2cb2040286885b36a7
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -517,20 +509,13 @@ git:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
+  - ' M .continuity/change_requests/CR-0105.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/04-vendors/供应商配置中心详细规格_V1.2.2.md'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java'
-  - ' M services/backend/boot/src/main/resources/application.yml'
-  - ?? .continuity/change_requests/CR-0105.yaml
-  - ?? docs/03-continuity/change-requests/CR-0105-接入生产SecretRef只读物化解析端口.md
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolver.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretMaterialProperties.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretStartupGuard.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolverTest.java
+  - ' M docs/03-continuity/change-requests/CR-0105-接入生产SecretRef只读物化解析端口.md'
   recent_commits:
+  - "b0a76d369c1475ba2a404b2cb2040286885b36a7\t2026-07-20T06:09:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(security): resolve mounted\
+    \ provider secrets"
   - "aeaa075c068ce491f4e2be1cfc1ab70063f60e5f\t2026-07-20T05:57:22+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(storage): record Cloudflare\
     \ R2 closure"
   - "b261e51946153954de5c3f7c9f0180c7049f66a0\t2026-07-20T05:56:12+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(storage): activate Cloudflare\
@@ -545,10 +530,8 @@ git:
     \ provider result atomically"
   - "7d959409084ba45c17a3d6ca2b8907ab905658e2\t2026-07-20T04:47:30+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close face\
     \ download CR"
-  - "6d8956a193b3771c29c8b421a5c035e51e75e75a\t2026-07-20T04:44:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): bound provider\
-    \ face download"
 project_fingerprint:
-  sha256: dc99b9c5e4cbd43d12a6271ab6c2a52f254d4190e0efd5c4f0555d8cb3b034a3
+  sha256: da4a35d3f75cde9ec967258364aa0d785d34f7392de0ce5fefdf65dd4489e1f1
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r05IdentityPages.test.ts
@@ -911,8 +894,8 @@ project_fingerprint:
       sha256: b4ea0b1bc87b0a4f4a2d566f49d694fb902da3ad71475a27a974d284aa20bb8f
     - path: docs/03-continuity/change-requests/CR-0105-接入生产SecretRef只读物化解析端口.md
       state: FILE
-      size: 3299
-      sha256: 701ed77583ed7b4df6c99e2578a1bf9bb7ec24af90735200c6f11c787bd147fe
+      size: 3657
+      sha256: dff577bd965e7e46abc6366e7fcdd9659c2e67765d8eb3f0ff1fb3569030a6af
     - path: docs/04-vendors/identity/实名认证供应商接口契约_R05.md
       state: FILE
       size: 4214
@@ -1458,8 +1441,8 @@ parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 用户未要求子代理，生产秘密解析与共享配置文件串行修改避免冲突
-event_hash: c6322f989346bd5defe4d46c1b91a270e7aa4e53d095f8073c38aa4a723d6f0f
+  reason: 用户未要求子代理，继续沿R05对象存储端口串行推进
+event_hash: a40298e2fbb494a94742cae54dc94c5637890e897deaf6fee4fef92bbe3021ef
 ```
 
 ## 接续状态与事件头
@@ -1471,8 +1454,8 @@ active_session_id: SES-20260719T183335Z-535311E4
 last_session_id: SES-20260719T165401Z-12791729
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T165401Z-12791729-0009
-event_count: 1139
-event_head_hash: c6322f989346bd5defe4d46c1b91a270e7aa4e53d095f8073c38aa4a723d6f0f
+event_count: 1141
+event_head_hash: a40298e2fbb494a94742cae54dc94c5637890e897deaf6fee4fef92bbe3021ef
 event_chain_valid: true
 ```
 
@@ -1595,9 +1578,9 @@ recent_sessions: - session_id: SES-20260719T113522Z-6B27AD4B
   started_at: '2026-07-19T18:33:35Z'
   record: .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-  updated_at: '2026-07-19T22:09:39Z'
+  updated_at: '2026-07-19T22:10:33Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0020.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0021.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-36454E5FF743
   session_id: SES-20260718T133151Z-12DB5949
@@ -2475,7 +2458,7 @@ recent_task_transitions: - transition_id: TRN-C720E2A1E5C3
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: aeaa075c068ce491f4e2be1cfc1ab70063f60e5f
+head: b0a76d369c1475ba2a404b2cb2040286885b36a7
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2486,23 +2469,17 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0105.yaml'
 - ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/03-continuity/change-requests/CR-0105-接入生产SecretRef只读物化解析端口.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md'
-- ' M docs/04-vendors/供应商配置中心详细规格_V1.2.2.md'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java'
-- ' M services/backend/boot/src/main/resources/application.yml'
-- ?? .continuity/change_requests/CR-0105.yaml
-- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0020.yaml
-- ?? docs/03-continuity/change-requests/CR-0105-接入生产SecretRef只读物化解析端口.md
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolver.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretMaterialProperties.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretStartupGuard.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolverTest.java
+- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0021.yaml
 recent_commits:
+- "b0a76d369c1475ba2a404b2cb2040286885b36a7\t2026-07-20T06:09:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(security): resolve mounted\
+  \ provider secrets"
 - "aeaa075c068ce491f4e2be1cfc1ab70063f60e5f\t2026-07-20T05:57:22+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(storage): record Cloudflare\
   \ R2 closure"
 - "b261e51946153954de5c3f7c9f0180c7049f66a0\t2026-07-20T05:56:12+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(storage): activate Cloudflare\
@@ -2517,13 +2494,11 @@ recent_commits:
   \ result atomically"
 - "7d959409084ba45c17a3d6ca2b8907ab905658e2\t2026-07-20T04:47:30+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close face download\
   \ CR"
-- "6d8956a193b3771c29c8b421a5c035e51e75e75a\t2026-07-20T04:44:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): bound provider\
-  \ face download"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`dc99b9c5e4cbd43d12a6271ab6c2a52f254d4190e0efd5c4f0555d8cb3b034a3`
+- 指纹：`da4a35d3f75cde9ec967258364aa0d785d34f7392de0ce5fefdf65dd4489e1f1`
 - 文件数：119
 
 - `CHANGELOG.md`
@@ -5788,9 +5763,9 @@ TASKS.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0105
   title: 接入生产SecretRef只读物化解析端口
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T21:58:51Z'
-  updated_at: '2026-07-19T22:00:05Z'
+  updated_at: '2026-07-19T22:10:30Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-004
@@ -5834,15 +5809,22 @@ TASKS.yaml:
     status: IMPLEMENTING
     note: 开始实现只读物化SecretRef解析、生产启动门禁与安全回归
     session_id: SES-20260719T183335Z-535311E4
+  - at: '2026-07-19T22:10:30Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 生产SecretRef只读物化解析已完成：vault/kms引用哈希映射、8KiB UTF-8边界、NOFOLLOW与只读POSIX权限、无缓存轮换、缓冲清零及production启动门禁；后端274项和专项5项通过
+    session_id: SES-20260719T183335Z-535311E4
   session_ids:
   - SES-20260719T183335Z-535311E4
+  implementation_commits:
+  - b0a76d369c1475ba2a404b2cb2040286885b36a7
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `4f104af5eb42c0d86b0c24a5e91d5faa0ae3e3a66cfe9bb517a1bf97b7716688`
+- `CURRENT_STATUS.yaml` — `ef67a03252cd719f49bedb0166f291f4b2eb40a3b258b1efc5bc16d7ad0f97b7`
 - `NEXT_TASK.yaml` — `a128e578a72108ea0d43225dbb48325c5315983581433490c186a6d1cf9cb484`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -5853,19 +5835,19 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `d8150feaee847582f3b9c5cfa2e2eff9eb141ef128eb664b06e45f5e82a1bd7b`
-- `.continuity/SESSION_INDEX.yaml` — `867b12fb94a67f108f5ed3088d428341a308743bfb4430a921bc2900a9ecff91`
+- `.continuity/EVENT_LOG.jsonl` — `d601a97298415ff20822aaec8c3ac3c7f5fdfe3f262051a0fd842174b73a4379`
+- `.continuity/SESSION_INDEX.yaml` — `36ceed34d3cb710138ae65d547fb8040356044717031b0fff6b7744712d40b8b`
 - `.continuity/TASK_CLAIMS.yaml` — `d584e4085c5320e27ccbdba4878c79ea2ca13ee854840c495f1e9a059064bb7c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b7bff921a7901affc662c17b2fe95e1556eb192d3c9ea7147d548a863c93ba9d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `eec055019a4211d3ddf7259202e8d7e668f8e3a5d37f8dbe78b4105c731f0e03`
-- `.continuity/ACTIVE_SESSION.yaml` — `5fe677b046b367d6c69467f2b8da69b25bfafca2c12498d281537740e07a7808`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `75107db77afad8a1eb53673a1e0efec31e3c82250dd4881cc3cfe175fcb33a9d`
+- `.continuity/ACTIVE_SESSION.yaml` — `151a24d94341afc88d269cc043b63bca7f5495defbd1ccfd798ce7f0287437c4`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `fbdff289348fbe15d4527cad6f1d5955322270725e80cc0e99ee291a6bbe05de`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `d5710648198ffb04fbfd0d2e943cec60557a027f5cef1460f6b30e27b4b05ed7`
-- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0020.yaml` — `f3661a13bd8b36c09cab88650f6f13685e87d345a1a0ed05d4fb91aa652cb1da`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `a9fbc541d03bcf842be3a63e41eebdb310d26f02616436034e1d8dea445fed11`
+- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0021.yaml` — `1992e4f762829bfe6181278b82e4e23b0d19a6d839b895c97d78d06febb23d74`
 - `docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md` — `978668dbafbcbbf0bb325a72beb141a1160bec7fefd9a08ed2f1fc0df4208fee`
 - `docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md` — `075fb50fab65446223ec017ced1402afc87a3db6074a4746bccf94833ba8bb7b`
 - `docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md` — `5e73eaa93bbb356709e0ea6c3c5c3413fada20f07f9b227a7c90ac8ddb698db7`
@@ -5881,7 +5863,7 @@ TASKS.yaml:
 - `docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md` — `95722415da26767608e5d89f54f3e5ef5e30f5538037e19f5925e0e4411636b4`
 - `docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md` — `c2abea5833c737a1430ba2d143d8f487d85c23d8f1d4241b14c8cd43ce076597`
 - `docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md` — `b4ea0b1bc87b0a4f4a2d566f49d694fb902da3ad71475a27a974d284aa20bb8f`
-- `docs/03-continuity/change-requests/CR-0105-接入生产SecretRef只读物化解析端口.md` — `701ed77583ed7b4df6c99e2578a1bf9bb7ec24af90735200c6f11c787bd147fe`
+- `docs/03-continuity/change-requests/CR-0105-接入生产SecretRef只读物化解析端口.md` — `dff577bd965e7e46abc6366e7fcdd9659c2e67765d8eb3f0ff1fb3569030a6af`
 
 ## 接手硬规则
 
