@@ -6406,9 +6406,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0108
   title: 补充R05隔离Staging精确文件范围
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T23:15:26Z'
-  updated_at: '2026-07-19T23:15:41Z'
+  updated_at: '2026-07-19T23:40:16Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R05-006
@@ -6449,5 +6449,17 @@ change_requests:
     status: IMPLEMENTING
     note: 应用精确文件范围
     session_id: SES-20260719T230526Z-55ABC07F
+  - at: '2026-07-19T23:40:14Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 五个R05隔离Staging文件已实现并在c2bc1ab提交，隔离预发布证据归档于c6399d0
+    session_id: SES-20260719T230526Z-55ABC07F
+  - at: '2026-07-19T23:40:16Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 范围变更已实现、验收并随TASK-R05-006完成关闭
+    session_id: SES-20260719T230526Z-55ABC07F
   session_ids:
   - SES-20260719T230526Z-55ABC07F
+  implementation_commits:
+  - c6399d0e079118c456545a2f4ec92661ddd2f9cd

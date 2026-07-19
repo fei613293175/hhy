@@ -87,3 +87,17 @@ TASK-R05-006要求Staging部署，需逐文件补齐infra范围
 - Status：`IMPLEMENTING`
 - Session：`SES-20260719T230526Z-55ABC07F`
 - Note：应用精确文件范围
+
+## 状态记录 · 2026-07-19T23:40:14Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260719T230526Z-55ABC07F`
+- Note：五个R05隔离Staging文件已实现并在c2bc1ab提交，隔离预发布证据归档于c6399d0
+
+## 状态记录 · 2026-07-19T23:40:16Z
+
+- Actor：`codex-root`
+- Status：`CLOSED`
+- Session：`SES-20260719T230526Z-55ABC07F`
+- Note：范围变更已实现、验收并随TASK-R05-006完成关闭
