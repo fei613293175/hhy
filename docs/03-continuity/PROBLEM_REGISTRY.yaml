@@ -505,3 +505,17 @@ problems:
   - Compose页面不得因数值恰好与设计Token相同而直接写dp或sp
   - 新增页面或组件必须同时通过模块测试、Lint和全项目UI Token门禁
   - 修复Token归属不得改变冻结视觉尺寸或自行新增同值Token
+- id: PROB-0042
+  title: PostgreSQL CHECK三值逻辑放行空第三方状态的完成记录
+  status: SOLVED
+  root_cause: R05第三方请求完成约束把多个status IN表达式用OR连接；当status为NULL且completed_at非空时，表达式结果为NULL而不是FALSE，PostgreSQL将CHECK的NULL结果视为通过，静态文本测试无法发现该语义漏洞。
+  resolution: 完成约束先强制新记录status非空，再在显式括号内分别校验处理中状态不得有完成时间、终态必须有合法完成时间；一次性PostgreSQL17.10测试加入空状态带完成时间的拒绝用例并执行完整回滚重放。
+  regression_checks:
+  - database/tests/r05_identity_invariants.sql R05_PROVIDER_COMPLETION_WITHOUT_STATUS_WAS_ACCEPTED
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - tests/test_r05_identity_migration.py
+  do_not_repeat:
+  - PostgreSQL CHECK不得依赖NULL传播后仍期望约束拒绝，必填状态必须用IS NOT NULL显式收口
+  - 数据库状态与时间不变量必须在真实PostgreSQL执行错误数据拒绝测试，不能只做SQL文本匹配
+  - 迁移完成必须验证空库、回滚、重放和回归数据四个阶段

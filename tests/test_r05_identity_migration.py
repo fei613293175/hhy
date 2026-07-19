@@ -23,6 +23,7 @@ class R05IdentityMigrationTest(unittest.TestCase):
             "uq_r05_identity_provider_order",
             "ck_r05_identity_provider_request_type",
             "ck_r05_identity_provider_history",
+            "status IS NOT NULL",
             "storage_scope = 'private_kyc'",
             "ck_r05_identity_media_binding",
             "uq_r05_identity_media_object",

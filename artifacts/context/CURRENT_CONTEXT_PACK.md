@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T16:36:29Z
-- Context Hash：`60bbf0fa3952454935e99342b7789af5af5acb5202cbf9d438e397ef0b6a0296`
+- 生成时间：2026-07-19T16:44:35Z
+- Context Hash：`144486e89b0a68cab68e339262355e5b5a88c3dc1e7ff29264d2b03431cd92ef`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -79,7 +79,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-002
-updated_at: '2026-07-19T16:36:27Z'
+updated_at: '2026-07-19T16:44:33Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -114,15 +114,15 @@ continuity:
   active_session_id: SES-20260719T162332Z-9372DEF2
   actor_id: codex-root
   story_id: STORY-R05-008
-  lease_expires_at: '2026-07-19T20:36:27Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0003.yaml
-  project_fingerprint: 98405de33d2209cd7ab09b8efa337a27f7bf74a65300f55f2178dde709b36b34
+  lease_expires_at: '2026-07-19T20:44:33Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0005.yaml
+  project_fingerprint: 9f265fefc1debf1cb7b43e11e4be320a020af97c4d207e01cd1dbed9b5eca904
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 0d7e0b44c72ed3e0ea9c691c1869f6b47496c6997fc8cf36fa2708b458ffc1ec
-    generated_at: '2026-07-19T16:29:31Z'
+    context_hash: 2ace1bfd3527ea571c2722c8927648ad91f587558d62660caff48e698b487e4e
+    generated_at: '2026-07-19T16:41:56Z'
   handoff_bundle: null
 ```
 
@@ -314,7 +314,7 @@ task_id: TASK-R05-002
 story_id: STORY-R05-008
 goal: 实现R05身份数据迁移、唯一约束、状态历史、幂等键、敏感访问审计与PostgreSQL回滚验证
 started_at: '2026-07-19T16:23:32Z'
-updated_at: '2026-07-19T16:36:27Z'
+updated_at: '2026-07-19T16:44:33Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -361,12 +361,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T16:36:27Z'
-  expires_at: '2026-07-19T20:36:27Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0003.yaml
+  renewed_at: '2026-07-19T16:44:33Z'
+  expires_at: '2026-07-19T20:44:33Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md
-next_step: 提交推送数据库验证切片并在obx-test一次性PostgreSQL17.10执行V001-V023空库、错误数据拒绝、U023回滚、V023重放
+next_step: 提交推送NULL语义修复与Problem Registry，然后重跑PostgreSQL17.10完整空库、拒绝、回滚、重放
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -374,49 +374,59 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 迁移、回滚、约束不变量和重放计数必须作为同一原子数据库切片验证
+  reason: 迁移修复与真实PostgreSQL验证属于同一原子数据库切片
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T162332Z-9372DEF2-0003
+checkpoint_id: CP-SES-20260719T162332Z-9372DEF2-0005
 session_id: SES-20260719T162332Z-9372DEF2
-sequence: 3
-created_at: '2026-07-19T16:36:26Z'
-summary: 完成R05 V023真实数据库不变量、一次性PostgreSQL17容器、U023回滚与V023重放自动化；补齐后台操作者外键、媒体必填绑定和第三方请求完整状态约束
-next_step: 提交推送数据库验证切片并在obx-test一次性PostgreSQL17.10执行V001-V023空库、错误数据拒绝、U023回滚、V023重放
+sequence: 5
+created_at: '2026-07-19T16:44:33Z'
+summary: 修复R05 provider completion的PostgreSQL NULL三值逻辑漏洞，并登记PROB-0042与真实数据库回归规则
+next_step: 提交推送NULL语义修复与Problem Registry，然后重跑PostgreSQL17.10完整空库、拒绝、回滚、重放
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: R05数据库脚本静态测试
+- name: R05修复后静态测试
   result: PASS
   evidence: python -m unittest tests.test_r05_identity_migration tests.test_r05_identity_database_scripts
   note: 7 tests passed
-- name: V023运行时镜像一致性
+- name: 问题防复发记录
   result: PASS
-  evidence: SHA256 source equals runtime
-  note: exact copy
+  evidence: docs/03-continuity/PROBLEM_REGISTRY.yaml#PROB-0042
+  note: 根因、修复、回归与禁止重复规则完整
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 441cd6bf3fbb483f2d7f1ed1dfe437332c973ccb
+  head: e952473677bfb56527c811530509d619bbf562e4
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M database/migrations/V023__r05_identity_invariants.sql'
-  - ' M database/rollback/U023__r05_identity_invariants.sql'
-  - ' M services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql'
-  - ' M tests/test_r05_identity_migration.py'
-  - ?? database/tests/r05_identity_invariants.sql
-  - ?? scripts/run_r05_database_invariants.sh
-  - ?? scripts/run_r05_disposable_postgres_container.sh
-  - ?? tests/test_r05_identity_database_scripts.py
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0004.yaml
+  - M  .continuity/sessions/SES-20260719T162332Z-9372DEF2.yaml
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/session_index.csv
+  - M  database/migrations/V023__r05_identity_invariants.sql
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - M  docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md
+  - M  services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+  - M  tests/test_r05_identity_migration.py
   recent_commits:
+  - "e952473677bfb56527c811530509d619bbf562e4\t2026-07-20T00:37:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] test(identity): verify PostgreSQL\
+    \ invariants and rollback"
   - "441cd6bf3fbb483f2d7f1ed1dfe437332c973ccb\t2026-07-20T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): enforce verification\
     \ data invariants"
   - "2282bc24a3b771715582514a939cffb481920749\t2026-07-20T00:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-001\
@@ -431,27 +441,26 @@ git:
     \ closure evidence"
   - "8a87893c2e9ca0e45646d368f3b67e1cac8bf44f\t2026-07-20T00:03:20+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(continuity): close TASK-R04-007\
     \ as completed"
-  - "9d45b3ee01113fad7142ea95fec0206ff2862a7d\t2026-07-19T23:58:46+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(release): record R04\
-    \ owner acceptance"
 project_fingerprint:
-  sha256: 98405de33d2209cd7ab09b8efa337a27f7bf74a65300f55f2178dde709b36b34
+  sha256: 9f265fefc1debf1cb7b43e11e4be320a020af97c4d207e01cd1dbed9b5eca904
   files:
   - database/migrations/V023__r05_identity_invariants.sql
   - database/rollback/U023__r05_identity_invariants.sql
   - database/tests/r05_identity_invariants.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - scripts/run_r05_database_invariants.sh
   - scripts/run_r05_disposable_postgres_container.sh
   - services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
   - tests/test_r05_identity_database_scripts.py
   - tests/test_r05_identity_migration.py
-  file_count: 8
+  file_count: 9
   payload:
     base_commit: 2282bc24a3b771715582514a939cffb481920749
     files:
     - path: database/migrations/V023__r05_identity_invariants.sql
       state: FILE
-      size: 8524
-      sha256: dc00cf5086d8e072ffa544b2640438a1d5bdbc33d19d60b3df8cddf0e7db3460
+      size: 8528
+      sha256: 6f2c4f1f7a2b0c9e4fc460650a1bf35bdf8e6f457390191d753bd962775751d1
     - path: database/rollback/U023__r05_identity_invariants.sql
       state: FILE
       size: 3870
@@ -460,6 +469,10 @@ project_fingerprint:
       state: FILE
       size: 7449
       sha256: 214f1461cf38acff160e7e313eb3e08412b774fc31e797a81a924d7761edf148
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 41607
+      sha256: 82ec940b6b48952dde58d752de676dd8d3ae69e857221254f27c361726dcd28b
     - path: scripts/run_r05_database_invariants.sh
       state: FILE
       size: 5126
@@ -470,21 +483,23 @@ project_fingerprint:
       sha256: 84366f016ea3e2089a6e58d8c9b0c5460fbff82da2e3ef40f1e5b8e52a1ae86a
     - path: services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
       state: FILE
-      size: 8524
-      sha256: dc00cf5086d8e072ffa544b2640438a1d5bdbc33d19d60b3df8cddf0e7db3460
+      size: 8528
+      sha256: 6f2c4f1f7a2b0c9e4fc460650a1bf35bdf8e6f457390191d753bd962775751d1
     - path: tests/test_r05_identity_database_scripts.py
       state: FILE
       size: 2056
       sha256: 4d4f5aea62dd43438e75955b992d83a7c59cbe092782c693e1713eeae33563b0
     - path: tests/test_r05_identity_migration.py
       state: FILE
-      size: 3198
-      sha256: cec4c253df86498424e7a81d49a8f874eaef6bbdf34611522d14c09eae9ba8cc
+      size: 3232
+      sha256: 67d5eade74fdcd3053d1a2d5b0c0439088c268a37c056caecc6698fd5896a31e
 change_classification:
   database:
   - database/migrations/V023__r05_identity_invariants.sql
   - database/rollback/U023__r05_identity_invariants.sql
   - database/tests/r05_identity_invariants.sql
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
   code:
   - scripts/run_r05_database_invariants.sh
   - scripts/run_r05_disposable_postgres_container.sh
@@ -540,8 +555,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 迁移、回滚、约束不变量和重放计数必须作为同一原子数据库切片验证
-event_hash: 3753e81c30a5be102585e3da8f59417bb192d4076c45bb6014e04bf7fe375889
+  reason: 迁移修复与真实PostgreSQL验证属于同一原子数据库切片
+event_hash: 651349df0f960b645ed3f99ff2df990f7824b49f034681063914b04d98c9a2c8
 ```
 
 ## 接续状态与事件头
@@ -553,8 +568,8 @@ active_session_id: SES-20260719T162332Z-9372DEF2
 last_session_id: SES-20260719T161434Z-47C1FAA4
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T161434Z-47C1FAA4-0003
-event_count: 1010
-event_head_hash: 3753e81c30a5be102585e3da8f59417bb192d4076c45bb6014e04bf7fe375889
+event_count: 1012
+event_head_hash: 651349df0f960b645ed3f99ff2df990f7824b49f034681063914b04d98c9a2c8
 event_chain_valid: true
 ```
 
@@ -677,9 +692,9 @@ recent_sessions: - session_id: SES-20260719T083704Z-6E4CE28F
   started_at: '2026-07-19T16:23:32Z'
   record: .continuity/sessions/SES-20260719T162332Z-9372DEF2.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md
-  updated_at: '2026-07-19T16:36:27Z'
+  updated_at: '2026-07-19T16:44:33Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0005.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-B4B0636F4556
   session_id: SES-20260718T105025Z-0B8DE284
@@ -1575,30 +1590,32 @@ recent_task_transitions: - transition_id: TRN-0BCEACF492B2
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 441cd6bf3fbb483f2d7f1ed1dfe437332c973ccb
+head: e952473677bfb56527c811530509d619bbf562e4
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/sessions/SES-20260719T162332Z-9372DEF2.yaml'
-- ' M CURRENT_STATUS.yaml'
-- ' M catalogs/session_index.csv'
-- ' M database/migrations/V023__r05_identity_invariants.sql'
-- ' M database/rollback/U023__r05_identity_invariants.sql'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md'
-- ' M services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql'
-- ' M tests/test_r05_identity_migration.py'
-- ?? .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0003.yaml
-- ?? database/tests/r05_identity_invariants.sql
-- ?? scripts/run_r05_database_invariants.sh
-- ?? scripts/run_r05_disposable_postgres_container.sh
-- ?? tests/test_r05_identity_database_scripts.py
+- MM .continuity/ACTIVE_SESSION.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- A  .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0004.yaml
+- MM .continuity/sessions/SES-20260719T162332Z-9372DEF2.yaml
+- MM CURRENT_STATUS.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- MM catalogs/session_index.csv
+- M  database/migrations/V023__r05_identity_invariants.sql
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- MM docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md
+- M  services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+- M  tests/test_r05_identity_migration.py
+- ?? .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0005.yaml
 recent_commits:
+- "e952473677bfb56527c811530509d619bbf562e4\t2026-07-20T00:37:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] test(identity): verify PostgreSQL\
+  \ invariants and rollback"
 - "441cd6bf3fbb483f2d7f1ed1dfe437332c973ccb\t2026-07-20T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): enforce verification\
   \ data invariants"
 - "2282bc24a3b771715582514a939cffb481920749\t2026-07-20T00:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-001\
@@ -1613,18 +1630,17 @@ recent_commits:
   \ evidence"
 - "8a87893c2e9ca0e45646d368f3b67e1cac8bf44f\t2026-07-20T00:03:20+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(continuity): close TASK-R04-007\
   \ as completed"
-- "9d45b3ee01113fad7142ea95fec0206ff2862a7d\t2026-07-19T23:58:46+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(release): record R04 owner\
-  \ acceptance"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`98405de33d2209cd7ab09b8efa337a27f7bf74a65300f55f2178dde709b36b34`
-- 文件数：8
+- 指纹：`9f265fefc1debf1cb7b43e11e4be320a020af97c4d207e01cd1dbed9b5eca904`
+- 文件数：9
 
 - `database/migrations/V023__r05_identity_invariants.sql`
 - `database/rollback/U023__r05_identity_invariants.sql`
 - `database/tests/r05_identity_invariants.sql`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `scripts/run_r05_database_invariants.sh`
 - `scripts/run_r05_disposable_postgres_container.sh`
 - `services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql`
@@ -3894,30 +3910,30 @@ TASKS.yaml:
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `8b99eea9d7b072afcbf1ce1ac00a58addfa891f839f04a25fa9f5722a882c4ed`
+- `CURRENT_STATUS.yaml` — `3ad660ef530502da42de0ad9cb1375d3bb065cc2a88a5a6720d6fa3956044e43`
 - `NEXT_TASK.yaml` — `f4b96e1c6fce9683f3587e35e2196b83081cd50e6756eecefe0dfa46bb8ce5b8`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `aa69e8bbf5e738a35d21c48008c7def9a38e72e433f7b1acbe7e367a24deaab1`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `82ec940b6b48952dde58d752de676dd8d3ae69e857221254f27c361726dcd28b`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `c0daccded5cf57ac8f58d93f90aef0d4b9d60aabceb5c0d0f5c19aa03ef1f515`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `482445825ceb75d166d564ca84e6e6501a04deafbdb5d65ba5f25593eccceb77`
-- `.continuity/SESSION_INDEX.yaml` — `a76bc84b51f7f9dd64f6c6bd244edefdc9a47331e257f7f714abc8c89e48c1f9`
+- `.continuity/EVENT_LOG.jsonl` — `375892a2195b3606e64839adc07d1e122f28da54ba72e77c6fbea2b506409d32`
+- `.continuity/SESSION_INDEX.yaml` — `f908f93931ca47321e8cdc84187636fe2574d8c24b1e0ea9e946d7802bb92dbb`
 - `.continuity/TASK_CLAIMS.yaml` — `d63102fd7ffc9609ec9e979d95107afad2acd0a23fce37dcaea6614fb90b099b`
 - `.continuity/TASK_TRANSITIONS.yaml` — `eb175fbb748ec55b519adc58ea40afda028861c68c103bb57de2c2172848c287`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c5058129a53f2224844f2fca88bc0e92ff6d6bf6cd5861983ce3d741baa88b6f`
-- `.continuity/ACTIVE_SESSION.yaml` — `8e5ffba0b33aa8698c781ab24664c649c3a3ea64e7ec1899d0190fda46c720a5`
+- `.continuity/ACTIVE_SESSION.yaml` — `357a80d5dd6c302e7b9e94e07b6bd8dc538c25281b9dd6bd039f7e27bd4a99a2`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `e2748a2bda2bf2cb053cb49eafa127cac66c27e0d3f1ed36232c0c0ba93fd96c`
 - `releases/R05/TASKS.yaml` — `a37686ffb6bbc35ad57ad04dd26c64d82f793a4253bc728aa25287afada19139`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md` — `f5b826f831f88292d85bdfba56b442590b16991b2254c4cbfa7fb64db7043b91`
-- `.continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0003.yaml` — `c608b5ee62bc15326eb0b237a5a926cb31d945775363016af1f7879eb31738ec`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md` — `39a998263a393803e8246c75cecb2ac9171dba2d5d80412b40d88290bc91573f`
+- `.continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0005.yaml` — `a656143cf34d74bcfee9a31264b9caae9893cf93ff97fc4f16a4423dd96298cc`
 
 ## 接手硬规则
 

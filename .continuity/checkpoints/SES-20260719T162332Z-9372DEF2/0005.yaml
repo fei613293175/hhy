@@ -1,0 +1,177 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T162332Z-9372DEF2-0005
+session_id: SES-20260719T162332Z-9372DEF2
+sequence: 5
+created_at: '2026-07-19T16:44:33Z'
+summary: 修复R05 provider completion的PostgreSQL NULL三值逻辑漏洞，并登记PROB-0042与真实数据库回归规则
+next_step: 提交推送NULL语义修复与Problem Registry，然后重跑PostgreSQL17.10完整空库、拒绝、回滚、重放
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R05修复后静态测试
+  result: PASS
+  evidence: python -m unittest tests.test_r05_identity_migration tests.test_r05_identity_database_scripts
+  note: 7 tests passed
+- name: 问题防复发记录
+  result: PASS
+  evidence: docs/03-continuity/PROBLEM_REGISTRY.yaml#PROB-0042
+  note: 根因、修复、回归与禁止重复规则完整
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: e952473677bfb56527c811530509d619bbf562e4
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0004.yaml
+  - M  .continuity/sessions/SES-20260719T162332Z-9372DEF2.yaml
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/session_index.csv
+  - M  database/migrations/V023__r05_identity_invariants.sql
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - M  docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md
+  - M  services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+  - M  tests/test_r05_identity_migration.py
+  recent_commits:
+  - "e952473677bfb56527c811530509d619bbf562e4\t2026-07-20T00:37:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] test(identity): verify PostgreSQL\
+    \ invariants and rollback"
+  - "441cd6bf3fbb483f2d7f1ed1dfe437332c973ccb\t2026-07-20T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): enforce verification\
+    \ data invariants"
+  - "2282bc24a3b771715582514a939cffb481920749\t2026-07-20T00:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-001\
+    \ as completed"
+  - "9e4e50a75c9d8373c5c5c9770407b413ef85633c\t2026-07-20T00:22:12+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): close R04\
+    \ and R05 entry decisions"
+  - "b2ee5df5be707774ec7276a68f45473f94535448\t2026-07-20T00:20:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): finalize\
+    \ R05 entry gate"
+  - "6377d6f2c34841a1a3bde1f1c8e75083dabefa4e\t2026-07-20T00:10:46+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-008\
+    \ as completed"
+  - "07da0def4caee01a8d450b4bd69bc8676480e367\t2026-07-20T00:08:57+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(release): record R04\
+    \ closure evidence"
+  - "8a87893c2e9ca0e45646d368f3b67e1cac8bf44f\t2026-07-20T00:03:20+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(continuity): close TASK-R04-007\
+    \ as completed"
+project_fingerprint:
+  sha256: 9f265fefc1debf1cb7b43e11e4be320a020af97c4d207e01cd1dbed9b5eca904
+  files:
+  - database/migrations/V023__r05_identity_invariants.sql
+  - database/rollback/U023__r05_identity_invariants.sql
+  - database/tests/r05_identity_invariants.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+  - tests/test_r05_identity_database_scripts.py
+  - tests/test_r05_identity_migration.py
+  file_count: 9
+  payload:
+    base_commit: 2282bc24a3b771715582514a939cffb481920749
+    files:
+    - path: database/migrations/V023__r05_identity_invariants.sql
+      state: FILE
+      size: 8528
+      sha256: 6f2c4f1f7a2b0c9e4fc460650a1bf35bdf8e6f457390191d753bd962775751d1
+    - path: database/rollback/U023__r05_identity_invariants.sql
+      state: FILE
+      size: 3870
+      sha256: e39d17f1152f14e8c665b444c2e55a4aa3df3a5b8c96c6e0f3acbd7a917e4578
+    - path: database/tests/r05_identity_invariants.sql
+      state: FILE
+      size: 7449
+      sha256: 214f1461cf38acff160e7e313eb3e08412b774fc31e797a81a924d7761edf148
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 41607
+      sha256: 82ec940b6b48952dde58d752de676dd8d3ae69e857221254f27c361726dcd28b
+    - path: scripts/run_r05_database_invariants.sh
+      state: FILE
+      size: 5126
+      sha256: dff4a6910ef9c75b5947bd3e93e6a3f29cf986c96fe09a8aea0eb1abc24ac58a
+    - path: scripts/run_r05_disposable_postgres_container.sh
+      state: FILE
+      size: 1784
+      sha256: 84366f016ea3e2089a6e58d8c9b0c5460fbff82da2e3ef40f1e5b8e52a1ae86a
+    - path: services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+      state: FILE
+      size: 8528
+      sha256: 6f2c4f1f7a2b0c9e4fc460650a1bf35bdf8e6f457390191d753bd962775751d1
+    - path: tests/test_r05_identity_database_scripts.py
+      state: FILE
+      size: 2056
+      sha256: 4d4f5aea62dd43438e75955b992d83a7c59cbe092782c693e1713eeae33563b0
+    - path: tests/test_r05_identity_migration.py
+      state: FILE
+      size: 3232
+      sha256: 67d5eade74fdcd3053d1a2d5b0c0439088c268a37c056caecc6698fd5896a31e
+change_classification:
+  database:
+  - database/migrations/V023__r05_identity_invariants.sql
+  - database/rollback/U023__r05_identity_invariants.sql
+  - database/tests/r05_identity_invariants.sql
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  code:
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+  tests:
+  - tests/test_r05_identity_database_scripts.py
+  - tests/test_r05_identity_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 迁移修复与真实PostgreSQL验证属于同一原子数据库切片
+event_hash: 651349df0f960b645ed3f99ff2df990f7824b49f034681063914b04d98c9a2c8

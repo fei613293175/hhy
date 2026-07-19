@@ -93,11 +93,13 @@ ALTER TABLE hhy.identity_provider_requests
     ) NOT VALID,
   ADD CONSTRAINT ck_r05_identity_provider_completion
     CHECK (
-      (status IS NULL AND completed_at IS NULL)
-      OR (status IN ('CREATED','PROCESSING') AND completed_at IS NULL)
-      OR (
-        status IN ('SUCCEEDED','FAILED','TIMED_OUT')
-        AND completed_at IS NOT NULL AND completed_at >= created_at
+      status IS NOT NULL
+      AND (
+        (status IN ('CREATED','PROCESSING') AND completed_at IS NULL)
+        OR (
+          status IN ('SUCCEEDED','FAILED','TIMED_OUT')
+          AND completed_at IS NOT NULL AND completed_at >= created_at
+        )
       )
     ) NOT VALID;
 

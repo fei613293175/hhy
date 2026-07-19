@@ -11,7 +11,7 @@ task_id: TASK-R05-002
 story_id: STORY-R05-008
 goal: 实现R05身份数据迁移、唯一约束、状态历史、幂等键、敏感访问审计与PostgreSQL回滚验证
 started_at: '2026-07-19T16:23:32Z'
-updated_at: '2026-07-19T16:36:29Z'
+updated_at: '2026-07-19T16:44:36Z'
 takeover_of: null
 change_requests: []
 scope:
@@ -58,22 +58,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T16:36:27Z'
-  expires_at: '2026-07-19T20:36:27Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0003.yaml
+  renewed_at: '2026-07-19T16:44:33Z'
+  expires_at: '2026-07-19T20:44:33Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md
-next_step: 提交推送数据库验证切片并在obx-test一次性PostgreSQL17.10执行V001-V023空库、错误数据拒绝、U023回滚、V023重放
+next_step: 提交推送NULL语义修复与Problem Registry，然后重跑PostgreSQL17.10完整空库、拒绝、回滚、重放
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 60bbf0fa3952454935e99342b7789af5af5acb5202cbf9d438e397ef0b6a0296
-  generated_at: '2026-07-19T16:36:29Z'
+  context_hash: 144486e89b0a68cab68e339262355e5b5a88c3dc1e7ff29264d2b03431cd92ef
+  generated_at: '2026-07-19T16:44:35Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 迁移、回滚、约束不变量和重放计数必须作为同一原子数据库切片验证
+  reason: 迁移修复与真实PostgreSQL验证属于同一原子数据库切片
