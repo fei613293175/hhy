@@ -17,4 +17,10 @@
 
 ## 后续门禁
 
-下一阶段在既有远端环境中执行 Java 21 后端全量验证、PostgreSQL 17 迁移与故障注入、固定 Android 镜像全量门禁，并生成六项逐项可校验证据。真实证据未完成前不得把六项测试标记为 PASS。
+已在既有 `obx-test` 隔离目录执行三路真实集成：
+
+- Java 21 / Maven 3.9.11 后端 `mvn -B verify`：PASS，216 tests，0 failures / 0 errors，日志 SHA-256 `2bfdf704b14ae925fc0cf08e5a1af2ac9609603a5299f6a4a992afc33dae5e69`。
+- PostgreSQL 17.10：空库升级至 V022、200 表校验、R04 不变量、U022/U021 回滚及 V021/V022 重放全部 PASS，日志 SHA-256 `e5deff9c54256746c64c721b002aff3d034dfcf98996f6069586083f88f312ca`。
+- 固定 Android 镜像 `hhy-android-toolchain:r01-46fb273`：`lintDebug testDebugUnitTest assembleDebug` PASS，331 Gradle tasks，日志 SHA-256 `834c522abe7c5dd606db6399ec6c43f07af217c176350581f3af642a2102a767`。
+
+首次长串远端命令被 PowerShell 提前解释且残留同名数据库清理进程；已将三路执行封装为 `scripts/run_r04_remote_integration.sh`，使用唯一数据库容器名并把 Android Wrapper 固定为跨平台 `sh ./gradlew` 调用。下一阶段把远端原始日志、测试产物和六项逐项断言生成机器可校验证据；在中央执行器验签前不把六项测试标记为 PASS。
