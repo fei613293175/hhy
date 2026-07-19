@@ -9,8 +9,11 @@ size_bytes: 11940205
 signing_fingerprint: f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873
 built_at: '2026-07-19T06:03:00Z'
 delivery_status: PASS
-test_status: PENDING
-owner_physical_test: PENDING
+test_status: PASS
+owner_physical_test: PASS
 download_url: https://download.orbexa.cc/r03-artifacts/hhy-r03-660d148-debug.apk
 desktop_copy: C:\Users\小白\Desktop\hhy-r03-660d148-debug.apk
 delivery_evidence: artifacts\validation\r03-apk-delivery\delivery-evidence.json
+owner_confirmation: 项目所有者于2026-07-19明确确认R03 versionCode 10206真机测试通过
+owner_accepted_at: '2026-07-19T08:14:24.267170Z'
+owner_evidence_reference: owner-message-2026-07-19-r03-10206-pass

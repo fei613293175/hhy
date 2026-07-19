@@ -46,7 +46,10 @@
     "url": "https://download.orbexa.cc/r03-artifacts/hhy-r03-660d148-debug.apk"
   },
   "owner_physical_test": {
-    "status": "PENDING"
+    "status": "PASS",
+    "confirmation": "项目所有者于2026-07-19明确确认R03 versionCode 10206真机测试通过",
+    "accepted_at": "2026-07-19T08:14:24.267170Z",
+    "evidence_reference": "owner-message-2026-07-19-r03-10206-pass"
   },
   "created_at": "2026-07-19T07:15:33.015843Z",
   "last_verified_at": "2026-07-19T07:17:09.338880Z"
