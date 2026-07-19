@@ -84,9 +84,9 @@ def expected_version_code(release: str) -> int:
 
 
 def validate_version_code(release: str, value: int) -> int:
-    expected = expected_version_code(release)
-    if isinstance(value, bool) or value != expected:
-        raise DeliveryError(f"versionCode for {release} must be {expected}")
+    minimum = expected_version_code(release)
+    if isinstance(value, bool) or value < minimum:
+        raise DeliveryError(f"versionCode for {release} must be at least {minimum}")
     return value
 
 

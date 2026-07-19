@@ -40,18 +40,18 @@
 
 ## 环境与 APK 交付
 
-- 精确源码提交：`0958f1f96ff12b769647c293082e5a4fadd7cb78`，已推送 `origin/task/TASK-R03-001`。
-- 公网测试后端已切换为镜像 `sha256:6ca4a34645443f0d1f73dd0e6aa23cc9729b8540499e944f4ff5bc907ba38dea`；旧镜像以停止状态的回滚容器保留。
+- 验证码错误分类后端提交：`0560fd3203484c9a7672626033189bbe025ea08e`；公网测试后端已切换为镜像 `sha256:bcd425f3870db4aa90cb73837e1142af8c3fc407372a6457acd4473a9454657a`，旧 `0958f1f` 容器以停止状态保留回滚。
+- APK 精确源码提交：`25e9e5bff1490887fea94c44a756bb86ec297a34`，已推送 `origin/task/TASK-R03-001`。
 - 测试万能邀请码：`HHYTEST2026`；只在当前 `staging` 环境显式启用，未写入普通邀请码表，生产环境策略强制拒绝。
 - 公网 `https://api.orbexa.cc` 的平台状态、万能邀请码校验和安全验证码创建均为 HTTP 200。
-- 本次修复随当前 R03 测试包交付，文件为 `hhy-r03-0958f1f-debug.apk`，不会误标为已验收正式包。
-- APK：versionName `1.2.2-debug`，versionCode `10203`，大小 `11,940,205` bytes。
-- APK SHA-256：`64f1b9df021091ad3866998babdba073308489d7e1480548339a2b04a686750d`。
+- 本次修复随当前 R03 测试包交付，文件为 `hhy-r03-25e9e5b-debug.apk`，不会误标为已验收正式包。
+- APK：versionName `1.2.2-debug`，versionCode `10204`，大小 `11,940,205` bytes。
+- APK SHA-256：`9c87f7404152df0b2cdef13a2a7a1a2eb13de9fc7d92ead6190a11ae640eb555`。
 - 固定测试签名证书 SHA-256：`f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873`；v2/v3 签名通过。
 - APK 内嵌 `https://api.orbexa.cc` 1 次，占位地址 0 次；桌面、仓库忽略副本、服务器与 HTTPS 下载四方哈希一致。
-- 桌面副本：`C:\Users\小白\Desktop\hhy-r03-0958f1f-debug.apk`。
-- 下载地址：`https://download.orbexa.cc/r03-artifacts/hhy-r03-0958f1f-debug.apk`。
-- 详细真机测试说明：`C:\Users\小白\Desktop\合伙云Pro_R02安全验证码与无短信注册_真机测试说明_20260719.md`。
+- 桌面副本：`C:\Users\小白\Desktop\hhy-r03-25e9e5b-debug.apk`。
+- 下载地址：`https://download.orbexa.cc/r03-artifacts/hhy-r03-25e9e5b-debug.apk`。
+- 详细真机测试说明：`C:\Users\小白\Desktop\合伙云Pro_验证码验证问题修复_真机测试说明_20260719.md`。
 
 ## 待项目所有者输入
 

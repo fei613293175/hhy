@@ -3921,9 +3921,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0066
   title: 修复R02安全验证码结果与后续业务错误混淆
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T00:44:38Z'
-  updated_at: '2026-07-19T00:45:19Z'
+  updated_at: '2026-07-19T02:40:09Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -3990,14 +3990,21 @@ change_requests:
     status: IMPLEMENTING
     note: 已完成四段视频逐帧分析和公网黑盒复现，开始实现后端安全挑战专用错误码及Android/H5按业务意图区分错误。
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T02:40:09Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 专用验证码错误码、Android/H5分类、后端部署和公网黑盒均通过
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 0560fd3203484c9a7672626033189bbe025ea08e
 - protocol_version: '1.0'
   cr_id: CR-0067
   title: 递增R03真机回归APK版本并更新交付证据
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T02:01:09Z'
-  updated_at: '2026-07-19T02:01:48Z'
+  updated_at: '2026-07-19T02:40:11Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4039,14 +4046,21 @@ change_requests:
     status: IMPLEMENTING
     note: 开始递增versionCode并构建精确提交测试APK
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T02:40:11Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Gradle versionCode 10204及当前APK交付证据已实现
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 25e9e5bff1490887fea94c44a756bb86ec297a34
 - protocol_version: '1.0'
   cr_id: CR-0068
   title: 同步R03测试包应用版本策略与交付门禁
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T02:03:24Z'
-  updated_at: '2026-07-19T02:03:45Z'
+  updated_at: '2026-07-19T02:40:12Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4087,6 +4101,57 @@ change_requests:
     actor_id: codex-root
     status: IMPLEMENTING
     note: 同步10204版本身份并准备云端APK构建
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T02:40:12Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 应用发布策略、版本测试和R03门禁统一10204
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 25e9e5bff1490887fea94c44a756bb86ec297a34
+- protocol_version: '1.0'
+  cr_id: CR-0069
+  title: 允许同一版本热修复APK使用更高单调versionCode
+  status: IMPLEMENTING
+  created_at: '2026-07-19T02:32:20Z'
+  updated_at: '2026-07-19T02:32:42Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 验证码修复后生成可覆盖安装的桌面APK
+  reason: 交付工具精确等于版本基线会拒绝同一大版本的覆盖安装热修复包
+  original_rule: 交付versionCode必须精确等于10200加Release序号
+  new_rule: 交付versionCode不得低于Release基线，允许同一Release热修复使用更高单调值
+  impact_summary: 交付门禁继续拒绝低版本，同时允许R03的10204覆盖安装包
+  impact:
+    files:
+    - scripts/deliver_android_test_apk.py
+    - tests/test_android_apk_delivery.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - tests.test_android_apk_delivery versionCode minimum and hotfix cases
+    releases:
+    - R03
+    migration_and_compatibility: R02基线10202、R03基线10203保持；仅放宽高于基线，不接受布尔或低值
+  user_confirmation: 用户要求持续修复并交付可覆盖安装APK
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T02:32:40Z'
+    note: 单调覆盖安装必须允许热修复高版本码，低于版本基线仍严格拒绝
+  machine_record: .continuity/change_requests/CR-0069.yaml
+  document: docs/03-continuity/change-requests/CR-0069-允许同一版本热修复APK使用更高单调versionCode.md
+  decision_log:
+  - at: '2026-07-19T02:32:42Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 更新交付版本码门禁并补回归测试
     session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212

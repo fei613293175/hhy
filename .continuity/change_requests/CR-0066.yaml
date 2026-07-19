@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0066
 title: 修复R02安全验证码结果与后续业务错误混淆
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-19T00:44:38Z'
-updated_at: '2026-07-19T00:45:19Z'
+updated_at: '2026-07-19T02:40:09Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R03-007
@@ -70,5 +70,12 @@ decision_log:
   status: IMPLEMENTING
   note: 已完成四段视频逐帧分析和公网黑盒复现，开始实现后端安全挑战专用错误码及Android/H5按业务意图区分错误。
   session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T02:40:09Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 专用验证码错误码、Android/H5分类、后端部署和公网黑盒均通过
+  session_id: SES-20260718T200607Z-3569D212
 session_ids:
 - SES-20260718T200607Z-3569D212
+implementation_commits:
+- 0560fd3203484c9a7672626033189bbe025ea08e

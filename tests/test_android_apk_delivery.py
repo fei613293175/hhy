@@ -160,6 +160,9 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             delivery.validate_commit("0" * 40)
         with self.assertRaises(delivery.DeliveryError):
             delivery.validate_version_code("R02", 10201)
+        self.assertEqual(10204, delivery.validate_version_code("R03", 10204))
+        with self.assertRaises(delivery.DeliveryError):
+            delivery.validate_version_code("R03", True)
         with self.assertRaises(delivery.DeliveryError):
             delivery.validate_version_name("1.2.2")
 

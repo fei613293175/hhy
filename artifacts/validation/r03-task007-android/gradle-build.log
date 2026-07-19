@@ -1,3 +1,15 @@
+Downloading https://services.gradle.org/distributions/gradle-9.4.1-bin.zip
+...................................................................................................................................
+
+Welcome to Gradle 9.4.1!
+
+Here are the highlights of this release:
+ - Java 26 support
+ - Non-class-based JVM tests
+ - Enhanced console progress bar
+
+For more details see https://docs.gradle.org/9.4.1/release-notes.html
+
 To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.4.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
 Daemon will be stopped at the end of the build 
 Calculating task graph as no cached configuration is available for tasks: testDebugUnitTest lintDebug assembleDebug
@@ -5,80 +17,95 @@ Calculating task graph as no cached configuration is available for tasks: testDe
 > Configure project :app
 WARNING: The option setting 'android.overridePathCheck=true' is experimental.
 The current default is 'false'.
+w: file:///workspace/app/build.gradle.kts:106:5: 'val stabilityConfigurationFile: RegularFileProperty' is deprecated. Use the stabilityConfigurationFiles option instead.
 
-> Task :core:network:preBuild UP-TO-DATE
-> Task :core:designsystem:preBuild UP-TO-DATE
+> Configure project :core:designsystem
+w: file:///workspace/core/designsystem/build.gradle.kts:19:5: 'val stabilityConfigurationFile: RegularFileProperty' is deprecated. Use the stabilityConfigurationFiles option instead.
+
+> Configure project :feature:auth
+w: file:///workspace/feature/auth/build.gradle.kts:19:5: 'val stabilityConfigurationFile: RegularFileProperty' is deprecated. Use the stabilityConfigurationFiles option instead.
+
+> Configure project :feature:shell
+w: file:///workspace/feature/shell/build.gradle.kts:19:5: 'val stabilityConfigurationFile: RegularFileProperty' is deprecated. Use the stabilityConfigurationFiles option instead.
+
+> Configure project :feature:startup
+w: file:///workspace/feature/startup/build.gradle.kts:19:5: 'val stabilityConfigurationFile: RegularFileProperty' is deprecated. Use the stabilityConfigurationFiles option instead.
+
 > Task :feature:auth:preBuild UP-TO-DATE
 > Task :app:preBuild UP-TO-DATE
-> Task :core:network:preDebugBuild UP-TO-DATE
-> Task :app:preDebugBuild UP-TO-DATE
-> Task :core:designsystem:preDebugBuild UP-TO-DATE
-> Task :app:generateDebugBuildConfig FROM-CACHE
 > Task :feature:auth:preDebugBuild UP-TO-DATE
-> Task :core:network:processDebugNavigationResources FROM-CACHE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :core:network:preBuild UP-TO-DATE
+> Task :core:designsystem:preBuild UP-TO-DATE
+> Task :core:designsystem:preDebugBuild UP-TO-DATE
+> Task :core:network:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugResValues
+> Task :app:generateDebugBuildConfig
+> Task :core:designsystem:processDebugNavigationResources
 > Task :feature:shell:preBuild UP-TO-DATE
 > Task :feature:shell:preDebugBuild UP-TO-DATE
-> Task :core:designsystem:processDebugNavigationResources FROM-CACHE
-> Task :app:generateDebugResValues FROM-CACHE
+> Task :core:network:processDebugNavigationResources
 > Task :feature:startup:preBuild UP-TO-DATE
 > Task :feature:startup:preDebugBuild UP-TO-DATE
-> Task :feature:auth:processDebugNavigationResources FROM-CACHE
 > Task :feature:shell:processDebugNavigationResources FROM-CACHE
-> Task :core:designsystem:javaPreCompileDebug FROM-CACHE
-> Task :app:generateDebugResources FROM-CACHE
+> Task :app:generateDebugResources
 > Task :feature:startup:processDebugNavigationResources FROM-CACHE
-> Task :core:designsystem:generateDebugResources FROM-CACHE
+> Task :feature:auth:processDebugNavigationResources FROM-CACHE
+> Task :core:designsystem:generateDebugResources
+> Task :core:designsystem:javaPreCompileDebug
 > Task :core:network:generateDebugResources FROM-CACHE
-> Task :app:packageDebugResources FROM-CACHE
+> Task :core:designsystem:packageDebugResources
+> Task :core:network:packageDebugResources
+> Task :app:packageDebugResources
 > Task :core:network:javaPreCompileDebug FROM-CACHE
-> Task :core:designsystem:packageDebugResources FROM-CACHE
-> Task :core:network:packageDebugResources FROM-CACHE
 > Task :feature:auth:generateDebugResources FROM-CACHE
-> Task :feature:auth:packageDebugResources FROM-CACHE
-> Task :core:designsystem:parseDebugLocalResources FROM-CACHE
-> Task :core:network:parseDebugLocalResources FROM-CACHE
-> Task :feature:auth:parseDebugLocalResources FROM-CACHE
-> Task :core:designsystem:generateDebugRFile FROM-CACHE
-> Task :feature:auth:generateDebugRFile FROM-CACHE
-> Task :core:network:generateDebugRFile FROM-CACHE
-> Task :feature:auth:javaPreCompileDebug FROM-CACHE
+> Task :feature:auth:packageDebugResources
+> Task :app:processDebugNavigationResources
+> Task :core:network:parseDebugLocalResources
+> Task :feature:auth:parseDebugLocalResources
+> Task :core:designsystem:parseDebugLocalResources
+> Task :app:parseDebugLocalResources
+> Task :core:designsystem:generateDebugRFile
+> Task :feature:auth:generateDebugRFile
+> Task :core:network:generateDebugRFile
+> Task :app:generateDebugRFile
 > Task :feature:shell:generateDebugResources FROM-CACHE
-> Task :feature:shell:packageDebugResources FROM-CACHE
-> Task :feature:shell:parseDebugLocalResources FROM-CACHE
-> Task :feature:shell:generateDebugRFile FROM-CACHE
+> Task :feature:auth:javaPreCompileDebug FROM-CACHE
 > Task :feature:shell:javaPreCompileDebug FROM-CACHE
 > Task :feature:startup:generateDebugResources FROM-CACHE
-> Task :feature:startup:packageDebugResources FROM-CACHE
+> Task :feature:shell:packageDebugResources
+> Task :feature:startup:packageDebugResources
 > Task :feature:startup:parseDebugLocalResources FROM-CACHE
-> Task :feature:startup:generateDebugRFile FROM-CACHE
+> Task :feature:shell:parseDebugLocalResources FROM-CACHE
+> Task :feature:shell:generateDebugRFile
+> Task :feature:startup:generateDebugRFile
 > Task :feature:startup:javaPreCompileDebug FROM-CACHE
 > Task :app:javaPreCompileDebug FROM-CACHE
-> Task :app:processDebugNavigationResources FROM-CACHE
 > Task :core:designsystem:writeDebugAarMetadata
-> Task :app:parseDebugLocalResources FROM-CACHE
-> Task :core:network:writeDebugAarMetadata
-> Task :app:generateDebugRFile FROM-CACHE
 > Task :feature:auth:writeDebugAarMetadata
+> Task :core:network:writeDebugAarMetadata
 > Task :feature:shell:writeDebugAarMetadata
-> Task :feature:startup:writeDebugAarMetadata
 > Task :app:mapDebugSourceSetPaths
-> Task :app:compileDebugNavigationResources FROM-CACHE
+> Task :feature:startup:writeDebugAarMetadata
+> Task :app:compileDebugNavigationResources
 > Task :app:checkDebugAarMetadata
 > Task :app:createDebugCompatibleScreenManifests
-> Task :app:extractDeepLinksDebug FROM-CACHE
-> Task :app:mergeDebugResources FROM-CACHE
-> Task :core:designsystem:extractDeepLinksDebug FROM-CACHE
-> Task :core:designsystem:processDebugManifest FROM-CACHE
+> Task :app:extractDeepLinksDebug
+> Task :core:designsystem:extractDeepLinksDebug
+> Task :core:designsystem:processDebugManifest
 > Task :core:network:extractDeepLinksDebug FROM-CACHE
+> Task :core:network:processDebugManifest
 > Task :feature:auth:extractDeepLinksDebug FROM-CACHE
-> Task :core:network:processDebugManifest FROM-CACHE
-> Task :feature:auth:processDebugManifest FROM-CACHE
+> Task :feature:auth:processDebugManifest
 > Task :feature:shell:extractDeepLinksDebug FROM-CACHE
+> Task :feature:shell:processDebugManifest
 > Task :feature:startup:extractDeepLinksDebug FROM-CACHE
-> Task :feature:shell:processDebugManifest FROM-CACHE
+> Task :feature:startup:processDebugManifest
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :app:processDebugManifestForPackage
 > Task :core:designsystem:mapDebugSourceSetPaths
-> Task :feature:startup:processDebugManifest FROM-CACHE
-> Task :core:designsystem:compileDebugLibraryResources FROM-CACHE
+> Task :core:designsystem:compileDebugLibraryResources
 > Task :core:network:mapDebugSourceSetPaths
 > Task :core:network:compileDebugLibraryResources FROM-CACHE
 > Task :feature:auth:mapDebugSourceSetPaths
@@ -90,30 +117,28 @@ The current default is 'false'.
 > Task :app:preDebugUnitTestBuild UP-TO-DATE
 > Task :app:javaPreCompileDebugUnitTest FROM-CACHE
 > Task :core:designsystem:preDebugUnitTestBuild UP-TO-DATE
-> Task :core:designsystem:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :app:mergeDebugResources
+> Task :core:designsystem:generateDebugUnitTestStubRFile
 > Task :core:designsystem:javaPreCompileDebugUnitTest FROM-CACHE
 > Task :core:network:preDebugUnitTestBuild UP-TO-DATE
-> Task :core:network:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :core:network:generateDebugUnitTestStubRFile
 > Task :core:network:javaPreCompileDebugUnitTest FROM-CACHE
 > Task :feature:auth:preDebugUnitTestBuild UP-TO-DATE
-> Task :feature:auth:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:auth:generateDebugUnitTestStubRFile
 > Task :feature:auth:javaPreCompileDebugUnitTest FROM-CACHE
 > Task :feature:shell:preDebugUnitTestBuild UP-TO-DATE
-> Task :feature:shell:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:shell:generateDebugUnitTestStubRFile
 > Task :feature:shell:javaPreCompileDebugUnitTest FROM-CACHE
 > Task :feature:startup:preDebugUnitTestBuild UP-TO-DATE
-> Task :feature:startup:generateDebugUnitTestStubRFile FROM-CACHE
+> Task :feature:startup:generateDebugUnitTestStubRFile
 > Task :feature:startup:javaPreCompileDebugUnitTest FROM-CACHE
-> Task :app:processDebugMainManifest FROM-CACHE
-> Task :app:processDebugManifest FROM-CACHE
-> Task :app:processDebugManifestForPackage FROM-CACHE
 > Task :core:designsystem:checkDebugAarMetadata
 > Task :core:designsystem:mergeDebugJniLibFolders
+> Task :app:processDebugResources
 > Task :core:designsystem:mergeDebugNativeLibs NO-SOURCE
 > Task :core:designsystem:stripDebugDebugSymbols NO-SOURCE
 > Task :core:designsystem:copyDebugJniLibsProjectAndLocalJars
-> Task :app:processDebugResources FROM-CACHE
-> Task :core:designsystem:extractDeepLinksForAarDebug FROM-CACHE
+> Task :core:designsystem:extractDeepLinksForAarDebug
 > Task :core:designsystem:generateDebugAssets UP-TO-DATE
 > Task :core:designsystem:mergeDebugAssets
 > Task :core:designsystem:prepareDebugArtProfile
@@ -124,111 +149,92 @@ The current default is 'false'.
 > Task :core:network:stripDebugDebugSymbols NO-SOURCE
 > Task :core:network:copyDebugJniLibsProjectAndLocalJars
 > Task :core:network:extractDebugAnnotations
-> Task :core:network:extractDeepLinksForAarDebug FROM-CACHE
-> Task :core:network:generateDebugAssets UP-TO-DATE
-> Task :core:network:mergeDebugAssets
 > Task :core:designsystem:extractDebugAnnotations
-> Task :core:network:prepareDebugArtProfile
+> Task :core:network:generateDebugAssets UP-TO-DATE
+> Task :core:network:extractDeepLinksForAarDebug FROM-CACHE
+> Task :core:network:mergeDebugAssets
 > Task :core:network:prepareLintJarForPublish
-> Task :feature:shell:mergeDebugJniLibFolders
-> Task :feature:shell:mergeDebugNativeLibs NO-SOURCE
-> Task :feature:shell:stripDebugDebugSymbols NO-SOURCE
+> Task :core:network:prepareDebugArtProfile
 > Task :feature:shell:checkDebugAarMetadata
-> Task :feature:shell:copyDebugJniLibsProjectAndLocalJars
-> Task :feature:shell:generateDebugAssets UP-TO-DATE
 > Task :feature:shell:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:shell:generateDebugAssets UP-TO-DATE
+> Task :feature:shell:mergeDebugJniLibFolders
 > Task :feature:shell:mergeDebugAssets
+> Task :feature:shell:mergeDebugNativeLibs NO-SOURCE
 > Task :feature:shell:prepareDebugArtProfile
 > Task :feature:shell:prepareLintJarForPublish
+> Task :feature:shell:stripDebugDebugSymbols NO-SOURCE
+> Task :feature:shell:copyDebugJniLibsProjectAndLocalJars
+> Task :feature:startup:checkDebugAarMetadata
+> Task :feature:startup:extractDeepLinksForAarDebug FROM-CACHE
+> Task :feature:startup:generateDebugAssets UP-TO-DATE
+> Task :feature:startup:mergeDebugAssets
 > Task :feature:startup:mergeDebugJniLibFolders
 > Task :feature:startup:mergeDebugNativeLibs NO-SOURCE
 > Task :feature:startup:stripDebugDebugSymbols NO-SOURCE
-> Task :feature:startup:checkDebugAarMetadata
 > Task :feature:startup:copyDebugJniLibsProjectAndLocalJars
-> Task :feature:startup:generateDebugAssets UP-TO-DATE
-> Task :feature:startup:extractDeepLinksForAarDebug FROM-CACHE
-> Task :feature:startup:mergeDebugAssets
 > Task :feature:startup:prepareLintJarForPublish
 > Task :feature:startup:prepareDebugArtProfile
 > Task :feature:auth:mergeDebugJniLibFolders
 > Task :feature:auth:mergeDebugNativeLibs NO-SOURCE
-> Task :feature:auth:stripDebugDebugSymbols NO-SOURCE
 > Task :feature:auth:checkDebugAarMetadata
+> Task :feature:auth:stripDebugDebugSymbols NO-SOURCE
 > Task :feature:auth:copyDebugJniLibsProjectAndLocalJars
 > Task :feature:auth:generateDebugAssets UP-TO-DATE
 > Task :feature:auth:extractDeepLinksForAarDebug FROM-CACHE
 > Task :feature:auth:mergeDebugAssets
-> Task :feature:auth:prepareDebugArtProfile
-> Task :app:preDebugAndroidTestBuild SKIPPED
 > Task :feature:auth:prepareLintJarForPublish
+> Task :app:preDebugAndroidTestBuild SKIPPED
+> Task :feature:auth:prepareDebugArtProfile
 > Task :app:generateDebugAndroidTestResValues FROM-CACHE
 > Task :core:designsystem:writeDebugLintModelMetadata
 > Task :core:network:writeDebugLintModelMetadata
-> Task :feature:shell:writeDebugLintModelMetadata
 > Task :feature:auth:writeDebugLintModelMetadata
+> Task :feature:shell:writeDebugLintModelMetadata
 > Task :feature:startup:writeDebugLintModelMetadata
-> Task :app:extractProguardFiles
 > Task :core:designsystem:extractProguardFiles
-> Task :core:network:extractProguardFiles
+> Task :app:extractProguardFiles
 > Task :feature:auth:extractProguardFiles
 > Task :feature:shell:extractProguardFiles
+> Task :core:network:extractProguardFiles
 > Task :core:designsystem:preDebugAndroidTestBuild UP-TO-DATE
 > Task :core:network:preDebugAndroidTestBuild UP-TO-DATE
 > Task :feature:auth:preDebugAndroidTestBuild UP-TO-DATE
 > Task :feature:shell:preDebugAndroidTestBuild UP-TO-DATE
 > Task :feature:startup:preDebugAndroidTestBuild UP-TO-DATE
-> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
-> Task :app:generateDebugAssets UP-TO-DATE
 > Task :feature:startup:extractProguardFiles
-> Task :app:generateDebugGlobalSynthetics FROM-CACHE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
 > Task :app:mergeDebugAssets
 > Task :app:compressDebugAssets
-> Task :app:desugarDebugFileDependencies FROM-CACHE
-> Task :app:mergeDebugJniLibFolders
-> Task :core:designsystem:copyDebugJniLibsProjectOnly
-> Task :core:network:copyDebugJniLibsProjectOnly
-> Task :feature:auth:copyDebugJniLibsProjectOnly
-> Task :feature:shell:copyDebugJniLibsProjectOnly
-> Task :feature:startup:copyDebugJniLibsProjectOnly
 > Task :app:checkDebugDuplicateClasses
-> Task :app:mergeDebugNativeLibs
-
-> Task :app:stripDebugDebugSymbols
-Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so. Run with --info option to learn more.
-
-> Task :app:mergeExtDexDebug FROM-CACHE
-> Task :app:verifyApiBaseUrl UP-TO-DATE
-> Task :app:writeDebugAppMetadata
-> Task :app:writeDebugSigningConfigVersions
-> Task :app:validateSigningDebug
+> Task :app:desugarDebugFileDependencies
 > Task :core:designsystem:compileDebugKotlin
+> Task :core:network:compileDebugKotlin
+> Task :app:generateDebugGlobalSynthetics
 > Task :core:designsystem:compileDebugJavaWithJavac NO-SOURCE
-> Task :core:designsystem:processDebugJavaRes
+> Task :app:mergeDebugJniLibFolders
+> Task :app:mergeExtDexDebug
 > Task :core:designsystem:bundleLibCompileToJarDebug
 > Task :core:designsystem:bundleLibRuntimeToJarDebug
+> Task :core:designsystem:processDebugJavaRes
+> Task :core:designsystem:mergeDebugGeneratedProguardFiles
+> Task :core:designsystem:mergeDebugConsumerProguardFiles
+> Task :core:network:processDebugJavaRes
+> Task :core:network:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:network:bundleLibRuntimeToJarDebug
 > Task :core:designsystem:compileDebugUnitTestKotlin NO-SOURCE
 > Task :core:designsystem:compileDebugUnitTestJavaWithJavac NO-SOURCE
-> Task :core:designsystem:mergeDebugGeneratedProguardFiles
 > Task :core:designsystem:processDebugUnitTestJavaRes NO-SOURCE
 > Task :core:designsystem:testDebugUnitTest NO-SOURCE
-> Task :core:designsystem:createFullJarDebug
-> Task :core:designsystem:mergeDebugConsumerProguardFiles
-> Task :core:designsystem:mergeDebugJavaResource
-> Task :core:designsystem:syncDebugLibJars
-> Task :core:designsystem:bundleDebugLocalLintAar
-> Task :core:designsystem:generateDebugLintModel
-> Task :core:designsystem:generateDebugAndroidTestLintModel
-> Task :core:designsystem:generateDebugUnitTestLintModel
-> Task :core:network:compileDebugKotlin
-> Task :core:network:compileDebugJavaWithJavac NO-SOURCE
+> Task :core:network:mergeDebugGeneratedProguardFiles
+> Task :core:network:mergeDebugConsumerProguardFiles
 > Task :core:network:bundleLibCompileToJarDebug
-> Task :core:designsystem:lintAnalyzeDebugUnitTest
-> Task :core:designsystem:lintAnalyzeDebugAndroidTest
+> Task :core:designsystem:mergeDebugJavaResource
+> Task :core:network:mergeDebugJavaResource
 > Task :feature:shell:compileDebugKotlin
 > Task :feature:shell:compileDebugJavaWithJavac NO-SOURCE
 > Task :feature:shell:bundleLibCompileToJarDebug
-> Task :core:network:bundleLibRuntimeToJarDebug
-> Task :core:network:processDebugJavaRes
 > Task :feature:shell:bundleLibRuntimeToJarDebug
 > Task :feature:shell:processDebugJavaRes
 > Task :feature:startup:compileDebugKotlin
@@ -240,37 +246,30 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :feature:shell:compileDebugUnitTestJavaWithJavac NO-SOURCE
 > Task :feature:shell:processDebugUnitTestJavaRes NO-SOURCE
 > Task :feature:shell:testDebugUnitTest NO-SOURCE
-> Task :feature:auth:compileDebugKotlin
-> Task :feature:auth:compileDebugJavaWithJavac NO-SOURCE
-> Task :feature:auth:bundleLibCompileToJarDebug
 > Task :feature:startup:compileDebugUnitTestKotlin
-> Task :feature:auth:bundleLibRuntimeToJarDebug
-> Task :feature:auth:processDebugJavaRes
-> Task :core:designsystem:lintAnalyzeDebug
+> Task :feature:startup:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:startup:processDebugUnitTestJavaRes
 > Task :core:network:compileDebugUnitTestKotlin
 > Task :core:network:compileDebugUnitTestJavaWithJavac NO-SOURCE
 > Task :core:network:processDebugUnitTestJavaRes
-> Task :feature:auth:compileDebugUnitTestKotlin
-> Task :feature:auth:compileDebugUnitTestJavaWithJavac NO-SOURCE
-> Task :feature:auth:processDebugUnitTestJavaRes
+> Task :feature:auth:compileDebugKotlin
+> Task :feature:auth:compileDebugJavaWithJavac NO-SOURCE
+> Task :feature:auth:bundleLibCompileToJarDebug
+> Task :feature:startup:testDebugUnitTest
 > Task :core:network:testDebugUnitTest
-> Task :feature:auth:testDebugUnitTest
-> Task :feature:startup:compileDebugUnitTestJavaWithJavac NO-SOURCE
-> Task :feature:startup:processDebugUnitTestJavaRes
-> Task :core:network:mergeDebugGeneratedProguardFiles
-> Task :core:network:mergeDebugConsumerProguardFiles
-> Task :core:network:mergeDebugJavaResource
+> Task :feature:auth:bundleLibRuntimeToJarDebug
+> Task :feature:auth:processDebugJavaRes
+> Task :core:designsystem:syncDebugLibJars
+> Task :core:designsystem:bundleDebugLocalLintAar
 > Task :core:network:syncDebugLibJars
 > Task :core:network:bundleDebugLocalLintAar
 > Task :feature:shell:extractDebugAnnotations
 > Task :feature:shell:mergeDebugGeneratedProguardFiles
 > Task :feature:shell:mergeDebugConsumerProguardFiles
 > Task :feature:shell:mergeDebugJavaResource
-> Task :feature:shell:syncDebugLibJars FROM-CACHE
+> Task :feature:shell:syncDebugLibJars
 > Task :feature:shell:bundleDebugLocalLintAar
-> Task :app:compileDebugKotlin
 > Task :feature:startup:extractDebugAnnotations
-> Task :app:processDebugJavaRes
 > Task :feature:startup:mergeDebugGeneratedProguardFiles
 > Task :feature:startup:mergeDebugConsumerProguardFiles
 > Task :feature:startup:mergeDebugJavaResource
@@ -282,60 +281,86 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :feature:auth:mergeDebugJavaResource
 > Task :feature:auth:syncDebugLibJars
 > Task :feature:auth:bundleDebugLocalLintAar
+> Task :core:designsystem:createFullJarDebug
 > Task :core:network:createFullJarDebug
 > Task :feature:auth:createFullJarDebug
 > Task :feature:shell:createFullJarDebug
 > Task :feature:startup:createFullJarDebug
+> Task :feature:auth:compileDebugUnitTestKotlin
+> Task :feature:auth:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :feature:auth:processDebugUnitTestJavaRes
 > Task :core:network:generateDebugLintModel
+> Task :feature:auth:testDebugUnitTest
+> Task :core:designsystem:generateDebugLintModel
 > Task :feature:auth:generateDebugLintModel
 > Task :feature:shell:generateDebugLintModel
-> Task :feature:startup:testDebugUnitTest
 > Task :feature:startup:generateDebugLintModel
+> Task :core:designsystem:generateDebugAndroidTestLintModel
+> Task :core:designsystem:generateDebugUnitTestLintModel
+> Task :app:compileDebugKotlin
+> Task :core:designsystem:lintAnalyzeDebugAndroidTest
+> Task :app:processDebugJavaRes
+> Task :core:designsystem:lintAnalyzeDebugUnitTest
 > Task :core:network:generateDebugAndroidTestLintModel
 > Task :core:network:generateDebugUnitTestLintModel
-> Task :core:network:lintAnalyzeDebugAndroidTest
 > Task :app:compileDebugJavaWithJavac
 > Task :app:bundleDebugClassesToRuntimeJar
+> Task :core:network:lintAnalyzeDebugAndroidTest
 > Task :app:bundleDebugClassesToCompileJar
+> Task :app:generateDebugLintReportModel
 > Task :app:compileDebugUnitTestKotlin
 > Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
 > Task :app:processDebugUnitTestJavaRes
-> Task :app:testDebugUnitTest
-> Task :app:generateDebugLintReportModel
 > Task :app:generateDebugAndroidTestLintModel
 > Task :app:generateDebugUnitTestLintModel
 > Task :app:lintAnalyzeDebugAndroidTest
+> Task :app:lintAnalyzeDebugUnitTest
+> Task :core:designsystem:lintAnalyzeDebug
+> Task :core:network:lintAnalyzeDebug
+> Task :app:testDebugUnitTest
 > Task :feature:auth:generateDebugAndroidTestLintModel
 > Task :feature:auth:generateDebugUnitTestLintModel
 > Task :feature:auth:lintAnalyzeDebugAndroidTest
-> Task :core:network:lintAnalyzeDebugUnitTest
-> Task :app:lintAnalyzeDebugUnitTest
+> Task :feature:auth:lintAnalyzeDebugUnitTest
 > Task :feature:shell:generateDebugAndroidTestLintModel
 > Task :feature:shell:generateDebugUnitTestLintModel
 > Task :feature:shell:lintAnalyzeDebugAndroidTest
 > Task :feature:shell:lintAnalyzeDebugUnitTest
-> Task :feature:startup:generateDebugUnitTestLintModel
 > Task :feature:startup:generateDebugAndroidTestLintModel
-> Task :feature:auth:lintAnalyzeDebugUnitTest
-> Task :core:designsystem:generateDebugLintReportModel
+> Task :feature:startup:generateDebugUnitTestLintModel
 > Task :feature:startup:lintAnalyzeDebugAndroidTest
+> Task :core:designsystem:generateDebugLintReportModel
+> Task :core:designsystem:lintReportDebug
+> Task :core:designsystem:lintDebug
 > Task :core:network:generateDebugLintReportModel
 > Task :feature:auth:generateDebugLintReportModel
 > Task :feature:shell:generateDebugLintReportModel
 > Task :feature:startup:generateDebugLintReportModel
-> Task :core:designsystem:lintReportDebug
-> Task :core:designsystem:lintDebug
+> Task :feature:startup:lintAnalyzeDebugUnitTest
 > Task :feature:shell:bundleLibRuntimeToDirDebug
 > Task :feature:startup:bundleLibRuntimeToDirDebug
-> Task :feature:startup:lintAnalyzeDebugUnitTest
-> Task :feature:auth:bundleLibRuntimeToDirDebug
+> Task :core:network:lintAnalyzeDebugUnitTest
 > Task :app:mergeDebugJavaResource
+> Task :feature:auth:bundleLibRuntimeToDirDebug
 > Task :core:designsystem:bundleLibRuntimeToDirDebug
-> Task :app:dexBuilderDebug FROM-CACHE
-> Task :app:mergeProjectDexDebug FROM-CACHE
+> Task :core:network:bundleLibRuntimeToDirDebug
+> Task :app:dexBuilderDebug
+> Task :app:mergeProjectDexDebug
+> Task :core:designsystem:copyDebugJniLibsProjectOnly
+> Task :core:network:copyDebugJniLibsProjectOnly
+> Task :feature:auth:copyDebugJniLibsProjectOnly
+> Task :feature:shell:copyDebugJniLibsProjectOnly
+> Task :feature:startup:copyDebugJniLibsProjectOnly
+> Task :app:mergeDebugNativeLibs
+
+> Task :app:stripDebugDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so. Run with --info option to learn more.
+
+> Task :app:verifyApiBaseUrl UP-TO-DATE
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
 > Task :core:designsystem:bundleDebugAar
 > Task :core:designsystem:assembleDebug
-> Task :core:network:bundleLibRuntimeToDirDebug
 > Task :core:network:bundleDebugAar
 > Task :core:network:assembleDebug
 > Task :feature:auth:bundleDebugAar
@@ -344,13 +369,13 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :feature:shell:assembleDebug
 > Task :feature:startup:bundleDebugAar
 > Task :feature:startup:assembleDebug
-> Task :core:network:lintAnalyzeDebug
 > Task :app:mergeLibDexDebug
+> Task :app:validateSigningDebug
+> Task :app:packageDebug
+> Task :app:assembleDebug
+> Task :app:createDebugApkListingFileRedirect
 > Task :core:network:lintReportDebug
 > Task :core:network:lintDebug
-> Task :app:packageDebug
-> Task :app:createDebugApkListingFileRedirect
-> Task :app:assembleDebug
 > Task :feature:startup:lintAnalyzeDebug
 > Task :feature:startup:lintReportDebug
 > Task :feature:startup:lintDebug
@@ -363,10 +388,10 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :app:lintAnalyzeDebug
 
 > Task :app:lintReportDebug
-Wrote HTML report to file:///workspace/apps/android/app/build/reports/lint-results-debug.html
+Wrote HTML report to file:///workspace/app/build/reports/lint-results-debug.html
 
 > Task :app:lintDebug
 
-BUILD SUCCESSFUL in 3m 2s
-289 actionable tasks: 206 executed, 83 from cache
+BUILD SUCCESSFUL in 14m 4s
+289 actionable tasks: 256 executed, 33 from cache
 Configuration cache entry stored.

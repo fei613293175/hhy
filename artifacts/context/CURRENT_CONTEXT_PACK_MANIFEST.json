@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-19T02:06:40Z",
-  "context_hash": "534a046275b24504d26106074fb7f416b5be62869ecda30942b4bf42a7bb1c23",
+  "generated_at": "2026-07-19T02:40:34Z",
+  "context_hash": "666906eb86bb3f1997cee491a8d8313ec4d6c1ffb768a3760622429f9ec05365",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "657e6e3030f0c892ecaea397c34f3947cb9fd33e73c564faf7ede8e05e48b2d5",
-    "file_count": 107
+    "sha256": "4606a54b215a34c48d7d7ffea1c984f5d86c613d72b84f2b90360faf80d0ab54",
+    "file_count": 111
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "8226b22a5d31af05525b3eda63ce2e58033d483fd49275e0747830cbc30f4def"
+    "sha256": "5045163c1ef629925584439a72bb9422cbd3511c1732399864df638d878ecc16"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "a0717d2cc319a47a6eabfdaf5002438bba6b1da6e1bb8af7739515a705d983be"
+    "sha256": "984a56c5ed7df17f9cbf816d53841e0c1403e5d65f723234e80e8bff9934e872"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "7c6a6e3a7682e30f5c2c66c5925d1d54217ca95f5a4683945649094d35af3aba",
+      "sha256": "162ca395147e0db21cba5212d030b2656b877ecdc40ca9cc7d41e65a10d701a4",
       "bytes": 3377
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "d6bf737da0bdfffa3ede897638a6d9f2b64be2a1ac6585347ea37f97e2146e7c",
-      "bytes": 418891
+      "sha256": "fc029793f6957cbd283af5ffb82504be2accdd2e3bfb52e55523f156ab617afc",
+      "bytes": 422669
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "69b9bfbdea5d6d80ef0e1e065246edab5ca3feca1b45e0b9182037f2457fd0c5",
+      "sha256": "ca049eb988540a3edebe287ffd1ca7d59e5fd1a4ac7ac2151e52bf522a22749b",
       "bytes": 17274
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "343fa73b2fd47951d2551d1a04fa86d94fb24058da4011216ba5d3b8359318ec",
-      "bytes": 210310
+      "sha256": "cbdf00991c7cb353d458ef265dfc9d52d7890647e1d46ba62c9d5e3186171f26",
+      "bytes": 213008
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "a83bf80d5d85dad4e007b9f9f2d1360481a2c275ed6a5adb0fb9d37fc893bfbd",
+      "sha256": "fc66d06d5154b660b0117228cc525561c8fb18b4bc7e267e8cc2a346658cac4b",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md",
-      "sha256": "2baf1f16c5b82de443ab58724b85ec48b74c13f5b1aa973a55924123030c7cbd",
-      "bytes": 92916
+      "sha256": "3289a6dfb906f82ac26211467bfa31c155718587abc5d515b05ce434a81116a2",
+      "bytes": 101342
     },
     {
-      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0018.yaml",
-      "sha256": "7c273bed082c448b8419cb4e1acb273e8c5a7ea74de44ad50c9d4aaa5fa4b782",
-      "bytes": 49275
+      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0019.yaml",
+      "sha256": "d7c2a86d9990d2d365d5f115cfad02eb7d8d5ebb775ff55a145bde902eeb7f95",
+      "bytes": 51671
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md",
@@ -228,18 +228,23 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0066-修复R02安全验证码结果与后续业务错误混淆.md",
-      "sha256": "0178b0c1c7491d2caa2608be03c1ed8e21e16f4cb33a89de3674b96e73246e07",
-      "bytes": 5013
+      "sha256": "1f43e804281d0fb3b6699323407473fff7aa0c79222ac464ae371a24ae659ce6",
+      "bytes": 5239
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0067-递增R03真机回归APK版本并更新交付证据.md",
-      "sha256": "82cb9a16c8334949081bfe1c3c6994f781b2c7af1c801a015e2398d6e32f6837",
-      "bytes": 2142
+      "sha256": "f9cfd0215a7d5b50559167616d7cc48d3e7f6d2975615eb314ea6f12396c8761",
+      "bytes": 2343
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0068-同步R03测试包应用版本策略与交付门禁.md",
-      "sha256": "4e5c0fb0afa7a05d249107b2f2f580fe289216d3a808449fd2436b23eebb3d02",
-      "bytes": 2238
+      "sha256": "600a746b23d1b7d4940672d1029534772b72297e6ace88cb28d75f44e18c70a1",
+      "bytes": 2438
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0069-允许同一版本热修复APK使用更高单调versionCode.md",
+      "sha256": "cab7bc55c5452505c4104a443e02c4164aec8a77f1e941c88148e790d86aed3a",
+      "bytes": 1891
     }
   ]
 }
