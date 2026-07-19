@@ -478,3 +478,13 @@
 - Actor：`codex-root`
 - 摘要：TASK-R04-003完成：V022、三个冻结媒体API、用途/Scope策略、加密幂等、owner/过期/SHA/重复完成删除、Outbox与MODULE门禁全部通过
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T113522Z-6B27AD4B.md`
+
+## TASK-R04-004 · COMPLETED · 2026-07-19T13:04:23Z
+
+- Task close: TASK-R04-004 / SES-20260719T122607Z-04FDBE70
+- Release：`R04`
+- Story：`STORY-R04-001`
+- Actor：`codex-root`
+- 摘要：TASK-R04-004完成：冻结Media DTO/API、配置驱动并发上传、进度/取消/重试、受信任私有预览、删除确认、商业错误恢复及Android MODULE全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T122607Z-04FDBE70.md`
+

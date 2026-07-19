@@ -62,7 +62,7 @@ tasks:
   completed_at: '2026-07-19T12:08:04Z'
 - id: TASK-R04-004
   title: 纵向批次C：Android媒体上传管理器闭环
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R04-001
   parallelizable_with:
@@ -80,9 +80,10 @@ tasks:
   - 页面字段、状态、动作和导航与冻结目录一致
   - MODULE门禁通过并可交给主控注册路由和网络glue
   session_log_required: true
+  completed_at: '2026-07-19T13:04:23Z'
 - id: TASK-R04-005
   title: 三分区汇合、专项测试与故障注入
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R04-002
   - TASK-R04-003

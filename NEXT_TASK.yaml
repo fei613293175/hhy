@@ -1,5 +1,5 @@
-id: TASK-R04-004
-title: 纵向批次C：Android媒体上传管理器闭环
+id: TASK-R04-005
+title: 三分区汇合、专项测试与故障注入
 status: READY
 release: R04
 requirements:
@@ -7,22 +7,23 @@ requirements:
 - REQ-STORAGE-001
 - REQ-APK-001
 depends_on:
-- TASK-R04-001
+- TASK-R04-002
+- TASK-R04-003
+- TASK-R04-004
 definition_of_ready: releases/R04/DEFINITION_OF_READY.yaml
 stories: releases/R04/STORIES.yaml
 steps:
-- Android媒体Feature及模块测试
-- 离线、401/403/409/422/429、取消、重试和返回栈证据
-- 稳定幂等键且不记录敏感URL或凭据
+- 6项权威测试、E2E、安全和故障注入报告
+- R2/OSS双适配、Scope隔离、迁移恢复和访问审计证据
+- 生成物漂移为零，关键缺陷清零
 acceptance:
-- 无页面级手写重复DTO或生产Mock
-- 页面字段、状态、动作和导航与冻结目录一致
-- MODULE门禁通过并可交给主控注册路由和网络glue
+- STORY-R04-001和002全部验收条件通过
+- INTEGRATION门禁、数据库测试和Android模块测试全部PASS
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-004
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-005
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-004
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-005
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
