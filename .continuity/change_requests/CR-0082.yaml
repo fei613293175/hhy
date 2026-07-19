@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0082
 title: 补强热修复快速通道与APK自动换版交付
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-19T07:31:10Z'
-updated_at: '2026-07-19T07:46:00Z'
+updated_at: '2026-07-19T07:49:22Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R03-007
@@ -53,5 +53,12 @@ decision_log:
   status: IMPLEMENTED
   note: 热修复35分钟时间盒、逐检查输入指纹缓存、冻结Commit最多2路并行、便携Git及APK事务式replace-existing已实现；针对性41项、完整Python 135项和统一工作流45项均PASS，旧冗余路径264秒缩短为14.3秒且二次复用0秒
   session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T07:49:22Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 实现提交6301eef已通过严格pre-commit、commit-msg和pre-push门禁并推送；跨电脑热修复快速通道正式生效
+  session_id: SES-20260718T200607Z-3569D212
 session_ids:
 - SES-20260718T200607Z-3569D212
+implementation_commits:
+- 6301eef63f7108b024d23446d8e396eaeab38471
