@@ -1,0 +1,157 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T162332Z-9372DEF2-0002
+session_id: SES-20260719T162332Z-9372DEF2
+sequence: 2
+created_at: '2026-07-19T16:29:28Z'
+summary: R05 V023身份数据不变量首批实现及文件规范化完成，源迁移与运行时镜像一致
+next_step: 提交并推送V023静态与MODULE证据，然后在PostgreSQL 17执行V001-V023空库、约束拒绝、U023回滚和V023重放验证
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R05 migration static tests
+  result: PASS
+  evidence: tests/test_r05_identity_migration.py
+  note: 4 tests pass and runtime mirror exact
+- name: Affected MODULE workflow
+  result: PASS
+  evidence: scripts/hhy_workflow.py run
+  note: contracts backend database all pass in 47.672s
+- name: Backend module regression
+  result: PASS
+  evidence: services/backend Maven access boot
+  note: 217 tests 0 failures 0 errors 2 skipped
+- name: Database schema gate
+  result: PASS
+  evidence: scripts/check_db_schema.py
+  note: 200 tables 23 migrations runtime hashes pass
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 2282bc24a3b771715582514a939cffb481920749
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0001.yaml
+  - A  .continuity/sessions/SES-20260719T162332Z-9372DEF2.yaml
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - AM database/migrations/V023__r05_identity_invariants.sql
+  - AM database/rollback/U023__r05_identity_invariants.sql
+  - A  docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md
+  - AM services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+  - AM tests/test_r05_identity_migration.py
+  recent_commits:
+  - "2282bc24a3b771715582514a939cffb481920749\t2026-07-20T00:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-001\
+    \ as completed"
+  - "9e4e50a75c9d8373c5c5c9770407b413ef85633c\t2026-07-20T00:22:12+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): close R04\
+    \ and R05 entry decisions"
+  - "b2ee5df5be707774ec7276a68f45473f94535448\t2026-07-20T00:20:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): finalize\
+    \ R05 entry gate"
+  - "6377d6f2c34841a1a3bde1f1c8e75083dabefa4e\t2026-07-20T00:10:46+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-008\
+    \ as completed"
+  - "07da0def4caee01a8d450b4bd69bc8676480e367\t2026-07-20T00:08:57+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(release): record R04\
+    \ closure evidence"
+  - "8a87893c2e9ca0e45646d368f3b67e1cac8bf44f\t2026-07-20T00:03:20+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(continuity): close TASK-R04-007\
+    \ as completed"
+  - "9d45b3ee01113fad7142ea95fec0206ff2862a7d\t2026-07-19T23:58:46+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(release): record R04\
+    \ owner acceptance"
+  - "168c6caa7004a1f82f4a1976fafae0d036d5aef4\t2026-07-19T23:16:44+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(release): record R04\
+    \ APK delivery"
+project_fingerprint:
+  sha256: e94e34e3a07e87b5e1eab8ce41e549247bb9b2980dc95abe6409c26db382fd52
+  files:
+  - database/migrations/V023__r05_identity_invariants.sql
+  - database/rollback/U023__r05_identity_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+  - tests/test_r05_identity_migration.py
+  file_count: 4
+  payload:
+    base_commit: 2282bc24a3b771715582514a939cffb481920749
+    files:
+    - path: database/migrations/V023__r05_identity_invariants.sql
+      state: FILE
+      size: 7817
+      sha256: da66abf3ec49291da33037ed3e9ba75d7cc56786852f72d4d1b96cf02c630faa
+    - path: database/rollback/U023__r05_identity_invariants.sql
+      state: FILE
+      size: 3634
+      sha256: acb694b3e493b6a7c8e5b4b0c88f313458824163ba01b5cfec91960ab884a69f
+    - path: services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+      state: FILE
+      size: 7817
+      sha256: da66abf3ec49291da33037ed3e9ba75d7cc56786852f72d4d1b96cf02c630faa
+    - path: tests/test_r05_identity_migration.py
+      state: FILE
+      size: 2813
+      sha256: e21e612c4fc84e1becd2af4a00867b1d35a8688272c4066a3f645b1fb227ce68
+change_classification:
+  database:
+  - database/migrations/V023__r05_identity_invariants.sql
+  - database/rollback/U023__r05_identity_invariants.sql
+  code:
+  - services/backend/boot/src/main/resources/db/migration/V023__r05_identity_invariants.sql
+  tests:
+  - tests/test_r05_identity_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: V023编号、源迁移、运行时镜像、回滚和数据库不变量属于同一原子数据切片；后端与页面任务依赖该切片稳定后才能开始
+event_hash: e9c75afa4d77b83853dfd175c6fd7d85f0e5334d60b98cad3dddf57348e4a987
