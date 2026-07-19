@@ -133,7 +133,7 @@ tasks:
   completed_at: '2026-07-19T16:00:22Z'
 - id: TASK-R04-008
   title: 媒体与多对象存储版本关闭与无状态交接
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R04-007
   requirements: *id001
@@ -146,6 +146,7 @@ tasks:
   - APK机器交付和项目所有者真机验收均有独立证据
   - 全新AI仅凭仓库可继续
   session_log_required: true
+  completed_at: '2026-07-19T16:10:28Z'
 version: 1.2.2
 definition_of_ready: releases/R04/DEFINITION_OF_READY.yaml
 story_backlog: releases/R04/STORIES.yaml

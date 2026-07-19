@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260719T160438Z-BF4F2F1D
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R04-008
 story_id: STORY-R04-002
 goal: 核对R04六项退出门禁、回填Release Manifest与验收矩阵、建立可追溯Tag和无状态交接，关闭R04后进入R05
 started_at: '2026-07-19T16:04:38Z'
-updated_at: '2026-07-19T16:08:44Z'
+updated_at: '2026-07-19T16:10:32Z'
 takeover_of: null
 change_requests:
 - CR-0088
@@ -59,22 +59,35 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T16:08:42Z'
-  expires_at: '2026-07-19T20:08:42Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260719T160438Z-BF4F2F1D/0001.yaml
+  renewed_at: '2026-07-19T16:10:30Z'
+  expires_at: '2026-07-19T20:10:30Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260719T160438Z-BF4F2F1D/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T160438Z-BF4F2F1D.md
-next_step: 提交并推送R04关闭证据元数据，然后关闭TASK-R04-008并切换NEXT_TASK到R05首任务
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 74d443eefa7af84e490557873f3577f202217649ca282d2d67355ed0b8ee5668
-  generated_at: '2026-07-19T16:08:44Z'
+  context_hash: 30e570f6f5526c5f193403df142750bfa21d9cfaf3c70e2f505a448178445222
+  generated_at: '2026-07-19T16:10:31Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: R04媒体与多对象存储六项验收、Staging告警回滚、固定签名APK、四方同哈希、项目所有者真机PASS、Release Tag和无状态交接全部完成
+  code_commit: 04cda65d4a0749727a482526b616fb56cb475f34
+  next_release: R05
+  next_task: TASK-R05-001
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-19T16:10:28Z'
+  closure_checkpoint_id: CP-SES-20260719T160438Z-BF4F2F1D-0002
+  closed_at: '2026-07-19T16:10:32Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: Release Manifest、验收矩阵、Release Commit/Tag和跨版本NEXT_TASK必须由单一关闭事务顺序绑定
+closed_at: '2026-07-19T16:10:32Z'
