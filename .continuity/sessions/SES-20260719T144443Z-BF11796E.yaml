@@ -11,7 +11,7 @@ task_id: TASK-R04-007
 story_id: STORY-R04-001
 goal: 完成R04固定测试签名APK、生产API地址门禁、桌面/仓库/服务器/公网四方SHA追溯并交给项目所有者真机验收
 started_at: '2026-07-19T14:44:43Z'
-updated_at: '2026-07-19T15:16:33Z'
+updated_at: '2026-07-19T15:58:33Z'
 takeover_of: null
 change_requests:
 - CR-0086
@@ -57,22 +57,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T15:16:30Z'
-  expires_at: '2026-07-19T19:16:30Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260719T144443Z-BF11796E/0004.yaml
+  renewed_at: '2026-07-19T15:58:31Z'
+  expires_at: '2026-07-19T19:58:31Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260719T144443Z-BF11796E/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T144443Z-BF11796E.md
-next_step: 等待项目所有者按桌面R04 versionCode 10207测试说明完成真机安装启动与基础回归，收到明确PASS后回填owner门禁并关闭TASK-R04-007
+next_step: 提交并推送R04项目所有者真机PASS证据，然后关闭TASK-R04-007并领取TASK-R04-008版本关闭
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 0ca6a9050a5d5aecf21e9ed53676c057958aa00ca76d39b760d0d870c37e98d1
-  generated_at: '2026-07-19T15:16:32Z'
+  context_hash: 329ba55c450200a7cd4da1bc1c097f330e0deb1572b6eaf28f2c02a46422bdfc
+  generated_at: '2026-07-19T15:58:33Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 固定签名、精确下载路由与四方哈希属于同一不可分割交付事务；项目所有者真机门禁必须由所有者独立执行
+  reason: 项目所有者真机确认、APK Manifest和独立证据必须绑定同一APK身份原子回填

@@ -9,8 +9,11 @@ size_bytes: 11956589
 signing_fingerprint: f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873
 built_at: '2026-07-19T14:59:35Z'
 delivery_status: PASS
-test_status: PENDING
-owner_physical_test: PENDING
+test_status: PASS
+owner_physical_test: PASS
 download_url: https://download.orbexa.cc/r04-artifacts/hhy-r04-04cda65-debug.apk
 desktop_copy: C:\Users\小白\Desktop\hhy-r04-04cda65-debug.apk
 delivery_evidence: artifacts\validation\r04-apk-delivery\delivery-evidence.json
+owner_confirmation: R04 versionCode 10207 真机安装、启动和基础回归通过
+owner_accepted_at: '2026-07-19T15:57:30.523502Z'
+owner_evidence_reference: 项目所有者在当前Codex任务中于2026-07-19明确回复：测试通过，现在立即开始推进开发

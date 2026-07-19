@@ -46,7 +46,10 @@
     "url": "https://download.orbexa.cc/r04-artifacts/hhy-r04-04cda65-debug.apk"
   },
   "owner_physical_test": {
-    "status": "PENDING"
+    "status": "PASS",
+    "confirmation": "R04 versionCode 10207 真机安装、启动和基础回归通过",
+    "accepted_at": "2026-07-19T15:57:30.523502Z",
+    "evidence_reference": "项目所有者在当前Codex任务中于2026-07-19明确回复：测试通过，现在立即开始推进开发"
   },
   "created_at": "2026-07-19T15:04:29.079997Z",
   "last_verified_at": "2026-07-19T15:04:53.985226Z"
