@@ -1,0 +1,12 @@
+{
+  "schema": "hhy.r05.test-adapter/v1",
+  "test_id": "TST-ID_001-SECURITY",
+  "central_runner": "scripts/run_r05_specialized_matrix.py",
+  "runner": "r05-java21-postgresql17-identity",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java#sensitiveCipherUsesAeadBindingAndKeyedStableHash",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java#rejectsPayloadWhoseDigestDoesNotMatchBeforeStorageSelection",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinatorTest.java#evidenceDigestMismatchFailsRetryablyBeforeFaceComparisonOrCompletion"
+  ],
+  "fault_classes": ["cipher-binding", "digest-tamper", "private-media"]
+}

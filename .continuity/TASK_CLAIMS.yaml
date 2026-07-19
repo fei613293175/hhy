@@ -1577,3 +1577,25 @@ claims:
   - scripts/**
   - CHANGELOG.md
   closed_at: '2026-07-19T22:38:23Z'
+- claim_id: CLM-58A937206C4A
+  session_id: SES-20260719T224052Z-2C69767F
+  task_id: TASK-R05-005
+  story_id: STORY-R05-001
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-19T22:40:52Z'
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - R05 身份认证后端、H5回调、管理端审核、PostgreSQL不变量、供应商回调故障注入与专项测试报告
+  - CHANGELOG.md

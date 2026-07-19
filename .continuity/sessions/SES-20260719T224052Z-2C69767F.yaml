@@ -1,0 +1,62 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T224052Z-2C69767F
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R05
+task_id: TASK-R05-005
+story_id: STORY-R05-001
+goal: 完成单一实名认证专项测试与故障注入，覆盖八项规范测试、并发幂等、超时、重复消息和供应商异常，输出可追溯测试证据并清零关键缺陷
+started_at: '2026-07-19T22:40:52Z'
+updated_at: '2026-07-19T22:50:11Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - R05 身份认证后端、H5回调、管理端审核、PostgreSQL不变量、供应商回调故障注入与专项测试报告
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 07c8b91cce0e1a5299b6f0f76473f36fe745be73
+  start_head: 07c8b91cce0e1a5299b6f0f76473f36fe745be73
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T22:50:09Z'
+  expires_at: '2026-07-20T02:50:09Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260719T224052Z-2C69767F/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T224052Z-2C69767F.md
+next_step: 提交并推送专项测试代码与Adapter，然后基于冻结Commit运行完整后端、PostgreSQL17和八项证据门禁，归档报告并清零关键缺陷。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 6faf89dbd7196799710555b665576ab938298835b7b7cf1d1b2fbb13b6292b9d
+  generated_at: '2026-07-19T22:50:11Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 本批次集中修改同一实名测试矩阵、Catalog和共享Java测试类，拆分会造成重叠路径与证据源不一致；并发、幂等和安全断言由主控串行复核。

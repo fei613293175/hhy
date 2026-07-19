@@ -18,6 +18,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -73,6 +74,29 @@ class IdentityIdempotencyServiceTest {
                 () -> { throw new BusinessException(
                         "COMMON-422-BUSINESS_RULE", "认证条件不满足", 422, false); }));
         verify(store).abandonIdempotency(9L);
+    }
+
+    @Test
+    void duplicateRequestWhileFirstResponseIsPendingReturnsRetryableConflict() {
+        UserAuthStore store = mock(UserAuthStore.class);
+        UserAuthStore.IdempotencyRow pending = new UserAuthStore.IdempotencyRow(
+                12, HASH, null, null, null);
+        when(store.claimIdempotency(eq(SCOPE), eq(KEY), eq(HASH), any()))
+                .thenReturn(new UserAuthStore.IdempotencyClaim(pending, true));
+        AtomicInteger actionCalls = new AtomicInteger();
+
+        BusinessException conflict = assertThrows(BusinessException.class,
+                () -> service(store).execute(
+                        SCOPE, KEY, HASH, TYPE, IdentitySessionResource.class,
+                        () -> {
+                            actionCalls.incrementAndGet();
+                            return null;
+                        }));
+
+        assertEquals("COMMON-409-VERSION_CONFLICT", conflict.code());
+        assertEquals(409, conflict.httpStatus());
+        assertEquals(true, conflict.retryable());
+        assertEquals(0, actionCalls.get());
     }
 
     private static IdentityIdempotencyService service(UserAuthStore store) {

@@ -3,6 +3,8 @@ package cc.orbexa.hhy.access.identity;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import cc.orbexa.hhy.access.identity.IdentityProviderClient.FaceDecision;
 import cc.orbexa.hhy.access.identity.IdentityProviderClient.LivenessDecision;
@@ -13,6 +15,7 @@ import cc.orbexa.hhy.access.identity.IdentityProviderResultCoordinator.Processin
 import cc.orbexa.hhy.access.identity.IdentityProviderResultCoordinator.ProviderCompletion;
 import cc.orbexa.hhy.access.identity.IdentityProviderResultCoordinator.StoredEvidence;
 import cc.orbexa.hhy.access.identity.IdentityService.Session;
+import cc.orbexa.hhy.shared.api.BusinessException;
 import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.URI;
@@ -110,6 +113,34 @@ class IdentityProviderResultCoordinatorTest {
         assertEquals(0, provider.queryCalls);
     }
 
+    @Test
+    void mismatchedProviderOrderFailsRetryablyWithoutStateMutation() {
+        provider.liveness = new ProviderLivenessOutcome(
+                LivenessDecision.PENDING, "different-order", null, RAW_LIVENESS);
+
+        BusinessException failure = assertThrows(BusinessException.class,
+                () -> coordinator.reconcile(7, 11));
+
+        assertEquals(500, failure.httpStatus());
+        assertTrue(failure.retryable());
+        assertNull(store.pendingRaw);
+        assertNull(store.completion);
+    }
+
+    @Test
+    void evidenceDigestMismatchFailsRetryablyBeforeFaceComparisonOrCompletion() {
+        provider.liveness = passedLiveness();
+        evidence.storedSha256 = "0".repeat(64);
+
+        BusinessException failure = assertThrows(BusinessException.class,
+                () -> coordinator.reconcile(7, 11));
+
+        assertEquals(500, failure.httpStatus());
+        assertTrue(failure.retryable());
+        assertEquals(0, provider.compareCalls);
+        assertNull(store.completion);
+    }
+
     private static ProviderLivenessOutcome passedLiveness() {
         return new ProviderLivenessOutcome(
                 LivenessDecision.PASSED, "order-1",
@@ -181,12 +212,14 @@ class IdentityProviderResultCoordinatorTest {
     private static final class FakeEvidence implements IdentityProviderResultCoordinator.EvidenceStorage {
         int calls;
         EvidenceCommand command;
+        String storedSha256;
 
         @Override
         public StoredEvidence store(EvidenceCommand value) {
             calls++;
             command = value;
-            return new StoredEvidence(91, value.sha256());
+            return new StoredEvidence(91,
+                    storedSha256 == null ? value.sha256() : storedSha256);
         }
     }
 }

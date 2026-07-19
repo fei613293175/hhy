@@ -16,6 +16,7 @@ import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.math.BigDecimal;
+import java.net.http.HttpTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Arrays;
@@ -87,6 +88,26 @@ class AliyunMarketIdentityProviderClientTest {
                 () -> oversized.createLiveness(command(CALLBACK)));
         assertEquals(500, large.httpStatus());
         assertTrue(Arrays.equals(new char[secondMaterial.length], secondMaterial));
+    }
+
+    @Test
+    void mapsTransportTimeoutToRetryableFailureAndZeroizesSecret() {
+        char[] material = "provider-appcode-timeout".toCharArray();
+        var client = new AliyunMarketIdentityProviderClient(
+                AliyunMarketIdentityProviderClientTest::settings,
+                reference -> material,
+                new ObjectMapper(),
+                (endpoint, appCode, body, timeout, maximumResponseBytes) -> {
+                    throw new HttpTimeoutException("injected provider timeout");
+                });
+
+        BusinessException failure = assertThrows(BusinessException.class,
+                () -> client.queryLiveness(new ProviderLivenessQuery(
+                        "ALIYUN_MARKET_FACE", "ORDER_TIMEOUT")));
+
+        assertEquals(500, failure.httpStatus());
+        assertTrue(failure.retryable());
+        assertTrue(Arrays.equals(new char[material.length], material));
     }
 
     @Test
