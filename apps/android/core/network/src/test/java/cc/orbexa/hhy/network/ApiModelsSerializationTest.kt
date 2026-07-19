@@ -24,12 +24,15 @@ class ApiModelsSerializationTest {
 
     @Test fun errorEnvelopeDecodesStableCodeWithoutRelaxingUnknownFields() {
         val decoded = HhyNetworkJson.value.decodeFromString<ApiErrorEnvelope>(
-            """{"success":false,"requestId":"request_429","error":{"code":"COMMON-429-RATE_LIMITED","message":"请求过于频繁","retryable":true}}""",
+            """{"success":false,"requestId":"request_429","timestamp":"2026-07-19T03:00:00Z","error":{"code":"COMMON-429-RATE_LIMITED","message":"请求过于频繁","details":[],"retryable":true,"traceId":"trace_429"}}""",
         )
 
         assertFalse(decoded.success)
+        assertEquals("2026-07-19T03:00:00Z", decoded.timestamp)
         assertEquals("COMMON-429-RATE_LIMITED", decoded.error.code)
+        assertTrue(decoded.error.details.isEmpty())
         assertEquals(true, decoded.error.retryable)
+        assertEquals("trace_429", decoded.error.traceId)
     }
 
     @Test fun authRequestsKeepFrozenContractFieldNames() {

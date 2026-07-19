@@ -5,11 +5,14 @@
   "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 876,
-    "event_head_hash": "da5f8135e5efb8fa25be3c308b2cd5b984e5fcb01b881164d3613cc19612951f",
-    "changed_files": 16,
-    "project_changed_files": 1,
+    "event_count": 879,
+    "event_head_hash": "88179aed78c1bc0c12d7953a217eda7107eca8fe90a0811fc15e3a42c3d0203c",
+    "changed_files": 25,
+    "project_changed_files": 10,
     "change_classification": {
+      "other": 1,
+      "code": 8,
+      "user_visible": 5,
       "continuity": 1
     },
     "document_gate": {

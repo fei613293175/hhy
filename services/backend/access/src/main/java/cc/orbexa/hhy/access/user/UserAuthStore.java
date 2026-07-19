@@ -400,6 +400,11 @@ public class UserAuthStore {
     }
 
     public Optional<Long> findActiveInviter(String inviteCode) {
+        return jdbc.query("SELECT user_id FROM hhy.invite_codes WHERE code=? AND status='ACTIVE'",
+                (rs, row) -> rs.getLong("user_id"), inviteCode).stream().findFirst();
+    }
+
+    public Optional<Long> findActiveInviterForRegistration(String inviteCode) {
         return jdbc.query("SELECT user_id FROM hhy.invite_codes WHERE code=? AND status='ACTIVE' FOR SHARE",
                 (rs, row) -> rs.getLong("user_id"), inviteCode).stream().findFirst();
     }

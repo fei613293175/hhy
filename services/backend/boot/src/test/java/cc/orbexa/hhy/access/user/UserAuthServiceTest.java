@@ -261,7 +261,7 @@ class UserAuthServiceTest {
         when(policy.passwordRequireDigits()).thenReturn(true);
         when(repository.findUser("13900000000")).thenReturn(Optional.empty());
         when(testRegistrationInvite.inviterIdFor("INVITE-R02")).thenReturn(Optional.empty());
-        when(repository.findActiveInviter("INVITE-R02")).thenReturn(Optional.of(13L));
+        when(repository.findActiveInviterForRegistration("INVITE-R02")).thenReturn(Optional.of(13L));
         when(passwords.encode("Correct99")).thenReturn("bcrypt-new-hash");
         when(repository.createUser("13900000000")).thenReturn(17L);
         when(repository.upsertDevice(eq(17L), anyString(), eq("Pixel 9"), any(Instant.class))).thenReturn(31L);
@@ -306,6 +306,7 @@ class UserAuthServiceTest {
         verify(verification).verifyChallenge(
                 "challenge-register", "proof-register", UserAuthContracts.AuthScene.REGISTER);
         verify(repository, never()).findActiveInviter(anyString());
+        verify(repository, never()).findActiveInviterForRegistration(anyString());
     }
 
     @Test

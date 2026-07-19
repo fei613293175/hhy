@@ -463,3 +463,18 @@ problems:
   - 不得在APK精确下载路由未通过时开始正式构建或请求尚不存在的公网URL
   - 不得因PATH缺少Git、pnpm或本机Android工具链而重复安装、重建或误判仓库
   - 门禁升级必须给出命中路径和风险原因，不得只写为了保险
+- id: PROB-0039
+  title: 注册专用错误码被Android严格反序列化丢失且无效邀请码触发数据库只读事务异常
+  status: SOLVED
+  root_cause: Android错误响应模型遗漏服务端固定timestamp字段及错误体details、traceId字段，在禁止未知字段的严格解析下整包解码失败，手机号已注册专用错误码因此退化为通用409提示；邀请码预校验复用了带FOR SHARE的注册锁查询，而校验服务运行在只读事务中，不存在的邀请码落库查询时触发500。
+  resolution: Android错误模型补齐timestamp、details和traceId并用真实服务端错误包回归；邀请码普通校验改用无锁只读查询，正式注册单独使用FOR SHARE锁查询，既消除只读事务500又保留注册过程的并发保护。
+  regression_checks:
+  - ApiModelsSerializationTest#errorEnvelopeDecodesStableCodeWithoutRelaxingUnknownFields
+  - UserAuthServiceTest#inviteValidationReturnsDedicatedActionableCode
+  - UserAuthServiceTest#registrationReturnsDedicatedCodeForAnExistingPhoneAfterChallengeVerification
+  - obx-test Android core-network/auth unit tests and lintDebug
+  do_not_repeat:
+  - 严格客户端响应模型必须覆盖服务端统一信封的全部固定字段，测试样例必须来自真实信封结构
+  - 只读事务不得调用SELECT FOR UPDATE或FOR SHARE等锁查询
+  - 预校验与正式提交需要不同并发语义时必须拆分存储方法，不得共用会导致事务属性冲突的查询
+  - 用户可处理的手机号已注册和邀请码无效不得退化为通用失败或服务不可用文案

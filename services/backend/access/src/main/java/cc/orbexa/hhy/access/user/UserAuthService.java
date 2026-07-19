@@ -192,7 +192,7 @@ public class UserAuthService {
                             request.challengeId(), request.challengeProof(), AuthScene.REGISTER);
                     repository.lockRegistration(request.phone());
                     if (repository.findUser(request.phone()).isPresent()) throw phoneAlreadyRegistered();
-                    long inviterId = resolveInviter(request.inviteCode());
+                    long inviterId = resolveInviterForRegistration(request.inviteCode());
                     Instant now = Instant.now(clock);
                     long userId = repository.createUser(request.phone());
                     repository.createCredential(userId, passwords.encode(request.password()), now);
@@ -207,6 +207,12 @@ public class UserAuthService {
     private long resolveInviter(String inviteCode) {
         return testRegistrationInvite.inviterIdFor(inviteCode)
                 .or(() -> repository.findActiveInviter(inviteCode))
+                .orElseThrow(UserAuthService::inviteInvalid);
+    }
+
+    private long resolveInviterForRegistration(String inviteCode) {
+        return testRegistrationInvite.inviterIdFor(inviteCode)
+                .or(() -> repository.findActiveInviterForRegistration(inviteCode))
                 .orElseThrow(UserAuthService::inviteInvalid);
     }
 

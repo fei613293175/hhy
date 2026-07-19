@@ -15,6 +15,7 @@ data class ApiEnvelope<T>(
 data class ApiErrorEnvelope(
     val success: Boolean,
     val requestId: String,
+    val timestamp: String,
     val error: ApiErrorBody,
 )
 
@@ -22,7 +23,16 @@ data class ApiErrorEnvelope(
 data class ApiErrorBody(
     val code: String,
     val message: String,
-    val retryable: Boolean? = null,
+    val details: List<ApiErrorDetail>,
+    val retryable: Boolean,
+    val traceId: String,
+)
+
+@Serializable
+data class ApiErrorDetail(
+    val field: String,
+    val code: String,
+    val message: String,
 )
 
 @Serializable
