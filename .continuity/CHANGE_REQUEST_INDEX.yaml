@@ -4786,9 +4786,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0080
   title: 同步R03阻断说明到当前10205真机APK
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T05:13:40Z'
-  updated_at: '2026-07-19T05:13:44Z'
+  updated_at: '2026-07-19T05:14:59Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4824,5 +4824,17 @@ change_requests:
     status: IMPLEMENTING
     note: 同步TASK-R03-007阻断说明到c257aee/10205
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T05:14:58Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: NEXT_TASK已唯一指向c257aee/10205且与当前APK清单一致
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T05:14:59Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 跨电脑跨AI接手不会再误验收旧APK
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - 8df5eb5329e4925df867fe68e272a0b3adb61e93
