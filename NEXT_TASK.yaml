@@ -1,5 +1,5 @@
-id: TASK-R04-005
-title: 三分区汇合、专项测试与故障注入
+id: TASK-R04-006
+title: 可观测性、Staging部署与回滚演练
 status: READY
 release: R04
 requirements:
@@ -7,23 +7,20 @@ requirements:
 - REQ-STORAGE-001
 - REQ-APK-001
 depends_on:
-- TASK-R04-002
-- TASK-R04-003
-- TASK-R04-004
+- TASK-R04-005
 definition_of_ready: releases/R04/DEFINITION_OF_READY.yaml
 stories: releases/R04/STORIES.yaml
 steps:
-- 6项权威测试、E2E、安全和故障注入报告
-- R2/OSS双适配、Scope隔离、迁移恢复和访问审计证据
-- 生成物漂移为零，关键缺陷清零
+- 运行手册与回滚演练证据
+- 验收矩阵自动化条目签字
 acceptance:
-- STORY-R04-001和002全部验收条件通过
-- INTEGRATION门禁、数据库测试和Android模块测试全部PASS
+- 日志不包含签名URL、Secret或私有对象内容
+- Staging和RELEASE前置门禁通过
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-005
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-006
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-005
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-006
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'

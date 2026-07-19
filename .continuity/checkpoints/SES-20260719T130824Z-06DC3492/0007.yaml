@@ -1,0 +1,249 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T130824Z-06DC3492-0007
+session_id: SES-20260719T130824Z-06DC3492
+sequence: 7
+created_at: '2026-07-19T13:57:41Z'
+summary: 关闭 TASK-R04-005：TASK-R04-005完成：三分区汇合、六项权威测试6/6、Java21后端216项、PostgreSQL17迁移回滚重放、Android331任务、Python144项、连续性11项、Contracts与Web全部通过，生成物漂移和关键缺陷清零
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：ccf2ed56a8f90181a9da018b83b8cd59262d952f
+- 任务转换：TRN-20260719T135740Z-SES-20260719T130824Z-06DC3492
+- 下一Release：R04
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: r04-authoritative-six
+  result: PASS
+  evidence: artifacts/validation/r04-test-evidence/r04-final.evidence.json
+  note: 六项逐项PASS且中央执行器验签通过
+- name: integration-tooling
+  result: PASS
+  evidence: artifacts/validation/r04-task005-authoritative-matrix.md
+  note: 全仓Python 144 tests通过
+- name: integration-continuity
+  result: PASS
+  evidence: artifacts/validation/continuity-integration-v1.2.3.json
+  note: 11项接续和生命周期测试通过
+- name: integration-contracts-web
+  result: PASS
+  evidence: artifacts/validation/r04-task005-authoritative-matrix.md
+  note: 严格文档、生成物和五工作区typecheck通过
+- name: integration-backend-db-android
+  result: PASS
+  evidence: artifacts/validation/r04-task005-authoritative-matrix.md
+  note: Java21 216 tests、PostgreSQL17、Android 331 tasks通过
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: ccf2ed56a8f90181a9da018b83b8cd59262d952f
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260719T130824Z-06DC3492.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R04/TASKS.yaml'
+  recent_commits:
+  - "ccf2ed56a8f90181a9da018b83b8cd59262d952f\t2026-07-19T21:57:10+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): attest six-test\
+    \ integration matrix"
+  - "3fb6405ad6161c09f73c1fd5274edd8140567b08\t2026-07-19T21:46:47+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(media): use frozen button\
+    \ height token"
+  - "0e5010f900b2e441f7358ad3e66d491322091e82\t2026-07-19T21:30:45+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): run reproducible\
+    \ remote integration gates"
+  - "1fcc52f2a34047d8ed6bde02463a278323fe24b6\t2026-07-19T21:16:42+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(r04): add authoritative\
+    \ six-test matrix"
+  - "3168e38e19a3a8cf9ffde87927266b1a3c755dc9\t2026-07-19T21:07:24+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(continuity): close TASK-R04-004\
+    \ as completed"
+  - "9ea17abdebfa34c232c2158cf39660b9b35b93fa\t2026-07-19T21:03:36+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(media): enforce upload\
+    \ concurrency and preview boundary"
+  - "1ff3e9e4297292f588fe78449c64316df6a5dd58\t2026-07-19T20:54:28+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(media): add Android upload\
+    \ manager"
+  - "6ee17b68303f6bfea0de2dd39896c9a690a93b7d\t2026-07-19T20:19:52+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(continuity): close TASK-R04-003\
+    \ as completed"
+project_fingerprint:
+  sha256: a3b01af3188032a29384839ec92fb0578989f66e03cc74f86a6a6d261437a0ca
+  files:
+  - CHANGELOG.md
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - config/test-impact-map.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R04/TASKS.yaml
+  - scripts/run_r04_remote_integration.sh
+  - scripts/run_r04_test_matrix.py
+  - services/backend/boot/src/main/resources/db/migration/V022__r04_media_upload_lifecycle.sql
+  - tests/r04/README.md
+  - tests/r04/evidence.schema.json
+  - tests/r04/req-media-001_happy
+  - tests/r04/req-media-001_idempotent
+  - tests/r04/req-media-001_reject
+  - tests/r04/test_r04_test_matrix.py
+  - tests/test_ui_tokens.py
+  - tests/v1.2.2/ui/sheet-media-001_mediaDeleteMediaById
+  - tests/v1.2.2/ui/sheet-media-001_mediaPostMediaUploadSessions
+  - tests/v1.2.2/ui/sheet-media-001_mediaPostMediaUploadSessionsByIdComplete
+  file_count: 19
+  payload:
+    base_commit: 3168e38e19a3a8cf9ffde87927266b1a3c755dc9
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 37749
+      sha256: 21a3103a6b501c221868fb782c623b3c351803f1e9ee14898b7dc139f0222abe
+    - path: apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+      state: FILE
+      size: 12976
+      sha256: 3dfecb9562a9add581e16e6ed85f853928c02294e078e39b227823e8135bffcc
+    - path: config/test-impact-map.yaml
+      state: FILE
+      size: 5399
+      sha256: 50261b1f2762b41207c9490763c847c501989b0b84d2a67f58825ccd3b0282a3
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 40371
+      sha256: aa69e8bbf5e738a35d21c48008c7def9a38e72e433f7b1acbe7e367a24deaab1
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 35802
+      sha256: c0daccded5cf57ac8f58d93f90aef0d4b9d60aabceb5c0d0f5c19aa03ef1f515
+    - path: releases/R04/TASKS.yaml
+      state: FILE
+      size: 6224
+      sha256: 281bf1a067fdf3833108be1102b1072d8e19b0183f774f555d966bf1cfd615ab
+    - path: scripts/run_r04_remote_integration.sh
+      state: FILE
+      size: 2078
+      sha256: dfa251305bb52b1959be91b70664df77b3b930eba5657ac832651e89094e881a
+    - path: scripts/run_r04_test_matrix.py
+      state: FILE
+      size: 13128
+      sha256: 8687350bb002c9576f7d5e2c9244f62bb921c01c300239865541fa6f4c6b0423
+    - path: services/backend/boot/src/main/resources/db/migration/V022__r04_media_upload_lifecycle.sql
+      state: FILE
+      size: 3311
+      sha256: ae8c40c2f1518aefe4e11524316bdd519a457200069752fa65ce4de3aeac7169
+    - path: tests/r04/README.md
+      state: FILE
+      size: 720
+      sha256: 06b1e0ada332b61b3232f99b12718ece4ed7e09866e826a4f97d2786f337f805
+    - path: tests/r04/evidence.schema.json
+      state: FILE
+      size: 2874
+      sha256: dd4cd9e5cb740de0a221b54abe7ba172fcb87fa8aa73df0b575bac8a9f85abf4
+    - path: tests/r04/req-media-001_happy
+      state: FILE
+      size: 216
+      sha256: 377eb8e265b28a19ed4cd5b5abb20cf4b255e1d4d95a04453a30e2bbf2409e90
+    - path: tests/r04/req-media-001_idempotent
+      state: FILE
+      size: 221
+      sha256: ac0926ea026050d2a77c367f413f7f5e14d317191b551e33944915c172c7ebbb
+    - path: tests/r04/req-media-001_reject
+      state: FILE
+      size: 217
+      sha256: 94b0dde387beb1d98310399c85357aff31eabd5dff5287e7fa26d04fb19fa1a7
+    - path: tests/r04/test_r04_test_matrix.py
+      state: FILE
+      size: 2751
+      sha256: b0334b7949624e7e4b05ce52406a67856f5ba0ddeceb37527f6a7873e0c5cb2b
+    - path: tests/test_ui_tokens.py
+      state: FILE
+      size: 2647
+      sha256: 38c4ae5729205ba72e73ab9decfc6226110f9499940c2a8ab543057afb5b020c
+    - path: tests/v1.2.2/ui/sheet-media-001_mediaDeleteMediaById
+      state: FILE
+      size: 209
+      sha256: dd8350476158ed27d47180e6d1780f888b88ba99cc4e6e592e0479ae5c7e7eec
+    - path: tests/v1.2.2/ui/sheet-media-001_mediaPostMediaUploadSessions
+      state: FILE
+      size: 209
+      sha256: 9017c3edcb6ca5d091a528d2f88819c23d7f87b42503a899fd72dc3b9b10fa23
+    - path: tests/v1.2.2/ui/sheet-media-001_mediaPostMediaUploadSessionsByIdComplete
+      state: FILE
+      size: 209
+      sha256: f2b077039e8656260705199505048e2b797563973a618e399b8e771492dc3825
+change_classification:
+  other:
+  - CHANGELOG.md
+  - config/test-impact-map.yaml
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R04/TASKS.yaml
+  code:
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - scripts/run_r04_remote_integration.sh
+  - scripts/run_r04_test_matrix.py
+  - services/backend/boot/src/main/resources/db/migration/V022__r04_media_upload_lifecycle.sql
+  user_visible:
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  tests:
+  - tests/r04/README.md
+  - tests/r04/evidence.schema.json
+  - tests/r04/req-media-001_happy
+  - tests/r04/req-media-001_idempotent
+  - tests/r04/req-media-001_reject
+  - tests/r04/test_r04_test_matrix.py
+  - tests/test_ui_tokens.py
+  - tests/v1.2.2/ui/sheet-media-001_mediaDeleteMediaById
+  - tests/v1.2.2/ui/sheet-media-001_mediaPostMediaUploadSessions
+  - tests/v1.2.2/ui/sheet-media-001_mediaPostMediaUploadSessionsByIdComplete
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 最终证据汇总、检查点与任务关闭必须由唯一主控原子提交，避免证据提交哈希和会话状态分离
+event_hash: 718b52f98013b064537451b998db41c5a80b930845d3fbcd66206fbfe3e5a7cf

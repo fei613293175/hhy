@@ -83,7 +83,7 @@ tasks:
   completed_at: '2026-07-19T13:04:23Z'
 - id: TASK-R04-005
   title: 三分区汇合、专项测试与故障注入
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R04-002
   - TASK-R04-003
@@ -100,9 +100,10 @@ tasks:
   - STORY-R04-001和002全部验收条件通过
   - INTEGRATION门禁、数据库测试和Android模块测试全部PASS
   session_log_required: true
+  completed_at: '2026-07-19T13:57:40Z'
 - id: TASK-R04-006
   title: 可观测性、Staging部署与回滚演练
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R04-005
   requirements: *id001
