@@ -9,11 +9,13 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(AdminSecurityProperties.class)
+@EnableConfigurationProperties({
+        AdminSecurityProperties.class, ProviderSecretMaterialProperties.class})
 public class AdminAccessConfiguration {
     @Bean
     PasswordEncoder adminPasswordEncoder() {
@@ -28,8 +30,18 @@ public class AdminAccessConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(ProviderConnectionTestCoordinator.SecretResolver.class)
-    ProviderConnectionTestCoordinator.SecretResolver unavailableProviderSecretResolver() {
-        return reference -> { throw new IllegalStateException("Provider secret resolver is unavailable"); };
+    ProviderConnectionTestCoordinator.SecretResolver providerSecretResolver(
+            ProviderSecretMaterialProperties properties) {
+        if (!properties.configured()) {
+            return reference -> { throw new IllegalStateException("Provider secret resolver is unavailable"); };
+        }
+        return new MountedProviderSecretResolver(properties.directory());
+    }
+
+    @Bean
+    ProviderSecretStartupGuard providerSecretStartupGuard(
+            ProviderSecretMaterialProperties properties, Environment environment) {
+        return new ProviderSecretStartupGuard(properties, environment);
     }
 
     @Bean

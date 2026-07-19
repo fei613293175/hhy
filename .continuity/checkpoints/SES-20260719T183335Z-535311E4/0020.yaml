@@ -1,0 +1,979 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T183335Z-535311E4-0020
+session_id: SES-20260719T183335Z-535311E4
+sequence: 20
+created_at: '2026-07-19T22:09:39Z'
+summary: CR-0105完成Vault/KMS/CSI只读物化SecretRef解析、生产启动门禁、引用哈希映射、权限与软链接边界、即时轮换和缓冲清零
+next_step: 实现阿里云OSS真实对象存储端口并接入R04StoragePortResolver，保持R2与OSS精确配置版本隔离
+blockers: []
+decisions:
+- 生产凭据通过HHY_PROVIDER_SECRET_DIR只读挂载；非生产未配置时安全不可用，production/prod未配置时拒绝启动
+note: ''
+tests:
+- name: secret resolver
+  result: PASS
+  evidence: MountedProviderSecretResolverTest
+  note: 5 tests on Linux including read-only permissions, symlink, size, rotation and startup gate
+- name: backend full
+  result: PASS
+  evidence: obx-test mvn test and Surefire XML
+  note: 274 tests, 0 failures, 0 errors, 5 intended skips
+- name: repository gates
+  result: PASS
+  evidence: documentation and generated assets
+  note: 318 REST, zero documentation gaps, generated assets verified
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: aeaa075c068ce491f4e2be1cfc1ab70063f60e5f
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/04-vendors/供应商配置中心详细规格_V1.2.2.md'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java'
+  - ' M services/backend/boot/src/main/resources/application.yml'
+  - ?? .continuity/change_requests/CR-0105.yaml
+  - ?? docs/03-continuity/change-requests/CR-0105-接入生产SecretRef只读物化解析端口.md
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolver.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretMaterialProperties.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretStartupGuard.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolverTest.java
+  recent_commits:
+  - "aeaa075c068ce491f4e2be1cfc1ab70063f60e5f\t2026-07-20T05:57:22+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(storage): record Cloudflare\
+    \ R2 closure"
+  - "b261e51946153954de5c3f7c9f0180c7049f66a0\t2026-07-20T05:56:12+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(storage): activate Cloudflare\
+    \ R2 port"
+  - "e3f8d07133b2ac4b6b40623cf8a4ef685c4e10e7\t2026-07-20T05:34:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close private\
+    \ evidence bridge CRs"
+  - "4e970aeeebbec1c7f679dc3ac75dad1d11e122c5\t2026-07-20T05:32:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): persist private\
+    \ evidence safely"
+  - "6d56e21aed734dd2511a14a55e361c194296c9fc\t2026-07-20T05:07:57+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): record callback\
+    \ startup closure"
+  - "86121701f43259231ecdd8aa0c5953e48d9394df\t2026-07-20T05:06:37+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): reconcile\
+    \ provider result atomically"
+  - "7d959409084ba45c17a3d6ca2b8907ab905658e2\t2026-07-20T04:47:30+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close face\
+    \ download CR"
+  - "6d8956a193b3771c29c8b421a5c035e51e75e75a\t2026-07-20T04:44:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): bound provider\
+    \ face download"
+project_fingerprint:
+  sha256: dc99b9c5e4cbd43d12a6271ab6c2a52f254d4190e0efd5c4f0555d8cb3b034a3
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/r05IdentityPages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminIdentities.test.ts
+  - apps/admin-web/src/services/adminIdentities.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminIdentityDetailPage.vue
+  - apps/admin-web/src/views/AdminIdentityListPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/AndroidManifest.xml
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/identityCallback.test.ts
+  - apps/h5/src/services/identityCallback.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - catalogs/api_endpoints.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/frontend_backend_matrix.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_specifications.csv
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  - database/migrations/V026__r05_identity_callback_consumption.sql
+  - database/migrations/V027__r05_identity_consent.sql
+  - database/migrations/V028__r05_private_identity_evidence.sql
+  - database/rollback/U026__r05_identity_callback_consumption.sql
+  - database/rollback/U027__r05_identity_consent.sql
+  - database/rollback/U028__r05_private_identity_evidence.sql
+  - docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
+  - docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md
+  - docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md
+  - docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md
+  - docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md
+  - docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md
+  - docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md
+  - docs/03-continuity/change-requests/CR-0097-冻结已购R05活体结果与人脸比对供应商契约.md
+  - docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
+  - docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md
+  - docs/03-continuity/change-requests/CR-0100-修复R05公开回跳控制器校验代理启动失败.md
+  - docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md
+  - docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md
+  - docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md
+  - docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md
+  - docs/03-continuity/change-requests/CR-0105-接入生产SecretRef只读物化解析端口.md
+  - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
+  - docs/04-vendors/供应商配置中心详细规格_V1.2.2.md
+  - docs/04-vendors/多对象存储适配规范_V1.2.2.md
+  - packages/api-client/src/client.generated.ts
+  - releases/R05/STORIES.yaml
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - services/backend/access/pom.xml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolver.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretMaterialProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettings.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorage.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+  - services/backend/boot/src/main/resources/db/migration/V027__r05_identity_consent.sql
+  - services/backend/boot/src/main/resources/db/migration/V028__r05_private_identity_evidence.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolverTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClientTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinatorTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+  - services/backend/pom.xml
+  - tests/test_android_identity_consent_source.py
+  - tests/test_r05_identity_callback_migration.py
+  - tests/test_r05_identity_consent_migration.py
+  - tests/test_r05_identity_database_scripts.py
+  - tests/test_r05_identity_vendor_contract.py
+  - tests/test_r05_private_identity_evidence_migration.py
+  file_count: 119
+  payload:
+    base_commit: d08b5d91ed2f83ddfa377fc806470d2385887f53
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 43221
+      sha256: a063a89cb1ef3eb3b9d481f43cb1e24d782c0ee00ec72f2de15d3b80395b8216
+    - path: apps/admin-web/src/r05IdentityPages.test.ts
+      state: FILE
+      size: 4035
+      sha256: ceed7c734f39aa4a05fecb725d4fadf98d41f124b709aa09ff106e887b6ab7b9
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 4185
+      sha256: 542539a742f84ef8efee98a4a5e34005cdb3b455d0ae7cac04369d9253a2dcad
+    - path: apps/admin-web/src/services/adminIdentities.test.ts
+      state: FILE
+      size: 5511
+      sha256: e2a92ae3b741570d45b0ad5024a92b5fa549278fcc26843e11e7e10098b664ad
+    - path: apps/admin-web/src/services/adminIdentities.ts
+      state: FILE
+      size: 7620
+      sha256: 35d82e806c6bdd718cfe2a487bfa680f206ec76efdc7d1bbceaa0007d91b9fd7
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 2389
+      sha256: 33010d7fb9f76f4c5ca6967fe3eafd6320a844524eac52d7670214f7da7aa3d1
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 306
+      sha256: 1fdc7b53cee6d0277bf8258265b41f5af049cf3030924c9de23efd37f4dc6d29
+    - path: apps/admin-web/src/views/AdminIdentityDetailPage.vue
+      state: FILE
+      size: 15451
+      sha256: 1b8941382cd36d19b825b45aeae09478130c680426c280277aa75e7f00d4592e
+    - path: apps/admin-web/src/views/AdminIdentityListPage.vue
+      state: FILE
+      size: 8700
+      sha256: 354a4bff3a9d32ef0838b7d7160c1e4f2dae959c271b7bd41e65d05a14fdd9fb
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4705
+      sha256: e8d254c342ffdf2e8bc85d17ae5c235496d0703f7466d4c07124435f1fa0917d
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 10150
+      sha256: 5c6939ce6b400026c5979dde1497e406db5cf6c070335e5c384f46e3f7f087c0
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+      state: FILE
+      size: 8368
+      sha256: 69cf481b03482991687c7c75c0dd5f768fe27a7582932e18edf84382d987dc6a
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+      state: FILE
+      size: 9218
+      sha256: b4f58f140d52769d1186101c86719356636ded5944ca67e8703ab8086b1dd0fb
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+      state: FILE
+      size: 12997
+      sha256: 410d626b25e16c4d633a9e05c2e54ca3c28e9a51b72027141ea80b53a10043e5
+    - path: apps/android/feature/identity/build.gradle.kts
+      state: FILE
+      size: 1117
+      sha256: 4746cb2c0ac4ea1dc4f15dec3a2d60d4be28caf9dd2f78df4f91f53acfa9da6b
+    - path: apps/android/feature/identity/src/main/AndroidManifest.xml
+      state: FILE
+      size: 147
+      sha256: 6142be4f1395a6432058d9f4db5f0a108b17cadc5547c838b76b889cc652336b
+    - path: apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+      state: FILE
+      size: 25985
+      sha256: 860c331339bb2c81de0f54fe8a18dc8ef41c8a3b1faee591b1cab5ae5d15711e
+    - path: apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+      state: FILE
+      size: 2576
+      sha256: b8cc74e7a3038c9254a358262bd92f41db5f7956222eda16711e5175c61a8103
+    - path: apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+      state: FILE
+      size: 1763
+      sha256: b7db9c1e9cadb6f8c40f106f7ce1b844e16ff37d66e3803bdb445f9b53b8f216
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 5865
+      sha256: 69c27f95139edcfc545166ae3f70294f78d701196bbbb01789ec4b95ab9dd6fb
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 520
+      sha256: a2f5c6cc7238da471c06cdb5b3bd487d424d7f63664566717febe0a2176a9ad2
+    - path: apps/h5/src/router.ts
+      state: FILE
+      size: 679
+      sha256: b7daf95582626ea1e8e9ee759ec87b4f0900b753b8a76b8cbda42e7c945e80c6
+    - path: apps/h5/src/services/identityCallback.test.ts
+      state: FILE
+      size: 1591
+      sha256: 97d6bb46a5ea76e07d42f5490d7b142b381e870e53182719568dbf432762a11d
+    - path: apps/h5/src/services/identityCallback.ts
+      state: FILE
+      size: 2760
+      sha256: d5f309bdf26a15dcf742adfa5e7fac2b2e3022dfa27d0994bdb8a6e8ad65a4d5
+    - path: apps/h5/src/styles.css
+      state: FILE
+      size: 7987
+      sha256: 685cc3d1bdad78c53f3ef0088b7902fd7818093b6d6139555a8e00588a11ca2b
+    - path: apps/h5/src/views/IdentityCallbackPage.test.ts
+      state: FILE
+      size: 2628
+      sha256: b122bf0c00baa9c666ff980450ee150b1a784ee8479b5fc747d08fc69bdf0cd0
+    - path: apps/h5/src/views/IdentityCallbackPage.vue
+      state: FILE
+      size: 3599
+      sha256: ecf52f1737c1e9ab79c69a4a7fde4c7d8db580693ed5137efea54baacc66b3ec
+    - path: catalogs/api_endpoints.csv
+      state: FILE
+      size: 11083
+      sha256: df47429299fbdf3004ffa515328e5df82871adc81f1a53b9301f3d0907cba336
+    - path: catalogs/api_ui_ownership.csv
+      state: FILE
+      size: 75318
+      sha256: e055de19a99accc8d6a14cc19ac934761734d5cb45adc1a3709af2d6092f17ac
+    - path: catalogs/frontend_backend_matrix.csv
+      state: FILE
+      size: 206035
+      sha256: 7daf7bcc8676cad295cfca536d91f6e2db796f56e45b7ff69e94527b7777e6dd
+    - path: catalogs/ui_action_matrix.csv
+      state: FILE
+      size: 1419593
+      sha256: 5ba7f0caef5fb709be44514ec065a969388dc3f90a0bf714a84dca3e0ef34bd0
+    - path: catalogs/ui_page_specifications.csv
+      state: FILE
+      size: 293388
+      sha256: 90a96c363605f7734f9e74407ab537a4a05616351bed5433363ae194eebe98b4
+    - path: contracts/contract_status.csv
+      state: FILE
+      size: 139577
+      sha256: 051050d3180010613b8d93407c735a8bda44c840c40cfc3abba6afed8e0fc060
+    - path: contracts/openapi.yaml
+      state: FILE
+      size: 596573
+      sha256: 2b7742e5a5c5a4996ba3a88df7e367040930b056d2ed9accd0c09736398dc612
+    - path: contracts/operation-error-matrix.csv
+      state: FILE
+      size: 210541
+      sha256: 83a0e9079b677fd8ab90b5836d98e8a4e06dc8f651cef24043e4099bb4eda02b
+    - path: database/migrations/V026__r05_identity_callback_consumption.sql
+      state: FILE
+      size: 335
+      sha256: cc74b5a8fc7ede1d6038252dd5210ba59094bc6369e732223559b8d1e1baae16
+    - path: database/migrations/V027__r05_identity_consent.sql
+      state: FILE
+      size: 1512
+      sha256: eb2c122d52a48e3f00554504867a71ad4093664abecb1bced9fc83dae3b16993
+    - path: database/migrations/V028__r05_private_identity_evidence.sql
+      state: FILE
+      size: 679
+      sha256: 38a4c0c403366f1b19b0a8ecdd16f29eebea7c0daefdc0d6f578a726bdf03690
+    - path: database/rollback/U026__r05_identity_callback_consumption.sql
+      state: FILE
+      size: 156
+      sha256: 9c23f8f9dc8024a4e7c95feedf11e28a1b546ec6de99accccd41c13a06f870d0
+    - path: database/rollback/U027__r05_identity_consent.sql
+      state: FILE
+      size: 700
+      sha256: 8f05eb010330e82d10a3d2634532571318e6546645fd34c40f857d8a48052d50
+    - path: database/rollback/U028__r05_private_identity_evidence.sql
+      state: FILE
+      size: 58
+      sha256: ac294e5a2622d1ad98c45ef94825eaa6f27ddf60d7edb9af9ac51313e17f7bfa
+    - path: docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md
+      state: FILE
+      size: 13115
+      sha256: 174628cb4c39b94df8f189f8e9174ab9f152b81e75dd504730cf6f4a1a475c7c
+    - path: docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+      state: FILE
+      size: 7790
+      sha256: 2a29fb3ca0d5eaf74f66d637dfa9d0b8fb5fe62aa7af212ba5acd84aee58234f
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 49514
+      sha256: 83cbaf727de04f9e4f14c24eb6e7354bcf40f0172b62cabcb279bfae33b72adf
+    - path: docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
+      state: FILE
+      size: 2078
+      sha256: 978668dbafbcbbf0bb325a72beb141a1160bec7fefd9a08ed2f1fc0df4208fee
+    - path: docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md
+      state: FILE
+      size: 2768
+      sha256: 075fb50fab65446223ec017ced1402afc87a3db6074a4746bccf94833ba8bb7b
+    - path: docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md
+      state: FILE
+      size: 3999
+      sha256: 5e73eaa93bbb356709e0ea6c3c5c3413fada20f07f9b227a7c90ac8ddb698db7
+    - path: docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md
+      state: FILE
+      size: 2266
+      sha256: f5626ddaf579ce2eae6734e5fe94288de4dc0a9f27192105c5dd14e9de4fa9f7
+    - path: docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md
+      state: FILE
+      size: 2281
+      sha256: b399c1de310153a5e8facc88071be31add2e66fd6123102aaa857d4ff57a3bab
+    - path: docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md
+      state: FILE
+      size: 1903
+      sha256: 049e05ab80154a67d466978fafe63acba5fccbcb020fdfe839a4f7e629c75fef
+    - path: docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md
+      state: FILE
+      size: 4874
+      sha256: f4eb911398b209d1d9583a772a7917ce55359282fa0fa6c04fa3e2cbb4ba530e
+    - path: docs/03-continuity/change-requests/CR-0097-冻结已购R05活体结果与人脸比对供应商契约.md
+      state: FILE
+      size: 3717
+      sha256: 89c2929f00f1d5a179328d5e0756c400b2f70526b3e70b9e675bd3f555ac0a2f
+    - path: docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
+      state: FILE
+      size: 3002
+      sha256: 788449076a8b0c83f3ba51037c28f13fab0828a27abb09366f9c8cad8139accd
+    - path: docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md
+      state: FILE
+      size: 3420
+      sha256: b38d6ccf7d7016f5de19377377fee150b411e017a5b9e5369fcd00861d2fed2b
+    - path: docs/03-continuity/change-requests/CR-0100-修复R05公开回跳控制器校验代理启动失败.md
+      state: FILE
+      size: 2265
+      sha256: 89dcac9ad36299e5151ce6a4b004b0be38355de6c97b8b520e25caed79f53477
+    - path: docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md
+      state: FILE
+      size: 3525
+      sha256: 866f506a6102a1e8169fb0dc9374689b0498d15e4124c5c2ef0ab8696e6b4611
+    - path: docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md
+      state: FILE
+      size: 2326
+      sha256: 95722415da26767608e5d89f54f3e5ef5e30f5538037e19f5925e0e4411636b4
+    - path: docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md
+      state: FILE
+      size: 2398
+      sha256: c2abea5833c737a1430ba2d143d8f487d85c23d8f1d4241b14c8cd43ce076597
+    - path: docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md
+      state: FILE
+      size: 3900
+      sha256: b4ea0b1bc87b0a4f4a2d566f49d694fb902da3ad71475a27a974d284aa20bb8f
+    - path: docs/03-continuity/change-requests/CR-0105-接入生产SecretRef只读物化解析端口.md
+      state: FILE
+      size: 3299
+      sha256: 701ed77583ed7b4df6c99e2578a1bf9bb7ec24af90735200c6f11c787bd147fe
+    - path: docs/04-vendors/identity/实名认证供应商接口契约_R05.md
+      state: FILE
+      size: 4214
+      sha256: 10c43493068f745d71c509af45182e952020a0fc129c2bc996a6ea9b8aac74d2
+    - path: docs/04-vendors/供应商配置中心详细规格_V1.2.2.md
+      state: FILE
+      size: 4427
+      sha256: 04c92ae164e1c64293bba3d1bcb04e136fd745626007f7fde81b260f0b7e29f0
+    - path: docs/04-vendors/多对象存储适配规范_V1.2.2.md
+      state: FILE
+      size: 2324
+      sha256: 469311236495e6db731142eae3a09084f8b2baf16180ba01d46523b26c080018
+    - path: packages/api-client/src/client.generated.ts
+      state: FILE
+      size: 616567
+      sha256: 051a4ee08cd242ec621c8045b9d7d22d0d00efab21377b77185ad2c2721339e9
+    - path: releases/R05/STORIES.yaml
+      state: FILE
+      size: 19202
+      sha256: 2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f
+    - path: scripts/run_r05_database_invariants.sh
+      state: FILE
+      size: 7595
+      sha256: 8f6c7dbd9b391f153f95d9e9154a71b9b4b9d3224ec45fb5273253c01c039004
+    - path: scripts/run_r05_disposable_postgres_container.sh
+      state: FILE
+      size: 1810
+      sha256: 1849c7301402c4b18a6892d17186d93dc6b28a299ed7e511d2941b4b2965e672
+    - path: services/backend/access/pom.xml
+      state: FILE
+      size: 1553
+      sha256: cf5544b523d965117adf52e892a3e57c31cd426e09f45a747b6e9f25374cc20b
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
+      state: FILE
+      size: 4600
+      sha256: 3dd714bff6bf4fb1d07838f1d19b2f3cdd8e4f899d9656a2176829bf799f5fa2
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolver.java
+      state: FILE
+      size: 7010
+      sha256: 5cdc43a76ffafbf6a36596834459ea69277549afad8b028fea5dc4f828552189
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretMaterialProperties.java
+      state: FILE
+      size: 614
+      sha256: 63bf44438525a9e3f034406994f17eb097c8b8475765d674c09d1d83299adef7
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretStartupGuard.java
+      state: FILE
+      size: 1076
+      sha256: 7250a16dfa6920772f4bb5bdcdb59b744de242d4c8952deb3594c3c8d72b80ed
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClient.java
+      state: FILE
+      size: 15879
+      sha256: 98631628a7e337b08f3a2fb025c6c43db23a98570bc4124bfd01fa1343e0d7f1
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+      state: FILE
+      size: 2596
+      sha256: 4fe850fb900855263f08ab0222db18240c163593c2cfbcc57c608860898fda2f
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+      state: FILE
+      size: 1452
+      sha256: 8bdbe1bf8cbb2a08674bcc177afff578366822de8b37f1555766c150f4615a8d
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
+      state: FILE
+      size: 2060
+      sha256: ab2f91fcab95969e9f52b38eec9a3ed89e6a03f3a17b112a3ae0c2bf4b0af5ca
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinator.java
+      state: FILE
+      size: 7141
+      sha256: 842f3dcbfed59abb4105a32f28de5e885b27bfa2793dd525cd12c4f63e8c7673
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+      state: FILE
+      size: 14171
+      sha256: 05a5d091800c3b8aaa4d584c71dcaa4bc7823c8e2efd7816a2ef1a39282eecba
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+      state: FILE
+      size: 6302
+      sha256: 187d20e51847d563edce24e114e7ec4d0a0ec4a01df05ca57913456215260998
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+      state: FILE
+      size: 2921
+      sha256: 6b48b2d4dc4d95b7929041dbdefb1355e79c838dc71fd776330946c3c57767a5
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+      state: FILE
+      size: 26090
+      sha256: 39e4a582875eb382d9e9ebd11fc9f7b24840ce534224825a1f8f5f9857f8c1c6
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+      state: FILE
+      size: 2028
+      sha256: 1c700cda5c652544090aae6b1a4348930b6083ca4ddb0724528e1bb755b11938
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettings.java
+      state: FILE
+      size: 3236
+      sha256: be0acf9b1bb59dc672095596facb038754e07013f4c9e10a9a397766ea1bf390
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorage.java
+      state: FILE
+      size: 10020
+      sha256: 587f612e2de024771ad7714ac1e98d733d5182ab3234e8c6414d81e1161338b7
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+      state: FILE
+      size: 2018
+      sha256: 56294e45cbcaeb3b68e85c530fb7f66495e1744ff66c55c05908fb526a4775a2
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
+      state: FILE
+      size: 15170
+      sha256: 034959eacce7594909fda08f5b7c92a73d8a66d31621e279c55adb8b7c336c1f
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+      state: FILE
+      size: 6721
+      sha256: bb9ea3d01b66be2f00b19328d180dc645b53b59baef355339e65a76ebeb1e22e
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+      state: FILE
+      size: 14793
+      sha256: a4a635537d4d167100bfaca4046e38d68c000d1ccd379439bda9be587d19d0c6
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+      state: FILE
+      size: 838
+      sha256: 57d22dadbd547ac1a0fc7274ee399a575bfe583bfb710e864cec706a826ed240
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+      state: FILE
+      size: 9326
+      sha256: b351f2d719379d816a5b5ab9a769ebf340c30b6149360dfe3d7be082b432421c
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+      state: FILE
+      size: 4575
+      sha256: 52da62ef25b3998d4c5729fdb159ef4006075bc022ca40c63d6ec78121f5ae19
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+      state: FILE
+      size: 2652
+      sha256: 7f9108dca202a3ef826e5b008d0433b51cbe56771c998e565996f4ff4f565191
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+      state: FILE
+      size: 4298
+      sha256: 6ccec5e78560e46929e25edd09ed7f829f855e9aeb32d425a7cc2620e20dfb4f
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+      state: FILE
+      size: 1637
+      sha256: 7898ff0444d4a9df684338e6eba28ac228fea6780fc37a5a69210d8c0059f9f3
+    - path: services/backend/boot/src/main/resources/application.yml
+      state: FILE
+      size: 3004
+      sha256: a48c9c672446b2e27cf6fc0d696c51a57102a31cc8830088da674ebfe5ab6fb2
+    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+      state: FILE
+      size: 596573
+      sha256: 2b7742e5a5c5a4996ba3a88df7e367040930b056d2ed9accd0c09736398dc612
+    - path: services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+      state: FILE
+      size: 335
+      sha256: cc74b5a8fc7ede1d6038252dd5210ba59094bc6369e732223559b8d1e1baae16
+    - path: services/backend/boot/src/main/resources/db/migration/V027__r05_identity_consent.sql
+      state: FILE
+      size: 1512
+      sha256: eb2c122d52a48e3f00554504867a71ad4093664abecb1bced9fc83dae3b16993
+    - path: services/backend/boot/src/main/resources/db/migration/V028__r05_private_identity_evidence.sql
+      state: FILE
+      size: 679
+      sha256: 38a4c0c403366f1b19b0a8ecdd16f29eebea7c0daefdc0d6f578a726bdf03690
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolverTest.java
+      state: FILE
+      size: 4836
+      sha256: 63e80dd7b686e9c4b6c25f32f2377e203cf8c91412ad2a89a940258dfc48d38a
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClientTest.java
+      state: FILE
+      size: 11132
+      sha256: 517a37c862164f485ea4782e8435b3270e7c2e6dbc0148e8f4b4932219f18ef6
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+      state: FILE
+      size: 1964
+      sha256: 437fd4567f82f246501ba53706c6ca1d06b0884cdbbcfb7b2d792a77132436f5
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinatorTest.java
+      state: FILE
+      size: 8145
+      sha256: 00c99084eca565374ac3914c6727aadbd4b868ffc971e94c93484dd497e997ba
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+      state: FILE
+      size: 12937
+      sha256: 8bf9afa3112d99c0b3e8038694f51764e4c85d56028ab3e68675fe4f676b017c
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
+      state: FILE
+      size: 4436
+      sha256: 332eae1bea5aaffaaf7dbabc8f668fd2f68963f4594b3f89e4c8909d343f8964
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
+      state: FILE
+      size: 7759
+      sha256: 9e637b9f20f694e91ea911adb78710f043e9635252794ede149eb10866659a9e
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java
+      state: FILE
+      size: 2656
+      sha256: 90da2062c5aa2ed324741801e8f395649635f49d7e9f82d785437475371bcf3b
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
+      state: FILE
+      size: 10174
+      sha256: f9aab58c8150b80cade56f759f047d0586c223df571cdd29436063a71c1aa032
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+      state: FILE
+      size: 7136
+      sha256: 2152771c535d82e03c2d25f528352c954bf3854ab9d9f2943ec9534aa3c57fcc
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
+      state: FILE
+      size: 5150
+      sha256: f560c156018d2a6354328f6ce9898a60f6173eba341158e2ccf1ca6494eed604
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+      state: FILE
+      size: 5473
+      sha256: 7ebfafdd8e183361fa45b6645bf447435bf439a2070fd70fddafbd49957d544a
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+      state: FILE
+      size: 2065
+      sha256: 9ba9964747329df4b3ce258cb104f3de34af287c696543ae1c7970a76c3da9b6
+    - path: services/backend/pom.xml
+      state: FILE
+      size: 2271
+      sha256: 0af4f2ca4d5cfc505eeea356b8f5af9d95165c7b2035ef5499ea3d6f4260af9c
+    - path: tests/test_android_identity_consent_source.py
+      state: FILE
+      size: 1309
+      sha256: 34ec9cf6542505164bd7728db49742fd445cca7491d215e775ab8c67909993cf
+    - path: tests/test_r05_identity_callback_migration.py
+      state: FILE
+      size: 1234
+      sha256: d46dd38f4f8b2257af67ab373fba0bcad19d103c85ffeecb7a1eda7cc46332ba
+    - path: tests/test_r05_identity_consent_migration.py
+      state: FILE
+      size: 1392
+      sha256: f16a814e5cabbef9a6fa15089be90a5e9dd5586bfefa0e773b619d52faa48307
+    - path: tests/test_r05_identity_database_scripts.py
+      state: FILE
+      size: 2956
+      sha256: c3531c35abb2c7d84c309cd5f688e98d122d61c18ba644427d206089e8403265
+    - path: tests/test_r05_identity_vendor_contract.py
+      state: FILE
+      size: 1705
+      sha256: e725ada8913de9df7ae45c4b03dbcc397da5dc3b0988ecae7d4b3c4db9dc7b5f
+    - path: tests/test_r05_private_identity_evidence_migration.py
+      state: FILE
+      size: 1222
+      sha256: 5d0af6cf31667811fb5caaf119cb188e2e187a82efbf5d63dc80101b282549b2
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/api_endpoints.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/frontend_backend_matrix.csv
+  - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
+  - docs/04-vendors/供应商配置中心详细规格_V1.2.2.md
+  - docs/04-vendors/多对象存储适配规范_V1.2.2.md
+  code:
+  - apps/admin-web/src/r05IdentityPages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminIdentities.test.ts
+  - apps/admin-web/src/services/adminIdentities.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminIdentityDetailPage.vue
+  - apps/admin-web/src/views/AdminIdentityListPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/AndroidManifest.xml
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/identityCallback.test.ts
+  - apps/h5/src/services/identityCallback.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - packages/api-client/src/client.generated.ts
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - services/backend/access/pom.xml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolver.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretMaterialProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettings.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorage.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+  - services/backend/boot/src/main/resources/db/migration/V027__r05_identity_consent.sql
+  - services/backend/boot/src/main/resources/db/migration/V028__r05_private_identity_evidence.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolverTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClientTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinatorTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+  - services/backend/pom.xml
+  user_visible:
+  - apps/admin-web/src/r05IdentityPages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminIdentities.test.ts
+  - apps/admin-web/src/services/adminIdentities.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminIdentityDetailPage.vue
+  - apps/admin-web/src/views/AdminIdentityListPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/AndroidManifest.xml
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  - apps/h5/src/router.ts
+  - apps/h5/src/services/identityCallback.test.ts
+  - apps/h5/src/services/identityCallback.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  - docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  source_of_truth:
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_specifications.csv
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  - docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - releases/R05/STORIES.yaml
+  contracts:
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  database:
+  - database/migrations/V026__r05_identity_callback_consumption.sql
+  - database/migrations/V027__r05_identity_consent.sql
+  - database/migrations/V028__r05_private_identity_evidence.sql
+  - database/rollback/U026__r05_identity_callback_consumption.sql
+  - database/rollback/U027__r05_identity_consent.sql
+  - database/rollback/U028__r05_private_identity_evidence.sql
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
+  - docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md
+  - docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md
+  - docs/03-continuity/change-requests/CR-0093-补齐R05回跳契约生成器与运行时迁移精确范围.md
+  - docs/03-continuity/change-requests/CR-0094-补齐V026回跳消费迁移回滚重放门禁.md
+  - docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md
+  - docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md
+  - docs/03-continuity/change-requests/CR-0097-冻结已购R05活体结果与人脸比对供应商契约.md
+  - docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
+  - docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md
+  - docs/03-continuity/change-requests/CR-0100-修复R05公开回跳控制器校验代理启动失败.md
+  - docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md
+  - docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md
+  - docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md
+  - docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md
+  - docs/03-continuity/change-requests/CR-0105-接入生产SecretRef只读物化解析端口.md
+  tests:
+  - tests/test_android_identity_consent_source.py
+  - tests/test_r05_identity_callback_migration.py
+  - tests/test_r05_identity_consent_migration.py
+  - tests/test_r05_identity_database_scripts.py
+  - tests/test_r05_identity_vendor_contract.py
+  - tests/test_r05_private_identity_evidence_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+- CONTRACT_TEST_EVIDENCE
+- GENERATED_CLIENTS_OR_GENERATION_RECORD
+- CHANGELOG
+change_requests:
+- CR-0090
+- CR-0091
+- CR-0092
+- CR-0093
+- CR-0094
+- CR-0095
+- CR-0096
+- CR-0097
+- CR-0098
+- CR-0099
+- CR-0100
+- CR-0101
+- CR-0102
+- CR-0103
+- CR-0104
+- CR-0105
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/AndroidManifest.xml
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - database/migrations/V026__r05_identity_callback_consumption.sql
+  - database/rollback/U026__r05_identity_callback_consumption.sql
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+  - apps/h5/src/router.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/services/identityCallback.ts
+  - apps/h5/src/services/identityCallback.test.ts
+  - apps/h5/src/views/IdentityCallbackPage.vue
+  - apps/h5/src/views/IdentityCallbackPage.test.ts
+  - catalogs/api_endpoints.csv
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_action_matrix.csv
+  - catalogs/ui_page_specifications.csv
+  - catalogs/frontend_backend_matrix.csv
+  - releases/R05/STORIES.yaml
+  - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  - scripts/generate_contracts.py
+  - services/backend/boot/src/main/resources/db/migration/V026__r05_identity_callback_consumption.sql
+  - scripts/run_r05_database_invariants.sh
+  - tests/test_r05_identity_database_scripts.py
+  - tests/test_r05_identity_callback_migration.py
+  - scripts/run_r05_disposable_postgres_container.sh
+  - contracts/operation-error-matrix.csv
+  - docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md
+  - docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md
+  - database/migrations/V027__r05_identity_consent.sql
+  - database/rollback/U027__r05_identity_consent.sql
+  - services/backend/boot/src/main/resources/db/migration/V027__r05_identity_consent.sql
+  - tests/test_r05_identity_consent_migration.py
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+  - tests/test_android_identity_consent_source.py
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettings.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClientTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java
+  - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
+  - tests/test_r05_identity_vendor_contract.py
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinator.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinatorTest.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorage.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
+  - database/migrations/V028__r05_private_identity_evidence.sql
+  - database/rollback/U028__r05_private_identity_evidence.sql
+  - services/backend/boot/src/main/resources/db/migration/V028__r05_private_identity_evidence.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
+  - tests/test_r05_private_identity_evidence_migration.py
+  - services/backend/pom.xml
+  - services/backend/access/pom.xml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+  - docs/04-vendors/多对象存储适配规范_V1.2.2.md
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/AdminAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretMaterialProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolver.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/admin/ProviderSecretStartupGuard.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/MountedProviderSecretResolverTest.java
+  - docs/04-vendors/供应商配置中心详细规格_V1.2.2.md
+  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097+approved-cr:CR-0098+approved-cr:CR-0099+approved-cr:CR-0100+approved-cr:CR-0101+approved-cr:CR-0102+approved-cr:CR-0103+approved-cr:CR-0104+approved-cr:CR-0105
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: 用户未要求子代理，生产秘密解析与共享配置文件串行修改避免冲突
+event_hash: c6322f989346bd5defe4d46c1b91a270e7aa4e53d095f8073c38aa4a723d6f0f

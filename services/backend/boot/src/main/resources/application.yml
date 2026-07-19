@@ -47,6 +47,8 @@ management:
       probes:
         enabled: true
 hhy:
+  provider-secrets:
+    material-directory: ${HHY_PROVIDER_SECRET_DIR:}
   test-registration:
     universal-invite-code: ${HHY_TEST_UNIVERSAL_INVITE_CODE:}
     universal-inviter-id: ${HHY_TEST_UNIVERSAL_INVITER_ID:0}
