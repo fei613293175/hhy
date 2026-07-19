@@ -1,0 +1,138 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T161434Z-47C1FAA4-0002
+session_id: SES-20260719T161434Z-47C1FAA4
+sequence: 2
+created_at: '2026-07-19T16:21:56Z'
+summary: CR-0088与CR-0089均完成并关闭；R04终态与R05入口边界可跨AI恢复
+next_step: 提交CR终态元数据后关闭TASK-R05-001并立即领取TASK-R05-002数据迁移与领域不变量
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R04 terminal release gate
+  result: PASS
+  evidence: python scripts/check_release_artifacts.py --release R04 --close-gate
+  note: 8 tasks 6 acceptance 3 operations
+- name: R05 entry baseline
+  result: PASS
+  evidence: docs/03-continuity/R05_TASK-001_ENTRY_GATE.md
+  note: documentation operation IDs and dependency boundary verified
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: b2ee5df5be707774ec7276a68f45473f94535448
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0088.yaml'
+  - ' M .continuity/change_requests/CR-0089.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0088-R04版本关闭元数据、验收证据与终态标签规范化.md'
+  - ' M docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md'
+  recent_commits:
+  - "b2ee5df5be707774ec7276a68f45473f94535448\t2026-07-20T00:20:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): finalize\
+    \ R05 entry gate"
+  - "6377d6f2c34841a1a3bde1f1c8e75083dabefa4e\t2026-07-20T00:10:46+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-008\
+    \ as completed"
+  - "07da0def4caee01a8d450b4bd69bc8676480e367\t2026-07-20T00:08:57+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(release): record R04\
+    \ closure evidence"
+  - "8a87893c2e9ca0e45646d368f3b67e1cac8bf44f\t2026-07-20T00:03:20+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(continuity): close TASK-R04-007\
+    \ as completed"
+  - "9d45b3ee01113fad7142ea95fec0206ff2862a7d\t2026-07-19T23:58:46+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(release): record R04\
+    \ owner acceptance"
+  - "168c6caa7004a1f82f4a1976fafae0d036d5aef4\t2026-07-19T23:16:44+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(release): record R04\
+    \ APK delivery"
+  - "04cda65d4a0749727a482526b616fb56cb475f34\t2026-07-19T22:50:52+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] chore(android): set R04 test\
+    \ APK identity"
+  - "4520cfdbcf774d31ae70f7215885935d11db5d1e\t2026-07-19T22:43:00+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-006\
+    \ as completed"
+project_fingerprint:
+  sha256: a9ff374793fe5f0a88a623b2508d859abb9ac724801a7deef8b8f406492b2b76
+  files:
+  - docs/03-continuity/R05_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0088-R04版本关闭元数据、验收证据与终态标签规范化.md
+  - docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md
+  - releases/R05/RELEASE_MANIFEST.yaml
+  file_count: 4
+  payload:
+    base_commit: 6377d6f2c34841a1a3bde1f1c8e75083dabefa4e
+    files:
+    - path: docs/03-continuity/R05_TASK-001_ENTRY_GATE.md
+      state: FILE
+      size: 4414
+      sha256: f86ba379a87e222ee8c063d1fe16d4036042d7273f8cfc0fa74a37e04a41d49c
+    - path: docs/03-continuity/change-requests/CR-0088-R04版本关闭元数据、验收证据与终态标签规范化.md
+      state: FILE
+      size: 3073
+      sha256: c9988b5aa8d6bab88be4eba05205c9a39123b1156dc55bbe06fedcedac41ab20
+    - path: docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md
+      state: FILE
+      size: 3410
+      sha256: b57b4b27d2f3e03cea65d0ba126d94cbbeb5e6bee6590feb50e9d790f7b75a32
+    - path: releases/R05/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 3439
+      sha256: fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c
+change_classification:
+  continuity:
+  - docs/03-continuity/R05_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0088-R04版本关闭元数据、验收证据与终态标签规范化.md
+  - docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md
+  source_of_truth:
+  - releases/R05/RELEASE_MANIFEST.yaml
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0089
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR终态、Release入口基线和任务关闭元数据必须由当前主控串行绑定
+event_hash: 565f40b82a427c0182f3555cf7263f82ef75993e484db73bedac693df7c99f47

@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T16:20:38Z
-- Context Hash：`2acee3ec6faf185741c292ac8bd524cca8b9b75445a5596dc810947f1115483f`
+- 生成时间：2026-07-19T16:21:58Z
+- Context Hash：`1e2ad197fe750fe515095d2b1343a1c5d8d75ccafd01b9a98d73d45de749045f`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -78,7 +78,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-001
-updated_at: '2026-07-19T16:20:36Z'
+updated_at: '2026-07-19T16:21:56Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -113,15 +113,15 @@ continuity:
   active_session_id: SES-20260719T161434Z-47C1FAA4
   actor_id: codex-root
   story_id: STORY-R05-008
-  lease_expires_at: '2026-07-19T20:20:36Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T161434Z-47C1FAA4/0001.yaml
-  project_fingerprint: 9b7136055ead48188f1fcaad012fb446c4ce9e9a784fd707fd3097c6a6600800
+  lease_expires_at: '2026-07-19T20:21:56Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T161434Z-47C1FAA4/0002.yaml
+  project_fingerprint: a9ff374793fe5f0a88a623b2508d859abb9ac724801a7deef8b8f406492b2b76
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 93c5021d6eedcf64a392570e772e369a1bda99078c4baae3869407b9a386781a
-    generated_at: '2026-07-19T16:14:36Z'
+    context_hash: 2acee3ec6faf185741c292ac8bd524cca8b9b75445a5596dc810947f1115483f
+    generated_at: '2026-07-19T16:20:38Z'
   handoff_bundle: null
 ```
 
@@ -316,7 +316,7 @@ task_id: TASK-R05-001
 story_id: STORY-R05-008
 goal: 核验R05单一实名认证2项需求、9个接口、10张相关表、7个页面交互面和8个故事，冻结实施边界并进入数据与领域开发
 started_at: '2026-07-19T16:14:34Z'
-updated_at: '2026-07-19T16:20:36Z'
+updated_at: '2026-07-19T16:21:56Z'
 takeover_of: null
 change_requests:
 - CR-0089
@@ -364,12 +364,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T16:20:36Z'
-  expires_at: '2026-07-19T20:20:36Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260719T161434Z-47C1FAA4/0001.yaml
+  renewed_at: '2026-07-19T16:21:56Z'
+  expires_at: '2026-07-19T20:21:56Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260719T161434Z-47C1FAA4/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T161434Z-47C1FAA4.md
-next_step: 提交并推送R05入口基线，然后关闭CR-0089和TASK-R05-001，立即进入TASK-R05-002数据迁移与领域不变量
+next_step: 提交CR终态元数据后关闭TASK-R05-001并立即领取TASK-R05-002数据迁移与领域不变量
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -377,70 +377,52 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 开发入口Manifest、依赖门禁解释和唯一事实源必须由主控原子冻结；数据、后端和页面任务存在严格依赖，暂不提前修改
+  reason: CR终态、Release入口基线和任务关闭元数据必须由当前主控串行绑定
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T161434Z-47C1FAA4-0001
+checkpoint_id: CP-SES-20260719T161434Z-47C1FAA4-0002
 session_id: SES-20260719T161434Z-47C1FAA4
-sequence: 1
-created_at: '2026-07-19T16:20:36Z'
-summary: R05开发就绪核验完成：2项需求、9个新增operationId、10张表、7个页面、8个故事与10项测试全部冻结；R02真机PENDING保留为Release关闭阻断
-next_step: 提交并推送R05入口基线，然后关闭CR-0089和TASK-R05-001，立即进入TASK-R05-002数据迁移与领域不变量
+sequence: 2
+created_at: '2026-07-19T16:21:56Z'
+summary: CR-0088与CR-0089均完成并关闭；R04终态与R05入口边界可跨AI恢复
+next_step: 提交CR终态元数据后关闭TASK-R05-001并立即领取TASK-R05-002数据迁移与领域不变量
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: R05 documentation gate
+- name: R04 terminal release gate
   result: PASS
-  evidence: python scripts/check_v122_documentation.py --release R05
-  note: 0 errors 0 warnings 0 gaps
-- name: R05 release artifact structure
+  evidence: python scripts/check_release_artifacts.py --release R04 --close-gate
+  note: 8 tasks 6 acceptance 3 operations
+- name: R05 entry baseline
   result: PASS
-  evidence: python scripts/check_release_artifacts.py --release R05
-  note: release files valid
-- name: R05 nine operationIds
-  result: PASS
-  evidence: contracts/openapi.yaml;contracts/admin-openapi.yaml
-  note: 4 client and 5 admin operationIds exist
-- name: R02 external owner gate preserved
-  result: PASS
-  evidence: artifacts/apk/R02/APK_MANIFEST.yaml;releases/R02/TASKS.yaml
-  note: owner PENDING and TASK-R02-007 BLOCKED remain unchanged
+  evidence: docs/03-continuity/R05_TASK-001_ENTRY_GATE.md
+  note: documentation operation IDs and dependency boundary verified
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 6377d6f2c34841a1a3bde1f1c8e75083dabefa4e
+  head: b2ee5df5be707774ec7276a68f45473f94535448
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.2.json'
+  - ' M .continuity/change_requests/CR-0088.yaml'
+  - ' M .continuity/change_requests/CR-0089.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M releases/R05/RELEASE_MANIFEST.yaml'
-  - ?? .continuity/change_requests/CR-0089.yaml
-  - ?? .continuity/sessions/SES-20260719T161434Z-47C1FAA4.yaml
-  - ?? docs/03-continuity/R05_TASK-001_ENTRY_GATE.md
-  - ?? docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260719T161434Z-47C1FAA4.md
+  - ' M docs/03-continuity/change-requests/CR-0088-R04版本关闭元数据、验收证据与终态标签规范化.md'
+  - ' M docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md'
   recent_commits:
+  - "b2ee5df5be707774ec7276a68f45473f94535448\t2026-07-20T00:20:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): finalize\
+    \ R05 entry gate"
   - "6377d6f2c34841a1a3bde1f1c8e75083dabefa4e\t2026-07-20T00:10:46+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-008\
     \ as completed"
   - "07da0def4caee01a8d450b4bd69bc8676480e367\t2026-07-20T00:08:57+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(release): record R04\
@@ -455,15 +437,14 @@ git:
     \ APK identity"
   - "4520cfdbcf774d31ae70f7215885935d11db5d1e\t2026-07-19T22:43:00+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-006\
     \ as completed"
-  - "fe31d579d15c305f28cfac03c03ed026da6bfb66\t2026-07-19T22:40:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(staging): attest R04\
-    \ observability and rollback"
 project_fingerprint:
-  sha256: 9b7136055ead48188f1fcaad012fb446c4ce9e9a784fd707fd3097c6a6600800
+  sha256: a9ff374793fe5f0a88a623b2508d859abb9ac724801a7deef8b8f406492b2b76
   files:
   - docs/03-continuity/R05_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0088-R04版本关闭元数据、验收证据与终态标签规范化.md
   - docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md
   - releases/R05/RELEASE_MANIFEST.yaml
-  file_count: 3
+  file_count: 4
   payload:
     base_commit: 6377d6f2c34841a1a3bde1f1c8e75083dabefa4e
     files:
@@ -471,10 +452,14 @@ project_fingerprint:
       state: FILE
       size: 4414
       sha256: f86ba379a87e222ee8c063d1fe16d4036042d7273f8cfc0fa74a37e04a41d49c
+    - path: docs/03-continuity/change-requests/CR-0088-R04版本关闭元数据、验收证据与终态标签规范化.md
+      state: FILE
+      size: 3073
+      sha256: c9988b5aa8d6bab88be4eba05205c9a39123b1156dc55bbe06fedcedac41ab20
     - path: docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md
       state: FILE
-      size: 2921
-      sha256: 72c61ffeb35a89b0db8262591ba1a4763ba83d9b736d3e3c06ee50f7bf16db31
+      size: 3410
+      sha256: b57b4b27d2f3e03cea65d0ba126d94cbbeb5e6bee6590feb50e9d790f7b75a32
     - path: releases/R05/RELEASE_MANIFEST.yaml
       state: FILE
       size: 3439
@@ -482,6 +467,7 @@ project_fingerprint:
 change_classification:
   continuity:
   - docs/03-continuity/R05_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0088-R04版本关闭元数据、验收证据与终态标签规范化.md
   - docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md
   source_of_truth:
   - releases/R05/RELEASE_MANIFEST.yaml
@@ -533,8 +519,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 开发入口Manifest、依赖门禁解释和唯一事实源必须由主控原子冻结；数据、后端和页面任务存在严格依赖，暂不提前修改
-event_hash: 15497d3a971346d35a9850d33eb2f254ecdafca0607e78555e028ecf8074b3d6
+  reason: CR终态、Release入口基线和任务关闭元数据必须由当前主控串行绑定
+event_hash: 565f40b82a427c0182f3555cf7263f82ef75993e484db73bedac693df7c99f47
 ```
 
 ## 接续状态与事件头
@@ -546,8 +532,8 @@ active_session_id: SES-20260719T161434Z-47C1FAA4
 last_session_id: SES-20260719T160438Z-BF4F2F1D
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T160438Z-BF4F2F1D-0002
-event_count: 998
-event_head_hash: 15497d3a971346d35a9850d33eb2f254ecdafca0607e78555e028ecf8074b3d6
+event_count: 1003
+event_head_hash: 565f40b82a427c0182f3555cf7263f82ef75993e484db73bedac693df7c99f47
 event_chain_valid: true
 ```
 
@@ -670,9 +656,9 @@ recent_sessions: - session_id: SES-20260719T081942Z-8D5C4241
   started_at: '2026-07-19T16:14:34Z'
   record: .continuity/sessions/SES-20260719T161434Z-47C1FAA4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T161434Z-47C1FAA4.md
-  updated_at: '2026-07-19T16:20:36Z'
+  updated_at: '2026-07-19T16:21:56Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T161434Z-47C1FAA4/0001.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T161434Z-47C1FAA4/0002.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-EA9453A4715D
   session_id: SES-20260718T084729Z-BD53B7C4
@@ -1568,7 +1554,7 @@ recent_task_transitions: - transition_id: TRN-7CFA31EBDBF8
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 6377d6f2c34841a1a3bde1f1c8e75083dabefa4e
+head: b2ee5df5be707774ec7276a68f45473f94535448
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1579,24 +1565,19 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
+- ' M .continuity/change_requests/CR-0088.yaml'
+- ' M .continuity/change_requests/CR-0089.yaml'
+- ' M .continuity/sessions/SES-20260719T161434Z-47C1FAA4.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.2.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M releases/R05/RELEASE_MANIFEST.yaml'
-- ?? .continuity/change_requests/CR-0089.yaml
-- ?? .continuity/checkpoints/SES-20260719T161434Z-47C1FAA4/0001.yaml
-- ?? .continuity/sessions/SES-20260719T161434Z-47C1FAA4.yaml
-- ?? docs/03-continuity/R05_TASK-001_ENTRY_GATE.md
-- ?? docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260719T161434Z-47C1FAA4.md
+- ' M docs/03-continuity/change-requests/CR-0088-R04版本关闭元数据、验收证据与终态标签规范化.md'
+- ' M docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260719T161434Z-47C1FAA4.md'
+- ?? .continuity/checkpoints/SES-20260719T161434Z-47C1FAA4/0002.yaml
 recent_commits:
+- "b2ee5df5be707774ec7276a68f45473f94535448\t2026-07-20T00:20:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(governance): finalize\
+  \ R05 entry gate"
 - "6377d6f2c34841a1a3bde1f1c8e75083dabefa4e\t2026-07-20T00:10:46+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-008\
   \ as completed"
 - "07da0def4caee01a8d450b4bd69bc8676480e367\t2026-07-20T00:08:57+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(release): record R04 closure\
@@ -1611,16 +1592,15 @@ recent_commits:
   \ APK identity"
 - "4520cfdbcf774d31ae70f7215885935d11db5d1e\t2026-07-19T22:43:00+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-006\
   \ as completed"
-- "fe31d579d15c305f28cfac03c03ed026da6bfb66\t2026-07-19T22:40:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(staging): attest R04 observability\
-  \ and rollback"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`9b7136055ead48188f1fcaad012fb446c4ce9e9a784fd707fd3097c6a6600800`
-- 文件数：3
+- 指纹：`a9ff374793fe5f0a88a623b2508d859abb9ac724801a7deef8b8f406492b2b76`
+- 文件数：4
 
 - `docs/03-continuity/R05_TASK-001_ENTRY_GATE.md`
+- `docs/03-continuity/change-requests/CR-0088-R04版本关闭元数据、验收证据与终态标签规范化.md`
 - `docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md`
 - `releases/R05/RELEASE_MANIFEST.yaml`
 
@@ -3880,109 +3860,13 @@ TASKS.yaml:
     note: 独立核对：全部为TASK-R04-007明示交付物的精确文件，不改变产品功能
   machine_record: .continuity/change_requests/CR-0087.yaml
   document: docs/03-continuity/change-requests/CR-0087-精确纳入R04测试APK交付证据文件.md
-- protocol_version: '1.0'
-  cr_id: CR-0088
-  title: R04版本关闭元数据、验收证据与终态标签规范化
-  status: IMPLEMENTING
-  created_at: '2026-07-19T16:05:58Z'
-  updated_at: '2026-07-19T16:08:40Z'
-  requester_actor_id: codex-root
-  approver_actor_id: r04-release-review
-  task_id: TASK-R04-008
-  session_id: SES-20260719T160438Z-BF4F2F1D
-  user_request: 项目所有者确认R04真机测试通过并要求立即继续推进开发
-  reason: 将既有全绿实现、六项专项测试、Staging、APK和真机证据写入R04关闭矩阵，并按冻结OpenAPI绑定operationId、Release Commit和Tag，不改变业务范围
-  original_rule: R04 Manifest仍为READY_WHEN_DEPENDENCIES_GREEN、client_api为原始路径列表，AC-R04-001至003、005、006尚未绑定单文件PASS证据且无Release Commit/Tag
-  new_rule: R04关闭时保留三条既有API路径并绑定冻结operationId，以APK源码Commit 04cda65和Tag R04-04cda65作为发布身份；六项验收分别绑定既有专项、Staging、会话和APK真机证据并标记PASS
-  impact_summary: 仅规范化R04关闭元数据、证据指针和终态身份；不新增、删除或改变页面、API、数据库、配置及运行时语义
-  impact:
-    files:
-    - releases/R04/RELEASE_MANIFEST.yaml
-    - releases/R04/ACCEPTANCE_MATRIX.csv
-    pages: []
-    apis:
-    - mediaPostMediaUploadSessions
-    - mediaPostMediaUploadSessionsByIdComplete
-    - mediaDeleteMediaById
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python scripts/check_v123_documentation.py --strict
-    - python scripts/check_generated_assets.py
-    - python scripts/check_release_artifacts.py --release R04 --close-gate
-    releases:
-    - R04
-    migration_and_compatibility: 无需数据库、API消费者或客户端迁移；三条既有API路径保持不变，只补充operationId表示并归档现有测试证据
-  user_confirmation: 项目所有者已确认R04真机测试通过并要求立即推进下一版本
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-19T16:06:26Z'
-    note: 独立核对：三条operationId存在于冻结OpenAPI，04cda65是已验收APK源码Commit，六项证据均已真实PASS；无业务语义变化
-  machine_record: .continuity/change_requests/CR-0088.yaml
-  document: docs/03-continuity/change-requests/CR-0088-R04版本关闭元数据、验收证据与终态标签规范化.md
-  decision_log:
-  - at: '2026-07-19T16:08:40Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 开始回填R04终态Manifest、六项验收证据与Release Commit/Tag
-    session_id: SES-20260719T160438Z-BF4F2F1D
-  session_ids:
-  - SES-20260719T160438Z-BF4F2F1D
-- protocol_version: '1.0'
-  cr_id: CR-0089
-  title: 区分R05实现入口与R02外部真机发布门禁
-  status: IMPLEMENTING
-  created_at: '2026-07-19T16:18:29Z'
-  updated_at: '2026-07-19T16:20:34Z'
-  requester_actor_id: codex-root
-  approver_actor_id: r05-entry-review
-  task_id: TASK-R05-001
-  session_id: SES-20260719T161434Z-47C1FAA4
-  user_request: 项目所有者要求未明确暂停前持续推进整个项目开发，并要求遇到一般问题自行决定
-  reason: R02实现、集成和机器APK均PASS但旧R02 APK owner_physical_test仍PENDING；R05需要复用其认证能力。必须允许可验证的R05本地实现继续，同时保留R02待验事实并禁止R05发布关闭绕过该门禁
-  original_rule: R05入口要求依赖版本GREEN，但R02仅剩旧APK项目所有者真机验收和版本关闭未完成，若把外部门禁等同实现缺失会导致全部后续开发停工
-  new_rule: R05可基于R02已完成的TASK-R02-001至006、机器APK PASS和R04已关闭状态进入本地实现；R02 owner_physical_test继续保持PENDING且不得标记DONE。该待验项不阻断R05编码和自动化验证，但必须阻断R05最终Release关闭及任何生产激活，直到获得真实项目所有者证据或经批准的累积版本验收规则
-  impact_summary: 只明确实现入口与发布出口的不同门禁，不修改R02状态、不伪造真机PASS，也不改变页面、API、数据库或业务语义
-  impact:
-    files:
-    - releases/R05/RELEASE_MANIFEST.yaml
-    - docs/03-continuity/R05_TASK-001_ENTRY_GATE.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python scripts/check_v122_documentation.py --release R05
-    - python scripts/check_release_artifacts.py --release R05
-    - R02 owner_physical_test remains PENDING and TASK-R02-007 remains BLOCKED
-    releases:
-    - R02
-    - R05
-    migration_and_compatibility: 无运行时迁移；R05复用既有R02认证能力，R02真机待验事实继续保留在Manifest、任务和当前状态中
-  user_confirmation: 项目所有者反复明确未要求暂停时持续推进，且一般问题由开发方自行决定；不得因外部待验停止可验证开发
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-19T16:18:52Z'
-    note: 独立核对：R02实现与集成已PASS且只剩外部真机门禁；新规则保留PENDING并把它升级为R05发布关闭阻断，不降低产品验收标准
-  machine_record: .continuity/change_requests/CR-0089.yaml
-  document: docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md
-  decision_log:
-  - at: '2026-07-19T16:20:34Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 开始写入R05入口基线、冻结operationId核验和R02外部真机发布门禁边界
-    session_id: SES-20260719T161434Z-47C1FAA4
-  session_ids:
-  - SES-20260719T161434Z-47C1FAA4
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `05e35227bf66142ff4f4462364a4bb6539cc3254c1b6a641da7b32badff86d98`
+- `CURRENT_STATUS.yaml` — `0ba51c364cd9643e5d7305601a786d200fd3f8896ed809d7b4f8e32a9809d898`
 - `NEXT_TASK.yaml` — `b6017114fb7d1eab4949d9273cf2c8c87b1d06d258c12ab28a31b7d5df2ddec4`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -3993,20 +3877,20 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `a0427b1eed32c2a1f58e1a5ccc514c2f0a29fd17d0186687e44161d084ed45d8`
-- `.continuity/SESSION_INDEX.yaml` — `44a7ce075c9e94f88e4b8dd1d479e9b7ca604fd633bb3671b8f0c01e8529434e`
+- `.continuity/EVENT_LOG.jsonl` — `1161a065f3eb644f4939b63128458b0c85dfc24ee31d18cec229eac737b2eb4c`
+- `.continuity/SESSION_INDEX.yaml` — `11310cf784e7ca9f4b634835abc9c7dd92e954f92f7c1e94dc7528203e5ff6cf`
 - `.continuity/TASK_CLAIMS.yaml` — `4e3fe9b5aa9bdde07177ddb74d8db840ce6c40efd4d8dcf9241ea58a24714f7b`
 - `.continuity/TASK_TRANSITIONS.yaml` — `8f2440d850bee8a0a0e425376a1273a429da5dd12115a72425cc80b65b25a040`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `96ca83697878b1db2bdbc40514cf39f818ef33f35b977d0896692095564cca20`
-- `.continuity/ACTIVE_SESSION.yaml` — `5e33274d033d1544e21a4b5cdd3ddc5bc40fd73866102c7968b82384218e9e99`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c5058129a53f2224844f2fca88bc0e92ff6d6bf6cd5861983ce3d741baa88b6f`
+- `.continuity/ACTIVE_SESSION.yaml` — `d09e725f85dda8c4ed58b08e96dea76e466b1d70566d3718cd299498c9e8189e`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `e2748a2bda2bf2cb053cb49eafa127cac66c27e0d3f1ed36232c0c0ba93fd96c`
 - `releases/R05/TASKS.yaml` — `58c4a6c4e5c0c266390970b57aeee7ca6583064dcf57aaf2dd40cf34b23489d1`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T161434Z-47C1FAA4.md` — `c43be81704f07c59a15a9a201dfc31e2e62756044ae8ae2c3d602ea65d5e8903`
-- `.continuity/checkpoints/SES-20260719T161434Z-47C1FAA4/0001.yaml` — `2d715f99ad1a6b042abe74c915c938b880f0a5485297d80c62988f49188c3cfb`
-- `docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md` — `72c61ffeb35a89b0db8262591ba1a4763ba83d9b736d3e3c06ee50f7bf16db31`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T161434Z-47C1FAA4.md` — `a3f6bc4e20700d00e981d4044b584461ec8be4f60b649f33976ae5c7d050b6af`
+- `.continuity/checkpoints/SES-20260719T161434Z-47C1FAA4/0002.yaml` — `ed30c1a9785092b0bfe82c861e678bd39eadbd59591d1cb3ece2b9e3b109c747`
+- `docs/03-continuity/change-requests/CR-0089-区分R05实现入口与R02外部真机发布门禁.md` — `b57b4b27d2f3e03cea65d0ba126d94cbbeb5e6bee6590feb50e9d790f7b75a32`
 
 ## 接手硬规则
 

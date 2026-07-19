@@ -5235,9 +5235,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0088
   title: R04版本关闭元数据、验收证据与终态标签规范化
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T16:05:58Z'
-  updated_at: '2026-07-19T16:08:40Z'
+  updated_at: '2026-07-19T16:21:51Z'
   requester_actor_id: codex-root
   approver_actor_id: r04-release-review
   task_id: TASK-R04-008
@@ -5279,14 +5279,27 @@ change_requests:
     status: IMPLEMENTING
     note: 开始回填R04终态Manifest、六项验收证据与Release Commit/Tag
     session_id: SES-20260719T160438Z-BF4F2F1D
+  - at: '2026-07-19T16:21:50Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: R04终态Manifest、六项验收证据和Release Tag已实现并通过关闭门禁
+    session_id: SES-20260719T161434Z-47C1FAA4
+  - at: '2026-07-19T16:21:51Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: R04版本关闭证据提交与终态关闭提交均已推送，RELEASE_CLOSE_GATE_OK
+    session_id: SES-20260719T161434Z-47C1FAA4
   session_ids:
   - SES-20260719T160438Z-BF4F2F1D
+  - SES-20260719T161434Z-47C1FAA4
+  implementation_commits:
+  - 07da0def4caee01a8d450b4bd69bc8676480e367
 - protocol_version: '1.0'
   cr_id: CR-0089
   title: 区分R05实现入口与R02外部真机发布门禁
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T16:18:29Z'
-  updated_at: '2026-07-19T16:20:34Z'
+  updated_at: '2026-07-19T16:21:54Z'
   requester_actor_id: codex-root
   approver_actor_id: r05-entry-review
   task_id: TASK-R05-001
@@ -5326,5 +5339,17 @@ change_requests:
     status: IMPLEMENTING
     note: 开始写入R05入口基线、冻结operationId核验和R02外部真机发布门禁边界
     session_id: SES-20260719T161434Z-47C1FAA4
+  - at: '2026-07-19T16:21:53Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: R05入口基线和R02外部真机发布门禁边界已实现，文档、operationId和Release结构门禁全绿
+    session_id: SES-20260719T161434Z-47C1FAA4
+  - at: '2026-07-19T16:21:54Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 实现提交已推送；R02 PENDING事实保留且R05发布关闭阻断已写入唯一事实源
+    session_id: SES-20260719T161434Z-47C1FAA4
   session_ids:
   - SES-20260719T161434Z-47C1FAA4
+  implementation_commits:
+  - b2ee5df5be707774ec7276a68f45473f94535448
