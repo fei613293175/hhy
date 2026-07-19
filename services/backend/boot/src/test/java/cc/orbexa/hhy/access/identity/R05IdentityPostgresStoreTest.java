@@ -44,6 +44,9 @@ class R05IdentityPostgresStoreTest {
                 new SecureRandom());
         var store = new R05IdentityPostgresStore(
                 jdbc, transactions, new ObjectMapper().findAndRegisterModules(), cipher);
+        var consent = store.currentConsent().orElseThrow();
+        assertFalse(consent.versionId().isBlank());
+        assertTrue(consent.content().contains("实名认证"));
         String suffix = UUID.randomUUID().toString().replace("-", "");
         Long userId = jdbc.queryForObject("""
                 INSERT INTO hhy.users(phone,status) VALUES (?,'ACTIVE') RETURNING id

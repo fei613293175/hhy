@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import cc.orbexa.hhy.access.identity.IdentityContracts.CreateLivenessTokenRequest;
 import cc.orbexa.hhy.access.identity.IdentityContracts.CreateSessionRequest;
 import cc.orbexa.hhy.access.identity.IdentityContracts.IdentitySessionResource;
+import cc.orbexa.hhy.access.identity.IdentityContracts.IdentityConsentResource;
 import cc.orbexa.hhy.access.identity.IdentityContracts.RetrySessionRequest;
 import cc.orbexa.hhy.access.identity.IdentityService;
 import cc.orbexa.hhy.access.user.UserPrincipal;
@@ -27,7 +28,7 @@ class IdentityControllerTest {
     private static final UserPrincipal PRINCIPAL = new UserPrincipal(17, 1, 0, "jti", "ACTIVE");
 
     @Test
-    void exposesTheFourFrozenClientMappingsAndDelegatesToService() throws Exception {
+    void exposesTheFrozenClientMappingsAndDelegatesToService() throws Exception {
         IdentityService service = mock(IdentityService.class);
         IdentityController controller = new IdentityController(service, Clock.fixed(NOW, ZoneOffset.UTC));
         HttpServletRequest servlet = request();
@@ -38,11 +39,15 @@ class IdentityControllerTest {
         IdentitySessionResource resource = new IdentitySessionResource(
                 "41", "17", "SESSION_CREATED", "identity-provider", null, null,
                 NOW.plusSeconds(300), 0L);
+        IdentityConsentResource consent = new IdentityConsentResource(
+                "91", "实名认证授权说明", "当前正文");
+        when(service.consent(PRINCIPAL)).thenReturn(consent);
         when(service.create(PRINCIPAL, create, key)).thenReturn(resource);
         when(service.livenessToken(PRINCIPAL, "41", liveness, key)).thenReturn(resource);
         when(service.get(PRINCIPAL, "41")).thenReturn(resource);
         when(service.retry(PRINCIPAL, "41", retry, key)).thenReturn(resource);
 
+        assertEquals(consent, controller.identityGetIdentityConsent(PRINCIPAL, servlet).data());
         assertEquals(resource, controller.identityPostIdentitySessions(
                 PRINCIPAL, create, key, servlet).data());
         assertEquals(resource, controller.identityPostIdentitySessionsByIdLivenessToken(
@@ -51,22 +56,26 @@ class IdentityControllerTest {
                 PRINCIPAL, "41", servlet).data());
         assertEquals(resource, controller.identityPostIdentitySessionsByIdRetry(
                 PRINCIPAL, "41", retry, key, servlet).data());
+        verify(service).consent(PRINCIPAL);
         verify(service).create(PRINCIPAL, create, key);
         verify(service).livenessToken(PRINCIPAL, "41", liveness, key);
         verify(service).get(PRINCIPAL, "41");
         verify(service).retry(PRINCIPAL, "41", retry, key);
 
-        assertEquals("/api/v1/identity/sessions",
+        assertEquals("/api/v1/identity",
                 IdentityController.class.getAnnotation(RequestMapping.class).value()[0]);
-        assertPost("identityPostIdentitySessions", "", UserPrincipal.class,
+        Method consentGet = IdentityController.class.getMethod("identityGetIdentityConsent",
+                UserPrincipal.class, HttpServletRequest.class);
+        assertEquals("/consent", consentGet.getAnnotation(GetMapping.class).value()[0]);
+        assertPost("identityPostIdentitySessions", "/sessions", UserPrincipal.class,
                 CreateSessionRequest.class, String.class, HttpServletRequest.class);
-        assertPost("identityPostIdentitySessionsByIdLivenessToken", "/{id}/liveness-token",
+        assertPost("identityPostIdentitySessionsByIdLivenessToken", "/sessions/{id}/liveness-token",
                 UserPrincipal.class, String.class, CreateLivenessTokenRequest.class,
                 String.class, HttpServletRequest.class);
         Method get = IdentityController.class.getMethod("identityGetIdentitySessionsById",
                 UserPrincipal.class, String.class, HttpServletRequest.class);
-        assertEquals("/{id}", get.getAnnotation(GetMapping.class).value()[0]);
-        assertPost("identityPostIdentitySessionsByIdRetry", "/{id}/retry",
+        assertEquals("/sessions/{id}", get.getAnnotation(GetMapping.class).value()[0]);
+        assertPost("identityPostIdentitySessionsByIdRetry", "/sessions/{id}/retry",
                 UserPrincipal.class, String.class, RetrySessionRequest.class,
                 String.class, HttpServletRequest.class);
     }

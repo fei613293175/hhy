@@ -537,15 +537,15 @@ problems:
   - 集成测试不得为清理数据而删除或篡改不可变Outbox事件，一次性数据库由容器整体销毁
 - id: PROB-0044
   title: R05客户端实名授权协议版本缺少受控读取来源
-  status: OPEN
+  status: SOLVED
   root_cause: 冻结创建实名会话契约要求consentVersion，页面字段目录明确禁止客户端暗设默认，但R05四个客户端接口和现有配置接口均未提供当前实名授权协议版本；公开注册协议配置在当前环境也没有实名协议条目。
-  impact: Android四个实名页面和网络调用可完整实现并验证，但正式提交必须在取得服务端或受控部署配置的真实协议版本前保持关闭，不能把测试常量冒充用户授权事实。
-  current_behavior: Android从集中构建配置HHY_IDENTITY_CONSENT_VERSION注入版本；未配置时展示商业化暂不可用提示并禁止提交，页面和业务代码不含测试默认值。
+  impact: 已由CR-0096补齐服务端受控协议读取、当前版本二次校验和Android自动加载阅读闭环；APK不再携带协议版本构建变量，用户页面不展示技术版本ID。
+  current_behavior: Android进入实名信息表单自动读取当前生效的IDENTITY_VERIFICATION协议，用户可展开阅读正文并明确同意；创建会话只提交内存中的不透明版本ID，服务端拒绝空版本、旧版本或已切换版本。
   next_owner: TASK-R05-004
   required_evidence:
-  - 通过CR冻结实名协议代码、当前版本读取来源和失效策略
-  - 测试及正式环境返回真实有效版本，Android提交与服务端审计保存一致
-  - 未配置、过期和版本切换回归
+  - CR-0096冻结GET /api/v1/identity/consent和创建会话版本校验规则
+  - Java 21服务/控制器测试8项通过，Android网络测试24项与实名/App Kotlin编译通过
+  - PostgreSQL 17空库V027、U027至U023回滚和V023至V027重装通过，覆盖未配置、受控种子和有签署拒绝回滚
   do_not_repeat:
   - 不得使用App版本、OpenAPI版本或consent-v1测试常量代替实名授权协议版本
   - 不得在页面局部硬编码协议版本或允许空版本提交

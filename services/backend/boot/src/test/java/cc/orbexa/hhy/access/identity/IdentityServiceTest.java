@@ -10,6 +10,7 @@ import cc.orbexa.hhy.access.identity.IdentityContracts.CreateLivenessTokenReques
 import cc.orbexa.hhy.access.identity.IdentityContracts.CreateSessionRequest;
 import cc.orbexa.hhy.access.identity.IdentityContracts.RetrySessionRequest;
 import cc.orbexa.hhy.access.identity.IdentityService.LivenessTicket;
+import cc.orbexa.hhy.access.identity.IdentityService.IdentityConsent;
 import cc.orbexa.hhy.access.identity.IdentityService.PolicySnapshot;
 import cc.orbexa.hhy.access.identity.IdentityService.ProtectedIdentity;
 import cc.orbexa.hhy.access.identity.IdentityService.Session;
@@ -65,6 +66,20 @@ class IdentityServiceTest {
         assertEquals("cipher-name", store.lastDraft.identity().nameCipher());
         assertEquals("consent-v1", store.lastDraft.consentVersion());
         assertFalse(result.toString().contains("110101199001010011"));
+    }
+
+    @Test
+    void exposesCurrentConsentAndRejectsStaleVersionBeforeSensitiveProcessing() {
+        var consent = service.consent(principal(11));
+        assertEquals("consent-v1", consent.consentVersion());
+        assertEquals("实名认证授权说明", consent.title());
+        assertEquals("当前实名授权正文", consent.content());
+
+        BusinessException stale = assertThrows(BusinessException.class,
+                () -> service.create(principal(11),
+                        new CreateSessionRequest("张三", "110101199001010011", "old-consent"), KEY));
+        assertEquals(422, stale.httpStatus());
+        assertEquals(0, sensitive.calls);
     }
 
     @Test
@@ -196,6 +211,11 @@ class IdentityServiceTest {
         final Map<Long, Session> sessions = new HashMap<>();
         SessionDraft lastDraft;
         long dailyAttempts;
+
+        @Override
+        public Optional<IdentityConsent> currentConsent() {
+            return Optional.of(new IdentityConsent("consent-v1", "当前实名授权正文"));
+        }
 
         @Override
         public Optional<String> profileStatus(long userId) {

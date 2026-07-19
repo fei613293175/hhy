@@ -133,7 +133,6 @@ class MainActivity : ComponentActivity() {
                                 SecurityDestination.Identity -> IdentityFlowScreen(
                                     api = identityApi,
                                     accessToken = authenticated.session.accessToken,
-                                    consentVersion = BuildConfig.IDENTITY_CONSENT_VERSION,
                                     returnUrl = BuildConfig.IDENTITY_RETURN_URL,
                                     onBack = { securityDestination = SecurityDestination.Shell },
                                     onSessionExpired = {

@@ -35,4 +35,9 @@ public final class IdentityContracts {
             String failureCode,
             Instant expiresAt,
             long version) { }
+
+    public record IdentityConsentResource(
+            @NotBlank @Size(max = 2000) String consentVersion,
+            @NotBlank @Size(max = 2000) String title,
+            @NotBlank @Size(max = 20000) String content) { }
 }

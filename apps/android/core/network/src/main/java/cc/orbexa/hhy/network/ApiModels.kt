@@ -247,6 +247,13 @@ data class IdentitySessionResource(
 )
 
 @Serializable
+data class IdentityConsentResource(
+    val consentVersion: String,
+    val title: String,
+    val content: String,
+)
+
+@Serializable
 data class IdentityCreateSessionRequest(
     val realName: String,
     val idNumber: String,

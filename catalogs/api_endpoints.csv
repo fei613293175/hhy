@@ -16,6 +16,7 @@ User,GET,/api/v1/me,登录,当前用户资料,否,R02/R07/R12
 User,PATCH,/api/v1/me/profile,登录,修改头像昵称简介,是,R02/R07/R12
 User,GET,/api/v1/publishers/{id},登录,发布者公开主页,否,R02/R07/R12
 User,POST,/api/v1/me/cancellation,登录,申请注销,是,R02/R07/R12
+Identity,GET,/api/v1/identity/consent,登录,获取当前实名认证授权说明,否,R05
 Identity,POST,/api/v1/identity/sessions,登录,创建实名会话,是,R05
 Identity,POST,/api/v1/identity/sessions/{id}/liveness-token,登录,获取活体H5,是,R05
 Identity,GET,/api/v1/identity/sessions/{id},登录,查询实名状态,否,R05

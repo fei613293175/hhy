@@ -11,7 +11,6 @@ val appChannel = providers.environmentVariable("HHY_APP_CHANNEL").orElse("offici
 // The publicly reachable development API publishes its test artefacts in STAGING.
 // Individual CI jobs can still override this with HHY_APP_ENVIRONMENT.
 val appEnvironment = providers.environmentVariable("HHY_APP_ENVIRONMENT").orElse("STAGING")
-val identityConsentVersion = providers.environmentVariable("HHY_IDENTITY_CONSENT_VERSION").orElse("")
 val h5BaseUrl = providers.environmentVariable("HHY_H5_BASE_URL").orElse("https://h5.orbexa.cc")
 
 val packagingTaskRequested = gradle.startParameter.taskNames.any { requested ->
@@ -62,7 +61,6 @@ android {
         buildConfigField("String", "CONTRACT_VERSION", "\"1.2.2\"")
         buildConfigField("String", "APP_CHANNEL", "\"${appChannel.get()}\"")
         buildConfigField("String", "APP_ENVIRONMENT", "\"${appEnvironment.get()}\"")
-        buildConfigField("String", "IDENTITY_CONSENT_VERSION", "\"${identityConsentVersion.get()}\"")
         buildConfigField("String", "IDENTITY_RETURN_URL", "\"${h5BaseUrl.get().trimEnd('/')}/identity/callback\"")
     }
 

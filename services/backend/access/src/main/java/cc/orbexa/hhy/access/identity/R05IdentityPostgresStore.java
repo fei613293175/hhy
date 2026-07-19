@@ -1,6 +1,7 @@
 package cc.orbexa.hhy.access.identity;
 
 import cc.orbexa.hhy.access.identity.IdentityService.LivenessTicket;
+import cc.orbexa.hhy.access.identity.IdentityService.IdentityConsent;
 import cc.orbexa.hhy.access.identity.IdentityService.Session;
 import cc.orbexa.hhy.access.identity.IdentityService.SessionDraft;
 import cc.orbexa.hhy.shared.api.BusinessException;
@@ -48,6 +49,22 @@ public final class R05IdentityPostgresStore implements IdentityService.Store {
         this.transactions = transactions;
         this.objectMapper = objectMapper;
         this.sensitiveData = sensitiveData;
+    }
+
+    @Override
+    public Optional<IdentityConsent> currentConsent() {
+        return jdbc.query("""
+                SELECT version_row.id, version_row.content
+                FROM hhy.agreements agreement
+                JOIN hhy.agreement_versions version_row
+                  ON version_row.id=agreement.current_version_id
+                WHERE agreement.code='IDENTITY_VERIFICATION'
+                  AND version_row.effective_at IS NOT NULL
+                  AND version_row.effective_at<=clock_timestamp()
+                  AND length(trim(coalesce(version_row.content,'')))>0
+                """, (rs, row) -> new IdentityConsent(
+                Long.toString(rs.getLong("id")), rs.getString("content")))
+                .stream().findFirst();
     }
 
     @Override

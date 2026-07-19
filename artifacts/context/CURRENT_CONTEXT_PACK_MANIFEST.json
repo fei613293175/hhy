@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-19T19:41:07Z",
-  "context_hash": "5aaee435085ca190a9ff38dc2046b855fc2810f2e4c05209431fa8d5f404595a",
+  "generated_at": "2026-07-19T20:22:07Z",
+  "context_hash": "e3f5203a096b5c9755adae957415520d6c5dd4810f7f5f34ba6baee44e6e9037",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "64b9f94adac17115f5bc3e1a1266b2a43dc97ef48040dee844f69420e93fd9ec",
-    "file_count": 56
+    "sha256": "da6c127aebffd45fa1585f0f549d8d492d2d94bc21db8baabbdc243527423c38",
+    "file_count": 71
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "3492a1a7e57ef2ed423fea476869165964245b5470ec49cd32309559d7d162a4"
+    "sha256": "40313858cd962cdfb55021b39cbc229a0a22acbb4304bc2f2bb96b8cf29c8412"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "ba1eb6e656773f3ec585c25f5358823d3d295e8c343d325d9502e8e098d72e74"
+    "sha256": "32aec2a84dcdb73da44b2e38734178c896e8fabf18d24a6112ff90e335c56173"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "46c010b9250dadbf69771d4688da80f6ed78409156eeb123bafe42fe9a600a86",
+      "sha256": "b83be3db922708cbe4a7702acd54a2128ef4cac34331369eac7f28af46c2abeb",
       "bytes": 3572
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "2c6ae0e9ce839d1b919e572749e2a15b6f175482fb57f40d305e3bcb2c70c962",
-      "bytes": 47802
+      "sha256": "899b66aad097deb61a1ff0c13c61b34c7e7795a553a2371c631b823eea6df156",
+      "bytes": 47938
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "ad531f6f055c6a8146cca6c292927c95dc1ee9a75b816d12051523c808f09138",
-      "bytes": 586371
+      "sha256": "a67cb89c072b59cf96743181f6b450d9fe6fb735606add94faa0486dfbc3b2d3",
+      "bytes": 593196
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "278816be2390b821075f171de52d92a8b2f6cc9c4266601f591fa8f3f435d7ea",
+      "sha256": "46c14ea8cea66764fdf64ea8cbba13dee191e0929a56b39c3cfe60c66f2e2a7d",
       "bytes": 23800
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "b157a241a9afdc287d147f3e04141b04a121e597033251be37f89b7c872a1089",
-      "bytes": 288526
+      "sha256": "7ff12c7176bbf45160d5e81bb662b6fe3725d64fb7e102b81664f4d063097570",
+      "bytes": 293349
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "2cfdba346e52e3dd249852cc9832c4eb30dc2ab236efa84cd6e9c8943fdde7ad",
+      "sha256": "6da7c67926d9a4b26c8ae93462bfd5fb23c63e745b8af66324b56782f42f1d08",
       "bytes": 525
     },
     {
@@ -123,8 +123,8 @@
     },
     {
       "path": "releases/R05/STORIES.yaml",
-      "sha256": "a78fb4553902097f9ce19a90c9a6d6bc7e4ddf7f1de653a61de00e8f5bcfaadd",
-      "bytes": 19073
+      "sha256": "2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f",
+      "bytes": 19202
     },
     {
       "path": "releases/R05/TASKS.yaml",
@@ -138,13 +138,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md",
-      "sha256": "4c01bfddd783d3f185d6a1dbc1263c43f974953904a77916d1d858fc287c1672",
-      "bytes": 22329
+      "sha256": "b50bc1d68438219089bb1be058d43f3dc7bdcb43bcd2ceb651b371105600d77b",
+      "bytes": 28178
     },
     {
-      "path": ".continuity/checkpoints/SES-20260719T183335Z-535311E4/0006.yaml",
-      "sha256": "5d58a4282194612ba2a7d3c335bd35ef13f32eebd723dd4a7168f3c7797ccd82",
-      "bytes": 25844
+      "path": ".continuity/checkpoints/SES-20260719T183335Z-535311E4/0007.yaml",
+      "sha256": "33ab8361f764588bc6940fed1b7df1c3b84a3b192f2dd2f29aa675813ebc6ecd",
+      "bytes": 35046
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md",
@@ -175,6 +175,11 @@
       "path": "docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md",
       "sha256": "049e05ab80154a67d466978fafe63acba5fccbcb020fdfe839a4f7e629c75fef",
       "bytes": 1903
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md",
+      "sha256": "1ede3c32037173b6f15399cac9ef87d1db36b8f1e923ac253bdbbf2d50a94c67",
+      "bytes": 4614
     }
   ]
 }

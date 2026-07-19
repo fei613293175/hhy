@@ -15,6 +15,7 @@ PSQL=(psql "${DATABASE_URL}" -X -v ON_ERROR_STOP=1)
 echo "R05_IDENTITY_INVARIANTS PASS"
 
 "${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/rollback/U027__r05_identity_consent.sql" \
   -f "${ROOT}/database/rollback/U026__r05_identity_callback_consumption.sql" \
   -f "${ROOT}/database/rollback/U025__r05_identity_provider_payload.sql" \
   -f "${ROOT}/database/rollback/U024__r05_identity_api_storage.sql" \
@@ -62,7 +63,13 @@ remaining="$(${PSQL[@]} -qAt -c "
   echo "R05 rollback left constraints, indexes, triggers, or columns: ${remaining}" >&2
   exit 1
 }
-echo "R05_U026_U025_U024_U023_ROLLBACK PASS"
+consent_after_rollback="$(${PSQL[@]} -qAt -c "
+  SELECT count(*) FROM hhy.agreements WHERE code='IDENTITY_VERIFICATION';")"
+[[ "${consent_after_rollback}" == "0" ]] || {
+  echo "R05 identity consent seed remained after rollback" >&2
+  exit 1
+}
+echo "R05_U027_U026_U025_U024_U023_ROLLBACK PASS"
 
 "${PSQL[@]}" --single-transaction \
   -f "${ROOT}/database/migrations/V023__r05_identity_invariants.sql" >/dev/null
@@ -72,6 +79,8 @@ echo "R05_U026_U025_U024_U023_ROLLBACK PASS"
   -f "${ROOT}/database/migrations/V025__r05_identity_provider_payload.sql" >/dev/null
 "${PSQL[@]}" --single-transaction \
   -f "${ROOT}/database/migrations/V026__r05_identity_callback_consumption.sql" >/dev/null
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V027__r05_identity_consent.sql" >/dev/null
 reapplied="$(${PSQL[@]} -qAt -c "
   SELECT
     (SELECT count(*) FROM pg_constraint
@@ -124,4 +133,16 @@ payload_type="$(${PSQL[@]} -qAt -c "
   echo "R05 provider response ciphertext type was not restored: ${payload_type}" >&2
   exit 1
 }
-echo "R05_V023_V024_V025_V026_REAPPLY PASS constraints=32 indexes=13 trigger=1 columns=31 payload=text"
+consent_reapplied="$(${PSQL[@]} -qAt -c "
+  SELECT count(*)
+  FROM hhy.agreements agreement
+  JOIN hhy.agreement_versions version_row ON version_row.id=agreement.current_version_id
+  WHERE agreement.code='IDENTITY_VERIFICATION'
+    AND version_row.version=2026072001
+    AND version_row.effective_at<=clock_timestamp()
+    AND length(trim(version_row.content))>0;")"
+[[ "${consent_reapplied}" == "1" ]] || {
+  echo "R05 identity consent seed was not restored" >&2
+  exit 1
+}
+echo "R05_V023_V024_V025_V026_V027_REAPPLY PASS constraints=32 indexes=13 trigger=1 columns=31 payload=text consent=1"

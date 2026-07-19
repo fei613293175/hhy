@@ -11,7 +11,7 @@
     "templates": 30,
     "fields": 5159,
     "states": 1633,
-    "actions": 607,
+    "actions": 608,
     "configs": 314,
     "config_rules": 58,
     "config_roles": 21,
@@ -20,7 +20,7 @@
     "stories": 163,
     "dor_gates": 396,
     "tables": 200,
-    "rest_operations": 317,
+    "rest_operations": 318,
     "websocket_events": 10,
     "unassigned_api_operations": 0,
     "open_document_gaps": 0

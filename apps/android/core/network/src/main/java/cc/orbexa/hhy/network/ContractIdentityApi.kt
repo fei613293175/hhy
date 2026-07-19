@@ -9,8 +9,10 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.decodeFromString
 
-/** Transport bound one-to-one to the four frozen R05 identity operationIds. */
+/** Transport bound one-to-one to the frozen R05 identity operationIds. */
 interface ContractIdentityApi {
+    suspend fun consent(accessToken: String): IdentityConsentCallResult
+
     suspend fun createSession(
         accessToken: String,
         idempotencyKey: String,
@@ -44,8 +46,58 @@ sealed interface IdentityCallResult {
     ) : IdentityCallResult
 }
 
+sealed interface IdentityConsentCallResult {
+    data class Success(val consent: IdentityConsentResource) : IdentityConsentCallResult
+    data class Failure(
+        val statusCode: Int?,
+        val errorCode: String? = null,
+        val retryAfterSeconds: Long? = null,
+        val fieldErrors: Map<String, String> = emptyMap(),
+    ) : IdentityConsentCallResult
+}
+
 class UrlConnectionContractIdentityApi(baseUrl: String) : ContractIdentityApi {
     private val root = validateRoot(baseUrl)
+
+    override suspend fun consent(accessToken: String): IdentityConsentCallResult =
+        withContext(Dispatchers.IO) {
+            try {
+                val connection = URI.create(root + "/api/v1/identity/consent")
+                    .toURL().openConnection() as HttpURLConnection
+                try {
+                    connection.requestMethod = "GET"
+                    connection.connectTimeout = CONNECT_TIMEOUT_MILLIS
+                    connection.readTimeout = READ_TIMEOUT_MILLIS
+                    connection.setRequestProperty("Accept", "application/json")
+                    connection.setRequestProperty("Authorization", "Bearer $accessToken")
+                    connection.setRequestProperty("X-Request-Id", UUID.randomUUID().toString())
+                    val status = connection.responseCode
+                    val text = (if (status in 200..299) connection.inputStream else connection.errorStream)
+                        ?.bufferedReader(Charsets.UTF_8)?.use { it.readText() }.orEmpty()
+                    if (status !in 200..299) {
+                        val error = runCatching {
+                            HhyNetworkJson.value.decodeFromString<ApiErrorEnvelope>(text)
+                        }.getOrNull()
+                        return@withContext IdentityConsentCallResult.Failure(
+                            statusCode = status,
+                            errorCode = error?.error?.code,
+                            retryAfterSeconds = connection.getHeaderField("Retry-After")?.toLongOrNull(),
+                            fieldErrors = error?.error?.details.orEmpty()
+                                .associate { it.field to it.message },
+                        )
+                    }
+                    val envelope = HhyNetworkJson.value
+                        .decodeFromString<ApiEnvelope<IdentityConsentResource>>(text)
+                    IdentityConsentCallResult.Success(envelope.data)
+                } finally {
+                    connection.disconnect()
+                }
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (_: Exception) {
+                IdentityConsentCallResult.Failure(null)
+            }
+        }
 
     override suspend fun createSession(
         accessToken: String,

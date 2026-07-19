@@ -3,6 +3,7 @@ package cc.orbexa.hhy.boot.user;
 import cc.orbexa.hhy.access.identity.IdentityContracts.CreateLivenessTokenRequest;
 import cc.orbexa.hhy.access.identity.IdentityContracts.CreateSessionRequest;
 import cc.orbexa.hhy.access.identity.IdentityContracts.IdentitySessionResource;
+import cc.orbexa.hhy.access.identity.IdentityContracts.IdentityConsentResource;
 import cc.orbexa.hhy.access.identity.IdentityContracts.RetrySessionRequest;
 import cc.orbexa.hhy.access.identity.IdentityService;
 import cc.orbexa.hhy.access.user.UserPrincipal;
@@ -24,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Thin orchestration for the four frozen R05 authenticated client operationIds. */
+/** Thin orchestration for the frozen R05 authenticated client operationIds. */
 @Validated
 @RestController
-@RequestMapping("/api/v1/identity/sessions")
+@RequestMapping("/api/v1/identity")
 public class IdentityController {
     private final IdentityService service;
     private final Clock clock;
@@ -37,7 +38,14 @@ public class IdentityController {
         this.clock = clock;
     }
 
-    @PostMapping
+    @GetMapping("/consent")
+    public ApiResponse<IdentityConsentResource> identityGetIdentityConsent(
+            @AuthenticationPrincipal UserPrincipal principal,
+            HttpServletRequest request) {
+        return success(request, service.consent(principal));
+    }
+
+    @PostMapping("/sessions")
     public ApiResponse<IdentitySessionResource> identityPostIdentitySessions(
             @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody CreateSessionRequest body,
@@ -46,7 +54,7 @@ public class IdentityController {
         return success(request, service.create(principal, body, key));
     }
 
-    @PostMapping("/{id}/liveness-token")
+    @PostMapping("/sessions/{id}/liveness-token")
     public ApiResponse<IdentitySessionResource> identityPostIdentitySessionsByIdLivenessToken(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable @Pattern(regexp = "^[A-Za-z0-9_-]{1,64}$") String id,
@@ -56,7 +64,7 @@ public class IdentityController {
         return success(request, service.livenessToken(principal, id, body, key));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/sessions/{id}")
     public ApiResponse<IdentitySessionResource> identityGetIdentitySessionsById(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable @Pattern(regexp = "^[A-Za-z0-9_-]{1,64}$") String id,
@@ -64,7 +72,7 @@ public class IdentityController {
         return success(request, service.get(principal, id));
     }
 
-    @PostMapping("/{id}/retry")
+    @PostMapping("/sessions/{id}/retry")
     public ApiResponse<IdentitySessionResource> identityPostIdentitySessionsByIdRetry(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable @Pattern(regexp = "^[A-Za-z0-9_-]{1,64}$") String id,

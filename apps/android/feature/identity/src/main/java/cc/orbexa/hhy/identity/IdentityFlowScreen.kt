@@ -56,6 +56,8 @@ import cc.orbexa.hhy.designsystem.HhyRadius
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.network.ContractIdentityApi
 import cc.orbexa.hhy.network.IdentityCallResult
+import cc.orbexa.hhy.network.IdentityConsentCallResult
+import cc.orbexa.hhy.network.IdentityConsentResource
 import cc.orbexa.hhy.network.IdentityCreateLivenessTokenRequest
 import cc.orbexa.hhy.network.IdentityCreateSessionRequest
 import cc.orbexa.hhy.network.IdentityRetrySessionRequest
@@ -75,7 +77,6 @@ private sealed interface IdentityDestination {
 fun IdentityFlowScreen(
     api: ContractIdentityApi,
     accessToken: String,
-    consentVersion: String,
     returnUrl: String,
     onBack: () -> Unit,
     onSessionExpired: () -> Unit,
@@ -89,7 +90,6 @@ fun IdentityFlowScreen(
         IdentityDestination.Form -> IdentityFormScreen(
             api = api,
             accessToken = accessToken,
-            consentVersion = consentVersion,
             onBack = { destination = IdentityDestination.Home },
             onSessionExpired = onSessionExpired,
             onCreated = { destination = IdentityDestination.Liveness(it) },
@@ -137,7 +137,6 @@ private fun IdentityHomeScreen(onBack: () -> Unit, onStart: () -> Unit) {
 private fun IdentityFormScreen(
     api: ContractIdentityApi,
     accessToken: String,
-    consentVersion: String,
     onBack: () -> Unit,
     onSessionExpired: () -> Unit,
     onCreated: (IdentitySessionResource) -> Unit,
@@ -150,6 +149,31 @@ private fun IdentityFormScreen(
     var message by remember { mutableStateOf<String?>(null) }
     var submitting by remember { mutableStateOf(false) }
     var requestKey by remember { mutableStateOf<String?>(null) }
+    var consent by remember(accessToken) { mutableStateOf<IdentityConsentResource?>(null) }
+    var consentLoading by remember(accessToken) { mutableStateOf(true) }
+    var consentReload by remember(accessToken) { mutableStateOf(0) }
+    var showConsent by remember { mutableStateOf(false) }
+
+    LaunchedEffect(accessToken, consentReload) {
+        consentLoading = true
+        accepted = false
+        when (val result = api.consent(accessToken)) {
+            is IdentityConsentCallResult.Success -> {
+                consent = result.consent
+                message = null
+            }
+            is IdentityConsentCallResult.Failure -> {
+                consent = null
+                if (result.statusCode == 401) onSessionExpired()
+                else message = when (result.statusCode) {
+                    429 -> "操作过于频繁，请稍后再试"
+                    null -> "网络连接失败，请检查网络后重试"
+                    else -> "实名认证授权说明暂时无法加载，请稍后重试"
+                }
+            }
+        }
+        consentLoading = false
+    }
 
     fun clearIntent() {
         requestKey = null
@@ -180,29 +204,52 @@ private fun IdentityFormScreen(
             supportingText = errors.idNumber?.let { value -> ({ Text(value) }) },
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Checkbox(checked = accepted, onCheckedChange = { accepted = it; clearIntent() })
-            Text("我已阅读并同意实名认证授权说明", modifier = Modifier.weight(1f))
+            Checkbox(
+                checked = accepted,
+                enabled = consent != null && !consentLoading,
+                onCheckedChange = { accepted = it; clearIntent() },
+            )
+            Text("我已阅读并同意", color = HhyColors.TextSecondary)
+            TextButton(
+                enabled = consent != null && !consentLoading,
+                onClick = { showConsent = true },
+                modifier = Modifier.weight(1f),
+            ) { Text("《${consent?.title ?: "实名认证授权说明"}》") }
+        }
+        if (consentLoading) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                CircularProgressIndicator()
+                Text("正在加载实名认证授权说明", modifier = Modifier.padding(start = HhySpacing.Sm))
+            }
+        } else if (consent == null) {
+            OutlinedButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { consentReload += 1 },
+            ) { Text("重新加载授权说明") }
         }
         Button(
             modifier = Modifier.fillMaxWidth(),
-            enabled = !submitting,
+            enabled = !submitting && !consentLoading && consent != null,
             onClick = {
                 val nextErrors = validateIdentityForm(realName, idNumber)
                 errors = nextErrors
                 message = when {
                     !nextErrors.isEmpty -> null
                     !accepted -> "请先阅读并同意实名认证授权说明"
-                    consentVersion.isBlank() -> "实名认证服务正在准备中，请稍后再试"
+                    consent == null -> "实名认证授权说明暂时无法加载，请稍后重试"
                     else -> null
                 }
-                if (!nextErrors.isEmpty || !accepted || consentVersion.isBlank()) return@Button
+                val currentConsent = consent ?: return@Button
+                if (!nextErrors.isEmpty || !accepted) return@Button
                 submitting = true
                 val key = requestKey ?: UUID.randomUUID().toString().also { requestKey = it }
                 scope.launch {
                     when (val result = api.createSession(
                         accessToken,
                         key,
-                        IdentityCreateSessionRequest(realName.trim(), idNumber.trim(), consentVersion),
+                        IdentityCreateSessionRequest(
+                            realName.trim(), idNumber.trim(), currentConsent.consentVersion,
+                        ),
                     )) {
                         is IdentityCallResult.Success -> {
                             realName = ""
@@ -212,7 +259,10 @@ private fun IdentityFormScreen(
                         }
                         is IdentityCallResult.Failure -> {
                             if (result.statusCode == 401) onSessionExpired()
-                            else message = result.businessMessage("认证资料提交失败，请稍后重试")
+                            else {
+                                message = result.businessMessage("认证资料提交失败，请稍后重试")
+                                if (result.statusCode == 422) consentReload += 1
+                            }
                         }
                     }
                     submitting = false
@@ -222,6 +272,22 @@ private fun IdentityFormScreen(
             if (submitting) CircularProgressIndicator(color = HhyColors.TextInverse)
             else Text("提交并开始活体检测")
         }
+    }
+    if (showConsent) {
+        val currentConsent = consent
+        AlertDialog(
+            onDismissRequest = { showConsent = false },
+            title = { Text(currentConsent?.title ?: "实名认证授权说明") },
+            text = {
+                Text(
+                    currentConsent?.content.orEmpty(),
+                    modifier = Modifier.verticalScroll(rememberScrollState()),
+                )
+            },
+            confirmButton = {
+                TextButton(onClick = { showConsent = false }) { Text("我已阅读") }
+            },
+        )
     }
 }
 

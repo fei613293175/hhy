@@ -50,11 +50,16 @@ class ApiModelsSerializationTest {
         val session = HhyNetworkJson.value.decodeFromString<IdentitySessionResource>(
             """{"id":"17","userId":"9","status":"LIVENESS_PENDING","provider":"ALIYUN_MARKET_FACE","livenessUrl":"https://provider.example/start","expiresAt":"2026-07-20T03:00:00Z","version":2}""",
         )
+        val consent = HhyNetworkJson.value.decodeFromString<IdentityConsentResource>(
+            """{"consentVersion":"91","title":"实名认证授权说明","content":"当前正文"}""",
+        )
 
         assertEquals(setOf("realName", "idNumber", "consentVersion"), createFields.keys)
         assertEquals(setOf("reason", "expectedVersion"), retryFields.keys)
         assertEquals("LIVENESS_PENDING", session.status)
         assertEquals(2L, session.version)
+        assertEquals("91", consent.consentVersion)
+        assertEquals("当前正文", consent.content)
         assertFalse(createFields.containsKey("id_number"))
     }
 

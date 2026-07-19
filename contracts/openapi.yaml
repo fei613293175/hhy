@@ -1462,6 +1462,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/identity/consent:
+    get:
+      operationId: identityGetIdentityConsent
+      summary: 获取当前实名认证授权说明
+      tags:
+      - Identity
+      security:
+      - BearerAuth: []
+      x-permission: 登录
+      x-idempotent: false
+      x-release: R05
+      x-contract-maturity: FROZEN
+      x-error-codes:
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-429-RATE_LIMITED
+      - COMMON-500-INTERNAL
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityGetIdentityConsentResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: 触发限流
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 当前协议不可用或内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /api/v1/identity/sessions:
     post:
       operationId: identityPostIdentitySessions
@@ -15744,6 +15792,42 @@ components:
           format: date-time
         data:
           $ref: '#/components/schemas/IdentityCallbackStatusResource'
+    IdentityConsentResource:
+      type: object
+      additionalProperties: false
+      properties:
+        consentVersion:
+          type: string
+          maxLength: 2000
+        title:
+          type: string
+          maxLength: 2000
+        content:
+          type: string
+          maxLength: 20000
+      required:
+      - consentVersion
+      - title
+      - content
+    IdentityGetIdentityConsentResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - success
+      - requestId
+      - data
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/IdentityConsentResource'
     IdentityPostIdentitySessionsRequest:
       type: object
       additionalProperties: false

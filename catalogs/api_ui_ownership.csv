@@ -16,6 +16,7 @@ userGetMe,CLIENT,GET,/api/v1/me,当前用户资料,PAGE_ACTION,SCR-AUTH-005;SCR-
 userPatchMeProfile,CLIENT,PATCH,/api/v1/me/profile,修改头像昵称简介,PAGE_ACTION,SCR-ME-002;SCR-SET-001,User,R02/R07/R12,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 userGetPublishersById,CLIENT,GET,/api/v1/publishers/{id},发布者公开主页,PAGE_ACTION,SCR-PUBLISHER-001,User,R02/R07/R12,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 userPostMeCancellation,CLIENT,POST,/api/v1/me/cancellation,申请注销,PAGE_ACTION,SCR-AUTH-008,User,R02/R07/R12,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
+identityGetIdentityConsent,CLIENT,GET,/api/v1/identity/consent,获取当前实名认证授权说明,PAGE_ACTION,SCR-ID-002,Identity,R05,登录,页面自动加载并在提交时仅使用当前不可变版本ID；版本ID不得展示,FROZEN
 identityPostIdentitySessions,CLIENT,POST,/api/v1/identity/sessions,创建实名会话,PAGE_ACTION,SCR-ID-001;SCR-ID-002,Identity,R05,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 identityPostIdentitySessionsByIdLivenessToken,CLIENT,POST,/api/v1/identity/sessions/{id}/liveness-token,获取活体H5,PAGE_ACTION,SCR-ID-003,Identity,R05,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 identityGetIdentitySessionsById,CLIENT,GET,/api/v1/identity/sessions/{id},查询实名状态,PAGE_ACTION,H5-012;SCR-ID-003;SCR-ID-004,Identity,R05,登录,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN

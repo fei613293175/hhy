@@ -312,6 +312,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/identity/consent": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取当前实名认证授权说明 */
+        get: operations["identityGetIdentityConsent"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/identity/sessions": {
         parameters: {
             query?: never;
@@ -3079,6 +3096,19 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: components["schemas"]["IdentityCallbackStatusResource"];
+        };
+        IdentityConsentResource: {
+            consentVersion: string;
+            title: string;
+            content: string;
+        };
+        IdentityGetIdentityConsentResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["IdentityConsentResource"];
         };
         IdentityPostIdentitySessionsRequest: {
             realName: string;
@@ -7074,6 +7104,62 @@ export interface operations {
                 };
             };
             /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    identityGetIdentityConsent: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityGetIdentityConsentResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 触发限流 */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 当前协议不可用或内部错误 */
             500: {
                 headers: {
                     [name: string]: unknown;

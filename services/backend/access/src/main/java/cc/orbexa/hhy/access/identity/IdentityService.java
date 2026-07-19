@@ -3,6 +3,7 @@ package cc.orbexa.hhy.access.identity;
 import cc.orbexa.hhy.access.identity.IdentityContracts.CreateLivenessTokenRequest;
 import cc.orbexa.hhy.access.identity.IdentityContracts.CreateSessionRequest;
 import cc.orbexa.hhy.access.identity.IdentityContracts.IdentitySessionResource;
+import cc.orbexa.hhy.access.identity.IdentityContracts.IdentityConsentResource;
 import cc.orbexa.hhy.access.identity.IdentityContracts.RetrySessionRequest;
 import cc.orbexa.hhy.access.user.UserPrincipal;
 import cc.orbexa.hhy.shared.api.BusinessException;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-/** Application service for the four frozen R05 authenticated client operations. */
+/** Application service for the frozen R05 authenticated identity operations. */
 public class IdentityService {
     private static final String RESPONSE_TYPE = "r05-identity-session-v1";
     private static final List<String> ACTIVE = List.of(
@@ -53,6 +54,13 @@ public class IdentityService {
         return idempotency.execute(scope("create", userId), key, fingerprint,
                 RESPONSE_TYPE, IdentitySessionResource.class,
                 () -> createOnce(userId, realName, idNumber, consent, key));
+    }
+
+    public IdentityConsentResource consent(UserPrincipal principal) {
+        requirePrincipal(principal);
+        IdentityConsent current = requireConsent();
+        return new IdentityConsentResource(
+                current.versionId(), "实名认证授权说明", current.content());
     }
 
     public IdentitySessionResource livenessToken(
@@ -91,6 +99,10 @@ public class IdentityService {
 
     private IdentitySessionResource createOnce(
             long userId, String realName, String idNumber, String consent, String key) {
+        IdentityConsent currentConsent = requireConsent();
+        if (!currentConsent.versionId().equals(consent)) {
+            throw business("实名认证授权说明已更新，请重新阅读并同意");
+        }
         PolicySnapshot current = requirePolicy();
         if ("VERIFIED".equals(store.profileStatus(userId).orElse(null))) {
             throw business("当前账号已完成实名认证");
@@ -149,6 +161,20 @@ public class IdentityService {
             throw new BusinessException("COMMON-500-INTERNAL", "实名认证服务暂时不可用", 500, true);
         }
         return current;
+    }
+
+    private IdentityConsent requireConsent() {
+        IdentityConsent consent = store.currentConsent().orElseThrow(() ->
+                new BusinessException(
+                        "COMMON-500-INTERNAL",
+                        "实名认证授权说明暂时无法加载，请稍后重试", 500, true));
+        if (consent.versionId() == null || consent.versionId().isBlank()
+                || consent.content() == null || consent.content().isBlank()) {
+            throw new BusinessException(
+                    "COMMON-500-INTERNAL",
+                    "实名认证授权说明暂时无法加载，请稍后重试", 500, true);
+        }
+        return consent;
     }
 
     private static IdentitySessionResource resource(Session session) {
@@ -221,6 +247,7 @@ public class IdentityService {
     }
 
     public interface Store {
+        Optional<IdentityConsent> currentConsent();
         Optional<String> profileStatus(long userId);
         Optional<Session> active(long userId);
         long countCreatedSince(long userId, Instant since);
@@ -251,6 +278,7 @@ public class IdentityService {
     }
 
     public record ProtectedIdentity(String nameCipher, String idNumberCipher, String idHash) { }
+    public record IdentityConsent(String versionId, String content) { }
     public record PolicySnapshot(String provider, int maxDailyAttempts, Duration sessionTtl) { }
     public record LivenessTicket(String providerOrderNo, URI url) { }
     public record SessionDraft(
