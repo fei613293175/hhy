@@ -21,10 +21,10 @@ docker run -d --name "${CONTAINER}" \
   -e POSTGRES_HOST_AUTH_METHOD=trust -e POSTGRES_DB=hhy_r05 \
   -v "${ROOT}:${ROOT}:ro" postgres:17.10-alpine >/dev/null
 for _ in $(seq 1 30); do
-  docker exec "${CONTAINER}" pg_isready -U postgres -d hhy_r05 >/dev/null 2>&1 && break
+  docker exec "${CONTAINER}" pg_isready -h 127.0.0.1 -U postgres -d hhy_r05 >/dev/null 2>&1 && break
   sleep 1
 done
-docker exec "${CONTAINER}" pg_isready -U postgres -d hhy_r05 >/dev/null
+docker exec "${CONTAINER}" pg_isready -h 127.0.0.1 -U postgres -d hhy_r05 >/dev/null
 
 psql() {
   docker exec -i "${CONTAINER}" psql "$@"
@@ -43,7 +43,7 @@ table_count="$(${PSQL[@]} -qAt -c \
   echo "R05 empty-database migration expected 200 tables, got ${table_count}" >&2
   exit 1
 }
-echo "R05_EMPTY_DATABASE_TO_V027 PASS tables=${table_count}"
+echo "R05_EMPTY_DATABASE_TO_V028 PASS tables=${table_count}"
 DATABASE_URL="${DATABASE_URL}" HHY_DB_SMOKE_CONFIRM=YES \
   bash "${ROOT}/scripts/run_r05_database_invariants.sh"
 echo "R05_DISPOSABLE_POSTGRES_CONTAINER PASS"

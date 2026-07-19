@@ -13,6 +13,7 @@ import cc.orbexa.hhy.access.storage.StorageObjectPort.CompleteUpload;
 import cc.orbexa.hhy.access.storage.StorageObjectPort.CompletedPart;
 import cc.orbexa.hhy.access.storage.StorageObjectPort.ObjectRef;
 import cc.orbexa.hhy.access.storage.StorageObjectPort.UploadIntent;
+import cc.orbexa.hhy.access.storage.StorageObjectPort.StoredObject;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -31,12 +32,30 @@ public class R04MediaStorageGateway implements MediaUploadService.MediaStorageGa
 
     @Override
     public UploadTicket createUpload(StorageSelection selection, UploadCommand command) {
+        StorageObjectPort.UploadTicket ticket = createServerUpload(selection, command);
+        return new UploadTicket(ticket.objectKey(), null, ticket.uploadUrl(), ticket.expiresAt());
+    }
+
+    /** Internal server-side upload ticket retaining provider-required signed headers. */
+    public StorageObjectPort.UploadTicket createServerUpload(
+            StorageSelection selection, UploadCommand command) {
         MediaBindingRecord binding = active(selection.bindingId());
         if (binding.binding().scope() != selection.scope()) throw unavailable();
-        StorageObjectPort.UploadTicket ticket = ports.resolve(binding.binding().provider()).createUpload(
+        return ports.resolve(binding.binding().provider()).createUpload(
                 binding.binding(), new UploadIntent(command.ownerId(), command.purpose(), command.fileName(),
                         command.contentType(), command.sizeBytes(), command.sha256(), command.idempotencyKey()));
-        return new UploadTicket(ticket.objectKey(), null, ticket.uploadUrl(), ticket.expiresAt());
+    }
+
+    /** Completes a server-side upload and rechecks object identity at the provider boundary. */
+    public StoredObject completeServerUpload(
+            StorageSelection selection, UploadCommand command,
+            String objectKey, String etag, String idempotencyKey) {
+        MediaBindingRecord binding = active(selection.bindingId());
+        if (binding.binding().scope() != selection.scope()) throw unavailable();
+        return ports.resolve(binding.binding().provider()).completeUpload(
+                binding.binding(), new CompleteUpload(
+                        command.ownerId(), objectKey, etag, List.of(), command.sha256(),
+                        command.sizeBytes(), idempotencyKey));
     }
 
     @Override

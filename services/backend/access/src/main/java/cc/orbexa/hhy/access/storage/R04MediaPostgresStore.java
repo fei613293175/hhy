@@ -4,17 +4,21 @@ import cc.orbexa.hhy.access.storage.MediaUploadService.MediaObject;
 import cc.orbexa.hhy.access.storage.MediaUploadService.StoredUpload;
 import cc.orbexa.hhy.access.storage.MediaUploadService.UploadDraft;
 import cc.orbexa.hhy.access.storage.MediaUploadService.UploadSession;
+import cc.orbexa.hhy.access.storage.MediaUploadService.StorageSelection;
+import cc.orbexa.hhy.access.storage.StorageObjectPort.StoredObject;
 import cc.orbexa.hhy.access.storage.StorageObjectPort.Scope;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -68,6 +72,51 @@ public final class R04MediaPostgresStore implements MediaUploadService.Store {
                        object_key,status,version,updated_at
                 FROM hhy.media_objects WHERE id=? AND owner_id=?
                 """, this::media, id, ownerId).stream().findFirst();
+    }
+
+    /** Registers a provider-confirmed private identity object without creating a public read URL. */
+    public MediaObject registerPrivateIdentityEvidence(
+            long ownerId, long sessionId, String contentType,
+            StorageSelection selection, StoredObject stored, Instant now) {
+        if (selection == null || selection.scope() != Scope.PRIVATE_KYC
+                || stored == null || stored.objectKey() == null || stored.objectKey().isBlank()
+                || stored.sha256() == null || !stored.sha256().matches("^[0-9A-Fa-f]{64}$")
+                || stored.sizeBytes() < 1) {
+            throw new IllegalArgumentException("invalid private identity evidence");
+        }
+        try {
+            return required(transactions.execute(transaction -> {
+                Optional<MediaObject> existing = mediaByObjectKey(
+                        selection.bindingId(), stored.objectKey());
+                if (existing.isPresent()) {
+                    requireSameEvidence(existing.orElseThrow(), ownerId, stored);
+                    return existing.orElseThrow();
+                }
+                MediaObject created = jdbc.queryForObject("""
+                        INSERT INTO hhy.media_objects(
+                          owner_id,bucket,object_key,mime,size,sha256,visibility,purpose,
+                          storage_scope,storage_binding_id,status,version,created_at,updated_at)
+                        SELECT ?,binding.bucket,?,?,?,?, 'PRIVATE',?,
+                               'private_kyc',binding.id,'READY',0,?,?
+                        FROM hhy.storage_scope_bindings binding
+                        WHERE binding.id=? AND binding.scope_code='private_kyc'
+                          AND binding.status='ACTIVE'
+                        RETURNING id,owner_id,purpose,mime,size,sha256,storage_scope,
+                                  storage_binding_id,object_key,status,version,updated_at
+                        """, this::media, ownerId, stored.objectKey(), contentType,
+                        stored.sizeBytes(), stored.sha256(), "identity.liveness." + sessionId,
+                        Timestamp.from(now), Timestamp.from(now), selection.bindingId());
+                if (created == null) throw new IllegalStateException("private storage binding is inactive");
+                outbox(ownerId, "media.private.identity.stored.v1", "MEDIA_OBJECT",
+                        Long.toString(created.id()), "READY", now);
+                return created;
+            }));
+        } catch (DataIntegrityViolationException duplicate) {
+            MediaObject existing = mediaByObjectKey(selection.bindingId(), stored.objectKey())
+                    .orElseThrow(() -> duplicate);
+            requireSameEvidence(existing, ownerId, stored);
+            return existing;
+        }
     }
 
     @Override
@@ -179,6 +228,25 @@ public final class R04MediaPostgresStore implements MediaUploadService.Store {
                 scope(rs.getString("storage_scope")), rs.getLong("storage_binding_id"),
                 rs.getString("object_key"), rs.getString("status"), rs.getLong("version"),
                 rs.getTimestamp("updated_at").toInstant());
+    }
+
+    private Optional<MediaObject> mediaByObjectKey(long bindingId, String objectKey) {
+        return jdbc.query("""
+                SELECT id,owner_id,purpose,mime,size,sha256,storage_scope,storage_binding_id,
+                       object_key,status,version,updated_at
+                FROM hhy.media_objects
+                WHERE storage_binding_id=? AND object_key=?
+                """, this::media, bindingId, objectKey).stream().findFirst();
+    }
+
+    private static void requireSameEvidence(
+            MediaObject existing, long ownerId, StoredObject stored) {
+        if (existing.ownerId() != ownerId || existing.scope() != Scope.PRIVATE_KYC
+                || !"READY".equals(existing.status())
+                || existing.sizeBytes() != stored.sizeBytes()
+                || !existing.sha256().equalsIgnoreCase(stored.sha256())) {
+            throw new IllegalStateException("storage object key belongs to different media");
+        }
     }
 
     private static Scope scope(String value) {

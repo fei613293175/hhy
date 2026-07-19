@@ -1,0 +1,46 @@
+protocol_version: '1.0'
+cr_id: CR-0102
+title: 同步V028至R05一次性PostgreSQL回滚重放门禁
+status: IMPLEMENTING
+created_at: '2026-07-19T21:22:10Z'
+updated_at: '2026-07-19T21:22:26Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-004
+session_id: SES-20260719T183335Z-535311E4
+user_request: 用户要求持续推进R05正式商业闭环并严格完成每个版本细节
+reason: V028迁移已生效，但R05一次性数据库脚本仍只回滚重放至V027，导致门禁准确检出残留索引
+original_rule: R05一次性PostgreSQL脚本仅回滚和重放V023至V027，并宣告空库到V027
+new_rule: R05一次性PostgreSQL脚本必须纳入U028回滚、V028重放、唯一索引计数及空库到V028标识
+impact_summary: 同步两份R05数据库脚本及对应静态测试，不改变生产表结构之外的V028既定内容
+impact:
+  files:
+  - scripts/run_r05_database_invariants.sh
+  - scripts/run_r05_disposable_postgres_container.sh
+  - tests/test_r05_identity_database_scripts.py
+  pages: []
+  apis: []
+  database:
+  - media_objects
+  configuration: []
+  ledger: []
+  tests:
+  - PostgreSQL17空库V001-V028、U028-U023回滚、V023-V028重放及唯一索引计数
+  releases:
+  - R05
+  migration_and_compatibility: 仅修正一次性测试脚本覆盖范围和输出标识；生产V028迁移与U028保持不变
+user_confirmation: 用户已要求无需逐项确认，持续推进并严格完成开发文档与测试门禁
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T21:22:25Z'
+  note: 数据库门禁必须与当前迁移头同步，属于既定R05要求的必要修正
+machine_record: .continuity/change_requests/CR-0102.yaml
+document: docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md
+decision_log:
+- at: '2026-07-19T21:22:26Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始补齐U028和V028的一次性PostgreSQL回滚重放门禁
+  session_id: SES-20260719T183335Z-535311E4
+session_ids:
+- SES-20260719T183335Z-535311E4

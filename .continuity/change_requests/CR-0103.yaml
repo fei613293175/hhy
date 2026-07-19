@@ -1,0 +1,44 @@
+protocol_version: '1.0'
+cr_id: CR-0103
+title: 同步R05私有身份媒体桥接事实与剩余缺口
+status: IMPLEMENTING
+created_at: '2026-07-19T21:29:45Z'
+updated_at: '2026-07-19T21:30:02Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-004
+session_id: SES-20260719T183335Z-535311E4
+user_request: 用户要求项目不依赖聊天上下文并可跨电脑跨AI无缝接续
+reason: CR-0101完成后供应商契约与问题登记仍描述默认存储端口占位，必须同步真实实现与下一缺口
+original_rule: 供应商契约和问题登记仍称真实private_kyc写入适配器未激活
+new_rule: 文档必须记录CR-0101已实现ACTIVE private_kyc解析、签名头服务端上传、完整性校验、PRIVATE READY幂等登记和V028唯一门禁，并明确剩余缺口是R2/OSS真实PortResolver及正式环境端到端证据
+impact_summary: 更新供应商契约与问题登记，不改变公开接口、数据库或运行时行为
+impact:
+  files:
+  - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - 文档门禁确认CR-0101事实和剩余PortResolver缺口均可被后续AI读取
+  releases:
+  - R05
+  migration_and_compatibility: 纯事实同步；保留PROB-0046为OPEN直至真实供应商存储端口和正式环境证据完成
+user_confirmation: 用户已明确项目不能依赖聊天上下文并要求持续推进
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T21:30:01Z'
+  note: 跨AI接续必须以仓库事实准确记录当前完成边界
+machine_record: .continuity/change_requests/CR-0103.yaml
+document: docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md
+decision_log:
+- at: '2026-07-19T21:30:02Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始同步私有媒体桥接证据和下一生产端口缺口
+  session_id: SES-20260719T183335Z-535311E4
+session_ids:
+- SES-20260719T183335Z-535311E4

@@ -11,7 +11,7 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T21:07:21Z'
+updated_at: '2026-07-19T21:32:00Z'
 takeover_of: null
 change_requests:
 - CR-0090
@@ -25,6 +25,9 @@ change_requests:
 - CR-0098
 - CR-0099
 - CR-0100
+- CR-0101
+- CR-0102
+- CR-0103
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -112,7 +115,15 @@ scope:
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinator.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityProviderResultCoordinatorTest.java
-  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097+approved-cr:CR-0098+approved-cr:CR-0099+approved-cr:CR-0100
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorage.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
+  - database/migrations/V028__r05_private_identity_evidence.sql
+  - database/rollback/U028__r05_private_identity_evidence.sql
+  - services/backend/boot/src/main/resources/db/migration/V028__r05_private_identity_evidence.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
+  - tests/test_r05_private_identity_evidence_migration.py
+  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097+approved-cr:CR-0098+approved-cr:CR-0099+approved-cr:CR-0100+approved-cr:CR-0101+approved-cr:CR-0102+approved-cr:CR-0103
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -122,22 +133,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T21:07:18Z'
-  expires_at: '2026-07-20T01:07:18Z'
-checkpoint_sequence: 15
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0015.yaml
+  renewed_at: '2026-07-19T21:31:57Z'
+  expires_at: '2026-07-20T01:31:57Z'
+checkpoint_sequence: 16
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0016.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 继续CR-0099，实现真实private_kyc对象写入适配器并完成通过、人工审核和拒绝全链路。
+next_step: 提交并推送本段实现，关闭CR-0101至CR-0103后进入Cloudflare R2与阿里云OSS真实PortResolver
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 5e3bfdf1dcc0f52801b9ed8bb401504d63b1a518c02e3c90837384f45520f303
-  generated_at: '2026-07-19T21:07:20Z'
+  context_hash: a180957cc2265c061d151fc8e04db49e958ce4b2ea73d2190733cb6d398ca043
+  generated_at: '2026-07-19T21:31:59Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 真实私有存储接线与身份状态事务共享同一安全边界，当前用户未要求子代理，继续串行。
+  reason: 用户未要求子代理；共享存储安全边界和连续性收口保持单线执行

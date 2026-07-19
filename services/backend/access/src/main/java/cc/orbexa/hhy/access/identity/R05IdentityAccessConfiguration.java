@@ -8,8 +8,9 @@ import java.time.Clock;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import cc.orbexa.hhy.shared.api.BusinessException;
+import cc.orbexa.hhy.access.storage.R04MediaPostgresStore;
+import cc.orbexa.hhy.access.storage.R04MediaPurposePolicy;
+import cc.orbexa.hhy.access.storage.R04MediaStorageGateway;
 
 @Configuration(proxyBeanMethods = false)
 public class R05IdentityAccessConfiguration {
@@ -38,10 +39,10 @@ public class R05IdentityAccessConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(IdentityProviderResultCoordinator.EvidenceStorage.class)
-    IdentityProviderResultCoordinator.EvidenceStorage unavailableIdentityEvidenceStorage() {
-        return command -> { throw new BusinessException(
-                "COMMON-500-INTERNAL", "实名认证服务暂时不可用", 500, true); };
+    IdentityProviderResultCoordinator.EvidenceStorage identityEvidenceStorage(
+            R04MediaPurposePolicy purposes, R04MediaStorageGateway storage,
+            R04MediaPostgresStore media, Clock clock) {
+        return new R05PrivateIdentityEvidenceStorage(purposes, storage, media, clock);
     }
 
     @Bean

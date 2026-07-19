@@ -6002,3 +6002,147 @@ change_requests:
   - SES-20260719T183335Z-535311E4
   implementation_commits:
   - 86121701f43259231ecdd8aa0c5953e48d9394df
+- protocol_version: '1.0'
+  cr_id: CR-0101
+  title: 接通R05身份照片与R04私有媒体写入生命周期
+  status: IMPLEMENTING
+  created_at: '2026-07-19T21:10:00Z'
+  updated_at: '2026-07-19T21:10:28Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求持续推进R05正式商业实名认证闭环
+  reason: CR-0099已要求先取得private_kyc内部媒体ID，但当前仅有未激活占位端口，缺少受控上传、对象唯一与媒体登记桥接
+  original_rule: R05结果协调器只依赖EvidenceStorage接口，默认实现统一返回可重试不可用；R04媒体网关未提供携带签名请求头的服务端私有对象写入桥接
+  new_rule: 身份活体照片必须解析到ACTIVE private_kyc绑定，使用供应商签名URL和全部必需请求头上传，完成后校验对象键、大小与SHA-256，再以唯一对象键幂等登记PRIVATE READY媒体；任何阶段失败均不生成公开URL且不得推进实名终态
+  impact_summary: 新增R05私有身份照片存储适配器、R04内部上传桥接、媒体对象幂等登记和V028对象键唯一门禁
+  impact:
+    files:
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorage.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
+    - database/migrations/V028__r05_private_identity_evidence.sql
+    - database/rollback/U028__r05_private_identity_evidence.sql
+    - services/backend/boot/src/main/resources/db/migration/V028__r05_private_identity_evidence.sql
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
+    - tests/test_r05_private_identity_evidence_migration.py
+    pages: []
+    apis: []
+    database:
+    - media_objects
+    - storage_scope_bindings
+    configuration: []
+    ledger: []
+    tests:
+    - 私有Scope、签名请求头、对象完整性、无公开URL、重复对象幂等和失败安全映射测试
+    - V028源/runtime一致、唯一索引和回滚静态测试及PostgreSQL17迁移重放
+    releases:
+    - R05
+    migration_and_compatibility: V028只增加非空对象键按存储绑定唯一索引；源/runtime迁移和回滚同步，已有重复数据会阻止上线而不静默合并
+  user_confirmation: 用户要求持续推进正式商业系统落地并授权后续问题自主决策
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T21:10:26Z'
+    note: 复用R04冻结私有存储边界，为CR-0099终态事务提供真实内部媒体ID
+  machine_record: .continuity/change_requests/CR-0101.yaml
+  document: docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md
+  decision_log:
+  - at: '2026-07-19T21:10:28Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现private_kyc服务端上传、幂等媒体登记和V028门禁
+    session_id: SES-20260719T183335Z-535311E4
+  session_ids:
+  - SES-20260719T183335Z-535311E4
+- protocol_version: '1.0'
+  cr_id: CR-0102
+  title: 同步V028至R05一次性PostgreSQL回滚重放门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-19T21:22:10Z'
+  updated_at: '2026-07-19T21:22:26Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求持续推进R05正式商业闭环并严格完成每个版本细节
+  reason: V028迁移已生效，但R05一次性数据库脚本仍只回滚重放至V027，导致门禁准确检出残留索引
+  original_rule: R05一次性PostgreSQL脚本仅回滚和重放V023至V027，并宣告空库到V027
+  new_rule: R05一次性PostgreSQL脚本必须纳入U028回滚、V028重放、唯一索引计数及空库到V028标识
+  impact_summary: 同步两份R05数据库脚本及对应静态测试，不改变生产表结构之外的V028既定内容
+  impact:
+    files:
+    - scripts/run_r05_database_invariants.sh
+    - scripts/run_r05_disposable_postgres_container.sh
+    - tests/test_r05_identity_database_scripts.py
+    pages: []
+    apis: []
+    database:
+    - media_objects
+    configuration: []
+    ledger: []
+    tests:
+    - PostgreSQL17空库V001-V028、U028-U023回滚、V023-V028重放及唯一索引计数
+    releases:
+    - R05
+    migration_and_compatibility: 仅修正一次性测试脚本覆盖范围和输出标识；生产V028迁移与U028保持不变
+  user_confirmation: 用户已要求无需逐项确认，持续推进并严格完成开发文档与测试门禁
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T21:22:25Z'
+    note: 数据库门禁必须与当前迁移头同步，属于既定R05要求的必要修正
+  machine_record: .continuity/change_requests/CR-0102.yaml
+  document: docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md
+  decision_log:
+  - at: '2026-07-19T21:22:26Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始补齐U028和V028的一次性PostgreSQL回滚重放门禁
+    session_id: SES-20260719T183335Z-535311E4
+  session_ids:
+  - SES-20260719T183335Z-535311E4
+- protocol_version: '1.0'
+  cr_id: CR-0103
+  title: 同步R05私有身份媒体桥接事实与剩余缺口
+  status: IMPLEMENTING
+  created_at: '2026-07-19T21:29:45Z'
+  updated_at: '2026-07-19T21:30:02Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求项目不依赖聊天上下文并可跨电脑跨AI无缝接续
+  reason: CR-0101完成后供应商契约与问题登记仍描述默认存储端口占位，必须同步真实实现与下一缺口
+  original_rule: 供应商契约和问题登记仍称真实private_kyc写入适配器未激活
+  new_rule: 文档必须记录CR-0101已实现ACTIVE private_kyc解析、签名头服务端上传、完整性校验、PRIVATE READY幂等登记和V028唯一门禁，并明确剩余缺口是R2/OSS真实PortResolver及正式环境端到端证据
+  impact_summary: 更新供应商契约与问题登记，不改变公开接口、数据库或运行时行为
+  impact:
+    files:
+    - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 文档门禁确认CR-0101事实和剩余PortResolver缺口均可被后续AI读取
+    releases:
+    - R05
+    migration_and_compatibility: 纯事实同步；保留PROB-0046为OPEN直至真实供应商存储端口和正式环境证据完成
+  user_confirmation: 用户已明确项目不能依赖聊天上下文并要求持续推进
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T21:30:01Z'
+    note: 跨AI接续必须以仓库事实准确记录当前完成边界
+  machine_record: .continuity/change_requests/CR-0103.yaml
+  document: docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md
+  decision_log:
+  - at: '2026-07-19T21:30:02Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始同步私有媒体桥接证据和下一生产端口缺口
+    session_id: SES-20260719T183335Z-535311E4
+  session_ids:
+  - SES-20260719T183335Z-535311E4

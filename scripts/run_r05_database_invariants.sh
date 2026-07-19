@@ -15,6 +15,7 @@ PSQL=(psql "${DATABASE_URL}" -X -v ON_ERROR_STOP=1)
 echo "R05_IDENTITY_INVARIANTS PASS"
 
 "${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/rollback/U028__r05_private_identity_evidence.sql" \
   -f "${ROOT}/database/rollback/U027__r05_identity_consent.sql" \
   -f "${ROOT}/database/rollback/U026__r05_identity_callback_consumption.sql" \
   -f "${ROOT}/database/rollback/U025__r05_identity_provider_payload.sql" \
@@ -69,7 +70,7 @@ consent_after_rollback="$(${PSQL[@]} -qAt -c "
   echo "R05 identity consent seed remained after rollback" >&2
   exit 1
 }
-echo "R05_U027_U026_U025_U024_U023_ROLLBACK PASS"
+echo "R05_U028_U027_U026_U025_U024_U023_ROLLBACK PASS"
 
 "${PSQL[@]}" --single-transaction \
   -f "${ROOT}/database/migrations/V023__r05_identity_invariants.sql" >/dev/null
@@ -81,6 +82,8 @@ echo "R05_U027_U026_U025_U024_U023_ROLLBACK PASS"
   -f "${ROOT}/database/migrations/V026__r05_identity_callback_consumption.sql" >/dev/null
 "${PSQL[@]}" --single-transaction \
   -f "${ROOT}/database/migrations/V027__r05_identity_consent.sql" >/dev/null
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V028__r05_private_identity_evidence.sql" >/dev/null
 reapplied="$(${PSQL[@]} -qAt -c "
   SELECT
     (SELECT count(*) FROM pg_constraint
@@ -120,7 +123,7 @@ reapplied="$(${PSQL[@]} -qAt -c "
         ('sensitive_data_access_logs','request_id'),
         ('sensitive_data_access_logs','media_object_id')
       ));")"
-[[ "${reapplied}" == "32|13|1|31" ]] || {
+[[ "${reapplied}" == "32|14|1|31" ]] || {
   echo "R05 reapply counts were unexpected: ${reapplied}" >&2
   exit 1
 }
@@ -145,4 +148,4 @@ consent_reapplied="$(${PSQL[@]} -qAt -c "
   echo "R05 identity consent seed was not restored" >&2
   exit 1
 }
-echo "R05_V023_V024_V025_V026_V027_REAPPLY PASS constraints=32 indexes=13 trigger=1 columns=31 payload=text consent=1"
+echo "R05_V023_V024_V025_V026_V027_V028_REAPPLY PASS constraints=32 indexes=14 trigger=1 columns=31 payload=text consent=1"
