@@ -11,7 +11,7 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T20:37:34Z'
+updated_at: '2026-07-19T20:44:12Z'
 takeover_of: null
 change_requests:
 - CR-0090
@@ -22,6 +22,7 @@ change_requests:
 - CR-0095
 - CR-0096
 - CR-0097
+- CR-0098
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -103,7 +104,10 @@ scope:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java
   - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
   - tests/test_r05_identity_vendor_contract.py
-  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
+  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097+approved-cr:CR-0098
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -113,22 +117,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T20:37:31Z'
-  expires_at: '2026-07-20T00:37:31Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0010.yaml
+  renewed_at: '2026-07-19T20:44:10Z'
+  expires_at: '2026-07-20T00:44:10Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 创建下一CR并实现活体图片安全下载、private_kyc保存、加密原始响应及VERIFIED/MANUAL_REVIEW/REJECTED事务状态机
+next_step: 提交推送CR-0098后实现private_kyc存储与供应商结果事务状态机
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: c2ffdba846a8a064c073430c631ed1f7e29baf8b30bafa092fef8c5ff73f8643
-  generated_at: '2026-07-19T20:37:33Z'
+  context_hash: 98077e620df612c00bd086a67c94836c0e672a0c8bfce102e04810a66400c7e3
+  generated_at: '2026-07-19T20:44:12Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR状态与事件链需要串行闭环后才能开始下一规则变更
+  reason: 下载器网络安全策略、实现与测试需在同一快照闭环

@@ -1,0 +1,48 @@
+protocol_version: '1.0'
+cr_id: CR-0098
+title: 补齐R05活体照片安全下载边界
+status: IMPLEMENTING
+created_at: '2026-07-19T20:39:24Z'
+updated_at: '2026-07-19T20:39:46Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-004
+session_id: SES-20260719T183335Z-535311E4
+user_request: 用户要求持续推进R05真实供应商闭环并保持商业系统安全边界
+reason: 供应商结果已能返回faceImageUrl，但在保存private_kyc和人脸比对前必须先阻断SSRF、重定向、超限和伪造图片内容
+original_rule: faceImageUrl仅完成HTTPS语法校验，尚无服务端下载边界，不能安全进入私有存储或人脸比对
+new_rule: 新增ProviderFaceImageDownloader：只接受无凭据无片段HTTPS，解析出的全部IP必须为公网单播地址，禁止重定向，响应必须为JPEG或PNG且魔数一致，正文上限100KiB，并返回SHA-256；任何失败只映射为可重试实名认证服务不可用
+impact_summary: 将供应商照片URL转换为经过SSRF、大小和内容校验的内存字节，为private_kyc写入提供安全前置条件；不落盘、不写日志、不暴露URL
+impact:
+  files:
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
+  - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - Java下载器SSRF、重定向、大小、内容类型、图片魔数、SHA-256及安全错误映射测试
+  releases:
+  - R05
+  migration_and_compatibility: 新增内部下载端口和Spring Bean，不修改公开API、数据库或现有供应商请求契约
+user_confirmation: 用户已授权后续问题自主决定并要求持续完成R05商业系统开发
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T20:39:44Z'
+  note: 这是第三方照片进入私有存储前的必要最小安全边界，不扩大前端或数据范围
+machine_record: .continuity/change_requests/CR-0098.yaml
+document: docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
+decision_log:
+- at: '2026-07-19T20:39:46Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始实现安全下载器和专项测试
+  session_id: SES-20260719T183335Z-535311E4
+session_ids:
+- SES-20260719T183335Z-535311E4

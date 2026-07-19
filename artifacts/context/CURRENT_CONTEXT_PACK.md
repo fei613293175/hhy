@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T20:37:33Z
-- Context Hash：`c2ffdba846a8a064c073430c631ed1f7e29baf8b30bafa092fef8c5ff73f8643`
+- 生成时间：2026-07-19T20:44:12Z
+- Context Hash：`98077e620df612c00bd086a67c94836c0e672a0c8bfce102e04810a66400c7e3`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -81,7 +81,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-004
-updated_at: '2026-07-19T20:37:31Z'
+updated_at: '2026-07-19T20:44:10Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -116,15 +116,15 @@ continuity:
   active_session_id: SES-20260719T183335Z-535311E4
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T00:37:31Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0010.yaml
-  project_fingerprint: 9be5abcfc9858451503d8410ce30242adc6ea18447a7c215f4e043c461b4541b
+  lease_expires_at: '2026-07-20T00:44:10Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0011.yaml
+  project_fingerprint: 0ef6d86eefc340ae4e59d94f698105dbfd37d8cf9365400e287352803442f1aa
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 56594be8effe4ae345c3474e2fb78c4ae26871912d3d3caa5bd241e2e737493b
-    generated_at: '2026-07-19T20:36:25Z'
+    context_hash: c2ffdba846a8a064c073430c631ed1f7e29baf8b30bafa092fef8c5ff73f8643
+    generated_at: '2026-07-19T20:37:33Z'
   handoff_bundle: null
 ```
 
@@ -320,7 +320,7 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T20:37:31Z'
+updated_at: '2026-07-19T20:44:10Z'
 takeover_of: null
 change_requests:
 - CR-0090
@@ -331,6 +331,7 @@ change_requests:
 - CR-0095
 - CR-0096
 - CR-0097
+- CR-0098
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -412,7 +413,10 @@ scope:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java
   - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
   - tests/test_r05_identity_vendor_contract.py
-  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
+  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097+approved-cr:CR-0098
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -422,12 +426,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T20:37:31Z'
-  expires_at: '2026-07-20T00:37:31Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0010.yaml
+  renewed_at: '2026-07-19T20:44:10Z'
+  expires_at: '2026-07-20T00:44:10Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 创建下一CR并实现活体图片安全下载、private_kyc保存、加密原始响应及VERIFIED/MANUAL_REVIEW/REJECTED事务状态机
+next_step: 提交推送CR-0098后实现private_kyc存储与供应商结果事务状态机
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -435,32 +439,36 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR状态与事件链需要串行闭环后才能开始下一规则变更
+  reason: 下载器网络安全策略、实现与测试需在同一快照闭环
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T183335Z-535311E4-0010
+checkpoint_id: CP-SES-20260719T183335Z-535311E4-0011
 session_id: SES-20260719T183335Z-535311E4
-sequence: 10
-created_at: '2026-07-19T20:37:31Z'
-summary: CR-0097实现提交82f6e40已推送并标记IMPLEMENTED，真实供应商结果端口可用于下一段状态机编排
-next_step: 创建下一CR并实现活体图片安全下载、private_kyc保存、加密原始响应及VERIFIED/MANUAL_REVIEW/REJECTED事务状态机
+sequence: 11
+created_at: '2026-07-19T20:44:09Z'
+summary: CR-0098已实现活体照片安全下载器，阻断SSRF、重定向、超限和伪造图片并返回SHA-256
+next_step: 提交推送CR-0098后实现private_kyc存储与供应商结果事务状态机
 blockers: []
 decisions:
-- 供应商适配结果本身不直接改变实名终态，必须先满足私有证据和原子状态转换
+- 第三方照片仅允许JPEG或PNG且不超过100KiB，不落临时文件
 note: 继续TASK-R05-004，不关闭任务
 tests:
-- name: provider-contract-push
+- name: face-download-java21
   result: PASS
-  evidence: 82f6e40bdcf53bb2bb572b61cf28fd3d40e23795
-  note: 严格pre-push通过
+  evidence: ProviderFaceImageDownloaderTest 4项
+  note: 远程Java21全模块编译
+- name: r05-docs
+  result: PASS
+  evidence: 318 REST操作且0文档缺口
+  note: R05文档门禁
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 82f6e40bdcf53bb2bb572b61cf28fd3d40e23795
+  head: 14a88a1b2d162ef29b03e102c134b1ab4738f36e
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -469,11 +477,20 @@ git:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0097.yaml'
+  - ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
+  - ' M CHANGELOG.md'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0097-冻结已购R05活体结果与人脸比对供应商契约.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/04-vendors/identity/实名认证供应商接口契约_R05.md'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java'
+  - ?? .continuity/change_requests/CR-0098.yaml
+  - ?? docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
   recent_commits:
+  - "14a88a1b2d162ef29b03e102c134b1ab4738f36e\t2026-07-20T04:37:45+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close provider\
+    \ contract CR"
   - "82f6e40bdcf53bb2bb572b61cf28fd3d40e23795\t2026-07-20T04:36:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): parse purchased\
     \ provider results"
   - "fa9770715cf9d6f75bee41bf0e7b276832dea507\t2026-07-20T04:24:06+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close consent\
@@ -488,10 +505,8 @@ git:
     \ Android and admin identity flows"
   - "d08b5d91ed2f83ddfa377fc806470d2385887f53\t2026-07-20T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-003\
     \ as completed"
-  - "d4386cb733fe80b3d0282e2d91d6902bdef8bda7\t2026-07-20T02:29:11+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(identity): preserve PostgreSQL\
-    \ store invariants"
 project_fingerprint:
-  sha256: 9be5abcfc9858451503d8410ce30242adc6ea18447a7c215f4e043c461b4541b
+  sha256: 0ef6d86eefc340ae4e59d94f698105dbfd37d8cf9365400e287352803442f1aa
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r05IdentityPages.test.ts
@@ -543,6 +558,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md
   - docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md
   - docs/03-continuity/change-requests/CR-0097-冻结已购R05活体结果与人脸比对供应商契约.md
+  - docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
   - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
   - packages/api-client/src/client.generated.ts
   - releases/R05/STORIES.yaml
@@ -553,6 +569,8 @@ project_fingerprint:
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettings.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
@@ -563,6 +581,7 @@ project_fingerprint:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClientTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
@@ -572,14 +591,14 @@ project_fingerprint:
   - tests/test_r05_identity_consent_migration.py
   - tests/test_r05_identity_database_scripts.py
   - tests/test_r05_identity_vendor_contract.py
-  file_count: 79
+  file_count: 83
   payload:
     base_commit: d08b5d91ed2f83ddfa377fc806470d2385887f53
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 42350
-      sha256: adf333532d6361fbc51828adfb6b6c1fa393405bda65ff1281573744545b4855
+      size: 42602
+      sha256: b3257c1e7950612a7f7cb73a52bb8dbf0e065424759d9464dfaa412cf161fbc3
     - path: apps/admin-web/src/r05IdentityPages.test.ts
       state: FILE
       size: 4035
@@ -742,8 +761,8 @@ project_fingerprint:
       sha256: 2a29fb3ca0d5eaf74f66d637dfa9d0b8fb5fe62aa7af212ba5acd84aee58234f
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 48024
-      sha256: 4485d36a0d4a481939a54e1790c3a307a63436f07103e1a66528c81c2bf11442
+      size: 48216
+      sha256: 3f2fadeeb43f48e1193c122a14b075fc9e14e4a29c3af95d89abc0b0e9391186
     - path: docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
       state: FILE
       size: 2078
@@ -776,10 +795,14 @@ project_fingerprint:
       state: FILE
       size: 3717
       sha256: 89c2929f00f1d5a179328d5e0756c400b2f70526b3e70b9e675bd3f555ac0a2f
+    - path: docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
+      state: FILE
+      size: 2745
+      sha256: e4c8534416b6e73191e3a93d09c1fe38c0dc1cbe36108a61cc77ab082703965c
     - path: docs/04-vendors/identity/实名认证供应商接口契约_R05.md
       state: FILE
-      size: 2710
-      sha256: a55f28880122a3a4d155b3d02f6c8e5889ff9f38ba9c9034cad204fe412f9523
+      size: 3255
+      sha256: 6416a0ba6fd558527d623ac0513b30fe9516de7cf758da6f8c4e66a5ee88f0ba
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 616567
@@ -816,6 +839,14 @@ project_fingerprint:
       state: FILE
       size: 13582
       sha256: 7b0263c13a3d15cd06725930fb2359d109d84aec456b922938b557f887c244b0
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+      state: FILE
+      size: 6302
+      sha256: 187d20e51847d563edce24e114e7ec4d0a0ec4a01df05ca57913456215260998
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+      state: FILE
+      size: 1894
+      sha256: 8ec056f09232adeead9ad6c8bd980a6a25f08b2be218f3c275a9cfcef675c3fe
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
       state: FILE
       size: 15983
@@ -856,6 +887,10 @@ project_fingerprint:
       state: FILE
       size: 12937
       sha256: 8bf9afa3112d99c0b3e8038694f51764e4c85d56028ab3e68675fe4f676b017c
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
+      state: FILE
+      size: 4436
+      sha256: 332eae1bea5aaffaaf7dbabc8f668fd2f68963f4594b3f89e4c8909d343f8964
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
       state: FILE
       size: 5880
@@ -934,6 +969,8 @@ change_classification:
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettings.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
@@ -944,6 +981,7 @@ change_classification:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClientTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
@@ -1008,6 +1046,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md
   - docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md
   - docs/03-continuity/change-requests/CR-0097-冻结已购R05活体结果与人脸比对供应商契约.md
+  - docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
   tests:
   - tests/test_android_identity_consent_source.py
   - tests/test_r05_identity_callback_migration.py
@@ -1035,6 +1074,7 @@ change_requests:
 - CR-0095
 - CR-0096
 - CR-0097
+- CR-0098
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -1116,13 +1156,16 @@ scope:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java
   - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
   - tests/test_r05_identity_vendor_contract.py
-  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
+  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097+approved-cr:CR-0098
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR状态与事件链需要串行闭环后才能开始下一规则变更
-event_hash: 44acb36b3f875a4abb27191b1849a140c2799fb963d5fa4db9defdfacdb81559
+  reason: 下载器网络安全策略、实现与测试需在同一快照闭环
+event_hash: ee88fcc47ce347ed12ea48285cfc03e1290bdf91106794ed36d914502b3acb7a
 ```
 
 ## 接续状态与事件头
@@ -1134,8 +1177,8 @@ active_session_id: SES-20260719T183335Z-535311E4
 last_session_id: SES-20260719T165401Z-12791729
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T165401Z-12791729-0009
-event_count: 1083
-event_head_hash: 44acb36b3f875a4abb27191b1849a140c2799fb963d5fa4db9defdfacdb81559
+event_count: 1089
+event_head_hash: ee88fcc47ce347ed12ea48285cfc03e1290bdf91106794ed36d914502b3acb7a
 event_chain_valid: true
 ```
 
@@ -1258,9 +1301,9 @@ recent_sessions: - session_id: SES-20260719T113522Z-6B27AD4B
   started_at: '2026-07-19T18:33:35Z'
   record: .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-  updated_at: '2026-07-19T20:37:31Z'
+  updated_at: '2026-07-19T20:44:10Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0010.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0011.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-36454E5FF743
   session_id: SES-20260718T133151Z-12DB5949
@@ -2138,7 +2181,7 @@ recent_task_transitions: - transition_id: TRN-C720E2A1E5C3
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 82f6e40bdcf53bb2bb572b61cf28fd3d40e23795
+head: 14a88a1b2d162ef29b03e102c134b1ab4738f36e
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2149,15 +2192,23 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0097.yaml'
 - ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0097-冻结已购R05活体结果与人脸比对供应商契约.md'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md'
-- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0010.yaml
+- ' M docs/04-vendors/identity/实名认证供应商接口契约_R05.md'
+- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java'
+- ?? .continuity/change_requests/CR-0098.yaml
+- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0011.yaml
+- ?? docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
 recent_commits:
+- "14a88a1b2d162ef29b03e102c134b1ab4738f36e\t2026-07-20T04:37:45+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close provider\
+  \ contract CR"
 - "82f6e40bdcf53bb2bb572b61cf28fd3d40e23795\t2026-07-20T04:36:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): parse purchased\
   \ provider results"
 - "fa9770715cf9d6f75bee41bf0e7b276832dea507\t2026-07-20T04:24:06+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close consent\
@@ -2172,14 +2223,12 @@ recent_commits:
   \ and admin identity flows"
 - "d08b5d91ed2f83ddfa377fc806470d2385887f53\t2026-07-20T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-003\
   \ as completed"
-- "d4386cb733fe80b3d0282e2d91d6902bdef8bda7\t2026-07-20T02:29:11+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(identity): preserve PostgreSQL\
-  \ store invariants"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`9be5abcfc9858451503d8410ce30242adc6ea18447a7c215f4e043c461b4541b`
-- 文件数：79
+- 指纹：`0ef6d86eefc340ae4e59d94f698105dbfd37d8cf9365400e287352803442f1aa`
+- 文件数：83
 
 - `CHANGELOG.md`
 - `apps/admin-web/src/r05IdentityPages.test.ts`
@@ -2231,6 +2280,7 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md`
 - `docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md`
 - `docs/03-continuity/change-requests/CR-0097-冻结已购R05活体结果与人脸比对供应商契约.md`
+- `docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md`
 - `docs/04-vendors/identity/实名认证供应商接口契约_R05.md`
 - `packages/api-client/src/client.generated.ts`
 - `releases/R05/STORIES.yaml`
@@ -2241,6 +2291,8 @@ recent_commits:
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettings.java`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java`
@@ -2251,6 +2303,7 @@ recent_commits:
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClientTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityCallbackServiceTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java`
@@ -5012,36 +5065,84 @@ TASKS.yaml:
   - SES-20260719T183335Z-535311E4
   implementation_commits:
   - 82f6e40bdcf53bb2bb572b61cf28fd3d40e23795
+- protocol_version: '1.0'
+  cr_id: CR-0098
+  title: 补齐R05活体照片安全下载边界
+  status: IMPLEMENTING
+  created_at: '2026-07-19T20:39:24Z'
+  updated_at: '2026-07-19T20:39:46Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求持续推进R05真实供应商闭环并保持商业系统安全边界
+  reason: 供应商结果已能返回faceImageUrl，但在保存private_kyc和人脸比对前必须先阻断SSRF、重定向、超限和伪造图片内容
+  original_rule: faceImageUrl仅完成HTTPS语法校验，尚无服务端下载边界，不能安全进入私有存储或人脸比对
+  new_rule: 新增ProviderFaceImageDownloader：只接受无凭据无片段HTTPS，解析出的全部IP必须为公网单播地址，禁止重定向，响应必须为JPEG或PNG且魔数一致，正文上限100KiB，并返回SHA-256；任何失败只映射为可重试实名认证服务不可用
+  impact_summary: 将供应商照片URL转换为经过SSRF、大小和内容校验的内存字节，为private_kyc写入提供安全前置条件；不落盘、不写日志、不暴露URL
+  impact:
+    files:
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloader.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/ProviderFaceImageDownloaderTest.java
+    - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - Java下载器SSRF、重定向、大小、内容类型、图片魔数、SHA-256及安全错误映射测试
+    releases:
+    - R05
+    migration_and_compatibility: 新增内部下载端口和Spring Bean，不修改公开API、数据库或现有供应商请求契约
+  user_confirmation: 用户已授权后续问题自主决定并要求持续完成R05商业系统开发
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T20:39:44Z'
+    note: 这是第三方照片进入私有存储前的必要最小安全边界，不扩大前端或数据范围
+  machine_record: .continuity/change_requests/CR-0098.yaml
+  document: docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md
+  decision_log:
+  - at: '2026-07-19T20:39:46Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现安全下载器和专项测试
+    session_id: SES-20260719T183335Z-535311E4
+  session_ids:
+  - SES-20260719T183335Z-535311E4
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `271e85f6ffbd3200b9d601c9606a7ce0ba49d9ae24189d328160985311b641f9`
+- `CURRENT_STATUS.yaml` — `7b0fa5d10eee4262ea0e6b9dd057edb37b1669e5b6ef6bc66b8dfefa86fa410c`
 - `NEXT_TASK.yaml` — `a128e578a72108ea0d43225dbb48325c5315983581433490c186a6d1cf9cb484`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `4485d36a0d4a481939a54e1790c3a307a63436f07103e1a66528c81c2bf11442`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `3f2fadeeb43f48e1193c122a14b075fc9e14e4a29c3af95d89abc0b0e9391186`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `c0daccded5cf57ac8f58d93f90aef0d4b9d60aabceb5c0d0f5c19aa03ef1f515`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `643881b4dfa958d5d7b133945ffde405e2338b53be64f5d4ba797bbf3640f19a`
-- `.continuity/SESSION_INDEX.yaml` — `4572c02abc33c841b6de08ff9d2e76f221723fa2d951e941162e971a113164ac`
+- `.continuity/EVENT_LOG.jsonl` — `71ea49f7d4b6d9cd826cb81134a720c6f2e546bcdeca37de8f913b1dddcf50a1`
+- `.continuity/SESSION_INDEX.yaml` — `d0ff4353fb0e6753dbf303810154f2f3a86c28fe70a04de9a5971b5e17e2b4ff`
 - `.continuity/TASK_CLAIMS.yaml` — `d584e4085c5320e27ccbdba4878c79ea2ca13ee854840c495f1e9a059064bb7c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b7bff921a7901affc662c17b2fe95e1556eb192d3c9ea7147d548a863c93ba9d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `135c3a2949463e437eded0051b4a7c384da8f20f67d03566ee42f1ae854a336d`
-- `.continuity/ACTIVE_SESSION.yaml` — `29f3b39e1dfbc4273a42b47476a7264d6e720ce800c4d2d08f2517e12bea794e`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b8deba2778b452fc9b92792abe4e14b01bc5832f7e9eb471e4e0453470dc467a`
+- `.continuity/ACTIVE_SESSION.yaml` — `e3fb771471edd8863e700e3aa256e5a4af0724a40c5f767ba7ea8737c58de735`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `fbdff289348fbe15d4527cad6f1d5955322270725e80cc0e99ee291a6bbe05de`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `f97038808ebe0da162e5893079f50bbf79f01228d9eeca0ea3c84b6ab3a04989`
-- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0010.yaml` — `f48b9044b16001f612c8d3380aa6801c4f92a086e73c73c0308ec8db0221c2b4`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `79df8250d022f5f9965f01c09f86d78d720bb2ac40a56073850b18eb2c61c3ee`
+- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0011.yaml` — `d77709f394b20b2c50936864c2e2d8f2de57ae2d2a0106419eaf1234a6868d03`
 - `docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md` — `978668dbafbcbbf0bb325a72beb141a1160bec7fefd9a08ed2f1fc0df4208fee`
 - `docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md` — `075fb50fab65446223ec017ced1402afc87a3db6074a4746bccf94833ba8bb7b`
 - `docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md` — `5e73eaa93bbb356709e0ea6c3c5c3413fada20f07f9b227a7c90ac8ddb698db7`
@@ -5050,6 +5151,7 @@ TASKS.yaml:
 - `docs/03-continuity/change-requests/CR-0095-修正R05空库迁移门禁版本标识.md` — `049e05ab80154a67d466978fafe63acba5fccbcb020fdfe839a4f7e629c75fef`
 - `docs/03-continuity/change-requests/CR-0096-补齐R05实名授权协议受控读取与提交校验.md` — `f4eb911398b209d1d9583a772a7917ce55359282fa0fa6c04fa3e2cbb4ba530e`
 - `docs/03-continuity/change-requests/CR-0097-冻结已购R05活体结果与人脸比对供应商契约.md` — `89c2929f00f1d5a179328d5e0756c400b2f70526b3e70b9e675bd3f555ac0a2f`
+- `docs/03-continuity/change-requests/CR-0098-补齐R05活体照片安全下载边界.md` — `e4c8534416b6e73191e3a93d09c1fe38c0dc1cbe36108a61cc77ab082703965c`
 
 ## 接手硬规则
 

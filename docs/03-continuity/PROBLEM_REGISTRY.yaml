@@ -566,12 +566,13 @@ problems:
 - id: PROB-0046
   title: R05第三方活体结果查询与人脸比对缺少已冻结供应商响应契约
   status: OPEN
-  root_cause: 仓库原有用户提供的已购接口资料未被关联到适配器，导致结果字段被误判为缺失；CR-0097已冻结并实现真实响应契约，剩余缺口是活体照片私有保存、加密原始响应和乐观锁状态机的生产编排。
+  root_cause: 仓库原有用户提供的已购接口资料未被关联到适配器，导致结果字段被误判为缺失；CR-0097已冻结并实现真实响应契约，CR-0098已补安全图片下载，剩余缺口是private_kyc保存、加密原始响应和乐观锁状态机的生产编排。
   impact: Android和H5可完成会话创建、供应商活体页面及安全回跳，但服务端尚不能把LIVENESS_PENDING会话按真实供应商结果推进到VERIFIED、MANUAL_REVIEW或REJECTED；R05不得因此标记为完整实名闭环。
-  current_behavior: AliyunMarketIdentityProviderClient已按原始资料查询活体result=0/1/2并比对resultCode=1001/1002/1003/1004，APPCODE仅在请求期间存在；回跳仍只返回处理中或既有安全业务状态，完成私有存储和事务编排前不使用适配器结果改变用户实名状态。
+  current_behavior: AliyunMarketIdentityProviderClient已按原始资料查询活体result=0/1/2并比对resultCode=1001/1002/1003/1004，APPCODE仅在请求期间存在；ProviderFaceImageDownloader已阻断SSRF、重定向、超限和伪造图片，完成私有存储和事务编排前仍不使用适配器结果改变用户实名状态。
   next_owner: TASK-R05-004
   required_evidence:
   - CR-0097已按原始资料SHA-256冻结结果查询、APPCODE认证和错误映射契约，Java 21专项测试9项通过
+  - CR-0098安全下载器已覆盖公网解析、禁止重定向、100KiB上限、JPEG/PNG魔数和SHA-256，Java 21专项测试4项通过
   - 活体照片下载后进入私有R2且不产生公开URL，原始供应商响应加密保存
   - 人脸比对通过、人工复核、拒绝、超时和供应商异常的状态机及真实适配测试
   - 正式环境最小端到端验收且页面不出现内部供应商字段

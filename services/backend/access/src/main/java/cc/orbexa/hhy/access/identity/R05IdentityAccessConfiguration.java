@@ -31,6 +31,11 @@ public class R05IdentityAccessConfiguration {
     }
 
     @Bean
+    ProviderFaceImageDownloader providerFaceImageDownloader() {
+        return new ProviderFaceImageDownloader();
+    }
+
+    @Bean
     IdentityService identityService(
             R05IdentityPostgresStore store, R05IdentityRuntimePolicy policy,
             R05IdentityProviderGateway provider, IdentitySensitiveCipher sensitiveData,
