@@ -5,20 +5,20 @@
   "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 942,
-    "event_head_hash": "50b294333c7df4bd841e2be893e3217468724ab1cc65362b362be1d1bd89f365",
-    "changed_files": 20,
-    "project_changed_files": 4,
+    "event_count": 1040,
+    "event_head_hash": "89fe64d1db99522c42775e137d573fda11e067389d81923d4e454a2d57462129",
+    "changed_files": 46,
+    "project_changed_files": 24,
     "change_classification": {
-      "other": 2,
-      "code": 2
+      "other": 1,
+      "code": 20,
+      "user_visible": 20,
+      "continuity": 3
     },
     "document_gate": {
-      "status": "EXECUTED",
+      "status": "SKIPPED_UNAFFECTED",
       "forced": false,
-      "affected_inputs": [
-        "releases/R04/TASKS.yaml"
-      ]
+      "affected_inputs": []
     }
   },
   "errors": [],

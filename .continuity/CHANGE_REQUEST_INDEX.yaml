@@ -5353,3 +5353,104 @@ change_requests:
   - SES-20260719T161434Z-47C1FAA4
   implementation_commits:
   - b2ee5df5be707774ec7276a68f45473f94535448
+- protocol_version: '1.0'
+  cr_id: CR-0090
+  title: 补齐TASK-R05-004冻结Android页面实施范围
+  status: APPROVED
+  created_at: '2026-07-19T18:54:36Z'
+  updated_at: '2026-07-19T18:54:57Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求持续推进R05及后续版本开发，不遗漏开发文档中的任何页面和功能
+  reason: TASK-R05-004目标明确包含SCR-ID-001至004，但启动时Story派生范围遗漏apps/android，导致合法实现无法记录检查点
+  original_rule: R05-004会话允许路径遗漏apps/android，无法实现任务目标中冻结的四个Android实名页面
+  new_rule: 允许TASK-R05-004修改apps/android下身份网络绑定、identity功能模块、App导航、Shell商业入口及Gradle模块声明
+  impact_summary: 仅补齐任务原定Android交付范围，不改变冻结接口字段、数据库或页面数量
+  impact:
+    files:
+    - apps/android/**
+    pages:
+    - SCR-ID-001
+    - SCR-ID-002
+    - SCR-ID-003
+    - SCR-ID-004
+    apis:
+    - identityPostIdentitySessions
+    - identityPostIdentitySessionsByIdLivenessToken
+    - identityGetIdentitySessionsById
+    - identityPostIdentitySessionsByIdRetry
+    database: []
+    configuration:
+    - HHY_IDENTITY_CONSENT_VERSION
+    - HHY_H5_BASE_URL
+    ledger: []
+    tests:
+    - :feature:identity:testDebugUnitTest,:feature:identity:lintDebug,:app:compileDebugKotlin
+    releases:
+    - R05
+    migration_and_compatibility: 新增feature identity模块并由App显式依赖；现有认证与Shell导航保持兼容，敏感信息不持久化
+  user_confirmation: 用户已明确要求立即持续推进整个项目开发，严格完成开发文档每个版本的全部功能，不允许遗漏
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T18:54:57Z'
+    note: 范围修正与TASK-R05-004冻结目标一致，只补齐遗漏的Android实施路径
+  machine_record: .continuity/change_requests/CR-0090.yaml
+  document: docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
+- protocol_version: '1.0'
+  cr_id: CR-0091
+  title: 精确补齐TASK-R05-004 Android实施文件范围
+  status: APPROVED
+  created_at: '2026-07-19T18:55:11Z'
+  updated_at: '2026-07-19T18:55:35Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求持续推进R05及后续版本开发，不遗漏开发文档中的任何页面和功能
+  reason: CR-0090已批准但使用目录通配符，范围门禁要求逐文件精确登记，现以相同边界更正表达
+  original_rule: TASK-R05-004精确允许路径遗漏Android四页面所需文件
+  new_rule: 仅将列出的12个Android实名实现与集成文件加入当前会话允许范围
+  impact_summary: 对CR-0090的通配符表达进行精确化，不新增页面、接口或数据库变更
+  impact:
+    files:
+    - apps/android/settings.gradle.kts
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/feature/identity/build.gradle.kts
+    - apps/android/feature/identity/src/main/AndroidManifest.xml
+    - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+    - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+    - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+    pages:
+    - SCR-ID-001
+    - SCR-ID-002
+    - SCR-ID-003
+    - SCR-ID-004
+    apis:
+    - identityPostIdentitySessions
+    - identityPostIdentitySessionsByIdLivenessToken
+    - identityGetIdentitySessionsById
+    - identityPostIdentitySessionsByIdRetry
+    database: []
+    configuration:
+    - HHY_IDENTITY_CONSENT_VERSION
+    - HHY_H5_BASE_URL
+    ledger: []
+    tests:
+    - :feature:identity:testDebugUnitTest,:feature:identity:lintDebug,:app:compileDebugKotlin
+    releases:
+    - R05
+    migration_and_compatibility: 新增identity模块，App显式依赖；现有登录与安全页面保持兼容
+  user_confirmation: 用户已明确要求立即持续推进整个项目开发，严格完成开发文档每个版本的全部功能，不允许遗漏
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T18:55:35Z'
+    note: 精确文件清单与已批准CR-0090和TASK-R05-004原目标一致
+  machine_record: .continuity/change_requests/CR-0091.yaml
+  document: docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md

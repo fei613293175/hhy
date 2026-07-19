@@ -1,0 +1,86 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T183335Z-535311E4
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R05
+task_id: TASK-R05-004
+story_id: STORY-R05-001
+goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
+started_at: '2026-07-19T18:33:35Z'
+updated_at: '2026-07-19T19:07:42Z'
+takeover_of: null
+change_requests:
+- CR-0090
+- CR-0091
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/AndroidManifest.xml
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  source: story+explicit+approved-cr:CR-0091
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: d08b5d91ed2f83ddfa377fc806470d2385887f53
+  start_head: d08b5d91ed2f83ddfa377fc806470d2385887f53
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T19:07:40Z'
+  expires_at: '2026-07-19T23:07:40Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0003.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
+next_step: 提交推送当前切片，随后通过补充契约实现实名协议版本读取和H5一次性state消费闭环
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 0a5545b1cf7b35f4d09cc03f256f534d39e0c0c4d3397f556caf62c41890aa02
+  generated_at: '2026-07-19T19:07:42Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: r05_h5_audit
+    responsibility: 审计H5-012冻结页面与回跳契约缺口
+    allowed_paths:
+    - apps/h5
+    - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - worker_id: r05_admin_audit
+    responsibility: 审计ADM-ID-001/002页面、权限与五个operation绑定
+    allowed_paths:
+    - apps/admin-web
+    - docs/02-ui/page-specs/admin/ADM-ID-001_实名列表.md
+    - docs/02-ui/page-specs/admin/ADM-ID-002_实名详情与复核.md
+  reason: ''

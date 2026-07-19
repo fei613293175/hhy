@@ -1,0 +1,45 @@
+protocol_version: '1.0'
+cr_id: CR-0090
+title: 补齐TASK-R05-004冻结Android页面实施范围
+status: APPROVED
+created_at: '2026-07-19T18:54:36Z'
+updated_at: '2026-07-19T18:54:57Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-004
+session_id: SES-20260719T183335Z-535311E4
+user_request: 用户要求持续推进R05及后续版本开发，不遗漏开发文档中的任何页面和功能
+reason: TASK-R05-004目标明确包含SCR-ID-001至004，但启动时Story派生范围遗漏apps/android，导致合法实现无法记录检查点
+original_rule: R05-004会话允许路径遗漏apps/android，无法实现任务目标中冻结的四个Android实名页面
+new_rule: 允许TASK-R05-004修改apps/android下身份网络绑定、identity功能模块、App导航、Shell商业入口及Gradle模块声明
+impact_summary: 仅补齐任务原定Android交付范围，不改变冻结接口字段、数据库或页面数量
+impact:
+  files:
+  - apps/android/**
+  pages:
+  - SCR-ID-001
+  - SCR-ID-002
+  - SCR-ID-003
+  - SCR-ID-004
+  apis:
+  - identityPostIdentitySessions
+  - identityPostIdentitySessionsByIdLivenessToken
+  - identityGetIdentitySessionsById
+  - identityPostIdentitySessionsByIdRetry
+  database: []
+  configuration:
+  - HHY_IDENTITY_CONSENT_VERSION
+  - HHY_H5_BASE_URL
+  ledger: []
+  tests:
+  - :feature:identity:testDebugUnitTest,:feature:identity:lintDebug,:app:compileDebugKotlin
+  releases:
+  - R05
+  migration_and_compatibility: 新增feature identity模块并由App显式依赖；现有认证与Shell导航保持兼容，敏感信息不持久化
+user_confirmation: 用户已明确要求立即持续推进整个项目开发，严格完成开发文档每个版本的全部功能，不允许遗漏
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T18:54:57Z'
+  note: 范围修正与TASK-R05-004冻结目标一致，只补齐遗漏的Android实施路径
+machine_record: .continuity/change_requests/CR-0090.yaml
+document: docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md

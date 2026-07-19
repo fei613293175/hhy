@@ -9,11 +9,14 @@ import AdminUsersListPage from './views/AdminUsersListPage.vue'
 import AdminUserDetailPage from './views/AdminUserDetailPage.vue'
 import ProviderConfigPage from './views/ProviderConfigPage.vue'
 import DomainConfigPage from './views/DomainConfigPage.vue'
+import AdminIdentityListPage from './views/AdminIdentityListPage.vue'
+import AdminIdentityDetailPage from './views/AdminIdentityDetailPage.vue'
 
 const implemented = new Set([
   'ADM-AUTH-001', 'ADM-AUTH-002', 'ADM-SECURITY-001', 'ADM-USER-001', 'ADM-USER-002',
   'ADM-CONFIG-002', 'ADM-CONFIG-003', 'ADM-CONFIG-004', 'ADM-CONFIG-005',
   'ADM-CONFIG-006', 'ADM-CONFIG-007', 'ADM-CONFIG-008',
+  'ADM-ID-001', 'ADM-ID-002',
 ])
 
 export const router = createRouter({
@@ -31,6 +34,8 @@ export const router = createRouter({
     { path: '/system/providers/payout', name: 'ADM-CONFIG-006', component: ProviderConfigPage, props: { provider: 'payout' }, meta: { requiresAuth: true, permission: 'config.manage' } },
     { path: '/system/providers/identity', name: 'ADM-CONFIG-007', component: ProviderConfigPage, props: { provider: 'identity' }, meta: { requiresAuth: true, permission: 'config.manage' } },
     { path: '/system/domains', name: 'ADM-CONFIG-008', component: DomainConfigPage, meta: { requiresAuth: true, permission: 'config.manage' } },
+    { path: '/identity', name: 'ADM-ID-001', component: AdminIdentityListPage, meta: { requiresAuth: true, permission: 'identity.read' } },
+    { path: '/identity/:id', name: 'ADM-ID-002', component: AdminIdentityDetailPage, meta: { requiresAuth: true, permission: 'identity.read' } },
     ...adminPages.filter((page) => !implemented.has(page.ID)).map((page) => ({
       path: page.路由,
       name: page.ID,
@@ -46,6 +51,10 @@ router.beforeEach((to) => {
   if (to.meta.mfaPending && !adminSession.mfaTicket) return { path: '/auth/login', replace: true }
   if (to.meta.requiresAuth && !adminSession.isAuthenticated) {
     return { path: '/auth/login', query: { redirect: to.fullPath }, replace: true }
+  }
+  if (to.meta.requiresAuth && typeof to.meta.permission === 'string'
+      && !adminSession.hasPermission(to.meta.permission)) {
+    return { path: '/me/security', query: { notice: 'no-permission' }, replace: true }
   }
   if (to.meta.public && adminSession.isAuthenticated) return { path: '/me/security', replace: true }
 })

@@ -535,3 +535,31 @@ problems:
   - H2通过不得替代真实PostgreSQL的存储适配验证
   - 新增PostgreSQL存储方法时必须覆盖至少一次真实写入和回读，不得只做SQL文本或Mock验证
   - 集成测试不得为清理数据而删除或篡改不可变Outbox事件，一次性数据库由容器整体销毁
+- id: PROB-0044
+  title: R05客户端实名授权协议版本缺少受控读取来源
+  status: OPEN
+  root_cause: 冻结创建实名会话契约要求consentVersion，页面字段目录明确禁止客户端暗设默认，但R05四个客户端接口和现有配置接口均未提供当前实名授权协议版本；公开注册协议配置在当前环境也没有实名协议条目。
+  impact: Android四个实名页面和网络调用可完整实现并验证，但正式提交必须在取得服务端或受控部署配置的真实协议版本前保持关闭，不能把测试常量冒充用户授权事实。
+  current_behavior: Android从集中构建配置HHY_IDENTITY_CONSENT_VERSION注入版本；未配置时展示商业化暂不可用提示并禁止提交，页面和业务代码不含测试默认值。
+  next_owner: TASK-R05-004
+  required_evidence:
+  - 通过CR冻结实名协议代码、当前版本读取来源和失效策略
+  - 测试及正式环境返回真实有效版本，Android提交与服务端审计保存一致
+  - 未配置、过期和版本切换回归
+  do_not_repeat:
+  - 不得使用App版本、OpenAPI版本或consent-v1测试常量代替实名授权协议版本
+  - 不得在页面局部硬编码协议版本或允许空版本提交
+- id: PROB-0045
+  title: R05活体回跳仅携带state但H5查询接口要求会话ID和Bearer
+  status: OPEN
+  root_cause: 供应商按冻结安全边界只向H5回跳地址携带一次性state，而H5-012登记的GET身份会话接口同时要求路径id与登录Bearer；现有契约没有state消费或安全换取结果的操作，H5无法从回跳事实构造合法查询。
+  impact: Android内嵌活体容器可拦截回跳后使用内存中的会话ID和登录会话查询结果，但独立H5-012不能完成真实回跳闭环，也不能安全展示认证结果。
+  current_behavior: 不伪造id、不把Bearer写入URL、不展示技术参数；Android流程继续实现，H5正式回跳页等待契约补齐。
+  next_owner: TASK-R05-004
+  required_evidence:
+  - 通过CR冻结一次性state消费接口、重放防护、过期和结果最小披露
+  - H5无Bearer回跳成功、重复state拒绝、过期state和篡改state测试
+  - 页面模板统一为商业回跳状态页并禁止技术字段进入DOM
+  do_not_repeat:
+  - 不得把会话ID、Bearer、姓名或身份证号追加到供应商回跳URL
+  - 不得用客户端缓存猜测state对应会话或把通用占位页标为H5闭环完成

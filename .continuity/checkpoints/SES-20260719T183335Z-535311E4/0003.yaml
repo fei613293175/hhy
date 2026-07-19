@@ -1,0 +1,326 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T183335Z-535311E4-0003
+session_id: SES-20260719T183335Z-535311E4
+sequence: 3
+created_at: '2026-07-19T19:07:39Z'
+summary: R05-004 Android与Admin实名纵向切片完成并补齐用户可见CHANGELOG，模块构建、测试、商业UI与Token门禁全部通过
+next_step: 提交推送当前切片，随后通过补充契约实现实名协议版本读取和H5一次性state消费闭环
+blockers: []
+decisions: []
+note: PROB-0044/0045保持OPEN并作为下一实现步骤；CHANGELOG已记录用户可见变化。
+tests:
+- name: Admin production and tests
+  result: PASS
+  evidence: build passed; 14 files 80 tests passed
+  note: 生成类型、页面交互与业务文案通过
+- name: Android fixed toolchain
+  result: PASS
+  evidence: identity unit+lint and app compile BUILD SUCCESSFUL
+  note: 四页面和网络绑定通过
+- name: UI static gates
+  result: PASS
+  evidence: UI_TOKENS_OK 52; COMMERCIAL_UI_BOUNDARY PASS 33
+  note: 无页面局部原值和技术提示
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: d08b5d91ed2f83ddfa377fc806470d2385887f53
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0090.yaml
+  - A  .continuity/change_requests/CR-0091.yaml
+  - A  .continuity/checkpoints/SES-20260719T183335Z-535311E4/0001.yaml
+  - A  .continuity/checkpoints/SES-20260719T183335Z-535311E4/0002.yaml
+  - A  .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
+  - ' M CHANGELOG.md'
+  - M  CURRENT_STATUS.yaml
+  - A  apps/admin-web/src/r05IdentityPages.test.ts
+  - M  apps/admin-web/src/router.ts
+  - A  apps/admin-web/src/services/adminIdentities.test.ts
+  - A  apps/admin-web/src/services/adminIdentities.ts
+  - M  apps/admin-web/src/services/idempotency.ts
+  - M  apps/admin-web/src/services/index.ts
+  - A  apps/admin-web/src/views/AdminIdentityDetailPage.vue
+  - A  apps/admin-web/src/views/AdminIdentityListPage.vue
+  - M  apps/android/app/build.gradle.kts
+  - M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - M  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - A  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - M  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - A  apps/android/feature/identity/build.gradle.kts
+  - A  apps/android/feature/identity/src/main/AndroidManifest.xml
+  - A  apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - A  apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - A  apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - M  apps/android/settings.gradle.kts
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - A  docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
+  - A  docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md
+  - A  docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
+  recent_commits:
+  - "d08b5d91ed2f83ddfa377fc806470d2385887f53\t2026-07-20T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-003\
+    \ as completed"
+  - "d4386cb733fe80b3d0282e2d91d6902bdef8bda7\t2026-07-20T02:29:11+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(identity): preserve PostgreSQL\
+    \ store invariants"
+  - "7e4b00a3a4c4648a63ee7f570b7b3a2c36334976\t2026-07-20T02:13:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(identity): bind PostgreSQL\
+    \ timestamps explicitly"
+  - "d8d7921d359e74398f6e4997858325deebc02de6\t2026-07-20T01:59:03+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): connect production\
+    \ liveness provider"
+  - "ceb4c9bbbf107633462e051adbb72b019fd13533\t2026-07-20T01:42:51+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): implement\
+    \ admin review API"
+  - "1dba453909fdcd40b57fe0da1c1e05aea9ef64da\t2026-07-20T01:22:37+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): wire client\
+    \ identity API"
+  - "5b69dc75936e98ca1315b19b543ab7c5cd7d526b\t2026-07-20T01:05:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): align API\
+    \ storage migration"
+  - "1156f1d2f1688ebfce813600ed82cfd381444ef2\t2026-07-20T01:03:47+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): implement\
+    \ client session domain"
+project_fingerprint:
+  sha256: 156d3e153814a904e0c3140630490fb11e3a586f702d1e4b4be593943c5ecd02
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/r05IdentityPages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminIdentities.test.ts
+  - apps/admin-web/src/services/adminIdentities.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminIdentityDetailPage.vue
+  - apps/admin-web/src/views/AdminIdentityListPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/AndroidManifest.xml
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
+  - docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md
+  file_count: 24
+  payload:
+    base_commit: d08b5d91ed2f83ddfa377fc806470d2385887f53
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 41471
+      sha256: c9716c1aad05dc347f416bb4c796cc67116024f8ba12630fde300f7282fa8810
+    - path: apps/admin-web/src/r05IdentityPages.test.ts
+      state: FILE
+      size: 4035
+      sha256: ceed7c734f39aa4a05fecb725d4fadf98d41f124b709aa09ff106e887b6ab7b9
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 4185
+      sha256: 542539a742f84ef8efee98a4a5e34005cdb3b455d0ae7cac04369d9253a2dcad
+    - path: apps/admin-web/src/services/adminIdentities.test.ts
+      state: FILE
+      size: 5511
+      sha256: e2a92ae3b741570d45b0ad5024a92b5fa549278fcc26843e11e7e10098b664ad
+    - path: apps/admin-web/src/services/adminIdentities.ts
+      state: FILE
+      size: 7620
+      sha256: 35d82e806c6bdd718cfe2a487bfa680f206ec76efdc7d1bbceaa0007d91b9fd7
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 2389
+      sha256: 33010d7fb9f76f4c5ca6967fe3eafd6320a844524eac52d7670214f7da7aa3d1
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 306
+      sha256: 1fdc7b53cee6d0277bf8258265b41f5af049cf3030924c9de23efd37f4dc6d29
+    - path: apps/admin-web/src/views/AdminIdentityDetailPage.vue
+      state: FILE
+      size: 15451
+      sha256: 1b8941382cd36d19b825b45aeae09478130c680426c280277aa75e7f00d4592e
+    - path: apps/admin-web/src/views/AdminIdentityListPage.vue
+      state: FILE
+      size: 8700
+      sha256: 354a4bff3a9d32ef0838b7d7160c1e4f2dae959c271b7bd41e65d05a14fdd9fb
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4909
+      sha256: 1c94b6b8d585fd8e1b2a4c175a12e5a9683e4de461d8a5b3129ea428a25b2d41
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 10241
+      sha256: 78027f3993d0d2091eae52aa8bc2d0dfa9664de924bd2964daca0499b38cbcac
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+      state: FILE
+      size: 8235
+      sha256: 776885c63920cbdffd788e36818d830a2b010d543c75119de5e4ae7be00d5a7b
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+      state: FILE
+      size: 6546
+      sha256: 382e9dd60b7c867597b892c3b960a5d96d91e01a23a3dadf3275beacad14fdd5
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+      state: FILE
+      size: 12693
+      sha256: ab40daff27c96dd02ff9d1f0de49b640bb55e7ac078211dbb93416d07ddc1d76
+    - path: apps/android/feature/identity/build.gradle.kts
+      state: FILE
+      size: 1117
+      sha256: 4746cb2c0ac4ea1dc4f15dec3a2d60d4be28caf9dd2f78df4f91f53acfa9da6b
+    - path: apps/android/feature/identity/src/main/AndroidManifest.xml
+      state: FILE
+      size: 147
+      sha256: 6142be4f1395a6432058d9f4db5f0a108b17cadc5547c838b76b889cc652336b
+    - path: apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+      state: FILE
+      size: 23155
+      sha256: 3f65a66712c239f616bf0f78529759ee583d81bffc9ca3637770c150c826cd45
+    - path: apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+      state: FILE
+      size: 2576
+      sha256: b8cc74e7a3038c9254a358262bd92f41db5f7956222eda16711e5175c61a8103
+    - path: apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+      state: FILE
+      size: 1763
+      sha256: b7db9c1e9cadb6f8c40f106f7ce1b844e16ff37d66e3803bdb445f9b53b8f216
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 5865
+      sha256: 69c27f95139edcfc545166ae3f70294f78d701196bbbb01789ec4b95ab9dd6fb
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 520
+      sha256: a2f5c6cc7238da471c06cdb5b3bd487d424d7f63664566717febe0a2176a9ad2
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 46198
+      sha256: 707c26f5e5561e96aea946f0132071aae58011f43aaf351a004f28d5c5e3e846
+    - path: docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
+      state: FILE
+      size: 2078
+      sha256: 978668dbafbcbbf0bb325a72beb141a1160bec7fefd9a08ed2f1fc0df4208fee
+    - path: docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md
+      state: FILE
+      size: 2768
+      sha256: 075fb50fab65446223ec017ced1402afc87a3db6074a4746bccf94833ba8bb7b
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/admin-web/src/r05IdentityPages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminIdentities.test.ts
+  - apps/admin-web/src/services/adminIdentities.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminIdentityDetailPage.vue
+  - apps/admin-web/src/views/AdminIdentityListPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/AndroidManifest.xml
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  user_visible:
+  - apps/admin-web/src/r05IdentityPages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminIdentities.test.ts
+  - apps/admin-web/src/services/adminIdentities.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminIdentityDetailPage.vue
+  - apps/admin-web/src/views/AdminIdentityListPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/AndroidManifest.xml
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
+  - docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0090
+- CR-0091
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/ApiModelsSerializationTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/identity/src/main/AndroidManifest.xml
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  source: story+explicit+approved-cr:CR-0091
+parallel_execution:
+  assessment: DELEGATED
+  delegated_workers: 2
+  workers:
+  - worker_id: r05_h5_audit
+    responsibility: 审计H5-012冻结页面与回跳契约缺口
+    allowed_paths:
+    - apps/h5
+    - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
+  - worker_id: r05_admin_audit
+    responsibility: 审计ADM-ID-001/002页面、权限与五个operation绑定
+    allowed_paths:
+    - apps/admin-web
+    - docs/02-ui/page-specs/admin/ADM-ID-001_实名列表.md
+    - docs/02-ui/page-specs/admin/ADM-ID-002_实名详情与复核.md
+  reason: ''
+event_hash: 89fe64d1db99522c42775e137d573fda11e067389d81923d4e454a2d57462129

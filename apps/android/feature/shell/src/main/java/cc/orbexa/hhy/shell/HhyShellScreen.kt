@@ -3,7 +3,6 @@ package cc.orbexa.hhy.shell
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,18 +45,15 @@ private val navigationItems = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HhyShellScreen(
-    versionName: String,
-    buildType: String,
-    apiBaseUrl: String,
-    contractVersion: String,
     onOpenLoginDevices: () -> Unit = {},
     onOpenChangePassword: () -> Unit = {},
     onOpenCancellation: () -> Unit = {},
+    onOpenIdentity: () -> Unit = {},
 ) {
     var selectedIndex by remember { mutableIntStateOf(0) }
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("合伙云 Pro · 开发基线") })
+            TopAppBar(title = { Text("合伙云 Pro") })
         },
         bottomBar = {
             NavigationBar {
@@ -79,13 +75,19 @@ fun HhyShellScreen(
         ) {
             item {
                 Text(
-                    text = "$versionName 工程已就绪",
+                    text = navigationItems[selectedIndex].label,
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.SemiBold,
                 )
                 Spacer(Modifier.height(HhySpacing.Sm))
                 Text(
-                    text = "首批开发从登录、平台状态、版本检查与基础 RBAC 开始。",
+                    text = when (selectedIndex) {
+                        0 -> "发现值得合作的人和项目"
+                        1 -> "参与活动，获得更多权益"
+                        2 -> "分享你的项目与能力"
+                        3 -> "与合作伙伴保持联系"
+                        else -> "管理个人资料与账号安全"
+                    },
                     color = HhyColors.TextSecondary,
                 )
             }
@@ -101,7 +103,10 @@ fun HhyShellScreen(
                             verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
                         ) {
                             Text("账号与安全", fontWeight = FontWeight.SemiBold)
-                            Button(modifier = Modifier.fillMaxWidth(), onClick = onOpenLoginDevices) {
+                            Button(modifier = Modifier.fillMaxWidth(), onClick = onOpenIdentity) {
+                                Text("实名认证")
+                            }
+                            OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = onOpenLoginDevices) {
                                 Text("登录设备")
                             }
                             OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = onOpenChangePassword) {
@@ -114,60 +119,19 @@ fun HhyShellScreen(
                     }
                 }
             }
-            item { ReadinessCard("契约", "OpenAPI / WebSocket 已冻结", true) }
-            item { ReadinessCard("数据", "Flyway 迁移与资金硬约束已落地", true) }
-            item { ReadinessCard("安全", "公开接口、请求 ID 与默认拒绝策略已建立", true) }
-            item {
+            if (selectedIndex != 4) item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(HhyRadius.LargeCard),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 ) {
-                    Column(Modifier.padding(HhySpacing.Lg)) {
-                        Text("构建信息", fontWeight = FontWeight.SemiBold)
-                        Spacer(Modifier.height(HhySpacing.Sm))
-                        MetadataRow("App", "$versionName ($buildType)")
-                        MetadataRow("Contract", contractVersion)
-                        MetadataRow("API", apiBaseUrl)
-                        MetadataRow("Screen", navigationItems[selectedIndex].label)
-                    }
+                    Text(
+                        "更多内容正在陆续开放",
+                        modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+                        color = HhyColors.TextSecondary,
+                    )
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun ReadinessCard(title: String, description: String, ready: Boolean) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(HhyRadius.LargeCard),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Column(Modifier.weight(1f)) {
-                Text(title, fontWeight = FontWeight.SemiBold)
-                Text(description, color = HhyColors.TextSecondary)
-            }
-            Text(
-                text = if (ready) "READY" else "PENDING",
-                color = if (ready) HhyColors.Success else HhyColors.Warning,
-                fontWeight = FontWeight.Bold,
-            )
-        }
-    }
-}
-
-@Composable
-private fun MetadataRow(label: String, value: String) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = HhySpacing.Xs),
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(label, color = HhyColors.TextSecondary)
-        Text(value, modifier = Modifier.padding(start = HhySpacing.Lg))
     }
 }

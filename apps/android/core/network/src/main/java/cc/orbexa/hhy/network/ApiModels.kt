@@ -2,6 +2,7 @@ package cc.orbexa.hhy.network
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 
 @Serializable
 data class ApiEnvelope<T>(
@@ -229,6 +230,37 @@ data class UserSelfResource(
     val membershipStatus: String? = null,
     val createdAt: String? = null,
     val version: Long,
+)
+
+// Frozen R05 identity operation types. UI modules consume these contract types and
+// must not recreate page-local request or response DTOs.
+@Serializable
+data class IdentitySessionResource(
+    val id: String,
+    val userId: String? = null,
+    val status: String,
+    val provider: String? = null,
+    val livenessUrl: String? = null,
+    val failureCode: String? = null,
+    val expiresAt: String? = null,
+    val version: Long,
+)
+
+@Serializable
+data class IdentityCreateSessionRequest(
+    val realName: String,
+    val idNumber: String,
+    val consentVersion: String,
+)
+
+@Serializable
+data class IdentityCreateLivenessTokenRequest(val returnUrl: String)
+
+@Serializable
+data class IdentityRetrySessionRequest(
+    val reason: String? = null,
+    val expectedVersion: Long? = null,
+    val payload: JsonObject? = null,
 )
 
 @Serializable

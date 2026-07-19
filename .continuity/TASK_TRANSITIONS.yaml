@@ -480,3 +480,13 @@ transitions:
   session_id: SES-20260719T165401Z-12791729
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-AA8CA7530EDD
+  timestamp: '2026-07-19T18:33:36Z'
+  release: R05
+  task_id: TASK-R05-004
+  story_id: STORY-R05-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260719T183335Z-535311E4
+  actor_id: codex-root
+  reason: 会话领取任务

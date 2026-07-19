@@ -38,6 +38,26 @@ class ApiModelsSerializationTest {
         assertFalse(createFields.containsKey("uploadUrl"))
     }
 
+    @Test fun identityRequestsAndSessionKeepFrozenR05FieldNames() {
+        val create = IdentityCreateSessionRequest("张三", "110101199001011234", "identity-consent-v1")
+        val retry = IdentityRetrySessionRequest(reason = "重新认证", expectedVersion = 3L)
+        val createFields = HhyNetworkJson.value.parseToJsonElement(
+            HhyNetworkJson.value.encodeToString(IdentityCreateSessionRequest.serializer(), create),
+        ).jsonObject
+        val retryFields = HhyNetworkJson.value.parseToJsonElement(
+            HhyNetworkJson.value.encodeToString(IdentityRetrySessionRequest.serializer(), retry),
+        ).jsonObject
+        val session = HhyNetworkJson.value.decodeFromString<IdentitySessionResource>(
+            """{"id":"17","userId":"9","status":"LIVENESS_PENDING","provider":"ALIYUN_MARKET_FACE","livenessUrl":"https://provider.example/start","expiresAt":"2026-07-20T03:00:00Z","version":2}""",
+        )
+
+        assertEquals(setOf("realName", "idNumber", "consentVersion"), createFields.keys)
+        assertEquals(setOf("reason", "expectedVersion"), retryFields.keys)
+        assertEquals("LIVENESS_PENDING", session.status)
+        assertEquals(2L, session.version)
+        assertFalse(createFields.containsKey("id_number"))
+    }
+
     @Test fun sessionResponseKeepsRefreshCredentialAndDeviceSessionBinding() {
         val session = HhyNetworkJson.value.decodeFromString<AuthSessionResource>(
             """{"accessToken":"access","refreshToken":"refresh","expiresAt":"2026-07-18T00:00:00Z","userId":"42","sessionId":"session-1","device":{"deviceId":"device-1"}}""",

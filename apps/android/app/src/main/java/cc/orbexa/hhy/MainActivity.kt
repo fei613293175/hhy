@@ -25,6 +25,7 @@ import cc.orbexa.hhy.auth.AccountCancellationScreen
 import cc.orbexa.hhy.auth.LoginDevicesScreen
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyTheme
+import cc.orbexa.hhy.identity.IdentityFlowScreen
 import cc.orbexa.hhy.network.AuthCallResult
 import cc.orbexa.hhy.network.AuthSessionResource
 import cc.orbexa.hhy.network.AuthSessionStore
@@ -33,6 +34,7 @@ import cc.orbexa.hhy.network.StartupGate
 import cc.orbexa.hhy.network.StartupGateRequest
 import cc.orbexa.hhy.network.UrlConnectionHhyPublicApi
 import cc.orbexa.hhy.network.UrlConnectionContractAuthApi
+import cc.orbexa.hhy.network.UrlConnectionContractIdentityApi
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
 import cc.orbexa.hhy.shell.HhyShellScreen
@@ -54,6 +56,7 @@ class MainActivity : ComponentActivity() {
                 val sessionStore = remember(context.applicationContext) {
                     AuthSessionStore(context.applicationContext)
                 }
+                val identityApi = remember { UrlConnectionContractIdentityApi(BuildConfig.API_BASE_URL) }
                 val request = remember {
                     StartupGateRequest(
                         versionCode = BuildConfig.VERSION_CODE.toLong(),
@@ -107,13 +110,10 @@ class MainActivity : ComponentActivity() {
                             val authenticated = sessionState as SessionState.Authenticated
                             when (securityDestination) {
                                 SecurityDestination.Shell -> HhyShellScreen(
-                                    versionName = BuildConfig.VERSION_NAME,
-                                    buildType = BuildConfig.BUILD_TYPE,
-                                    apiBaseUrl = BuildConfig.API_BASE_URL,
-                                    contractVersion = BuildConfig.CONTRACT_VERSION,
                                     onOpenLoginDevices = { securityDestination = SecurityDestination.LoginDevices },
                                     onOpenChangePassword = { securityDestination = SecurityDestination.ChangePassword },
                                     onOpenCancellation = { securityDestination = SecurityDestination.Cancellation },
+                                    onOpenIdentity = { securityDestination = SecurityDestination.Identity },
                                 )
                                 SecurityDestination.LoginDevices -> LoginDevicesScreen(authApi, authenticated.session.accessToken)
                                 SecurityDestination.ChangePassword -> ChangeLoginPasswordScreen(
@@ -130,6 +130,18 @@ class MainActivity : ComponentActivity() {
                                     securityDestination = SecurityDestination.Shell
                                     sessionState = SessionState.AuthenticationRequired
                                 }
+                                SecurityDestination.Identity -> IdentityFlowScreen(
+                                    api = identityApi,
+                                    accessToken = authenticated.session.accessToken,
+                                    consentVersion = BuildConfig.IDENTITY_CONSENT_VERSION,
+                                    returnUrl = BuildConfig.IDENTITY_RETURN_URL,
+                                    onBack = { securityDestination = SecurityDestination.Shell },
+                                    onSessionExpired = {
+                                        sessionStore.clear()
+                                        securityDestination = SecurityDestination.Shell
+                                        sessionState = SessionState.AuthenticationRequired
+                                    },
+                                )
                             }
                         }
                         is SessionState.Restricted -> {
@@ -162,7 +174,7 @@ private sealed interface SessionState {
     data class Restricted(val session: AuthSessionResource, val user: UserSelfResource) : SessionState
 }
 
-private enum class SecurityDestination { Shell, LoginDevices, ChangePassword, Cancellation }
+private enum class SecurityDestination { Shell, LoginDevices, ChangePassword, Cancellation, Identity }
 
 @androidx.compose.runtime.Composable
 private fun RestoringSessionScreen() {

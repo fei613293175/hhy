@@ -6,3 +6,4 @@ export * from './adminDomains';
 export * from './adminProviderCertificates';
 export * from './apiError';
 export * from './idempotency';
+export * from './adminIdentities';
