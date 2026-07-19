@@ -100,6 +100,7 @@ describe('InviteRegistrationPage', () => {
     const { wrapper, router } = await render();
     expect(wrapper.text()).toContain('加入测试团队');
     expect(wrapper.text()).toContain('INVITE-R02');
+    expect(wrapper.text()).toContain('8–20位，需同时包含字母和数字');
 
     await fillFormAndOpenChallenge(wrapper);
     await wrapper.get('input[autocomplete="off"]').setValue('proof-r02');
@@ -132,9 +133,9 @@ describe('InviteRegistrationPage', () => {
     expect(wrapper.text()).toContain('输入不正确，请根据新图片重新输入');
   });
 
-  it('does not misreport a registration business rule as a challenge failure', async () => {
+  it('shows an actionable error when the phone is already registered', async () => {
     api.register.mockRejectedValueOnce(new InviteApiError(
-      422, 'COMMON-422-BUSINESS_RULE', '邀请码无效',
+      409, 'AUTH-409-PHONE_ALREADY_REGISTERED', '该手机号已注册',
     ));
     const { wrapper } = await render();
     await fillFormAndOpenChallenge(wrapper);
@@ -144,7 +145,7 @@ describe('InviteRegistrationPage', () => {
 
     expect(api.createChallenge).toHaveBeenCalledTimes(1);
     expect(wrapper.find('.challenge-dialog').exists()).toBe(false);
-    expect(wrapper.text()).toContain('注册信息未通过，请检查手机号、密码和邀请码');
+    expect(wrapper.text()).toContain('该手机号已注册，请直接登录或找回密码');
     expect(wrapper.text()).not.toContain('输入不正确');
   });
 

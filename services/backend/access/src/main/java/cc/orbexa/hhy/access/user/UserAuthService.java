@@ -191,7 +191,7 @@ public class UserAuthService {
                     verification.verifyChallenge(
                             request.challengeId(), request.challengeProof(), AuthScene.REGISTER);
                     repository.lockRegistration(request.phone());
-                    if (repository.findUser(request.phone()).isPresent()) throw business("手机号已注册");
+                    if (repository.findUser(request.phone()).isPresent()) throw phoneAlreadyRegistered();
                     long inviterId = resolveInviter(request.inviteCode());
                     Instant now = Instant.now(clock);
                     long userId = repository.createUser(request.phone());
@@ -207,7 +207,7 @@ public class UserAuthService {
     private long resolveInviter(String inviteCode) {
         return testRegistrationInvite.inviterIdFor(inviteCode)
                 .or(() -> repository.findActiveInviter(inviteCode))
-                .orElseThrow(() -> business("邀请码无效"));
+                .orElseThrow(UserAuthService::inviteInvalid);
     }
 
     @Transactional(noRollbackFor = BusinessException.class)
@@ -418,7 +418,7 @@ public class UserAuthService {
                 || (policy.passwordRequireLetters() && password.chars().noneMatch(Character::isLetter))
                 || (policy.passwordRequireDigits() && password.chars().noneMatch(Character::isDigit))
                 || password.equals(phone) || WEAK_PASSWORDS.contains(password.toLowerCase(Locale.ROOT))) {
-            throw business("密码不符合安全策略");
+            throw passwordPolicyInvalid();
         }
     }
 
@@ -511,6 +511,15 @@ public class UserAuthService {
     }
     private static BusinessException accountRestricted() {
         return new BusinessException("AUTH-423-ACCOUNT_RESTRICTED", "账号已冻结或受限", 423, false);
+    }
+    private static BusinessException phoneAlreadyRegistered() {
+        return new BusinessException("AUTH-409-PHONE_ALREADY_REGISTERED", "该手机号已注册", 409, false);
+    }
+    private static BusinessException inviteInvalid() {
+        return new BusinessException("AUTH-422-INVITE_CODE_INVALID", "邀请码无效或已失效", 422, false);
+    }
+    private static BusinessException passwordPolicyInvalid() {
+        return new BusinessException("AUTH-422-PASSWORD_POLICY_INVALID", "密码不符合安全策略", 422, false);
     }
     private static BusinessException business(String message) {
         return new BusinessException("COMMON-422-BUSINESS_RULE", message, 422, false);

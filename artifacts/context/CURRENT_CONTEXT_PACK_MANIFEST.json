@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-19T02:42:03Z",
-  "context_hash": "1402ea9613c55d6377f230a3ab7cf882bfac3cbb8623c6c535221319b5a22c46",
+  "generated_at": "2026-07-19T04:06:18Z",
+  "context_hash": "23f0d259de7a690025796defa40f5838c5fd6ac21447f63159f7ec49b7ef5db8",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "177fe73720b7e7e14ec8c3a63623e42e0ee6d161ac9e729e9546a0b70ec21d95",
-    "file_count": 111
+    "sha256": "201bdc49dfb952dd34634add9f3b58637546acc0aa635ff8c5aa3110b3b4f489",
+    "file_count": 122
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "2d61a0a38febbb5645d658170f3062ef7a5aaf2348fd4758377b111b2597df29"
+    "sha256": "f7c8cf9b635a833f9eb2dca3b0e303f02ad4d44a46c6d851275a2406a6fff43c"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "84287124c6a0745ed74815857a1f298893440c3ea17d8ee7070ff85fec41a04f"
+    "sha256": "d4580b5a8fec429bd18dd9202c2b3bd03a171ebb886bf6da2ab1b41c387b9d56"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "f77ba118eb10349971f0356367586ac8629c1f6b347fe4b682988d977732f93b",
+      "sha256": "963336cf18bfa34ef3d395ae5a5f160a96695895d5e24fb0931f6e7dbd07ee1c",
       "bytes": 3377
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "e0a3e5a3d83d2689a0e24c3e3ba930953879be618f5d051caafb6c48fb958d0d",
-      "bytes": 32442
+      "sha256": "e71df6c1e66b2a0cd59b52b920884939bdb62f917ed5d6116b79aeb8d22cc904",
+      "bytes": 33955
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "e7fe4efa263b21b112802586ec487051e4602aba5f6030301d9dac7818c54046",
-      "bytes": 425231
+      "sha256": "a92bbd58d7eea42afc2c816db0f2a9ae5dce36676effd2f43d0a7ecd0c7a82be",
+      "bytes": 437778
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "cbe52e7028ee45b405f119da83afccf3f07aa67e1abe26aa2fcb944aeea2b363",
+      "sha256": "2c8dbcb4063d1cd0906dc1d35a6d0865bc5cecced947b8e9534c86daf592a1e6",
       "bytes": 17274
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "2f1a22fbd77a21fa52b3778041229bb0e52c089b5648719cd398ecc4a1314011",
-      "bytes": 214135
+      "sha256": "185624b88b15e45f3b9676e8a1f60a29f2f48fb4a477c54ee7af3fab4e546fc2",
+      "bytes": 225019
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "33dc09ed8162fb63f8fc3a94ce306715d8ae7911bb1f87f1486c8a56f5b854f4",
+      "sha256": "b712e11c261564687b21596bf408dc9f616beab648598cc61172677461d5e1fd",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md",
-      "sha256": "9e6a018ff42fbe8460b7a0d7c6e40a4c06f58f97aa489132b699f6fa60ae7d29",
-      "bytes": 109541
+      "sha256": "31a0d84fdc2d1dc68eba53c6272d009cb5a268c56b24fa61973c3be6ffef1b6c",
+      "bytes": 118891
     },
     {
-      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0020.yaml",
-      "sha256": "8c15c6bb5f234d3d810de648062eef30b2a0dab6e73195f4f76a4d837deb25df",
-      "bytes": 50523
+      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0021.yaml",
+      "sha256": "ddb89df36cdf4dd39fcc1de3c6e1d2044dcc4e96b730613044dd7236321577ff",
+      "bytes": 57968
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md",
@@ -245,6 +245,26 @@
       "path": "docs/03-continuity/change-requests/CR-0069-允许同一版本热修复APK使用更高单调versionCode.md",
       "sha256": "6a6f6ee2c92f2412fb15a41f4b8e3f868a6f9a37534acce36dda35f0c0a54101",
       "bytes": 2334
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0070-注册表单提示错误细化状态隔离与验证码时效边界修复.md",
+      "sha256": "8781a0ad99345f8d5ecfb4dc4aea604fae22869a78da314d577a69bb6868961b",
+      "bytes": 3867
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0071-认证策略运行时边界与数据库冻结值对齐.md",
+      "sha256": "0e58d3be8cfbd084237516fc86275cc62919f0e5475bed22a736fa78e4f86d0d",
+      "bytes": 2440
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0072-同步注册专用错误码的冻结契约派生产物.md",
+      "sha256": "2d5345e7b35f8ed28218d4eba769750bdc573ef6cc96c56cffd3a80ae06fe8eb",
+      "bytes": 2080
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md",
+      "sha256": "99f970a267f44dc87cf195111b08330b08afaad36f8f14b18ecf3b924904ce6f",
+      "bytes": 2071
     }
   ]
 }

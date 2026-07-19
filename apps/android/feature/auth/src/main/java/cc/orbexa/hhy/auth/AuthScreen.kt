@@ -316,7 +316,11 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
     fun selectRoute(next: AuthRoute) {
         if (submitting || route == next) return
         route = next
+        phone = ""
+        password = ""
         smsCode = ""
+        passwordAgain = ""
+        inviteCode = ""
         challengeDialog = null
         state = AuthUiState.Editing
     }
@@ -362,10 +366,34 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
 
                     PhoneField(phone, enabled = !submitting && challengeDialog == null) { phone = it; smsCode = ""; state = AuthUiState.Editing }
             if (route == AuthRoute.PASSWORD || route == AuthRoute.REGISTER || route == AuthRoute.RESET) {
-                SecretField(if (route == AuthRoute.RESET) "新密码" else "密码", password, enabled = !submitting && challengeDialog == null) { password = it; state = AuthUiState.Editing }
+                SecretField(if (route == AuthRoute.RESET) "新密码" else "密码", password, enabled = !submitting && challengeDialog == null) {
+                    password = it.take(if (route == AuthRoute.PASSWORD) 72 else 20)
+                    state = AuthUiState.Editing
+                }
+                if (route == AuthRoute.REGISTER || route == AuthRoute.RESET) {
+                    Text(
+                        AuthFormRules.NEW_PASSWORD_REQUIREMENTS,
+                        modifier = Modifier.fillMaxWidth(),
+                        color = if (password.isNotEmpty() && !AuthFormRules.validNewPassword(password)) HhyColors.Error else HhyColors.TextSecondary,
+                        fontSize = HhyType.CaptionSize,
+                        lineHeight = HhyType.CaptionLineHeight,
+                    )
+                }
             }
             if (route == AuthRoute.REGISTER) {
-                SecretField("确认密码", passwordAgain, enabled = !submitting && challengeDialog == null) { passwordAgain = it; state = AuthUiState.Editing }
+                SecretField("确认密码", passwordAgain, enabled = !submitting && challengeDialog == null) {
+                    passwordAgain = it.take(20)
+                    state = AuthUiState.Editing
+                }
+                if (passwordAgain.isNotEmpty() && password != passwordAgain) {
+                    Text(
+                        "两次输入的密码不一致",
+                        modifier = Modifier.fillMaxWidth(),
+                        color = HhyColors.Error,
+                        fontSize = HhyType.CaptionSize,
+                        lineHeight = HhyType.CaptionLineHeight,
+                    )
+                }
                 TextField("邀请码", inviteCode, {
                     inviteCode = it
                     state = AuthUiState.Editing

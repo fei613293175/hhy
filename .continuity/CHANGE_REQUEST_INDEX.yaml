@@ -4185,3 +4185,211 @@ change_requests:
   - SES-20260718T200607Z-3569D212
   implementation_commits:
   - 33a0700
+- protocol_version: '1.0'
+  cr_id: CR-0070
+  title: 注册表单提示错误细化状态隔离与验证码时效边界修复
+  status: IMPLEMENTING
+  created_at: '2026-07-19T03:31:10Z'
+  updated_at: '2026-07-19T03:32:22Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 项目所有者真机反馈：补充密码规则提示、细化已注册手机号等注册错误、切换认证页面不得串用输入、评估并收紧安全验证码有效期配置范围。
+  reason: 当前按钮仅通过禁用态阻止不合规密码，注册业务错误码过于宽泛，共用表单状态泄露到其他认证页，验证码配置上限不符合合理安全边界。
+  original_rule: 注册页仅以按钮禁用表达密码规则；注册失败统一提示检查手机号、密码和邀请码；认证路由共用手机号与密码状态；安全挑战TTL配置允许异常大的上限。
+  new_rule: 注册页持续显示8–20位且字母数字组合的规则并提供字段级错误；已注册手机号、无效邀请码、密码策略返回独立安全错误码和可执行提示；切换认证路由清空所有表单与挑战状态；安全挑战TTL默认120秒且后台配置仅允许60–300秒。
+  impact_summary: 修正Android和H5注册体验、后端注册错误契约、认证配置安全范围及相应冻结文档与追溯证据。
+  impact:
+    files:
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+    - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+    - apps/h5/src/views/InviteRegistrationPage.vue
+    - apps/h5/src/views/InviteRegistrationPage.test.ts
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicRejectionContractTest.java
+    - contracts/error-codes.csv
+    - contracts/openapi.yaml
+    - contracts/operation-error-matrix.csv
+    - catalogs/config_registry.csv
+    - catalogs/config_cross_field_rules.csv
+    - docs/01-authentication/登录注册与安全验证详细规格_V1.2.2.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    - artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md
+    pages:
+    - SCR-AUTH-001
+    - SCR-AUTH-002
+    - SCR-AUTH-003
+    - H5-AUTH-001
+    apis:
+    - authPostAuthRegister
+    database: []
+    configuration:
+    - auth.security_challenge.ttl_seconds
+    ledger:
+    - PROB-0036
+    - CHANGELOG
+    tests:
+    - Android AuthFormRules单测；H5注册页组件测试；后端注册错误码与策略测试；OpenAPI和配置目录校验；真机回归
+    releases:
+    - R03注册认证回归APK及后端热修复
+    migration_and_compatibility: 不改变成功响应和请求字段；新增错误码向后兼容，旧客户端仍按422/409兜底；现有120秒配置合法，无需数据迁移，超出60–300秒的后续配置将被拒绝。
+  user_confirmation: 用户2026-07-19真机反馈并要求继续开发；此前明确后续问题不必询问确认，由开发自行决定。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T03:32:21Z'
+    note: 项目所有者已明确要求直接修复四项真机反馈且后续同类问题由开发自行决策；变更保持请求兼容并强化安全配置边界。
+  machine_record: .continuity/change_requests/CR-0070.yaml
+  document: docs/03-continuity/change-requests/CR-0070-注册表单提示错误细化状态隔离与验证码时效边界修复.md
+  decision_log:
+  - at: '2026-07-19T03:32:22Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现注册提示、专用错误码、认证页状态隔离及TTL配置范围门禁。
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0071
+  title: 认证策略运行时边界与数据库冻结值对齐
+  status: IMPLEMENTING
+  created_at: '2026-07-19T03:34:07Z'
+  updated_at: '2026-07-19T03:34:34Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 项目所有者要求明确注册密码规则并评估验证码两分钟时效及后台配置。
+  reason: 冻结规格和配置目录为密码8至20位，但V017种子错误写入72；TTL目录缺少300秒上限，运行时也未做范围闭锁。
+  original_rule: 运行数据库密码最大长度为72且安全挑战TTL只校验正数；配置目录TTL上限为2592000秒。
+  new_rule: 密码最大长度统一为冻结规格20；安全挑战TTL默认120秒且运行时和配置中心仅允许60至300秒，越界配置启动/调用闭锁。
+  impact_summary: 新增向前迁移纠正已有配置值，运行时增加安全范围校验并补单元测试。
+  impact:
+    files:
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthPolicy.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPolicyTest.java
+    - services/backend/boot/src/main/resources/db/migration/V020__r03_auth_registration_policy_alignment.sql
+    pages: []
+    apis: []
+    database:
+    - hhy.system_configs
+    configuration:
+    - auth.password.max_length
+    - auth.security_challenge.ttl_seconds
+    ledger: []
+    tests:
+    - UserAuthPolicyTest与P00 Flyway迁移门禁
+    releases:
+    - R03后端认证策略热修复
+    migration_and_compatibility: V020仅把仍为72的旧种子值纠正为20，不覆盖已人工设为冻结合法值的环境；120秒TTL无需迁移。
+  user_confirmation: 用户要求明确密码规则并由开发自行决定验证码TTL和后台配置。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T03:34:33Z'
+    note: 冻结规格必须优先于错误种子值，验证码TTL安全范围需要后端闭锁；迁移和默认值均向后兼容。
+  machine_record: .continuity/change_requests/CR-0071.yaml
+  document: docs/03-continuity/change-requests/CR-0071-认证策略运行时边界与数据库冻结值对齐.md
+  decision_log:
+  - at: '2026-07-19T03:34:34Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 实施V020配置纠正和TTL运行时边界校验。
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0072
+  title: 同步注册专用错误码的冻结契约派生产物
+  status: IMPLEMENTING
+  created_at: '2026-07-19T03:44:26Z'
+  updated_at: '2026-07-19T03:44:30Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 细化注册错误提示并保持跨客户端契约一致。
+  reason: OpenAPI和错误码源变更后，运行时副本与contract_status哈希必须同步。
+  original_rule: 运行时契约仍为注册通用业务错误，contract_status指向旧源哈希。
+  new_rule: 运行时契约同步手机号已注册、邀请码无效和密码策略专用错误码，所有契约状态哈希与新冻结源一致。
+  impact_summary: 仅同步生成的运行时契约副本和状态哈希，不改业务实现。
+  impact:
+    files:
+    - contracts/contract_status.csv
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - services/backend/boot/src/main/resources/contracts/error-codes.csv
+    pages: []
+    apis:
+    - authPostAuthInviteCodesValidate
+    - authPostAuthRegister
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - scripts/generate_contracts.py --check与scripts/check_api_contract.py
+    releases:
+    - R03认证契约热修复
+    migration_and_compatibility: 新增错误码向后兼容，旧HTTP状态和成功模型不变。
+  user_confirmation: 用户要求细化注册错误提示并持续开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T03:44:29Z'
+    note: 冻结源变更必须同步派生契约和哈希，范围为机械派生产物。
+  machine_record: .continuity/change_requests/CR-0072.yaml
+  document: docs/03-continuity/change-requests/CR-0072-同步注册专用错误码的冻结契约派生产物.md
+  decision_log:
+  - at: '2026-07-19T03:44:30Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 生成并校验注册错误码运行时契约。
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0073
+  title: 登记认证策略V020权威迁移与安全回滚
+  status: IMPLEMENTING
+  created_at: '2026-07-19T03:45:53Z'
+  updated_at: '2026-07-19T03:45:56Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 明确注册密码规则并持续交付可部署后端。
+  reason: 运行时迁移必须由database/migrations权威源生成，且数据纠错回滚不得把合法20位值误改回错误的72。
+  original_rule: V020仅存在后端运行时目录，资产同步门禁判定为非权威迁移。
+  new_rule: V020在database/migrations登记权威源并提供不恢复错误种子值的安全no-op回滚说明，运行时副本由同步工具生成。
+  impact_summary: 补齐认证策略数据纠正迁移的权威源和回滚治理。
+  impact:
+    files:
+    - database/migrations/V020__r03_auth_registration_policy_alignment.sql
+    - database/rollback/U020__r03_auth_registration_policy_alignment.sql
+    pages: []
+    apis: []
+    database:
+    - hhy.system_configs
+    configuration:
+    - auth.password.max_length
+    ledger: []
+    tests:
+    - scripts/sync_runtime_assets.py --check与Flyway V001-V020迁移
+    releases:
+    - R03后端认证策略热修复
+    migration_and_compatibility: 正向仅更新仍为72的错误种子；回滚不把20改回72，避免破坏冻结规格或人工合法配置。
+  user_confirmation: 用户要求明确密码规则并持续开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T03:45:55Z'
+    note: 数据库权威源和安全回滚必须补齐；禁止回滚恢复已确认错误的72位种子。
+  machine_record: .continuity/change_requests/CR-0073.yaml
+  document: docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md
+  decision_log:
+  - at: '2026-07-19T03:45:56Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 登记V020权威迁移和no-op安全回滚。
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212

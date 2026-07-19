@@ -1,0 +1,67 @@
+protocol_version: '1.0'
+cr_id: CR-0070
+title: 注册表单提示错误细化状态隔离与验证码时效边界修复
+status: IMPLEMENTING
+created_at: '2026-07-19T03:31:10Z'
+updated_at: '2026-07-19T03:32:22Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 项目所有者真机反馈：补充密码规则提示、细化已注册手机号等注册错误、切换认证页面不得串用输入、评估并收紧安全验证码有效期配置范围。
+reason: 当前按钮仅通过禁用态阻止不合规密码，注册业务错误码过于宽泛，共用表单状态泄露到其他认证页，验证码配置上限不符合合理安全边界。
+original_rule: 注册页仅以按钮禁用表达密码规则；注册失败统一提示检查手机号、密码和邀请码；认证路由共用手机号与密码状态；安全挑战TTL配置允许异常大的上限。
+new_rule: 注册页持续显示8–20位且字母数字组合的规则并提供字段级错误；已注册手机号、无效邀请码、密码策略返回独立安全错误码和可执行提示；切换认证路由清空所有表单与挑战状态；安全挑战TTL默认120秒且后台配置仅允许60–300秒。
+impact_summary: 修正Android和H5注册体验、后端注册错误契约、认证配置安全范围及相应冻结文档与追溯证据。
+impact:
+  files:
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt
+  - apps/h5/src/views/InviteRegistrationPage.vue
+  - apps/h5/src/views/InviteRegistrationPage.test.ts
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPublicRejectionContractTest.java
+  - contracts/error-codes.csv
+  - contracts/openapi.yaml
+  - contracts/operation-error-matrix.csv
+  - catalogs/config_registry.csv
+  - catalogs/config_cross_field_rules.csv
+  - docs/01-authentication/登录注册与安全验证详细规格_V1.2.2.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  - artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md
+  pages:
+  - SCR-AUTH-001
+  - SCR-AUTH-002
+  - SCR-AUTH-003
+  - H5-AUTH-001
+  apis:
+  - authPostAuthRegister
+  database: []
+  configuration:
+  - auth.security_challenge.ttl_seconds
+  ledger:
+  - PROB-0036
+  - CHANGELOG
+  tests:
+  - Android AuthFormRules单测；H5注册页组件测试；后端注册错误码与策略测试；OpenAPI和配置目录校验；真机回归
+  releases:
+  - R03注册认证回归APK及后端热修复
+  migration_and_compatibility: 不改变成功响应和请求字段；新增错误码向后兼容，旧客户端仍按422/409兜底；现有120秒配置合法，无需数据迁移，超出60–300秒的后续配置将被拒绝。
+user_confirmation: 用户2026-07-19真机反馈并要求继续开发；此前明确后续问题不必询问确认，由开发自行决定。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T03:32:21Z'
+  note: 项目所有者已明确要求直接修复四项真机反馈且后续同类问题由开发自行决策；变更保持请求兼容并强化安全配置边界。
+machine_record: .continuity/change_requests/CR-0070.yaml
+document: docs/03-continuity/change-requests/CR-0070-注册表单提示错误细化状态隔离与验证码时效边界修复.md
+decision_log:
+- at: '2026-07-19T03:32:22Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始实现注册提示、专用错误码、认证页状态隔离及TTL配置范围门禁。
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212

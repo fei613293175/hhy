@@ -14,7 +14,16 @@ class AuthFormRulesTest {
     @Test fun registrationRequiresOnlyPhoneMatchingPasswordsAndInviteBeforeChallenge() {
         assertFalse(AuthFormRules.canSubmit(AuthRoute.REGISTER, "13800000000", "password1", "different", "", "INVITE"))
         assertFalse(AuthFormRules.canSubmit(AuthRoute.REGISTER, "13800000000", "password1", "password1", "", ""))
+        assertFalse(AuthFormRules.canSubmit(AuthRoute.REGISTER, "13800000000", "12345678", "12345678", "", "INVITE"))
+        assertFalse(AuthFormRules.canSubmit(AuthRoute.REGISTER, "13800000000", "password", "password", "", "INVITE"))
+        assertFalse(AuthFormRules.canSubmit(AuthRoute.REGISTER, "13800000000", "Password1234567890123", "Password1234567890123", "", "INVITE"))
         assertTrue(AuthFormRules.canSubmit(AuthRoute.REGISTER, "13800000000", "password1", "password1", "", "INVITE"))
+    }
+
+    @Test fun loginStillAcceptsExistingLongPasswordsWhileNewPasswordsUseFrozenPolicy() {
+        assertTrue(AuthFormRules.validLoginPassword("Password12345678901234567890"))
+        assertFalse(AuthFormRules.validNewPassword("Password12345678901234567890"))
+        assertTrue(AuthFormRules.validNewPassword("Password9"))
     }
 
     @Test fun onlyDedicatedChallengeErrorRefreshesTheChallenge() {
@@ -31,9 +40,21 @@ class AuthFormRulesTest {
             ),
         )
         assertEquals(
-            "注册信息未通过，请检查手机号、密码和邀请码",
+            "该手机号已注册，请直接登录或找回密码",
             AuthFormRules.challengeBusinessFailure(
-                AuthRoute.REGISTER, 422, "COMMON-422-BUSINESS_RULE", null,
+                AuthRoute.REGISTER, 409, "AUTH-409-PHONE_ALREADY_REGISTERED", null,
+            ),
+        )
+        assertEquals(
+            "邀请码无效或已失效，请检查后重试",
+            AuthFormRules.challengeBusinessFailure(
+                AuthRoute.REGISTER, 422, "AUTH-422-INVITE_CODE_INVALID", null,
+            ),
+        )
+        assertEquals(
+            "密码需为8–20位，并同时包含字母和数字",
+            AuthFormRules.challengeBusinessFailure(
+                AuthRoute.REGISTER, 422, "AUTH-422-PASSWORD_POLICY_INVALID", null,
             ),
         )
         assertEquals(

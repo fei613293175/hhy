@@ -419,3 +419,19 @@ problems:
   - 不得按所有401、409、422或500状态统一推断验证码结果
   - 只有图片安全验证专用错误码可以显示验证码错误并刷新图片
   - 网络失败文案只用于未收到HTTP响应的真实连接失败
+- id: PROB-0036
+  title: 注册页缺少密码规则提示且认证路由串用表单状态
+  status: SOLVED
+  root_cause: Android注册按钮仅按长度启用且没有展示字母数字组合和最大长度，注册业务错误共用通用422；密码登录、短信登录、注册和忘记密码共用同一组手机号与密码状态，切换页面后继续回显上一页输入。
+  resolution: 注册和新密码页面持续展示8–20位字母数字组合规则并对不合规密码、确认密码不一致提供字段级提示；注册后端新增手机号已注册、邀请码无效和密码策略专用错误码；认证路由切换原子清空手机号、密码、确认密码、短信码、邀请码和挑战状态。验证码默认120秒不变，后台和运行时范围收紧为60–300秒。
+  regression_checks:
+  - AuthFormRulesTest registration policy and dedicated registration errors
+  - InviteRegistrationPage.test.ts password helper and registered-phone error
+  - UserAuthServiceTest dedicated registration error codes
+  - UserAuthPolicyTest challenge TTL range
+  - V020__r03_auth_registration_policy_alignment.sql
+  do_not_repeat:
+  - 不得只用按钮禁用态表达用户必须知道的输入规则
+  - 不得在不同认证页面间自动携带手机号、密码、短信码或邀请码
+  - 不得用通用注册失败文案掩盖用户可自行处理的明确原因
+  - 安全挑战TTL不得超出60至300秒，一次性使用、尝试次数和接口限流不得因调整TTL而移除

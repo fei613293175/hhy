@@ -133,6 +133,15 @@ function registrationFailureMessage(caught: unknown): string {
     const seconds = caught.retryAfterSeconds ?? 60;
     return `操作过于频繁，请在 ${seconds} 秒后重试`;
   }
+  if (caught.code === 'AUTH-409-PHONE_ALREADY_REGISTERED') {
+    return '该手机号已注册，请直接登录或找回密码';
+  }
+  if (caught.code === 'AUTH-422-INVITE_CODE_INVALID') {
+    return '邀请码无效或已失效，请检查后重试';
+  }
+  if (caught.code === 'AUTH-422-PASSWORD_POLICY_INVALID') {
+    return '密码需为8–20位，并同时包含字母和数字';
+  }
   if ([400, 409, 422].includes(caught.status)) {
     return '注册信息未通过，请检查手机号、密码和邀请码';
   }
@@ -143,16 +152,18 @@ function canSubmitForm(): boolean {
   return state.value === 'ready'
     && /^1[3-9]\d{9}$/.test(form.phone)
     && form.password.length >= 8
-    && form.password.length <= 72
+    && form.password.length <= 20
+    && /[A-Za-z]/.test(form.password)
+    && /\d/.test(form.password)
     && form.password === form.passwordConfirmation
     && inviteCode.value.length > 0;
 }
 
 function validateForm(): string | undefined {
   if (!/^1[3-9]\d{9}$/.test(form.phone)) return '请输入正确的中国大陆手机号';
-  if (form.password.length < 8 || form.password.length > 72
+  if (form.password.length < 8 || form.password.length > 20
       || !/[A-Za-z]/.test(form.password) || !/\d/.test(form.password)) {
-    return '密码需为 8–72 位，并同时包含字母和数字';
+    return '密码需为8–20位，并同时包含字母和数字';
   }
   if (form.password !== form.passwordConfirmation) return '两次输入的密码不一致';
   if (!inviteCode.value) return '邀请已失效，请向邀请人获取新的邀请链接';
@@ -224,7 +235,8 @@ onBeforeUnmount(() => {
         </label>
         <label>
           <span>登录密码</span>
-          <input v-model="form.password" type="password" autocomplete="new-password" maxlength="72" placeholder="8–72 位字母和数字">
+          <input v-model="form.password" type="password" autocomplete="new-password" maxlength="20" placeholder="请输入登录密码">
+          <small class="field-help" :class="{ invalid: form.password && !(/[A-Za-z]/.test(form.password) && /\d/.test(form.password) && form.password.length >= 8) }">8–20位，需同时包含字母和数字</small>
         </label>
         <label>
           <span>确认密码</span>
@@ -271,4 +283,6 @@ onBeforeUnmount(() => {
 .challenge-actions { display: grid; grid-template-columns: var(--hhy-component-challenge-cancel-button-width) 1fr; gap: var(--hhy-space-12); margin-top: var(--hhy-space-12); }
 .challenge-actions button { min-height: var(--hhy-size-primary-button-height); border-radius: var(--hhy-radius-button); }
 .challenge-loading { min-height: var(--hhy-component-challenge-loading-min-height); display: grid; place-items: center; color: var(--hhy-color-text-secondary); }
+.field-help { display: block; margin-top: var(--hhy-space-8); color: var(--hhy-color-text-secondary); font-size: 13px; line-height: 20px; }
+.field-help.invalid { color: var(--hhy-color-status-error); }
 </style>

@@ -12,7 +12,14 @@ public class UserAuthPolicy {
         this.jdbc = jdbc;
     }
 
-    public Duration challengeTtl() { return Duration.ofSeconds(integer("auth.security_challenge.ttl_seconds")); }
+    public Duration challengeTtl() {
+        int seconds = integer("auth.security_challenge.ttl_seconds");
+        if (seconds < 60 || seconds > 300) {
+            throw new IllegalStateException(
+                    "Invalid active authentication policy range: auth.security_challenge.ttl_seconds");
+        }
+        return Duration.ofSeconds(seconds);
+    }
     public int challengeMaxAttempts() { return integer("auth.security_challenge.max_attempts"); }
     public int passwordMinLength() { return integer("auth.password.min_length"); }
     public int passwordMaxLength() { return integer("auth.password.max_length"); }

@@ -371,6 +371,7 @@ paths:
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
       - AUTH-401-SESSION_REVOKED
+      - AUTH-422-INVITE_CODE_INVALID
       - AUTH-423-ACCOUNT_RESTRICTED
       x-request-schema: '#/components/schemas/AuthPostAuthInviteCodesValidateRequest'
       requestBody:
@@ -470,6 +471,9 @@ paths:
       - COMMON-429-RATE_LIMITED
       - COMMON-500-INTERNAL
       - AUTH-401-SESSION_REVOKED
+      - AUTH-409-PHONE_ALREADY_REGISTERED
+      - AUTH-422-INVITE_CODE_INVALID
+      - AUTH-422-PASSWORD_POLICY_INVALID
       - AUTH-422-SECURITY_CHALLENGE_INVALID
       - AUTH-423-ACCOUNT_RESTRICTED
       parameters:

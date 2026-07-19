@@ -256,7 +256,7 @@ class UserAuthServiceTest {
                 .thenReturn(new UserAuthStore.IdempotencyClaim(
                         new UserAuthStore.IdempotencyRow(96L, "request-hash", null, null, null), false));
         when(policy.passwordMinLength()).thenReturn(8);
-        when(policy.passwordMaxLength()).thenReturn(72);
+        when(policy.passwordMaxLength()).thenReturn(20);
         when(policy.passwordRequireLetters()).thenReturn(true);
         when(policy.passwordRequireDigits()).thenReturn(true);
         when(repository.findUser("13900000000")).thenReturn(Optional.empty());
@@ -282,6 +282,42 @@ class UserAuthServiceTest {
         verify(repository).recordLogin(17L, "13900000000", 31L, "203.0.113.8", "REGISTER");
         verify(repository).completeIdempotencySnapshot(
                 eq(96L), eq("user-auth-session-v1:ok"), eq("user-auth-session-v1"), anyString());
+    }
+
+    @Test
+    void registrationReturnsDedicatedCodeForAnExistingPhoneAfterChallengeVerification() {
+        RegisterRequest request = new RegisterRequest(
+                "13900000000", "Correct99", "INVITE-R02", "challenge-register", "proof-register", Map.of());
+        when(repository.claimIdempotency(anyString(), eq("register-idem-key-0002"), anyString(), any(Instant.class)))
+                .thenReturn(new UserAuthStore.IdempotencyClaim(
+                        new UserAuthStore.IdempotencyRow(101L, "request-hash", null, null, null), false));
+        when(policy.passwordMinLength()).thenReturn(8);
+        when(policy.passwordMaxLength()).thenReturn(20);
+        when(policy.passwordRequireLetters()).thenReturn(true);
+        when(policy.passwordRequireDigits()).thenReturn(true);
+        when(repository.findUser("13900000000"))
+                .thenReturn(Optional.of(new UserAuthStore.UserRow(17L, "ACTIVE")));
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> service.register(request, "register-idem-key-0002", "203.0.113.8"));
+
+        assertEquals("AUTH-409-PHONE_ALREADY_REGISTERED", error.code());
+        assertEquals(409, error.httpStatus());
+        verify(verification).verifyChallenge(
+                "challenge-register", "proof-register", UserAuthContracts.AuthScene.REGISTER);
+        verify(repository, never()).findActiveInviter(anyString());
+    }
+
+    @Test
+    void inviteValidationReturnsDedicatedActionableCode() {
+        when(testRegistrationInvite.inviterIdFor("EXPIRED")).thenReturn(Optional.empty());
+        when(repository.findActiveInviter("EXPIRED")).thenReturn(Optional.empty());
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> service.validateInvite(new UserAuthContracts.InviteCodeValidateRequest("EXPIRED")));
+
+        assertEquals("AUTH-422-INVITE_CODE_INVALID", error.code());
+        assertEquals(422, error.httpStatus());
     }
 
     @Test
@@ -320,7 +356,7 @@ class UserAuthServiceTest {
                 .thenReturn(new UserAuthStore.IdempotencyClaim(
                         new UserAuthStore.IdempotencyRow(97L, "request-hash", null, null, null), false));
         when(policy.passwordMinLength()).thenReturn(8);
-        when(policy.passwordMaxLength()).thenReturn(72);
+        when(policy.passwordMaxLength()).thenReturn(20);
         when(policy.passwordRequireLetters()).thenReturn(true);
         when(policy.passwordRequireDigits()).thenReturn(true);
         when(repository.findCredentialForUpdate("13800000000")).thenReturn(Optional.of(
