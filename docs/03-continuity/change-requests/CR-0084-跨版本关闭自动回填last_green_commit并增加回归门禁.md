@@ -89,3 +89,10 @@ continuity close已接收code_commit但未写入CURRENT_STATUS.last_green_commit
 - Status：`IMPLEMENTING`
 - Session：`SES-20260719T083704Z-6E4CE28F`
 - Note：实施自动回填与跨版本回归测试
+
+## 状态记录 · 2026-07-19T08:50:27Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260719T083704Z-6E4CE28F`
+- Note：跨版本close自动回填last_green_commit、R03状态纠正和隔离回归已完成并全绿

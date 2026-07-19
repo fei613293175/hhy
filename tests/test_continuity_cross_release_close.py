@@ -253,6 +253,7 @@ class CrossReleaseCloseTest(unittest.TestCase):
             self.assertEqual(status["active_task"], "TASK-R01-001")
             self.assertEqual(status["next_task"], "TASK-R01-001")
             self.assertEqual(status["status"], "READY")
+            # Release-close consumers require the same immutable commit as the APK manifest.
             self.assertEqual(status["last_green_commit"], code_commit)
             self.assertIsNone(status["continuity"]["active_session_id"])
 

@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-19T08:49:24Z",
-  "context_hash": "e10c4744c37067da78bf40fbacd3ee314b3f155d84b7464292c64884bcf17c41",
+  "generated_at": "2026-07-19T08:52:14Z",
+  "context_hash": "e912968406dda25f832a3c63c21897235ba098359cd038ec992a0df6e408f194",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "a3ae12604504f672ffc57db9097f5d444c443ed128c0d2d29fa9d2a36d497d63",
+    "sha256": "a954ded4911aa4e23b50f1785ed839f2006d8980d5d4ab3de8d64b6a300009a9",
     "file_count": 8
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "8e5c472188601aebd88a25d608110d125b8056694633b2fc4d9d818a337566b2"
+    "sha256": "a03a74f82dccaaf04470e49d33e3741ab0f583d7fba2226fc11e3007dea1fa5d"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "5b31e5faa21c5bb3fadb00bc10fb3155a18979ad58115ef9246565826dffdb38"
+    "sha256": "a561d3d95e3d27276db472be64ba14ae8e3839568dd44fb25319d8b328815653"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "acf22c51b6b3ca67ecc1cf240cc478026467a43c511e2d9c9152b6e660e72d5f",
+      "sha256": "bb8b10ee4004ba59e046749622e9a770d33c5acf24204134d587fea0f5369e3d",
       "bytes": 3407
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "6640b40a4142d2abcc2459c0dd71b872ee816be9865e9c12e6b1fa0c622471ef",
-      "bytes": 39268
+      "sha256": "5b95185e3445c5829017421b86dbd81baccbbe102ff155027ea5fdc86f7c07d0",
+      "bytes": 39357
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "9a5f82e50f587421e3705d2aa9222f8c8146f52c1a78fecee85ad9244101ba87",
-      "bytes": 497742
+      "sha256": "e52ad3b3a32f02957b8202dfa2c571c97b61dcbc0a54abf63356974d81ac20f9",
+      "bytes": 499964
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "8a41fd6db1dfe7d8e89e41cdff8b89ad3ef9325db1ecdcc777161f39e498fae0",
+      "sha256": "7935bd20bc2b2006867fe7444b830fb6a74f8633d752f0b2052fc6e4512f16d3",
       "bytes": 18278
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "ccc362c023c9f027d234c2f45715ff27f02541f9b6951452bb0b6c2670caa435",
-      "bytes": 259852
+      "sha256": "c9d9a42ce1b9abb8d959a6e8f83046746650ac1c4c6d8a7d1b60372e8f7701ec",
+      "bytes": 260432
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "57558df416390ba961d8bc4f69e96a722a438e694ee7dfd5d383fe651e40bd17",
+      "sha256": "ff462ea955b08ef80ee688f30229072922c47ce9e3ed3dac644acc66f2ad425a",
       "bytes": 525
     },
     {
@@ -143,23 +143,23 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md",
-      "sha256": "2e10874c3472b4f7c6fe22398817a6fe725235a97d49fa1652ff5e17c52672da",
-      "bytes": 4689
+      "sha256": "cf95071467f98e5f62064ed6231691957eda2eebd3c3f07a3946f66455e5b372",
+      "bytes": 7090
     },
     {
-      "path": ".continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0002.yaml",
-      "sha256": "2e454db690a9b23a1a622bb3ae56af982e02b89b8f0d22b267f6fb8124a519ff",
-      "bytes": 8301
+      "path": ".continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0004.yaml",
+      "sha256": "b599e660e8f019440aad1b5abebd653eea314a3a8ca3ddcc6839acb683d5edc3",
+      "bytes": 7358
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0084-跨版本关闭自动回填last_green_commit并增加回归门禁.md",
-      "sha256": "0b158695b425af11449370b79416228a4aded0bd71749cb9a3c7957dd6d57f1a",
-      "bytes": 2621
+      "sha256": "b9d1910fc65e7e0497c17b02af76edf6afdc696e276888bc46568202f5bafb54",
+      "bytes": 2859
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md",
-      "sha256": "c7782003df78317f4e20a1b731d22d49249111bfeb44c762732136d57e995fff",
-      "bytes": 2253
+      "sha256": "0e8a756e43996a77090e73d7f8b8d10c2bbb793601cdf6631acb4ff8508fdc05",
+      "bytes": 2469
     }
   ]
 }

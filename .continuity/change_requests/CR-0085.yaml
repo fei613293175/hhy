@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0085
 title: 记录版本关闭绿提交缺口并校正R04 APK单调版本基线
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-19T08:48:40Z'
-updated_at: '2026-07-19T08:48:44Z'
+updated_at: '2026-07-19T08:50:29Z'
 requester_actor_id: codex-root
 approver_actor_id: r04-entry-review
 task_id: TASK-R04-001
@@ -41,5 +41,12 @@ decision_log:
   status: IMPLEMENTING
   note: 写入防复发登记并校正R04 APK最低版本号
   session_id: SES-20260719T083704Z-6E4CE28F
+- at: '2026-07-19T08:50:29Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: PROB-0040防复发登记与R04 APK最低versionCode 10207校正已完成
+  session_id: SES-20260719T083704Z-6E4CE28F
 session_ids:
 - SES-20260719T083704Z-6E4CE28F
+implementation_commits:
+- 09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8

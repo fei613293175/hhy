@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T08:49:24Z
-- Context Hash：`e10c4744c37067da78bf40fbacd3ee314b3f155d84b7464292c64884bcf17c41`
+- 生成时间：2026-07-19T08:52:14Z
+- Context Hash：`e912968406dda25f832a3c63c21897235ba098359cd038ec992a0df6e408f194`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -70,7 +70,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R04-001
-updated_at: '2026-07-19T08:49:23Z'
+updated_at: '2026-07-19T08:52:12Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -105,15 +105,15 @@ continuity:
   active_session_id: SES-20260719T083704Z-6E4CE28F
   actor_id: codex-root
   story_id: STORY-R04-002
-  lease_expires_at: '2026-07-19T12:49:23Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0002.yaml
-  project_fingerprint: a3ae12604504f672ffc57db9097f5d444c443ed128c0d2d29fa9d2a36d497d63
+  lease_expires_at: '2026-07-19T12:52:12Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0004.yaml
+  project_fingerprint: a954ded4911aa4e23b50f1785ed839f2006d8980d5d4ab3de8d64b6a300009a9
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 1bac7b8aba61e25fa9469f7beb47454268d330cbf5682f912a403dea1dd2fd9d
-    generated_at: '2026-07-19T08:47:22Z'
+    context_hash: 75d3dc73cac1c9382cf07bb2fcb7ffcfe5b0420474fe9d1ec5fed30d2e451425
+    generated_at: '2026-07-19T08:50:33Z'
   handoff_bundle: null
 ```
 
@@ -305,7 +305,7 @@ task_id: TASK-R04-001
 story_id: STORY-R04-002
 goal: 完成R04开发就绪核验、存储与媒体基线确认，并修复跨版本关闭last_green_commit自动回填缺口后进入存储实现
 started_at: '2026-07-19T08:37:04Z'
-updated_at: '2026-07-19T08:49:23Z'
+updated_at: '2026-07-19T08:52:12Z'
 takeover_of: null
 change_requests:
 - CR-0084
@@ -360,12 +360,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T08:49:23Z'
-  expires_at: '2026-07-19T12:49:23Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0002.yaml
+  renewed_at: '2026-07-19T08:52:12Z'
+  expires_at: '2026-07-19T12:52:12Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md
-next_step: 提交R04入场基线、连续性自动回填修复和两张批准CR，然后关闭TASK-R04-001进入存储数据基线
+next_step: 提交治理元数据后关闭TASK-R04-001并进入TASK-R04-002
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -373,81 +373,63 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前执行约束未授权创建子代理；共享连续性脚本、问题登记和发布计划必须由主控原子提交
+  reason: 当前执行约束未授权创建子代理；元数据、防复发登记和回归测试需原子同步
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T083704Z-6E4CE28F-0002
+checkpoint_id: CP-SES-20260719T083704Z-6E4CE28F-0004
 session_id: SES-20260719T083704Z-6E4CE28F
-sequence: 2
-created_at: '2026-07-19T08:49:22Z'
-summary: R04入场治理完成：PROB-0040登记跨版本绿提交根因与防复发规则，R04 APK最低versionCode从历史10204校正为10207
-next_step: 提交R04入场基线、连续性自动回填修复和两张批准CR，然后关闭TASK-R04-001进入存储数据基线
+sequence: 4
+created_at: '2026-07-19T08:52:11Z'
+summary: CR-0084/0085实施状态、PROB-0040实现Commit和对应回归断言已同步，满足Bug修复同提交防复发门禁
+next_step: 提交治理元数据后关闭TASK-R04-001并进入TASK-R04-002
 blockers: []
-decisions:
-- R04后续APK必须大于已验收R03 10206；Bug修复与问题登记同批提交，避免重复流程
+decisions: []
 note: ''
 tests:
-- name: r04-documentation
-  result: PASS
-  evidence: scripts/check_v122_documentation.py --release R04
-  note: 0 errors 0 warnings 0 gaps
 - name: cross-release-last-green
   result: PASS
-  evidence: python -m unittest tests.test_continuity_cross_release_close
-  note: 2 tests OK
-- name: continuity-reconstruction
+  evidence: tests/test_continuity_cross_release_close.py
+  note: 2 tests OK and exact immutable commit assertion retained
+- name: problem-registry
   result: PASS
-  evidence: scripts/run_continuity_self_test.py
-  note: 11 integration checks PASS
-- name: v123-continuity
-  result: PASS
-  evidence: scripts/check_v123_continuity.py --strict
-  note: 0 errors 0 warnings
+  evidence: docs/03-continuity/PROBLEM_REGISTRY.yaml#PROB-0040
+  note: root cause resolution regression and do-not-repeat complete
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: cf597bba9422b4dc9abd4a95806efa99ea6c5b12
+  head: 09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - M  .continuity/ACTIVE_SESSION.yaml
-  - MM .continuity/CHANGE_REQUEST_INDEX.yaml
-  - MM .continuity/EVENT_LOG.jsonl
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
   - M  .continuity/SESSION_INDEX.yaml
-  - MM .continuity/STATE.yaml
-  - M  .continuity/TASK_CLAIMS.yaml
-  - M  .continuity/TASK_TRANSITIONS.yaml
-  - A  .continuity/change_requests/CR-0084.yaml
-  - A  .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0001.yaml
-  - AM .continuity/sessions/SES-20260719T083704Z-6E4CE28F.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/change_requests/CR-0084.yaml
+  - M  .continuity/change_requests/CR-0085.yaml
+  - A  .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0003.yaml
+  - M  .continuity/sessions/SES-20260719T083704Z-6E4CE28F.yaml
   - M  CURRENT_STATUS.yaml
   - M  artifacts/context/CURRENT_CONTEXT_PACK.md
   - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
   - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  artifacts/validation/continuity-integration-v1.2.3.json
-  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-  - M  artifacts/validation/project-doctor-v1.2.3.json
-  - MM catalogs/change_request_index.csv
-  - MM catalogs/session_index.csv
-  - M  catalogs/task_transition_ledger.csv
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - A  docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
-  - A  docs/03-continuity/change-requests/CR-0084-跨版本关闭自动回填last_green_commit并增加回归门禁.md
-  - A  docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md
-  - ' M releases/R04/PARALLEL_EXECUTION_PLAN.yaml'
-  - M  scripts/continuity.py
-  - M  scripts/continuity_lib.py
-  - M  tests/test_continuity_cross_release_close.py
-  - ?? .continuity/change_requests/CR-0085.yaml
-  - ?? docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md
+  - M  docs/03-continuity/change-requests/CR-0084-跨版本关闭自动回填last_green_commit并增加回归门禁.md
+  - M  docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md
+  - ' M tests/test_continuity_cross_release_close.py'
   recent_commits:
+  - "09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8\t2026-07-19T16:49:36+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(continuity): persist release\
+    \ green commit"
   - "cf597bba9422b4dc9abd4a95806efa99ea6c5b12\t2026-07-19T16:31:45+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-008\
     \ as completed"
   - "40807dc3d8e1dcfa56334d37cf8646bf9db483dd\t2026-07-19T16:30:34+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): finalize R03\
@@ -462,10 +444,8 @@ git:
     \ fast-path context"
   - "8f3a3ab372515e7b49e61e5676517db07d8543f3\t2026-07-19T15:49:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close fast-path\
     \ CR"
-  - "6301eef63f7108b024d23446d8e396eaeab38471\t2026-07-19T15:48:04+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(workflow): add fast path\
-    \ and atomic APK replacement"
 project_fingerprint:
-  sha256: a3ae12604504f672ffc57db9097f5d444c443ed128c0d2d29fa9d2a36d497d63
+  sha256: a954ded4911aa4e23b50f1785ed839f2006d8980d5d4ab3de8d64b6a300009a9
   files:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
@@ -481,20 +461,20 @@ project_fingerprint:
     files:
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 39268
-      sha256: 6640b40a4142d2abcc2459c0dd71b872ee816be9865e9c12e6b1fa0c622471ef
+      size: 39357
+      sha256: 5b95185e3445c5829017421b86dbd81baccbbe102ff155027ea5fdc86f7c07d0
     - path: docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
       state: FILE
       size: 2986
       sha256: 3ee484f967323fa0e4f6213749f6b930a0eae01bec611523b90e62a9eb5b6a85
     - path: docs/03-continuity/change-requests/CR-0084-跨版本关闭自动回填last_green_commit并增加回归门禁.md
       state: FILE
-      size: 2621
-      sha256: 0b158695b425af11449370b79416228a4aded0bd71749cb9a3c7957dd6d57f1a
+      size: 2859
+      sha256: b9d1910fc65e7e0497c17b02af76edf6afdc696e276888bc46568202f5bafb54
     - path: docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md
       state: FILE
-      size: 2253
-      sha256: c7782003df78317f4e20a1b731d22d49249111bfeb44c762732136d57e995fff
+      size: 2469
+      sha256: 0e8a756e43996a77090e73d7f8b8d10c2bbb793601cdf6631acb4ff8508fdc05
     - path: releases/R04/PARALLEL_EXECUTION_PLAN.yaml
       state: FILE
       size: 3147
@@ -509,8 +489,8 @@ project_fingerprint:
       sha256: a7e9b1d31cec3297265ad927ac2376084e8c0fda31d9e0631c360aff09f039c5
     - path: tests/test_continuity_cross_release_close.py
       state: FILE
-      size: 19161
-      sha256: beba0d0b05b2dc6b302336e2a639c8bb2cd18a77b7edf29e92dbc1650ecf0517
+      size: 19254
+      sha256: 6d4d0f4cb146f3384261402f2e7bdbb58624c28de005af2607d9ab9964241955
 change_classification:
   continuity:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
@@ -578,8 +558,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前执行约束未授权创建子代理；共享连续性脚本、问题登记和发布计划必须由主控原子提交
-event_hash: 823d85dc68ae8f4a73763fe639fb5d54dcf832bbec2b0ea4761d0ffb81170493
+  reason: 当前执行约束未授权创建子代理；元数据、防复发登记和回归测试需原子同步
+event_hash: f1b3316f7d796d148e28ff689d4189dcd78e4547f8eb995cc9e1cb158efed907
 ```
 
 ## 接续状态与事件头
@@ -591,8 +571,8 @@ active_session_id: SES-20260719T083704Z-6E4CE28F
 last_session_id: SES-20260719T081942Z-8D5C4241
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T081942Z-8D5C4241-0003
-event_count: 920
-event_head_hash: 823d85dc68ae8f4a73763fe639fb5d54dcf832bbec2b0ea4761d0ffb81170493
+event_count: 924
+event_head_hash: f1b3316f7d796d148e28ff689d4189dcd78e4547f8eb995cc9e1cb158efed907
 event_chain_valid: true
 ```
 
@@ -715,9 +695,9 @@ recent_sessions: - session_id: SES-20260718T132650Z-C5038104
   started_at: '2026-07-19T08:37:04Z'
   record: .continuity/sessions/SES-20260719T083704Z-6E4CE28F.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md
-  updated_at: '2026-07-19T08:49:23Z'
+  updated_at: '2026-07-19T08:52:12Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-E45608E07944
   session_id: SES-20260717T171412Z-7CD86701
@@ -1556,45 +1536,36 @@ recent_task_transitions: - transition_id: TRN-1C8D7CBE6956
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: cf597bba9422b4dc9abd4a95806efa99ea6c5b12
+head: 09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - MM .continuity/ACTIVE_SESSION.yaml
-- MM .continuity/CHANGE_REQUEST_INDEX.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
 - MM .continuity/EVENT_LOG.jsonl
 - MM .continuity/SESSION_INDEX.yaml
 - MM .continuity/STATE.yaml
-- M  .continuity/TASK_CLAIMS.yaml
-- M  .continuity/TASK_TRANSITIONS.yaml
-- A  .continuity/change_requests/CR-0084.yaml
-- A  .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0001.yaml
-- AM .continuity/sessions/SES-20260719T083704Z-6E4CE28F.yaml
+- M  .continuity/change_requests/CR-0084.yaml
+- M  .continuity/change_requests/CR-0085.yaml
+- A  .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0003.yaml
+- MM .continuity/sessions/SES-20260719T083704Z-6E4CE28F.yaml
 - MM CURRENT_STATUS.yaml
 - M  artifacts/context/CURRENT_CONTEXT_PACK.md
 - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
 - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- M  artifacts/validation/continuity-integration-v1.2.3.json
-- M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-- M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-- M  artifacts/validation/project-doctor-v1.2.3.json
-- MM catalogs/change_request_index.csv
+- M  catalogs/change_request_index.csv
 - MM catalogs/session_index.csv
-- M  catalogs/task_transition_ledger.csv
 - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- A  docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
-- A  docs/03-continuity/change-requests/CR-0084-跨版本关闭自动回填last_green_commit并增加回归门禁.md
-- AM docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md
-- ' M releases/R04/PARALLEL_EXECUTION_PLAN.yaml'
-- M  scripts/continuity.py
-- M  scripts/continuity_lib.py
-- M  tests/test_continuity_cross_release_close.py
-- ?? .continuity/change_requests/CR-0085.yaml
-- ?? .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0002.yaml
-- ?? docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md
+- M  docs/03-continuity/change-requests/CR-0084-跨版本关闭自动回填last_green_commit并增加回归门禁.md
+- M  docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md
+- MM docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md
+- ' M tests/test_continuity_cross_release_close.py'
+- ?? .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0004.yaml
 recent_commits:
+- "09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8\t2026-07-19T16:49:36+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] fix(continuity): persist release\
+  \ green commit"
 - "cf597bba9422b4dc9abd4a95806efa99ea6c5b12\t2026-07-19T16:31:45+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-008\
   \ as completed"
 - "40807dc3d8e1dcfa56334d37cf8646bf9db483dd\t2026-07-19T16:30:34+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): finalize R03\
@@ -1609,13 +1580,11 @@ recent_commits:
   \ context"
 - "8f3a3ab372515e7b49e61e5676517db07d8543f3\t2026-07-19T15:49:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close fast-path\
   \ CR"
-- "6301eef63f7108b024d23446d8e396eaeab38471\t2026-07-19T15:48:04+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(workflow): add fast path\
-  \ and atomic APK replacement"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`a3ae12604504f672ffc57db9097f5d444c443ed128c0d2d29fa9d2a36d497d63`
+- 指纹：`a954ded4911aa4e23b50f1785ed839f2006d8980d5d4ab3de8d64b6a300009a9`
 - 文件数：8
 
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
@@ -3408,9 +3377,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0084
   title: 跨版本关闭自动回填last_green_commit并增加回归门禁
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T08:37:59Z'
-  updated_at: '2026-07-19T08:38:04Z'
+  updated_at: '2026-07-19T08:50:27Z'
   requester_actor_id: codex-root
   approver_actor_id: continuity-regression-review
   task_id: TASK-R04-001
@@ -3452,14 +3421,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 实施自动回填与跨版本回归测试
     session_id: SES-20260719T083704Z-6E4CE28F
+  - at: '2026-07-19T08:50:27Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 跨版本close自动回填last_green_commit、R03状态纠正和隔离回归已完成并全绿
+    session_id: SES-20260719T083704Z-6E4CE28F
   session_ids:
   - SES-20260719T083704Z-6E4CE28F
+  implementation_commits:
+  - 09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8
 - protocol_version: '1.0'
   cr_id: CR-0085
   title: 记录版本关闭绿提交缺口并校正R04 APK单调版本基线
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-19T08:48:40Z'
-  updated_at: '2026-07-19T08:48:44Z'
+  updated_at: '2026-07-19T08:50:29Z'
   requester_actor_id: codex-root
   approver_actor_id: r04-entry-review
   task_id: TASK-R04-001
@@ -3497,41 +3473,48 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 写入防复发登记并校正R04 APK最低版本号
     session_id: SES-20260719T083704Z-6E4CE28F
+  - at: '2026-07-19T08:50:29Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: PROB-0040防复发登记与R04 APK最低versionCode 10207校正已完成
+    session_id: SES-20260719T083704Z-6E4CE28F
   session_ids:
   - SES-20260719T083704Z-6E4CE28F
+  implementation_commits:
+  - 09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `acf22c51b6b3ca67ecc1cf240cc478026467a43c511e2d9c9152b6e660e72d5f`
+- `CURRENT_STATUS.yaml` — `bb8b10ee4004ba59e046749622e9a770d33c5acf24204134d587fea0f5369e3d`
 - `NEXT_TASK.yaml` — `2f0d203e138d2ec52c7097a22fb789ffe9edc42c68d28b317655d7f4fa16d769`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `6640b40a4142d2abcc2459c0dd71b872ee816be9865e9c12e6b1fa0c622471ef`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `5b95185e3445c5829017421b86dbd81baccbbe102ff155027ea5fdc86f7c07d0`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `a16351c5e292e352990e58efa1941911b73b16b35b8b7c0a9528c4f937ee30d0`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `9a5f82e50f587421e3705d2aa9222f8c8146f52c1a78fecee85ad9244101ba87`
-- `.continuity/SESSION_INDEX.yaml` — `8a41fd6db1dfe7d8e89e41cdff8b89ad3ef9325db1ecdcc777161f39e498fae0`
+- `.continuity/EVENT_LOG.jsonl` — `e52ad3b3a32f02957b8202dfa2c571c97b61dcbc0a54abf63356974d81ac20f9`
+- `.continuity/SESSION_INDEX.yaml` — `7935bd20bc2b2006867fe7444b830fb6a74f8633d752f0b2052fc6e4512f16d3`
 - `.continuity/TASK_CLAIMS.yaml` — `98c31a9ef36ae62d6dcab79576cd5878f684406fb0480fa0759567018035684b`
 - `.continuity/TASK_TRANSITIONS.yaml` — `467391578457c46d5e599965b3fc17cba43b88cd331495ddad1effa5cd5dd04c`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ccc362c023c9f027d234c2f45715ff27f02541f9b6951452bb0b6c2670caa435`
-- `.continuity/ACTIVE_SESSION.yaml` — `57558df416390ba961d8bc4f69e96a722a438e694ee7dfd5d383fe651e40bd17`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c9d9a42ce1b9abb8d959a6e8f83046746650ac1c4c6d8a7d1b60372e8f7701ec`
+- `.continuity/ACTIVE_SESSION.yaml` — `ff462ea955b08ef80ee688f30229072922c47ce9e3ed3dac644acc66f2ad425a`
 - `releases/R04/RELEASE_MANIFEST.yaml` — `c897c4706cdcb53bde1c053a6515a12fbad0fc3f01b24ae891b7426df203f3c6`
 - `releases/R04/DEFINITION_OF_READY.yaml` — `41aef5956ff6a2ab80957f9b477a5957fc26940eb502c6d67e3a7a5ae97fd84c`
 - `releases/R04/STORIES.yaml` — `aa71e87c502b76dbc59bff0fa6efe957f7855158cde1c7818bda636bfe41469e`
 - `releases/R04/TASKS.yaml` — `3c50b02ed3601ee5756d4383b6f1fe8f15f94a450905de68c2fd5ea2a71d8ccb`
 - `releases/R04/ACCEPTANCE_MATRIX.csv` — `bf28fec8769cdcc468565a3f1300f1f0f16a43623a301cb94c7d8e37a6011df2`
 - `releases/R04/PARALLEL_EXECUTION_PLAN.yaml` — `9f76b85f11c0293ce8930f1068cf1fc5582242753ff141b5b6134d8e44e5f2dd`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md` — `2e10874c3472b4f7c6fe22398817a6fe725235a97d49fa1652ff5e17c52672da`
-- `.continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0002.yaml` — `2e454db690a9b23a1a622bb3ae56af982e02b89b8f0d22b267f6fb8124a519ff`
-- `docs/03-continuity/change-requests/CR-0084-跨版本关闭自动回填last_green_commit并增加回归门禁.md` — `0b158695b425af11449370b79416228a4aded0bd71749cb9a3c7957dd6d57f1a`
-- `docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md` — `c7782003df78317f4e20a1b731d22d49249111bfeb44c762732136d57e995fff`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md` — `cf95071467f98e5f62064ed6231691957eda2eebd3c3f07a3946f66455e5b372`
+- `.continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0004.yaml` — `b599e660e8f019440aad1b5abebd653eea314a3a8ca3ddcc6839acb683d5edc3`
+- `docs/03-continuity/change-requests/CR-0084-跨版本关闭自动回填last_green_commit并增加回归门禁.md` — `b9d1910fc65e7e0497c17b02af76edf6afdc696e276888bc46568202f5bafb54`
+- `docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md` — `0e8a756e43996a77090e73d7f8b8d10c2bbb793601cdf6631acb4ff8508fdc05`
 
 ## 接手硬规则
 

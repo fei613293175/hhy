@@ -482,7 +482,7 @@ problems:
   title: 跨版本关闭未回填最终绿提交导致发布门禁重复人工修正
   status: SOLVED
   root_cause: continuity close虽然接收并记录code_commit，但update_current_status_closed没有接收该值，CURRENT_STATUS.last_green_commit因此长期停留在R01；R03其他关闭证据全部通过后仍被CURRENT_GREEN_COMMIT_MISMATCH阻断。
-  resolution: close把code_commit显式传入update_current_status_closed，COMPLETED时原子写回last_green_commit；跨版本隔离测试新增精确断言，R03当前状态同步到已验收APK源码Commit 660d148。
+  resolution: close把code_commit显式传入update_current_status_closed，COMPLETED时原子写回last_green_commit；跨版本隔离测试新增精确断言，R03当前状态同步到已验收APK源码Commit 660d148；实现与全套接续自测证据绑定Commit 09dec08d8af7fc2c25d4fa3f2425d2e85359b4f8。
   regression_checks:
   - tests/test_continuity_cross_release_close.py
   - scripts/run_continuity_self_test.py
