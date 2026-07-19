@@ -1,0 +1,46 @@
+protocol_version: '1.0'
+cr_id: CR-0109
+title: 补充R05 Android APK版本身份精确文件范围
+status: IMPLEMENTING
+created_at: '2026-07-19T23:49:13Z'
+updated_at: '2026-07-19T23:49:19Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R05-007
+session_id: SES-20260719T234639Z-1D7D7A00
+user_request: 用户要求持续推进R05正式开发并在桌面交付可测试APK，常规开发事项自行决定
+reason: TASK-R05-007明确要求单调versionCode和APK追溯，但会话启动范围漏列三项Android版本身份文件
+original_rule: R05-007会话范围未包含Android版本身份文件
+new_rule: 仅增加Gradle、ReleasePolicy和VersionMetadataTest三个精确文件
+impact_summary: R05测试APK versionCode由10207单调递增至10208，versionName保持1.2.2-debug
+impact:
+  files:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - R05 Android test APK version identity
+  ledger: []
+  tests:
+  - VersionMetadataTest; test_android_apk_delivery; API base URL build gate
+  releases:
+  - R05
+  migration_and_compatibility: 仅递增测试APK安装身份，支持覆盖R04测试包；不修改数据、API和用户功能
+user_confirmation: 用户已明确要求持续推进并将生成APK放在桌面，不再就常规开发事项反复确认
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T23:49:17Z'
+  note: 范围与APK任务直接对应，仅三个精确版本身份文件
+machine_record: .continuity/change_requests/CR-0109.yaml
+document: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
+decision_log:
+- at: '2026-07-19T23:49:19Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 应用R05 Android版本身份精确文件范围
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00

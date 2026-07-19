@@ -8,7 +8,7 @@ import org.junit.Test
 class VersionMetadataTest {
     @Test
     fun releaseAndContractVersionsRemainAligned() {
-        assertEquals("R04 test APK versionCode must remain monotonic", 10207, ReleasePolicy.VERSION_CODE)
+        assertEquals("R05 test APK versionCode must remain monotonic", 10208, ReleasePolicy.VERSION_CODE)
         assertEquals(BuildConfig.VERSION_CODE, ReleasePolicy.VERSION_CODE)
         assertTrue(BuildConfig.VERSION_NAME.startsWith(ReleasePolicy.VERSION_NAME))
         assertEquals(BuildConfig.CONTRACT_VERSION, ReleasePolicy.CONTRACT_VERSION)
