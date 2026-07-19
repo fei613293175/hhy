@@ -22,4 +22,7 @@
 - PASS：Backend注册与策略定向测试20/20。
 - PASS：Python生成资产、迁移和APK交付工具23/23；配置目录314项通过。
 - PASS：OpenAPI、运行时契约与状态哈希一致；商业UI技术字段门禁通过。
-- PENDING：部署候选、公开API黑盒、覆盖安装APK和项目所有者真机复测。
+- PASS：后端候选 `hhy-r03-authux-e4994ed` 健康，V020迁移成功；公网已切换并通过状态、注册配置、160×56 PNG安全验证及错误码黑盒门禁。
+- PASS：数据库运行值为 `auth.password.max_length=20`、`auth.security_challenge.ttl_seconds=120`；切换前数据库备份及旧健康实例均保留用于回滚。
+- IN PROGRESS：Android真机回归包版本身份已递增至10205，等待精确提交云端构建和四方SHA-256交付门禁。
+- PENDING：项目所有者安装10205后完成四项注册体验真机复测。

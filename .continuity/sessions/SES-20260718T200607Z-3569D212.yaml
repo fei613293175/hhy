@@ -11,7 +11,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-19T04:06:19Z'
+updated_at: '2026-07-19T04:23:57Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -37,6 +37,8 @@ change_requests:
 - CR-0071
 - CR-0072
 - CR-0073
+- CR-0074
+- CR-0075
 scope:
   allowed_paths:
   - apps/**
@@ -205,7 +207,7 @@ scope:
   - services/backend/boot/src/main/resources/db/migration/V020__r03_auth_registration_policy_alignment.sql
   - database/migrations/V020__r03_auth_registration_policy_alignment.sql
   - database/rollback/U020__r03_auth_registration_policy_alignment.sql
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -215,22 +217,22 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T04:06:16Z'
-  expires_at: '2026-07-19T08:06:16Z'
-checkpoint_sequence: 21
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0021.yaml
+  renewed_at: '2026-07-19T04:23:54Z'
+  expires_at: '2026-07-19T08:23:54Z'
+checkpoint_sequence: 23
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0023.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 提交实现并推送；构建部署后端候选、运行公网注册错误黑盒、递增versionCode构建并交付桌面APK。
+next_step: 提交精确10205源版本并在云端构建APK
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 23f0d259de7a690025796defa40f5838c5fd6ac21447f63159f7ec49b7ef5db8
-  generated_at: '2026-07-19T04:06:18Z'
+  context_hash: 718a1c5e20aae07b5ab8473d21b6b863a77a237601a898f213eb5259fd04d7c2
+  generated_at: '2026-07-19T04:23:56Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前会话执行策略仅允许在用户本轮显式请求代理时委托；本轮未请求，故代理能力在本任务范围不可用，由唯一事实主控串行集成认证契约、迁移和交付。
+  reason: 精确提交哈希是后续APK构建和交付清单的输入

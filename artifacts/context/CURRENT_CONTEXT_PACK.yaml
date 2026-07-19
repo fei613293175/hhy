@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-19T04:06:18Z'
+generated_at: '2026-07-19T04:23:56Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -60,7 +60,7 @@ current_status:
   - TASK-R02-007
   - TASK-R03-007
   next_task: TASK-R03-007
-  updated_at: '2026-07-19T04:06:16Z'
+  updated_at: '2026-07-19T04:23:54Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -95,15 +95,15 @@ current_status:
     active_session_id: SES-20260718T200607Z-3569D212
     actor_id: codex-root
     story_id: STORY-R03-004
-    lease_expires_at: '2026-07-19T08:06:16Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0021.yaml
-    project_fingerprint: 201bdc49dfb952dd34634add9f3b58637546acc0aa635ff8c5aa3110b3b4f489
+    lease_expires_at: '2026-07-19T08:23:54Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0023.yaml
+    project_fingerprint: 46947338f9f979b5f8ad9d787549c9fbc97a8f68767f7b6bbb9863e5c78ec30a
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 5bb91f845dd3da2ae13242276bee573adb15f0ab2ae10be3419a8c4563b76d28
-      generated_at: '2026-07-19T03:28:31Z'
+      context_hash: 2db0bf41b580708e7336aaf427f9eb7d823b154296663a221a571f2319b9d2f9
+      generated_at: '2026-07-19T04:21:27Z'
     handoff_bundle: null
 next_task:
   id: TASK-R03-007
@@ -157,7 +157,7 @@ active_session:
   story_id: STORY-R03-004
   goal: ??BLOCKED?????????R02???????????????????
   started_at: '2026-07-18T20:06:07Z'
-  updated_at: '2026-07-19T04:06:16Z'
+  updated_at: '2026-07-19T04:23:54Z'
   takeover_of: null
   change_requests:
   - CR-0051
@@ -183,6 +183,8 @@ active_session:
   - CR-0071
   - CR-0072
   - CR-0073
+  - CR-0074
+  - CR-0075
   scope:
     allowed_paths:
     - apps/**
@@ -351,7 +353,7 @@ active_session:
     - services/backend/boot/src/main/resources/db/migration/V020__r03_auth_registration_policy_alignment.sql
     - database/migrations/V020__r03_auth_registration_policy_alignment.sql
     - database/rollback/U020__r03_auth_registration_policy_alignment.sql
-    source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073
+    source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075
   git:
     initialized: true
     branch: task/TASK-R03-001
@@ -361,99 +363,79 @@ active_session:
     initial_worktree_state: DIRTY_TAKEOVER
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-19T04:06:16Z'
-    expires_at: '2026-07-19T08:06:16Z'
-  checkpoint_sequence: 21
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0021.yaml
+    renewed_at: '2026-07-19T04:23:54Z'
+    expires_at: '2026-07-19T08:23:54Z'
+  checkpoint_sequence: 23
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0023.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  next_step: 提交实现并推送；构建部署后端候选、运行公网注册错误黑盒、递增versionCode构建并交付桌面APK。
+  next_step: 提交精确10205源版本并在云端构建APK
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: CAPABILITY_UNAVAILABLE
+    assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 当前会话执行策略仅允许在用户本轮显式请求代理时委托；本轮未请求，故代理能力在本任务范围不可用，由唯一事实主控串行集成认证契约、迁移和交付。
+    reason: 精确提交哈希是后续APK构建和交付清单的输入
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260718T200607Z-3569D212-0021
+  checkpoint_id: CP-SES-20260718T200607Z-3569D212-0023
   session_id: SES-20260718T200607Z-3569D212
-  sequence: 21
-  created_at: '2026-07-19T04:06:16Z'
-  summary: 完成注册密码规则可见提示、确认密码字段错误、认证路由输入隔离、注册三类专用错误码、TTL 60至300秒运行时与配置边界、V020密码最大长度纠正及契约派生同步。
-  next_step: 提交实现并推送；构建部署后端候选、运行公网注册错误黑盒、递增versionCode构建并交付桌面APK。
+  sequence: 23
+  created_at: '2026-07-19T04:23:53Z'
+  summary: 注册修复新后端已上线并记录验证证据；10205版本身份及变更日志已完成
+  next_step: 提交精确10205源版本并在云端构建APK
   blockers: []
   decisions: []
   note: ''
   tests:
-  - name: h5-vitest
+  - name: public-auth-gate
     result: PASS
-    evidence: apps/h5 12/12
-    note: 注册页面组件与错误文案通过
-  - name: android-auth
+    evidence: scripts/check_r02_public_auth.py
+    note: 公网认证门禁通过
+  - name: flyway-v020
     result: PASS
-    evidence: remote test XML 5/5
-    note: 0 failures 0 errors
-  - name: backend-maven
+    evidence: hhy.flyway_schema_history:020
+    note: 策略迁移成功
+  - name: version-identity-source
     result: PASS
-    evidence: remote mvn verify 200 tests
-    note: 0 failures 0 errors 2 external-PG skips
-  - name: python-gates
-    result: PASS
-    evidence: generated assets migration delivery 23/23
-    note: API config commercial UI gates PASS
+    evidence: Gradle ReleasePolicy VersionMetadataTest
+    note: 三处均为10205
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 335c18749879520f2b4885cf52330f22ea8fabbc
+    head: e4994ed06131f3d3207c36c1b83f589ef2e58fe1
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-    - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/STATE.yaml'
-    - ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
+    - M  .continuity/ACTIVE_SESSION.yaml
+    - MM .continuity/CHANGE_REQUEST_INDEX.yaml
+    - MM .continuity/EVENT_LOG.jsonl
+    - M  .continuity/SESSION_INDEX.yaml
+    - MM .continuity/STATE.yaml
+    - A  .continuity/change_requests/CR-0074.yaml
+    - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0022.yaml
+    - MM .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
     - ' M CHANGELOG.md'
-    - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt'
-    - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
-    - ' M apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt'
-    - ' M apps/h5/src/views/InviteRegistrationPage.test.ts'
-    - ' M apps/h5/src/views/InviteRegistrationPage.vue'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-    - ' M catalogs/change_request_index.csv'
-    - ' M catalogs/config_cross_field_rules.csv'
-    - ' M catalogs/config_registry.csv'
-    - ' M catalogs/session_index.csv'
-    - ' M contracts/contract_status.csv'
-    - ' M contracts/error-codes.csv'
-    - ' M contracts/openapi.yaml'
-    - ' M contracts/operation-error-matrix.csv'
-    - ' M docs/01-authentication/登录注册与安全验证详细规格_V1.2.2.md'
-    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-    - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthPolicy.java'
-    - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
-    - ' M services/backend/boot/src/main/resources/contracts/error-codes.csv'
-    - ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
-    - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java'
-    - ?? .continuity/change_requests/CR-0070.yaml
-    - ?? .continuity/change_requests/CR-0071.yaml
-    - ?? .continuity/change_requests/CR-0072.yaml
-    - ?? .continuity/change_requests/CR-0073.yaml
-    - ?? artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md
-    - ?? database/migrations/V020__r03_auth_registration_policy_alignment.sql
-    - ?? database/rollback/U020__r03_auth_registration_policy_alignment.sql
-    - ?? docs/03-continuity/change-requests/CR-0070-注册表单提示错误细化状态隔离与验证码时效边界修复.md
-    - ?? docs/03-continuity/change-requests/CR-0071-认证策略运行时边界与数据库冻结值对齐.md
-    - ?? docs/03-continuity/change-requests/CR-0072-同步注册专用错误码的冻结契约派生产物.md
-    - ?? docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md
-    - ?? services/backend/boot/src/main/resources/db/migration/V020__r03_auth_registration_policy_alignment.sql
-    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPolicyTest.java
+    - M  CURRENT_STATUS.yaml
+    - M  apps/android/app/build.gradle.kts
+    - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+    - ' M artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md'
+    - MM catalogs/change_request_index.csv
+    - MM catalogs/session_index.csv
+    - A  docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
+    - M  docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
+    - ?? .continuity/change_requests/CR-0075.yaml
+    - ?? docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
     recent_commits:
+    - "e4994ed06131f3d3207c36c1b83f589ef2e58fe1\t2026-07-19T12:08:44+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): clarify registration\
+      \ failures and policy"
     - "335c18749879520f2b4885cf52330f22ea8fabbc\t2026-07-19T10:42:33+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): close auth regression\
       \ delivery CRs"
     - "33a0700082b373b5628dba4e21277cdd608b27ea\t2026-07-19T10:41:03+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): deliver auth\
@@ -468,10 +450,8 @@ latest_checkpoint:
       \ hotfix APK delivery"
     - "0958f1f96ff12b769647c293082e5a4fadd7cb78\t2026-07-19T06:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r02): freeze security\
       \ challenge and password registration"
-    - "655e1eebbdd2df3ce1f527b7d77601826cb11c55\t2026-07-19T04:50:09+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): restore desktop\
-      \ apk evidence"
   project_fingerprint:
-    sha256: 201bdc49dfb952dd34634add9f3b58637546acc0aa635ff8c5aa3110b3b4f489
+    sha256: 46947338f9f979b5f8ad9d787549c9fbc97a8f68767f7b6bbb9863e5c78ec30a
     files:
     - AGENTS.md
     - CHANGELOG.md
@@ -563,6 +543,8 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0071-认证策略运行时边界与数据库冻结值对齐.md
     - docs/03-continuity/change-requests/CR-0072-同步注册专用错误码的冻结契约派生产物.md
     - docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md
+    - docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
+    - docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
     - packages/api-client/src/client.generated.ts
     - packages/design-tokens/admin.css
     - packages/design-tokens/h5.css
@@ -595,7 +577,7 @@ latest_checkpoint:
     - tests/test_continuity_blocked_resume.py
     - tests/test_r02_auth_slice_contract.py
     - tests/test_r02_security_challenge_design_package.py
-    file_count: 122
+    file_count: 124
     payload:
       base_commit: 18e2db65b65afeb1e69d0c382ab53963fc97adec
       files:
@@ -605,8 +587,8 @@ latest_checkpoint:
         sha256: fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db
       - path: CHANGELOG.md
         state: FILE
-        size: 32684
-        sha256: 86dfb5c666bb334a60cdaee7e32731c515578e9c02e124df175a9ae20ef0acd7
+        size: 32903
+        sha256: 50e2475ac4641c27d7d8f365738aa9cf718f6ad1ab72317744dc3d5028aadeff
       - path: DEVELOPMENT_RISK_REGISTER.md
         state: FILE
         size: 8289
@@ -654,15 +636,15 @@ latest_checkpoint:
       - path: apps/android/app/build.gradle.kts
         state: FILE
         size: 4445
-        sha256: 616c71d7d970e9bf394ba6bdd1815a8205fc7eb66a90e57ffd0807af556f3842
+        sha256: 89e00eba1613a9c5f7aeff35e94a5a16e29398f299c9dbaf0179208837cae5c9
       - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
         state: FILE
         size: 520
-        sha256: 46fd98e02218c4442d705bcc82ad5e9b9008d6816a742f4d2fe5f3d53e69a4bd
+        sha256: 633db54d3993ef429f4f9d5794290e77d6f0bf2ffeeb4f347b185898c5284ce3
       - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
         state: FILE
         size: 1025
-        sha256: 698a6f68d0a9ee0954d048ee235e325df0adefa5688537798663f99c1c217ff2
+        sha256: 34e6858f497cd467647846855ec50521cc1a3862a376d22b5d7b87fd97a787fb
       - path: apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
         state: FILE
         size: 6193
@@ -959,6 +941,14 @@ latest_checkpoint:
         state: FILE
         size: 2071
         sha256: 99f970a267f44dc87cf195111b08330b08afaad36f8f14b18ecf3b924904ce6f
+      - path: docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
+        state: FILE
+        size: 2004
+        sha256: 6a7ac7a57fc73b98de141559440ce907da4e17c3b8e908e7d90a1ea2a5f7ce6b
+      - path: docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
+        state: FILE
+        size: 1886
+        sha256: 4da1c47a78edd7787e945ecfe6e39bab8d1fda1d58c01d06521fcfbf108347e2
       - path: packages/api-client/src/client.generated.ts
         state: FILE
         size: 610906
@@ -1254,6 +1244,8 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0071-认证策略运行时边界与数据库冻结值对齐.md
     - docs/03-continuity/change-requests/CR-0072-同步注册专用错误码的冻结契约派生产物.md
     - docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md
+    - docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
+    - docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
     tests:
     - tests/test_android_apk_delivery.py
     - tests/test_commercial_ui_boundaries.py
@@ -1296,6 +1288,8 @@ latest_checkpoint:
   - CR-0071
   - CR-0072
   - CR-0073
+  - CR-0074
+  - CR-0075
   scope:
     allowed_paths:
     - apps/**
@@ -1464,69 +1458,49 @@ latest_checkpoint:
     - services/backend/boot/src/main/resources/db/migration/V020__r03_auth_registration_policy_alignment.sql
     - database/migrations/V020__r03_auth_registration_policy_alignment.sql
     - database/rollback/U020__r03_auth_registration_policy_alignment.sql
-    source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073
+    source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075
   parallel_execution:
-    assessment: CAPABILITY_UNAVAILABLE
+    assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 当前会话执行策略仅允许在用户本轮显式请求代理时委托；本轮未请求，故代理能力在本任务范围不可用，由唯一事实主控串行集成认证契约、迁移和交付。
-  event_hash: bd3ddeff66affb7b609ade925c80976a02b296009dc8e0bb92d27cccb3d46332
+    reason: 精确提交哈希是后续APK构建和交付清单的输入
+  event_hash: 0f232bd1ff4194e2399721e83121f504ffc38820707f53a80ad776f4628c4128
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 335c18749879520f2b4885cf52330f22ea8fabbc
+  head: e4994ed06131f3d3207c36c1b83f589ef2e58fe1
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
+  - MM .continuity/ACTIVE_SESSION.yaml
+  - MM .continuity/CHANGE_REQUEST_INDEX.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - MM .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0074.yaml
+  - A  .continuity/checkpoints/SES-20260718T200607Z-3569D212/0022.yaml
+  - MM .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
   - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthFormRules.kt'
-  - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
-  - ' M apps/android/feature/auth/src/test/java/cc/orbexa/hhy/auth/AuthFormRulesTest.kt'
-  - ' M apps/h5/src/views/InviteRegistrationPage.test.ts'
-  - ' M apps/h5/src/views/InviteRegistrationPage.vue'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/config_cross_field_rules.csv'
-  - ' M catalogs/config_registry.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M contracts/contract_status.csv'
-  - ' M contracts/error-codes.csv'
-  - ' M contracts/openapi.yaml'
-  - ' M contracts/operation-error-matrix.csv'
-  - ' M docs/01-authentication/登录注册与安全验证详细规格_V1.2.2.md'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthPolicy.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
-  - ' M services/backend/boot/src/main/resources/contracts/error-codes.csv'
-  - ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthServiceTest.java'
-  - ?? .continuity/change_requests/CR-0070.yaml
-  - ?? .continuity/change_requests/CR-0071.yaml
-  - ?? .continuity/change_requests/CR-0072.yaml
-  - ?? .continuity/change_requests/CR-0073.yaml
-  - ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0021.yaml
-  - ?? artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md
-  - ?? database/migrations/V020__r03_auth_registration_policy_alignment.sql
-  - ?? database/rollback/U020__r03_auth_registration_policy_alignment.sql
-  - ?? docs/03-continuity/change-requests/CR-0070-注册表单提示错误细化状态隔离与验证码时效边界修复.md
-  - ?? docs/03-continuity/change-requests/CR-0071-认证策略运行时边界与数据库冻结值对齐.md
-  - ?? docs/03-continuity/change-requests/CR-0072-同步注册专用错误码的冻结契约派生产物.md
-  - ?? docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md
-  - ?? services/backend/boot/src/main/resources/db/migration/V020__r03_auth_registration_policy_alignment.sql
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/UserAuthPolicyTest.java
+  - MM CURRENT_STATUS.yaml
+  - M  apps/android/app/build.gradle.kts
+  - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - ' M artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md'
+  - MM catalogs/change_request_index.csv
+  - MM catalogs/session_index.csv
+  - A  docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
+  - MM docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
+  - ?? .continuity/change_requests/CR-0075.yaml
+  - ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0023.yaml
+  - ?? docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
   recent_commits:
+  - "e4994ed06131f3d3207c36c1b83f589ef2e58fe1\t2026-07-19T12:08:44+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): clarify registration\
+    \ failures and policy"
   - "335c18749879520f2b4885cf52330f22ea8fabbc\t2026-07-19T10:42:33+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): close auth regression\
     \ delivery CRs"
   - "33a0700082b373b5628dba4e21277cdd608b27ea\t2026-07-19T10:41:03+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): deliver auth regression\
@@ -1541,10 +1515,8 @@ git:
     \ APK delivery"
   - "0958f1f96ff12b769647c293082e5a4fadd7cb78\t2026-07-19T06:48:53+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(r02): freeze security\
     \ challenge and password registration"
-  - "655e1eebbdd2df3ce1f527b7d77601826cb11c55\t2026-07-19T04:50:09+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): restore desktop\
-    \ apk evidence"
 project_fingerprint:
-  sha256: 201bdc49dfb952dd34634add9f3b58637546acc0aa635ff8c5aa3110b3b4f489
+  sha256: 46947338f9f979b5f8ad9d787549c9fbc97a8f68767f7b6bbb9863e5c78ec30a
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -1636,6 +1608,8 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0071-认证策略运行时边界与数据库冻结值对齐.md
   - docs/03-continuity/change-requests/CR-0072-同步注册专用错误码的冻结契约派生产物.md
   - docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md
+  - docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
+  - docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
   - packages/api-client/src/client.generated.ts
   - packages/design-tokens/admin.css
   - packages/design-tokens/h5.css
@@ -1668,7 +1642,7 @@ project_fingerprint:
   - tests/test_continuity_blocked_resume.py
   - tests/test_r02_auth_slice_contract.py
   - tests/test_r02_security_challenge_design_package.py
-  file_count: 122
+  file_count: 124
   payload:
     base_commit: 18e2db65b65afeb1e69d0c382ab53963fc97adec
     files:
@@ -1678,8 +1652,8 @@ project_fingerprint:
       sha256: fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db
     - path: CHANGELOG.md
       state: FILE
-      size: 32684
-      sha256: 86dfb5c666bb334a60cdaee7e32731c515578e9c02e124df175a9ae20ef0acd7
+      size: 32903
+      sha256: 50e2475ac4641c27d7d8f365738aa9cf718f6ad1ab72317744dc3d5028aadeff
     - path: DEVELOPMENT_RISK_REGISTER.md
       state: FILE
       size: 8289
@@ -1727,15 +1701,15 @@ project_fingerprint:
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 4445
-      sha256: 616c71d7d970e9bf394ba6bdd1815a8205fc7eb66a90e57ffd0807af556f3842
+      sha256: 89e00eba1613a9c5f7aeff35e94a5a16e29398f299c9dbaf0179208837cae5c9
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
       state: FILE
       size: 520
-      sha256: 46fd98e02218c4442d705bcc82ad5e9b9008d6816a742f4d2fe5f3d53e69a4bd
+      sha256: 633db54d3993ef429f4f9d5794290e77d6f0bf2ffeeb4f347b185898c5284ce3
     - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
       state: FILE
       size: 1025
-      sha256: 698a6f68d0a9ee0954d048ee235e325df0adefa5688537798663f99c1c217ff2
+      sha256: 34e6858f497cd467647846855ec50521cc1a3862a376d22b5d7b87fd97a787fb
     - path: apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
       state: FILE
       size: 6193
@@ -2032,6 +2006,14 @@ project_fingerprint:
       state: FILE
       size: 2071
       sha256: 99f970a267f44dc87cf195111b08330b08afaad36f8f14b18ecf3b924904ce6f
+    - path: docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
+      state: FILE
+      size: 2004
+      sha256: 6a7ac7a57fc73b98de141559440ce907da4e17c3b8e908e7d90a1ea2a5f7ce6b
+    - path: docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
+      state: FILE
+      size: 1886
+      sha256: 4da1c47a78edd7787e945ecfe6e39bab8d1fda1d58c01d06521fcfbf108347e2
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 610906
@@ -3215,8 +3197,8 @@ continuity_state:
   last_session_id: SES-20260718T165842Z-356A8138
   last_session_result: BLOCKED
   last_closure_checkpoint_id: CP-SES-20260718T165842Z-356A8138-0005
-  event_count: 797
-  event_head_hash: bd3ddeff66affb7b609ade925c80976a02b296009dc8e0bb92d27cccb3d46332
+  event_count: 809
+  event_head_hash: 0f232bd1ff4194e2399721e83121f504ffc38820707f53a80ad776f4628c4128
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260718T084729Z-BD53B7C4
@@ -3335,9 +3317,9 @@ recent_sessions:
   started_at: '2026-07-18T20:06:07Z'
   record: .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  updated_at: '2026-07-19T04:06:16Z'
+  updated_at: '2026-07-19T04:23:54Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0021.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0023.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-3E379E115FA4
@@ -5490,6 +5472,95 @@ open_change_requests:
     session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0074
+  title: 递增注册体验修复真机APK版本身份
+  status: IMPLEMENTING
+  created_at: '2026-07-19T04:19:42Z'
+  updated_at: '2026-07-19T04:20:02Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 用户完成注册页面真机测试并反馈四项问题，要求持续推进开发
+  reason: 修复包必须高于当前10204以支持同应用覆盖安装
+  original_rule: 当前R03测试APK版本身份固定为10204
+  new_rule: 注册体验与错误细化回归APK统一使用10205版本身份
+  impact_summary: 仅同步Gradle、运行时发布策略和版本单元测试，应用ID与固定测试签名不变
+  impact:
+    files:
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - VersionMetadataTest、testDebugUnitTest、lintDebug、assembleDebug、APK签名/API/SHA门禁
+    releases:
+    - R03
+    migration_and_compatibility: versionCode单调递增至10205，可覆盖安装10204；后端和用户数据不受影响
+  user_confirmation: 用户2026-07-19注册页面真机反馈及持续开发授权
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T04:20:01Z'
+    note: 用户已明确反馈并要求持续开发，新测试APK必须可安全覆盖安装
+  machine_record: .continuity/change_requests/CR-0074.yaml
+  document: docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
+  decision_log:
+  - at: '2026-07-19T04:20:02Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始同步10205版本身份并准备云端构建
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
+- protocol_version: '1.0'
+  cr_id: CR-0075
+  title: 记录注册体验修复上线与真机包验证证据
+  status: IMPLEMENTING
+  created_at: '2026-07-19T04:22:42Z'
+  updated_at: '2026-07-19T04:22:45Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 用户要求注册页面问题修复后持续推进并提供可测试结果
+  reason: 用户可见修复、线上切换与10205测试包必须具有可追溯变更和验证记录
+  original_rule: 注册体验修复验证记录仍标记部署与APK待完成
+  new_rule: 记录新后端公网切换结果、10205测试包准备状态及用户可见变更
+  impact_summary: 更新R03注册修复验证报告和全局变更日志，不修改业务实现
+  impact:
+    files:
+    - CHANGELOG.md
+    - artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 公网认证门禁、V020迁移、APK构建与交付验证
+    releases:
+    - R03
+    migration_and_compatibility: 仅文档与验证证据更新，兼容现有运行时和数据
+  user_confirmation: 用户2026-07-19注册页面真机反馈及持续开发授权
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T04:22:44Z'
+    note: 用户可见修复必须更新变更日志并留下跨AI可恢复验证证据
+  machine_record: .continuity/change_requests/CR-0075.yaml
+  document: docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
+  decision_log:
+  - at: '2026-07-19T04:22:45Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 补充上线验证和10205交付前记录
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
 source_manifest:
 - path: AGENTS.md
   sha256: fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db
@@ -5498,7 +5569,7 @@ source_manifest:
   sha256: 038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a
   bytes: 3477
 - path: CURRENT_STATUS.yaml
-  sha256: 963336cf18bfa34ef3d395ae5a5f160a96695895d5e24fb0931f6e7dbd07ee1c
+  sha256: 81365e0893d245acf95c784b791290358c042a1de489fd0a79128c915e58e7ef
   bytes: 3377
 - path: NEXT_TASK.yaml
   sha256: d3331935c15deb5ebd04b02689837403e53e8bc65c8813529359515257a7edc1
@@ -5531,10 +5602,10 @@ source_manifest:
   sha256: 35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6
   bytes: 11116
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: a92bbd58d7eea42afc2c816db0f2a9ae5dce36676effd2f43d0a7ecd0c7a82be
-  bytes: 437778
+  sha256: 8add960c1e87facc9b0aa468ed7351237421fb1089e5a00d13b88474a9c7acbd
+  bytes: 443277
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 2c8dbcb4063d1cd0906dc1d35a6d0865bc5cecced947b8e9534c86daf592a1e6
+  sha256: 774e06c410e6ed1be2a5eac9ef25b90edf0247149a242f1b4c43754b7c48562f
   bytes: 17274
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: dae3c46345cf6361b9487cc9878bf5cd6bd3775ec390315b8036208feb5d7b19
@@ -5543,10 +5614,10 @@ source_manifest:
   sha256: 49b2f0e5fdabc44f56af3c9fdeefd1971b4d3462167a3c93ba796bb4b3be1ada
   bytes: 10174
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 185624b88b15e45f3b9676e8a1f60a29f2f48fb4a477c54ee7af3fab4e546fc2
-  bytes: 225019
+  sha256: 391feeb99d5d6402be458cb242b74fbc1d76eb546b7bbc639cfb49ea93691c90
+  bytes: 228874
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: b712e11c261564687b21596bf408dc9f616beab648598cc61172677461d5e1fd
+  sha256: 20210bceb6509f53cf4b7d24d17f215f46b0feba62443a51e2d1e464e10e4c5d
   bytes: 525
 - path: releases/R03/RELEASE_MANIFEST.yaml
   sha256: d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318
@@ -5567,11 +5638,11 @@ source_manifest:
   sha256: 1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39
   bytes: 3566
 - path: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  sha256: 31a0d84fdc2d1dc68eba53c6272d009cb5a268c56b24fa61973c3be6ffef1b6c
-  bytes: 118891
-- path: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0021.yaml
-  sha256: ddb89df36cdf4dd39fcc1de3c6e1d2044dcc4e96b730613044dd7236321577ff
-  bytes: 57968
+  sha256: 5b77cecb0093879b2030983b23a96f69f8a126101918100eb603b474999e82d1
+  bytes: 137385
+- path: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0023.yaml
+  sha256: 85dd887cfb1b6df5b8be47e1bbb7cf3eaf316a612ac6dfc8a9a95211f79d4893
+  bytes: 56980
 - path: docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md
   sha256: 09124eace840cbac05b094cb44ba6e9b2baf894d33b663a5eecc21a271fd9f27
   bytes: 3955
@@ -5641,6 +5712,12 @@ source_manifest:
 - path: docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md
   sha256: 99f970a267f44dc87cf195111b08330b08afaad36f8f14b18ecf3b924904ce6f
   bytes: 2071
+- path: docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
+  sha256: 6a7ac7a57fc73b98de141559440ce907da4e17c3b8e908e7d90a1ea2a5f7ce6b
+  bytes: 2004
+- path: docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
+  sha256: 4da1c47a78edd7787e945ecfe6e39bab8d1fda1d58c01d06521fcfbf108347e2
+  bytes: 1886
 exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
   '<未委托原因>'
 hard_rules:
@@ -5655,4 +5732,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 23f0d259de7a690025796defa40f5838c5fd6ac21447f63159f7ec49b7ef5db8
+context_hash: 718a1c5e20aae07b5ab8473d21b6b863a77a237601a898f213eb5259fd04d7c2

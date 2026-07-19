@@ -52,7 +52,7 @@ android {
         applicationId = "cc.orbexa.hhy"
         minSdk = 26
         targetSdk = 36
-        versionCode = 10204
+        versionCode = 10205
         versionName = "1.2.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true

@@ -1,0 +1,45 @@
+protocol_version: '1.0'
+cr_id: CR-0074
+title: 递增注册体验修复真机APK版本身份
+status: IMPLEMENTING
+created_at: '2026-07-19T04:19:42Z'
+updated_at: '2026-07-19T04:20:02Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R03-007
+session_id: SES-20260718T200607Z-3569D212
+user_request: 用户完成注册页面真机测试并反馈四项问题，要求持续推进开发
+reason: 修复包必须高于当前10204以支持同应用覆盖安装
+original_rule: 当前R03测试APK版本身份固定为10204
+new_rule: 注册体验与错误细化回归APK统一使用10205版本身份
+impact_summary: 仅同步Gradle、运行时发布策略和版本单元测试，应用ID与固定测试签名不变
+impact:
+  files:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - VersionMetadataTest、testDebugUnitTest、lintDebug、assembleDebug、APK签名/API/SHA门禁
+  releases:
+  - R03
+  migration_and_compatibility: versionCode单调递增至10205，可覆盖安装10204；后端和用户数据不受影响
+user_confirmation: 用户2026-07-19注册页面真机反馈及持续开发授权
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T04:20:01Z'
+  note: 用户已明确反馈并要求持续开发，新测试APK必须可安全覆盖安装
+machine_record: .continuity/change_requests/CR-0074.yaml
+document: docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md
+decision_log:
+- at: '2026-07-19T04:20:02Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始同步10205版本身份并准备云端构建
+  session_id: SES-20260718T200607Z-3569D212
+session_ids:
+- SES-20260718T200607Z-3569D212
