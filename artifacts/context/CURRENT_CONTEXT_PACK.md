@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T23:16:02Z
-- Context Hash：`f3232a077c29143e225fd1294cf6217f58b11ce54979e4d4e795b3b2283077c9`
+- 生成时间：2026-07-19T23:39:04Z
+- Context Hash：`e5adfe334036090fe2dc7545cffc7ff0d33a17850363a39b42cba29534ba80e5`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -83,7 +83,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-006
-updated_at: '2026-07-19T23:16:00Z'
+updated_at: '2026-07-19T23:39:02Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -118,15 +118,15 @@ continuity:
   active_session_id: SES-20260719T230526Z-55ABC07F
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T03:16:00Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T230526Z-55ABC07F/0001.yaml
-  project_fingerprint: d4623ff772c953b5d7e2ea9056ff38cbfb2c5be694cbbc51ca624a4edd08d6c2
+  lease_expires_at: '2026-07-20T03:39:02Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T230526Z-55ABC07F/0002.yaml
+  project_fingerprint: c27b29cfae01f746327e1b7c585eaa715cad027f2ef006941a2050bda885f618
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: b3bef666af78ec4601d15a6c6a1ec8e826a51e669d76118099ddc151e08d89a3
-    generated_at: '2026-07-19T23:05:28Z'
+    context_hash: f3232a077c29143e225fd1294cf6217f58b11ce54979e4d4e795b3b2283077c9
+    generated_at: '2026-07-19T23:16:02Z'
   handoff_bundle: null
 ```
 
@@ -318,7 +318,7 @@ task_id: TASK-R05-006
 story_id: STORY-R05-001
 goal: 完成R05实名认证可观测性与预发布验收：Staging部署、结构化日志、TraceId、RED与业务指标、告警、运行手册和回滚演练全部可验证
 started_at: '2026-07-19T23:05:26Z'
-updated_at: '2026-07-19T23:16:00Z'
+updated_at: '2026-07-19T23:39:02Z'
 takeover_of: null
 change_requests:
 - CR-0107
@@ -355,12 +355,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T23:16:00Z'
-  expires_at: '2026-07-20T03:16:00Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260719T230526Z-55ABC07F/0001.yaml
+  renewed_at: '2026-07-19T23:39:02Z'
+  expires_at: '2026-07-20T03:39:02Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260719T230526Z-55ABC07F/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T230526Z-55ABC07F.md
-next_step: 提交并推送基础实现，然后基于冻结Commit执行隔离Staging部署、告警触发恢复、TraceId与回滚演练。
+next_step: 提交并推送R05-006预发布证据，关闭CR-0108和TASK-R05-006，随后进入TASK-R05-007正式Android测试APK。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -368,48 +368,60 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 本批修改集中在同一可观测性编排、共享指标绑定器和连续性状态，拆分会产生同文件冲突；按单线冻结提交后再开展独立验收。
+  reason: 本阶段是同一隔离环境内有状态的告警与回切验收，必须串行保护同一个数据库卷、容器和证据时间线。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0001
+checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0002
 session_id: SES-20260719T230526Z-55ABC07F
-sequence: 1
-created_at: '2026-07-19T23:15:59Z'
-summary: R05-006实名认证可观测性基础实现完成：四项业务Gauge、隔离Staging编排、七条告警、部署与回滚Runbook已落地并通过配置与目标测试；CR-0108已补齐精确infra范围。
-next_step: 提交并推送基础实现，然后基于冻结Commit执行隔离Staging部署、告警触发恢复、TraceId与回滚演练。
+sequence: 2
+created_at: '2026-07-19T23:39:02Z'
+summary: R05-006隔离Staging验收完成：健康、V028数据库、Trace与脱敏、四项业务指标、两类告警firing/resolved和同库卷回切全部通过，AC-R05-004已置PASS并归档哈希证据。
+next_step: 提交并推送R05-006预发布证据，关闭CR-0108和TASK-R05-006，随后进入TASK-R05-007正式Android测试APK。
 blockers: []
 decisions:
-- CR-0108批准并应用五个R05隔离Staging配置文件，CR-0107因通配路径不满足精确范围规则而被替代。
+- 默认网段与既有R03环境重叠，使用未占用172.31.249.0/24；弱测试密钥被安全守卫拒绝后改用高强度隔离临时密钥。
 note: ''
 tests:
-- name: R05_OBSERVABILITY_CONFIG
+- name: R05_STAGING_HEALTH
   result: PASS
-  evidence: scripts/check_r05_observability.py
-  note: 静态门禁通过
+  evidence: hhy-r05-c2bc1ab
+  note: HTTP 200、liveness/readiness UP、Prometheus target UP
+- name: R05_STAGING_DATABASE
+  result: PASS
+  evidence: PostgreSQL 17.10
+  note: Flyway 028、200业务表
+- name: R05_METRICS_TRACE_REDACTION
+  result: PASS
+  evidence: trace-redaction-and-metrics.txt
+  note: 四项Gauge存在、链路一致、敏感探针未入日志
+- name: R05_ALERT_FIRING_RESOLVED
+  result: PASS
+  evidence: alert-deliveries.jsonl
+  note: BackendDown与ProviderFailureBurst均完成firing/resolved
+- name: R05_ROLLBACK_REHEARSAL
+  result: PASS
+  evidence: rollback-rehearsal.txt
+  note: 上一兼容镜像与当前镜像切换期间数据库容器和卷不变
+- name: R05_EVIDENCE_SHA256
+  result: PASS
+  evidence: SHA256SUMS
+  note: 五项证据哈希复核通过
+- name: R05_RELEASE_ARTIFACTS
+  result: PASS
+  evidence: scripts/check_release_artifacts.py --release R05
+  note: 发布结构有效
 - name: R05_DOCUMENTATION_GATE
   result: PASS
   evidence: scripts/check_v122_documentation.py --release R05
-  note: 318 REST操作且无文档缺口
-- name: R05_COMPOSE_CONFIG
+  note: 318 REST操作且无缺口
+- name: GENERATED_ASSETS
   result: PASS
-  evidence: docker compose config --quiet
-  note: 隔离编排解析通过
-- name: PROMETHEUS_CONFIG_AND_RULES
-  result: PASS
-  evidence: promtool check config/rules
-  note: 配置有效且7条规则加载
-- name: ALERTMANAGER_CONFIG
-  result: PASS
-  evidence: amtool check-config
-  note: 配置有效
-- name: R05_OBSERVABILITY_TARGETED_TESTS
-  result: PASS
-  evidence: BusinessGaugeBinderTest,ObservabilityEndpointsTest
-  note: 6 tests,0 failures,0 errors,0 skips
+  evidence: pnpm generate:check
+  note: 所有生成资产已验证
 - name: GIT_DIFF_CHECK
   result: PASS
   evidence: git diff --check
@@ -417,44 +429,23 @@ tests:
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: ae3bd21fe7e58d5bfedd256d21cdfae535653998
+  head: c2bc1ab632c9b64c4292c325653415a8259a8e51
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
-  - ' M docs/07-operations/ROLLBACK_RUNBOOK.md'
-  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java'
-  - ?? .continuity/change_requests/CR-0107.yaml
-  - ?? .continuity/change_requests/CR-0108.yaml
-  - ?? .continuity/sessions/SES-20260719T230526Z-55ABC07F.yaml
-  - ?? docs/03-continuity/change-requests/CR-0107-补充R05隔离Staging编排允许路径.md
-  - ?? docs/03-continuity/change-requests/CR-0108-补充R05隔离Staging精确文件范围.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260719T230526Z-55ABC07F.md
-  - ?? infra/staging/r05-smoke/alertmanager.yml
-  - ?? infra/staging/r05-smoke/docker-compose.yml
-  - ?? infra/staging/r05-smoke/nginx.conf
-  - ?? infra/staging/r05-smoke/prometheus.yml
-  - ?? infra/staging/r05-smoke/r05-alerts.yml
-  - ?? scripts/check_r05_observability.py
+  - ' M releases/R05/ACCEPTANCE_MATRIX.csv'
+  - ?? artifacts/reports/R05/TASK-R05-006-staging.md
+  - ?? artifacts/validation/r05-task006-staging/SHA256SUMS
+  - ?? artifacts/validation/r05-task006-staging/alert-deliveries.jsonl
+  - ?? artifacts/validation/r05-task006-staging/machine-summary.txt
+  - ?? artifacts/validation/r05-task006-staging/rollback-rehearsal.txt
+  - ?? artifacts/validation/r05-task006-staging/source-sha256.txt
+  - ?? artifacts/validation/r05-task006-staging/trace-redaction-and-metrics.txt
   recent_commits:
+  - "c2bc1ab632c9b64c4292c325653415a8259a8e51\t2026-07-20T07:17:01+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(observability): add R05\
+    \ staging gates"
   - "ae3bd21fe7e58d5bfedd256d21cdfae535653998\t2026-07-20T07:04:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-005\
     \ as completed"
   - "c7ce2b9b48c6e901c3e19c9f7addd57ffbc7475d\t2026-07-20T07:00:05+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(identity): archive R05\
@@ -469,10 +460,8 @@ git:
     \ result transaction change"
   - "3041af56480ff9f225e997db9335e936a5986bed\t2026-07-20T06:25:44+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(storage): close Aliyun\
     \ OSS runtime change"
-  - "9fc38ff37d2b0b7421c5f0a13205088308f664fc\t2026-07-20T06:25:11+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(storage): activate Aliyun\
-    \ OSS runtime port"
 project_fingerprint:
-  sha256: d4623ff772c953b5d7e2ea9056ff38cbfb2c5be694cbbc51ca624a4edd08d6c2
+  sha256: c27b29cfae01f746327e1b7c585eaa715cad027f2ef006941a2050bda885f618
   files:
   - docs/03-continuity/change-requests/CR-0107-补充R05隔离Staging编排允许路径.md
   - docs/03-continuity/change-requests/CR-0108-补充R05隔离Staging精确文件范围.md
@@ -483,11 +472,12 @@ project_fingerprint:
   - infra/staging/r05-smoke/nginx.conf
   - infra/staging/r05-smoke/prometheus.yml
   - infra/staging/r05-smoke/r05-alerts.yml
+  - releases/R05/ACCEPTANCE_MATRIX.csv
   - scripts/check_r05_observability.py
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-  file_count: 13
+  file_count: 14
   payload:
     base_commit: ae3bd21fe7e58d5bfedd256d21cdfae535653998
     files:
@@ -527,6 +517,10 @@ project_fingerprint:
       state: FILE
       size: 2077
       sha256: 1f737d534b3ff7d0f7084ceb436b4481222a20389f404f474078abedd2ae7c20
+    - path: releases/R05/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 768
+      sha256: d5b4935c463ec86cad45d3702034c2c1e7a61275280fca4b1047b6bfe69b3fd5
     - path: scripts/check_r05_observability.py
       state: FILE
       size: 4854
@@ -550,6 +544,7 @@ change_classification:
   other:
   - docs/07-operations/DEPLOYMENT_RUNBOOK.md
   - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - releases/R05/ACCEPTANCE_MATRIX.csv
   infrastructure:
   - infra/staging/r05-smoke/alertmanager.yml
   - infra/staging/r05-smoke/docker-compose.yml
@@ -597,8 +592,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 本批修改集中在同一可观测性编排、共享指标绑定器和连续性状态，拆分会产生同文件冲突；按单线冻结提交后再开展独立验收。
-event_hash: 9f9561c3ee3a1c161aba1084578a102704ea1e0d4ffbd80745c358aadbc1c48a
+  reason: 本阶段是同一隔离环境内有状态的告警与回切验收，必须串行保护同一个数据库卷、容器和证据时间线。
+event_hash: b1bcecf6e04bc685e1a55bf3b07c96e5c9c504d8a6361cbab8660d43cb3ea8d4
 ```
 
 ## 接续状态与事件头
@@ -610,8 +605,8 @@ active_session_id: SES-20260719T230526Z-55ABC07F
 last_session_id: SES-20260719T224052Z-2C69767F
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T224052Z-2C69767F-0003
-event_count: 1174
-event_head_hash: 9f9561c3ee3a1c161aba1084578a102704ea1e0d4ffbd80745c358aadbc1c48a
+event_count: 1175
+event_head_hash: b1bcecf6e04bc685e1a55bf3b07c96e5c9c504d8a6361cbab8660d43cb3ea8d4
 event_chain_valid: true
 ```
 
@@ -734,9 +729,9 @@ recent_sessions: - session_id: SES-20260719T130824Z-06DC3492
   started_at: '2026-07-19T23:05:26Z'
   record: .continuity/sessions/SES-20260719T230526Z-55ABC07F.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T230526Z-55ABC07F.md
-  updated_at: '2026-07-19T23:16:00Z'
+  updated_at: '2026-07-19T23:39:02Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T230526Z-55ABC07F/0001.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T230526Z-55ABC07F/0002.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1F23C0F0A384
   session_id: SES-20260718T145327Z-DEA562CB
@@ -1618,45 +1613,32 @@ recent_task_transitions: - transition_id: TRN-13BC662575B3
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: ae3bd21fe7e58d5bfedd256d21cdfae535653998
+head: c2bc1ab632c9b64c4292c325653415a8259a8e51
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
+- ' M .continuity/sessions/SES-20260719T230526Z-55ABC07F.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
-- ' M docs/07-operations/ROLLBACK_RUNBOOK.md'
-- ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java'
-- ?? .continuity/change_requests/CR-0107.yaml
-- ?? .continuity/change_requests/CR-0108.yaml
-- ?? .continuity/checkpoints/SES-20260719T230526Z-55ABC07F/0001.yaml
-- ?? .continuity/sessions/SES-20260719T230526Z-55ABC07F.yaml
-- ?? docs/03-continuity/change-requests/CR-0107-补充R05隔离Staging编排允许路径.md
-- ?? docs/03-continuity/change-requests/CR-0108-补充R05隔离Staging精确文件范围.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260719T230526Z-55ABC07F.md
-- ?? infra/staging/r05-smoke/alertmanager.yml
-- ?? infra/staging/r05-smoke/docker-compose.yml
-- ?? infra/staging/r05-smoke/nginx.conf
-- ?? infra/staging/r05-smoke/prometheus.yml
-- ?? infra/staging/r05-smoke/r05-alerts.yml
-- ?? scripts/check_r05_observability.py
+- ' M docs/03-continuity/sessions/2026-07/SES-20260719T230526Z-55ABC07F.md'
+- ' M releases/R05/ACCEPTANCE_MATRIX.csv'
+- ?? .continuity/checkpoints/SES-20260719T230526Z-55ABC07F/0002.yaml
+- ?? artifacts/reports/R05/TASK-R05-006-staging.md
+- ?? artifacts/validation/r05-task006-staging/SHA256SUMS
+- ?? artifacts/validation/r05-task006-staging/alert-deliveries.jsonl
+- ?? artifacts/validation/r05-task006-staging/machine-summary.txt
+- ?? artifacts/validation/r05-task006-staging/rollback-rehearsal.txt
+- ?? artifacts/validation/r05-task006-staging/source-sha256.txt
+- ?? artifacts/validation/r05-task006-staging/trace-redaction-and-metrics.txt
 recent_commits:
+- "c2bc1ab632c9b64c4292c325653415a8259a8e51\t2026-07-20T07:17:01+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(observability): add R05\
+  \ staging gates"
 - "ae3bd21fe7e58d5bfedd256d21cdfae535653998\t2026-07-20T07:04:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-005\
   \ as completed"
 - "c7ce2b9b48c6e901c3e19c9f7addd57ffbc7475d\t2026-07-20T07:00:05+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(identity): archive R05\
@@ -1671,14 +1653,12 @@ recent_commits:
   \ result transaction change"
 - "3041af56480ff9f225e997db9335e936a5986bed\t2026-07-20T06:25:44+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(storage): close Aliyun\
   \ OSS runtime change"
-- "9fc38ff37d2b0b7421c5f0a13205088308f664fc\t2026-07-20T06:25:11+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(storage): activate Aliyun\
-  \ OSS runtime port"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`d4623ff772c953b5d7e2ea9056ff38cbfb2c5be694cbbc51ca624a4edd08d6c2`
-- 文件数：13
+- 指纹：`c27b29cfae01f746327e1b7c585eaa715cad027f2ef006941a2050bda885f618`
+- 文件数：14
 
 - `docs/03-continuity/change-requests/CR-0107-补充R05隔离Staging编排允许路径.md`
 - `docs/03-continuity/change-requests/CR-0108-补充R05隔离Staging精确文件范围.md`
@@ -1689,6 +1669,7 @@ recent_commits:
 - `infra/staging/r05-smoke/nginx.conf`
 - `infra/staging/r05-smoke/prometheus.yml`
 - `infra/staging/r05-smoke/r05-alerts.yml`
+- `releases/R05/ACCEPTANCE_MATRIX.csv`
 - `scripts/check_r05_observability.py`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java`
@@ -5014,7 +4995,7 @@ TASKS.yaml:
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `72bc8f637af2cca46f1bad53eb29b899c663296674887358aba634c37688e69f`
+- `CURRENT_STATUS.yaml` — `2f7ad3a9d873b16da4b2bd3b7e360f4d865b3b9da1f2acefedcff43db0fa3bc4`
 - `NEXT_TASK.yaml` — `eb513586c424aa5054afaf92c054716b1acd8d8810bd70a4ea530ecbb16c48c3`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -5025,19 +5006,19 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `3c2af595473c3736e776ed0a7e7f530dd5f90663f88422bfc6ee0974f295ef4d`
-- `.continuity/SESSION_INDEX.yaml` — `b11664087620457dbff9441dc91193b39ca0e76498f19aa71bb9cd8046b1dbaf`
+- `.continuity/EVENT_LOG.jsonl` — `e65ad43f27bd1e2210c50bbadca36715f89d9b44591ae3c1c59fb18470ffefcc`
+- `.continuity/SESSION_INDEX.yaml` — `f13fb3629e37dd32d5532f296f820835a208d26d5982aabd1a0ca6222d9f51ca`
 - `.continuity/TASK_CLAIMS.yaml` — `2c3e2048b6eee9346634d4126483e412a9b6b12bbe87442a84acedae3bafef5e`
 - `.continuity/TASK_TRANSITIONS.yaml` — `022cae4928c734b10a6d5b3cae37ffa6e0f9cb8e791102c35f2fc41220649a2c`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `bf54971e50bda5cadf987a4f42af32ef01da41968019ae62b5e699068dbd30a1`
-- `.continuity/ACTIVE_SESSION.yaml` — `d2554fddbfbdd1e7065fd9869bffcfd335253b85fedafab8761c609156be8968`
+- `.continuity/ACTIVE_SESSION.yaml` — `8ddbecba18543fe8321b6825756495635e4f6e510e440926525778490018c589`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `70ac4fc421fa854c4e32f81f379b2568b231e10cc53565530c7d88a2dd52b353`
-- `releases/R05/ACCEPTANCE_MATRIX.csv` — `abc86c8bd5666195bd639faf3b20268c1000c6d6f8c06ebcd3ffcc8a49743576`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T230526Z-55ABC07F.md` — `c0fc8524ac068722b2fe91c2b0177eccdcac806266c936def2e9169be8407630`
-- `.continuity/checkpoints/SES-20260719T230526Z-55ABC07F/0001.yaml` — `ca74ff56a81d2036fd6dbdc11b1b608afe2e1266dfee87676b2053fd7472cc3b`
+- `releases/R05/ACCEPTANCE_MATRIX.csv` — `5351f0a137ab158c1694863a096378cf07f948555cde21c00e7e208c977d09d7`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T230526Z-55ABC07F.md` — `971d91a45216ae7f2c099a0af945d529199660a70a1bdd8c77ee086034ddd6b0`
+- `.continuity/checkpoints/SES-20260719T230526Z-55ABC07F/0002.yaml` — `2cab7c9d3e05c21b9a1e381e4c078edb58d020b9e0fc973b9463d03f8d5c6763`
 - `docs/03-continuity/change-requests/CR-0107-补充R05隔离Staging编排允许路径.md` — `97e62f02d25df92bf543fa147ea50b195cea5dc265b33a8583824d6023418df9`
 - `docs/03-continuity/change-requests/CR-0108-补充R05隔离Staging精确文件范围.md` — `68d17255ae3786808842c431adb017e6118cafcbf15809cd720c778b9e912d70`
 

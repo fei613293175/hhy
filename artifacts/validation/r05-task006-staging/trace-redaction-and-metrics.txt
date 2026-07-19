@@ -1,0 +1,23 @@
+HTTP/1.1 200
+X-Request-Id: r05-stage-request-001
+X-Trace-Id: 11223344556677889900aabbccddeeff
+operation=GET /public-api/v1/platform/status
+status=200
+
+Sensitive probe: R05_SENSITIVE_PROBE_7F3A
+Probe locations: Authorization header, Cookie header, query parameter
+Container log scan result: R05_LOG_REDACTION_OK
+
+Prometheus target: up{job="hhy-backend-r05"}=1
+hhy_identity_active_sessions=0
+hhy_identity_provider_failures_5m=0
+hhy_identity_manual_review_pending=0
+hhy_identity_private_media_invalid=0
+
+Provider-failure exercise peak:
+hhy_identity_provider_failures_5m=4
+HhyR05IdentityProviderFailureBurst state=firing
+
+After exact cleanup:
+hhy_identity_provider_failures_5m=0
+Prometheus active alerts=[]
