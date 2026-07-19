@@ -1,0 +1,55 @@
+protocol_version: '1.0'
+cr_id: CR-0104
+title: 接入Cloudflare R2真实S3对象存储端口
+status: IMPLEMENTING
+created_at: '2026-07-19T21:37:59Z'
+updated_at: '2026-07-19T21:38:23Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-004
+session_id: SES-20260719T183335Z-535311E4
+user_request: 用户要求持续推进R05正式商业实名认证闭环并向项目落地方向开发
+reason: CR-0101已完成private_kyc桥接，但R04 PortResolver仍为安全占位，无法生成真实R2签名上传或校验对象
+original_rule: R04 MediaAccessConfiguration在不存在PortResolver时注册统一不可用占位，StorageProviderAdapter只有抽象Transport且Binding不携带配置版本
+new_rule: Cloudflare R2必须按storage_scope_bindings绑定的ACTIVE且已连接测试通过的精确配置版本解析公开参数和SecretRef，短时解析凭据后使用AWS SDK v2 S3兼容端口生成受Content-Type与SHA元数据约束的PUT签名URL，并以HEAD校验对象键、大小、SHA和ETag；阿里云OSS在下一独立端口完成前继续安全不可用
+impact_summary: 增加AWS SDK v2固定依赖、绑定配置版本身份、R2设置加载、真实S3 Transport和Provider resolver，覆盖签名头、对象完整性、秘密清零和失败安全测试
+impact:
+  files:
+  - services/backend/pom.xml
+  - services/backend/access/pom.xml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+  - docs/04-vendors/多对象存储适配规范_V1.2.2.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - storage.r2.* SecretRef和激活配置
+  ledger: []
+  tests:
+  - R2精确配置版本、签名PUT必需头、HEAD完整性、私有GET、对象键幂等、秘密清零和OSS安全不可用
+  releases:
+  - R05
+  migration_and_compatibility: 不修改数据库结构或公开API；Binding新增configVersionId并保留旧构造器兼容现有测试，R2仅接受与绑定精确一致的激活配置，OSS继续显式不可用
+user_confirmation: 用户持续授权向项目落地方向推进并要求无需逐项确认
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T21:38:22Z'
+  note: 先完成R05默认Cloudflare R2真实端口，OSS保持明确安全占位并后续独立实现
+machine_record: .continuity/change_requests/CR-0104.yaml
+document: docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md
+decision_log:
+- at: '2026-07-19T21:38:23Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 开始实现精确激活配置绑定的R2 S3真实端口
+  session_id: SES-20260719T183335Z-535311E4
+session_ids:
+- SES-20260719T183335Z-535311E4

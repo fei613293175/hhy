@@ -1,12 +1,11 @@
 package cc.orbexa.hhy.access.storage;
 
 import cc.orbexa.hhy.access.storage.StorageMigrationService.PortResolver;
+import cc.orbexa.hhy.access.admin.ProviderConnectionTestCoordinator.SecretResolver;
 import cc.orbexa.hhy.access.user.UserAuthStore;
 import cc.orbexa.hhy.access.user.UserIdempotencySnapshotCipher;
-import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Clock;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +13,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 public class R04MediaAccessConfiguration {
     @Bean
-    @ConditionalOnMissingBean(PortResolver.class)
-    PortResolver unavailableStoragePortResolver() {
-        return provider -> { throw new BusinessException(
-                "COMMON-422-BUSINESS_RULE", "对象存储供应商尚未激活", 422, true); };
+    PortResolver r04StoragePortResolver(
+            R04StorageProviderSettings settings, SecretResolver secrets, Clock clock) {
+        StorageObjectPort r2 = new StorageProviderAdapter(
+                StorageObjectPort.Provider.CLOUDFLARE_R2,
+                new R04S3StorageTransport(settings, secrets, clock), clock);
+        return new R04StoragePortResolver(r2);
     }
 
     @Bean

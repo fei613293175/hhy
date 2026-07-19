@@ -53,7 +53,7 @@ public class R04StoragePostgresStore
     @Override
     public Optional<BindingRecord> findBinding(long bindingId) {
         return jdbc.query("""
-                SELECT binding.id,binding.scope_code,binding.provider_code,binding.bucket,
+                SELECT binding.id,binding.config_version_id,binding.scope_code,binding.provider_code,binding.bucket,
                        COALESCE(NULLIF(binding.public_domain,''),
                          CASE binding.provider_code
                            WHEN 'CLOUDFLARE_R2' THEN config.values_json->>'storage.r2.public_domain'
@@ -79,7 +79,7 @@ public class R04StoragePostgresStore
 
     private Optional<MediaBindingRecord> mediaBindings(String predicate, Object argument) {
         return jdbc.query("""
-                SELECT binding.id,binding.scope_code,binding.provider_code,binding.bucket,
+                SELECT binding.id,binding.config_version_id,binding.scope_code,binding.provider_code,binding.bucket,
                        COALESCE(NULLIF(binding.public_domain,''),
                          CASE binding.provider_code
                            WHEN 'CLOUDFLARE_R2' THEN config.values_json->>'storage.r2.public_domain'
@@ -130,7 +130,8 @@ public class R04StoragePostgresStore
         URI publicBase = scope.privateAccess() ? null : publicUri(rs.getString("public_domain"));
         return new BindingRecord(rs.getLong("id"), new Binding(scope,
                 Provider.valueOf(rs.getString("provider_code")), rs.getString("bucket"),
-                uri(rs.getString("endpoint"), "storage endpoint"), publicBase));
+                uri(rs.getString("endpoint"), "storage endpoint"), publicBase,
+                rs.getLong("config_version_id")));
     }
 
     private MediaBindingRecord mediaBinding(ResultSet rs, int row) throws SQLException {

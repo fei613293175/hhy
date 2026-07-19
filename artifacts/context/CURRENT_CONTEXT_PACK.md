@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T21:34:24Z
-- Context Hash：`fa2560f6f23911c3805e34b5ffa1f8a3045dddf109abca4d5eda75db5dc5d40b`
+- 生成时间：2026-07-19T21:56:10Z
+- Context Hash：`8aefa9418e8e5812326a77f23deb15049357dad9334b1bcb3f6c63f3e4144b2f`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -81,7 +81,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-004
-updated_at: '2026-07-19T21:34:22Z'
+updated_at: '2026-07-19T21:56:08Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -116,15 +116,15 @@ continuity:
   active_session_id: SES-20260719T183335Z-535311E4
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T01:34:22Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0017.yaml
-  project_fingerprint: 25fa026ef68e992e0ae1100a3ca6db45b7e1b8c7acc2789d7bba0ace14b7bda7
+  lease_expires_at: '2026-07-20T01:56:08Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0018.yaml
+  project_fingerprint: c5f5c3436803a2f84a9548237b8786116b3daf3c9f2a5c5df86ab604577a978c
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: a180957cc2265c061d151fc8e04db49e958ce4b2ea73d2190733cb6d398ca043
-    generated_at: '2026-07-19T21:31:59Z'
+    context_hash: fa2560f6f23911c3805e34b5ffa1f8a3045dddf109abca4d5eda75db5dc5d40b
+    generated_at: '2026-07-19T21:34:24Z'
   handoff_bundle: null
 ```
 
@@ -320,7 +320,7 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T21:34:22Z'
+updated_at: '2026-07-19T21:56:08Z'
 takeover_of: null
 change_requests:
 - CR-0090
@@ -337,6 +337,7 @@ change_requests:
 - CR-0101
 - CR-0102
 - CR-0103
+- CR-0104
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -432,7 +433,18 @@ scope:
   - services/backend/boot/src/main/resources/db/migration/V028__r05_private_identity_evidence.sql
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
   - tests/test_r05_private_identity_evidence_migration.py
-  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097+approved-cr:CR-0098+approved-cr:CR-0099+approved-cr:CR-0100+approved-cr:CR-0101+approved-cr:CR-0102+approved-cr:CR-0103
+  - services/backend/pom.xml
+  - services/backend/access/pom.xml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+  - docs/04-vendors/多对象存储适配规范_V1.2.2.md
+  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097+approved-cr:CR-0098+approved-cr:CR-0099+approved-cr:CR-0100+approved-cr:CR-0101+approved-cr:CR-0102+approved-cr:CR-0103+approved-cr:CR-0104
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -442,12 +454,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T21:34:22Z'
-  expires_at: '2026-07-20T01:34:22Z'
-checkpoint_sequence: 17
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0017.yaml
+  renewed_at: '2026-07-19T21:56:08Z'
+  expires_at: '2026-07-20T01:56:08Z'
+checkpoint_sequence: 18
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0018.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 实现Cloudflare R2与阿里云OSS真实StorageObjectPort PortResolver并接入激活配置
+next_step: 实现生产SecretRef解析端口并补阿里云OSS真实对象存储端口，随后取得R05正式环境最小端到端证据
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -455,49 +467,72 @@ parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 用户未要求子代理，继续沿R05共享存储安全边界串行推进
+  reason: 用户未要求子代理，沿R05对象存储安全边界串行推进以避免共享文件冲突
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T183335Z-535311E4-0017
+checkpoint_id: CP-SES-20260719T183335Z-535311E4-0018
 session_id: SES-20260719T183335Z-535311E4
-sequence: 17
-created_at: '2026-07-19T21:34:21Z'
-summary: CR-0101、CR-0102、CR-0103均已绑定提交4e970ae并标记IMPLEMENTED
-next_step: 实现Cloudflare R2与阿里云OSS真实StorageObjectPort PortResolver并接入激活配置
+sequence: 18
+created_at: '2026-07-19T21:56:08Z'
+summary: CR-0104完成Cloudflare R2真实S3兼容端口、精确激活配置绑定、签名上传读取、HEAD完整性校验和凭据清零
+next_step: 实现生产SecretRef解析端口并补阿里云OSS真实对象存储端口，随后取得R05正式环境最小端到端证据
 blockers: []
 decisions:
-- 私有身份媒体桥接已完成但R05继续保持未关闭，直到真实对象存储端口和正式环境证据完成
-note: 下一段不得复用未激活占位PortResolver，也不得把桥接完成等同于正式存储完成
+- R2按绑定的精确ACTIVE且connection_successful配置版本运行；OSS在独立端口完成前失败关闭
+note: ''
 tests:
-- name: implementation-commit
+- name: backend full
   result: PASS
-  evidence: 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5 pushed
-  note: CR-0101 through CR-0103 bound
+  evidence: obx-test mvn test
+  note: 268 tests, 0 failures, 4 intended skips
+- name: R2 transport
+  result: PASS
+  evidence: R04S3StorageTransportTest
+  note: 4 tests including AWS SDK presigner, integrity and secret zeroing
+- name: PostgreSQL binding
+  result: PASS
+  evidence: R04StorageProviderSettingsTest on PostgreSQL 17
+  note: V001-V028 plus exact active tested version and superseded rejection
+- name: repository gates
+  result: PASS
+  evidence: check_v123_documentation.py and generated assets
+  note: 318 REST, zero gaps, generated assets verified
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5
+  head: e3f8d07133b2ac4b6b40623cf8a4ef685c4e10e7
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0101.yaml'
-  - ' M .continuity/change_requests/CR-0102.yaml'
-  - ' M .continuity/change_requests/CR-0103.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md'
-  - ' M docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md'
-  - ' M docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md'
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0104.yaml
+  - M  .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - A  docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md
+  - M  docs/04-vendors/多对象存储适配规范_V1.2.2.md
+  - M  services/backend/access/pom.xml
+  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+  - A  services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+  - A  services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - A  services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+  - M  services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+  - AM services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
+  - M  services/backend/pom.xml
   recent_commits:
+  - "e3f8d07133b2ac4b6b40623cf8a4ef685c4e10e7\t2026-07-20T05:34:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close private\
+    \ evidence bridge CRs"
   - "4e970aeeebbec1c7f679dc3ac75dad1d11e122c5\t2026-07-20T05:32:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): persist private\
     \ evidence safely"
   - "6d56e21aed734dd2511a14a55e361c194296c9fc\t2026-07-20T05:07:57+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): record callback\
@@ -512,10 +547,8 @@ git:
     \ contract CR"
   - "82f6e40bdcf53bb2bb572b61cf28fd3d40e23795\t2026-07-20T04:36:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): parse purchased\
     \ provider results"
-  - "fa9770715cf9d6f75bee41bf0e7b276832dea507\t2026-07-20T04:24:06+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close consent\
-    \ CR"
 project_fingerprint:
-  sha256: 25fa026ef68e992e0ae1100a3ca6db45b7e1b8c7acc2789d7bba0ace14b7bda7
+  sha256: c5f5c3436803a2f84a9548237b8786116b3daf3c9f2a5c5df86ab604577a978c
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r05IdentityPages.test.ts
@@ -575,11 +608,14 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md
   - docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md
   - docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md
+  - docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md
   - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
+  - docs/04-vendors/多对象存储适配规范_V1.2.2.md
   - packages/api-client/src/client.generated.ts
   - releases/R05/STORIES.yaml
   - scripts/run_r05_database_invariants.sh
   - scripts/run_r05_disposable_postgres_container.sh
+  - services/backend/access/pom.xml
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClient.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
@@ -592,8 +628,14 @@ project_fingerprint:
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettings.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorage.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
   - services/backend/boot/src/main/resources/contracts/openapi.yaml
@@ -608,15 +650,18 @@ project_fingerprint:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+  - services/backend/pom.xml
   - tests/test_android_identity_consent_source.py
   - tests/test_r05_identity_callback_migration.py
   - tests/test_r05_identity_consent_migration.py
   - tests/test_r05_identity_database_scripts.py
   - tests/test_r05_identity_vendor_contract.py
   - tests/test_r05_private_identity_evidence_migration.py
-  file_count: 99
+  file_count: 111
   payload:
     base_commit: d08b5d91ed2f83ddfa377fc806470d2385887f53
     files:
@@ -794,8 +839,8 @@ project_fingerprint:
       sha256: 2a29fb3ca0d5eaf74f66d637dfa9d0b8fb5fe62aa7af212ba5acd84aee58234f
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 48915
-      sha256: 6e12b69b2979be840e0a3e12f985136212e0eef40b9034264475c13d6aa2b535
+      size: 49241
+      sha256: 23c7285a4168590b88c4417743d5a92e40ec6f6fd2e3bfdac0cb4f696741a8c8
     - path: docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md
       state: FILE
       size: 2078
@@ -852,10 +897,18 @@ project_fingerprint:
       state: FILE
       size: 2398
       sha256: c2abea5833c737a1430ba2d143d8f487d85c23d8f1d4241b14c8cd43ce076597
+    - path: docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md
+      state: FILE
+      size: 3486
+      sha256: 405ef1cf720a6de9716155708103e2d6267014fffda2f3b5e5b2b4c24b5c3e7d
     - path: docs/04-vendors/identity/实名认证供应商接口契约_R05.md
       state: FILE
       size: 4214
       sha256: 10c43493068f745d71c509af45182e952020a0fc129c2bc996a6ea9b8aac74d2
+    - path: docs/04-vendors/多对象存储适配规范_V1.2.2.md
+      state: FILE
+      size: 2324
+      sha256: 469311236495e6db731142eae3a09084f8b2baf16180ba01d46523b26c080018
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 616567
@@ -872,6 +925,10 @@ project_fingerprint:
       state: FILE
       size: 1810
       sha256: 1849c7301402c4b18a6892d17186d93dc6b28a299ed7e511d2941b4b2965e672
+    - path: services/backend/access/pom.xml
+      state: FILE
+      size: 1553
+      sha256: cf5544b523d965117adf52e892a3e57c31cd426e09f45a747b6e9f25374cc20b
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClient.java
       state: FILE
       size: 15879
@@ -920,6 +977,10 @@ project_fingerprint:
       state: FILE
       size: 10020
       sha256: 587f612e2de024771ad7714ac1e98d733d5182ab3234e8c6414d81e1161338b7
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+      state: FILE
+      size: 2018
+      sha256: 56294e45cbcaeb3b68e85c530fb7f66495e1744ff66c55c05908fb526a4775a2
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
       state: FILE
       size: 15170
@@ -928,6 +989,26 @@ project_fingerprint:
       state: FILE
       size: 6721
       sha256: bb9ea3d01b66be2f00b19328d180dc645b53b59baef355339e65a76ebeb1e22e
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+      state: FILE
+      size: 14793
+      sha256: a4a635537d4d167100bfaca4046e38d68c000d1ccd379439bda9be587d19d0c6
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+      state: FILE
+      size: 838
+      sha256: 57d22dadbd547ac1a0fc7274ee399a575bfe583bfb710e864cec706a826ed240
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+      state: FILE
+      size: 9326
+      sha256: b351f2d719379d816a5b5ab9a769ebf340c30b6149360dfe3d7be082b432421c
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+      state: FILE
+      size: 4575
+      sha256: 52da62ef25b3998d4c5729fdb159ef4006075bc022ca40c63d6ec78121f5ae19
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+      state: FILE
+      size: 2652
+      sha256: 7f9108dca202a3ef826e5b008d0433b51cbe56771c998e565996f4ff4f565191
     - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
       state: FILE
       size: 4298
@@ -984,6 +1065,14 @@ project_fingerprint:
       state: FILE
       size: 10174
       sha256: f9aab58c8150b80cade56f759f047d0586c223df571cdd29436063a71c1aa032
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+      state: FILE
+      size: 7136
+      sha256: 2152771c535d82e03c2d25f528352c954bf3854ab9d9f2943ec9534aa3c57fcc
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
+      state: FILE
+      size: 5150
+      sha256: f560c156018d2a6354328f6ce9898a60f6173eba341158e2ccf1ca6494eed604
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
       state: FILE
       size: 5473
@@ -992,6 +1081,10 @@ project_fingerprint:
       state: FILE
       size: 2065
       sha256: 9ba9964747329df4b3ce258cb104f3de34af287c696543ae1c7970a76c3da9b6
+    - path: services/backend/pom.xml
+      state: FILE
+      size: 2271
+      sha256: 0af4f2ca4d5cfc505eeea356b8f5af9d95165c7b2035ef5499ea3d6f4260af9c
     - path: tests/test_android_identity_consent_source.py
       state: FILE
       size: 1309
@@ -1023,6 +1116,7 @@ change_classification:
   - catalogs/api_ui_ownership.csv
   - catalogs/frontend_backend_matrix.csv
   - docs/04-vendors/identity/实名认证供应商接口契约_R05.md
+  - docs/04-vendors/多对象存储适配规范_V1.2.2.md
   code:
   - apps/admin-web/src/r05IdentityPages.test.ts
   - apps/admin-web/src/router.ts
@@ -1053,6 +1147,7 @@ change_classification:
   - packages/api-client/src/client.generated.ts
   - scripts/run_r05_database_invariants.sh
   - scripts/run_r05_disposable_postgres_container.sh
+  - services/backend/access/pom.xml
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClient.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
@@ -1065,8 +1160,14 @@ change_classification:
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettings.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorage.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java
   - services/backend/boot/src/main/resources/contracts/openapi.yaml
@@ -1081,8 +1182,11 @@ change_classification:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java
+  - services/backend/pom.xml
   user_visible:
   - apps/admin-web/src/r05IdentityPages.test.ts
   - apps/admin-web/src/router.ts
@@ -1151,6 +1255,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md
   - docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md
   - docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md
+  - docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md
   tests:
   - tests/test_android_identity_consent_source.py
   - tests/test_r05_identity_callback_migration.py
@@ -1185,6 +1290,7 @@ change_requests:
 - CR-0101
 - CR-0102
 - CR-0103
+- CR-0104
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -1280,13 +1386,24 @@ scope:
   - services/backend/boot/src/main/resources/db/migration/V028__r05_private_identity_evidence.sql
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java
   - tests/test_r05_private_identity_evidence_migration.py
-  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097+approved-cr:CR-0098+approved-cr:CR-0099+approved-cr:CR-0100+approved-cr:CR-0101+approved-cr:CR-0102+approved-cr:CR-0103
+  - services/backend/pom.xml
+  - services/backend/access/pom.xml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+  - docs/04-vendors/多对象存储适配规范_V1.2.2.md
+  source: story+explicit+approved-cr:CR-0091+approved-cr:CR-0092+approved-cr:CR-0093+approved-cr:CR-0094+approved-cr:CR-0095+approved-cr:CR-0096+approved-cr:CR-0097+approved-cr:CR-0098+approved-cr:CR-0099+approved-cr:CR-0100+approved-cr:CR-0101+approved-cr:CR-0102+approved-cr:CR-0103+approved-cr:CR-0104
 parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 用户未要求子代理，继续沿R05共享存储安全边界串行推进
-event_hash: a2d043cd05dd9b0f071f80e826370f675955c727e53353b6dfc455698afe8748
+  reason: 用户未要求子代理，沿R05对象存储安全边界串行推进以避免共享文件冲突
+event_hash: 918e563bce88d102d05fcf345ce3c83ff62a4e9923763900588b5d8deafff863
 ```
 
 ## 接续状态与事件头
@@ -1298,8 +1415,8 @@ active_session_id: SES-20260719T183335Z-535311E4
 last_session_id: SES-20260719T165401Z-12791729
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T165401Z-12791729-0009
-event_count: 1125
-event_head_hash: a2d043cd05dd9b0f071f80e826370f675955c727e53353b6dfc455698afe8748
+event_count: 1131
+event_head_hash: 918e563bce88d102d05fcf345ce3c83ff62a4e9923763900588b5d8deafff863
 event_chain_valid: true
 ```
 
@@ -1422,9 +1539,9 @@ recent_sessions: - session_id: SES-20260719T113522Z-6B27AD4B
   started_at: '2026-07-19T18:33:35Z'
   record: .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-  updated_at: '2026-07-19T21:34:22Z'
+  updated_at: '2026-07-19T21:56:08Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0017.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0018.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-36454E5FF743
   session_id: SES-20260718T133151Z-12DB5949
@@ -2302,30 +2419,40 @@ recent_task_transitions: - transition_id: TRN-C720E2A1E5C3
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5
+head: e3f8d07133b2ac4b6b40623cf8a4ef685c4e10e7
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
 - ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0101.yaml'
-- ' M .continuity/change_requests/CR-0102.yaml'
-- ' M .continuity/change_requests/CR-0103.yaml'
-- ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
+- MM .continuity/STATE.yaml
+- A  .continuity/change_requests/CR-0104.yaml
+- MM .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md'
-- ' M docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md'
-- ' M docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md'
+- M  catalogs/change_request_index.csv
+- M  catalogs/session_index.csv
+- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+- A  docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md'
-- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0017.yaml
+- M  docs/04-vendors/多对象存储适配规范_V1.2.2.md
+- M  services/backend/access/pom.xml
+- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+- A  services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+- A  services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+- A  services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+- M  services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+- AM services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+- A  services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
+- M  services/backend/pom.xml
+- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0018.yaml
 recent_commits:
+- "e3f8d07133b2ac4b6b40623cf8a4ef685c4e10e7\t2026-07-20T05:34:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close private\
+  \ evidence bridge CRs"
 - "4e970aeeebbec1c7f679dc3ac75dad1d11e122c5\t2026-07-20T05:32:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): persist private\
   \ evidence safely"
 - "6d56e21aed734dd2511a14a55e361c194296c9fc\t2026-07-20T05:07:57+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): record callback\
@@ -2340,14 +2467,12 @@ recent_commits:
   \ contract CR"
 - "82f6e40bdcf53bb2bb572b61cf28fd3d40e23795\t2026-07-20T04:36:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): parse purchased\
   \ provider results"
-- "fa9770715cf9d6f75bee41bf0e7b276832dea507\t2026-07-20T04:24:06+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close consent\
-  \ CR"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`25fa026ef68e992e0ae1100a3ca6db45b7e1b8c7acc2789d7bba0ace14b7bda7`
-- 文件数：99
+- 指纹：`c5f5c3436803a2f84a9548237b8786116b3daf3c9f2a5c5df86ab604577a978c`
+- 文件数：111
 
 - `CHANGELOG.md`
 - `apps/admin-web/src/r05IdentityPages.test.ts`
@@ -2407,11 +2532,14 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md`
 - `docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md`
 - `docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md`
+- `docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md`
 - `docs/04-vendors/identity/实名认证供应商接口契约_R05.md`
+- `docs/04-vendors/多对象存储适配规范_V1.2.2.md`
 - `packages/api-client/src/client.generated.ts`
 - `releases/R05/STORIES.yaml`
 - `scripts/run_r05_database_invariants.sh`
 - `scripts/run_r05_disposable_postgres_container.sh`
+- `services/backend/access/pom.xml`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/AliyunMarketIdentityProviderClient.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityCallbackService.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java`
@@ -2424,8 +2552,14 @@ recent_commits:
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettings.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorage.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java`
 - `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackController.java`
 - `services/backend/boot/src/main/resources/contracts/openapi.yaml`
@@ -2440,8 +2574,11 @@ recent_commits:
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStoreTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05IdentityProviderSettingsTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/R05PrivateIdentityEvidenceStorageTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentityCallbackControllerTest.java`
+- `services/backend/pom.xml`
 - `tests/test_android_identity_consent_source.py`
 - `tests/test_r05_identity_callback_migration.py`
 - `tests/test_r05_identity_consent_migration.py`
@@ -5526,36 +5663,91 @@ TASKS.yaml:
   - SES-20260719T183335Z-535311E4
   implementation_commits:
   - 4e970aeeebbec1c7f679dc3ac75dad1d11e122c5
+- protocol_version: '1.0'
+  cr_id: CR-0104
+  title: 接入Cloudflare R2真实S3对象存储端口
+  status: IMPLEMENTING
+  created_at: '2026-07-19T21:37:59Z'
+  updated_at: '2026-07-19T21:38:23Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-004
+  session_id: SES-20260719T183335Z-535311E4
+  user_request: 用户要求持续推进R05正式商业实名认证闭环并向项目落地方向开发
+  reason: CR-0101已完成private_kyc桥接，但R04 PortResolver仍为安全占位，无法生成真实R2签名上传或校验对象
+  original_rule: R04 MediaAccessConfiguration在不存在PortResolver时注册统一不可用占位，StorageProviderAdapter只有抽象Transport且Binding不携带配置版本
+  new_rule: Cloudflare R2必须按storage_scope_bindings绑定的ACTIVE且已连接测试通过的精确配置版本解析公开参数和SecretRef，短时解析凭据后使用AWS SDK v2 S3兼容端口生成受Content-Type与SHA元数据约束的PUT签名URL，并以HEAD校验对象键、大小、SHA和ETag；阿里云OSS在下一独立端口完成前继续安全不可用
+  impact_summary: 增加AWS SDK v2固定依赖、绑定配置版本身份、R2设置加载、真实S3 Transport和Provider resolver，覆盖签名头、对象完整性、秘密清零和失败安全测试
+  impact:
+    files:
+    - services/backend/pom.xml
+    - services/backend/access/pom.xml
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/StorageObjectPort.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettings.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04S3StorageTransport.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePortResolver.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04StorageProviderSettingsTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/R04S3StorageTransportTest.java
+    - docs/04-vendors/多对象存储适配规范_V1.2.2.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - storage.r2.* SecretRef和激活配置
+    ledger: []
+    tests:
+    - R2精确配置版本、签名PUT必需头、HEAD完整性、私有GET、对象键幂等、秘密清零和OSS安全不可用
+    releases:
+    - R05
+    migration_and_compatibility: 不修改数据库结构或公开API；Binding新增configVersionId并保留旧构造器兼容现有测试，R2仅接受与绑定精确一致的激活配置，OSS继续显式不可用
+  user_confirmation: 用户持续授权向项目落地方向推进并要求无需逐项确认
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T21:38:22Z'
+    note: 先完成R05默认Cloudflare R2真实端口，OSS保持明确安全占位并后续独立实现
+  machine_record: .continuity/change_requests/CR-0104.yaml
+  document: docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md
+  decision_log:
+  - at: '2026-07-19T21:38:23Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现精确激活配置绑定的R2 S3真实端口
+    session_id: SES-20260719T183335Z-535311E4
+  session_ids:
+  - SES-20260719T183335Z-535311E4
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `85dce2aff00e645d59fb9a2aa88dbb55054665aed509b5e3cdd1ea88c29d1e22`
+- `CURRENT_STATUS.yaml` — `5a700d6ac6a5402edf330e437f730e7b5f0756118a17030a98f3f54a25500cb6`
 - `NEXT_TASK.yaml` — `a128e578a72108ea0d43225dbb48325c5315983581433490c186a6d1cf9cb484`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `6e12b69b2979be840e0a3e12f985136212e0eef40b9034264475c13d6aa2b535`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `23c7285a4168590b88c4417743d5a92e40ec6f6fd2e3bfdac0cb4f696741a8c8`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969`
 - `docs/03-continuity/PITFALLS.md` — `ddd7ab31a638763a1e880c3e46c33f2ca20c1c75eb8469366346e03272082f30`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `c0daccded5cf57ac8f58d93f90aef0d4b9d60aabceb5c0d0f5c19aa03ef1f515`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `7ff40d715f9476adfc675d61029e094e1c746527f011e2a775ad7dacf32c9899`
-- `.continuity/SESSION_INDEX.yaml` — `18ff47a10e7bae26c135fec4fd645cbab8d63b4942da059946279d25e515ada6`
+- `.continuity/EVENT_LOG.jsonl` — `0817c9f1bacc617d9fc7c86578fddae94c055d3c34092701c39f18e09847d829`
+- `.continuity/SESSION_INDEX.yaml` — `5cef3b2b4488d0ac72d8d9c9a050177c7e8788a470e2b30263671946a936d358`
 - `.continuity/TASK_CLAIMS.yaml` — `d584e4085c5320e27ccbdba4878c79ea2ca13ee854840c495f1e9a059064bb7c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b7bff921a7901affc662c17b2fe95e1556eb192d3c9ea7147d548a863c93ba9d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `868a23df46a0257017fa14c1aae02c8d95bb302cc10182b9a4b2791ec57d33b2`
-- `.continuity/ACTIVE_SESSION.yaml` — `38adf62b9372c8f446b1f76e5362f21b6fd92a5a240fa76ca01f0d7e76173bdb`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c6f09c0aa049dcbd79db19448e2f1e68f62ed0599b03938a68bc4271c2f347aa`
+- `.continuity/ACTIVE_SESSION.yaml` — `875d2aa3f1e5389787c60bdb780f5d346912f0626cb5604988db407ff82dd752`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `fbdff289348fbe15d4527cad6f1d5955322270725e80cc0e99ee291a6bbe05de`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `6ef4eea9a0ebc532376b54410d5c07e5ce89113554cceb83aea3601abe445544`
-- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0017.yaml` — `fc772242ff0d091c9240a868f03ef931e43f0411e7560335847ebcace95b19e5`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `d6c9dfc51ed252400a410539fd530a35345deb263624603d47ccfa9aee071505`
+- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0018.yaml` — `f09b0b7fd52642d3d7b115e3591cacc516af7083bf0f18396268f9b7c09c8b64`
 - `docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md` — `978668dbafbcbbf0bb325a72beb141a1160bec7fefd9a08ed2f1fc0df4208fee`
 - `docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md` — `075fb50fab65446223ec017ced1402afc87a3db6074a4746bccf94833ba8bb7b`
 - `docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md` — `5e73eaa93bbb356709e0ea6c3c5c3413fada20f07f9b227a7c90ac8ddb698db7`
@@ -5570,6 +5762,7 @@ TASKS.yaml:
 - `docs/03-continuity/change-requests/CR-0101-接通R05身份照片与R04私有媒体写入生命周期.md` — `866f506a6102a1e8169fb0dc9374689b0498d15e4124c5c2ef0ab8696e6b4611`
 - `docs/03-continuity/change-requests/CR-0102-同步V028至R05一次性PostgreSQL回滚重放门禁.md` — `95722415da26767608e5d89f54f3e5ef5e30f5538037e19f5925e0e4411636b4`
 - `docs/03-continuity/change-requests/CR-0103-同步R05私有身份媒体桥接事实与剩余缺口.md` — `c2abea5833c737a1430ba2d143d8f487d85c23d8f1d4241b14c8cd43ce076597`
+- `docs/03-continuity/change-requests/CR-0104-接入Cloudflare-R2真实S3对象存储端口.md` — `405ef1cf720a6de9716155708103e2d6267014fffda2f3b5e5b2b4c24b5c3e7d`
 
 ## 接手硬规则
 

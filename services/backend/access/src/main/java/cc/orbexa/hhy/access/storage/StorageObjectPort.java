@@ -37,7 +37,14 @@ public interface StorageObjectPort {
         }
     }
 
-    record Binding(Scope scope, Provider provider, String bucket, URI endpoint, URI publicBaseUrl) { }
+    record Binding(
+            Scope scope, Provider provider, String bucket, URI endpoint,
+            URI publicBaseUrl, long configVersionId) {
+        public Binding(
+                Scope scope, Provider provider, String bucket, URI endpoint, URI publicBaseUrl) {
+            this(scope, provider, bucket, endpoint, publicBaseUrl, -1L);
+        }
+    }
 
     record UploadIntent(
             long ownerId, String purpose, String fileName, String contentType,
