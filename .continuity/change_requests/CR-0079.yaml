@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0079
 title: 登记历史检查点重命名误判问题与防复发规则
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-19T05:07:39Z'
-updated_at: '2026-07-19T05:07:43Z'
+updated_at: '2026-07-19T05:09:00Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R03-007
@@ -39,5 +39,17 @@ decision_log:
   status: IMPLEMENTING
   note: 登记PROB-0037并绑定回归测试
   session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T05:08:59Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: PROB-0037已登记根因、修复、回归与防复发规则
+  session_id: SES-20260718T200607Z-3569D212
+- at: '2026-07-19T05:09:00Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 连续性假停止问题已形成跨AI可恢复记录
+  session_id: SES-20260718T200607Z-3569D212
 session_ids:
 - SES-20260718T200607Z-3569D212
+implementation_commits:
+- d81cc45a51a69338525d8acd61ae67a757029669

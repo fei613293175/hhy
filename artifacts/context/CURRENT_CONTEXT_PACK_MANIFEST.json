@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-19T05:08:28Z",
-  "context_hash": "a00b760d8c46b0f0363b93b083676caf7f99d426e2dc457fb2dfefc3e2df2102",
+  "generated_at": "2026-07-19T05:09:05Z",
+  "context_hash": "90c5f144a24dd760dad45bce2c2df01e1f5e321cae1dae51220254cbabaf271b",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "e70b422f53f5de5ca132c6ea35dd919b3e2a8fdb58a1cb77e888b1989a55955e",
+    "sha256": "9c22b5db255ab786e8fadd528eee1bb701ed2710ad18fff4629002a1738a0059",
     "file_count": 131
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "887cbc9eeb31c42a423cfee8820dcf5b9a8e30d5313198f27d99d9d130f13269"
+    "sha256": "5e326b5453b553e487337d34a613b76769556902bd8bbb067407874c7b960313"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "e7a0e02c816f3cc242d73a7cb7710feeae7be2e04bf1be92b4c8341001943e99"
+    "sha256": "9e5fee69a2c275edda2a78cf503a999877089fc5ca9cd2319e0ee2fa40cfb3b2"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "b2d9bbcffa7649c8df48d3a284ff68613a0abafa21b42e8c103ad0e1818ac62f",
+      "sha256": "7325d6a01b27604ddb27fd4323b8cf2d1ff580a891faa14e185f9888146831fb",
       "bytes": 3377
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "399a2d9059260c0e4dc28c192b9b60f6eff72d4b200f0ac5f5c427a76d50a986",
-      "bytes": 461570
+      "sha256": "58d2f1c0509fe7787743051d8de53deddf9982c3e982188c5529d02afef3597e",
+      "bytes": 463733
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "126720c3518453295799178be75f4c8dcf93f33cff0b8d8c0e8ceee127462244",
+      "sha256": "e697e486a17bffec2ebb5f98a32835117ec9c6a430af8aaf107f322f12f3d037",
       "bytes": 17274
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "0a12bd3e2c940a67552bd607e17b2018155ed19f4f20390800076f36cd0c7f13",
-      "bytes": 241058
+      "sha256": "abd6117204487a4ef7150cf7065a5ffab7de2d3d290674e28da97e0e9e56faa9",
+      "bytes": 241978
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "bcbeb3f2962507b393f8f4f492dfbe364129acd217e86b0fe89d124bfc541cf2",
+      "sha256": "d81f15f659aa96e18809231e5a913716795b6f435efbb336dca53e7dd6711423",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md",
-      "sha256": "6eb23b51f8600c0d740186e0e7be43df160ed6b1884a4b89f13b5c3425ee266b",
-      "bytes": 184667
+      "sha256": "89ae4fb52e08dc093643257ef49cbf0f9fc9a4dd021036d4d8b8e5f8eff08504",
+      "bytes": 193986
     },
     {
-      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0028.yaml",
-      "sha256": "60553b085aee1d7d7c0ab72f8c031e82effd2561bd0db8a28ac9485b6b9f00a0",
-      "bytes": 59783
+      "path": ".continuity/checkpoints/SES-20260718T200607Z-3569D212/0029.yaml",
+      "sha256": "633b32f6be369657b34614ba012af16dbad4c49a6438f8f8aa68307a81d10cb2",
+      "bytes": 59041
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md",
@@ -288,13 +288,13 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0078-修复历史检查点对Git重命名折叠的误判.md",
-      "sha256": "781ad0ad1b1a1e536e0de8bdca8cd1ef7ed49c16c1d843fbd7f835a0f14e30e9",
-      "bytes": 2096
+      "sha256": "eee03a6b87c5c07a4c6e11237e539cf9ad5fed24414ff069a20021b879fc8fcd",
+      "bytes": 2518
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md",
-      "sha256": "0e7aaa3c04aab177cb877d4b1de839b385b3ed9f0f9cde5e5f37e57d2eb89ce0",
-      "bytes": 1729
+      "sha256": "d2bb3a6f739484d09997c08e8646177e08d5b2cf1248e8b455e5563aad3c76be",
+      "bytes": 2125
     }
   ]
 }

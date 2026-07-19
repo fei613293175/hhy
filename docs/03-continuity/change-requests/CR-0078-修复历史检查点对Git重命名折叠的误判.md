@@ -84,3 +84,17 @@ updated_at: 2026-07-19T05:05:35Z
 - Status：`IMPLEMENTING`
 - Session：`SES-20260718T200607Z-3569D212`
 - Note：为历史指纹禁用rename折叠并补回归测试
+
+## 状态记录 · 2026-07-19T05:08:57Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260718T200607Z-3569D212`
+- Note：历史指纹禁用rename折叠且回归测试与真实提交重放通过
+
+## 状态记录 · 2026-07-19T05:08:58Z
+
+- Actor：`codex-root`
+- Status：`CLOSED`
+- Session：`SES-20260718T200607Z-3569D212`
+- Note：CHECKPOINT_STALE假失败已修复，实际哈希一致性仍保持
