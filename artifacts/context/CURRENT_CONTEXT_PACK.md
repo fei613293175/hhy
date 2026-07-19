@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T22:27:37Z
-- Context Hash：`54f91c830a17c079baa82579e4c7aa7c32ed59879801f814e76ddc8d67a38fac`
+- 生成时间：2026-07-19T22:36:01Z
+- Context Hash：`782d9c044ab0f7039d4c4dc2bd323af4de72b8369cca22d18c6e8388fd809d58`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -81,7 +81,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-004
-updated_at: '2026-07-19T22:27:35Z'
+updated_at: '2026-07-19T22:35:59Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -116,15 +116,15 @@ continuity:
   active_session_id: SES-20260719T183335Z-535311E4
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T02:27:35Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0024.yaml
-  project_fingerprint: 4f80b0cc030c9708b11f89a23a742f735ffe298574b8afa14b9e69ae496ee042
+  lease_expires_at: '2026-07-20T02:35:59Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0026.yaml
+  project_fingerprint: 8f8eb98012a7215bd865657f856d4726036be9dcc24441325893458f826c466f
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 82bbae9431a6d6b9f990e16afafb3a2355f5236773073a1fe41fa769a380773a
-    generated_at: '2026-07-19T22:25:37Z'
+    context_hash: d41735196be065b86476eda8526a4e3a1fe78503e56ed481a1267ec7156ad135
+    generated_at: '2026-07-19T22:35:18Z'
   handoff_bundle: null
 ```
 
@@ -320,7 +320,7 @@ task_id: TASK-R05-004
 story_id: STORY-R05-001
 goal: 实现R05七个冻结页面与交互面：Android实名认证首页、信息输入、活体容器、结果页，H5回跳，管理端列表与详情复核，并绑定生成API类型与完整错误恢复状态
 started_at: '2026-07-19T18:33:35Z'
-updated_at: '2026-07-19T22:27:35Z'
+updated_at: '2026-07-19T22:35:59Z'
 takeover_of: null
 change_requests:
 - CR-0090
@@ -465,12 +465,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T22:27:35Z'
-  expires_at: '2026-07-20T02:27:35Z'
-checkpoint_sequence: 24
-latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0024.yaml
+  renewed_at: '2026-07-19T22:35:59Z'
+  expires_at: '2026-07-20T02:35:59Z'
+checkpoint_sequence: 26
+latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0026.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-next_step: 执行R05-004 Android、H5和后台页面专项回归并对照7个页面验收条件，满足后关闭TASK-R05-004进入专项故障注入
+next_step: 提交并推送TASK-R05-004验收证据，关闭任务并启动TASK-R05-005故障注入
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -478,44 +478,54 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 变更请求关闭与当前任务验收必须顺序进行，避免状态先于代码证据
+  reason: 同一任务关闭前的最后证据和发布说明必须保持单一原子提交
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T183335Z-535311E4-0024
+checkpoint_id: CP-SES-20260719T183335Z-535311E4-0026
 session_id: SES-20260719T183335Z-535311E4
-sequence: 24
-created_at: '2026-07-19T22:27:34Z'
-summary: 关闭CR-0099供应商结果事务状态机：协调器、加密证据、私有媒体、R2/OSS真实端口和生产SecretRef已形成完整实现链
-next_step: 执行R05-004 Android、H5和后台页面专项回归并对照7个页面验收条件，满足后关闭TASK-R05-004进入专项故障注入
+sequence: 26
+created_at: '2026-07-19T22:35:58Z'
+summary: R05-004七页面恢复状态验收完成并同步CHANGELOG：Android/H5/后台覆盖加载、空、权限、404、离线、冲突、处理中与成功状态
+next_step: 提交并推送TASK-R05-004验收证据，关闭任务并启动TASK-R05-005故障注入
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: backend full Maven test
+- name: client recovery states
   result: PASS
-  evidence: 279 tests, 0 failures, 5 explicit environment skips
-  note: covers coordinator, storage routes and API regression
+  evidence: Android BUILD SUCCESSFUL; admin 5 focused; H5 8 focused
+  note: commercial copy without technical fields
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 3041af56480ff9f225e997db9335e936a5986bed
+  head: 6b15295202ec267cdb5dcfa986378bca1df75947
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0099.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md'
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/checkpoints/SES-20260719T183335Z-535311E4/0025.yaml
+  - M  .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
+  - ' M CHANGELOG.md'
+  - M  CURRENT_STATUS.yaml
+  - M  apps/admin-web/src/r05IdentityPages.test.ts
+  - M  apps/h5/src/views/IdentityCallbackPage.test.ts
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/session_index.csv
+  - M  docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
   recent_commits:
+  - "6b15295202ec267cdb5dcfa986378bca1df75947\t2026-07-20T06:27:45+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close provider\
+    \ result transaction change"
   - "3041af56480ff9f225e997db9335e936a5986bed\t2026-07-20T06:25:44+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(storage): close Aliyun\
     \ OSS runtime change"
   - "9fc38ff37d2b0b7421c5f0a13205088308f664fc\t2026-07-20T06:25:11+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(storage): activate Aliyun\
@@ -530,10 +540,8 @@ git:
     \ R2 port"
   - "e3f8d07133b2ac4b6b40623cf8a4ef685c4e10e7\t2026-07-20T05:34:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close private\
     \ evidence bridge CRs"
-  - "4e970aeeebbec1c7f679dc3ac75dad1d11e122c5\t2026-07-20T05:32:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): persist private\
-    \ evidence safely"
 project_fingerprint:
-  sha256: 4f80b0cc030c9708b11f89a23a742f735ffe298574b8afa14b9e69ae496ee042
+  sha256: 8f8eb98012a7215bd865657f856d4726036be9dcc24441325893458f826c466f
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r05IdentityPages.test.ts
@@ -663,12 +671,12 @@ project_fingerprint:
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 43221
-      sha256: a063a89cb1ef3eb3b9d481f43cb1e24d782c0ee00ec72f2de15d3b80395b8216
+      size: 43911
+      sha256: 07d8f1291a5f7067630b89dcb9c1506252011e4b5a813eee6b63ea2648964935
     - path: apps/admin-web/src/r05IdentityPages.test.ts
       state: FILE
-      size: 4035
-      sha256: ceed7c734f39aa4a05fecb725d4fadf98d41f124b709aa09ff106e887b6ab7b9
+      size: 5942
+      sha256: 5f39c6e272f4c66ac21627abc8c10e9bbd51648ad46ffc475aeccbf0cb91ee72
     - path: apps/admin-web/src/router.ts
       state: FILE
       size: 4185
@@ -763,8 +771,8 @@ project_fingerprint:
       sha256: 685cc3d1bdad78c53f3ef0088b7902fd7818093b6d6139555a8e00588a11ca2b
     - path: apps/h5/src/views/IdentityCallbackPage.test.ts
       state: FILE
-      size: 2628
-      sha256: b122bf0c00baa9c666ff980450ee150b1a784ee8479b5fc747d08fc69bdf0cd0
+      size: 3550
+      sha256: 789dce7db9e37e82514f413baf02f2a7fff4b6c56a1e7568b78da45f79a744a6
     - path: apps/h5/src/views/IdentityCallbackPage.vue
       state: FILE
       size: 3599
@@ -1464,8 +1472,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 变更请求关闭与当前任务验收必须顺序进行，避免状态先于代码证据
-event_hash: 799db908ece15dd59a557c4ed7b2b069b2b9d02352fbf2904b065c1d3d4af7e1
+  reason: 同一任务关闭前的最后证据和发布说明必须保持单一原子提交
+event_hash: 1ebd65619990c1a7570ac8285f875794f4bca2bfddebefb3f6952cb8bab2a03d
 ```
 
 ## 接续状态与事件头
@@ -1477,8 +1485,8 @@ active_session_id: SES-20260719T183335Z-535311E4
 last_session_id: SES-20260719T165401Z-12791729
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T165401Z-12791729-0009
-event_count: 1151
-event_head_hash: 799db908ece15dd59a557c4ed7b2b069b2b9d02352fbf2904b065c1d3d4af7e1
+event_count: 1153
+event_head_hash: 1ebd65619990c1a7570ac8285f875794f4bca2bfddebefb3f6952cb8bab2a03d
 event_chain_valid: true
 ```
 
@@ -1601,9 +1609,9 @@ recent_sessions: - session_id: SES-20260719T113522Z-6B27AD4B
   started_at: '2026-07-19T18:33:35Z'
   record: .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
-  updated_at: '2026-07-19T22:27:35Z'
+  updated_at: '2026-07-19T22:35:59Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0024.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T183335Z-535311E4/0026.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-36454E5FF743
   session_id: SES-20260718T133151Z-12DB5949
@@ -2481,26 +2489,31 @@ recent_task_transitions: - transition_id: TRN-C720E2A1E5C3
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 3041af56480ff9f225e997db9335e936a5986bed
+head: 6b15295202ec267cdb5dcfa986378bca1df75947
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0099.yaml'
-- ' M .continuity/sessions/SES-20260719T183335Z-535311E4.yaml'
-- ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0099-补齐R05供应商结果事务状态机与加密证据编排.md'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md'
-- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0024.yaml
+- MM .continuity/ACTIVE_SESSION.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- A  .continuity/checkpoints/SES-20260719T183335Z-535311E4/0025.yaml
+- MM .continuity/sessions/SES-20260719T183335Z-535311E4.yaml
+- ' M CHANGELOG.md'
+- MM CURRENT_STATUS.yaml
+- M  apps/admin-web/src/r05IdentityPages.test.ts
+- M  apps/h5/src/views/IdentityCallbackPage.test.ts
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- MM catalogs/session_index.csv
+- MM docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md
+- ?? .continuity/checkpoints/SES-20260719T183335Z-535311E4/0026.yaml
 recent_commits:
+- "6b15295202ec267cdb5dcfa986378bca1df75947\t2026-07-20T06:27:45+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close provider\
+  \ result transaction change"
 - "3041af56480ff9f225e997db9335e936a5986bed\t2026-07-20T06:25:44+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(storage): close Aliyun\
   \ OSS runtime change"
 - "9fc38ff37d2b0b7421c5f0a13205088308f664fc\t2026-07-20T06:25:11+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(storage): activate Aliyun\
@@ -2515,13 +2528,11 @@ recent_commits:
   \ R2 port"
 - "e3f8d07133b2ac4b6b40623cf8a4ef685c4e10e7\t2026-07-20T05:34:33+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): close private\
   \ evidence bridge CRs"
-- "4e970aeeebbec1c7f679dc3ac75dad1d11e122c5\t2026-07-20T05:32:52+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): persist private\
-  \ evidence safely"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`4f80b0cc030c9708b11f89a23a742f735ffe298574b8afa14b9e69ae496ee042`
+- 指纹：`8f8eb98012a7215bd865657f856d4726036be9dcc24441325893458f826c466f`
 - 文件数：122
 
 - `CHANGELOG.md`
@@ -5917,7 +5928,7 @@ TASKS.yaml:
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `2cb5fc33abeff0da39dc9a5a8d80ca24c07f36e31e56d18678308827ff3fcae2`
+- `CURRENT_STATUS.yaml` — `aae18b2672c4334959c0b8069db0ad83e78dfc78057418a2325f104847f537b9`
 - `NEXT_TASK.yaml` — `a128e578a72108ea0d43225dbb48325c5315983581433490c186a6d1cf9cb484`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -5928,19 +5939,19 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `a61aa6137aae234101b5ea84b736f848651cbcca6a3867ebb877d8161b2a3d2f`
-- `.continuity/SESSION_INDEX.yaml` — `6c6591ac72615b567da303fb6805b438fd74c6c6d6804cf7357cc39e716a3ee1`
+- `.continuity/EVENT_LOG.jsonl` — `18829abc1ba4d4d0a0f02aeeda342f59cecb023c1d8c6e9f768edfadf7bd07a6`
+- `.continuity/SESSION_INDEX.yaml` — `c026b70b5bfa005830652d0110d2fe280568e9a1a2f27c5cafb7425bb051126b`
 - `.continuity/TASK_CLAIMS.yaml` — `d584e4085c5320e27ccbdba4878c79ea2ca13ee854840c495f1e9a059064bb7c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `b7bff921a7901affc662c17b2fe95e1556eb192d3c9ea7147d548a863c93ba9d`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `7635e8aeba29240280fe1af657b191a32285b01a2fb07c1db5bf4a9b0584f44d`
-- `.continuity/ACTIVE_SESSION.yaml` — `d4b5ba09f5e251fb5752ba99e6346268c4df10e7cb28b7e26d64de58ba1db8d3`
+- `.continuity/ACTIVE_SESSION.yaml` — `6768858d75b94e44e96b2cb31f83585165d8e6d2858cd0d894f4bc72377fcd8c`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `fbdff289348fbe15d4527cad6f1d5955322270725e80cc0e99ee291a6bbe05de`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `06e7bfd63249c8879032e5aedd9d312f99a42f69c36158794fc38596b6a6d86f`
-- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0024.yaml` — `e86027410420965ca1c399d6518a4f1f2bab6d748393d9b4c0a59b34dbb9038e`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T183335Z-535311E4.md` — `c85b9346d3f90a891d081dd6c809da2c838467abe9e08bcc40587ea6c3a068e7`
+- `.continuity/checkpoints/SES-20260719T183335Z-535311E4/0026.yaml` — `70bc622e1c6533edc465a3c8c3c95a08bc7b75a843be392212f694d52263e4f5`
 - `docs/03-continuity/change-requests/CR-0090-补齐TASK-R05-004冻结Android页面实施范围.md` — `978668dbafbcbbf0bb325a72beb141a1160bec7fefd9a08ed2f1fc0df4208fee`
 - `docs/03-continuity/change-requests/CR-0091-精确补齐TASK-R05-004-Android实施文件范围.md` — `075fb50fab65446223ec017ced1402afc87a3db6074a4746bccf94833ba8bb7b`
 - `docs/03-continuity/change-requests/CR-0092-补齐R05一次性活体回跳消费契约与H5实施范围.md` — `5e73eaa93bbb356709e0ea6c3c5c3413fada20f07f9b227a7c90ac8ddb698db7`

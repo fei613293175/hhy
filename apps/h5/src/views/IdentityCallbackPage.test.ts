@@ -59,4 +59,25 @@ describe('IdentityCallbackPage', () => {
     expect(wrapper.text()).toContain('认证页面已失效');
     expect(wrapper.text()).not.toContain('COMMON-422');
   });
+
+  it.each([
+    ['PROVIDER_PROCESSING', '认证信息已提交'],
+    ['MANUAL_REVIEW', '资料已提交审核'],
+    ['REJECTED', '本次认证未完成'],
+  ])('maps %s to its commercial recovery state', async (status, copy) => {
+    api.consume.mockResolvedValue({ status });
+    const { wrapper } = await render();
+    expect(wrapper.text()).toContain(copy);
+    expect(wrapper.text()).not.toContain(status);
+  });
+
+  it.each([
+    [new IdentityCallbackApiError(0, 'NETWORK_ERROR', 'offline'), '网络连接失败'],
+    [new IdentityCallbackApiError(503, 'COMMON-503-UNAVAILABLE', 'unavailable'), '暂时无法确认认证状态'],
+  ])('shows a commercial message when callback consumption fails', async (failure, copy) => {
+    api.consume.mockRejectedValue(failure);
+    const { wrapper } = await render();
+    expect(wrapper.text()).toContain(copy);
+    expect(wrapper.text()).not.toContain(failure.code);
+  });
 });

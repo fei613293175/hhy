@@ -2,7 +2,7 @@
 import { flushPromises, mount } from '@vue/test-utils';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createMemoryHistory, createRouter } from 'vue-router';
-import { adminIdentitiesApi, adminSession } from './services';
+import { adminIdentitiesApi, adminSession, ApiRequestError } from './services';
 import AdminIdentityDetailPage from './views/AdminIdentityDetailPage.vue';
 import AdminIdentityListPage from './views/AdminIdentityListPage.vue';
 
@@ -94,6 +94,55 @@ describe('R05 administrator identity pages', () => {
     });
     expect(wrapper.text()).toContain('复核结论已提交');
     expect(wrapper.text()).toContain('已通过');
+    wrapper.unmount();
+  });
+
+  it('renders the frozen empty state without inventing records', async () => {
+    authorize();
+    vi.spyOn(adminIdentitiesApi, 'list').mockResolvedValue({
+      items: [], page: { page: 1, pageSize: 20, total: '0', hasMore: 'false' },
+    });
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [
+        { path: '/identity', component: AdminIdentityListPage },
+        { path: '/auth/login', component: { template: '<div>登录</div>' } },
+      ],
+    });
+    await router.push('/identity');
+    await router.isReady();
+    const wrapper = mount(AdminIdentityListPage, { global: { plugins: [router] } });
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('当前筛选没有认证记录');
+    expect(wrapper.find('table').exists()).toBe(false);
+    wrapper.unmount();
+  });
+
+  it.each([
+    [403, '无权查看认证详情'],
+    [404, '认证记录不存在'],
+  ])('renders the %s detail recovery state', async (status, copy) => {
+    authorize();
+    vi.spyOn(adminIdentitiesApi, 'detail').mockRejectedValue(new ApiRequestError({
+      status, code: `HTTP-${status}`, message: 'technical detail', requestId: 'hidden-request',
+    }));
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [
+        { path: '/identity/:id', component: AdminIdentityDetailPage },
+        { path: '/identity', component: AdminIdentityListPage },
+        { path: '/auth/login', component: { template: '<div>登录</div>' } },
+      ],
+    });
+    await router.push('/identity/42');
+    await router.isReady();
+    const wrapper = mount(AdminIdentityDetailPage, { global: { plugins: [router] } });
+    await flushPromises();
+
+    expect(wrapper.text()).toContain(copy);
+    expect(wrapper.text()).not.toContain('hidden-request');
+    expect(wrapper.text()).not.toContain('technical detail');
     wrapper.unmount();
   });
 });
