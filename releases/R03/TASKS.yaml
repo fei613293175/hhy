@@ -149,7 +149,7 @@ tasks:
   completed_at: '2026-07-19T08:16:56Z'
 - id: TASK-R03-008
   title: 供应商配置、密钥、证书与域名中心版本关闭与无状态交接
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R03-007
   requirements: *id001
@@ -162,6 +162,7 @@ tasks:
   - 代码、文档、测试、追踪同步更新
   - 全新AI仅凭仓库可继续
   session_log_required: true
+  completed_at: '2026-07-19T08:31:20Z'
 version: 1.2.2
 definition_of_ready: releases/R03/DEFINITION_OF_READY.yaml
 story_backlog: releases/R03/STORIES.yaml

@@ -1,30 +1,28 @@
-id: TASK-R03-008
-title: 供应商配置、密钥、证书与域名中心版本关闭与无状态交接
+id: TASK-R04-001
+title: 媒体与多对象存储开发就绪核验、故事领取与变更基线
 status: READY
-release: R03
+release: R04
 requirements:
-- REQ-CONFIG-001
-- REQ-DOMAIN-001
+- REQ-MEDIA-001
 - REQ-STORAGE-001
-- REQ-SECRET-001
-- REQ-CONFIG-UX-001
 - REQ-APK-001
-depends_on:
-- TASK-R03-007
-definition_of_ready: releases/R03/DEFINITION_OF_READY.yaml
-stories: releases/R03/STORIES.yaml
+depends_on: []
+definition_of_ready: releases/R04/DEFINITION_OF_READY.yaml
+stories: releases/R04/STORIES.yaml
 steps:
-- 全新AI仅凭仓库可继续
-- 工作区干净且Tag可追溯
+- releases/R04/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R04/PARALLEL_EXECUTION_PLAN.yaml 的三分区实施边界已冻结
+- 私有预览、存储迁移和访问审计的系统所有者与证据明确
+- python scripts/check_v122_documentation.py --release R04
 acceptance:
-- 无TODO/生产Mock或未登记外部阻断
-- 代码、文档、测试、追踪同步更新
-- 全新AI仅凭仓库可继续
+- 页面、字段、状态、动作、API、配置、数据和测试无TBD
+- R03存储Scope与供应商连接门禁具备明确前置状态
+- R04固定测试签名和APK交付要求可执行
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-008
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-001
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-008
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-001
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'

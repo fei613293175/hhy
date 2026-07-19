@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T08:30:01Z
-- Context Hash：`4690deac2148a7fb88847ab4a337fbbab479d834c2995c91c0ffdf1be65f676a`
+- 生成时间：2026-07-19T08:31:26Z
+- Context Hash：`bb5e7bebe2cfca738aff06e57cf57c1288e70879cab10e3de25101652940c272`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-001
 ```
 
 ## 当前状态
@@ -15,10 +15,10 @@ python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step 
 ```yaml
 project: hhy-pro-platform
 baseline_version: 1.2.3
-phase: R03
-active_release: R03
-active_task: TASK-R03-008
-status: IN_PROGRESS
+phase: R04
+active_release: R04
+active_task: TASK-R04-001
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: db3cfddcc4cda84265ec18f24de972804d62a08f
 last_staging_apk: null
@@ -63,13 +63,13 @@ completed_tasks:
 - TASK-R03-005
 - TASK-R03-006
 - TASK-R03-007
-in_progress_tasks:
 - TASK-R03-008
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
-next_task: TASK-R03-008
-updated_at: '2026-07-19T08:29:59Z'
+next_task: TASK-R04-001
+updated_at: '2026-07-19T08:31:24Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -101,19 +101,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260719T081942Z-8D5C4241
-  actor_id: codex-root
-  story_id: STORY-R03-004
-  lease_expires_at: '2026-07-19T12:29:59Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T081942Z-8D5C4241/0002.yaml
-  project_fingerprint: ef24af09815cd214abfdcf43b1ed02f47bb4483e6ac7ec950e7a6ea7dc981825
+  active_session_id: null
+  last_session_id: SES-20260719T081942Z-8D5C4241
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260719T081942Z-8D5C4241/0003.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d8bf8f826cdfe687ed12c536f3a0331391c6dcb5054f4395a57890536b0b1702
-    generated_at: '2026-07-19T08:28:19Z'
-  handoff_bundle: null
+    context_hash: c009d0930c82765159fb652a2400d51be31403e3a052876e82aee8f1667ee34e
+    generated_at: '2026-07-19T08:31:23Z'
 ```
 
 ## 默认并行规则
@@ -254,33 +252,31 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R03-008
-title: 供应商配置、密钥、证书与域名中心版本关闭与无状态交接
+id: TASK-R04-001
+title: 媒体与多对象存储开发就绪核验、故事领取与变更基线
 status: READY
-release: R03
+release: R04
 requirements:
-- REQ-CONFIG-001
-- REQ-DOMAIN-001
+- REQ-MEDIA-001
 - REQ-STORAGE-001
-- REQ-SECRET-001
-- REQ-CONFIG-UX-001
 - REQ-APK-001
-depends_on:
-- TASK-R03-007
-definition_of_ready: releases/R03/DEFINITION_OF_READY.yaml
-stories: releases/R03/STORIES.yaml
+depends_on: []
+definition_of_ready: releases/R04/DEFINITION_OF_READY.yaml
+stories: releases/R04/STORIES.yaml
 steps:
-- 全新AI仅凭仓库可继续
-- 工作区干净且Tag可追溯
+- releases/R04/DEFINITION_OF_READY.yaml 全部适用项PASS
+- releases/R04/PARALLEL_EXECUTION_PLAN.yaml 的三分区实施边界已冻结
+- 私有预览、存储迁移和访问审计的系统所有者与证据明确
+- python scripts/check_v122_documentation.py --release R04
 acceptance:
-- 无TODO/生产Mock或未登记外部阻断
-- 代码、文档、测试、追踪同步更新
-- 全新AI仅凭仓库可继续
+- 页面、字段、状态、动作、API、配置、数据和测试无TBD
+- R03存储Scope与供应商连接门禁具备明确前置状态
+- R04固定测试签名和APK交付要求可执行
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-008
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-001
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R03-008
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-001
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -293,228 +289,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260719T081942Z-8D5C4241
-status: ACTIVE
-actor:
-  id: codex-root
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R03
-task_id: TASK-R03-008
-story_id: STORY-R03-004
-goal: 完成R03版本关闭、追踪核对、桌面完整测试说明与无状态交接，然后进入R04
-started_at: '2026-07-19T08:19:42Z'
-updated_at: '2026-07-19T08:29:59Z'
-takeover_of: null
-change_requests:
-- CR-0083
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - releases/R03/RELEASE_MANIFEST.yaml
-  - releases/R03/ACCEPTANCE_MATRIX.csv
-  - artifacts/reports/R03/TASK-R03-005-integration.md
-  - artifacts/reports/R03/TASK-R03-007-android-apk.md
-  - artifacts/reports/R03/R03-version-test-guide.md
-  source: story+explicit+approved-cr:CR-0083
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: d492370ddccf7adcbe935be008dd9b5c70471832
-  start_head: d492370ddccf7adcbe935be008dd9b5c70471832
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-19T08:29:59Z'
-  expires_at: '2026-07-19T12:29:59Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260719T081942Z-8D5C4241/0002.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260719T081942Z-8D5C4241.md
-next_step: 关闭TASK-R03-008并将CURRENT_STATUS和NEXT_TASK原子推进到R04 TASK-R04-001
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: USER_SERIAL_OVERRIDE
-  delegated_workers: 0
-  workers: []
-  reason: 关闭任务和跨版本指针必须原子串行更新，禁止并发写连续性状态
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T081942Z-8D5C4241-0002
-session_id: SES-20260719T081942Z-8D5C4241
-sequence: 2
-created_at: '2026-07-19T08:29:59Z'
-summary: CR-0083实现完成，AC-R03-001至006全部绑定PASS证据；R03关闭材料已提交并推送
-next_step: 关闭TASK-R03-008并将CURRENT_STATUS和NEXT_TASK原子推进到R04 TASK-R04-001
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: release-close-evidence
-  result: PASS
-  evidence: releases/R03/ACCEPTANCE_MATRIX.csv
-  note: 六项验收均已绑定仓库内单文件证据
-- name: release-archive-push
-  result: PASS
-  evidence: commit e37faeaa31714e4026132b426acb0bd956032d84
-  note: 远端分支已同步
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: e37faeaa31714e4026132b426acb0bd956032d84
-  upstream: origin/task/TASK-R03-001
-  ahead: 0
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0083.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0083-R03版本关闭元数据、验收证据与终态标签规范化.md'
-  - ' M releases/R03/ACCEPTANCE_MATRIX.csv'
-  recent_commits:
-  - "e37faeaa31714e4026132b426acb0bd956032d84\t2026-07-19T16:28:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): archive R03\
-    \ close evidence"
-  - "d492370ddccf7adcbe935be008dd9b5c70471832\t2026-07-19T16:18:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-007\
-    \ as completed"
-  - "442b2ad431bec3e3250ca40a1ac7e9a2dc0a1ab7\t2026-07-19T16:16:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): record R03\
-    \ owner acceptance"
-  - "6c7b8891af999e75610a03aeedfefc536faeb608\t2026-07-19T15:51:29+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): refresh\
-    \ fast-path context"
-  - "8f3a3ab372515e7b49e61e5676517db07d8543f3\t2026-07-19T15:49:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close fast-path\
-    \ CR"
-  - "6301eef63f7108b024d23446d8e396eaeab38471\t2026-07-19T15:48:04+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(workflow): add fast path\
-    \ and atomic APK replacement"
-  - "429938d8765568fbb97c9e8f9062e67c4e310546\t2026-07-19T15:20:38+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): deliver 10206\
-    \ registration scenario apk"
-  - "660d148d0743e796a9b77558bed68f046197519e\t2026-07-19T14:54:26+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): preserve registration\
-    \ error scenarios"
-project_fingerprint:
-  sha256: ef24af09815cd214abfdcf43b1ed02f47bb4483e6ac7ec950e7a6ea7dc981825
-  files:
-  - docs/03-continuity/change-requests/CR-0083-R03版本关闭元数据、验收证据与终态标签规范化.md
-  - releases/R03/ACCEPTANCE_MATRIX.csv
-  - releases/R03/RELEASE_MANIFEST.yaml
-  file_count: 3
-  payload:
-    base_commit: d492370ddccf7adcbe935be008dd9b5c70471832
-    files:
-    - path: docs/03-continuity/change-requests/CR-0083-R03版本关闭元数据、验收证据与终态标签规范化.md
-      state: FILE
-      size: 3023
-      sha256: facfd6644d599c494dcae1d544aef9695a6a662219467e17f3b4043eb350d82f
-    - path: releases/R03/ACCEPTANCE_MATRIX.csv
-      state: FILE
-      size: 877
-      sha256: 395be0402516f2376bc8056fbace65f3098cb0d36f6257051ef6a9959b30ca28
-    - path: releases/R03/RELEASE_MANIFEST.yaml
-      state: FILE
-      size: 4209
-      sha256: 1936d714a52eb77d71fbab2525eb1e7b57a8aa2446246a98d4c22ea0c0de83d6
-change_classification:
-  continuity:
-  - docs/03-continuity/change-requests/CR-0083-R03版本关闭元数据、验收证据与终态标签规范化.md
-  other:
-  - releases/R03/ACCEPTANCE_MATRIX.csv
-  source_of_truth:
-  - releases/R03/RELEASE_MANIFEST.yaml
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- APPROVED_CHANGE_REQUEST
-change_requests:
-- CR-0083
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - releases/R03/RELEASE_MANIFEST.yaml
-  - releases/R03/ACCEPTANCE_MATRIX.csv
-  - artifacts/reports/R03/TASK-R03-005-integration.md
-  - artifacts/reports/R03/TASK-R03-007-android-apk.md
-  - artifacts/reports/R03/R03-version-test-guide.md
-  source: story+explicit+approved-cr:CR-0083
-parallel_execution:
-  assessment: USER_SERIAL_OVERRIDE
-  delegated_workers: 0
-  workers: []
-  reason: 关闭任务和跨版本指针必须原子串行更新，禁止并发写连续性状态
-event_hash: f7d30b02d7e2024980355aad2d0f94c86c7e01e9a4534ed4c8189eb618940c41
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -522,12 +303,12 @@ event_hash: f7d30b02d7e2024980355aad2d0f94c86c7e01e9a4534ed4c8189eb618940c41
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260719T081942Z-8D5C4241
-last_session_id: SES-20260718T200607Z-3569D212
+active_session_id: null
+last_session_id: SES-20260719T081942Z-8D5C4241
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260718T200607Z-3569D212-0045
-event_count: 904
-event_head_hash: f7d30b02d7e2024980355aad2d0f94c86c7e01e9a4534ed4c8189eb618940c41
+last_closure_checkpoint_id: CP-SES-20260719T081942Z-8D5C4241-0003
+event_count: 907
+event_head_hash: a8d856d29b62b8e51af08c538efb1a769b065e7f9e69a577c05a915e7833499e
 event_chain_valid: true
 ```
 
@@ -646,13 +427,13 @@ recent_sessions: - session_id: SES-20260718T105025Z-0B8DE284
   task_id: TASK-R03-008
   story_id: STORY-R03-004
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-19T08:19:42Z'
   record: .continuity/sessions/SES-20260719T081942Z-8D5C4241.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T081942Z-8D5C4241.md
-  updated_at: '2026-07-19T08:29:59Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T081942Z-8D5C4241/0002.yaml
+  updated_at: '2026-07-19T08:31:24Z'
+  closed_at: '2026-07-19T08:31:24Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T081942Z-8D5C4241/0003.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-4E518B8F5FFF
   session_id: SES-20260717T152721Z-016DB4B2
@@ -1252,7 +1033,7 @@ task_claims: - claim_id: CLM-4E518B8F5FFF
   task_id: TASK-R03-008
   story_id: STORY-R03-004
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-19T08:19:42Z'
   allowed_paths:
   - apps/**
@@ -1286,6 +1067,7 @@ task_claims: - claim_id: CLM-4E518B8F5FFF
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-19T08:31:24Z'
 recent_task_transitions: - transition_id: TRN-1F2460258754
   timestamp: '2026-07-17T18:35:00Z'
   release: R02
@@ -1493,27 +1275,31 @@ recent_task_transitions: - transition_id: TRN-1F2460258754
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: e37faeaa31714e4026132b426acb0bd956032d84
+head: 40807dc3d8e1dcfa56334d37cf8646bf9db483dd
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0083.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260719T081942Z-8D5C4241.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0083-R03版本关闭元数据、验收证据与终态标签规范化.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T081942Z-8D5C4241.md'
-- ' M releases/R03/ACCEPTANCE_MATRIX.csv'
-- ?? .continuity/checkpoints/SES-20260719T081942Z-8D5C4241/0002.yaml
+- ' M releases/R03/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260719T081942Z-8D5C4241/0003.yaml
 recent_commits:
+- "40807dc3d8e1dcfa56334d37cf8646bf9db483dd\t2026-07-19T16:30:34+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): finalize R03\
+  \ acceptance matrix"
 - "e37faeaa31714e4026132b426acb0bd956032d84\t2026-07-19T16:28:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): archive R03\
   \ close evidence"
 - "d492370ddccf7adcbe935be008dd9b5c70471832\t2026-07-19T16:18:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-007\
@@ -1528,78 +1314,46 @@ recent_commits:
   \ and atomic APK replacement"
 - "429938d8765568fbb97c9e8f9062e67c4e310546\t2026-07-19T15:20:38+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): deliver 10206\
   \ registration scenario apk"
-- "660d148d0743e796a9b77558bed68f046197519e\t2026-07-19T14:54:26+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): preserve registration\
-  \ error scenarios"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`ef24af09815cd214abfdcf43b1ed02f47bb4483e6ac7ec950e7a6ea7dc981825`
-- 文件数：3
+- 指纹：`cca4022e9b652796d2ae4b0dc6e562587e1d320706342785252fa9cfd4069605`
+- 文件数：0
 
-- `docs/03-continuity/change-requests/CR-0083-R03版本关闭元数据、验收证据与终态标签规范化.md`
-- `releases/R03/ACCEPTANCE_MATRIX.csv`
-- `releases/R03/RELEASE_MANIFEST.yaml`
+- 无
 
 ## 当前 Release
 
 ```yaml
 RELEASE_MANIFEST.yaml:
-  release: R03
-  title: 供应商配置、密钥、证书与域名中心
-  status: DONE
-  release_commit: 660d148d0743e796a9b77558bed68f046197519e
-  release_tag: R03-660d148
+  release: R04
+  title: 媒体与多对象存储
+  status: READY_WHEN_DEPENDENCIES_GREEN
   milestone: M0_ENGINEERING_FOUNDATION
   depends_on:
-  - R01
-  scope: 后台配置短信、R2/OSS、实名、支付、支付宝出款；orbexa.cc二级域名和DNS待办
+  - R03
+  scope: Cloudflare R2和阿里云OSS适配、Scope隔离、上传、私有预览、迁移和审计
   android_test_apk_required: true
   requirements:
-  - REQ-CONFIG-001
-  - REQ-DOMAIN-001
+  - REQ-MEDIA-001
   - REQ-STORAGE-001
-  - REQ-SECRET-001
-  - REQ-CONFIG-UX-001
-  - REQ-APK-001
   ui:
-    android: []
+    android:
+    - SHEET-MEDIA-001
     h5: []
-    admin:
-    - ADM-CONFIG-002
-    - ADM-CONFIG-003
-    - ADM-CONFIG-004
-    - ADM-CONFIG-005
-    - ADM-CONFIG-006
-    - ADM-CONFIG-007
-    - ADM-CONFIG-008
+    admin: []
   contracts:
-    client_api: []
-    admin_api:
-      operation_ids:
-      - adminProviderConfigPostProviderConfigsByProviderVersions
-      - adminProviderCertificatePostProviderCertificatesByIdRotate
-      - adminDomainConfigPostDomainsByCodeVerify
-      paths:
-      - GET /admin-api/v1/provider-configs
-      - GET /admin-api/v1/provider-configs/{provider}
-      - POST /admin-api/v1/provider-configs/{provider}/versions
-      - POST /admin-api/v1/provider-configs/{provider}/test
-      - POST /admin-api/v1/provider-configs/{provider}/activate
-      - POST /admin-api/v1/provider-configs/{provider}/rollback
-      - POST /admin-api/v1/provider-certificates
-      - GET /admin-api/v1/provider-certificates
-      - POST /admin-api/v1/provider-certificates/{id}/rotate
-      - GET /admin-api/v1/domains
-      - PUT /admin-api/v1/domains/{code}
-      - GET /admin-api/v1/domains/dns-actions
-      - POST /admin-api/v1/domains/{code}/verify
+    client_api:
+    - POST /api/v1/media/upload-sessions
+    - POST /api/v1/media/upload-sessions/{id}/complete
+    - DELETE /api/v1/media/{id}
+    admin_api: []
     websocket: []
   database_tables:
-  - system_configs
-  - system_config_versions
-  - feature_flags
-  - admin_approval_requests
+  - media_objects
+  - upload_sessions
+  - media_access_tokens
   - provider_config_definitions
   - provider_config_versions
   - provider_connection_tests
@@ -1607,47 +1361,22 @@ RELEASE_MANIFEST.yaml:
   - provider_certificate_access_logs
   - domain_configs
   - dns_action_items
-  - home_modules
-  - banners
-  - cms_articles
-  - agreements
-  - agreement_versions
-  - user_agreement_acceptances
-  - h5_page_configs
-  - app_versions
-  - app_download_logs
-  - media_objects
-  - upload_sessions
-  - media_access_tokens
   - storage_scope_bindings
   - storage_migration_jobs
-  - admin_operation_logs
   tests:
-  - TST-CONFIG_001-HAPPY
-  - TST-CONFIG_001-IDEMPOTENT
-  - TST-CONFIG_001-REJECT
-  - TST-CONFIG_UX_001-DRIFT
-  - TST-CONFIG_UX_001-HAPPY
-  - TST-CONFIG_UX_001-REJECT
-  - TST-CONFIG_UX_001-SECURITY
-  - TST-DOMAIN_001-HAPPY
-  - TST-DOMAIN_001-IDEMPOTENT
-  - TST-DOMAIN_001-REJECT
-  - TST-STORAGE_001-HAPPY
-  - TST-STORAGE_001-IDEMPOTENT
-  - TST-STORAGE_001-REJECT
-  - TST-V122-030
-  - TST-V122-031
-  - TST-V122-032
-  - TST-V122-033
-  - TST-V122-034
-  test_count: 18
-  parallel_execution_plan: releases/R03/PARALLEL_EXECUTION_PLAN.yaml
+  - TST-MEDIA_001-HAPPY
+  - TST-MEDIA_001-IDEMPOTENT
+  - TST-MEDIA_001-REJECT
+  - TST-V122-001
+  - TST-V122-002
+  - TST-V122-003
+  test_count: 6
+  parallel_execution_plan: releases/R04/PARALLEL_EXECUTION_PLAN.yaml
   planning_depth: STORY_READY
-  apk_gate: REGRESSION_APK_DESKTOP_PUBLIC_AND_OWNER_DEVICE_REQUIRED
+  apk_gate: DESKTOP_PUBLIC_AND_OWNER_DEVICE_REQUIRED
   entry_gate:
-  - releases/R03/DEFINITION_OF_READY.yaml 全部适用项为PASS
-  - releases/R03/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+  - releases/R04/DEFINITION_OF_READY.yaml 全部适用项为PASS
+  - releases/R04/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
   - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
   - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
   - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
@@ -1657,13 +1386,12 @@ RELEASE_MANIFEST.yaml:
   - 契约/单元/集成/E2E/安全专项测试通过
   - 日志指标链路和业务告警可验证
   - Session Log、追踪矩阵、产物Manifest和下一任务更新
-  - 供应商测试环境、SecretRef、证书和DNS外部激活项已完成或登记明确阻断
-  - 即使无Android页面变更，也必须交付回归APK并完成桌面、公网和项目所有者真机验收
+  - Staging APK可安装且SHA256、Commit、版本信息完整
   change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
   documentation_baseline: V1.2.2
   document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
-  definition_of_ready: releases/R03/DEFINITION_OF_READY.yaml
-  story_backlog: releases/R03/STORIES.yaml
+  definition_of_ready: releases/R04/DEFINITION_OF_READY.yaml
+  story_backlog: releases/R04/STORIES.yaml
   continuity:
     policy: .continuity/CONTINUITY_POLICY.yaml
     protocol_version: '1.0'
@@ -1674,133 +1402,133 @@ RELEASE_MANIFEST.yaml:
     handoff_bundle_required_for_actor_switch: true
 DEFINITION_OF_READY.yaml:
   version: 1.2.2
-  release: R03
-  title: 供应商配置、密钥、证书与域名中心
+  release: R04
+  title: 媒体与多对象存储
   status: PASS_DOCUMENTATION_READY
   interpretation: 该结论仅表示开发前文档和施工契约完整；软件编译、运行、供应商联调、压测和上线验收仍在对应实施/退出门禁完成。
   gates:
-  - 版本: R03
-    门禁ID: R03-DOR-01
+  - 版本: R04
+    门禁ID: R04-DOR-01
     类别: 范围与需求
     门禁条件: 本版本需求、非目标、业务规则和变更边界已冻结；每个需求在追踪矩阵有明确行
     适用性: 是
     证据: catalogs/requirements_catalog.csv;catalogs/TRACEABILITY_MATRIX.csv
     当前结论: PASS
-    说明: 需求5条，页面/交互面7个，接口13个，故事4个
+    说明: 需求2条，页面/交互面1个，接口3个，故事2个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R03
-    门禁ID: R03-DOR-02
+  - 版本: R04
+    门禁ID: R04-DOR-02
     类别: 页面与模板
     门禁条件: 本版本所有页面/弹层已绑定标准模板，入口、退出、角色、数据分级和主要区域无TBD
     适用性: 是
     证据: catalogs/ui_page_specifications.csv;catalogs/ui_templates.csv
     当前结论: PASS
-    说明: 需求5条，页面/交互面7个，接口13个，故事4个
+    说明: 需求2条，页面/交互面1个，接口3个，故事2个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R03
-    门禁ID: R03-DOR-03
+  - 版本: R04
+    门禁ID: R04-DOR-03
     类别: 字段施工规格
     门禁条件: 每个页面展示、输入、筛选、路由、敏感字段均有类型、控件、必填、校验、显示/编辑条件和错误文案
     适用性: 是
     证据: catalogs/ui_page_fields.csv
     当前结论: PASS
-    说明: 需求5条，页面/交互面7个，接口13个，故事4个
+    说明: 需求2条，页面/交互面1个，接口3个，故事2个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R03
-    门禁ID: R03-DOR-04
+  - 版本: R04
+    门禁ID: R04-DOR-04
     类别: 状态与恢复
     门禁条件: 首屏、内容、空、刷新、局部失败、无权限、404、离线、提交、成功、冲突和领域状态已定义
     适用性: 是
     证据: catalogs/ui_page_states.csv
     当前结论: PASS
-    说明: 需求5条，页面/交互面7个，接口13个，故事4个
+    说明: 需求2条，页面/交互面1个，接口3个，故事2个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R03
-    门禁ID: R03-DOR-05
+  - 版本: R04
+    门禁ID: R04-DOR-05
     类别: 动作与导航
     门禁条件: 每个操作定义触发、显示/可用、确认、请求映射、幂等/版本、加载、成功、错误、重试、导航和审计
     适用性: 是
     证据: catalogs/ui_action_matrix.csv;catalogs/ui_navigation_specifications.csv
     当前结论: PASS
-    说明: 需求5条，页面/交互面7个，接口13个，故事4个
+    说明: 需求2条，页面/交互面1个，接口3个，故事2个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R03
-    门禁ID: R03-DOR-06
+  - 版本: R04
+    门禁ID: R04-DOR-06
     类别: 接口所有权
     门禁条件: 本版本每个OpenAPI operationId均有页面动作或显式系统所有者；核心请求响应禁止自由对象代替领域Schema
     适用性: 是
     证据: catalogs/api_ui_ownership.csv;contracts/openapi.yaml;contracts/admin-openapi.yaml
     当前结论: PASS
-    说明: 需求5条，页面/交互面7个，接口13个，故事4个
+    说明: 需求2条，页面/交互面1个，接口3个，故事2个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R03
-    门禁ID: R03-DOR-07
+  - 版本: R04
+    门禁ID: R04-DOR-07
     类别: 数据与状态机
     门禁条件: 涉及表、约束、状态机、历史、幂等和账务不变量已登记；新增运营能力有明确数据事实源
     适用性: 是
     证据: catalogs/data_tables.csv;database/schema_dictionary.csv;database/state_machines.yaml
     当前结论: PASS
-    说明: 需求5条，页面/交互面7个，接口13个，故事4个
+    说明: 需求2条，页面/交互面1个，接口3个，故事2个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R03
-    门禁ID: R03-DOR-08
+  - 版本: R04
+    门禁ID: R04-DOR-08
     类别: 配置与权限
     门禁条件: 相关配置具有控件、单位、范围、依赖、跨字段规则、编辑角色、复核角色、生效预览和回滚；权限与数据分级明确
     适用性: 是
     证据: catalogs/config_registry.csv;catalogs/config_cross_field_rules.csv;catalogs/config_role_matrix.csv
     当前结论: PASS
-    说明: 需求5条，页面/交互面7个，接口13个，故事4个
+    说明: 需求2条，页面/交互面1个，接口3个，故事2个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R03
-    门禁ID: R03-DOR-09
+  - 版本: R04
+    门禁ID: R04-DOR-09
     类别: 后台运营规格
     门禁条件: 涉及后台页面时，筛选、表格列、排序、批量/行操作、Tab、导出、脱敏、审批、确认和审计已冻结
-    适用性: 是
+    适用性: 不适用
     证据: catalogs/admin_page_operation_specs.csv
     当前结论: PASS
-    说明: 需求5条，页面/交互面7个，接口13个，故事4个
+    说明: 本版本无后台页面；仍需确认无后台操作遗漏
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R03
-    门禁ID: R03-DOR-10
+  - 版本: R04
+    门禁ID: R04-DOR-10
     类别: 测试与验收
     门禁条件: 主路径、拒绝、幂等、并发、故障、安全和防漂移测试ID已存在并绑定到页面/动作/需求
     适用性: 是
     证据: catalogs/test_cases.csv
     当前结论: PASS
-    说明: 需求5条，页面/交互面7个，接口13个，故事4个
+    说明: 需求2条，页面/交互面1个，接口3个，故事2个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R03
-    门禁ID: R03-DOR-11
+  - 版本: R04
+    门禁ID: R04-DOR-11
     类别: 故事与责任
     门禁条件: 本版本工作已拆为可领取的用户故事/工程治理故事，包含责任角色、依赖、页面、接口、数据、配置和验收条件
     适用性: 是
-    证据: catalogs/release_story_backlog.csv;releases/R03/STORIES.yaml
+    证据: catalogs/release_story_backlog.csv;releases/R04/STORIES.yaml
     当前结论: PASS
-    说明: 需求5条，页面/交互面7个，接口13个，故事4个
+    说明: 需求2条，页面/交互面1个，接口3个，故事2个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R03
-    门禁ID: R03-DOR-12
+  - 版本: R04
+    门禁ID: R04-DOR-12
     类别: 外部事项记录
     门禁条件: 需要SDK、数据库、供应商、域名、证书、签名、法务或上线验证的事项已分类到实施/外部/生产门禁；不再误标为开发前文档缺口
     适用性: 是
     证据: DEVELOPMENT_RISK_REGISTER.md;catalogs/development_risk_register.csv
     当前结论: PASS
-    说明: 需求5条，页面/交互面7个，接口13个，故事4个
+    说明: 需求2条，页面/交互面1个，接口3个，故事2个
     阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
     成熟度: FROZEN_DOR_V1.2.2
-  - 版本: R03
-    门禁ID: R03-DOR-CONTINUITY
+  - 版本: R04
+    门禁ID: R04-DOR-CONTINUITY
     类别: 持续开发无状态接续
     门禁条件: 编码前必须可仅凭仓库恢复任务；唯一Session/Claim、检查点、Commit Trailer、CR、Context Pack和交接协议已启用
     适用性: 是
@@ -1815,341 +1543,115 @@ DEFINITION_OF_READY.yaml:
     conversation_context_required: false
 STORIES.yaml:
   version: 1.2.2
-  release: R03
-  title: 供应商配置、密钥、证书与域名中心
+  release: R04
+  title: 媒体与多对象存储
   source_of_truth: catalogs/release_story_backlog.csv
   rules:
   - 故事未通过definition_of_ready不得进入编码
   - 页面故事不得增加未登记字段、状态、按钮、接口或配置
   - 工程治理故事负责契约、数据、配置、测试、观测和交接
   stories:
-  - story_id: STORY-R03-001
-    release: R03
-    title: 配置中心：供应商配置中心、阿里云短信配置、对象存储配置、实名认证配置
-    user_story: 作为具备 config.manage 的后台员工；写操作另需 config.manage，我需要完成供应商配置中心、阿里云短信配置、对象存储配置、实名认证配置的完整业务流程，以便在不依赖研发临时决策的情况下实现按短信、对象存储、实名、支付、出款分组管理，密钥脱敏、版本、测试、激活、回滚。
-    platform: ADMIN
-    module: 配置中心
-    template_id: ADM-CONFIG
+  - story_id: STORY-R04-001
+    release: R04
+    title: 通用组件：媒体上传管理器
+    user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成媒体上传管理器的完整业务流程，以便在不依赖研发临时决策的情况下实现创建上传会话、分片/直传进度、失败重试、完成确认、删除未绑定媒体；被发布、资料、工单等页面复用。
+    platform: ANDROID
+    module: 通用组件
+    template_id: MOB-SHEET
     page_ids:
-    - ADM-CONFIG-002
-    - ADM-CONFIG-003
-    - ADM-CONFIG-004
-    - ADM-CONFIG-007
+    - SHEET-MEDIA-001
     operation_ids:
-    - adminConfigGetConfigs
-    - adminConfigGetFeatureFlags
-    - adminProviderConfigGetProviderConfigs
-    - adminProviderConfigGetProviderConfigsByProvider
-    - adminProviderCertificateGetProviderCertificates
-    - adminProviderCertificatePostProviderCertificatesByIdRotate
-    - adminDomainConfigGetDomains
-    - adminDomainConfigGetDomainsDnsActions
-    - adminProviderConfigPostProviderConfigsByProviderActivate
-    - adminProviderConfigPostProviderConfigsByProviderRollback
-    - adminProviderCertificatePostProviderCertificates
-    - adminConfigPutConfigsByKey
-    - adminConfigPutFeatureFlagsByKey
-    - adminProviderConfigPostProviderConfigsByProviderVersions
-    - adminProviderConfigPostProviderConfigsByProviderTest
+    - mediaPostMediaUploadSessions
+    - mediaPostMediaUploadSessionsByIdComplete
+    - mediaDeleteMediaById
     api_contracts:
-    - GET /admin-api/v1/configs
-    - GET /admin-api/v1/feature-flags
-    - GET /admin-api/v1/provider-configs
-    - GET /admin-api/v1/provider-configs/{provider}
-    - GET /admin-api/v1/provider-certificates
-    - POST /admin-api/v1/provider-certificates/{id}/rotate
-    - GET /admin-api/v1/domains
-    - GET /admin-api/v1/domains/dns-actions
-    - POST /admin-api/v1/provider-configs/{provider}/activate
-    - POST /admin-api/v1/provider-configs/{provider}/rollback
-    - POST /admin-api/v1/provider-certificates
-    - PUT /admin-api/v1/configs/{key}
-    - PUT /admin-api/v1/feature-flags/{key}
-    - POST /admin-api/v1/provider-configs/{provider}/versions
-    - POST /admin-api/v1/provider-configs/{provider}/test
+    - POST /api/v1/media/upload-sessions
+    - POST /api/v1/media/upload-sessions/{id}/complete
+    - DELETE /api/v1/media/{id}
     requirement_ids:
-    - REQ-CONFIG-001
-    - REQ-SECRET-001
+    - REQ-MEDIA-001
     - REQ-PAGE-SPEC-001
-    - REQ-ADMIN-OPS-001
     config_keys:
-    - system.maintenance.enabled
-    - system.maintenance.message
-    - system.registration.enabled
-    - system.publish.enabled
-    - system.red_packet.enabled
-    - system.withdrawal.enabled
-    - platform.base_domain
-    - domain.www.host
-    - domain.api.host
-    - domain.ws.host
-    - domain.admin.host
-    - domain.h5.host
-    - domain.download.host
-    - domain.assets.host
+    - storage.default_provider
+    - storage.scope.public_media.provider
+    - storage.scope.private_kyc.provider
+    - storage.scope.private_chat.provider
+    - storage.scope.audit_evidence.provider
+    - storage.scope.apk_release.provider
+    - storage.scope.backup.provider
+    - storage.r2.account_id
+    - content.limit.normal.online
+    - content.limit.month.online
+    - content.limit.quarter.online
+    - content.limit.year.online
+    - content.team_leader_per_account
+    - content.limit.normal.pending
+    - content.limit.normal.drafts
+    - content.limit.normal.daily_submissions
     data_tables:
-    - system_configs
-    - system_config_versions
-    - feature_flags
-    - admin_approval_requests
-    - provider_config_definitions
-    - provider_config_versions
-    - provider_connection_tests
-    - provider_certificates
-    - provider_certificate_access_logs
-    - domain_configs
-    - dns_action_items
-    - admin_users
-    - admin_roles
-    - admin_permissions
-    - admin_user_roles
-    - admin_role_permissions
-    - admin_operation_logs
+    - media_objects
+    - upload_sessions
+    - media_access_tokens
     test_ids:
-    - TST-CONFIG_001-HAPPY
-    - TST-SECRET_001-HAPPY
-    - TST-CONFIG_001-IDEMPOTENT
-    - TST-SECRET_001-IDEMPOTENT
-    - TST-V122-030
-    - TST-V122-031
-    - TST-V122-032
+    - TST-V122-001
+    - TST-V122-002
+    - TST-V122-003
     dependencies:
-    - R01
+    - R03
     owner_roles:
-    - admin_frontend_engineer
+    - android_engineer
     - backend_engineer
     - test_engineer
     acceptance_criteria:
-    - ADM-CONFIG-002;ADM-CONFIG-003;ADM-CONFIG-004;ADM-CONFIG-007 全部绑定模板 ADM-CONFIG，字段、状态、动作、导航和错误恢复无TBD
-    - 页面调用 operationId：adminConfigGetConfigs;adminConfigGetFeatureFlags;adminProviderConfigGetProviderConfigs;adminProviderConfigGetProviderConfigsByProvider;adminProviderCertificateGetProviderCertificates;adminProviderCertificatePostProviderCertificatesByIdRotate;adminDomainConfigGetDomains;adminDomainConfigGetDomainsDnsActions;adminProviderConfigPostProviderConfigsByProviderActivate;adminProviderConfigPostProviderConfigsByProviderRollback;adminProviderCertificatePostProviderCertificates;adminConfigPutConfigsByKey;adminConfigPutFeatureFlagsByKey;adminProviderConfigPostProviderConfigsByProviderVersions;adminProviderConfigPostProviderConfigsByProviderTest；请求/响应字段不得另行发明
+    - SHEET-MEDIA-001 全部绑定模板 MOB-SHEET，字段、状态、动作、导航和错误恢复无TBD
+    - 页面调用 operationId：mediaPostMediaUploadSessions;mediaPostMediaUploadSessionsByIdComplete;mediaDeleteMediaById；请求/响应字段不得另行发明
     - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
     - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
     - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-    - 自动化覆盖：TST-CONFIG_001-HAPPY;TST-SECRET_001-HAPPY;TST-CONFIG_001-IDEMPOTENT;TST-SECRET_001-IDEMPOTENT;TST-V122-030;TST-V122-031;TST-V122-032
+    - 自动化覆盖：TST-V122-001;TST-V122-002;TST-V122-003
     definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
     status: READY_FOR_IMPLEMENTATION
-  - story_id: STORY-R03-002
-    release: R03
-    title: 配置中心：域名与环境配置
-    user_story: 作为具备 config.manage 的后台员工；写操作另需 config.manage，我需要完成域名与环境配置的完整业务流程，以便在不依赖研发临时决策的情况下实现orbexa.cc二级域名、环境映射、DNS待办和验证状态。
-    platform: ADMIN
-    module: 配置中心
-    template_id: ADM-CONFIG
-    page_ids:
-    - ADM-CONFIG-008
-    operation_ids:
-    - adminConfigGetConfigs
-    - adminConfigPutConfigsByKey
-    - adminConfigGetFeatureFlags
-    - adminConfigPutFeatureFlagsByKey
-    - adminProviderConfigGetProviderConfigs
-    - adminProviderConfigGetProviderConfigsByProvider
-    - adminProviderConfigPostProviderConfigsByProviderVersions
-    - adminProviderConfigPostProviderConfigsByProviderTest
-    - adminDomainConfigPutDomainsByCode
-    - adminDomainConfigPostDomainsByCodeVerify
-    api_contracts:
-    - GET /admin-api/v1/configs
-    - PUT /admin-api/v1/configs/{key}
-    - GET /admin-api/v1/feature-flags
-    - PUT /admin-api/v1/feature-flags/{key}
-    - GET /admin-api/v1/provider-configs
-    - GET /admin-api/v1/provider-configs/{provider}
-    - POST /admin-api/v1/provider-configs/{provider}/versions
-    - POST /admin-api/v1/provider-configs/{provider}/test
-    - PUT /admin-api/v1/domains/{code}
-    - POST /admin-api/v1/domains/{code}/verify
-    requirement_ids:
-    - REQ-CONFIG-001
-    - REQ-SECRET-001
-    - REQ-PAGE-SPEC-001
-    - REQ-ADMIN-OPS-001
-    config_keys:
-    - system.maintenance.enabled
-    - system.maintenance.message
-    - system.registration.enabled
-    - system.publish.enabled
-    - system.red_packet.enabled
-    - system.withdrawal.enabled
-    data_tables:
-    - system_configs
-    - system_config_versions
-    - feature_flags
-    - admin_approval_requests
-    - provider_config_definitions
-    - provider_config_versions
-    - provider_connection_tests
-    - provider_certificates
-    - provider_certificate_access_logs
-    - domain_configs
-    - dns_action_items
-    - admin_users
-    - admin_roles
-    - admin_permissions
-    - admin_user_roles
-    - admin_role_permissions
-    - admin_operation_logs
-    test_ids:
-    - TST-CONFIG_001-HAPPY
-    - TST-SECRET_001-HAPPY
-    - TST-CONFIG_001-IDEMPOTENT
-    - TST-SECRET_001-IDEMPOTENT
-    - TST-V122-033
-    - TST-V122-034
-    dependencies:
-    - R01
-    owner_roles:
-    - admin_frontend_engineer
-    - backend_engineer
-    - test_engineer
-    acceptance_criteria:
-    - ADM-CONFIG-008 全部绑定模板 ADM-CONFIG，字段、状态、动作、导航和错误恢复无TBD
-    - 页面调用 operationId：adminConfigGetConfigs;adminConfigPutConfigsByKey;adminConfigGetFeatureFlags;adminConfigPutFeatureFlagsByKey;adminProviderConfigGetProviderConfigs;adminProviderConfigGetProviderConfigsByProvider;adminProviderConfigPostProviderConfigsByProviderVersions;adminProviderConfigPostProviderConfigsByProviderTest;adminDomainConfigPutDomainsByCode;adminDomainConfigPostDomainsByCodeVerify；请求/响应字段不得另行发明
-    - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
-    - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
-    - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-    - 自动化覆盖：TST-CONFIG_001-HAPPY;TST-SECRET_001-HAPPY;TST-CONFIG_001-IDEMPOTENT;TST-SECRET_001-IDEMPOTENT;TST-V122-033;TST-V122-034
-    definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-    status: READY_FOR_IMPLEMENTATION
-  - story_id: STORY-R03-003
-    release: R03
-    title: 配置中心：支付网关配置、支付宝企业付款配置
-    user_story: 作为具备 config.manage 的后台员工；写操作另需 config.manage，我需要完成支付网关配置、支付宝企业付款配置的完整业务流程，以便在不依赖研发临时决策的情况下实现彩虹易支付网关、商户、签名、渠道、回调和连接测试。
-    platform: ADMIN
-    module: 配置中心
-    template_id: ADM-FINANCE
-    page_ids:
-    - ADM-CONFIG-005
-    - ADM-CONFIG-006
-    operation_ids:
-    - adminConfigGetConfigs
-    - adminConfigPutConfigsByKey
-    - adminConfigGetFeatureFlags
-    - adminConfigPutFeatureFlagsByKey
-    - adminProviderConfigGetProviderConfigs
-    - adminProviderConfigGetProviderConfigsByProvider
-    - adminProviderConfigPostProviderConfigsByProviderVersions
-    - adminProviderConfigPostProviderConfigsByProviderTest
-    api_contracts:
-    - GET /admin-api/v1/configs
-    - PUT /admin-api/v1/configs/{key}
-    - GET /admin-api/v1/feature-flags
-    - PUT /admin-api/v1/feature-flags/{key}
-    - GET /admin-api/v1/provider-configs
-    - GET /admin-api/v1/provider-configs/{provider}
-    - POST /admin-api/v1/provider-configs/{provider}/versions
-    - POST /admin-api/v1/provider-configs/{provider}/test
-    requirement_ids:
-    - REQ-CONFIG-001
-    - REQ-SECRET-001
-    config_keys:
-    - system.maintenance.enabled
-    - system.maintenance.message
-    - system.registration.enabled
-    - system.publish.enabled
-    - system.red_packet.enabled
-    - system.withdrawal.enabled
-    data_tables:
-    - system_configs
-    - system_config_versions
-    - feature_flags
-    - admin_approval_requests
-    - provider_config_definitions
-    - provider_config_versions
-    - provider_connection_tests
-    - provider_certificates
-    - provider_certificate_access_logs
-    - domain_configs
-    - dns_action_items
-    test_ids:
-    - TST-CONFIG_001-HAPPY
-    - TST-SECRET_001-HAPPY
-    - TST-CONFIG_001-IDEMPOTENT
-    - TST-SECRET_001-IDEMPOTENT
-    dependencies:
-    - R01
-    owner_roles:
-    - admin_frontend_engineer
-    - backend_engineer
-    - test_engineer
-    acceptance_criteria:
-    - ADM-CONFIG-005;ADM-CONFIG-006 全部绑定模板 ADM-FINANCE，字段、状态、动作、导航和错误恢复无TBD
-    - 页面调用 operationId：adminConfigGetConfigs;adminConfigPutConfigsByKey;adminConfigGetFeatureFlags;adminConfigPutFeatureFlagsByKey;adminProviderConfigGetProviderConfigs;adminProviderConfigGetProviderConfigsByProvider;adminProviderConfigPostProviderConfigsByProviderVersions;adminProviderConfigPostProviderConfigsByProviderTest；请求/响应字段不得另行发明
-    - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
-    - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
-    - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-    - 自动化覆盖：TST-CONFIG_001-HAPPY;TST-SECRET_001-HAPPY;TST-CONFIG_001-IDEMPOTENT;TST-SECRET_001-IDEMPOTENT
-    definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-    status: READY_FOR_IMPLEMENTATION
-  - story_id: STORY-R03-004
-    release: R03
-    title: 供应商配置、密钥、证书与域名中心：契约、数据、配置、测试与交接
-    user_story: 作为技术负责人，我需要按冻结的 R03 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+  - story_id: STORY-R04-002
+    release: R04
+    title: 媒体与多对象存储：契约、数据、配置、测试与交接
+    user_story: 作为技术负责人，我需要按冻结的 R04 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
     platform: CROSS_PLATFORM
     module: 工程治理
     template_id: N/A
     page_ids:
-    - ADM-CONFIG-002
-    - ADM-CONFIG-003
-    - ADM-CONFIG-004
-    - ADM-CONFIG-005
-    - ADM-CONFIG-006
-    - ADM-CONFIG-007
-    - ADM-CONFIG-008
+    - SHEET-MEDIA-001
     operation_ids:
-    - adminProviderConfigGetProviderConfigs
-    - adminProviderConfigGetProviderConfigsByProvider
-    - adminProviderConfigPostProviderConfigsByProviderVersions
-    - adminProviderConfigPostProviderConfigsByProviderTest
-    - adminProviderConfigPostProviderConfigsByProviderActivate
-    - adminProviderConfigPostProviderConfigsByProviderRollback
-    - adminProviderCertificatePostProviderCertificates
-    - adminProviderCertificateGetProviderCertificates
-    - adminProviderCertificatePostProviderCertificatesByIdRotate
-    - adminDomainConfigGetDomains
-    - adminDomainConfigPutDomainsByCode
-    - adminDomainConfigGetDomainsDnsActions
-    - adminDomainConfigPostDomainsByCodeVerify
+    - mediaPostMediaUploadSessions
+    - mediaPostMediaUploadSessionsByIdComplete
+    - mediaDeleteMediaById
     api_contracts:
-    - GET /admin-api/v1/provider-configs
-    - GET /admin-api/v1/provider-configs/{provider}
-    - POST /admin-api/v1/provider-configs/{provider}/versions
-    - POST /admin-api/v1/provider-configs/{provider}/test
-    - POST /admin-api/v1/provider-configs/{provider}/activate
-    - POST /admin-api/v1/provider-configs/{provider}/rollback
-    - POST /admin-api/v1/provider-certificates
-    - GET /admin-api/v1/provider-certificates
-    - POST /admin-api/v1/provider-certificates/{id}/rotate
-    - GET /admin-api/v1/domains
-    - PUT /admin-api/v1/domains/{code}
-    - GET /admin-api/v1/domains/dns-actions
-    - POST /admin-api/v1/domains/{code}/verify
+    - POST /api/v1/media/upload-sessions
+    - POST /api/v1/media/upload-sessions/{id}/complete
+    - DELETE /api/v1/media/{id}
     requirement_ids:
-    - REQ-CONFIG-001
-    - REQ-DOMAIN-001
+    - REQ-MEDIA-001
     - REQ-STORAGE-001
-    - REQ-SECRET-001
-    - REQ-CONFIG-UX-001
     config_keys:
-    - system.maintenance.enabled
-    - system.maintenance.message
-    - system.registration.enabled
-    - system.publish.enabled
-    - system.red_packet.enabled
-    - system.withdrawal.enabled
-    - platform.base_domain
-    - domain.www.host
-    - domain.api.host
-    - domain.ws.host
-    - domain.admin.host
-    - domain.h5.host
-    - domain.download.host
-    - domain.assets.host
+    - storage.default_provider
+    - storage.scope.public_media.provider
+    - storage.scope.private_kyc.provider
+    - storage.scope.private_chat.provider
+    - storage.scope.audit_evidence.provider
+    - storage.scope.apk_release.provider
+    - storage.scope.backup.provider
+    - storage.r2.account_id
+    - content.limit.normal.online
+    - content.limit.month.online
+    - content.limit.quarter.online
+    - content.limit.year.online
+    - content.team_leader_per_account
+    - content.limit.normal.pending
+    - content.limit.normal.drafts
+    - content.limit.normal.daily_submissions
     data_tables:
-    - system_configs
-    - system_config_versions
-    - feature_flags
-    - admin_approval_requests
+    - media_objects
+    - upload_sessions
+    - media_access_tokens
     - provider_config_definitions
     - provider_config_versions
     - provider_connection_tests
@@ -2157,42 +1659,17 @@ STORIES.yaml:
     - provider_certificate_access_logs
     - domain_configs
     - dns_action_items
-    - home_modules
-    - banners
-    - cms_articles
-    - agreements
-    - agreement_versions
-    - user_agreement_acceptances
-    - h5_page_configs
-    - app_versions
-    - app_download_logs
-    - media_objects
-    - upload_sessions
-    - media_access_tokens
     - storage_scope_bindings
     - storage_migration_jobs
-    - admin_operation_logs
     test_ids:
-    - TST-CONFIG_001-HAPPY
-    - TST-CONFIG_001-IDEMPOTENT
-    - TST-CONFIG_001-REJECT
-    - TST-CONFIG_UX_001-DRIFT
-    - TST-CONFIG_UX_001-HAPPY
-    - TST-CONFIG_UX_001-REJECT
-    - TST-CONFIG_UX_001-SECURITY
-    - TST-DOMAIN_001-HAPPY
-    - TST-DOMAIN_001-IDEMPOTENT
-    - TST-DOMAIN_001-REJECT
-    - TST-STORAGE_001-HAPPY
-    - TST-STORAGE_001-IDEMPOTENT
-    - TST-STORAGE_001-REJECT
-    - TST-V122-030
-    - TST-V122-031
-    - TST-V122-032
-    - TST-V122-033
-    - TST-V122-034
+    - TST-MEDIA_001-HAPPY
+    - TST-MEDIA_001-IDEMPOTENT
+    - TST-MEDIA_001-REJECT
+    - TST-V122-001
+    - TST-V122-002
+    - TST-V122-003
     dependencies:
-    - R01
+    - R03
     owner_roles:
     - tech_lead
     - backend_engineer
@@ -2208,177 +1685,154 @@ STORIES.yaml:
     definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
     status: READY_FOR_IMPLEMENTATION
 TASKS.yaml:
-  release: R03
-  title: 供应商配置、密钥、证书与域名中心
+  release: R04
+  title: 媒体与多对象存储
   tasks:
-  - id: TASK-R03-001
-    title: 供应商配置、密钥、证书与域名中心开发就绪核验、故事领取与变更基线
-    status: DONE
+  - id: TASK-R04-001
+    title: 媒体与多对象存储开发就绪核验、故事领取与变更基线
+    status: READY
     depends_on: []
     requirements: &id001
-    - REQ-CONFIG-001
-    - REQ-DOMAIN-001
+    - REQ-MEDIA-001
     - REQ-STORAGE-001
-    - REQ-SECRET-001
-    - REQ-CONFIG-UX-001
     - REQ-APK-001
-    description: 核验6项需求、13个本版本后台接口、26张相关表、7个后台页面、4个故事和18项测试；即使无Android页面变更也必须交付回归APK。
+    description: 核验2项业务需求、3个客户端接口、12张相关表、1个Android交互面、2个故事和6项测试；确认R03存储配置依赖和R04 APK门禁。
     deliverables:
-    - releases/R03/DEFINITION_OF_READY.yaml 全部适用项PASS
-    - releases/R03/STORIES.yaml 故事责任人和依赖已领取
-    - releases/R03/PARALLEL_EXECUTION_PLAN.yaml 的三条业务切片与互斥路径已冻结
-    - R03回归APK、固定Staging签名、桌面副本和真机验收门禁明确
-    - python scripts/check_v122_documentation.py --release R03
+    - releases/R04/DEFINITION_OF_READY.yaml 全部适用项PASS
+    - releases/R04/PARALLEL_EXECUTION_PLAN.yaml 的三分区实施边界已冻结
+    - 私有预览、存储迁移和访问审计的系统所有者与证据明确
+    - python scripts/check_v122_documentation.py --release R04
     acceptance:
     - 页面、字段、状态、动作、API、配置、数据和测试无TBD
-    - 不适用项明确N/A及原因
-    - 供应商、域名、支付/出款的共享API所有权和主控合并边界明确
-    - python scripts/check_v122_documentation.py --release R03
+    - R03存储Scope与供应商连接门禁具备明确前置状态
+    - R04固定测试签名和APK交付要求可执行
     session_log_required: true
-    completed_at: '2026-07-18T13:30:28Z'
-  - id: TASK-R03-002
-    title: 纵向批次A：短信、存储与实名供应商配置闭环
-    status: DONE
+  - id: TASK-R04-002
+    title: 纵向批次A：存储Scope、R2/OSS适配与媒体数据基线
+    status: BLOCKED
     depends_on:
-    - TASK-R03-001
+    - TASK-R04-001
     parallelizable_with:
-    - TASK-R03-003
-    - TASK-R03-004
+    - TASK-R04-004
     stories:
-    - STORY-R03-001
+    - STORY-R04-002
     requirements: *id001
-    description: 完成供应商定义、不可变版本、连接测试、SecretRef、证书状态、双人审批、激活/回滚、后台页面和自动化测试的真实闭环。
+    description: 完成媒体迁移、状态不变量、Scope隔离、公开/私有桶策略、签名URL、迁移恢复、访问审计以及R2/OSS适配器合同。
     deliverables:
-    - 短信、R2/OSS和实名配置的数据、API、Admin页面与测试闭环
-    - 连接测试失败不得激活，秘密只暴露配置状态和SecretRef元数据
-    - 幂等、乐观锁、审批、审计和回滚证据
+    - Flyway空库、升级库、回滚和不变量证据
+    - R2/OSS合同测试、Scope隔离、私有URL TTL、迁移游标恢复证据
+    - 供应商超时、重试和恢复测试
     acceptance:
-    - 无TODO/生产Mock或明文秘密
-    - STORY-R03-001全部页面动作使用冻结生成类型
-    - MODULE门禁通过并可独立交给主控集成
+    - 无TODO/生产Mock或跨Scope数据泄漏
+    - 私有预览、迁移和审计不需要新增冻结外部API；若需要则先走CR
+    - MODULE门禁通过
     session_log_required: true
-    completed_at: '2026-07-18T14:21:44Z'
-  - id: TASK-R03-003
-    title: 纵向批次B：orbexa.cc域名与环境配置闭环
-    status: DONE
+  - id: TASK-R04-003
+    title: 纵向批次B：媒体上传、完成与删除API闭环
+    status: BLOCKED
     depends_on:
-    - TASK-R03-001
+    - TASK-R04-002
+    stories:
+    - STORY-R04-001
+    requirements: *id001
+    description: 完成创建上传会话、直传/分片完成、私有readUrl和未绑定媒体删除，验证owner、purpose、大小、SHA、过期、幂等和审计。
+    deliverables:
+    - 三个冻结operationId的数据、领域、API和测试闭环
+    - 越权、过期、哈希不符、重复完成、重复删除和审计证据
+    acceptance:
+    - 控制器仅编排应用服务，跨模块副作用使用Outbox
+    - 不手写重复DTO，不新增未批准API
+    - MODULE门禁通过
+    session_log_required: true
+  - id: TASK-R04-004
+    title: 纵向批次C：Android媒体上传管理器闭环
+    status: BLOCKED
+    depends_on:
+    - TASK-R04-001
     parallelizable_with:
-    - TASK-R03-002
-    - TASK-R03-004
+    - TASK-R04-002
     stories:
-    - STORY-R03-002
+    - STORY-R04-001
     requirements: *id001
-    description: 完成域名版本、环境隔离、DNS动作、DNS/TLS/服务健康验证、负责人和截止条件、Admin页面及自动化测试。
+    description: 使用冻结生成类型实现SHEET-MEDIA-001选择、并发进度、失败分片重试、取消、完成回传、私有预览与删除确认。
     deliverables:
-    - 域名数据、API、Admin页面和测试真实闭环
-    - api/download当前验证状态与其余域名待办可追踪
-    - expectedVersion、重复verify幂等和失败阻断证据
+    - Android媒体Feature及模块测试
+    - 离线、401/403/409/422/429、取消、重试和返回栈证据
+    - 稳定幂等键且不记录敏感URL或凭据
     acceptance:
-    - 不把DNS解析成功等同于服务健康或生产激活
-    - STORY-R03-002全部页面动作使用冻结生成类型
-    - MODULE门禁通过并可独立交给主控集成
+    - 无页面级手写重复DTO或生产Mock
+    - 页面字段、状态、动作和导航与冻结目录一致
+    - MODULE门禁通过并可交给主控注册路由和网络glue
     session_log_required: true
-    completed_at: '2026-07-18T14:52:05Z'
-  - id: TASK-R03-004
-    title: 纵向批次C：支付、出款与证书生命周期配置闭环
-    status: DONE
+  - id: TASK-R04-005
+    title: 三分区汇合、专项测试与故障注入
+    status: BLOCKED
     depends_on:
-    - TASK-R03-001
-    parallelizable_with:
-    - TASK-R03-002
-    - TASK-R03-003
+    - TASK-R04-002
+    - TASK-R04-003
+    - TASK-R04-004
     stories:
-    - STORY-R03-003
+    - STORY-R04-002
     requirements: *id001
-    description: 完成支付网关、支付宝出款和证书上传/轮换的版本化、SecretRef、双人审批、连接测试、后台页面和安全测试。
+    description: 主控汇合存储、媒体API和Android分区，执行6项权威测试、契约/E2E、安全、并发、供应商故障与生成物漂移检查。
     deliverables:
-    - 支付、出款、证书的数据、API、Admin页面与测试闭环
-    - 证书原文不可回读，指纹、轮换、访问和审批审计完整
-    - 幂等、乐观锁、错误码和回滚证据
-    acceptance:
-    - 无明文私钥、口令或生产凭据进入仓库和日志
-    - STORY-R03-003全部页面动作使用冻结生成类型
-    - MODULE门禁通过并可独立交给主控集成
-    session_log_required: true
-    completed_at: '2026-07-18T15:18:31Z'
-  - id: TASK-R03-005
-    title: 三批次汇合、工程治理、专项测试与故障注入
-    status: DONE
-    depends_on:
-    - TASK-R03-002
-    - TASK-R03-003
-    - TASK-R03-004
-    stories:
-    - STORY-R03-004
-    requirements: *id001
-    description: 主控汇合三条业务切片，统一共享迁移、权限、SecretRef、审批、审计、契约生成，并执行18项权威测试和供应商故障注入。
-    deliverables:
-    - Flyway空库、升级库、回滚和数据不变量证据
-    - 18项权威测试、契约、页面动作、安全和故障注入报告
+    - 6项权威测试、E2E、安全和故障注入报告
+    - R2/OSS双适配、Scope隔离、迁移恢复和访问审计证据
     - 生成物漂移为零，关键缺陷清零
     acceptance:
-    - STORY-R03-004工程治理验收全部通过
-    - INTEGRATION门禁、数据库测试和安全专项全部PASS
-    - 共享API和DTO只有主控最终集成版本
+    - STORY-R04-001和002全部验收条件通过
+    - INTEGRATION门禁、数据库测试和Android模块测试全部PASS
     session_log_required: true
-    completed_at: '2026-07-18T16:21:43Z'
-  - id: TASK-R03-006
+  - id: TASK-R04-006
     title: 可观测性、Staging部署与回滚演练
-    status: DONE
+    status: BLOCKED
     depends_on:
-    - TASK-R03-005
+    - TASK-R04-005
     requirements: *id001
-    description: 部署Staging，验证结构化日志、TraceId、RED指标、连接测试指标、业务告警、配置激活和回滚演练。
+    description: 部署Staging，验证上传/存储结构化日志、TraceId、RED指标、业务指标、告警、生命周期和回滚。
     deliverables:
     - 运行手册与回滚演练证据
     - 验收矩阵自动化条目签字
     acceptance:
-    - 日志不包含秘密、证书原文或敏感供应商响应
-    - Staging与INTEGRATION门禁通过
+    - 日志不包含签名URL、Secret或私有对象内容
+    - Staging和RELEASE前置门禁通过
     session_log_required: true
-    completed_at: '2026-07-18T16:56:21Z'
-  - id: TASK-R03-007
-    title: 外部激活证据、Android回归APK与产物追溯
-    status: DONE
+  - id: TASK-R04-007
+    title: 媒体与多对象存储Android测试APK与产物追溯
+    status: BLOCKED
     depends_on:
-    - TASK-R03-006
+    - TASK-R04-006
     requirements: *id001
-    description: 完成短信、实名、支付、出款、存储的测试环境连接与脱敏证据；使用固定Staging签名构建回归APK，完成桌面、服务器、公网下载和项目所有者真机验收。
+    description: 使用固定Staging签名和单调versionCode构建，完成桌面、仓库忽略副本、服务器与公网下载四方SHA校验并等待项目所有者真机验收。
     deliverables:
-    - 外部激活清单、连接报告、SecretRef和证书指纹
-    - DNS、TLS、服务健康三层状态和责任人
-    - APK Commit、versionName、versionCode、签名指纹、四方SHA和桌面副本
+    - APK可下载、可安装且桌面副本保留
+    - Commit、versionName、versionCode、签名指纹、大小、SHA256和测试结果齐全
     acceptance:
-    - 每项外部依赖为VERIFIED或具备负责人、截止版本和阻断状态
-    - 连接测试失败不得激活对应配置版本
-    - APK机器交付PASS和项目所有者真机PASS分别记录；真机反馈前保持PENDING
+    - 机器交付PASS不能替代项目所有者真机PASS
+    - 真机结论未收到前owner_physical_test保持PENDING
     session_log_required: true
-    blocker: R03机器实现、测试、外部清单和固定签名APK四方交付均PASS；等待项目所有者对hhy-r03-3a913c9-debug.apk完成真机安装、启动与自动验证码路径验收
-    blocked_at: '2026-07-18T17:24:49Z'
-    completed_at: '2026-07-19T08:16:56Z'
-  - id: TASK-R03-008
-    title: 供应商配置、密钥、证书与域名中心版本关闭与无状态交接
-    status: READY
+  - id: TASK-R04-008
+    title: 媒体与多对象存储版本关闭与无状态交接
+    status: BLOCKED
     depends_on:
-    - TASK-R03-007
+    - TASK-R04-007
     requirements: *id001
     description: 回填追踪矩阵、Session Log、问题登记、可复用模式、CURRENT_STATUS和NEXT_TASK。
     deliverables:
     - 全新AI仅凭仓库可继续
     - 工作区干净且Tag可追溯
     acceptance:
-    - 无TODO/生产Mock或未登记外部阻断
-    - 代码、文档、测试、追踪同步更新
+    - 无TODO/生产Mock或未登记阻断
+    - APK机器交付和项目所有者真机验收均有独立证据
     - 全新AI仅凭仓库可继续
     session_log_required: true
   version: 1.2.2
-  definition_of_ready: releases/R03/DEFINITION_OF_READY.yaml
-  story_backlog: releases/R03/STORIES.yaml
-  execution_rule: TASK-R03-001完成后，TASK-R03-002至004是三个候选纵向业务切片；现行协议下一次只领取一个Task并在Claim内部三分区并行。TASK-R03-005由主控汇合；TASK-R03-007必须完成外部证据和回归APK桌面/公网/真机验收。
+  definition_of_ready: releases/R04/DEFINITION_OF_READY.yaml
+  story_backlog: releases/R04/STORIES.yaml
+  execution_rule: TASK-R04-001完成后，存储/数据基线与Android可按冻结契约并行；媒体API依赖存储端口，TASK-R04-005由主控汇合三分区。R04必须完成桌面APK交付和项目所有者真机验收后方可关闭。
 PARALLEL_EXECUTION_PLAN.yaml:
   version: '1.0'
-  release: R03
+  release: R04
   change_request: CR-0019
   mode: ONE_MASTER_THREE_DELEGATED_WORKERS
   authoritative_session_count: 1
@@ -2393,13 +1847,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
   non_delegation_requires_checkpoint_reason: true
   capability_fallback: RECORD_LIMITATION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
   user_override_allowed: true
-  source_of_truth_branch: task/TASK-R03-001
+  source_of_truth_branch: task/TASK-R04-001
   rules:
-  - 主控一次只领取一个Task/Story；三条业务切片是依赖满足后的候选集合，不是三个并行事实分支。
-  - 当前Claim内最多三个执行代理按后端数据、Admin客户端、质量证据的互斥路径并行。
-  - 执行代理不得修改连续性、Release状态、公共契约、共享生成类型和Flyway编号，不得提交、推送、合并或发布。
-  - 共享API、DTO、迁移、权限、SecretRef、审批和审计由主控先冻结边界并最终集成。
-  - 供应商测试环境、DNS、证书和SecretRef只能记录真实脱敏证据；缺失项保持BLOCKED。
+  - 主控一次只领取一个Task/Story；执行代理只在当前Claim内部并行，未来Task只能做只读准备。
+  - 执行代理使用隔离scratch worktree和互不重叠的路径租约，不修改连续性、Release、公共契约和共享生成类型。
+  - 主控先固定存储端口、Flyway编号和生成API类型，再集成存储、媒体API、Android和质量补丁。
+  - 私有预览使用冻结响应的readUrl；迁移与审计由内部服务持有，新增外部API必须先走CR。
+  - APK机器交付和项目所有者真机验收是两个独立门禁。
   worker_partitions:
   - partition: BACKEND_DATA
     allowed_paths:
@@ -2407,16 +1861,16 @@ PARALLEL_EXECUTION_PLAN.yaml:
     - database/**
     forbidden_shared_paths:
     - services/backend/boot/src/main/resources/contracts/**
-  - partition: ADMIN_CLIENT
+  - partition: ANDROID_CLIENT
     allowed_paths:
-    - apps/admin-web/**
+    - apps/android/feature/media/**
     forbidden_shared_paths:
-    - apps/admin-web/src/router.ts
-    - apps/admin-web/src/App.vue
+    - apps/android/app/**
+    - apps/android/core/network/**
   - partition: QUALITY_EVIDENCE
     allowed_paths:
-    - tests/r03/**
-    - artifacts/validation/r03-*/**
+    - tests/r04/**
+    - artifacts/validation/r04-*/**
     forbidden_shared_paths: []
   coordinator_owned_paths:
   - .continuity/**
@@ -2425,69 +1879,56 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - releases/**
   - contracts/**
   - packages/api-client/**
-  - catalogs/**
-  - docs/03-continuity/**
+  - apps/android/app/**
+  - apps/android/core/network/**
   - services/backend/boot/src/main/resources/db/migration/**
   lanes:
-  - lane: SLICE-A-PROVIDERS
-    task_id: TASK-R03-002
+  - lane: STORAGE-FOUNDATION
+    task_id: TASK-R04-002
     stories:
-    - STORY-R03-001
-    outcome: 短信、R2/OSS与实名供应商版本、连接测试、审批、激活/回滚及Admin页面端到端闭环
-    preferred_agents:
-    - backend_data
-    - admin_client
-    - quality
-  - lane: SLICE-B-DOMAINS
-    task_id: TASK-R03-003
-    stories:
-    - STORY-R03-002
-    outcome: orbexa.cc域名版本、DNS动作、DNS/TLS/服务健康验证及Admin页面端到端闭环
-    preferred_agents:
-    - backend_data
-    - admin_client
-    - quality
-  - lane: SLICE-C-FINANCIAL-PROVIDERS
-    task_id: TASK-R03-004
-    stories:
-    - STORY-R03-003
-    outcome: 支付、出款和证书生命周期的版本、审批、连接测试、激活/回滚及Admin页面端到端闭环
+    - STORY-R04-002
+    outcome: Scope隔离、R2/OSS适配、签名URL、迁移恢复、访问审计和媒体数据不变量
     preferred_agents:
     - backend_data_high_reasoning
-    - admin_client
-    - security_quality
-  - lane: GOVERNANCE-INTEGRATION
-    task_id: TASK-R03-005
+    - quality
+  - lane: MEDIA-API
+    task_id: TASK-R04-003
     stories:
-    - STORY-R03-004
-    outcome: 三切片共享迁移、权限、SecretRef、审计、18项测试、故障注入和生成物汇合
+    - STORY-R04-001
+    outcome: 创建上传会话、完成上传、私有readUrl和删除的端到端API闭环
+    preferred_agents:
+    - backend_data
+    - quality
+  - lane: ANDROID-MEDIA
+    task_id: TASK-R04-004
+    stories:
+    - STORY-R04-001
+    outcome: Android媒体选择、并发进度、分片重试、取消、完成、预览和删除确认闭环
+    preferred_agents:
+    - android_client
+    - quality
+  - lane: GOVERNANCE-INTEGRATION
+    task_id: TASK-R04-005
+    stories:
+    - STORY-R04-002
+    outcome: 存储、媒体API和Android三分区汇合、6项权威测试、故障注入和生成物校验
     preferred_agents:
     - coordinator
   integration:
-    task_id: TASK-R03-005
+    task_id: TASK-R04-005
     depends_on:
-    - TASK-R03-002
-    - TASK-R03-003
-    - TASK-R03-004
+    - TASK-R04-002
+    - TASK-R04-003
+    - TASK-R04-004
     profiles:
     - MODULE
     - INTEGRATION
-  external_activation:
-    task_id: TASK-R03-007
-    apk_required: true
-    required_evidence:
-    - supplier_connection_tests
-    - secret_refs
-    - certificate_fingerprints
-    - dns_tls_service_health
-    - owners_and_deadlines_for_unfinished_items
   apk:
-    task_id: TASK-R03-007
-    regression_build_when_no_android_change: true
+    task_id: TASK-R04-007
     desktop_copy_required: true
     public_download_required: true
     stable_test_signing_required: true
-    minimum_version_code: 10203
+    minimum_version_code: 10204
     owner_physical_test_initial_status: PENDING
 ```
 
@@ -3666,8 +3107,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `e39a890d399738051097b6904ade5ebca9d18c105993fd3569678780c1d333bc`
-- `NEXT_TASK.yaml` — `2ce284d85549390b008c88ebc5c6af773a86bd76f5bcc6415873fbbeb42e166b`
+- `CURRENT_STATUS.yaml` — `eec520eeab9cbc8e22a79fadebbc9112918a416b0245619ac228351d88f3f7c8`
+- `NEXT_TASK.yaml` — `2f0d203e138d2ec52c7097a22fb789ffe9edc42c68d28b317655d7f4fa16d769`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `4e1a535106260cf79ec11e3599cbb4600ac2cb90f196461c200da6cac93ed394`
@@ -3677,21 +3118,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `c330226f5a4b65db4431b3bf5c1e73d57863a352a3c83704fd7e7c4f1a6cb17f`
-- `.continuity/SESSION_INDEX.yaml` — `dcad1d83dc4c0b4bfc8b151a21989ee06624db74d374747a6412fb575156c607`
-- `.continuity/TASK_CLAIMS.yaml` — `a981f69f1af95f81a3312426079fcbf95d91fcef8821e85c5dc4e7d33af67087`
+- `.continuity/EVENT_LOG.jsonl` — `2de07f0b46d9c08aa1c7383bc216b7aef3ff4f666c30672d286d0e856d22f8e9`
+- `.continuity/SESSION_INDEX.yaml` — `e226b70eac2241614c4c003562c0b7b85d341784a4d86840b99ebd46f4a94ba9`
+- `.continuity/TASK_CLAIMS.yaml` — `6178fbcafac5099e4befe8446aa2e3feb6aef80d12e61b88f372b93a679ebf88`
 - `.continuity/TASK_TRANSITIONS.yaml` — `4c371e47c43b772971e53adbddfca1a44c1e45e307225b762de9a17eb63694ae`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e598f4fbe0d2b361afe2cda56f0b1b9c5bed4ce922d7447a95ccc326e0c2a999`
-- `.continuity/ACTIVE_SESSION.yaml` — `c3a372a72755936a6fa74f333e27726b033c5975defaff9eaf8ed31ab8146967`
-- `releases/R03/RELEASE_MANIFEST.yaml` — `1936d714a52eb77d71fbab2525eb1e7b57a8aa2446246a98d4c22ea0c0de83d6`
-- `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
-- `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
-- `releases/R03/TASKS.yaml` — `a549b8c826949eef272b07913dc11b4ba745add2edba177c1e3c243a64898f79`
-- `releases/R03/ACCEPTANCE_MATRIX.csv` — `672980dc6190ec7a413bcb66a0549b1c0d704da882e7a81cdda7ff91c8bb0699`
-- `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T081942Z-8D5C4241.md` — `4223ad7eab7de2627dd98678f53fe4496d6e69519eb52b80cc1c9432a76930f6`
-- `.continuity/checkpoints/SES-20260719T081942Z-8D5C4241/0002.yaml` — `9be643f77e31183f5bffb403ae407a1473fc1d03cbb8f454fcbfdc4238bbbcb8`
-- `docs/03-continuity/change-requests/CR-0083-R03版本关闭元数据、验收证据与终态标签规范化.md` — `facfd6644d599c494dcae1d544aef9695a6a662219467e17f3b4043eb350d82f`
+- `.continuity/ACTIVE_SESSION.yaml` — `cbd66f6e384dad5d81d9ea3facc914b453ac1c3450ad44d042e43fc12b6fa39e`
 
 ## 接手硬规则
 
