@@ -302,6 +302,7 @@ echo "U010_REAPPLY_V010 PASS"
 "${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V019__r03_provider_configuration_center.sql" >/dev/null
 "${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V020__r03_auth_registration_policy_alignment.sql" >/dev/null
 "${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V021__r04_storage_media_invariants.sql" >/dev/null
+"${PSQL[@]}" --single-transaction -f "$ROOT/database/migrations/V022__r04_media_upload_lifecycle.sql" >/dev/null
 "${PSQL[@]}" -f "$ROOT/database/tests/r02_admin_user_controls.sql" >/dev/null
 "${PSQL[@]}" -f "$ROOT/database/tests/r03_provider_configuration_invariants.sql" >/dev/null
 DATABASE_URL="$DATABASE_URL" HHY_DB_SMOKE_CONFIRM=YES \

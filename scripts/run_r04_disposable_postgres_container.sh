@@ -43,7 +43,7 @@ table_count="$(${PSQL[@]} -qAt -c \
   echo "R04 empty-database migration expected 200 tables, got ${table_count}" >&2
   exit 1
 }
-echo "R04_EMPTY_DATABASE_TO_V021 PASS tables=${table_count}"
+echo "R04_EMPTY_DATABASE_TO_V022 PASS tables=${table_count}"
 DATABASE_URL="${DATABASE_URL}" HHY_DB_SMOKE_CONFIRM=YES \
   bash "${ROOT}/scripts/run_r04_database_invariants.sh"
 echo "R04_DISPOSABLE_POSTGRES_CONTAINER PASS"

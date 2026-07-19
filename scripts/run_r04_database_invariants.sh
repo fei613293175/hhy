@@ -12,9 +12,11 @@ command -v psql >/dev/null 2>&1 || { echo "psql is required" >&2; exit 2; }
 
 PSQL=(psql "${DATABASE_URL}" -X -v ON_ERROR_STOP=1)
 "${PSQL[@]}" -f "${ROOT}/database/tests/r04_storage_media_invariants.sql" >/dev/null
+"${PSQL[@]}" -f "${ROOT}/database/tests/r04_media_upload_lifecycle_invariants.sql" >/dev/null
 echo "R04_STORAGE_MEDIA_INVARIANTS PASS"
 
 "${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/rollback/U022__r04_media_upload_lifecycle.sql" \
   -f "${ROOT}/database/rollback/U021__r04_storage_media_invariants.sql" >/dev/null
 remaining="$(${PSQL[@]} -qAt -c "
   SELECT
@@ -24,9 +26,12 @@ remaining="$(${PSQL[@]} -qAt -c "
   echo "R04 rollback left constraints or indexes: ${remaining}" >&2
   exit 1
 }
-echo "R04_U021_ROLLBACK PASS"
+echo "R04_U022_U021_ROLLBACK PASS"
 
 "${PSQL[@]}" --single-transaction \
   -f "${ROOT}/database/migrations/V021__r04_storage_media_invariants.sql" >/dev/null
+"${PSQL[@]}" --single-transaction \
+  -f "${ROOT}/database/migrations/V022__r04_media_upload_lifecycle.sql" >/dev/null
 "${PSQL[@]}" -f "${ROOT}/database/tests/r04_storage_media_invariants.sql" >/dev/null
-echo "R04_U021_REAPPLY PASS"
+"${PSQL[@]}" -f "${ROOT}/database/tests/r04_media_upload_lifecycle_invariants.sql" >/dev/null
+echo "R04_V021_V022_REAPPLY PASS"

@@ -1,0 +1,60 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T113522Z-6B27AD4B
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R04
+task_id: TASK-R04-003
+story_id: STORY-R04-001
+goal: 纵向批次B：媒体上传、完成与删除API闭环
+started_at: '2026-07-19T11:35:22Z'
+updated_at: '2026-07-19T11:45:31Z'
+takeover_of: null
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: cf9799948953f6b8e2f918414c1c8e700ef748aa
+  start_head: cf9799948953f6b8e2f918414c1c8e700ef748aa
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T11:45:28Z'
+  expires_at: '2026-07-19T15:45:28Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T113522Z-6B27AD4B.md
+next_step: 实现MediaContracts、用途策略、Postgres Store及上传创建/完成/删除应用服务测试
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: fd0cf0cafbb7105fb56ca0172089d9935e6fdf5373b27145a55508e8a3c9b4b8
+  generated_at: '2026-07-19T11:45:30Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前会话策略禁止创建子代理，主控按冻结纵向切片继续
