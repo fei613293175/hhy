@@ -1,0 +1,69 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260719T230526Z-55ABC07F
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R05
+task_id: TASK-R05-006
+story_id: STORY-R05-001
+goal: 完成R05实名认证可观测性与预发布验收：Staging部署、结构化日志、TraceId、RED与业务指标、告警、运行手册和回滚演练全部可验证
+started_at: '2026-07-19T23:05:26Z'
+updated_at: '2026-07-19T23:16:03Z'
+takeover_of: null
+change_requests:
+- CR-0107
+- CR-0108
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - R05后端可观测性、Staging部署验证、结构化日志与Trace、RED/业务指标、告警规则、回滚演练、运行手册和Acceptance
+  - CHANGELOG.md
+  approved_exceptions:
+  - infra/staging/r05-smoke/docker-compose.yml
+  - infra/staging/r05-smoke/prometheus.yml
+  - infra/staging/r05-smoke/alertmanager.yml
+  - infra/staging/r05-smoke/nginx.conf
+  - infra/staging/r05-smoke/r05-alerts.yml
+  source: story+explicit+approved-cr:CR-0108
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: ae3bd21fe7e58d5bfedd256d21cdfae535653998
+  start_head: ae3bd21fe7e58d5bfedd256d21cdfae535653998
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-19T23:16:00Z'
+  expires_at: '2026-07-20T03:16:00Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260719T230526Z-55ABC07F/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260719T230526Z-55ABC07F.md
+next_step: 提交并推送基础实现，然后基于冻结Commit执行隔离Staging部署、告警触发恢复、TraceId与回滚演练。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: f3232a077c29143e225fd1294cf6217f58b11ce54979e4d4e795b3b2283077c9
+  generated_at: '2026-07-19T23:16:02Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 本批修改集中在同一可观测性编排、共享指标绑定器和连续性状态，拆分会产生同文件冲突；按单线冻结提交后再开展独立验收。

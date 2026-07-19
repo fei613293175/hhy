@@ -202,3 +202,17 @@ R04 现场演练至少覆盖：
 5. R2/OSS 合同、私有签名 URL TTL、跨 Scope 拒绝、供应商异常暂停迁移以及游标恢复必须由自动化测试验证。未提供真实供应商凭据时只能签署受控适配器故障演练，禁止伪造真实供应商成功回执。
 6. 应用回切只替换 `api` 镜像，保持同一 PostgreSQL 容器、卷和 V022 迁移；禁止执行 U022、降版本 DDL或删除媒体/审计记录。恢复当前镜像后再次验证 readiness、RED、四项 R04 Gauge 和数据库容器/卷连续性。
 7. 证据统一写入 `artifacts/validation/r04-task006-staging/`，绑定被测 Commit、不可变镜像 ID、数据库容器/卷、Flyway 版本与每个证据文件 SHA-256。TASK-R04-006 只关闭机器侧 Staging 门禁；Android APK 和项目所有者真机验收仍由 TASK-R04-007 单独完成。
+
+## 10. R05 实名认证隔离预发布验收
+
+R05 使用 `infra/staging/r05-smoke/docker-compose.yml`，采用独立 Compose project、仅回环发布端口、`172.31.248.0/24` 默认子网和独立数据卷；不得修改或重启公网及 R01–R04 环境。执行前运行 `python3 scripts/check_r05_observability.py`，并以被测 Commit 作为不可变 `HHY_SMOKE_ID`。测试 Secret 只在隔离进程环境注入，禁止写入仓库、命令输出或证据。
+
+R05 现场演练至少覆盖：
+
+1. Java 21 全量测试与生产构建通过；PostgreSQL 17 完整迁移到 V028，业务表保持 200 张。
+2. Prometheus target `hhy-backend-r05` 为 UP，RED count/bucket 非空，并存在 `hhy_identity_active_sessions`、`hhy_identity_provider_failures_5m`、`hhy_identity_manual_review_pending`、`hhy_identity_private_media_invalid`；空载时后三项和业务指标查询失败计数必须为 0。
+3. 停止/恢复 API 触发 `HhyR05BackendDown`；插入四条隔离 `FAILED`/`TIMED_OUT` 供应商请求触发 `HhyR05IdentityProviderFailureBurst`，清理隔离数据后取得 resolved；两项均须取得 alert-sink 送达回执。
+4. 实名接口和回跳请求的 HTTP 状态、`requestId`、`traceId` 与 `http_request_completed` 可关联；日志不得包含姓名、身份证号、照片地址/内容、供应商回包、APPCODE、Secret、Bearer、Cookie 或请求正文。
+5. 供应商超时、订单错配、私有证据摘要错配、重复幂等键和并发重复回跳必须由 TASK-R05-005 自动化证据验证，禁止伪造供应商成功回执。
+6. 应用回切只替换 `api` 镜像，保持同一 PostgreSQL 容器、数据卷和 V028；禁止执行 U028–U023、降版本 DDL、删除实名媒体/复核/敏感访问审计。恢复当前镜像后再次验证 readiness、RED、四项 R05 Gauge 和数据库连续性。
+7. 证据统一写入 `artifacts/validation/r05-task006-staging/`，绑定被测 Commit、两个不可变镜像 ID、数据库容器/卷、Flyway V028、告警回执和逐文件 SHA-256。Android APK 与真机验收仍由 TASK-R05-007 单独完成。

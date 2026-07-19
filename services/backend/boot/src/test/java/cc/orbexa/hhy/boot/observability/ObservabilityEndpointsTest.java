@@ -58,6 +58,10 @@ class ObservabilityEndpointsTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_media_upload_expired_open")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_media_delete_pending")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_storage_migration_blocked")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_identity_active_sessions")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_identity_provider_failures_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_identity_manual_review_pending")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_identity_private_media_invalid")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_business_metric_query_failures_total")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("http_server_requests_seconds_bucket")));
         mvc.perform(get("/actuator").with(user("observability-auditor")))

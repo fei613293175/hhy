@@ -85,3 +85,16 @@ docker compose -p hhy-r04-staging -f infra/staging/r04-smoke/docker-compose.yml 
 ```
 
 回切前后记录 `api` 镜像 ID、PostgreSQL 容器 ID、卷名、Flyway V022、200 表基线、Prometheus target、RED 与四项 R04 Gauge。验证同一测试媒体元数据仍可读取、未完成上传会话状态未被篡改、私有对象未变为公开访问；随后恢复当前镜像并重复 readiness 与指标验证。禁止 U022、U021、降版本 DDL、删除媒体/访问审计记录、重建数据库或对真实供应商对象执行破坏性清理。
+
+## 9. R05 实名认证隔离回滚演练
+
+R05 应用回切保持同一 PostgreSQL 容器和数据卷，只切换 `api` 镜像。目标必须是已经验证且兼容 V028 的不可变镜像；若没有兼容镜像，停止回切并采用更高版本应用前向修复，禁止强行启动历史镜像。
+
+```bash
+export HHY_SMOKE_ID='<previous-approved-v028-compatible-tag>'
+docker compose -p hhy-r05-staging -f infra/staging/r05-smoke/docker-compose.yml up -d --no-deps api
+docker compose -p hhy-r05-staging -f infra/staging/r05-smoke/docker-compose.yml exec -T api \
+  curl -fsS http://127.0.0.1:9091/actuator/health/readiness
+```
+
+回切前后记录 `api` 镜像 ID、PostgreSQL 容器 ID、卷名、Flyway V028、200 表基线、Prometheus target、RED 与四项 R05 Gauge。验证进行中会话、人工复核队列、私有媒体绑定、不可变复核和敏感访问审计均未改变；随后恢复当前镜像并重复 readiness、指标与告警验证。禁止 U028–U023、降版本 DDL、删除实名会话/媒体/复核/访问审计、重建数据库或对真实供应商执行破坏性请求。

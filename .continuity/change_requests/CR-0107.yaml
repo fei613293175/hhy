@@ -1,0 +1,49 @@
+protocol_version: '1.0'
+cr_id: CR-0107
+title: 补充R05隔离Staging编排允许路径
+status: SUPERSEDED
+created_at: '2026-07-19T23:14:23Z'
+updated_at: '2026-07-19T23:15:13Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner-delegated
+task_id: TASK-R05-006
+session_id: SES-20260719T230526Z-55ABC07F
+user_request: 用户要求持续推进R05并完成正式版本开发与预发布验收，无需就常规开发事项反复确认
+reason: TASK-R05-006明确要求Staging部署和告警回滚演练，但启动会话漏列infra/staging/r05-smoke路径
+original_rule: 会话路径允许services/backend、docs、scripts等，但未包含infra目录
+new_rule: 仅增加infra/staging/r05-smoke/**用于TASK-R05-006隔离预发布编排与验收
+impact_summary: 新增R05专用Compose、Prometheus、Alertmanager、Nginx与告警配置，不修改既有环境
+impact:
+  files:
+  - infra/staging/r05-smoke/**
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - R05隔离Staging编排与可观测性规则
+  ledger: []
+  tests:
+  - docker compose config; promtool config/rules; amtool check-config; isolated staging smoke
+  releases:
+  - R05
+  migration_and_compatibility: 新增隔离目录和独立网段端口，无现有配置迁移；删除该目录即可回退
+user_confirmation: 用户已明确要求持续推进版本开发、常规开发问题自行决定且无需反复确认
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T23:14:44Z'
+  note: 任务定义要求Staging部署，范围扩展仅补齐遗漏且不影响现有环境
+machine_record: .continuity/change_requests/CR-0107.yaml
+document: docs/03-continuity/change-requests/CR-0107-补充R05隔离Staging编排允许路径.md
+decision_log:
+- at: '2026-07-19T23:14:58Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 应用已批准的R05隔离Staging路径
+  session_id: SES-20260719T230526Z-55ABC07F
+- at: '2026-07-19T23:15:13Z'
+  actor_id: codex-root
+  status: SUPERSEDED
+  note: 范围工具要求精确文件路径，改由CR-0108逐文件列出
+  session_id: SES-20260719T230526Z-55ABC07F
+session_ids:
+- SES-20260719T230526Z-55ABC07F

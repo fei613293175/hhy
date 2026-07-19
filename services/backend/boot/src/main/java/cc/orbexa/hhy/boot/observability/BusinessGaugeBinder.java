@@ -139,6 +139,28 @@ public final class BusinessGaugeBinder implements MeterBinder {
             FROM hhy.storage_migration_jobs
             WHERE status IN ('PAUSED', 'FAILED')
             """;
+    static final String IDENTITY_ACTIVE_SESSIONS_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.identity_verification_sessions
+            WHERE status IN ('SESSION_CREATED','LIVENESS_PENDING','PROVIDER_PROCESSING','MANUAL_REVIEW')
+            """;
+    static final String IDENTITY_PROVIDER_FAILURES_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.identity_provider_requests
+            WHERE status IN ('FAILED','TIMED_OUT')
+              AND completed_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String IDENTITY_MANUAL_REVIEW_PENDING_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.identity_verification_sessions
+            WHERE status = 'MANUAL_REVIEW'
+            """;
+    static final String IDENTITY_PRIVATE_MEDIA_INVALID_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.identity_media identity_media
+            LEFT JOIN hhy.media_objects media ON media.id = identity_media.media_object_id
+            WHERE media.id IS NULL OR media.visibility <> 'PRIVATE' OR media.status <> 'READY'
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -168,6 +190,10 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.media.upload.expired.open", "Expired media upload sessions still in an open state", MEDIA_UPLOAD_EXPIRED_OPEN_SQL);
         register(registry, "hhy.media.delete.pending", "Media objects waiting for provider deletion", MEDIA_DELETE_PENDING_SQL);
         register(registry, "hhy.storage.migration.blocked", "Storage migration jobs paused or failed", STORAGE_MIGRATION_BLOCKED_SQL);
+        register(registry, "hhy.identity.active.sessions", "Identity sessions requiring further processing", IDENTITY_ACTIVE_SESSIONS_SQL);
+        register(registry, "hhy.identity.provider.failures.5m", "Identity provider failures or timeouts in the last five minutes", IDENTITY_PROVIDER_FAILURES_5M_SQL);
+        register(registry, "hhy.identity.manual.review.pending", "Identity sessions waiting for manual review", IDENTITY_MANUAL_REVIEW_PENDING_SQL);
+        register(registry, "hhy.identity.private.media.invalid", "Identity media missing a private ready media object", IDENTITY_PRIVATE_MEDIA_INVALID_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

@@ -1600,3 +1600,25 @@ claims:
   - R05 身份认证后端、H5回调、管理端审核、PostgreSQL不变量、供应商回调故障注入与专项测试报告
   - CHANGELOG.md
   closed_at: '2026-07-19T23:04:20Z'
+- claim_id: CLM-3081AFB8BFC0
+  session_id: SES-20260719T230526Z-55ABC07F
+  task_id: TASK-R05-006
+  story_id: STORY-R05-001
+  actor_id: codex-root
+  status: ACTIVE
+  claimed_at: '2026-07-19T23:05:26Z'
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - R05后端可观测性、Staging部署验证、结构化日志与Trace、RED/业务指标、告警规则、回滚演练、运行手册和Acceptance
+  - CHANGELOG.md
