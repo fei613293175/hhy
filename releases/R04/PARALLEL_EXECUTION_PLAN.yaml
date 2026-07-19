@@ -93,5 +93,5 @@ apk:
   desktop_copy_required: true
   public_download_required: true
   stable_test_signing_required: true
-  minimum_version_code: 10204
+  minimum_version_code: 10207
   owner_physical_test_initial_status: PENDING

@@ -1,0 +1,45 @@
+protocol_version: '1.0'
+cr_id: CR-0085
+title: 记录版本关闭绿提交缺口并校正R04 APK单调版本基线
+status: IMPLEMENTING
+created_at: '2026-07-19T08:48:40Z'
+updated_at: '2026-07-19T08:48:44Z'
+requester_actor_id: codex-root
+approver_actor_id: r04-entry-review
+task_id: TASK-R04-001
+session_id: SES-20260719T083704Z-6E4CE28F
+user_request: 项目所有者要求R03通过后立即推进R04并持续优化开发效率
+reason: Bug修复必须登记防复发规则；R04计划仍写10204但R03已交付10206，必须在构建前校正为10207
+original_rule: 问题登记未包含close不回填last_green_commit；R04 APK minimum_version_code仍为10204
+new_rule: 登记PROB-0040并要求跨版本测试断言last_green_commit；R04固定签名APK最低versionCode调整为10207，后续必须保持全局单调递增
+impact_summary: 仅增加防复发登记并校正R04测试APK元数据下限，不改变业务功能、API、数据库或UI
+impact:
+  files:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python -m unittest tests.test_continuity_cross_release_close
+  - python scripts/check_v122_documentation.py --release R04
+  releases:
+  - R04
+  migration_and_compatibility: 无需运行时迁移；后续R04构建直接使用10207或更高版本号，已安装10206可正常覆盖升级
+user_confirmation: 项目所有者确认R03通过并要求立即推进R04，且已要求开发流程持续防复发
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-19T08:48:42Z'
+  note: 独立核对：问题登记与APK单调版本校正均由现有证据直接推出，不改变产品范围；10207高于已验收10206
+machine_record: .continuity/change_requests/CR-0085.yaml
+document: docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md
+decision_log:
+- at: '2026-07-19T08:48:44Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 写入防复发登记并校正R04 APK最低版本号
+  session_id: SES-20260719T083704Z-6E4CE28F
+session_ids:
+- SES-20260719T083704Z-6E4CE28F

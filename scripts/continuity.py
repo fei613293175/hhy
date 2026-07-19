@@ -1136,7 +1136,11 @@ def command_close(args: Namespace) -> None:
         state["last_closure_checkpoint_id"] = closure_checkpoint["checkpoint_id"]
         save_state(ROOT, state)
         update_current_status_closed(
-            ROOT, session, result=result, next_task_id=args.next_task or session["task_id"]
+            ROOT,
+            session,
+            result=result,
+            next_task_id=args.next_task or session["task_id"],
+            code_commit=code_commit,
         )
         if blocked_advance:
             status = read_current_status(ROOT)

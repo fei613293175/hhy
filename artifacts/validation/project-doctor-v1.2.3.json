@@ -30,8 +30,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 775,
-      "event_head_hash": "f2e0fcefcf566399c22f49e31d105f140865deb5656d7f037e012df7b369fe1f",
+      "event_count": 913,
+      "event_head_hash": "c5a8283a1266c082940c81fc604b9623201f675de9657781c33da6f49b712dae",
       "document_gate": {
         "status": "EXECUTED",
         "forced": true,
@@ -41,10 +41,10 @@
     "continuity_gate_rules": 42,
     "continuity_event_types": 17,
     "continuity_required_records": 20,
-    "baseline_sessions": 34,
+    "baseline_sessions": 36,
     "baseline_handoffs": 3,
-    "change_requests": 67,
-    "task_transitions": 36,
+    "change_requests": 82,
+    "task_transitions": 38,
     "continuity_integration_checks": 11,
     "continuity_lifecycle_checks": 14
   },

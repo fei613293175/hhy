@@ -907,6 +907,7 @@ def update_current_status_closed(
     *,
     result: str,
     next_task_id: str | None,
+    code_commit: str | None = None,
 ) -> None:
     status = read_current_status(root)
     completed = list(status.get("completed_tasks", []))
@@ -942,6 +943,8 @@ def update_current_status_closed(
             },
         }
     )
+    if result == "COMPLETED" and code_commit:
+        status["last_green_commit"] = code_commit
     atomic_write_yaml(root / "CURRENT_STATUS.yaml", status)
 
 

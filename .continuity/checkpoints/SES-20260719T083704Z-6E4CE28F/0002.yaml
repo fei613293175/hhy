@@ -1,0 +1,201 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T083704Z-6E4CE28F-0002
+session_id: SES-20260719T083704Z-6E4CE28F
+sequence: 2
+created_at: '2026-07-19T08:49:22Z'
+summary: R04入场治理完成：PROB-0040登记跨版本绿提交根因与防复发规则，R04 APK最低versionCode从历史10204校正为10207
+next_step: 提交R04入场基线、连续性自动回填修复和两张批准CR，然后关闭TASK-R04-001进入存储数据基线
+blockers: []
+decisions:
+- R04后续APK必须大于已验收R03 10206；Bug修复与问题登记同批提交，避免重复流程
+note: ''
+tests:
+- name: r04-documentation
+  result: PASS
+  evidence: scripts/check_v122_documentation.py --release R04
+  note: 0 errors 0 warnings 0 gaps
+- name: cross-release-last-green
+  result: PASS
+  evidence: python -m unittest tests.test_continuity_cross_release_close
+  note: 2 tests OK
+- name: continuity-reconstruction
+  result: PASS
+  evidence: scripts/run_continuity_self_test.py
+  note: 11 integration checks PASS
+- name: v123-continuity
+  result: PASS
+  evidence: scripts/check_v123_continuity.py --strict
+  note: 0 errors 0 warnings
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: cf597bba9422b4dc9abd4a95806efa99ea6c5b12
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - MM .continuity/CHANGE_REQUEST_INDEX.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0084.yaml
+  - A  .continuity/checkpoints/SES-20260719T083704Z-6E4CE28F/0001.yaml
+  - AM .continuity/sessions/SES-20260719T083704Z-6E4CE28F.yaml
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  artifacts/validation/continuity-integration-v1.2.3.json
+  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - M  artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - M  artifacts/validation/project-doctor-v1.2.3.json
+  - MM catalogs/change_request_index.csv
+  - MM catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - A  docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+  - A  docs/03-continuity/change-requests/CR-0084-跨版本关闭自动回填last_green_commit并增加回归门禁.md
+  - A  docs/03-continuity/sessions/2026-07/SES-20260719T083704Z-6E4CE28F.md
+  - ' M releases/R04/PARALLEL_EXECUTION_PLAN.yaml'
+  - M  scripts/continuity.py
+  - M  scripts/continuity_lib.py
+  - M  tests/test_continuity_cross_release_close.py
+  - ?? .continuity/change_requests/CR-0085.yaml
+  - ?? docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md
+  recent_commits:
+  - "cf597bba9422b4dc9abd4a95806efa99ea6c5b12\t2026-07-19T16:31:45+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-008\
+    \ as completed"
+  - "40807dc3d8e1dcfa56334d37cf8646bf9db483dd\t2026-07-19T16:30:34+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): finalize R03\
+    \ acceptance matrix"
+  - "e37faeaa31714e4026132b426acb0bd956032d84\t2026-07-19T16:28:42+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): archive R03\
+    \ close evidence"
+  - "d492370ddccf7adcbe935be008dd9b5c70471832\t2026-07-19T16:18:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): close TASK-R03-007\
+    \ as completed"
+  - "442b2ad431bec3e3250ca40a1ac7e9a2dc0a1ab7\t2026-07-19T16:16:05+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): record R03\
+    \ owner acceptance"
+  - "6c7b8891af999e75610a03aeedfefc536faeb608\t2026-07-19T15:51:29+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(continuity): refresh\
+    \ fast-path context"
+  - "8f3a3ab372515e7b49e61e5676517db07d8543f3\t2026-07-19T15:49:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close fast-path\
+    \ CR"
+  - "6301eef63f7108b024d23446d8e396eaeab38471\t2026-07-19T15:48:04+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] feat(workflow): add fast path\
+    \ and atomic APK replacement"
+project_fingerprint:
+  sha256: a3ae12604504f672ffc57db9097f5d444c443ed128c0d2d29fa9d2a36d497d63
+  files:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0084-跨版本关闭自动回填last_green_commit并增加回归门禁.md
+  - docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  - tests/test_continuity_cross_release_close.py
+  file_count: 8
+  payload:
+    base_commit: cf597bba9422b4dc9abd4a95806efa99ea6c5b12
+    files:
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 39268
+      sha256: 6640b40a4142d2abcc2459c0dd71b872ee816be9865e9c12e6b1fa0c622471ef
+    - path: docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+      state: FILE
+      size: 2986
+      sha256: 3ee484f967323fa0e4f6213749f6b930a0eae01bec611523b90e62a9eb5b6a85
+    - path: docs/03-continuity/change-requests/CR-0084-跨版本关闭自动回填last_green_commit并增加回归门禁.md
+      state: FILE
+      size: 2621
+      sha256: 0b158695b425af11449370b79416228a4aded0bd71749cb9a3c7957dd6d57f1a
+    - path: docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md
+      state: FILE
+      size: 2253
+      sha256: c7782003df78317f4e20a1b731d22d49249111bfeb44c762732136d57e995fff
+    - path: releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 3147
+      sha256: 9f76b85f11c0293ce8930f1068cf1fc5582242753ff141b5b6134d8e44e5f2dd
+    - path: scripts/continuity.py
+      state: FILE
+      size: 65961
+      sha256: 603d1332fd53ca318188fa8a24d35b460e18de235afc9e978020dba5b8c3d86a
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 108459
+      sha256: a7e9b1d31cec3297265ad927ac2376084e8c0fda31d9e0631c360aff09f039c5
+    - path: tests/test_continuity_cross_release_close.py
+      state: FILE
+      size: 19161
+      sha256: beba0d0b05b2dc6b302336e2a639c8bb2cd18a77b7edf29e92dbc1650ecf0517
+change_classification:
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/R04_TASK-001_ENTRY_GATE.md
+  - docs/03-continuity/change-requests/CR-0084-跨版本关闭自动回填last_green_commit并增加回归门禁.md
+  - docs/03-continuity/change-requests/CR-0085-记录版本关闭绿提交缺口并校正R04-APK单调版本基线.md
+  other:
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  code:
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  tests:
+  - tests/test_continuity_cross_release_close.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0084
+- CR-0085
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - scripts/continuity.py
+  - scripts/continuity_lib.py
+  - tests/test_continuity_cross_release_close.py
+  - CURRENT_STATUS.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - releases/R04/PARALLEL_EXECUTION_PLAN.yaml
+  source: story+explicit+approved-cr:CR-0084+approved-cr:CR-0085
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前执行约束未授权创建子代理；共享连续性脚本、问题登记和发布计划必须由主控原子提交
+event_hash: 823d85dc68ae8f4a73763fe639fb5d54dcf832bbec2b0ea4761d0ffb81170493

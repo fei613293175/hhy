@@ -478,3 +478,17 @@ problems:
   - 只读事务不得调用SELECT FOR UPDATE或FOR SHARE等锁查询
   - 预校验与正式提交需要不同并发语义时必须拆分存储方法，不得共用会导致事务属性冲突的查询
   - 用户可处理的手机号已注册和邀请码无效不得退化为通用失败或服务不可用文案
+- id: PROB-0040
+  title: 跨版本关闭未回填最终绿提交导致发布门禁重复人工修正
+  status: SOLVED
+  root_cause: continuity close虽然接收并记录code_commit，但update_current_status_closed没有接收该值，CURRENT_STATUS.last_green_commit因此长期停留在R01；R03其他关闭证据全部通过后仍被CURRENT_GREEN_COMMIT_MISMATCH阻断。
+  resolution: close把code_commit显式传入update_current_status_closed，COMPLETED时原子写回last_green_commit；跨版本隔离测试新增精确断言，R03当前状态同步到已验收APK源码Commit 660d148。
+  regression_checks:
+  - tests/test_continuity_cross_release_close.py
+  - scripts/run_continuity_self_test.py
+  - scripts/check_v123_continuity.py --strict
+  - scripts/check_release_artifacts.py --release R03 --close-gate
+  do_not_repeat:
+  - 版本关闭不得只在Session和事件中记录code_commit而遗漏CURRENT_STATUS.last_green_commit
+  - 发布关闭门禁发现绿提交漂移时必须修复状态生成逻辑，不得逐版本手工改值后忽略根因
+  - COMPLETED以外的BLOCKED或ABANDONED结果不得把未通过版本误标为last_green_commit
