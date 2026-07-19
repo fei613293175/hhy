@@ -235,7 +235,8 @@ class IdentityServiceTest {
         }
 
         @Override
-        public Session attachLiveness(Session current, LivenessTicket ticket, Instant now) {
+        public Session attachLiveness(
+                Session current, LivenessTicket ticket, String idempotencyKey, Instant now) {
             Session changed = new Session(current.id(), current.userId(), "LIVENESS_PENDING",
                     current.provider(), ticket.url(), null, current.expiresAt(),
                     current.version() + 1, current.attemptNo());

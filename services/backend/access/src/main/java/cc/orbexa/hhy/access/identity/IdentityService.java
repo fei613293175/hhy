@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 /** Application service for the four frozen R05 authenticated client operations. */
-public final class IdentityService {
+public class IdentityService {
     private static final String RESPONSE_TYPE = "r05-identity-session-v1";
     private static final List<String> ACTIVE = List.of(
             "SESSION_CREATED", "LIVENESS_PENDING", "PROVIDER_PROCESSING", "MANUAL_REVIEW");
@@ -123,7 +123,7 @@ public final class IdentityService {
         if (ticket == null || ticket.url() == null || !"https".equalsIgnoreCase(ticket.url().getScheme())) {
             throw new BusinessException("COMMON-500-INTERNAL", "活体检测服务暂时不可用", 500, true);
         }
-        return resource(store.attachLiveness(session, ticket, Instant.now(clock)));
+        return resource(store.attachLiveness(session, ticket, key, Instant.now(clock)));
     }
 
     private IdentitySessionResource retryOnce(
@@ -226,7 +226,8 @@ public final class IdentityService {
         long countCreatedSince(long userId, Instant since);
         Session create(SessionDraft draft);
         Optional<Session> find(long id, long userId);
-        Session attachLiveness(Session current, LivenessTicket ticket, Instant now);
+        Session attachLiveness(
+                Session current, LivenessTicket ticket, String idempotencyKey, Instant now);
         Session expire(long id, long userId, long expectedVersion, Instant now);
         Session retry(Session previous, String provider, String idempotencyKey, Instant expiresAt, Instant now);
     }

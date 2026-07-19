@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-19T17:05:43Z'
+generated_at: '2026-07-19T17:20:45Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -72,7 +72,7 @@ current_status:
   - TASK-R02-007
   - TASK-R03-007
   next_task: TASK-R05-003
-  updated_at: '2026-07-19T17:05:42Z'
+  updated_at: '2026-07-19T17:20:44Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -107,15 +107,15 @@ current_status:
     active_session_id: SES-20260719T165401Z-12791729
     actor_id: codex-root
     story_id: STORY-R05-008
-    lease_expires_at: '2026-07-19T21:05:42Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260719T165401Z-12791729/0002.yaml
-    project_fingerprint: 54a2eb25acf7f06112d8dfcf44aeb050113fefca83eb018d3a8ceea2d708f4ac
+    lease_expires_at: '2026-07-19T21:20:44Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260719T165401Z-12791729/0003.yaml
+    project_fingerprint: 9415e024102c00d0cc1181c3a029766bb1a7e88f1f2e831781b39f3950b05232
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: b3748ca4b84bf3a9a71a28714125f215d7560ad301e027bbbd0ea6f6743c69d9
-      generated_at: '2026-07-19T17:03:26Z'
+      context_hash: 6d2a94b65771bef5d7e165c8fcce2e417d207a3ca38fa188eda875fa640dcd8c
+      generated_at: '2026-07-19T17:14:46Z'
     handoff_bundle: null
 next_task:
   id: TASK-R05-003
@@ -164,7 +164,7 @@ active_session:
   story_id: STORY-R05-008
   goal: 实现R05范围内9个实名认证客户端与后台接口，覆盖权限、幂等、错误码、状态机、供应商调用边界与敏感审计
   started_at: '2026-07-19T16:54:01Z'
-  updated_at: '2026-07-19T17:05:42Z'
+  updated_at: '2026-07-19T17:20:44Z'
   takeover_of: null
   change_requests: []
   scope:
@@ -211,58 +211,71 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-19T17:05:42Z'
-    expires_at: '2026-07-19T21:05:42Z'
-  checkpoint_sequence: 2
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T165401Z-12791729/0002.yaml
+    renewed_at: '2026-07-19T17:20:44Z'
+    expires_at: '2026-07-19T21:20:44Z'
+  checkpoint_sequence: 3
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T165401Z-12791729/0003.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md
-  next_step: 提交推送V024并在obx-test PostgreSQL17.10执行V001-V024空库、身份约束、U024/U023回滚、V023/V024重放
+  next_step: 提交推送客户端身份API切片，然后实现R05五个后台实名认证列表、详情、媒体访问、审核与冻结接口
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
+    assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: V024迁移、回滚和真实数据库重放必须作为单一原子变更验证
+    reason: 当前运行约束禁止在用户未显式要求本回合子代理时创建代理，主控串行完成同一后端域切片
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260719T165401Z-12791729-0002
+  checkpoint_id: CP-SES-20260719T165401Z-12791729-0003
   session_id: SES-20260719T165401Z-12791729
-  sequence: 2
-  created_at: '2026-07-19T17:05:41Z'
-  summary: 新增V024身份接口存储对齐：同意版本、失败码、加密字段容量与无损回滚保护；R05数据库脚本升级为V023+V024原子回滚重放
-  next_step: 提交推送V024并在obx-test PostgreSQL17.10执行V001-V024空库、身份约束、U024/U023回滚、V023/V024重放
+  sequence: 3
+  created_at: '2026-07-19T17:20:43Z'
+  summary: 完成R05四个客户端实名认证API、PostgreSQL事务Store、激活配置读取、供应商端口接线与Controller契约测试；修复身份敏感数据Bean构造器注入导致的启动失败
+  next_step: 提交推送客户端身份API切片，然后实现R05五个后台实名认证列表、详情、媒体访问、审核与冻结接口
   blockers: []
   decisions: []
   note: ''
   tests:
-  - name: R05数据库静态测试
+  - name: r05-identity-targeted
     result: PASS
-    evidence: python -m unittest 3 modules
-    note: 10 tests passed
-  - name: 数据库Schema门禁
+    evidence: Maven 9 tests,0 failures,0 errors
+    note: 身份服务、幂等和Controller映射
+  - name: backend-module
     result: PASS
-    evidence: scripts/check_db_schema.py
-    note: tables=200 migrations=24 runtime_hashes PASS
+    evidence: Maven 226 tests,0 failures,0 errors,2 skipped
+    note: access与boot模块门禁
+  - name: cloud-environment
+    result: PASS
+    evidence: verify_cloud_environment --check-android
+    note: SSH、Android镜像和Gradle缓存可用
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 1156f1d2f1688ebfce813600ed82cfd381444ef2
+    head: 5b69dc75936e98ca1315b19b543ab7c5cd7d526b
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M database/tests/r05_identity_invariants.sql'
-    - ' M scripts/run_r05_database_invariants.sh'
-    - ' M scripts/run_r05_disposable_postgres_container.sh'
-    - ' M tests/test_r05_identity_database_scripts.py'
-    - ?? database/migrations/V024__r05_identity_api_storage.sql
-    - ?? database/rollback/U024__r05_identity_api_storage.sql
-    - ?? services/backend/boot/src/main/resources/db/migration/V024__r05_identity_api_storage.sql
-    - ?? tests/test_r05_identity_api_storage_migration.py
+    - ' M .continuity/STATE.yaml'
+    - ' M .continuity/sessions/SES-20260719T165401Z-12791729.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java'
+    - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java'
+    - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java'
+    - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
+    - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+    - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+    - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+    - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+    - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
     recent_commits:
+    - "5b69dc75936e98ca1315b19b543ab7c5cd7d526b\t2026-07-20T01:05:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): align API\
+      \ storage migration"
     - "1156f1d2f1688ebfce813600ed82cfd381444ef2\t2026-07-20T01:03:47+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): implement\
       \ client session domain"
     - "fa3f2bc052b4446a92757ab0cb0b2086d50e4754\t2026-07-20T00:53:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close\
@@ -277,10 +290,8 @@ latest_checkpoint:
       \ invariants and rollback"
     - "441cd6bf3fbb483f2d7f1ed1dfe437332c973ccb\t2026-07-20T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): enforce\
       \ verification data invariants"
-    - "2282bc24a3b771715582514a939cffb481920749\t2026-07-20T00:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close\
-      \ TASK-R05-001 as completed"
   project_fingerprint:
-    sha256: 54a2eb25acf7f06112d8dfcf44aeb050113fefca83eb018d3a8ceea2d708f4ac
+    sha256: 9415e024102c00d0cc1181c3a029766bb1a7e88f1f2e831781b39f3950b05232
     files:
     - database/migrations/V024__r05_identity_api_storage.sql
     - database/rollback/U024__r05_identity_api_storage.sql
@@ -289,14 +300,21 @@ latest_checkpoint:
     - scripts/run_r05_disposable_postgres_container.sh
     - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
     - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
     - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
     - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
     - services/backend/boot/src/main/resources/db/migration/V024__r05_identity_api_storage.sql
     - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
     - tests/test_r05_identity_api_storage_migration.py
     - tests/test_r05_identity_database_scripts.py
-    file_count: 14
+    file_count: 21
     payload:
       base_commit: fa3f2bc052b4446a92757ab0cb0b2086d50e4754
       files:
@@ -328,14 +346,38 @@ latest_checkpoint:
         state: FILE
         size: 3569
         sha256: cce9866b7d4fb2efaf0212efd217271bb9aeb5b5521eec1d956bd469272e556a
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
+        state: FILE
+        size: 502
+        sha256: ba1ecf78ea9b271c46a350ddfd77eb96948ec85c178283f181a02ad8b324cf43
       - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
         state: FILE
-        size: 5565
-        sha256: 426397fa7048c5dd46e6670baae960c409242aa2a84b7c94ae0aa0c565d993e6
+        size: 5643
+        sha256: 0619ac7ef68635b15b4c8fa6b73e43044091be2128c915dfd9c2d2607ac12a9d
       - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
         state: FILE
-        size: 12131
-        sha256: 4e0077cca3ed994175c2074d9491066651757056d3a94963e61a459015560d85
+        size: 12170
+        sha256: a567bcedca7f0d479e5cf0c235f3431cb3aa35e15f7a8a8d99d4d88aede1b559
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+        state: FILE
+        size: 1791
+        sha256: 4cca123b25fde8820822354140ad14854e13c36eead578ee575f851067392d9e
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+        state: FILE
+        size: 13029
+        sha256: b55cbbba650b145d41ae657b36c710accf6fa140141b95780791926b3ec98492
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+        state: FILE
+        size: 1125
+        sha256: d7998a8fd26965b2588c23439464ebdf87927b033134ca9926a1d8a9e2e731b2
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+        state: FILE
+        size: 2727
+        sha256: d2fbe15c3a6f1d362e2042a0a06958ed16bed14673081440607e4108ba975b19
+      - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+        state: FILE
+        size: 3916
+        sha256: d2e0aa5fcce40e450670556272818f2ccc7534e42cd9bc4a2f999873b22d87fe
       - path: services/backend/boot/src/main/resources/db/migration/V024__r05_identity_api_storage.sql
         state: FILE
         size: 728
@@ -346,8 +388,12 @@ latest_checkpoint:
         sha256: 9204b0570ee7a3786c2a7b679973ed06fa82765ac75be2293c5f67c30e199101
       - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
         state: FILE
-        size: 11812
-        sha256: 7a5fd4102f34e793e6f799e2dd658dc858b995473a4397d31f81e245a562a610
+        size: 11852
+        sha256: e7c144b0e3aa6bd01984eb4f1ec45ab9eacba25b5c5249cb8bc9318827d6fd76
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+        state: FILE
+        size: 4783
+        sha256: 4870d0e76299c7ff6b7c1dc17bb8a3cb0c1f9a8faff7b43570b0a579dd225ce7
       - path: tests/test_r05_identity_api_storage_migration.py
         state: FILE
         size: 1408
@@ -366,11 +412,18 @@ latest_checkpoint:
     - scripts/run_r05_disposable_postgres_container.sh
     - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
     - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
     - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
     - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
     - services/backend/boot/src/main/resources/db/migration/V024__r05_identity_api_storage.sql
     - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
     - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
     tests:
     - tests/test_r05_identity_api_storage_migration.py
     - tests/test_r05_identity_database_scripts.py
@@ -419,15 +472,15 @@ latest_checkpoint:
     approved_exceptions: []
     source: story+explicit
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
+    assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: V024迁移、回滚和真实数据库重放必须作为单一原子变更验证
-  event_hash: 48ab037aec1a3a75677cbce1a1dd04710839d47984795374046b9f05add710dd
+    reason: 当前运行约束禁止在用户未显式要求本回合子代理时创建代理，主控串行完成同一后端域切片
+  event_hash: 92d4986c4a8d1457258a4fade300152e669791ba1775c774dd37e2d88dd60e0b
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 1156f1d2f1688ebfce813600ed82cfd381444ef2
+  head: 5b69dc75936e98ca1315b19b543ab7c5cd7d526b
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -439,18 +492,25 @@ git:
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/sessions/SES-20260719T165401Z-12791729.yaml'
   - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/session_index.csv'
-  - ' M database/tests/r05_identity_invariants.sql'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md'
-  - ' M scripts/run_r05_database_invariants.sh'
-  - ' M scripts/run_r05_disposable_postgres_container.sh'
-  - ' M tests/test_r05_identity_database_scripts.py'
-  - ?? .continuity/checkpoints/SES-20260719T165401Z-12791729/0002.yaml
-  - ?? database/migrations/V024__r05_identity_api_storage.sql
-  - ?? database/rollback/U024__r05_identity_api_storage.sql
-  - ?? services/backend/boot/src/main/resources/db/migration/V024__r05_identity_api_storage.sql
-  - ?? tests/test_r05_identity_api_storage_migration.py
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java'
+  - ?? .continuity/checkpoints/SES-20260719T165401Z-12791729/0003.yaml
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
   recent_commits:
+  - "5b69dc75936e98ca1315b19b543ab7c5cd7d526b\t2026-07-20T01:05:58+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): align API\
+    \ storage migration"
   - "1156f1d2f1688ebfce813600ed82cfd381444ef2\t2026-07-20T01:03:47+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): implement\
     \ client session domain"
   - "fa3f2bc052b4446a92757ab0cb0b2086d50e4754\t2026-07-20T00:53:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-002\
@@ -465,10 +525,8 @@ git:
     \ invariants and rollback"
   - "441cd6bf3fbb483f2d7f1ed1dfe437332c973ccb\t2026-07-20T00:29:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(identity): enforce verification\
     \ data invariants"
-  - "2282bc24a3b771715582514a939cffb481920749\t2026-07-20T00:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-001\
-    \ as completed"
 project_fingerprint:
-  sha256: 54a2eb25acf7f06112d8dfcf44aeb050113fefca83eb018d3a8ceea2d708f4ac
+  sha256: 9415e024102c00d0cc1181c3a029766bb1a7e88f1f2e831781b39f3950b05232
   files:
   - database/migrations/V024__r05_identity_api_storage.sql
   - database/rollback/U024__r05_identity_api_storage.sql
@@ -477,14 +535,21 @@ project_fingerprint:
   - scripts/run_r05_disposable_postgres_container.sh
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
   - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
   - services/backend/boot/src/main/resources/db/migration/V024__r05_identity_api_storage.sql
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityIdempotencyServiceTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
   - tests/test_r05_identity_api_storage_migration.py
   - tests/test_r05_identity_database_scripts.py
-  file_count: 14
+  file_count: 21
   payload:
     base_commit: fa3f2bc052b4446a92757ab0cb0b2086d50e4754
     files:
@@ -516,14 +581,38 @@ project_fingerprint:
       state: FILE
       size: 3569
       sha256: cce9866b7d4fb2efaf0212efd217271bb9aeb5b5521eec1d956bd469272e556a
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityProviderClient.java
+      state: FILE
+      size: 502
+      sha256: ba1ecf78ea9b271c46a350ddfd77eb96948ec85c178283f181a02ad8b324cf43
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySensitiveCipher.java
       state: FILE
-      size: 5565
-      sha256: 426397fa7048c5dd46e6670baae960c409242aa2a84b7c94ae0aa0c565d993e6
+      size: 5643
+      sha256: 0619ac7ef68635b15b4c8fa6b73e43044091be2128c915dfd9c2d2607ac12a9d
     - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
       state: FILE
-      size: 12131
-      sha256: 4e0077cca3ed994175c2074d9491066651757056d3a94963e61a459015560d85
+      size: 12170
+      sha256: a567bcedca7f0d479e5cf0c235f3431cb3aa35e15f7a8a8d99d4d88aede1b559
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+      state: FILE
+      size: 1791
+      sha256: 4cca123b25fde8820822354140ad14854e13c36eead578ee575f851067392d9e
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+      state: FILE
+      size: 13029
+      sha256: b55cbbba650b145d41ae657b36c710accf6fa140141b95780791926b3ec98492
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderGateway.java
+      state: FILE
+      size: 1125
+      sha256: d7998a8fd26965b2588c23439464ebdf87927b033134ca9926a1d8a9e2e731b2
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+      state: FILE
+      size: 2727
+      sha256: d2fbe15c3a6f1d362e2042a0a06958ed16bed14673081440607e4108ba975b19
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+      state: FILE
+      size: 3916
+      sha256: d2e0aa5fcce40e450670556272818f2ccc7534e42cd9bc4a2f999873b22d87fe
     - path: services/backend/boot/src/main/resources/db/migration/V024__r05_identity_api_storage.sql
       state: FILE
       size: 728
@@ -534,8 +623,12 @@ project_fingerprint:
       sha256: 9204b0570ee7a3786c2a7b679973ed06fa82765ac75be2293c5f67c30e199101
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
       state: FILE
-      size: 11812
-      sha256: 7a5fd4102f34e793e6f799e2dd658dc858b995473a4397d31f81e245a562a610
+      size: 11852
+      sha256: e7c144b0e3aa6bd01984eb4f1ec45ab9eacba25b5c5249cb8bc9318827d6fd76
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+      state: FILE
+      size: 4783
+      sha256: 4870d0e76299c7ff6b7c1dc17bb8a3cb0c1f9a8faff7b43570b0a579dd225ce7
     - path: tests/test_r05_identity_api_storage_migration.py
       state: FILE
       size: 1408
@@ -1588,8 +1681,8 @@ continuity_state:
   last_session_id: SES-20260719T162332Z-9372DEF2
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260719T162332Z-9372DEF2-0008
-  event_count: 1020
-  event_head_hash: 48ab037aec1a3a75677cbce1a1dd04710839d47984795374046b9f05add710dd
+  event_count: 1021
+  event_head_hash: 92d4986c4a8d1457258a4fade300152e669791ba1775c774dd37e2d88dd60e0b
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260719T085423Z-0385FEE0
@@ -1708,9 +1801,9 @@ recent_sessions:
   started_at: '2026-07-19T16:54:01Z'
   record: .continuity/sessions/SES-20260719T165401Z-12791729.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md
-  updated_at: '2026-07-19T17:05:42Z'
+  updated_at: '2026-07-19T17:20:44Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T165401Z-12791729/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T165401Z-12791729/0003.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-1E804AB6298F
@@ -3934,7 +4027,7 @@ source_manifest:
   sha256: 038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a
   bytes: 3477
 - path: CURRENT_STATUS.yaml
-  sha256: 2793ebadd3a23fd85be79e4aadba103f0e30c57e7c458046a635e20b2dbe55f0
+  sha256: 49bffd3c298476241726fa7006dd0ba65f9d7915902479f6f436662725e377c1
   bytes: 3557
 - path: NEXT_TASK.yaml
   sha256: 694f13cd4173635abf21c3f1f533cbacf3f646b01c13bfcef2c681ad0a47d627
@@ -3967,10 +4060,10 @@ source_manifest:
   sha256: 35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6
   bytes: 11116
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 861df774bb16b5a9085cda4a9aa49788805d311d4ac9183a66488ce64e9d6ca9
-  bytes: 557980
+  sha256: 1a16fdee5b869ee0a82188149d4ddcea09f6ef9abb0dc76e192a1e0073105057
+  bytes: 558808
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: d8de5999cee25a51c692b76ea5a06a72fa5c7760795fc1775be25803e72beb13
+  sha256: a6439cd5bf7f9153ad700e1703cc37209c5e15e72f6ad3b161a51d7bed9507bd
   bytes: 23298
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: cdfe6d34fe6aae7aa3dd5993df1ee7a7a340460b2df7330bf666b603a2bbe1d2
@@ -3982,7 +4075,7 @@ source_manifest:
   sha256: c5058129a53f2224844f2fca88bc0e92ff6d6bf6cd5861983ce3d741baa88b6f
   bytes: 272443
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 4002d89f9766c288bcfd67d0d83315c99376d0b76c601c32f351888da9e66923
+  sha256: 58159139516a5e15038931e0314a4d099a0caf8f66912d5ec02e4338f60cea4b
   bytes: 525
 - path: releases/R05/RELEASE_MANIFEST.yaml
   sha256: fb6481d33425c06ec312ddf51a57cbb653484bd9fa0cf7a58f660c190c1d912c
@@ -4000,11 +4093,11 @@ source_manifest:
   sha256: 506c9663a3b35d71b0745263f5885223a1e969314e232f7dae2b1b9ba380e82d
   bytes: 691
 - path: docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md
-  sha256: 989b751d2e6ac6fb63d2161441674d41e91dc726bd55de5ad80a93dc9b4e25a2
-  bytes: 4909
-- path: .continuity/checkpoints/SES-20260719T165401Z-12791729/0002.yaml
-  sha256: bc04803b8ce7dd19aa152d23aede385e2e4563bba0de6d4855f45eaa2b2f9f8f
-  bytes: 8957
+  sha256: 438e4e0ae1682f15f3bf1ffaba2c068a08bf70ddc9ee97df99fd45ee595454d3
+  bytes: 7545
+- path: .continuity/checkpoints/SES-20260719T165401Z-12791729/0003.yaml
+  sha256: 2b001f3968422ff804dd5309e2d26b6c8ddb994aecf030eb194ea5d843c199ab
+  bytes: 12958
 exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
   '<未委托原因>'
 hard_rules:
@@ -4019,4 +4112,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: b9a75b7755486f9ee0c5e533c365632a8feef7cdc83bf66a354abd35324d2b7a
+context_hash: 4bcbc8613f7948668a97f2519c0b25b98fd0f0479a64c05c72ab0a52a73f6d44

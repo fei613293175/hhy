@@ -12,6 +12,7 @@ import javax.crypto.Cipher;
 import javax.crypto.Mac;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /** Separate-domain AEAD encryption and keyed lookup hash for identity payloads. */
@@ -28,6 +29,7 @@ public final class IdentitySensitiveCipher implements IdentityService.SensitiveD
     private final SecretKeySpec hashKey;
     private final SecureRandom random;
 
+    @Autowired
     public IdentitySensitiveCipher(UserAuthProperties properties) {
         this(properties.snapshotRootSecret(), new SecureRandom());
     }
