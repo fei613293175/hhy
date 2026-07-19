@@ -465,3 +465,12 @@
 - 摘要：TASK-R04-002完成：存储Scope与活动桶隔离、R2/OSS端口、私有短期URL、跨供应商迁移游标恢复、访问审计、PostgreSQL空库/回滚重放及MODULE门禁全部通过
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T085423Z-0385FEE0.md`
 
+## TASK-R04-003 · COMPLETED · 2026-07-19T12:08:04Z
+
+- Task close: TASK-R04-003 / SES-20260719T113522Z-6B27AD4B
+- Release：`R04`
+- Story：`STORY-R04-001`
+- Actor：`codex-root`
+- 摘要：TASK-R04-003完成：V022、三个冻结媒体API、用途/Scope策略、加密幂等、owner/过期/SHA/重复完成删除、Outbox与MODULE门禁全部通过
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T113522Z-6B27AD4B.md`
+

@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T12:06:55Z
-- Context Hash：`d8a2e18851528b263dcdc147f97e7ba70d73648e3c44bbf9b3d02caf24e4e5dd`
+- 生成时间：2026-07-19T12:17:46Z
+- Context Hash：`2f9dc4109489b0274a3d78382ac131a761818bdec3a915bc778c34fb9bd226b8`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-004
 ```
 
 ## 当前状态
@@ -17,10 +17,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R04
 active_release: R04
-active_task: TASK-R04-003
-status: IN_PROGRESS
+active_task: TASK-R04-004
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: 1d3f2adc7f9c8a4e7863639c1aa3ff6b7748dd7b
+last_green_commit: 951970ee2f30b11915e8ab5236171621c365da2e
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -66,13 +66,13 @@ completed_tasks:
 - TASK-R03-008
 - TASK-R04-001
 - TASK-R04-002
-in_progress_tasks:
 - TASK-R04-003
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
-next_task: TASK-R04-003
-updated_at: '2026-07-19T12:06:53Z'
+next_task: TASK-R04-004
+updated_at: '2026-07-19T12:17:44Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -104,19 +104,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260719T113522Z-6B27AD4B
-  actor_id: codex-root
-  story_id: STORY-R04-001
-  lease_expires_at: '2026-07-19T16:06:53Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0002.yaml
-  project_fingerprint: da2c6da89dda2b8477dc7d8c3be9ff513721b2300b6a28d219d0c1a3ac88ff46
+  active_session_id: null
+  last_session_id: SES-20260719T113522Z-6B27AD4B
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0004.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: fd0cf0cafbb7105fb56ca0172089d9935e6fdf5373b27145a55508e8a3c9b4b8
-    generated_at: '2026-07-19T11:45:30Z'
-  handoff_bundle: null
+    context_hash: 750392a177c56d4d44fef6cd662990196a0cfe1d75c504e4637d97679a0a3f78
+    generated_at: '2026-07-19T12:17:43Z'
 ```
 
 ## 默认并行规则
@@ -257,8 +255,8 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R04-003
-title: 纵向批次B：媒体上传、完成与删除API闭环
+id: TASK-R04-004
+title: 纵向批次C：Android媒体上传管理器闭环
 status: READY
 release: R04
 requirements:
@@ -266,21 +264,22 @@ requirements:
 - REQ-STORAGE-001
 - REQ-APK-001
 depends_on:
-- TASK-R04-002
+- TASK-R04-001
 definition_of_ready: releases/R04/DEFINITION_OF_READY.yaml
 stories: releases/R04/STORIES.yaml
 steps:
-- 三个冻结operationId的数据、领域、API和测试闭环
-- 越权、过期、哈希不符、重复完成、重复删除和审计证据
+- Android媒体Feature及模块测试
+- 离线、401/403/409/422/429、取消、重试和返回栈证据
+- 稳定幂等键且不记录敏感URL或凭据
 acceptance:
-- 控制器仅编排应用服务，跨模块副作用使用Outbox
-- 不手写重复DTO，不新增未批准API
-- MODULE门禁通过
+- 无页面级手写重复DTO或生产Mock
+- 页面字段、状态、动作和导航与冻结目录一致
+- MODULE门禁通过并可交给主控注册路由和网络glue
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-003
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-004
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-003
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R04-004
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -293,294 +292,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260719T113522Z-6B27AD4B
-status: ACTIVE
-actor:
-  id: codex-root
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R04
-task_id: TASK-R04-003
-story_id: STORY-R04-001
-goal: 纵向批次B：媒体上传、完成与删除API闭环
-started_at: '2026-07-19T11:35:22Z'
-updated_at: '2026-07-19T12:06:53Z'
-takeover_of: null
-change_requests: []
-scope:
-  allowed_paths:
-  - apps/android/**
-  - services/backend/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - tests/**
-  - docs/**
-  - catalogs/**
-  - releases/**
-  - design/**
-  - scripts/**
-  approved_exceptions: []
-  source: story+explicit
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: cf9799948953f6b8e2f918414c1c8e700ef748aa
-  start_head: cf9799948953f6b8e2f918414c1c8e700ef748aa
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-19T12:06:53Z'
-  expires_at: '2026-07-19T16:06:53Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0002.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260719T113522Z-6B27AD4B.md
-next_step: 复核TASK-R04-003交付清单与静态安全门禁，关闭任务后进入TASK-R04-004 Android媒体上传管理器
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
-  delegated_workers: 0
-  workers: []
-  reason: 当前会话策略禁止创建子代理，主控按冻结纵向切片继续
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T113522Z-6B27AD4B-0002
-session_id: SES-20260719T113522Z-6B27AD4B
-sequence: 2
-created_at: '2026-07-19T12:06:52Z'
-summary: TASK-R04-003媒体API应用切片完成：三个冻结接口、唯一契约、用途无默认策略、加密幂等、owner/过期/SHA/重复完成与删除、同事务Outbox已实现
-next_step: 复核TASK-R04-003交付清单与静态安全门禁，关闭任务后进入TASK-R04-004 Android媒体上传管理器
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: R04_MEDIA_UNIT
-  result: PASS
-  evidence: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaUploadServiceTest.java
-  note: owner、过期、SHA、重复完成、绑定删除与重复删除通过
-- name: R04_MEDIA_IDEMPOTENCY
-  result: PASS
-  evidence: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaIdempotencyServiceTest.java
-  note: 加密首响应回放、冲突与失败释放通过
-- name: R04_MEDIA_CONTRACT
-  result: PASS
-  evidence: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/MediaControllerTest.java
-  note: 三个冻结operationId映射与薄控制器通过
-- name: MODULE
-  result: PASS
-  evidence: artifacts/validation/r04-task003-module.json
-  note: 216 tests，0 failures，0 errors，2 skipped
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: 0d8e00b45e02a388b557b6a9b8f2539283028673
-  upstream: origin/task/TASK-R03-001
-  ahead: 0
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java'
-  - ?? artifacts/validation/r04-task003-module.json
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaContracts.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaIdempotencyService.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaUploadService.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPurposePolicy.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
-  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/MediaController.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaIdempotencyServiceTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaUploadServiceTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/MediaControllerTest.java
-  recent_commits:
-  - "0d8e00b45e02a388b557b6a9b8f2539283028673\t2026-07-19T19:45:53+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): add media upload\
-    \ lifecycle schema"
-  - "cf9799948953f6b8e2f918414c1c8e700ef748aa\t2026-07-19T19:34:22+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-002\
-    \ as completed"
-  - "1d3f2adc7f9c8a4e7863639c1aa3ff6b7748dd7b\t2026-07-19T19:31:59+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(storage): close database\
-    \ and module gates"
-  - "0520113a2981439c9bcdeb6e5afb1ed26bf3c8d5\t2026-07-19T19:16:34+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): persist resumable\
-    \ cross-provider migration"
-  - "ec6919b45a107a770fd13d86b7c3a38103415c67\t2026-07-19T19:06:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): add provider-neutral\
-    \ object port"
-  - "77eb7d6797b0c90213616823872b7f9b4148b193\t2026-07-19T16:57:32+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): enforce media\
-    \ storage invariants"
-  - "7ae235681e92565971eb53a999a72fc88f9f8f39\t2026-07-19T16:53:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-001\
-    \ as completed"
-  - "34d9e7790319e603d58f531e314a442a893c32ea\t2026-07-19T16:52:24+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(governance): finalize\
-    \ R04 entry gate"
-project_fingerprint:
-  sha256: da2c6da89dda2b8477dc7d8c3be9ff513721b2300b6a28d219d0c1a3ac88ff46
-  files:
-  - database/migrations/V022__r04_media_upload_lifecycle.sql
-  - database/rollback/U022__r04_media_upload_lifecycle.sql
-  - database/tests/r04_media_upload_lifecycle_invariants.sql
-  - scripts/run_postgres_migration_smoke.sh
-  - scripts/run_r04_database_invariants.sh
-  - scripts/run_r04_disposable_postgres_container.sh
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaContracts.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaIdempotencyService.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaUploadService.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPurposePolicy.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/MediaController.java
-  - services/backend/boot/src/main/resources/db/migration/V022__r04_media_upload_lifecycle.sql
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaIdempotencyServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaUploadServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/MediaControllerTest.java
-  - tests/test_r04_media_upload_lifecycle_migration.py
-  file_count: 20
-  payload:
-    base_commit: cf9799948953f6b8e2f918414c1c8e700ef748aa
-    files:
-    - path: database/migrations/V022__r04_media_upload_lifecycle.sql
-      state: FILE
-      size: 3311
-      sha256: ae8c40c2f1518aefe4e11524316bdd519a457200069752fa65ce4de3aeac7169
-    - path: database/rollback/U022__r04_media_upload_lifecycle.sql
-      state: FILE
-      size: 1372
-      sha256: 575a0dfcf7eb95b2cc728cb3640799a780e1aae2696c8ce30ae35edbe8dbd919
-    - path: database/tests/r04_media_upload_lifecycle_invariants.sql
-      state: FILE
-      size: 2878
-      sha256: fd699c28c45acb4e5a2b078fc6756d400d381a0847e75de2df222770871e8d11
-    - path: scripts/run_postgres_migration_smoke.sh
-      state: FILE
-      size: 14806
-      sha256: 17b32ee5841843ab1aa54f50ed02deece1eb76b6051983f5e939daf185335c66
-    - path: scripts/run_r04_database_invariants.sh
-      state: FILE
-      size: 1756
-      sha256: 4ed12e903f744d3ceff06c6e14b0e464cb9887afd8129285fc6b0421864606d5
-    - path: scripts/run_r04_disposable_postgres_container.sh
-      state: FILE
-      size: 1779
-      sha256: 427bfcbabd6529bd2d0f069c4dda44bcd8aaf4633d4cde9272255d6a129a25ea
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaContracts.java
-      state: FILE
-      size: 1393
-      sha256: 2117e4747ae926d6d0797bdd7b02aba2f6b8f0682a0807ab4d5594b4bc894726
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaIdempotencyService.java
-      state: FILE
-      size: 3712
-      sha256: e3f7aec05d0c6a1b903d20e74d7bf97269882eaeefaad38e3d0315b5e1dacd69
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaUploadService.java
-      state: FILE
-      size: 11371
-      sha256: ac79fda595b297e13f26473d0c5393131f149341a2a87a73d9661ba6bfc5eff1
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
-      state: FILE
-      size: 1953
-      sha256: 31e7632d255d314d6f502d5df73278d8029ad3b403d07d0093c50d4fc44b2d1e
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
-      state: FILE
-      size: 11165
-      sha256: 6b096b1afe59f265fc040bae5d709e705be118b703061f65980899b151fdebc4
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPurposePolicy.java
-      state: FILE
-      size: 1154
-      sha256: 877dc6ca4d5fb9e6499820dab8509ab9795fab10d6227644f1e1e14a9c7b2fef
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
-      state: FILE
-      size: 4833
-      sha256: 3609e3290fdda83de3e3843331cf9dcd39ad538d66c99e856ec4641b09d61e97
-    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
-      state: FILE
-      size: 9225
-      sha256: eadfe44b4f7399ce8889bce20c4d96ada89b34191ed571d7320ae9ea8fdb3816
-    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/MediaController.java
-      state: FILE
-      size: 3380
-      sha256: b7ae9b4b34876cadda0f53a0d6132cf000901be7b291d0b2e37bc07c06917c8d
-    - path: services/backend/boot/src/main/resources/db/migration/V022__r04_media_upload_lifecycle.sql
-      state: FILE
-      size: 3331
-      sha256: aa9c00c2d477bf2440d663bb4aaa909d23c70f01dbf3961e95f1d3ecb3a2c9cd
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaIdempotencyServiceTest.java
-      state: FILE
-      size: 4461
-      sha256: acd7d1e1b9e7160ee00b71d88d06526bf915f0a70416becb37aa6e346a26f5fd
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaUploadServiceTest.java
-      state: FILE
-      size: 10883
-      sha256: d0ea228892ff87c317f5b5e66d98664388e1d4f014b008f4dd09e6b828bccaf3
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/MediaControllerTest.java
-      state: FILE
-      size: 4078
-      sha256: 5533fad595d9c194922e2b0ecee333f804760487130ef49663102bed939797fc
-    - path: tests/test_r04_media_upload_lifecycle_migration.py
-      state: FILE
-      size: 2040
-      sha256: 66fb55e96b818682f9adc8941431e7b92cea3f5f4bbf8ff5e24815c9893ec980
-change_classification:
-  database:
-  - database/migrations/V022__r04_media_upload_lifecycle.sql
-  - database/rollback/U022__r04_media_upload_lifecycle.sql
-  - database/tests/r04_media_upload_lifecycle_invariants.sql
-  code:
-  - scripts/run_postgres_migration_smoke.sh
-  - scripts/run_r04_database_invariants.sh
-  - scripts/run_r04_disposable_postgres_container.sh
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaContracts.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaIdempotencyService.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaUploadService.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPurposePolicy.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
-  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/MediaController.java
-  - services/backend/boot/src/main/resources/db/migration/V022__r04_media_upload_lifecycle.sql
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaIdempotencyServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaUploadServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/MediaControllerTest.java
-  tests:
-  - tests/test_r04_media_upload_lifecycle_migration.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- DATABASE_TEST_EVIDENCE
-- SCHEMA_TRACEABILITY
-change_requests: []
-scope:
-  allowed_paths:
-  - apps/android/**
-  - services/backend/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - tests/**
-  - docs/**
-  - catalogs/**
-  - releases/**
-  - design/**
-  - scripts/**
-  approved_exceptions: []
-  source: story+explicit
-parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
-  delegated_workers: 0
-  workers: []
-  reason: 当前会话策略禁止创建子代理，主控按冻结纵向切片继续
-event_hash: d49c1ce61a7d99fa69b7530e80d4362304f37c258854634a5776b6b8af03f1e9
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -588,12 +306,12 @@ event_hash: d49c1ce61a7d99fa69b7530e80d4362304f37c258854634a5776b6b8af03f1e9
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260719T113522Z-6B27AD4B
-last_session_id: SES-20260719T085423Z-0385FEE0
+active_session_id: null
+last_session_id: SES-20260719T113522Z-6B27AD4B
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260719T085423Z-0385FEE0-0005
-event_count: 938
-event_head_hash: d49c1ce61a7d99fa69b7530e80d4362304f37c258854634a5776b6b8af03f1e9
+last_closure_checkpoint_id: CP-SES-20260719T113522Z-6B27AD4B-0004
+event_count: 942
+event_head_hash: 50b294333c7df4bd841e2be893e3217468724ab1cc65362b362be1d1bd89f365
 event_chain_valid: true
 ```
 
@@ -712,13 +430,13 @@ recent_sessions: - session_id: SES-20260718T142638Z-EF4C3723
   task_id: TASK-R04-003
   story_id: STORY-R04-001
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-19T11:35:22Z'
   record: .continuity/sessions/SES-20260719T113522Z-6B27AD4B.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T113522Z-6B27AD4B.md
-  updated_at: '2026-07-19T12:06:53Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0002.yaml
+  updated_at: '2026-07-19T12:17:44Z'
+  closed_at: '2026-07-19T12:17:44Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-9842C34B7B1D
   session_id: SES-20260717T200842Z-456B8F52
@@ -1318,7 +1036,7 @@ task_claims: - claim_id: CLM-9842C34B7B1D
   task_id: TASK-R04-003
   story_id: STORY-R04-001
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-19T11:35:22Z'
   allowed_paths:
   - apps/android/**
@@ -1333,6 +1051,7 @@ task_claims: - claim_id: CLM-9842C34B7B1D
   - releases/**
   - design/**
   - scripts/**
+  closed_at: '2026-07-19T12:17:44Z'
 recent_task_transitions: - transition_id: TRN-06568A6A9C43
   timestamp: '2026-07-17T20:46:16Z'
   release: R02
@@ -1540,7 +1259,7 @@ recent_task_transitions: - transition_id: TRN-06568A6A9C43
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 0d8e00b45e02a388b557b6a9b8f2539283028673
+head: 951970ee2f30b11915e8ab5236171621c365da2e
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1550,25 +1269,24 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260719T113522Z-6B27AD4B.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T113522Z-6B27AD4B.md'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java'
-- ?? .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0002.yaml
-- ?? artifacts/validation/r04-task003-module.json
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaContracts.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaIdempotencyService.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaUploadService.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPurposePolicy.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
-- ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/MediaController.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaIdempotencyServiceTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaUploadServiceTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/MediaControllerTest.java
+- ' M releases/R04/TASKS.yaml'
+- ' M scripts/continuity.py'
+- ' M scripts/continuity_lib.py'
+- ?? .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0003.yaml
+- ?? .continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0004.yaml
 recent_commits:
+- "951970ee2f30b11915e8ab5236171621c365da2e\t2026-07-19T20:07:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): close media upload\
+  \ API lifecycle"
 - "0d8e00b45e02a388b557b6a9b8f2539283028673\t2026-07-19T19:45:53+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): add media upload\
   \ lifecycle schema"
 - "cf9799948953f6b8e2f918414c1c8e700ef748aa\t2026-07-19T19:34:22+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-002\
@@ -1583,35 +1301,14 @@ recent_commits:
   \ storage invariants"
 - "7ae235681e92565971eb53a999a72fc88f9f8f39\t2026-07-19T16:53:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-001\
   \ as completed"
-- "34d9e7790319e603d58f531e314a442a893c32ea\t2026-07-19T16:52:24+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(governance): finalize\
-  \ R04 entry gate"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`da2c6da89dda2b8477dc7d8c3be9ff513721b2300b6a28d219d0c1a3ac88ff46`
-- 文件数：20
+- 指纹：`14b191d6829a9e71c29bb3c7f5448debc0328b99ad1c86e392a92fe8e7401c62`
+- 文件数：0
 
-- `database/migrations/V022__r04_media_upload_lifecycle.sql`
-- `database/rollback/U022__r04_media_upload_lifecycle.sql`
-- `database/tests/r04_media_upload_lifecycle_invariants.sql`
-- `scripts/run_postgres_migration_smoke.sh`
-- `scripts/run_r04_database_invariants.sh`
-- `scripts/run_r04_disposable_postgres_container.sh`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaContracts.java`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaIdempotencyService.java`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaUploadService.java`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPurposePolicy.java`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java`
-- `services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java`
-- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/MediaController.java`
-- `services/backend/boot/src/main/resources/db/migration/V022__r04_media_upload_lifecycle.sql`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaIdempotencyServiceTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaUploadServiceTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/MediaControllerTest.java`
-- `tests/test_r04_media_upload_lifecycle_migration.py`
+- 无
 
 ## 当前 Release
 
@@ -2021,7 +1718,7 @@ TASKS.yaml:
     completed_at: '2026-07-19T11:33:01Z'
   - id: TASK-R04-003
     title: 纵向批次B：媒体上传、完成与删除API闭环
-    status: READY
+    status: DONE
     depends_on:
     - TASK-R04-002
     stories:
@@ -2036,9 +1733,10 @@ TASKS.yaml:
     - 不手写重复DTO，不新增未批准API
     - MODULE门禁通过
     session_log_required: true
+    completed_at: '2026-07-19T12:08:04Z'
   - id: TASK-R04-004
     title: 纵向批次C：Android媒体上传管理器闭环
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R04-001
     parallelizable_with:
@@ -3507,8 +3205,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `5d7815b1684f445999cdb6b8233e76015955cab4dc95c23e09ce471baa6555e1`
-- `NEXT_TASK.yaml` — `f478b6c788fd2ad4173ad6cabbf027bc8b17618a0f8841e85aff70eefd514db2`
+- `CURRENT_STATUS.yaml` — `10bc6eab7c18005152a43bd83ec14d35fb8fc585c93b7fd62e10012c9a578098`
+- `NEXT_TASK.yaml` — `0a67a33dfe5799da11b39101daad94461dfb924234429e728bf5d3804d0ce407`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `5b95185e3445c5829017421b86dbd81baccbbe102ff155027ea5fdc86f7c07d0`
@@ -3518,20 +3216,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `a224a2fc06432c1f33fdc1559aa32bca70cff6f2ebf96203e1b4a84d4b8f5a4e`
-- `.continuity/SESSION_INDEX.yaml` — `2be395b702ec3d653c379b0fa596f47d3e28f161870ba5381391ed96d6c4479b`
-- `.continuity/TASK_CLAIMS.yaml` — `d3d7c533bda1a1170fb071fc10fc904352ce1dcc8760ec6388281de0f31ff2ef`
+- `.continuity/EVENT_LOG.jsonl` — `5160cb8fe783acae333bf3813506b73f036db07b989694b38cffd4517f425739`
+- `.continuity/SESSION_INDEX.yaml` — `070a3a43a82e41f0e0284598370bc0f3f40611a5c6f223d372db4d16db642d46`
+- `.continuity/TASK_CLAIMS.yaml` — `7e0fc9caa0d1ca7ba4e1b5c12451b5ee5a81543c661cb5dc42f983351eddfc0e`
 - `.continuity/TASK_TRANSITIONS.yaml` — `fb8a45e89540be088ac78063026f9ea98f4029a8f9a2b585e9d5fc9b56e6cdf1`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c9d9a42ce1b9abb8d959a6e8f83046746650ac1c4c6d8a7d1b60372e8f7701ec`
-- `.continuity/ACTIVE_SESSION.yaml` — `d9ca34e454d51eb6ad3b022a4667e604b5201bec7c9aa03aaba2d9a7088d6261`
-- `releases/R04/RELEASE_MANIFEST.yaml` — `c897c4706cdcb53bde1c053a6515a12fbad0fc3f01b24ae891b7426df203f3c6`
-- `releases/R04/DEFINITION_OF_READY.yaml` — `41aef5956ff6a2ab80957f9b477a5957fc26940eb502c6d67e3a7a5ae97fd84c`
-- `releases/R04/STORIES.yaml` — `aa71e87c502b76dbc59bff0fa6efe957f7855158cde1c7818bda636bfe41469e`
-- `releases/R04/TASKS.yaml` — `d4c5680e48ac658ad26ddf4bf054ff66d92353eabb2de51a2effa30412ab1a9b`
-- `releases/R04/ACCEPTANCE_MATRIX.csv` — `bf28fec8769cdcc468565a3f1300f1f0f16a43623a301cb94c7d8e37a6011df2`
-- `releases/R04/PARALLEL_EXECUTION_PLAN.yaml` — `9f76b85f11c0293ce8930f1068cf1fc5582242753ff141b5b6134d8e44e5f2dd`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T113522Z-6B27AD4B.md` — `62b348390ea5d88b7d79e22fa2922adeac8a355f94e209ca2b3ffc4516810214`
-- `.continuity/checkpoints/SES-20260719T113522Z-6B27AD4B/0002.yaml` — `86f4116923d173258e679982c405c5615c2913a8241f3c66dedf0a78d2c17a09`
+- `.continuity/ACTIVE_SESSION.yaml` — `a1e91cd6316d6a9adb03beb3e48de5b9cca5ee84edc688c75f30259834c437ff`
 
 ## 接手硬规则
 

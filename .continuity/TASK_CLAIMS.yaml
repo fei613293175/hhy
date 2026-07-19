@@ -1255,7 +1255,7 @@ claims:
   task_id: TASK-R04-003
   story_id: STORY-R04-001
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-19T11:35:22Z'
   allowed_paths:
   - apps/android/**
@@ -1270,3 +1270,4 @@ claims:
   - releases/**
   - design/**
   - scripts/**
+  closed_at: '2026-07-19T12:17:44Z'

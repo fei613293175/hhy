@@ -862,6 +862,11 @@ def derive_scope(policy: dict[str, Any], story: dict[str, Any] | None, explicit:
         normalized = item.replace("\\", "/").strip()
         if normalized and normalized not in paths:
             paths.append(normalized)
+    # Every successful task close writes the user-visible changelog.  This is
+    # mandatory closure metadata rather than an optional platform artefact, so
+    # every session must be able to produce it regardless of story platform.
+    if "CHANGELOG.md" not in paths:
+        paths.append("CHANGELOG.md")
     return paths
 
 

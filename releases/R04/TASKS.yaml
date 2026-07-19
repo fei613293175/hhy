@@ -44,7 +44,7 @@ tasks:
   completed_at: '2026-07-19T11:33:01Z'
 - id: TASK-R04-003
   title: 纵向批次B：媒体上传、完成与删除API闭环
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R04-002
   stories:
@@ -59,9 +59,10 @@ tasks:
   - 不手写重复DTO，不新增未批准API
   - MODULE门禁通过
   session_log_required: true
+  completed_at: '2026-07-19T12:08:04Z'
 - id: TASK-R04-004
   title: 纵向批次C：Android媒体上传管理器闭环
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R04-001
   parallelizable_with:

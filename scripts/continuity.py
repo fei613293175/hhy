@@ -909,6 +909,13 @@ def append_task_transition(
 ) -> str:
     path = root / "catalogs/task_transition_ledger.csv"
     rows = read_csv(path) if path.exists() else []
+    for row in reversed(rows):
+        if (
+            row.get("session_id") == session["session_id"]
+            and row.get("task_id") == session["task_id"]
+            and row.get("to_status") == to_status
+        ):
+            return str(row["transition_id"])
     transition_id = f"TRN-{now_utc().strftime('%Y%m%dT%H%M%SZ')}-{session['session_id']}"
     rows.append({
         "transition_id": transition_id,
@@ -949,6 +956,32 @@ def append_task_close_changelog(root: Path, session: dict[str, Any], result: str
     atomic_write_text(path, text.rstrip() + block + "\n")
 
 
+def ensure_closure_scope(root: Path, session: dict[str, Any]) -> None:
+    """Repair legacy platform sessions that omitted mandatory close metadata."""
+    scope = session.setdefault("scope", {})
+    allowed = scope.setdefault("allowed_paths", [])
+    if "CHANGELOG.md" in allowed:
+        return
+    allowed.append("CHANGELOG.md")
+    source = str(scope.get("source") or "story+explicit")
+    if "mandatory-closure-metadata" not in source:
+        scope["source"] = source + "+mandatory-closure-metadata"
+    save_session(root, session)
+
+
+def closing_event_exists(root: Path, session_id: str) -> bool:
+    path = root / ".continuity/EVENT_LOG.jsonl"
+    if not path.exists():
+        return False
+    for line in reversed(path.read_text(encoding="utf-8").splitlines()):
+        if not line.strip():
+            continue
+        event = json.loads(line)
+        if event.get("event_type") == "SESSION_CLOSING" and event.get("payload", {}).get("session_id") == session_id:
+            return True
+    return False
+
+
 def command_close(args: Namespace) -> None:
     actor = get_actor(args)
     result = args.result.upper()
@@ -973,32 +1006,57 @@ def command_close(args: Namespace) -> None:
             raise ContinuityError("没有ACTIVE会话")
         if session["actor"]["id"] != actor:
             raise ContinuityError("只有当前Actor可以关闭会话")
+        resuming_close = session.get("status") == "CLOSING"
+        ensure_closure_scope(ROOT, session)
         checkpoint = latest_checkpoint(ROOT, session)
         if not checkpoint:
             raise ContinuityError("关闭前必须创建实现检查点")
-        current = project_fingerprint(ROOT, session)
-        if current["sha256"] != checkpoint.get("project_fingerprint", {}).get("sha256"):
-            raise ContinuityError("最新检查点之后项目内容发生变化")
         git_state = git_info(ROOT)
-        project_dirty = [
-            path for path in git_changed_files(ROOT)
-            if not path.startswith((".continuity/", "artifacts/context/", "docs/03-continuity/sessions/"))
-            and path not in {"CURRENT_STATUS.yaml", "NEXT_TASK.yaml"}
-        ]
-        if project_dirty:
-            raise ContinuityError(
-                "关闭会话前项目内容必须已提交；若需要中途移交请使用handoff。未提交："
-                + ", ".join(project_dirty[:30])
-            )
-        next_release = args.next_release or session["release"]
+        current: dict[str, Any] | None = None
+        if not resuming_close:
+            current = project_fingerprint(ROOT, session)
+            if current["sha256"] != checkpoint.get("project_fingerprint", {}).get("sha256"):
+                raise ContinuityError("最新检查点之后项目内容发生变化")
+            project_dirty = [
+                path for path in git_changed_files(ROOT)
+                if not path.startswith((".continuity/", "artifacts/context/", "docs/03-continuity/sessions/"))
+                and path not in {"CURRENT_STATUS.yaml", "NEXT_TASK.yaml"}
+            ]
+            if project_dirty:
+                raise ContinuityError(
+                    "关闭会话前项目内容必须已提交；若需要中途移交请使用handoff。未提交："
+                    + ", ".join(project_dirty[:30])
+                )
+        stored_closure = session.get("closure", {}) if resuming_close else {}
+        next_release = (
+            str(stored_closure.get("next_release") or session["release"])
+            if resuming_close else args.next_release or session["release"]
+        )
         next_document: dict[str, Any] | None = None
-        if result == "COMPLETED":
+        if resuming_close:
+            requested_next_release = (
+                args.next_release or session["release"]
+                if result == "COMPLETED"
+                else args.next_release if blocked_advance else None
+            )
+            expected = {
+                "result": result,
+                "summary": args.summary,
+                "next_release": requested_next_release,
+                "next_task": args.next_task,
+            }
+            actual = {key: stored_closure.get(key) for key in expected}
+            if actual != expected:
+                raise ContinuityError("CLOSING会话只能使用原关闭参数续跑")
+            if args.code_commit and args.code_commit != stored_closure.get("code_commit"):
+                raise ContinuityError("CLOSING会话的实现Commit不得变更")
+        elif result == "COMPLETED":
             if not git_state["initialized"]:
                 raise ContinuityError("完成任务前必须初始化Git")
             if git_state["head"] == session.get("git", {}).get("base_commit"):
                 raise ContinuityError("任务没有产生新的实现Commit；不能标记COMPLETED")
             tests = checkpoint.get("tests", [])
-            if current["file_count"] and not any(row.get("result") == "PASS" for row in tests):
+            if current and current["file_count"] and not any(row.get("result") == "PASS" for row in tests):
                 raise ContinuityError("有项目变更但最新实现检查点没有PASS测试")
             if any(row.get("result") == "FAIL" for row in tests):
                 raise ContinuityError("最新实现检查点仍有FAIL测试")
@@ -1023,23 +1081,29 @@ def command_close(args: Namespace) -> None:
                 next_task=args.next_task,
             )
 
-        code_commit = args.code_commit or git_state.get("head") or "NOT_INITIALIZED"
-        session["status"] = "CLOSING"
-        session["closure"] = {
-            "result": result,
-            "summary": args.summary,
-            "code_commit": code_commit,
-            "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
-            "next_task": args.next_task,
-            "blocked_advance": blocked_advance,
-            "user_confirmation": (args.user_confirmation or "").strip() or None,
-            "metadata_commit": "PENDING",
-            "push_verification": "CI_REQUIRED_AFTER_METADATA_COMMIT",
-            "started_at": iso_utc(),
-        }
-        save_session(ROOT, session)
+        code_commit = (
+            str(stored_closure.get("code_commit"))
+            if resuming_close else args.code_commit or git_state.get("head") or "NOT_INITIALIZED"
+        )
+        if not resuming_close:
+            session["status"] = "CLOSING"
+            session["closure"] = {
+                "result": result,
+                "summary": args.summary,
+                "code_commit": code_commit,
+                "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
+                "next_task": args.next_task,
+                "blocked_advance": blocked_advance,
+                "user_confirmation": (args.user_confirmation or "").strip() or None,
+                "metadata_commit": "PENDING",
+                "push_verification": "CI_REQUIRED_AFTER_METADATA_COMMIT",
+                "started_at": iso_utc(),
+            }
+            save_session(ROOT, session)
 
-        if result == "COMPLETED":
+        if resuming_close:
+            transition_to = "DONE" if result == "COMPLETED" else "BLOCKED_EXTERNAL_GATE" if blocked_advance else result
+        elif result == "COMPLETED":
             update_release_task_states(
                 ROOT,
                 session["release"],
@@ -1081,14 +1145,15 @@ def command_close(args: Namespace) -> None:
         # Keep CURRENT_STATUS in CLOSING while the closure checkpoint is being
         # produced. ``write_checkpoint`` refreshes the active-session status, so
         # the final READY/BLOCKED state must be written only after that checkpoint.
-        append_event(ROOT, "SESSION_CLOSING", {
-            "session_id": session["session_id"],
-            "result": result,
-            "code_commit": code_commit,
-            "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
-            "next_task": args.next_task,
-            "transition_id": transition_id,
-        })
+        if not closing_event_exists(ROOT, session["session_id"]):
+            append_event(ROOT, "SESSION_CLOSING", {
+                "session_id": session["session_id"],
+                "result": result,
+                "code_commit": code_commit,
+                "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
+                "next_task": args.next_task,
+                "transition_id": transition_id,
+            })
 
         inherited_tests = list(checkpoint.get("tests", []))
         inherited_tests.append({
