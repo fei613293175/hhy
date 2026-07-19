@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T04:57:20Z
-- Context Hash：`c3e830cebd6fb597513e4eb0aac42cef4fd52f9ef4b885861ebfd00b4aafab31`
+- 生成时间：2026-07-19T04:59:16Z
+- Context Hash：`1f21a400a26129d3d2fa663778508f9b184db394b26b2ac340482432193a3625`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -68,7 +68,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R03-007
-updated_at: '2026-07-19T04:57:18Z'
+updated_at: '2026-07-19T04:59:14Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -103,15 +103,15 @@ continuity:
   active_session_id: SES-20260718T200607Z-3569D212
   actor_id: codex-root
   story_id: STORY-R03-004
-  lease_expires_at: '2026-07-19T08:57:18Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0025.yaml
-  project_fingerprint: 1ef212334be8d1cfb1d2755c9cb5c453633ad87a4ac04cb9f76512e5c55c29b6
+  lease_expires_at: '2026-07-19T08:59:14Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0026.yaml
+  project_fingerprint: d80226c9647cbff795d8a22bb5c7db52f28c3406d2a2535119d82d36fde96fd5
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 310589f266d71a70654635551829ad6579b72c47b8b0147b9abea40c75cde966
-    generated_at: '2026-07-19T04:36:06Z'
+    context_hash: c3e830cebd6fb597513e4eb0aac42cef4fd52f9ef4b885861ebfd00b4aafab31
+    generated_at: '2026-07-19T04:57:20Z'
   handoff_bundle: null
 ```
 
@@ -308,7 +308,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-19T04:57:18Z'
+updated_at: '2026-07-19T04:59:14Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -518,12 +518,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T04:57:18Z'
-  expires_at: '2026-07-19T08:57:18Z'
-checkpoint_sequence: 25
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0025.yaml
+  renewed_at: '2026-07-19T04:59:14Z'
+  expires_at: '2026-07-19T08:59:14Z'
+checkpoint_sequence: 26
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0026.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 提交R03注册修复交付证据，关闭CR-0075至CR-0077并继续TASK-R03-007剩余关闭门禁
+next_step: 提交并推送CR关闭记录，然后继续TASK-R03-007未完成的外部激活与关闭门禁；等待项目所有者并行真机测试10205
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -531,74 +531,58 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 证据提交、CR关闭和版本继续推进共享连续性账本，必须串行写入
+  reason: 连续性账本关闭提交与后续任务识别有严格先后依赖
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T200607Z-3569D212-0025
+checkpoint_id: CP-SES-20260718T200607Z-3569D212-0026
 session_id: SES-20260718T200607Z-3569D212
-sequence: 25
-created_at: '2026-07-19T04:57:18Z'
-summary: 注册四项体验修复后端上线、10205 APK精确构建与四方交付均已完成；外部激活门禁已去除10204硬编码并通过
-next_step: 提交R03注册修复交付证据，关闭CR-0075至CR-0077并继续TASK-R03-007剩余关闭门禁
+sequence: 26
+created_at: '2026-07-19T04:59:13Z'
+summary: CR-0070至CR-0077已全部关闭；10205注册体验修复APK在桌面并通过公网交付复核
+next_step: 提交并推送CR关闭记录，然后继续TASK-R03-007未完成的外部激活与关闭门禁；等待项目所有者并行真机测试10205
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: android-build
-  result: PASS
-  evidence: artifacts/validation/r03-task007-android/gradle-build.log
-  note: 31项单测、Lint、assemble通过
-- name: apk-delivery
+- name: apk-delivery-verify
   result: PASS
   evidence: artifacts/validation/r03-apk-delivery/delivery-evidence.json
-  note: 桌面仓库服务器HTTPS四方一致
-- name: public-auth
-  result: PASS
-  evidence: scripts/check_r02_public_auth.py
-  note: 公网认证和PNG验证码门禁通过
+  note: 四方SHA-256及HTTPS 200/206通过
 - name: r03-external
   result: PASS
   evidence: scripts/check_r03_external_activation.py
-  note: 版本单调一致与外部证据门禁通过
+  note: 版本和外部证据门禁通过
+- name: public-auth
+  result: PASS
+  evidence: scripts/check_r02_public_auth.py
+  note: 公网认证回归通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: c257aee9b1533495aa192c50da69216f5f4214bf
+  head: b476e37730f7b0855e6a07333e0ea90eba6f3198
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 2
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0070.yaml'
-  - ' M .continuity/change_requests/CR-0071.yaml'
-  - ' M .continuity/change_requests/CR-0072.yaml'
-  - ' M .continuity/change_requests/CR-0073.yaml'
-  - ' M .continuity/change_requests/CR-0074.yaml'
-  - ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
-  - ' M artifacts/reports/R03/TASK-R03-007-android-apk.md'
-  - ' M artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md'
-  - ' M artifacts/validation/r03-task007-android/build-evidence.json'
-  - ' M artifacts/validation/r03-task007-android/gradle-build.log'
+  - ' M .continuity/change_requests/CR-0075.yaml'
+  - ' M .continuity/change_requests/CR-0076.yaml'
+  - ' M .continuity/change_requests/CR-0077.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0070-注册表单提示错误细化状态隔离与验证码时效边界修复.md'
-  - ' M docs/03-continuity/change-requests/CR-0071-认证策略运行时边界与数据库冻结值对齐.md'
-  - ' M docs/03-continuity/change-requests/CR-0072-同步注册专用错误码的冻结契约派生产物.md'
-  - ' M docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md'
-  - ' M docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md'
-  - ' M scripts/check_r03_external_activation.py'
-  - ?? .continuity/change_requests/CR-0077.yaml
-  - ?? artifacts/apk/R03/APK_MANIFEST.yaml
-  - ?? artifacts/validation/r03-apk-delivery/delivery-evidence.json
-  - ?? docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md
+  - ' M docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md'
+  - ' M docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md'
+  - ' M docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md'
   recent_commits:
+  - "b476e37730f7b0855e6a07333e0ea90eba6f3198\t2026-07-19T12:57:54+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): publish 10205\
+    \ auth regression APK"
   - "c257aee9b1533495aa192c50da69216f5f4214bf\t2026-07-19T12:45:55+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): prepare 10205\
     \ APK delivery"
   - "35ee8bad7c905c29d271640fff8bef042825dc0d\t2026-07-19T12:24:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(android): bump auth\
@@ -613,10 +597,8 @@ git:
     \ APK to 10204"
   - "0560fd3203484c9a7672626033189bbe025ea08e\t2026-07-19T09:46:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): classify security\
     \ challenge failures"
-  - "803f951b8c1ee8e067adbe5ea15f3bc3d74ab50a\t2026-07-19T07:33:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): close auth hotfix\
-    \ delivery record"
 project_fingerprint:
-  sha256: 1ef212334be8d1cfb1d2755c9cb5c453633ad87a4ac04cb9f76512e5c55c29b6
+  sha256: d80226c9647cbff795d8a22bb5c7db52f28c3406d2a2535119d82d36fde96fd5
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -1119,16 +1101,16 @@ project_fingerprint:
       sha256: 8ec7c19f18850b4d023e0ec02fbf7d2b936184cf01b82102a3bf8ef0909c5a69
     - path: docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
       state: FILE
-      size: 1886
-      sha256: 4da1c47a78edd7787e945ecfe6e39bab8d1fda1d58c01d06521fcfbf108347e2
+      size: 2293
+      sha256: 975cff22f722cbec898468f78fb99c2e8a733f5ec0cdb1598dafb537e80eec50
     - path: docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md
       state: FILE
-      size: 2593
-      sha256: 864a9d3664a1ec179b0dffa187155e499aff33d83d7042cefeb078134735f00c
+      size: 3026
+      sha256: 29b9b368d1e12506e9e4fcec21c638e1e04cbbec77bc4edb3bd1bbffffaf701c
     - path: docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md
       state: FILE
-      size: 2000
-      sha256: 8a6b31d88cf955448f938d9367869d9f8edde718af87903ecd147c3d3e37e080
+      size: 2444
+      sha256: 20ef98bdf0fe72a912f353565d5137bf81eea1400f14b6577f3063c5db08bd61
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 610906
@@ -1650,8 +1632,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 证据提交、CR关闭和版本继续推进共享连续性账本，必须串行写入
-event_hash: 8b830243c769fb4450dcf808ec2538cba76ab6acb96c78d4939dcf1ab9e7672e
+  reason: 连续性账本关闭提交与后续任务识别有严格先后依赖
+event_hash: 6613d3717dbfe518c1c97cfcf2ba87b9583d218b33f25930c3e4a1e0ebffe7ea
 ```
 
 ## 接续状态与事件头
@@ -1663,8 +1645,8 @@ active_session_id: SES-20260718T200607Z-3569D212
 last_session_id: SES-20260718T165842Z-356A8138
 last_session_result: BLOCKED
 last_closure_checkpoint_id: CP-SES-20260718T165842Z-356A8138-0005
-event_count: 831
-event_head_hash: 8b830243c769fb4450dcf808ec2538cba76ab6acb96c78d4939dcf1ab9e7672e
+event_count: 838
+event_head_hash: 6613d3717dbfe518c1c97cfcf2ba87b9583d218b33f25930c3e4a1e0ebffe7ea
 event_chain_valid: true
 ```
 
@@ -1787,9 +1769,9 @@ recent_sessions: - session_id: SES-20260718T084729Z-BD53B7C4
   started_at: '2026-07-18T20:06:07Z'
   record: .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  updated_at: '2026-07-19T04:57:18Z'
+  updated_at: '2026-07-19T04:59:14Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0025.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0026.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-3E379E115FA4
   session_id: SES-20260717T141717Z-A01412D7
@@ -2629,9 +2611,9 @@ recent_task_transitions: - transition_id: TRN-23D2BAB015EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: c257aee9b1533495aa192c50da69216f5f4214bf
+head: b476e37730f7b0855e6a07333e0ea90eba6f3198
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 2
 behind: 0
 dirty: true
 status_porcelain:
@@ -2640,32 +2622,21 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0070.yaml'
-- ' M .continuity/change_requests/CR-0071.yaml'
-- ' M .continuity/change_requests/CR-0072.yaml'
-- ' M .continuity/change_requests/CR-0073.yaml'
-- ' M .continuity/change_requests/CR-0074.yaml'
+- ' M .continuity/change_requests/CR-0075.yaml'
+- ' M .continuity/change_requests/CR-0076.yaml'
+- ' M .continuity/change_requests/CR-0077.yaml'
 - ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/reports/R03/TASK-R03-007-android-apk.md'
-- ' M artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md'
-- ' M artifacts/validation/r03-task007-android/build-evidence.json'
-- ' M artifacts/validation/r03-task007-android/gradle-build.log'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0070-注册表单提示错误细化状态隔离与验证码时效边界修复.md'
-- ' M docs/03-continuity/change-requests/CR-0071-认证策略运行时边界与数据库冻结值对齐.md'
-- ' M docs/03-continuity/change-requests/CR-0072-同步注册专用错误码的冻结契约派生产物.md'
-- ' M docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md'
-- ' M docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md'
+- ' M docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md'
+- ' M docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md'
+- ' M docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md'
-- ' M scripts/check_r03_external_activation.py'
-- ?? .continuity/change_requests/CR-0077.yaml
-- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0025.yaml
-- ?? artifacts/apk/R03/APK_MANIFEST.yaml
-- ?? artifacts/validation/r03-apk-delivery/delivery-evidence.json
-- ?? docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md
+- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0026.yaml
 recent_commits:
+- "b476e37730f7b0855e6a07333e0ea90eba6f3198\t2026-07-19T12:57:54+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): publish 10205\
+  \ auth regression APK"
 - "c257aee9b1533495aa192c50da69216f5f4214bf\t2026-07-19T12:45:55+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): prepare 10205\
   \ APK delivery"
 - "35ee8bad7c905c29d271640fff8bef042825dc0d\t2026-07-19T12:24:07+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(android): bump auth regression\
@@ -2680,13 +2651,11 @@ recent_commits:
   \ APK to 10204"
 - "0560fd3203484c9a7672626033189bbe025ea08e\t2026-07-19T09:46:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): classify security\
   \ challenge failures"
-- "803f951b8c1ee8e067adbe5ea15f3bc3d74ab50a\t2026-07-19T07:33:31+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(r03): close auth hotfix\
-  \ delivery record"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`1ef212334be8d1cfb1d2755c9cb5c453633ad87a4ac04cb9f76512e5c55c29b6`
+- 指纹：`d80226c9647cbff795d8a22bb5c7db52f28c3406d2a2535119d82d36fde96fd5`
 - 文件数：127
 
 - `AGENTS.md`
@@ -4871,151 +4840,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260718T152013Z-8B704646
   implementation_commits:
   - 650fdee862405db673ed5f3f856611356508e337
-- protocol_version: '1.0'
-  cr_id: CR-0075
-  title: 记录注册体验修复上线与真机包验证证据
-  status: IMPLEMENTING
-  created_at: '2026-07-19T04:22:42Z'
-  updated_at: '2026-07-19T04:22:45Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 用户要求注册页面问题修复后持续推进并提供可测试结果
-  reason: 用户可见修复、线上切换与10205测试包必须具有可追溯变更和验证记录
-  original_rule: 注册体验修复验证记录仍标记部署与APK待完成
-  new_rule: 记录新后端公网切换结果、10205测试包准备状态及用户可见变更
-  impact_summary: 更新R03注册修复验证报告和全局变更日志，不修改业务实现
-  impact:
-    files:
-    - CHANGELOG.md
-    - artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - 公网认证门禁、V020迁移、APK构建与交付验证
-    releases:
-    - R03
-    migration_and_compatibility: 仅文档与验证证据更新，兼容现有运行时和数据
-  user_confirmation: 用户2026-07-19注册页面真机反馈及持续开发授权
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-19T04:22:44Z'
-    note: 用户可见修复必须更新变更日志并留下跨AI可恢复验证证据
-  machine_record: .continuity/change_requests/CR-0075.yaml
-  document: docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md
-  decision_log:
-  - at: '2026-07-19T04:22:45Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 补充上线验证和10205交付前记录
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
-- protocol_version: '1.0'
-  cr_id: CR-0076
-  title: 交付10205注册体验修复真机APK并归档上一包
-  status: IMPLEMENTING
-  created_at: '2026-07-19T04:33:10Z'
-  updated_at: '2026-07-19T04:33:14Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 用户完成注册页面真机测试并要求修复四项问题后持续推进
-  reason: 新包必须完成固定签名、正式API、桌面/仓库/服务器/HTTPS四方哈希和上一包不可变归档
-  original_rule: R03当前交付指向25e9e5b、versionCode10204的测试APK
-  new_rule: 归档25e9e5b交付证据，当前交付切换为35ee8ba、versionCode10205注册体验修复测试APK
-  impact_summary: 刷新R03 APK清单、构建/签名/交付证据和测试报告，保留上一版本历史，不标记项目所有者真机通过
-  impact:
-    files:
-    - artifacts/apk/R03/APK_MANIFEST.yaml
-    - artifacts/apk/R03/history/25e9e5b/APK_MANIFEST.yaml
-    - artifacts/validation/r03-apk-delivery/delivery-evidence.json
-    - artifacts/validation/r03-apk-delivery/history/25e9e5b/delivery-evidence.json
-    - artifacts/validation/r03-task007-android/build-evidence.json
-    - artifacts/validation/r03-task007-android/apk-signing.txt
-    - artifacts/validation/r03-task007-android/gradle-build.log
-    - artifacts/reports/R03/TASK-R03-007-android-apk.md
-    - artifacts/validation/R03_AUTH_REGISTRATION_UX_SECURITY_FIX_20260719.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - testDebugUnitTest、lintDebug、assembleDebug、zipalign、apksigner、versionCode、API端点、四方SHA-256
-    releases:
-    - R03
-    migration_and_compatibility: 应用ID和固定测试签名不变，可覆盖安装10204；旧APK与证据只归档不删除；新包仍为测试APK
-  user_confirmation: 用户2026-07-19四项注册真机反馈及持续开发授权
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-19T04:33:12Z'
-    note: 用户已授权持续开发和桌面APK交付，历史归档与四方门禁是安全交付必需
-  machine_record: .continuity/change_requests/CR-0076.yaml
-  document: docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md
-  decision_log:
-  - at: '2026-07-19T04:33:14Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 归档10204并准备35ee8ba固定签名测试APK四方交付
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
-- protocol_version: '1.0'
-  cr_id: CR-0077
-  title: 修复R03外部激活门禁对APK版本号的硬编码
-  status: IMPLEMENTING
-  created_at: '2026-07-19T04:55:41Z'
-  updated_at: '2026-07-19T04:55:44Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R03-007
-  session_id: SES-20260718T200607Z-3569D212
-  user_request: 用户要求注册修复后持续开发并交付可覆盖安装新APK
-  reason: 外部激活检查固定匹配10204会错误阻断合法单调递增的10205及后续测试包
-  original_rule: 外部激活门禁要求三处Android版本文件都包含固定字符串10204
-  new_rule: 门禁解析三处versionCode并要求相互一致、不得低于R03基线10203，且与当前APK清单一致
-  impact_summary: 消除合法APK版本递增后的假失败，不放宽版本回退、身份不一致和交付清单门禁
-  impact:
-    files:
-    - scripts/check_r03_external_activation.py
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - 脚本本身、10205当前清单、严格pre-commit/pre-push门禁
-    releases:
-    - R03
-    migration_and_compatibility: 仅检查脚本变化；10203以上一致版本兼容，低版本或三处不一致仍失败
-  user_confirmation: 用户要求10205修复包继续交付且后续持续推进
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-19T04:55:43Z'
-    note: 固定版本字符串会导致每次合法APK递增都阻塞持续开发，应改为单调基线与一致性校验
-  machine_record: .continuity/change_requests/CR-0077.yaml
-  document: docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md
-  decision_log:
-  - at: '2026-07-19T04:55:44Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 改造外部激活版本身份门禁为解析与一致性校验
-    session_id: SES-20260718T200607Z-3569D212
-  session_ids:
-  - SES-20260718T200607Z-3569D212
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `fe60549fb106fb4371d39eca6a583191a6661cadaa6b4b7d6ccb44c2b58473db`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `2663d4e75045b7204eccf34ab96f56b9a4c4e3bb6d4e8f54cbc321fdb4b51435`
+- `CURRENT_STATUS.yaml` — `7581525f6a7ee421fb7de80a5033b838efde1386206321aa10a757e6703ebeba`
 - `NEXT_TASK.yaml` — `d3331935c15deb5ebd04b02689837403e53e8bc65c8813529359515257a7edc1`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -5026,20 +4857,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `7d654755b756d6bc83f08bcd3c7fe4bda45a165a34c95d45713769a942a9b904`
-- `.continuity/SESSION_INDEX.yaml` — `7b052925340896b103865abad1e74c038aee2f509e946da7f6313102e23c0977`
+- `.continuity/EVENT_LOG.jsonl` — `88eee1ca5c5a4688546a4c32c8e4cf5da08283714c3093a8002f6787ce070b1f`
+- `.continuity/SESSION_INDEX.yaml` — `697367924960f6fc2a3497d7d441672f372dde44fe93667e9b93716c91747853`
 - `.continuity/TASK_CLAIMS.yaml` — `dae3c46345cf6361b9487cc9878bf5cd6bd3775ec390315b8036208feb5d7b19`
 - `.continuity/TASK_TRANSITIONS.yaml` — `49b2f0e5fdabc44f56af3c9fdeefd1971b4d3462167a3c93ba796bb4b3be1ada`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5561b95306eae9267d50d30aebf446666b70912c0b7933aaeb203565d905f37e`
-- `.continuity/ACTIVE_SESSION.yaml` — `11338af3f9a54995a6779c7d88975c022454e92331bf134a942a0a50c41663a5`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `d00b59e5abb53c1aa53b36bc778e83ab41359e02feb1fea1e9e1a0f39e62c58f`
+- `.continuity/ACTIVE_SESSION.yaml` — `53a3f32f9de4371560ee75b6c333169625789ffd83baad448ad3a732fcd350d9`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `577a231d7cc655f126187950d05277a67d9e877ddb87a52721b2b634a21f12eb`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `de226ffec9d6cb0da7242d9febfae3ac023875c3b1d167894739ca4f8dc9ac47`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `89833f430250da0b8b4b88ef51913e7427d66671920a4b55a3a37822c8844a47`
-- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0025.yaml` — `b1773cb4532013f484fe6be50335cc3fe57950e979c8d39e5d2d26a4163973b5`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `3d2561816b481f635b665126c677a35adb851c067dd1fc4006e25672865d7e3d`
+- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0026.yaml` — `fa2fe14d1cef3be63bfdd012ef5881ca741599d15fa709e661b8d42d55f4d0d9`
 - `docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md` — `09124eace840cbac05b094cb44ba6e9b2baf894d33b663a5eecc21a271fd9f27`
 - `docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md` — `657fe94cc6f260b297cb45642322801c84f680a89018c9e6679469eaecfc7689`
 - `docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md` — `d34b7054137e69b320623c2971b6b89fdc8c26644170a1cbc9ab29dbc2fb1ab0`
@@ -5064,9 +4895,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0072-同步注册专用错误码的冻结契约派生产物.md` — `c69a796fe440ef2704f17919c9d4de09c4c6b850252cd17bc7fdc4ac5c325f9e`
 - `docs/03-continuity/change-requests/CR-0073-登记认证策略V020权威迁移与安全回滚.md` — `5786b5ebd71eaab89540c81d00a56ff756b3f9c3330caed67c2cd803bde569e9`
 - `docs/03-continuity/change-requests/CR-0074-递增注册体验修复真机APK版本身份.md` — `8ec7c19f18850b4d023e0ec02fbf7d2b936184cf01b82102a3bf8ef0909c5a69`
-- `docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md` — `4da1c47a78edd7787e945ecfe6e39bab8d1fda1d58c01d06521fcfbf108347e2`
-- `docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md` — `864a9d3664a1ec179b0dffa187155e499aff33d83d7042cefeb078134735f00c`
-- `docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md` — `8a6b31d88cf955448f938d9367869d9f8edde718af87903ecd147c3d3e37e080`
+- `docs/03-continuity/change-requests/CR-0075-记录注册体验修复上线与真机包验证证据.md` — `975cff22f722cbec898468f78fb99c2e8a733f5ec0cdb1598dafb537e80eec50`
+- `docs/03-continuity/change-requests/CR-0076-交付10205注册体验修复真机APK并归档上一包.md` — `29b9b368d1e12506e9e4fcec21c638e1e04cbbec77bc4edb3bd1bbffffaf701c`
+- `docs/03-continuity/change-requests/CR-0077-修复R03外部激活门禁对APK版本号的硬编码.md` — `20ef98bdf0fe72a912f353565d5137bf81eea1400f14b6577f3063c5db08bd61`
 
 ## 接手硬规则
 

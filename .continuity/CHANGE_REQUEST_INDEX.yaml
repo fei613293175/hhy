@@ -4501,9 +4501,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0075
   title: 记录注册体验修复上线与真机包验证证据
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T04:22:42Z'
-  updated_at: '2026-07-19T04:22:45Z'
+  updated_at: '2026-07-19T04:58:36Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4540,14 +4540,26 @@ change_requests:
     status: IMPLEMENTING
     note: 补充上线验证和10205交付前记录
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:58:35Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 注册修复公网部署、10205构建和四方交付证据已记录
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:58:36Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 验证报告与变更日志已形成跨AI可恢复事实
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - b476e37730f7b0855e6a07333e0ea90eba6f3198
 - protocol_version: '1.0'
   cr_id: CR-0076
   title: 交付10205注册体验修复真机APK并归档上一包
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T04:33:10Z'
-  updated_at: '2026-07-19T04:33:14Z'
+  updated_at: '2026-07-19T04:58:39Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4591,14 +4603,26 @@ change_requests:
     status: IMPLEMENTING
     note: 归档10204并准备35ee8ba固定签名测试APK四方交付
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:58:38Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 10204交付已归档，c257aee/10205测试APK已完成固定签名和四方交付
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:58:39Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 当前清单、历史归档、桌面与公网下载证据全部闭环
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - b476e37730f7b0855e6a07333e0ea90eba6f3198
 - protocol_version: '1.0'
   cr_id: CR-0077
   title: 修复R03外部激活门禁对APK版本号的硬编码
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-19T04:55:41Z'
-  updated_at: '2026-07-19T04:55:44Z'
+  updated_at: '2026-07-19T04:58:41Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner-delegated
   task_id: TASK-R03-007
@@ -4634,5 +4658,17 @@ change_requests:
     status: IMPLEMENTING
     note: 改造外部激活版本身份门禁为解析与一致性校验
     session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:58:40Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 外部激活门禁已改为解析三处版本、单调基线及当前清单一致性校验
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T04:58:41Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 10205门禁通过且后续合法递增不会再被固定字符串阻断
+    session_id: SES-20260718T200607Z-3569D212
   session_ids:
   - SES-20260718T200607Z-3569D212
+  implementation_commits:
+  - b476e37730f7b0855e6a07333e0ea90eba6f3198
