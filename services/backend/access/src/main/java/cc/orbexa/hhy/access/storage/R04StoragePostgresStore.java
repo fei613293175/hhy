@@ -9,6 +9,7 @@ import cc.orbexa.hhy.access.storage.StorageObjectPort.Provider;
 import cc.orbexa.hhy.access.storage.StorageObjectPort.Scope;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
+import java.time.Duration;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
@@ -68,6 +69,32 @@ public class R04StoragePostgresStore
                 """, this::binding, bindingId).stream().findFirst();
     }
 
+    public Optional<MediaBindingRecord> findActiveMediaBinding(Scope scope) {
+        return mediaBindings("binding.scope_code=? AND binding.status='ACTIVE'", code(scope));
+    }
+
+    public Optional<MediaBindingRecord> findMediaBinding(long bindingId) {
+        return mediaBindings("binding.id=? AND binding.status='ACTIVE'", bindingId);
+    }
+
+    private Optional<MediaBindingRecord> mediaBindings(String predicate, Object argument) {
+        return jdbc.query("""
+                SELECT binding.id,binding.scope_code,binding.provider_code,binding.bucket,
+                       COALESCE(NULLIF(binding.public_domain,''),
+                         CASE binding.provider_code
+                           WHEN 'CLOUDFLARE_R2' THEN config.values_json->>'storage.r2.public_domain'
+                           WHEN 'ALIYUN_OSS' THEN config.values_json->>'storage.aliyun_oss.public_domain'
+                         END) AS public_domain,
+                       CASE binding.provider_code
+                         WHEN 'CLOUDFLARE_R2' THEN config.values_json->>'storage.r2.endpoint'
+                         WHEN 'ALIYUN_OSS' THEN config.values_json->>'storage.aliyun_oss.endpoint'
+                       END AS endpoint,
+                       config.values_json->>'storage.private_preview.ttl_seconds' AS preview_ttl_seconds
+                FROM hhy.storage_scope_bindings binding
+                JOIN hhy.provider_config_versions config ON config.id=binding.config_version_id
+                WHERE """ + predicate, this::mediaBinding, argument).stream().findFirst();
+    }
+
     @Override
     public void save(Job previous, Job updated) {
         int changed = jdbc.update("""
@@ -106,8 +133,27 @@ public class R04StoragePostgresStore
                 uri(rs.getString("endpoint"), "storage endpoint"), publicBase));
     }
 
+    private MediaBindingRecord mediaBinding(ResultSet rs, int row) throws SQLException {
+        BindingRecord record = binding(rs, row);
+        String rawTtl = rs.getString("preview_ttl_seconds");
+        final long seconds;
+        try {
+            seconds = Long.parseLong(rawTtl);
+        } catch (RuntimeException invalid) {
+            throw new IllegalStateException("private preview ttl is missing or invalid", invalid);
+        }
+        if (seconds < 1 || seconds > 300) {
+            throw new IllegalStateException("private preview ttl must be between 1 and 300 seconds");
+        }
+        return new MediaBindingRecord(record.id(), record.binding(), Duration.ofSeconds(seconds));
+    }
+
     private static Scope scope(String value) {
         return Scope.valueOf(value.toUpperCase(java.util.Locale.ROOT));
+    }
+
+    private static String code(Scope scope) {
+        return scope.name().toLowerCase(java.util.Locale.ROOT);
     }
 
     private static URI publicUri(String value) {
@@ -137,4 +183,6 @@ public class R04StoragePostgresStore
             throw new IllegalStateException("storage audit serialization failed", failure);
         }
     }
+
+    public record MediaBindingRecord(long id, Binding binding, Duration privatePreviewTtl) { }
 }

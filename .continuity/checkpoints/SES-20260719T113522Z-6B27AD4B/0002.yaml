@@ -1,0 +1,228 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260719T113522Z-6B27AD4B-0002
+session_id: SES-20260719T113522Z-6B27AD4B
+sequence: 2
+created_at: '2026-07-19T12:06:52Z'
+summary: TASK-R04-003媒体API应用切片完成：三个冻结接口、唯一契约、用途无默认策略、加密幂等、owner/过期/SHA/重复完成与删除、同事务Outbox已实现
+next_step: 复核TASK-R04-003交付清单与静态安全门禁，关闭任务后进入TASK-R04-004 Android媒体上传管理器
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R04_MEDIA_UNIT
+  result: PASS
+  evidence: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaUploadServiceTest.java
+  note: owner、过期、SHA、重复完成、绑定删除与重复删除通过
+- name: R04_MEDIA_IDEMPOTENCY
+  result: PASS
+  evidence: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaIdempotencyServiceTest.java
+  note: 加密首响应回放、冲突与失败释放通过
+- name: R04_MEDIA_CONTRACT
+  result: PASS
+  evidence: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/MediaControllerTest.java
+  note: 三个冻结operationId映射与薄控制器通过
+- name: MODULE
+  result: PASS
+  evidence: artifacts/validation/r04-task003-module.json
+  note: 216 tests，0 failures，0 errors，2 skipped
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 0d8e00b45e02a388b557b6a9b8f2539283028673
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java'
+  - ?? artifacts/validation/r04-task003-module.json
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaContracts.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaIdempotencyService.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaUploadService.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPurposePolicy.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/MediaController.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaIdempotencyServiceTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaUploadServiceTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/MediaControllerTest.java
+  recent_commits:
+  - "0d8e00b45e02a388b557b6a9b8f2539283028673\t2026-07-19T19:45:53+08:00\tHHY Continuity Bootstrap\t[STORY-R04-001] feat(r04): add media upload\
+    \ lifecycle schema"
+  - "cf9799948953f6b8e2f918414c1c8e700ef748aa\t2026-07-19T19:34:22+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-002\
+    \ as completed"
+  - "1d3f2adc7f9c8a4e7863639c1aa3ff6b7748dd7b\t2026-07-19T19:31:59+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] test(storage): close database\
+    \ and module gates"
+  - "0520113a2981439c9bcdeb6e5afb1ed26bf3c8d5\t2026-07-19T19:16:34+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): persist resumable\
+    \ cross-provider migration"
+  - "ec6919b45a107a770fd13d86b7c3a38103415c67\t2026-07-19T19:06:13+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): add provider-neutral\
+    \ object port"
+  - "77eb7d6797b0c90213616823872b7f9b4148b193\t2026-07-19T16:57:32+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] feat(storage): enforce media\
+    \ storage invariants"
+  - "7ae235681e92565971eb53a999a72fc88f9f8f39\t2026-07-19T16:53:17+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(continuity): close TASK-R04-001\
+    \ as completed"
+  - "34d9e7790319e603d58f531e314a442a893c32ea\t2026-07-19T16:52:24+08:00\tHHY Continuity Bootstrap\t[STORY-R04-002] chore(governance): finalize\
+    \ R04 entry gate"
+project_fingerprint:
+  sha256: da2c6da89dda2b8477dc7d8c3be9ff513721b2300b6a28d219d0c1a3ac88ff46
+  files:
+  - database/migrations/V022__r04_media_upload_lifecycle.sql
+  - database/rollback/U022__r04_media_upload_lifecycle.sql
+  - database/tests/r04_media_upload_lifecycle_invariants.sql
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r04_database_invariants.sh
+  - scripts/run_r04_disposable_postgres_container.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaIdempotencyService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaUploadService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPurposePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/MediaController.java
+  - services/backend/boot/src/main/resources/db/migration/V022__r04_media_upload_lifecycle.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaIdempotencyServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaUploadServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/MediaControllerTest.java
+  - tests/test_r04_media_upload_lifecycle_migration.py
+  file_count: 20
+  payload:
+    base_commit: cf9799948953f6b8e2f918414c1c8e700ef748aa
+    files:
+    - path: database/migrations/V022__r04_media_upload_lifecycle.sql
+      state: FILE
+      size: 3311
+      sha256: ae8c40c2f1518aefe4e11524316bdd519a457200069752fa65ce4de3aeac7169
+    - path: database/rollback/U022__r04_media_upload_lifecycle.sql
+      state: FILE
+      size: 1372
+      sha256: 575a0dfcf7eb95b2cc728cb3640799a780e1aae2696c8ce30ae35edbe8dbd919
+    - path: database/tests/r04_media_upload_lifecycle_invariants.sql
+      state: FILE
+      size: 2878
+      sha256: fd699c28c45acb4e5a2b078fc6756d400d381a0847e75de2df222770871e8d11
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 14806
+      sha256: 17b32ee5841843ab1aa54f50ed02deece1eb76b6051983f5e939daf185335c66
+    - path: scripts/run_r04_database_invariants.sh
+      state: FILE
+      size: 1756
+      sha256: 4ed12e903f744d3ceff06c6e14b0e464cb9887afd8129285fc6b0421864606d5
+    - path: scripts/run_r04_disposable_postgres_container.sh
+      state: FILE
+      size: 1779
+      sha256: 427bfcbabd6529bd2d0f069c4dda44bcd8aaf4633d4cde9272255d6a129a25ea
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaContracts.java
+      state: FILE
+      size: 1393
+      sha256: 2117e4747ae926d6d0797bdd7b02aba2f6b8f0682a0807ab4d5594b4bc894726
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaIdempotencyService.java
+      state: FILE
+      size: 3712
+      sha256: e3f7aec05d0c6a1b903d20e74d7bf97269882eaeefaad38e3d0315b5e1dacd69
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaUploadService.java
+      state: FILE
+      size: 11371
+      sha256: ac79fda595b297e13f26473d0c5393131f149341a2a87a73d9661ba6bfc5eff1
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+      state: FILE
+      size: 1953
+      sha256: 31e7632d255d314d6f502d5df73278d8029ad3b403d07d0093c50d4fc44b2d1e
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
+      state: FILE
+      size: 11165
+      sha256: 6b096b1afe59f265fc040bae5d709e705be118b703061f65980899b151fdebc4
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPurposePolicy.java
+      state: FILE
+      size: 1154
+      sha256: 877dc6ca4d5fb9e6499820dab8509ab9795fab10d6227644f1e1e14a9c7b2fef
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+      state: FILE
+      size: 4833
+      sha256: 3609e3290fdda83de3e3843331cf9dcd39ad538d66c99e856ec4641b09d61e97
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+      state: FILE
+      size: 9225
+      sha256: eadfe44b4f7399ce8889bce20c4d96ada89b34191ed571d7320ae9ea8fdb3816
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/MediaController.java
+      state: FILE
+      size: 3380
+      sha256: b7ae9b4b34876cadda0f53a0d6132cf000901be7b291d0b2e37bc07c06917c8d
+    - path: services/backend/boot/src/main/resources/db/migration/V022__r04_media_upload_lifecycle.sql
+      state: FILE
+      size: 3331
+      sha256: aa9c00c2d477bf2440d663bb4aaa909d23c70f01dbf3961e95f1d3ecb3a2c9cd
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaIdempotencyServiceTest.java
+      state: FILE
+      size: 4461
+      sha256: acd7d1e1b9e7160ee00b71d88d06526bf915f0a70416becb37aa6e346a26f5fd
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaUploadServiceTest.java
+      state: FILE
+      size: 10883
+      sha256: d0ea228892ff87c317f5b5e66d98664388e1d4f014b008f4dd09e6b828bccaf3
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/MediaControllerTest.java
+      state: FILE
+      size: 4078
+      sha256: 5533fad595d9c194922e2b0ecee333f804760487130ef49663102bed939797fc
+    - path: tests/test_r04_media_upload_lifecycle_migration.py
+      state: FILE
+      size: 2040
+      sha256: 66fb55e96b818682f9adc8941431e7b92cea3f5f4bbf8ff5e24815c9893ec980
+change_classification:
+  database:
+  - database/migrations/V022__r04_media_upload_lifecycle.sql
+  - database/rollback/U022__r04_media_upload_lifecycle.sql
+  - database/tests/r04_media_upload_lifecycle_invariants.sql
+  code:
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r04_database_invariants.sh
+  - scripts/run_r04_disposable_postgres_container.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaIdempotencyService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/MediaUploadService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaPurposePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04MediaStorageGateway.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/MediaController.java
+  - services/backend/boot/src/main/resources/db/migration/V022__r04_media_upload_lifecycle.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaIdempotencyServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/storage/MediaUploadServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/MediaControllerTest.java
+  tests:
+  - tests/test_r04_media_upload_lifecycle_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/android/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前会话策略禁止创建子代理，主控按冻结纵向切片继续
+event_hash: d49c1ce61a7d99fa69b7530e80d4362304f37c258854634a5776b6b8af03f1e9
