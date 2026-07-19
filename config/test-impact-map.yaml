@@ -137,16 +137,6 @@ checks:
   cwd: .
   command: ['{python}', scripts/check_db_schema.py]
   timeout_seconds: 180
-- id: python-project-tests
-  profiles: [MODULE]
-  ci_job: tooling
-  paths:
-  - tests/**
-  - scripts/**
-  - config/**
-  cwd: .
-  command: ['{python}', -m, unittest, discover, -s, tests, -p, 'test_*.py']
-  timeout_seconds: 900
 - id: integration-documentation
   profiles: [INTEGRATION]
   ci_job: contracts

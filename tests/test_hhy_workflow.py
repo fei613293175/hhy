@@ -28,6 +28,8 @@ class WorkflowClassificationTest(TestCase):
         self.assertEqual("MODULE", result["quality_profile"])
         self.assertEqual(["h5"], result["product_domains"])
         self.assertNotIn("high_risk_path_present", result["reasons"])
+        self.assertEqual(600, result["hotfix_timebox_seconds"]["diagnose"])
+        self.assertEqual(2100, result["hotfix_timebox_seconds"]["total"])
 
     def test_simple_document_maintenance_uses_fast_checks(self) -> None:
         result = workflow.classify_work(
@@ -131,3 +133,84 @@ class WorkflowClassificationTest(TestCase):
             self.assertEqual("PASS", second["status"])
             self.assertEqual(["one", "two"], second["resumed_checks"])
             self.assertEqual(2, execute.call_count)
+
+    def test_per_check_cache_reuses_only_unchanged_inputs(self) -> None:
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "one.txt").write_text("one", encoding="utf-8")
+            (root / "two.txt").write_text("two", encoding="utf-8")
+            plan = {
+                "workflow": {
+                    "mode": "CROSS_LAYER",
+                    "quality_profile": "MODULE",
+                    "classified_files": ["one.txt", "two.txt"],
+                    "duration_budget_seconds": 60,
+                    "parallel_execution": {"enabled": True, "max_workers": 2},
+                },
+                "quality_plan": {
+                    "checks": [
+                        {"id": "one", "paths": ["one.txt"], "command": ["one"], "cwd": str(root), "env": {}, "timeout_seconds": 1},
+                        {"id": "two", "paths": ["two.txt"], "command": ["two"], "cwd": str(root), "env": {}, "timeout_seconds": 1},
+                    ]
+                },
+            }
+            state = root / "state.json"
+
+            def passing(single: dict) -> dict:
+                return {"results": [{
+                    "id": single["checks"][0]["id"], "status": "PASS", "duration_seconds": 0.1,
+                }]}
+
+            with mock.patch.object(workflow, "ROOT", root), mock.patch.object(
+                workflow.affected, "execute_plan", side_effect=passing
+            ) as execute:
+                workflow.execute_resumable(plan, state)
+                (root / "one.txt").write_text("changed", encoding="utf-8")
+                second = workflow.execute_resumable(plan, state)
+            self.assertEqual(["two"], second["resumed_checks"])
+            self.assertEqual(3, execute.call_count)
+
+    def test_parallel_checks_require_and_report_frozen_source(self) -> None:
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "change.txt"
+            source.write_text("frozen", encoding="utf-8")
+            plan = {
+                "workflow": {
+                    "mode": "CROSS_LAYER",
+                    "quality_profile": "MODULE",
+                    "classified_files": ["change.txt"],
+                    "duration_budget_seconds": 60,
+                    "parallel_execution": {"enabled": True, "max_workers": 2},
+                },
+                "quality_plan": {"checks": [
+                    {"id": "one", "command": ["one"], "cwd": str(root), "env": {}, "timeout_seconds": 1},
+                    {"id": "two", "command": ["two"], "cwd": str(root), "env": {}, "timeout_seconds": 1},
+                ]},
+            }
+
+            def passing(single: dict) -> dict:
+                return {"results": [{
+                    "id": single["checks"][0]["id"], "status": "PASS", "duration_seconds": 0.1,
+                }]}
+
+            with mock.patch.object(workflow, "ROOT", root), mock.patch.object(
+                workflow, "validate_frozen_parallel"
+            ) as validate, mock.patch.object(
+                workflow.affected, "execute_plan", side_effect=passing
+            ):
+                result = workflow.execute_resumable(
+                    plan, root / "state.json", parallel_workers=2, frozen_commit="a" * 40
+                )
+            validate.assert_called_once()
+            self.assertEqual(2, result["parallel_workers"])
+            self.assertEqual("a" * 40, result["frozen_commit"])
+
+    def test_portable_environment_pins_hook_runtime(self) -> None:
+        with mock.patch.object(workflow.affected, "resolve_git_executable", return_value="C:/tools/git.exe"), mock.patch.object(
+            workflow.affected, "resolve_pnpm_executable", return_value="C:/tools/pnpm.cmd"
+        ):
+            environment = workflow.portable_environment()
+        self.assertEqual(sys.executable, environment["HHY_PYTHON"])
+        self.assertEqual("C:/tools/git.exe", environment["HHY_GIT_BIN"])
+        self.assertEqual("C:/tools/pnpm.cmd", environment["HHY_PNPM_BIN"])

@@ -28,6 +28,7 @@ SPEC.loader.exec_module(delivery)
 
 FINGERPRINT = "ab" * 32
 COMMIT = "1234567" + "8" * 33
+COMMIT_2 = "7654321" + "9" * 33
 
 
 class FakePublisher:
@@ -221,6 +222,18 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             self.assertFalse(fixture.artifact_root.exists())
             self.assertFalse(fixture.desktop.exists())
 
+    def test_prepare_rejects_nested_evidence_root_before_any_publish(self) -> None:
+        with TemporaryDirectory() as temporary:
+            fixture = DeliveryFixture(Path(temporary))
+            publisher = FakePublisher()
+            with self.assertRaisesRegex(delivery.DeliveryError, "parent validation directory"):
+                delivery.prepare_delivery(
+                    fixture.config(evidence_root=fixture.evidence_root / "r02-apk-delivery"),
+                    publisher,
+                    https_verifier=passing_https,
+                )
+            self.assertEqual(0, publisher.publish_calls)
+
     def test_prepare_creates_pending_state_and_verified_copies(self) -> None:
         with TemporaryDirectory() as temporary:
             fixture = DeliveryFixture(Path(temporary))
@@ -330,6 +343,50 @@ class AndroidApkDeliveryTest(unittest.TestCase):
             with self.assertRaises(delivery.DeliveryError):
                 delivery.prepare_delivery(fixture.config(), second, https_verifier=passing_https)
             self.assertEqual(0, second.publish_calls)
+
+    def test_replace_existing_archives_only_after_new_delivery_passes(self) -> None:
+        with TemporaryDirectory() as temporary:
+            fixture = DeliveryFixture(Path(temporary))
+            delivery.prepare_delivery(fixture.config(), FakePublisher(), https_verifier=passing_https)
+            fixture.write_build_evidence(commit=COMMIT_2, version_code=10203)
+            result = delivery.prepare_delivery(
+                fixture.config(commit=COMMIT_2, version_code=10203, replace_existing=True),
+                FakePublisher(),
+                https_verifier=passing_https,
+            )
+            self.assertEqual(COMMIT, result["replaced_commit"])
+            current = yaml.safe_load(
+                (fixture.artifact_root / "R02" / "APK_MANIFEST.yaml").read_text(encoding="utf-8")
+            )
+            archived = yaml.safe_load(
+                (fixture.artifact_root / "R02" / "history" / COMMIT[:7] / "APK_MANIFEST.yaml").read_text(encoding="utf-8")
+            )
+            self.assertEqual(COMMIT_2, current["commit"])
+            self.assertEqual(COMMIT, archived["commit"])
+            self.assertTrue(
+                (fixture.evidence_root / "r02-apk-delivery" / "history" / COMMIT[:7] / "delivery-evidence.json").is_file()
+            )
+
+    def test_failed_replacement_preserves_current_delivery(self) -> None:
+        with TemporaryDirectory() as temporary:
+            fixture = DeliveryFixture(Path(temporary))
+            delivery.prepare_delivery(fixture.config(), FakePublisher(), https_verifier=passing_https)
+            fixture.write_build_evidence(commit=COMMIT_2, version_code=10203)
+
+            def fail_https(url: str, path: Path, sha256: str, size: int) -> dict[str, Any]:
+                raise delivery.DeliveryError("simulated replacement failure")
+
+            with self.assertRaises(delivery.DeliveryError):
+                delivery.prepare_delivery(
+                    fixture.config(commit=COMMIT_2, version_code=10203, replace_existing=True),
+                    FakePublisher(),
+                    https_verifier=fail_https,
+                )
+            current = yaml.safe_load(
+                (fixture.artifact_root / "R02" / "APK_MANIFEST.yaml").read_text(encoding="utf-8")
+            )
+            self.assertEqual(COMMIT, current["commit"])
+            self.assertFalse((fixture.artifact_root / "R02" / "history" / COMMIT[:7]).exists())
 
     def test_accept_transitions_pending_to_pass_and_is_idempotent(self) -> None:
         with TemporaryDirectory() as temporary:

@@ -198,6 +198,23 @@ def atomic_yaml(path: Path, value: Mapping[str, Any]) -> None:
         raise
 
 
+def atomic_bytes(path: Path, value: bytes) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
+    try:
+        with os.fdopen(descriptor, "wb") as handle:
+            handle.write(value)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    except BaseException:
+        try:
+            os.unlink(temporary)
+        except FileNotFoundError:
+            pass
+        raise
+
+
 def verified_copy(source: Path, target: Path, expected_sha: str, expected_size: int) -> None:
     target.parent.mkdir(parents=True, exist_ok=True)
     if target.exists():
@@ -635,6 +652,7 @@ class PrepareConfig:
     artifact_root: Path
     evidence_root: Path
     public_base_url: str
+    replace_existing: bool = False
 
 
 class Publisher(Protocol):
@@ -662,6 +680,11 @@ def prepare_delivery(
     dry_run: bool = False,
 ) -> dict[str, Any]:
     release = validate_release(config.release)
+    delivery_slug = f"{release.lower()}-apk-delivery"
+    if config.evidence_root.name.lower() == delivery_slug:
+        raise DeliveryError(
+            f"--evidence-root must be the parent validation directory, not {delivery_slug}"
+        )
     commit = validate_commit(config.commit)
     version_name = validate_version_name(config.version_name)
     version_code = validate_version_code(release, config.version_code)
@@ -683,7 +706,7 @@ def prepare_delivery(
     artifact_dir = config.artifact_root / release
     artifact_apk = artifact_dir / apk_file
     desktop_apk = config.desktop_dir / apk_file
-    evidence_path = config.evidence_root / f"{release.lower()}-apk-delivery" / "delivery-evidence.json"
+    evidence_path = config.evidence_root / delivery_slug / "delivery-evidence.json"
     manifest_path = artifact_dir / "APK_MANIFEST.yaml"
     remote_relative = f"{release.lower()}-artifacts/{apk_file}"
     download_url = f"{public_base}/{remote_relative}"
@@ -699,12 +722,42 @@ def prepare_delivery(
         "manifest": str(manifest_path),
         "delivery_evidence": str(evidence_path),
         "dry_run": dry_run,
+        "replace_existing": config.replace_existing,
     }
     if dry_run:
         return plan
 
-    if manifest_path.exists() or evidence_path.exists():
-        raise DeliveryError("delivery state already exists; use verify or accept instead of prepare")
+    manifest_exists = manifest_path.exists()
+    evidence_exists = evidence_path.exists()
+    if manifest_exists != evidence_exists:
+        raise DeliveryError("existing delivery state is incomplete; repair it before replacement")
+    existing_manifest_bytes: bytes | None = None
+    existing_evidence_bytes: bytes | None = None
+    existing_commit: str | None = None
+    archive_manifest: Path | None = None
+    archive_evidence: Path | None = None
+    if manifest_exists:
+        if not config.replace_existing:
+            raise DeliveryError("delivery state already exists; use verify, accept, or --replace-existing")
+        current_manifest = load_mapping(manifest_path, "existing APK manifest")
+        current_evidence = load_mapping(evidence_path, "existing delivery evidence")
+        existing_commit = validate_commit(str(current_manifest.get("commit") or ""))
+        if current_manifest.get("release") != release or current_evidence.get("release") != release:
+            raise DeliveryError("existing delivery release does not match replacement")
+        if current_manifest.get("owner_physical_test") == "PASS":
+            raise DeliveryError("accepted delivery cannot be replaced; advance the release/version instead")
+        current_version = current_manifest.get("version_code")
+        if not isinstance(current_version, int) or version_code <= current_version:
+            raise DeliveryError("replacement versionCode must be greater than the current delivery")
+        if existing_commit == commit:
+            raise DeliveryError("replacement commit must differ from the current delivery")
+        short_commit = existing_commit[:7]
+        archive_manifest = artifact_dir / "history" / short_commit / "APK_MANIFEST.yaml"
+        archive_evidence = evidence_path.parent / "history" / short_commit / "delivery-evidence.json"
+        if archive_manifest.exists() or archive_evidence.exists():
+            raise DeliveryError("replacement archive already exists for the current delivery")
+        existing_manifest_bytes = manifest_path.read_bytes()
+        existing_evidence_bytes = evidence_path.read_bytes()
 
     route_evidence = publisher.preflight_route(release, commit)
     if route_evidence.get("status") != "PASS":
@@ -712,6 +765,7 @@ def prepare_delivery(
     verified_copy(config.apk, artifact_apk, sha, size)
     verified_copy(config.apk, desktop_apk, sha, size)
     publication: RemotePublication | None = None
+    created_archives: list[Path] = []
     try:
         publication = publisher.publish(artifact_apk, identity)
         remote_evidence = publisher.verify(publication)
@@ -760,6 +814,13 @@ def prepare_delivery(
             "desktop_copy": str(desktop_apk),
             "delivery_evidence": str(evidence_path.relative_to(ROOT) if evidence_path.is_relative_to(ROOT) else evidence_path),
         }
+        if existing_manifest_bytes is not None and existing_evidence_bytes is not None:
+            if archive_manifest is None or archive_evidence is None:
+                raise DeliveryError("replacement archive paths were not prepared")
+            atomic_bytes(archive_manifest, existing_manifest_bytes)
+            created_archives.append(archive_manifest)
+            atomic_bytes(archive_evidence, existing_evidence_bytes)
+            created_archives.append(archive_evidence)
         atomic_json(evidence_path, evidence)
         atomic_yaml(manifest_path, manifest)
     except BaseException:
@@ -768,10 +829,23 @@ def prepare_delivery(
                 publisher.retract_if_created(publication)
             except DeliveryError:
                 pass
-        evidence_path.unlink(missing_ok=True)
-        manifest_path.unlink(missing_ok=True)
+        if existing_manifest_bytes is not None and existing_evidence_bytes is not None:
+            atomic_bytes(manifest_path, existing_manifest_bytes)
+            atomic_bytes(evidence_path, existing_evidence_bytes)
+            for archived in created_archives:
+                archived.unlink(missing_ok=True)
+        else:
+            evidence_path.unlink(missing_ok=True)
+            manifest_path.unlink(missing_ok=True)
         raise
-    return {**plan, "dry_run": False, "status": "PENDING_OWNER_ACCEPTANCE"}
+    return {
+        **plan,
+        "dry_run": False,
+        "status": "PENDING_OWNER_ACCEPTANCE",
+        "replaced_commit": existing_commit,
+        "archived_manifest": str(archive_manifest) if archive_manifest else None,
+        "archived_evidence": str(archive_evidence) if archive_evidence else None,
+    }
 
 
 def manifest_and_evidence_paths(
@@ -931,6 +1005,10 @@ def build_parser() -> ArgumentParser:
     prepare.add_argument("--desktop-dir", type=Path, default=Path.home() / "Desktop")
     prepare.add_argument("--public-base-url", default=f"https://{PUBLIC_DOWNLOAD_HOST}")
     prepare.add_argument("--dry-run", action="store_true")
+    prepare.add_argument(
+        "--replace-existing", action="store_true",
+        help="After complete verification, atomically archive and replace the current pending delivery",
+    )
     add_storage_arguments(prepare)
     add_remote_arguments(prepare)
 
@@ -993,6 +1071,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                     args.artifact_root,
                     args.evidence_root,
                     args.public_base_url,
+                    args.replace_existing,
                 ),
                 make_publisher(args),
                 dry_run=args.dry_run,

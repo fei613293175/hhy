@@ -87,3 +87,13 @@ duration_budgets_seconds:
   RELEASE_CLOSE: 10800
   single_check_warning: 600
 
+hotfix_timebox_seconds:
+  diagnose: 600
+  implement: 900
+  delivery: 600
+  total: 2100
+
+parallel_execution:
+  enabled_modes: [CROSS_LAYER, TEST_APK]
+  max_workers: 2
+  require_frozen_commit: true

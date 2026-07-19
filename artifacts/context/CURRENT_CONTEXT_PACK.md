@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-19T07:18:20Z
-- Context Hash：`f08a9b9339b817c736844c74f0ecde61ed18d1ed131e7e626356288a233b9b59`
+- 生成时间：2026-07-19T07:47:39Z
+- Context Hash：`e16cd5e0c950e59af99e132e6568496976b6a7ede73cec7024c28cfcf4143303`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -68,7 +68,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R03-007
-updated_at: '2026-07-19T07:18:18Z'
+updated_at: '2026-07-19T07:47:37Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -103,15 +103,15 @@ continuity:
   active_session_id: SES-20260718T200607Z-3569D212
   actor_id: codex-root
   story_id: STORY-R03-004
-  lease_expires_at: '2026-07-19T11:18:18Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0039.yaml
-  project_fingerprint: ff849487694686bbeb52a1f84becdd8dbab93e9d3eb684b3c98634114a58b2e4
+  lease_expires_at: '2026-07-19T11:47:37Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0041.yaml
+  project_fingerprint: 494fd6784444b6268bca7a03b2bc6c6d68e4e3039a0e83d86c019afd09fee66f
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 69eaa4b559a02feb7badec70311fd8523fcd393b3d0e54de8f082b5f4892d3d3
-    generated_at: '2026-07-19T06:52:32Z'
+    context_hash: 5614ca5e23d26105e52f2eeb966d026e1f5f8893e373d5a8eea4a89e58081051
+    generated_at: '2026-07-19T07:46:27Z'
   handoff_bundle: null
 ```
 
@@ -308,7 +308,7 @@ task_id: TASK-R03-007
 story_id: STORY-R03-004
 goal: ??BLOCKED?????????R02???????????????????
 started_at: '2026-07-18T20:06:07Z'
-updated_at: '2026-07-19T07:18:18Z'
+updated_at: '2026-07-19T07:47:37Z'
 takeover_of: null
 change_requests:
 - CR-0051
@@ -342,6 +342,7 @@ change_requests:
 - CR-0079
 - CR-0080
 - CR-0081
+- CR-0082
 scope:
   allowed_paths:
   - apps/**
@@ -522,7 +523,7 @@ scope:
   - tests/test_hhy_workflow.py
   - tests/test_run_affected_tests.py
   - docs/09-development/统一开发与交付效率规范.md
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079+approved-cr:CR-0080+approved-cr:CR-0081
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079+approved-cr:CR-0080+approved-cr:CR-0081+approved-cr:CR-0082
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -532,12 +533,12 @@ git:
   initial_worktree_state: DIRTY_TAKEOVER
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T07:18:18Z'
-  expires_at: '2026-07-19T11:18:18Z'
-checkpoint_sequence: 39
-latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0039.yaml
+  renewed_at: '2026-07-19T07:47:37Z'
+  expires_at: '2026-07-19T11:47:37Z'
+checkpoint_sequence: 41
+latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0041.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-next_step: 等待项目所有者真机验收10206的已注册手机号和无效邀请码提示；验收PASS后关闭TASK-R03-007
+next_step: 使用hhy_workflow便携Git stage、commit、push完成交付
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -545,51 +546,75 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 本次为同一注册链路的后端事务、错误协议、Android解析与测试包交付，需共享同一提交和产物身份串行闭环
+  reason: 同一小型编排器与交付事务紧耦合，连续性、CR及最终集成由唯一事实主控串行复核
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260718T200607Z-3569D212-0039
+checkpoint_id: CP-SES-20260718T200607Z-3569D212-0041
 session_id: SES-20260718T200607Z-3569D212
-sequence: 39
-created_at: '2026-07-19T07:18:18Z'
-summary: 注册分场景错误提示修复及10206测试APK四端交付完成
-next_step: 等待项目所有者真机验收10206的已注册手机号和无效邀请码提示；验收PASS后关闭TASK-R03-007
+sequence: 41
+created_at: '2026-07-19T07:47:36Z'
+summary: CR-0082最终补齐便携Git stage并完成回归
+next_step: 使用hhy_workflow便携Git stage、commit、push完成交付
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: android-full
+- name: targeted-unit
   result: PASS
-  evidence: artifacts/validation/r03-task007-android/gradle-build.log
-  note: clean testDebugUnitTest lintDebug assembleDebug
-- name: backend-full
+  evidence: python -m unittest tests.test_hhy_workflow tests.test_run_affected_tests tests.test_android_apk_delivery
+  note: 41项通过
+- name: full-python
   result: PASS
-  evidence: public-api-and-maven-gates
-  note: UserAuthService 18项与完整Maven测试通过
-- name: apk-delivery
+  evidence: .continuity/runtime/hotfix-cr0082-test.json
+  note: 135项通过
+- name: hotfix-final
   result: PASS
-  evidence: artifacts/validation/r03-apk-delivery/delivery-evidence.json
-  note: 桌面仓库服务器HTTPS四方SHA一致
+  evidence: .continuity/runtime/hotfix-cr0082-poststage.json
+  note: 45项13.9秒通过
+- name: apk-replace-transaction
+  result: PASS
+  evidence: tests.test_android_apk_delivery
+  note: 成功归档与失败回滚均覆盖
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 660d148d0743e796a9b77558bed68f046197519e
+  head: 429938d8765568fbb97c9e8f9062e67c4e310546
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M NEXT_TASK.yaml'
-  - ' M artifacts/apk/R03/APK_MANIFEST.yaml'
-  - ' M artifacts/reports/R03/TASK-R03-007-android-apk.md'
-  - ' M artifacts/validation/r03-apk-delivery/delivery-evidence.json'
-  - ' M artifacts/validation/r03-task007-android/build-evidence.json'
-  - ' M artifacts/validation/r03-task007-android/gradle-build.log'
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M config/development-workflow.yaml'
+  - ' M config/test-impact-map.yaml'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md'
+  - ' M docs/09-development/统一开发与交付效率规范.md'
+  - ' M scripts/deliver_android_test_apk.py'
+  - ' M scripts/hhy_workflow.py'
+  - ' M tests/test_android_apk_delivery.py'
+  - ' M tests/test_hhy_workflow.py'
+  - ?? .continuity/change_requests/CR-0082.yaml
+  - ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0040.yaml
+  - ?? docs/03-continuity/change-requests/CR-0082-补强热修复快速通道与APK自动换版交付.md
   recent_commits:
+  - "429938d8765568fbb97c9e8f9062e67c4e310546\t2026-07-19T15:20:38+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): deliver 10206\
+    \ registration scenario apk"
   - "660d148d0743e796a9b77558bed68f046197519e\t2026-07-19T14:54:26+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): preserve registration\
     \ error scenarios"
   - "9890a50b504e3fea58d2561d0f9bfe80c35dac38\t2026-07-19T14:07:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close proportionate\
@@ -604,10 +629,8 @@ git:
     \ CRs"
   - "d81cc45a51a69338525d8acd61ae67a757029669\t2026-07-19T13:08:29+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(continuity): preserve\
     \ rename paths in fingerprints"
-  - "c0bf69fffaa3fe957a04ac56bbee75e41efbece1\t2026-07-19T12:59:17+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close auth\
-    \ regression delivery changes"
 project_fingerprint:
-  sha256: ff849487694686bbeb52a1f84becdd8dbab93e9d3eb684b3c98634114a58b2e4
+  sha256: 494fd6784444b6268bca7a03b2bc6c6d68e4e3039a0e83d86c019afd09fee66f
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -710,6 +733,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md
   - docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md
   - docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md
+  - docs/03-continuity/change-requests/CR-0082-补强热修复快速通道与APK自动换版交付.md
   - docs/09-development/统一开发与交付效率规范.md
   - packages/api-client/src/client.generated.ts
   - packages/design-tokens/admin.css
@@ -750,7 +774,7 @@ project_fingerprint:
   - tests/test_r02_auth_slice_contract.py
   - tests/test_r02_security_challenge_design_package.py
   - tests/test_run_affected_tests.py
-  file_count: 141
+  file_count: 142
   payload:
     base_commit: 18e2db65b65afeb1e69d0c382ab53963fc97adec
     files:
@@ -760,8 +784,8 @@ project_fingerprint:
       sha256: eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686
     - path: CHANGELOG.md
       state: FILE
-      size: 33488
-      sha256: c9edb18b7022cb8813f3c2af632ddf8c932d828db249d316fae5caae7caab0d8
+      size: 33743
+      sha256: 1452fa7ee297322e42efe5e816ab545e54f858f0562ea5668e118510cbe8846f
     - path: DEVELOPMENT_RISK_REGISTER.md
       state: FILE
       size: 8289
@@ -900,12 +924,12 @@ project_fingerprint:
       sha256: b7d4aadd7fed9df1838707eb90e5b31f7d82047b59c783afae0763fe4d3ae67c
     - path: config/development-workflow.yaml
       state: FILE
-      size: 2965
-      sha256: 2126c9ca978d8ca679140af618a136ec0dcfba9d0b09c010b587574b91761fb2
+      size: 3161
+      sha256: c48613ba3634c749ce09b7d17f148c7a90e879c4ca60c8ef31db18a659f09b44
     - path: config/test-impact-map.yaml
       state: FILE
-      size: 5287
-      sha256: 4538b9336e009202ed67ca1799bcb9529af7f53bc1902f37ce0b262b6beff050
+      size: 5062
+      sha256: 6a17e37440dad15bf96ddee3953b73cdf6f8f97f47f0a61e7d100f680a58c7ce
     - path: contracts/contract_status.csv
       state: FILE
       size: 139188
@@ -1158,10 +1182,14 @@ project_fingerprint:
       state: FILE
       size: 3855
       sha256: 6282439ebf59d74fa09ec65650794895b5769ace0becea0ebbdc840fdc3bafc7
+    - path: docs/03-continuity/change-requests/CR-0082-补强热修复快速通道与APK自动换版交付.md
+      state: FILE
+      size: 3354
+      sha256: 42a4104b548a57817720c05d3d557eff3908b743a7635398066219ec2c39c617
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
-      size: 4097
-      sha256: 6dcf5fc4749a82799dd6616b9c6df2de1cbe7d70c8898aed31a78df9cb492305
+      size: 5370
+      sha256: efcba8ae77c3c3e2dd160f46460eee3fe79e036aa60416af702786831fedac55
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 610906
@@ -1212,12 +1240,12 @@ project_fingerprint:
       sha256: 03ec9e8792b67889d75944991435dae6d04e9c4f1a1965ebe2d90d87e42078ff
     - path: scripts/deliver_android_test_apk.py
       state: FILE
-      size: 43855
-      sha256: d519ac996d076932f70cb5b18167702d6eab40f2e11a187d35e7b91efac7306e
+      size: 48006
+      sha256: 285d3b09bdc0884f4024649f3f7d54e4375452c8e17f014a5a0be083d972bc3b
     - path: scripts/hhy_workflow.py
       state: FILE
-      size: 12681
-      sha256: 63d6c7881ea130626f6aeaa2169eb8a02ef34f44d55acc40b7f90b82e1c1f3e8
+      size: 20856
+      sha256: f2cb34406b37b14648836aee1ac5b505ffad4065b95649c1bf35e3aa5130a6da
     - path: scripts/run_affected_tests.py
       state: FILE
       size: 12438
@@ -1288,8 +1316,8 @@ project_fingerprint:
       sha256: 038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a
     - path: tests/test_android_apk_delivery.py
       state: FILE
-      size: 21088
-      sha256: 65d23819ae7707526172ecaab742a973c58e10ea586fa6b33aee9bb991d43626
+      size: 24145
+      sha256: ba19c01004d87419ccdb70891337e461252361d8726510fb7e796287e3bcfb99
     - path: tests/test_commercial_ui_boundaries.py
       state: FILE
       size: 431
@@ -1304,8 +1332,8 @@ project_fingerprint:
       sha256: 6d85b3533339847fdc201c7b3bd4cafc9617ad1331f322e04adb28600ed8b8cb
     - path: tests/test_hhy_workflow.py
       state: FILE
-      size: 5602
-      sha256: 3c4b0fbdf81b91299039290fba2b4ca02f71a3833cff249c66f71d740bf74419
+      size: 9781
+      sha256: 54734efe954c23f4a42ee1c2cbc992bbf78428fd6b3c6b98c942fc4734af70e7
     - path: tests/test_r02_auth_slice_contract.py
       state: FILE
       size: 11042
@@ -1501,6 +1529,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md
   - docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md
   - docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md
+  - docs/03-continuity/change-requests/CR-0082-补强热修复快速通道与APK自动换版交付.md
   tests:
   - tests/test_android_apk_delivery.py
   - tests/test_commercial_ui_boundaries.py
@@ -1554,6 +1583,7 @@ change_requests:
 - CR-0079
 - CR-0080
 - CR-0081
+- CR-0082
 scope:
   allowed_paths:
   - apps/**
@@ -1734,13 +1764,13 @@ scope:
   - tests/test_hhy_workflow.py
   - tests/test_run_affected_tests.py
   - docs/09-development/统一开发与交付效率规范.md
-  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079+approved-cr:CR-0080+approved-cr:CR-0081
+  source: story+explicit+approved-cr:CR-0051+approved-cr:CR-0052+approved-cr:CR-0053+approved-cr:CR-0054+approved-cr:CR-0055+approved-cr:CR-0056+approved-cr:CR-0057+approved-cr:CR-0058+approved-cr:CR-0059+approved-cr:CR-0060+approved-cr:CR-0061+approved-cr:CR-0062+approved-cr:CR-0063+approved-cr:CR-0064+approved-cr:CR-0065+approved-cr:CR-0066+approved-cr:CR-0067+approved-cr:CR-0068+approved-cr:CR-0069+approved-cr:CR-0070+approved-cr:CR-0071+approved-cr:CR-0072+approved-cr:CR-0073+approved-cr:CR-0074+approved-cr:CR-0075+approved-cr:CR-0076+approved-cr:CR-0077+approved-cr:CR-0078+approved-cr:CR-0079+approved-cr:CR-0080+approved-cr:CR-0081+approved-cr:CR-0082
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 本次为同一注册链路的后端事务、错误协议、Android解析与测试包交付，需共享同一提交和产物身份串行闭环
-event_hash: b5ec8ea4a40e9ded7e59eb809661f484facdbed6e2421da3469c4e970845d3e2
+  reason: 同一小型编排器与交付事务紧耦合，连续性、CR及最终集成由唯一事实主控串行复核
+event_hash: e9d0fce9175cad652cb8eded22221f34623e9b620b07cb5c59880c9abc11abb5
 ```
 
 ## 接续状态与事件头
@@ -1752,8 +1782,8 @@ active_session_id: SES-20260718T200607Z-3569D212
 last_session_id: SES-20260718T165842Z-356A8138
 last_session_result: BLOCKED
 last_closure_checkpoint_id: CP-SES-20260718T165842Z-356A8138-0005
-event_count: 880
-event_head_hash: b5ec8ea4a40e9ded7e59eb809661f484facdbed6e2421da3469c4e970845d3e2
+event_count: 888
+event_head_hash: e9d0fce9175cad652cb8eded22221f34623e9b620b07cb5c59880c9abc11abb5
 event_chain_valid: true
 ```
 
@@ -1876,9 +1906,9 @@ recent_sessions: - session_id: SES-20260718T084729Z-BD53B7C4
   started_at: '2026-07-18T20:06:07Z'
   record: .continuity/sessions/SES-20260718T200607Z-3569D212.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md
-  updated_at: '2026-07-19T07:18:18Z'
+  updated_at: '2026-07-19T07:47:37Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0039.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260718T200607Z-3569D212/0041.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-3E379E115FA4
   session_id: SES-20260717T141717Z-A01412D7
@@ -2718,28 +2748,40 @@ recent_task_transitions: - transition_id: TRN-23D2BAB015EB
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 660d148d0743e796a9b77558bed68f046197519e
+head: 429938d8765568fbb97c9e8f9062e67c4e310546
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260718T200607Z-3569D212.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
-- ' M artifacts/apk/R03/APK_MANIFEST.yaml'
-- ' M artifacts/reports/R03/TASK-R03-007-android-apk.md'
-- ' M artifacts/validation/r03-apk-delivery/delivery-evidence.json'
-- ' M artifacts/validation/r03-task007-android/build-evidence.json'
-- ' M artifacts/validation/r03-task007-android/gradle-build.log'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
+- ' M config/development-workflow.yaml'
+- ' M config/test-impact-map.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md'
-- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0039.yaml
+- ' M docs/09-development/统一开发与交付效率规范.md'
+- ' M scripts/deliver_android_test_apk.py'
+- ' M scripts/hhy_workflow.py'
+- ' M tests/test_android_apk_delivery.py'
+- ' M tests/test_hhy_workflow.py'
+- ?? .continuity/change_requests/CR-0082.yaml
+- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0040.yaml
+- ?? .continuity/checkpoints/SES-20260718T200607Z-3569D212/0041.yaml
+- ?? docs/03-continuity/change-requests/CR-0082-补强热修复快速通道与APK自动换版交付.md
 recent_commits:
+- "429938d8765568fbb97c9e8f9062e67c4e310546\t2026-07-19T15:20:38+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(release): deliver 10206\
+  \ registration scenario apk"
 - "660d148d0743e796a9b77558bed68f046197519e\t2026-07-19T14:54:26+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(auth): preserve registration\
   \ error scenarios"
 - "9890a50b504e3fea58d2561d0f9bfe80c35dac38\t2026-07-19T14:07:47+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close proportionate\
@@ -2754,14 +2796,12 @@ recent_commits:
   \ CRs"
 - "d81cc45a51a69338525d8acd61ae67a757029669\t2026-07-19T13:08:29+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] fix(continuity): preserve rename\
   \ paths in fingerprints"
-- "c0bf69fffaa3fe957a04ac56bbee75e41efbece1\t2026-07-19T12:59:17+08:00\tHHY Continuity Bootstrap\t[STORY-R03-004] chore(governance): close auth\
-  \ regression delivery changes"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`ff849487694686bbeb52a1f84becdd8dbab93e9d3eb684b3c98634114a58b2e4`
-- 文件数：141
+- 指纹：`494fd6784444b6268bca7a03b2bc6c6d68e4e3039a0e83d86c019afd09fee66f`
+- 文件数：142
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -2864,6 +2904,7 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md`
 - `docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md`
 - `docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md`
+- `docs/03-continuity/change-requests/CR-0082-补强热修复快速通道与APK自动换版交付.md`
 - `docs/09-development/统一开发与交付效率规范.md`
 - `packages/api-client/src/client.generated.ts`
 - `packages/design-tokens/admin.css`
@@ -4959,13 +5000,70 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260718T152013Z-8B704646
   implementation_commits:
   - 650fdee862405db673ed5f3f856611356508e337
+- protocol_version: '1.0'
+  cr_id: CR-0082
+  title: 补强热修复快速通道与APK自动换版交付
+  status: IMPLEMENTED
+  created_at: '2026-07-19T07:31:10Z'
+  updated_at: '2026-07-19T07:46:00Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner-delegated
+  task_id: TASK-R03-007
+  session_id: SES-20260718T200607Z-3569D212
+  user_request: 项目所有者明确要求立即按既定方案继续优化开发速度和Bug修复效率
+  reason: 消除本次注册提示修复中暴露的PATH、重复测试、串行等待、旧交付手工归档和参数易错问题
+  original_rule: 现有统一工作流能分级、整体指纹续跑和APK路由预检，但换版交付仍需人工移动当前清单，任一文件变化会让全部检查缓存失效，Git Hooks依赖外部PATH，跨层检查只能串行
+  new_rule: 热修复入口必须提供10分钟定位、15分钟实现、10分钟交付时间盒；缓存按单项输入指纹复用；只有工作区干净且HEAD等于冻结Commit时才允许最多2路模块检查并行；统一Git入口自动注入Python和Git运行时；APK prepare可显式replace-existing并在新产物完整验证后原子归档旧清单
+  impact_summary: 在既有轻重分级脚本上增量加入hotfix、便携Git、逐检查缓存、冻结Commit并行和APK事务式换版，不改变业务、API、数据库及正式发布门禁
+  impact:
+    files:
+    - config/development-workflow.yaml
+    - config/test-impact-map.yaml
+    - scripts/hhy_workflow.py
+    - scripts/deliver_android_test_apk.py
+    - tests/test_hhy_workflow.py
+    - tests/test_android_apk_delivery.py
+    - docs/09-development/统一开发与交付效率规范.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_hhy_workflow tests.test_android_apk_delivery
+    - python scripts/hhy_workflow.py hotfix --changed-file scripts/hhy_workflow.py
+    - python scripts/deliver_android_test_apk.py prepare --help
+    releases:
+    - R03
+    migration_and_compatibility: 旧plan/run及APK prepare默认行为保持不变；并行、hotfix和replace-existing均为显式增量选项，旧交付只有在新APK四方验证通过后才归档
+  user_confirmation: 立即按你的方案优化
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-19T07:31:39Z'
+    note: 项目所有者明确要求立即按已提出的针对性方案优化，并要求避免把简单任务复杂化
+  machine_record: .continuity/change_requests/CR-0082.yaml
+  document: docs/03-continuity/change-requests/CR-0082-补强热修复快速通道与APK自动换版交付.md
+  decision_log:
+  - at: '2026-07-19T07:45:59Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始补强现有热修复快速通道，不新建第二套开发体系
+    session_id: SES-20260718T200607Z-3569D212
+  - at: '2026-07-19T07:46:00Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 热修复35分钟时间盒、逐检查输入指纹缓存、冻结Commit最多2路并行、便携Git及APK事务式replace-existing已实现；针对性41项、完整Python 135项和统一工作流45项均PASS，旧冗余路径264秒缩短为14.3秒且二次复用0秒
+    session_id: SES-20260718T200607Z-3569D212
+  session_ids:
+  - SES-20260718T200607Z-3569D212
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `eab0ecbbb8ae10ae2132b3f7fadae05c7699168b7e7209ba9b904552b1bd0686`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `7b515bec66260b49230db25761f7151eb96c7c7e60c09ae3b1f4374f459cc7a3`
+- `CURRENT_STATUS.yaml` — `4fa738063ce7230917a88ab293c12b2964ec1d0dd0f97d677da7ba2580dde795`
 - `NEXT_TASK.yaml` — `4dd8aa3f013d97d340b39ab3f5dadc7ee35f3b7e9e557dc401f85e4185da395a`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -4976,20 +5074,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `24092c835dd57fe9bdf73922c3543b2bb5d1111038e4654426e5f0b3dbed9cd8`
-- `.continuity/SESSION_INDEX.yaml` — `b69872384d38c5114d709474529318103dc9fe77d39ca91f43a20d3cc1c3d10c`
+- `.continuity/EVENT_LOG.jsonl` — `84212f9f81d6b564da66ff3f8b3e48c5b8261b1485c22abe92e6f0a331431fe8`
+- `.continuity/SESSION_INDEX.yaml` — `440c8d40eff8e14be4f9867539ea4762418c03f706be906c6f121d405e029ea9`
 - `.continuity/TASK_CLAIMS.yaml` — `dae3c46345cf6361b9487cc9878bf5cd6bd3775ec390315b8036208feb5d7b19`
 - `.continuity/TASK_TRANSITIONS.yaml` — `49b2f0e5fdabc44f56af3c9fdeefd1971b4d3462167a3c93ba796bb4b3be1ada`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `a77ff01e505bb59583e4f3a874e498b4d9cfd3ab659c5a1d0f34fcecdf0a7361`
-- `.continuity/ACTIVE_SESSION.yaml` — `bb92d5498c63425eccc9cdf6c2c66a253b05d5ebc23e228ae1eaac9f10053bb8`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `7610dc0dfd5976de3569f48c8f3b7c92e41459d9a89e8d6cd9f03bbf4ae3f105`
+- `.continuity/ACTIVE_SESSION.yaml` — `90ef79411d679d6a629531297c6897605f9c09c8bf893e269a87d499c9fada2c`
 - `releases/R03/RELEASE_MANIFEST.yaml` — `d1acc083503e2e080590867ab83eebda2b74d27f37bb9f821316fb1f46e35318`
 - `releases/R03/DEFINITION_OF_READY.yaml` — `dc19f2cd6f6ad4fae44b6a48db39a44bc61bff0060017d6684e44f19e3079575`
 - `releases/R03/STORIES.yaml` — `9576b7a773ee335a8e3a8445bef9a947918083267f40b27dabb5b094b3512522`
 - `releases/R03/TASKS.yaml` — `577a231d7cc655f126187950d05277a67d9e877ddb87a52721b2b634a21f12eb`
 - `releases/R03/ACCEPTANCE_MATRIX.csv` — `de226ffec9d6cb0da7242d9febfae3ac023875c3b1d167894739ca4f8dc9ac47`
 - `releases/R03/PARALLEL_EXECUTION_PLAN.yaml` — `1d9a8638d51807f353b8a7815fcbed28e63fa621fa9bc37638bd83191ed49e39`
-- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `7fd57d8aa0e45348bd5c127ab22588d8b3074f93f1f13a67600f922a933e8cc4`
-- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0039.yaml` — `8fa0298e0dfa7a0a29b1904b78a1b5661babd0a04bfaf29c2bca99d414d7f435`
+- `docs/03-continuity/sessions/2026-07/SES-20260718T200607Z-3569D212.md` — `cc9b961f6c0f14860e1af23ab5ec774b442381382c36df6a83489bdb19716366`
+- `.continuity/checkpoints/SES-20260718T200607Z-3569D212/0041.yaml` — `e333405e6b5c26d0a4915cf20fc6d5c60fc1439707e667ad431facec27fc35c9`
 - `docs/03-continuity/change-requests/CR-0051-修复BLOCKED任务接续命令死锁并登记非阻断设计回传.md` — `09124eace840cbac05b094cb44ba6e9b2baf894d33b663a5eecc21a271fd9f27`
 - `docs/03-continuity/change-requests/CR-0052-同步连续性模板并重生成协议验证报告.md` — `657fe94cc6f260b297cb45642322801c84f680a89018c9e6679469eaecfc7689`
 - `docs/03-continuity/change-requests/CR-0053-补齐非阻断设计接入与连续性修复Changelog.md` — `d34b7054137e69b320623c2971b6b89fdc8c26644170a1cbc9ab29dbc2fb1ab0`
@@ -5021,6 +5119,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0079-登记历史检查点重命名误判问题与防复发规则.md` — `d2bb3a6f739484d09997c08e8646177e08d5b2cf1248e8b455e5563aad3c76be`
 - `docs/03-continuity/change-requests/CR-0080-同步R03阻断说明到当前10205真机APK.md` — `312de36c4ecfe0fba3ffd4df1bf3bb895cffbb61bc89e57fd5166be06beee4e4`
 - `docs/03-continuity/change-requests/CR-0081-建立轻重分级统一工作流并前置APK路由预检.md` — `6282439ebf59d74fa09ec65650794895b5769ace0becea0ebbdc840fdc3bafc7`
+- `docs/03-continuity/change-requests/CR-0082-补强热修复快速通道与APK自动换版交付.md` — `42a4104b548a57817720c05d3d557eff3908b743a7635398066219ec2c39c617`
 
 ## 接手硬规则
 
