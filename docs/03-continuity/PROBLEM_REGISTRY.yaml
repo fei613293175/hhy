@@ -662,15 +662,18 @@ problems:
   - 静态门禁不得只检查存在AnimatedContent或BackHandler，必须检查NavHost、pop转场和禁用模式
 - id: PROB-0052
   title: R05公网没有激活实名认证运行配置导致资料提交阶段返回500
-  status: IMPLEMENTING
+  status: MITIGATED
   root_cause: api.orbexa.cc已切到R05后端，但共享Staging数据库provider_config_versions中provider_code=identity的记录为0；R05IdentityRuntimePolicy在创建平台认证会话时无法取得active_provider、max_daily_attempts和poll_timeout_seconds，因此在调用第三方活体供应商之前即返回COMMON-500-INTERNAL。
   impact: versionCode 10210真机的实名认证首页和资料输入页通过，但无法创建SESSION_CREATED，活体容器与结果页无法进入；这不是用户姓名、身份证输入或第三方AppCode请求失败。
-  current_behavior: GET /api/v1/identity/consent返回200；现网POST /api/v1/identity/sessions仍返回HTTP 500。CR-0124已实现默认关闭、仅staging可显式启用、production误开即拒绝启动的STAGING_SANDBOX；沙箱使用一次性state、HTTPS相机页、数据库事务终态和原Android轮询结果，不写入生产供应商配置。代码专项测试通过，等待候选部署和公网黑盒验证。
+  current_behavior: api.orbexa.cc的Staging候选已显式启用STAGING_SANDBOX，POST /api/v1/identity/sessions返回200并可继续取得HTTPS活体页；沙箱完成后服务端事务状态为VERIFIED，同一state重放返回422。production仍默认关闭且误开会拒绝启动，正式供应商路径未被替换。
+  resolution: CR-0124实现默认关闭、仅staging可显式启用、production误开即拒绝启动的供应商沙箱；候选与公网均通过注册、协议、创建会话、活体页面、完成、结果查询及一次性state防重放黑盒，Nginx从28085可回滚切换至28086并保留旧容器与配置备份。
   next_owner: TASK-R05-007
   required_evidence:
   - 激活受控Staging identity配置前必须完成字段校验、连接测试与审批链，禁止直接篡改ACTIVE记录
   - 未配置真实AppCode时生产真实认证必须关闭；如需真机覆盖活体和结果页，使用与生产硬隔离的受控Staging供应商沙箱
   - 配置后重新执行注册、授权说明、创建会话、活体令牌和结果查询黑盒门禁
+  - scripts/check_r05_staging_identity_sandbox.py --api-base-url https://api.orbexa.cc
+  - artifacts/validation/r05-public-rollforward/evidence.json
   do_not_repeat:
   - 不得把协议接口200等同于实名认证运行配置已就绪
   - 不得把创建会话阶段的500误归因于第三方活体Key

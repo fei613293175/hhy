@@ -45,6 +45,7 @@ R05实名认证仅从ACTIVE供应商配置读取策略，测试环境无活动�
 - `infra/staging/r05-smoke/docker-compose.yml`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java`
+- `scripts/check_r05_staging_identity_sandbox.py`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `docs/03-continuity/PITFALLS.md`
 - `CHANGELOG.md`
@@ -80,6 +81,7 @@ R05实名认证仅从ACTIVE供应商配置读取策略，测试环境无活动�
 - `沙箱只能在staging启用，production启动拒绝`
 - `沙箱供应商路由、一次性state完成及生产真实供应商回退测试`
 - `公开沙箱页面相机权限、无技术字段及安全回跳测试`
+- `候选与公网注册→协议→会话→活体→VERIFIED→一次性state防重放黑盒`
 
 ## 版本
 
@@ -106,3 +108,10 @@ R05实名认证仅从ACTIVE供应商配置读取策略，测试环境无活动�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260719T234639Z-1D7D7A00`
 - Note：开始实现生产隔离的Staging实名认证供应商沙箱与测试闭环。
+
+## 状态记录 · 2026-07-20T06:15:06Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260719T234639Z-1D7D7A00`
+- Note：Staging候选与公网均通过完整实名认证沙箱黑盒，Nginx可回滚切换完成，生产隔离规则保持生效。

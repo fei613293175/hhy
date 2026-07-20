@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T05:49:13Z
-- Context Hash：`122add9c9f1b14ebb3611f94d894ce895846936866bf831470ff974a9999697a`
+- 生成时间：2026-07-20T06:16:53Z
+- Context Hash：`327aebf0b70e2b10a83329e4606d97278ad28aa40724573c9af5c4d5e5e97ec8`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -84,7 +84,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-007
-updated_at: '2026-07-20T05:49:11Z'
+updated_at: '2026-07-20T06:16:51Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -119,15 +119,15 @@ continuity:
   active_session_id: SES-20260719T234639Z-1D7D7A00
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T09:49:11Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0033.yaml
-  project_fingerprint: 205faf1706eb9bc3fe83391c6d7a473889b6da3b3805001d0cebc9ff090f85ee
+  lease_expires_at: '2026-07-20T10:16:51Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0034.yaml
+  project_fingerprint: d28a9083c94b8b46e1b0dfe98b8f0c00911745e4067dd87d8d8da971c810c532
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 32d9d0585ae1a094cf60c3c74215dab1cc5ae7002849a7085d8ebe8a08b845fc
-    generated_at: '2026-07-20T05:33:09Z'
+    context_hash: 122add9c9f1b14ebb3611f94d894ce895846936866bf831470ff974a9999697a
+    generated_at: '2026-07-20T05:49:13Z'
   handoff_bundle: null
 ```
 
@@ -319,7 +319,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T05:49:11Z'
+updated_at: '2026-07-20T06:16:51Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -446,99 +446,80 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T05:49:11Z'
-  expires_at: '2026-07-20T09:49:11Z'
-checkpoint_sequence: 33
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0033.yaml
+  renewed_at: '2026-07-20T06:16:51Z'
+  expires_at: '2026-07-20T10:16:51Z'
+checkpoint_sequence: 34
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0034.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 执行连续性门禁、提交推送CR-0124代码，然后构建并部署显式启用沙箱的R05 Staging候选开展公网黑盒
+next_step: 提交推送沙箱部署证据与黑盒门禁，然后递增Android versionCode并构建交付包含CR-0123导航修复的R05测试APK。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 沙箱环境隔离、供应商路由和身份事务状态机属于同一安全边界，需单一集成提交；当前开发者规则未授权新子任务并行。
+  reason: 当前系统规则禁止在用户未明确要求时创建新的子代理，本步骤保持单会话串行部署避免竞争修改公网流量。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0033
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0034
 session_id: SES-20260719T234639Z-1D7D7A00
-sequence: 33
-created_at: '2026-07-20T05:49:10Z'
-summary: 完成CR-0124生产隔离的Staging实名认证供应商沙箱实现、文档与回归测试；CR-0123认证导航修复已关闭实现状态
-next_step: 执行连续性门禁、提交推送CR-0124代码，然后构建并部署显式启用沙箱的R05 Staging候选开展公网黑盒
+sequence: 34
+created_at: '2026-07-20T06:16:50Z'
+summary: R05 Staging实名认证沙箱完成候选与公网滚动部署，完整活体闭环、防重放和认证回归通过，CR-0124已实现。
+next_step: 提交推送沙箱部署证据与黑盒门禁，然后递增Android versionCode并构建交付包含CR-0123导航修复的R05测试APK。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: Backend full Maven
+- name: R05_STAGING_SANDBOX_PUBLIC
   result: PASS
-  evidence: services/backend mvnw test
-  note: 289项0失败0错误7跳过
-- name: Sandbox targeted and context
+  evidence: scripts/check_r05_staging_identity_sandbox.py --api-base-url https://api.orbexa.cc
+  note: 注册到VERIFIED完整闭环通过，state重放422
+- name: R02_PUBLIC_AUTH
   result: PASS
-  evidence: IdentitySandboxIsolationTest PublicIdentitySandboxControllerTest PublicEndpointsTest
-  note: 14项0失败
-- name: Android UI foundation
+  evidence: scripts/check_r02_public_auth.py --api-base-url https://api.orbexa.cc
+  note: 公网基础认证回归通过
+- name: R05_PUBLIC_IDENTITY
   result: PASS
-  evidence: scripts/check_android_ui_foundation.py
-  note: 门禁通过
-- name: V1.2.3 documentation
+  evidence: scripts/check_r05_public_identity.py --api-base-url https://api.orbexa.cc
+  note: 协议与注册路径通过
+- name: V123_DOCUMENTATION
   result: PASS
   evidence: scripts/check_v123_documentation.py
-  note: 0错误0警告
+  note: 0 errors 0 warnings
+- name: ANDROID_UI_FOUNDATION
+  result: PASS
+  evidence: scripts/check_android_ui_foundation.py
+  note: 导航图标动效硬门禁通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: c53d32b5b8121eba3f7934724195a4934bd961ee
+  head: 43008b9060f583fd121915fa83a867b03e7b80b8
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0123.yaml'
-  - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M .continuity/change_requests/CR-0124.yaml'
   - ' M artifacts/reports/R05/R05-version-test-guide.md'
-  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
   - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M artifacts/validation/r05-public-rollforward/evidence.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PITFALLS.md'
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-  - ' M infra/staging/r05-smoke/docker-compose.yml'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java'
-  - ' M services/backend/boot/src/main/resources/application.yml'
-  - ?? .continuity/change_requests/CR-0124.yaml
-  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0032.yaml
-  - ?? docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
-  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
-  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
-  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
+  - ' M docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md'
+  - ?? scripts/check_r05_staging_identity_sandbox.py
   recent_commits:
+  - "43008b9060f583fd121915fa83a867b03e7b80b8\t2026-07-20T13:51:21+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): add isolated\
+    \ staging liveness sandbox"
   - "c53d32b5b8121eba3f7934724195a4934bd961ee\t2026-07-20T13:19:34+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(auth): restore source-aware\
     \ navigation motion"
   - "2ed59f66113fb1c66758be5dce5cc103e48d9e62\t2026-07-20T13:01:50+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(r05): record 10210 implementation\
@@ -553,10 +534,8 @@ git:
     \ UI APK"
   - "b597f2c95d5888aee65c63f39432c17b765ba0d7\t2026-07-20T11:01:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(android): align APK version\
     \ sources"
-  - "20326b33375ad1290d003c1db3481b09b6a251b0\t2026-07-20T10:51:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): bump frozen\
-    \ UI test APK identity"
 project_fingerprint:
-  sha256: 205faf1706eb9bc3fe83391c6d7a473889b6da3b3805001d0cebc9ff090f85ee
+  sha256: d28a9083c94b8b46e1b0dfe98b8f0c00911745e4067dd87d8d8da971c810c532
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -680,6 +659,7 @@ project_fingerprint:
   - releases/R05/RELEASE_MANIFEST.yaml
   - scripts/check_android_ui_foundation.py
   - scripts/check_r05_public_identity.py
+  - scripts/check_r05_staging_identity_sandbox.py
   - scripts/check_release_artifacts.py
   - scripts/check_ui_tokens.py
   - scripts/check_ui_visual_acceptance.py
@@ -700,7 +680,7 @@ project_fingerprint:
   - tests/test_r05_public_identity_gate.py
   - tests/test_release_close_gate.py
   - tests/test_ui_visual_acceptance.py
-  file_count: 142
+  file_count: 143
   payload:
     base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
     files:
@@ -1082,8 +1062,8 @@ project_fingerprint:
       sha256: 4af5236ee78dd63d985f34606846f463d7c252c2faae163f9e761c74efacdd19
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 59248
-      sha256: b7f88ec6e35b6d54479d6354424e824508e1ecb3c2f07860ad4d18942441d733
+      size: 59616
+      sha256: dd7f7c0c3c3f45a0e6148cf630aaabcfc20731b6ffd1fe46465b0be63b8eba93
     - path: docs/03-continuity/REUSABLE_PATTERNS.md
       state: FILE
       size: 2555
@@ -1150,8 +1130,8 @@ project_fingerprint:
       sha256: e0ca3fbc6357faa733907d85f3707c607afae8293112add9386972018605d1ae
     - path: docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md
       state: FILE
-      size: 4334
-      sha256: b34df8d8001e5314ff8ba0f73c346f679c68a7386f87de1adeb1a186e0bbfb44
+      size: 4750
+      sha256: 670e4909c56708c46da2ffe1eaa4889444663ef18e951c2bb3e5fe1f290a2c5b
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
       size: 6357
@@ -1192,6 +1172,10 @@ project_fingerprint:
       state: FILE
       size: 5285
       sha256: e65559458c7fe627666858b852b102797e7a9f0cf10e37bb925e6cc9cf6f1fa4
+    - path: scripts/check_r05_staging_identity_sandbox.py
+      state: FILE
+      size: 11313
+      sha256: 6def3bf385c2b0a19e86a83122ec42d01c743569ad28a2a8a01861a31c6c284f
     - path: scripts/check_release_artifacts.py
       state: FILE
       size: 17911
@@ -1375,6 +1359,7 @@ change_classification:
   - packages/design-tokens/h5.css
   - scripts/check_android_ui_foundation.py
   - scripts/check_r05_public_identity.py
+  - scripts/check_r05_staging_identity_sandbox.py
   - scripts/check_release_artifacts.py
   - scripts/check_ui_tokens.py
   - scripts/check_ui_visual_acceptance.py
@@ -1571,11 +1556,11 @@ scope:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
   source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 沙箱环境隔离、供应商路由和身份事务状态机属于同一安全边界，需单一集成提交；当前开发者规则未授权新子任务并行。
-event_hash: a8bdc06c1d482b478cef9f5c9939fe1a2027534fc1955246ce45a8e10d5b9d4b
+  reason: 当前系统规则禁止在用户未明确要求时创建新的子代理，本步骤保持单会话串行部署避免竞争修改公网流量。
+event_hash: 7754892892a04ced7656a014255a6ba45e24957c09c0dbbd004f0e716f874be3
 ```
 
 ## 接续状态与事件头
@@ -1587,8 +1572,8 @@ active_session_id: SES-20260719T234639Z-1D7D7A00
 last_session_id: SES-20260719T230526Z-55ABC07F
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0004
-event_count: 1309
-event_head_hash: a8bdc06c1d482b478cef9f5c9939fe1a2027534fc1955246ce45a8e10d5b9d4b
+event_count: 1311
+event_head_hash: 7754892892a04ced7656a014255a6ba45e24957c09c0dbbd004f0e716f874be3
 event_chain_valid: true
 ```
 
@@ -1711,9 +1696,9 @@ recent_sessions: - session_id: SES-20260719T135908Z-32D952EC
   started_at: '2026-07-19T23:46:39Z'
   record: .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  updated_at: '2026-07-20T05:49:11Z'
+  updated_at: '2026-07-20T06:16:51Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0033.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0034.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B426B903146
   session_id: SES-20260718T152013Z-8B704646
@@ -2596,7 +2581,7 @@ recent_task_transitions: - transition_id: TRN-4DA26C35977A
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: c53d32b5b8121eba3f7934724195a4934bd961ee
+head: 43008b9060f583fd121915fa83a867b03e7b80b8
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2607,40 +2592,22 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0123.yaml'
+- ' M .continuity/change_requests/CR-0124.yaml'
 - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M artifacts/reports/R05/R05-version-test-guide.md'
-- ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
 - ' M artifacts/validation/project-doctor-v1.2.3.json'
+- ' M artifacts/validation/r05-public-rollforward/evidence.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PITFALLS.md'
 - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md'
+- ' M docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-- ' M infra/staging/r05-smoke/docker-compose.yml'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java'
-- ' M services/backend/boot/src/main/resources/application.yml'
-- ?? .continuity/change_requests/CR-0124.yaml
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0032.yaml
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0033.yaml
-- ?? docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
-- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
-- ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
-- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
+- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0034.yaml
+- ?? scripts/check_r05_staging_identity_sandbox.py
 recent_commits:
+- "43008b9060f583fd121915fa83a867b03e7b80b8\t2026-07-20T13:51:21+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): add isolated\
+  \ staging liveness sandbox"
 - "c53d32b5b8121eba3f7934724195a4934bd961ee\t2026-07-20T13:19:34+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(auth): restore source-aware\
   \ navigation motion"
 - "2ed59f66113fb1c66758be5dce5cc103e48d9e62\t2026-07-20T13:01:50+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(r05): record 10210 implementation\
@@ -2655,14 +2622,12 @@ recent_commits:
   \ UI APK"
 - "b597f2c95d5888aee65c63f39432c17b765ba0d7\t2026-07-20T11:01:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(android): align APK version\
   \ sources"
-- "20326b33375ad1290d003c1db3481b09b6a251b0\t2026-07-20T10:51:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): bump frozen\
-  \ UI test APK identity"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`205faf1706eb9bc3fe83391c6d7a473889b6da3b3805001d0cebc9ff090f85ee`
-- 文件数：142
+- 指纹：`d28a9083c94b8b46e1b0dfe98b8f0c00911745e4067dd87d8d8da971c810c532`
+- 文件数：143
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -2786,6 +2751,7 @@ recent_commits:
 - `releases/R05/RELEASE_MANIFEST.yaml`
 - `scripts/check_android_ui_foundation.py`
 - `scripts/check_r05_public_identity.py`
+- `scripts/check_r05_staging_identity_sandbox.py`
 - `scripts/check_release_artifacts.py`
 - `scripts/check_ui_tokens.py`
 - `scripts/check_ui_visual_acceptance.py`
@@ -7052,9 +7018,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0124
   title: 建立生产隔离的R05实名认证Staging供应商沙箱
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-20T05:31:37Z'
-  updated_at: '2026-07-20T05:32:44Z'
+  updated_at: '2026-07-20T06:15:06Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -7116,39 +7082,46 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 开始实现生产隔离的Staging实名认证供应商沙箱与测试闭环。
     session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T06:15:06Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: Staging候选与公网均通过完整实名认证沙箱黑盒，Nginx可回滚切换完成，生产隔离规则保持生效。
+    session_id: SES-20260719T234639Z-1D7D7A00
   session_ids:
   - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - 43008b9060f583fd121915fa83a867b03e7b80b8
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `99764caddfe58d603687a938f1ac8b4f24b5c76043cea247aaf9a656b7c8a92c`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `fb82a20657e4cc3dca008e3ba0ec0fef08d49f1ae66d0323a80586990b0a6315`
+- `CURRENT_STATUS.yaml` — `60216ba8b9fe67f91039d1d6ef493ceb8edd4ec5113ce71d0717a42120f12e19`
 - `NEXT_TASK.yaml` — `bd22bac1e2b0308bd77f173dca3ac229dff82931447bff00e89661b483b14ee0`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `b7f88ec6e35b6d54479d6354424e824508e1ecb3c2f07860ad4d18942441d733`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `dd7f7c0c3c3f45a0e6148cf630aaabcfc20731b6ffd1fe46465b0be63b8eba93`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da`
 - `docs/03-continuity/PITFALLS.md` — `4af5236ee78dd63d985f34606846f463d7c252c2faae163f9e761c74efacdd19`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `8f07b807f972671d8270db374fad897fb0a36ed4cb3d4f6788dd12cf411dfb46`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `1a89ade36f7580b353100cc05a3549287a941623e23671a75fb3e27bdcbeda77`
-- `.continuity/SESSION_INDEX.yaml` — `573c1dc604deb826606f9bf3074cc7e31449487af8a9f415b4a59b30b8d1691b`
+- `.continuity/EVENT_LOG.jsonl` — `97203703c47b438dd9a776512d72af0d0ffeb26038b466eab3d4c9e26e62c34f`
+- `.continuity/SESSION_INDEX.yaml` — `5b1d57e2aeff55f238d209c348fb2ed31097c7a79151ff9ef4fbe3bfc410874a`
 - `.continuity/TASK_CLAIMS.yaml` — `b42bae99e7d14cdcf44b0551a70718a1c1bdf785aa7cdfbff142597c2b2282ac`
 - `.continuity/TASK_TRANSITIONS.yaml` — `649cf4421377460d639a628f6c86e77ff9cd2e7a96acffc65865873cbcb9a2a0`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `82fb0ab64d96e58f8cb68a97c9552ddd91081f10cb19086f9dcab4ffdb38fc03`
-- `.continuity/ACTIVE_SESSION.yaml` — `3be6db39ea2ab6840e9e58ec958cda15c87bff0fbda4a0e46211d92b9d73c063`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `466001464d8b0977070e1f970b1102112032ae50d14bec16bce6b6cb462ba843`
+- `.continuity/ACTIVE_SESSION.yaml` — `bfbfa73b19e75f0502f78f5bc77c2412e3993b399d956a7515b96b499be0e1bd`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `48d66c06efb7102d3a1965124a9b34d9867a4418e009ebb98cbc48dd915ef489`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `e763b0bc235be69b871929ad214e0a458ae978ab54970a42af8f5e3987677ce5`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml` — `38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `354123ec0b2e4ef9e0250685fdcfa1ee84c9d76d67f38d584673d4a5c9c5424d`
-- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0033.yaml` — `4262e2f0ec859f749771a148a3e2d2a712ca57d1d66de61a1ffa19bbba5eacba`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `cf179cbe589024e643b2413ae9a3ad76b8bee1756cb5cba08c18f2aa0dfe4668`
+- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0034.yaml` — `9ed31ac4ab9676ac502b77b5ec7ce48d36f7dd6553db7cb4816cf1e691c667ac`
 - `docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md` — `2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f`
 - `docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md` — `7ea7a2a77787bbf3e87d0c52f6b265235b50ade68dd07cf74369b51935b7b0bd`
 - `docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md` — `3d8a27084d1ed3efdee721c872c08c7103386965f3b731cd302bd173e6245f55`
@@ -7164,7 +7137,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md` — `0cba97572d918a4daa48bc0f58f814e38a21ac7ad5f55046c323f309407293a4`
 - `docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md` — `6ef46ec0ad13de091e7b25a915d0bb23b5c56c038db916a7b1705c74b44c2190`
 - `docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md` — `e0ca3fbc6357faa733907d85f3707c607afae8293112add9386972018605d1ae`
-- `docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md` — `b34df8d8001e5314ff8ba0f73c346f679c68a7386f87de1adeb1a186e0bbfb44`
+- `docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md` — `670e4909c56708c46da2ffe1eaa4889444663ef18e951c2bb3e5fe1f290a2c5b`
 
 ## 接手硬规则
 
