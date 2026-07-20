@@ -11,7 +11,7 @@ task_id: TASK-R06-004
 story_id: STORY-R06-001
 goal: 统一内容基础、首页与CMS客户端/H5/后台实现
 started_at: '2026-07-20T17:30:38Z'
-updated_at: '2026-07-20T20:44:42Z'
+updated_at: '2026-07-20T21:01:24Z'
 takeover_of: null
 change_requests:
 - CR-0148
@@ -66,22 +66,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T20:44:39Z'
-  expires_at: '2026-07-21T00:44:39Z'
-checkpoint_sequence: 15
-latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0015.yaml
+  renewed_at: '2026-07-20T21:01:20Z'
+  expires_at: '2026-07-21T01:01:20Z'
+checkpoint_sequence: 16
+latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-next_step: 提交第3轮选择器修复，为新Commit配置精确APK路由并预检后推送最终有界候选
+next_step: 项目所有者决定是否批准第4轮有界候选；获批后为截图增加像素变化与稳定采样，并在analyzer拒绝重复截图哈希
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 1fcac567fe7f8ba07992f4c41cd0316b2d102ccfb01a1190308f10b3f7339a9f
-  generated_at: '2026-07-20T20:44:41Z'
+  context_hash: 7ce4e563e4de64a8db8776f5e8ad330d724678b123a284591b285268b8fdc4ef
+  generated_at: '2026-07-20T21:01:22Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终有界候选的提交SHA、精确路由、推送和证据下载存在严格前后依赖，不能安全并行
+  reason: 候选额度耗尽后的下一步需要项目所有者授权，且截图采集与分析器修复共享同一自动化链路

@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-20T20:44:41Z'
+generated_at: '2026-07-20T21:01:22Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -81,7 +81,7 @@ current_status:
   - TASK-R02-007
   - TASK-R03-007
   next_task: TASK-R06-004
-  updated_at: '2026-07-20T20:44:39Z'
+  updated_at: '2026-07-20T21:01:20Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -116,15 +116,15 @@ current_status:
     active_session_id: SES-20260720T173038Z-35648A77
     actor_id: codex-root
     story_id: STORY-R06-001
-    lease_expires_at: '2026-07-21T00:44:39Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0015.yaml
+    lease_expires_at: '2026-07-21T01:01:20Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml
     project_fingerprint: cc47c26ae8af7b007dd8e6a698756a3687639b2618ef8a102ad10d9c0137bf92
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 8a4ac4b1ef1e94762871df09853b73e16f0aa6e654328850fa201bc8b7f3de45
-      generated_at: '2026-07-20T20:43:39Z'
+      context_hash: 1fcac567fe7f8ba07992f4c41cd0316b2d102ccfb01a1190308f10b3f7339a9f
+      generated_at: '2026-07-20T20:44:41Z'
     handoff_bundle: null
 next_task:
   id: TASK-R06-004
@@ -177,7 +177,7 @@ active_session:
   story_id: STORY-R06-001
   goal: 统一内容基础、首页与CMS客户端/H5/后台实现
   started_at: '2026-07-20T17:30:38Z'
-  updated_at: '2026-07-20T20:44:39Z'
+  updated_at: '2026-07-20T21:01:20Z'
   takeover_of: null
   change_requests:
   - CR-0148
@@ -232,12 +232,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-20T20:44:39Z'
-    expires_at: '2026-07-21T00:44:39Z'
-  checkpoint_sequence: 15
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0015.yaml
+    renewed_at: '2026-07-20T21:01:20Z'
+    expires_at: '2026-07-21T01:01:20Z'
+  checkpoint_sequence: 16
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-  next_step: 提交第3轮选择器修复，为新Commit配置精确APK路由并预检后推送最终有界候选
+  next_step: 项目所有者决定是否批准第4轮有界候选；获批后为截图增加像素变化与稳定采样，并在analyzer拒绝重复截图哈希
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -245,59 +245,45 @@ active_session:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 最终有界候选的提交SHA、精确路由、推送和证据下载存在严格前后依赖，不能安全并行
+    reason: 候选额度耗尽后的下一步需要项目所有者授权，且截图采集与分析器修复共享同一自动化链路
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260720T173038Z-35648A77-0015
+  checkpoint_id: CP-SES-20260720T173038Z-35648A77-0016
   session_id: SES-20260720T173038Z-35648A77
-  sequence: 15
-  created_at: '2026-07-20T20:44:38Z'
-  summary: GitHub R06候选第2轮确认前三张截图正确；忘记密码页稳定标识已改为首屏可见的新密码输入框，第3轮候选请求与变更日志同步完成
-  next_step: 提交第3轮选择器修复，为新Commit配置精确APK路由并预检后推送最终有界候选
-  blockers: []
+  sequence: 16
+  created_at: '2026-07-20T21:01:20Z'
+  summary: R06 GitHub候选第3轮仪器测试和四文件采集完成，但第2/3/4张截图内容与SHA256完全相同，视觉证据不可批准；三次自动修复额度已耗尽并停止自动重跑
+  next_step: 项目所有者决定是否批准第4轮有界候选；获批后为截图增加像素变化与稳定采样，并在analyzer拒绝重复截图哈希
+  blockers:
+  - GitHub候选自动修复上限3次已耗尽；继续第4轮需要项目所有者明确授权，当前没有本地或obx-test模拟器可替代验证
   decisions:
-  - 第3轮使用新密码作为忘记密码页首屏稳定标识；继续禁止自动批准视觉基线
-  note: 仅修改UiAutomator字符串选择器和候选序号，复用第2轮compileDebugAndroidTestKotlin通过证据，不重复服务器编译
+  - 达到max_ai_attempts=3后停止GitHub自动重跑；不得仅凭runtime-report只剩基线缺失就批准视觉证据
+  note: ''
   tests:
-  - name: github-candidate-attempt2
+  - name: github-candidate-attempt3
     result: FAIL
-    evidence: run 29776205053 runtime-report.json
-    note: 编译通过；三张截图正确；忘记密码稳定标识首屏不可见导致仪器测试失败
-  - name: tests.test_android_ci_gate
+    evidence: run 29777565087 runtime-report.json
+    note: 仅报告缺少R06批准基线，但人工哈希与图像核验发现02/03/04完全相同
+  - name: instrumentation-attempt3
     result: PASS
-    evidence: 12 tests passed
-    note: 第3轮首屏可见选择器静态契约通过
-  - name: android_ui_foundation
-    result: PASS
-    evidence: scripts/check_android_ui_foundation.py
-    note: Android UI基础门禁通过
+    evidence: test-exit-code=0; BUILD SUCCESSFUL
+    note: 2项仪器测试执行成功且无本应用崩溃
+  - name: visual-evidence-integrity
+    result: FAIL
+    evidence: 02/03/04 SHA256=1DAA71298566B946FDFD87D82D4BD8BD9AEC3691CC19BBD2CA8CC3CCC76E865B
+    note: 三个不同目标页被采集为同一短信登录画面，禁止批准基线
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 54240a2cc483c026368d9e0d36dea168a33e99cd
+    head: db04b9f4494459d8fe278d87a73103ebbf05f4b5
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
-    dirty: true
-    status_porcelain:
-    - M  .continuity/ACTIVE_SESSION.yaml
-    - M  .continuity/EVENT_LOG.jsonl
-    - M  .continuity/SESSION_INDEX.yaml
-    - M  .continuity/STATE.yaml
-    - A  .continuity/checkpoints/SES-20260720T173038Z-35648A77/0014.yaml
-    - M  .continuity/sessions/SES-20260720T173038Z-35648A77.yaml
-    - ' M CHANGELOG.md'
-    - M  CURRENT_STATUS.yaml
-    - M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    - M  catalogs/session_index.csv
-    - M  config/android-candidate-request.yaml
-    - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - M  docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-    - M  tests/test_android_ci_gate.py
+    dirty: false
+    status_porcelain: []
     recent_commits:
+    - "db04b9f4494459d8fe278d87a73103ebbf05f4b5\t2026-07-21T04:44:56+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): use visible\
+      \ reset marker"
     - "54240a2cc483c026368d9e0d36dea168a33e99cd\t2026-07-21T04:24:40+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): stabilize\
       \ candidate screenshots"
     - "2599bb65ae655b577c19added6ca8640bb6dc44d\t2026-07-21T03:54:01+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
@@ -312,8 +298,6 @@ latest_checkpoint:
       \ R06 governance sources"
     - "629e4ea4cc0557ad3605764ee965ffe6339c6481\t2026-07-21T02:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(r06): secure about update\
       \ flow"
-    - "706c1bbdb3971615a16fa95e8a6d3669255b1542\t2026-07-21T02:10:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(r06): add content console\
-      \ and home experience"
   project_fingerprint:
     sha256: cc47c26ae8af7b007dd8e6a698756a3687639b2618ef8a102ad10d9c0137bf92
     files:
@@ -614,36 +598,29 @@ latest_checkpoint:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 最终有界候选的提交SHA、精确路由、推送和证据下载存在严格前后依赖，不能安全并行
-  event_hash: 45f1682841b59db9577acb8e4505fa401056c0081d2de69627f36f23c5bd95de
+    reason: 候选额度耗尽后的下一步需要项目所有者授权，且截图采集与分析器修复共享同一自动化链路
+  event_hash: ef80e679ff445f8cd970529522441b49d219d764cba17a25418b215d053a3678
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 54240a2cc483c026368d9e0d36dea168a33e99cd
+  head: db04b9f4494459d8fe278d87a73103ebbf05f4b5
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - MM .continuity/ACTIVE_SESSION.yaml
-  - MM .continuity/EVENT_LOG.jsonl
-  - MM .continuity/SESSION_INDEX.yaml
-  - MM .continuity/STATE.yaml
-  - A  .continuity/checkpoints/SES-20260720T173038Z-35648A77/0014.yaml
-  - MM .continuity/sessions/SES-20260720T173038Z-35648A77.yaml
-  - ' M CHANGELOG.md'
-  - MM CURRENT_STATUS.yaml
-  - M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - MM catalogs/session_index.csv
-  - M  config/android-candidate-request.yaml
-  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - MM docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-  - M  tests/test_android_ci_gate.py
-  - ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0015.yaml
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260720T173038Z-35648A77.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md'
+  - ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml
   recent_commits:
+  - "db04b9f4494459d8fe278d87a73103ebbf05f4b5\t2026-07-21T04:44:56+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): use visible\
+    \ reset marker"
   - "54240a2cc483c026368d9e0d36dea168a33e99cd\t2026-07-21T04:24:40+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): stabilize candidate\
     \ screenshots"
   - "2599bb65ae655b577c19added6ca8640bb6dc44d\t2026-07-21T03:54:01+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
@@ -658,8 +635,6 @@ git:
     \ R06 governance sources"
   - "629e4ea4cc0557ad3605764ee965ffe6339c6481\t2026-07-21T02:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(r06): secure about update\
     \ flow"
-  - "706c1bbdb3971615a16fa95e8a6d3669255b1542\t2026-07-21T02:10:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(r06): add content console\
-    \ and home experience"
 project_fingerprint:
   sha256: cc47c26ae8af7b007dd8e6a698756a3687639b2618ef8a102ad10d9c0137bf92
   files:
@@ -1907,8 +1882,8 @@ continuity_state:
   last_session_id: SES-20260720T163244Z-D1F3CEE8
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260720T163244Z-D1F3CEE8-0004
-  event_count: 1575
-  event_head_hash: 45f1682841b59db9577acb8e4505fa401056c0081d2de69627f36f23c5bd95de
+  event_count: 1576
+  event_head_hash: ef80e679ff445f8cd970529522441b49d219d764cba17a25418b215d053a3678
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260719T165401Z-12791729
@@ -2027,9 +2002,9 @@ recent_sessions:
   started_at: '2026-07-20T17:30:38Z'
   record: .continuity/sessions/SES-20260720T173038Z-35648A77.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-  updated_at: '2026-07-20T20:44:39Z'
+  updated_at: '2026-07-20T21:01:20Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0015.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-D22ECAFB67D6
@@ -6984,7 +6959,7 @@ source_manifest:
   sha256: 038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a
   bytes: 3477
 - path: CURRENT_STATUS.yaml
-  sha256: 5177b250579a04e084ab9961be5253c724a2e6b8da4ef27fab590280f8531c2e
+  sha256: 449a7112200c014129efc403bf76ad9ed42e1634d1bd8d66e7deec209bc7ddb2
   bytes: 3692
 - path: NEXT_TASK.yaml
   sha256: 28fdd09fe247b9ee6f9baa24e34c7eb7ff152326afb99fa4f0e1bbeb61a4527b
@@ -7017,10 +6992,10 @@ source_manifest:
   sha256: 35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6
   bytes: 11116
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 7c665944139e8cdf5c82cf97ca0b99c80732303096676a40754650d3465fbcc3
-  bytes: 873954
+  sha256: 7052d2055515194b42621d2dad3f44291dcec7f29a9c20e7f80ac1f09b80b333
+  bytes: 874790
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: d141de30812e77910b7867adb3846b49756df58dd2484c83f290be23c9858469
+  sha256: fd2114065c06d0bdc5195e635b2c62575677f7397784b4f7839b5f8763322006
   bytes: 27816
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 3abf162328146e0533fed277722c86a109a7476839eb932f968d82037eb8e518
@@ -7032,7 +7007,7 @@ source_manifest:
   sha256: b755b72ac7b224db85aa8472b96bdd1e60c70633d16a00896f9d9b88848e0752
   bytes: 462216
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 5f8ce9693402bf292982c1d28fc7e2d75e8a9a4831af59f368c397d00aa5a071
+  sha256: 8254d2aed726c2dea4c8d00f633722b98e235e0444276acbee3c4291137ec343
   bytes: 525
 - path: releases/R06/RELEASE_MANIFEST.yaml
   sha256: 72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878
@@ -7053,11 +7028,11 @@ source_manifest:
   sha256: 426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51
   bytes: 3494
 - path: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-  sha256: f99bf8f6144f7c04a4fa219bca5727bbc77dd1f62f0d6cb698d056a74e7ef5de
-  bytes: 35719
-- path: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0015.yaml
-  sha256: be40bf0931917c3c9efc48f3f11c88a2ca621345465a154693ec36086f4d5f84
-  bytes: 17104
+  sha256: 0875e79d9dcf6bbe9e904807d14df033d699ad652fba7410e14e15add72406bf
+  bytes: 39025
+- path: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml
+  sha256: ed5952b1ab20a92ee617cc10fd440d9fa7d43d83d7eec1b7f967dc5fd104b90a
+  bytes: 16498
 - path: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
   sha256: 4c3d1dd8615acd30275ad10cb2005f216f2e20f9f4bf99e1d3cf7d85c340631f
   bytes: 2286
@@ -7084,4 +7059,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 1fcac567fe7f8ba07992f4c41cd0316b2d102ccfb01a1190308f10b3f7339a9f
+context_hash: 7ce4e563e4de64a8db8776f5e8ad330d724678b123a284591b285268b8fdc4ef
