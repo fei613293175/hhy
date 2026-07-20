@@ -76,9 +76,17 @@ android_delivery:
   version_code: 10213
   sha256: 6cb3fb26c06599821a0b60dd250657ce08429eed23317acc11be4f47d78008dd
   machine_delivery: PASS
-  owner_physical_test: PENDING
+  owner_physical_test: PASS
+  owner_physical_test_at: '2026-07-20'
+  owner_confirmation: 项目所有者明确反馈R05整体真机体验通过
   evidence: artifacts/validation/r05-apk-delivery/delivery-evidence.json
   test_guide: artifacts/reports/R05/R05-version-test-guide.md
+android_automation_migration:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  status: GRANDFATHERED_OWNER_ACCEPTED
+  enforcement_from_release: R06
+  baseline_apk_version_code: 10213
+  rule: R05已完成机器交付与项目所有者真机验收；R06起自动门禁PASS后才允许真机体验
 entry_baseline:
   checked_at: '2026-07-19'
   documentation_status: PASS_DOCUMENTATION_READY

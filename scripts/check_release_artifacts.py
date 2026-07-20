@@ -8,6 +8,7 @@ from typing import Any
 from urllib.parse import urlparse
 import csv
 import hashlib
+import json
 import re
 import subprocess
 import sys
@@ -26,6 +27,11 @@ PLACEHOLDER_PATTERN = re.compile(
     r"PENDING|PLACEHOLDER|\bTODO\b|\bTBD\b|NOT_INITIALIZED|NOT_RUN|UNKNOWN|<[^>]+>",
     re.IGNORECASE,
 )
+
+
+def release_number(value: str) -> int | None:
+    match = re.fullmatch(r"R(\d{2})", value.upper())
+    return int(match.group(1)) if match else None
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
@@ -251,6 +257,47 @@ class CloseGate:
                 self.require(actual_sha == sha, "APK_SHA_MISMATCH", "本地APK内容与Manifest SHA256不一致")
                 self.require(local_apk.stat().st_size == size, "APK_SIZE_MISMATCH", "本地APK大小与Manifest不一致")
 
+    def validate_android_automation(self, manifest: dict[str, Any], release_commit: str | None) -> None:
+        number = release_number(self.release)
+        if not manifest.get("android_test_apk_required") or number is None or number < 6:
+            return
+        automation = manifest.get("android_automation")
+        self.require(isinstance(automation, dict), "ANDROID_AUTOMATION_MISSING", "R06起必须记录Android自动门禁结果")
+        if not isinstance(automation, dict):
+            return
+        self.require(automation.get("policy_id") == "HHY-ANDROID-AUTOMATION-V1", "ANDROID_POLICY_MISMATCH", "Android自动化策略版本不一致")
+        self.require(str(automation.get("status") or "").upper() == "PASS", "ANDROID_AUTOMATION_NOT_PASS", "Android自动门禁不是PASS")
+        self.require(automation.get("owner_test_allowed") is True, "ANDROID_OWNER_TEST_NOT_ALLOWED", "自动门禁尚未允许项目所有者真机测试")
+        self.require(str(automation.get("owner_physical_test") or "").upper() == "PASS", "ANDROID_OWNER_TEST_NOT_PASS", "项目所有者最终候选真机验收不是PASS")
+        candidate_commit = str(automation.get("commit") or "").lower()
+        if release_commit:
+            self.require(candidate_commit == release_commit, "ANDROID_CANDIDATE_COMMIT_MISMATCH", "Android候选Commit与Release Commit不一致")
+        report_value = str(automation.get("candidate_report") or "").strip()
+        report_path = (ROOT / report_value).resolve()
+        try:
+            report_path.relative_to(ROOT.resolve())
+            report_inside = True
+        except ValueError:
+            report_inside = False
+        self.require(report_inside and report_path.is_file(), "ANDROID_CANDIDATE_REPORT_MISSING", f"Android候选报告不存在：{report_value or 'EMPTY'}")
+        if not report_inside or not report_path.is_file():
+            return
+        try:
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            self.require(False, "ANDROID_CANDIDATE_REPORT_INVALID", str(exc))
+            return
+        self.require(report.get("status") == "PASS", "ANDROID_CANDIDATE_REPORT_NOT_PASS", "候选报告不是PASS")
+        self.require(report.get("owner_test_allowed") is True, "ANDROID_CANDIDATE_REPORT_OWNER_BLOCKED", "候选报告未允许真机验收")
+        self.require(str(report.get("commit") or "").lower() == candidate_commit, "ANDROID_CANDIDATE_REPORT_COMMIT_MISMATCH", "候选报告Commit不一致")
+        apk_manifest_path = ROOT / "artifacts" / "apk" / self.release / "APK_MANIFEST.yaml"
+        if apk_manifest_path.is_file():
+            apk_manifest = load_yaml(apk_manifest_path)
+            self.require(
+                str((report.get("apk") or {}).get("sha256") or "").lower() == str(apk_manifest.get("sha256") or "").lower(),
+                "ANDROID_CANDIDATE_REPORT_SHA_MISMATCH", "候选报告APK SHA256与交付清单不一致",
+            )
+
     def validate_pointers(self, task_ids: list[str], release_commit: str | None) -> None:
         current = load_yaml(ROOT / "CURRENT_STATUS.yaml")
         next_task = load_yaml(ROOT / "NEXT_TASK.yaml")
@@ -297,6 +344,7 @@ class CloseGate:
             acceptance = self.validate_acceptance()
             manifest, release_commit = self.validate_manifest()
             self.validate_apk(manifest, release_commit)
+            self.validate_android_automation(manifest, release_commit)
             visual_page_count = self.validate_ui_visual_acceptance()
             self.validate_pointers(task_ids, release_commit)
         except (OSError, ValueError, yaml.YAMLError, csv.Error) as exc:

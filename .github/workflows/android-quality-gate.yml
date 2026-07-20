@@ -1,0 +1,249 @@
+name: Android Quality Gate
+
+on:
+  workflow_call:
+    inputs:
+      release:
+        description: Release identifier or DEVELOPMENT
+        required: false
+        type: string
+        default: DEVELOPMENT
+      candidate:
+        description: Publish a candidate artifact after every automated gate passes
+        required: false
+        type: boolean
+        default: false
+      remediation_attempt:
+        description: AI remediation attempt number, one through three
+        required: false
+        type: number
+        default: 1
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Release identifier, for example R06
+        required: true
+        type: string
+      candidate:
+        description: Publish candidate APK when green
+        required: true
+        type: boolean
+        default: true
+      remediation_attempt:
+        description: AI remediation attempt number
+        required: true
+        type: number
+        default: 1
+
+permissions:
+  contents: read
+  issues: write
+
+env:
+  LANG: C.UTF-8
+  LC_ALL: C.UTF-8
+  HHY_API_BASE_URL: https://api.orbexa.cc
+  HHY_APP_CHANNEL: official
+  HHY_APP_ENVIRONMENT: STAGING
+  ANDROID_RELEASE: ${{ inputs.release }}
+
+concurrency:
+  group: android-quality-${{ github.ref }}-${{ inputs.release }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Compile, lint, unit test and package
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install --disable-pip-version-check pyyaml pillow
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - uses: android-actions/setup-android@v3
+      - name: Validate durable automation policy
+        run: python scripts/android_ci_gate.py policy-check
+      - name: Install Android build platform
+        run: sdkmanager 'platforms;android-37' 'build-tools;36.0.0'
+      - name: Run source and visual foundation gates
+        run: |
+          python scripts/check_android_ui_foundation.py
+          python scripts/check_ui_tokens.py
+      - name: Compile, lint, test and package
+        working-directory: apps/android
+        shell: bash
+        run: |
+          # Keep peak memory deterministic on GitHub-hosted runners.  Large
+          # Android lint, Kotlin and packaging graphs must not share one
+          # unbounded parallel Gradle invocation.
+          common=(--no-daemon --no-parallel --max-workers=1 --stacktrace "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8 -Duser.timezone=UTC")
+          ./gradlew "${common[@]}" verifyApiBaseUrl assembleDebug
+          ./gradlew "${common[@]}" assembleDebugAndroidTest
+          ./gradlew "${common[@]}" testDebugUnitTest
+          ./gradlew "${common[@]}" lintDebug
+      - name: Assemble build evidence
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p artifacts/android-ci/build
+          find apps/android -path '*/build/reports/*' -type f -print0 | xargs -0 -r cp --parents -t artifacts/android-ci/build
+          find apps/android -path '*/build/test-results/*' -type f -print0 | xargs -0 -r cp --parents -t artifacts/android-ci/build
+          find apps/android/app/build/outputs/apk -name '*.apk' -type f -print0 | xargs -0 -r cp -t artifacts/android-ci/build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-build-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: artifacts/android-ci/build
+
+  emulator:
+    name: Emulator install, journeys, screenshots and logs
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install --disable-pip-version-check pyyaml pillow
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - name: Enable KVM for the Android emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Execute deterministic emulator journeys
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_7
+          emulator-options: -no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back emulated -camera-front emulated -prop persist.sys.locale=zh-CN
+          disable-animations: true
+          script: |
+            mkdir -p artifacts/android-ci/screenshots artifacts/android-ci/runtime
+            adb shell settings put system accelerometer_rotation 0
+            adb shell settings put system user_rotation 0
+            adb shell settings put system font_scale 1.0
+            adb logcat -c
+            set +e
+            cd apps/android
+            ./gradlew --no-daemon --no-parallel --max-workers=1 --stacktrace \
+              "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8 -Duser.timezone=UTC" \
+              connectedDebugAndroidTest
+            test_rc=$?
+            cd ../..
+            set -e
+            echo "$test_rc" > artifacts/android-ci/runtime/test-exit-code.txt
+            adb pull /sdcard/Android/data/cc.orbexa.hhy.debug/files/ci-screenshots/. artifacts/android-ci/screenshots/ || true
+            adb logcat -d -v threadtime | grep -E 'cc\.orbexa\.hhy|AndroidRuntime|FATAL EXCEPTION|ANR in' > artifacts/android-ci/runtime/logcat.txt || true
+            adb shell dumpsys activity exit-info cc.orbexa.hhy.debug > artifacts/android-ci/runtime/exit-info.txt || true
+            python scripts/android_ci_gate.py analyze \
+              --release "$ANDROID_RELEASE" \
+              --commit "$GITHUB_SHA" \
+              --attempt "${{ inputs.remediation_attempt }}" \
+              --test-exit-code-file artifacts/android-ci/runtime/test-exit-code.txt \
+              --junit-root apps/android/app/build/outputs/androidTest-results/connected \
+              --logcat artifacts/android-ci/runtime/logcat.txt \
+              --screenshots artifacts/android-ci/screenshots \
+              --output artifacts/android-ci/runtime/runtime-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-runtime-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: artifacts/android-ci
+
+  candidate:
+    name: Candidate eligibility gate
+    needs: [build, emulator]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install --disable-pip-version-check pyyaml
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: android-*-${{ github.run_id }}
+          path: ci-downloads
+          merge-multiple: true
+      - name: Refuse a candidate until every automated gate is green
+        shell: bash
+        run: |
+          apk="$(find ci-downloads -name '*.apk' ! -name '*androidTest*' -type f | head -n 1)"
+          mkdir -p candidate-output
+          candidate_apk="candidate-output/hhy-${ANDROID_RELEASE}-${GITHUB_SHA:0:7}-candidate.apk"
+          cp "$apk" "$candidate_apk"
+          python scripts/android_ci_gate.py finalize \
+            --release "$ANDROID_RELEASE" \
+            --commit "$GITHUB_SHA" \
+            --run-id "$GITHUB_RUN_ID" \
+            --build-result "${{ needs.build.result }}" \
+            --emulator-report ci-downloads/runtime/runtime-report.json \
+            --apk "$candidate_apk" \
+            --output candidate-output/candidate-report.json
+          cp -r ci-downloads/screenshots candidate-output/screenshots
+          cp -r ci-downloads/runtime candidate-output/runtime
+      - uses: actions/upload-artifact@v4
+        if: ${{ inputs.candidate }}
+        with:
+          name: hhy-${{ inputs.release }}-candidate-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 30
+          path: candidate-output
+
+  remediation-queue:
+    name: Durable AI remediation queue
+    needs: [build, emulator, candidate]
+    if: ${{ always() && needs.candidate.result != 'success' && github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const release = '${{ inputs.release }}';
+            const title = `[Android CI] ${release} 自动门禁失败，禁止真机验收`;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              '状态：REMEDIATION_REQUIRED',
+              `Release：${release}`,
+              `Commit：${context.sha}`,
+              `修复轮次：${{ inputs.remediation_attempt }}/3`,
+              `失败证据：${runUrl}`,
+              '',
+              '接续 AI 必须下载 android-build 与 android-runtime 证据，定位根因、修改、重新打包并重跑。',
+              '自动门禁 PASS 前不得标记版本完成，也不得要求项目所有者进行真机测试。'
+            ].join('\n');
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo, state: 'open', per_page: 100
+            });
+            const existing = issues.find(issue => issue.title === title);
+            if (existing) {
+              await github.rest.issues.update({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.number, body
+              });
+            } else {
+              await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title, body });
+            }

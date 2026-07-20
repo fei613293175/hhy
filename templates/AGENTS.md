@@ -90,6 +90,9 @@
 - Android 全部既有和后续页面统一使用稳定 Jetpack Navigation Compose 真实返回栈；顶栏、系统键、手势返回必须同源并返回实际来源，底部栏目和页面状态必须保存恢复，禁止 `mutableState`/枚举切页和写死返回首页。
 - Android 图标必须从 `HhyIcons` 引用矢量资源，页面转场必须从 `HhyMotion` 引用冻结 Token；任何文字、汉字、Unicode、Emoji占位图标或页面私有动画数字阻断提交与APK。
 - Android 改动必须通过 `python scripts/check_android_ui_foundation.py`；该门禁同时检查所有已开发页面，不得只检查当前版本新增页。
+- R06 起所有 Android 版本和产生 APK 的 Bug 修复候选必须先通过 `.github/workflows/android-quality-gate.yml`：编译、打包、模拟器安装、功能旅程、截图、视觉基线、日志、崩溃/ANR和回归全部 PASS 后，才允许生成项目所有者最终候选 APK。
+- 自动门禁失败时，当前或接续 AI 必须读取 Actions 证据和机器修复队列，自行分析、最小修复、重新打包并重测；PASS 前不得标记完成、不得邀请项目所有者真机测试。同一根因最多三轮，真实外部秘密/权限/商业决策才可升级。
+- Android 自动化唯一事实源为 `config/android-automation.yaml` 和 `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`；跨电脑、跨 AI 接手不得绕过或另起一次性流程。
 
 ## 6. 会话结束
 

@@ -135,4 +135,5 @@ dependencies {
     androidTestImplementation(libs.androidx.navigation.testing)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.test.uiautomator)
 }

@@ -1,0 +1,75 @@
+schema_version: 1
+policy_id: HHY-ANDROID-AUTOMATION-V1
+status: ENFORCED
+enforcement:
+  from_release: R06
+  grandfathered_releases:
+  - release: R05
+    reason: versionCode 10213 已于 2026-07-20 获得项目所有者整体真机体验通过
+  applies_to:
+  - VERSION_CANDIDATE
+  - APK_BUGFIX_CANDIDATE
+  owner_test_requires_candidate_status: PASS
+  release_complete_requires_owner_status: PASS
+build:
+  api_base_url: https://api.orbexa.cc
+  java_version: 21
+  compile_sdk: 37
+  required_gradle_tasks:
+  - verifyApiBaseUrl
+  - lintDebug
+  - testDebugUnitTest
+  - assembleDebug
+  - assembleDebugAndroidTest
+emulator:
+  api_level: 35
+  target: google_apis
+  architecture: x86_64
+  profile: pixel_7
+  locale: zh-CN
+  orientation: portrait
+  required_screenshots: 4
+  required_journeys:
+  - cold_start
+  - password_login
+  - sms_login
+  - register_and_back
+  - forgot_password_and_back
+visual:
+  baseline_root: tests/android/visual-baselines
+  baseline_required_from_release: R06
+  max_mean_absolute_error: 14.0
+  max_changed_pixel_ratio: 0.10
+  changed_pixel_threshold: 24
+  rule: 基线必须来自冻结效果图施工后的批准模拟器截图，不得由失败运行自动接受
+logs:
+  fatal_patterns:
+  - 'FATAL EXCEPTION'
+  - 'ANR in cc.orbexa.hhy'
+  - 'Process cc.orbexa.hhy.debug has died'
+  - 'AndroidRuntime:.*cc.orbexa.hhy'
+  forbidden_visible_patterns:
+  - 请求编号
+  - TraceId
+  - 暂时无法连接
+remediation:
+  max_ai_attempts: 3
+  failure_issue_title_prefix: '[Android CI]'
+  required_status: REMEDIATION_REQUIRED
+  retry_rule: 编译或测试确定性失败必须修改后重新提交；仅基础设施瞬态故障允许原Commit重跑一次
+  escalation_rule: 同一根因连续三轮仍失败或需要项目所有者新增秘密/第三方权限时才允许升级
+delivery:
+  candidate_status: PASS
+  desktop_copy_after_actions_pass: true
+  desktop_test_guide_required: true
+  required_evidence:
+  - build-report
+  - unit-test-report
+  - lint-report
+  - instrumentation-report
+  - screenshots
+  - logcat
+  - runtime-analysis
+  - apk-sha256
+  forbid_owner_request_before_pass: true
+  forbid_release_completion_before_pass: true
