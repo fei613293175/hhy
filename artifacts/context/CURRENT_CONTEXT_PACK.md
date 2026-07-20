@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T03:16:48Z
-- Context Hash：`761cb2ac9d4cecbf48db158c95c603487c9084d32a21dc6fa2cd2c23168ec835`
+- 生成时间：2026-07-20T03:17:40Z
+- Context Hash：`2b2d0f3d84c460cf8dc0f467cbf5ed5a38e8db8e91e1c131d4d420340b6d3849`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -84,7 +84,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-007
-updated_at: '2026-07-20T03:16:46Z'
+updated_at: '2026-07-20T03:17:38Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -119,15 +119,15 @@ continuity:
   active_session_id: SES-20260719T234639Z-1D7D7A00
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T07:16:46Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0023.yaml
-  project_fingerprint: 6f693abbbd71381134583296b0a10090f6a43202b411090e2e09e7977ae7815f
+  lease_expires_at: '2026-07-20T07:17:38Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0024.yaml
+  project_fingerprint: 183f741377f8e6967330a990247227a76aa134456d61660314aa9ced2936b99d
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: ed1a7a4341e2d98608e79184bfdbbb3367d5a78cf68e1bfd88523dc282836153
-    generated_at: '2026-07-20T03:01:18Z'
+    context_hash: 761cb2ac9d4cecbf48db158c95c603487c9084d32a21dc6fa2cd2c23168ec835
+    generated_at: '2026-07-20T03:16:48Z'
   handoff_bundle: null
 ```
 
@@ -319,7 +319,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T03:16:46Z'
+updated_at: '2026-07-20T03:17:38Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -407,12 +407,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T03:16:46Z'
-  expires_at: '2026-07-20T07:16:46Z'
-checkpoint_sequence: 23
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0023.yaml
+  renewed_at: '2026-07-20T03:17:38Z'
+  expires_at: '2026-07-20T07:17:38Z'
+checkpoint_sequence: 24
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0024.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交并推送R05冻结UI APK交付证据；等待项目所有者按桌面说明验证四个实名页面，期间可继续完成管理后台登录态截图门禁
+next_step: 提交连续性状态并通过Git传输预检推送；随后保持R05真机视觉验收PENDING
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -420,83 +420,48 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 系统级约束未允许本轮主动创建子代理；APK签名与交付必须绑定单一冻结提交串行完成
+  reason: 系统级约束未允许本轮主动创建子代理，连续性状态由主控统一收口
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0023
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0024
 session_id: SES-20260719T234639Z-1D7D7A00
-sequence: 23
-created_at: '2026-07-20T03:16:46Z'
-summary: R05冻结UI versionCode10209测试APK已由提交b597f2c完成387项Gradle任务、固定签名、API嵌入及桌面/仓库/服务器/HTTPS四方交付，真机视觉验收保持PENDING
-next_step: 提交并推送R05冻结UI APK交付证据；等待项目所有者按桌面说明验证四个实名页面，期间可继续完成管理后台登录态截图门禁
+sequence: 24
+created_at: '2026-07-20T03:17:38Z'
+summary: R05冻结UI实现、Token/H5补充、versionCode10209 APK交付与旧包历史归档CR均已登记IMPLEMENTED
+next_step: 提交连续性状态并通过Git传输预检推送；随后保持R05真机视觉验收PENDING
 blockers: []
 decisions: []
-note: Android四页最终PASS仍需项目所有者versionCode10209真机截图和明确验收；不得提前关闭R05。
+note: ''
 tests:
-- name: ANDROID_GRADLE
+- name: CR_IMPLEMENTATION_TRACE
   result: PASS
-  evidence: artifacts/validation/r05-task007-android/gradle-build.log
-  note: 387 tasks BUILD SUCCESSFUL
-- name: ANDROID_SIGNING
-  result: PASS
-  evidence: artifacts/validation/r05-task007-android/apk-signing.txt
-  note: 固定证书v2/v3通过
-- name: APK_API_GATE
-  result: PASS
-  evidence: artifacts/validation/r05-task007-android/build-evidence.json
-  note: 正式API精确1次占位0次
-- name: APK_DELIVERY
-  result: PASS
-  evidence: artifacts/validation/r05-apk-delivery/delivery-evidence.json
-  note: 桌面仓库服务器HTTPS四方一致
-- name: R05_UI_CATALOG
-  result: PASS
-  evidence: catalogs/ui_visual_acceptance.csv
-  note: 7页视觉事实源目录有效
-- name: R05_RELEASE_ARTIFACTS
-  result: PASS
-  evidence: scripts/check_release_artifacts.py
-  note: 日常版本产物门禁通过
+  evidence: .continuity/change_requests/CR-0115.yaml;.continuity/change_requests/CR-0116.yaml;.continuity/change_requests/CR-0117.yaml;.continuity/change_requests/CR-0118.yaml
+  note: 实现提交已绑定
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: b597f2c95d5888aee65c63f39432c17b765ba0d7
+  head: 1998d8d4a67478faf9231856536130c4d5091510
   upstream: origin/task/TASK-R03-001
-  ahead: 3
+  ahead: 4
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0115.yaml'
-  - ' M .continuity/change_requests/CR-0116.yaml'
-  - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
-  - ' M artifacts/apk/R05/APK_MANIFEST.yaml'
-  - ' M artifacts/reports/R05/R05-version-test-guide.md'
-  - ' M artifacts/reports/R05/TASK-R05-007-android-apk.md'
-  - ' M artifacts/validation/r05-apk-delivery/delivery-evidence.json'
-  - ' M artifacts/validation/r05-task007-android/apk-badging.txt'
-  - ' M artifacts/validation/r05-task007-android/apk-sha256.txt'
-  - ' M artifacts/validation/r05-task007-android/apk-size.txt'
-  - ' M artifacts/validation/r05-task007-android/build-evidence.json'
-  - ' M artifacts/validation/r05-task007-android/evidence-sha256.txt'
-  - ' M artifacts/validation/r05-task007-android/gradle-build.log'
-  - ' M artifacts/validation/r05-task007-android/source-archive-sha256.txt'
-  - ' M artifacts/validation/r05-task007-android/zipalign.txt'
+  - ' M .continuity/change_requests/CR-0117.yaml'
+  - ' M .continuity/change_requests/CR-0118.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md'
-  - ' M docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md'
-  - ?? .continuity/change_requests/CR-0118.yaml
-  - ?? artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
-  - ?? artifacts/validation/r05-apk-delivery/history/3454ff2/delivery-evidence.json
-  - ?? docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md
+  - ' M docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md'
+  - ' M docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md'
   recent_commits:
+  - "1998d8d4a67478faf9231856536130c4d5091510\t2026-07-20T11:17:02+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(android): deliver frozen\
+    \ UI APK"
   - "b597f2c95d5888aee65c63f39432c17b765ba0d7\t2026-07-20T11:01:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(android): align APK version\
     \ sources"
   - "20326b33375ad1290d003c1db3481b09b6a251b0\t2026-07-20T10:51:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): bump frozen\
@@ -511,10 +476,8 @@ git:
     \ acceptance"
   - "137e8f80a90f6d1b166a94fd3520f078213c7ca5\t2026-07-20T08:23:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind R05\
     \ client acceptance"
-  - "6a40f2b5250565414b6da013fd33be34da9acccd\t2026-07-20T08:22:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): backfill R05\
-    \ client acceptance"
 project_fingerprint:
-  sha256: 6f693abbbd71381134583296b0a10090f6a43202b411090e2e09e7977ae7815f
+  sha256: 183f741377f8e6967330a990247227a76aa134456d61660314aa9ced2936b99d
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -983,12 +946,12 @@ project_fingerprint:
       sha256: a3364ff0d9654efa72dbc6a0af91523351c12d60a419e07d16a20b29d14faacd
     - path: docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
       state: FILE
-      size: 1967
-      sha256: bd0e5afb825b41e0a82113018de60f760cab688b9228aafefa8dba7cafc382ab
+      size: 2402
+      sha256: 4e2c8a54c6994d800df0da6a0e83bed8e91ee71899af6c7707df58805ea20d84
     - path: docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md
       state: FILE
-      size: 1827
-      sha256: d5b4180a1712a328f29e1b082ff0f7b56fc8bed5c1bfa54376df8f315f741fe5
+      size: 2239
+      sha256: 6ef4c08c2b1e983987b3109db66af29890a10c62fbd4588db81596e23f8f9859
     - path: packages/design-tokens/admin.css
       state: FILE
       size: 5143
@@ -1257,8 +1220,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 系统级约束未允许本轮主动创建子代理；APK签名与交付必须绑定单一冻结提交串行完成
-event_hash: 11edf447e7e50129a8f30212b90f76522bbe9d7bd3ea0154997cbff0469126d9
+  reason: 系统级约束未允许本轮主动创建子代理，连续性状态由主控统一收口
+event_hash: 4a3e774efab4664697b512d09f542d09a3b6b6afc1aa3367979d9b30ddd01259
 ```
 
 ## 接续状态与事件头
@@ -1270,8 +1233,8 @@ active_session_id: SES-20260719T234639Z-1D7D7A00
 last_session_id: SES-20260719T230526Z-55ABC07F
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0004
-event_count: 1260
-event_head_hash: 11edf447e7e50129a8f30212b90f76522bbe9d7bd3ea0154997cbff0469126d9
+event_count: 1265
+event_head_hash: 4a3e774efab4664697b512d09f542d09a3b6b6afc1aa3367979d9b30ddd01259
 event_chain_valid: true
 ```
 
@@ -1394,9 +1357,9 @@ recent_sessions: - session_id: SES-20260719T135908Z-32D952EC
   started_at: '2026-07-19T23:46:39Z'
   record: .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  updated_at: '2026-07-20T03:16:46Z'
+  updated_at: '2026-07-20T03:17:38Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0023.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0024.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B426B903146
   session_id: SES-20260718T152013Z-8B704646
@@ -2279,9 +2242,9 @@ recent_task_transitions: - transition_id: TRN-4DA26C35977A
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: b597f2c95d5888aee65c63f39432c17b765ba0d7
+head: 1998d8d4a67478faf9231856536130c4d5091510
 upstream: origin/task/TASK-R03-001
-ahead: 3
+ahead: 4
 behind: 0
 dirty: true
 status_porcelain:
@@ -2290,33 +2253,19 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0115.yaml'
-- ' M .continuity/change_requests/CR-0116.yaml'
+- ' M .continuity/change_requests/CR-0117.yaml'
+- ' M .continuity/change_requests/CR-0118.yaml'
 - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/apk/R05/APK_MANIFEST.yaml'
-- ' M artifacts/reports/R05/R05-version-test-guide.md'
-- ' M artifacts/reports/R05/TASK-R05-007-android-apk.md'
-- ' M artifacts/validation/r05-apk-delivery/delivery-evidence.json'
-- ' M artifacts/validation/r05-task007-android/apk-badging.txt'
-- ' M artifacts/validation/r05-task007-android/apk-sha256.txt'
-- ' M artifacts/validation/r05-task007-android/apk-size.txt'
-- ' M artifacts/validation/r05-task007-android/build-evidence.json'
-- ' M artifacts/validation/r05-task007-android/evidence-sha256.txt'
-- ' M artifacts/validation/r05-task007-android/gradle-build.log'
-- ' M artifacts/validation/r05-task007-android/source-archive-sha256.txt'
-- ' M artifacts/validation/r05-task007-android/zipalign.txt'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md'
-- ' M docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md'
+- ' M docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md'
+- ' M docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-- ?? .continuity/change_requests/CR-0118.yaml
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0023.yaml
-- ?? artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
-- ?? artifacts/validation/r05-apk-delivery/history/3454ff2/delivery-evidence.json
-- ?? docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md
+- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0024.yaml
 recent_commits:
+- "1998d8d4a67478faf9231856536130c4d5091510\t2026-07-20T11:17:02+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(android): deliver frozen\
+  \ UI APK"
 - "b597f2c95d5888aee65c63f39432c17b765ba0d7\t2026-07-20T11:01:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(android): align APK version\
   \ sources"
 - "20326b33375ad1290d003c1db3481b09b6a251b0\t2026-07-20T10:51:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): bump frozen\
@@ -2331,13 +2280,11 @@ recent_commits:
   \ acceptance"
 - "137e8f80a90f6d1b166a94fd3520f078213c7ca5\t2026-07-20T08:23:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind R05\
   \ client acceptance"
-- "6a40f2b5250565414b6da013fd33be34da9acccd\t2026-07-20T08:22:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): backfill R05\
-  \ client acceptance"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`6f693abbbd71381134583296b0a10090f6a43202b411090e2e09e7977ae7815f`
+- 指纹：`183f741377f8e6967330a990247227a76aa134456d61660314aa9ced2936b99d`
 - 文件数：105
 
 - `AGENTS.md`
@@ -6263,9 +6210,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0117
   title: 递增R05冻结UI真机测试APK版本身份
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-20T02:47:21Z'
-  updated_at: '2026-07-20T02:48:00Z'
+  updated_at: '2026-07-20T03:17:22Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -6300,12 +6247,27 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 冻结UI需要新的单调版本测试包供项目所有者覆盖安装验收。
   machine_record: .continuity/change_requests/CR-0117.yaml
   document: docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
+  decision_log:
+  - at: '2026-07-20T03:17:21Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: versionCode10209已构建并进入签名交付验证。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T03:17:22Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 10209冻结UI测试APK已完成全量构建、固定签名、四方哈希和桌面交付。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  session_ids:
+  - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - 1998d8d
 - protocol_version: '1.0'
   cr_id: CR-0118
   title: 归档R05冻结UI换版前APK交付事实
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-20T03:14:44Z'
-  updated_at: '2026-07-20T03:14:57Z'
+  updated_at: '2026-07-20T03:17:25Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -6336,13 +6298,28 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 批准交付工具的可恢复历史归档。
   machine_record: .continuity/change_requests/CR-0118.yaml
   document: docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md
+  decision_log:
+  - at: '2026-07-20T03:17:24Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 旧10208交付Manifest与Evidence已生成历史归档。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T03:17:25Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 旧交付事实已按3454ff2归档，活动交付指针为10209。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  session_ids:
+  - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - 1998d8d
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `68689e1814352bc7deeb84585d89ed44fd3be6921c39a6ab99ed908646b3c4bf`
+- `CURRENT_STATUS.yaml` — `e5b6b5a7969b5a688cbc59184ec2c94020bf9bb6ec1c3a15d7048fd61d3cc128`
 - `NEXT_TASK.yaml` — `bd22bac1e2b0308bd77f173dca3ac229dff82931447bff00e89661b483b14ee0`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -6353,20 +6330,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `a3b2a3142ba5a33c03f65e1eae1711ba9880330246f7e3a3cfc3a177c4821071`
-- `.continuity/SESSION_INDEX.yaml` — `b0152791ff9a9e5917a9eea9e0ed1a6d7314127d8a38a22515c4af29281764ec`
+- `.continuity/EVENT_LOG.jsonl` — `431e72fbdc12ff142c7f6c76f1a07fc7d0867974fb29429997d02be305de38e2`
+- `.continuity/SESSION_INDEX.yaml` — `146f9250d5802af7d99673e45a67e79d685ba9b51faa478017a1679c0369a55c`
 - `.continuity/TASK_CLAIMS.yaml` — `b42bae99e7d14cdcf44b0551a70718a1c1bdf785aa7cdfbff142597c2b2282ac`
 - `.continuity/TASK_TRANSITIONS.yaml` — `649cf4421377460d639a628f6c86e77ff9cd2e7a96acffc65865873cbcb9a2a0`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `615f3bc9e9f4536818bf4723dbd3066e961e19d6a30008229e1b911503dc2391`
-- `.continuity/ACTIVE_SESSION.yaml` — `f0695be8a2b59798761f8d5395da103bb42702e1b963fd41b227ab0b3a1a5425`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5978fdc5d1e69f44a141fcb35665acb2c99026f7b8bd95581d9d80c0e75711f2`
+- `.continuity/ACTIVE_SESSION.yaml` — `8558693e2f1225c45aed78736503efde7e61f5472059c55aa9822b58dc438158`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `48d66c06efb7102d3a1965124a9b34d9867a4418e009ebb98cbc48dd915ef489`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `e763b0bc235be69b871929ad214e0a458ae978ab54970a42af8f5e3987677ce5`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml` — `38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `d639f43ef4f9ffde19b9423c11bf5e7b32f103575aa927b8bc3e26e239bb1d7b`
-- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0023.yaml` — `81f9827dfbebe3dfcf8be2cf2ba9f96c60953900e1ab64e2714463ff87b8e3c1`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `a74f835901b9a616f431eed0075dfeab260786699a76597abe805019cbba5600`
+- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0024.yaml` — `0785be01eac2492638322402e84cac0d64fafe7c9c5eb4804c2d2ad033144fbf`
 - `docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md` — `2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f`
 - `docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md` — `7ea7a2a77787bbf3e87d0c52f6b265235b50ade68dd07cf74369b51935b7b0bd`
 - `docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md` — `3d8a27084d1ed3efdee721c872c08c7103386965f3b731cd302bd173e6245f55`
@@ -6375,8 +6352,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md` — `62800444cd43d7de1801e4248129767985963a6528307e178e823f96f86a992c`
 - `docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md` — `740b38c5424205dbb49d5a4687189f32afcf9ae855f27bff444d654e8a5eea53`
 - `docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md` — `a3364ff0d9654efa72dbc6a0af91523351c12d60a419e07d16a20b29d14faacd`
-- `docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md` — `bd0e5afb825b41e0a82113018de60f760cab688b9228aafefa8dba7cafc382ab`
-- `docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md` — `d5b4180a1712a328f29e1b082ff0f7b56fc8bed5c1bfa54376df8f315f741fe5`
+- `docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md` — `4e2c8a54c6994d800df0da6a0e83bed8e91ee71899af6c7707df58805ea20d84`
+- `docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md` — `6ef4c08c2b1e983987b3109db66af29890a10c62fbd4588db81596e23f8f9859`
 
 ## 接手硬规则
 

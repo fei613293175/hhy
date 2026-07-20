@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0117
 title: 递增R05冻结UI真机测试APK版本身份
-status: APPROVED
+status: IMPLEMENTED
 created_at: '2026-07-20T02:47:21Z'
-updated_at: '2026-07-20T02:48:00Z'
+updated_at: '2026-07-20T03:17:22Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner
 task_id: TASK-R05-007
@@ -38,3 +38,18 @@ approval:
   note: 冻结UI需要新的单调版本测试包供项目所有者覆盖安装验收。
 machine_record: .continuity/change_requests/CR-0117.yaml
 document: docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
+decision_log:
+- at: '2026-07-20T03:17:21Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: versionCode10209已构建并进入签名交付验证。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T03:17:22Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 10209冻结UI测试APK已完成全量构建、固定签名、四方哈希和桌面交付。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- 1998d8d
