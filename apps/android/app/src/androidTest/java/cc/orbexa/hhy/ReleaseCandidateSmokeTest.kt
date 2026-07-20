@@ -1,12 +1,15 @@
 package cc.orbexa.hhy
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.provider.MediaStore
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
+import java.io.File
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -17,19 +20,13 @@ import org.junit.runner.RunWith
 class ReleaseCandidateSmokeTest {
     private lateinit var device: UiDevice
     private lateinit var target: Context
-    private val screenshotDirectory = "/data/local/tmp/hhy-ci-screenshots"
+    private val screenshotDirectory = "Pictures/hhy-ci-screenshots"
 
     @Before
     fun prepareFreshCandidate() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         device = UiDevice.getInstance(instrumentation)
         target = instrumentation.targetContext
-        device.executeShellCommand("rm -rf $screenshotDirectory")
-        device.executeShellCommand("mkdir -p $screenshotDirectory")
-        assertTrue(
-            "Cannot prepare shared CI screenshot directory",
-            device.executeShellCommand("test -d $screenshotDirectory && echo READY").trim() == "READY",
-        )
         device.pressHome()
         val launchIntent = target.packageManager.getLaunchIntentForPackage(target.packageName)
             ?: error("Candidate package has no launch intent")
@@ -81,11 +78,28 @@ class ReleaseCandidateSmokeTest {
     }
 
     private fun capture(name: String) {
-        val output = "$screenshotDirectory/$name"
-        device.executeShellCommand("screencap -p $output")
+        val output = File(target.cacheDir, name)
+        assertTrue("Cannot capture $name", device.takeScreenshot(output))
+        assertTrue("Screenshot is empty: $name", output.length() > 0)
+
+        val values = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, name)
+            put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+            put(MediaStore.Images.Media.RELATIVE_PATH, screenshotDirectory)
+            put(MediaStore.Images.Media.IS_PENDING, 1)
+        }
+        val resolver = target.contentResolver
+        val mediaUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+            ?: error("Cannot create shared screenshot: $name")
+        resolver.openOutputStream(mediaUri)?.use { sink ->
+            output.inputStream().use { source -> source.copyTo(sink) }
+        } ?: error("Cannot write shared screenshot: $name")
+        values.clear()
+        values.put(MediaStore.Images.Media.IS_PENDING, 0)
+        resolver.update(mediaUri, values, null, null)
         assertTrue(
-            "Screenshot is empty: $name",
-            device.executeShellCommand("test -s $output && echo READY").trim() == "READY",
+            "Shared screenshot is empty: $name",
+            output.length() > 0,
         )
     }
 

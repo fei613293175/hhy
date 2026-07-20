@@ -12,6 +12,7 @@ adb shell settings put system accelerometer_rotation 0
 adb shell settings put system user_rotation 0
 adb shell settings put system font_scale 1.0
 adb logcat -c
+adb shell rm -rf /sdcard/Pictures/hhy-ci-screenshots
 
 set +e
 (
@@ -23,7 +24,7 @@ set +e
 test_rc=${PIPESTATUS[0]}
 printf '%s\n' "$test_rc" > "$runtime_dir/test-exit-code.txt"
 
-adb pull /data/local/tmp/hhy-ci-screenshots/. "$screenshots_dir/" || true
+adb pull /sdcard/Pictures/hhy-ci-screenshots/. "$screenshots_dir/" || true
 adb logcat -d -v threadtime \
   | grep -E 'cc\.orbexa\.hhy|AndroidRuntime|FATAL EXCEPTION|ANR in' \
   > "$runtime_dir/logcat.txt" || true

@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T12:59:50Z
-- Context Hash：`6a552bd34c97e3396850f8bc5cb68f475292cc96f2900cd61fd9fa5f4e266045`
+- 生成时间：2026-07-20T13:09:36Z
+- Context Hash：`9412b5ef99c9df85382ee73f984c364d71760ad11a562e61cec1f5580b2e178c`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -85,7 +85,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-008
-updated_at: '2026-07-20T12:59:48Z'
+updated_at: '2026-07-20T13:09:34Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -120,15 +120,15 @@ continuity:
   active_session_id: SES-20260720T095830Z-752E5121
   actor_id: codex-root
   story_id: STORY-R05-008
-  lease_expires_at: '2026-07-20T16:59:48Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0016.yaml
-  project_fingerprint: 3b2e11f3db45f00631729ea271a88488e5009ad3809e4995e2c2f6f49f97043d
+  lease_expires_at: '2026-07-20T17:09:34Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0017.yaml
+  project_fingerprint: 08857124344db079acd644cdbcfaabe7afddca185fbbaaf5ca256e11fd213419
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: e5b23d33ba8c4f7794dbdd523f22bd8761e0e058c562124200ff770b5378dab2
-    generated_at: '2026-07-20T12:46:56Z'
+    context_hash: 6a552bd34c97e3396850f8bc5cb68f475292cc96f2900cd61fd9fa5f4e266045
+    generated_at: '2026-07-20T12:59:50Z'
   handoff_bundle: null
 ```
 
@@ -320,7 +320,7 @@ task_id: TASK-R05-008
 story_id: STORY-R05-008
 goal: 关闭R05并建立跨电脑跨AI长期可复用的Android自动构建、模拟器测试、截图、日志、回归、自修复与候选交付体系
 started_at: '2026-07-20T09:58:30Z'
-updated_at: '2026-07-20T12:59:48Z'
+updated_at: '2026-07-20T13:09:34Z'
 takeover_of: null
 change_requests:
 - CR-0135
@@ -415,12 +415,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T12:59:48Z'
-  expires_at: '2026-07-20T16:59:48Z'
-checkpoint_sequence: 16
-latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0016.yaml
+  renewed_at: '2026-07-20T13:09:34Z'
+  expires_at: '2026-07-20T17:09:34Z'
+checkpoint_sequence: 17
+latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0017.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-next_step: 严格门禁后提交推送，重跑GitHub完整Android门禁
+next_step: 提交推送并验证MediaStore截图、模拟器旅程、候选门禁完整通过
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -435,15 +435,15 @@ parallel_execution:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260720T095830Z-752E5121-0016
+checkpoint_id: CP-SES-20260720T095830Z-752E5121-0017
 session_id: SES-20260720T095830Z-752E5121
-sequence: 16
-created_at: '2026-07-20T12:59:48Z'
-summary: GitHub第242次运行确认Android旅程在共享Download截图准备阶段失败；截图目录收敛到ADB shell稳定可写的/data/local/tmp并把JUnit断言加入Annotation
-next_step: 严格门禁后提交推送，重跑GitHub完整Android门禁
+sequence: 17
+created_at: '2026-07-20T13:09:33Z'
+summary: CI第243次运行通过新增Annotation定位应用UID无法准备/data/local/tmp；改用官方MediaStore发布截图到Pictures专用目录
+next_step: 提交推送并验证MediaStore截图、模拟器旅程、候选门禁完整通过
 blockers: []
 decisions:
-- 模拟器证据目录统一使用/data/local/tmp专用目录，GitHub失败摘要必须包含JUnit具体断言
+- Android 10+测试截图采用应用缓存加MediaStore发布，禁止应用UID直接写ADB私有目录
 note: ''
 tests:
 - name: android-ci-gate-tests
@@ -457,7 +457,7 @@ tests:
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: fc9866c941355fa2f00db4c1f8cb37cd777645bb
+  head: 2fff4873e0cccd7ca05ff6af73a51f3f66e435ba
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -469,6 +469,8 @@ git:
   - ' M scripts/run_android_emulator_gate.sh'
   - ' M tests/test_android_ci_gate.py'
   recent_commits:
+  - "2fff4873e0cccd7ca05ff6af73a51f3f66e435ba\t2026-07-20T21:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): persist screenshots\
+    \ in adb temp"
   - "fc9866c941355fa2f00db4c1f8cb37cd777645bb\t2026-07-20T20:48:24+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): preserve emulator\
     \ screenshot evidence"
   - "0d2019f8ccb0c45da9a6700be3185aae57e08a00\t2026-07-20T20:32:21+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): close Android impact-map\
@@ -483,10 +485,8 @@ git:
     \ portable on Linux"
   - "b9196d7c983af4fbee6b75c9df720a916d1eb2f2\t2026-07-20T18:52:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(android): establish automated\
     \ candidate quality gate"
-  - "becdceec04d22c9179e29c794e28ad85bbe89137\t2026-07-20T17:57:20+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-007\
-    \ as completed"
 project_fingerprint:
-  sha256: 3b2e11f3db45f00631729ea271a88488e5009ad3809e4995e2c2f6f49f97043d
+  sha256: 08857124344db079acd644cdbcfaabe7afddca185fbbaaf5ca256e11fd213419
   files:
   - .gitattributes
   - .githooks/commit-msg
@@ -580,16 +580,16 @@ project_fingerprint:
       sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
     - path: CHANGELOG.md
       state: FILE
-      size: 53272
-      sha256: 8b6ea81ccbfa708c1ee0616f9a2d77cf63895eeb19234ff90d3b9789614f22ee
+      size: 53283
+      sha256: eb8b77f469fdd4bf38f2a30e94ecf13418d33e116eaee97089cd1891f9d24af4
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 4981
       sha256: 8595531ad77825b6477ba3b7c24d899ded6ad9b7fc742efe9f830daaa738b499
     - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
       state: FILE
-      size: 4180
-      sha256: 4def280f789d483f10191b1a93c393fd9b668a4de26f4004613b08cc66d1709f
+      size: 4807
+      sha256: cfc551ad8947f7ed3db4f31fbcc2a1a356ee4da7d5a797ff8d555336183b0555
     - path: apps/android/core/designsystem/build.gradle.kts
       state: FILE
       size: 954
@@ -644,8 +644,8 @@ project_fingerprint:
       sha256: 2eeee9d8997f48c0604f965ffd408399a0ff2473f5cde2d394ea06e30f637d25
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 65955
-      sha256: 9d8125f42d73568522d702ee30f01bec5df7994670b5208ed25f023e9a5cbdbb
+      size: 65984
+      sha256: 00774b8c58802e87597faa4bed2867723928c31b602e6986c2b1d70cff8959e6
     - path: docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
       state: FILE
       size: 3823
@@ -724,16 +724,16 @@ project_fingerprint:
       sha256: 5c9ec3f183743305c108600d9a8fd1276ec8544615c1fb6aebada792113a8e2a
     - path: scripts/run_android_emulator_gate.sh
       state: FILE
-      size: 2190
-      sha256: cb8b1bf83b612e808cf0ba067b39f652c91fdb248834e7082e7c8130e92b7e1d
+      size: 2244
+      sha256: d3b41b476d8db102c5ad8ad1e80c00322c1d325686a7db8e68bbd1fe9a9ba37d
     - path: templates/AGENTS.md
       state: FILE
       size: 11056
       sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 10691
-      sha256: 58586cf6808859632715e06387fc9843b97f63c4e7378a43feec576598bfea4c
+      size: 10821
+      sha256: fcefdcc15ad53d7d3a1e94e9030aadc402a845254fef2a13cb49e5bc9f7c3201
     - path: tests/test_parallel_worktrees.py
       state: FILE
       size: 6376
@@ -909,7 +909,7 @@ parallel_execution:
   delegated_workers: 0
   workers: []
   reason: 上级规则禁止用户未明确要求的子代理委托
-event_hash: 3ce0bd4d4397324a2d0d63412b91660bd41644aa8d6aa3af9ef063681d9afcef
+event_hash: 200c3efa614999d58296e0e4ba036d5537390ddfc17aaf520b94f84b91cfc3ae
 ```
 
 ## 接续状态与事件头
@@ -921,8 +921,8 @@ active_session_id: SES-20260720T095830Z-752E5121
 last_session_id: SES-20260719T234639Z-1D7D7A00
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0043
-event_count: 1448
-event_head_hash: 3ce0bd4d4397324a2d0d63412b91660bd41644aa8d6aa3af9ef063681d9afcef
+event_count: 1449
+event_head_hash: 200c3efa614999d58296e0e4ba036d5537390ddfc17aaf520b94f84b91cfc3ae
 event_chain_valid: true
 ```
 
@@ -1045,9 +1045,9 @@ recent_sessions: - session_id: SES-20260719T144443Z-BF11796E
   started_at: '2026-07-20T09:58:30Z'
   record: .continuity/sessions/SES-20260720T095830Z-752E5121.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-  updated_at: '2026-07-20T12:59:48Z'
+  updated_at: '2026-07-20T13:09:34Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0016.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0017.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D402CCF0F4A1
   session_id: SES-20260718T162320Z-23C14331
@@ -1930,7 +1930,7 @@ recent_task_transitions: - transition_id: TRN-AB73BBDF9FA9
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: fc9866c941355fa2f00db4c1f8cb37cd777645bb
+head: 2fff4873e0cccd7ca05ff6af73a51f3f66e435ba
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1949,8 +1949,10 @@ status_porcelain:
 - ' M docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md'
 - ' M scripts/run_android_emulator_gate.sh'
 - ' M tests/test_android_ci_gate.py'
-- ?? .continuity/checkpoints/SES-20260720T095830Z-752E5121/0016.yaml
+- ?? .continuity/checkpoints/SES-20260720T095830Z-752E5121/0017.yaml
 recent_commits:
+- "2fff4873e0cccd7ca05ff6af73a51f3f66e435ba\t2026-07-20T21:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): persist screenshots\
+  \ in adb temp"
 - "fc9866c941355fa2f00db4c1f8cb37cd777645bb\t2026-07-20T20:48:24+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): preserve emulator screenshot\
   \ evidence"
 - "0d2019f8ccb0c45da9a6700be3185aae57e08a00\t2026-07-20T20:32:21+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): close Android impact-map\
@@ -1965,13 +1967,11 @@ recent_commits:
   \ on Linux"
 - "b9196d7c983af4fbee6b75c9df720a916d1eb2f2\t2026-07-20T18:52:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(android): establish automated\
   \ candidate quality gate"
-- "becdceec04d22c9179e29c794e28ad85bbe89137\t2026-07-20T17:57:20+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-007\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`3b2e11f3db45f00631729ea271a88488e5009ad3809e4995e2c2f6f49f97043d`
+- 指纹：`08857124344db079acd644cdbcfaabe7afddca185fbbaaf5ca256e11fd213419`
 - 文件数：50
 
 - `.gitattributes`
@@ -7422,31 +7422,31 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `a9e64a61b413f5f85b7efc56026f880450667377fedba530d4fe7bf9f2f2a200`
+- `CURRENT_STATUS.yaml` — `a1f52c0a907286584d8d6c0572a614d37dae039a1cb9ab7799daef86404210eb`
 - `NEXT_TASK.yaml` — `ffc587b7a19397e86fb03f0a6f3ae2b0d16a2a8ac2db6a0483fdded3d1543527`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `9d8125f42d73568522d702ee30f01bec5df7994670b5208ed25f023e9a5cbdbb`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `00774b8c58802e87597faa4bed2867723928c31b602e6986c2b1d70cff8959e6`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da`
 - `docs/03-continuity/PITFALLS.md` — `a2d8510ffc0abea7157abc67881f3a25063fb0d4751c5b7d5cf90125d5851957`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `1bf72bbd9a76d0bfb9c9691b1b3a4a07fca1fe2ac928df7267be95675c5f9bdb`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `fe5653f5dbccd8519a0ce8d54fa7c136b2f8fdcdba31d71e213e35f42530afa9`
-- `.continuity/SESSION_INDEX.yaml` — `2fe107a8ab4d8077b545c41fb1c730d61a35b375ad894c5df1267c489451fe00`
+- `.continuity/EVENT_LOG.jsonl` — `80dc70a5344fdfa92753f5c5d96cb46c8354700c100fa90afe16041eeb659f10`
+- `.continuity/SESSION_INDEX.yaml` — `aa9234cf4a89e5b68bd6ad47c4e91ca9003bfce42df79261af4c933f86e02705`
 - `.continuity/TASK_CLAIMS.yaml` — `51845584c67e22b1b247283317fe524313ac3f43f8982fb4b629af1151cace6f`
 - `.continuity/TASK_TRANSITIONS.yaml` — `6b84bba6c64711ba15832b715ebe1e0511e794712aa95a94a57a8c04c5d1391d`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ef1d30b2d4decedcdeadc95a9be8ade7bb109e9e4e9d7b05f7b3061d62435711`
-- `.continuity/ACTIVE_SESSION.yaml` — `fbee5b0d3a7b7911a3b62ef094bf93c19c3ea4e9300a1237ec47ab1cd7f382aa`
+- `.continuity/ACTIVE_SESSION.yaml` — `c23eda6d4d658621dfa965eee19e15cc97b267d8ff238af62ecac1731707399b`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `6fc95b4abdedcaa6561460c2d5db23e6fccf1a870452779b0c03035bd6ea11ec`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `5ab834809127e32bfecc401bd27938833ab09e66b287c2b65973830640437b22`
 - `releases/R05/TASKS.yaml` — `5ee3430d7b0b89a7d84a0d14119b232a2638e042d8b84e9f2de008ae12d82e55`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `98126dbba6a77102d407f9e9de5e95bef5f492330ddc5bc681afc3696edbac1b`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml` — `38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda`
-- `docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md` — `668aa59be13357d11489b72dce8a1b77bf9faa37e6866ca07569a1722a8c0976`
-- `.continuity/checkpoints/SES-20260720T095830Z-752E5121/0016.yaml` — `6fed23897962fc741c8122c523c9227e491b6291bb2fb5fb2159835b2ddf97b5`
+- `docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md` — `660991f69e269e16a27a6db9dc4c851a67de0ff00e494918b098824a956f029e`
+- `.continuity/checkpoints/SES-20260720T095830Z-752E5121/0017.yaml` — `f04290315ff11c80873fb50b194c4d43855360dd8377036292f3d4745bfa1620`
 - `docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md` — `9fd9ea826a7fc71e94b8804243f7deec23739e002d8aefdf6b6c49a9ef92e7b4`
 - `docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md` — `10a87ff0adcf705866b49e67b8f26041c5e4ab9e91a64120c7af6cc8b3bf3961`
 - `docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md` — `c2311668004f80b7e9c09994ad09ec4cbd008278b51c68fb3be63ada84accbc6`

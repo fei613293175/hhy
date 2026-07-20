@@ -713,7 +713,7 @@ problems:
   title: Android自动门禁首次迁移到GitHub Linux后因平台差异整链失败
   status: SOLVED
   root_cause: 仓库长期只在Windows工作区和固定Android服务器镜像验证，GitHub干净Linux克隆未显式关闭Git中文路径转义，四个Hook与Android Gradle Wrapper也未提交可执行位；供应商原始TXT又被通用文本换行规则过滤，Context Pack记录了Windows工作区CRLF字节。Android各模块同时依赖GitHub稳定SDK仓库没有的预览API 37，工具与契约任务还隐式依赖Runner自带Node；临时Worktree动态Hook在POSIX系统默认为0644，Android门禁自身文件又未纳入Android影响映射，导致连续性、全量测试和Android全链分层失败或被错误跳过。
-  resolution: CR-0138至CR-0144把GitHub连续性、工具和Android工作流统一配置core.quotepath=false，Hook与Android Gradle Wrapper提交为100755，动态Worktree Hook在POSIX系统强制chmod 700；供应商原始证据按二进制逐字节冻结，全部Android模块compileSdk与构建平台收敛到正式稳定API 36。工具与契约任务显式安装Node 24并持久上传诊断日志；模拟器Runner只调用仓库内单一可执行Bash脚本，避免其逐行sh执行语义破坏目录、变量与续行；UIAutomator截图写入ADB shell稳定可写的/data/local/tmp专用测试目录，避免应用专属目录随connectedDebugAndroidTest卸载被清除，也避免Android 15共享存储写入限制；JUnit失败断言直接汇总为GitHub Annotation。Android门禁工作流、策略、脚本、测试及影响映射自身全部纳入Android触发范围，后续必须实际执行全链且在干净Linux克隆复现通过。
+  resolution: CR-0138至CR-0144把GitHub连续性、工具和Android工作流统一配置core.quotepath=false，Hook与Android Gradle Wrapper提交为100755，动态Worktree Hook在POSIX系统强制chmod 700；供应商原始证据按二进制逐字节冻结，全部Android模块compileSdk与构建平台收敛到正式稳定API 36。工具与契约任务显式安装Node 24并持久上传诊断日志；模拟器Runner只调用仓库内单一可执行Bash脚本，避免其逐行sh执行语义破坏目录、变量与续行；UIAutomator先在应用缓存生成截图，再用Android官方MediaStore发布到系统Pictures专用测试目录，避免应用专属目录随connectedDebugAndroidTest卸载被清除，也遵守Android 10+分区存储边界；JUnit失败断言直接汇总为GitHub Annotation。Android门禁工作流、策略、脚本、测试及影响映射自身全部纳入Android触发范围，后续必须实际执行全链且在干净Linux克隆复现通过。
   regression_checks:
   - python -m unittest tests.test_android_ci_gate tests.test_r05_identity_vendor_contract
   - python -m unittest discover -s tests -p 'test_*.py'
