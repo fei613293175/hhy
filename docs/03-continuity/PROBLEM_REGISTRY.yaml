@@ -713,7 +713,7 @@ problems:
   title: Android自动门禁首次迁移到GitHub Linux后因平台差异整链失败
   status: SOLVED
   root_cause: 仓库长期只在Windows工作区和固定Android服务器镜像验证，GitHub干净Linux克隆未显式关闭Git中文路径转义，四个Hook与Android Gradle Wrapper也未提交可执行位；供应商原始TXT又被通用文本换行规则过滤，Context Pack记录了Windows工作区CRLF字节。Android各模块同时依赖GitHub稳定SDK仓库没有的预览API 37，工具与契约任务还隐式依赖Runner自带Node，导致连续性、全量测试和Android构建分层失败。
-  resolution: CR-0138至CR-0140把GitHub连续性、工具和Android工作流统一配置core.quotepath=false，Hook与Android Gradle Wrapper提交为100755，供应商原始证据按二进制逐字节冻结，并把全部Android模块compileSdk与构建平台收敛到正式稳定API 36；工具与契约任务显式安装Node 24并持久上传诊断日志，新增工作流和全模块SDK回归，后续必须在干净Linux克隆复现通过。
+  resolution: CR-0138至CR-0141把GitHub连续性、工具和Android工作流统一配置core.quotepath=false，Hook与Android Gradle Wrapper提交为100755，供应商原始证据按二进制逐字节冻结，并把全部Android模块compileSdk与构建平台收敛到正式稳定API 36；工具与契约任务显式安装Node 24并持久上传诊断日志。模拟器Runner只调用仓库内单一可执行Bash脚本，避免其逐行sh执行语义破坏目录、变量与续行；新增工作流和全模块SDK回归，后续必须在干净Linux克隆复现通过。
   regression_checks:
   - python -m unittest tests.test_android_ci_gate tests.test_r05_identity_vendor_contract
   - python -m unittest discover -s tests -p 'test_*.py'
@@ -727,3 +727,4 @@ problems:
   - 不得在Hook缺少Linux可执行位或Context Pack依赖工作区CRLF时宣称可跨电脑、跨AI接续
   - 不得依赖GitHub Runner隐式提供Node，也不得提交缺少Linux执行位的Gradle Wrapper
   - 自动门禁必须保存可下载的测试日志，禁止失败后仅凭模糊结论反复试错
+  - 不得在逐行执行script输入的第三方Action中内嵌依赖共享状态的多行Shell，必须调用仓库内受测脚本

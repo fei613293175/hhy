@@ -124,6 +124,9 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: gradle
+      - uses: android-actions/setup-android@v3
+      - name: Install Android build platform for instrumentation
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
       - name: Enable KVM for the Android emulator
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -138,33 +141,9 @@ jobs:
           profile: pixel_7
           emulator-options: -no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back emulated -camera-front emulated -prop persist.sys.locale=zh-CN
           disable-animations: true
-          script: |
-            mkdir -p artifacts/android-ci/screenshots artifacts/android-ci/runtime
-            adb shell settings put system accelerometer_rotation 0
-            adb shell settings put system user_rotation 0
-            adb shell settings put system font_scale 1.0
-            adb logcat -c
-            set +e
-            cd apps/android
-            ./gradlew --no-daemon --no-parallel --max-workers=1 --stacktrace \
-              "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8 -Duser.timezone=UTC" \
-              connectedDebugAndroidTest
-            test_rc=$?
-            cd ../..
-            set -e
-            echo "$test_rc" > artifacts/android-ci/runtime/test-exit-code.txt
-            adb pull /sdcard/Android/data/cc.orbexa.hhy.debug/files/ci-screenshots/. artifacts/android-ci/screenshots/ || true
-            adb logcat -d -v threadtime | grep -E 'cc\.orbexa\.hhy|AndroidRuntime|FATAL EXCEPTION|ANR in' > artifacts/android-ci/runtime/logcat.txt || true
-            adb shell dumpsys activity exit-info cc.orbexa.hhy.debug > artifacts/android-ci/runtime/exit-info.txt || true
-            python scripts/android_ci_gate.py analyze \
-              --release "$ANDROID_RELEASE" \
-              --commit "$GITHUB_SHA" \
-              --attempt "${{ inputs.remediation_attempt }}" \
-              --test-exit-code-file artifacts/android-ci/runtime/test-exit-code.txt \
-              --junit-root apps/android/app/build/outputs/androidTest-results/connected \
-              --logcat artifacts/android-ci/runtime/logcat.txt \
-              --screenshots artifacts/android-ci/screenshots \
-              --output artifacts/android-ci/runtime/runtime-report.json
+          script: bash scripts/run_android_emulator_gate.sh
+        env:
+          REMEDIATION_ATTEMPT: ${{ inputs.remediation_attempt }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:

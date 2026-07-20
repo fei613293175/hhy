@@ -64,10 +64,20 @@ jobs:
       - name: Run tooling regression
         shell: bash
         run: |
+          set +e
           set -o pipefail
           mkdir -p artifacts/validation/ci
           python -m unittest discover -s tests -p 'test_*.py' 2>&1 \
             | tee artifacts/validation/ci/tooling-tests.log
+          test_rc=${PIPESTATUS[0]}
+          set -e
+          if (( test_rc != 0 )); then
+            summary=$(grep -E 'FAIL|ERROR|FAILED|Traceback|AssertionError|test_.*\.\.\.' artifacts/validation/ci/tooling-tests.log | tail -n 25 || true)
+            [[ -n "$summary" ]] || summary='Tooling regression failed; inspect tooling-diagnostics artifact'
+            summary=${summary//'%'/'%25'}; summary=${summary//$'\r'/'%0D'}; summary=${summary//$'\n'/'%0A'}
+            echo "::error title=Tooling regression failed::$summary"
+          fi
+          exit "$test_rc"
       - name: Upload tooling diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -92,6 +102,7 @@ jobs:
       - name: Run contract and release gates
         shell: bash
         run: |
+          set +e
           set -o pipefail
           mkdir -p artifacts/validation/ci
           {
@@ -106,6 +117,15 @@ jobs:
             python tests/p00/test_secret_defaults.py
             python scripts/run_p00_test_matrix.py --list
           } 2>&1 | tee artifacts/validation/ci/contracts.log
+          test_rc=${PIPESTATUS[0]}
+          set -e
+          if (( test_rc != 0 )); then
+            summary=$(grep -E 'FAIL|ERROR|FAILED|Traceback|"code"|"message"' artifacts/validation/ci/contracts.log | tail -n 25 || true)
+            [[ -n "$summary" ]] || summary='Contract gate failed; inspect contract-diagnostics artifact'
+            summary=${summary//'%'/'%25'}; summary=${summary//$'\r'/'%0D'}; summary=${summary//$'\n'/'%0A'}
+            echo "::error title=Contract gate failed::$summary"
+          fi
+          exit "$test_rc"
       - name: Upload contract diagnostics
         if: always()
         uses: actions/upload-artifact@v4

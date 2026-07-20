@@ -142,20 +142,26 @@ class AndroidCiGateTest(unittest.TestCase):
             set(workflow["jobs"]),
         )
         source = workflow_path.read_text(encoding="utf-8")
-        self.assertIn("connectedDebugAndroidTest", source)
         self.assertIn("platforms;android-36", source)
         self.assertNotIn("platforms;android-37", source)
         self.assertIn("git config core.quotepath false", source)
-        self.assertIn("adb logcat", source)
         self.assertIn("--no-parallel --max-workers=1", source)
         self.assertIn("-Xmx1536m", source)
-        self.assertIn("android_ci_gate.py analyze", source)
         self.assertIn("android_ci_gate.py finalize", source)
+        self.assertIn("script: bash scripts/run_android_emulator_gate.sh", source)
         self.assertIn("! -name '*androidTest*'", source)
         self.assertIn("path: candidate-output", source)
         self.assertRegex(
             source,
             r"reactivecircus/android-emulator-runner@[0-9a-f]{40}",
+        )
+        emulator_action = next(
+            step for step in workflow["jobs"]["emulator"]["steps"]
+            if str(step.get("uses", "")).startswith("reactivecircus/android-emulator-runner@")
+        )
+        self.assertEqual(
+            "bash scripts/run_android_emulator_gate.sh",
+            emulator_action["with"]["script"],
         )
 
     def test_main_ci_delegates_android_to_the_reusable_quality_gate(self) -> None:
@@ -169,6 +175,15 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("tooling-tests.log", ci_source)
         self.assertIn("contracts.log", ci_source)
         self.assertGreaterEqual(ci_source.count("uses: actions/upload-artifact@v4"), 2)
+
+    def test_emulator_gate_script_is_single_process_and_preserves_evidence(self) -> None:
+        source = (ROOT / "scripts/run_android_emulator_gate.sh").read_text(encoding="utf-8")
+        self.assertIn("connectedDebugAndroidTest", source)
+        self.assertIn("test_rc=${PIPESTATUS[0]}", source)
+        self.assertIn("android_ci_gate.py analyze", source)
+        self.assertIn("adb logcat", source)
+        self.assertIn("runtime-report.json", source)
+        self.assertIn("::error title=Android emulator gate failed::", source)
 
     def test_every_android_module_uses_the_stable_compile_sdk(self) -> None:
         module_builds = sorted((ROOT / "apps/android").glob("**/build.gradle.kts"))
