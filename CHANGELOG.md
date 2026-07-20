@@ -665,3 +665,12 @@
 - 摘要：R06内容与首页数据迁移、领域不变量、空库升级回滚验证全部完成
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260720T160653Z-1DDCDB22.md`
 
+## TASK-R06-003 · COMPLETED · 2026-07-20T17:21:13Z
+
+- Task close: TASK-R06-003 / SES-20260720T163244Z-D1F3CEE8
+- Release：`R06`
+- Story：`STORY-R06-005`
+- Actor：`codex-root`
+- 摘要：统一内容基础、首页与CMS后端服务、10条冻结operationId、幂等审计Outbox、V030权限迁移和实库回滚重放完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260720T163244Z-D1F3CEE8.md`
+

@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T17:16:19Z
-- Context Hash：`03ee40ca7ef5ac939f76d1f045266ac9c95d6507a207fe63b267dedf1601a423`
+- 生成时间：2026-07-20T17:21:20Z
+- Context Hash：`98fcc8e67a20e0c59e7ab8d9e098d587e8e252f09123add7833af2087d7dd5d9`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-004
 ```
 
 ## 当前状态
@@ -17,10 +17,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R06
 active_release: R06
-active_task: TASK-R06-003
-status: IN_PROGRESS
+active_task: TASK-R06-004
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: 3de2ae637f478c8b3390818a08a491a49a805890
+last_green_commit: be639eac26a765387414416c887034269308bcf5
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -82,13 +82,13 @@ completed_tasks:
 - TASK-R05-008
 - TASK-R06-001
 - TASK-R06-002
-in_progress_tasks:
 - TASK-R06-003
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
-next_task: TASK-R06-003
-updated_at: '2026-07-20T17:16:17Z'
+next_task: TASK-R06-004
+updated_at: '2026-07-20T17:21:18Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -120,19 +120,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260720T163244Z-D1F3CEE8
-  actor_id: codex-root
-  story_id: STORY-R06-005
-  lease_expires_at: '2026-07-20T21:16:17Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T163244Z-D1F3CEE8/0003.yaml
-  project_fingerprint: 190be644a48ab47b17641534468539bf9c4d9e96a57654f320e9840bd5c61d13
+  active_session_id: null
+  last_session_id: SES-20260720T163244Z-D1F3CEE8
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260720T163244Z-D1F3CEE8/0004.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d08e94a85305fc98a2607656e21c108966930bc0213ec35a03a5ea4c8f9542ab
-    generated_at: '2026-07-20T17:10:22Z'
-  handoff_bundle: null
+    context_hash: 4527fe012a31308dc235e4a38845b4eea8fe6408fc732d2b9e7074c78fb61eca
+    generated_at: '2026-07-20T17:21:17Z'
 ```
 
 ## 默认并行规则
@@ -273,8 +271,8 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R06-003
-title: 统一内容基础、首页与CMS后端应用服务与接口
+id: TASK-R06-004
+title: 统一内容基础、首页与CMS客户端/H5/后台实现
 status: READY
 release: R06
 requirements:
@@ -282,22 +280,26 @@ requirements:
 - REQ-HOME-001
 - REQ-APK-001
 depends_on:
-- TASK-R06-002
+- TASK-R06-003
 definition_of_ready: releases/R06/DEFINITION_OF_READY.yaml
 stories: releases/R06/STORIES.yaml
 steps:
-- OpenAPI契约测试
-- 权限/幂等/错误码/审计覆盖
+- 全部页面绑定catalogs/ui_page_specifications.csv
+- 字段/状态/动作/导航与后台运营规格通过契约测试
+- 禁止页面级手写重复DTO
+- 全部动作绑定生成API类型
 acceptance:
-- 无TODO/生产Mock
-- 代码、文档、测试、追踪同步更新
-- OpenAPI契约测试
-- 权限/幂等/错误码/审计覆盖
+- 所有页面故事验收条件通过
+- 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
+- 全部页面绑定catalogs/ui_page_specifications.csv
+- 字段/状态/动作/导航与后台运营规格通过契约测试
+- 禁止页面级手写重复DTO
+- 全部动作绑定生成API类型
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-003
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-004
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-003
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-004
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -310,303 +312,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260720T163244Z-D1F3CEE8
-status: ACTIVE
-actor:
-  id: codex-root
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R06
-task_id: TASK-R06-003
-story_id: STORY-R06-005
-goal: 实现R06统一内容、首页与CMS范围内后端应用服务、10个冻结operationId、权限幂等审计和契约测试
-started_at: '2026-07-20T16:32:44Z'
-updated_at: '2026-07-20T17:16:17Z'
-takeover_of: null
-change_requests: []
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: fda95f8a084a366108c22fb90decba1f2aaf15aa
-  start_head: fda95f8a084a366108c22fb90decba1f2aaf15aa
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-20T17:16:17Z'
-  expires_at: '2026-07-20T21:16:17Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260720T163244Z-D1F3CEE8/0003.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260720T163244Z-D1F3CEE8.md
-next_step: 关闭TASK-R06-003并提交关闭元数据，然后领取TASK-R06-004
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
-  delegated_workers: 0
-  workers: []
-  reason: 当前会话未开放独立执行代理；主控串行完成实现、云端实库和集成验证
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260720T163244Z-D1F3CEE8-0003
-session_id: SES-20260720T163244Z-D1F3CEE8
-sequence: 3
-created_at: '2026-07-20T17:16:17Z'
-summary: R06-003实现Commit be639ea已推送，并由云端Git克隆在PostgreSQL17.10完成V030实库门禁
-next_step: 关闭TASK-R06-003并提交关闭元数据，然后领取TASK-R06-004
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: r06-postgres-17
-  result: PASS
-  evidence: be639ea:scripts/run_r06_disposable_postgres_container.sh
-  note: Git Commit校验、空库200表、权限授权、U030/U029回滚重放全部通过
-- name: backend-all
-  result: PASS
-  evidence: services/backend/target/surefire-reports
-  note: 299 tests, 0 failures, 0 errors
-- name: contract-runtime
-  result: PASS
-  evidence: check_api_contract.py;sync_runtime_assets.py --check
-  note: 10条冻结operationId和运行时哈希通过
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: be639eac26a765387414416c887034269308bcf5
-  upstream: origin/task/TASK-R03-001
-  ahead: 0
-  behind: 0
-  dirty: false
-  status_porcelain: []
-  recent_commits:
-  - "be639eac26a765387414416c887034269308bcf5\t2026-07-21T01:11:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(content): implement R06\
-    \ content home CMS backend"
-  - "fda95f8a084a366108c22fb90decba1f2aaf15aa\t2026-07-21T00:23:27+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-002\
-    \ as completed"
-  - "3de2ae637f478c8b3390818a08a491a49a805890\t2026-07-21T00:22:13+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(database): enforce R06\
-    \ content and home invariants"
-  - "00670ed98ed8974f4aaea6c5e678c2ce8b4d10a2\t2026-07-21T00:05:19+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-001\
-    \ as completed"
-  - "5ae20d227bd1511b774e06f3ecb8060f44ccb632\t2026-07-21T00:03:24+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(governance): open R06\
-    \ implementation"
-  - "5384135fdcdc2d6acc877e4883bf6946fe15e9a4\t2026-07-20T23:11:55+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): reuse clean-checkout\
-    \ policy"
-  - "28f948c3cdeb54ffb7e57e48939ef0cab72bba78\t2026-07-20T23:04:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): remove redundant\
-    \ CI tree check"
-  - "b4f4e51e98f8d1ede4eb7ad95f93ce63a3cdb53e\t2026-07-20T23:01:06+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): anchor fingerprints\
-    \ to Git index"
-project_fingerprint:
-  sha256: 190be644a48ab47b17641534468539bf9c4d9e96a57654f320e9840bd5c61d13
-  files:
-  - database/migrations/V030__r06_content_admin_permissions.sql
-  - database/rollback/U030__r06_content_admin_permissions.sql
-  - scripts/run_r06_database_invariants.sh
-  - scripts/run_r06_disposable_postgres_container.sh
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminContentController.java
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/HomeController.java
-  - services/backend/boot/src/main/resources/db/migration/V030__r06_content_admin_permissions.sql
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R06FrozenOperationCoverageTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminContentControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/HomeControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
-  - services/backend/content/pom.xml
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
-  - tests/test_r06_content_database_scripts.py
-  - tests/test_r06_content_permissions_migration.py
-  file_count: 18
-  payload:
-    base_commit: fda95f8a084a366108c22fb90decba1f2aaf15aa
-    files:
-    - path: database/migrations/V030__r06_content_admin_permissions.sql
-      state: FILE
-      size: 1916
-      sha256: ea53823d55a716cb0aa97bd0b0430ad2bd6abedfa0eb86a9a05f6b04a09a79d3
-    - path: database/rollback/U030__r06_content_admin_permissions.sql
-      state: FILE
-      size: 531
-      sha256: 7cd330c181749e190a0054a412a1c4d19de95ce046e0fda209296259d5f9f90c
-    - path: scripts/run_r06_database_invariants.sh
-      state: FILE
-      size: 5239
-      sha256: 4ec9f0ddb2866926cb00f74218b6862c3db41acb695724552eccd7db9a45c9a6
-    - path: scripts/run_r06_disposable_postgres_container.sh
-      state: FILE
-      size: 1713
-      sha256: 06188a94f53af36582202269a63ccbe8d88a822b74612e67a68a15a0aeb79105
-    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminContentController.java
-      state: FILE
-      size: 8534
-      sha256: f8b439d33643a7d263233c44a324a03c1862164b53577d36cc7369562957ae66
-    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/HomeController.java
-      state: FILE
-      size: 1259
-      sha256: 01371f191ff754a974f33840f1f441798efc8d83ae9142cb3d9f697d1a7b6db6
-    - path: services/backend/boot/src/main/resources/db/migration/V030__r06_content_admin_permissions.sql
-      state: FILE
-      size: 1916
-      sha256: ea53823d55a716cb0aa97bd0b0430ad2bd6abedfa0eb86a9a05f6b04a09a79d3
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R06FrozenOperationCoverageTest.java
-      state: FILE
-      size: 1823
-      sha256: 235b7d03cda9d19cf34c44f61d1f71cc713e6d0ef6c2aca9b50e61f71c040c3d
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminContentControllerContractTest.java
-      state: FILE
-      size: 2775
-      sha256: 4a28de7d85f7e7f8dfb5301907f43678a01cef890886f267e444e8ddc3dd8a4f
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/HomeControllerContractTest.java
-      state: FILE
-      size: 1101
-      sha256: de8017e85d88a74e8b39ceda78a4e9f53a12ada20b763f31c0243795e720716b
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
-      state: FILE
-      size: 4885
-      sha256: f8f3c08322a6ae1d2bc66ec0c9818e9e61da0f52b860a0a438beccc79ad22497
-    - path: services/backend/content/pom.xml
-      state: FILE
-      size: 973
-      sha256: 4fec4e6b2c7b8430240eb802b44f63b64fa63a921cbac75263c453c83b559031
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
-      state: FILE
-      size: 4164
-      sha256: 4d72c31e99d6b375e36c9901e6cb47b607a587ee373b6ca7fa1ad899c25223b5
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-      state: FILE
-      size: 13421
-      sha256: 0b512bae38fbcd267ae615707577cdcd39d91a7693b53c958ea44e6eda5c5d0c
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-      state: FILE
-      size: 21918
-      sha256: d40a2337b1ddbbe1bf13b14d2a31f57723c6055ef544090362657866aab16522
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
-      state: FILE
-      size: 2334
-      sha256: c0b8976abe1cc9797eb467700e94b2509aa186a75e5a642ab3154d50fcb1c5e0
-    - path: tests/test_r06_content_database_scripts.py
-      state: FILE
-      size: 2558
-      sha256: dde5a08750728ee6db28838b6e68fe9e4af1ffdc3818f414feecc5ca756b9bd3
-    - path: tests/test_r06_content_permissions_migration.py
-      state: FILE
-      size: 1747
-      sha256: 510e567492568d78b65f921742a8ed235e0f4191a75ae0701465d5d0b2e6b38a
-change_classification:
-  database:
-  - database/migrations/V030__r06_content_admin_permissions.sql
-  - database/rollback/U030__r06_content_admin_permissions.sql
-  code:
-  - scripts/run_r06_database_invariants.sh
-  - scripts/run_r06_disposable_postgres_container.sh
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminContentController.java
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/HomeController.java
-  - services/backend/boot/src/main/resources/db/migration/V030__r06_content_admin_permissions.sql
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R06FrozenOperationCoverageTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminContentControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/HomeControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
-  - services/backend/content/pom.xml
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
-  tests:
-  - tests/test_r06_content_database_scripts.py
-  - tests/test_r06_content_permissions_migration.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- DATABASE_TEST_EVIDENCE
-- SCHEMA_TRACEABILITY
-change_requests: []
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
-parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
-  delegated_workers: 0
-  workers: []
-  reason: 当前会话未开放独立执行代理；主控串行完成实现、云端实库和集成验证
-event_hash: b406fdc55a5af41cd928ce560a8cfc95a155d9e04d6f303511b6296bcec9b1ff
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -614,12 +326,12 @@ event_hash: b406fdc55a5af41cd928ce560a8cfc95a155d9e04d6f303511b6296bcec9b1ff
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260720T163244Z-D1F3CEE8
-last_session_id: SES-20260720T160653Z-1DDCDB22
+active_session_id: null
+last_session_id: SES-20260720T163244Z-D1F3CEE8
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260720T160653Z-1DDCDB22-0002
-event_count: 1538
-event_head_hash: b406fdc55a5af41cd928ce560a8cfc95a155d9e04d6f303511b6296bcec9b1ff
+last_closure_checkpoint_id: CP-SES-20260720T163244Z-D1F3CEE8-0004
+event_count: 1541
+event_head_hash: 9d7e618d54d54b6b4df1449a796ced52a6198b20976b78e348beda170b939af0
 event_chain_valid: true
 ```
 
@@ -738,13 +450,13 @@ recent_sessions: - session_id: SES-20260719T162332Z-9372DEF2
   task_id: TASK-R06-003
   story_id: STORY-R06-005
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-20T16:32:44Z'
   record: .continuity/sessions/SES-20260720T163244Z-D1F3CEE8.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T163244Z-D1F3CEE8.md
-  updated_at: '2026-07-20T17:16:17Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T163244Z-D1F3CEE8/0003.yaml
+  updated_at: '2026-07-20T17:21:18Z'
+  closed_at: '2026-07-20T17:21:18Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T163244Z-D1F3CEE8/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-BE4B842C6F5F
   session_id: SES-20260719T081942Z-8D5C4241
@@ -1386,7 +1098,7 @@ task_claims: - claim_id: CLM-BE4B842C6F5F
   task_id: TASK-R06-003
   story_id: STORY-R06-005
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-20T16:32:44Z'
   allowed_paths:
   - apps/**
@@ -1420,6 +1132,7 @@ task_claims: - claim_id: CLM-BE4B842C6F5F
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-20T17:21:18Z'
 recent_task_transitions: - transition_id: TRN-AC3F88D16784
   timestamp: '2026-07-19T08:19:43Z'
   release: R03
@@ -1627,9 +1340,9 @@ recent_task_transitions: - transition_id: TRN-AC3F88D16784
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: be639eac26a765387414416c887034269308bcf5
+head: 95d83aa20109e4b28e202f84921808cf907f618b
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
@@ -1637,12 +1350,21 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260720T163244Z-D1F3CEE8.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260720T163244Z-D1F3CEE8.md'
-- ?? .continuity/checkpoints/SES-20260720T163244Z-D1F3CEE8/0003.yaml
+- ' M releases/R06/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260720T163244Z-D1F3CEE8/0004.yaml
 recent_commits:
+- "95d83aa20109e4b28e202f84921808cf907f618b\t2026-07-21T01:20:42+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): record R06-003\
+  \ validation checkpoint"
 - "be639eac26a765387414416c887034269308bcf5\t2026-07-21T01:11:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(content): implement R06\
   \ content home CMS backend"
 - "fda95f8a084a366108c22fb90decba1f2aaf15aa\t2026-07-21T00:23:27+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-002\
@@ -1657,33 +1379,14 @@ recent_commits:
   \ policy"
 - "28f948c3cdeb54ffb7e57e48939ef0cab72bba78\t2026-07-20T23:04:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): remove redundant\
   \ CI tree check"
-- "b4f4e51e98f8d1ede4eb7ad95f93ce63a3cdb53e\t2026-07-20T23:01:06+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): anchor fingerprints\
-  \ to Git index"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`190be644a48ab47b17641534468539bf9c4d9e96a57654f320e9840bd5c61d13`
-- 文件数：18
+- 指纹：`d62ff44050d3561f35b8e1b98d0e1caabd80f78b7b4bc9feebe029716b181225`
+- 文件数：0
 
-- `database/migrations/V030__r06_content_admin_permissions.sql`
-- `database/rollback/U030__r06_content_admin_permissions.sql`
-- `scripts/run_r06_database_invariants.sh`
-- `scripts/run_r06_disposable_postgres_container.sh`
-- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/admin/AdminContentController.java`
-- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/HomeController.java`
-- `services/backend/boot/src/main/resources/db/migration/V030__r06_content_admin_permissions.sql`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/R06FrozenOperationCoverageTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/admin/AdminContentControllerContractTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/HomeControllerContractTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java`
-- `services/backend/content/pom.xml`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java`
-- `tests/test_r06_content_database_scripts.py`
-- `tests/test_r06_content_permissions_migration.py`
+- 无
 
 ## 当前 Release
 
@@ -2415,7 +2118,7 @@ TASKS.yaml:
     completed_at: '2026-07-20T16:22:57Z'
   - id: TASK-R06-003
     title: 统一内容基础、首页与CMS后端应用服务与接口
-    status: READY
+    status: DONE
     depends_on:
     - TASK-R06-002
     requirements: *id001
@@ -2429,9 +2132,10 @@ TASKS.yaml:
     - OpenAPI契约测试
     - 权限/幂等/错误码/审计覆盖
     session_log_required: true
+    completed_at: '2026-07-20T17:21:13Z'
   - id: TASK-R06-004
     title: 统一内容基础、首页与CMS客户端/H5/后台实现
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R06-003
     requirements: *id001
@@ -6430,8 +6134,8 @@ TASKS.yaml:
 
 - `AGENTS.md` — `fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `31f5bcb1f8c4842b0d4879b64cc899c5041d1a00e66cbf91855513a8f770bb4c`
-- `NEXT_TASK.yaml` — `718d70ba3303e69935574a10d27e658fb4e14d98242bdc875974c83890cbf05e`
+- `CURRENT_STATUS.yaml` — `4312091eeba6d8885ccfc09f69ec58faf35fc16dbe9bc0f63e4b8975b4fdf73b`
+- `NEXT_TASK.yaml` — `28fdd09fe247b9ee6f9baa24e34c7eb7ff152326afb99fa4f0e1bbeb61a4527b`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `d2993f7f37d9ec3fdb04aa4899b5f0f5f2a02048e7aea16b3e21255bdc281eb3`
@@ -6441,19 +6145,17 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `e839b2da0df465fc2561415935ebf2bcfea6b3553c9ced971901468973ac4868`
-- `.continuity/SESSION_INDEX.yaml` — `c1e149bf1c845b0a875f6e99d63082e6f67922168c66a020cdbbcdf56c9c3886`
-- `.continuity/TASK_CLAIMS.yaml` — `ec87c376a397f6f2515894aa4b09db9f588193fce0d3e1d0e4c6093b89e7ef7a`
+- `.continuity/EVENT_LOG.jsonl` — `6ea8382e7d2b102d94bdbcde5b343f925a056fa960f8da0492db74a6c3ddd9ae`
+- `.continuity/SESSION_INDEX.yaml` — `4a18c038e5181818657de6c490e4c368e7d91f4d28f3e62950523fa3d1bef862`
+- `.continuity/TASK_CLAIMS.yaml` — `880c102eb188659b4d7f33bdea6db4546c41843b1fdd8444b406dc3df9b02dd2`
 - `.continuity/TASK_TRANSITIONS.yaml` — `e094b01a6329e09b381f6562df886a8afbd66d726e6b85faf5ead1eff90c2fb2`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e56027d8d927608242c103b76c6dd9bc99e0498a947e553b6e855a377dae7d3b`
-- `.continuity/ACTIVE_SESSION.yaml` — `2721ba3ca1252f750e5f01b2d077e53b5ff7e42bad5674d5f3fa4ec24744a02d`
+- `.continuity/ACTIVE_SESSION.yaml` — `706860d722cdee01f6d716481c73d1272f944017d5ca0bcf26d0d036f9eeb549`
 - `releases/R06/RELEASE_MANIFEST.yaml` — `72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878`
 - `releases/R06/DEFINITION_OF_READY.yaml` — `c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991`
 - `releases/R06/STORIES.yaml` — `dd81c97b0552c9342b5be360e918d26502b5e3d06fa8bafaba7648d43c96e7ef`
-- `releases/R06/TASKS.yaml` — `743d822bca6d189e7a068c0d76c84fec05c33230c721ef3640a7bc85c49b8e65`
+- `releases/R06/TASKS.yaml` — `f5f835924fb09a1a17205ec407cd2887040d02f52d40b61c1ed2a44eccab6380`
 - `releases/R06/ACCEPTANCE_MATRIX.csv` — `17fd558d7f8c9b543c4ecd27d63d4d2f7b2113dca03e43a43239429185a760bb`
-- `docs/03-continuity/sessions/2026-07/SES-20260720T163244Z-D1F3CEE8.md` — `3faf81641f41862563b11797b3aa9bf6a3bb134e1b1c29b6c7c7c5e2c31fe425`
-- `.continuity/checkpoints/SES-20260720T163244Z-D1F3CEE8/0003.yaml` — `4cdfd5cfae6ca294d9a0331f82c0dbe9367ca3c8586c6191802b38ba5191f68c`
 
 ## 接手硬规则
 

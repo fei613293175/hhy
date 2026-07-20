@@ -43,7 +43,7 @@ tasks:
   completed_at: '2026-07-20T16:22:57Z'
 - id: TASK-R06-003
   title: 统一内容基础、首页与CMS后端应用服务与接口
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R06-002
   requirements: *id001
@@ -57,9 +57,10 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  completed_at: '2026-07-20T17:21:13Z'
 - id: TASK-R06-004
   title: 统一内容基础、首页与CMS客户端/H5/后台实现
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R06-003
   requirements: *id001
