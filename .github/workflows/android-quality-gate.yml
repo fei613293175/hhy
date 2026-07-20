@@ -60,6 +60,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Configure portable Git behavior
+        run: git config core.quotepath false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -73,7 +75,7 @@ jobs:
       - name: Validate durable automation policy
         run: python scripts/android_ci_gate.py policy-check
       - name: Install Android build platform
-        run: sdkmanager 'platforms;android-37' 'build-tools;36.0.0'
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
       - name: Run source and visual foundation gates
         run: |
           python scripts/check_android_ui_foundation.py

@@ -709,3 +709,19 @@ problems:
   - 不得在WebView每次重组时以当前内部URL不同为由重载供应商初始URL
   - 不得静态假设实名入口永远未认证；必须读取服务端事实并恢复活动会话
   - 不得用通用409或422文案覆盖经过技术字段过滤的安全商业原因
+- id: PROB-0055
+  title: Android自动门禁首次迁移到GitHub Linux后因平台差异整链失败
+  status: SOLVED
+  root_cause: 仓库长期只在Windows工作区和固定Android服务器镜像验证，GitHub干净Linux克隆未显式关闭Git中文路径转义，四个Hook也未提交可执行位；供应商原始TXT又被通用文本换行规则过滤，Context Pack记录了Windows工作区CRLF字节。Android各模块同时依赖GitHub稳定SDK仓库没有的预览API 37，导致连续性、全量测试和Android构建在同一次流水线分别失败。
+  resolution: CR-0138把GitHub连续性、工具和Android工作流统一配置core.quotepath=false，四个Hook提交为100755，供应商原始证据按二进制逐字节冻结，并把全部Android模块compileSdk与构建平台收敛到正式稳定API 36；新增工作流和全模块SDK回归，后续必须在干净Linux克隆复现通过。
+  regression_checks:
+  - python -m unittest tests.test_android_ci_gate tests.test_r05_identity_vendor_contract
+  - python -m unittest discover -s tests -p 'test_*.py'
+  - python scripts/continuity_gate.py --mode ci --strict --base-ref HEAD^ --head-ref HEAD
+  - python scripts/project-doctor.py --strict
+  - GitHub Actions Android Quality Gate：build、emulator、candidate全部PASS
+  do_not_repeat:
+  - 不得采用GitHub标准runner无法安装的Android预览SDK作为正式商业项目编译基线
+  - 不得只在Windows工作区验证中文路径、换行和文件模式相关门禁
+  - 不得把用户提供的原始供应商证据当普通文本自动改写换行
+  - 不得在Hook缺少Linux可执行位或Context Pack依赖工作区CRLF时宣称可跨电脑、跨AI接续

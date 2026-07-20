@@ -143,6 +143,9 @@ class AndroidCiGateTest(unittest.TestCase):
         )
         source = workflow_path.read_text(encoding="utf-8")
         self.assertIn("connectedDebugAndroidTest", source)
+        self.assertIn("platforms;android-36", source)
+        self.assertNotIn("platforms;android-37", source)
+        self.assertIn("git config core.quotepath false", source)
         self.assertIn("adb logcat", source)
         self.assertIn("--no-parallel --max-workers=1", source)
         self.assertIn("-Xmx1536m", source)
@@ -158,6 +161,18 @@ class AndroidCiGateTest(unittest.TestCase):
     def test_main_ci_delegates_android_to_the_reusable_quality_gate(self) -> None:
         ci_source = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
         self.assertIn("./.github/workflows/android-quality-gate.yml", ci_source)
+
+    def test_every_android_module_uses_the_stable_compile_sdk(self) -> None:
+        module_builds = sorted((ROOT / "apps/android").glob("**/build.gradle.kts"))
+        compile_sdk_builds = [
+            path for path in module_builds
+            if "compileSdk" in path.read_text(encoding="utf-8")
+        ]
+        self.assertTrue(compile_sdk_builds)
+        for path in compile_sdk_builds:
+            source = path.read_text(encoding="utf-8")
+            self.assertIn("compileSdk = 36", source, path.as_posix())
+            self.assertNotIn("compileSdk = 37", source, path.as_posix())
 
 
 if __name__ == "__main__":

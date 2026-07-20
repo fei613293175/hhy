@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "cc.orbexa.hhy.network"
-    compileSdk = 37
+    compileSdk = 36
     defaultConfig { minSdk = 26 }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

@@ -48,7 +48,7 @@ tasks.configureEach {
 
 android {
     namespace = "cc.orbexa.hhy"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "cc.orbexa.hhy"

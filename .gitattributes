@@ -12,3 +12,6 @@
 *.png binary
 *.webp binary
 *.zip binary
+
+# 用户提供的第三方接口原始证据必须逐字节冻结；不得被 Git 换行过滤改写。
+docs/04-vendors/identity/source/输出内容(1).txt -text
