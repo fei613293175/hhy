@@ -37,6 +37,21 @@ class TestImpactMap(TestCase):
         self.assertIn("backend-module", ids)
         self.assertNotIn("integration-backend", ids)
 
+    def test_android_gate_changes_always_select_android_job(self) -> None:
+        gate_paths = [
+            ".github/workflows/android-quality-gate.yml",
+            ".github/workflows/ci.yml",
+            "config/android-automation.yaml",
+            "scripts/android_ci_gate.py",
+            "scripts/run_android_emulator_gate.sh",
+            "tests/test_android_ci_gate.py",
+        ]
+        for path in gate_paths:
+            with self.subTest(path=path):
+                plan = affected.build_plan(self.document, "MODULE", [path], root=ROOT)
+                self.assertIn("android", plan["ci_jobs"])
+                self.assertIn("android-module", {row["id"] for row in plan["checks"]})
+
     def test_integration_ignores_changed_path_filter(self) -> None:
         plan = affected.build_plan(self.document, "INTEGRATION", [], root=ROOT)
         ids = {row["id"] for row in plan["checks"]}

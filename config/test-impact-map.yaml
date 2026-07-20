@@ -137,6 +137,12 @@ checks:
   - apps/android/**
   - contracts/**
   - packages/domain-types/**
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/ci.yml
+  - config/android-automation.yaml
+  - scripts/android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - tests/test_android_ci_gate.py
   cwd: apps/android
   command: ['{gradle_wrapper}', --no-daemon, testDebugUnitTest, lintDebug]
   timeout_seconds: 1200

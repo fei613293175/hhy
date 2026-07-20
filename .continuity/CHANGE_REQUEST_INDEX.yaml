@@ -8411,3 +8411,91 @@ change_requests:
     session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+- protocol_version: '1.0'
+  cr_id: CR-0142
+  title: Android门禁自身变更必须触发Android全链
+  status: IMPLEMENTING
+  created_at: '2026-07-20T12:23:49Z'
+  updated_at: '2026-07-20T12:23:56Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-008
+  session_id: SES-20260720T095830Z-752E5121
+  user_request: 自动测试失败必须自行分析、修改、重新打包和重新测试
+  reason: 第四轮影响分析仅选择tooling，跳过了刚修改的Android模拟器门禁，存在测试系统未自测缺口
+  original_rule: android-module仅匹配apps/android、contracts和domain-types
+  new_rule: Android自动化策略、工作流、门禁脚本及其测试发生变化时必须选择android任务
+  impact_summary: 保证每次修改Android测试系统都会实际运行编译与模拟器全链
+  impact:
+    files:
+    - config/test-impact-map.yaml
+    - tests/test_run_affected_tests.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_run_affected_tests
+    releases:
+    - R05
+    migration_and_compatibility: 仅扩展CI影响映射，普通非Android改动仍按受影响范围执行
+  user_confirmation: 用户要求自动测试全部通过前不得完成版本
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T12:23:53Z'
+    note: 依据自动测试体系必须自验证的长期门禁要求
+  machine_record: .continuity/change_requests/CR-0142.yaml
+  document: docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
+  decision_log:
+  - at: '2026-07-20T12:23:56Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 扩展Android影响映射并补回归
+    session_id: SES-20260720T095830Z-752E5121
+  session_ids:
+  - SES-20260720T095830Z-752E5121
+- protocol_version: '1.0'
+  cr_id: CR-0143
+  title: 修复Linux临时Worktree禁止提交Hook执行位
+  status: IMPLEMENTING
+  created_at: '2026-07-20T12:25:46Z'
+  updated_at: '2026-07-20T12:25:54Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-008
+  session_id: SES-20260720T095830Z-752E5121
+  user_request: 自动测试失败必须自行分析、修改、重新打包和重新测试
+  reason: GitHub Tooling精确失败为parallel worktree回归；Linux上动态生成Hook默认为0644，导致委托工作树可绕过禁止提交门禁
+  original_rule: 临时Worktree只写入pre-commit和pre-push内容，未在POSIX系统赋可执行位
+  new_rule: 非Windows系统创建临时Hook后必须chmod 700并验证成功，任何失败关闭执行
+  impact_summary: 恢复Linux委托工作树禁止提交和推送的安全边界
+  impact:
+    files:
+    - scripts/prepare_parallel_worktrees.ps1
+    - tests/test_parallel_worktrees.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_parallel_worktrees
+    releases:
+    - R05
+    migration_and_compatibility: Windows行为不变；Linux和macOS补齐标准POSIX执行权限
+  user_confirmation: 用户要求自动测试失败后自行修复且换电脑AI保持规则
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T12:25:50Z'
+    note: 依据长期跨电脑跨AI与自动修复授权处理Linux安全门禁缺陷
+  machine_record: .continuity/change_requests/CR-0143.yaml
+  document: docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
+  decision_log:
+  - at: '2026-07-20T12:25:54Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 补齐POSIX临时Hook执行权限并回归
+    session_id: SES-20260720T095830Z-752E5121
+  session_ids:
+  - SES-20260720T095830Z-752E5121

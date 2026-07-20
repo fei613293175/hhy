@@ -169,8 +169,14 @@ if ($Execute) {
         if ($LASTEXITCODE -ne 0) { throw "git worktree add failed (no automatic cleanup attempted): $gitOutput" }
         $hooks = Join-Path $target ".hhy-no-commit-hooks"
         New-Item -ItemType Directory -Path $hooks -Force | Out-Null
-        "#!/bin/sh`necho 'Delegated scratch worktrees may not commit' >&2`nexit 1`n" | Set-Content -LiteralPath (Join-Path $hooks "pre-commit") -Encoding ASCII
-        "#!/bin/sh`necho 'Delegated scratch worktrees may not push' >&2`nexit 1`n" | Set-Content -LiteralPath (Join-Path $hooks "pre-push") -Encoding ASCII
+        $preCommitHook = Join-Path $hooks "pre-commit"
+        $prePushHook = Join-Path $hooks "pre-push"
+        "#!/bin/sh`necho 'Delegated scratch worktrees may not commit' >&2`nexit 1`n" | Set-Content -LiteralPath $preCommitHook -Encoding ASCII
+        "#!/bin/sh`necho 'Delegated scratch worktrees may not push' >&2`nexit 1`n" | Set-Content -LiteralPath $prePushHook -Encoding ASCII
+        if ([System.Environment]::OSVersion.Platform -ne [System.PlatformID]::Win32NT) {
+            & chmod 700 -- $preCommitHook $prePushHook
+            if ($LASTEXITCODE -ne 0) { throw "Cannot make delegated worktree hooks executable" }
+        }
         & $GitExecutable -C $repository config extensions.worktreeConfig true
         & $GitExecutable -C $target config --worktree core.hooksPath .hhy-no-commit-hooks
         $assignmentPath = Join-Path $registry "$WorkerId.json"

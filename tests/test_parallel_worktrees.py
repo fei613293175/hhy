@@ -87,6 +87,10 @@ class TestParallelWorktreePreparation(TestCase):
             self.assertEqual("ACTIVE", payload["status"])
             self.assertTrue((worktrees / "backend-1" / ".git").is_file())
             self.assertTrue((repository / ".git/hhy-parallel-assignments/backend-1.json").is_file())
+            if os.name != "nt":
+                hooks = worktrees / "backend-1" / ".hhy-no-commit-hooks"
+                self.assertTrue(os.access(hooks / "pre-commit", os.X_OK))
+                self.assertTrue(os.access(hooks / "pre-push", os.X_OK))
             blocked_commit = subprocess.run(
                 [self.git, "-C", str(worktrees / "backend-1"), "commit", "--allow-empty", "-m", "blocked"],
                 text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
