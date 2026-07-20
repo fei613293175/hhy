@@ -443,28 +443,32 @@ def file_content_token(root: Path, relative: str) -> dict[str, Any]:
 
 
 def git_blob_content_tokens(root: Path, relative_paths: Sequence[str]) -> list[dict[str, Any]]:
-    """Fingerprint tracked content in one Git clean-filter batch."""
-    existing: list[str] = []
-    tokens: dict[str, dict[str, Any]] = {}
+    """Use portable index blobs, overlaying only tracked working-tree edits."""
+    index: dict[str, str] = {}
+    for record in git(root, "ls-files", "-s", "-z").split("\0"):
+        if not record or "\t" not in record:
+            continue
+        metadata, relative = record.split("\t", 1)
+        fields = metadata.split()
+        if len(fields) >= 3 and fields[2] == "0":
+            index[relative] = fields[1]
+    modified = {
+        row for row in git(root, "diff", "--name-only", "HEAD", "--").splitlines() if row
+    }
+    tokens: list[dict[str, Any]] = []
     for relative in relative_paths:
         path = root / relative
-        if not path.exists() and not path.is_symlink():
-            tokens[relative] = {"path": relative, "state": "DELETED"}
+        if relative in modified:
+            if not path.exists() and not path.is_symlink():
+                tokens.append({"path": relative, "state": "DELETED"})
+                continue
+            object_id = git(root, "hash-object", f"--path={relative}", "--", relative)
         else:
-            existing.append(relative)
-    if existing:
-        result = run_command(
-            ["git", "hash-object", "--stdin-paths"],
-            cwd=root,
-            check=True,
-            input_text="\n".join(existing) + "\n",
-        )
-        object_ids = result.stdout.splitlines()
-        if len(object_ids) != len(existing):
-            raise ContinuityError("Git blob批量指纹数量不一致")
-        for relative, object_id in zip(existing, object_ids, strict=True):
-            tokens[relative] = {"path": relative, "state": "GIT_BLOB", "oid": object_id}
-    return [tokens[relative] for relative in relative_paths]
+            object_id = index.get(relative)
+            if not object_id:
+                raise ContinuityError(f"Git索引缺少已跟踪文件：{relative}")
+        tokens.append({"path": relative, "state": "GIT_BLOB", "oid": object_id})
+    return tokens
 
 
 def portable_source_record(root: Path, path: Path) -> dict[str, Any]:
