@@ -640,3 +640,9 @@
 - Actor：`codex-root`
 - 摘要：R05真机体验已由项目所有者通过；Android长期自动构建、APK、模拟器旅程、四张截图、日志、回归、自修复与候选资格体系由GitHub CI #244完整验证；R06顺序依赖已补齐
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md`
+
+## R05 关闭门禁跨环境修复 · 2026-07-20
+
+- 修复 Context Pack 将本机历史 APK 计入仓库树指纹、导致 GitHub 干净检出失败的问题。
+- 修复版本关闭后 `active_session=null` 时并行计划回归测试崩溃的问题。
+- 关闭态改由 `CURRENT_STATUS` / `NEXT_TASK` 恢复 Release 上下文；R06 仍仅为 READY，未启动开发。

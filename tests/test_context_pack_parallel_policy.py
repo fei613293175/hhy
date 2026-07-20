@@ -1,12 +1,16 @@
 from __future__ import annotations
 
 from pathlib import Path
+from tempfile import TemporaryDirectory
+import sys
 import unittest
 
 import yaml
 
-
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from continuity_lib import portable_source_record, tree_fingerprint
 
 
 class ContextPackParallelPolicyTest(unittest.TestCase):
@@ -23,8 +27,41 @@ class ContextPackParallelPolicyTest(unittest.TestCase):
         context = yaml.safe_load((ROOT / "artifacts/context/CURRENT_CONTEXT_PACK.yaml").read_text(encoding="utf-8"))
         sources = {row["path"] for row in context["source_manifest"]}
         self.assertIn("releases/PROGRAM_EXECUTION_PLAN.yaml", sources)
-        release = context["active_session"]["release"]
-        self.assertIn(f"releases/{release}/PARALLEL_EXECUTION_PLAN.yaml", sources)
+        active_session = context.get("active_session") or {}
+        release = (
+            active_session.get("release")
+            or (context.get("current_status") or {}).get("active_release")
+            or (context.get("next_task") or {}).get("release")
+        )
+        self.assertTrue(release, "Context Pack必须能在活跃或关闭状态解析当前Release")
+        parallel_plan = ROOT / "releases" / release / "PARALLEL_EXECUTION_PLAN.yaml"
+        parallel_source = f"releases/{release}/PARALLEL_EXECUTION_PLAN.yaml"
+        if parallel_plan.exists():
+            self.assertIn(parallel_source, sources)
+        else:
+            self.assertNotIn(parallel_source, sources)
+
+    def test_repository_fingerprint_ignores_local_apk_binaries(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "source.txt").write_text("tracked project content\n", encoding="utf-8")
+            before = tree_fingerprint(root)
+            apk = root / "artifacts/apk/R05/local-debug.apk"
+            apk.parent.mkdir(parents=True)
+            apk.write_bytes(b"local apk binary must not affect repository context")
+            after = tree_fingerprint(root)
+        self.assertEqual(before, after)
+
+    def test_context_source_record_is_portable_across_git_line_endings(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "releases/R06/ACCEPTANCE_MATRIX.csv"
+            source.parent.mkdir(parents=True)
+            source.write_bytes(b"id,status\nR06,READY\n")
+            lf_record = portable_source_record(root, source)
+            source.write_bytes(b"id,status\r\nR06,READY\r\n")
+            crlf_record = portable_source_record(root, source)
+        self.assertEqual(lf_record, crlf_record)
 
     def test_context_carries_runtime_and_transport_policy(self) -> None:
         context = yaml.safe_load((ROOT / "artifacts/context/CURRENT_CONTEXT_PACK.yaml").read_text(encoding="utf-8"))

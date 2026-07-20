@@ -742,3 +742,16 @@ problems:
   do_not_repeat:
   - 项目所有者将版本推进规则从功能依赖调整为顺序推进后，必须同步更新机器可读依赖图
   - 不得绕过连续性关闭门禁直接启动下一Release
+- id: PROB-0057
+  title: R05关闭态Context混入本机APK且回归测试错误要求活跃会话
+  status: SOLVED
+  root_cause: tree_fingerprint遍历整个工作区时没有排除被Git忽略的APK二进制，导致本机Context Pack包含历史测试APK而GitHub干净检出不包含；test_context_pack_parallel_policy又直接解引用active_session.release，无法覆盖版本正确关闭后的active_session=null状态。
+  resolution: CR-0146把APK加入不可移植产物排除规则；关闭态Context继续从CURRENT_STATUS或NEXT_TASK解析当前Release，并纳入该Release实际存在的来源文件，不为尚未启动的Release伪造并行计划；回归测试同时覆盖无活跃会话和本地APK不影响仓库指纹。
+  regression_checks:
+  - python tests/test_context_pack_parallel_policy.py
+  - clean worktree python scripts/continuity_gate.py --mode ci --strict --base-ref HEAD^ --head-ref HEAD
+  - GitHub Actions Continuity Gate与CI tooling任务通过
+  do_not_repeat:
+  - Context Pack仓库树指纹不得纳入Git忽略的APK、缓存、构建目录或其他仅存在于单机的产物
+  - 版本关闭后active_session为null是正常状态，测试必须从CURRENT_STATUS或NEXT_TASK恢复Release上下文
+  - 本机门禁通过后必须在干净Worktree复现，禁止把开发机残留文件当作远端事实

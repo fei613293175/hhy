@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-20T13:41:00Z'
+generated_at: '2026-07-20T14:27:42Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -77,7 +77,7 @@ current_status:
   - TASK-R02-007
   - TASK-R03-007
   next_task: TASK-R06-001
-  updated_at: '2026-07-20T13:31:05Z'
+  updated_at: '2026-07-20T14:27:40Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -112,14 +112,14 @@ current_status:
     active_session_id: null
     last_session_id: SES-20260720T095830Z-752E5121
     last_session_result: COMPLETED
-    last_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0022.yaml
+    last_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0029.yaml
     last_handoff_bundle: null
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: defd00671d8671322dd7668e2f115bee1d27f34158b8656b76112c933af96a8d
-      generated_at: '2026-07-20T13:31:04Z'
+      context_hash: e08812caed722246679f15192a1a84e7536b83c543dd91d45530ed45552df03c
+      generated_at: '2026-07-20T14:27:39Z'
 next_task:
   id: TASK-R06-001
   title: 统一内容基础、首页与CMS开发就绪核验、故事领取与变更基线
@@ -161,14 +161,31 @@ latest_checkpoint: null
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: a215eb89e4177b1fcd6898a61596be9f211a4605
+  head: 2ce836b8d4c3af2a5b60efa1fdea245c81d0cc3d
   upstream: origin/task/TASK-R03-001
   ahead: 1
   behind: 0
-  dirty: false
-  status_porcelain: []
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260720T095830Z-752E5121.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md'
+  - ' M scripts/continuity_lib.py'
+  - ' M tests/test_context_pack_parallel_policy.py'
+  - ?? .continuity/checkpoints/SES-20260720T095830Z-752E5121/0028.yaml
+  - ?? .continuity/checkpoints/SES-20260720T095830Z-752E5121/0029.yaml
   recent_commits:
-  - "a215eb89e4177b1fcd6898a61596be9f211a4605\t2026-07-20T21:39:50+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-008\
+  - "2ce836b8d4c3af2a5b60efa1fdea245c81d0cc3d\t2026-07-20T22:22:59+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(continuity): close portable\
+    \ R05 automation"
+  - "75f2a66cab06bd6cdce1ce0e73067a3c53a7d522\t2026-07-20T21:41:22+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-008\
     \ as completed"
   - "3a159bb8f6a0d1314b84a76a5b68cbbd6d69d39c\t2026-07-20T21:30:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close sequential\
     \ release CR"
@@ -182,10 +199,8 @@ git:
     \ in adb temp"
   - "fc9866c941355fa2f00db4c1f8cb37cd777645bb\t2026-07-20T20:48:24+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): preserve emulator\
     \ screenshot evidence"
-  - "0d2019f8ccb0c45da9a6700be3185aae57e08a00\t2026-07-20T20:32:21+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): close Android impact-map\
-    \ bootstrap"
 project_fingerprint:
-  sha256: 3f6df8aad7885228e2af750f139d485db61311fb84a054ea60063af2128dcca9
+  sha256: d224f1ad8fb63c6715461aba791432bfb4a41df2dfa679c2b632b1c34918bfd0
   files: []
   file_count: 0
 release_context:
@@ -1110,9 +1125,9 @@ continuity_state:
   active_session_id: null
   last_session_id: SES-20260720T095830Z-752E5121
   last_session_result: COMPLETED
-  last_closure_checkpoint_id: CP-SES-20260720T095830Z-752E5121-0022
-  event_count: 1481
-  event_head_hash: 03ecaf8fffb3f38b2899e52769f6be41a68925ec03b327f4327e781b3f413bb4
+  last_closure_checkpoint_id: CP-SES-20260720T095830Z-752E5121-0029
+  event_count: 1497
+  event_head_hash: 29a7ec99fa6ecde448231d0c980b90c6010b7e41d44397fce1956b86ae7ecbe3
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260719T144443Z-BF11796E
@@ -1231,9 +1246,9 @@ recent_sessions:
   started_at: '2026-07-20T09:58:30Z'
   record: .continuity/sessions/SES-20260720T095830Z-752E5121.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-  updated_at: '2026-07-20T13:31:05Z'
-  closed_at: '2026-07-20T13:31:05Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0022.yaml
+  updated_at: '2026-07-20T14:27:40Z'
+  closed_at: '2026-07-20T14:27:40Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0029.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-D402CCF0F4A1
@@ -5984,7 +5999,7 @@ source_manifest:
   sha256: 038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a
   bytes: 3477
 - path: CURRENT_STATUS.yaml
-  sha256: aad6d9ed650bcb095046038d2293a414ec5549daff6470d00cbaf261ddbbb096
+  sha256: aa70c1091fa43b8e16f46a9a2f56df990bf51b8f99bc9dfef7c87c405aa17564
   bytes: 3509
 - path: NEXT_TASK.yaml
   sha256: 03c8ab1a13c3c5e692bcbdb4ad3bf4142e2a70463965e858a16bf98a436a875b
@@ -5996,8 +6011,8 @@ source_manifest:
   sha256: 045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511
   bytes: 1442
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: 99ac95b44c8af2b663028ced535b1e68778ea07a650811148a820d0bb33264e4
-  bytes: 66956
+  sha256: d2993f7f37d9ec3fdb04aa4899b5f0f5f2a02048e7aea16b3e21255bdc281eb3
+  bytes: 68304
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
   sha256: 0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da
   bytes: 2555
@@ -6017,10 +6032,10 @@ source_manifest:
   sha256: 35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6
   bytes: 11116
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: f227df437719eb89e1abd510ed9b7faa8c44c9fc7b905f00faae853bb198e6ac
-  bytes: 819058
+  sha256: 1ff4e8c2f39b99275dc568def08a74960071d4eb90b9be4cbe31f5595f7f8b4f
+  bytes: 827683
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 1ba0caff9ee1a05c7d54060a98dfa2b710f8cad8c6aa26ab0aea87ee88cf66c9
+  sha256: 6cfc78a51f7c2b1a205dd865ef193cae287163332622d59a3d7e74319a0c5bc3
   bytes: 25826
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 66178e2f525b72652d0612de7995722db92f31bf50ac68238c00c07468dd5702
@@ -6029,11 +6044,26 @@ source_manifest:
   sha256: 6b84bba6c64711ba15832b715ebe1e0511e794712aa95a94a57a8c04c5d1391d
   bytes: 14883
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: d3d5d0bef765fa899e7b8a7872f30e1139ce95d6bdde0c18dc460d2a9d04211f
-  bytes: 446543
+  sha256: f53fc1fb941f74c60600d03e30190063f3aa2d946cab77b1f2a1687a12fd14d7
+  bytes: 449341
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: cc03cd8073ac2eb161e24e05cd5d0548ff86321c5659eea10c8e35581aa7b06b
+  sha256: c4deeeebab0961e706bb52df27df8a2395930fc329c17edd793d59d7fea64540
   bytes: 143
+- path: releases/R06/RELEASE_MANIFEST.yaml
+  sha256: 6bae3ad9d7003cf580a53484412726cb2821bc03021161b23071e3d823a2d549
+  bytes: 2780
+- path: releases/R06/DEFINITION_OF_READY.yaml
+  sha256: c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991
+  bytes: 7073
+- path: releases/R06/STORIES.yaml
+  sha256: dd81c97b0552c9342b5be360e918d26502b5e3d06fa8bafaba7648d43c96e7ef
+  bytes: 15016
+- path: releases/R06/TASKS.yaml
+  sha256: 6b2160803ac3ff892e7484ae737f089d506b6bf83ba4e7029f07e7ccdd88a51f
+  bytes: 5572
+- path: releases/R06/ACCEPTANCE_MATRIX.csv
+  sha256: 17fd558d7f8c9b543c4ecd27d63d4d2f7b2113dca03e43a43239429185a760bb
+  bytes: 684
 exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-001
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
@@ -6047,4 +6077,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 7007d820302b145e89133c623a204852f286ac8c135c1755692f32757612a1d2
+context_hash: ac7d1a3f5933bfd4b60090691e37e79c2bb4af038193b9204f39d844bd004568

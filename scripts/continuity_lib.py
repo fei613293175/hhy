@@ -85,6 +85,7 @@ PORTABLE_EXCLUDE_PATTERNS = (
     "**/*.pfx",
     "**/*.jks",
     "**/*.keystore",
+    "**/*.apk",
     "**/*secret*",
     "**/*private_key*",
 )
@@ -436,6 +437,16 @@ def file_content_token(root: Path, relative: str) -> dict[str, Any]:
         "state": "FILE",
         "size": len(content),
         "sha256": hashlib.sha256(content).hexdigest(),
+    }
+
+
+def portable_source_record(root: Path, path: Path) -> dict[str, Any]:
+    """Describe a Context Pack source independently of Git checkout EOLs."""
+    content = canonical_fingerprint_bytes(path.read_bytes())
+    return {
+        "path": path.relative_to(root).as_posix(),
+        "sha256": hashlib.sha256(content).hexdigest(),
+        "bytes": len(content),
     }
 
 
@@ -1180,7 +1191,11 @@ def expected_commit_trailers(session: dict[str, Any], checkpoint: dict[str, Any]
     return trailers
 
 
-def context_source_paths(root: Path, session: dict[str, Any] | None) -> list[Path]:
+def context_source_paths(
+    root: Path,
+    session: dict[str, Any] | None,
+    release: str | None = None,
+) -> list[Path]:
     paths = [
         root / "AGENTS.md",
         root / "START_HERE.md",
@@ -1204,8 +1219,8 @@ def context_source_paths(root: Path, session: dict[str, Any] | None) -> list[Pat
         # would make every freshly generated Context Pack immediately stale.
         root / ACTIVE_FILE,
     ]
-    if session:
-        release = session["release"]
+    release = (session or {}).get("release") or release
+    if release:
         paths.extend(
             [
                 root / "releases" / release / "RELEASE_MANIFEST.yaml",
@@ -1214,11 +1229,12 @@ def context_source_paths(root: Path, session: dict[str, Any] | None) -> list[Pat
                 root / "releases" / release / "TASKS.yaml",
                 root / "releases" / release / "ACCEPTANCE_MATRIX.csv",
                 root / "releases" / release / "PARALLEL_EXECUTION_PLAN.yaml",
-                # The machine session record receives the generated Context Pack
-                # pointer after generation, so it must not fingerprint itself.
-                root / session["session_log"],
             ]
         )
+    if session:
+        # The machine session record receives the generated Context Pack pointer
+        # after generation, so it must not fingerprint itself.
+        paths.append(root / session["session_log"])
         if session.get("latest_checkpoint"):
             paths.append(root / session["latest_checkpoint"])
         for cr_id in session.get("change_requests", []):
@@ -1238,21 +1254,14 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
     next_task = read_next_task(root)
     git_state = git_info(root)
     checkpoint = latest_checkpoint(root, session) if session else None
-    source_paths = context_source_paths(root, session)
-    source_manifest = [
-        {
-            "path": path.relative_to(root).as_posix(),
-            "sha256": sha256_file(path),
-            "bytes": path.stat().st_size,
-        }
-        for path in source_paths
-    ]
+    release = (session or {}).get("release") or status.get("active_release") or next_task.get("release")
+    source_paths = context_source_paths(root, session, release)
+    source_manifest = [portable_source_record(root, path) for path in source_paths]
     fingerprint = project_fingerprint(root, session) if session else {
         "sha256": tree_fingerprint(root)["sha256"],
         "files": [],
         "file_count": 0,
     }
-    release = (session or {}).get("release") or status.get("active_release") or next_task.get("release")
     release_docs: dict[str, Any] = {}
     if release:
         for name in ["RELEASE_MANIFEST.yaml", "DEFINITION_OF_READY.yaml", "STORIES.yaml", "TASKS.yaml", "PARALLEL_EXECUTION_PLAN.yaml"]:
@@ -1521,7 +1530,7 @@ def context_is_fresh(root: Path, session: dict[str, Any] | None = None) -> tuple
         path = root / source["path"]
         if not path.exists():
             return False, f"Context Pack来源缺失：{source['path']}"
-        if sha256_file(path) != source["sha256"]:
+        if portable_source_record(root, path)["sha256"] != source["sha256"]:
             return False, f"Context Pack已过期：{source['path']}发生变化"
     if session:
         checkpoint = latest_checkpoint(root, session)
