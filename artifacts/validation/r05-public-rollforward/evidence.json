@@ -1,0 +1,24 @@
+{
+  "schema": "hhy.r05-public-rollforward/v1",
+  "verified_at": "2026-07-20T01:20:00Z",
+  "api_base_url": "https://api.orbexa.cc",
+  "previous_upstream": "http://127.0.0.1:28084",
+  "current_upstream": "http://127.0.0.1:28085",
+  "candidate_container": "hhy-r05-public-candidate-20260720-091536",
+  "candidate_image": "hhy-backend-r05-smoke:c2bc1ab",
+  "database_backup": {
+    "server_path": "/root/hhy-backups/r05-public-rollforward/hhy_staging-before-r05-20260720-091516.dump",
+    "sha256": "264053609f1db0cf18973998b5d9528d45c57e7df9123a529088beab3f0e4d9a",
+    "restore_catalog_validation": "PASS"
+  },
+  "rollback_nginx_config": "/www/server/panel/vhost/nginx/api.orbexa.cc.conf.before-r05-20260720-091843",
+  "checks": {
+    "candidate_readiness": "PASS",
+    "candidate_public_status": "PASS",
+    "existing_user_data_preserved": "PASS",
+    "r02_public_auth_regression": "PASS",
+    "r05_public_registration": "PASS",
+    "r05_identity_consent_http_200": "PASS",
+    "r05_identity_consent_content_length": 239
+  }
+}

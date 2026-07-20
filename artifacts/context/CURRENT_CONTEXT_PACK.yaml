@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-20T00:58:10Z'
+generated_at: '2026-07-20T01:26:57Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -76,7 +76,7 @@ current_status:
   - TASK-R02-007
   - TASK-R03-007
   next_task: TASK-R05-007
-  updated_at: '2026-07-20T00:58:08Z'
+  updated_at: '2026-07-20T01:26:56Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -111,15 +111,15 @@ current_status:
     active_session_id: SES-20260719T234639Z-1D7D7A00
     actor_id: codex-root
     story_id: STORY-R05-001
-    lease_expires_at: '2026-07-20T04:58:08Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
-    project_fingerprint: dcd571badd598b5ecd773f744fd90366ff0df88f55185e8f90ad958f3dec79c0
+    lease_expires_at: '2026-07-20T05:26:55Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0014.yaml
+    project_fingerprint: 52f1409b459f2b3389e7556e9f094072835728d06fd902497b0e40b9bfe184f3
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 6aabd5fda62a6d242b6c645e1caf6d79101e699bbf253f97dfef14339a931d1c
-      generated_at: '2026-07-20T00:54:58Z'
+      context_hash: 1a5ba00a41fee639310a4372935f02dcb3bdb1fd42874615ba753be802053730
+      generated_at: '2026-07-20T01:24:40Z'
     handoff_bundle: null
 next_task:
   id: TASK-R05-007
@@ -168,7 +168,7 @@ active_session:
   story_id: STORY-R05-001
   goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
   started_at: '2026-07-19T23:46:39Z'
-  updated_at: '2026-07-20T00:58:08Z'
+  updated_at: '2026-07-20T01:26:55Z'
   takeover_of: null
   change_requests:
   - CR-0109
@@ -236,12 +236,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-20T00:58:08Z'
-    expires_at: '2026-07-20T04:58:08Z'
-  checkpoint_sequence: 11
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
+    renewed_at: '2026-07-20T01:26:55Z'
+    expires_at: '2026-07-20T05:26:55Z'
+  checkpoint_sequence: 14
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0014.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  next_step: 提交并推送CR实施状态与最终Context检查点；随后按catalogs/ui_visual_acceptance.csv继续处理R05视觉规格和页面重构，未PASS前不关闭R05。
+  next_step: 等待批准的R05七页精确视觉规格，按规格重构并完成截图、APK和版本关闭门禁。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -249,46 +249,64 @@ active_session:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 当前仅剩两个CR状态、Context和检查点的原子审计链更新，不存在可独立委托的代码工作包。
+    reason: 公网迁移和最终集成需主控串行；缺失视觉事实源时禁止并行自行构图。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0011
+  checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0014
   session_id: SES-20260719T234639Z-1D7D7A00
-  sequence: 11
-  created_at: '2026-07-20T00:58:08Z'
-  summary: CR-0113与CR-0114已绑定实现提交edebf46并标记IMPLEMENTED；主实现已通过pre-commit、commit-msg、pre-push并推送远端。
-  next_step: 提交并推送CR实施状态与最终Context检查点；随后按catalogs/ui_visual_acceptance.csv继续处理R05视觉规格和页面重构，未PASS前不关闭R05。
+  sequence: 14
+  created_at: '2026-07-20T01:26:55Z'
+  summary: 补齐R05公网实名门禁的自动化回归测试；公网真实注册与授权说明读取再次通过。
+  next_step: 等待批准的R05七页精确视觉规格，按规格重构并完成截图、APK和版本关闭门禁。
   blockers: []
   decisions: []
   note: ''
   tests:
-  - name: REMOTE_COMMIT
+  - name: R05_PUBLIC_IDENTITY_REGRESSION
     result: PASS
-    evidence: edebf46c74be5e43c8d19b4d2168fbb3d20ff690
-    note: UI零漂移门禁已推送
-  - name: PRE_PUSH_GATE
+    evidence: python -m unittest tests.test_r05_public_identity_gate -v
+    note: 2 tests PASS
+  - name: R05_PUBLIC_IDENTITY_LIVE
     result: PASS
-    evidence: origin/task/TASK-R03-001 137e8f8..edebf46
-    note: 严格预推送门禁0错误
+    evidence: scripts/check_r05_public_identity.py --api-base-url https://api.orbexa.cc
+    note: 真实注册与授权说明HTTP 200
+  - name: R05_UI_VISUAL_ACCEPTANCE
+    result: FAIL
+    evidence: scripts/check_ui_visual_acceptance.py --release R05
+    note: 缺精确视觉规格与实现截图，禁止关闭
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: edebf46c74be5e43c8d19b4d2168fbb3d20ff690
+    head: fee16bae9010e33b0ff1d526dedf218a59787c61
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-    - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/STATE.yaml'
-    - ' M .continuity/change_requests/CR-0113.yaml'
-    - ' M .continuity/change_requests/CR-0114.yaml'
-    - ' M catalogs/change_request_index.csv'
-    - ' M catalogs/session_index.csv'
-    - ' M docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md'
-    - ' M docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md'
+    - M  .continuity/ACTIVE_SESSION.yaml
+    - M  .continuity/EVENT_LOG.jsonl
+    - M  .continuity/SESSION_INDEX.yaml
+    - M  .continuity/STATE.yaml
+    - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0012.yaml
+    - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0013.yaml
+    - M  .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
+    - M  CHANGELOG.md
+    - M  CURRENT_STATUS.yaml
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+    - A  artifacts/reports/R05/R05-UI精确视觉规格补充任务说明.md
+    - M  artifacts/reports/R05/TASK-R05-007-android-apk.md
+    - A  artifacts/validation/r05-public-rollforward/evidence.json
+    - M  catalogs/session_index.csv
+    - M  docs/03-continuity/PITFALLS.md
+    - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - M  docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
+    - AM scripts/check_r05_public_identity.py
+    - ?? tests/test_r05_public_identity_gate.py
     recent_commits:
+    - "fee16bae9010e33b0ff1d526dedf218a59787c61\t2026-07-20T08:58:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind\
+      \ UI gate implementation"
     - "edebf46c74be5e43c8d19b4d2168fbb3d20ff690\t2026-07-20T08:56:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(ui): enforce exact\
       \ visual acceptance"
     - "137e8f80a90f6d1b166a94fd3520f078213c7ca5\t2026-07-20T08:23:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind\
@@ -303,10 +321,8 @@ latest_checkpoint:
       \ test APK identity"
     - "0c3aa012f4bdbfd59f0d591cf99632794fd8c612\t2026-07-20T07:46:13+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
       \ clean context before R05-007"
-    - "c0bfa11a1aaf5de798465c72496150df15728cd4\t2026-07-20T07:42:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close\
-      \ TASK-R05-006 as completed"
   project_fingerprint:
-    sha256: dcd571badd598b5ecd773f744fd90366ff0df88f55185e8f90ad958f3dec79c0
+    sha256: 52f1409b459f2b3389e7556e9f094072835728d06fd902497b0e40b9bfe184f3
     files:
     - AGENTS.md
     - CHANGELOG.md
@@ -329,12 +345,14 @@ latest_checkpoint:
     - releases/R05/ACCEPTANCE_MATRIX.csv
     - releases/R05/PARALLEL_EXECUTION_PLAN.yaml
     - releases/R05/RELEASE_MANIFEST.yaml
+    - scripts/check_r05_public_identity.py
     - scripts/check_release_artifacts.py
     - scripts/check_ui_visual_acceptance.py
     - templates/AGENTS.md
+    - tests/test_r05_public_identity_gate.py
     - tests/test_release_close_gate.py
     - tests/test_ui_visual_acceptance.py
-    file_count: 26
+    file_count: 28
     payload:
       base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
       files:
@@ -344,8 +362,8 @@ latest_checkpoint:
         sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
       - path: CHANGELOG.md
         state: FILE
-        size: 46648
-        sha256: a9005190c1c6b56e590dfda61196a561ddc6a45cd12ac0a902562ae21e70d63d
+        size: 46974
+        sha256: 317fc66500a9bbce5917631027eeefd60ce7b60df8f17be6de274c229f36639a
       - path: apps/android/app/build.gradle.kts
         state: FILE
         size: 4705
@@ -376,12 +394,12 @@ latest_checkpoint:
         sha256: 11aaffded8a6594f23cfa2b6b70d8ebc23e24e75232c087862250f3334a1ad09
       - path: docs/03-continuity/PITFALLS.md
         state: FILE
-        size: 787
-        sha256: dcfc42ff470a8e6bd53bb1934bb9ef3bae599839e3f5dbf8a2fbfe61074db8ac
+        size: 985
+        sha256: 5dbce8398f4f0f6bf6686fdf8491fca1904b0b6a52dfea15b4d4cac2aebfcc0d
       - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
         state: FILE
-        size: 51657
-        sha256: 96a60d831d36bd8e115f08ef770625c2bd5e33c5d4cd139b6d136737961a4752
+        size: 53170
+        sha256: c036ca84bf98c6ad83980cc7aa2afe0eb510f9d1c4e804292225608aa77344f2
       - path: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
         state: FILE
         size: 2321
@@ -422,6 +440,10 @@ latest_checkpoint:
         state: FILE
         size: 3694
         sha256: 2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b
+      - path: scripts/check_r05_public_identity.py
+        state: FILE
+        size: 5285
+        sha256: e65559458c7fe627666858b852b102797e7a9f0cf10e37bb925e6cc9cf6f1fa4
       - path: scripts/check_release_artifacts.py
         state: FILE
         size: 17911
@@ -434,6 +456,10 @@ latest_checkpoint:
         state: FILE
         size: 9362
         sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
+      - path: tests/test_r05_public_identity_gate.py
+        state: FILE
+        size: 1733
+        sha256: b88efceefe54f6f43efc2f5c598ad3f71bb81ca792c309640036ba1c1c931067
       - path: tests/test_release_close_gate.py
         state: FILE
         size: 14728
@@ -456,6 +482,7 @@ latest_checkpoint:
     - apps/android/app/build.gradle.kts
     - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
     - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - scripts/check_r05_public_identity.py
     - scripts/check_release_artifacts.py
     - scripts/check_ui_visual_acceptance.py
     user_visible:
@@ -477,6 +504,7 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md
     - docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
     tests:
+    - tests/test_r05_public_identity_gate.py
     - tests/test_release_close_gate.py
     - tests/test_ui_visual_acceptance.py
   required_records:
@@ -548,33 +576,42 @@ latest_checkpoint:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 当前仅剩两个CR状态、Context和检查点的原子审计链更新，不存在可独立委托的代码工作包。
-  event_hash: cabd4b3eb7e92a5eff2c557e0d7e4778296c9b75106b6eec12cbf6cddd3b43e6
+    reason: 公网迁移和最终集成需主控串行；缺失视觉事实源时禁止并行自行构图。
+  event_hash: 901cdebd694cc1ad71b527a8a2854e89afc544167b84de1a1b31c0751f3c7f8e
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: edebf46c74be5e43c8d19b4d2168fbb3d20ff690
+  head: fee16bae9010e33b0ff1d526dedf218a59787c61
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0113.yaml'
-  - ' M .continuity/change_requests/CR-0114.yaml'
-  - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md'
-  - ' M docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
+  - MM .continuity/ACTIVE_SESSION.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - MM .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0012.yaml
+  - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0013.yaml
+  - MM .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
+  - M  CHANGELOG.md
+  - MM CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - A  artifacts/reports/R05/R05-UI精确视觉规格补充任务说明.md
+  - M  artifacts/reports/R05/TASK-R05-007-android-apk.md
+  - A  artifacts/validation/r05-public-rollforward/evidence.json
+  - MM catalogs/session_index.csv
+  - M  docs/03-continuity/PITFALLS.md
+  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - MM docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
+  - AM scripts/check_r05_public_identity.py
+  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0014.yaml
+  - ?? tests/test_r05_public_identity_gate.py
   recent_commits:
+  - "fee16bae9010e33b0ff1d526dedf218a59787c61\t2026-07-20T08:58:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind UI\
+    \ gate implementation"
   - "edebf46c74be5e43c8d19b4d2168fbb3d20ff690\t2026-07-20T08:56:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(ui): enforce exact visual\
     \ acceptance"
   - "137e8f80a90f6d1b166a94fd3520f078213c7ca5\t2026-07-20T08:23:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind R05\
@@ -589,10 +626,8 @@ git:
     \ test APK identity"
   - "0c3aa012f4bdbfd59f0d591cf99632794fd8c612\t2026-07-20T07:46:13+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
     \ clean context before R05-007"
-  - "c0bfa11a1aaf5de798465c72496150df15728cd4\t2026-07-20T07:42:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-006\
-    \ as completed"
 project_fingerprint:
-  sha256: dcd571badd598b5ecd773f744fd90366ff0df88f55185e8f90ad958f3dec79c0
+  sha256: 52f1409b459f2b3389e7556e9f094072835728d06fd902497b0e40b9bfe184f3
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -615,12 +650,14 @@ project_fingerprint:
   - releases/R05/ACCEPTANCE_MATRIX.csv
   - releases/R05/PARALLEL_EXECUTION_PLAN.yaml
   - releases/R05/RELEASE_MANIFEST.yaml
+  - scripts/check_r05_public_identity.py
   - scripts/check_release_artifacts.py
   - scripts/check_ui_visual_acceptance.py
   - templates/AGENTS.md
+  - tests/test_r05_public_identity_gate.py
   - tests/test_release_close_gate.py
   - tests/test_ui_visual_acceptance.py
-  file_count: 26
+  file_count: 28
   payload:
     base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
     files:
@@ -630,8 +667,8 @@ project_fingerprint:
       sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
     - path: CHANGELOG.md
       state: FILE
-      size: 46648
-      sha256: a9005190c1c6b56e590dfda61196a561ddc6a45cd12ac0a902562ae21e70d63d
+      size: 46974
+      sha256: 317fc66500a9bbce5917631027eeefd60ce7b60df8f17be6de274c229f36639a
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 4705
@@ -662,12 +699,12 @@ project_fingerprint:
       sha256: 11aaffded8a6594f23cfa2b6b70d8ebc23e24e75232c087862250f3334a1ad09
     - path: docs/03-continuity/PITFALLS.md
       state: FILE
-      size: 787
-      sha256: dcfc42ff470a8e6bd53bb1934bb9ef3bae599839e3f5dbf8a2fbfe61074db8ac
+      size: 985
+      sha256: 5dbce8398f4f0f6bf6686fdf8491fca1904b0b6a52dfea15b4d4cac2aebfcc0d
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 51657
-      sha256: 96a60d831d36bd8e115f08ef770625c2bd5e33c5d4cd139b6d136737961a4752
+      size: 53170
+      sha256: c036ca84bf98c6ad83980cc7aa2afe0eb510f9d1c4e804292225608aa77344f2
     - path: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
       state: FILE
       size: 2321
@@ -708,6 +745,10 @@ project_fingerprint:
       state: FILE
       size: 3694
       sha256: 2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b
+    - path: scripts/check_r05_public_identity.py
+      state: FILE
+      size: 5285
+      sha256: e65559458c7fe627666858b852b102797e7a9f0cf10e37bb925e6cc9cf6f1fa4
     - path: scripts/check_release_artifacts.py
       state: FILE
       size: 17911
@@ -720,6 +761,10 @@ project_fingerprint:
       state: FILE
       size: 9362
       sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
+    - path: tests/test_r05_public_identity_gate.py
+      state: FILE
+      size: 1733
+      sha256: b88efceefe54f6f43efc2f5c598ad3f71bb81ca792c309640036ba1c1c931067
     - path: tests/test_release_close_gate.py
       state: FILE
       size: 14728
@@ -1909,8 +1954,8 @@ continuity_state:
   last_session_id: SES-20260719T230526Z-55ABC07F
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0004
-  event_count: 1227
-  event_head_hash: cabd4b3eb7e92a5eff2c557e0d7e4778296c9b75106b6eec12cbf6cddd3b43e6
+  event_count: 1230
+  event_head_hash: 901cdebd694cc1ad71b527a8a2854e89afc544167b84de1a1b31c0751f3c7f8e
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260719T135908Z-32D952EC
@@ -2029,9 +2074,9 @@ recent_sessions:
   started_at: '2026-07-19T23:46:39Z'
   record: .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  updated_at: '2026-07-20T00:58:08Z'
+  updated_at: '2026-07-20T01:26:55Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0014.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-1B426B903146
@@ -5533,7 +5578,7 @@ source_manifest:
   sha256: 038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a
   bytes: 3477
 - path: CURRENT_STATUS.yaml
-  sha256: 3fa5c653de024fbefa86f683e10b15162fe5a42a8bf5eb9e5c6b8045252bc701
+  sha256: 9cb3fc669a307e5555bedfa979cd11190f17afc2799e08f252724861d094bed1
   bytes: 3617
 - path: NEXT_TASK.yaml
   sha256: bd22bac1e2b0308bd77f173dca3ac229dff82931447bff00e89661b483b14ee0
@@ -5545,14 +5590,14 @@ source_manifest:
   sha256: 045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511
   bytes: 1442
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: 96a60d831d36bd8e115f08ef770625c2bd5e33c5d4cd139b6d136737961a4752
-  bytes: 51657
+  sha256: c036ca84bf98c6ad83980cc7aa2afe0eb510f9d1c4e804292225608aa77344f2
+  bytes: 53170
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
   sha256: 6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969
   bytes: 2093
 - path: docs/03-continuity/PITFALLS.md
-  sha256: dcfc42ff470a8e6bd53bb1934bb9ef3bae599839e3f5dbf8a2fbfe61074db8ac
-  bytes: 787
+  sha256: 5dbce8398f4f0f6bf6686fdf8491fca1904b0b6a52dfea15b4d4cac2aebfcc0d
+  bytes: 985
 - path: releases/PROGRAM_EXECUTION_PLAN.yaml
   sha256: 8f07b807f972671d8270db374fad897fb0a36ed4cb3d4f6788dd12cf411dfb46
   bytes: 35802
@@ -5566,10 +5611,10 @@ source_manifest:
   sha256: 35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6
   bytes: 11116
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 779fded0a18821e81308d70f79de4cbda1c73080001328cc599beb36f2237248
-  bytes: 681026
+  sha256: aa4d9886080e022ae6b7f5565270c1e7a42dc58806e559a07b2fa76b672656bc
+  bytes: 683392
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 34092ca4a2497bb5ecddb31c72c3c446c33d9d04ab91fc0938237d23e57df445
+  sha256: c8d4422c2b1f1c77b7e51c6a57121db520b1c08091e670b2d2531f7cd706a0ad
   bytes: 25306
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: b42bae99e7d14cdcf44b0551a70718a1c1bdf785aa7cdfbff142597c2b2282ac
@@ -5581,7 +5626,7 @@ source_manifest:
   sha256: f0f7b5c4dfbbca5435b402bd177dda6cfa64078a5e73eb9fd699a35c7e982a2a
   bytes: 348637
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 9ad08b24f97e7c9db6e0815eaee45f800efe4b1d7d9177e2dd001ba03ec0f02d
+  sha256: 9208b8d064541184c6e8a2a16d8afb06befcf9ee64bd92913c96da9fc155d432
   bytes: 525
 - path: releases/R05/RELEASE_MANIFEST.yaml
   sha256: 2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b
@@ -5602,11 +5647,11 @@ source_manifest:
   sha256: 38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda
   bytes: 3785
 - path: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  sha256: 986316024ef9187e0de698d5a4112b680fd511a2bbf39360b83860314b37c7bd
-  bytes: 22583
-- path: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
-  sha256: b802be2c9dd41dbd818b4892beb5e0ca6accf8c51a3beccf5a140c822d250ede
-  bytes: 13496
+  sha256: ae99fb45dcf955bdb3c14847ca8b29c203ae4ebadd5b62e05169744dc2cf9818
+  bytes: 30203
+- path: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0014.yaml
+  sha256: 32b0d41f14d82154ad0f4c8048c7d36666f79f223dca621252b23c9470b93513
+  bytes: 14633
 - path: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
   sha256: 2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f
   bytes: 2321
@@ -5639,4 +5684,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: fe49a4b39c00b857cc542545d602e5bb3b1a077b826e0d4e9dafff5d87bfdfeb
+context_hash: d628e5768df9ac81b157c3d77dc48a9e3c2386e6adc55b9a8ce3152b78f01712

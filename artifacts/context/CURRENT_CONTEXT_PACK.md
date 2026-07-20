@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T00:58:10Z
-- Context Hash：`fe49a4b39c00b857cc542545d602e5bb3b1a077b826e0d4e9dafff5d87bfdfeb`
+- 生成时间：2026-07-20T01:26:57Z
+- Context Hash：`d628e5768df9ac81b157c3d77dc48a9e3c2386e6adc55b9a8ce3152b78f01712`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -84,7 +84,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-007
-updated_at: '2026-07-20T00:58:08Z'
+updated_at: '2026-07-20T01:26:56Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -119,15 +119,15 @@ continuity:
   active_session_id: SES-20260719T234639Z-1D7D7A00
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T04:58:08Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
-  project_fingerprint: dcd571badd598b5ecd773f744fd90366ff0df88f55185e8f90ad958f3dec79c0
+  lease_expires_at: '2026-07-20T05:26:55Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0014.yaml
+  project_fingerprint: 52f1409b459f2b3389e7556e9f094072835728d06fd902497b0e40b9bfe184f3
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 6aabd5fda62a6d242b6c645e1caf6d79101e699bbf253f97dfef14339a931d1c
-    generated_at: '2026-07-20T00:54:58Z'
+    context_hash: 1a5ba00a41fee639310a4372935f02dcb3bdb1fd42874615ba753be802053730
+    generated_at: '2026-07-20T01:24:40Z'
   handoff_bundle: null
 ```
 
@@ -319,7 +319,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T00:58:08Z'
+updated_at: '2026-07-20T01:26:55Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -387,12 +387,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T00:58:08Z'
-  expires_at: '2026-07-20T04:58:08Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
+  renewed_at: '2026-07-20T01:26:55Z'
+  expires_at: '2026-07-20T05:26:55Z'
+checkpoint_sequence: 14
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0014.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交并推送CR实施状态与最终Context检查点；随后按catalogs/ui_visual_acceptance.csv继续处理R05视觉规格和页面重构，未PASS前不关闭R05。
+next_step: 等待批准的R05七页精确视觉规格，按规格重构并完成截图、APK和版本关闭门禁。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -400,50 +400,68 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前仅剩两个CR状态、Context和检查点的原子审计链更新，不存在可独立委托的代码工作包。
+  reason: 公网迁移和最终集成需主控串行；缺失视觉事实源时禁止并行自行构图。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0011
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0014
 session_id: SES-20260719T234639Z-1D7D7A00
-sequence: 11
-created_at: '2026-07-20T00:58:08Z'
-summary: CR-0113与CR-0114已绑定实现提交edebf46并标记IMPLEMENTED；主实现已通过pre-commit、commit-msg、pre-push并推送远端。
-next_step: 提交并推送CR实施状态与最终Context检查点；随后按catalogs/ui_visual_acceptance.csv继续处理R05视觉规格和页面重构，未PASS前不关闭R05。
+sequence: 14
+created_at: '2026-07-20T01:26:55Z'
+summary: 补齐R05公网实名门禁的自动化回归测试；公网真实注册与授权说明读取再次通过。
+next_step: 等待批准的R05七页精确视觉规格，按规格重构并完成截图、APK和版本关闭门禁。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: REMOTE_COMMIT
+- name: R05_PUBLIC_IDENTITY_REGRESSION
   result: PASS
-  evidence: edebf46c74be5e43c8d19b4d2168fbb3d20ff690
-  note: UI零漂移门禁已推送
-- name: PRE_PUSH_GATE
+  evidence: python -m unittest tests.test_r05_public_identity_gate -v
+  note: 2 tests PASS
+- name: R05_PUBLIC_IDENTITY_LIVE
   result: PASS
-  evidence: origin/task/TASK-R03-001 137e8f8..edebf46
-  note: 严格预推送门禁0错误
+  evidence: scripts/check_r05_public_identity.py --api-base-url https://api.orbexa.cc
+  note: 真实注册与授权说明HTTP 200
+- name: R05_UI_VISUAL_ACCEPTANCE
+  result: FAIL
+  evidence: scripts/check_ui_visual_acceptance.py --release R05
+  note: 缺精确视觉规格与实现截图，禁止关闭
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: edebf46c74be5e43c8d19b4d2168fbb3d20ff690
+  head: fee16bae9010e33b0ff1d526dedf218a59787c61
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0113.yaml'
-  - ' M .continuity/change_requests/CR-0114.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md'
-  - ' M docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md'
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0012.yaml
+  - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0013.yaml
+  - M  .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
+  - M  CHANGELOG.md
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - A  artifacts/reports/R05/R05-UI精确视觉规格补充任务说明.md
+  - M  artifacts/reports/R05/TASK-R05-007-android-apk.md
+  - A  artifacts/validation/r05-public-rollforward/evidence.json
+  - M  catalogs/session_index.csv
+  - M  docs/03-continuity/PITFALLS.md
+  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - M  docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
+  - AM scripts/check_r05_public_identity.py
+  - ?? tests/test_r05_public_identity_gate.py
   recent_commits:
+  - "fee16bae9010e33b0ff1d526dedf218a59787c61\t2026-07-20T08:58:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind UI\
+    \ gate implementation"
   - "edebf46c74be5e43c8d19b4d2168fbb3d20ff690\t2026-07-20T08:56:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(ui): enforce exact visual\
     \ acceptance"
   - "137e8f80a90f6d1b166a94fd3520f078213c7ca5\t2026-07-20T08:23:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind R05\
@@ -458,10 +476,8 @@ git:
     \ test APK identity"
   - "0c3aa012f4bdbfd59f0d591cf99632794fd8c612\t2026-07-20T07:46:13+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
     \ clean context before R05-007"
-  - "c0bfa11a1aaf5de798465c72496150df15728cd4\t2026-07-20T07:42:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-006\
-    \ as completed"
 project_fingerprint:
-  sha256: dcd571badd598b5ecd773f744fd90366ff0df88f55185e8f90ad958f3dec79c0
+  sha256: 52f1409b459f2b3389e7556e9f094072835728d06fd902497b0e40b9bfe184f3
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -484,12 +500,14 @@ project_fingerprint:
   - releases/R05/ACCEPTANCE_MATRIX.csv
   - releases/R05/PARALLEL_EXECUTION_PLAN.yaml
   - releases/R05/RELEASE_MANIFEST.yaml
+  - scripts/check_r05_public_identity.py
   - scripts/check_release_artifacts.py
   - scripts/check_ui_visual_acceptance.py
   - templates/AGENTS.md
+  - tests/test_r05_public_identity_gate.py
   - tests/test_release_close_gate.py
   - tests/test_ui_visual_acceptance.py
-  file_count: 26
+  file_count: 28
   payload:
     base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
     files:
@@ -499,8 +517,8 @@ project_fingerprint:
       sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
     - path: CHANGELOG.md
       state: FILE
-      size: 46648
-      sha256: a9005190c1c6b56e590dfda61196a561ddc6a45cd12ac0a902562ae21e70d63d
+      size: 46974
+      sha256: 317fc66500a9bbce5917631027eeefd60ce7b60df8f17be6de274c229f36639a
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 4705
@@ -531,12 +549,12 @@ project_fingerprint:
       sha256: 11aaffded8a6594f23cfa2b6b70d8ebc23e24e75232c087862250f3334a1ad09
     - path: docs/03-continuity/PITFALLS.md
       state: FILE
-      size: 787
-      sha256: dcfc42ff470a8e6bd53bb1934bb9ef3bae599839e3f5dbf8a2fbfe61074db8ac
+      size: 985
+      sha256: 5dbce8398f4f0f6bf6686fdf8491fca1904b0b6a52dfea15b4d4cac2aebfcc0d
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 51657
-      sha256: 96a60d831d36bd8e115f08ef770625c2bd5e33c5d4cd139b6d136737961a4752
+      size: 53170
+      sha256: c036ca84bf98c6ad83980cc7aa2afe0eb510f9d1c4e804292225608aa77344f2
     - path: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
       state: FILE
       size: 2321
@@ -577,6 +595,10 @@ project_fingerprint:
       state: FILE
       size: 3694
       sha256: 2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b
+    - path: scripts/check_r05_public_identity.py
+      state: FILE
+      size: 5285
+      sha256: e65559458c7fe627666858b852b102797e7a9f0cf10e37bb925e6cc9cf6f1fa4
     - path: scripts/check_release_artifacts.py
       state: FILE
       size: 17911
@@ -589,6 +611,10 @@ project_fingerprint:
       state: FILE
       size: 9362
       sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
+    - path: tests/test_r05_public_identity_gate.py
+      state: FILE
+      size: 1733
+      sha256: b88efceefe54f6f43efc2f5c598ad3f71bb81ca792c309640036ba1c1c931067
     - path: tests/test_release_close_gate.py
       state: FILE
       size: 14728
@@ -611,6 +637,7 @@ change_classification:
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
   - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - scripts/check_r05_public_identity.py
   - scripts/check_release_artifacts.py
   - scripts/check_ui_visual_acceptance.py
   user_visible:
@@ -632,6 +659,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md
   - docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
   tests:
+  - tests/test_r05_public_identity_gate.py
   - tests/test_release_close_gate.py
   - tests/test_ui_visual_acceptance.py
 required_records:
@@ -703,8 +731,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前仅剩两个CR状态、Context和检查点的原子审计链更新，不存在可独立委托的代码工作包。
-event_hash: cabd4b3eb7e92a5eff2c557e0d7e4778296c9b75106b6eec12cbf6cddd3b43e6
+  reason: 公网迁移和最终集成需主控串行；缺失视觉事实源时禁止并行自行构图。
+event_hash: 901cdebd694cc1ad71b527a8a2854e89afc544167b84de1a1b31c0751f3c7f8e
 ```
 
 ## 接续状态与事件头
@@ -716,8 +744,8 @@ active_session_id: SES-20260719T234639Z-1D7D7A00
 last_session_id: SES-20260719T230526Z-55ABC07F
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0004
-event_count: 1227
-event_head_hash: cabd4b3eb7e92a5eff2c557e0d7e4778296c9b75106b6eec12cbf6cddd3b43e6
+event_count: 1230
+event_head_hash: 901cdebd694cc1ad71b527a8a2854e89afc544167b84de1a1b31c0751f3c7f8e
 event_chain_valid: true
 ```
 
@@ -840,9 +868,9 @@ recent_sessions: - session_id: SES-20260719T135908Z-32D952EC
   started_at: '2026-07-19T23:46:39Z'
   record: .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  updated_at: '2026-07-20T00:58:08Z'
+  updated_at: '2026-07-20T01:26:55Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0014.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B426B903146
   session_id: SES-20260718T152013Z-8B704646
@@ -1725,28 +1753,37 @@ recent_task_transitions: - transition_id: TRN-4DA26C35977A
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: edebf46c74be5e43c8d19b4d2168fbb3d20ff690
+head: fee16bae9010e33b0ff1d526dedf218a59787c61
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0113.yaml'
-- ' M .continuity/change_requests/CR-0114.yaml'
-- ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
-- ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md'
-- ' M docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
+- MM .continuity/ACTIVE_SESSION.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0012.yaml
+- A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0013.yaml
+- MM .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
+- M  CHANGELOG.md
+- MM CURRENT_STATUS.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- A  artifacts/reports/R05/R05-UI精确视觉规格补充任务说明.md
+- M  artifacts/reports/R05/TASK-R05-007-android-apk.md
+- A  artifacts/validation/r05-public-rollforward/evidence.json
+- MM catalogs/session_index.csv
+- M  docs/03-continuity/PITFALLS.md
+- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+- MM docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
+- AM scripts/check_r05_public_identity.py
+- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0014.yaml
+- ?? tests/test_r05_public_identity_gate.py
 recent_commits:
+- "fee16bae9010e33b0ff1d526dedf218a59787c61\t2026-07-20T08:58:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind UI gate\
+  \ implementation"
 - "edebf46c74be5e43c8d19b4d2168fbb3d20ff690\t2026-07-20T08:56:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(ui): enforce exact visual\
   \ acceptance"
 - "137e8f80a90f6d1b166a94fd3520f078213c7ca5\t2026-07-20T08:23:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind R05\
@@ -1761,14 +1798,12 @@ recent_commits:
   \ APK identity"
 - "0c3aa012f4bdbfd59f0d591cf99632794fd8c612\t2026-07-20T07:46:13+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh clean\
   \ context before R05-007"
-- "c0bfa11a1aaf5de798465c72496150df15728cd4\t2026-07-20T07:42:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-006\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`dcd571badd598b5ecd773f744fd90366ff0df88f55185e8f90ad958f3dec79c0`
-- 文件数：26
+- 指纹：`52f1409b459f2b3389e7556e9f094072835728d06fd902497b0e40b9bfe184f3`
+- 文件数：28
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -1791,9 +1826,11 @@ recent_commits:
 - `releases/R05/ACCEPTANCE_MATRIX.csv`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml`
 - `releases/R05/RELEASE_MANIFEST.yaml`
+- `scripts/check_r05_public_identity.py`
 - `scripts/check_release_artifacts.py`
 - `scripts/check_ui_visual_acceptance.py`
 - `templates/AGENTS.md`
+- `tests/test_r05_public_identity_gate.py`
 - `tests/test_release_close_gate.py`
 - `tests/test_ui_visual_acceptance.py`
 
@@ -5489,31 +5526,31 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `3fa5c653de024fbefa86f683e10b15162fe5a42a8bf5eb9e5c6b8045252bc701`
+- `CURRENT_STATUS.yaml` — `9cb3fc669a307e5555bedfa979cd11190f17afc2799e08f252724861d094bed1`
 - `NEXT_TASK.yaml` — `bd22bac1e2b0308bd77f173dca3ac229dff82931447bff00e89661b483b14ee0`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `96a60d831d36bd8e115f08ef770625c2bd5e33c5d4cd139b6d136737961a4752`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `c036ca84bf98c6ad83980cc7aa2afe0eb510f9d1c4e804292225608aa77344f2`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969`
-- `docs/03-continuity/PITFALLS.md` — `dcfc42ff470a8e6bd53bb1934bb9ef3bae599839e3f5dbf8a2fbfe61074db8ac`
+- `docs/03-continuity/PITFALLS.md` — `5dbce8398f4f0f6bf6686fdf8491fca1904b0b6a52dfea15b4d4cac2aebfcc0d`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `8f07b807f972671d8270db374fad897fb0a36ed4cb3d4f6788dd12cf411dfb46`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `779fded0a18821e81308d70f79de4cbda1c73080001328cc599beb36f2237248`
-- `.continuity/SESSION_INDEX.yaml` — `34092ca4a2497bb5ecddb31c72c3c446c33d9d04ab91fc0938237d23e57df445`
+- `.continuity/EVENT_LOG.jsonl` — `aa4d9886080e022ae6b7f5565270c1e7a42dc58806e559a07b2fa76b672656bc`
+- `.continuity/SESSION_INDEX.yaml` — `c8d4422c2b1f1c77b7e51c6a57121db520b1c08091e670b2d2531f7cd706a0ad`
 - `.continuity/TASK_CLAIMS.yaml` — `b42bae99e7d14cdcf44b0551a70718a1c1bdf785aa7cdfbff142597c2b2282ac`
 - `.continuity/TASK_TRANSITIONS.yaml` — `649cf4421377460d639a628f6c86e77ff9cd2e7a96acffc65865873cbcb9a2a0`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `f0f7b5c4dfbbca5435b402bd177dda6cfa64078a5e73eb9fd699a35c7e982a2a`
-- `.continuity/ACTIVE_SESSION.yaml` — `9ad08b24f97e7c9db6e0815eaee45f800efe4b1d7d9177e2dd001ba03ec0f02d`
+- `.continuity/ACTIVE_SESSION.yaml` — `9208b8d064541184c6e8a2a16d8afb06befcf9ee64bd92913c96da9fc155d432`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `48d66c06efb7102d3a1965124a9b34d9867a4418e009ebb98cbc48dd915ef489`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `e763b0bc235be69b871929ad214e0a458ae978ab54970a42af8f5e3987677ce5`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml` — `38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `986316024ef9187e0de698d5a4112b680fd511a2bbf39360b83860314b37c7bd`
-- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml` — `b802be2c9dd41dbd818b4892beb5e0ca6accf8c51a3beccf5a140c822d250ede`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `ae99fb45dcf955bdb3c14847ca8b29c203ae4ebadd5b62e05169744dc2cf9818`
+- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0014.yaml` — `32b0d41f14d82154ad0f4c8048c7d36666f79f223dca621252b23c9470b93513`
 - `docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md` — `2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f`
 - `docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md` — `7ea7a2a77787bbf3e87d0c52f6b265235b50ade68dd07cf74369b51935b7b0bd`
 - `docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md` — `3d8a27084d1ed3efdee721c872c08c7103386965f3b731cd302bd173e6245f55`

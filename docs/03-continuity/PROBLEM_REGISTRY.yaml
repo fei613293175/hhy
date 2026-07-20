@@ -602,3 +602,17 @@ problems:
   - 不得用框架默认尺寸替代Design Token
   - 不得在没有参考图对照和真机/浏览器截图证据时把页面或APK标为UI完成
   - 虚拟功能、无关文字和占位数据必须过滤，但过滤不得改变未受影响的布局模型
+- id: PROB-0048
+  title: R05测试APK连接R03公网后端导致实名认证授权说明无法加载
+  status: SOLVED
+  root_cause: R05 APK按发布门禁正确使用https://api.orbexa.cc，但该域名仍代理到只包含R03接口的28084容器；R05授权说明接口和V027协议种子仅存在于隔离R05环境。客户端因此收到404并展示可重试商业错误，问题与第三方实名认证AppKey无关。
+  resolution: 在保留现有测试账号数据库的前提下先生成并验证PostgreSQL自定义格式备份，再使用R05镜像连接同一数据库完成受控迁移；候选容器通过就绪、平台状态、真实测试注册和Bearer授权说明读取后，将api.orbexa.cc可回滚切换到28085。原R03容器和Nginx备份继续保留，旧R02认证黑盒门禁及R05授权说明公网门禁均通过。
+  regression_checks:
+  - scripts/check_r02_public_auth.py --api-base-url https://api.orbexa.cc
+  - scripts/check_r05_public_identity.py --api-base-url https://api.orbexa.cc
+  - artifacts/validation/r05-public-rollforward/evidence.json
+  do_not_repeat:
+  - APK内嵌真实API地址和平台状态200不能证明当前Release新增接口已在公网运行
+  - 每个测试APK交付前必须用该版本登录态执行至少一个新增核心接口黑盒门禁
+  - 第三方供应商未激活不得被误判为本地协议、配置或基础资料接口不可用
+  - 公网后端滚动升级必须先备份现有数据库、验证候选容器并保留Nginx与旧容器回滚点

@@ -29,6 +29,7 @@
 - `apksigner`、`zipalign` 均通过；APK Signature Scheme v2、v3 为 `true`，签名证书与既有 Staging 测试签名一致。
 - DEX 中真实 API `https://api.orbexa.cc` 精确出现 1 次，占位端点 `.invalid` 出现 0 次。
 - `deliver_android_test_apk.py prepare` 与独立 `verify` 均通过；公网完整下载 200、Range 206、Android APK MIME 正确。
+- 真机发现授权说明加载失败后确认公网仍运行R03后端；已在数据库可恢复备份、候选就绪和旧认证回归通过后滚动切换至R05。真实测试注册取得Bearer后，`GET /api/v1/identity/consent`返回HTTP 200、标题正确且正文长度239；证据见`artifacts/validation/r05-public-rollforward/evidence.json`。
 
 ## 本版 Android 可见闭环
 
