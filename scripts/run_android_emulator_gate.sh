@@ -23,7 +23,7 @@ set +e
 test_rc=${PIPESTATUS[0]}
 printf '%s\n' "$test_rc" > "$runtime_dir/test-exit-code.txt"
 
-adb pull /sdcard/Download/hhy-ci-screenshots/. "$screenshots_dir/" || true
+adb pull /data/local/tmp/hhy-ci-screenshots/. "$screenshots_dir/" || true
 adb logcat -d -v threadtime \
   | grep -E 'cc\.orbexa\.hhy|AndroidRuntime|FATAL EXCEPTION|ANR in' \
   > "$runtime_dir/logcat.txt" || true
@@ -43,8 +43,9 @@ analysis_rc=${PIPESTATUS[0]}
 set -e
 
 if (( analysis_rc != 0 )); then
-  summary=$(grep -E 'FAIL|ERROR|failure|exception|exit_code|screenshots=' \
-    "$runtime_dir/instrumentation.log" "$runtime_dir/analyze.log" 2>/dev/null \
+  summary=$(grep -R -E 'FAIL|ERROR|failure|exception|AssertionError|Cannot prepare|Screenshot is empty|exit_code|screenshots=' \
+    "$runtime_dir/instrumentation.log" "$runtime_dir/analyze.log" \
+    apps/android/app/build/outputs/androidTest-results/connected 2>/dev/null \
     | tail -n 25 || true)
   if [[ -z "$summary" ]]; then
     summary="Android emulator gate failed; inspect android-runtime artifact"

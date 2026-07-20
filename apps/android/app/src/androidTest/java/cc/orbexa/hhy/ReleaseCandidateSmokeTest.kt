@@ -17,7 +17,7 @@ import org.junit.runner.RunWith
 class ReleaseCandidateSmokeTest {
     private lateinit var device: UiDevice
     private lateinit var target: Context
-    private val screenshotDirectory = "/sdcard/Download/hhy-ci-screenshots"
+    private val screenshotDirectory = "/data/local/tmp/hhy-ci-screenshots"
 
     @Before
     fun prepareFreshCandidate() {

@@ -188,10 +188,11 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("adb logcat", source)
         self.assertIn("runtime-report.json", source)
         self.assertIn("::error title=Android emulator gate failed::", source)
-        self.assertIn("/sdcard/Download/hhy-ci-screenshots", source)
+        self.assertIn("/data/local/tmp/hhy-ci-screenshots", source)
         self.assertNotIn("/sdcard/Android/data/", source)
+        self.assertIn("androidTest-results/connected", source)
         self.assertIn('executeShellCommand("screencap -p $output")', smoke_test)
-        self.assertIn("/sdcard/Download/hhy-ci-screenshots", smoke_test)
+        self.assertIn("/data/local/tmp/hhy-ci-screenshots", smoke_test)
         self.assertNotIn("getExternalFilesDir", smoke_test)
 
     def test_every_android_module_uses_the_stable_compile_sdk(self) -> None:
