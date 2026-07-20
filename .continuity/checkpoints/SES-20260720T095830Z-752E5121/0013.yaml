@@ -1,0 +1,464 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260720T095830Z-752E5121-0013
+session_id: SES-20260720T095830Z-752E5121
+sequence: 13
+created_at: '2026-07-20T12:31:25Z'
+summary: 完成Android影响映射自举闭环
+next_step: 严格门禁后提交推送，确认CI changes选择android并完成全链
+blockers: []
+decisions:
+- config/test-impact-map.yaml自身列入android-module paths，避免修改映射时自我跳过
+note: ''
+tests:
+- name: impact-map-self-bootstrap
+  result: PASS
+  evidence: android and tooling selected
+  note: 映射自身变更选择Android
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: b4bd45ec55f498519d2a6ba9476e06d528debb5b
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M CHANGELOG.md'
+  - ' M config/test-impact-map.yaml'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M tests/test_run_affected_tests.py'
+  recent_commits:
+  - "b4bd45ec55f498519d2a6ba9476e06d528debb5b\t2026-07-20T20:28:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): enforce Android gate\
+    \ self-testing"
+  - "bcaae330f09eca9c6b9687e36f4d540af17c6a3f\t2026-07-20T20:20:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): run emulator gate\
+    \ in one shell"
+  - "74feb6323965772a0235835c9002ee693092b9a4\t2026-07-20T19:55:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): complete Linux runner\
+    \ prerequisites"
+  - "6c281906da3426424cfc2ab7f92d55a457cae9fb\t2026-07-20T19:33:48+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): make Android gate\
+    \ portable on Linux"
+  - "b9196d7c983af4fbee6b75c9df720a916d1eb2f2\t2026-07-20T18:52:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(android): establish automated\
+    \ candidate quality gate"
+  - "becdceec04d22c9179e29c794e28ad85bbe89137\t2026-07-20T17:57:20+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-007\
+    \ as completed"
+  - "30ad62962ce8ccf6323a7865ebf6fbe13f4aebb1\t2026-07-20T17:41:24+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] build(r05): publish verified\
+    \ 10213 identity APK"
+  - "07f2fe254dace0c422be6cb96e3f66b88b2ad40b\t2026-07-20T16:52:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(r05): gate identity overview\
+    \ recovery states"
+project_fingerprint:
+  sha256: 59b7a3d3fa369246b48a6154b01418ce78e71fd3ea598c1a3cc223612fd3b01a
+  files:
+  - .gitattributes
+  - .githooks/commit-msg
+  - .githooks/pre-commit
+  - .githooks/pre-push
+  - .githooks/prepare-commit-msg
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/ci.yml
+  - .github/workflows/continuity-gate.yml
+  - AGENTS.md
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/feature/auth/build.gradle.kts
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/media/build.gradle.kts
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/startup/build.gradle.kts
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/gradlew
+  - config/android-automation.yaml
+  - config/test-impact-map.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
+  - docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
+  - docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
+  - docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
+  - docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
+  - docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
+  - docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
+  - docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
+  - docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
+  - docs/04-vendors/identity/source/输出内容(1).txt
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/08-testing/测试策略与质量门禁_V1.2.2.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - releases/R05/RELEASE_MANIFEST.yaml
+  - scripts/android_ci_gate.py
+  - scripts/check_release_artifacts.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - scripts/run_android_emulator_gate.sh
+  - templates/AGENTS.md
+  - tests/test_android_ci_gate.py
+  - tests/test_parallel_worktrees.py
+  - tests/test_run_affected_tests.py
+  file_count: 49
+  payload:
+    base_commit: becdceec04d22c9179e29c794e28ad85bbe89137
+    files:
+    - path: .gitattributes
+      state: FILE
+      size: 348
+      sha256: 9f57026e931856571b1f1c6bee8788fb25bbdf2cca0b1f7eececc8a71d05f674
+    - path: .githooks/commit-msg
+      state: FILE
+      size: 222
+      sha256: 625bd167b23f048f808d07470c021bf91d6e4fa495d23c195bfa92f040bfa98c
+    - path: .githooks/pre-commit
+      state: FILE
+      size: 195
+      sha256: 541c9df7be1e3b45635930dc23728153cc85b4a677a1e89f6b4f43a72f68ac18
+    - path: .githooks/pre-push
+      state: FILE
+      size: 246
+      sha256: 8ea08d11764a313318fef560694cbf6db45f34ee96561c060c693664b3993d27
+    - path: .githooks/prepare-commit-msg
+      state: FILE
+      size: 133
+      sha256: e06c6381eaf95b105b0b5bff426abcc7da49539d1fe706c7980f1dc0a065225b
+    - path: .github/workflows/android-quality-gate.yml
+      state: FILE
+      size: 8988
+      sha256: 7761e29861e62fc4ff3c2b16670d5c57e284076b215322f1b324148c570acbda
+    - path: .github/workflows/ci.yml
+      state: FILE
+      size: 7403
+      sha256: f3d821164d1322de00f29714c798a0c700e40b6f2724104b9fe48c739594f58d
+    - path: .github/workflows/continuity-gate.yml
+      state: FILE
+      size: 2885
+      sha256: 3763cd3786bc1951143943526fbad4a7b5c9a509bc78c4883e38a2b1934461e4
+    - path: AGENTS.md
+      state: FILE
+      size: 11056
+      sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
+    - path: CHANGELOG.md
+      state: FILE
+      size: 52838
+      sha256: 15e5e50fd8b0dbd506803907e0c58ea28507920c3b040e1975fc3263fc81ba46
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 4981
+      sha256: 8595531ad77825b6477ba3b7c24d899ded6ad9b7fc742efe9f830daaa738b499
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 3930
+      sha256: 171a7a64919c923b2d18c3de9eb7fe36ef46d2a7ab77ec0e67033da02a1c17c9
+    - path: apps/android/core/designsystem/build.gradle.kts
+      state: FILE
+      size: 954
+      sha256: b29a37a4a1574e51e57365661a911968eb3299c79a7975bb2977507dba7370aa
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+      state: FILE
+      size: 2841
+      sha256: a3b80f088f31880545f427838b3ecd1dd4d847695cb4c3ecc033e7ebc7288380
+    - path: apps/android/core/network/build.gradle.kts
+      state: FILE
+      size: 494
+      sha256: f1e860006b777eaccb0e704fe814cf19b689d41eacc79e821539721e6df2bed9
+    - path: apps/android/feature/auth/build.gradle.kts
+      state: FILE
+      size: 1211
+      sha256: 2657afebac09802204c16e3633bdf5e6982fa692319f1d33cbe17b5e0e225483
+    - path: apps/android/feature/identity/build.gradle.kts
+      state: FILE
+      size: 1267
+      sha256: d679c873f1746a891c30a84335a45601c43c11b5bf785a8319efc1f2c0ae6b85
+    - path: apps/android/feature/media/build.gradle.kts
+      state: FILE
+      size: 1114
+      sha256: 8856e705422e50f77e65ea313f641f0ca9c3f93103f231be32cb66738bab7c08
+    - path: apps/android/feature/shell/build.gradle.kts
+      state: FILE
+      size: 976
+      sha256: 608ca4f71a9c70765d05b1492e6a9da8c4209576265fa96180d7fb0e819514fc
+    - path: apps/android/feature/startup/build.gradle.kts
+      state: FILE
+      size: 1013
+      sha256: 39772cbb5af023eaaecd56c21876faa1552cac9f6c6d203f93d27dca9af8c1b6
+    - path: apps/android/gradle/libs.versions.toml
+      state: FILE
+      size: 2425
+      sha256: 152a44c6e3967ad86e4961ac0ade159164ad439d4b7bdd62f35da2c39f91ae25
+    - path: apps/android/gradlew
+      state: FILE
+      size: 5960
+      sha256: 261d896f782ec3181add62d77d5b1b9e1d0d599757ec108d857bad1eec2e7615
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 2150
+      sha256: 6a29aea6365440860e5b3b591b41b22bfbc2b6eea6b795765e860adf44262ac1
+    - path: config/test-impact-map.yaml
+      state: FILE
+      size: 5648
+      sha256: 1ab64efda93aab33d9c2382c745b5d5eea89fa3954b7c167338f74fbf43eec05
+    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
+      state: FILE
+      size: 8113
+      sha256: 2eeee9d8997f48c0604f965ffd408399a0ff2473f5cde2d394ea06e30f637d25
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 65704
+      sha256: 56de0a6c3ee0957ec185635b437b25115856720c685be62c8796e5415594bc9f
+    - path: docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
+      state: FILE
+      size: 3823
+      sha256: 9fd9ea826a7fc71e94b8804243f7deec23739e002d8aefdf6b6c49a9ef92e7b4
+    - path: docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
+      state: FILE
+      size: 1983
+      sha256: 10a87ff0adcf705866b49e67b8f26041c5e4ab9e91a64120c7af6cc8b3bf3961
+    - path: docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
+      state: FILE
+      size: 3094
+      sha256: c2311668004f80b7e9c09994ad09ec4cbd008278b51c68fb3be63ada84accbc6
+    - path: docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
+      state: FILE
+      size: 2889
+      sha256: dbbe13ef5557515669ff22e216c9bb8463a273e80777ab9eb9f64729eee54740
+    - path: docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
+      state: FILE
+      size: 1790
+      sha256: 11c7f859096a24341b586e9835a0d021f048e40ab30fc63f58ec84b8fc5148c8
+    - path: docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
+      state: FILE
+      size: 1953
+      sha256: af55c25d11fe6bf557e7b0b29f8993b5323b4c374639c650990d9225ca526d03
+    - path: docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
+      state: FILE
+      size: 2201
+      sha256: 94313e82aa4644e4d56f06045e6a74143585c46c690cd53f3b69275b5f916e4e
+    - path: docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
+      state: FILE
+      size: 1864
+      sha256: 1483ecdf95f35a70bc53cf78edb44023a87b046d11c2299178fcaca7ec1ab388
+    - path: docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
+      state: FILE
+      size: 1920
+      sha256: 4ff184a35e112e097e83400f1a3f3a4d638e2e001805df933f4a277e0e2e3ac8
+    - path: docs/04-vendors/identity/source/输出内容(1).txt
+      state: FILE
+      size: 12285
+      sha256: e3c2047cb7875b0dd46fd07a4285a6d0ac469d27198c6f92aee729666431d412
+    - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+      state: FILE
+      size: 5606
+      sha256: d289b96f9c69bc4318ec3eaf16d3140a7e6b95cb0b1023580e934a769cf33b99
+    - path: docs/08-testing/测试策略与质量门禁_V1.2.2.md
+      state: FILE
+      size: 1831
+      sha256: 6e4e2c50d45500672ce56ad9ba5ff1542a29104b7b7a82fedfe2cf94effbd5cb
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 7263
+      sha256: cb2dc987943c8de7da3d58bd0211ea4faf95bcf2eb507eb86e03246e3e0a396c
+    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 35802
+      sha256: 1bf72bbd9a76d0bfb9c9691b1b3a4a07fca1fe2ac928df7267be95675c5f9bdb
+    - path: releases/R05/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 4594
+      sha256: 6fc95b4abdedcaa6561460c2d5db23e6fccf1a870452779b0c03035bd6ea11ec
+    - path: scripts/android_ci_gate.py
+      state: FILE
+      size: 11782
+      sha256: 584f84a7dec4f6b38f5d811e4bd132b706055514f90657de517c806c2bdb5ff0
+    - path: scripts/check_release_artifacts.py
+      state: FILE
+      size: 21157
+      sha256: 0dbb7c429590edc327afc4da482fa1cb803a7476497b16e66faf39cfd1dabf62
+    - path: scripts/prepare_parallel_worktrees.ps1
+      state: FILE
+      size: 9384
+      sha256: 5c9ec3f183743305c108600d9a8fd1276ec8544615c1fb6aebada792113a8e2a
+    - path: scripts/run_android_emulator_gate.sh
+      state: FILE
+      size: 2097
+      sha256: e34f683515766a550ce2983012627ed0fa89bf6aa9db669409245943c74401c4
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 11056
+      sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 10114
+      sha256: d4ddb46d1ed522328c404d5305662cfe141caa5d1993a864a5699ac95dcfda12
+    - path: tests/test_parallel_worktrees.py
+      state: FILE
+      size: 6376
+      sha256: 09a45a4696eba764b96d006b40f97a381ca895e5a445ec802db310d3210ac705
+    - path: tests/test_run_affected_tests.py
+      state: FILE
+      size: 7739
+      sha256: 0b21df44d9768255f9b7070c9b8c60c4fa0643f6134f292df4990821ccc68163
+change_classification:
+  other:
+  - .gitattributes
+  - AGENTS.md
+  - CHANGELOG.md
+  - config/android-automation.yaml
+  - config/test-impact-map.yaml
+  - docs/04-vendors/identity/source/输出内容(1).txt
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/08-testing/测试策略与质量门禁_V1.2.2.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/PROGRAM_EXECUTION_PLAN.yaml
+  - templates/AGENTS.md
+  infrastructure:
+  - .githooks/commit-msg
+  - .githooks/pre-commit
+  - .githooks/pre-push
+  - .githooks/prepare-commit-msg
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/ci.yml
+  - .github/workflows/continuity-gate.yml
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/feature/auth/build.gradle.kts
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/media/build.gradle.kts
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/startup/build.gradle.kts
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/gradlew
+  - scripts/android_ci_gate.py
+  - scripts/check_release_artifacts.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - scripts/run_android_emulator_gate.sh
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/feature/auth/build.gradle.kts
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/media/build.gradle.kts
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/startup/build.gradle.kts
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/gradlew
+  source_of_truth:
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - releases/R05/RELEASE_MANIFEST.yaml
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
+  - docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
+  - docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
+  - docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
+  - docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
+  - docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
+  - docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
+  - docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
+  - docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
+  tests:
+  - tests/test_android_ci_gate.py
+  - tests/test_parallel_worktrees.py
+  - tests/test_run_affected_tests.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0135
+- CR-0136
+- CR-0137
+- CR-0138
+- CR-0139
+- CR-0140
+- CR-0141
+- CR-0142
+- CR-0143
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/ci.yml
+  - config/android-automation.yaml
+  - scripts/android_ci_gate.py
+  - tests/test_android_ci_gate.py
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/build.gradle.kts
+  - apps/android/gradle/libs.versions.toml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/08-testing/测试策略与质量门禁_V1.2.2.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - AGENTS.md
+  - templates/AGENTS.md
+  - releases/R05/RELEASE_MANIFEST.yaml
+  - scripts/check_release_artifacts.py
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - .github/workflows/continuity-gate.yml
+  - .gitattributes
+  - .githooks/commit-msg
+  - .githooks/pre-commit
+  - .githooks/pre-push
+  - .githooks/prepare-commit-msg
+  - apps/android/build.gradle.kts
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/network/build.gradle.kts
+  - apps/android/feature/auth/build.gradle.kts
+  - apps/android/feature/identity/build.gradle.kts
+  - apps/android/feature/media/build.gradle.kts
+  - apps/android/feature/shell/build.gradle.kts
+  - apps/android/feature/startup/build.gradle.kts
+  - docs/04-vendors/identity/source/输出内容(1).txt
+  - apps/android/gradlew
+  - scripts/run_android_emulator_gate.sh
+  - config/test-impact-map.yaml
+  - tests/test_run_affected_tests.py
+  - scripts/prepare_parallel_worktrees.ps1
+  - tests/test_parallel_worktrees.py
+  source: story+explicit+approved-cr:CR-0135+approved-cr:CR-0136+approved-cr:CR-0138+approved-cr:CR-0139+approved-cr:CR-0140+approved-cr:CR-0141+approved-cr:CR-0142+approved-cr:CR-0143
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 上级规则禁止用户未明确要求的子代理委托
+event_hash: 2bccc504b12a54489a8073660b4e7a062b30bf1aa29ee6530a257384b89cdc92
