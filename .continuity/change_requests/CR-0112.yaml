@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0112
 title: 补充R05-004客户端闭环验收报告
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-20T00:21:21Z'
-updated_at: '2026-07-20T00:21:37Z'
+updated_at: '2026-07-20T00:23:09Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R05-007
@@ -40,5 +40,12 @@ decision_log:
   status: IMPLEMENTING
   note: 应用R05客户端闭环验收报告精确范围。
   session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T00:23:09Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: R05客户端闭环报告、AC-R05-001 PASS和Manifest operationId修复已由6a40f2b提交并推送。
+  session_id: SES-20260719T234639Z-1D7D7A00
 session_ids:
 - SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- 6a40f2b5250565414b6da013fd33be34da9acccd

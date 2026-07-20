@@ -11,7 +11,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T00:22:14Z'
+updated_at: '2026-07-20T00:23:17Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -65,22 +65,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T00:22:11Z'
-  expires_at: '2026-07-20T04:22:11Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0007.yaml
+  renewed_at: '2026-07-20T00:23:14Z'
+  expires_at: '2026-07-20T04:23:14Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交推送R05关闭预检修复；继续准备R05-008，等待项目所有者versionCode 10208真机结果。
+next_step: 等待项目所有者versionCode 10208真机结果；同时保持APK下载与证据可重复验证，收到PASS后立即完成R05-007和R05-008。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: f5a50340cb538ea08977059135034abf5183cf801551e28692662138a1b5de0d
-  generated_at: '2026-07-20T00:22:13Z'
+  context_hash: 6588daf50fe53015d091c0e8a8a981b185eda76c53c35acf0f435860617d0f0c
+  generated_at: '2026-07-20T00:23:16Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前修改是同一R05验收矩阵与Release Manifest的原子一致性修复，拆分会造成短暂漂移。
+  reason: 当前只剩项目所有者真机门禁和依赖其结果的原子关闭事件链，没有可独立写入的安全任务。
