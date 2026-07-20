@@ -11,7 +11,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T05:01:39Z'
+updated_at: '2026-07-20T05:19:34Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -28,6 +28,7 @@ change_requests:
 - CR-0120
 - CR-0121
 - CR-0122
+- CR-0123
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -110,7 +111,10 @@ scope:
   - apps/android/feature/auth/build.gradle.kts
   - artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
   - artifacts/validation/r05-apk-delivery/history/b597f2c/delivery-evidence.json
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
+  - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - artifacts/validation/r05-owner-test-10210/feedback.json
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -120,22 +124,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T05:01:36Z'
-  expires_at: '2026-07-20T09:01:36Z'
-checkpoint_sequence: 29
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0029.yaml
+  renewed_at: '2026-07-20T05:19:31Z'
+  expires_at: '2026-07-20T09:19:31Z'
+checkpoint_sequence: 31
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0031.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 等待项目所有者安装桌面hhy-r05-7b57046-debug.apk并按10210测试说明验证；通过后记录owner acceptance并关闭TASK-R05-007，继续TASK-R05-008。
+next_step: 提交修复代码并在固定Android工具链执行feature-auth与feature-identity编译和测试。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 13f6149e78a4b6bfb8906ef5460197e57cc4db69ccd6972de7f76ca747ddb22e
-  generated_at: '2026-07-20T05:01:38Z'
+  context_hash: b70df0e4ef6ef4350659d48d88764d51c3131a2fe6e871720576eaa44d10a4f8
+  generated_at: '2026-07-20T05:19:33Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终CR与连续性状态为共享单链治理记录，必须串行写入。
+  reason: 需先冻结同一Auth重构提交，再由固定工具链验证该精确源码。

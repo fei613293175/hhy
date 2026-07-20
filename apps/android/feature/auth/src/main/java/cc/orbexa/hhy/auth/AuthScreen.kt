@@ -45,6 +45,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,6 +63,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyBackButton
 import cc.orbexa.hhy.designsystem.HhyElevation
@@ -84,6 +88,7 @@ import cc.orbexa.hhy.network.securitySessionsOrNull
 import cc.orbexa.hhy.network.supportTicketOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.jsonPrimitive
 import java.time.Duration
 import java.time.Instant
@@ -93,6 +98,13 @@ internal enum class AuthRoute(val title: String, val scene: String) {
     SMS("短信验证码登录", "LOGIN"),
     REGISTER("注册账号", "REGISTER"),
     RESET("忘记密码", "RESET_PASSWORD"),
+}
+
+@Serializable
+private sealed interface AuthDestination {
+    @Serializable data object Login : AuthDestination
+    @Serializable data object Register : AuthDestination
+    @Serializable data object Reset : AuthDestination
 }
 
 private sealed interface AuthUiState {
@@ -134,9 +146,10 @@ fun AuthScreen(apiBaseUrl: String, onAuthenticated: (AuthSessionResource) -> Boo
 @Composable
 internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResource) -> Boolean) {
     val scope = rememberCoroutineScope()
+    val navController = rememberNavController()
     val smsFocusRequester = remember { FocusRequester() }
     val softwareKeyboardController = LocalSoftwareKeyboardController.current
-    var route by remember { mutableStateOf(AuthRoute.PASSWORD) }
+    var loginRoute by rememberSaveable { mutableStateOf(AuthRoute.PASSWORD) }
     var phone by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordAgain by remember { mutableStateOf("") }
@@ -319,9 +332,7 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
             }
         }
     }
-    fun selectRoute(next: AuthRoute) {
-        if (submitting || route == next) return
-        route = next
+    fun clearRouteState() {
         phone = ""
         password = ""
         smsCode = ""
@@ -330,16 +341,29 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
         challengeDialog = null
         state = AuthUiState.Editing
     }
-    BackHandler(
-        enabled = route in setOf(AuthRoute.REGISTER, AuthRoute.RESET) && !submitting && challengeDialog == null,
-    ) { selectRoute(AuthRoute.PASSWORD) }
+    fun selectLoginRoute(next: AuthRoute) {
+        if (submitting || next !in setOf(AuthRoute.PASSWORD, AuthRoute.SMS) || loginRoute == next) return
+        loginRoute = next
+        clearRouteState()
+    }
+    fun openRoute(next: AuthRoute) {
+        if (submitting || challengeDialog != null) return
+        clearRouteState()
+        when (next) {
+            AuthRoute.REGISTER -> navController.navigate(AuthDestination.Register)
+            AuthRoute.RESET -> navController.navigate(AuthDestination.Reset)
+            AuthRoute.PASSWORD, AuthRoute.SMS -> selectLoginRoute(next)
+        }
+    }
+    fun popToLogin() {
+        if (submitting || challengeDialog != null) return
+        clearRouteState()
+        navController.popBackStack()
+    }
 
-    Surface(color = HhyColors.PageBackground) {
-        AnimatedContent(
-            targetState = route,
-            transitionSpec = { HhyMotion.forwardContent() },
-            label = "authentication-route",
-        ) { currentRoute ->
+    val routeContent: @Composable (AuthRoute, (AuthRoute) -> Unit, () -> Unit) -> Unit =
+        { currentRoute, onSelect, onBack ->
+            Surface(color = HhyColors.PageBackground) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -353,9 +377,9 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
             BrandHeader(currentRoute)
             Spacer(Modifier.height(HhySpacing.Xl))
             if (currentRoute == AuthRoute.PASSWORD || currentRoute == AuthRoute.SMS) {
-                LoginModeSelector(currentRoute, enabled = !submitting && challengeDialog == null, onSelect = ::selectRoute)
+                LoginModeSelector(currentRoute, enabled = !submitting && challengeDialog == null, onSelect = onSelect)
             } else {
-                BackRouteHeader(currentRoute, enabled = !submitting && challengeDialog == null) { selectRoute(AuthRoute.PASSWORD) }
+                BackRouteHeader(currentRoute, enabled = !submitting && challengeDialog == null, onBack = onBack)
             }
             Spacer(Modifier.height(HhySpacing.Lg))
 
@@ -450,9 +474,38 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                 }
             }
             if (currentRoute == AuthRoute.PASSWORD || currentRoute == AuthRoute.SMS) {
-                AuxiliaryRoutes(enabled = !submitting && challengeDialog == null, onSelect = ::selectRoute)
+                AuxiliaryRoutes(enabled = !submitting && challengeDialog == null, onSelect = onSelect)
             }
             Spacer(Modifier.height(HhySpacing.Lg))
+            }
+        }
+    }
+
+    Surface(color = HhyColors.PageBackground) {
+        NavHost(
+            navController = navController,
+            startDestination = AuthDestination.Login,
+            enterTransition = { HhyMotion.forwardEnter() },
+            exitTransition = { HhyMotion.forwardExit() },
+            popEnterTransition = { HhyMotion.backwardEnter() },
+            popExitTransition = { HhyMotion.backwardExit() },
+        ) {
+            composable<AuthDestination.Login> {
+                AnimatedContent(
+                    targetState = loginRoute,
+                    transitionSpec = { HhyMotion.peerContent() },
+                    label = "login-mode",
+                ) { currentRoute ->
+                    routeContent(currentRoute, ::openRoute) { }
+                }
+            }
+            composable<AuthDestination.Register> {
+                BackHandler(enabled = submitting || challengeDialog != null) { }
+                routeContent(AuthRoute.REGISTER, ::openRoute, ::popToLogin)
+            }
+            composable<AuthDestination.Reset> {
+                BackHandler(enabled = submitting || challengeDialog != null) { }
+                routeContent(AuthRoute.RESET, ::openRoute, ::popToLogin)
             }
         }
     }

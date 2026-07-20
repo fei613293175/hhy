@@ -29,7 +29,7 @@ internal enum class IdentityResultKind { READY, PENDING, SUCCESS, FAILED, UNKNOW
 internal fun IdentitySessionResource.resultKind(): IdentityResultKind = when (status) {
     "SESSION_CREATED" -> IdentityResultKind.READY
     "LIVENESS_PENDING", "PROVIDER_PROCESSING", "MANUAL_REVIEW" -> IdentityResultKind.PENDING
-    "COMPLETED" -> IdentityResultKind.SUCCESS
+    "VERIFIED", "COMPLETED" -> IdentityResultKind.SUCCESS
     "REJECTED", "FAILED", "EXPIRED" -> IdentityResultKind.FAILED
     else -> IdentityResultKind.UNKNOWN
 }

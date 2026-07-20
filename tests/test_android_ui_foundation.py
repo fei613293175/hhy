@@ -31,6 +31,22 @@ class AndroidUiFoundationGateTest(unittest.TestCase):
             self.assertTrue(any("forbidden text/Unicode icon" in value for value in violations))
             self.assertTrue(any("Jetpack Navigation back stack" in value for value in violations))
 
+    def test_auth_route_state_and_directional_peer_motion_are_rejected(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            source = root / "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt"
+            source.parent.mkdir(parents=True)
+            source.write_text(
+                "var route by remember { mutableStateOf(AuthRoute.PASSWORD) }\n"
+                "val motion = HhyMotion.forwardContent()\n",
+                encoding="utf-8",
+            )
+            (root / "apps/android/gradle").mkdir(parents=True)
+            (root / "apps/android/gradle/libs.versions.toml").write_text('navigation = "2.9.8"\n', encoding="utf-8")
+            violations = MODULE.find_violations(root)
+            self.assertTrue(any("auth destinations must use" in value for value in violations))
+            self.assertTrue(any("peer login tabs must not use" in value for value in violations))
+
 
 if __name__ == "__main__":
     unittest.main()

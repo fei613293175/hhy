@@ -48,8 +48,12 @@ def find_violations(root: Path = ROOT) -> list[str]:
             "HhyBackButton",
         ),
         "apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt": (
-            "BackHandler(",
+            "rememberNavController()",
+            "NavHost(",
+            "popEnterTransition",
+            "popExitTransition",
             "AnimatedContent(",
+            "HhyMotion.peerContent()",
             "HhyBackButton",
         ),
         "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt": (
@@ -76,6 +80,14 @@ def find_violations(root: Path = ROOT) -> list[str]:
         for marker in markers:
             if marker not in text:
                 violations.append(f"{relative}: missing required marker {marker!r}")
+
+    auth = android / "feature" / "auth" / "src" / "main" / "java" / "cc" / "orbexa" / "hhy" / "auth" / "AuthScreen.kt"
+    if auth.exists():
+        auth_text = _text(auth)
+        if re.search(r"\bvar\s+route\s+by\s+remember", auth_text):
+            violations.append("apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt: auth destinations must use a real Navigation back stack")
+        if "HhyMotion.forwardContent()" in auth_text:
+            violations.append("apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt: peer login tabs must not use directional page motion")
 
     catalog = _text(android / "gradle" / "libs.versions.toml")
     match = re.search(r'^navigation\s*=\s*"([^"]+)"', catalog, flags=re.MULTILINE)

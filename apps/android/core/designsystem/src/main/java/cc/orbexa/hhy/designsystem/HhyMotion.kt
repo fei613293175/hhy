@@ -37,4 +37,8 @@ object HhyMotion {
     ) + fadeOut(tween(StandardMillis))
 
     fun forwardContent(): ContentTransform = forwardEnter().togetherWith(forwardExit())
+
+    /** Directionless transition for peer tabs; peer selection must never imitate page navigation. */
+    fun peerContent(): ContentTransform =
+        fadeIn(tween(StandardMillis)).togetherWith(fadeOut(tween(StandardMillis)))
 }

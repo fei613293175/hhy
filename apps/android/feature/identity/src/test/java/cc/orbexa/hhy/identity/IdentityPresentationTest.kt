@@ -22,6 +22,7 @@ class IdentityPresentationTest {
         fun session(status: String) = IdentitySessionResource("1", status = status, version = 0)
         assertEquals(IdentityResultKind.READY, session("SESSION_CREATED").resultKind())
         assertEquals(IdentityResultKind.PENDING, session("MANUAL_REVIEW").resultKind())
+        assertEquals(IdentityResultKind.SUCCESS, session("VERIFIED").resultKind())
         assertEquals(IdentityResultKind.SUCCESS, session("COMPLETED").resultKind())
         assertEquals("认证未通过", session("REJECTED").businessStatusText())
         assertEquals("正在确认认证结果", session("NEW_SERVER_STATE").businessStatusText())
