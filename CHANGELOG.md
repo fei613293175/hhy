@@ -616,3 +616,13 @@
 - Actor：`codex-root`
 - 摘要：R05-006已完成四项实名认证业务指标、七条告警、结构化日志与Trace脱敏、隔离Staging、两类告警触发恢复、同库卷回切和AC-R05-004证据归档。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T230526Z-55ABC07F.md`
+
+## TASK-R05-007 · COMPLETED · 2026-07-20T09:53:15Z
+
+- Task close: TASK-R05-007 / SES-20260719T234639Z-1D7D7A00
+- Release：`R05`
+- Story：`STORY-R05-001`
+- Actor：`codex-root`
+- 摘要：R05 versionCode 10213 项目所有者于2026-07-20明确确认整体真机体验通过；TASK-R05-007 APK构建、安装、追溯和真机验收门禁完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md`
+
