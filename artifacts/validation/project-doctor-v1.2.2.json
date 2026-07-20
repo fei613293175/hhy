@@ -2,7 +2,7 @@
   "version": "1.2.2",
   "status": "PASS",
   "strict": false,
-  "release_filter": "R05",
+  "release_filter": "R06",
   "metrics": {
     "android_surfaces": 102,
     "h5_pages": 13,
@@ -11,7 +11,7 @@
     "templates": 30,
     "fields": 5159,
     "states": 1633,
-    "actions": 608,
+    "actions": 609,
     "configs": 314,
     "config_rules": 58,
     "config_roles": 21,
@@ -20,7 +20,7 @@
     "stories": 163,
     "dor_gates": 396,
     "tables": 200,
-    "rest_operations": 318,
+    "rest_operations": 319,
     "websocket_events": 10,
     "unassigned_api_operations": 0,
     "open_document_gaps": 0

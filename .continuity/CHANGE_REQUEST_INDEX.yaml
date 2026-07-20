@@ -8762,3 +8762,41 @@ change_requests:
     session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+- protocol_version: '1.0'
+  cr_id: CR-0147
+  title: 登记R06实施入口与R06至R08连续推进授权
+  status: APPROVED
+  created_at: '2026-07-20T15:59:59Z'
+  updated_at: '2026-07-20T16:00:33Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-001
+  session_id: SES-20260720T155546Z-F13C645A
+  user_request: 现在立即按你的想法开始开发R06~R08版本，R06完成后直接进入下一个版本直到R08完成，测试APK和文档放到电脑桌面
+  reason: R06 Release Manifest需要登记当前Session、R05顺序依赖、历史阻断边界和连续交付规则
+  original_rule: R06仅为READY，尚未登记本次实施Session、R05顺序关闭证据和R06至R08连续交付指令
+  new_rule: 登记R06实施入口、历史阻断边界、R05顺序依赖和项目所有者授权的R06至R08连续推进及逐版桌面APK文档交付
+  impact_summary: 只更新R06治理基线与交接记录，不改变冻结页面、接口、数据库或业务语义
+  impact:
+    files:
+    - releases/R06/RELEASE_MANIFEST.yaml
+    - docs/03-continuity/R06_TASK-001_ENTRY_GATE.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_v122_documentation.py --release R06
+    - python scripts/check_release_artifacts.py --release R06
+    - python scripts/check_api_contract.py
+    releases:
+    - R06
+    migration_and_compatibility: 无数据迁移；兼容既有R02/R03历史阻断记录，并继续执行每版机器候选和项目所有者真机验收门禁
+  user_confirmation: 现在立即按你的想法开始开发R06~R08版本，也就是说R06开发完成后不用停止，直接进入下一个版本开发，直到R08开发完成，期间测试apk和文档给我放在电脑桌面即可
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T16:00:33Z'
+    note: 项目所有者明确要求立即开始并连续完成R06至R08，逐版交付APK与测试文档
+  machine_record: .continuity/change_requests/CR-0147.yaml
+  document: docs/03-continuity/change-requests/CR-0147-登记R06实施入口与R06至R08连续推进授权.md
