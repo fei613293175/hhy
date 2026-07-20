@@ -1,0 +1,222 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260720T173038Z-35648A77-0008
+session_id: SES-20260720T173038Z-35648A77
+sequence: 8
+created_at: '2026-07-20T18:45:33Z'
+summary: 规范化R06验收矩阵为仓库LF字节并重新生成Context Pack，消除Windows检出换行导致的来源哈希漂移
+next_step: 提交并推送最终Continuity Gate修复，确认CI全绿后触发R06候选APK工作流
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: continuity-source-hash
+  result: PASS
+  evidence: releases/R06/ACCEPTANCE_MATRIX.csv
+  note: Context Pack来源原始SHA与仓库文件一致
+- name: continuity-integration
+  result: PASS
+  evidence: artifacts/validation/continuity-integration-v1.2.3.json
+  note: 集成演练报告为当前脚本版本
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 4652c604cdbfe93b81dff10d9dddfa7f14e28c23
+  upstream: origin/task/TASK-R03-001
+  ahead: 1
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260720T173038Z-35648A77.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M releases/R06/ACCEPTANCE_MATRIX.csv'
+  recent_commits:
+  - "4652c604cdbfe93b81dff10d9dddfa7f14e28c23\t2026-07-21T02:39:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): refresh\
+    \ R06 governance sources"
+  - "629e4ea4cc0557ad3605764ee965ffe6339c6481\t2026-07-21T02:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(r06): secure about update\
+    \ flow"
+  - "706c1bbdb3971615a16fa95e8a6d3669255b1542\t2026-07-21T02:10:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(r06): add content console\
+    \ and home experience"
+  - "8ee22962d6049d4915e3b68e805356df8790ff0f\t2026-07-21T01:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-003\
+    \ as completed"
+  - "95d83aa20109e4b28e202f84921808cf907f618b\t2026-07-21T01:20:42+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): record\
+    \ R06-003 validation checkpoint"
+  - "be639eac26a765387414416c887034269308bcf5\t2026-07-21T01:11:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(content): implement R06\
+    \ content home CMS backend"
+  - "fda95f8a084a366108c22fb90decba1f2aaf15aa\t2026-07-21T00:23:27+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-002\
+    \ as completed"
+  - "3de2ae637f478c8b3390818a08a491a49a805890\t2026-07-21T00:22:13+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(database): enforce R06\
+    \ content and home invariants"
+project_fingerprint:
+  sha256: 863819418a46f92b1dd7a006a93de2f17687da89c7a62c796c661cd3c63a60e3
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/admin-web/src/views/AdminContentDictionariesPage.vue
+  - apps/admin-web/src/views/AdminContentListPage.vue
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+  - docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md
+  - releases/R06/ACCEPTANCE_MATRIX.csv
+  - releases/R06/PARALLEL_EXECUTION_PLAN.yaml
+  file_count: 18
+  payload:
+    base_commit: 8ee22962d6049d4915e3b68e805356df8790ff0f
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 55957
+      sha256: 28bda90a85c542dfac5abd8c6a738f59d4beabf6f654a3c39e0b2b4f860d7885
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 4924
+      sha256: a132cf14cfe9de0ebd011be693f852335ddb0547e2efe3afc02585ea2e0d0677
+    - path: apps/admin-web/src/services/adminContents.ts
+      state: FILE
+      size: 5149
+      sha256: 3b71b5f04ad7d0197c1576d6313c690c4e8fad2149723a7227fa91190565c5b8
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 2642
+      sha256: f5310b48b42c5ab18484be879ab30c745a409d17b671461fb1bb35efe17d6052
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 339
+      sha256: a82e0e1ab83d46ec3d87ed1023239a3df16b7a7a17cd1847b9c5878ce9ae8e3b
+    - path: apps/admin-web/src/views/AdminContentDetailPage.vue
+      state: FILE
+      size: 4785
+      sha256: 6fec23f6b238c99545fbd49797a7fd1c56c12bee7356a864a2f0c2dc2a69b615
+    - path: apps/admin-web/src/views/AdminContentDictionariesPage.vue
+      state: FILE
+      size: 3427
+      sha256: 9d0167acab7c9f05a3d9438953ad28c63509d7c9415f98cbe2131f650a6685e1
+    - path: apps/admin-web/src/views/AdminContentListPage.vue
+      state: FILE
+      size: 5740
+      sha256: 9107ba58acdb543fdaaf77cd82497c93dafd399080f7412f7759b06b3e37ad1f
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+      state: FILE
+      size: 4290
+      sha256: 676176a43c899d4053d4fe948c1922e34df1b49005988e55419c67c2cddb192b
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 11673
+      sha256: ddd2f9d8435b9acf1c0f10a523cd8909c9719b55e3334058e27e490885e32ec5
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+      state: FILE
+      size: 613
+      sha256: 55c0a1033d6cbbd511e456ea907fc16e471b31ede5931c080dcce3591df2c3e3
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+      state: FILE
+      size: 4510
+      sha256: fe0a86cd1d957c0159ea2c10427cb7a2c79a77db6d1011fb5437b3ac680e741e
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 8089
+      sha256: 68bafec12c50054d1ec2f577805e9c59ee38e82831a7bf3c867ddbf97e97aaf2
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 69333
+      sha256: 8756c8390db974b5887878030fd91206b0e7bd96d11540461427107a9c2f49f5
+    - path: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+      state: FILE
+      size: 2286
+      sha256: 4c3d1dd8615acd30275ad10cb2005f216f2e20f9f4bf99e1d3cf7d85c340631f
+    - path: docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md
+      state: FILE
+      size: 1584
+      sha256: b4119ded435a48ea08dc375e5f8c55cdf77773a2d9d3dedfa2972b7ce708edad
+    - path: releases/R06/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 681
+      sha256: 9485c8f085153d3483002b33a143c764a8838a3503d8ac4d2e36e5c3c45b9aaf
+    - path: releases/R06/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 3494
+      sha256: 426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R06/ACCEPTANCE_MATRIX.csv
+  - releases/R06/PARALLEL_EXECUTION_PLAN.yaml
+  code:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/admin-web/src/views/AdminContentDictionariesPage.vue
+  - apps/admin-web/src/views/AdminContentListPage.vue
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  user_visible:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/admin-web/src/views/AdminContentDictionariesPage.vue
+  - apps/admin-web/src/views/AdminContentListPage.vue
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+  - docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0148
+- CR-0149
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+  source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前会话没有可用独立执行代理；字节规范化与治理记录必须由主控原子更新
+event_hash: f5f85d4ac51fedb99370fa4ad93007d51d9174addb86f8f472306f520c97ae9f

@@ -2,7 +2,7 @@
   "version": "1.2.3",
   "product_spec_baseline": "V1.2.2",
   "continuity_protocol_version": "1.0",
-  "status": "FAIL",
+  "status": "PASS",
   "strict": true,
   "release_filter": null,
   "metrics": {
@@ -30,8 +30,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 1556,
-      "event_head_hash": "c4ff0b0b397b41560578e5adedaef29ddc0fb92f2043752996c582477de6b62e",
+      "event_count": 1558,
+      "event_head_hash": "f5f85d4ac51fedb99370fa4ad93007d51d9174addb86f8f472306f520c97ae9f",
       "document_gate": {
         "status": "EXECUTED",
         "forced": true,
@@ -48,31 +48,6 @@
     "continuity_integration_checks": 11,
     "continuity_lifecycle_checks": 14
   },
-  "errors": [
-    {
-      "code": "INTEGRATION_REPORT_STALE",
-      "message": "scripts/continuity_lib.py"
-    },
-    {
-      "code": "INTEGRATION_REPORT_STALE",
-      "message": "scripts/continuity_gate.py"
-    },
-    {
-      "code": "LIFECYCLE_REPORT_STALE",
-      "message": "scripts/continuity_lib.py"
-    },
-    {
-      "code": "LIFECYCLE_REPORT_STALE",
-      "message": "scripts/continuity_gate.py"
-    },
-    {
-      "code": "CONTEXT_SOURCE_STALE",
-      "message": "releases/R06/ACCEPTANCE_MATRIX.csv"
-    },
-    {
-      "code": "CONTEXT_RELEASE_PARALLEL_PLAN",
-      "message": "Context Pack来源必须包含当前Release并行计划"
-    }
-  ],
+  "errors": [],
   "warnings": []
 }

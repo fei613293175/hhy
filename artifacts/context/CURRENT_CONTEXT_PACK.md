@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T18:37:40Z
-- Context Hash：`210de345951a965ecab1aded9c478cd0cf6899e1333935bf1486d2e6a15e27fa`
+- 生成时间：2026-07-20T18:45:36Z
+- Context Hash：`c6b56ecac20a5467fa0f60f61f73dd1bc916efaa0e36f933d3dea09cc56cb3cc`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -89,7 +89,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R06-004
-updated_at: '2026-07-20T18:37:38Z'
+updated_at: '2026-07-20T18:45:34Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -124,15 +124,15 @@ continuity:
   active_session_id: SES-20260720T173038Z-35648A77
   actor_id: codex-root
   story_id: STORY-R06-001
-  lease_expires_at: '2026-07-20T22:37:38Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0007.yaml
-  project_fingerprint: 67e615d8150bc88b79ee0e4fd8bae7ba58da95a7b63a4c58d63b4c56c291d6aa
+  lease_expires_at: '2026-07-20T22:45:34Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0008.yaml
+  project_fingerprint: 863819418a46f92b1dd7a006a93de2f17687da89c7a62c796c661cd3c63a60e3
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d7c6a38af31fb2ecaca51ed7a338d9fead6499f90ee312d750618cbdef7aba68
-    generated_at: '2026-07-20T18:37:08Z'
+    context_hash: 96b7ea0772b54f437cce3dd296db62b75b1cf0c130163ef0b199969473b499a6
+    generated_at: '2026-07-20T18:44:59Z'
   handoff_bundle: null
 ```
 
@@ -328,7 +328,7 @@ task_id: TASK-R06-004
 story_id: STORY-R06-001
 goal: 统一内容基础、首页与CMS客户端/H5/后台实现
 started_at: '2026-07-20T17:30:38Z'
-updated_at: '2026-07-20T18:37:38Z'
+updated_at: '2026-07-20T18:45:34Z'
 takeover_of: null
 change_requests:
 - CR-0148
@@ -364,12 +364,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T18:37:38Z'
-  expires_at: '2026-07-20T22:37:38Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0007.yaml
+  renewed_at: '2026-07-20T18:45:34Z'
+  expires_at: '2026-07-20T22:45:34Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-next_step: 提交并推送治理修复，等待Continuity Gate和CI完成后触发R06候选APK门禁
+next_step: 提交并推送最终Continuity Gate修复，确认CI全绿后触发R06候选APK工作流
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -377,41 +377,37 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前会话没有可用独立执行代理；治理状态和Context Pack由主控统一更新并验证
+  reason: 当前会话没有可用独立执行代理；字节规范化与治理记录必须由主控原子更新
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260720T173038Z-35648A77-0007
+checkpoint_id: CP-SES-20260720T173038Z-35648A77-0008
 session_id: SES-20260720T173038Z-35648A77
-sequence: 7
-created_at: '2026-07-20T18:37:38Z'
-summary: 修复R06 Continuity Gate治理来源：新增R06版本并行执行计划，刷新连续性集成/生命周期报告和Context Pack
-next_step: 提交并推送治理修复，等待Continuity Gate和CI完成后触发R06候选APK门禁
+sequence: 8
+created_at: '2026-07-20T18:45:33Z'
+summary: 规范化R06验收矩阵为仓库LF字节并重新生成Context Pack，消除Windows检出换行导致的来源哈希漂移
+next_step: 提交并推送最终Continuity Gate修复，确认CI全绿后触发R06候选APK工作流
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: continuity-self-test
+- name: continuity-source-hash
+  result: PASS
+  evidence: releases/R06/ACCEPTANCE_MATRIX.csv
+  note: Context Pack来源原始SHA与仓库文件一致
+- name: continuity-integration
   result: PASS
   evidence: artifacts/validation/continuity-integration-v1.2.3.json
-  note: 真实Git交接与仓库重建演练通过
-- name: continuity-lifecycle
-  result: PASS
-  evidence: artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-  note: CR关闭和Clean Export全生命周期演练通过
-- name: context-pack
-  result: PASS
-  evidence: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  note: R06并行计划已进入上下文来源
+  note: 集成演练报告为当前脚本版本
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 629e4ea4cc0557ad3605764ee965ffe6339c6481
+  head: 4652c604cdbfe93b81dff10d9dddfa7f14e28c23
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
@@ -420,12 +416,11 @@ git:
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
-  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
-  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
   - ' M artifacts/validation/project-doctor-v1.2.3.json'
-  - ?? releases/R06/PARALLEL_EXECUTION_PLAN.yaml
+  - ' M releases/R06/ACCEPTANCE_MATRIX.csv'
   recent_commits:
+  - "4652c604cdbfe93b81dff10d9dddfa7f14e28c23\t2026-07-21T02:39:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): refresh\
+    \ R06 governance sources"
   - "629e4ea4cc0557ad3605764ee965ffe6339c6481\t2026-07-21T02:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(r06): secure about update\
     \ flow"
   - "706c1bbdb3971615a16fa95e8a6d3669255b1542\t2026-07-21T02:10:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(r06): add content console\
@@ -440,10 +435,8 @@ git:
     \ as completed"
   - "3de2ae637f478c8b3390818a08a491a49a805890\t2026-07-21T00:22:13+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(database): enforce R06\
     \ content and home invariants"
-  - "00670ed98ed8974f4aaea6c5e678c2ce8b4d10a2\t2026-07-21T00:05:19+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-001\
-    \ as completed"
 project_fingerprint:
-  sha256: 67e615d8150bc88b79ee0e4fd8bae7ba58da95a7b63a4c58d63b4c56c291d6aa
+  sha256: 863819418a46f92b1dd7a006a93de2f17687da89c7a62c796c661cd3c63a60e3
   files:
   - CHANGELOG.md
   - apps/admin-web/src/router.ts
@@ -461,8 +454,9 @@ project_fingerprint:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
   - docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md
+  - releases/R06/ACCEPTANCE_MATRIX.csv
   - releases/R06/PARALLEL_EXECUTION_PLAN.yaml
-  file_count: 17
+  file_count: 18
   payload:
     base_commit: 8ee22962d6049d4915e3b68e805356df8790ff0f
     files:
@@ -530,6 +524,10 @@ project_fingerprint:
       state: FILE
       size: 1584
       sha256: b4119ded435a48ea08dc375e5f8c55cdf77773a2d9d3dedfa2972b7ce708edad
+    - path: releases/R06/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 681
+      sha256: 9485c8f085153d3483002b33a143c764a8838a3503d8ac4d2e36e5c3c45b9aaf
     - path: releases/R06/PARALLEL_EXECUTION_PLAN.yaml
       state: FILE
       size: 3494
@@ -537,6 +535,7 @@ project_fingerprint:
 change_classification:
   other:
   - CHANGELOG.md
+  - releases/R06/ACCEPTANCE_MATRIX.csv
   - releases/R06/PARALLEL_EXECUTION_PLAN.yaml
   code:
   - apps/admin-web/src/router.ts
@@ -604,8 +603,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前会话没有可用独立执行代理；治理状态和Context Pack由主控统一更新并验证
-event_hash: f762632850b5c0c236c99e38049fbe477014b007b1b1bae844b1b96367fe6031
+  reason: 当前会话没有可用独立执行代理；字节规范化与治理记录必须由主控原子更新
+event_hash: f5f85d4ac51fedb99370fa4ad93007d51d9174addb86f8f472306f520c97ae9f
 ```
 
 ## 接续状态与事件头
@@ -617,8 +616,8 @@ active_session_id: SES-20260720T173038Z-35648A77
 last_session_id: SES-20260720T163244Z-D1F3CEE8
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260720T163244Z-D1F3CEE8-0004
-event_count: 1557
-event_head_hash: f762632850b5c0c236c99e38049fbe477014b007b1b1bae844b1b96367fe6031
+event_count: 1558
+event_head_hash: f5f85d4ac51fedb99370fa4ad93007d51d9174addb86f8f472306f520c97ae9f
 event_chain_valid: true
 ```
 
@@ -741,9 +740,9 @@ recent_sessions: - session_id: SES-20260719T165401Z-12791729
   started_at: '2026-07-20T17:30:38Z'
   record: .continuity/sessions/SES-20260720T173038Z-35648A77.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-  updated_at: '2026-07-20T18:37:38Z'
+  updated_at: '2026-07-20T18:45:34Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0007.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0008.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D22ECAFB67D6
   session_id: SES-20260719T083704Z-6E4CE28F
@@ -1608,9 +1607,9 @@ recent_task_transitions: - transition_id: TRN-9B8421CA1B25
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 629e4ea4cc0557ad3605764ee965ffe6339c6481
+head: 4652c604cdbfe93b81dff10d9dddfa7f14e28c23
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
@@ -1623,15 +1622,14 @@ status_porcelain:
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/continuity-integration-v1.2.3.json'
-- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
-- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
 - ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md'
-- ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0007.yaml
-- ?? releases/R06/PARALLEL_EXECUTION_PLAN.yaml
+- ' M releases/R06/ACCEPTANCE_MATRIX.csv'
+- ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0008.yaml
 recent_commits:
+- "4652c604cdbfe93b81dff10d9dddfa7f14e28c23\t2026-07-21T02:39:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): refresh R06\
+  \ governance sources"
 - "629e4ea4cc0557ad3605764ee965ffe6339c6481\t2026-07-21T02:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(r06): secure about update\
   \ flow"
 - "706c1bbdb3971615a16fa95e8a6d3669255b1542\t2026-07-21T02:10:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(r06): add content console\
@@ -1646,14 +1644,12 @@ recent_commits:
   \ as completed"
 - "3de2ae637f478c8b3390818a08a491a49a805890\t2026-07-21T00:22:13+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(database): enforce R06\
   \ content and home invariants"
-- "00670ed98ed8974f4aaea6c5e678c2ce8b4d10a2\t2026-07-21T00:05:19+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-001\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`67e615d8150bc88b79ee0e4fd8bae7ba58da95a7b63a4c58d63b4c56c291d6aa`
-- 文件数：17
+- 指纹：`863819418a46f92b1dd7a006a93de2f17687da89c7a62c796c661cd3c63a60e3`
+- 文件数：18
 
 - `CHANGELOG.md`
 - `apps/admin-web/src/router.ts`
@@ -1671,6 +1667,7 @@ recent_commits:
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md`
 - `docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md`
+- `releases/R06/ACCEPTANCE_MATRIX.csv`
 - `releases/R06/PARALLEL_EXECUTION_PLAN.yaml`
 
 ## 当前 Release
@@ -6607,7 +6604,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `15cc03e1826aab8d5937c114650b47f9b16375acc951ce38f3f7ea58bdb977f4`
+- `CURRENT_STATUS.yaml` — `28c07b291e8157941cb55d24bc0923afb262bacde9cc83ff7e6addfeaa6321af`
 - `NEXT_TASK.yaml` — `28fdd09fe247b9ee6f9baa24e34c7eb7ff152326afb99fa4f0e1bbeb61a4527b`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -6618,20 +6615,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `185d924f35f29bfe3dad8f3e51e3beb1f35ddbf5272eb0e09f5f26c5d29d9089`
-- `.continuity/SESSION_INDEX.yaml` — `881f729b79ae99357ecd11179e1dec2a8d3195cdbbfa4ffa2a8be73305184055`
+- `.continuity/EVENT_LOG.jsonl` — `bc50eb388fe3b5486aa0bfb192eba4b6ea8641f082a4e00c418b270131775e85`
+- `.continuity/SESSION_INDEX.yaml` — `4ad87588b6fa1b0f586d68169b7d6c89ff92914152142421685ca1d51598e02e`
 - `.continuity/TASK_CLAIMS.yaml` — `3abf162328146e0533fed277722c86a109a7476839eb932f968d82037eb8e518`
 - `.continuity/TASK_TRANSITIONS.yaml` — `17e0b26c549b14a3f15a7daf0c6e8a11389a129fc9bf0c57f1dba8af1ba71c67`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `1c4da98225ebda15a9357782139990473210f98abaedb399370e0e1d7f015482`
-- `.continuity/ACTIVE_SESSION.yaml` — `6924b35b81b4cfb90e2e728c27e240a7578df0c04ba4eb2929660af6a1a61677`
+- `.continuity/ACTIVE_SESSION.yaml` — `60e43ef7261f72f705101d99dad3e14364b691d2a2384d13d301eb32557dba2f`
 - `releases/R06/RELEASE_MANIFEST.yaml` — `72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878`
 - `releases/R06/DEFINITION_OF_READY.yaml` — `c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991`
 - `releases/R06/STORIES.yaml` — `dd81c97b0552c9342b5be360e918d26502b5e3d06fa8bafaba7648d43c96e7ef`
 - `releases/R06/TASKS.yaml` — `f5f835924fb09a1a17205ec407cd2887040d02f52d40b61c1ed2a44eccab6380`
-- `releases/R06/ACCEPTANCE_MATRIX.csv` — `17fd558d7f8c9b543c4ecd27d63d4d2f7b2113dca03e43a43239429185a760bb`
+- `releases/R06/ACCEPTANCE_MATRIX.csv` — `9485c8f085153d3483002b33a143c764a8838a3503d8ac4d2e36e5c3c45b9aaf`
 - `releases/R06/PARALLEL_EXECUTION_PLAN.yaml` — `426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51`
-- `docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md` — `ba609a837902a39bce44c8d5753a1932b0cd2bc47dc835060f7e6fd4796479b9`
-- `.continuity/checkpoints/SES-20260720T173038Z-35648A77/0007.yaml` — `51e137bbd715e104c5354e02510aa715fec68ddb3313a043b30ab2b92c2964a9`
+- `docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md` — `b637387273a224e155d6a551c98120b11e55b72b0d783341b5b63db7e5065e7d`
+- `.continuity/checkpoints/SES-20260720T173038Z-35648A77/0008.yaml` — `aa9d3cda297ea6cbdb73f45acb51a8d27b3d6dfac62817382a26a4b3b9394bf3`
 - `docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md` — `4c3d1dd8615acd30275ad10cb2005f216f2e20f9f4bf99e1d3cf7d85c340631f`
 - `docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md` — `b4119ded435a48ea08dc375e5f8c55cdf77773a2d9d3dedfa2972b7ce708edad`
 
