@@ -53,7 +53,7 @@ hhy:
     github-repository: ${HHY_CI_GITHUB_REPOSITORY:fei613293175/hhy}
     github-workflow: ${HHY_CI_GITHUB_WORKFLOW:.github/workflows/android-candidate-request.yml}
     oidc-audience: ${HHY_CI_OIDC_AUDIENCE:hhy-android-e2e}
-    bootstrap-ttl: ${HHY_CI_BOOTSTRAP_TTL:PT2M}
+    bootstrap-ttl: ${HHY_CI_BOOTSTRAP_TTL:PT10M}
     session-ttl: ${HHY_CI_SESSION_TTL:PT15M}
   identity-sandbox:
     enabled: ${HHY_IDENTITY_SANDBOX_ENABLED:false}

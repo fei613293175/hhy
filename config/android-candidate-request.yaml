@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R06
 candidate: true
-remediation_attempt: 1
-request_id: R06-20260721-004
-reason: 使用Staging OIDC自动会话和R06页面视觉矩阵生成AI自主验收候选证据
+remediation_attempt: 2
+request_id: R06-20260721-005
+reason: 修复一次性引导码早于模拟器冷启动完成而过期后，重跑R06页面视觉矩阵候选

@@ -4,7 +4,7 @@
   "continuity_protocol_version": "1.0",
   "status": "PASS",
   "strict": true,
-  "release_filter": null,
+  "release_filter": "R06",
   "metrics": {
     "canonical_policy_sha256": "35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6",
     "documentation": {
@@ -16,7 +16,7 @@
       "fields": 5159,
       "states": 1633,
       "actions": 609,
-      "configs": 314,
+      "configs": 319,
       "config_rules": 58,
       "config_roles": 21,
       "requirements": 84,
@@ -30,8 +30,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 1564,
-      "event_head_hash": "265fb6c136464010675141bcdc1df5ab995f6f26a1fd6a815b2281bd488e6335",
+      "event_count": 1604,
+      "event_head_hash": "a51021e93228de0b20c7eb0897701870174125b689c1fa999dd85bc10462cbe7",
       "document_gate": {
         "status": "EXECUTED",
         "forced": true,
@@ -43,7 +43,7 @@
     "continuity_required_records": 20,
     "baseline_sessions": 55,
     "baseline_handoffs": 3,
-    "change_requests": 148,
+    "change_requests": 154,
     "task_transitions": 57,
     "continuity_integration_checks": 11,
     "continuity_lifecycle_checks": 14

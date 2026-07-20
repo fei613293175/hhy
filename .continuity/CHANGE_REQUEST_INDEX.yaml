@@ -9195,3 +9195,55 @@ change_requests:
     session_id: SES-20260720T173038Z-35648A77
   session_ids:
   - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0156
+  title: 延长CI一次性引导码至覆盖确定性模拟器冷启动
+  status: IMPLEMENTING
+  created_at: '2026-07-20T23:15:27Z'
+  updated_at: '2026-07-20T23:18:29Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 项目所有者要求减少GitHub反复耗时、自动登录高效稳定并持续开发
+  reason: R06候选实证显示引导码签发后3分24秒才兑换，冻结2分钟TTL必然过期并使会话接口返回500
+  original_rule: CI一次性引导码固定两分钟到期，GitHub在模拟器冷启动和测试APK编译前签发
+  new_rule: 一次性引导码改为十分钟硬上限，仍绑定仓库、工作流、Commit与Run并在事务内单次消费；短时登录会话仍为十五分钟，生产环境继续硬拒绝
+  impact_summary: 只扩大GitHub候选冷启动覆盖窗口，不引入密码或长期凭据；修复确定性过期500并保留单次消费和生产隔离
+  impact:
+    files:
+    - config/android-automation.yaml
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/boot/src/main/resources/application.yml
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+    - scripts/android_ci_gate.py
+    - tests/test_android_ci_gate.py
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - ci.automation.bootstrap_ttl=PT10M;hard maximum PT10M;session ttl remains PT15M
+    ledger: []
+    tests:
+    - CiAutomationServiceTest;tests.test_android_ci_gate;Staging redemption smoke
+    releases:
+    - R06-R32
+    migration_and_compatibility: 无数据库迁移；Staging滚动重启后新签发记录使用十分钟TTL，旧记录按原到期时间自然清理；关闭CI自动认证即可回滚
+  user_confirmation: 项目所有者明确要求自动登录高效稳定、不要在GitHub反复浪费时间并接着开发
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T23:17:39Z'
+    note: 依据项目所有者要求减少GitHub反复耗时并持续自动测试，批准最小TTL修复；禁止扩大到生产或长期凭据
+  machine_record: .continuity/change_requests/CR-0156.yaml
+  document: docs/03-continuity/change-requests/CR-0156-延长CI一次性引导码至覆盖确定性模拟器冷启动.md
+  decision_log:
+  - at: '2026-07-20T23:18:29Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 按候选实证实施十分钟硬上限、配置门禁、后端校验和回归测试
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77

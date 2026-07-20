@@ -24,6 +24,18 @@ build:
   - testDebugUnitTest
   - assembleDebug
   - assembleDebugAndroidTest
+authentication:
+  mode: GITHUB_OIDC_ONE_TIME
+  bootstrap_ttl_seconds: 600
+  bootstrap_ttl_max_seconds: 600
+  session_ttl_seconds: 900
+  binding_claims:
+  - repository
+  - workflow_ref
+  - commit
+  - run_id
+  consume_once: true
+  production_enabled: false
 emulator:
   api_level: 35
   target: google_apis

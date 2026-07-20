@@ -34,6 +34,17 @@ class CiAutomationServiceTest {
     }
 
     @Test
+    void enabledAutomationRejectsBootstrapTtlAboveTenMinutes() {
+        MockEnvironment staging = new MockEnvironment();
+        staging.setActiveProfiles("staging");
+        CiAutomationProperties unsafe = new CiAutomationProperties(true, "13800000006", "fei613293175/hhy",
+                ".github/workflows/android-candidate-request.yml", "hhy-android-e2e",
+                Duration.ofMinutes(11), Duration.ofMinutes(15));
+        assertThrows(IllegalStateException.class, () -> service(unsafe, staging,
+                mock(CiAutomationStore.class), mock(UserAuthStore.class), mock(UserAuthService.class)));
+    }
+
+    @Test
     void oidcIdentityCreatesOneTimeCodeAndRedeemsShortSession() throws Exception {
         MockEnvironment staging = new MockEnvironment();
         staging.setActiveProfiles("staging");
@@ -49,8 +60,11 @@ class CiAutomationServiceTest {
         CiAutomationService.BootstrapCode bootstrap = service.issue(identity);
         String codeHash = HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256")
                 .digest(bootstrap.code().getBytes(StandardCharsets.UTF_8)));
+        assertEquals(NOW.plus(Duration.ofMinutes(10)), bootstrap.expiresAt());
+        verify(store).create(eq(7L), eq(codeHash), eq(identity.repository()), eq(identity.workflow()),
+                eq(identity.commit()), eq(identity.runId()), eq(bootstrap.expiresAt()));
         when(store.findForUpdate(codeHash)).thenReturn(Optional.of(new CiAutomationStore.BootstrapRow(
-                9L, 7L, identity.commit(), identity.runId(), NOW.plusSeconds(120))));
+                9L, 7L, identity.commit(), identity.runId(), bootstrap.expiresAt())));
         when(store.consume(9L, NOW)).thenReturn(true);
         UserSessionResource expected = new UserSessionResource(
                 "access", "refresh", NOW.plusSeconds(900), "7", "11", null, java.util.List.of());
@@ -72,6 +86,6 @@ class CiAutomationServiceTest {
     private static CiAutomationProperties properties() {
         return new CiAutomationProperties(true, "13800000006", "fei613293175/hhy",
                 ".github/workflows/android-candidate-request.yml", "hhy-android-e2e",
-                Duration.ofMinutes(2), Duration.ofMinutes(15));
+                Duration.ofMinutes(10), Duration.ofMinutes(15));
     }
 }

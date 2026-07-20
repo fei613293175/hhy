@@ -21,6 +21,16 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertTrue(policy["delivery"]["forbid_owner_request_before_pass"])
         self.assertTrue(policy["delivery"]["desktop_copy_after_actions_pass"])
         self.assertTrue(policy["delivery"]["desktop_test_guide_required"])
+        self.assertEqual("GITHUB_OIDC_ONE_TIME", policy["authentication"]["mode"])
+        self.assertEqual(600, policy["authentication"]["bootstrap_ttl_seconds"])
+        self.assertEqual(600, policy["authentication"]["bootstrap_ttl_max_seconds"])
+        self.assertEqual(900, policy["authentication"]["session_ttl_seconds"])
+        self.assertTrue(policy["authentication"]["consume_once"])
+        self.assertFalse(policy["authentication"]["production_enabled"])
+        self.assertEqual(
+            {"repository", "workflow_ref", "commit", "run_id"},
+            set(policy["authentication"]["binding_claims"]),
+        )
 
     def test_runtime_failure_creates_remediation_queue(self) -> None:
         with TemporaryDirectory() as temp:

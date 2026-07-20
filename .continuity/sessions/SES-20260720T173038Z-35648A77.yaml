@@ -11,7 +11,7 @@ task_id: TASK-R06-004
 story_id: STORY-R06-001
 goal: 统一内容基础、首页与CMS客户端/H5/后台实现
 started_at: '2026-07-20T17:30:38Z'
-updated_at: '2026-07-20T22:54:02Z'
+updated_at: '2026-07-20T23:26:19Z'
 takeover_of: null
 change_requests:
 - CR-0148
@@ -22,6 +22,7 @@ change_requests:
 - CR-0153
 - CR-0154
 - CR-0155
+- CR-0156
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -79,7 +80,7 @@ scope:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
   - services/backend/boot/pom.xml
   - catalogs/config_registry.csv
-  source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151+approved-cr:CR-0152+approved-cr:CR-0153+approved-cr:CR-0154+approved-cr:CR-0155
+  source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151+approved-cr:CR-0152+approved-cr:CR-0153+approved-cr:CR-0154+approved-cr:CR-0155+approved-cr:CR-0156
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -89,22 +90,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T22:53:58Z'
-  expires_at: '2026-07-21T02:53:58Z'
-checkpoint_sequence: 18
-latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0018.yaml
+  renewed_at: '2026-07-20T23:26:15Z'
+  expires_at: '2026-07-21T03:26:15Z'
+checkpoint_sequence: 19
+latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0019.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-next_step: 提交连续性刷新，为最终提交配置精确APK路由并推送一次R06候选；AI自主审图后完成R06交付并继续R07
+next_step: 通过严格Doctor后提交冻结修复，滚动部署Staging并在精确APK路由预检后推送R06修复候选
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 35d59decc160819e30ef6b5457e976d0d42e436fd9a31c37bc70548f2edc1d85
-  generated_at: '2026-07-20T22:54:01Z'
+  context_hash: 588f295ade909517ace00f39fdb2cd1a4189ad079aa5f66200a20cc316018042
+  generated_at: '2026-07-20T23:26:17Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选冻结提交、精确下载路由、推送和Actions证据属于同一串行发布边界
+  reason: 安全TTL、Staging滚动部署、冻结Commit、下载路由和候选证据共享同一串行发布边界

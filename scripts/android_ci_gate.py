@@ -28,7 +28,7 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
     document = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
     required = {
         "schema_version", "policy_id", "status", "enforcement", "build",
-        "emulator", "visual", "logs", "remediation", "delivery",
+        "authentication", "emulator", "visual", "logs", "remediation", "delivery",
     }
     missing = sorted(required - set(document))
     if missing:
@@ -40,6 +40,19 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
         raise GateError("Android candidate API base URL must be https://api.orbexa.cc")
     if int(document["remediation"].get("max_ai_attempts") or 0) != 3:
         raise GateError("Android remediation loop must be bounded to exactly three AI attempts")
+    authentication = document["authentication"]
+    if authentication.get("mode") != "GITHUB_OIDC_ONE_TIME":
+        raise GateError("Android candidate authentication must use one-time GitHub OIDC")
+    bootstrap_ttl = int(authentication.get("bootstrap_ttl_seconds") or 0)
+    if bootstrap_ttl != 600 or int(authentication.get("bootstrap_ttl_max_seconds") or 0) != 600:
+        raise GateError("Android CI bootstrap TTL must be fixed to the ten-minute hard maximum")
+    if int(authentication.get("session_ttl_seconds") or 0) != 900:
+        raise GateError("Android CI session TTL must remain fifteen minutes")
+    if authentication.get("consume_once") is not True or authentication.get("production_enabled") is not False:
+        raise GateError("Android CI bootstrap must remain single-use and production-forbidden")
+    required_claims = {"repository", "workflow_ref", "commit", "run_id"}
+    if set(authentication.get("binding_claims") or []) != required_claims:
+        raise GateError("Android CI bootstrap must bind repository, workflow, commit, and run")
     if not document["delivery"].get("forbid_owner_request_before_pass"):
         raise GateError("Owner test must remain blocked before automated PASS")
     if not document["delivery"].get("desktop_copy_after_actions_pass"):

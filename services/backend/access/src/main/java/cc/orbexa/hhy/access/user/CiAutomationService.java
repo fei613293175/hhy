@@ -39,6 +39,8 @@ public class CiAutomationService {
             requireConfigured(properties.githubRepository(), "CI GitHub repository");
             requireConfigured(properties.githubWorkflow(), "CI GitHub workflow");
             requireConfigured(properties.oidcAudience(), "CI OIDC audience");
+            requireDuration(properties.bootstrapTtl(), java.time.Duration.ofMinutes(10), "CI bootstrap TTL");
+            requireDuration(properties.sessionTtl(), java.time.Duration.ofMinutes(30), "CI session TTL");
         }
     }
 
@@ -84,6 +86,12 @@ public class CiAutomationService {
 
     private static void requireConfigured(String value, String label) {
         if (value == null || value.isBlank()) throw new IllegalStateException(label + " is required");
+    }
+
+    private static void requireDuration(java.time.Duration value, java.time.Duration maximum, String label) {
+        if (value == null || value.isNegative() || value.isZero() || value.compareTo(maximum) > 0) {
+            throw new IllegalStateException(label + " must be positive and no longer than " + maximum);
+        }
     }
 
     private static String sha256(String value) {

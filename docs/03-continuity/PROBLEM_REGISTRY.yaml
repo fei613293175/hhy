@@ -799,3 +799,16 @@ problems:
   - 不得为自动页面测试保存长期账号密码、万能验证码或生产后门
   - 不得因等待项目所有者截图确认、桌面APK真机测试或大小版本完成而暂停后续开发
   - AI接受基线前必须核对页面身份、加载状态、像素稳定、跨页面差异、哈希和冻结设计
+- id: PROB-0061
+  title: R06 GitHub候选一次性引导码在模拟器冷启动完成前确定性过期
+  status: SOLVED
+  root_cause: 候选工作流在启动模拟器与编译测试APK之前签发一次性引导码，但引导码固定两分钟到期；R06实证从签发到兑换耗时3分24秒，数据库记录未消费且已过期，会话端点因此返回500，三张版本页面截图均未执行。
+  resolution: CR-0156把引导码调整为十分钟硬上限并写入Android自动化事实源；后端启动时拒绝非正值或超过十分钟的配置，仍绑定GitHub仓库、工作流、Commit和Run并在事务内只消费一次。兑换后的会话继续为十五分钟，任何prod/production环境继续硬拒绝启用。
+  regression_checks:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+  - python -m unittest tests.test_android_ci_gate
+  - GitHub R06候选从引导码签发到模拟器兑换与三页截图全部PASS
+  do_not_repeat:
+  - 一次性码TTL必须覆盖可观测的最慢模拟器冷启动和测试APK编译路径，不得凭经验设置得短于确定性执行时间
+  - 延长TTL不得取消单次消费、精确OIDC身份绑定、短时会话或生产环境硬拒绝
+  - 同一根因未定位前不得盲目重跑GitHub候选
