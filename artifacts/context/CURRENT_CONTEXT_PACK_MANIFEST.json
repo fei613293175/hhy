@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-20T08:45:32Z",
-  "context_hash": "b2faf5edfd5869d13661f91cc4f0b636fd52dbed6b4d128e5ded2e22d8bfed67",
+  "generated_at": "2026-07-20T08:51:52Z",
+  "context_hash": "eb9651dbbd80b4c2d87c1476417dfee78c54c1b3e7340df61b8d32dc47def09b",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "89e4144776ca952a734b6b9297863e51cf95ffc8aa3519049dd735a494d83bdd",
+    "sha256": "be8ff2bb4ad55cc8ad1ba440711004febe1f2f4faefe78224df5fcb89d6b90bc",
     "file_count": 169
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "a7bbd0f5d3cf8007dd22b101285b53ff147fd42e449fb18e512b4b0c9e0880eb"
+    "sha256": "2e89c83ddbbdf3fbf0a135631e71c3c7ceddcac8a507b1d5db4eb3582b4f1e8c"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "64a31a545c3306fcea659159041fbf8bd38f796c76d136ea978cdba7a05a2268"
+    "sha256": "52ce7c3482634d8d4e8ed7dfb5073dd54b9e762b1cb44c82149bbdca105c3393"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "1d95dcc9d2f1fa472e1ae9a8cb2a711317ad3bac79e0119e96e67d6e8834fb0b",
+      "sha256": "561573f888471cf021066e641ff18588ac6eeb4e0f9cfa964bd5a0df5d2c7e33",
       "bytes": 3617
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "5ce6a7d24164f787c6c0711bc389b4e17a82409f0ecca793e30bf525c79da66b",
-      "bytes": 757157
+      "sha256": "8423902aa2ccc034a7ba390eb189e845c5d5b739759e5cef1179651311c61cff",
+      "bytes": 757925
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "e9a45f8a3886713fc71595034d6f221a5e06954e36028cf05fe3936986d031b2",
+      "sha256": "d701dfa1b761534e78c364d9db2eba4766ce65eceeb229e5b9ba529935b528a1",
       "bytes": 25306
     },
     {
@@ -108,7 +108,7 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "37f4a81fc87888c6540abd71440666035f8b89dcf0b80ae083354c3822598113",
+      "sha256": "6ac2bbaed2c7805e800748e839873258b527df1160912d99280ab97ae4b64073",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md",
-      "sha256": "7b37af79a7e53e69bd6f4334b0c64783de27af266d1e9a5c7a1064cb7cfc9c09",
-      "bytes": 236237
+      "sha256": "c0bede09fda07f360b17982465d1d6e3e85fb6b836b10f9ec5bf57e0af8ad8a3",
+      "bytes": 244725
     },
     {
-      "path": ".continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0040.yaml",
-      "sha256": "ebc2f20681f7ebc27a9c428e445d06f848fceebe78c27f88edd6610a38235aab",
-      "bytes": 70189
+      "path": ".continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0041.yaml",
+      "sha256": "1703b6175ee56c08b1695d7e31edd9c5ab64a975446934be4c89e2a360b2a035",
+      "bytes": 67007
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md",
@@ -248,8 +248,8 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0128-修复R05实名状态恢复并将第三方活体H5改为全屏容器.md",
-      "sha256": "bec69a2a63ab25f3626051f449e08608d6599e3822e1301936fcdad8ed9a3460",
-      "bytes": 3974
+      "sha256": "aa09990ffe64352f6355b7f3dba0b7b8a6ef6833dc840e502de3694bcf575aab",
+      "bytes": 4083
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0129-同步R05实名总览契约目录与生成客户端.md",

@@ -147,6 +147,13 @@ def verify(api_base_url: str, invite_code: str, timeout: int, candidate: bool) -
         "User-Agent": "hhy-r05-sandbox-gate/1",
     }
 
+    initial_overview_status, initial_overview = request_json(Request(
+        f"{base}/api/v1/identity/overview", headers=auth_headers,
+    ), timeout)
+    initial_overview_data = _require_data(initial_overview_status, initial_overview, "initial identity overview")
+    if initial_overview_data.get("status") != "NOT_STARTED" or initial_overview_data.get("activeSession") is not None:
+        raise RuntimeError("initial identity overview did not report NOT_STARTED")
+
     consent_status, consent = request_json(Request(
         f"{base}/api/v1/identity/consent", headers=auth_headers,
     ), timeout)
@@ -174,6 +181,18 @@ def verify(api_base_url: str, invite_code: str, timeout: int, candidate: bool) -
     session_id = created_data.get("id")
     if not isinstance(session_id, str) or not session_id:
         raise RuntimeError("identity session ID was missing")
+
+    active_overview_status, active_overview = request_json(Request(
+        f"{base}/api/v1/identity/overview", headers=auth_headers,
+    ), timeout)
+    active_overview_data = _require_data(active_overview_status, active_overview, "active identity overview")
+    active_session = active_overview_data.get("activeSession")
+    if (
+        active_overview_data.get("status") != "IN_PROGRESS"
+        or not isinstance(active_session, dict)
+        or active_session.get("id") != session_id
+    ):
+        raise RuntimeError("active identity overview did not restore the created session")
 
     liveness_status, liveness = request_json(Request(
         f"{base}/api/v1/identity/sessions/{session_id}/liveness-token",
@@ -227,6 +246,13 @@ def verify(api_base_url: str, invite_code: str, timeout: int, candidate: bool) -
     if result_data.get("status") != "VERIFIED":
         raise RuntimeError("sandbox completion did not reach VERIFIED")
 
+    verified_overview_status, verified_overview = request_json(Request(
+        f"{base}/api/v1/identity/overview", headers=auth_headers,
+    ), timeout)
+    verified_overview_data = _require_data(verified_overview_status, verified_overview, "verified identity overview")
+    if verified_overview_data.get("status") != "VERIFIED" or verified_overview_data.get("activeSession") is not None:
+        raise RuntimeError("verified identity overview did not report terminal VERIFIED state")
+
     replay_status, _ = _post_form_no_redirect(completion_url, {
         "state": state,
         "returnUrl": return_url,
@@ -240,10 +266,13 @@ def verify(api_base_url: str, invite_code: str, timeout: int, candidate: bool) -
         "api_base_url": base,
         "candidate_mode": candidate,
         "registration_http": registration_status,
+        "initial_overview_status": initial_overview_data["status"],
         "identity_session_http": create_status,
+        "active_overview_status": active_overview_data["status"],
         "liveness_page_http": 200,
         "completion_http": completion_status,
         "identity_status": result_data["status"],
+        "verified_overview_status": verified_overview_data["status"],
         "replay_http": replay_status,
         "verified_at_epoch": int(time.time()),
     }

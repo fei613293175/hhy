@@ -27,6 +27,7 @@ impact:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
   - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
+  - scripts/check_r05_staging_identity_sandbox.py
   pages:
   - SCR-ID-001
   - SCR-ID-003
@@ -36,7 +37,7 @@ impact:
   configuration: []
   ledger: []
   tests:
-  - 后端总览状态与过期会话收敛；Android未认证/认证中/已认证路由；全屏H5返回恢复；409/422商业错误映射；现有R05专项矩阵回归
+  - 后端总览状态与过期会话收敛；Android未认证/认证中/已认证路由；全屏H5返回恢复；409/422商业错误映射；公网沙箱逐态验证NOT_STARTED/IN_PROGRESS/VERIFIED；现有R05专项矩阵回归
   releases:
   - R05
   migration_and_compatibility: 非破坏性新增GET接口；原四个R05接口保持兼容。无数据库迁移。旧客户端仍可使用原流程，新客户端优先读取总览。沙箱默认关闭且生产继续硬拒绝。
