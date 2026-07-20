@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0111
 title: 精确补充R05-007 APK交付证据文件
-status: APPROVED
+status: IMPLEMENTED
 created_at: '2026-07-20T00:11:26Z'
-updated_at: '2026-07-20T00:11:51Z'
+updated_at: '2026-07-20T00:18:51Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R05-007
@@ -50,3 +50,18 @@ approval:
   note: 逐文件范围仅覆盖TASK-R05-007必需交付证据，符合最小范围原则。
 machine_record: .continuity/change_requests/CR-0111.yaml
 document: docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md
+decision_log:
+- at: '2026-07-20T00:18:49Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 应用R05-007逐文件APK交付证据范围。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T00:18:51Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: R05-007 APK Manifest、构建签名证据、交付证据和测试说明已由ddb8277提交并推送。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- ddb8277b9e58c46dd80eee1a54f129cd539fd8da

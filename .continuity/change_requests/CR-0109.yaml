@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0109
 title: 补充R05 Android APK版本身份精确文件范围
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-19T23:49:13Z'
-updated_at: '2026-07-19T23:49:19Z'
+updated_at: '2026-07-20T00:18:39Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R05-007
@@ -42,5 +42,12 @@ decision_log:
   status: IMPLEMENTING
   note: 应用R05 Android版本身份精确文件范围
   session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T00:18:39Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: R05 Android版本身份已在3454ff2冻结为1.2.2-debug/10208，并由ddb8277交付证据验证。
+  session_id: SES-20260719T234639Z-1D7D7A00
 session_ids:
 - SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- 3454ff232a66c83c8fd7f6f00dc95d6d078f63ef
