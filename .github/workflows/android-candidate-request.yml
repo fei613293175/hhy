@@ -46,6 +46,7 @@ jobs:
     permissions:
       contents: read
       issues: write
+      id-token: write
     uses: ./.github/workflows/android-quality-gate.yml
     with:
       release: ${{ needs.request.outputs.release }}

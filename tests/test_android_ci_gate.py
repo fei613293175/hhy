@@ -33,7 +33,7 @@ class AndroidCiGateTest(unittest.TestCase):
                 policy=str(ROOT / "config/android-automation.yaml"), release="R05", commit="a" * 40,
                 attempt=1, test_exit_code_file=str(root / "exit.txt"), junit_root=str(root / "junit"),
                 logcat=str(root / "logcat.txt"), screenshots=str(root / "screenshots"),
-                baseline_root=str(root / "baseline"), output=str(output),
+                baseline_root=str(root / "baseline"), visual_manifest_root=str(root / "manifests"), output=str(output),
             ))
             payload = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(1, result)
@@ -54,13 +54,13 @@ class AndroidCiGateTest(unittest.TestCase):
             screenshots = root / "screenshots"
             screenshots.mkdir()
             for index in range(4):
-                (screenshots / f"0{index + 1}.png").write_bytes(b"evidence")
+                (screenshots / f"0{index + 1}.png").write_bytes(f"evidence-{index}".encode())
             output = root / "runtime.json"
             result = analyze(SimpleNamespace(
                 policy=str(ROOT / "config/android-automation.yaml"), release="R05", commit="a" * 40,
                 attempt=1, test_exit_code_file=str(root / "exit.txt"), junit_root=str(junit),
                 logcat=str(root / "logcat.txt"), screenshots=str(screenshots),
-                baseline_root=str(root / "baseline"), output=str(output),
+                baseline_root=str(root / "baseline"), visual_manifest_root=str(root / "manifests"), output=str(output),
             ))
             payload = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(0, result)
@@ -131,6 +131,7 @@ class AndroidCiGateTest(unittest.TestCase):
             self.assertEqual("PASS", payload["status"])
             self.assertTrue(payload["owner_test_allowed"])
             self.assertFalse(payload["release_completion_allowed"])
+            self.assertFalse(payload["production_activation_allowed"])
 
     def test_workflow_contains_every_required_stage_and_bounded_gradle(self) -> None:
         workflow_path = ROOT / ".github/workflows/android-quality-gate.yml"
@@ -182,6 +183,7 @@ class AndroidCiGateTest(unittest.TestCase):
         )
         self.assertEqual("true", workflow["jobs"]["quality"]["with"]["candidate"])
         self.assertIn("config/android-candidate-request.yaml", workflow_path.read_text(encoding="utf-8"))
+        self.assertEqual("write", workflow["jobs"]["quality"]["permissions"]["id-token"])
 
     def test_main_ci_pins_node_for_python_gates_and_keeps_diagnostics(self) -> None:
         ci_source = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
@@ -211,13 +213,39 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("Pictures/hhy-ci-screenshots", smoke_test)
         self.assertNotIn("getExternalFilesDir", smoke_test)
         self.assertNotIn("executeShellCommand", smoke_test)
-        self.assertIn('gone = listOf(By.text("正在启动"))', smoke_test)
-        self.assertIn("Until.gone(selector)", smoke_test)
-        self.assertIn('By.text("短信验证码登录")', smoke_test)
-        self.assertIn('By.text("新密码")', smoke_test)
-        self.assertNotIn('By.text("重置登录密码")', smoke_test)
+        self.assertIn("hhyCiBootstrapCode", smoke_test)
+        self.assertIn("/internal-ci/v1/android/session", smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r06.home.loaded")', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r06.mine"', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r06.about.loaded"', smoke_test)
+        self.assertIn("stableMatches >= 2", smoke_test)
+        self.assertIn("digest != previousScreenDigest", smoke_test)
         self.assertIn("waitForIdle(2_000)", smoke_test)
         self.assertNotIn("waitForTextContains", smoke_test)
+
+    def test_release_manifest_and_duplicate_screenshot_guard_are_durable(self) -> None:
+        policy = load_policy()
+        manifest = yaml.safe_load((ROOT / "tests/android/visual-manifests/R06.yaml").read_text(encoding="utf-8"))
+        self.assertEqual("AI_IMPLEMENTATION_AGENT", manifest["review_authority"])
+        self.assertEqual(
+            ["01-home-loaded.png", "02-mine.png", "03-about-loaded.png"],
+            [row["file"] for row in manifest["screens"]],
+        )
+        self.assertEqual("AI_IMPLEMENTATION_AGENT", policy["visual"]["review_authority"])
+        self.assertEqual("PASS", policy["enforcement"]["release_complete_requires_owner_status"])
+        self.assertFalse(policy["enforcement"]["next_release_development_requires_owner_status"])
+        self.assertEqual("PASS", policy["enforcement"]["production_activation_requires_owner_status"])
+        source = (ROOT / "scripts/android_ci_gate.py").read_text(encoding="utf-8")
+        self.assertIn("duplicate screenshot sha256=", source)
+        self.assertIn("cross-screen pixel difference too small", source)
+
+    def test_quality_workflow_requests_only_a_one_time_oidc_bootstrap(self) -> None:
+        source = (ROOT / ".github/workflows/android-quality-gate.yml").read_text(encoding="utf-8")
+        self.assertIn("ACTIONS_ID_TOKEN_REQUEST_TOKEN", source)
+        self.assertIn("audience=hhy-android-e2e", source)
+        self.assertIn("/internal-ci/v1/android/bootstrap", source)
+        self.assertIn("::add-mask::$bootstrap_code", source)
+        self.assertNotIn("HHY_E2E_PASSWORD", source)
 
     def test_every_android_module_uses_the_stable_compile_sdk(self) -> None:
         module_builds = sorted((ROOT / "apps/android").glob("**/build.gradle.kts"))

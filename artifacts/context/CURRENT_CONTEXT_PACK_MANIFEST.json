@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-20T21:01:22Z",
-  "context_hash": "7ce4e563e4de64a8db8776f5e8ad330d724678b123a284591b285268b8fdc4ef",
+  "generated_at": "2026-07-20T22:10:04Z",
+  "context_hash": "6520ea0158d67ba565b4e176726f0acda464d3c7cd802e0240fc25c37581b263",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "cc47c26ae8af7b007dd8e6a698756a3687639b2618ef8a102ad10d9c0137bf92",
-    "file_count": 36
+    "sha256": "a052bf88f7bc7e6f3b8c3c14a625ffce278c5c28b16136f334e8cdd5f5cb95cf",
+    "file_count": 57
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "42227bda4ff3bfcc04f0a8cf2e80bf82bc43b3040be4cd3d82d172a6bf2c3062"
+    "sha256": "aefcd6245a2523bbf51db0cfe40afc64b07f1ef1a3efd541dbf8c4e15fba7a60"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "0658e7fdd1cc21638f3d3ce922334b0c624744c2c84b09d3feafa8efb15be6a5"
+    "sha256": "685fc423edae655b25a7b72c673cbd359152d03f2ed23d6e11cf823d0e49d804"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "449a7112200c014129efc403bf76ad9ed42e1634d1bd8d66e7deec209bc7ddb2",
+      "sha256": "b3822ab7b05d372a9cd674faf5735f462ba421315e2f3b1b2debd02154c76ab8",
       "bytes": 3692
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "23172a30c9a0406e93167f4081ad4b261de93ae9321b656b763356c0fb3dc7eb",
-      "bytes": 71080
+      "sha256": "703a34ac9ea5f23d2e715bed67dcb8d9a6055d12d4c45b02720a963085071a0c",
+      "bytes": 72517
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "7052d2055515194b42621d2dad3f44291dcec7f29a9c20e7f80ac1f09b80b333",
-      "bytes": 874790
+      "sha256": "661dcbfb56968cd14f27fb122d8f5691c12fcfc5645182c548440841a1630af0",
+      "bytes": 887286
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "fd2114065c06d0bdc5195e635b2c62575677f7397784b4f7839b5f8763322006",
+      "sha256": "148f1c65e036377666213f8fdd7112767c487fb08731bf289b8570a6af9ed655",
       "bytes": 27816
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "b755b72ac7b224db85aa8472b96bdd1e60c70633d16a00896f9d9b88848e0752",
-      "bytes": 462216
+      "sha256": "a344873ddafefd03baa1798c09956ae471cdb725ac39abbdf2bbf9f9a83350dc",
+      "bytes": 474870
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "8254d2aed726c2dea4c8d00f633722b98e235e0444276acbee3c4291137ec343",
+      "sha256": "697e16078838cfd31147aa6dea82280b7647583d888da6aed813f8bd6d1998ed",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md",
-      "sha256": "0875e79d9dcf6bbe9e904807d14df033d699ad652fba7410e14e15add72406bf",
-      "bytes": 39025
+      "sha256": "679fc7f4b53d02f263f936bd42825bf3f19daf6d9ded073c682f2820f9024162",
+      "bytes": 43966
     },
     {
-      "path": ".continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml",
-      "sha256": "ed5952b1ab20a92ee617cc10fd440d9fa7d43d83d7eec1b7f967dc5fd104b90a",
-      "bytes": 16498
+      "path": ".continuity/checkpoints/SES-20260720T173038Z-35648A77/0017.yaml",
+      "sha256": "ab44e0a9ca191c86007d68637672e42198ceaf227c3edd87bf4222a8b7dc739c",
+      "bytes": 28305
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md",
@@ -170,6 +170,26 @@
       "path": "docs/03-continuity/change-requests/CR-0151-修正Android候选截图过早与页面错位.md",
       "sha256": "af50ba4d10a87bc9fef9e300098f4b3ac4f652a5bab173be0a8957af3f529c85",
       "bytes": 2710
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0152-建立AI自主视觉验收与不中断版本候选流水线.md",
+      "sha256": "2d1b5c31c18fc1372b2d7cbef4ae3e1f2a818d5d0c510c14ea61b551a90943b4",
+      "bytes": 5657
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0153-允许Android候选调用方申请GitHub-OIDC令牌.md",
+      "sha256": "371939fc1b5ef25eec8762a48ec371220242593b687a21675765501a88a5b200",
+      "bytes": 2126
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md",
+      "sha256": "c52b9da7d0a1b7959140eb3207c74ee09cac9b2868a6c3837ce2ba93fcb6681c",
+      "bytes": 2101
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md",
+      "sha256": "149cd8283590573833a2f3ca0fae000d395c6ff4c26bde7d331b04c0f1c6df6b",
+      "bytes": 2457
     }
   ]
 }

@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-20T21:01:22Z'
+generated_at: '2026-07-20T22:10:04Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -81,7 +81,7 @@ current_status:
   - TASK-R02-007
   - TASK-R03-007
   next_task: TASK-R06-004
-  updated_at: '2026-07-20T21:01:20Z'
+  updated_at: '2026-07-20T22:10:02Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -116,15 +116,15 @@ current_status:
     active_session_id: SES-20260720T173038Z-35648A77
     actor_id: codex-root
     story_id: STORY-R06-001
-    lease_expires_at: '2026-07-21T01:01:20Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml
-    project_fingerprint: cc47c26ae8af7b007dd8e6a698756a3687639b2618ef8a102ad10d9c0137bf92
+    lease_expires_at: '2026-07-21T02:10:02Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0017.yaml
+    project_fingerprint: a052bf88f7bc7e6f3b8c3c14a625ffce278c5c28b16136f334e8cdd5f5cb95cf
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 1fcac567fe7f8ba07992f4c41cd0316b2d102ccfb01a1190308f10b3f7339a9f
-      generated_at: '2026-07-20T20:44:41Z'
+      context_hash: 7ce4e563e4de64a8db8776f5e8ad330d724678b123a284591b285268b8fdc4ef
+      generated_at: '2026-07-20T21:01:22Z'
     handoff_bundle: null
 next_task:
   id: TASK-R06-004
@@ -177,13 +177,17 @@ active_session:
   story_id: STORY-R06-001
   goal: 统一内容基础、首页与CMS客户端/H5/后台实现
   started_at: '2026-07-20T17:30:38Z'
-  updated_at: '2026-07-20T21:01:20Z'
+  updated_at: '2026-07-20T22:10:02Z'
   takeover_of: null
   change_requests:
   - CR-0148
   - CR-0149
   - CR-0150
   - CR-0151
+  - CR-0152
+  - CR-0153
+  - CR-0154
+  - CR-0155
   scope:
     allowed_paths:
     - apps/admin-web/**
@@ -222,7 +226,26 @@ active_session:
     - docs/09-development/统一开发与交付效率规范.md
     - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151
+    - CHANGELOG.md
+    - config/CONFIG_REGISTRY.yaml
+    - scripts/android_ci_gate.py
+    - scripts/run_android_emulator_gate.sh
+    - tests/android/visual-manifests/R06.yaml
+    - docs/08-testing/测试策略与质量门禁_V1.2.2.md
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationProperties.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/GitHubOidcVerifier.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+    - services/backend/boot/src/main/resources/application.yml
+    - services/backend/boot/src/main/resources/db/migration/V031__ci_automation_bootstrap.sql
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+    - services/backend/boot/pom.xml
+    - catalogs/config_registry.csv
+    source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151+approved-cr:CR-0152+approved-cr:CR-0153+approved-cr:CR-0154+approved-cr:CR-0155
   git:
     initialized: true
     branch: task/TASK-R03-001
@@ -232,12 +255,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-20T21:01:20Z'
-    expires_at: '2026-07-21T01:01:20Z'
-  checkpoint_sequence: 16
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml
+    renewed_at: '2026-07-20T22:10:02Z'
+    expires_at: '2026-07-21T02:10:02Z'
+  checkpoint_sequence: 17
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0017.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-  next_step: 项目所有者决定是否批准第4轮有界候选；获批后为截图增加像素变化与稳定采样，并在analyzer拒绝重复截图哈希
+  next_step: 提交冻结源码；构建并滚动部署启用CI自动认证的Staging后端，配置最终Commit APK路由后推送R06新候选
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -245,43 +268,97 @@ active_session:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 候选额度耗尽后的下一步需要项目所有者授权，且截图采集与分析器修复共享同一自动化链路
+    reason: 安全认证、候选工作流、视觉事实和连续性记录共享同一集成边界，冻结提交与部署必须由主控串行完成
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260720T173038Z-35648A77-0016
+  checkpoint_id: CP-SES-20260720T173038Z-35648A77-0017
   session_id: SES-20260720T173038Z-35648A77
-  sequence: 16
-  created_at: '2026-07-20T21:01:20Z'
-  summary: R06 GitHub候选第3轮仪器测试和四文件采集完成，但第2/3/4张截图内容与SHA256完全相同，视觉证据不可批准；三次自动修复额度已耗尽并停止自动重跑
-  next_step: 项目所有者决定是否批准第4轮有界候选；获批后为截图增加像素变化与稳定采样，并在analyzer拒绝重复截图哈希
-  blockers:
-  - GitHub候选自动修复上限3次已耗尽；继续第4轮需要项目所有者明确授权，当前没有本地或obx-test模拟器可替代验证
+  sequence: 17
+  created_at: '2026-07-20T22:10:02Z'
+  summary: CR-0152至0155已实现AI自主视觉验收、R06实际页面矩阵、页面身份与像素稳定、重复截图拒绝、GitHub OIDC一次性Staging会话及异步真机反馈不中断后续开发规则
+  next_step: 提交冻结源码；构建并滚动部署启用CI自动认证的Staging后端，配置最终Commit APK路由后推送R06新候选
+  blockers: []
   decisions:
-  - 达到max_ai_attempts=3后停止GitHub自动重跑；不得仅凭runtime-report只剩基线缺失就批准视觉证据
+  - AI独立审核并接受合格视觉基线，不等待项目所有者逐轮核实；桌面真机反馈PENDING不阻断下一版本开发，但继续阻断正式Release关闭和生产激活
   note: ''
   tests:
-  - name: github-candidate-attempt3
-    result: FAIL
-    evidence: run 29777565087 runtime-report.json
-    note: 仅报告缺少R06批准基线，但人工哈希与图像核验发现02/03/04完全相同
-  - name: instrumentation-attempt3
+  - name: android-ci-unit
     result: PASS
-    evidence: test-exit-code=0; BUILD SUCCESSFUL
-    note: 2项仪器测试执行成功且无本应用崩溃
-  - name: visual-evidence-integrity
-    result: FAIL
-    evidence: 02/03/04 SHA256=1DAA71298566B946FDFD87D82D4BD8BD9AEC3691CC19BBD2CA8CC3CCC76E865B
-    note: 三个不同目标页被采集为同一短信登录画面，禁止批准基线
+    evidence: 14 tests passed
+    note: 版本矩阵、OIDC工作流、重复哈希与候选报告规则通过
+  - name: android-instrumentation-compile
+    result: PASS
+    evidence: obx-test fixed Android toolchain BUILD SUCCESSFUL in 2m40s
+    note: R06页面TestTag、会话注入和稳定截图源码编译通过
+  - name: backend-ci-automation
+    result: PASS
+    evidence: obx-test Java21 Maven BUILD SUCCESS;2 tests
+    note: Staging生产硬隔离、一次性代码和短时会话通过
+  - name: database-schema
+    result: PASS
+    evidence: DB_SCHEMA_OK tables=200 migrations=30
+    note: 复用独立幂等作用域且不新增表
+  - name: config-and-docs
+    result: PASS
+    evidence: CONFIG_OK 319;strict documentation PASS
+    note: OIDC配置和全局不中断规则已登记
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: db04b9f4494459d8fe278d87a73103ebbf05f4b5
+    head: 1af2870ac006c5931d248177082d18d3d81eb6c9
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
-    dirty: false
-    status_porcelain: []
+    dirty: true
+    status_porcelain:
+    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+    - ' M .continuity/EVENT_LOG.jsonl'
+    - ' M .continuity/STATE.yaml'
+    - ' M .continuity/sessions/SES-20260720T173038Z-35648A77.yaml'
+    - ' M .github/workflows/android-candidate-request.yml'
+    - ' M .github/workflows/android-quality-gate.yml'
+    - ' M CHANGELOG.md'
+    - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
+    - ' M apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt'
+    - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+    - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+    - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+    - ' M catalogs/change_request_index.csv'
+    - ' M catalogs/config_registry.csv'
+    - ' M catalogs/session_index.csv'
+    - ' M config/CONFIG_REGISTRY.yaml'
+    - ' M config/android-automation.yaml'
+    - ' M config/android-candidate-request.yaml'
+    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+    - ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
+    - ' M docs/08-testing/测试策略与质量门禁_V1.2.2.md'
+    - ' M docs/09-development/统一开发与交付效率规范.md'
+    - ' M scripts/android_ci_gate.py'
+    - ' M scripts/run_android_emulator_gate.sh'
+    - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java'
+    - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
+    - ' M services/backend/boot/pom.xml'
+    - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java'
+    - ' M services/backend/boot/src/main/resources/application.yml'
+    - ' M tests/test_android_ci_gate.py'
+    - ?? .continuity/change_requests/CR-0152.yaml
+    - ?? .continuity/change_requests/CR-0153.yaml
+    - ?? .continuity/change_requests/CR-0154.yaml
+    - ?? .continuity/change_requests/CR-0155.yaml
+    - ?? docs/03-continuity/change-requests/CR-0152-建立AI自主视觉验收与不中断版本候选流水线.md
+    - ?? docs/03-continuity/change-requests/CR-0153-允许Android候选调用方申请GitHub-OIDC令牌.md
+    - ?? docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
+    - ?? docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md
+    - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationProperties.java
+    - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+    - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+    - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/GitHubOidcVerifier.java
+    - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+    - ?? tests/android/visual-manifests/R06.yaml
     recent_commits:
+    - "1af2870ac006c5931d248177082d18d3d81eb6c9\t2026-07-21T05:02:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
+      \ visual evidence blocker"
     - "db04b9f4494459d8fe278d87a73103ebbf05f4b5\t2026-07-21T04:44:56+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): use visible\
       \ reset marker"
     - "54240a2cc483c026368d9e0d36dea168a33e99cd\t2026-07-21T04:24:40+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): stabilize\
@@ -296,10 +373,8 @@ latest_checkpoint:
       \ R06 context source"
     - "4652c604cdbfe93b81dff10d9dddfa7f14e28c23\t2026-07-21T02:39:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): refresh\
       \ R06 governance sources"
-    - "629e4ea4cc0557ad3605764ee965ffe6339c6481\t2026-07-21T02:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(r06): secure about update\
-      \ flow"
   project_fingerprint:
-    sha256: cc47c26ae8af7b007dd8e6a698756a3687639b2618ef8a102ad10d9c0137bf92
+    sha256: a052bf88f7bc7e6f3b8c3c14a625ffce278c5c28b16136f334e8cdd5f5cb95cf
     files:
     - .github/workflows/android-candidate-request.yml
     - .github/workflows/android-quality-gate.yml
@@ -319,6 +394,8 @@ latest_checkpoint:
     - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
     - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
     - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - catalogs/config_registry.csv
+    - config/CONFIG_REGISTRY.yaml
     - config/android-automation.yaml
     - config/android-candidate-request.yaml
     - docs/00-baseline/正式商业系统全局硬性开发边界.md
@@ -327,28 +404,47 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md
     - docs/03-continuity/change-requests/CR-0150-固化GitHub分层门禁与分支候选APK触发路径.md
     - docs/03-continuity/change-requests/CR-0151-修正Android候选截图过早与页面错位.md
+    - docs/03-continuity/change-requests/CR-0152-建立AI自主视觉验收与不中断版本候选流水线.md
+    - docs/03-continuity/change-requests/CR-0153-允许Android候选调用方申请GitHub-OIDC令牌.md
+    - docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
+    - docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md
     - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - docs/08-testing/测试策略与质量门禁_V1.2.2.md
     - docs/09-development/统一开发与交付效率规范.md
     - releases/R06/ACCEPTANCE_MATRIX.csv
     - releases/R06/PARALLEL_EXECUTION_PLAN.yaml
     - scripts/android_candidate_request.py
+    - scripts/android_ci_gate.py
     - scripts/continuity_ci_scope.py
+    - scripts/run_android_emulator_gate.sh
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationProperties.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+    - services/backend/boot/pom.xml
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/GitHubOidcVerifier.java
+    - services/backend/boot/src/main/resources/application.yml
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
     - templates/AGENTS.md
+    - tests/android/visual-manifests/R06.yaml
     - tests/test_android_candidate_request.py
     - tests/test_android_ci_gate.py
     - tests/test_continuity_ci_scope.py
-    file_count: 36
+    file_count: 57
     payload:
       base_commit: 8ee22962d6049d4915e3b68e805356df8790ff0f
       files:
       - path: .github/workflows/android-candidate-request.yml
         state: FILE
-        size: 1637
-        sha256: 54431e0664c857971c18ef8fde62f3a9216d506168de878a5470a2cfa41f7a7c
+        size: 1659
+        sha256: c8cd82c001c2097fe9070bc59d62234e013cb4a8df42dea8479ad41577a32857
       - path: .github/workflows/android-quality-gate.yml
         state: FILE
-        size: 9031
-        sha256: e809bad0fac68eba9700994c7cb82fed0ee15070f2c4d500628564f52e36a9db
+        size: 10289
+        sha256: 3f891692f8bd2df9295d3e5c26b5e0b76002b70261cc41272910fadd2a64d877
       - path: .github/workflows/continuity-gate.yml
         state: FILE
         size: 4622
@@ -359,8 +455,8 @@ latest_checkpoint:
         sha256: 0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230
       - path: CHANGELOG.md
         state: FILE
-        size: 56318
-        sha256: ce609eef521dcc859786194008fb654d0db6135e7b91c67025774351d9c3fe51
+        size: 56606
+        sha256: 04bbfbc6a249b38134bea04d29274f4319d73e1c1705492b7f973f29f21c0438
       - path: apps/admin-web/src/router.ts
         state: FILE
         size: 4924
@@ -391,16 +487,16 @@ latest_checkpoint:
         sha256: 9107ba58acdb543fdaaf77cd82497c93dafd399080f7412f7759b06b3e37ad1f
       - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
         state: FILE
-        size: 5613
-        sha256: 0c820b500951b4c8235bec370df6be1b34e7a6968064cb18339c159ab5489104
+        size: 8581
+        sha256: 8858ca8290334163d519c241c9cb94e4855ef40b296ea7b538669426d1d70b35
       - path: apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
         state: FILE
-        size: 4290
-        sha256: 676176a43c899d4053d4fe948c1922e34df1b49005988e55419c67c2cddb192b
+        size: 4726
+        sha256: e8406cce0319525b66e1e1d56f2bbb274541a60e10a5f5812503fe277a59592c
       - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
         state: FILE
-        size: 11673
-        sha256: ddd2f9d8435b9acf1c0f10a523cd8909c9719b55e3334058e27e490885e32ec5
+        size: 12332
+        sha256: 81c1e45485c72f765ef71705d067feeec05b6024366adb9b2a0565b0754734d9
       - path: apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
         state: FILE
         size: 613
@@ -411,24 +507,32 @@ latest_checkpoint:
         sha256: fe0a86cd1d957c0159ea2c10427cb7a2c79a77db6d1011fb5437b3ac680e741e
       - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
         state: FILE
-        size: 8089
-        sha256: 68bafec12c50054d1ec2f577805e9c59ee38e82831a7bf3c867ddbf97e97aaf2
+        size: 8726
+        sha256: 572dabb5507c7baab3b7cc0a9d2dc9c8883f4a4a946e6230c6dab486af3c0ab3
+      - path: catalogs/config_registry.csv
+        state: FILE
+        size: 392714
+        sha256: 08b7fa865a09d1f339b7d42553f91f5216d92e4e8c603c24eedf3bc9240e465a
+      - path: config/CONFIG_REGISTRY.yaml
+        state: FILE
+        size: 616124
+        sha256: 6f74af1ee54fcbdbc2a26b4e756c55eb163b4d57b20916a765f7da36df7f18ec
       - path: config/android-automation.yaml
         state: FILE
-        size: 3213
-        sha256: daa3d31ab8caaee0c2c479d59ac2c9218f6695265449d511bd07412f98ae71a1
+        size: 4017
+        sha256: 4c9f8628250ce2a16f51fa9caaa3af7fda6d3de519ce5b4383c3de92729b5099
       - path: config/android-candidate-request.yaml
         state: FILE
-        size: 228
-        sha256: 8e7107f19500a44c35592b248067dcab35955a33a274b9851ab605e15e192a73
+        size: 212
+        sha256: 3d5ac122795476557bd81d8e118e02007377873d0c6280876a1cc3ec681800f1
       - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
         state: FILE
         size: 9388
         sha256: 4c266d2ae0dfb71b0b4c07dfd6ca8ba22d74128b2649132f3d8df3cbc782b80b
       - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
         state: FILE
-        size: 71080
-        sha256: 23172a30c9a0406e93167f4081ad4b261de93ae9321b656b763356c0fb3dc7eb
+        size: 72517
+        sha256: 703a34ac9ea5f23d2e715bed67dcb8d9a6055d12d4c45b02720a963085071a0c
       - path: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
         state: FILE
         size: 2286
@@ -445,14 +549,34 @@ latest_checkpoint:
         state: FILE
         size: 2710
         sha256: af50ba4d10a87bc9fef9e300098f4b3ac4f652a5bab173be0a8957af3f529c85
+      - path: docs/03-continuity/change-requests/CR-0152-建立AI自主视觉验收与不中断版本候选流水线.md
+        state: FILE
+        size: 5657
+        sha256: 2d1b5c31c18fc1372b2d7cbef4ae3e1f2a818d5d0c510c14ea61b551a90943b4
+      - path: docs/03-continuity/change-requests/CR-0153-允许Android候选调用方申请GitHub-OIDC令牌.md
+        state: FILE
+        size: 2126
+        sha256: 371939fc1b5ef25eec8762a48ec371220242593b687a21675765501a88a5b200
+      - path: docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
+        state: FILE
+        size: 2101
+        sha256: c52b9da7d0a1b7959140eb3207c74ee09cac9b2868a6c3837ce2ba93fcb6681c
+      - path: docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md
+        state: FILE
+        size: 2457
+        sha256: 149cd8283590573833a2f3ca0fae000d395c6ff4c26bde7d331b04c0f1c6df6b
       - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
         state: FILE
-        size: 7200
-        sha256: 5cf04cd8fd9e491c8e8487d945d1690ff23d934bb93074533c1e72553afff439
+        size: 8127
+        sha256: 375fb9c82c69963ece3b2933abb6799767372c7ba72dcc3d14afc8d080d2c569
+      - path: docs/08-testing/测试策略与质量门禁_V1.2.2.md
+        state: FILE
+        size: 2026
+        sha256: 4e4d6bbc795328c0eb9a6dc3a00f3fb8500dcce6dd01c6a3c6d944def614bc19
       - path: docs/09-development/统一开发与交付效率规范.md
         state: FILE
-        size: 8870
-        sha256: 9f7597469477caec50c95bd1bf704a4c6278dbcc3c7b2b17bf1513e3be12c196
+        size: 9331
+        sha256: 3fa336ef33c5b9de76a70cda4f1e6dc06ae916c2af77711868d640583126ecb5
       - path: releases/R06/ACCEPTANCE_MATRIX.csv
         state: FILE
         size: 681
@@ -465,22 +589,78 @@ latest_checkpoint:
         state: FILE
         size: 3125
         sha256: ac4004b6855117bab2adb3534399a888f39a0f52b0b5dfb03829c5faa5edb5f2
+      - path: scripts/android_ci_gate.py
+        state: FILE
+        size: 15941
+        sha256: 27e07f74968603eb4d20e9473a58d50669032404cdb2631a7aa990a141aa303e
       - path: scripts/continuity_ci_scope.py
         state: FILE
         size: 4457
         sha256: b4b29036ee00ae89d45b86db90496ec7c286dd99de2b73b7c63af2069c7318e7
+      - path: scripts/run_android_emulator_gate.sh
+        state: FILE
+        size: 2571
+        sha256: 4be2d3ada13e1698f41cbdb1f8cc0fbba3e73c7ad183ac66683e4d655e79a167
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationProperties.java
+        state: FILE
+        size: 432
+        sha256: a78802bfe7bef01bb3718645ad70cbbdd2ca4e36f90519e457a2cef9179756ff
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+        state: FILE
+        size: 4871
+        sha256: ceb59776c4c853f65d09a6592f4566e90f4cd9a0d9a6c429f9ed9bf43fd640de
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+        state: FILE
+        size: 2682
+        sha256: 7082d3a50224e23bd2c8fcbc2ed44954575110a184028280be8e24ffb8c47d79
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+        state: FILE
+        size: 351
+        sha256: a7eacd5ef1f9ece84f17a9a6f8771151c5f747f372e453f195cfc2b2b1c806a9
+      - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+        state: FILE
+        size: 33549
+        sha256: abe242cbe56347177fe52039845893bb1ebee182921ac495ac680a80cf6b3dd0
+      - path: services/backend/boot/pom.xml
+        state: FILE
+        size: 3402
+        sha256: 560643fd3de2002284ca90d334d1e319278242331f070ae5adac873d0a86fa08
+      - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+        state: FILE
+        size: 3822
+        sha256: a2dbc9c4358508eec9a76f21967c10ff0a257d7a75f5ccacb0325a5bd1b1dc5d
+      - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+        state: FILE
+        size: 3388
+        sha256: 25b5f17c978a8b372b2c0fc0d2108d0aa16434bf19687906dc889bd0a57c8aa0
+      - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/GitHubOidcVerifier.java
+        state: FILE
+        size: 2752
+        sha256: 0ba1a80c721d991b0ae095f6ae78b5773ddd16d59668d574e55d3a35f9fee273
+      - path: services/backend/boot/src/main/resources/application.yml
+        state: FILE
+        size: 3776
+        sha256: 06c53e305240f879c7c332969311fc18436ead458f384c5b33e1c5becac9ed34
+      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+        state: FILE
+        size: 3945
+        sha256: a78feb92f49091196096a95df8c1e42abdc9018a6f781d17b5af96620d91cae4
       - path: templates/AGENTS.md
         state: FILE
         size: 12306
         sha256: 0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230
+      - path: tests/android/visual-manifests/R06.yaml
+        state: FILE
+        size: 791
+        sha256: 3af727d620714627d3372907a33160ec4884b10423096114fb68d81eaddcbd79
       - path: tests/test_android_candidate_request.py
         state: FILE
         size: 2170
         sha256: 404c2f099e06837eb59fb72c2005e02fa7f9ff1fc18ce9353c10a4b07f11034b
       - path: tests/test_android_ci_gate.py
         state: FILE
-        size: 12215
-        sha256: 79ade47144073fe433f71906ff6fcff55edace94160b8ac3d96cf68a1447c68c
+        size: 14216
+        sha256: c39bc3163fff898d74bc07637b143a6399253638a1b1d3024243e3bc6c064cba
       - path: tests/test_continuity_ci_scope.py
         state: FILE
         size: 1485
@@ -493,9 +673,11 @@ latest_checkpoint:
     other:
     - AGENTS.md
     - CHANGELOG.md
+    - config/CONFIG_REGISTRY.yaml
     - config/android-automation.yaml
     - config/android-candidate-request.yaml
     - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - docs/08-testing/测试策略与质量门禁_V1.2.2.md
     - docs/09-development/统一开发与交付效率规范.md
     - releases/R06/ACCEPTANCE_MATRIX.csv
     - releases/R06/PARALLEL_EXECUTION_PLAN.yaml
@@ -515,7 +697,20 @@ latest_checkpoint:
     - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
     - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
     - scripts/android_candidate_request.py
+    - scripts/android_ci_gate.py
     - scripts/continuity_ci_scope.py
+    - scripts/run_android_emulator_gate.sh
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationProperties.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+    - services/backend/boot/pom.xml
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/GitHubOidcVerifier.java
+    - services/backend/boot/src/main/resources/application.yml
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
     user_visible:
     - apps/admin-web/src/router.ts
     - apps/admin-web/src/services/adminContents.ts
@@ -531,6 +726,7 @@ latest_checkpoint:
     - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
     - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
     source_of_truth:
+    - catalogs/config_registry.csv
     - docs/00-baseline/正式商业系统全局硬性开发边界.md
     continuity:
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
@@ -538,7 +734,12 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md
     - docs/03-continuity/change-requests/CR-0150-固化GitHub分层门禁与分支候选APK触发路径.md
     - docs/03-continuity/change-requests/CR-0151-修正Android候选截图过早与页面错位.md
+    - docs/03-continuity/change-requests/CR-0152-建立AI自主视觉验收与不中断版本候选流水线.md
+    - docs/03-continuity/change-requests/CR-0153-允许Android候选调用方申请GitHub-OIDC令牌.md
+    - docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
+    - docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md
     tests:
+    - tests/android/visual-manifests/R06.yaml
     - tests/test_android_candidate_request.py
     - tests/test_android_ci_gate.py
     - tests/test_continuity_ci_scope.py
@@ -555,6 +756,10 @@ latest_checkpoint:
   - CR-0149
   - CR-0150
   - CR-0151
+  - CR-0152
+  - CR-0153
+  - CR-0154
+  - CR-0155
   scope:
     allowed_paths:
     - apps/admin-web/**
@@ -593,32 +798,94 @@ latest_checkpoint:
     - docs/09-development/统一开发与交付效率规范.md
     - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151
+    - CHANGELOG.md
+    - config/CONFIG_REGISTRY.yaml
+    - scripts/android_ci_gate.py
+    - scripts/run_android_emulator_gate.sh
+    - tests/android/visual-manifests/R06.yaml
+    - docs/08-testing/测试策略与质量门禁_V1.2.2.md
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationProperties.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/GitHubOidcVerifier.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+    - services/backend/boot/src/main/resources/application.yml
+    - services/backend/boot/src/main/resources/db/migration/V031__ci_automation_bootstrap.sql
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+    - services/backend/boot/pom.xml
+    - catalogs/config_registry.csv
+    source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151+approved-cr:CR-0152+approved-cr:CR-0153+approved-cr:CR-0154+approved-cr:CR-0155
   parallel_execution:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 候选额度耗尽后的下一步需要项目所有者授权，且截图采集与分析器修复共享同一自动化链路
-  event_hash: ef80e679ff445f8cd970529522441b49d219d764cba17a25418b215d053a3678
+    reason: 安全认证、候选工作流、视觉事实和连续性记录共享同一集成边界，冻结提交与部署必须由主控串行完成
+  event_hash: 938cc11c4bf2c289b799d4c2f623c7637671b7fd578a78261d3263bd9a661db9
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: db04b9f4494459d8fe278d87a73103ebbf05f4b5
+  head: 1af2870ac006c5931d248177082d18d3d81eb6c9
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/sessions/SES-20260720T173038Z-35648A77.yaml'
+  - ' M .github/workflows/android-candidate-request.yml'
+  - ' M .github/workflows/android-quality-gate.yml'
+  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/config_registry.csv'
   - ' M catalogs/session_index.csv'
+  - ' M config/CONFIG_REGISTRY.yaml'
+  - ' M config/android-automation.yaml'
+  - ' M config/android-candidate-request.yaml'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md'
-  - ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml
+  - ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
+  - ' M docs/08-testing/测试策略与质量门禁_V1.2.2.md'
+  - ' M docs/09-development/统一开发与交付效率规范.md'
+  - ' M scripts/android_ci_gate.py'
+  - ' M scripts/run_android_emulator_gate.sh'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java'
+  - ' M services/backend/boot/pom.xml'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java'
+  - ' M services/backend/boot/src/main/resources/application.yml'
+  - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0152.yaml
+  - ?? .continuity/change_requests/CR-0153.yaml
+  - ?? .continuity/change_requests/CR-0154.yaml
+  - ?? .continuity/change_requests/CR-0155.yaml
+  - ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0017.yaml
+  - ?? docs/03-continuity/change-requests/CR-0152-建立AI自主视觉验收与不中断版本候选流水线.md
+  - ?? docs/03-continuity/change-requests/CR-0153-允许Android候选调用方申请GitHub-OIDC令牌.md
+  - ?? docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
+  - ?? docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationProperties.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/GitHubOidcVerifier.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+  - ?? tests/android/visual-manifests/R06.yaml
   recent_commits:
+  - "1af2870ac006c5931d248177082d18d3d81eb6c9\t2026-07-21T05:02:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
+    \ visual evidence blocker"
   - "db04b9f4494459d8fe278d87a73103ebbf05f4b5\t2026-07-21T04:44:56+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): use visible\
     \ reset marker"
   - "54240a2cc483c026368d9e0d36dea168a33e99cd\t2026-07-21T04:24:40+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): stabilize candidate\
@@ -633,10 +900,8 @@ git:
     \ R06 context source"
   - "4652c604cdbfe93b81dff10d9dddfa7f14e28c23\t2026-07-21T02:39:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): refresh\
     \ R06 governance sources"
-  - "629e4ea4cc0557ad3605764ee965ffe6339c6481\t2026-07-21T02:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(r06): secure about update\
-    \ flow"
 project_fingerprint:
-  sha256: cc47c26ae8af7b007dd8e6a698756a3687639b2618ef8a102ad10d9c0137bf92
+  sha256: a052bf88f7bc7e6f3b8c3c14a625ffce278c5c28b16136f334e8cdd5f5cb95cf
   files:
   - .github/workflows/android-candidate-request.yml
   - .github/workflows/android-quality-gate.yml
@@ -656,6 +921,8 @@ project_fingerprint:
   - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
   - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
   - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - catalogs/config_registry.csv
+  - config/CONFIG_REGISTRY.yaml
   - config/android-automation.yaml
   - config/android-candidate-request.yaml
   - docs/00-baseline/正式商业系统全局硬性开发边界.md
@@ -664,28 +931,47 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md
   - docs/03-continuity/change-requests/CR-0150-固化GitHub分层门禁与分支候选APK触发路径.md
   - docs/03-continuity/change-requests/CR-0151-修正Android候选截图过早与页面错位.md
+  - docs/03-continuity/change-requests/CR-0152-建立AI自主视觉验收与不中断版本候选流水线.md
+  - docs/03-continuity/change-requests/CR-0153-允许Android候选调用方申请GitHub-OIDC令牌.md
+  - docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
+  - docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/08-testing/测试策略与质量门禁_V1.2.2.md
   - docs/09-development/统一开发与交付效率规范.md
   - releases/R06/ACCEPTANCE_MATRIX.csv
   - releases/R06/PARALLEL_EXECUTION_PLAN.yaml
   - scripts/android_candidate_request.py
+  - scripts/android_ci_gate.py
   - scripts/continuity_ci_scope.py
+  - scripts/run_android_emulator_gate.sh
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/boot/pom.xml
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/GitHubOidcVerifier.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
   - templates/AGENTS.md
+  - tests/android/visual-manifests/R06.yaml
   - tests/test_android_candidate_request.py
   - tests/test_android_ci_gate.py
   - tests/test_continuity_ci_scope.py
-  file_count: 36
+  file_count: 57
   payload:
     base_commit: 8ee22962d6049d4915e3b68e805356df8790ff0f
     files:
     - path: .github/workflows/android-candidate-request.yml
       state: FILE
-      size: 1637
-      sha256: 54431e0664c857971c18ef8fde62f3a9216d506168de878a5470a2cfa41f7a7c
+      size: 1659
+      sha256: c8cd82c001c2097fe9070bc59d62234e013cb4a8df42dea8479ad41577a32857
     - path: .github/workflows/android-quality-gate.yml
       state: FILE
-      size: 9031
-      sha256: e809bad0fac68eba9700994c7cb82fed0ee15070f2c4d500628564f52e36a9db
+      size: 10289
+      sha256: 3f891692f8bd2df9295d3e5c26b5e0b76002b70261cc41272910fadd2a64d877
     - path: .github/workflows/continuity-gate.yml
       state: FILE
       size: 4622
@@ -696,8 +982,8 @@ project_fingerprint:
       sha256: 0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230
     - path: CHANGELOG.md
       state: FILE
-      size: 56318
-      sha256: ce609eef521dcc859786194008fb654d0db6135e7b91c67025774351d9c3fe51
+      size: 56606
+      sha256: 04bbfbc6a249b38134bea04d29274f4319d73e1c1705492b7f973f29f21c0438
     - path: apps/admin-web/src/router.ts
       state: FILE
       size: 4924
@@ -728,16 +1014,16 @@ project_fingerprint:
       sha256: 9107ba58acdb543fdaaf77cd82497c93dafd399080f7412f7759b06b3e37ad1f
     - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
       state: FILE
-      size: 5613
-      sha256: 0c820b500951b4c8235bec370df6be1b34e7a6968064cb18339c159ab5489104
+      size: 8581
+      sha256: 8858ca8290334163d519c241c9cb94e4855ef40b296ea7b538669426d1d70b35
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
       state: FILE
-      size: 4290
-      sha256: 676176a43c899d4053d4fe948c1922e34df1b49005988e55419c67c2cddb192b
+      size: 4726
+      sha256: e8406cce0319525b66e1e1d56f2bbb274541a60e10a5f5812503fe277a59592c
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
       state: FILE
-      size: 11673
-      sha256: ddd2f9d8435b9acf1c0f10a523cd8909c9719b55e3334058e27e490885e32ec5
+      size: 12332
+      sha256: 81c1e45485c72f765ef71705d067feeec05b6024366adb9b2a0565b0754734d9
     - path: apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
       state: FILE
       size: 613
@@ -748,24 +1034,32 @@ project_fingerprint:
       sha256: fe0a86cd1d957c0159ea2c10427cb7a2c79a77db6d1011fb5437b3ac680e741e
     - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
       state: FILE
-      size: 8089
-      sha256: 68bafec12c50054d1ec2f577805e9c59ee38e82831a7bf3c867ddbf97e97aaf2
+      size: 8726
+      sha256: 572dabb5507c7baab3b7cc0a9d2dc9c8883f4a4a946e6230c6dab486af3c0ab3
+    - path: catalogs/config_registry.csv
+      state: FILE
+      size: 392714
+      sha256: 08b7fa865a09d1f339b7d42553f91f5216d92e4e8c603c24eedf3bc9240e465a
+    - path: config/CONFIG_REGISTRY.yaml
+      state: FILE
+      size: 616124
+      sha256: 6f74af1ee54fcbdbc2a26b4e756c55eb163b4d57b20916a765f7da36df7f18ec
     - path: config/android-automation.yaml
       state: FILE
-      size: 3213
-      sha256: daa3d31ab8caaee0c2c479d59ac2c9218f6695265449d511bd07412f98ae71a1
+      size: 4017
+      sha256: 4c9f8628250ce2a16f51fa9caaa3af7fda6d3de519ce5b4383c3de92729b5099
     - path: config/android-candidate-request.yaml
       state: FILE
-      size: 228
-      sha256: 8e7107f19500a44c35592b248067dcab35955a33a274b9851ab605e15e192a73
+      size: 212
+      sha256: 3d5ac122795476557bd81d8e118e02007377873d0c6280876a1cc3ec681800f1
     - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
       state: FILE
       size: 9388
       sha256: 4c266d2ae0dfb71b0b4c07dfd6ca8ba22d74128b2649132f3d8df3cbc782b80b
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 71080
-      sha256: 23172a30c9a0406e93167f4081ad4b261de93ae9321b656b763356c0fb3dc7eb
+      size: 72517
+      sha256: 703a34ac9ea5f23d2e715bed67dcb8d9a6055d12d4c45b02720a963085071a0c
     - path: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
       state: FILE
       size: 2286
@@ -782,14 +1076,34 @@ project_fingerprint:
       state: FILE
       size: 2710
       sha256: af50ba4d10a87bc9fef9e300098f4b3ac4f652a5bab173be0a8957af3f529c85
+    - path: docs/03-continuity/change-requests/CR-0152-建立AI自主视觉验收与不中断版本候选流水线.md
+      state: FILE
+      size: 5657
+      sha256: 2d1b5c31c18fc1372b2d7cbef4ae3e1f2a818d5d0c510c14ea61b551a90943b4
+    - path: docs/03-continuity/change-requests/CR-0153-允许Android候选调用方申请GitHub-OIDC令牌.md
+      state: FILE
+      size: 2126
+      sha256: 371939fc1b5ef25eec8762a48ec371220242593b687a21675765501a88a5b200
+    - path: docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
+      state: FILE
+      size: 2101
+      sha256: c52b9da7d0a1b7959140eb3207c74ee09cac9b2868a6c3837ce2ba93fcb6681c
+    - path: docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md
+      state: FILE
+      size: 2457
+      sha256: 149cd8283590573833a2f3ca0fae000d395c6ff4c26bde7d331b04c0f1c6df6b
     - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
       state: FILE
-      size: 7200
-      sha256: 5cf04cd8fd9e491c8e8487d945d1690ff23d934bb93074533c1e72553afff439
+      size: 8127
+      sha256: 375fb9c82c69963ece3b2933abb6799767372c7ba72dcc3d14afc8d080d2c569
+    - path: docs/08-testing/测试策略与质量门禁_V1.2.2.md
+      state: FILE
+      size: 2026
+      sha256: 4e4d6bbc795328c0eb9a6dc3a00f3fb8500dcce6dd01c6a3c6d944def614bc19
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
-      size: 8870
-      sha256: 9f7597469477caec50c95bd1bf704a4c6278dbcc3c7b2b17bf1513e3be12c196
+      size: 9331
+      sha256: 3fa336ef33c5b9de76a70cda4f1e6dc06ae916c2af77711868d640583126ecb5
     - path: releases/R06/ACCEPTANCE_MATRIX.csv
       state: FILE
       size: 681
@@ -802,22 +1116,78 @@ project_fingerprint:
       state: FILE
       size: 3125
       sha256: ac4004b6855117bab2adb3534399a888f39a0f52b0b5dfb03829c5faa5edb5f2
+    - path: scripts/android_ci_gate.py
+      state: FILE
+      size: 15941
+      sha256: 27e07f74968603eb4d20e9473a58d50669032404cdb2631a7aa990a141aa303e
     - path: scripts/continuity_ci_scope.py
       state: FILE
       size: 4457
       sha256: b4b29036ee00ae89d45b86db90496ec7c286dd99de2b73b7c63af2069c7318e7
+    - path: scripts/run_android_emulator_gate.sh
+      state: FILE
+      size: 2571
+      sha256: 4be2d3ada13e1698f41cbdb1f8cc0fbba3e73c7ad183ac66683e4d655e79a167
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationProperties.java
+      state: FILE
+      size: 432
+      sha256: a78802bfe7bef01bb3718645ad70cbbdd2ca4e36f90519e457a2cef9179756ff
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+      state: FILE
+      size: 4871
+      sha256: ceb59776c4c853f65d09a6592f4566e90f4cd9a0d9a6c429f9ed9bf43fd640de
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+      state: FILE
+      size: 2682
+      sha256: 7082d3a50224e23bd2c8fcbc2ed44954575110a184028280be8e24ffb8c47d79
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+      state: FILE
+      size: 351
+      sha256: a7eacd5ef1f9ece84f17a9a6f8771151c5f747f372e453f195cfc2b2b1c806a9
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+      state: FILE
+      size: 33549
+      sha256: abe242cbe56347177fe52039845893bb1ebee182921ac495ac680a80cf6b3dd0
+    - path: services/backend/boot/pom.xml
+      state: FILE
+      size: 3402
+      sha256: 560643fd3de2002284ca90d334d1e319278242331f070ae5adac873d0a86fa08
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+      state: FILE
+      size: 3822
+      sha256: a2dbc9c4358508eec9a76f21967c10ff0a257d7a75f5ccacb0325a5bd1b1dc5d
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+      state: FILE
+      size: 3388
+      sha256: 25b5f17c978a8b372b2c0fc0d2108d0aa16434bf19687906dc889bd0a57c8aa0
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/GitHubOidcVerifier.java
+      state: FILE
+      size: 2752
+      sha256: 0ba1a80c721d991b0ae095f6ae78b5773ddd16d59668d574e55d3a35f9fee273
+    - path: services/backend/boot/src/main/resources/application.yml
+      state: FILE
+      size: 3776
+      sha256: 06c53e305240f879c7c332969311fc18436ead458f384c5b33e1c5becac9ed34
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+      state: FILE
+      size: 3945
+      sha256: a78feb92f49091196096a95df8c1e42abdc9018a6f781d17b5af96620d91cae4
     - path: templates/AGENTS.md
       state: FILE
       size: 12306
       sha256: 0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230
+    - path: tests/android/visual-manifests/R06.yaml
+      state: FILE
+      size: 791
+      sha256: 3af727d620714627d3372907a33160ec4884b10423096114fb68d81eaddcbd79
     - path: tests/test_android_candidate_request.py
       state: FILE
       size: 2170
       sha256: 404c2f099e06837eb59fb72c2005e02fa7f9ff1fc18ce9353c10a4b07f11034b
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 12215
-      sha256: 79ade47144073fe433f71906ff6fcff55edace94160b8ac3d96cf68a1447c68c
+      size: 14216
+      sha256: c39bc3163fff898d74bc07637b143a6399253638a1b1d3024243e3bc6c064cba
     - path: tests/test_continuity_ci_scope.py
       state: FILE
       size: 1485
@@ -1882,8 +2252,8 @@ continuity_state:
   last_session_id: SES-20260720T163244Z-D1F3CEE8
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260720T163244Z-D1F3CEE8-0004
-  event_count: 1576
-  event_head_hash: ef80e679ff445f8cd970529522441b49d219d764cba17a25418b215d053a3678
+  event_count: 1597
+  event_head_hash: 938cc11c4bf2c289b799d4c2f623c7637671b7fd578a78261d3263bd9a661db9
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260719T165401Z-12791729
@@ -2002,9 +2372,9 @@ recent_sessions:
   started_at: '2026-07-20T17:30:38Z'
   record: .continuity/sessions/SES-20260720T173038Z-35648A77.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-  updated_at: '2026-07-20T21:01:20Z'
+  updated_at: '2026-07-20T22:10:02Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0017.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-D22ECAFB67D6
@@ -6951,6 +7321,216 @@ open_change_requests:
     session_id: SES-20260720T173038Z-35648A77
   session_ids:
   - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0152
+  title: 建立AI自主视觉验收与不中断版本候选流水线
+  status: IMPLEMENTING
+  created_at: '2026-07-20T21:30:36Z'
+  updated_at: '2026-07-20T21:31:43Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 项目所有者明确要求所有版本截图由AI自行判断合格，不得暂停等待人工核实；大小版本完成后继续开发，桌面APK由项目所有者有时间时逐一测试并反馈
+  reason: 现有候选把固定四张认证截图和项目所有者逐轮批准作为阻断点，既不覆盖版本实际页面，又造成重复GitHub模拟器运行并打断R06-R08连续开发
+  original_rule: R06-R32候选固定执行四张认证截图；失败运行不得自动接受为基线；项目所有者逐轮核实视觉证据后才可继续，候选失败阻断后续版本开发
+  new_rule: 每个版本使用影响清单驱动的视觉矩阵；AI必须依据冻结设计、页面身份、真实加载状态、像素稳定、重复哈希和视觉阈值自主判定并可接受合格基线，不得暂停等待项目所有者核实。候选产物与证据按Commit和哈希绑定后持续交付桌面，项目所有者真机反馈进入后续修复队列但不阻断后续版本开发；生产激活仍保留独立人工门禁。GitHub通过OIDC获取Staging专用一次性短时会话，不保存长期账号秘密或设置生产后门
+  impact_summary: 重构Android候选自动认证、R06实际页面截图、截图完整性分析和AI视觉晋升；固定认证四截图改为版本矩阵，消除人工等待与相同Commit重复模拟器构建。新增仅Staging启用且GitHub仓库/工作流/Commit强绑定的一次性CI会话引导，生产默认关闭并启动失败关闭
+  impact:
+    files:
+    - CHANGELOG.md
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - config/CONFIG_REGISTRY.yaml
+    - .github/workflows/android-quality-gate.yml
+    - scripts/android_ci_gate.py
+    - scripts/run_android_emulator_gate.sh
+    - tests/test_android_ci_gate.py
+    - tests/android/visual-manifests/R06.yaml
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - docs/08-testing/测试策略与质量门禁_V1.2.2.md
+    - docs/09-development/统一开发与交付效率规范.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationProperties.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/GitHubOidcVerifier.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+    - services/backend/boot/src/main/resources/application.yml
+    - services/backend/boot/src/main/resources/db/migration/V031__ci_automation_bootstrap.sql
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+    - services/backend/boot/pom.xml
+    pages:
+    - SCR-HOME-001;SCR-MINE-001;SCR-ABOUT-001;SCR-UPDATE-001
+    apis:
+    - POST /internal-ci/v1/android/bootstrap;POST /internal-ci/v1/android/session
+    database:
+    - V031 hhy.ci_automation_bootstrap_codes
+    configuration:
+    - HHY_CI_AUTOMATION_ENABLED;HHY_CI_AUTOMATION_USER_PHONE;HHY_CI_GITHUB_REPOSITORY;HHY_CI_GITHUB_WORKFLOW;HHY_CI_OIDC_AUDIENCE
+    ledger: []
+    tests:
+    - android CI policy/unit tests;backend OIDC isolation and one-time redemption tests;Android instrumentation R06 page identity and pixel stability;GitHub
+      candidate evidence integrity
+    releases:
+    - R06-R32
+    migration_and_compatibility: 新增V031一次性CI引导表，不修改既有用户、会话和公开产品API；旧视觉基线保留只读兼容，新矩阵从R06启用。生产或混合production profile禁止CI自动认证；关闭开关时内部端点返回404/拒绝。桌面APK按版本累积交付，项目所有者延后真机反馈不阻断编码但阻断任何未经既有生产发布门禁的生产激活
+  user_confirmation: 2026-07-21项目所有者明确要求：开发所有版本的截图由AI判断是否合格，不要停下让我核实；每个大小版本完成也继续开发，桌面APK由项目所有者有时间逐一测试并反馈。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T21:31:38Z'
+    note: 项目所有者明确授权AI判断所有版本截图并持续开发，不得因视觉核实、大小版本完成或桌面APK待测暂停；批准版本矩阵、AI视觉基线与Staging OIDC短时会话，生产激活仍保持独立门禁
+  machine_record: .continuity/change_requests/CR-0152.yaml
+  document: docs/03-continuity/change-requests/CR-0152-建立AI自主视觉验收与不中断版本候选流水线.md
+  decision_log:
+  - at: '2026-07-20T21:31:43Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现AI自主视觉验收、R06实际页面矩阵、截图完整性和Staging OIDC短时会话
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0153
+  title: 允许Android候选调用方申请GitHub OIDC令牌
+  status: IMPLEMENTING
+  created_at: '2026-07-20T21:41:03Z'
+  updated_at: '2026-07-20T21:41:10Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 项目所有者批准使用GitHub OIDC短时会话实现不中断的实际页面自动测试
+  reason: 可复用质量工作流不能获得高于调用作业的id-token权限，候选调用方必须显式授予最小id-token write
+  original_rule: Android Candidate Request质量作业仅授予contents read和issues write，不能签发OIDC身份
+  new_rule: 仅Android候选质量调用作业增加id-token write，用于向固定Staging端点申请仓库、工作流、Commit和Run强绑定的一次性引导码；不授予其他写权限
+  impact_summary: 单文件最小权限补齐，不改变触发条件、构建内容或仓库写权限
+  impact:
+    files:
+    - .github/workflows/android-candidate-request.yml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - workflow static permission contract;GitHub OIDC bootstrap integration
+    releases:
+    - R06-R32
+    migration_and_compatibility: 无迁移；普通CI和非候选作业不获得OIDC权限；后端关闭自动认证时请求失败关闭
+  user_confirmation: 项目所有者批准使用GitHub OIDC自动登录并要求持续开发不等待人工核实
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T21:41:07Z'
+    note: 依据本轮明确授权批准候选调用作业最小OIDC权限，不扩大仓库或生产权限
+  machine_record: .continuity/change_requests/CR-0153.yaml
+  document: docs/03-continuity/change-requests/CR-0153-允许Android候选调用方申请GitHub-OIDC令牌.md
+  decision_log:
+  - at: '2026-07-20T21:41:10Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 补齐候选调用方id-token write权限
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0154
+  title: 登记Staging CI自动认证配置源
+  status: IMPLEMENTING
+  created_at: '2026-07-20T21:53:43Z'
+  updated_at: '2026-07-20T21:53:51Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 项目所有者批准OIDC自动登录并要求跨电脑持续开发
+  reason: CR-0152新增五项启动配置，CONFIG_REGISTRY声明catalogs/config_registry.csv为事实源，必须同步登记
+  original_rule: 配置注册表没有CI自动认证开关、测试身份和GitHub OIDC绑定项
+  new_rule: 五项CI自动认证配置进入机器注册表和CSV事实源；默认关闭、测试手机号按秘密处理、其余OIDC身份字段固定Staging启动配置，生产不得启用
+  impact_summary: 仅补齐配置元数据和事实源，不启用运行时功能或写入秘密值
+  impact:
+    files:
+    - config/CONFIG_REGISTRY.yaml
+    - catalogs/config_registry.csv
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - ci.automation.enabled;ci.automation.user_phone;ci.automation.github_repository;ci.automation.github_workflow;ci.automation.oidc_audience
+    ledger: []
+    tests:
+    - check_config_registry.py;documentation registry checks
+    releases:
+    - R06-R32
+    migration_and_compatibility: 默认关闭且秘密默认值为空；部署通过受控环境变量注入，生产配置保持禁用
+  user_confirmation: 项目所有者批准持续自动登录测试且不等待人工核实
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T21:53:47Z'
+    note: 依据OIDC自动登录授权批准最小配置登记，秘密值仍不得进入仓库
+  machine_record: .continuity/change_requests/CR-0154.yaml
+  document: docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
+  decision_log:
+  - at: '2026-07-20T21:53:51Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 同步机器注册表与CSV事实源
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0155
+  title: CI一次性引导复用既有幂等存储并取消新表
+  status: IMPLEMENTING
+  created_at: '2026-07-20T22:00:44Z'
+  updated_at: '2026-07-20T22:00:52Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 项目所有者要求高效自动登录且持续开发，不因基础设施扩张暂停
+  reason: CR-0152初拟V031专表会把冻结200表基线扩大为201并触发无关数据库迁移；现有idempotency_records已具备作用域、唯一键、到期和原子删除能力
+  original_rule: 为CI一次性引导新增V031 hhy.ci_automation_bootstrap_codes专表
+  new_rule: 使用hhy.idempotency_records独立ci-android-bootstrap作用域，仅存随机码SHA-256、绑定摘要、userId/Commit/Run引用和两分钟到期；兑换在事务内原子删除。取消V031，不改变200表基线
+  impact_summary: 减少数据库和发布影响面；安全属性保持一次性、短时、哈希存储和事务消费
+  impact:
+    files:
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/boot/src/main/resources/db/migration/V031__ci_automation_bootstrap.sql
+    pages: []
+    apis: []
+    database:
+    - reuse hhy.idempotency_records scope ci-android-bootstrap;no new table
+    configuration: []
+    ledger: []
+    tests:
+    - CiAutomationServiceTest;check_db_schema.py 200-table invariant
+    releases:
+    - R06-R32
+    migration_and_compatibility: 删除尚未部署的V031草案；现有数据库无需迁移或回滚；CI记录按到期清理且不影响其他幂等作用域
+  user_confirmation: 项目所有者批准高效OIDC自动登录并要求不中断开发
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T22:00:48Z'
+    note: 依据高效且最小影响原则批准复用既有幂等存储，禁止扩大为生产会话后门
+  machine_record: .continuity/change_requests/CR-0155.yaml
+  document: docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md
+  decision_log:
+  - at: '2026-07-20T22:00:52Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 移除V031并改为独立幂等作用域原子消费
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77
 source_manifest:
 - path: AGENTS.md
   sha256: 0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230
@@ -6959,7 +7539,7 @@ source_manifest:
   sha256: 038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a
   bytes: 3477
 - path: CURRENT_STATUS.yaml
-  sha256: 449a7112200c014129efc403bf76ad9ed42e1634d1bd8d66e7deec209bc7ddb2
+  sha256: b3822ab7b05d372a9cd674faf5735f462ba421315e2f3b1b2debd02154c76ab8
   bytes: 3692
 - path: NEXT_TASK.yaml
   sha256: 28fdd09fe247b9ee6f9baa24e34c7eb7ff152326afb99fa4f0e1bbeb61a4527b
@@ -6971,8 +7551,8 @@ source_manifest:
   sha256: 045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511
   bytes: 1442
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: 23172a30c9a0406e93167f4081ad4b261de93ae9321b656b763356c0fb3dc7eb
-  bytes: 71080
+  sha256: 703a34ac9ea5f23d2e715bed67dcb8d9a6055d12d4c45b02720a963085071a0c
+  bytes: 72517
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
   sha256: 0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da
   bytes: 2555
@@ -6992,10 +7572,10 @@ source_manifest:
   sha256: 35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6
   bytes: 11116
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 7052d2055515194b42621d2dad3f44291dcec7f29a9c20e7f80ac1f09b80b333
-  bytes: 874790
+  sha256: 661dcbfb56968cd14f27fb122d8f5691c12fcfc5645182c548440841a1630af0
+  bytes: 887286
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: fd2114065c06d0bdc5195e635b2c62575677f7397784b4f7839b5f8763322006
+  sha256: 148f1c65e036377666213f8fdd7112767c487fb08731bf289b8570a6af9ed655
   bytes: 27816
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 3abf162328146e0533fed277722c86a109a7476839eb932f968d82037eb8e518
@@ -7004,10 +7584,10 @@ source_manifest:
   sha256: 17e0b26c549b14a3f15a7daf0c6e8a11389a129fc9bf0c57f1dba8af1ba71c67
   bytes: 15991
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: b755b72ac7b224db85aa8472b96bdd1e60c70633d16a00896f9d9b88848e0752
-  bytes: 462216
+  sha256: a344873ddafefd03baa1798c09956ae471cdb725ac39abbdf2bbf9f9a83350dc
+  bytes: 474870
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 8254d2aed726c2dea4c8d00f633722b98e235e0444276acbee3c4291137ec343
+  sha256: 697e16078838cfd31147aa6dea82280b7647583d888da6aed813f8bd6d1998ed
   bytes: 525
 - path: releases/R06/RELEASE_MANIFEST.yaml
   sha256: 72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878
@@ -7028,11 +7608,11 @@ source_manifest:
   sha256: 426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51
   bytes: 3494
 - path: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-  sha256: 0875e79d9dcf6bbe9e904807d14df033d699ad652fba7410e14e15add72406bf
-  bytes: 39025
-- path: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml
-  sha256: ed5952b1ab20a92ee617cc10fd440d9fa7d43d83d7eec1b7f967dc5fd104b90a
-  bytes: 16498
+  sha256: 679fc7f4b53d02f263f936bd42825bf3f19daf6d9ded073c682f2820f9024162
+  bytes: 43966
+- path: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0017.yaml
+  sha256: ab44e0a9ca191c86007d68637672e42198ceaf227c3edd87bf4222a8b7dc739c
+  bytes: 28305
 - path: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
   sha256: 4c3d1dd8615acd30275ad10cb2005f216f2e20f9f4bf99e1d3cf7d85c340631f
   bytes: 2286
@@ -7045,6 +7625,18 @@ source_manifest:
 - path: docs/03-continuity/change-requests/CR-0151-修正Android候选截图过早与页面错位.md
   sha256: af50ba4d10a87bc9fef9e300098f4b3ac4f652a5bab173be0a8957af3f529c85
   bytes: 2710
+- path: docs/03-continuity/change-requests/CR-0152-建立AI自主视觉验收与不中断版本候选流水线.md
+  sha256: 2d1b5c31c18fc1372b2d7cbef4ae3e1f2a818d5d0c510c14ea61b551a90943b4
+  bytes: 5657
+- path: docs/03-continuity/change-requests/CR-0153-允许Android候选调用方申请GitHub-OIDC令牌.md
+  sha256: 371939fc1b5ef25eec8762a48ec371220242593b687a21675765501a88a5b200
+  bytes: 2126
+- path: docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
+  sha256: c52b9da7d0a1b7959140eb3207c74ee09cac9b2868a6c3837ce2ba93fcb6681c
+  bytes: 2101
+- path: docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md
+  sha256: 149cd8283590573833a2f3ca0fae000d395c6ff4c26bde7d331b04c0f1c6df6b
+  bytes: 2457
 exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
   '<未委托原因>'
 hard_rules:
@@ -7059,4 +7651,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 7ce4e563e4de64a8db8776f5e8ad330d724678b123a284591b285268b8fdc4ef
+context_hash: 6520ea0158d67ba565b4e176726f0acda464d3c7cd802e0240fc25c37581b263

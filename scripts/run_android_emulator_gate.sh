@@ -18,6 +18,9 @@ set +e
 (
   cd apps/android
   ./gradlew --no-daemon --no-parallel --max-workers=1 --stacktrace \
+    "-Pandroid.testInstrumentationRunnerArguments.hhyCiBootstrapCode=${HHY_CI_BOOTSTRAP_CODE:?missing CI bootstrap code}" \
+    "-Pandroid.testInstrumentationRunnerArguments.hhyCiCommit=${GITHUB_SHA:?missing GitHub SHA}" \
+    "-Pandroid.testInstrumentationRunnerArguments.hhyCiRunId=${GITHUB_RUN_ID:?missing GitHub run id}" \
     "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8 -Duser.timezone=UTC" \
     connectedDebugAndroidTest
 ) 2>&1 | tee "$runtime_dir/instrumentation.log"

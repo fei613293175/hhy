@@ -33,6 +33,8 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.GET, "/api/v1/app/version-check").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/auth/registration-config").permitAll()
                         .requestMatchers(HttpMethod.POST,
+                                "/internal-ci/v1/android/bootstrap",
+                                "/internal-ci/v1/android/session",
                                 "/api/v1/auth/security-challenges",
                                 "/api/v1/auth/password/login",
                                 "/api/v1/auth/sms/send",

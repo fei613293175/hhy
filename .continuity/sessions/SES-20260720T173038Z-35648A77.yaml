@@ -11,13 +11,17 @@ task_id: TASK-R06-004
 story_id: STORY-R06-001
 goal: 统一内容基础、首页与CMS客户端/H5/后台实现
 started_at: '2026-07-20T17:30:38Z'
-updated_at: '2026-07-20T21:01:24Z'
+updated_at: '2026-07-20T22:10:05Z'
 takeover_of: null
 change_requests:
 - CR-0148
 - CR-0149
 - CR-0150
 - CR-0151
+- CR-0152
+- CR-0153
+- CR-0154
+- CR-0155
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -56,7 +60,26 @@ scope:
   - docs/09-development/统一开发与交付效率规范.md
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151
+  - CHANGELOG.md
+  - config/CONFIG_REGISTRY.yaml
+  - scripts/android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - tests/android/visual-manifests/R06.yaml
+  - docs/08-testing/测试策略与质量门禁_V1.2.2.md
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/GitHubOidcVerifier.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/main/resources/db/migration/V031__ci_automation_bootstrap.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+  - services/backend/boot/pom.xml
+  - catalogs/config_registry.csv
+  source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151+approved-cr:CR-0152+approved-cr:CR-0153+approved-cr:CR-0154+approved-cr:CR-0155
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -66,22 +89,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T21:01:20Z'
-  expires_at: '2026-07-21T01:01:20Z'
-checkpoint_sequence: 16
-latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0016.yaml
+  renewed_at: '2026-07-20T22:10:02Z'
+  expires_at: '2026-07-21T02:10:02Z'
+checkpoint_sequence: 17
+latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0017.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-next_step: 项目所有者决定是否批准第4轮有界候选；获批后为截图增加像素变化与稳定采样，并在analyzer拒绝重复截图哈希
+next_step: 提交冻结源码；构建并滚动部署启用CI自动认证的Staging后端，配置最终Commit APK路由后推送R06新候选
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 7ce4e563e4de64a8db8776f5e8ad330d724678b123a284591b285268b8fdc4ef
-  generated_at: '2026-07-20T21:01:22Z'
+  context_hash: 6520ea0158d67ba565b4e176726f0acda464d3c7cd802e0240fc25c37581b263
+  generated_at: '2026-07-20T22:10:04Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选额度耗尽后的下一步需要项目所有者授权，且截图采集与分析器修复共享同一自动化链路
+  reason: 安全认证、候选工作流、视觉事实和连续性记录共享同一集成边界，冻结提交与部署必须由主控串行完成

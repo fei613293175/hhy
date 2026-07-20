@@ -54,6 +54,231 @@ items:
   ui_order: '1'
   ui_schema_version: 1.2.2
   maturity: FROZEN_OPERATIONAL_V1.2.2
+- key: ci.automation.enabled
+  group: app_build
+  type: boolean
+  default: 'False'
+  secret: 'False'
+  required: 'False'
+  editable_by: '[''release_manager'', ''security_admin'']'
+  approval: TWO_PERSON
+  snapshot_on_business: 'False'
+  runtime_reload: 'False'
+  description: 仅Staging启用GitHub OIDC Android自动认证
+  enum: ''
+  lifecycle: STARTUP_CONFIGURATION
+  required_in: STAGING_ONLY
+  reload_strategy: RESTART_REQUIRED
+  restart_required: 'True'
+  secret_ref_policy: NOT_SECRET
+  validator: staging_only+production_forbidden
+  owner: app_build_owner
+  change_risk: HIGH
+  rollback_supported: 'True'
+  schema_version: '1'
+  display_name: CI自动认证开关
+  ui_group: App构建发布 / ci_automation
+  control_type: SWITCH
+  unit: ''
+  min_value: ''
+  max_value: ''
+  step: ''
+  pattern: ''
+  option_source: none
+  help_text: 仅隔离Staging可启用；任何prod/production组合启动失败关闭。
+  risk_prompt: 启用前必须确认GitHub仓库、工作流、OIDC audience和测试身份全部精确绑定。
+  visible_when: 当前环境为Staging
+  enabled_when: 具备release_manager且security_admin完成双人审批
+  dependency_keys: ci.automation.user_phone;ci.automation.github_repository;ci.automation.github_workflow;ci.automation.oidc_audience
+  cross_field_rule_ids: ''
+  approver_role: security_admin
+  impact_scope: Android候选Staging自动认证
+  preview_strategy: 显示环境、OIDC绑定和生产拒绝结果
+  rollback_strategy: 关闭开关并重启，内部端点消失
+  audit_event: config.ci_automation.changed
+  ui_order: '20'
+  ui_schema_version: 1.2.3
+  maturity: FROZEN_OPERATIONAL_V1.2.3
+- key: ci.automation.user_phone
+  group: app_build
+  type: secret_ref
+  default: ''
+  secret: 'True'
+  required: 'False'
+  editable_by: '[''security_admin'']'
+  approval: TWO_PERSON
+  snapshot_on_business: 'False'
+  runtime_reload: 'False'
+  description: Staging专用脱敏E2E用户手机号SecretRef
+  enum: ''
+  lifecycle: STARTUP_CONFIGURATION
+  required_in: STAGING_CI_AUTOMATION
+  reload_strategy: RESTART_REQUIRED
+  restart_required: 'True'
+  secret_ref_policy: VAULT_KMS_ONLY
+  validator: secret_ref+staging_only
+  owner: security_owner
+  change_risk: HIGH
+  rollback_supported: 'True'
+  schema_version: '1'
+  display_name: CI测试用户
+  ui_group: App构建发布 / ci_automation
+  control_type: SECRET_REF_INPUT
+  unit: ''
+  min_value: ''
+  max_value: ''
+  step: ''
+  pattern: ^(vault|kms)://
+  option_source: none
+  help_text: 只保存SecretRef，不得写入真实手机号或长期密码。
+  risk_prompt: 测试身份只能存在于Staging且必须为最小权限脱敏账号。
+  visible_when: CI自动认证开关配置页面
+  enabled_when: security_admin双人审批
+  dependency_keys: ci.automation.enabled
+  cross_field_rule_ids: ''
+  approver_role: security_admin
+  impact_scope: Android候选Staging测试身份
+  preview_strategy: 仅显示已配置状态和SecretRef元数据
+  rollback_strategy: 撤销SecretRef并关闭自动认证
+  audit_event: config.ci_automation.changed
+  ui_order: '21'
+  ui_schema_version: 1.2.3
+  maturity: FROZEN_OPERATIONAL_V1.2.3
+- key: ci.automation.github_repository
+  group: app_build
+  type: string
+  default: fei613293175/hhy
+  secret: 'False'
+  required: 'False'
+  editable_by: '[''release_manager'', ''security_admin'']'
+  approval: TWO_PERSON
+  snapshot_on_business: 'False'
+  runtime_reload: 'False'
+  description: 允许申请CI短时会话的GitHub仓库
+  enum: ''
+  lifecycle: STARTUP_CONFIGURATION
+  required_in: STAGING_CI_AUTOMATION
+  reload_strategy: RESTART_REQUIRED
+  restart_required: 'True'
+  secret_ref_policy: NOT_SECRET
+  validator: exact_repository_slug
+  owner: app_build_owner
+  change_risk: HIGH
+  rollback_supported: 'True'
+  schema_version: '1'
+  display_name: GitHub仓库绑定
+  ui_group: App构建发布 / ci_automation
+  control_type: TEXT_INPUT
+  unit: ''
+  min_value: ''
+  max_value: ''
+  step: ''
+  pattern: ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$
+  option_source: none
+  help_text: OIDC repository claim必须逐字匹配。
+  risk_prompt: 修改会改变可申请测试会话的仓库身份。
+  visible_when: CI自动认证配置页面
+  enabled_when: 双人审批
+  dependency_keys: ci.automation.enabled
+  cross_field_rule_ids: ''
+  approver_role: security_admin
+  impact_scope: GitHub OIDC仓库身份
+  preview_strategy: 显示旧值、新值和精确claim匹配
+  rollback_strategy: 回滚到上一已验证仓库绑定
+  audit_event: config.ci_automation.changed
+  ui_order: '22'
+  ui_schema_version: 1.2.3
+  maturity: FROZEN_OPERATIONAL_V1.2.3
+- key: ci.automation.github_workflow
+  group: app_build
+  type: string
+  default: .github/workflows/android-candidate-request.yml
+  secret: 'False'
+  required: 'False'
+  editable_by: '[''release_manager'', ''security_admin'']'
+  approval: TWO_PERSON
+  snapshot_on_business: 'False'
+  runtime_reload: 'False'
+  description: 允许申请CI短时会话的候选工作流路径
+  enum: ''
+  lifecycle: STARTUP_CONFIGURATION
+  required_in: STAGING_CI_AUTOMATION
+  reload_strategy: RESTART_REQUIRED
+  restart_required: 'True'
+  secret_ref_policy: NOT_SECRET
+  validator: repository_workflow_path
+  owner: app_build_owner
+  change_risk: HIGH
+  rollback_supported: 'True'
+  schema_version: '1'
+  display_name: GitHub工作流绑定
+  ui_group: App构建发布 / ci_automation
+  control_type: TEXT_INPUT
+  unit: ''
+  min_value: ''
+  max_value: ''
+  step: ''
+  pattern: ^\.github/workflows/[A-Za-z0-9_.-]+\.ya?ml$
+  option_source: none
+  help_text: OIDC workflow_ref必须包含该精确仓库路径。
+  risk_prompt: 修改会改变可申请测试会话的工作流身份。
+  visible_when: CI自动认证配置页面
+  enabled_when: 双人审批
+  dependency_keys: ci.automation.github_repository
+  cross_field_rule_ids: ''
+  approver_role: security_admin
+  impact_scope: GitHub OIDC工作流身份
+  preview_strategy: 显示旧值、新值和workflow_ref匹配
+  rollback_strategy: 回滚到上一已验证工作流路径
+  audit_event: config.ci_automation.changed
+  ui_order: '23'
+  ui_schema_version: 1.2.3
+  maturity: FROZEN_OPERATIONAL_V1.2.3
+- key: ci.automation.oidc_audience
+  group: app_build
+  type: string
+  default: hhy-android-e2e
+  secret: 'False'
+  required: 'False'
+  editable_by: '[''release_manager'', ''security_admin'']'
+  approval: TWO_PERSON
+  snapshot_on_business: 'False'
+  runtime_reload: 'False'
+  description: GitHub OIDC Android测试专用audience
+  enum: ''
+  lifecycle: STARTUP_CONFIGURATION
+  required_in: STAGING_CI_AUTOMATION
+  reload_strategy: RESTART_REQUIRED
+  restart_required: 'True'
+  secret_ref_policy: NOT_SECRET
+  validator: exact_oidc_audience
+  owner: security_owner
+  change_risk: HIGH
+  rollback_supported: 'True'
+  schema_version: '1'
+  display_name: OIDC Audience
+  ui_group: App构建发布 / ci_automation
+  control_type: TEXT_INPUT
+  unit: ''
+  min_value: ''
+  max_value: ''
+  step: ''
+  pattern: ^[A-Za-z0-9_.:-]{3,128}$
+  option_source: none
+  help_text: 只接受Android候选专用audience，禁止复用生产访问audience。
+  risk_prompt: 修改会改变OIDC令牌的目标受众验证。
+  visible_when: CI自动认证配置页面
+  enabled_when: 双人审批
+  dependency_keys: ci.automation.enabled
+  cross_field_rule_ids: ''
+  approver_role: security_admin
+  impact_scope: GitHub OIDC audience验证
+  preview_strategy: 显示旧值、新值和audience精确匹配
+  rollback_strategy: 回滚到上一已验证audience
+  audit_event: config.ci_automation.changed
+  ui_order: '24'
+  ui_schema_version: 1.2.3
+  maturity: FROZEN_OPERATIONAL_V1.2.3
 - key: platform.brand.slogan
   group: platform
   type: string

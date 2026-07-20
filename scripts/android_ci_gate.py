@@ -16,6 +16,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_POLICY = ROOT / "config/android-automation.yaml"
+DEFAULT_VISUAL_MANIFEST_ROOT = ROOT / "tests/android/visual-manifests"
 RELEASE_PATTERN = re.compile(r"^R(\d{2})$")
 
 
@@ -45,6 +46,16 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
         raise GateError("Desktop candidate delivery must happen only after Actions PASS")
     if not document["delivery"].get("desktop_test_guide_required"):
         raise GateError("Every Desktop candidate must include the version test guide")
+    if document["visual"].get("review_authority") != "AI_IMPLEMENTATION_AGENT":
+        raise GateError("Visual review authority must be AI_IMPLEMENTATION_AGENT")
+    if document["enforcement"].get("release_complete_requires_owner_status") != "PASS":
+        raise GateError("Formal release closure must retain project-owner device acceptance")
+    if document["enforcement"].get("next_release_development_requires_owner_status") is not False:
+        raise GateError("Owner device feedback must not block next-release development")
+    if document["enforcement"].get("production_activation_requires_owner_status") != "PASS":
+        raise GateError("Production activation must retain project-owner acceptance")
+    if not document["emulator"].get("visual_manifest_root"):
+        raise GateError("Every enforced release must resolve a visual manifest")
     return document
 
 
@@ -80,29 +91,78 @@ def junit_failures(root: Path) -> list[str]:
 
 def visual_failures(
     policy: dict[str, Any], release: str, screenshots: Path, baseline_root: Path,
-) -> tuple[list[str], list[dict[str, Any]]]:
+    manifest_root: Path,
+) -> tuple[list[str], list[dict[str, Any]], list[dict[str, Any]]]:
     images = sorted(screenshots.rglob("*.png")) if screenshots.exists() else []
-    required = int(policy["emulator"].get("required_screenshots") or 0)
     failures: list[str] = []
     comparisons: list[dict[str, Any]] = []
-    if len(images) < required:
-        failures.append(f"screenshots={len(images)} required={required}")
-    if not is_enforced_release(policy, release):
-        return failures, comparisons
+    evidence: list[dict[str, Any]] = []
+    manifest_path = manifest_root / f"{release.upper()}.yaml"
+    manifest: dict[str, Any] = {}
+    if is_enforced_release(policy, release):
+        if not manifest_path.is_file():
+            failures.append(f"visual manifest missing: {manifest_path}")
+            return failures, comparisons, evidence
+        manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+        if manifest.get("schema") != "hhy.android-visual-manifest/v1":
+            failures.append(f"invalid visual manifest schema: {manifest_path}")
+        if str(manifest.get("release") or "").upper() != release.upper():
+            failures.append(f"visual manifest release mismatch: {manifest_path}")
+        screens = manifest.get("screens") or []
+        expected_names = [str(row.get("file") or "") for row in screens]
+        if not expected_names or any(not name.endswith(".png") for name in expected_names):
+            failures.append(f"visual manifest has invalid screenshot names: {manifest_path}")
+        if len(expected_names) != len(set(expected_names)):
+            failures.append(f"visual manifest has duplicate screenshot names: {manifest_path}")
+        actual_names = [path.name for path in images]
+        for name in sorted(set(expected_names) - set(actual_names)):
+            failures.append(f"required screenshot missing: {name}")
+        for name in sorted(set(actual_names) - set(expected_names)):
+            failures.append(f"unexpected screenshot: {name}")
 
-    release_baseline = baseline_root / release.upper()
-    if not release_baseline.is_dir():
-        failures.append(f"approved visual baseline missing: {release_baseline}")
-        return failures, comparisons
+    digest_to_names: dict[str, list[str]] = {}
+    for image in images:
+        digest = hashlib.sha256(image.read_bytes()).hexdigest()
+        digest_to_names.setdefault(digest, []).append(image.name)
+        evidence.append({"screenshot": image.name, "sha256": digest, "size_bytes": image.stat().st_size})
+    for digest, names in digest_to_names.items():
+        if len(names) > 1:
+            failures.append(f"duplicate screenshot sha256={digest}: {','.join(sorted(names))}")
+    if not is_enforced_release(policy, release):
+        return failures, comparisons, evidence
+
     try:
         from PIL import Image, ImageChops, ImageStat
     except ImportError as exc:
         failures.append(f"Pillow required for enforced visual comparison: {exc}")
-        return failures, comparisons
+        return failures, comparisons, evidence
+
+    minimum_cross_ratio = float(policy["visual"].get("minimum_cross_screen_changed_pixel_ratio") or 0)
+    threshold = int(policy["visual"]["changed_pixel_threshold"])
+    for previous, current in zip(images, images[1:]):
+        with Image.open(previous).convert("RGB") as left, Image.open(current).convert("RGB") as right:
+            if left.size != right.size:
+                failures.append(f"cross-screen size mismatch {previous.name}/{current.name}: {left.size} != {right.size}")
+                continue
+            pixels = list(ImageChops.difference(left, right).convert("L").getdata())
+            ratio = sum(value > threshold for value in pixels) / max(1, len(pixels))
+            comparisons.append({
+                "comparison": "cross_screen",
+                "screenshots": [previous.name, current.name],
+                "changed_pixel_ratio": round(ratio, 6),
+            })
+            if ratio < minimum_cross_ratio:
+                failures.append(
+                    f"cross-screen pixel difference too small {previous.name}/{current.name}: ratio={ratio:.4f}"
+                )
+
+    release_baseline = baseline_root / release.upper()
+    if not release_baseline.is_dir():
+        failures.append(f"approved visual baseline missing: {release_baseline}")
+        return failures, comparisons, evidence
 
     max_mae = float(policy["visual"]["max_mean_absolute_error"])
     max_ratio = float(policy["visual"]["max_changed_pixel_ratio"])
-    threshold = int(policy["visual"]["changed_pixel_threshold"])
     for actual in images:
         baseline = release_baseline / actual.name
         if not baseline.is_file():
@@ -117,11 +177,11 @@ def visual_failures(
             mae = sum(stat.mean) / len(stat.mean)
             pixels = list(diff.convert("L").getdata())
             ratio = sum(value > threshold for value in pixels) / max(1, len(pixels))
-            row = {"screenshot": actual.name, "mean_absolute_error": round(mae, 4), "changed_pixel_ratio": round(ratio, 6)}
+            row = {"comparison": "baseline", "screenshot": actual.name, "mean_absolute_error": round(mae, 4), "changed_pixel_ratio": round(ratio, 6)}
             comparisons.append(row)
             if mae > max_mae or ratio > max_ratio:
                 failures.append(f"visual drift {actual.name}: mae={mae:.2f}, ratio={ratio:.4f}")
-    return failures, comparisons
+    return failures, comparisons, evidence
 
 
 def analyze(args: Any) -> int:
@@ -150,8 +210,9 @@ def analyze(args: Any) -> int:
         if re.search(str(pattern), logcat, re.IGNORECASE):
             failures.append({"type": "CRASH_OR_ANR", "detail": str(pattern)})
 
-    visual, comparisons = visual_failures(
+    visual, comparisons, screenshot_evidence = visual_failures(
         policy, args.release, Path(args.screenshots), Path(args.baseline_root),
+        Path(args.visual_manifest_root),
     )
     failures.extend({"type": "VISUAL", "detail": detail} for detail in visual)
     status = "PASS" if not failures else "FAIL"
@@ -167,6 +228,7 @@ def analyze(args: Any) -> int:
         "owner_test_allowed": status == "PASS",
         "failures": failures,
         "visual_comparisons": comparisons,
+        "screenshot_evidence": screenshot_evidence,
         "remediation": {
             "status": "NOT_REQUIRED" if status == "PASS" else "REMEDIATION_REQUIRED",
             "next_action": "PACKAGE_CANDIDATE" if status == "PASS" else "AI_ANALYZE_FIX_REBUILD_RETEST",
@@ -217,6 +279,7 @@ def finalize(args: Any) -> int:
         "status": status,
         "owner_test_allowed": status == "PASS",
         "release_completion_allowed": False,
+        "production_activation_allowed": False,
         "apk": {"file": apk.name, "sha256": sha256, "size_bytes": size},
         "runtime_report": report,
         "errors": errors,
@@ -244,6 +307,7 @@ def main() -> int:
     runtime.add_argument("--logcat", required=True)
     runtime.add_argument("--screenshots", required=True)
     runtime.add_argument("--baseline-root", default=str(ROOT / "tests/android/visual-baselines"))
+    runtime.add_argument("--visual-manifest-root", default=str(DEFAULT_VISUAL_MANIFEST_ROOT))
     runtime.add_argument("--output", required=True)
 
     candidate = sub.add_parser("finalize")

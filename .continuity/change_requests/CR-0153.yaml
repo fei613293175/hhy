@@ -1,0 +1,43 @@
+protocol_version: '1.0'
+cr_id: CR-0153
+title: 允许Android候选调用方申请GitHub OIDC令牌
+status: IMPLEMENTING
+created_at: '2026-07-20T21:41:03Z'
+updated_at: '2026-07-20T21:41:10Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R06-004
+session_id: SES-20260720T173038Z-35648A77
+user_request: 项目所有者批准使用GitHub OIDC短时会话实现不中断的实际页面自动测试
+reason: 可复用质量工作流不能获得高于调用作业的id-token权限，候选调用方必须显式授予最小id-token write
+original_rule: Android Candidate Request质量作业仅授予contents read和issues write，不能签发OIDC身份
+new_rule: 仅Android候选质量调用作业增加id-token write，用于向固定Staging端点申请仓库、工作流、Commit和Run强绑定的一次性引导码；不授予其他写权限
+impact_summary: 单文件最小权限补齐，不改变触发条件、构建内容或仓库写权限
+impact:
+  files:
+  - .github/workflows/android-candidate-request.yml
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - workflow static permission contract;GitHub OIDC bootstrap integration
+  releases:
+  - R06-R32
+  migration_and_compatibility: 无迁移；普通CI和非候选作业不获得OIDC权限；后端关闭自动认证时请求失败关闭
+user_confirmation: 项目所有者批准使用GitHub OIDC自动登录并要求持续开发不等待人工核实
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T21:41:07Z'
+  note: 依据本轮明确授权批准候选调用作业最小OIDC权限，不扩大仓库或生产权限
+machine_record: .continuity/change_requests/CR-0153.yaml
+document: docs/03-continuity/change-requests/CR-0153-允许Android候选调用方申请GitHub-OIDC令牌.md
+decision_log:
+- at: '2026-07-20T21:41:10Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 补齐候选调用方id-token write权限
+  session_id: SES-20260720T173038Z-35648A77
+session_ids:
+- SES-20260720T173038Z-35648A77

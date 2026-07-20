@@ -8985,3 +8985,213 @@ change_requests:
     session_id: SES-20260720T173038Z-35648A77
   session_ids:
   - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0152
+  title: 建立AI自主视觉验收与不中断版本候选流水线
+  status: IMPLEMENTING
+  created_at: '2026-07-20T21:30:36Z'
+  updated_at: '2026-07-20T21:31:43Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 项目所有者明确要求所有版本截图由AI自行判断合格，不得暂停等待人工核实；大小版本完成后继续开发，桌面APK由项目所有者有时间时逐一测试并反馈
+  reason: 现有候选把固定四张认证截图和项目所有者逐轮批准作为阻断点，既不覆盖版本实际页面，又造成重复GitHub模拟器运行并打断R06-R08连续开发
+  original_rule: R06-R32候选固定执行四张认证截图；失败运行不得自动接受为基线；项目所有者逐轮核实视觉证据后才可继续，候选失败阻断后续版本开发
+  new_rule: 每个版本使用影响清单驱动的视觉矩阵；AI必须依据冻结设计、页面身份、真实加载状态、像素稳定、重复哈希和视觉阈值自主判定并可接受合格基线，不得暂停等待项目所有者核实。候选产物与证据按Commit和哈希绑定后持续交付桌面，项目所有者真机反馈进入后续修复队列但不阻断后续版本开发；生产激活仍保留独立人工门禁。GitHub通过OIDC获取Staging专用一次性短时会话，不保存长期账号秘密或设置生产后门
+  impact_summary: 重构Android候选自动认证、R06实际页面截图、截图完整性分析和AI视觉晋升；固定认证四截图改为版本矩阵，消除人工等待与相同Commit重复模拟器构建。新增仅Staging启用且GitHub仓库/工作流/Commit强绑定的一次性CI会话引导，生产默认关闭并启动失败关闭
+  impact:
+    files:
+    - CHANGELOG.md
+    - config/android-automation.yaml
+    - config/android-candidate-request.yaml
+    - config/CONFIG_REGISTRY.yaml
+    - .github/workflows/android-quality-gate.yml
+    - scripts/android_ci_gate.py
+    - scripts/run_android_emulator_gate.sh
+    - tests/test_android_ci_gate.py
+    - tests/android/visual-manifests/R06.yaml
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - docs/08-testing/测试策略与质量门禁_V1.2.2.md
+    - docs/09-development/统一开发与交付效率规范.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationProperties.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAccessConfiguration.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/UserAuthService.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/CiAutomationController.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/GitHubOidcVerifier.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/security/SecurityConfiguration.java
+    - services/backend/boot/src/main/resources/application.yml
+    - services/backend/boot/src/main/resources/db/migration/V031__ci_automation_bootstrap.sql
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+    - services/backend/boot/pom.xml
+    pages:
+    - SCR-HOME-001;SCR-MINE-001;SCR-ABOUT-001;SCR-UPDATE-001
+    apis:
+    - POST /internal-ci/v1/android/bootstrap;POST /internal-ci/v1/android/session
+    database:
+    - V031 hhy.ci_automation_bootstrap_codes
+    configuration:
+    - HHY_CI_AUTOMATION_ENABLED;HHY_CI_AUTOMATION_USER_PHONE;HHY_CI_GITHUB_REPOSITORY;HHY_CI_GITHUB_WORKFLOW;HHY_CI_OIDC_AUDIENCE
+    ledger: []
+    tests:
+    - android CI policy/unit tests;backend OIDC isolation and one-time redemption tests;Android instrumentation R06 page identity and pixel stability;GitHub
+      candidate evidence integrity
+    releases:
+    - R06-R32
+    migration_and_compatibility: 新增V031一次性CI引导表，不修改既有用户、会话和公开产品API；旧视觉基线保留只读兼容，新矩阵从R06启用。生产或混合production profile禁止CI自动认证；关闭开关时内部端点返回404/拒绝。桌面APK按版本累积交付，项目所有者延后真机反馈不阻断编码但阻断任何未经既有生产发布门禁的生产激活
+  user_confirmation: 2026-07-21项目所有者明确要求：开发所有版本的截图由AI判断是否合格，不要停下让我核实；每个大小版本完成也继续开发，桌面APK由项目所有者有时间逐一测试并反馈。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T21:31:38Z'
+    note: 项目所有者明确授权AI判断所有版本截图并持续开发，不得因视觉核实、大小版本完成或桌面APK待测暂停；批准版本矩阵、AI视觉基线与Staging OIDC短时会话，生产激活仍保持独立门禁
+  machine_record: .continuity/change_requests/CR-0152.yaml
+  document: docs/03-continuity/change-requests/CR-0152-建立AI自主视觉验收与不中断版本候选流水线.md
+  decision_log:
+  - at: '2026-07-20T21:31:43Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现AI自主视觉验收、R06实际页面矩阵、截图完整性和Staging OIDC短时会话
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0153
+  title: 允许Android候选调用方申请GitHub OIDC令牌
+  status: IMPLEMENTING
+  created_at: '2026-07-20T21:41:03Z'
+  updated_at: '2026-07-20T21:41:10Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 项目所有者批准使用GitHub OIDC短时会话实现不中断的实际页面自动测试
+  reason: 可复用质量工作流不能获得高于调用作业的id-token权限，候选调用方必须显式授予最小id-token write
+  original_rule: Android Candidate Request质量作业仅授予contents read和issues write，不能签发OIDC身份
+  new_rule: 仅Android候选质量调用作业增加id-token write，用于向固定Staging端点申请仓库、工作流、Commit和Run强绑定的一次性引导码；不授予其他写权限
+  impact_summary: 单文件最小权限补齐，不改变触发条件、构建内容或仓库写权限
+  impact:
+    files:
+    - .github/workflows/android-candidate-request.yml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - workflow static permission contract;GitHub OIDC bootstrap integration
+    releases:
+    - R06-R32
+    migration_and_compatibility: 无迁移；普通CI和非候选作业不获得OIDC权限；后端关闭自动认证时请求失败关闭
+  user_confirmation: 项目所有者批准使用GitHub OIDC自动登录并要求持续开发不等待人工核实
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T21:41:07Z'
+    note: 依据本轮明确授权批准候选调用作业最小OIDC权限，不扩大仓库或生产权限
+  machine_record: .continuity/change_requests/CR-0153.yaml
+  document: docs/03-continuity/change-requests/CR-0153-允许Android候选调用方申请GitHub-OIDC令牌.md
+  decision_log:
+  - at: '2026-07-20T21:41:10Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 补齐候选调用方id-token write权限
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0154
+  title: 登记Staging CI自动认证配置源
+  status: IMPLEMENTING
+  created_at: '2026-07-20T21:53:43Z'
+  updated_at: '2026-07-20T21:53:51Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 项目所有者批准OIDC自动登录并要求跨电脑持续开发
+  reason: CR-0152新增五项启动配置，CONFIG_REGISTRY声明catalogs/config_registry.csv为事实源，必须同步登记
+  original_rule: 配置注册表没有CI自动认证开关、测试身份和GitHub OIDC绑定项
+  new_rule: 五项CI自动认证配置进入机器注册表和CSV事实源；默认关闭、测试手机号按秘密处理、其余OIDC身份字段固定Staging启动配置，生产不得启用
+  impact_summary: 仅补齐配置元数据和事实源，不启用运行时功能或写入秘密值
+  impact:
+    files:
+    - config/CONFIG_REGISTRY.yaml
+    - catalogs/config_registry.csv
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - ci.automation.enabled;ci.automation.user_phone;ci.automation.github_repository;ci.automation.github_workflow;ci.automation.oidc_audience
+    ledger: []
+    tests:
+    - check_config_registry.py;documentation registry checks
+    releases:
+    - R06-R32
+    migration_and_compatibility: 默认关闭且秘密默认值为空；部署通过受控环境变量注入，生产配置保持禁用
+  user_confirmation: 项目所有者批准持续自动登录测试且不等待人工核实
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T21:53:47Z'
+    note: 依据OIDC自动登录授权批准最小配置登记，秘密值仍不得进入仓库
+  machine_record: .continuity/change_requests/CR-0154.yaml
+  document: docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
+  decision_log:
+  - at: '2026-07-20T21:53:51Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 同步机器注册表与CSV事实源
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0155
+  title: CI一次性引导复用既有幂等存储并取消新表
+  status: IMPLEMENTING
+  created_at: '2026-07-20T22:00:44Z'
+  updated_at: '2026-07-20T22:00:52Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 项目所有者要求高效自动登录且持续开发，不因基础设施扩张暂停
+  reason: CR-0152初拟V031专表会把冻结200表基线扩大为201并触发无关数据库迁移；现有idempotency_records已具备作用域、唯一键、到期和原子删除能力
+  original_rule: 为CI一次性引导新增V031 hhy.ci_automation_bootstrap_codes专表
+  new_rule: 使用hhy.idempotency_records独立ci-android-bootstrap作用域，仅存随机码SHA-256、绑定摘要、userId/Commit/Run引用和两分钟到期；兑换在事务内原子删除。取消V031，不改变200表基线
+  impact_summary: 减少数据库和发布影响面；安全属性保持一次性、短时、哈希存储和事务消费
+  impact:
+    files:
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java
+    - services/backend/boot/src/main/resources/db/migration/V031__ci_automation_bootstrap.sql
+    pages: []
+    apis: []
+    database:
+    - reuse hhy.idempotency_records scope ci-android-bootstrap;no new table
+    configuration: []
+    ledger: []
+    tests:
+    - CiAutomationServiceTest;check_db_schema.py 200-table invariant
+    releases:
+    - R06-R32
+    migration_and_compatibility: 删除尚未部署的V031草案；现有数据库无需迁移或回滚；CI记录按到期清理且不影响其他幂等作用域
+  user_confirmation: 项目所有者批准高效OIDC自动登录并要求不中断开发
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T22:00:48Z'
+    note: 依据高效且最小影响原则批准复用既有幂等存储，禁止扩大为生产会话后门
+  machine_record: .continuity/change_requests/CR-0155.yaml
+  document: docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md
+  decision_log:
+  - at: '2026-07-20T22:00:52Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 移除V031并改为独立幂等作用域原子消费
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77

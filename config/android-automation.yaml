@@ -11,6 +11,9 @@ enforcement:
   - APK_BUGFIX_CANDIDATE
   owner_test_requires_candidate_status: PASS
   release_complete_requires_owner_status: PASS
+  next_release_development_requires_owner_status: false
+  production_activation_requires_owner_status: PASS
+  owner_feedback_non_blocking_for_next_release: true
 build:
   api_base_url: https://api.orbexa.cc
   java_version: 21
@@ -28,20 +31,29 @@ emulator:
   profile: pixel_7
   locale: zh-CN
   orientation: portrait
-  required_screenshots: 4
+  visual_manifest_root: tests/android/visual-manifests
   required_journeys:
   - cold_start
-  - password_login
-  - sms_login
-  - register_and_back
-  - forgot_password_and_back
+  - staging_oidc_session
+  - release_visual_matrix
 visual:
   baseline_root: tests/android/visual-baselines
   baseline_required_from_release: R06
   max_mean_absolute_error: 14.0
   max_changed_pixel_ratio: 0.10
   changed_pixel_threshold: 24
-  rule: 基线必须来自冻结效果图施工后的批准模拟器截图，不得由失败运行自动接受
+  minimum_cross_screen_changed_pixel_ratio: 0.02
+  stable_sample_interval_ms: 350
+  stable_sample_matches: 2
+  review_authority: AI_IMPLEMENTATION_AGENT
+  ai_acceptance_required_checks:
+  - frozen_design_and_token_match
+  - expected_screen_identity
+  - loaded_business_state
+  - stable_pixels
+  - distinct_screenshot_sha256
+  - no_sensitive_or_technical_text
+  rule: 基线必须来自冻结设计施工后的合格模拟器截图；AI实现代理按强制检查自主判定并登记哈希，不得等待项目所有者逐轮核实
 logs:
   fatal_patterns:
   - 'FATAL EXCEPTION'
@@ -62,6 +74,8 @@ delivery:
   candidate_status: PASS
   desktop_copy_after_actions_pass: true
   desktop_test_guide_required: true
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  production_activation_requires_owner_acceptance: true
   required_evidence:
   - build-report
   - unit-test-report
@@ -100,4 +114,4 @@ candidate_request:
   reusable_quality_gate: .github/workflows/android-quality-gate.yml
   allowed_releases: R06-R32
   remediation_attempt_range: 1-3
-  rule: 候选请求必须进入事实分支并通过同一权威质量门禁；不得用普通CI的中间APK替代候选产物
+  rule: 候选请求必须进入事实分支并通过同一权威质量门禁；视觉证据由AI按版本矩阵自主验收，桌面真机反馈异步进入后续修复队列且不阻断下一版本编码；不得用普通CI的中间APK替代候选产物

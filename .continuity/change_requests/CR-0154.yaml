@@ -1,0 +1,45 @@
+protocol_version: '1.0'
+cr_id: CR-0154
+title: 登记Staging CI自动认证配置源
+status: IMPLEMENTING
+created_at: '2026-07-20T21:53:43Z'
+updated_at: '2026-07-20T21:53:51Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R06-004
+session_id: SES-20260720T173038Z-35648A77
+user_request: 项目所有者批准OIDC自动登录并要求跨电脑持续开发
+reason: CR-0152新增五项启动配置，CONFIG_REGISTRY声明catalogs/config_registry.csv为事实源，必须同步登记
+original_rule: 配置注册表没有CI自动认证开关、测试身份和GitHub OIDC绑定项
+new_rule: 五项CI自动认证配置进入机器注册表和CSV事实源；默认关闭、测试手机号按秘密处理、其余OIDC身份字段固定Staging启动配置，生产不得启用
+impact_summary: 仅补齐配置元数据和事实源，不启用运行时功能或写入秘密值
+impact:
+  files:
+  - config/CONFIG_REGISTRY.yaml
+  - catalogs/config_registry.csv
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - ci.automation.enabled;ci.automation.user_phone;ci.automation.github_repository;ci.automation.github_workflow;ci.automation.oidc_audience
+  ledger: []
+  tests:
+  - check_config_registry.py;documentation registry checks
+  releases:
+  - R06-R32
+  migration_and_compatibility: 默认关闭且秘密默认值为空；部署通过受控环境变量注入，生产配置保持禁用
+user_confirmation: 项目所有者批准持续自动登录测试且不等待人工核实
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T21:53:47Z'
+  note: 依据OIDC自动登录授权批准最小配置登记，秘密值仍不得进入仓库
+machine_record: .continuity/change_requests/CR-0154.yaml
+document: docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
+decision_log:
+- at: '2026-07-20T21:53:51Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 同步机器注册表与CSV事实源
+  session_id: SES-20260720T173038Z-35648A77
+session_ids:
+- SES-20260720T173038Z-35648A77

@@ -30,6 +30,7 @@ import cc.orbexa.hhy.access.user.UserAuthContracts.PageMetaResource;
 import cc.orbexa.hhy.shared.api.BusinessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
@@ -388,11 +389,26 @@ public class UserAuthService {
 
     private UserSessionResource createSession(long userId, String phone, Map<String, Object> values,
                                               String ip, String method, Device device) {
+        return createSession(userId, phone, values, ip, method, device, properties.refreshTtl());
+    }
+
+    UserSessionResource automationSession(long userId, String phone, Map<String, Object> values,
+                                          String ip, Duration sessionTtl) {
+        if (sessionTtl == null || sessionTtl.isNegative() || sessionTtl.isZero()
+                || sessionTtl.compareTo(Duration.ofMinutes(30)) > 0) {
+            throw new IllegalArgumentException("CI session TTL must be between zero and thirty minutes");
+        }
+        return createSession(userId, phone, values, ip, "CI_OIDC",
+                upsertDevice(userId, values, Instant.now(clock)), sessionTtl);
+    }
+
+    private UserSessionResource createSession(long userId, String phone, Map<String, Object> values,
+                                              String ip, String method, Device device, Duration refreshTtl) {
         Instant now = Instant.now(clock);
         String accessJti = UUID.randomUUID().toString();
         String refreshToken = tokens.newRefreshToken();
         String refreshHash = tokens.refreshHash(refreshToken);
-        Instant refreshExpires = now.plus(properties.refreshTtl());
+        Instant refreshExpires = now.plus(refreshTtl);
         long sessionId = repository.createSession(userId, device.id(), accessJti, refreshHash, refreshExpires);
         Instant accessExpires = now.plus(properties.accessTtl());
         String accessToken = tokens.issueAccess(userId, sessionId, 0L, accessJti, accessExpires);

@@ -3,14 +3,23 @@ package cc.orbexa.hhy
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.os.SystemClock
 import android.provider.MediaStore
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
-import androidx.test.uiautomator.BySelector
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
+import cc.orbexa.hhy.network.AuthSessionResource
+import cc.orbexa.hhy.network.HhyNetworkJson
 import java.io.File
+import java.net.HttpURLConnection
+import java.net.URL
+import java.security.MessageDigest
+import java.util.UUID
+import kotlinx.serialization.decodeFromString
+import org.json.JSONObject
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -21,17 +30,32 @@ import org.junit.runner.RunWith
 class ReleaseCandidateSmokeTest {
     private lateinit var device: UiDevice
     private lateinit var target: Context
+    private lateinit var sessionJson: String
+    private var previousScreenDigest: String? = null
     private val screenshotDirectory = "Pictures/hhy-ci-screenshots"
 
     @Before
-    fun prepareFreshCandidate() {
+    fun prepareAuthenticatedCandidate() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         device = UiDevice.getInstance(instrumentation)
         target = instrumentation.targetContext
+        val arguments = InstrumentationRegistry.getArguments()
+        val bootstrapCode = requireNotNull(arguments.getString("hhyCiBootstrapCode")?.takeIf(String::isNotBlank)) {
+            "Missing one-time CI bootstrap code"
+        }
+        val commit = requireNotNull(arguments.getString("hhyCiCommit")?.takeIf(String::isNotBlank)) {
+            "Missing CI commit identity"
+        }
+        val runId = requireNotNull(arguments.getString("hhyCiRunId")?.takeIf(String::isNotBlank)) {
+            "Missing CI run identity"
+        }
+        sessionJson = redeemSession(bootstrapCode, commit, runId)
+
         device.pressHome()
         val launchIntent = target.packageManager.getLaunchIntentForPackage(target.packageName)
             ?: error("Candidate package has no launch intent")
         launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        launchIntent.putExtra(CI_SESSION_INTENT_EXTRA, sessionJson)
         target.startActivity(launchIntent)
         assertTrue(
             "Candidate app did not become visible",
@@ -40,71 +64,73 @@ class ReleaseCandidateSmokeTest {
     }
 
     @Test
-    fun authenticationJourneysRemainReachableAndProduceVisualEvidence() {
+    fun r06PagesLoadRealDataAndProduceBoundVisualEvidence() {
+        assertTrue(
+            "R06 home did not reach its loaded screen identity",
+            waitForScreen("hhy.screen.r06.home.loaded"),
+        )
         assertFalse("Cold start exposed connection failure", device.hasObject(By.text("暂时无法连接")))
-        assertTrue(
-            "Password login did not become visually stable",
-            waitForPage(By.text("密码"), gone = listOf(By.text("正在启动"))),
-        )
-        capture("01-password-login.png")
+        captureStable("01-home-loaded.png")
         assertNoForbiddenVisibleText()
 
-        clickTextContains("验证码登录")
+        clickExactText("我的")
         assertTrue(
-            "SMS login did not become visually stable",
-            waitForPage(By.text("短信验证码"), gone = listOf(By.text("密码"))),
+            "R06 mine page did not become stable",
+            waitForScreen("hhy.screen.r06.mine", gone = "hhy.screen.r06.home.loaded"),
         )
-        capture("02-sms-login.png")
+        assertTrue("Mine page missed About entry", device.hasObject(By.text("关于与检查更新")))
+        captureStable("02-mine.png")
         assertNoForbiddenVisibleText()
 
-        clickTextContains("注册账号")
+        clickExactText("关于与检查更新")
         assertTrue(
-            "Registration page did not become visually stable",
-            waitForPage(By.text("确认密码"), gone = listOf(By.text("短信验证码登录"))),
+            "R06 About page did not reach its loaded screen identity",
+            waitForScreen("hhy.screen.r06.about.loaded", gone = "hhy.screen.r06.mine"),
         )
-        capture("03-register.png")
-        assertNoForbiddenVisibleText()
-        device.pressBack()
-        assertTrue(
-            "Registration back did not restore its real SMS-login source",
-            waitForPage(By.text("短信验证码登录"), gone = listOf(By.text("确认密码"))),
-        )
-
-        clickTextContains("忘记密码")
-        assertTrue(
-            "Forgot-password page did not become visually stable",
-            waitForPage(By.text("新密码"), gone = listOf(By.text("短信验证码登录"))),
-        )
-        capture("04-forgot-password.png")
-        assertNoForbiddenVisibleText()
-        device.pressBack()
-        assertTrue(
-            "Forgot-password back did not restore its real SMS-login source",
-            waitForPage(By.text("短信验证码登录"), gone = listOf(By.text("新密码"))),
-        )
-
+        assertTrue("About page missed version identity", device.hasObject(By.textContains("当前版本")))
+        captureStable("03-about-loaded.png")
         assertNoForbiddenVisibleText()
     }
 
-    private fun waitForPage(required: BySelector, gone: List<BySelector>): Boolean {
-        if (!device.wait(Until.hasObject(required), 15_000)) return false
-        if (gone.any { selector -> !device.wait(Until.gone(selector), 15_000) }) return false
+    private fun waitForScreen(required: String, gone: String? = null): Boolean {
+        if (!device.wait(Until.hasObject(By.res(required)), 30_000)) return false
+        if (gone != null && !device.wait(Until.gone(By.res(gone)), 15_000)) return false
         device.waitForIdle(2_000)
         return true
     }
 
-    private fun clickTextContains(value: String) {
-        val node = device.wait(Until.findObject(By.textContains(value)), 15_000)
-            ?: error("Cannot find UI element containing: $value")
+    private fun clickExactText(value: String) {
+        val node = device.wait(Until.findObject(By.text(value)), 15_000)
+            ?: error("Cannot find UI element: $value")
         node.click()
-        device.waitForIdle()
+        device.waitForIdle(2_000)
     }
 
-    private fun capture(name: String) {
-        val output = File(target.cacheDir, name)
-        assertTrue("Cannot capture $name", device.takeScreenshot(output))
-        assertTrue("Screenshot is empty: $name", output.length() > 0)
+    private fun captureStable(name: String) {
+        var priorSample: String? = null
+        var stableMatches = 0
+        repeat(20) { sample ->
+            val temporary = File(target.cacheDir, "visual-sample-$sample.png")
+            assertTrue("Cannot capture visual sample for $name", device.takeScreenshot(temporary))
+            val digest = sha256(temporary)
+            stableMatches = if (digest == priorSample) stableMatches + 1 else 1
+            if (stableMatches >= 2 && digest != previousScreenDigest) {
+                val output = File(target.cacheDir, name)
+                temporary.copyTo(output, overwrite = true)
+                publishScreenshot(output, name)
+                previousScreenDigest = digest
+                temporary.delete()
+                return
+            }
+            priorSample = digest
+            temporary.delete()
+            SystemClock.sleep(350)
+        }
+        error("Screen pixels did not become stable and distinct for $name")
+    }
 
+    private fun publishScreenshot(output: File, name: String) {
+        assertTrue("Screenshot is empty: $name", output.length() > 0)
         val values = ContentValues().apply {
             put(MediaStore.Images.Media.DISPLAY_NAME, name)
             put(MediaStore.Images.Media.MIME_TYPE, "image/png")
@@ -120,16 +146,46 @@ class ReleaseCandidateSmokeTest {
         values.clear()
         values.put(MediaStore.Images.Media.IS_PENDING, 0)
         resolver.update(mediaUri, values, null, null)
-        assertTrue(
-            "Shared screenshot is empty: $name",
-            output.length() > 0,
-        )
     }
+
+    private fun redeemSession(code: String, commit: String, runId: String): String {
+        val deviceFingerprint = MessageDigest.getInstance("SHA-256")
+            .digest("$runId:${UUID.randomUUID()}".toByteArray())
+            .joinToString("") { "%02x".format(it) }
+        val request = JSONObject()
+            .put("code", code)
+            .put("commit", commit)
+            .put("runId", runId)
+            .put("device", JSONObject()
+                .put("deviceFingerprint", deviceFingerprint)
+                .put("model", Build.MODEL.take(64))
+                .put("platform", "ANDROID")
+                .put("osVersion", Build.VERSION.RELEASE.take(64))
+                .put("appVersion", BuildConfig.VERSION_NAME.take(32)))
+            .toString()
+        val connection = (URL("${BuildConfig.API_BASE_URL}/internal-ci/v1/android/session").openConnection() as HttpURLConnection).apply {
+            requestMethod = "POST"
+            connectTimeout = 10_000
+            readTimeout = 10_000
+            doOutput = true
+            setRequestProperty("Content-Type", "application/json")
+        }
+        connection.outputStream.use { it.write(request.toByteArray(Charsets.UTF_8)) }
+        val responseCode = connection.responseCode
+        val body = (if (responseCode in 200..299) connection.inputStream else connection.errorStream)
+            ?.bufferedReader()?.use { it.readText() }.orEmpty()
+        check(responseCode in 200..299) { "CI session redemption failed with HTTP $responseCode" }
+        val data = JSONObject(body).getJSONObject("data").toString()
+        HhyNetworkJson.value.decodeFromString<AuthSessionResource>(data)
+        return data
+    }
+
+    private fun sha256(file: File): String = MessageDigest.getInstance("SHA-256")
+        .digest(file.readBytes()).joinToString("") { "%02x".format(it) }
 
     private fun assertNoForbiddenVisibleText() {
         assertFalse("Journey exposed connection failure", device.hasObject(By.textContains("暂时无法连接")))
-        val requestNumberLabel = "请求" + "编号"
-        assertFalse("Journey exposed technical request number", device.hasObject(By.textContains(requestNumberLabel)))
+        assertFalse("Journey exposed technical request number", device.hasObject(By.textContains("请求编号")))
         assertFalse("Journey exposed TraceId", device.hasObject(By.textContains("TraceId")))
     }
 }

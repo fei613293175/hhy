@@ -24,6 +24,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.network.ExperienceApi
@@ -43,7 +46,15 @@ fun AboutScreen(api: ExperienceApi, accessToken: String, onBack: () -> Unit) {
         api.agreement("PRIVACY_POLICY").onSuccess { agreement = it }
         loading = false
     }
-    Scaffold(topBar = { TopAppBar(title = { Text("关于与检查更新") }, navigationIcon = { cc.orbexa.hhy.designsystem.HhyBackButton(onBack) }) }) { padding ->
+    val screenMarker = when {
+        loading -> "hhy.screen.r06.about.loading"
+        failed -> "hhy.screen.r06.about.error"
+        else -> "hhy.screen.r06.about.loaded"
+    }
+    Scaffold(
+        modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag(screenMarker),
+        topBar = { TopAppBar(title = { Text("关于与检查更新") }, navigationIcon = { cc.orbexa.hhy.designsystem.HhyBackButton(onBack) }) },
+    ) { padding ->
         LazyColumn(modifier = Modifier.fillMaxSize().padding(padding).padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
             item { Text("合伙云 Pro", style = MaterialTheme.typography.headlineSmall); Text("当前版本 ${BuildConfig.VERSION_NAME}", color = HhyColors.TextSecondary) }
             item {

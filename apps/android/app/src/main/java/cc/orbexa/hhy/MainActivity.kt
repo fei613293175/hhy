@@ -34,6 +34,7 @@ import cc.orbexa.hhy.identity.IdentityFlowScreen
 import cc.orbexa.hhy.network.AuthCallResult
 import cc.orbexa.hhy.network.AuthSessionResource
 import cc.orbexa.hhy.network.AuthSessionStore
+import cc.orbexa.hhy.network.HhyNetworkJson
 import cc.orbexa.hhy.network.ContractAuthApi
 import cc.orbexa.hhy.network.ContractIdentityApi
 import cc.orbexa.hhy.network.UserSelfResource
@@ -48,6 +49,9 @@ import cc.orbexa.hhy.network.userSelfOrNull
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+
+internal const val CI_SESSION_INTENT_EXTRA = "cc.orbexa.hhy.extra.CI_SESSION"
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +69,10 @@ class MainActivity : ComponentActivity() {
                 val sessionStore = remember(context.applicationContext) {
                     AuthSessionStore(context.applicationContext)
                 }
+                val injectedCiSession = remember {
+                    if (!BuildConfig.DEBUG) null else intent.getStringExtra(CI_SESSION_INTENT_EXTRA)
+                        ?.let { encoded -> runCatching { HhyNetworkJson.value.decodeFromString<AuthSessionResource>(encoded) }.getOrNull() }
+                }
                 val identityApi = remember { UrlConnectionContractIdentityApi(BuildConfig.API_BASE_URL) }
                 val request = remember {
                     StartupGateRequest(
@@ -74,8 +82,11 @@ class MainActivity : ComponentActivity() {
                         environment = BuildConfig.APP_ENVIRONMENT,
                     )
                 }
-                var sessionState by remember { mutableStateOf<SessionState>(SessionState.Restoring) }
-                LaunchedEffect(authApi, sessionStore) {
+                var sessionState by remember {
+                    mutableStateOf<SessionState>(injectedCiSession?.let(SessionState::Verifying) ?: SessionState.Restoring)
+                }
+                LaunchedEffect(authApi, sessionStore, injectedCiSession) {
+                    if (injectedCiSession != null) return@LaunchedEffect
                     val stored = sessionStore.load()
                     if (stored == null) {
                         sessionState = SessionState.AuthenticationRequired

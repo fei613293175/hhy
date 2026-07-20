@@ -773,13 +773,29 @@ problems:
   status: MITIGATED
   root_cause: ReleaseCandidateSmokeTest仅等待包含目标文案的任意语义节点出现；启动遮罩下方的登录页和页面转场中的前后页节点可同时存在，导致密码截图仍为“正在启动”，忘记密码截图仍为短信登录。注册和忘记密码返回又用始终存在的“密码登录”Tab文案断言，无法证明返回了真实SMS来源。
   impact: 仪器测试退出码为0且四张截图齐全，但视觉证据不代表目标页面稳定状态；若直接批准为R06基线，会把过渡帧和错误页面永久固化，后续视觉回归失去意义。
-  resolution: CR-0151要求每张截图同时等待目标页首屏可见的唯一元素出现、启动态或前页唯一元素消失并等待UI空闲；注册和忘记密码从SMS进入后必须恢复SMS真实来源。第2轮确认前三页正确，并发现“重置登录密码”按钮位于Pixel 7首屏外导致UiAutomator不可见；第3轮改用首屏内“新密码”输入框，只生成待项目所有者审查的截图，不自动批准视觉基线。
+  resolution: CR-0151先补目标语义节点与前页消失等待；CR-0152进一步废止所有版本固定认证截图，改用版本视觉矩阵、不可见页面身份、真实加载状态、连续稳定像素、跨页面差异和重复SHA-256拒绝。AI按冻结设计自主验收，不再等待项目所有者逐轮核实。
   regression_checks:
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
   - tests/test_android_ci_gate.py
-  - GitHub Android候选第3轮四张截图人工核对
+  - GitHub Android候选R06实际页面矩阵和截图完整性报告
   do_not_repeat:
   - 不得用跨页面长期存在的Tab文案证明目标页面已完成切换
   - 不得只等待目标节点出现就截图，必须同时等待遮罩或前页唯一节点消失
   - 页面稳定标识必须在目标模拟器首屏可见，不得使用需要滚动后才出现的控件
-  - 自动化截图不得自动晋升为批准基线
+  - 截图不得仅凭数量自动晋升；AI必须逐图核对冻结设计和完整性证据后登记基线
+- id: PROB-0060
+  title: 固定认证截图与逐轮人工核实阻断实际版本页面验收和连续开发
+  status: MITIGATED
+  root_cause: R06-R32候选策略把密码、短信、注册和忘记密码四张认证截图固定为所有版本的证据，并要求项目所有者逐轮批准；R06实际变更的首页和关于页没有被测试，错误截图又导致同一候选重复占用GitHub模拟器。
+  impact: 自动化不能证明当前版本真实页面，项目所有者被迫承担机器回归，大小版本和桌面APK待测成为持续开发暂停点。
+  resolution: CR-0152建立版本影响视觉矩阵、GitHub OIDC一次性Staging会话、页面TestTag、像素稳定与重复哈希门禁；AI独立判断截图和基线，PASS候选自动交付桌面并继续下一版本，真机反馈异步进入修复队列，生产激活继续独立受控。
+  regression_checks:
+  - tests/android/visual-manifests/R06.yaml
+  - tests/test_android_ci_gate.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
+  - GitHub R06实际页面候选证据
+  do_not_repeat:
+  - 不得用固定页面数量替代版本影响矩阵
+  - 不得为自动页面测试保存长期账号密码、万能验证码或生产后门
+  - 不得因等待项目所有者截图确认、桌面APK真机测试或大小版本完成而暂停后续开发
+  - AI接受基线前必须核对页面身份、加载状态、像素稳定、跨页面差异、哈希和冻结设计

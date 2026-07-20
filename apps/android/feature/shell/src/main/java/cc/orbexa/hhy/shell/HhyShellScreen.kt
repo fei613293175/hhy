@@ -27,6 +27,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyIcon
@@ -71,7 +74,17 @@ fun HhyShellScreen(
         api.home(accessToken).onSuccess { home = it; homeError = false }.onFailure { homeError = true }
         refreshing = false
     }
+    val screenMarker = when {
+        selectedIndex == 0 && home != null -> "hhy.screen.r06.home.loaded"
+        selectedIndex == 0 && homeError -> "hhy.screen.r06.home.error"
+        selectedIndex == 0 -> "hhy.screen.r06.home.loading"
+        selectedIndex == 4 -> "hhy.screen.r06.mine"
+        else -> "hhy.screen.shell.${navigationItems[selectedIndex].label}"
+    }
     Scaffold(
+        modifier = Modifier
+            .semantics { testTagsAsResourceId = true }
+            .testTag(screenMarker),
         topBar = {
             TopAppBar(title = { Text("合伙云 Pro") })
         },
