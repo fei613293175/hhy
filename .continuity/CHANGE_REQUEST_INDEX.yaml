@@ -8840,3 +8840,40 @@ change_requests:
     note: 项目所有者已明确要求立即连续完成R06至R08；本CR仅补齐TASK-R06-004已冻结Android Story精确文件范围
   machine_record: .continuity/change_requests/CR-0148.yaml
   document: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+- protocol_version: '1.0'
+  cr_id: CR-0149
+  title: 补齐R06关于页下载安全策略回归测试范围
+  status: APPROVED
+  created_at: '2026-07-20T18:13:34Z'
+  updated_at: '2026-07-20T18:14:00Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 立即连续完成R06至R08并逐版交付测试APK和文档
+  reason: 修复关于页更新动作时新增同模块Android单元测试，需精确加入当前Session
+  original_rule: 当前Session没有新增AboutScreen下载策略单元测试路径
+  new_rule: 追加apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt这一精确回归测试文件
+  impact_summary: 仅验证关于页HTTPS下载地址安全边界，不改变业务契约或数据
+  impact:
+    files:
+    - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+    pages:
+    - SCR-ABOUT-001
+    apis:
+    - appReleasePostAppVersionCheck
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - remote testDebugUnitTest
+    releases:
+    - R06
+    migration_and_compatibility: 无迁移；测试只读
+  user_confirmation: 立即连续完成R06至R08并逐版交付测试APK和文档
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T18:14:00Z'
+    note: 项目所有者已授权R06至R08连续开发；本CR只登记R06新增安全回归测试文件
+  machine_record: .continuity/change_requests/CR-0149.yaml
+  document: docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md

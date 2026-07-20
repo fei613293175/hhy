@@ -755,3 +755,16 @@ problems:
   - Context Pack仓库树指纹不得纳入Git忽略的APK、缓存、构建目录或其他仅存在于单机的产物
   - 版本关闭后active_session为null是正常状态，测试必须从CURRENT_STATUS或NEXT_TASK恢复Release上下文
   - 本机门禁通过后必须在干净Worktree复现，禁止把开发机残留文件当作远端事实
+- id: PROB-0058
+  title: R06关于页协议代码与更新下载入口未完成真实闭环
+  status: SOLVED
+  root_cause: 关于页初版使用了未从冻结事实源确认的协议代码，并将更新按钮保留为空动作；这会导致协议请求404，或在存在更新时无法打开服务端发布地址。
+  resolution: 绑定后端已冻结的PRIVACY_POLICY代码，更新动作使用服务端downloadUrl且仅接受绝对HTTPS、无凭据、无片段地址；新增AboutDownloadPolicyTest覆盖安全边界。
+  regression_checks:
+  - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+  - apps/android/gradlew --no-daemon :app:testDebugUnitTest :app:lintDebug
+  - SCR-ABOUT-001协议读取与更新动作人工/模拟器旅程
+  do_not_repeat:
+  - 不得凭经验发明协议code，必须使用后端冻结或配置注册表事实
+  - 页面主操作不得保留空lambda；所有可见动作必须绑定登记的业务行为
+  - 下载链接不得接受HTTP、凭据、片段或相对路径

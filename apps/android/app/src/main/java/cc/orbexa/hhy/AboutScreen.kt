@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.network.ExperienceApi
@@ -31,6 +32,7 @@ import cc.orbexa.hhy.network.VersionCheckRequest
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AboutScreen(api: ExperienceApi, accessToken: String, onBack: () -> Unit) {
+    val uriHandler = LocalUriHandler.current
     var policy by remember { mutableStateOf<cc.orbexa.hhy.network.VersionPolicy?>(null) }
     var agreement by remember { mutableStateOf<cc.orbexa.hhy.network.AgreementSnapshot?>(null) }
     var loading by remember { mutableStateOf(true) }
@@ -38,7 +40,7 @@ fun AboutScreen(api: ExperienceApi, accessToken: String, onBack: () -> Unit) {
     LaunchedEffect(api, accessToken) {
         loading = true; failed = false
         api.checkVersion(VersionCheckRequest("ANDROID", BuildConfig.VERSION_CODE.toLong(), BuildConfig.VERSION_NAME, BuildConfig.APP_CHANNEL, BuildConfig.APP_ENVIRONMENT)).onSuccess { policy = it }.onFailure { failed = true }
-        api.agreement("privacy-policy").onSuccess { agreement = it }
+        api.agreement("PRIVACY_POLICY").onSuccess { agreement = it }
         loading = false
     }
     Scaffold(topBar = { TopAppBar(title = { Text("关于与检查更新") }, navigationIcon = { cc.orbexa.hhy.designsystem.HhyBackButton(onBack) }) }) { padding ->
@@ -48,7 +50,7 @@ fun AboutScreen(api: ExperienceApi, accessToken: String, onBack: () -> Unit) {
                 Card(modifier = Modifier.fillMaxWidth()) { Column(modifier = Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
                     if (loading) CircularProgressIndicator()
                     else if (failed) { Text("版本信息暂时无法获取"); OutlinedButton(onClick = onBack) { Text("返回") } }
-                    else { Text("最新版本 ${policy?.latestVersionName ?: "暂无"}"); Text(policy?.releaseNotes ?: "暂无更新说明", color = HhyColors.TextSecondary); Button(onClick = {}, enabled = policy?.updateType != cc.orbexa.hhy.network.UpdateType.NONE) { Text("检查更新") } }
+                    else { Text("最新版本 ${policy?.latestVersionName ?: "暂无"}"); Text(policy?.releaseNotes ?: "暂无更新说明", color = HhyColors.TextSecondary); Button(onClick = { policy?.downloadUrl?.takeIf(::isSafeDownloadUrl)?.let { uriHandler.openUri(it) } }, enabled = policy?.updateType != cc.orbexa.hhy.network.UpdateType.NONE && isSafeDownloadUrl(policy?.downloadUrl)) { Text("立即更新") } }
                 } }
             }
             agreement?.let { page ->
@@ -58,3 +60,8 @@ fun AboutScreen(api: ExperienceApi, accessToken: String, onBack: () -> Unit) {
         }
     }
 }
+
+internal fun isSafeDownloadUrl(value: String?): Boolean = runCatching {
+    val uri = java.net.URI(value ?: return false)
+    uri.scheme == "https" && !uri.host.isNullOrBlank() && uri.userInfo == null && uri.fragment == null
+}.getOrDefault(false)
