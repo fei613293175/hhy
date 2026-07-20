@@ -6801,3 +6801,101 @@ change_requests:
   - SES-20260719T234639Z-1D7D7A00
   implementation_commits:
   - edebf46c74be5e43c8d19b4d2168fbb3d20ff690
+- protocol_version: '1.0'
+  cr_id: CR-0115
+  title: 采纳R05冻结视觉补充包并校正管理后台视觉门禁范围
+  status: APPROVED
+  created_at: '2026-07-20T02:19:45Z'
+  updated_at: '2026-07-20T02:20:11Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-007
+  session_id: SES-20260719T234639Z-1D7D7A00
+  user_request: 项目所有者提供合伙云Pro_R05_UI精确视觉规格补充包_20260720_已完善冻结版.zip并要求立即推进开发；同时已明确原始开发文档没有要求管理后台必须按专属效果图开发。
+  reason: 需把已校验冻结包登记为Android四页与H5回跳页的批准视觉事实源，并将管理端从误扩张的专属效果图门禁校正回原始ADM标准模板与Design Token合同。
+  original_rule: CR-0113把R05 Android、H5和管理端七页统一要求专属精确效果图；当前五页缺少规格、两页需要重构，全部阻断版本关闭。
+  new_rule: 采纳SHA256为d91d5b8d3f88cdf3c50a84a883082d79d94818fe327e61e4a037efcaf6a5c2a0且自带校验通过的R05冻结视觉补充包：SCR-ID-001至004及H5-012按专属冻结规格和效果图精确施工；ADM-ID-001与ADM-ID-002继续按原始ADM-LIST/ADM-REVIEW标准模板、页面字段合同和Design
+    Token施工，以浏览器截图回归验收，不强制新增专属效果图。效果图仍不得引入虚拟或无关业务。
+  impact_summary: 导入R05冻结视觉资产和规格，重构Android实名四页与H5回跳页；校正管理后台视觉门禁为原始标准模板合同；同步逐页视觉验收目录、门禁和回归测试。
+  impact:
+    files:
+    - design/R05-UI-FROZEN
+    - catalogs/ui_visual_acceptance.csv
+    - scripts/check_ui_visual_acceptance.py
+    - tests/test_ui_visual_acceptance.py
+    - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+    - apps/h5/src/views/IdentityCallbackPage.vue
+    pages:
+    - SCR-ID-001
+    - SCR-ID-002
+    - SCR-ID-003
+    - SCR-ID-004
+    - H5-012
+    - ADM-ID-001
+    - ADM-ID-002
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R05冻结包MANIFEST SHA256与validate_r05_ui.py；Android identity单测/构建；H5 typecheck/单测；ui_visual_acceptance门禁；浏览器与真机截图对照
+    releases:
+    - R05
+    migration_and_compatibility: 不改变API、数据库、实名状态机或第三方供应商合同；仅改变视觉事实源绑定和前端呈现。现有管理后台保留标准模板兼容，Android与H5按冻结补充包迁移。
+  user_confirmation: 2026-07-20项目所有者提供R05已完善冻结版补充包并明确说现在立即开始推进开发；此前明确确认合伙云原始开发文档未计划管理后台必须按效果图开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T02:20:11Z'
+    note: 项目所有者已提供冻结补充包并明确要求立即开发；管理后台按其上一条澄清维持原始标准模板范围。
+  machine_record: .continuity/change_requests/CR-0115.yaml
+  document: docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md
+- protocol_version: '1.0'
+  cr_id: CR-0116
+  title: 补齐R05冻结UI的确定性Token派生与H5独立回跳布局
+  status: APPROVED
+  created_at: '2026-07-20T02:41:04Z'
+  updated_at: '2026-07-20T02:41:25Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-007
+  session_id: SES-20260719T234639Z-1D7D7A00
+  user_request: 项目所有者已提供R05冻结视觉补充包并要求立即落地开发。
+  reason: CR-0115已批准业务与视觉范围，但实际落地还需同步生成Token资产、Token生成器、H5全局壳层例外、测试与截图报告文件。
+  original_rule: 冻结UI仅登记页面实现文件，Token新增值、派生资产、生成器、H5全局壳层例外、截图和接收报告未纳入精确影响范围。
+  new_rule: R05冻结UI新增值必须进入V1.2.2权威Token并由check_ui_tokens.py确定性派生到Android与H5/Admin CSS；H5-012回跳页不显示通用公开站头尾；包接收哈希、浏览器截图与验证报告进入R05证据目录。
+  impact_summary: 补齐冻结UI实现所需全部派生文件和证据，避免手工Token漂移并确保H5回跳页面结构与冻结稿一致。
+  impact:
+    files:
+    - design/tokens/hhy_design_tokens_v1.2.2.json
+    - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+    - packages/design-tokens/h5.css
+    - packages/design-tokens/admin.css
+    - scripts/check_ui_tokens.py
+    - apps/h5/src/App.vue
+    - apps/h5/src/styles.css
+    - apps/h5/src/views/IdentityCallbackPage.test.ts
+    - artifacts/validation/r05-ui/H5-012-browser-360x800.png
+    - artifacts/reports/R05/R05-UI-FROZEN-PACKAGE-INTAKE.md
+    pages:
+    - SCR-ID-001
+    - SCR-ID-002
+    - SCR-ID-003
+    - SCR-ID-004
+    - H5-012
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_ui_tokens.py；check_generated_assets.py；H5 22 tests/typecheck/360x800 screenshot；Android identity compile/test
+    releases:
+    - R05
+    migration_and_compatibility: 纯UI与确定性生成资产同步；不修改API、数据库、认证状态机、权限或生产配置。通用H5头尾仅在H5-012隐藏，其余页面保持原行为。
+  user_confirmation: 2026-07-20项目所有者提供已完善冻结版补充包并明确要求立即推进开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T02:41:25Z'
+    note: 这是已批准R05冻结UI补充包落地所必需的确定性派生、H5壳层和证据范围，不扩展业务功能。
+  machine_record: .continuity/change_requests/CR-0116.yaml
+  document: docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md

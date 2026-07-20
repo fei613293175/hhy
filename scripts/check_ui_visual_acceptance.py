@@ -15,8 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PAGE_CATALOG = Path("catalogs/ui_page_specifications.csv")
 VISUAL_CATALOG = Path("catalogs/ui_visual_acceptance.csv")
 VISUAL_PLATFORMS = {"ANDROID", "H5", "ADMIN"}
-ALLOWED_COVERAGE = {"EXACT", "APPROVED_SUPPLEMENT", "PARTIAL", "MISSING"}
-PASS_COVERAGE = {"EXACT", "APPROVED_SUPPLEMENT"}
+ALLOWED_COVERAGE = {"EXACT", "APPROVED_SUPPLEMENT", "STANDARD_TEMPLATE", "PARTIAL", "MISSING"}
+PASS_COVERAGE = {"EXACT", "APPROVED_SUPPLEMENT", "STANDARD_TEMPLATE"}
 ALLOWED_STATUS = {
     "PASS",
     "IN_REVIEW",
@@ -182,6 +182,12 @@ def validate_release(
             item.startswith("SPEC:") for item in _paths(source)
         ):
             errors.append(("UI_VISUAL_SUPPLEMENT_REQUIRED", f"{screen_id} 必须绑定批准的补充视觉规格"))
+        if coverage == "STANDARD_TEMPLATE" and platform != "ADMIN":
+            errors.append(("UI_VISUAL_STANDARD_TEMPLATE_PLATFORM_INVALID", f"{screen_id} 标准模板合同仅适用于ADMIN页面"))
+        if coverage == "STANDARD_TEMPLATE" and not all(
+            item.startswith("SPEC:docs/02-ui/") for item in _paths(source)
+        ):
+            errors.append(("UI_VISUAL_STANDARD_TEMPLATE_SOURCE_INVALID", f"{screen_id} 必须绑定原始管理端页面与运营规格"))
 
         if status != "PASS" and not row.get("说明", "").strip():
             errors.append(("UI_VISUAL_BLOCK_REASON_MISSING", f"{screen_id} 非PASS状态缺少说明"))

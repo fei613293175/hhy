@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-20T01:26:57Z",
-  "context_hash": "d628e5768df9ac81b157c3d77dc48a9e3c2386e6adc55b9a8ce3152b78f01712",
+  "generated_at": "2026-07-20T02:45:24Z",
+  "context_hash": "212dc034016b918338fe7813a7d9f11e243bda73ef092da230c8dde5d87d2872",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "52f1409b459f2b3389e7556e9f094072835728d06fd902497b0e40b9bfe184f3",
-    "file_count": 28
+    "sha256": "3cab9fa1b10eef63cad466f10e27875ce5d6b2502ec1c81af85a96dadaf967f1",
+    "file_count": 102
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "d3ff6431efdca4d6c2e1d5b79eb6dcf121be798676c85b3e0f96c89519ccad7f"
+    "sha256": "db35e7b1f0632f64210d57b039ff601aece38d45b27c8752778911aaab1a1612"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "948a3551e1c40da9778332cf65a889979084d286984e7e99915b181fa2355f7b"
+    "sha256": "81938380b9790451b2d5600654414e5b769d28e6dec4afb1d120bd99d487501d"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "9cb3fc669a307e5555bedfa979cd11190f17afc2799e08f252724861d094bed1",
+      "sha256": "91d1ae49fd9605feee4f7b0b54fe64e7bde4e97a0c2af144150d1c0d0501338a",
       "bytes": 3617
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "aa4d9886080e022ae6b7f5565270c1e7a42dc58806e559a07b2fa76b672656bc",
-      "bytes": 683392
+      "sha256": "e6ae17710317ba4578da7e2ab2b160d97870cbc35d7191d77cf5fccf13e62bd7",
+      "bytes": 690188
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "c8d4422c2b1f1c77b7e51c6a57121db520b1c08091e670b2d2531f7cd706a0ad",
+      "sha256": "df930a5838ef591d21a3ea509b628844d79fe6fbe5d52f72f6c8b62c3e8e4da4",
       "bytes": 25306
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "f0f7b5c4dfbbca5435b402bd177dda6cfa64078a5e73eb9fd699a35c7e982a2a",
-      "bytes": 348637
+      "sha256": "69cc4ddd1fe67edcca8d39cc988b485f65a75799faab361abccbb477c4a6e29d",
+      "bytes": 354639
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "9208b8d064541184c6e8a2a16d8afb06befcf9ee64bd92913c96da9fc155d432",
+      "sha256": "afc1904db15d1eb5c2b961e536e1db3c9e89d274668165ce929a7a1d9b234781",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md",
-      "sha256": "ae99fb45dcf955bdb3c14847ca8b29c203ae4ebadd5b62e05169744dc2cf9818",
-      "bytes": 30203
+      "sha256": "960dd8840d368d784c0e347ea997501d32c7176cc832bb71b5e021cd0d36b687",
+      "bytes": 51133
     },
     {
-      "path": ".continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0014.yaml",
-      "sha256": "32b0d41f14d82154ad0f4c8048c7d36666f79f223dca621252b23c9470b93513",
-      "bytes": 14633
+      "path": ".continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0017.yaml",
+      "sha256": "dc329ff12302f6ac79279b2a1e21d5145b0fe807f274c239168acffe7b8de06b",
+      "bytes": 42182
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md",
@@ -180,6 +180,16 @@
       "path": "docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md",
       "sha256": "62800444cd43d7de1801e4248129767985963a6528307e178e823f96f86a992c",
       "bytes": 2229
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md",
+      "sha256": "be52a455d03c8ac754aed124a21000d65bfbd81224471d480f0454c36de61111",
+      "bytes": 3190
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md",
+      "sha256": "311755e89a3d878320078e48c7e49abb8542cef1437d33ce9845ee471a21e148",
+      "bytes": 2776
     }
   ]
 }

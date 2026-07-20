@@ -64,7 +64,7 @@ describe('IdentityCallbackPage', () => {
     ['PROVIDER_PROCESSING', '认证信息已提交'],
     ['MANUAL_REVIEW', '资料已提交审核'],
     ['REJECTED', '本次认证未完成'],
-  ])('maps %s to its commercial recovery state', async (status, copy) => {
+  ] as const)('maps %s to its commercial recovery state', async (status, copy) => {
     api.consume.mockResolvedValue({ status });
     const { wrapper } = await render();
     expect(wrapper.text()).toContain(copy);

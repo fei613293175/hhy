@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "project": "合伙云 Pro",
+    "scope": "R05 identity visual supplement",
+    "status": "PROPOSED_FOR_MERGE"
+  },
+  "identity": {
+    "livenessFrameSizeDp": {
+      "value": 240,
+      "reason": "活体检测容器需要稳定的圆角取景区域，现有 Token 无等价尺寸。"
+    },
+    "livenessPanelRadiusDp": {
+      "value": 20,
+      "reason": "取景区比标准卡片更强调，需与 dialog 20dp 语言一致。"
+    },
+    "h5CallbackCardRadiusDp": {
+      "value": 20,
+      "reason": "H5 状态回跳卡与认证安全视觉保持一致，现有移动卡片仅 16dp。"
+    }
+  },
+  "adminWeb": {
+    "collapsedSidebarWidthPx": {
+      "value": 88,
+      "reason": "1200px 窄桌面下保持内容区可用，现有 Token 仅定义 240px 展开态。"
+    },
+    "operationButtonHeightPx": {
+      "value": 40,
+      "reason": "后台筛选与页面操作按钮需要统一高度，现有 Token 未登记。"
+    },
+    "identityTableContentRowHeightPx": {
+      "value": 58,
+      "reason": "实名列表用户列包含姓名与脱敏手机号双行信息，高于 48px 最小基线。"
+    },
+    "sensitiveAccessDialogWidthPx": {
+      "value": 520,
+      "reason": "需同时容纳用途说明与时效选择，并满足高敏操作信息密度。"
+    }
+  }
+}

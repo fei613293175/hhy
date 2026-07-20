@@ -26,7 +26,10 @@
     "background": {
       "page": "#F5F7FA",
       "surface": "#FFFFFF",
-      "softBlue": "#EEF5FF"
+      "softBlue": "#EEF5FF",
+      "successSoft": "#ECFDF3",
+      "warningSoft": "#FFFAEB",
+      "errorSoft": "#FEF3F2"
     },
     "text": {
       "primary": "#182230",
@@ -96,7 +99,8 @@
     "appLogo": 64,
     "redPacketTimerBall": 56,
     "redPacketTimerBallScrolling": 44,
-    "centerPublishVisual": 52
+    "centerPublishVisual": 52,
+    "identityLivenessFrame": 240
   },
   "radiusDp": {
     "largeCard": 16,
@@ -106,7 +110,9 @@
     "tag": 8,
     "dialog": 20,
     "bottomSheetTop": 24,
-    "pill": 999
+    "pill": 999,
+    "identityLivenessPanel": 20,
+    "h5CallbackCard": 20
   },
   "typographySp": {
     "pageTitle": {

@@ -57,6 +57,12 @@ def expected_css_declarations(
     tokens: dict[str, Any], *, include_admin: bool
 ) -> list[tuple[str, str]]:
     declarations = list(_flatten_colors(tokens.get("color", {})))
+    h5_tech = tokens.get("gradient", {}).get("h5Tech", [])
+    if len(h5_tech) == 3:
+        declarations.append((
+            "--hhy-gradient-h5-tech",
+            f"linear-gradient(145deg, {h5_tech[0]}, {h5_tech[1]} 72%, {h5_tech[2]})",
+        ))
     for name, values in tokens.get("typographySp", {}).items():
         kebab = _camel_to_kebab(name)
         declarations.append((f"--hhy-type-{kebab}-size", f"{values['size']}px"))
@@ -131,6 +137,7 @@ def _kotlin_color(value: str) -> str:
 
 def render_kotlin_tokens(tokens: dict[str, Any]) -> str:
     colors = tokens["color"]
+    gradients = tokens["gradient"]
     radius = tokens["radiusDp"]
     typography = tokens["typographySp"]
     size = tokens["sizeDp"]
@@ -161,6 +168,11 @@ object HhyColors {{
     val Success = {_kotlin_color(colors['status']['success'])}
     val Warning = {_kotlin_color(colors['status']['warning'])}
     val Error = {_kotlin_color(colors['status']['error'])}
+    val BrandGradientEnd = {_kotlin_color(gradients['brand'][1])}
+    val LivenessDark = {_kotlin_color(gradients['h5Tech'][1])}
+    val SuccessSoft = {_kotlin_color(colors['background']['successSoft'])}
+    val WarningSoft = {_kotlin_color(colors['background']['warningSoft'])}
+    val ErrorSoft = {_kotlin_color(colors['background']['errorSoft'])}
 }}
 
 object HhySpacing {{
@@ -182,6 +194,8 @@ object HhyRadius {{
     val Dialog = {radius['dialog']}.dp
     val BottomSheetTop = {radius['bottomSheetTop']}.dp
     val Pill = {radius['pill']}.dp
+    val IdentityLivenessPanel = {radius['identityLivenessPanel']}.dp
+    val H5CallbackCard = {radius['h5CallbackCard']}.dp
 }}
 
 /** Frozen Android type scale from hhy_design_tokens_v1.2.2.json. */
@@ -213,6 +227,7 @@ object HhySize {{
     val PrimaryButtonHeight = {size['primaryButtonHeight']}.dp
     val InputHeight = {size['singleLineInputHeight']}.dp
     val MinimumTouchTarget = {size['minimumTouchTarget']}.dp
+    val StandardProgress = {size['standardIcon']}.dp
     val AppLogo = {size['appLogo']}.dp
     val TabHeight = {component['tabHeight']}.dp
     val DialogMinWidth = {component['dialogMinWidth']}.dp
@@ -221,9 +236,11 @@ object HhySize {{
     val ChallengeImageWidth = {component['challengeImageWidth']}.dp
     val ChallengeImageHeight = {component['challengeImageHeight']}.dp
     val ChallengeCancelButtonWidth = {component['challengeCancelButtonWidth']}.dp
+    val IdentityLivenessFrame = {size['identityLivenessFrame']}.dp
 }}
 
 object HhyElevation {{
+    val Card = {tokens['elevationDp']['card']}.dp
     val Dialog = {tokens['elevationDp']['dialog']}.dp
 }}
 

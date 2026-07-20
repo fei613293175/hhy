@@ -9,6 +9,9 @@
   --hhy-color-background-page: #F5F7FA;
   --hhy-color-background-surface: #FFFFFF;
   --hhy-color-background-softBlue: #EEF5FF;
+  --hhy-color-background-successSoft: #ECFDF3;
+  --hhy-color-background-warningSoft: #FFFAEB;
+  --hhy-color-background-errorSoft: #FEF3F2;
   --hhy-color-text-primary: #182230;
   --hhy-color-text-secondary: #667085;
   --hhy-color-text-tertiary: #98A2B3;
@@ -18,6 +21,7 @@
   --hhy-color-status-warning: #F79009;
   --hhy-color-status-error: #F04438;
   --hhy-color-overlay-scrim: #1822307A;
+  --hhy-gradient-h5-tech: linear-gradient(145deg, #071A3A, #102F68 72%, #0B5ECF);
   --hhy-type-page-title-size: 20px;
   --hhy-type-page-title-line-height: 28px;
   --hhy-type-section-title-size: 18px;
@@ -52,6 +56,7 @@
   --hhy-size-red-packet-timer-ball: 56px;
   --hhy-size-red-packet-timer-ball-scrolling: 44px;
   --hhy-size-center-publish-visual: 52px;
+  --hhy-size-identity-liveness-frame: 240px;
   --hhy-component-tab-height: 48px;
   --hhy-component-chip-height-small: 28px;
   --hhy-component-chip-height-default: 32px;
@@ -110,6 +115,8 @@
   --hhy-radius-dialog: 20px;
   --hhy-radius-bottomSheetTop: 24px;
   --hhy-radius-pill: 999px;
+  --hhy-radius-identityLivenessPanel: 20px;
+  --hhy-radius-h5CallbackCard: 20px;
   --hhy-motion-instant: 0ms;
   --hhy-motion-fast: 120ms;
   --hhy-motion-standard: 200ms;

@@ -23,6 +23,11 @@ object HhyColors {
     val Success = Color(0xFF12B76A)
     val Warning = Color(0xFFF79009)
     val Error = Color(0xFFF04438)
+    val BrandGradientEnd = Color(0xFF39A0FF)
+    val LivenessDark = Color(0xFF102F68)
+    val SuccessSoft = Color(0xFFECFDF3)
+    val WarningSoft = Color(0xFFFFFAEB)
+    val ErrorSoft = Color(0xFFFEF3F2)
 }
 
 object HhySpacing {
@@ -44,6 +49,8 @@ object HhyRadius {
     val Dialog = 20.dp
     val BottomSheetTop = 24.dp
     val Pill = 999.dp
+    val IdentityLivenessPanel = 20.dp
+    val H5CallbackCard = 20.dp
 }
 
 /** Frozen Android type scale from hhy_design_tokens_v1.2.2.json. */
@@ -75,6 +82,7 @@ object HhySize {
     val PrimaryButtonHeight = 48.dp
     val InputHeight = 52.dp
     val MinimumTouchTarget = 48.dp
+    val StandardProgress = 24.dp
     val AppLogo = 64.dp
     val TabHeight = 48.dp
     val DialogMinWidth = 280.dp
@@ -83,9 +91,11 @@ object HhySize {
     val ChallengeImageWidth = 216.dp
     val ChallengeImageHeight = 72.dp
     val ChallengeCancelButtonWidth = 84.dp
+    val IdentityLivenessFrame = 240.dp
 }
 
 object HhyElevation {
+    val Card = 1.dp
     val Dialog = 8.dp
 }
 

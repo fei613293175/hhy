@@ -165,21 +165,37 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 .form-notice { margin: 0; color: var(--hhy-color-status-error); font-size: 14px; }
 .privacy-note { margin: 0; color: var(--hhy-color-text-tertiary); font-size: 12px; text-align: center; }
 .identity-callback-page {
-  display: grid;
-  min-height: calc(100vh - 130px);
-  padding: 40px 20px;
-  place-items: center;
+  min-height: 100vh;
   background: var(--hhy-color-background-page);
 }
+.identity-callback-header {
+  min-height: 188px;
+  padding: var(--hhy-space-24) var(--hhy-space-16) 52px;
+  color: var(--hhy-color-text-inverse);
+  background: var(--hhy-gradient-h5-tech);
+}
+.callback-brand { display: flex; align-items: center; gap: var(--hhy-space-8); font-size: 14px; }
+.identity-callback-header .brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--hhy-radius-tag);
+  font-size: 14px;
+}
+.identity-callback-header h1 {
+  margin: var(--hhy-space-24) 0 var(--hhy-space-4);
+  font-size: var(--hhy-type-page-title-size);
+  line-height: var(--hhy-type-page-title-line-height);
+}
+.identity-callback-header p { margin: 0; color: color-mix(in srgb, var(--hhy-color-text-inverse) 76%, transparent); font-size: var(--hhy-type-caption-size); line-height: var(--hhy-type-caption-line-height); }
 .identity-callback-card {
   display: grid;
-  width: min(100%, 480px);
+  width: min(calc(100% - 32px), 480px);
   justify-items: center;
-  padding: 44px 32px 32px;
+  margin: -40px auto 0;
+  padding: var(--hhy-space-24) var(--hhy-space-16) var(--hhy-space-20);
   background: var(--hhy-color-background-surface);
-  border: 1px solid var(--hhy-color-border-default);
-  border-radius: var(--hhy-radius-dialog);
-  box-shadow: 0 22px 60px color-mix(in srgb, var(--hhy-color-text-primary) 9%, transparent);
+  border-radius: var(--hhy-radius-h5CallbackCard);
+  box-shadow: var(--hhy-shadow-dialog);
   text-align: center;
 }
 .brand-mark {
@@ -193,7 +209,6 @@ button:disabled { cursor: not-allowed; opacity: .48; }
   font-size: 30px;
   font-weight: 800;
 }
-.brand-name { margin: 12px 0 34px; color: var(--hhy-color-text-primary); font-weight: 800; }
 .callback-spinner {
   width: 54px;
   height: 54px;
@@ -214,9 +229,18 @@ button:disabled { cursor: not-allowed; opacity: .48; }
   font-weight: 800;
 }
 .callback-symbol.is-unfinished,
-.callback-symbol.is-expired { background: var(--hhy-color-status-warning); }
-.identity-callback-card h1 { margin: 22px 0 8px; font-size: 28px; }
-.callback-message { margin: 0 0 28px; font-size: 16px; }
+.callback-symbol.is-expired,
+.callback-symbol.is-offline,
+.callback-symbol.is-unavailable { color: var(--hhy-color-status-error); background: color-mix(in srgb, var(--hhy-color-status-error) 9%, white); }
+.callback-symbol.is-processing,
+.callback-symbol.is-review { color: var(--hhy-color-status-warning); background: color-mix(in srgb, var(--hhy-color-status-warning) 10%, white); }
+.callback-symbol.is-verified { color: var(--hhy-color-status-success); background: color-mix(in srgb, var(--hhy-color-status-success) 10%, white); }
+.identity-callback-card h1 { margin: var(--hhy-space-20) 0 var(--hhy-space-8); font-size: var(--hhy-type-card-title-size); line-height: var(--hhy-type-card-title-line-height); }
+.callback-message { margin: 0 0 var(--hhy-space-20); font-size: var(--hhy-type-caption-size); line-height: var(--hhy-type-caption-line-height); }
+.callback-summary { width: 100%; margin: 0 0 var(--hhy-space-16); padding: var(--hhy-space-12); border-radius: var(--hhy-radius-tag); background: var(--hhy-color-background-page); }
+.callback-summary div { display: flex; justify-content: space-between; gap: var(--hhy-space-12); font-size: var(--hhy-type-caption-size); line-height: var(--hhy-type-caption-line-height); }
+.callback-summary dt { color: var(--hhy-color-text-tertiary); }
+.callback-summary dd { margin: 0; color: var(--hhy-color-text-primary); font-weight: 600; }
 .identity-callback-card .primary-button { max-width: 320px; }
 .callback-trust { margin: 20px 0 0; color: var(--hhy-color-text-tertiary); font-size: 12px; }
 .invite-state {

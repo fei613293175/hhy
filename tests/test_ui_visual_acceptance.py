@@ -108,6 +108,47 @@ class UiVisualAcceptanceTest(unittest.TestCase):
             errors, _count = validate_release(root, "R99", require_pass=True)
             self.assertIn("UI_VISUAL_CONTRACT_MISSING", {code for code, _message in errors})
 
+    def test_admin_standard_template_is_a_valid_visual_contract(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-ui-visual-") as temp:
+            root = Path(temp)
+            fixture(root)
+            page_path = root / "catalogs/ui_page_specifications.csv"
+            with page_path.open(encoding="utf-8-sig", newline="") as handle:
+                pages = list(csv.DictReader(handle))
+            pages[0]["平台"] = "ADMIN"
+            write_csv(page_path, ["页面ID", "平台", "页面名称", "计划版本"], pages)
+            contract_path = root / "catalogs/ui_visual_acceptance.csv"
+            with contract_path.open(encoding="utf-8-sig", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            source = "docs/02-ui/管理后台页面与运营操作完整规格_V1.2.2.md"
+            (root / source).parent.mkdir(parents=True, exist_ok=True)
+            (root / source).write_text("ADM标准模板", encoding="utf-8")
+            rows[0]["平台"] = "ADMIN"
+            rows[0]["覆盖状态"] = "STANDARD_TEMPLATE"
+            rows[0]["视觉来源"] = f"SPEC:{source}"
+            rows[0]["参考证据"] = source
+            write_csv(contract_path, list(REQUIRED_COLUMNS), rows)
+            errors, count = validate_release(root, "R99", require_pass=True)
+            self.assertEqual(1, count)
+            self.assertEqual([], errors)
+
+    def test_standard_template_is_rejected_for_android(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-ui-visual-") as temp:
+            root = Path(temp)
+            fixture(root)
+            path = root / "catalogs/ui_visual_acceptance.csv"
+            with path.open(encoding="utf-8-sig", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            source = "docs/02-ui/管理后台页面与运营操作完整规格_V1.2.2.md"
+            (root / source).parent.mkdir(parents=True, exist_ok=True)
+            (root / source).write_text("ADM标准模板", encoding="utf-8")
+            rows[0]["覆盖状态"] = "STANDARD_TEMPLATE"
+            rows[0]["视觉来源"] = f"SPEC:{source}"
+            rows[0]["参考证据"] = source
+            write_csv(path, list(REQUIRED_COLUMNS), rows)
+            errors, _count = validate_release(root, "R99", require_pass=True)
+            self.assertIn("UI_VISUAL_STANDARD_TEMPLATE_PLATFORM_INVALID", {code for code, _message in errors})
+
 
 if __name__ == "__main__":
     unittest.main()

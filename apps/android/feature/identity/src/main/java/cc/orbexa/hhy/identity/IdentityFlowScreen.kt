@@ -11,6 +11,8 @@ import android.webkit.WebViewClient
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -20,6 +22,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -38,6 +42,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -47,12 +52,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyRadius
+import cc.orbexa.hhy.designsystem.HhySize
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.network.ContractIdentityApi
 import cc.orbexa.hhy.network.IdentityCallResult
@@ -117,18 +127,28 @@ fun IdentityFlowScreen(
 @Composable
 private fun IdentityHomeScreen(onBack: () -> Unit, onStart: () -> Unit) {
     IdentityPage(title = "实名认证", onBack = onBack) {
-        IdentityHero(symbol = "证", title = "完成实名认证", description = "用于保障账号安全和后续业务权益")
+        IdentityStatusCard(
+            title = "尚未完成实名认证",
+            description = "完成认证后可提升账号可信度，并使用需要实名的业务能力",
+            symbol = "●",
+        )
         IdentityCard {
             Text("认证前请准备", style = MaterialTheme.typography.titleMedium)
-            Text("本人有效身份证件", color = HhyColors.TextSecondary)
-            Text("可正常使用的手机相机", color = HhyColors.TextSecondary)
-            Text("请由账号本人完成活体检测", color = HhyColors.TextSecondary)
+            IdentityRequirement("✓", "本人有效身份证件", "请填写与证件一致的真实信息")
+            IdentityRequirement("相", "可正常使用的手机相机", "活体检测需要使用前置相机")
+            IdentityRequirement("人", "由账号本人完成检测", "请勿由他人代为操作")
         }
-        Button(modifier = Modifier.fillMaxWidth(), onClick = onStart) { Text("开始认证") }
+        Button(
+            modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
+            shape = RoundedCornerShape(HhyRadius.Button),
+            onClick = onStart,
+        ) { Text("开始认证") }
         Text(
-            "身份信息仅用于完成实名认证，并按隐私政策安全处理。",
+            "身份信息将按照隐私政策用于完成实名认证",
+            modifier = Modifier.fillMaxWidth(),
             color = HhyColors.TextSecondary,
             style = MaterialTheme.typography.bodySmall,
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -182,44 +202,54 @@ private fun IdentityFormScreen(
 
     IdentityPage(title = "填写身份信息", onBack = onBack) {
         Text("请填写本人真实信息", style = MaterialTheme.typography.titleLarge)
-        Text("信息提交后不可自行修改，请仔细核对。", color = HhyColors.TextSecondary)
+        Text(
+            "信息提交后不可自行修改，请仔细核对。",
+            color = HhyColors.TextSecondary,
+            style = MaterialTheme.typography.bodyMedium,
+        )
         message?.let { BusinessNotice(it, isError = true) }
-        OutlinedTextField(
-            value = realName,
-            onValueChange = { realName = it; clearIntent() },
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text("真实姓名") },
-            singleLine = true,
-            isError = errors.realName != null,
-            supportingText = errors.realName?.let { value -> ({ Text(value) }) },
-        )
-        OutlinedTextField(
-            value = idNumber,
-            onValueChange = { idNumber = it; clearIntent() },
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text("身份证号") },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Ascii),
-            isError = errors.idNumber != null,
-            supportingText = errors.idNumber?.let { value -> ({ Text(value) }) },
-        )
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Checkbox(
-                checked = accepted,
-                enabled = consent != null && !consentLoading,
-                onCheckedChange = { accepted = it; clearIntent() },
+        IdentityCard {
+            OutlinedTextField(
+                value = realName,
+                onValueChange = { realName = it; clearIntent() },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("真实姓名") },
+                placeholder = { Text("请输入本人真实姓名") },
+                singleLine = true,
+                shape = RoundedCornerShape(HhyRadius.Input),
+                isError = errors.realName != null,
+                supportingText = errors.realName?.let { value -> ({ Text(value) }) },
             )
-            Text("我已阅读并同意", color = HhyColors.TextSecondary)
-            TextButton(
-                enabled = consent != null && !consentLoading,
-                onClick = { showConsent = true },
-                modifier = Modifier.weight(1f),
-            ) { Text("《${consent?.title ?: "实名认证授权说明"}》") }
+            OutlinedTextField(
+                value = idNumber,
+                onValueChange = { idNumber = it; clearIntent() },
+                modifier = Modifier.fillMaxWidth(),
+                label = { Text("身份证号") },
+                placeholder = { Text("请输入本人身份证号") },
+                singleLine = true,
+                shape = RoundedCornerShape(HhyRadius.Input),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Ascii),
+                isError = errors.idNumber != null,
+                supportingText = errors.idNumber?.let { value -> ({ Text(value) }) },
+            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(
+                    checked = accepted,
+                    enabled = consent != null && !consentLoading,
+                    onCheckedChange = { accepted = it; clearIntent() },
+                )
+                Text("我已阅读并同意", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodyMedium)
+                TextButton(
+                    enabled = consent != null && !consentLoading,
+                    onClick = { showConsent = true },
+                    modifier = Modifier.weight(1f),
+                ) { Text("《${consent?.title ?: "实名认证授权说明"}》") }
+            }
         }
         if (consentLoading) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                CircularProgressIndicator()
-                Text("正在加载实名认证授权说明", modifier = Modifier.padding(start = HhySpacing.Sm))
+                CircularProgressIndicator(modifier = Modifier.size(HhySize.StandardProgress))
+                Text("正在加载授权说明", modifier = Modifier.padding(start = HhySpacing.Sm))
             }
         } else if (consent == null) {
             OutlinedButton(
@@ -228,7 +258,8 @@ private fun IdentityFormScreen(
             ) { Text("重新加载授权说明") }
         }
         Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
+            shape = RoundedCornerShape(HhyRadius.Button),
             enabled = !submitting && !consentLoading && consent != null,
             onClick = {
                 val nextErrors = validateIdentityForm(realName, idNumber)
@@ -269,9 +300,16 @@ private fun IdentityFormScreen(
                 }
             },
         ) {
-            if (submitting) CircularProgressIndicator(color = HhyColors.TextInverse)
+            if (submitting) CircularProgressIndicator(modifier = Modifier.size(HhySize.StandardProgress), color = HhyColors.TextInverse)
             else Text("提交并开始活体检测")
         }
+        Text(
+            "请确认姓名和证件号码准确无误",
+            modifier = Modifier.fillMaxWidth(),
+            color = HhyColors.TextSecondary,
+            style = MaterialTheme.typography.bodySmall,
+            textAlign = TextAlign.Center,
+        )
     }
     if (showConsent) {
         val currentConsent = consent
@@ -379,27 +417,74 @@ private fun IdentityLivenessScreen(
     }
 
     IdentityPage(title = "活体检测", onBack = onBack, scrollable = false) {
-        message?.let { BusinessNotice(it, isError = true) }
+        IdentityStepTag(if (message == null) "步骤 2 / 2" else "需要重新检测", message != null)
         when {
-            loading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
-            livenessUrl.isNullOrBlank() -> OutlinedButton(
-                modifier = Modifier.fillMaxWidth(), onClick = onBack,
-            ) { Text("返回后重试") }
+            loading -> {
+                LivenessViewport(dark = false) {
+                    CircularProgressIndicator(modifier = Modifier.size(HhySize.StandardProgress))
+                    Text("正在启动安全检测", style = MaterialTheme.typography.bodyMedium)
+                }
+                OutlinedButton(
+                    modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
+                    onClick = onBack,
+                ) { Text("取消检测") }
+            }
+            livenessUrl.isNullOrBlank() -> {
+                LivenessViewport(error = true) {
+                    Text("!", color = HhyColors.Error, style = MaterialTheme.typography.headlineSmall)
+                    Text("检测未完成", color = HhyColors.Error, style = MaterialTheme.typography.titleMedium)
+                    Text(message ?: "请调整光线和距离后重试", color = HhyColors.Error, style = MaterialTheme.typography.bodySmall)
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                    OutlinedButton(
+                        modifier = Modifier.weight(1f).height(HhySize.PrimaryButtonHeight),
+                        onClick = onBack,
+                    ) { Text("返回") }
+                    Button(
+                        modifier = Modifier.weight(2f).height(HhySize.PrimaryButtonHeight),
+                        onClick = onBack,
+                    ) { Text("重新检测") }
+                }
+            }
             !cameraGranted -> {
-                IdentityHero("脸", "需要使用相机", "相机画面仅用于本次活体检测")
-                Button(modifier = Modifier.fillMaxWidth(), onClick = { cameraLauncher.launch(Manifest.permission.CAMERA) }) {
+                LivenessViewport {
+                    Text("人", color = HhyColors.BrandPrimary, style = MaterialTheme.typography.headlineSmall)
+                    Text("准备开始活体检测", style = MaterialTheme.typography.titleMedium)
+                    Text("请在光线充足、环境安静的位置完成检测", style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary)
+                }
+                IdentityCard {
+                    Text("检测前请确认", style = MaterialTheme.typography.titleMedium)
+                    IdentityRequirement("人", "保持面部清晰可见", "请摘下口罩、帽子或遮挡物")
+                    IdentityRequirement("相", "正对屏幕完成动作", "根据页面提示缓慢完成")
+                }
+                Button(
+                    modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
+                    onClick = { cameraLauncher.launch(Manifest.permission.CAMERA) },
+                ) {
                     Text("允许相机并继续")
                 }
             }
             else -> {
-                SecureLivenessWebView(
-                    url = requireNotNull(livenessUrl),
-                    returnUrl = returnUrl,
-                    onReturned = { refresh() },
-                    onUnsafeNavigation = { message = "检测页面跳转异常，请返回后重试" },
-                    modifier = Modifier.fillMaxWidth().weight(1f),
-                )
-                OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = { refresh() }) {
+                Box(
+                    modifier = Modifier
+                        .size(HhySize.IdentityLivenessFrame)
+                        .align(Alignment.CenterHorizontally)
+                        .clip(RoundedCornerShape(HhyRadius.Dialog))
+                        .background(HhyColors.LivenessDark),
+                ) {
+                    SecureLivenessWebView(
+                        url = requireNotNull(livenessUrl),
+                        returnUrl = returnUrl,
+                        onReturned = { refresh() },
+                        onUnsafeNavigation = { message = "检测页面跳转异常，请返回后重试" },
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+                BusinessNotice("请保持正脸在取景框内，并按页面提示完成动作", isError = false)
+                OutlinedButton(
+                    modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
+                    onClick = { refresh() },
+                ) {
                     Text("我已完成，查看结果")
                 }
             }
@@ -468,32 +553,73 @@ private fun IdentityResultScreen(
 
     IdentityPage(title = "认证结果", onBack = onBack) {
         val kind = session.resultKind()
-        IdentityHero(
-            symbol = when (kind) {
-                IdentityResultKind.SUCCESS -> "✓"
-                IdentityResultKind.FAILED -> "!"
-                else -> "…"
-            },
+        IdentityStatusCard(
             title = session.businessStatusText(),
             description = when (kind) {
-                IdentityResultKind.SUCCESS -> "你已可以使用需要实名认证的功能"
-                IdentityResultKind.FAILED -> "请核对本人信息后重新进行认证"
-                IdentityResultKind.PENDING -> "结果更新后会在这里显示"
-                else -> "请稍候刷新确认最终结果"
+                IdentityResultKind.SUCCESS -> "认证信息已通过核验，账号实名状态正常"
+                IdentityResultKind.FAILED -> "本次认证未能完成，请按提示处理"
+                IdentityResultKind.PENDING -> "认证结果正在确认，请耐心等待"
+                else -> "请稍候刷新确认认证结果"
+            },
+            symbol = if (kind == IdentityResultKind.SUCCESS) "✓" else if (kind == IdentityResultKind.FAILED) "!" else "◷",
+            tone = when {
+                kind == IdentityResultKind.FAILED -> IdentityTone.Error
+                session.status == "MANUAL_REVIEW" || session.status == "EXPIRED" -> IdentityTone.Warning
+                else -> IdentityTone.Brand
             },
         )
         message?.let { BusinessNotice(it, isError = true) }
-        if (kind in setOf(IdentityResultKind.PENDING, IdentityResultKind.UNKNOWN, IdentityResultKind.READY)) {
-            Button(modifier = Modifier.fillMaxWidth(), enabled = !loading, onClick = { refresh() }) {
-                Text(if (loading) "正在刷新" else "刷新结果")
+        if (kind != IdentityResultKind.FAILED) {
+            IdentityCard {
+                Text("认证信息", style = MaterialTheme.typography.titleMedium)
+                IdentityInfoRow("当前状态", session.businessStatusText())
+                IdentityInfoRow("资料保护", "认证资料不可自行修改")
             }
         }
+        if (kind in setOf(IdentityResultKind.PENDING, IdentityResultKind.UNKNOWN, IdentityResultKind.READY)) {
+            IdentityActionCard(
+                title = if (session.status == "MANUAL_REVIEW") "审核进度" else "刷新认证状态",
+                description = if (session.status == "MANUAL_REVIEW") "审核完成后将显示最新结果" else "查看最新核验结果",
+                enabled = !loading,
+                onClick = { refresh() },
+            )
+            BusinessNotice(
+                if (session.status == "MANUAL_REVIEW") "审核结果更新后会在本页显示。" else "核验期间无需重复提交。",
+                isError = false,
+                tone = if (session.status == "MANUAL_REVIEW") IdentityTone.Warning else IdentityTone.Brand,
+            )
+        }
+        if (kind == IdentityResultKind.SUCCESS) {
+            IdentityActionCard("认证状态", "实名认证已通过", enabled = false, onClick = {})
+            Text(
+                "认证信息不可自行修改，如有疑问请联系客服",
+                modifier = Modifier.fillMaxWidth(),
+                style = MaterialTheme.typography.bodySmall,
+                color = HhyColors.TextSecondary,
+                textAlign = TextAlign.Center,
+            )
+        }
         if (kind == IdentityResultKind.FAILED) {
-            Button(modifier = Modifier.fillMaxWidth(), enabled = !loading, onClick = { confirmRetry = true }) {
+            IdentityCard {
+                Text(if (session.status == "EXPIRED") "为什么会失效" else "未通过原因", style = MaterialTheme.typography.titleMedium)
+                Text(
+                    if (session.status == "EXPIRED") "认证流程已超时，请重新开始。" else "请核对本人信息并确保相机与网络可正常使用。",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = HhyColors.TextSecondary,
+                )
+            }
+            Button(
+                modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
+                enabled = !loading,
+                onClick = { confirmRetry = true },
+            ) {
                 Text("重新认证")
             }
         }
-        OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = onBack) { Text("返回我的") }
+        OutlinedButton(
+            modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
+            onClick = onBack,
+        ) { Text(if (kind == IdentityResultKind.FAILED) "返回实名认证" else "返回我的") }
     }
 }
 
@@ -553,8 +679,17 @@ private fun IdentityPage(
         containerColor = HhyColors.PageBackground,
         topBar = {
             TopAppBar(
-                title = { Text(title) },
-                navigationIcon = { TextButton(onClick = onBack) { Text("返回") } },
+                title = {
+                    Text(
+                        title,
+                        modifier = Modifier.fillMaxWidth(),
+                        style = MaterialTheme.typography.headlineSmall,
+                        textAlign = TextAlign.Center,
+                    )
+                },
+                navigationIcon = { TextButton(onClick = onBack) { Text("‹", style = MaterialTheme.typography.headlineSmall) } },
+                actions = { Spacer(Modifier.width(HhySize.MinimumTouchTarget)) },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = HhyColors.Surface),
             )
         },
     ) { padding ->
@@ -567,19 +702,34 @@ private fun IdentityPage(
     }
 }
 
+private enum class IdentityTone { Brand, Warning, Error }
+
 @Composable
-private fun IdentityHero(symbol: String, title: String, description: String) {
-    Column(
-        modifier = Modifier.fillMaxWidth().padding(vertical = HhySpacing.Xl),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+private fun IdentityStatusCard(
+    title: String,
+    description: String,
+    symbol: String,
+    tone: IdentityTone = IdentityTone.Brand,
+) {
+    val colors = when (tone) {
+        IdentityTone.Brand -> listOf(HhyColors.BrandPrimary, HhyColors.BrandGradientEnd)
+        IdentityTone.Warning -> listOf(HhyColors.Warning, HhyColors.RewardGold)
+        IdentityTone.Error -> listOf(HhyColors.Error, HhyColors.RewardOrange)
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(HhyRadius.LargeCard))
+            .background(Brush.horizontalGradient(colors))
+            .padding(HhySpacing.Lg),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
     ) {
-        Card(
-            shape = RoundedCornerShape(HhyRadius.LargeCard),
-            colors = CardDefaults.cardColors(containerColor = HhyColors.SoftBlue),
-        ) { Text(symbol, modifier = Modifier.padding(HhySpacing.Xxl), color = HhyColors.BrandPrimary, fontWeight = FontWeight.Bold) }
-        Text(title, style = MaterialTheme.typography.headlineSmall)
-        Text(description, color = HhyColors.TextSecondary)
+        Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+            Text(title, color = HhyColors.TextInverse, style = MaterialTheme.typography.titleMedium)
+            Text(description, color = HhyColors.TextInverse, style = MaterialTheme.typography.bodySmall)
+        }
+        Text(symbol, color = HhyColors.TextInverse, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
     }
 }
 
@@ -589,6 +739,7 @@ private fun IdentityCard(content: @Composable ColumnScope.() -> Unit) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(HhyRadius.LargeCard),
         colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = cc.orbexa.hhy.designsystem.HhyElevation.Card),
     ) {
         Column(
             modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
@@ -599,15 +750,124 @@ private fun IdentityCard(content: @Composable ColumnScope.() -> Unit) {
 }
 
 @Composable
-private fun BusinessNotice(message: String, isError: Boolean) {
+private fun IdentityRequirement(symbol: String, title: String, description: String) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+    ) {
+        Box(
+            modifier = Modifier.size(HhySize.MinimumTouchTarget).clip(RoundedCornerShape(HhyRadius.Tag)).background(HhyColors.SoftBlue),
+            contentAlignment = Alignment.Center,
+        ) { Text(symbol, color = HhyColors.BrandPrimary, fontWeight = FontWeight.SemiBold) }
+        Column(modifier = Modifier.weight(1f)) {
+            Text(title, style = MaterialTheme.typography.titleMedium)
+            Text(description, color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+        }
+    }
+}
+
+@Composable
+private fun IdentityStepTag(text: String, error: Boolean) {
+    Text(
+        text,
+        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(HhyRadius.Pill))
+            .background(if (error) HhyColors.ErrorSoft else HhyColors.SoftBlue)
+            .padding(horizontal = HhySpacing.Md, vertical = HhySpacing.Xs),
+        color = if (error) HhyColors.Error else HhyColors.BrandPrimary,
+        style = MaterialTheme.typography.bodySmall,
+        fontWeight = FontWeight.SemiBold,
+    )
+}
+
+@Composable
+private fun LivenessViewport(
+    dark: Boolean = false,
+    error: Boolean = false,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    val background = when {
+        error -> HhyColors.ErrorSoft
+        dark -> HhyColors.LivenessDark
+        else -> HhyColors.SoftBlue
+    }
+    Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+        Column(
+            modifier = Modifier.size(HhySize.IdentityLivenessFrame)
+                .clip(RoundedCornerShape(HhyRadius.Dialog))
+                .background(background)
+                .border(HhySize.Hairline, if (error) HhyColors.Error else HhyColors.BrandPrimary, RoundedCornerShape(HhyRadius.Dialog))
+                .padding(HhySpacing.Lg),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            content = content,
+        )
+    }
+}
+
+@Composable
+private fun IdentityInfoRow(label: String, value: String) {
+    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Text(label, color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodyMedium)
+        Text(value, color = HhyColors.TextPrimary, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
+    }
+}
+
+@Composable
+private fun IdentityActionCard(
+    title: String,
+    description: String,
+    enabled: Boolean,
+    onClick: () -> Unit,
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = if (isError) HhyColors.Surface else HhyColors.SoftBlue),
+        onClick = onClick,
+        enabled = enabled,
+        shape = RoundedCornerShape(HhyRadius.LargeCard),
+        colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = cc.orbexa.hhy.designsystem.HhyElevation.Card),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+        ) {
+            Box(
+                modifier = Modifier.size(HhySize.MinimumTouchTarget).clip(RoundedCornerShape(HhyRadius.Tag)).background(HhyColors.SoftBlue),
+                contentAlignment = Alignment.Center,
+            ) { Text("↻", color = HhyColors.BrandPrimary) }
+            Column(modifier = Modifier.weight(1f)) {
+                Text(title, style = MaterialTheme.typography.titleMedium)
+                Text(description, color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+            }
+            Text("›", color = HhyColors.TextSecondary, style = MaterialTheme.typography.titleMedium)
+        }
+    }
+}
+
+@Composable
+private fun BusinessNotice(message: String, isError: Boolean, tone: IdentityTone = IdentityTone.Brand) {
+    val background = when {
+        isError || tone == IdentityTone.Error -> HhyColors.ErrorSoft
+        tone == IdentityTone.Warning -> HhyColors.WarningSoft
+        else -> HhyColors.SoftBlue
+    }
+    val foreground = when {
+        isError || tone == IdentityTone.Error -> HhyColors.Error
+        tone == IdentityTone.Warning -> HhyColors.Warning
+        else -> HhyColors.BrandPrimary
+    }
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(HhyRadius.Tag),
+        colors = CardDefaults.cardColors(containerColor = background),
     ) {
         Text(
             message,
             modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
-            color = if (isError) HhyColors.Error else HhyColors.TextPrimary,
+            color = foreground,
+            style = MaterialTheme.typography.bodyMedium,
         )
     }
 }
