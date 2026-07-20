@@ -616,3 +616,15 @@ problems:
   - 每个测试APK交付前必须用该版本登录态执行至少一个新增核心接口黑盒门禁
   - 第三方供应商未激活不得被误判为本地协议、配置或基础资料接口不可用
   - 公网后端滚动升级必须先备份现有数据库、验证候选容器并保留Nginx与旧容器回滚点
+- id: PROB-0049
+  title: R05测试APK版本号只递增构建配置导致发布策略单测失败
+  status: SOLVED
+  root_cause: versionCode同时存在于Android defaultConfig、ReleasePolicy和VersionMetadataTest断言中；首次递增只修改build.gradle.kts，应用内策略及单测仍为10208，全量构建因此在app:testDebugUnitTest主动失败。
+  resolution: 三处版本来源及CHANGELOG统一为10209，并保留VersionMetadataTest作为构建前漂移门禁；失败构建不签名、不交付，修复后必须重新冻结提交和归档源码。
+  regression_checks:
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/gradlew --no-daemon verifyApiBaseUrl testDebugUnitTest lintDebug assembleDebug
+  do_not_repeat:
+  - 每次递增APK versionCode必须同步defaultConfig、ReleasePolicy、VersionMetadataTest和CHANGELOG
+  - 不得修改断言绕过ReleasePolicy与BuildConfig的一致性校验
+  - 构建失败的提交和产物不得继续进入签名或桌面交付

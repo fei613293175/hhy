@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-20T02:50:44Z'
+generated_at: '2026-07-20T03:01:18Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -76,7 +76,7 @@ current_status:
   - TASK-R02-007
   - TASK-R03-007
   next_task: TASK-R05-007
-  updated_at: '2026-07-20T02:50:42Z'
+  updated_at: '2026-07-20T03:01:16Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -111,15 +111,15 @@ current_status:
     active_session_id: SES-20260719T234639Z-1D7D7A00
     actor_id: codex-root
     story_id: STORY-R05-001
-    lease_expires_at: '2026-07-20T06:50:42Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0019.yaml
-    project_fingerprint: 6be64334c062b090d3ac92e3a445f208f1a6e04e96108921e232ca00fb451a17
+    lease_expires_at: '2026-07-20T07:01:16Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0022.yaml
+    project_fingerprint: 94e889c43ed359b3be986e128c424ad3f01c63425ece82efb5762401729d86f5
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: c16964926395bec9367699ff247ded8bbcd9618e6087ddade9425e975161f43c
-      generated_at: '2026-07-20T02:49:36Z'
+      context_hash: dfa1ece6d646804460a0c74c367b006810b485ca1656405c964e0d0873210c9f
+      generated_at: '2026-07-20T03:00:20Z'
     handoff_bundle: null
 next_task:
   id: TASK-R05-007
@@ -168,7 +168,7 @@ active_session:
   story_id: STORY-R05-001
   goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
   started_at: '2026-07-19T23:46:39Z'
-  updated_at: '2026-07-20T02:50:42Z'
+  updated_at: '2026-07-20T03:01:16Z'
   takeover_of: null
   change_requests:
   - CR-0109
@@ -253,12 +253,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-20T02:50:42Z'
-    expires_at: '2026-07-20T06:50:42Z'
-  checkpoint_sequence: 19
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0019.yaml
+    renewed_at: '2026-07-20T03:01:16Z'
+    expires_at: '2026-07-20T07:01:16Z'
+  checkpoint_sequence: 22
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0022.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  next_step: 提交版本身份变更并按冻结提交构建、签名、验证、投放桌面
+  next_step: 提交版本源同步修复，重新冻结提交并执行Android全量构建门禁
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -266,51 +266,57 @@ active_session:
     assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: 系统级约束未允许本轮主动创建子代理，主控串行完成APK交付
+    reason: 系统级约束未允许本轮主动创建子代理，版本身份同步需在同一提交串行完成
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0019
+  checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0022
   session_id: SES-20260719T234639Z-1D7D7A00
-  sequence: 19
-  created_at: '2026-07-20T02:50:42Z'
-  summary: R05冻结UI测试APK版本身份与变更记录同步为10209
-  next_step: 提交版本身份变更并按冻结提交构建、签名、验证、投放桌面
+  sequence: 22
+  created_at: '2026-07-20T03:01:15Z'
+  summary: R05 APK版本身份三源同步修复并登记PROB-0049防复发规则
+  next_step: 提交版本源同步修复，重新冻结提交并执行Android全量构建门禁
   blockers: []
   decisions: []
   note: ''
   tests:
-  - name: PASS:ANDROID_VERSION_IDENTITY
+  - name: ANDROID_VERSION_SOURCE_SYNC
     result: PASS
-    evidence: apps/android/app/build.gradle.kts;CHANGELOG.md
-    note: versionCode=10209 versionName=1.2.2-debug
+    evidence: apps/android/app/build.gradle.kts;apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt;apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    note: 三处versionCode统一10209
+  - name: PROBLEM_REGISTRY
+    result: PASS
+    evidence: docs/03-continuity/PROBLEM_REGISTRY.yaml;docs/03-continuity/PITFALLS.md
+    note: PROB-0049已登记
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: c2838d9e9d1f487747c7cbe309d6f7e02c7b1e36
+    head: 20326b33375ad1290d003c1db3481b09b6a251b0
     upstream: origin/task/TASK-R03-001
-    ahead: 1
+    ahead: 2
     behind: 0
     dirty: true
     status_porcelain:
     - M  .continuity/ACTIVE_SESSION.yaml
-    - M  .continuity/CHANGE_REQUEST_INDEX.yaml
     - M  .continuity/EVENT_LOG.jsonl
     - M  .continuity/SESSION_INDEX.yaml
     - M  .continuity/STATE.yaml
-    - A  .continuity/change_requests/CR-0117.yaml
-    - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0018.yaml
+    - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0020.yaml
+    - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0021.yaml
     - M  .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
-    - ' M CHANGELOG.md'
+    - M  CHANGELOG.md
     - M  CURRENT_STATUS.yaml
-    - M  apps/android/app/build.gradle.kts
+    - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
     - M  artifacts/context/CURRENT_CONTEXT_PACK.md
     - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
     - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    - M  catalogs/change_request_index.csv
     - M  catalogs/session_index.csv
-    - A  docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
+    - ' M docs/03-continuity/PITFALLS.md'
+    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
     - M  docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
     recent_commits:
+    - "20326b33375ad1290d003c1db3481b09b6a251b0\t2026-07-20T10:51:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): bump frozen\
+      \ UI test APK identity"
     - "c2838d9e9d1f487747c7cbe309d6f7e02c7b1e36\t2026-07-20T10:46:40+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): apply frozen\
       \ R05 visual specification"
     - "9e1320e33920b57758142e1abaeee2e76282e8a9\t2026-07-20T09:27:24+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(identity): align public\
@@ -325,10 +331,8 @@ latest_checkpoint:
       \ R05 client acceptance"
     - "cc3d0165a9fde8ff2a7cb0288a1f912b85121b48\t2026-07-20T08:19:18+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind\
       \ R05 APK evidence commits"
-    - "ddb8277b9e58c46dd80eee1a54f129cd539fd8da\t2026-07-20T08:17:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(android): archive R05\
-      \ APK delivery evidence"
   project_fingerprint:
-    sha256: 6be64334c062b090d3ac92e3a445f208f1a6e04e96108921e232ca00fb451a17
+    sha256: 94e889c43ed359b3be986e128c424ad3f01c63425ece82efb5762401729d86f5
     files:
     - AGENTS.md
     - CHANGELOG.md
@@ -443,8 +447,8 @@ latest_checkpoint:
         sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
       - path: CHANGELOG.md
         state: FILE
-        size: 47402
-        sha256: 34c1872466401b39668c1c004b659d2512387d9ed40ecc1e2cd89fecebd269a8
+        size: 47550
+        sha256: 833d1576212e80f821341b009b7bee327aed9f5f1cacdf7992d21e6e1540aefd
       - path: apps/android/app/build.gradle.kts
         state: FILE
         size: 4705
@@ -452,11 +456,11 @@ latest_checkpoint:
       - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
         state: FILE
         size: 520
-        sha256: 56ad9169098619cb451d9e18c70a22e9deb909711c12eb8e4c450cc26ccd1f7e
+        sha256: 72822042994c77e0d4313043da8c46769c57ad86e141ff4790a71125581a4ebd
       - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
         state: FILE
         size: 1025
-        sha256: 82a529d7e079f7158de5765c00a5e6977683e061419ae0f7defb393f8cfa6918
+        sha256: 1a48d16493e293cc95d5cddfdfc13417ed36eab8d095d9bcc1dba82aa24802a0
       - path: apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
         state: FILE
         size: 6380
@@ -751,12 +755,12 @@ latest_checkpoint:
         sha256: 11aaffded8a6594f23cfa2b6b70d8ebc23e24e75232c087862250f3334a1ad09
       - path: docs/03-continuity/PITFALLS.md
         state: FILE
-        size: 985
-        sha256: 5dbce8398f4f0f6bf6686fdf8491fca1904b0b6a52dfea15b4d4cac2aebfcc0d
+        size: 1164
+        sha256: 907f451b1cf3cb9f085a8bca2363a68ebbac72edb4bf36426d16b5678438729d
       - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
         state: FILE
-        size: 53170
-        sha256: c036ca84bf98c6ad83980cc7aa2afe0eb510f9d1c4e804292225608aa77344f2
+        size: 54200
+        sha256: 80ba211b99883bfe244104e7a0b273451bf912e99436371049d5eb20b0fbdaca
       - path: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
         state: FILE
         size: 2321
@@ -1056,37 +1060,39 @@ latest_checkpoint:
     assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: 系统级约束未允许本轮主动创建子代理，主控串行完成APK交付
-  event_hash: 2e79487fd93c1aa060e79cf156a6f47d6e5d29eced3a2c6ca7a153f417fb4cfe
+    reason: 系统级约束未允许本轮主动创建子代理，版本身份同步需在同一提交串行完成
+  event_hash: ed4451726290e553cea29940cb6ff3d464ba977a5001d01766a2cc0ada5b94e2
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: c2838d9e9d1f487747c7cbe309d6f7e02c7b1e36
+  head: 20326b33375ad1290d003c1db3481b09b6a251b0
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 2
   behind: 0
   dirty: true
   status_porcelain:
   - MM .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
   - MM .continuity/EVENT_LOG.jsonl
   - MM .continuity/SESSION_INDEX.yaml
   - MM .continuity/STATE.yaml
-  - A  .continuity/change_requests/CR-0117.yaml
-  - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0018.yaml
+  - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0020.yaml
+  - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0021.yaml
   - MM .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
-  - ' M CHANGELOG.md'
+  - M  CHANGELOG.md
   - MM CURRENT_STATUS.yaml
-  - M  apps/android/app/build.gradle.kts
+  - M  apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - M  apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
   - M  artifacts/context/CURRENT_CONTEXT_PACK.md
   - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
   - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  catalogs/change_request_index.csv
   - MM catalogs/session_index.csv
-  - A  docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
+  - ' M docs/03-continuity/PITFALLS.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
   - MM docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0019.yaml
+  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0022.yaml
   recent_commits:
+  - "20326b33375ad1290d003c1db3481b09b6a251b0\t2026-07-20T10:51:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): bump frozen\
+    \ UI test APK identity"
   - "c2838d9e9d1f487747c7cbe309d6f7e02c7b1e36\t2026-07-20T10:46:40+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): apply frozen\
     \ R05 visual specification"
   - "9e1320e33920b57758142e1abaeee2e76282e8a9\t2026-07-20T09:27:24+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(identity): align public\
@@ -1101,10 +1107,8 @@ git:
     \ client acceptance"
   - "cc3d0165a9fde8ff2a7cb0288a1f912b85121b48\t2026-07-20T08:19:18+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind R05\
     \ APK evidence commits"
-  - "ddb8277b9e58c46dd80eee1a54f129cd539fd8da\t2026-07-20T08:17:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(android): archive R05\
-    \ APK delivery evidence"
 project_fingerprint:
-  sha256: 6be64334c062b090d3ac92e3a445f208f1a6e04e96108921e232ca00fb451a17
+  sha256: 94e889c43ed359b3be986e128c424ad3f01c63425ece82efb5762401729d86f5
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -1219,8 +1223,8 @@ project_fingerprint:
       sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
     - path: CHANGELOG.md
       state: FILE
-      size: 47402
-      sha256: 34c1872466401b39668c1c004b659d2512387d9ed40ecc1e2cd89fecebd269a8
+      size: 47550
+      sha256: 833d1576212e80f821341b009b7bee327aed9f5f1cacdf7992d21e6e1540aefd
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 4705
@@ -1228,11 +1232,11 @@ project_fingerprint:
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
       state: FILE
       size: 520
-      sha256: 56ad9169098619cb451d9e18c70a22e9deb909711c12eb8e4c450cc26ccd1f7e
+      sha256: 72822042994c77e0d4313043da8c46769c57ad86e141ff4790a71125581a4ebd
     - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
       state: FILE
       size: 1025
-      sha256: 82a529d7e079f7158de5765c00a5e6977683e061419ae0f7defb393f8cfa6918
+      sha256: 1a48d16493e293cc95d5cddfdfc13417ed36eab8d095d9bcc1dba82aa24802a0
     - path: apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
       state: FILE
       size: 6380
@@ -1527,12 +1531,12 @@ project_fingerprint:
       sha256: 11aaffded8a6594f23cfa2b6b70d8ebc23e24e75232c087862250f3334a1ad09
     - path: docs/03-continuity/PITFALLS.md
       state: FILE
-      size: 985
-      sha256: 5dbce8398f4f0f6bf6686fdf8491fca1904b0b6a52dfea15b4d4cac2aebfcc0d
+      size: 1164
+      sha256: 907f451b1cf3cb9f085a8bca2363a68ebbac72edb4bf36426d16b5678438729d
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 53170
-      sha256: c036ca84bf98c6ad83980cc7aa2afe0eb510f9d1c4e804292225608aa77344f2
+      size: 54200
+      sha256: 80ba211b99883bfe244104e7a0b273451bf912e99436371049d5eb20b0fbdaca
     - path: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
       state: FILE
       size: 2321
@@ -2806,8 +2810,8 @@ continuity_state:
   last_session_id: SES-20260719T230526Z-55ABC07F
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0004
-  event_count: 1247
-  event_head_hash: 2e79487fd93c1aa060e79cf156a6f47d6e5d29eced3a2c6ca7a153f417fb4cfe
+  event_count: 1250
+  event_head_hash: ed4451726290e553cea29940cb6ff3d464ba977a5001d01766a2cc0ada5b94e2
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260719T135908Z-32D952EC
@@ -2926,9 +2930,9 @@ recent_sessions:
   started_at: '2026-07-19T23:46:39Z'
   record: .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  updated_at: '2026-07-20T02:50:42Z'
+  updated_at: '2026-07-20T03:01:16Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0019.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0022.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-1B426B903146
@@ -6568,7 +6572,7 @@ source_manifest:
   sha256: 038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a
   bytes: 3477
 - path: CURRENT_STATUS.yaml
-  sha256: f74c921531795b962a500810db605ef1ea9a745ad6ad55087c7b51bc6f2f62c0
+  sha256: 9eb85f568be0e2a9a9b30e9d5f70abb09283557bf5fbfca1b34fd1803ef8bf19
   bytes: 3617
 - path: NEXT_TASK.yaml
   sha256: bd22bac1e2b0308bd77f173dca3ac229dff82931447bff00e89661b483b14ee0
@@ -6580,14 +6584,14 @@ source_manifest:
   sha256: 045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511
   bytes: 1442
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: c036ca84bf98c6ad83980cc7aa2afe0eb510f9d1c4e804292225608aa77344f2
-  bytes: 53170
+  sha256: 80ba211b99883bfe244104e7a0b273451bf912e99436371049d5eb20b0fbdaca
+  bytes: 54200
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
   sha256: 6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969
   bytes: 2093
 - path: docs/03-continuity/PITFALLS.md
-  sha256: 5dbce8398f4f0f6bf6686fdf8491fca1904b0b6a52dfea15b4d4cac2aebfcc0d
-  bytes: 985
+  sha256: 907f451b1cf3cb9f085a8bca2363a68ebbac72edb4bf36426d16b5678438729d
+  bytes: 1164
 - path: releases/PROGRAM_EXECUTION_PLAN.yaml
   sha256: 8f07b807f972671d8270db374fad897fb0a36ed4cb3d4f6788dd12cf411dfb46
   bytes: 35802
@@ -6601,10 +6605,10 @@ source_manifest:
   sha256: 35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6
   bytes: 11116
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 09a86763d2851665b87ea49cc250134df713662fc1aa360a7889deccb67ae78b
-  bytes: 692961
+  sha256: c478d85f1f0c1b13882946eaea99a96938072530e1b7e9aa6a148c7f8c6b012a
+  bytes: 694950
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: cda16f1855e98ef1c57fe4316146f6af83b8765a5160364a3f5880b1e89c1c77
+  sha256: f36ecb53cd33895f0f5117d24d5f05c71532fca7308fc2ad1e8c03fe05375ee2
   bytes: 25306
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: b42bae99e7d14cdcf44b0551a70718a1c1bdf785aa7cdfbff142597c2b2282ac
@@ -6616,7 +6620,7 @@ source_manifest:
   sha256: c17256863dd7c540c3d2d2b1a2634e6eb63acbebd78999bab6a78531b884bd0d
   bytes: 356628
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 37de197a4f07dceb05ec817139d9dc322147a6f3f4911ede0683e094a9745e9c
+  sha256: 2ad30182c9abc2fb9245346d4b32a0e4867c269224bf9740a9ff03864ab54a8b
   bytes: 525
 - path: releases/R05/RELEASE_MANIFEST.yaml
   sha256: 2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b
@@ -6637,11 +6641,11 @@ source_manifest:
   sha256: 38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda
   bytes: 3785
 - path: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  sha256: 4c81513c40073d1e180df19d3a683af87765c6dd840db43a1eaab6d5e67ab0cc
-  bytes: 64365
-- path: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0019.yaml
-  sha256: 4f0a6d3d9c2b11e96e74d046f9051cb707ccac1a5358afae47de9087ce6ffa9c
-  bytes: 37511
+  sha256: d6f080910aa2782c41ec3d92ea8b3963738d0d76ec1c3ab6e2ec9dcf402034d8
+  bytes: 84780
+- path: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0022.yaml
+  sha256: 28cbff7a10e601016f0b7ed890dc6fe6496001c6da197d1b99b2278a7d96a86e
+  bytes: 37826
 - path: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
   sha256: 2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f
   bytes: 2321
@@ -6683,4 +6687,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: c15c207b8acba80b0f2abd150a2b7c6a1902dfc5eeaf0886f09adc954b5b8e17
+context_hash: ed1a7a4341e2d98608e79184bfdbbb3367d5a78cf68e1bfd88523dc282836153

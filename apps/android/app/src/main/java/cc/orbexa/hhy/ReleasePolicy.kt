@@ -3,7 +3,7 @@ package cc.orbexa.hhy
 import java.net.URI
 
 object ReleasePolicy {
-    const val VERSION_CODE: Int = 10208
+    const val VERSION_CODE: Int = 10209
     const val VERSION_NAME: String = "1.2.2"
     const val CONTRACT_VERSION: String = "1.2.2"
 
