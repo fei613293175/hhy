@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0119
 title: 建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-20T03:52:38Z'
-updated_at: '2026-07-20T03:57:18Z'
+updated_at: '2026-07-20T05:01:06Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner
 task_id: TASK-R05-007
@@ -72,5 +72,12 @@ decision_log:
   status: IMPLEMENTING
   note: 已完成全量Android页面审计，开始迁移统一图标、导航返回栈与转场。
   session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T05:01:06Z'
+  actor_id: codex
+  status: IMPLEMENTED
+  note: 全部既有Android页面已完成稳定Navigation Compose真实返回栈、统一系统/手势/顶栏返回、HhyIcons官方矢量图标、HhyMotion集中动效迁移及自动门禁。
+  session_id: SES-20260719T234639Z-1D7D7A00
 session_ids:
 - SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- 7b57046f5e416bdf7dd1d81ef3c66e6ad93d2c92
