@@ -10,22 +10,22 @@
 
 | 项目 | 值 |
 | --- | --- |
-| 源码 Commit | `b597f2c95d5888aee65c63f39432c17b765ba0d7` |
-| APK 文件 | `hhy-r05-b597f2c-debug.apk` |
-| versionName / versionCode | `1.2.2-debug` / `10209` |
-| APK 大小 | `12,054,952` bytes |
-| APK SHA-256 | `4ccd652d9cf7fd3cf9e1300a4eedc0d797feeaa6dc6b69491b50a5b3bd680560` |
+| 源码 Commit | `7b57046f5e416bdf7dd1d81ef3c66e6ad93d2c92` |
+| APK 文件 | `hhy-r05-7b57046-debug.apk` |
+| versionName / versionCode | `1.2.2-debug` / `10210` |
+| APK 大小 | `19,268,698` bytes |
+| APK SHA-256 | `f478e9c19a9553d54d9067f33f68541a2ea58492a3ac8133d46cb23a28f4347e` |
 | 签名配置 | `hhy-staging-test-v1` |
 | 签名证书 SHA-256 | `f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873` |
 | API Base URL | `https://api.orbexa.cc` |
-| 桌面副本 | `C:\Users\小白\Desktop\hhy-r05-b597f2c-debug.apk` |
-| 下载地址 | `https://download.orbexa.cc/r05-artifacts/hhy-r05-b597f2c-debug.apk` |
+| 桌面副本 | `C:\Users\小白\Desktop\hhy-r05-7b57046-debug.apk` |
+| 下载地址 | `https://download.orbexa.cc/r05-artifacts/hhy-r05-7b57046-debug.apk` |
 
 ## 构建、签名与联网门禁
 
 - 固定工具链：`hhy-android-toolchain:r01-46fb273`，镜像 ID `sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607`。
-- 源码归档 SHA-256：`701406ef7884aa779586b0fec7cb2d3f3ffc61a2238711cb71c5760845602799`。
-- Gradle 执行 `clean verifyApiBaseUrl testDebugUnitTest lintDebug assembleDebug`，387 项任务全部成功，构建用时 2 分 51 秒。
+- 源码归档 SHA-256：`c3412f69bebb5f01cf3c1779a6b33f5183ad6b39d0a4018fff23d9930d0bd8ec`。
+- Gradle 执行 `clean testDebugUnitTest compileDebugAndroidTestKotlin lintDebug assembleDebug`，430 项任务全部成功，构建用时 3 分 23 秒。
 - `apksigner`、`zipalign` 均通过；APK Signature Scheme v2、v3 为 `true`，签名证书与既有 Staging 测试签名一致。
 - DEX 中真实 API `https://api.orbexa.cc` 精确出现 1 次，占位端点 `.invalid` 出现 0 次。
 - `deliver_android_test_apk.py prepare` 与独立 `verify` 均通过；公网完整下载 200、Range 206、Android APK MIME 正确。
@@ -33,6 +33,12 @@
 
 ## 本版 Android 可见闭环
 
+- 全部既有 Android 页面已迁移到稳定版 Navigation Compose 真实返回栈，不再用手写页面枚举模拟导航；包括登录、验证码登录、注册、忘记密码、账号安全、五个主导航页和实名认证完整流程。
+- 页面左上角返回、Android 系统返回键和返回手势共用同一返回栈；从“我的”进入账号安全和实名认证后，返回会回到真实来源“我的”，不会错误跳首页或直接退出应用。
+- 建立统一 `HhyIcons` 语义图标注册表并采用官方 Material 矢量图标，已清除相机、盾牌、底部导航等位置的汉字、Unicode 和文本占位图标。
+- 建立统一 `HhyMotion` 页面动效规范：进入、退出及反向返回均使用集中管理的 120/200/300ms 动效参数，并尊重系统减少动态效果设置。
+- 新增静态门禁和导航测试，禁止后续重新引入手写页面栈、文本假图标、页面私有动效参数和非稳定导航依赖。
+- 全局规则已强制采用大型商业 App 验证过的官方稳定主流方案；禁止小众、预发布或自行构思的导航、返回栈、图标和动效基础设施，例外必须经 ADR 与变更审批。
 - 四个实名认证页面已按 `design/R05-UI-FROZEN` 冻结逐状态效果图、字号、间距、圆角和组件尺寸重构；效果图中的虚拟业务内容未照搬。
 - 实名首页使用标准居中顶栏、状态渐变卡和结构化准备卡；资料页、240dp活体容器及结果页均覆盖冻结状态布局。
 - 登录成功后，从底部“我的”进入“账号与安全”，可打开“实名认证”。

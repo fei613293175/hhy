@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T04:30:15Z
-- Context Hash：`8bc1bc04dbb03d11339277edc76aa4647aab1b8b1d7b60afe2ae594a73351b44`
+- 生成时间：2026-07-20T05:00:04Z
+- Context Hash：`e0569ce57d8944a86fa842aab0f07d94d1ffb35e5d09329dc3cb4c1d330bf674`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -84,7 +84,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-007
-updated_at: '2026-07-20T04:30:13Z'
+updated_at: '2026-07-20T05:00:02Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -119,15 +119,15 @@ continuity:
   active_session_id: SES-20260719T234639Z-1D7D7A00
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T08:30:13Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0027.yaml
-  project_fingerprint: 9cff00d1c5b2f4682a1b85a3c5925a26dc67a305e600ea1f564e5847f583883b
+  lease_expires_at: '2026-07-20T09:00:02Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0028.yaml
+  project_fingerprint: ef9cd55d434fd6046289039072ddc341702467fe42e351979758e2c3f3244973
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: df926d78bad173799a510e4b0710745df978f76745ecdff0bb794011e60a9a48
-    generated_at: '2026-07-20T04:29:33Z'
+    context_hash: 8bc1bc04dbb03d11339277edc76aa4647aab1b8b1d7b60afe2ae594a73351b44
+    generated_at: '2026-07-20T04:30:15Z'
   handoff_bundle: null
 ```
 
@@ -319,7 +319,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T04:30:13Z'
+updated_at: '2026-07-20T05:00:02Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -335,6 +335,7 @@ change_requests:
 - CR-0119
 - CR-0120
 - CR-0121
+- CR-0122
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -415,7 +416,9 @@ scope:
   - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
   - apps/android/feature/auth/build.gradle.kts
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121
+  - artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/b597f2c/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -425,96 +428,87 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T04:30:13Z'
-  expires_at: '2026-07-20T08:30:13Z'
-checkpoint_sequence: 27
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0027.yaml
+  renewed_at: '2026-07-20T05:00:02Z'
+  expires_at: '2026-07-20T09:00:02Z'
+checkpoint_sequence: 28
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0028.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交并推送源码；从该Commit归档构建10210 APK及交付证据。
+next_step: 提交并推送R05 10210构建与交付证据，更新CR-0119至CR-0122为IMPLEMENTED，等待项目所有者真机验收后关闭TASK-R05-007。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前系统开发策略禁止主动创建新子代理；交付构建需绑定同一不可变提交串行完成。
+  reason: 最终追溯文件、CR状态与单一连续性会话共享同一状态链，需串行提交以避免竞争写入。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0027
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0028
 session_id: SES-20260719T234639Z-1D7D7A00
-sequence: 27
-created_at: '2026-07-20T04:30:13Z'
-summary: 首轮云端全量门禁通过后，新增10210版本身份并补齐CHANGELOG；代码已具备不可变提交构建条件。
-next_step: 提交并推送源码；从该Commit归档构建10210 APK及交付证据。
+sequence: 28
+created_at: '2026-07-20T05:00:02Z'
+summary: R05 versionCode 10210 全局导航、返回栈、官方矢量图标、统一动效及大型商业App成熟方案硬门禁已覆盖全部既有Android页面；不可变构建与APK交付完成。
+next_step: 提交并推送R05 10210构建与交付证据，更新CR-0119至CR-0122为IMPLEMENTED，等待项目所有者真机验收后关闭TASK-R05-007。
 blockers: []
-decisions: []
+decisions:
+- 采用官方稳定版Navigation Compose、Material矢量图标和集中动效规范作为全局唯一基础方案；禁止小众、预发布或自行构思的基础设施方案。
 note: ''
 tests:
-- name: ANDROID_CLOUD_BUILD_PRE_VERSION
+- name: android-ui-foundation
   result: PASS
-  evidence: obx-test:hhy-r05-cr0119-compile-c
-  note: 功能代码全量门禁通过，版本字段仅由10209单调递增至10210
+  evidence: scripts/check_android_ui_foundation.py
+  note: 全部既有Android页面静态门禁通过
+- name: android-unit-gates
+  result: PASS
+  evidence: 24 unittest
+  note: 导航、APK交付和API地址门禁通过
+- name: r05-release-artifacts
+  result: PASS
+  evidence: scripts/check_release_artifacts.py --release R05
+  note: 产物追溯完整
+- name: r05-public-apk
+  result: PASS
+  evidence: deliver_android_test_apk.py verify
+  note: 桌面、仓库、服务器与HTTPS SHA-256一致
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: e7fc15da32abf30de02885383ba8f31f408d2144
+  head: 7b57046f5e416bdf7dd1d81ef3c66e6ad93d2c92
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
-  - ' M AGENTS.md'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/app/build.gradle.kts'
-  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
-  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
-  - ' M apps/android/core/designsystem/build.gradle.kts'
-  - ' M apps/android/feature/auth/build.gradle.kts'
-  - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
-  - ' M apps/android/feature/identity/build.gradle.kts'
-  - ' M apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt'
-  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
-  - ' M apps/android/gradle/libs.versions.toml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/apk/R05/APK_MANIFEST.yaml'
+  - ' M artifacts/reports/R05/R05-version-test-guide.md'
+  - ' M artifacts/reports/R05/TASK-R05-007-android-apk.md'
+  - ' M artifacts/validation/r05-apk-delivery/delivery-evidence.json'
+  - ' M artifacts/validation/r05-task007-android/apk-badging.txt'
+  - ' M artifacts/validation/r05-task007-android/apk-sha256.txt'
+  - ' M artifacts/validation/r05-task007-android/apk-size.txt'
+  - ' M artifacts/validation/r05-task007-android/build-evidence.json'
+  - ' M artifacts/validation/r05-task007-android/evidence-sha256.txt'
+  - ' M artifacts/validation/r05-task007-android/gradle-build.log'
+  - ' M artifacts/validation/r05-task007-android/source-archive-sha256.txt'
+  - ' M artifacts/validation/r05-task007-android/zipalign.txt'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
-  - ' M docs/03-continuity/PITFALLS.md'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-  - ' M docs/09-development/统一开发与交付效率规范.md'
-  - ' M templates/AGENTS.md'
-  - ?? .continuity/change_requests/CR-0119.yaml
-  - ?? .continuity/change_requests/CR-0120.yaml
-  - ?? .continuity/change_requests/CR-0121.yaml
-  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0025.yaml
-  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0026.yaml
-  - ?? apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
-  - ?? apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
-  - ?? apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-  - ?? apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
-  - ?? docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
-  - ?? docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
-  - ?? docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
-  - ?? scripts/check_android_ui_foundation.py
-  - ?? tests/test_android_ui_foundation.py
+  - ?? .continuity/change_requests/CR-0122.yaml
+  - ?? artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
+  - ?? artifacts/validation/r05-apk-delivery/history/b597f2c/delivery-evidence.json
+  - ?? docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md
   recent_commits:
+  - "7b57046f5e416bdf7dd1d81ef3c66e6ad93d2c92\t2026-07-20T12:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(android): unify mature\
+    \ navigation icons and motion"
   - "e7fc15da32abf30de02885383ba8f31f408d2144\t2026-07-20T11:17:59+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind frozen\
     \ UI delivery"
   - "1998d8d4a67478faf9231856536130c4d5091510\t2026-07-20T11:17:02+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(android): deliver frozen\
@@ -529,10 +523,8 @@ git:
     \ runtime with R05"
   - "fee16bae9010e33b0ff1d526dedf218a59787c61\t2026-07-20T08:58:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind UI\
     \ gate implementation"
-  - "edebf46c74be5e43c8d19b4d2168fbb3d20ff690\t2026-07-20T08:56:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(ui): enforce exact visual\
-    \ acceptance"
 project_fingerprint:
-  sha256: 9cff00d1c5b2f4682a1b85a3c5925a26dc67a305e600ea1f564e5847f583883b
+  sha256: ef9cd55d434fd6046289039072ddc341702467fe42e351979758e2c3f3244973
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -559,6 +551,7 @@ project_fingerprint:
   - apps/h5/src/views/IdentityCallbackPage.vue
   - artifacts/apk/R05/APK_MANIFEST.yaml
   - artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
+  - artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
   - catalogs/ui_visual_acceptance.csv
   - design/R05-UI-FROZEN/TOKEN_ADDITIONS_PROPOSAL.json
   - design/R05-UI-FROZEN/VISUAL_MANIFEST.json
@@ -640,6 +633,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
   - docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
   - docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
+  - docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md
   - docs/09-development/统一开发与交付效率规范.md
   - packages/design-tokens/admin.css
   - packages/design-tokens/h5.css
@@ -657,7 +651,7 @@ project_fingerprint:
   - tests/test_r05_public_identity_gate.py
   - tests/test_release_close_gate.py
   - tests/test_ui_visual_acceptance.py
-  file_count: 123
+  file_count: 125
   payload:
     base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
     files:
@@ -756,11 +750,15 @@ project_fingerprint:
     - path: artifacts/apk/R05/APK_MANIFEST.yaml
       state: FILE
       size: 673
-      sha256: 66a4260113441a934e9a0f39aa76969f7bc86444a893f393dd557af8b5d82f67
+      sha256: dd05c61204ab46d8750f332ff24f6e767ac5bc0370ccfa2176f626470eca72e0
     - path: artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
       state: FILE
       size: 673
       sha256: 04cca7f34fe7bc361af2421ca3a1d1f170dd14c3b06ff39027ea2dbc6488815c
+    - path: artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 66a4260113441a934e9a0f39aa76969f7bc86444a893f393dd557af8b5d82f67
     - path: catalogs/ui_visual_acceptance.csv
       state: FILE
       size: 4383
@@ -1085,6 +1083,10 @@ project_fingerprint:
       state: FILE
       size: 2049
       sha256: bade152b952536b2e47365f5dd4cd890f03887362fef0bf27d3eb686f3a944a6
+    - path: docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md
+      state: FILE
+      size: 3296
+      sha256: 2b781b5f8bf228d2dfbf75919d7237503e95bc111c9182abe63943cab2ca58fe
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
       size: 6357
@@ -1159,6 +1161,7 @@ change_classification:
   - CHANGELOG.md
   - artifacts/apk/R05/APK_MANIFEST.yaml
   - artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
+  - artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
   - catalogs/ui_visual_acceptance.csv
   - design/R05-UI-FROZEN/TOKEN_ADDITIONS_PROPOSAL.json
   - design/R05-UI-FROZEN/VISUAL_MANIFEST.json
@@ -1300,6 +1303,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
   - docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
   - docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
+  - docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md
   tests:
   - tests/test_android_ui_foundation.py
   - tests/test_r05_public_identity_gate.py
@@ -1327,6 +1331,7 @@ change_requests:
 - CR-0119
 - CR-0120
 - CR-0121
+- CR-0122
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -1407,13 +1412,15 @@ scope:
   - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
   - apps/android/feature/auth/build.gradle.kts
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121
+  - artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/b597f2c/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122
 parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前系统开发策略禁止主动创建新子代理；交付构建需绑定同一不可变提交串行完成。
-event_hash: cc5c07a27223f035ed071c3ddf5bab26b9c2236f601f0ff581c22b7d02376e13
+  reason: 最终追溯文件、CR状态与单一连续性会话共享同一状态链，需串行提交以避免竞争写入。
+event_hash: 2122088561d520f6e439dfaa5951320f65d9036e682427c3cf9cf8b87d845e4f
 ```
 
 ## 接续状态与事件头
@@ -1425,8 +1432,8 @@ active_session_id: SES-20260719T234639Z-1D7D7A00
 last_session_id: SES-20260719T230526Z-55ABC07F
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0004
-event_count: 1283
-event_head_hash: cc5c07a27223f035ed071c3ddf5bab26b9c2236f601f0ff581c22b7d02376e13
+event_count: 1289
+event_head_hash: 2122088561d520f6e439dfaa5951320f65d9036e682427c3cf9cf8b87d845e4f
 event_chain_valid: true
 ```
 
@@ -1549,9 +1556,9 @@ recent_sessions: - session_id: SES-20260719T135908Z-32D952EC
   started_at: '2026-07-19T23:46:39Z'
   record: .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  updated_at: '2026-07-20T04:30:13Z'
+  updated_at: '2026-07-20T05:00:02Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0027.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0028.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B426B903146
   session_id: SES-20260718T152013Z-8B704646
@@ -2434,7 +2441,7 @@ recent_task_transitions: - transition_id: TRN-4DA26C35977A
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: e7fc15da32abf30de02885383ba8f31f408d2144
+head: 7b57046f5e416bdf7dd1d81ef3c66e6ad93d2c92
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2446,48 +2453,30 @@ status_porcelain:
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
-- ' M AGENTS.md'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/android/app/build.gradle.kts'
-- ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-- ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
-- ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
-- ' M apps/android/core/designsystem/build.gradle.kts'
-- ' M apps/android/feature/auth/build.gradle.kts'
-- ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
-- ' M apps/android/feature/identity/build.gradle.kts'
-- ' M apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt'
-- ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
-- ' M apps/android/gradle/libs.versions.toml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/apk/R05/APK_MANIFEST.yaml'
+- ' M artifacts/reports/R05/R05-version-test-guide.md'
+- ' M artifacts/reports/R05/TASK-R05-007-android-apk.md'
+- ' M artifacts/validation/r05-apk-delivery/delivery-evidence.json'
+- ' M artifacts/validation/r05-task007-android/apk-badging.txt'
+- ' M artifacts/validation/r05-task007-android/apk-sha256.txt'
+- ' M artifacts/validation/r05-task007-android/apk-size.txt'
+- ' M artifacts/validation/r05-task007-android/build-evidence.json'
+- ' M artifacts/validation/r05-task007-android/evidence-sha256.txt'
+- ' M artifacts/validation/r05-task007-android/gradle-build.log'
+- ' M artifacts/validation/r05-task007-android/source-archive-sha256.txt'
+- ' M artifacts/validation/r05-task007-android/zipalign.txt'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
-- ' M docs/03-continuity/PITFALLS.md'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M docs/03-continuity/REUSABLE_PATTERNS.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-- ' M docs/09-development/统一开发与交付效率规范.md'
-- ' M templates/AGENTS.md'
-- ?? .continuity/change_requests/CR-0119.yaml
-- ?? .continuity/change_requests/CR-0120.yaml
-- ?? .continuity/change_requests/CR-0121.yaml
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0025.yaml
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0026.yaml
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0027.yaml
-- ?? apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
-- ?? apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
-- ?? apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-- ?? apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
-- ?? docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
-- ?? docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
-- ?? docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
-- ?? scripts/check_android_ui_foundation.py
-- ?? tests/test_android_ui_foundation.py
+- ?? .continuity/change_requests/CR-0122.yaml
+- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0028.yaml
+- ?? artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
+- ?? artifacts/validation/r05-apk-delivery/history/b597f2c/delivery-evidence.json
+- ?? docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md
 recent_commits:
+- "7b57046f5e416bdf7dd1d81ef3c66e6ad93d2c92\t2026-07-20T12:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(android): unify mature\
+  \ navigation icons and motion"
 - "e7fc15da32abf30de02885383ba8f31f408d2144\t2026-07-20T11:17:59+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind frozen\
   \ UI delivery"
 - "1998d8d4a67478faf9231856536130c4d5091510\t2026-07-20T11:17:02+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(android): deliver frozen\
@@ -2502,14 +2491,12 @@ recent_commits:
   \ runtime with R05"
 - "fee16bae9010e33b0ff1d526dedf218a59787c61\t2026-07-20T08:58:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind UI gate\
   \ implementation"
-- "edebf46c74be5e43c8d19b4d2168fbb3d20ff690\t2026-07-20T08:56:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(ui): enforce exact visual\
-  \ acceptance"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`9cff00d1c5b2f4682a1b85a3c5925a26dc67a305e600ea1f564e5847f583883b`
-- 文件数：123
+- 指纹：`ef9cd55d434fd6046289039072ddc341702467fe42e351979758e2c3f3244973`
+- 文件数：125
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -2536,6 +2523,7 @@ recent_commits:
 - `apps/h5/src/views/IdentityCallbackPage.vue`
 - `artifacts/apk/R05/APK_MANIFEST.yaml`
 - `artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml`
+- `artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml`
 - `catalogs/ui_visual_acceptance.csv`
 - `design/R05-UI-FROZEN/TOKEN_ADDITIONS_PROPOSAL.json`
 - `design/R05-UI-FROZEN/VISUAL_MANIFEST.json`
@@ -2617,6 +2605,7 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md`
 - `docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md`
 - `docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md`
+- `docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md`
 - `docs/09-development/统一开发与交付效率规范.md`
 - `packages/design-tokens/admin.css`
 - `packages/design-tokens/h5.css`
@@ -6719,13 +6708,74 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260719T234639Z-1D7D7A00
   session_ids:
   - SES-20260719T234639Z-1D7D7A00
+- protocol_version: '1.0'
+  cr_id: CR-0122
+  title: 交付R05统一导航图标动效10210真机测试APK
+  status: IMPLEMENTING
+  created_at: '2026-07-20T04:44:41Z'
+  updated_at: '2026-07-20T04:45:24Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-007
+  session_id: SES-20260719T234639Z-1D7D7A00
+  user_request: 用户要求优化覆盖全部既有页面并持续开发，生成APK放桌面测试。
+  reason: 不可变提交7b57046的10210测试APK需要替换旧10209活动交付，并保持旧产物可追溯归档。
+  original_rule: R05活动测试APK为b597f2c、versionCode 10209，真机状态PENDING。
+  new_rule: R05活动测试APK替换为7b57046、versionCode 10210；旧b597f2c Manifest和交付证据进入history，真机状态继续PENDING。
+  impact_summary: 更新R05测试APK构建、签名、API嵌入、交付、桌面与测试说明证据；不改变生产发布状态。
+  impact:
+    files:
+    - artifacts/apk/R05/APK_MANIFEST.yaml
+    - artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
+    - artifacts/validation/r05-apk-delivery/delivery-evidence.json
+    - artifacts/validation/r05-apk-delivery/history/b597f2c/delivery-evidence.json
+    - artifacts/validation/r05-task007-android/apk-badging.txt
+    - artifacts/validation/r05-task007-android/apk-sha256.txt
+    - artifacts/validation/r05-task007-android/apk-signing.txt
+    - artifacts/validation/r05-task007-android/apk-size.txt
+    - artifacts/validation/r05-task007-android/build-evidence.json
+    - artifacts/validation/r05-task007-android/documentation-gate.json
+    - artifacts/validation/r05-task007-android/embedded-api-count.txt
+    - artifacts/validation/r05-task007-android/embedded-placeholder-count.txt
+    - artifacts/validation/r05-task007-android/evidence-sha256.txt
+    - artifacts/validation/r05-task007-android/gradle-build.log
+    - artifacts/validation/r05-task007-android/source-archive-sha256.txt
+    - artifacts/validation/r05-task007-android/toolchain-image-id.txt
+    - artifacts/validation/r05-task007-android/zipalign.txt
+    - artifacts/reports/R05/TASK-R05-007-android-apk.md
+    - artifacts/reports/R05/R05-version-test-guide.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 不可变提交全量Gradle、固定签名、API嵌入、版本身份、四方SHA与HTTPS下载门禁全部通过。
+    releases:
+    - R05
+    migration_and_compatibility: 固定Staging签名支持覆盖安装；旧交付归档可恢复；新APK机器PASS不冒充项目所有者真机PASS。
+  user_confirmation: 2026-07-20用户要求立即全量优化，覆盖既有页面并继续交付APK。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T04:45:21Z'
+    note: 依据用户要求持续开发并将新APK放桌面测试，批准替换旧活动测试交付并保留历史。
+  machine_record: .continuity/change_requests/CR-0122.yaml
+  document: docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md
+  decision_log:
+  - at: '2026-07-20T04:45:24Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 不可变提交7b57046云端构建中，完成后执行原子交付。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  session_ids:
+  - SES-20260719T234639Z-1D7D7A00
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `99764caddfe58d603687a938f1ac8b4f24b5c76043cea247aaf9a656b7c8a92c`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `e3b0ad8a1959ced9ea9ef3c67dddadf5a0f71c1b14d0e80533362afb307bcd8f`
+- `CURRENT_STATUS.yaml` — `d68de5a40889c81d0905178b30c95a976908c6a765af3962136762925e6893f1`
 - `NEXT_TASK.yaml` — `bd22bac1e2b0308bd77f173dca3ac229dff82931447bff00e89661b483b14ee0`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -6736,20 +6786,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `d05f15504bdd9e28a8623f2cb9208e3e3e4a536d1aee273133405d3cce1b5999`
-- `.continuity/SESSION_INDEX.yaml` — `eb189207f42e5739351a2e6f513d0bb544239591c16fe457544b260a382b012f`
+- `.continuity/EVENT_LOG.jsonl` — `86e93f67d8d5145e969d0f9d3a9f16a47298443b21b8996f2d84555352d7e977`
+- `.continuity/SESSION_INDEX.yaml` — `35c761de06d82b47cbcdfbcffc3cca8272836595acfd6d690c9a2febb17682ed`
 - `.continuity/TASK_CLAIMS.yaml` — `b42bae99e7d14cdcf44b0551a70718a1c1bdf785aa7cdfbff142597c2b2282ac`
 - `.continuity/TASK_TRANSITIONS.yaml` — `649cf4421377460d639a628f6c86e77ff9cd2e7a96acffc65865873cbcb9a2a0`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b7780cb313f4d7e3fc29287f4fb9b55395eac21d47703a2db19d8761183b23c9`
-- `.continuity/ACTIVE_SESSION.yaml` — `130df7c805721eda01e3c6aea54850955edbb1122ec60fbd94ae98dd608cea38`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `f938a7ca55689c55c4f1290e33d452354145147ec2696eaa813c3c9817e21248`
+- `.continuity/ACTIVE_SESSION.yaml` — `cb75b1ce23b8ed7e71a466287c9f4380e1dbd548119c010df9e1c5b603ad57af`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `48d66c06efb7102d3a1965124a9b34d9867a4418e009ebb98cbc48dd915ef489`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `e763b0bc235be69b871929ad214e0a458ae978ab54970a42af8f5e3987677ce5`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml` — `38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `2a3029b986fba56f8e6cc7cc68c1cbb8724d79335626a56989250011cba7107a`
-- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0027.yaml` — `bec880c537ae9f4a10d0ce39249de70a597ecab8f7a9c87e8bd8efd35a7896bb`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `586433f2a8808173edac2582168f33b1fd1999ffc814d7ad9617db1276247835`
+- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0028.yaml` — `f941af7d822efd31683371e5f0ab4072f7d340bc2d1a8a2d1a23f804c891da40`
 - `docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md` — `2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f`
 - `docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md` — `7ea7a2a77787bbf3e87d0c52f6b265235b50ade68dd07cf74369b51935b7b0bd`
 - `docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md` — `3d8a27084d1ed3efdee721c872c08c7103386965f3b731cd302bd173e6245f55`
@@ -6763,6 +6813,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md` — `140875c83645bf51b3c82c15030bdf43d125075b8ddbb489508193915abaa2f0`
 - `docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md` — `c2406b382571fd741129a677f0cb7464e500b62f3dfa39bf606225ab21a7a9ad`
 - `docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md` — `bade152b952536b2e47365f5dd4cd890f03887362fef0bf27d3eb686f3a944a6`
+- `docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md` — `2b781b5f8bf228d2dfbf75919d7237503e95bc111c9182abe63943cab2ca58fe`
 
 ## 接手硬规则
 
