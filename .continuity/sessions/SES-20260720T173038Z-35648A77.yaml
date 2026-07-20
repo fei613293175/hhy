@@ -11,7 +11,7 @@ task_id: TASK-R06-004
 story_id: STORY-R06-001
 goal: 统一内容基础、首页与CMS客户端/H5/后台实现
 started_at: '2026-07-20T17:30:38Z'
-updated_at: '2026-07-20T19:38:13Z'
+updated_at: '2026-07-20T19:53:46Z'
 takeover_of: null
 change_requests:
 - CR-0148
@@ -63,22 +63,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T19:38:10Z'
-  expires_at: '2026-07-20T23:38:10Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0010.yaml
+  renewed_at: '2026-07-20T19:53:43Z'
+  expires_at: '2026-07-20T23:53:43Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-next_step: 提交候选请求但暂不推送；为最终Commit配置download.orbexa.cc精确APK路由并通过preflight-route后再推送
+next_step: 项目所有者确认后，将完整候选门禁迁移到已验证obx-test固定Android容器，GitHub仅保留受影响快速CI，并同步修订CR-0150全局硬规则
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 39c9f12c2ba335b3d797dad4e391095c32d136611ee3b7748e0f3bf2dd27e114
-  generated_at: '2026-07-20T19:38:12Z'
+  context_hash: 6863bdba0f321ed872ab29503449e435e40d621cf71183dd56b384ace4917da9
+  generated_at: '2026-07-20T19:53:45Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 候选请求、最终Commit和远端精确路由必须由事实主控串行绑定；当前无可用独立执行代理
+  reason: 当前无可用独立执行代理；GitHub证据又受管理员权限阻断，禁止伪造并行分析或重复运行

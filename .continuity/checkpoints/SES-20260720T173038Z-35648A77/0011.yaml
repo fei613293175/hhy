@@ -1,0 +1,341 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260720T173038Z-35648A77-0011
+session_id: SES-20260720T173038Z-35648A77
+sequence: 11
+created_at: '2026-07-20T19:53:42Z'
+summary: R06候选请求与编译一次通过，但GitHub模拟器旅程再次失败且日志/artifact下载要求管理员权限；按项目所有者停止条件终止GitHub反复调试
+next_step: 项目所有者确认后，将完整候选门禁迁移到已验证obx-test固定Android容器，GitHub仅保留受影响快速CI，并同步修订CR-0150全局硬规则
+blockers:
+- GitHub Actions run 29773073735 emulator journey FAIL；公开API只能看到阶段失败，job logs返回403 Must have admin rights，无法获得可修复根因证据
+decisions:
+- 不触发remediation_attempt=2，不盲目重跑；保持R06未完成且不交付APK
+note: ''
+tests:
+- name: candidate-request-github
+  result: PASS
+  evidence: https://github.com/fei613293175/hhy/actions/runs/29773073735
+  note: 请求校验通过
+- name: candidate-build-github
+  result: PASS
+  evidence: https://github.com/fei613293175/hhy/actions/runs/29773073735
+  note: 编译单测Lint打包通过
+- name: candidate-emulator-github
+  result: FAIL
+  evidence: https://github.com/fei613293175/hhy/actions/runs/29773073735
+  note: 模拟器旅程失败且证据下载403
+- name: candidate-report-github
+  result: FAIL
+  evidence: https://github.com/fei613293175/hhy/issues/2
+  note: REMEDIATION_REQUIRED，禁止真机验收
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 83059dedcf780426768ead6ee44e3e942419cccc
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: false
+  status_porcelain: []
+  recent_commits:
+  - "83059dedcf780426768ead6ee44e3e942419cccc\t2026-07-21T03:38:24+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(candidate): request\
+    \ R06 Android gate"
+  - "2db7ae7d10e44e34053e7fce515299dee45076d8\t2026-07-21T03:27:46+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(ci): tier durable release\
+    \ gates"
+  - "4f0bb15bd390f4e6bf460dd42b1b74d277987f6e\t2026-07-21T02:47:01+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): normalize\
+    \ R06 context source"
+  - "4652c604cdbfe93b81dff10d9dddfa7f14e28c23\t2026-07-21T02:39:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): refresh\
+    \ R06 governance sources"
+  - "629e4ea4cc0557ad3605764ee965ffe6339c6481\t2026-07-21T02:21:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(r06): secure about update\
+    \ flow"
+  - "706c1bbdb3971615a16fa95e8a6d3669255b1542\t2026-07-21T02:10:45+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(r06): add content console\
+    \ and home experience"
+  - "8ee22962d6049d4915e3b68e805356df8790ff0f\t2026-07-21T01:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-003\
+    \ as completed"
+  - "95d83aa20109e4b28e202f84921808cf907f618b\t2026-07-21T01:20:42+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): record\
+    \ R06-003 validation checkpoint"
+project_fingerprint:
+  sha256: 69bc907bcef11dbc33641db4f43347f5291ebd9ce659841a27f86f9211df0936
+  files:
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/continuity-gate.yml
+  - AGENTS.md
+  - CHANGELOG.md
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/admin-web/src/views/AdminContentDictionariesPage.vue
+  - apps/admin-web/src/views/AdminContentListPage.vue
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+  - docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md
+  - docs/03-continuity/change-requests/CR-0150-固化GitHub分层门禁与分支候选APK触发路径.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R06/ACCEPTANCE_MATRIX.csv
+  - releases/R06/PARALLEL_EXECUTION_PLAN.yaml
+  - scripts/android_candidate_request.py
+  - scripts/continuity_ci_scope.py
+  - templates/AGENTS.md
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - tests/test_continuity_ci_scope.py
+  file_count: 34
+  payload:
+    base_commit: 8ee22962d6049d4915e3b68e805356df8790ff0f
+    files:
+    - path: .github/workflows/android-candidate-request.yml
+      state: FILE
+      size: 1637
+      sha256: 54431e0664c857971c18ef8fde62f3a9216d506168de878a5470a2cfa41f7a7c
+    - path: .github/workflows/android-quality-gate.yml
+      state: FILE
+      size: 9031
+      sha256: e809bad0fac68eba9700994c7cb82fed0ee15070f2c4d500628564f52e36a9db
+    - path: .github/workflows/continuity-gate.yml
+      state: FILE
+      size: 4622
+      sha256: c928ee5f562233d1efe56118fa0be0aabb7cb902b47f6f0e0b5fd589f87737a8
+    - path: AGENTS.md
+      state: FILE
+      size: 12306
+      sha256: 0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230
+    - path: CHANGELOG.md
+      state: FILE
+      size: 55957
+      sha256: 28bda90a85c542dfac5abd8c6a738f59d4beabf6f654a3c39e0b2b4f860d7885
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 4924
+      sha256: a132cf14cfe9de0ebd011be693f852335ddb0547e2efe3afc02585ea2e0d0677
+    - path: apps/admin-web/src/services/adminContents.ts
+      state: FILE
+      size: 5149
+      sha256: 3b71b5f04ad7d0197c1576d6313c690c4e8fad2149723a7227fa91190565c5b8
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 2642
+      sha256: f5310b48b42c5ab18484be879ab30c745a409d17b671461fb1bb35efe17d6052
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 339
+      sha256: a82e0e1ab83d46ec3d87ed1023239a3df16b7a7a17cd1847b9c5878ce9ae8e3b
+    - path: apps/admin-web/src/views/AdminContentDetailPage.vue
+      state: FILE
+      size: 4785
+      sha256: 6fec23f6b238c99545fbd49797a7fd1c56c12bee7356a864a2f0c2dc2a69b615
+    - path: apps/admin-web/src/views/AdminContentDictionariesPage.vue
+      state: FILE
+      size: 3427
+      sha256: 9d0167acab7c9f05a3d9438953ad28c63509d7c9415f98cbe2131f650a6685e1
+    - path: apps/admin-web/src/views/AdminContentListPage.vue
+      state: FILE
+      size: 5740
+      sha256: 9107ba58acdb543fdaaf77cd82497c93dafd399080f7412f7759b06b3e37ad1f
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+      state: FILE
+      size: 4290
+      sha256: 676176a43c899d4053d4fe948c1922e34df1b49005988e55419c67c2cddb192b
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 11673
+      sha256: ddd2f9d8435b9acf1c0f10a523cd8909c9719b55e3334058e27e490885e32ec5
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+      state: FILE
+      size: 613
+      sha256: 55c0a1033d6cbbd511e456ea907fc16e471b31ede5931c080dcce3591df2c3e3
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+      state: FILE
+      size: 4510
+      sha256: fe0a86cd1d957c0159ea2c10427cb7a2c79a77db6d1011fb5437b3ac680e741e
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 8089
+      sha256: 68bafec12c50054d1ec2f577805e9c59ee38e82831a7bf3c867ddbf97e97aaf2
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 3213
+      sha256: daa3d31ab8caaee0c2c479d59ac2c9218f6695265449d511bd07412f98ae71a1
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 215
+      sha256: e417707cf454839a71bc36ffe169460e3909da746e20ee0bf0b5de6adf579568
+    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
+      state: FILE
+      size: 9388
+      sha256: 4c266d2ae0dfb71b0b4c07dfd6ca8ba22d74128b2649132f3d8df3cbc782b80b
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 69333
+      sha256: 8756c8390db974b5887878030fd91206b0e7bd96d11540461427107a9c2f49f5
+    - path: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+      state: FILE
+      size: 2286
+      sha256: 4c3d1dd8615acd30275ad10cb2005f216f2e20f9f4bf99e1d3cf7d85c340631f
+    - path: docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md
+      state: FILE
+      size: 1584
+      sha256: b4119ded435a48ea08dc375e5f8c55cdf77773a2d9d3dedfa2972b7ce708edad
+    - path: docs/03-continuity/change-requests/CR-0150-固化GitHub分层门禁与分支候选APK触发路径.md
+      state: FILE
+      size: 3970
+      sha256: 62963454788821048e8d41db5c312358b4cf572b7b692450fbec5eb6885a0ea7
+    - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+      state: FILE
+      size: 7200
+      sha256: 5cf04cd8fd9e491c8e8487d945d1690ff23d934bb93074533c1e72553afff439
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 8870
+      sha256: 9f7597469477caec50c95bd1bf704a4c6278dbcc3c7b2b17bf1513e3be12c196
+    - path: releases/R06/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 681
+      sha256: 9485c8f085153d3483002b33a143c764a8838a3503d8ac4d2e36e5c3c45b9aaf
+    - path: releases/R06/PARALLEL_EXECUTION_PLAN.yaml
+      state: FILE
+      size: 3494
+      sha256: 426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51
+    - path: scripts/android_candidate_request.py
+      state: FILE
+      size: 3125
+      sha256: ac4004b6855117bab2adb3534399a888f39a0f52b0b5dfb03829c5faa5edb5f2
+    - path: scripts/continuity_ci_scope.py
+      state: FILE
+      size: 4457
+      sha256: b4b29036ee00ae89d45b86db90496ec7c286dd99de2b73b7c63af2069c7318e7
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 12306
+      sha256: 0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230
+    - path: tests/test_android_candidate_request.py
+      state: FILE
+      size: 2170
+      sha256: 404c2f099e06837eb59fb72c2005e02fa7f9ff1fc18ce9353c10a4b07f11034b
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 11767
+      sha256: 4605d8bcb5be8dc32028358995829cf49e4cda8bf2e8a50760f7012ecec89c13
+    - path: tests/test_continuity_ci_scope.py
+      state: FILE
+      size: 1485
+      sha256: d8c31d5d851dad607e7b4391aaa68880cf8eefc46087a58576667279809426d2
+change_classification:
+  infrastructure:
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/continuity-gate.yml
+  other:
+  - AGENTS.md
+  - CHANGELOG.md
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R06/ACCEPTANCE_MATRIX.csv
+  - releases/R06/PARALLEL_EXECUTION_PLAN.yaml
+  - templates/AGENTS.md
+  code:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/admin-web/src/views/AdminContentDictionariesPage.vue
+  - apps/admin-web/src/views/AdminContentListPage.vue
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - scripts/android_candidate_request.py
+  - scripts/continuity_ci_scope.py
+  user_visible:
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/admin-web/src/views/AdminContentDictionariesPage.vue
+  - apps/admin-web/src/views/AdminContentListPage.vue
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  source_of_truth:
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+  - docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md
+  - docs/03-continuity/change-requests/CR-0150-固化GitHub分层门禁与分支候选APK触发路径.md
+  tests:
+  - tests/test_android_candidate_request.py
+  - tests/test_android_ci_gate.py
+  - tests/test_continuity_ci_scope.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0148
+- CR-0149
+- CR-0150
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/AboutDownloadPolicyTest.kt
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/android-candidate-request.yml
+  - .github/workflows/continuity-gate.yml
+  - config/android-candidate-request.yaml
+  - config/android-automation.yaml
+  - scripts/android_candidate_request.py
+  - scripts/continuity_ci_scope.py
+  - tests/test_android_candidate_request.py
+  - tests/test_continuity_ci_scope.py
+  - tests/test_android_ci_gate.py
+  - AGENTS.md
+  - templates/AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前无可用独立执行代理；GitHub证据又受管理员权限阻断，禁止伪造并行分析或重复运行
+event_hash: 06b5c7e6289d97f061c2cc3069fdd602fd0a3e5b8f09e8c83e70ebfb9a59165d
