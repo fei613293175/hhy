@@ -33,6 +33,12 @@ import cc.orbexa.hhy.designsystem.HhyIcon
 import cc.orbexa.hhy.designsystem.HhyIcons
 import cc.orbexa.hhy.designsystem.HhyRadius
 import cc.orbexa.hhy.designsystem.HhySpacing
+import cc.orbexa.hhy.network.ExperienceApi
+import cc.orbexa.hhy.network.HomeSnapshot
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 private data class NavigationItem(val label: String, val icon: ImageVector)
 
@@ -51,8 +57,20 @@ fun HhyShellScreen(
     onOpenChangePassword: () -> Unit = {},
     onOpenCancellation: () -> Unit = {},
     onOpenIdentity: () -> Unit = {},
+    onOpenAbout: () -> Unit = {},
+    experienceApi: ExperienceApi? = null,
+    accessToken: String = "",
 ) {
     var selectedIndex by rememberSaveable { androidx.compose.runtime.mutableIntStateOf(0) }
+    var home by androidx.compose.runtime.remember { mutableStateOf<HomeSnapshot?>(null) }
+    var homeError by androidx.compose.runtime.remember { mutableStateOf(false) }
+    var refreshing by androidx.compose.runtime.remember { mutableStateOf(false) }
+    LaunchedEffect(experienceApi, accessToken) {
+        val api = experienceApi ?: return@LaunchedEffect
+        refreshing = true
+        api.home(accessToken).onSuccess { home = it; homeError = false }.onFailure { homeError = true }
+        refreshing = false
+    }
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("合伙云 Pro") })
@@ -117,18 +135,31 @@ fun HhyShellScreen(
                             OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = onOpenCancellation) {
                                 Text("注销账号")
                             }
+                            OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = onOpenAbout) { Text("关于与检查更新") }
                         }
                     }
                 }
             }
-            if (selectedIndex != 4) item {
+            if (selectedIndex == 0 && home != null) {
+                home!!.modules.forEach { module ->
+                    item {
+                        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(HhyRadius.NormalCard), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
+                            Column(modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                                Text(module.title ?: "内容模块", fontWeight = FontWeight.SemiBold)
+                                module.subtitle?.let { Text(it, color = HhyColors.TextSecondary) }
+                                module.items.take(5).forEach { Text(it, color = HhyColors.TextPrimary) }
+                            }
+                        }
+                    }
+                }
+            } else if (selectedIndex != 4) item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(HhyRadius.LargeCard),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
                 ) {
                     Text(
-                        "更多内容正在陆续开放",
+                        if (homeError) "首页模块暂时无法加载，请稍后重试" else if (refreshing) "正在加载首页模块" else "当前模块暂无内容",
                         modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
                         color = HhyColors.TextSecondary,
                     )

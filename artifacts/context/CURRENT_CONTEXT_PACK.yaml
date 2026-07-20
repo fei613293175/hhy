@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-20T17:21:20Z'
+generated_at: '2026-07-20T18:10:02Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -10,7 +10,7 @@ current_status:
   phase: R06
   active_release: R06
   active_task: TASK-R06-004
-  status: READY
+  status: IN_PROGRESS
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
   last_green_commit: be639eac26a765387414416c887034269308bcf5
   last_staging_apk: null
@@ -75,12 +75,13 @@ current_status:
   - TASK-R06-001
   - TASK-R06-002
   - TASK-R06-003
-  in_progress_tasks: []
+  in_progress_tasks:
+  - TASK-R06-004
   blocked_tasks:
   - TASK-R02-007
   - TASK-R03-007
   next_task: TASK-R06-004
-  updated_at: '2026-07-20T17:21:18Z'
+  updated_at: '2026-07-20T18:10:00Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -112,17 +113,19 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: null
-    last_session_id: SES-20260720T163244Z-D1F3CEE8
-    last_session_result: COMPLETED
-    last_checkpoint: .continuity/checkpoints/SES-20260720T163244Z-D1F3CEE8/0004.yaml
-    last_handoff_bundle: null
+    active_session_id: SES-20260720T173038Z-35648A77
+    actor_id: codex-root
+    story_id: STORY-R06-001
+    lease_expires_at: '2026-07-20T22:10:00Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0002.yaml
+    project_fingerprint: 5fd097e4d58474a0b64712492729ca0de6ce364d18fbeba448b3c4a3680720e3
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 4527fe012a31308dc235e4a38845b4eea8fe6408fc732d2b9e7074c78fb61eca
-      generated_at: '2026-07-20T17:21:17Z'
+      context_hash: 766c194ad7b998962153a8020965a0825dcbb9b29e90b3b947371940b4da13e2
+      generated_at: '2026-07-20T18:06:17Z'
+    handoff_bundle: null
 next_task:
   id: TASK-R06-004
   title: 统一内容基础、首页与CMS客户端/H5/后台实现
@@ -160,34 +163,334 @@ next_task:
     cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
       '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
   next_after: 由当前TASKS.yaml依赖关系决定
-active_session: null
-latest_checkpoint: null
+active_session:
+  protocol_version: '1.0'
+  package_version: 1.2.3
+  session_id: SES-20260720T173038Z-35648A77
+  status: ACTIVE
+  actor:
+    id: codex-root
+    kind: AI_OR_HUMAN
+    host: unknown
+  release: R06
+  task_id: TASK-R06-004
+  story_id: STORY-R06-001
+  goal: 统一内容基础、首页与CMS客户端/H5/后台实现
+  started_at: '2026-07-20T17:30:38Z'
+  updated_at: '2026-07-20T18:10:00Z'
+  takeover_of: null
+  change_requests:
+  - CR-0148
+  scope:
+    allowed_paths:
+    - apps/admin-web/**
+    - services/backend/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - tests/**
+    - docs/**
+    - catalogs/**
+    - releases/**
+    - design/**
+    - scripts/**
+    - CHANGELOG.md
+    approved_exceptions:
+    - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    source: story+explicit+approved-cr:CR-0148
+  git:
+    initialized: true
+    branch: task/TASK-R03-001
+    base_commit: 8ee22962d6049d4915e3b68e805356df8790ff0f
+    start_head: 8ee22962d6049d4915e3b68e805356df8790ff0f
+    upstream: origin/task/TASK-R03-001
+    initial_worktree_state: CLEAN
+  lease:
+    duration_minutes: 240
+    renewed_at: '2026-07-20T18:10:00Z'
+    expires_at: '2026-07-20T22:10:00Z'
+  checkpoint_sequence: 2
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0002.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
+  next_step: 提交推送后补齐R06契约测试和Android Actions候选门禁
+  context_pack: THIS_CONTEXT_PACK
+  handoff_bundle: null
+  closure: null
+  parallel_execution:
+    assessment: CAPABILITY_UNAVAILABLE
+    delegated_workers: 0
+    workers: []
+    reason: 当前执行环境未提供可用执行代理，主控串行完成并记录能力限制
+latest_checkpoint:
+  protocol_version: '1.0'
+  checkpoint_id: CP-SES-20260720T173038Z-35648A77-0002
+  session_id: SES-20260720T173038Z-35648A77
+  sequence: 2
+  created_at: '2026-07-20T18:10:00Z'
+  summary: R06-004首切片实现与用户可见Changelog同步完成
+  next_step: 提交推送后补齐R06契约测试和Android Actions候选门禁
+  blockers: []
+  decisions: []
+  note: ''
+  tests:
+  - name: admin-web-typecheck
+    result: PASS
+    evidence: apps/admin-web npm.cmd run typecheck
+    note: vue-tsc no emit
+  - name: admin-web-tests
+    result: PASS
+    evidence: apps/admin-web npm.cmd run test -- --run
+    note: 14 files 83 tests passed
+  - name: android-ui-foundation
+    result: PASS
+    evidence: scripts/check_android_ui_foundation.py
+    note: ANDROID_UI_FOUNDATION_GATE=PASS
+  - name: android-remote-compile
+    result: PASS
+    evidence: obx-test fixed container core network shell app compileDebugKotlin
+    note: BUILD SUCCESSFUL
+  git:
+    initialized: true
+    branch: task/TASK-R03-001
+    head: 8ee22962d6049d4915e3b68e805356df8790ff0f
+    upstream: origin/task/TASK-R03-001
+    ahead: 0
+    behind: 0
+    dirty: true
+    status_porcelain:
+    - M  .continuity/ACTIVE_SESSION.yaml
+    - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+    - M  .continuity/EVENT_LOG.jsonl
+    - M  .continuity/SESSION_INDEX.yaml
+    - M  .continuity/STATE.yaml
+    - M  .continuity/TASK_CLAIMS.yaml
+    - M  .continuity/TASK_TRANSITIONS.yaml
+    - A  .continuity/change_requests/CR-0148.yaml
+    - A  .continuity/checkpoints/SES-20260720T173038Z-35648A77/0001.yaml
+    - A  .continuity/sessions/SES-20260720T173038Z-35648A77.yaml
+    - ' M CHANGELOG.md'
+    - M  CURRENT_STATUS.yaml
+    - M  apps/admin-web/src/router.ts
+    - A  apps/admin-web/src/services/adminContents.ts
+    - M  apps/admin-web/src/services/idempotency.ts
+    - M  apps/admin-web/src/services/index.ts
+    - A  apps/admin-web/src/views/AdminContentDetailPage.vue
+    - A  apps/admin-web/src/views/AdminContentDictionariesPage.vue
+    - A  apps/admin-web/src/views/AdminContentListPage.vue
+    - A  apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+    - M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - A  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+    - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+    - M  catalogs/change_request_index.csv
+    - M  catalogs/session_index.csv
+    - M  catalogs/task_transition_ledger.csv
+    - A  docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+    - A  docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
+    recent_commits:
+    - "8ee22962d6049d4915e3b68e805356df8790ff0f\t2026-07-21T01:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close\
+      \ TASK-R06-003 as completed"
+    - "95d83aa20109e4b28e202f84921808cf907f618b\t2026-07-21T01:20:42+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): record\
+      \ R06-003 validation checkpoint"
+    - "be639eac26a765387414416c887034269308bcf5\t2026-07-21T01:11:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(content): implement\
+      \ R06 content home CMS backend"
+    - "fda95f8a084a366108c22fb90decba1f2aaf15aa\t2026-07-21T00:23:27+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close\
+      \ TASK-R06-002 as completed"
+    - "3de2ae637f478c8b3390818a08a491a49a805890\t2026-07-21T00:22:13+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(database): enforce\
+      \ R06 content and home invariants"
+    - "00670ed98ed8974f4aaea6c5e678c2ce8b4d10a2\t2026-07-21T00:05:19+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close\
+      \ TASK-R06-001 as completed"
+    - "5ae20d227bd1511b774e06f3ecb8060f44ccb632\t2026-07-21T00:03:24+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(governance): open\
+      \ R06 implementation"
+    - "5384135fdcdc2d6acc877e4883bf6946fe15e9a4\t2026-07-20T23:11:55+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): reuse clean-checkout\
+      \ policy"
+  project_fingerprint:
+    sha256: 5fd097e4d58474a0b64712492729ca0de6ce364d18fbeba448b3c4a3680720e3
+    files:
+    - CHANGELOG.md
+    - apps/admin-web/src/router.ts
+    - apps/admin-web/src/services/adminContents.ts
+    - apps/admin-web/src/services/idempotency.ts
+    - apps/admin-web/src/services/index.ts
+    - apps/admin-web/src/views/AdminContentDetailPage.vue
+    - apps/admin-web/src/views/AdminContentDictionariesPage.vue
+    - apps/admin-web/src/views/AdminContentListPage.vue
+    - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+    file_count: 13
+    payload:
+      base_commit: 8ee22962d6049d4915e3b68e805356df8790ff0f
+      files:
+      - path: CHANGELOG.md
+        state: FILE
+        size: 55781
+        sha256: 6a242d417e5f92b1726f5cd2dac237bac00f9d37a9af7a49b7c6e2c209282a66
+      - path: apps/admin-web/src/router.ts
+        state: FILE
+        size: 4924
+        sha256: a132cf14cfe9de0ebd011be693f852335ddb0547e2efe3afc02585ea2e0d0677
+      - path: apps/admin-web/src/services/adminContents.ts
+        state: FILE
+        size: 5149
+        sha256: 3b71b5f04ad7d0197c1576d6313c690c4e8fad2149723a7227fa91190565c5b8
+      - path: apps/admin-web/src/services/idempotency.ts
+        state: FILE
+        size: 2642
+        sha256: f5310b48b42c5ab18484be879ab30c745a409d17b671461fb1bb35efe17d6052
+      - path: apps/admin-web/src/services/index.ts
+        state: FILE
+        size: 339
+        sha256: a82e0e1ab83d46ec3d87ed1023239a3df16b7a7a17cd1847b9c5878ce9ae8e3b
+      - path: apps/admin-web/src/views/AdminContentDetailPage.vue
+        state: FILE
+        size: 4785
+        sha256: 6fec23f6b238c99545fbd49797a7fd1c56c12bee7356a864a2f0c2dc2a69b615
+      - path: apps/admin-web/src/views/AdminContentDictionariesPage.vue
+        state: FILE
+        size: 3427
+        sha256: 9d0167acab7c9f05a3d9438953ad28c63509d7c9415f98cbe2131f650a6685e1
+      - path: apps/admin-web/src/views/AdminContentListPage.vue
+        state: FILE
+        size: 5740
+        sha256: 9107ba58acdb543fdaaf77cd82497c93dafd399080f7412f7759b06b3e37ad1f
+      - path: apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+        state: FILE
+        size: 3821
+        sha256: 04f3ee2d9245dceedc636c0421c5764ceb3827a9f22d187e466fe26de68a20f2
+      - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+        state: FILE
+        size: 11673
+        sha256: ddd2f9d8435b9acf1c0f10a523cd8909c9719b55e3334058e27e490885e32ec5
+      - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+        state: FILE
+        size: 4510
+        sha256: fe0a86cd1d957c0159ea2c10427cb7a2c79a77db6d1011fb5437b3ac680e741e
+      - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+        state: FILE
+        size: 8089
+        sha256: 68bafec12c50054d1ec2f577805e9c59ee38e82831a7bf3c867ddbf97e97aaf2
+      - path: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+        state: FILE
+        size: 2286
+        sha256: 4c3d1dd8615acd30275ad10cb2005f216f2e20f9f4bf99e1d3cf7d85c340631f
+  change_classification:
+    other:
+    - CHANGELOG.md
+    code:
+    - apps/admin-web/src/router.ts
+    - apps/admin-web/src/services/adminContents.ts
+    - apps/admin-web/src/services/idempotency.ts
+    - apps/admin-web/src/services/index.ts
+    - apps/admin-web/src/views/AdminContentDetailPage.vue
+    - apps/admin-web/src/views/AdminContentDictionariesPage.vue
+    - apps/admin-web/src/views/AdminContentListPage.vue
+    - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    user_visible:
+    - apps/admin-web/src/router.ts
+    - apps/admin-web/src/services/adminContents.ts
+    - apps/admin-web/src/services/idempotency.ts
+    - apps/admin-web/src/services/index.ts
+    - apps/admin-web/src/views/AdminContentDetailPage.vue
+    - apps/admin-web/src/views/AdminContentDictionariesPage.vue
+    - apps/admin-web/src/views/AdminContentListPage.vue
+    - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    continuity:
+    - docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+  required_records:
+  - SESSION_RECORD
+  - SESSION_LOG
+  - CHECKPOINT
+  - CURRENT_STATUS
+  - EVENT_LOG
+  - CHANGELOG
+  change_requests:
+  - CR-0148
+  scope:
+    allowed_paths:
+    - apps/admin-web/**
+    - services/backend/**
+    - packages/**
+    - contracts/**
+    - database/**
+    - config/**
+    - tests/**
+    - docs/**
+    - catalogs/**
+    - releases/**
+    - design/**
+    - scripts/**
+    - CHANGELOG.md
+    approved_exceptions:
+    - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    source: story+explicit+approved-cr:CR-0148
+  parallel_execution:
+    assessment: CAPABILITY_UNAVAILABLE
+    delegated_workers: 0
+    workers: []
+    reason: 当前执行环境未提供可用执行代理，主控串行完成并记录能力限制
+  event_hash: 4b347205a571154f890bfa27024182a24d18d098e9d8810a9480d8c1f806cbab
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 95d83aa20109e4b28e202f84921808cf907f618b
+  head: 8ee22962d6049d4915e3b68e805356df8790ff0f
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/sessions/SES-20260720T163244Z-D1F3CEE8.yaml'
+  - MM .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - MM .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0148.yaml
+  - A  .continuity/checkpoints/SES-20260720T173038Z-35648A77/0001.yaml
+  - AM .continuity/sessions/SES-20260720T173038Z-35648A77.yaml
   - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M NEXT_TASK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260720T163244Z-D1F3CEE8.md'
-  - ' M releases/R06/TASKS.yaml'
-  - ?? .continuity/checkpoints/SES-20260720T163244Z-D1F3CEE8/0004.yaml
+  - MM CURRENT_STATUS.yaml
+  - M  apps/admin-web/src/router.ts
+  - A  apps/admin-web/src/services/adminContents.ts
+  - M  apps/admin-web/src/services/idempotency.ts
+  - M  apps/admin-web/src/services/index.ts
+  - A  apps/admin-web/src/views/AdminContentDetailPage.vue
+  - A  apps/admin-web/src/views/AdminContentDictionariesPage.vue
+  - A  apps/admin-web/src/views/AdminContentListPage.vue
+  - A  apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - A  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/change_request_index.csv
+  - MM catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - A  docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+  - AM docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
+  - ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0002.yaml
   recent_commits:
+  - "8ee22962d6049d4915e3b68e805356df8790ff0f\t2026-07-21T01:22:53+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-003\
+    \ as completed"
   - "95d83aa20109e4b28e202f84921808cf907f618b\t2026-07-21T01:20:42+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): record\
     \ R06-003 validation checkpoint"
   - "be639eac26a765387414416c887034269308bcf5\t2026-07-21T01:11:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(content): implement R06\
@@ -202,12 +505,78 @@ git:
     \ implementation"
   - "5384135fdcdc2d6acc877e4883bf6946fe15e9a4\t2026-07-20T23:11:55+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): reuse clean-checkout\
     \ policy"
-  - "28f948c3cdeb54ffb7e57e48939ef0cab72bba78\t2026-07-20T23:04:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): remove redundant\
-    \ CI tree check"
 project_fingerprint:
-  sha256: d62ff44050d3561f35b8e1b98d0e1caabd80f78b7b4bc9feebe029716b181225
-  files: []
-  file_count: 0
+  sha256: 5fd097e4d58474a0b64712492729ca0de6ce364d18fbeba448b3c4a3680720e3
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/services/adminContents.ts
+  - apps/admin-web/src/services/idempotency.ts
+  - apps/admin-web/src/services/index.ts
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/admin-web/src/views/AdminContentDictionariesPage.vue
+  - apps/admin-web/src/views/AdminContentListPage.vue
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+  file_count: 13
+  payload:
+    base_commit: 8ee22962d6049d4915e3b68e805356df8790ff0f
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 55781
+      sha256: 6a242d417e5f92b1726f5cd2dac237bac00f9d37a9af7a49b7c6e2c209282a66
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 4924
+      sha256: a132cf14cfe9de0ebd011be693f852335ddb0547e2efe3afc02585ea2e0d0677
+    - path: apps/admin-web/src/services/adminContents.ts
+      state: FILE
+      size: 5149
+      sha256: 3b71b5f04ad7d0197c1576d6313c690c4e8fad2149723a7227fa91190565c5b8
+    - path: apps/admin-web/src/services/idempotency.ts
+      state: FILE
+      size: 2642
+      sha256: f5310b48b42c5ab18484be879ab30c745a409d17b671461fb1bb35efe17d6052
+    - path: apps/admin-web/src/services/index.ts
+      state: FILE
+      size: 339
+      sha256: a82e0e1ab83d46ec3d87ed1023239a3df16b7a7a17cd1847b9c5878ce9ae8e3b
+    - path: apps/admin-web/src/views/AdminContentDetailPage.vue
+      state: FILE
+      size: 4785
+      sha256: 6fec23f6b238c99545fbd49797a7fd1c56c12bee7356a864a2f0c2dc2a69b615
+    - path: apps/admin-web/src/views/AdminContentDictionariesPage.vue
+      state: FILE
+      size: 3427
+      sha256: 9d0167acab7c9f05a3d9438953ad28c63509d7c9415f98cbe2131f650a6685e1
+    - path: apps/admin-web/src/views/AdminContentListPage.vue
+      state: FILE
+      size: 5740
+      sha256: 9107ba58acdb543fdaaf77cd82497c93dafd399080f7412f7759b06b3e37ad1f
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+      state: FILE
+      size: 3821
+      sha256: 04f3ee2d9245dceedc636c0421c5764ceb3827a9f22d187e466fe26de68a20f2
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 11673
+      sha256: ddd2f9d8435b9acf1c0f10a523cd8909c9719b55e3334058e27e490885e32ec5
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+      state: FILE
+      size: 4510
+      sha256: fe0a86cd1d957c0159ea2c10427cb7a2c79a77db6d1011fb5437b3ac680e741e
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 8089
+      sha256: 68bafec12c50054d1ec2f577805e9c59ee38e82831a7bf3c867ddbf97e97aaf2
+    - path: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+      state: FILE
+      size: 2286
+      sha256: 4c3d1dd8615acd30275ad10cb2005f216f2e20f9f4bf99e1d3cf7d85c340631f
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R06
@@ -1153,26 +1522,14 @@ repository_transport:
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: null
+  active_session_id: SES-20260720T173038Z-35648A77
   last_session_id: SES-20260720T163244Z-D1F3CEE8
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260720T163244Z-D1F3CEE8-0004
-  event_count: 1541
-  event_head_hash: 9d7e618d54d54b6b4df1449a796ced52a6198b20976b78e348beda170b939af0
+  event_count: 1548
+  event_head_hash: 4b347205a571154f890bfa27024182a24d18d098e9d8810a9480d8c1f806cbab
   event_chain_valid: true
 recent_sessions:
-- session_id: SES-20260719T162332Z-9372DEF2
-  task_id: TASK-R05-002
-  story_id: STORY-R05-008
-  actor_id: codex-root
-  status: CLOSED
-  started_at: '2026-07-19T16:23:32Z'
-  record: .continuity/sessions/SES-20260719T162332Z-9372DEF2.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260719T162332Z-9372DEF2.md
-  updated_at: '2026-07-19T16:52:19Z'
-  closed_at: '2026-07-19T16:52:19Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T162332Z-9372DEF2/0008.yaml
-  handoff_bundle: null
 - session_id: SES-20260719T165401Z-12791729
   task_id: TASK-R05-003
   story_id: STORY-R05-008
@@ -1281,47 +1638,19 @@ recent_sessions:
   closed_at: '2026-07-20T17:21:18Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260720T163244Z-D1F3CEE8/0004.yaml
   handoff_bundle: null
-task_claims:
-- claim_id: CLM-BE4B842C6F5F
-  session_id: SES-20260719T081942Z-8D5C4241
-  task_id: TASK-R03-008
-  story_id: STORY-R03-004
+- session_id: SES-20260720T173038Z-35648A77
+  task_id: TASK-R06-004
+  story_id: STORY-R06-001
   actor_id: codex-root
-  status: CLOSED
-  claimed_at: '2026-07-19T08:19:42Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-19T08:31:24Z'
+  status: ACTIVE
+  started_at: '2026-07-20T17:30:38Z'
+  record: .continuity/sessions/SES-20260720T173038Z-35648A77.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
+  updated_at: '2026-07-20T18:10:00Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0002.yaml
+  handoff_bundle: null
+task_claims:
 - claim_id: CLM-D22ECAFB67D6
   session_id: SES-20260719T083704Z-6E4CE28F
   task_id: TASK-R04-001
@@ -1957,17 +2286,28 @@ task_claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-20T17:21:18Z'
-recent_task_transitions:
-- transition_id: TRN-AC3F88D16784
-  timestamp: '2026-07-19T08:19:43Z'
-  release: R03
-  task_id: TASK-R03-008
-  story_id: STORY-R03-004
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260719T081942Z-8D5C4241
+- claim_id: CLM-FB73C4525839
+  session_id: SES-20260720T173038Z-35648A77
+  task_id: TASK-R06-004
+  story_id: STORY-R06-001
   actor_id: codex-root
-  reason: 会话领取任务
+  status: ACTIVE
+  claimed_at: '2026-07-20T17:30:38Z'
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+recent_task_transitions:
 - transition_id: TRN-9B8421CA1B25
   timestamp: '2026-07-19T08:37:05Z'
   release: R04
@@ -2156,6 +2496,16 @@ recent_task_transitions:
   from_status: READY
   to_status: IN_PROGRESS
   session_id: SES-20260720T163244Z-D1F3CEE8
+  actor_id: codex-root
+  reason: 会话领取任务
+- transition_id: TRN-3FF4D5221F58
+  timestamp: '2026-07-20T17:30:39Z'
+  release: R06
+  task_id: TASK-R06-004
+  story_id: STORY-R06-001
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260720T173038Z-35648A77
   actor_id: codex-root
   reason: 会话领取任务
 open_change_requests:
@@ -6060,6 +6410,46 @@ open_change_requests:
     note: 项目所有者明确要求立即开始并连续完成R06至R08，逐版交付APK与测试文档
   machine_record: .continuity/change_requests/CR-0147.yaml
   document: docs/03-continuity/change-requests/CR-0147-登记R06实施入口与R06至R08连续推进授权.md
+- protocol_version: '1.0'
+  cr_id: CR-0148
+  title: 补齐TASK-R06-004后续Android Story精确会话范围
+  status: APPROVED
+  created_at: '2026-07-20T18:04:53Z'
+  updated_at: '2026-07-20T18:05:40Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 现在立即按你的想法开始开发R06~R08版本，R06完成后直接进入下一版本直到R08完成
+  reason: 当前Session由STORY-R06-001生成，仅含管理端路径，但同一TASK还冻结包含STORY-R06-003和004的Android关于页与首页
+  original_rule: 当前Session仅允许apps/admin-web等STORY-R06-001管理端路径
+  new_rule: 仅为TASK-R06-004追加冻结STORY-R06-003和STORY-R06-004所需的四个Android精确实现文件
+  impact_summary: 接入首页homeGetHome、关于页版本检查与协议读取、真实Navigation Compose返回栈；不改变冻结API、数据库、资金或发布规则
+  impact:
+    files:
+    - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    pages:
+    - SCR-ABOUT-001;SCR-HOME-001
+    apis:
+    - appReleasePostAppVersionCheck;publicGetAgreementsByCode;homeGetHome
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - admin typecheck;android UI foundation;remote compile;GitHub Android quality gate
+    releases:
+    - R06
+    migration_and_compatibility: 无数据迁移；兼容既有认证会话、启动门禁和底部导航，仍执行R06 Android Actions候选门禁
+  user_confirmation: 现在立即按你的想法开始开发R06~R08版本，也就是说R06开发完成后不用停止，直接进入下一个版本开发，直到R08开发完成
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T18:05:40Z'
+    note: 项目所有者已明确要求立即连续完成R06至R08；本CR仅补齐TASK-R06-004已冻结Android Story精确文件范围
+  machine_record: .continuity/change_requests/CR-0148.yaml
+  document: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
 source_manifest:
 - path: AGENTS.md
   sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
@@ -6068,8 +6458,8 @@ source_manifest:
   sha256: 038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a
   bytes: 3477
 - path: CURRENT_STATUS.yaml
-  sha256: 4312091eeba6d8885ccfc09f69ec58faf35fc16dbe9bc0f63e4b8975b4fdf73b
-  bytes: 3554
+  sha256: e722f2da401368b57a12213b4319e330b98c855be3a7f26f7b173fe52434dbd6
+  bytes: 3692
 - path: NEXT_TASK.yaml
   sha256: 28fdd09fe247b9ee6f9baa24e34c7eb7ff152326afb99fa4f0e1bbeb61a4527b
   bytes: 1849
@@ -6101,23 +6491,23 @@ source_manifest:
   sha256: 35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6
   bytes: 11116
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 6ea8382e7d2b102d94bdbcde5b343f925a056fa960f8da0492db74a6c3ddd9ae
-  bytes: 853933
+  sha256: 696ea2de01da0af511d827fb01adc020a8083ecbb3acd299510e5796362797c8
+  bytes: 857765
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 4a18c038e5181818657de6c490e4c368e7d91f4d28f3e62950523fa3d1bef862
-  bytes: 27332
+  sha256: 35306bfdc01f5550079238b58d73e13847001390add918b6141992dc389dfbc8
+  bytes: 27816
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: 880c102eb188659b4d7f33bdea6db4546c41843b1fdd8444b406dc3df9b02dd2
-  bytes: 35648
+  sha256: 3abf162328146e0533fed277722c86a109a7476839eb932f968d82037eb8e518
+  bytes: 36077
 - path: .continuity/TASK_TRANSITIONS.yaml
-  sha256: e094b01a6329e09b381f6562df886a8afbd66d726e6b85faf5ead1eff90c2fb2
-  bytes: 15714
+  sha256: 17e0b26c549b14a3f15a7daf0c6e8a11389a129fc9bf0c57f1dba8af1ba71c67
+  bytes: 15991
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: e56027d8d927608242c103b76c6dd9bc99e0498a947e553b6e855a377dae7d3b
-  bytes: 451489
+  sha256: cca575a80eceae82a0ee652759a1a8dea546ddf249793375f44da01b50ecdc2a
+  bytes: 453808
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 706860d722cdee01f6d716481c73d1272f944017d5ca0bcf26d0d036f9eeb549
-  bytes: 143
+  sha256: 3008c37eaf0922a322b1157e1bc8aa6c56d883f4bea4a0de8ddd25130c40a00f
+  bytes: 525
 - path: releases/R06/RELEASE_MANIFEST.yaml
   sha256: 72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878
   bytes: 3644
@@ -6133,7 +6523,17 @@ source_manifest:
 - path: releases/R06/ACCEPTANCE_MATRIX.csv
   sha256: 17fd558d7f8c9b543c4ecd27d63d4d2f7b2113dca03e43a43239429185a760bb
   bytes: 684
-exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-004
+- path: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
+  sha256: bb9d1e2d69ba4481b88b50326014cb3564a810515e39a5e6cf69057176ea0561
+  bytes: 4605
+- path: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0002.yaml
+  sha256: d564b636fc4f3c35a432a8b9156766ef43bfec8f9697a2c2762cc9554ad3c9e9
+  bytes: 9896
+- path: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
+  sha256: 4c3d1dd8615acd30275ad10cb2005f216f2e20f9f4bf99e1d3cf7d85c340631f
+  bytes: 2286
+exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
+  '<未委托原因>'
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
@@ -6146,4 +6546,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 98fcc8e67a20e0c59e7ab8d9e098d587e8e252f09123add7833af2087d7dd5d9
+context_hash: a6febbe9b058b2dbf3f5523ec0897d1c67d56306cb55d11ce6cf3a7319a75854

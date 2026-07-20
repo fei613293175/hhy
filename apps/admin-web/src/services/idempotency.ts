@@ -24,6 +24,12 @@ export const ADMIN_SECURITY_IDEMPOTENT_OPERATIONS = [
   'adminIdentityPostIdentitiesByUseridMediaAccess',
   'adminIdentityPostIdentitySessionsByIdReview',
   'adminIdentityPostIdentitiesByUseridFreeze',
+  'adminContentPostContentsByIdOnline',
+  'adminContentPostContentsByIdOffline',
+  'adminContentPostContentsByIdBan',
+  'adminContentPostContentsByIdRecommend',
+  'adminContentPostContentsByIdOfficialMark',
+  'adminContentPutContentDictionariesByCode',
 ] as const satisfies readonly (keyof AdminContract.operations)[];
 
 export type AdminSecurityIdempotentOperation =

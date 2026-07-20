@@ -1,0 +1,66 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260720T173038Z-35648A77
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R06
+task_id: TASK-R06-004
+story_id: STORY-R06-001
+goal: 统一内容基础、首页与CMS客户端/H5/后台实现
+started_at: '2026-07-20T17:30:38Z'
+updated_at: '2026-07-20T18:10:04Z'
+takeover_of: null
+change_requests:
+- CR-0148
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ExperienceApi.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  source: story+explicit+approved-cr:CR-0148
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 8ee22962d6049d4915e3b68e805356df8790ff0f
+  start_head: 8ee22962d6049d4915e3b68e805356df8790ff0f
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-20T18:10:00Z'
+  expires_at: '2026-07-20T22:10:00Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
+next_step: 提交推送后补齐R06契约测试和Android Actions候选门禁
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: a6febbe9b058b2dbf3f5523ec0897d1c67d56306cb55d11ce6cf3a7319a75854
+  generated_at: '2026-07-20T18:10:02Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前执行环境未提供可用执行代理，主控串行完成并记录能力限制

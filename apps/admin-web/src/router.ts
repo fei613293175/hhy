@@ -11,12 +11,16 @@ import ProviderConfigPage from './views/ProviderConfigPage.vue'
 import DomainConfigPage from './views/DomainConfigPage.vue'
 import AdminIdentityListPage from './views/AdminIdentityListPage.vue'
 import AdminIdentityDetailPage from './views/AdminIdentityDetailPage.vue'
+import AdminContentListPage from './views/AdminContentListPage.vue'
+import AdminContentDetailPage from './views/AdminContentDetailPage.vue'
+import AdminContentDictionariesPage from './views/AdminContentDictionariesPage.vue'
 
 const implemented = new Set([
   'ADM-AUTH-001', 'ADM-AUTH-002', 'ADM-SECURITY-001', 'ADM-USER-001', 'ADM-USER-002',
   'ADM-CONFIG-002', 'ADM-CONFIG-003', 'ADM-CONFIG-004', 'ADM-CONFIG-005',
   'ADM-CONFIG-006', 'ADM-CONFIG-007', 'ADM-CONFIG-008',
   'ADM-ID-001', 'ADM-ID-002',
+  'ADM-CONTENT-001', 'ADM-CONTENT-002', 'ADM-CONTENT-003',
 ])
 
 export const router = createRouter({
@@ -36,6 +40,9 @@ export const router = createRouter({
     { path: '/system/domains', name: 'ADM-CONFIG-008', component: DomainConfigPage, meta: { requiresAuth: true, permission: 'config.manage' } },
     { path: '/identity', name: 'ADM-ID-001', component: AdminIdentityListPage, meta: { requiresAuth: true, permission: 'identity.read' } },
     { path: '/identity/:id', name: 'ADM-ID-002', component: AdminIdentityDetailPage, meta: { requiresAuth: true, permission: 'identity.read' } },
+    { path: '/contents', name: 'ADM-CONTENT-001', component: AdminContentListPage, meta: { requiresAuth: true, permission: 'content.read' } },
+    { path: '/contents/dictionaries', name: 'ADM-CONTENT-003', component: AdminContentDictionariesPage, meta: { requiresAuth: true, permission: 'content.read' } },
+    { path: '/contents/:id', name: 'ADM-CONTENT-002', component: AdminContentDetailPage, meta: { requiresAuth: true, permission: 'content.read' } },
     ...adminPages.filter((page) => !implemented.has(page.ID)).map((page) => ({
       path: page.路由,
       name: page.ID,

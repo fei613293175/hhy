@@ -25,6 +25,7 @@ import cc.orbexa.hhy.auth.AuthScreen
 import cc.orbexa.hhy.auth.ChangeLoginPasswordScreen
 import cc.orbexa.hhy.auth.AccountBlockedScreen
 import cc.orbexa.hhy.auth.AccountCancellationScreen
+import cc.orbexa.hhy.AboutScreen
 import cc.orbexa.hhy.auth.LoginDevicesScreen
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyMotion
@@ -41,6 +42,7 @@ import cc.orbexa.hhy.network.StartupGateRequest
 import cc.orbexa.hhy.network.UrlConnectionHhyPublicApi
 import cc.orbexa.hhy.network.UrlConnectionContractAuthApi
 import cc.orbexa.hhy.network.UrlConnectionContractIdentityApi
+import cc.orbexa.hhy.network.UrlConnectionExperienceApi
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
 import cc.orbexa.hhy.shell.HhyShellScreen
@@ -161,6 +163,7 @@ private sealed interface AuthenticatedRoute {
     @Serializable data object ChangePassword : AuthenticatedRoute
     @Serializable data object Cancellation : AuthenticatedRoute
     @Serializable data object Identity : AuthenticatedRoute
+    @Serializable data object About : AuthenticatedRoute
 }
 
 @androidx.compose.runtime.Composable
@@ -171,6 +174,7 @@ private fun AuthenticatedNavHost(
     onSessionInvalidated: () -> Unit,
 ) {
     val navController = rememberNavController()
+    val experienceApi = remember { UrlConnectionExperienceApi(BuildConfig.API_BASE_URL) }
     NavHost(
         navController = navController,
         startDestination = AuthenticatedRoute.Shell,
@@ -185,6 +189,9 @@ private fun AuthenticatedNavHost(
                 onOpenChangePassword = { navController.navigate(AuthenticatedRoute.ChangePassword) },
                 onOpenCancellation = { navController.navigate(AuthenticatedRoute.Cancellation) },
                 onOpenIdentity = { navController.navigate(AuthenticatedRoute.Identity) },
+                onOpenAbout = { navController.navigate(AuthenticatedRoute.About) },
+                experienceApi = experienceApi,
+                accessToken = authenticated.session.accessToken,
             )
         }
         composable<AuthenticatedRoute.LoginDevices> {
@@ -219,6 +226,9 @@ private fun AuthenticatedNavHost(
                 onBack = { navController.popBackStack() },
                 onSessionExpired = onSessionInvalidated,
             )
+        }
+        composable<AuthenticatedRoute.About> {
+            AboutScreen(experienceApi, authenticated.session.accessToken, onBack = { navController.popBackStack() })
         }
     }
 }
