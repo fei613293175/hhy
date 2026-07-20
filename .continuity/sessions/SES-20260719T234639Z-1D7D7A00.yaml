@@ -11,12 +11,13 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T00:19:11Z'
+updated_at: '2026-07-20T00:22:14Z'
 takeover_of: null
 change_requests:
 - CR-0109
 - CR-0110
 - CR-0111
+- CR-0112
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -53,7 +54,8 @@ scope:
   - artifacts/validation/r05-task007-android/zipalign.txt
   - artifacts/reports/R05/TASK-R05-007-android-apk.md
   - artifacts/reports/R05/R05-version-test-guide.md
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111
+  - artifacts/reports/R05/TASK-R05-004-client.md
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -63,22 +65,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T00:19:08Z'
-  expires_at: '2026-07-20T04:19:08Z'
-checkpoint_sequence: 6
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0006.yaml
+  renewed_at: '2026-07-20T00:22:11Z'
+  expires_at: '2026-07-20T04:22:11Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 继续审计R05关闭资料；收到versionCode 10208真机通过反馈后执行accept、关闭CR和TASK-R05-007并进入R05-008。
+next_step: 提交推送R05关闭预检修复；继续准备R05-008，等待项目所有者versionCode 10208真机结果。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: efe44b492a1738ea0e23021d4fa44d1670e7929c23c1b48a6a89b01ecf2130f3
-  generated_at: '2026-07-20T00:19:10Z'
+  context_hash: f5a50340cb538ea08977059135034abf5183cf801551e28692662138a1b5de0d
+  generated_at: '2026-07-20T00:22:13Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR状态与真机验收必须沿单一任务事件链推进，当前没有可独立写入的安全分区。
+  reason: 当前修改是同一R05验收矩阵与Release Manifest的原子一致性修复，拆分会造成短暂漂移。

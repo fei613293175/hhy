@@ -23,16 +23,24 @@ ui:
   - ADM-ID-002
 contracts:
   client_api:
-  - POST /api/v1/identity/sessions
-  - POST /api/v1/identity/sessions/{id}/liveness-token
-  - GET /api/v1/identity/sessions/{id}
-  - POST /api/v1/identity/sessions/{id}/retry
+    operation_ids:
+    - identityPostIdentitySessions
+    - publicPostIdentityCallbackConsume
+    paths:
+    - POST /api/v1/identity/sessions
+    - POST /api/v1/identity/sessions/{id}/liveness-token
+    - GET /api/v1/identity/sessions/{id}
+    - POST /api/v1/identity/sessions/{id}/retry
+    - POST /public-api/v1/identity/callback/consume
   admin_api:
-  - GET /admin-api/v1/identities
-  - GET /admin-api/v1/identities/{userId}
-  - POST /admin-api/v1/identities/{userId}/media-access
-  - POST /admin-api/v1/identity-sessions/{id}/review
-  - POST /admin-api/v1/identities/{userId}/freeze
+    operation_ids:
+    - adminIdentityPostIdentitySessionsByIdReview
+    paths:
+    - GET /admin-api/v1/identities
+    - GET /admin-api/v1/identities/{userId}
+    - POST /admin-api/v1/identities/{userId}/media-access
+    - POST /admin-api/v1/identity-sessions/{id}/review
+    - POST /admin-api/v1/identities/{userId}/freeze
   websocket: []
 database_tables:
 - identity_profiles

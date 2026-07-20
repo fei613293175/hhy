@@ -1,5 +1,5 @@
 ﻿验收ID,版本,验收项,证据路径,状态,阻断级别
-AC-R05-001,R05,领域代码与前端真实闭环,artifacts/reports/R05/,NOT_RUN,BLOCKING
+AC-R05-001,R05,领域代码与前端真实闭环,artifacts/reports/R05/TASK-R05-004-client.md,PASS,BLOCKING
 AC-R05-002,R05,数据库迁移和不变量测试通过,artifacts/reports/R05/TASK-R05-005-specialized-testing.md,PASS,BLOCKING
 AC-R05-003,R05,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R05/TASK-R05-005-specialized-testing.md,PASS,BLOCKING
 AC-R05-004,R05,日志指标链路和业务告警可验证,artifacts/reports/R05/TASK-R05-006-staging.md,PASS,BLOCKING
