@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T00:54:58Z
-- Context Hash：`6aabd5fda62a6d242b6c645e1caf6d79101e699bbf253f97dfef14339a931d1c`
+- 生成时间：2026-07-20T00:58:10Z
+- Context Hash：`fe49a4b39c00b857cc542545d602e5bb3b1a077b826e0d4e9dafff5d87bfdfeb`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -84,7 +84,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-007
-updated_at: '2026-07-20T00:54:56Z'
+updated_at: '2026-07-20T00:58:08Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -119,15 +119,15 @@ continuity:
   active_session_id: SES-20260719T234639Z-1D7D7A00
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T04:54:56Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0010.yaml
-  project_fingerprint: c4a39cd71a07485558372b6c16bf70b639f01dcfbbe65ec38eb08e5fc3c65626
+  lease_expires_at: '2026-07-20T04:58:08Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
+  project_fingerprint: dcd571badd598b5ecd773f744fd90366ff0df88f55185e8f90ad958f3dec79c0
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: de48e0902451001e26b928f9851809aeef0f90c976064c06467979f1302858d1
-    generated_at: '2026-07-20T00:53:34Z'
+    context_hash: 6aabd5fda62a6d242b6c645e1caf6d79101e699bbf253f97dfef14339a931d1c
+    generated_at: '2026-07-20T00:54:58Z'
   handoff_bundle: null
 ```
 
@@ -319,7 +319,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T00:54:56Z'
+updated_at: '2026-07-20T00:58:08Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -387,12 +387,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T00:54:56Z'
-  expires_at: '2026-07-20T04:54:56Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0010.yaml
+  renewed_at: '2026-07-20T00:58:08Z'
+  expires_at: '2026-07-20T04:58:08Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交CR-0113/CR-0114实现，执行受控push preflight并推送；随后把CR标记IMPLEMENTED并按R05七页视觉阻断清单继续补规格与重构。
+next_step: 提交并推送CR实施状态与最终Context检查点；随后按catalogs/ui_visual_acceptance.csv继续处理R05视觉规格和页面重构，未PASS前不关闭R05。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -400,84 +400,52 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 冻结治理规则、逐页合同、关闭门禁、模板和回归测试构成同一原子事实链且文件高度重叠，不存在可独立合并的安全工作包。
+  reason: 当前仅剩两个CR状态、Context和检查点的原子审计链更新，不存在可独立委托的代码工作包。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0010
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0011
 session_id: SES-20260719T234639Z-1D7D7A00
-sequence: 10
-created_at: '2026-07-20T00:54:55Z'
-summary: UI零漂移门禁实现与MODULE回归完成；根AGENTS和导出模板同哈希，项目Doctor及V1.2.3严格连续性门禁均0错误0警告。
-next_step: 提交CR-0113/CR-0114实现，执行受控push preflight并推送；随后把CR标记IMPLEMENTED并按R05七页视觉阻断清单继续补规格与重构。
+sequence: 11
+created_at: '2026-07-20T00:58:08Z'
+summary: CR-0113与CR-0114已绑定实现提交edebf46并标记IMPLEMENTED；主实现已通过pre-commit、commit-msg、pre-push并推送远端。
+next_step: 提交并推送CR实施状态与最终Context检查点；随后按catalogs/ui_visual_acceptance.csv继续处理R05视觉规格和页面重构，未PASS前不关闭R05。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: PROJECT_DOCTOR
+- name: REMOTE_COMMIT
   result: PASS
-  evidence: scripts/project-doctor.py --strict
-  note: 0 errors 0 warnings
-- name: CONTINUITY_STRICT
+  evidence: edebf46c74be5e43c8d19b4d2168fbb3d20ff690
+  note: UI零漂移门禁已推送
+- name: PRE_PUSH_GATE
   result: PASS
-  evidence: scripts/check_v123_continuity.py --strict
-  note: 0 errors 0 warnings
-- name: UI_VISUAL_UNIT
-  result: PASS
-  evidence: tests/test_ui_visual_acceptance.py 4 tests
-  note: 精确面板与截图门禁
-- name: RELEASE_CLOSE_GATE
-  result: PASS
-  evidence: tests/test_release_close_gate.py 6 tests
-  note: Release关闭集成
-- name: R05_UI_VISUAL_CATALOG
-  result: PASS
-  evidence: catalogs/ui_visual_acceptance.csv 7 pages
-  note: 所有R05客户端页面均有真实阻断状态
+  evidence: origin/task/TASK-R03-001 137e8f8..edebf46
+  note: 严格预推送门禁0错误
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 137e8f80a90f6d1b166a94fd3520f078213c7ca5
+  head: edebf46c74be5e43c8d19b4d2168fbb3d20ff690
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
-  - ' M AGENTS.md'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M .continuity/change_requests/CR-0113.yaml'
+  - ' M .continuity/change_requests/CR-0114.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
-  - ' M docs/02-ui/UI参考图使用与开发约束_V1.2.2.md'
-  - ' M docs/03-continuity/PITFALLS.md'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-  - ' M scripts/check_release_artifacts.py'
-  - ' M templates/AGENTS.md'
-  - ' M tests/test_release_close_gate.py'
-  - ?? .continuity/change_requests/CR-0113.yaml
-  - ?? .continuity/change_requests/CR-0114.yaml
-  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0009.yaml
-  - ?? catalogs/ui_visual_acceptance.csv
-  - ?? docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md
-  - ?? docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
-  - ?? scripts/check_ui_visual_acceptance.py
-  - ?? tests/test_ui_visual_acceptance.py
+  - ' M docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md'
+  - ' M docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md'
   recent_commits:
+  - "edebf46c74be5e43c8d19b4d2168fbb3d20ff690\t2026-07-20T08:56:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(ui): enforce exact visual\
+    \ acceptance"
   - "137e8f80a90f6d1b166a94fd3520f078213c7ca5\t2026-07-20T08:23:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind R05\
     \ client acceptance"
   - "6a40f2b5250565414b6da013fd33be34da9acccd\t2026-07-20T08:22:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): backfill R05\
@@ -492,10 +460,8 @@ git:
     \ clean context before R05-007"
   - "c0bfa11a1aaf5de798465c72496150df15728cd4\t2026-07-20T07:42:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-006\
     \ as completed"
-  - "e764f2b94d1d97b6b4169e48d330fb43ab2e057d\t2026-07-20T07:41:27+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close R05\
-    \ staging change request"
 project_fingerprint:
-  sha256: c4a39cd71a07485558372b6c16bf70b639f01dcfbbe65ec38eb08e5fc3c65626
+  sha256: dcd571badd598b5ecd773f744fd90366ff0df88f55185e8f90ad958f3dec79c0
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -589,12 +555,12 @@ project_fingerprint:
       sha256: c651780b9d58bc75bcbdfb9c0b2cfffd2abee1c91a0b5bab5173688e1cceb7ad
     - path: docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md
       state: FILE
-      size: 3796
-      sha256: 974471260c74a08478e76b9641db50e5d270bde1e08253e519d1b3e19412dcbe
+      size: 4132
+      sha256: 35d4170430a5bf324e4d40b96d1171a90284bf946fec79b4bae432e55e8a6dca
     - path: docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
       state: FILE
-      size: 1991
-      sha256: 8895a906eb0cf647a43355124e3adc9c3c59519c8b68581abd5135a7666d9d17
+      size: 2229
+      sha256: 62800444cd43d7de1801e4248129767985963a6528307e178e823f96f86a992c
     - path: releases/PROGRAM_EXECUTION_PLAN.yaml
       state: FILE
       size: 35802
@@ -737,8 +703,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 冻结治理规则、逐页合同、关闭门禁、模板和回归测试构成同一原子事实链且文件高度重叠，不存在可独立合并的安全工作包。
-event_hash: 5617f4b00e5877cd0b207309d1528aef965771a3e58921004572cc0b796dbe35
+  reason: 当前仅剩两个CR状态、Context和检查点的原子审计链更新，不存在可独立委托的代码工作包。
+event_hash: cabd4b3eb7e92a5eff2c557e0d7e4778296c9b75106b6eec12cbf6cddd3b43e6
 ```
 
 ## 接续状态与事件头
@@ -750,8 +716,8 @@ active_session_id: SES-20260719T234639Z-1D7D7A00
 last_session_id: SES-20260719T230526Z-55ABC07F
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0004
-event_count: 1224
-event_head_hash: 5617f4b00e5877cd0b207309d1528aef965771a3e58921004572cc0b796dbe35
+event_count: 1227
+event_head_hash: cabd4b3eb7e92a5eff2c557e0d7e4778296c9b75106b6eec12cbf6cddd3b43e6
 event_chain_valid: true
 ```
 
@@ -874,9 +840,9 @@ recent_sessions: - session_id: SES-20260719T135908Z-32D952EC
   started_at: '2026-07-19T23:46:39Z'
   record: .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  updated_at: '2026-07-20T00:54:56Z'
+  updated_at: '2026-07-20T00:58:08Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0010.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B426B903146
   session_id: SES-20260718T152013Z-8B704646
@@ -1759,7 +1725,7 @@ recent_task_transitions: - transition_id: TRN-4DA26C35977A
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 137e8f80a90f6d1b166a94fd3520f078213c7ca5
+head: edebf46c74be5e43c8d19b4d2168fbb3d20ff690
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1770,34 +1736,19 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0113.yaml'
+- ' M .continuity/change_requests/CR-0114.yaml'
 - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
-- ' M AGENTS.md'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
-- ' M docs/02-ui/UI参考图使用与开发约束_V1.2.2.md'
-- ' M docs/03-continuity/PITFALLS.md'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md'
+- ' M docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-- ' M scripts/check_release_artifacts.py'
-- ' M templates/AGENTS.md'
-- ' M tests/test_release_close_gate.py'
-- ?? .continuity/change_requests/CR-0113.yaml
-- ?? .continuity/change_requests/CR-0114.yaml
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0009.yaml
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0010.yaml
-- ?? catalogs/ui_visual_acceptance.csv
-- ?? docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md
-- ?? docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
-- ?? scripts/check_ui_visual_acceptance.py
-- ?? tests/test_ui_visual_acceptance.py
+- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml
 recent_commits:
+- "edebf46c74be5e43c8d19b4d2168fbb3d20ff690\t2026-07-20T08:56:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(ui): enforce exact visual\
+  \ acceptance"
 - "137e8f80a90f6d1b166a94fd3520f078213c7ca5\t2026-07-20T08:23:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind R05\
   \ client acceptance"
 - "6a40f2b5250565414b6da013fd33be34da9acccd\t2026-07-20T08:22:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(identity): backfill R05\
@@ -1812,13 +1763,11 @@ recent_commits:
   \ context before R05-007"
 - "c0bfa11a1aaf5de798465c72496150df15728cd4\t2026-07-20T07:42:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-006\
   \ as completed"
-- "e764f2b94d1d97b6b4169e48d330fb43ab2e057d\t2026-07-20T07:41:27+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close R05\
-  \ staging change request"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`c4a39cd71a07485558372b6c16bf70b639f01dcfbbe65ec38eb08e5fc3c65626`
+- 指纹：`dcd571badd598b5ecd773f744fd90366ff0df88f55185e8f90ad958f3dec79c0`
 - 文件数：26
 
 - `AGENTS.md`
@@ -5418,9 +5367,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0113
   title: 建立全项目效果图视觉建模与UI参数零漂移硬门禁
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-20T00:42:22Z'
-  updated_at: '2026-07-20T00:50:44Z'
+  updated_at: '2026-07-20T00:57:53Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -5475,14 +5424,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 项目级UI事实源、逐页视觉合同、精确面板校验、截图证据和Release关闭门禁已实现，进入最终回归与检查点。
     session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T00:57:53Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 全项目UI视觉零漂移规则、R05七页真实阻断目录、精确面板/补充规格校验、截图证据和Release关闭门禁已提交并通过Doctor、严格连续性及10项回归。
+    session_id: SES-20260719T234639Z-1D7D7A00
   session_ids:
   - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - edebf46c74be5e43c8d19b4d2168fbb3d20ff690
 - protocol_version: '1.0'
   cr_id: CR-0114
   title: 同步UI零漂移规则到AGENTS导出模板
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-20T00:52:09Z'
-  updated_at: '2026-07-20T00:53:15Z'
+  updated_at: '2026-07-20T00:57:52Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -5518,15 +5474,22 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 根AGENTS与导出模板已同步，SHA-256完全一致，待检查点刷新Context后运行Doctor。
     session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T00:57:52Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 根AGENTS与导出模板已同哈希提交，跨电脑跨AI恢复将读取相同UI硬边界。
+    session_id: SES-20260719T234639Z-1D7D7A00
   session_ids:
   - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - edebf46c74be5e43c8d19b4d2168fbb3d20ff690
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `d78e30035b275ceed57348f3700eb950c21eaee461ee573b6ad11fa60fc9befb`
+- `CURRENT_STATUS.yaml` — `3fa5c653de024fbefa86f683e10b15162fe5a42a8bf5eb9e5c6b8045252bc701`
 - `NEXT_TASK.yaml` — `bd22bac1e2b0308bd77f173dca3ac229dff82931447bff00e89661b483b14ee0`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -5537,26 +5500,26 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `088f5d1f553f49dbbaea10ddd166eab91aa6accf5ffc7c663df733b6718fd9d7`
-- `.continuity/SESSION_INDEX.yaml` — `1bbf05009f75608d0d055ac1c432fb1906eca67ef0250cad592c64bfa2d19a1e`
+- `.continuity/EVENT_LOG.jsonl` — `779fded0a18821e81308d70f79de4cbda1c73080001328cc599beb36f2237248`
+- `.continuity/SESSION_INDEX.yaml` — `34092ca4a2497bb5ecddb31c72c3c446c33d9d04ab91fc0938237d23e57df445`
 - `.continuity/TASK_CLAIMS.yaml` — `b42bae99e7d14cdcf44b0551a70718a1c1bdf785aa7cdfbff142597c2b2282ac`
 - `.continuity/TASK_TRANSITIONS.yaml` — `649cf4421377460d639a628f6c86e77ff9cd2e7a96acffc65865873cbcb9a2a0`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `f3f3d068c3875e8a37c1696929f08337fa393403882342c56e4960081bc319a5`
-- `.continuity/ACTIVE_SESSION.yaml` — `66e95e9e6eaf4a4760dfdfe72984e3975bbbbedb1c6ddf78bdc56744d28bc589`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `f0f7b5c4dfbbca5435b402bd177dda6cfa64078a5e73eb9fd699a35c7e982a2a`
+- `.continuity/ACTIVE_SESSION.yaml` — `9ad08b24f97e7c9db6e0815eaee45f800efe4b1d7d9177e2dd001ba03ec0f02d`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `48d66c06efb7102d3a1965124a9b34d9867a4418e009ebb98cbc48dd915ef489`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `e763b0bc235be69b871929ad214e0a458ae978ab54970a42af8f5e3987677ce5`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml` — `38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `ca98c1634b57facb3ee416ab0eedf03a9612da571f8ebb69014e6c2a9fe46e39`
-- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0010.yaml` — `aace7b126a939861562191048f3c64c43c9c054b318c4cdd070abdd387b619b8`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `986316024ef9187e0de698d5a4112b680fd511a2bbf39360b83860314b37c7bd`
+- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0011.yaml` — `b802be2c9dd41dbd818b4892beb5e0ca6accf8c51a3beccf5a140c822d250ede`
 - `docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md` — `2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f`
 - `docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md` — `7ea7a2a77787bbf3e87d0c52f6b265235b50ade68dd07cf74369b51935b7b0bd`
 - `docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md` — `3d8a27084d1ed3efdee721c872c08c7103386965f3b731cd302bd173e6245f55`
 - `docs/03-continuity/change-requests/CR-0112-补充R05-004客户端闭环验收报告.md` — `c651780b9d58bc75bcbdfb9c0b2cfffd2abee1c91a0b5bab5173688e1cceb7ad`
-- `docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md` — `974471260c74a08478e76b9641db50e5d270bde1e08253e519d1b3e19412dcbe`
-- `docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md` — `8895a906eb0cf647a43355124e3adc9c3c59519c8b68581abd5135a7666d9d17`
+- `docs/03-continuity/change-requests/CR-0113-建立全项目效果图视觉建模与UI参数零漂移硬门禁.md` — `35d4170430a5bf324e4d40b96d1171a90284bf946fec79b4bae432e55e8a6dca`
+- `docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md` — `62800444cd43d7de1801e4248129767985963a6528307e178e823f96f86a992c`
 
 ## 接手硬规则
 

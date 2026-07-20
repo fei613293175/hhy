@@ -83,3 +83,10 @@ templates/AGENTS.md必须与根AGENTS.md字节一致并包含相同UI视觉零�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260719T234639Z-1D7D7A00`
 - Note：根AGENTS与导出模板已同步，SHA-256完全一致，待检查点刷新Context后运行Doctor。
+
+## 状态记录 · 2026-07-20T00:57:52Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260719T234639Z-1D7D7A00`
+- Note：根AGENTS与导出模板已同哈希提交，跨电脑跨AI恢复将读取相同UI硬边界。

@@ -6685,9 +6685,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0113
   title: 建立全项目效果图视觉建模与UI参数零漂移硬门禁
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-20T00:42:22Z'
-  updated_at: '2026-07-20T00:50:44Z'
+  updated_at: '2026-07-20T00:57:53Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -6742,14 +6742,21 @@ change_requests:
     status: IMPLEMENTING
     note: 项目级UI事实源、逐页视觉合同、精确面板校验、截图证据和Release关闭门禁已实现，进入最终回归与检查点。
     session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T00:57:53Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 全项目UI视觉零漂移规则、R05七页真实阻断目录、精确面板/补充规格校验、截图证据和Release关闭门禁已提交并通过Doctor、严格连续性及10项回归。
+    session_id: SES-20260719T234639Z-1D7D7A00
   session_ids:
   - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - edebf46c74be5e43c8d19b4d2168fbb3d20ff690
 - protocol_version: '1.0'
   cr_id: CR-0114
   title: 同步UI零漂移规则到AGENTS导出模板
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-20T00:52:09Z'
-  updated_at: '2026-07-20T00:53:15Z'
+  updated_at: '2026-07-20T00:57:52Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -6785,5 +6792,12 @@ change_requests:
     status: IMPLEMENTING
     note: 根AGENTS与导出模板已同步，SHA-256完全一致，待检查点刷新Context后运行Doctor。
     session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T00:57:52Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 根AGENTS与导出模板已同哈希提交，跨电脑跨AI恢复将读取相同UI硬边界。
+    session_id: SES-20260719T234639Z-1D7D7A00
   session_ids:
   - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - edebf46c74be5e43c8d19b4d2168fbb3d20ff690
