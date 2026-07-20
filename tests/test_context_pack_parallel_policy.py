@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from tempfile import TemporaryDirectory
+import subprocess
 import sys
 import unittest
 
@@ -49,6 +50,22 @@ class ContextPackParallelPolicyTest(unittest.TestCase):
             apk = root / "artifacts/apk/R05/local-debug.apk"
             apk.parent.mkdir(parents=True)
             apk.write_bytes(b"local apk binary must not affect repository context")
+            after = tree_fingerprint(root)
+        self.assertEqual(before, after)
+
+    def test_closed_repository_fingerprint_ignores_untracked_runner_files(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(["git", "config", "user.email", "ci@example.invalid"], cwd=root, check=True)
+            subprocess.run(["git", "config", "user.name", "CI"], cwd=root, check=True)
+            (root / "source.txt").write_text("tracked\n", encoding="utf-8")
+            subprocess.run(["git", "add", "source.txt"], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-qm", "baseline"], cwd=root, check=True)
+            before = tree_fingerprint(root)
+            runner_log = root / "artifacts/validation/ci/continuity-gate.log"
+            runner_log.parent.mkdir(parents=True)
+            runner_log.write_text("runner-local diagnostics\n", encoding="utf-8")
             after = tree_fingerprint(root)
         self.assertEqual(before, after)
 

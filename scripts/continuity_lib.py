@@ -468,6 +468,21 @@ def project_fingerprint(root: Path, session: dict[str, Any] | None = None) -> di
 
 def tree_fingerprint(root: Path) -> dict[str, Any]:
     tokens: list[dict[str, Any]] = []
+    if is_git_repo(root):
+        # A closed repository fingerprint represents the versioned source tree,
+        # not runner caches, logs, or other untracked machine-local files.
+        # Working-tree contents are still read so tracked edits and deletions
+        # remain visible before the final metadata commit.
+        tracked_files = [item for item in git(root, "ls-files", "-z").split("\0") if item]
+        for relative in sorted(tracked_files):
+            if relative in {"MANIFEST_SHA256.txt", STATE_FILE} or is_managed_record(relative):
+                continue
+            if any(path_matches(relative, pattern) for pattern in PORTABLE_EXCLUDE_PATTERNS):
+                continue
+            tokens.append(file_content_token(root, relative))
+        payload = {"files": tokens}
+        return {"sha256": sha256_text(canonical_json(payload)), "file_count": len(tokens)}
+
     # Path.rglob descends into excluded dependency/build trees before filtering.
     # Prune them top-down so a cold resume remains fast in an installed checkout.
     for current, directories, filenames in os.walk(root, topdown=True):
