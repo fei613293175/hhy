@@ -11,10 +11,12 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-19T23:50:31Z'
+updated_at: '2026-07-20T00:15:57Z'
 takeover_of: null
 change_requests:
 - CR-0109
+- CR-0110
+- CR-0111
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -34,7 +36,24 @@ scope:
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
   - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
-  source: story+explicit+approved-cr:CR-0109
+  - artifacts/apk/R05/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r05-task007-android/apk-badging.txt
+  - artifacts/validation/r05-task007-android/apk-sha256.txt
+  - artifacts/validation/r05-task007-android/apk-signing.txt
+  - artifacts/validation/r05-task007-android/apk-size.txt
+  - artifacts/validation/r05-task007-android/build-evidence.json
+  - artifacts/validation/r05-task007-android/documentation-gate.json
+  - artifacts/validation/r05-task007-android/embedded-api-count.txt
+  - artifacts/validation/r05-task007-android/embedded-placeholder-count.txt
+  - artifacts/validation/r05-task007-android/evidence-sha256.txt
+  - artifacts/validation/r05-task007-android/gradle-build.log
+  - artifacts/validation/r05-task007-android/source-archive-sha256.txt
+  - artifacts/validation/r05-task007-android/toolchain-image-id.txt
+  - artifacts/validation/r05-task007-android/zipalign.txt
+  - artifacts/reports/R05/TASK-R05-007-android-apk.md
+  - artifacts/reports/R05/R05-version-test-guide.md
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -44,22 +63,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-19T23:50:28Z'
-  expires_at: '2026-07-20T03:50:28Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0002.yaml
+  renewed_at: '2026-07-20T00:15:54Z'
+  expires_at: '2026-07-20T04:15:54Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交并推送versionCode 10208冻结提交，生成不可变源码归档并在固定Android工具链中运行单测、Lint、构建、签名和对齐。
+next_step: 提交并推送全部R05-007机器交付证据；等待项目所有者versionCode 10208真机结果并继续可验证的R05关闭准备。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 74faa9b976ff3538c40c38e84d23afbb1f729765212f30f34177ee4c79b89339
-  generated_at: '2026-07-19T23:50:30Z'
+  context_hash: 8d9738a5c7799036bf21267d9930fad7cd936dd4b17bf36e4ee9ed0a7edb105a
+  generated_at: '2026-07-20T00:15:56Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: APK身份、签名、构建与交付必须绑定同一冻结Commit，拆分会破坏单一产物追溯链。
+  reason: APK签名、Manifest和交付必须绑定同一冻结Commit与产物哈希；当前治理收口同样依赖单一事件链。
