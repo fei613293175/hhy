@@ -2,9 +2,9 @@
   "version": "1.2.3",
   "product_spec_baseline": "V1.2.2",
   "continuity_protocol_version": "1.0",
-  "status": "PASS",
+  "status": "FAIL",
   "strict": true,
-  "release_filter": "R05",
+  "release_filter": null,
   "metrics": {
     "canonical_policy_sha256": "35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6",
     "documentation": {
@@ -30,8 +30,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 1494,
-      "event_head_hash": "f3a5194f1a5d6a94746d7c0276d182b3e387a11f16fa1c1d057dce20eefc5962",
+      "event_count": 1556,
+      "event_head_hash": "c4ff0b0b397b41560578e5adedaef29ddc0fb92f2043752996c582477de6b62e",
       "document_gate": {
         "status": "EXECUTED",
         "forced": true,
@@ -41,13 +41,38 @@
     "continuity_gate_rules": 42,
     "continuity_event_types": 17,
     "continuity_required_records": 20,
-    "baseline_sessions": 51,
+    "baseline_sessions": 55,
     "baseline_handoffs": 3,
-    "change_requests": 144,
-    "task_transitions": 53,
+    "change_requests": 147,
+    "task_transitions": 57,
     "continuity_integration_checks": 11,
     "continuity_lifecycle_checks": 14
   },
-  "errors": [],
+  "errors": [
+    {
+      "code": "INTEGRATION_REPORT_STALE",
+      "message": "scripts/continuity_lib.py"
+    },
+    {
+      "code": "INTEGRATION_REPORT_STALE",
+      "message": "scripts/continuity_gate.py"
+    },
+    {
+      "code": "LIFECYCLE_REPORT_STALE",
+      "message": "scripts/continuity_lib.py"
+    },
+    {
+      "code": "LIFECYCLE_REPORT_STALE",
+      "message": "scripts/continuity_gate.py"
+    },
+    {
+      "code": "CONTEXT_SOURCE_STALE",
+      "message": "releases/R06/ACCEPTANCE_MATRIX.csv"
+    },
+    {
+      "code": "CONTEXT_RELEASE_PARALLEL_PLAN",
+      "message": "Context Pack来源必须包含当前Release并行计划"
+    }
+  ],
   "warnings": []
 }
