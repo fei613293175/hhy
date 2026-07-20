@@ -10,28 +10,29 @@
 
 | 项目 | 值 |
 | --- | --- |
-| 源码 Commit | `9b726556391cb8e16e52750f83b1e80c4f2bf28b` |
-| APK 文件 | `hhy-r05-9b72655-debug.apk` |
-| versionName / versionCode | `1.2.2-debug` / `10212` |
-| APK 大小 | `19,268,698` bytes |
-| APK SHA-256 | `111ae0476c2d1ebb9bbc4dee6c527db5f72fd76250691409b59f5a8ed9bd4e6d` |
+| 源码 Commit | `07f2fe254dace0c422be6cb96e3f66b88b2ad40b` |
+| APK 文件 | `hhy-r05-07f2fe2-debug.apk` |
+| versionName / versionCode | `1.2.2-debug` / `10213` |
+| APK 大小 | `19,285,082` bytes |
+| APK SHA-256 | `6cb3fb26c06599821a0b60dd250657ce08429eed23317acc11be4f47d78008dd` |
 | 签名配置 | `hhy-staging-test-v1` |
 | 签名证书 SHA-256 | `f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873` |
 | API Base URL | `https://api.orbexa.cc` |
-| 桌面副本 | `C:\Users\小白\Desktop\hhy-r05-9b72655-debug.apk` |
-| 下载地址 | `https://download.orbexa.cc/r05-artifacts/hhy-r05-9b72655-debug.apk` |
+| 桌面副本 | `C:\Users\小白\Desktop\hhy-r05-07f2fe2-debug.apk` |
+| 下载地址 | `https://download.orbexa.cc/r05-artifacts/hhy-r05-07f2fe2-debug.apk` |
 
 ## 构建、签名与联网门禁
 
 - 固定工具链：`hhy-android-toolchain:r01-46fb273`，镜像 ID `sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607`。
-- 源码归档 SHA-256：`87006fe54ac1aaae4a36082ea96ce16d8337aba67a10fe7c58f0922d98bcc179`。
-- Gradle 执行 `clean testDebugUnitTest compileDebugAndroidTestKotlin lintDebug assembleDebug`，430 项任务全部成功，构建用时 2 分 24 秒。
+- 源码归档 SHA-256：`2b589569e1962e438132cd75749f2efd6ead0c02d87fdb9702be5b3cf41f29c4`。
+- 首轮完整 Gradle 在 APK 已完成打包后执行最后一个媒体 Lint 分析时被服务器内存回收；没有把该轮冒充通过。随后保持同一冻结源码、工具链和缓存，将门禁按资源峰值拆分：单线程 `lintDebug` 306 项任务 `BUILD SUCCESSFUL`，低并发 `verifyApiBaseUrl testDebugUnitTest compileDebugAndroidTestKotlin assembleDebug` 323 项任务 `BUILD SUCCESSFUL`。
 - `apksigner`、`zipalign` 均通过；APK Signature Scheme v2、v3 为 `true`，签名证书与既有 Staging 测试签名一致。
 - DEX 中真实 API `https://api.orbexa.cc` 精确出现 1 次，占位端点 `.invalid` 与错误渠道 `owner-test` 均出现 0 次；`official` 与 `STAGING` 已写入包内。
-- 公网启动门禁使用与 App 完全一致的 `ANDROID + official + STAGING + 10212` 请求，平台状态与版本检查均返回 HTTP 200。
+- 公网启动门禁使用与 App 完全一致的 `ANDROID + official + STAGING + 10213` 请求，版本检查返回 HTTP 200。
 - `deliver_android_test_apk.py prepare` 与独立 `verify` 均通过；公网完整下载 200、Range 206、Android APK MIME 正确。
 - 真机发现授权说明加载失败后确认公网仍运行R03后端；已在数据库可恢复备份、候选就绪和旧认证回归通过后滚动切换至R05。真实测试注册取得Bearer后，`GET /api/v1/identity/consent`返回HTTP 200、标题正确且正文长度239；证据见`artifacts/validation/r05-public-rollforward/evidence.json`。
 - 公网Staging已滚动切换至生产硬隔离实名沙箱候选；注册、协议、创建会话、HTTPS活体页、服务端`VERIFIED`终态和一次性state重放422黑盒全部通过，旧容器与Nginx备份保留。
+- 公网随后由`28086`无停机滚动切换到提交`07f2fe2`的`28087`候选；实名总览`NOT_STARTED → IN_PROGRESS → VERIFIED`、活动会话恢复、完整沙箱、R02登录注册回归和10213启动策略均通过，旧容器及Nginx备份继续保留。
 
 ## 本版 Android 可见闭环
 
@@ -47,6 +48,8 @@
 - 实名首页展示认证准备事项并进入身份信息表单。
 - 表单支持真实姓名、身份证号、动态加载的实名认证授权说明、同意确认和字段级错误提示。
 - 提交后进入活体检测容器，按需申请相机权限，限制非 HTTPS 和异常回跳，并每 3 秒轮询结果。
+- 取得供应商活体URL后使用独立全屏WebView承载完整第三方H5；冻结的240dp取景卡只显示准备、授权、加载、处理中和失败状态，不再裁切或遮挡第三方按钮与人脸画面。
+- 实名首页进入及返回恢复时读取服务端总览：未开始可新建，认证中继续原活动会话，已认证直接展示结果且禁止重复创建。
 - 结果页覆盖核验中、人工审核、成功、拒绝、失败、过期和未知状态；失败状态可确认后重新认证。
 - 用户可见页面不展示请求编号、TraceId、接口名称、内部状态码或调试入口。
 - 密码登录与验证码登录属于同级模式，切换仅使用无方向淡入淡出；从任一登录模式进入注册或忘记密码时使用前进转场，页内、系统键和手势返回使用反向转场并恢复真实来源登录模式。

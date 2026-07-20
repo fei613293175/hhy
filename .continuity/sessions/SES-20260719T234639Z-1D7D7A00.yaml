@@ -11,7 +11,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T08:51:53Z'
+updated_at: '2026-07-20T09:40:23Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -38,6 +38,8 @@ change_requests:
 - CR-0130
 - CR-0131
 - CR-0132
+- CR-0133
+- CR-0134
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -158,7 +160,11 @@ scope:
   - catalogs/ui_action_matrix.csv
   - releases/R05/STORIES.yaml
   - releases/R05/RELEASE_MANIFEST.yaml
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124+approved-cr:CR-0125+approved-cr:CR-0126+approved-cr:CR-0127+approved-cr:CR-0128+approved-cr:CR-0129+approved-cr:CR-0131+approved-cr:CR-0132
+  - artifacts/validation/r05-task007-android/embedded-policy.txt
+  - artifacts/validation/r05-public-rollforward/evidence.json
+  - artifacts/apk/R05/history/9b72655/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/9b72655/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124+approved-cr:CR-0125+approved-cr:CR-0126+approved-cr:CR-0127+approved-cr:CR-0128+approved-cr:CR-0129+approved-cr:CR-0131+approved-cr:CR-0132+approved-cr:CR-0133+approved-cr:CR-0134
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -168,22 +174,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T08:51:49Z'
-  expires_at: '2026-07-20T12:51:49Z'
-checkpoint_sequence: 41
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0041.yaml
+  renewed_at: '2026-07-20T09:40:19Z'
+  expires_at: '2026-07-20T13:40:19Z'
+checkpoint_sequence: 42
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0042.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交并推送门禁变更；基于最终提交构建后端候选容器，在新端口验证后切换api.orbexa.cc，随后构建10213 APK。
+next_step: 项目所有者安装桌面hhy-r05-07f2fe2-debug.apk，重点验证第三方活体全屏、活动会话恢复和已认证再次进入；明确通过后执行accept并关闭TASK-R05-007，继续TASK-R05-008。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: eb9651dbbd80b4c2d87c1476417dfee78c54c1b3e7340df61b8d32dc47def09b
-  generated_at: '2026-07-20T08:51:52Z'
+  context_hash: 5006a33072a86f36911434b4d2b020f9f7d9262d146d320c7420b93166843013
+  generated_at: '2026-07-20T09:40:21Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 公网候选部署、Nginx切换、回归验证和APK冻结共享同一发布状态，必须串行避免产物与服务版本错配。
+  reason: 最终交付追溯、检查点、提交与推送共享同一待验收产物身份，必须串行避免证据错配。

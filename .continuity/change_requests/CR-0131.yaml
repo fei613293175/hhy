@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0131
 title: 精确登记R05-10213源码与追溯文件范围
-status: APPROVED
+status: IMPLEMENTED
 created_at: '2026-07-20T08:39:31Z'
-updated_at: '2026-07-20T08:39:50Z'
+updated_at: '2026-07-20T09:33:30Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner
 task_id: TASK-R05-007
@@ -45,3 +45,18 @@ approval:
   note: CR-0130方案已获批准；本CR只修正门禁要求的精确文件范围。
 machine_record: .continuity/change_requests/CR-0131.yaml
 document: docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md
+decision_log:
+- at: '2026-07-20T09:33:28Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 已进入已批准方案的构建、部署或交付实施。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T09:33:30Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 源码、契约、三态公网滚动发布、固定工具链构建、固定签名、桌面及HTTPS交付门禁全部通过；等待项目所有者10213真机验收。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- 07f2fe254dace0c422be6cb96e3f66b88b2ad40b

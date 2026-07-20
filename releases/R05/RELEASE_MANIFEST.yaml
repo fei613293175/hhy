@@ -69,6 +69,16 @@ tests:
 test_count: 10
 planning_depth: STORY_READY
 apk_gate: DESKTOP_PUBLIC_AND_OWNER_DEVICE_REQUIRED
+android_delivery:
+  source_commit: 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
+  apk_file: hhy-r05-07f2fe2-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10213
+  sha256: 6cb3fb26c06599821a0b60dd250657ce08429eed23317acc11be4f47d78008dd
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  evidence: artifacts/validation/r05-apk-delivery/delivery-evidence.json
+  test_guide: artifacts/reports/R05/R05-version-test-guide.md
 entry_baseline:
   checked_at: '2026-07-19'
   documentation_status: PASS_DOCUMENTATION_READY

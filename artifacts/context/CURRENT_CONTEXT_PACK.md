@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T08:51:52Z
-- Context Hash：`eb9651dbbd80b4c2d87c1476417dfee78c54c1b3e7340df61b8d32dc47def09b`
+- 生成时间：2026-07-20T09:40:21Z
+- Context Hash：`5006a33072a86f36911434b4d2b020f9f7d9262d146d320c7420b93166843013`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -84,7 +84,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-007
-updated_at: '2026-07-20T08:51:49Z'
+updated_at: '2026-07-20T09:40:19Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -119,15 +119,15 @@ continuity:
   active_session_id: SES-20260719T234639Z-1D7D7A00
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T12:51:49Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0041.yaml
-  project_fingerprint: be8ff2bb4ad55cc8ad1ba440711004febe1f2f4faefe78224df5fcb89d6b90bc
+  lease_expires_at: '2026-07-20T13:40:19Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0042.yaml
+  project_fingerprint: 02a3caf4d85590ec0e25e1828f5a0b14f19cbd51098d47e2b5f26d341c47be21
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: b2faf5edfd5869d13661f91cc4f0b636fd52dbed6b4d128e5ded2e22d8bfed67
-    generated_at: '2026-07-20T08:45:32Z'
+    context_hash: eb9651dbbd80b4c2d87c1476417dfee78c54c1b3e7340df61b8d32dc47def09b
+    generated_at: '2026-07-20T08:51:52Z'
   handoff_bundle: null
 ```
 
@@ -319,7 +319,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T08:51:49Z'
+updated_at: '2026-07-20T09:40:19Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -346,6 +346,8 @@ change_requests:
 - CR-0130
 - CR-0131
 - CR-0132
+- CR-0133
+- CR-0134
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -466,7 +468,11 @@ scope:
   - catalogs/ui_action_matrix.csv
   - releases/R05/STORIES.yaml
   - releases/R05/RELEASE_MANIFEST.yaml
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124+approved-cr:CR-0125+approved-cr:CR-0126+approved-cr:CR-0127+approved-cr:CR-0128+approved-cr:CR-0129+approved-cr:CR-0131+approved-cr:CR-0132
+  - artifacts/validation/r05-task007-android/embedded-policy.txt
+  - artifacts/validation/r05-public-rollforward/evidence.json
+  - artifacts/apk/R05/history/9b72655/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/9b72655/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124+approved-cr:CR-0125+approved-cr:CR-0126+approved-cr:CR-0127+approved-cr:CR-0128+approved-cr:CR-0129+approved-cr:CR-0131+approved-cr:CR-0132+approved-cr:CR-0133+approved-cr:CR-0134
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -476,12 +482,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T08:51:49Z'
-  expires_at: '2026-07-20T12:51:49Z'
-checkpoint_sequence: 41
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0041.yaml
+  renewed_at: '2026-07-20T09:40:19Z'
+  expires_at: '2026-07-20T13:40:19Z'
+checkpoint_sequence: 42
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0042.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交并推送门禁变更；基于最终提交构建后端候选容器，在新端口验证后切换api.orbexa.cc，随后构建10213 APK。
+next_step: 项目所有者安装桌面hhy-r05-07f2fe2-debug.apk，重点验证第三方活体全屏、活动会话恢复和已认证再次进入；明确通过后执行accept并关闭TASK-R05-007，继续TASK-R05-008。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -489,44 +495,97 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 公网候选部署、Nginx切换、回归验证和APK冻结共享同一发布状态，必须串行避免产物与服务版本错配。
+  reason: 最终交付追溯、检查点、提交与推送共享同一待验收产物身份，必须串行避免证据错配。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0041
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0042
 session_id: SES-20260719T234639Z-1D7D7A00
-sequence: 41
-created_at: '2026-07-20T08:51:49Z'
-summary: R05实名总览公网沙箱回归门禁已补齐，逐态验证NOT_STARTED、IN_PROGRESS及VERIFIED并确认活动会话恢复。
-next_step: 提交并推送门禁变更；基于最终提交构建后端候选容器，在新端口验证后切换api.orbexa.cc，随后构建10213 APK。
+sequence: 42
+created_at: '2026-07-20T09:40:18Z'
+summary: R05实名状态恢复与第三方H5全屏修复已部署公网；10213固定签名测试APK完成桌面、仓库、服务器与HTTPS四方哈希交付，机器门禁PASS，真机验收PENDING。
+next_step: 项目所有者安装桌面hhy-r05-07f2fe2-debug.apk，重点验证第三方活体全屏、活动会话恢复和已认证再次进入；明确通过后执行accept并关闭TASK-R05-007，继续TASK-R05-008。
 blockers: []
-decisions: []
+decisions:
+- 第三方完整活体H5使用独立全屏WebView；240dp冻结取景卡仅承载本地准备和状态；实名首页以服务端overview为事实源。
 note: ''
 tests:
-- name: python -m py_compile scripts/check_r05_staging_identity_sandbox.py
+- name: R05_PUBLIC_SANDBOX_THREE_STATES
   result: PASS
-  evidence: local
-  note: 脚本语法通过
-- name: scripts/check_v123_documentation.py --strict --release R05
+  evidence: https://api.orbexa.cc
+  note: NOT_STARTED到IN_PROGRESS到VERIFIED、活动会话恢复、重放422；一次公网传输瞬断未到达后端，40秒重试完整通过
+- name: R05_ANDROID_LINT
   result: PASS
-  evidence: local
-  note: 严格文档门禁通过
+  evidence: artifacts/validation/r05-task007-android/gradle-build.log
+  note: 固定镜像单线程lintDebug BUILD SUCCESSFUL
+- name: R05_ANDROID_BUILD
+  result: PASS
+  evidence: artifacts/validation/r05-task007-android/gradle-build.log
+  note: 固定镜像testDebugUnitTest、compileDebugAndroidTestKotlin、assembleDebug BUILD SUCCESSFUL
+- name: R05_APK_SIGNING
+  result: PASS
+  evidence: artifacts/validation/r05-task007-android/apk-signing.txt
+  note: v2/v3、单一3072位签名者、固定指纹
+- name: R05_APK_DELIVERY
+  result: PASS
+  evidence: artifacts/validation/r05-apk-delivery/delivery-evidence.json
+  note: 桌面、仓库、服务器、HTTPS SHA256一致
+- name: R05_DOCUMENTATION
+  result: PASS
+  evidence: artifacts/validation/r05-task007-android/documentation-gate.json
+  note: R05严格文档门禁零错误零警告
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: d8c9cd418f8e878252bf279421f29c834283481c
+  head: 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/change_requests/CR-0128.yaml
-  - M  docs/03-continuity/change-requests/CR-0128-修复R05实名状态恢复并将第三方活体H5改为全屏容器.md
-  - M  scripts/check_r05_staging_identity_sandbox.py
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0128.yaml'
+  - ' M .continuity/change_requests/CR-0129.yaml'
+  - ' M .continuity/change_requests/CR-0130.yaml'
+  - ' M .continuity/change_requests/CR-0131.yaml'
+  - ' M .continuity/change_requests/CR-0132.yaml'
+  - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
+  - ' M artifacts/apk/R05/APK_MANIFEST.yaml'
+  - ' M artifacts/reports/R05/R05-version-test-guide.md'
+  - ' M artifacts/reports/R05/TASK-R05-007-android-apk.md'
+  - ' M artifacts/validation/r05-apk-delivery/delivery-evidence.json'
+  - ' M artifacts/validation/r05-public-rollforward/evidence.json'
+  - ' M artifacts/validation/r05-task007-android/apk-badging.txt'
+  - ' M artifacts/validation/r05-task007-android/apk-sha256.txt'
+  - ' M artifacts/validation/r05-task007-android/apk-size.txt'
+  - ' M artifacts/validation/r05-task007-android/build-evidence.json'
+  - ' M artifacts/validation/r05-task007-android/documentation-gate.json'
+  - ' M artifacts/validation/r05-task007-android/evidence-sha256.txt'
+  - ' M artifacts/validation/r05-task007-android/gradle-build.log'
+  - ' M artifacts/validation/r05-task007-android/source-archive-sha256.txt'
+  - ' M artifacts/validation/r05-task007-android/zipalign.txt'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0128-修复R05实名状态恢复并将第三方活体H5改为全屏容器.md'
+  - ' M docs/03-continuity/change-requests/CR-0129-同步R05实名总览契约目录与生成客户端.md'
+  - ' M docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md'
+  - ' M docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md'
+  - ' M docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md'
+  - ' M releases/R05/RELEASE_MANIFEST.yaml'
+  - ?? .continuity/change_requests/CR-0133.yaml
+  - ?? .continuity/change_requests/CR-0134.yaml
+  - ?? artifacts/apk/R05/history/9b72655/APK_MANIFEST.yaml
+  - ?? artifacts/validation/r05-apk-delivery/history/9b72655/delivery-evidence.json
+  - ?? docs/03-continuity/change-requests/CR-0133-精确登记R05-10213构建交付与公网滚动发布证据.md
+  - ?? docs/03-continuity/change-requests/CR-0134-归档被10213替换的R05-10212交付清单.md
   recent_commits:
+  - "07f2fe254dace0c422be6cb96e3f66b88b2ad40b\t2026-07-20T16:52:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(r05): gate identity overview\
+    \ recovery states"
   - "d8c9cd418f8e878252bf279421f29c834283481c\t2026-07-20T16:46:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(r05): restore identity\
     \ state and fullscreen liveness"
   - "301a521e079a4947d7f7f5bc519201c180eaa564\t2026-07-20T15:20:55+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] build(android): publish verified\
@@ -541,10 +600,8 @@ git:
     \ staging liveness sandbox"
   - "c53d32b5b8121eba3f7934724195a4934bd961ee\t2026-07-20T13:19:34+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(auth): restore source-aware\
     \ navigation motion"
-  - "2ed59f66113fb1c66758be5dce5cc103e48d9e62\t2026-07-20T13:01:50+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(r05): record 10210 implementation\
-    \ state"
 project_fingerprint:
-  sha256: be8ff2bb4ad55cc8ad1ba440711004febe1f2f4faefe78224df5fcb89d6b90bc
+  sha256: 02a3caf4d85590ec0e25e1828f5a0b14f19cbd51098d47e2b5f26d341c47be21
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -576,6 +633,7 @@ project_fingerprint:
   - artifacts/apk/R05/APK_MANIFEST.yaml
   - artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
   - artifacts/apk/R05/history/7b57046/APK_MANIFEST.yaml
+  - artifacts/apk/R05/history/9b72655/APK_MANIFEST.yaml
   - artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
   - artifacts/apk/R05/history/bc52fe6/APK_MANIFEST.yaml
   - catalogs/api_endpoints.csv
@@ -676,6 +734,8 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md
   - docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md
   - docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md
+  - docs/03-continuity/change-requests/CR-0133-精确登记R05-10213构建交付与公网滚动发布证据.md
+  - docs/03-continuity/change-requests/CR-0134-归档被10213替换的R05-10212交付清单.md
   - docs/09-development/统一开发与交付效率规范.md
   - infra/staging/r05-smoke/docker-compose.yml
   - packages/api-client/src/client.generated.ts
@@ -715,7 +775,7 @@ project_fingerprint:
   - tests/test_r05_public_identity_gate.py
   - tests/test_release_close_gate.py
   - tests/test_ui_visual_acceptance.py
-  file_count: 169
+  file_count: 172
   payload:
     base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
     files:
@@ -830,7 +890,7 @@ project_fingerprint:
     - path: artifacts/apk/R05/APK_MANIFEST.yaml
       state: FILE
       size: 673
-      sha256: 1f59a2fe366712a534cf8163e1034fa6303185ae85e25b925ea2b41dfe08eb22
+      sha256: 45ca8b3d3c124d1e53156d64a35ee77c155bad8e6400cf85bfea3d18beec8e9b
     - path: artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
       state: FILE
       size: 673
@@ -839,6 +899,10 @@ project_fingerprint:
       state: FILE
       size: 673
       sha256: dd05c61204ab46d8750f332ff24f6e767ac5bc0370ccfa2176f626470eca72e0
+    - path: artifacts/apk/R05/history/9b72655/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 1f59a2fe366712a534cf8163e1034fa6303185ae85e25b925ea2b41dfe08eb22
     - path: artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
       state: FILE
       size: 673
@@ -1221,24 +1285,32 @@ project_fingerprint:
       sha256: f2941c211091d60ebbda34442f6981c25809fdf27a4eb05e3c9157c4549a5494
     - path: docs/03-continuity/change-requests/CR-0128-修复R05实名状态恢复并将第三方活体H5改为全屏容器.md
       state: FILE
-      size: 4083
-      sha256: aa09990ffe64352f6355b7f3dba0b7b8a6ef6833dc840e502de3694bcf575aab
+      size: 4393
+      sha256: 47dc5e1b3414025337a3d48160027aa7b4af5a5fb66bbe97cdc205007baef088
     - path: docs/03-continuity/change-requests/CR-0129-同步R05实名总览契约目录与生成客户端.md
       state: FILE
-      size: 2313
-      sha256: 885f6a7fbda49438d5a6c22ea2181f2e6d206c9a3f3b04705f1ca14962d6b523
+      size: 2623
+      sha256: a593bbcb6f0d90e0ad8d3bbd1677915dcc5a34809611669350cc36e3637a2a7e
     - path: docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md
       state: FILE
-      size: 2788
-      sha256: a2f8936e3252a036f13416b49caa33e5d1016d2b3fe5846ff09b7543da13c184
+      size: 3303
+      sha256: c09d5c8f3f642965cdb2d7544616e70d24d55c46f3da29faeb079bc87f952efc
     - path: docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md
       state: FILE
-      size: 2122
-      sha256: c126621faa074abd1b0624a67fa3dd16fc2d10ba449f61743900ff78f767c7be
+      size: 2637
+      sha256: 8c8386e3ca2bb4663d23c582cf6db1aec3bc6a0121c6aa918a4dcb82ad4b1d1f
     - path: docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md
       state: FILE
-      size: 1838
-      sha256: 6cfb5b585c62ab9c7e1810c3eb3fd7399de68784e58b7a599e4d6c4ee4018065
+      size: 2353
+      sha256: 390f489ce7a9f86b99aae1b1b4637218533978dded996e21995c95b52f5e3d3e
+    - path: docs/03-continuity/change-requests/CR-0133-精确登记R05-10213构建交付与公网滚动发布证据.md
+      state: FILE
+      size: 3779
+      sha256: b9337bd2bf33adeada99b33666ed46012046c815a9cbb7252b20994353a24b3a
+    - path: docs/03-continuity/change-requests/CR-0134-归档被10213替换的R05-10212交付清单.md
+      state: FILE
+      size: 2183
+      sha256: 3c0ac59feb7677366ee23b031152ec706c7c99450f0a964caf8d0d2ce442dcae
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
       size: 6357
@@ -1273,8 +1345,8 @@ project_fingerprint:
       sha256: 38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda
     - path: releases/R05/RELEASE_MANIFEST.yaml
       state: FILE
-      size: 3764
-      sha256: 315de0e856c4cc2ba3fad0b2d48e9636c3bb3590f0adc73839c66f3feb67b2d6
+      size: 4194
+      sha256: 35b4945252d135dd167426244312740959f0f86a84f75ef108eeb3910247095b
     - path: releases/R05/STORIES.yaml
       state: FILE
       size: 19296
@@ -1402,6 +1474,7 @@ change_classification:
   - artifacts/apk/R05/APK_MANIFEST.yaml
   - artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
   - artifacts/apk/R05/history/7b57046/APK_MANIFEST.yaml
+  - artifacts/apk/R05/history/9b72655/APK_MANIFEST.yaml
   - artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml
   - artifacts/apk/R05/history/bc52fe6/APK_MANIFEST.yaml
   - catalogs/api_endpoints.csv
@@ -1598,6 +1671,8 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md
   - docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md
   - docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md
+  - docs/03-continuity/change-requests/CR-0133-精确登记R05-10213构建交付与公网滚动发布证据.md
+  - docs/03-continuity/change-requests/CR-0134-归档被10213替换的R05-10212交付清单.md
   infrastructure:
   - infra/staging/r05-smoke/docker-compose.yml
   tests:
@@ -1640,6 +1715,8 @@ change_requests:
 - CR-0130
 - CR-0131
 - CR-0132
+- CR-0133
+- CR-0134
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -1760,13 +1837,17 @@ scope:
   - catalogs/ui_action_matrix.csv
   - releases/R05/STORIES.yaml
   - releases/R05/RELEASE_MANIFEST.yaml
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124+approved-cr:CR-0125+approved-cr:CR-0126+approved-cr:CR-0127+approved-cr:CR-0128+approved-cr:CR-0129+approved-cr:CR-0131+approved-cr:CR-0132
+  - artifacts/validation/r05-task007-android/embedded-policy.txt
+  - artifacts/validation/r05-public-rollforward/evidence.json
+  - artifacts/apk/R05/history/9b72655/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/9b72655/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124+approved-cr:CR-0125+approved-cr:CR-0126+approved-cr:CR-0127+approved-cr:CR-0128+approved-cr:CR-0129+approved-cr:CR-0131+approved-cr:CR-0132+approved-cr:CR-0133+approved-cr:CR-0134
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 公网候选部署、Nginx切换、回归验证和APK冻结共享同一发布状态，必须串行避免产物与服务版本错配。
-event_hash: 4a7815364d724e93bea6e20d39ace65966fecb1a3abb08df7fe5d9ec5d8be981
+  reason: 最终交付追溯、检查点、提交与推送共享同一待验收产物身份，必须串行避免证据错配。
+event_hash: 46503ddece65aa6453c7f6b7c55493f3a5b7d3dd833b11db765f29ebc2cf9932
 ```
 
 ## 接续状态与事件头
@@ -1778,8 +1859,8 @@ active_session_id: SES-20260719T234639Z-1D7D7A00
 last_session_id: SES-20260719T230526Z-55ABC07F
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0004
-event_count: 1357
-event_head_hash: 4a7815364d724e93bea6e20d39ace65966fecb1a3abb08df7fe5d9ec5d8be981
+event_count: 1378
+event_head_hash: 46503ddece65aa6453c7f6b7c55493f3a5b7d3dd833b11db765f29ebc2cf9932
 event_chain_valid: true
 ```
 
@@ -1902,9 +1983,9 @@ recent_sessions: - session_id: SES-20260719T135908Z-32D952EC
   started_at: '2026-07-19T23:46:39Z'
   record: .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  updated_at: '2026-07-20T08:51:49Z'
+  updated_at: '2026-07-20T09:40:19Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0041.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0042.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B426B903146
   session_id: SES-20260718T152013Z-8B704646
@@ -2787,25 +2868,57 @@ recent_task_transitions: - transition_id: TRN-4DA26C35977A
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: d8c9cd418f8e878252bf279421f29c834283481c
+head: 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- M  .continuity/change_requests/CR-0128.yaml
+- ' M .continuity/change_requests/CR-0128.yaml'
+- ' M .continuity/change_requests/CR-0129.yaml'
+- ' M .continuity/change_requests/CR-0130.yaml'
+- ' M .continuity/change_requests/CR-0131.yaml'
+- ' M .continuity/change_requests/CR-0132.yaml'
 - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/apk/R05/APK_MANIFEST.yaml'
+- ' M artifacts/reports/R05/R05-version-test-guide.md'
+- ' M artifacts/reports/R05/TASK-R05-007-android-apk.md'
+- ' M artifacts/validation/r05-apk-delivery/delivery-evidence.json'
+- ' M artifacts/validation/r05-public-rollforward/evidence.json'
+- ' M artifacts/validation/r05-task007-android/apk-badging.txt'
+- ' M artifacts/validation/r05-task007-android/apk-sha256.txt'
+- ' M artifacts/validation/r05-task007-android/apk-size.txt'
+- ' M artifacts/validation/r05-task007-android/build-evidence.json'
+- ' M artifacts/validation/r05-task007-android/documentation-gate.json'
+- ' M artifacts/validation/r05-task007-android/evidence-sha256.txt'
+- ' M artifacts/validation/r05-task007-android/gradle-build.log'
+- ' M artifacts/validation/r05-task007-android/source-archive-sha256.txt'
+- ' M artifacts/validation/r05-task007-android/zipalign.txt'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- M  docs/03-continuity/change-requests/CR-0128-修复R05实名状态恢复并将第三方活体H5改为全屏容器.md
+- ' M docs/03-continuity/change-requests/CR-0128-修复R05实名状态恢复并将第三方活体H5改为全屏容器.md'
+- ' M docs/03-continuity/change-requests/CR-0129-同步R05实名总览契约目录与生成客户端.md'
+- ' M docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md'
+- ' M docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md'
+- ' M docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-- M  scripts/check_r05_staging_identity_sandbox.py
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0041.yaml
+- ' M releases/R05/RELEASE_MANIFEST.yaml'
+- ?? .continuity/change_requests/CR-0133.yaml
+- ?? .continuity/change_requests/CR-0134.yaml
+- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0042.yaml
+- ?? artifacts/apk/R05/history/9b72655/APK_MANIFEST.yaml
+- ?? artifacts/validation/r05-apk-delivery/history/9b72655/delivery-evidence.json
+- ?? docs/03-continuity/change-requests/CR-0133-精确登记R05-10213构建交付与公网滚动发布证据.md
+- ?? docs/03-continuity/change-requests/CR-0134-归档被10213替换的R05-10212交付清单.md
 recent_commits:
+- "07f2fe254dace0c422be6cb96e3f66b88b2ad40b\t2026-07-20T16:52:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(r05): gate identity overview\
+  \ recovery states"
 - "d8c9cd418f8e878252bf279421f29c834283481c\t2026-07-20T16:46:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(r05): restore identity state\
   \ and fullscreen liveness"
 - "301a521e079a4947d7f7f5bc519201c180eaa564\t2026-07-20T15:20:55+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] build(android): publish verified\
@@ -2820,14 +2933,12 @@ recent_commits:
   \ staging liveness sandbox"
 - "c53d32b5b8121eba3f7934724195a4934bd961ee\t2026-07-20T13:19:34+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(auth): restore source-aware\
   \ navigation motion"
-- "2ed59f66113fb1c66758be5dce5cc103e48d9e62\t2026-07-20T13:01:50+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(r05): record 10210 implementation\
-  \ state"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`be8ff2bb4ad55cc8ad1ba440711004febe1f2f4faefe78224df5fcb89d6b90bc`
-- 文件数：169
+- 指纹：`02a3caf4d85590ec0e25e1828f5a0b14f19cbd51098d47e2b5f26d341c47be21`
+- 文件数：172
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -2859,6 +2970,7 @@ recent_commits:
 - `artifacts/apk/R05/APK_MANIFEST.yaml`
 - `artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml`
 - `artifacts/apk/R05/history/7b57046/APK_MANIFEST.yaml`
+- `artifacts/apk/R05/history/9b72655/APK_MANIFEST.yaml`
 - `artifacts/apk/R05/history/b597f2c/APK_MANIFEST.yaml`
 - `artifacts/apk/R05/history/bc52fe6/APK_MANIFEST.yaml`
 - `catalogs/api_endpoints.csv`
@@ -2959,6 +3071,8 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md`
 - `docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md`
 - `docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md`
+- `docs/03-continuity/change-requests/CR-0133-精确登记R05-10213构建交付与公网滚动发布证据.md`
+- `docs/03-continuity/change-requests/CR-0134-归档被10213替换的R05-10212交付清单.md`
 - `docs/09-development/统一开发与交付效率规范.md`
 - `infra/staging/r05-smoke/docker-compose.yml`
 - `packages/api-client/src/client.generated.ts`
@@ -3074,6 +3188,16 @@ RELEASE_MANIFEST.yaml:
   test_count: 10
   planning_depth: STORY_READY
   apk_gate: DESKTOP_PUBLIC_AND_OWNER_DEVICE_REQUIRED
+  android_delivery:
+    source_commit: 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
+    apk_file: hhy-r05-07f2fe2-debug.apk
+    version_name: 1.2.2-debug
+    version_code: 10213
+    sha256: 6cb3fb26c06599821a0b60dd250657ce08429eed23317acc11be4f47d78008dd
+    machine_delivery: PASS
+    owner_physical_test: PENDING
+    evidence: artifacts/validation/r05-apk-delivery/delivery-evidence.json
+    test_guide: artifacts/reports/R05/R05-version-test-guide.md
   entry_baseline:
     checked_at: '2026-07-19'
     documentation_status: PASS_DOCUMENTATION_READY
@@ -7500,9 +7624,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0128
   title: 修复R05实名状态恢复并将第三方活体H5改为全屏容器
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-20T08:07:55Z'
-  updated_at: '2026-07-20T08:37:05Z'
+  updated_at: '2026-07-20T09:33:07Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -7552,14 +7676,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 后端总览、活动会话恢复、Android全屏第三方H5和商业错误映射已实现，后端与Android定向编译测试通过，进入公网候选部署前冻结。
     session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T09:33:07Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 源码、契约、三态公网滚动发布、固定工具链构建、固定签名、桌面及HTTPS交付门禁全部通过；等待项目所有者10213真机验收。
+    session_id: SES-20260719T234639Z-1D7D7A00
   session_ids:
   - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
 - protocol_version: '1.0'
   cr_id: CR-0129
   title: 同步R05实名总览契约目录与生成客户端
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-20T08:24:39Z'
-  updated_at: '2026-07-20T08:37:07Z'
+  updated_at: '2026-07-20T09:33:09Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -7604,14 +7735,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: API目录、OpenAPI、运行时镜像、契约状态、错误矩阵与TypeScript生成客户端已同步，契约和生成资产门禁通过。
     session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T09:33:09Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 源码、契约、三态公网滚动发布、固定工具链构建、固定签名、桌面及HTTPS交付门禁全部通过；等待项目所有者10213真机验收。
+    session_id: SES-20260719T234639Z-1D7D7A00
   session_ids:
   - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
 - protocol_version: '1.0'
   cr_id: CR-0130
   title: 递增并交付R05实名状态恢复与全屏活体测试APK
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-20T08:37:22Z'
-  updated_at: '2026-07-20T08:38:02Z'
+  updated_at: '2026-07-20T09:33:27Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -7659,12 +7797,27 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 项目所有者要求立即修复并继续R05收尾；批准递增新测试包并完成部署与交付门禁。
   machine_record: .continuity/change_requests/CR-0130.yaml
   document: docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md
+  decision_log:
+  - at: '2026-07-20T09:33:25Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已进入已批准方案的构建、部署或交付实施。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T09:33:27Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 源码、契约、三态公网滚动发布、固定工具链构建、固定签名、桌面及HTTPS交付门禁全部通过；等待项目所有者10213真机验收。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  session_ids:
+  - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
 - protocol_version: '1.0'
   cr_id: CR-0131
   title: 精确登记R05-10213源码与追溯文件范围
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-20T08:39:31Z'
-  updated_at: '2026-07-20T08:39:50Z'
+  updated_at: '2026-07-20T09:33:30Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -7706,12 +7859,27 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: CR-0130方案已获批准；本CR只修正门禁要求的精确文件范围。
   machine_record: .continuity/change_requests/CR-0131.yaml
   document: docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md
+  decision_log:
+  - at: '2026-07-20T09:33:28Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已进入已批准方案的构建、部署或交付实施。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T09:33:30Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 源码、契约、三态公网滚动发布、固定工具链构建、固定签名、桌面及HTTPS交付门禁全部通过；等待项目所有者10213真机验收。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  session_ids:
+  - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
 - protocol_version: '1.0'
   cr_id: CR-0132
   title: 补齐实名总览API页面所有权与R05故事追溯
-  status: APPROVED
+  status: IMPLEMENTED
   created_at: '2026-07-20T08:41:21Z'
-  updated_at: '2026-07-20T08:41:42Z'
+  updated_at: '2026-07-20T09:33:34Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -7749,13 +7917,157 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 严格文档与无状态接续要求已由项目所有者长期授权；批准补齐新增接口追溯。
   machine_record: .continuity/change_requests/CR-0132.yaml
   document: docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md
+  decision_log:
+  - at: '2026-07-20T09:33:32Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已进入已批准方案的构建、部署或交付实施。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T09:33:34Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 源码、契约、三态公网滚动发布、固定工具链构建、固定签名、桌面及HTTPS交付门禁全部通过；等待项目所有者10213真机验收。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  session_ids:
+  - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
+- protocol_version: '1.0'
+  cr_id: CR-0133
+  title: 精确登记R05-10213构建交付与公网滚动发布证据
+  status: IMPLEMENTED
+  created_at: '2026-07-20T09:25:31Z'
+  updated_at: '2026-07-20T09:33:37Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-007
+  session_id: SES-20260719T234639Z-1D7D7A00
+  user_request: 项目所有者要求立即开始并完成R05修复、部署与测试APK桌面交付。
+  reason: CR-0130只登记了交付目录，连续性范围门禁需要在源码提交和APK文件名确定后逐项精确登记。
+  original_rule: R05当前证据仍指向10212和旧公网容器，不能证明10213修复包及实名总览新接口已经发布。
+  new_rule: 以07f2fe2不可变源码构建10213，固定签名、official、STAGING和api.orbexa.cc；公网以28087候选完整验证后切换，并逐项更新构建、交付、报告、发布清单和回滚证据。
+  impact_summary: 补齐10213构建身份、固定签名、包内策略、公网实名三态、下载四方哈希和真机测试指南的精确追溯。
+  impact:
+    files:
+    - artifacts/validation/r05-task007-android/build-evidence.json
+    - artifacts/validation/r05-task007-android/apk-badging.txt
+    - artifacts/validation/r05-task007-android/apk-sha256.txt
+    - artifacts/validation/r05-task007-android/apk-signing.txt
+    - artifacts/validation/r05-task007-android/apk-size.txt
+    - artifacts/validation/r05-task007-android/zipalign.txt
+    - artifacts/validation/r05-task007-android/embedded-api-count.txt
+    - artifacts/validation/r05-task007-android/embedded-placeholder-count.txt
+    - artifacts/validation/r05-task007-android/embedded-policy.txt
+    - artifacts/validation/r05-task007-android/source-archive-sha256.txt
+    - artifacts/validation/r05-task007-android/toolchain-image-id.txt
+    - artifacts/validation/r05-task007-android/gradle-build.log
+    - artifacts/validation/r05-task007-android/evidence-sha256.txt
+    - artifacts/validation/r05-task007-android/documentation-gate.json
+    - artifacts/validation/r05-public-rollforward/evidence.json
+    - artifacts/validation/r05-apk-delivery/delivery-evidence.json
+    - artifacts/apk/R05/APK_MANIFEST.yaml
+    - artifacts/reports/R05/TASK-R05-007-android-apk.md
+    - artifacts/reports/R05/R05-version-test-guide.md
+    - releases/R05/RELEASE_MANIFEST.yaml
+    pages:
+    - SCR-ID-001
+    - SCR-ID-003
+    apis:
+    - GET /api/v1/identity/overview
+    database:
+    - 无迁移；沿用hhy_staging并保留旧容器
+    configuration:
+    - api.orbexa.cc上游28086滚动切换至28087；APK为official、STAGING、10213
+    ledger:
+    - 无
+    tests:
+    - 公网实名沙箱三态；R02登录注册回归；固定云端Android单测、Android测试编译、Lint、构建、签名、对齐、包内策略与下载门禁
+    releases:
+    - R05 versionCode 10213
+    migration_and_compatibility: GET总览为非破坏新增；旧28086容器和Nginx备份保留；APK可覆盖10212，仍为Staging测试包。
+  user_confirmation: 2026-07-20 项目所有者明确要求立即开始并持续推进开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T09:26:11Z'
+    note: 已有CR-0128和CR-0130方案授权；本CR仅精确登记其构建、部署和交付证据文件。
+  machine_record: .continuity/change_requests/CR-0133.yaml
+  document: docs/03-continuity/change-requests/CR-0133-精确登记R05-10213构建交付与公网滚动发布证据.md
+  decision_log:
+  - at: '2026-07-20T09:33:35Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已进入已批准方案的构建、部署或交付实施。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T09:33:37Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 源码、契约、三态公网滚动发布、固定工具链构建、固定签名、桌面及HTTPS交付门禁全部通过；等待项目所有者10213真机验收。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  session_ids:
+  - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
+- protocol_version: '1.0'
+  cr_id: CR-0134
+  title: 归档被10213替换的R05-10212交付清单
+  status: IMPLEMENTED
+  created_at: '2026-07-20T09:35:58Z'
+  updated_at: '2026-07-20T09:36:26Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-007
+  session_id: SES-20260719T234639Z-1D7D7A00
+  user_request: 项目所有者要求持续推进且每个测试APK必须完整可追溯。
+  reason: 10213替换当前待验收交付时，交付器自动保留10212清单；新生成的两个精确归档路径需要纳入会话范围。
+  original_rule: 当前R05清单只保留一个待真机验收产物。
+  new_rule: 10213替换10212时必须把10212的APK Manifest和交付证据按源码短提交归档，历史结果不覆盖、不删除。
+  impact_summary: 保留9b72655版本的10212产物身份、哈希、下载与待验收历史，为跨AI排错和版本比较提供证据。
+  impact:
+    files:
+    - artifacts/apk/R05/history/9b72655/APK_MANIFEST.yaml
+    - artifacts/validation/r05-apk-delivery/history/9b72655/delivery-evidence.json
+    pages: []
+    apis: []
+    database:
+    - 无
+    configuration:
+    - 无
+    ledger:
+    - 无
+    tests:
+    - 交付器replace-existing归档与当前10213独立verify
+    releases:
+    - R05
+    migration_and_compatibility: 只新增历史清单，不改变当前10213交付或运行时。
+  user_confirmation: 2026-07-20 项目所有者要求版本测试APK与开发过程可跨电脑、跨AI无缝追溯。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T09:36:21Z'
+    note: 本变更仅保存被替换测试包的历史证据，符合不可覆盖追溯规则。
+  machine_record: .continuity/change_requests/CR-0134.yaml
+  document: docs/03-continuity/change-requests/CR-0134-归档被10213替换的R05-10212交付清单.md
+  decision_log:
+  - at: '2026-07-20T09:36:24Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 交付器已生成10212历史归档。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T09:36:26Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 10212 Manifest和交付证据已按9b72655归档，10213当前交付独立验证通过。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  session_ids:
+  - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `99764caddfe58d603687a938f1ac8b4f24b5c76043cea247aaf9a656b7c8a92c`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `561573f888471cf021066e641ff18588ac6eeb4e0f9cfa964bd5a0df5d2c7e33`
+- `CURRENT_STATUS.yaml` — `f367f5f889bc291d653aece4035f00ee4f588d9877677345b0017709af4cf43d`
 - `NEXT_TASK.yaml` — `bd22bac1e2b0308bd77f173dca3ac229dff82931447bff00e89661b483b14ee0`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7766,20 +8078,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `8423902aa2ccc034a7ba390eb189e845c5d5b739759e5cef1179651311c61cff`
-- `.continuity/SESSION_INDEX.yaml` — `d701dfa1b761534e78c364d9db2eba4766ce65eceeb229e5b9ba529935b528a1`
+- `.continuity/EVENT_LOG.jsonl` — `e1e15cb858c322c01900314cca2d382e5fe14e9103aa85bd1d11fcb1c776159a`
+- `.continuity/SESSION_INDEX.yaml` — `89d2649509fdeafaa37da183f50568af3762bde5839c10cd20a508ed5efcb865`
 - `.continuity/TASK_CLAIMS.yaml` — `b42bae99e7d14cdcf44b0551a70718a1c1bdf785aa7cdfbff142597c2b2282ac`
 - `.continuity/TASK_TRANSITIONS.yaml` — `649cf4421377460d639a628f6c86e77ff9cd2e7a96acffc65865873cbcb9a2a0`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `517f1b8921eb6b3e0aa75bc12c49bcebcd0e876f0332d8a44d4afaedaee79dec`
-- `.continuity/ACTIVE_SESSION.yaml` — `6ac2bbaed2c7805e800748e839873258b527df1160912d99280ab97ae4b64073`
-- `releases/R05/RELEASE_MANIFEST.yaml` — `315de0e856c4cc2ba3fad0b2d48e9636c3bb3590f0adc73839c66f3feb67b2d6`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `58aa21c523e69ca4ce2ba1b2061f933d432c089ffccb57db5a36f3c056aa8674`
+- `.continuity/ACTIVE_SESSION.yaml` — `22d5dbbf0b5ee49b882d8ecd8d0f3d7521bef26d03ec2e2185a5b384beb3b4bc`
+- `releases/R05/RELEASE_MANIFEST.yaml` — `35b4945252d135dd167426244312740959f0f86a84f75ef108eeb3910247095b`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `5ab834809127e32bfecc401bd27938833ab09e66b287c2b65973830640437b22`
 - `releases/R05/TASKS.yaml` — `48d66c06efb7102d3a1965124a9b34d9867a4418e009ebb98cbc48dd915ef489`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `e763b0bc235be69b871929ad214e0a458ae978ab54970a42af8f5e3987677ce5`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml` — `38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `c0bede09fda07f360b17982465d1d6e3e85fb6b836b10f9ec5bf57e0af8ad8a3`
-- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0041.yaml` — `1703b6175ee56c08b1695d7e31edd9c5ab64a975446934be4c89e2a360b2a035`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `99cd97bfea19f9f9567120439ccee12df8fb95de3a2f2066d4e2f08260539b7e`
+- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0042.yaml` — `9a2404a95a334a7633f66a0b30bb6c94817f11b6ca41fd444b498573a5253c08`
 - `docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md` — `2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f`
 - `docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md` — `7ea7a2a77787bbf3e87d0c52f6b265235b50ade68dd07cf74369b51935b7b0bd`
 - `docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md` — `3d8a27084d1ed3efdee721c872c08c7103386965f3b731cd302bd173e6245f55`
@@ -7799,11 +8111,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0125-递增登录导航修复与实名沙箱闭环测试APK版本身份.md` — `5253c3982145e0e59499c79ebee153e14d1f34f5c1d12f2017dbc8baa82eca2a`
 - `docs/03-continuity/change-requests/CR-0126-补充10211替换交付产生的10210历史清单精确路径.md` — `b0f54ad7436430b3afaf37b5fe28eac7db9886a6a0039f5450cd82b0f79dc5b7`
 - `docs/03-continuity/change-requests/CR-0127-修复测试APK渠道漂移导致启动版本检查404并递增10212.md` — `f2941c211091d60ebbda34442f6981c25809fdf27a4eb05e3c9157c4549a5494`
-- `docs/03-continuity/change-requests/CR-0128-修复R05实名状态恢复并将第三方活体H5改为全屏容器.md` — `aa09990ffe64352f6355b7f3dba0b7b8a6ef6833dc840e502de3694bcf575aab`
-- `docs/03-continuity/change-requests/CR-0129-同步R05实名总览契约目录与生成客户端.md` — `885f6a7fbda49438d5a6c22ea2181f2e6d206c9a3f3b04705f1ca14962d6b523`
-- `docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md` — `a2f8936e3252a036f13416b49caa33e5d1016d2b3fe5846ff09b7543da13c184`
-- `docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md` — `c126621faa074abd1b0624a67fa3dd16fc2d10ba449f61743900ff78f767c7be`
-- `docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md` — `6cfb5b585c62ab9c7e1810c3eb3fd7399de68784e58b7a599e4d6c4ee4018065`
+- `docs/03-continuity/change-requests/CR-0128-修复R05实名状态恢复并将第三方活体H5改为全屏容器.md` — `47dc5e1b3414025337a3d48160027aa7b4af5a5fb66bbe97cdc205007baef088`
+- `docs/03-continuity/change-requests/CR-0129-同步R05实名总览契约目录与生成客户端.md` — `a593bbcb6f0d90e0ad8d3bbd1677915dcc5a34809611669350cc36e3637a2a7e`
+- `docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md` — `c09d5c8f3f642965cdb2d7544616e70d24d55c46f3da29faeb079bc87f952efc`
+- `docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md` — `8c8386e3ca2bb4663d23c582cf6db1aec3bc6a0121c6aa918a4dcb82ad4b1d1f`
+- `docs/03-continuity/change-requests/CR-0132-补齐实名总览API页面所有权与R05故事追溯.md` — `390f489ce7a9f86b99aae1b1b4637218533978dded996e21995c95b52f5e3d3e`
+- `docs/03-continuity/change-requests/CR-0133-精确登记R05-10213构建交付与公网滚动发布证据.md` — `b9337bd2bf33adeada99b33666ed46012046c815a9cbb7252b20994353a24b3a`
+- `docs/03-continuity/change-requests/CR-0134-归档被10213替换的R05-10212交付清单.md` — `3c0ac59feb7677366ee23b031152ec706c7c99450f0a964caf8d0d2ce442dcae`
 
 ## 接手硬规则
 

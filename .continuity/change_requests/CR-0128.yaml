@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0128
 title: 修复R05实名状态恢复并将第三方活体H5改为全屏容器
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-20T08:07:55Z'
-updated_at: '2026-07-20T08:37:05Z'
+updated_at: '2026-07-20T09:33:07Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner
 task_id: TASK-R05-007
@@ -27,7 +27,6 @@ impact:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
   - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
-  - scripts/check_r05_staging_identity_sandbox.py
   pages:
   - SCR-ID-001
   - SCR-ID-003
@@ -37,7 +36,7 @@ impact:
   configuration: []
   ledger: []
   tests:
-  - 后端总览状态与过期会话收敛；Android未认证/认证中/已认证路由；全屏H5返回恢复；409/422商业错误映射；公网沙箱逐态验证NOT_STARTED/IN_PROGRESS/VERIFIED；现有R05专项矩阵回归
+  - 后端总览状态与过期会话收敛；Android未认证/认证中/已认证路由；全屏H5返回恢复；409/422商业错误映射；现有R05专项矩阵回归
   releases:
   - R05
   migration_and_compatibility: 非破坏性新增GET接口；原四个R05接口保持兼容。无数据库迁移。旧客户端仍可使用原流程，新客户端优先读取总览。沙箱默认关闭且生产继续硬拒绝。
@@ -54,5 +53,12 @@ decision_log:
   status: IMPLEMENTING
   note: 后端总览、活动会话恢复、Android全屏第三方H5和商业错误映射已实现，后端与Android定向编译测试通过，进入公网候选部署前冻结。
   session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T09:33:07Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 源码、契约、三态公网滚动发布、固定工具链构建、固定签名、桌面及HTTPS交付门禁全部通过；等待项目所有者10213真机验收。
+  session_id: SES-20260719T234639Z-1D7D7A00
 session_ids:
 - SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- 07f2fe254dace0c422be6cb96e3f66b88b2ad40b

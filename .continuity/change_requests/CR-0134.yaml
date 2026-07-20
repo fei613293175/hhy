@@ -1,0 +1,54 @@
+protocol_version: '1.0'
+cr_id: CR-0134
+title: 归档被10213替换的R05-10212交付清单
+status: IMPLEMENTED
+created_at: '2026-07-20T09:35:58Z'
+updated_at: '2026-07-20T09:36:26Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-007
+session_id: SES-20260719T234639Z-1D7D7A00
+user_request: 项目所有者要求持续推进且每个测试APK必须完整可追溯。
+reason: 10213替换当前待验收交付时，交付器自动保留10212清单；新生成的两个精确归档路径需要纳入会话范围。
+original_rule: 当前R05清单只保留一个待真机验收产物。
+new_rule: 10213替换10212时必须把10212的APK Manifest和交付证据按源码短提交归档，历史结果不覆盖、不删除。
+impact_summary: 保留9b72655版本的10212产物身份、哈希、下载与待验收历史，为跨AI排错和版本比较提供证据。
+impact:
+  files:
+  - artifacts/apk/R05/history/9b72655/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/9b72655/delivery-evidence.json
+  pages: []
+  apis: []
+  database:
+  - 无
+  configuration:
+  - 无
+  ledger:
+  - 无
+  tests:
+  - 交付器replace-existing归档与当前10213独立verify
+  releases:
+  - R05
+  migration_and_compatibility: 只新增历史清单，不改变当前10213交付或运行时。
+user_confirmation: 2026-07-20 项目所有者要求版本测试APK与开发过程可跨电脑、跨AI无缝追溯。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T09:36:21Z'
+  note: 本变更仅保存被替换测试包的历史证据，符合不可覆盖追溯规则。
+machine_record: .continuity/change_requests/CR-0134.yaml
+document: docs/03-continuity/change-requests/CR-0134-归档被10213替换的R05-10212交付清单.md
+decision_log:
+- at: '2026-07-20T09:36:24Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 交付器已生成10212历史归档。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T09:36:26Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 10212 Manifest和交付证据已按9b72655归档，10213当前交付独立验证通过。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- 07f2fe254dace0c422be6cb96e3f66b88b2ad40b

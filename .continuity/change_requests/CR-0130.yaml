@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0130
 title: 递增并交付R05实名状态恢复与全屏活体测试APK
-status: APPROVED
+status: IMPLEMENTED
 created_at: '2026-07-20T08:37:22Z'
-updated_at: '2026-07-20T08:38:02Z'
+updated_at: '2026-07-20T09:33:27Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner
 task_id: TASK-R05-007
@@ -51,3 +51,18 @@ approval:
   note: 项目所有者要求立即修复并继续R05收尾；批准递增新测试包并完成部署与交付门禁。
 machine_record: .continuity/change_requests/CR-0130.yaml
 document: docs/03-continuity/change-requests/CR-0130-递增并交付R05实名状态恢复与全屏活体测试APK.md
+decision_log:
+- at: '2026-07-20T09:33:25Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 已进入已批准方案的构建、部署或交付实施。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T09:33:27Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 源码、契约、三态公网滚动发布、固定工具链构建、固定签名、桌面及HTTPS交付门禁全部通过；等待项目所有者10213真机验收。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
