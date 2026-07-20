@@ -11,7 +11,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T06:21:56Z'
+updated_at: '2026-07-20T06:55:40Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -31,6 +31,8 @@ change_requests:
 - CR-0123
 - CR-0124
 - CR-0125
+- CR-0126
+- CR-0127
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -129,7 +131,12 @@ scope:
   - infra/staging/r05-smoke/docker-compose.yml
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
   - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124+approved-cr:CR-0125
+  - artifacts/apk/R05/history/7b57046/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/7b57046/delivery-evidence.json
+  - artifacts/validation/r05-task007-android
+  - artifacts/apk/R05/history/bc52fe6/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/bc52fe6/delivery-evidence.json
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124+approved-cr:CR-0125+approved-cr:CR-0126+approved-cr:CR-0127
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -139,22 +146,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T06:21:52Z'
-  expires_at: '2026-07-20T10:21:52Z'
-checkpoint_sequence: 35
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0035.yaml
+  renewed_at: '2026-07-20T06:55:36Z'
+  expires_at: '2026-07-20T10:55:36Z'
+checkpoint_sequence: 37
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0037.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交推送10211不可变源码，然后使用固定Android工具链构建、签名、校验并交付桌面APK。
+next_step: 提交推送10212不可变源码，使用official+STAGING固定工具链重新构建签名交付，并以相同版本检查请求体执行公网门禁。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: f0b6a25126cce9cb569ff0f48d68cbf30af61b961c76956825accf3b74266879
-  generated_at: '2026-07-20T06:21:55Z'
+  context_hash: 9f2994111ee8d0c1e15f6d5a49488db2331e8aa95b70caca0be47ee4db0a63c2
+  generated_at: '2026-07-20T06:55:39Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前系统规则禁止在用户未明确要求时创建新的子代理；版本身份、不可变提交和同一APK构建必须串行保持唯一来源。
+  reason: 当前系统规则禁止在用户未明确要求时创建新的子代理；紧急APK修复必须保持单一不可变源码和单一交付事务。

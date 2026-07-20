@@ -679,3 +679,16 @@ problems:
   - 不得把创建会话阶段的500误归因于第三方活体Key
   - 不得为通过测试直接在生产逻辑中伪造VERIFIED或绕过供应商、证据和审批链
   - 测试供应商不得由客户端本地改状态；必须服务端事务落库并严格限制staging环境
+- id: PROB-0053
+  title: 10211测试APK错误渠道导致启动版本检查404
+  status: SOLVED
+  root_cause: 10211固定工具链构建时人为覆盖HHY_APP_CHANNEL=owner-test，但公网app_versions只发布official与STAGING组合；平台状态接口返回200后，POST /public-api/v1/app/version-check对owner-test返回404，StartupGate按安全策略进入暂时无法连接。既有版本测试没有断言BuildConfig.APP_CHANNEL和APP_ENVIRONMENT，四方哈希只证明产物一致，未证明启动策略维度存在。
+  resolution: CR-0127恢复测试APK固定official与STAGING，递增10212，并在VersionMetadataTest强制断言BuildConfig渠道和环境；构建前直接黑盒确认相同版本请求返回200，禁止复用10211。
+  regression_checks:
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - POST /public-api/v1/app/version-check with official + STAGING + current versionCode returns HTTP 200
+  - 10212覆盖安装后首次启动直接进入登录或已登录页面，不出现暂时无法连接
+  do_not_repeat:
+  - 不得为区分项目所有者测试包自行发明未在后台发布的APP_CHANNEL
+  - APK正式API地址正确、接口健康和四方哈希一致不能替代版本检查请求维度验证
+  - 每次Android构建必须在单测中锁定发布渠道和环境，并在交付前以相同请求体执行公网黑盒

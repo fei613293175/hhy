@@ -2,6 +2,7 @@
 
 ## R05 单一实名认证首切片 · 2026-07-20
 
+- 修复10211测试包打开即显示“暂时无法连接”：构建误注入`owner-test`渠道，而公网仅发布`official + STAGING`版本策略，版本检查因此返回404；修复包递增为`versionCode 10212`，并新增BuildConfig渠道与环境单测，非`official + STAGING`构建会在交付前失败。
 - 登录导航修复与实名认证沙箱闭环真机测试包版本身份递增为`versionCode 10211`；继续使用`1.2.2-debug`、固定Staging测试签名和`https://api.orbexa.cc`，禁止复用已测试的10210产物。
 - 新增生产硬隔离的实名认证Staging供应商沙箱：默认关闭，仅`staging`可显式启用，任何`prod/production`组合误开都会拒绝启动；真机仍真实申请相机权限、打开HTTPS活体页、由服务端数据库事务写入结果并通过原轮询进入结果页，Android不伪造状态，正式环境继续要求后台激活真实供应商与SecretRef。
 - 修复认证入口导航来源与转场语义：密码/验证码登录改为无方向同级淡入淡出，注册/忘记密码改为真实Navigation Compose子目的地，页内、系统键和手势pop均使用反向转场并恢复进入前登录模式；静态门禁禁止再次写死PASSWORD或用forwardContent切同级Tab。

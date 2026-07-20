@@ -1,1 +1,1 @@
-f478e9c19a9553d54d9067f33f68541a2ea58492a3ac8133d46cb23a28f4347e  /tmp/hhy-r05-apk-7b57046-out/hhy-r05-7b57046-debug.apk
+c02b20d8e2198dc2938d7be8245ffadcf4269cc6187ea8d79e3464bb631d84d4  /tmp/hhy-r05-apk-bc52fe6-out/hhy-r05-bc52fe6-debug.apk

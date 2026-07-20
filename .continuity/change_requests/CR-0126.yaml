@@ -1,0 +1,51 @@
+protocol_version: '1.0'
+cr_id: CR-0126
+title: 补充10211替换交付产生的10210历史清单精确路径
+status: IMPLEMENTED
+created_at: '2026-07-20T06:51:18Z'
+updated_at: '2026-07-20T06:51:52Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-007
+session_id: SES-20260719T234639Z-1D7D7A00
+user_request: 项目所有者要求持续生成桌面测试APK并保持版本可追溯。
+reason: 10211自动交付按门禁归档10210当前Manifest和交付证据，新历史目录必须精确纳入会话范围。
+original_rule: R05当前交付清单指向10210且其历史归档目录不存在。
+new_rule: 10211替换交付后将10210 Manifest与交付证据按旧Commit短哈希归档，当前清单只指向10211。
+impact_summary: 只新增两份不可变历史清单，不修改旧APK、不删除证据、不改变业务代码。
+impact:
+  files:
+  - artifacts/apk/R05/history/7b57046/APK_MANIFEST.yaml
+  - artifacts/validation/r05-apk-delivery/history/7b57046/delivery-evidence.json
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - 交付工具replace-existing原子归档并且release artifact gate通过。
+  releases:
+  - R05
+  migration_and_compatibility: 历史清单只读保留；10211当前清单继续等待真机验收；10210仍可按历史SHA追溯。
+user_confirmation: 2026-07-20项目所有者要求持续开发、APK放桌面并保持换电脑换AI无缝接续。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T06:51:37Z'
+  note: 依据持续APK交付与跨AI可追溯硬性要求，批准精确历史路径。
+machine_record: .continuity/change_requests/CR-0126.yaml
+document: docs/03-continuity/change-requests/CR-0126-补充10211替换交付产生的10210历史清单精确路径.md
+decision_log:
+- at: '2026-07-20T06:51:50Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 核对10211替换交付产生的10210只读历史清单。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T06:51:52Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 10210两份历史清单已由10211原子替换交付生成并通过产物门禁。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- bc52fe68ae169a79586002af4f8b2af9b21690a6

@@ -10,26 +10,27 @@
 
 | 项目 | 值 |
 | --- | --- |
-| 源码 Commit | `7b57046f5e416bdf7dd1d81ef3c66e6ad93d2c92` |
-| APK 文件 | `hhy-r05-7b57046-debug.apk` |
-| versionName / versionCode | `1.2.2-debug` / `10210` |
+| 源码 Commit | `bc52fe68ae169a79586002af4f8b2af9b21690a6` |
+| APK 文件 | `hhy-r05-bc52fe6-debug.apk` |
+| versionName / versionCode | `1.2.2-debug` / `10211` |
 | APK 大小 | `19,268,698` bytes |
-| APK SHA-256 | `f478e9c19a9553d54d9067f33f68541a2ea58492a3ac8133d46cb23a28f4347e` |
+| APK SHA-256 | `c02b20d8e2198dc2938d7be8245ffadcf4269cc6187ea8d79e3464bb631d84d4` |
 | 签名配置 | `hhy-staging-test-v1` |
 | 签名证书 SHA-256 | `f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873` |
 | API Base URL | `https://api.orbexa.cc` |
-| 桌面副本 | `C:\Users\小白\Desktop\hhy-r05-7b57046-debug.apk` |
-| 下载地址 | `https://download.orbexa.cc/r05-artifacts/hhy-r05-7b57046-debug.apk` |
+| 桌面副本 | `C:\Users\小白\Desktop\hhy-r05-bc52fe6-debug.apk` |
+| 下载地址 | `https://download.orbexa.cc/r05-artifacts/hhy-r05-bc52fe6-debug.apk` |
 
 ## 构建、签名与联网门禁
 
 - 固定工具链：`hhy-android-toolchain:r01-46fb273`，镜像 ID `sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607`。
-- 源码归档 SHA-256：`c3412f69bebb5f01cf3c1779a6b33f5183ad6b39d0a4018fff23d9930d0bd8ec`。
-- Gradle 执行 `clean testDebugUnitTest compileDebugAndroidTestKotlin lintDebug assembleDebug`，430 项任务全部成功，构建用时 3 分 23 秒。
+- 源码归档 SHA-256：`828d43c4487f7a52e4bb22d27404c6188463a42aa7a2cbe0ade8c10085f262c3`。
+- Gradle 执行 `clean testDebugUnitTest compileDebugAndroidTestKotlin lintDebug assembleDebug`，430 项任务全部成功，构建用时 5 分 2 秒。
 - `apksigner`、`zipalign` 均通过；APK Signature Scheme v2、v3 为 `true`，签名证书与既有 Staging 测试签名一致。
 - DEX 中真实 API `https://api.orbexa.cc` 精确出现 1 次，占位端点 `.invalid` 出现 0 次。
 - `deliver_android_test_apk.py prepare` 与独立 `verify` 均通过；公网完整下载 200、Range 206、Android APK MIME 正确。
 - 真机发现授权说明加载失败后确认公网仍运行R03后端；已在数据库可恢复备份、候选就绪和旧认证回归通过后滚动切换至R05。真实测试注册取得Bearer后，`GET /api/v1/identity/consent`返回HTTP 200、标题正确且正文长度239；证据见`artifacts/validation/r05-public-rollforward/evidence.json`。
+- 公网Staging已滚动切换至生产硬隔离实名沙箱候选；注册、协议、创建会话、HTTPS活体页、服务端`VERIFIED`终态和一次性state重放422黑盒全部通过，旧容器与Nginx备份保留。
 
 ## 本版 Android 可见闭环
 
@@ -47,10 +48,11 @@
 - 提交后进入活体检测容器，按需申请相机权限，限制非 HTTPS 和异常回跳，并每 3 秒轮询结果。
 - 结果页覆盖核验中、人工审核、成功、拒绝、失败、过期和未知状态；失败状态可确认后重新认证。
 - 用户可见页面不展示请求编号、TraceId、接口名称、内部状态码或调试入口。
+- 密码登录与验证码登录属于同级模式，切换仅使用无方向淡入淡出；从任一登录模式进入注册或忘记密码时使用前进转场，页内、系统键和手势返回使用反向转场并恢复真实来源登录模式。
 
 ## 当前外部边界
 
-R05 的代码、隔离 Staging、数据库、告警和 APK 机器门禁已经通过。根据 `CR-0089` 和 R05 入口门禁，R02 真机验收事实未在仓库中关闭前，不执行 R05 生产激活；真实活体供应商也只允许在受控 SecretRef 与正式测试配置齐备后启用。因此项目所有者本轮先验证安装、登录后入口、页面布局、表单交互和可达到的测试环境响应，不能把未获得真实供应商结果视为实名认证成功。
+R05 的代码、隔离 Staging、数据库、告警和 APK 机器门禁已经通过。当前仅Staging显式启用生产硬隔离的实名沙箱，用于完整真机覆盖相机、活体容器、服务端状态和结果页；沙箱成功不代表第三方正式实名认证。正式生产仍必须在受控 SecretRef、真实供应商配置与审批齐备后启用，production误开沙箱会拒绝启动。
 
 ## 证据
 

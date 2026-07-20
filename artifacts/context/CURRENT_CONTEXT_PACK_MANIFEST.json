@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-20T06:21:55Z",
-  "context_hash": "f0b6a25126cce9cb569ff0f48d68cbf30af61b961c76956825accf3b74266879",
+  "generated_at": "2026-07-20T06:55:39Z",
+  "context_hash": "9f2994111ee8d0c1e15f6d5a49488db2331e8aa95b70caca0be47ee4db0a63c2",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "aa6f89535778027453ebe0299682a68a52a1bd37e7f6c4cd4bb050682d1a854e",
-    "file_count": 144
+    "sha256": "ec15d8fbe7eaaa34aa655f8ff3d0d04993971aee09271434e10c0c6c8c75fbd3",
+    "file_count": 147
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "a1bf059699dd71c7b021fcd4288a1bd5b011967bb039543e5099ee844fc64ac5"
+    "sha256": "bb9b59ed6871a261f5d51eef8ff8c12152131e38e4bb49bd5ab165172044da24"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "8be245ea9d61131630197b26056ccad2e79571294b82b3671e04be44efa39575"
+    "sha256": "f89b2b01a86301095048ed532bc50a9b0f33ed1b79baea1f8052c5cf06621293"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "fcbcd39f5d3fbebe9227dfbff3ab0ac04c4ee6285ec052915e32accba09fb862",
+      "sha256": "ab7bd485c799f4ba40787c16cd9b26551fa0b583faa8d1560c1a6c80875420b4",
       "bytes": 3617
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "dd7f7c0c3c3f45a0e6148cf630aaabcfc20731b6ffd1fe46465b0be63b8eba93",
-      "bytes": 59616
+      "sha256": "7707ec9ec24020f8a029e014a7f9f78ae333c44445af825e0a8195137fb79826",
+      "bytes": 61005
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "70e3b61053722ad356f756eb0b0f44c81ad5f313fcddd99cc4f0659cb90f30d0",
-      "bytes": 735396
+      "sha256": "d7ad1a620f1a1b476e81982e698a3080fed6703215cd5f093575f68c6aa82df9",
+      "bytes": 742930
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "0502566aa7c36894390a6ce849c881b184177c42e04d23da9feddb7d5b3d0ab7",
+      "sha256": "6d5f5691c6f1bec98cd9407f3019708c4f2548bd5533f3d601f7c0840f8962f7",
       "bytes": 25306
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "7dd735b7a206f47c1b2e945c840be6c4b75e1d437b8485478ae1a67dd188e7ea",
-      "bytes": 386241
+      "sha256": "e6385adf01d804e76d2f3cbb25d1c8b08bb6ad741664fe0ef4102dada135bdc4",
+      "bytes": 392226
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "15941688331e7e4e05613d4304416ac16496ac44b0cfc902a78deca085d1e10c",
+      "sha256": "7d4e616054e3d89dc857bfb4bf80d6d2a158acc03444cba203ec47ce5aa5b102",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md",
-      "sha256": "3992a12247f20d8fca9a40605990788973a3c6d52b15083db09422ab1e95a26b",
-      "bytes": 191278
+      "sha256": "79ee7db5ce8305883a0a8f050fa9dd62f5416984d8a28d1c4cf4fc1da65d1304",
+      "bytes": 209433
     },
     {
-      "path": ".continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0035.yaml",
-      "sha256": "b304f44b811f0970d9c656fddcf4cf1c415e2c19161a571056974979d8b0088f",
-      "bytes": 56653
+      "path": ".continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0037.yaml",
+      "sha256": "ff1971bf44f89b63ee49293fadfcc5bc6d18a87aaefa6a102966fadc5fc93acd",
+      "bytes": 60351
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md",
@@ -233,8 +233,18 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0125-递增登录导航修复与实名沙箱闭环测试APK版本身份.md",
-      "sha256": "58df518586175530e634eb582b7670f676cb2440324685b6f94318ada71c3c0f",
-      "bytes": 2751
+      "sha256": "5253c3982145e0e59499c79ebee153e14d1f34f5c1d12f2017dbc8baa82eca2a",
+      "bytes": 3059
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0126-补充10211替换交付产生的10210历史清单精确路径.md",
+      "sha256": "b0f54ad7436430b3afaf37b5fe28eac7db9886a6a0039f5450cd82b0f79dc5b7",
+      "bytes": 2339
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0127-修复测试APK渠道漂移导致启动版本检查404并递增10212.md",
+      "sha256": "e1b9e00588cba0e882374df32d889e67a9f299c70a65f62b190522b510fbcd5c",
+      "bytes": 3128
     }
   ]
 }
