@@ -1,5 +1,5 @@
-package: name='cc.orbexa.hhy.debug' versionCode='10211' versionName='1.2.2-debug' platformBuildVersionName='17' platformBuildVersionCode='37' compileSdkVersion='37' compileSdkVersionCodename='17'
-minSdkVersion:'26'
+package: name='cc.orbexa.hhy.debug' versionCode='10212' versionName='1.2.2-debug' platformBuildVersionName='17' platformBuildVersionCode='37' compileSdkVersion='37' compileSdkVersionCodename='17'
+sdkVersion:'26'
 targetSdkVersion:'36'
 uses-permission: name='android.permission.INTERNET'
 uses-permission: name='android.permission.CAMERA'

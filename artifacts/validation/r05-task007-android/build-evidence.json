@@ -1,8 +1,8 @@
 {
   "release": "R05",
-  "commit": "bc52fe68ae169a79586002af4f8b2af9b21690a6",
+  "commit": "9b726556391cb8e16e52750f83b1e80c4f2bf28b",
   "version_name": "1.2.2-debug",
-  "version_code": 10211,
+  "version_code": 10212,
   "build_status": "PASS",
   "checks": [
     "testDebugUnitTest",
@@ -12,19 +12,23 @@
     "apksigner",
     "zipalign",
     "embeddedApiBaseUrl",
-    "androidUiFoundationGate",
-    "r05StagingIdentitySandboxPublicGate"
+    "embeddedAppChannel",
+    "embeddedAppEnvironment",
+    "publicStartupPolicyGate"
   ],
   "stable_signing": true,
   "signing_profile_id": "hhy-staging-test-v1",
   "signing_fingerprint": "f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873",
   "api_base_url": "https://api.orbexa.cc",
+  "app_channel": "official",
+  "app_environment": "STAGING",
   "embedded_api_base_url_occurrences": 1,
   "embedded_placeholder_occurrences": 0,
+  "embedded_owner_test_occurrences": 0,
   "toolchain_image": "hhy-android-toolchain:r01-46fb273",
   "toolchain_image_id": "sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607",
-  "source_archive_sha256": "828d43c4487f7a52e4bb22d27404c6188463a42aa7a2cbe0ade8c10085f262c3",
-  "apk_sha256": "c02b20d8e2198dc2938d7be8245ffadcf4269cc6187ea8d79e3464bb631d84d4",
+  "source_archive_sha256": "87006fe54ac1aaae4a36082ea96ce16d8337aba67a10fe7c58f0922d98bcc179",
+  "apk_sha256": "111ae0476c2d1ebb9bbc4dee6c527db5f72fd76250691409b59f5a8ed9bd4e6d",
   "apk_size_bytes": 19268698,
-  "built_at": "2026-07-20T06:39:05Z"
+  "built_at": "2026-07-20T07:10:58Z"
 }

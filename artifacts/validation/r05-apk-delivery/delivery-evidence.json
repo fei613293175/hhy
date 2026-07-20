@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
   "release": "R05",
-  "commit": "bc52fe68ae169a79586002af4f8b2af9b21690a6",
-  "apk_file": "hhy-r05-bc52fe6-debug.apk",
+  "commit": "9b726556391cb8e16e52750f83b1e80c4f2bf28b",
+  "apk_file": "hhy-r05-9b72655-debug.apk",
   "version_name": "1.2.2-debug",
-  "version_code": 10211,
-  "sha256": "c02b20d8e2198dc2938d7be8245ffadcf4269cc6187ea8d79e3464bb631d84d4",
+  "version_code": 10212,
+  "sha256": "111ae0476c2d1ebb9bbc4dee6c527db5f72fd76250691409b59f5a8ed9bd4e6d",
   "size_bytes": 19268698,
   "signing": {
     "status": "PASS",
@@ -15,24 +15,24 @@
   },
   "local": {
     "status": "PASS",
-    "artifact_copy": "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\artifacts\\apk\\R05\\hhy-r05-bc52fe6-debug.apk"
+    "artifact_copy": "C:\\Users\\小白\\Desktop\\workspace\\hhy-v1.2.3-handoff\\合伙云Pro_Codex直接开发包_V1.2.3_持续开发无状态接续强制门禁最终版\\artifacts\\apk\\R05\\hhy-r05-9b72655-debug.apk"
   },
   "desktop": {
     "status": "PASS",
-    "path": "C:\\Users\\小白\\Desktop\\hhy-r05-bc52fe6-debug.apk",
-    "sha256": "c02b20d8e2198dc2938d7be8245ffadcf4269cc6187ea8d79e3464bb631d84d4"
+    "path": "C:\\Users\\小白\\Desktop\\hhy-r05-9b72655-debug.apk",
+    "sha256": "111ae0476c2d1ebb9bbc4dee6c527db5f72fd76250691409b59f5a8ed9bd4e6d"
   },
   "route_preflight": {
     "status": "PASS",
-    "route": "/r05-artifacts/hhy-r05-bc52fe6-debug.apk",
-    "remote_path": "/www/wwwroot/download.orbexa.cc/r05-artifacts/hhy-r05-bc52fe6-debug.apk",
-    "checked_at": "2026-07-20T06:45:10.622536Z"
+    "route": "/r05-artifacts/hhy-r05-9b72655-debug.apk",
+    "remote_path": "/www/wwwroot/download.orbexa.cc/r05-artifacts/hhy-r05-9b72655-debug.apk",
+    "checked_at": "2026-07-20T07:12:12.143373Z"
   },
   "remote": {
     "status": "PASS",
-    "sha256": "c02b20d8e2198dc2938d7be8245ffadcf4269cc6187ea8d79e3464bb631d84d4",
+    "sha256": "111ae0476c2d1ebb9bbc4dee6c527db5f72fd76250691409b59f5a8ed9bd4e6d",
     "size_bytes": 19268698,
-    "path": "/www/wwwroot/download.orbexa.cc/r05-artifacts/hhy-r05-bc52fe6-debug.apk",
+    "path": "/www/wwwroot/download.orbexa.cc/r05-artifacts/hhy-r05-9b72655-debug.apk",
     "publish_state": "CREATED"
   },
   "https": {
@@ -40,14 +40,14 @@
     "http_status": 200,
     "range_status": 206,
     "content_type": "application/vnd.android.package-archive",
-    "sha256": "c02b20d8e2198dc2938d7be8245ffadcf4269cc6187ea8d79e3464bb631d84d4",
+    "sha256": "111ae0476c2d1ebb9bbc4dee6c527db5f72fd76250691409b59f5a8ed9bd4e6d",
     "size_bytes": 19268698,
-    "verified_at": "2026-07-20T06:48:52.615370Z",
-    "url": "https://download.orbexa.cc/r05-artifacts/hhy-r05-bc52fe6-debug.apk"
+    "verified_at": "2026-07-20T07:14:45.218267Z",
+    "url": "https://download.orbexa.cc/r05-artifacts/hhy-r05-9b72655-debug.apk"
   },
   "owner_physical_test": {
     "status": "PENDING"
   },
-  "created_at": "2026-07-20T06:47:27.643538Z",
-  "last_verified_at": "2026-07-20T06:48:52.615370Z"
+  "created_at": "2026-07-20T07:14:31.737087Z",
+  "last_verified_at": "2026-07-20T07:14:45.218267Z"
 }

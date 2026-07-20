@@ -10,24 +10,25 @@
 
 | 项目 | 值 |
 | --- | --- |
-| 源码 Commit | `bc52fe68ae169a79586002af4f8b2af9b21690a6` |
-| APK 文件 | `hhy-r05-bc52fe6-debug.apk` |
-| versionName / versionCode | `1.2.2-debug` / `10211` |
+| 源码 Commit | `9b726556391cb8e16e52750f83b1e80c4f2bf28b` |
+| APK 文件 | `hhy-r05-9b72655-debug.apk` |
+| versionName / versionCode | `1.2.2-debug` / `10212` |
 | APK 大小 | `19,268,698` bytes |
-| APK SHA-256 | `c02b20d8e2198dc2938d7be8245ffadcf4269cc6187ea8d79e3464bb631d84d4` |
+| APK SHA-256 | `111ae0476c2d1ebb9bbc4dee6c527db5f72fd76250691409b59f5a8ed9bd4e6d` |
 | 签名配置 | `hhy-staging-test-v1` |
 | 签名证书 SHA-256 | `f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873` |
 | API Base URL | `https://api.orbexa.cc` |
-| 桌面副本 | `C:\Users\小白\Desktop\hhy-r05-bc52fe6-debug.apk` |
-| 下载地址 | `https://download.orbexa.cc/r05-artifacts/hhy-r05-bc52fe6-debug.apk` |
+| 桌面副本 | `C:\Users\小白\Desktop\hhy-r05-9b72655-debug.apk` |
+| 下载地址 | `https://download.orbexa.cc/r05-artifacts/hhy-r05-9b72655-debug.apk` |
 
 ## 构建、签名与联网门禁
 
 - 固定工具链：`hhy-android-toolchain:r01-46fb273`，镜像 ID `sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607`。
-- 源码归档 SHA-256：`828d43c4487f7a52e4bb22d27404c6188463a42aa7a2cbe0ade8c10085f262c3`。
-- Gradle 执行 `clean testDebugUnitTest compileDebugAndroidTestKotlin lintDebug assembleDebug`，430 项任务全部成功，构建用时 5 分 2 秒。
+- 源码归档 SHA-256：`87006fe54ac1aaae4a36082ea96ce16d8337aba67a10fe7c58f0922d98bcc179`。
+- Gradle 执行 `clean testDebugUnitTest compileDebugAndroidTestKotlin lintDebug assembleDebug`，430 项任务全部成功，构建用时 2 分 24 秒。
 - `apksigner`、`zipalign` 均通过；APK Signature Scheme v2、v3 为 `true`，签名证书与既有 Staging 测试签名一致。
-- DEX 中真实 API `https://api.orbexa.cc` 精确出现 1 次，占位端点 `.invalid` 出现 0 次。
+- DEX 中真实 API `https://api.orbexa.cc` 精确出现 1 次，占位端点 `.invalid` 与错误渠道 `owner-test` 均出现 0 次；`official` 与 `STAGING` 已写入包内。
+- 公网启动门禁使用与 App 完全一致的 `ANDROID + official + STAGING + 10212` 请求，平台状态与版本检查均返回 HTTP 200。
 - `deliver_android_test_apk.py prepare` 与独立 `verify` 均通过；公网完整下载 200、Range 206、Android APK MIME 正确。
 - 真机发现授权说明加载失败后确认公网仍运行R03后端；已在数据库可恢复备份、候选就绪和旧认证回归通过后滚动切换至R05。真实测试注册取得Bearer后，`GET /api/v1/identity/consent`返回HTTP 200、标题正确且正文长度239；证据见`artifacts/validation/r05-public-rollforward/evidence.json`。
 - 公网Staging已滚动切换至生产硬隔离实名沙箱候选；注册、协议、创建会话、HTTPS活体页、服务端`VERIFIED`终态和一次性state重放422黑盒全部通过，旧容器与Nginx备份保留。
