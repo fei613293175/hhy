@@ -37,6 +37,6 @@ table_count="$(${PSQL[@]} -qAt -c "SELECT count(*) FROM information_schema.table
   echo "R06 empty-database migration expected 200 tables, got ${table_count}" >&2
   exit 1
 }
-echo "R06_EMPTY_DATABASE_TO_V029 PASS tables=${table_count}"
+echo "R06_EMPTY_DATABASE_TO_V030 PASS tables=${table_count}"
 DATABASE_URL="${DATABASE_URL}" HHY_DB_SMOKE_CONFIRM=YES bash "${ROOT}/scripts/run_r06_database_invariants.sh"
 echo "R06_DISPOSABLE_POSTGRES_CONTAINER PASS"

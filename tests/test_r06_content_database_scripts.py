@@ -30,6 +30,8 @@ class R06ContentDatabaseScriptsTest(unittest.TestCase):
         shell = RUNNER.read_text(encoding="utf-8")
         self.assertIn("HHY_DB_SMOKE_CONFIRM", shell)
         self.assertIn("U029__r06_content_home_invariants.sql", shell)
+        self.assertIn("U030__r06_content_admin_permissions.sql", shell)
+        self.assertIn("V030__r06_content_admin_permissions.sql", shell)
         self.assertIn("V029__r06_content_home_invariants.sql", shell)
         self.assertIn('[[ "${remaining}" == "0|0|0" ]]', shell)
         self.assertIn('[[ "${reapplied}" == "12|7|8" ]]', shell)
@@ -41,7 +43,13 @@ class R06ContentDatabaseScriptsTest(unittest.TestCase):
         self.assertIn("trap cleanup EXIT", shell)
         self.assertIn("export CONTAINER", shell)
         self.assertNotIn("-p 5432", shell)
-        self.assertIn("R06_EMPTY_DATABASE_TO_V029 PASS", shell)
+        self.assertIn("R06_EMPTY_DATABASE_TO_V030 PASS", shell)
+
+    def test_runner_checks_permission_inheritance_and_u030_replay(self) -> None:
+        shell = RUNNER.read_text(encoding="utf-8")
+        self.assertIn('[[ "${permission_state}" == "5|0|0" ]]', shell)
+        self.assertIn('[[ "${permission_count}|${base_grants}" == "0|0" ]]', shell)
+        self.assertIn('[[ "${permission_count}" == "5" ]]', shell)
 
 
 if __name__ == "__main__":
