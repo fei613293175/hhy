@@ -258,6 +258,7 @@ def run_command(
     check: bool = False,
     text: bool = True,
     timeout: int = 60,
+    input_text: str | None = None,
 ) -> subprocess.CompletedProcess[str]:
     command = list(args)
     if command and command[0] == "git":
@@ -273,6 +274,7 @@ def run_command(
             cwd=str(cwd),
             capture_output=True,
             text=text,
+            input=input_text,
             timeout=timeout,
             encoding="utf-8" if text else None,
             errors="replace" if text else None,
@@ -440,6 +442,31 @@ def file_content_token(root: Path, relative: str) -> dict[str, Any]:
     }
 
 
+def git_blob_content_tokens(root: Path, relative_paths: Sequence[str]) -> list[dict[str, Any]]:
+    """Fingerprint tracked content in one Git clean-filter batch."""
+    existing: list[str] = []
+    tokens: dict[str, dict[str, Any]] = {}
+    for relative in relative_paths:
+        path = root / relative
+        if not path.exists() and not path.is_symlink():
+            tokens[relative] = {"path": relative, "state": "DELETED"}
+        else:
+            existing.append(relative)
+    if existing:
+        result = run_command(
+            ["git", "hash-object", "--stdin-paths"],
+            cwd=root,
+            check=True,
+            input_text="\n".join(existing) + "\n",
+        )
+        object_ids = result.stdout.splitlines()
+        if len(object_ids) != len(existing):
+            raise ContinuityError("Git blob批量指纹数量不一致")
+        for relative, object_id in zip(existing, object_ids, strict=True):
+            tokens[relative] = {"path": relative, "state": "GIT_BLOB", "oid": object_id}
+    return [tokens[relative] for relative in relative_paths]
+
+
 def portable_source_record(root: Path, path: Path) -> dict[str, Any]:
     """Describe a Context Pack source independently of Git checkout EOLs."""
     content = canonical_fingerprint_bytes(path.read_bytes())
@@ -474,12 +501,14 @@ def tree_fingerprint(root: Path) -> dict[str, Any]:
         # Working-tree contents are still read so tracked edits and deletions
         # remain visible before the final metadata commit.
         tracked_files = [item for item in git(root, "ls-files", "-z").split("\0") if item]
+        fingerprint_paths: list[str] = []
         for relative in sorted(tracked_files):
             if relative in {"MANIFEST_SHA256.txt", STATE_FILE} or is_managed_record(relative):
                 continue
             if any(path_matches(relative, pattern) for pattern in PORTABLE_EXCLUDE_PATTERNS):
                 continue
-            tokens.append(file_content_token(root, relative))
+            fingerprint_paths.append(relative)
+        tokens.extend(git_blob_content_tokens(root, fingerprint_paths))
         payload = {"files": tokens}
         return {"sha256": sha256_text(canonical_json(payload)), "file_count": len(tokens)}
 

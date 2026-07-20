@@ -69,6 +69,22 @@ class ContextPackParallelPolicyTest(unittest.TestCase):
             after = tree_fingerprint(root)
         self.assertEqual(before, after)
 
+    def test_closed_repository_fingerprint_uses_git_eol_normalization(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(["git", "config", "user.email", "ci@example.invalid"], cwd=root, check=True)
+            subprocess.run(["git", "config", "user.name", "CI"], cwd=root, check=True)
+            (root / ".gitattributes").write_text("* text=auto eol=lf\n", encoding="utf-8")
+            source = root / "portable.txt"
+            source.write_bytes(b"first\nsecond\n")
+            subprocess.run(["git", "add", ".gitattributes", "portable.txt"], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-qm", "baseline"], cwd=root, check=True)
+            lf_fingerprint = tree_fingerprint(root)
+            source.write_bytes(b"first\r\nsecond\r\n")
+            crlf_fingerprint = tree_fingerprint(root)
+        self.assertEqual(lf_fingerprint, crlf_fingerprint)
+
     def test_context_source_record_is_portable_across_git_line_endings(self) -> None:
         with TemporaryDirectory() as directory:
             root = Path(directory)
