@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T02:45:24Z
-- Context Hash：`212dc034016b918338fe7813a7d9f11e243bda73ef092da230c8dde5d87d2872`
+- 生成时间：2026-07-20T02:50:44Z
+- Context Hash：`c15c207b8acba80b0f2abd150a2b7c6a1902dfc5eeaf0886f09adc954b5b8e17`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -84,7 +84,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-007
-updated_at: '2026-07-20T02:45:22Z'
+updated_at: '2026-07-20T02:50:42Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -119,15 +119,15 @@ continuity:
   active_session_id: SES-20260719T234639Z-1D7D7A00
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T06:45:22Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0017.yaml
-  project_fingerprint: 3cab9fa1b10eef63cad466f10e27875ce5d6b2502ec1c81af85a96dadaf967f1
+  lease_expires_at: '2026-07-20T06:50:42Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0019.yaml
+  project_fingerprint: 6be64334c062b090d3ac92e3a445f208f1a6e04e96108921e232ca00fb451a17
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 7d80c46ccbbd2a59159772f87652d24340d96917e67077bd8595ffec9916f0d3
-    generated_at: '2026-07-20T02:43:28Z'
+    context_hash: c16964926395bec9367699ff247ded8bbcd9618e6087ddade9425e975161f43c
+    generated_at: '2026-07-20T02:49:36Z'
   handoff_bundle: null
 ```
 
@@ -319,7 +319,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T02:45:22Z'
+updated_at: '2026-07-20T02:50:42Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -330,6 +330,7 @@ change_requests:
 - CR-0114
 - CR-0115
 - CR-0116
+- CR-0117
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -393,7 +394,7 @@ scope:
   - apps/h5/src/views/IdentityCallbackPage.test.ts
   - artifacts/validation/r05-ui/H5-012-browser-360x800.png
   - artifacts/reports/R05/R05-UI-FROZEN-PACKAGE-INTAKE.md
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -403,12 +404,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T02:45:22Z'
-  expires_at: '2026-07-20T06:45:22Z'
-checkpoint_sequence: 17
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0017.yaml
+  renewed_at: '2026-07-20T02:50:42Z'
+  expires_at: '2026-07-20T06:50:42Z'
+checkpoint_sequence: 19
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0019.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交冻结实现并构建新的R05测试APK，完成桌面交付与真机视觉验收。
+next_step: 提交版本身份变更并按冻结提交构建、签名、验证、投放桌面
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -416,45 +417,33 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 系统级约束未允许本轮主动创建子代理，主控串行完成集成。
+  reason: 系统级约束未允许本轮主动创建子代理，主控串行完成APK交付
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0017
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0019
 session_id: SES-20260719T234639Z-1D7D7A00
-sequence: 17
-created_at: '2026-07-20T02:45:22Z'
-summary: 完成R05冻结UI首轮实现、跨端验证与变更日志同步，代码已具备冻结Commit条件。
-next_step: 提交冻结实现并构建新的R05测试APK，完成桌面交付与真机视觉验收。
+sequence: 19
+created_at: '2026-07-20T02:50:42Z'
+summary: R05冻结UI测试APK版本身份与变更记录同步为10209
+next_step: 提交版本身份变更并按冻结提交构建、签名、验证、投放桌面
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: ANDROID_IDENTITY_COMPILE
+- name: PASS:ANDROID_VERSION_IDENTITY
   result: PASS
-  evidence: obx-test BUILD SUCCESSFUL
-  note: identity unit test and compile
-- name: H5_MODULE
-  result: PASS
-  evidence: 22 tests;vue-tsc;360x800 screenshot
-  note: visual verified
-- name: ADMIN_MODULE
-  result: PASS
-  evidence: 83 tests;vue-tsc
-  note: standard template regression
-- name: TOKEN_GENERATED_UI
-  result: PASS
-  evidence: UI_TOKENS_OK 52;GENERATED_ASSETS_OK;UI_VISUAL_CATALOG_OK
-  note: no drift
+  evidence: apps/android/app/build.gradle.kts;CHANGELOG.md
+  note: versionCode=10209 versionName=1.2.2-debug
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 9e1320e33920b57758142e1abaeee2e76282e8a9
+  head: c2838d9e9d1f487747c7cbe309d6f7e02c7b1e36
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
@@ -463,100 +452,22 @@ git:
   - M  .continuity/EVENT_LOG.jsonl
   - M  .continuity/SESSION_INDEX.yaml
   - M  .continuity/STATE.yaml
-  - A  .continuity/change_requests/CR-0115.yaml
-  - A  .continuity/change_requests/CR-0116.yaml
-  - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0015.yaml
-  - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0016.yaml
+  - A  .continuity/change_requests/CR-0117.yaml
+  - A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0018.yaml
   - M  .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
   - ' M CHANGELOG.md'
   - M  CURRENT_STATUS.yaml
-  - M  apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
-  - M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
-  - M  apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
-  - M  apps/h5/src/App.vue
-  - M  apps/h5/src/styles.css
-  - M  apps/h5/src/views/IdentityCallbackPage.test.ts
-  - M  apps/h5/src/views/IdentityCallbackPage.vue
+  - M  apps/android/app/build.gradle.kts
   - M  artifacts/context/CURRENT_CONTEXT_PACK.md
   - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
   - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - A  artifacts/reports/R05/R05-UI-FROZEN-PACKAGE-INTAKE.md
-  - M  artifacts/validation/project-doctor-v1.2.3-documentation.json
-  - A  artifacts/validation/r05-ui/H5-012-browser-360x800.png
   - M  catalogs/change_request_index.csv
   - M  catalogs/session_index.csv
-  - M  catalogs/ui_visual_acceptance.csv
-  - A  design/R05-UI-FROZEN/TOKEN_ADDITIONS_PROPOSAL.json
-  - A  design/R05-UI-FROZEN/VISUAL_MANIFEST.json
-  - A  design/R05-UI-FROZEN/generation/README.md
-  - A  design/R05-UI-FROZEN/generation/generate_r05_ui.py
-  - A  design/R05-UI-FROZEN/generation/requirements.txt
-  - A  design/R05-UI-FROZEN/generation/validate_r05_ui.py
-  - A  design/R05-UI-FROZEN/images/ADM-ID-001_01_加载.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-001_02_正常列表.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-001_03_空列表.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-001_04_无权限.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-001_05_失败.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-001_06_1200响应式.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-001_OVERVIEW.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-002_01_加载.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-002_02_详情.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-002_03_敏感资料授权.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-002_04_人工复核.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-002_05_乐观锁冲突.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-002_06_无权限.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-002_07_404.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-002_08_1200响应式.png
-  - A  design/R05-UI-FROZEN/images/ADM-ID-002_OVERVIEW.png
-  - A  design/R05-UI-FROZEN/images/H5-012_01_加载.png
-  - A  design/R05-UI-FROZEN/images/H5-012_02_处理中.png
-  - A  design/R05-UI-FROZEN/images/H5-012_03_成功.png
-  - A  design/R05-UI-FROZEN/images/H5-012_04_人工审核.png
-  - A  design/R05-UI-FROZEN/images/H5-012_05_未通过.png
-  - A  design/R05-UI-FROZEN/images/H5-012_06_失效.png
-  - A  design/R05-UI-FROZEN/images/H5-012_07_离线.png
-  - A  design/R05-UI-FROZEN/images/H5-012_OVERVIEW.png
-  - A  design/R05-UI-FROZEN/images/HHY_R05_IDENTITY_VISUAL_MASTER_OVERVIEW.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-001_01_未认证.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-001_02_认证中.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-001_03_已认证.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-001_OVERVIEW.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-002_01_默认.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-002_02_字段错误.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-002_03_授权说明弹层.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-002_04_网络失败重试.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-002_OVERVIEW.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-003_01_准备.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-003_02_相机授权.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-003_03_加载.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-003_04_处理中.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-003_05_失败重试.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-003_OVERVIEW.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-004_01_核验中.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-004_02_人工审核.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-004_03_成功.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-004_04_拒绝.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-004_05_失败.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-004_06_过期.png
-  - A  design/R05-UI-FROZEN/images/SCR-ID-004_OVERVIEW.png
-  - A  design/R05-UI-FROZEN/specs/ADM-ID-001.md
-  - A  design/R05-UI-FROZEN/specs/ADM-ID-002.md
-  - A  design/R05-UI-FROZEN/specs/H5-012.md
-  - A  design/R05-UI-FROZEN/specs/SCR-ID-001.md
-  - A  design/R05-UI-FROZEN/specs/SCR-ID-002.md
-  - A  design/R05-UI-FROZEN/specs/SCR-ID-003.md
-  - A  design/R05-UI-FROZEN/specs/SCR-ID-004.md
-  - A  design/R05-UI-FROZEN/冻结说明.md
-  - M  design/tokens/hhy_design_tokens_v1.2.2.json
-  - A  docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md
-  - A  docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
+  - A  docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
   - M  docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  - M  packages/design-tokens/admin.css
-  - M  packages/design-tokens/h5.css
-  - M  scripts/check_ui_tokens.py
-  - M  scripts/check_ui_visual_acceptance.py
-  - M  tests/test_ui_visual_acceptance.py
   recent_commits:
+  - "c2838d9e9d1f487747c7cbe309d6f7e02c7b1e36\t2026-07-20T10:46:40+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): apply frozen\
+    \ R05 visual specification"
   - "9e1320e33920b57758142e1abaeee2e76282e8a9\t2026-07-20T09:27:24+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(identity): align public\
     \ runtime with R05"
   - "fee16bae9010e33b0ff1d526dedf218a59787c61\t2026-07-20T08:58:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind UI\
@@ -571,10 +482,8 @@ git:
     \ APK evidence commits"
   - "ddb8277b9e58c46dd80eee1a54f129cd539fd8da\t2026-07-20T08:17:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(android): archive R05\
     \ APK delivery evidence"
-  - "3454ff232a66c83c8fd7f6f00dc95d6d078f63ef\t2026-07-20T07:50:41+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): freeze R05\
-    \ test APK identity"
 project_fingerprint:
-  sha256: 3cab9fa1b10eef63cad466f10e27875ce5d6b2502ec1c81af85a96dadaf967f1
+  sha256: 6be64334c062b090d3ac92e3a445f208f1a6e04e96108921e232ca00fb451a17
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -664,6 +573,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
   - docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md
   - docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
+  - docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
   - packages/design-tokens/admin.css
   - packages/design-tokens/h5.css
   - releases/PROGRAM_EXECUTION_PLAN.yaml
@@ -678,7 +588,7 @@ project_fingerprint:
   - tests/test_r05_public_identity_gate.py
   - tests/test_release_close_gate.py
   - tests/test_ui_visual_acceptance.py
-  file_count: 102
+  file_count: 103
   payload:
     base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
     files:
@@ -688,12 +598,12 @@ project_fingerprint:
       sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
     - path: CHANGELOG.md
       state: FILE
-      size: 47390
-      sha256: 7cd14f04e4bf1ed4c1241375c21eec0d63418b6cfa0f17bdffa4a0916133d07f
+      size: 47402
+      sha256: 34c1872466401b39668c1c004b659d2512387d9ed40ecc1e2cd89fecebd269a8
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 4705
-      sha256: 585293875546aec00412882992a767d5868646141aa6555e4af2c31af75e2556
+      sha256: 828d861753d694b6c4f9e9776e0e42024afcb33700b18171cfd81c0d077115d2
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
       state: FILE
       size: 520
@@ -1034,6 +944,10 @@ project_fingerprint:
       state: FILE
       size: 2776
       sha256: 311755e89a3d878320078e48c7e49abb8542cef1437d33ce9845ee471a21e148
+    - path: docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
+      state: FILE
+      size: 1967
+      sha256: bd0e5afb825b41e0a82113018de60f760cab688b9228aafefa8dba7cafc382ab
     - path: packages/design-tokens/admin.css
       state: FILE
       size: 5143
@@ -1206,6 +1120,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
   - docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md
   - docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
+  - docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
   tests:
   - tests/test_r05_public_identity_gate.py
   - tests/test_release_close_gate.py
@@ -1227,6 +1142,7 @@ change_requests:
 - CR-0114
 - CR-0115
 - CR-0116
+- CR-0117
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -1290,13 +1206,13 @@ scope:
   - apps/h5/src/views/IdentityCallbackPage.test.ts
   - artifacts/validation/r05-ui/H5-012-browser-360x800.png
   - artifacts/reports/R05/R05-UI-FROZEN-PACKAGE-INTAKE.md
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 系统级约束未允许本轮主动创建子代理，主控串行完成集成。
-event_hash: ed2d0ad867cd491162b61ad85139f45e1709d4c5b5bec0d3a18189b8fa5e8214
+  reason: 系统级约束未允许本轮主动创建子代理，主控串行完成APK交付
+event_hash: 2e79487fd93c1aa060e79cf156a6f47d6e5d29eced3a2c6ca7a153f417fb4cfe
 ```
 
 ## 接续状态与事件头
@@ -1308,8 +1224,8 @@ active_session_id: SES-20260719T234639Z-1D7D7A00
 last_session_id: SES-20260719T230526Z-55ABC07F
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0004
-event_count: 1241
-event_head_hash: ed2d0ad867cd491162b61ad85139f45e1709d4c5b5bec0d3a18189b8fa5e8214
+event_count: 1247
+event_head_hash: 2e79487fd93c1aa060e79cf156a6f47d6e5d29eced3a2c6ca7a153f417fb4cfe
 event_chain_valid: true
 ```
 
@@ -1432,9 +1348,9 @@ recent_sessions: - session_id: SES-20260719T135908Z-32D952EC
   started_at: '2026-07-19T23:46:39Z'
   record: .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  updated_at: '2026-07-20T02:45:22Z'
+  updated_at: '2026-07-20T02:50:42Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0017.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0019.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B426B903146
   session_id: SES-20260718T152013Z-8B704646
@@ -2317,9 +2233,9 @@ recent_task_transitions: - transition_id: TRN-4DA26C35977A
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 9e1320e33920b57758142e1abaeee2e76282e8a9
+head: c2838d9e9d1f487747c7cbe309d6f7e02c7b1e36
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
@@ -2328,101 +2244,23 @@ status_porcelain:
 - MM .continuity/EVENT_LOG.jsonl
 - MM .continuity/SESSION_INDEX.yaml
 - MM .continuity/STATE.yaml
-- A  .continuity/change_requests/CR-0115.yaml
-- A  .continuity/change_requests/CR-0116.yaml
-- A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0015.yaml
-- A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0016.yaml
+- A  .continuity/change_requests/CR-0117.yaml
+- A  .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0018.yaml
 - MM .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
 - ' M CHANGELOG.md'
 - MM CURRENT_STATUS.yaml
-- M  apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
-- M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
-- M  apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
-- M  apps/h5/src/App.vue
-- M  apps/h5/src/styles.css
-- M  apps/h5/src/views/IdentityCallbackPage.test.ts
-- M  apps/h5/src/views/IdentityCallbackPage.vue
+- M  apps/android/app/build.gradle.kts
 - M  artifacts/context/CURRENT_CONTEXT_PACK.md
 - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
 - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- A  artifacts/reports/R05/R05-UI-FROZEN-PACKAGE-INTAKE.md
-- M  artifacts/validation/project-doctor-v1.2.3-documentation.json
-- A  artifacts/validation/r05-ui/H5-012-browser-360x800.png
 - M  catalogs/change_request_index.csv
 - MM catalogs/session_index.csv
-- M  catalogs/ui_visual_acceptance.csv
-- A  design/R05-UI-FROZEN/TOKEN_ADDITIONS_PROPOSAL.json
-- A  design/R05-UI-FROZEN/VISUAL_MANIFEST.json
-- A  design/R05-UI-FROZEN/generation/README.md
-- A  design/R05-UI-FROZEN/generation/generate_r05_ui.py
-- A  design/R05-UI-FROZEN/generation/requirements.txt
-- A  design/R05-UI-FROZEN/generation/validate_r05_ui.py
-- A  design/R05-UI-FROZEN/images/ADM-ID-001_01_加载.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-001_02_正常列表.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-001_03_空列表.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-001_04_无权限.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-001_05_失败.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-001_06_1200响应式.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-001_OVERVIEW.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-002_01_加载.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-002_02_详情.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-002_03_敏感资料授权.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-002_04_人工复核.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-002_05_乐观锁冲突.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-002_06_无权限.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-002_07_404.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-002_08_1200响应式.png
-- A  design/R05-UI-FROZEN/images/ADM-ID-002_OVERVIEW.png
-- A  design/R05-UI-FROZEN/images/H5-012_01_加载.png
-- A  design/R05-UI-FROZEN/images/H5-012_02_处理中.png
-- A  design/R05-UI-FROZEN/images/H5-012_03_成功.png
-- A  design/R05-UI-FROZEN/images/H5-012_04_人工审核.png
-- A  design/R05-UI-FROZEN/images/H5-012_05_未通过.png
-- A  design/R05-UI-FROZEN/images/H5-012_06_失效.png
-- A  design/R05-UI-FROZEN/images/H5-012_07_离线.png
-- A  design/R05-UI-FROZEN/images/H5-012_OVERVIEW.png
-- A  design/R05-UI-FROZEN/images/HHY_R05_IDENTITY_VISUAL_MASTER_OVERVIEW.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-001_01_未认证.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-001_02_认证中.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-001_03_已认证.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-001_OVERVIEW.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-002_01_默认.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-002_02_字段错误.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-002_03_授权说明弹层.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-002_04_网络失败重试.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-002_OVERVIEW.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-003_01_准备.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-003_02_相机授权.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-003_03_加载.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-003_04_处理中.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-003_05_失败重试.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-003_OVERVIEW.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-004_01_核验中.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-004_02_人工审核.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-004_03_成功.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-004_04_拒绝.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-004_05_失败.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-004_06_过期.png
-- A  design/R05-UI-FROZEN/images/SCR-ID-004_OVERVIEW.png
-- A  design/R05-UI-FROZEN/specs/ADM-ID-001.md
-- A  design/R05-UI-FROZEN/specs/ADM-ID-002.md
-- A  design/R05-UI-FROZEN/specs/H5-012.md
-- A  design/R05-UI-FROZEN/specs/SCR-ID-001.md
-- A  design/R05-UI-FROZEN/specs/SCR-ID-002.md
-- A  design/R05-UI-FROZEN/specs/SCR-ID-003.md
-- A  design/R05-UI-FROZEN/specs/SCR-ID-004.md
-- A  design/R05-UI-FROZEN/冻结说明.md
-- M  design/tokens/hhy_design_tokens_v1.2.2.json
-- A  docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md
-- A  docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
+- A  docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
 - MM docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-- M  packages/design-tokens/admin.css
-- M  packages/design-tokens/h5.css
-- M  scripts/check_ui_tokens.py
-- M  scripts/check_ui_visual_acceptance.py
-- M  tests/test_ui_visual_acceptance.py
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0017.yaml
+- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0019.yaml
 recent_commits:
+- "c2838d9e9d1f487747c7cbe309d6f7e02c7b1e36\t2026-07-20T10:46:40+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): apply frozen\
+  \ R05 visual specification"
 - "9e1320e33920b57758142e1abaeee2e76282e8a9\t2026-07-20T09:27:24+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(identity): align public\
   \ runtime with R05"
 - "fee16bae9010e33b0ff1d526dedf218a59787c61\t2026-07-20T08:58:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind UI gate\
@@ -2437,14 +2275,12 @@ recent_commits:
   \ APK evidence commits"
 - "ddb8277b9e58c46dd80eee1a54f129cd539fd8da\t2026-07-20T08:17:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(android): archive R05 APK\
   \ delivery evidence"
-- "3454ff232a66c83c8fd7f6f00dc95d6d078f63ef\t2026-07-20T07:50:41+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): freeze R05 test\
-  \ APK identity"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`3cab9fa1b10eef63cad466f10e27875ce5d6b2502ec1c81af85a96dadaf967f1`
-- 文件数：102
+- 指纹：`6be64334c062b090d3ac92e3a445f208f1a6e04e96108921e232ca00fb451a17`
+- 文件数：103
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -2534,6 +2370,7 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md`
 - `docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md`
 - `docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md`
+- `docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md`
 - `packages/design-tokens/admin.css`
 - `packages/design-tokens/h5.css`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml`
@@ -6333,13 +6170,53 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 这是已批准R05冻结UI补充包落地所必需的确定性派生、H5壳层和证据范围，不扩展业务功能。
   machine_record: .continuity/change_requests/CR-0116.yaml
   document: docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
+- protocol_version: '1.0'
+  cr_id: CR-0117
+  title: 递增R05冻结UI真机测试APK版本身份
+  status: APPROVED
+  created_at: '2026-07-20T02:47:21Z'
+  updated_at: '2026-07-20T02:48:00Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-007
+  session_id: SES-20260719T234639Z-1D7D7A00
+  user_request: 项目所有者要求立即落地R05冻结视觉补充包并推进开发。
+  reason: 冻结UI实现必须生成可覆盖安装且不与旧R05测试包混淆的新APK，versionCode需从10208单调递增。
+  original_rule: R05现有真机测试APK使用versionCode 10208，对应冻结UI落地前的旧页面。
+  new_rule: R05冻结UI真机回归APK使用versionCode 10209，versionName保持1.2.2-debug、固定Staging测试签名和HHY_API_BASE_URL=https://api.orbexa.cc；测试包不得冒充正式发布产物。
+  impact_summary: 仅递增Android测试包版本身份并重新生成既有R05-007交付证据与桌面副本。
+  impact:
+    files:
+    - apps/android/app/build.gradle.kts
+    pages:
+    - SCR-ID-001
+    - SCR-ID-002
+    - SCR-ID-003
+    - SCR-ID-004
+    apis: []
+    database: []
+    configuration:
+    - Android versionCode=10209
+    ledger: []
+    tests:
+    - verifyApiBaseUrl；testDebugUnitTest；lintDebug；assembleDebug；签名与四方SHA；真机覆盖安装
+    releases:
+    - R05
+    migration_and_compatibility: 支持在10208测试包上覆盖安装；不改变applicationId、API、数据库、签名策略或正式发布状态。
+  user_confirmation: 项目所有者明确提供冻结视觉补充包并要求立即推进开发，且既有长期规则要求测试APK放桌面。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T02:48:00Z'
+    note: 冻结UI需要新的单调版本测试包供项目所有者覆盖安装验收。
+  machine_record: .continuity/change_requests/CR-0117.yaml
+  document: docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `91d1ae49fd9605feee4f7b0b54fe64e7bde4e97a0c2af144150d1c0d0501338a`
+- `CURRENT_STATUS.yaml` — `f74c921531795b962a500810db605ef1ea9a745ad6ad55087c7b51bc6f2f62c0`
 - `NEXT_TASK.yaml` — `bd22bac1e2b0308bd77f173dca3ac229dff82931447bff00e89661b483b14ee0`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -6350,20 +6227,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `e6ae17710317ba4578da7e2ab2b160d97870cbc35d7191d77cf5fccf13e62bd7`
-- `.continuity/SESSION_INDEX.yaml` — `df930a5838ef591d21a3ea509b628844d79fe6fbe5d52f72f6c8b62c3e8e4da4`
+- `.continuity/EVENT_LOG.jsonl` — `09a86763d2851665b87ea49cc250134df713662fc1aa360a7889deccb67ae78b`
+- `.continuity/SESSION_INDEX.yaml` — `cda16f1855e98ef1c57fe4316146f6af83b8765a5160364a3f5880b1e89c1c77`
 - `.continuity/TASK_CLAIMS.yaml` — `b42bae99e7d14cdcf44b0551a70718a1c1bdf785aa7cdfbff142597c2b2282ac`
 - `.continuity/TASK_TRANSITIONS.yaml` — `649cf4421377460d639a628f6c86e77ff9cd2e7a96acffc65865873cbcb9a2a0`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `69cc4ddd1fe67edcca8d39cc988b485f65a75799faab361abccbb477c4a6e29d`
-- `.continuity/ACTIVE_SESSION.yaml` — `afc1904db15d1eb5c2b961e536e1db3c9e89d274668165ce929a7a1d9b234781`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c17256863dd7c540c3d2d2b1a2634e6eb63acbebd78999bab6a78531b884bd0d`
+- `.continuity/ACTIVE_SESSION.yaml` — `37de197a4f07dceb05ec817139d9dc322147a6f3f4911ede0683e094a9745e9c`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `48d66c06efb7102d3a1965124a9b34d9867a4418e009ebb98cbc48dd915ef489`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `e763b0bc235be69b871929ad214e0a458ae978ab54970a42af8f5e3987677ce5`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml` — `38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `960dd8840d368d784c0e347ea997501d32c7176cc832bb71b5e021cd0d36b687`
-- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0017.yaml` — `dc329ff12302f6ac79279b2a1e21d5145b0fe807f274c239168acffe7b8de06b`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `4c81513c40073d1e180df19d3a683af87765c6dd840db43a1eaab6d5e67ab0cc`
+- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0019.yaml` — `4f0a6d3d9c2b11e96e74d046f9051cb707ccac1a5358afae47de9087ce6ffa9c`
 - `docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md` — `2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f`
 - `docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md` — `7ea7a2a77787bbf3e87d0c52f6b265235b50ade68dd07cf74369b51935b7b0bd`
 - `docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md` — `3d8a27084d1ed3efdee721c872c08c7103386965f3b731cd302bd173e6245f55`
@@ -6372,6 +6249,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md` — `62800444cd43d7de1801e4248129767985963a6528307e178e823f96f86a992c`
 - `docs/03-continuity/change-requests/CR-0115-采纳R05冻结视觉补充包并校正管理后台视觉门禁范围.md` — `be52a455d03c8ac754aed124a21000d65bfbd81224471d480f0454c36de61111`
 - `docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md` — `311755e89a3d878320078e48c7e49abb8542cef1437d33ce9845ee471a21e148`
+- `docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md` — `bd0e5afb825b41e0a82113018de60f760cab688b9228aafefa8dba7cafc382ab`
 
 ## 接手硬规则
 

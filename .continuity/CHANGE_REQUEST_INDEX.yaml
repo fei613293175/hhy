@@ -6899,3 +6899,43 @@ change_requests:
     note: 这是已批准R05冻结UI补充包落地所必需的确定性派生、H5壳层和证据范围，不扩展业务功能。
   machine_record: .continuity/change_requests/CR-0116.yaml
   document: docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
+- protocol_version: '1.0'
+  cr_id: CR-0117
+  title: 递增R05冻结UI真机测试APK版本身份
+  status: APPROVED
+  created_at: '2026-07-20T02:47:21Z'
+  updated_at: '2026-07-20T02:48:00Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-007
+  session_id: SES-20260719T234639Z-1D7D7A00
+  user_request: 项目所有者要求立即落地R05冻结视觉补充包并推进开发。
+  reason: 冻结UI实现必须生成可覆盖安装且不与旧R05测试包混淆的新APK，versionCode需从10208单调递增。
+  original_rule: R05现有真机测试APK使用versionCode 10208，对应冻结UI落地前的旧页面。
+  new_rule: R05冻结UI真机回归APK使用versionCode 10209，versionName保持1.2.2-debug、固定Staging测试签名和HHY_API_BASE_URL=https://api.orbexa.cc；测试包不得冒充正式发布产物。
+  impact_summary: 仅递增Android测试包版本身份并重新生成既有R05-007交付证据与桌面副本。
+  impact:
+    files:
+    - apps/android/app/build.gradle.kts
+    pages:
+    - SCR-ID-001
+    - SCR-ID-002
+    - SCR-ID-003
+    - SCR-ID-004
+    apis: []
+    database: []
+    configuration:
+    - Android versionCode=10209
+    ledger: []
+    tests:
+    - verifyApiBaseUrl；testDebugUnitTest；lintDebug；assembleDebug；签名与四方SHA；真机覆盖安装
+    releases:
+    - R05
+    migration_and_compatibility: 支持在10208测试包上覆盖安装；不改变applicationId、API、数据库、签名策略或正式发布状态。
+  user_confirmation: 项目所有者明确提供冻结视觉补充包并要求立即推进开发，且既有长期规则要求测试APK放桌面。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T02:48:00Z'
+    note: 冻结UI需要新的单调版本测试包供项目所有者覆盖安装验收。
+  machine_record: .continuity/change_requests/CR-0117.yaml
+  document: docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
