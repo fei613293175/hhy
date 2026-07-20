@@ -151,6 +151,9 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("script: bash scripts/run_android_emulator_gate.sh", source)
         self.assertIn("! -name '*androidTest*'", source)
         self.assertIn("path: candidate-output", source)
+        self.assertEqual("${{ inputs.candidate }}", workflow["jobs"]["emulator"]["if"])
+        self.assertIn("inputs.candidate", workflow["jobs"]["candidate"]["if"])
+        self.assertIn("inputs.candidate", workflow["jobs"]["remediation-queue"]["if"])
         self.assertRegex(
             source,
             r"reactivecircus/android-emulator-runner@[0-9a-f]{40}",
@@ -167,6 +170,18 @@ class AndroidCiGateTest(unittest.TestCase):
     def test_main_ci_delegates_android_to_the_reusable_quality_gate(self) -> None:
         ci_source = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
         self.assertIn("./.github/workflows/android-quality-gate.yml", ci_source)
+        self.assertIn("candidate: false", ci_source)
+
+    def test_branch_candidate_request_calls_the_same_quality_gate(self) -> None:
+        workflow_path = ROOT / ".github/workflows/android-candidate-request.yml"
+        workflow = yaml.load(workflow_path.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+        self.assertIn("push", workflow["on"])
+        self.assertEqual(
+            "./.github/workflows/android-quality-gate.yml",
+            workflow["jobs"]["quality"]["uses"],
+        )
+        self.assertEqual("true", workflow["jobs"]["quality"]["with"]["candidate"])
+        self.assertIn("config/android-candidate-request.yaml", workflow_path.read_text(encoding="utf-8"))
 
     def test_main_ci_pins_node_for_python_gates_and_keeps_diagnostics(self) -> None:
         ci_source = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")

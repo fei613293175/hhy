@@ -111,6 +111,7 @@ jobs:
   emulator:
     name: Emulator install, journeys, screenshots and logs
     needs: build
+    if: ${{ inputs.candidate }}
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -155,7 +156,7 @@ jobs:
   candidate:
     name: Candidate eligibility gate
     needs: [build, emulator]
-    if: always()
+    if: ${{ always() && inputs.candidate }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -187,7 +188,6 @@ jobs:
           cp -r ci-downloads/screenshots candidate-output/screenshots
           cp -r ci-downloads/runtime candidate-output/runtime
       - uses: actions/upload-artifact@v4
-        if: ${{ inputs.candidate }}
         with:
           name: hhy-${{ inputs.release }}-candidate-${{ github.run_id }}
           if-no-files-found: error
@@ -197,7 +197,7 @@ jobs:
   remediation-queue:
     name: Durable AI remediation queue
     needs: [build, emulator, candidate]
-    if: ${{ always() && needs.candidate.result != 'success' && github.event_name != 'pull_request' }}
+    if: ${{ always() && inputs.candidate && needs.candidate.result != 'success' && github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v7

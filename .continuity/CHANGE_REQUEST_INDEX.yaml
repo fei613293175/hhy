@@ -8877,3 +8877,64 @@ change_requests:
     note: 项目所有者已授权R06至R08连续开发；本CR只登记R06新增安全回归测试文件
   machine_record: .continuity/change_requests/CR-0149.yaml
   document: docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md
+- protocol_version: '1.0'
+  cr_id: CR-0150
+  title: 固化GitHub分层门禁与分支候选APK触发路径
+  status: IMPLEMENTING
+  created_at: '2026-07-20T19:13:04Z'
+  updated_at: '2026-07-20T19:13:54Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 现在立即按三层门禁方案调整并持续推进；方案可行后写入全局硬性规则，确保换电脑换AI不依赖聊天
+  reason: 普通提交不应反复运行模拟器和完整连续性生命周期；R06候选工作流仅在开发分支存在，默认分支未注册导致无法手动触发，需要仓库内可追溯的候选请求入口
+  original_rule: GitHub普通Android变更调用完整Android质量门禁并启动模拟器；Continuity Gate每次推送都运行完整临时Git生命周期；开发分支候选工作流只能依赖默认分支注册后的手动dispatch
+  new_rule: FAST普通提交仅运行受影响合同、编译、单测和Lint；Continuity全生命周期仅在连续性核心事实变化时运行；Android模拟器、截图、候选报告和APK仅由版本候选请求触发；开发分支通过受控候选请求工作流调用同一权威质量门禁；规则同步进入AGENTS、全局硬边界、效率规范和Android自动化事实源
+  impact_summary: 降低普通提交耗时和模拟器瞬态失败频率，不降低R06起候选APK的编译、模拟器旅程、截图、日志、候选报告与项目所有者验收门禁；新增机器可读候选请求和CI范围判定脚本及回归测试
+  impact:
+    files:
+    - .github/workflows/android-quality-gate.yml
+    - .github/workflows/android-candidate-request.yml
+    - .github/workflows/continuity-gate.yml
+    - config/android-candidate-request.yaml
+    - config/android-automation.yaml
+    - scripts/android_candidate_request.py
+    - scripts/continuity_ci_scope.py
+    - tests/test_android_candidate_request.py
+    - tests/test_continuity_ci_scope.py
+    - tests/test_android_ci_gate.py
+    - AGENTS.md
+    - templates/AGENTS.md
+    - docs/00-baseline/正式商业系统全局硬性开发边界.md
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - docs/09-development/统一开发与交付效率规范.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - GitHub Actions三层门禁与config/android-candidate-request.yaml候选请求协议
+    ledger: []
+    tests:
+    - workflow YAML contract;candidate request parser;continuity scope classifier;Android CI gate regression;strict continuity;GitHub branch push
+      integration
+    releases:
+    - R06
+    - R07
+    - R08
+    migration_and_compatibility: 现有android-quality-gate保持唯一候选实现；workflow_call普通CI默认跳过模拟器和候选，candidate=true保持完整行为；已有报告和历史提交不改写；新工作流可在当前开发分支push事件注册，后续合并默认分支后继续兼容workflow_dispatch
+  user_confirmation: 现在立即按你的方案调整并进入开始，期间不用停止，除非在GitHub调试上反复浪费时间；如果方案可行，记得写入全局硬性规则要求，以便于后续即便是换电脑、换AI也可以无缝衔接方案，而不依赖聊天对话
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T19:13:41Z'
+    note: 项目所有者已明确要求立即执行三层门禁方案，除GitHub反复浪费时间外不中断，并在方案可行后写入全局硬性规则用于跨电脑跨AI接续
+  machine_record: .continuity/change_requests/CR-0150.yaml
+  document: docs/03-continuity/change-requests/CR-0150-固化GitHub分层门禁与分支候选APK触发路径.md
+  decision_log:
+  - at: '2026-07-20T19:13:54Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 批准范围已应用到当前R06会话，开始实现并验证三层GitHub门禁与候选请求入口
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77

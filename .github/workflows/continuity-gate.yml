@@ -18,6 +18,14 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - run: pip install --disable-pip-version-check pyyaml
+      - name: Select continuity validation tier
+        id: scope
+        run: >-
+          python3 scripts/continuity_ci_scope.py
+          --base-ref "${{ github.event.pull_request.base.sha || github.event.before }}"
+          --head-ref HEAD
+          --github-output "$GITHUB_OUTPUT"
+          --json-output "$RUNNER_TEMP/continuity-scope.json"
       - name: Initial repository push or ranged per-commit validation
         shell: bash
         run: |
@@ -46,9 +54,14 @@ jobs:
             echo "::error title=Continuity gate failed::$summary"
           fi
           exit "$gate_rc"
-      - run: python3 scripts/run_continuity_self_test.py
-      - run: python3 scripts/test_continuity_protocol.py
+      - name: Run repository reconstruction integration
+        if: steps.scope.outputs.full_lifecycle == 'true'
+        run: python3 scripts/run_continuity_self_test.py
+      - name: Run lifecycle integration
+        if: steps.scope.outputs.full_lifecycle == 'true'
+        run: python3 scripts/test_continuity_protocol.py
       - name: Run bootstrap recovery regression with diagnostics
+        if: steps.scope.outputs.full_lifecycle == 'true'
         shell: bash
         run: |
           set +e
@@ -65,13 +78,17 @@ jobs:
             echo "::error title=Bootstrap recovery regression failed::$summary"
           fi
           exit "$test_rc"
-      - run: python3 tests/test_continuity_cross_release_close.py
-      - run: python3 tests/test_git_transport_recovery.py
-      - run: python3 tests/test_model_routing.py
-      - run: python3 tests/test_cloud_environment.py
-      - run: python3 tests/test_context_pack_parallel_policy.py
-      - run: python3 tests/test_release_close_gate.py
-      - run: python3 scripts/check_v123_continuity.py --strict
+      - name: Run continuity governance regressions
+        if: steps.scope.outputs.full_lifecycle == 'true'
+        run: |
+          python3 tests/test_continuity_cross_release_close.py
+          python3 tests/test_git_transport_recovery.py
+          python3 tests/test_model_routing.py
+          python3 tests/test_cloud_environment.py
+          python3 tests/test_context_pack_parallel_policy.py
+          python3 tests/test_release_close_gate.py
+      - name: Validate current repository continuity facts
+        run: python3 scripts/check_v123_continuity.py --strict
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -81,4 +98,5 @@ jobs:
             artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
             artifacts/validation/project-doctor-v1.2.3.json
             ${{ runner.temp }}/continuity-ci.json
+            ${{ runner.temp }}/continuity-scope.json
             artifacts/validation/ci/continuity-bootstrap-recovery.log

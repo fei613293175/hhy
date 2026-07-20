@@ -41,6 +41,9 @@
 - `INTEGRATION`：每天一次或纵向切片汇合时，运行后端、Web、数据库、Android 和连续性全量集成。
 - `RELEASE`：版本封板前运行全量集成、Staging/E2E、APK 四方哈希与用户真机验收。
 - 完整文档 Doctor 仅在其事实输入变化、手动 Doctor、集成或发布阶段运行；不得因此跳过任何连续性核心校验。
+- GitHub 普通提交不得运行 Android 模拟器、截图、候选报告或候选 APK；`candidate=false` 只执行受影响的源码策略、正式 API、编译、单测、Lint 与打包。完整 Android 自动化仅由已验证的 `config/android-candidate-request.yaml` 或默认分支注册后的 `workflow_dispatch(candidate=true)` 触发。
+- Continuity Gate 每次提交都必须执行 Commit/Session/Checkpoint/CR/Scope/Trailer 和严格 Doctor；只有连续性核心策略、脚本、Hook、运行时/传输描述或连续性工作流变化时，才运行临时 Git 仓库的完整交接、恢复、关闭和篡改生命周期演练。不得用跳过核心门禁换取速度。
+- 候选请求、门禁分层和最近一次结果必须写入仓库及 Context Pack。换电脑、换 AI 时只允许从仓库恢复；聊天中的“已经测过”或“可以少跑”没有效力。
 
 ### 2.2 任务复杂度必须与流程相称
 
@@ -93,6 +96,7 @@
 - R06 起所有 Android 版本和产生 APK 的 Bug 修复候选必须先通过 `.github/workflows/android-quality-gate.yml`：编译、打包、模拟器安装、功能旅程、截图、视觉基线、日志、崩溃/ANR和回归全部 PASS 后，才允许生成项目所有者最终候选 APK。
 - 自动门禁失败时，当前或接续 AI 必须读取 Actions 证据和机器修复队列，自行分析、最小修复、重新打包并重测；PASS 前不得标记完成、不得邀请项目所有者真机测试。同一根因最多三轮，真实外部秘密/权限/商业决策才可升级。
 - Android 自动化唯一事实源为 `config/android-automation.yaml` 和 `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`；跨电脑、跨 AI 接手不得绕过或另起一次性流程。
+- 开发分支尚未在 GitHub 默认分支注册候选工作流时，必须通过 `.github/workflows/android-candidate-request.yml` 监听机器可读候选请求，并调用同一 `.github/workflows/android-quality-gate.yml`；禁止人工复制普通 CI 中间 APK 冒充候选，也禁止为了触发候选把未审查变更直接推入默认分支。
 
 ## 6. 会话结束
 
