@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0116
 title: 补齐R05冻结UI的确定性Token派生与H5独立回跳布局
-status: APPROVED
+status: IMPLEMENTED
 created_at: '2026-07-20T02:41:04Z'
-updated_at: '2026-07-20T02:41:25Z'
+updated_at: '2026-07-20T03:15:37Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner
 task_id: TASK-R05-007
@@ -48,3 +48,18 @@ approval:
   note: 这是已批准R05冻结UI补充包落地所必需的确定性派生、H5壳层和证据范围，不扩展业务功能。
 machine_record: .continuity/change_requests/CR-0116.yaml
 document: docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
+decision_log:
+- at: '2026-07-20T03:15:35Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: H5回调与Design Token实现已进入验证。
+  session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T03:15:37Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: H5回调页及Design Token补充已通过浏览器截图、类型检查和测试。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- c2838d9e9d1f487747c7cbe309d6f7e02c7b1e36

@@ -10,22 +10,22 @@
 
 | 项目 | 值 |
 | --- | --- |
-| 源码 Commit | `3454ff232a66c83c8fd7f6f00dc95d6d078f63ef` |
-| APK 文件 | `hhy-r05-3454ff2-debug.apk` |
-| versionName / versionCode | `1.2.2-debug` / `10208` |
-| APK 大小 | `12,038,568` bytes |
-| APK SHA-256 | `9ab8c942ddc90de5c69898f610d4c96dc1aa798681ef32932542bca26af961ca` |
+| 源码 Commit | `b597f2c95d5888aee65c63f39432c17b765ba0d7` |
+| APK 文件 | `hhy-r05-b597f2c-debug.apk` |
+| versionName / versionCode | `1.2.2-debug` / `10209` |
+| APK 大小 | `12,054,952` bytes |
+| APK SHA-256 | `4ccd652d9cf7fd3cf9e1300a4eedc0d797feeaa6dc6b69491b50a5b3bd680560` |
 | 签名配置 | `hhy-staging-test-v1` |
 | 签名证书 SHA-256 | `f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873` |
 | API Base URL | `https://api.orbexa.cc` |
-| 桌面副本 | `C:\Users\小白\Desktop\hhy-r05-3454ff2-debug.apk` |
-| 下载地址 | `https://download.orbexa.cc/r05-artifacts/hhy-r05-3454ff2-debug.apk` |
+| 桌面副本 | `C:\Users\小白\Desktop\hhy-r05-b597f2c-debug.apk` |
+| 下载地址 | `https://download.orbexa.cc/r05-artifacts/hhy-r05-b597f2c-debug.apk` |
 
 ## 构建、签名与联网门禁
 
 - 固定工具链：`hhy-android-toolchain:r01-46fb273`，镜像 ID `sha256:97a5b2d7ae4d6c4abab0c985b502597d0612f3a1e0941fd842008e30a4632607`。
-- 源码归档 SHA-256：`8b259fe5980b822933d8c749b479a9e96a58c3e07cf73db884b5ee5995297076`。
-- Gradle 执行 `clean testDebugUnitTest lintDebug assembleDebug`，387 项任务全部成功，构建用时 2 分 46 秒。
+- 源码归档 SHA-256：`701406ef7884aa779586b0fec7cb2d3f3ffc61a2238711cb71c5760845602799`。
+- Gradle 执行 `clean verifyApiBaseUrl testDebugUnitTest lintDebug assembleDebug`，387 项任务全部成功，构建用时 2 分 51 秒。
 - `apksigner`、`zipalign` 均通过；APK Signature Scheme v2、v3 为 `true`，签名证书与既有 Staging 测试签名一致。
 - DEX 中真实 API `https://api.orbexa.cc` 精确出现 1 次，占位端点 `.invalid` 出现 0 次。
 - `deliver_android_test_apk.py prepare` 与独立 `verify` 均通过；公网完整下载 200、Range 206、Android APK MIME 正确。
@@ -33,6 +33,8 @@
 
 ## 本版 Android 可见闭环
 
+- 四个实名认证页面已按 `design/R05-UI-FROZEN` 冻结逐状态效果图、字号、间距、圆角和组件尺寸重构；效果图中的虚拟业务内容未照搬。
+- 实名首页使用标准居中顶栏、状态渐变卡和结构化准备卡；资料页、240dp活体容器及结果页均覆盖冻结状态布局。
 - 登录成功后，从底部“我的”进入“账号与安全”，可打开“实名认证”。
 - 实名首页展示认证准备事项并进入身份信息表单。
 - 表单支持真实姓名、身份证号、动态加载的实名认证授权说明、同意确认和字段级错误提示。

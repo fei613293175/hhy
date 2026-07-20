@@ -90,3 +90,17 @@ CR-0115已批准业务与视觉范围，但实际落地还需同步生成Token�
 - 决定：`APPROVED`
 - 时间：`2026-07-20T02:41:25Z`
 - 说明：这是已批准R05冻结UI补充包落地所必需的确定性派生、H5壳层和证据范围，不扩展业务功能。
+
+## 状态记录 · 2026-07-20T03:15:35Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260719T234639Z-1D7D7A00`
+- Note：H5回调与Design Token实现已进入验证。
+
+## 状态记录 · 2026-07-20T03:15:37Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260719T234639Z-1D7D7A00`
+- Note：H5回调页及Design Token补充已通过浏览器截图、类型检查和测试。
