@@ -9,6 +9,7 @@ import cc.orbexa.hhy.access.identity.IdentityContracts.CreateLivenessTokenReques
 import cc.orbexa.hhy.access.identity.IdentityContracts.CreateSessionRequest;
 import cc.orbexa.hhy.access.identity.IdentityContracts.IdentitySessionResource;
 import cc.orbexa.hhy.access.identity.IdentityContracts.IdentityConsentResource;
+import cc.orbexa.hhy.access.identity.IdentityContracts.IdentityOverviewResource;
 import cc.orbexa.hhy.access.identity.IdentityContracts.RetrySessionRequest;
 import cc.orbexa.hhy.access.identity.IdentityService;
 import cc.orbexa.hhy.access.user.UserPrincipal;
@@ -41,13 +42,16 @@ class IdentityControllerTest {
                 NOW.plusSeconds(300), 0L);
         IdentityConsentResource consent = new IdentityConsentResource(
                 "91", "实名认证授权说明", "当前正文");
+        IdentityOverviewResource overview = new IdentityOverviewResource("IN_PROGRESS", resource);
         when(service.consent(PRINCIPAL)).thenReturn(consent);
+        when(service.overview(PRINCIPAL)).thenReturn(overview);
         when(service.create(PRINCIPAL, create, key)).thenReturn(resource);
         when(service.livenessToken(PRINCIPAL, "41", liveness, key)).thenReturn(resource);
         when(service.get(PRINCIPAL, "41")).thenReturn(resource);
         when(service.retry(PRINCIPAL, "41", retry, key)).thenReturn(resource);
 
         assertEquals(consent, controller.identityGetIdentityConsent(PRINCIPAL, servlet).data());
+        assertEquals(overview, controller.identityGetIdentityOverview(PRINCIPAL, servlet).data());
         assertEquals(resource, controller.identityPostIdentitySessions(
                 PRINCIPAL, create, key, servlet).data());
         assertEquals(resource, controller.identityPostIdentitySessionsByIdLivenessToken(
@@ -57,6 +61,7 @@ class IdentityControllerTest {
         assertEquals(resource, controller.identityPostIdentitySessionsByIdRetry(
                 PRINCIPAL, "41", retry, key, servlet).data());
         verify(service).consent(PRINCIPAL);
+        verify(service).overview(PRINCIPAL);
         verify(service).create(PRINCIPAL, create, key);
         verify(service).livenessToken(PRINCIPAL, "41", liveness, key);
         verify(service).get(PRINCIPAL, "41");
@@ -67,6 +72,9 @@ class IdentityControllerTest {
         Method consentGet = IdentityController.class.getMethod("identityGetIdentityConsent",
                 UserPrincipal.class, HttpServletRequest.class);
         assertEquals("/consent", consentGet.getAnnotation(GetMapping.class).value()[0]);
+        Method overviewGet = IdentityController.class.getMethod("identityGetIdentityOverview",
+                UserPrincipal.class, HttpServletRequest.class);
+        assertEquals("/overview", overviewGet.getAnnotation(GetMapping.class).value()[0]);
         assertPost("identityPostIdentitySessions", "/sessions", UserPrincipal.class,
                 CreateSessionRequest.class, String.class, HttpServletRequest.class);
         assertPost("identityPostIdentitySessionsByIdLivenessToken", "/sessions/{id}/liveness-token",

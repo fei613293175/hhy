@@ -24,9 +24,11 @@ ui:
 contracts:
   client_api:
     operation_ids:
+    - identityGetIdentityOverview
     - identityPostIdentitySessions
     - publicPostIdentityCallbackConsume
     paths:
+    - GET /api/v1/identity/overview
     - POST /api/v1/identity/sessions
     - POST /api/v1/identity/sessions/{id}/liveness-token
     - GET /api/v1/identity/sessions/{id}

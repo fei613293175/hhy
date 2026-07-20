@@ -1,4 +1,5 @@
 ﻿operationId,平台,方法,路径,用途,所有者类型,UI_ID,责任模块,计划版本,权限,说明,状态
+identityGetIdentityOverview,CLIENT,GET,/api/v1/identity/overview,获取当前实名认证总览,PAGE_ACTION,SCR-ID-001,Identity,R05,登录,页面进入与返回恢复时自动加载服务端事实；存在活动会话必须继续且已认证不得新建,FROZEN
 authPostAuthSecurityChallenges,CLIENT,POST,/api/v1/auth/security-challenges,创建图形/行为安全挑战,PAGE_ACTION,H5-013;SCR-AUTH-001;SCR-AUTH-002;SCR-AUTH-003;SCR-AUTH-004,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostAuthPasswordLogin,CLIENT,POST,/api/v1/auth/password/login,手机号+密码+安全验证登录,PAGE_ACTION,SCR-AUTH-001,Auth,R02,公开,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN
 authPostAuthSmsSend,CLIENT,POST,/api/v1/auth/sms/send,阿里云短信验证码：LOGIN/REGISTER/RESET_PASSWORD,PAGE_ACTION,H5-013;SCR-AUTH-002;SCR-AUTH-003;SCR-AUTH-004,Auth,R02,公开+安全挑战,由页面详细动作规格实现；共享组件允许多页面复用,FROZEN

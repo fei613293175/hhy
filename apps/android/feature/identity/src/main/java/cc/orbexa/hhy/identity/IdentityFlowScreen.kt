@@ -80,6 +80,8 @@ import cc.orbexa.hhy.network.IdentityConsentCallResult
 import cc.orbexa.hhy.network.IdentityConsentResource
 import cc.orbexa.hhy.network.IdentityCreateLivenessTokenRequest
 import cc.orbexa.hhy.network.IdentityCreateSessionRequest
+import cc.orbexa.hhy.network.IdentityOverviewCallResult
+import cc.orbexa.hhy.network.IdentityOverviewResource
 import cc.orbexa.hhy.network.IdentityRetrySessionRequest
 import cc.orbexa.hhy.network.IdentitySessionResource
 import java.util.UUID
@@ -92,6 +94,7 @@ private sealed interface IdentityRoute {
     @Serializable data object Home : IdentityRoute
     @Serializable data object Form : IdentityRoute
     @Serializable data class Liveness(val sessionId: String) : IdentityRoute
+    @Serializable data class Provider(val sessionId: String) : IdentityRoute
     @Serializable data class Result(val sessionId: String) : IdentityRoute
 }
 
@@ -105,6 +108,7 @@ fun IdentityFlowScreen(
 ) {
     val navController = rememberNavController()
     val sessionCache = remember { mutableStateMapOf<String, IdentitySessionResource>() }
+    var overviewRevision by remember { mutableStateOf(0) }
     NavHost(
         navController = navController,
         startDestination = IdentityRoute.Home,
@@ -115,15 +119,28 @@ fun IdentityFlowScreen(
     ) {
         composable<IdentityRoute.Home> {
             IdentityHomeScreen(
+                api = api,
+                accessToken = accessToken,
+                refreshKey = overviewRevision,
                 onBack = onBack,
                 onStart = { navController.navigate(IdentityRoute.Form) },
+                onContinue = { session ->
+                    sessionCache[session.id] = session
+                    val route = if (session.status in setOf("PROVIDER_PROCESSING", "MANUAL_REVIEW")) {
+                        IdentityRoute.Result(session.id)
+                    } else {
+                        IdentityRoute.Liveness(session.id)
+                    }
+                    navController.navigate(route)
+                },
+                onSessionExpired = onSessionExpired,
             )
         }
         composable<IdentityRoute.Form> {
             IdentityFormScreen(
                 api = api,
                 accessToken = accessToken,
-                onBack = { navController.popBackStack() },
+                onBack = { overviewRevision += 1; navController.popBackStack() },
                 onSessionExpired = onSessionExpired,
                 onCreated = { session ->
                     sessionCache[session.id] = session
@@ -148,11 +165,48 @@ fun IdentityFlowScreen(
                     accessToken = accessToken,
                     initial = session,
                     returnUrl = returnUrl,
+                    onBack = {
+                        overviewRevision += 1
+                        navController.popBackStack(IdentityRoute.Home, inclusive = false)
+                    },
+                    onSessionExpired = onSessionExpired,
+                    onLaunchProvider = {
+                        sessionCache[it.id] = it
+                        navController.navigate(IdentityRoute.Provider(it.id))
+                    },
+                    onResult = {
+                        sessionCache[it.id] = it
+                        navController.navigate(IdentityRoute.Result(it.id)) {
+                            popUpTo(IdentityRoute.Liveness(it.id)) { inclusive = true }
+                        }
+                    },
+                )
+            }
+        }
+        composable<IdentityRoute.Provider> { entry ->
+            val route = entry.toRoute<IdentityRoute.Provider>()
+            IdentitySessionDestination(
+                title = "活体检测",
+                api = api,
+                accessToken = accessToken,
+                sessionId = route.sessionId,
+                cached = sessionCache[route.sessionId],
+                onBack = { navController.popBackStack() },
+                onSessionExpired = onSessionExpired,
+                onLoaded = { sessionCache[it.id] = it },
+            ) { session ->
+                IdentityProviderH5Screen(
+                    api = api,
+                    accessToken = accessToken,
+                    initial = session,
+                    returnUrl = returnUrl,
                     onBack = { navController.popBackStack() },
                     onSessionExpired = onSessionExpired,
                     onResult = {
                         sessionCache[it.id] = it
-                        navController.navigate(IdentityRoute.Result(it.id))
+                        navController.navigate(IdentityRoute.Result(it.id)) {
+                            popUpTo(IdentityRoute.Liveness(it.id)) { inclusive = true }
+                        }
                     },
                 )
             }
@@ -178,6 +232,7 @@ fun IdentityFlowScreen(
                         if (kind == IdentityResultKind.FAILED) {
                             navController.popBackStack(IdentityRoute.Home, inclusive = false)
                         } else {
+                            overviewRevision += 1
                             onBack()
                         }
                     },
@@ -251,24 +306,99 @@ private fun IdentitySessionDestination(
 }
 
 @Composable
-private fun IdentityHomeScreen(onBack: () -> Unit, onStart: () -> Unit) {
+private fun IdentityHomeScreen(
+    api: ContractIdentityApi,
+    accessToken: String,
+    refreshKey: Int,
+    onBack: () -> Unit,
+    onStart: () -> Unit,
+    onContinue: (IdentitySessionResource) -> Unit,
+    onSessionExpired: () -> Unit,
+) {
+    var overview by remember(accessToken) { mutableStateOf<IdentityOverviewResource?>(null) }
+    var loading by remember(accessToken) { mutableStateOf(true) }
+    var message by remember(accessToken) { mutableStateOf<String?>(null) }
+    var reload by remember(accessToken) { mutableStateOf(0) }
+
+    LaunchedEffect(accessToken, refreshKey, reload) {
+        loading = true
+        when (val result = api.overview(accessToken)) {
+            is IdentityOverviewCallResult.Success -> {
+                overview = result.overview
+                message = null
+            }
+            is IdentityOverviewCallResult.Failure -> {
+                if (result.failure.statusCode == 401) onSessionExpired()
+                else message = result.failure.businessMessage("认证状态暂时无法加载，请稍后重试")
+            }
+        }
+        loading = false
+    }
+
     IdentityPage(title = "实名认证", onBack = onBack) {
+        val current = overview
+        val active = current?.activeSession
+        val verified = current?.status == "VERIFIED"
+        val inProgress = current?.status == "IN_PROGRESS" && active != null
         IdentityStatusCard(
-            title = "尚未完成实名认证",
-            description = "完成认证后可提升账号可信度，并使用需要实名的业务能力",
-            icon = HhyIcons.Shield,
+            title = when {
+                loading -> "正在确认认证状态"
+                verified -> "实名认证已完成"
+                inProgress -> if (active.status == "MANUAL_REVIEW") "实名认证审核中" else "实名认证进行中"
+                else -> "尚未完成实名认证"
+            },
+            description = when {
+                loading -> "请稍候"
+                verified -> "认证信息已通过核验，账号实名状态正常"
+                inProgress -> if (active.status == "MANUAL_REVIEW") "资料正在审核，无需重复提交" else "继续完成当前认证流程"
+                else -> "完成认证后可提升账号可信度，并使用需要实名的业务能力"
+            },
+            icon = if (verified) HhyIcons.Check else if (inProgress) HhyIcons.Pending else HhyIcons.Shield,
         )
-        IdentityCard {
-            Text("认证前请准备", style = MaterialTheme.typography.titleMedium)
-            IdentityRequirement(HhyIcons.Check, "本人有效身份证件", "请填写与证件一致的真实信息")
-            IdentityRequirement(HhyIcons.Camera, "可正常使用的手机相机", "活体检测需要使用前置相机")
-            IdentityRequirement(HhyIcons.Shield, "由账号本人完成检测", "请勿由他人代为操作")
+        message?.let { BusinessNotice(it, isError = true) }
+        when {
+            verified -> IdentityCard {
+                Text("认证信息", style = MaterialTheme.typography.titleMedium)
+                IdentityInfoRow("当前状态", "实名认证已完成")
+                IdentityInfoRow("资料保护", "认证资料不可自行修改")
+            }
+            inProgress -> IdentityCard {
+                Text("认证进度", style = MaterialTheme.typography.titleMedium)
+                IdentityInfoRow(
+                    "当前状态",
+                    if (active.status == "MANUAL_REVIEW") "正在人工审核" else "等待继续认证",
+                )
+                IdentityInfoRow("资料状态", "已安全保存")
+            }
+            else -> IdentityCard {
+                Text("认证前请准备", style = MaterialTheme.typography.titleMedium)
+                IdentityRequirement(HhyIcons.Check, "本人有效身份证件", "请填写与证件一致的真实信息")
+                IdentityRequirement(HhyIcons.Camera, "可正常使用的手机相机", "活体检测需要使用前置相机")
+                IdentityRequirement(HhyIcons.Shield, "由账号本人完成检测", "请勿由他人代为操作")
+            }
         }
         Button(
             modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
             shape = RoundedCornerShape(HhyRadius.Button),
-            onClick = onStart,
-        ) { Text("开始认证") }
+            enabled = !loading,
+            onClick = {
+                when {
+                    message != null -> reload += 1
+                    verified -> onBack()
+                    active != null -> onContinue(active)
+                    else -> onStart()
+                }
+            },
+        ) {
+            Text(
+                when {
+                    message != null -> "重新加载"
+                    verified -> "返回我的"
+                    active != null -> if (active.status == "MANUAL_REVIEW") "查看审核进度" else "继续认证"
+                    else -> "开始认证"
+                },
+            )
+        }
         Text(
             "身份信息将按照隐私政策用于完成实名认证",
             modifier = Modifier.fillMaxWidth(),
@@ -463,6 +593,7 @@ private fun IdentityLivenessScreen(
     returnUrl: String,
     onBack: () -> Unit,
     onSessionExpired: () -> Unit,
+    onLaunchProvider: (IdentitySessionResource) -> Unit,
     onResult: (IdentitySessionResource) -> Unit,
 ) {
     val context = LocalContext.current
@@ -471,6 +602,7 @@ private fun IdentityLivenessScreen(
     var livenessUrl by remember(initial.id) { mutableStateOf(initial.livenessUrl) }
     var message by remember(initial.id) { mutableStateOf<String?>(null) }
     var loading by remember(initial.id) { mutableStateOf(livenessUrl.isNullOrBlank()) }
+    var tokenRevision by remember(initial.id) { mutableStateOf(0) }
     var cameraGranted by remember {
         mutableStateOf(context.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
     }
@@ -496,7 +628,7 @@ private fun IdentityLivenessScreen(
         }
     }
 
-    LaunchedEffect(initial.id) {
+    LaunchedEffect(initial.id, tokenRevision) {
         if (livenessUrl.isNullOrBlank()) {
             if (returnUrl.isBlank()) {
                 message = "活体检测服务正在准备中，请稍后再试"
@@ -568,7 +700,11 @@ private fun IdentityLivenessScreen(
                     ) { Text("返回") }
                     Button(
                         modifier = Modifier.weight(2f).height(HhySize.PrimaryButtonHeight),
-                        onClick = onBack,
+                        onClick = {
+                            message = null
+                            loading = true
+                            tokenRevision += 1
+                        },
                     ) { Text("重新检测") }
                 }
             }
@@ -596,30 +732,132 @@ private fun IdentityLivenessScreen(
                 }
             }
             else -> {
-                Box(
-                    modifier = Modifier
-                        .size(HhySize.IdentityLivenessFrame)
-                        .align(Alignment.CenterHorizontally)
-                        .clip(RoundedCornerShape(HhyRadius.Dialog))
-                        .background(HhyColors.LivenessDark),
-                ) {
-                    SecureLivenessWebView(
-                        url = requireNotNull(livenessUrl),
-                        returnUrl = returnUrl,
-                        onReturned = { refresh() },
-                        onUnsafeNavigation = { message = "检测页面跳转异常，请返回后重试" },
-                        modifier = Modifier.fillMaxSize(),
+                LivenessViewport {
+                    HhyIcon(
+                        HhyIcons.Face,
+                        contentDescription = "人脸活体检测",
+                        modifier = Modifier.size(HhySize.MinimumTouchTarget),
+                        tint = HhyColors.BrandPrimary,
                     )
+                    Text("已准备好开始检测", style = MaterialTheme.typography.titleMedium)
+                    Text("下一步将进入安全检测页面", style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary)
                 }
-                BusinessNotice("请保持正脸在取景框内，并按页面提示完成动作", isError = false)
-                OutlinedButton(
+                BusinessNotice("请按检测页面提示完成动作，完成后将自动返回。", isError = false)
+                Button(
                     modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
-                    onClick = { refresh() },
+                    onClick = { onLaunchProvider(session.copy(livenessUrl = livenessUrl)) },
                 ) {
-                    Text("我已完成，查看结果")
+                    Text("开始检测")
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun IdentityProviderH5Screen(
+    api: ContractIdentityApi,
+    accessToken: String,
+    initial: IdentitySessionResource,
+    returnUrl: String,
+    onBack: () -> Unit,
+    onSessionExpired: () -> Unit,
+    onResult: (IdentitySessionResource) -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    var session by remember(initial.id) { mutableStateOf(initial) }
+    var message by remember(initial.id) { mutableStateOf<String?>(null) }
+
+    fun refresh() {
+        scope.launch {
+            when (val result = api.session(accessToken, session.id)) {
+                is IdentityCallResult.Success -> {
+                    session = result.session
+                    message = null
+                    if (result.session.status == "MANUAL_REVIEW" ||
+                        result.session.resultKind() !in setOf(IdentityResultKind.READY, IdentityResultKind.PENDING)
+                    ) {
+                        onResult(result.session)
+                    }
+                }
+                is IdentityCallResult.Failure -> {
+                    if (result.statusCode == 401) onSessionExpired()
+                    else message = result.businessMessage("认证结果暂时无法确认，请稍后重试")
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(session.id) {
+        while (true) {
+            delay(3_000)
+            when (val result = api.session(accessToken, session.id)) {
+                is IdentityCallResult.Success -> {
+                    session = result.session
+                    if (result.session.status == "MANUAL_REVIEW" ||
+                        result.session.resultKind() !in setOf(IdentityResultKind.READY, IdentityResultKind.PENDING)
+                    ) {
+                        onResult(result.session)
+                        break
+                    }
+                }
+                is IdentityCallResult.Failure -> if (result.statusCode == 401) {
+                    onSessionExpired()
+                    break
+                }
+            }
+        }
+    }
+
+    if (message != null || session.livenessUrl.isNullOrBlank()) {
+        IdentityPage(title = "活体检测", onBack = onBack, scrollable = false) {
+            LivenessViewport(error = true) {
+                HhyIcon(HhyIcons.Error, contentDescription = null, tint = HhyColors.Error)
+                Text("检测页面暂时无法继续", color = HhyColors.Error, style = MaterialTheme.typography.titleMedium)
+                Text(message ?: "请返回后重试", color = HhyColors.Error, style = MaterialTheme.typography.bodySmall)
+            }
+            Button(
+                modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
+                onClick = { message = null; refresh() },
+            ) { Text("重新确认") }
+        }
+    } else {
+        IdentityProviderWebPage(
+            url = requireNotNull(session.livenessUrl),
+            returnUrl = returnUrl,
+            onBack = onBack,
+            onReturned = { refresh() },
+            onUnsafeNavigation = { message = "检测页面跳转异常，请返回后重试" },
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun IdentityProviderWebPage(
+    url: String,
+    returnUrl: String,
+    onBack: () -> Unit,
+    onReturned: () -> Unit,
+    onUnsafeNavigation: () -> Unit,
+) {
+    Scaffold(
+        containerColor = HhyColors.LivenessDark,
+        topBar = {
+            TopAppBar(
+                title = { Text("活体检测", style = MaterialTheme.typography.titleLarge) },
+                navigationIcon = { HhyBackButton(onClick = onBack) },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = HhyColors.Surface),
+            )
+        },
+    ) { padding ->
+        SecureLivenessWebView(
+            url = url,
+            returnUrl = returnUrl,
+            onReturned = onReturned,
+            onUnsafeNavigation = onUnsafeNavigation,
+            modifier = Modifier.fillMaxSize().padding(padding),
+        )
     }
 }
 
@@ -768,6 +1006,7 @@ private fun SecureLivenessWebView(
         modifier = modifier,
         factory = { context ->
             WebView(context).apply {
+                tag = url
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
                 settings.allowFileAccess = false
@@ -795,7 +1034,12 @@ private fun SecureLivenessWebView(
                 loadUrl(url)
             }
         },
-        update = { view -> if (view.url != url) view.loadUrl(url) },
+        update = { view ->
+            if (view.tag != url) {
+                view.tag = url
+                view.loadUrl(url)
+            }
+        },
     )
 }
 

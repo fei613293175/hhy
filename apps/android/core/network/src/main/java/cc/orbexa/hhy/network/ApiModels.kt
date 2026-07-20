@@ -247,6 +247,12 @@ data class IdentitySessionResource(
 )
 
 @Serializable
+data class IdentityOverviewResource(
+    val status: String,
+    val activeSession: IdentitySessionResource? = null,
+)
+
+@Serializable
 data class IdentityConsentResource(
     val consentVersion: String,
     val title: String,

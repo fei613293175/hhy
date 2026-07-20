@@ -692,3 +692,20 @@ problems:
   - 不得为区分项目所有者测试包自行发明未在后台发布的APP_CHANNEL
   - APK正式API地址正确、接口健康和四方哈希一致不能替代版本检查请求维度验证
   - 每次Android构建必须在单测中锁定发布渠道和环境，并在交付前以相同请求体执行公网黑盒
+- id: PROB-0054
+  title: R05第三方活体整页被固定取景区裁切且实名状态不能恢复
+  status: SOLVED
+  root_cause: Android把供应商完整100vh活体H5嵌入冻结的240dp取景区，页面内部按钮和人脸区域因此被裁切；实名首页又静态假定未认证，中途退出或完成认证后没有服务端总览入口恢复活动会话和最终状态。WebView重组还会按当前URL差异重新加载初始地址，存在打断供应商内部导航的风险。
+  impact: 用户只能滚动黑色框寻找被遮挡按钮，完成后仍可再次认证；中途退出重进可能收到状态冲突并卡死，无法按大型App成熟交互继续原流程。
+  resolution: CR-0128新增GET /api/v1/identity/overview，由服务端收敛过期、活动、人工审核和已认证状态；Android实名首页按三状态路由，活动会话继续原流程，已认证禁止新建。SCR-ID-003固定区域只展示本地准备/授权/加载/处理/失败，供应商H5改为独立全屏WebView并用稳定tag避免内部跳转被重载；系统返回和页内返回继续共用Navigation Compose真实栈。
+  regression_checks:
+  - IdentityServiceTest与IdentityControllerTest总览、活动会话和过期收敛测试
+  - IdentityPresentationTest商业错误与技术字段过滤
+  - feature:identity:testDebugUnitTest与app:compileDebugKotlin
+  - scripts/check_r05_staging_identity_sandbox.py --api-base-url https://api.orbexa.cc
+  - 真机验证活体H5全屏无需滚动、完成后首页已认证、中途退出可继续
+  do_not_repeat:
+  - 不得把第三方完整H5当作本地240dp相机预览组件
+  - 不得在WebView每次重组时以当前内部URL不同为由重载供应商初始URL
+  - 不得静态假设实名入口永远未认证；必须读取服务端事实并恢复活动会话
+  - 不得用通用409或422文案覆盖经过技术字段过滤的安全商业原因

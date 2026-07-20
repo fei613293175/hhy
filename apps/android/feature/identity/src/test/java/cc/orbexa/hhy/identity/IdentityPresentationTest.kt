@@ -39,5 +39,20 @@ class IdentityPresentationTest {
             IdentityCallResult.Failure(422, fieldErrors = mapOf("idNumber" to "身份证号格式不正确"))
                 .businessMessage("提交失败"),
         )
+        assertEquals(
+            "当前账号已完成实名认证，无需重复提交",
+            IdentityCallResult.Failure(
+                422,
+                errorCode = "IDENTITY-422-ALREADY_VERIFIED",
+                message = "当前账号已完成实名认证，无需重复提交",
+            ).businessMessage("提交失败"),
+        )
+        assertEquals(
+            "提交失败",
+            IdentityCallResult.Failure(
+                500,
+                message = "Exception requestId=internal-1",
+            ).businessMessage("提交失败"),
+        )
     }
 }

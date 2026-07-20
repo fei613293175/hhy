@@ -36,6 +36,10 @@ public final class IdentityContracts {
             Instant expiresAt,
             long version) { }
 
+    public record IdentityOverviewResource(
+            @NotBlank String status,
+            IdentitySessionResource activeSession) { }
+
     public record IdentityConsentResource(
             @NotBlank @Size(max = 2000) String consentVersion,
             @NotBlank @Size(max = 2000) String title,

@@ -2,6 +2,7 @@ package cc.orbexa.hhy.access.identity;
 
 import cc.orbexa.hhy.access.identity.IdentityContracts.CreateLivenessTokenRequest;
 import cc.orbexa.hhy.access.identity.IdentityContracts.CreateSessionRequest;
+import cc.orbexa.hhy.access.identity.IdentityContracts.IdentityOverviewResource;
 import cc.orbexa.hhy.access.identity.IdentityContracts.IdentitySessionResource;
 import cc.orbexa.hhy.access.identity.IdentityContracts.IdentityConsentResource;
 import cc.orbexa.hhy.access.identity.IdentityContracts.RetrySessionRequest;
@@ -71,6 +72,20 @@ public class IdentityService {
                 current.versionId(), "实名认证授权说明", current.content());
     }
 
+    public IdentityOverviewResource overview(UserPrincipal principal) {
+        long userId = requirePrincipal(principal);
+        Optional<Session> active = store.active(userId);
+        if (active.isPresent()) {
+            Session session = refresh(active.orElseThrow(), userId);
+            if (ACTIVE.contains(session.status())) {
+                return new IdentityOverviewResource("IN_PROGRESS", resource(session));
+            }
+        }
+        String profileStatus = store.profileStatus(userId).orElse("NOT_STARTED");
+        return new IdentityOverviewResource(
+                "VERIFIED".equals(profileStatus) ? "VERIFIED" : "NOT_STARTED", null);
+    }
+
     public IdentitySessionResource livenessToken(
             UserPrincipal principal, String id, CreateLivenessTokenRequest request, String key) {
         long userId = requirePrincipal(principal);
@@ -86,6 +101,10 @@ public class IdentityService {
     public IdentitySessionResource get(UserPrincipal principal, String id) {
         long userId = requirePrincipal(principal);
         Session session = store.find(resourceId(id), userId).orElseThrow(IdentityService::notFound);
+        return resource(refresh(session, userId));
+    }
+
+    private Session refresh(Session session, long userId) {
         Instant now = Instant.now(clock);
         if (ACTIVE.contains(session.status()) && !session.expiresAt().isAfter(now)) {
             session = store.expire(session.id(), userId, session.version(), now);
@@ -93,7 +112,7 @@ public class IdentityService {
                 && List.of("LIVENESS_PENDING", "PROVIDER_PROCESSING").contains(session.status())) {
             session = results.reconcile(session.id(), userId);
         }
-        return resource(session);
+        return session;
     }
 
     public IdentitySessionResource retry(

@@ -11,6 +11,8 @@ import kotlinx.serialization.decodeFromString
 
 /** Transport bound one-to-one to the frozen R05 identity operationIds. */
 interface ContractIdentityApi {
+    suspend fun overview(accessToken: String): IdentityOverviewCallResult
+
     suspend fun consent(accessToken: String): IdentityConsentCallResult
 
     suspend fun createSession(
@@ -43,7 +45,13 @@ sealed interface IdentityCallResult {
         val errorCode: String? = null,
         val retryAfterSeconds: Long? = null,
         val fieldErrors: Map<String, String> = emptyMap(),
+        val message: String? = null,
     ) : IdentityCallResult
+}
+
+sealed interface IdentityOverviewCallResult {
+    data class Success(val overview: IdentityOverviewResource) : IdentityOverviewCallResult
+    data class Failure(val failure: IdentityCallResult.Failure) : IdentityOverviewCallResult
 }
 
 sealed interface IdentityConsentCallResult {
@@ -58,6 +66,37 @@ sealed interface IdentityConsentCallResult {
 
 class UrlConnectionContractIdentityApi(baseUrl: String) : ContractIdentityApi {
     private val root = validateRoot(baseUrl)
+
+    override suspend fun overview(accessToken: String): IdentityOverviewCallResult =
+        withContext(Dispatchers.IO) {
+            try {
+                val connection = URI.create(root + "/api/v1/identity/overview")
+                    .toURL().openConnection() as HttpURLConnection
+                try {
+                    connection.requestMethod = "GET"
+                    connection.connectTimeout = CONNECT_TIMEOUT_MILLIS
+                    connection.readTimeout = READ_TIMEOUT_MILLIS
+                    connection.setRequestProperty("Accept", "application/json")
+                    connection.setRequestProperty("Authorization", "Bearer $accessToken")
+                    connection.setRequestProperty("X-Request-Id", UUID.randomUUID().toString())
+                    val status = connection.responseCode
+                    val text = (if (status in 200..299) connection.inputStream else connection.errorStream)
+                        ?.bufferedReader(Charsets.UTF_8)?.use { it.readText() }.orEmpty()
+                    if (status !in 200..299) {
+                        return@withContext IdentityOverviewCallResult.Failure(failure(connection, status, text))
+                    }
+                    val envelope = HhyNetworkJson.value
+                        .decodeFromString<ApiEnvelope<IdentityOverviewResource>>(text)
+                    IdentityOverviewCallResult.Success(envelope.data)
+                } finally {
+                    connection.disconnect()
+                }
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (_: Exception) {
+                IdentityOverviewCallResult.Failure(IdentityCallResult.Failure(null))
+            }
+        }
 
     override suspend fun consent(accessToken: String): IdentityConsentCallResult =
         withContext(Dispatchers.IO) {
@@ -200,6 +239,7 @@ class UrlConnectionContractIdentityApi(baseUrl: String) : ContractIdentityApi {
         return IdentityCallResult.Failure(
             statusCode = status,
             errorCode = error?.error?.code,
+            message = error?.error?.message,
             retryAfterSeconds = connection.getHeaderField("Retry-After")?.toLongOrNull(),
             fieldErrors = error?.error?.details.orEmpty().associate { it.field to it.message },
         )

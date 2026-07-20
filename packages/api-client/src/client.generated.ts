@@ -346,6 +346,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/identity/overview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** 获取当前账号实名认证总览 */
+        get: operations["identityGetIdentityOverview"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/identity/sessions/{id}/liveness-token": {
         parameters: {
             query?: never;
@@ -2240,6 +2257,11 @@ export interface components {
             /** Format: int64 */
             version: number;
         };
+        IdentityOverviewResource: {
+            /** @enum {string} */
+            status: "NOT_STARTED" | "IN_PROGRESS" | "VERIFIED";
+            activeSession?: components["schemas"]["IdentitySessionResource"];
+        };
         MediaResource: {
             id: string;
             purpose?: string;
@@ -3109,6 +3131,14 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: components["schemas"]["IdentityConsentResource"];
+        };
+        IdentityGetIdentityOverviewResponse: {
+            /** @constant */
+            success: true;
+            requestId: string;
+            /** Format: date-time */
+            timestamp?: string;
+            data: components["schemas"]["IdentityOverviewResource"];
         };
         IdentityPostIdentitySessionsRequest: {
             realName: string;
@@ -7251,6 +7281,53 @@ export interface operations {
             };
             /** @description 触发限流 */
             429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 内部错误 */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    identityGetIdentityOverview: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 成功 */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IdentityGetIdentityOverviewResponse"];
+                };
+            };
+            /** @description 未认证或会话失效 */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description 权限或能力不足 */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };

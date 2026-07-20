@@ -1596,6 +1596,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/identity/overview:
+    get:
+      operationId: identityGetIdentityOverview
+      summary: 获取当前账号实名认证总览
+      tags:
+      - Identity
+      security:
+      - BearerAuth: []
+      x-permission: 登录
+      x-idempotent: false
+      x-release: R05
+      x-contract-maturity: FROZEN
+      x-error-codes:
+      - COMMON-401-UNAUTHENTICATED
+      - COMMON-403-FORBIDDEN
+      - COMMON-500-INTERNAL
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityGetIdentityOverviewResponse'
+        '401':
+          description: 未认证或会话失效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: 权限或能力不足
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: 内部错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /api/v1/identity/sessions/{id}/liveness-token:
     post:
       operationId: identityPostIdentitySessionsByIdLivenessToken
@@ -13458,6 +13499,20 @@ components:
       - id
       - status
       - version
+    IdentityOverviewResource:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum:
+          - NOT_STARTED
+          - IN_PROGRESS
+          - VERIFIED
+        activeSession:
+          $ref: '#/components/schemas/IdentitySessionResource'
+      required:
+      - status
     MediaResource:
       type: object
       additionalProperties: false
@@ -15828,6 +15883,25 @@ components:
           format: date-time
         data:
           $ref: '#/components/schemas/IdentityConsentResource'
+    IdentityGetIdentityOverviewResponse:
+      type: object
+      additionalProperties: false
+      required:
+      - success
+      - requestId
+      - data
+      properties:
+        success:
+          type: boolean
+          const: true
+        requestId:
+          type: string
+          maxLength: 64
+        timestamp:
+          type: string
+          format: date-time
+        data:
+          $ref: '#/components/schemas/IdentityOverviewResource'
     IdentityPostIdentitySessionsRequest:
       type: object
       additionalProperties: false

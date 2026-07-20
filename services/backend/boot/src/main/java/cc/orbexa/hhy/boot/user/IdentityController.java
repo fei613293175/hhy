@@ -4,6 +4,7 @@ import cc.orbexa.hhy.access.identity.IdentityContracts.CreateLivenessTokenReques
 import cc.orbexa.hhy.access.identity.IdentityContracts.CreateSessionRequest;
 import cc.orbexa.hhy.access.identity.IdentityContracts.IdentitySessionResource;
 import cc.orbexa.hhy.access.identity.IdentityContracts.IdentityConsentResource;
+import cc.orbexa.hhy.access.identity.IdentityContracts.IdentityOverviewResource;
 import cc.orbexa.hhy.access.identity.IdentityContracts.RetrySessionRequest;
 import cc.orbexa.hhy.access.identity.IdentityService;
 import cc.orbexa.hhy.access.user.UserPrincipal;
@@ -43,6 +44,13 @@ public class IdentityController {
             @AuthenticationPrincipal UserPrincipal principal,
             HttpServletRequest request) {
         return success(request, service.consent(principal));
+    }
+
+    @GetMapping("/overview")
+    public ApiResponse<IdentityOverviewResource> identityGetIdentityOverview(
+            @AuthenticationPrincipal UserPrincipal principal,
+            HttpServletRequest request) {
+        return success(request, service.overview(principal));
     }
 
     @PostMapping("/sessions")

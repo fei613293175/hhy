@@ -83,6 +83,38 @@ class IdentityServiceTest {
     }
 
     @Test
+    void overviewRestoresActiveSessionAndRecognizesVerifiedProfile() {
+        var initial = service.overview(principal(11));
+        assertEquals("NOT_STARTED", initial.status());
+        assertNull(initial.activeSession());
+
+        service.create(principal(11), request(), KEY);
+        var active = service.overview(principal(11));
+        assertEquals("IN_PROGRESS", active.status());
+        assertEquals("1", active.activeSession().id());
+
+        store.sessions.clear();
+        store.profileStatus = "VERIFIED";
+        var verified = service.overview(principal(11));
+        assertEquals("VERIFIED", verified.status());
+        assertNull(verified.activeSession());
+    }
+
+    @Test
+    void overviewExpiresStaleActiveSessionInsteadOfBlockingRestart() {
+        service.create(principal(11), request(), KEY);
+        store.sessions.compute(1L, (id, session) -> new Session(
+                session.id(), session.userId(), session.state(), session.status(), session.provider(),
+                session.livenessUrl(), session.failureCode(), NOW.minusSeconds(1),
+                session.version(), session.attemptNo()));
+
+        var overview = service.overview(principal(11));
+        assertEquals("NOT_STARTED", overview.status());
+        assertNull(overview.activeSession());
+        assertEquals("EXPIRED", store.sessions.get(1L).status());
+    }
+
+    @Test
     void rejectsExistingActiveSessionAndDailyAttemptLimitBeforeSensitiveProcessing() {
         service.create(principal(11), request(), KEY);
         BusinessException active = assertThrows(BusinessException.class,
@@ -211,6 +243,7 @@ class IdentityServiceTest {
         final Map<Long, Session> sessions = new HashMap<>();
         SessionDraft lastDraft;
         long dailyAttempts;
+        String profileStatus;
 
         @Override
         public Optional<IdentityConsent> currentConsent() {
@@ -219,7 +252,7 @@ class IdentityServiceTest {
 
         @Override
         public Optional<String> profileStatus(long userId) {
-            return Optional.empty();
+            return Optional.ofNullable(profileStatus);
         }
 
         @Override

@@ -52,8 +52,16 @@ internal fun IdentityCallResult.Failure.businessMessage(defaultMessage: String):
     401 -> "登录状态已失效，请重新登录"
     403 -> "当前账号暂时不能进行实名认证"
     404 -> "认证记录不存在，请重新开始"
-    409 -> "认证状态已更新，请刷新后继续"
-    422 -> fieldErrors.values.firstOrNull() ?: "当前信息暂未通过校验，请核对后重试"
+    409 -> safeBusinessMessage() ?: "认证状态已更新，请刷新后继续"
+    422 -> fieldErrors.values.firstOrNull() ?: safeBusinessMessage() ?: "当前信息暂未通过校验，请核对后重试"
     429 -> retryAfterSeconds?.let { "操作过于频繁，请在${it}秒后重试" } ?: "操作过于频繁，请稍后重试"
     else -> defaultMessage
 }
+
+private fun IdentityCallResult.Failure.safeBusinessMessage(): String? = message
+    ?.trim()
+    ?.takeIf { it.length in 2..80 && TECHNICAL_MESSAGE_MARKERS.none(it::contains) }
+
+private val TECHNICAL_MESSAGE_MARKERS = listOf(
+    "requestId", "traceId", "token", "AppKey", "APPCODE", "http://", "https://", "Exception", "SQL",
+)

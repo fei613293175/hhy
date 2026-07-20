@@ -1,0 +1,47 @@
+protocol_version: '1.0'
+cr_id: CR-0131
+title: 精确登记R05-10213源码与追溯文件范围
+status: APPROVED
+created_at: '2026-07-20T08:39:31Z'
+updated_at: '2026-07-20T08:39:50Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-007
+session_id: SES-20260719T234639Z-1D7D7A00
+user_request: 项目所有者要求立即修复并继续R05收尾，交付必须可跨电脑和AI无缝追溯。
+reason: CR-0130包含交付目录而连续性范围门禁只接受精确文件；本CR仅更正已知源码、版本与追溯文件，不改变批准方案。
+original_rule: CR-0130以目录登记部分交付范围，不能直接应用到只接受精确仓库文件的会话门禁。
+new_rule: 已知源码与追溯文件逐项精确登记；APK文件和机器证据在不可变提交及文件名确定后另行精确登记。
+impact_summary: 精确登记Android网络模型、10213版本三源、变更日志、问题注册表和坑点规则，修正CR-0130的目录范围缺陷。
+impact:
+  files:
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - CHANGELOG.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  pages:
+  - SCR-ID-001
+  - SCR-ID-003
+  apis:
+  - GET /api/v1/identity/overview
+  database:
+  - 无
+  configuration:
+  - versionCode=10213；official；STAGING；https://api.orbexa.cc
+  ledger:
+  - 无
+  tests:
+  - 版本元数据单测；Android身份模块测试与编译；追溯文档门禁
+  releases:
+  - R05 versionCode 10213
+  migration_and_compatibility: 不改变功能、接口或数据库，仅修正受控范围登记。
+user_confirmation: 2026-07-20 项目所有者明确回复：立即开始。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T08:39:50Z'
+  note: CR-0130方案已获批准；本CR只修正门禁要求的精确文件范围。
+machine_record: .continuity/change_requests/CR-0131.yaml
+document: docs/03-continuity/change-requests/CR-0131-精确登记R05-10213源码与追溯文件范围.md

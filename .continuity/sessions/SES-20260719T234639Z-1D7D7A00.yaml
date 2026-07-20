@@ -11,7 +11,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T07:19:26Z'
+updated_at: '2026-07-20T08:45:33Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -33,6 +33,11 @@ change_requests:
 - CR-0125
 - CR-0126
 - CR-0127
+- CR-0128
+- CR-0129
+- CR-0130
+- CR-0131
+- CR-0132
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -136,7 +141,24 @@ scope:
   - artifacts/validation/r05-task007-android
   - artifacts/apk/R05/history/bc52fe6/APK_MANIFEST.yaml
   - artifacts/validation/r05-apk-delivery/history/bc52fe6/delivery-evidence.json
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124+approved-cr:CR-0125+approved-cr:CR-0126+approved-cr:CR-0127
+  - contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityContracts.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentityService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/IdentityController.java
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractIdentityApi.kt
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/IdentityControllerTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentityServiceTest.java
+  - catalogs/api_endpoints.csv
+  - contracts/operation-error-matrix.csv
+  - packages/api-client/src/client.generated.ts
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
+  - catalogs/api_ui_ownership.csv
+  - catalogs/ui_action_matrix.csv
+  - releases/R05/STORIES.yaml
+  - releases/R05/RELEASE_MANIFEST.yaml
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124+approved-cr:CR-0125+approved-cr:CR-0126+approved-cr:CR-0127+approved-cr:CR-0128+approved-cr:CR-0129+approved-cr:CR-0131+approved-cr:CR-0132
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -146,22 +168,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T07:19:23Z'
-  expires_at: '2026-07-20T11:19:23Z'
-checkpoint_sequence: 38
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0038.yaml
+  renewed_at: '2026-07-20T08:45:29Z'
+  expires_at: '2026-07-20T12:45:29Z'
+checkpoint_sequence: 40
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0040.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 等待项目所有者安装桌面10212并确认启动；同时继续R05关闭前非冲突证据核对，收到通过后accept并推进TASK-R05-008。
+next_step: 提交并推送不可变源码，部署公网R05候选并运行身份总览、沙箱、启动与旧认证黑盒；全部通过后从该提交构建交付APK。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 73d3cafd09036fdf692762f89d5c7b35713fc3584a62020dada72f28c7ad2856
-  generated_at: '2026-07-20T07:19:25Z'
+  context_hash: b2faf5edfd5869d13661f91cc4f0b636fd52dbed6b4d128e5ded2e22d8bfed67
+  generated_at: '2026-07-20T08:45:32Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一APK身份、签名、发布与清单写入必须串行保持原子性；未拆分第二写入任务。
+  reason: 当前阶段为跨后端契约、Android版本和公网部署的同一不可变提交冻结，必须由根集成会话顺序完成。
