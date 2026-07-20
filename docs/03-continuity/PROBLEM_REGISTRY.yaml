@@ -647,7 +647,7 @@ problems:
   - 基础方案必须优先官方Stable和大型商业App成熟架构；小众或自研例外必须ADR与批准CR
 - id: PROB-0051
   title: 认证入口同级切换误用层级动效且子页返回来源写死
-  status: IMPLEMENTING
+  status: MITIGATED
   root_cause: AuthScreen仍以单个AuthRoute状态和统一HhyMotion.forwardContent切换PASSWORD、SMS、REGISTER与RESET；BackHandler和页内返回又固定选择PASSWORD。原静态门禁把AnimatedContent列为认证模块合格标记，没有验证真实NavHost、peer motion和pop反向转场。
   impact: PASSWORD与SMS同级切换错误表现为右到左页面进入；REGISTER与RESET返回仍然右到左且从SMS进入后错误回到PASSWORD，违反真实来源返回和大型App成熟导航规则。
   resolution: CR-0123将PASSWORD/SMS保留为同级登录模式并仅使用HhyMotion.peerContent无方向淡入淡出；REGISTER/RESET迁移为Navigation Compose真实子目的地，进入使用forward、pop使用backward并恢复原登录模式。静态门禁新增对Auth route mutableState和forwardContent的精确阻断。
@@ -662,10 +662,10 @@ problems:
   - 静态门禁不得只检查存在AnimatedContent或BackHandler，必须检查NavHost、pop转场和禁用模式
 - id: PROB-0052
   title: R05公网没有激活实名认证运行配置导致资料提交阶段返回500
-  status: OPEN
+  status: IMPLEMENTING
   root_cause: api.orbexa.cc已切到R05后端，但共享Staging数据库provider_config_versions中provider_code=identity的记录为0；R05IdentityRuntimePolicy在创建平台认证会话时无法取得active_provider、max_daily_attempts和poll_timeout_seconds，因此在调用第三方活体供应商之前即返回COMMON-500-INTERNAL。
   impact: versionCode 10210真机的实名认证首页和资料输入页通过，但无法创建SESSION_CREATED，活体容器与结果页无法进入；这不是用户姓名、身份证输入或第三方AppCode请求失败。
-  current_behavior: GET /api/v1/identity/consent返回200；POST /api/v1/identity/sessions稳定返回HTTP 500“实名认证服务暂时不可用”；线上日志与只读数据库查询已复现。
+  current_behavior: GET /api/v1/identity/consent返回200；现网POST /api/v1/identity/sessions仍返回HTTP 500。CR-0124已实现默认关闭、仅staging可显式启用、production误开即拒绝启动的STAGING_SANDBOX；沙箱使用一次性state、HTTPS相机页、数据库事务终态和原Android轮询结果，不写入生产供应商配置。代码专项测试通过，等待候选部署和公网黑盒验证。
   next_owner: TASK-R05-007
   required_evidence:
   - 激活受控Staging identity配置前必须完成字段校验、连接测试与审批链，禁止直接篡改ACTIVE记录
@@ -675,3 +675,4 @@ problems:
   - 不得把协议接口200等同于实名认证运行配置已就绪
   - 不得把创建会话阶段的500误归因于第三方活体Key
   - 不得为通过测试直接在生产逻辑中伪造VERIFIED或绕过供应商、证据和审批链
+  - 测试供应商不得由客户端本地改状态；必须服务端事务落库并严格限制staging环境

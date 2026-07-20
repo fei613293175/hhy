@@ -8,17 +8,40 @@ import java.time.Clock;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.core.env.Environment;
 import cc.orbexa.hhy.access.storage.R04MediaPostgresStore;
 import cc.orbexa.hhy.access.storage.R04MediaPurposePolicy;
 import cc.orbexa.hhy.access.storage.R04MediaStorageGateway;
 
 @Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(IdentitySandboxProperties.class)
 public class R05IdentityAccessConfiguration {
-    @Bean
-    IdentityProviderClient identityProviderClient(
+    @Bean("productionIdentityProviderClient")
+    IdentityProviderClient productionIdentityProviderClient(
             R05IdentityProviderSettings settings, SecretResolver secrets,
             @Qualifier("adminSecurityObjectMapper") ObjectMapper objectMapper) {
         return new AliyunMarketIdentityProviderClient(settings, secrets, objectMapper);
+    }
+
+    @Bean("sandboxIdentityProviderClient")
+    IdentityProviderClient sandboxIdentityProviderClient(IdentitySandboxProperties properties) {
+        return new R05IdentitySandboxClient(properties);
+    }
+
+    @Bean
+    @Primary
+    IdentityProviderClient identityProviderClient(
+            @Qualifier("productionIdentityProviderClient") IdentityProviderClient production,
+            @Qualifier("sandboxIdentityProviderClient") IdentityProviderClient sandbox) {
+        return new R05IdentityProviderRouter(production, sandbox);
+    }
+
+    @Bean
+    IdentitySandboxStartupGuard identitySandboxStartupGuard(
+            IdentitySandboxProperties properties, Environment environment) {
+        return new IdentitySandboxStartupGuard(properties, environment);
     }
 
     @Bean
@@ -31,6 +54,13 @@ public class R05IdentityAccessConfiguration {
     @Bean
     R05IdentityProviderGateway r05IdentityProviderGateway(IdentityProviderClient client) {
         return new R05IdentityProviderGateway(client);
+    }
+
+    @Bean
+    IdentitySandboxService identitySandboxService(
+            IdentitySandboxService.Store store,
+            IdentitySandboxProperties properties, Clock clock) {
+        return new IdentitySandboxService(store, properties, clock);
     }
 
     @Bean

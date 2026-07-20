@@ -47,6 +47,12 @@ management:
       probes:
         enabled: true
 hhy:
+  identity-sandbox:
+    enabled: ${HHY_IDENTITY_SANDBOX_ENABLED:false}
+    public-base-url: ${HHY_IDENTITY_SANDBOX_PUBLIC_BASE_URL:}
+    allowed-return-host: ${HHY_IDENTITY_SANDBOX_ALLOWED_RETURN_HOST:h5.orbexa.cc}
+    max-daily-attempts: ${HHY_IDENTITY_SANDBOX_MAX_DAILY_ATTEMPTS:5}
+    session-ttl: ${HHY_IDENTITY_SANDBOX_SESSION_TTL:PT10M}
   provider-secrets:
     material-directory: ${HHY_PROVIDER_SECRET_DIR:}
   test-registration:

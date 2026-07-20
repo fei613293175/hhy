@@ -13,16 +13,25 @@ import org.springframework.stereotype.Component;
 public final class R05IdentityRuntimePolicy implements IdentityService.Policy {
     private final JdbcTemplate jdbc;
     private final ObjectMapper objectMapper;
+    private final IdentitySandboxProperties sandbox;
 
     public R05IdentityRuntimePolicy(
             JdbcTemplate jdbc,
-            @Qualifier("adminSecurityObjectMapper") ObjectMapper objectMapper) {
+            @Qualifier("adminSecurityObjectMapper") ObjectMapper objectMapper,
+            IdentitySandboxProperties sandbox) {
         this.jdbc = jdbc;
         this.objectMapper = objectMapper;
+        this.sandbox = sandbox;
     }
 
     @Override
     public PolicySnapshot current() {
+        if (sandbox.enabled()) {
+            sandbox.requireValid();
+            return new PolicySnapshot(
+                    IdentitySandboxProperties.PROVIDER,
+                    sandbox.maxDailyAttempts(), sandbox.sessionTtl());
+        }
         return jdbc.query("""
                 SELECT values_json FROM hhy.provider_config_versions
                 WHERE provider_code='identity' AND status='ACTIVE'

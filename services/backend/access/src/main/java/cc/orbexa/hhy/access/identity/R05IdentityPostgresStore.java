@@ -30,7 +30,8 @@ import org.springframework.transaction.support.TransactionTemplate;
 /** PostgreSQL identity aggregate store; state mutation and Outbox fact are atomic. */
 @Component
 public final class R05IdentityPostgresStore
-        implements IdentityService.Store, IdentityProviderResultCoordinator.Store {
+        implements IdentityService.Store, IdentityProviderResultCoordinator.Store,
+        IdentitySandboxService.Store {
     private static final String SESSION_SELECT = """
             SELECT s.id,s.user_id,s.state,s.status,s.provider,s.expires_at,s.version,
                    s.attempt_no,s.failure_code,
@@ -161,6 +162,18 @@ public final class R05IdentityPostgresStore
                         sensitiveData.decrypt(userId, "name", rs.getString("name_cipher")),
                         sensitiveData.decrypt(userId, "id-number", rs.getString("id_no_cipher"))),
                 sessionId, userId).stream().findFirst();
+    }
+
+    /** Resolves only a live Staging sandbox session; the state remains an unguessable bearer. */
+    public Optional<ProcessingContext> sandboxContextByState(String state) {
+        return jdbc.query("""
+                SELECT id,user_id FROM hhy.identity_verification_sessions
+                WHERE state=? AND provider=? AND status IN ('LIVENESS_PENDING','PROVIDER_PROCESSING')
+                  AND expires_at>clock_timestamp()
+                """, (rs, row) -> new long[] {rs.getLong("id"), rs.getLong("user_id")},
+                state, IdentitySandboxProperties.PROVIDER)
+                .stream().findFirst()
+                .flatMap(reference -> context(reference[0], reference[1]));
     }
 
     @Override

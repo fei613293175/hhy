@@ -11,7 +11,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T05:19:34Z'
+updated_at: '2026-07-20T05:49:14Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -29,6 +29,7 @@ change_requests:
 - CR-0121
 - CR-0122
 - CR-0123
+- CR-0124
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -114,7 +115,20 @@ scope:
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
   - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
   - artifacts/validation/r05-owner-test-10210/feedback.json
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - infra/staging/r05-smoke/docker-compose.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -124,22 +138,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T05:19:31Z'
-  expires_at: '2026-07-20T09:19:31Z'
-checkpoint_sequence: 31
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0031.yaml
+  renewed_at: '2026-07-20T05:49:11Z'
+  expires_at: '2026-07-20T09:49:11Z'
+checkpoint_sequence: 33
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0033.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交修复代码并在固定Android工具链执行feature-auth与feature-identity编译和测试。
+next_step: 执行连续性门禁、提交推送CR-0124代码，然后构建并部署显式启用沙箱的R05 Staging候选开展公网黑盒
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: b70df0e4ef6ef4350659d48d88764d51c3131a2fe6e871720576eaa44d10a4f8
-  generated_at: '2026-07-20T05:19:33Z'
+  context_hash: 122add9c9f1b14ebb3611f94d894ce895846936866bf831470ff974a9999697a
+  generated_at: '2026-07-20T05:49:13Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 需先冻结同一Auth重构提交，再由固定工具链验证该精确源码。
+  reason: 沙箱环境隔离、供应商路由和身份事务状态机属于同一安全边界，需单一集成提交；当前开发者规则未授权新子任务并行。

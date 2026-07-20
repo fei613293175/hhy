@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0123
 title: 修复登录注册真实返回来源与反向转场并补齐实名结果状态
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-20T05:14:51Z'
-updated_at: '2026-07-20T05:15:20Z'
+updated_at: '2026-07-20T05:48:33Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner
 task_id: TASK-R05-007
@@ -58,5 +58,12 @@ decision_log:
   status: IMPLEMENTING
   note: 开始将AuthScreen迁移为真实Navigation Compose栈并补齐回归门禁。
   session_id: SES-20260719T234639Z-1D7D7A00
+- at: '2026-07-20T05:48:33Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 认证同级切换、真实子栈、反向pop和来源登录模式恢复已由c53d32b实现、编译测试并推送。
+  session_id: SES-20260719T234639Z-1D7D7A00
 session_ids:
 - SES-20260719T234639Z-1D7D7A00
+implementation_commits:
+- c53d32b5b8121eba3f7934724195a4934bd961ee

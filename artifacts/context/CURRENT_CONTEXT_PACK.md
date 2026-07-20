@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T05:19:33Z
-- Context Hash：`b70df0e4ef6ef4350659d48d88764d51c3131a2fe6e871720576eaa44d10a4f8`
+- 生成时间：2026-07-20T05:49:13Z
+- Context Hash：`122add9c9f1b14ebb3611f94d894ce895846936866bf831470ff974a9999697a`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -84,7 +84,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-007
-updated_at: '2026-07-20T05:19:31Z'
+updated_at: '2026-07-20T05:49:11Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -119,15 +119,15 @@ continuity:
   active_session_id: SES-20260719T234639Z-1D7D7A00
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T09:19:31Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0031.yaml
-  project_fingerprint: 0c7f34ef603fcc81b8aaf4bd124bbc4c92107ebc1348752e2dcecb67081f63c9
+  lease_expires_at: '2026-07-20T09:49:11Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0033.yaml
+  project_fingerprint: 205faf1706eb9bc3fe83391c6d7a473889b6da3b3805001d0cebc9ff090f85ee
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: da643aedf6c0fea7602115b74c337c61b0e32b9bf9e5a4590c84d56e6bb6978d
-    generated_at: '2026-07-20T05:15:35Z'
+    context_hash: 32d9d0585ae1a094cf60c3c74215dab1cc5ae7002849a7085d8ebe8a08b845fc
+    generated_at: '2026-07-20T05:33:09Z'
   handoff_bundle: null
 ```
 
@@ -319,7 +319,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T05:19:31Z'
+updated_at: '2026-07-20T05:49:11Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -337,6 +337,7 @@ change_requests:
 - CR-0121
 - CR-0122
 - CR-0123
+- CR-0124
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -422,7 +423,20 @@ scope:
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
   - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
   - artifacts/validation/r05-owner-test-10210/feedback.json
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - infra/staging/r05-smoke/docker-compose.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -432,12 +446,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T05:19:31Z'
-  expires_at: '2026-07-20T09:19:31Z'
-checkpoint_sequence: 31
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0031.yaml
+  renewed_at: '2026-07-20T05:49:11Z'
+  expires_at: '2026-07-20T09:49:11Z'
+checkpoint_sequence: 33
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0033.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交修复代码并在固定Android工具链执行feature-auth与feature-identity编译和测试。
+next_step: 执行连续性门禁、提交推送CR-0124代码，然后构建并部署显式启用沙箱的R05 Staging候选开展公网黑盒
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -445,35 +459,43 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 需先冻结同一Auth重构提交，再由固定工具链验证该精确源码。
+  reason: 沙箱环境隔离、供应商路由和身份事务状态机属于同一安全边界，需单一集成提交；当前开发者规则未授权新子任务并行。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0031
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0033
 session_id: SES-20260719T234639Z-1D7D7A00
-sequence: 31
-created_at: '2026-07-20T05:19:30Z'
-summary: CR-0123代码已实施：Auth使用NavHost，PASSWORD/SMS使用peerContent，REGISTER/RESET由pop恢复来源；VERIFIED映射成功；10210部分验收与identity配置缺失已追溯。
-next_step: 提交修复代码并在固定Android工具链执行feature-auth与feature-identity编译和测试。
+sequence: 33
+created_at: '2026-07-20T05:49:10Z'
+summary: 完成CR-0124生产隔离的Staging实名认证供应商沙箱实现、文档与回归测试；CR-0123认证导航修复已关闭实现状态
+next_step: 执行连续性门禁、提交推送CR-0124代码，然后构建并部署显式启用沙箱的R05 Staging候选开展公网黑盒
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: android-ui-foundation
+- name: Backend full Maven
+  result: PASS
+  evidence: services/backend mvnw test
+  note: 289项0失败0错误7跳过
+- name: Sandbox targeted and context
+  result: PASS
+  evidence: IdentitySandboxIsolationTest PublicIdentitySandboxControllerTest PublicEndpointsTest
+  note: 14项0失败
+- name: Android UI foundation
   result: PASS
   evidence: scripts/check_android_ui_foundation.py
-  note: Auth route状态与同级方向动画已被禁止
-- name: python-regression
+  note: 门禁通过
+- name: V1.2.3 documentation
   result: PASS
-  evidence: 3 tests
-  note: 新增Auth精确负向门禁通过
+  evidence: scripts/check_v123_documentation.py
+  note: 0错误0警告
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 2ed59f66113fb1c66758be5dce5cc103e48d9e62
+  head: c53d32b5b8121eba3f7934724195a4934bd961ee
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -484,30 +506,41 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0123.yaml'
   - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
   - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt'
-  - ' M apps/android/feature/auth/build.gradle.kts'
-  - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
-  - ' M apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt'
-  - ' M apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M artifacts/reports/R05/R05-version-test-guide.md'
+  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
   - ' M docs/03-continuity/PITFALLS.md'
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-  - ' M scripts/check_android_ui_foundation.py'
-  - ' M tests/test_android_ui_foundation.py'
-  - ?? .continuity/change_requests/CR-0123.yaml
-  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0030.yaml
-  - ?? artifacts/validation/r05-owner-test-10210/feedback.json
-  - ?? docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md
+  - ' M infra/staging/r05-smoke/docker-compose.yml'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java'
+  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java'
+  - ' M services/backend/boot/src/main/resources/application.yml'
+  - ?? .continuity/change_requests/CR-0124.yaml
+  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0032.yaml
+  - ?? docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+  - ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
   recent_commits:
+  - "c53d32b5b8121eba3f7934724195a4934bd961ee\t2026-07-20T13:19:34+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(auth): restore source-aware\
+    \ navigation motion"
   - "2ed59f66113fb1c66758be5dce5cc103e48d9e62\t2026-07-20T13:01:50+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(r05): record 10210 implementation\
     \ state"
   - "c9d5302312b18f3ec3fb7b59d5ba0a9f8d8f10e4\t2026-07-20T13:00:15+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(r05): trace 10210 navigation\
@@ -522,10 +555,8 @@ git:
     \ sources"
   - "20326b33375ad1290d003c1db3481b09b6a251b0\t2026-07-20T10:51:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): bump frozen\
     \ UI test APK identity"
-  - "c2838d9e9d1f487747c7cbe309d6f7e02c7b1e36\t2026-07-20T10:46:40+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): apply frozen\
-    \ R05 visual specification"
 project_fingerprint:
-  sha256: 0c7f34ef603fcc81b8aaf4bd124bbc4c92107ebc1348752e2dcecb67081f63c9
+  sha256: 205faf1706eb9bc3fe83391c6d7a473889b6da3b3805001d0cebc9ff090f85ee
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -638,7 +669,9 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
   - docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md
   - docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md
+  - docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md
   - docs/09-development/统一开发与交付效率规范.md
+  - infra/staging/r05-smoke/docker-compose.yml
   - packages/design-tokens/admin.css
   - packages/design-tokens/h5.css
   - releases/PROGRAM_EXECUTION_PLAN.yaml
@@ -650,12 +683,24 @@ project_fingerprint:
   - scripts/check_release_artifacts.py
   - scripts/check_ui_tokens.py
   - scripts/check_ui_visual_acceptance.py
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
   - templates/AGENTS.md
   - tests/test_android_ui_foundation.py
   - tests/test_r05_public_identity_gate.py
   - tests/test_release_close_gate.py
   - tests/test_ui_visual_acceptance.py
-  file_count: 128
+  file_count: 142
   payload:
     base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
     files:
@@ -665,8 +710,8 @@ project_fingerprint:
       sha256: 99764caddfe58d603687a938f1ac8b4f24b5c76043cea247aaf9a656b7c8a92c
     - path: CHANGELOG.md
       state: FILE
-      size: 49385
-      sha256: 838a12757accdd785823b09925a382d3795c14cb26640ba0f4293b9d1561a226
+      size: 49775
+      sha256: 37683bdd8d369ec38842760d56ec4717a1c6bdb546f8a800b4f6120933ee9868
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 4919
@@ -1033,12 +1078,12 @@ project_fingerprint:
       sha256: 11aaffded8a6594f23cfa2b6b70d8ebc23e24e75232c087862250f3334a1ad09
     - path: docs/03-continuity/PITFALLS.md
       state: FILE
-      size: 2001
-      sha256: a76bf1b1f83323555829d6e68a3d54a2ccae1c70323e4ec52fc325b2adf5eaa7
+      size: 2246
+      sha256: 4af5236ee78dd63d985f34606846f463d7c252c2faae163f9e761c74efacdd19
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 58908
-      sha256: 37954bf5b34e3b14aa1cb701ce8276b3421f84e237865e2d742b52a067e2a243
+      size: 59248
+      sha256: b7f88ec6e35b6d54479d6354424e824508e1ecb3c2f07860ad4d18942441d733
     - path: docs/03-continuity/REUSABLE_PATTERNS.md
       state: FILE
       size: 2555
@@ -1101,12 +1146,20 @@ project_fingerprint:
       sha256: 6ef46ec0ad13de091e7b25a915d0bb23b5c56c038db916a7b1705c74b44c2190
     - path: docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md
       state: FILE
-      size: 3743
-      sha256: a3ca1edfa841dba9f380172c81de9bb593ba2f35f6a21343e7c6f01e06ba30ea
+      size: 4005
+      sha256: e0ca3fbc6357faa733907d85f3707c607afae8293112add9386972018605d1ae
+    - path: docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md
+      state: FILE
+      size: 4334
+      sha256: b34df8d8001e5314ff8ba0f73c346f679c68a7386f87de1adeb1a186e0bbfb44
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
       size: 6357
       sha256: 34eeaf289c1e06636a81452ddb17962292302624f72057a0e27ed425179c11c6
+    - path: infra/staging/r05-smoke/docker-compose.yml
+      state: FILE
+      size: 4530
+      sha256: 822701d078caf166860d5ab58f4265bc90324f7830bb7b7dca9607d6bfa48f27
     - path: packages/design-tokens/admin.css
       state: FILE
       size: 5143
@@ -1151,6 +1204,54 @@ project_fingerprint:
       state: FILE
       size: 10314
       sha256: da40246eca0b68f7593517fb0f3106f6a490873d5361b0059b1b93774c4ffed5
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+      state: FILE
+      size: 1432
+      sha256: 3e90a4d47ca4a081b2e7619f2be853a7d23bd76056afa148256f6e9613b298b7
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+      state: FILE
+      size: 3917
+      sha256: dc81b161a26d80bae5db3a47a905671888c547926e3d6e48505908cae6b38a1d
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+      state: FILE
+      size: 989
+      sha256: b539aa166648c876d216a0f3e5fadb6b59ee92c28333e6a433765f6ccc4272ce
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+      state: FILE
+      size: 4231
+      sha256: 6135fa5aa245e9415007c59a924071cf56850331d9d33345bc129cc61290ec7a
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+      state: FILE
+      size: 26828
+      sha256: 9e4961695e78f75d4cb73c0f25017f1a9b6efd1bcc358a771c139382fe85810f
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+      state: FILE
+      size: 1282
+      sha256: 791b10930380962e3170cd60db1803aaa9a75580836cac3bb752c9b32bf8864f
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+      state: FILE
+      size: 3104
+      sha256: 13305df6a6c9547bbc214443a794426da6761dfcf31c9d679d7277fac27e219b
+    - path: services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+      state: FILE
+      size: 2569
+      sha256: 599b6834ec261b56755eb2e107d4d6ef48ea55e42308be1080217be2cbd8f387
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+      state: FILE
+      size: 4892
+      sha256: 92f5582abb1ba44c2d4a9d73a069b981510583ed6d39e94a01810e4cc10140a0
+    - path: services/backend/boot/src/main/resources/application.yml
+      state: FILE
+      size: 3347
+      sha256: a4729c35b0d230884d9cbe1af231e176b8983889658bddfc6d9b19267045104d
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+      state: FILE
+      size: 6247
+      sha256: a901281d9980029b625a4a9c1bec99750434fd49ec9b4282e3be39ae10957dd9
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
+      state: FILE
+      size: 2587
+      sha256: cb14526dc8961e2ffe618874f066d5ed99375b0e91d8d53e013c892d361101b9
     - path: templates/AGENTS.md
       state: FILE
       size: 10244
@@ -1277,6 +1378,18 @@ change_classification:
   - scripts/check_release_artifacts.py
   - scripts/check_ui_tokens.py
   - scripts/check_ui_visual_acceptance.py
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
   user_visible:
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
@@ -1325,6 +1438,9 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
   - docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md
   - docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md
+  - docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md
+  infrastructure:
+  - infra/staging/r05-smoke/docker-compose.yml
   tests:
   - tests/test_android_ui_foundation.py
   - tests/test_r05_public_identity_gate.py
@@ -1354,6 +1470,7 @@ change_requests:
 - CR-0121
 - CR-0122
 - CR-0123
+- CR-0124
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -1439,13 +1556,26 @@ scope:
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt
   - apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt
   - artifacts/validation/r05-owner-test-10210/feedback.json
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+  - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+  - services/backend/boot/src/main/resources/application.yml
+  - infra/staging/r05-smoke/docker-compose.yml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121+approved-cr:CR-0122+approved-cr:CR-0123+approved-cr:CR-0124
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 需先冻结同一Auth重构提交，再由固定工具链验证该精确源码。
-event_hash: e0f428330dea24d6bf27316c2b6409c6e1d86412c0d842f30f9d68c848fcdb69
+  reason: 沙箱环境隔离、供应商路由和身份事务状态机属于同一安全边界，需单一集成提交；当前开发者规则未授权新子任务并行。
+event_hash: a8bdc06c1d482b478cef9f5c9939fe1a2027534fc1955246ce45a8e10d5b9d4b
 ```
 
 ## 接续状态与事件头
@@ -1457,8 +1587,8 @@ active_session_id: SES-20260719T234639Z-1D7D7A00
 last_session_id: SES-20260719T230526Z-55ABC07F
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0004
-event_count: 1301
-event_head_hash: e0f428330dea24d6bf27316c2b6409c6e1d86412c0d842f30f9d68c848fcdb69
+event_count: 1309
+event_head_hash: a8bdc06c1d482b478cef9f5c9939fe1a2027534fc1955246ce45a8e10d5b9d4b
 event_chain_valid: true
 ```
 
@@ -1581,9 +1711,9 @@ recent_sessions: - session_id: SES-20260719T135908Z-32D952EC
   started_at: '2026-07-19T23:46:39Z'
   record: .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  updated_at: '2026-07-20T05:19:31Z'
+  updated_at: '2026-07-20T05:49:11Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0031.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0033.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B426B903146
   session_id: SES-20260718T152013Z-8B704646
@@ -2466,7 +2596,7 @@ recent_task_transitions: - transition_id: TRN-4DA26C35977A
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 2ed59f66113fb1c66758be5dce5cc103e48d9e62
+head: c53d32b5b8121eba3f7934724195a4934bd961ee
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2477,31 +2607,42 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0123.yaml'
 - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt'
-- ' M apps/android/feature/auth/build.gradle.kts'
-- ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
-- ' M apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityPresentation.kt'
-- ' M apps/android/feature/identity/src/test/java/cc/orbexa/hhy/identity/IdentityPresentationTest.kt'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M artifacts/reports/R05/R05-version-test-guide.md'
+- ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/PITFALLS.md'
 - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-- ' M scripts/check_android_ui_foundation.py'
-- ' M tests/test_android_ui_foundation.py'
-- ?? .continuity/change_requests/CR-0123.yaml
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0030.yaml
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0031.yaml
-- ?? artifacts/validation/r05-owner-test-10210/feedback.json
-- ?? docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md
+- ' M infra/staging/r05-smoke/docker-compose.yml'
+- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java'
+- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java'
+- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java'
+- ' M services/backend/boot/src/main/resources/application.yml'
+- ?? .continuity/change_requests/CR-0124.yaml
+- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0032.yaml
+- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0033.yaml
+- ?? docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+- ?? services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+- ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+- ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
 recent_commits:
+- "c53d32b5b8121eba3f7934724195a4934bd961ee\t2026-07-20T13:19:34+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(auth): restore source-aware\
+  \ navigation motion"
 - "2ed59f66113fb1c66758be5dce5cc103e48d9e62\t2026-07-20T13:01:50+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(r05): record 10210 implementation\
   \ state"
 - "c9d5302312b18f3ec3fb7b59d5ba0a9f8d8f10e4\t2026-07-20T13:00:15+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] docs(r05): trace 10210 navigation\
@@ -2516,14 +2657,12 @@ recent_commits:
   \ sources"
 - "20326b33375ad1290d003c1db3481b09b6a251b0\t2026-07-20T10:51:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): bump frozen\
   \ UI test APK identity"
-- "c2838d9e9d1f487747c7cbe309d6f7e02c7b1e36\t2026-07-20T10:46:40+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(identity): apply frozen\
-  \ R05 visual specification"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`0c7f34ef603fcc81b8aaf4bd124bbc4c92107ebc1348752e2dcecb67081f63c9`
-- 文件数：128
+- 指纹：`205faf1706eb9bc3fe83391c6d7a473889b6da3b3805001d0cebc9ff090f85ee`
+- 文件数：142
 
 - `AGENTS.md`
 - `CHANGELOG.md`
@@ -2636,7 +2775,9 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md`
 - `docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md`
 - `docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md`
+- `docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md`
 - `docs/09-development/统一开发与交付效率规范.md`
+- `infra/staging/r05-smoke/docker-compose.yml`
 - `packages/design-tokens/admin.css`
 - `packages/design-tokens/h5.css`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml`
@@ -2648,6 +2789,18 @@ recent_commits:
 - `scripts/check_release_artifacts.py`
 - `scripts/check_ui_tokens.py`
 - `scripts/check_ui_visual_acceptance.py`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java`
+- `services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java`
+- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java`
+- `services/backend/boot/src/main/resources/application.yml`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java`
 - `templates/AGENTS.md`
 - `tests/test_android_ui_foundation.py`
 - `tests/test_r05_public_identity_gate.py`
@@ -6830,9 +6983,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0123
   title: 修复登录注册真实返回来源与反向转场并补齐实名结果状态
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-20T05:14:51Z'
-  updated_at: '2026-07-20T05:15:20Z'
+  updated_at: '2026-07-20T05:48:33Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-007
@@ -6887,6 +7040,82 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 开始将AuthScreen迁移为真实Navigation Compose栈并补齐回归门禁。
     session_id: SES-20260719T234639Z-1D7D7A00
+  - at: '2026-07-20T05:48:33Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 认证同级切换、真实子栈、反向pop和来源登录模式恢复已由c53d32b实现、编译测试并推送。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  session_ids:
+  - SES-20260719T234639Z-1D7D7A00
+  implementation_commits:
+  - c53d32b5b8121eba3f7934724195a4934bd961ee
+- protocol_version: '1.0'
+  cr_id: CR-0124
+  title: 建立生产隔离的R05实名认证Staging供应商沙箱
+  status: IMPLEMENTING
+  created_at: '2026-07-20T05:31:37Z'
+  updated_at: '2026-07-20T05:32:44Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-007
+  session_id: SES-20260719T234639Z-1D7D7A00
+  user_request: 项目所有者真机确认实名资料页通过，但提交后因认证服务配置缺失无法测试活体与结果页，并要求持续推进开发。
+  reason: 线上活动identity策略缺失使创建会话在第三方调用前失败；需要生产默认关闭、仅Staging显式启用的供应商沙箱完成真机闭环。
+  original_rule: R05实名认证仅从ACTIVE供应商配置读取策略，测试环境无活动配置时在创建会话阶段返回500，无法测试活体和结果页面。
+  new_rule: 实名认证测试闭环采用大型App通行的生产与沙箱双通道：沙箱默认关闭且只能在staging显式启用；正式环境继续只接受后台激活的真实供应商和密钥。沙箱使用一次性state、HTTPS页面、真实相机权限、数据库事务终态和真实Android轮询结果，不展示技术字段。
+  impact_summary: 新增严格环境隔离的Staging实名供应商沙箱与真机闭环，修复无真实供应商配置时无法验证R05余下页面的问题，不改变生产实名认证逻辑。
+  impact:
+    files:
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxProperties.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxStartupGuard.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentitySandboxClient.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityProviderRouter.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityRuntimePolicy.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityAccessConfiguration.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/R05IdentityPostgresStore.java
+    - services/backend/access/src/main/java/cc/orbexa/hhy/access/identity/IdentitySandboxService.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxController.java
+    - services/backend/boot/src/main/resources/application.yml
+    - infra/staging/r05-smoke/docker-compose.yml
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/access/identity/IdentitySandboxIsolationTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/PublicIdentitySandboxControllerTest.java
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - CHANGELOG.md
+    - artifacts/reports/R05/R05-version-test-guide.md
+    pages:
+    - SCR-ID-002
+    - SCR-ID-003
+    - SCR-ID-004
+    apis:
+    - GET /public-api/v1/identity/sandbox/liveness
+    - POST /public-api/v1/identity/sandbox/complete
+    database: []
+    configuration:
+    - HHY_IDENTITY_SANDBOX_ENABLED
+    - HHY_IDENTITY_SANDBOX_PUBLIC_BASE_URL
+    - HHY_IDENTITY_SANDBOX_ALLOWED_RETURN_HOST
+    ledger: []
+    tests:
+    - 沙箱只能在staging启用，production启动拒绝
+    - 沙箱供应商路由、一次性state完成及生产真实供应商回退测试
+    - 公开沙箱页面相机权限、无技术字段及安全回跳测试
+    releases:
+    - R05
+    migration_and_compatibility: 无数据库结构变更；默认关闭保持现有生产行为；仅R05 Staging部署显式启用，关闭后自动回到后台活动供应商配置。
+  user_confirmation: 2026-07-20项目所有者确认实名资料页通过但后续活体无法测试，并持续授权自行决定后推进。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T05:32:41Z'
+    note: 依据项目所有者明确要求持续开发、后续问题自行决定，以及本轮真机阻断反馈，批准仅Staging显式启用且生产默认关闭的供应商沙箱。
+  machine_record: .continuity/change_requests/CR-0124.yaml
+  document: docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md
+  decision_log:
+  - at: '2026-07-20T05:32:44Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始实现生产隔离的Staging实名认证供应商沙箱与测试闭环。
+    session_id: SES-20260719T234639Z-1D7D7A00
   session_ids:
   - SES-20260719T234639Z-1D7D7A00
 ```
@@ -6895,31 +7124,31 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `99764caddfe58d603687a938f1ac8b4f24b5c76043cea247aaf9a656b7c8a92c`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `75d9ce4aa5bd773b85488558ec93b88ab6c236fe3f9b22cf4d95bfd6dae6d8ca`
+- `CURRENT_STATUS.yaml` — `fb82a20657e4cc3dca008e3ba0ec0fef08d49f1ae66d0323a80586990b0a6315`
 - `NEXT_TASK.yaml` — `bd22bac1e2b0308bd77f173dca3ac229dff82931447bff00e89661b483b14ee0`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `37954bf5b34e3b14aa1cb701ce8276b3421f84e237865e2d742b52a067e2a243`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `b7f88ec6e35b6d54479d6354424e824508e1ecb3c2f07860ad4d18942441d733`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da`
-- `docs/03-continuity/PITFALLS.md` — `a76bf1b1f83323555829d6e68a3d54a2ccae1c70323e4ec52fc325b2adf5eaa7`
+- `docs/03-continuity/PITFALLS.md` — `4af5236ee78dd63d985f34606846f463d7c252c2faae163f9e761c74efacdd19`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `8f07b807f972671d8270db374fad897fb0a36ed4cb3d4f6788dd12cf411dfb46`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `30db14d040bef3f018dfd33a9db2cb292ee173b4f910b05462a080dc9234c503`
-- `.continuity/SESSION_INDEX.yaml` — `5b9253ab8e60c99153f5a636f347f0543d56847d9e845f6af79d614303b5d915`
+- `.continuity/EVENT_LOG.jsonl` — `1a89ade36f7580b353100cc05a3549287a941623e23671a75fb3e27bdcbeda77`
+- `.continuity/SESSION_INDEX.yaml` — `573c1dc604deb826606f9bf3074cc7e31449487af8a9f415b4a59b30b8d1691b`
 - `.continuity/TASK_CLAIMS.yaml` — `b42bae99e7d14cdcf44b0551a70718a1c1bdf785aa7cdfbff142597c2b2282ac`
 - `.continuity/TASK_TRANSITIONS.yaml` — `649cf4421377460d639a628f6c86e77ff9cd2e7a96acffc65865873cbcb9a2a0`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `33daff4c96c39d7ad396a8befc9a077c0f117e14b909d41f9904141584984afa`
-- `.continuity/ACTIVE_SESSION.yaml` — `d166da4ac61785c3b564caadd0a07d3eae79efa4a8ebf64a971f26d91f62657e`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `82fb0ab64d96e58f8cb68a97c9552ddd91081f10cb19086f9dcab4ffdb38fc03`
+- `.continuity/ACTIVE_SESSION.yaml` — `3be6db39ea2ab6840e9e58ec958cda15c87bff0fbda4a0e46211d92b9d73c063`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `48d66c06efb7102d3a1965124a9b34d9867a4418e009ebb98cbc48dd915ef489`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `e763b0bc235be69b871929ad214e0a458ae978ab54970a42af8f5e3987677ce5`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml` — `38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `193d3d33a353ce46ffba36f6f421e1bb9c5dbc93fbbb8b8aecf91d5e118f9cd3`
-- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0031.yaml` — `440cc80bea7eade4ca2db6a256b1022ad690161a4b6d4a1482ed286bda8ec3e6`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `354123ec0b2e4ef9e0250685fdcfa1ee84c9d76d67f38d584673d4a5c9c5424d`
+- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0033.yaml` — `4262e2f0ec859f749771a148a3e2d2a712ca57d1d66de61a1ffa19bbba5eacba`
 - `docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md` — `2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f`
 - `docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md` — `7ea7a2a77787bbf3e87d0c52f6b265235b50ade68dd07cf74369b51935b7b0bd`
 - `docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md` — `3d8a27084d1ed3efdee721c872c08c7103386965f3b731cd302bd173e6245f55`
@@ -6934,7 +7163,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md` — `b1389b26e4b7058161a855e922d6ee597c8c77d56f33a041885737363c7bd6cc`
 - `docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md` — `0cba97572d918a4daa48bc0f58f814e38a21ac7ad5f55046c323f309407293a4`
 - `docs/03-continuity/change-requests/CR-0122-交付R05统一导航图标动效10210真机测试APK.md` — `6ef46ec0ad13de091e7b25a915d0bb23b5c56c038db916a7b1705c74b44c2190`
-- `docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md` — `a3ca1edfa841dba9f380172c81de9bb593ba2f35f6a21343e7c6f01e06ba30ea`
+- `docs/03-continuity/change-requests/CR-0123-修复登录注册真实返回来源与反向转场并补齐实名结果状态.md` — `e0ca3fbc6357faa733907d85f3707c607afae8293112add9386972018605d1ae`
+- `docs/03-continuity/change-requests/CR-0124-建立生产隔离的R05实名认证Staging供应商沙箱.md` — `b34df8d8001e5314ff8ba0f73c346f679c68a7386f87de1adeb1a186e0bbfb44`
 
 ## 接手硬规则
 

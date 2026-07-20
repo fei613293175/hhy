@@ -16,3 +16,4 @@
 14. 不得为基础能力自行构思小众方案；优先官方Stable和大型商业App广泛采用的成熟架构，例外必须ADR与批准CR。
 15. PASSWORD/SMS等同级模式只能使用无方向peer motion；REGISTER/RESET等下级页必须进入forward、返回pop backward并恢复真实登录模式，禁止写死PASSWORD。
 16. 实名授权说明可读取不代表运行策略或供应商已经激活；APK交付前必须分别验证协议、会话创建、活体令牌与结果查询，不能把创建会话500误归因于第三方Key。
+17. 外部实名供应商尚未配置时，真机闭环只能使用默认关闭且与production硬隔离的Staging供应商沙箱；不得写假ACTIVE配置、不得在Android本地伪造通过，也不得把沙箱结果当正式实名认证。
