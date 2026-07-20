@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T13:27:50Z
-- Context Hash：`ffcd078df223f9291499b319a19efe7a5f841cea5a2b113f6157e460ef34fccf`
+- 生成时间：2026-07-20T13:29:56Z
+- Context Hash：`17d0622c5230e7cfe64b3cdbeae59bf9bd21c9665caba073e2a18f8239064df9`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -85,7 +85,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-008
-updated_at: '2026-07-20T13:27:47Z'
+updated_at: '2026-07-20T13:29:52Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -120,15 +120,15 @@ continuity:
   active_session_id: SES-20260720T095830Z-752E5121
   actor_id: codex-root
   story_id: STORY-R05-008
-  lease_expires_at: '2026-07-20T17:27:47Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0020.yaml
-  project_fingerprint: cba5f9b63ae632646474a3345767205a87b7e13b20cafb78aef0dd711d66173e
+  lease_expires_at: '2026-07-20T17:29:52Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0021.yaml
+  project_fingerprint: 9fa93f1948e5e28368773eac6db9567159b03031f9b8fa0f65d3a4cb41b7d1f0
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: a724578f9d31169d5f425e07631dc71e79c3e6e386db151eb898599b4143e750
-    generated_at: '2026-07-20T13:24:19Z'
+    context_hash: ffcd078df223f9291499b319a19efe7a5f841cea5a2b113f6157e460ef34fccf
+    generated_at: '2026-07-20T13:27:50Z'
   handoff_bundle: null
 ```
 
@@ -320,7 +320,7 @@ task_id: TASK-R05-008
 story_id: STORY-R05-008
 goal: 关闭R05并建立跨电脑跨AI长期可复用的Android自动构建、模拟器测试、截图、日志、回归、自修复与候选交付体系
 started_at: '2026-07-20T09:58:30Z'
-updated_at: '2026-07-20T13:27:47Z'
+updated_at: '2026-07-20T13:29:52Z'
 takeover_of: null
 change_requests:
 - CR-0135
@@ -417,12 +417,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T13:27:47Z'
-  expires_at: '2026-07-20T17:27:47Z'
-checkpoint_sequence: 20
-latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0020.yaml
+  renewed_at: '2026-07-20T13:29:52Z'
+  expires_at: '2026-07-20T17:29:52Z'
+checkpoint_sequence: 21
+latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0021.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-next_step: 严格门禁后提交依赖修复，关闭CR-0145并关闭TASK-R05-008
+next_step: 提交CR关闭状态并正式关闭TASK-R05-008，只将R06/TASK-R06-001置为READY
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -437,52 +437,44 @@ parallel_execution:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260720T095830Z-752E5121-0020
+checkpoint_id: CP-SES-20260720T095830Z-752E5121-0021
 session_id: SES-20260720T095830Z-752E5121
-sequence: 20
-created_at: '2026-07-20T13:27:46Z'
-summary: R06顺序依赖、生成的执行计划、回归测试与Problem Registry已同步，关闭转换前置门禁完整
-next_step: 严格门禁后提交依赖修复，关闭CR-0145并关闭TASK-R05-008
+sequence: 21
+created_at: '2026-07-20T13:29:52Z'
+summary: CR-0145已实现并关闭，R06依赖R05的机器规则、回归与问题记录全部就绪
+next_step: 提交CR关闭状态并正式关闭TASK-R05-008，只将R06/TASK-R06-001置为READY
 blockers: []
 decisions:
-- 收尾后只设置R06/TASK-R06-001为READY，不启动R06开发
+- 完成R05收尾后暂停，不启动R06
 note: ''
 tests:
 - name: program-execution-plan
   result: PASS
   evidence: python -m unittest tests.test_program_execution_plan
   note: 7项通过
+- name: project-doctor-r05
+  result: PASS
+  evidence: python scripts/project-doctor.py --strict --release R05
+  note: 0错误0警告
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: fb09d7b96afbf15b24c8159799196878e0b8de12
+  head: 3709a631e722dde37962627b467687912963d01c
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - AM .continuity/change_requests/CR-0145.yaml
-  - A  .continuity/checkpoints/SES-20260720T095830Z-752E5121/0019.yaml
-  - M  .continuity/sessions/SES-20260720T095830Z-752E5121.yaml
-  - M  CURRENT_STATUS.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  artifacts/validation/project-doctor-v1.2.3.json
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/session_index.csv
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - AM docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md
-  - M  docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-  - ' M releases/PROGRAM_EXECUTION_PLAN.yaml'
-  - M  releases/RELEASE_DEPENDENCIES.yaml
-  - ' M tests/test_program_execution_plan.py'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0145.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md'
   recent_commits:
+  - "3709a631e722dde37962627b467687912963d01c\t2026-07-20T21:28:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(continuity): link R06\
+    \ after R05"
   - "fb09d7b96afbf15b24c8159799196878e0b8de12\t2026-07-20T21:21:32+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(ci): record green automation\
     \ gate"
   - "f8bf690fd5d2594b89917e0fafe8c1ed05224720\t2026-07-20T21:10:01+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): publish screenshots\
@@ -497,10 +489,8 @@ git:
     \ self-testing"
   - "bcaae330f09eca9c6b9687e36f4d540af17c6a3f\t2026-07-20T20:20:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): run emulator gate\
     \ in one shell"
-  - "74feb6323965772a0235835c9002ee693092b9a4\t2026-07-20T19:55:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): complete Linux runner\
-    \ prerequisites"
 project_fingerprint:
-  sha256: cba5f9b63ae632646474a3345767205a87b7e13b20cafb78aef0dd711d66173e
+  sha256: 9fa93f1948e5e28368773eac6db9567159b03031f9b8fa0f65d3a4cb41b7d1f0
   files:
   - .gitattributes
   - .githooks/commit-msg
@@ -705,8 +695,8 @@ project_fingerprint:
       sha256: 009ef247837b0da5abf0cc09243e94554838b82aeb6eeadad3278031f4d99d3b
     - path: docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md
       state: FILE
-      size: 2274
-      sha256: 3ff535ff22ce7c7abeab89df22ad47fb8c833384ccc25e5b5579ace914a1999a
+      size: 2720
+      sha256: 898f89b12bed73e938d55e45717df3c4c245dd78a7325a9d389e1b6232c19c45
     - path: docs/04-vendors/identity/source/输出内容(1).txt
       state: FILE
       size: 12285
@@ -943,7 +933,7 @@ parallel_execution:
   delegated_workers: 0
   workers: []
   reason: 上级规则禁止用户未明确要求的子代理委托
-event_hash: 0d4f6e32a91e68f64c47754906d0d499d3bd3f242ffa803af3c99e011a221bd2
+event_hash: 94f5d5455fad1561ba4680f356a225fa45e4cdbec337dda8013a563d23f4e56b
 ```
 
 ## 接续状态与事件头
@@ -955,8 +945,8 @@ active_session_id: SES-20260720T095830Z-752E5121
 last_session_id: SES-20260719T234639Z-1D7D7A00
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0043
-event_count: 1475
-event_head_hash: 0d4f6e32a91e68f64c47754906d0d499d3bd3f242ffa803af3c99e011a221bd2
+event_count: 1478
+event_head_hash: 94f5d5455fad1561ba4680f356a225fa45e4cdbec337dda8013a563d23f4e56b
 event_chain_valid: true
 ```
 
@@ -1079,9 +1069,9 @@ recent_sessions: - session_id: SES-20260719T144443Z-BF11796E
   started_at: '2026-07-20T09:58:30Z'
   record: .continuity/sessions/SES-20260720T095830Z-752E5121.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-  updated_at: '2026-07-20T13:27:47Z'
+  updated_at: '2026-07-20T13:29:52Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0020.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0021.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D402CCF0F4A1
   session_id: SES-20260718T162320Z-23C14331
@@ -1964,35 +1954,28 @@ recent_task_transitions: - transition_id: TRN-AB73BBDF9FA9
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: fb09d7b96afbf15b24c8159799196878e0b8de12
+head: 3709a631e722dde37962627b467687912963d01c
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- M  .continuity/CHANGE_REQUEST_INDEX.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- AM .continuity/change_requests/CR-0145.yaml
-- A  .continuity/checkpoints/SES-20260720T095830Z-752E5121/0019.yaml
-- MM .continuity/sessions/SES-20260720T095830Z-752E5121.yaml
-- MM CURRENT_STATUS.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- M  artifacts/validation/project-doctor-v1.2.3.json
-- M  catalogs/change_request_index.csv
-- MM catalogs/session_index.csv
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- AM docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md
-- MM docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-- ' M releases/PROGRAM_EXECUTION_PLAN.yaml'
-- M  releases/RELEASE_DEPENDENCIES.yaml
-- ' M tests/test_program_execution_plan.py'
-- ?? .continuity/checkpoints/SES-20260720T095830Z-752E5121/0020.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0145.yaml'
+- ' M .continuity/sessions/SES-20260720T095830Z-752E5121.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md'
+- ?? .continuity/checkpoints/SES-20260720T095830Z-752E5121/0021.yaml
 recent_commits:
+- "3709a631e722dde37962627b467687912963d01c\t2026-07-20T21:28:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(continuity): link R06 after\
+  \ R05"
 - "fb09d7b96afbf15b24c8159799196878e0b8de12\t2026-07-20T21:21:32+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(ci): record green automation\
   \ gate"
 - "f8bf690fd5d2594b89917e0fafe8c1ed05224720\t2026-07-20T21:10:01+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): publish screenshots\
@@ -2007,13 +1990,11 @@ recent_commits:
   \ self-testing"
 - "bcaae330f09eca9c6b9687e36f4d540af17c6a3f\t2026-07-20T20:20:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): run emulator gate in\
   \ one shell"
-- "74feb6323965772a0235835c9002ee693092b9a4\t2026-07-20T19:55:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): complete Linux runner\
-  \ prerequisites"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`cba5f9b63ae632646474a3345767205a87b7e13b20cafb78aef0dd711d66173e`
+- 指纹：`9fa93f1948e5e28368773eac6db9567159b03031f9b8fa0f65d3a4cb41b7d1f0`
 - 文件数：53
 
 - `.gitattributes`
@@ -7027,56 +7008,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260719T234639Z-1D7D7A00
   implementation_commits:
   - 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
-- protocol_version: '1.0'
-  cr_id: CR-0145
-  title: 补齐R06对已完成R05的顺序依赖
-  status: IMPLEMENTING
-  created_at: '2026-07-20T13:22:48Z'
-  updated_at: '2026-07-20T13:23:19Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner
-  task_id: TASK-R05-008
-  session_id: SES-20260720T095830Z-752E5121
-  user_request: 项目所有者要求R02至R32依序持续推进，R05完成后立即进入R06
-  reason: 现有依赖图R06仅声明R02和R04，连续性关闭门禁因此拒绝从已完成R05切换R06，与已确认的顺序推进规则不一致
-  original_rule: R06依赖R02与R04，但不依赖其直接前序R05，连续性协议禁止R05完成后直接切换R06
-  new_rule: R06在保留R02和R04依赖的同时增加R05顺序依赖，R05关闭后可按项目所有者要求直接进入R06
-  impact_summary: 仅补齐版本依赖图的一条顺序边，不改变R05或R06业务范围
-  impact:
-    files:
-    - releases/RELEASE_DEPENDENCIES.yaml
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python scripts/project-doctor.py --strict --release R05; continuity close transition validation
-    releases:
-    - R05
-    migration_and_compatibility: 现有R02、R04、R05均已完成；增加依赖不会破坏既有状态，只会阻止未来绕过R05进入R06
-  user_confirmation: 当前任务及既有硬规则：R05完成后立即按开发文档进入R06，并依序持续推进至R32
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-20T13:23:16Z'
-    note: 依据项目所有者多次明确要求R02至R32依序持续推进并在版本完成后进入下一版本
-  machine_record: .continuity/change_requests/CR-0145.yaml
-  document: docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md
-  decision_log:
-  - at: '2026-07-20T13:23:19Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 补齐R06对R05的顺序依赖并验证关闭门禁
-    session_id: SES-20260720T095830Z-752E5121
-  session_ids:
-  - SES-20260720T095830Z-752E5121
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `bf3f1404ede84aedb9378ff53cceddc633fb1ab51770369fd4a9ccc6348aec8a`
+- `CURRENT_STATUS.yaml` — `886d8a70d1e20b233ee1a7570898000b56ea220956446789b2ca1ddb9eb63deb`
 - `NEXT_TASK.yaml` — `ffc587b7a19397e86fb03f0a6f3ae2b0d16a2a8ac2db6a0483fdded3d1543527`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7087,20 +7025,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `8747be48cad3a8b6c35129cb4abbabc6d691ac9445ea4015281b9d4900029025`
-- `.continuity/SESSION_INDEX.yaml` — `d9a95eff8c526284dd9908cf88081a5e0bc24d30f09be9255d4aa53ec8a93e97`
+- `.continuity/EVENT_LOG.jsonl` — `f39d18d784cd4047b40f13d4c939e79c1069e4dc11db9c257717268e600905ac`
+- `.continuity/SESSION_INDEX.yaml` — `959aec11933553348c6b9f39015740149d4f203d44080b498ff4ac88ca8b80e3`
 - `.continuity/TASK_CLAIMS.yaml` — `51845584c67e22b1b247283317fe524313ac3f43f8982fb4b629af1151cace6f`
 - `.continuity/TASK_TRANSITIONS.yaml` — `6b84bba6c64711ba15832b715ebe1e0511e794712aa95a94a57a8c04c5d1391d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `21d9509c8f95ba490907fd0d3714ee277776dc5f7f5c9fbd3a034e6c4dabb7e7`
-- `.continuity/ACTIVE_SESSION.yaml` — `cd08102ed60574f5b6b333995d3e71b4f659a0a0215637a19df0a937a06117e0`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `d3d5d0bef765fa899e7b8a7872f30e1139ce95d6bdde0c18dc460d2a9d04211f`
+- `.continuity/ACTIVE_SESSION.yaml` — `d5229d9f19ebfb05288d8f96f4d72816e16da66924916e08bf874b101abab6b6`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `6fc95b4abdedcaa6561460c2d5db23e6fccf1a870452779b0c03035bd6ea11ec`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `5ab834809127e32bfecc401bd27938833ab09e66b287c2b65973830640437b22`
 - `releases/R05/TASKS.yaml` — `5ee3430d7b0b89a7d84a0d14119b232a2638e042d8b84e9f2de008ae12d82e55`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `98126dbba6a77102d407f9e9de5e95bef5f492330ddc5bc681afc3696edbac1b`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml` — `38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda`
-- `docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md` — `62d40d40dbbcfacc921799706a8e672603dbd04b4cd2aa976ada80296aacf651`
-- `.continuity/checkpoints/SES-20260720T095830Z-752E5121/0020.yaml` — `31586eb8cbdabcc0ccef52c31bf12cb936f16c692abec9c524b90f90e9526901`
+- `docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md` — `fbe168ecf7b8701f96f6d453e12b33856515534d276102202c6906bef8c5dd0c`
+- `.continuity/checkpoints/SES-20260720T095830Z-752E5121/0021.yaml` — `bfc3d0bf95ad622f8cf65bee7eeb07a7df31099b1ec1afdc6259b7aba29bcc4d`
 - `docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md` — `cfaef91b68a8db477e677e7747583684224077c3b816ee97309d7020858c5cf7`
 - `docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md` — `a8bb905a52a04c21570884e027e3b4d562854bc156aeaa3a0e87d661530ec5e5`
 - `docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md` — `c2311668004f80b7e9c09994ad09ec4cbd008278b51c68fb3be63ada84accbc6`
@@ -7111,7 +7049,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md` — `f68bd552a7c563cb97c351277c79ff71e0da32887f7fd51aa833fc50e5683043`
 - `docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md` — `b6253a3877a1293ac67316b9fc0401c07d57ebbf90a320b9949df2ba2310e77c`
 - `docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md` — `009ef247837b0da5abf0cc09243e94554838b82aeb6eeadad3278031f4d99d3b`
-- `docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md` — `3ff535ff22ce7c7abeab89df22ad47fb8c833384ccc25e5b5579ace914a1999a`
+- `docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md` — `898f89b12bed73e938d55e45717df3c4c245dd78a7325a9d389e1b6232c19c45`
 
 ## 接手硬规则
 

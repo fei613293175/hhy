@@ -8655,9 +8655,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0145
   title: 补齐R06对已完成R05的顺序依赖
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-20T13:22:48Z'
-  updated_at: '2026-07-20T13:23:19Z'
+  updated_at: '2026-07-20T13:29:48Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-008
@@ -8693,5 +8693,17 @@ change_requests:
     status: IMPLEMENTING
     note: 补齐R06对R05的顺序依赖并验证关闭门禁
     session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:29:45Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 顺序依赖、执行计划、回归测试和Problem Registry均已提交并通过严格门禁
+    session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:29:48Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: R05到R06关闭转换前置条件已补齐，等待正式关闭验证
+    session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+  implementation_commits:
+  - 3709a631e722dde37962627b467687912963d01c
