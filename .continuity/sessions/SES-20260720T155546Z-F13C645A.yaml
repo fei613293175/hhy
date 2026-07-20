@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260720T155546Z-F13C645A
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R06-001
 story_id: STORY-R06-005
 goal: 完成R06开发就绪核验、故事领取、Release基线一致性与后续R06至R08连续开发入口
 started_at: '2026-07-20T15:55:46Z'
-updated_at: '2026-07-20T16:00:55Z'
+updated_at: '2026-07-20T16:04:03Z'
 takeover_of: null
 change_requests:
 - CR-0147
@@ -59,22 +59,35 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T16:00:52Z'
-  expires_at: '2026-07-20T20:00:52Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260720T155546Z-F13C645A/0001.yaml
+  renewed_at: '2026-07-20T16:04:00Z'
+  expires_at: '2026-07-20T20:04:00Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260720T155546Z-F13C645A/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T155546Z-F13C645A.md
-next_step: 关闭TASK-R06-001并领取TASK-R06-002数据迁移与领域不变量
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 2132aba9061f895acc68de0cf95e2b7efc6bdab5af03de786b004b111840350b
-  generated_at: '2026-07-20T16:00:54Z'
+  context_hash: ef3ca9ebf2f605d7a7d190dd7fd8dd54b06488c6a46469027dd02d2c9d4b4f0a
+  generated_at: '2026-07-20T16:04:02Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: R06开发就绪核验完成：DoR、5个Story、Release产物、API契约、R05顺序依赖和R06至R08连续交付授权均已登记并通过门禁
+  code_commit: 5ae20d2
+  next_release: R06
+  next_task: TASK-R06-002
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-20T16:03:58Z'
+  closure_checkpoint_id: CP-SES-20260720T155546Z-F13C645A-0002
+  closed_at: '2026-07-20T16:04:03Z'
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
   reason: 上级协作规则未授权子代理；本任务为单一治理事实写入，由主控串行完成
+closed_at: '2026-07-20T16:04:03Z'

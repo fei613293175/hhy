@@ -646,3 +646,13 @@
 - 修复 Context Pack 将本机历史 APK 计入仓库树指纹、导致 GitHub 干净检出失败的问题。
 - 修复版本关闭后 `active_session=null` 时并行计划回归测试崩溃的问题。
 - 关闭态改由 `CURRENT_STATUS` / `NEXT_TASK` 恢复 Release 上下文；R06 仍仅为 READY，未启动开发。
+
+## TASK-R06-001 · COMPLETED · 2026-07-20T16:03:58Z
+
+- Task close: TASK-R06-001 / SES-20260720T155546Z-F13C645A
+- Release：`R06`
+- Story：`STORY-R06-005`
+- Actor：`codex-root`
+- 摘要：R06开发就绪核验完成：DoR、5个Story、Release产物、API契约、R05顺序依赖和R06至R08连续交付授权均已登记并通过门禁
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260720T155546Z-F13C645A.md`
+
