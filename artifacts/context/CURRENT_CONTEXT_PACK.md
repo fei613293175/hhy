@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T03:17:40Z
-- Context Hash：`2b2d0f3d84c460cf8dc0f467cbf5ed5a38e8db8e91e1c131d4d420340b6d3849`
+- 生成时间：2026-07-20T04:30:15Z
+- Context Hash：`8bc1bc04dbb03d11339277edc76aa4647aab1b8b1d7b60afe2ae594a73351b44`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -84,7 +84,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-007
-updated_at: '2026-07-20T03:17:38Z'
+updated_at: '2026-07-20T04:30:13Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -119,15 +119,15 @@ continuity:
   active_session_id: SES-20260719T234639Z-1D7D7A00
   actor_id: codex-root
   story_id: STORY-R05-001
-  lease_expires_at: '2026-07-20T07:17:38Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0024.yaml
-  project_fingerprint: 183f741377f8e6967330a990247227a76aa134456d61660314aa9ced2936b99d
+  lease_expires_at: '2026-07-20T08:30:13Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0027.yaml
+  project_fingerprint: 9cff00d1c5b2f4682a1b85a3c5925a26dc67a305e600ea1f564e5847f583883b
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 761cb2ac9d4cecbf48db158c95c603487c9084d32a21dc6fa2cd2c23168ec835
-    generated_at: '2026-07-20T03:16:48Z'
+    context_hash: df926d78bad173799a510e4b0710745df978f76745ecdff0bb794011e60a9a48
+    generated_at: '2026-07-20T04:29:33Z'
   handoff_bundle: null
 ```
 
@@ -319,7 +319,7 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T03:17:38Z'
+updated_at: '2026-07-20T04:30:13Z'
 takeover_of: null
 change_requests:
 - CR-0109
@@ -332,6 +332,9 @@ change_requests:
 - CR-0116
 - CR-0117
 - CR-0118
+- CR-0119
+- CR-0120
+- CR-0121
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -397,7 +400,22 @@ scope:
   - artifacts/reports/R05/R05-UI-FROZEN-PACKAGE-INTAKE.md
   - artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
   - artifacts/validation/r05-apk-delivery/history/3454ff2/delivery-evidence.json
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118
+  - docs/09-development/统一开发与交付效率规范.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - scripts/check_android_ui_foundation.py
+  - tests/test_android_ui_foundation.py
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/feature/auth/build.gradle.kts
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -407,12 +425,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T03:17:38Z'
-  expires_at: '2026-07-20T07:17:38Z'
-checkpoint_sequence: 24
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0024.yaml
+  renewed_at: '2026-07-20T04:30:13Z'
+  expires_at: '2026-07-20T08:30:13Z'
+checkpoint_sequence: 27
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0027.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 提交连续性状态并通过Git传输预检推送；随后保持R05真机视觉验收PENDING
+next_step: 提交并推送源码；从该Commit归档构建10210 APK及交付证据。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -420,46 +438,85 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 系统级约束未允许本轮主动创建子代理，连续性状态由主控统一收口
+  reason: 当前系统开发策略禁止主动创建新子代理；交付构建需绑定同一不可变提交串行完成。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0024
+checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0027
 session_id: SES-20260719T234639Z-1D7D7A00
-sequence: 24
-created_at: '2026-07-20T03:17:38Z'
-summary: R05冻结UI实现、Token/H5补充、versionCode10209 APK交付与旧包历史归档CR均已登记IMPLEMENTED
-next_step: 提交连续性状态并通过Git传输预检推送；随后保持R05真机视觉验收PENDING
+sequence: 27
+created_at: '2026-07-20T04:30:13Z'
+summary: 首轮云端全量门禁通过后，新增10210版本身份并补齐CHANGELOG；代码已具备不可变提交构建条件。
+next_step: 提交并推送源码；从该Commit归档构建10210 APK及交付证据。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: CR_IMPLEMENTATION_TRACE
+- name: ANDROID_CLOUD_BUILD_PRE_VERSION
   result: PASS
-  evidence: .continuity/change_requests/CR-0115.yaml;.continuity/change_requests/CR-0116.yaml;.continuity/change_requests/CR-0117.yaml;.continuity/change_requests/CR-0118.yaml
-  note: 实现提交已绑定
+  evidence: obx-test:hhy-r05-cr0119-compile-c
+  note: 功能代码全量门禁通过，版本字段仅由10209单调递增至10210
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 1998d8d4a67478faf9231856536130c4d5091510
+  head: e7fc15da32abf30de02885383ba8f31f408d2144
   upstream: origin/task/TASK-R03-001
-  ahead: 4
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0117.yaml'
-  - ' M .continuity/change_requests/CR-0118.yaml'
+  - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
+  - ' M AGENTS.md'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
+  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
+  - ' M apps/android/core/designsystem/build.gradle.kts'
+  - ' M apps/android/feature/auth/build.gradle.kts'
+  - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
+  - ' M apps/android/feature/identity/build.gradle.kts'
+  - ' M apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt'
+  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+  - ' M apps/android/gradle/libs.versions.toml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md'
-  - ' M docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md'
+  - ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+  - ' M docs/03-continuity/PITFALLS.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
+  - ' M docs/09-development/统一开发与交付效率规范.md'
+  - ' M templates/AGENTS.md'
+  - ?? .continuity/change_requests/CR-0119.yaml
+  - ?? .continuity/change_requests/CR-0120.yaml
+  - ?? .continuity/change_requests/CR-0121.yaml
+  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0025.yaml
+  - ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0026.yaml
+  - ?? apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - ?? apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - ?? apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - ?? apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+  - ?? docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
+  - ?? docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
+  - ?? docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
+  - ?? scripts/check_android_ui_foundation.py
+  - ?? tests/test_android_ui_foundation.py
   recent_commits:
+  - "e7fc15da32abf30de02885383ba8f31f408d2144\t2026-07-20T11:17:59+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind frozen\
+    \ UI delivery"
   - "1998d8d4a67478faf9231856536130c4d5091510\t2026-07-20T11:17:02+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(android): deliver frozen\
     \ UI APK"
   - "b597f2c95d5888aee65c63f39432c17b765ba0d7\t2026-07-20T11:01:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(android): align APK version\
@@ -474,19 +531,28 @@ git:
     \ gate implementation"
   - "edebf46c74be5e43c8d19b4d2168fbb3d20ff690\t2026-07-20T08:56:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(ui): enforce exact visual\
     \ acceptance"
-  - "137e8f80a90f6d1b166a94fd3520f078213c7ca5\t2026-07-20T08:23:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind R05\
-    \ client acceptance"
 project_fingerprint:
-  sha256: 183f741377f8e6967330a990247227a76aa134456d61660314aa9ced2936b99d
+  sha256: 9cff00d1c5b2f4682a1b85a3c5925a26dc67a305e600ea1f564e5847f583883b
   files:
   - AGENTS.md
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
   - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
   - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/core/designsystem/build.gradle.kts
   - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
   - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/feature/auth/build.gradle.kts
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/gradle/libs.versions.toml
   - apps/h5/src/App.vue
   - apps/h5/src/styles.css
   - apps/h5/src/views/IdentityCallbackPage.test.ts
@@ -560,6 +626,7 @@ project_fingerprint:
   - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
   - docs/03-continuity/PITFALLS.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
   - docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
   - docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md
   - docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md
@@ -570,56 +637,106 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
   - docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
   - docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md
+  - docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
+  - docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
+  - docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
+  - docs/09-development/统一开发与交付效率规范.md
   - packages/design-tokens/admin.css
   - packages/design-tokens/h5.css
   - releases/PROGRAM_EXECUTION_PLAN.yaml
   - releases/R05/ACCEPTANCE_MATRIX.csv
   - releases/R05/PARALLEL_EXECUTION_PLAN.yaml
   - releases/R05/RELEASE_MANIFEST.yaml
+  - scripts/check_android_ui_foundation.py
   - scripts/check_r05_public_identity.py
   - scripts/check_release_artifacts.py
   - scripts/check_ui_tokens.py
   - scripts/check_ui_visual_acceptance.py
   - templates/AGENTS.md
+  - tests/test_android_ui_foundation.py
   - tests/test_r05_public_identity_gate.py
   - tests/test_release_close_gate.py
   - tests/test_ui_visual_acceptance.py
-  file_count: 105
+  file_count: 123
   payload:
     base_commit: 0c3aa012f4bdbfd59f0d591cf99632794fd8c612
     files:
     - path: AGENTS.md
       state: FILE
-      size: 9362
-      sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
+      size: 10244
+      sha256: 99764caddfe58d603687a938f1ac8b4f24b5c76043cea247aaf9a656b7c8a92c
     - path: CHANGELOG.md
       state: FILE
-      size: 47550
-      sha256: 833d1576212e80f821341b009b7bee327aed9f5f1cacdf7992d21e6e1540aefd
+      size: 48628
+      sha256: c018f57b5ded86dfe3c6f0dcf53b0335c3718943a21e3734114425f64f40146b
     - path: apps/android/app/build.gradle.kts
       state: FILE
-      size: 4705
-      sha256: 828d861753d694b6c4f9e9776e0e42024afcb33700b18171cfd81c0d077115d2
+      size: 4919
+      sha256: 2199375d17cbc96d75efe1cda85f127223a557df925339100e9b55df76d2b5f2
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+      state: FILE
+      size: 1839
+      sha256: 2e2ac168b6714cc294aede27532e84816b1e0b3f4aa508d345b91f4248963607
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 11067
+      sha256: 11f0eaef34e27e48711033538a11258f504cb6b25b5abcfbf4b3597ea1d7fab8
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
       state: FILE
       size: 520
-      sha256: 72822042994c77e0d4313043da8c46769c57ad86e141ff4790a71125581a4ebd
+      sha256: db2fb5007c871e5a26c0a137a4124e19e4813e99502853b3b7662ae79cd16bbe
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+      state: FILE
+      size: 393
+      sha256: b2edde0eac8e8cafdc07289336b1aba8a2e86ee370bb9a8ef1b84633d2082e8f
     - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
       state: FILE
       size: 1025
-      sha256: 1a48d16493e293cc95d5cddfdfc13417ed36eab8d095d9bcc1dba82aa24802a0
+      sha256: 86617c374acadabb9f627b334f53b4b0a46150a67d7e2f12e64bafd2d7507313
+    - path: apps/android/core/designsystem/build.gradle.kts
+      state: FILE
+      size: 954
+      sha256: a5dcfe8dd7afbb90a744dec00e01597585acd91387c2ad03f735266bc40c7303
     - path: apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
       state: FILE
       size: 6380
       sha256: d23fabd46941d2d7801d2b098abd417940c60a10db04ef01ea8283d6c2a7689e
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+      state: FILE
+      size: 2781
+      sha256: edfc612fa34017a75cca5bb791fa7b50192998c4fa63ebb87e52b0d52df3ebc4
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+      state: FILE
+      size: 1575
+      sha256: 1c7dc0b0359a8e868af2ad1d3c8f3655fc37baeff5e701a2e5c0046aa507b839
     - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
       state: FILE
       size: 2949
       sha256: 342bbb7baa02d7b6b0a9f02260a6440b927101bb2370483b8e9ea9489b98e400
+    - path: apps/android/feature/auth/build.gradle.kts
+      state: FILE
+      size: 1113
+      sha256: 372d2dbd0819ffab7eb9c4422fb6635b101c13c6056b60475869d2364287033d
+    - path: apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+      state: FILE
+      size: 57377
+      sha256: 74681b2c5faa6084371651cc1f1794e5287ae313557cf053604f5c65b34e73c6
+    - path: apps/android/feature/identity/build.gradle.kts
+      state: FILE
+      size: 1267
+      sha256: 4d021ea8201c3c8d095805246e84874e7d358dd144c1a48a60bac283036420c0
     - path: apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
       state: FILE
-      size: 38411
-      sha256: 7a8c76f17f6bdfeb1838beb25ae35dbf14d387ea78065c24521ce1321f2d55c7
+      size: 43737
+      sha256: 9213470b790df35ad29595ee8b8bd40c35741ff50f8a97b36abdb4aa3bb0dc42
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 6051
+      sha256: e9c829610f06eb1a77f46701a2d1a136f9c1b311c73e3e328f448e471a43c0cf
+    - path: apps/android/gradle/libs.versions.toml
+      state: FILE
+      size: 2293
+      sha256: 63b6f498b7429e1532decbfbbf88d4220126845fd50b47b36a83d359d643f899
     - path: apps/h5/src/App.vue
       state: FILE
       size: 659
@@ -898,20 +1015,24 @@ project_fingerprint:
       sha256: d23fabd46941d2d7801d2b098abd417940c60a10db04ef01ea8283d6c2a7689e
     - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
       state: FILE
-      size: 5433
-      sha256: f92247236b56860d83b52608146a4711e9474b44469144337ee68d158417c9d3
+      size: 7158
+      sha256: d55f04d21c80e1f986778041933f84ff5b02684fbbb72df53132b56b0011b1cc
     - path: docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
       state: FILE
       size: 5105
       sha256: 11aaffded8a6594f23cfa2b6b70d8ebc23e24e75232c087862250f3334a1ad09
     - path: docs/03-continuity/PITFALLS.md
       state: FILE
-      size: 1164
-      sha256: 907f451b1cf3cb9f085a8bca2363a68ebbac72edb4bf36426d16b5678438729d
+      size: 1600
+      sha256: 1097724efb91c87a02fa646236c23edcbf6e5a7d5035a22a2c59921fd0860afb
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 54200
-      sha256: 80ba211b99883bfe244104e7a0b273451bf912e99436371049d5eb20b0fbdaca
+      size: 55840
+      sha256: 4afffdac2e8c0c12dee5daa97fd14ec1867e42d4df67a4163d2e9941f13ed62e
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 2555
+      sha256: 0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da
     - path: docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
       state: FILE
       size: 2321
@@ -952,6 +1073,22 @@ project_fingerprint:
       state: FILE
       size: 2239
       sha256: 6ef4c08c2b1e983987b3109db66af29890a10c62fbd4588db81596e23f8f9859
+    - path: docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
+      state: FILE
+      size: 4632
+      sha256: 140875c83645bf51b3c82c15030bdf43d125075b8ddbb489508193915abaa2f0
+    - path: docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
+      state: FILE
+      size: 2345
+      sha256: c2406b382571fd741129a677f0cb7464e500b62f3dfa39bf606225ab21a7a9ad
+    - path: docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
+      state: FILE
+      size: 2049
+      sha256: bade152b952536b2e47365f5dd4cd890f03887362fef0bf27d3eb686f3a944a6
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 6357
+      sha256: 34eeaf289c1e06636a81452ddb17962292302624f72057a0e27ed425179c11c6
     - path: packages/design-tokens/admin.css
       state: FILE
       size: 5143
@@ -976,6 +1113,10 @@ project_fingerprint:
       state: FILE
       size: 3694
       sha256: 2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b
+    - path: scripts/check_android_ui_foundation.py
+      state: FILE
+      size: 3895
+      sha256: 69d6e01d3492aea7621b2da30927d26fdf5fafab0876a8b1c6e2f9476fa742d3
     - path: scripts/check_r05_public_identity.py
       state: FILE
       size: 5285
@@ -994,8 +1135,12 @@ project_fingerprint:
       sha256: da40246eca0b68f7593517fb0f3106f6a490873d5361b0059b1b93774c4ffed5
     - path: templates/AGENTS.md
       state: FILE
-      size: 9362
-      sha256: 19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452
+      size: 10244
+      sha256: 99764caddfe58d603687a938f1ac8b4f24b5c76043cea247aaf9a656b7c8a92c
+    - path: tests/test_android_ui_foundation.py
+      state: FILE
+      size: 1466
+      sha256: 8bcb5d23db40c670480a6ed5197469f08845ca9fe0d1e2ad42a070d2da92a404
     - path: tests/test_r05_public_identity_gate.py
       state: FILE
       size: 1733
@@ -1077,34 +1222,58 @@ change_classification:
   - design/R05-UI-FROZEN/specs/SCR-ID-004.md
   - design/R05-UI-FROZEN/冻结说明.md
   - design/tokens/hhy_design_tokens_v1.2.2.json
+  - docs/09-development/统一开发与交付效率规范.md
   - releases/PROGRAM_EXECUTION_PLAN.yaml
   - releases/R05/ACCEPTANCE_MATRIX.csv
   - releases/R05/PARALLEL_EXECUTION_PLAN.yaml
   - templates/AGENTS.md
   code:
   - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
   - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
   - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/core/designsystem/build.gradle.kts
   - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
   - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/feature/auth/build.gradle.kts
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/gradle/libs.versions.toml
   - apps/h5/src/App.vue
   - apps/h5/src/styles.css
   - apps/h5/src/views/IdentityCallbackPage.test.ts
   - apps/h5/src/views/IdentityCallbackPage.vue
   - packages/design-tokens/admin.css
   - packages/design-tokens/h5.css
+  - scripts/check_android_ui_foundation.py
   - scripts/check_r05_public_identity.py
   - scripts/check_release_artifacts.py
   - scripts/check_ui_tokens.py
   - scripts/check_ui_visual_acceptance.py
   user_visible:
   - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
   - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
   - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/core/designsystem/build.gradle.kts
   - apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
   - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt
+  - apps/android/feature/auth/build.gradle.kts
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/gradle/libs.versions.toml
   - apps/h5/src/App.vue
   - apps/h5/src/styles.css
   - apps/h5/src/views/IdentityCallbackPage.test.ts
@@ -1117,6 +1286,7 @@ change_classification:
   continuity:
   - docs/03-continuity/PITFALLS.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
   - docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md
   - docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md
   - docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md
@@ -1127,7 +1297,11 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md
   - docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md
   - docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md
+  - docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
+  - docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
+  - docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
   tests:
+  - tests/test_android_ui_foundation.py
   - tests/test_r05_public_identity_gate.py
   - tests/test_release_close_gate.py
   - tests/test_ui_visual_acceptance.py
@@ -1150,6 +1324,9 @@ change_requests:
 - CR-0116
 - CR-0117
 - CR-0118
+- CR-0119
+- CR-0120
+- CR-0121
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -1215,13 +1392,28 @@ scope:
   - artifacts/reports/R05/R05-UI-FROZEN-PACKAGE-INTAKE.md
   - artifacts/apk/R05/history/3454ff2/APK_MANIFEST.yaml
   - artifacts/validation/r05-apk-delivery/history/3454ff2/delivery-evidence.json
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118
+  - docs/09-development/统一开发与交付效率规范.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/designsystem/build.gradle.kts
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/identity/build.gradle.kts
+  - scripts/check_android_ui_foundation.py
+  - tests/test_android_ui_foundation.py
+  - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+  - apps/android/feature/auth/build.gradle.kts
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114+approved-cr:CR-0115+approved-cr:CR-0116+approved-cr:CR-0117+approved-cr:CR-0118+approved-cr:CR-0119+approved-cr:CR-0120+approved-cr:CR-0121
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 系统级约束未允许本轮主动创建子代理，连续性状态由主控统一收口
-event_hash: 4a3e774efab4664697b512d09f542d09a3b6b6afc1aa3367979d9b30ddd01259
+  reason: 当前系统开发策略禁止主动创建新子代理；交付构建需绑定同一不可变提交串行完成。
+event_hash: cc5c07a27223f035ed071c3ddf5bab26b9c2236f601f0ff581c22b7d02376e13
 ```
 
 ## 接续状态与事件头
@@ -1233,8 +1425,8 @@ active_session_id: SES-20260719T234639Z-1D7D7A00
 last_session_id: SES-20260719T230526Z-55ABC07F
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T230526Z-55ABC07F-0004
-event_count: 1265
-event_head_hash: 4a3e774efab4664697b512d09f542d09a3b6b6afc1aa3367979d9b30ddd01259
+event_count: 1283
+event_head_hash: cc5c07a27223f035ed071c3ddf5bab26b9c2236f601f0ff581c22b7d02376e13
 event_chain_valid: true
 ```
 
@@ -1357,9 +1549,9 @@ recent_sessions: - session_id: SES-20260719T135908Z-32D952EC
   started_at: '2026-07-19T23:46:39Z'
   record: .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-  updated_at: '2026-07-20T03:17:38Z'
+  updated_at: '2026-07-20T04:30:13Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0024.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0027.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1B426B903146
   session_id: SES-20260718T152013Z-8B704646
@@ -2242,9 +2434,9 @@ recent_task_transitions: - transition_id: TRN-4DA26C35977A
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 1998d8d4a67478faf9231856536130c4d5091510
+head: e7fc15da32abf30de02885383ba8f31f408d2144
 upstream: origin/task/TASK-R03-001
-ahead: 4
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
@@ -2253,17 +2445,51 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0117.yaml'
-- ' M .continuity/change_requests/CR-0118.yaml'
 - ' M .continuity/sessions/SES-20260719T234639Z-1D7D7A00.yaml'
+- ' M AGENTS.md'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M apps/android/app/build.gradle.kts'
+- ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
+- ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
+- ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
+- ' M apps/android/core/designsystem/build.gradle.kts'
+- ' M apps/android/feature/auth/build.gradle.kts'
+- ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
+- ' M apps/android/feature/identity/build.gradle.kts'
+- ' M apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt'
+- ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+- ' M apps/android/gradle/libs.versions.toml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md'
-- ' M docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md'
+- ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+- ' M docs/03-continuity/PITFALLS.md'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/03-continuity/REUSABLE_PATTERNS.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md'
-- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0024.yaml
+- ' M docs/09-development/统一开发与交付效率规范.md'
+- ' M templates/AGENTS.md'
+- ?? .continuity/change_requests/CR-0119.yaml
+- ?? .continuity/change_requests/CR-0120.yaml
+- ?? .continuity/change_requests/CR-0121.yaml
+- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0025.yaml
+- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0026.yaml
+- ?? .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0027.yaml
+- ?? apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+- ?? apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+- ?? apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+- ?? apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+- ?? docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
+- ?? docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
+- ?? docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
+- ?? scripts/check_android_ui_foundation.py
+- ?? tests/test_android_ui_foundation.py
 recent_commits:
+- "e7fc15da32abf30de02885383ba8f31f408d2144\t2026-07-20T11:17:59+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind frozen\
+  \ UI delivery"
 - "1998d8d4a67478faf9231856536130c4d5091510\t2026-07-20T11:17:02+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] test(android): deliver frozen\
   \ UI APK"
 - "b597f2c95d5888aee65c63f39432c17b765ba0d7\t2026-07-20T11:01:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(android): align APK version\
@@ -2278,23 +2504,32 @@ recent_commits:
   \ implementation"
 - "edebf46c74be5e43c8d19b4d2168fbb3d20ff690\t2026-07-20T08:56:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] feat(ui): enforce exact visual\
   \ acceptance"
-- "137e8f80a90f6d1b166a94fd3520f078213c7ca5\t2026-07-20T08:23:25+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): bind R05\
-  \ client acceptance"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`183f741377f8e6967330a990247227a76aa134456d61660314aa9ced2936b99d`
-- 文件数：105
+- 指纹：`9cff00d1c5b2f4682a1b85a3c5925a26dc67a305e600ea1f564e5847f583883b`
+- 文件数：123
 
 - `AGENTS.md`
 - `CHANGELOG.md`
 - `apps/android/app/build.gradle.kts`
+- `apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt`
+- `apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt`
 - `apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt`
+- `apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt`
 - `apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt`
+- `apps/android/core/designsystem/build.gradle.kts`
 - `apps/android/core/designsystem/src/main/assets/hhy_design_tokens_v1.2.2.json`
+- `apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt`
+- `apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt`
 - `apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyTokens.kt`
+- `apps/android/feature/auth/build.gradle.kts`
+- `apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt`
+- `apps/android/feature/identity/build.gradle.kts`
 - `apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt`
+- `apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt`
+- `apps/android/gradle/libs.versions.toml`
 - `apps/h5/src/App.vue`
 - `apps/h5/src/styles.css`
 - `apps/h5/src/views/IdentityCallbackPage.test.ts`
@@ -2368,6 +2603,7 @@ recent_commits:
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md`
 - `docs/03-continuity/PITFALLS.md`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/REUSABLE_PATTERNS.md`
 - `docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md`
 - `docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md`
 - `docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md`
@@ -2378,17 +2614,23 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md`
 - `docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md`
 - `docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md`
+- `docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md`
+- `docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md`
+- `docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md`
+- `docs/09-development/统一开发与交付效率规范.md`
 - `packages/design-tokens/admin.css`
 - `packages/design-tokens/h5.css`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml`
 - `releases/R05/ACCEPTANCE_MATRIX.csv`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml`
 - `releases/R05/RELEASE_MANIFEST.yaml`
+- `scripts/check_android_ui_foundation.py`
 - `scripts/check_r05_public_identity.py`
 - `scripts/check_release_artifacts.py`
 - `scripts/check_ui_tokens.py`
 - `scripts/check_ui_visual_acceptance.py`
 - `templates/AGENTS.md`
+- `tests/test_android_ui_foundation.py`
 - `tests/test_r05_public_identity_gate.py`
 - `tests/test_release_close_gate.py`
 - `tests/test_ui_visual_acceptance.py`
@@ -6313,37 +6555,201 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260719T234639Z-1D7D7A00
   implementation_commits:
   - 1998d8d
+- protocol_version: '1.0'
+  cr_id: CR-0119
+  title: 建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-20T03:52:38Z'
+  updated_at: '2026-07-20T03:57:18Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-007
+  session_id: SES-20260719T234639Z-1D7D7A00
+  user_request: 项目所有者要求立即优化所有已开发页面：禁止文字占位图标，统一来源返回、系统键和手势返回，统一页面过渡动画，并固化为跨电脑跨AI硬性规则
+  reason: R05真机发现文字图标、返回到错误底部栏目、系统返回退出App及无页面过渡，且问题影响全部既有与后续页面
+  original_rule: 现有Android页面可各自使用mutableState或枚举切页、文字或Unicode占位图标，返回按钮可直接指定目标；未形成全项目成熟客户端架构硬门禁。
+  new_rule: 所有既有和后续客户端页面必须采用官方稳定、被大型商业App广泛验证的成熟方案：Android统一使用稳定版Jetpack Navigation Compose真实返回栈、系统与手势返回、来源状态恢复和Token化转场；所有图标经HhyIcons集中注册为矢量资源，禁止文字/Emoji/Unicode冒充图标；H5与管理端同样禁止字符占位图标并遵循来源返回和Motion
+    Token。禁止自研导航框架或未经ADR与批准CR论证的小众方案。
+  impact_summary: 迁移全部已开发Android页面及底部导航，建立统一图标、返回栈、过渡动画与自动检查；更新跨AI事实源、问题登记、陷阱、测试和R05测试APK版本。
+  impact:
+    files:
+    - AGENTS.md
+    - templates/AGENTS.md
+    - docs/00-baseline/正式商业系统全局硬性开发边界.md
+    - docs/09-development/统一开发与交付效率规范.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    - apps/android/gradle/libs.versions.toml
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/core/designsystem/build.gradle.kts
+    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyMotion.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+    - apps/android/feature/identity/build.gradle.kts
+    - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+    - scripts/check_android_ui_foundation.py
+    - tests/test_android_ui_foundation.py
+    - apps/android/app/src/test/java/cc/orbexa/hhy/NavigationPolicyTest.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/AuthenticatedNavigationTest.kt
+    - CHANGELOG.md
+    - artifacts/reports/R05/TASK-R05-007-android-apk.md
+    - artifacts/reports/R05/R05-version-test-guide.md
+    - artifacts/apk/R05/APK_MANIFEST.yaml
+    - artifacts/validation/r05-apk-delivery/delivery-evidence.json
+    pages:
+    - 所有已开发Android页面
+    - SCR-ID-001
+    - SCR-ID-002
+    - SCR-ID-003
+    - SCR-ID-004
+    apis: []
+    database: []
+    configuration:
+    - AndroidX Navigation Compose stable 2.9.8
+    - Android versionCode单调递增
+    ledger: []
+    tests:
+    - 全局UI基础门禁；Android模块编译/单元测试/lint；导航来源与系统返回测试；图标字符禁用扫描；R05 APK签名和四方SHA；项目所有者真机回归
+    releases:
+    - R05
+    migration_and_compatibility: 不改变API、数据库、认证状态机、第三方供应商合同或正式业务文案；现有登录、Shell、账号安全和实名页面路由迁移到Jetpack导航，保留来源页及输入状态；旧测试APK可覆盖安装新versionCode。
+  user_confirmation: 2026-07-20项目所有者连续明确要求立即按方案优化、覆盖之前已开发页面，并强制跨电脑跨AI执行成熟大型App方案。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T03:57:15Z'
+    note: 项目所有者明确要求立即优化全部已开发页面，并新增大型App同款成熟方案硬性规则。
+  machine_record: .continuity/change_requests/CR-0119.yaml
+  document: docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md
+  decision_log:
+  - at: '2026-07-20T03:57:18Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已完成全量Android页面审计，开始迁移统一图标、导航返回栈与转场。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  session_ids:
+  - SES-20260719T234639Z-1D7D7A00
+- protocol_version: '1.0'
+  cr_id: CR-0120
+  title: 递增统一导航图标动效基础设施测试APK版本身份
+  status: IMPLEMENTING
+  created_at: '2026-07-20T04:27:30Z'
+  updated_at: '2026-07-20T04:27:54Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-007
+  session_id: SES-20260719T234639Z-1D7D7A00
+  user_request: 用户要求立即全量优化既有页面并强制记录大型App成熟方案，完成后继续交付可真机验证APK。
+  reason: 本次全局导航返回栈、矢量图标和页面过渡变化必须使用新的单调versionCode，禁止复用10209。
+  original_rule: R05当前测试APK版本身份为versionName 1.2.2、versionCode 10209。
+  new_rule: 全局统一导航、图标和动效基础设施真机测试APK递增为versionName 1.2.2、versionCode 10210，并同步ReleasePolicy与版本测试。
+  impact_summary: 仅递增Android测试APK版本身份并更新版本一致性断言，不改变API、数据库和正式版本号。
+  impact:
+    files:
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 云端testDebugUnitTest、lintDebug、assembleDebug、aapt badging与ReleasePolicy一致性全部通过。
+    releases:
+    - R05
+    migration_and_compatibility: 同applicationId覆盖安装；versionCode单调递增；既有账号和本地状态兼容。
+  user_confirmation: 2026-07-20用户明确要求立即优化全部既有页面、加入硬性规则并继续开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T04:27:52Z'
+    note: 依据项目所有者本轮明确要求立即全量优化并持续生成桌面测试APK，批准单调递增测试包版本身份。
+  machine_record: .continuity/change_requests/CR-0120.yaml
+  document: docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md
+  decision_log:
+  - at: '2026-07-20T04:27:54Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始同步10210版本身份并执行不可变提交构建。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  session_ids:
+  - SES-20260719T234639Z-1D7D7A00
+- protocol_version: '1.0'
+  cr_id: CR-0121
+  title: 补齐认证模块原生返回处理依赖
+  status: IMPLEMENTING
+  created_at: '2026-07-20T04:28:55Z'
+  updated_at: '2026-07-20T04:29:13Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-007
+  session_id: SES-20260719T234639Z-1D7D7A00
+  user_request: 用户要求全部既有页面统一支持系统返回键和手势返回。
+  reason: 认证模块新增AndroidX BackHandler必须显式声明官方activity-compose依赖。
+  original_rule: feature-auth未声明activity-compose，登录注册子页无法使用官方BackHandler。
+  new_rule: feature-auth显式依赖稳定AndroidX activity-compose，注册、重置密码和账号安全既有页面统一接入官方BackHandler。
+  impact_summary: 仅补齐认证模块的官方稳定依赖声明，不改变业务合同、API或数据库。
+  impact:
+    files:
+    - apps/android/feature/auth/build.gradle.kts
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 云端feature-auth compileDebugKotlin、app lintDebug、AndroidTest编译与assembleDebug通过。
+    releases:
+    - R05
+    migration_and_compatibility: 与app和identity现有activity-compose版本保持统一，由version catalog集中管理。
+  user_confirmation: 2026-07-20用户明确要求优化范围必须覆盖之前已开发页面。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T04:29:10Z'
+    note: 依据用户要求全部既有页面统一优化系统返回与手势返回，批准官方稳定依赖。
+  machine_record: .continuity/change_requests/CR-0121.yaml
+  document: docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md
+  decision_log:
+  - at: '2026-07-20T04:29:13Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 官方activity-compose依赖已落地并通过首轮云端全量门禁。
+    session_id: SES-20260719T234639Z-1D7D7A00
+  session_ids:
+  - SES-20260719T234639Z-1D7D7A00
 ```
 
 ## 上下文来源及哈希
 
-- `AGENTS.md` — `19562cfed6437c401ec52fa04441e1ddc5eec95f898fa0a2ce2998062561c452`
+- `AGENTS.md` — `99764caddfe58d603687a938f1ac8b4f24b5c76043cea247aaf9a656b7c8a92c`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `e5b6b5a7969b5a688cbc59184ec2c94020bf9bb6ec1c3a15d7048fd61d3cc128`
+- `CURRENT_STATUS.yaml` — `e3b0ad8a1959ced9ea9ef3c67dddadf5a0f71c1b14d0e80533362afb307bcd8f`
 - `NEXT_TASK.yaml` — `bd22bac1e2b0308bd77f173dca3ac229dff82931447bff00e89661b483b14ee0`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `80ba211b99883bfe244104e7a0b273451bf912e99436371049d5eb20b0fbdaca`
-- `docs/03-continuity/REUSABLE_PATTERNS.md` — `6ba8e39f6a98d3ceb4b019ea66aa6a954ada7f07c55e5f1c533200f0beda7969`
-- `docs/03-continuity/PITFALLS.md` — `907f451b1cf3cb9f085a8bca2363a68ebbac72edb4bf36426d16b5678438729d`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `4afffdac2e8c0c12dee5daa97fd14ec1867e42d4df67a4163d2e9941f13ed62e`
+- `docs/03-continuity/REUSABLE_PATTERNS.md` — `0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da`
+- `docs/03-continuity/PITFALLS.md` — `1097724efb91c87a02fa646236c23edcbf6e5a7d5035a22a2c59921fd0860afb`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `8f07b807f972671d8270db374fad897fb0a36ed4cb3d4f6788dd12cf411dfb46`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `431e72fbdc12ff142c7f6c76f1a07fc7d0867974fb29429997d02be305de38e2`
-- `.continuity/SESSION_INDEX.yaml` — `146f9250d5802af7d99673e45a67e79d685ba9b51faa478017a1679c0369a55c`
+- `.continuity/EVENT_LOG.jsonl` — `d05f15504bdd9e28a8623f2cb9208e3e3e4a536d1aee273133405d3cce1b5999`
+- `.continuity/SESSION_INDEX.yaml` — `eb189207f42e5739351a2e6f513d0bb544239591c16fe457544b260a382b012f`
 - `.continuity/TASK_CLAIMS.yaml` — `b42bae99e7d14cdcf44b0551a70718a1c1bdf785aa7cdfbff142597c2b2282ac`
 - `.continuity/TASK_TRANSITIONS.yaml` — `649cf4421377460d639a628f6c86e77ff9cd2e7a96acffc65865873cbcb9a2a0`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5978fdc5d1e69f44a141fcb35665acb2c99026f7b8bd95581d9d80c0e75711f2`
-- `.continuity/ACTIVE_SESSION.yaml` — `8558693e2f1225c45aed78736503efde7e61f5472059c55aa9822b58dc438158`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b7780cb313f4d7e3fc29287f4fb9b55395eac21d47703a2db19d8761183b23c9`
+- `.continuity/ACTIVE_SESSION.yaml` — `130df7c805721eda01e3c6aea54850955edbb1122ec60fbd94ae98dd608cea38`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `2762c28dd03057c07f85159066f2b29dc1c804fda0852eed1c98269e77032f4b`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `2949948b5e0f2f4b99869f19d9dc78fca610a9a0ffce8b4d3e6d910b45baee4f`
 - `releases/R05/TASKS.yaml` — `48d66c06efb7102d3a1965124a9b34d9867a4418e009ebb98cbc48dd915ef489`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `e763b0bc235be69b871929ad214e0a458ae978ab54970a42af8f5e3987677ce5`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml` — `38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda`
-- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `a74f835901b9a616f431eed0075dfeab260786699a76597abe805019cbba5600`
-- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0024.yaml` — `0785be01eac2492638322402e84cac0d64fafe7c9c5eb4804c2d2ad033144fbf`
+- `docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md` — `2a3029b986fba56f8e6cc7cc68c1cbb8724d79335626a56989250011cba7107a`
+- `.continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0027.yaml` — `bec880c537ae9f4a10d0ce39249de70a597ecab8f7a9c87e8bd8efd35a7896bb`
 - `docs/03-continuity/change-requests/CR-0109-补充R05-Android-APK版本身份精确文件范围.md` — `2457416391ce2d66a6c8ca9a891d47bd98ed2ddd11fa3303363515287259f70f`
 - `docs/03-continuity/change-requests/CR-0110-补充R05-007-APK交付证据精确路径.md` — `7ea7a2a77787bbf3e87d0c52f6b265235b50ade68dd07cf74369b51935b7b0bd`
 - `docs/03-continuity/change-requests/CR-0111-精确补充R05-007-APK交付证据文件.md` — `3d8a27084d1ed3efdee721c872c08c7103386965f3b731cd302bd173e6245f55`
@@ -6354,6 +6760,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0116-补齐R05冻结UI的确定性Token派生与H5独立回跳布局.md` — `a3364ff0d9654efa72dbc6a0af91523351c12d60a419e07d16a20b29d14faacd`
 - `docs/03-continuity/change-requests/CR-0117-递增R05冻结UI真机测试APK版本身份.md` — `4e2c8a54c6994d800df0da6a0e83bed8e91ee71899af6c7707df58805ea20d84`
 - `docs/03-continuity/change-requests/CR-0118-归档R05冻结UI换版前APK交付事实.md` — `6ef4c08c2b1e983987b3109db66af29890a10c62fbd4588db81596e23f8f9859`
+- `docs/03-continuity/change-requests/CR-0119-建立全项目统一矢量图标、真实导航返回栈与原生页面过渡硬门禁.md` — `140875c83645bf51b3c82c15030bdf43d125075b8ddbb489508193915abaa2f0`
+- `docs/03-continuity/change-requests/CR-0120-递增统一导航图标动效基础设施测试APK版本身份.md` — `c2406b382571fd741129a677f0cb7464e500b62f3dfa39bf606225ab21a7a9ad`
+- `docs/03-continuity/change-requests/CR-0121-补齐认证模块原生返回处理依赖.md` — `bade152b952536b2e47365f5dd4cd890f03887362fef0bf27d3eb686f3a944a6`
 
 ## 接手硬规则
 

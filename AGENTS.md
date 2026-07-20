@@ -86,6 +86,10 @@
 - 每个版本必须逐项核对开发文档和 Acceptance；任何遗漏都阻止版本关闭。
 - 每个大版本关闭前必须把正式 APK 和完整“功能清单 + 文档核对 + 详细测试 + 反馈方式”TXT/MD 放到项目所有者桌面。
 - 万能邀请码等测试能力只允许在 DEV/TEST/STAGING 显式启用，PROD 必须硬拒绝。
+- 全项目基础能力必须优先使用大型商业 App 广泛验证的官方 Stable 主流方案；禁止自行构思导航框架、返回栈、图标系统或引入预发布/小众基础库，例外必须 ADR + 批准 CR。
+- Android 全部既有和后续页面统一使用稳定 Jetpack Navigation Compose 真实返回栈；顶栏、系统键、手势返回必须同源并返回实际来源，底部栏目和页面状态必须保存恢复，禁止 `mutableState`/枚举切页和写死返回首页。
+- Android 图标必须从 `HhyIcons` 引用矢量资源，页面转场必须从 `HhyMotion` 引用冻结 Token；任何文字、汉字、Unicode、Emoji占位图标或页面私有动画数字阻断提交与APK。
+- Android 改动必须通过 `python scripts/check_android_ui_foundation.py`；该门禁同时检查所有已开发页面，不得只检查当前版本新增页。
 
 ## 6. 会话结束
 

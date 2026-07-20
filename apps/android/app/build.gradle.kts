@@ -3,6 +3,7 @@ import java.net.URI
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 val apiBaseUrl = providers.environmentVariable("HHY_API_BASE_URL")
@@ -53,7 +54,7 @@ android {
         applicationId = "cc.orbexa.hhy"
         minSdk = 26
         targetSdk = 36
-        versionCode = 10209
+        versionCode = 10210
         versionName = "1.2.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -117,6 +118,8 @@ dependencies {
     implementation(project(":feature:identity"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
@@ -129,6 +132,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
     testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.navigation.testing)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.androidx.test.espresso.core)
 }

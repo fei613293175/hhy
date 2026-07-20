@@ -46,6 +46,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -55,12 +56,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import cc.orbexa.hhy.designsystem.HhyBackButton
 import cc.orbexa.hhy.designsystem.HhyColors
+import cc.orbexa.hhy.designsystem.HhyIcon
+import cc.orbexa.hhy.designsystem.HhyIcons
+import cc.orbexa.hhy.designsystem.HhyMotion
 import cc.orbexa.hhy.designsystem.HhyRadius
 import cc.orbexa.hhy.designsystem.HhySize
 import cc.orbexa.hhy.designsystem.HhySpacing
@@ -75,12 +85,14 @@ import cc.orbexa.hhy.network.IdentitySessionResource
 import java.util.UUID
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 
-private sealed interface IdentityDestination {
-    data object Home : IdentityDestination
-    data object Form : IdentityDestination
-    data class Liveness(val session: IdentitySessionResource) : IdentityDestination
-    data class Result(val session: IdentitySessionResource) : IdentityDestination
+@Serializable
+private sealed interface IdentityRoute {
+    @Serializable data object Home : IdentityRoute
+    @Serializable data object Form : IdentityRoute
+    @Serializable data class Liveness(val sessionId: String) : IdentityRoute
+    @Serializable data class Result(val sessionId: String) : IdentityRoute
 }
 
 @Composable
@@ -91,36 +103,150 @@ fun IdentityFlowScreen(
     onBack: () -> Unit,
     onSessionExpired: () -> Unit,
 ) {
-    var destination by remember { mutableStateOf<IdentityDestination>(IdentityDestination.Home) }
-    when (val current = destination) {
-        IdentityDestination.Home -> IdentityHomeScreen(
-            onBack = onBack,
-            onStart = { destination = IdentityDestination.Form },
-        )
-        IdentityDestination.Form -> IdentityFormScreen(
-            api = api,
-            accessToken = accessToken,
-            onBack = { destination = IdentityDestination.Home },
-            onSessionExpired = onSessionExpired,
-            onCreated = { destination = IdentityDestination.Liveness(it) },
-        )
-        is IdentityDestination.Liveness -> IdentityLivenessScreen(
-            api = api,
-            accessToken = accessToken,
-            initial = current.session,
-            returnUrl = returnUrl,
-            onBack = { destination = IdentityDestination.Home },
-            onSessionExpired = onSessionExpired,
-            onResult = { destination = IdentityDestination.Result(it) },
-        )
-        is IdentityDestination.Result -> IdentityResultScreen(
-            api = api,
-            accessToken = accessToken,
-            initial = current.session,
-            onBack = { destination = IdentityDestination.Home },
-            onSessionExpired = onSessionExpired,
-            onRetryReady = { destination = IdentityDestination.Liveness(it) },
-        )
+    val navController = rememberNavController()
+    val sessionCache = remember { mutableStateMapOf<String, IdentitySessionResource>() }
+    NavHost(
+        navController = navController,
+        startDestination = IdentityRoute.Home,
+        enterTransition = { HhyMotion.forwardEnter() },
+        exitTransition = { HhyMotion.forwardExit() },
+        popEnterTransition = { HhyMotion.backwardEnter() },
+        popExitTransition = { HhyMotion.backwardExit() },
+    ) {
+        composable<IdentityRoute.Home> {
+            IdentityHomeScreen(
+                onBack = onBack,
+                onStart = { navController.navigate(IdentityRoute.Form) },
+            )
+        }
+        composable<IdentityRoute.Form> {
+            IdentityFormScreen(
+                api = api,
+                accessToken = accessToken,
+                onBack = { navController.popBackStack() },
+                onSessionExpired = onSessionExpired,
+                onCreated = { session ->
+                    sessionCache[session.id] = session
+                    navController.navigate(IdentityRoute.Liveness(session.id))
+                },
+            )
+        }
+        composable<IdentityRoute.Liveness> { entry ->
+            val route = entry.toRoute<IdentityRoute.Liveness>()
+            IdentitySessionDestination(
+                title = "活体检测",
+                api = api,
+                accessToken = accessToken,
+                sessionId = route.sessionId,
+                cached = sessionCache[route.sessionId],
+                onBack = { navController.popBackStack() },
+                onSessionExpired = onSessionExpired,
+                onLoaded = { sessionCache[it.id] = it },
+            ) { session ->
+                IdentityLivenessScreen(
+                    api = api,
+                    accessToken = accessToken,
+                    initial = session,
+                    returnUrl = returnUrl,
+                    onBack = { navController.popBackStack() },
+                    onSessionExpired = onSessionExpired,
+                    onResult = {
+                        sessionCache[it.id] = it
+                        navController.navigate(IdentityRoute.Result(it.id))
+                    },
+                )
+            }
+        }
+        composable<IdentityRoute.Result> { entry ->
+            val route = entry.toRoute<IdentityRoute.Result>()
+            IdentitySessionDestination(
+                title = "认证结果",
+                api = api,
+                accessToken = accessToken,
+                sessionId = route.sessionId,
+                cached = sessionCache[route.sessionId],
+                onBack = { navController.popBackStack() },
+                onSessionExpired = onSessionExpired,
+                onLoaded = { sessionCache[it.id] = it },
+            ) { session ->
+                IdentityResultScreen(
+                    api = api,
+                    accessToken = accessToken,
+                    initial = session,
+                    onBack = { navController.popBackStack() },
+                    onPrimaryAction = { kind ->
+                        if (kind == IdentityResultKind.FAILED) {
+                            navController.popBackStack(IdentityRoute.Home, inclusive = false)
+                        } else {
+                            onBack()
+                        }
+                    },
+                    onSessionExpired = onSessionExpired,
+                    onRetryReady = {
+                        sessionCache[it.id] = it
+                        navController.navigate(IdentityRoute.Liveness(it.id))
+                    },
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun IdentitySessionDestination(
+    title: String,
+    api: ContractIdentityApi,
+    accessToken: String,
+    sessionId: String,
+    cached: IdentitySessionResource?,
+    onBack: () -> Unit,
+    onSessionExpired: () -> Unit,
+    onLoaded: (IdentitySessionResource) -> Unit,
+    content: @Composable (IdentitySessionResource) -> Unit,
+) {
+    var session by remember(sessionId) { mutableStateOf(cached) }
+    var loading by remember(sessionId) { mutableStateOf(cached == null) }
+    var message by remember(sessionId) { mutableStateOf<String?>(null) }
+    var reload by remember(sessionId) { mutableStateOf(0) }
+
+    LaunchedEffect(sessionId, reload) {
+        if (session != null) return@LaunchedEffect
+        loading = true
+        when (val result = api.session(accessToken, sessionId)) {
+            is IdentityCallResult.Success -> {
+                session = result.session
+                onLoaded(result.session)
+                message = null
+            }
+            is IdentityCallResult.Failure -> {
+                if (result.statusCode == 401) onSessionExpired()
+                else message = result.businessMessage("认证信息暂时无法加载，请稍后重试")
+            }
+        }
+        loading = false
+    }
+
+    val currentSession = session
+    if (currentSession != null) {
+        content(currentSession)
+    } else {
+        IdentityPage(title = title, onBack = onBack) {
+        if (loading) {
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        } else {
+            message?.let { BusinessNotice(it, isError = true) }
+            Button(
+                modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
+                onClick = { message = null; reload += 1 },
+            ) {
+                HhyIcon(HhyIcons.Refresh, contentDescription = null)
+                Spacer(Modifier.width(HhySpacing.Sm))
+                Text("重新加载")
+            }
+        }
+        }
     }
 }
 
@@ -130,13 +256,13 @@ private fun IdentityHomeScreen(onBack: () -> Unit, onStart: () -> Unit) {
         IdentityStatusCard(
             title = "尚未完成实名认证",
             description = "完成认证后可提升账号可信度，并使用需要实名的业务能力",
-            symbol = "●",
+            icon = HhyIcons.Shield,
         )
         IdentityCard {
             Text("认证前请准备", style = MaterialTheme.typography.titleMedium)
-            IdentityRequirement("✓", "本人有效身份证件", "请填写与证件一致的真实信息")
-            IdentityRequirement("相", "可正常使用的手机相机", "活体检测需要使用前置相机")
-            IdentityRequirement("人", "由账号本人完成检测", "请勿由他人代为操作")
+            IdentityRequirement(HhyIcons.Check, "本人有效身份证件", "请填写与证件一致的真实信息")
+            IdentityRequirement(HhyIcons.Camera, "可正常使用的手机相机", "活体检测需要使用前置相机")
+            IdentityRequirement(HhyIcons.Shield, "由账号本人完成检测", "请勿由他人代为操作")
         }
         Button(
             modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
@@ -448,14 +574,19 @@ private fun IdentityLivenessScreen(
             }
             !cameraGranted -> {
                 LivenessViewport {
-                    Text("人", color = HhyColors.BrandPrimary, style = MaterialTheme.typography.headlineSmall)
+                    HhyIcon(
+                        HhyIcons.Face,
+                        contentDescription = "人脸活体检测",
+                        modifier = Modifier.size(HhySize.MinimumTouchTarget),
+                        tint = HhyColors.BrandPrimary,
+                    )
                     Text("准备开始活体检测", style = MaterialTheme.typography.titleMedium)
                     Text("请在光线充足、环境安静的位置完成检测", style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary)
                 }
                 IdentityCard {
                     Text("检测前请确认", style = MaterialTheme.typography.titleMedium)
-                    IdentityRequirement("人", "保持面部清晰可见", "请摘下口罩、帽子或遮挡物")
-                    IdentityRequirement("相", "正对屏幕完成动作", "根据页面提示缓慢完成")
+                    IdentityRequirement(HhyIcons.Face, "保持面部清晰可见", "请摘下口罩、帽子或遮挡物")
+                    IdentityRequirement(HhyIcons.Camera, "正对屏幕完成动作", "根据页面提示缓慢完成")
                 }
                 Button(
                     modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
@@ -498,6 +629,7 @@ private fun IdentityResultScreen(
     accessToken: String,
     initial: IdentitySessionResource,
     onBack: () -> Unit,
+    onPrimaryAction: (IdentityResultKind) -> Unit,
     onSessionExpired: () -> Unit,
     onRetryReady: (IdentitySessionResource) -> Unit,
 ) {
@@ -561,7 +693,7 @@ private fun IdentityResultScreen(
                 IdentityResultKind.PENDING -> "认证结果正在确认，请耐心等待"
                 else -> "请稍候刷新确认认证结果"
             },
-            symbol = if (kind == IdentityResultKind.SUCCESS) "✓" else if (kind == IdentityResultKind.FAILED) "!" else "◷",
+            icon = if (kind == IdentityResultKind.SUCCESS) HhyIcons.Check else if (kind == IdentityResultKind.FAILED) HhyIcons.Error else HhyIcons.Pending,
             tone = when {
                 kind == IdentityResultKind.FAILED -> IdentityTone.Error
                 session.status == "MANUAL_REVIEW" || session.status == "EXPIRED" -> IdentityTone.Warning
@@ -618,7 +750,7 @@ private fun IdentityResultScreen(
         }
         OutlinedButton(
             modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
-            onClick = onBack,
+            onClick = { onPrimaryAction(kind) },
         ) { Text(if (kind == IdentityResultKind.FAILED) "返回实名认证" else "返回我的") }
     }
 }
@@ -687,7 +819,7 @@ private fun IdentityPage(
                         textAlign = TextAlign.Center,
                     )
                 },
-                navigationIcon = { TextButton(onClick = onBack) { Text("‹", style = MaterialTheme.typography.headlineSmall) } },
+                navigationIcon = { HhyBackButton(onClick = onBack) },
                 actions = { Spacer(Modifier.width(HhySize.MinimumTouchTarget)) },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = HhyColors.Surface),
             )
@@ -708,7 +840,7 @@ private enum class IdentityTone { Brand, Warning, Error }
 private fun IdentityStatusCard(
     title: String,
     description: String,
-    symbol: String,
+    icon: ImageVector,
     tone: IdentityTone = IdentityTone.Brand,
 ) {
     val colors = when (tone) {
@@ -729,7 +861,12 @@ private fun IdentityStatusCard(
             Text(title, color = HhyColors.TextInverse, style = MaterialTheme.typography.titleMedium)
             Text(description, color = HhyColors.TextInverse, style = MaterialTheme.typography.bodySmall)
         }
-        Text(symbol, color = HhyColors.TextInverse, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+        HhyIcon(
+            icon,
+            contentDescription = null,
+            modifier = Modifier.size(HhySize.StandardProgress),
+            tint = HhyColors.TextInverse,
+        )
     }
 }
 
@@ -750,7 +887,7 @@ private fun IdentityCard(content: @Composable ColumnScope.() -> Unit) {
 }
 
 @Composable
-private fun IdentityRequirement(symbol: String, title: String, description: String) {
+private fun IdentityRequirement(icon: ImageVector, title: String, description: String) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -759,7 +896,14 @@ private fun IdentityRequirement(symbol: String, title: String, description: Stri
         Box(
             modifier = Modifier.size(HhySize.MinimumTouchTarget).clip(RoundedCornerShape(HhyRadius.Tag)).background(HhyColors.SoftBlue),
             contentAlignment = Alignment.Center,
-        ) { Text(symbol, color = HhyColors.BrandPrimary, fontWeight = FontWeight.SemiBold) }
+        ) {
+            HhyIcon(
+                icon,
+                contentDescription = null,
+                modifier = Modifier.size(HhySize.StandardProgress),
+                tint = HhyColors.BrandPrimary,
+            )
+        }
         Column(modifier = Modifier.weight(1f)) {
             Text(title, style = MaterialTheme.typography.titleMedium)
             Text(description, color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)

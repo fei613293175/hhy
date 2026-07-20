@@ -23,23 +23,25 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import cc.orbexa.hhy.designsystem.HhyColors
+import cc.orbexa.hhy.designsystem.HhyIcon
+import cc.orbexa.hhy.designsystem.HhyIcons
 import cc.orbexa.hhy.designsystem.HhyRadius
 import cc.orbexa.hhy.designsystem.HhySpacing
 
-private data class NavigationItem(val label: String, val compactLabel: String)
+private data class NavigationItem(val label: String, val icon: ImageVector)
 
 private val navigationItems = listOf(
-    NavigationItem("首页", "首"),
-    NavigationItem("红包", "包"),
-    NavigationItem("发布", "发"),
-    NavigationItem("消息", "信"),
-    NavigationItem("我的", "我"),
+    NavigationItem("首页", HhyIcons.Home),
+    NavigationItem("红包", HhyIcons.Reward),
+    NavigationItem("发布", HhyIcons.Publish),
+    NavigationItem("消息", HhyIcons.Message),
+    NavigationItem("我的", HhyIcons.Profile),
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,7 +52,7 @@ fun HhyShellScreen(
     onOpenCancellation: () -> Unit = {},
     onOpenIdentity: () -> Unit = {},
 ) {
-    var selectedIndex by remember { mutableIntStateOf(0) }
+    var selectedIndex by rememberSaveable { androidx.compose.runtime.mutableIntStateOf(0) }
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("合伙云 Pro") })
@@ -61,7 +63,7 @@ fun HhyShellScreen(
                     NavigationBarItem(
                         selected = selectedIndex == index,
                         onClick = { selectedIndex = index },
-                        icon = { Text(item.compactLabel, fontWeight = FontWeight.Bold) },
+                        icon = { HhyIcon(item.icon, contentDescription = item.label) },
                         label = { Text(item.label) },
                     )
                 }

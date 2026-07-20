@@ -3,6 +3,8 @@ package cc.orbexa.hhy.auth
 import android.graphics.BitmapFactory
 import android.os.SystemClock
 import android.util.Base64
+import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -61,7 +63,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import cc.orbexa.hhy.designsystem.HhyColors
+import cc.orbexa.hhy.designsystem.HhyBackButton
 import cc.orbexa.hhy.designsystem.HhyElevation
+import cc.orbexa.hhy.designsystem.HhyIcon
+import cc.orbexa.hhy.designsystem.HhyIcons
+import cc.orbexa.hhy.designsystem.HhyMotion
 import cc.orbexa.hhy.designsystem.HhyOpacity
 import cc.orbexa.hhy.designsystem.HhyRadius
 import cc.orbexa.hhy.designsystem.HhySize
@@ -324,24 +330,32 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
         challengeDialog = null
         state = AuthUiState.Editing
     }
+    BackHandler(
+        enabled = route in setOf(AuthRoute.REGISTER, AuthRoute.RESET) && !submitting && challengeDialog == null,
+    ) { selectRoute(AuthRoute.PASSWORD) }
 
     Surface(color = HhyColors.PageBackground) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .navigationBarsPadding()
-                .imePadding()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = HhySpacing.Xxl, vertical = HhySpacing.Xxxl),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            BrandHeader(route)
+        AnimatedContent(
+            targetState = route,
+            transitionSpec = { HhyMotion.forwardContent() },
+            label = "authentication-route",
+        ) { currentRoute ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .statusBarsPadding()
+                    .navigationBarsPadding()
+                    .imePadding()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = HhySpacing.Xxl, vertical = HhySpacing.Xxxl),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+            BrandHeader(currentRoute)
             Spacer(Modifier.height(HhySpacing.Xl))
-            if (route == AuthRoute.PASSWORD || route == AuthRoute.SMS) {
-                LoginModeSelector(route, enabled = !submitting && challengeDialog == null, onSelect = ::selectRoute)
+            if (currentRoute == AuthRoute.PASSWORD || currentRoute == AuthRoute.SMS) {
+                LoginModeSelector(currentRoute, enabled = !submitting && challengeDialog == null, onSelect = ::selectRoute)
             } else {
-                BackRouteHeader(route, enabled = !submitting && challengeDialog == null) { selectRoute(AuthRoute.PASSWORD) }
+                BackRouteHeader(currentRoute, enabled = !submitting && challengeDialog == null) { selectRoute(AuthRoute.PASSWORD) }
             }
             Spacer(Modifier.height(HhySpacing.Lg))
 
@@ -365,12 +379,12 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                     }
 
                     PhoneField(phone, enabled = !submitting && challengeDialog == null) { phone = it; smsCode = ""; state = AuthUiState.Editing }
-            if (route == AuthRoute.PASSWORD || route == AuthRoute.REGISTER || route == AuthRoute.RESET) {
-                SecretField(if (route == AuthRoute.RESET) "新密码" else "密码", password, enabled = !submitting && challengeDialog == null) {
-                    password = it.take(if (route == AuthRoute.PASSWORD) 72 else 20)
+            if (currentRoute == AuthRoute.PASSWORD || currentRoute == AuthRoute.REGISTER || currentRoute == AuthRoute.RESET) {
+                SecretField(if (currentRoute == AuthRoute.RESET) "新密码" else "密码", password, enabled = !submitting && challengeDialog == null) {
+                    password = it.take(if (currentRoute == AuthRoute.PASSWORD) 72 else 20)
                     state = AuthUiState.Editing
                 }
-                if (route == AuthRoute.REGISTER || route == AuthRoute.RESET) {
+                if (currentRoute == AuthRoute.REGISTER || currentRoute == AuthRoute.RESET) {
                     Text(
                         AuthFormRules.NEW_PASSWORD_REQUIREMENTS,
                         modifier = Modifier.fillMaxWidth(),
@@ -380,7 +394,7 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                     )
                 }
             }
-            if (route == AuthRoute.REGISTER) {
+            if (currentRoute == AuthRoute.REGISTER) {
                 SecretField("确认密码", passwordAgain, enabled = !submitting && challengeDialog == null) {
                     passwordAgain = it.take(20)
                     state = AuthUiState.Editing
@@ -399,7 +413,7 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                     state = AuthUiState.Editing
                 }, false, enabled = !submitting && challengeDialog == null)
             }
-            if (route == AuthRoute.SMS || route == AuthRoute.RESET) {
+            if (currentRoute == AuthRoute.SMS || currentRoute == AuthRoute.RESET) {
                 SecretField(
                     "短信验证码",
                     smsCode,
@@ -407,21 +421,21 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                     modifier = Modifier.focusRequester(smsFocusRequester),
                 ) { smsCode = it; state = AuthUiState.Editing }
             }
-            if (route == AuthRoute.SMS || route == AuthRoute.RESET) {
+            if (currentRoute == AuthRoute.SMS || currentRoute == AuthRoute.RESET) {
                 OutlinedButton(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = !submitting && challengeDialog == null && AuthFormRules.validPhone(phone) && smsRetrySeconds == 0L,
-                    onClick = { requestChallenge(if (route == AuthRoute.SMS) PendingAuthIntent.SMS_CODE else PendingAuthIntent.RESET_CODE) },
+                    onClick = { requestChallenge(if (currentRoute == AuthRoute.SMS) PendingAuthIntent.SMS_CODE else PendingAuthIntent.RESET_CODE) },
                 ) { Text(if (smsRetrySeconds > 0L) "$smsRetrySeconds 秒后可重新发送" else "发送验证码") }
             }
             val canSubmitForm = AuthFormRules.canSubmit(
-                route, phone, password, passwordAgain, smsCode, inviteCode,
+                currentRoute, phone, password, passwordAgain, smsCode, inviteCode,
             )
             Button(
                 modifier = Modifier.fillMaxWidth().height(HhySize.PrimaryButtonHeight),
                 enabled = !submitting && challengeDialog == null && canSubmitForm,
                 onClick = {
-                    when (route) {
+                    when (currentRoute) {
                         AuthRoute.PASSWORD -> requestChallenge(PendingAuthIntent.PASSWORD_LOGIN)
                         AuthRoute.SMS -> launchCall({ api.smsLogin(phone, smsCode) }) {
                             smsCode = ""; completeAuthentication(it)
@@ -432,13 +446,14 @@ internal fun AuthScreen(api: ContractAuthApi, onAuthenticated: (AuthSessionResou
                         }
                     }
                 },
-            ) { Text(primaryAction(route), maxLines = 1, overflow = TextOverflow.Ellipsis) }
+            ) { Text(primaryAction(currentRoute), maxLines = 1, overflow = TextOverflow.Ellipsis) }
                 }
             }
-            if (route == AuthRoute.PASSWORD || route == AuthRoute.SMS) {
+            if (currentRoute == AuthRoute.PASSWORD || currentRoute == AuthRoute.SMS) {
                 AuxiliaryRoutes(enabled = !submitting && challengeDialog == null, onSelect = ::selectRoute)
             }
             Spacer(Modifier.height(HhySpacing.Lg))
+            }
         }
     }
     challengeDialog?.let { dialog ->
@@ -539,7 +554,12 @@ private fun SecurityChallengeDialog(
                             ) { Text("取消", fontSize = HhyType.ButtonSize) }
                         }
                         ChallengePhase.SUCCESS -> {
-                            Text("✓", color = HhyColors.Success, fontSize = HhyType.ChallengeSuccessIconSize, lineHeight = HhyType.ChallengeSuccessIconLineHeight)
+                            HhyIcon(
+                                imageVector = HhyIcons.Check,
+                                contentDescription = "验证成功",
+                                modifier = Modifier.size(HhySize.MinimumTouchTarget),
+                                tint = HhyColors.Success,
+                            )
                             Text("验证通过", color = HhyColors.TextPrimary, fontSize = HhyType.ButtonSize)
                             Text("正在继续操作…", color = HhyColors.TextSecondary, fontSize = HhyType.CaptionSize)
                         }
@@ -616,12 +636,13 @@ private fun SecurityChallengeDialog(
 
 /** SCR-AUTH-006: a credential-free list of the user's active login devices. */
 @Composable
-fun LoginDevicesScreen(api: ContractAuthApi, accessToken: String) {
+fun LoginDevicesScreen(api: ContractAuthApi, accessToken: String, onBack: () -> Unit) {
     val scope = rememberCoroutineScope()
     var sessions by remember { mutableStateOf<List<UserSecuritySessionResource>>(emptyList()) }
     var pendingRevokeId by remember { mutableStateOf<String?>(null) }
     var state by remember { mutableStateOf<AuthUiState>(AuthUiState.Editing) }
     val submitting = state is AuthUiState.Submitting
+    BackHandler(onBack = onBack)
 
     fun load() {
         if (submitting) return
@@ -648,7 +669,7 @@ fun LoginDevicesScreen(api: ContractAuthApi, accessToken: String) {
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(HhySpacing.Lg),
         verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
     ) {
-        Text("登录设备", style = MaterialTheme.typography.titleLarge)
+        AuthenticatedRouteHeader("登录设备", onBack)
         Text("仅显示当前有效会话，不展示任何登录令牌。", color = HhyColors.TextSecondary)
         if (state is AuthUiState.Message) {
             val message = state as AuthUiState.Message
@@ -691,7 +712,12 @@ fun LoginDevicesScreen(api: ContractAuthApi, accessToken: String) {
 
 /** SCR-AUTH-007: password change keeps both password values in composition memory only. */
 @Composable
-fun ChangeLoginPasswordScreen(api: ContractAuthApi, accessToken: String, onPasswordChanged: () -> Unit) {
+fun ChangeLoginPasswordScreen(
+    api: ContractAuthApi,
+    accessToken: String,
+    onBack: () -> Unit,
+    onPasswordChanged: () -> Unit,
+) {
     val scope = rememberCoroutineScope()
     var currentPassword by remember { mutableStateOf("") }
     var newPassword by remember { mutableStateOf("") }
@@ -699,12 +725,13 @@ fun ChangeLoginPasswordScreen(api: ContractAuthApi, accessToken: String, onPassw
     var state by remember { mutableStateOf<AuthUiState>(AuthUiState.Editing) }
     val submitting = state is AuthUiState.Submitting
     val canSubmit = currentPassword.length in 8..72 && newPassword.length in 8..72 && newPassword == confirmPassword
+    BackHandler(onBack = onBack)
 
     Column(
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(HhySpacing.Lg),
         verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
     ) {
-        Text("修改登录密码", style = MaterialTheme.typography.titleLarge)
+        AuthenticatedRouteHeader("修改登录密码", onBack)
         Text("修改成功后，所有设备都需要重新登录。", color = HhyColors.TextSecondary)
         if (state is AuthUiState.Message) {
             val message = state as AuthUiState.Message
@@ -815,6 +842,7 @@ fun AccountCancellationScreen(
     api: ContractAuthApi,
     accessToken: String,
     user: UserSelfResource,
+    onBack: () -> Unit,
     onReturnToLogin: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -829,6 +857,7 @@ fun AccountCancellationScreen(
     var state by remember { mutableStateOf<AuthUiState>(AuthUiState.Editing) }
     val submitting = state is AuthUiState.Submitting
     val phoneMatches = AuthFormRules.validPhone(phone) && maskedPhone(phone) == user.phoneMasked
+    BackHandler(enabled = !submitting && !confirmVisible, onBack = onBack)
 
     fun launchCall(call: suspend () -> AuthCallResult, success: (AuthCallResult.Success) -> Unit = {}) {
         if (submitting || submitted) return
@@ -851,7 +880,7 @@ fun AccountCancellationScreen(
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(HhySpacing.Lg),
         verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
     ) {
-        Text("注销账号", style = MaterialTheme.typography.titleLarge)
+        AuthenticatedRouteHeader("注销账号", onBack, enabled = !submitting && !confirmVisible)
         Text("申请后账号将进入注销处理状态，当前设备和其他设备均需重新登录。", color = HhyColors.Warning)
         Text("当前账号：${user.phoneMasked ?: user.id}", color = HhyColors.TextSecondary)
         if (state is AuthUiState.Message) {
@@ -991,9 +1020,25 @@ private fun LoginModeSelector(
 }
 
 @Composable
+private fun AuthenticatedRouteHeader(
+    title: String,
+    onBack: () -> Unit,
+    enabled: Boolean = true,
+) {
+    Box(modifier = Modifier.fillMaxWidth()) {
+        HhyBackButton(onClick = onBack, enabled = enabled)
+        Text(
+            title,
+            modifier = Modifier.align(Alignment.Center),
+            style = MaterialTheme.typography.titleLarge,
+        )
+    }
+}
+
+@Composable
 private fun BackRouteHeader(route: AuthRoute, enabled: Boolean, onBack: () -> Unit) {
     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        TextButton(enabled = enabled, onClick = onBack) { Text("返回登录") }
+        HhyBackButton(enabled = enabled, onClick = onBack)
         Text(
             route.title,
             modifier = Modifier.weight(1f),

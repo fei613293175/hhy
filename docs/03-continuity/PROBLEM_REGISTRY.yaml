@@ -628,3 +628,20 @@ problems:
   - 每次递增APK versionCode必须同步defaultConfig、ReleasePolicy、VersionMetadataTest和CHANGELOG
   - 不得修改断言绕过ReleasePolicy与BuildConfig的一致性校验
   - 构建失败的提交和产物不得继续进入签名或桌面交付
+- id: PROB-0050
+  title: 既有Android页面缺少统一矢量图标、真实来源返回栈与原生转场
+  status: MITIGATED
+  root_cause: MainActivity、Shell、Auth和Identity分别以mutableState或局部枚举切页，Shell返回时重新以首页索引创建；实名认证和底部导航又用汉字或Unicode充当图标，页面没有统一前进/返回转场。既有门禁只核对业务和视觉参数，没有检查成熟导航基础设施。
+  impact: 从“我的”进入实名认证后返回错误跳到首页；系统返回键或手势可能直接退出App；身份页面显示“相”“人”等字符；所有既有和后续页面都可能重复同类问题。
+  resolution: CR-0119统一采用Stable Jetpack Navigation Compose 2.9.8、HhyIcons矢量语义注册、HhyMotion冻结转场和rememberSaveable来源状态恢复；迁移全部既有Android页面，并新增全量静态门禁与导航回归。
+  regression_checks:
+  - scripts/check_android_ui_foundation.py
+  - tests/test_android_ui_foundation.py
+  - Android MainActivity、Shell、Auth、Identity模块编译与测试
+  - 真机验证“我的→实名认证→资料页→返回→实名认证→返回→我的”
+  do_not_repeat:
+  - 不得用文字、汉字、Unicode、Emoji或字体字符充当图标
+  - 不得用mutableState、枚举或自维护列表替代官方导航返回栈
+  - 不得写死返回首页、我的或模块首页，必须返回实际来源
+  - 不得省略前进、返回与手势返回的统一Token化转场
+  - 基础方案必须优先官方Stable和大型商业App成熟架构；小众或自研例外必须ADR与批准CR

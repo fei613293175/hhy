@@ -18,17 +18,23 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import cc.orbexa.hhy.auth.AuthScreen
 import cc.orbexa.hhy.auth.ChangeLoginPasswordScreen
 import cc.orbexa.hhy.auth.AccountBlockedScreen
 import cc.orbexa.hhy.auth.AccountCancellationScreen
 import cc.orbexa.hhy.auth.LoginDevicesScreen
 import cc.orbexa.hhy.designsystem.HhyColors
+import cc.orbexa.hhy.designsystem.HhyMotion
 import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.identity.IdentityFlowScreen
 import cc.orbexa.hhy.network.AuthCallResult
 import cc.orbexa.hhy.network.AuthSessionResource
 import cc.orbexa.hhy.network.AuthSessionStore
+import cc.orbexa.hhy.network.ContractAuthApi
+import cc.orbexa.hhy.network.ContractIdentityApi
 import cc.orbexa.hhy.network.UserSelfResource
 import cc.orbexa.hhy.network.StartupGate
 import cc.orbexa.hhy.network.StartupGateRequest
@@ -39,6 +45,7 @@ import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
+import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +73,6 @@ class MainActivity : ComponentActivity() {
                     )
                 }
                 var sessionState by remember { mutableStateOf<SessionState>(SessionState.Restoring) }
-                var securityDestination by remember { mutableStateOf(SecurityDestination.Shell) }
                 LaunchedEffect(authApi, sessionStore) {
                     val stored = sessionStore.load()
                     if (stored == null) {
@@ -108,40 +114,15 @@ class MainActivity : ComponentActivity() {
                         SessionState.Restoring, is SessionState.Verifying -> RestoringSessionScreen()
                         is SessionState.Authenticated -> {
                             val authenticated = sessionState as SessionState.Authenticated
-                            when (securityDestination) {
-                                SecurityDestination.Shell -> HhyShellScreen(
-                                    onOpenLoginDevices = { securityDestination = SecurityDestination.LoginDevices },
-                                    onOpenChangePassword = { securityDestination = SecurityDestination.ChangePassword },
-                                    onOpenCancellation = { securityDestination = SecurityDestination.Cancellation },
-                                    onOpenIdentity = { securityDestination = SecurityDestination.Identity },
-                                )
-                                SecurityDestination.LoginDevices -> LoginDevicesScreen(authApi, authenticated.session.accessToken)
-                                SecurityDestination.ChangePassword -> ChangeLoginPasswordScreen(
-                                    authApi, authenticated.session.accessToken,
-                                ) {
+                            AuthenticatedNavHost(
+                                authenticated = authenticated,
+                                authApi = authApi,
+                                identityApi = identityApi,
+                                onSessionInvalidated = {
                                     sessionStore.clear()
-                                    securityDestination = SecurityDestination.Shell
                                     sessionState = SessionState.AuthenticationRequired
-                                }
-                                SecurityDestination.Cancellation -> AccountCancellationScreen(
-                                    authApi, authenticated.session.accessToken, authenticated.user,
-                                ) {
-                                    sessionStore.clear()
-                                    securityDestination = SecurityDestination.Shell
-                                    sessionState = SessionState.AuthenticationRequired
-                                }
-                                SecurityDestination.Identity -> IdentityFlowScreen(
-                                    api = identityApi,
-                                    accessToken = authenticated.session.accessToken,
-                                    returnUrl = BuildConfig.IDENTITY_RETURN_URL,
-                                    onBack = { securityDestination = SecurityDestination.Shell },
-                                    onSessionExpired = {
-                                        sessionStore.clear()
-                                        securityDestination = SecurityDestination.Shell
-                                        sessionState = SessionState.AuthenticationRequired
-                                    },
-                                )
-                            }
+                                },
+                            )
                         }
                         is SessionState.Restricted -> {
                             val restricted = sessionState as SessionState.Restricted
@@ -173,7 +154,74 @@ private sealed interface SessionState {
     data class Restricted(val session: AuthSessionResource, val user: UserSelfResource) : SessionState
 }
 
-private enum class SecurityDestination { Shell, LoginDevices, ChangePassword, Cancellation, Identity }
+@Serializable
+private sealed interface AuthenticatedRoute {
+    @Serializable data object Shell : AuthenticatedRoute
+    @Serializable data object LoginDevices : AuthenticatedRoute
+    @Serializable data object ChangePassword : AuthenticatedRoute
+    @Serializable data object Cancellation : AuthenticatedRoute
+    @Serializable data object Identity : AuthenticatedRoute
+}
+
+@androidx.compose.runtime.Composable
+private fun AuthenticatedNavHost(
+    authenticated: SessionState.Authenticated,
+    authApi: ContractAuthApi,
+    identityApi: ContractIdentityApi,
+    onSessionInvalidated: () -> Unit,
+) {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = AuthenticatedRoute.Shell,
+        enterTransition = { HhyMotion.forwardEnter() },
+        exitTransition = { HhyMotion.forwardExit() },
+        popEnterTransition = { HhyMotion.backwardEnter() },
+        popExitTransition = { HhyMotion.backwardExit() },
+    ) {
+        composable<AuthenticatedRoute.Shell> {
+            HhyShellScreen(
+                onOpenLoginDevices = { navController.navigate(AuthenticatedRoute.LoginDevices) },
+                onOpenChangePassword = { navController.navigate(AuthenticatedRoute.ChangePassword) },
+                onOpenCancellation = { navController.navigate(AuthenticatedRoute.Cancellation) },
+                onOpenIdentity = { navController.navigate(AuthenticatedRoute.Identity) },
+            )
+        }
+        composable<AuthenticatedRoute.LoginDevices> {
+            LoginDevicesScreen(
+                api = authApi,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+            )
+        }
+        composable<AuthenticatedRoute.ChangePassword> {
+            ChangeLoginPasswordScreen(
+                api = authApi,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+                onPasswordChanged = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.Cancellation> {
+            AccountCancellationScreen(
+                api = authApi,
+                accessToken = authenticated.session.accessToken,
+                user = authenticated.user,
+                onBack = { navController.popBackStack() },
+                onReturnToLogin = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.Identity> {
+            IdentityFlowScreen(
+                api = identityApi,
+                accessToken = authenticated.session.accessToken,
+                returnUrl = BuildConfig.IDENTITY_RETURN_URL,
+                onBack = { navController.popBackStack() },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+    }
+}
 
 @androidx.compose.runtime.Composable
 private fun RestoringSessionScreen() {
