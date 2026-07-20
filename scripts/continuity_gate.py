@@ -795,7 +795,11 @@ def main() -> int:
             report.require(fresh, "CONTEXT_STALE", reason)
 
         else:  # doctor/release
-            fresh, reason = context_is_fresh(ROOT, session)
+            fresh, reason = context_is_fresh(
+                ROOT,
+                session,
+                verify_tree=os.environ.get("GITHUB_ACTIONS") != "true",
+            )
             report.require(fresh, "CONTEXT_STALE", reason)
             if session and session.get("status") == "ACTIVE" and session.get("latest_checkpoint"):
                 cp = latest_checkpoint(ROOT, session)
