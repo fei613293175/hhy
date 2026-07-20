@@ -1,16 +1,23 @@
 {
   "version": "1.2.3",
   "protocol_version": "1.0",
-  "mode": "doctor",
+  "mode": "pre-commit",
   "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 1447,
-    "event_head_hash": "8a0b8b610443ee1074bb151dda15af6b6fd67bc5fc8957af9c705c2b8a515930",
+    "event_count": 1481,
+    "event_head_hash": "03ecaf8fffb3f38b2899e52769f6be41a68925ec03b327f4327e781b3f413bb4",
+    "changed_files": 17,
+    "project_changed_files": 2,
+    "change_classification": {
+      "other": 2
+    },
     "document_gate": {
       "status": "EXECUTED",
-      "forced": true,
-      "affected_inputs": []
+      "forced": false,
+      "affected_inputs": [
+        "releases/R05/TASKS.yaml"
+      ]
     }
   },
   "errors": [],

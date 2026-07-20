@@ -631,3 +631,12 @@
 - Actor：`codex-root`
 - 摘要：R05 versionCode 10213 项目所有者于2026-07-20明确确认整体真机体验通过；TASK-R05-007 APK构建、安装、追溯和真机验收门禁完成
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md`
+
+## TASK-R05-008 · COMPLETED · 2026-07-20T13:30:59Z
+
+- Task close: TASK-R05-008 / SES-20260720T095830Z-752E5121
+- Release：`R05`
+- Story：`STORY-R05-008`
+- Actor：`codex-root`
+- 摘要：R05真机体验已由项目所有者通过；Android长期自动构建、APK、模拟器旅程、四张截图、日志、回归、自修复与候选资格体系由GitHub CI #244完整验证；R06顺序依赖已补齐
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md`

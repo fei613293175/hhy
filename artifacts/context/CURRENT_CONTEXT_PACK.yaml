@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-20T13:29:56Z'
+generated_at: '2026-07-20T13:41:00Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -7,12 +7,12 @@ package_version: 1.2.3
 current_status:
   project: hhy-pro-platform
   baseline_version: 1.2.3
-  phase: R05
-  active_release: R05
-  active_task: TASK-R05-008
-  status: IN_PROGRESS
+  phase: R06
+  active_release: R06
+  active_task: TASK-R06-001
+  status: READY
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-  last_green_commit: 30ad62962ce8ccf6323a7865ebf6fbe13f4aebb1
+  last_green_commit: 3a159bb8f6a0d1314b84a76a5b68cbbd6d69d39c
   last_staging_apk: null
   completed_tasks:
   - V1.2.2_ENGINEERING_BASELINE
@@ -71,13 +71,13 @@ current_status:
   - TASK-R05-005
   - TASK-R05-006
   - TASK-R05-007
-  in_progress_tasks:
   - TASK-R05-008
+  in_progress_tasks: []
   blocked_tasks:
   - TASK-R02-007
   - TASK-R03-007
-  next_task: TASK-R05-008
-  updated_at: '2026-07-20T13:29:52Z'
+  next_task: TASK-R06-001
+  updated_at: '2026-07-20T13:31:05Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -109,45 +109,46 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: SES-20260720T095830Z-752E5121
-    actor_id: codex-root
-    story_id: STORY-R05-008
-    lease_expires_at: '2026-07-20T17:29:52Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0021.yaml
-    project_fingerprint: 9fa93f1948e5e28368773eac6db9567159b03031f9b8fa0f65d3a4cb41b7d1f0
+    active_session_id: null
+    last_session_id: SES-20260720T095830Z-752E5121
+    last_session_result: COMPLETED
+    last_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0022.yaml
+    last_handoff_bundle: null
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: ffcd078df223f9291499b319a19efe7a5f841cea5a2b113f6157e460ef34fccf
-      generated_at: '2026-07-20T13:27:50Z'
-    handoff_bundle: null
+      context_hash: defd00671d8671322dd7668e2f115bee1d27f34158b8656b76112c933af96a8d
+      generated_at: '2026-07-20T13:31:04Z'
 next_task:
-  id: TASK-R05-008
-  title: 单一实名认证版本关闭与无状态交接
+  id: TASK-R06-001
+  title: 统一内容基础、首页与CMS开发就绪核验、故事领取与变更基线
   status: READY
-  release: R05
+  release: R06
   requirements:
-  - REQ-ID-001
-  - REQ-ID-002
+  - REQ-CONTENT-001
+  - REQ-HOME-001
   - REQ-APK-001
-  depends_on:
-  - TASK-R05-007
-  definition_of_ready: releases/R05/DEFINITION_OF_READY.yaml
-  stories: releases/R05/STORIES.yaml
+  depends_on: []
+  definition_of_ready: releases/R06/DEFINITION_OF_READY.yaml
+  stories: releases/R06/STORIES.yaml
   steps:
-  - 全新AI仅凭仓库可继续
-  - 工作区干净且Tag可追溯
+  - releases/R06/DEFINITION_OF_READY.yaml 全部适用项PASS
+  - releases/R06/STORIES.yaml 故事责任人和依赖已领取
+  - 更新Release Manifest与CR记录
+  - python scripts/check_v122_documentation.py --release R06
   acceptance:
-  - 无TODO/生产Mock
-  - 代码、文档、测试、追踪同步更新
-  - 全新AI仅凭仓库可继续
-  - 工作区干净且Tag可追溯
+  - 页面、字段、状态、动作、API、配置、数据和测试无TBD
+  - 不适用项明确N/A及原因
+  - releases/R06/DEFINITION_OF_READY.yaml 全部适用项PASS
+  - releases/R06/STORIES.yaml 故事责任人和依赖已领取
+  - 更新Release Manifest与CR记录
+  - python scripts/check_v122_documentation.py --release R06
   claim_required: true
-  start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R05-008
+  start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-001
   commands:
     resume: python3 scripts/continuity.py resume
-    start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R05-008
+    start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-001
     checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
       <ASSESSMENT> --parallel-reason '<未委托原因>'
     handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -155,653 +156,22 @@ next_task:
     cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
       '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
   next_after: 由当前TASKS.yaml依赖关系决定
-active_session:
-  protocol_version: '1.0'
-  package_version: 1.2.3
-  session_id: SES-20260720T095830Z-752E5121
-  status: ACTIVE
-  actor:
-    id: codex-root
-    kind: AI_OR_HUMAN
-    host: unknown
-  release: R05
-  task_id: TASK-R05-008
-  story_id: STORY-R05-008
-  goal: 关闭R05并建立跨电脑跨AI长期可复用的Android自动构建、模拟器测试、截图、日志、回归、自修复与候选交付体系
-  started_at: '2026-07-20T09:58:30Z'
-  updated_at: '2026-07-20T13:29:52Z'
-  takeover_of: null
-  change_requests:
-  - CR-0135
-  - CR-0136
-  - CR-0137
-  - CR-0138
-  - CR-0139
-  - CR-0140
-  - CR-0141
-  - CR-0142
-  - CR-0143
-  - CR-0144
-  - CR-0145
-  scope:
-    allowed_paths:
-    - apps/**
-    - services/**
-    - packages/**
-    - contracts/**
-    - database/**
-    - config/**
-    - catalogs/**
-    - tests/**
-    - infra/**
-    - design/**
-    - docs/**
-    - releases/**
-    - scripts/**
-    - templates/**
-    - .github/**
-    - .githooks/**
-    - .codex/**
-    - AGENTS.md
-    - START_HERE.md
-    - README.md
-    - CHANGELOG.md
-    - Makefile
-    - .gitignore
-    - .gitattributes
-    - .dockerignore
-    - package.json
-    - pnpm-lock.yaml
-    - pnpm-workspace.yaml
-    - requirements-dev.txt
-    - PROJECT_*.yaml
-    - PROJECT_*.json
-    approved_exceptions:
-    - .github/workflows/android-quality-gate.yml
-    - .github/workflows/ci.yml
-    - config/android-automation.yaml
-    - scripts/android_ci_gate.py
-    - tests/test_android_ci_gate.py
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - apps/android/app/build.gradle.kts
-    - apps/android/gradle/libs.versions.toml
-    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
-    - docs/08-testing/测试策略与质量门禁_V1.2.2.md
-    - docs/09-development/统一开发与交付效率规范.md
-    - docs/00-baseline/正式商业系统全局硬性开发边界.md
-    - AGENTS.md
-    - templates/AGENTS.md
-    - releases/R05/RELEASE_MANIFEST.yaml
-    - scripts/check_release_artifacts.py
-    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-    - .github/workflows/continuity-gate.yml
-    - .gitattributes
-    - .githooks/commit-msg
-    - .githooks/pre-commit
-    - .githooks/pre-push
-    - .githooks/prepare-commit-msg
-    - apps/android/build.gradle.kts
-    - apps/android/core/designsystem/build.gradle.kts
-    - apps/android/core/network/build.gradle.kts
-    - apps/android/feature/auth/build.gradle.kts
-    - apps/android/feature/identity/build.gradle.kts
-    - apps/android/feature/media/build.gradle.kts
-    - apps/android/feature/shell/build.gradle.kts
-    - apps/android/feature/startup/build.gradle.kts
-    - docs/04-vendors/identity/source/输出内容(1).txt
-    - apps/android/gradlew
-    - scripts/run_android_emulator_gate.sh
-    - config/test-impact-map.yaml
-    - tests/test_run_affected_tests.py
-    - scripts/prepare_parallel_worktrees.ps1
-    - tests/test_parallel_worktrees.py
-    - releases/RELEASE_DEPENDENCIES.yaml
-    source: story+explicit+approved-cr:CR-0135+approved-cr:CR-0136+approved-cr:CR-0138+approved-cr:CR-0139+approved-cr:CR-0140+approved-cr:CR-0141+approved-cr:CR-0142+approved-cr:CR-0143+approved-cr:CR-0144+approved-cr:CR-0145
-  git:
-    initialized: true
-    branch: task/TASK-R03-001
-    base_commit: becdceec04d22c9179e29c794e28ad85bbe89137
-    start_head: becdceec04d22c9179e29c794e28ad85bbe89137
-    upstream: origin/task/TASK-R03-001
-    initial_worktree_state: CLEAN
-  lease:
-    duration_minutes: 240
-    renewed_at: '2026-07-20T13:29:52Z'
-    expires_at: '2026-07-20T17:29:52Z'
-  checkpoint_sequence: 21
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0021.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-  next_step: 提交CR关闭状态并正式关闭TASK-R05-008，只将R06/TASK-R06-001置为READY
-  context_pack: THIS_CONTEXT_PACK
-  handoff_bundle: null
-  closure: null
-  parallel_execution:
-    assessment: CAPABILITY_UNAVAILABLE
-    delegated_workers: 0
-    workers: []
-    reason: 上级规则禁止用户未明确要求的子代理委托
-latest_checkpoint:
-  protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260720T095830Z-752E5121-0021
-  session_id: SES-20260720T095830Z-752E5121
-  sequence: 21
-  created_at: '2026-07-20T13:29:52Z'
-  summary: CR-0145已实现并关闭，R06依赖R05的机器规则、回归与问题记录全部就绪
-  next_step: 提交CR关闭状态并正式关闭TASK-R05-008，只将R06/TASK-R06-001置为READY
-  blockers: []
-  decisions:
-  - 完成R05收尾后暂停，不启动R06
-  note: ''
-  tests:
-  - name: program-execution-plan
-    result: PASS
-    evidence: python -m unittest tests.test_program_execution_plan
-    note: 7项通过
-  - name: project-doctor-r05
-    result: PASS
-    evidence: python scripts/project-doctor.py --strict --release R05
-    note: 0错误0警告
-  git:
-    initialized: true
-    branch: task/TASK-R03-001
-    head: 3709a631e722dde37962627b467687912963d01c
-    upstream: origin/task/TASK-R03-001
-    ahead: 0
-    behind: 0
-    dirty: true
-    status_porcelain:
-    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-    - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/STATE.yaml'
-    - ' M .continuity/change_requests/CR-0145.yaml'
-    - ' M catalogs/change_request_index.csv'
-    - ' M catalogs/session_index.csv'
-    - ' M docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md'
-    recent_commits:
-    - "3709a631e722dde37962627b467687912963d01c\t2026-07-20T21:28:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(continuity): link R06\
-      \ after R05"
-    - "fb09d7b96afbf15b24c8159799196878e0b8de12\t2026-07-20T21:21:32+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(ci): record green\
-      \ automation gate"
-    - "f8bf690fd5d2594b89917e0fafe8c1ed05224720\t2026-07-20T21:10:01+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): publish screenshots\
-      \ through MediaStore"
-    - "2fff4873e0cccd7ca05ff6af73a51f3f66e435ba\t2026-07-20T21:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): persist screenshots\
-      \ in adb temp"
-    - "fc9866c941355fa2f00db4c1f8cb37cd777645bb\t2026-07-20T20:48:24+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): preserve emulator\
-      \ screenshot evidence"
-    - "0d2019f8ccb0c45da9a6700be3185aae57e08a00\t2026-07-20T20:32:21+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): close Android impact-map\
-      \ bootstrap"
-    - "b4bd45ec55f498519d2a6ba9476e06d528debb5b\t2026-07-20T20:28:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): enforce Android\
-      \ gate self-testing"
-    - "bcaae330f09eca9c6b9687e36f4d540af17c6a3f\t2026-07-20T20:20:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): run emulator gate\
-      \ in one shell"
-  project_fingerprint:
-    sha256: 9fa93f1948e5e28368773eac6db9567159b03031f9b8fa0f65d3a4cb41b7d1f0
-    files:
-    - .gitattributes
-    - .githooks/commit-msg
-    - .githooks/pre-commit
-    - .githooks/pre-push
-    - .githooks/prepare-commit-msg
-    - .github/workflows/android-quality-gate.yml
-    - .github/workflows/ci.yml
-    - .github/workflows/continuity-gate.yml
-    - AGENTS.md
-    - CHANGELOG.md
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - apps/android/core/designsystem/build.gradle.kts
-    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-    - apps/android/core/network/build.gradle.kts
-    - apps/android/feature/auth/build.gradle.kts
-    - apps/android/feature/identity/build.gradle.kts
-    - apps/android/feature/media/build.gradle.kts
-    - apps/android/feature/shell/build.gradle.kts
-    - apps/android/feature/startup/build.gradle.kts
-    - apps/android/gradle/libs.versions.toml
-    - apps/android/gradlew
-    - config/android-automation.yaml
-    - config/test-impact-map.yaml
-    - docs/00-baseline/正式商业系统全局硬性开发边界.md
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
-    - docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
-    - docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
-    - docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
-    - docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
-    - docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
-    - docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
-    - docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
-    - docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
-    - docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md
-    - docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md
-    - docs/04-vendors/identity/source/输出内容(1).txt
-    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
-    - docs/08-testing/测试策略与质量门禁_V1.2.2.md
-    - docs/09-development/统一开发与交付效率规范.md
-    - releases/PROGRAM_EXECUTION_PLAN.yaml
-    - releases/R05/RELEASE_MANIFEST.yaml
-    - releases/RELEASE_DEPENDENCIES.yaml
-    - scripts/android_ci_gate.py
-    - scripts/check_release_artifacts.py
-    - scripts/prepare_parallel_worktrees.ps1
-    - scripts/run_android_emulator_gate.sh
-    - templates/AGENTS.md
-    - tests/test_android_ci_gate.py
-    - tests/test_parallel_worktrees.py
-    - tests/test_program_execution_plan.py
-    - tests/test_run_affected_tests.py
-    file_count: 53
-    payload:
-      base_commit: becdceec04d22c9179e29c794e28ad85bbe89137
-      files:
-      - path: .gitattributes
-        state: FILE
-        size: 348
-        sha256: 9f57026e931856571b1f1c6bee8788fb25bbdf2cca0b1f7eececc8a71d05f674
-      - path: .githooks/commit-msg
-        state: FILE
-        size: 222
-        sha256: 625bd167b23f048f808d07470c021bf91d6e4fa495d23c195bfa92f040bfa98c
-      - path: .githooks/pre-commit
-        state: FILE
-        size: 195
-        sha256: 541c9df7be1e3b45635930dc23728153cc85b4a677a1e89f6b4f43a72f68ac18
-      - path: .githooks/pre-push
-        state: FILE
-        size: 246
-        sha256: 8ea08d11764a313318fef560694cbf6db45f34ee96561c060c693664b3993d27
-      - path: .githooks/prepare-commit-msg
-        state: FILE
-        size: 133
-        sha256: e06c6381eaf95b105b0b5bff426abcc7da49539d1fe706c7980f1dc0a065225b
-      - path: .github/workflows/android-quality-gate.yml
-        state: FILE
-        size: 8988
-        sha256: 7761e29861e62fc4ff3c2b16670d5c57e284076b215322f1b324148c570acbda
-      - path: .github/workflows/ci.yml
-        state: FILE
-        size: 7403
-        sha256: f3d821164d1322de00f29714c798a0c700e40b6f2724104b9fe48c739594f58d
-      - path: .github/workflows/continuity-gate.yml
-        state: FILE
-        size: 2885
-        sha256: 3763cd3786bc1951143943526fbad4a7b5c9a509bc78c4883e38a2b1934461e4
-      - path: AGENTS.md
-        state: FILE
-        size: 11056
-        sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
-      - path: CHANGELOG.md
-        state: FILE
-        size: 53283
-        sha256: eb8b77f469fdd4bf38f2a30e94ecf13418d33e116eaee97089cd1891f9d24af4
-      - path: apps/android/app/build.gradle.kts
-        state: FILE
-        size: 4981
-        sha256: 8595531ad77825b6477ba3b7c24d899ded6ad9b7fc742efe9f830daaa738b499
-      - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-        state: FILE
-        size: 4807
-        sha256: cfc551ad8947f7ed3db4f31fbcc2a1a356ee4da7d5a797ff8d555336183b0555
-      - path: apps/android/core/designsystem/build.gradle.kts
-        state: FILE
-        size: 954
-        sha256: b29a37a4a1574e51e57365661a911968eb3299c79a7975bb2977507dba7370aa
-      - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-        state: FILE
-        size: 2841
-        sha256: a3b80f088f31880545f427838b3ecd1dd4d847695cb4c3ecc033e7ebc7288380
-      - path: apps/android/core/network/build.gradle.kts
-        state: FILE
-        size: 494
-        sha256: f1e860006b777eaccb0e704fe814cf19b689d41eacc79e821539721e6df2bed9
-      - path: apps/android/feature/auth/build.gradle.kts
-        state: FILE
-        size: 1211
-        sha256: 2657afebac09802204c16e3633bdf5e6982fa692319f1d33cbe17b5e0e225483
-      - path: apps/android/feature/identity/build.gradle.kts
-        state: FILE
-        size: 1267
-        sha256: d679c873f1746a891c30a84335a45601c43c11b5bf785a8319efc1f2c0ae6b85
-      - path: apps/android/feature/media/build.gradle.kts
-        state: FILE
-        size: 1114
-        sha256: 8856e705422e50f77e65ea313f641f0ca9c3f93103f231be32cb66738bab7c08
-      - path: apps/android/feature/shell/build.gradle.kts
-        state: FILE
-        size: 976
-        sha256: 608ca4f71a9c70765d05b1492e6a9da8c4209576265fa96180d7fb0e819514fc
-      - path: apps/android/feature/startup/build.gradle.kts
-        state: FILE
-        size: 1013
-        sha256: 39772cbb5af023eaaecd56c21876faa1552cac9f6c6d203f93d27dca9af8c1b6
-      - path: apps/android/gradle/libs.versions.toml
-        state: FILE
-        size: 2425
-        sha256: 152a44c6e3967ad86e4961ac0ade159164ad439d4b7bdd62f35da2c39f91ae25
-      - path: apps/android/gradlew
-        state: FILE
-        size: 5960
-        sha256: 261d896f782ec3181add62d77d5b1b9e1d0d599757ec108d857bad1eec2e7615
-      - path: config/android-automation.yaml
-        state: FILE
-        size: 2150
-        sha256: 6a29aea6365440860e5b3b591b41b22bfbc2b6eea6b795765e860adf44262ac1
-      - path: config/test-impact-map.yaml
-        state: FILE
-        size: 5648
-        sha256: 1ab64efda93aab33d9c2382c745b5d5eea89fa3954b7c167338f74fbf43eec05
-      - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
-        state: FILE
-        size: 8113
-        sha256: 2eeee9d8997f48c0604f965ffd408399a0ff2473f5cde2d394ea06e30f637d25
-      - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-        state: FILE
-        size: 66956
-        sha256: 99ac95b44c8af2b663028ced535b1e68778ea07a650811148a820d0bb33264e4
-      - path: docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
-        state: FILE
-        size: 4275
-        sha256: cfaef91b68a8db477e677e7747583684224077c3b816ee97309d7020858c5cf7
-      - path: docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
-        state: FILE
-        size: 2435
-        sha256: a8bb905a52a04c21570884e027e3b4d562854bc156aeaa3a0e87d661530ec5e5
-      - path: docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
-        state: FILE
-        size: 3094
-        sha256: c2311668004f80b7e9c09994ad09ec4cbd008278b51c68fb3be63ada84accbc6
-      - path: docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
-        state: FILE
-        size: 3341
-        sha256: ad2024b83d37955d725f3f6b0c68f25ddf87c15ce25b2c728473a88777b4f86f
-      - path: docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
-        state: FILE
-        size: 2242
-        sha256: d7342d732df2a1ac35f358197abd5195739f704cb24ff5ec3238f975535956b6
-      - path: docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
-        state: FILE
-        size: 2405
-        sha256: e64394c4919a85320466be4a4145790dff3afb4481d15d818bf19a7358e477f8
-      - path: docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
-        state: FILE
-        size: 2653
-        sha256: 8486504c61734dd0e09f876646d39b144c40c64fdefff15a267f8e44f25ef0f4
-      - path: docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
-        state: FILE
-        size: 2316
-        sha256: f68bd552a7c563cb97c351277c79ff71e0da32887f7fd51aa833fc50e5683043
-      - path: docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
-        state: FILE
-        size: 2372
-        sha256: b6253a3877a1293ac67316b9fc0401c07d57ebbf90a320b9949df2ba2310e77c
-      - path: docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md
-        state: FILE
-        size: 2552
-        sha256: 009ef247837b0da5abf0cc09243e94554838b82aeb6eeadad3278031f4d99d3b
-      - path: docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md
-        state: FILE
-        size: 2720
-        sha256: 898f89b12bed73e938d55e45717df3c4c245dd78a7325a9d389e1b6232c19c45
-      - path: docs/04-vendors/identity/source/输出内容(1).txt
-        state: FILE
-        size: 12285
-        sha256: e3c2047cb7875b0dd46fd07a4285a6d0ac469d27198c6f92aee729666431d412
-      - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
-        state: FILE
-        size: 5606
-        sha256: d289b96f9c69bc4318ec3eaf16d3140a7e6b95cb0b1023580e934a769cf33b99
-      - path: docs/08-testing/测试策略与质量门禁_V1.2.2.md
-        state: FILE
-        size: 1831
-        sha256: 6e4e2c50d45500672ce56ad9ba5ff1542a29104b7b7a82fedfe2cf94effbd5cb
-      - path: docs/09-development/统一开发与交付效率规范.md
-        state: FILE
-        size: 7263
-        sha256: cb2dc987943c8de7da3d58bd0211ea4faf95bcf2eb507eb86e03246e3e0a396c
-      - path: releases/PROGRAM_EXECUTION_PLAN.yaml
-        state: FILE
-        size: 35921
-        sha256: 7134ca5667c299c39f211fc75e942832c42ca63e3a64cd7d6257d14201f522a5
-      - path: releases/R05/RELEASE_MANIFEST.yaml
-        state: FILE
-        size: 4594
-        sha256: 6fc95b4abdedcaa6561460c2d5db23e6fccf1a870452779b0c03035bd6ea11ec
-      - path: releases/RELEASE_DEPENDENCIES.yaml
-        state: FILE
-        size: 1854
-        sha256: 7a6161b96d29a64667db6c16ab442d281bcfd25faccaca6f0077e01d4caf0aa3
-      - path: scripts/android_ci_gate.py
-        state: FILE
-        size: 11782
-        sha256: 584f84a7dec4f6b38f5d811e4bd132b706055514f90657de517c806c2bdb5ff0
-      - path: scripts/check_release_artifacts.py
-        state: FILE
-        size: 21157
-        sha256: 0dbb7c429590edc327afc4da482fa1cb803a7476497b16e66faf39cfd1dabf62
-      - path: scripts/prepare_parallel_worktrees.ps1
-        state: FILE
-        size: 9384
-        sha256: 5c9ec3f183743305c108600d9a8fd1276ec8544615c1fb6aebada792113a8e2a
-      - path: scripts/run_android_emulator_gate.sh
-        state: FILE
-        size: 2244
-        sha256: d3b41b476d8db102c5ad8ad1e80c00322c1d325686a7db8e68bbd1fe9a9ba37d
-      - path: templates/AGENTS.md
-        state: FILE
-        size: 11056
-        sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
-      - path: tests/test_android_ci_gate.py
-        state: FILE
-        size: 10821
-        sha256: fcefdcc15ad53d7d3a1e94e9030aadc402a845254fef2a13cb49e5bc9f7c3201
-      - path: tests/test_parallel_worktrees.py
-        state: FILE
-        size: 6376
-        sha256: 09a45a4696eba764b96d006b40f97a381ca895e5a445ec802db310d3210ac705
-      - path: tests/test_program_execution_plan.py
-        state: FILE
-        size: 2765
-        sha256: 953059673fd34526e6f4ecefe089caa68bfe24ee7b2c127aefa298787663bfa9
-      - path: tests/test_run_affected_tests.py
-        state: FILE
-        size: 7739
-        sha256: 0b21df44d9768255f9b7070c9b8c60c4fa0643f6134f292df4990821ccc68163
-  change_classification:
-    other:
-    - .gitattributes
-    - AGENTS.md
-    - CHANGELOG.md
-    - config/android-automation.yaml
-    - config/test-impact-map.yaml
-    - docs/04-vendors/identity/source/输出内容(1).txt
-    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
-    - docs/08-testing/测试策略与质量门禁_V1.2.2.md
-    - docs/09-development/统一开发与交付效率规范.md
-    - releases/PROGRAM_EXECUTION_PLAN.yaml
-    - releases/RELEASE_DEPENDENCIES.yaml
-    - templates/AGENTS.md
-    infrastructure:
-    - .githooks/commit-msg
-    - .githooks/pre-commit
-    - .githooks/pre-push
-    - .githooks/prepare-commit-msg
-    - .github/workflows/android-quality-gate.yml
-    - .github/workflows/ci.yml
-    - .github/workflows/continuity-gate.yml
-    code:
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - apps/android/core/designsystem/build.gradle.kts
-    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-    - apps/android/core/network/build.gradle.kts
-    - apps/android/feature/auth/build.gradle.kts
-    - apps/android/feature/identity/build.gradle.kts
-    - apps/android/feature/media/build.gradle.kts
-    - apps/android/feature/shell/build.gradle.kts
-    - apps/android/feature/startup/build.gradle.kts
-    - apps/android/gradle/libs.versions.toml
-    - apps/android/gradlew
-    - scripts/android_ci_gate.py
-    - scripts/check_release_artifacts.py
-    - scripts/prepare_parallel_worktrees.ps1
-    - scripts/run_android_emulator_gate.sh
-    user_visible:
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - apps/android/core/designsystem/build.gradle.kts
-    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-    - apps/android/core/network/build.gradle.kts
-    - apps/android/feature/auth/build.gradle.kts
-    - apps/android/feature/identity/build.gradle.kts
-    - apps/android/feature/media/build.gradle.kts
-    - apps/android/feature/shell/build.gradle.kts
-    - apps/android/feature/startup/build.gradle.kts
-    - apps/android/gradle/libs.versions.toml
-    - apps/android/gradlew
-    source_of_truth:
-    - docs/00-baseline/正式商业系统全局硬性开发边界.md
-    - releases/R05/RELEASE_MANIFEST.yaml
-    continuity:
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
-    - docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
-    - docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
-    - docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
-    - docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
-    - docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
-    - docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
-    - docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
-    - docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
-    - docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md
-    - docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md
-    tests:
-    - tests/test_android_ci_gate.py
-    - tests/test_parallel_worktrees.py
-    - tests/test_program_execution_plan.py
-    - tests/test_run_affected_tests.py
-  required_records:
-  - SESSION_RECORD
-  - SESSION_LOG
-  - CHECKPOINT
-  - CURRENT_STATUS
-  - EVENT_LOG
-  - APPROVED_CHANGE_REQUEST
-  - CHANGELOG
-  change_requests:
-  - CR-0135
-  - CR-0136
-  - CR-0137
-  - CR-0138
-  - CR-0139
-  - CR-0140
-  - CR-0141
-  - CR-0142
-  - CR-0143
-  - CR-0144
-  - CR-0145
-  scope:
-    allowed_paths:
-    - apps/**
-    - services/**
-    - packages/**
-    - contracts/**
-    - database/**
-    - config/**
-    - catalogs/**
-    - tests/**
-    - infra/**
-    - design/**
-    - docs/**
-    - releases/**
-    - scripts/**
-    - templates/**
-    - .github/**
-    - .githooks/**
-    - .codex/**
-    - AGENTS.md
-    - START_HERE.md
-    - README.md
-    - CHANGELOG.md
-    - Makefile
-    - .gitignore
-    - .gitattributes
-    - .dockerignore
-    - package.json
-    - pnpm-lock.yaml
-    - pnpm-workspace.yaml
-    - requirements-dev.txt
-    - PROJECT_*.yaml
-    - PROJECT_*.json
-    approved_exceptions:
-    - .github/workflows/android-quality-gate.yml
-    - .github/workflows/ci.yml
-    - config/android-automation.yaml
-    - scripts/android_ci_gate.py
-    - tests/test_android_ci_gate.py
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - apps/android/app/build.gradle.kts
-    - apps/android/gradle/libs.versions.toml
-    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
-    - docs/08-testing/测试策略与质量门禁_V1.2.2.md
-    - docs/09-development/统一开发与交付效率规范.md
-    - docs/00-baseline/正式商业系统全局硬性开发边界.md
-    - AGENTS.md
-    - templates/AGENTS.md
-    - releases/R05/RELEASE_MANIFEST.yaml
-    - scripts/check_release_artifacts.py
-    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-    - .github/workflows/continuity-gate.yml
-    - .gitattributes
-    - .githooks/commit-msg
-    - .githooks/pre-commit
-    - .githooks/pre-push
-    - .githooks/prepare-commit-msg
-    - apps/android/build.gradle.kts
-    - apps/android/core/designsystem/build.gradle.kts
-    - apps/android/core/network/build.gradle.kts
-    - apps/android/feature/auth/build.gradle.kts
-    - apps/android/feature/identity/build.gradle.kts
-    - apps/android/feature/media/build.gradle.kts
-    - apps/android/feature/shell/build.gradle.kts
-    - apps/android/feature/startup/build.gradle.kts
-    - docs/04-vendors/identity/source/输出内容(1).txt
-    - apps/android/gradlew
-    - scripts/run_android_emulator_gate.sh
-    - config/test-impact-map.yaml
-    - tests/test_run_affected_tests.py
-    - scripts/prepare_parallel_worktrees.ps1
-    - tests/test_parallel_worktrees.py
-    - releases/RELEASE_DEPENDENCIES.yaml
-    source: story+explicit+approved-cr:CR-0135+approved-cr:CR-0136+approved-cr:CR-0138+approved-cr:CR-0139+approved-cr:CR-0140+approved-cr:CR-0141+approved-cr:CR-0142+approved-cr:CR-0143+approved-cr:CR-0144+approved-cr:CR-0145
-  parallel_execution:
-    assessment: CAPABILITY_UNAVAILABLE
-    delegated_workers: 0
-    workers: []
-    reason: 上级规则禁止用户未明确要求的子代理委托
-  event_hash: 94f5d5455fad1561ba4680f356a225fa45e4cdbec337dda8013a563d23f4e56b
+active_session: null
+latest_checkpoint: null
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 3709a631e722dde37962627b467687912963d01c
+  head: a215eb89e4177b1fcd6898a61596be9f211a4605
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0145.yaml'
-  - ' M .continuity/sessions/SES-20260720T095830Z-752E5121.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md'
-  - ?? .continuity/checkpoints/SES-20260720T095830Z-752E5121/0021.yaml
+  dirty: false
+  status_porcelain: []
   recent_commits:
+  - "a215eb89e4177b1fcd6898a61596be9f211a4605\t2026-07-20T21:39:50+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close TASK-R05-008\
+    \ as completed"
+  - "3a159bb8f6a0d1314b84a76a5b68cbbd6d69d39c\t2026-07-20T21:30:23+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(continuity): close sequential\
+    \ release CR"
   - "3709a631e722dde37962627b467687912963d01c\t2026-07-20T21:28:26+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(continuity): link R06\
     \ after R05"
   - "fb09d7b96afbf15b24c8159799196878e0b8de12\t2026-07-20T21:21:32+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] chore(ci): record green automation\
@@ -814,393 +184,77 @@ git:
     \ screenshot evidence"
   - "0d2019f8ccb0c45da9a6700be3185aae57e08a00\t2026-07-20T20:32:21+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): close Android impact-map\
     \ bootstrap"
-  - "b4bd45ec55f498519d2a6ba9476e06d528debb5b\t2026-07-20T20:28:43+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): enforce Android gate\
-    \ self-testing"
-  - "bcaae330f09eca9c6b9687e36f4d540af17c6a3f\t2026-07-20T20:20:53+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): run emulator gate\
-    \ in one shell"
 project_fingerprint:
-  sha256: 9fa93f1948e5e28368773eac6db9567159b03031f9b8fa0f65d3a4cb41b7d1f0
-  files:
-  - .gitattributes
-  - .githooks/commit-msg
-  - .githooks/pre-commit
-  - .githooks/pre-push
-  - .githooks/prepare-commit-msg
-  - .github/workflows/android-quality-gate.yml
-  - .github/workflows/ci.yml
-  - .github/workflows/continuity-gate.yml
-  - AGENTS.md
-  - CHANGELOG.md
-  - apps/android/app/build.gradle.kts
-  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-  - apps/android/core/designsystem/build.gradle.kts
-  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-  - apps/android/core/network/build.gradle.kts
-  - apps/android/feature/auth/build.gradle.kts
-  - apps/android/feature/identity/build.gradle.kts
-  - apps/android/feature/media/build.gradle.kts
-  - apps/android/feature/shell/build.gradle.kts
-  - apps/android/feature/startup/build.gradle.kts
-  - apps/android/gradle/libs.versions.toml
-  - apps/android/gradlew
-  - config/android-automation.yaml
-  - config/test-impact-map.yaml
-  - docs/00-baseline/正式商业系统全局硬性开发边界.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
-  - docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
-  - docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
-  - docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
-  - docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
-  - docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
-  - docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
-  - docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
-  - docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
-  - docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md
-  - docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md
-  - docs/04-vendors/identity/source/输出内容(1).txt
-  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
-  - docs/08-testing/测试策略与质量门禁_V1.2.2.md
-  - docs/09-development/统一开发与交付效率规范.md
-  - releases/PROGRAM_EXECUTION_PLAN.yaml
-  - releases/R05/RELEASE_MANIFEST.yaml
-  - releases/RELEASE_DEPENDENCIES.yaml
-  - scripts/android_ci_gate.py
-  - scripts/check_release_artifacts.py
-  - scripts/prepare_parallel_worktrees.ps1
-  - scripts/run_android_emulator_gate.sh
-  - templates/AGENTS.md
-  - tests/test_android_ci_gate.py
-  - tests/test_parallel_worktrees.py
-  - tests/test_program_execution_plan.py
-  - tests/test_run_affected_tests.py
-  file_count: 53
-  payload:
-    base_commit: becdceec04d22c9179e29c794e28ad85bbe89137
-    files:
-    - path: .gitattributes
-      state: FILE
-      size: 348
-      sha256: 9f57026e931856571b1f1c6bee8788fb25bbdf2cca0b1f7eececc8a71d05f674
-    - path: .githooks/commit-msg
-      state: FILE
-      size: 222
-      sha256: 625bd167b23f048f808d07470c021bf91d6e4fa495d23c195bfa92f040bfa98c
-    - path: .githooks/pre-commit
-      state: FILE
-      size: 195
-      sha256: 541c9df7be1e3b45635930dc23728153cc85b4a677a1e89f6b4f43a72f68ac18
-    - path: .githooks/pre-push
-      state: FILE
-      size: 246
-      sha256: 8ea08d11764a313318fef560694cbf6db45f34ee96561c060c693664b3993d27
-    - path: .githooks/prepare-commit-msg
-      state: FILE
-      size: 133
-      sha256: e06c6381eaf95b105b0b5bff426abcc7da49539d1fe706c7980f1dc0a065225b
-    - path: .github/workflows/android-quality-gate.yml
-      state: FILE
-      size: 8988
-      sha256: 7761e29861e62fc4ff3c2b16670d5c57e284076b215322f1b324148c570acbda
-    - path: .github/workflows/ci.yml
-      state: FILE
-      size: 7403
-      sha256: f3d821164d1322de00f29714c798a0c700e40b6f2724104b9fe48c739594f58d
-    - path: .github/workflows/continuity-gate.yml
-      state: FILE
-      size: 2885
-      sha256: 3763cd3786bc1951143943526fbad4a7b5c9a509bc78c4883e38a2b1934461e4
-    - path: AGENTS.md
-      state: FILE
-      size: 11056
-      sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
-    - path: CHANGELOG.md
-      state: FILE
-      size: 53283
-      sha256: eb8b77f469fdd4bf38f2a30e94ecf13418d33e116eaee97089cd1891f9d24af4
-    - path: apps/android/app/build.gradle.kts
-      state: FILE
-      size: 4981
-      sha256: 8595531ad77825b6477ba3b7c24d899ded6ad9b7fc742efe9f830daaa738b499
-    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-      state: FILE
-      size: 4807
-      sha256: cfc551ad8947f7ed3db4f31fbcc2a1a356ee4da7d5a797ff8d555336183b0555
-    - path: apps/android/core/designsystem/build.gradle.kts
-      state: FILE
-      size: 954
-      sha256: b29a37a4a1574e51e57365661a911968eb3299c79a7975bb2977507dba7370aa
-    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-      state: FILE
-      size: 2841
-      sha256: a3b80f088f31880545f427838b3ecd1dd4d847695cb4c3ecc033e7ebc7288380
-    - path: apps/android/core/network/build.gradle.kts
-      state: FILE
-      size: 494
-      sha256: f1e860006b777eaccb0e704fe814cf19b689d41eacc79e821539721e6df2bed9
-    - path: apps/android/feature/auth/build.gradle.kts
-      state: FILE
-      size: 1211
-      sha256: 2657afebac09802204c16e3633bdf5e6982fa692319f1d33cbe17b5e0e225483
-    - path: apps/android/feature/identity/build.gradle.kts
-      state: FILE
-      size: 1267
-      sha256: d679c873f1746a891c30a84335a45601c43c11b5bf785a8319efc1f2c0ae6b85
-    - path: apps/android/feature/media/build.gradle.kts
-      state: FILE
-      size: 1114
-      sha256: 8856e705422e50f77e65ea313f641f0ca9c3f93103f231be32cb66738bab7c08
-    - path: apps/android/feature/shell/build.gradle.kts
-      state: FILE
-      size: 976
-      sha256: 608ca4f71a9c70765d05b1492e6a9da8c4209576265fa96180d7fb0e819514fc
-    - path: apps/android/feature/startup/build.gradle.kts
-      state: FILE
-      size: 1013
-      sha256: 39772cbb5af023eaaecd56c21876faa1552cac9f6c6d203f93d27dca9af8c1b6
-    - path: apps/android/gradle/libs.versions.toml
-      state: FILE
-      size: 2425
-      sha256: 152a44c6e3967ad86e4961ac0ade159164ad439d4b7bdd62f35da2c39f91ae25
-    - path: apps/android/gradlew
-      state: FILE
-      size: 5960
-      sha256: 261d896f782ec3181add62d77d5b1b9e1d0d599757ec108d857bad1eec2e7615
-    - path: config/android-automation.yaml
-      state: FILE
-      size: 2150
-      sha256: 6a29aea6365440860e5b3b591b41b22bfbc2b6eea6b795765e860adf44262ac1
-    - path: config/test-impact-map.yaml
-      state: FILE
-      size: 5648
-      sha256: 1ab64efda93aab33d9c2382c745b5d5eea89fa3954b7c167338f74fbf43eec05
-    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
-      state: FILE
-      size: 8113
-      sha256: 2eeee9d8997f48c0604f965ffd408399a0ff2473f5cde2d394ea06e30f637d25
-    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-      state: FILE
-      size: 66956
-      sha256: 99ac95b44c8af2b663028ced535b1e68778ea07a650811148a820d0bb33264e4
-    - path: docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
-      state: FILE
-      size: 4275
-      sha256: cfaef91b68a8db477e677e7747583684224077c3b816ee97309d7020858c5cf7
-    - path: docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
-      state: FILE
-      size: 2435
-      sha256: a8bb905a52a04c21570884e027e3b4d562854bc156aeaa3a0e87d661530ec5e5
-    - path: docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
-      state: FILE
-      size: 3094
-      sha256: c2311668004f80b7e9c09994ad09ec4cbd008278b51c68fb3be63ada84accbc6
-    - path: docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
-      state: FILE
-      size: 3341
-      sha256: ad2024b83d37955d725f3f6b0c68f25ddf87c15ce25b2c728473a88777b4f86f
-    - path: docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
-      state: FILE
-      size: 2242
-      sha256: d7342d732df2a1ac35f358197abd5195739f704cb24ff5ec3238f975535956b6
-    - path: docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
-      state: FILE
-      size: 2405
-      sha256: e64394c4919a85320466be4a4145790dff3afb4481d15d818bf19a7358e477f8
-    - path: docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
-      state: FILE
-      size: 2653
-      sha256: 8486504c61734dd0e09f876646d39b144c40c64fdefff15a267f8e44f25ef0f4
-    - path: docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
-      state: FILE
-      size: 2316
-      sha256: f68bd552a7c563cb97c351277c79ff71e0da32887f7fd51aa833fc50e5683043
-    - path: docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
-      state: FILE
-      size: 2372
-      sha256: b6253a3877a1293ac67316b9fc0401c07d57ebbf90a320b9949df2ba2310e77c
-    - path: docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md
-      state: FILE
-      size: 2552
-      sha256: 009ef247837b0da5abf0cc09243e94554838b82aeb6eeadad3278031f4d99d3b
-    - path: docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md
-      state: FILE
-      size: 2720
-      sha256: 898f89b12bed73e938d55e45717df3c4c245dd78a7325a9d389e1b6232c19c45
-    - path: docs/04-vendors/identity/source/输出内容(1).txt
-      state: FILE
-      size: 12285
-      sha256: e3c2047cb7875b0dd46fd07a4285a6d0ac469d27198c6f92aee729666431d412
-    - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
-      state: FILE
-      size: 5606
-      sha256: d289b96f9c69bc4318ec3eaf16d3140a7e6b95cb0b1023580e934a769cf33b99
-    - path: docs/08-testing/测试策略与质量门禁_V1.2.2.md
-      state: FILE
-      size: 1831
-      sha256: 6e4e2c50d45500672ce56ad9ba5ff1542a29104b7b7a82fedfe2cf94effbd5cb
-    - path: docs/09-development/统一开发与交付效率规范.md
-      state: FILE
-      size: 7263
-      sha256: cb2dc987943c8de7da3d58bd0211ea4faf95bcf2eb507eb86e03246e3e0a396c
-    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
-      state: FILE
-      size: 35921
-      sha256: 7134ca5667c299c39f211fc75e942832c42ca63e3a64cd7d6257d14201f522a5
-    - path: releases/R05/RELEASE_MANIFEST.yaml
-      state: FILE
-      size: 4594
-      sha256: 6fc95b4abdedcaa6561460c2d5db23e6fccf1a870452779b0c03035bd6ea11ec
-    - path: releases/RELEASE_DEPENDENCIES.yaml
-      state: FILE
-      size: 1854
-      sha256: 7a6161b96d29a64667db6c16ab442d281bcfd25faccaca6f0077e01d4caf0aa3
-    - path: scripts/android_ci_gate.py
-      state: FILE
-      size: 11782
-      sha256: 584f84a7dec4f6b38f5d811e4bd132b706055514f90657de517c806c2bdb5ff0
-    - path: scripts/check_release_artifacts.py
-      state: FILE
-      size: 21157
-      sha256: 0dbb7c429590edc327afc4da482fa1cb803a7476497b16e66faf39cfd1dabf62
-    - path: scripts/prepare_parallel_worktrees.ps1
-      state: FILE
-      size: 9384
-      sha256: 5c9ec3f183743305c108600d9a8fd1276ec8544615c1fb6aebada792113a8e2a
-    - path: scripts/run_android_emulator_gate.sh
-      state: FILE
-      size: 2244
-      sha256: d3b41b476d8db102c5ad8ad1e80c00322c1d325686a7db8e68bbd1fe9a9ba37d
-    - path: templates/AGENTS.md
-      state: FILE
-      size: 11056
-      sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
-    - path: tests/test_android_ci_gate.py
-      state: FILE
-      size: 10821
-      sha256: fcefdcc15ad53d7d3a1e94e9030aadc402a845254fef2a13cb49e5bc9f7c3201
-    - path: tests/test_parallel_worktrees.py
-      state: FILE
-      size: 6376
-      sha256: 09a45a4696eba764b96d006b40f97a381ca895e5a445ec802db310d3210ac705
-    - path: tests/test_program_execution_plan.py
-      state: FILE
-      size: 2765
-      sha256: 953059673fd34526e6f4ecefe089caa68bfe24ee7b2c127aefa298787663bfa9
-    - path: tests/test_run_affected_tests.py
-      state: FILE
-      size: 7739
-      sha256: 0b21df44d9768255f9b7070c9b8c60c4fa0643f6134f292df4990821ccc68163
+  sha256: 3f6df8aad7885228e2af750f139d485db61311fb84a054ea60063af2128dcca9
+  files: []
+  file_count: 0
 release_context:
   RELEASE_MANIFEST.yaml:
-    release: R05
-    title: 单一实名认证
+    release: R06
+    title: 统一内容基础、首页与CMS
     status: READY_WHEN_DEPENDENCIES_GREEN
-    milestone: M0_ENGINEERING_FOUNDATION
+    milestone: M1_CONTENT_MARKETPLACE
     depends_on:
     - R02
     - R04
-    scope: 姓名身份证、H5活体、人脸比对、私有照片、人工复核和敏感访问审计
+    scope: 四类内容主模型、统一卡片、首页运营模块、基础后台和审核骨架
     android_test_apk_required: true
     requirements:
-    - REQ-ID-001
-    - REQ-ID-002
+    - REQ-CONTENT-001
+    - REQ-HOME-001
     ui:
       android:
-      - SCR-ID-001
-      - SCR-ID-002
-      - SCR-ID-003
-      - SCR-ID-004
-      h5:
-      - H5-012
+      - SCR-HOME-001
+      - SCR-ABOUT-001
+      h5: []
       admin:
-      - ADM-ID-001
-      - ADM-ID-002
+      - ADM-CONTENT-001
+      - ADM-CONTENT-002
+      - ADM-CONTENT-003
     contracts:
       client_api:
-        operation_ids:
-        - identityGetIdentityOverview
-        - identityPostIdentitySessions
-        - publicPostIdentityCallbackConsume
-        paths:
-        - GET /api/v1/identity/overview
-        - POST /api/v1/identity/sessions
-        - POST /api/v1/identity/sessions/{id}/liveness-token
-        - GET /api/v1/identity/sessions/{id}
-        - POST /api/v1/identity/sessions/{id}/retry
-        - POST /public-api/v1/identity/callback/consume
+      - GET /api/v1/home
       admin_api:
-        operation_ids:
-        - adminIdentityPostIdentitySessionsByIdReview
-        paths:
-        - GET /admin-api/v1/identities
-        - GET /admin-api/v1/identities/{userId}
-        - POST /admin-api/v1/identities/{userId}/media-access
-        - POST /admin-api/v1/identity-sessions/{id}/review
-        - POST /admin-api/v1/identities/{userId}/freeze
+      - GET /admin-api/v1/contents
+      - GET /admin-api/v1/contents/{id}
+      - POST /admin-api/v1/contents/{id}/online
+      - POST /admin-api/v1/contents/{id}/offline
+      - POST /admin-api/v1/contents/{id}/ban
+      - POST /admin-api/v1/contents/{id}/recommend
+      - POST /admin-api/v1/contents/{id}/official-mark
+      - GET /admin-api/v1/content-dictionaries
+      - PUT /admin-api/v1/content-dictionaries/{code}
       websocket: []
     database_tables:
-    - identity_profiles
-    - identity_verification_sessions
-    - identity_provider_requests
-    - identity_review_records
-    - sensitive_data_access_logs
-    - users
-    - user_profiles
-    - user_settings
-    - user_status_logs
-    - admin_operation_logs
+    - home_modules
+    - banners
+    - content_posts
+    - content_stats
+    - content_versions
+    - content_status_logs
+    - content_review_records
+    - content_media
+    - content_contacts
+    - content_favorites
+    - content_view_logs
+    - content_contact_access_logs
+    - conversations
+    - conversation_members
+    - chat_messages
+    - chat_read_receipts
+    - user_blocks
+    - chat_reports
     tests:
-    - TST-ID_001-HAPPY
-    - TST-ID_001-IDEMPOTENT
-    - TST-ID_001-REJECT
-    - TST-ID_001-SECURITY
-    - TST-ID_002-HAPPY
-    - TST-ID_002-IDEMPOTENT
-    - TST-ID_002-REJECT
-    - TST-ID_002-SECURITY
-    - TST-V122-015
-    - TST-V122-016
-    test_count: 10
-    planning_depth: STORY_READY
-    apk_gate: DESKTOP_PUBLIC_AND_OWNER_DEVICE_REQUIRED
-    android_delivery:
-      source_commit: 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
-      apk_file: hhy-r05-07f2fe2-debug.apk
-      version_name: 1.2.2-debug
-      version_code: 10213
-      sha256: 6cb3fb26c06599821a0b60dd250657ce08429eed23317acc11be4f47d78008dd
-      machine_delivery: PASS
-      owner_physical_test: PASS
-      owner_physical_test_at: '2026-07-20'
-      owner_confirmation: 项目所有者明确反馈R05整体真机体验通过
-      evidence: artifacts/validation/r05-apk-delivery/delivery-evidence.json
-      test_guide: artifacts/reports/R05/R05-version-test-guide.md
-    android_automation_migration:
-      policy_id: HHY-ANDROID-AUTOMATION-V1
-      status: GRANDFATHERED_OWNER_ACCEPTED
-      enforcement_from_release: R06
-      baseline_apk_version_code: 10213
-      rule: R05已完成机器交付与项目所有者真机验收；R06起自动门禁PASS后才允许真机体验
-    entry_baseline:
-      checked_at: '2026-07-19'
-      documentation_status: PASS_DOCUMENTATION_READY
-      implementation_start: ALLOWED
-      dependency_state:
-        R04:
-          status: DONE
-          release_commit: 04cda65d4a0749727a482526b616fb56cb475f34
-          release_tag: R04-04cda65
-        R02:
-          implementation_tasks: TASK-R02-001_TO_006_DONE
-          machine_apk_delivery: PASS
-          owner_physical_test: PENDING
-          implementation_effect: NON_BLOCKING
-          release_close_effect: BLOCKING
-          policy: CR-0089
-      rule: R02真机待验事实不得改写为PASS；允许可验证的R05本地实现，但R05最终Release关闭和生产激活必须等待该门禁解决
+    - TST-CONTENT_001-HAPPY
+    - TST-CONTENT_001-IDEMPOTENT
+    - TST-CONTENT_001-REJECT
+    - TST-HOME_001-HAPPY
+    - TST-HOME_001-IDEMPOTENT
+    - TST-HOME_001-REJECT
+    - TST-V122-017
     entry_gate:
-    - releases/R05/DEFINITION_OF_READY.yaml 全部适用项为PASS
-    - releases/R05/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
+    - releases/R06/DEFINITION_OF_READY.yaml 全部适用项为PASS
+    - releases/R06/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A
     - 本版本页面字段、状态、动作、导航和后台运营规格不存在TBD/RELEASE_BOUND
     - 全部依赖版本为GREEN或按发布计划允许的并行依赖已记录
     - 冻结契约发生变化时已创建CR并重新生成追踪和SHA
@@ -1214,8 +268,8 @@ release_context:
     change_policy: V1.2.2 页面、字段、状态、动作、API、配置和数据目录是唯一事实源；破坏性变更必须CR+版本升级+迁移+消费者兼容窗口
     documentation_baseline: V1.2.2
     document_gap_status: ZERO_BLOCKING_DOCUMENT_GAPS
-    definition_of_ready: releases/R05/DEFINITION_OF_READY.yaml
-    story_backlog: releases/R05/STORIES.yaml
+    definition_of_ready: releases/R06/DEFINITION_OF_READY.yaml
+    story_backlog: releases/R06/STORIES.yaml
     continuity:
       policy: .continuity/CONTINUITY_POLICY.yaml
       protocol_version: '1.0'
@@ -1226,133 +280,133 @@ release_context:
       handoff_bundle_required_for_actor_switch: true
   DEFINITION_OF_READY.yaml:
     version: 1.2.2
-    release: R05
-    title: 单一实名认证
+    release: R06
+    title: 统一内容基础、首页与CMS
     status: PASS_DOCUMENTATION_READY
     interpretation: 该结论仅表示开发前文档和施工契约完整；软件编译、运行、供应商联调、压测和上线验收仍在对应实施/退出门禁完成。
     gates:
-    - 版本: R05
-      门禁ID: R05-DOR-01
+    - 版本: R06
+      门禁ID: R06-DOR-01
       类别: 范围与需求
       门禁条件: 本版本需求、非目标、业务规则和变更边界已冻结；每个需求在追踪矩阵有明确行
       适用性: 是
       证据: catalogs/requirements_catalog.csv;catalogs/TRACEABILITY_MATRIX.csv
       当前结论: PASS
-      说明: 需求2条，页面/交互面7个，接口9个，故事8个
+      说明: 需求2条，页面/交互面5个，接口10个，故事5个
       阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
       成熟度: FROZEN_DOR_V1.2.2
-    - 版本: R05
-      门禁ID: R05-DOR-02
+    - 版本: R06
+      门禁ID: R06-DOR-02
       类别: 页面与模板
       门禁条件: 本版本所有页面/弹层已绑定标准模板，入口、退出、角色、数据分级和主要区域无TBD
       适用性: 是
       证据: catalogs/ui_page_specifications.csv;catalogs/ui_templates.csv
       当前结论: PASS
-      说明: 需求2条，页面/交互面7个，接口9个，故事8个
+      说明: 需求2条，页面/交互面5个，接口10个，故事5个
       阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
       成熟度: FROZEN_DOR_V1.2.2
-    - 版本: R05
-      门禁ID: R05-DOR-03
+    - 版本: R06
+      门禁ID: R06-DOR-03
       类别: 字段施工规格
       门禁条件: 每个页面展示、输入、筛选、路由、敏感字段均有类型、控件、必填、校验、显示/编辑条件和错误文案
       适用性: 是
       证据: catalogs/ui_page_fields.csv
       当前结论: PASS
-      说明: 需求2条，页面/交互面7个，接口9个，故事8个
+      说明: 需求2条，页面/交互面5个，接口10个，故事5个
       阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
       成熟度: FROZEN_DOR_V1.2.2
-    - 版本: R05
-      门禁ID: R05-DOR-04
+    - 版本: R06
+      门禁ID: R06-DOR-04
       类别: 状态与恢复
       门禁条件: 首屏、内容、空、刷新、局部失败、无权限、404、离线、提交、成功、冲突和领域状态已定义
       适用性: 是
       证据: catalogs/ui_page_states.csv
       当前结论: PASS
-      说明: 需求2条，页面/交互面7个，接口9个，故事8个
+      说明: 需求2条，页面/交互面5个，接口10个，故事5个
       阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
       成熟度: FROZEN_DOR_V1.2.2
-    - 版本: R05
-      门禁ID: R05-DOR-05
+    - 版本: R06
+      门禁ID: R06-DOR-05
       类别: 动作与导航
       门禁条件: 每个操作定义触发、显示/可用、确认、请求映射、幂等/版本、加载、成功、错误、重试、导航和审计
       适用性: 是
       证据: catalogs/ui_action_matrix.csv;catalogs/ui_navigation_specifications.csv
       当前结论: PASS
-      说明: 需求2条，页面/交互面7个，接口9个，故事8个
+      说明: 需求2条，页面/交互面5个，接口10个，故事5个
       阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
       成熟度: FROZEN_DOR_V1.2.2
-    - 版本: R05
-      门禁ID: R05-DOR-06
+    - 版本: R06
+      门禁ID: R06-DOR-06
       类别: 接口所有权
       门禁条件: 本版本每个OpenAPI operationId均有页面动作或显式系统所有者；核心请求响应禁止自由对象代替领域Schema
       适用性: 是
       证据: catalogs/api_ui_ownership.csv;contracts/openapi.yaml;contracts/admin-openapi.yaml
       当前结论: PASS
-      说明: 需求2条，页面/交互面7个，接口9个，故事8个
+      说明: 需求2条，页面/交互面5个，接口10个，故事5个
       阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
       成熟度: FROZEN_DOR_V1.2.2
-    - 版本: R05
-      门禁ID: R05-DOR-07
+    - 版本: R06
+      门禁ID: R06-DOR-07
       类别: 数据与状态机
       门禁条件: 涉及表、约束、状态机、历史、幂等和账务不变量已登记；新增运营能力有明确数据事实源
       适用性: 是
       证据: catalogs/data_tables.csv;database/schema_dictionary.csv;database/state_machines.yaml
       当前结论: PASS
-      说明: 需求2条，页面/交互面7个，接口9个，故事8个
+      说明: 需求2条，页面/交互面5个，接口10个，故事5个
       阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
       成熟度: FROZEN_DOR_V1.2.2
-    - 版本: R05
-      门禁ID: R05-DOR-08
+    - 版本: R06
+      门禁ID: R06-DOR-08
       类别: 配置与权限
       门禁条件: 相关配置具有控件、单位、范围、依赖、跨字段规则、编辑角色、复核角色、生效预览和回滚；权限与数据分级明确
       适用性: 是
       证据: catalogs/config_registry.csv;catalogs/config_cross_field_rules.csv;catalogs/config_role_matrix.csv
       当前结论: PASS
-      说明: 需求2条，页面/交互面7个，接口9个，故事8个
+      说明: 需求2条，页面/交互面5个，接口10个，故事5个
       阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
       成熟度: FROZEN_DOR_V1.2.2
-    - 版本: R05
-      门禁ID: R05-DOR-09
+    - 版本: R06
+      门禁ID: R06-DOR-09
       类别: 后台运营规格
       门禁条件: 涉及后台页面时，筛选、表格列、排序、批量/行操作、Tab、导出、脱敏、审批、确认和审计已冻结
       适用性: 是
       证据: catalogs/admin_page_operation_specs.csv
       当前结论: PASS
-      说明: 需求2条，页面/交互面7个，接口9个，故事8个
+      说明: 需求2条，页面/交互面5个，接口10个，故事5个
       阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
       成熟度: FROZEN_DOR_V1.2.2
-    - 版本: R05
-      门禁ID: R05-DOR-10
+    - 版本: R06
+      门禁ID: R06-DOR-10
       类别: 测试与验收
       门禁条件: 主路径、拒绝、幂等、并发、故障、安全和防漂移测试ID已存在并绑定到页面/动作/需求
       适用性: 是
       证据: catalogs/test_cases.csv
       当前结论: PASS
-      说明: 需求2条，页面/交互面7个，接口9个，故事8个
+      说明: 需求2条，页面/交互面5个，接口10个，故事5个
       阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
       成熟度: FROZEN_DOR_V1.2.2
-    - 版本: R05
-      门禁ID: R05-DOR-11
+    - 版本: R06
+      门禁ID: R06-DOR-11
       类别: 故事与责任
       门禁条件: 本版本工作已拆为可领取的用户故事/工程治理故事，包含责任角色、依赖、页面、接口、数据、配置和验收条件
       适用性: 是
-      证据: catalogs/release_story_backlog.csv;releases/R05/STORIES.yaml
+      证据: catalogs/release_story_backlog.csv;releases/R06/STORIES.yaml
       当前结论: PASS
-      说明: 需求2条，页面/交互面7个，接口9个，故事8个
+      说明: 需求2条，页面/交互面5个，接口10个，故事5个
       阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
       成熟度: FROZEN_DOR_V1.2.2
-    - 版本: R05
-      门禁ID: R05-DOR-12
+    - 版本: R06
+      门禁ID: R06-DOR-12
       类别: 外部事项记录
       门禁条件: 需要SDK、数据库、供应商、域名、证书、签名、法务或上线验证的事项已分类到实施/外部/生产门禁；不再误标为开发前文档缺口
       适用性: 是
       证据: DEVELOPMENT_RISK_REGISTER.md;catalogs/development_risk_register.csv
       当前结论: PASS
-      说明: 需求2条，页面/交互面7个，接口9个，故事8个
+      说明: 需求2条，页面/交互面5个，接口10个，故事5个
       阻断规则: 适用项非PASS时不得进入该版本编码；不适用必须有说明
       成熟度: FROZEN_DOR_V1.2.2
-    - 版本: R05
-      门禁ID: R05-DOR-CONTINUITY
+    - 版本: R06
+      门禁ID: R06-DOR-CONTINUITY
       类别: 持续开发无状态接续
       门禁条件: 编码前必须可仅凭仓库恢复任务；唯一Session/Claim、检查点、Commit Trailer、CR、Context Pack和交接协议已启用
       适用性: 是
@@ -1367,55 +421,85 @@ release_context:
       conversation_context_required: false
   STORIES.yaml:
     version: 1.2.2
-    release: R05
-    title: 单一实名认证
+    release: R06
+    title: 统一内容基础、首页与CMS
     source_of_truth: catalogs/release_story_backlog.csv
     rules:
     - 故事未通过definition_of_ready不得进入编码
     - 页面故事不得增加未登记字段、状态、按钮、接口或配置
     - 工程治理故事负责契约、数据、配置、测试、观测和交接
     stories:
-    - story_id: STORY-R05-001
-      release: R05
-      title: 实名：实名列表
-      user_story: 作为具备 identity.read 的后台员工；写操作另需 identity.manage，我需要完成实名列表的完整业务流程，以便在不依赖研发临时决策的情况下实现状态与风险。
+    - story_id: STORY-R06-001
+      release: R06
+      title: 内容：内容详情
+      user_story: 作为具备 content.read 的后台员工；写操作另需 content.manage，我需要完成内容详情的完整业务流程，以便在不依赖研发临时决策的情况下实现版本、媒体、链接、数据。
       platform: ADMIN
-      module: 实名
-      template_id: ADM-LIST
+      module: 内容
+      template_id: ADM-DETAIL
       page_ids:
-      - ADM-ID-001
+      - ADM-CONTENT-002
       operation_ids:
-      - adminIdentityGetIdentities
-      - adminIdentityGetIdentitiesByUserid
+      - adminContentGetContents
+      - adminContentGetContentsById
+      - adminContentPostContentsByIdOnline
+      - adminContentPostContentsByIdOffline
+      - adminContentPostContentsByIdBan
+      - adminContentPostContentsByIdRecommend
+      - adminContentPostContentsByIdOfficialMark
+      - adminContentGetContentDictionaries
       api_contracts:
-      - GET /admin-api/v1/identities
-      - GET /admin-api/v1/identities/{userId}
+      - GET /admin-api/v1/contents
+      - GET /admin-api/v1/contents/{id}
+      - POST /admin-api/v1/contents/{id}/online
+      - POST /admin-api/v1/contents/{id}/offline
+      - POST /admin-api/v1/contents/{id}/ban
+      - POST /admin-api/v1/contents/{id}/recommend
+      - POST /admin-api/v1/contents/{id}/official-mark
+      - GET /admin-api/v1/content-dictionaries
       requirement_ids:
-      - REQ-ID-001
-      - REQ-ID-002
+      - REQ-CONTENT-001
+      - REQ-PUBLISH-001
       config_keys:
-      - identity.active_provider
-      - identity.provider.appcode
-      - identity.liveness.token_url
-      - identity.liveness.result_url
-      - identity.face_compare.url
-      - identity.max_daily_attempts
-      - identity.one_id_one_account
-      - identity.liveness.poll_interval_ms
+      - content.limit.normal.online
+      - content.limit.month.online
+      - content.limit.quarter.online
+      - content.limit.year.online
+      - content.team_leader_per_account
+      - content.limit.normal.pending
+      - content.limit.normal.drafts
+      - content.limit.normal.daily_submissions
       data_tables:
-      - identity_profiles
-      - identity_verification_sessions
-      - identity_provider_requests
-      - identity_review_records
-      - sensitive_data_access_logs
+      - content_posts
+      - content_versions
+      - content_status_logs
+      - content_review_records
+      - content_media
+      - content_contacts
+      - content_stats
+      - content_favorites
+      - content_view_logs
+      - content_contact_access_logs
+      - home_modules
+      - banners
+      - conversations
+      - conversation_members
+      - chat_messages
+      - chat_read_receipts
+      - user_blocks
+      - chat_reports
       - users
       - user_profiles
       - user_settings
       - user_status_logs
-      - admin_operation_logs
+      - identity_review_records
+      - manual_review_cases
+      - content_reports
+      - content_appeals
       test_ids:
-      - TST-ID_001-HAPPY
-      - TST-ID_002-HAPPY
+      - TST-CONTENT_001-HAPPY
+      - TST-PUBLISH_001-HAPPY
+      - TST-CONTENT_001-IDEMPOTENT
+      - TST-PUBLISH_001-IDEMPOTENT
       dependencies:
       - R02
       - R04
@@ -1424,73 +508,98 @@ release_context:
       - backend_engineer
       - test_engineer
       acceptance_criteria:
-      - ADM-ID-001 全部绑定模板 ADM-LIST，字段、状态、动作、导航和错误恢复无TBD
-      - 页面调用 operationId：adminIdentityGetIdentities;adminIdentityGetIdentitiesByUserid；请求/响应字段不得另行发明
+      - ADM-CONTENT-002 全部绑定模板 ADM-DETAIL，字段、状态、动作、导航和错误恢复无TBD
+      - 页面调用 operationId：adminContentGetContents;adminContentGetContentsById;adminContentPostContentsByIdOnline;adminContentPostContentsByIdOffline;adminContentPostContentsByIdBan;adminContentPostContentsByIdRecommend;adminContentPostContentsByIdOfficialMark;adminContentGetContentDictionaries；请求/响应字段不得另行发明
       - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
       - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
       - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-      - 自动化覆盖：TST-ID_001-HAPPY;TST-ID_002-HAPPY
+      - 自动化覆盖：TST-CONTENT_001-HAPPY;TST-PUBLISH_001-HAPPY;TST-CONTENT_001-IDEMPOTENT;TST-PUBLISH_001-IDEMPOTENT
       definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
       status: READY_FOR_IMPLEMENTATION
-    - story_id: STORY-R05-002
-      release: R05
-      title: 实名：实名详情与复核
-      user_story: 作为具备 identity.read 的后台员工；写操作另需 identity.manage，我需要完成实名详情与复核的完整业务流程，以便在不依赖研发临时决策的情况下实现原图、结果、审计。
+    - story_id: STORY-R06-002
+      release: R06
+      title: 内容：统一内容列表、字典与属性
+      user_story: 作为具备 content.read 的后台员工；写操作另需 content.manage，我需要完成统一内容列表、字典与属性的完整业务流程，以便在不依赖研发临时决策的情况下实现四类内容。
       platform: ADMIN
-      module: 实名
-      template_id: ADM-REVIEW
+      module: 内容
+      template_id: ADM-LIST
       page_ids:
-      - ADM-ID-002
+      - ADM-CONTENT-001
+      - ADM-CONTENT-003
       operation_ids:
-      - adminIdentityGetIdentities
-      - adminIdentityGetIdentitiesByUserid
-      - adminIdentityPostIdentitySessionsByIdReview
-      - adminIdentityPostIdentitiesByUseridMediaAccess
-      - adminIdentityPostIdentitiesByUseridFreeze
+      - adminContentGetContents
+      - adminContentGetContentsById
+      - adminContentGetContentDictionaries
+      - adminContentPostContentsByIdOnline
+      - adminContentPostContentsByIdOffline
+      - adminContentPostContentsByIdBan
+      - adminContentPostContentsByIdRecommend
+      - adminContentPostContentsByIdOfficialMark
+      - adminContentPutContentDictionariesByCode
       api_contracts:
-      - GET /admin-api/v1/identities
-      - GET /admin-api/v1/identities/{userId}
-      - POST /admin-api/v1/identity-sessions/{id}/review
-      - POST /admin-api/v1/identities/{userId}/media-access
-      - POST /admin-api/v1/identities/{userId}/freeze
+      - GET /admin-api/v1/contents
+      - GET /admin-api/v1/contents/{id}
+      - GET /admin-api/v1/content-dictionaries
+      - POST /admin-api/v1/contents/{id}/online
+      - POST /admin-api/v1/contents/{id}/offline
+      - POST /admin-api/v1/contents/{id}/ban
+      - POST /admin-api/v1/contents/{id}/recommend
+      - POST /admin-api/v1/contents/{id}/official-mark
+      - PUT /admin-api/v1/content-dictionaries/{code}
       requirement_ids:
-      - REQ-ID-001
-      - REQ-ID-002
+      - REQ-CONTENT-001
+      - REQ-PUBLISH-001
       - REQ-PAGE-SPEC-001
       - REQ-ADMIN-OPS-001
       config_keys:
-      - identity.active_provider
-      - identity.provider.appcode
-      - identity.liveness.token_url
-      - identity.liveness.result_url
-      - identity.face_compare.url
-      - identity.max_daily_attempts
-      - identity.one_id_one_account
-      - identity.liveness.poll_interval_ms
+      - content.limit.normal.online
+      - content.limit.month.online
+      - content.limit.quarter.online
+      - content.limit.year.online
+      - content.team_leader_per_account
+      - content.limit.normal.pending
+      - content.limit.normal.drafts
+      - content.limit.normal.daily_submissions
       data_tables:
-      - identity_profiles
-      - identity_verification_sessions
-      - identity_provider_requests
-      - identity_review_records
-      - sensitive_data_access_logs
+      - content_posts
+      - content_versions
+      - content_status_logs
+      - content_review_records
+      - content_media
+      - content_contacts
+      - content_stats
+      - content_favorites
+      - content_view_logs
+      - content_contact_access_logs
+      - home_modules
+      - banners
+      - conversations
+      - conversation_members
+      - chat_messages
+      - chat_read_receipts
+      - user_blocks
+      - chat_reports
       - users
       - user_profiles
       - user_settings
       - user_status_logs
-      - admin_operation_logs
+      - identity_review_records
+      - manual_review_cases
+      - content_reports
+      - content_appeals
       - admin_users
       - admin_roles
       - admin_permissions
       - admin_user_roles
       - admin_role_permissions
+      - admin_operation_logs
       - admin_approval_requests
       test_ids:
-      - TST-ID_001-HAPPY
-      - TST-ID_002-HAPPY
-      - TST-ID_001-IDEMPOTENT
-      - TST-ID_002-IDEMPOTENT
-      - TST-V122-015
-      - TST-V122-016
+      - TST-CONTENT_001-HAPPY
+      - TST-PUBLISH_001-HAPPY
+      - TST-CONTENT_001-IDEMPOTENT
+      - TST-PUBLISH_001-IDEMPOTENT
+      - TST-V122-017
       dependencies:
       - R02
       - R04
@@ -1499,59 +608,62 @@ release_context:
       - backend_engineer
       - test_engineer
       acceptance_criteria:
-      - ADM-ID-002 全部绑定模板 ADM-REVIEW，字段、状态、动作、导航和错误恢复无TBD
-      - 页面调用 operationId：adminIdentityGetIdentities;adminIdentityGetIdentitiesByUserid;adminIdentityPostIdentitySessionsByIdReview;adminIdentityPostIdentitiesByUseridMediaAccess;adminIdentityPostIdentitiesByUseridFreeze；请求/响应字段不得另行发明
+      - ADM-CONTENT-001;ADM-CONTENT-003 全部绑定模板 ADM-LIST，字段、状态、动作、导航和错误恢复无TBD
+      - 页面调用 operationId：adminContentGetContents;adminContentGetContentsById;adminContentGetContentDictionaries;adminContentPostContentsByIdOnline;adminContentPostContentsByIdOffline;adminContentPostContentsByIdBan;adminContentPostContentsByIdRecommend;adminContentPostContentsByIdOfficialMark;adminContentPutContentDictionariesByCode；请求/响应字段不得另行发明
       - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
       - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
       - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-      - 自动化覆盖：TST-ID_001-HAPPY;TST-ID_002-HAPPY;TST-ID_001-IDEMPOTENT;TST-ID_002-IDEMPOTENT;TST-V122-015;TST-V122-016
+      - 自动化覆盖：TST-CONTENT_001-HAPPY;TST-PUBLISH_001-HAPPY;TST-CONTENT_001-IDEMPOTENT;TST-PUBLISH_001-IDEMPOTENT;TST-V122-017
       definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
       status: READY_FOR_IMPLEMENTATION
-    - story_id: STORY-R05-003
-      release: R05
-      title: 实名：实名信息输入
-      user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成实名信息输入的完整业务流程，以便在不依赖研发临时决策的情况下实现姓名身份证。
+    - story_id: STORY-R06-003
+      release: R06
+      title: 设置：关于与检查更新
+      user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成关于与检查更新的完整业务流程，以便在不依赖研发临时决策的情况下实现版本、协议、下载页。
       platform: ANDROID
-      module: 实名
-      template_id: MOB-FORM
+      module: 设置
+      template_id: MOB-SETTINGS
       page_ids:
-      - SCR-ID-002
+      - SCR-ABOUT-001
       operation_ids:
-      - identityGetIdentityConsent
-      - identityPostIdentitySessions
+      - appReleasePostAppVersionCheck
+      - publicGetAgreementsByCode
       api_contracts:
-      - GET /api/v1/identity/consent
-      - POST /api/v1/identity/sessions
+      - POST /public-api/v1/app/version-check
+      - GET /public-api/v1/agreements/{code}
       requirement_ids:
-      - REQ-ID-001
-      - REQ-ID-002
+      - REQ-APP-RELEASE-001
       config_keys:
-      - identity.active_provider
-      - identity.provider.appcode
-      - identity.liveness.token_url
-      - identity.liveness.result_url
-      - identity.face_compare.url
-      - identity.max_daily_attempts
-      - identity.one_id_one_account
-      - identity.liveness.poll_interval_ms
+      - app.android.application_id
+      - app.android.staging_application_id
+      - app.android.display_name
+      - app.android.signing.staging_profile
+      - app.android.signing.production_profile
+      - app.build.runner
+      - app.build.allowed_ref_patterns
+      - app.build.artifact_storage_scope
+      - platform.brand.name
+      - platform.brand.slogan
+      - platform.brand.logo_media_id
+      - platform.customer_service.name
+      - platform.customer_service.contact
       data_tables:
+      - app_versions
+      - app_release_records
+      - app_build_artifacts
+      - h5_page_configs
+      - cms_articles
       - agreements
-      - agreement_versions
-      - identity_profiles
-      - identity_verification_sessions
-      - identity_provider_requests
-      - identity_review_records
-      - sensitive_data_access_logs
+      - content_posts
       - users
-      - user_profiles
-      - user_settings
-      - user_status_logs
-      - admin_operation_logs
+      - user_credentials
+      - auth_security_challenges
+      - user_sessions
+      - user_devices
+      - sms_verification_codes
+      - login_logs
       test_ids:
-      - TST-ID_001-HAPPY
-      - TST-ID_002-HAPPY
-      - TST-ID_001-IDEMPOTENT
-      - TST-ID_002-IDEMPOTENT
+      - TST-APP_RELEASE_001-HAPPY
       dependencies:
       - R02
       - R04
@@ -1560,67 +672,61 @@ release_context:
       - backend_engineer
       - test_engineer
       acceptance_criteria:
-      - SCR-ID-002 全部绑定模板 MOB-FORM，字段、状态、动作、导航和错误恢复无TBD
-      - 页面调用 operationId：identityGetIdentityConsent;identityPostIdentitySessions；请求/响应字段不得另行发明
+      - SCR-ABOUT-001 全部绑定模板 MOB-SETTINGS，字段、状态、动作、导航和错误恢复无TBD
+      - 页面调用 operationId：appReleasePostAppVersionCheck;publicGetAgreementsByCode；请求/响应字段不得另行发明
       - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
       - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
       - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-      - 自动化覆盖：TST-ID_001-HAPPY;TST-ID_002-HAPPY;TST-ID_001-IDEMPOTENT;TST-ID_002-IDEMPOTENT
+      - 自动化覆盖：TST-APP_RELEASE_001-HAPPY
       definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
       status: READY_FOR_IMPLEMENTATION
-    - story_id: STORY-R05-004
-      release: R05
-      title: 实名：实名认证首页
-      user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成实名认证首页的完整业务流程，以便在不依赖研发临时决策的情况下实现状态和开始。
+    - story_id: STORY-R06-004
+      release: R06
+      title: 首页：首页
+      user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成首页的完整业务流程，以便在不依赖研发临时决策的情况下实现运营模块、四类入口、头条/置顶。
       platform: ANDROID
-      module: 实名
+      module: 首页
       template_id: MOB-HOME
       page_ids:
-      - SCR-ID-001
+      - SCR-HOME-001
       operation_ids:
-      - identityGetIdentityOverview
-      - identityPostIdentitySessions
-      - userGetMe
+      - homeGetHome
       api_contracts:
-      - GET /api/v1/identity/overview
-      - POST /api/v1/identity/sessions
-      - GET /api/v1/me
+      - GET /api/v1/home
       requirement_ids:
-      - REQ-ID-001
-      - REQ-ID-002
+      - REQ-HOME-001
+      - REQ-CONTENT-001
       config_keys:
-      - identity.active_provider
-      - identity.provider.appcode
-      - identity.liveness.token_url
-      - identity.liveness.result_url
-      - identity.face_compare.url
-      - identity.max_daily_attempts
-      - identity.one_id_one_account
-      - identity.liveness.poll_interval_ms
-      - auth.default_login_method
-      - auth.security_challenge.provider
-      - auth.security_challenge.mode
-      - auth.password.min_length
-      - auth.password.max_length
-      - auth.password.max_failures
-      - auth.password.lock_seconds
-      - auth.invite.app_required
+      - content.limit.normal.online
+      - content.limit.month.online
+      - content.limit.quarter.online
+      - content.limit.year.online
+      - content.team_leader_per_account
+      - content.limit.normal.pending
+      - content.limit.normal.drafts
+      - content.limit.normal.daily_submissions
       data_tables:
-      - identity_profiles
-      - identity_verification_sessions
-      - identity_provider_requests
-      - identity_review_records
-      - sensitive_data_access_logs
-      - users
-      - user_profiles
-      - user_settings
-      - user_status_logs
-      - admin_operation_logs
+      - home_modules
+      - banners
+      - content_posts
+      - content_stats
+      - content_versions
+      - content_status_logs
+      - content_review_records
+      - content_media
+      - content_contacts
+      - content_favorites
+      - content_view_logs
+      - content_contact_access_logs
+      - conversations
+      - conversation_members
+      - chat_messages
+      - chat_read_receipts
+      - user_blocks
+      - chat_reports
       test_ids:
-      - TST-ID_001-HAPPY
-      - TST-ID_002-HAPPY
-      - TST-ID_001-IDEMPOTENT
-      - TST-ID_002-IDEMPOTENT
+      - TST-HOME_001-HAPPY
+      - TST-CONTENT_001-HAPPY
       dependencies:
       - R02
       - R04
@@ -1629,261 +735,101 @@ release_context:
       - backend_engineer
       - test_engineer
       acceptance_criteria:
-      - SCR-ID-001 全部绑定模板 MOB-HOME，字段、状态、动作、导航和错误恢复无TBD
-      - 页面调用 operationId：identityGetIdentityOverview;identityPostIdentitySessions;userGetMe；请求/响应字段不得另行发明
+      - SCR-HOME-001 全部绑定模板 MOB-HOME，字段、状态、动作、导航和错误恢复无TBD
+      - 页面调用 operationId：homeGetHome；请求/响应字段不得另行发明
       - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
       - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
       - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-      - 自动化覆盖：TST-ID_001-HAPPY;TST-ID_002-HAPPY;TST-ID_001-IDEMPOTENT;TST-ID_002-IDEMPOTENT
+      - 自动化覆盖：TST-HOME_001-HAPPY;TST-CONTENT_001-HAPPY
       definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
       status: READY_FOR_IMPLEMENTATION
-    - story_id: STORY-R05-005
-      release: R05
-      title: 实名：实名结果
-      user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成实名结果的完整业务流程，以便在不依赖研发临时决策的情况下实现成功/失败/人工。
-      platform: ANDROID
-      module: 实名
-      template_id: MOB-STATUS
-      page_ids:
-      - SCR-ID-004
-      operation_ids:
-      - identityGetIdentitySessionsById
-      - identityPostIdentitySessionsByIdRetry
-      api_contracts:
-      - GET /api/v1/identity/sessions/{id}
-      - POST /api/v1/identity/sessions/{id}/retry
-      requirement_ids:
-      - REQ-ID-001
-      - REQ-ID-002
-      config_keys:
-      - identity.active_provider
-      - identity.provider.appcode
-      - identity.liveness.token_url
-      - identity.liveness.result_url
-      - identity.face_compare.url
-      - identity.max_daily_attempts
-      - identity.one_id_one_account
-      - identity.liveness.poll_interval_ms
-      data_tables:
-      - identity_profiles
-      - identity_verification_sessions
-      - identity_provider_requests
-      - identity_review_records
-      - sensitive_data_access_logs
-      - users
-      - user_profiles
-      - user_settings
-      - user_status_logs
-      - admin_operation_logs
-      test_ids:
-      - TST-ID_001-HAPPY
-      - TST-ID_002-HAPPY
-      - TST-ID_001-IDEMPOTENT
-      - TST-ID_002-IDEMPOTENT
-      dependencies:
-      - R02
-      - R04
-      owner_roles:
-      - android_engineer
-      - backend_engineer
-      - test_engineer
-      acceptance_criteria:
-      - SCR-ID-004 全部绑定模板 MOB-STATUS，字段、状态、动作、导航和错误恢复无TBD
-      - 页面调用 operationId：identityGetIdentitySessionsById;identityPostIdentitySessionsByIdRetry；请求/响应字段不得另行发明
-      - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
-      - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
-      - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-      - 自动化覆盖：TST-ID_001-HAPPY;TST-ID_002-HAPPY;TST-ID_001-IDEMPOTENT;TST-ID_002-IDEMPOTENT
-      definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-      status: READY_FOR_IMPLEMENTATION
-    - story_id: STORY-R05-006
-      release: R05
-      title: 实名：活体检测容器
-      user_story: 作为已登录用户；公开能力仅限文档明确的H5页面，我需要完成活体检测容器的完整业务流程，以便在不依赖研发临时决策的情况下实现H5相机权限。
-      platform: ANDROID
-      module: 实名
-      template_id: MOB-TIMED-TASK
-      page_ids:
-      - SCR-ID-003
-      operation_ids:
-      - identityPostIdentitySessionsByIdLivenessToken
-      - identityGetIdentitySessionsById
-      api_contracts:
-      - POST /api/v1/identity/sessions/{id}/liveness-token
-      - GET /api/v1/identity/sessions/{id}
-      requirement_ids:
-      - REQ-ID-001
-      - REQ-ID-002
-      config_keys:
-      - identity.active_provider
-      - identity.provider.appcode
-      - identity.liveness.token_url
-      - identity.liveness.result_url
-      - identity.face_compare.url
-      - identity.max_daily_attempts
-      - identity.one_id_one_account
-      - identity.liveness.poll_interval_ms
-      data_tables:
-      - identity_profiles
-      - identity_verification_sessions
-      - identity_provider_requests
-      - identity_review_records
-      - sensitive_data_access_logs
-      - users
-      - user_profiles
-      - user_settings
-      - user_status_logs
-      - admin_operation_logs
-      test_ids:
-      - TST-ID_001-HAPPY
-      - TST-ID_002-HAPPY
-      - TST-ID_001-IDEMPOTENT
-      - TST-ID_002-IDEMPOTENT
-      dependencies:
-      - R02
-      - R04
-      owner_roles:
-      - android_engineer
-      - backend_engineer
-      - test_engineer
-      acceptance_criteria:
-      - SCR-ID-003 全部绑定模板 MOB-TIMED-TASK，字段、状态、动作、导航和错误恢复无TBD
-      - 页面调用 operationId：identityPostIdentitySessionsByIdLivenessToken;identityGetIdentitySessionsById；请求/响应字段不得另行发明
-      - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
-      - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
-      - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-      - 自动化覆盖：TST-ID_001-HAPPY;TST-ID_002-HAPPY;TST-ID_001-IDEMPOTENT;TST-ID_002-IDEMPOTENT
-      definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-      status: READY_FOR_IMPLEMENTATION
-    - story_id: STORY-R05-007
-      release: R05
-      title: H5：活体回跳
-      user_story: 作为公开访客或从分享/邀请/支付/实名流程进入的用户，我需要完成活体回跳的完整业务流程，以便在不依赖研发临时决策的情况下实现通知App轮询状态。
-      platform: H5
-      module: H5
-      template_id: H5-LANDING
-      page_ids:
-      - H5-012
-      operation_ids:
-      - publicPostIdentityCallbackConsume
-      api_contracts:
-      - POST /public-api/v1/identity/callback/consume
-      requirement_ids:
-      - REQ-ID-001
-      config_keys:
-      - identity.active_provider
-      - identity.provider.appcode
-      - identity.liveness.token_url
-      - identity.liveness.result_url
-      - identity.face_compare.url
-      - identity.max_daily_attempts
-      - identity.one_id_one_account
-      - identity.liveness.poll_interval_ms
-      data_tables:
-      - identity_profiles
-      - identity_verification_sessions
-      - identity_provider_requests
-      - identity_review_records
-      - sensitive_data_access_logs
-      - users
-      - user_profiles
-      - user_settings
-      - user_status_logs
-      test_ids:
-      - TST-ID_001-HAPPY
-      dependencies:
-      - R02
-      - R04
-      owner_roles:
-      - web_frontend_engineer
-      - backend_engineer
-      - test_engineer
-      acceptance_criteria:
-      - H5-012 全部绑定模板 H5-LANDING，字段、状态、动作、导航和错误恢复无TBD
-      - 页面调用 operationId：publicPostIdentityCallbackConsume；请求/响应字段不得另行发明
-      - 按钮显示、可用和确认条件与服务端状态机、权限、expectedVersion、幂等策略一致
-      - 首屏、空、刷新、翻页/局部失败、无权限、404、离线和版本冲突状态按页面状态目录实现
-      - 敏感字段按分级脱敏；高敏读取和后台写操作完整审计
-      - 自动化覆盖：TST-ID_001-HAPPY
-      definition_of_ready: 全部引用的页面/字段/状态/动作/API/配置/数据/测试均为FROZEN且无空缺
-      status: READY_FOR_IMPLEMENTATION
-    - story_id: STORY-R05-008
-      release: R05
-      title: 单一实名认证：契约、数据、配置、测试与交接
-      user_story: 作为技术负责人，我需要按冻结的 R05 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
+    - story_id: STORY-R06-005
+      release: R06
+      title: 统一内容基础、首页与CMS：契约、数据、配置、测试与交接
+      user_story: 作为技术负责人，我需要按冻结的 R06 契约和DoR完成数据、后端、配置、测试、观测与交接，使前端故事能够稳定落地并可追溯。
       platform: CROSS_PLATFORM
       module: 工程治理
       template_id: N/A
       page_ids:
-      - SCR-ID-001
-      - SCR-ID-002
-      - SCR-ID-003
-      - SCR-ID-004
-      - H5-012
-      - ADM-ID-001
-      - ADM-ID-002
+      - SCR-HOME-001
+      - SCR-ABOUT-001
+      - ADM-CONTENT-001
+      - ADM-CONTENT-002
+      - ADM-CONTENT-003
       operation_ids:
-      - identityPostIdentitySessions
-      - identityPostIdentitySessionsByIdLivenessToken
-      - identityGetIdentitySessionsById
-      - identityPostIdentitySessionsByIdRetry
-      - adminIdentityGetIdentities
-      - adminIdentityGetIdentitiesByUserid
-      - adminIdentityPostIdentitiesByUseridMediaAccess
-      - adminIdentityPostIdentitySessionsByIdReview
-      - adminIdentityPostIdentitiesByUseridFreeze
+      - homeGetHome
+      - adminContentGetContents
+      - adminContentGetContentsById
+      - adminContentPostContentsByIdOnline
+      - adminContentPostContentsByIdOffline
+      - adminContentPostContentsByIdBan
+      - adminContentPostContentsByIdRecommend
+      - adminContentPostContentsByIdOfficialMark
+      - adminContentGetContentDictionaries
+      - adminContentPutContentDictionariesByCode
       api_contracts:
-      - POST /api/v1/identity/sessions
-      - POST /api/v1/identity/sessions/{id}/liveness-token
-      - GET /api/v1/identity/sessions/{id}
-      - POST /api/v1/identity/sessions/{id}/retry
-      - GET /admin-api/v1/identities
-      - GET /admin-api/v1/identities/{userId}
-      - POST /admin-api/v1/identities/{userId}/media-access
-      - POST /admin-api/v1/identity-sessions/{id}/review
-      - POST /admin-api/v1/identities/{userId}/freeze
+      - GET /api/v1/home
+      - GET /admin-api/v1/contents
+      - GET /admin-api/v1/contents/{id}
+      - POST /admin-api/v1/contents/{id}/online
+      - POST /admin-api/v1/contents/{id}/offline
+      - POST /admin-api/v1/contents/{id}/ban
+      - POST /admin-api/v1/contents/{id}/recommend
+      - POST /admin-api/v1/contents/{id}/official-mark
+      - GET /admin-api/v1/content-dictionaries
+      - PUT /admin-api/v1/content-dictionaries/{code}
       requirement_ids:
-      - REQ-ID-001
-      - REQ-ID-002
+      - REQ-CONTENT-001
+      - REQ-HOME-001
       config_keys:
-      - identity.active_provider
-      - identity.provider.appcode
-      - identity.liveness.token_url
-      - identity.liveness.result_url
-      - identity.face_compare.url
-      - identity.max_daily_attempts
-      - identity.one_id_one_account
-      - identity.liveness.poll_interval_ms
-      - auth.default_login_method
-      - auth.security_challenge.provider
-      - auth.security_challenge.mode
-      - auth.password.min_length
-      - auth.password.max_length
-      - auth.password.max_failures
-      - auth.password.lock_seconds
-      - auth.invite.app_required
+      - content.limit.normal.online
+      - content.limit.month.online
+      - content.limit.quarter.online
+      - content.limit.year.online
+      - content.team_leader_per_account
+      - content.limit.normal.pending
+      - content.limit.normal.drafts
+      - content.limit.normal.daily_submissions
+      - app.android.application_id
+      - app.android.staging_application_id
+      - app.android.display_name
+      - app.android.signing.staging_profile
+      - app.android.signing.production_profile
+      - app.build.runner
+      - app.build.allowed_ref_patterns
+      - app.build.artifact_storage_scope
+      - platform.brand.name
+      - platform.brand.slogan
+      - platform.brand.logo_media_id
+      - platform.customer_service.name
+      - platform.customer_service.contact
       data_tables:
-      - identity_profiles
-      - identity_verification_sessions
-      - identity_provider_requests
-      - identity_review_records
-      - sensitive_data_access_logs
-      - users
-      - user_profiles
-      - user_settings
-      - user_status_logs
-      - admin_operation_logs
+      - home_modules
+      - banners
+      - content_posts
+      - content_stats
+      - content_versions
+      - content_status_logs
+      - content_review_records
+      - content_media
+      - content_contacts
+      - content_favorites
+      - content_view_logs
+      - content_contact_access_logs
+      - conversations
+      - conversation_members
+      - chat_messages
+      - chat_read_receipts
+      - user_blocks
+      - chat_reports
       test_ids:
-      - TST-ID_001-HAPPY
-      - TST-ID_001-IDEMPOTENT
-      - TST-ID_001-REJECT
-      - TST-ID_001-SECURITY
-      - TST-ID_002-HAPPY
-      - TST-ID_002-IDEMPOTENT
-      - TST-ID_002-REJECT
-      - TST-ID_002-SECURITY
-      - TST-V122-015
-      - TST-V122-016
+      - TST-CONTENT_001-HAPPY
+      - TST-CONTENT_001-IDEMPOTENT
+      - TST-CONTENT_001-REJECT
+      - TST-HOME_001-HAPPY
+      - TST-HOME_001-IDEMPOTENT
+      - TST-HOME_001-REJECT
+      - TST-V122-017
       dependencies:
       - R02
       - R04
@@ -1902,40 +848,38 @@ release_context:
       definition_of_ready: DEFINITION_OF_READY.yaml全部阻断项PASS
       status: READY_FOR_IMPLEMENTATION
   TASKS.yaml:
-    release: R05
-    title: 单一实名认证
+    release: R06
+    title: 统一内容基础、首页与CMS
     tasks:
-    - id: TASK-R05-001
-      title: 单一实名认证开发就绪核验、故事领取与变更基线
-      status: DONE
+    - id: TASK-R06-001
+      title: 统一内容基础、首页与CMS开发就绪核验、故事领取与变更基线
+      status: READY
       depends_on: []
       requirements: &id001
-      - REQ-ID-001
-      - REQ-ID-002
+      - REQ-CONTENT-001
+      - REQ-HOME-001
       - REQ-APK-001
-      description: 核验 2 项需求、9 个接口、10 张相关表、7 个页面/交互面和 8 个故事；全部适用DoR必须PASS。
+      description: 核验 2 项需求、10 个接口、18 张相关表、5 个页面/交互面和 5 个故事；全部适用DoR必须PASS。
       deliverables:
-      - releases/R05/DEFINITION_OF_READY.yaml 全部适用项PASS
-      - releases/R05/STORIES.yaml 故事责任人和依赖已领取
+      - releases/R06/DEFINITION_OF_READY.yaml 全部适用项PASS
+      - releases/R06/STORIES.yaml 故事责任人和依赖已领取
       - 更新Release Manifest与CR记录
-      - python scripts/check_v122_documentation.py --release R05
+      - python scripts/check_v122_documentation.py --release R06
       acceptance:
       - 页面、字段、状态、动作、API、配置、数据和测试无TBD
       - 不适用项明确N/A及原因
-      - releases/R05/DEFINITION_OF_READY.yaml 全部适用项PASS
-      - releases/R05/STORIES.yaml 故事责任人和依赖已领取
+      - releases/R06/DEFINITION_OF_READY.yaml 全部适用项PASS
+      - releases/R06/STORIES.yaml 故事责任人和依赖已领取
       - 更新Release Manifest与CR记录
-      - python scripts/check_v122_documentation.py --release R05
+      - python scripts/check_v122_documentation.py --release R06
       session_log_required: true
-      completed_at: '2026-07-19T16:22:45Z'
-    - id: TASK-R05-002
-      title: 单一实名认证数据迁移与领域不变量
-      status: DONE
+    - id: TASK-R06-002
+      title: 统一内容基础、首页与CMS数据迁移与领域不变量
+      status: BLOCKED
       depends_on:
-      - TASK-R05-001
+      - TASK-R06-001
       requirements: *id001
-      description: 实现/演进identity_profiles, identity_verification_sessions, identity_provider_requests, identity_media, identity_review_records,
-        sensitive_data_access_logs，补齐唯一约束、状态历史、幂等键和回滚验证
+      description: 实现/演进content_posts, project_details, app_details, group_details, team_leader_details, content_media, content_contacts, content_versions等，补齐唯一约束、状态历史、幂等键和回滚验证
       deliverables:
       - Flyway前向迁移与空库/升级库测试
       - 不变量属性测试
@@ -1945,14 +889,13 @@ release_context:
       - Flyway前向迁移与空库/升级库测试
       - 不变量属性测试
       session_log_required: true
-      completed_at: '2026-07-19T16:52:15Z'
-    - id: TASK-R05-003
-      title: 单一实名认证后端应用服务与接口
-      status: DONE
+    - id: TASK-R06-003
+      title: 统一内容基础、首页与CMS后端应用服务与接口
+      status: BLOCKED
       depends_on:
-      - TASK-R05-002
+      - TASK-R06-002
       requirements: *id001
-      description: 实现范围内9个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
+      description: 实现范围内12个operationId；控制器仅编排应用服务，跨模块副作用写Outbox
       deliverables:
       - OpenAPI契约测试
       - 权限/幂等/错误码/审计覆盖
@@ -1962,14 +905,13 @@ release_context:
       - OpenAPI契约测试
       - 权限/幂等/错误码/审计覆盖
       session_log_required: true
-      completed_at: '2026-07-19T18:30:04Z'
-    - id: TASK-R05-004
-      title: 单一实名认证客户端/H5/后台实现
-      status: DONE
+    - id: TASK-R06-004
+      title: 统一内容基础、首页与CMS客户端/H5/后台实现
+      status: BLOCKED
       depends_on:
-      - TASK-R05-003
+      - TASK-R06-003
       requirements: *id001
-      description: 按 7 个页面/交互面的逐页施工规格和 8 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
+      description: 按 5 个页面/交互面的逐页施工规格和 5 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
       deliverables:
       - 全部页面绑定catalogs/ui_page_specifications.csv
       - 字段/状态/动作/导航与后台运营规格通过契约测试
@@ -1983,15 +925,14 @@ release_context:
       - 禁止页面级手写重复DTO
       - 全部动作绑定生成API类型
       session_log_required: true
-      completed_at: '2026-07-19T22:38:18Z'
-    - id: TASK-R05-005
-      title: 单一实名认证专项测试与故障注入
-      status: DONE
+    - id: TASK-R06-005
+      title: 统一内容基础、首页与CMS专项测试与故障注入
+      status: BLOCKED
       depends_on:
-      - TASK-R05-003
-      - TASK-R05-004
+      - TASK-R06-003
+      - TASK-R06-004
       requirements: *id001
-      description: 执行8项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
+      description: 执行6项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
       deliverables:
       - 测试报告和失败证据归档
       - 关键缺陷清零
@@ -2001,12 +942,11 @@ release_context:
       - 测试报告和失败证据归档
       - 关键缺陷清零
       session_log_required: true
-      completed_at: '2026-07-19T23:04:16Z'
-    - id: TASK-R05-006
-      title: 单一实名认证可观测性与预发布验收
-      status: DONE
+    - id: TASK-R06-006
+      title: 统一内容基础、首页与CMS可观测性与预发布验收
+      status: BLOCKED
       depends_on:
-      - TASK-R05-005
+      - TASK-R06-005
       requirements: *id001
       description: 部署Staging，验证结构化日志、TraceId、RED指标、业务指标、告警和回滚
       deliverables:
@@ -2018,12 +958,11 @@ release_context:
       - 运行手册演练
       - 验收矩阵签字
       session_log_required: true
-      completed_at: '2026-07-19T23:41:58Z'
-    - id: TASK-R05-007
-      title: 单一实名认证Android测试APK与产物追溯
-      status: DONE
+    - id: TASK-R06-007
+      title: 统一内容基础、首页与CMSAndroid测试APK与产物追溯
+      status: BLOCKED
       depends_on:
-      - TASK-R05-006
+      - TASK-R06-006
       requirements: *id001
       description: 使用固定工具链构建、签名、安装冒烟并生成APK_MANIFEST
       deliverables:
@@ -2035,12 +974,11 @@ release_context:
       - APK可下载/可安装
       - SHA256、Commit、versionName/versionCode、测试结果齐全
       session_log_required: true
-      completed_at: '2026-07-20T09:53:15Z'
-    - id: TASK-R05-008
-      title: 单一实名认证版本关闭与无状态交接
-      status: READY
+    - id: TASK-R06-008
+      title: 统一内容基础、首页与CMS版本关闭与无状态交接
+      status: BLOCKED
       depends_on:
-      - TASK-R05-007
+      - TASK-R06-007
       requirements: *id001
       description: 回填追踪矩阵、Session Log、问题登记、可复用模式、CURRENT_STATUS和NEXT_TASK
       deliverables:
@@ -2053,130 +991,9 @@ release_context:
       - 工作区干净且Tag可追溯
       session_log_required: true
     version: 1.2.2
-    definition_of_ready: releases/R05/DEFINITION_OF_READY.yaml
-    story_backlog: releases/R05/STORIES.yaml
+    definition_of_ready: releases/R06/DEFINITION_OF_READY.yaml
+    story_backlog: releases/R06/STORIES.yaml
     execution_rule: TASKS定义治理顺序，STORIES定义可领取纵向工作；二者必须同时满足，不得以通用任务替代页面故事验收。
-  PARALLEL_EXECUTION_PLAN.yaml:
-    version: '1.0'
-    release: R05
-    change_request: CR-0019
-    mode: ONE_MASTER_THREE_DELEGATED_WORKERS
-    authoritative_session_count: 1
-    max_parallel_workers: 3
-    simultaneous_claim_limit: 1
-    worker_parallelism_scope: WITHIN_ACTIVE_TASK_ONLY
-    default_delegation_mode: AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS
-    review_triggers:
-    - TASK_START
-    - SCOPE_CHANGE
-    per_task_user_confirmation_required: false
-    non_delegation_requires_checkpoint_reason: true
-    capability_fallback: RECORD_LIMITATION_AND_DO_NOT_FABRICATE_PARALLEL_EVIDENCE
-    user_override_allowed: true
-    source_of_truth_branch: task/TASK-R03-001
-    rules:
-    - 主控一次只领取一个Task/Story；执行代理只允许在当前Claim内部按互斥路径工作，未来Task只能做只读准备。
-    - 执行代理不得修改连续性、Release状态、公共契约、共享生成类型、Flyway编号或APK身份，也不得提交、推送、合并或发布。
-    - 主控先冻结实名认证状态机、供应商端口、数据加密与私有媒体边界，再集成后端、Android、H5、Admin和质量证据。
-    - 姓名、身份证、人脸照片、供应商响应和SecretRef按最高敏感级别处理，任何日志和报告不得包含明文。
-    - APK机器交付与项目所有者真机验收是两个独立门禁；外部供应商未激活不得伪造通过。
-    worker_partitions:
-    - partition: BACKEND_DATA
-      allowed_paths:
-      - services/backend/**
-      - database/**
-      forbidden_shared_paths:
-      - services/backend/boot/src/main/resources/contracts/**
-      - services/backend/boot/src/main/resources/db/migration/**
-    - partition: CLIENT_SURFACES
-      allowed_paths:
-      - apps/android/feature/identity/**
-      - apps/admin-web/**
-      - apps/h5/**
-      forbidden_shared_paths:
-      - apps/android/app/**
-      - apps/android/core/network/**
-      - apps/admin-web/src/router.ts
-      - apps/admin-web/src/App.vue
-    - partition: QUALITY_EVIDENCE
-      allowed_paths:
-      - tests/r05/**
-      - artifacts/validation/r05-*/**
-      forbidden_shared_paths: []
-    coordinator_owned_paths:
-    - .continuity/**
-    - CURRENT_STATUS.yaml
-    - NEXT_TASK.yaml
-    - releases/**
-    - contracts/**
-    - packages/api-client/**
-    - catalogs/**
-    - docs/03-continuity/**
-    - apps/android/app/**
-    - apps/android/core/network/**
-    - services/backend/boot/src/main/resources/db/migration/**
-    lanes:
-    - lane: IDENTITY-FOUNDATION
-      task_id: TASK-R05-003
-      stories:
-      - STORY-R05-008
-      outcome: V028数据不变量、实名认证状态机、供应商端口、加密私有证据、幂等、审计和九项API闭环
-      preferred_agents:
-      - backend_data_high_reasoning
-      - quality
-    - lane: ADMIN-IDENTITY
-      task_id: TASK-R05-004
-      stories:
-      - STORY-R05-001
-      - STORY-R05-002
-      outcome: 实名列表、详情、敏感媒体授权、人工复核、双人冻结和审计闭环
-      preferred_agents:
-      - admin_client
-      - backend_data
-      - quality
-    - lane: ANDROID-IDENTITY
-      task_id: TASK-R05-004
-      stories:
-      - STORY-R05-003
-      - STORY-R05-004
-      - STORY-R05-005
-      - STORY-R05-006
-      outcome: 实名首页、身份信息、活体容器、结果与重试的Android可见闭环
-      preferred_agents:
-      - android_client
-      - quality
-    - lane: H5-LIVENESS-CALLBACK
-      task_id: TASK-R05-004
-      stories:
-      - STORY-R05-007
-      outcome: 活体回跳消费、App轮询通知、安全导航和错误恢复闭环
-      preferred_agents:
-      - web_frontend
-      - backend_data
-      - quality
-    integration:
-      task_id: TASK-R05-005
-      depends_on:
-      - TASK-R05-003
-      - TASK-R05-004
-      profiles:
-      - MODULE
-      - INTEGRATION
-      - SECURITY
-    staging:
-      task_id: TASK-R05-006
-      required_evidence:
-      - structured_logs_and_trace
-      - red_and_business_metrics
-      - alerts_firing_and_resolved
-      - same_database_volume_rollback
-    apk:
-      task_id: TASK-R05-007
-      desktop_copy_required: true
-      public_download_required: true
-      stable_test_signing_required: true
-      minimum_version_code: 10208
-      owner_physical_test_initial_status: PENDING
 parallel_development_policy:
   authorization:
     status: PROJECT_OWNER_STANDING_AUTHORIZATION
@@ -2290,12 +1107,12 @@ repository_transport:
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: SES-20260720T095830Z-752E5121
-  last_session_id: SES-20260719T234639Z-1D7D7A00
+  active_session_id: null
+  last_session_id: SES-20260720T095830Z-752E5121
   last_session_result: COMPLETED
-  last_closure_checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0043
-  event_count: 1478
-  event_head_hash: 94f5d5455fad1561ba4680f356a225fa45e4cdbec337dda8013a563d23f4e56b
+  last_closure_checkpoint_id: CP-SES-20260720T095830Z-752E5121-0022
+  event_count: 1481
+  event_head_hash: 03ecaf8fffb3f38b2899e52769f6be41a68925ec03b327f4327e781b3f413bb4
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260719T144443Z-BF11796E
@@ -2410,13 +1227,13 @@ recent_sessions:
   task_id: TASK-R05-008
   story_id: STORY-R05-008
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-20T09:58:30Z'
   record: .continuity/sessions/SES-20260720T095830Z-752E5121.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-  updated_at: '2026-07-20T13:29:52Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0021.yaml
+  updated_at: '2026-07-20T13:31:05Z'
+  closed_at: '2026-07-20T13:31:05Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0022.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-D402CCF0F4A1
@@ -3059,7 +1876,7 @@ task_claims:
   task_id: TASK-R05-008
   story_id: STORY-R05-008
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-20T09:58:30Z'
   allowed_paths:
   - apps/**
@@ -3093,6 +1910,7 @@ task_claims:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-20T13:31:05Z'
 recent_task_transitions:
 - transition_id: TRN-AB73BBDF9FA9
   timestamp: '2026-07-18T16:23:21Z'
@@ -7166,11 +5984,11 @@ source_manifest:
   sha256: 038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a
   bytes: 3477
 - path: CURRENT_STATUS.yaml
-  sha256: 886d8a70d1e20b233ee1a7570898000b56ea220956446789b2ca1ddb9eb63deb
-  bytes: 3632
+  sha256: aad6d9ed650bcb095046038d2293a414ec5549daff6470d00cbaf261ddbbb096
+  bytes: 3509
 - path: NEXT_TASK.yaml
-  sha256: ffc587b7a19397e86fb03f0a6f3ae2b0d16a2a8ac2db6a0483fdded3d1543527
-  bytes: 1511
+  sha256: 03c8ab1a13c3c5e692bcbdb4ad3bf4142e2a70463965e858a16bf98a436a875b
+  bytes: 1882
 - path: DEVELOPMENT_RISK_REGISTER.md
   sha256: 8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87
   bytes: 8289
@@ -7199,14 +6017,14 @@ source_manifest:
   sha256: 35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6
   bytes: 11116
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: f39d18d784cd4047b40f13d4c939e79c1069e4dc11db9c257717268e600905ac
-  bytes: 817273
+  sha256: f227df437719eb89e1abd510ed9b7faa8c44c9fc7b905f00faae853bb198e6ac
+  bytes: 819058
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 959aec11933553348c6b9f39015740149d4f203d44080b498ff4ac88ca8b80e3
-  bytes: 25808
+  sha256: 1ba0caff9ee1a05c7d54060a98dfa2b710f8cad8c6aa26ab0aea87ee88cf66c9
+  bytes: 25826
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: 51845584c67e22b1b247283317fe524313ac3f43f8982fb4b629af1151cace6f
-  bytes: 33341
+  sha256: 66178e2f525b72652d0612de7995722db92f31bf50ac68238c00c07468dd5702
+  bytes: 33377
 - path: .continuity/TASK_TRANSITIONS.yaml
   sha256: 6b84bba6c64711ba15832b715ebe1e0511e794712aa95a94a57a8c04c5d1391d
   bytes: 14883
@@ -7214,67 +6032,9 @@ source_manifest:
   sha256: d3d5d0bef765fa899e7b8a7872f30e1139ce95d6bdde0c18dc460d2a9d04211f
   bytes: 446543
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: d5229d9f19ebfb05288d8f96f4d72816e16da66924916e08bf874b101abab6b6
-  bytes: 525
-- path: releases/R05/RELEASE_MANIFEST.yaml
-  sha256: 6fc95b4abdedcaa6561460c2d5db23e6fccf1a870452779b0c03035bd6ea11ec
-  bytes: 4594
-- path: releases/R05/DEFINITION_OF_READY.yaml
-  sha256: 31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c
-  bytes: 7046
-- path: releases/R05/STORIES.yaml
-  sha256: 5ab834809127e32bfecc401bd27938833ab09e66b287c2b65973830640437b22
-  bytes: 19296
-- path: releases/R05/TASKS.yaml
-  sha256: 5ee3430d7b0b89a7d84a0d14119b232a2638e042d8b84e9f2de008ae12d82e55
-  bytes: 5693
-- path: releases/R05/ACCEPTANCE_MATRIX.csv
-  sha256: 98126dbba6a77102d407f9e9de5e95bef5f492330ddc5bc681afc3696edbac1b
-  bytes: 814
-- path: releases/R05/PARALLEL_EXECUTION_PLAN.yaml
-  sha256: 38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda
-  bytes: 3785
-- path: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-  sha256: fbe168ecf7b8701f96f6d453e12b33856515534d276102202c6906bef8c5dd0c
-  bytes: 67500
-- path: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0021.yaml
-  sha256: bfc3d0bf95ad622f8cf65bee7eeb07a7df31099b1ec1afdc6259b7aba29bcc4d
-  bytes: 21737
-- path: docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
-  sha256: cfaef91b68a8db477e677e7747583684224077c3b816ee97309d7020858c5cf7
-  bytes: 4275
-- path: docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
-  sha256: a8bb905a52a04c21570884e027e3b4d562854bc156aeaa3a0e87d661530ec5e5
-  bytes: 2435
-- path: docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
-  sha256: c2311668004f80b7e9c09994ad09ec4cbd008278b51c68fb3be63ada84accbc6
-  bytes: 3094
-- path: docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
-  sha256: ad2024b83d37955d725f3f6b0c68f25ddf87c15ce25b2c728473a88777b4f86f
-  bytes: 3341
-- path: docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
-  sha256: d7342d732df2a1ac35f358197abd5195739f704cb24ff5ec3238f975535956b6
-  bytes: 2242
-- path: docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
-  sha256: e64394c4919a85320466be4a4145790dff3afb4481d15d818bf19a7358e477f8
-  bytes: 2405
-- path: docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
-  sha256: 8486504c61734dd0e09f876646d39b144c40c64fdefff15a267f8e44f25ef0f4
-  bytes: 2653
-- path: docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
-  sha256: f68bd552a7c563cb97c351277c79ff71e0da32887f7fd51aa833fc50e5683043
-  bytes: 2316
-- path: docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
-  sha256: b6253a3877a1293ac67316b9fc0401c07d57ebbf90a320b9949df2ba2310e77c
-  bytes: 2372
-- path: docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md
-  sha256: 009ef247837b0da5abf0cc09243e94554838b82aeb6eeadad3278031f4d99d3b
-  bytes: 2552
-- path: docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md
-  sha256: 898f89b12bed73e938d55e45717df3c4c245dd78a7325a9d389e1b6232c19c45
-  bytes: 2720
-exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
-  '<未委托原因>'
+  sha256: cc03cd8073ac2eb161e24e05cd5d0548ff86321c5659eea10c8e35581aa7b06b
+  bytes: 143
+exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-001
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
@@ -7287,4 +6047,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 17d0622c5230e7cfe64b3cdbeae59bf9bd21c9665caba073e2a18f8239064df9
+context_hash: 7007d820302b145e89133c623a204852f286ac8c135c1755692f32757612a1d2
