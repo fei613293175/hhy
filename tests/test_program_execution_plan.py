@@ -58,6 +58,12 @@ class ProgramExecutionPlanTest(unittest.TestCase):
         required = {"P00", "R01", *RELEASES[:-1]}
         self.assertEqual(set(), required - ancestors("R32", dependencies))
 
+    def test_r06_cannot_start_before_r05_is_closed(self) -> None:
+        dependencies = yaml.safe_load(
+            (ROOT / "releases" / "RELEASE_DEPENDENCIES.yaml").read_text(encoding="utf-8")
+        )["dependencies"]
+        self.assertIn("R05", dependencies["R06"])
+
 
 if __name__ == "__main__":
     unittest.main()

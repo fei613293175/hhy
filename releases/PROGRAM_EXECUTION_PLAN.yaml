@@ -130,15 +130,18 @@ release_waves:
 - wave: WAVE-03
   eligible_releases:
   - R05
-  - R06
   meaning: 依赖满足后的候选集合，不表示同时编码
 - wave: WAVE-04
+  eligible_releases:
+  - R06
+  meaning: 依赖满足后的候选集合，不表示同时编码
+- wave: WAVE-05
   eligible_releases:
   - R07
   - R14
   - R16
   meaning: 依赖满足后的候选集合，不表示同时编码
-- wave: WAVE-05
+- wave: WAVE-06
   eligible_releases:
   - R08
   - R09
@@ -147,47 +150,47 @@ release_waves:
   - R15
   - R17
   meaning: 依赖满足后的候选集合，不表示同时编码
-- wave: WAVE-06
+- wave: WAVE-07
   eligible_releases:
   - R12
   - R18
   meaning: 依赖满足后的候选集合，不表示同时编码
-- wave: WAVE-07
+- wave: WAVE-08
   eligible_releases:
   - R13
   - R19
   - R20
   meaning: 依赖满足后的候选集合，不表示同时编码
-- wave: WAVE-08
+- wave: WAVE-09
   eligible_releases:
   - R21
   - R28
   meaning: 依赖满足后的候选集合，不表示同时编码
-- wave: WAVE-09
+- wave: WAVE-10
   eligible_releases:
   - R22
   - R29
   meaning: 依赖满足后的候选集合，不表示同时编码
-- wave: WAVE-10
+- wave: WAVE-11
   eligible_releases:
   - R23
   meaning: 依赖满足后的候选集合，不表示同时编码
-- wave: WAVE-11
+- wave: WAVE-12
   eligible_releases:
   - R24
   meaning: 依赖满足后的候选集合，不表示同时编码
-- wave: WAVE-12
+- wave: WAVE-13
   eligible_releases:
   - R25
   - R27
   - R30
   meaning: 依赖满足后的候选集合，不表示同时编码
-- wave: WAVE-13
+- wave: WAVE-14
   eligible_releases:
   - R26
   - R31
   meaning: 依赖满足后的候选集合，不表示同时编码
-- wave: WAVE-14
+- wave: WAVE-15
   eligible_releases:
   - R32
   meaning: 依赖满足后的候选集合，不表示同时编码
@@ -197,6 +200,7 @@ critical_path:
   - R01
   - R03
   - R04
+  - R05
   - R06
   - R07
   - R11
@@ -420,6 +424,7 @@ release_plan:
   depends_on:
   - R02
   - R04
+  - R05
   planning_depth: PORTFOLIO_READY
   android_test_apk_required: true
   risk_tier: P2_STANDARD

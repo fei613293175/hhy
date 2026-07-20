@@ -730,3 +730,15 @@ problems:
   - 不得在逐行执行script输入的第三方Action中内嵌依赖共享状态的多行Shell，必须调用仓库内受测脚本
   - 不得只写入临时Git Hook内容而不在POSIX系统赋执行位；禁止依赖Windows忽略文件模式的行为
   - Android门禁自身文件发生变化时不得被影响分析跳过Android任务
+- id: PROB-0056
+  title: R05完成后因R06缺少直接前序依赖而无法关闭切换
+  status: SOLVED
+  root_cause: 早期版本依赖图按功能依赖建模，R06仅声明依赖R02和R04；项目所有者后来明确要求R02至R32依序推进，但依赖图没有同步增加R06对直接前序R05的顺序边，导致连续性关闭门禁拒绝合法切换。
+  resolution: CR-0145在保留R06既有R02、R04功能依赖的同时增加R05顺序依赖，并增加执行计划回归测试，保证R05未关闭时不能进入R06，关闭后可以把TASK-R06-001置为READY。
+  regression_checks:
+  - python -m unittest tests.test_program_execution_plan
+  - python scripts/project-doctor.py --strict --release R05
+  - continuity close从R05到R06/TASK-R06-001通过
+  do_not_repeat:
+  - 项目所有者将版本推进规则从功能依赖调整为顺序推进后，必须同步更新机器可读依赖图
+  - 不得绕过连续性关闭门禁直接启动下一Release

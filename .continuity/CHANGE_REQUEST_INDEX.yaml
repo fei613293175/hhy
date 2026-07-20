@@ -8652,3 +8652,46 @@ change_requests:
   - SES-20260720T095830Z-752E5121
   implementation_commits:
   - f8bf690fd5d2594b89917e0fafe8c1ed05224720
+- protocol_version: '1.0'
+  cr_id: CR-0145
+  title: 补齐R06对已完成R05的顺序依赖
+  status: IMPLEMENTING
+  created_at: '2026-07-20T13:22:48Z'
+  updated_at: '2026-07-20T13:23:19Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-008
+  session_id: SES-20260720T095830Z-752E5121
+  user_request: 项目所有者要求R02至R32依序持续推进，R05完成后立即进入R06
+  reason: 现有依赖图R06仅声明R02和R04，连续性关闭门禁因此拒绝从已完成R05切换R06，与已确认的顺序推进规则不一致
+  original_rule: R06依赖R02与R04，但不依赖其直接前序R05，连续性协议禁止R05完成后直接切换R06
+  new_rule: R06在保留R02和R04依赖的同时增加R05顺序依赖，R05关闭后可按项目所有者要求直接进入R06
+  impact_summary: 仅补齐版本依赖图的一条顺序边，不改变R05或R06业务范围
+  impact:
+    files:
+    - releases/RELEASE_DEPENDENCIES.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/project-doctor.py --strict --release R05; continuity close transition validation
+    releases:
+    - R05
+    migration_and_compatibility: 现有R02、R04、R05均已完成；增加依赖不会破坏既有状态，只会阻止未来绕过R05进入R06
+  user_confirmation: 当前任务及既有硬规则：R05完成后立即按开发文档进入R06，并依序持续推进至R32
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T13:23:16Z'
+    note: 依据项目所有者多次明确要求R02至R32依序持续推进并在版本完成后进入下一版本
+  machine_record: .continuity/change_requests/CR-0145.yaml
+  document: docs/03-continuity/change-requests/CR-0145-补齐R06对已完成R05的顺序依赖.md
+  decision_log:
+  - at: '2026-07-20T13:23:19Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 补齐R06对R05的顺序依赖并验证关闭门禁
+    session_id: SES-20260720T095830Z-752E5121
+  session_ids:
+  - SES-20260720T095830Z-752E5121

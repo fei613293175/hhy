@@ -11,7 +11,7 @@ task_id: TASK-R05-008
 story_id: STORY-R05-008
 goal: 关闭R05并建立跨电脑跨AI长期可复用的Android自动构建、模拟器测试、截图、日志、回归、自修复与候选交付体系
 started_at: '2026-07-20T09:58:30Z'
-updated_at: '2026-07-20T13:21:07Z'
+updated_at: '2026-07-20T13:27:52Z'
 takeover_of: null
 change_requests:
 - CR-0135
@@ -24,6 +24,7 @@ change_requests:
 - CR-0142
 - CR-0143
 - CR-0144
+- CR-0145
 scope:
   allowed_paths:
   - apps/**
@@ -96,7 +97,8 @@ scope:
   - tests/test_run_affected_tests.py
   - scripts/prepare_parallel_worktrees.ps1
   - tests/test_parallel_worktrees.py
-  source: story+explicit+approved-cr:CR-0135+approved-cr:CR-0136+approved-cr:CR-0138+approved-cr:CR-0139+approved-cr:CR-0140+approved-cr:CR-0141+approved-cr:CR-0142+approved-cr:CR-0143+approved-cr:CR-0144
+  - releases/RELEASE_DEPENDENCIES.yaml
+  source: story+explicit+approved-cr:CR-0135+approved-cr:CR-0136+approved-cr:CR-0138+approved-cr:CR-0139+approved-cr:CR-0140+approved-cr:CR-0141+approved-cr:CR-0142+approved-cr:CR-0143+approved-cr:CR-0144+approved-cr:CR-0145
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -106,18 +108,18 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T13:21:04Z'
-  expires_at: '2026-07-20T17:21:04Z'
-checkpoint_sequence: 18
-latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0018.yaml
+  renewed_at: '2026-07-20T13:27:47Z'
+  expires_at: '2026-07-20T17:27:47Z'
+checkpoint_sequence: 20
+latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0020.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-next_step: 提交CR关闭证据并正式关闭TASK-R05-008，切换R06/TASK-R06-001
+next_step: 严格门禁后提交依赖修复，关闭CR-0145并关闭TASK-R05-008
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 917f2ecc07961c4f910769afa1c7e48d0cd78f06ea714e31541da49c94d55df3
-  generated_at: '2026-07-20T13:21:06Z'
+  context_hash: ffcd078df223f9291499b319a19efe7a5f841cea5a2b113f6157e460ef34fccf
+  generated_at: '2026-07-20T13:27:50Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
