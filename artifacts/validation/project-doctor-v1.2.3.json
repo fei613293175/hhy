@@ -3,7 +3,7 @@
   "product_spec_baseline": "V1.2.2",
   "continuity_protocol_version": "1.0",
   "status": "PASS",
-  "strict": false,
+  "strict": true,
   "release_filter": null,
   "metrics": {
     "canonical_policy_sha256": "35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6",
@@ -30,8 +30,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 1200,
-      "event_head_hash": "c25bbe3c14a3d24a387a7e88701fdadaeeda51057ca1881541ea4eb47c63846a",
+      "event_count": 1223,
+      "event_head_hash": "d0a2c04886fd4624ffbaa6ef3dd5b92a8928334a04c913b081ee222e801150ba",
       "document_gate": {
         "status": "EXECUTED",
         "forced": true,
@@ -43,7 +43,7 @@
     "continuity_required_records": 20,
     "baseline_sessions": 50,
     "baseline_handoffs": 3,
-    "change_requests": 109,
+    "change_requests": 112,
     "task_transitions": 52,
     "continuity_integration_checks": 11,
     "continuity_lifecycle_checks": 14

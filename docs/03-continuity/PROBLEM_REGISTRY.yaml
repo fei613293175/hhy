@@ -585,3 +585,20 @@ problems:
   - 不得用其他阿里云实名产品的字段结构替代当前市场接口响应契约
   - 不得把供应商返回原文、照片地址、订单号或内部失败码展示给用户
   - 不得以H5回跳成功代替服务端实名结果已完成
+- id: PROB-0047
+  title: R05实名认证页面第二次发生效果图建模与UI参数漂移
+  status: MITIGATED
+  root_cause: 现有规则虽然要求使用效果图和Design Token，但screen_visual_binding允许B12/P01-P08粗粒度范围，且“无精确面板时参考相邻组件”的规则给开发者留下自行构图空间；R05 Android又直接使用通用TopAppBar、Button和OutlinedTextField默认尺寸并新增效果图没有的Hero和准备卡片。现有R05测试只检查协议和业务链路，没有逐页视觉合同、精确面板校验和截图关闭门禁，因此第二次UI漂移仍通过机器交付。
+  impact: 当前R05实名认证首页、信息输入、活体容器和结果页不能视为UI验收通过；H5回跳和管理端实名页面也缺少精确视觉覆盖。R05在补齐视觉规格、按图重构、Token参数核对和截图验收前不得关闭。
+  resolution: CR-0113把效果图升级为建模、布局和视觉样式强制来源，把业务文档固定为功能与正式文案来源；新增逐页视觉验收目录、精确面板/补充规格校验和Release关闭门禁。粗粒度范围、TOKENS_ONLY和相邻页面参考不再允许进入施工，无图先补规格，禁止自行构思。
+  regression_checks:
+  - tests/test_ui_visual_acceptance.py
+  - tests/test_release_close_gate.py
+  - scripts/check_ui_visual_acceptance.py --release R05 --catalog-only
+  - scripts/check_ui_visual_acceptance.py --release R05（在未修复时必须阻断）
+  do_not_repeat:
+  - 不得把“效果图不是功能事实源”误解为可以自行设计视觉结构
+  - 不得使用面板范围、TOKENS_ONLY或相邻页面参考直接开始UI编码
+  - 不得用框架默认尺寸替代Design Token
+  - 不得在没有参考图对照和真机/浏览器截图证据时把页面或APK标为UI完成
+  - 虚拟功能、无关文字和占位数据必须过滤，但过滤不得改变未受影响的布局模型

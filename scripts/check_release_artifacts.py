@@ -14,6 +14,8 @@ import sys
 
 import yaml
 
+from check_ui_visual_acceptance import validate_release as validate_ui_visual_release
+
 
 ROOT = Path(__file__).resolve().parents[1]
 TERMINAL_RELEASE_STATUSES = {"DONE", "COMPLETED", "CLOSED", "RELEASED"}
@@ -281,12 +283,21 @@ class CloseGate:
                 "CURRENT_GREEN_COMMIT_MISMATCH", "CURRENT_STATUS.last_green_commit与Release Commit不一致",
             )
 
+    def validate_ui_visual_acceptance(self) -> int:
+        visual_errors, page_count = validate_ui_visual_release(
+            ROOT, self.release, require_pass=True
+        )
+        self.errors.extend(visual_errors)
+        return page_count
+
     def run(self) -> int:
+        visual_page_count = 0
         try:
             _tasks, task_ids = self.validate_tasks()
             acceptance = self.validate_acceptance()
             manifest, release_commit = self.validate_manifest()
             self.validate_apk(manifest, release_commit)
+            visual_page_count = self.validate_ui_visual_acceptance()
             self.validate_pointers(task_ids, release_commit)
         except (OSError, ValueError, yaml.YAMLError, csv.Error) as exc:
             self.errors.append(("CLOSE_GATE_READ_ERROR", str(exc)))
@@ -301,6 +312,7 @@ class CloseGate:
             "RELEASE_CLOSE_GATE_OK", self.release,
             f"tasks={len(task_ids)}", f"acceptance={len(acceptance)}",
             f"operations={len(self.manifest_operations(manifest))}",
+            f"visual_pages={visual_page_count}",
         )
         return 0
 

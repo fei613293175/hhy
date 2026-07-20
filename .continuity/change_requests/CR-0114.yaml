@@ -1,0 +1,43 @@
+protocol_version: '1.0'
+cr_id: CR-0114
+title: 同步UI零漂移规则到AGENTS导出模板
+status: IMPLEMENTING
+created_at: '2026-07-20T00:52:09Z'
+updated_at: '2026-07-20T00:53:15Z'
+requester_actor_id: codex-root
+approver_actor_id: project-owner
+task_id: TASK-R05-007
+session_id: SES-20260719T234639Z-1D7D7A00
+user_request: 项目所有者要求跨电脑跨AI自动继承效果图与UI参数硬性规则。
+reason: 项目Doctor要求根AGENTS.md与templates/AGENTS.md完全一致，CR-0113实施后模板必须同步，否则交接包会丢失新规则。
+original_rule: templates/AGENTS.md仍为CR-0113实施前内容，与根AGENTS.md不一致。
+new_rule: templates/AGENTS.md必须与根AGENTS.md字节一致并包含相同UI视觉零漂移规则。
+impact_summary: 同步一份导出模板，保证新电脑、新AI和Handoff Bundle继承同一UI硬边界。
+impact:
+  files:
+  - templates/AGENTS.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - scripts/project-doctor.py
+  releases:
+  - R05
+  migration_and_compatibility: 纯治理模板同步，不改变运行时代码、API、数据库或用户功能。
+user_confirmation: 2026-07-20项目所有者明确要求即便换电脑换AI也必须自动遵守该硬规则。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-20T00:52:30Z'
+  note: CR-0114仅同步CR-0113已批准规则到交接模板，是跨电脑跨AI生效的必要派生文件。
+machine_record: .continuity/change_requests/CR-0114.yaml
+document: docs/03-continuity/change-requests/CR-0114-同步UI零漂移规则到AGENTS导出模板.md
+decision_log:
+- at: '2026-07-20T00:53:15Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 根AGENTS与导出模板已同步，SHA-256完全一致，待检查点刷新Context后运行Doctor。
+  session_id: SES-20260719T234639Z-1D7D7A00
+session_ids:
+- SES-20260719T234639Z-1D7D7A00

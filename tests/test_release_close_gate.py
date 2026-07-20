@@ -47,6 +47,7 @@ def git(repo: Path, *args: str) -> str:
 def build_fixture(repo: Path) -> str:
     (repo / "scripts").mkdir(parents=True)
     shutil.copy2(ROOT / "scripts/check_release_artifacts.py", repo / "scripts/check_release_artifacts.py")
+    shutil.copy2(ROOT / "scripts/check_ui_visual_acceptance.py", repo / "scripts/check_ui_visual_acceptance.py")
     (repo / "source.txt").write_text("release code\n", encoding="utf-8")
     git(repo, "init", "-q")
     git(repo, "config", "user.name", "Release Gate Test")
@@ -62,6 +63,53 @@ def build_fixture(repo: Path) -> str:
         writer = csv.DictWriter(handle, fieldnames=["版本", "Android测试APK"])
         writer.writeheader()
         writer.writerow({"版本": "P00", "Android测试APK": "YES"})
+
+    page_catalog = repo / "catalogs/ui_page_specifications.csv"
+    with page_catalog.open("w", encoding="utf-8-sig", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["页面ID", "平台", "页面名称", "计划版本"])
+        writer.writeheader()
+        writer.writerow({"页面ID": "SCR-P00-001", "平台": "ANDROID", "页面名称": "P00测试页", "计划版本": "P00"})
+
+    token = repo / "design/tokens/hhy_design_tokens_v1.2.2.json"
+    token.parent.mkdir(parents=True)
+    token.write_text("{}\n", encoding="utf-8")
+    implementation = repo / "apps/android/feature/p00/P00Screen.kt"
+    implementation.parent.mkdir(parents=True)
+    implementation.write_text("// visual fixture\n", encoding="utf-8")
+    reference = repo / "design/effect-previews/B12/HHY_B12_8PAGE_UI_REFERENCE.png"
+    reference.parent.mkdir(parents=True)
+    reference.write_bytes(b"reference")
+    (reference.parent / "HHY_B12_MANIFEST.json").write_text(
+        '{"panels":[{"panel":"P04","name":"P00"}]}\n', encoding="utf-8"
+    )
+    screenshot = repo / "artifacts/validation/p00-ui/SCR-P00-001.png"
+    screenshot.parent.mkdir(parents=True)
+    screenshot.write_bytes(b"screenshot")
+    visual_path = repo / "catalogs/ui_visual_acceptance.csv"
+    visual_fields = [
+        "页面ID", "计划版本", "平台", "页面名称", "视觉来源", "覆盖状态",
+        "布局建模约束", "业务过滤说明", "Token源", "实现路径", "参考证据",
+        "实现截图证据", "验收状态", "说明",
+    ]
+    with visual_path.open("w", encoding="utf-8-sig", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=visual_fields)
+        writer.writeheader()
+        writer.writerow({
+            "页面ID": "SCR-P00-001",
+            "计划版本": "P00",
+            "平台": "ANDROID",
+            "页面名称": "P00测试页",
+            "视觉来源": "B12/P04",
+            "覆盖状态": "EXACT",
+            "布局建模约束": "按精确面板还原",
+            "业务过滤说明": "过滤占位数据",
+            "Token源": "design/tokens/hhy_design_tokens_v1.2.2.json",
+            "实现路径": "apps/android/feature/p00/P00Screen.kt",
+            "参考证据": "design/effect-previews/B12/HHY_B12_8PAGE_UI_REFERENCE.png",
+            "实现截图证据": "artifacts/validation/p00-ui/SCR-P00-001.png",
+            "验收状态": "PASS",
+            "说明": "逐项核对通过",
+        })
 
     tasks = [
         {"id": f"TASK-P00-{number:03d}", "title": f"Task {number}", "status": "DONE"}
@@ -276,6 +324,29 @@ class ReleaseCloseGateTest(unittest.TestCase):
                 "NEXT_TASK_NOT_READY", "NEXT_TASK_NOT_FIRST", "CURRENT_NEXT_RELEASE_MISMATCH",
                 "CURRENT_NEXT_TASK_MISMATCH", "CURRENT_COMPLETED_TASKS_MISSING",
                 "CURRENT_SESSION_STILL_ACTIVE",
+            ]:
+                self.assertIn(code, result.stdout)
+
+    def test_close_gate_rejects_ui_without_exact_visual_pass(self) -> None:
+        temp, repo, _commit = self.fixture()
+        with temp:
+            path = repo / "catalogs/ui_visual_acceptance.csv"
+            with path.open(encoding="utf-8-sig", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            rows[0]["视觉来源"] = "B12/P01-P08"
+            rows[0]["覆盖状态"] = "PARTIAL"
+            rows[0]["验收状态"] = "BLOCKED_REDESIGN"
+            rows[0]["实现截图证据"] = ""
+            with path.open("w", encoding="utf-8-sig", newline="") as handle:
+                writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+                writer.writeheader()
+                writer.writerows(rows)
+            result = self.run_gate(repo, "--close-gate", "--release", "P00", expected=1)
+            for code in [
+                "UI_VISUAL_PANEL_RANGE_FORBIDDEN",
+                "UI_VISUAL_COVERAGE_NOT_READY",
+                "UI_VISUAL_NOT_PASS",
+                "UI_VISUAL_SCREENSHOT_EVIDENCE_MISSING",
             ]:
                 self.assertIn(code, result.stdout)
 

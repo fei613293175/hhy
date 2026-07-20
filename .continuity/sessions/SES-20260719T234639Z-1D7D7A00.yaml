@@ -11,13 +11,15 @@ task_id: TASK-R05-007
 story_id: STORY-R05-001
 goal: 构建、签名、安装冒烟并交付R05正式测试APK及完整追溯和测试说明
 started_at: '2026-07-19T23:46:39Z'
-updated_at: '2026-07-20T00:23:17Z'
+updated_at: '2026-07-20T00:54:59Z'
 takeover_of: null
 change_requests:
 - CR-0109
 - CR-0110
 - CR-0111
 - CR-0112
+- CR-0113
+- CR-0114
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -55,7 +57,19 @@ scope:
   - artifacts/reports/R05/TASK-R05-007-android-apk.md
   - artifacts/reports/R05/R05-version-test-guide.md
   - artifacts/reports/R05/TASK-R05-004-client.md
-  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112
+  - AGENTS.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - catalogs/ui_visual_acceptance.csv
+  - scripts/check_ui_visual_acceptance.py
+  - scripts/check_release_artifacts.py
+  - tests/test_ui_visual_acceptance.py
+  - tests/test_release_close_gate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - CHANGELOG.md
+  - templates/AGENTS.md
+  source: story+explicit+approved-cr:CR-0109+approved-cr:CR-0111+approved-cr:CR-0112+approved-cr:CR-0113+approved-cr:CR-0114
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -65,22 +79,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T00:23:14Z'
-  expires_at: '2026-07-20T04:23:14Z'
-checkpoint_sequence: 8
-latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0008.yaml
+  renewed_at: '2026-07-20T00:54:56Z'
+  expires_at: '2026-07-20T04:54:56Z'
+checkpoint_sequence: 10
+latest_checkpoint: .continuity/checkpoints/SES-20260719T234639Z-1D7D7A00/0010.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260719T234639Z-1D7D7A00.md
-next_step: 等待项目所有者versionCode 10208真机结果；同时保持APK下载与证据可重复验证，收到PASS后立即完成R05-007和R05-008。
+next_step: 提交CR-0113/CR-0114实现，执行受控push preflight并推送；随后把CR标记IMPLEMENTED并按R05七页视觉阻断清单继续补规格与重构。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 6588daf50fe53015d091c0e8a8a981b185eda76c53c35acf0f435860617d0f0c
-  generated_at: '2026-07-20T00:23:16Z'
+  context_hash: 6aabd5fda62a6d242b6c645e1caf6d79101e699bbf253f97dfef14339a931d1c
+  generated_at: '2026-07-20T00:54:58Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前只剩项目所有者真机门禁和依赖其结果的原子关闭事件链，没有可独立写入的安全任务。
+  reason: 冻结治理规则、逐页合同、关闭门禁、模板和回归测试构成同一原子事实链且文件高度重叠，不存在可独立合并的安全工作包。
