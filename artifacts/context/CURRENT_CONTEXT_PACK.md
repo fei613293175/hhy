@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T11:33:35Z
-- Context Hash：`f43bdffb4c1e69b3ba308e1509f818c3f9c4d61d2be10d075f16d4f7b6faf08e`
+- 生成时间：2026-07-20T11:54:37Z
+- Context Hash：`eb756119a379c8eb161cd32643224a06f01671d4107408c10134c49d13760f44`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -85,7 +85,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R05-008
-updated_at: '2026-07-20T11:33:33Z'
+updated_at: '2026-07-20T11:54:35Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -120,15 +120,15 @@ continuity:
   active_session_id: SES-20260720T095830Z-752E5121
   actor_id: codex-root
   story_id: STORY-R05-008
-  lease_expires_at: '2026-07-20T15:33:33Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0006.yaml
-  project_fingerprint: fffb7d45371d6669489c9f38f04661ece6e10346a5fcc0e3f77a28961cc4bae7
+  lease_expires_at: '2026-07-20T15:54:35Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0008.yaml
+  project_fingerprint: c2814640318e2d7d76d6f3ee2ff5172da7342f4450b2ccefba771948651098c0
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: e2c92e4bdb8753dbd93ee09d6a40dbea765924bcc034f7f87038bf337f760dea
-    generated_at: '2026-07-20T11:31:52Z'
+    context_hash: e15dfd84c5d27d02d0d5568b13edeae61c045482b9d63bcd1cc8f0334abb2aa6
+    generated_at: '2026-07-20T11:53:41Z'
   handoff_bundle: null
 ```
 
@@ -320,13 +320,15 @@ task_id: TASK-R05-008
 story_id: STORY-R05-008
 goal: 关闭R05并建立跨电脑跨AI长期可复用的Android自动构建、模拟器测试、截图、日志、回归、自修复与候选交付体系
 started_at: '2026-07-20T09:58:30Z'
-updated_at: '2026-07-20T11:33:33Z'
+updated_at: '2026-07-20T11:54:35Z'
 takeover_of: null
 change_requests:
 - CR-0135
 - CR-0136
 - CR-0137
 - CR-0138
+- CR-0139
+- CR-0140
 scope:
   allowed_paths:
   - apps/**
@@ -393,7 +395,8 @@ scope:
   - apps/android/feature/shell/build.gradle.kts
   - apps/android/feature/startup/build.gradle.kts
   - docs/04-vendors/identity/source/输出内容(1).txt
-  source: story+explicit+approved-cr:CR-0135+approved-cr:CR-0136+approved-cr:CR-0138
+  - apps/android/gradlew
+  source: story+explicit+approved-cr:CR-0135+approved-cr:CR-0136+approved-cr:CR-0138+approved-cr:CR-0139+approved-cr:CR-0140
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -403,12 +406,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T11:33:33Z'
-  expires_at: '2026-07-20T15:33:33Z'
-checkpoint_sequence: 6
-latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0006.yaml
+  renewed_at: '2026-07-20T11:54:35Z'
+  expires_at: '2026-07-20T15:54:35Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-next_step: 提交推送并执行第二轮GitHub Actions全链
+next_step: 提交推送并观察第三轮GitHub Actions，失败继续自动分析修复
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -423,24 +426,33 @@ parallel_execution:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260720T095830Z-752E5121-0006
+checkpoint_id: CP-SES-20260720T095830Z-752E5121-0008
 session_id: SES-20260720T095830Z-752E5121
-sequence: 6
-created_at: '2026-07-20T11:33:32Z'
-summary: 补齐GitHub Linux首轮失败问题登记和防复发回归
-next_step: 提交推送并执行第二轮GitHub Actions全链
+sequence: 8
+created_at: '2026-07-20T11:54:34Z'
+summary: Linux Runner前置条件修复已通过本地严格门禁
+next_step: 提交推送并观察第三轮GitHub Actions，失败继续自动分析修复
 blockers: []
-decisions: []
+decisions:
+- gradlew固定100755；tooling与contracts显式Node 24；诊断日志always上传
 note: ''
 tests:
-- name: targeted-linux-portability
+- name: project-doctor-strict
   result: PASS
-  evidence: 11 tests
-  note: SDK、冻结证据和工作流回归通过
+  evidence: artifacts/validation/project-doctor-v1.2.3.json
+  note: 项目文档与连续性门禁通过
+- name: continuity-gate-ci
+  result: PASS
+  evidence: artifacts/validation/continuity-gate-v1.2.3.json
+  note: 事件链与上下文一致
+- name: tests.test_android_ci_gate
+  result: PASS
+  evidence: 10 tests passed
+  note: 自动化工作流结构回归通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: b9196d7c983af4fbee6b75c9df720a916d1eb2f2
+  head: 6c281906da3426424cfc2ab7f92d55a457cae9fb
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -451,41 +463,29 @@ git:
   - M  .continuity/EVENT_LOG.jsonl
   - M  .continuity/SESSION_INDEX.yaml
   - M  .continuity/STATE.yaml
-  - A  .continuity/change_requests/CR-0137.yaml
-  - A  .continuity/change_requests/CR-0138.yaml
-  - A  .continuity/checkpoints/SES-20260720T095830Z-752E5121/0005.yaml
+  - A  .continuity/change_requests/CR-0139.yaml
+  - A  .continuity/change_requests/CR-0140.yaml
+  - A  .continuity/checkpoints/SES-20260720T095830Z-752E5121/0007.yaml
   - M  .continuity/sessions/SES-20260720T095830Z-752E5121.yaml
-  - M  .gitattributes
-  - M  .githooks/commit-msg
-  - M  .githooks/pre-commit
-  - M  .githooks/pre-push
-  - M  .githooks/prepare-commit-msg
-  - M  .github/workflows/android-quality-gate.yml
   - M  .github/workflows/ci.yml
-  - M  .github/workflows/continuity-gate.yml
   - M  CHANGELOG.md
   - M  CURRENT_STATUS.yaml
-  - M  apps/android/app/build.gradle.kts
-  - M  apps/android/core/designsystem/build.gradle.kts
-  - M  apps/android/core/network/build.gradle.kts
-  - M  apps/android/feature/auth/build.gradle.kts
-  - M  apps/android/feature/identity/build.gradle.kts
-  - M  apps/android/feature/media/build.gradle.kts
-  - M  apps/android/feature/shell/build.gradle.kts
-  - M  apps/android/feature/startup/build.gradle.kts
+  - M  apps/android/gradlew
   - M  artifacts/context/CURRENT_CONTEXT_PACK.md
   - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
   - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  artifacts/validation/continuity-gate-v1.2.3.json
   - M  artifacts/validation/project-doctor-v1.2.3.json
   - M  catalogs/change_request_index.csv
   - M  catalogs/session_index.csv
   - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - A  docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
-  - A  docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
+  - A  docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
+  - A  docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
   - M  docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-  - M  docs/04-vendors/identity/source/输出内容(1).txt
   - M  tests/test_android_ci_gate.py
   recent_commits:
+  - "6c281906da3426424cfc2ab7f92d55a457cae9fb\t2026-07-20T19:33:48+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): make Android gate\
+    \ portable on Linux"
   - "b9196d7c983af4fbee6b75c9df720a916d1eb2f2\t2026-07-20T18:52:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(android): establish automated\
     \ candidate quality gate"
   - "becdceec04d22c9179e29c794e28ad85bbe89137\t2026-07-20T17:57:20+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-007\
@@ -500,10 +500,8 @@ git:
     \ 10212 APK"
   - "9b726556391cb8e16e52750f83b1e80c4f2bf28b\t2026-07-20T14:57:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(android): lock startup\
     \ policy for 10212"
-  - "bc52fe68ae169a79586002af4f8b2af9b21690a6\t2026-07-20T14:22:10+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): bump owner\
-    \ test apk to 10211"
 project_fingerprint:
-  sha256: fffb7d45371d6669489c9f38f04661ece6e10346a5fcc0e3f77a28961cc4bae7
+  sha256: c2814640318e2d7d76d6f3ee2ff5172da7342f4450b2ccefba771948651098c0
   files:
   - .gitattributes
   - .githooks/commit-msg
@@ -526,6 +524,7 @@ project_fingerprint:
   - apps/android/feature/shell/build.gradle.kts
   - apps/android/feature/startup/build.gradle.kts
   - apps/android/gradle/libs.versions.toml
+  - apps/android/gradlew
   - config/android-automation.yaml
   - docs/00-baseline/正式商业系统全局硬性开发边界.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
@@ -533,6 +532,8 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
   - docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
   - docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
+  - docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
+  - docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
   - docs/04-vendors/identity/source/输出内容(1).txt
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - docs/08-testing/测试策略与质量门禁_V1.2.2.md
@@ -543,7 +544,7 @@ project_fingerprint:
   - scripts/check_release_artifacts.py
   - templates/AGENTS.md
   - tests/test_android_ci_gate.py
-  file_count: 38
+  file_count: 41
   payload:
     base_commit: becdceec04d22c9179e29c794e28ad85bbe89137
     files:
@@ -573,8 +574,8 @@ project_fingerprint:
       sha256: 53c179d37347b09f6d93657b80b0f307d0df558033df9df087838947bf6cd73a
     - path: .github/workflows/ci.yml
       state: FILE
-      size: 5153
-      sha256: 8a4e4ace6019c69d67a197d13b9860ee55b4c8ca66d0053161246a728daa6d89
+      size: 6258
+      sha256: 7db140cdbb36b6f3dcadc7156ceddbc536f8801f0bda8b66489a8021f886384b
     - path: .github/workflows/continuity-gate.yml
       state: FILE
       size: 1922
@@ -585,8 +586,8 @@ project_fingerprint:
       sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
     - path: CHANGELOG.md
       state: FILE
-      size: 51962
-      sha256: 442d4ee1b5c789525be45d3c10d5efa514ca4e317936cb34e705f9a57f8ade0c
+      size: 52207
+      sha256: effa3a419537a77ee50b93eb80555c0b815f8bb495f4fd96549a3356099ffa4e
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 4981
@@ -631,6 +632,10 @@ project_fingerprint:
       state: FILE
       size: 2425
       sha256: 152a44c6e3967ad86e4961ac0ade159164ad439d4b7bdd62f35da2c39f91ae25
+    - path: apps/android/gradlew
+      state: FILE
+      size: 5960
+      sha256: 261d896f782ec3181add62d77d5b1b9e1d0d599757ec108d857bad1eec2e7615
     - path: config/android-automation.yaml
       state: FILE
       size: 2150
@@ -641,8 +646,8 @@ project_fingerprint:
       sha256: 2eeee9d8997f48c0604f965ffd408399a0ff2473f5cde2d394ea06e30f637d25
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 64620
-      sha256: 7ec06eb224656c3afec89e643f708c43ded43d8e7a16c599d898dbae13f870c2
+      size: 64980
+      sha256: 1fbd9806589d3c9d609bdfe02218f8123c2a3dfcf8bf6bd7e623b73108dbec5d
     - path: docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
       state: FILE
       size: 3823
@@ -659,6 +664,14 @@ project_fingerprint:
       state: FILE
       size: 2889
       sha256: dbbe13ef5557515669ff22e216c9bb8463a273e80777ab9eb9f64729eee54740
+    - path: docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
+      state: FILE
+      size: 1790
+      sha256: 11c7f859096a24341b586e9835a0d021f048e40ab30fc63f58ec84b8fc5148c8
+    - path: docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
+      state: FILE
+      size: 1953
+      sha256: af55c25d11fe6bf557e7b0b29f8993b5323b4c374639c650990d9225ca526d03
     - path: docs/04-vendors/identity/source/输出内容(1).txt
       state: FILE
       size: 12285
@@ -697,8 +710,8 @@ project_fingerprint:
       sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 8795
-      sha256: 7ee20bff8091cbf3fd2083f71fdf7e21ee0da9af18e29b4b61e5c27f1d838209
+      size: 9314
+      sha256: 5af919f41375d6e2944b688d1375d6164465b05f9cc18ba4fb5a95a67a28fb78
 change_classification:
   other:
   - .gitattributes
@@ -731,6 +744,7 @@ change_classification:
   - apps/android/feature/shell/build.gradle.kts
   - apps/android/feature/startup/build.gradle.kts
   - apps/android/gradle/libs.versions.toml
+  - apps/android/gradlew
   - scripts/android_ci_gate.py
   - scripts/check_release_artifacts.py
   user_visible:
@@ -745,6 +759,7 @@ change_classification:
   - apps/android/feature/shell/build.gradle.kts
   - apps/android/feature/startup/build.gradle.kts
   - apps/android/gradle/libs.versions.toml
+  - apps/android/gradlew
   source_of_truth:
   - docs/00-baseline/正式商业系统全局硬性开发边界.md
   - releases/R05/RELEASE_MANIFEST.yaml
@@ -754,6 +769,8 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
   - docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
   - docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
+  - docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
+  - docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
   tests:
   - tests/test_android_ci_gate.py
 required_records:
@@ -769,6 +786,8 @@ change_requests:
 - CR-0136
 - CR-0137
 - CR-0138
+- CR-0139
+- CR-0140
 scope:
   allowed_paths:
   - apps/**
@@ -835,13 +854,14 @@ scope:
   - apps/android/feature/shell/build.gradle.kts
   - apps/android/feature/startup/build.gradle.kts
   - docs/04-vendors/identity/source/输出内容(1).txt
-  source: story+explicit+approved-cr:CR-0135+approved-cr:CR-0136+approved-cr:CR-0138
+  - apps/android/gradlew
+  source: story+explicit+approved-cr:CR-0135+approved-cr:CR-0136+approved-cr:CR-0138+approved-cr:CR-0139+approved-cr:CR-0140
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
   reason: 上级规则禁止用户未明确要求的子代理委托
-event_hash: 678f30350d494ae506dcee383c15523dfe46c2d67463ae3985eea8b432e63654
+event_hash: 9829df38e684c856ae081a333ed63a57a73c40e596b530cf67f84b74111aaafb
 ```
 
 ## 接续状态与事件头
@@ -853,8 +873,8 @@ active_session_id: SES-20260720T095830Z-752E5121
 last_session_id: SES-20260719T234639Z-1D7D7A00
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0043
-event_count: 1408
-event_head_hash: 678f30350d494ae506dcee383c15523dfe46c2d67463ae3985eea8b432e63654
+event_count: 1420
+event_head_hash: 9829df38e684c856ae081a333ed63a57a73c40e596b530cf67f84b74111aaafb
 event_chain_valid: true
 ```
 
@@ -977,9 +997,9 @@ recent_sessions: - session_id: SES-20260719T144443Z-BF11796E
   started_at: '2026-07-20T09:58:30Z'
   record: .continuity/sessions/SES-20260720T095830Z-752E5121.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-  updated_at: '2026-07-20T11:33:33Z'
+  updated_at: '2026-07-20T11:54:35Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0006.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0008.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D402CCF0F4A1
   session_id: SES-20260718T162320Z-23C14331
@@ -1862,7 +1882,7 @@ recent_task_transitions: - transition_id: TRN-AB73BBDF9FA9
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: b9196d7c983af4fbee6b75c9df720a916d1eb2f2
+head: 6c281906da3426424cfc2ab7f92d55a457cae9fb
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1873,42 +1893,30 @@ status_porcelain:
 - MM .continuity/EVENT_LOG.jsonl
 - MM .continuity/SESSION_INDEX.yaml
 - MM .continuity/STATE.yaml
-- A  .continuity/change_requests/CR-0137.yaml
-- A  .continuity/change_requests/CR-0138.yaml
-- A  .continuity/checkpoints/SES-20260720T095830Z-752E5121/0005.yaml
+- A  .continuity/change_requests/CR-0139.yaml
+- A  .continuity/change_requests/CR-0140.yaml
+- A  .continuity/checkpoints/SES-20260720T095830Z-752E5121/0007.yaml
 - MM .continuity/sessions/SES-20260720T095830Z-752E5121.yaml
-- M  .gitattributes
-- M  .githooks/commit-msg
-- M  .githooks/pre-commit
-- M  .githooks/pre-push
-- M  .githooks/prepare-commit-msg
-- M  .github/workflows/android-quality-gate.yml
 - M  .github/workflows/ci.yml
-- M  .github/workflows/continuity-gate.yml
 - M  CHANGELOG.md
 - MM CURRENT_STATUS.yaml
-- M  apps/android/app/build.gradle.kts
-- M  apps/android/core/designsystem/build.gradle.kts
-- M  apps/android/core/network/build.gradle.kts
-- M  apps/android/feature/auth/build.gradle.kts
-- M  apps/android/feature/identity/build.gradle.kts
-- M  apps/android/feature/media/build.gradle.kts
-- M  apps/android/feature/shell/build.gradle.kts
-- M  apps/android/feature/startup/build.gradle.kts
+- M  apps/android/gradlew
 - M  artifacts/context/CURRENT_CONTEXT_PACK.md
 - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
 - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- M  artifacts/validation/continuity-gate-v1.2.3.json
 - M  artifacts/validation/project-doctor-v1.2.3.json
 - M  catalogs/change_request_index.csv
 - MM catalogs/session_index.csv
 - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
-- A  docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
-- A  docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
+- A  docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
+- A  docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
 - MM docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-- M  docs/04-vendors/identity/source/输出内容(1).txt
 - M  tests/test_android_ci_gate.py
-- ?? .continuity/checkpoints/SES-20260720T095830Z-752E5121/0006.yaml
+- ?? .continuity/checkpoints/SES-20260720T095830Z-752E5121/0008.yaml
 recent_commits:
+- "6c281906da3426424cfc2ab7f92d55a457cae9fb\t2026-07-20T19:33:48+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): make Android gate portable\
+  \ on Linux"
 - "b9196d7c983af4fbee6b75c9df720a916d1eb2f2\t2026-07-20T18:52:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(android): establish automated\
   \ candidate quality gate"
 - "becdceec04d22c9179e29c794e28ad85bbe89137\t2026-07-20T17:57:20+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(continuity): close TASK-R05-007\
@@ -1923,14 +1931,12 @@ recent_commits:
   \ 10212 APK"
 - "9b726556391cb8e16e52750f83b1e80c4f2bf28b\t2026-07-20T14:57:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] fix(android): lock startup policy\
   \ for 10212"
-- "bc52fe68ae169a79586002af4f8b2af9b21690a6\t2026-07-20T14:22:10+08:00\tHHY Continuity Bootstrap\t[STORY-R05-001] chore(android): bump owner test\
-  \ apk to 10211"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`fffb7d45371d6669489c9f38f04661ece6e10346a5fcc0e3f77a28961cc4bae7`
-- 文件数：38
+- 指纹：`c2814640318e2d7d76d6f3ee2ff5172da7342f4450b2ccefba771948651098c0`
+- 文件数：41
 
 - `.gitattributes`
 - `.githooks/commit-msg`
@@ -1953,6 +1959,7 @@ recent_commits:
 - `apps/android/feature/shell/build.gradle.kts`
 - `apps/android/feature/startup/build.gradle.kts`
 - `apps/android/gradle/libs.versions.toml`
+- `apps/android/gradlew`
 - `config/android-automation.yaml`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
@@ -1960,6 +1967,8 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md`
 - `docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md`
 - `docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md`
+- `docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md`
+- `docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md`
 - `docs/04-vendors/identity/source/输出内容(1).txt`
 - `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`
 - `docs/08-testing/测试策略与质量门禁_V1.2.2.md`
@@ -7094,41 +7103,130 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+- protocol_version: '1.0'
+  cr_id: CR-0139
+  title: 修复Android Gradle Wrapper缺少Linux执行权限
+  status: IMPLEMENTING
+  created_at: '2026-07-20T11:40:57Z'
+  updated_at: '2026-07-20T11:41:03Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-008
+  session_id: SES-20260720T095830Z-752E5121
+  user_request: 自动测试失败必须自行修复重打包重测
+  reason: GitHub第二轮Android编译返回126，确认apps/android/gradlew在索引中为100644
+  original_rule: Gradle Wrapper仅在Windows和容器内以sh调用，仓库未保留Linux执行位
+  new_rule: apps/android/gradlew必须以100755提交，GitHub和任何干净Linux克隆可直接执行
+  impact_summary: 解除Android编译任务退出码126阻断
+  impact:
+    files:
+    - apps/android/gradlew
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - GitHub Actions Android build; git ls-files -s apps/android/gradlew
+    releases:
+    - R05
+    migration_and_compatibility: 不改变Gradle版本和业务代码，仅补齐POSIX执行权限
+  user_confirmation: 本任务要求自动测试失败后自行分析修改重新打包和重新测试
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T11:41:00Z'
+    note: 依据用户自动修复重测授权处理确定性Linux执行位失败
+  machine_record: .continuity/change_requests/CR-0139.yaml
+  document: docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
+  decision_log:
+  - at: '2026-07-20T11:41:03Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 补齐Gradle Wrapper 100755并进入第三轮
+    session_id: SES-20260720T095830Z-752E5121
+  session_ids:
+  - SES-20260720T095830Z-752E5121
+- protocol_version: '1.0'
+  cr_id: CR-0140
+  title: 固定GitHub测试任务Node运行时并完善失败日志
+  status: IMPLEMENTING
+  created_at: '2026-07-20T11:50:25Z'
+  updated_at: '2026-07-20T11:50:32Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-008
+  session_id: SES-20260720T095830Z-752E5121
+  user_request: 自动测试失败必须自行分析、修改、重新打包和重新测试
+  reason: GitHub tooling与contracts并行失败，而含Node的干净Linux镜像187项测试通过，需显式安装Node并输出可追踪日志
+  original_rule: tooling和contracts任务依赖ubuntu-latest隐式Node环境，失败时缺少持久测试日志
+  new_rule: GitHub所有调用Node的质量任务显式安装Node 24，并持久上传失败或成功日志
+  impact_summary: 消除Runner镜像差异并缩短后续自动诊断时间
+  impact:
+    files:
+    - .github/workflows/ci.yml
+    - tests/test_android_ci_gate.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_android_ci_gate
+    releases:
+    - R05
+    migration_and_compatibility: 不改变产品逻辑，仅固定CI工具链；Node 24与现有前端任务保持一致
+  user_confirmation: 用户明确要求自动测试失败后自行分析修改重新打包重新测试
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T11:50:29Z'
+    note: 依据用户自动修复重测与长期可复用体系授权执行确定性CI环境修复
+  machine_record: .continuity/change_requests/CR-0140.yaml
+  document: docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
+  decision_log:
+  - at: '2026-07-20T11:50:32Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始补齐Node 24和诊断日志门禁
+    session_id: SES-20260720T095830Z-752E5121
+  session_ids:
+  - SES-20260720T095830Z-752E5121
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `95c632b48c8fd17c9b3cfc6700ddbd4d7aee645f3d39e97778194eda9cc1be84`
+- `CURRENT_STATUS.yaml` — `dafd9d40b71a0d1f7e2a2f50e2d213ab53d9508ce0d9ea115d417703fb0f53ab`
 - `NEXT_TASK.yaml` — `ffc587b7a19397e86fb03f0a6f3ae2b0d16a2a8ac2db6a0483fdded3d1543527`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `7ec06eb224656c3afec89e643f708c43ded43d8e7a16c599d898dbae13f870c2`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `1fbd9806589d3c9d609bdfe02218f8123c2a3dfcf8bf6bd7e623b73108dbec5d`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da`
 - `docs/03-continuity/PITFALLS.md` — `a2d8510ffc0abea7157abc67881f3a25063fb0d4751c5b7d5cf90125d5851957`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `1bf72bbd9a76d0bfb9c9691b1b3a4a07fca1fe2ac928df7267be95675c5f9bdb`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `7a07c8593ec1e51ae3d5871cbe5687c121a93d58f7e99dde1d626f481d5065c2`
-- `.continuity/SESSION_INDEX.yaml` — `774d971735d0c878c0da3e8c9ef97192abbba1ad8776401a9e747b84a19b4962`
+- `.continuity/EVENT_LOG.jsonl` — `dbbbf5f37637a602db6be43197a61babf26f260281ef64d1548ce3255a1729b5`
+- `.continuity/SESSION_INDEX.yaml` — `99e90acc7f460625aebd07aa4ebbce2391669a784dc530ccd6d720fc1e96219d`
 - `.continuity/TASK_CLAIMS.yaml` — `51845584c67e22b1b247283317fe524313ac3f43f8982fb4b629af1151cace6f`
 - `.continuity/TASK_TRANSITIONS.yaml` — `6b84bba6c64711ba15832b715ebe1e0511e794712aa95a94a57a8c04c5d1391d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `92624252dbf573770ee9d02c3f92477ae867e0ac989dd32dc6551dafac982b49`
-- `.continuity/ACTIVE_SESSION.yaml` — `3311278e1a79e34751c68ddf9cd83242d2a8cd55f43a00ea600265c5d5cec5b6`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ac7378978f3ca3ce438af22170f4dea90c49b4be758685f0740e34c28befda07`
+- `.continuity/ACTIVE_SESSION.yaml` — `e809b7625c6ef7bf73e07dfc57bc4b077377f053bd172fd9632d96f68c4d9cd8`
 - `releases/R05/RELEASE_MANIFEST.yaml` — `6fc95b4abdedcaa6561460c2d5db23e6fccf1a870452779b0c03035bd6ea11ec`
 - `releases/R05/DEFINITION_OF_READY.yaml` — `31fcd6b27c6bb1d500850ad9f3097e5b68bc5c7d5664adf6fa582f0cdbf8b86c`
 - `releases/R05/STORIES.yaml` — `5ab834809127e32bfecc401bd27938833ab09e66b287c2b65973830640437b22`
 - `releases/R05/TASKS.yaml` — `5ee3430d7b0b89a7d84a0d14119b232a2638e042d8b84e9f2de008ae12d82e55`
 - `releases/R05/ACCEPTANCE_MATRIX.csv` — `98126dbba6a77102d407f9e9de5e95bef5f492330ddc5bc681afc3696edbac1b`
 - `releases/R05/PARALLEL_EXECUTION_PLAN.yaml` — `38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda`
-- `docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md` — `99de6f3213f9464193d3395000fc1492311f444b6f9b0ee86a4325e79100c40a`
-- `.continuity/checkpoints/SES-20260720T095830Z-752E5121/0006.yaml` — `6685b24f9bb45bf53ce55c49700d2be1f2a4e472546f87f47dc7d7c75c454b06`
+- `docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md` — `c8eb42744dfd48bcaec51e15a6ec3a4076d1a30d98b8369991a74951dbba5a08`
+- `.continuity/checkpoints/SES-20260720T095830Z-752E5121/0008.yaml` — `f3174185b552ebe9375a5611e34e8eb4081ad2dfb224c09fe54cee0f6b6511fe`
 - `docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md` — `9fd9ea826a7fc71e94b8804243f7deec23739e002d8aefdf6b6c49a9ef92e7b4`
 - `docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md` — `10a87ff0adcf705866b49e67b8f26041c5e4ab9e91a64120c7af6cc8b3bf3961`
 - `docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md` — `c2311668004f80b7e9c09994ad09ec4cbd008278b51c68fb3be63ada84accbc6`
 - `docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md` — `dbbe13ef5557515669ff22e216c9bb8463a273e80777ab9eb9f64729eee54740`
+- `docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md` — `11c7f859096a24341b586e9835a0d021f048e40ab30fc63f58ec84b8fc5148c8`
+- `docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md` — `af55c25d11fe6bf557e7b0b29f8993b5323b4c374639c650990d9225ca526d03`
 
 ## 接手硬规则
 

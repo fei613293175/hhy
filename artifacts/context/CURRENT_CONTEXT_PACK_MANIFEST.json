@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-20T11:33:35Z",
-  "context_hash": "f43bdffb4c1e69b3ba308e1509f818c3f9c4d61d2be10d075f16d4f7b6faf08e",
+  "generated_at": "2026-07-20T11:54:37Z",
+  "context_hash": "eb756119a379c8eb161cd32643224a06f01671d4107408c10134c49d13760f44",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "fffb7d45371d6669489c9f38f04661ece6e10346a5fcc0e3f77a28961cc4bae7",
-    "file_count": 38
+    "sha256": "c2814640318e2d7d76d6f3ee2ff5172da7342f4450b2ccefba771948651098c0",
+    "file_count": 41
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "894ed670637ae84c6e9e21aa9e7fed51d6f613bd88d977113e79df0a5206d32f"
+    "sha256": "991b9dd155ae33b437fd2a037f1981b94d0cb541c1bdf92a343a6af067c82c2d"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "77d7f41c0130c346c4698a892178f600e1fd8dcfb5c5bb46494f8a6b5f08b5d8"
+    "sha256": "302b19f593e96a541a93ef109ce8b9f105417c242c4a2f688ebe67bbb33f1b82"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "95c632b48c8fd17c9b3cfc6700ddbd4d7aee645f3d39e97778194eda9cc1be84",
+      "sha256": "dafd9d40b71a0d1f7e2a2f50e2d213ab53d9508ce0d9ea115d417703fb0f53ab",
       "bytes": 3632
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "7ec06eb224656c3afec89e643f708c43ded43d8e7a16c599d898dbae13f870c2",
-      "bytes": 64620
+      "sha256": "1fbd9806589d3c9d609bdfe02218f8123c2a3dfcf8bf6bd7e623b73108dbec5d",
+      "bytes": 64980
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "7a07c8593ec1e51ae3d5871cbe5687c121a93d58f7e99dde1d626f481d5065c2",
-      "bytes": 785818
+      "sha256": "dbbbf5f37637a602db6be43197a61babf26f260281ef64d1548ce3255a1729b5",
+      "bytes": 790900
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "774d971735d0c878c0da3e8c9ef97192abbba1ad8776401a9e747b84a19b4962",
+      "sha256": "99e90acc7f460625aebd07aa4ebbce2391669a784dc530ccd6d720fc1e96219d",
       "bytes": 25808
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "92624252dbf573770ee9d02c3f92477ae867e0ac989dd32dc6551dafac982b49",
-      "bytes": 427654
+      "sha256": "ac7378978f3ca3ce438af22170f4dea90c49b4be758685f0740e34c28befda07",
+      "bytes": 431388
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "3311278e1a79e34751c68ddf9cd83242d2a8cd55f43a00ea600265c5d5cec5b6",
+      "sha256": "e809b7625c6ef7bf73e07dfc57bc4b077377f053bd172fd9632d96f68c4d9cd8",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md",
-      "sha256": "99de6f3213f9464193d3395000fc1492311f444b6f9b0ee86a4325e79100c40a",
-      "bytes": 15158
+      "sha256": "c8eb42744dfd48bcaec51e15a6ec3a4076d1a30d98b8369991a74951dbba5a08",
+      "bytes": 21175
     },
     {
-      "path": ".continuity/checkpoints/SES-20260720T095830Z-752E5121/0006.yaml",
-      "sha256": "6685b24f9bb45bf53ce55c49700d2be1f2a4e472546f87f47dc7d7c75c454b06",
-      "bytes": 17737
+      "path": ".continuity/checkpoints/SES-20260720T095830Z-752E5121/0008.yaml",
+      "sha256": "f3174185b552ebe9375a5611e34e8eb4081ad2dfb224c09fe54cee0f6b6511fe",
+      "bytes": 18696
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md",
@@ -170,6 +170,16 @@
       "path": "docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md",
       "sha256": "dbbe13ef5557515669ff22e216c9bb8463a273e80777ab9eb9f64729eee54740",
       "bytes": 2889
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md",
+      "sha256": "11c7f859096a24341b586e9835a0d021f048e40ab30fc63f58ec84b8fc5148c8",
+      "bytes": 1790
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md",
+      "sha256": "af55c25d11fe6bf557e7b0b29f8993b5323b4c374639c650990d9225ca526d03",
+      "bytes": 1953
     }
   ]
 }

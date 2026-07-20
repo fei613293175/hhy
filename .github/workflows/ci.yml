@@ -58,8 +58,23 @@ jobs:
         run: git config core.quotepath false
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '24' }
       - run: pip install --disable-pip-version-check pyyaml pglast
-      - run: python -m unittest discover -s tests -p 'test_*.py'
+      - name: Run tooling regression
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/validation/ci
+          python -m unittest discover -s tests -p 'test_*.py' 2>&1 \
+            | tee artifacts/validation/ci/tooling-tests.log
+      - name: Upload tooling diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tooling-diagnostics-${{ github.run_attempt }}
+          path: artifacts/validation/ci/tooling-tests.log
+          if-no-files-found: error
 
   contracts:
     needs: changes
@@ -71,17 +86,33 @@ jobs:
         run: git config core.quotepath false
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '24' }
       - run: pip install --disable-pip-version-check pyyaml pglast
-      - run: python scripts/sync_runtime_assets.py --check
-      - run: python scripts/check_api_contract.py
-      - run: python scripts/check_db_schema.py
-      - run: python scripts/project-doctor.py --strict
-      - run: python scripts/check_release_artifacts.py
-      - run: python tests/test_release_close_gate.py
-      - run: python scripts/check_p00_observability.py
-      - run: python tests/p00/test_p00_test_matrix.py
-      - run: python tests/p00/test_secret_defaults.py
-      - run: python scripts/run_p00_test_matrix.py --list
+      - name: Run contract and release gates
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p artifacts/validation/ci
+          {
+            python scripts/sync_runtime_assets.py --check
+            python scripts/check_api_contract.py
+            python scripts/check_db_schema.py
+            python scripts/project-doctor.py --strict
+            python scripts/check_release_artifacts.py
+            python tests/test_release_close_gate.py
+            python scripts/check_p00_observability.py
+            python tests/p00/test_p00_test_matrix.py
+            python tests/p00/test_secret_defaults.py
+            python scripts/run_p00_test_matrix.py --list
+          } 2>&1 | tee artifacts/validation/ci/contracts.log
+      - name: Upload contract diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-diagnostics-${{ github.run_attempt }}
+          path: artifacts/validation/ci/contracts.log
+          if-no-files-found: error
 
   web:
     needs: changes

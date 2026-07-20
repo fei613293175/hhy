@@ -8276,3 +8276,90 @@ change_requests:
     session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+- protocol_version: '1.0'
+  cr_id: CR-0139
+  title: 修复Android Gradle Wrapper缺少Linux执行权限
+  status: IMPLEMENTING
+  created_at: '2026-07-20T11:40:57Z'
+  updated_at: '2026-07-20T11:41:03Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-008
+  session_id: SES-20260720T095830Z-752E5121
+  user_request: 自动测试失败必须自行修复重打包重测
+  reason: GitHub第二轮Android编译返回126，确认apps/android/gradlew在索引中为100644
+  original_rule: Gradle Wrapper仅在Windows和容器内以sh调用，仓库未保留Linux执行位
+  new_rule: apps/android/gradlew必须以100755提交，GitHub和任何干净Linux克隆可直接执行
+  impact_summary: 解除Android编译任务退出码126阻断
+  impact:
+    files:
+    - apps/android/gradlew
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - GitHub Actions Android build; git ls-files -s apps/android/gradlew
+    releases:
+    - R05
+    migration_and_compatibility: 不改变Gradle版本和业务代码，仅补齐POSIX执行权限
+  user_confirmation: 本任务要求自动测试失败后自行分析修改重新打包和重新测试
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T11:41:00Z'
+    note: 依据用户自动修复重测授权处理确定性Linux执行位失败
+  machine_record: .continuity/change_requests/CR-0139.yaml
+  document: docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
+  decision_log:
+  - at: '2026-07-20T11:41:03Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 补齐Gradle Wrapper 100755并进入第三轮
+    session_id: SES-20260720T095830Z-752E5121
+  session_ids:
+  - SES-20260720T095830Z-752E5121
+- protocol_version: '1.0'
+  cr_id: CR-0140
+  title: 固定GitHub测试任务Node运行时并完善失败日志
+  status: IMPLEMENTING
+  created_at: '2026-07-20T11:50:25Z'
+  updated_at: '2026-07-20T11:50:32Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R05-008
+  session_id: SES-20260720T095830Z-752E5121
+  user_request: 自动测试失败必须自行分析、修改、重新打包和重新测试
+  reason: GitHub tooling与contracts并行失败，而含Node的干净Linux镜像187项测试通过，需显式安装Node并输出可追踪日志
+  original_rule: tooling和contracts任务依赖ubuntu-latest隐式Node环境，失败时缺少持久测试日志
+  new_rule: GitHub所有调用Node的质量任务显式安装Node 24，并持久上传失败或成功日志
+  impact_summary: 消除Runner镜像差异并缩短后续自动诊断时间
+  impact:
+    files:
+    - .github/workflows/ci.yml
+    - tests/test_android_ci_gate.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_android_ci_gate
+    releases:
+    - R05
+    migration_and_compatibility: 不改变产品逻辑，仅固定CI工具链；Node 24与现有前端任务保持一致
+  user_confirmation: 用户明确要求自动测试失败后自行分析修改重新打包重新测试
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T11:50:29Z'
+    note: 依据用户自动修复重测与长期可复用体系授权执行确定性CI环境修复
+  machine_record: .continuity/change_requests/CR-0140.yaml
+  document: docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
+  decision_log:
+  - at: '2026-07-20T11:50:32Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始补齐Node 24和诊断日志门禁
+    session_id: SES-20260720T095830Z-752E5121
+  session_ids:
+  - SES-20260720T095830Z-752E5121

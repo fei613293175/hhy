@@ -162,6 +162,14 @@ class AndroidCiGateTest(unittest.TestCase):
         ci_source = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
         self.assertIn("./.github/workflows/android-quality-gate.yml", ci_source)
 
+    def test_main_ci_pins_node_for_python_gates_and_keeps_diagnostics(self) -> None:
+        ci_source = (ROOT / ".github/workflows/ci.yml").read_text(encoding="utf-8")
+        self.assertGreaterEqual(ci_source.count("uses: actions/setup-node@v4"), 3)
+        self.assertGreaterEqual(ci_source.count("node-version: '24'"), 3)
+        self.assertIn("tooling-tests.log", ci_source)
+        self.assertIn("contracts.log", ci_source)
+        self.assertGreaterEqual(ci_source.count("uses: actions/upload-artifact@v4"), 2)
+
     def test_every_android_module_uses_the_stable_compile_sdk(self) -> None:
         module_builds = sorted((ROOT / "apps/android").glob("**/build.gradle.kts"))
         compile_sdk_builds = [
