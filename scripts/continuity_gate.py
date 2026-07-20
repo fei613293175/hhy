@@ -785,7 +785,13 @@ def main() -> int:
                     commit_sha=record["sha"],
                 )
             relevant = current_session(ROOT)
-            fresh, reason = context_is_fresh(ROOT, relevant if relevant and relevant.get("status") in {"ACTIVE", "HANDED_OFF", "CLOSING"} else None)
+            ci_git = git_info(ROOT)
+            report.require(not ci_git.get("dirty"), "DIRTY_CI", "CI必须使用干净Git检出")
+            fresh, reason = context_is_fresh(
+                ROOT,
+                relevant if relevant and relevant.get("status") in {"ACTIVE", "HANDED_OFF", "CLOSING"} else None,
+                verify_tree=False,
+            )
             report.require(fresh, "CONTEXT_STALE", reason)
 
         else:  # doctor/release

@@ -1552,7 +1552,12 @@ recent_task_transitions: {dump_yaml(payload['recent_task_transitions'])}
     return payload
 
 
-def context_is_fresh(root: Path, session: dict[str, Any] | None = None) -> tuple[bool, str]:
+def context_is_fresh(
+    root: Path,
+    session: dict[str, Any] | None = None,
+    *,
+    verify_tree: bool = True,
+) -> tuple[bool, str]:
     manifest = load_json(root / "artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json", {})
     if not manifest:
         return False, "Context Pack Manifest不存在"
@@ -1586,7 +1591,7 @@ def context_is_fresh(root: Path, session: dict[str, Any] | None = None) -> tuple
             current = project_fingerprint(root, session)["sha256"]
             if current != checkpoint.get("project_fingerprint", {}).get("sha256"):
                 return False, "项目内容在最新检查点后发生变化"
-    else:
+    elif verify_tree:
         expected_tree = manifest.get("project_fingerprint", {}).get("sha256")
         current_tree = tree_fingerprint(root)["sha256"]
         if not expected_tree or current_tree != expected_tree:
