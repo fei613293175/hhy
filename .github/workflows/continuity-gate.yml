@@ -21,12 +21,33 @@ jobs:
       - name: Initial repository push or ranged per-commit validation
         shell: bash
         run: |
+          set +e
+          set -o pipefail
+          mkdir -p artifacts/validation/ci
           if git rev-parse HEAD^ >/dev/null 2>&1; then
-            python3 scripts/continuity_gate.py --mode ci --strict --base-ref HEAD^ --head-ref HEAD --json-out artifacts/validation/continuity-ci.json
+            python3 scripts/continuity_gate.py --mode ci --strict --base-ref HEAD^ --head-ref HEAD --json-out artifacts/validation/continuity-ci.json 2>&1 \
+              | tee artifacts/validation/ci/continuity-gate.log
           else
             echo 'Initial repository push'
-            python3 scripts/continuity_gate.py --mode ci --strict --head-ref HEAD --json-out artifacts/validation/continuity-ci.json
+            python3 scripts/continuity_gate.py --mode ci --strict --head-ref HEAD --json-out artifacts/validation/continuity-ci.json 2>&1 \
+              | tee artifacts/validation/ci/continuity-gate.log
           fi
+          gate_rc=${PIPESTATUS[0]}
+          set -e
+          if (( gate_rc != 0 )); then
+            summary=$(python3 - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path("artifacts/validation/continuity-ci.json")
+          data = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+          rows = [f"{item.get('code', 'ERROR')}: {item.get('message', '')}" for item in data.get("errors", [])]
+          print("\n".join(rows[-10:]) or "Continuity gate failed; inspect continuity-evidence artifact")
+          PY
+            )
+            summary=${summary//'%'/'%25'}; summary=${summary//$'\r'/'%0D'}; summary=${summary//$'\n'/'%0A'}
+            echo "::error title=Continuity gate failed::$summary"
+          fi
+          exit "$gate_rc"
       - run: python3 scripts/run_continuity_self_test.py
       - run: python3 scripts/test_continuity_protocol.py
       - name: Run bootstrap recovery regression with diagnostics
@@ -61,4 +82,6 @@ jobs:
             artifacts/validation/continuity-integration-v1.2.3.json
             artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
             artifacts/validation/project-doctor-v1.2.3.json
+            artifacts/validation/continuity-ci.json
+            artifacts/validation/ci/continuity-gate.log
             artifacts/validation/ci/continuity-bootstrap-recovery.log
