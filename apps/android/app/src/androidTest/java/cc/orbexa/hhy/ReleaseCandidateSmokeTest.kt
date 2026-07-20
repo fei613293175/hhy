@@ -7,7 +7,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
-import java.io.File
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -18,17 +17,19 @@ import org.junit.runner.RunWith
 class ReleaseCandidateSmokeTest {
     private lateinit var device: UiDevice
     private lateinit var target: Context
-    private lateinit var screenshotDirectory: File
+    private val screenshotDirectory = "/sdcard/Download/hhy-ci-screenshots"
 
     @Before
     fun prepareFreshCandidate() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         device = UiDevice.getInstance(instrumentation)
         target = instrumentation.targetContext
-        screenshotDirectory = File(target.getExternalFilesDir(null), "ci-screenshots").apply {
-            deleteRecursively()
-            mkdirs()
-        }
+        device.executeShellCommand("rm -rf $screenshotDirectory")
+        device.executeShellCommand("mkdir -p $screenshotDirectory")
+        assertTrue(
+            "Cannot prepare shared CI screenshot directory",
+            device.executeShellCommand("test -d $screenshotDirectory && echo READY").trim() == "READY",
+        )
         device.pressHome()
         val launchIntent = target.packageManager.getLaunchIntentForPackage(target.packageName)
             ?: error("Candidate package has no launch intent")
@@ -80,9 +81,12 @@ class ReleaseCandidateSmokeTest {
     }
 
     private fun capture(name: String) {
-        val output = File(screenshotDirectory, name)
-        assertTrue("Cannot capture $name", device.takeScreenshot(output))
-        assertTrue("Screenshot is empty: $name", output.length() > 0)
+        val output = "$screenshotDirectory/$name"
+        device.executeShellCommand("screencap -p $output")
+        assertTrue(
+            "Screenshot is empty: $name",
+            device.executeShellCommand("test -s $output && echo READY").trim() == "READY",
+        )
     }
 
     private fun assertNoForbiddenVisibleText() {

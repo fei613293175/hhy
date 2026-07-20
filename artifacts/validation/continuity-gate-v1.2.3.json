@@ -1,16 +1,15 @@
 {
   "version": "1.2.3",
   "protocol_version": "1.0",
-  "mode": "ci",
+  "mode": "doctor",
   "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 1440,
-    "event_head_hash": "2bccc504b12a54489a8073660b4e7a062b30bf1aa29ee6530a257384b89cdc92",
-    "validated_commits": 0,
+    "event_count": 1447,
+    "event_head_hash": "8a0b8b610443ee1074bb151dda15af6b6fd67bc5fc8957af9c705c2b8a515930",
     "document_gate": {
-      "status": "SKIPPED_UNAFFECTED",
-      "forced": false,
+      "status": "EXECUTED",
+      "forced": true,
       "affected_inputs": []
     }
   },

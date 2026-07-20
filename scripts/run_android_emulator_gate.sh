@@ -23,7 +23,7 @@ set +e
 test_rc=${PIPESTATUS[0]}
 printf '%s\n' "$test_rc" > "$runtime_dir/test-exit-code.txt"
 
-adb pull /sdcard/Android/data/cc.orbexa.hhy.debug/files/ci-screenshots/. "$screenshots_dir/" || true
+adb pull /sdcard/Download/hhy-ci-screenshots/. "$screenshots_dir/" || true
 adb logcat -d -v threadtime \
   | grep -E 'cc\.orbexa\.hhy|AndroidRuntime|FATAL EXCEPTION|ANR in' \
   > "$runtime_dir/logcat.txt" || true

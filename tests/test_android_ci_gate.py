@@ -178,12 +178,21 @@ class AndroidCiGateTest(unittest.TestCase):
 
     def test_emulator_gate_script_is_single_process_and_preserves_evidence(self) -> None:
         source = (ROOT / "scripts/run_android_emulator_gate.sh").read_text(encoding="utf-8")
+        smoke_test = (
+            ROOT
+            / "apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt"
+        ).read_text(encoding="utf-8")
         self.assertIn("connectedDebugAndroidTest", source)
         self.assertIn("test_rc=${PIPESTATUS[0]}", source)
         self.assertIn("android_ci_gate.py analyze", source)
         self.assertIn("adb logcat", source)
         self.assertIn("runtime-report.json", source)
         self.assertIn("::error title=Android emulator gate failed::", source)
+        self.assertIn("/sdcard/Download/hhy-ci-screenshots", source)
+        self.assertNotIn("/sdcard/Android/data/", source)
+        self.assertIn('executeShellCommand("screencap -p $output")', smoke_test)
+        self.assertIn("/sdcard/Download/hhy-ci-screenshots", smoke_test)
+        self.assertNotIn("getExternalFilesDir", smoke_test)
 
     def test_every_android_module_uses_the_stable_compile_sdk(self) -> None:
         module_builds = sorted((ROOT / "apps/android").glob("**/build.gradle.kts"))
