@@ -656,3 +656,12 @@
 - 摘要：R06开发就绪核验完成：DoR、5个Story、Release产物、API契约、R05顺序依赖和R06至R08连续交付授权均已登记并通过门禁
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260720T155546Z-F13C645A.md`
 
+## TASK-R06-002 · COMPLETED · 2026-07-20T16:22:57Z
+
+- Task close: TASK-R06-002 / SES-20260720T160653Z-1DDCDB22
+- Release：`R06`
+- Story：`STORY-R06-005`
+- Actor：`codex-root`
+- 摘要：R06内容与首页数据迁移、领域不变量、空库升级回滚验证全部完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260720T160653Z-1DDCDB22.md`
+

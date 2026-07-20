@@ -26,7 +26,7 @@ tasks:
   completed_at: '2026-07-20T16:03:58Z'
 - id: TASK-R06-002
   title: 统一内容基础、首页与CMS数据迁移与领域不变量
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R06-001
   requirements: *id001
@@ -40,9 +40,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-20T16:22:57Z'
 - id: TASK-R06-003
   title: 统一内容基础、首页与CMS后端应用服务与接口
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R06-002
   requirements: *id001

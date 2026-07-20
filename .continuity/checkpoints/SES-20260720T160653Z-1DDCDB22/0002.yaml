@@ -1,0 +1,186 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260720T160653Z-1DDCDB22-0002
+session_id: SES-20260720T160653Z-1DDCDB22
+sequence: 2
+created_at: '2026-07-20T16:22:58Z'
+summary: 关闭 TASK-R06-002：R06内容与首页数据迁移、领域不变量、空库升级回滚验证全部完成
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：3de2ae637f478c8b3390818a08a491a49a805890
+- 任务转换：TRN-20260720T162257Z-SES-20260720T160653Z-1DDCDB22
+- 下一Release：R06
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: r06-static-migration
+  result: PASS
+  evidence: tests/test_r06_content_migration.py
+  note: 迁移对象、回滚覆盖和运行时副本6项测试通过
+- name: r06-postgres-17
+  result: PASS
+  evidence: scripts/run_r06_disposable_postgres_container.sh
+  note: 空库200表、约束、回滚、重放全部通过
+- name: r06-module-workflow
+  result: PASS
+  evidence: .continuity/runtime/hhy-workflow-state.json
+  note: 契约、后端292项、数据库Schema门禁通过
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 3de2ae637f478c8b3390818a08a491a49a805890
+  upstream: origin/task/TASK-R03-001
+  ahead: 1
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260720T160653Z-1DDCDB22.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R06/TASKS.yaml'
+  recent_commits:
+  - "3de2ae637f478c8b3390818a08a491a49a805890\t2026-07-21T00:22:13+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(database): enforce R06\
+    \ content and home invariants"
+  - "00670ed98ed8974f4aaea6c5e678c2ce8b4d10a2\t2026-07-21T00:05:19+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-001\
+    \ as completed"
+  - "5ae20d227bd1511b774e06f3ecb8060f44ccb632\t2026-07-21T00:03:24+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(governance): open R06\
+    \ implementation"
+  - "5384135fdcdc2d6acc877e4883bf6946fe15e9a4\t2026-07-20T23:11:55+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): reuse clean-checkout\
+    \ policy"
+  - "28f948c3cdeb54ffb7e57e48939ef0cab72bba78\t2026-07-20T23:04:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): remove redundant\
+    \ CI tree check"
+  - "b4f4e51e98f8d1ede4eb7ad95f93ce63a3cdb53e\t2026-07-20T23:01:06+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): anchor fingerprints\
+    \ to Git index"
+  - "371703d30ff4f7bae692ddc10cd93290ff11a69d\t2026-07-20T22:57:47+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): normalize\
+    \ Git blob fingerprints"
+  - "7835f78cb16ce88eec8a4db9bd8eb3a203d9f81d\t2026-07-20T22:51:17+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] ci(continuity): fingerprint\
+    \ tracked source tree"
+project_fingerprint:
+  sha256: e2c87530a9cd86cf7722c9f2f628e72ef5c4debe5382284056503adb48601e24
+  files:
+  - CHANGELOG.md
+  - database/migrations/V029__r06_content_home_invariants.sql
+  - database/rollback/U029__r06_content_home_invariants.sql
+  - database/tests/r06_content_home_invariants.sql
+  - releases/R06/TASKS.yaml
+  - scripts/run_r06_database_invariants.sh
+  - scripts/run_r06_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V029__r06_content_home_invariants.sql
+  - tests/test_r06_content_database_scripts.py
+  - tests/test_r06_content_migration.py
+  file_count: 10
+  payload:
+    base_commit: 00670ed98ed8974f4aaea6c5e678c2ce8b4d10a2
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 54931
+      sha256: 1d8f24ea6501db61924681ef8fc2cbd8f6208dddc8c63a63bdeda370a0b59d07
+    - path: database/migrations/V029__r06_content_home_invariants.sql
+      state: FILE
+      size: 5922
+      sha256: 91700813704cb66792a3f8ec301c7ada4bccfcc6206f531f08fbaba91d4035ec
+    - path: database/rollback/U029__r06_content_home_invariants.sql
+      state: FILE
+      size: 2185
+      sha256: 871ba3413a9501b8e54f37c9b23a29c95d0087021d7c77fd74543ca2db79da3a
+    - path: database/tests/r06_content_home_invariants.sql
+      state: FILE
+      size: 3234
+      sha256: 2c41833bdc58fe04668975cb4eb186b12058f0acc9294f95755df1430e17e07d
+    - path: releases/R06/TASKS.yaml
+      state: FILE
+      size: 5644
+      sha256: 743d822bca6d189e7a068c0d76c84fec05c33230c721ef3640a7bc85c49b8e65
+    - path: scripts/run_r06_database_invariants.sh
+      state: FILE
+      size: 1934
+      sha256: 54cf56e373b325e1aedd04a876ea436dd56a0ec15a4d0669659bfdb0bbce9e41
+    - path: scripts/run_r06_disposable_postgres_container.sh
+      state: FILE
+      size: 1713
+      sha256: ea7d751d8e7147f2c0bd04d9a8c91ef6f442a82b197556997f88c57be6b57cee
+    - path: services/backend/boot/src/main/resources/db/migration/V029__r06_content_home_invariants.sql
+      state: FILE
+      size: 5922
+      sha256: 91700813704cb66792a3f8ec301c7ada4bccfcc6206f531f08fbaba91d4035ec
+    - path: tests/test_r06_content_database_scripts.py
+      state: FILE
+      size: 2059
+      sha256: d1c14ac17bd0cbebd018deffdb4590f3ea78c24adffe0a90ed03725bc8afb141
+    - path: tests/test_r06_content_migration.py
+      state: FILE
+      size: 2017
+      sha256: c938b9186852a88b5270d81937004f423f84ece887ef16196eaf075392f7ac2f
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R06/TASKS.yaml
+  database:
+  - database/migrations/V029__r06_content_home_invariants.sql
+  - database/rollback/U029__r06_content_home_invariants.sql
+  - database/tests/r06_content_home_invariants.sql
+  code:
+  - scripts/run_r06_database_invariants.sh
+  - scripts/run_r06_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V029__r06_content_home_invariants.sql
+  tests:
+  - tests/test_r06_content_database_scripts.py
+  - tests/test_r06_content_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前执行环境不允许创建子代理；数据库迁移、安全约束和最终集成由事实主控串行复核
+event_hash: e03ea82c426b30dedd46ad0a912f6ea90d769afd6df96d72968bf3d10a10134e
