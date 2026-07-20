@@ -73,14 +73,14 @@ class ReleaseCandidateSmokeTest {
         clickTextContains("忘记密码")
         assertTrue(
             "Forgot-password page did not become visually stable",
-            waitForPage(By.text("重置登录密码"), gone = listOf(By.text("短信验证码登录"))),
+            waitForPage(By.text("新密码"), gone = listOf(By.text("短信验证码登录"))),
         )
         capture("04-forgot-password.png")
         assertNoForbiddenVisibleText()
         device.pressBack()
         assertTrue(
             "Forgot-password back did not restore its real SMS-login source",
-            waitForPage(By.text("短信验证码登录"), gone = listOf(By.text("重置登录密码"))),
+            waitForPage(By.text("短信验证码登录"), gone = listOf(By.text("新密码"))),
         )
 
         assertNoForbiddenVisibleText()

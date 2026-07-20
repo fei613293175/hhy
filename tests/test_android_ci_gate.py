@@ -214,7 +214,8 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('gone = listOf(By.text("正在启动"))', smoke_test)
         self.assertIn("Until.gone(selector)", smoke_test)
         self.assertIn('By.text("短信验证码登录")', smoke_test)
-        self.assertIn('By.text("重置登录密码")', smoke_test)
+        self.assertIn('By.text("新密码")', smoke_test)
+        self.assertNotIn('By.text("重置登录密码")', smoke_test)
         self.assertIn("waitForIdle(2_000)", smoke_test)
         self.assertNotIn("waitForTextContains", smoke_test)
 
