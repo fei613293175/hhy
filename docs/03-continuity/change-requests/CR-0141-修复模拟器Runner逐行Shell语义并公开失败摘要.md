@@ -88,3 +88,17 @@ reactivecircus runner逐行以sh -c执行script，原多行脚本的cd变量和�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260720T095830Z-752E5121`
 - Note：实现单脚本模拟器门禁与公开失败摘要
+
+## 状态记录 · 2026-07-20T13:20:00Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260720T095830Z-752E5121`
+- Note：GitHub CI #244完整通过，相关实现与回归证据已验证
+
+## 状态记录 · 2026-07-20T13:20:17Z
+
+- Actor：`codex-root`
+- Status：`CLOSED`
+- Session：`SES-20260720T095830Z-752E5121`
+- Note：CI #244通过编译、Lint、单测、APK、模拟器旅程、四张截图、日志与候选资格门禁

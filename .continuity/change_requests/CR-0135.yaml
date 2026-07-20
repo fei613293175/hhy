@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0135
 title: 建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-20T10:00:54Z'
-updated_at: '2026-07-20T10:15:43Z'
+updated_at: '2026-07-20T13:20:07Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner
 task_id: TASK-R05-008
@@ -57,5 +57,17 @@ decision_log:
   status: IMPLEMENTING
   note: 长期Android自动化策略、Actions、模拟器测试和机器门禁正在实现与验证
   session_id: SES-20260720T095830Z-752E5121
+- at: '2026-07-20T13:19:50Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 'GitHub CI #244完整通过，相关实现与回归证据已验证'
+  session_id: SES-20260720T095830Z-752E5121
+- at: '2026-07-20T13:20:07Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 'CI #244通过编译、Lint、单测、APK、模拟器旅程、四张截图、日志与候选资格门禁'
+  session_id: SES-20260720T095830Z-752E5121
 session_ids:
 - SES-20260720T095830Z-752E5121
+implementation_commits:
+- f8bf690fd5d2594b89917e0fafe8c1ed05224720

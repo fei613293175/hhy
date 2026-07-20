@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-20T13:09:36Z'
+generated_at: '2026-07-20T13:21:06Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -77,7 +77,7 @@ current_status:
   - TASK-R02-007
   - TASK-R03-007
   next_task: TASK-R05-008
-  updated_at: '2026-07-20T13:09:34Z'
+  updated_at: '2026-07-20T13:21:04Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -112,15 +112,15 @@ current_status:
     active_session_id: SES-20260720T095830Z-752E5121
     actor_id: codex-root
     story_id: STORY-R05-008
-    lease_expires_at: '2026-07-20T17:09:34Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0017.yaml
-    project_fingerprint: 08857124344db079acd644cdbcfaabe7afddca185fbbaaf5ca256e11fd213419
+    lease_expires_at: '2026-07-20T17:21:04Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0018.yaml
+    project_fingerprint: 624f5e1d5a7d09123814ff69ca957f6e4abc3279e7e903fb556d0e7e2bca62c8
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 6a552bd34c97e3396850f8bc5cb68f475292cc96f2900cd61fd9fa5f4e266045
-      generated_at: '2026-07-20T12:59:50Z'
+      context_hash: 9412b5ef99c9df85382ee73f984c364d71760ad11a562e61cec1f5580b2e178c
+      generated_at: '2026-07-20T13:09:36Z'
     handoff_bundle: null
 next_task:
   id: TASK-R05-008
@@ -169,7 +169,7 @@ active_session:
   story_id: STORY-R05-008
   goal: 关闭R05并建立跨电脑跨AI长期可复用的Android自动构建、模拟器测试、截图、日志、回归、自修复与候选交付体系
   started_at: '2026-07-20T09:58:30Z'
-  updated_at: '2026-07-20T13:09:34Z'
+  updated_at: '2026-07-20T13:21:04Z'
   takeover_of: null
   change_requests:
   - CR-0135
@@ -264,12 +264,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-20T13:09:34Z'
-    expires_at: '2026-07-20T17:09:34Z'
-  checkpoint_sequence: 17
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0017.yaml
+    renewed_at: '2026-07-20T13:21:04Z'
+    expires_at: '2026-07-20T17:21:04Z'
+  checkpoint_sequence: 18
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0018.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-  next_step: 提交推送并验证MediaStore截图、模拟器旅程、候选门禁完整通过
+  next_step: 提交CR关闭证据并正式关闭TASK-R05-008，切换R06/TASK-R06-001
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -280,40 +280,68 @@ active_session:
     reason: 上级规则禁止用户未明确要求的子代理委托
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260720T095830Z-752E5121-0017
+  checkpoint_id: CP-SES-20260720T095830Z-752E5121-0018
   session_id: SES-20260720T095830Z-752E5121
-  sequence: 17
-  created_at: '2026-07-20T13:09:33Z'
-  summary: CI第243次运行通过新增Annotation定位应用UID无法准备/data/local/tmp；改用官方MediaStore发布截图到Pictures专用目录
-  next_step: 提交推送并验证MediaStore截图、模拟器旅程、候选门禁完整通过
+  sequence: 18
+  created_at: '2026-07-20T13:21:03Z'
+  summary: Android长期自动构建、模拟器旅程、截图、日志、自修复与候选交付体系在GitHub CI第244次运行完整通过，相关CR全部关闭
+  next_step: 提交CR关闭证据并正式关闭TASK-R05-008，切换R06/TASK-R06-001
   blockers: []
   decisions:
-  - Android 10+测试截图采用应用缓存加MediaStore发布，禁止应用UID直接写ADB私有目录
+  - R06-R32及后续Android修复候选必须先通过该自动门禁，全绿前不得标记完成或要求项目所有者真机测试
   note: ''
   tests:
-  - name: android-ci-gate-tests
+  - name: github-ci-244
     result: PASS
-    evidence: python -m unittest tests.test_android_ci_gate
-    note: 11项通过
-  - name: emulator-script-bash-syntax
+    evidence: https://github.com/fei613293175/hhy/actions/runs/29745107703
+    note: 总耗时7分02秒状态Success
+  - name: android-build-gate
     result: PASS
-    evidence: ssh obx-test bash -n
-    note: Linux Bash语法通过
+    evidence: CI#244 Compile lint unit test and package
+    note: 2分20秒通过
+  - name: android-emulator-gate
+    result: PASS
+    evidence: CI#244 Emulator install journeys screenshots and logs
+    note: 4分07秒通过且四张截图有效
+  - name: candidate-eligibility
+    result: PASS
+    evidence: CI#244 Candidate eligibility gate
+    note: 11秒通过且修复队列自动跳过
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 2fff4873e0cccd7ca05ff6af73a51f3f66e435ba
+    head: f8bf690fd5d2594b89917e0fafe8c1ed05224720
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M CHANGELOG.md'
-    - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
-    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-    - ' M scripts/run_android_emulator_gate.sh'
-    - ' M tests/test_android_ci_gate.py'
+    - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+    - ' M .continuity/EVENT_LOG.jsonl'
+    - ' M .continuity/STATE.yaml'
+    - ' M .continuity/change_requests/CR-0135.yaml'
+    - ' M .continuity/change_requests/CR-0136.yaml'
+    - ' M .continuity/change_requests/CR-0138.yaml'
+    - ' M .continuity/change_requests/CR-0139.yaml'
+    - ' M .continuity/change_requests/CR-0140.yaml'
+    - ' M .continuity/change_requests/CR-0141.yaml'
+    - ' M .continuity/change_requests/CR-0142.yaml'
+    - ' M .continuity/change_requests/CR-0143.yaml'
+    - ' M .continuity/change_requests/CR-0144.yaml'
+    - ' M catalogs/change_request_index.csv'
+    - ' M catalogs/session_index.csv'
+    - ' M docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md'
+    - ' M docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md'
+    - ' M docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md'
+    - ' M docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md'
+    - ' M docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md'
+    - ' M docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md'
+    - ' M docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md'
+    - ' M docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md'
+    - ' M docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md'
     recent_commits:
+    - "f8bf690fd5d2594b89917e0fafe8c1ed05224720\t2026-07-20T21:10:01+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): publish screenshots\
+      \ through MediaStore"
     - "2fff4873e0cccd7ca05ff6af73a51f3f66e435ba\t2026-07-20T21:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): persist screenshots\
       \ in adb temp"
     - "fc9866c941355fa2f00db4c1f8cb37cd777645bb\t2026-07-20T20:48:24+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): preserve emulator\
@@ -328,10 +356,8 @@ latest_checkpoint:
       \ runner prerequisites"
     - "6c281906da3426424cfc2ab7f92d55a457cae9fb\t2026-07-20T19:33:48+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): make Android gate\
       \ portable on Linux"
-    - "b9196d7c983af4fbee6b75c9df720a916d1eb2f2\t2026-07-20T18:52:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(android): establish\
-      \ automated candidate quality gate"
   project_fingerprint:
-    sha256: 08857124344db079acd644cdbcfaabe7afddca185fbbaaf5ca256e11fd213419
+    sha256: 624f5e1d5a7d09123814ff69ca957f6e4abc3279e7e903fb556d0e7e2bca62c8
     files:
     - .gitattributes
     - .githooks/commit-msg
@@ -493,44 +519,44 @@ latest_checkpoint:
         sha256: 00774b8c58802e87597faa4bed2867723928c31b602e6986c2b1d70cff8959e6
       - path: docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
         state: FILE
-        size: 3823
-        sha256: 9fd9ea826a7fc71e94b8804243f7deec23739e002d8aefdf6b6c49a9ef92e7b4
+        size: 4275
+        sha256: cfaef91b68a8db477e677e7747583684224077c3b816ee97309d7020858c5cf7
       - path: docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
         state: FILE
-        size: 1983
-        sha256: 10a87ff0adcf705866b49e67b8f26041c5e4ab9e91a64120c7af6cc8b3bf3961
+        size: 2435
+        sha256: a8bb905a52a04c21570884e027e3b4d562854bc156aeaa3a0e87d661530ec5e5
       - path: docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
         state: FILE
         size: 3094
         sha256: c2311668004f80b7e9c09994ad09ec4cbd008278b51c68fb3be63ada84accbc6
       - path: docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
         state: FILE
-        size: 2889
-        sha256: dbbe13ef5557515669ff22e216c9bb8463a273e80777ab9eb9f64729eee54740
+        size: 3341
+        sha256: ad2024b83d37955d725f3f6b0c68f25ddf87c15ce25b2c728473a88777b4f86f
       - path: docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
         state: FILE
-        size: 1790
-        sha256: 11c7f859096a24341b586e9835a0d021f048e40ab30fc63f58ec84b8fc5148c8
+        size: 2242
+        sha256: d7342d732df2a1ac35f358197abd5195739f704cb24ff5ec3238f975535956b6
       - path: docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
         state: FILE
-        size: 1953
-        sha256: af55c25d11fe6bf557e7b0b29f8993b5323b4c374639c650990d9225ca526d03
+        size: 2405
+        sha256: e64394c4919a85320466be4a4145790dff3afb4481d15d818bf19a7358e477f8
       - path: docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
         state: FILE
-        size: 2201
-        sha256: 94313e82aa4644e4d56f06045e6a74143585c46c690cd53f3b69275b5f916e4e
+        size: 2653
+        sha256: 8486504c61734dd0e09f876646d39b144c40c64fdefff15a267f8e44f25ef0f4
       - path: docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
         state: FILE
-        size: 1864
-        sha256: 1483ecdf95f35a70bc53cf78edb44023a87b046d11c2299178fcaca7ec1ab388
+        size: 2316
+        sha256: f68bd552a7c563cb97c351277c79ff71e0da32887f7fd51aa833fc50e5683043
       - path: docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
         state: FILE
-        size: 1920
-        sha256: 4ff184a35e112e097e83400f1a3f3a4d638e2e001805df933f4a277e0e2e3ac8
+        size: 2372
+        sha256: b6253a3877a1293ac67316b9fc0401c07d57ebbf90a320b9949df2ba2310e77c
       - path: docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md
         state: FILE
-        size: 2059
-        sha256: cffb0e2a6005be92d6c0ca70179b4fb5677f6be62ee932bc8d37d60ff867916c
+        size: 2552
+        sha256: 009ef247837b0da5abf0cc09243e94554838b82aeb6eeadad3278031f4d99d3b
       - path: docs/04-vendors/identity/source/输出内容(1).txt
         state: FILE
         size: 12285
@@ -754,31 +780,48 @@ latest_checkpoint:
     delegated_workers: 0
     workers: []
     reason: 上级规则禁止用户未明确要求的子代理委托
-  event_hash: 200c3efa614999d58296e0e4ba036d5537390ddfc17aaf520b94f84b91cfc3ae
+  event_hash: 905018a8bc782220cfd4fe716dafaf67d759d457d43ab5fafc8b0b7e61313e09
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 2fff4873e0cccd7ca05ff6af73a51f3f66e435ba
+  head: f8bf690fd5d2594b89917e0fafe8c1ed05224720
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0135.yaml'
+  - ' M .continuity/change_requests/CR-0136.yaml'
+  - ' M .continuity/change_requests/CR-0138.yaml'
+  - ' M .continuity/change_requests/CR-0139.yaml'
+  - ' M .continuity/change_requests/CR-0140.yaml'
+  - ' M .continuity/change_requests/CR-0141.yaml'
+  - ' M .continuity/change_requests/CR-0142.yaml'
+  - ' M .continuity/change_requests/CR-0143.yaml'
+  - ' M .continuity/change_requests/CR-0144.yaml'
   - ' M .continuity/sessions/SES-20260720T095830Z-752E5121.yaml'
-  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
+  - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md'
+  - ' M docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md'
+  - ' M docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md'
+  - ' M docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md'
+  - ' M docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md'
+  - ' M docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md'
+  - ' M docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md'
+  - ' M docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md'
+  - ' M docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md'
-  - ' M scripts/run_android_emulator_gate.sh'
-  - ' M tests/test_android_ci_gate.py'
-  - ?? .continuity/checkpoints/SES-20260720T095830Z-752E5121/0017.yaml
+  - ?? .continuity/checkpoints/SES-20260720T095830Z-752E5121/0018.yaml
   recent_commits:
+  - "f8bf690fd5d2594b89917e0fafe8c1ed05224720\t2026-07-20T21:10:01+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): publish screenshots\
+    \ through MediaStore"
   - "2fff4873e0cccd7ca05ff6af73a51f3f66e435ba\t2026-07-20T21:00:16+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): persist screenshots\
     \ in adb temp"
   - "fc9866c941355fa2f00db4c1f8cb37cd777645bb\t2026-07-20T20:48:24+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): preserve emulator\
@@ -793,10 +836,8 @@ git:
     \ prerequisites"
   - "6c281906da3426424cfc2ab7f92d55a457cae9fb\t2026-07-20T19:33:48+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] fix(ci): make Android gate\
     \ portable on Linux"
-  - "b9196d7c983af4fbee6b75c9df720a916d1eb2f2\t2026-07-20T18:52:14+08:00\tHHY Continuity Bootstrap\t[STORY-R05-008] feat(android): establish automated\
-    \ candidate quality gate"
 project_fingerprint:
-  sha256: 08857124344db079acd644cdbcfaabe7afddca185fbbaaf5ca256e11fd213419
+  sha256: 624f5e1d5a7d09123814ff69ca957f6e4abc3279e7e903fb556d0e7e2bca62c8
   files:
   - .gitattributes
   - .githooks/commit-msg
@@ -958,44 +999,44 @@ project_fingerprint:
       sha256: 00774b8c58802e87597faa4bed2867723928c31b602e6986c2b1d70cff8959e6
     - path: docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
       state: FILE
-      size: 3823
-      sha256: 9fd9ea826a7fc71e94b8804243f7deec23739e002d8aefdf6b6c49a9ef92e7b4
+      size: 4275
+      sha256: cfaef91b68a8db477e677e7747583684224077c3b816ee97309d7020858c5cf7
     - path: docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
       state: FILE
-      size: 1983
-      sha256: 10a87ff0adcf705866b49e67b8f26041c5e4ab9e91a64120c7af6cc8b3bf3961
+      size: 2435
+      sha256: a8bb905a52a04c21570884e027e3b4d562854bc156aeaa3a0e87d661530ec5e5
     - path: docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
       state: FILE
       size: 3094
       sha256: c2311668004f80b7e9c09994ad09ec4cbd008278b51c68fb3be63ada84accbc6
     - path: docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
       state: FILE
-      size: 2889
-      sha256: dbbe13ef5557515669ff22e216c9bb8463a273e80777ab9eb9f64729eee54740
+      size: 3341
+      sha256: ad2024b83d37955d725f3f6b0c68f25ddf87c15ce25b2c728473a88777b4f86f
     - path: docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
       state: FILE
-      size: 1790
-      sha256: 11c7f859096a24341b586e9835a0d021f048e40ab30fc63f58ec84b8fc5148c8
+      size: 2242
+      sha256: d7342d732df2a1ac35f358197abd5195739f704cb24ff5ec3238f975535956b6
     - path: docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
       state: FILE
-      size: 1953
-      sha256: af55c25d11fe6bf557e7b0b29f8993b5323b4c374639c650990d9225ca526d03
+      size: 2405
+      sha256: e64394c4919a85320466be4a4145790dff3afb4481d15d818bf19a7358e477f8
     - path: docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
       state: FILE
-      size: 2201
-      sha256: 94313e82aa4644e4d56f06045e6a74143585c46c690cd53f3b69275b5f916e4e
+      size: 2653
+      sha256: 8486504c61734dd0e09f876646d39b144c40c64fdefff15a267f8e44f25ef0f4
     - path: docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
       state: FILE
-      size: 1864
-      sha256: 1483ecdf95f35a70bc53cf78edb44023a87b046d11c2299178fcaca7ec1ab388
+      size: 2316
+      sha256: f68bd552a7c563cb97c351277c79ff71e0da32887f7fd51aa833fc50e5683043
     - path: docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
       state: FILE
-      size: 1920
-      sha256: 4ff184a35e112e097e83400f1a3f3a4d638e2e001805df933f4a277e0e2e3ac8
+      size: 2372
+      sha256: b6253a3877a1293ac67316b9fc0401c07d57ebbf90a320b9949df2ba2310e77c
     - path: docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md
       state: FILE
-      size: 2059
-      sha256: cffb0e2a6005be92d6c0ca70179b4fb5677f6be62ee932bc8d37d60ff867916c
+      size: 2552
+      sha256: 009ef247837b0da5abf0cc09243e94554838b82aeb6eeadad3278031f4d99d3b
     - path: docs/04-vendors/identity/source/输出内容(1).txt
       state: FILE
       size: 12285
@@ -2256,8 +2297,8 @@ continuity_state:
   last_session_id: SES-20260719T234639Z-1D7D7A00
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260719T234639Z-1D7D7A00-0043
-  event_count: 1449
-  event_head_hash: 200c3efa614999d58296e0e4ba036d5537390ddfc17aaf520b94f84b91cfc3ae
+  event_count: 1468
+  event_head_hash: 905018a8bc782220cfd4fe716dafaf67d759d457d43ab5fafc8b0b7e61313e09
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260719T144443Z-BF11796E
@@ -2376,9 +2417,9 @@ recent_sessions:
   started_at: '2026-07-20T09:58:30Z'
   record: .continuity/sessions/SES-20260720T095830Z-752E5121.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-  updated_at: '2026-07-20T13:09:34Z'
+  updated_at: '2026-07-20T13:21:04Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0017.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0018.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-D402CCF0F4A1
@@ -7120,440 +7161,6 @@ open_change_requests:
   - SES-20260719T234639Z-1D7D7A00
   implementation_commits:
   - 07f2fe254dace0c422be6cb96e3f66b88b2ad40b
-- protocol_version: '1.0'
-  cr_id: CR-0135
-  title: 建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁
-  status: IMPLEMENTING
-  created_at: '2026-07-20T10:00:54Z'
-  updated_at: '2026-07-20T10:15:43Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner
-  task_id: TASK-R05-008
-  session_id: SES-20260720T095830Z-752E5121
-  user_request: 项目所有者要求以后每个安卓版本由GitHub Actions自动编译打包、模拟器安装、功能测试、页面截图、日志和回归；失败由AI自行修复重跑，全部通过前不得标记完成或要求真机测试
-  reason: 现有CI只执行lint、单元测试和assembleDebug，不能证明安装、运行、UI、日志和回归通过
-  original_rule: Android CI仅执行lintDebug、testDebugUnitTest和assembleDebug；真机测试可能在完整自动化之前发生
-  new_rule: R06起每个Android候选版本必须先通过GitHub Actions编译签名、模拟器安装、功能旅程、页面截图、日志与崩溃扫描、视觉回归、APK身份和交付证据；失败必须形成机器可读修复队列并由接续AI修复重跑，全部PASS前禁止完成和禁止邀请项目所有者真机测试
-  impact_summary: 增加Android自动化策略、可复用Actions工作流、模拟器冒烟、CI证据分析、候选交付门禁和跨AI接续规则；R05以已验收10213作为迁移基线，R06开始硬阻断
-  impact:
-    files:
-    - .github/workflows/android-quality-gate.yml
-    - .github/workflows/ci.yml
-    - config/android-automation.yaml
-    - scripts/android_ci_gate.py
-    - tests/test_android_ci_gate.py
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - apps/android/app/build.gradle.kts
-    - apps/android/gradle/libs.versions.toml
-    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
-    - docs/08-testing/测试策略与质量门禁_V1.2.2.md
-    - docs/09-development/统一开发与交付效率规范.md
-    - docs/00-baseline/正式商业系统全局硬性开发边界.md
-    - AGENTS.md
-    - templates/AGENTS.md
-    - releases/R05/RELEASE_MANIFEST.yaml
-    - scripts/check_release_artifacts.py
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python -m unittest tests.test_android_ci_gate
-    - python scripts/android_ci_gate.py policy-check
-    - GitHub Actions android-quality-gate YAML schema and dry-run fixture
-    - python scripts/check_release_artifacts.py --release R05
-    releases:
-    - R05
-    migration_and_compatibility: R05已由项目所有者真机通过，不追溯阻断；R06-R32及所有涉及APK的Bug候选强制执行。第三方活体、短信与真实相机采用模拟供应商自动回归加沙箱合同测试，最终候选再由项目所有者单次真机体验验收
-  user_confirmation: 2026-07-20 当前任务原文：以后每个安卓版本完成后由GitHub Actions自动完成编译、APK打包、模拟器安装、功能测试、页面截图、日志检查和回归测试；失败由AI自行修复重测；全部通过前不得标记完成或要求用户真机测试
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-20T10:01:10Z'
-    note: 项目所有者在当前任务中明确要求立即建立该长期体系，并规定自动测试全绿前不得完成或要求真机测试
-  machine_record: .continuity/change_requests/CR-0135.yaml
-  document: docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
-  decision_log:
-  - at: '2026-07-20T10:15:43Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 长期Android自动化策略、Actions、模拟器测试和机器门禁正在实现与验证
-    session_id: SES-20260720T095830Z-752E5121
-  session_ids:
-  - SES-20260720T095830Z-752E5121
-- protocol_version: '1.0'
-  cr_id: CR-0136
-  title: 修复统一图标默认颜色违反UI令牌门禁
-  status: IMPLEMENTING
-  created_at: '2026-07-20T10:19:46Z'
-  updated_at: '2026-07-20T10:24:06Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner
-  task_id: TASK-R05-008
-  session_id: SES-20260720T095830Z-752E5121
-  user_request: 自动测试发现失败后必须自行分析修改重新测试
-  reason: R05统一图标组件使用Color.Unspecified导致既有check_ui_tokens门禁失败，阻断新Android自动化流水线
-  original_rule: Android统一图标组件应通过UI令牌门禁
-  new_rule: Android统一图标组件默认颜色必须继承Material内容颜色，不得直接使用门禁禁止的Color常量
-  impact_summary: 只修正统一图标默认tint来源，使既有页面视觉不变且UI令牌门禁通过
-  impact:
-    files:
-    - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python scripts/check_ui_tokens.py
-    releases:
-    - R05
-    migration_and_compatibility: HhyIcon调用方无需修改；显式tint仍保持原行为
-  user_confirmation: 自动测试发现失败后必须自行分析、修改、重新打包和重新测试
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-20T10:20:11Z'
-    note: 依据项目所有者本轮明确要求：自动测试失败后由AI自行分析、修改并重新测试
-  machine_record: .continuity/change_requests/CR-0136.yaml
-  document: docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
-  decision_log:
-  - at: '2026-07-20T10:24:06Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 已按批准范围把HhyIcon默认tint改为Material LocalContentColor，并通过UI令牌门禁
-    session_id: SES-20260720T095830Z-752E5121
-  session_ids:
-  - SES-20260720T095830Z-752E5121
-- protocol_version: '1.0'
-  cr_id: CR-0138
-  title: 精确修复Android自动门禁Linux与稳定SDK缺陷
-  status: IMPLEMENTING
-  created_at: '2026-07-20T11:27:34Z'
-  updated_at: '2026-07-20T11:28:01Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner
-  task_id: TASK-R05-008
-  session_id: SES-20260720T095830Z-752E5121
-  user_request: 发现自动测试失败后必须自行分析修改重打包重测，全部通过前不得完成或要求真机测试
-  reason: CR-0137通配符范围无法应用，需以精确文件清单修复首轮CI失败
-  original_rule: GitHub工作流未显式配置中文路径和Linux Hook模式，Android compileSdk为API 37，原始供应商证据被文本换行过滤
-  new_rule: Linux干净克隆必须可通过；Git core.quotepath=false；四个Hook保留100755；供应商原始证据按二进制；Android compileSdk统一为稳定API 36
-  impact_summary: 修复连续性、全量测试和Android构建三类首轮CI失败
-  impact:
-    files:
-    - .github/workflows/android-quality-gate.yml
-    - .github/workflows/ci.yml
-    - .github/workflows/continuity-gate.yml
-    - .gitattributes
-    - .githooks/commit-msg
-    - .githooks/pre-commit
-    - .githooks/pre-push
-    - .githooks/prepare-commit-msg
-    - apps/android/build.gradle.kts
-    - apps/android/app/build.gradle.kts
-    - apps/android/core/designsystem/build.gradle.kts
-    - apps/android/core/network/build.gradle.kts
-    - apps/android/feature/auth/build.gradle.kts
-    - apps/android/feature/identity/build.gradle.kts
-    - apps/android/feature/media/build.gradle.kts
-    - apps/android/feature/shell/build.gradle.kts
-    - apps/android/feature/startup/build.gradle.kts
-    - docs/04-vendors/identity/source/输出内容(1).txt
-    - tests/test_android_ci_gate.py
-    pages: []
-    apis: []
-    database: []
-    configuration:
-    - Android compileSdk=36; Git core.quotepath=false; Hook executable mode; frozen evidence binary
-    ledger: []
-    tests:
-    - Linux clean-clone continuity/project-doctor/full unittest; Android Gradle compile/lint/test/package; GitHub Actions rerun
-    releases:
-    - R05
-    migration_and_compatibility: 不改业务功能；R05真机结果继续有效；R06起使用稳定API 36自动门禁
-  user_confirmation: 本任务原文要求发现编译错误、崩溃、测试失败或明显UI偏差后自行分析修改重新打包重新测试
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-20T11:27:58Z'
-    note: 用户明确要求自动测试失败必须自行修复重测
-  machine_record: .continuity/change_requests/CR-0138.yaml
-  document: docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
-  decision_log:
-  - at: '2026-07-20T11:28:01Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 按精确文件范围实施Linux与稳定SDK修复
-    session_id: SES-20260720T095830Z-752E5121
-  session_ids:
-  - SES-20260720T095830Z-752E5121
-- protocol_version: '1.0'
-  cr_id: CR-0139
-  title: 修复Android Gradle Wrapper缺少Linux执行权限
-  status: IMPLEMENTING
-  created_at: '2026-07-20T11:40:57Z'
-  updated_at: '2026-07-20T11:41:03Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner
-  task_id: TASK-R05-008
-  session_id: SES-20260720T095830Z-752E5121
-  user_request: 自动测试失败必须自行修复重打包重测
-  reason: GitHub第二轮Android编译返回126，确认apps/android/gradlew在索引中为100644
-  original_rule: Gradle Wrapper仅在Windows和容器内以sh调用，仓库未保留Linux执行位
-  new_rule: apps/android/gradlew必须以100755提交，GitHub和任何干净Linux克隆可直接执行
-  impact_summary: 解除Android编译任务退出码126阻断
-  impact:
-    files:
-    - apps/android/gradlew
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - GitHub Actions Android build; git ls-files -s apps/android/gradlew
-    releases:
-    - R05
-    migration_and_compatibility: 不改变Gradle版本和业务代码，仅补齐POSIX执行权限
-  user_confirmation: 本任务要求自动测试失败后自行分析修改重新打包和重新测试
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-20T11:41:00Z'
-    note: 依据用户自动修复重测授权处理确定性Linux执行位失败
-  machine_record: .continuity/change_requests/CR-0139.yaml
-  document: docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
-  decision_log:
-  - at: '2026-07-20T11:41:03Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 补齐Gradle Wrapper 100755并进入第三轮
-    session_id: SES-20260720T095830Z-752E5121
-  session_ids:
-  - SES-20260720T095830Z-752E5121
-- protocol_version: '1.0'
-  cr_id: CR-0140
-  title: 固定GitHub测试任务Node运行时并完善失败日志
-  status: IMPLEMENTING
-  created_at: '2026-07-20T11:50:25Z'
-  updated_at: '2026-07-20T11:50:32Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner
-  task_id: TASK-R05-008
-  session_id: SES-20260720T095830Z-752E5121
-  user_request: 自动测试失败必须自行分析、修改、重新打包和重新测试
-  reason: GitHub tooling与contracts并行失败，而含Node的干净Linux镜像187项测试通过，需显式安装Node并输出可追踪日志
-  original_rule: tooling和contracts任务依赖ubuntu-latest隐式Node环境，失败时缺少持久测试日志
-  new_rule: GitHub所有调用Node的质量任务显式安装Node 24，并持久上传失败或成功日志
-  impact_summary: 消除Runner镜像差异并缩短后续自动诊断时间
-  impact:
-    files:
-    - .github/workflows/ci.yml
-    - tests/test_android_ci_gate.py
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python -m unittest tests.test_android_ci_gate
-    releases:
-    - R05
-    migration_and_compatibility: 不改变产品逻辑，仅固定CI工具链；Node 24与现有前端任务保持一致
-  user_confirmation: 用户明确要求自动测试失败后自行分析修改重新打包重新测试
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-20T11:50:29Z'
-    note: 依据用户自动修复重测与长期可复用体系授权执行确定性CI环境修复
-  machine_record: .continuity/change_requests/CR-0140.yaml
-  document: docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
-  decision_log:
-  - at: '2026-07-20T11:50:32Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 开始补齐Node 24和诊断日志门禁
-    session_id: SES-20260720T095830Z-752E5121
-  session_ids:
-  - SES-20260720T095830Z-752E5121
-- protocol_version: '1.0'
-  cr_id: CR-0141
-  title: 修复模拟器Runner逐行Shell语义并公开失败摘要
-  status: IMPLEMENTING
-  created_at: '2026-07-20T12:14:53Z'
-  updated_at: '2026-07-20T12:15:00Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner
-  task_id: TASK-R05-008
-  session_id: SES-20260720T095830Z-752E5121
-  user_request: 自动测试失败必须自行分析、修改、重新打包和重新测试
-  reason: reactivecircus runner逐行以sh -c执行script，原多行脚本的cd变量和续行不共享，模拟器门禁退出127；公开API又只能看到退出码
-  original_rule: 模拟器动作内嵌多行状态脚本，工具与连续性失败只上传需鉴权日志
-  new_rule: 模拟器动作只调用仓库内单一可执行Bash脚本；关键失败同时输出脱敏GitHub annotation并保留完整Artifact
-  impact_summary: 修复模拟器退出127并使换电脑AI可从公开检查摘要直接定位失败
-  impact:
-    files:
-    - .github/workflows/android-quality-gate.yml
-    - .github/workflows/ci.yml
-    - .github/workflows/continuity-gate.yml
-    - scripts/run_android_emulator_gate.sh
-    - tests/test_android_ci_gate.py
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python -m unittest tests.test_android_ci_gate
-    - bash -n scripts/run_android_emulator_gate.sh
-    releases:
-    - R05
-    migration_and_compatibility: 不改变业务功能和测试旅程；仅调整CI执行封装与诊断通道
-  user_confirmation: 用户要求自动测试失败后自行分析修改重新打包重新测试
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-20T12:14:57Z'
-    note: 依据用户长期自动修复重测授权修复已确认的Runner脚本语义错误
-  machine_record: .continuity/change_requests/CR-0141.yaml
-  document: docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
-  decision_log:
-  - at: '2026-07-20T12:15:00Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 实现单脚本模拟器门禁与公开失败摘要
-    session_id: SES-20260720T095830Z-752E5121
-  session_ids:
-  - SES-20260720T095830Z-752E5121
-- protocol_version: '1.0'
-  cr_id: CR-0142
-  title: Android门禁自身变更必须触发Android全链
-  status: IMPLEMENTING
-  created_at: '2026-07-20T12:23:49Z'
-  updated_at: '2026-07-20T12:23:56Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner
-  task_id: TASK-R05-008
-  session_id: SES-20260720T095830Z-752E5121
-  user_request: 自动测试失败必须自行分析、修改、重新打包和重新测试
-  reason: 第四轮影响分析仅选择tooling，跳过了刚修改的Android模拟器门禁，存在测试系统未自测缺口
-  original_rule: android-module仅匹配apps/android、contracts和domain-types
-  new_rule: Android自动化策略、工作流、门禁脚本及其测试发生变化时必须选择android任务
-  impact_summary: 保证每次修改Android测试系统都会实际运行编译与模拟器全链
-  impact:
-    files:
-    - config/test-impact-map.yaml
-    - tests/test_run_affected_tests.py
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python -m unittest tests.test_run_affected_tests
-    releases:
-    - R05
-    migration_and_compatibility: 仅扩展CI影响映射，普通非Android改动仍按受影响范围执行
-  user_confirmation: 用户要求自动测试全部通过前不得完成版本
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-20T12:23:53Z'
-    note: 依据自动测试体系必须自验证的长期门禁要求
-  machine_record: .continuity/change_requests/CR-0142.yaml
-  document: docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
-  decision_log:
-  - at: '2026-07-20T12:23:56Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 扩展Android影响映射并补回归
-    session_id: SES-20260720T095830Z-752E5121
-  session_ids:
-  - SES-20260720T095830Z-752E5121
-- protocol_version: '1.0'
-  cr_id: CR-0143
-  title: 修复Linux临时Worktree禁止提交Hook执行位
-  status: IMPLEMENTING
-  created_at: '2026-07-20T12:25:46Z'
-  updated_at: '2026-07-20T12:25:54Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner
-  task_id: TASK-R05-008
-  session_id: SES-20260720T095830Z-752E5121
-  user_request: 自动测试失败必须自行分析、修改、重新打包和重新测试
-  reason: GitHub Tooling精确失败为parallel worktree回归；Linux上动态生成Hook默认为0644，导致委托工作树可绕过禁止提交门禁
-  original_rule: 临时Worktree只写入pre-commit和pre-push内容，未在POSIX系统赋可执行位
-  new_rule: 非Windows系统创建临时Hook后必须chmod 700并验证成功，任何失败关闭执行
-  impact_summary: 恢复Linux委托工作树禁止提交和推送的安全边界
-  impact:
-    files:
-    - scripts/prepare_parallel_worktrees.ps1
-    - tests/test_parallel_worktrees.py
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python -m unittest tests.test_parallel_worktrees
-    releases:
-    - R05
-    migration_and_compatibility: Windows行为不变；Linux和macOS补齐标准POSIX执行权限
-  user_confirmation: 用户要求自动测试失败后自行修复且换电脑AI保持规则
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-20T12:25:50Z'
-    note: 依据长期跨电脑跨AI与自动修复授权处理Linux安全门禁缺陷
-  machine_record: .continuity/change_requests/CR-0143.yaml
-  document: docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
-  decision_log:
-  - at: '2026-07-20T12:25:54Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 补齐POSIX临时Hook执行权限并回归
-    session_id: SES-20260720T095830Z-752E5121
-  session_ids:
-  - SES-20260720T095830Z-752E5121
-- protocol_version: '1.0'
-  cr_id: CR-0144
-  title: 修复模拟器截图在测试卸载后被清理
-  status: IMPLEMENTING
-  created_at: '2026-07-20T12:42:43Z'
-  updated_at: '2026-07-20T12:42:50Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner
-  task_id: TASK-R05-008
-  session_id: SES-20260720T095830Z-752E5121
-  user_request: 自动测试必须完成页面截图和明显UI偏差检查
-  reason: 模拟器旅程通过但截图写入应用专属外部目录，connectedAndroidTest清理APK后目录随之删除，adb pull得到0张
-  original_rule: UIAutomator截图写入targetContext.getExternalFilesDir并在Gradle测试结束后拉取
-  new_rule: 测试通过UiDevice Shell在模拟器Download下生成固定CI截图，APK清理后仍可由adb拉取；路径无用户输入且每次测试前重建
-  impact_summary: 保留四个页面旅程截图并解除视觉证据为0的候选阻断
-  impact:
-    files:
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
-    - scripts/run_android_emulator_gate.sh
-    - tests/test_android_ci_gate.py
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python -m unittest tests.test_android_ci_gate
-    releases:
-    - R05
-    migration_and_compatibility: 仅影响androidTest和CI模拟器，不进入正式APK运行逻辑或用户存储
-  user_confirmation: 用户要求GitHub Actions自动页面截图且全绿前不得完成
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-20T12:42:47Z'
-    note: 依据自动页面截图和自修复授权修复测试证据生命周期
-  machine_record: .continuity/change_requests/CR-0144.yaml
-  document: docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md
-  decision_log:
-  - at: '2026-07-20T12:42:50Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 迁移截图到模拟器固定CI目录并补回归
-    session_id: SES-20260720T095830Z-752E5121
-  session_ids:
-  - SES-20260720T095830Z-752E5121
 source_manifest:
 - path: AGENTS.md
   sha256: fcaf6aadd2a4b46b24335ab963415fb6d38c599eaf5b25fa738fa82fb5002c7d
@@ -7562,7 +7169,7 @@ source_manifest:
   sha256: 038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a
   bytes: 3477
 - path: CURRENT_STATUS.yaml
-  sha256: a1f52c0a907286584d8d6c0572a614d37dae039a1cb9ab7799daef86404210eb
+  sha256: 091867ad84f0d6389772eaa5ea9736caac8895abdf72043defa31d3b271fd748
   bytes: 3632
 - path: NEXT_TASK.yaml
   sha256: ffc587b7a19397e86fb03f0a6f3ae2b0d16a2a8ac2db6a0483fdded3d1543527
@@ -7595,10 +7202,10 @@ source_manifest:
   sha256: 35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6
   bytes: 11116
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 80dc70a5344fdfa92753f5c5d96cb46c8354700c100fa90afe16041eeb659f10
-  bytes: 804985
+  sha256: bf5327c21a0720a35a120657809252e20f9b274e2fe0f17e79fbd32609a9c807
+  bytes: 812558
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: aa9234cf4a89e5b68bd6ad47c4e91ca9003bfce42df79261af4c933f86e02705
+  sha256: 94afcee323e8c796d9a7eb3ff8c81978ddad45bfdd8d970271b04b892e3a647a
   bytes: 25808
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 51845584c67e22b1b247283317fe524313ac3f43f8982fb4b629af1151cace6f
@@ -7607,10 +7214,10 @@ source_manifest:
   sha256: 6b84bba6c64711ba15832b715ebe1e0511e794712aa95a94a57a8c04c5d1391d
   bytes: 14883
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: ef1d30b2d4decedcdeadc95a9be8ade7bb109e9e4e9d7b05f7b3061d62435711
-  bytes: 439417
+  sha256: 4697755a723a88632411e13e207ae8c7a646c11bb50daa161763210768de66c7
+  bytes: 443980
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: c23eda6d4d658621dfa965eee19e15cc97b267d8ff238af62ecac1731707399b
+  sha256: c254e3884fbbe7570371a77f7a07f38f86de4413b56bcf425b3754e2b7b8e0d5
   bytes: 525
 - path: releases/R05/RELEASE_MANIFEST.yaml
   sha256: 6fc95b4abdedcaa6561460c2d5db23e6fccf1a870452779b0c03035bd6ea11ec
@@ -7631,41 +7238,41 @@ source_manifest:
   sha256: 38aeca3a61f5a73723627cf4dbf1fcedf5bd759234e99f6bfe6200984b140dda
   bytes: 3785
 - path: docs/03-continuity/sessions/2026-07/SES-20260720T095830Z-752E5121.md
-  sha256: 660991f69e269e16a27a6db9dc4c851a67de0ff00e494918b098824a956f029e
-  bytes: 52324
-- path: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0017.yaml
-  sha256: f04290315ff11c80873fb50b194c4d43855360dd8377036292f3d4745bfa1620
-  bytes: 20810
+  sha256: e30bb41d9640f4bebb2e982805626a48f05d2694c1130819ba87bdfbdc420005
+  bytes: 56228
+- path: .continuity/checkpoints/SES-20260720T095830Z-752E5121/0018.yaml
+  sha256: e43d3cc9ac1244406b741fed97a73598b11e32e08d8f4500dac84e11b81e383c
+  bytes: 22570
 - path: docs/03-continuity/change-requests/CR-0135-建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁.md
-  sha256: 9fd9ea826a7fc71e94b8804243f7deec23739e002d8aefdf6b6c49a9ef92e7b4
-  bytes: 3823
+  sha256: cfaef91b68a8db477e677e7747583684224077c3b816ee97309d7020858c5cf7
+  bytes: 4275
 - path: docs/03-continuity/change-requests/CR-0136-修复统一图标默认颜色违反UI令牌门禁.md
-  sha256: 10a87ff0adcf705866b49e67b8f26041c5e4ab9e91a64120c7af6cc8b3bf3961
-  bytes: 1983
+  sha256: a8bb905a52a04c21570884e027e3b4d562854bc156aeaa3a0e87d661530ec5e5
+  bytes: 2435
 - path: docs/03-continuity/change-requests/CR-0137-修复Android自动门禁的Linux跨平台与稳定SDK缺陷.md
   sha256: c2311668004f80b7e9c09994ad09ec4cbd008278b51c68fb3be63ada84accbc6
   bytes: 3094
 - path: docs/03-continuity/change-requests/CR-0138-精确修复Android自动门禁Linux与稳定SDK缺陷.md
-  sha256: dbbe13ef5557515669ff22e216c9bb8463a273e80777ab9eb9f64729eee54740
-  bytes: 2889
+  sha256: ad2024b83d37955d725f3f6b0c68f25ddf87c15ce25b2c728473a88777b4f86f
+  bytes: 3341
 - path: docs/03-continuity/change-requests/CR-0139-修复Android-Gradle-Wrapper缺少Linux执行权限.md
-  sha256: 11c7f859096a24341b586e9835a0d021f048e40ab30fc63f58ec84b8fc5148c8
-  bytes: 1790
+  sha256: d7342d732df2a1ac35f358197abd5195739f704cb24ff5ec3238f975535956b6
+  bytes: 2242
 - path: docs/03-continuity/change-requests/CR-0140-固定GitHub测试任务Node运行时并完善失败日志.md
-  sha256: af55c25d11fe6bf557e7b0b29f8993b5323b4c374639c650990d9225ca526d03
-  bytes: 1953
+  sha256: e64394c4919a85320466be4a4145790dff3afb4481d15d818bf19a7358e477f8
+  bytes: 2405
 - path: docs/03-continuity/change-requests/CR-0141-修复模拟器Runner逐行Shell语义并公开失败摘要.md
-  sha256: 94313e82aa4644e4d56f06045e6a74143585c46c690cd53f3b69275b5f916e4e
-  bytes: 2201
+  sha256: 8486504c61734dd0e09f876646d39b144c40c64fdefff15a267f8e44f25ef0f4
+  bytes: 2653
 - path: docs/03-continuity/change-requests/CR-0142-Android门禁自身变更必须触发Android全链.md
-  sha256: 1483ecdf95f35a70bc53cf78edb44023a87b046d11c2299178fcaca7ec1ab388
-  bytes: 1864
+  sha256: f68bd552a7c563cb97c351277c79ff71e0da32887f7fd51aa833fc50e5683043
+  bytes: 2316
 - path: docs/03-continuity/change-requests/CR-0143-修复Linux临时Worktree禁止提交Hook执行位.md
-  sha256: 4ff184a35e112e097e83400f1a3f3a4d638e2e001805df933f4a277e0e2e3ac8
-  bytes: 1920
+  sha256: b6253a3877a1293ac67316b9fc0401c07d57ebbf90a320b9949df2ba2310e77c
+  bytes: 2372
 - path: docs/03-continuity/change-requests/CR-0144-修复模拟器截图在测试卸载后被清理.md
-  sha256: cffb0e2a6005be92d6c0ca70179b4fb5677f6be62ee932bc8d37d60ff867916c
-  bytes: 2059
+  sha256: 009ef247837b0da5abf0cc09243e94554838b82aeb6eeadad3278031f4d99d3b
+  bytes: 2552
 exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
   '<未委托原因>'
 hard_rules:
@@ -7680,4 +7287,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 9412b5ef99c9df85382ee73f984c364d71760ad11a562e61cec1f5580b2e178c
+context_hash: 917f2ecc07961c4f910769afa1c7e48d0cd78f06ea714e31541da49c94d55df3

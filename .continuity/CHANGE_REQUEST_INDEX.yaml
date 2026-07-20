@@ -8052,9 +8052,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0135
   title: 建立Android版本级自动构建模拟器视觉日志自修复与候选交付硬门禁
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-20T10:00:54Z'
-  updated_at: '2026-07-20T10:15:43Z'
+  updated_at: '2026-07-20T13:20:07Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-008
@@ -8108,14 +8108,26 @@ change_requests:
     status: IMPLEMENTING
     note: 长期Android自动化策略、Actions、模拟器测试和机器门禁正在实现与验证
     session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:19:50Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 'GitHub CI #244完整通过，相关实现与回归证据已验证'
+    session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:07Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 'CI #244通过编译、Lint、单测、APK、模拟器旅程、四张截图、日志与候选资格门禁'
+    session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+  implementation_commits:
+  - f8bf690fd5d2594b89917e0fafe8c1ed05224720
 - protocol_version: '1.0'
   cr_id: CR-0136
   title: 修复统一图标默认颜色违反UI令牌门禁
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-20T10:19:46Z'
-  updated_at: '2026-07-20T10:24:06Z'
+  updated_at: '2026-07-20T13:20:09Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-008
@@ -8151,8 +8163,20 @@ change_requests:
     status: IMPLEMENTING
     note: 已按批准范围把HhyIcon默认tint改为Material LocalContentColor，并通过UI令牌门禁
     session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:19:52Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 'GitHub CI #244完整通过，相关实现与回归证据已验证'
+    session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:09Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 'CI #244通过编译、Lint、单测、APK、模拟器旅程、四张截图、日志与候选资格门禁'
+    session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+  implementation_commits:
+  - f8bf690fd5d2594b89917e0fafe8c1ed05224720
 - protocol_version: '1.0'
   cr_id: CR-0137
   title: 修复Android自动门禁的Linux跨平台与稳定SDK缺陷
@@ -8217,9 +8241,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0138
   title: 精确修复Android自动门禁Linux与稳定SDK缺陷
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-20T11:27:34Z'
-  updated_at: '2026-07-20T11:28:01Z'
+  updated_at: '2026-07-20T13:20:11Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-008
@@ -8274,14 +8298,26 @@ change_requests:
     status: IMPLEMENTING
     note: 按精确文件范围实施Linux与稳定SDK修复
     session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:19:54Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 'GitHub CI #244完整通过，相关实现与回归证据已验证'
+    session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:11Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 'CI #244通过编译、Lint、单测、APK、模拟器旅程、四张截图、日志与候选资格门禁'
+    session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+  implementation_commits:
+  - f8bf690fd5d2594b89917e0fafe8c1ed05224720
 - protocol_version: '1.0'
   cr_id: CR-0139
   title: 修复Android Gradle Wrapper缺少Linux执行权限
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-20T11:40:57Z'
-  updated_at: '2026-07-20T11:41:03Z'
+  updated_at: '2026-07-20T13:20:13Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-008
@@ -8317,14 +8353,26 @@ change_requests:
     status: IMPLEMENTING
     note: 补齐Gradle Wrapper 100755并进入第三轮
     session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:19:56Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 'GitHub CI #244完整通过，相关实现与回归证据已验证'
+    session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:13Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 'CI #244通过编译、Lint、单测、APK、模拟器旅程、四张截图、日志与候选资格门禁'
+    session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+  implementation_commits:
+  - f8bf690fd5d2594b89917e0fafe8c1ed05224720
 - protocol_version: '1.0'
   cr_id: CR-0140
   title: 固定GitHub测试任务Node运行时并完善失败日志
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-20T11:50:25Z'
-  updated_at: '2026-07-20T11:50:32Z'
+  updated_at: '2026-07-20T13:20:15Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-008
@@ -8361,14 +8409,26 @@ change_requests:
     status: IMPLEMENTING
     note: 开始补齐Node 24和诊断日志门禁
     session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:19:58Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 'GitHub CI #244完整通过，相关实现与回归证据已验证'
+    session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:15Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 'CI #244通过编译、Lint、单测、APK、模拟器旅程、四张截图、日志与候选资格门禁'
+    session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+  implementation_commits:
+  - f8bf690fd5d2594b89917e0fafe8c1ed05224720
 - protocol_version: '1.0'
   cr_id: CR-0141
   title: 修复模拟器Runner逐行Shell语义并公开失败摘要
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-20T12:14:53Z'
-  updated_at: '2026-07-20T12:15:00Z'
+  updated_at: '2026-07-20T13:20:17Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-008
@@ -8409,14 +8469,26 @@ change_requests:
     status: IMPLEMENTING
     note: 实现单脚本模拟器门禁与公开失败摘要
     session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:00Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 'GitHub CI #244完整通过，相关实现与回归证据已验证'
+    session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:17Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 'CI #244通过编译、Lint、单测、APK、模拟器旅程、四张截图、日志与候选资格门禁'
+    session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+  implementation_commits:
+  - f8bf690fd5d2594b89917e0fafe8c1ed05224720
 - protocol_version: '1.0'
   cr_id: CR-0142
   title: Android门禁自身变更必须触发Android全链
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-20T12:23:49Z'
-  updated_at: '2026-07-20T12:23:56Z'
+  updated_at: '2026-07-20T13:20:19Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-008
@@ -8453,14 +8525,26 @@ change_requests:
     status: IMPLEMENTING
     note: 扩展Android影响映射并补回归
     session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:02Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 'GitHub CI #244完整通过，相关实现与回归证据已验证'
+    session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:19Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 'CI #244通过编译、Lint、单测、APK、模拟器旅程、四张截图、日志与候选资格门禁'
+    session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+  implementation_commits:
+  - f8bf690fd5d2594b89917e0fafe8c1ed05224720
 - protocol_version: '1.0'
   cr_id: CR-0143
   title: 修复Linux临时Worktree禁止提交Hook执行位
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-20T12:25:46Z'
-  updated_at: '2026-07-20T12:25:54Z'
+  updated_at: '2026-07-20T13:20:21Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-008
@@ -8497,14 +8581,26 @@ change_requests:
     status: IMPLEMENTING
     note: 补齐POSIX临时Hook执行权限并回归
     session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:04Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 'GitHub CI #244完整通过，相关实现与回归证据已验证'
+    session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:21Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 'CI #244通过编译、Lint、单测、APK、模拟器旅程、四张截图、日志与候选资格门禁'
+    session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+  implementation_commits:
+  - f8bf690fd5d2594b89917e0fafe8c1ed05224720
 - protocol_version: '1.0'
   cr_id: CR-0144
   title: 修复模拟器截图在测试卸载后被清理
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-20T12:42:43Z'
-  updated_at: '2026-07-20T12:42:50Z'
+  updated_at: '2026-07-20T13:20:23Z'
   requester_actor_id: codex-root
   approver_actor_id: project-owner
   task_id: TASK-R05-008
@@ -8542,5 +8638,17 @@ change_requests:
     status: IMPLEMENTING
     note: 迁移截图到模拟器固定CI目录并补回归
     session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:06Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 'GitHub CI #244完整通过，相关实现与回归证据已验证'
+    session_id: SES-20260720T095830Z-752E5121
+  - at: '2026-07-20T13:20:23Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 'CI #244通过编译、Lint、单测、APK、模拟器旅程、四张截图、日志与候选资格门禁'
+    session_id: SES-20260720T095830Z-752E5121
   session_ids:
   - SES-20260720T095830Z-752E5121
+  implementation_commits:
+  - f8bf690fd5d2594b89917e0fafe8c1ed05224720
