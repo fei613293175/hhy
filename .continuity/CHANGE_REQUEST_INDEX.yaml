@@ -8938,3 +8938,50 @@ change_requests:
     session_id: SES-20260720T173038Z-35648A77
   session_ids:
   - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0151
+  title: 修正Android候选截图过早与页面错位
+  status: IMPLEMENTING
+  created_at: '2026-07-20T20:10:50Z'
+  updated_at: '2026-07-20T20:11:25Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 继续GitHub模拟器并通过已登录仓库读取Actions日志和artifacts，定位后修复确定性问题
+  reason: R06候选仪器测试返回0且四张截图存在，但密码页截到启动态、忘记密码截图仍为短信登录；错误截图不得被批准为视觉基线
+  original_rule: 候选SmokeTest只等待目标文本存在后立即截图，Compose过渡期间隐藏或底层语义节点可提前满足条件
+  new_rule: 每张截图必须同时等待目标页面唯一文案出现、前一页面或启动态唯一文案消失并等待UI空闲；截图回归静态锁定这些稳定条件
+  impact_summary: 只修复测试截图时序，不改变产品业务、API、数据库、正式UI或候选视觉阈值；第2轮仅生成可供项目所有者审查的正确截图，仍因未批准基线而不得自动放行
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - tests/test_android_ci_gate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - config/android-candidate-request.yaml
+    pages:
+    - SCR-APP-001;SCR-AUTH-001;SCR-AUTH-002;SCR-AUTH-003;SCR-AUTH-004
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - ReleaseCandidateSmokeTest instrumentation;test_android_ci_gate static contract;GitHub attempt 2 screenshot review
+    releases:
+    - R06
+    migration_and_compatibility: 无数据迁移；兼容同一API35 Pixel7旅程和既有截图文件名；不自动创建或接受R06视觉基线
+  user_confirmation: 我已经登录成功，继续读取GitHub Actions日志和artifacts；仅修复已定位的截图时序，不自动批准基线
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T20:11:22Z'
+    note: 项目所有者已登录GitHub并明确选择继续GitHub模拟器，允许依据真实Actions证据修复候选测试确定性缺陷；视觉基线仍需另行人工确认
+  machine_record: .continuity/change_requests/CR-0151.yaml
+  document: docs/03-continuity/change-requests/CR-0151-修正Android候选截图过早与页面错位.md
+  decision_log:
+  - at: '2026-07-20T20:11:25Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 开始修正候选截图稳定条件并登记PROB-0059，完成模块回归后才请求第2轮截图证据
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77

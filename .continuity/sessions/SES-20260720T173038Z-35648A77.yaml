@@ -11,12 +11,13 @@ task_id: TASK-R06-004
 story_id: STORY-R06-001
 goal: 统一内容基础、首页与CMS客户端/H5/后台实现
 started_at: '2026-07-20T17:30:38Z'
-updated_at: '2026-07-20T19:53:46Z'
+updated_at: '2026-07-20T20:24:28Z'
 takeover_of: null
 change_requests:
 - CR-0148
 - CR-0149
 - CR-0150
+- CR-0151
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -53,7 +54,9 @@ scope:
   - docs/00-baseline/正式商业系统全局硬性开发边界.md
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - docs/09-development/统一开发与交付效率规范.md
-  source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -63,22 +66,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T19:53:43Z'
-  expires_at: '2026-07-20T23:53:43Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0011.yaml
+  renewed_at: '2026-07-20T20:24:25Z'
+  expires_at: '2026-07-21T00:24:25Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0013.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-next_step: 项目所有者确认后，将完整候选门禁迁移到已验证obx-test固定Android容器，GitHub仅保留受影响快速CI，并同步修订CR-0150全局硬规则
+next_step: 提交修复并为最终Commit SHA配置download.orbexa.cc精确APK路由，预检通过后推送第二轮候选
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 6863bdba0f321ed872ab29503449e435e40d621cf71183dd56b384ace4917da9
-  generated_at: '2026-07-20T19:53:45Z'
+  context_hash: c904a1bab3ca497d23eb57cf8d5e542bf0fe86c4f395e305b67a4cdf5fbddfb5
+  generated_at: '2026-07-20T20:24:27Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前无可用独立执行代理；GitHub证据又受管理员权限阻断，禁止伪造并行分析或重复运行
+  reason: 检查点、最终Commit SHA、精确下载路由和推送存在严格前后依赖，不能安全并行

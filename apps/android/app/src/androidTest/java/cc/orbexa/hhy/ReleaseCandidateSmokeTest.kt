@@ -7,6 +7,7 @@ import android.provider.MediaStore
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
+import androidx.test.uiautomator.BySelector
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import java.io.File
@@ -41,34 +42,56 @@ class ReleaseCandidateSmokeTest {
     @Test
     fun authenticationJourneysRemainReachableAndProduceVisualEvidence() {
         assertFalse("Cold start exposed connection failure", device.hasObject(By.text("暂时无法连接")))
-        assertTrue("Password login did not load", waitForTextContains("密码登录"))
+        assertTrue(
+            "Password login did not become visually stable",
+            waitForPage(By.text("密码"), gone = listOf(By.text("正在启动"))),
+        )
         capture("01-password-login.png")
         assertNoForbiddenVisibleText()
 
         clickTextContains("验证码登录")
-        assertTrue("SMS login did not load", waitForTextContains("发送验证码"))
+        assertTrue(
+            "SMS login did not become visually stable",
+            waitForPage(By.text("短信验证码"), gone = listOf(By.text("密码"))),
+        )
         capture("02-sms-login.png")
         assertNoForbiddenVisibleText()
 
         clickTextContains("注册账号")
-        assertTrue("Registration page did not load", waitForTextContains("创建账号"))
+        assertTrue(
+            "Registration page did not become visually stable",
+            waitForPage(By.text("确认密码"), gone = listOf(By.text("短信验证码登录"))),
+        )
         capture("03-register.png")
         assertNoForbiddenVisibleText()
         device.pressBack()
-        assertTrue("Registration back did not restore login", waitForTextContains("密码登录"))
+        assertTrue(
+            "Registration back did not restore its real SMS-login source",
+            waitForPage(By.text("短信验证码登录"), gone = listOf(By.text("确认密码"))),
+        )
 
         clickTextContains("忘记密码")
-        assertTrue("Forgot-password page did not load", waitForTextContains("重置登录密码"))
+        assertTrue(
+            "Forgot-password page did not become visually stable",
+            waitForPage(By.text("重置登录密码"), gone = listOf(By.text("短信验证码登录"))),
+        )
         capture("04-forgot-password.png")
         assertNoForbiddenVisibleText()
         device.pressBack()
-        assertTrue("Forgot-password back did not restore login", waitForTextContains("密码登录"))
+        assertTrue(
+            "Forgot-password back did not restore its real SMS-login source",
+            waitForPage(By.text("短信验证码登录"), gone = listOf(By.text("重置登录密码"))),
+        )
 
         assertNoForbiddenVisibleText()
     }
 
-    private fun waitForTextContains(value: String): Boolean =
-        device.wait(Until.hasObject(By.textContains(value)), 15_000)
+    private fun waitForPage(required: BySelector, gone: List<BySelector>): Boolean {
+        if (!device.wait(Until.hasObject(required), 15_000)) return false
+        if (gone.any { selector -> !device.wait(Until.gone(selector), 15_000) }) return false
+        device.waitForIdle(2_000)
+        return true
+    }
 
     private fun clickTextContains(value: String) {
         val node = device.wait(Until.findObject(By.textContains(value)), 15_000)

@@ -211,6 +211,12 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("Pictures/hhy-ci-screenshots", smoke_test)
         self.assertNotIn("getExternalFilesDir", smoke_test)
         self.assertNotIn("executeShellCommand", smoke_test)
+        self.assertIn('gone = listOf(By.text("正在启动"))', smoke_test)
+        self.assertIn("Until.gone(selector)", smoke_test)
+        self.assertIn('By.text("短信验证码登录")', smoke_test)
+        self.assertIn('By.text("重置登录密码")', smoke_test)
+        self.assertIn("waitForIdle(2_000)", smoke_test)
+        self.assertNotIn("waitForTextContains", smoke_test)
 
     def test_every_android_module_uses_the_stable_compile_sdk(self) -> None:
         module_builds = sorted((ROOT / "apps/android").glob("**/build.gradle.kts"))

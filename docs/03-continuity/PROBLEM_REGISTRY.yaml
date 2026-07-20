@@ -768,3 +768,17 @@ problems:
   - 不得凭经验发明协议code，必须使用后端冻结或配置注册表事实
   - 页面主操作不得保留空lambda；所有可见动作必须绑定登记的业务行为
   - 下载链接不得接受HTTP、凭据、片段或相对路径
+- id: PROB-0059
+  title: Android候选截图在页面过渡完成前采集并误判真实返回来源
+  status: MITIGATED
+  root_cause: ReleaseCandidateSmokeTest仅等待包含目标文案的任意语义节点出现；启动遮罩下方的登录页和页面转场中的前后页节点可同时存在，导致密码截图仍为“正在启动”，忘记密码截图仍为短信登录。注册和忘记密码返回又用始终存在的“密码登录”Tab文案断言，无法证明返回了真实SMS来源。
+  impact: 仪器测试退出码为0且四张截图齐全，但视觉证据不代表目标页面稳定状态；若直接批准为R06基线，会把过渡帧和错误页面永久固化，后续视觉回归失去意义。
+  resolution: CR-0151要求每张截图同时等待目标页唯一元素出现、启动态或前页唯一元素消失并等待UI空闲；注册和忘记密码从SMS进入后必须恢复SMS真实来源。第2轮只生成待项目所有者审查的截图，不自动批准视觉基线。
+  regression_checks:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - tests/test_android_ci_gate.py
+  - GitHub Android候选第2轮四张截图人工核对
+  do_not_repeat:
+  - 不得用跨页面长期存在的Tab文案证明目标页面已完成切换
+  - 不得只等待目标节点出现就截图，必须同时等待遮罩或前页唯一节点消失
+  - 自动化截图不得自动晋升为批准基线

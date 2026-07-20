@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R06
 candidate: true
-remediation_attempt: 1
-request_id: R06-20260721-001
-reason: R06功能实现、分层CI和连续性门禁通过后生成项目所有者最终候选APK
+remediation_attempt: 2
+request_id: R06-20260721-002
+reason: 修复候选截图过早和真实来源断言后生成R06视觉基线审查证据
