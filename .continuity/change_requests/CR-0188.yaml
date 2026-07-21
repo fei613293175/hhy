@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0188
 title: 建立R07搜索联系方式可观测性与隔离Staging验收精确范围
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-21T20:20:52Z'
-updated_at: '2026-07-21T20:21:33Z'
+updated_at: '2026-07-21T20:58:16Z'
 requester_actor_id: codex-root-r07-006
 approver_actor_id: codex-reviewer-r07-observability
 task_id: TASK-R07-006
@@ -86,5 +86,17 @@ decision_log:
   status: IMPLEMENTING
   note: 精确文件范围已应用，开始实现R07六项业务Gauge与隔离Staging验收。
   session_id: SES-20260721T201747Z-CD80A1EE
+- at: '2026-07-21T20:58:14Z'
+  actor_id: codex-root-r07-006
+  status: IMPLEMENTED
+  note: R07六项业务指标、七条告警规则、隔离Staging与同库同卷回切已实现并由现场证据签署。
+  session_id: SES-20260721T201747Z-CD80A1EE
+- at: '2026-07-21T20:58:16Z'
+  actor_id: codex-reviewer-staging
+  status: CLOSED
+  note: 复核AC-R07-004报告、22项SHA256证据和机器摘要全部通过，关闭变更。
+  session_id: SES-20260721T201747Z-CD80A1EE
 session_ids:
 - SES-20260721T201747Z-CD80A1EE
+implementation_commits:
+- 7c5a5f7a329d36c62c5269fb68d23e0fca69ab19

@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-21T20:56:12Z'
+generated_at: '2026-07-21T20:58:58Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -91,7 +91,7 @@ current_status:
   - TASK-R03-007
   - TASK-R06-008
   next_task: TASK-R07-006
-  updated_at: '2026-07-21T20:56:10Z'
+  updated_at: '2026-07-21T20:58:56Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -126,15 +126,15 @@ current_status:
     active_session_id: SES-20260721T201747Z-CD80A1EE
     actor_id: codex-root-r07-006
     story_id: STORY-R07-005
-    lease_expires_at: '2026-07-22T00:56:10Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0004.yaml
-    project_fingerprint: ef9c1d0d7fbc2ea590e8eb9628abbb6fd26bf1d46d6b50b74c92df4997126672
+    lease_expires_at: '2026-07-22T00:58:56Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0005.yaml
+    project_fingerprint: a228ebb3c595c02c34dcb2191aa7be830d827aef416e3c4cf94d9612ad665d83
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: cdcfd47c7a228664d3856dea244da731b00090816be9590bb123e6fbf78f2036
-      generated_at: '2026-07-21T20:54:43Z'
+      context_hash: b963f44d06ff35b633e648be6427b11f874e67d09954ea3ab9e5347573a01c20
+      generated_at: '2026-07-21T20:56:12Z'
     handoff_bundle: null
 next_task:
   id: TASK-R07-006
@@ -184,7 +184,7 @@ active_session:
   story_id: STORY-R07-005
   goal: 完成R07搜索、发布者主页与联系方式保护的可观测性、Staging预发布验收、运行手册演练与验收矩阵证据，并保持大版本最终门禁边界。
   started_at: '2026-07-21T20:17:47Z'
-  updated_at: '2026-07-21T20:56:10Z'
+  updated_at: '2026-07-21T20:58:56Z'
   takeover_of: null
   change_requests:
   - CR-0187
@@ -279,12 +279,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-21T20:56:10Z'
-    expires_at: '2026-07-22T00:56:10Z'
-  checkpoint_sequence: 4
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0004.yaml
+    renewed_at: '2026-07-21T20:58:56Z'
+    expires_at: '2026-07-22T00:58:56Z'
+  checkpoint_sequence: 5
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0005.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T201747Z-CD80A1EE.md
-  next_step: 执行最终严格门禁并提交推送TASK-R07-006全部证据，随后关闭CR与任务进入TASK-R07-007。
+  next_step: 关闭TASK-R07-006并立即启动TASK-R07-007最终候选APK与模拟器门禁。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -292,90 +292,49 @@ active_session:
     assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: 当前系统规则未授权创建子代理，冻结证据和唯一连续性事件链需串行收口。
+    reason: 当前系统规则未授权创建子代理；任务状态与唯一事件链由当前会话串行关闭。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260721T201747Z-CD80A1EE-0004
+  checkpoint_id: CP-SES-20260721T201747Z-CD80A1EE-0005
   session_id: SES-20260721T201747Z-CD80A1EE
-  sequence: 4
-  created_at: '2026-07-21T20:56:10Z'
-  summary: R07 Staging验收与Git跨机复用闭环证据齐全；CR-0189同步模板和协议报告，CR-0190纳入最新严格项目Doctor报告。
-  next_step: 执行最终严格门禁并提交推送TASK-R07-006全部证据，随后关闭CR与任务进入TASK-R07-007。
+  sequence: 5
+  created_at: '2026-07-21T20:58:55Z'
+  summary: CR-0188、CR-0189、CR-0190均已依据7c5a5f7a现场证据和严格门禁结果关闭，TASK-R07-006满足关闭条件。
+  next_step: 关闭TASK-R07-006并立即启动TASK-R07-007最终候选APK与模拟器门禁。
   blockers: []
   decisions: []
   note: ''
   tests:
+  - name: r07-staging-ac004
+    result: PASS
+    evidence: artifacts/reports/R07/TASK-R07-006-staging.md
+    note: AC-R07-004已签署
   - name: strict-project-doctor
     result: PASS
     evidence: artifacts/validation/project-doctor-v1.2.3.json
-    note: V1.2.3联合门禁0错误0警告
-  - name: continuity-self-test
-    result: PASS
-    evidence: artifacts/validation/continuity-integration-v1.2.3.json
-    note: 11项真实仓库重建检查通过
-  - name: r07-staging-acceptance
-    result: PASS
-    evidence: artifacts/validation/r07-task006-staging/machine-summary.txt
-    note: 完整隔离预发布验收通过
+    note: 0错误0警告
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 417b6cc9bc5f1b56adc280db5375358100bf23ae
+    head: 7c5a5f7a329d36c62c5269fb68d23e0fca69ab19
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M .continuity/ACTIVE_SESSION.yaml'
     - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
     - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/SESSION_INDEX.yaml'
     - ' M .continuity/STATE.yaml'
-    - ' M .continuity/sessions/SES-20260721T201747Z-CD80A1EE.yaml'
-    - ' M CURRENT_STATUS.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-    - ' M artifacts/validation/continuity-integration-v1.2.3.json'
-    - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
-    - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
-    - ' M artifacts/validation/project-doctor-v1.2.3.json'
+    - ' M .continuity/change_requests/CR-0188.yaml'
+    - ' M .continuity/change_requests/CR-0189.yaml'
+    - ' M .continuity/change_requests/CR-0190.yaml'
     - ' M catalogs/change_request_index.csv'
     - ' M catalogs/session_index.csv'
-    - ' M docs/03-continuity/sessions/2026-07/SES-20260721T201747Z-CD80A1EE.md'
-    - ' M releases/R07/ACCEPTANCE_MATRIX.csv'
-    - ' M templates/START_HERE.md'
-    - ?? .continuity/change_requests/CR-0189.yaml
-    - ?? .continuity/change_requests/CR-0190.yaml
-    - ?? .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0002.yaml
-    - ?? .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0003.yaml
-    - ?? artifacts/reports/R07/TASK-R07-006-staging.md
-    - ?? artifacts/validation/r07-task006-staging/SHA256SUMS
-    - ?? artifacts/validation/r07-task006-staging/alert-deliveries.jsonl
-    - ?? artifacts/validation/r07-task006-staging/alert-exercise.txt
-    - ?? artifacts/validation/r07-task006-staging/backend-down-firing.json
-    - ?? artifacts/validation/r07-task006-staging/compose-ps.txt
-    - ?? artifacts/validation/r07-task006-staging/database.txt
-    - ?? artifacts/validation/r07-task006-staging/final-metrics.txt
-    - ?? artifacts/validation/r07-task006-staging/http-request-completed.jsonl
-    - ?? artifacts/validation/r07-task006-staging/liveness.json
-    - ?? artifacts/validation/r07-task006-staging/log-redaction.txt
-    - ?? artifacts/validation/r07-task006-staging/machine-summary.txt
-    - ?? artifacts/validation/r07-task006-staging/metadata.txt
-    - ?? artifacts/validation/r07-task006-staging/metrics-summary.txt
-    - ?? artifacts/validation/r07-task006-staging/metrics.txt
-    - ?? artifacts/validation/r07-task006-staging/outbox-test-events.txt
-    - ?? artifacts/validation/r07-task006-staging/prometheus-rules.json
-    - ?? artifacts/validation/r07-task006-staging/prometheus-targets.json
-    - ?? artifacts/validation/r07-task006-staging/public-status.json
-    - ?? artifacts/validation/r07-task006-staging/r07-outbox-firing.json
-    - ?? artifacts/validation/r07-task006-staging/readiness.json
-    - ?? artifacts/validation/r07-task006-staging/rollback-rehearsal.txt
-    - ?? artifacts/validation/r07-task006-staging/source-sha256.txt
-    - ?? artifacts/validation/r07-task006-staging/trace-headers.txt
-    - ?? docs/03-continuity/change-requests/CR-0189-同步永久Git配置的连续性模板与自测报告.md
-    - ?? docs/03-continuity/change-requests/CR-0190-刷新Git永久化后的严格项目门禁报告.md
+    - ' M docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md'
+    - ' M docs/03-continuity/change-requests/CR-0189-同步永久Git配置的连续性模板与自测报告.md'
+    - ' M docs/03-continuity/change-requests/CR-0190-刷新Git永久化后的严格项目门禁报告.md'
     recent_commits:
+    - "7c5a5f7a329d36c62c5269fb68d23e0fca69ab19\t2026-07-22T04:57:16+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(staging): 签署R07隔离预发布验收"
     - "417b6cc9bc5f1b56adc280db5375358100bf23ae\t2026-07-22T04:31:47+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(observability): 建立R07隔离预发布门禁"
     - "e6d73b0fb4be95c6769c8f6aa493172592d686ea\t2026-07-22T04:16:46+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close\
       \ TASK-R07-005 as completed"
@@ -386,9 +345,8 @@ latest_checkpoint:
     - "ddf293eda518bca96b695d518ad67f9d18536536\t2026-07-22T03:27:57+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): close\
       \ TASK-R07-004 as completed"
     - "af217ef5097826bd16003d797624d742b1c93ad7\t2026-07-22T03:26:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): 关闭R07客户端变更请求"
-    - "fea04949506434f8f408bc0244d6a195718c6c22\t2026-07-22T03:25:02+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] feat(android): 实现R07搜索发布者与联系方式闭环"
   project_fingerprint:
-    sha256: ef9c1d0d7fbc2ea590e8eb9628abbb6fd26bf1d46d6b50b74c92df4997126672
+    sha256: a228ebb3c595c02c34dcb2191aa7be830d827aef416e3c4cf94d9612ad665d83
     files:
     - CHANGELOG.md
     - docs/03-continuity/change-requests/CR-0187-建立R07搜索联系方式可观测性与隔离Staging验收.md
@@ -423,16 +381,16 @@ latest_checkpoint:
         sha256: 1b1383ca6dfd951e3273dfcdb792be749d0886199bac744b852b382aa153254c
       - path: docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md
         state: FILE
-        size: 5610
-        sha256: 996871ce3a22cf81c08927266effb7b5d258c697c4ff3cf3861bc9acd6c1f2cd
+        size: 6115
+        sha256: 0123df0fbd027542b71b8a41e100db7790d1ffe90e809e66e1ec666ab2283b59
       - path: docs/03-continuity/change-requests/CR-0189-同步永久Git配置的连续性模板与自测报告.md
         state: FILE
-        size: 2693
-        sha256: edbaa67e20a9c3e60020ba83234764ffce3bff898ae49f8ea55c8f5d229a0ace
+        size: 3185
+        sha256: e848badd91b13cf268840f540989907d01d34a5a1e24812ffee800a0299eed85
       - path: docs/03-continuity/change-requests/CR-0190-刷新Git永久化后的严格项目门禁报告.md
         state: FILE
-        size: 2100
-        sha256: a76e1cd9459ffd4637ee4548a0b0418c682a7cb84032e379581821c483612185
+        size: 2535
+        sha256: 80718ce28381981dc08b9aadb1357479c6d090ee6611cf60c9a02c26cbfd0f71
       - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
         state: FILE
         size: 24818
@@ -607,12 +565,12 @@ latest_checkpoint:
     assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: 当前系统规则未授权创建子代理，冻结证据和唯一连续性事件链需串行收口。
-  event_hash: da84dc95b957adb8f853934f58bf890153522ce7bc9a3ef1257e49fb40ab2b38
+    reason: 当前系统规则未授权创建子代理；任务状态与唯一事件链由当前会话串行关闭。
+  event_hash: 85de34d833ca6ab807f2edc5288c92244a683d233f582e607e360f6971135f62
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 417b6cc9bc5f1b56adc280db5375358100bf23ae
+  head: 7c5a5f7a329d36c62c5269fb68d23e0fca69ab19
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -623,52 +581,20 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0188.yaml'
+  - ' M .continuity/change_requests/CR-0189.yaml'
+  - ' M .continuity/change_requests/CR-0190.yaml'
   - ' M .continuity/sessions/SES-20260721T201747Z-CD80A1EE.yaml'
   - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
-  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
-  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md'
+  - ' M docs/03-continuity/change-requests/CR-0189-同步永久Git配置的连续性模板与自测报告.md'
+  - ' M docs/03-continuity/change-requests/CR-0190-刷新Git永久化后的严格项目门禁报告.md'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260721T201747Z-CD80A1EE.md'
-  - ' M releases/R07/ACCEPTANCE_MATRIX.csv'
-  - ' M templates/START_HERE.md'
-  - ?? .continuity/change_requests/CR-0189.yaml
-  - ?? .continuity/change_requests/CR-0190.yaml
-  - ?? .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0002.yaml
-  - ?? .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0003.yaml
-  - ?? .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0004.yaml
-  - ?? artifacts/reports/R07/TASK-R07-006-staging.md
-  - ?? artifacts/validation/r07-task006-staging/SHA256SUMS
-  - ?? artifacts/validation/r07-task006-staging/alert-deliveries.jsonl
-  - ?? artifacts/validation/r07-task006-staging/alert-exercise.txt
-  - ?? artifacts/validation/r07-task006-staging/backend-down-firing.json
-  - ?? artifacts/validation/r07-task006-staging/compose-ps.txt
-  - ?? artifacts/validation/r07-task006-staging/database.txt
-  - ?? artifacts/validation/r07-task006-staging/final-metrics.txt
-  - ?? artifacts/validation/r07-task006-staging/http-request-completed.jsonl
-  - ?? artifacts/validation/r07-task006-staging/liveness.json
-  - ?? artifacts/validation/r07-task006-staging/log-redaction.txt
-  - ?? artifacts/validation/r07-task006-staging/machine-summary.txt
-  - ?? artifacts/validation/r07-task006-staging/metadata.txt
-  - ?? artifacts/validation/r07-task006-staging/metrics-summary.txt
-  - ?? artifacts/validation/r07-task006-staging/metrics.txt
-  - ?? artifacts/validation/r07-task006-staging/outbox-test-events.txt
-  - ?? artifacts/validation/r07-task006-staging/prometheus-rules.json
-  - ?? artifacts/validation/r07-task006-staging/prometheus-targets.json
-  - ?? artifacts/validation/r07-task006-staging/public-status.json
-  - ?? artifacts/validation/r07-task006-staging/r07-outbox-firing.json
-  - ?? artifacts/validation/r07-task006-staging/readiness.json
-  - ?? artifacts/validation/r07-task006-staging/rollback-rehearsal.txt
-  - ?? artifacts/validation/r07-task006-staging/source-sha256.txt
-  - ?? artifacts/validation/r07-task006-staging/trace-headers.txt
-  - ?? docs/03-continuity/change-requests/CR-0189-同步永久Git配置的连续性模板与自测报告.md
-  - ?? docs/03-continuity/change-requests/CR-0190-刷新Git永久化后的严格项目门禁报告.md
+  - ?? .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0005.yaml
   recent_commits:
+  - "7c5a5f7a329d36c62c5269fb68d23e0fca69ab19\t2026-07-22T04:57:16+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(staging): 签署R07隔离预发布验收"
   - "417b6cc9bc5f1b56adc280db5375358100bf23ae\t2026-07-22T04:31:47+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(observability): 建立R07隔离预发布门禁"
   - "e6d73b0fb4be95c6769c8f6aa493172592d686ea\t2026-07-22T04:16:46+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-005\
     \ as completed"
@@ -679,9 +605,8 @@ git:
   - "ddf293eda518bca96b695d518ad67f9d18536536\t2026-07-22T03:27:57+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): close TASK-R07-004\
     \ as completed"
   - "af217ef5097826bd16003d797624d742b1c93ad7\t2026-07-22T03:26:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): 关闭R07客户端变更请求"
-  - "fea04949506434f8f408bc0244d6a195718c6c22\t2026-07-22T03:25:02+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] feat(android): 实现R07搜索发布者与联系方式闭环"
 project_fingerprint:
-  sha256: ef9c1d0d7fbc2ea590e8eb9628abbb6fd26bf1d46d6b50b74c92df4997126672
+  sha256: a228ebb3c595c02c34dcb2191aa7be830d827aef416e3c4cf94d9612ad665d83
   files:
   - CHANGELOG.md
   - docs/03-continuity/change-requests/CR-0187-建立R07搜索联系方式可观测性与隔离Staging验收.md
@@ -716,16 +641,16 @@ project_fingerprint:
       sha256: 1b1383ca6dfd951e3273dfcdb792be749d0886199bac744b852b382aa153254c
     - path: docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md
       state: FILE
-      size: 5610
-      sha256: 996871ce3a22cf81c08927266effb7b5d258c697c4ff3cf3861bc9acd6c1f2cd
+      size: 6115
+      sha256: 0123df0fbd027542b71b8a41e100db7790d1ffe90e809e66e1ec666ab2283b59
     - path: docs/03-continuity/change-requests/CR-0189-同步永久Git配置的连续性模板与自测报告.md
       state: FILE
-      size: 2693
-      sha256: edbaa67e20a9c3e60020ba83234764ffce3bff898ae49f8ea55c8f5d229a0ace
+      size: 3185
+      sha256: e848badd91b13cf268840f540989907d01d34a5a1e24812ffee800a0299eed85
     - path: docs/03-continuity/change-requests/CR-0190-刷新Git永久化后的严格项目门禁报告.md
       state: FILE
-      size: 2100
-      sha256: a76e1cd9459ffd4637ee4548a0b0418c682a7cb84032e379581821c483612185
+      size: 2535
+      sha256: 80718ce28381981dc08b9aadb1357479c6d090ee6611cf60c9a02c26cbfd0f71
     - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
       state: FILE
       size: 24818
@@ -1834,8 +1759,8 @@ continuity_state:
   last_session_id: SES-20260721T193434Z-0C5F0BFA
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260721T193434Z-0C5F0BFA-0004
-  event_count: 1910
-  event_head_hash: da84dc95b957adb8f853934f58bf890153522ce7bc9a3ef1257e49fb40ab2b38
+  event_count: 1917
+  event_head_hash: 85de34d833ca6ab807f2edc5288c92244a683d233f582e607e360f6971135f62
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260721T020225Z-397AF410
@@ -1954,9 +1879,9 @@ recent_sessions:
   started_at: '2026-07-21T20:17:47Z'
   record: .continuity/sessions/SES-20260721T201747Z-CD80A1EE.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T201747Z-CD80A1EE.md
-  updated_at: '2026-07-21T20:56:10Z'
+  updated_at: '2026-07-21T20:58:56Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0004.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0005.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-0F05169F5986
@@ -7314,187 +7239,6 @@ open_change_requests:
     note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
   machine_record: .continuity/change_requests/CR-0159.yaml
   document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
-- protocol_version: '1.0'
-  cr_id: CR-0188
-  title: 建立R07搜索联系方式可观测性与隔离Staging验收精确范围
-  status: IMPLEMENTING
-  created_at: '2026-07-21T20:20:52Z'
-  updated_at: '2026-07-21T20:21:33Z'
-  requester_actor_id: codex-root-r07-006
-  approver_actor_id: codex-reviewer-r07-observability
-  task_id: TASK-R07-006
-  session_id: SES-20260721T201747Z-CD80A1EE
-  user_request: 项目所有者要求持续推进开发，由AI判断自动测试结果；完整模拟器与候选APK仅在大版本最终候选阶段运行。
-  reason: CR-0187的证据目录通配符不符合连续性工具精确路径约束且未应用任何文件范围；必须以逐文件证据清单重建等价批准范围后实施TASK-R07-006。
-  original_rule: R07仅继承通用RED与R06以前业务Gauge，且CR-0187的证据通配符无法应用；尚无可执行的R07精确范围。
-  new_rule: R07必须提供搜索历史量、有效热词量、活跃发布者量、近5分钟联系方式访问/拒绝量和R07 Outbox积压六项无敏感字段业务Gauge；隔离Staging必须在精确冻结Commit上验证TraceId与脱敏、RED、六项Gauge、后端与R07 Outbox告警firing/resolved及同一PostgreSQL容器和卷的应用镜像回切。完整模拟器和候选APK仍只在TASK-R07-007最终候选阶段执行。
-  impact_summary: 以逐文件清单新增R07只读业务Gauge和测试、静态门禁、独立监控栈、自动现场验收、运行手册、机器证据与AC-R07-004状态；等价替代未应用范围的CR-0187。
-  impact:
-    files:
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-    - scripts/check_r07_observability.py
-    - scripts/run_r07_staging_acceptance.sh
-    - infra/staging/r07-smoke/docker-compose.yml
-    - infra/staging/r07-smoke/prometheus.yml
-    - infra/staging/r07-smoke/alertmanager.yml
-    - infra/staging/r07-smoke/nginx.conf
-    - infra/staging/r07-smoke/r07-alerts.yml
-    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    - docs/07-operations/ROLLBACK_RUNBOOK.md
-    - artifacts/reports/R07/TASK-R07-006-staging.md
-    - releases/R07/ACCEPTANCE_MATRIX.csv
-    - CHANGELOG.md
-    - artifacts/validation/r07-task006-staging/metadata.txt
-    - artifacts/validation/r07-task006-staging/compose-ps.txt
-    - artifacts/validation/r07-task006-staging/liveness.json
-    - artifacts/validation/r07-task006-staging/readiness.json
-    - artifacts/validation/r07-task006-staging/database.txt
-    - artifacts/validation/r07-task006-staging/trace-headers.txt
-    - artifacts/validation/r07-task006-staging/public-status.json
-    - artifacts/validation/r07-task006-staging/http-request-completed.jsonl
-    - artifacts/validation/r07-task006-staging/log-redaction.txt
-    - artifacts/validation/r07-task006-staging/metrics.txt
-    - artifacts/validation/r07-task006-staging/metrics-summary.txt
-    - artifacts/validation/r07-task006-staging/prometheus-targets.json
-    - artifacts/validation/r07-task006-staging/prometheus-rules.json
-    - artifacts/validation/r07-task006-staging/source-sha256.txt
-    - artifacts/validation/r07-task006-staging/backend-down-firing.json
-    - artifacts/validation/r07-task006-staging/r07-outbox-firing.json
-    - artifacts/validation/r07-task006-staging/outbox-test-events.txt
-    - artifacts/validation/r07-task006-staging/alert-deliveries.jsonl
-    - artifacts/validation/r07-task006-staging/alert-exercise.txt
-    - artifacts/validation/r07-task006-staging/rollback-rehearsal.txt
-    - artifacts/validation/r07-task006-staging/final-metrics.txt
-    - artifacts/validation/r07-task006-staging/machine-summary.txt
-    - artifacts/validation/r07-task006-staging/SHA256SUMS
-    pages: []
-    apis:
-    - GET /api/v1/search
-    - GET /api/v1/search/hot
-    - GET /api/v1/search/history
-    - DELETE /api/v1/search/history
-    - GET /api/v1/publishers/{id}
-    - POST /api/v1/contents/{id}/contacts/{channel}/access
-    database:
-    - 只读search_histories、hot_search_terms、users、content_posts、content_contact_access_logs和outbox_events；隔离验收仅插入并合法终结带冻结Commit唯一前缀的Outbox测试事件
-    configuration:
-    - R07隔离Staging、Prometheus采集、Alertmanager审计回执、搜索与联系方式业务告警
-    ledger:
-    - 不读写账本或资金数据
-    tests:
-    - R07静态可观测性门禁、BusinessGauge单元测试与Prometheus端点测试
-    - Compose/promtool/amtool配置验证、隔离Staging TraceId与日志脱敏、告警firing/resolved、同库卷回滚演练
-    releases:
-    - R07
-    migration_and_compatibility: 纯增量可观测性与隔离Staging配置；Gauge只读现有表，关闭R07 Compose即可回退；数据库保持前向迁移，禁止降级DDL或删除卷。测试Outbox事件按PENDING到PUBLISHING到PUBLISHED合法状态终结并保留审计。
-  user_confirmation: 项目所有者明确要求持续开发、AI自行判断测试，并把高效可复用方案固化到仓库。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T20:21:29Z'
-    note: 逐文件范围消除通配符歧义；能力、数据与安全边界与已批准CR-0187完全一致。
-  machine_record: .continuity/change_requests/CR-0188.yaml
-  document: docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md
-  decision_log:
-  - at: '2026-07-21T20:21:33Z'
-    actor_id: codex-root-r07-006
-    status: IMPLEMENTING
-    note: 精确文件范围已应用，开始实现R07六项业务Gauge与隔离Staging验收。
-    session_id: SES-20260721T201747Z-CD80A1EE
-  session_ids:
-  - SES-20260721T201747Z-CD80A1EE
-- protocol_version: '1.0'
-  cr_id: CR-0189
-  title: 同步永久Git配置的连续性模板与自测报告
-  status: IMPLEMENTING
-  created_at: '2026-07-21T20:47:24Z'
-  updated_at: '2026-07-21T20:49:12Z'
-  requester_actor_id: codex-root-r07-006
-  approver_actor_id: codex-reviewer-continuity
-  task_id: TASK-R07-006
-  session_id: SES-20260721T201747Z-CD80A1EE
-  user_request: 彻底解决PowerShell Git不在PATH并计入踩坑与经验复用记录
-  reason: 严格门禁确认REPOSITORY_TRANSPORT变更后两份生成式报告和START_HERE导出模板需要同步，确保跨电脑重建证据与根入口一致。
-  original_rule: 根START_HERE与导出模板必须字节一致，Git传输配置变更后连续性集成与生命周期报告的源文件摘要必须重新生成；CR-0185实现后派生项尚未同步。
-  new_rule: 永久Git配置规则进入根START_HERE时必须同步templates/START_HERE.md，并用仓库自测入口重生成连续性集成和生命周期报告及日志；严格联合门禁0错误0警告后才完成跨机复用闭环。
-  impact_summary: 同步一个导出模板并重生成两组连续性自测报告和日志，不改变业务代码、API、数据库、远端或用户凭据。
-  impact:
-    files:
-    - templates/START_HERE.md
-    - artifacts/validation/continuity-integration-v1.2.3.json
-    - artifacts/validation/continuity-integration-v1.2.3.log
-    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-    pages: []
-    apis: []
-    database: []
-    configuration:
-    - Windows Git跨机接续导出模板
-    ledger: []
-    tests:
-    - continuity repository-only reconstruction + lifecycle integration + V1.2.3 strict joint gate
-    releases:
-    - R07
-    migration_and_compatibility: 仅刷新仓库内可重建模板和校验报告；旧电脑不受影响，新电脑按同步后的START_HERE执行配置脚本。
-  user_confirmation: 项目所有者本轮明确要求彻底解决并写入踩坑与经验复用记录。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T20:48:50Z'
-    note: 限定为导出模板与两组生成式连续性报告同步，不扩大业务范围；严格门禁必须复验。
-  machine_record: .continuity/change_requests/CR-0189.yaml
-  document: docs/03-continuity/change-requests/CR-0189-同步永久Git配置的连续性模板与自测报告.md
-  decision_log:
-  - at: '2026-07-21T20:49:12Z'
-    actor_id: codex-root-r07-006
-    status: IMPLEMENTING
-    note: 开始同步START_HERE导出模板并重生成连续性集成与生命周期报告。
-    session_id: SES-20260721T201747Z-CD80A1EE
-  session_ids:
-  - SES-20260721T201747Z-CD80A1EE
-- protocol_version: '1.0'
-  cr_id: CR-0190
-  title: 刷新Git永久化后的严格项目门禁报告
-  status: IMPLEMENTING
-  created_at: '2026-07-21T20:55:34Z'
-  updated_at: '2026-07-21T20:55:55Z'
-  requester_actor_id: codex-root-r07-006
-  approver_actor_id: codex-reviewer-continuity
-  task_id: TASK-R07-006
-  session_id: SES-20260721T201747Z-CD80A1EE
-  user_request: 彻底解决PowerShell Git不在PATH并计入踩坑与经验复用记录
-  reason: 严格联合门禁已通过并生成新的项目Doctor报告，该受控派生文件需与当前配置和连续性事实一并提交。
-  original_rule: 严格项目Doctor报告必须反映当前配置、CR索引、连续性事件链和门禁结果。
-  new_rule: Git永久化规则及派生连续性证据同步后，必须保存最新严格项目Doctor PASS报告，且报告中错误和警告均为0。
-  impact_summary: 仅刷新机器生成的严格项目门禁JSON报告，不改变业务实现和运行配置。
-  impact:
-    files:
-    - artifacts/validation/project-doctor-v1.2.3.json
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - scripts/check_v123_continuity.py --strict PASS errors=0 warnings=0
-    releases:
-    - R07
-    migration_and_compatibility: 报告是验证产物，无运行时迁移；旧环境仍可读取，新环境用同一命令重算。
-  user_confirmation: 项目所有者明确要求Git问题彻底闭环并沉淀跨机复用证据。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T20:55:51Z'
-    note: 仅提交严格门禁生成报告，结果必须为PASS且0错误0警告。
-  machine_record: .continuity/change_requests/CR-0190.yaml
-  document: docs/03-continuity/change-requests/CR-0190-刷新Git永久化后的严格项目门禁报告.md
-  decision_log:
-  - at: '2026-07-21T20:55:55Z'
-    actor_id: codex-root-r07-006
-    status: IMPLEMENTING
-    note: 严格项目Doctor已生成PASS报告，纳入当前任务证据。
-    session_id: SES-20260721T201747Z-CD80A1EE
-  session_ids:
-  - SES-20260721T201747Z-CD80A1EE
 source_manifest:
 - path: AGENTS.md
   sha256: 0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230
@@ -7503,7 +7247,7 @@ source_manifest:
   sha256: a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e
   bytes: 4162
 - path: CURRENT_STATUS.yaml
-  sha256: cb3f80f4ae9be9d19b0afcc1ede0e098ecee6fe1489ff4320fedd81d33704f75
+  sha256: d35e5323a5e7e71a86015d15e83e69c09efc0d954a879e73f34af9e98db7a542
   bytes: 3850
 - path: NEXT_TASK.yaml
   sha256: c212066600e79de03393971089468e8b07bcdf5e71a7e11a386bda0ac5a8e9b6
@@ -7536,10 +7280,10 @@ source_manifest:
   sha256: 35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6
   bytes: 11116
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: aa0bfe3917cf99099ff9bc0e7fe69d1db610b65c6b7d6230cf829ea987336d7a
-  bytes: 1055494
+  sha256: 62ef816b27e1cb09ac430cab7c49d46a3670c22000612fc3e055cc19a234a6e1
+  bytes: 1058542
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 9b1de5d4141836293df5e979420bbd3352a53402417f278e450b466e1e382b6e
+  sha256: e89df628d79ebbe20931d1a5238486604787e605af99e3061752d03dd0cc9f77
   bytes: 33318
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: 672a8cbfe0ee1c18e9ef34119e83be13f4b1fef8fb60881ca6f466b89b08e153
@@ -7548,10 +7292,10 @@ source_manifest:
   sha256: 5c2561d9da2bb6c6592c75fdddf1f8a94f6f7ff228b2604961b9fbca47ea6a8c
   bytes: 19074
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 229516b4116135a578b3e85d023d79380b3caaf107387d654fb0fe90af4cad3f
-  bytes: 599548
+  sha256: bd990df7c5a17148a12ec3786234736b4f64575e7323f500be0df72368b8ddc7
+  bytes: 601133
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: b292fcf12b704da68c0a409ee94ba2258db06e9962668219035f77a18910a10a
+  sha256: b41d48e71a429aff135047109f5abac9c9d201c0f43076d7be86ce9a2c7bea00
   bytes: 533
 - path: releases/R07/RELEASE_MANIFEST.yaml
   sha256: 333e47e09e2d4004aab3e2ffdd6ec072abd8977b4d6fcd1c1daa9bec9e858f34
@@ -7572,23 +7316,23 @@ source_manifest:
   sha256: 6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756
   bytes: 4300
 - path: docs/03-continuity/sessions/2026-07/SES-20260721T201747Z-CD80A1EE.md
-  sha256: c4a9364a12d8f94bcd44bac668a5b65f0d045cd49c9ddbd72642ce4755a83bde
-  bytes: 9908
-- path: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0004.yaml
-  sha256: 8e0907cb608438a88089b1ec96cdcf00560a1a5c91a4090f6beaf96762c1f4bd
-  bytes: 15452
+  sha256: b34d7c4efcf0ae14b269750d1b0b69c6d8dbcbfcabd1ee74a49bfa1ccd334d6c
+  bytes: 11844
+- path: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0005.yaml
+  sha256: 7f203e355a4ce8ed7311621a34a25a5b826b288df91a001f902fb6a3176b476c
+  bytes: 12872
 - path: docs/03-continuity/change-requests/CR-0187-建立R07搜索联系方式可观测性与隔离Staging验收.md
   sha256: 1b1383ca6dfd951e3273dfcdb792be749d0886199bac744b852b382aa153254c
   bytes: 4725
 - path: docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md
-  sha256: 996871ce3a22cf81c08927266effb7b5d258c697c4ff3cf3861bc9acd6c1f2cd
-  bytes: 5610
+  sha256: 0123df0fbd027542b71b8a41e100db7790d1ffe90e809e66e1ec666ab2283b59
+  bytes: 6115
 - path: docs/03-continuity/change-requests/CR-0189-同步永久Git配置的连续性模板与自测报告.md
-  sha256: edbaa67e20a9c3e60020ba83234764ffce3bff898ae49f8ea55c8f5d229a0ace
-  bytes: 2693
+  sha256: e848badd91b13cf268840f540989907d01d34a5a1e24812ffee800a0299eed85
+  bytes: 3185
 - path: docs/03-continuity/change-requests/CR-0190-刷新Git永久化后的严格项目门禁报告.md
-  sha256: a76e1cd9459ffd4637ee4548a0b0418c682a7cb84032e379581821c483612185
-  bytes: 2100
+  sha256: 80718ce28381981dc08b9aadb1357479c6d090ee6611cf60c9a02c26cbfd0f71
+  bytes: 2535
 exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
   '<未委托原因>'
 hard_rules:
@@ -7603,4 +7347,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: b963f44d06ff35b633e648be6427b11f874e67d09954ea3ab9e5347573a01c20
+context_hash: 997fc7f2ebc5d01ec30bf816fa6392e1c06b1a8fbf7f14d5aed35f5202a38e4a

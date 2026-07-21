@@ -126,3 +126,17 @@ CR-0187的证据目录通配符不符合连续性工具精确路径约束且未�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260721T201747Z-CD80A1EE`
 - Note：精确文件范围已应用，开始实现R07六项业务Gauge与隔离Staging验收。
+
+## 状态记录 · 2026-07-21T20:58:14Z
+
+- Actor：`codex-root-r07-006`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260721T201747Z-CD80A1EE`
+- Note：R07六项业务指标、七条告警规则、隔离Staging与同库同卷回切已实现并由现场证据签署。
+
+## 状态记录 · 2026-07-21T20:58:16Z
+
+- Actor：`codex-reviewer-staging`
+- Status：`CLOSED`
+- Session：`SES-20260721T201747Z-CD80A1EE`
+- Note：复核AC-R07-004报告、22项SHA256证据和机器摘要全部通过，关闭变更。
