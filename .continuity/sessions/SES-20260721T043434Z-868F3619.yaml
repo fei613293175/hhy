@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260721T043434Z-868F3619
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R06-007
 story_id: STORY-R06-001
 goal: 使用固定Android工具链生成R06机器候选APK，完成GitHub模拟器候选门禁、签名、安装、四方SHA与桌面累积交付，owner_physical_test保持异步真实状态
 started_at: '2026-07-21T04:34:34Z'
-updated_at: '2026-07-21T05:49:40Z'
+updated_at: '2026-07-21T05:50:43Z'
 takeover_of: null
 change_requests:
 - CR-0163
@@ -63,22 +63,35 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T05:49:36Z'
-  expires_at: '2026-07-21T09:49:36Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260721T043434Z-868F3619/0005.yaml
+  renewed_at: '2026-07-21T05:50:39Z'
+  expires_at: '2026-07-21T09:50:39Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260721T043434Z-868F3619/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T043434Z-868F3619.md
-next_step: 提交CR关闭状态后执行continuity close完成TASK-R06-007并切换TASK-R06-008
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: f64454a3ce739adacecdf88bfc710351277086e3febf6e24af269a3f26f5b983
-  generated_at: '2026-07-21T05:49:39Z'
+  context_hash: 8cde413cd6f84c122e7a8c35f19d8722c8e74d279c73752b9b46db96b9431919
+  generated_at: '2026-07-21T05:50:41Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: TASK-R06-007完成：GitHub Run 29803223373一次通过，f5cf1e4/10214固定签名APK完成模拟器旅程、AI审图、日志、四方SHA与桌面交付，owner_physical_test按异步规则保持PENDING
+  code_commit: 53ec5106
+  next_release: R06
+  next_task: TASK-R06-008
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-21T05:50:37Z'
+  closure_checkpoint_id: CP-SES-20260721T043434Z-868F3619-0006
+  closed_at: '2026-07-21T05:50:43Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: CR关闭与任务关闭均为单一连续性事实写入，由主控串行执行
+closed_at: '2026-07-21T05:50:43Z'
