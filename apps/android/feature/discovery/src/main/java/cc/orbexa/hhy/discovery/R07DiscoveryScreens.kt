@@ -49,7 +49,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
@@ -425,7 +424,7 @@ private fun SecureContentEffect() {
 
 @Composable
 private fun PublisherHeader(publisher: PublisherSummaryResource) {
-    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = HhyColors.Surface)) {
         Row(Modifier.fillMaxWidth().padding(HhySpacing.Lg), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md), verticalAlignment = Alignment.CenterVertically) {
             Surface(modifier = Modifier.clip(CircleShape), color = HhyColors.SoftBlue) {
                 Box(Modifier.padding(HhySpacing.Xl), contentAlignment = Alignment.Center) {
@@ -444,7 +443,7 @@ private fun PublisherHeader(publisher: PublisherSummaryResource) {
 
 @Composable
 private fun SearchResultCard(result: SearchResultResource, onPublisherSelected: (String) -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = HhyColors.Surface)) {
         Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
             Text(result.title, style = MaterialTheme.typography.titleMedium)
             Text(contentTypeLabel(result.contentType), color = HhyColors.BrandPrimary, style = MaterialTheme.typography.bodySmall)
@@ -458,7 +457,7 @@ private fun SearchResultCard(result: SearchResultResource, onPublisherSelected: 
 
 @Composable
 private fun ContentCard(content: ContentResource, onContact: (ContactChannelSummaryResource) -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color.White)) {
+    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = HhyColors.Surface)) {
         Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
             Text(content.title, style = MaterialTheme.typography.titleMedium)
             Text(contentTypeLabel(content.contentType), color = HhyColors.BrandPrimary, style = MaterialTheme.typography.bodySmall)
@@ -502,7 +501,7 @@ private fun FailureState(failure: R07UiFailure, retry: () -> Unit) {
 
 @Composable
 private fun EmptyState(title: String, guidance: String) {
-    Surface(color = Color.White, shape = RoundedCornerShape(HhyRadius.NormalCard)) {
+    Surface(color = HhyColors.Surface, shape = RoundedCornerShape(HhyRadius.NormalCard)) {
         Column(Modifier.fillMaxWidth().padding(HhySpacing.Xl), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
             Text(title, fontWeight = FontWeight.SemiBold)
             Text(guidance, color = HhyColors.TextSecondary)

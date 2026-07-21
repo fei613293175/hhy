@@ -11450,3 +11450,113 @@ change_requests:
   - SES-20260721T201747Z-CD80A1EE
   implementation_commits:
   - 7c5a5f7a329d36c62c5269fb68d23e0fca69ab19
+- protocol_version: '1.0'
+  cr_id: CR-0191
+  title: 建立R07最终候选真实页面旅程与隔离测试夹具
+  status: IMPLEMENTING
+  created_at: '2026-07-21T21:10:57Z'
+  updated_at: '2026-07-21T21:11:29Z'
+  requester_actor_id: codex-root-r07-007
+  approver_actor_id: codex-reviewer-r07-candidate
+  task_id: TASK-R07-007
+  session_id: SES-20260721T210252Z-D631F6E4
+  user_request: 项目所有者要求每个大版本最终候选由AI自动登录、截图对应开发页面并自行判断合格，真机反馈异步且开发不中断。
+  reason: 现有候选旅程仍停留在R06首页、我的和关于页，无法证明R07搜索结果、发布者主页、清空历史对话框和高敏联系方式弹层；需切换为R07真实页面旅程并准备专用Staging测试账号夹具。
+  original_rule: Android最终候选自动化仅执行R06首页、我的和关于页三图旅程，R07没有版本视觉清单或可重复的真实搜索发布者测试数据。
+  new_rule: R07候选必须以GitHub OIDC一次性会话进入已认证壳层，依次验证搜索落地页、真实搜索结果、发布者主页和清空历史确认框并生成四张唯一截图；联系方式弹层因FLAG_SECURE禁止截图，必须改为语义身份、获取按钮、关闭按钮和安全窗口标记检查。Staging夹具只作用于专用CI账号，幂等准备公开内容、掩码联系方式和热词，并在每轮前清空该账号搜索历史。
+  impact_summary: 把候选模拟器旅程从R06通用页切换到R07对应页面，新增显式确认的专用Staging数据夹具、R07视觉清单和候选请求；不向生产启用CI登录，不记录联系方式明文，不等待项目所有者逐图确认。
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - scripts/prepare_r07_ci_fixture.sh
+    - tests/android/visual-manifests/R07.yaml
+    - config/android-candidate-request.yaml
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    - CHANGELOG.md
+    pages:
+    - SCR-SEARCH-001
+    - SCR-SEARCH-002
+    - SCR-PUBLISHER-001
+    - SHEET-CONTACT-001
+    - DIALOG-SEARCH-001
+    apis:
+    - GET /api/v1/search
+    - GET /api/v1/search/hot
+    - GET /api/v1/search/history
+    - DELETE /api/v1/search/history
+    - GET /api/v1/publishers/{id}
+    - GET /api/v1/contents
+    database:
+    - 专用CI用户的search_histories、hot_search_terms、content_posts、content_contacts测试夹具
+    configuration:
+    - R07 GitHub OIDC候选请求与Staging专用CI环境
+    ledger:
+    - R07四张非敏感页面截图与联系方式安全语义检查
+    tests:
+    - Android ReleaseCandidateSmokeTest R07真实页面旅程、视觉清单、FLAG_SECURE和候选完整门禁
+    releases:
+    - R07
+    migration_and_compatibility: 自动化只在staging且CI开关启用的候选环境运行；夹具使用稳定标题幂等更新专用CI账号数据，不删除内容或联系方式事实，仅清空CI账号自己的搜索历史。R06既有视觉基线保留不变。
+  user_confirmation: 项目所有者已明确要求AI自动登录、截取对应开发页面并自行判断，完整门禁仅在大版本最终候选运行。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T21:11:25Z'
+    note: 测试范围严格对应R07五个页面或弹层；联系方式面板保持FLAG_SECURE且不截图，夹具仅限专用CI账号和Staging。
+  machine_record: .continuity/change_requests/CR-0191.yaml
+  document: docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+  decision_log:
+  - at: '2026-07-21T21:11:29Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTING
+    note: 开始实现R07候选页面旅程、专用CI夹具、视觉清单和候选请求。
+    session_id: SES-20260721T210252Z-D631F6E4
+  session_ids:
+  - SES-20260721T210252Z-D631F6E4
+- protocol_version: '1.0'
+  cr_id: CR-0192
+  title: 修复R07页面残留Compose颜色硬编码
+  status: IMPLEMENTING
+  created_at: '2026-07-21T21:15:09Z'
+  updated_at: '2026-07-21T21:15:34Z'
+  requester_actor_id: codex-root-r07-007
+  approver_actor_id: codex-reviewer-ui-token
+  task_id: TASK-R07-007
+  session_id: SES-20260721T210252Z-D631F6E4
+  user_request: 项目所有者要求UI字号边距颜色等硬参数遵守开发文档，并在大版本候选由AI自行完成门禁。
+  reason: 候选前置check_ui_tokens确定性发现R07DiscoveryScreens两处Color.White绕过冻结HhyColors令牌，会阻断完整候选门禁。
+  original_rule: R07发布者卡片和空状态直接使用Color.White，违反Compose页面必须通过HhyColors冻结令牌取色的硬规则。
+  new_rule: R07全部页面表面色必须使用HhyColors.Surface等冻结设计令牌，禁止直接Color.White或其他原始Compose颜色常量。
+  impact_summary: 仅替换两处等值颜色引用并移除无用import，视觉值保持不变；登记问题与回归证据。
+  impact:
+    files:
+    - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages:
+    - SCR-PUBLISHER-001
+    - SCR-SEARCH-001
+    apis: []
+    database: []
+    configuration:
+    - Android HhyColors冻结设计令牌
+    ledger:
+    - PROB-0070 R07页面残留Color.White硬编码
+    tests:
+    - scripts/check_ui_tokens.py与Android受影响MODULE
+    releases:
+    - R07
+    migration_and_compatibility: 纯Android源码等值替换，不涉及API、数据库、本地数据或运行时迁移。
+  user_confirmation: 项目所有者已明确要求UI硬性参数严格按开发文档执行。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T21:15:29Z'
+    note: 两处HhyColors.Surface为等值令牌替换，不改变冻结视觉，且恢复候选硬门禁合规。
+  machine_record: .continuity/change_requests/CR-0192.yaml
+  document: docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+  decision_log:
+  - at: '2026-07-21T21:15:34Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTING
+    note: 开始替换两处原始Compose颜色并补Problem Registry。
+    session_id: SES-20260721T210252Z-D631F6E4
+  session_ids:
+  - SES-20260721T210252Z-D631F6E4

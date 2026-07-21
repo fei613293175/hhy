@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T20:59:49Z
-- Context Hash：`dea30c9d35ac74a2926ca25defe345bc3e1baa620ada05585afb29d27bf722d9`
+- 生成时间：2026-07-21T21:30:09Z
+- Context Hash：`1511136e08c00e5bbbfb000a62683e18b0ef08d088186062084e9d17e5bd125f`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-007
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 当前状态
@@ -18,7 +18,7 @@ baseline_version: 1.2.3
 phase: R07
 active_release: R07
 active_task: TASK-R07-007
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 7c5a5f7a329d36c62c5269fb68d23e0fca69ab19
 last_staging_apk: null
@@ -93,13 +93,14 @@ completed_tasks:
 - TASK-R07-004
 - TASK-R07-005
 - TASK-R07-006
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R07-007
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 next_task: TASK-R07-007
-updated_at: '2026-07-21T20:59:47Z'
+updated_at: '2026-07-21T21:30:07Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -131,17 +132,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260721T201747Z-CD80A1EE
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0006.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260721T210252Z-D631F6E4
+  actor_id: codex-root-r07-007
+  story_id: STORY-R07-005
+  lease_expires_at: '2026-07-22T01:30:07Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0002.yaml
+  project_fingerprint: 395aee53da36fc588b7e36c7a60ea752c76295cfe0e85ef952af8b4dd78f75a1
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: e7c7b0c60bc6eccd55a5912539eb6aa919c745b1b42288bf1e1812d9b723efd1
-    generated_at: '2026-07-21T20:59:45Z'
+    context_hash: f23ba277002fc459fc696be952b680ca514817cf36ae60635b2b23388664895c
+    generated_at: '2026-07-21T21:28:52Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -326,13 +329,291 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260721T210252Z-D631F6E4
+status: ACTIVE
+actor:
+  id: codex-root-r07-007
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R07
+task_id: TASK-R07-007
+story_id: STORY-R07-005
+goal: 完成R07大版本最终候选完整门禁、Android模拟器页面验证、候选APK追溯与桌面交付，AI独立判断截图并保持真机反馈异步。
+started_at: '2026-07-21T21:02:52Z'
+updated_at: '2026-07-21T21:30:07Z'
+takeover_of: null
+change_requests:
+- CR-0191
+- CR-0192
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/prepare_r07_ci_fixture.sh
+  - tests/android/visual-manifests/R07.yaml
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - CHANGELOG.md
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 0dc40abf3ed879893c510d4f7c3b4cf9a42700c0
+  start_head: 0dc40abf3ed879893c510d4f7c3b4cf9a42700c0
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-21T21:30:07Z'
+  expires_at: '2026-07-22T01:30:07Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md
+next_step: 提交推送候选旅程与令牌修复，构建并部署精确Commit的R07公开Staging候选后端，运行CI夹具，再切换并提交R07候选请求。
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统规则未授权创建子代理；精确候选Commit和Staging切换必须串行。
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T210252Z-D631F6E4-0002
+session_id: SES-20260721T210252Z-D631F6E4
+sequence: 2
+created_at: '2026-07-21T21:30:06Z'
+summary: R07真实候选旅程、Staging夹具、视觉清单和UI令牌修复已完成并通过云端Android编译；候选请求保持R06已完成值，等待公开R07 Staging就绪后单独切换。
+next_step: 提交推送候选旅程与令牌修复，构建并部署精确Commit的R07公开Staging候选后端，运行CI夹具，再切换并提交R07候选请求。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: android-r07-preflight
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r07-task007-preflight-0dc40abf
+  note: 132任务BUILD SUCCESSFUL
+- name: android-ui-tokens
+  result: PASS
+  evidence: scripts/check_ui_tokens.py
+  note: UI_TOKENS_OK 52
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 0dc40abf3ed879893c510d4f7c3b4cf9a42700c0
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0191.yaml
+  - A  .continuity/change_requests/CR-0192.yaml
+  - A  .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0001.yaml
+  - A  .continuity/sessions/SES-20260721T210252Z-D631F6E4.yaml
+  - M  CHANGELOG.md
+  - M  CURRENT_STATUS.yaml
+  - M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - M  apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - A  docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+  - A  docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+  - A  docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md
+  - M  docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - A  scripts/prepare_r07_ci_fixture.sh
+  - A  tests/android/visual-manifests/R07.yaml
+  recent_commits:
+  - "0dc40abf3ed879893c510d4f7c3b4cf9a42700c0\t2026-07-22T05:00:31+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-006\
+    \ as completed"
+  - "13a740044a77b700ccaa4bf2f6243649bd0aadeb\t2026-07-22T04:59:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] docs(governance): 关闭R07预发布变更"
+  - "7c5a5f7a329d36c62c5269fb68d23e0fca69ab19\t2026-07-22T04:57:16+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(staging): 签署R07隔离预发布验收"
+  - "417b6cc9bc5f1b56adc280db5375358100bf23ae\t2026-07-22T04:31:47+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(observability): 建立R07隔离预发布门禁"
+  - "e6d73b0fb4be95c6769c8f6aa493172592d686ea\t2026-07-22T04:16:46+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-005\
+    \ as completed"
+  - "0c2d512bb4ed73678aee8817e63c33d8539e99be\t2026-07-22T04:14:59+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07专项与Git环境变更请求"
+  - "ae7f7059088355b93b4dab2cb0b10fb5042ddcb1\t2026-07-22T04:13:25+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 归档十项专项门禁证据"
+  - "015178b3d45c5d0ff0d0e458eb92a166d8d5026a\t2026-07-22T03:57:22+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 自动化十项专项矩阵与固化Windows\
+    \ Git"
+project_fingerprint:
+  sha256: 395aee53da36fc588b7e36c7a60ea752c76295cfe0e85ef952af8b4dd78f75a1
+  files:
+  - CHANGELOG.md
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+  - docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - scripts/prepare_r07_ci_fixture.sh
+  - tests/android/visual-manifests/R07.yaml
+  file_count: 9
+  payload:
+    base_commit: 0dc40abf3ed879893c510d4f7c3b4cf9a42700c0
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 67909
+      sha256: 6cc4e941547549be344f89ab2f443ee5276e4f159d595657c0638b7a6640ebda
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 12757
+      sha256: 23e8c1ea2dfdac0abed6d01255a840edb8497950b72c846724a5f741872bf470
+    - path: apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+      state: FILE
+      size: 25353
+      sha256: 9596e16b44e4a54ea7ed686c91f641effa0a663db0cdc888582b5b1ebab160e8
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 86476
+      sha256: f7e2ca9642968338eca696acbd564d911c27cd4d81ba9532b2ba6a66dc53108c
+    - path: docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+      state: FILE
+      size: 3638
+      sha256: 7981a223c3257e4b6c2b25a432fb990be3510c5225562279c49b0ea1ac314265
+    - path: docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+      state: FILE
+      size: 2257
+      sha256: 1f862ca5cce32d3fce89446cdb9e77a33d8cd547ad78f8237c0ec5c494c3121b
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 25855
+      sha256: 481bbcf79b3e9275c004948ed1164e877de607f5d1cb52e045c0870a05204fbc
+    - path: scripts/prepare_r07_ci_fixture.sh
+      state: FILE
+      size: 3682
+      sha256: 3eaa143c7f47e30f585faba3a28ed901946f205e19b8d315ef8b602155648137
+    - path: tests/android/visual-manifests/R07.yaml
+      state: FILE
+      size: 1439
+      sha256: d937f326b2686ce0c76a3636e7d6355b995b8485f1f277c3384e3d88528e5ba5
+change_classification:
+  other:
+  - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  code:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - scripts/prepare_r07_ci_fixture.sh
+  user_visible:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+  - docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+  tests:
+  - tests/android/visual-manifests/R07.yaml
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0191
+- CR-0192
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/prepare_r07_ci_fixture.sh
+  - tests/android/visual-manifests/R07.yaml
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - CHANGELOG.md
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统规则未授权创建子代理；精确候选Commit和Staging切换必须串行。
+event_hash: cc9304f8413aac79cf29132df87c88af938f86d46b7a3e591ade195689c05678
 ```
 
 ## 接续状态与事件头
@@ -340,31 +621,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260721T210252Z-D631F6E4
 last_session_id: SES-20260721T201747Z-CD80A1EE
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260721T201747Z-CD80A1EE-0006
-event_count: 1920
-event_head_hash: aef0572fea2c18903e4f84b8c163a2c8891bc3aba43f4c0ce0a3b36d79020c32
+event_count: 1933
+event_head_hash: cc9304f8413aac79cf29132df87c88af938f86d46b7a3e591ade195689c05678
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260721T020225Z-397AF410
-  task_id: TASK-R06-006
-  story_id: STORY-R06-005
-  actor_id: codex-root
-  status: CLOSED
-  started_at: '2026-07-21T02:02:25Z'
-  record: .continuity/sessions/SES-20260721T020225Z-397AF410.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md
-  updated_at: '2026-07-21T04:23:43Z'
-  closed_at: '2026-07-21T04:23:43Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0014.yaml
-  handoff_bundle: null
-- session_id: SES-20260721T043434Z-868F3619
+recent_sessions: - session_id: SES-20260721T043434Z-868F3619
   task_id: TASK-R06-007
   story_id: STORY-R06-001
   actor_id: codex-root
@@ -472,29 +741,19 @@ recent_sessions: - session_id: SES-20260721T020225Z-397AF410
   closed_at: '2026-07-21T20:59:46Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0006.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-0F05169F5986
-  session_id: SES-20260719T183335Z-535311E4
-  task_id: TASK-R05-004
-  story_id: STORY-R05-001
-  actor_id: codex-root
-  status: CLOSED
-  claimed_at: '2026-07-19T18:33:35Z'
-  allowed_paths:
-  - apps/admin-web/**
-  - services/backend/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - tests/**
-  - docs/**
-  - catalogs/**
-  - releases/**
-  - design/**
-  - scripts/**
-  - CHANGELOG.md
-  closed_at: '2026-07-19T22:38:23Z'
-- claim_id: CLM-58A937206C4A
+- session_id: SES-20260721T210252Z-D631F6E4
+  task_id: TASK-R07-007
+  story_id: STORY-R07-005
+  actor_id: codex-root-r07-007
+  status: ACTIVE
+  started_at: '2026-07-21T21:02:52Z'
+  record: .continuity/sessions/SES-20260721T210252Z-D631F6E4.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md
+  updated_at: '2026-07-21T21:30:07Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0002.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-58A937206C4A
   session_id: SES-20260719T224052Z-2C69767F
   task_id: TASK-R05-005
   story_id: STORY-R05-001
@@ -1148,17 +1407,46 @@ task_claims: - claim_id: CLM-0F05169F5986
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-21T20:59:46Z'
-recent_task_transitions: - transition_id: TRN-AA8CA7530EDD
-  timestamp: '2026-07-19T18:33:36Z'
-  release: R05
-  task_id: TASK-R05-004
-  story_id: STORY-R05-001
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260719T183335Z-535311E4
-  actor_id: codex-root
-  reason: 会话领取任务
-- transition_id: TRN-17ACD1848877
+- claim_id: CLM-1C0B4F388BF3
+  session_id: SES-20260721T210252Z-D631F6E4
+  task_id: TASK-R07-007
+  story_id: STORY-R07-005
+  actor_id: codex-root-r07-007
+  status: ACTIVE
+  claimed_at: '2026-07-21T21:02:52Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-17ACD1848877
   timestamp: '2026-07-19T22:40:52Z'
   release: R05
   task_id: TASK-R05-005
@@ -1348,6 +1636,16 @@ recent_task_transitions: - transition_id: TRN-AA8CA7530EDD
   session_id: SES-20260721T201747Z-CD80A1EE
   actor_id: codex-root-r07-006
   reason: 会话领取任务
+- transition_id: TRN-D86994BC5470
+  timestamp: '2026-07-21T21:02:53Z'
+  release: R07
+  task_id: TASK-R07-007
+  story_id: STORY-R07-005
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260721T210252Z-D631F6E4
+  actor_id: codex-root-r07-007
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1355,29 +1653,44 @@ recent_task_transitions: - transition_id: TRN-AA8CA7530EDD
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 13a740044a77b700ccaa4bf2f6243649bd0aadeb
+head: 0dc40abf3ed879893c510d4f7c3b4cf9a42700c0
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260721T201747Z-CD80A1EE.yaml'
-- ' M CHANGELOG.md'
-- ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260721T201747Z-CD80A1EE.md'
-- ' M releases/R07/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0006.yaml
+- MM .continuity/ACTIVE_SESSION.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- M  .continuity/TASK_CLAIMS.yaml
+- M  .continuity/TASK_TRANSITIONS.yaml
+- A  .continuity/change_requests/CR-0191.yaml
+- A  .continuity/change_requests/CR-0192.yaml
+- A  .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0001.yaml
+- AM .continuity/sessions/SES-20260721T210252Z-D631F6E4.yaml
+- M  CHANGELOG.md
+- MM CURRENT_STATUS.yaml
+- M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+- M  apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- M  catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
+- M  catalogs/task_transition_ledger.csv
+- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+- A  docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+- A  docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+- AM docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md
+- M  docs/07-operations/DEPLOYMENT_RUNBOOK.md
+- A  scripts/prepare_r07_ci_fixture.sh
+- A  tests/android/visual-manifests/R07.yaml
+- ?? .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0002.yaml
 recent_commits:
+- "0dc40abf3ed879893c510d4f7c3b4cf9a42700c0\t2026-07-22T05:00:31+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-006\
+  \ as completed"
 - "13a740044a77b700ccaa4bf2f6243649bd0aadeb\t2026-07-22T04:59:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] docs(governance): 关闭R07预发布变更"
 - "7c5a5f7a329d36c62c5269fb68d23e0fca69ab19\t2026-07-22T04:57:16+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(staging): 签署R07隔离预发布验收"
 - "417b6cc9bc5f1b56adc280db5375358100bf23ae\t2026-07-22T04:31:47+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(observability): 建立R07隔离预发布门禁"
@@ -1387,16 +1700,22 @@ recent_commits:
 - "ae7f7059088355b93b4dab2cb0b10fb5042ddcb1\t2026-07-22T04:13:25+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 归档十项专项门禁证据"
 - "015178b3d45c5d0ff0d0e458eb92a166d8d5026a\t2026-07-22T03:57:22+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 自动化十项专项矩阵与固化Windows\
   \ Git"
-- "ddf293eda518bca96b695d518ad67f9d18536536\t2026-07-22T03:27:57+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): close TASK-R07-004\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`2e5b5d90a27d76f4a2e04afaddb60047294f1a7faf2045adbc66a1f76752287d`
-- 文件数：0
+- 指纹：`395aee53da36fc588b7e36c7a60ea752c76295cfe0e85ef952af8b4dd78f75a1`
+- 文件数：9
 
-- 无
+- `CHANGELOG.md`
+- `apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt`
+- `apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md`
+- `docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md`
+- `docs/07-operations/DEPLOYMENT_RUNBOOK.md`
+- `scripts/prepare_r07_ci_fixture.sh`
+- `tests/android/visual-manifests/R07.yaml`
 
 ## 当前 Release
 
@@ -6813,35 +7132,149 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
   machine_record: .continuity/change_requests/CR-0159.yaml
   document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
+- protocol_version: '1.0'
+  cr_id: CR-0191
+  title: 建立R07最终候选真实页面旅程与隔离测试夹具
+  status: IMPLEMENTING
+  created_at: '2026-07-21T21:10:57Z'
+  updated_at: '2026-07-21T21:11:29Z'
+  requester_actor_id: codex-root-r07-007
+  approver_actor_id: codex-reviewer-r07-candidate
+  task_id: TASK-R07-007
+  session_id: SES-20260721T210252Z-D631F6E4
+  user_request: 项目所有者要求每个大版本最终候选由AI自动登录、截图对应开发页面并自行判断合格，真机反馈异步且开发不中断。
+  reason: 现有候选旅程仍停留在R06首页、我的和关于页，无法证明R07搜索结果、发布者主页、清空历史对话框和高敏联系方式弹层；需切换为R07真实页面旅程并准备专用Staging测试账号夹具。
+  original_rule: Android最终候选自动化仅执行R06首页、我的和关于页三图旅程，R07没有版本视觉清单或可重复的真实搜索发布者测试数据。
+  new_rule: R07候选必须以GitHub OIDC一次性会话进入已认证壳层，依次验证搜索落地页、真实搜索结果、发布者主页和清空历史确认框并生成四张唯一截图；联系方式弹层因FLAG_SECURE禁止截图，必须改为语义身份、获取按钮、关闭按钮和安全窗口标记检查。Staging夹具只作用于专用CI账号，幂等准备公开内容、掩码联系方式和热词，并在每轮前清空该账号搜索历史。
+  impact_summary: 把候选模拟器旅程从R06通用页切换到R07对应页面，新增显式确认的专用Staging数据夹具、R07视觉清单和候选请求；不向生产启用CI登录，不记录联系方式明文，不等待项目所有者逐图确认。
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - scripts/prepare_r07_ci_fixture.sh
+    - tests/android/visual-manifests/R07.yaml
+    - config/android-candidate-request.yaml
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    - CHANGELOG.md
+    pages:
+    - SCR-SEARCH-001
+    - SCR-SEARCH-002
+    - SCR-PUBLISHER-001
+    - SHEET-CONTACT-001
+    - DIALOG-SEARCH-001
+    apis:
+    - GET /api/v1/search
+    - GET /api/v1/search/hot
+    - GET /api/v1/search/history
+    - DELETE /api/v1/search/history
+    - GET /api/v1/publishers/{id}
+    - GET /api/v1/contents
+    database:
+    - 专用CI用户的search_histories、hot_search_terms、content_posts、content_contacts测试夹具
+    configuration:
+    - R07 GitHub OIDC候选请求与Staging专用CI环境
+    ledger:
+    - R07四张非敏感页面截图与联系方式安全语义检查
+    tests:
+    - Android ReleaseCandidateSmokeTest R07真实页面旅程、视觉清单、FLAG_SECURE和候选完整门禁
+    releases:
+    - R07
+    migration_and_compatibility: 自动化只在staging且CI开关启用的候选环境运行；夹具使用稳定标题幂等更新专用CI账号数据，不删除内容或联系方式事实，仅清空CI账号自己的搜索历史。R06既有视觉基线保留不变。
+  user_confirmation: 项目所有者已明确要求AI自动登录、截取对应开发页面并自行判断，完整门禁仅在大版本最终候选运行。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T21:11:25Z'
+    note: 测试范围严格对应R07五个页面或弹层；联系方式面板保持FLAG_SECURE且不截图，夹具仅限专用CI账号和Staging。
+  machine_record: .continuity/change_requests/CR-0191.yaml
+  document: docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+  decision_log:
+  - at: '2026-07-21T21:11:29Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTING
+    note: 开始实现R07候选页面旅程、专用CI夹具、视觉清单和候选请求。
+    session_id: SES-20260721T210252Z-D631F6E4
+  session_ids:
+  - SES-20260721T210252Z-D631F6E4
+- protocol_version: '1.0'
+  cr_id: CR-0192
+  title: 修复R07页面残留Compose颜色硬编码
+  status: IMPLEMENTING
+  created_at: '2026-07-21T21:15:09Z'
+  updated_at: '2026-07-21T21:15:34Z'
+  requester_actor_id: codex-root-r07-007
+  approver_actor_id: codex-reviewer-ui-token
+  task_id: TASK-R07-007
+  session_id: SES-20260721T210252Z-D631F6E4
+  user_request: 项目所有者要求UI字号边距颜色等硬参数遵守开发文档，并在大版本候选由AI自行完成门禁。
+  reason: 候选前置check_ui_tokens确定性发现R07DiscoveryScreens两处Color.White绕过冻结HhyColors令牌，会阻断完整候选门禁。
+  original_rule: R07发布者卡片和空状态直接使用Color.White，违反Compose页面必须通过HhyColors冻结令牌取色的硬规则。
+  new_rule: R07全部页面表面色必须使用HhyColors.Surface等冻结设计令牌，禁止直接Color.White或其他原始Compose颜色常量。
+  impact_summary: 仅替换两处等值颜色引用并移除无用import，视觉值保持不变；登记问题与回归证据。
+  impact:
+    files:
+    - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages:
+    - SCR-PUBLISHER-001
+    - SCR-SEARCH-001
+    apis: []
+    database: []
+    configuration:
+    - Android HhyColors冻结设计令牌
+    ledger:
+    - PROB-0070 R07页面残留Color.White硬编码
+    tests:
+    - scripts/check_ui_tokens.py与Android受影响MODULE
+    releases:
+    - R07
+    migration_and_compatibility: 纯Android源码等值替换，不涉及API、数据库、本地数据或运行时迁移。
+  user_confirmation: 项目所有者已明确要求UI硬性参数严格按开发文档执行。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T21:15:29Z'
+    note: 两处HhyColors.Surface为等值令牌替换，不改变冻结视觉，且恢复候选硬门禁合规。
+  machine_record: .continuity/change_requests/CR-0192.yaml
+  document: docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+  decision_log:
+  - at: '2026-07-21T21:15:34Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTING
+    note: 开始替换两处原始Compose颜色并补Problem Registry。
+    session_id: SES-20260721T210252Z-D631F6E4
+  session_ids:
+  - SES-20260721T210252Z-D631F6E4
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e`
-- `CURRENT_STATUS.yaml` — `a128fbf152832cda7fbc419f110b00c0aa958c17f8758fcc6b94418ca4a29cda`
+- `CURRENT_STATUS.yaml` — `6466b0e491a1a175774ab2cdf711d07fe8a28a4cccd11770066a8e9a199eea3c`
 - `NEXT_TASK.yaml` — `a6dc70cc1e78625ecbd1bd3a9b73c34469eb4fbbdeeade9d75aa5c2d87173f0f`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `fef46e10528b70d1041880f9409a7a4d969b8cd15fef01f28c302b6645e78da3`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `f7e2ca9642968338eca696acbd564d911c27cd4d81ba9532b2ba6a66dc53108c`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da`
 - `docs/03-continuity/PITFALLS.md` — `15e6f729ddca7efef1a0be4267dede8cae1364389d7bd83436c5333d52943310`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `f9c49369e7d20971fd6813620b9737c4e77f215195f6a30effb60bdb8b9c2e76`
-- `.continuity/SESSION_INDEX.yaml` — `6595bf1994c0af5bfd3140fa25f1b9d76f4f929d1790ecdf8a0e23935c9f412b`
-- `.continuity/TASK_CLAIMS.yaml` — `48b8c506a90a67a62125a72af8acaf668a2b2e6cd783b731940334aa7fa27371`
-- `.continuity/TASK_TRANSITIONS.yaml` — `5c2561d9da2bb6c6592c75fdddf1f8a94f6f7ff228b2604961b9fbca47ea6a8c`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `bd990df7c5a17148a12ec3786234736b4f64575e7323f500be0df72368b8ddc7`
-- `.continuity/ACTIVE_SESSION.yaml` — `5bc46a48d71bfba03e7b2dda7f77cf0810b9a896bd48e4fa7657815211275d63`
+- `.continuity/EVENT_LOG.jsonl` — `8c186b0a0757cd75b964221e0a57adb75f2c6f0f75837d8c9e7472daac6191d0`
+- `.continuity/SESSION_INDEX.yaml` — `e4e1e2d463ee8940cd8634dbc2427fd481f95f9671c7333f553f374575e4246d`
+- `.continuity/TASK_CLAIMS.yaml` — `e21bb8f359ed444aac3a9fd15c86a23381573cc6b94673b59b19383d8a1aa71b`
+- `.continuity/TASK_TRANSITIONS.yaml` — `f460169d5442182cef9701ed689877cabbb4eb25c34732b1176a6f752c67e96c`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `37bb83c0ad4ce56418395d719f74ff74014e2e09262943b85b1b470384baa936`
+- `.continuity/ACTIVE_SESSION.yaml` — `e3c05b3e8c6b3f06599e38c09bf4fd7d99b4c85aec97ea8cd190acf32031e8ee`
 - `releases/R07/RELEASE_MANIFEST.yaml` — `333e47e09e2d4004aab3e2ffdd6ec072abd8977b4d6fcd1c1daa9bec9e858f34`
 - `releases/R07/DEFINITION_OF_READY.yaml` — `5e3a1496a1a9a9af6ac2e40e8aaacdfaa46cc7bf117324c22c486b3730c6f9f9`
 - `releases/R07/STORIES.yaml` — `26e0246244a4de42510a0a31d0982afaf0e5cd3ad0641c0ebdd74b6882e9431e`
 - `releases/R07/TASKS.yaml` — `b3f33c4eef7f58fb37a6e570d814ef78c761bcf9c782ce976b459b2ee86e12ba`
 - `releases/R07/ACCEPTANCE_MATRIX.csv` — `8a89932613450d3cb2ec70f8683fbbf344d950519af167ca5178adf55fa68365`
 - `releases/R07/PARALLEL_EXECUTION_PLAN.yaml` — `6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756`
+- `docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md` — `4de0fd9a8cb16db93c8535726e0ddba2589eff25cff9e2d6146bd61a17fc4990`
+- `.continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0002.yaml` — `d602803a846bc12feed674a1a0258a3d82170ef2c472a3a2e7690d96cb8915e8`
+- `docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md` — `7981a223c3257e4b6c2b25a432fb990be3510c5225562279c49b0ea1ac314265`
+- `docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md` — `1f862ca5cce32d3fce89446cdb9e77a33d8cd547ad78f8237c0ec5c494c3121b`
 
 ## 接手硬规则
 

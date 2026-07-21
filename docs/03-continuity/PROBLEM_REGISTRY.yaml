@@ -919,3 +919,16 @@ problems:
   - 不得在每次命令前重复发现和拼接受控Git路径；首次接手只配置一次并回读
   - 不得因旧Codex或IDE进程尚未刷新环境而覆盖正确用户配置、重建仓库或停止开发
   - 换电脑必须从START_HERE和REPOSITORY_TRANSPORT恢复，不依赖聊天记忆
+- id: PROB-0070
+  title: R07页面残留Compose原始颜色绕过冻结设计令牌
+  status: SOLVED
+  root_cause: TASK-R07-004的受影响MODULE编译、单测和Lint均通过，但候选阶段才执行的全局UI令牌门禁发现R07DiscoveryScreens在发布者、搜索结果、内容卡片和空状态中共四处直接使用Color.White；编译器无法识别这种设计系统违规，普通任务的比例化门禁也没有运行全局视觉基础检查。
+  resolution: CR-0192将四处等值白色统一替换为HhyColors.Surface并移除原始Color import；候选前先执行check_ui_tokens.py，使确定性设计令牌问题在触发GitHub完整编译和模拟器之前本地失败。
+  regression_checks:
+  - python scripts/check_ui_tokens.py
+  - python scripts/check_android_ui_foundation.py
+  - Android feature/discovery受影响MODULE编译与单测
+  do_not_repeat:
+  - Compose业务页面禁止直接使用Color.White、Color.Black、十六进制Color或裸dp/sp，必须引用冻结Hhy令牌
+  - 大版本候选请求推送前必须先运行UI基础和令牌静态门禁，确定性失败不得交给GitHub发现
+  - 普通MODULE门禁通过不等于全局视觉硬规则通过，最终候选仍必须执行完整UI门禁

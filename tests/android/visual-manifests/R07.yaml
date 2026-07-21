@@ -1,0 +1,63 @@
+schema: hhy.android-visual-manifest/v1
+release: R07
+review_authority: AI_IMPLEMENTATION_AGENT
+authentication: STAGING_GITHUB_OIDC
+screens:
+- screen_id: SCR-SEARCH-001
+  file: 01-search-landing.png
+  marker: hhy.screen.r07.search
+  required_text:
+  - 搜索
+  - R07热门合作
+  - 全部
+  - 项目
+  forbidden_text:
+  - 正在加载
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+- screen_id: SCR-SEARCH-002
+  file: 02-search-results.png
+  marker: hhy.screen.r07.search.results
+  required_text:
+  - 搜索结果
+  - R07候选联调项目
+  - 查看发布者
+  forbidden_text:
+  - 没有找到相关内容
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+- screen_id: SCR-PUBLISHER-001
+  file: 03-publisher.png
+  marker: hhy.screen.r07.publisher
+  required_text:
+  - 发布者主页
+  - R07候选发布者
+  - R07候选联调项目
+  - 联系发布者
+  forbidden_text:
+  - 暂无公开内容
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+- screen_id: DIALOG-SEARCH-001
+  file: 04-clear-history-dialog.png
+  marker: hhy.dialog.r07.search-history-clear
+  required_text:
+  - 清空搜索历史？
+  - 确认清空
+  - 取消
+  forbidden_text:
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+secure_semantic_surfaces:
+- screen_id: SHEET-CONTACT-001
+  marker: hhy.sheet.r07.contact
+  screenshot: FORBIDDEN_BY_FLAG_SECURE
+  required_text:
+  - 联系方式
+  - 获取联系方式
+  - 关闭
+  required_window_flag: FLAG_SECURE

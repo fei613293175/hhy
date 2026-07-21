@@ -246,3 +246,9 @@ R07 现场演练至少覆盖：
 7. 证据统一写入 `artifacts/validation/r07-task006-staging/`，绑定冻结 Commit、两个不可变镜像、数据库容器/卷、Flyway V032、告警回执和逐文件 SHA-256。机器证据齐全后才能把 `AC-R07-004` 签为 PASS。
 
 现场步骤由 `scripts/run_r07_staging_acceptance.sh` 单一入口执行。脚本首先强制 `git rev-parse HEAD` 等于 `HHY_R07_FROZEN_COMMIT`，再采集基线、演练告警与回滚并生成 `SHA256SUMS`；禁止从聊天记录重组长 SSH 命令。Android 模拟器、截图和候选 APK 不属于本任务，只在 TASK-R07-007 最终候选阶段执行。
+
+### R07 Android 最终候选页面夹具
+
+TASK-R07-007 在升级后的独立 Staging CI 候选容器上运行 `scripts/prepare_r07_ci_fixture.sh`。脚本必须显式设置 `HHY_R07_CI_FIXTURE_CONFIRM=YES`，只允许 `hhy-r07-ci-candidate-*` 后端和登记的 Staging PostgreSQL 容器；它从容器内部读取专用 CI 用户，不输出手机号或 Secret，幂等准备一个公开项目、一个掩码微信入口和一个热词，并只清空该测试账号自己的搜索历史。
+
+模拟器通过 GitHub OIDC 一次性会话依次验证 `SCR-SEARCH-001`、`SCR-SEARCH-002`、`SCR-PUBLISHER-001` 和 `DIALOG-SEARCH-001` 并生成四张唯一截图。`SHEET-CONTACT-001` 含高敏联系方式能力，必须启用 `FLAG_SECURE`，因此禁止截图，改以页面标识、动作文本、关闭清除和窗口安全标记的自动断言作为证据。R07 首次采集图只用于 AI 视觉审核和建立版本基线；基线提交后仅再运行一次最终候选，禁止把缺少基线的预期首轮误判为反复失败。
