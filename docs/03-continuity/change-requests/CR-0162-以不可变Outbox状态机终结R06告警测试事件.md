@@ -84,3 +84,17 @@ CR-0161原计划删除测试Outbox事件，现场触发器按设计拒绝；必�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260721T020225Z-397AF410`
 - Note：脚本已改为按冻结Commit唯一事件前缀和合法PENDING到PUBLISHING到PUBLISHED终结；既有四条测试事件已验证达到PUBLISHED且attempts=1、published_at非空
+
+## 状态记录 · 2026-07-21T04:18:57Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260721T020225Z-397AF410`
+- Note：不可变Outbox测试事件已按合法状态机终结并取得告警resolved，脚本与运行手册证据已归档
+
+## 状态记录 · 2026-07-21T04:19:39Z
+
+- Actor：`codex-root`
+- Status：`CLOSED`
+- Session：`SES-20260721T020225Z-397AF410`
+- Note：不可变Outbox测试事件、Gauge恢复、告警resolved、运行手册和证据全部完成并推送

@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T04:16:36Z
-- Context Hash：`78d4f2fd66cfffb2faaf877dab0103e470b86ed34119d755d7a342891c188349`
+- 生成时间：2026-07-21T04:21:11Z
+- Context Hash：`dbeb406cb377cc496bf4577be354e7cdea4d1c52a453f12b1c99302ec38f2219`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -91,7 +91,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R06-006
-updated_at: '2026-07-21T04:16:33Z'
+updated_at: '2026-07-21T04:21:09Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -126,15 +126,15 @@ continuity:
   active_session_id: SES-20260721T020225Z-397AF410
   actor_id: codex-root
   story_id: STORY-R06-005
-  lease_expires_at: '2026-07-21T08:16:33Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0011.yaml
-  project_fingerprint: 18a864acd5fcd21ed69373f2ff09c92d3592575de7c625c91b75937b2559bed5
+  lease_expires_at: '2026-07-21T08:21:09Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0013.yaml
+  project_fingerprint: ba2e8eb6c1c1e4d60dfe58d5462d9f79ee74a594a39daa1228742f74ad82eb7a
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 4d6fd5b46d2464892888129327a92b0f5e9ca4836a71c17be3306542b7185db9
-    generated_at: '2026-07-21T04:15:18Z'
+    context_hash: 277b0e6bc036cf6e24889327053770f862caea3a7d362b5d10236cd270788b5a
+    generated_at: '2026-07-21T04:20:05Z'
   handoff_bundle: null
 ```
 
@@ -326,7 +326,7 @@ task_id: TASK-R06-006
 story_id: STORY-R06-005
 goal: 统一内容基础、首页与CMS可观测性与预发布验收
 started_at: '2026-07-21T02:02:25Z'
-updated_at: '2026-07-21T04:16:33Z'
+updated_at: '2026-07-21T04:21:09Z'
 takeover_of: null
 change_requests:
 - CR-0160
@@ -376,12 +376,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T04:16:33Z'
-  expires_at: '2026-07-21T08:16:33Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0011.yaml
+  renewed_at: '2026-07-21T04:21:09Z'
+  expires_at: '2026-07-21T08:21:09Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0013.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md
-next_step: 提交推送R06 Staging报告与机器证据，标记CR实现后关闭TASK-R06-006
+next_step: 提交推送CR关闭记录，随后关闭TASK-R06-006并进入TASK-R06-007
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -389,39 +389,31 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前会话策略不允许用户未显式要求的子代理；最终证据签署和连续性关闭由单一主控维护
+  reason: 当前会话策略不允许用户未显式要求的子代理；治理关闭由单一事实主控执行
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T020225Z-397AF410-0011
+checkpoint_id: CP-SES-20260721T020225Z-397AF410-0013
 session_id: SES-20260721T020225Z-397AF410
-sequence: 11
-created_at: '2026-07-21T04:16:33Z'
-summary: R06 Staging机器证据、报告、AC-R06-004与Context Pack一致；证据合同、静态门禁、严格Doctor和V1.2.3组合门禁全部PASS
-next_step: 提交推送R06 Staging报告与机器证据，标记CR实现后关闭TASK-R06-006
+sequence: 13
+created_at: '2026-07-21T04:21:08Z'
+summary: R06 Staging验收与全部CR治理收尾完成，严格Doctor及V1.2.3组合门禁再次0错误0警告
+next_step: 提交推送CR关闭记录，随后关闭TASK-R06-006并进入TASK-R06-007
 blockers: []
 decisions: []
 note: ''
 tests:
 - name: R06_STAGING_ACCEPTANCE
   result: PASS
-  evidence: artifacts/validation/r06-task006-staging/machine-summary.txt
-  note: 0e528d17现场验收PASS
-- name: R06_EVIDENCE_CONTRACT
+  evidence: artifacts/reports/R06/TASK-R06-006-staging.md
+  note: 机器验收PASS
+- name: R06_ACCEPTANCE_MATRIX
   result: PASS
-  evidence: artifacts/validation/r06-task006-staging/
-  note: JSON、终态事件和11项摘要事实一致
-- name: R06_EVIDENCE_SHA256
-  result: PASS
-  evidence: artifacts/validation/r06-task006-staging/SHA256SUMS
-  note: 远端与本地逐文件哈希PASS
-- name: R06_OBSERVABILITY_CONFIG
-  result: PASS
-  evidence: scripts/check_r06_observability.py
-  note: 静态门禁通过
+  evidence: releases/R06/ACCEPTANCE_MATRIX.csv
+  note: AC-R06-004 PASS
 - name: CONTINUITY_DOCTOR
   result: PASS
   evidence: scripts/continuity_gate.py --mode doctor --strict
@@ -433,52 +425,35 @@ tests:
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 0e528d17d7cd5c6d972958bd566d6e91f05f37f7
+  head: 5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0160.yaml'
+  - ' M .continuity/change_requests/CR-0162.yaml'
   - ' M .continuity/sessions/SES-20260721T020225Z-397AF410.yaml'
-  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M artifacts/validation/continuity-gate-v1.2.3.json'
   - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md'
+  - ' M docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md'
-  - ' M releases/R06/ACCEPTANCE_MATRIX.csv'
-  - ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0010.yaml
-  - ?? artifacts/reports/R06/TASK-R06-006-staging.md
-  - ?? artifacts/validation/r06-task006-staging/SHA256SUMS
-  - ?? artifacts/validation/r06-task006-staging/alert-deliveries.jsonl
-  - ?? artifacts/validation/r06-task006-staging/alert-exercise.txt
-  - ?? artifacts/validation/r06-task006-staging/compose-ps.txt
-  - ?? artifacts/validation/r06-task006-staging/content-outbox-firing.json
-  - ?? artifacts/validation/r06-task006-staging/database.txt
-  - ?? artifacts/validation/r06-task006-staging/final-metrics.txt
-  - ?? artifacts/validation/r06-task006-staging/http-request-completed.jsonl
-  - ?? artifacts/validation/r06-task006-staging/liveness.json
-  - ?? artifacts/validation/r06-task006-staging/log-redaction.txt
-  - ?? artifacts/validation/r06-task006-staging/machine-summary.txt
-  - ?? artifacts/validation/r06-task006-staging/metadata.txt
-  - ?? artifacts/validation/r06-task006-staging/metrics-summary.txt
-  - ?? artifacts/validation/r06-task006-staging/metrics.txt
-  - ?? artifacts/validation/r06-task006-staging/outbox-test-events.txt
-  - ?? artifacts/validation/r06-task006-staging/prometheus-rules.json
-  - ?? artifacts/validation/r06-task006-staging/prometheus-targets.json
-  - ?? artifacts/validation/r06-task006-staging/public-status.json
-  - ?? artifacts/validation/r06-task006-staging/readiness.json
-  - ?? artifacts/validation/r06-task006-staging/rollback-rehearsal.txt
-  - ?? artifacts/validation/r06-task006-staging/source-sha256.txt
-  - ?? artifacts/validation/r06-task006-staging/trace-headers.txt
+  - ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0012.yaml
   recent_commits:
+  - "5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253\t2026-07-21T12:17:16+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): record R06\
+    \ acceptance pass"
   - "0e528d17d7cd5c6d972958bd566d6e91f05f37f7\t2026-07-21T12:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): preserve immutable\
     \ alert events"
   - "34c2840dd017f3e6b65f1edf6b15a8c1c7bd7954\t2026-07-21T11:55:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): stream SQL\
@@ -493,10 +468,8 @@ git:
     \ as completed"
   - "9caa07b1b326d9ba3ce02d32b0ac4c614956b41a\t2026-07-21T09:59:48+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): record\
     \ R06 specialized test pass"
-  - "0bbd4c39590f352507994c30a7a3d03c98355923\t2026-07-21T09:56:34+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] test(content): cover R06 fault\
-    \ matrix"
 project_fingerprint:
-  sha256: 18a864acd5fcd21ed69373f2ff09c92d3592575de7c625c91b75937b2559bed5
+  sha256: ba2e8eb6c1c1e4d60dfe58d5462d9f79ee74a594a39daa1228742f74ad82eb7a
   files:
   - CHANGELOG.md
   - docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md
@@ -525,16 +498,16 @@ project_fingerprint:
       sha256: 4e502fbff833064afda9bfdfeb7ce58e67d4a6dd10f5a50af455295cf09c1d90
     - path: docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md
       state: FILE
-      size: 3588
-      sha256: 05a9269c0c5728077d29be1c48c72ad394b3bc947fd01d9e4f6c82788b6b46ba
+      size: 4075
+      sha256: 577108f8e26ddb3488368aa6dbd30ec2c6b1c2eff5e13884bee8aa72d2775884
     - path: docs/03-continuity/change-requests/CR-0161-固化R06-Staging证据与回滚自动演练脚本.md
       state: FILE
       size: 2753
       sha256: 64b49b6501fa714e9c5bd7d849b6b62a4d2a94c7d57fafade0985c2d70f2fdf6
     - path: docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md
       state: FILE
-      size: 2648
-      sha256: fc7c6c27cce3f1fcddf7ba5f3299dc9b2868879ad3fa8e4e18b0405505213c58
+      size: 3150
+      sha256: 6affb0d121fbcfb8e25bd56c4821959653e888399ddf0379d54f5438e8e02d21
     - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
       state: FILE
       size: 22285
@@ -658,8 +631,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前会话策略不允许用户未显式要求的子代理；最终证据签署和连续性关闭由单一主控维护
-event_hash: 25c94acafe70963a41c227332ff515b6daa180e79bfc57c0f2ca4dfa0c1827f7
+  reason: 当前会话策略不允许用户未显式要求的子代理；治理关闭由单一事实主控执行
+event_hash: 18a4b86fc60511e6e95d0ca5fc8768dadc2e505a17df860ed6134641fb24fee7
 ```
 
 ## 接续状态与事件头
@@ -671,8 +644,8 @@ active_session_id: SES-20260721T020225Z-397AF410
 last_session_id: SES-20260721T012656Z-E067730A
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260721T012656Z-E067730A-0005
-event_count: 1656
-event_head_hash: 25c94acafe70963a41c227332ff515b6daa180e79bfc57c0f2ca4dfa0c1827f7
+event_count: 1662
+event_head_hash: 18a4b86fc60511e6e95d0ca5fc8768dadc2e505a17df860ed6134641fb24fee7
 event_chain_valid: true
 ```
 
@@ -795,9 +768,9 @@ recent_sessions: - session_id: SES-20260719T224052Z-2C69767F
   started_at: '2026-07-21T02:02:25Z'
   record: .continuity/sessions/SES-20260721T020225Z-397AF410.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md
-  updated_at: '2026-07-21T04:16:33Z'
+  updated_at: '2026-07-21T04:21:09Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0011.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0013.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-A8017469692C
   session_id: SES-20260719T113522Z-6B27AD4B
@@ -1662,53 +1635,36 @@ recent_task_transitions: - transition_id: TRN-C5712C7FEDBD
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 0e528d17d7cd5c6d972958bd566d6e91f05f37f7
+head: 5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0160.yaml'
+- ' M .continuity/change_requests/CR-0162.yaml'
 - ' M .continuity/sessions/SES-20260721T020225Z-397AF410.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M artifacts/validation/continuity-gate-v1.2.3.json'
 - ' M artifacts/validation/project-doctor-v1.2.3.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md'
+- ' M docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md'
-- ' M releases/R06/ACCEPTANCE_MATRIX.csv'
-- ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0010.yaml
-- ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0011.yaml
-- ?? artifacts/reports/R06/TASK-R06-006-staging.md
-- ?? artifacts/validation/r06-task006-staging/SHA256SUMS
-- ?? artifacts/validation/r06-task006-staging/alert-deliveries.jsonl
-- ?? artifacts/validation/r06-task006-staging/alert-exercise.txt
-- ?? artifacts/validation/r06-task006-staging/compose-ps.txt
-- ?? artifacts/validation/r06-task006-staging/content-outbox-firing.json
-- ?? artifacts/validation/r06-task006-staging/database.txt
-- ?? artifacts/validation/r06-task006-staging/final-metrics.txt
-- ?? artifacts/validation/r06-task006-staging/http-request-completed.jsonl
-- ?? artifacts/validation/r06-task006-staging/liveness.json
-- ?? artifacts/validation/r06-task006-staging/log-redaction.txt
-- ?? artifacts/validation/r06-task006-staging/machine-summary.txt
-- ?? artifacts/validation/r06-task006-staging/metadata.txt
-- ?? artifacts/validation/r06-task006-staging/metrics-summary.txt
-- ?? artifacts/validation/r06-task006-staging/metrics.txt
-- ?? artifacts/validation/r06-task006-staging/outbox-test-events.txt
-- ?? artifacts/validation/r06-task006-staging/prometheus-rules.json
-- ?? artifacts/validation/r06-task006-staging/prometheus-targets.json
-- ?? artifacts/validation/r06-task006-staging/public-status.json
-- ?? artifacts/validation/r06-task006-staging/readiness.json
-- ?? artifacts/validation/r06-task006-staging/rollback-rehearsal.txt
-- ?? artifacts/validation/r06-task006-staging/source-sha256.txt
-- ?? artifacts/validation/r06-task006-staging/trace-headers.txt
+- ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0012.yaml
+- ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0013.yaml
 recent_commits:
+- "5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253\t2026-07-21T12:17:16+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): record R06 acceptance\
+  \ pass"
 - "0e528d17d7cd5c6d972958bd566d6e91f05f37f7\t2026-07-21T12:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): preserve immutable\
   \ alert events"
 - "34c2840dd017f3e6b65f1edf6b15a8c1c7bd7954\t2026-07-21T11:55:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): stream SQL and\
@@ -1723,13 +1679,11 @@ recent_commits:
   \ as completed"
 - "9caa07b1b326d9ba3ce02d32b0ac4c614956b41a\t2026-07-21T09:59:48+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): record R06\
   \ specialized test pass"
-- "0bbd4c39590f352507994c30a7a3d03c98355923\t2026-07-21T09:56:34+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] test(content): cover R06 fault\
-  \ matrix"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`18a864acd5fcd21ed69373f2ff09c92d3592575de7c625c91b75937b2559bed5`
+- 指纹：`ba2e8eb6c1c1e4d60dfe58d5462d9f79ee74a594a39daa1228742f74ad82eb7a`
 - 文件数：17
 
 - `CHANGELOG.md`
@@ -7180,120 +7134,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
   machine_record: .continuity/change_requests/CR-0159.yaml
   document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
-- protocol_version: '1.0'
-  cr_id: CR-0160
-  title: 建立R06内容可观测性与隔离Staging验收
-  status: IMPLEMENTING
-  created_at: '2026-07-21T02:12:12Z'
-  updated_at: '2026-07-21T03:26:03Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R06-006
-  session_id: SES-20260721T020225Z-397AF410
-  user_request: 项目所有者要求立即按既定方案持续推进，真机反馈异步且不得成为版本开发等待点
-  reason: TASK-R06-006要求验证结构化日志、TraceId、RED、R06业务指标、告警和同库卷回滚，现有仓库仅有R05以前的专属监控配置
-  original_rule: R06仅继承通用RED与R01至R05业务Gauge，尚无内容域专属指标、告警、隔离Staging编排和回滚验收规范
-  new_rule: R06必须提供内容在线量、待审核量、内容Outbox积压和已启用首页模块四项无敏感字段业务Gauge；独立Staging必须验证TraceId、RED、业务Gauge、后端与内容Outbox告警firing/resolved及同一PostgreSQL容器和卷的应用镜像回切
-  impact_summary: 新增R06业务Gauge及测试、静态门禁、独立Compose/Prometheus/Alertmanager/Nginx配置、部署回滚手册和机器验收证据；不修改公开API、数据库结构、生产路由、真实供应商或现有R01至R05环境
-  impact:
-    files:
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-    - scripts/check_r06_observability.py
-    - infra/staging/r06-smoke/docker-compose.yml
-    - infra/staging/r06-smoke/prometheus.yml
-    - infra/staging/r06-smoke/alertmanager.yml
-    - infra/staging/r06-smoke/nginx.conf
-    - infra/staging/r06-smoke/r06-alerts.yml
-    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    - docs/07-operations/ROLLBACK_RUNBOOK.md
-    - artifacts/reports/R06/TASK-R06-006-staging.md
-    - artifacts/validation/r06-task006-staging/**
-    - releases/R06/ACCEPTANCE_MATRIX.csv
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database:
-    - 只读content_posts、home_modules和outbox_events；无迁移或数据模型变化
-    configuration:
-    - R06隔离Staging、Prometheus采集、Alertmanager回执与内容业务告警
-    ledger:
-    - 不读写账本或资金数据
-    tests:
-    - R06静态可观测性门禁、BusinessGauge单元测试、Prometheus端点测试、Compose/promtool/amtool校验、隔离Staging告警与同库卷回滚演练
-    releases:
-    - R06
-    migration_and_compatibility: 纯增量可观测性与隔离Staging配置；Gauge仅只读现有表，关闭R06 Compose即可回退；数据库保持前向迁移，禁止降级DDL或删除卷
-  user_confirmation: 2026-07-21项目所有者明确要求立即按既定计划持续推进，真机反馈异步且不得因未反馈停止版本开发
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T02:13:05Z'
-    note: TASK-R06-006冻结验收要求与影响范围一致；仅新增隔离Staging和只读观测能力，不扩大生产、供应商或数据库变更权限
-  machine_record: .continuity/change_requests/CR-0160.yaml
-  document: docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md
-  decision_log:
-  - at: '2026-07-21T03:26:03Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 应用已批准的R06内容可观测性与隔离Staging范围；本地和Java21定向门禁已通过，准备形成冻结Commit
-    session_id: SES-20260721T020225Z-397AF410
-  session_ids:
-  - SES-20260721T020225Z-397AF410
-- protocol_version: '1.0'
-  cr_id: CR-0162
-  title: 以不可变Outbox状态机终结R06告警测试事件
-  status: IMPLEMENTING
-  created_at: '2026-07-21T04:01:26Z'
-  updated_at: '2026-07-21T04:03:47Z'
-  requester_actor_id: codex-root
-  approver_actor_id: project-owner-delegated
-  task_id: TASK-R06-006
-  session_id: SES-20260721T020225Z-397AF410
-  user_request: 项目所有者要求持续开发、自动判断测试结果并把可复用方案固化到仓库
-  reason: CR-0161原计划删除测试Outbox事件，现场触发器按设计拒绝；必须保留事实并使用合法投递状态转换恢复Gauge
-  original_rule: CR-0161计划在告警恢复时删除带r06-stage-alert前缀的Outbox测试事件
-  new_rule: R06告警测试事件按冻结Commit唯一命名；插入后只能依次从PENDING推进到PUBLISHING并递增attempts，再推进到PUBLISHED并设置published_at，永久保留不可变事实，禁止DELETE；失败恢复执行同一幂等终结流程
-  impact_summary: 修正R06现场脚本和部署手册，不修改Outbox触发器、业务API或数据库结构；既有四条隔离测试事件也按同一合法状态机终结
-  impact:
-    files:
-    - scripts/run_r06_staging_acceptance.sh
-    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    pages: []
-    apis: []
-    database:
-    - 仅对精确测试event_id执行PENDING到PUBLISHING到PUBLISHED合法转换；禁止删除或修改事件身份和payload
-    configuration:
-    - R06告警演练事件唯一命名、阶段复用和失败恢复
-    ledger:
-    - 不访问资金或账本表
-    tests:
-    - Outbox不可变拒绝、合法双阶段终结、Gauge恢复、告警resolved和阶段复用
-    releases:
-    - R06
-    migration_and_compatibility: 无迁移；兼容现有V030与V010不可变触发器，测试事件终态PUBLISHED不再计入积压Gauge且保留审计
-  user_confirmation: 项目所有者要求AI自行判断自动测试、持续推进并将可复用经验写入仓库事实源
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T04:02:01Z'
-    note: 方案严格遵守V010不可变Outbox状态机，保留测试审计事实并通过合法终态恢复积压指标；不扩大数据库或生产权限
-  machine_record: .continuity/change_requests/CR-0162.yaml
-  document: docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md
-  decision_log:
-  - at: '2026-07-21T04:03:47Z'
-    actor_id: codex-root
-    status: IMPLEMENTING
-    note: 脚本已改为按冻结Commit唯一事件前缀和合法PENDING到PUBLISHING到PUBLISHED终结；既有四条测试事件已验证达到PUBLISHED且attempts=1、published_at非空
-    session_id: SES-20260721T020225Z-397AF410
-  session_ids:
-  - SES-20260721T020225Z-397AF410
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `e912bbb93c201dcf80b58968b3c6a205839513ef1ffbe75f69d6df4b69543c7f`
+- `CURRENT_STATUS.yaml` — `8fbd726cf10eb2e37c1893144cfa8a6ad8314f306437626b2d3124bc08a51989`
 - `NEXT_TASK.yaml` — `ca179c95e2a4ff9083235c10ea84dfb7b6c86c6f02a2be1c2d4382ddd9927521`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7304,23 +7151,23 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `440c801c2e454ebc3191490a0949a19f8ccc59bad5bc01ff837feef7ff7a0cbe`
-- `.continuity/SESSION_INDEX.yaml` — `9f34b4bdc1479295f55af4d2da6f81235285f69313bbdb25188535ca7d73d3a5`
+- `.continuity/EVENT_LOG.jsonl` — `77b4a48ae99087a880902046851ce64346bb6ef9a7de84eb0f5b43125be29660`
+- `.continuity/SESSION_INDEX.yaml` — `dc2456f1f4043e6b1993e4e26c95bd4991f87cfa7dda29b4d0815a4cfa6bc6ac`
 - `.continuity/TASK_CLAIMS.yaml` — `8405c9a390a91c9ec870a19855c8fc0714a8139c41337474b023b04cc96a1b8e`
 - `.continuity/TASK_TRANSITIONS.yaml` — `a288661fc0bf37a2750c37d205c8c5e38ac9d89e05e81c0936971ed940a9e9b3`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `277634dc7f70f092d1720e79e6691b9e159df5e0c42d99831fa46155b80acf34`
-- `.continuity/ACTIVE_SESSION.yaml` — `306235f5b33e08ba9211d25eb2c8cef61d3417972b2234f7e402965e6d6a56cc`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `160f8dadaa11e9359b4c460e7b847318c89f7ee30091324ab8af3803ee13ff89`
+- `.continuity/ACTIVE_SESSION.yaml` — `2b28e1041059081d5159ae6d91a11a2ac035b0b3773c0c71cd71f3049ce5fc4c`
 - `releases/R06/RELEASE_MANIFEST.yaml` — `72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878`
 - `releases/R06/DEFINITION_OF_READY.yaml` — `c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991`
 - `releases/R06/STORIES.yaml` — `dd81c97b0552c9342b5be360e918d26502b5e3d06fa8bafaba7648d43c96e7ef`
 - `releases/R06/TASKS.yaml` — `c4c2a9582a29394e4ce86f35a2550c8edafdc87fb7a2aaf6ac615fd7edd7971b`
 - `releases/R06/ACCEPTANCE_MATRIX.csv` — `4ebbaa21a6aff012874cc524cce016329a59d378940d0dfec1ef6a7ac8d83b68`
 - `releases/R06/PARALLEL_EXECUTION_PLAN.yaml` — `426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md` — `75a5a05c990d6d1d5bf2cbe676649436f4223428ec6fa4be0d5ea71c42862a0a`
-- `.continuity/checkpoints/SES-20260721T020225Z-397AF410/0011.yaml` — `93d9bab2c5361ac2dfb2052c722f286ba2b5bbe1f7bd6089e47939e12bac1732`
-- `docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md` — `05a9269c0c5728077d29be1c48c72ad394b3bc947fd01d9e4f6c82788b6b46ba`
+- `docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md` — `6c8426663c3f5b3b4f5ac5b267566d3b401ff5d7ea9352ea6363b696820fd2d6`
+- `.continuity/checkpoints/SES-20260721T020225Z-397AF410/0013.yaml` — `f55e21198272a69d19dfd04e69a2a3b145e3378ea641f3b180852fa0fef7f885`
+- `docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md` — `577108f8e26ddb3488368aa6dbd30ec2c6b1c2eff5e13884bee8aa72d2775884`
 - `docs/03-continuity/change-requests/CR-0161-固化R06-Staging证据与回滚自动演练脚本.md` — `64b49b6501fa714e9c5bd7d849b6b62a4d2a94c7d57fafade0985c2d70f2fdf6`
-- `docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md` — `fc7c6c27cce3f1fcddf7ba5f3299dc9b2868879ad3fa8e4e18b0405505213c58`
+- `docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md` — `6affb0d121fbcfb8e25bd56c4821959653e888399ddf0379d54f5438e8e02d21`
 
 ## 接手硬规则
 

@@ -11,7 +11,7 @@ task_id: TASK-R06-006
 story_id: STORY-R06-005
 goal: 统一内容基础、首页与CMS可观测性与预发布验收
 started_at: '2026-07-21T02:02:25Z'
-updated_at: '2026-07-21T04:16:37Z'
+updated_at: '2026-07-21T04:21:12Z'
 takeover_of: null
 change_requests:
 - CR-0160
@@ -61,22 +61,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T04:16:33Z'
-  expires_at: '2026-07-21T08:16:33Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0011.yaml
+  renewed_at: '2026-07-21T04:21:09Z'
+  expires_at: '2026-07-21T08:21:09Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0013.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md
-next_step: 提交推送R06 Staging报告与机器证据，标记CR实现后关闭TASK-R06-006
+next_step: 提交推送CR关闭记录，随后关闭TASK-R06-006并进入TASK-R06-007
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 78d4f2fd66cfffb2faaf877dab0103e470b86ed34119d755d7a342891c188349
-  generated_at: '2026-07-21T04:16:36Z'
+  context_hash: dbeb406cb377cc496bf4577be354e7cdea4d1c52a453f12b1c99302ec38f2219
+  generated_at: '2026-07-21T04:21:11Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前会话策略不允许用户未显式要求的子代理；最终证据签署和连续性关闭由单一主控维护
+  reason: 当前会话策略不允许用户未显式要求的子代理；治理关闭由单一事实主控执行

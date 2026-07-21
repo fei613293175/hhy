@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0162
 title: 以不可变Outbox状态机终结R06告警测试事件
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-21T04:01:26Z'
-updated_at: '2026-07-21T04:03:47Z'
+updated_at: '2026-07-21T04:19:39Z'
 requester_actor_id: codex-root
 approver_actor_id: project-owner-delegated
 task_id: TASK-R06-006
@@ -43,5 +43,17 @@ decision_log:
   status: IMPLEMENTING
   note: 脚本已改为按冻结Commit唯一事件前缀和合法PENDING到PUBLISHING到PUBLISHED终结；既有四条测试事件已验证达到PUBLISHED且attempts=1、published_at非空
   session_id: SES-20260721T020225Z-397AF410
+- at: '2026-07-21T04:18:57Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 不可变Outbox测试事件已按合法状态机终结并取得告警resolved，脚本与运行手册证据已归档
+  session_id: SES-20260721T020225Z-397AF410
+- at: '2026-07-21T04:19:39Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 不可变Outbox测试事件、Gauge恢复、告警resolved、运行手册和证据全部完成并推送
+  session_id: SES-20260721T020225Z-397AF410
 session_ids:
 - SES-20260721T020225Z-397AF410
+implementation_commits:
+- 5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253
