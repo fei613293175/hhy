@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import cc.orbexa.hhy.auth.AuthScreen
 import cc.orbexa.hhy.auth.ChangeLoginPasswordScreen
 import cc.orbexa.hhy.auth.AccountBlockedScreen
@@ -31,6 +32,8 @@ import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyMotion
 import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.identity.IdentityFlowScreen
+import cc.orbexa.hhy.discovery.R07PublisherScreen
+import cc.orbexa.hhy.discovery.R07SearchScreen
 import cc.orbexa.hhy.network.AuthCallResult
 import cc.orbexa.hhy.network.AuthSessionResource
 import cc.orbexa.hhy.network.AuthSessionStore
@@ -43,6 +46,7 @@ import cc.orbexa.hhy.network.StartupGateRequest
 import cc.orbexa.hhy.network.UrlConnectionHhyPublicApi
 import cc.orbexa.hhy.network.UrlConnectionContractAuthApi
 import cc.orbexa.hhy.network.UrlConnectionContractIdentityApi
+import cc.orbexa.hhy.network.UrlConnectionContractR07Api
 import cc.orbexa.hhy.network.UrlConnectionExperienceApi
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
@@ -175,6 +179,8 @@ private sealed interface AuthenticatedRoute {
     @Serializable data object Cancellation : AuthenticatedRoute
     @Serializable data object Identity : AuthenticatedRoute
     @Serializable data object About : AuthenticatedRoute
+    @Serializable data object Search : AuthenticatedRoute
+    @Serializable data class Publisher(val publisherId: String) : AuthenticatedRoute
 }
 
 @androidx.compose.runtime.Composable
@@ -186,6 +192,7 @@ private fun AuthenticatedNavHost(
 ) {
     val navController = rememberNavController()
     val experienceApi = remember { UrlConnectionExperienceApi(BuildConfig.API_BASE_URL) }
+    val r07Api = remember { UrlConnectionContractR07Api(BuildConfig.API_BASE_URL) }
     NavHost(
         navController = navController,
         startDestination = AuthenticatedRoute.Shell,
@@ -196,6 +203,7 @@ private fun AuthenticatedNavHost(
     ) {
         composable<AuthenticatedRoute.Shell> {
             HhyShellScreen(
+                onOpenSearch = { navController.navigate(AuthenticatedRoute.Search) },
                 onOpenLoginDevices = { navController.navigate(AuthenticatedRoute.LoginDevices) },
                 onOpenChangePassword = { navController.navigate(AuthenticatedRoute.ChangePassword) },
                 onOpenCancellation = { navController.navigate(AuthenticatedRoute.Cancellation) },
@@ -240,6 +248,27 @@ private fun AuthenticatedNavHost(
         }
         composable<AuthenticatedRoute.About> {
             AboutScreen(experienceApi, authenticated.session.accessToken, onBack = { navController.popBackStack() })
+        }
+        composable<AuthenticatedRoute.Search> {
+            R07SearchScreen(
+                api = r07Api,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+                onPublisherSelected = { publisherId ->
+                    navController.navigate(AuthenticatedRoute.Publisher(publisherId))
+                },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.Publisher> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.Publisher>()
+            R07PublisherScreen(
+                api = r07Api,
+                accessToken = authenticated.session.accessToken,
+                publisherId = route.publisherId,
+                onBack = { navController.popBackStack() },
+                onSessionExpired = onSessionInvalidated,
+            )
         }
     }
 }

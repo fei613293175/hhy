@@ -116,6 +116,7 @@ dependencies {
     implementation(project(":feature:startup"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:identity"))
+    implementation(project(":feature:discovery"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)

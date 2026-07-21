@@ -56,6 +56,7 @@ private val navigationItems = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HhyShellScreen(
+    onOpenSearch: () -> Unit = {},
     onOpenLoginDevices: () -> Unit = {},
     onOpenChangePassword: () -> Unit = {},
     onOpenCancellation: () -> Unit = {},
@@ -108,6 +109,14 @@ fun HhyShellScreen(
             contentPadding = PaddingValues(HhySpacing.Lg),
             verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
         ) {
+            if (selectedIndex == 0) {
+                item {
+                    Button(
+                        modifier = Modifier.fillMaxWidth().testTag("r07.home.search"),
+                        onClick = onOpenSearch,
+                    ) { Text("搜索项目、应用、群聊或团长") }
+                }
+            }
             item {
                 Text(
                     text = navigationItems[selectedIndex].label,

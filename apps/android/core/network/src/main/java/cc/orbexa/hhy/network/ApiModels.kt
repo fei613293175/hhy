@@ -349,6 +349,130 @@ data class CommandResultResource(
     val acceptedAt: String,
 )
 
+// Frozen R07 search, publisher and contact-access types. The contact value is
+// deliberately modelled only in the transport layer and must never be persisted.
+@Serializable
+data class R07PageMeta(
+    val page: Long? = null,
+    val pageSize: Long,
+    val total: String? = null,
+    val nextCursor: String? = null,
+    val hasMore: String,
+) {
+    fun canLoadMore(): Boolean = hasMore.equals("true", ignoreCase = true)
+}
+
+@Serializable
+data class PublisherSummaryResource(
+    val userId: String,
+    val nickname: String,
+    val avatarUrl: String? = null,
+    val bio: String? = null,
+    val verified: Boolean,
+    val memberBadge: String? = null,
+    val followed: Boolean? = null,
+)
+
+@Serializable
+data class SearchResultResource(
+    val id: String,
+    val contentType: String,
+    val title: String,
+    val summary: String? = null,
+    val coverUrl: String? = null,
+    val publisher: PublisherSummaryResource? = null,
+    val score: Double? = null,
+    val badges: List<String> = emptyList(),
+)
+
+@Serializable
+data class SearchTermResource(
+    val id: String,
+    val keyword: String,
+    val createdAt: String? = null,
+)
+
+@Serializable
+data class SearchResultPageResource(
+    val items: List<SearchResultResource>,
+    val page: R07PageMeta,
+)
+
+@Serializable
+data class SearchTermPageResource(
+    val items: List<SearchTermResource>,
+    val page: R07PageMeta,
+)
+
+@Serializable
+data class MediaItemResource(
+    val id: String,
+    val mediaType: String,
+    val url: String,
+    val thumbnailUrl: String? = null,
+    val width: Long? = null,
+    val height: Long? = null,
+    val durationMs: Long? = null,
+    val altText: String? = null,
+    val sortOrder: Long,
+    val accessMode: String? = null,
+)
+
+@Serializable
+data class ContactChannelSummaryResource(
+    val channel: String,
+    val maskedValue: String? = null,
+    val available: Boolean,
+    val accessPolicy: String,
+    val accessed: Boolean,
+)
+
+@Serializable
+data class ContentStatisticsResource(
+    val viewCount: Long,
+    val favoriteCount: Long,
+    val shareCount: Long,
+    val contactAccessCount: Long,
+    val conversationCount: Long? = null,
+)
+
+@Serializable
+data class ContentResource(
+    val id: String,
+    val contentType: String,
+    val title: String,
+    val summary: String? = null,
+    val description: String? = null,
+    val categoryCode: String? = null,
+    val regionCode: String? = null,
+    val media: List<MediaItemResource> = emptyList(),
+    val publisher: PublisherSummaryResource? = null,
+    val contactsMasked: List<ContactChannelSummaryResource> = emptyList(),
+    val status: String,
+    val reviewStatus: String? = null,
+    val statistics: ContentStatisticsResource? = null,
+    val createdAt: String? = null,
+    val updatedAt: String? = null,
+    val version: Long,
+    val attributes: JsonObject? = null,
+)
+
+@Serializable
+data class ContentPageResource(
+    val items: List<ContentResource>,
+    val page: R07PageMeta,
+)
+
+@Serializable
+data class ContactAccessRequest(val clientContext: JsonObject? = null)
+
+@Serializable
+data class ContactAccessResource(
+    val channel: String,
+    val value: String,
+    val accessedAt: String,
+)
+
 object HhyNetworkJson {
     val value: Json = Json {
         explicitNulls = false
