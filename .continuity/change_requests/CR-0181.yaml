@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0181
 title: 补齐V032联系方式密文迁移与阻断式回滚门禁
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-21T17:58:21Z'
-updated_at: '2026-07-21T18:44:46Z'
+updated_at: '2026-07-21T18:53:25Z'
 requester_actor_id: codex-root-r07-003
 approver_actor_id: codex-reviewer-r07-db
 task_id: TASK-R07-003
@@ -47,5 +47,17 @@ decision_log:
   status: IMPLEMENTING
   note: V032空库、升级、回滚、阻断原子性及V031/V032重放在PostgreSQL 17.10全部通过，进入提交绑定。
   session_id: SES-20260721T171025Z-A3718A1C
+- at: '2026-07-21T18:52:45Z'
+  actor_id: codex-root-r07-003
+  status: IMPLEMENTED
+  note: 实现提交83d58c6a绑定V032 PostgreSQL 17.10空库、升级、回滚阻断和重放门禁。
+  session_id: SES-20260721T171025Z-A3718A1C
+- at: '2026-07-21T18:53:25Z'
+  actor_id: codex-root-r07-003
+  status: CLOSED
+  note: V032空库、升级、数值回滚、信封阻断原子性及V031/V032重放全部通过。
+  session_id: SES-20260721T171025Z-A3718A1C
 session_ids:
 - SES-20260721T171025Z-A3718A1C
+implementation_commits:
+- 83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593

@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0179
 title: 补齐发布者主页内容筛选与客户端内容查询入口
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-21T17:29:57Z'
-updated_at: '2026-07-21T18:44:40Z'
+updated_at: '2026-07-21T18:53:16Z'
 requester_actor_id: codex-root-r07-003
 approver_actor_id: codex-reviewer-r07
 task_id: TASK-R07-003
@@ -55,5 +55,17 @@ decision_log:
   status: IMPLEMENTING
   note: 客户端内容入口与publisherId筛选实现完成，ONLINE可见性和契约测试通过，进入提交绑定。
   session_id: SES-20260721T171025Z-A3718A1C
+- at: '2026-07-21T18:52:37Z'
+  actor_id: codex-root-r07-003
+  status: IMPLEMENTED
+  note: 实现提交83d58c6a完成publisherId筛选和客户端ONLINE内容入口，契约与回归通过。
+  session_id: SES-20260721T171025Z-A3718A1C
+- at: '2026-07-21T18:53:16Z'
+  actor_id: codex-root-r07-003
+  status: CLOSED
+  note: publisherId向后兼容筛选、客户端ONLINE强制可见性及映射回归全部验证完成。
+  session_id: SES-20260721T171025Z-A3718A1C
 session_ids:
 - SES-20260721T171025Z-A3718A1C
+implementation_commits:
+- 83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593

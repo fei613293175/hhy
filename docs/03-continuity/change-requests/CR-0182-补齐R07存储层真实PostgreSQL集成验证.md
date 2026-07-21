@@ -87,3 +87,17 @@ R07服务与控制器使用Mock存储验证业务规则；数据库门禁只执�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260721T171025Z-A3718A1C`
 - Note：R07PostgresStore真实PostgreSQL 17集成测试已通过，覆盖搜索、热词、历史、发布者、联系方式、幂等、审计及Outbox。
+
+## 状态记录 · 2026-07-21T18:52:50Z
+
+- Actor：`codex-root-r07-003`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260721T171025Z-A3718A1C`
+- Note：实现提交83d58c6a绑定真实R07PostgresStore PostgreSQL 17.10集成测试。
+
+## 状态记录 · 2026-07-21T18:53:28Z
+
+- Actor：`codex-root-r07-003`
+- Status：`CLOSED`
+- Session：`SES-20260721T171025Z-A3718A1C`
+- Note：真实PostgreSQL 17.10存储层集成覆盖通过，测试库一次性容器已自动清理。

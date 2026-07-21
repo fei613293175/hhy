@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0178
 title: 修正R07搜索、公开发布者与联系方式访问合同及安全存储
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-21T17:26:12Z'
-updated_at: '2026-07-21T18:44:38Z'
+updated_at: '2026-07-21T18:53:13Z'
 requester_actor_id: codex-root-r07-003
 approver_actor_id: codex-reviewer-r07
 task_id: TASK-R07-003
@@ -80,5 +80,17 @@ decision_log:
   status: IMPLEMENTING
   note: 合同、安全存储、搜索与联系方式后端实现完成并通过定向、模块及真实PostgreSQL验证，进入提交绑定。
   session_id: SES-20260721T171025Z-A3718A1C
+- at: '2026-07-21T18:52:35Z'
+  actor_id: codex-root-r07-003
+  status: IMPLEMENTED
+  note: 实现提交83d58c6a完成合同、安全密文、搜索、发布者、联系方式服务及审计幂等边界，全部受影响门禁通过。
+  session_id: SES-20260721T171025Z-A3718A1C
+- at: '2026-07-21T18:53:13Z'
+  actor_id: codex-root-r07-003
+  status: CLOSED
+  note: 实现提交、合同/生成资产、严格文档、后端MODULE、真实PostgreSQL及高敏no-store边界全部验证完成。
+  session_id: SES-20260721T171025Z-A3718A1C
 session_ids:
 - SES-20260721T171025Z-A3718A1C
+implementation_commits:
+- 83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593
