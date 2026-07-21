@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260720T173038Z-35648A77
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R06-004
 story_id: STORY-R06-001
 goal: 统一内容基础、首页与CMS客户端/H5/后台实现
 started_at: '2026-07-20T17:30:38Z'
-updated_at: '2026-07-21T01:01:08Z'
+updated_at: '2026-07-21T01:03:01Z'
 takeover_of: null
 change_requests:
 - CR-0148
@@ -91,22 +91,35 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T01:01:05Z'
-  expires_at: '2026-07-21T05:01:05Z'
-checkpoint_sequence: 24
-latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0024.yaml
+  renewed_at: '2026-07-21T01:02:58Z'
+  expires_at: '2026-07-21T05:02:58Z'
+checkpoint_sequence: 25
+latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0025.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-next_step: 关闭TASK-R06-004后暂停，不领取TASK-R06-005，等待项目所有者咨询及恢复指令
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 85cde9041fcf10b3d019221752c3d4604e52c1a5c754749d71b73fd67dbd8c79
-  generated_at: '2026-07-21T01:01:07Z'
+  context_hash: 0905a9c21514100c0f048a65eddb8c24448e7978e68a6c265b8adee4f13ebbcc
+  generated_at: '2026-07-21T01:03:00Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: 完成TASK-R06-004：管理端内容三页、Android首页/我的/关于页、自动认证、三张AI批准视觉基线及最终GitHub候选门禁全部通过；按项目所有者指令在TASK-R06-004后暂停
+  code_commit: 66da8575b738596cb51360619ea342380fdd121e
+  next_release: R06
+  next_task: TASK-R06-005
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-21T01:02:55Z'
+  closure_checkpoint_id: CP-SES-20260720T173038Z-35648A77-0025
+  closed_at: '2026-07-21T01:03:01Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: 最终外部候选判定与任务关闭必须由事实主控串行完成
+closed_at: '2026-07-21T01:03:01Z'

@@ -1810,7 +1810,7 @@ claims:
   task_id: TASK-R06-004
   story_id: STORY-R06-001
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-20T17:30:38Z'
   allowed_paths:
   - apps/admin-web/**
@@ -1826,3 +1826,4 @@ claims:
   - design/**
   - scripts/**
   - CHANGELOG.md
+  closed_at: '2026-07-21T01:03:01Z'
