@@ -83,3 +83,10 @@ Windows到Linux的长SSH内联命令发生确定性引号转义破坏，需要�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260721T020225Z-397AF410`
 - Note：跨Shell可复用R06现场验收脚本已实现，远端bash -n通过，准备提交精确Commit后执行
+
+## 状态记录 · 2026-07-21T04:01:09Z
+
+- Actor：`codex-root`
+- Status：`SUPERSEDED`
+- Session：`SES-20260721T020225Z-397AF410`
+- Note：现场验证证明Outbox触发器禁止删除事件；原清理表述与不可变事实冲突，改由CR-0162以合法PENDING到PUBLISHING到PUBLISHED状态推进替代

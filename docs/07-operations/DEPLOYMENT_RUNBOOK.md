@@ -225,7 +225,7 @@ R06 现场演练至少覆盖：
 
 1. Java 21 定向测试与生产构建通过；PostgreSQL 17 完整迁移到 V030，业务表数量和 Flyway 历史均归档。
 2. Prometheus target `hhy-backend-r06` 为 UP，RED count/bucket 非空，并存在 `hhy_content_online_count`、`hhy_content_review_pending`、`hhy_content_outbox_backlog`、`hhy_home_enabled_modules` 四项业务 Gauge；空载时内容 Outbox 积压和业务指标查询失败计数必须为 0。
-3. 停止/恢复 API 触发 `HhyR06BackendDown`；插入四条隔离 `CONTENT/PENDING` Outbox 事件触发 `HhyR06ContentOutboxBacklog`，精确清理测试事件后取得 resolved；两项均须取得 alert-sink 送达回执。
+3. 停止/恢复 API 触发 `HhyR06BackendDown`；插入四条按冻结 Commit 唯一命名的隔离 `CONTENT/PENDING` Outbox 事件触发 `HhyR06ContentOutboxBacklog`，随后必须按 `PENDING → PUBLISHING（attempts+1）→ PUBLISHED（published_at）` 合法状态机终结并取得 resolved；禁止删除测试事件或修改其身份和 payload，两项告警均须取得 alert-sink 送达回执。
 4. 首页与公共状态请求的 HTTP 状态、`requestId`、`traceId` 与 `http_request_completed` 可关联；日志不得包含内容正文、联系方式密文、Secret、Bearer、Cookie、请求正文或查询参数。
 5. CMS 状态机、`expectedVersion`、幂等重放、Outbox 原子写入、首页只读稳定性和供应方超时失败关闭由 TASK-R06-005 自动化证据验证；不得通过直接修改业务记录伪造接口成功。
 6. 应用回切只替换 `api` 镜像，保持同一 PostgreSQL 容器、数据卷和 V030；禁止执行 U030–U029、降版本 DDL、删除内容版本/状态历史/审计或重建数据库。恢复当前镜像后再次验证 readiness、RED、四项 R06 Gauge 和数据库连续性。

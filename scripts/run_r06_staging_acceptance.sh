@@ -12,7 +12,7 @@ PROMETHEUS_PORT=${HHY_R06_PROMETHEUS_PORT:-39590}
 PHASE=${1:-all}
 COMPOSE_FILE="$ROOT/infra/staging/r06-smoke/docker-compose.yml"
 EVIDENCE="$ROOT/artifacts/validation/r06-task006-staging"
-ALERT_EVENT_PREFIX=r06-stage-alert
+ALERT_EVENT_PREFIX=${HHY_R06_ALERT_EVENT_PREFIX:-r06-stage-alert-${FROZEN_COMMIT:0:8}}
 COMPOSE=(docker compose -p "$PROJECT" -f "$COMPOSE_FILE")
 
 # Compose interpolates required values even for read-only `ps`. These sentinels
@@ -98,10 +98,16 @@ wait_alert_receipt() {
   done
 }
 
-delete_test_events() {
+finish_test_events() {
   if test -n "$POSTGRES" && docker inspect "$POSTGRES" >/dev/null 2>&1; then
-    docker exec "$POSTGRES" psql -U hhy_r06_smoke -d hhy_r06_smoke -v ON_ERROR_STOP=1 \
-      -c "DELETE FROM hhy.outbox_events WHERE event_id LIKE '${ALERT_EVENT_PREFIX}-%';" >/dev/null
+    docker exec -i "$POSTGRES" psql -U hhy_r06_smoke -d hhy_r06_smoke -v ON_ERROR_STOP=1 <<SQL >/dev/null
+UPDATE hhy.outbox_events
+SET status='PUBLISHING', attempts=attempts + 1
+WHERE event_id LIKE '${ALERT_EVENT_PREFIX}-%' AND status='PENDING';
+UPDATE hhy.outbox_events
+SET status='PUBLISHED', published_at=CURRENT_TIMESTAMP, last_error=NULL
+WHERE event_id LIKE '${ALERT_EVENT_PREFIX}-%' AND status='PUBLISHING';
+SQL
   fi
 }
 
@@ -110,7 +116,7 @@ recover_runtime() {
   if test -n "$API" && docker inspect "$API" >/dev/null 2>&1; then
     docker start "$API" >/dev/null 2>&1
   fi
-  delete_test_events
+  finish_test_events
 }
 trap recover_runtime EXIT
 
@@ -240,7 +246,11 @@ SQL
   wait_rule_firing HhyR06ContentOutboxBacklog
   curl -fsS "http://127.0.0.1:${PROMETHEUS_PORT}/api/v1/rules" > "$EVIDENCE/content-outbox-firing.json"
   wait_alert_receipt HhyR06ContentOutboxBacklog firing
-  delete_test_events
+  finish_test_events
+  docker exec "$POSTGRES" psql -U hhy_r06_smoke -d hhy_r06_smoke -At -v ON_ERROR_STOP=1 \
+    -c "SELECT event_id,status,attempts,(published_at IS NOT NULL) FROM hhy.outbox_events WHERE event_id LIKE '${ALERT_EVENT_PREFIX}-%' ORDER BY event_id;" \
+    > "$EVIDENCE/outbox-test-events.txt"
+  test "$(grep -c '|PUBLISHED|1|t$' "$EVIDENCE/outbox-test-events.txt")" = 4
   wait_alert_receipt HhyR06ContentOutboxBacklog resolved
 
   docker exec "$ALERT_SINK" cat /data/deliveries.jsonl > "$EVIDENCE/alert-deliveries.jsonl"
@@ -351,8 +361,14 @@ case "$PHASE" in
     exercise_rollback
     finalize_evidence
     ;;
+  finish-events)
+    refresh_containers
+    finish_test_events
+    docker exec "$POSTGRES" psql -U hhy_r06_smoke -d hhy_r06_smoke -At -v ON_ERROR_STOP=1 \
+      -c "SELECT event_id,status,attempts,(published_at IS NOT NULL) FROM hhy.outbox_events WHERE event_id LIKE '${ALERT_EVENT_PREFIX}-%' ORDER BY event_id;"
+    ;;
   *)
-    echo "Usage: $0 [all|resume-content]" >&2
+    echo "Usage: $0 [all|resume-content|finish-events]" >&2
     exit 64
     ;;
 esac
