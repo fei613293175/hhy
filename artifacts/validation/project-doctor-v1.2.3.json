@@ -4,7 +4,7 @@
   "continuity_protocol_version": "1.0",
   "status": "PASS",
   "strict": true,
-  "release_filter": null,
+  "release_filter": "R07",
   "metrics": {
     "canonical_policy_sha256": "35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6",
     "documentation": {
@@ -13,7 +13,7 @@
       "admin_pages": 74,
       "ui_surfaces": 189,
       "templates": 30,
-      "fields": 5159,
+      "fields": 5166,
       "states": 1633,
       "actions": 609,
       "configs": 319,
@@ -30,8 +30,8 @@
       "open_document_gaps": 0
     },
     "continuity": {
-      "event_count": 1769,
-      "event_head_hash": "8b6929b046fc3404bc5088dd89780f94ebb3e37a889b041676434f97352065f2",
+      "event_count": 1827,
+      "event_head_hash": "58168977aed03c8ac365db95a6aa593c356498549d954354cbedb034deb52ce0",
       "document_gate": {
         "status": "EXECUTED",
         "forced": true,
@@ -41,10 +41,10 @@
     "continuity_gate_rules": 42,
     "continuity_event_types": 17,
     "continuity_required_records": 20,
-    "baseline_sessions": 60,
+    "baseline_sessions": 63,
     "baseline_handoffs": 3,
-    "change_requests": 173,
-    "task_transitions": 62,
+    "change_requests": 180,
+    "task_transitions": 65,
     "continuity_integration_checks": 11,
     "continuity_lifecycle_checks": 14
   },

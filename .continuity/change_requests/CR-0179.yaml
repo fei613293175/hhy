@@ -1,0 +1,59 @@
+protocol_version: '1.0'
+cr_id: CR-0179
+title: 补齐发布者主页内容筛选与客户端内容查询入口
+status: IMPLEMENTING
+created_at: '2026-07-21T17:29:57Z'
+updated_at: '2026-07-21T18:44:40Z'
+requester_actor_id: codex-root-r07-003
+approver_actor_id: codex-reviewer-r07
+task_id: TASK-R07-003
+session_id: SES-20260721T171025Z-A3718A1C
+user_request: 项目所有者要求持续完成R07并保证功能真实落地。
+reason: SCR-PUBLISHER-001要求展示指定发布者的公开资料和已发布内容，但contentGetContents没有publisherId查询参数，后端只有管理端内容控制器，客户端无法按发布者读取ONLINE内容。
+original_rule: contentGetContents仅支持page/pageSize/cursor/status/keyword/sort/contentType/categoryCode/regionCode，且后端没有/api/v1/contents客户端控制器；发布者主页无法限定内容归属，也可能错误展示非ONLINE内容。
+new_rule: contentGetContents增加可选publisherId查询参数；客户端内容控制器始终把公开列表状态收敛为ONLINE并把publisherId传入存储层，发布者主页用该参数分页读取指定发布者内容；管理端现有筛选和行为不变。
+impact_summary: 新增向后兼容可选查询参数和客户端只读控制器，扩展内容查询对象及SQL owner_id过滤，补契约、权限、可见性和筛选测试；不增加页面、表或写操作。
+impact:
+  files:
+  - contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - packages/api-client/src/client.generated.ts
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/ContentController.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/ContentControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - catalogs/ui_page_fields.csv
+  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
+  pages:
+  - SCR-PUBLISHER-001
+  apis:
+  - GET /api/v1/contents
+  database:
+  - content_posts
+  configuration: []
+  ledger: []
+  tests:
+  - publisherId contract and generated client checks
+  - client content controller authentication and ONLINE visibility tests
+  - ContentService publisher filter regression
+  releases:
+  - R07
+  migration_and_compatibility: publisherId为可选参数，既有消费者不传时行为保持；客户端新入口只公开ONLINE内容，管理端原路径与Service调用显式保留原状态筛选；无数据库迁移。
+user_confirmation: 项目所有者已授权持续完成R07至R32并要求功能真实落地。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T17:30:27Z'
+  note: 页面目标、故事operationId和现有合同交叉证明publisherId是缺失的必要筛选；可选参数向后兼容，客户端强制ONLINE避免越权披露，管理端行为保持。
+machine_record: .continuity/change_requests/CR-0179.yaml
+document: docs/03-continuity/change-requests/CR-0179-补齐发布者主页内容筛选与客户端内容查询入口.md
+decision_log:
+- at: '2026-07-21T18:44:40Z'
+  actor_id: codex-root-r07-003
+  status: IMPLEMENTING
+  note: 客户端内容入口与publisherId筛选实现完成，ONLINE可见性和契约测试通过，进入提交绑定。
+  session_id: SES-20260721T171025Z-A3718A1C
+session_ids:
+- SES-20260721T171025Z-A3718A1C

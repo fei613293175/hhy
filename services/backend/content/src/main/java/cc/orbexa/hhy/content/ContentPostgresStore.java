@@ -47,6 +47,7 @@ public class ContentPostgresStore implements ContentStore {
         append(where, args, "p.type=?", query.contentType());
         append(where, args, "snapshot.snapshot_json->>'categoryCode'=?", query.categoryCode());
         append(where, args, "snapshot.snapshot_json->>'regionCode'=?", query.regionCode());
+        append(where, args, "p.owner_id=?", query.publisherId());
         if (query.beforeId() != null) { where.append(" AND p.id<?"); args.add(query.beforeId()); }
         Long total = jdbc.queryForObject("SELECT count(*) FROM hhy.content_posts p "
                 + "LEFT JOIN LATERAL (SELECT v.snapshot_json FROM hhy.content_versions v "

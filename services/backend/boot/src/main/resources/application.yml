@@ -47,6 +47,8 @@ management:
       probes:
         enabled: true
 hhy:
+  content-security:
+    contact-root-secret: ${HHY_CONTENT_CONTACT_ROOT_SECRET}
   ci-automation:
     enabled: ${HHY_CI_AUTOMATION_ENABLED:false}
     user-phone: ${HHY_CI_AUTOMATION_USER_PHONE:}

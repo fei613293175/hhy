@@ -31,8 +31,12 @@ class R07SearchDatabaseScriptsTest(unittest.TestCase):
         self.assertIn("HHY_DB_SMOKE_CONFIRM", shell)
         self.assertIn("U031__r07_search_invariants.sql", shell)
         self.assertIn("V031__r07_search_invariants.sql", shell)
-        self.assertIn('[[ "${remaining}|${weight_default}" == "0|0|0|" ]]', shell)
-        self.assertIn('[[ "${reapplied}|${weight_default}" == "4|4|1|0" ]]', shell)
+        self.assertIn("U032__r07_contact_contract_alignment.sql", shell)
+        self.assertIn("V032__r07_contact_contract_alignment.sql", shell)
+        self.assertIn("R07_U032_ENVELOPE_REFUSAL PASS", shell)
+        self.assertIn("r07_contact_contract_alignment.sql", shell)
+        self.assertIn('[[ "${remaining}|${weight_default}" == "1|0|0|" ]]', shell)
+        self.assertIn('[[ "${reapplied}|${weight_default}" == "5|4|1|0" ]]', shell)
 
     def test_container_covers_empty_and_upgrade_databases_without_published_port(self) -> None:
         shell = CONTAINER.read_text(encoding="utf-8")
@@ -40,8 +44,8 @@ class R07SearchDatabaseScriptsTest(unittest.TestCase):
         self.assertIn("hhy-r07-", shell)
         self.assertIn("trap cleanup EXIT", shell)
         self.assertNotIn("-p 5432", shell)
-        self.assertIn("R07_EMPTY_DATABASE_TO_V031 PASS", shell)
-        self.assertIn("R07_UPGRADE_DATABASE_TO_V031 PASS", shell)
+        self.assertIn("R07_EMPTY_DATABASE_TO_V032 PASS", shell)
+        self.assertIn("R07_UPGRADE_DATABASE_TO_V032 PASS", shell)
         self.assertIn("R07_DISPOSABLE_POSTGRES_CONTAINER PASS", shell)
 
 

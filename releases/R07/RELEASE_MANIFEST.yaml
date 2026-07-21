@@ -25,6 +25,9 @@ contracts:
   - GET /api/v1/search/hot
   - GET /api/v1/search/history
   - DELETE /api/v1/search/history
+  - GET /api/v1/publishers/{id}
+  - GET /api/v1/contents
+  - POST /api/v1/contents/{id}/contacts/{channel}/access
   admin_api: []
   websocket: []
 database_tables:

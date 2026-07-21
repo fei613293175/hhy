@@ -23,7 +23,8 @@ public interface ContentStore {
 
     record ContentQuery(
             int page, int pageSize, Long beforeId, String status, String keyword,
-            String orderBy, String contentType, String categoryCode, String regionCode) { }
+            String orderBy, String contentType, String categoryCode, String regionCode,
+            Long publisherId) { }
     record PageRows(List<ContentRow> items, long total, boolean hasMore) { }
     record ContentRow(
             long id, long ownerId, String type, String title, String summary,

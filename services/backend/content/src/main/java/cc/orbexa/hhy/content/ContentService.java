@@ -65,6 +65,14 @@ public class ContentService {
     public ContentPage list(
             int page, int pageSize, String cursor, String status, String keyword, String sort,
             String contentType, String categoryCode, String regionCode) {
+        return list(page, pageSize, cursor, status, keyword, sort,
+                contentType, categoryCode, regionCode, null);
+    }
+
+    @Transactional(readOnly = true)
+    public ContentPage list(
+            int page, int pageSize, String cursor, String status, String keyword, String sort,
+            String contentType, String categoryCode, String regionCode, String publisherId) {
         String order = CONTENT_SORTS.get(sort);
         if (order == null) throw validation("排序字段不在允许范围内");
         Long beforeId = cursor(cursor);
@@ -76,7 +84,7 @@ public class ContentService {
         };
         ContentStore.PageRows rows = store.page(new ContentStore.ContentQuery(
                 page, pageSize, beforeId, clean(status), clean(keyword), order,
-                storedType, clean(categoryCode), clean(regionCode)));
+                storedType, clean(categoryCode), clean(regionCode), optionalId(publisherId)));
         List<ContentResource> items = rows.items().stream().map(this::resource).toList();
         String next = rows.hasMore() && !rows.items().isEmpty()
                 ? Long.toString(rows.items().getLast().id()) : null;
@@ -339,6 +347,9 @@ public class ContentService {
     private static long id(String value, String message) {
         try { long id = Long.parseLong(value); if (id < 1) throw new NumberFormatException(); return id; }
         catch (RuntimeException invalid) { throw validation(message); }
+    }
+    private static Long optionalId(String value) {
+        return clean(value) == null ? null : id(value, "发布者标识无效");
     }
     private static long count(String value) {
         try { return Math.max(0, Long.parseLong(value == null ? "0" : value)); }

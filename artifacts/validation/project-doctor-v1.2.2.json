@@ -1,7 +1,7 @@
 {
   "version": "1.2.2",
   "status": "PASS",
-  "strict": false,
+  "strict": true,
   "release_filter": "R07",
   "metrics": {
     "android_surfaces": 102,
@@ -9,7 +9,7 @@
     "admin_pages": 74,
     "ui_surfaces": 189,
     "templates": 30,
-    "fields": 5159,
+    "fields": 5166,
     "states": 1633,
     "actions": 609,
     "configs": 319,

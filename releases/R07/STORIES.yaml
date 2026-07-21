@@ -258,11 +258,17 @@ stories:
   - searchGetSearchHot
   - searchGetSearchHistory
   - searchDeleteSearchHistory
+  - userGetPublishersById
+  - contentGetContents
+  - contentPostContentsByIdContactsByChannelAccess
   api_contracts:
   - GET /api/v1/search
   - GET /api/v1/search/hot
   - GET /api/v1/search/history
   - DELETE /api/v1/search/history
+  - GET /api/v1/publishers/{id}
+  - GET /api/v1/contents
+  - POST /api/v1/contents/{id}/contacts/{channel}/access
   requirement_ids:
   - REQ-CONTACT-001
   - REQ-SEARCH-001

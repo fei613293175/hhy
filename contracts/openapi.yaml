@@ -911,13 +911,6 @@ paths:
           type: string
           maxLength: 256
         description: 游标；与page二选一
-      - name: status
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 状态筛选
       - name: keyword
         in: query
         required: false
@@ -2300,6 +2293,36 @@ paths:
         schema:
           type: string
           maxLength: 32
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: pageSize
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+      - name: cursor
+        in: query
+        required: false
+        schema:
+          type: string
+          maxLength: 256
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - relevance:desc
+          - createdAt:desc
+          - id:desc
       x-request-schema: '#/components/schemas/SearchGetSearchParameters'
       responses:
         '200':
@@ -2402,13 +2425,6 @@ paths:
           type: string
           maxLength: 256
         description: 游标；与page二选一
-      - name: status
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 状态筛选
       - name: keyword
         in: query
         required: false
@@ -2525,13 +2541,6 @@ paths:
           type: string
           maxLength: 256
         description: 游标；与page二选一
-      - name: status
-        in: query
-        required: false
-        schema:
-          type: string
-          maxLength: 64
-        description: 状态筛选
       - name: keyword
         in: query
         required: false
@@ -2770,6 +2779,13 @@ paths:
         schema:
           type: string
           maxLength: 32
+      - name: publisherId
+        in: query
+        required: false
+        description: 发布者用户标识；发布者主页使用该参数限定公开内容归属
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9_-]{1,64}$
       x-request-schema: '#/components/schemas/ContentGetContentsParameters'
       responses:
         '200':
@@ -4604,6 +4620,17 @@ paths:
       responses:
         '200':
           description: 成功
+          headers:
+            Cache-Control:
+              description: 高敏联系方式响应不得被客户端或中间代理缓存
+              schema:
+                type: string
+                const: no-store
+            Pragma:
+              description: 兼容旧客户端的禁止缓存指令
+              schema:
+                type: string
+                const: no-cache
           content:
             application/json:
               schema:
@@ -13601,6 +13628,49 @@ components:
       - id
       - contentType
       - title
+    SearchTermResource:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          maxLength: 64
+        keyword:
+          type: string
+          minLength: 1
+          maxLength: 100
+        createdAt:
+          type: string
+          format: date-time
+      required:
+      - id
+      - keyword
+    ContactAccessResource:
+      type: object
+      additionalProperties: false
+      properties:
+        channel:
+          type: string
+          enum:
+          - WECHAT
+          - PHONE
+          - QQ
+          - EMAIL
+          - LINK
+          - QR_CODE
+        value:
+          type: string
+          minLength: 1
+          maxLength: 2048
+          x-sensitive: true
+          description: 仅在本次已授权响应中返回；禁止写入日志、埋点或持久化明文缓存
+        accessedAt:
+          type: string
+          format: date-time
+      required:
+      - channel
+      - value
+      - accessedAt
     ContentResource:
       type: object
       additionalProperties: false
@@ -15751,7 +15821,7 @@ components:
           type: string
           format: date-time
         data:
-          $ref: '#/components/schemas/UserResource'
+          $ref: '#/components/schemas/PublisherSummaryResource'
     UserGetPublishersByIdParameters:
       type: object
       additionalProperties: false
@@ -16191,7 +16261,18 @@ components:
           type: string
           format: date-time
         data:
-          $ref: '#/components/schemas/SearchResultResource'
+          type: object
+          additionalProperties: false
+          required:
+          - items
+          - page
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/SearchResultResource'
+            page:
+              $ref: '#/components/schemas/PageMeta'
     SearchGetSearchParameters:
       type: object
       additionalProperties: false
@@ -16209,6 +16290,23 @@ components:
         regionCode:
           type: string
           maxLength: 32
+        page:
+          type: integer
+          minimum: 1
+          default: 1
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+        cursor:
+          type: string
+          maxLength: 256
+        sort:
+          type: string
+          enum:
+          - relevance:desc
+          - createdAt:desc
       required:
       - q
     SearchGetSearchHotResponse:
@@ -16238,7 +16336,7 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/SearchResultResource'
+                $ref: '#/components/schemas/SearchTermResource'
             page:
               $ref: '#/components/schemas/PageMeta'
     SearchGetSearchHotParameters:
@@ -16260,10 +16358,6 @@ components:
           type: string
           maxLength: 256
           description: 游标；与page二选一
-        status:
-          type: string
-          maxLength: 64
-          description: 状态筛选
         keyword:
           type: string
           maxLength: 100
@@ -16299,7 +16393,7 @@ components:
             items:
               type: array
               items:
-                $ref: '#/components/schemas/SearchResultResource'
+                $ref: '#/components/schemas/SearchTermResource'
             page:
               $ref: '#/components/schemas/PageMeta'
     SearchGetSearchHistoryParameters:
@@ -16321,10 +16415,6 @@ components:
           type: string
           maxLength: 256
           description: 游标；与page二选一
-        status:
-          type: string
-          maxLength: 64
-          description: 状态筛选
         keyword:
           type: string
           maxLength: 100
@@ -16432,6 +16522,10 @@ components:
         regionCode:
           type: string
           maxLength: 32
+        publisherId:
+          type: string
+          pattern: ^[A-Za-z0-9_-]{1,64}$
+          description: 发布者用户标识；发布者主页使用该参数限定公开内容归属
     ContentGetContentsByIdResponse:
       type: object
       additionalProperties: false
@@ -17249,9 +17343,7 @@ components:
           type: string
           format: date-time
         data:
-          oneOf:
-          - $ref: '#/components/schemas/ContentResource'
-          - $ref: '#/components/schemas/CommandResultResource'
+          $ref: '#/components/schemas/ContactAccessResource'
     ContentPostContentsByIdReportRequest:
       type: object
       additionalProperties: false

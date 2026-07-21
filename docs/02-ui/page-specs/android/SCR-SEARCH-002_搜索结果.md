@@ -44,8 +44,16 @@
 | FLD-00290 | 主要内容 | summary | 摘要 | DISPLAY | string | TEXT | searchGetSearch.response.data.SearchResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 摘要加载失败时显示字段级占位或隐藏 |
 | FLD-00291 | 主要内容 | coverUrl | cover Url | DISPLAY | string | TEXT | searchGetSearch.response.data.SearchResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | cover Url加载失败时显示字段级占位或隐藏 |
 | FLD-00292 | 主要内容 | publisher | 发布者 | DISPLAY | PublisherSummaryResource | STRUCTURED_SECTION | searchGetSearch.response.data.SearchResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按服务端Schema校验；前端不得放宽 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 发布者加载失败时显示字段级占位或隐藏 |
-| FLD-00293 | 主要内容 | score | 风险分 | DISPLAY | number | NUMBER_TEXT | searchGetSearch.response.data.SearchResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按服务端Schema校验；前端不得放宽 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 风险分加载失败时显示字段级占位或隐藏 |
+| FLD-00293 | 主要内容 | score | 匹配分 | DISPLAY | number | NUMBER_TEXT | searchGetSearch.response.data.SearchResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按服务端Schema校验；前端不得放宽 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 匹配分加载失败时显示字段级占位或隐藏 |
 | FLD-00294 | 主要内容 | badges | badges | DISPLAY | array<string> | LIST | searchGetSearch.response.data.SearchResultResource | 服务端返回时展示 | 有值且当前角色拥有字段访问权限 | 只读；通过明确写操作更新 | 按服务端Schema校验；前端不得放宽 | NORMAL | 无需特殊掩码；仍遵守最小展示 | badges加载失败时显示字段级占位或隐藏 |
+| FLD-05168 | 路由与筛选 | page | 页码 | FILTER | integer | NUMBER_INPUT | searchGetSearch.query | 可选；仅在对应操作/筛选时提交 | 执行“全局搜索”时显示 | 用户具备权限且页面状态允许 | ≥1 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 页码格式或范围不正确 |
+| FLD-05169 | 路由与筛选 | pageSize | 每页数量 | FILTER | integer | NUMBER_INPUT | searchGetSearch.query | 可选；仅在对应操作/筛选时提交 | 执行“全局搜索”时显示 | 用户具备权限且页面状态允许 | ≥1；≤100 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 每页数量格式或范围不正确 |
+| FLD-05170 | 路由与筛选 | cursor | 游标 | FILTER | string | FILTER_INPUT | searchGetSearch.query | 可选；仅在对应操作/筛选时提交 | 执行“全局搜索”时显示 | 用户具备权限且页面状态允许 | 最多256字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 游标格式或范围不正确 |
+| FLD-05171 | 路由与筛选 | sort | 排序 | FILTER | string | FILTER_INPUT | searchGetSearch.query | 可选；仅在对应操作/筛选时提交 | 执行“全局搜索”时显示 | 用户具备权限且页面状态允许 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 排序格式或范围不正确 |
+| FLD-05172 | 表单输入 | page | 页码 | INPUT | integer | NUMBER_INPUT | searchGetSearch.request | 可选；按业务条件或页面状态决定 | 执行“全局搜索”且字段适用时显示 | 具备 登录 且资源状态允许 | ≥1 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 页码不符合要求 |
+| FLD-05173 | 表单输入 | pageSize | 每页数量 | INPUT | integer | NUMBER_INPUT | searchGetSearch.request | 可选；按业务条件或页面状态决定 | 执行“全局搜索”且字段适用时显示 | 具备 登录 且资源状态允许 | ≥1；≤100 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 每页数量不符合要求 |
+| FLD-05174 | 表单输入 | cursor | 游标 | INPUT | string | TEXT_INPUT | searchGetSearch.request | 可选；按业务条件或页面状态决定 | 执行“全局搜索”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多256字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 游标不符合要求 |
+| FLD-05175 | 表单输入 | sort | 排序 | INPUT | string | TEXT_INPUT | searchGetSearch.request | 可选；按业务条件或页面状态决定 | 执行“全局搜索”且字段适用时显示 | 具备 登录 且资源状态允许 | 最多64字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 排序不符合要求 |
 
 ## 4. 页面状态与恢复
 

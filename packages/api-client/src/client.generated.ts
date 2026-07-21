@@ -2292,6 +2292,20 @@ export interface components {
             score?: number;
             badges?: string[];
         };
+        SearchTermResource: {
+            id: string;
+            keyword: string;
+            /** Format: date-time */
+            createdAt?: string;
+        };
+        ContactAccessResource: {
+            /** @enum {string} */
+            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE";
+            /** @description 仅在本次已授权响应中返回；禁止写入日志、埋点或持久化明文缓存 */
+            value: string;
+            /** Format: date-time */
+            accessedAt: string;
+        };
         ContentResource: {
             id: string;
             contentType: string;
@@ -3084,7 +3098,7 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["UserResource"];
+            data: components["schemas"]["PublisherSummaryResource"];
         };
         UserGetPublishersByIdParameters: {
             /** @description 路径资源标识：id */
@@ -3251,7 +3265,10 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["SearchResultResource"];
+            data: {
+                items: components["schemas"]["SearchResultResource"][];
+                page: components["schemas"]["PageMeta"];
+            };
         };
         SearchGetSearchParameters: {
             q: string;
@@ -3259,6 +3276,13 @@ export interface components {
             contentType?: "PROJECT" | "APP" | "GROUP_CHAT" | "TEAM_LEADER";
             categoryCode?: string;
             regionCode?: string;
+            /** @default 1 */
+            page: number;
+            /** @default 20 */
+            pageSize: number;
+            cursor?: string;
+            /** @enum {string} */
+            sort?: "relevance:desc" | "createdAt:desc";
         };
         SearchGetSearchHotResponse: {
             /** @constant */
@@ -3267,7 +3291,7 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: {
-                items: components["schemas"]["SearchResultResource"][];
+                items: components["schemas"]["SearchTermResource"][];
                 page: components["schemas"]["PageMeta"];
             };
         };
@@ -3284,8 +3308,6 @@ export interface components {
             pageSize: number;
             /** @description 游标；与page二选一 */
             cursor?: string;
-            /** @description 状态筛选 */
-            status?: string;
             /** @description 关键词筛选 */
             keyword?: string;
             /** @description 白名单排序字段，例如 createdAt:desc */
@@ -3298,7 +3320,7 @@ export interface components {
             /** Format: date-time */
             timestamp?: string;
             data: {
-                items: components["schemas"]["SearchResultResource"][];
+                items: components["schemas"]["SearchTermResource"][];
                 page: components["schemas"]["PageMeta"];
             };
         };
@@ -3315,8 +3337,6 @@ export interface components {
             pageSize: number;
             /** @description 游标；与page二选一 */
             cursor?: string;
-            /** @description 状态筛选 */
-            status?: string;
             /** @description 关键词筛选 */
             keyword?: string;
             /** @description 白名单排序字段，例如 createdAt:desc */
@@ -3367,6 +3387,8 @@ export interface components {
             contentType?: "PROJECT" | "APP" | "GROUP_CHAT" | "TEAM_LEADER";
             categoryCode?: string;
             regionCode?: string;
+            /** @description 发布者用户标识；发布者主页使用该参数限定公开内容归属 */
+            publisherId?: string;
         };
         ContentGetContentsByIdResponse: {
             /** @constant */
@@ -3731,7 +3753,7 @@ export interface components {
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["ContentResource"] | components["schemas"]["CommandResultResource"];
+            data: components["schemas"]["ContactAccessResource"];
         };
         ContentPostContentsByIdReportRequest: {
             reasonCode: string;
@@ -6505,8 +6527,6 @@ export interface operations {
                 pageSize?: number;
                 /** @description 游标；与page二选一 */
                 cursor?: string;
-                /** @description 状态筛选 */
-                status?: string;
                 /** @description 关键词筛选 */
                 keyword?: string;
                 /** @description 白名单排序字段，例如 createdAt:desc */
@@ -8043,6 +8063,10 @@ export interface operations {
                 contentType?: "PROJECT" | "APP" | "GROUP_CHAT" | "TEAM_LEADER";
                 categoryCode?: string;
                 regionCode?: string;
+                page?: number;
+                pageSize?: number;
+                cursor?: string;
+                sort?: "relevance:desc" | "createdAt:desc" | "id:desc";
             };
             header?: never;
             path?: never;
@@ -8142,8 +8166,6 @@ export interface operations {
                 pageSize?: number;
                 /** @description 游标；与page二选一 */
                 cursor?: string;
-                /** @description 状态筛选 */
-                status?: string;
                 /** @description 关键词筛选 */
                 keyword?: string;
                 /** @description 白名单排序字段，例如 createdAt:desc */
@@ -8247,8 +8269,6 @@ export interface operations {
                 pageSize?: number;
                 /** @description 游标；与page二选一 */
                 cursor?: string;
-                /** @description 状态筛选 */
-                status?: string;
                 /** @description 关键词筛选 */
                 keyword?: string;
                 /** @description 白名单排序字段，例如 createdAt:desc */
@@ -8456,6 +8476,8 @@ export interface operations {
                 contentType?: "PROJECT" | "APP" | "GROUP_CHAT" | "TEAM_LEADER";
                 categoryCode?: string;
                 regionCode?: string;
+                /** @description 发布者用户标识；发布者主页使用该参数限定公开内容归属 */
+                publisherId?: string;
             };
             header?: never;
             path?: never;
@@ -10217,6 +10239,10 @@ export interface operations {
             /** @description 成功 */
             200: {
                 headers: {
+                    /** @description 高敏联系方式响应不得被客户端或中间代理缓存 */
+                    "Cache-Control"?: "no-store";
+                    /** @description 兼容旧客户端的禁止缓存指令 */
+                    Pragma?: "no-cache";
                     [name: string]: unknown;
                 };
                 content: {

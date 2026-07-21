@@ -14,6 +14,8 @@ management:
   server:
     port: 8080
 hhy:
+  content-security:
+    contact-root-secret: ${HHY_TEST_CONTENT_CONTACT_ROOT_SECRET:test-only-content-contact-root-secret-at-least-32-characters}
   user-security:
     jwt-secret: ${HHY_TEST_USER_JWT_SECRET:test-only-user-jwt-secret-at-least-32-characters}
     token-hmac-secret: ${HHY_TEST_USER_TOKEN_HMAC_SECRET:test-only-user-token-hmac-secret-at-least-32-characters}

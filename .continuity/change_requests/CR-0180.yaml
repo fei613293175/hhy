@@ -1,0 +1,64 @@
+protocol_version: '1.0'
+cr_id: CR-0180
+title: 收敛R07故事绑定接口计数与最小响应模型
+status: IMPLEMENTING
+created_at: '2026-07-21T17:34:19Z'
+updated_at: '2026-07-21T18:44:43Z'
+requester_actor_id: codex-root-r07-003
+approver_actor_id: codex-reviewer-r07
+task_id: TASK-R07-003
+session_id: SES-20260721T171025Z-A3718A1C
+user_request: 项目所有者要求持续开发且所有功能、文档与测试真实一致。
+reason: TASK-R07-003写9个operationId，但5个R07故事唯一绑定集合为7个；STORY-R07-005和RELEASE_MANIFEST只列4个搜索接口，遗漏发布者、内容列表及联系方式访问。CR-0178初稿的专用发布者模型、SearchTerm.source及联系方式available/contentId字段可直接复用或省略，继续保留会无依据新增字段。
+original_rule: TASK-R07-003泛称9个operationId，STORY-R07-005及RELEASE_MANIFEST只列4个搜索接口；发布者响应拟新增与PublisherSummaryResource重复的模型，SearchTerm拟新增endpoint已隐含的source，联系方式成功响应拟包含非必要contentId和available。
+new_rule: R07后端任务明确实现/复用故事绑定的7个operationId：4个搜索、发布者主页、公开内容列表和联系方式访问；STORY-R07-005与RELEASE_MANIFEST列齐7项。发布者主页直接复用PublisherSummaryResource；SearchTermResource仅含id/keyword及可选createdAt，不新增source；联系方式成功响应仅含channel/value/accessedAt并设置no-store，value不得进入日志、Outbox
+  payload、response_ref或客户端持久缓存。
+impact_summary: 修正R07执行元数据和清单遗漏，删除无依据重复/冗余响应字段，保持故事、契约、实现、测试和交付范围一致；不改变页面数量、数据库表或业务操作。
+impact:
+  files:
+  - releases/R07/TASKS.yaml
+  - releases/R07/STORIES.yaml
+  - releases/R07/RELEASE_MANIFEST.yaml
+  - catalogs/release_story_backlog.csv
+  - contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Contracts.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R07Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java
+  pages:
+  - SCR-SEARCH-001
+  - SCR-PUBLISHER-001
+  - SHEET-CONTACT-001
+  apis:
+  - GET /api/v1/search
+  - GET /api/v1/search/hot
+  - GET /api/v1/search/history
+  - DELETE /api/v1/search/history
+  - GET /api/v1/publishers/{id}
+  - GET /api/v1/contents
+  - POST /api/v1/contents/{id}/contacts/{channel}/access
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - R07 seven-operation metadata consistency check
+  - OpenAPI minimal disclosure and no-store contract tests
+  releases:
+  - R07
+  migration_and_compatibility: R07尚无正式消费者，模型收敛发生在实现与生成客户端之前；删除的是本次尚未交付的拟新增字段，既有PublisherSummaryResource复用减少DTO分叉；V032安全迁移保持不变。
+user_confirmation: 项目所有者已授权持续开发并要求文档可供换电脑换AI无状态接续。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T17:34:49Z'
+  note: 故事文件提供可计算的7项唯一接口集合，9项无法追溯；复用公开PublisherSummary并删除endpoint已隐含或成功态恒真的字段符合最小披露和禁止发明字段规则，no-store是高敏响应必要控制。
+machine_record: .continuity/change_requests/CR-0180.yaml
+document: docs/03-continuity/change-requests/CR-0180-收敛R07故事绑定接口计数与最小响应模型.md
+decision_log:
+- at: '2026-07-21T18:44:43Z'
+  actor_id: codex-root-r07-003
+  status: IMPLEMENTING
+  note: R07七项operationId、最小响应模型、no-store及派生元数据已一致，进入提交绑定。
+  session_id: SES-20260721T171025Z-A3718A1C
+session_ids:
+- SES-20260721T171025Z-A3718A1C

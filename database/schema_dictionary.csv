@@ -243,7 +243,7 @@
 内容,content_contacts,1,id,bigint,否,generated,PRIMARY KEY,详情获取,R06-R13,FROZEN
 内容,content_contacts,2,content_id,bigint,否,,INDEX,详情获取,R06-R13,FROZEN
 内容,content_contacts,3,channel,varchar(64),是,,,详情获取,R06-R13,FROZEN
-内容,content_contacts,4,value_cipher,bigint,是,,,详情获取,R06-R13,FROZEN
+内容,content_contacts,4,value_cipher,varchar(2048),是,,,详情获取,R06-R13,FROZEN_CR-0178
 内容,content_contacts,5,display_mask,varchar(255),是,,,详情获取,R06-R13,FROZEN
 内容,content_contacts,6,sort_order,integer,是,,,详情获取,R06-R13,FROZEN
 内容,content_contacts,7,created_at,timestamptz,否,now(),INDEX,统一审计字段,R06-R13,FROZEN

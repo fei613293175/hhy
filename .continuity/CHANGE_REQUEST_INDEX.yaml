@@ -10496,3 +10496,310 @@ change_requests:
   - SES-20260721T130339Z-785E85BE
   implementation_commits:
   - b60a7a2de772e8ba480123ac85fd012dacf62160
+- protocol_version: '1.0'
+  cr_id: CR-0178
+  title: 修正R07搜索、公开发布者与联系方式访问合同及安全存储
+  status: IMPLEMENTING
+  created_at: '2026-07-21T17:26:12Z'
+  updated_at: '2026-07-21T18:44:38Z'
+  requester_actor_id: codex-root-r07-003
+  approver_actor_id: codex-reviewer-r07
+  task_id: TASK-R07-003
+  session_id: SES-20260721T171025Z-A3718A1C
+  user_request: 项目所有者要求持续完成R07至R32，不因真机反馈或界面状态停止，并要求功能真实可落地。
+  reason: 冻结合同把全局搜索定义为单条结果，把热词与历史错误复用内容结果模型；联系方式访问响应无实际值字段且content_contacts.value_cipher为bigint无法存储EMAIL/LINK/QR_CODE等AEAD密文；发布者公开主页复用含手机号、实名和会员状态的UserResource，违反公开资料最小披露。
+  original_rule: searchGetSearch只返回单个SearchResultResource；热词和历史分页项复用SearchResultResource且无关键词专属语义；userGetPublishersById返回含phoneMasked、identityStatus、membershipStatus的UserResource；联系方式访问返回ContentResource或CommandResultResource且content_contacts.value_cipher为bigint，没有实际联系方式响应和可解密文本密文格式。
+  new_rule: searchGetSearch返回SearchResultResource分页集合并支持受控分页；热词和历史返回专用SearchTermResource，分别明确HOT和HISTORY来源；发布者公开主页仅返回PublisherProfileResource公开字段，禁止手机号、实名和会员内部状态；联系方式访问只返回ContactAccessResource的channel/value/available/accessedAt，value标记高敏且禁止日志；content_contacts.value_cipher升级为可容纳hhy-contact-v1
+    AES-256-GCM信封的varchar，密钥仅由HHY_CONTENT_CONTACT_ROOT_SECRET注入并采用内容ID与渠道AAD；读取成功、拒绝及幂等重放均有审计和一致结果。
+  impact_summary: 修正R07尚无正式消费者时发现的合同与数据安全缺口，新增专用响应资源、分页参数、V032安全密文迁移、应用服务/控制器及契约/权限/幂等/审计测试；不新增业务操作，不公开额外用户隐私，不改变R07页面数量。
+  impact:
+    files:
+    - contracts/openapi.yaml
+    - contracts/contract_status.csv
+    - packages/api-client/src/client.generated.ts
+    - database/schema_dictionary.csv
+    - database/migrations/V032__r07_contact_contract_alignment.sql
+    - database/rollback/U032__r07_contact_contract_alignment.sql
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - services/backend/boot/src/main/resources/db/migration/V032__r07_contact_contract_alignment.sql
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Contracts.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Store.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07PostgresStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Service.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContactCipher.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R07Controller.java
+    - services/backend/boot/src/main/resources/application.yml
+    - services/backend/boot/src/test/resources/application-test.yml
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
+    - catalogs/ui_page_fields.csv
+    - docs/02-ui/page-specs/android/SCR-SEARCH-001_全局搜索.md
+    - docs/02-ui/page-specs/android/SCR-SEARCH-002_搜索结果.md
+    - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
+    - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
+    pages:
+    - SCR-SEARCH-001
+    - SCR-SEARCH-002
+    - SCR-PUBLISHER-001
+    - SHEET-CONTACT-001
+    apis:
+    - GET /api/v1/search
+    - GET /api/v1/search/hot
+    - GET /api/v1/search/history
+    - DELETE /api/v1/search/history
+    - GET /api/v1/publishers/{id}
+    - POST /api/v1/contents/{id}/contacts/{channel}/access
+    database:
+    - content_contacts
+    - content_contact_access_logs
+    - search_histories
+    - hot_search_terms
+    configuration:
+    - HHY_CONTENT_CONTACT_ROOT_SECRET
+    ledger: []
+    tests:
+    - OpenAPI contract and generated client checks
+    - R07 service/controller permission, idempotency, error-code and audit tests
+    - V032 PostgreSQL upgrade/rollback/replay invariants
+    releases:
+    - R07
+    migration_and_compatibility: R07尚未发布正式消费者，合同以同operationId受控修正并同步生成客户端；V032把value_cipher由bigint无损转为varchar，历史数字值保留但按LEGACY_UNREADABLE明确拒绝而不伪装明文，后续写入使用版本化AES-GCM信封；U032仅在不存在非数字新密文时允许回退，否则显式阻断避免数据损坏；生产密钥无默认值，测试密钥只在test
+      profile。
+  user_confirmation: 项目所有者已明确授权立即持续开发全部版本并自行判断测试结果；功能必须真实落地，不能因等待真机反馈停止。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T17:27:20Z'
+    note: 缺陷均由冻结需求、页面目标、OpenAPI与数据库类型交叉证明；专用最小披露模型消除隐私泄露，版本化AEAD信封和阻断式回滚避免伪解密与数据损坏，且R07尚无正式消费者，当前是受控修正的最佳兼容窗口。
+  machine_record: .continuity/change_requests/CR-0178.yaml
+  document: docs/03-continuity/change-requests/CR-0178-修正R07搜索、公开发布者与联系方式访问合同及安全存储.md
+  decision_log:
+  - at: '2026-07-21T18:44:38Z'
+    actor_id: codex-root-r07-003
+    status: IMPLEMENTING
+    note: 合同、安全存储、搜索与联系方式后端实现完成并通过定向、模块及真实PostgreSQL验证，进入提交绑定。
+    session_id: SES-20260721T171025Z-A3718A1C
+  session_ids:
+  - SES-20260721T171025Z-A3718A1C
+- protocol_version: '1.0'
+  cr_id: CR-0179
+  title: 补齐发布者主页内容筛选与客户端内容查询入口
+  status: IMPLEMENTING
+  created_at: '2026-07-21T17:29:57Z'
+  updated_at: '2026-07-21T18:44:40Z'
+  requester_actor_id: codex-root-r07-003
+  approver_actor_id: codex-reviewer-r07
+  task_id: TASK-R07-003
+  session_id: SES-20260721T171025Z-A3718A1C
+  user_request: 项目所有者要求持续完成R07并保证功能真实落地。
+  reason: SCR-PUBLISHER-001要求展示指定发布者的公开资料和已发布内容，但contentGetContents没有publisherId查询参数，后端只有管理端内容控制器，客户端无法按发布者读取ONLINE内容。
+  original_rule: contentGetContents仅支持page/pageSize/cursor/status/keyword/sort/contentType/categoryCode/regionCode，且后端没有/api/v1/contents客户端控制器；发布者主页无法限定内容归属，也可能错误展示非ONLINE内容。
+  new_rule: contentGetContents增加可选publisherId查询参数；客户端内容控制器始终把公开列表状态收敛为ONLINE并把publisherId传入存储层，发布者主页用该参数分页读取指定发布者内容；管理端现有筛选和行为不变。
+  impact_summary: 新增向后兼容可选查询参数和客户端只读控制器，扩展内容查询对象及SQL owner_id过滤，补契约、权限、可见性和筛选测试；不增加页面、表或写操作。
+  impact:
+    files:
+    - contracts/openapi.yaml
+    - contracts/contract_status.csv
+    - packages/api-client/src/client.generated.ts
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/ContentController.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/ContentControllerContractTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+    - catalogs/ui_page_fields.csv
+    - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
+    pages:
+    - SCR-PUBLISHER-001
+    apis:
+    - GET /api/v1/contents
+    database:
+    - content_posts
+    configuration: []
+    ledger: []
+    tests:
+    - publisherId contract and generated client checks
+    - client content controller authentication and ONLINE visibility tests
+    - ContentService publisher filter regression
+    releases:
+    - R07
+    migration_and_compatibility: publisherId为可选参数，既有消费者不传时行为保持；客户端新入口只公开ONLINE内容，管理端原路径与Service调用显式保留原状态筛选；无数据库迁移。
+  user_confirmation: 项目所有者已授权持续完成R07至R32并要求功能真实落地。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T17:30:27Z'
+    note: 页面目标、故事operationId和现有合同交叉证明publisherId是缺失的必要筛选；可选参数向后兼容，客户端强制ONLINE避免越权披露，管理端行为保持。
+  machine_record: .continuity/change_requests/CR-0179.yaml
+  document: docs/03-continuity/change-requests/CR-0179-补齐发布者主页内容筛选与客户端内容查询入口.md
+  decision_log:
+  - at: '2026-07-21T18:44:40Z'
+    actor_id: codex-root-r07-003
+    status: IMPLEMENTING
+    note: 客户端内容入口与publisherId筛选实现完成，ONLINE可见性和契约测试通过，进入提交绑定。
+    session_id: SES-20260721T171025Z-A3718A1C
+  session_ids:
+  - SES-20260721T171025Z-A3718A1C
+- protocol_version: '1.0'
+  cr_id: CR-0180
+  title: 收敛R07故事绑定接口计数与最小响应模型
+  status: IMPLEMENTING
+  created_at: '2026-07-21T17:34:19Z'
+  updated_at: '2026-07-21T18:44:43Z'
+  requester_actor_id: codex-root-r07-003
+  approver_actor_id: codex-reviewer-r07
+  task_id: TASK-R07-003
+  session_id: SES-20260721T171025Z-A3718A1C
+  user_request: 项目所有者要求持续开发且所有功能、文档与测试真实一致。
+  reason: TASK-R07-003写9个operationId，但5个R07故事唯一绑定集合为7个；STORY-R07-005和RELEASE_MANIFEST只列4个搜索接口，遗漏发布者、内容列表及联系方式访问。CR-0178初稿的专用发布者模型、SearchTerm.source及联系方式available/contentId字段可直接复用或省略，继续保留会无依据新增字段。
+  original_rule: TASK-R07-003泛称9个operationId，STORY-R07-005及RELEASE_MANIFEST只列4个搜索接口；发布者响应拟新增与PublisherSummaryResource重复的模型，SearchTerm拟新增endpoint已隐含的source，联系方式成功响应拟包含非必要contentId和available。
+  new_rule: R07后端任务明确实现/复用故事绑定的7个operationId：4个搜索、发布者主页、公开内容列表和联系方式访问；STORY-R07-005与RELEASE_MANIFEST列齐7项。发布者主页直接复用PublisherSummaryResource；SearchTermResource仅含id/keyword及可选createdAt，不新增source；联系方式成功响应仅含channel/value/accessedAt并设置no-store，value不得进入日志、Outbox
+    payload、response_ref或客户端持久缓存。
+  impact_summary: 修正R07执行元数据和清单遗漏，删除无依据重复/冗余响应字段，保持故事、契约、实现、测试和交付范围一致；不改变页面数量、数据库表或业务操作。
+  impact:
+    files:
+    - releases/R07/TASKS.yaml
+    - releases/R07/STORIES.yaml
+    - releases/R07/RELEASE_MANIFEST.yaml
+    - catalogs/release_story_backlog.csv
+    - contracts/openapi.yaml
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - packages/api-client/src/client.generated.ts
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Contracts.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R07Controller.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java
+    pages:
+    - SCR-SEARCH-001
+    - SCR-PUBLISHER-001
+    - SHEET-CONTACT-001
+    apis:
+    - GET /api/v1/search
+    - GET /api/v1/search/hot
+    - GET /api/v1/search/history
+    - DELETE /api/v1/search/history
+    - GET /api/v1/publishers/{id}
+    - GET /api/v1/contents
+    - POST /api/v1/contents/{id}/contacts/{channel}/access
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R07 seven-operation metadata consistency check
+    - OpenAPI minimal disclosure and no-store contract tests
+    releases:
+    - R07
+    migration_and_compatibility: R07尚无正式消费者，模型收敛发生在实现与生成客户端之前；删除的是本次尚未交付的拟新增字段，既有PublisherSummaryResource复用减少DTO分叉；V032安全迁移保持不变。
+  user_confirmation: 项目所有者已授权持续开发并要求文档可供换电脑换AI无状态接续。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T17:34:49Z'
+    note: 故事文件提供可计算的7项唯一接口集合，9项无法追溯；复用公开PublisherSummary并删除endpoint已隐含或成功态恒真的字段符合最小披露和禁止发明字段规则，no-store是高敏响应必要控制。
+  machine_record: .continuity/change_requests/CR-0180.yaml
+  document: docs/03-continuity/change-requests/CR-0180-收敛R07故事绑定接口计数与最小响应模型.md
+  decision_log:
+  - at: '2026-07-21T18:44:43Z'
+    actor_id: codex-root-r07-003
+    status: IMPLEMENTING
+    note: R07七项operationId、最小响应模型、no-store及派生元数据已一致，进入提交绑定。
+    session_id: SES-20260721T171025Z-A3718A1C
+  session_ids:
+  - SES-20260721T171025Z-A3718A1C
+- protocol_version: '1.0'
+  cr_id: CR-0181
+  title: 补齐V032联系方式密文迁移与阻断式回滚门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-21T17:58:21Z'
+  updated_at: '2026-07-21T18:44:46Z'
+  requester_actor_id: codex-root-r07-003
+  approver_actor_id: codex-reviewer-r07-db
+  task_id: TASK-R07-003
+  session_id: SES-20260721T171025Z-A3718A1C
+  user_request: 项目所有者要求持续完成R07且功能、迁移、测试真实可落地。
+  reason: 现有R07数据库脚本只验证V031；V032加入后对象计数会误报，且未验证legacy数字保留、varchar密文写入、U032安全回滚及非数字密文阻断。
+  original_rule: R07数据库门禁只运行V031/U031并断言4个约束、4个索引和1个触发器；没有V032类型、历史数字保留、新密文写入或阻断回滚证据。
+  new_rule: R07数据库门禁以V032为当前终点：空库和V030升级库均应用V031+V032；验证value_cipher为varchar(2048)、历史数字原值保留、新AEAD信封可写；U032在仅有数字值时成功并可重放V032，在存在非数字信封时必须原子失败且数据、类型、约束不变；随后U031/V031仍可独立回滚重放。
+  impact_summary: 扩展R07一次性PostgreSQL门禁和静态测试，使V032安全迁移及阻断式回滚具有真实证据，并修正V032加入后的R07对象计数；不改变生产业务语义。
+  impact:
+    files:
+    - database/tests/r07_contact_contract_alignment.sql
+    - scripts/run_r07_database_invariants.sh
+    - scripts/run_r07_disposable_postgres_container.sh
+    - tests/test_r07_contact_migration.py
+    - tests/test_r07_search_database_scripts.py
+    pages: []
+    apis: []
+    database:
+    - content_contacts
+    configuration: []
+    ledger: []
+    tests:
+    - V032 empty and V030 upgrade migration
+    - U032 numeric rollback and V032 replay
+    - U032 encrypted-envelope refusal atomicity
+    - V031 independent rollback and replay after V032
+    releases:
+    - R07
+    migration_and_compatibility: V032保留所有legacy数字引用的文本表示；U032仅对全数字数据开放，发现AEAD信封即55000阻断。门禁在一次性PostgreSQL 17.10容器验证成功回滚、失败回滚原子性和V031/V032重放。
+  user_confirmation: 项目所有者已明确授权持续完成R07至R32并要求测试由AI判断且不因真机反馈停止。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T17:58:48Z'
+    note: V032是已批准CR-0178的必需安全迁移；当前门禁不覆盖且对象计数已漂移。新增一次性PostgreSQL验证能证明数据保留、原子阻断和双迁移重放，不扩大业务范围。
+  machine_record: .continuity/change_requests/CR-0181.yaml
+  document: docs/03-continuity/change-requests/CR-0181-补齐V032联系方式密文迁移与阻断式回滚门禁.md
+  decision_log:
+  - at: '2026-07-21T18:44:46Z'
+    actor_id: codex-root-r07-003
+    status: IMPLEMENTING
+    note: V032空库、升级、回滚、阻断原子性及V031/V032重放在PostgreSQL 17.10全部通过，进入提交绑定。
+    session_id: SES-20260721T171025Z-A3718A1C
+  session_ids:
+  - SES-20260721T171025Z-A3718A1C
+- protocol_version: '1.0'
+  cr_id: CR-0182
+  title: 补齐R07存储层真实PostgreSQL集成验证
+  status: IMPLEMENTING
+  created_at: '2026-07-21T18:12:12Z'
+  updated_at: '2026-07-21T18:44:48Z'
+  requester_actor_id: codex-root-r07-003
+  approver_actor_id: codex-reviewer-r07-store
+  task_id: TASK-R07-003
+  session_id: SES-20260721T171025Z-A3718A1C
+  user_request: 项目所有者要求R07功能真实落地并由AI判断测试合格。
+  reason: 现有服务单测和迁移门禁未直接执行R07PostgresStore的搜索、历史、发布者、联系方式、幂等、审计与Outbox SQL，仍可能遗漏参数或行映射错误。
+  original_rule: R07服务与控制器使用Mock存储验证业务规则；数据库门禁只执行迁移和约束SQL，不直接执行R07PostgresStore查询与写入。
+  new_rule: 新增R07PostgresStoreTest，在显式确认的一次性PostgreSQL数据库运行完整Flyway后，实际验证ONLINE搜索与筛选、热词排期、用户历史去重、发布者公开摘要、联系方式密文读取、幂等领取/完成/重放、不可变访问审计和不含明文联系方式的Outbox。
+  impact_summary: 补充一项环境显式启用的真实存储集成测试，不改变生产代码、合同、页面或数据库结构；本地无数据库时明确skip，R07 MODULE/候选门禁必须在固定PostgreSQL环境运行。
+  impact:
+    files:
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
+    pages: []
+    apis:
+    - GET /api/v1/search
+    - GET /api/v1/search/hot
+    - GET /api/v1/search/history
+    - GET /api/v1/publishers/{id}
+    - POST /api/v1/contents/{id}/contacts/{channel}/access
+    database:
+    - content_posts;content_versions;search_histories;hot_search_terms;content_contacts;content_contact_access_logs;idempotency_records;outbox_events
+    configuration: []
+    ledger: []
+    tests:
+    - R07PostgresStore PostgreSQL 17 integration
+    releases:
+    - R07
+    migration_and_compatibility: 无迁移；测试使用唯一随机数据并在finally按外键顺序清理，不接触共享或生产数据库。
+  user_confirmation: 项目所有者已授权持续开发并要求AI独立完成、判断测试，不等待真机反馈。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T18:12:54Z'
+    note: 该测试直接覆盖R07PostgresStore的真实SQL与行映射，使用显式一次性数据库和随机隔离数据，不扩大生产范围，能够消除Mock测试无法覆盖的主要风险。
+  machine_record: .continuity/change_requests/CR-0182.yaml
+  document: docs/03-continuity/change-requests/CR-0182-补齐R07存储层真实PostgreSQL集成验证.md
+  decision_log:
+  - at: '2026-07-21T18:44:48Z'
+    actor_id: codex-root-r07-003
+    status: IMPLEMENTING
+    note: R07PostgresStore真实PostgreSQL 17集成测试已通过，覆盖搜索、热词、历史、发布者、联系方式、幂等、审计及Outbox。
+    session_id: SES-20260721T171025Z-A3718A1C
+  session_ids:
+  - SES-20260721T171025Z-A3718A1C
