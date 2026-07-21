@@ -10247,3 +10247,84 @@ change_requests:
   - SES-20260721T055708Z-741C3D49
   implementation_commits:
   - 8be788eedce48a26fab3a00f21b497e49a7be9f1
+- protocol_version: '1.0'
+  cr_id: CR-0174
+  title: 登记R07实施入口与异步R06门禁边界
+  status: APPROVED
+  created_at: '2026-07-21T08:23:33Z'
+  updated_at: '2026-07-21T08:24:19Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-reviewer
+  task_id: TASK-R07-001
+  session_id: SES-20260721T082026Z-E6763DFE
+  user_request: 按仓库R02至R32计划持续开发；R06真机反馈为异步输入，不得阻断R07推进；每版候选APK与交付文档放桌面
+  reason: R07 Release Manifest需要登记当前Session、R06机器完成与异步owner门禁边界、五个故事就绪事实及持续交付规则
+  original_rule: R07仅为READY_WHEN_DEPENDENCIES_GREEN，尚未登记R06机器完成但owner真机异步PENDING的合法依赖状态、当前实施Session和逐版候选交付规则。
+  new_rule: 登记R07实施入口：R06机器交付和机器完成PASS、TASK-R06-008仅因owner异步真机PENDING挂起且不阻断R07；R07五个故事按TASK-R07-001至008顺序实施，完整门禁和模拟器仅在最终候选阶段执行，候选APK与交付文档放桌面。
+  impact_summary: 只更新R07治理基线和就绪核验记录，不改变冻结页面、接口、数据库、配置或业务语义。
+  impact:
+    files:
+    - releases/R07/RELEASE_MANIFEST.yaml
+    - docs/03-continuity/R07_TASK-001_ENTRY_GATE.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_v122_documentation.py --release R07
+    - python scripts/check_release_artifacts.py --release R07
+    - python scripts/check_api_contract.py
+    - python scripts/check_program_execution_plan.py
+    releases:
+    - R07
+    migration_and_compatibility: 无数据迁移；保留R06正式验收和生产激活阻断，R07开发独立推进并继续执行自身最终候选与owner异步真机验收。
+  user_confirmation: 项目所有者明确要求持续按R02至R32推进，真机反馈异步且每版最终候选APK和交付文档放桌面
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T08:24:19Z'
+    note: R07入口只登记已验证R06机器事实、owner异步边界和既定逐版候选策略，不修改产品冻结契约。
+  machine_record: .continuity/change_requests/CR-0174.yaml
+  document: docs/03-continuity/change-requests/CR-0174-登记R07实施入口与异步R06门禁边界.md
+- protocol_version: '1.0'
+  cr_id: CR-0175
+  title: 补齐R07并行执行计划与连续性验证证据
+  status: APPROVED
+  created_at: '2026-07-21T08:33:01Z'
+  updated_at: '2026-07-21T08:33:45Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-reviewer
+  task_id: TASK-R07-001
+  session_id: SES-20260721T082026Z-E6763DFE
+  user_request: 持续推进R07且后续换电脑换AI可从仓库无缝接续，不依赖聊天
+  reason: 严格组合门禁要求当前Release并行计划进入Context Pack，且CR-0172/0173修改连续性核心后集成与生命周期报告必须重新生成绑定当前源码
+  original_rule: R07尚无PARALLEL_EXECUTION_PLAN，Context Pack无法携带当前Release并行边界；连续性集成和生命周期报告仍绑定CR-0172/0173修改前源码。
+  new_rule: 新增R07单主控、最多三个隔离执行工作包的路径与任务分区；执行代理不得改连续性、契约、Flyway编号、APK身份或提交推送；重新生成连续性集成和生命周期报告并刷新Context Pack来源哈希。
+  impact_summary: 补齐R07跨AI并行治理和当前连续性源码验证证据，不改变R07业务契约、页面、数据库或运行语义。
+  impact:
+    files:
+    - releases/R07/PARALLEL_EXECUTION_PLAN.yaml
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-integration-v1.2.3.log
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    - artifacts/validation/project-doctor-v1.2.3.json
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/run_continuity_self_test.py
+    - python -m unittest tests.test_context_pack_parallel_policy
+    - python scripts/check_v123_continuity.py --strict
+    releases:
+    - R07
+    migration_and_compatibility: 无数据迁移；R07任务依赖保持串行事实链，仅允许在单一ACTIVE Task内部对路径互斥工作包并行，最终集成由主控串行完成。
+  user_confirmation: 项目所有者要求持续开发且跨电脑跨AI可从仓库事实无缝接续
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T08:33:45Z'
+    note: 计划保持一个事实Session和一个Claim，只在当前任务内部按互斥路径委托，连续性报告仅重建现有源码证据，未改变业务范围。
+  machine_record: .continuity/change_requests/CR-0175.yaml
+  document: docs/03-continuity/change-requests/CR-0175-补齐R07并行执行计划与连续性验证证据.md
