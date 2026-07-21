@@ -17,7 +17,11 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-from continuity import release_has_async_owner_gate  # noqa: E402
+from continuity import (  # noqa: E402
+    ContinuityError,
+    release_has_async_owner_gate,
+    validate_independent_release_start,
+)
 ZERO_HASH = "0" * 64
 ACTOR = "cross-release-close-test"
 
@@ -127,6 +131,57 @@ def repository_snapshot(root: Path) -> dict[str, str]:
 
 
 class CrossReleaseCloseTest(unittest.TestCase):
+    def test_current_async_owner_close_task_satisfies_only_its_release_dependency(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-async-owner-dependency-") as directory:
+            root = Path(directory)
+            (root / "releases/R06").mkdir(parents=True)
+            (root / "releases/R07").mkdir(parents=True)
+            dump_yaml(root / "releases/R06/TASKS.yaml", {
+                "release": "R06",
+                "tasks": [
+                    {"id": "TASK-R06-007", "status": "DONE"},
+                    {"id": "TASK-R06-008", "status": "READY", "title": "版本关闭与无状态交接"},
+                ],
+            })
+            dump_yaml(root / "releases/R06/RELEASE_MANIFEST.yaml", {
+                "android_delivery": {"machine_delivery": "PASS", "owner_physical_test": "PENDING"},
+                "machine_completion": {
+                    "status": "PASS", "owner_feedback_mode": "ASYNC_NON_BLOCKING",
+                    "formal_release_acceptance": "PENDING_OWNER_PHYSICAL_TEST",
+                    "production_activation": "BLOCKED_OWNER_PHYSICAL_TEST",
+                    "next_release_development": "ALLOWED",
+                },
+            })
+            dump_yaml(root / "releases/R07/TASKS.yaml", {
+                "release": "R07",
+                "tasks": [{"id": "TASK-R07-001", "status": "READY", "title": "R07开发就绪核验"}],
+            })
+            dump_yaml(root / "releases/RELEASE_DEPENDENCIES.yaml", {
+                "dependencies": {"R07": ["R06"]},
+            })
+
+            next_task = validate_independent_release_start(
+                root,
+                current_release="R06",
+                current_task="TASK-R06-008",
+                next_release="R07",
+                next_task="TASK-R07-001",
+            )
+            self.assertEqual((next_task["release"], next_task["id"]), ("R07", "TASK-R07-001"))
+
+            r06_path = root / "releases/R06/TASKS.yaml"
+            r06 = yaml.safe_load(r06_path.read_text(encoding="utf-8")) or {}
+            r06["tasks"][0]["status"] = "READY"
+            dump_yaml(r06_path, r06)
+            with self.assertRaisesRegex(ContinuityError, "TASK-R06-007"):
+                validate_independent_release_start(
+                    root,
+                    current_release="R06",
+                    current_task="TASK-R06-008",
+                    next_release="R07",
+                    next_task="TASK-R07-001",
+                )
+
     def test_version_close_task_requires_complete_async_owner_manifest_facts(self) -> None:
         with tempfile.TemporaryDirectory(prefix="hhy-async-owner-gate-") as directory:
             root = Path(directory)

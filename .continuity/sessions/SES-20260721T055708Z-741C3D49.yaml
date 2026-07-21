@@ -11,7 +11,7 @@ task_id: TASK-R06-008
 story_id: STORY-R06-005
 goal: 补齐R06五个逐页视觉合同，回填Acceptance与Release Manifest，执行完整版本关闭门禁、Tag和无状态交接，并继续下一Release
 started_at: '2026-07-21T05:57:08Z'
-updated_at: '2026-07-21T08:01:23Z'
+updated_at: '2026-07-21T08:10:46Z'
 takeover_of: null
 change_requests:
 - CR-0165
@@ -22,6 +22,7 @@ change_requests:
 - CR-0170
 - CR-0171
 - CR-0172
+- CR-0173
 scope:
   allowed_paths:
   - apps/**
@@ -66,22 +67,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T08:01:19Z'
-  expires_at: '2026-07-21T12:01:19Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0007.yaml
+  renewed_at: '2026-07-21T08:10:42Z'
+  expires_at: '2026-07-21T12:10:42Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md
-next_step: 提交推送CR关闭元数据，然后执行TASK-R06-008的BLOCKED_EXTERNAL_GATE关闭与R07切换
+next_step: 提交推送CR-0173实现并关闭CR元数据，然后重新执行R06关闭与R07切换
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: c4ddb2acc0f691422439d546874a16b08531e688ebc888b8ff45347cb1ffc7d8
-  generated_at: '2026-07-21T08:01:22Z'
+  context_hash: 7da3ab40ca2b2b78868632191a15283d02d1c47747dfe061d85e1cb2f4782eb6
+  generated_at: '2026-07-21T08:10:45Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR状态机和事实提交绑定是单一连续性元数据事务，由主控串行完成
+  reason: 连续性原子关闭依赖校验与其回归同属单一高风险状态转换，由主控串行复核

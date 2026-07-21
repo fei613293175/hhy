@@ -879,3 +879,15 @@ problems:
   - 外部门禁延期不得只依赖任务标题关键词，也不得无条件放行所有版本关闭任务
   - owner_physical_test必须保持PENDING，正式Release验收和生产激活必须继续阻断
   - 只有机器交付和机器完成证据均PASS且项目所有者明确授权异步反馈时才允许继续独立Release
+- id: PROB-0067
+  title: 异步真机版本关闭仍被目标Release依赖GREEN校验拒绝
+  status: SOLVED
+  root_cause: CR-0172只补齐了当前任务可挂起分类，但validate_independent_release_start随后仍要求目标Release的每个声明依赖全部任务DONE；当R07正确声明依赖R06时，正在原子转换为BLOCKED_EXTERNAL_GATE的TASK-R06-008在校验阶段仍是READY，因此合法转换被错误拒绝。
+  resolution: CR-0173允许依赖GREEN校验仅忽略“依赖Release等于当前Release、未完成任务等于当前关闭任务、严格异步owner Manifest事实全部成立”的唯一任务；其他未完成任务、其他依赖Release和Manifest缺项仍拒绝。
+  regression_checks:
+  - python -m unittest tests.test_continuity_cross_release_close
+  - continuity close R06-008 --result BLOCKED --allow-independent-release --next-release R07 --next-task TASK-R07-001
+  do_not_repeat:
+  - 外部门禁旁路必须同时覆盖任务分类和后续Release依赖判定，不能只修前半段
+  - 只能忽略本次原子关闭的当前任务，禁止把同一Release的其他未完成任务视为GREEN
+  - owner_physical_test、正式Release验收和生产激活状态不得因依赖豁免改为PASS或ALLOWED
