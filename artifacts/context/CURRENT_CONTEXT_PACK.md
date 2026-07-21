@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T04:21:11Z
-- Context Hash：`dbeb406cb377cc496bf4577be354e7cdea4d1c52a453f12b1c99302ec38f2219`
+- 生成时间：2026-07-21T04:23:46Z
+- Context Hash：`1f93187be9f3c863cc41bed4acc4682d09b0d41e8f280bb85327ffd5dbaf8403`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-007
 ```
 
 ## 当前状态
@@ -17,10 +17,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R06
 active_release: R06
-active_task: TASK-R06-006
-status: IN_PROGRESS
+active_task: TASK-R06-007
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: 0bbd4c39590f352507994c30a7a3d03c98355923
+last_green_commit: 0e528d17d7cd5c6d972958bd566d6e91f05f37f7
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -85,13 +85,13 @@ completed_tasks:
 - TASK-R06-003
 - TASK-R06-004
 - TASK-R06-005
-in_progress_tasks:
 - TASK-R06-006
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
-next_task: TASK-R06-006
-updated_at: '2026-07-21T04:21:09Z'
+next_task: TASK-R06-007
+updated_at: '2026-07-21T04:23:43Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -123,19 +123,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260721T020225Z-397AF410
-  actor_id: codex-root
-  story_id: STORY-R06-005
-  lease_expires_at: '2026-07-21T08:21:09Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0013.yaml
-  project_fingerprint: ba2e8eb6c1c1e4d60dfe58d5462d9f79ee74a594a39daa1228742f74ad82eb7a
+  active_session_id: null
+  last_session_id: SES-20260721T020225Z-397AF410
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0014.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 277b0e6bc036cf6e24889327053770f862caea3a7d362b5d10236cd270788b5a
-    generated_at: '2026-07-21T04:20:05Z'
-  handoff_bundle: null
+    context_hash: 69ca619b9b98aa308f96cbe1f74a3537a8b118adc320cb237c89737b8ad16940
+    generated_at: '2026-07-21T04:23:42Z'
 ```
 
 ## 默认并行规则
@@ -276,8 +274,8 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R06-006
-title: 统一内容基础、首页与CMS可观测性与预发布验收
+id: TASK-R06-007
+title: 统一内容基础、首页与CMSAndroid测试APK与产物追溯
 status: READY
 release: R06
 requirements:
@@ -285,22 +283,22 @@ requirements:
 - REQ-HOME-001
 - REQ-APK-001
 depends_on:
-- TASK-R06-005
+- TASK-R06-006
 definition_of_ready: releases/R06/DEFINITION_OF_READY.yaml
 stories: releases/R06/STORIES.yaml
 steps:
-- 运行手册演练
-- 验收矩阵签字
+- APK可下载/可安装
+- SHA256、Commit、versionName/versionCode、测试结果齐全
 acceptance:
 - 无TODO/生产Mock
 - 代码、文档、测试、追踪同步更新
-- 运行手册演练
-- 验收矩阵签字
+- APK可下载/可安装
+- SHA256、Commit、versionName/versionCode、测试结果齐全
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-006
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-007
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-006
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-007
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -313,326 +311,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260721T020225Z-397AF410
-status: ACTIVE
-actor:
-  id: codex-root
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R06
-task_id: TASK-R06-006
-story_id: STORY-R06-005
-goal: 统一内容基础、首页与CMS可观测性与预发布验收
-started_at: '2026-07-21T02:02:25Z'
-updated_at: '2026-07-21T04:21:09Z'
-takeover_of: null
-change_requests:
-- CR-0160
-- CR-0161
-- CR-0162
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: dc05161c62892a6c5db91bf78e8662192678a63d
-  start_head: dc05161c62892a6c5db91bf78e8662192678a63d
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-21T04:21:09Z'
-  expires_at: '2026-07-21T08:21:09Z'
-checkpoint_sequence: 13
-latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0013.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md
-next_step: 提交推送CR关闭记录，随后关闭TASK-R06-006并进入TASK-R06-007
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
-  delegated_workers: 0
-  workers: []
-  reason: 当前会话策略不允许用户未显式要求的子代理；治理关闭由单一事实主控执行
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T020225Z-397AF410-0013
-session_id: SES-20260721T020225Z-397AF410
-sequence: 13
-created_at: '2026-07-21T04:21:08Z'
-summary: R06 Staging验收与全部CR治理收尾完成，严格Doctor及V1.2.3组合门禁再次0错误0警告
-next_step: 提交推送CR关闭记录，随后关闭TASK-R06-006并进入TASK-R06-007
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: R06_STAGING_ACCEPTANCE
-  result: PASS
-  evidence: artifacts/reports/R06/TASK-R06-006-staging.md
-  note: 机器验收PASS
-- name: R06_ACCEPTANCE_MATRIX
-  result: PASS
-  evidence: releases/R06/ACCEPTANCE_MATRIX.csv
-  note: AC-R06-004 PASS
-- name: CONTINUITY_DOCTOR
-  result: PASS
-  evidence: scripts/continuity_gate.py --mode doctor --strict
-  note: 0 errors, 0 warnings
-- name: V123_STRICT
-  result: PASS
-  evidence: scripts/check_v123_continuity.py --strict
-  note: 0 errors, 0 warnings
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: 5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253
-  upstream: origin/task/TASK-R03-001
-  ahead: 0
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0160.yaml'
-  - ' M .continuity/change_requests/CR-0162.yaml'
-  - ' M .continuity/sessions/SES-20260721T020225Z-397AF410.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md'
-  - ' M docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md'
-  - ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0012.yaml
-  recent_commits:
-  - "5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253\t2026-07-21T12:17:16+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): record R06\
-    \ acceptance pass"
-  - "0e528d17d7cd5c6d972958bd566d6e91f05f37f7\t2026-07-21T12:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): preserve immutable\
-    \ alert events"
-  - "34c2840dd017f3e6b65f1edf6b15a8c1c7bd7954\t2026-07-21T11:55:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): stream SQL\
-    \ and resume failed phase"
-  - "da812a934942365cd05838683ee42a0cc9136155\t2026-07-21T11:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): defer runtime\
-    \ secret loading"
-  - "c0bfc9536e8c763b0d25da76a159a6af39f11422\t2026-07-21T11:41:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): automate R06\
-    \ acceptance"
-  - "be62b727d480cacf055227823b9ed64e30ae488a\t2026-07-21T11:28:18+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(observability): add R06\
-    \ staging gates"
-  - "dc05161c62892a6c5db91bf78e8662192678a63d\t2026-07-21T10:00:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-005\
-    \ as completed"
-  - "9caa07b1b326d9ba3ce02d32b0ac4c614956b41a\t2026-07-21T09:59:48+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): record\
-    \ R06 specialized test pass"
-project_fingerprint:
-  sha256: ba2e8eb6c1c1e4d60dfe58d5462d9f79ee74a594a39daa1228742f74ad82eb7a
-  files:
-  - CHANGELOG.md
-  - docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md
-  - docs/03-continuity/change-requests/CR-0161-固化R06-Staging证据与回滚自动演练脚本.md
-  - docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md
-  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-  - docs/07-operations/ROLLBACK_RUNBOOK.md
-  - infra/staging/r06-smoke/alertmanager.yml
-  - infra/staging/r06-smoke/docker-compose.yml
-  - infra/staging/r06-smoke/nginx.conf
-  - infra/staging/r06-smoke/prometheus.yml
-  - infra/staging/r06-smoke/r06-alerts.yml
-  - releases/R06/ACCEPTANCE_MATRIX.csv
-  - scripts/check_r06_observability.py
-  - scripts/run_r06_staging_acceptance.sh
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-  file_count: 17
-  payload:
-    base_commit: dc05161c62892a6c5db91bf78e8662192678a63d
-    files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 58666
-      sha256: 4e502fbff833064afda9bfdfeb7ce58e67d4a6dd10f5a50af455295cf09c1d90
-    - path: docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md
-      state: FILE
-      size: 4075
-      sha256: 577108f8e26ddb3488368aa6dbd30ec2c6b1c2eff5e13884bee8aa72d2775884
-    - path: docs/03-continuity/change-requests/CR-0161-固化R06-Staging证据与回滚自动演练脚本.md
-      state: FILE
-      size: 2753
-      sha256: 64b49b6501fa714e9c5bd7d849b6b62a4d2a94c7d57fafade0985c2d70f2fdf6
-    - path: docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md
-      state: FILE
-      size: 3150
-      sha256: 6affb0d121fbcfb8e25bd56c4821959653e888399ddf0379d54f5438e8e02d21
-    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
-      state: FILE
-      size: 22285
-      sha256: 5717ccb89cfa56bd53d4c4ebcd233166bf9951a0979dcbbe7e51fb74a820d07e
-    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
-      state: FILE
-      size: 8537
-      sha256: 6457de823580f83d7cc081af432aeccab4ace5cba641b990fc175625f24c2a0e
-    - path: infra/staging/r06-smoke/alertmanager.yml
-      state: FILE
-      size: 277
-      sha256: 58ae8ef339c0d2a0d18b1d339e1f6f52970b53cd15e4e0aec302cb6693cf30b7
-    - path: infra/staging/r06-smoke/docker-compose.yml
-      state: FILE
-      size: 4344
-      sha256: e1053c0dff9696bf41ccdb710198ce055f48ed2a7f40db0f92e5bf8761f85ed7
-    - path: infra/staging/r06-smoke/nginx.conf
-      state: FILE
-      size: 318
-      sha256: b13f1e9d43e52a8469a988d1af9de051dfdcba2724df5c754793993f7fe41f98
-    - path: infra/staging/r06-smoke/prometheus.yml
-      state: FILE
-      size: 401
-      sha256: 1712df1a83decd0c4fe0f0e4c7bf1050707f2d52099e6d83e3b9f35a75397af3
-    - path: infra/staging/r06-smoke/r06-alerts.yml
-      state: FILE
-      size: 1755
-      sha256: 6ac3b069aaa549d2605628b3fab2e5838ad94aefff4dc2f3c1de4c19df2c64a3
-    - path: releases/R06/ACCEPTANCE_MATRIX.csv
-      state: FILE
-      size: 701
-      sha256: 4ebbaa21a6aff012874cc524cce016329a59d378940d0dfec1ef6a7ac8d83b68
-    - path: scripts/check_r06_observability.py
-      state: FILE
-      size: 4445
-      sha256: f05736b16f3f92dd0a838e2160e0819e6dc00072ba651cf98fe8c49f4e4b72aa
-    - path: scripts/run_r06_staging_acceptance.sh
-      state: FILE
-      size: 15890
-      sha256: 5e6406ac1351412bc4df254e3068f841416d3767779f7b4e181825518233b64d
-    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-      state: FILE
-      size: 13543
-      sha256: c7fc91b88f701b7308d7ce100bece6f63f01aed5b3808d78dbf58138f680a427
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-      state: FILE
-      size: 13918
-      sha256: 5dbc0eac085b4a469bb41fe90e738a5a92a4669c1c6e819072387c77361b7a42
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-      state: FILE
-      size: 9005
-      sha256: 201297917ecfd57956f946c784b5b5cf8f35a2f6279157c464b39b543784e51a
-change_classification:
-  other:
-  - CHANGELOG.md
-  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-  - docs/07-operations/ROLLBACK_RUNBOOK.md
-  - releases/R06/ACCEPTANCE_MATRIX.csv
-  continuity:
-  - docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md
-  - docs/03-continuity/change-requests/CR-0161-固化R06-Staging证据与回滚自动演练脚本.md
-  - docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md
-  infrastructure:
-  - infra/staging/r06-smoke/alertmanager.yml
-  - infra/staging/r06-smoke/docker-compose.yml
-  - infra/staging/r06-smoke/nginx.conf
-  - infra/staging/r06-smoke/prometheus.yml
-  - infra/staging/r06-smoke/r06-alerts.yml
-  code:
-  - scripts/check_r06_observability.py
-  - scripts/run_r06_staging_acceptance.sh
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-change_requests:
-- CR-0160
-- CR-0161
-- CR-0162
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
-parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
-  delegated_workers: 0
-  workers: []
-  reason: 当前会话策略不允许用户未显式要求的子代理；治理关闭由单一事实主控执行
-event_hash: 18a4b86fc60511e6e95d0ca5fc8768dadc2e505a17df860ed6134641fb24fee7
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -640,12 +325,12 @@ event_hash: 18a4b86fc60511e6e95d0ca5fc8768dadc2e505a17df860ed6134641fb24fee7
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260721T020225Z-397AF410
-last_session_id: SES-20260721T012656Z-E067730A
+active_session_id: null
+last_session_id: SES-20260721T020225Z-397AF410
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260721T012656Z-E067730A-0005
-event_count: 1662
-event_head_hash: 18a4b86fc60511e6e95d0ca5fc8768dadc2e505a17df860ed6134641fb24fee7
+last_closure_checkpoint_id: CP-SES-20260721T020225Z-397AF410-0014
+event_count: 1665
+event_head_hash: 9c48087d704a288f6b6b8c6f05569ca7bafdf7087591f5e75a9b59c514aabfe5
 event_chain_valid: true
 ```
 
@@ -764,13 +449,13 @@ recent_sessions: - session_id: SES-20260719T224052Z-2C69767F
   task_id: TASK-R06-006
   story_id: STORY-R06-005
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-21T02:02:25Z'
   record: .continuity/sessions/SES-20260721T020225Z-397AF410.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md
-  updated_at: '2026-07-21T04:21:09Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0013.yaml
+  updated_at: '2026-07-21T04:23:43Z'
+  closed_at: '2026-07-21T04:23:43Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0014.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-A8017469692C
   session_id: SES-20260719T113522Z-6B27AD4B
@@ -1394,7 +1079,7 @@ task_claims: - claim_id: CLM-A8017469692C
   task_id: TASK-R06-006
   story_id: STORY-R06-005
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-21T02:02:25Z'
   allowed_paths:
   - apps/**
@@ -1428,6 +1113,7 @@ task_claims: - claim_id: CLM-A8017469692C
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-21T04:23:43Z'
 recent_task_transitions: - transition_id: TRN-C5712C7FEDBD
   timestamp: '2026-07-19T11:35:22Z'
   release: R04
@@ -1635,34 +1321,31 @@ recent_task_transitions: - transition_id: TRN-C5712C7FEDBD
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253
+head: 940a1560fe579b15d1724b5223034e23ae76f07d
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0160.yaml'
-- ' M .continuity/change_requests/CR-0162.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260721T020225Z-397AF410.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/continuity-gate-v1.2.3.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
-- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md'
-- ' M docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md'
-- ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0012.yaml
-- ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0013.yaml
+- ' M releases/R06/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0014.yaml
 recent_commits:
+- "940a1560fe579b15d1724b5223034e23ae76f07d\t2026-07-21T12:21:47+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close R06\
+  \ staging changes"
 - "5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253\t2026-07-21T12:17:16+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): record R06 acceptance\
   \ pass"
 - "0e528d17d7cd5c6d972958bd566d6e91f05f37f7\t2026-07-21T12:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): preserve immutable\
@@ -1677,32 +1360,14 @@ recent_commits:
   \ staging gates"
 - "dc05161c62892a6c5db91bf78e8662192678a63d\t2026-07-21T10:00:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-005\
   \ as completed"
-- "9caa07b1b326d9ba3ce02d32b0ac4c614956b41a\t2026-07-21T09:59:48+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): record R06\
-  \ specialized test pass"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`ba2e8eb6c1c1e4d60dfe58d5462d9f79ee74a594a39daa1228742f74ad82eb7a`
-- 文件数：17
+- 指纹：`c2aec6ccb4fb57a88ebbc2964e9719412f8adff60397ddaa25ce60531be4970c`
+- 文件数：0
 
-- `CHANGELOG.md`
-- `docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md`
-- `docs/03-continuity/change-requests/CR-0161-固化R06-Staging证据与回滚自动演练脚本.md`
-- `docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md`
-- `docs/07-operations/DEPLOYMENT_RUNBOOK.md`
-- `docs/07-operations/ROLLBACK_RUNBOOK.md`
-- `infra/staging/r06-smoke/alertmanager.yml`
-- `infra/staging/r06-smoke/docker-compose.yml`
-- `infra/staging/r06-smoke/nginx.conf`
-- `infra/staging/r06-smoke/prometheus.yml`
-- `infra/staging/r06-smoke/r06-alerts.yml`
-- `releases/R06/ACCEPTANCE_MATRIX.csv`
-- `scripts/check_r06_observability.py`
-- `scripts/run_r06_staging_acceptance.sh`
-- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java`
+- 无
 
 ## 当前 Release
 
@@ -2490,7 +2155,7 @@ TASKS.yaml:
     completed_at: '2026-07-21T02:00:11Z'
   - id: TASK-R06-006
     title: 统一内容基础、首页与CMS可观测性与预发布验收
-    status: READY
+    status: DONE
     depends_on:
     - TASK-R06-005
     requirements: *id001
@@ -2504,9 +2169,10 @@ TASKS.yaml:
     - 运行手册演练
     - 验收矩阵签字
     session_log_required: true
+    completed_at: '2026-07-21T04:23:38Z'
   - id: TASK-R06-007
     title: 统一内容基础、首页与CMSAndroid测试APK与产物追溯
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R06-006
     requirements: *id001
@@ -7140,8 +6806,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `8fbd726cf10eb2e37c1893144cfa8a6ad8314f306437626b2d3124bc08a51989`
-- `NEXT_TASK.yaml` — `ca179c95e2a4ff9083235c10ea84dfb7b6c86c6f02a2be1c2d4382ddd9927521`
+- `CURRENT_STATUS.yaml` — `00a12f1e2110d8d71bb0d5ef49d5bebc7e832d0a0a637b6ac30d3cb49993227a`
+- `NEXT_TASK.yaml` — `b5850ebdf5df166e0d654289188de08989618faf257f81ae1c9735e5054bcc70`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `ceea1f861318aa4b81879ed9799d912b5d2d1418741b9819fec82e9de7dd46c6`
@@ -7151,23 +6817,18 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `77b4a48ae99087a880902046851ce64346bb6ef9a7de84eb0f5b43125be29660`
-- `.continuity/SESSION_INDEX.yaml` — `dc2456f1f4043e6b1993e4e26c95bd4991f87cfa7dda29b4d0815a4cfa6bc6ac`
-- `.continuity/TASK_CLAIMS.yaml` — `8405c9a390a91c9ec870a19855c8fc0714a8139c41337474b023b04cc96a1b8e`
+- `.continuity/EVENT_LOG.jsonl` — `698f3c24d85b0060125c73358bb9121aa1a63b29e235c2289a505ead61532baf`
+- `.continuity/SESSION_INDEX.yaml` — `a9a84c62eae61b90d88a3f40fafb1bf95f23dc811d3c7c83ce52217c618217a4`
+- `.continuity/TASK_CLAIMS.yaml` — `8e7f2593d5ef61e0333ce3fd198133691269e2266db85eaded01ae1ebdbaec8b`
 - `.continuity/TASK_TRANSITIONS.yaml` — `a288661fc0bf37a2750c37d205c8c5e38ac9d89e05e81c0936971ed940a9e9b3`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `160f8dadaa11e9359b4c460e7b847318c89f7ee30091324ab8af3803ee13ff89`
-- `.continuity/ACTIVE_SESSION.yaml` — `2b28e1041059081d5159ae6d91a11a2ac035b0b3773c0c71cd71f3049ce5fc4c`
+- `.continuity/ACTIVE_SESSION.yaml` — `b434cb2d9d3f18bb7df46d161b01efdd368335e52d34acd5ca1e26ffef23191c`
 - `releases/R06/RELEASE_MANIFEST.yaml` — `72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878`
 - `releases/R06/DEFINITION_OF_READY.yaml` — `c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991`
 - `releases/R06/STORIES.yaml` — `dd81c97b0552c9342b5be360e918d26502b5e3d06fa8bafaba7648d43c96e7ef`
-- `releases/R06/TASKS.yaml` — `c4c2a9582a29394e4ce86f35a2550c8edafdc87fb7a2aaf6ac615fd7edd7971b`
+- `releases/R06/TASKS.yaml` — `e0d130d0687b386d38a3d65278d9144b47257ab27fc217ef4eef4bb79f8b7bfd`
 - `releases/R06/ACCEPTANCE_MATRIX.csv` — `4ebbaa21a6aff012874cc524cce016329a59d378940d0dfec1ef6a7ac8d83b68`
 - `releases/R06/PARALLEL_EXECUTION_PLAN.yaml` — `426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md` — `6c8426663c3f5b3b4f5ac5b267566d3b401ff5d7ea9352ea6363b696820fd2d6`
-- `.continuity/checkpoints/SES-20260721T020225Z-397AF410/0013.yaml` — `f55e21198272a69d19dfd04e69a2a3b145e3378ea641f3b180852fa0fef7f885`
-- `docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md` — `577108f8e26ddb3488368aa6dbd30ec2c6b1c2eff5e13884bee8aa72d2775884`
-- `docs/03-continuity/change-requests/CR-0161-固化R06-Staging证据与回滚自动演练脚本.md` — `64b49b6501fa714e9c5bd7d849b6b62a4d2a94c7d57fafade0985c2d70f2fdf6`
-- `docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md` — `6affb0d121fbcfb8e25bd56c4821959653e888399ddf0379d54f5438e8e02d21`
 
 ## 接手硬规则
 

@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-21T04:21:11Z",
-  "context_hash": "dbeb406cb377cc496bf4577be354e7cdea4d1c52a453f12b1c99302ec38f2219",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-21T04:23:46Z",
+  "context_hash": "1f93187be9f3c863cc41bed4acc4682d09b0d41e8f280bb85327ffd5dbaf8403",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "ba2e8eb6c1c1e4d60dfe58d5462d9f79ee74a594a39daa1228742f74ad82eb7a",
-    "file_count": 17
+    "sha256": "c2aec6ccb4fb57a88ebbc2964e9719412f8adff60397ddaa25ce60531be4970c",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "9c8a4aa5a438dd5939731fbe6d4fbea1154bf5e4436fa1d36a59ddf63179afbc"
+    "sha256": "b356d7a618c0f68ebf1d5e199d0ef60c614fedd422298d5468ebec0b16b9675b"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "36d814a685b34fd798971bec2918cd4f97ae81cf21dcefb9875a2c34c614e215"
+    "sha256": "43126d70fa607c2c58cfc065acf7c6b89bb987bdf5c1c50c81a437f5980e9b4a"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "8fbd726cf10eb2e37c1893144cfa8a6ad8314f306437626b2d3124bc08a51989",
-      "bytes": 3722
+      "sha256": "00a12f1e2110d8d71bb0d5ef49d5bebc7e832d0a0a637b6ac30d3cb49993227a",
+      "bytes": 3599
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "ca179c95e2a4ff9083235c10ea84dfb7b6c86c6f02a2be1c2d4382ddd9927521",
-      "bytes": 1487
+      "sha256": "b5850ebdf5df166e0d654289188de08989618faf257f81ae1c9735e5054bcc70",
+      "bytes": 1584
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "77b4a48ae99087a880902046851ce64346bb6ef9a7de84eb0f5b43125be29660",
-      "bytes": 923707
+      "sha256": "698f3c24d85b0060125c73358bb9121aa1a63b29e235c2289a505ead61532baf",
+      "bytes": 925520
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "dc2456f1f4043e6b1993e4e26c95bd4991f87cfa7dda29b4d0815a4cfa6bc6ac",
-      "bytes": 28820
+      "sha256": "a9a84c62eae61b90d88a3f40fafb1bf95f23dc811d3c7c83ce52217c618217a4",
+      "bytes": 28838
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "8405c9a390a91c9ec870a19855c8fc0714a8139c41337474b023b04cc96a1b8e",
-      "bytes": 37591
+      "sha256": "8e7f2593d5ef61e0333ce3fd198133691269e2266db85eaded01ae1ebdbaec8b",
+      "bytes": 37627
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "2b28e1041059081d5159ae6d91a11a2ac035b0b3773c0c71cd71f3049ce5fc4c",
-      "bytes": 525
+      "sha256": "b434cb2d9d3f18bb7df46d161b01efdd368335e52d34acd5ca1e26ffef23191c",
+      "bytes": 143
     },
     {
       "path": "releases/R06/RELEASE_MANIFEST.yaml",
@@ -128,8 +128,8 @@
     },
     {
       "path": "releases/R06/TASKS.yaml",
-      "sha256": "c4c2a9582a29394e4ce86f35a2550c8edafdc87fb7a2aaf6ac615fd7edd7971b",
-      "bytes": 5752
+      "sha256": "e0d130d0687b386d38a3d65278d9144b47257ab27fc217ef4eef4bb79f8b7bfd",
+      "bytes": 5788
     },
     {
       "path": "releases/R06/ACCEPTANCE_MATRIX.csv",
@@ -140,31 +140,6 @@
       "path": "releases/R06/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51",
       "bytes": 3494
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md",
-      "sha256": "6c8426663c3f5b3b4f5ac5b267566d3b401ff5d7ea9352ea6363b696820fd2d6",
-      "bytes": 25121
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260721T020225Z-397AF410/0013.yaml",
-      "sha256": "f55e21198272a69d19dfd04e69a2a3b145e3378ea641f3b180852fa0fef7f885",
-      "bytes": 10106
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md",
-      "sha256": "577108f8e26ddb3488368aa6dbd30ec2c6b1c2eff5e13884bee8aa72d2775884",
-      "bytes": 4075
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0161-固化R06-Staging证据与回滚自动演练脚本.md",
-      "sha256": "64b49b6501fa714e9c5bd7d849b6b62a4d2a94c7d57fafade0985c2d70f2fdf6",
-      "bytes": 2753
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0162-以不可变Outbox状态机终结R06告警测试事件.md",
-      "sha256": "6affb0d121fbcfb8e25bd56c4821959653e888399ddf0379d54f5438e8e02d21",
-      "bytes": 3150
     }
   ]
 }

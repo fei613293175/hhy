@@ -703,3 +703,13 @@
 - Actor：`codex-root`
 - 摘要：完成TASK-R06-005：六个权威测试ID、重复请求、并发、存储超时、Outbox去重、非法CMS配置与CMS提供方超时专项测试全部通过，P0/P1缺陷为0
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md`
+
+## TASK-R06-006 · COMPLETED · 2026-07-21T04:23:38Z
+
+- Task close: TASK-R06-006 / SES-20260721T020225Z-397AF410
+- Release：`R06`
+- Story：`STORY-R06-005`
+- Actor：`codex-root`
+- 摘要：TASK-R06-006完成：精确Commit 0e528d17的四项内容业务Gauge、TraceId/RED、六条告警规则、两组firing-resolved、V030隔离Staging、不可变Outbox合法终结和同库卷应用回切全部PASS，报告及机器证据已推送
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md`
+
