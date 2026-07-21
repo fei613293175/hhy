@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T18:54:02Z
-- Context Hash：`eb0b7afe339eb5652082b8a0d0dec49c8d25fcc5c444fa74b2cb0dcbcf2456c9`
+- 生成时间：2026-07-21T18:56:36Z
+- Context Hash：`24dd537d468f0773cb177fbb91e531bbeaad59dedb81437adfeb09e76f6f557a`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-004
 ```
 
 ## 当前状态
@@ -17,10 +17,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R07
 active_release: R07
-active_task: TASK-R07-003
-status: IN_PROGRESS
+active_task: TASK-R07-004
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: b60a7a2de772e8ba480123ac85fd012dacf62160
+last_green_commit: 83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -89,14 +89,14 @@ completed_tasks:
 - TASK-R06-007
 - TASK-R07-001
 - TASK-R07-002
-in_progress_tasks:
 - TASK-R07-003
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
-next_task: TASK-R07-003
-updated_at: '2026-07-21T18:54:00Z'
+next_task: TASK-R07-004
+updated_at: '2026-07-21T18:56:34Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -128,19 +128,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260721T171025Z-A3718A1C
-  actor_id: codex-root-r07-003
-  story_id: STORY-R07-005
-  lease_expires_at: '2026-07-21T22:54:00Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T171025Z-A3718A1C/0003.yaml
-  project_fingerprint: 6c661d662c7be099d93f7bf5ae3e668812932b0e776cdd131d8b818b24125c12
+  active_session_id: null
+  last_session_id: SES-20260721T171025Z-A3718A1C
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260721T171025Z-A3718A1C/0004.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 7032328cef5650ce3ab1a2e6852772d72382c6c74449a651f0bbbe141cc24765
-    generated_at: '2026-07-21T18:48:54Z'
-  handoff_bundle: null
+    context_hash: 26c04b29fa38da91359649863ca8673b0c17910888c58d9d7076ca3ba25e071c
+    generated_at: '2026-07-21T18:56:33Z'
 ```
 
 ## 默认并行规则
@@ -281,8 +279,8 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R07-003
-title: 搜索、发布者主页与联系方式保护后端应用服务与接口
+id: TASK-R07-004
+title: 搜索、发布者主页与联系方式保护客户端/H5/后台实现
 status: READY
 release: R07
 requirements:
@@ -291,22 +289,26 @@ requirements:
 - REQ-PUBLISHER-001
 - REQ-APK-001
 depends_on:
-- TASK-R07-002
+- TASK-R07-003
 definition_of_ready: releases/R07/DEFINITION_OF_READY.yaml
 stories: releases/R07/STORIES.yaml
 steps:
-- OpenAPI契约测试
-- 权限/幂等/错误码/审计覆盖
+- 全部页面绑定catalogs/ui_page_specifications.csv
+- 字段/状态/动作/导航与后台运营规格通过契约测试
+- 禁止页面级手写重复DTO
+- 全部动作绑定生成API类型
 acceptance:
-- 无TODO/生产Mock
-- 代码、文档、测试、追踪同步更新
-- OpenAPI契约测试
-- 权限/幂等/错误码/审计覆盖
+- 所有页面故事验收条件通过
+- 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
+- 全部页面绑定catalogs/ui_page_specifications.csv
+- 字段/状态/动作/导航与后台运营规格通过契约测试
+- 禁止页面级手写重复DTO
+- 全部动作绑定生成API类型
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-003
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-004
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-003
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-004
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -319,515 +321,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260721T171025Z-A3718A1C
-status: ACTIVE
-actor:
-  id: codex-root-r07-003
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R07
-task_id: TASK-R07-003
-story_id: STORY-R07-005
-goal: 实现R07搜索、发布者主页与联系方式保护后端应用服务及冻结接口，覆盖权限、幂等、错误码和审计。
-started_at: '2026-07-21T17:10:25Z'
-updated_at: '2026-07-21T18:54:00Z'
-takeover_of: null
-change_requests:
-- CR-0178
-- CR-0179
-- CR-0180
-- CR-0181
-- CR-0182
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - database/tests/r07_contact_contract_alignment.sql
-  - scripts/run_r07_database_invariants.sh
-  - scripts/run_r07_disposable_postgres_container.sh
-  - tests/test_r07_contact_migration.py
-  - tests/test_r07_search_database_scripts.py
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
-  source: story+explicit+approved-cr:CR-0181+approved-cr:CR-0182
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: 706970f90a7994b2cb020953cfb93d0e386978be
-  start_head: 706970f90a7994b2cb020953cfb93d0e386978be
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-21T18:54:00Z'
-  expires_at: '2026-07-21T22:54:00Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260721T171025Z-A3718A1C/0003.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260721T171025Z-A3718A1C.md
-next_step: 关闭TASK-R07-003并解锁TASK-R07-004，提交推送关闭元数据后立即领取R07-004。
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: CR关闭、任务关闭和后续任务解锁共用同一连续性状态机，必须串行完成。
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T171025Z-A3718A1C-0003
-session_id: SES-20260721T171025Z-A3718A1C
-sequence: 3
-created_at: '2026-07-21T18:54:00Z'
-summary: 实现提交83d58c6a已推送；CR-0178至CR-0182均已绑定提交并关闭，R07-003达到任务关闭条件。
-next_step: 关闭TASK-R07-003并解锁TASK-R07-004，提交推送关闭元数据后立即领取R07-004。
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: implementation-commit
-  result: PASS
-  evidence: 83d58c6a pushed to origin/task/TASK-R03-001
-  note: pre-commit commit-msg and pre-push strict gates
-- name: cr-lifecycle
-  result: PASS
-  evidence: CR-0178 through CR-0182 CLOSED
-  note: implementation commit bound
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: 83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593
-  upstream: origin/task/TASK-R03-001
-  ahead: 0
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0178.yaml'
-  - ' M .continuity/change_requests/CR-0179.yaml'
-  - ' M .continuity/change_requests/CR-0180.yaml'
-  - ' M .continuity/change_requests/CR-0181.yaml'
-  - ' M .continuity/change_requests/CR-0182.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0178-修正R07搜索、公开发布者与联系方式访问合同及安全存储.md'
-  - ' M docs/03-continuity/change-requests/CR-0179-补齐发布者主页内容筛选与客户端内容查询入口.md'
-  - ' M docs/03-continuity/change-requests/CR-0180-收敛R07故事绑定接口计数与最小响应模型.md'
-  - ' M docs/03-continuity/change-requests/CR-0181-补齐V032联系方式密文迁移与阻断式回滚门禁.md'
-  - ' M docs/03-continuity/change-requests/CR-0182-补齐R07存储层真实PostgreSQL集成验证.md'
-  recent_commits:
-  - "83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593\t2026-07-22T02:50:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(r07): 实现搜索发布者与联系方式后端"
-  - "706970f90a7994b2cb020953cfb93d0e386978be\t2026-07-22T01:08:27+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-002\
-    \ as completed"
-  - "59a8fe7b65efc7c3b57cb354c562984bd9eed480\t2026-07-22T01:04:35+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close R07\
-    \ data change requests"
-  - "b60a7a2de772e8ba480123ac85fd012dacf62160\t2026-07-22T00:58:04+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(search): enforce R07\
-    \ data invariants"
-  - "f0e45bae374b71359b91cc3f63e8628007bf97dc\t2026-07-21T16:58:05+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-001\
-    \ as completed"
-  - "247f3add2be69a47abaff8ecb8c3216246320709\t2026-07-21T16:51:50+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close R07\
-    \ entry change requests"
-  - "cac604cf6663facb0200b187d20a3ba6f9a1ca4e\t2026-07-21T16:48:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(governance): open R07\
-    \ implementation"
-  - "cb9c1490316e1a9f8f7660e57732b0391b3e8417\t2026-07-21T16:15:17+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-008\
-    \ as blocked"
-project_fingerprint:
-  sha256: 6c661d662c7be099d93f7bf5ae3e668812932b0e776cdd131d8b818b24125c12
-  files:
-  - CHANGELOG.md
-  - catalogs/release_story_backlog.csv
-  - catalogs/ui_page_fields.csv
-  - contracts/contract_status.csv
-  - contracts/openapi.yaml
-  - database/migrations/V032__r07_contact_contract_alignment.sql
-  - database/rollback/U032__r07_contact_contract_alignment.sql
-  - database/schema_dictionary.csv
-  - database/tests/r07_contact_contract_alignment.sql
-  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
-  - docs/02-ui/page-specs/android/SCR-SEARCH-001_全局搜索.md
-  - docs/02-ui/page-specs/android/SCR-SEARCH-002_搜索结果.md
-  - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
-  - docs/03-continuity/change-requests/CR-0178-修正R07搜索、公开发布者与联系方式访问合同及安全存储.md
-  - docs/03-continuity/change-requests/CR-0179-补齐发布者主页内容筛选与客户端内容查询入口.md
-  - docs/03-continuity/change-requests/CR-0180-收敛R07故事绑定接口计数与最小响应模型.md
-  - docs/03-continuity/change-requests/CR-0181-补齐V032联系方式密文迁移与阻断式回滚门禁.md
-  - docs/03-continuity/change-requests/CR-0182-补齐R07存储层真实PostgreSQL集成验证.md
-  - packages/api-client/src/client.generated.ts
-  - releases/PROGRAM_EXECUTION_PLAN.yaml
-  - releases/R07/RELEASE_MANIFEST.yaml
-  - releases/R07/STORIES.yaml
-  - releases/R07/TASKS.yaml
-  - scripts/run_r07_database_invariants.sh
-  - scripts/run_r07_disposable_postgres_container.sh
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/ContentController.java
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R07Controller.java
-  - services/backend/boot/src/main/resources/application.yml
-  - services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - services/backend/boot/src/main/resources/db/migration/V032__r07_contact_contract_alignment.sql
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/ContentControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-  - services/backend/boot/src/test/resources/application-test.yml
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContactCipher.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Contracts.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07PostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Service.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Store.java
-  - tests/test_r07_contact_migration.py
-  - tests/test_r07_search_database_scripts.py
-  file_count: 45
-  payload:
-    base_commit: 706970f90a7994b2cb020953cfb93d0e386978be
-    files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 62952
-      sha256: 99a9b4a0617c5de0d35dd5870f5a226b1553848c50cd7f63c2ab464cc5a1cfa3
-    - path: catalogs/release_story_backlog.csv
-      state: FILE
-      size: 348574
-      sha256: b707c193b2cdc91e0e976fac0276e35aabe57624d83e46048dc6e3971a793509
-    - path: catalogs/ui_page_fields.csv
-      state: FILE
-      size: 2880440
-      sha256: 4b7c47db99e8b155eab290fda8e037b4808bb42b0b8ceeef7762552453c65465
-    - path: contracts/contract_status.csv
-      state: FILE
-      size: 140010
-      sha256: 3cdd0f585de8d59ad2b50ade3ba9e0e990ca48fba7161cbcba6294f244959f40
-    - path: contracts/openapi.yaml
-      state: FILE
-      size: 600901
-      sha256: 7262d688f302197754ca39469f0ca99c9e592d6ce35485be921b95cad4182db5
-    - path: database/migrations/V032__r07_contact_contract_alignment.sql
-      state: FILE
-      size: 636
-      sha256: 04ab5fa419e1c45bfd57d659189034ad8ce6f6dba507b9ce7dc5931c70e49b25
-    - path: database/rollback/U032__r07_contact_contract_alignment.sql
-      state: FILE
-      size: 593
-      sha256: 8257cbd27b2d3f3c7c4550a8272bcb3625f4494219a7d87c6da347d6f60a9fda
-    - path: database/schema_dictionary.csv
-      state: FILE
-      size: 147273
-      sha256: d757324a2066d37abcb44ee7e19487acd6ff26602a4fc8f43381adafe1619940
-    - path: database/tests/r07_contact_contract_alignment.sql
-      state: FILE
-      size: 2118
-      sha256: ea9c3690ee4a24b7e275244ed36911e67ab7ff13dd2c581b777c71a5df7bff47
-    - path: docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
-      state: FILE
-      size: 24207
-      sha256: ceac596ad2ffc83d9a9831835605d89a8207f3d43ecba4fe95ff7c6c7dc3988c
-    - path: docs/02-ui/page-specs/android/SCR-SEARCH-001_全局搜索.md
-      state: FILE
-      size: 21145
-      sha256: 24d030faa57fb981daf6886f6ccb3cefc35523bc39a74bcbe2cf9baed4d68259
-    - path: docs/02-ui/page-specs/android/SCR-SEARCH-002_搜索结果.md
-      state: FILE
-      size: 16861
-      sha256: ba6e03ca6959f7ef8beb73154f36957ab7ee12a26256b0f555e49c2736194a45
-    - path: docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
-      state: FILE
-      size: 10988
-      sha256: ae3990bb573e1eb87c3683b801f3fb0fb2a6a987cb405658f93d45d5d7c4322e
-    - path: docs/03-continuity/change-requests/CR-0178-修正R07搜索、公开发布者与联系方式访问合同及安全存储.md
-      state: FILE
-      size: 6421
-      sha256: 5a00eb1cd563cbed8e36a66f362a89158e1f47e3e17507e3823c7717c7b17a47
-    - path: docs/03-continuity/change-requests/CR-0179-补齐发布者主页内容筛选与客户端内容查询入口.md
-      state: FILE
-      size: 4076
-      sha256: 6a28a886354758fd2bd7ea2fbe369652920b2e8d8d3a2e7a169d081cd6e0daf8
-    - path: docs/03-continuity/change-requests/CR-0180-收敛R07故事绑定接口计数与最小响应模型.md
-      state: FILE
-      size: 4470
-      sha256: 579ed2979af46236971f9708d3fcb014b2cc9e8633c072d19b6df10f0f438130
-    - path: docs/03-continuity/change-requests/CR-0181-补齐V032联系方式密文迁移与阻断式回滚门禁.md
-      state: FILE
-      size: 3598
-      sha256: 630114ff97989aca205eed608875c6dd71fd0e80bf0fa3b1d6f64372d0c23d69
-    - path: docs/03-continuity/change-requests/CR-0182-补齐R07存储层真实PostgreSQL集成验证.md
-      state: FILE
-      size: 3433
-      sha256: 03349c5b2f37ab7223bcf0171be602fc045f832b863dc8a4b197986a9d401001
-    - path: packages/api-client/src/client.generated.ts
-      state: FILE
-      size: 620180
-      sha256: e041858d892165900cb59d3c8ca4bf1c46ff994c4ac307b8158771e13d25bd91
-    - path: releases/PROGRAM_EXECUTION_PLAN.yaml
-      state: FILE
-      size: 35924
-      sha256: 93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446
-    - path: releases/R07/RELEASE_MANIFEST.yaml
-      state: FILE
-      size: 4653
-      sha256: 333e47e09e2d4004aab3e2ffdd6ec072abd8977b4d6fcd1c1daa9bec9e858f34
-    - path: releases/R07/STORIES.yaml
-      state: FILE
-      size: 12367
-      sha256: 26e0246244a4de42510a0a31d0982afaf0e5cd3ad0641c0ebdd74b6882e9431e
-    - path: releases/R07/TASKS.yaml
-      state: FILE
-      size: 5796
-      sha256: 910a3ec94081700960dd8cd58d77c0245eed05e1edd27655621aaa0b10038bc7
-    - path: scripts/run_r07_database_invariants.sh
-      state: FILE
-      size: 7253
-      sha256: 17fb9c699ed730b44ac167e24529e50311f2291e8e86c17008bdad17ff843d95
-    - path: scripts/run_r07_disposable_postgres_container.sh
-      state: FILE
-      size: 4189
-      sha256: 75066f2b752b2f32d4738cae1d86e0d30c735f816ac1237239b8f889f1c3ae24
-    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/ContentController.java
-      state: FILE
-      size: 2839
-      sha256: 1aec649b4bcc76b019afe30f2890e628ae622ba30ea22793991c373bec94cb55
-    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R07Controller.java
-      state: FILE
-      size: 6296
-      sha256: 6efbdaa6c36138ce3e5ab4e100919e150bbb58d1b16e1fe16d74efd01ff5979e
-    - path: services/backend/boot/src/main/resources/application.yml
-      state: FILE
-      size: 3857
-      sha256: b3fe3adea7d8e341e3f09dddde4d92de94f708967b5898d76b8a0753158facae
-    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
-      state: FILE
-      size: 600901
-      sha256: 7262d688f302197754ca39469f0ca99c9e592d6ce35485be921b95cad4182db5
-    - path: services/backend/boot/src/main/resources/db/migration/V032__r07_contact_contract_alignment.sql
-      state: FILE
-      size: 636
-      sha256: 04ab5fa419e1c45bfd57d659189034ad8ce6f6dba507b9ce7dc5931c70e49b25
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/ContentControllerContractTest.java
-      state: FILE
-      size: 2872
-      sha256: 6836d605b8172403e946114913ec65ef28cfcd8bc9eef859181904dd63a61f46
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java
-      state: FILE
-      size: 6285
-      sha256: 28f980d6e3c484e560db1262ce32c89c4b4959f6c0f4c59208e10746c096ecb3
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
-      state: FILE
-      size: 7612
-      sha256: 5e400126f98b46b21d0770e6dfc33641907f3d8b5528e965ed6966812b21deaf
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-      state: FILE
-      size: 7506
-      sha256: a6af6383ab74956e13f4b5b3b997c463f2e340a7ac2c43d1d2537c8d3261d8d3
-    - path: services/backend/boot/src/test/resources/application-test.yml
-      state: FILE
-      size: 1543
-      sha256: 1f09b68303a307e9e6e27c9a9bbaba7e4d4aa1b1cc2ed52932a84a59dc0d089e
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContactCipher.java
-      state: FILE
-      size: 6020
-      sha256: 9d1562e27a25a0ecebf09fd39ebcd2d6d7c35ed4c915ba1e6eb7a019cac7db5b
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-      state: FILE
-      size: 13487
-      sha256: 206a1c4b763b4804ee3b107e8d12e526e579f9f6a852e6624a33112e1a65783c
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-      state: FILE
-      size: 22471
-      sha256: 6a41a5e223151b800791e0503791c71fb7c9f2ae29e94f8ab03cd06200733b12
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
-      state: FILE
-      size: 2364
-      sha256: bf18c367481428829e4929a4c2ac03523fab3eb1b5e4e5759807b3983f7b3983
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Contracts.java
-      state: FILE
-      size: 1778
-      sha256: 2c28d47f275aff9c284291613256e9e0fb781941eba7647193ebe7249760f77f
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R07PostgresStore.java
-      state: FILE
-      size: 14235
-      sha256: af9e4269228d42814212d4330bdbb3375f52331d246ccb0a2ba4b6d8d448293d
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Service.java
-      state: FILE
-      size: 16051
-      sha256: fbef28bb3b0c2917b52a3b336cee9df1c7b24ab105b7c5585cbd73cf471b8bf3
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Store.java
-      state: FILE
-      size: 2279
-      sha256: a52e71e0924db9eb674f309d33908bbc874cba7faaa4779a50e0617dc398e0b4
-    - path: tests/test_r07_contact_migration.py
-      state: FILE
-      size: 1837
-      sha256: 7565339448f6d85ab0039f18e292c0940294f819bcec5ea384773973170be2b3
-    - path: tests/test_r07_search_database_scripts.py
-      state: FILE
-      size: 2483
-      sha256: 90349b567425ddcedf585015cd24a508ea13880c9240b06d35b36de3afa28c0f
-change_classification:
-  other:
-  - CHANGELOG.md
-  - catalogs/release_story_backlog.csv
-  - releases/PROGRAM_EXECUTION_PLAN.yaml
-  - releases/R07/TASKS.yaml
-  source_of_truth:
-  - catalogs/ui_page_fields.csv
-  - contracts/contract_status.csv
-  - contracts/openapi.yaml
-  - database/schema_dictionary.csv
-  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
-  - docs/02-ui/page-specs/android/SCR-SEARCH-001_全局搜索.md
-  - docs/02-ui/page-specs/android/SCR-SEARCH-002_搜索结果.md
-  - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
-  - releases/R07/RELEASE_MANIFEST.yaml
-  - releases/R07/STORIES.yaml
-  contracts:
-  - contracts/contract_status.csv
-  - contracts/openapi.yaml
-  user_visible:
-  - contracts/contract_status.csv
-  - contracts/openapi.yaml
-  - docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md
-  - docs/02-ui/page-specs/android/SCR-SEARCH-001_全局搜索.md
-  - docs/02-ui/page-specs/android/SCR-SEARCH-002_搜索结果.md
-  - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
-  database:
-  - database/migrations/V032__r07_contact_contract_alignment.sql
-  - database/rollback/U032__r07_contact_contract_alignment.sql
-  - database/schema_dictionary.csv
-  - database/tests/r07_contact_contract_alignment.sql
-  continuity:
-  - docs/03-continuity/change-requests/CR-0178-修正R07搜索、公开发布者与联系方式访问合同及安全存储.md
-  - docs/03-continuity/change-requests/CR-0179-补齐发布者主页内容筛选与客户端内容查询入口.md
-  - docs/03-continuity/change-requests/CR-0180-收敛R07故事绑定接口计数与最小响应模型.md
-  - docs/03-continuity/change-requests/CR-0181-补齐V032联系方式密文迁移与阻断式回滚门禁.md
-  - docs/03-continuity/change-requests/CR-0182-补齐R07存储层真实PostgreSQL集成验证.md
-  code:
-  - packages/api-client/src/client.generated.ts
-  - scripts/run_r07_database_invariants.sh
-  - scripts/run_r07_disposable_postgres_container.sh
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/ContentController.java
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R07Controller.java
-  - services/backend/boot/src/main/resources/application.yml
-  - services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - services/backend/boot/src/main/resources/db/migration/V032__r07_contact_contract_alignment.sql
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/ContentControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-  - services/backend/boot/src/test/resources/application-test.yml
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContactCipher.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Contracts.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07PostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Service.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Store.java
-  tests:
-  - tests/test_r07_contact_migration.py
-  - tests/test_r07_search_database_scripts.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- APPROVED_CHANGE_REQUEST
-- DATABASE_TEST_EVIDENCE
-- SCHEMA_TRACEABILITY
-- CONTRACT_TEST_EVIDENCE
-- GENERATED_CLIENTS_OR_GENERATION_RECORD
-- CHANGELOG
-change_requests:
-- CR-0178
-- CR-0179
-- CR-0180
-- CR-0181
-- CR-0182
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - database/tests/r07_contact_contract_alignment.sql
-  - scripts/run_r07_database_invariants.sh
-  - scripts/run_r07_disposable_postgres_container.sh
-  - tests/test_r07_contact_migration.py
-  - tests/test_r07_search_database_scripts.py
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
-  source: story+explicit+approved-cr:CR-0181+approved-cr:CR-0182
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: CR关闭、任务关闭和后续任务解锁共用同一连续性状态机，必须串行完成。
-event_hash: e17053700d18ca3839ce6a2b6f05a1c1397935034268f937b6982de068901612
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -835,12 +335,12 @@ event_hash: e17053700d18ca3839ce6a2b6f05a1c1397935034268f937b6982de068901612
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260721T171025Z-A3718A1C
-last_session_id: SES-20260721T130339Z-785E85BE
+active_session_id: null
+last_session_id: SES-20260721T171025Z-A3718A1C
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260721T130339Z-785E85BE-0005
-event_count: 1839
-event_head_hash: e17053700d18ca3839ce6a2b6f05a1c1397935034268f937b6982de068901612
+last_closure_checkpoint_id: CP-SES-20260721T171025Z-A3718A1C-0004
+event_count: 1842
+event_head_hash: 314b51414f061c922d0aa4a2eb66d0da0c9b5167195dc6328879c2f337d06aa8
 event_chain_valid: true
 ```
 
@@ -959,13 +459,13 @@ recent_sessions: - session_id: SES-20260720T163244Z-D1F3CEE8
   task_id: TASK-R07-003
   story_id: STORY-R07-005
   actor_id: codex-root-r07-003
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-21T17:10:25Z'
   record: .continuity/sessions/SES-20260721T171025Z-A3718A1C.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T171025Z-A3718A1C.md
-  updated_at: '2026-07-21T18:54:00Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T171025Z-A3718A1C/0003.yaml
+  updated_at: '2026-07-21T18:56:34Z'
+  closed_at: '2026-07-21T18:56:34Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T171025Z-A3718A1C/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-EFC1E4CC7621
   session_id: SES-20260719T161434Z-47C1FAA4
@@ -1626,7 +1126,7 @@ task_claims: - claim_id: CLM-EFC1E4CC7621
   task_id: TASK-R07-003
   story_id: STORY-R07-005
   actor_id: codex-root-r07-003
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-21T17:10:25Z'
   allowed_paths:
   - apps/**
@@ -1660,6 +1160,7 @@ task_claims: - claim_id: CLM-EFC1E4CC7621
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-21T18:56:34Z'
 recent_task_transitions: - transition_id: TRN-7EEB9B398891
   timestamp: '2026-07-19T16:14:34Z'
   release: R05
@@ -1867,34 +1368,31 @@ recent_task_transitions: - transition_id: TRN-7EEB9B398891
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593
+head: 301a30124f4d65e1c1862bd02befe840a273bdf0
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0178.yaml'
-- ' M .continuity/change_requests/CR-0179.yaml'
-- ' M .continuity/change_requests/CR-0180.yaml'
-- ' M .continuity/change_requests/CR-0181.yaml'
-- ' M .continuity/change_requests/CR-0182.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260721T171025Z-A3718A1C.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0178-修正R07搜索、公开发布者与联系方式访问合同及安全存储.md'
-- ' M docs/03-continuity/change-requests/CR-0179-补齐发布者主页内容筛选与客户端内容查询入口.md'
-- ' M docs/03-continuity/change-requests/CR-0180-收敛R07故事绑定接口计数与最小响应模型.md'
-- ' M docs/03-continuity/change-requests/CR-0181-补齐V032联系方式密文迁移与阻断式回滚门禁.md'
-- ' M docs/03-continuity/change-requests/CR-0182-补齐R07存储层真实PostgreSQL集成验证.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260721T171025Z-A3718A1C.md'
-- ?? .continuity/checkpoints/SES-20260721T171025Z-A3718A1C/0003.yaml
+- ' M releases/R07/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260721T171025Z-A3718A1C/0004.yaml
 recent_commits:
+- "301a30124f4d65e1c1862bd02befe840a273bdf0\t2026-07-22T02:55:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭 R07-003\
+  \ 变更请求"
 - "83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593\t2026-07-22T02:50:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(r07): 实现搜索发布者与联系方式后端"
 - "706970f90a7994b2cb020953cfb93d0e386978be\t2026-07-22T01:08:27+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-002\
   \ as completed"
@@ -1908,60 +1406,14 @@ recent_commits:
   \ entry change requests"
 - "cac604cf6663facb0200b187d20a3ba6f9a1ca4e\t2026-07-21T16:48:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(governance): open R07\
   \ implementation"
-- "cb9c1490316e1a9f8f7660e57732b0391b3e8417\t2026-07-21T16:15:17+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-008\
-  \ as blocked"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`6c661d662c7be099d93f7bf5ae3e668812932b0e776cdd131d8b818b24125c12`
-- 文件数：45
+- 指纹：`e94d2c097792e1223293100b9ba2809370ec1531b436d19a104fc0a4d8e92ff3`
+- 文件数：0
 
-- `CHANGELOG.md`
-- `catalogs/release_story_backlog.csv`
-- `catalogs/ui_page_fields.csv`
-- `contracts/contract_status.csv`
-- `contracts/openapi.yaml`
-- `database/migrations/V032__r07_contact_contract_alignment.sql`
-- `database/rollback/U032__r07_contact_contract_alignment.sql`
-- `database/schema_dictionary.csv`
-- `database/tests/r07_contact_contract_alignment.sql`
-- `docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md`
-- `docs/02-ui/page-specs/android/SCR-SEARCH-001_全局搜索.md`
-- `docs/02-ui/page-specs/android/SCR-SEARCH-002_搜索结果.md`
-- `docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md`
-- `docs/03-continuity/change-requests/CR-0178-修正R07搜索、公开发布者与联系方式访问合同及安全存储.md`
-- `docs/03-continuity/change-requests/CR-0179-补齐发布者主页内容筛选与客户端内容查询入口.md`
-- `docs/03-continuity/change-requests/CR-0180-收敛R07故事绑定接口计数与最小响应模型.md`
-- `docs/03-continuity/change-requests/CR-0181-补齐V032联系方式密文迁移与阻断式回滚门禁.md`
-- `docs/03-continuity/change-requests/CR-0182-补齐R07存储层真实PostgreSQL集成验证.md`
-- `packages/api-client/src/client.generated.ts`
-- `releases/PROGRAM_EXECUTION_PLAN.yaml`
-- `releases/R07/RELEASE_MANIFEST.yaml`
-- `releases/R07/STORIES.yaml`
-- `releases/R07/TASKS.yaml`
-- `scripts/run_r07_database_invariants.sh`
-- `scripts/run_r07_disposable_postgres_container.sh`
-- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/ContentController.java`
-- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R07Controller.java`
-- `services/backend/boot/src/main/resources/application.yml`
-- `services/backend/boot/src/main/resources/contracts/openapi.yaml`
-- `services/backend/boot/src/main/resources/db/migration/V032__r07_contact_contract_alignment.sql`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/ContentControllerContractTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java`
-- `services/backend/boot/src/test/resources/application-test.yml`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContactCipher.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Contracts.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R07PostgresStore.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Service.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Store.java`
-- `tests/test_r07_contact_migration.py`
-- `tests/test_r07_search_database_scripts.py`
+- 无
 
 ## 当前 Release
 
@@ -2658,7 +2110,7 @@ TASKS.yaml:
     completed_at: '2026-07-21T17:06:37Z'
   - id: TASK-R07-003
     title: 搜索、发布者主页与联系方式保护后端应用服务与接口
-    status: READY
+    status: DONE
     depends_on:
     - TASK-R07-002
     requirements: *id001
@@ -2672,9 +2124,10 @@ TASKS.yaml:
     - OpenAPI契约测试
     - 权限/幂等/错误码/审计覆盖
     session_log_required: true
+    completed_at: '2026-07-21T18:56:28Z'
   - id: TASK-R07-004
     title: 搜索、发布者主页与联系方式保护客户端/H5/后台实现
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R07-003
     requirements: *id001
@@ -7380,8 +6833,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `3268d35bb6d3de839a724a6b510ca4880b443496850d9603abfb3cd671454a0d`
-- `NEXT_TASK.yaml` — `685a4ff6e3ccef2f076a4cf4dbc73057618157520aad15889be31d879398fde5`
+- `CURRENT_STATUS.yaml` — `3341b809cfee6f2e55c317a05a327dd6efa78fa4a465c40d89073eb18d01eb41`
+- `NEXT_TASK.yaml` — `1266dec5803430468f70b3e2742414d63604f48e639083ac56b6ac4a4b0c0936`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `d14c259104d2f32a13e3c4262903f908fc06e75c94f8f4e72d1c04d07f9f6bb6`
@@ -7391,25 +6844,18 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `9a37ae9eefe3cd0ca36ceee0a6a8ba27adefb9811382ddf75732f5d754f315f7`
-- `.continuity/SESSION_INDEX.yaml` — `aec26a3d7ecff9a9f8d237a92ee192a4dadfb7b9f5d04452409cea76b6c48634`
-- `.continuity/TASK_CLAIMS.yaml` — `d68f37da445906e4393767e7e8b1cbc50cf783f640e2f682dee16fd59fbd54e4`
+- `.continuity/EVENT_LOG.jsonl` — `62596cda02a1a037974c16ac6ad5074bca401cc4834425441a046635f7c83a1d`
+- `.continuity/SESSION_INDEX.yaml` — `ac44e27b77a347f5142e3cc0c8c49338551a5242691c10ea13d96e4c8f504b32`
+- `.continuity/TASK_CLAIMS.yaml` — `679d45924a0f43902a3cc4d626864bbb1519e8ac42da08d9a9afcd7fc28e2fa6`
 - `.continuity/TASK_TRANSITIONS.yaml` — `4724369a54335129fc4a1cbbcd3dc4f14d7ea18bc0f146278fc6a739039ada1d`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `0ef293a1954555c128a6d3a42e9c3c2401f3a7136b8eea0d2c3c6c79cbdadb24`
-- `.continuity/ACTIVE_SESSION.yaml` — `964ce278ad5e44667d42b9a2d18e05d3e22754dd9c6102451246a1abeed7f00d`
+- `.continuity/ACTIVE_SESSION.yaml` — `39df0856e94c341d6ed82568d01f200ff910406aeed5ebc8a490bcd3a83c6c26`
 - `releases/R07/RELEASE_MANIFEST.yaml` — `333e47e09e2d4004aab3e2ffdd6ec072abd8977b4d6fcd1c1daa9bec9e858f34`
 - `releases/R07/DEFINITION_OF_READY.yaml` — `5e3a1496a1a9a9af6ac2e40e8aaacdfaa46cc7bf117324c22c486b3730c6f9f9`
 - `releases/R07/STORIES.yaml` — `26e0246244a4de42510a0a31d0982afaf0e5cd3ad0641c0ebdd74b6882e9431e`
-- `releases/R07/TASKS.yaml` — `910a3ec94081700960dd8cd58d77c0245eed05e1edd27655621aaa0b10038bc7`
+- `releases/R07/TASKS.yaml` — `6933b7659ad147b46605ab89e60d6c063bf5151af39ddc95c611ac8b92c8648e`
 - `releases/R07/ACCEPTANCE_MATRIX.csv` — `1f31b7765d0740a6b8800d8ec89920a67f6010697dda3d7be5793ce48275ce39`
 - `releases/R07/PARALLEL_EXECUTION_PLAN.yaml` — `6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T171025Z-A3718A1C.md` — `a428e61400cbab3a92900098fa6cccb71acc37d769aa0c644d9adc034daa2c71`
-- `.continuity/checkpoints/SES-20260721T171025Z-A3718A1C/0003.yaml` — `9f350ad3c7ebfa214bb66b708a57fcb2d904a6cb61337752fd8c42b281d6c222`
-- `docs/03-continuity/change-requests/CR-0178-修正R07搜索、公开发布者与联系方式访问合同及安全存储.md` — `5a00eb1cd563cbed8e36a66f362a89158e1f47e3e17507e3823c7717c7b17a47`
-- `docs/03-continuity/change-requests/CR-0179-补齐发布者主页内容筛选与客户端内容查询入口.md` — `6a28a886354758fd2bd7ea2fbe369652920b2e8d8d3a2e7a169d081cd6e0daf8`
-- `docs/03-continuity/change-requests/CR-0180-收敛R07故事绑定接口计数与最小响应模型.md` — `579ed2979af46236971f9708d3fcb014b2cc9e8633c072d19b6df10f0f438130`
-- `docs/03-continuity/change-requests/CR-0181-补齐V032联系方式密文迁移与阻断式回滚门禁.md` — `630114ff97989aca205eed608875c6dd71fd0e80bf0fa3b1d6f64372d0c23d69`
-- `docs/03-continuity/change-requests/CR-0182-补齐R07存储层真实PostgreSQL集成验证.md` — `03349c5b2f37ab7223bcf0171be602fc045f832b863dc8a4b197986a9d401001`
 
 ## 接手硬规则
 
