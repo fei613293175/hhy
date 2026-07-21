@@ -8,6 +8,10 @@ screens:
   marker: hhy.screen.r06.home.loaded
   required_text:
   - 首页
+  - 红包
+  - 发布
+  - 消息
+  - 我的
   forbidden_text:
   - 正在启动
   - 正在加载首页模块
@@ -17,6 +21,10 @@ screens:
   marker: hhy.screen.r06.mine
   required_text:
   - 我的
+  - 首页
+  - 红包
+  - 发布
+  - 消息
   - 关于与检查更新
   forbidden_text:
   - 正在启动

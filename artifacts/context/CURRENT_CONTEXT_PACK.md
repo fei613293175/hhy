@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-20T23:26:17Z
-- Context Hash：`588f295ade909517ace00f39fdb2cd1a4189ad079aa5f66200a20cc316018042`
+- 生成时间：2026-07-21T00:10:59Z
+- Context Hash：`d6e142583d904a70540d6530cea1710f7c4ceef575a48c53616ebc2aa01d24eb`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -89,7 +89,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R06-004
-updated_at: '2026-07-20T23:26:15Z'
+updated_at: '2026-07-21T00:10:57Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -124,15 +124,15 @@ continuity:
   active_session_id: SES-20260720T173038Z-35648A77
   actor_id: codex-root
   story_id: STORY-R06-001
-  lease_expires_at: '2026-07-21T03:26:15Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0019.yaml
-  project_fingerprint: 56c18c7323242542a3231e059941969d008597e37d48f305e848c60fa108ed50
+  lease_expires_at: '2026-07-21T04:10:57Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0020.yaml
+  project_fingerprint: 7afc279f2a2b22a9ef9ef8f5d91a832e3940191d94800c510f26dd1c090fa127
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 35d59decc160819e30ef6b5457e976d0d42e436fd9a31c37bc70548f2edc1d85
-    generated_at: '2026-07-20T22:54:01Z'
+    context_hash: 588f295ade909517ace00f39fdb2cd1a4189ad079aa5f66200a20cc316018042
+    generated_at: '2026-07-20T23:26:17Z'
   handoff_bundle: null
 ```
 
@@ -328,7 +328,7 @@ task_id: TASK-R06-004
 story_id: STORY-R06-001
 goal: 统一内容基础、首页与CMS客户端/H5/后台实现
 started_at: '2026-07-20T17:30:38Z'
-updated_at: '2026-07-20T23:26:15Z'
+updated_at: '2026-07-21T00:10:57Z'
 takeover_of: null
 change_requests:
 - CR-0148
@@ -340,6 +340,7 @@ change_requests:
 - CR-0154
 - CR-0155
 - CR-0156
+- CR-0157
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -397,7 +398,7 @@ scope:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
   - services/backend/boot/pom.xml
   - catalogs/config_registry.csv
-  source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151+approved-cr:CR-0152+approved-cr:CR-0153+approved-cr:CR-0154+approved-cr:CR-0155+approved-cr:CR-0156
+  source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151+approved-cr:CR-0152+approved-cr:CR-0153+approved-cr:CR-0154+approved-cr:CR-0155+approved-cr:CR-0156+approved-cr:CR-0157
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -407,12 +408,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-20T23:26:15Z'
-  expires_at: '2026-07-21T03:26:15Z'
-checkpoint_sequence: 19
-latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0019.yaml
+  renewed_at: '2026-07-21T00:10:57Z'
+  expires_at: '2026-07-21T04:10:57Z'
+checkpoint_sequence: 20
+latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0020.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-next_step: 通过严格Doctor后提交冻结修复，滚动部署Staging并在精确APK路由预检后推送R06修复候选
+next_step: 提交UI修复并配置最终Commit精确APK路由；推送第3轮基线采集候选，AI验收合格截图后登记R06基线
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -420,44 +421,48 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 安全TTL、Staging滚动部署、冻结Commit、下载路由和候选证据共享同一串行发布边界
+  reason: 视觉判断、导航修复、冻结Commit、精确路由和候选基线属于同一串行UI发布边界
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260720T173038Z-35648A77-0019
+checkpoint_id: CP-SES-20260720T173038Z-35648A77-0020
 session_id: SES-20260720T173038Z-35648A77
-sequence: 19
-created_at: '2026-07-20T23:26:15Z'
-summary: 定位R06候选#4失败为两分钟CI引导码早于3分24秒模拟器兑换而确定性过期；CR-0156实施十分钟硬上限、单次消费、四项OIDC绑定、十五分钟会话和生产禁用，并登记修复轮次2
-next_step: 通过严格Doctor后提交冻结修复，滚动部署Staging并在精确APK路由预检后推送R06修复候选
+sequence: 20
+created_at: '2026-07-21T00:10:57Z'
+summary: AI审核R06真实页面截图并拒绝首轮基线：首页成功空数组完全空白、我的页五栏目仅显示首尾；CR-0157已修复空模块降级、显式等权始终显示五栏目并增加截图前可见断言
+next_step: 提交UI修复并配置最终Commit精确APK路由；推送第3轮基线采集候选，AI验收合格截图后登记R06基线
 blockers: []
 decisions:
-- 不盲目重跑失败候选；只有根因修复、本地策略测试和Java21后端测试全部通过后才允许下一次GitHub候选
+- 关于页截图合格；首页和我的不合格截图不得为让门禁变绿而登记基线
 note: ''
 tests:
+- name: android-ui-foundation
+  result: PASS
+  evidence: ANDROID_UI_FOUNDATION_GATE=PASS
+  note: 导航、图标、动效基础边界通过
 - name: android-ci-policy
   result: PASS
-  evidence: 17 tests passed
-  note: 10分钟上限、单次消费、OIDC绑定和候选轮次通过
-- name: backend-ci-automation
+  evidence: 14 tests passed
+  note: 空状态、显式导航、截图前断言进入回归
+- name: android-instrumentation-compile
   result: PASS
-  evidence: Java21 Maven CiAutomationServiceTest 3 tests;BUILD SUCCESS 27.256s
-  note: 拒绝超过10分钟并保持生产隔离
-- name: config-registry
-  result: PASS
-  evidence: CONFIG_OK 319
-  note: 未扩张业务配置注册表
+  evidence: compileDebugAndroidTestKotlin BUILD SUCCESSFUL in 2m5s
+  note: Shell与ReleaseCandidateSmokeTest编译通过
+- name: r06-visual-review
+  result: FAIL
+  evidence: 01首页空白且02我的仅首尾导航；03关于页合格
+  note: AI拒绝首轮视觉基线并实施修复
 - name: candidate-request
   result: PASS
-  evidence: R06-20260721-005 remediation_attempt=2
-  note: 候选请求机器校验通过
+  evidence: R06-20260721-006 remediation_attempt=3
+  note: 有界最终基线采集请求通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: e1f5d632f19422c8aeecb4ab43f2ef5601627671
+  head: ccc64022ea9531d0b979e87b6bae2c166490295b
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -468,21 +473,19 @@ git:
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/sessions/SES-20260720T173038Z-35648A77.yaml'
   - ' M CHANGELOG.md'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
+  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M config/android-automation.yaml'
   - ' M config/android-candidate-request.yaml'
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
-  - ' M scripts/android_ci_gate.py'
-  - ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java'
-  - ' M services/backend/boot/src/main/resources/application.yml'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java'
+  - ' M tests/android/visual-manifests/R06.yaml'
   - ' M tests/test_android_ci_gate.py'
-  - ?? .continuity/change_requests/CR-0156.yaml
-  - ?? docs/03-continuity/change-requests/CR-0156-延长CI一次性引导码至覆盖确定性模拟器冷启动.md
+  - ?? .continuity/change_requests/CR-0157.yaml
+  - ?? docs/03-continuity/change-requests/CR-0157-修复R06首页空模块降级与底部导航视觉漂移.md
   recent_commits:
+  - "ccc64022ea9531d0b979e87b6bae2c166490295b\t2026-07-21T07:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(ci): cover emulator bootstrap\
+    \ latency"
   - "e1f5d632f19422c8aeecb4ab43f2ef5601627671\t2026-07-21T06:54:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
     \ R06 candidate deployment"
   - "d66887d636fbf49251297aa16f46324ff8ce75dc\t2026-07-21T06:10:37+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(ci): test release-specific\
@@ -497,10 +500,8 @@ git:
     \ candidate gate blocker"
   - "83059dedcf780426768ead6ee44e3e942419cccc\t2026-07-21T03:38:24+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(candidate): request\
     \ R06 Android gate"
-  - "2db7ae7d10e44e34053e7fce515299dee45076d8\t2026-07-21T03:27:46+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(ci): tier durable release\
-    \ gates"
 project_fingerprint:
-  sha256: 56c18c7323242542a3231e059941969d008597e37d48f305e848c60fa108ed50
+  sha256: 7afc279f2a2b22a9ef9ef8f5d91a832e3940191d94800c510f26dd1c090fa127
   files:
   - .github/workflows/android-candidate-request.yml
   - .github/workflows/android-quality-gate.yml
@@ -535,6 +536,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
   - docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md
   - docs/03-continuity/change-requests/CR-0156-延长CI一次性引导码至覆盖确定性模拟器冷启动.md
+  - docs/03-continuity/change-requests/CR-0157-修复R06首页空模块降级与底部导航视觉漂移.md
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - docs/08-testing/测试策略与质量门禁_V1.2.2.md
   - docs/09-development/统一开发与交付效率规范.md
@@ -560,7 +562,7 @@ project_fingerprint:
   - tests/test_android_candidate_request.py
   - tests/test_android_ci_gate.py
   - tests/test_continuity_ci_scope.py
-  file_count: 58
+  file_count: 59
   payload:
     base_commit: 8ee22962d6049d4915e3b68e805356df8790ff0f
     files:
@@ -582,8 +584,8 @@ project_fingerprint:
       sha256: 0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230
     - path: CHANGELOG.md
       state: FILE
-      size: 56888
-      sha256: feffc4286d425700272d88c37e20f9831a2389b3a4e491b55f26d4de2d6a71c3
+      size: 57170
+      sha256: 2213de6b53488f4d7f859453ec0978a85eb4f50988785ba89b55c5562c9a9485
     - path: apps/admin-web/src/router.ts
       state: FILE
       size: 4924
@@ -614,8 +616,8 @@ project_fingerprint:
       sha256: 9107ba58acdb543fdaaf77cd82497c93dafd399080f7412f7759b06b3e37ad1f
     - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
       state: FILE
-      size: 8581
-      sha256: 8858ca8290334163d519c241c9cb94e4855ef40b296ea7b538669426d1d70b35
+      size: 8922
+      sha256: e57aebec431f1c73bb99bd2760cbbcf40f1d9e4f1efb10402361dcd218487369
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
       state: FILE
       size: 4726
@@ -634,8 +636,8 @@ project_fingerprint:
       sha256: fe0a86cd1d957c0159ea2c10427cb7a2c79a77db6d1011fb5437b3ac680e741e
     - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
       state: FILE
-      size: 8726
-      sha256: 572dabb5507c7baab3b7cc0a9d2dc9c8883f4a4a946e6230c6dab486af3c0ab3
+      size: 8897
+      sha256: a8b8f6a082fea18d51616164ca8670bf5b265b572bf65d2241e009296c3248ca
     - path: catalogs/config_registry.csv
       state: FILE
       size: 392714
@@ -650,16 +652,16 @@ project_fingerprint:
       sha256: 5e272c1ebcd48a203124ff84ca3f429f0a8942cb455843f584b68e40ac8de600
     - path: config/android-candidate-request.yaml
       state: FILE
-      size: 228
-      sha256: 940c54ca6cc85dc195404645eb42c2c989ae2df3e16a0c0371adb6f94c11766f
+      size: 219
+      sha256: 86729802172383c455935947009c8625b4a9608c3ec7ca5dbf844b746d5c4d10
     - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
       state: FILE
       size: 9388
       sha256: 4c266d2ae0dfb71b0b4c07dfd6ca8ba22d74128b2649132f3d8df3cbc782b80b
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 73831
-      sha256: 7bef49a11384420cf0a097e59baef3fb560de81ae924840bf64f75f9ddd7ac4f
+      size: 75115
+      sha256: ceea1f861318aa4b81879ed9799d912b5d2d1418741b9819fec82e9de7dd46c6
     - path: docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md
       state: FILE
       size: 2286
@@ -696,6 +698,10 @@ project_fingerprint:
       state: FILE
       size: 2786
       sha256: 7f3c5523de03939635a5384af156f53c2f1cb41cf395cfe80b9fbc8cfbd1eecd
+    - path: docs/03-continuity/change-requests/CR-0157-修复R06首页空模块降级与底部导航视觉漂移.md
+      state: FILE
+      size: 2608
+      sha256: 9fee6a128abac6860cb7cce300fac98e671f04b6148a8d05d889913eb30c260f
     - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
       state: FILE
       size: 8381
@@ -782,16 +788,16 @@ project_fingerprint:
       sha256: 0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230
     - path: tests/android/visual-manifests/R06.yaml
       state: FILE
-      size: 791
-      sha256: 3af727d620714627d3372907a33160ec4884b10423096114fb68d81eaddcbd79
+      size: 879
+      sha256: b365f6f097cbd9079478f8a8489d5637a2c6d5b38844391bedd42c35d7595b0e
     - path: tests/test_android_candidate_request.py
       state: FILE
       size: 2170
       sha256: 404c2f099e06837eb59fb72c2005e02fa7f9ff1fc18ce9353c10a4b07f11034b
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 14844
-      sha256: 9bd273047f4fa23a6265ba4ba36245e2321b0bcfb41d2016615972f4a1c788f8
+      size: 15277
+      sha256: 7ffeb3bd6e56504e0d2406da0c87fdd5a4843b519f2a1d41ffd1c4322c890bcf
     - path: tests/test_continuity_ci_scope.py
       state: FILE
       size: 1485
@@ -870,6 +876,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md
   - docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md
   - docs/03-continuity/change-requests/CR-0156-延长CI一次性引导码至覆盖确定性模拟器冷启动.md
+  - docs/03-continuity/change-requests/CR-0157-修复R06首页空模块降级与底部导航视觉漂移.md
   tests:
   - tests/android/visual-manifests/R06.yaml
   - tests/test_android_candidate_request.py
@@ -893,6 +900,7 @@ change_requests:
 - CR-0154
 - CR-0155
 - CR-0156
+- CR-0157
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -950,13 +958,13 @@ scope:
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
   - services/backend/boot/pom.xml
   - catalogs/config_registry.csv
-  source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151+approved-cr:CR-0152+approved-cr:CR-0153+approved-cr:CR-0154+approved-cr:CR-0155+approved-cr:CR-0156
+  source: story+explicit+approved-cr:CR-0148+approved-cr:CR-0149+approved-cr:CR-0150+approved-cr:CR-0151+approved-cr:CR-0152+approved-cr:CR-0153+approved-cr:CR-0154+approved-cr:CR-0155+approved-cr:CR-0156+approved-cr:CR-0157
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 安全TTL、Staging滚动部署、冻结Commit、下载路由和候选证据共享同一串行发布边界
-event_hash: a51021e93228de0b20c7eb0897701870174125b689c1fa999dd85bc10462cbe7
+  reason: 视觉判断、导航修复、冻结Commit、精确路由和候选基线属于同一串行UI发布边界
+event_hash: b655ccfb4c325e145d0d65c7509f98f7883a68d3af7bdf4725166a64f8b4a959
 ```
 
 ## 接续状态与事件头
@@ -968,8 +976,8 @@ active_session_id: SES-20260720T173038Z-35648A77
 last_session_id: SES-20260720T163244Z-D1F3CEE8
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260720T163244Z-D1F3CEE8-0004
-event_count: 1604
-event_head_hash: a51021e93228de0b20c7eb0897701870174125b689c1fa999dd85bc10462cbe7
+event_count: 1610
+event_head_hash: b655ccfb4c325e145d0d65c7509f98f7883a68d3af7bdf4725166a64f8b4a959
 event_chain_valid: true
 ```
 
@@ -1092,9 +1100,9 @@ recent_sessions: - session_id: SES-20260719T165401Z-12791729
   started_at: '2026-07-20T17:30:38Z'
   record: .continuity/sessions/SES-20260720T173038Z-35648A77.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-  updated_at: '2026-07-20T23:26:15Z'
+  updated_at: '2026-07-21T00:10:57Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0019.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0020.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D22ECAFB67D6
   session_id: SES-20260719T083704Z-6E4CE28F
@@ -1959,7 +1967,7 @@ recent_task_transitions: - transition_id: TRN-9B8421CA1B25
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: e1f5d632f19422c8aeecb4ab43f2ef5601627671
+head: ccc64022ea9531d0b979e87b6bae2c166490295b
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1973,23 +1981,21 @@ status_porcelain:
 - ' M .continuity/sessions/SES-20260720T173038Z-35648A77.yaml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
+- ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
+- ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M config/android-automation.yaml'
 - ' M config/android-candidate-request.yaml'
 - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md'
-- ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
-- ' M scripts/android_ci_gate.py'
-- ' M services/backend/access/src/main/java/cc/orbexa/hhy/access/user/CiAutomationService.java'
-- ' M services/backend/boot/src/main/resources/application.yml'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java'
+- ' M tests/android/visual-manifests/R06.yaml'
 - ' M tests/test_android_ci_gate.py'
-- ?? .continuity/change_requests/CR-0156.yaml
-- ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0019.yaml
-- ?? docs/03-continuity/change-requests/CR-0156-延长CI一次性引导码至覆盖确定性模拟器冷启动.md
+- ?? .continuity/change_requests/CR-0157.yaml
+- ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0020.yaml
+- ?? docs/03-continuity/change-requests/CR-0157-修复R06首页空模块降级与底部导航视觉漂移.md
 recent_commits:
+- "ccc64022ea9531d0b979e87b6bae2c166490295b\t2026-07-21T07:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(ci): cover emulator bootstrap\
+  \ latency"
 - "e1f5d632f19422c8aeecb4ab43f2ef5601627671\t2026-07-21T06:54:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record R06\
   \ candidate deployment"
 - "d66887d636fbf49251297aa16f46324ff8ce75dc\t2026-07-21T06:10:37+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(ci): test release-specific\
@@ -2004,14 +2010,12 @@ recent_commits:
   \ gate blocker"
 - "83059dedcf780426768ead6ee44e3e942419cccc\t2026-07-21T03:38:24+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(candidate): request R06\
   \ Android gate"
-- "2db7ae7d10e44e34053e7fce515299dee45076d8\t2026-07-21T03:27:46+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(ci): tier durable release\
-  \ gates"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`56c18c7323242542a3231e059941969d008597e37d48f305e848c60fa108ed50`
-- 文件数：58
+- 指纹：`7afc279f2a2b22a9ef9ef8f5d91a832e3940191d94800c510f26dd1c090fa127`
+- 文件数：59
 
 - `.github/workflows/android-candidate-request.yml`
 - `.github/workflows/android-quality-gate.yml`
@@ -2046,6 +2050,7 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md`
 - `docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md`
 - `docs/03-continuity/change-requests/CR-0156-延长CI一次性引导码至覆盖确定性模拟器冷启动.md`
+- `docs/03-continuity/change-requests/CR-0157-修复R06首页空模块降级与底部导航视觉漂移.md`
 - `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`
 - `docs/08-testing/测试策略与质量门禁_V1.2.2.md`
 - `docs/09-development/统一开发与交付效率规范.md`
@@ -7370,37 +7375,86 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260720T173038Z-35648A77
   session_ids:
   - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0157
+  title: 修复R06首页空模块降级与底部导航视觉漂移
+  status: IMPLEMENTING
+  created_at: '2026-07-20T23:58:47Z'
+  updated_at: '2026-07-21T00:00:12Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 项目所有者明确要求所有版本截图由AI自主判断并持续修复，不等待人工核实
+  reason: R06真实模拟器截图显示首页成功空数组时未渲染任何空模块降级卡；我的页底部五栏目只绘制首尾两项，与首页和冻结统一导航不一致
+  original_rule: 首页homeGetHome成功返回空modules时不渲染任何状态卡；NavigationBarItem依赖默认权重和默认标签策略
+  new_rule: 首页成功空数组必须显示当前模块暂无内容降级卡；五个底部栏目显式等权且始终显示标签，首页与我的页使用同一导航视觉合同；模拟器截图前断言五栏目全部存在
+  impact_summary: 不改变接口、路由或业务状态，只修复冻结MOB-HOME空模块降级和统一五栏目导航的可见性
+  impact:
+    files:
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - tests/android/visual-manifests/R06.yaml
+    - tests/test_android_ci_gate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-HOME-001;SCR-MINE-001
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - tests.test_android_ci_gate;Android compileDebugAndroidTestKotlin;R06 visual matrix
+    releases:
+    - R06
+    migration_and_compatibility: 无数据库和API迁移；Compose局部兼容修复，回滚为上一Shell实现；现有导航状态和返回栈不变
+  user_confirmation: 所有版本截图明确由AI判断是否合格，不得停下等待项目所有者核实
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T23:59:41Z'
+    note: 依据项目所有者授权AI自主判图并持续修复，批准只修复截图实证的空状态和五栏目一致性
+  machine_record: .continuity/change_requests/CR-0157.yaml
+  document: docs/03-continuity/change-requests/CR-0157-修复R06首页空模块降级与底部导航视觉漂移.md
+  decision_log:
+  - at: '2026-07-21T00:00:12Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 按真实R06截图修复首页空模块降级和五栏目导航显式等权可见
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `b984b01378ffba763b895105010dc367508f9b63e48e8848cb817ccc90275158`
+- `CURRENT_STATUS.yaml` — `91b25b035303c85a9ed78a4d900d59a435874911c91e72163960cfcaeba8b3a0`
 - `NEXT_TASK.yaml` — `28fdd09fe247b9ee6f9baa24e34c7eb7ff152326afb99fa4f0e1bbeb61a4527b`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `7bef49a11384420cf0a097e59baef3fb560de81ae924840bf64f75f9ddd7ac4f`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `ceea1f861318aa4b81879ed9799d912b5d2d1418741b9819fec82e9de7dd46c6`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da`
 - `docs/03-continuity/PITFALLS.md` — `a2d8510ffc0abea7157abc67881f3a25063fb0d4751c5b7d5cf90125d5851957`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `7134ca5667c299c39f211fc75e942832c42ca63e3a64cd7d6257d14201f522a5`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `0f5c9066ddc0d388f78df023e4d3ea004afc18b2813f97872a7a58ad889977d9`
-- `.continuity/SESSION_INDEX.yaml` — `7bfedd0e97f7d6d4dae01aaf11713baf87d9237441bcc28687abe3f17ecf7c6e`
+- `.continuity/EVENT_LOG.jsonl` — `abfe3f2980e9259c54c8e41a60659945d1a657d1586ed448ee03e3b3f61d6782`
+- `.continuity/SESSION_INDEX.yaml` — `3e6880e0fb400db59de26efb2ce708264b5fc2cf9fc3e5d18571d02255c30549`
 - `.continuity/TASK_CLAIMS.yaml` — `3abf162328146e0533fed277722c86a109a7476839eb932f968d82037eb8e518`
 - `.continuity/TASK_TRANSITIONS.yaml` — `17e0b26c549b14a3f15a7daf0c6e8a11389a129fc9bf0c57f1dba8af1ba71c67`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `9cb6ce1f08a0ae203d4fb5e52339985d5f70cd4d232d73a402a466435ee0a69e`
-- `.continuity/ACTIVE_SESSION.yaml` — `55930e01cab62c54dbd8f43c4d1a473cbaec5ef2463a9367c6cef6911d8d8072`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `0a0d833abe87144aa1602347d4e5b39d1bc0c5b0285dff761b232d18d53ae4fb`
+- `.continuity/ACTIVE_SESSION.yaml` — `7de90d6a6444ecc85cd5a025bcfd5cf749bd98b9f9966c78438430e993831eca`
 - `releases/R06/RELEASE_MANIFEST.yaml` — `72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878`
 - `releases/R06/DEFINITION_OF_READY.yaml` — `c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991`
 - `releases/R06/STORIES.yaml` — `dd81c97b0552c9342b5be360e918d26502b5e3d06fa8bafaba7648d43c96e7ef`
 - `releases/R06/TASKS.yaml` — `f5f835924fb09a1a17205ec407cd2887040d02f52d40b61c1ed2a44eccab6380`
 - `releases/R06/ACCEPTANCE_MATRIX.csv` — `9485c8f085153d3483002b33a143c764a8838a3503d8ac4d2e36e5c3c45b9aaf`
 - `releases/R06/PARALLEL_EXECUTION_PLAN.yaml` — `426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51`
-- `docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md` — `7af48349754ebf9f34ea860b89372c101d7b52276e0b886b9baf651258eef34d`
-- `.continuity/checkpoints/SES-20260720T173038Z-35648A77/0019.yaml` — `1c6943edd224a2f486b9f75883b84f9e91e3b16a72fedae22b1e9da0e2f3ef48`
+- `docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md` — `a84ad87f60dd8c77c8a9734aa2ea1760e98a0a3147899e4441359444fff953a5`
+- `.continuity/checkpoints/SES-20260720T173038Z-35648A77/0020.yaml` — `f9800271184e16037441ea86fbc6c6a24f27fd6a4f0cb1f61aded9965ceaa11c`
 - `docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md` — `4c3d1dd8615acd30275ad10cb2005f216f2e20f9f4bf99e1d3cf7d85c340631f`
 - `docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md` — `b4119ded435a48ea08dc375e5f8c55cdf77773a2d9d3dedfa2972b7ce708edad`
 - `docs/03-continuity/change-requests/CR-0150-固化GitHub分层门禁与分支候选APK触发路径.md` — `62963454788821048e8d41db5c312358b4cf572b7b692450fbec5eb6885a0ea7`
@@ -7410,6 +7464,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0154-登记Staging-CI自动认证配置源.md` — `c52b9da7d0a1b7959140eb3207c74ee09cac9b2868a6c3837ce2ba93fcb6681c`
 - `docs/03-continuity/change-requests/CR-0155-CI一次性引导复用既有幂等存储并取消新表.md` — `149cd8283590573833a2f3ca0fae000d395c6ff4c26bde7d331b04c0f1c6df6b`
 - `docs/03-continuity/change-requests/CR-0156-延长CI一次性引导码至覆盖确定性模拟器冷启动.md` — `7f3c5523de03939635a5384af156f53c2f1cb41cf395cfe80b9fbc8cfbd1eecd`
+- `docs/03-continuity/change-requests/CR-0157-修复R06首页空模块降级与底部导航视觉漂移.md` — `9fee6a128abac6860cb7cce300fac98e671f04b6148a8d05d889913eb30c260f`
 
 ## 接手硬规则
 

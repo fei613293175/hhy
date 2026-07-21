@@ -70,6 +70,7 @@ class ReleaseCandidateSmokeTest {
             waitForScreen("hhy.screen.r06.home.loaded"),
         )
         assertFalse("Cold start exposed connection failure", device.hasObject(By.text("暂时无法连接")))
+        assertPrimaryNavigationVisible()
         captureStable("01-home-loaded.png")
         assertNoForbiddenVisibleText()
 
@@ -79,6 +80,7 @@ class ReleaseCandidateSmokeTest {
             waitForScreen("hhy.screen.r06.mine", gone = "hhy.screen.r06.home.loaded"),
         )
         assertTrue("Mine page missed About entry", device.hasObject(By.text("关于与检查更新")))
+        assertPrimaryNavigationVisible()
         captureStable("02-mine.png")
         assertNoForbiddenVisibleText()
 
@@ -187,5 +189,11 @@ class ReleaseCandidateSmokeTest {
         assertFalse("Journey exposed connection failure", device.hasObject(By.textContains("暂时无法连接")))
         assertFalse("Journey exposed technical request number", device.hasObject(By.textContains("请求编号")))
         assertFalse("Journey exposed TraceId", device.hasObject(By.textContains("TraceId")))
+    }
+
+    private fun assertPrimaryNavigationVisible() {
+        listOf("首页", "红包", "发布", "消息", "我的").forEach { label ->
+            assertTrue("Primary navigation item is not visible: $label", device.hasObject(By.text(label)))
+        }
     }
 }

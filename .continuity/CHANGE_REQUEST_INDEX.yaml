@@ -9247,3 +9247,52 @@ change_requests:
     session_id: SES-20260720T173038Z-35648A77
   session_ids:
   - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0157
+  title: 修复R06首页空模块降级与底部导航视觉漂移
+  status: IMPLEMENTING
+  created_at: '2026-07-20T23:58:47Z'
+  updated_at: '2026-07-21T00:00:12Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-004
+  session_id: SES-20260720T173038Z-35648A77
+  user_request: 项目所有者明确要求所有版本截图由AI自主判断并持续修复，不等待人工核实
+  reason: R06真实模拟器截图显示首页成功空数组时未渲染任何空模块降级卡；我的页底部五栏目只绘制首尾两项，与首页和冻结统一导航不一致
+  original_rule: 首页homeGetHome成功返回空modules时不渲染任何状态卡；NavigationBarItem依赖默认权重和默认标签策略
+  new_rule: 首页成功空数组必须显示当前模块暂无内容降级卡；五个底部栏目显式等权且始终显示标签，首页与我的页使用同一导航视觉合同；模拟器截图前断言五栏目全部存在
+  impact_summary: 不改变接口、路由或业务状态，只修复冻结MOB-HOME空模块降级和统一五栏目导航的可见性
+  impact:
+    files:
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - tests/android/visual-manifests/R06.yaml
+    - tests/test_android_ci_gate.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-HOME-001;SCR-MINE-001
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - tests.test_android_ci_gate;Android compileDebugAndroidTestKotlin;R06 visual matrix
+    releases:
+    - R06
+    migration_and_compatibility: 无数据库和API迁移；Compose局部兼容修复，回滚为上一Shell实现；现有导航状态和返回栈不变
+  user_confirmation: 所有版本截图明确由AI判断是否合格，不得停下等待项目所有者核实
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-20T23:59:41Z'
+    note: 依据项目所有者授权AI自主判图并持续修复，批准只修复截图实证的空状态和五栏目一致性
+  machine_record: .continuity/change_requests/CR-0157.yaml
+  document: docs/03-continuity/change-requests/CR-0157-修复R06首页空模块降级与底部导航视觉漂移.md
+  decision_log:
+  - at: '2026-07-21T00:00:12Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 按真实R06截图修复首页空模块降级和五栏目导航显式等权可见
+    session_id: SES-20260720T173038Z-35648A77
+  session_ids:
+  - SES-20260720T173038Z-35648A77

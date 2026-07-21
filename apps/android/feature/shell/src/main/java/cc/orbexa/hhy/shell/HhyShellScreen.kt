@@ -89,13 +89,15 @@ fun HhyShellScreen(
             TopAppBar(title = { Text("合伙云 Pro") })
         },
         bottomBar = {
-            NavigationBar {
+            NavigationBar(modifier = Modifier.fillMaxWidth()) {
                 navigationItems.forEachIndexed { index, item ->
                     NavigationBarItem(
+                        modifier = Modifier.weight(1f),
                         selected = selectedIndex == index,
                         onClick = { selectedIndex = index },
                         icon = { HhyIcon(item.icon, contentDescription = item.label) },
                         label = { Text(item.label) },
+                        alwaysShowLabel = true,
                     )
                 }
             }
@@ -153,7 +155,7 @@ fun HhyShellScreen(
                     }
                 }
             }
-            if (selectedIndex == 0 && home != null) {
+            if (selectedIndex == 0 && home != null && home!!.modules.isNotEmpty()) {
                 home!!.modules.forEach { module ->
                     item {
                         Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(HhyRadius.NormalCard), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {

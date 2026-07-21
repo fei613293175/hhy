@@ -231,7 +231,16 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("stableMatches >= 2", smoke_test)
         self.assertIn("digest != previousScreenDigest", smoke_test)
         self.assertIn("waitForIdle(2_000)", smoke_test)
+        self.assertIn("assertPrimaryNavigationVisible()", smoke_test)
         self.assertNotIn("waitForTextContains", smoke_test)
+
+        shell = (
+            ROOT
+            / "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt"
+        ).read_text(encoding="utf-8")
+        self.assertIn("modifier = Modifier.weight(1f)", shell)
+        self.assertIn("alwaysShowLabel = true", shell)
+        self.assertIn("home != null && home!!.modules.isNotEmpty()", shell)
 
     def test_release_manifest_and_duplicate_screenshot_guard_are_durable(self) -> None:
         policy = load_policy()

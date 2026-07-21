@@ -812,3 +812,16 @@ problems:
   - 一次性码TTL必须覆盖可观测的最慢模拟器冷启动和测试APK编译路径，不得凭经验设置得短于确定性执行时间
   - 延长TTL不得取消单次消费、精确OIDC身份绑定、短时会话或生产环境硬拒绝
   - 同一根因未定位前不得盲目重跑GitHub候选
+- id: PROB-0062
+  title: R06真实页面截图暴露首页空白和底部五栏目绘制不一致
+  status: SOLVED
+  root_cause: 首页只有在home为null时才进入空模块降级分支，API成功返回空modules会进入forEach但不产生任何卡片；底部NavigationBarItem完全依赖组件默认权重和标签展示，真实“我的”页截图只绘制首页和我的首尾两项。
+  resolution: CR-0157把有内容判断收紧为home非空且modules非空，空数组明确显示当前模块暂无内容；五个NavigationBarItem显式等权并固定始终显示标签，首页和我的截图前断言首页、红包、发布、消息、我的全部可见。首轮不合格截图不得登记为视觉基线。
+  regression_checks:
+  - python -m unittest tests.test_android_ci_gate
+  - apps/android/gradlew --no-daemon :app:compileDebugAndroidTestKotlin
+  - R06真实页面截图必须显示首页空模块降级和完整五栏目导航
+  do_not_repeat:
+  - API成功返回空列表仍必须进入冻结空状态，不得用非null等同于有内容
+  - 共享底部导航不得依赖隐含布局默认值，所有版本页面必须保持栏目数量、标签和选中态一致
+  - AI发现明显空白或跨页导航漂移时不得为了让门禁变绿而批准基线

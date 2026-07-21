@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R06
 candidate: true
-remediation_attempt: 2
-request_id: R06-20260721-005
-reason: 修复一次性引导码早于模拟器冷启动完成而过期后，重跑R06页面视觉矩阵候选
+remediation_attempt: 3
+request_id: R06-20260721-006
+reason: 修复首页空模块降级与五栏目导航一致性后，采集R06最终视觉基线候选
