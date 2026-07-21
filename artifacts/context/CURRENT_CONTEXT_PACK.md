@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T01:59:25Z
-- Context Hash：`0523018f75603f7149b81287a0c506f89650bbc6ccd81fb530cece7733876ce3`
+- 生成时间：2026-07-21T02:00:19Z
+- Context Hash：`113278ad50ecafffb1b344ec20c3af22421f4259066cb119c008fbb46772ec48`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-006
 ```
 
 ## 当前状态
@@ -17,10 +17,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R06
 active_release: R06
-active_task: TASK-R06-005
-status: IN_PROGRESS
+active_task: TASK-R06-006
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: 66da8575b738596cb51360619ea342380fdd121e
+last_green_commit: 0bbd4c39590f352507994c30a7a3d03c98355923
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -84,13 +84,13 @@ completed_tasks:
 - TASK-R06-002
 - TASK-R06-003
 - TASK-R06-004
-in_progress_tasks:
 - TASK-R06-005
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
-next_task: TASK-R06-005
-updated_at: '2026-07-21T01:59:23Z'
+next_task: TASK-R06-006
+updated_at: '2026-07-21T02:00:17Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -122,19 +122,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260721T012656Z-E067730A
-  actor_id: codex-root
-  story_id: STORY-R06-005
-  lease_expires_at: '2026-07-21T05:59:23Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0004.yaml
-  project_fingerprint: cb3ebf17f6263c79e17a3e5e1b6e3642ec7e2d12f78533ea974df8f9e614d026
+  active_session_id: null
+  last_session_id: SES-20260721T012656Z-E067730A
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0005.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: a9cb3c4e531f99e848ef71c18bb3cd772ced3397d7dc5ed9939a8efd190ff0c4
-    generated_at: '2026-07-21T01:56:11Z'
-  handoff_bundle: null
+    context_hash: 4ac29b9d32dffc150f01220faa22aedbb253252a2fc31a2c284fb97d6a640070
+    generated_at: '2026-07-21T02:00:16Z'
 ```
 
 ## 默认并行规则
@@ -275,8 +273,8 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R06-005
-title: 统一内容基础、首页与CMS专项测试与故障注入
+id: TASK-R06-006
+title: 统一内容基础、首页与CMS可观测性与预发布验收
 status: READY
 release: R06
 requirements:
@@ -284,23 +282,22 @@ requirements:
 - REQ-HOME-001
 - REQ-APK-001
 depends_on:
-- TASK-R06-003
-- TASK-R06-004
+- TASK-R06-005
 definition_of_ready: releases/R06/DEFINITION_OF_READY.yaml
 stories: releases/R06/STORIES.yaml
 steps:
-- 测试报告和失败证据归档
-- 关键缺陷清零
+- 运行手册演练
+- 验收矩阵签字
 acceptance:
 - 无TODO/生产Mock
 - 代码、文档、测试、追踪同步更新
-- 测试报告和失败证据归档
-- 关键缺陷清零
+- 运行手册演练
+- 验收矩阵签字
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-005
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-006
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-005
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-006
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -313,240 +310,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260721T012656Z-E067730A
-status: ACTIVE
-actor:
-  id: codex-root
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R06
-task_id: TASK-R06-005
-story_id: STORY-R06-005
-goal: 统一内容基础、首页与CMS专项测试与故障注入
-started_at: '2026-07-21T01:26:56Z'
-updated_at: '2026-07-21T01:59:23Z'
-takeover_of: null
-change_requests:
-- CR-0158
-- CR-0159
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
-  start_head: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-21T01:59:23Z'
-  expires_at: '2026-07-21T05:59:23Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0004.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md
-next_step: 提交精确Commit验证记录，关闭TASK-R06-005并立即领取TASK-R06-006
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: 精确Commit外部验证和任务关闭由事实主控串行完成
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T012656Z-E067730A-0004
-session_id: SES-20260721T012656Z-E067730A
-sequence: 4
-created_at: '2026-07-21T01:59:23Z'
-summary: R06-005实现Commit 0bbd4c39已推送并在云端Java21精确克隆完成15项专项测试
-next_step: 提交精确Commit验证记录，关闭TASK-R06-005并立即领取TASK-R06-006
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: r06_exact_commit_specialized_tests
-  result: PASS
-  evidence: Commit 0bbd4c39590f352507994c30a7a3d03c98355923 on obx-test maven:3.9.11-eclipse-temurin-21
-  note: 15 tests, 0 failures, 0 errors, BUILD SUCCESS
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: 0bbd4c39590f352507994c30a7a3d03c98355923
-  upstream: origin/task/TASK-R03-001
-  ahead: 0
-  behind: 0
-  dirty: false
-  status_porcelain: []
-  recent_commits:
-  - "0bbd4c39590f352507994c30a7a3d03c98355923\t2026-07-21T09:56:34+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] test(content): cover R06 fault\
-    \ matrix"
-  - "01d5c49c2745a845147bc36d41f6ae37335a9886\t2026-07-21T09:34:40+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] docs(ci): bound transient\
-    \ retries and async owner feedback"
-  - "1a021ca1ae0c95f8409dd1686f91a140f82ee2e9\t2026-07-21T09:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-004\
-    \ as completed"
-  - "26d0d42f1d1eba8e33b748ebf8d96461867b2419\t2026-07-21T09:02:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
-    \ R06 candidate pass"
-  - "66da8575b738596cb51360619ea342380fdd121e\t2026-07-21T08:41:06+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] test(android): approve R06\
-    \ visual baseline"
-  - "7b26ef9178607420d2eac17ecc3f6a93061c2353\t2026-07-21T08:12:05+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): reject incomplete\
-    \ R06 visual state"
-  - "ccc64022ea9531d0b979e87b6bae2c166490295b\t2026-07-21T07:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(ci): cover emulator bootstrap\
-    \ latency"
-  - "e1f5d632f19422c8aeecb4ab43f2ef5601627671\t2026-07-21T06:54:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
-    \ R06 candidate deployment"
-project_fingerprint:
-  sha256: cb3ebf17f6263c79e17a3e5e1b6e3642ec7e2d12f78533ea974df8f9e614d026
-  files:
-  - config/android-automation.yaml
-  - docs/00-baseline/正式商业系统全局硬性开发边界.md
-  - docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
-  - docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
-  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
-  - docs/09-development/统一开发与交付效率规范.md
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
-  - tests/test_android_ci_gate.py
-  file_count: 8
-  payload:
-    base_commit: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
-    files:
-    - path: config/android-automation.yaml
-      state: FILE
-      size: 5243
-      sha256: 6078316668aaa9bb82ac0f1148000de0cfda294893fc93164b035d155b14a876
-    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
-      state: FILE
-      size: 10152
-      sha256: ff548e8ad291ffd28210859c9aceb32c6b521766ee991db5f80f4cd0ba94cb93
-    - path: docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
-      state: FILE
-      size: 3064
-      sha256: 8e370abc487aeead082dde807d70dfa5596fee15031ea626a1445431b23f4e6f
-    - path: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
-      state: FILE
-      size: 2248
-      sha256: d1fffa522bf33810031594b3fdd69116feb046eef50a84a887fd58687634d11d
-    - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
-      state: FILE
-      size: 9131
-      sha256: f3aa686b3a51895e48e0ae25262b7395633c292b0e9847476f25d97b72120a08
-    - path: docs/09-development/统一开发与交付效率规范.md
-      state: FILE
-      size: 9930
-      sha256: 3e186c5d89ff683febb5428d7713efd20860851490b03fa8e08a26fb3e1d257d
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
-      state: FILE
-      size: 9648
-      sha256: 6471b44c621b10d31d89590b14ae3b9f33c9fa3e39e18e8c4be166eccf9b4091
-    - path: tests/test_android_ci_gate.py
-      state: FILE
-      size: 16381
-      sha256: 0282c840bb4070faf1129159a9b0b9f5191cd432e4d644702864a3549fb38e1f
-change_classification:
-  other:
-  - config/android-automation.yaml
-  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
-  - docs/09-development/统一开发与交付效率规范.md
-  source_of_truth:
-  - docs/00-baseline/正式商业系统全局硬性开发边界.md
-  continuity:
-  - docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
-  - docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
-  code:
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
-  tests:
-  - tests/test_android_ci_gate.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- APPROVED_CHANGE_REQUEST
-change_requests:
-- CR-0158
-- CR-0159
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: 精确Commit外部验证和任务关闭由事实主控串行完成
-event_hash: 18f50610e89991f4e64b8d3bf80e9437de13d7ec22fe75fe21438692485d72d3
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -554,12 +324,12 @@ event_hash: 18f50610e89991f4e64b8d3bf80e9437de13d7ec22fe75fe21438692485d72d3
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260721T012656Z-E067730A
-last_session_id: SES-20260720T173038Z-35648A77
+active_session_id: null
+last_session_id: SES-20260721T012656Z-E067730A
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260720T173038Z-35648A77-0025
-event_count: 1628
-event_head_hash: 18f50610e89991f4e64b8d3bf80e9437de13d7ec22fe75fe21438692485d72d3
+last_closure_checkpoint_id: CP-SES-20260721T012656Z-E067730A-0005
+event_count: 1631
+event_head_hash: 0eb2161c9a6d3bf1a88b6a3abd0a873066c408bc96d6fc161621b3ef29e9f0d2
 event_chain_valid: true
 ```
 
@@ -678,13 +448,13 @@ recent_sessions: - session_id: SES-20260719T183335Z-535311E4
   task_id: TASK-R06-005
   story_id: STORY-R06-005
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-21T01:26:56Z'
   record: .continuity/sessions/SES-20260721T012656Z-E067730A.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md
-  updated_at: '2026-07-21T01:59:23Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0004.yaml
+  updated_at: '2026-07-21T02:00:17Z'
+  closed_at: '2026-07-21T02:00:17Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0005.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D14F24DD0A84
   session_id: SES-20260719T085423Z-0385FEE0
@@ -1308,7 +1078,7 @@ task_claims: - claim_id: CLM-D14F24DD0A84
   task_id: TASK-R06-005
   story_id: STORY-R06-005
   actor_id: codex-root
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-21T01:26:56Z'
   allowed_paths:
   - apps/**
@@ -1342,6 +1112,7 @@ task_claims: - claim_id: CLM-D14F24DD0A84
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-21T02:00:17Z'
 recent_task_transitions: - transition_id: TRN-6110C7612C53
   timestamp: '2026-07-19T08:54:23Z'
   release: R04
@@ -1549,9 +1320,9 @@ recent_task_transitions: - transition_id: TRN-6110C7612C53
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 0bbd4c39590f352507994c30a7a3d03c98355923
+head: 9caa07b1b326d9ba3ce02d32b0ac4c614956b41a
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
@@ -1559,12 +1330,21 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260721T012656Z-E067730A.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md'
-- ?? .continuity/checkpoints/SES-20260721T012656Z-E067730A/0004.yaml
+- ' M releases/R06/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260721T012656Z-E067730A/0005.yaml
 recent_commits:
+- "9caa07b1b326d9ba3ce02d32b0ac4c614956b41a\t2026-07-21T09:59:48+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): record R06\
+  \ specialized test pass"
 - "0bbd4c39590f352507994c30a7a3d03c98355923\t2026-07-21T09:56:34+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] test(content): cover R06 fault\
   \ matrix"
 - "01d5c49c2745a845147bc36d41f6ae37335a9886\t2026-07-21T09:34:40+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] docs(ci): bound transient retries\
@@ -1579,23 +1359,14 @@ recent_commits:
   \ R06 visual state"
 - "ccc64022ea9531d0b979e87b6bae2c166490295b\t2026-07-21T07:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(ci): cover emulator bootstrap\
   \ latency"
-- "e1f5d632f19422c8aeecb4ab43f2ef5601627671\t2026-07-21T06:54:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record R06\
-  \ candidate deployment"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`cb3ebf17f6263c79e17a3e5e1b6e3642ec7e2d12f78533ea974df8f9e614d026`
-- 文件数：8
+- 指纹：`0d926fa1cefe995c2c556f9dca71b1bc01d9f6aa26d512c7794f1d3ee259920c`
+- 文件数：0
 
-- `config/android-automation.yaml`
-- `docs/00-baseline/正式商业系统全局硬性开发边界.md`
-- `docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md`
-- `docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md`
-- `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`
-- `docs/09-development/统一开发与交付效率规范.md`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java`
-- `tests/test_android_ci_gate.py`
+- 无
 
 ## 当前 Release
 
@@ -2365,7 +2136,7 @@ TASKS.yaml:
     completed_at: '2026-07-21T01:02:55Z'
   - id: TASK-R06-005
     title: 统一内容基础、首页与CMS专项测试与故障注入
-    status: READY
+    status: DONE
     depends_on:
     - TASK-R06-003
     - TASK-R06-004
@@ -2380,9 +2151,10 @@ TASKS.yaml:
     - 测试报告和失败证据归档
     - 关键缺陷清零
     session_log_required: true
+    completed_at: '2026-07-21T02:00:11Z'
   - id: TASK-R06-006
     title: 统一内容基础、首页与CMS可观测性与预发布验收
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R06-005
     requirements: *id001
@@ -7032,8 +6804,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `3a1575e49dfec4a149b9a4c316818d26cff940d662a87630821e66f638f733a3`
-- `NEXT_TASK.yaml` — `bc385e2ff5686d6e4a1b7a1db54b999f4c1b9657f0f902287a06a6d5ac3788a2`
+- `CURRENT_STATUS.yaml` — `acd1987d2630cd32d5273c06f523da3724ad720e41bfd748bac18cc5afe266c2`
+- `NEXT_TASK.yaml` — `ca179c95e2a4ff9083235c10ea84dfb7b6c86c6f02a2be1c2d4382ddd9927521`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `ceea1f861318aa4b81879ed9799d912b5d2d1418741b9819fec82e9de7dd46c6`
@@ -7043,22 +6815,18 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `8b52a78ee80ea3f25c4096f7711842d1f7acb0f1b8e7b68aa1957053bed2d138`
-- `.continuity/SESSION_INDEX.yaml` — `c425347a6e54036ac83f887183102765941ccab1e177ed15beb048ec091cc215`
-- `.continuity/TASK_CLAIMS.yaml` — `6364ae7ecd3b0eb7dd87fb51a54ba7c5700eedfebc926e00ce599629dd0f406a`
+- `.continuity/EVENT_LOG.jsonl` — `f8c03d734d212792ee8312954ea1ec6480038d3c4beee854d79e0a592f3d5e37`
+- `.continuity/SESSION_INDEX.yaml` — `09e7357e09808452f8db361c2142adf8053fcf06e86e814cd62c94a57ba7dd44`
+- `.continuity/TASK_CLAIMS.yaml` — `7daaa97168e7f21643cc09764f793826996f03dd6fd32d93c90d355a03fe3ff9`
 - `.continuity/TASK_TRANSITIONS.yaml` — `48e521d2e873b371d8c4ce2ef561682fda744cd1959721830f12728756efcc6f`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `817ef734240d37f7bd08d56a6c518cf7365296231471f76cf500952f960d8a1d`
-- `.continuity/ACTIVE_SESSION.yaml` — `fa73c42e00cc1f5f894479c19bbc9ead6c5f8ce59f2bb45daf1fdba5567a5ab5`
+- `.continuity/ACTIVE_SESSION.yaml` — `e0dd0cb7179b33aa4fd0c7c2ac62d66bf97fa2c11053c17c85930d295878cfde`
 - `releases/R06/RELEASE_MANIFEST.yaml` — `72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878`
 - `releases/R06/DEFINITION_OF_READY.yaml` — `c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991`
 - `releases/R06/STORIES.yaml` — `dd81c97b0552c9342b5be360e918d26502b5e3d06fa8bafaba7648d43c96e7ef`
-- `releases/R06/TASKS.yaml` — `4258651059ffb6e295b45ced71c96c6253530a149cd912e9219c3d977621f026`
+- `releases/R06/TASKS.yaml` — `c4c2a9582a29394e4ce86f35a2550c8edafdc87fb7a2aaf6ac615fd7edd7971b`
 - `releases/R06/ACCEPTANCE_MATRIX.csv` — `9485c8f085153d3483002b33a143c764a8838a3503d8ac4d2e36e5c3c45b9aaf`
 - `releases/R06/PARALLEL_EXECUTION_PLAN.yaml` — `426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md` — `74141e38a0249e45ca721994f471eec8c11d5bcdd119faa52a0e5c25604930c2`
-- `.continuity/checkpoints/SES-20260721T012656Z-E067730A/0004.yaml` — `9ebb17069a5581e23eddc5fe233996c3d9a56de680f961455e0d4694586498a3`
-- `docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md` — `8e370abc487aeead082dde807d70dfa5596fee15031ea626a1445431b23f4e6f`
-- `docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md` — `d1fffa522bf33810031594b3fdd69116feb046eef50a84a887fd58687634d11d`
 
 ## 接手硬规则
 
