@@ -100,7 +100,7 @@ tasks:
   completed_at: '2026-07-21T20:16:15Z'
 - id: TASK-R07-006
   title: 搜索、发布者主页与联系方式保护可观测性与预发布验收
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R07-005
   requirements: *id001
@@ -114,9 +114,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-21T20:59:41Z'
 - id: TASK-R07-007
   title: 搜索、发布者主页与联系方式保护Android测试APK与产物追溯
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R07-006
   requirements: *id001

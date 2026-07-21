@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-21T20:58:58Z",
-  "context_hash": "997fc7f2ebc5d01ec30bf816fa6392e1c06b1a8fbf7f14d5aed35f5202a38e4a",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-21T20:59:49Z",
+  "context_hash": "dea30c9d35ac74a2926ca25defe345bc3e1baa620ada05585afb29d27bf722d9",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "a228ebb3c595c02c34dcb2191aa7be830d827aef416e3c4cf94d9612ad665d83",
-    "file_count": 19
+    "sha256": "2e5b5d90a27d76f4a2e04afaddb60047294f1a7faf2045adbc66a1f76752287d",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "e8c8b6712dd91fd3c5c20ca0c3d1331fb589cf72420c4e4884c2680a8449edd7"
+    "sha256": "e77989e90e3e14860a493776aea0811efad588d3a7f77468c1947bba7b09c340"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "40a2db3b59017e002e64d367b28dc6c01a9459f2d488fe6e52a57a60d1534d84"
+    "sha256": "1173ad51bcbf2ea027b3f1d336a32ae84bf4c15639ff366ec3b2865aa68fe4c3"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "d35e5323a5e7e71a86015d15e83e69c09efc0d954a879e73f34af9e98db7a542",
-      "bytes": 3850
+      "sha256": "a128fbf152832cda7fbc419f110b00c0aa958c17f8758fcc6b94418ca4a29cda",
+      "bytes": 3719
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "c212066600e79de03393971089468e8b07bcdf5e71a7e11a386bda0ac5a8e9b6",
-      "bytes": 1521
+      "sha256": "a6dc70cc1e78625ecbd1bd3a9b73c34469eb4fbbdeeade9d75aa5c2d87173f0f",
+      "bytes": 1618
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "62ef816b27e1cb09ac430cab7c49d46a3670c22000612fc3e055cc19a234a6e1",
-      "bytes": 1058542
+      "sha256": "f9c49369e7d20971fd6813620b9737c4e77f215195f6a30effb60bdb8b9c2e76",
+      "bytes": 1060314
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "e89df628d79ebbe20931d1a5238486604787e605af99e3061752d03dd0cc9f77",
-      "bytes": 33318
+      "sha256": "6595bf1994c0af5bfd3140fa25f1b9d76f4f929d1790ecdf8a0e23935c9f412b",
+      "bytes": 33336
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "672a8cbfe0ee1c18e9ef34119e83be13f4b1fef8fb60881ca6f466b89b08e153",
-      "bytes": 43857
+      "sha256": "48b8c506a90a67a62125a72af8acaf668a2b2e6cd783b731940334aa7fa27371",
+      "bytes": 43893
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "b41d48e71a429aff135047109f5abac9c9d201c0f43076d7be86ce9a2c7bea00",
-      "bytes": 533
+      "sha256": "5bc46a48d71bfba03e7b2dda7f77cf0810b9a896bd48e4fa7657815211275d63",
+      "bytes": 143
     },
     {
       "path": "releases/R07/RELEASE_MANIFEST.yaml",
@@ -128,8 +128,8 @@
     },
     {
       "path": "releases/R07/TASKS.yaml",
-      "sha256": "ae12b06e820c427ae96f8a4cc486d8c7278ea31756744a11fc3f7f3f32909589",
-      "bytes": 5956
+      "sha256": "b3f33c4eef7f58fb37a6e570d814ef78c761bcf9c782ce976b459b2ee86e12ba",
+      "bytes": 5992
     },
     {
       "path": "releases/R07/ACCEPTANCE_MATRIX.csv",
@@ -140,36 +140,6 @@
       "path": "releases/R07/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756",
       "bytes": 4300
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260721T201747Z-CD80A1EE.md",
-      "sha256": "b34d7c4efcf0ae14b269750d1b0b69c6d8dbcbfcabd1ee74a49bfa1ccd334d6c",
-      "bytes": 11844
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0005.yaml",
-      "sha256": "7f203e355a4ce8ed7311621a34a25a5b826b288df91a001f902fb6a3176b476c",
-      "bytes": 12872
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0187-建立R07搜索联系方式可观测性与隔离Staging验收.md",
-      "sha256": "1b1383ca6dfd951e3273dfcdb792be749d0886199bac744b852b382aa153254c",
-      "bytes": 4725
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md",
-      "sha256": "0123df0fbd027542b71b8a41e100db7790d1ffe90e809e66e1ec666ab2283b59",
-      "bytes": 6115
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0189-同步永久Git配置的连续性模板与自测报告.md",
-      "sha256": "e848badd91b13cf268840f540989907d01d34a5a1e24812ffee800a0299eed85",
-      "bytes": 3185
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0190-刷新Git永久化后的严格项目门禁报告.md",
-      "sha256": "80718ce28381981dc08b9aadb1357479c6d090ee6611cf60c9a02c26cbfd0f71",
-      "bytes": 2535
     }
   ]
 }

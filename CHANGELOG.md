@@ -804,3 +804,13 @@
 - Actor：`codex-root-r07-005`
 - 摘要：完成R07搜索、发布者主页与联系方式保护十项专项测试及故障注入：冻结Commit后端Java21 332项通过，PostgreSQL17 R07集成2项零跳过通过，Android单测与lint通过，10/10机器矩阵PASS，P0/P1缺陷为0；同时永久固化Windows Git用户环境与跨机恢复规则。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md`
+
+## TASK-R07-006 · COMPLETED · 2026-07-21T20:59:41Z
+
+- Task close: TASK-R07-006 / SES-20260721T201747Z-CD80A1EE
+- Release：`R07`
+- Story：`STORY-R07-005`
+- Actor：`codex-root-r07-006`
+- 摘要：R07六项业务指标、七条告警、隔离Staging、日志脱敏、告警触发恢复和同库同卷回滚全部通过；AC-R07-004已签署，Git永久化跨机模板与连续性报告同步闭环。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T201747Z-CD80A1EE.md`
+
