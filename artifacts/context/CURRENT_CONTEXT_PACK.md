@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T08:46:47Z
-- Context Hash：`7688cd0b5b08475403845c1a911a5a978f547ceb7d481219a390a62ef521baec`
+- 生成时间：2026-07-21T08:51:28Z
+- Context Hash：`a5c064d797f0bf29763bc41663f7d6a794c3f30d010043e0f6492bf89df3f1bc`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -94,7 +94,7 @@ blocked_tasks:
 - TASK-R03-007
 - TASK-R06-008
 next_task: TASK-R07-001
-updated_at: '2026-07-21T08:46:44Z'
+updated_at: '2026-07-21T08:51:26Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -129,15 +129,15 @@ continuity:
   active_session_id: SES-20260721T082026Z-E6763DFE
   actor_id: codex-root
   story_id: STORY-R07-005
-  lease_expires_at: '2026-07-21T12:46:44Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0003.yaml
-  project_fingerprint: 72fcedeffeb15dad04deb210f227f1bfd1e4f3c52b0119405d12a12c09c08b71
+  lease_expires_at: '2026-07-21T12:51:26Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0004.yaml
+  project_fingerprint: b60e2c12918985f77030ee1ae1744b022d8951522408fbbf07945609b3c8ca5e
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: dbba020de492c5332aaf0f8e9ba1fe408a8d2d0d9853a92b36f88ca4d20830e4
-    generated_at: '2026-07-21T08:39:49Z'
+    context_hash: 7688cd0b5b08475403845c1a911a5a978f547ceb7d481219a390a62ef521baec
+    generated_at: '2026-07-21T08:46:47Z'
   handoff_bundle: null
 ```
 
@@ -339,7 +339,7 @@ task_id: TASK-R07-001
 story_id: STORY-R07-005
 goal: 核验R07全部DoR和事实源，领取故事并建立搜索、发布者主页与联系方式保护的可执行变更基线
 started_at: '2026-07-21T08:20:26Z'
-updated_at: '2026-07-21T08:46:44Z'
+updated_at: '2026-07-21T08:51:26Z'
 takeover_of: null
 change_requests:
 - CR-0174
@@ -388,12 +388,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T08:46:44Z'
-  expires_at: '2026-07-21T12:46:44Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0003.yaml
+  renewed_at: '2026-07-21T08:51:26Z'
+  expires_at: '2026-07-21T12:51:26Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T082026Z-E6763DFE.md
-next_step: 提交推送R07入口实现，绑定并关闭CR-0174/0175，然后关闭TASK-R07-001并进入R07-002
+next_step: 提交推送CR关闭元数据，然后关闭TASK-R07-001并进入TASK-R07-002
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -401,96 +401,56 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: TASK-R07-001是单一入口治理与最终集成事务；未来R07-002至R07-005按新计划在当前Task内部重新评估互斥分区
+  reason: CR状态机和远端事实提交绑定是单一连续性元数据事务，由主控串行完成
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T082026Z-E6763DFE-0003
+checkpoint_id: CP-SES-20260721T082026Z-E6763DFE-0004
 session_id: SES-20260721T082026Z-E6763DFE
-sequence: 3
-created_at: '2026-07-21T08:46:44Z'
-summary: R07入口基线、CR-0174/0175、并行计划和连续性重验证全部通过，Context Pack已包含R07全部Release来源
-next_step: 提交推送R07入口实现，绑定并关闭CR-0174/0175，然后关闭TASK-R07-001并进入R07-002
+sequence: 4
+created_at: '2026-07-21T08:51:26Z'
+summary: CR-0174和CR-0175均已绑定远端实现提交cac604cf并完成IMPLEMENTING至CLOSED生命周期
+next_step: 提交推送CR关闭元数据，然后关闭TASK-R07-001并进入TASK-R07-002
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: r07-documentation
+- name: cr0174-lifecycle
   result: PASS
-  evidence: 0 errors, 0 warnings, 0 open gaps
-  note: R07冻结输入完整
-- name: r07-release-artifacts
+  evidence: CR-0174 CLOSED with implementation_commits=cac604cf
+  note: R07入口治理状态链完整
+- name: cr0175-lifecycle
   result: PASS
-  evidence: RELEASE_ARTIFACTS_OK 1
-  note: R07产物结构完整
-- name: api-contract
-  result: PASS
-  evidence: client=131 admin=184 websocket=10 runtime_hashes=PASS
-  note: API合同一致
-- name: program-execution-plan
-  result: PASS
-  evidence: releases=31 errors=0
-  note: 全项目计划一致
-- name: continuity-self-test
-  result: PASS
-  evidence: 11 integration checks and 14 lifecycle checks
-  note: 当前连续性源码证据已刷新
-- name: context-pack-parallel-policy
-  result: PASS
-  evidence: 9 tests OK
-  note: R07并行计划已纳入Context Pack
+  evidence: CR-0175 CLOSED with implementation_commits=cac604cf
+  note: 并行计划与连续性证据状态链完整
 - name: v123-continuity-strict
   result: PASS
   evidence: 0 errors, 0 warnings
-  note: 严格组合门禁通过
-- name: continuity-doctor
-  result: PASS
-  evidence: 0 errors, 0 warnings
-  note: 连续性Doctor通过
+  note: 严格组合门禁保持通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: cb9c1490316e1a9f8f7660e57732b0391b3e8417
+  head: cac604cf6663facb0200b187d20a3ba6f9a1ca4e
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
-  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
-  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
-  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
-  - ' M artifacts/validation/project-doctor-v1.2.2.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M .continuity/change_requests/CR-0174.yaml'
+  - ' M .continuity/change_requests/CR-0175.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M releases/R07/RELEASE_MANIFEST.yaml'
-  - ?? .continuity/change_requests/CR-0174.yaml
-  - ?? .continuity/change_requests/CR-0175.yaml
-  - ?? .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0001.yaml
-  - ?? .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0002.yaml
-  - ?? .continuity/sessions/SES-20260721T082026Z-E6763DFE.yaml
-  - ?? docs/03-continuity/R07_TASK-001_ENTRY_GATE.md
-  - ?? docs/03-continuity/change-requests/CR-0174-登记R07实施入口与异步R06门禁边界.md
-  - ?? docs/03-continuity/change-requests/CR-0175-补齐R07并行执行计划与连续性验证证据.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T082026Z-E6763DFE.md
-  - ?? releases/R07/PARALLEL_EXECUTION_PLAN.yaml
+  - ' M docs/03-continuity/change-requests/CR-0174-登记R07实施入口与异步R06门禁边界.md'
+  - ' M docs/03-continuity/change-requests/CR-0175-补齐R07并行执行计划与连续性验证证据.md'
   recent_commits:
+  - "cac604cf6663facb0200b187d20a3ba6f9a1ca4e\t2026-07-21T16:48:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(governance): open R07\
+    \ implementation"
   - "cb9c1490316e1a9f8f7660e57732b0391b3e8417\t2026-07-21T16:15:17+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-008\
     \ as blocked"
   - "84582c03da4db757951ac7798fbd61551555d71f\t2026-07-21T16:12:34+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close CR-0173\
@@ -505,10 +465,8 @@ git:
     \ completion change requests"
   - "609c2ae6f35e3435352dcf2639ac5d953f9315fb\t2026-07-21T15:08:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(r06): complete machine\
     \ visual acceptance and async handoff"
-  - "0605da414f87f11a54dc1004a0690757c674211d\t2026-07-21T13:51:09+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-007\
-    \ as completed"
 project_fingerprint:
-  sha256: 72fcedeffeb15dad04deb210f227f1bfd1e4f3c52b0119405d12a12c09c08b71
+  sha256: b60e2c12918985f77030ee1ae1744b022d8951522408fbbf07945609b3c8ca5e
   files:
   - docs/03-continuity/R07_TASK-001_ENTRY_GATE.md
   - docs/03-continuity/change-requests/CR-0174-登记R07实施入口与异步R06门禁边界.md
@@ -525,12 +483,12 @@ project_fingerprint:
       sha256: 475ef4c057d4717d8d7505be611edc38cf7361f4ca44f7743c18279f23f3c372
     - path: docs/03-continuity/change-requests/CR-0174-登记R07实施入口与异步R06门禁边界.md
       state: FILE
-      size: 2447
-      sha256: d1a560a558b2dfe1fd945384aa55c2b07a783248a9b3c0ccfd56632757aa453a
+      size: 3090
+      sha256: cc3a8590715b7b50b69690408d7f7f11c9728a97b630ced960e47098c3eda834
     - path: docs/03-continuity/change-requests/CR-0175-补齐R07并行执行计划与连续性验证证据.md
       state: FILE
-      size: 2651
-      sha256: a3d86e8f06609252b0703f38c8ff63f964163afe0f2fea62c10e1f557d11bb0e
+      size: 3293
+      sha256: 8c781859b47e6a59a76527a87481732fb628c2f832ff5f63336124c494a67abc
     - path: releases/R07/PARALLEL_EXECUTION_PLAN.yaml
       state: FILE
       size: 4300
@@ -597,8 +555,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: TASK-R07-001是单一入口治理与最终集成事务；未来R07-002至R07-005按新计划在当前Task内部重新评估互斥分区
-event_hash: a2143a97d6f1b81e4183993baf99e3080aa8dda5eeacd4cd8259060e12124c78
+  reason: CR状态机和远端事实提交绑定是单一连续性元数据事务，由主控串行完成
+event_hash: aac2e47b40db15abf6d2220f86c78c02e1335041702e5f306b8525be51585832
 ```
 
 ## 接续状态与事件头
@@ -610,8 +568,8 @@ active_session_id: SES-20260721T082026Z-E6763DFE
 last_session_id: SES-20260721T055708Z-741C3D49
 last_session_result: BLOCKED
 last_closure_checkpoint_id: CP-SES-20260721T055708Z-741C3D49-0010
-event_count: 1770
-event_head_hash: a2143a97d6f1b81e4183993baf99e3080aa8dda5eeacd4cd8259060e12124c78
+event_count: 1777
+event_head_hash: aac2e47b40db15abf6d2220f86c78c02e1335041702e5f306b8525be51585832
 event_chain_valid: true
 ```
 
@@ -734,9 +692,9 @@ recent_sessions: - session_id: SES-20260720T095830Z-752E5121
   started_at: '2026-07-21T08:20:26Z'
   record: .continuity/sessions/SES-20260721T082026Z-E6763DFE.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T082026Z-E6763DFE.md
-  updated_at: '2026-07-21T08:46:44Z'
+  updated_at: '2026-07-21T08:51:26Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-395B2D366C0A
   session_id: SES-20260719T135908Z-32D952EC
@@ -1620,7 +1578,7 @@ recent_task_transitions: - transition_id: TRN-AEE5C6D4EFCC
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: cb9c1490316e1a9f8f7660e57732b0391b3e8417
+head: cac604cf6663facb0200b187d20a3ba6f9a1ca4e
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1631,34 +1589,19 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
+- ' M .continuity/change_requests/CR-0174.yaml'
+- ' M .continuity/change_requests/CR-0175.yaml'
+- ' M .continuity/sessions/SES-20260721T082026Z-E6763DFE.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/continuity-gate-v1.2.3.json'
-- ' M artifacts/validation/continuity-integration-v1.2.3.json'
-- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
-- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
-- ' M artifacts/validation/project-doctor-v1.2.2.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M releases/R07/RELEASE_MANIFEST.yaml'
-- ?? .continuity/change_requests/CR-0174.yaml
-- ?? .continuity/change_requests/CR-0175.yaml
-- ?? .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0001.yaml
-- ?? .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0002.yaml
-- ?? .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0003.yaml
-- ?? .continuity/sessions/SES-20260721T082026Z-E6763DFE.yaml
-- ?? docs/03-continuity/R07_TASK-001_ENTRY_GATE.md
-- ?? docs/03-continuity/change-requests/CR-0174-登记R07实施入口与异步R06门禁边界.md
-- ?? docs/03-continuity/change-requests/CR-0175-补齐R07并行执行计划与连续性验证证据.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260721T082026Z-E6763DFE.md
-- ?? releases/R07/PARALLEL_EXECUTION_PLAN.yaml
+- ' M docs/03-continuity/change-requests/CR-0174-登记R07实施入口与异步R06门禁边界.md'
+- ' M docs/03-continuity/change-requests/CR-0175-补齐R07并行执行计划与连续性验证证据.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260721T082026Z-E6763DFE.md'
+- ?? .continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0004.yaml
 recent_commits:
+- "cac604cf6663facb0200b187d20a3ba6f9a1ca4e\t2026-07-21T16:48:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(governance): open R07\
+  \ implementation"
 - "cb9c1490316e1a9f8f7660e57732b0391b3e8417\t2026-07-21T16:15:17+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-008\
   \ as blocked"
 - "84582c03da4db757951ac7798fbd61551555d71f\t2026-07-21T16:12:34+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close CR-0173\
@@ -1673,13 +1616,11 @@ recent_commits:
   \ change requests"
 - "609c2ae6f35e3435352dcf2639ac5d953f9315fb\t2026-07-21T15:08:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(r06): complete machine\
   \ visual acceptance and async handoff"
-- "0605da414f87f11a54dc1004a0690757c674211d\t2026-07-21T13:51:09+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-007\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`72fcedeffeb15dad04deb210f227f1bfd1e4f3c52b0119405d12a12c09c08b71`
+- 指纹：`b60e2c12918985f77030ee1ae1744b022d8951522408fbbf07945609b3c8ca5e`
 - 文件数：5
 
 - `docs/03-continuity/R07_TASK-001_ENTRY_GATE.md`
@@ -7088,94 +7029,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
   machine_record: .continuity/change_requests/CR-0159.yaml
   document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
-- protocol_version: '1.0'
-  cr_id: CR-0174
-  title: 登记R07实施入口与异步R06门禁边界
-  status: APPROVED
-  created_at: '2026-07-21T08:23:33Z'
-  updated_at: '2026-07-21T08:24:19Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-reviewer
-  task_id: TASK-R07-001
-  session_id: SES-20260721T082026Z-E6763DFE
-  user_request: 按仓库R02至R32计划持续开发；R06真机反馈为异步输入，不得阻断R07推进；每版候选APK与交付文档放桌面
-  reason: R07 Release Manifest需要登记当前Session、R06机器完成与异步owner门禁边界、五个故事就绪事实及持续交付规则
-  original_rule: R07仅为READY_WHEN_DEPENDENCIES_GREEN，尚未登记R06机器完成但owner真机异步PENDING的合法依赖状态、当前实施Session和逐版候选交付规则。
-  new_rule: 登记R07实施入口：R06机器交付和机器完成PASS、TASK-R06-008仅因owner异步真机PENDING挂起且不阻断R07；R07五个故事按TASK-R07-001至008顺序实施，完整门禁和模拟器仅在最终候选阶段执行，候选APK与交付文档放桌面。
-  impact_summary: 只更新R07治理基线和就绪核验记录，不改变冻结页面、接口、数据库、配置或业务语义。
-  impact:
-    files:
-    - releases/R07/RELEASE_MANIFEST.yaml
-    - docs/03-continuity/R07_TASK-001_ENTRY_GATE.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python scripts/check_v122_documentation.py --release R07
-    - python scripts/check_release_artifacts.py --release R07
-    - python scripts/check_api_contract.py
-    - python scripts/check_program_execution_plan.py
-    releases:
-    - R07
-    migration_and_compatibility: 无数据迁移；保留R06正式验收和生产激活阻断，R07开发独立推进并继续执行自身最终候选与owner异步真机验收。
-  user_confirmation: 项目所有者明确要求持续按R02至R32推进，真机反馈异步且每版最终候选APK和交付文档放桌面
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T08:24:19Z'
-    note: R07入口只登记已验证R06机器事实、owner异步边界和既定逐版候选策略，不修改产品冻结契约。
-  machine_record: .continuity/change_requests/CR-0174.yaml
-  document: docs/03-continuity/change-requests/CR-0174-登记R07实施入口与异步R06门禁边界.md
-- protocol_version: '1.0'
-  cr_id: CR-0175
-  title: 补齐R07并行执行计划与连续性验证证据
-  status: APPROVED
-  created_at: '2026-07-21T08:33:01Z'
-  updated_at: '2026-07-21T08:33:45Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-reviewer
-  task_id: TASK-R07-001
-  session_id: SES-20260721T082026Z-E6763DFE
-  user_request: 持续推进R07且后续换电脑换AI可从仓库无缝接续，不依赖聊天
-  reason: 严格组合门禁要求当前Release并行计划进入Context Pack，且CR-0172/0173修改连续性核心后集成与生命周期报告必须重新生成绑定当前源码
-  original_rule: R07尚无PARALLEL_EXECUTION_PLAN，Context Pack无法携带当前Release并行边界；连续性集成和生命周期报告仍绑定CR-0172/0173修改前源码。
-  new_rule: 新增R07单主控、最多三个隔离执行工作包的路径与任务分区；执行代理不得改连续性、契约、Flyway编号、APK身份或提交推送；重新生成连续性集成和生命周期报告并刷新Context Pack来源哈希。
-  impact_summary: 补齐R07跨AI并行治理和当前连续性源码验证证据，不改变R07业务契约、页面、数据库或运行语义。
-  impact:
-    files:
-    - releases/R07/PARALLEL_EXECUTION_PLAN.yaml
-    - artifacts/validation/continuity-integration-v1.2.3.json
-    - artifacts/validation/continuity-integration-v1.2.3.log
-    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-    - artifacts/validation/project-doctor-v1.2.3.json
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python scripts/run_continuity_self_test.py
-    - python -m unittest tests.test_context_pack_parallel_policy
-    - python scripts/check_v123_continuity.py --strict
-    releases:
-    - R07
-    migration_and_compatibility: 无数据迁移；R07任务依赖保持串行事实链，仅允许在单一ACTIVE Task内部对路径互斥工作包并行，最终集成由主控串行完成。
-  user_confirmation: 项目所有者要求持续开发且跨电脑跨AI可从仓库事实无缝接续
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T08:33:45Z'
-    note: 计划保持一个事实Session和一个Claim，只在当前任务内部按互斥路径委托，连续性报告仅重建现有源码证据，未改变业务范围。
-  machine_record: .continuity/change_requests/CR-0175.yaml
-  document: docs/03-continuity/change-requests/CR-0175-补齐R07并行执行计划与连续性验证证据.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `6c8fdb7f42f474e4346d4513d13ae59e24abc561c14f4134cc0f3112c466ff18`
+- `CURRENT_STATUS.yaml` — `c57936ce1fb779a94a9de4392fc66cbdeb0850d8c0663b2d87506f1899efd5a9`
 - `NEXT_TASK.yaml` — `ddc1d69da7af3607ec9c85cfe5e3e2810bcc0083bf886d19df303f2a434d2ac9`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7186,22 +7046,22 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `ffdfb8c7633cde7edf387442dfa7fbddad308165899eaa20e54d97bc5f12190d`
-- `.continuity/SESSION_INDEX.yaml` — `41a6138b2adb9ba500831d8e45c3ef0fb9e232197888fc5f89e6e28aab448eae`
+- `.continuity/EVENT_LOG.jsonl` — `678755fd6a3b9f689fb1f4bf9ce66c28813b124664b7a84d42075c5fe82cd004`
+- `.continuity/SESSION_INDEX.yaml` — `816e6ca882990657fae40dda68eef25ec6c127f00f52e0af7d66bd4c9257e2ac`
 - `.continuity/TASK_CLAIMS.yaml` — `57fdc5f1bdb260732229955e788de12a35bce13e244c7241b0a4d2a7d020e612`
 - `.continuity/TASK_TRANSITIONS.yaml` — `58b391f8972678cdaa616bffbbfabc7ee7c013b94a53f7076e31729fa50bc6fa`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `1d6832c0a49dd9cdb31a3d7050b2c698d68141da1ff2006e14e8b40953560df0`
-- `.continuity/ACTIVE_SESSION.yaml` — `f85175429ea23edc5884756d400ac06178764fcba4f15923f6eae641cf715b35`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `9319b884c0c74f8fca6364700cd8702c97538bbf8090f81f0dcd9aa34c2f4819`
+- `.continuity/ACTIVE_SESSION.yaml` — `513f04959e582a49e581c131013730981a78858d50361b5d7a4efa35713d8101`
 - `releases/R07/RELEASE_MANIFEST.yaml` — `d4cddd44d9c550085a49cb69a62de5414ed011a0277d27099c9274642a227744`
 - `releases/R07/DEFINITION_OF_READY.yaml` — `5e3a1496a1a9a9af6ac2e40e8aaacdfaa46cc7bf117324c22c486b3730c6f9f9`
 - `releases/R07/STORIES.yaml` — `26004a70f2d1aa3d76af5d2924a6ff7174213cc9265b18aec6bdad4b3707c0fb`
 - `releases/R07/TASKS.yaml` — `2ee049d6c4fd9d1a4d9e9510e0d8c08787c9453efb30a53486ac794d60a5d1be`
 - `releases/R07/ACCEPTANCE_MATRIX.csv` — `1f31b7765d0740a6b8800d8ec89920a67f6010697dda3d7be5793ce48275ce39`
 - `releases/R07/PARALLEL_EXECUTION_PLAN.yaml` — `6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T082026Z-E6763DFE.md` — `613e4a957bc177cf825f19d91e8e6e04c88a81de41de3397b68ebf9bb0a0590e`
-- `.continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0003.yaml` — `8f8c080958e5a2479f42f756679d95e67726f864ecfe478f3dff3f2422054447`
-- `docs/03-continuity/change-requests/CR-0174-登记R07实施入口与异步R06门禁边界.md` — `d1a560a558b2dfe1fd945384aa55c2b07a783248a9b3c0ccfd56632757aa453a`
-- `docs/03-continuity/change-requests/CR-0175-补齐R07并行执行计划与连续性验证证据.md` — `a3d86e8f06609252b0703f38c8ff63f964163afe0f2fea62c10e1f557d11bb0e`
+- `docs/03-continuity/sessions/2026-07/SES-20260721T082026Z-E6763DFE.md` — `d0b9ece2756ecec3443f078a9b748c84373d73a968186d92c88cc145774d286a`
+- `.continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0004.yaml` — `3314d9d67e1292f5f67d7cfe00968e756e0d8fe1bfc2eaeaa27341e7fae69e69`
+- `docs/03-continuity/change-requests/CR-0174-登记R07实施入口与异步R06门禁边界.md` — `cc3a8590715b7b50b69690408d7f7f11c9728a97b630ced960e47098c3eda834`
+- `docs/03-continuity/change-requests/CR-0175-补齐R07并行执行计划与连续性验证证据.md` — `8c781859b47e6a59a76527a87481732fb628c2f832ff5f63336124c494a67abc`
 
 ## 接手硬规则
 

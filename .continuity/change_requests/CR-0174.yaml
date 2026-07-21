@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0174
 title: 登记R07实施入口与异步R06门禁边界
-status: APPROVED
+status: CLOSED
 created_at: '2026-07-21T08:23:33Z'
-updated_at: '2026-07-21T08:24:19Z'
+updated_at: '2026-07-21T08:49:56Z'
 requester_actor_id: codex-root
 approver_actor_id: codex-reviewer
 task_id: TASK-R07-001
@@ -37,3 +37,23 @@ approval:
   note: R07入口只登记已验证R06机器事实、owner异步边界和既定逐版候选策略，不修改产品冻结契约。
 machine_record: .continuity/change_requests/CR-0174.yaml
 document: docs/03-continuity/change-requests/CR-0174-登记R07实施入口与异步R06门禁边界.md
+decision_log:
+- at: '2026-07-21T08:49:51Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: R07入口Manifest与就绪核验已进入远端事实提交绑定
+  session_id: SES-20260721T082026Z-E6763DFE
+- at: '2026-07-21T08:49:53Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: R07入口、R06异步真机边界和最终候选策略已由远端提交及四项入口门禁证明
+  session_id: SES-20260721T082026Z-E6763DFE
+- at: '2026-07-21T08:49:56Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 入口治理、测试、提交和推送均已完成
+  session_id: SES-20260721T082026Z-E6763DFE
+session_ids:
+- SES-20260721T082026Z-E6763DFE
+implementation_commits:
+- cac604cf6663facb0200b187d20a3ba6f9a1ca4e

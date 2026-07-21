@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0175
 title: 补齐R07并行执行计划与连续性验证证据
-status: APPROVED
+status: CLOSED
 created_at: '2026-07-21T08:33:01Z'
-updated_at: '2026-07-21T08:33:45Z'
+updated_at: '2026-07-21T08:50:03Z'
 requester_actor_id: codex-root
 approver_actor_id: codex-reviewer
 task_id: TASK-R07-001
@@ -40,3 +40,23 @@ approval:
   note: 计划保持一个事实Session和一个Claim，只在当前任务内部按互斥路径委托，连续性报告仅重建现有源码证据，未改变业务范围。
 machine_record: .continuity/change_requests/CR-0175.yaml
 document: docs/03-continuity/change-requests/CR-0175-补齐R07并行执行计划与连续性验证证据.md
+decision_log:
+- at: '2026-07-21T08:49:58Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: R07并行计划与连续性证据已进入远端事实提交绑定
+  session_id: SES-20260721T082026Z-E6763DFE
+- at: '2026-07-21T08:50:01Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: R07计划、11项集成、14项生命周期和严格组合门禁已由远端提交证明
+  session_id: SES-20260721T082026Z-E6763DFE
+- at: '2026-07-21T08:50:03Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 并行治理与连续性证据已验证并完成远端闭环
+  session_id: SES-20260721T082026Z-E6763DFE
+session_ids:
+- SES-20260721T082026Z-E6763DFE
+implementation_commits:
+- cac604cf6663facb0200b187d20a3ba6f9a1ca4e
