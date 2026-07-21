@@ -14,6 +14,17 @@ EVIDENCE="$ROOT/artifacts/validation/r06-task006-staging"
 ALERT_EVENT_PREFIX=r06-stage-alert
 COMPOSE=(docker compose -p "$PROJECT" -f "$COMPOSE_FILE")
 
+# Compose interpolates required values even for read-only `ps`. These sentinels
+# are replaced with the running containers' real isolated values before any recreate.
+export HHY_SMOKE_ID=${HHY_SMOKE_ID:-$CURRENT_TAG}
+export POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-compose-inspection-only}
+export HHY_USER_JWT_SECRET=${HHY_USER_JWT_SECRET:-compose-inspection-only}
+export HHY_USER_TOKEN_HMAC_SECRET=${HHY_USER_TOKEN_HMAC_SECRET:-compose-inspection-only}
+export HHY_USER_SNAPSHOT_ROOT_SECRET=${HHY_USER_SNAPSHOT_ROOT_SECRET:-compose-inspection-only}
+export HHY_ADMIN_JWT_SECRET=${HHY_ADMIN_JWT_SECRET:-compose-inspection-only}
+export HHY_ADMIN_MFA_ROOT_SECRET=${HHY_ADMIN_MFA_ROOT_SECRET:-compose-inspection-only}
+export HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET=${HHY_ADMIN_IDEMPOTENCY_HMAC_SECRET:-compose-inspection-only}
+
 API=
 POSTGRES=
 PROMETHEUS=

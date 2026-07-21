@@ -11,7 +11,7 @@ task_id: TASK-R06-006
 story_id: STORY-R06-005
 goal: 统一内容基础、首页与CMS可观测性与预发布验收
 started_at: '2026-07-21T02:02:25Z'
-updated_at: '2026-07-21T03:40:55Z'
+updated_at: '2026-07-21T03:46:26Z'
 takeover_of: null
 change_requests:
 - CR-0160
@@ -60,18 +60,18 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T03:40:52Z'
-  expires_at: '2026-07-21T07:40:52Z'
-checkpoint_sequence: 6
-latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0006.yaml
+  renewed_at: '2026-07-21T03:46:23Z'
+  expires_at: '2026-07-21T07:46:23Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md
-next_step: 提交推送CR-0161脚本冻结Commit并在obx-test执行完整验收
+next_step: 提交推送脚本顺序修复并从新的精确Commit重新执行完整Staging验收
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 446590ebde59b83c2c40101ee7ca27a216e358c7ded0987bef6e6e56c07ae7b8
-  generated_at: '2026-07-21T03:40:54Z'
+  context_hash: 523b284777094b13ce9a4e827b9612ee8d81415f83311a767edeed01cfe58db2
+  generated_at: '2026-07-21T03:46:25Z'
 handoff_bundle: null
 closure: null
 parallel_execution:

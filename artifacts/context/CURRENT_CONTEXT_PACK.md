@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T03:40:54Z
-- Context Hash：`446590ebde59b83c2c40101ee7ca27a216e358c7ded0987bef6e6e56c07ae7b8`
+- 生成时间：2026-07-21T03:46:25Z
+- Context Hash：`523b284777094b13ce9a4e827b9612ee8d81415f83311a767edeed01cfe58db2`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -91,7 +91,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R06-006
-updated_at: '2026-07-21T03:40:52Z'
+updated_at: '2026-07-21T03:46:23Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -126,15 +126,15 @@ continuity:
   active_session_id: SES-20260721T020225Z-397AF410
   actor_id: codex-root
   story_id: STORY-R06-005
-  lease_expires_at: '2026-07-21T07:40:52Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0006.yaml
-  project_fingerprint: aa1369bdd19c78006cb3f9f45f3b9f2a9431fa507efd1d1da8741341fe6e747a
+  lease_expires_at: '2026-07-21T07:46:23Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0007.yaml
+  project_fingerprint: 7f7b0a4ee16ab00e1d90adcbbbf73c8563c646d050646c9048397dcd635b6ad9
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 53743163171012e8ff077a869467d91bbee04f60b848e12846da302d3923721e
-    generated_at: '2026-07-21T03:39:58Z'
+    context_hash: 446590ebde59b83c2c40101ee7ca27a216e358c7ded0987bef6e6e56c07ae7b8
+    generated_at: '2026-07-21T03:40:54Z'
   handoff_bundle: null
 ```
 
@@ -326,7 +326,7 @@ task_id: TASK-R06-006
 story_id: STORY-R06-005
 goal: 统一内容基础、首页与CMS可观测性与预发布验收
 started_at: '2026-07-21T02:02:25Z'
-updated_at: '2026-07-21T03:40:52Z'
+updated_at: '2026-07-21T03:46:23Z'
 takeover_of: null
 change_requests:
 - CR-0160
@@ -375,12 +375,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T03:40:52Z'
-  expires_at: '2026-07-21T07:40:52Z'
-checkpoint_sequence: 6
-latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0006.yaml
+  renewed_at: '2026-07-21T03:46:23Z'
+  expires_at: '2026-07-21T07:46:23Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md
-next_step: 提交推送CR-0161脚本冻结Commit并在obx-test执行完整验收
+next_step: 提交推送脚本顺序修复并从新的精确Commit重新执行完整Staging验收
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -395,61 +395,37 @@ parallel_execution:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T020225Z-397AF410-0006
+checkpoint_id: CP-SES-20260721T020225Z-397AF410-0007
 session_id: SES-20260721T020225Z-397AF410
-sequence: 6
-created_at: '2026-07-21T03:40:51Z'
-summary: R06 Staging自动验收脚本语法与安全边界通过，严格Doctor和V1.2.3组合门禁0错误0警告
-next_step: 提交推送CR-0161脚本冻结Commit并在obx-test执行完整验收
+sequence: 7
+created_at: '2026-07-21T03:46:23Z'
+summary: 修复R06现场验收脚本在Compose只读ps阶段提前校验Secret的顺序问题；解析占位值仅用于发现容器，任何API重建前均从运行容器覆盖为真实隔离值
+next_step: 提交推送脚本顺序修复并从新的精确Commit重新执行完整Staging验收
 blockers: []
 decisions: []
-note: ''
+note: 首次脚本运行在任何容器变更和测试数据写入前因Compose插值退出，未产生运行时副作用
 tests:
 - name: R06_STAGING_SCRIPT_SYNTAX
   result: PASS
   evidence: obx-test bash -n scripts/run_r06_staging_acceptance.sh
   note: Bash语法通过
-- name: R06_STAGING_SCRIPT_SAFETY
+- name: R06_STAGING_COMPOSE_DISCOVERY
   result: PASS
-  evidence: scripts/run_r06_staging_acceptance.sh
-  note: 精确项目、精确测试事件、EXIT恢复且无破坏性迁移
-- name: CONTINUITY_DOCTOR
-  result: PASS
-  evidence: scripts/continuity_gate.py --mode doctor --strict
-  note: 0 errors, 0 warnings
-- name: V123_STRICT
-  result: PASS
-  evidence: scripts/check_v123_continuity.py --strict
-  note: 0 errors, 0 warnings
+  evidence: obx-test docker compose ps --status running --services
+  note: 六个R06服务可在解析占位值下只读发现
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: be62b727d480cacf055227823b9ed64e30ae488a
+  head: c0bfc9536e8c763b0d25da76a159a6af39f11422
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260721T020225Z-397AF410.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md'
-  - ?? .continuity/change_requests/CR-0161.yaml
-  - ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0005.yaml
-  - ?? docs/03-continuity/change-requests/CR-0161-固化R06-Staging证据与回滚自动演练脚本.md
-  - ?? scripts/run_r06_staging_acceptance.sh
+  - ' M scripts/run_r06_staging_acceptance.sh'
   recent_commits:
+  - "c0bfc9536e8c763b0d25da76a159a6af39f11422\t2026-07-21T11:41:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): automate R06\
+    \ acceptance"
   - "be62b727d480cacf055227823b9ed64e30ae488a\t2026-07-21T11:28:18+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(observability): add R06\
     \ staging gates"
   - "dc05161c62892a6c5db91bf78e8662192678a63d\t2026-07-21T10:00:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-005\
@@ -464,10 +440,8 @@ git:
     \ as completed"
   - "26d0d42f1d1eba8e33b748ebf8d96461867b2419\t2026-07-21T09:02:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
     \ R06 candidate pass"
-  - "66da8575b738596cb51360619ea342380fdd121e\t2026-07-21T08:41:06+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] test(android): approve R06\
-    \ visual baseline"
 project_fingerprint:
-  sha256: aa1369bdd19c78006cb3f9f45f3b9f2a9431fa507efd1d1da8741341fe6e747a
+  sha256: 7f7b0a4ee16ab00e1d90adcbbbf73c8563c646d050646c9048397dcd635b6ad9
   files:
   - CHANGELOG.md
   - docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md
@@ -534,8 +508,8 @@ project_fingerprint:
       sha256: f05736b16f3f92dd0a838e2160e0819e6dc00072ba651cf98fe8c49f4e4b72aa
     - path: scripts/run_r06_staging_acceptance.sh
       state: FILE
-      size: 13428
-      sha256: 22d3c644a398a30cb0c5f6de757136d8d4f122fac7eef774fc9ff5db738095f4
+      size: 14242
+      sha256: 5b8852c86e7974fa0f6cb55647149629af8ee20dc4aeba160a14ffcd8c5005f6
     - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
       state: FILE
       size: 13543
@@ -617,7 +591,7 @@ parallel_execution:
   delegated_workers: 0
   workers: []
   reason: 当前会话策略不允许用户未显式要求的子代理；共享Staging与回滚状态由单一主控维护
-event_hash: 3a384e3e9a872134f420e418bcad937b1042b48846007c5f4c38dd092a453d28
+event_hash: 563a11e8721797353e3683ab49d071d7ea16df62c680ab13f6f442e4199c6848
 ```
 
 ## 接续状态与事件头
@@ -629,8 +603,8 @@ active_session_id: SES-20260721T020225Z-397AF410
 last_session_id: SES-20260721T012656Z-E067730A
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260721T012656Z-E067730A-0005
-event_count: 1646
-event_head_hash: 3a384e3e9a872134f420e418bcad937b1042b48846007c5f4c38dd092a453d28
+event_count: 1647
+event_head_hash: 563a11e8721797353e3683ab49d071d7ea16df62c680ab13f6f442e4199c6848
 event_chain_valid: true
 ```
 
@@ -753,9 +727,9 @@ recent_sessions: - session_id: SES-20260719T224052Z-2C69767F
   started_at: '2026-07-21T02:02:25Z'
   record: .continuity/sessions/SES-20260721T020225Z-397AF410.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md
-  updated_at: '2026-07-21T03:40:52Z'
+  updated_at: '2026-07-21T03:46:23Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0006.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T020225Z-397AF410/0007.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-A8017469692C
   session_id: SES-20260719T113522Z-6B27AD4B
@@ -1620,33 +1594,25 @@ recent_task_transitions: - transition_id: TRN-C5712C7FEDBD
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: be62b727d480cacf055227823b9ed64e30ae488a
+head: c0bfc9536e8c763b0d25da76a159a6af39f11422
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260721T020225Z-397AF410.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/continuity-gate-v1.2.3.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
-- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md'
-- ?? .continuity/change_requests/CR-0161.yaml
-- ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0005.yaml
-- ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0006.yaml
-- ?? docs/03-continuity/change-requests/CR-0161-固化R06-Staging证据与回滚自动演练脚本.md
-- ?? scripts/run_r06_staging_acceptance.sh
+- ' M scripts/run_r06_staging_acceptance.sh'
+- ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0007.yaml
 recent_commits:
+- "c0bfc9536e8c763b0d25da76a159a6af39f11422\t2026-07-21T11:41:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): automate R06\
+  \ acceptance"
 - "be62b727d480cacf055227823b9ed64e30ae488a\t2026-07-21T11:28:18+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(observability): add R06\
   \ staging gates"
 - "dc05161c62892a6c5db91bf78e8662192678a63d\t2026-07-21T10:00:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-005\
@@ -1661,13 +1627,11 @@ recent_commits:
   \ as completed"
 - "26d0d42f1d1eba8e33b748ebf8d96461867b2419\t2026-07-21T09:02:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record R06\
   \ candidate pass"
-- "66da8575b738596cb51360619ea342380fdd121e\t2026-07-21T08:41:06+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] test(android): approve R06 visual\
-  \ baseline"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`aa1369bdd19c78006cb3f9f45f3b9f2a9431fa507efd1d1da8741341fe6e747a`
+- 指纹：`7f7b0a4ee16ab00e1d90adcbbbf73c8563c646d050646c9048397dcd635b6ad9`
 - 文件数：15
 
 - `CHANGELOG.md`
@@ -7228,7 +7192,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `952b14e43caafc5431a233503dffb2e555013d26e485fc2b1dc6426646689c57`
+- `CURRENT_STATUS.yaml` — `52db1efe3f31bc53cd49b327569dd97c2a10f5ed2aceaad4e3bd29c337d8346e`
 - `NEXT_TASK.yaml` — `ca179c95e2a4ff9083235c10ea84dfb7b6c86c6f02a2be1c2d4382ddd9927521`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7239,20 +7203,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `adb0a6a813432986b5078f0fb9387607f544a88d56b7d17de10a1932064e433e`
-- `.continuity/SESSION_INDEX.yaml` — `e40117cf440445f7954f0b32c9a7f3a7f4774b090d4e8f86c8a870c4f882c0cd`
+- `.continuity/EVENT_LOG.jsonl` — `8ae937305bfccc766dde1fe3ec69373fd449841a3b67365c02d8695404ab9734`
+- `.continuity/SESSION_INDEX.yaml` — `8be4298c7b4e62a931335f7c96ff248f2113da4d7cc239d6b7f31f1d1aa100fe`
 - `.continuity/TASK_CLAIMS.yaml` — `8405c9a390a91c9ec870a19855c8fc0714a8139c41337474b023b04cc96a1b8e`
 - `.continuity/TASK_TRANSITIONS.yaml` — `a288661fc0bf37a2750c37d205c8c5e38ac9d89e05e81c0936971ed940a9e9b3`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `4385f56f98c604bfb51a7dc2fe4a65a9882ed51221e5f3093824b5fa05b0c11b`
-- `.continuity/ACTIVE_SESSION.yaml` — `529a63038bab8fd64a2fd5aa1ef01b20842660166db755e9480f874210029c39`
+- `.continuity/ACTIVE_SESSION.yaml` — `f55218c1899a1f1de3faf92966060ebda148c406b00a3cb5cdef4c4713aa020e`
 - `releases/R06/RELEASE_MANIFEST.yaml` — `72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878`
 - `releases/R06/DEFINITION_OF_READY.yaml` — `c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991`
 - `releases/R06/STORIES.yaml` — `dd81c97b0552c9342b5be360e918d26502b5e3d06fa8bafaba7648d43c96e7ef`
 - `releases/R06/TASKS.yaml` — `c4c2a9582a29394e4ce86f35a2550c8edafdc87fb7a2aaf6ac615fd7edd7971b`
 - `releases/R06/ACCEPTANCE_MATRIX.csv` — `9485c8f085153d3483002b33a143c764a8838a3503d8ac4d2e36e5c3c45b9aaf`
 - `releases/R06/PARALLEL_EXECUTION_PLAN.yaml` — `426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md` — `0bc474a8f48fffd1a6a67f40440b799aec6bb4becc58fbdcfae568ca98c91857`
-- `.continuity/checkpoints/SES-20260721T020225Z-397AF410/0006.yaml` — `b7fd8f8ea7cdd861ec91da2caa73417c482e39d6130c1b0b6915148095bb0f5b`
+- `docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md` — `7263201d9d424258947f820b079463deb082e0e813200674454a1673a12f87f3`
+- `.continuity/checkpoints/SES-20260721T020225Z-397AF410/0007.yaml` — `da3b279d15481730dfb1e8628800fc77acd11ef91cda63d8a2893f35e4b56833`
 - `docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md` — `05a9269c0c5728077d29be1c48c72ad394b3bc947fd01d9e4f6c82788b6b46ba`
 - `docs/03-continuity/change-requests/CR-0161-固化R06-Staging证据与回滚自动演练脚本.md` — `b1e789df57050a43b2aa773b7b5abd4468f7773fb176b1a5f7cb57310a287772`
 
