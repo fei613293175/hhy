@@ -1,0 +1,274 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T201747Z-CD80A1EE-0002
+session_id: SES-20260721T201747Z-CD80A1EE
+sequence: 2
+created_at: '2026-07-21T20:45:52Z'
+summary: R07隔离Staging、结构化日志、六项业务指标、七条告警规则及同库同卷回滚演练全部通过，现场证据已回收并签署AC-R07-004。
+next_step: 提交并推送TASK-R07-006现场证据和验收报告，关闭CR-0188与任务后立即进入TASK-R07-007最终候选APK门禁。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r07-staging-acceptance
+  result: PASS
+  evidence: artifacts/validation/r07-task006-staging/machine-summary.txt
+  note: 精确冻结Commit现场脚本一次通过
+- name: r07-alert-exercise
+  result: PASS
+  evidence: artifacts/validation/r07-task006-staging/alert-exercise.txt
+  note: 后端Down和R07 Outbox告警均完成firing与resolved
+- name: r07-rollback-rehearsal
+  result: PASS
+  evidence: artifacts/validation/r07-task006-staging/rollback-rehearsal.txt
+  note: 同一PostgreSQL容器和卷完成旧镜像回切及当前镜像恢复
+- name: r07-evidence-sha256
+  result: PASS
+  evidence: artifacts/validation/r07-task006-staging/SHA256SUMS
+  note: 远端和本机22项受签证据一致
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 417b6cc9bc5f1b56adc280db5375358100bf23ae
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260721T201747Z-CD80A1EE.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M releases/R07/ACCEPTANCE_MATRIX.csv'
+  - ?? artifacts/reports/R07/TASK-R07-006-staging.md
+  - ?? artifacts/validation/r07-task006-staging/SHA256SUMS
+  - ?? artifacts/validation/r07-task006-staging/alert-deliveries.jsonl
+  - ?? artifacts/validation/r07-task006-staging/alert-exercise.txt
+  - ?? artifacts/validation/r07-task006-staging/backend-down-firing.json
+  - ?? artifacts/validation/r07-task006-staging/compose-ps.txt
+  - ?? artifacts/validation/r07-task006-staging/database.txt
+  - ?? artifacts/validation/r07-task006-staging/final-metrics.txt
+  - ?? artifacts/validation/r07-task006-staging/http-request-completed.jsonl
+  - ?? artifacts/validation/r07-task006-staging/liveness.json
+  - ?? artifacts/validation/r07-task006-staging/log-redaction.txt
+  - ?? artifacts/validation/r07-task006-staging/machine-summary.txt
+  - ?? artifacts/validation/r07-task006-staging/metadata.txt
+  - ?? artifacts/validation/r07-task006-staging/metrics-summary.txt
+  - ?? artifacts/validation/r07-task006-staging/metrics.txt
+  - ?? artifacts/validation/r07-task006-staging/outbox-test-events.txt
+  - ?? artifacts/validation/r07-task006-staging/prometheus-rules.json
+  - ?? artifacts/validation/r07-task006-staging/prometheus-targets.json
+  - ?? artifacts/validation/r07-task006-staging/public-status.json
+  - ?? artifacts/validation/r07-task006-staging/r07-outbox-firing.json
+  - ?? artifacts/validation/r07-task006-staging/readiness.json
+  - ?? artifacts/validation/r07-task006-staging/rollback-rehearsal.txt
+  - ?? artifacts/validation/r07-task006-staging/source-sha256.txt
+  - ?? artifacts/validation/r07-task006-staging/trace-headers.txt
+  recent_commits:
+  - "417b6cc9bc5f1b56adc280db5375358100bf23ae\t2026-07-22T04:31:47+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(observability): 建立R07隔离预发布门禁"
+  - "e6d73b0fb4be95c6769c8f6aa493172592d686ea\t2026-07-22T04:16:46+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-005\
+    \ as completed"
+  - "0c2d512bb4ed73678aee8817e63c33d8539e99be\t2026-07-22T04:14:59+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07专项与Git环境变更请求"
+  - "ae7f7059088355b93b4dab2cb0b10fb5042ddcb1\t2026-07-22T04:13:25+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 归档十项专项门禁证据"
+  - "015178b3d45c5d0ff0d0e458eb92a166d8d5026a\t2026-07-22T03:57:22+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 自动化十项专项矩阵与固化Windows\
+    \ Git"
+  - "ddf293eda518bca96b695d518ad67f9d18536536\t2026-07-22T03:27:57+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): close TASK-R07-004\
+    \ as completed"
+  - "af217ef5097826bd16003d797624d742b1c93ad7\t2026-07-22T03:26:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): 关闭R07客户端变更请求"
+  - "fea04949506434f8f408bc0244d6a195718c6c22\t2026-07-22T03:25:02+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] feat(android): 实现R07搜索发布者与联系方式闭环"
+project_fingerprint:
+  sha256: d63db7a55502f3601ea9e1bec64097695a7954e98fbf96d4b6067f27f3e6ee76
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/change-requests/CR-0187-建立R07搜索联系方式可观测性与隔离Staging验收.md
+  - docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/r07-smoke/alertmanager.yml
+  - infra/staging/r07-smoke/docker-compose.yml
+  - infra/staging/r07-smoke/nginx.conf
+  - infra/staging/r07-smoke/prometheus.yml
+  - infra/staging/r07-smoke/r07-alerts.yml
+  - releases/R07/ACCEPTANCE_MATRIX.csv
+  - scripts/check_r07_observability.py
+  - scripts/run_r07_staging_acceptance.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  file_count: 16
+  payload:
+    base_commit: e6d73b0fb4be95c6769c8f6aa493172592d686ea
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 66936
+      sha256: 6e3af30e3744436d6cf08daf7a8533defac0bbf67bfd65d62772b0bba71d8851
+    - path: docs/03-continuity/change-requests/CR-0187-建立R07搜索联系方式可观测性与隔离Staging验收.md
+      state: FILE
+      size: 4725
+      sha256: 1b1383ca6dfd951e3273dfcdb792be749d0886199bac744b852b382aa153254c
+    - path: docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md
+      state: FILE
+      size: 5610
+      sha256: 996871ce3a22cf81c08927266effb7b5d258c697c4ff3cf3861bc9acd6c1f2cd
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 24818
+      sha256: 090c4b2773930fddb6e5b278e4637d9db3c90bfafef6c41f2e88f9ab128a5130
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 9740
+      sha256: 09112bf10877708fbb7cb46a67be2d296686dbd87542cb4a9ad3cb6341a1475e
+    - path: infra/staging/r07-smoke/alertmanager.yml
+      state: FILE
+      size: 277
+      sha256: 4bd3c7fa5b09fe927bd3d79364b81ede206bfc6af4dc015da157259c87d799fb
+    - path: infra/staging/r07-smoke/docker-compose.yml
+      state: FILE
+      size: 4463
+      sha256: c98df8ac0edb193a1f2f547640016c89b21fc68e8dfa58da355790de077619bd
+    - path: infra/staging/r07-smoke/nginx.conf
+      state: FILE
+      size: 318
+      sha256: b13f1e9d43e52a8469a988d1af9de051dfdcba2724df5c754793993f7fe41f98
+    - path: infra/staging/r07-smoke/prometheus.yml
+      state: FILE
+      size: 401
+      sha256: 874b5761e72980512a752ae2946959d35c808fa26e404d9df2d2311d4fc5b855
+    - path: infra/staging/r07-smoke/r07-alerts.yml
+      state: FILE
+      size: 2097
+      sha256: 87e80a8e0a8438316ed40f0326ba1864369b8bc414c8774062811ffe54c42162
+    - path: releases/R07/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 704
+      sha256: 8a89932613450d3cb2ec70f8683fbbf344d950519af167ca5178adf55fa68365
+    - path: scripts/check_r07_observability.py
+      state: FILE
+      size: 4936
+      sha256: 2c4df3ee7f4cb43b6757e6abd60a91b255b357c52de3f4b4adcd1237a6126ea4
+    - path: scripts/run_r07_staging_acceptance.sh
+      state: FILE
+      size: 15044
+      sha256: e662a24ba8074f9af90f1fc433d2d70a7ee54c1f7050dd7d29521cc8eab26bf9
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 15883
+      sha256: 5f069b37265bf3833718db839219faa5267cfcdc794edd69ef2625307948ac03
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 16557
+      sha256: b56868a9d7ff06ea5f241798dccc6c54f3e2d644d632b7daa8c86474bf230fdd
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 9673
+      sha256: b9d394e27ee3550283a2df82a78f527c92a5d00175cb5a330fcfa6cc27f407c7
+change_classification:
+  other:
+  - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - releases/R07/ACCEPTANCE_MATRIX.csv
+  continuity:
+  - docs/03-continuity/change-requests/CR-0187-建立R07搜索联系方式可观测性与隔离Staging验收.md
+  - docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md
+  infrastructure:
+  - infra/staging/r07-smoke/alertmanager.yml
+  - infra/staging/r07-smoke/docker-compose.yml
+  - infra/staging/r07-smoke/nginx.conf
+  - infra/staging/r07-smoke/prometheus.yml
+  - infra/staging/r07-smoke/r07-alerts.yml
+  code:
+  - scripts/check_r07_observability.py
+  - scripts/run_r07_staging_acceptance.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0187
+- CR-0188
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - scripts/check_r07_observability.py
+  - scripts/run_r07_staging_acceptance.sh
+  - infra/staging/r07-smoke/docker-compose.yml
+  - infra/staging/r07-smoke/prometheus.yml
+  - infra/staging/r07-smoke/alertmanager.yml
+  - infra/staging/r07-smoke/nginx.conf
+  - infra/staging/r07-smoke/r07-alerts.yml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - artifacts/reports/R07/TASK-R07-006-staging.md
+  - releases/R07/ACCEPTANCE_MATRIX.csv
+  - CHANGELOG.md
+  - artifacts/validation/r07-task006-staging/metadata.txt
+  - artifacts/validation/r07-task006-staging/compose-ps.txt
+  - artifacts/validation/r07-task006-staging/liveness.json
+  - artifacts/validation/r07-task006-staging/readiness.json
+  - artifacts/validation/r07-task006-staging/database.txt
+  - artifacts/validation/r07-task006-staging/trace-headers.txt
+  - artifacts/validation/r07-task006-staging/public-status.json
+  - artifacts/validation/r07-task006-staging/http-request-completed.jsonl
+  - artifacts/validation/r07-task006-staging/log-redaction.txt
+  - artifacts/validation/r07-task006-staging/metrics.txt
+  - artifacts/validation/r07-task006-staging/metrics-summary.txt
+  - artifacts/validation/r07-task006-staging/prometheus-targets.json
+  - artifacts/validation/r07-task006-staging/prometheus-rules.json
+  - artifacts/validation/r07-task006-staging/source-sha256.txt
+  - artifacts/validation/r07-task006-staging/backend-down-firing.json
+  - artifacts/validation/r07-task006-staging/r07-outbox-firing.json
+  - artifacts/validation/r07-task006-staging/outbox-test-events.txt
+  - artifacts/validation/r07-task006-staging/alert-deliveries.jsonl
+  - artifacts/validation/r07-task006-staging/alert-exercise.txt
+  - artifacts/validation/r07-task006-staging/rollback-rehearsal.txt
+  - artifacts/validation/r07-task006-staging/final-metrics.txt
+  - artifacts/validation/r07-task006-staging/machine-summary.txt
+  - artifacts/validation/r07-task006-staging/SHA256SUMS
+  source: story+explicit+approved-cr:CR-0188
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统规则未授权创建子代理；且冻结Commit、单一Compose项目和同库卷回切必须由当前会话串行收口。
+event_hash: 7907ad6c3103c00fb6a8e5e6a2a338a52fb52dc0c1f37ef7aec4b4c773203cff

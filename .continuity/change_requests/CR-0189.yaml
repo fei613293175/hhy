@@ -1,0 +1,48 @@
+protocol_version: '1.0'
+cr_id: CR-0189
+title: 同步永久Git配置的连续性模板与自测报告
+status: IMPLEMENTING
+created_at: '2026-07-21T20:47:24Z'
+updated_at: '2026-07-21T20:49:12Z'
+requester_actor_id: codex-root-r07-006
+approver_actor_id: codex-reviewer-continuity
+task_id: TASK-R07-006
+session_id: SES-20260721T201747Z-CD80A1EE
+user_request: 彻底解决PowerShell Git不在PATH并计入踩坑与经验复用记录
+reason: 严格门禁确认REPOSITORY_TRANSPORT变更后两份生成式报告和START_HERE导出模板需要同步，确保跨电脑重建证据与根入口一致。
+original_rule: 根START_HERE与导出模板必须字节一致，Git传输配置变更后连续性集成与生命周期报告的源文件摘要必须重新生成；CR-0185实现后派生项尚未同步。
+new_rule: 永久Git配置规则进入根START_HERE时必须同步templates/START_HERE.md，并用仓库自测入口重生成连续性集成和生命周期报告及日志；严格联合门禁0错误0警告后才完成跨机复用闭环。
+impact_summary: 同步一个导出模板并重生成两组连续性自测报告和日志，不改变业务代码、API、数据库、远端或用户凭据。
+impact:
+  files:
+  - templates/START_HERE.md
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - Windows Git跨机接续导出模板
+  ledger: []
+  tests:
+  - continuity repository-only reconstruction + lifecycle integration + V1.2.3 strict joint gate
+  releases:
+  - R07
+  migration_and_compatibility: 仅刷新仓库内可重建模板和校验报告；旧电脑不受影响，新电脑按同步后的START_HERE执行配置脚本。
+user_confirmation: 项目所有者本轮明确要求彻底解决并写入踩坑与经验复用记录。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T20:48:50Z'
+  note: 限定为导出模板与两组生成式连续性报告同步，不扩大业务范围；严格门禁必须复验。
+machine_record: .continuity/change_requests/CR-0189.yaml
+document: docs/03-continuity/change-requests/CR-0189-同步永久Git配置的连续性模板与自测报告.md
+decision_log:
+- at: '2026-07-21T20:49:12Z'
+  actor_id: codex-root-r07-006
+  status: IMPLEMENTING
+  note: 开始同步START_HERE导出模板并重生成连续性集成与生命周期报告。
+  session_id: SES-20260721T201747Z-CD80A1EE
+session_ids:
+- SES-20260721T201747Z-CD80A1EE

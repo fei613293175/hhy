@@ -11,11 +11,13 @@ task_id: TASK-R07-006
 story_id: STORY-R07-005
 goal: 完成R07搜索、发布者主页与联系方式保护的可观测性、Staging预发布验收、运行手册演练与验收矩阵证据，并保持大版本最终门禁边界。
 started_at: '2026-07-21T20:17:47Z'
-updated_at: '2026-07-21T20:31:35Z'
+updated_at: '2026-07-21T20:56:14Z'
 takeover_of: null
 change_requests:
 - CR-0187
 - CR-0188
+- CR-0189
+- CR-0190
 scope:
   allowed_paths:
   - apps/**
@@ -88,7 +90,13 @@ scope:
   - artifacts/validation/r07-task006-staging/final-metrics.txt
   - artifacts/validation/r07-task006-staging/machine-summary.txt
   - artifacts/validation/r07-task006-staging/SHA256SUMS
-  source: story+explicit+approved-cr:CR-0188
+  - templates/START_HERE.md
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - artifacts/validation/project-doctor-v1.2.3.json
+  source: story+explicit+approved-cr:CR-0188+approved-cr:CR-0189+approved-cr:CR-0190
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -98,22 +106,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T20:31:32Z'
-  expires_at: '2026-07-22T00:31:32Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0001.yaml
+  renewed_at: '2026-07-21T20:56:10Z'
+  expires_at: '2026-07-22T00:56:10Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T201747Z-CD80A1EE.md
-next_step: 提交并推送R07可观测性实现，随后在obx-test精确Commit验证bash/Compose/promtool、构建当前与回滚镜像并执行完整隔离Staging告警和同库卷回滚演练。
+next_step: 执行最终严格门禁并提交推送TASK-R07-006全部证据，随后关闭CR与任务进入TASK-R07-007。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: abea9509df5bacc7d4bfc3e1d03f794ff74b6845c59ecba182a853f38cb11093
-  generated_at: '2026-07-21T20:31:34Z'
+  context_hash: b963f44d06ff35b633e648be6427b11f874e67d09954ea3ab9e5347573a01c20
+  generated_at: '2026-07-21T20:56:12Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: Staging证据必须绑定单一冻结Commit、独立Compose项目和同一数据库卷，当前唯一会话需串行冻结、部署、告警和回切。
+  reason: 当前系统规则未授权创建子代理，冻结证据和唯一连续性事件链需串行收口。
