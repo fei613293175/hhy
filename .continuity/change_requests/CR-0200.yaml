@@ -1,0 +1,46 @@
+protocol_version: '1.0'
+cr_id: CR-0200
+title: 修复Linux基线晋升中文路径转义误判
+status: IMPLEMENTING
+created_at: '2026-07-21T23:26:39Z'
+updated_at: '2026-07-21T23:28:45Z'
+requester_actor_id: codex-r07-candidate
+approver_actor_id: codex-release-audit
+task_id: TASK-R07-007
+session_id: SES-20260721T210252Z-D631F6E4
+user_request: GitHub调试必须有界且经验可复用，不得反复浪费完整编译和模拟器时间
+reason: 轻量晋升Run 29876741055在Resolve步骤14秒内失败；本地同逻辑通过，差异为Linux Git默认core.quotepath=true会把中文CR文档路径输出为带引号八进制，导致连续性白名单误判
+original_rule: 晋升内联Git diff沿用运行器core.quotepath默认值，含中文的合法连续性路径可被转义后误拒绝
+new_rule: 所有用于机器路径判定的diff-tree和diff命令显式使用git -c core.quotepath=false，按UTF-8真实路径匹配；第二次只重跑轻量晋升，不重新编译或启动模拟器
+impact_summary: 修复跨平台路径编码误报并保留完整范围白名单；原Run 29875839322的APK、四图和报告保持不变
+impact:
+  files:
+  - .github/workflows/android-baseline-promotion.yml
+  - tests/test_android_ci_gate.py
+  - tests/android/visual-baselines/R07/APPROVAL.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - Android CI Python回归；本地模拟Linux core.quotepath=true时仍以显式false输出真实中文路径；轻量晋升Actions PASS
+  releases:
+  - R07
+  migration_and_compatibility: 纯CI路径解析修复；已批准基线增加promotion_attempt记录触发同源轻量重试，不改变任何图片字节或产品源码
+user_confirmation: 项目所有者已要求GitHub问题有界修复并写入可复用经验
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T23:26:44Z'
+  note: 根因是确定性的跨平台Git显示配置；修复限定路径解析且重跑只下载原工件，不消耗完整Android门禁
+machine_record: .continuity/change_requests/CR-0200.yaml
+document: docs/03-continuity/change-requests/CR-0200-修复Linux基线晋升中文路径转义误判.md
+decision_log:
+- at: '2026-07-21T23:28:45Z'
+  actor_id: codex-root-r07-007
+  status: IMPLEMENTING
+  note: diff-tree与diff均显式core.quotepath=false；Windows模拟Linux默认true已复现八进制转义，显式false输出真实中文路径；18项回归通过
+  session_id: SES-20260721T210252Z-D631F6E4
+session_ids:
+- SES-20260721T210252Z-D631F6E4

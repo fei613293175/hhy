@@ -1,0 +1,327 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T210252Z-D631F6E4-0011
+session_id: SES-20260721T210252Z-D631F6E4
+sequence: 11
+created_at: '2026-07-21T23:28:47Z'
+summary: 修复轻量晋升Linux中文路径转义；原APK和四张基线不变，APPROVAL记录第二次仅轻量晋升
+next_step: 提交推送CR-0200修复并监控第二次轻量晋升PASS
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: android-ci-regression
+  result: PASS
+  evidence: 'python -m unittest tests.test_android_ci_gate: 18项通过'
+  note: ''
+- name: git-quotepath-regression
+  result: PASS
+  evidence: core.quotepath=true复现转义且显式false输出真实中文路径
+  note: ''
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 3b188062b69560768b3beebc1632d5f49d5952f3
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260721T210252Z-D631F6E4.yaml'
+  - ' M .github/workflows/android-baseline-promotion.yml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M tests/android/visual-baselines/R07/APPROVAL.yaml'
+  - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0200.yaml
+  - ?? docs/03-continuity/change-requests/CR-0200-修复Linux基线晋升中文路径转义误判.md
+  recent_commits:
+  - "3b188062b69560768b3beebc1632d5f49d5952f3\t2026-07-22T07:18:59+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(android): 批准R07视觉基线并请求轻量晋升"
+  - "0b6d4dd6035e3ecbe6ac3819e68f22d1ae5f31c2\t2026-07-22T07:17:08+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] ci(android): 绑定基线晋升连续性审计"
+  - "69406d918b4c2aa6f1eea78baed48464e4f94277\t2026-07-22T07:02:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(android): 收口搜索返回栈并单次采集首版基线"
+  - "9fc9030ba1a8dbca16dfda863f8302a8dd5883bb\t2026-07-22T06:11:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(android): 导出安全联系方式面板候选语义"
+  - "30140ce8799e908b375d1a083fc8906e07d9b088\t2026-07-22T05:45:13+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] ci(android): 请求R07首次最终候选"
+  - "f46af781e0fa9007d712332713b3f067875ecb5f\t2026-07-22T05:41:20+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(staging): 修复R07候选夹具事务边界"
+  - "7f7245ce6cd5c880ae2080a0284c2ea2c513a29f\t2026-07-22T05:31:51+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(android): 建立R07候选真实页面旅程"
+  - "0dc40abf3ed879893c510d4f7c3b4cf9a42700c0\t2026-07-22T05:00:31+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-006\
+    \ as completed"
+project_fingerprint:
+  sha256: a70b70b8bc4570b2dec3500aa536c387b7bec7ba7f8fd3c804f7327c3607ecd4
+  files:
+  - .github/workflows/android-baseline-promotion.yml
+  - CHANGELOG.md
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+  - docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+  - docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md
+  - docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md
+  - docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md
+  - docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md
+  - docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md
+  - docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md
+  - docs/03-continuity/change-requests/CR-0199-绑定视觉基线晋升提交与连续性审计文件.md
+  - docs/03-continuity/change-requests/CR-0200-修复Linux基线晋升中文路径转义误判.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - scripts/android_ci_gate.py
+  - scripts/prepare_r07_ci_fixture.sh
+  - scripts/run_android_emulator_gate.sh
+  - tests/android/visual-baselines/R07/01-search-landing.png
+  - tests/android/visual-baselines/R07/02-search-results.png
+  - tests/android/visual-baselines/R07/03-publisher.png
+  - tests/android/visual-baselines/R07/04-clear-history-dialog.png
+  - tests/android/visual-baselines/R07/APPROVAL.yaml
+  - tests/android/visual-manifests/R07.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r07_ci_fixture.py
+  file_count: 30
+  payload:
+    base_commit: 0dc40abf3ed879893c510d4f7c3b4cf9a42700c0
+    files:
+    - path: .github/workflows/android-baseline-promotion.yml
+      state: FILE
+      size: 5231
+      sha256: 03d5037e293915bd999a30ec9f878130db3937de41d037bea715dd6d81f2f6cb
+    - path: CHANGELOG.md
+      state: FILE
+      size: 68840
+      sha256: 0294ddec6a0ba3832ccacf92a110fd8025dd5b30679188db10070ee22210aff5
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 13142
+      sha256: 6de2415f999db68ce20b08b3802f15f623c364ab84ab89e08d8380d6699655e4
+    - path: apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+      state: FILE
+      size: 25603
+      sha256: 700a5fd947257919a83651468f0b3236cc18ab41cbbbb2ab18e7d8946fcfab6e
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 5782
+      sha256: e97987097e760f0452ecdc929b69185a5dd91b0d9c8ee8a5e32a064c24725e6f
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 252
+      sha256: eeea3c484fd5610ccb902734e256d3a991a24f77f51277b7a51f5f5cee43e9d0
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 3673
+      sha256: dfc02ee6c1c7396208528486fc6e08cd4c10bde591c5b6b0555040bd07d158be
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 94533
+      sha256: 83a2a52da5b899c5bfa66eb9892794a74bd67534c4e05c67edc3c9046684d784
+    - path: docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+      state: FILE
+      size: 3638
+      sha256: 7981a223c3257e4b6c2b25a432fb990be3510c5225562279c49b0ea1ac314265
+    - path: docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+      state: FILE
+      size: 2257
+      sha256: 1f862ca5cce32d3fce89446cdb9e77a33d8cd547ad78f8237c0ec5c494c3121b
+    - path: docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md
+      state: FILE
+      size: 2100
+      sha256: ddbc882f1508bbf8d76020a518cb350cc198b51c3e3651f5be8fd6ecb0e042f7
+    - path: docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md
+      state: FILE
+      size: 1918
+      sha256: 27d21dd5959589d7f7f2b2cab2550f68b29288e5f4e3be8e39e2102e3843cedd
+    - path: docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md
+      state: FILE
+      size: 2545
+      sha256: c53aabefb7eb0eea745e22350fe9b16325c49c67797329e0e9f80c4247b37b82
+    - path: docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md
+      state: FILE
+      size: 2603
+      sha256: 69000f6a5e716aaa9dc6d161cdea08e31cc81e0ffdd0f47ef35c6e4bd18a1a33
+    - path: docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md
+      state: FILE
+      size: 3695
+      sha256: f36c788041a03ca9267d8f84f18289d9a4462cf942a120d7f834f6db26b38d12
+    - path: docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md
+      state: FILE
+      size: 1928
+      sha256: 04eea7f28605dc06fa957777ae1656d32f81761bb6dfcaea37333fa72c8ad9c8
+    - path: docs/03-continuity/change-requests/CR-0199-绑定视觉基线晋升提交与连续性审计文件.md
+      state: FILE
+      size: 2522
+      sha256: c57d4b52900a56736d2ad41d77950e1fe482fdbf564831c3d573d5d70d528b35
+    - path: docs/03-continuity/change-requests/CR-0200-修复Linux基线晋升中文路径转义误判.md
+      state: FILE
+      size: 2662
+      sha256: 6ba949387ad9a3ecf3f3c3162bdbd2ac147e56c3f0bf941d0ec948d582bf4d6e
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 25855
+      sha256: 481bbcf79b3e9275c004948ed1164e877de607f5d1cb52e045c0870a05204fbc
+    - path: scripts/android_ci_gate.py
+      state: FILE
+      size: 24657
+      sha256: 351e44e194a693d269bd23f93be6d4ca928f68382adda04088565251db4bd593
+    - path: scripts/prepare_r07_ci_fixture.sh
+      state: FILE
+      size: 3809
+      sha256: 873c9311b5f4af257c6071b3809cf1e455ca9fe83f27f5c7b9ec28ad5e71ea69
+    - path: scripts/run_android_emulator_gate.sh
+      state: FILE
+      size: 2601
+      sha256: 1821a4543b47b7d2d0878911e9ce5e51669c3d31a6cc903c0b87c9e9dcbf35d1
+    - path: tests/android/visual-baselines/R07/01-search-landing.png
+      state: FILE
+      size: 91290
+      sha256: 115bd2a701e5b7cce4c525316b690bfa57422ba568ea96c016cf745abfc76439
+    - path: tests/android/visual-baselines/R07/02-search-results.png
+      state: FILE
+      size: 102092
+      sha256: 494a7eb3898f2c1f13de71a24d309f452fe9963c9944e6befc5a31589111703a
+    - path: tests/android/visual-baselines/R07/03-publisher.png
+      state: FILE
+      size: 97336
+      sha256: d02dda43ed958c71132a8178cbcd8aa3bd8d7a0214e740b8212f4c745e6ab92a
+    - path: tests/android/visual-baselines/R07/04-clear-history-dialog.png
+      state: FILE
+      size: 115731
+      sha256: 95fcff26b07a5b4f8a97edd0014540b48af261028de7ab28c616f16345e0315a
+    - path: tests/android/visual-baselines/R07/APPROVAL.yaml
+      state: FILE
+      size: 1351
+      sha256: e63ce12bfc209855795dde09ed16396294f8f3e81d3d9d7e4d0d9060e59a541b
+    - path: tests/android/visual-manifests/R07.yaml
+      state: FILE
+      size: 1439
+      sha256: d937f326b2686ce0c76a3636e7d6355b995b8485f1f277c3384e3d88528e5ba5
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 24710
+      sha256: d69228ebfc530cd8a91f9bf3535025fcf87b093fc54b9e717207c6b487dc15cb
+    - path: tests/test_r07_ci_fixture.py
+      state: FILE
+      size: 1586
+      sha256: f488f893c140044ec3d8b61f70fde81604b545148cf060bee65e581bae89d317
+change_classification:
+  infrastructure:
+  - .github/workflows/android-baseline-promotion.yml
+  other:
+  - CHANGELOG.md
+  - config/android-automation.yaml
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  code:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - scripts/android_ci_gate.py
+  - scripts/prepare_r07_ci_fixture.sh
+  - scripts/run_android_emulator_gate.sh
+  user_visible:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
+  - docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
+  - docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md
+  - docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md
+  - docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md
+  - docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md
+  - docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md
+  - docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md
+  - docs/03-continuity/change-requests/CR-0199-绑定视觉基线晋升提交与连续性审计文件.md
+  - docs/03-continuity/change-requests/CR-0200-修复Linux基线晋升中文路径转义误判.md
+  tests:
+  - tests/android/visual-baselines/R07/01-search-landing.png
+  - tests/android/visual-baselines/R07/02-search-results.png
+  - tests/android/visual-baselines/R07/03-publisher.png
+  - tests/android/visual-baselines/R07/04-clear-history-dialog.png
+  - tests/android/visual-baselines/R07/APPROVAL.yaml
+  - tests/android/visual-manifests/R07.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r07_ci_fixture.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0191
+- CR-0192
+- CR-0193
+- CR-0194
+- CR-0195
+- CR-0196
+- CR-0197
+- CR-0198
+- CR-0199
+- CR-0200
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/prepare_r07_ci_fixture.sh
+  - tests/android/visual-manifests/R07.yaml
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - CHANGELOG.md
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - tests/test_r07_ci_fixture.py
+  - scripts/android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/android-baseline-promotion.yml
+  - config/android-automation.yaml
+  - tests/test_android_ci_gate.py
+  - tests/android/visual-baselines/R07/APPROVAL.yaml
+  - tests/android/visual-baselines/R07/01-search-landing.png
+  - tests/android/visual-baselines/R07/02-search-results.png
+  - tests/android/visual-baselines/R07/03-publisher.png
+  - tests/android/visual-baselines/R07/04-clear-history-dialog.png
+  - PITFALLS.md
+  - docs/03-continuity/PITFALLS.md
+  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194+approved-cr:CR-0195+approved-cr:CR-0196+approved-cr:CR-0197+approved-cr:CR-0198+approved-cr:CR-0199+approved-cr:CR-0200
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 跨平台路径修复和同源晋升重试需串行绑定原Run且用户未要求子代理
+event_hash: 6ba128d046f2d0f84fb5fa73037a7c86c95ab9dc5101dbae785ba15ce3e3f880

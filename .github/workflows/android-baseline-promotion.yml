@@ -36,7 +36,7 @@ jobs:
           import os, subprocess, yaml
 
           head_changed = subprocess.check_output(
-              ['git', 'diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD'],
+              ['git', '-c', 'core.quotepath=false', 'diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD'],
               text=True,
           ).splitlines()
           approvals = [path for path in head_changed if path.endswith('/APPROVAL.yaml')]
@@ -53,7 +53,7 @@ jobs:
               raise SystemExit('approval release, source run, or source commit is invalid')
           subprocess.run(['git', 'merge-base', '--is-ancestor', commit, 'HEAD'], check=True)
           changed = subprocess.check_output(
-              ['git', 'diff', '--name-only', f'{commit}..HEAD'],
+              ['git', '-c', 'core.quotepath=false', 'diff', '--name-only', f'{commit}..HEAD'],
               text=True,
           ).splitlines()
           exact_governance = {
@@ -62,6 +62,7 @@ jobs:
               'CURRENT_STATUS.yaml',
               'catalogs/change_request_index.csv',
               'catalogs/session_index.csv',
+              'docs/03-continuity/PROBLEM_REGISTRY.yaml',
           }
           governance_prefixes = (
               '.continuity/',

@@ -2,12 +2,15 @@ schema: hhy.android-visual-baseline-approval/v1
 release: R07
 status: APPROVED
 authority: AI_IMPLEMENTATION_AGENT
+promotion_attempt: 2
 source:
   github_run_id: "29875839322"
   commit: 69406d918b4c2aa6f1eea78baed48464e4f94277
   artifact_id: "8513094997"
   artifact_sha256: ef5b8f148ef2e977c2062d1a95e17c9178341ed2c4870cfb3caa17f4ff259981
   runtime_status: BASELINE_REVIEW_REQUIRED
+  prior_promotion_run_id: "29876741055"
+  prior_promotion_failure: Linux Git core.quotepath默认转义中文连续性路径，轻量路径白名单误判；未运行Gradle或模拟器
 decision: 四张截图均绑定R07真实已认证旅程，页面身份与业务夹具完整，搜索首页、结果、发布者主页和清空历史确认框状态稳定且互不重复；字号、间距、色彩、圆角和层级使用冻结Design Token，无敏感联系方式明文、内部错误码、请求编号或TraceId，批准为R07视觉基线。
 screens:
 - file: 01-search-landing.png

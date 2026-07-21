@@ -987,3 +987,16 @@ problems:
   - BASELINE_REVIEW_REQUIRED不得允许项目所有者测试、正式Release完成或生产激活
   - 轻量晋升只能接受缺失批准基线这一类失败，任何仪器、JUnit、崩溃、页面身份、稳定性或截图差异失败必须修复后重新候选
   - 晋升提交只能包含对应Release基线原图和APPROVAL，禁止夹带产品代码或治理脚本变更
+- id: PROB-0075
+  title: Linux Git中文路径转义导致基线晋升白名单误拒绝
+  status: SOLVED
+  root_cause: Android轻量晋升Run 29876741055在14秒内终止于路径解析；Windows仓库已配置core.quotepath=false所以本地同逻辑通过，GitHub Linux干净克隆仍使用默认true，git diff会把中文CR文档路径加引号并转为八进制转义，字符串不再以批准的连续性目录前缀开头。
+  resolution: CR-0200要求所有参与机器路径判定的diff-tree和diff子进程显式使用git -c core.quotepath=false，确保跨平台输出真实UTF-8路径；白名单继续检查采集Commit到HEAD全范围且仍禁止产品代码。APPROVAL只增加晋升尝试记录，四张PNG、原APK和Run 29875839322哈希不变；重试只执行轻量下载与哈希晋升。
+  regression_checks:
+  - Python静态回归必须断言晋升工作流的diff-tree和diff均显式core.quotepath=false
+  - git -c core.quotepath=true diff必须可复现中文路径转义，显式false必须输出真实docs/03-continuity/change-requests路径
+  - 第二次晋升不得包含gradlew或android-emulator-runner且必须复用Run 29875839322工件
+  do_not_repeat:
+  - 用Git机器输出做路径白名单、清单或安全判定时不得依赖用户级core.quotepath配置
+  - Windows本地通过不能证明Linux干净克隆的非ASCII路径字符串相同，必须在命令本身固定quotepath
+  - 轻量治理失败不得重新触发已通过的完整编译或模拟器，修复后只重跑失败的轻量阶段

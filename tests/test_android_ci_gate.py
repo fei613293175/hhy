@@ -350,6 +350,7 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("android_ci_gate.py promote", source)
         self.assertIn("actions/download-artifact@v4", source)
         self.assertIn("f'{commit}..HEAD'", source)
+        self.assertEqual(2, source.count("'core.quotepath=false'"))
         self.assertIn("baseline promotion range contains product or unapproved files", source)
         self.assertIn("'.continuity/'", source)
         self.assertNotIn("'apps/android/'", source)
