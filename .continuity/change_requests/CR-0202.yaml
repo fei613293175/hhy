@@ -1,0 +1,54 @@
+protocol_version: '1.0'
+cr_id: CR-0202
+title: 补齐R07五页逐页视觉合同与关闭证据
+status: IMPLEMENTING
+created_at: '2026-07-21T23:43:12Z'
+updated_at: '2026-07-21T23:43:21Z'
+requester_actor_id: codex-root-r07-007
+approver_actor_id: codex-reviewer-r07-visual-close
+task_id: TASK-R07-007
+session_id: SES-20260721T210252Z-D631F6E4
+user_request: 项目所有者要求UI字号边距等硬参数遵守开发文档，版本截图由AI判断且持续开发不等待人工逐图确认。
+reason: R07候选四图和安全面板语义已通过，但check_ui_visual_acceptance发现五个页面未进入ui_visual_acceptance目录，无法完成版本关闭。
+original_rule: R07页面使用冻结Token实现并有候选证据，但缺少逐页批准补充视觉规格和ui_visual_acceptance五页登记。
+new_rule: R07五页逐一绑定批准补充视觉规格、冻结Token、实现路径和候选证据；四个非敏感页面使用同源截图，高敏联系方式面板因FLAG_SECURE使用候选语义与安全窗口报告代替截图。
+impact_summary: 仅补齐R07视觉合同目录与规格，不改变产品代码、APK、API、数据库或生产配置。
+impact:
+  files:
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+  - design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+  - design/R07-UI-FROZEN/specs/SHEET-CONTACT-001.md
+  - design/R07-UI-FROZEN/specs/DIALOG-SEARCH-001.md
+  - catalogs/ui_visual_acceptance.csv
+  pages:
+  - SCR-SEARCH-001
+  - SCR-SEARCH-002
+  - SCR-PUBLISHER-001
+  - SHEET-CONTACT-001
+  - DIALOG-SEARCH-001
+  apis: []
+  database: []
+  configuration:
+  - design/tokens/hhy_design_tokens_v1.2.2.json
+  ledger: []
+  tests:
+  - python scripts/check_ui_visual_acceptance.py --release R07
+  releases:
+  - R07
+  migration_and_compatibility: 纯视觉治理文档增量；既有候选图片和APK字节不变，无运行时迁移。
+user_confirmation: 项目所有者已授权AI自主判断版本截图并要求UI硬参数按开发文档执行。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T23:43:18Z'
+  note: 视觉规则只固化已通过候选证据；高敏面板禁止截图并以FLAG_SECURE语义报告替代，未降低安全门禁。
+machine_record: .continuity/change_requests/CR-0202.yaml
+document: docs/03-continuity/change-requests/CR-0202-补齐R07五页逐页视觉合同与关闭证据.md
+decision_log:
+- at: '2026-07-21T23:43:21Z'
+  actor_id: codex-root-r07-007
+  status: IMPLEMENTING
+  note: 开始补齐五页批准补充视觉规格和目录证据。
+  session_id: SES-20260721T210252Z-D631F6E4
+session_ids:
+- SES-20260721T210252Z-D631F6E4

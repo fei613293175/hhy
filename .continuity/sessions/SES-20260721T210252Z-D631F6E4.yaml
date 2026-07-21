@@ -11,7 +11,7 @@ task_id: TASK-R07-007
 story_id: STORY-R07-005
 goal: 完成R07大版本最终候选完整门禁、Android模拟器页面验证、候选APK追溯与桌面交付，AI独立判断截图并保持真机反馈异步。
 started_at: '2026-07-21T21:02:52Z'
-updated_at: '2026-07-21T23:28:52Z'
+updated_at: '2026-07-21T23:48:17Z'
 takeover_of: null
 change_requests:
 - CR-0191
@@ -24,6 +24,8 @@ change_requests:
 - CR-0198
 - CR-0199
 - CR-0200
+- CR-0201
+- CR-0202
 scope:
   allowed_paths:
   - apps/**
@@ -80,7 +82,20 @@ scope:
   - tests/android/visual-baselines/R07/04-clear-history-dialog.png
   - PITFALLS.md
   - docs/03-continuity/PITFALLS.md
-  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194+approved-cr:CR-0195+approved-cr:CR-0196+approved-cr:CR-0197+approved-cr:CR-0198+approved-cr:CR-0199+approved-cr:CR-0200
+  - artifacts/validation/r07-task007-android/build-evidence.json
+  - artifacts/validation/r07-task007-android/candidate-report.json
+  - artifacts/validation/r07-task007-android/screenshots
+  - artifacts/validation/r07-apk-delivery/delivery-evidence.json
+  - artifacts/apk/R07/APK_MANIFEST.yaml
+  - artifacts/reports/R07/TASK-R07-007-android-apk.md
+  - artifacts/reports/R07/R07-version-test-guide.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+  - design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+  - design/R07-UI-FROZEN/specs/SHEET-CONTACT-001.md
+  - design/R07-UI-FROZEN/specs/DIALOG-SEARCH-001.md
+  - catalogs/ui_visual_acceptance.csv
+  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194+approved-cr:CR-0195+approved-cr:CR-0196+approved-cr:CR-0197+approved-cr:CR-0198+approved-cr:CR-0199+approved-cr:CR-0200+approved-cr:CR-0201+approved-cr:CR-0202
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -90,22 +105,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T23:28:48Z'
-  expires_at: '2026-07-22T03:28:48Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0011.yaml
+  renewed_at: '2026-07-21T23:48:13Z'
+  expires_at: '2026-07-22T03:48:13Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0013.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md
-next_step: 提交推送CR-0200修复并监控第二次轻量晋升PASS
+next_step: 提交推送交付证据并关闭TASK-R07-007
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: beb19e6bf7822976c2ed177462a5c7cd18549fb19678e3d12eebcb6a48ec8781
-  generated_at: '2026-07-21T23:28:50Z'
+  context_hash: ea899f1a9cedc686533d3db8213f01f9099ca710901f403dccbf0120d940bd15
+  generated_at: '2026-07-21T23:48:15Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 跨平台路径修复和同源晋升重试需串行绑定原Run且用户未要求子代理
+  reason: 候选身份、视觉证据和版本状态必须在同一串行闭环内保持一致

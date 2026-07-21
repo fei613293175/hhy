@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-21T23:28:50Z",
-  "context_hash": "beb19e6bf7822976c2ed177462a5c7cd18549fb19678e3d12eebcb6a48ec8781",
+  "generated_at": "2026-07-21T23:48:15Z",
+  "context_hash": "ea899f1a9cedc686533d3db8213f01f9099ca710901f403dccbf0120d940bd15",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "a70b70b8bc4570b2dec3500aa536c387b7bec7ba7f8fd3c804f7327c3607ecd4",
-    "file_count": 30
+    "sha256": "d2f9c779b893901dbd6486a0193d6cd32edc38062c1ae0f11804ae58cc0e6f46",
+    "file_count": 39
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "807af703225b3472d08d92821f2e747a9e57f1186496410b34d63e3eb1448034"
+    "sha256": "6616f0c7a889b74464ba119cee6bd0e897fc874a3656c1b832bffbc0ecfae1ea"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "5c25847901d91ce7a13199459ff638ab3a64da46470900549f4608094eaec337"
+    "sha256": "738f348900cda4b3b7431cc91f08adf12550fa6b4871c385096102736e9ab21c"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "ae02600b9343a4f572ef83116ce926de52387a047c1f3e154f505a3671a57ac7",
+      "sha256": "11a15a6dcd3187c741a7c29a53520ec9632ea3fea3b33166e77ace718cddf992",
       "bytes": 3865
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "2d3b64acb62ea49f80cfd9b56b0e3f6b9dcede10aa848bbae58154e425472c38",
-      "bytes": 1092096
+      "sha256": "5dd666cb232b3b4f72e78ae59118d846c37242edd356827f52d371922e348221",
+      "bytes": 1098474
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "4e51d6d3f4a0c2ae23323298c93f5f9a11330fba41c41e724930879d9db2f69b",
+      "sha256": "c296e5b608217bd0b3f3bcb07f0b90877949c34a0fb4010d06ac77997c4fac5a",
       "bytes": 33828
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "073abbbbfe53d51e164e912b0bb2563eb0c5ac073da7680be55bd1ea034abd0e",
-      "bytes": 627597
+      "sha256": "e900d1694d116d609e64e278cb543e21ae45a573ad78e4eeb1a85116ef835b14",
+      "bytes": 633289
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "f5ba71946f88163cbcf321580bff4caa55acf5915e41ce970317b87b71a2f5ec",
+      "sha256": "a24994576cf7f132e3fd61e8f39f131a3fa61129ce9244ff500509ac74aba4d7",
       "bytes": 533
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md",
-      "sha256": "4a9ac202297b2080db4ad79b468bf18b291e46abbeee7e5383e654b44dedd091",
-      "bytes": 24629
+      "sha256": "b24aab8e0a6414b7bfdd8e76c26ee165b1e88349abc0074cddef4fac28e41237",
+      "bytes": 31493
     },
     {
-      "path": ".continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0011.yaml",
-      "sha256": "e02efa4810d7b10d4e6273116e99f2192310fafae55f4d89d18c36756a10e02c",
-      "bytes": 15310
+      "path": ".continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0013.yaml",
+      "sha256": "1a59c79d26198fc0ca8a1339704c6e9396454aea51ecc69e4b19474224e8a802",
+      "bytes": 20324
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md",
@@ -200,6 +200,16 @@
       "path": "docs/03-continuity/change-requests/CR-0200-修复Linux基线晋升中文路径转义误判.md",
       "sha256": "6ba949387ad9a3ecf3f3c3162bdbd2ac147e56c3f0bf941d0ec948d582bf4d6e",
       "bytes": 2662
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0201-封装并交付R07可追溯测试APK与真机说明.md",
+      "sha256": "1fb9270c40b903543764709128aef7b33d17e089abbb71f53b73e9708f54a7e4",
+      "bytes": 2904
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0202-补齐R07五页逐页视觉合同与关闭证据.md",
+      "sha256": "79931c33c69cdceb9e19807c90875a2d41f0eba6397e119a2a494b5066c06366",
+      "bytes": 2670
     }
   ]
 }

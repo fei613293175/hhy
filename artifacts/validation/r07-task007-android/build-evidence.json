@@ -1,0 +1,33 @@
+{
+  "schema_version": 2,
+  "release": "R07",
+  "commit": "69406d918b4c2aa6f1eea78baed48464e4f94277",
+  "version_name": "1.2.2-debug",
+  "version_code": 10207,
+  "build_status": "PASS",
+  "checks": [
+    "testDebugUnitTest",
+    "lintDebug",
+    "assembleDebug",
+    "verifyApiBaseUrl",
+    "apksigner",
+    "zipalign",
+    "authenticatedEmulatorJourney",
+    "targetProcessLogGate",
+    "aiVisualBaselineApproval",
+    "lightweightBaselinePromotion"
+  ],
+  "stable_signing": true,
+  "signing_profile_id": "hhy-staging-test-v1",
+  "signing_fingerprint": "f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873",
+  "api_base_url": "https://api.orbexa.cc",
+  "built_at": "2026-07-21T15:11:28Z",
+  "source_github_run_id": "29875839322",
+  "source_artifact_id": "8513094997",
+  "source_artifact_sha256": "ef5b8f148ef2e977c2062d1a95e17c9178341ed2c4870cfb3caa17f4ff259981",
+  "promotion_github_run_id": "29877272491",
+  "promotion_artifact_id": "8513443436",
+  "promotion_artifact_sha256": "9b9f90a6a8c4780b278e1c33119942cb60ad22bca50caf42653c91f955b37685",
+  "apk_sha256": "48d1486878c562246759432bce2b4b9645df80c24a9ccc0017a20f3e7799813f",
+  "apk_size_bytes": 19427925
+}
