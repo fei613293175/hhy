@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-21T08:51:28Z",
-  "context_hash": "a5c064d797f0bf29763bc41663f7d6a794c3f30d010043e0f6492bf89df3f1bc",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-21T08:56:11Z",
+  "context_hash": "7be45e04edebe29df1ae0aa11966d183999da4f79255ccbe3ec02b35b0ba22e8",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "b60e2c12918985f77030ee1ae1744b022d8951522408fbbf07945609b3c8ca5e",
-    "file_count": 5
+    "sha256": "bb3000db400f2b5dd5e98fcd8f0146f0f924511807db160e61f9de69c8c8c82d",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "ff3197995ba62b6863a299d718d68fbb5029f84b09bd47452e6f8f0248931679"
+    "sha256": "cbbfc0eb6c645b9a9256e2d887f3762c9768d02a693857925ab380d926ce958c"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "7927320929a5b583b4eabf80bfcc7f449975ff5c8cb299dfec51cce7a79f6528"
+    "sha256": "cca3756ed471eb6f1edfec6dcc4744ba997dfdc6aeab187dbb7896f068845a16"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "c57936ce1fb779a94a9de4392fc66cbdeb0850d8c0663b2d87506f1899efd5a9",
-      "bytes": 3735
+      "sha256": "3befd0f29864dbc05b432e07476437e76d55191cf45d7c5f88442b19531f860e",
+      "bytes": 3644
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "ddc1d69da7af3607ec9c85cfe5e3e2810bcc0083bf886d19df303f2a434d2ac9",
-      "bytes": 2283
+      "sha256": "d31480ecf8e850d2e85f59cfbcd37a707785f98b02ec83aae10d2d3f3cd3f076",
+      "bytes": 1577
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "678755fd6a3b9f689fb1f4bf9ce66c28813b124664b7a84d42075c5fe82cd004",
-      "bytes": 979086
+      "sha256": "62c0e31191213706c5dc6641113a5f4b516f2cbd3904234942d6fd58d1648995",
+      "bytes": 980799
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "816e6ca882990657fae40dda68eef25ec6c127f00f52e0af7d66bd4c9257e2ac",
-      "bytes": 30326
+      "sha256": "ec2da6c5f713082fc19dc72343d56c927aa5fa0a4831771ae8b3daab911a0b5a",
+      "bytes": 30344
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "57fdc5f1bdb260732229955e788de12a35bce13e244c7241b0a4d2a7d020e612",
-      "bytes": 39570
+      "sha256": "469e2773739006acc71ce50a75c697edb781215d78b9bc1ddd6ce446df264eff",
+      "bytes": 39606
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "513f04959e582a49e581c131013730981a78858d50361b5d7a4efa35713d8101",
-      "bytes": 525
+      "sha256": "f827ed7ccc4c660afdcc2df06dec5f3c8eaec7113dafddd936bf4deefd48444e",
+      "bytes": 143
     },
     {
       "path": "releases/R07/RELEASE_MANIFEST.yaml",
@@ -128,8 +128,8 @@
     },
     {
       "path": "releases/R07/TASKS.yaml",
-      "sha256": "2ee049d6c4fd9d1a4d9e9510e0d8c08787c9453efb30a53486ac794d60a5d1be",
-      "bytes": 5702
+      "sha256": "069638911008f646870308650d622ef90adbf21a2d5082fe558879301f3d7ff7",
+      "bytes": 5738
     },
     {
       "path": "releases/R07/ACCEPTANCE_MATRIX.csv",
@@ -140,26 +140,6 @@
       "path": "releases/R07/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756",
       "bytes": 4300
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260721T082026Z-E6763DFE.md",
-      "sha256": "d0b9ece2756ecec3443f078a9b748c84373d73a968186d92c88cc145774d286a",
-      "bytes": 6444
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260721T082026Z-E6763DFE/0004.yaml",
-      "sha256": "3314d9d67e1292f5f67d7cfe00968e756e0d8fe1bfc2eaeaa27341e7fae69e69",
-      "bytes": 5823
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0174-登记R07实施入口与异步R06门禁边界.md",
-      "sha256": "cc3a8590715b7b50b69690408d7f7f11c9728a97b630ced960e47098c3eda834",
-      "bytes": 3090
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0175-补齐R07并行执行计划与连续性验证证据.md",
-      "sha256": "8c781859b47e6a59a76527a87481732fb628c2f832ff5f63336124c494a67abc",
-      "bytes": 3293
     }
   ]
 }

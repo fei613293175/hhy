@@ -3,7 +3,7 @@ title: 搜索、发布者主页与联系方式保护
 tasks:
 - id: TASK-R07-001
   title: 搜索、发布者主页与联系方式保护开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-CONTACT-001
@@ -24,9 +24,10 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R07
   session_log_required: true
+  completed_at: '2026-07-21T08:56:02Z'
 - id: TASK-R07-002
   title: 搜索、发布者主页与联系方式保护数据迁移与领域不变量
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R07-001
   requirements: *id001
