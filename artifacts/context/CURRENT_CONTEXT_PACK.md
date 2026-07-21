@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T01:03:04Z
-- Context Hash：`e4c4d1fc8f8825b3a3396e53e94b1d91694e38c25e935328e676154533a4b3ef`
+- 生成时间：2026-07-21T01:34:03Z
+- Context Hash：`0b21cad7a643e8dec1b67e9a2a7e371a98dacafd9c161b2c399527cf1abf5621`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R06-005
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 当前状态
@@ -18,7 +18,7 @@ baseline_version: 1.2.3
 phase: R06
 active_release: R06
 active_task: TASK-R06-005
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 66da8575b738596cb51360619ea342380fdd121e
 last_staging_apk: null
@@ -84,12 +84,13 @@ completed_tasks:
 - TASK-R06-002
 - TASK-R06-003
 - TASK-R06-004
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R06-005
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R06-005
-updated_at: '2026-07-21T01:03:02Z'
+updated_at: '2026-07-21T01:34:01Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -121,17 +122,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260720T173038Z-35648A77
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0025.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260721T012656Z-E067730A
+  actor_id: codex-root
+  story_id: STORY-R06-005
+  lease_expires_at: '2026-07-21T05:34:01Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0002.yaml
+  project_fingerprint: a84f0ea14ba4b46a0686e816cddc4f304449340c4a346ff67b382718b19edba9
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 0905a9c21514100c0f048a65eddb8c24448e7978e68a6c265b8adee4f13ebbcc
-    generated_at: '2026-07-21T01:03:00Z'
+    context_hash: 1630ed6bdd8093b20620fa0fb7ed3aacfa3ac3caa5ea3ec685e0cd14c966d97f
+    generated_at: '2026-07-21T01:32:30Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -310,13 +313,254 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260721T012656Z-E067730A
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R06
+task_id: TASK-R06-005
+story_id: STORY-R06-005
+goal: 统一内容基础、首页与CMS专项测试与故障注入
+started_at: '2026-07-21T01:26:56Z'
+updated_at: '2026-07-21T01:34:01Z'
+takeover_of: null
+change_requests:
+- CR-0158
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
+  start_head: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-21T01:34:01Z'
+  expires_at: '2026-07-21T05:34:01Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md
+next_step: 提交推送规则并开始TASK-R06-005专项测试缺口审计
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 全局规则最终集成与连续性提交由事实主控串行执行
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T012656Z-E067730A-0002
+session_id: SES-20260721T012656Z-E067730A
+sequence: 2
+created_at: '2026-07-21T01:34:00Z'
+summary: CR-0158全局规则通过R06严格Doctor并准备提交
+next_step: 提交推送规则并开始TASK-R06-005专项测试缺口审计
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: project_doctor_r06_strict
+  result: PASS
+  evidence: artifacts/validation/project-doctor-v1.2.3.json
+  note: 0 errors 0 warnings
+- name: android_ci_policy
+  result: PASS
+  evidence: python -m unittest tests.test_android_ci_gate
+  note: 14 tests PASS
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M config/android-automation.yaml'
+  - ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+  - ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
+  - ' M docs/09-development/统一开发与交付效率规范.md'
+  - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0158.yaml
+  - ?? .continuity/checkpoints/SES-20260721T012656Z-E067730A/0001.yaml
+  - ?? .continuity/sessions/SES-20260721T012656Z-E067730A.yaml
+  - ?? docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md
+  recent_commits:
+  - "1a021ca1ae0c95f8409dd1686f91a140f82ee2e9\t2026-07-21T09:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-004\
+    \ as completed"
+  - "26d0d42f1d1eba8e33b748ebf8d96461867b2419\t2026-07-21T09:02:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
+    \ R06 candidate pass"
+  - "66da8575b738596cb51360619ea342380fdd121e\t2026-07-21T08:41:06+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] test(android): approve R06\
+    \ visual baseline"
+  - "7b26ef9178607420d2eac17ecc3f6a93061c2353\t2026-07-21T08:12:05+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): reject incomplete\
+    \ R06 visual state"
+  - "ccc64022ea9531d0b979e87b6bae2c166490295b\t2026-07-21T07:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(ci): cover emulator bootstrap\
+    \ latency"
+  - "e1f5d632f19422c8aeecb4ab43f2ef5601627671\t2026-07-21T06:54:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
+    \ R06 candidate deployment"
+  - "d66887d636fbf49251297aa16f46324ff8ce75dc\t2026-07-21T06:10:37+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(ci): test release-specific\
+    \ Android pages"
+  - "1af2870ac006c5931d248177082d18d3d81eb6c9\t2026-07-21T05:02:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
+    \ visual evidence blocker"
+project_fingerprint:
+  sha256: a84f0ea14ba4b46a0686e816cddc4f304449340c4a346ff67b382718b19edba9
+  files:
+  - config/android-automation.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - tests/test_android_ci_gate.py
+  file_count: 6
+  payload:
+    base_commit: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
+    files:
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 5243
+      sha256: 6078316668aaa9bb82ac0f1148000de0cfda294893fc93164b035d155b14a876
+    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
+      state: FILE
+      size: 10152
+      sha256: ff548e8ad291ffd28210859c9aceb32c6b521766ee991db5f80f4cd0ba94cb93
+    - path: docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+      state: FILE
+      size: 3064
+      sha256: 8e370abc487aeead082dde807d70dfa5596fee15031ea626a1445431b23f4e6f
+    - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+      state: FILE
+      size: 9131
+      sha256: f3aa686b3a51895e48e0ae25262b7395633c292b0e9847476f25d97b72120a08
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 9930
+      sha256: 3e186c5d89ff683febb5428d7713efd20860851490b03fa8e08a26fb3e1d257d
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 16381
+      sha256: 0282c840bb4070faf1129159a9b0b9f5191cd432e4d644702864a3549fb38e1f
+change_classification:
+  other:
+  - config/android-automation.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  source_of_truth:
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  continuity:
+  - docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+  tests:
+  - tests/test_android_ci_gate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0158
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 全局规则最终集成与连续性提交由事实主控串行执行
+event_hash: 5463646cd30dd2ef2a9bf97161f017cbc8d254d5a724b953be8c033e2e5c512e
 ```
 
 ## 接续状态与事件头
@@ -324,31 +568,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260721T012656Z-E067730A
 last_session_id: SES-20260720T173038Z-35648A77
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260720T173038Z-35648A77-0025
-event_count: 1617
-event_head_hash: deb24b874c6726e1ad8fed0f57dd135b71587d1456fcd68ecd45216422d3314a
+event_count: 1623
+event_head_hash: 5463646cd30dd2ef2a9bf97161f017cbc8d254d5a724b953be8c033e2e5c512e
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260719T165401Z-12791729
-  task_id: TASK-R05-003
-  story_id: STORY-R05-008
-  actor_id: codex-root
-  status: CLOSED
-  started_at: '2026-07-19T16:54:01Z'
-  record: .continuity/sessions/SES-20260719T165401Z-12791729.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260719T165401Z-12791729.md
-  updated_at: '2026-07-19T18:30:07Z'
-  closed_at: '2026-07-19T18:30:07Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260719T165401Z-12791729/0009.yaml
-  handoff_bundle: null
-- session_id: SES-20260719T183335Z-535311E4
+recent_sessions: - session_id: SES-20260719T183335Z-535311E4
   task_id: TASK-R05-004
   story_id: STORY-R05-001
   actor_id: codex-root
@@ -456,47 +688,19 @@ recent_sessions: - session_id: SES-20260719T165401Z-12791729
   closed_at: '2026-07-21T01:03:01Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0025.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-D22ECAFB67D6
-  session_id: SES-20260719T083704Z-6E4CE28F
-  task_id: TASK-R04-001
-  story_id: STORY-R04-002
+- session_id: SES-20260721T012656Z-E067730A
+  task_id: TASK-R06-005
+  story_id: STORY-R06-005
   actor_id: codex-root
-  status: CLOSED
-  claimed_at: '2026-07-19T08:37:04Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-19T08:53:03Z'
-- claim_id: CLM-D14F24DD0A84
+  status: ACTIVE
+  started_at: '2026-07-21T01:26:56Z'
+  record: .continuity/sessions/SES-20260721T012656Z-E067730A.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md
+  updated_at: '2026-07-21T01:34:01Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0002.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-D14F24DD0A84
   session_id: SES-20260719T085423Z-0385FEE0
   task_id: TASK-R04-002
   story_id: STORY-R04-002
@@ -1113,17 +1317,46 @@ task_claims: - claim_id: CLM-D22ECAFB67D6
   - scripts/**
   - CHANGELOG.md
   closed_at: '2026-07-21T01:03:01Z'
-recent_task_transitions: - transition_id: TRN-9B8421CA1B25
-  timestamp: '2026-07-19T08:37:05Z'
-  release: R04
-  task_id: TASK-R04-001
-  story_id: STORY-R04-002
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260719T083704Z-6E4CE28F
+- claim_id: CLM-26FF72418AF4
+  session_id: SES-20260721T012656Z-E067730A
+  task_id: TASK-R06-005
+  story_id: STORY-R06-005
   actor_id: codex-root
-  reason: 会话领取任务
-- transition_id: TRN-6110C7612C53
+  status: ACTIVE
+  claimed_at: '2026-07-21T01:26:56Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-6110C7612C53
   timestamp: '2026-07-19T08:54:23Z'
   release: R04
   task_id: TASK-R04-002
@@ -1313,6 +1546,16 @@ recent_task_transitions: - transition_id: TRN-9B8421CA1B25
   session_id: SES-20260720T173038Z-35648A77
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-793C15D200BF
+  timestamp: '2026-07-21T01:26:57Z'
+  release: R06
+  task_id: TASK-R06-005
+  story_id: STORY-R06-005
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260721T012656Z-E067730A
+  actor_id: codex-root
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1320,29 +1563,41 @@ recent_task_transitions: - transition_id: TRN-9B8421CA1B25
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 26d0d42f1d1eba8e33b748ebf8d96461867b2419
+head: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260720T173038Z-35648A77.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md'
-- ' M releases/R06/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0025.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ' M config/android-automation.yaml'
+- ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+- ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
+- ' M docs/09-development/统一开发与交付效率规范.md'
+- ' M tests/test_android_ci_gate.py'
+- ?? .continuity/change_requests/CR-0158.yaml
+- ?? .continuity/checkpoints/SES-20260721T012656Z-E067730A/0001.yaml
+- ?? .continuity/checkpoints/SES-20260721T012656Z-E067730A/0002.yaml
+- ?? .continuity/sessions/SES-20260721T012656Z-E067730A.yaml
+- ?? docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+- ?? docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md
 recent_commits:
+- "1a021ca1ae0c95f8409dd1686f91a140f82ee2e9\t2026-07-21T09:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-004\
+  \ as completed"
 - "26d0d42f1d1eba8e33b748ebf8d96461867b2419\t2026-07-21T09:02:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record R06\
   \ candidate pass"
 - "66da8575b738596cb51360619ea342380fdd121e\t2026-07-21T08:41:06+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] test(android): approve R06 visual\
@@ -1357,16 +1612,19 @@ recent_commits:
   \ Android pages"
 - "1af2870ac006c5931d248177082d18d3d81eb6c9\t2026-07-21T05:02:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record visual\
   \ evidence blocker"
-- "db04b9f4494459d8fe278d87a73103ebbf05f4b5\t2026-07-21T04:44:56+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): use visible reset\
-  \ marker"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`1bf2dd85f7f595a2a7af792e4eb7939857d7384efcee513f80f6802ac18a928c`
-- 文件数：0
+- 指纹：`a84f0ea14ba4b46a0686e816cddc4f304449340c4a346ff67b382718b19edba9`
+- 文件数：6
 
-- 无
+- `config/android-automation.yaml`
+- `docs/00-baseline/正式商业系统全局硬性开发边界.md`
+- `docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md`
+- `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`
+- `docs/09-development/统一开发与交付效率规范.md`
+- `tests/test_android_ci_gate.py`
 
 ## 当前 Release
 
@@ -6716,13 +6974,53 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260720T173038Z-35648A77
   session_ids:
   - SES-20260720T173038Z-35648A77
+- protocol_version: '1.0'
+  cr_id: CR-0158
+  title: 固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则
+  status: APPROVED
+  created_at: '2026-07-21T01:28:28Z'
+  updated_at: '2026-07-21T01:29:26Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-005
+  session_id: SES-20260721T012656Z-E067730A
+  user_request: 现在立即按你说的计划开始方案后并立即推进开发；真机验证测试不能强制每个版本反馈，未反馈不能停止推进开发
+  reason: R06最终候选证明Staging引导HTTP 500可通过同Commit仅失败作业有界重跑恢复；现行规则未明确保留已通过编译阶段及重复瞬态的停止条件
+  original_rule: 原Commit仅基础设施瞬态故障允许重跑一次；项目所有者真机反馈异步且不阻断下一版本编码，但未精确定义作业级重跑范围、已通过阶段复用和重复瞬态停止条件
+  new_rule: 仅在业务测试开始前且日志明确证明GitHub、网络、镜像或Staging接口为瞬态故障时，允许同Commit只重跑失败作业及其依赖一次，禁止重跑已通过编译、Lint、单测和打包或修改业务代码；同一瞬态再次出现立即停止重跑并检查Staging健康与基础设施。任何单版owner_physical_test=PENDING只阻断该版正式验收和生产激活，不阻断后续依赖已满足版本的编码、机器候选和桌面APK累积交付
+  impact_summary: 减少GitHub重复编译和盲目重跑，保证项目所有者可不定时真机测试而持续推进R06-R32，同时保留正式验收与生产激活真实性
+  impact:
+    files:
+    - config/android-automation.yaml
+    - docs/00-baseline/正式商业系统全局硬性开发边界.md
+    - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+    - docs/09-development/统一开发与交付效率规范.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - android_automation.remediation.retry_rule
+    - android_automation.enforcement.owner_feedback_non_blocking_for_next_release
+    ledger: []
+    tests:
+    - tests/test_android_ci_gate.py
+    releases:
+    - R06-R32
+    migration_and_compatibility: 兼容现有R06-R32候选工作流、最长三轮AI修复和既有延期外部门禁；不改变API、数据库、签名、候选PASS或生产授权要求
+  user_confirmation: 现在立即按你说的计划开始方案后并立即推进开发；额外说明：真机验证测试不能强制我每个版本必须给你反馈，我会不定时测试，然后会在对话反应问题，不能因为我没有真机反馈结果就停止推进开发
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T01:29:26Z'
+    note: 项目所有者明确要求立即按方案执行、固化跨电脑跨AI可复用规则，并确认真机反馈不定时且不得阻断持续开发
+  machine_record: .continuity/change_requests/CR-0158.yaml
+  document: docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `b3940dd5450bc1525500c8305ef7cf72503be6b32ed612b29146d5b2917804b3`
+- `CURRENT_STATUS.yaml` — `5fb6e1db92a5e6906fc212202c176d675a5eae83f3f947d41bd04861b92c566b`
 - `NEXT_TASK.yaml` — `bc385e2ff5686d6e4a1b7a1db54b999f4c1b9657f0f902287a06a6d5ac3788a2`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -6733,18 +7031,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `e8ae9af4f540616d3d144121a45390c6d2673834094dbf1bdeea4362760a370e`
-- `.continuity/SESSION_INDEX.yaml` — `99b07ad5315782dfea5d96069b263ec10d31cfe09e8e09d79a040a01a3f17220`
-- `.continuity/TASK_CLAIMS.yaml` — `fc511141859dafbdb3764a22ada9c403acba69fd1a96775fafce638773a2347e`
-- `.continuity/TASK_TRANSITIONS.yaml` — `17e0b26c549b14a3f15a7daf0c6e8a11389a129fc9bf0c57f1dba8af1ba71c67`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `0a0d833abe87144aa1602347d4e5b39d1bc0c5b0285dff761b232d18d53ae4fb`
-- `.continuity/ACTIVE_SESSION.yaml` — `67714cc109975211bc4d001258f706750b4f2dd17798afa61a7c63ba1285cbca`
+- `.continuity/EVENT_LOG.jsonl` — `a1b64eb831cb3fe25c77889e33becfee2ed381626aa4f582cc1a414cf9ca1635`
+- `.continuity/SESSION_INDEX.yaml` — `5971237b5c599271c0e4508330a3f6d665724a44757aaf5e6a30376697f0bfcc`
+- `.continuity/TASK_CLAIMS.yaml` — `6364ae7ecd3b0eb7dd87fb51a54ba7c5700eedfebc926e00ce599629dd0f406a`
+- `.continuity/TASK_TRANSITIONS.yaml` — `48e521d2e873b371d8c4ce2ef561682fda744cd1959721830f12728756efcc6f`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `44ba932513efdb93ee45d9843ccee85d106a028a831e8919f00341423bf68d34`
+- `.continuity/ACTIVE_SESSION.yaml` — `bc208e0472521c3f2f7420a83f643a9ffbf047996d3ae25d7598e1012b23ff2d`
 - `releases/R06/RELEASE_MANIFEST.yaml` — `72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878`
 - `releases/R06/DEFINITION_OF_READY.yaml` — `c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991`
 - `releases/R06/STORIES.yaml` — `dd81c97b0552c9342b5be360e918d26502b5e3d06fa8bafaba7648d43c96e7ef`
 - `releases/R06/TASKS.yaml` — `4258651059ffb6e295b45ced71c96c6253530a149cd912e9219c3d977621f026`
 - `releases/R06/ACCEPTANCE_MATRIX.csv` — `9485c8f085153d3483002b33a143c764a8838a3503d8ac4d2e36e5c3c45b9aaf`
 - `releases/R06/PARALLEL_EXECUTION_PLAN.yaml` — `426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51`
+- `docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md` — `0d897ee5d03ecff9628e396eb3dd6d03f2bdf341afebf12c3d9c6b8162ffecba`
+- `.continuity/checkpoints/SES-20260721T012656Z-E067730A/0002.yaml` — `fcbdde1f974c9b60f0f80016cd4ac87e38e4de7fadffd86fe0d58eeae84a62fd`
+- `docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md` — `8e370abc487aeead082dde807d70dfa5596fee15031ea626a1445431b23f4e6f`
 
 ## 接手硬规则
 

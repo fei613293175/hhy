@@ -27,6 +27,25 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertEqual(900, policy["authentication"]["session_ttl_seconds"])
         self.assertTrue(policy["authentication"]["consume_once"])
         self.assertFalse(policy["authentication"]["production_enabled"])
+        self.assertFalse(policy["enforcement"]["owner_feedback_required_per_version_before_next_release"])
+        self.assertFalse(policy["delivery"]["owner_feedback_required_before_next_release"])
+        self.assertEqual(
+            {"FORMAL_RELEASE_ACCEPTANCE", "PRODUCTION_ACTIVATION"},
+            set(policy["enforcement"]["owner_pending_blocks"]),
+        )
+        self.assertEqual(
+            {"NEXT_RELEASE_DEVELOPMENT", "MACHINE_CANDIDATE", "DESKTOP_CANDIDATE_ACCUMULATION"},
+            set(policy["enforcement"]["owner_pending_does_not_block"]),
+        )
+        transient_retry = policy["remediation"]["transient_retry"]
+        self.assertEqual(1, transient_retry["max_same_commit_reruns"])
+        self.assertEqual("FAILED_JOBS_AND_DEPENDENTS_ONLY", transient_retry["rerun_scope"])
+        self.assertTrue(transient_retry["preserve_successful_jobs"])
+        self.assertFalse(transient_retry["business_code_change_allowed"])
+        self.assertEqual(
+            "STOP_RERUN_AND_DIAGNOSE_STAGING_OR_INFRASTRUCTURE",
+            transient_retry["repeated_transient_action"],
+        )
         self.assertEqual(
             {"repository", "workflow_ref", "commit", "run_id"},
             set(policy["authentication"]["binding_claims"]),

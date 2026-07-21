@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-21T01:03:04Z",
-  "context_hash": "e4c4d1fc8f8825b3a3396e53e94b1d91694e38c25e935328e676154533a4b3ef",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-21T01:34:03Z",
+  "context_hash": "0b21cad7a643e8dec1b67e9a2a7e371a98dacafd9c161b2c399527cf1abf5621",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "1bf2dd85f7f595a2a7af792e4eb7939857d7384efcee513f80f6802ac18a928c",
-    "file_count": 0
+    "sha256": "a84f0ea14ba4b46a0686e816cddc4f304449340c4a346ff67b382718b19edba9",
+    "file_count": 6
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "27eb6a22a3333969cea646e781677c435a80a501f3a80fb4f32a467a82409675"
+    "sha256": "7c692dc1a7be71dc21b4c9990f0f53ee9d878eb9e0eb5f81e2d18dd69b126ec9"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "cd3baa26db93079b6bb2735647249f6a372a6b8ee26efb6efd89037e2d5533a0"
+    "sha256": "8fadd490d314ee6820f473b6f44326165e6a4214a9bf9206c979a91dc13ef1e2"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "b3940dd5450bc1525500c8305ef7cf72503be6b32ed612b29146d5b2917804b3",
-      "bytes": 3569
+      "sha256": "5fb6e1db92a5e6906fc212202c176d675a5eae83f3f947d41bd04861b92c566b",
+      "bytes": 3707
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,33 +83,33 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "e8ae9af4f540616d3d144121a45390c6d2673834094dbf1bdeea4362760a370e",
-      "bytes": 899496
+      "sha256": "a1b64eb831cb3fe25c77889e33becfee2ed381626aa4f582cc1a414cf9ca1635",
+      "bytes": 902537
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "99b07ad5315782dfea5d96069b263ec10d31cfe09e8e09d79a040a01a3f17220",
-      "bytes": 27834
+      "sha256": "5971237b5c599271c0e4508330a3f6d665724a44757aaf5e6a30376697f0bfcc",
+      "bytes": 28318
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "fc511141859dafbdb3764a22ada9c403acba69fd1a96775fafce638773a2347e",
-      "bytes": 36113
+      "sha256": "6364ae7ecd3b0eb7dd87fb51a54ba7c5700eedfebc926e00ce599629dd0f406a",
+      "bytes": 36834
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "17e0b26c549b14a3f15a7daf0c6e8a11389a129fc9bf0c57f1dba8af1ba71c67",
-      "bytes": 15991
+      "sha256": "48e521d2e873b371d8c4ce2ef561682fda744cd1959721830f12728756efcc6f",
+      "bytes": 16268
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "0a0d833abe87144aa1602347d4e5b39d1bc0c5b0285dff761b232d18d53ae4fb",
-      "bytes": 480383
+      "sha256": "44ba932513efdb93ee45d9843ccee85d106a028a831e8919f00341423bf68d34",
+      "bytes": 483452
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "67714cc109975211bc4d001258f706750b4f2dd17798afa61a7c63ba1285cbca",
-      "bytes": 143
+      "sha256": "bc208e0472521c3f2f7420a83f643a9ffbf047996d3ae25d7598e1012b23ff2d",
+      "bytes": 525
     },
     {
       "path": "releases/R06/RELEASE_MANIFEST.yaml",
@@ -140,6 +140,21 @@
       "path": "releases/R06/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51",
       "bytes": 3494
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md",
+      "sha256": "0d897ee5d03ecff9628e396eb3dd6d03f2bdf341afebf12c3d9c6b8162ffecba",
+      "bytes": 3986
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260721T012656Z-E067730A/0002.yaml",
+      "sha256": "fcbdde1f974c9b60f0f80016cd4ac87e38e4de7fadffd86fe0d58eeae84a62fd",
+      "bytes": 6675
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md",
+      "sha256": "8e370abc487aeead082dde807d70dfa5596fee15031ea626a1445431b23f4e6f",
+      "bytes": 3064
     }
   ]
 }

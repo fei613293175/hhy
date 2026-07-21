@@ -1,0 +1,168 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T012656Z-E067730A-0002
+session_id: SES-20260721T012656Z-E067730A
+sequence: 2
+created_at: '2026-07-21T01:34:00Z'
+summary: CR-0158全局规则通过R06严格Doctor并准备提交
+next_step: 提交推送规则并开始TASK-R06-005专项测试缺口审计
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: project_doctor_r06_strict
+  result: PASS
+  evidence: artifacts/validation/project-doctor-v1.2.3.json
+  note: 0 errors 0 warnings
+- name: android_ci_policy
+  result: PASS
+  evidence: python -m unittest tests.test_android_ci_gate
+  note: 14 tests PASS
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M config/android-automation.yaml'
+  - ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+  - ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
+  - ' M docs/09-development/统一开发与交付效率规范.md'
+  - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0158.yaml
+  - ?? .continuity/checkpoints/SES-20260721T012656Z-E067730A/0001.yaml
+  - ?? .continuity/sessions/SES-20260721T012656Z-E067730A.yaml
+  - ?? docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md
+  recent_commits:
+  - "1a021ca1ae0c95f8409dd1686f91a140f82ee2e9\t2026-07-21T09:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-004\
+    \ as completed"
+  - "26d0d42f1d1eba8e33b748ebf8d96461867b2419\t2026-07-21T09:02:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
+    \ R06 candidate pass"
+  - "66da8575b738596cb51360619ea342380fdd121e\t2026-07-21T08:41:06+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] test(android): approve R06\
+    \ visual baseline"
+  - "7b26ef9178607420d2eac17ecc3f6a93061c2353\t2026-07-21T08:12:05+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): reject incomplete\
+    \ R06 visual state"
+  - "ccc64022ea9531d0b979e87b6bae2c166490295b\t2026-07-21T07:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(ci): cover emulator bootstrap\
+    \ latency"
+  - "e1f5d632f19422c8aeecb4ab43f2ef5601627671\t2026-07-21T06:54:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
+    \ R06 candidate deployment"
+  - "d66887d636fbf49251297aa16f46324ff8ce75dc\t2026-07-21T06:10:37+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(ci): test release-specific\
+    \ Android pages"
+  - "1af2870ac006c5931d248177082d18d3d81eb6c9\t2026-07-21T05:02:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
+    \ visual evidence blocker"
+project_fingerprint:
+  sha256: a84f0ea14ba4b46a0686e816cddc4f304449340c4a346ff67b382718b19edba9
+  files:
+  - config/android-automation.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - tests/test_android_ci_gate.py
+  file_count: 6
+  payload:
+    base_commit: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
+    files:
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 5243
+      sha256: 6078316668aaa9bb82ac0f1148000de0cfda294893fc93164b035d155b14a876
+    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
+      state: FILE
+      size: 10152
+      sha256: ff548e8ad291ffd28210859c9aceb32c6b521766ee991db5f80f4cd0ba94cb93
+    - path: docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+      state: FILE
+      size: 3064
+      sha256: 8e370abc487aeead082dde807d70dfa5596fee15031ea626a1445431b23f4e6f
+    - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+      state: FILE
+      size: 9131
+      sha256: f3aa686b3a51895e48e0ae25262b7395633c292b0e9847476f25d97b72120a08
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 9930
+      sha256: 3e186c5d89ff683febb5428d7713efd20860851490b03fa8e08a26fb3e1d257d
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 16381
+      sha256: 0282c840bb4070faf1129159a9b0b9f5191cd432e4d644702864a3549fb38e1f
+change_classification:
+  other:
+  - config/android-automation.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  source_of_truth:
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  continuity:
+  - docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+  tests:
+  - tests/test_android_ci_gate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0158
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 全局规则最终集成与连续性提交由事实主控串行执行
+event_hash: 5463646cd30dd2ef2a9bf97161f017cbc8d254d5a724b953be8c033e2e5c512e

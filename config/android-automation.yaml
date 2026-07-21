@@ -14,6 +14,14 @@ enforcement:
   next_release_development_requires_owner_status: false
   production_activation_requires_owner_status: PASS
   owner_feedback_non_blocking_for_next_release: true
+  owner_feedback_required_per_version_before_next_release: false
+  owner_pending_blocks:
+  - FORMAL_RELEASE_ACCEPTANCE
+  - PRODUCTION_ACTIVATION
+  owner_pending_does_not_block:
+  - NEXT_RELEASE_DEVELOPMENT
+  - MACHINE_CANDIDATE
+  - DESKTOP_CANDIDATE_ACCUMULATION
 build:
   api_base_url: https://api.orbexa.cc
   java_version: 21
@@ -80,13 +88,26 @@ remediation:
   max_ai_attempts: 3
   failure_issue_title_prefix: '[Android CI]'
   required_status: REMEDIATION_REQUIRED
-  retry_rule: 编译或测试确定性失败必须修改后重新提交；仅基础设施瞬态故障允许原Commit重跑一次
+  retry_rule: 编译或测试确定性失败必须修改后重新提交；仅业务测试开始前且日志明确证明为GitHub、网络、镜像或Staging接口瞬态故障时，允许同一Commit只重跑失败作业及其依赖一次，禁止重跑已通过阶段或修改业务代码；同一瞬态再次出现必须停止重跑并检查Staging健康与基础设施
+  transient_retry:
+    proof_required: true
+    allowed_failure_classes:
+    - GITHUB_INFRASTRUCTURE
+    - NETWORK
+    - RUNNER_IMAGE
+    - STAGING_HTTP_5XX_BEFORE_BUSINESS_TEST
+    max_same_commit_reruns: 1
+    rerun_scope: FAILED_JOBS_AND_DEPENDENTS_ONLY
+    preserve_successful_jobs: true
+    business_code_change_allowed: false
+    repeated_transient_action: STOP_RERUN_AND_DIAGNOSE_STAGING_OR_INFRASTRUCTURE
   escalation_rule: 同一根因连续三轮仍失败或需要项目所有者新增秘密/第三方权限时才允许升级
 delivery:
   candidate_status: PASS
   desktop_copy_after_actions_pass: true
   desktop_test_guide_required: true
   owner_feedback_mode: ASYNC_NON_BLOCKING
+  owner_feedback_required_before_next_release: false
   production_activation_requires_owner_acceptance: true
   required_evidence:
   - build-report
