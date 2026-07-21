@@ -230,3 +230,19 @@ R06 现场演练至少覆盖：
 5. CMS 状态机、`expectedVersion`、幂等重放、Outbox 原子写入、首页只读稳定性和供应方超时失败关闭由 TASK-R06-005 自动化证据验证；不得通过直接修改业务记录伪造接口成功。
 6. 应用回切只替换 `api` 镜像，保持同一 PostgreSQL 容器、数据卷和 V030；禁止执行 U030–U029、降版本 DDL、删除内容版本/状态历史/审计或重建数据库。恢复当前镜像后再次验证 readiness、RED、四项 R06 Gauge 和数据库连续性。
 7. 证据统一写入 `artifacts/validation/r06-task006-staging/`，绑定被测 Commit、两个不可变镜像 ID、数据库容器/卷、Flyway V030、告警回执和逐文件 SHA-256。Android 候选 APK 与真机异步验收仍由 TASK-R06-007 单独完成，未收到真机反馈不得伪造 `owner_physical_test=PASS`，也不得据此停止后续依赖已满足的开发。
+
+## 12. R07 搜索与联系方式隔离预发布验收
+
+R07 使用 `infra/staging/r07-smoke/docker-compose.yml`，采用独立 Compose project、仅回环发布端口、`172.31.247.0/24` 默认子网和独立数据卷；不得修改或重启公网及 R01–R06 环境。执行前运行 `python3 scripts/check_r07_observability.py`，并把精确被测 Commit 注入 `HHY_R07_FROZEN_COMMIT`。七项测试 Secret（含独立的 `HHY_CONTENT_CONTACT_ROOT_SECRET`）只在隔离进程环境生成和注入，禁止写入仓库、证据或 Shell 历史；实名认证沙箱与 CI 自动登录保持关闭。
+
+R07 现场演练至少覆盖：
+
+1. Java 21 定向测试和生产构建通过；PostgreSQL 17 完整迁移到 V032，Flyway 历史与业务表数量归档。
+2. Prometheus target `hhy-backend-r07` 为 UP，RED count/bucket 非空；`hhy_search_history_rows`、`hhy_search_hot_terms_active`、`hhy_publisher_active_count`、`hhy_contact_accesses_5m`、`hhy_contact_rejections_5m`、`hhy_r07_outbox_backlog` 六项业务 Gauge 全部存在，业务指标查询失败累计值必须为 0。
+3. 停止/恢复 API 触发 `HhyR07BackendDown`；插入四条带冻结 Commit 唯一前缀的 `SEARCH_HISTORY` Outbox 测试事实触发 `HhyR07OutboxBacklog`。两项告警均必须取得 firing、resolved 和 alert-sink 送达回执。
+4. 测试 Outbox 事实禁止删除，只允许 `PENDING → PUBLISHING → PUBLISHED`，同时递增 attempts 并写 published_at；失败恢复重复执行同一合法终结流程。
+5. 2xx 响应中的 `requestId`、`traceId`、状态码与 `http_request_completed` 可关联；日志不得包含搜索词探针、联系方式、密文、安全根密钥、Bearer、Cookie 或请求正文。
+6. 应用回切只替换 `api` 镜像，回切目标必须兼容 V032；保持同一 PostgreSQL 容器和卷，恢复当前镜像后重复 readiness、六项 Gauge 与数据库连续性验证。
+7. 证据统一写入 `artifacts/validation/r07-task006-staging/`，绑定冻结 Commit、两个不可变镜像、数据库容器/卷、Flyway V032、告警回执和逐文件 SHA-256。机器证据齐全后才能把 `AC-R07-004` 签为 PASS。
+
+现场步骤由 `scripts/run_r07_staging_acceptance.sh` 单一入口执行。脚本首先强制 `git rev-parse HEAD` 等于 `HHY_R07_FROZEN_COMMIT`，再采集基线、演练告警与回滚并生成 `SHA256SUMS`；禁止从聊天记录重组长 SSH 命令。Android 模拟器、截图和候选 APK 不属于本任务，只在 TASK-R07-007 最终候选阶段执行。

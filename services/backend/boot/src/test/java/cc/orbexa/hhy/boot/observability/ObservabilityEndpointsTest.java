@@ -66,6 +66,12 @@ class ObservabilityEndpointsTest {
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_content_review_pending")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_content_outbox_backlog")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_home_enabled_modules")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_search_history_rows")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_search_hot_terms_active")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_publisher_active_count")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_contact_accesses_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_contact_rejections_5m")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_r07_outbox_backlog")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("hhy_business_metric_query_failures_total")))
                 .andExpect(content().string(org.hamcrest.Matchers.containsString("http_server_requests_seconds_bucket")));
         mvc.perform(get("/actuator").with(user("observability-auditor")))

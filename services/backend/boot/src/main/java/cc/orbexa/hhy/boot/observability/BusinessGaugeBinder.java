@@ -183,6 +183,42 @@ public final class BusinessGaugeBinder implements MeterBinder {
             WHERE enabled = TRUE
               AND source_type IS DISTINCT FROM 'DICTIONARY'
             """;
+    static final String SEARCH_HISTORY_ROWS_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.search_histories
+            """;
+    static final String SEARCH_HOT_TERMS_ACTIVE_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.hot_search_terms
+            WHERE enabled = TRUE
+              AND (starts_at IS NULL OR starts_at <= CURRENT_TIMESTAMP)
+              AND (ends_at IS NULL OR ends_at > CURRENT_TIMESTAMP)
+            """;
+    static final String PUBLISHER_ACTIVE_COUNT_SQL = """
+            SELECT COUNT(DISTINCT post.owner_id)
+            FROM hhy.content_posts post
+            JOIN hhy.users publisher ON publisher.id = post.owner_id
+            WHERE post.status = 'ONLINE'
+              AND publisher.status = 'ACTIVE'
+            """;
+    static final String CONTACT_ACCESSES_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_contact_access_logs
+            WHERE action IN ('VIEW', 'COPY', 'REPLAY')
+              AND created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String CONTACT_REJECTIONS_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_contact_access_logs
+            WHERE action LIKE 'REJECTED_%'
+              AND created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String R07_OUTBOX_BACKLOG_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.outbox_events
+            WHERE aggregate_type IN ('CONTENT', 'SEARCH_HISTORY')
+              AND status IN ('PENDING', 'RETRY_WAIT')
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -220,6 +256,12 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.content.review.pending", "Content records waiting for review", CONTENT_REVIEW_PENDING_SQL);
         register(registry, "hhy.content.outbox.backlog", "Content outbox events waiting for delivery", CONTENT_OUTBOX_BACKLOG_SQL);
         register(registry, "hhy.home.enabled.modules", "Enabled non-dictionary home modules", HOME_ENABLED_MODULES_SQL);
+        register(registry, "hhy.search.history.rows", "Stored search-history rows", SEARCH_HISTORY_ROWS_SQL);
+        register(registry, "hhy.search.hot.terms.active", "Enabled hot-search terms active now", SEARCH_HOT_TERMS_ACTIVE_SQL);
+        register(registry, "hhy.publisher.active.count", "Active publishers with online content", PUBLISHER_ACTIVE_COUNT_SQL);
+        register(registry, "hhy.contact.accesses.5m", "Successful contact accesses in the last five minutes", CONTACT_ACCESSES_5M_SQL);
+        register(registry, "hhy.contact.rejections.5m", "Rejected contact accesses in the last five minutes", CONTACT_REJECTIONS_5M_SQL);
+        register(registry, "hhy.r07.outbox.backlog", "R07 content and search-history events waiting for delivery", R07_OUTBOX_BACKLOG_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

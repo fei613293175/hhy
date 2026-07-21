@@ -36,13 +36,17 @@ class BusinessGaugeBinderTest {
         jdbc.execute("CREATE TABLE hhy.identity_verification_sessions (id bigint PRIMARY KEY, status varchar(32) NOT NULL, completed_at timestamp with time zone)");
         jdbc.execute("CREATE TABLE hhy.identity_provider_requests (id bigint PRIMARY KEY, status varchar(32), completed_at timestamp with time zone)");
         jdbc.execute("CREATE TABLE hhy.identity_media (id bigint PRIMARY KEY, media_object_id bigint)");
-        jdbc.execute("CREATE TABLE hhy.content_posts (id bigint PRIMARY KEY, status varchar(64) NOT NULL, review_status varchar(64))");
+        jdbc.execute("CREATE TABLE hhy.users (id bigint PRIMARY KEY, status varchar(64) NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.content_posts (id bigint PRIMARY KEY, owner_id bigint NOT NULL, status varchar(64) NOT NULL, review_status varchar(64))");
         jdbc.execute("CREATE TABLE hhy.home_modules (id bigint PRIMARY KEY, source_type varchar(64), enabled boolean NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.search_histories (id bigint PRIMARY KEY, user_id bigint NOT NULL, keyword varchar(255), created_at timestamp with time zone NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.hot_search_terms (id bigint PRIMARY KEY, keyword varchar(255) NOT NULL, enabled boolean NOT NULL, starts_at timestamp with time zone, ends_at timestamp with time zone)");
+        jdbc.execute("CREATE TABLE hhy.content_contact_access_logs (id bigint PRIMARY KEY, user_id bigint NOT NULL, content_id bigint, channel varchar(64), action varchar(255), created_at timestamp with time zone NOT NULL)");
 
         jdbc.update("INSERT INTO hhy.outbox_events(id, aggregate_type, status) VALUES "
                 + "(1, 'CONTENT', 'PENDING'), (2, 'PAYMENT', 'RETRY_WAIT'), "
                 + "(3, 'CONTENT', 'DEAD_LETTER'), (4, 'CONTENT', 'PUBLISHED'), "
-                + "(5, 'CONTENT', 'RETRY_WAIT')");
+                + "(5, 'CONTENT', 'RETRY_WAIT'), (6, 'SEARCH_HISTORY', 'PENDING')");
         jdbc.update("INSERT INTO hhy.ledger_accounts(id, currency) VALUES (10, 'CNY'), (11, 'CNY')");
         jdbc.update("INSERT INTO hhy.accounting_transactions(id, status) VALUES (20, 'POSTED'), (21, 'POSTED')");
         jdbc.update("INSERT INTO hhy.accounting_entries(id, transaction_id, account_id, amount_cent, currency, direction) VALUES "
@@ -103,16 +107,30 @@ class BusinessGaugeBinderTest {
                 + "(191, 'TIMED_OUT', CURRENT_TIMESTAMP - INTERVAL '10' MINUTE), "
                 + "(192, 'SUCCEEDED', CURRENT_TIMESTAMP)");
         jdbc.update("INSERT INTO hhy.identity_media(id, media_object_id) VALUES (200, 161), (201, 162)");
-        jdbc.update("INSERT INTO hhy.content_posts(id, status, review_status) VALUES "
-                + "(210, 'ONLINE', 'APPROVED'), (211, 'DRAFT', 'PENDING'), "
-                + "(212, 'OFFLINE', 'REJECTED')");
+        jdbc.update("INSERT INTO hhy.users(id, status) VALUES (230, 'ACTIVE'), (231, 'SUSPENDED')");
+        jdbc.update("INSERT INTO hhy.content_posts(id, owner_id, status, review_status) VALUES "
+                + "(210, 230, 'ONLINE', 'APPROVED'), (211, 230, 'DRAFT', 'PENDING'), "
+                + "(212, 231, 'OFFLINE', 'REJECTED')");
         jdbc.update("INSERT INTO hhy.home_modules(id, source_type, enabled) VALUES "
                 + "(220, 'CONTENT', TRUE), (221, 'DICTIONARY', TRUE), (222, 'CONTENT', FALSE)");
+        jdbc.update("INSERT INTO hhy.search_histories(id, user_id, keyword, created_at) VALUES "
+                + "(240, 230, '合作', CURRENT_TIMESTAMP), (241, 230, '项目', CURRENT_TIMESTAMP)");
+        jdbc.update("INSERT INTO hhy.hot_search_terms(id, keyword, enabled, starts_at, ends_at) VALUES "
+                + "(250, '合作', TRUE, CURRENT_TIMESTAMP - INTERVAL '1' HOUR, NULL), "
+                + "(251, '项目', TRUE, NULL, CURRENT_TIMESTAMP + INTERVAL '1' HOUR), "
+                + "(252, '失效', TRUE, NULL, CURRENT_TIMESTAMP - INTERVAL '1' HOUR), "
+                + "(253, '禁用', FALSE, NULL, NULL)");
+        jdbc.update("INSERT INTO hhy.content_contact_access_logs(id, user_id, content_id, channel, action, created_at) VALUES "
+                + "(260, 230, 210, 'EMAIL', 'VIEW', CURRENT_TIMESTAMP), "
+                + "(261, 230, 210, 'EMAIL', 'COPY', CURRENT_TIMESTAMP), "
+                + "(262, 230, 210, 'EMAIL', 'REPLAY', CURRENT_TIMESTAMP), "
+                + "(263, 230, 210, 'EMAIL', 'REJECTED_INVALID', CURRENT_TIMESTAMP), "
+                + "(264, 230, 210, 'EMAIL', 'REJECTED_UNAVAILABLE', CURRENT_TIMESTAMP - INTERVAL '10' MINUTE)");
 
         SimpleMeterRegistry registry = new SimpleMeterRegistry();
         new BusinessGaugeBinder(jdbc).bindTo(registry);
 
-        assertThat(registry.get("hhy.outbox.backlog").gauge().value()).isEqualTo(3.0);
+        assertThat(registry.get("hhy.outbox.backlog").gauge().value()).isEqualTo(4.0);
         assertThat(registry.get("hhy.outbox.dead.letter").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.ledger.unbalanced.transactions").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.reconciliation.open.differences").gauge().value()).isEqualTo(1.0);
@@ -139,6 +157,12 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.content.review.pending").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.content.outbox.backlog").gauge().value()).isEqualTo(2.0);
         assertThat(registry.get("hhy.home.enabled.modules").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.search.history.rows").gauge().value()).isEqualTo(2.0);
+        assertThat(registry.get("hhy.search.hot.terms.active").gauge().value()).isEqualTo(2.0);
+        assertThat(registry.get("hhy.publisher.active.count").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.contact.accesses.5m").gauge().value()).isEqualTo(3.0);
+        assertThat(registry.get("hhy.contact.rejections.5m").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.r07.outbox.backlog").gauge().value()).isEqualTo(3.0);
         assertThat(registry.get("hhy.business.metric.query.failures")
                 .tag("metric", "hhy.admin.active.sessions").counter().count()).isZero();
     }

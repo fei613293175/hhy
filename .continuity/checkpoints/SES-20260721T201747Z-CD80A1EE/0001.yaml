@@ -1,0 +1,268 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T201747Z-CD80A1EE-0001
+session_id: SES-20260721T201747Z-CD80A1EE
+sequence: 1
+created_at: '2026-07-21T20:31:31Z'
+summary: TASK-R07-006已实现六项R07只读业务Gauge、七条告警、独立Compose/Prometheus/Alertmanager/Nginx、静态门禁、精确Commit现场验收脚本及V032同库卷回滚手册；本地静态门禁、合同同步和Java21定向6项测试通过。
+next_step: 提交并推送R07可观测性实现，随后在obx-test精确Commit验证bash/Compose/promtool、构建当前与回滚镜像并执行完整隔离Staging告警和同库卷回滚演练。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r07-observability-static
+  result: PASS
+  evidence: scripts/check_r07_observability.py
+  note: 六项Gauge、七条告警、秘密隔离和运行手册合同通过
+- name: backend-observability-java21
+  result: PASS
+  evidence: services/backend/boot/target/surefire-reports
+  note: 6 tests,0 failures,0 errors
+- name: runtime-contracts
+  result: PASS
+  evidence: scripts/sync_runtime_assets.py; scripts/check_api_contract.py
+  note: 36 assets及client/admin/websocket合同通过
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: e6d73b0fb4be95c6769c8f6aa493172592d686ea
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+  - ' M docs/07-operations/ROLLBACK_RUNBOOK.md'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java'
+  - ?? .continuity/change_requests/CR-0187.yaml
+  - ?? .continuity/change_requests/CR-0188.yaml
+  - ?? .continuity/sessions/SES-20260721T201747Z-CD80A1EE.yaml
+  - ?? docs/03-continuity/change-requests/CR-0187-建立R07搜索联系方式可观测性与隔离Staging验收.md
+  - ?? docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T201747Z-CD80A1EE.md
+  - ?? infra/staging/r07-smoke/alertmanager.yml
+  - ?? infra/staging/r07-smoke/docker-compose.yml
+  - ?? infra/staging/r07-smoke/nginx.conf
+  - ?? infra/staging/r07-smoke/prometheus.yml
+  - ?? infra/staging/r07-smoke/r07-alerts.yml
+  - ?? scripts/check_r07_observability.py
+  - ?? scripts/run_r07_staging_acceptance.sh
+  recent_commits:
+  - "e6d73b0fb4be95c6769c8f6aa493172592d686ea\t2026-07-22T04:16:46+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-005\
+    \ as completed"
+  - "0c2d512bb4ed73678aee8817e63c33d8539e99be\t2026-07-22T04:14:59+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07专项与Git环境变更请求"
+  - "ae7f7059088355b93b4dab2cb0b10fb5042ddcb1\t2026-07-22T04:13:25+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 归档十项专项门禁证据"
+  - "015178b3d45c5d0ff0d0e458eb92a166d8d5026a\t2026-07-22T03:57:22+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 自动化十项专项矩阵与固化Windows\
+    \ Git"
+  - "ddf293eda518bca96b695d518ad67f9d18536536\t2026-07-22T03:27:57+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): close TASK-R07-004\
+    \ as completed"
+  - "af217ef5097826bd16003d797624d742b1c93ad7\t2026-07-22T03:26:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): 关闭R07客户端变更请求"
+  - "fea04949506434f8f408bc0244d6a195718c6c22\t2026-07-22T03:25:02+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] feat(android): 实现R07搜索发布者与联系方式闭环"
+  - "dff784e5d74a3fe5b09b2c7acfc06dcf7e1bcebd\t2026-07-22T02:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-003\
+    \ as completed"
+project_fingerprint:
+  sha256: ff1605152921006f306ab2a5583a1a697e1104a551d3f175a1afb6b04447ff74
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/change-requests/CR-0187-建立R07搜索联系方式可观测性与隔离Staging验收.md
+  - docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/r07-smoke/alertmanager.yml
+  - infra/staging/r07-smoke/docker-compose.yml
+  - infra/staging/r07-smoke/nginx.conf
+  - infra/staging/r07-smoke/prometheus.yml
+  - infra/staging/r07-smoke/r07-alerts.yml
+  - scripts/check_r07_observability.py
+  - scripts/run_r07_staging_acceptance.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  file_count: 15
+  payload:
+    base_commit: e6d73b0fb4be95c6769c8f6aa493172592d686ea
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 66936
+      sha256: 6e3af30e3744436d6cf08daf7a8533defac0bbf67bfd65d62772b0bba71d8851
+    - path: docs/03-continuity/change-requests/CR-0187-建立R07搜索联系方式可观测性与隔离Staging验收.md
+      state: FILE
+      size: 4725
+      sha256: 1b1383ca6dfd951e3273dfcdb792be749d0886199bac744b852b382aa153254c
+    - path: docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md
+      state: FILE
+      size: 5610
+      sha256: 996871ce3a22cf81c08927266effb7b5d258c697c4ff3cf3861bc9acd6c1f2cd
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 24818
+      sha256: 090c4b2773930fddb6e5b278e4637d9db3c90bfafef6c41f2e88f9ab128a5130
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 9740
+      sha256: 09112bf10877708fbb7cb46a67be2d296686dbd87542cb4a9ad3cb6341a1475e
+    - path: infra/staging/r07-smoke/alertmanager.yml
+      state: FILE
+      size: 277
+      sha256: 4bd3c7fa5b09fe927bd3d79364b81ede206bfc6af4dc015da157259c87d799fb
+    - path: infra/staging/r07-smoke/docker-compose.yml
+      state: FILE
+      size: 4463
+      sha256: c98df8ac0edb193a1f2f547640016c89b21fc68e8dfa58da355790de077619bd
+    - path: infra/staging/r07-smoke/nginx.conf
+      state: FILE
+      size: 318
+      sha256: b13f1e9d43e52a8469a988d1af9de051dfdcba2724df5c754793993f7fe41f98
+    - path: infra/staging/r07-smoke/prometheus.yml
+      state: FILE
+      size: 401
+      sha256: 874b5761e72980512a752ae2946959d35c808fa26e404d9df2d2311d4fc5b855
+    - path: infra/staging/r07-smoke/r07-alerts.yml
+      state: FILE
+      size: 2097
+      sha256: 87e80a8e0a8438316ed40f0326ba1864369b8bc414c8774062811ffe54c42162
+    - path: scripts/check_r07_observability.py
+      state: FILE
+      size: 4936
+      sha256: 2c4df3ee7f4cb43b6757e6abd60a91b255b357c52de3f4b4adcd1237a6126ea4
+    - path: scripts/run_r07_staging_acceptance.sh
+      state: FILE
+      size: 15044
+      sha256: e662a24ba8074f9af90f1fc433d2d70a7ee54c1f7050dd7d29521cc8eab26bf9
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 15883
+      sha256: 5f069b37265bf3833718db839219faa5267cfcdc794edd69ef2625307948ac03
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 16557
+      sha256: b56868a9d7ff06ea5f241798dccc6c54f3e2d644d632b7daa8c86474bf230fdd
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 9673
+      sha256: b9d394e27ee3550283a2df82a78f527c92a5d00175cb5a330fcfa6cc27f407c7
+change_classification:
+  other:
+  - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  continuity:
+  - docs/03-continuity/change-requests/CR-0187-建立R07搜索联系方式可观测性与隔离Staging验收.md
+  - docs/03-continuity/change-requests/CR-0188-建立R07搜索联系方式可观测性与隔离Staging验收精确范围.md
+  infrastructure:
+  - infra/staging/r07-smoke/alertmanager.yml
+  - infra/staging/r07-smoke/docker-compose.yml
+  - infra/staging/r07-smoke/nginx.conf
+  - infra/staging/r07-smoke/prometheus.yml
+  - infra/staging/r07-smoke/r07-alerts.yml
+  code:
+  - scripts/check_r07_observability.py
+  - scripts/run_r07_staging_acceptance.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0187
+- CR-0188
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - scripts/check_r07_observability.py
+  - scripts/run_r07_staging_acceptance.sh
+  - infra/staging/r07-smoke/docker-compose.yml
+  - infra/staging/r07-smoke/prometheus.yml
+  - infra/staging/r07-smoke/alertmanager.yml
+  - infra/staging/r07-smoke/nginx.conf
+  - infra/staging/r07-smoke/r07-alerts.yml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - artifacts/reports/R07/TASK-R07-006-staging.md
+  - releases/R07/ACCEPTANCE_MATRIX.csv
+  - CHANGELOG.md
+  - artifacts/validation/r07-task006-staging/metadata.txt
+  - artifacts/validation/r07-task006-staging/compose-ps.txt
+  - artifacts/validation/r07-task006-staging/liveness.json
+  - artifacts/validation/r07-task006-staging/readiness.json
+  - artifacts/validation/r07-task006-staging/database.txt
+  - artifacts/validation/r07-task006-staging/trace-headers.txt
+  - artifacts/validation/r07-task006-staging/public-status.json
+  - artifacts/validation/r07-task006-staging/http-request-completed.jsonl
+  - artifacts/validation/r07-task006-staging/log-redaction.txt
+  - artifacts/validation/r07-task006-staging/metrics.txt
+  - artifacts/validation/r07-task006-staging/metrics-summary.txt
+  - artifacts/validation/r07-task006-staging/prometheus-targets.json
+  - artifacts/validation/r07-task006-staging/prometheus-rules.json
+  - artifacts/validation/r07-task006-staging/source-sha256.txt
+  - artifacts/validation/r07-task006-staging/backend-down-firing.json
+  - artifacts/validation/r07-task006-staging/r07-outbox-firing.json
+  - artifacts/validation/r07-task006-staging/outbox-test-events.txt
+  - artifacts/validation/r07-task006-staging/alert-deliveries.jsonl
+  - artifacts/validation/r07-task006-staging/alert-exercise.txt
+  - artifacts/validation/r07-task006-staging/rollback-rehearsal.txt
+  - artifacts/validation/r07-task006-staging/final-metrics.txt
+  - artifacts/validation/r07-task006-staging/machine-summary.txt
+  - artifacts/validation/r07-task006-staging/SHA256SUMS
+  source: story+explicit+approved-cr:CR-0188
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: Staging证据必须绑定单一冻结Commit、独立Compose项目和同一数据库卷，当前唯一会话需串行冻结、部署、告警和回切。
+event_hash: 8eb73b6e6ff491b168d9b541aeebaa195f6fc3e64d6f77f6c71d710a66cc010c

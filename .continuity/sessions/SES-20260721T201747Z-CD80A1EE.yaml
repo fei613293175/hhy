@@ -1,0 +1,119 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260721T201747Z-CD80A1EE
+status: ACTIVE
+actor:
+  id: codex-root-r07-006
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R07
+task_id: TASK-R07-006
+story_id: STORY-R07-005
+goal: 完成R07搜索、发布者主页与联系方式保护的可观测性、Staging预发布验收、运行手册演练与验收矩阵证据，并保持大版本最终门禁边界。
+started_at: '2026-07-21T20:17:47Z'
+updated_at: '2026-07-21T20:31:35Z'
+takeover_of: null
+change_requests:
+- CR-0187
+- CR-0188
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - scripts/check_r07_observability.py
+  - scripts/run_r07_staging_acceptance.sh
+  - infra/staging/r07-smoke/docker-compose.yml
+  - infra/staging/r07-smoke/prometheus.yml
+  - infra/staging/r07-smoke/alertmanager.yml
+  - infra/staging/r07-smoke/nginx.conf
+  - infra/staging/r07-smoke/r07-alerts.yml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - artifacts/reports/R07/TASK-R07-006-staging.md
+  - releases/R07/ACCEPTANCE_MATRIX.csv
+  - CHANGELOG.md
+  - artifacts/validation/r07-task006-staging/metadata.txt
+  - artifacts/validation/r07-task006-staging/compose-ps.txt
+  - artifacts/validation/r07-task006-staging/liveness.json
+  - artifacts/validation/r07-task006-staging/readiness.json
+  - artifacts/validation/r07-task006-staging/database.txt
+  - artifacts/validation/r07-task006-staging/trace-headers.txt
+  - artifacts/validation/r07-task006-staging/public-status.json
+  - artifacts/validation/r07-task006-staging/http-request-completed.jsonl
+  - artifacts/validation/r07-task006-staging/log-redaction.txt
+  - artifacts/validation/r07-task006-staging/metrics.txt
+  - artifacts/validation/r07-task006-staging/metrics-summary.txt
+  - artifacts/validation/r07-task006-staging/prometheus-targets.json
+  - artifacts/validation/r07-task006-staging/prometheus-rules.json
+  - artifacts/validation/r07-task006-staging/source-sha256.txt
+  - artifacts/validation/r07-task006-staging/backend-down-firing.json
+  - artifacts/validation/r07-task006-staging/r07-outbox-firing.json
+  - artifacts/validation/r07-task006-staging/outbox-test-events.txt
+  - artifacts/validation/r07-task006-staging/alert-deliveries.jsonl
+  - artifacts/validation/r07-task006-staging/alert-exercise.txt
+  - artifacts/validation/r07-task006-staging/rollback-rehearsal.txt
+  - artifacts/validation/r07-task006-staging/final-metrics.txt
+  - artifacts/validation/r07-task006-staging/machine-summary.txt
+  - artifacts/validation/r07-task006-staging/SHA256SUMS
+  source: story+explicit+approved-cr:CR-0188
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: e6d73b0fb4be95c6769c8f6aa493172592d686ea
+  start_head: e6d73b0fb4be95c6769c8f6aa493172592d686ea
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-21T20:31:32Z'
+  expires_at: '2026-07-22T00:31:32Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260721T201747Z-CD80A1EE/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260721T201747Z-CD80A1EE.md
+next_step: 提交并推送R07可观测性实现，随后在obx-test精确Commit验证bash/Compose/promtool、构建当前与回滚镜像并执行完整隔离Staging告警和同库卷回滚演练。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: abea9509df5bacc7d4bfc3e1d03f794ff74b6845c59ecba182a853f38cb11093
+  generated_at: '2026-07-21T20:31:34Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: Staging证据必须绑定单一冻结Commit、独立Compose项目和同一数据库卷，当前唯一会话需串行冻结、部署、告警和回切。

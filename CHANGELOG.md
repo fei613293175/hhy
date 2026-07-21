@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R07 搜索、发布者与联系方式可观测性 · 2026-07-22
+
+- 新增搜索历史量、有效热词量、活跃发布者量、近 5 分钟联系方式访问/拒绝量和 R07 Outbox 积压六项只读业务 Gauge，不读取搜索关键词、联系方式明文或密文。
+- 建立 R07 独立 Compose、Prometheus、Alertmanager、审计接收器、静态门禁及精确 Commit 现场验收脚本；测试 Outbox 事实只按不可变状态机终结，不删除审计记录。
+- R07 预发布只验证结构化日志、TraceId、RED、业务告警和同库卷应用镜像回切；模拟器、截图和候选 APK 继续留在 TASK-R07-007 最终候选阶段。
+
 ## R07 搜索、发布者与联系方式专项测试 · 2026-07-22
 
 - 将 TASK-R07-005 的旧“9项”描述校正为发布清单冻结的10项权威测试，所有 Catalog 条目升级为 `AUTOMATED` 并绑定真实 Java/Kotlin 方法和中央证据矩阵。
@@ -798,4 +804,3 @@
 - Actor：`codex-root-r07-005`
 - 摘要：完成R07搜索、发布者主页与联系方式保护十项专项测试及故障注入：冻结Commit后端Java21 332项通过，PostgreSQL17 R07集成2项零跳过通过，Android单测与lint通过，10/10机器矩阵PASS，P0/P1缺陷为0；同时永久固化Windows Git用户环境与跨机恢复规则。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md`
-
