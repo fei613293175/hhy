@@ -782,6 +782,24 @@ def validate_next_task_transition(
     return next_document
 
 
+def release_has_async_owner_gate(root: Path, release: str) -> bool:
+    manifest_path = root / "releases" / release / "RELEASE_MANIFEST.yaml"
+    if not manifest_path.is_file():
+        return False
+    manifest = yaml.safe_load(manifest_path.read_text(encoding="utf-8")) or {}
+    delivery = manifest.get("android_delivery") if isinstance(manifest.get("android_delivery"), dict) else {}
+    completion = manifest.get("machine_completion") if isinstance(manifest.get("machine_completion"), dict) else {}
+    return all((
+        delivery.get("machine_delivery") == "PASS",
+        delivery.get("owner_physical_test") == "PENDING",
+        completion.get("status") == "PASS",
+        completion.get("owner_feedback_mode") == "ASYNC_NON_BLOCKING",
+        completion.get("formal_release_acceptance") == "PENDING_OWNER_PHYSICAL_TEST",
+        completion.get("production_activation") == "BLOCKED_OWNER_PHYSICAL_TEST",
+        completion.get("next_release_development") == "ALLOWED",
+    ))
+
+
 def validate_independent_release_start(
     root: Path,
     *,
@@ -804,7 +822,7 @@ def validate_independent_release_start(
             current.get("deliverables"), current.get("acceptance"),
         )
     )
-    if "APK" not in current_text:
+    if "APK" not in current_text and not release_has_async_owner_gate(root, current_release):
         raise ContinuityError("只有APK/项目所有者真机等外部交付门禁可挂起后继续独立Release")
 
     target_path = root / "releases" / next_release / "TASKS.yaml"

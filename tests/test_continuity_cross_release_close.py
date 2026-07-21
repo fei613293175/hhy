@@ -16,6 +16,8 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from continuity import release_has_async_owner_gate  # noqa: E402
 ZERO_HASH = "0" * 64
 ACTOR = "cross-release-close-test"
 
@@ -125,6 +127,26 @@ def repository_snapshot(root: Path) -> dict[str, str]:
 
 
 class CrossReleaseCloseTest(unittest.TestCase):
+    def test_version_close_task_requires_complete_async_owner_manifest_facts(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-async-owner-gate-") as directory:
+            root = Path(directory)
+            manifest_path = root / "releases/R06/RELEASE_MANIFEST.yaml"
+            manifest_path.parent.mkdir(parents=True)
+            manifest = {
+                "android_delivery": {"machine_delivery": "PASS", "owner_physical_test": "PENDING"},
+                "machine_completion": {
+                    "status": "PASS", "owner_feedback_mode": "ASYNC_NON_BLOCKING",
+                    "formal_release_acceptance": "PENDING_OWNER_PHYSICAL_TEST",
+                    "production_activation": "BLOCKED_OWNER_PHYSICAL_TEST",
+                    "next_release_development": "ALLOWED",
+                },
+            }
+            dump_yaml(manifest_path, manifest)
+            self.assertTrue(release_has_async_owner_gate(root, "R06"))
+            manifest["machine_completion"]["production_activation"] = "ALLOWED"
+            dump_yaml(manifest_path, manifest)
+            self.assertFalse(release_has_async_owner_gate(root, "R06"))
+
     def cli(
         self, repo: Path, *args: str, expected: int = 0
     ) -> subprocess.CompletedProcess[str]:

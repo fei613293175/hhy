@@ -867,3 +867,15 @@ problems:
   - 连续性、发布、测试和传输脚本不得各自硬编码PATH中的git
   - 显式HHY_GIT_BIN不存在时必须明确失败，禁止静默选择另一Git掩盖配置漂移
   - Windows换电脑或换AI必须复用统一受控运行时，不得因PATH差异重建仓库或误报历史缺失
+- id: PROB-0066
+  title: 版本关闭任务无法按已验证异步真机事实切换后续Release
+  status: SOLVED
+  root_cause: continuity.py只检查当前任务标题、描述、交付物或验收文案是否包含APK，以识别可延期的外部真机门禁；R06实际在TASK-R06-007完成APK机器交付，TASK-R06-008负责视觉和版本交接，机器完成后唯一剩余项仍是owner真机PENDING，但任务文案分类无法识别。
+  resolution: CR-0172保留既有APK任务分类，同时增加严格Manifest事实组合：machine_delivery=PASS、owner_physical_test=PENDING、machine_completion=PASS、owner反馈ASYNC_NON_BLOCKING、正式验收与生产激活分别保持PENDING/BLOCKED、下一Release开发明确ALLOWED。全部条件同时满足时版本关闭任务可进入BLOCKED_EXTERNAL_GATE，缺任一项继续拒绝。
+  regression_checks:
+  - python -m unittest tests.test_continuity_cross_release_close
+  - continuity close R06-008 --result BLOCKED --allow-independent-release --next-release R07 --next-task TASK-R07-001
+  do_not_repeat:
+  - 外部门禁延期不得只依赖任务标题关键词，也不得无条件放行所有版本关闭任务
+  - owner_physical_test必须保持PENDING，正式Release验收和生产激活必须继续阻断
+  - 只有机器交付和机器完成证据均PASS且项目所有者明确授权异步反馈时才允许继续独立Release

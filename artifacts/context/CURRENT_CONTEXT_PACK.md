@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T07:15:18Z
-- Context Hash：`7b110e8ef6ee1cfbfe09dc40e8dc78adbab772b55f4cca61cd76d00fdd218047`
+- 生成时间：2026-07-21T07:57:54Z
+- Context Hash：`9eeccb9feef4963ce01d7e69507d28280ed69a1a505d70448ebc291f097b15ff`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -93,7 +93,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R06-008
-updated_at: '2026-07-21T07:15:16Z'
+updated_at: '2026-07-21T07:57:51Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -128,15 +128,15 @@ continuity:
   active_session_id: SES-20260721T055708Z-741C3D49
   actor_id: codex-root
   story_id: STORY-R06-005
-  lease_expires_at: '2026-07-21T11:15:16Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0005.yaml
-  project_fingerprint: 2c37a39fa1b5fc191d32a9a4fe5e8ffb3f3d5f851ed9da680be5d931e2c955ed
+  lease_expires_at: '2026-07-21T11:57:51Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0006.yaml
+  project_fingerprint: fe2ed8c265eaa9aa52e0af01d40671926c02a100adf451b168f05543c700d8d5
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 98affeb7c2b3835aa1779529d617e575caac114c2bce5bb0e05dfef0ff380433
-    generated_at: '2026-07-21T07:06:45Z'
+    context_hash: d0ad83e476b546d1043253de19eee555d1ae12ef5960eca22494160afa606602
+    generated_at: '2026-07-21T07:32:44Z'
   handoff_bundle: null
 ```
 
@@ -328,7 +328,7 @@ task_id: TASK-R06-008
 story_id: STORY-R06-005
 goal: 补齐R06五个逐页视觉合同，回填Acceptance与Release Manifest，执行完整版本关闭门禁、Tag和无状态交接，并继续下一Release
 started_at: '2026-07-21T05:57:08Z'
-updated_at: '2026-07-21T07:15:16Z'
+updated_at: '2026-07-21T07:57:51Z'
 takeover_of: null
 change_requests:
 - CR-0165
@@ -338,6 +338,7 @@ change_requests:
 - CR-0169
 - CR-0170
 - CR-0171
+- CR-0172
 scope:
   allowed_paths:
   - apps/**
@@ -382,12 +383,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T07:15:16Z'
-  expires_at: '2026-07-21T11:15:16Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0005.yaml
+  renewed_at: '2026-07-21T07:57:51Z'
+  expires_at: '2026-07-21T11:57:51Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md
-next_step: 执行close --result BLOCKED并授权独立R07/TASK-R07-001继续，然后提交推送关闭元数据并启动R07。
+next_step: 提交并推送CR-0172实现，然后关闭CR元数据并执行R06独立版本关闭
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -395,43 +396,31 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR关闭与跨Release状态转换属于单一连续性事实写入，必须由主控串行执行。
+  reason: 连续性关闭核心逻辑、回归和最终集成属于同一小型高风险事实变更，需主控串行复核
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T055708Z-741C3D49-0005
+checkpoint_id: CP-SES-20260721T055708Z-741C3D49-0006
 session_id: SES-20260721T055708Z-741C3D49
-sequence: 5
-created_at: '2026-07-21T07:15:16Z'
-summary: R06机器完成提交609c2ae6已推送；CR-0165至CR-0171按状态机全部关闭；owner真机保持PENDING，准备通过外部门禁延期状态切换R07。
-next_step: 执行close --result BLOCKED并授权独立R07/TASK-R07-001继续，然后提交推送关闭元数据并启动R07。
+sequence: 6
+created_at: '2026-07-21T07:57:51Z'
+summary: CR-0172实现严格Manifest异步真机门禁判定并补齐跨版本正负向回归
+next_step: 提交并推送CR-0172实现，然后关闭CR元数据并执行R06独立版本关闭
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: REMOTE_PUSH
+- name: continuity-cross-release-close
   result: PASS
-  evidence: 609c2ae6; 0605da41..609c2ae6
-  note: pre-push严格门禁通过
-- name: PYTHON_FULL
-  result: PASS
-  evidence: 221 tests; 5 skipped
-  note: 完整Python回归
-- name: ADMIN_WEB
-  result: PASS
-  evidence: 86 tests; build
-  note: 管理端完整回归
-- name: R06_DOCTOR
-  result: PASS
-  evidence: strict R06 doctor
-  note: 连续性与文档严格门禁通过
+  evidence: 'python -m unittest tests.test_continuity_cross_release_close: 3 tests OK in 170.807s'
+  note: 覆盖版本关闭任务严格Manifest事实组合及既有跨Release路径
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 609c2ae6f35e3435352dcf2639ac5d953f9315fb
+  head: ed66119fa02c7e8d618f60591ec41435e95b484f
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -440,23 +429,20 @@ git:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0165.yaml'
-  - ' M .continuity/change_requests/CR-0166.yaml'
-  - ' M .continuity/change_requests/CR-0167.yaml'
-  - ' M .continuity/change_requests/CR-0168.yaml'
-  - ' M .continuity/change_requests/CR-0169.yaml'
-  - ' M .continuity/change_requests/CR-0170.yaml'
-  - ' M .continuity/change_requests/CR-0171.yaml'
+  - ' M .continuity/sessions/SES-20260721T055708Z-741C3D49.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md'
-  - ' M docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md'
-  - ' M docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md'
-  - ' M docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md'
-  - ' M docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md'
-  - ' M docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md'
-  - ' M docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M scripts/continuity.py'
+  - ' M tests/test_continuity_cross_release_close.py'
+  - ?? .continuity/change_requests/CR-0172.yaml
+  - ?? docs/03-continuity/change-requests/CR-0172-允许版本关闭任务按机器事实挂起异步真机门禁.md
   recent_commits:
+  - "ed66119fa02c7e8d618f60591ec41435e95b484f\t2026-07-21T15:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(r06): close machine\
+    \ completion change requests"
   - "609c2ae6f35e3435352dcf2639ac5d953f9315fb\t2026-07-21T15:08:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(r06): complete machine\
     \ visual acceptance and async handoff"
   - "0605da414f87f11a54dc1004a0690757c674211d\t2026-07-21T13:51:09+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-007\
@@ -471,10 +457,8 @@ git:
     \ as completed"
   - "940a1560fe579b15d1724b5223034e23ae76f07d\t2026-07-21T12:21:47+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close R06\
     \ staging changes"
-  - "5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253\t2026-07-21T12:17:16+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): record R06\
-    \ acceptance pass"
 project_fingerprint:
-  sha256: 2c37a39fa1b5fc191d32a9a4fe5e8ffb3f3d5f851ed9da680be5d931e2c955ed
+  sha256: fe2ed8c265eaa9aa52e0af01d40671926c02a100adf451b168f05543c700d8d5
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r06ContentPages.test.ts
@@ -493,6 +477,7 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md
   - docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md
   - docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md
+  - docs/03-continuity/change-requests/CR-0172-允许版本关闭任务按机器事实挂起异步真机门禁.md
   - docs/09-development/统一开发与交付效率规范.md
   - releases/PROGRAM_EXECUTION_PLAN.yaml
   - releases/R06/ACCEPTANCE_MATRIX.csv
@@ -502,13 +487,15 @@ project_fingerprint:
   - scripts/check_commercial_ui_boundaries.py
   - scripts/check_release_artifacts.py
   - scripts/check_v123_continuity.py
+  - scripts/continuity.py
   - scripts/generate_program_execution_plan.py
   - scripts/run_r06_admin_web_mock.mjs
   - tests/test_commercial_ui_boundaries.py
+  - tests/test_continuity_cross_release_close.py
   - tests/test_continuity_git_resolution.py
   - tests/test_program_execution_plan.py
   - tests/test_release_close_gate.py
-  file_count: 32
+  file_count: 35
   payload:
     base_commit: 0605da414f87f11a54dc1004a0690757c674211d
     files:
@@ -550,8 +537,8 @@ project_fingerprint:
       sha256: d4b3a63dca83e89bca4bc240e3a853a69adaf4be1138245b307af9f654377b67
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 79654
-      sha256: edb3c3c3039b9ea6092e140cd8c2fd7c2e11ad76e7e3a39b40fcb50f7c92aa78
+      size: 81059
+      sha256: 476fd4205dc56ecf4559460a8b0f54b4e233843c1eb1ae7d1d8b32490da357ca
     - path: docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md
       state: FILE
       size: 3775
@@ -580,6 +567,10 @@ project_fingerprint:
       state: FILE
       size: 2417
       sha256: b279ad77882081b83400a3bf9b63fc416444030f4e8e84b3735f394040203bfc
+    - path: docs/03-continuity/change-requests/CR-0172-允许版本关闭任务按机器事实挂起异步真机门禁.md
+      state: FILE
+      size: 2142
+      sha256: ceaa670de3936a50e8a71efb9b7884aed7e420e358af74606a432eeae014cb22
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
       size: 10514
@@ -616,6 +607,10 @@ project_fingerprint:
       state: FILE
       size: 32988
       sha256: 9ea041aa42999bb9149ec1a0c6cb84cee51f21b4672e06e4584689edd939880d
+    - path: scripts/continuity.py
+      state: FILE
+      size: 69996
+      sha256: 8b942b208e0f9d8f1573cded1087f274d7b677846d2d20ac5456e970ce616266
     - path: scripts/generate_program_execution_plan.py
       state: FILE
       size: 16527
@@ -628,6 +623,10 @@ project_fingerprint:
       state: FILE
       size: 626
       sha256: 7d7b37484dce2276927f34381aa52c96a5b3b4e0810f4b9d0c4da0a13c47f006
+    - path: tests/test_continuity_cross_release_close.py
+      state: FILE
+      size: 20515
+      sha256: 8c29e5ac1fb365b76d2a8a8a5af1e7b345e6f7dffc588dea61a6a2d6ce92d5ee
     - path: tests/test_continuity_git_resolution.py
       state: FILE
       size: 1388
@@ -659,6 +658,7 @@ change_classification:
   - scripts/check_commercial_ui_boundaries.py
   - scripts/check_release_artifacts.py
   - scripts/check_v123_continuity.py
+  - scripts/continuity.py
   - scripts/generate_program_execution_plan.py
   - scripts/run_r06_admin_web_mock.mjs
   user_visible:
@@ -676,11 +676,13 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md
   - docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md
   - docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md
+  - docs/03-continuity/change-requests/CR-0172-允许版本关闭任务按机器事实挂起异步真机门禁.md
   source_of_truth:
   - releases/R06/RELEASE_MANIFEST.yaml
   - releases/R06/STORIES.yaml
   tests:
   - tests/test_commercial_ui_boundaries.py
+  - tests/test_continuity_cross_release_close.py
   - tests/test_continuity_git_resolution.py
   - tests/test_program_execution_plan.py
   - tests/test_release_close_gate.py
@@ -700,6 +702,7 @@ change_requests:
 - CR-0169
 - CR-0170
 - CR-0171
+- CR-0172
 scope:
   allowed_paths:
   - apps/**
@@ -739,8 +742,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR关闭与跨Release状态转换属于单一连续性事实写入，必须由主控串行执行。
-event_hash: a507210a47c14b17aae9edbc024034fd10a4aa58d44b290eaa93140a909769dd
+  reason: 连续性关闭核心逻辑、回归和最终集成属于同一小型高风险事实变更，需主控串行复核
+event_hash: e1f72ead2612d24ca85d215156ade6f67ddd2f20b4445c854ae63683fc56ecc5
 ```
 
 ## 接续状态与事件头
@@ -752,8 +755,8 @@ active_session_id: SES-20260721T055708Z-741C3D49
 last_session_id: SES-20260721T043434Z-868F3619
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260721T043434Z-868F3619-0006
-event_count: 1741
-event_head_hash: a507210a47c14b17aae9edbc024034fd10a4aa58d44b290eaa93140a909769dd
+event_count: 1745
+event_head_hash: e1f72ead2612d24ca85d215156ade6f67ddd2f20b4445c854ae63683fc56ecc5
 event_chain_valid: true
 ```
 
@@ -876,9 +879,9 @@ recent_sessions: - session_id: SES-20260719T234639Z-1D7D7A00
   started_at: '2026-07-21T05:57:08Z'
   record: .continuity/sessions/SES-20260721T055708Z-741C3D49.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md
-  updated_at: '2026-07-21T07:15:16Z'
+  updated_at: '2026-07-21T07:57:51Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0005.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0006.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-8B62595D0702
   session_id: SES-20260719T130824Z-06DC3492
@@ -1762,7 +1765,7 @@ recent_task_transitions: - transition_id: TRN-3E90FD9073DD
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 609c2ae6f35e3435352dcf2639ac5d953f9315fb
+head: ed66119fa02c7e8d618f60591ec41435e95b484f
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1773,27 +1776,23 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0165.yaml'
-- ' M .continuity/change_requests/CR-0166.yaml'
-- ' M .continuity/change_requests/CR-0167.yaml'
-- ' M .continuity/change_requests/CR-0168.yaml'
-- ' M .continuity/change_requests/CR-0169.yaml'
-- ' M .continuity/change_requests/CR-0170.yaml'
-- ' M .continuity/change_requests/CR-0171.yaml'
 - ' M .continuity/sessions/SES-20260721T055708Z-741C3D49.yaml'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md'
-- ' M docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md'
-- ' M docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md'
-- ' M docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md'
-- ' M docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md'
-- ' M docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md'
-- ' M docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md'
-- ?? .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0005.yaml
+- ' M scripts/continuity.py'
+- ' M tests/test_continuity_cross_release_close.py'
+- ?? .continuity/change_requests/CR-0172.yaml
+- ?? .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0006.yaml
+- ?? docs/03-continuity/change-requests/CR-0172-允许版本关闭任务按机器事实挂起异步真机门禁.md
 recent_commits:
+- "ed66119fa02c7e8d618f60591ec41435e95b484f\t2026-07-21T15:16:23+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(r06): close machine completion\
+  \ change requests"
 - "609c2ae6f35e3435352dcf2639ac5d953f9315fb\t2026-07-21T15:08:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(r06): complete machine\
   \ visual acceptance and async handoff"
 - "0605da414f87f11a54dc1004a0690757c674211d\t2026-07-21T13:51:09+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-007\
@@ -1808,14 +1807,12 @@ recent_commits:
   \ as completed"
 - "940a1560fe579b15d1724b5223034e23ae76f07d\t2026-07-21T12:21:47+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close R06\
   \ staging changes"
-- "5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253\t2026-07-21T12:17:16+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): record R06 acceptance\
-  \ pass"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`2c37a39fa1b5fc191d32a9a4fe5e8ffb3f3d5f851ed9da680be5d931e2c955ed`
-- 文件数：32
+- 指纹：`fe2ed8c265eaa9aa52e0af01d40671926c02a100adf451b168f05543c700d8d5`
+- 文件数：35
 
 - `CHANGELOG.md`
 - `apps/admin-web/src/r06ContentPages.test.ts`
@@ -1834,6 +1831,7 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md`
 - `docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md`
 - `docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md`
+- `docs/03-continuity/change-requests/CR-0172-允许版本关闭任务按机器事实挂起异步真机门禁.md`
 - `docs/09-development/统一开发与交付效率规范.md`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml`
 - `releases/R06/ACCEPTANCE_MATRIX.csv`
@@ -1843,9 +1841,11 @@ recent_commits:
 - `scripts/check_commercial_ui_boundaries.py`
 - `scripts/check_release_artifacts.py`
 - `scripts/check_v123_continuity.py`
+- `scripts/continuity.py`
 - `scripts/generate_program_execution_plan.py`
 - `scripts/run_r06_admin_web_mock.mjs`
 - `tests/test_commercial_ui_boundaries.py`
+- `tests/test_continuity_cross_release_close.py`
 - `tests/test_continuity_git_resolution.py`
 - `tests/test_program_execution_plan.py`
 - `tests/test_release_close_gate.py`
@@ -7327,37 +7327,74 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
   machine_record: .continuity/change_requests/CR-0159.yaml
   document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
+- protocol_version: '1.0'
+  cr_id: CR-0172
+  title: 允许版本关闭任务按机器事实挂起异步真机门禁
+  status: APPROVED
+  created_at: '2026-07-21T07:19:21Z'
+  updated_at: '2026-07-21T07:19:26Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-reviewer
+  task_id: TASK-R06-008
+  session_id: SES-20260721T055708Z-741C3D49
+  user_request: 项目所有者明确要求真机反馈异步、不因未反馈停止后续开发。
+  reason: 独立Release转换只按当前任务文案是否含APK分类，无法识别版本关闭任务在机器完成后仅剩owner_physical_test=PENDING的合法状态。
+  original_rule: 只有当前任务文案包含APK时才允许BLOCKED_EXTERNAL_GATE切换独立Release。
+  new_rule: 保留APK任务识别，同时允许Release Manifest明确记录机器完成PASS、owner反馈ASYNC_NON_BLOCKING、owner_physical_test=PENDING、正式验收和生产激活仍阻断的版本关闭任务挂起；任何缺项继续拒绝。
+  impact_summary: 修复R06-008到R07的机器可验证状态转换，并增加正负向跨Release回归；不把owner状态改PASS。
+  impact:
+    files:
+    - scripts/continuity.py
+    - tests/test_continuity_cross_release_close.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_continuity_cross_release_close
+    releases:
+    - R06
+    migration_and_compatibility: 既有APK任务路径不变；新增Manifest事实判定只适用于机器完成且异步owner待定的严格组合。
+  user_confirmation: 项目所有者明确要求真机反馈异步且不得因此停止后续版本开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T07:19:26Z'
+    note: 新增路径要求Manifest多个机器事实同时成立并保留正式验收/生产阻断，未削弱owner门禁。
+  machine_record: .continuity/change_requests/CR-0172.yaml
+  document: docs/03-continuity/change-requests/CR-0172-允许版本关闭任务按机器事实挂起异步真机门禁.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `df42856d9d6c9ed34de53e3141bf5962312b7eb5456688cc37a5f2b5c6a64e73`
+- `CURRENT_STATUS.yaml` — `427de1ad60ffd0a18ebc620c13009b887bceca152617e3b381ae7dd5beff4e3d`
 - `NEXT_TASK.yaml` — `d7c2cdf821368be62b0f4fa4dbe261c21dea7c6c7cc1f349ed17486fc9b883ed`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `edb3c3c3039b9ea6092e140cd8c2fd7c2e11ad76e7e3a39b40fcb50f7c92aa78`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `476fd4205dc56ecf4559460a8b0f54b4e233843c1eb1ae7d1d8b32490da357ca`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da`
 - `docs/03-continuity/PITFALLS.md` — `a2d8510ffc0abea7157abc67881f3a25063fb0d4751c5b7d5cf90125d5851957`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `51442052856ef64540061bb3255a941fba39239b1dc62a66878c751090047dee`
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `f3152f574a206de11ac029fcf93ad355170ccfaea5aed12c9e2fbaf1c5b60348`
-- `.continuity/SESSION_INDEX.yaml` — `dae6e32ac6ace92f0ea409b7d2c560ac641dcc08e2cb228153a117113cbb5056`
+- `.continuity/EVENT_LOG.jsonl` — `772ec665c8211fac4abd2cc6199446e10e1fa9fe9c08d4f0d3ff27bcda489667`
+- `.continuity/SESSION_INDEX.yaml` — `e87fdfdfc75b3869adabaa459134ce8858960101af6865fcef1b987c7a3e81b4`
 - `.continuity/TASK_CLAIMS.yaml` — `b9a483a046bb9f38df5819cdecafc5d6947f75f98a1acd422fa1ad041576ba93`
 - `.continuity/TASK_TRANSITIONS.yaml` — `d237d0fe60eb307c201288dba3c7722417743c05441d05479b2fc9caf0cfb651`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `05a0da46961fef67907938ebb5b140718a24356de75b16f66dd29a24d76a266d`
-- `.continuity/ACTIVE_SESSION.yaml` — `39bb9572d05444ef7a9f862c84893780b34fe513039f8921d28bbb53e3f6a594`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `79755603fb3671da2a05b51237c1582b788b50c26affb869cddc66888844c433`
+- `.continuity/ACTIVE_SESSION.yaml` — `9ab91547033c0cb228cabb942c8d6eef7217a9b7d7707e443519d6720068ea08`
 - `releases/R06/RELEASE_MANIFEST.yaml` — `fb7cd6d10feb64b5ef16d3a70f25d16c2e24a19bde5be2b55b513f1feb327292`
 - `releases/R06/DEFINITION_OF_READY.yaml` — `c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991`
 - `releases/R06/STORIES.yaml` — `b89210703d8b10b79602b97cde87631eb2323daa3610ac37833ae7fa76fbda35`
 - `releases/R06/TASKS.yaml` — `ac0707bfc93f0ecd50f91d6aea0a9bc3d5d17343da5b5882559443d382df9db6`
 - `releases/R06/ACCEPTANCE_MATRIX.csv` — `bb3a725f61a93c51088080e73260fb757ceae3f667cb893b0a40a8f30ab123eb`
 - `releases/R06/PARALLEL_EXECUTION_PLAN.yaml` — `426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md` — `cfbcd9fa3e33156d588783c7d117420ef4abecdba595a729709e7716db524197`
-- `.continuity/checkpoints/SES-20260721T055708Z-741C3D49/0005.yaml` — `68959d0378049600f5bc20bcf898f80f680a425d029ece08f619b136dc7e3e9e`
+- `docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md` — `0b6f16e997dd2dfdbd7247ef7ad567ce42d2c5964727855905826fe4b8aedfc3`
+- `.continuity/checkpoints/SES-20260721T055708Z-741C3D49/0006.yaml` — `739e47380e626890d1e769e3fabd164edd1d6f8a35ecc0e1293a00bc79431089`
 - `docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md` — `094275fb804eb2a905d33abf89ce10ca1f07a160494c8c6741bdeef5027b537f`
 - `docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md` — `2a09adf5c22f7f5223f25ac09b490f400e9267d58b0c2b1df4b4becd8f35fdf1`
 - `docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md` — `d1d74d8cdf8ae769258daa8646af0c9a6ef6391018fd2ef46d7cb9e6d7b8f6fc`
@@ -7365,6 +7402,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md` — `6ca2fce89a91c0d6a2e0dcb1255b4da8cc0b48d6f3984ec1ab2753a8ac530c08`
 - `docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md` — `b562340179e58786868b9446dd8a5abe8fb08924c38d47e644201fa9b9b1beca`
 - `docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md` — `b279ad77882081b83400a3bf9b63fc416444030f4e8e84b3735f394040203bfc`
+- `docs/03-continuity/change-requests/CR-0172-允许版本关闭任务按机器事实挂起异步真机门禁.md` — `ceaa670de3936a50e8a71efb9b7884aed7e420e358af74606a432eeae014cb22`
 
 ## 接手硬规则
 
