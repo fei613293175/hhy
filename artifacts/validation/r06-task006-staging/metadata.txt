@@ -1,0 +1,9 @@
+task=TASK-R06-006
+story=STORY-R06-005
+release=R06
+frozen_commit=0e528d17d7cd5c6d972958bd566d6e91f05f37f7
+compose_project=hhy-r06-be62b727
+network_subnet=172.31.246.0/24
+current_image=sha256:d0e5e77fbb8d7856861d8b32688cf4740c19d49e18b6d012d3d92d25ea1f5db7
+postgres_container=55b6f8199b63fb5c0ad3aed005c2fdb71691394ee74179da1b00430147abb80d
+postgres_volume=hhy-r06-be62b727_pgdata
