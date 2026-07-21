@@ -61,7 +61,7 @@ tasks:
   completed_at: '2026-07-21T18:56:28Z'
 - id: TASK-R07-004
   title: 搜索、发布者主页与联系方式保护客户端/H5/后台实现
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R07-003
   requirements: *id001
@@ -79,9 +79,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-21T19:27:02Z'
 - id: TASK-R07-005
   title: 搜索、发布者主页与联系方式保护专项测试与故障注入
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R07-003
   - TASK-R07-004
