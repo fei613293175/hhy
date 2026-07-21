@@ -1,0 +1,67 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260721T043434Z-868F3619
+status: ACTIVE
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R06
+task_id: TASK-R06-007
+story_id: STORY-R06-001
+goal: 使用固定Android工具链生成R06机器候选APK，完成GitHub模拟器候选门禁、签名、安装、四方SHA与桌面累积交付，owner_physical_test保持异步真实状态
+started_at: '2026-07-21T04:34:34Z'
+updated_at: '2026-07-21T05:08:19Z'
+takeover_of: null
+change_requests:
+- CR-0163
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  source: story+explicit+approved-cr:CR-0163
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 91710089aac48bd73c8534bb02ceea00e7f4242d
+  start_head: 91710089aac48bd73c8534bb02ceea00e7f4242d
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-21T05:08:15Z'
+  expires_at: '2026-07-21T09:08:15Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260721T043434Z-868F3619/0003.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260721T043434Z-868F3619.md
+next_step: 提交并推送当前Checkpoint绑定Commit，触发且仅触发R06-20260721-008最终GitHub候选
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 4c4ae1479147c3b0b33d659547826a6bd9fbf35633b804293b7996ef666c9c89
+  generated_at: '2026-07-21T05:08:17Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 冻结候选Commit、触发配置和连续性身份必须同一提交，不能拆分并行

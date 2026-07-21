@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R06
 candidate: true
-remediation_attempt: 3
-request_id: R06-20260721-007
-reason: AI审图批准三张R06真实页面为视觉基线后，执行唯一一次最终基线比较与候选封板
+remediation_attempt: 1
+request_id: R06-20260721-008
+reason: R06候选身份递增至versionCode 10214后，复用已批准视觉基线执行唯一一次最终候选封板

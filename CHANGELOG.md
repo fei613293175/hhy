@@ -2,6 +2,7 @@
 
 ## R06 客户端与内容运营首切片 · 2026-07-20
 
+- R06 最终测试 APK 版本身份递增为 `versionCode 10214`，同步构建配置、应用内发布策略和版本一致性单测；旧 `10213` 候选仅保留视觉与旅程通过证据，不得覆盖 R05 已验收产物或作为 R06 最终交付。
 - 新增 R06 内容在线量、待审核量、内容 Outbox 积压和首页启用模块四项只读业务 Gauge；建立独立 Compose/Prometheus/Alertmanager 告警链、静态门禁及同库卷应用回切手册，生产路由、数据库结构、实名认证沙箱和 CI 自动登录均不变。
 - R06 隔离 Staging 已在精确 Commit 完成 TraceId/RED/四项业务 Gauge、后端与内容 Outbox 告警 firing/resolved 以及同一 PostgreSQL 容器和卷的应用回切；测试 Outbox 事实按不可变状态机终结并永久保留，禁止删除。
 - AI 拒绝将首轮真实页面截图直接登记为基线：修复首页成功空数组时未显示空模块降级卡，以及“我的”页底部五栏目只绘制首尾项的视觉漂移；五栏目现在显式等权、始终显示标签，并在截图前逐项断言可见。
@@ -712,4 +713,3 @@
 - Actor：`codex-root`
 - 摘要：TASK-R06-006完成：精确Commit 0e528d17的四项内容业务Gauge、TraceId/RED、六条告警规则、两组firing-resolved、V030隔离Staging、不可变Outbox合法终结和同库卷应用回切全部PASS，报告及机器证据已推送
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md`
-

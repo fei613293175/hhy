@@ -1,0 +1,101 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T043434Z-868F3619-0001
+session_id: SES-20260721T043434Z-868F3619
+sequence: 1
+created_at: '2026-07-21T04:57:54Z'
+summary: 已恢复R06-007事实会话，云端/传输预检通过，确认Run 29791069749与Commit 66da8575候选全绿且后续无Android输入变化，候选ZIP摘要与GitHub一致
+next_step: 解包候选并复核candidate-report、APK版本、API、签名、截图和日志后执行四方交付
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: continuity-resume
+  result: PASS
+  evidence: CURRENT_STATUS.yaml
+  note: ACTIVE_SESSION_RESUMED且Context PASS
+- name: cloud-android-preflight
+  result: PASS
+  evidence: config/DEVELOPMENT_RUNTIME.yaml
+  note: 既有镜像与Gradle缓存可用
+- name: github-r06-candidate
+  result: PASS
+  evidence: https://github.com/fei613293175/hhy/actions/runs/29791069749
+  note: 四个候选作业成功，ZIP SHA256=306be5899994f84ecdc8be5616dca000fca56b9c279a98f0ebdb2e81c05e9842
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 91710089aac48bd73c8534bb02ceea00e7f4242d
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/sessions/SES-20260721T043434Z-868F3619.yaml
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T043434Z-868F3619.md
+  recent_commits:
+  - "91710089aac48bd73c8534bb02ceea00e7f4242d\t2026-07-21T12:25:26+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-006\
+    \ as completed"
+  - "940a1560fe579b15d1724b5223034e23ae76f07d\t2026-07-21T12:21:47+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close R06\
+    \ staging changes"
+  - "5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253\t2026-07-21T12:17:16+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): record R06\
+    \ acceptance pass"
+  - "0e528d17d7cd5c6d972958bd566d6e91f05f37f7\t2026-07-21T12:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): preserve immutable\
+    \ alert events"
+  - "34c2840dd017f3e6b65f1edf6b15a8c1c7bd7954\t2026-07-21T11:55:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): stream SQL\
+    \ and resume failed phase"
+  - "da812a934942365cd05838683ee42a0cc9136155\t2026-07-21T11:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): defer runtime\
+    \ secret loading"
+  - "c0bfc9536e8c763b0d25da76a159a6af39f11422\t2026-07-21T11:41:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): automate R06\
+    \ acceptance"
+  - "be62b727d480cacf055227823b9ed64e30ae488a\t2026-07-21T11:28:18+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(observability): add R06\
+    \ staging gates"
+project_fingerprint:
+  sha256: fbb9f1e4a819e9cd0f83bc513fd0744338db6f6e921e7940381ff6d4cd1bbcbc
+  files: []
+  file_count: 0
+  payload:
+    base_commit: 91710089aac48bd73c8534bb02ceea00e7f4242d
+    files: []
+change_classification: {}
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests: []
+scope:
+  allowed_paths:
+  - apps/admin-web/**
+  - services/backend/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - tests/**
+  - docs/**
+  - catalogs/**
+  - releases/**
+  - design/**
+  - scripts/**
+  - CHANGELOG.md
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 剩余工作绑定同一不可变APK的Commit、签名、版本、四方SHA和原子公网发布，不能拆分为互不依赖的事实写入
+event_hash: 2e6fe8fa2c5e3af7d3c32d892b35d6d89e222af4d36bbbbe876e4885b995cacd
