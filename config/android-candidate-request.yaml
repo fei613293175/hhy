@@ -1,7 +1,7 @@
 schema_version: 1
 status: REQUESTED
-release: R06
+release: R07
 candidate: true
 remediation_attempt: 1
-request_id: R06-20260721-008
-reason: R06候选身份递增至versionCode 10214后，复用已批准视觉基线执行唯一一次最终候选封板
+request_id: R07-20260722-001
+reason: R07首次最终候选运行，采集并审核搜索、发布者与安全联系方式旅程的版本视觉基线
