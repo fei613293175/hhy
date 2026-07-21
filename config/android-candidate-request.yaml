@@ -3,5 +3,5 @@ status: REQUESTED
 release: R06
 candidate: true
 remediation_attempt: 3
-request_id: R06-20260721-006
-reason: 修复首页空模块降级与五栏目导航一致性后，采集R06最终视觉基线候选
+request_id: R06-20260721-007
+reason: AI审图批准三张R06真实页面为视觉基线后，执行唯一一次最终基线比较与候选封板

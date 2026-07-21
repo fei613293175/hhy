@@ -1,0 +1,16 @@
+schema: hhy.android-visual-baseline-approval/v1
+release: R06
+status: APPROVED
+authority: AI_IMPLEMENTATION_AGENT
+source:
+  github_run_id: "29789718063"
+  commit: 7b26ef9178607420d2eac17ecc3f6a93061c2353
+  artifact_id: "8479921841"
+decision: 三张截图均为已认证真实页面，页面状态稳定、互不重复，首页与我的页五栏目完整绘制，关于页内容完整，批准为R06视觉基线。
+screens:
+- file: 01-home-loaded.png
+  sha256: f8a8faa2f2ff5e6089ace0554300a5d7c0edafdbc462f9f4ce68953913034c5e
+- file: 02-mine.png
+  sha256: 9113c27fd6a751beff13a703ef672990597ada7e6c1c9a4e5d3f749be85b6426
+- file: 03-about-loaded.png
+  sha256: 33e183b4eef7032dfb653bc9ea06115edc34d63f1013bfcf45504a16c92963de

@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T00:10:59Z
-- Context Hash：`d6e142583d904a70540d6530cea1710f7c4ceef575a48c53616ebc2aa01d24eb`
+- 生成时间：2026-07-21T00:39:09Z
+- Context Hash：`d98bcb115343a9c3e509538e2b8033f29e30cb8fb0bcb3ceaa6248a34af52bfc`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -89,7 +89,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R06-004
-updated_at: '2026-07-21T00:10:57Z'
+updated_at: '2026-07-21T00:39:06Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -124,15 +124,15 @@ continuity:
   active_session_id: SES-20260720T173038Z-35648A77
   actor_id: codex-root
   story_id: STORY-R06-001
-  lease_expires_at: '2026-07-21T04:10:57Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0020.yaml
-  project_fingerprint: 7afc279f2a2b22a9ef9ef8f5d91a832e3940191d94800c510f26dd1c090fa127
+  lease_expires_at: '2026-07-21T04:39:06Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0023.yaml
+  project_fingerprint: 795d8768a3617a5bc0d620c4dc3a9f12fc28821e8388e567807a1b4dadf834a9
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 588f295ade909517ace00f39fdb2cd1a4189ad079aa5f66200a20cc316018042
-    generated_at: '2026-07-20T23:26:17Z'
+    context_hash: 2c94ae0e67651332187c89abf245a8c4d6adbe76e8e12b4400aba2acf5a02095
+    generated_at: '2026-07-21T00:36:38Z'
   handoff_bundle: null
 ```
 
@@ -328,7 +328,7 @@ task_id: TASK-R06-004
 story_id: STORY-R06-001
 goal: 统一内容基础、首页与CMS客户端/H5/后台实现
 started_at: '2026-07-20T17:30:38Z'
-updated_at: '2026-07-21T00:10:57Z'
+updated_at: '2026-07-21T00:39:06Z'
 takeover_of: null
 change_requests:
 - CR-0148
@@ -408,12 +408,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T00:10:57Z'
-  expires_at: '2026-07-21T04:10:57Z'
-checkpoint_sequence: 20
-latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0020.yaml
+  renewed_at: '2026-07-21T00:39:06Z'
+  expires_at: '2026-07-21T04:39:06Z'
+checkpoint_sequence: 23
+latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0023.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-next_step: 提交UI修复并配置最终Commit精确APK路由；推送第3轮基线采集候选，AI验收合格截图后登记R06基线
+next_step: 提交并推送候选请求007，等待唯一一次GitHub最终基线比较；通过后关闭TASK-R06-004并暂停，不领取TASK-R06-005
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -421,69 +421,70 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 视觉判断、导航修复、冻结Commit、精确路由和候选基线属于同一串行UI发布边界
+  reason: 最终视觉批准、候选身份和连续性集成必须由事实主控串行复核
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260720T173038Z-35648A77-0020
+checkpoint_id: CP-SES-20260720T173038Z-35648A77-0023
 session_id: SES-20260720T173038Z-35648A77
-sequence: 20
-created_at: '2026-07-21T00:10:57Z'
-summary: AI审核R06真实页面截图并拒绝首轮基线：首页成功空数组完全空白、我的页五栏目仅显示首尾；CR-0157已修复空模块降级、显式等权始终显示五栏目并增加截图前可见断言
-next_step: 提交UI修复并配置最终Commit精确APK路由；推送第3轮基线采集候选，AI验收合格截图后登记R06基线
+sequence: 23
+created_at: '2026-07-21T00:39:06Z'
+summary: R06视觉基线、候选请求007与严格项目门禁全部通过本地验证
+next_step: 提交并推送候选请求007，等待唯一一次GitHub最终基线比较；通过后关闭TASK-R06-004并暂停，不领取TASK-R06-005
 blockers: []
-decisions:
-- 关于页截图合格；首页和我的不合格截图不得为让门禁变绿而登记基线
+decisions: []
 note: ''
 tests:
-- name: android-ui-foundation
+- name: project_doctor_r06_strict
   result: PASS
-  evidence: ANDROID_UI_FOUNDATION_GATE=PASS
-  note: 导航、图标、动效基础边界通过
-- name: android-ci-policy
+  evidence: artifacts/validation/project-doctor-v1.2.3.json
+  note: 0 errors 0 warnings
+- name: android_candidate_and_ci_policy
   result: PASS
-  evidence: 14 tests passed
-  note: 空状态、显式导航、截图前断言进入回归
-- name: android-instrumentation-compile
+  evidence: python -m unittest tests.test_android_candidate_request tests.test_android_ci_gate
+  note: 17 tests PASS
+- name: android_ui_foundation
   result: PASS
-  evidence: compileDebugAndroidTestKotlin BUILD SUCCESSFUL in 2m5s
-  note: Shell与ReleaseCandidateSmokeTest编译通过
-- name: r06-visual-review
-  result: FAIL
-  evidence: 01首页空白且02我的仅首尾导航；03关于页合格
-  note: AI拒绝首轮视觉基线并实施修复
-- name: candidate-request
+  evidence: python scripts/check_android_ui_foundation.py
+  note: ANDROID_UI_FOUNDATION_GATE=PASS
+- name: visual_baseline_hashes
   result: PASS
-  evidence: R06-20260721-006 remediation_attempt=3
-  note: 有界最终基线采集请求通过
+  evidence: tests/android/visual-baselines/R06/APPROVAL.yaml
+  note: 三张基线与Actions artifact完全一致
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: ccc64022ea9531d0b979e87b6bae2c166490295b
+  head: 7b26ef9178607420d2eac17ecc3f6a93061c2353
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/sessions/SES-20260720T173038Z-35648A77.yaml'
-  - ' M CHANGELOG.md'
-  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
-  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
-  - ' M catalogs/change_request_index.csv'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/session_index.csv'
   - ' M config/android-candidate-request.yaml'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M tests/android/visual-manifests/R06.yaml'
-  - ' M tests/test_android_ci_gate.py'
-  - ?? .continuity/change_requests/CR-0157.yaml
-  - ?? docs/03-continuity/change-requests/CR-0157-修复R06首页空模块降级与底部导航视觉漂移.md
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md'
+  - ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0021.yaml
+  - ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0022.yaml
+  - ?? tests/android/visual-baselines/R06/01-home-loaded.png
+  - ?? tests/android/visual-baselines/R06/02-mine.png
+  - ?? tests/android/visual-baselines/R06/03-about-loaded.png
+  - ?? tests/android/visual-baselines/R06/APPROVAL.yaml
   recent_commits:
+  - "7b26ef9178607420d2eac17ecc3f6a93061c2353\t2026-07-21T08:12:05+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): reject incomplete\
+    \ R06 visual state"
   - "ccc64022ea9531d0b979e87b6bae2c166490295b\t2026-07-21T07:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(ci): cover emulator bootstrap\
     \ latency"
   - "e1f5d632f19422c8aeecb4ab43f2ef5601627671\t2026-07-21T06:54:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
@@ -498,10 +499,8 @@ git:
     \ screenshots"
   - "2599bb65ae655b577c19added6ca8640bb6dc44d\t2026-07-21T03:54:01+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
     \ candidate gate blocker"
-  - "83059dedcf780426768ead6ee44e3e942419cccc\t2026-07-21T03:38:24+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(candidate): request\
-    \ R06 Android gate"
 project_fingerprint:
-  sha256: 7afc279f2a2b22a9ef9ef8f5d91a832e3940191d94800c510f26dd1c090fa127
+  sha256: 795d8768a3617a5bc0d620c4dc3a9f12fc28821e8388e567807a1b4dadf834a9
   files:
   - .github/workflows/android-candidate-request.yml
   - .github/workflows/android-quality-gate.yml
@@ -558,11 +557,15 @@ project_fingerprint:
   - services/backend/boot/src/main/resources/application.yml
   - services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java
   - templates/AGENTS.md
+  - tests/android/visual-baselines/R06/01-home-loaded.png
+  - tests/android/visual-baselines/R06/02-mine.png
+  - tests/android/visual-baselines/R06/03-about-loaded.png
+  - tests/android/visual-baselines/R06/APPROVAL.yaml
   - tests/android/visual-manifests/R06.yaml
   - tests/test_android_candidate_request.py
   - tests/test_android_ci_gate.py
   - tests/test_continuity_ci_scope.py
-  file_count: 59
+  file_count: 63
   payload:
     base_commit: 8ee22962d6049d4915e3b68e805356df8790ff0f
     files:
@@ -652,8 +655,8 @@ project_fingerprint:
       sha256: 5e272c1ebcd48a203124ff84ca3f429f0a8942cb455843f584b68e40ac8de600
     - path: config/android-candidate-request.yaml
       state: FILE
-      size: 219
-      sha256: 86729802172383c455935947009c8625b4a9608c3ec7ca5dbf844b746d5c4d10
+      size: 233
+      sha256: a2d1afa199b2b6808506a7d6d5641eff8f058b1edd85f7b71bf1e3c28742209e
     - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
       state: FILE
       size: 9388
@@ -786,6 +789,22 @@ project_fingerprint:
       state: FILE
       size: 12306
       sha256: 0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230
+    - path: tests/android/visual-baselines/R06/01-home-loaded.png
+      state: FILE
+      size: 60672
+      sha256: eecab9010f05bd974b536d36ea8a1d5b2d97c2c8716c117606c4ca4eccfa7e1a
+    - path: tests/android/visual-baselines/R06/02-mine.png
+      state: FILE
+      size: 110039
+      sha256: 288e4cb19d18dd42be544272195e8968effa22fc368220a60b9d79a2bb2df0d1
+    - path: tests/android/visual-baselines/R06/03-about-loaded.png
+      state: FILE
+      size: 75923
+      sha256: 133afa7429b41a6f3b5cd61de9637f77c4a5c1b8f557ce16e069521f1d3e3f8c
+    - path: tests/android/visual-baselines/R06/APPROVAL.yaml
+      state: FILE
+      size: 722
+      sha256: 656304b8d1d308deee69aeb4326a852c36d9ead8497ba8c4bf3001676756611d
     - path: tests/android/visual-manifests/R06.yaml
       state: FILE
       size: 879
@@ -878,6 +897,10 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0156-延长CI一次性引导码至覆盖确定性模拟器冷启动.md
   - docs/03-continuity/change-requests/CR-0157-修复R06首页空模块降级与底部导航视觉漂移.md
   tests:
+  - tests/android/visual-baselines/R06/01-home-loaded.png
+  - tests/android/visual-baselines/R06/02-mine.png
+  - tests/android/visual-baselines/R06/03-about-loaded.png
+  - tests/android/visual-baselines/R06/APPROVAL.yaml
   - tests/android/visual-manifests/R06.yaml
   - tests/test_android_candidate_request.py
   - tests/test_android_ci_gate.py
@@ -963,8 +986,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 视觉判断、导航修复、冻结Commit、精确路由和候选基线属于同一串行UI发布边界
-event_hash: b655ccfb4c325e145d0d65c7509f98f7883a68d3af7bdf4725166a64f8b4a959
+  reason: 最终视觉批准、候选身份和连续性集成必须由事实主控串行复核
+event_hash: bfdbac3b804fddf01dc6e3325ae125a42bd35b9629fb89f486bed1a692ec2b0f
 ```
 
 ## 接续状态与事件头
@@ -976,8 +999,8 @@ active_session_id: SES-20260720T173038Z-35648A77
 last_session_id: SES-20260720T163244Z-D1F3CEE8
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260720T163244Z-D1F3CEE8-0004
-event_count: 1610
-event_head_hash: b655ccfb4c325e145d0d65c7509f98f7883a68d3af7bdf4725166a64f8b4a959
+event_count: 1613
+event_head_hash: bfdbac3b804fddf01dc6e3325ae125a42bd35b9629fb89f486bed1a692ec2b0f
 event_chain_valid: true
 ```
 
@@ -1100,9 +1123,9 @@ recent_sessions: - session_id: SES-20260719T165401Z-12791729
   started_at: '2026-07-20T17:30:38Z'
   record: .continuity/sessions/SES-20260720T173038Z-35648A77.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md
-  updated_at: '2026-07-21T00:10:57Z'
+  updated_at: '2026-07-21T00:39:06Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0020.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260720T173038Z-35648A77/0023.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D22ECAFB67D6
   session_id: SES-20260719T083704Z-6E4CE28F
@@ -1967,33 +1990,35 @@ recent_task_transitions: - transition_id: TRN-9B8421CA1B25
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: ccc64022ea9531d0b979e87b6bae2c166490295b
+head: 7b26ef9178607420d2eac17ecc3f6a93061c2353
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260720T173038Z-35648A77.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
-- ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
-- ' M catalogs/change_request_index.csv'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/session_index.csv'
 - ' M config/android-candidate-request.yaml'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md'
-- ' M tests/android/visual-manifests/R06.yaml'
-- ' M tests/test_android_ci_gate.py'
-- ?? .continuity/change_requests/CR-0157.yaml
-- ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0020.yaml
-- ?? docs/03-continuity/change-requests/CR-0157-修复R06首页空模块降级与底部导航视觉漂移.md
+- ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0021.yaml
+- ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0022.yaml
+- ?? .continuity/checkpoints/SES-20260720T173038Z-35648A77/0023.yaml
+- ?? tests/android/visual-baselines/R06/01-home-loaded.png
+- ?? tests/android/visual-baselines/R06/02-mine.png
+- ?? tests/android/visual-baselines/R06/03-about-loaded.png
+- ?? tests/android/visual-baselines/R06/APPROVAL.yaml
 recent_commits:
+- "7b26ef9178607420d2eac17ecc3f6a93061c2353\t2026-07-21T08:12:05+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): reject incomplete\
+  \ R06 visual state"
 - "ccc64022ea9531d0b979e87b6bae2c166490295b\t2026-07-21T07:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(ci): cover emulator bootstrap\
   \ latency"
 - "e1f5d632f19422c8aeecb4ab43f2ef5601627671\t2026-07-21T06:54:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record R06\
@@ -2008,14 +2033,12 @@ recent_commits:
   \ screenshots"
 - "2599bb65ae655b577c19added6ca8640bb6dc44d\t2026-07-21T03:54:01+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record candidate\
   \ gate blocker"
-- "83059dedcf780426768ead6ee44e3e942419cccc\t2026-07-21T03:38:24+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(candidate): request R06\
-  \ Android gate"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`7afc279f2a2b22a9ef9ef8f5d91a832e3940191d94800c510f26dd1c090fa127`
-- 文件数：59
+- 指纹：`795d8768a3617a5bc0d620c4dc3a9f12fc28821e8388e567807a1b4dadf834a9`
+- 文件数：63
 
 - `.github/workflows/android-candidate-request.yml`
 - `.github/workflows/android-quality-gate.yml`
@@ -2072,6 +2095,10 @@ recent_commits:
 - `services/backend/boot/src/main/resources/application.yml`
 - `services/backend/boot/src/test/java/cc/orbexa/hhy/access/user/CiAutomationServiceTest.java`
 - `templates/AGENTS.md`
+- `tests/android/visual-baselines/R06/01-home-loaded.png`
+- `tests/android/visual-baselines/R06/02-mine.png`
+- `tests/android/visual-baselines/R06/03-about-loaded.png`
+- `tests/android/visual-baselines/R06/APPROVAL.yaml`
 - `tests/android/visual-manifests/R06.yaml`
 - `tests/test_android_candidate_request.py`
 - `tests/test_android_ci_gate.py`
@@ -7430,7 +7457,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `91b25b035303c85a9ed78a4d900d59a435874911c91e72163960cfcaeba8b3a0`
+- `CURRENT_STATUS.yaml` — `616ae61ce21f2128878ac518d687509e797e665d0fb8d2e964954fbd4e922271`
 - `NEXT_TASK.yaml` — `28fdd09fe247b9ee6f9baa24e34c7eb7ff152326afb99fa4f0e1bbeb61a4527b`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7441,20 +7468,20 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `abfe3f2980e9259c54c8e41a60659945d1a657d1586ed448ee03e3b3f61d6782`
-- `.continuity/SESSION_INDEX.yaml` — `3e6880e0fb400db59de26efb2ce708264b5fc2cf9fc3e5d18571d02255c30549`
+- `.continuity/EVENT_LOG.jsonl` — `1642057c7f131f44d3edc612669bdf9e923cde4cf6a887631ee0ef99583fad56`
+- `.continuity/SESSION_INDEX.yaml` — `e74877a7582044a075158cf2243067de30880c647b0e816a4d3c7114f7a119bf`
 - `.continuity/TASK_CLAIMS.yaml` — `3abf162328146e0533fed277722c86a109a7476839eb932f968d82037eb8e518`
 - `.continuity/TASK_TRANSITIONS.yaml` — `17e0b26c549b14a3f15a7daf0c6e8a11389a129fc9bf0c57f1dba8af1ba71c67`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `0a0d833abe87144aa1602347d4e5b39d1bc0c5b0285dff761b232d18d53ae4fb`
-- `.continuity/ACTIVE_SESSION.yaml` — `7de90d6a6444ecc85cd5a025bcfd5cf749bd98b9f9966c78438430e993831eca`
+- `.continuity/ACTIVE_SESSION.yaml` — `0b4343b3664d92345a77b2c6b690a0548b8778bf54da4afaa2306f5198d1401b`
 - `releases/R06/RELEASE_MANIFEST.yaml` — `72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878`
 - `releases/R06/DEFINITION_OF_READY.yaml` — `c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991`
 - `releases/R06/STORIES.yaml` — `dd81c97b0552c9342b5be360e918d26502b5e3d06fa8bafaba7648d43c96e7ef`
 - `releases/R06/TASKS.yaml` — `f5f835924fb09a1a17205ec407cd2887040d02f52d40b61c1ed2a44eccab6380`
 - `releases/R06/ACCEPTANCE_MATRIX.csv` — `9485c8f085153d3483002b33a143c764a8838a3503d8ac4d2e36e5c3c45b9aaf`
 - `releases/R06/PARALLEL_EXECUTION_PLAN.yaml` — `426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51`
-- `docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md` — `a84ad87f60dd8c77c8a9734aa2ea1760e98a0a3147899e4441359444fff953a5`
-- `.continuity/checkpoints/SES-20260720T173038Z-35648A77/0020.yaml` — `f9800271184e16037441ea86fbc6c6a24f27fd6a4f0cb1f61aded9965ceaa11c`
+- `docs/03-continuity/sessions/2026-07/SES-20260720T173038Z-35648A77.md` — `3015e9beb069afc5b8aacc58b18367187e1bce1e26ba9dab810461aa7398f4f2`
+- `.continuity/checkpoints/SES-20260720T173038Z-35648A77/0023.yaml` — `4b90b98e606ab55e3863a33fefd34560011c4a4e83f2f49f1913d9026fed5867`
 - `docs/03-continuity/change-requests/CR-0148-补齐TASK-R06-004后续Android-Story精确会话范围.md` — `4c3d1dd8615acd30275ad10cb2005f216f2e20f9f4bf99e1d3cf7d85c340631f`
 - `docs/03-continuity/change-requests/CR-0149-补齐R06关于页下载安全策略回归测试范围.md` — `b4119ded435a48ea08dc375e5f8c55cdf77773a2d9d3dedfa2972b7ce708edad`
 - `docs/03-continuity/change-requests/CR-0150-固化GitHub分层门禁与分支候选APK触发路径.md` — `62963454788821048e8d41db5c312358b4cf572b7b692450fbec5eb6885a0ea7`
