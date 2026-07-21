@@ -79,3 +79,24 @@ updated_at: 2026-07-21T08:05:44Z
 - 决定：`APPROVED`
 - 时间：`2026-07-21T08:05:44Z`
 - 说明：豁免条件同时绑定当前依赖Release、当前终结任务及严格Manifest事实，其他未完成依赖继续拒绝，未削弱owner和生产门禁。
+
+## 状态记录 · 2026-07-21T08:11:53Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：依赖侧修复已完成回归并进入远端提交绑定阶段
+
+## 状态记录 · 2026-07-21T08:11:56Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：严格当前终结任务依赖豁免已由四项跨版本回归和远端提交证明
+
+## 状态记录 · 2026-07-21T08:11:58Z
+
+- Actor：`codex-root`
+- Status：`CLOSED`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：实现、正反向回归、提交及推送完成，可重新执行R06到R07原子转换
