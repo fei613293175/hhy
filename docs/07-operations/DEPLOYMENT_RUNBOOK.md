@@ -216,3 +216,17 @@ R05 现场演练至少覆盖：
 5. 供应商超时、订单错配、私有证据摘要错配、重复幂等键和并发重复回跳必须由 TASK-R05-005 自动化证据验证，禁止伪造供应商成功回执。
 6. 应用回切只替换 `api` 镜像，保持同一 PostgreSQL 容器、数据卷和 V028；禁止执行 U028–U023、降版本 DDL、删除实名媒体/复核/敏感访问审计。恢复当前镜像后再次验证 readiness、RED、四项 R05 Gauge 和数据库连续性。
 7. 证据统一写入 `artifacts/validation/r05-task006-staging/`，绑定被测 Commit、两个不可变镜像 ID、数据库容器/卷、Flyway V028、告警回执和逐文件 SHA-256。Android APK 与真机验收仍由 TASK-R05-007 单独完成。
+
+## 11. R06 内容与首页隔离预发布验收
+
+R06 使用 `infra/staging/r06-smoke/docker-compose.yml`，采用独立 Compose project、仅回环发布端口、`172.31.246.0/24` 默认子网和独立数据卷；不得修改或重启公网及 R01–R05 环境。执行前运行 `python3 scripts/check_r06_observability.py`，并以被测 Commit 作为不可变 `HHY_SMOKE_ID`。六项测试 Secret 只在隔离进程环境生成和注入，不写入仓库、证据或 Shell 历史；实名认证沙箱与 CI 自动登录必须保持关闭。
+
+R06 现场演练至少覆盖：
+
+1. Java 21 定向测试与生产构建通过；PostgreSQL 17 完整迁移到 V030，业务表数量和 Flyway 历史均归档。
+2. Prometheus target `hhy-backend-r06` 为 UP，RED count/bucket 非空，并存在 `hhy_content_online_count`、`hhy_content_review_pending`、`hhy_content_outbox_backlog`、`hhy_home_enabled_modules` 四项业务 Gauge；空载时内容 Outbox 积压和业务指标查询失败计数必须为 0。
+3. 停止/恢复 API 触发 `HhyR06BackendDown`；插入四条隔离 `CONTENT/PENDING` Outbox 事件触发 `HhyR06ContentOutboxBacklog`，精确清理测试事件后取得 resolved；两项均须取得 alert-sink 送达回执。
+4. 首页与公共状态请求的 HTTP 状态、`requestId`、`traceId` 与 `http_request_completed` 可关联；日志不得包含内容正文、联系方式密文、Secret、Bearer、Cookie、请求正文或查询参数。
+5. CMS 状态机、`expectedVersion`、幂等重放、Outbox 原子写入、首页只读稳定性和供应方超时失败关闭由 TASK-R06-005 自动化证据验证；不得通过直接修改业务记录伪造接口成功。
+6. 应用回切只替换 `api` 镜像，保持同一 PostgreSQL 容器、数据卷和 V030；禁止执行 U030–U029、降版本 DDL、删除内容版本/状态历史/审计或重建数据库。恢复当前镜像后再次验证 readiness、RED、四项 R06 Gauge 和数据库连续性。
+7. 证据统一写入 `artifacts/validation/r06-task006-staging/`，绑定被测 Commit、两个不可变镜像 ID、数据库容器/卷、Flyway V030、告警回执和逐文件 SHA-256。Android 候选 APK 与真机异步验收仍由 TASK-R06-007 单独完成，未收到真机反馈不得伪造 `owner_physical_test=PASS`，也不得据此停止后续依赖已满足的开发。

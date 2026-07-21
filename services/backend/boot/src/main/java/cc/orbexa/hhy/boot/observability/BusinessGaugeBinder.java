@@ -161,6 +161,28 @@ public final class BusinessGaugeBinder implements MeterBinder {
             LEFT JOIN hhy.media_objects media ON media.id = identity_media.media_object_id
             WHERE media.id IS NULL OR media.visibility <> 'PRIVATE' OR media.status <> 'READY'
             """;
+    static final String CONTENT_ONLINE_TOTAL_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE status = 'ONLINE'
+            """;
+    static final String CONTENT_REVIEW_PENDING_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE review_status = 'PENDING'
+            """;
+    static final String CONTENT_OUTBOX_BACKLOG_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.outbox_events
+            WHERE aggregate_type = 'CONTENT'
+              AND status IN ('PENDING', 'RETRY_WAIT')
+            """;
+    static final String HOME_ENABLED_MODULES_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.home_modules
+            WHERE enabled = TRUE
+              AND source_type IS DISTINCT FROM 'DICTIONARY'
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -194,6 +216,10 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.identity.provider.failures.5m", "Identity provider failures or timeouts in the last five minutes", IDENTITY_PROVIDER_FAILURES_5M_SQL);
         register(registry, "hhy.identity.manual.review.pending", "Identity sessions waiting for manual review", IDENTITY_MANUAL_REVIEW_PENDING_SQL);
         register(registry, "hhy.identity.private.media.invalid", "Identity media missing a private ready media object", IDENTITY_PRIVATE_MEDIA_INVALID_SQL);
+        register(registry, "hhy.content.online.count", "Content records currently available online", CONTENT_ONLINE_TOTAL_SQL);
+        register(registry, "hhy.content.review.pending", "Content records waiting for review", CONTENT_REVIEW_PENDING_SQL);
+        register(registry, "hhy.content.outbox.backlog", "Content outbox events waiting for delivery", CONTENT_OUTBOX_BACKLOG_SQL);
+        register(registry, "hhy.home.enabled.modules", "Enabled non-dictionary home modules", HOME_ENABLED_MODULES_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

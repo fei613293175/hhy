@@ -1,0 +1,227 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T020225Z-397AF410-0004
+session_id: SES-20260721T020225Z-397AF410
+sequence: 4
+created_at: '2026-07-21T03:26:30Z'
+summary: CR-0160进入IMPLEMENTING；R06可观测性实现与全部提交前门禁保持PASS
+next_step: 提交并推送CR-0160实现冻结Commit后执行精确Commit Staging验收
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R06_OBSERVABILITY_JAVA21
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r06-006-HXNlT8/repo/services/backend/boot/target/surefire-reports
+  note: 6 tests, 0 failures
+- name: R06_OBSERVABILITY_CONFIG
+  result: PASS
+  evidence: scripts/check_r06_observability.py
+  note: 静态门禁通过
+- name: CONTINUITY_DOCTOR
+  result: PASS
+  evidence: scripts/continuity_gate.py --mode doctor --strict
+  note: 0 errors, 0 warnings
+- name: V123_STRICT
+  result: PASS
+  evidence: scripts/check_v123_continuity.py --strict
+  note: 0 errors, 0 warnings
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: dc05161c62892a6c5db91bf78e8662192678a63d
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+  - ' M docs/07-operations/ROLLBACK_RUNBOOK.md'
+  - ' M services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java'
+  - ?? .continuity/change_requests/CR-0160.yaml
+  - ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0001.yaml
+  - ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0002.yaml
+  - ?? .continuity/checkpoints/SES-20260721T020225Z-397AF410/0003.yaml
+  - ?? .continuity/sessions/SES-20260721T020225Z-397AF410.yaml
+  - ?? docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T020225Z-397AF410.md
+  - ?? infra/staging/r06-smoke/alertmanager.yml
+  - ?? infra/staging/r06-smoke/docker-compose.yml
+  - ?? infra/staging/r06-smoke/nginx.conf
+  - ?? infra/staging/r06-smoke/prometheus.yml
+  - ?? infra/staging/r06-smoke/r06-alerts.yml
+  - ?? scripts/check_r06_observability.py
+  recent_commits:
+  - "dc05161c62892a6c5db91bf78e8662192678a63d\t2026-07-21T10:00:50+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-005\
+    \ as completed"
+  - "9caa07b1b326d9ba3ce02d32b0ac4c614956b41a\t2026-07-21T09:59:48+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): record\
+    \ R06 specialized test pass"
+  - "0bbd4c39590f352507994c30a7a3d03c98355923\t2026-07-21T09:56:34+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] test(content): cover R06 fault\
+    \ matrix"
+  - "01d5c49c2745a845147bc36d41f6ae37335a9886\t2026-07-21T09:34:40+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] docs(ci): bound transient\
+    \ retries and async owner feedback"
+  - "1a021ca1ae0c95f8409dd1686f91a140f82ee2e9\t2026-07-21T09:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-004\
+    \ as completed"
+  - "26d0d42f1d1eba8e33b748ebf8d96461867b2419\t2026-07-21T09:02:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
+    \ R06 candidate pass"
+  - "66da8575b738596cb51360619ea342380fdd121e\t2026-07-21T08:41:06+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] test(android): approve R06\
+    \ visual baseline"
+  - "7b26ef9178607420d2eac17ecc3f6a93061c2353\t2026-07-21T08:12:05+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): reject incomplete\
+    \ R06 visual state"
+project_fingerprint:
+  sha256: 37677bc2ae0eeada625aa2820b442b928719c7bc0b963ee719ae456d709f9be6
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/r06-smoke/alertmanager.yml
+  - infra/staging/r06-smoke/docker-compose.yml
+  - infra/staging/r06-smoke/nginx.conf
+  - infra/staging/r06-smoke/prometheus.yml
+  - infra/staging/r06-smoke/r06-alerts.yml
+  - scripts/check_r06_observability.py
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  file_count: 13
+  payload:
+    base_commit: dc05161c62892a6c5db91bf78e8662192678a63d
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 58404
+      sha256: 803dbc6249aafcbb379ac63f5d327df448bc700261e93d4f59c8031c2b76ee52
+    - path: docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md
+      state: FILE
+      size: 3588
+      sha256: 05a9269c0c5728077d29be1c48c72ad394b3bc947fd01d9e4f6c82788b6b46ba
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 22106
+      sha256: 33ab1597b368f68ed64fbdc7645e2dba73d032ee8437790358b339cbaf3de01a
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 8537
+      sha256: 6457de823580f83d7cc081af432aeccab4ace5cba641b990fc175625f24c2a0e
+    - path: infra/staging/r06-smoke/alertmanager.yml
+      state: FILE
+      size: 277
+      sha256: 58ae8ef339c0d2a0d18b1d339e1f6f52970b53cd15e4e0aec302cb6693cf30b7
+    - path: infra/staging/r06-smoke/docker-compose.yml
+      state: FILE
+      size: 4344
+      sha256: e1053c0dff9696bf41ccdb710198ce055f48ed2a7f40db0f92e5bf8761f85ed7
+    - path: infra/staging/r06-smoke/nginx.conf
+      state: FILE
+      size: 318
+      sha256: b13f1e9d43e52a8469a988d1af9de051dfdcba2724df5c754793993f7fe41f98
+    - path: infra/staging/r06-smoke/prometheus.yml
+      state: FILE
+      size: 401
+      sha256: 1712df1a83decd0c4fe0f0e4c7bf1050707f2d52099e6d83e3b9f35a75397af3
+    - path: infra/staging/r06-smoke/r06-alerts.yml
+      state: FILE
+      size: 1755
+      sha256: 6ac3b069aaa549d2605628b3fab2e5838ad94aefff4dc2f3c1de4c19df2c64a3
+    - path: scripts/check_r06_observability.py
+      state: FILE
+      size: 4445
+      sha256: f05736b16f3f92dd0a838e2160e0819e6dc00072ba651cf98fe8c49f4e4b72aa
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 13543
+      sha256: c7fc91b88f701b7308d7ce100bece6f63f01aed5b3808d78dbf58138f680a427
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 13918
+      sha256: 5dbc0eac085b4a469bb41fe90e738a5a92a4669c1c6e819072387c77361b7a42
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 9005
+      sha256: 201297917ecfd57956f946c784b5b5cf8f35a2f6279157c464b39b543784e51a
+change_classification:
+  other:
+  - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  continuity:
+  - docs/03-continuity/change-requests/CR-0160-建立R06内容可观测性与隔离Staging验收.md
+  infrastructure:
+  - infra/staging/r06-smoke/alertmanager.yml
+  - infra/staging/r06-smoke/docker-compose.yml
+  - infra/staging/r06-smoke/nginx.conf
+  - infra/staging/r06-smoke/prometheus.yml
+  - infra/staging/r06-smoke/r06-alerts.yml
+  code:
+  - scripts/check_r06_observability.py
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0160
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前会话策略不允许用户未显式要求的子代理；共享Staging与最终集成由单一主控维护
+event_hash: da219381e98bbc7aee046d854237dcd09909fdfe81c5611437470ddc7a5c5810

@@ -14,7 +14,7 @@ class BusinessGaugeBinderTest {
                 "jdbc:h2:mem:business-gauges;MODE=PostgreSQL;DB_CLOSE_DELAY=-1", "sa", "");
         JdbcTemplate jdbc = new JdbcTemplate(dataSource);
         jdbc.execute("CREATE SCHEMA IF NOT EXISTS hhy");
-        jdbc.execute("CREATE TABLE hhy.outbox_events (id bigint PRIMARY KEY, status varchar(64) NOT NULL)");
+        jdbc.execute("CREATE TABLE hhy.outbox_events (id bigint PRIMARY KEY, aggregate_type varchar(64) NOT NULL, status varchar(64) NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.ledger_accounts (id bigint PRIMARY KEY, currency varchar(8) NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.accounting_transactions (id bigint PRIMARY KEY, status varchar(64) NOT NULL)");
         jdbc.execute("CREATE TABLE hhy.accounting_entries (id bigint PRIMARY KEY, transaction_id bigint NOT NULL, account_id bigint NOT NULL, amount_cent bigint NOT NULL, currency varchar(8) NOT NULL, direction varchar(64) NOT NULL)");
@@ -36,8 +36,13 @@ class BusinessGaugeBinderTest {
         jdbc.execute("CREATE TABLE hhy.identity_verification_sessions (id bigint PRIMARY KEY, status varchar(32) NOT NULL, completed_at timestamp with time zone)");
         jdbc.execute("CREATE TABLE hhy.identity_provider_requests (id bigint PRIMARY KEY, status varchar(32), completed_at timestamp with time zone)");
         jdbc.execute("CREATE TABLE hhy.identity_media (id bigint PRIMARY KEY, media_object_id bigint)");
+        jdbc.execute("CREATE TABLE hhy.content_posts (id bigint PRIMARY KEY, status varchar(64) NOT NULL, review_status varchar(64))");
+        jdbc.execute("CREATE TABLE hhy.home_modules (id bigint PRIMARY KEY, source_type varchar(64), enabled boolean NOT NULL)");
 
-        jdbc.update("INSERT INTO hhy.outbox_events(id, status) VALUES (1, 'PENDING'), (2, 'RETRY_WAIT'), (3, 'DEAD_LETTER'), (4, 'PUBLISHED')");
+        jdbc.update("INSERT INTO hhy.outbox_events(id, aggregate_type, status) VALUES "
+                + "(1, 'CONTENT', 'PENDING'), (2, 'PAYMENT', 'RETRY_WAIT'), "
+                + "(3, 'CONTENT', 'DEAD_LETTER'), (4, 'CONTENT', 'PUBLISHED'), "
+                + "(5, 'CONTENT', 'RETRY_WAIT')");
         jdbc.update("INSERT INTO hhy.ledger_accounts(id, currency) VALUES (10, 'CNY'), (11, 'CNY')");
         jdbc.update("INSERT INTO hhy.accounting_transactions(id, status) VALUES (20, 'POSTED'), (21, 'POSTED')");
         jdbc.update("INSERT INTO hhy.accounting_entries(id, transaction_id, account_id, amount_cent, currency, direction) VALUES "
@@ -98,11 +103,16 @@ class BusinessGaugeBinderTest {
                 + "(191, 'TIMED_OUT', CURRENT_TIMESTAMP - INTERVAL '10' MINUTE), "
                 + "(192, 'SUCCEEDED', CURRENT_TIMESTAMP)");
         jdbc.update("INSERT INTO hhy.identity_media(id, media_object_id) VALUES (200, 161), (201, 162)");
+        jdbc.update("INSERT INTO hhy.content_posts(id, status, review_status) VALUES "
+                + "(210, 'ONLINE', 'APPROVED'), (211, 'DRAFT', 'PENDING'), "
+                + "(212, 'OFFLINE', 'REJECTED')");
+        jdbc.update("INSERT INTO hhy.home_modules(id, source_type, enabled) VALUES "
+                + "(220, 'CONTENT', TRUE), (221, 'DICTIONARY', TRUE), (222, 'CONTENT', FALSE)");
 
         SimpleMeterRegistry registry = new SimpleMeterRegistry();
         new BusinessGaugeBinder(jdbc).bindTo(registry);
 
-        assertThat(registry.get("hhy.outbox.backlog").gauge().value()).isEqualTo(2.0);
+        assertThat(registry.get("hhy.outbox.backlog").gauge().value()).isEqualTo(3.0);
         assertThat(registry.get("hhy.outbox.dead.letter").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.ledger.unbalanced.transactions").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.reconciliation.open.differences").gauge().value()).isEqualTo(1.0);
@@ -125,6 +135,10 @@ class BusinessGaugeBinderTest {
         assertThat(registry.get("hhy.identity.provider.failures.5m").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.identity.manual.review.pending").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.identity.private.media.invalid").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.content.online.count").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.content.review.pending").gauge().value()).isEqualTo(1.0);
+        assertThat(registry.get("hhy.content.outbox.backlog").gauge().value()).isEqualTo(2.0);
+        assertThat(registry.get("hhy.home.enabled.modules").gauge().value()).isEqualTo(1.0);
         assertThat(registry.get("hhy.business.metric.query.failures")
                 .tag("metric", "hhy.admin.active.sessions").counter().count()).isZero();
     }
