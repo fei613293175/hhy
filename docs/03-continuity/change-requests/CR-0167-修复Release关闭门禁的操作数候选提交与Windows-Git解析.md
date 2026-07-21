@@ -79,3 +79,24 @@ R06机器关闭检查证明关闭脚本硬编码3个operationId、错误要求AP
 - 决定：`APPROVED`
 - 时间：`2026-07-21T06:30:51Z`
 - 说明：修复仅去除错误假设并保留owner真机正式验收硬门禁；隔离测试覆盖多操作与候选/关闭提交分离。
+
+## 状态记录 · 2026-07-21T07:13:38Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：已按批准范围实施并完成本地回归。
+
+## 状态记录 · 2026-07-21T07:13:40Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：实现与证据已进入提交609c2ae6。
+
+## 状态记录 · 2026-07-21T07:13:43Z
+
+- Actor：`codex-root`
+- Status：`CLOSED`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：提交609c2ae6已推送，pre-push严格门禁通过。

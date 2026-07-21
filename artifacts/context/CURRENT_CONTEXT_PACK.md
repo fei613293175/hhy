@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T07:06:45Z
-- Context Hash：`98affeb7c2b3835aa1779529d617e575caac114c2bce5bb0e05dfef0ff380433`
+- 生成时间：2026-07-21T07:15:18Z
+- Context Hash：`7b110e8ef6ee1cfbfe09dc40e8dc78adbab772b55f4cca61cd76d00fdd218047`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -93,7 +93,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R06-008
-updated_at: '2026-07-21T07:06:43Z'
+updated_at: '2026-07-21T07:15:16Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -128,15 +128,15 @@ continuity:
   active_session_id: SES-20260721T055708Z-741C3D49
   actor_id: codex-root
   story_id: STORY-R06-005
-  lease_expires_at: '2026-07-21T11:06:43Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0004.yaml
-  project_fingerprint: d11d313e182f7a319efdb750b40add49050a9e2799b90980a3b7b10d887d9349
+  lease_expires_at: '2026-07-21T11:15:16Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0005.yaml
+  project_fingerprint: 2c37a39fa1b5fc191d32a9a4fe5e8ffb3f3d5f851ed9da680be5d931e2c955ed
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d4f8382e6d37a18a7e8a5377e9818bb7e46731a97d846ad06023906b2f76651c
-    generated_at: '2026-07-21T06:50:13Z'
+    context_hash: 98affeb7c2b3835aa1779529d617e575caac114c2bce5bb0e05dfef0ff380433
+    generated_at: '2026-07-21T07:06:45Z'
   handoff_bundle: null
 ```
 
@@ -328,7 +328,7 @@ task_id: TASK-R06-008
 story_id: STORY-R06-005
 goal: 补齐R06五个逐页视觉合同，回填Acceptance与Release Manifest，执行完整版本关闭门禁、Tag和无状态交接，并继续下一Release
 started_at: '2026-07-21T05:57:08Z'
-updated_at: '2026-07-21T07:06:43Z'
+updated_at: '2026-07-21T07:15:16Z'
 takeover_of: null
 change_requests:
 - CR-0165
@@ -382,12 +382,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T07:06:43Z'
-  expires_at: '2026-07-21T11:06:43Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0004.yaml
+  renewed_at: '2026-07-21T07:15:16Z'
+  expires_at: '2026-07-21T11:15:16Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md
-next_step: 重跑最终严格Doctor与差异检查，提交并推送R06机器完成代码证据；随后按owner异步PENDING以BLOCKED_EXTERNAL_GATE切换R07。
+next_step: 执行close --result BLOCKED并授权独立R07/TASK-R07-001继续，然后提交推送关闭元数据并启动R07。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -395,126 +395,70 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终集成、连续性核心和跨Release状态转换必须由唯一主控串行复核。
+  reason: CR关闭与跨Release状态转换属于单一连续性事实写入，必须由主控串行执行。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T055708Z-741C3D49-0004
+checkpoint_id: CP-SES-20260721T055708Z-741C3D49-0005
 session_id: SES-20260721T055708Z-741C3D49
-sequence: 4
-created_at: '2026-07-21T07:06:43Z'
-summary: R06最终机器回归完成：管理端86项、Python全量221项、视觉5页、文档/追踪/Android基础均PASS；修复商业UI测试源误报和分层Manifest计划统计并确定性刷新全项目执行计划。
-next_step: 重跑最终严格Doctor与差异检查，提交并推送R06机器完成代码证据；随后按owner异步PENDING以BLOCKED_EXTERNAL_GATE切换R07。
+sequence: 5
+created_at: '2026-07-21T07:15:16Z'
+summary: R06机器完成提交609c2ae6已推送；CR-0165至CR-0171按状态机全部关闭；owner真机保持PENDING，准备通过外部门禁延期状态切换R07。
+next_step: 执行close --result BLOCKED并授权独立R07/TASK-R07-001继续，然后提交推送关闭元数据并启动R07。
 blockers: []
 decisions: []
 note: ''
 tests:
+- name: REMOTE_PUSH
+  result: PASS
+  evidence: 609c2ae6; 0605da41..609c2ae6
+  note: pre-push严格门禁通过
 - name: PYTHON_FULL
   result: PASS
-  evidence: 221 tests; 5 skipped; 0 failures
-  note: 受控Git目录加入PATH后的完整测试集
+  evidence: 221 tests; 5 skipped
+  note: 完整Python回归
 - name: ADMIN_WEB
   result: PASS
-  evidence: 15 files 86 tests; vue-tsc; vite build
-  note: 管理端三页与全模块回归
-- name: R06_UI_VISUAL_ACCEPTANCE
+  evidence: 86 tests; build
+  note: 管理端完整回归
+- name: R06_DOCTOR
   result: PASS
-  evidence: UI_VISUAL_ACCEPTANCE_OK R06 pages=5
-  note: Android两页和Admin三页精确视觉合同
-- name: PROGRAM_EXECUTION_PLAN
-  result: PASS
-  evidence: PROGRAM_PLAN_PASS; 10 focused tests
-  note: 分层合同paths统计确定性
-- name: R06_DOCUMENTATION
-  result: PASS
-  evidence: strict documentation
-  note: 零文档缺口
-- name: R06_TRACEABILITY
-  result: PASS
-  evidence: TRACE_OK 84
-  note: 需求追踪完整
-- name: ANDROID_UI_FOUNDATION
-  result: PASS
-  evidence: ANDROID_UI_FOUNDATION_GATE=PASS
-  note: Android基础设施未回归
+  evidence: strict R06 doctor
+  note: 连续性与文档严格门禁通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 0605da414f87f11a54dc1004a0690757c674211d
+  head: 609c2ae6f35e3435352dcf2639ac5d953f9315fb
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M apps/admin-web/src/styles.css'
-  - ' M apps/admin-web/src/views/AdminContentDetailPage.vue'
-  - ' M apps/admin-web/src/views/AdminContentDictionariesPage.vue'
-  - ' M apps/admin-web/src/views/AdminContentListPage.vue'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.2.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M .continuity/change_requests/CR-0165.yaml'
+  - ' M .continuity/change_requests/CR-0166.yaml'
+  - ' M .continuity/change_requests/CR-0167.yaml'
+  - ' M .continuity/change_requests/CR-0168.yaml'
+  - ' M .continuity/change_requests/CR-0169.yaml'
+  - ' M .continuity/change_requests/CR-0170.yaml'
+  - ' M .continuity/change_requests/CR-0171.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M catalogs/ui_visual_acceptance.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/09-development/统一开发与交付效率规范.md'
-  - ' M releases/PROGRAM_EXECUTION_PLAN.yaml'
-  - ' M releases/R06/ACCEPTANCE_MATRIX.csv'
-  - ' M releases/R06/RELEASE_MANIFEST.yaml'
-  - ' M releases/R06/STORIES.yaml'
-  - ' M scripts/check_commercial_ui_boundaries.py'
-  - ' M scripts/check_release_artifacts.py'
-  - ' M scripts/check_v123_continuity.py'
-  - ' M scripts/generate_program_execution_plan.py'
-  - ' M tests/test_commercial_ui_boundaries.py'
-  - ' M tests/test_program_execution_plan.py'
-  - ' M tests/test_release_close_gate.py'
-  - ?? .continuity/change_requests/CR-0165.yaml
-  - ?? .continuity/change_requests/CR-0166.yaml
-  - ?? .continuity/change_requests/CR-0167.yaml
-  - ?? .continuity/change_requests/CR-0168.yaml
-  - ?? .continuity/change_requests/CR-0169.yaml
-  - ?? .continuity/change_requests/CR-0170.yaml
-  - ?? .continuity/change_requests/CR-0171.yaml
-  - ?? .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0001.yaml
-  - ?? .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0002.yaml
-  - ?? .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0003.yaml
-  - ?? .continuity/sessions/SES-20260721T055708Z-741C3D49.yaml
-  - ?? apps/admin-web/src/r06ContentPages.test.ts
-  - ?? artifacts/reports/R06/TASK-R06-008-machine-close.md
-  - ?? artifacts/validation/r06-ui/admin/ADM-CONTENT-001-browser-1440x1100.png
-  - ?? artifacts/validation/r06-ui/admin/ADM-CONTENT-002-browser-1440x1100.png
-  - ?? artifacts/validation/r06-ui/admin/ADM-CONTENT-003-browser-1440x1100.png
-  - ?? design/R06-UI-FROZEN/specs/SCR-ABOUT-001.md
-  - ?? design/R06-UI-FROZEN/specs/SCR-HOME-001.md
-  - ?? docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md
-  - ?? docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md
-  - ?? docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md
-  - ?? docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md
-  - ?? docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md
-  - ?? docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md
-  - ?? docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md
-  - ?? scripts/capture_r06_admin_visuals.mjs
-  - ?? scripts/run_r06_admin_web_mock.mjs
-  - ?? tests/test_continuity_git_resolution.py
+  - ' M docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md'
+  - ' M docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md'
+  - ' M docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md'
+  - ' M docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md'
+  - ' M docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md'
+  - ' M docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md'
+  - ' M docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md'
   recent_commits:
+  - "609c2ae6f35e3435352dcf2639ac5d953f9315fb\t2026-07-21T15:08:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(r06): complete machine\
+    \ visual acceptance and async handoff"
   - "0605da414f87f11a54dc1004a0690757c674211d\t2026-07-21T13:51:09+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-007\
     \ as completed"
   - "889e8aadb8ed83c9299bfc919788080c032a5e38\t2026-07-21T13:49:41+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close R06\
@@ -529,10 +473,8 @@ git:
     \ staging changes"
   - "5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253\t2026-07-21T12:17:16+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): record R06\
     \ acceptance pass"
-  - "0e528d17d7cd5c6d972958bd566d6e91f05f37f7\t2026-07-21T12:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): preserve immutable\
-    \ alert events"
 project_fingerprint:
-  sha256: d11d313e182f7a319efdb750b40add49050a9e2799b90980a3b7b10d887d9349
+  sha256: 2c37a39fa1b5fc191d32a9a4fe5e8ffb3f3d5f851ed9da680be5d931e2c955ed
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r06ContentPages.test.ts
@@ -612,32 +554,32 @@ project_fingerprint:
       sha256: edb3c3c3039b9ea6092e140cd8c2fd7c2e11ad76e7e3a39b40fcb50f7c92aa78
     - path: docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md
       state: FILE
-      size: 3203
-      sha256: 2caf6e42ff57b1cbd2d287409226a90a5670422a38cdde4b2cd7d987601fa536
+      size: 3775
+      sha256: 094275fb804eb2a905d33abf89ce10ca1f07a160494c8c6741bdeef5027b537f
     - path: docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md
       state: FILE
-      size: 2906
-      sha256: 1515240c994234bb2fc9b49b158fd1812f5fb187794b2a706c0d3db18617ff83
+      size: 3478
+      sha256: 2a09adf5c22f7f5223f25ac09b490f400e9267d58b0c2b1df4b4becd8f35fdf1
     - path: docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md
       state: FILE
-      size: 2508
-      sha256: e08e349c1df537b8456323197df48364b71a3f0f4288812daf03f01a8c8dc425
+      size: 3080
+      sha256: d1d74d8cdf8ae769258daa8646af0c9a6ef6391018fd2ef46d7cb9e6d7b8f6fc
     - path: docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md
       state: FILE
-      size: 1881
-      sha256: 29a2da7979243cb16fca15ec7424535724d0939701168dbf8edb44a48ff50e8d
+      size: 2453
+      sha256: d7def35e1ced2853b6abadedbd5ab020b98ccf0f9b4f812a8c08b8e85c2aef64
     - path: docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md
       state: FILE
-      size: 2029
-      sha256: 67840dca7a17c0016176e5224b99c31834bb4683200348b43f5baa6c402acd1f
+      size: 2601
+      sha256: 6ca2fce89a91c0d6a2e0dcb1255b4da8cc0b48d6f3984ec1ab2753a8ac530c08
     - path: docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md
       state: FILE
-      size: 2123
-      sha256: 9bc3f63f66dd9ed0c234a43527d2311d8cd24a1a66130a554b416e1e3aa271df
+      size: 2695
+      sha256: b562340179e58786868b9446dd8a5abe8fb08924c38d47e644201fa9b9b1beca
     - path: docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md
       state: FILE
-      size: 1845
-      sha256: a55977fff3f0303b49fc6c40ab32680459498d0f345ada3c5ec499585b1e25f5
+      size: 2417
+      sha256: b279ad77882081b83400a3bf9b63fc416444030f4e8e84b3735f394040203bfc
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
       size: 10514
@@ -797,8 +739,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终集成、连续性核心和跨Release状态转换必须由唯一主控串行复核。
-event_hash: a1a5be1c90c9b86a98636ddc45de9b0a4d9a525842a9b8c143faafa707d6109e
+  reason: CR关闭与跨Release状态转换属于单一连续性事实写入，必须由主控串行执行。
+event_hash: a507210a47c14b17aae9edbc024034fd10a4aa58d44b290eaa93140a909769dd
 ```
 
 ## 接续状态与事件头
@@ -810,8 +752,8 @@ active_session_id: SES-20260721T055708Z-741C3D49
 last_session_id: SES-20260721T043434Z-868F3619
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260721T043434Z-868F3619-0006
-event_count: 1719
-event_head_hash: a1a5be1c90c9b86a98636ddc45de9b0a4d9a525842a9b8c143faafa707d6109e
+event_count: 1741
+event_head_hash: a507210a47c14b17aae9edbc024034fd10a4aa58d44b290eaa93140a909769dd
 event_chain_valid: true
 ```
 
@@ -934,9 +876,9 @@ recent_sessions: - session_id: SES-20260719T234639Z-1D7D7A00
   started_at: '2026-07-21T05:57:08Z'
   record: .continuity/sessions/SES-20260721T055708Z-741C3D49.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md
-  updated_at: '2026-07-21T07:06:43Z'
+  updated_at: '2026-07-21T07:15:16Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0004.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0005.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-8B62595D0702
   session_id: SES-20260719T130824Z-06DC3492
@@ -1820,7 +1762,7 @@ recent_task_transitions: - transition_id: TRN-3E90FD9073DD
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 0605da414f87f11a54dc1004a0690757c674211d
+head: 609c2ae6f35e3435352dcf2639ac5d953f9315fb
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1831,68 +1773,29 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/change_requests/CR-0165.yaml'
+- ' M .continuity/change_requests/CR-0166.yaml'
+- ' M .continuity/change_requests/CR-0167.yaml'
+- ' M .continuity/change_requests/CR-0168.yaml'
+- ' M .continuity/change_requests/CR-0169.yaml'
+- ' M .continuity/change_requests/CR-0170.yaml'
+- ' M .continuity/change_requests/CR-0171.yaml'
+- ' M .continuity/sessions/SES-20260721T055708Z-741C3D49.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/admin-web/src/styles.css'
-- ' M apps/admin-web/src/views/AdminContentDetailPage.vue'
-- ' M apps/admin-web/src/views/AdminContentDictionariesPage.vue'
-- ' M apps/admin-web/src/views/AdminContentListPage.vue'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.2.json'
-- ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M catalogs/ui_visual_acceptance.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M docs/09-development/统一开发与交付效率规范.md'
-- ' M releases/PROGRAM_EXECUTION_PLAN.yaml'
-- ' M releases/R06/ACCEPTANCE_MATRIX.csv'
-- ' M releases/R06/RELEASE_MANIFEST.yaml'
-- ' M releases/R06/STORIES.yaml'
-- ' M scripts/check_commercial_ui_boundaries.py'
-- ' M scripts/check_release_artifacts.py'
-- ' M scripts/check_v123_continuity.py'
-- ' M scripts/generate_program_execution_plan.py'
-- ' M tests/test_commercial_ui_boundaries.py'
-- ' M tests/test_program_execution_plan.py'
-- ' M tests/test_release_close_gate.py'
-- ?? .continuity/change_requests/CR-0165.yaml
-- ?? .continuity/change_requests/CR-0166.yaml
-- ?? .continuity/change_requests/CR-0167.yaml
-- ?? .continuity/change_requests/CR-0168.yaml
-- ?? .continuity/change_requests/CR-0169.yaml
-- ?? .continuity/change_requests/CR-0170.yaml
-- ?? .continuity/change_requests/CR-0171.yaml
-- ?? .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0001.yaml
-- ?? .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0002.yaml
-- ?? .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0003.yaml
-- ?? .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0004.yaml
-- ?? .continuity/sessions/SES-20260721T055708Z-741C3D49.yaml
-- ?? apps/admin-web/src/r06ContentPages.test.ts
-- ?? artifacts/reports/R06/TASK-R06-008-machine-close.md
-- ?? artifacts/validation/r06-ui/admin/ADM-CONTENT-001-browser-1440x1100.png
-- ?? artifacts/validation/r06-ui/admin/ADM-CONTENT-002-browser-1440x1100.png
-- ?? artifacts/validation/r06-ui/admin/ADM-CONTENT-003-browser-1440x1100.png
-- ?? design/R06-UI-FROZEN/specs/SCR-ABOUT-001.md
-- ?? design/R06-UI-FROZEN/specs/SCR-HOME-001.md
-- ?? docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md
-- ?? docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md
-- ?? docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md
-- ?? docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md
-- ?? docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md
-- ?? docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md
-- ?? docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md
-- ?? scripts/capture_r06_admin_visuals.mjs
-- ?? scripts/run_r06_admin_web_mock.mjs
-- ?? tests/test_continuity_git_resolution.py
+- ' M docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md'
+- ' M docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md'
+- ' M docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md'
+- ' M docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md'
+- ' M docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md'
+- ' M docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md'
+- ' M docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md'
+- ?? .continuity/checkpoints/SES-20260721T055708Z-741C3D49/0005.yaml
 recent_commits:
+- "609c2ae6f35e3435352dcf2639ac5d953f9315fb\t2026-07-21T15:08:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] feat(r06): complete machine\
+  \ visual acceptance and async handoff"
 - "0605da414f87f11a54dc1004a0690757c674211d\t2026-07-21T13:51:09+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-007\
   \ as completed"
 - "889e8aadb8ed83c9299bfc919788080c032a5e38\t2026-07-21T13:49:41+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close R06\
@@ -1907,13 +1810,11 @@ recent_commits:
   \ staging changes"
 - "5be5e06cd4f3c339b66bb843ca2d2c4bfb24b253\t2026-07-21T12:17:16+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): record R06 acceptance\
   \ pass"
-- "0e528d17d7cd5c6d972958bd566d6e91f05f37f7\t2026-07-21T12:05:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(staging): preserve immutable\
-  \ alert events"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`d11d313e182f7a319efdb750b40add49050a9e2799b90980a3b7b10d887d9349`
+- 指纹：`2c37a39fa1b5fc191d32a9a4fe5e8ffb3f3d5f851ed9da680be5d931e2c955ed`
 - 文件数：32
 
 - `CHANGELOG.md`
@@ -7426,307 +7327,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
   machine_record: .continuity/change_requests/CR-0159.yaml
   document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
-- protocol_version: '1.0'
-  cr_id: CR-0165
-  title: 补齐R06五页精确视觉合同与浏览器截图关闭证据
-  status: APPROVED
-  created_at: '2026-07-21T06:02:57Z'
-  updated_at: '2026-07-21T06:05:50Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-reviewer
-  task_id: TASK-R06-008
-  session_id: SES-20260721T055708Z-741C3D49
-  user_request: 项目所有者要求解决目标受阻问题并接着开发，不用停止。
-  reason: R06关闭门禁发现SCR-HOME-001、SCR-ABOUT-001和三个内容管理页面缺少逐页视觉合同或截图证据，必须在不改变业务合同的前提下补齐。
-  original_rule: R06五个页面尚未登记逐页精确视觉合同；Android候选截图虽已通过机器视觉审查但未绑定批准补充规格，三个管理端页面缺少浏览器截图。
-  new_rule: SCR-HOME-001与SCR-ABOUT-001绑定R06批准补充视觉规格和既有候选/基线截图；ADM-CONTENT-001至003绑定原始管理后台标准模板并由受控非生产Mock生成浏览器截图；五页均通过R06视觉关闭门禁。
-  impact_summary: 只补齐R06视觉与关闭证据，不改变页面业务字段、API、数据库、权限、生产配置或已交付APK。
-  impact:
-    files:
-    - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
-    - design/R06-UI-FROZEN/specs/SCR-ABOUT-001.md
-    - catalogs/ui_visual_acceptance.csv
-    - scripts/run_r06_admin_web_mock.mjs
-    - scripts/capture_r06_admin_visuals.mjs
-    - artifacts/validation/r06-ui/admin/ADM-CONTENT-001-browser-1440x1100.png
-    - artifacts/validation/r06-ui/admin/ADM-CONTENT-002-browser-1440x1100.png
-    - artifacts/validation/r06-ui/admin/ADM-CONTENT-003-browser-1440x1100.png
-    - artifacts/reports/R06/TASK-R06-008-release-close.md
-    - releases/R06/ACCEPTANCE_MATRIX.csv
-    - releases/R06/RELEASE_MANIFEST.yaml
-    - releases/R06/TASKS.yaml
-    - releases/R06/STORIES.yaml
-    - CURRENT_STATUS.yaml
-    - NEXT_TASK.yaml
-    - CHANGELOG.md
-    pages:
-    - SCR-HOME-001
-    - SCR-ABOUT-001
-    - ADM-CONTENT-001
-    - ADM-CONTENT-002
-    - ADM-CONTENT-003
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - node --check scripts/run_r06_admin_web_mock.mjs
-    - node --check scripts/capture_r06_admin_visuals.mjs
-    - pnpm --filter @hhy/admin-web test
-    - pnpm --filter @hhy/admin-web build
-    - python scripts/check_ui_visual_acceptance.py --release R06
-    - python scripts/check_release_artifacts.py --release R06 --close-gate
-    releases:
-    - R06
-    migration_and_compatibility: 纯证据与测试工具增量，无数据迁移；Mock仅绑定127.0.0.1并用于构建后截图，生产构建不启用；既有APK和公网交付保持不变。
-  user_confirmation: 2026-07-21项目所有者明确要求解决目标受阻问题并接着开发，不用停止。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T06:05:50Z'
-    note: 范围限于五页精确视觉合同、受控浏览器截图和R06关闭证据；不改变业务、生产或APK身份，验证和回退路径完整。
-  machine_record: .continuity/change_requests/CR-0165.yaml
-  document: docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md
-- protocol_version: '1.0'
-  cr_id: CR-0166
-  title: 修复R06管理端内容页技术枚举泄漏与信息排版
-  status: APPROVED
-  created_at: '2026-07-21T06:17:13Z'
-  updated_at: '2026-07-21T06:17:43Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-reviewer
-  task_id: TASK-R06-008
-  session_id: SES-20260721T055708Z-741C3D49
-  user_request: 项目所有者要求由AI判断所有版本截图是否合格，并解决问题后持续开发。
-  reason: R06浏览器截图审查发现内容列表与详情直接展示原始枚举和ISO时间，且标题编号和详情字段缺少标准排版，未满足正式商业UI硬边界。
-  original_rule: R06三个管理端内容页可直接显示API原始枚举、代码与ISO时间，列表标题和编号、详情字段依赖未定义样式。
-  new_rule: 管理端内容页通过明确白名单把内容类型、内容状态、审核状态、分类、地区和时间转换为商业化中文；未知值使用安全业务回退；列表和详情使用标准Token布局并有自动化防泄漏回归。
-  impact_summary: 修复三个R06管理端页面的展示映射和布局样式，增加页面回归测试并重新生成三张截图；请求参数、响应契约、权限和写操作不变。
-  impact:
-    files:
-    - apps/admin-web/src/views/AdminContentListPage.vue
-    - apps/admin-web/src/views/AdminContentDetailPage.vue
-    - apps/admin-web/src/views/AdminContentDictionariesPage.vue
-    - apps/admin-web/src/styles.css
-    - apps/admin-web/src/r06ContentPages.test.ts
-    - scripts/capture_r06_admin_visuals.mjs
-    - artifacts/validation/r06-ui/admin/ADM-CONTENT-001-browser-1440x1100.png
-    - artifacts/validation/r06-ui/admin/ADM-CONTENT-002-browser-1440x1100.png
-    - artifacts/validation/r06-ui/admin/ADM-CONTENT-003-browser-1440x1100.png
-    pages:
-    - ADM-CONTENT-001
-    - ADM-CONTENT-002
-    - ADM-CONTENT-003
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - pnpm --filter @hhy/admin-web test
-    - pnpm --filter @hhy/admin-web build
-    - node scripts/capture_r06_admin_visuals.mjs
-    - python scripts/check_ui_visual_acceptance.py --release R06
-    releases:
-    - R06
-    migration_and_compatibility: 纯前端展示兼容修复，无数据库或API迁移；原始枚举继续用于请求与状态机判断，只在渲染层转换；未知服务端值不原样泄漏。
-  user_confirmation: 项目所有者已明确要求AI自行判断截图合格性、解决发现的问题并继续开发。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T06:17:43Z'
-    note: 缺陷由实际浏览器截图直接证明；修复限于渲染映射、Token布局、测试与重截图，不改变冻结业务合同。
-  machine_record: .continuity/change_requests/CR-0166.yaml
-  document: docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md
-- protocol_version: '1.0'
-  cr_id: CR-0167
-  title: 修复Release关闭门禁的操作数候选提交与Windows Git解析
-  status: APPROVED
-  created_at: '2026-07-21T06:30:15Z'
-  updated_at: '2026-07-21T06:30:51Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-reviewer
-  task_id: TASK-R06-008
-  session_id: SES-20260721T055708Z-741C3D49
-  user_request: 项目所有者要求解决阻断并持续开发，同时要求规则可跨电脑跨AI复用。
-  reason: R06机器关闭检查证明关闭脚本硬编码3个operationId、错误要求APK候选Commit等于后续Release关闭Commit，并在Windows忽略受控Git路径；这些会制造确定性假失败。
-  original_rule: 关闭门禁固定要求3个operationId、把APK候选Commit与Release关闭Commit直接比较，并调用PATH中的git。
-  new_rule: 关闭门禁要求至少一个且全部有效的operationId；APK与自动候选均绑定android_delivery.source_commit并彼此一致，Release关闭Commit独立追溯；Git依次解析HHY_GIT_BIN、PATH和Codex受控运行时。owner_physical_test仍按正式验收规则保持硬门禁，不得放宽。
-  impact_summary: 修复跨Release、跨电脑确定性假失败，增加多operationId和候选Commit早于关闭Commit的隔离回归；不改变所有者真机验收门禁。
-  impact:
-    files:
-    - scripts/check_release_artifacts.py
-    - tests/test_release_close_gate.py
-    - docs/09-development/统一开发与交付效率规范.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python -m unittest tests.test_release_close_gate
-    - python scripts/check_release_artifacts.py --release R06
-    releases:
-    - R06
-    migration_and_compatibility: 既有仅3操作版本继续通过；R06及后续任意正数operationId均按OpenAPI校验；旧Manifest没有android_delivery.source_commit时回退APK Manifest commit但仍要求候选证据一致。
-  user_confirmation: 项目所有者要求解决当前阻断、跨电脑跨AI复用并持续进入后续版本。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T06:30:51Z'
-    note: 修复仅去除错误假设并保留owner真机正式验收硬门禁；隔离测试覆盖多操作与候选/关闭提交分离。
-  machine_record: .continuity/change_requests/CR-0167.yaml
-  document: docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md
-- protocol_version: '1.0'
-  cr_id: CR-0168
-  title: 登记R06浏览器视觉与Release关闭门禁复发规则
-  status: APPROVED
-  created_at: '2026-07-21T06:42:24Z'
-  updated_at: '2026-07-21T06:42:28Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-reviewer
-  task_id: TASK-R06-008
-  session_id: SES-20260721T055708Z-741C3D49
-  user_request: 项目所有者要求解决阻断并把可复用经验写入全局硬性规则。
-  reason: 本轮修复了管理端技术枚举泄漏和关闭门禁三项确定性假设，需要进入问题登记供换电脑换AI直接复用。
-  original_rule: 问题登记尚未覆盖R06管理端截图暴露的原始枚举/排版缺陷和Release关闭门禁的固定操作数、候选Commit、Windows Git错误假设。
-  new_rule: 把两类根因、修复证据、回归命令和禁止复发项登记到PROBLEM_REGISTRY，后续电脑和AI必须优先复用。
-  impact_summary: 仅新增可审计问题登记，不改变业务、契约、数据库、生产配置或APK。
-  impact:
-    files:
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python scripts/check_v123_documentation.py --strict
-    releases:
-    - R06
-    migration_and_compatibility: 文档治理增量，无迁移；关联CR-0166和CR-0167。
-  user_confirmation: 项目所有者要求把解决经验写入全局硬性规则供跨电脑跨AI复用。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T06:42:28Z'
-    note: 登记内容来自本轮可复现证据，范围为问题知识库且无产品行为变化。
-  machine_record: .continuity/change_requests/CR-0168.yaml
-  document: docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md
-- protocol_version: '1.0'
-  cr_id: CR-0169
-  title: 修复连续性严格门禁忽略受控Git路径
-  status: APPROVED
-  created_at: '2026-07-21T06:47:01Z'
-  updated_at: '2026-07-21T06:47:36Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-reviewer
-  task_id: TASK-R06-008
-  session_id: SES-20260721T055708Z-741C3D49
-  user_request: 项目所有者要求解决阻断并持续开发，规则必须跨电脑跨AI复用。
-  reason: check_v123_continuity.py在Windows硬编码git ls-files并忽略HHY_GIT_BIN，导致严格门禁和Doctor在断言前确定性失败。
-  original_rule: 连续性严格门禁使用PATH中的git ls-files，忽略仓库统一运行时和HHY_GIT_BIN。
-  new_rule: 连续性严格门禁依次解析HHY_GIT_BIN、系统PATH和Codex捆绑Git；配置的覆盖路径不存在时明确失败，禁止静默回退。
-  impact_summary: 只修复连续性严格检查的Git可执行文件解析并新增隔离单测；门禁断言和跟踪文件规则不变。
-  impact:
-    files:
-    - scripts/check_v123_continuity.py
-    - tests/test_continuity_git_resolution.py
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python -m unittest tests.test_continuity_git_resolution
-    - python scripts/check_v123_continuity.py --strict
-    releases:
-    - R06
-    migration_and_compatibility: 跨平台兼容增量；Linux/macOS继续使用PATH，Windows可使用HHY_GIT_BIN或捆绑Git。
-  user_confirmation: 项目所有者要求解决当前阻断并形成跨电脑跨AI可复用规则。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T06:47:36Z'
-    note: 修复与统一运行时策略一致，保留全部连续性断言并新增覆盖路径测试。
-  machine_record: .continuity/change_requests/CR-0169.yaml
-  document: docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md
-- protocol_version: '1.0'
-  cr_id: CR-0170
-  title: 修复商业UI生产源筛选与Manifest分层统计兼容
-  status: APPROVED
-  created_at: '2026-07-21T06:55:18Z'
-  updated_at: '2026-07-21T06:55:23Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-reviewer
-  task_id: TASK-R06-008
-  session_id: SES-20260721T055708Z-741C3D49
-  user_request: 项目所有者要求解决测试阻断并持续开发。
-  reason: 完整Python回归发现商业UI门禁误扫描androidTest断言，执行计划生成器把operation_ids+paths字典长度误作接口数量。
-  original_rule: 商业UI扫描仅排除名为test的目录而未排除Android标准androidTest；计划统计只支持contracts端点列表。
-  new_rule: 商业UI扫描明确排除androidTest测试源但继续扫描main生产源；计划统计同时支持旧列表和新operation_ids+paths结构，并只按paths计算端点引用。
-  impact_summary: 修复两个测试/派生工具的误报，不改生产UI、业务契约、API、数据库或APK。
-  impact:
-    files:
-    - scripts/check_commercial_ui_boundaries.py
-    - tests/test_commercial_ui_boundaries.py
-    - scripts/generate_program_execution_plan.py
-    - tests/test_program_execution_plan.py
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python -m unittest tests.test_commercial_ui_boundaries tests.test_program_execution_plan
-    releases:
-    - R06
-    migration_and_compatibility: 旧Release列表结构保持相同统计；R06及后续分层合同结构按paths统计；androidTest仍由自身编译和仪器测试覆盖。
-  user_confirmation: 项目所有者要求解决当前阻断后持续开发。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T06:55:23Z'
-    note: 修复将测试源与生产源边界明确化并保持旧新Manifest统计兼容，不削弱生产扫描。
-  machine_record: .continuity/change_requests/CR-0170.yaml
-  document: docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md
-- protocol_version: '1.0'
-  cr_id: CR-0171
-  title: 重新生成旧新Manifest兼容后的全项目执行计划
-  status: APPROVED
-  created_at: '2026-07-21T06:58:34Z'
-  updated_at: '2026-07-21T06:58:39Z'
-  requester_actor_id: codex-root
-  approver_actor_id: codex-reviewer
-  task_id: TASK-R06-008
-  session_id: SES-20260721T055708Z-741C3D49
-  user_request: 项目所有者要求解决测试阻断并持续开发。
-  reason: CR-0170修正端点统计语义后，PROGRAM_EXECUTION_PLAN必须由权威生成器确定性刷新。
-  original_rule: PROGRAM_EXECUTION_PLAN仍保存旧生成器把分层合同字典键数当接口数的派生统计。
-  new_rule: 使用修正后的生成器重新生成全项目计划，R03-R06按paths记录真实端点数量，其余事实保持确定性。
-  impact_summary: 仅更新生成派生计划的接口统计和组合总数，不改Release范围、依赖、风险、任务或业务合同。
-  impact:
-    files:
-    - releases/PROGRAM_EXECUTION_PLAN.yaml
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python scripts/generate_program_execution_plan.py --check
-    - python -m unittest tests.test_program_execution_plan
-    releases:
-    - R06
-    migration_and_compatibility: 确定性派生刷新；可用generate_program_execution_plan.py --check复现。
-  user_confirmation: 项目所有者要求解决当前测试阻断并持续开发。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T06:58:39Z'
-    note: 输出由受测生成器机械产生，仅校正统计语义，不改变计划治理。
-  machine_record: .continuity/change_requests/CR-0171.yaml
-  document: docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `9f034a60588b493c66c33c47f941e5b8c2b94458ee5085b4be50a4846b54531e`
+- `CURRENT_STATUS.yaml` — `df42856d9d6c9ed34de53e3141bf5962312b7eb5456688cc37a5f2b5c6a64e73`
 - `NEXT_TASK.yaml` — `d7c2cdf821368be62b0f4fa4dbe261c21dea7c6c7cc1f349ed17486fc9b883ed`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7737,27 +7344,27 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `3023903bd6ccc4a4cb693a55ceb3de8cf0cfde2798ddeb4c64b716cc54c0f00c`
-- `.continuity/SESSION_INDEX.yaml` — `96a3024a1e9abc7a2ccf1fe764f795e4f6e7aad1a80218729380a65dcb7dc5db`
+- `.continuity/EVENT_LOG.jsonl` — `f3152f574a206de11ac029fcf93ad355170ccfaea5aed12c9e2fbaf1c5b60348`
+- `.continuity/SESSION_INDEX.yaml` — `dae6e32ac6ace92f0ea409b7d2c560ac641dcc08e2cb228153a117113cbb5056`
 - `.continuity/TASK_CLAIMS.yaml` — `b9a483a046bb9f38df5819cdecafc5d6947f75f98a1acd422fa1ad041576ba93`
 - `.continuity/TASK_TRANSITIONS.yaml` — `d237d0fe60eb307c201288dba3c7722417743c05441d05479b2fc9caf0cfb651`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `769babc358af8441a49a07106ea93709f6da528d4a2f4abe623a02f6c21312ef`
-- `.continuity/ACTIVE_SESSION.yaml` — `bf06fd7e856f47570db8fc6579d4a0ca1d1810c500a77f6bc0a9872a46533c72`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `05a0da46961fef67907938ebb5b140718a24356de75b16f66dd29a24d76a266d`
+- `.continuity/ACTIVE_SESSION.yaml` — `39bb9572d05444ef7a9f862c84893780b34fe513039f8921d28bbb53e3f6a594`
 - `releases/R06/RELEASE_MANIFEST.yaml` — `fb7cd6d10feb64b5ef16d3a70f25d16c2e24a19bde5be2b55b513f1feb327292`
 - `releases/R06/DEFINITION_OF_READY.yaml` — `c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991`
 - `releases/R06/STORIES.yaml` — `b89210703d8b10b79602b97cde87631eb2323daa3610ac37833ae7fa76fbda35`
 - `releases/R06/TASKS.yaml` — `ac0707bfc93f0ecd50f91d6aea0a9bc3d5d17343da5b5882559443d382df9db6`
 - `releases/R06/ACCEPTANCE_MATRIX.csv` — `bb3a725f61a93c51088080e73260fb757ceae3f667cb893b0a40a8f30ab123eb`
 - `releases/R06/PARALLEL_EXECUTION_PLAN.yaml` — `426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md` — `4eec41590df92b4f1bd1fdf11bb300a65c29fa215a3685f8b4359ba839e3cd47`
-- `.continuity/checkpoints/SES-20260721T055708Z-741C3D49/0004.yaml` — `641737c13bd068e2a9e3bda38e803b3631aeab59fd163a0b302f8e21a1f6dad1`
-- `docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md` — `2caf6e42ff57b1cbd2d287409226a90a5670422a38cdde4b2cd7d987601fa536`
-- `docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md` — `1515240c994234bb2fc9b49b158fd1812f5fb187794b2a706c0d3db18617ff83`
-- `docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md` — `e08e349c1df537b8456323197df48364b71a3f0f4288812daf03f01a8c8dc425`
-- `docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md` — `29a2da7979243cb16fca15ec7424535724d0939701168dbf8edb44a48ff50e8d`
-- `docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md` — `67840dca7a17c0016176e5224b99c31834bb4683200348b43f5baa6c402acd1f`
-- `docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md` — `9bc3f63f66dd9ed0c234a43527d2311d8cd24a1a66130a554b416e1e3aa271df`
-- `docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md` — `a55977fff3f0303b49fc6c40ab32680459498d0f345ada3c5ec499585b1e25f5`
+- `docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md` — `cfbcd9fa3e33156d588783c7d117420ef4abecdba595a729709e7716db524197`
+- `.continuity/checkpoints/SES-20260721T055708Z-741C3D49/0005.yaml` — `68959d0378049600f5bc20bcf898f80f680a425d029ece08f619b136dc7e3e9e`
+- `docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md` — `094275fb804eb2a905d33abf89ce10ca1f07a160494c8c6741bdeef5027b537f`
+- `docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md` — `2a09adf5c22f7f5223f25ac09b490f400e9267d58b0c2b1df4b4becd8f35fdf1`
+- `docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md` — `d1d74d8cdf8ae769258daa8646af0c9a6ef6391018fd2ef46d7cb9e6d7b8f6fc`
+- `docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md` — `d7def35e1ced2853b6abadedbd5ab020b98ccf0f9b4f812a8c08b8e85c2aef64`
+- `docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md` — `6ca2fce89a91c0d6a2e0dcb1255b4da8cc0b48d6f3984ec1ab2753a8ac530c08`
+- `docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md` — `b562340179e58786868b9446dd8a5abe8fb08924c38d47e644201fa9b9b1beca`
+- `docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md` — `b279ad77882081b83400a3bf9b63fc416444030f4e8e84b3735f394040203bfc`
 
 ## 接手硬规则
 

@@ -79,3 +79,24 @@ updated_at: 2026-07-21T06:55:23Z
 - 决定：`APPROVED`
 - 时间：`2026-07-21T06:55:23Z`
 - 说明：修复将测试源与生产源边界明确化并保持旧新Manifest统计兼容，不削弱生产扫描。
+
+## 状态记录 · 2026-07-21T07:14:01Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：已按批准范围实施并完成本地回归。
+
+## 状态记录 · 2026-07-21T07:14:04Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：实现与证据已进入提交609c2ae6。
+
+## 状态记录 · 2026-07-21T07:14:06Z
+
+- Actor：`codex-root`
+- Status：`CLOSED`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：提交609c2ae6已推送，pre-push严格门禁通过。

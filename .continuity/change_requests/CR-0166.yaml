@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0166
 title: 修复R06管理端内容页技术枚举泄漏与信息排版
-status: APPROVED
+status: CLOSED
 created_at: '2026-07-21T06:17:13Z'
-updated_at: '2026-07-21T06:17:43Z'
+updated_at: '2026-07-21T07:13:35Z'
 requester_actor_id: codex-root
 approver_actor_id: codex-reviewer
 task_id: TASK-R06-008
@@ -47,3 +47,23 @@ approval:
   note: 缺陷由实际浏览器截图直接证明；修复限于渲染映射、Token布局、测试与重截图，不改变冻结业务合同。
 machine_record: .continuity/change_requests/CR-0166.yaml
 document: docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md
+decision_log:
+- at: '2026-07-21T07:13:30Z'
+  actor_id: codex-root
+  status: IMPLEMENTING
+  note: 已按批准范围实施并完成本地回归。
+  session_id: SES-20260721T055708Z-741C3D49
+- at: '2026-07-21T07:13:33Z'
+  actor_id: codex-root
+  status: IMPLEMENTED
+  note: 实现与证据已进入提交609c2ae6。
+  session_id: SES-20260721T055708Z-741C3D49
+- at: '2026-07-21T07:13:35Z'
+  actor_id: codex-root
+  status: CLOSED
+  note: 提交609c2ae6已推送，pre-push严格门禁通过。
+  session_id: SES-20260721T055708Z-741C3D49
+implementation_commits:
+- 609c2ae6f35e3435352dcf2639ac5d953f9315fb
+session_ids:
+- SES-20260721T055708Z-741C3D49

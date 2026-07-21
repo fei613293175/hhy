@@ -9701,9 +9701,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0165
   title: 补齐R06五页精确视觉合同与浏览器截图关闭证据
-  status: APPROVED
+  status: CLOSED
   created_at: '2026-07-21T06:02:57Z'
-  updated_at: '2026-07-21T06:05:50Z'
+  updated_at: '2026-07-21T07:13:27Z'
   requester_actor_id: codex-root
   approver_actor_id: codex-reviewer
   task_id: TASK-R06-008
@@ -9758,12 +9758,32 @@ change_requests:
     note: 范围限于五页精确视觉合同、受控浏览器截图和R06关闭证据；不改变业务、生产或APK身份，验证和回退路径完整。
   machine_record: .continuity/change_requests/CR-0165.yaml
   document: docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md
+  decision_log:
+  - at: '2026-07-21T07:13:22Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已按批准范围实施并完成本地回归。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:13:25Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 实现与证据已进入提交609c2ae6。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:13:27Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 提交609c2ae6已推送，pre-push严格门禁通过。
+    session_id: SES-20260721T055708Z-741C3D49
+  implementation_commits:
+  - 609c2ae6f35e3435352dcf2639ac5d953f9315fb
+  session_ids:
+  - SES-20260721T055708Z-741C3D49
 - protocol_version: '1.0'
   cr_id: CR-0166
   title: 修复R06管理端内容页技术枚举泄漏与信息排版
-  status: APPROVED
+  status: CLOSED
   created_at: '2026-07-21T06:17:13Z'
-  updated_at: '2026-07-21T06:17:43Z'
+  updated_at: '2026-07-21T07:13:35Z'
   requester_actor_id: codex-root
   approver_actor_id: codex-reviewer
   task_id: TASK-R06-008
@@ -9807,12 +9827,32 @@ change_requests:
     note: 缺陷由实际浏览器截图直接证明；修复限于渲染映射、Token布局、测试与重截图，不改变冻结业务合同。
   machine_record: .continuity/change_requests/CR-0166.yaml
   document: docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md
+  decision_log:
+  - at: '2026-07-21T07:13:30Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已按批准范围实施并完成本地回归。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:13:33Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 实现与证据已进入提交609c2ae6。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:13:35Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 提交609c2ae6已推送，pre-push严格门禁通过。
+    session_id: SES-20260721T055708Z-741C3D49
+  implementation_commits:
+  - 609c2ae6f35e3435352dcf2639ac5d953f9315fb
+  session_ids:
+  - SES-20260721T055708Z-741C3D49
 - protocol_version: '1.0'
   cr_id: CR-0167
   title: 修复Release关闭门禁的操作数候选提交与Windows Git解析
-  status: APPROVED
+  status: CLOSED
   created_at: '2026-07-21T06:30:15Z'
-  updated_at: '2026-07-21T06:30:51Z'
+  updated_at: '2026-07-21T07:13:43Z'
   requester_actor_id: codex-root
   approver_actor_id: codex-reviewer
   task_id: TASK-R06-008
@@ -9845,12 +9885,32 @@ change_requests:
     note: 修复仅去除错误假设并保留owner真机正式验收硬门禁；隔离测试覆盖多操作与候选/关闭提交分离。
   machine_record: .continuity/change_requests/CR-0167.yaml
   document: docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md
+  decision_log:
+  - at: '2026-07-21T07:13:38Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已按批准范围实施并完成本地回归。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:13:40Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 实现与证据已进入提交609c2ae6。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:13:43Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 提交609c2ae6已推送，pre-push严格门禁通过。
+    session_id: SES-20260721T055708Z-741C3D49
+  implementation_commits:
+  - 609c2ae6f35e3435352dcf2639ac5d953f9315fb
+  session_ids:
+  - SES-20260721T055708Z-741C3D49
 - protocol_version: '1.0'
   cr_id: CR-0168
   title: 登记R06浏览器视觉与Release关闭门禁复发规则
-  status: APPROVED
+  status: CLOSED
   created_at: '2026-07-21T06:42:24Z'
-  updated_at: '2026-07-21T06:42:28Z'
+  updated_at: '2026-07-21T07:13:51Z'
   requester_actor_id: codex-root
   approver_actor_id: codex-reviewer
   task_id: TASK-R06-008
@@ -9880,12 +9940,32 @@ change_requests:
     note: 登记内容来自本轮可复现证据，范围为问题知识库且无产品行为变化。
   machine_record: .continuity/change_requests/CR-0168.yaml
   document: docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md
+  decision_log:
+  - at: '2026-07-21T07:13:46Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已按批准范围实施并完成本地回归。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:13:48Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 实现与证据已进入提交609c2ae6。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:13:51Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 提交609c2ae6已推送，pre-push严格门禁通过。
+    session_id: SES-20260721T055708Z-741C3D49
+  implementation_commits:
+  - 609c2ae6f35e3435352dcf2639ac5d953f9315fb
+  session_ids:
+  - SES-20260721T055708Z-741C3D49
 - protocol_version: '1.0'
   cr_id: CR-0169
   title: 修复连续性严格门禁忽略受控Git路径
-  status: APPROVED
+  status: CLOSED
   created_at: '2026-07-21T06:47:01Z'
-  updated_at: '2026-07-21T06:47:36Z'
+  updated_at: '2026-07-21T07:13:59Z'
   requester_actor_id: codex-root
   approver_actor_id: codex-reviewer
   task_id: TASK-R06-008
@@ -9918,12 +9998,32 @@ change_requests:
     note: 修复与统一运行时策略一致，保留全部连续性断言并新增覆盖路径测试。
   machine_record: .continuity/change_requests/CR-0169.yaml
   document: docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md
+  decision_log:
+  - at: '2026-07-21T07:13:54Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已按批准范围实施并完成本地回归。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:13:56Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 实现与证据已进入提交609c2ae6。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:13:59Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 提交609c2ae6已推送，pre-push严格门禁通过。
+    session_id: SES-20260721T055708Z-741C3D49
+  implementation_commits:
+  - 609c2ae6f35e3435352dcf2639ac5d953f9315fb
+  session_ids:
+  - SES-20260721T055708Z-741C3D49
 - protocol_version: '1.0'
   cr_id: CR-0170
   title: 修复商业UI生产源筛选与Manifest分层统计兼容
-  status: APPROVED
+  status: CLOSED
   created_at: '2026-07-21T06:55:18Z'
-  updated_at: '2026-07-21T06:55:23Z'
+  updated_at: '2026-07-21T07:14:06Z'
   requester_actor_id: codex-root
   approver_actor_id: codex-reviewer
   task_id: TASK-R06-008
@@ -9956,12 +10056,32 @@ change_requests:
     note: 修复将测试源与生产源边界明确化并保持旧新Manifest统计兼容，不削弱生产扫描。
   machine_record: .continuity/change_requests/CR-0170.yaml
   document: docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md
+  decision_log:
+  - at: '2026-07-21T07:14:01Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已按批准范围实施并完成本地回归。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:14:04Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 实现与证据已进入提交609c2ae6。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:14:06Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 提交609c2ae6已推送，pre-push严格门禁通过。
+    session_id: SES-20260721T055708Z-741C3D49
+  implementation_commits:
+  - 609c2ae6f35e3435352dcf2639ac5d953f9315fb
+  session_ids:
+  - SES-20260721T055708Z-741C3D49
 - protocol_version: '1.0'
   cr_id: CR-0171
   title: 重新生成旧新Manifest兼容后的全项目执行计划
-  status: APPROVED
+  status: CLOSED
   created_at: '2026-07-21T06:58:34Z'
-  updated_at: '2026-07-21T06:58:39Z'
+  updated_at: '2026-07-21T07:14:14Z'
   requester_actor_id: codex-root
   approver_actor_id: codex-reviewer
   task_id: TASK-R06-008
@@ -9992,3 +10112,23 @@ change_requests:
     note: 输出由受测生成器机械产生，仅校正统计语义，不改变计划治理。
   machine_record: .continuity/change_requests/CR-0171.yaml
   document: docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md
+  decision_log:
+  - at: '2026-07-21T07:14:09Z'
+    actor_id: codex-root
+    status: IMPLEMENTING
+    note: 已按批准范围实施并完成本地回归。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:14:12Z'
+    actor_id: codex-root
+    status: IMPLEMENTED
+    note: 实现与证据已进入提交609c2ae6。
+    session_id: SES-20260721T055708Z-741C3D49
+  - at: '2026-07-21T07:14:14Z'
+    actor_id: codex-root
+    status: CLOSED
+    note: 提交609c2ae6已推送，pre-push严格门禁通过。
+    session_id: SES-20260721T055708Z-741C3D49
+  implementation_commits:
+  - 609c2ae6f35e3435352dcf2639ac5d953f9315fb
+  session_ids:
+  - SES-20260721T055708Z-741C3D49

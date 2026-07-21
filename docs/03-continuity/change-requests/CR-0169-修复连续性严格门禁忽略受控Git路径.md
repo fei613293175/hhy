@@ -79,3 +79,24 @@ check_v123_continuity.py在Windows硬编码git ls-files并忽略HHY_GIT_BIN，�
 - 决定：`APPROVED`
 - 时间：`2026-07-21T06:47:36Z`
 - 说明：修复与统一运行时策略一致，保留全部连续性断言并新增覆盖路径测试。
+
+## 状态记录 · 2026-07-21T07:13:54Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：已按批准范围实施并完成本地回归。
+
+## 状态记录 · 2026-07-21T07:13:56Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：实现与证据已进入提交609c2ae6。
+
+## 状态记录 · 2026-07-21T07:13:59Z
+
+- Actor：`codex-root`
+- Status：`CLOSED`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：提交609c2ae6已推送，pre-push严格门禁通过。

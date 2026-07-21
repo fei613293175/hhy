@@ -77,3 +77,24 @@ CR-0170修正端点统计语义后，PROGRAM_EXECUTION_PLAN必须由权威生成
 - 决定：`APPROVED`
 - 时间：`2026-07-21T06:58:39Z`
 - 说明：输出由受测生成器机械产生，仅校正统计语义，不改变计划治理。
+
+## 状态记录 · 2026-07-21T07:14:09Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：已按批准范围实施并完成本地回归。
+
+## 状态记录 · 2026-07-21T07:14:12Z
+
+- Actor：`codex-root`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：实现与证据已进入提交609c2ae6。
+
+## 状态记录 · 2026-07-21T07:14:14Z
+
+- Actor：`codex-root`
+- Status：`CLOSED`
+- Session：`SES-20260721T055708Z-741C3D49`
+- Note：提交609c2ae6已推送，pre-push严格门禁通过。
