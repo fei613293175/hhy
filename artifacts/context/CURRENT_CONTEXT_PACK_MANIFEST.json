@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-21T21:30:09Z",
-  "context_hash": "1511136e08c00e5bbbfb000a62683e18b0ef08d088186062084e9d17e5bd125f",
+  "generated_at": "2026-07-21T21:41:18Z",
+  "context_hash": "c52cb9380d9452c7dfd99aad653d9b73fcd4b6bf0391a8cfae21e4d8b0ef2898",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "395aee53da36fc588b7e36c7a60ea752c76295cfe0e85ef952af8b4dd78f75a1",
-    "file_count": 9
+    "sha256": "35a57aa2529a7fe57e5f4ad0d864491799395ee0cbd3e0c923a71d8dcfb2b731",
+    "file_count": 12
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "54fb376d01e5e80152ecc34f05c4b7aeebc161b2a334065d75df99757e9a2e16"
+    "sha256": "7e8eaed72087e4e7c916e8e9107eee6bd491bf84b68d2e010c45abce6bb65378"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "22c2750c1fa2f98d9173de2f3bdd1297b690ca9bb11037f0bf3d785c4dde2b95"
+    "sha256": "2dd2f79d1c47a23e0e230199503c57190ec3e425d3c1492e2c4c324a7ae3bb98"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "6466b0e491a1a175774ab2cdf711d07fe8a28a4cccd11770066a8e9a199eea3c",
+      "sha256": "aaad50c4754742cc9881297b436800aac6f01b90885004a679428014dfc797fc",
       "bytes": 3865
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "f7e2ca9642968338eca696acbd564d911c27cd4d81ba9532b2ba6a66dc53108c",
-      "bytes": 86476
+      "sha256": "1b4cc4a9b70ea46131ed8fa96e54404ff71afa43a27d8e2f5273e5d1d5794f11",
+      "bytes": 88075
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "8c186b0a0757cd75b964221e0a57adb75f2c6f0f75837d8c9e7472daac6191d0",
-      "bytes": 1067105
+      "sha256": "88a5aba01e29eb4010912c7bbeb4227b0a0c3ac0112a5e5e39a1112d84370716",
+      "bytes": 1072413
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "e4e1e2d463ee8940cd8634dbc2427fd481f95f9671c7333f553f374575e4246d",
+      "sha256": "8646d53570ddf9a59742defbc34ccff571f439f4d823e00982e55be65e73724e",
       "bytes": 33828
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "37bb83c0ad4ce56418395d719f74ff74014e2e09262943b85b1b470384baa936",
-      "bytes": 607394
+      "sha256": "45edcad2cf144eeaff9c4aa65c34583be73c8c2c97ce7dd04c2835a3166ffeba",
+      "bytes": 611413
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "e3c05b3e8c6b3f06599e38c09bf4fd7d99b4c85aec97ea8cd190acf32031e8ee",
+      "sha256": "11c631313b97d66ca39463130c3d1192257a39432d0d6ad377310ca89f2257f5",
       "bytes": 533
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md",
-      "sha256": "4de0fd9a8cb16db93c8535726e0ddba2589eff25cff9e2d6146bd61a17fc4990",
-      "bytes": 4911
+      "sha256": "063dc71c4a3a53d55dfbcac56588e3f548ead272258cb5ca60899b2c132c069d",
+      "bytes": 7803
     },
     {
-      "path": ".continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0002.yaml",
-      "sha256": "d602803a846bc12feed674a1a0258a3d82170ef2c472a3a2e7690d96cb8915e8",
-      "bytes": 8607
+      "path": ".continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0004.yaml",
+      "sha256": "f8dc3f65f931a690b381da8c61ed65798531d7e6507c0a0f2f8559794497651e",
+      "bytes": 9147
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md",
@@ -160,6 +160,16 @@
       "path": "docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md",
       "sha256": "1f862ca5cce32d3fce89446cdb9e77a33d8cd547ad78f8237c0ec5c494c3121b",
       "bytes": 2257
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md",
+      "sha256": "ddbc882f1508bbf8d76020a518cb350cc198b51c3e3651f5be8fd6ecb0e042f7",
+      "bytes": 2100
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md",
+      "sha256": "27d21dd5959589d7f7f2b2cab2550f68b29288e5f4e3be8e39e2102e3843cedd",
+      "bytes": 1918
     }
   ]
 }

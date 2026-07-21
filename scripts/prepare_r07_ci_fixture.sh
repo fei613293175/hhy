@@ -22,16 +22,21 @@ docker exec -i "$postgres" sh -lc \
 BEGIN;
 SELECT pg_advisory_xact_lock(707007);
 
+CREATE TEMP TABLE hhy_r07_ci_fixture_context ON COMMIT DROP AS
+SELECT id AS user_id
+FROM hhy.users
+WHERE phone=:'ci_phone' AND status='ACTIVE';
+
 DO $$
 DECLARE
   ci_user bigint;
   fixture_content bigint;
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM flyway_schema_history WHERE version='032' AND success) THEN
+  IF NOT EXISTS (SELECT 1 FROM hhy.flyway_schema_history WHERE version='032' AND success) THEN
     RAISE EXCEPTION 'R07 fixture requires Flyway V032';
   END IF;
 
-  SELECT id INTO ci_user FROM hhy.users WHERE phone=:'ci_phone' AND status='ACTIVE';
+  SELECT user_id INTO ci_user FROM hhy_r07_ci_fixture_context;
   IF ci_user IS NULL THEN RAISE EXCEPTION 'Dedicated CI user is missing or inactive'; END IF;
 
   INSERT INTO hhy.user_profiles(user_id,nickname,bio)

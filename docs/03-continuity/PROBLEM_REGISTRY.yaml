@@ -932,3 +932,17 @@ problems:
   - Compose业务页面禁止直接使用Color.White、Color.Black、十六进制Color或裸dp/sp，必须引用冻结Hhy令牌
   - 大版本候选请求推送前必须先运行UI基础和令牌静态门禁，确定性失败不得交给GitHub发现
   - 普通MODULE门禁通过不等于全局视觉硬规则通过，最终候选仍必须执行完整UI门禁
+- id: PROB-0071
+  title: R07候选夹具在PostgreSQL匿名代码块内误用psql变量
+  status: SOLVED
+  root_cause: prepare_r07_ci_fixture.sh把psql客户端变量ci_phone直接写入DO匿名代码块，且按默认search_path查询Flyway历史表；psql不会解析美元引用块内部的变量占位，预发布数据库的历史表实际位于hhy schema，因此两类环境边界都会在任何夹具数据写入前报错并回滚事务。
+  resolution: CR-0193先在匿名块外使用psql变量建立事务级临时上下文表，再由DO块读取最小user_id，并将迁移前置条件显式限定为hhy.flyway_schema_history；手机号只在客户端变量和事务查询中短时使用，不进入输出、日志或持久业务表。失败事务确认零写入，修复后继续复用同一隔离夹具。
+  regression_checks:
+  - 在R07候选容器与Staging PostgreSQL 17上执行prepare_r07_ci_fixture.sh必须输出R07_CI_FIXTURE_OK
+  - 连续执行两次必须保持同一用户、同一内容并成功清空该CI用户搜索历史
+  - 执行输出不得包含CI手机号、联系方式明文或秘密
+  do_not_repeat:
+  - 不得在DO函数体、美元引用字符串或服务端存储过程中直接使用psql客户端变量占位
+  - 运维SQL不得依赖数据库角色的默认search_path，业务表和Flyway历史表必须使用冻结schema限定
+  - 敏感客户端变量必须在可替换的SQL语句中转换为最小临时上下文，禁止写入日志或持久夹具配置
+  - 候选夹具必须使用单事务和ON_ERROR_STOP，任何失败都不得留下部分数据

@@ -11,11 +11,13 @@ task_id: TASK-R07-007
 story_id: STORY-R07-005
 goal: 完成R07大版本最终候选完整门禁、Android模拟器页面验证、候选APK追溯与桌面交付，AI独立判断截图并保持真机反馈异步。
 started_at: '2026-07-21T21:02:52Z'
-updated_at: '2026-07-21T21:30:10Z'
+updated_at: '2026-07-21T21:41:19Z'
 takeover_of: null
 change_requests:
 - CR-0191
 - CR-0192
+- CR-0193
+- CR-0194
 scope:
   allowed_paths:
   - apps/**
@@ -58,7 +60,8 @@ scope:
   - CHANGELOG.md
   - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192
+  - tests/test_r07_ci_fixture.py
+  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -68,22 +71,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T21:30:07Z'
-  expires_at: '2026-07-22T01:30:07Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0002.yaml
+  renewed_at: '2026-07-21T21:41:16Z'
+  expires_at: '2026-07-22T01:41:16Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md
-next_step: 提交推送候选旅程与令牌修复，构建并部署精确Commit的R07公开Staging候选后端，运行CI夹具，再切换并提交R07候选请求。
+next_step: 提交推送CR-0193/0194修复并按新精确提交重建公网候选容器
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 1511136e08c00e5bbbfb000a62683e18b0ef08d088186062084e9d17e5bd125f
-  generated_at: '2026-07-21T21:30:09Z'
+  context_hash: c52cb9380d9452c7dfd99aad653d9b73fcd4b6bf0391a8cfae21e4d8b0ef2898
+  generated_at: '2026-07-21T21:41:18Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
+  assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 当前系统规则未授权创建子代理；精确候选Commit和Staging切换必须串行。
+  reason: 候选提交、容器重建、路由切换和GitHub触发存在严格顺序依赖
