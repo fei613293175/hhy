@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0184
 title: 补齐R07十项专项测试与故障注入证据矩阵
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-21T19:38:11Z'
-updated_at: '2026-07-21T19:39:38Z'
+updated_at: '2026-07-21T20:14:17Z'
 requester_actor_id: codex-root-r07-005
 approver_actor_id: codex-reviewer-r07-tests
 task_id: TASK-R07-005
@@ -78,5 +78,17 @@ decision_log:
   status: IMPLEMENTING
   note: 开始补齐R07十项专项测试、故障注入、自动化适配器与可验证证据。
   session_id: SES-20260721T193434Z-0C5F0BFA
+- at: '2026-07-21T20:14:15Z'
+  actor_id: codex-root-r07-005
+  status: IMPLEMENTED
+  note: R07十项专项矩阵、真实选择器、故障注入与Java21/PostgreSQL17/Android证据已实现并推送，10/10机器校验通过。
+  session_id: SES-20260721T193434Z-0C5F0BFA
+- at: '2026-07-21T20:14:17Z'
+  actor_id: codex-reviewer-r07-tests
+  status: CLOSED
+  note: 复核十项库存、SHA256证据和专项报告完整，关闭变更请求。
+  session_id: SES-20260721T193434Z-0C5F0BFA
 session_ids:
 - SES-20260721T193434Z-0C5F0BFA
+implementation_commits:
+- ae7f7059088355b93b4dab2cb0b10fb5042ddcb1

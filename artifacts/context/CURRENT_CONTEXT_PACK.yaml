@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-21T20:11:52Z'
+generated_at: '2026-07-21T20:14:47Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -90,7 +90,7 @@ current_status:
   - TASK-R03-007
   - TASK-R06-008
   next_task: TASK-R07-005
-  updated_at: '2026-07-21T20:11:49Z'
+  updated_at: '2026-07-21T20:14:45Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -125,15 +125,15 @@ current_status:
     active_session_id: SES-20260721T193434Z-0C5F0BFA
     actor_id: codex-root-r07-005
     story_id: STORY-R07-005
-    lease_expires_at: '2026-07-22T00:11:49Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0002.yaml
-    project_fingerprint: e807687d2b1f9573ab7f0ae0377867e339fd17b8674dc28cf19b8f78a008c6c5
+    lease_expires_at: '2026-07-22T00:14:45Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0003.yaml
+    project_fingerprint: 61a159c8fad2159f0c2dadbfb27f4fc42eda9119b160ef092628882d1910b1fe
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: de52fa89282e1ba07da8284ef316a2f221a0c0d5a6a119e1aecbd55359f75243
-      generated_at: '2026-07-21T20:07:37Z'
+      context_hash: 7d55e69bd06e2f671dc15a9227331adcc83dc0a9b5ad78eaff671630c8168fc0
+      generated_at: '2026-07-21T20:11:52Z'
     handoff_bundle: null
 next_task:
   id: TASK-R07-005
@@ -184,7 +184,7 @@ active_session:
   story_id: STORY-R07-005
   goal: 搜索、发布者主页与联系方式保护专项测试与故障注入
   started_at: '2026-07-21T19:34:34Z'
-  updated_at: '2026-07-21T20:11:49Z'
+  updated_at: '2026-07-21T20:14:45Z'
   takeover_of: null
   change_requests:
   - CR-0184
@@ -266,12 +266,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-21T20:11:49Z'
-    expires_at: '2026-07-22T00:11:49Z'
-  checkpoint_sequence: 2
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0002.yaml
+    renewed_at: '2026-07-21T20:14:45Z'
+    expires_at: '2026-07-22T00:14:45Z'
+  checkpoint_sequence: 3
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0003.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md
-  next_step: 提交并推送R07专项证据，关闭CR-0184、CR-0185、CR-0186和TASK-R07-005，然后立即启动TASK-R07-006。
+  next_step: 提交并推送变更请求关闭状态，关闭TASK-R07-005并立即启动TASK-R07-006。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -279,16 +279,15 @@ active_session:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 证据与连续性状态必须绑定同一冻结Commit并由当前唯一会话原子收口，不适合拆分写入。
+    reason: 当前仅剩连续性关闭状态与任务切换，必须由唯一活动会话串行完成。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260721T193434Z-0C5F0BFA-0002
+  checkpoint_id: CP-SES-20260721T193434Z-0C5F0BFA-0003
   session_id: SES-20260721T193434Z-0C5F0BFA
-  sequence: 2
-  created_at: '2026-07-21T20:11:49Z'
-  summary: TASK-R07-005十项专项矩阵实现已提交并推送；冻结Commit 015178b3在obx-test Java21后端332项通过、PostgreSQL17 R07集成2项零跳过通过，本机Android单测与lint通过；机器证据、SHA256报告及只读挂载环境失败复用记录已归档并由矩阵校验10/10
-    PASS。
-  next_step: 提交并推送R07专项证据，关闭CR-0184、CR-0185、CR-0186和TASK-R07-005，然后立即启动TASK-R07-006。
+  sequence: 3
+  created_at: '2026-07-21T20:14:45Z'
+  summary: CR-0184十项测试矩阵、CR-0185 Windows Git永久环境、CR-0186远端环境失败证据均已实现复核并关闭；R07专项矩阵10/10 PASS。
+  next_step: 提交并推送变更请求关闭状态，关闭TASK-R07-005并立即启动TASK-R07-006。
   blockers: []
   decisions: []
   note: ''
@@ -296,23 +295,15 @@ latest_checkpoint:
   - name: r07-specialized-matrix
     result: PASS
     evidence: artifacts/validation/r07-test-evidence/r07-specialized.evidence.json
-    note: 10/10冻结测试ID通过且SHA256证据完整
-  - name: backend-java21-module
+    note: 10/10 PASS
+  - name: windows-git-runtime
     result: PASS
-    evidence: artifacts/validation/r07-test-evidence/backend-java21.log
-    note: 332 tests,0 failures,0 errors
-  - name: postgresql17-r07
-    result: PASS
-    evidence: artifacts/validation/r07-test-evidence/postgresql17.log
-    note: 2 tests,0 failures,0 errors,0 skips
-  - name: android-module
-    result: PASS
-    evidence: artifacts/validation/r07-test-evidence/android-module.log
-    note: testDebugUnitTest与lintDebug通过
+    evidence: scripts/configure_windows_git_runtime.ps1
+    note: install重复运行changed=false且check全PASS
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 015178b3d45c5d0ff0d0e458eb92a166d8d5026a
+    head: ae7f7059088355b93b4dab2cb0b10fb5042ddcb1
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
@@ -321,21 +312,16 @@ latest_checkpoint:
     - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
     - ' M .continuity/EVENT_LOG.jsonl'
     - ' M .continuity/STATE.yaml'
-    - ' M .continuity/sessions/SES-20260721T193434Z-0C5F0BFA.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M .continuity/change_requests/CR-0184.yaml'
+    - ' M .continuity/change_requests/CR-0185.yaml'
+    - ' M .continuity/change_requests/CR-0186.yaml'
     - ' M catalogs/change_request_index.csv'
     - ' M catalogs/session_index.csv'
-    - ?? .continuity/change_requests/CR-0186.yaml
-    - ?? artifacts/reports/R07/TASK-R07-005-specialized-testing.md
-    - ?? artifacts/validation/r07-test-evidence/android-module.log
-    - ?? artifacts/validation/r07-test-evidence/backend-java21-readonly-mount.failure.log
-    - ?? artifacts/validation/r07-test-evidence/backend-java21.log
-    - ?? artifacts/validation/r07-test-evidence/postgresql17.log
-    - ?? artifacts/validation/r07-test-evidence/r07-specialized.evidence.json
-    - ?? docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md
+    - ' M docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md'
+    - ' M docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md'
+    - ' M docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md'
     recent_commits:
+    - "ae7f7059088355b93b4dab2cb0b10fb5042ddcb1\t2026-07-22T04:13:25+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 归档十项专项门禁证据"
     - "015178b3d45c5d0ff0d0e458eb92a166d8d5026a\t2026-07-22T03:57:22+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 自动化十项专项矩阵与固化Windows\
       \ Git"
     - "ddf293eda518bca96b695d518ad67f9d18536536\t2026-07-22T03:27:57+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): close\
@@ -347,10 +333,8 @@ latest_checkpoint:
     - "301a30124f4d65e1c1862bd02befe840a273bdf0\t2026-07-22T02:55:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭 R07-003\
       \ 变更请求"
     - "83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593\t2026-07-22T02:50:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(r07): 实现搜索发布者与联系方式后端"
-    - "706970f90a7994b2cb020953cfb93d0e386978be\t2026-07-22T01:08:27+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close\
-      \ TASK-R07-002 as completed"
   project_fingerprint:
-    sha256: e807687d2b1f9573ab7f0ae0377867e339fd17b8674dc28cf19b8f78a008c6c5
+    sha256: 61a159c8fad2159f0c2dadbfb27f4fc42eda9119b160ef092628882d1910b1fe
     files:
     - CHANGELOG.md
     - START_HERE.md
@@ -414,16 +398,16 @@ latest_checkpoint:
         sha256: fef46e10528b70d1041880f9409a7a4d969b8cd15fef01f28c302b6645e78da3
       - path: docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md
         state: FILE
-        size: 4471
-        sha256: 88b5ed7ff5cc46685424247b59373cbd7b0d4ec65365f5d6ac1bbc4872bc6812
+        size: 4991
+        sha256: 6a6720570c1a1a8b7b574f964957bf118757e0f967c3727dded83654d582a3b6
       - path: docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md
         state: FILE
-        size: 3153
-        sha256: 52cd0e7483327cde3399050fdbc937d200db9bb3b6aff3f29a777835ca297c77
+        size: 3642
+        sha256: da28ce38ebe1e600373a84c24940b672b75b14711a346a26a313947c1e45c13e
       - path: docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md
         state: FILE
-        size: 2478
-        sha256: f88233e77b18db7306456d7fa0b027ae5c71d0570cbb2b77db8ab9a9380a1cbb
+        size: 2934
+        sha256: 49937db15b313b7a6eec8cf7d4524807e6981531fe1adbca67c95a5ae259a4ca
       - path: docs/09-development/统一开发与交付效率规范.md
         state: FILE
         size: 11505
@@ -613,12 +597,12 @@ latest_checkpoint:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 证据与连续性状态必须绑定同一冻结Commit并由当前唯一会话原子收口，不适合拆分写入。
-  event_hash: e2e93db38068d8f2f85d09a201f866724b83cc706aa5989a02622f9a6e3e62fd
+    reason: 当前仅剩连续性关闭状态与任务切换，必须由唯一活动会话串行完成。
+  event_hash: c86f0db31db2cbb4dd3440208719c3406a65d4f351f945508fc24c41d5838d4f
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 015178b3d45c5d0ff0d0e458eb92a166d8d5026a
+  head: ae7f7059088355b93b4dab2cb0b10fb5042ddcb1
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -629,24 +613,20 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0184.yaml'
+  - ' M .continuity/change_requests/CR-0185.yaml'
+  - ' M .continuity/change_requests/CR-0186.yaml'
   - ' M .continuity/sessions/SES-20260721T193434Z-0C5F0BFA.yaml'
   - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md'
+  - ' M docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md'
+  - ' M docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md'
-  - ?? .continuity/change_requests/CR-0186.yaml
-  - ?? .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0002.yaml
-  - ?? artifacts/reports/R07/TASK-R07-005-specialized-testing.md
-  - ?? artifacts/validation/r07-test-evidence/android-module.log
-  - ?? artifacts/validation/r07-test-evidence/backend-java21-readonly-mount.failure.log
-  - ?? artifacts/validation/r07-test-evidence/backend-java21.log
-  - ?? artifacts/validation/r07-test-evidence/postgresql17.log
-  - ?? artifacts/validation/r07-test-evidence/r07-specialized.evidence.json
-  - ?? docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md
+  - ?? .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0003.yaml
   recent_commits:
+  - "ae7f7059088355b93b4dab2cb0b10fb5042ddcb1\t2026-07-22T04:13:25+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 归档十项专项门禁证据"
   - "015178b3d45c5d0ff0d0e458eb92a166d8d5026a\t2026-07-22T03:57:22+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 自动化十项专项矩阵与固化Windows\
     \ Git"
   - "ddf293eda518bca96b695d518ad67f9d18536536\t2026-07-22T03:27:57+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): close TASK-R07-004\
@@ -658,10 +638,8 @@ git:
   - "301a30124f4d65e1c1862bd02befe840a273bdf0\t2026-07-22T02:55:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭 R07-003\
     \ 变更请求"
   - "83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593\t2026-07-22T02:50:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(r07): 实现搜索发布者与联系方式后端"
-  - "706970f90a7994b2cb020953cfb93d0e386978be\t2026-07-22T01:08:27+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-002\
-    \ as completed"
 project_fingerprint:
-  sha256: e807687d2b1f9573ab7f0ae0377867e339fd17b8674dc28cf19b8f78a008c6c5
+  sha256: 61a159c8fad2159f0c2dadbfb27f4fc42eda9119b160ef092628882d1910b1fe
   files:
   - CHANGELOG.md
   - START_HERE.md
@@ -725,16 +703,16 @@ project_fingerprint:
       sha256: fef46e10528b70d1041880f9409a7a4d969b8cd15fef01f28c302b6645e78da3
     - path: docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md
       state: FILE
-      size: 4471
-      sha256: 88b5ed7ff5cc46685424247b59373cbd7b0d4ec65365f5d6ac1bbc4872bc6812
+      size: 4991
+      sha256: 6a6720570c1a1a8b7b574f964957bf118757e0f967c3727dded83654d582a3b6
     - path: docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md
       state: FILE
-      size: 3153
-      sha256: 52cd0e7483327cde3399050fdbc937d200db9bb3b6aff3f29a777835ca297c77
+      size: 3642
+      sha256: da28ce38ebe1e600373a84c24940b672b75b14711a346a26a313947c1e45c13e
     - path: docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md
       state: FILE
-      size: 2478
-      sha256: f88233e77b18db7306456d7fa0b027ae5c71d0570cbb2b77db8ab9a9380a1cbb
+      size: 2934
+      sha256: 49937db15b313b7a6eec8cf7d4524807e6981531fe1adbca67c95a5ae259a4ca
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
       size: 11505
@@ -1858,8 +1836,8 @@ continuity_state:
   last_session_id: SES-20260721T190306Z-32CB66BF
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260721T190306Z-32CB66BF-0004
-  event_count: 1875
-  event_head_hash: e2e93db38068d8f2f85d09a201f866724b83cc706aa5989a02622f9a6e3e62fd
+  event_count: 1882
+  event_head_hash: c86f0db31db2cbb4dd3440208719c3406a65d4f351f945508fc24c41d5838d4f
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260721T012656Z-E067730A
@@ -1978,9 +1956,9 @@ recent_sessions:
   started_at: '2026-07-21T19:34:34Z'
   record: .continuity/sessions/SES-20260721T193434Z-0C5F0BFA.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md
-  updated_at: '2026-07-21T20:11:49Z'
+  updated_at: '2026-07-21T20:14:45Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0003.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-D4590DC555CA
@@ -7338,185 +7316,6 @@ open_change_requests:
     note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
   machine_record: .continuity/change_requests/CR-0159.yaml
   document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
-- protocol_version: '1.0'
-  cr_id: CR-0184
-  title: 补齐R07十项专项测试与故障注入证据矩阵
-  status: IMPLEMENTING
-  created_at: '2026-07-21T19:38:11Z'
-  updated_at: '2026-07-21T19:39:38Z'
-  requester_actor_id: codex-root-r07-005
-  approver_actor_id: codex-reviewer-r07-tests
-  task_id: TASK-R07-005
-  session_id: SES-20260721T193434Z-0C5F0BFA
-  user_request: 项目所有者要求按仓库事实源持续开发至R32；普通任务仅执行受影响MODULE门禁，真机反馈异步且不得阻断。
-  reason: TASK-R07-005描述仍写9项，但R07发布清单冻结10个测试ID；当前目录缺少tests/r07适配器、专项矩阵与逐项证据，现有后端测试也未覆盖全部重复、并发、超时、消息去重、异常与清历史页面契约。
-  original_rule: TASK-R07-005描述为9项测试且10个发布清单测试仍为READY_TO_AUTOMATE，没有R07专项适配器、统一矩阵、冻结Commit证据或完整故障注入覆盖。
-  new_rule: 以R07发布清单冻结的10个测试ID为唯一库存；每项Catalog状态必须为AUTOMATED并绑定真实Java或Android测试方法；中央矩阵必须校验库存、选择器、故障类别及Java21/PostgreSQL17冻结Commit证据，覆盖搜索、发布者、联系方式和清空历史的主路径、拒绝、重复、并发、超时、消息去重及敏感信息保护。
-  impact_summary: 修正TASK描述9为10，补充R07后端与Android测试、十个Adapter、中央矩阵、机器证据及专项报告；不修改生产API、数据库结构、页面交互或发布范围。
-  impact:
-    files:
-    - releases/R07/TASKS.yaml
-    - catalogs/test_cases.csv
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java
-    - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
-    - scripts/run_r07_specialized_matrix.py
-    - tests/r07/README.md
-    - tests/r07/test_r07_specialized_matrix.py
-    - tests/r07/req-contact-001_happy
-    - tests/r07/req-contact-001_idempotent
-    - tests/r07/req-contact-001_reject
-    - tests/r07/req-publisher-001_happy
-    - tests/r07/req-publisher-001_idempotent
-    - tests/r07/req-publisher-001_reject
-    - tests/r07/req-search-001_happy
-    - tests/r07/req-search-001_idempotent
-    - tests/r07/req-search-001_reject
-    - tests/r07/dialog-search-001_clear-history
-    - artifacts/validation/r07-test-evidence/r07-specialized.evidence.json
-    - artifacts/validation/r07-test-evidence/backend-java21.log
-    - artifacts/validation/r07-test-evidence/postgresql17.log
-    - artifacts/validation/r07-test-evidence/android-module.log
-    - artifacts/reports/R07/TASK-R07-005-specialized-testing.md
-    - CHANGELOG.md
-    pages:
-    - SCR-SEARCH-001
-    - SCR-SEARCH-002
-    - SCR-PUBLISHER-001
-    - SHEET-CONTACT-001
-    - DIALOG-SEARCH-001
-    apis:
-    - GET /api/v1/search
-    - GET /api/v1/search/hot
-    - GET /api/v1/search/history
-    - DELETE /api/v1/search/history
-    - GET /api/v1/publishers/{id}
-    - POST /api/v1/contents/{id}/contacts/{channel}/access
-    database: []
-    configuration: []
-    ledger:
-    - R07十项冻结测试从READY_TO_AUTOMATE升级为AUTOMATED并绑定真实选择器
-    tests:
-    - 10项R07专项矩阵库存与证据自测
-    - Java21 R07后端单元契约与故障注入
-    - PostgreSQL17搜索历史发布者联系方式幂等审计与Outbox集成
-    - Android DIALOG-SEARCH-001幂等与错误恢复状态测试
-    releases:
-    - R07
-    migration_and_compatibility: 仅新增和强化测试与追踪元数据；无生产数据迁移、无API兼容变化、无运行配置变化。
-  user_confirmation: 项目所有者已明确要求持续推进R07至R32，并授权AI自行判断测试结果且不等待真机反馈。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T19:39:34Z'
-    note: 权威库存以发布清单10项为准；变更仅补测试、证据和追踪，不扩大生产功能，且覆盖高敏联系方式和清历史写操作。
-  machine_record: .continuity/change_requests/CR-0184.yaml
-  document: docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md
-  decision_log:
-  - at: '2026-07-21T19:39:38Z'
-    actor_id: codex-root-r07-005
-    status: IMPLEMENTING
-    note: 开始补齐R07十项专项测试、故障注入、自动化适配器与可验证证据。
-    session_id: SES-20260721T193434Z-0C5F0BFA
-  session_ids:
-  - SES-20260721T193434Z-0C5F0BFA
-- protocol_version: '1.0'
-  cr_id: CR-0185
-  title: 固化Windows受控Git用户环境与跨机恢复规则
-  status: IMPLEMENTING
-  created_at: '2026-07-21T19:54:05Z'
-  updated_at: '2026-07-21T19:54:14Z'
-  requester_actor_id: codex-root-r07-005
-  approver_actor_id: codex-reviewer-windows-runtime
-  task_id: TASK-R07-005
-  session_id: SES-20260721T193434Z-0C5F0BFA
-  user_request: 项目所有者要求彻底解决PowerShell频繁缺少Git PATH，并写入踩坑记录和经验复用记录。
-  reason: 项目脚本虽已能解析HHY_GIT_BIN和Codex捆绑Git，但Windows用户级PATH与HHY_GIT_BIN从未持久化，导致裸git及Python子进程在每个新执行环境重复失败和临时注入。
-  original_rule: Windows脚本可自行回退到受控Git，但用户环境未持久化，裸git和第三方子进程仍会频繁报PATH缺失；换电脑只能依赖聊天经验手工注入。
-  new_rule: Windows接手项目时必须一次运行仓库Git运行时配置脚本：优先验证显式HHY_GIT_BIN，其次系统Git，最后Codex受控运行时；把可执行文件写入用户级HHY_GIT_BIN并把其cmd目录幂等加入用户PATH，支持check回读。项目命令仍优先使用HHY_GIT_BIN或hhy_workflow入口，不因当前宿主进程未刷新而重复诊断。换电脑按START_HERE执行同一脚本。
-  impact_summary: 新增可复用Windows Git环境配置脚本和机器可读传输恢复入口，补全START_HERE、统一开发规范、踩坑与Problem Registry；当前电脑用户环境同步完成。
-  impact:
-    files:
-    - scripts/configure_windows_git_runtime.ps1
-    - config/REPOSITORY_TRANSPORT.yaml
-    - START_HERE.md
-    - docs/09-development/统一开发与交付效率规范.md
-    - docs/03-continuity/PITFALLS.md
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database: []
-    configuration:
-    - Windows User PATH
-    - HHY_GIT_BIN
-    ledger:
-    - PROB-0069 Windows用户环境未持久化受控Git
-    tests:
-    - PowerShell配置脚本install与check幂等回读
-    - 裸git与Python subprocess均解析git 2.53.0
-    releases:
-    - R07
-    migration_and_compatibility: 仅影响Windows用户级开发环境与工程文档；不修改系统级PATH、不写凭据、不改变Git远端、业务代码、API、数据库或发布行为。已有Codex进程可继续用HHY_GIT_BIN，重启后裸git直接生效。
-  user_confirmation: 项目所有者明确要求彻底修复并计入全局踩坑及经验复用规则。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T19:54:10Z'
-    note: 只写Windows用户级非秘密运行时路径，具备幂等检查和跨机恢复说明；不触及系统PATH、凭据或远端配置。
-  machine_record: .continuity/change_requests/CR-0185.yaml
-  document: docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md
-  decision_log:
-  - at: '2026-07-21T19:54:14Z'
-    actor_id: codex-root-r07-005
-    status: IMPLEMENTING
-    note: 当前电脑用户级PATH与HHY_GIT_BIN已持久化并回读，开始补仓库自动配置脚本和跨机硬规则。
-    session_id: SES-20260721T193434Z-0C5F0BFA
-  session_ids:
-  - SES-20260721T193434Z-0C5F0BFA
-- protocol_version: '1.0'
-  cr_id: CR-0186
-  title: 归档R07远端只读挂载失败证据
-  status: IMPLEMENTING
-  created_at: '2026-07-21T20:08:49Z'
-  updated_at: '2026-07-21T20:09:10Z'
-  requester_actor_id: codex-root-r07-005
-  approver_actor_id: codex-reviewer-r07-env
-  task_id: TASK-R07-005
-  session_id: SES-20260721T193434Z-0C5F0BFA
-  user_request: 项目所有者要求GitHub与远端测试失败必须沉淀可复用经验，避免反复浪费时间。
-  reason: 首次冻结Commit后端验证因源码目录以只读方式挂载，Maven无法创建target目录；该失败属于执行环境配置而非产品回归，需要保留原始日志并在专项报告中明确区分。
-  original_rule: R07专项证据只列最终成功命令和日志，不保留首次远端环境失败原始证据。
-  new_rule: 凡远端门禁因挂载模式、权限或工具链配置失败，必须保留原始日志、明确标注为环境失败，并给出纠正命令和最终产品验证结果；不得计入产品测试失败。
-  impact_summary: 新增一份只读挂载失败原始日志，并在R07专项报告中记录根因、纠正和复用规则；不修改任何生产代码或测试结论。
-  impact:
-    files:
-    - artifacts/validation/r07-test-evidence/backend-java21-readonly-mount.failure.log
-    - artifacts/reports/R07/TASK-R07-005-specialized-testing.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - 核对原始失败日志与最终可写挂载后端通过日志均已归档
-    releases:
-    - R07
-    migration_and_compatibility: 纯证据与文档变更；无数据库迁移、无API或客户端兼容影响。
-  user_confirmation: 项目所有者已明确要求沉淀GitHub与远端调试失败经验并持续推进。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T20:09:07Z'
-    note: 环境失败证据与最终产品门禁分开归档可避免误判和重复排查，且不扩大产品变更范围。
-  machine_record: .continuity/change_requests/CR-0186.yaml
-  document: docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md
-  decision_log:
-  - at: '2026-07-21T20:09:10Z'
-    actor_id: codex-root-r07-005
-    status: IMPLEMENTING
-    note: 开始归档只读挂载原始日志，并将根因与纠正方案写入专项报告。
-    session_id: SES-20260721T193434Z-0C5F0BFA
-  session_ids:
-  - SES-20260721T193434Z-0C5F0BFA
 source_manifest:
 - path: AGENTS.md
   sha256: 0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230
@@ -7525,7 +7324,7 @@ source_manifest:
   sha256: a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e
   bytes: 4162
 - path: CURRENT_STATUS.yaml
-  sha256: b282af8f075bd59fef6dcde333e9f8ddba7e720d71617f5a0188d9e10e7ad9bc
+  sha256: 80962260241592a7e1afb2c4257ddb1f17b80b8b3de14430071c5122a82469e0
   bytes: 3835
 - path: NEXT_TASK.yaml
   sha256: 837f159a35cef1de3851985f408178ee0a653d04f382e80069698e60f25d5881
@@ -7558,10 +7357,10 @@ source_manifest:
   sha256: 35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6
   bytes: 11116
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 8c8ac4318deba595a5105ff29bc9e4262e5ee325eb2c05f722deff39344d6bb2
-  bytes: 1033564
+  sha256: 6d78ad3c8bfd41d10d09381cd20adcfed9592be2851c71ee90f93b87742fb265
+  bytes: 1036654
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: a18804be18e4822d71254009cc3765a4fafb8e79b088670912d9aaf6cf80db4a
+  sha256: 89a033442e8c994f93e10ec64443d72303f9fa67f2cf5ea7085710fec42e8d8a
   bytes: 32808
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: d6714842becacd526492269c88e7e457bf943531472f3117bd4eb3fded5d2662
@@ -7570,10 +7369,10 @@ source_manifest:
   sha256: fa53c632f883a53343bee5e091cde50024609cc5ae975b07fabde53d0b71a692
   bytes: 18789
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 0dc4be2f73fdd33c23171e252de05fba858dadfb966d81f89eb48ae3e796e8ed
-  bytes: 582318
+  sha256: 858d5971a42ad5f5abcecc5490085dfdd35c02c6825f29526e4c5e6d7ec0f455
+  bytes: 583936
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 64009e6f73b3bb9176f32b4ef174d3718c51fe2f1dffa4f939a695d7fff96811
+  sha256: c6ee201b0061e45848569f55b44a98e72cad80a0d6ddea28af5a8762a9dd639d
   bytes: 533
 - path: releases/R07/RELEASE_MANIFEST.yaml
   sha256: 333e47e09e2d4004aab3e2ffdd6ec072abd8977b4d6fcd1c1daa9bec9e858f34
@@ -7594,20 +7393,20 @@ source_manifest:
   sha256: 6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756
   bytes: 4300
 - path: docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md
-  sha256: 7f7b62f5feb882dcb3ce960fefc33c41e88908f5eb5f498e1d80a8abaa00ec0b
-  bytes: 6944
-- path: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0002.yaml
-  sha256: 55323b18fd3169e78330e6246e3ac88d231d7cbd9ede716f51b4bc612b84dd97
-  bytes: 14503
+  sha256: 5ceb61d342565dc388eeec67d37e43cbec50c3ed5ff59aa46b3e136c15ea8b0d
+  bytes: 9132
+- path: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0003.yaml
+  sha256: 0f46e1eaa718b8a12ce9eb079d421305a31d6f4d63079b06a72f9a8422606c0c
+  bytes: 13615
 - path: docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md
-  sha256: 88b5ed7ff5cc46685424247b59373cbd7b0d4ec65365f5d6ac1bbc4872bc6812
-  bytes: 4471
+  sha256: 6a6720570c1a1a8b7b574f964957bf118757e0f967c3727dded83654d582a3b6
+  bytes: 4991
 - path: docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md
-  sha256: 52cd0e7483327cde3399050fdbc937d200db9bb3b6aff3f29a777835ca297c77
-  bytes: 3153
+  sha256: da28ce38ebe1e600373a84c24940b672b75b14711a346a26a313947c1e45c13e
+  bytes: 3642
 - path: docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md
-  sha256: f88233e77b18db7306456d7fa0b027ae5c71d0570cbb2b77db8ab9a9380a1cbb
-  bytes: 2478
+  sha256: 49937db15b313b7a6eec8cf7d4524807e6981531fe1adbca67c95a5ae259a4ca
+  bytes: 2934
 exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
   '<未委托原因>'
 hard_rules:
@@ -7622,4 +7421,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 7d55e69bd06e2f671dc15a9227331adcc83dc0a9b5ad78eaff671630c8168fc0
+context_hash: 2631739267be385186f6808013cd65ede56c3b26d65bceb8802a97bcda59f212

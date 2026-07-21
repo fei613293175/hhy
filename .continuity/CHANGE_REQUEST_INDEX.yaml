@@ -10948,9 +10948,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0184
   title: 补齐R07十项专项测试与故障注入证据矩阵
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T19:38:11Z'
-  updated_at: '2026-07-21T19:39:38Z'
+  updated_at: '2026-07-21T20:14:17Z'
   requester_actor_id: codex-root-r07-005
   approver_actor_id: codex-reviewer-r07-tests
   task_id: TASK-R07-005
@@ -11025,14 +11025,26 @@ change_requests:
     status: IMPLEMENTING
     note: 开始补齐R07十项专项测试、故障注入、自动化适配器与可验证证据。
     session_id: SES-20260721T193434Z-0C5F0BFA
+  - at: '2026-07-21T20:14:15Z'
+    actor_id: codex-root-r07-005
+    status: IMPLEMENTED
+    note: R07十项专项矩阵、真实选择器、故障注入与Java21/PostgreSQL17/Android证据已实现并推送，10/10机器校验通过。
+    session_id: SES-20260721T193434Z-0C5F0BFA
+  - at: '2026-07-21T20:14:17Z'
+    actor_id: codex-reviewer-r07-tests
+    status: CLOSED
+    note: 复核十项库存、SHA256证据和专项报告完整，关闭变更请求。
+    session_id: SES-20260721T193434Z-0C5F0BFA
   session_ids:
   - SES-20260721T193434Z-0C5F0BFA
+  implementation_commits:
+  - ae7f7059088355b93b4dab2cb0b10fb5042ddcb1
 - protocol_version: '1.0'
   cr_id: CR-0185
   title: 固化Windows受控Git用户环境与跨机恢复规则
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T19:54:05Z'
-  updated_at: '2026-07-21T19:54:14Z'
+  updated_at: '2026-07-21T20:14:22Z'
   requester_actor_id: codex-root-r07-005
   approver_actor_id: codex-reviewer-windows-runtime
   task_id: TASK-R07-005
@@ -11078,14 +11090,26 @@ change_requests:
     status: IMPLEMENTING
     note: 当前电脑用户级PATH与HHY_GIT_BIN已持久化并回读，开始补仓库自动配置脚本和跨机硬规则。
     session_id: SES-20260721T193434Z-0C5F0BFA
+  - at: '2026-07-21T20:14:20Z'
+    actor_id: codex-root-r07-005
+    status: IMPLEMENTED
+    note: Windows用户级PATH与HHY_GIT_BIN、幂等恢复脚本、踩坑和全局复用规则已实现并验证。
+    session_id: SES-20260721T193434Z-0C5F0BFA
+  - at: '2026-07-21T20:14:22Z'
+    actor_id: codex-reviewer-windows-runtime
+    status: CLOSED
+    note: 复核用户环境与重复执行检查均通过，关闭变更请求。
+    session_id: SES-20260721T193434Z-0C5F0BFA
   session_ids:
   - SES-20260721T193434Z-0C5F0BFA
+  implementation_commits:
+  - 015178b3d45c5d0ff0d0e458eb92a166d8d5026a
 - protocol_version: '1.0'
   cr_id: CR-0186
   title: 归档R07远端只读挂载失败证据
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T20:08:49Z'
-  updated_at: '2026-07-21T20:09:10Z'
+  updated_at: '2026-07-21T20:14:27Z'
   requester_actor_id: codex-root-r07-005
   approver_actor_id: codex-reviewer-r07-env
   task_id: TASK-R07-005
@@ -11122,5 +11146,17 @@ change_requests:
     status: IMPLEMENTING
     note: 开始归档只读挂载原始日志，并将根因与纠正方案写入专项报告。
     session_id: SES-20260721T193434Z-0C5F0BFA
+  - at: '2026-07-21T20:14:24Z'
+    actor_id: codex-root-r07-005
+    status: IMPLEMENTED
+    note: 只读挂载原始失败日志、纠正结果和环境失败复用规则已归档。
+    session_id: SES-20260721T193434Z-0C5F0BFA
+  - at: '2026-07-21T20:14:27Z'
+    actor_id: codex-reviewer-r07-env
+    status: CLOSED
+    note: 环境失败与产品通过证据边界清晰，关闭变更请求。
+    session_id: SES-20260721T193434Z-0C5F0BFA
   session_ids:
   - SES-20260721T193434Z-0C5F0BFA
+  implementation_commits:
+  - ae7f7059088355b93b4dab2cb0b10fb5042ddcb1

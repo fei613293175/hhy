@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0185
 title: 固化Windows受控Git用户环境与跨机恢复规则
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-21T19:54:05Z'
-updated_at: '2026-07-21T19:54:14Z'
+updated_at: '2026-07-21T20:14:22Z'
 requester_actor_id: codex-root-r07-005
 approver_actor_id: codex-reviewer-windows-runtime
 task_id: TASK-R07-005
@@ -49,5 +49,17 @@ decision_log:
   status: IMPLEMENTING
   note: 当前电脑用户级PATH与HHY_GIT_BIN已持久化并回读，开始补仓库自动配置脚本和跨机硬规则。
   session_id: SES-20260721T193434Z-0C5F0BFA
+- at: '2026-07-21T20:14:20Z'
+  actor_id: codex-root-r07-005
+  status: IMPLEMENTED
+  note: Windows用户级PATH与HHY_GIT_BIN、幂等恢复脚本、踩坑和全局复用规则已实现并验证。
+  session_id: SES-20260721T193434Z-0C5F0BFA
+- at: '2026-07-21T20:14:22Z'
+  actor_id: codex-reviewer-windows-runtime
+  status: CLOSED
+  note: 复核用户环境与重复执行检查均通过，关闭变更请求。
+  session_id: SES-20260721T193434Z-0C5F0BFA
 session_ids:
 - SES-20260721T193434Z-0C5F0BFA
+implementation_commits:
+- 015178b3d45c5d0ff0d0e458eb92a166d8d5026a

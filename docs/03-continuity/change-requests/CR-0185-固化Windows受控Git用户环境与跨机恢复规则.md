@@ -91,3 +91,17 @@ Windows接手项目时必须一次运行仓库Git运行时配置脚本：优先�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260721T193434Z-0C5F0BFA`
 - Note：当前电脑用户级PATH与HHY_GIT_BIN已持久化并回读，开始补仓库自动配置脚本和跨机硬规则。
+
+## 状态记录 · 2026-07-21T20:14:20Z
+
+- Actor：`codex-root-r07-005`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260721T193434Z-0C5F0BFA`
+- Note：Windows用户级PATH与HHY_GIT_BIN、幂等恢复脚本、踩坑和全局复用规则已实现并验证。
+
+## 状态记录 · 2026-07-21T20:14:22Z
+
+- Actor：`codex-reviewer-windows-runtime`
+- Status：`CLOSED`
+- Session：`SES-20260721T193434Z-0C5F0BFA`
+- Note：复核用户环境与重复执行检查均通过，关闭变更请求。
