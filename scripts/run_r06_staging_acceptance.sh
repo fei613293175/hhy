@@ -9,6 +9,7 @@ ROLLBACK_IMAGE=${HHY_R06_ROLLBACK_IMAGE:-hhy-backend-r06-ci:ccc64022}
 ROLLBACK_TAG=${HHY_R06_ROLLBACK_TAG:-rollback-ccc64022}
 HTTP_PORT=${HHY_R06_SMOKE_HTTP_PORT:-38106}
 PROMETHEUS_PORT=${HHY_R06_PROMETHEUS_PORT:-39590}
+PHASE=${1:-all}
 COMPOSE_FILE="$ROOT/infra/staging/r06-smoke/docker-compose.yml"
 EVIDENCE="$ROOT/artifacts/validation/r06-task006-staging"
 ALERT_EVENT_PREFIX=r06-stage-alert
@@ -132,7 +133,7 @@ load_compose_environment() {
 }
 
 record_database_state() {
-  docker exec "$POSTGRES" psql -U hhy_r06_smoke -d hhy_r06_smoke -At -v ON_ERROR_STOP=1 <<'SQL'
+  docker exec -i "$POSTGRES" psql -U hhy_r06_smoke -d hhy_r06_smoke -At -v ON_ERROR_STOP=1 <<'SQL'
 SELECT version FROM hhy.flyway_schema_history WHERE success ORDER BY installed_rank DESC LIMIT 1;
 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='hhy';
 SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='hhy' AND table_name <> 'flyway_schema_history';
@@ -210,10 +211,12 @@ capture_baseline() {
     scripts/run_r06_staging_acceptance.sh > "$EVIDENCE/source-sha256.txt"
 }
 
-exercise_alerts() {
+prepare_alert_sink() {
   refresh_containers
   docker exec "$ALERT_SINK" sh -c ': > /data/deliveries.jsonl'
+}
 
+exercise_backend_alert() {
   docker stop "$API" >/dev/null
   wait_rule_firing HhyR06BackendDown
   curl -fsS "http://127.0.0.1:${PROMETHEUS_PORT}/api/v1/rules" > "$EVIDENCE/backend-down-firing.json"
@@ -221,8 +224,14 @@ exercise_alerts() {
   docker start "$API" >/dev/null
   wait_container_readiness
   wait_alert_receipt HhyR06BackendDown resolved
+  {
+    echo backend_down_firing=PASS
+    echo backend_down_resolved=PASS
+  } > "$EVIDENCE/alert-exercise.txt"
+}
 
-  docker exec "$POSTGRES" psql -U hhy_r06_smoke -d hhy_r06_smoke -v ON_ERROR_STOP=1 <<SQL >/dev/null
+exercise_content_alert() {
+  docker exec -i "$POSTGRES" psql -U hhy_r06_smoke -d hhy_r06_smoke -v ON_ERROR_STOP=1 <<SQL >/dev/null
 INSERT INTO hhy.outbox_events(aggregate_id, aggregate_type, event_id, event_type, event_version, headers, payload, status)
 SELECT 'r06-stage-' || value, 'CONTENT', '${ALERT_EVENT_PREFIX}-' || value,
        'content.stage.alert.v1', 1, '{}'::jsonb, jsonb_build_object('test', true), 'PENDING'
@@ -236,11 +245,9 @@ SQL
 
   docker exec "$ALERT_SINK" cat /data/deliveries.jsonl > "$EVIDENCE/alert-deliveries.jsonl"
   {
-    echo backend_down_firing=PASS
-    echo backend_down_resolved=PASS
     echo content_outbox_firing=PASS
     echo content_outbox_resolved=PASS
-  } > "$EVIDENCE/alert-exercise.txt"
+  } >> "$EVIDENCE/alert-exercise.txt"
 }
 
 exercise_rollback() {
@@ -322,9 +329,32 @@ finalize_evidence() {
 
 cd "$ROOT"
 test "$(git rev-parse HEAD)" = "$FROZEN_COMMIT"
-capture_baseline
-exercise_alerts
-exercise_rollback
-finalize_evidence
+case "$PHASE" in
+  all)
+    capture_baseline
+    prepare_alert_sink
+    exercise_backend_alert
+    exercise_content_alert
+    exercise_rollback
+    finalize_evidence
+    ;;
+  resume-content)
+    capture_baseline
+    refresh_containers
+    wait_alert_receipt HhyR06BackendDown firing 1
+    wait_alert_receipt HhyR06BackendDown resolved 1
+    {
+      echo backend_down_firing=PASS
+      echo backend_down_resolved=PASS
+    } > "$EVIDENCE/alert-exercise.txt"
+    exercise_content_alert
+    exercise_rollback
+    finalize_evidence
+    ;;
+  *)
+    echo "Usage: $0 [all|resume-content]" >&2
+    exit 64
+    ;;
+esac
 trap - EXIT
 echo R06_STAGING_ACCEPTANCE_PASS
