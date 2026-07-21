@@ -9698,3 +9698,297 @@ change_requests:
   - SES-20260721T043434Z-868F3619
   implementation_commits:
   - 53ec5106
+- protocol_version: '1.0'
+  cr_id: CR-0165
+  title: 补齐R06五页精确视觉合同与浏览器截图关闭证据
+  status: APPROVED
+  created_at: '2026-07-21T06:02:57Z'
+  updated_at: '2026-07-21T06:05:50Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-reviewer
+  task_id: TASK-R06-008
+  session_id: SES-20260721T055708Z-741C3D49
+  user_request: 项目所有者要求解决目标受阻问题并接着开发，不用停止。
+  reason: R06关闭门禁发现SCR-HOME-001、SCR-ABOUT-001和三个内容管理页面缺少逐页视觉合同或截图证据，必须在不改变业务合同的前提下补齐。
+  original_rule: R06五个页面尚未登记逐页精确视觉合同；Android候选截图虽已通过机器视觉审查但未绑定批准补充规格，三个管理端页面缺少浏览器截图。
+  new_rule: SCR-HOME-001与SCR-ABOUT-001绑定R06批准补充视觉规格和既有候选/基线截图；ADM-CONTENT-001至003绑定原始管理后台标准模板并由受控非生产Mock生成浏览器截图；五页均通过R06视觉关闭门禁。
+  impact_summary: 只补齐R06视觉与关闭证据，不改变页面业务字段、API、数据库、权限、生产配置或已交付APK。
+  impact:
+    files:
+    - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+    - design/R06-UI-FROZEN/specs/SCR-ABOUT-001.md
+    - catalogs/ui_visual_acceptance.csv
+    - scripts/run_r06_admin_web_mock.mjs
+    - scripts/capture_r06_admin_visuals.mjs
+    - artifacts/validation/r06-ui/admin/ADM-CONTENT-001-browser-1440x1100.png
+    - artifacts/validation/r06-ui/admin/ADM-CONTENT-002-browser-1440x1100.png
+    - artifacts/validation/r06-ui/admin/ADM-CONTENT-003-browser-1440x1100.png
+    - artifacts/reports/R06/TASK-R06-008-release-close.md
+    - releases/R06/ACCEPTANCE_MATRIX.csv
+    - releases/R06/RELEASE_MANIFEST.yaml
+    - releases/R06/TASKS.yaml
+    - releases/R06/STORIES.yaml
+    - CURRENT_STATUS.yaml
+    - NEXT_TASK.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-HOME-001
+    - SCR-ABOUT-001
+    - ADM-CONTENT-001
+    - ADM-CONTENT-002
+    - ADM-CONTENT-003
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - node --check scripts/run_r06_admin_web_mock.mjs
+    - node --check scripts/capture_r06_admin_visuals.mjs
+    - pnpm --filter @hhy/admin-web test
+    - pnpm --filter @hhy/admin-web build
+    - python scripts/check_ui_visual_acceptance.py --release R06
+    - python scripts/check_release_artifacts.py --release R06 --close-gate
+    releases:
+    - R06
+    migration_and_compatibility: 纯证据与测试工具增量，无数据迁移；Mock仅绑定127.0.0.1并用于构建后截图，生产构建不启用；既有APK和公网交付保持不变。
+  user_confirmation: 2026-07-21项目所有者明确要求解决目标受阻问题并接着开发，不用停止。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T06:05:50Z'
+    note: 范围限于五页精确视觉合同、受控浏览器截图和R06关闭证据；不改变业务、生产或APK身份，验证和回退路径完整。
+  machine_record: .continuity/change_requests/CR-0165.yaml
+  document: docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md
+- protocol_version: '1.0'
+  cr_id: CR-0166
+  title: 修复R06管理端内容页技术枚举泄漏与信息排版
+  status: APPROVED
+  created_at: '2026-07-21T06:17:13Z'
+  updated_at: '2026-07-21T06:17:43Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-reviewer
+  task_id: TASK-R06-008
+  session_id: SES-20260721T055708Z-741C3D49
+  user_request: 项目所有者要求由AI判断所有版本截图是否合格，并解决问题后持续开发。
+  reason: R06浏览器截图审查发现内容列表与详情直接展示原始枚举和ISO时间，且标题编号和详情字段缺少标准排版，未满足正式商业UI硬边界。
+  original_rule: R06三个管理端内容页可直接显示API原始枚举、代码与ISO时间，列表标题和编号、详情字段依赖未定义样式。
+  new_rule: 管理端内容页通过明确白名单把内容类型、内容状态、审核状态、分类、地区和时间转换为商业化中文；未知值使用安全业务回退；列表和详情使用标准Token布局并有自动化防泄漏回归。
+  impact_summary: 修复三个R06管理端页面的展示映射和布局样式，增加页面回归测试并重新生成三张截图；请求参数、响应契约、权限和写操作不变。
+  impact:
+    files:
+    - apps/admin-web/src/views/AdminContentListPage.vue
+    - apps/admin-web/src/views/AdminContentDetailPage.vue
+    - apps/admin-web/src/views/AdminContentDictionariesPage.vue
+    - apps/admin-web/src/styles.css
+    - apps/admin-web/src/r06ContentPages.test.ts
+    - scripts/capture_r06_admin_visuals.mjs
+    - artifacts/validation/r06-ui/admin/ADM-CONTENT-001-browser-1440x1100.png
+    - artifacts/validation/r06-ui/admin/ADM-CONTENT-002-browser-1440x1100.png
+    - artifacts/validation/r06-ui/admin/ADM-CONTENT-003-browser-1440x1100.png
+    pages:
+    - ADM-CONTENT-001
+    - ADM-CONTENT-002
+    - ADM-CONTENT-003
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - pnpm --filter @hhy/admin-web test
+    - pnpm --filter @hhy/admin-web build
+    - node scripts/capture_r06_admin_visuals.mjs
+    - python scripts/check_ui_visual_acceptance.py --release R06
+    releases:
+    - R06
+    migration_and_compatibility: 纯前端展示兼容修复，无数据库或API迁移；原始枚举继续用于请求与状态机判断，只在渲染层转换；未知服务端值不原样泄漏。
+  user_confirmation: 项目所有者已明确要求AI自行判断截图合格性、解决发现的问题并继续开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T06:17:43Z'
+    note: 缺陷由实际浏览器截图直接证明；修复限于渲染映射、Token布局、测试与重截图，不改变冻结业务合同。
+  machine_record: .continuity/change_requests/CR-0166.yaml
+  document: docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md
+- protocol_version: '1.0'
+  cr_id: CR-0167
+  title: 修复Release关闭门禁的操作数候选提交与Windows Git解析
+  status: APPROVED
+  created_at: '2026-07-21T06:30:15Z'
+  updated_at: '2026-07-21T06:30:51Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-reviewer
+  task_id: TASK-R06-008
+  session_id: SES-20260721T055708Z-741C3D49
+  user_request: 项目所有者要求解决阻断并持续开发，同时要求规则可跨电脑跨AI复用。
+  reason: R06机器关闭检查证明关闭脚本硬编码3个operationId、错误要求APK候选Commit等于后续Release关闭Commit，并在Windows忽略受控Git路径；这些会制造确定性假失败。
+  original_rule: 关闭门禁固定要求3个operationId、把APK候选Commit与Release关闭Commit直接比较，并调用PATH中的git。
+  new_rule: 关闭门禁要求至少一个且全部有效的operationId；APK与自动候选均绑定android_delivery.source_commit并彼此一致，Release关闭Commit独立追溯；Git依次解析HHY_GIT_BIN、PATH和Codex受控运行时。owner_physical_test仍按正式验收规则保持硬门禁，不得放宽。
+  impact_summary: 修复跨Release、跨电脑确定性假失败，增加多operationId和候选Commit早于关闭Commit的隔离回归；不改变所有者真机验收门禁。
+  impact:
+    files:
+    - scripts/check_release_artifacts.py
+    - tests/test_release_close_gate.py
+    - docs/09-development/统一开发与交付效率规范.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_release_close_gate
+    - python scripts/check_release_artifacts.py --release R06
+    releases:
+    - R06
+    migration_and_compatibility: 既有仅3操作版本继续通过；R06及后续任意正数operationId均按OpenAPI校验；旧Manifest没有android_delivery.source_commit时回退APK Manifest commit但仍要求候选证据一致。
+  user_confirmation: 项目所有者要求解决当前阻断、跨电脑跨AI复用并持续进入后续版本。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T06:30:51Z'
+    note: 修复仅去除错误假设并保留owner真机正式验收硬门禁；隔离测试覆盖多操作与候选/关闭提交分离。
+  machine_record: .continuity/change_requests/CR-0167.yaml
+  document: docs/03-continuity/change-requests/CR-0167-修复Release关闭门禁的操作数候选提交与Windows-Git解析.md
+- protocol_version: '1.0'
+  cr_id: CR-0168
+  title: 登记R06浏览器视觉与Release关闭门禁复发规则
+  status: APPROVED
+  created_at: '2026-07-21T06:42:24Z'
+  updated_at: '2026-07-21T06:42:28Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-reviewer
+  task_id: TASK-R06-008
+  session_id: SES-20260721T055708Z-741C3D49
+  user_request: 项目所有者要求解决阻断并把可复用经验写入全局硬性规则。
+  reason: 本轮修复了管理端技术枚举泄漏和关闭门禁三项确定性假设，需要进入问题登记供换电脑换AI直接复用。
+  original_rule: 问题登记尚未覆盖R06管理端截图暴露的原始枚举/排版缺陷和Release关闭门禁的固定操作数、候选Commit、Windows Git错误假设。
+  new_rule: 把两类根因、修复证据、回归命令和禁止复发项登记到PROBLEM_REGISTRY，后续电脑和AI必须优先复用。
+  impact_summary: 仅新增可审计问题登记，不改变业务、契约、数据库、生产配置或APK。
+  impact:
+    files:
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_v123_documentation.py --strict
+    releases:
+    - R06
+    migration_and_compatibility: 文档治理增量，无迁移；关联CR-0166和CR-0167。
+  user_confirmation: 项目所有者要求把解决经验写入全局硬性规则供跨电脑跨AI复用。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T06:42:28Z'
+    note: 登记内容来自本轮可复现证据，范围为问题知识库且无产品行为变化。
+  machine_record: .continuity/change_requests/CR-0168.yaml
+  document: docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md
+- protocol_version: '1.0'
+  cr_id: CR-0169
+  title: 修复连续性严格门禁忽略受控Git路径
+  status: APPROVED
+  created_at: '2026-07-21T06:47:01Z'
+  updated_at: '2026-07-21T06:47:36Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-reviewer
+  task_id: TASK-R06-008
+  session_id: SES-20260721T055708Z-741C3D49
+  user_request: 项目所有者要求解决阻断并持续开发，规则必须跨电脑跨AI复用。
+  reason: check_v123_continuity.py在Windows硬编码git ls-files并忽略HHY_GIT_BIN，导致严格门禁和Doctor在断言前确定性失败。
+  original_rule: 连续性严格门禁使用PATH中的git ls-files，忽略仓库统一运行时和HHY_GIT_BIN。
+  new_rule: 连续性严格门禁依次解析HHY_GIT_BIN、系统PATH和Codex捆绑Git；配置的覆盖路径不存在时明确失败，禁止静默回退。
+  impact_summary: 只修复连续性严格检查的Git可执行文件解析并新增隔离单测；门禁断言和跟踪文件规则不变。
+  impact:
+    files:
+    - scripts/check_v123_continuity.py
+    - tests/test_continuity_git_resolution.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_continuity_git_resolution
+    - python scripts/check_v123_continuity.py --strict
+    releases:
+    - R06
+    migration_and_compatibility: 跨平台兼容增量；Linux/macOS继续使用PATH，Windows可使用HHY_GIT_BIN或捆绑Git。
+  user_confirmation: 项目所有者要求解决当前阻断并形成跨电脑跨AI可复用规则。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T06:47:36Z'
+    note: 修复与统一运行时策略一致，保留全部连续性断言并新增覆盖路径测试。
+  machine_record: .continuity/change_requests/CR-0169.yaml
+  document: docs/03-continuity/change-requests/CR-0169-修复连续性严格门禁忽略受控Git路径.md
+- protocol_version: '1.0'
+  cr_id: CR-0170
+  title: 修复商业UI生产源筛选与Manifest分层统计兼容
+  status: APPROVED
+  created_at: '2026-07-21T06:55:18Z'
+  updated_at: '2026-07-21T06:55:23Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-reviewer
+  task_id: TASK-R06-008
+  session_id: SES-20260721T055708Z-741C3D49
+  user_request: 项目所有者要求解决测试阻断并持续开发。
+  reason: 完整Python回归发现商业UI门禁误扫描androidTest断言，执行计划生成器把operation_ids+paths字典长度误作接口数量。
+  original_rule: 商业UI扫描仅排除名为test的目录而未排除Android标准androidTest；计划统计只支持contracts端点列表。
+  new_rule: 商业UI扫描明确排除androidTest测试源但继续扫描main生产源；计划统计同时支持旧列表和新operation_ids+paths结构，并只按paths计算端点引用。
+  impact_summary: 修复两个测试/派生工具的误报，不改生产UI、业务契约、API、数据库或APK。
+  impact:
+    files:
+    - scripts/check_commercial_ui_boundaries.py
+    - tests/test_commercial_ui_boundaries.py
+    - scripts/generate_program_execution_plan.py
+    - tests/test_program_execution_plan.py
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_commercial_ui_boundaries tests.test_program_execution_plan
+    releases:
+    - R06
+    migration_and_compatibility: 旧Release列表结构保持相同统计；R06及后续分层合同结构按paths统计；androidTest仍由自身编译和仪器测试覆盖。
+  user_confirmation: 项目所有者要求解决当前阻断后持续开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T06:55:23Z'
+    note: 修复将测试源与生产源边界明确化并保持旧新Manifest统计兼容，不削弱生产扫描。
+  machine_record: .continuity/change_requests/CR-0170.yaml
+  document: docs/03-continuity/change-requests/CR-0170-修复商业UI生产源筛选与Manifest分层统计兼容.md
+- protocol_version: '1.0'
+  cr_id: CR-0171
+  title: 重新生成旧新Manifest兼容后的全项目执行计划
+  status: APPROVED
+  created_at: '2026-07-21T06:58:34Z'
+  updated_at: '2026-07-21T06:58:39Z'
+  requester_actor_id: codex-root
+  approver_actor_id: codex-reviewer
+  task_id: TASK-R06-008
+  session_id: SES-20260721T055708Z-741C3D49
+  user_request: 项目所有者要求解决测试阻断并持续开发。
+  reason: CR-0170修正端点统计语义后，PROGRAM_EXECUTION_PLAN必须由权威生成器确定性刷新。
+  original_rule: PROGRAM_EXECUTION_PLAN仍保存旧生成器把分层合同字典键数当接口数的派生统计。
+  new_rule: 使用修正后的生成器重新生成全项目计划，R03-R06按paths记录真实端点数量，其余事实保持确定性。
+  impact_summary: 仅更新生成派生计划的接口统计和组合总数，不改Release范围、依赖、风险、任务或业务合同。
+  impact:
+    files:
+    - releases/PROGRAM_EXECUTION_PLAN.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/generate_program_execution_plan.py --check
+    - python -m unittest tests.test_program_execution_plan
+    releases:
+    - R06
+    migration_and_compatibility: 确定性派生刷新；可用generate_program_execution_plan.py --check复现。
+  user_confirmation: 项目所有者要求解决当前测试阻断并持续开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T06:58:39Z'
+    note: 输出由受测生成器机械产生，仅校正统计语义，不改变计划治理。
+  machine_record: .continuity/change_requests/CR-0171.yaml
+  document: docs/03-continuity/change-requests/CR-0171-重新生成旧新Manifest兼容后的全项目执行计划.md

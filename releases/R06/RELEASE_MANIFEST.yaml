@@ -1,6 +1,6 @@
 release: R06
 title: 统一内容基础、首页与CMS
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: MACHINE_COMPLETE_OWNER_PENDING
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R02
@@ -21,17 +21,31 @@ ui:
   - ADM-CONTENT-003
 contracts:
   client_api:
-  - GET /api/v1/home
+    operation_ids:
+    - homeGetHome
+    paths:
+    - GET /api/v1/home
   admin_api:
-  - GET /admin-api/v1/contents
-  - GET /admin-api/v1/contents/{id}
-  - POST /admin-api/v1/contents/{id}/online
-  - POST /admin-api/v1/contents/{id}/offline
-  - POST /admin-api/v1/contents/{id}/ban
-  - POST /admin-api/v1/contents/{id}/recommend
-  - POST /admin-api/v1/contents/{id}/official-mark
-  - GET /admin-api/v1/content-dictionaries
-  - PUT /admin-api/v1/content-dictionaries/{code}
+    operation_ids:
+    - adminContentGetContents
+    - adminContentGetContentsById
+    - adminContentPostContentsByIdOnline
+    - adminContentPostContentsByIdOffline
+    - adminContentPostContentsByIdBan
+    - adminContentPostContentsByIdRecommend
+    - adminContentPostContentsByIdOfficialMark
+    - adminContentGetContentDictionaries
+    - adminContentPutContentDictionariesByCode
+    paths:
+    - GET /admin-api/v1/contents
+    - GET /admin-api/v1/contents/{id}
+    - POST /admin-api/v1/contents/{id}/online
+    - POST /admin-api/v1/contents/{id}/offline
+    - POST /admin-api/v1/contents/{id}/ban
+    - POST /admin-api/v1/contents/{id}/recommend
+    - POST /admin-api/v1/contents/{id}/official-mark
+    - GET /admin-api/v1/content-dictionaries
+    - PUT /admin-api/v1/content-dictionaries/{code}
   websocket: []
 database_tables:
 - home_modules
@@ -77,10 +91,20 @@ android_automation:
   policy_id: HHY-ANDROID-AUTOMATION-V1
   request_id: R06-20260721-008
   github_run_id: '29803223373'
-  candidate_status: PASS
+  status: PASS
+  commit: f5cf1e4b315221d7e5998dca6ea5110421c1e62b
+  candidate_report: artifacts/validation/r06-task007-android/candidate-report.json
   owner_test_allowed: true
+  owner_physical_test: PENDING
   ai_visual_review: PASS
   evidence: artifacts/validation/r06-task007-android/candidate-report.json
+machine_completion:
+  status: PASS
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_release_development: ALLOWED
+  evidence: artifacts/reports/R06/TASK-R06-008-machine-close.md
 entry_baseline:
   checked_at: '2026-07-20'
   session_id: SES-20260720T155546Z-F13C645A

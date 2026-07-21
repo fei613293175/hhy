@@ -2,6 +2,8 @@
 
 ## R06 客户端与内容运营首切片 · 2026-07-20
 
+- R06 五页视觉合同已补齐并全部通过：Android 首页/关于绑定批准补充规格与最终候选截图，管理端内容列表/详情/字典绑定标准模板并生成固定 1440×1100 浏览器截图；截图审查发现并修复原始内容枚举、分类/地区代码、ISO 时间泄漏及详情排版缺口，新增 3 项页面回归后管理端累计 86 项测试通过。
+- Release 关闭门禁移除“固定只能有3个operationId”和“APK候选Commit必须等于后续文档关闭Commit”的错误假设，并在Windows解析受控Git路径；R06共10个冻结operationId全部按OpenAPI校验。项目所有者真机反馈继续保持异步PENDING，只阻断正式验收/生产激活，不阻断R07开发。
 - R06 最终测试 APK 版本身份递增为 `versionCode 10214`，同步构建配置、应用内发布策略和版本一致性单测；旧 `10213` 候选仅保留视觉与旅程通过证据，不得覆盖 R05 已验收产物或作为 R06 最终交付。
 - 新增 R06 内容在线量、待审核量、内容 Outbox 积压和首页启用模块四项只读业务 Gauge；建立独立 Compose/Prometheus/Alertmanager 告警链、静态门禁及同库卷应用回切手册，生产路由、数据库结构、实名认证沙箱和 CI 自动登录均不变。
 - R06 隔离 Staging 已在精确 Commit 完成 TraceId/RED/四项业务 Gauge、后端与内容 Outbox 告警 firing/resolved 以及同一 PostgreSQL 容器和卷的应用回切；测试 Outbox 事实按不可变状态机终结并永久保留，禁止删除。
@@ -722,4 +724,3 @@
 - Actor：`codex-root`
 - 摘要：TASK-R06-007完成：GitHub Run 29803223373一次通过，f5cf1e4/10214固定签名APK完成模拟器旅程、AI审图、日志、四方SHA与桌面交付，owner_physical_test按异步规则保持PENDING
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T043434Z-868F3619.md`
-

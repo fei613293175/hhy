@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 import csv
 import hashlib
+import json
 import os
 import shutil
 import subprocess
@@ -35,8 +36,9 @@ def load_yaml(path: Path) -> dict:
 
 
 def git(repo: Path, *args: str) -> str:
+    executable = os.environ.get("HHY_GIT_BIN") or shutil.which("git") or "git"
     result = subprocess.run(
-        ["git", *args], cwd=repo, text=True,
+        [executable, *args], cwd=repo, text=True,
         stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60,
     )
     if result.returncode != 0:
@@ -210,6 +212,90 @@ def build_fixture(repo: Path) -> str:
     return commit
 
 
+def promote_fixture_to_r06(repo: Path, candidate_commit: str) -> str:
+    (repo / "releases/P00").rename(repo / "releases/R06")
+    (repo / "artifacts/apk/P00").rename(repo / "artifacts/apk/R06")
+    (repo / "artifacts/reports/P00").rename(repo / "artifacts/reports/R06")
+    (repo / "releases/R01").rename(repo / "releases/R07")
+
+    with (repo / "catalogs/release_plan.csv").open("w", encoding="utf-8-sig", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["版本", "Android测试APK"])
+        writer.writeheader()
+        writer.writerow({"版本": "R06", "Android测试APK": "YES"})
+    for relative in ["catalogs/ui_page_specifications.csv", "catalogs/ui_visual_acceptance.csv"]:
+        path = repo / relative
+        text = path.read_text(encoding="utf-8-sig").replace("P00", "R06")
+        path.write_text(text, encoding="utf-8-sig")
+    (repo / "apps/android/feature/p00/P00Screen.kt").rename(repo / "apps/android/feature/p00/R06Screen.kt")
+    (repo / "artifacts/validation/p00-ui/SCR-P00-001.png").rename(repo / "artifacts/validation/p00-ui/SCR-R06-001.png")
+
+    tasks_path = repo / "releases/R06/TASKS.yaml"
+    tasks = load_yaml(tasks_path)
+    tasks["release"] = "R06"
+    for number, task in enumerate(tasks["tasks"], 1):
+        task["id"] = f"TASK-R06-{number:03d}"
+    dump_yaml(tasks_path, tasks)
+
+    acceptance_path = repo / "releases/R06/ACCEPTANCE_MATRIX.csv"
+    with acceptance_path.open(encoding="utf-8-sig", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    for number, row in enumerate(rows, 1):
+        row["验收ID"] = f"AC-R06-{number:03d}"
+        row["版本"] = "R06"
+        row["证据路径"] = row["证据路径"].replace("/P00/", "/R06/")
+    with acceptance_path.open("w", encoding="utf-8-sig", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+
+    next_tasks_path = repo / "releases/R07/TASKS.yaml"
+    next_tasks = load_yaml(next_tasks_path)
+    next_tasks["release"] = "R07"
+    for number, task in enumerate(next_tasks["tasks"], 1):
+        task["id"] = f"TASK-R07-{number:03d}"
+    dump_yaml(next_tasks_path, next_tasks)
+
+    (repo / "source.txt").write_text("release code\nclosure evidence\n", encoding="utf-8")
+    git(repo, "add", "source.txt")
+    git(repo, "commit", "-q", "-m", "docs: close release")
+    release_commit = git(repo, "rev-parse", "HEAD")
+    git(repo, "tag", "r06-v1.2.3", release_commit)
+
+    apk_path = repo / "artifacts/apk/R06/APK_MANIFEST.yaml"
+    apk = load_yaml(apk_path)
+    apk.update({"release": "R06", "commit": candidate_commit})
+    dump_yaml(apk_path, apk)
+    report_path = repo / "artifacts/validation/r06-android/candidate-report.json"
+    report_path.parent.mkdir(parents=True)
+    report_path.write_text(json.dumps({
+        "status": "PASS", "owner_test_allowed": True, "commit": candidate_commit,
+        "apk": {"sha256": apk["sha256"]},
+    }), encoding="utf-8")
+
+    manifest_path = repo / "releases/R06/RELEASE_MANIFEST.yaml"
+    manifest = load_yaml(manifest_path)
+    manifest.update({
+        "release": "R06", "release_commit": release_commit, "release_tag": "r06-v1.2.3",
+        "android_delivery": {"source_commit": candidate_commit},
+        "android_automation": {
+            "policy_id": "HHY-ANDROID-AUTOMATION-V1", "status": "PASS",
+            "owner_test_allowed": True, "owner_physical_test": "PASS",
+            "commit": candidate_commit,
+            "candidate_report": "artifacts/validation/r06-android/candidate-report.json",
+        },
+    })
+    dump_yaml(manifest_path, manifest)
+
+    dump_yaml(repo / "NEXT_TASK.yaml", {"id": "TASK-R07-001", "release": "R07", "status": "READY"})
+    dump_yaml(repo / "CURRENT_STATUS.yaml", {
+        "phase": "R07", "active_release": "R07", "active_task": "TASK-R07-001",
+        "next_task": "TASK-R07-001", "status": "READY", "last_green_commit": release_commit,
+        "completed_tasks": [f"TASK-R06-{number:03d}" for number in range(1, 9)],
+        "in_progress_tasks": [], "continuity": {"active_session_id": None},
+    })
+    return release_commit
+
+
 class ReleaseCloseGateTest(unittest.TestCase):
     def run_gate(self, repo: Path, *args: str, expected: int) -> subprocess.CompletedProcess[str]:
         result = subprocess.run(
@@ -236,6 +322,27 @@ class ReleaseCloseGateTest(unittest.TestCase):
         with temp:
             result = self.run_gate(repo, "--close-gate", "--release", "P00", expected=0)
             self.assertIn("RELEASE_CLOSE_GATE_OK P00 tasks=8 acceptance=6 operations=3", result.stdout)
+
+    def test_close_gate_accepts_all_declared_operations_instead_of_fixed_count(self) -> None:
+        temp, repo, _commit = self.fixture()
+        with temp:
+            extra = "adminContentGetContents"
+            manifest_path = repo / "releases/P00/RELEASE_MANIFEST.yaml"
+            manifest = load_yaml(manifest_path)
+            manifest["operation_ids"].append(extra)
+            dump_yaml(manifest_path, manifest)
+            with (repo / "contracts/openapi.yaml").open("a", encoding="utf-8") as handle:
+                handle.write(f"  /test/extra:\n    get:\n      operationId: {extra}\n")
+            result = self.run_gate(repo, "--close-gate", "--release", "P00", expected=0)
+            self.assertIn("operations=4", result.stdout)
+
+    def test_r06_candidate_commit_may_precede_release_closure_commit(self) -> None:
+        temp, repo, candidate_commit = self.fixture()
+        with temp:
+            release_commit = promote_fixture_to_r06(repo, candidate_commit)
+            self.assertNotEqual(candidate_commit, release_commit)
+            result = self.run_gate(repo, "--close-gate", "--release", "R06", expected=0)
+            self.assertIn("RELEASE_CLOSE_GATE_OK R06", result.stdout)
 
     def test_regular_development_check_does_not_require_terminal_state(self) -> None:
         temp, repo, _commit = self.fixture()
@@ -296,7 +403,7 @@ class ReleaseCloseGateTest(unittest.TestCase):
             dump_yaml(apk_path, apk)
             result = self.run_gate(repo, "--close-gate", "--release", "P00", expected=1)
             for code in [
-                "MANIFEST_NOT_TERMINAL", "MANIFEST_OPERATION_COUNT",
+                "MANIFEST_NOT_TERMINAL",
                 "MANIFEST_COMMIT_INVALID", "MANIFEST_TAG_INVALID", "APK_PENDING_VALUE",
                 "APK_SHA_INVALID", "APK_VERSION_NAME_INVALID", "APK_VERSION_CODE_INVALID",
                 "APK_COMMIT_INVALID", "APK_TEST_NOT_PASS", "APK_URL_INVALID",

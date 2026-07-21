@@ -1,0 +1,35 @@
+protocol_version: '1.0'
+cr_id: CR-0168
+title: 登记R06浏览器视觉与Release关闭门禁复发规则
+status: APPROVED
+created_at: '2026-07-21T06:42:24Z'
+updated_at: '2026-07-21T06:42:28Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-reviewer
+task_id: TASK-R06-008
+session_id: SES-20260721T055708Z-741C3D49
+user_request: 项目所有者要求解决阻断并把可复用经验写入全局硬性规则。
+reason: 本轮修复了管理端技术枚举泄漏和关闭门禁三项确定性假设，需要进入问题登记供换电脑换AI直接复用。
+original_rule: 问题登记尚未覆盖R06管理端截图暴露的原始枚举/排版缺陷和Release关闭门禁的固定操作数、候选Commit、Windows Git错误假设。
+new_rule: 把两类根因、修复证据、回归命令和禁止复发项登记到PROBLEM_REGISTRY，后续电脑和AI必须优先复用。
+impact_summary: 仅新增可审计问题登记，不改变业务、契约、数据库、生产配置或APK。
+impact:
+  files:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python scripts/check_v123_documentation.py --strict
+  releases:
+  - R06
+  migration_and_compatibility: 文档治理增量，无迁移；关联CR-0166和CR-0167。
+user_confirmation: 项目所有者要求把解决经验写入全局硬性规则供跨电脑跨AI复用。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T06:42:28Z'
+  note: 登记内容来自本轮可复现证据，范围为问题知识库且无产品行为变化。
+machine_record: .continuity/change_requests/CR-0168.yaml
+document: docs/03-continuity/change-requests/CR-0168-登记R06浏览器视觉与Release关闭门禁复发规则.md

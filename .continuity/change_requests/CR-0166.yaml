@@ -1,0 +1,49 @@
+protocol_version: '1.0'
+cr_id: CR-0166
+title: 修复R06管理端内容页技术枚举泄漏与信息排版
+status: APPROVED
+created_at: '2026-07-21T06:17:13Z'
+updated_at: '2026-07-21T06:17:43Z'
+requester_actor_id: codex-root
+approver_actor_id: codex-reviewer
+task_id: TASK-R06-008
+session_id: SES-20260721T055708Z-741C3D49
+user_request: 项目所有者要求由AI判断所有版本截图是否合格，并解决问题后持续开发。
+reason: R06浏览器截图审查发现内容列表与详情直接展示原始枚举和ISO时间，且标题编号和详情字段缺少标准排版，未满足正式商业UI硬边界。
+original_rule: R06三个管理端内容页可直接显示API原始枚举、代码与ISO时间，列表标题和编号、详情字段依赖未定义样式。
+new_rule: 管理端内容页通过明确白名单把内容类型、内容状态、审核状态、分类、地区和时间转换为商业化中文；未知值使用安全业务回退；列表和详情使用标准Token布局并有自动化防泄漏回归。
+impact_summary: 修复三个R06管理端页面的展示映射和布局样式，增加页面回归测试并重新生成三张截图；请求参数、响应契约、权限和写操作不变。
+impact:
+  files:
+  - apps/admin-web/src/views/AdminContentListPage.vue
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - apps/admin-web/src/views/AdminContentDictionariesPage.vue
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/r06ContentPages.test.ts
+  - scripts/capture_r06_admin_visuals.mjs
+  - artifacts/validation/r06-ui/admin/ADM-CONTENT-001-browser-1440x1100.png
+  - artifacts/validation/r06-ui/admin/ADM-CONTENT-002-browser-1440x1100.png
+  - artifacts/validation/r06-ui/admin/ADM-CONTENT-003-browser-1440x1100.png
+  pages:
+  - ADM-CONTENT-001
+  - ADM-CONTENT-002
+  - ADM-CONTENT-003
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - pnpm --filter @hhy/admin-web test
+  - pnpm --filter @hhy/admin-web build
+  - node scripts/capture_r06_admin_visuals.mjs
+  - python scripts/check_ui_visual_acceptance.py --release R06
+  releases:
+  - R06
+  migration_and_compatibility: 纯前端展示兼容修复，无数据库或API迁移；原始枚举继续用于请求与状态机判断，只在渲染层转换；未知服务端值不原样泄漏。
+user_confirmation: 项目所有者已明确要求AI自行判断截图合格性、解决发现的问题并继续开发。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T06:17:43Z'
+  note: 缺陷由实际浏览器截图直接证明；修复限于渲染映射、Token布局、测试与重截图，不改变冻结业务合同。
+machine_record: .continuity/change_requests/CR-0166.yaml
+document: docs/03-continuity/change-requests/CR-0166-修复R06管理端内容页技术枚举泄漏与信息排版.md

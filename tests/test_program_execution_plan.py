@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from check_program_execution_plan import ancestors, validate_plan  # noqa: E402
-from generate_program_execution_plan import RELEASES, build_plan  # noqa: E402
+from generate_program_execution_plan import RELEASES, build_plan, release_metrics  # noqa: E402
 
 
 class ProgramExecutionPlanTest(unittest.TestCase):
@@ -24,6 +24,12 @@ class ProgramExecutionPlanTest(unittest.TestCase):
             (ROOT / "releases" / "PROGRAM_EXECUTION_PLAN.yaml").read_text(encoding="utf-8")
         )
         self.assertEqual([], validate_plan(ROOT, actual))
+
+    def test_r06_layered_contract_counts_paths_not_mapping_keys(self) -> None:
+        _manifest, metrics, _platforms = release_metrics(ROOT, "R06")
+        self.assertEqual(1, metrics["client_api_references"])
+        self.assertEqual(9, metrics["admin_api_references"])
+        self.assertEqual(10, metrics["manifest_endpoint_references"])
 
     def test_rejects_extra_worker_slot(self) -> None:
         changed = copy.deepcopy(self.plan)

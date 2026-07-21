@@ -6,7 +6,7 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_ROOTS = (ROOT / "apps/android/feature", ROOT / "apps/android/app", ROOT / "apps/admin-web/src", ROOT / "apps/h5/src")
 SOURCE_SUFFIXES = {".kt", ".vue", ".tsx", ".jsx", ".html"}
-SKIP_PARTS = {"test", "tests", "__tests__"}
+SKIP_PARTS = {"test", "tests", "__tests__", "androidtest"}
 FORBIDDEN = (
     ("请求编号", re.compile(r"请求编号")),
     ("请求标识", re.compile(r"请求标识")),

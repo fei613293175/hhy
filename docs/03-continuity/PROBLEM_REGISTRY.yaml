@@ -825,3 +825,45 @@ problems:
   - API成功返回空列表仍必须进入冻结空状态，不得用非null等同于有内容
   - 共享底部导航不得依赖隐含布局默认值，所有版本页面必须保持栏目数量、标签和选中态一致
   - AI发现明显空白或跨页导航漂移时不得为了让门禁变绿而批准基线
+- id: PROB-0063
+  title: R06管理端内容页浏览器截图暴露原始枚举和未定义详情排版
+  status: SOLVED
+  root_cause: TASK-R06-004只验证了服务与基本页面闭环，三个内容页面没有进入逐页浏览器视觉合同；列表和详情直接渲染contentType、status、reviewStatus、categoryCode、regionCode与ISO时间，标题和内容编号也缺少标准单元格容器，详情dl没有Token布局。直到R06关闭阶段生成真实1440x1100截图才看出技术枚举泄漏和视觉层级缺口。
+  resolution: CR-0165建立五页精确视觉合同和受控R06管理端Mock；CR-0166增加内容类型、状态、审核、分类、地区与日期的商业化白名单映射和安全未知值回退，补齐列表标题单元格、详情四列信息网格、字典筛选布局与响应式Token；新增3项页面回归并重新生成三张固定视口截图，由AI逐图审查后登记PASS。
+  regression_checks:
+  - pnpm --filter @hhy/admin-web test
+  - pnpm --filter @hhy/admin-web build
+  - node scripts/capture_r06_admin_visuals.mjs
+  - python scripts/check_ui_visual_acceptance.py --release R06
+  do_not_repeat:
+  - 不得把API原始枚举、分类代码、地区代码或ISO传输时间直接插值到正式管理端页面
+  - 服务和组件单测通过不能替代真实浏览器截图；每个Release必须按页面目录生成受控业务截图并由AI审查
+  - 标题、副标识、详情字段和动作必须使用标准Token布局，禁止依赖未定义class或浏览器默认dl样式
+  - 受控Mock只允许绑定127.0.0.1并用于构建后验收，禁止进入生产路径或伪造生产数据
+- id: PROB-0064
+  title: Release关闭门禁硬编码操作数量并混淆候选与关闭Commit
+  status: SOLVED
+  root_cause: check_release_artifacts.py以P00测试夹具为产品规则，固定要求每个Release恰好3个operationId；同时要求APK候选Commit等于后续Release文档关闭Commit，并直接调用PATH中的git。R06真实声明10个冻结operationId，候选后又需要补视觉和交接证据，本机PowerShell也没有Git PATH，因此产生与产品质量无关的确定性假失败。
+  resolution: CR-0167把关闭门禁改为校验该版本声明的任意正数operationId全部存在于OpenAPI；Android候选身份以android_delivery.source_commit、APK Manifest、自动化记录和候选报告一致为准，Release关闭Commit独立追溯；Git依次解析HHY_GIT_BIN、系统PATH与Codex捆绑运行时。隔离测试增加4-operationId与R06候选Commit早于关闭Commit的正向覆盖，owner_physical_test正式验收门禁保持不变。
+  regression_checks:
+  - python -m unittest tests.test_release_close_gate
+  - python scripts/check_release_artifacts.py --release R06
+  - python scripts/check_release_artifacts.py --release R06 --close-gate
+  do_not_repeat:
+  - 不得从单个测试版本推导全项目固定operationId数量；实际集合必须来自Release Manifest并逐项匹配OpenAPI
+  - 不得要求最终APK候选Commit等于候选之后产生的证据、交接或Release关闭Commit
+  - Windows门禁不得依赖当前PowerShell恰好存在git PATH，必须复用HHY_GIT_BIN或受控运行时
+  - owner_physical_test=PENDING只允许走BLOCKED_EXTERNAL_GATE继续独立后续Release，仍不得伪造正式Release验收或生产激活
+- id: PROB-0065
+  title: 连续性严格门禁忽略HHY_GIT_BIN导致Windows确定性失败
+  status: SOLVED
+  root_cause: check_v123_continuity.py在跟踪临时产物检查中硬编码调用PATH中的git ls-files，未遵守项目统一运行时对HHY_GIT_BIN和Codex捆绑Git的解析规则；本机PowerShell没有Git PATH时，严格连续性门禁和所有调用它的Doctor都在进入断言前退出。
+  resolution: CR-0169为连续性严格门禁增加与仓库统一规则一致的Git解析：显式HHY_GIT_BIN优先且不存在时明确失败，其次系统PATH，最后Codex捆绑Git；新增隔离测试覆盖显式路径优先和错误覆盖路径禁止静默回退。
+  regression_checks:
+  - python -m unittest tests.test_continuity_git_resolution
+  - python scripts/check_v123_continuity.py --strict
+  - python scripts/project-doctor.py --strict --release R06
+  do_not_repeat:
+  - 连续性、发布、测试和传输脚本不得各自硬编码PATH中的git
+  - 显式HHY_GIT_BIN不存在时必须明确失败，禁止静默选择另一Git掩盖配置漂移
+  - Windows换电脑或换AI必须复用统一受控运行时，不得因PATH差异重建仓库或误报历史缺失

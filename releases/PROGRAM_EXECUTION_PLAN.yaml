@@ -21,10 +21,10 @@ portfolio_totals:
   android_surfaces: 102
   h5_surfaces: 13
   admin_surfaces: 71
-  client_api_references: 83
-  admin_api_references: 148
+  client_api_references: 88
+  admin_api_references: 162
   websocket_references: 0
-  manifest_endpoint_references: 231
+  manifest_endpoint_references: 250
   story_operation_references: 709
   story_unique_operation_ids: 396
   database_table_references: 646
@@ -324,9 +324,9 @@ release_plan:
     h5_surfaces: 0
     admin_surfaces: 7
     client_api_references: 0
-    admin_api_references: 2
+    admin_api_references: 13
     websocket_references: 0
-    manifest_endpoint_references: 2
+    manifest_endpoint_references: 13
     story_operation_references: 46
     story_unique_operation_ids: 17
     database_table_references: 26
@@ -364,10 +364,10 @@ release_plan:
     android_surfaces: 1
     h5_surfaces: 0
     admin_surfaces: 0
-    client_api_references: 2
+    client_api_references: 3
     admin_api_references: 0
     websocket_references: 0
-    manifest_endpoint_references: 2
+    manifest_endpoint_references: 3
     story_operation_references: 6
     story_unique_operation_ids: 3
     database_table_references: 12
@@ -405,10 +405,10 @@ release_plan:
     android_surfaces: 4
     h5_surfaces: 1
     admin_surfaces: 2
-    client_api_references: 2
-    admin_api_references: 2
+    client_api_references: 6
+    admin_api_references: 5
     websocket_references: 0
-    manifest_endpoint_references: 4
+    manifest_endpoint_references: 11
     story_operation_references: 26
     story_unique_operation_ids: 13
     database_table_references: 10

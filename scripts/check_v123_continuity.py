@@ -8,6 +8,7 @@ import csv
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 from typing import Any
@@ -15,6 +16,22 @@ from typing import Any
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def git_executable() -> str:
+    override = os.environ.get("HHY_GIT_BIN", "").strip()
+    if override:
+        candidate = Path(override).expanduser()
+        if not candidate.is_file():
+            raise OSError(f"HHY_GIT_BIN不存在：{candidate}")
+        return str(candidate)
+    system_git = shutil.which("git")
+    if system_git:
+        return system_git
+    bundled = Path.home() / ".cache/codex-runtimes/codex-primary-runtime/dependencies/native/git/cmd/git.exe"
+    if bundled.is_file():
+        return str(bundled)
+    raise OSError("Git不可执行：请安装Git或设置HHY_GIT_BIN")
 
 
 def read_csv(relative: str) -> list[dict[str, str]]:
@@ -412,7 +429,7 @@ def main() -> int:
     for required_ignore in ["**/target/", "**/.gradle/", "**/node_modules/", "**/__pycache__/", "*.py[cod]", ".git-credentials", ".netrc", ".ssh/"]:
         require(required_ignore in ignore_text, "TRANSIENT_IGNORE_MISSING", f".gitignore缺少 {required_ignore}")
     tracked = subprocess.run(
-        ["git", "ls-files"], cwd=ROOT, text=True, capture_output=True
+        [git_executable(), "ls-files"], cwd=ROOT, text=True, capture_output=True
     ).stdout.splitlines() if (ROOT / ".git").exists() else []
     tracked_transient = [
         path for path in tracked

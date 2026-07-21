@@ -9,7 +9,9 @@ from urllib.parse import urlparse
 import csv
 import hashlib
 import json
+import os
 import re
+import shutil
 import subprocess
 import sys
 
@@ -27,6 +29,22 @@ PLACEHOLDER_PATTERN = re.compile(
     r"PENDING|PLACEHOLDER|\bTODO\b|\bTBD\b|NOT_INITIALIZED|NOT_RUN|UNKNOWN|<[^>]+>",
     re.IGNORECASE,
 )
+
+
+def git_executable() -> str:
+    override = os.environ.get("HHY_GIT_BIN", "").strip()
+    if override:
+        candidate = Path(override).expanduser()
+        if not candidate.is_file():
+            raise OSError(f"HHY_GIT_BIN不存在：{candidate}")
+        return str(candidate)
+    system_git = shutil.which("git")
+    if system_git:
+        return system_git
+    bundled = Path.home() / ".cache/codex-runtimes/codex-primary-runtime/dependencies/native/git/cmd/git.exe"
+    if bundled.is_file():
+        return str(bundled)
+    raise OSError("Git不可执行：请安装Git或设置HHY_GIT_BIN")
 
 
 def release_number(value: str) -> int | None:
@@ -159,7 +177,7 @@ class CloseGate:
         if not COMMIT_PATTERN.fullmatch(value) or set(value) == {"0"}:
             return None
         result = subprocess.run(
-            ["git", "rev-parse", "--verify", f"{value}^{{commit}}"], cwd=ROOT,
+            [git_executable(), "rev-parse", "--verify", f"{value}^{{commit}}"], cwd=ROOT,
             text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
         )
         self.require(result.returncode == 0, code, f"Git中不存在Commit：{value}")
@@ -172,7 +190,7 @@ class CloseGate:
         if not valid:
             return None
         result = subprocess.run(
-            ["git", "rev-parse", "--verify", f"refs/tags/{value}^{{commit}}"], cwd=ROOT,
+            [git_executable(), "rev-parse", "--verify", f"refs/tags/{value}^{{commit}}"], cwd=ROOT,
             text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
         )
         self.require(result.returncode == 0, "MANIFEST_TAG_INVALID", f"Git中不存在Release Tag：{value}")
@@ -189,7 +207,7 @@ class CloseGate:
         self.require(status in TERMINAL_RELEASE_STATUSES, "MANIFEST_NOT_TERMINAL", f"Manifest状态不是终态：{status or 'EMPTY'}")
 
         operations = self.manifest_operations(manifest)
-        self.require(len(operations) == 3, "MANIFEST_OPERATION_COUNT", f"必须声明3个operationId，实际 {len(operations)}")
+        self.require(bool(operations), "MANIFEST_OPERATION_COUNT", "必须声明至少1个operationId")
         self.require(len(set(operations)) == len(operations), "MANIFEST_OPERATION_DUPLICATE", "operationId存在重复")
         invalid = [value for value in operations if not self.complete_string(value)]
         self.require(not invalid, "MANIFEST_OPERATION_PLACEHOLDER", f"operationId含占位值：{invalid}")
@@ -215,13 +233,13 @@ class CloseGate:
             result.append(prefix)
         return result
 
-    def validate_apk(self, manifest: dict[str, Any], release_commit: str | None) -> None:
+    def validate_apk(self, manifest: dict[str, Any]) -> str | None:
         if not manifest.get("android_test_apk_required"):
-            return
+            return None
         path = ROOT / "artifacts" / "apk" / self.release / "APK_MANIFEST.yaml"
         self.require(path.is_file(), "APK_MANIFEST_MISSING", f"APK Manifest不存在：{path.relative_to(ROOT)}")
         if not path.is_file():
-            return
+            return None
         apk = load_yaml(path)
         self.require(apk.get("release") == self.release, "APK_RELEASE_MISMATCH", "APK release不一致")
         pending = self.pending_paths(apk)
@@ -237,8 +255,11 @@ class CloseGate:
         version_code = apk.get("version_code")
         self.require(isinstance(version_code, int) and not isinstance(version_code, bool) and version_code > 0, "APK_VERSION_CODE_INVALID", f"version_code非法：{version_code}")
         apk_commit = self.git_commit(apk.get("commit"), "APK_COMMIT_INVALID")
-        if apk_commit and release_commit:
-            self.require(apk_commit == release_commit, "APK_COMMIT_MISMATCH", "APK Commit与Release Commit不一致")
+        delivery = manifest.get("android_delivery") if isinstance(manifest.get("android_delivery"), dict) else {}
+        declared_candidate = delivery.get("source_commit") or apk.get("commit")
+        candidate_commit = self.git_commit(declared_candidate, "ANDROID_CANDIDATE_COMMIT_INVALID")
+        if apk_commit and candidate_commit:
+            self.require(apk_commit == candidate_commit, "APK_COMMIT_MISMATCH", "APK Commit与声明的Android候选Commit不一致")
         test_status = str(apk.get("test_status") or "").upper()
         self.require(test_status in TERMINAL_TEST_STATUSES, "APK_TEST_NOT_PASS", f"APK测试状态非法：{test_status or 'EMPTY'}")
         url = str(apk.get("download_url") or "").strip()
@@ -256,8 +277,9 @@ class CloseGate:
                 actual_sha = hashlib.sha256(local_apk.read_bytes()).hexdigest()
                 self.require(actual_sha == sha, "APK_SHA_MISMATCH", "本地APK内容与Manifest SHA256不一致")
                 self.require(local_apk.stat().st_size == size, "APK_SIZE_MISMATCH", "本地APK大小与Manifest不一致")
+        return candidate_commit
 
-    def validate_android_automation(self, manifest: dict[str, Any], release_commit: str | None) -> None:
+    def validate_android_automation(self, manifest: dict[str, Any], expected_candidate_commit: str | None) -> None:
         number = release_number(self.release)
         if not manifest.get("android_test_apk_required") or number is None or number < 6:
             return
@@ -270,8 +292,8 @@ class CloseGate:
         self.require(automation.get("owner_test_allowed") is True, "ANDROID_OWNER_TEST_NOT_ALLOWED", "自动门禁尚未允许项目所有者真机测试")
         self.require(str(automation.get("owner_physical_test") or "").upper() == "PASS", "ANDROID_OWNER_TEST_NOT_PASS", "项目所有者最终候选真机验收不是PASS")
         candidate_commit = str(automation.get("commit") or "").lower()
-        if release_commit:
-            self.require(candidate_commit == release_commit, "ANDROID_CANDIDATE_COMMIT_MISMATCH", "Android候选Commit与Release Commit不一致")
+        if expected_candidate_commit:
+            self.require(candidate_commit == expected_candidate_commit, "ANDROID_CANDIDATE_COMMIT_MISMATCH", "Android自动化Commit与声明的候选Commit不一致")
         report_value = str(automation.get("candidate_report") or "").strip()
         report_path = (ROOT / report_value).resolve()
         try:
@@ -343,8 +365,8 @@ class CloseGate:
             _tasks, task_ids = self.validate_tasks()
             acceptance = self.validate_acceptance()
             manifest, release_commit = self.validate_manifest()
-            self.validate_apk(manifest, release_commit)
-            self.validate_android_automation(manifest, release_commit)
+            candidate_commit = self.validate_apk(manifest)
+            self.validate_android_automation(manifest, candidate_commit)
             visual_page_count = self.validate_ui_visual_acceptance()
             self.validate_pointers(task_ids, release_commit)
         except (OSError, ValueError, yaml.YAMLError, csv.Error) as exc:

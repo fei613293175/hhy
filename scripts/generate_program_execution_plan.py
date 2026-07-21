@@ -144,6 +144,14 @@ def longest_path_to(
     return path
 
 
+def contract_paths(value: Any) -> list[Any]:
+    if isinstance(value, list):
+        return value
+    if isinstance(value, dict) and isinstance(value.get("paths"), list):
+        return value["paths"]
+    return []
+
+
 def release_metrics(root: Path, release: str) -> tuple[dict[str, Any], dict[str, int], list[str]]:
     base = root / "releases" / release
     manifest = load_yaml(base / "RELEASE_MANIFEST.yaml")
@@ -163,11 +171,11 @@ def release_metrics(root: Path, release: str) -> tuple[dict[str, Any], dict[str,
         "android_surfaces": len(ui.get("android", [])),
         "h5_surfaces": len(ui.get("h5", [])),
         "admin_surfaces": len(ui.get("admin", [])),
-        "client_api_references": len(contracts.get("client_api", [])),
-        "admin_api_references": len(contracts.get("admin_api", [])),
-        "websocket_references": len(contracts.get("websocket", [])),
+        "client_api_references": len(contract_paths(contracts.get("client_api", []))),
+        "admin_api_references": len(contract_paths(contracts.get("admin_api", []))),
+        "websocket_references": len(contract_paths(contracts.get("websocket", []))),
         "manifest_endpoint_references": sum(
-            len(contracts.get(kind, []))
+            len(contract_paths(contracts.get(kind, [])))
             for kind in ("client_api", "admin_api", "websocket")
         ),
         "story_operation_references": len(story_operation_references),
