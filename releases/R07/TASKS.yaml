@@ -117,7 +117,7 @@ tasks:
   completed_at: '2026-07-21T20:59:41Z'
 - id: TASK-R07-007
   title: 搜索、发布者主页与联系方式保护Android测试APK与产物追溯
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R07-006
   requirements: *id001
@@ -131,9 +131,10 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-21T23:53:51Z'
 - id: TASK-R07-008
   title: 搜索、发布者主页与联系方式保护版本关闭与无状态交接
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R07-007
   requirements: *id001

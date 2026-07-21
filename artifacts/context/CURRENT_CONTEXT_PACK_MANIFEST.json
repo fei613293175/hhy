@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-21T23:52:52Z",
-  "context_hash": "6fa6f8a46284ec19f02100212dcf15b703416586d06909f62e5ec800fa940561",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-21T23:54:02Z",
+  "context_hash": "7758c53b552400fda91fca448f42a6291d8c279385aa868b643fd996180e699c",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "f82ed1ac4342a92541ae269a3d7a8ac71de6a8b505ea5d641f6662f147f4ad79",
-    "file_count": 39
+    "sha256": "edd48b2a352a34ce2fd6ec2a7dcb516d4d5c2bf2540378f32f5ce051851fed5d",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "339d5a986bbfd3a4645cf70987c546202e13d0a78dc42947782472e99d4b89d7"
+    "sha256": "3575e83a750081dfd44f034c1ccc67e0813f42b80ea35f92670b7c2149c1b520"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "e36b95405e385fc3687bf11cf57d84fac1b137a34885022ab99ec91c7d6fede8"
+    "sha256": "5b350aff7fff899dcba176ac7ef185c4d30d6eea21d8907bee6a306dd67af2d0"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "bf845be0ead1a63542984208c6f31e66fe039c18cf18dbd77918b599263387aa",
-      "bytes": 3865
+      "sha256": "81676865d2202c8ded25c8494aca17d2c21631f6d2fc4a5b3bb2ed2d6e2d4e05",
+      "bytes": 3734
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "a6dc70cc1e78625ecbd1bd3a9b73c34469eb4fbbdeeade9d75aa5c2d87173f0f",
-      "bytes": 1618
+      "sha256": "52b6320db42f1bd8634c9573ad544838710427d3198f7b7a60ab8bf2369064f7",
+      "bytes": 1567
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "df053fa9439911e3b01c9a9cf55af72198e08844494693c299bcf482568f4f37",
-      "bytes": 1108439
+      "sha256": "c60eacb8dc488fcd7fa41883da58b2693978767dea1f7c2dc6974c80a52b956a",
+      "bytes": 1110167
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "efde02779d20c89cb6599e87aa465bb7a98a166bad765bb8ceb0b0cf9a80531f",
-      "bytes": 33828
+      "sha256": "e85cacb5d6706651e2735d6bf39f1e676ea5a3d9b4dd20f70ced56142a37386f",
+      "bytes": 33846
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "e21bb8f359ed444aac3a9fd15c86a23381573cc6b94673b59b19383d8a1aa71b",
-      "bytes": 44622
+      "sha256": "eabb641c73b785bf0f3a2ab5d734393712fb9c4f331460b085716a6009b83722",
+      "bytes": 44658
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "721eacada9f5def8303b6ce40080bf7b431b1c65c0c168a200bfefd1f51dad76",
-      "bytes": 533
+      "sha256": "be2cd7eb9068dad3924c3a7da13bc27806fb0633775c475bdf66aead22c4bf7f",
+      "bytes": 143
     },
     {
       "path": "releases/R07/RELEASE_MANIFEST.yaml",
@@ -128,8 +128,8 @@
     },
     {
       "path": "releases/R07/TASKS.yaml",
-      "sha256": "b3f33c4eef7f58fb37a6e570d814ef78c761bcf9c782ce976b459b2ee86e12ba",
-      "bytes": 5992
+      "sha256": "4582ab8551d3013fca56e619c52ac662d0f791bf9425e7d71be9bb84977a35c9",
+      "bytes": 6028
     },
     {
       "path": "releases/R07/ACCEPTANCE_MATRIX.csv",
@@ -140,76 +140,6 @@
       "path": "releases/R07/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756",
       "bytes": 4300
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md",
-      "sha256": "f959c066f6eb250bfbefbacc559048f3ca00464a3d578b47e16a96b84e50684e",
-      "bytes": 34779
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0014.yaml",
-      "sha256": "4e379017cdec357715690f1a4b76bd20e9faf107d2463aef502ae8e8fc4456a8",
-      "bytes": 20168
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md",
-      "sha256": "e9ccfe59f905ae17623a0b282fb3eba19db59e811f9a61f27628095ae6861175",
-      "bytes": 4067
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md",
-      "sha256": "5fca9ce7fd94ffafc2640a7b54e04c14777272d8c0a6fd7da3dea001673f0823",
-      "bytes": 2686
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md",
-      "sha256": "fdd52982223063b1acb3109537ea029d595813170756c8d279329cf6dcea4fc7",
-      "bytes": 2529
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md",
-      "sha256": "0c80bb71991ca528e84a265884c4a858132963403a0359dfb1686522bf1bd58d",
-      "bytes": 2347
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md",
-      "sha256": "4f76ae87fb9d073ba82a38ca91467c5e932025ec5bfc45dc40a33e5c6601d8f1",
-      "bytes": 2974
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md",
-      "sha256": "a9e2319035e3adcb14381c5c60f47cbf4095aa3dddbf602de193c3b78b5e3e38",
-      "bytes": 3032
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md",
-      "sha256": "cc096e2b09a1a10ae1f9412b390cca12982f2a9bdac2081364d272ef62471145",
-      "bytes": 4124
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md",
-      "sha256": "e0a9c3f73604b5ac23978b61c2f2e001d4b5bff363a8eb664e044f0d17bb27a5",
-      "bytes": 2357
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0199-绑定视觉基线晋升提交与连续性审计文件.md",
-      "sha256": "c5f4ea42381da7a92866820b5ed4d99ef941b712032cc33d5293d442b55bd5ad",
-      "bytes": 2951
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0200-修复Linux基线晋升中文路径转义误判.md",
-      "sha256": "74594e8989a439f575c03bd8a70491b081fe7b1bf41a8f37d84e7ed9005f2fe9",
-      "bytes": 3091
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0201-封装并交付R07可追溯测试APK与真机说明.md",
-      "sha256": "958bd2b15e587ff060396ed0996a2276239970ba409ac3fcfde8365a1832df44",
-      "bytes": 3333
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0202-补齐R07五页逐页视觉合同与关闭证据.md",
-      "sha256": "7d97fcca4d836d0a734e11ae7eac7c9feb5f22cd640dbbe7b9c06022880219cf",
-      "bytes": 3099
     }
   ]
 }
