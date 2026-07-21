@@ -36,6 +36,7 @@ adb shell dumpsys activity exit-info cc.orbexa.hhy.debug > "$runtime_dir/exit-in
 python3 scripts/android_ci_gate.py analyze \
   --release "$ANDROID_RELEASE" \
   --commit "$GITHUB_SHA" \
+  --run-id "$GITHUB_RUN_ID" \
   --attempt "${REMEDIATION_ATTEMPT:-1}" \
   --test-exit-code-file "$runtime_dir/test-exit-code.txt" \
   --junit-root apps/android/app/build/outputs/androidTest-results/connected \

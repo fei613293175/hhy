@@ -61,6 +61,11 @@ def load_policy(path: Path = DEFAULT_POLICY) -> dict[str, Any]:
         raise GateError("Every Desktop candidate must include the version test guide")
     if document["visual"].get("review_authority") != "AI_IMPLEMENTATION_AGENT":
         raise GateError("Visual review authority must be AI_IMPLEMENTATION_AGENT")
+    bootstrap = document["visual"].get("baseline_bootstrap") or {}
+    if bootstrap.get("mode") != "SINGLE_EMULATOR_CAPTURE_THEN_LIGHTWEIGHT_PROMOTION":
+        raise GateError("Visual baseline bootstrap must use one emulator capture and lightweight promotion")
+    if bootstrap.get("promotion_rebuild_allowed") is not False or bootstrap.get("promotion_emulator_allowed") is not False:
+        raise GateError("Visual baseline promotion must never rebuild or rerun the emulator")
     if document["enforcement"].get("release_complete_requires_owner_status") != "PASS":
         raise GateError("Formal release closure must retain project-owner device acceptance")
     if document["enforcement"].get("next_release_development_requires_owner_status") is not False:
@@ -228,12 +233,23 @@ def analyze(args: Any) -> int:
         Path(args.visual_manifest_root),
     )
     failures.extend({"type": "VISUAL", "detail": detail} for detail in visual)
-    status = "PASS" if not failures else "FAIL"
+    baseline_only = bool(failures) and all(
+        failure["type"] == "VISUAL"
+        and (
+            failure["detail"].startswith("approved visual baseline missing:")
+            or failure["detail"].startswith("baseline missing for ")
+        )
+        for failure in failures
+    )
+    status = "BASELINE_REVIEW_REQUIRED" if baseline_only and screenshot_evidence else (
+        "PASS" if not failures else "FAIL"
+    )
     report = {
         "schema": "hhy.android-ci-runtime/v1",
         "policy_id": policy["policy_id"],
         "release": args.release,
         "commit": args.commit,
+        "github_run_id": str(getattr(args, "run_id", "")),
         "attempt": attempt,
         "max_ai_attempts": max_attempts,
         "status": status,
@@ -243,8 +259,14 @@ def analyze(args: Any) -> int:
         "visual_comparisons": comparisons,
         "screenshot_evidence": screenshot_evidence,
         "remediation": {
-            "status": "NOT_REQUIRED" if status == "PASS" else "REMEDIATION_REQUIRED",
-            "next_action": "PACKAGE_CANDIDATE" if status == "PASS" else "AI_ANALYZE_FIX_REBUILD_RETEST",
+            "status": "NOT_REQUIRED" if status == "PASS" else (
+                "AI_BASELINE_REVIEW_REQUIRED" if status == "BASELINE_REVIEW_REQUIRED" else "REMEDIATION_REQUIRED"
+            ),
+            "next_action": "PACKAGE_CANDIDATE" if status == "PASS" else (
+                "AI_REVIEW_AND_LIGHTWEIGHT_PROMOTE_BASELINE"
+                if status == "BASELINE_REVIEW_REQUIRED"
+                else "AI_ANALYZE_FIX_REBUILD_RETEST"
+            ),
             "escalation_allowed": status == "FAIL" and attempt >= max_attempts,
         },
     }
@@ -252,7 +274,7 @@ def analyze(args: Any) -> int:
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))
-    return 0 if status == "PASS" else 1
+    return 0 if status in {"PASS", "BASELINE_REVIEW_REQUIRED"} else 1
 
 
 def finalize(args: Any) -> int:
@@ -263,8 +285,13 @@ def finalize(args: Any) -> int:
     report_path = Path(args.emulator_report)
     if report_path.is_file():
         report = json.loads(report_path.read_text(encoding="utf-8"))
-        if report.get("status") != "PASS" or not report.get("owner_test_allowed"):
-            errors.append("emulator/runtime report is not PASS")
+        runtime_status = report.get("status")
+        if runtime_status not in {"PASS", "BASELINE_REVIEW_REQUIRED"}:
+            errors.append("emulator/runtime report is neither PASS nor baseline review evidence")
+        if runtime_status == "PASS" and not report.get("owner_test_allowed"):
+            errors.append("emulator/runtime PASS does not allow owner testing")
+        if runtime_status == "BASELINE_REVIEW_REQUIRED" and report.get("owner_test_allowed"):
+            errors.append("baseline review evidence must not allow owner testing")
         if report.get("policy_id") != policy["policy_id"]:
             errors.append("emulator/runtime policy_id does not match")
         if report.get("release") != args.release:
@@ -282,7 +309,12 @@ def finalize(args: Any) -> int:
     else:
         sha256 = hashlib.sha256(apk.read_bytes()).hexdigest()
         size = apk.stat().st_size
-    status = "PASS" if not errors else "FAIL"
+    if errors:
+        status = "FAIL"
+    elif report.get("status") == "BASELINE_REVIEW_REQUIRED":
+        status = "BASELINE_REVIEW_REQUIRED"
+    else:
+        status = "PASS"
     payload = {
         "schema": "hhy.android-ci-candidate/v1",
         "policy_id": policy["policy_id"],
@@ -295,6 +327,108 @@ def finalize(args: Any) -> int:
         "production_activation_allowed": False,
         "apk": {"file": apk.name, "sha256": sha256, "size_bytes": size},
         "runtime_report": report,
+        "errors": errors,
+    }
+    output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(payload, ensure_ascii=False, indent=2))
+    return 0 if status in {"PASS", "BASELINE_REVIEW_REQUIRED"} else 1
+
+
+def promote(args: Any) -> int:
+    policy = load_policy(Path(args.policy))
+    approval = yaml.safe_load(Path(args.approval).read_text(encoding="utf-8")) or {}
+    runtime = json.loads(Path(args.emulator_report).read_text(encoding="utf-8"))
+    candidate = json.loads(Path(args.candidate_report).read_text(encoding="utf-8"))
+    release = str(approval.get("release") or "").upper()
+    source = approval.get("source") or {}
+    errors: list[str] = []
+    if approval.get("schema") != "hhy.android-visual-baseline-approval/v1":
+        errors.append("invalid baseline approval schema")
+    if approval.get("status") != "APPROVED" or approval.get("authority") != "AI_IMPLEMENTATION_AGENT":
+        errors.append("baseline approval is not an AI APPROVED decision")
+    if source.get("github_run_id") != str(args.source_run_id):
+        errors.append("approval source run does not match")
+    if runtime.get("github_run_id") != str(args.source_run_id):
+        errors.append("runtime source run does not match")
+    if candidate.get("github_run_id") != str(args.source_run_id):
+        errors.append("candidate source run does not match")
+    source_commit = str(source.get("commit") or "")
+    for name, document in (("runtime", runtime), ("candidate", candidate)):
+        if document.get("policy_id") != policy["policy_id"]:
+            errors.append(f"{name} policy does not match")
+        if str(document.get("release") or "").upper() != release:
+            errors.append(f"{name} release does not match")
+        if document.get("commit") != source_commit:
+            errors.append(f"{name} source commit does not match")
+        if document.get("status") != "BASELINE_REVIEW_REQUIRED":
+            errors.append(f"{name} is not baseline review evidence")
+        if document.get("owner_test_allowed"):
+            errors.append(f"{name} improperly allows owner testing before promotion")
+    runtime_failures = runtime.get("failures") or []
+    if not runtime_failures or any(
+        failure.get("type") != "VISUAL"
+        or not (
+            str(failure.get("detail") or "").startswith("approved visual baseline missing:")
+            or str(failure.get("detail") or "").startswith("baseline missing for ")
+        )
+        for failure in runtime_failures
+    ):
+        errors.append("runtime has failures beyond the missing approved baseline")
+
+    screenshots = Path(args.screenshots)
+    baseline_root = Path(args.baseline_root)
+    approval_screens = approval.get("screens") or []
+    approved_hashes = {str(row.get("file")): str(row.get("sha256")) for row in approval_screens}
+    evidence_hashes = {
+        str(row.get("screenshot")): str(row.get("sha256"))
+        for row in (runtime.get("screenshot_evidence") or [])
+    }
+    actual_hashes = {
+        path.name: hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in sorted(screenshots.glob("*.png"))
+    }
+    baseline_dir = baseline_root / release
+    baseline_hashes = {
+        path.name: hashlib.sha256(path.read_bytes()).hexdigest()
+        for path in sorted(baseline_dir.glob("*.png"))
+    } if baseline_dir.is_dir() else {}
+    if not approved_hashes or not (
+        approved_hashes == evidence_hashes == actual_hashes == baseline_hashes
+    ):
+        errors.append("approved, runtime, artifact, and repository screenshot hashes do not match exactly")
+    visual, _, _ = visual_failures(
+        policy, release, screenshots, baseline_root, Path(args.visual_manifest_root),
+    )
+    errors.extend(f"promoted visual validation: {detail}" for detail in visual)
+
+    apk = Path(args.apk)
+    if apk.is_file():
+        apk_sha256 = hashlib.sha256(apk.read_bytes()).hexdigest()
+        apk_size = apk.stat().st_size
+    else:
+        apk_sha256 = None
+        apk_size = None
+        errors.append(f"source APK missing: {apk}")
+    candidate_apk = candidate.get("apk") or {}
+    if apk_sha256 != candidate_apk.get("sha256") or apk_size != candidate_apk.get("size_bytes"):
+        errors.append("source APK does not match captured candidate evidence")
+
+    status = "PASS" if not errors else "FAIL"
+    payload = {
+        "schema": "hhy.android-ci-candidate-promotion/v1",
+        "policy_id": policy["policy_id"],
+        "release": release,
+        "commit": source_commit,
+        "github_run_id": str(args.run_id),
+        "source_github_run_id": str(args.source_run_id),
+        "status": status,
+        "owner_test_allowed": status == "PASS",
+        "release_completion_allowed": False,
+        "production_activation_allowed": False,
+        "apk": {"file": apk.name, "sha256": apk_sha256, "size_bytes": apk_size},
+        "baseline_approval": approval,
         "errors": errors,
     }
     output = Path(args.output)
@@ -314,6 +448,7 @@ def main() -> int:
     runtime.add_argument("--policy", default=str(DEFAULT_POLICY))
     runtime.add_argument("--release", required=True)
     runtime.add_argument("--commit", required=True)
+    runtime.add_argument("--run-id", default="")
     runtime.add_argument("--attempt", type=int, default=1)
     runtime.add_argument("--test-exit-code-file", required=True)
     runtime.add_argument("--junit-root", required=True)
@@ -333,6 +468,19 @@ def main() -> int:
     candidate.add_argument("--apk", required=True)
     candidate.add_argument("--output", required=True)
 
+    promotion = sub.add_parser("promote")
+    promotion.add_argument("--policy", default=str(DEFAULT_POLICY))
+    promotion.add_argument("--approval", required=True)
+    promotion.add_argument("--source-run-id", required=True)
+    promotion.add_argument("--run-id", required=True)
+    promotion.add_argument("--emulator-report", required=True)
+    promotion.add_argument("--candidate-report", required=True)
+    promotion.add_argument("--screenshots", required=True)
+    promotion.add_argument("--baseline-root", default=str(ROOT / "tests/android/visual-baselines"))
+    promotion.add_argument("--visual-manifest-root", default=str(DEFAULT_VISUAL_MANIFEST_ROOT))
+    promotion.add_argument("--apk", required=True)
+    promotion.add_argument("--output", required=True)
+
     args = parser.parse_args()
     try:
         if args.command == "policy-check":
@@ -341,7 +489,9 @@ def main() -> int:
             return 0
         if args.command == "analyze":
             return analyze(args)
-        return finalize(args)
+        if args.command == "finalize":
+            return finalize(args)
+        return promote(args)
     except (GateError, OSError, ValueError, json.JSONDecodeError, yaml.YAMLError) as exc:
         print(f"ANDROID_CI_GATE_ERROR: {exc}", file=sys.stderr)
         return 2

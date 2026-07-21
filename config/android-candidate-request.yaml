@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R07
 candidate: true
-remediation_attempt: 2
-request_id: R07-20260722-002
-reason: 修复独立Compose联系方式模态窗口的资源ID语义导出后，重验完整R07页面旅程并采集第四张非敏感基线截图
+remediation_attempt: 3
+request_id: R07-20260722-003
+reason: 保存搜索返回栈公开查询状态并补齐独立确认框语义后，执行R07有界修复上限内的最终候选封板

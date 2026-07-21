@@ -959,3 +959,31 @@ problems:
   - Dialog、ModalBottomSheet、Popup等独立Compose窗口不得假设继承页面根部testTagsAsResourceId
   - 候选自动化不得只等待testTag，必须同时绑定用户可见页面身份和关键业务动作
   - FLAG_SECURE页面禁止为补视觉证据而截屏，使用语义、窗口标志和关闭后清零断言验收
+- id: PROB-0073
+  title: R07搜索页使用普通remember导致发布者页返回后丢失结果
+  status: SOLVED
+  root_cause: 搜索页把query、selectedType和submittedQuery全部保存在普通remember中；导航到发布者子页面后搜索组合可被释放，返回栈虽正确保留Search目的地，但重新组合会把submittedQuery重置为空并显示搜索首页。运行29872940610已证明联系方式安全面板全部断言通过，随后在返回搜索结果身份处失败。
+  resolution: CR-0196仅用rememberSaveable保存非敏感公开查询、筛选和已提交查询，重新组合后按保存条件重新请求在线结果，不保存结果快照、联系方式或授权明文；同属独立窗口的清空历史AlertDialog显式启用testTagsAsResourceId，候选增加返回后真实结果夹具断言。
+  regression_checks:
+  - 发布者页关闭安全联系方式面板后返回必须恢复hhy.screen.r07.search.results并重新出现R07候选联调项目
+  - 再次返回Shell并打开搜索页必须从服务端加载当前账号搜索历史
+  - 清空历史确认框必须导出hhy.dialog.r07.search-history-clear且产生04-clear-history-dialog.png
+  do_not_repeat:
+  - Navigation返回栈正确不等于页面业务状态自动保存，跨子页面必须明确区分remember与rememberSaveable
+  - 只允许保存恢复页面所需的非敏感最小条件，禁止保存联系方式明文、令牌或授权响应
+  - Dialog、ModalBottomSheet和Popup均按独立语义窗口处理，不得依赖父页面资源ID导出
+- id: PROB-0074
+  title: 新Release缺少视觉基线导致完整GitHub模拟器必然重复运行
+  status: SOLVED
+  root_cause: 旧Android候选门禁从R06起无条件要求截图与仓库批准基线比较，但新Release首次候选在AI看到真实截图前不可能已有合法基线；因此即使编译、仪器测试、日志、页面身份、稳定性和跨页差异全部通过，也会因基线目录不存在确定性失败，AI批准同一批截图后还必须再次完整编译和启动模拟器。本机既有x86 AVD又因Windows未启用硬件虚拟化驱动而不能作为可靠替代。
+  resolution: CR-0197建立两阶段但单模拟器流程：首次无基线且唯一失败为基线缺失时输出BASELINE_REVIEW_REQUIRED并上传原APK、报告和截图；AI逐图批准并登记同一GitHub Run、Commit和SHA-256后，独立轻量Actions下载原工件，复核唯一缺口、图片、APK、来源与仓库基线完全一致后晋升PASS。晋升工作流静态禁止Gradle和Emulator；CR-0198把规则写入真实踩坑文件路径。
+  regression_checks:
+  - python -m unittest tests.test_android_ci_gate
+  - python scripts/android_ci_gate.py policy-check
+  - Android baseline promotion workflow不得包含gradlew或android-emulator-runner
+  - R07首次基线必须绑定同一候选Run的四张原始截图、APK和SHA-256并由轻量晋升PASS
+  do_not_repeat:
+  - 不得为登记刚采集的同一批视觉基线再次运行完整编译或模拟器
+  - BASELINE_REVIEW_REQUIRED不得允许项目所有者测试、正式Release完成或生产激活
+  - 轻量晋升只能接受缺失批准基线这一类失败，任何仪器、JUnit、崩溃、页面身份、稳定性或截图差异失败必须修复后重新候选
+  - 晋升提交只能包含对应Release基线原图和APPROVAL，禁止夹带产品代码或治理脚本变更

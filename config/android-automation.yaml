@@ -59,6 +59,18 @@ emulator:
 visual:
   baseline_root: tests/android/visual-baselines
   baseline_required_from_release: R06
+  baseline_bootstrap:
+    mode: SINGLE_EMULATOR_CAPTURE_THEN_LIGHTWEIGHT_PROMOTION
+    capture_status: BASELINE_REVIEW_REQUIRED
+    promotion_rebuild_allowed: false
+    promotion_emulator_allowed: false
+    source_binding:
+    - github_run_id
+    - release
+    - commit
+    - screenshot_sha256
+    - apk_sha256
+    promotion_rule: 首版无基线时只允许一次权威模拟器采集；AI批准原始截图和哈希后必须由轻量Actions复核原运行工件并晋升，禁止为了登记同一批基线再次编译或启动模拟器
   max_mean_absolute_error: 14.0
   max_changed_pixel_ratio: 0.10
   changed_pixel_threshold: 24

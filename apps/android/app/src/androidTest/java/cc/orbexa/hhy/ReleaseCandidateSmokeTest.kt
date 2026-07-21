@@ -125,6 +125,7 @@ class ReleaseCandidateSmokeTest {
 
         device.pressBack()
         assertTrue("Back from publisher did not restore search results", waitForScreen("hhy.screen.r07.search.results"))
+        assertTrue("Restored search result fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
         device.pressBack()
         assertTrue("Back from search did not restore the shell", waitForScreen("hhy.screen.r06.home.loaded"))
         clickResource("r07.home.search")

@@ -45,6 +45,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -89,9 +90,9 @@ fun R07SearchScreen(
 ) {
     val scope = rememberCoroutineScope()
     val intentKeys = remember { StableIntentKeys() }
-    var query by remember { mutableStateOf("") }
-    var selectedType by remember { mutableStateOf<String?>(null) }
-    var submittedQuery by remember { mutableStateOf<String?>(null) }
+    var query by rememberSaveable { mutableStateOf("") }
+    var selectedType by rememberSaveable { mutableStateOf<String?>(null) }
+    var submittedQuery by rememberSaveable { mutableStateOf<String?>(null) }
     var hot by remember { mutableStateOf<List<SearchTermResource>>(emptyList()) }
     var history by remember { mutableStateOf<List<SearchTermResource>>(emptyList()) }
     var results by remember { mutableStateOf<List<SearchResultResource>>(emptyList()) }
@@ -146,7 +147,9 @@ fun R07SearchScreen(
         }
     }
 
-    LaunchedEffect(api, accessToken) { loadLanding() }
+    LaunchedEffect(api, accessToken) {
+        if (submittedQuery == null) loadLanding() else submit()
+    }
 
     Scaffold(
         modifier = Modifier.semantics { testTagsAsResourceId = true }
@@ -218,7 +221,8 @@ fun R07SearchScreen(
 
     if (showClearDialog) {
         AlertDialog(
-            modifier = Modifier.testTag("hhy.dialog.r07.search-history-clear"),
+            modifier = Modifier.semantics { testTagsAsResourceId = true }
+                .testTag("hhy.dialog.r07.search-history-clear"),
             onDismissRequest = { if (!clearing) showClearDialog = false },
             title = { Text("清空搜索历史？") },
             text = { Text("将永久清空当前账号的全部搜索历史，操作不可恢复，其他账号不受影响。") },

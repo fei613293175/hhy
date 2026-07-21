@@ -5,20 +5,25 @@
   "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 1848,
-    "event_head_hash": "3d0d34f739d87d8553a86888d63443c0478fe0cf677a3f6d7cf6836b0afe94dc",
+    "event_count": 1970,
+    "event_head_hash": "2b260c26e76565a2d2f7aa3e05f70a4a14cc4515368dea91db15f2defdbbb71f",
     "changed_files": 33,
-    "project_changed_files": 13,
+    "project_changed_files": 14,
     "change_classification": {
-      "other": 1,
-      "code": 11,
-      "user_visible": 11,
-      "continuity": 1
+      "infrastructure": 1,
+      "other": 3,
+      "code": 4,
+      "user_visible": 2,
+      "continuity": 5,
+      "tests": 1
     },
     "document_gate": {
-      "status": "SKIPPED_UNAFFECTED",
+      "status": "EXECUTED",
       "forced": false,
-      "affected_inputs": []
+      "affected_inputs": [
+        "config/android-automation.yaml",
+        "config/android-candidate-request.yaml"
+      ]
     }
   },
   "errors": [],

@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T22:11:50Z
-- Context Hash：`5ed140c700b704a3540cad53b5f4904b921df46ec5becf152092c47c07976e3e`
+- 生成时间：2026-07-21T22:59:19Z
+- Context Hash：`9edf64db87e5857a18551c019b29df06ed942dcc37c73baaf728fd5bad7eaee7`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -100,7 +100,7 @@ blocked_tasks:
 - TASK-R03-007
 - TASK-R06-008
 next_task: TASK-R07-007
-updated_at: '2026-07-21T22:11:47Z'
+updated_at: '2026-07-21T22:59:16Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -135,15 +135,15 @@ continuity:
   active_session_id: SES-20260721T210252Z-D631F6E4
   actor_id: codex-root-r07-007
   story_id: STORY-R07-005
-  lease_expires_at: '2026-07-22T02:11:47Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0006.yaml
-  project_fingerprint: 40dd4f585f14cb204c2fe80915ea5a55f2aca24cf7a0df7e923e9331a02409c6
+  lease_expires_at: '2026-07-22T02:59:16Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0008.yaml
+  project_fingerprint: 4a26cfd20d3d91e0b8713abcde1f837e4ce2ccfa5b4a5d791517c346b22c8c04
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 5dc8633f2efe62ebaa508cd0c699b36cf3b0262a022f9108184d2cba863fbf22
-    generated_at: '2026-07-21T21:45:11Z'
+    context_hash: 38251dc540aeb629b15b5f561634d78a6295fea54e3933b86fc9d0135599a0d2
+    generated_at: '2026-07-21T22:58:39Z'
   handoff_bundle: null
 ```
 
@@ -342,7 +342,7 @@ task_id: TASK-R07-007
 story_id: STORY-R07-005
 goal: 完成R07大版本最终候选完整门禁、Android模拟器页面验证、候选APK追溯与桌面交付，AI独立判断截图并保持真机反馈异步。
 started_at: '2026-07-21T21:02:52Z'
-updated_at: '2026-07-21T22:11:47Z'
+updated_at: '2026-07-21T22:59:16Z'
 takeover_of: null
 change_requests:
 - CR-0191
@@ -350,6 +350,9 @@ change_requests:
 - CR-0193
 - CR-0194
 - CR-0195
+- CR-0196
+- CR-0197
+- CR-0198
 scope:
   allowed_paths:
   - apps/**
@@ -393,7 +396,20 @@ scope:
   - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - tests/test_r07_ci_fixture.py
-  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194+approved-cr:CR-0195
+  - scripts/android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/android-baseline-promotion.yml
+  - config/android-automation.yaml
+  - tests/test_android_ci_gate.py
+  - tests/android/visual-baselines/R07/APPROVAL.yaml
+  - tests/android/visual-baselines/R07/01-search-landing.png
+  - tests/android/visual-baselines/R07/02-search-results.png
+  - tests/android/visual-baselines/R07/03-publisher.png
+  - tests/android/visual-baselines/R07/04-clear-history-dialog.png
+  - PITFALLS.md
+  - docs/03-continuity/PITFALLS.md
+  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194+approved-cr:CR-0195+approved-cr:CR-0196+approved-cr:CR-0197+approved-cr:CR-0198
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -403,81 +419,91 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T22:11:47Z'
-  expires_at: '2026-07-22T02:11:47Z'
-checkpoint_sequence: 6
-latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0006.yaml
+  renewed_at: '2026-07-21T22:59:16Z'
+  expires_at: '2026-07-22T02:59:16Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md
-next_step: 提交推送R07候选attempt 2，验证安全面板语义、FLAG_SECURE和第四张清空历史截图
+next_step: 一次性暂存全部项目变更，运行pre-commit门禁并提交推送R07候选attempt 3
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: USER_SERIAL_OVERRIDE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 单一候选修复运行必须串行，禁止并发触发重复GitHub构建
+  reason: 候选状态机、工作流和CR审计同一提交强耦合，当前必须串行封板且用户未要求子代理
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T210252Z-D631F6E4-0006
+checkpoint_id: CP-SES-20260721T210252Z-D631F6E4-0008
 session_id: SES-20260721T210252Z-D631F6E4
-sequence: 6
-created_at: '2026-07-21T22:11:47Z'
-summary: R07候选首轮全量构建通过，联系方式独立模态语义缺口已修复，前三张非敏感截图AI审查合格，attempt 2推送前门禁通过
-next_step: 提交推送R07候选attempt 2，验证安全面板语义、FLAG_SECURE和第四张清空历史截图
-blockers:
-- 首轮运行29871247067因ModalBottomSheet未独立导出testTag资源ID失败；已修复，非外部阻断
-decisions:
-- 前三张截图均符合冻结页面身份、真实夹具、排版层级与非敏感要求；安全联系方式面板继续只做语义和FLAG_SECURE验收，不截屏
+sequence: 8
+created_at: '2026-07-21T22:59:15Z'
+summary: R07搜索返回栈修复、单次模拟器基线采集与轻量晋升门禁已实现并进入IMPLEMENTING；21项Python回归和UI静态门禁通过
+next_step: 一次性暂存全部项目变更，运行pre-commit门禁并提交推送R07候选attempt 3
+blockers: []
+decisions: []
 note: ''
 tests:
-- name: GitHub run 29871247067 build
+- name: android-ci-regression
   result: PASS
-  evidence: android-build artifact
-  note: compile lint unit package 9m57s
-- name: GitHub run 29871247067 journey diagnosis
-  result: FAIL
-  evidence: android-runtime-29871247067
-  note: 已定位并修复contact sheet资源标记缺失
-- name: R07 screenshots 01-03 AI review
+  evidence: 'python -m unittest tests.test_android_ci_gate tests.test_android_candidate_request: 21项通过'
+  note: ''
+- name: android-policy
   result: PASS
-  evidence: android-runtime-29871247067/screenshots
-  note: search landing results publisher all qualified
-- name: Android affected MODULE preflight
+  evidence: android_ci_gate policy-check通过
+  note: ''
+- name: ui-foundation
   result: PASS
-  evidence: obx-test /tmp/hhy-r07-remediation-30140ce
-  note: 132 tasks BUILD SUCCESSFUL
-- name: Android candidate request attempt 2
-  result: PASS
-  evidence: config/android-candidate-request.yaml
-  note: R07-20260722-002
+  evidence: Android UI foundation和token门禁通过
+  note: ''
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 30140ce8799e908b375d1a083fc8906e07d9b088
+  head: 9fc9030ba1a8dbca16dfda863f8302a8dd5883bb
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/sessions/SES-20260721T210252Z-D631F6E4.yaml'
   - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
   - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
   - ' M apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
+  - ' M config/android-automation.yaml'
   - ' M config/android-candidate-request.yaml'
+  - ' M docs/03-continuity/PITFALLS.md'
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ?? .continuity/change_requests/CR-0195.yaml
-  - ?? docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md'
+  - ' M scripts/android_ci_gate.py'
+  - ' M scripts/run_android_emulator_gate.sh'
+  - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0196.yaml
+  - ?? .continuity/change_requests/CR-0197.yaml
+  - ?? .continuity/change_requests/CR-0198.yaml
+  - ?? .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0007.yaml
+  - ?? .github/workflows/android-baseline-promotion.yml
+  - ?? docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md
+  - ?? docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md
+  - ?? docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md
   recent_commits:
+  - "9fc9030ba1a8dbca16dfda863f8302a8dd5883bb\t2026-07-22T06:11:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(android): 导出安全联系方式面板候选语义"
   - "30140ce8799e908b375d1a083fc8906e07d9b088\t2026-07-22T05:45:13+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] ci(android): 请求R07首次最终候选"
   - "f46af781e0fa9007d712332713b3f067875ecb5f\t2026-07-22T05:41:20+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(staging): 修复R07候选夹具事务边界"
   - "7f7245ce6cd5c880ae2080a0284c2ea2c513a29f\t2026-07-22T05:31:51+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(android): 建立R07候选真实页面旅程"
@@ -486,49 +512,68 @@ git:
   - "13a740044a77b700ccaa4bf2f6243649bd0aadeb\t2026-07-22T04:59:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] docs(governance): 关闭R07预发布变更"
   - "7c5a5f7a329d36c62c5269fb68d23e0fca69ab19\t2026-07-22T04:57:16+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(staging): 签署R07隔离预发布验收"
   - "417b6cc9bc5f1b56adc280db5375358100bf23ae\t2026-07-22T04:31:47+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(observability): 建立R07隔离预发布门禁"
-  - "e6d73b0fb4be95c6769c8f6aa493172592d686ea\t2026-07-22T04:16:46+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-005\
-    \ as completed"
 project_fingerprint:
-  sha256: 40dd4f585f14cb204c2fe80915ea5a55f2aca24cf7a0df7e923e9331a02409c6
+  sha256: 4a26cfd20d3d91e0b8713abcde1f837e4ce2ccfa5b4a5d791517c346b22c8c04
   files:
+  - .github/workflows/android-baseline-promotion.yml
   - CHANGELOG.md
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
   - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - config/android-automation.yaml
   - config/android-candidate-request.yaml
+  - docs/03-continuity/PITFALLS.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
   - docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
   - docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md
   - docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md
   - docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md
+  - docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md
+  - docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md
+  - docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md
   - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - scripts/android_ci_gate.py
   - scripts/prepare_r07_ci_fixture.sh
+  - scripts/run_android_emulator_gate.sh
   - tests/android/visual-manifests/R07.yaml
+  - tests/test_android_ci_gate.py
   - tests/test_r07_ci_fixture.py
-  file_count: 14
+  file_count: 23
   payload:
     base_commit: 0dc40abf3ed879893c510d4f7c3b4cf9a42700c0
     files:
+    - path: .github/workflows/android-baseline-promotion.yml
+      state: FILE
+      size: 4215
+      sha256: a37bc76278e82dc331fecc6c1229831d91630fe2b411743f8821929594d3482f
     - path: CHANGELOG.md
       state: FILE
-      size: 68334
-      sha256: d76296890385d61465a766749c3c6b87ef2303161886bb1ae98d26592e094a1d
+      size: 68840
+      sha256: 0294ddec6a0ba3832ccacf92a110fd8025dd5b30679188db10070ee22210aff5
     - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
       state: FILE
-      size: 13017
-      sha256: 968f1b1deaa9fa2071fd735a0629fe8efdeb378009b695e6d5945effe68178e1
+      size: 13142
+      sha256: 6de2415f999db68ce20b08b3802f15f623c364ab84ab89e08d8380d6699655e4
     - path: apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
       state: FILE
-      size: 25408
-      sha256: 4362f6a2f6fd0a5b54ecbdfbbc2d21b8e945804908d14881062641ea18e94ea0
+      size: 25603
+      sha256: 700a5fd947257919a83651468f0b3236cc18ab41cbbbb2ab18e7d8946fcfab6e
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 5782
+      sha256: e97987097e760f0452ecdc929b69185a5dd91b0d9c8ee8a5e32a064c24725e6f
     - path: config/android-candidate-request.yaml
       state: FILE
-      size: 264
-      sha256: 4cd6fdef492c1ecbf71ffa2dac79d1d3bbda92b86af3157987ab8d7e16ce7f73
+      size: 252
+      sha256: eeea3c484fd5610ccb902734e256d3a991a24f77f51277b7a51f5f5cee43e9d0
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 3673
+      sha256: dfc02ee6c1c7396208528486fc6e08cd4c10bde591c5b6b0555040bd07d158be
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 89565
-      sha256: 0eb8b60e93358190cc2fc66b4376f87e59956ae4a38c53e14c665cebf94302e4
+      size: 92989
+      sha256: e6aac19f47aed69219b016e0689f08d512d131316299c6da163223ca50d0283c
     - path: docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
       state: FILE
       size: 3638
@@ -549,43 +594,77 @@ project_fingerprint:
       state: FILE
       size: 2545
       sha256: c53aabefb7eb0eea745e22350fe9b16325c49c67797329e0e9f80c4247b37b82
+    - path: docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md
+      state: FILE
+      size: 2603
+      sha256: 69000f6a5e716aaa9dc6d161cdea08e31cc81e0ffdd0f47ef35c6e4bd18a1a33
+    - path: docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md
+      state: FILE
+      size: 3695
+      sha256: f36c788041a03ca9267d8f84f18289d9a4462cf942a120d7f834f6db26b38d12
+    - path: docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md
+      state: FILE
+      size: 1928
+      sha256: 04eea7f28605dc06fa957777ae1656d32f81761bb6dfcaea37333fa72c8ad9c8
     - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
       state: FILE
       size: 25855
       sha256: 481bbcf79b3e9275c004948ed1164e877de607f5d1cb52e045c0870a05204fbc
+    - path: scripts/android_ci_gate.py
+      state: FILE
+      size: 24657
+      sha256: 351e44e194a693d269bd23f93be6d4ca928f68382adda04088565251db4bd593
     - path: scripts/prepare_r07_ci_fixture.sh
       state: FILE
       size: 3809
       sha256: 873c9311b5f4af257c6071b3809cf1e455ca9fe83f27f5c7b9ec28ad5e71ea69
+    - path: scripts/run_android_emulator_gate.sh
+      state: FILE
+      size: 2601
+      sha256: 1821a4543b47b7d2d0878911e9ce5e51669c3d31a6cc903c0b87c9e9dcbf35d1
     - path: tests/android/visual-manifests/R07.yaml
       state: FILE
       size: 1439
       sha256: d937f326b2686ce0c76a3636e7d6355b995b8485f1f277c3384e3d88528e5ba5
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 24396
+      sha256: 3dbd4789f19536bb125ec349cc2121f2a1b0ac53e10580c5a3bdcd8a4b78573b
     - path: tests/test_r07_ci_fixture.py
       state: FILE
       size: 1586
       sha256: f488f893c140044ec3d8b61f70fde81604b545148cf060bee65e581bae89d317
 change_classification:
+  infrastructure:
+  - .github/workflows/android-baseline-promotion.yml
   other:
   - CHANGELOG.md
+  - config/android-automation.yaml
   - config/android-candidate-request.yaml
   - docs/07-operations/DEPLOYMENT_RUNBOOK.md
   code:
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
   - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - scripts/android_ci_gate.py
   - scripts/prepare_r07_ci_fixture.sh
+  - scripts/run_android_emulator_gate.sh
   user_visible:
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
   - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
   continuity:
+  - docs/03-continuity/PITFALLS.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md
   - docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md
   - docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md
   - docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md
   - docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md
+  - docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md
+  - docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md
+  - docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md
   tests:
   - tests/android/visual-manifests/R07.yaml
+  - tests/test_android_ci_gate.py
   - tests/test_r07_ci_fixture.py
 required_records:
 - SESSION_RECORD
@@ -600,6 +679,9 @@ change_requests:
 - CR-0193
 - CR-0194
 - CR-0195
+- CR-0196
+- CR-0197
+- CR-0198
 scope:
   allowed_paths:
   - apps/**
@@ -643,13 +725,26 @@ scope:
   - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - tests/test_r07_ci_fixture.py
-  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194+approved-cr:CR-0195
+  - scripts/android_ci_gate.py
+  - scripts/run_android_emulator_gate.sh
+  - .github/workflows/android-quality-gate.yml
+  - .github/workflows/android-baseline-promotion.yml
+  - config/android-automation.yaml
+  - tests/test_android_ci_gate.py
+  - tests/android/visual-baselines/R07/APPROVAL.yaml
+  - tests/android/visual-baselines/R07/01-search-landing.png
+  - tests/android/visual-baselines/R07/02-search-results.png
+  - tests/android/visual-baselines/R07/03-publisher.png
+  - tests/android/visual-baselines/R07/04-clear-history-dialog.png
+  - PITFALLS.md
+  - docs/03-continuity/PITFALLS.md
+  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194+approved-cr:CR-0195+approved-cr:CR-0196+approved-cr:CR-0197+approved-cr:CR-0198
 parallel_execution:
-  assessment: USER_SERIAL_OVERRIDE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 单一候选修复运行必须串行，禁止并发触发重复GitHub构建
-event_hash: ee4e89852824234971b188380bf2e253b3a1e24a82926630ec5ef2ac034b768a
+  reason: 候选状态机、工作流和CR审计同一提交强耦合，当前必须串行封板且用户未要求子代理
+event_hash: 2b260c26e76565a2d2f7aa3e05f70a4a14cc4515368dea91db15f2defdbbb71f
 ```
 
 ## 接续状态与事件头
@@ -661,8 +756,8 @@ active_session_id: SES-20260721T210252Z-D631F6E4
 last_session_id: SES-20260721T201747Z-CD80A1EE
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260721T201747Z-CD80A1EE-0006
-event_count: 1953
-event_head_hash: ee4e89852824234971b188380bf2e253b3a1e24a82926630ec5ef2ac034b768a
+event_count: 1970
+event_head_hash: 2b260c26e76565a2d2f7aa3e05f70a4a14cc4515368dea91db15f2defdbbb71f
 event_chain_valid: true
 ```
 
@@ -785,9 +880,9 @@ recent_sessions: - session_id: SES-20260721T043434Z-868F3619
   started_at: '2026-07-21T21:02:52Z'
   record: .continuity/sessions/SES-20260721T210252Z-D631F6E4.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md
-  updated_at: '2026-07-21T22:11:47Z'
+  updated_at: '2026-07-21T22:59:16Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0006.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0008.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-58A937206C4A
   session_id: SES-20260719T224052Z-2C69767F
@@ -1689,7 +1784,7 @@ recent_task_transitions: - transition_id: TRN-17ACD1848877
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 30140ce8799e908b375d1a083fc8906e07d9b088
+head: 9fc9030ba1a8dbca16dfda863f8302a8dd5883bb
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1705,15 +1800,31 @@ status_porcelain:
 - ' M CURRENT_STATUS.yaml'
 - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
 - ' M apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/continuity-gate-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
+- ' M config/android-automation.yaml'
 - ' M config/android-candidate-request.yaml'
+- ' M docs/03-continuity/PITFALLS.md'
 - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md'
-- ?? .continuity/change_requests/CR-0195.yaml
-- ?? .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0006.yaml
-- ?? docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md
+- ' M scripts/android_ci_gate.py'
+- ' M scripts/run_android_emulator_gate.sh'
+- ' M tests/test_android_ci_gate.py'
+- ?? .continuity/change_requests/CR-0196.yaml
+- ?? .continuity/change_requests/CR-0197.yaml
+- ?? .continuity/change_requests/CR-0198.yaml
+- ?? .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0007.yaml
+- ?? .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0008.yaml
+- ?? .github/workflows/android-baseline-promotion.yml
+- ?? docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md
+- ?? docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md
+- ?? docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md
 recent_commits:
+- "9fc9030ba1a8dbca16dfda863f8302a8dd5883bb\t2026-07-22T06:11:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(android): 导出安全联系方式面板候选语义"
 - "30140ce8799e908b375d1a083fc8906e07d9b088\t2026-07-22T05:45:13+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] ci(android): 请求R07首次最终候选"
 - "f46af781e0fa9007d712332713b3f067875ecb5f\t2026-07-22T05:41:20+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(staging): 修复R07候选夹具事务边界"
 - "7f7245ce6cd5c880ae2080a0284c2ea2c513a29f\t2026-07-22T05:31:51+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(android): 建立R07候选真实页面旅程"
@@ -1722,28 +1833,35 @@ recent_commits:
 - "13a740044a77b700ccaa4bf2f6243649bd0aadeb\t2026-07-22T04:59:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] docs(governance): 关闭R07预发布变更"
 - "7c5a5f7a329d36c62c5269fb68d23e0fca69ab19\t2026-07-22T04:57:16+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(staging): 签署R07隔离预发布验收"
 - "417b6cc9bc5f1b56adc280db5375358100bf23ae\t2026-07-22T04:31:47+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(observability): 建立R07隔离预发布门禁"
-- "e6d73b0fb4be95c6769c8f6aa493172592d686ea\t2026-07-22T04:16:46+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-005\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`40dd4f585f14cb204c2fe80915ea5a55f2aca24cf7a0df7e923e9331a02409c6`
-- 文件数：14
+- 指纹：`4a26cfd20d3d91e0b8713abcde1f837e4ce2ccfa5b4a5d791517c346b22c8c04`
+- 文件数：23
 
+- `.github/workflows/android-baseline-promotion.yml`
 - `CHANGELOG.md`
 - `apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt`
 - `apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt`
+- `config/android-automation.yaml`
 - `config/android-candidate-request.yaml`
+- `docs/03-continuity/PITFALLS.md`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md`
 - `docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md`
 - `docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md`
 - `docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md`
 - `docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md`
+- `docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md`
+- `docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md`
+- `docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md`
 - `docs/07-operations/DEPLOYMENT_RUNBOOK.md`
+- `scripts/android_ci_gate.py`
 - `scripts/prepare_r07_ci_fixture.sh`
+- `scripts/run_android_emulator_gate.sh`
 - `tests/android/visual-manifests/R07.yaml`
+- `tests/test_android_ci_gate.py`
 - `tests/test_r07_ci_fixture.py`
 
 ## 当前 Release
@@ -7409,42 +7527,195 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+- protocol_version: '1.0'
+  cr_id: CR-0196
+  title: 恢复R07搜索返回栈状态并补齐确认框语义
+  status: IMPLEMENTING
+  created_at: '2026-07-21T22:30:09Z'
+  updated_at: '2026-07-21T22:59:08Z'
+  requester_actor_id: codex-r07-candidate
+  approver_actor_id: codex-release-audit
+  task_id: TASK-R07-007
+  session_id: SES-20260721T210252Z-D631F6E4
+  user_request: 持续推进R07最终候选且GitHub修复必须有界收敛
+  reason: 运行29872940610证明安全联系方式面板已通过，但搜索页普通remember在发布者子页面返回时丢失已提交查询，且AlertDialog属于同类独立语义窗口
+  original_rule: 搜索页查询与已提交状态仅使用remember，子页面返回后允许重置为搜索首页；AlertDialog假设继承页面语义导出
+  new_rule: 查询、筛选和已提交查询使用rememberSaveable，重建后自动重载结果；独立AlertDialog显式导出testTag资源ID
+  impact_summary: 修复发布者页返回搜索结果的真实用户体验并确保最后清空历史确认框可观测，递增至有界attempt 3
+  impact:
+    files:
+    - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - config/android-candidate-request.yaml
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-SEARCH-002,DIALOG-SEARCH-001
+    apis: []
+    database: []
+    configuration:
+    - R07 candidate remediation_attempt 3
+    ledger: []
+    tests:
+    - Android受影响MODULE单测与instrumentation编译；本机既有API36模拟器完整R07旅程；GitHub候选attempt 3
+    releases:
+    - R07
+    migration_and_compatibility: 无API/数据库迁移；只保存非敏感公开搜索条件，不持久保存联系方式或授权明文
+  user_confirmation: 项目所有者已授权持续推进和有界自动修复
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T22:30:15Z'
+    note: 保存内容限于公开搜索条件，返回栈行为符合成熟App习惯，独立窗口语义修复复用已证实规则
+  machine_record: .continuity/change_requests/CR-0196.yaml
+  document: docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md
+  decision_log:
+  - at: '2026-07-21T22:59:08Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTING
+    note: 搜索公开查询状态改为rememberSaveable并按返回栈重载真实结果；确认框独立语义和结果夹具断言已实现，Android模块编译与单测通过
+    session_id: SES-20260721T210252Z-D631F6E4
+  session_ids:
+  - SES-20260721T210252Z-D631F6E4
+- protocol_version: '1.0'
+  cr_id: CR-0197
+  title: 建立Android首版视觉基线单次模拟器采集与轻量晋升门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-21T22:51:33Z'
+  updated_at: '2026-07-21T22:59:11Z'
+  requester_actor_id: codex-r07-candidate
+  approver_actor_id: codex-release-audit
+  task_id: TASK-R07-007
+  session_id: SES-20260721T210252Z-D631F6E4
+  user_request: 大版本完成才执行一次最终模拟器测试，避免重复GitHub编译和模拟器浪费时间；截图由AI自主判断并持续推进
+  reason: R07前两轮功能修复后尚无视觉基线，现有门禁要求同一模拟器旅程先与不存在的基线比较，必然额外失败和重跑；本机未启用虚拟化驱动，不能以不可靠本机AVD替代权威GitHub截图
+  original_rule: 强制版本首次候选也必须先存在已批准基线；没有基线时完整编译和模拟器必然失败，批准截图后必须再次完整重跑
+  new_rule: 首版无基线且仪器、JUnit、日志、截图身份、稳定性和跨页差异全部通过时，门禁只产生BASELINE_REVIEW_REQUIRED采集证据；AI审核并提交原图与哈希后，由轻量GitHub晋升门禁下载原始运行工件、核对来源/哈希/唯一允许缺口并生成PASS候选，禁止再次启动模拟器或重新编译
+  impact_summary: 每个大版本仍只有一次权威模拟器旅程；首版视觉基线通过可追溯AI审批与轻量Actions晋升闭环，不降低功能、日志、视觉、所有者测试或生产激活约束
+  impact:
+    files:
+    - scripts/android_ci_gate.py
+    - scripts/run_android_emulator_gate.sh
+    - .github/workflows/android-quality-gate.yml
+    - .github/workflows/android-baseline-promotion.yml
+    - config/android-automation.yaml
+    - tests/test_android_ci_gate.py
+    - tests/android/visual-baselines/R07/APPROVAL.yaml
+    - tests/android/visual-baselines/R07/01-search-landing.png
+    - tests/android/visual-baselines/R07/02-search-results.png
+    - tests/android/visual-baselines/R07/03-publisher.png
+    - tests/android/visual-baselines/R07/04-clear-history-dialog.png
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - PITFALLS.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - Android baseline bootstrap and promotion lifecycle
+    ledger: []
+    tests:
+    - Python Android CI gate regression; YAML workflow parse; third R07 GitHub emulator capture; AI four-image review; lightweight baseline promotion
+      Actions PASS
+    releases:
+    - R07
+    migration_and_compatibility: 仅扩展Android候选治理与证据状态机；已有APPROVED基线继续原路径比较，已有R06流程兼容；首版晋升严格绑定同仓库run、release、commit、截图SHA和APK SHA，不允许产品代码在采集与晋升之间变化
+  user_confirmation: 项目所有者已明确要求大版本完成才做一次最终模拟器测试并授权AI自主审核截图、持续推进
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T22:51:39Z'
+    note: 方案将首版基线的必然双跑改为一次真实采集加一次无模拟器的证据晋升，仍保持来源、哈希、功能和视觉硬门禁，符合所有者效率要求
+  machine_record: .continuity/change_requests/CR-0197.yaml
+  document: docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md
+  decision_log:
+  - at: '2026-07-21T22:59:11Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTING
+    note: 单次模拟器首版基线采集、BASELINE_REVIEW_REQUIRED状态、原工件轻量晋升工作流及回归已实现，21项Android CI Python测试通过
+    session_id: SES-20260721T210252Z-D631F6E4
+  session_ids:
+  - SES-20260721T210252Z-D631F6E4
+- protocol_version: '1.0'
+  cr_id: CR-0198
+  title: 补正Android基线复用规则的踩坑文档路径
+  status: IMPLEMENTING
+  created_at: '2026-07-21T22:56:21Z'
+  updated_at: '2026-07-21T22:59:13Z'
+  requester_actor_id: codex-r07-candidate
+  approver_actor_id: codex-release-audit
+  task_id: TASK-R07-007
+  session_id: SES-20260721T210252Z-D631F6E4
+  user_request: 把可复用方案写入全局硬性规则和踩坑记录
+  reason: CR-0197影响清单误写根目录PITFALLS.md，事实文件位于docs/03-continuity/PITFALLS.md，必须用独立批准CR补齐真实路径而不篡改已批准记录
+  original_rule: CR-0197只登记了不存在的根目录PITFALLS.md路径
+  new_rule: 在真实docs/03-continuity/PITFALLS.md登记首版基线单次采集与轻量晋升硬规则
+  impact_summary: 只补正治理文档路径，不改变CR-0197技术方案或候选行为
+  impact:
+    files:
+    - docs/03-continuity/PITFALLS.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - rg核对陷阱条款与android-automation策略一致
+    releases:
+    - R07
+    migration_and_compatibility: 纯文档路径补正，无运行时迁移
+  user_confirmation: 项目所有者已明确要求写入全局硬性规则和踩坑复用记录
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T22:56:27Z'
+    note: 真实文件路径已核对，独立补正保留CR审计不可变性
+  machine_record: .continuity/change_requests/CR-0198.yaml
+  document: docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md
+  decision_log:
+  - at: '2026-07-21T22:59:13Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTING
+    note: 真实PITFALLS路径已登记第20条全局硬规则并与策略和Problem Registry互相绑定
+    session_id: SES-20260721T210252Z-D631F6E4
+  session_ids:
+  - SES-20260721T210252Z-D631F6E4
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e`
-- `CURRENT_STATUS.yaml` — `6026261fb707d1030dc5565ec2ef679460f6eba3a2eae5f89e603c56e65ea502`
+- `CURRENT_STATUS.yaml` — `10160108778aa15f92c588ac218db86b7398a63d1c1da3131ce16371319c0edc`
 - `NEXT_TASK.yaml` — `a6dc70cc1e78625ecbd1bd3a9b73c34469eb4fbbdeeade9d75aa5c2d87173f0f`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `0eb8b60e93358190cc2fc66b4376f87e59956ae4a38c53e14c665cebf94302e4`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `e6aac19f47aed69219b016e0689f08d512d131316299c6da163223ca50d0283c`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da`
-- `docs/03-continuity/PITFALLS.md` — `15e6f729ddca7efef1a0be4267dede8cae1364389d7bd83436c5333d52943310`
+- `docs/03-continuity/PITFALLS.md` — `dfc02ee6c1c7396208528486fc6e08cd4c10bde591c5b6b0555040bd07d158be`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `f0f411fa347a8c70224335b5002c6b577075974fae5065511dbe409e0db73036`
-- `.continuity/SESSION_INDEX.yaml` — `b0b186fc40d4e18cd1b5b5a7b4ebe39c2c04ce92f58117b75b2a80117d76bd7f`
+- `.continuity/EVENT_LOG.jsonl` — `0088842edb358c13f272d3049333aa65956d3965bd810bef1ca4ed17373633cb`
+- `.continuity/SESSION_INDEX.yaml` — `12f17a25211beef63bc1aabebd8b5cc859b815451679729afc23945c727661ca`
 - `.continuity/TASK_CLAIMS.yaml` — `e21bb8f359ed444aac3a9fd15c86a23381573cc6b94673b59b19383d8a1aa71b`
 - `.continuity/TASK_TRANSITIONS.yaml` — `f460169d5442182cef9701ed689877cabbb4eb25c34732b1176a6f752c67e96c`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `37e392273bb39651a57f6de5e94dbe735996c6a622d37fc3fbfc94b741ef834b`
-- `.continuity/ACTIVE_SESSION.yaml` — `d1004b67c3e7519d5cf470b957a040ed1c97fef5ae7e2ddf238a03c75c83fefb`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `404efc6840132f8543b28cfd4e05682f0a6cbb9c10aa132dc921808a9f3d986c`
+- `.continuity/ACTIVE_SESSION.yaml` — `126e91bafa8d9a42b5e62c622fa220aa092a707790b95c94bb4459fd34ed9cf0`
 - `releases/R07/RELEASE_MANIFEST.yaml` — `333e47e09e2d4004aab3e2ffdd6ec072abd8977b4d6fcd1c1daa9bec9e858f34`
 - `releases/R07/DEFINITION_OF_READY.yaml` — `5e3a1496a1a9a9af6ac2e40e8aaacdfaa46cc7bf117324c22c486b3730c6f9f9`
 - `releases/R07/STORIES.yaml` — `26e0246244a4de42510a0a31d0982afaf0e5cd3ad0641c0ebdd74b6882e9431e`
 - `releases/R07/TASKS.yaml` — `b3f33c4eef7f58fb37a6e570d814ef78c761bcf9c782ce976b459b2ee86e12ba`
 - `releases/R07/ACCEPTANCE_MATRIX.csv` — `8a89932613450d3cb2ec70f8683fbbf344d950519af167ca5178adf55fa68365`
 - `releases/R07/PARALLEL_EXECUTION_PLAN.yaml` — `6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md` — `6d754455b5b7c0da85269e9b86f30c7a94d61bfe3c550a4a13b92433cc13611a`
-- `.continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0006.yaml` — `bc972115eb97732e80679b954c553a446eea0e3fb6f1d889e808980b50321063`
+- `docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md` — `31e7a45529368da415a33bd81399aaa4dfcc86395127663a291746b53d64e370`
+- `.continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0008.yaml` — `1c10439504f67c4b6ed216c74196ae911b0d77ce67ab327418e7353d1eb26e1c`
 - `docs/03-continuity/change-requests/CR-0191-建立R07最终候选真实页面旅程与隔离测试夹具.md` — `7981a223c3257e4b6c2b25a432fb990be3510c5225562279c49b0ea1ac314265`
 - `docs/03-continuity/change-requests/CR-0192-修复R07页面残留Compose颜色硬编码.md` — `1f862ca5cce32d3fce89446cdb9e77a33d8cd547ad78f8237c0ec5c494c3121b`
 - `docs/03-continuity/change-requests/CR-0193-修复R07候选夹具psql变量边界.md` — `ddbc882f1508bbf8d76020a518cb350cc198b51c3e3651f5be8fd6ecb0e042f7`
 - `docs/03-continuity/change-requests/CR-0194-补齐R07候选夹具事务边界自动回归.md` — `27d21dd5959589d7f7f2b2cab2550f68b29288e5f4e3be8e39e2102e3843cedd`
 - `docs/03-continuity/change-requests/CR-0195-修复R07安全联系方式面板候选可观测语义.md` — `c53aabefb7eb0eea745e22350fe9b16325c49c67797329e0e9f80c4247b37b82`
+- `docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md` — `69000f6a5e716aaa9dc6d161cdea08e31cc81e0ffdd0f47ef35c6e4bd18a1a33`
+- `docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md` — `f36c788041a03ca9267d8f84f18289d9a4462cf942a120d7f834f6db26b38d12`
+- `docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md` — `04eea7f28605dc06fa957777ae1656d32f81761bb6dfcaea37333fa72c8ad9c8`
 
 ## 接手硬规则
 

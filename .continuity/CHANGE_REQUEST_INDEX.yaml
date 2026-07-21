@@ -11698,3 +11698,153 @@ change_requests:
     session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+- protocol_version: '1.0'
+  cr_id: CR-0196
+  title: 恢复R07搜索返回栈状态并补齐确认框语义
+  status: IMPLEMENTING
+  created_at: '2026-07-21T22:30:09Z'
+  updated_at: '2026-07-21T22:59:08Z'
+  requester_actor_id: codex-r07-candidate
+  approver_actor_id: codex-release-audit
+  task_id: TASK-R07-007
+  session_id: SES-20260721T210252Z-D631F6E4
+  user_request: 持续推进R07最终候选且GitHub修复必须有界收敛
+  reason: 运行29872940610证明安全联系方式面板已通过，但搜索页普通remember在发布者子页面返回时丢失已提交查询，且AlertDialog属于同类独立语义窗口
+  original_rule: 搜索页查询与已提交状态仅使用remember，子页面返回后允许重置为搜索首页；AlertDialog假设继承页面语义导出
+  new_rule: 查询、筛选和已提交查询使用rememberSaveable，重建后自动重载结果；独立AlertDialog显式导出testTag资源ID
+  impact_summary: 修复发布者页返回搜索结果的真实用户体验并确保最后清空历史确认框可观测，递增至有界attempt 3
+  impact:
+    files:
+    - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - config/android-candidate-request.yaml
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-SEARCH-002,DIALOG-SEARCH-001
+    apis: []
+    database: []
+    configuration:
+    - R07 candidate remediation_attempt 3
+    ledger: []
+    tests:
+    - Android受影响MODULE单测与instrumentation编译；本机既有API36模拟器完整R07旅程；GitHub候选attempt 3
+    releases:
+    - R07
+    migration_and_compatibility: 无API/数据库迁移；只保存非敏感公开搜索条件，不持久保存联系方式或授权明文
+  user_confirmation: 项目所有者已授权持续推进和有界自动修复
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T22:30:15Z'
+    note: 保存内容限于公开搜索条件，返回栈行为符合成熟App习惯，独立窗口语义修复复用已证实规则
+  machine_record: .continuity/change_requests/CR-0196.yaml
+  document: docs/03-continuity/change-requests/CR-0196-恢复R07搜索返回栈状态并补齐确认框语义.md
+  decision_log:
+  - at: '2026-07-21T22:59:08Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTING
+    note: 搜索公开查询状态改为rememberSaveable并按返回栈重载真实结果；确认框独立语义和结果夹具断言已实现，Android模块编译与单测通过
+    session_id: SES-20260721T210252Z-D631F6E4
+  session_ids:
+  - SES-20260721T210252Z-D631F6E4
+- protocol_version: '1.0'
+  cr_id: CR-0197
+  title: 建立Android首版视觉基线单次模拟器采集与轻量晋升门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-21T22:51:33Z'
+  updated_at: '2026-07-21T22:59:11Z'
+  requester_actor_id: codex-r07-candidate
+  approver_actor_id: codex-release-audit
+  task_id: TASK-R07-007
+  session_id: SES-20260721T210252Z-D631F6E4
+  user_request: 大版本完成才执行一次最终模拟器测试，避免重复GitHub编译和模拟器浪费时间；截图由AI自主判断并持续推进
+  reason: R07前两轮功能修复后尚无视觉基线，现有门禁要求同一模拟器旅程先与不存在的基线比较，必然额外失败和重跑；本机未启用虚拟化驱动，不能以不可靠本机AVD替代权威GitHub截图
+  original_rule: 强制版本首次候选也必须先存在已批准基线；没有基线时完整编译和模拟器必然失败，批准截图后必须再次完整重跑
+  new_rule: 首版无基线且仪器、JUnit、日志、截图身份、稳定性和跨页差异全部通过时，门禁只产生BASELINE_REVIEW_REQUIRED采集证据；AI审核并提交原图与哈希后，由轻量GitHub晋升门禁下载原始运行工件、核对来源/哈希/唯一允许缺口并生成PASS候选，禁止再次启动模拟器或重新编译
+  impact_summary: 每个大版本仍只有一次权威模拟器旅程；首版视觉基线通过可追溯AI审批与轻量Actions晋升闭环，不降低功能、日志、视觉、所有者测试或生产激活约束
+  impact:
+    files:
+    - scripts/android_ci_gate.py
+    - scripts/run_android_emulator_gate.sh
+    - .github/workflows/android-quality-gate.yml
+    - .github/workflows/android-baseline-promotion.yml
+    - config/android-automation.yaml
+    - tests/test_android_ci_gate.py
+    - tests/android/visual-baselines/R07/APPROVAL.yaml
+    - tests/android/visual-baselines/R07/01-search-landing.png
+    - tests/android/visual-baselines/R07/02-search-results.png
+    - tests/android/visual-baselines/R07/03-publisher.png
+    - tests/android/visual-baselines/R07/04-clear-history-dialog.png
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - PITFALLS.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - Android baseline bootstrap and promotion lifecycle
+    ledger: []
+    tests:
+    - Python Android CI gate regression; YAML workflow parse; third R07 GitHub emulator capture; AI four-image review; lightweight baseline promotion
+      Actions PASS
+    releases:
+    - R07
+    migration_and_compatibility: 仅扩展Android候选治理与证据状态机；已有APPROVED基线继续原路径比较，已有R06流程兼容；首版晋升严格绑定同仓库run、release、commit、截图SHA和APK SHA，不允许产品代码在采集与晋升之间变化
+  user_confirmation: 项目所有者已明确要求大版本完成才做一次最终模拟器测试并授权AI自主审核截图、持续推进
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T22:51:39Z'
+    note: 方案将首版基线的必然双跑改为一次真实采集加一次无模拟器的证据晋升，仍保持来源、哈希、功能和视觉硬门禁，符合所有者效率要求
+  machine_record: .continuity/change_requests/CR-0197.yaml
+  document: docs/03-continuity/change-requests/CR-0197-建立Android首版视觉基线单次模拟器采集与轻量晋升门禁.md
+  decision_log:
+  - at: '2026-07-21T22:59:11Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTING
+    note: 单次模拟器首版基线采集、BASELINE_REVIEW_REQUIRED状态、原工件轻量晋升工作流及回归已实现，21项Android CI Python测试通过
+    session_id: SES-20260721T210252Z-D631F6E4
+  session_ids:
+  - SES-20260721T210252Z-D631F6E4
+- protocol_version: '1.0'
+  cr_id: CR-0198
+  title: 补正Android基线复用规则的踩坑文档路径
+  status: IMPLEMENTING
+  created_at: '2026-07-21T22:56:21Z'
+  updated_at: '2026-07-21T22:59:13Z'
+  requester_actor_id: codex-r07-candidate
+  approver_actor_id: codex-release-audit
+  task_id: TASK-R07-007
+  session_id: SES-20260721T210252Z-D631F6E4
+  user_request: 把可复用方案写入全局硬性规则和踩坑记录
+  reason: CR-0197影响清单误写根目录PITFALLS.md，事实文件位于docs/03-continuity/PITFALLS.md，必须用独立批准CR补齐真实路径而不篡改已批准记录
+  original_rule: CR-0197只登记了不存在的根目录PITFALLS.md路径
+  new_rule: 在真实docs/03-continuity/PITFALLS.md登记首版基线单次采集与轻量晋升硬规则
+  impact_summary: 只补正治理文档路径，不改变CR-0197技术方案或候选行为
+  impact:
+    files:
+    - docs/03-continuity/PITFALLS.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - rg核对陷阱条款与android-automation策略一致
+    releases:
+    - R07
+    migration_and_compatibility: 纯文档路径补正，无运行时迁移
+  user_confirmation: 项目所有者已明确要求写入全局硬性规则和踩坑复用记录
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T22:56:27Z'
+    note: 真实文件路径已核对，独立补正保留CR审计不可变性
+  machine_record: .continuity/change_requests/CR-0198.yaml
+  document: docs/03-continuity/change-requests/CR-0198-补正Android基线复用规则的踩坑文档路径.md
+  decision_log:
+  - at: '2026-07-21T22:59:13Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTING
+    note: 真实PITFALLS路径已登记第20条全局硬规则并与策略和Problem Registry互相绑定
+    session_id: SES-20260721T210252Z-D631F6E4
+  session_ids:
+  - SES-20260721T210252Z-D631F6E4
