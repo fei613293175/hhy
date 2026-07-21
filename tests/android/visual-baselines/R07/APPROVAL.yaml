@@ -1,0 +1,20 @@
+schema: hhy.android-visual-baseline-approval/v1
+release: R07
+status: APPROVED
+authority: AI_IMPLEMENTATION_AGENT
+source:
+  github_run_id: "29875839322"
+  commit: 69406d918b4c2aa6f1eea78baed48464e4f94277
+  artifact_id: "8513094997"
+  artifact_sha256: ef5b8f148ef2e977c2062d1a95e17c9178341ed2c4870cfb3caa17f4ff259981
+  runtime_status: BASELINE_REVIEW_REQUIRED
+decision: 四张截图均绑定R07真实已认证旅程，页面身份与业务夹具完整，搜索首页、结果、发布者主页和清空历史确认框状态稳定且互不重复；字号、间距、色彩、圆角和层级使用冻结Design Token，无敏感联系方式明文、内部错误码、请求编号或TraceId，批准为R07视觉基线。
+screens:
+- file: 01-search-landing.png
+  sha256: 01bf67243c6744f681d3369f42056dc6fe1d17bef3f0418f23dd44d76d97f5d9
+- file: 02-search-results.png
+  sha256: 032c7872436602292028b69f37542dfef28aec8b0c456f6a0b91aae860109bf9
+- file: 03-publisher.png
+  sha256: 367d8082e86fb1588c4435a98915a1c44829af750657e15f2fd2f1727fc99cf4
+- file: 04-clear-history-dialog.png
+  sha256: 0db0736589c022fcf6eb0b637f8ffabfdb9432fca72a0f049d0ea98db389f825
