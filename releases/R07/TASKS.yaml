@@ -27,7 +27,7 @@ tasks:
   completed_at: '2026-07-21T08:56:02Z'
 - id: TASK-R07-002
   title: 搜索、发布者主页与联系方式保护数据迁移与领域不变量
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R07-001
   requirements: *id001
@@ -41,9 +41,10 @@ tasks:
   - Flyway前向迁移与空库/升级库测试
   - 不变量属性测试
   session_log_required: true
+  completed_at: '2026-07-21T17:06:37Z'
 - id: TASK-R07-003
   title: 搜索、发布者主页与联系方式保护后端应用服务与接口
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R07-002
   requirements: *id001

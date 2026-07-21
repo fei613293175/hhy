@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-21T17:02:52Z",
-  "context_hash": "a64ba3c9b9c9a4ed915fa91d0daa92a54a99bf83f6766304839c23c92e54be4d",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-21T17:06:45Z",
+  "context_hash": "9f0b3d576e102c5acf90ba4176c935dbbf4d2fd1c72b9cbbca4dd21a45455337",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "2616ca469342a55a150d749c1464cc98d0e01bc1da4c10b3615e5da9b901a10a",
-    "file_count": 12
+    "sha256": "57ee5a3ae29716b992843401b8c12694ccd525b067c624df8368909653bc5c5f",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "e38a45f9d0cadac253f49730d77f3fd809ea4f37f1091d9bb9ae0dd50a59b3f5"
+    "sha256": "e916f4221d13b5da734b27b0a2ded12044a62f757ed534f788776595ff321576"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "c2e8940cb030801d215ebd040dac1d3d85823d81016eb820c3fcc30acdcbdc78"
+    "sha256": "cd8eca9e75a4e22640969935d5b70c11ff3f9759ce99273d50c815378673cec1"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "ee692ed953744a2f74491ddcf4fc499f15968a99b626cceb6db59bb8b7081b4f",
-      "bytes": 3786
+      "sha256": "635792cfe1c90bd84c533eb2b886d3a3576dc9d20a440ff38bfa7b4bb6f03fe6",
+      "bytes": 3659
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "d31480ecf8e850d2e85f59cfbcd37a707785f98b02ec83aae10d2d3f3cd3f076",
-      "bytes": 1577
+      "sha256": "685a4ff6e3ccef2f076a4cf4dbc73057618157520aad15889be31d879398fde5",
+      "bytes": 1556
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "0260cbca8de59fd8ca3d56c59ec479741fcd8ec4abf92cfd8026ba80430d38ee",
-      "bytes": 990530
+      "sha256": "8376b0ce280c7fcaac310e7ddcdce3da0e7dee6bb32702f7089c2101c903aec0",
+      "bytes": 992305
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "70109855d3a51ecf981f8d04743320d08146654dc913a9ebe87b53a028782c6e",
-      "bytes": 31278
+      "sha256": "0d22fe1a476b553398f677dd8ef31ef164f78f0a4b2989502c19e6c58d99229f",
+      "bytes": 31296
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "1a817750abb90712d6e62eabdb380d34d3ad24ba7e0ea220f5e2029fbd608448",
-      "bytes": 41091
+      "sha256": "7db7d552e92d9eeb0738aa5e1e4b439e5eef5d520bcf9d7f973b7e3ffb2a2e6e",
+      "bytes": 41127
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "654d339dd73aa5c87d3540a11aff5ca6169f02eca400b2e99763cfac4dff84ea",
-      "bytes": 529
+      "sha256": "9b7bc16ca8c8ddb821c7f3c62536155020df1ce4213ee41e21a4e4422cd6a9fc",
+      "bytes": 143
     },
     {
       "path": "releases/R07/RELEASE_MANIFEST.yaml",
@@ -128,8 +128,8 @@
     },
     {
       "path": "releases/R07/TASKS.yaml",
-      "sha256": "069638911008f646870308650d622ef90adbf21a2d5082fe558879301f3d7ff7",
-      "bytes": 5738
+      "sha256": "c93dc1404bb209f9d924d91a3a9ada27dd24b1979004810dbeb08434dbb9822f",
+      "bytes": 5774
     },
     {
       "path": "releases/R07/ACCEPTANCE_MATRIX.csv",
@@ -140,26 +140,6 @@
       "path": "releases/R07/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756",
       "bytes": 4300
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260721T130339Z-785E85BE.md",
-      "sha256": "9b9fceeff23635882443332a699be589f74ac1a321ce04782a5ccaa1784964a1",
-      "bytes": 8475
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260721T130339Z-785E85BE/0004.yaml",
-      "sha256": "b6e151896cc2cdf298e3efca95b48df42b3acad1fd173f2a657a616850d742c2",
-      "bytes": 8148
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0176-建立R07搜索数据不变量与可回滚迁移.md",
-      "sha256": "b1d423c5737ae22c2fb309499a63c9b6c580baaa3353e0b7f00fb27a4f3e92ff",
-      "bytes": 4021
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0177-修复模块边界规则误识别Spring-Repository注解.md",
-      "sha256": "063d2738a5f089ed203884ec6f5052a813c073834f8b55f3e6d5dc8f7ee2fe94",
-      "bytes": 3253
     }
   ]
 }

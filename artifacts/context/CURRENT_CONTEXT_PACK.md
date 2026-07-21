@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T17:02:52Z
-- Context Hash：`a64ba3c9b9c9a4ed915fa91d0daa92a54a99bf83f6766304839c23c92e54be4d`
+- 生成时间：2026-07-21T17:06:45Z
+- Context Hash：`9f0b3d576e102c5acf90ba4176c935dbbf4d2fd1c72b9cbbca4dd21a45455337`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-003
 ```
 
 ## 当前状态
@@ -17,10 +17,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R07
 active_release: R07
-active_task: TASK-R07-002
-status: IN_PROGRESS
+active_task: TASK-R07-003
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: cac604cf6663facb0200b187d20a3ba6f9a1ca4e
+last_green_commit: b60a7a2de772e8ba480123ac85fd012dacf62160
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -88,14 +88,14 @@ completed_tasks:
 - TASK-R06-006
 - TASK-R06-007
 - TASK-R07-001
-in_progress_tasks:
 - TASK-R07-002
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
-next_task: TASK-R07-002
-updated_at: '2026-07-21T17:02:50Z'
+next_task: TASK-R07-003
+updated_at: '2026-07-21T17:06:42Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -127,19 +127,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260721T130339Z-785E85BE
-  actor_id: codex-root-r07
-  story_id: STORY-R07-005
-  lease_expires_at: '2026-07-21T21:02:50Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T130339Z-785E85BE/0004.yaml
-  project_fingerprint: 2616ca469342a55a150d749c1464cc98d0e01bc1da4c10b3615e5da9b901a10a
+  active_session_id: null
+  last_session_id: SES-20260721T130339Z-785E85BE
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260721T130339Z-785E85BE/0005.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 1ff92946b3c9b125760b446d12666ee28932854699c2e661229a337e8d87d242
-    generated_at: '2026-07-21T16:55:24Z'
-  handoff_bundle: null
+    context_hash: 191e46a5125e6d837d48731bf3ee8261b26bbd4ff989a7667c2c71ed7e2afa1d
+    generated_at: '2026-07-21T17:06:41Z'
 ```
 
 ## 默认并行规则
@@ -280,8 +278,8 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R07-002
-title: 搜索、发布者主页与联系方式保护数据迁移与领域不变量
+id: TASK-R07-003
+title: 搜索、发布者主页与联系方式保护后端应用服务与接口
 status: READY
 release: R07
 requirements:
@@ -290,22 +288,22 @@ requirements:
 - REQ-PUBLISHER-001
 - REQ-APK-001
 depends_on:
-- TASK-R07-001
+- TASK-R07-002
 definition_of_ready: releases/R07/DEFINITION_OF_READY.yaml
 stories: releases/R07/STORIES.yaml
 steps:
-- Flyway前向迁移与空库/升级库测试
-- 不变量属性测试
+- OpenAPI契约测试
+- 权限/幂等/错误码/审计覆盖
 acceptance:
 - 无TODO/生产Mock
 - 代码、文档、测试、追踪同步更新
-- Flyway前向迁移与空库/升级库测试
-- 不变量属性测试
+- OpenAPI契约测试
+- 权限/幂等/错误码/审计覆盖
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-002
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-003
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-002
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-003
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -318,287 +316,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260721T130339Z-785E85BE
-status: ACTIVE
-actor:
-  id: codex-root-r07
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R07
-task_id: TASK-R07-002
-story_id: STORY-R07-005
-goal: 异常恢复 SES-20260721T090217Z-21EF6428：实现R07搜索历史、热词及相关内容访问数据迁移与领域不变量，补齐唯一约束、状态历史、幂等和回滚验证
-started_at: '2026-07-21T13:03:39Z'
-updated_at: '2026-07-21T17:02:50Z'
-takeover_of: SES-20260721T090217Z-21EF6428
-change_requests:
-- CR-0176
-- CR-0177
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/ModuleBoundaryTest.java
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - artifacts/reports/R07/TASK-R07-002-database.md
-  source: story+explicit+approved-cr:CR-0177
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: f0e45bae374b71359b91cc3f63e8628007bf97dc
-  start_head: f0e45bae374b71359b91cc3f63e8628007bf97dc
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: DIRTY_TAKEOVER
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-21T17:02:50Z'
-  expires_at: '2026-07-21T21:02:50Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260721T130339Z-785E85BE/0004.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260721T130339Z-785E85BE.md
-next_step: 提交并推送CR生命周期元数据，随后以b60a7a2d关闭TASK-R07-002。
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: CR生命周期和事件哈希链为共享连续性事实，必须由主控串行更新。
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T130339Z-785E85BE-0004
-session_id: SES-20260721T130339Z-785E85BE
-sequence: 4
-created_at: '2026-07-21T17:02:49Z'
-summary: CR-0176和CR-0177已绑定实现提交b60a7a2d并完成IMPLEMENTED到CLOSED生命周期。
-next_step: 提交并推送CR生命周期元数据，随后以b60a7a2d关闭TASK-R07-002。
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: cr0176_lifecycle
-  result: PASS
-  evidence: .continuity/change_requests/CR-0176.yaml
-  note: IMPLEMENTING IMPLEMENTED CLOSED且绑定b60a7a2d
-- name: cr0177_lifecycle
-  result: PASS
-  evidence: .continuity/change_requests/CR-0177.yaml
-  note: IMPLEMENTING IMPLEMENTED CLOSED且绑定b60a7a2d
-- name: implementation_push
-  result: PASS
-  evidence: origin/task/TASK-R03-001 b60a7a2d
-  note: pre-push strict PASS ahead=1 behind=0 before push
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: b60a7a2de772e8ba480123ac85fd012dacf62160
-  upstream: origin/task/TASK-R03-001
-  ahead: 0
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0176.yaml'
-  - ' M .continuity/change_requests/CR-0177.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0176-建立R07搜索数据不变量与可回滚迁移.md'
-  - ' M docs/03-continuity/change-requests/CR-0177-修复模块边界规则误识别Spring-Repository注解.md'
-  recent_commits:
-  - "b60a7a2de772e8ba480123ac85fd012dacf62160\t2026-07-22T00:58:04+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(search): enforce R07\
-    \ data invariants"
-  - "f0e45bae374b71359b91cc3f63e8628007bf97dc\t2026-07-21T16:58:05+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-001\
-    \ as completed"
-  - "247f3add2be69a47abaff8ecb8c3216246320709\t2026-07-21T16:51:50+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close R07\
-    \ entry change requests"
-  - "cac604cf6663facb0200b187d20a3ba6f9a1ca4e\t2026-07-21T16:48:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(governance): open R07\
-    \ implementation"
-  - "cb9c1490316e1a9f8f7660e57732b0391b3e8417\t2026-07-21T16:15:17+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-008\
-    \ as blocked"
-  - "84582c03da4db757951ac7798fbd61551555d71f\t2026-07-21T16:12:34+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close CR-0173\
-    \ lifecycle"
-  - "8be788eedce48a26fab3a00f21b497e49a7be9f1\t2026-07-21T16:11:02+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] fix(continuity): satisfy strict\
-    \ async close dependency"
-  - "8cc0bcbd6f061a58061c7e713f4c87943dd3451c\t2026-07-21T16:01:58+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close CR-0172\
-    \ lifecycle"
-project_fingerprint:
-  sha256: 2616ca469342a55a150d749c1464cc98d0e01bc1da4c10b3615e5da9b901a10a
-  files:
-  - database/migrations/V031__r07_search_invariants.sql
-  - database/rollback/U031__r07_search_invariants.sql
-  - database/tests/r07_search_invariants.sql
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0176-建立R07搜索数据不变量与可回滚迁移.md
-  - docs/03-continuity/change-requests/CR-0177-修复模块边界规则误识别Spring-Repository注解.md
-  - scripts/run_r07_database_invariants.sh
-  - scripts/run_r07_disposable_postgres_container.sh
-  - services/backend/boot/src/main/resources/db/migration/V031__r07_search_invariants.sql
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/ModuleBoundaryTest.java
-  - tests/test_r07_search_database_scripts.py
-  - tests/test_r07_search_migration.py
-  file_count: 12
-  payload:
-    base_commit: f0e45bae374b71359b91cc3f63e8628007bf97dc
-    files:
-    - path: database/migrations/V031__r07_search_invariants.sql
-      state: FILE
-      size: 2038
-      sha256: 16625639867fd0d888cf882bcbf27f07f2fbd243fe8457aec2fa879470859778
-    - path: database/rollback/U031__r07_search_invariants.sql
-      state: FILE
-      size: 761
-      sha256: 0da144d0be6afe7ef4087c880dba9c5c5a83e92221f84b534a015f3975a779e3
-    - path: database/tests/r07_search_invariants.sql
-      state: FILE
-      size: 3016
-      sha256: 4d9071b56e70c0c61152d3318dbbfeb119d5c3e9da3e39b47fc9ba996a8969dc
-    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-      state: FILE
-      size: 83715
-      sha256: d14c259104d2f32a13e3c4262903f908fc06e75c94f8f4e72d1c04d07f9f6bb6
-    - path: docs/03-continuity/change-requests/CR-0176-建立R07搜索数据不变量与可回滚迁移.md
-      state: FILE
-      size: 4021
-      sha256: b1d423c5737ae22c2fb309499a63c9b6c580baaa3353e0b7f00fb27a4f3e92ff
-    - path: docs/03-continuity/change-requests/CR-0177-修复模块边界规则误识别Spring-Repository注解.md
-      state: FILE
-      size: 3253
-      sha256: 063d2738a5f089ed203884ec6f5052a813c073834f8b55f3e6d5dc8f7ee2fe94
-    - path: scripts/run_r07_database_invariants.sh
-      state: FILE
-      size: 2376
-      sha256: dfb3f55db913aea9ff0a1419ba11dbc4291868f7ace3a6760740531745e8a704
-    - path: scripts/run_r07_disposable_postgres_container.sh
-      state: FILE
-      size: 2999
-      sha256: 0368e68e48695c18c47a4d0289fa013094daa38d577b77adaf392195ba965232
-    - path: services/backend/boot/src/main/resources/db/migration/V031__r07_search_invariants.sql
-      state: FILE
-      size: 2038
-      sha256: 16625639867fd0d888cf882bcbf27f07f2fbd243fe8457aec2fa879470859778
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/ModuleBoundaryTest.java
-      state: FILE
-      size: 1684
-      sha256: 93666e8e835f222ff728aaa2d5db2337629a42cc2079f2c2bb7ef361c8ed0f02
-    - path: tests/test_r07_search_database_scripts.py
-      state: FILE
-      size: 2207
-      sha256: 4714b28231edf0529269e04333f924474f01c6721b240768c14e1285391c03af
-    - path: tests/test_r07_search_migration.py
-      state: FILE
-      size: 2291
-      sha256: 7c559cdca79f087e4e48c42169e19754c65b5e3509a20bb6a130df4631cd4b4f
-change_classification:
-  database:
-  - database/migrations/V031__r07_search_invariants.sql
-  - database/rollback/U031__r07_search_invariants.sql
-  - database/tests/r07_search_invariants.sql
-  continuity:
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0176-建立R07搜索数据不变量与可回滚迁移.md
-  - docs/03-continuity/change-requests/CR-0177-修复模块边界规则误识别Spring-Repository注解.md
-  code:
-  - scripts/run_r07_database_invariants.sh
-  - scripts/run_r07_disposable_postgres_container.sh
-  - services/backend/boot/src/main/resources/db/migration/V031__r07_search_invariants.sql
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/ModuleBoundaryTest.java
-  tests:
-  - tests/test_r07_search_database_scripts.py
-  - tests/test_r07_search_migration.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- DATABASE_TEST_EVIDENCE
-- SCHEMA_TRACEABILITY
-change_requests:
-- CR-0176
-- CR-0177
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/ModuleBoundaryTest.java
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - artifacts/reports/R07/TASK-R07-002-database.md
-  source: story+explicit+approved-cr:CR-0177
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: CR生命周期和事件哈希链为共享连续性事实，必须由主控串行更新。
-event_hash: 800cf24dbbf7a41094cc54f75908d66755c138eb34320f6b547f5e3ccbd33ba0
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -606,12 +330,12 @@ event_hash: 800cf24dbbf7a41094cc54f75908d66755c138eb34320f6b547f5e3ccbd33ba0
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260721T130339Z-785E85BE
-last_session_id: SES-20260721T082026Z-E6763DFE
+active_session_id: null
+last_session_id: SES-20260721T130339Z-785E85BE
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260721T082026Z-E6763DFE-0005
-event_count: 1800
-event_head_hash: 800cf24dbbf7a41094cc54f75908d66755c138eb34320f6b547f5e3ccbd33ba0
+last_closure_checkpoint_id: CP-SES-20260721T130339Z-785E85BE-0005
+event_count: 1803
+event_head_hash: ab3ee7e4c08dd528f9290e40931a35f7cffc1ebe7dac6601283fbbdef9e1b321
 event_chain_valid: true
 ```
 
@@ -730,13 +454,13 @@ recent_sessions: - session_id: SES-20260720T160653Z-1DDCDB22
   task_id: TASK-R07-002
   story_id: STORY-R07-005
   actor_id: codex-root-r07
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-21T13:03:39Z'
   record: .continuity/sessions/SES-20260721T130339Z-785E85BE.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T130339Z-785E85BE.md
-  updated_at: '2026-07-21T17:02:50Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T130339Z-785E85BE/0004.yaml
+  updated_at: '2026-07-21T17:06:42Z'
+  closed_at: '2026-07-21T17:06:42Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T130339Z-785E85BE/0005.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-CF0524B385C0
   session_id: SES-20260719T160438Z-BF4F2F1D
@@ -1397,7 +1121,7 @@ task_claims: - claim_id: CLM-CF0524B385C0
   task_id: TASK-R07-002
   story_id: STORY-R07-005
   actor_id: codex-root-r07
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-21T13:03:39Z'
   allowed_paths:
   - apps/**
@@ -1431,6 +1155,7 @@ task_claims: - claim_id: CLM-CF0524B385C0
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-21T17:06:42Z'
 recent_task_transitions: - transition_id: TRN-FF85FC3E3B68
   timestamp: '2026-07-19T16:04:38Z'
   release: R04
@@ -1638,28 +1363,31 @@ recent_task_transitions: - transition_id: TRN-FF85FC3E3B68
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: b60a7a2de772e8ba480123ac85fd012dacf62160
+head: 59a8fe7b65efc7c3b57cb354c562984bd9eed480
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0176.yaml'
-- ' M .continuity/change_requests/CR-0177.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260721T130339Z-785E85BE.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0176-建立R07搜索数据不变量与可回滚迁移.md'
-- ' M docs/03-continuity/change-requests/CR-0177-修复模块边界规则误识别Spring-Repository注解.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260721T130339Z-785E85BE.md'
-- ?? .continuity/checkpoints/SES-20260721T130339Z-785E85BE/0004.yaml
+- ' M releases/R07/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260721T130339Z-785E85BE/0005.yaml
 recent_commits:
+- "59a8fe7b65efc7c3b57cb354c562984bd9eed480\t2026-07-22T01:04:35+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close R07\
+  \ data change requests"
 - "b60a7a2de772e8ba480123ac85fd012dacf62160\t2026-07-22T00:58:04+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(search): enforce R07 data\
   \ invariants"
 - "f0e45bae374b71359b91cc3f63e8628007bf97dc\t2026-07-21T16:58:05+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-001\
@@ -1674,27 +1402,14 @@ recent_commits:
   \ lifecycle"
 - "8be788eedce48a26fab3a00f21b497e49a7be9f1\t2026-07-21T16:11:02+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] fix(continuity): satisfy strict\
   \ async close dependency"
-- "8cc0bcbd6f061a58061c7e713f4c87943dd3451c\t2026-07-21T16:01:58+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close CR-0172\
-  \ lifecycle"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`2616ca469342a55a150d749c1464cc98d0e01bc1da4c10b3615e5da9b901a10a`
-- 文件数：12
+- 指纹：`57ee5a3ae29716b992843401b8c12694ccd525b067c624df8368909653bc5c5f`
+- 文件数：0
 
-- `database/migrations/V031__r07_search_invariants.sql`
-- `database/rollback/U031__r07_search_invariants.sql`
-- `database/tests/r07_search_invariants.sql`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
-- `docs/03-continuity/change-requests/CR-0176-建立R07搜索数据不变量与可回滚迁移.md`
-- `docs/03-continuity/change-requests/CR-0177-修复模块边界规则误识别Spring-Repository注解.md`
-- `scripts/run_r07_database_invariants.sh`
-- `scripts/run_r07_disposable_postgres_container.sh`
-- `services/backend/boot/src/main/resources/db/migration/V031__r07_search_invariants.sql`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/ModuleBoundaryTest.java`
-- `tests/test_r07_search_database_scripts.py`
-- `tests/test_r07_search_migration.py`
+- 无
 
 ## 当前 Release
 
@@ -2365,7 +2080,7 @@ TASKS.yaml:
     completed_at: '2026-07-21T08:56:02Z'
   - id: TASK-R07-002
     title: 搜索、发布者主页与联系方式保护数据迁移与领域不变量
-    status: READY
+    status: DONE
     depends_on:
     - TASK-R07-001
     requirements: *id001
@@ -2379,9 +2094,10 @@ TASKS.yaml:
     - Flyway前向迁移与空库/升级库测试
     - 不变量属性测试
     session_log_required: true
+    completed_at: '2026-07-21T17:06:37Z'
   - id: TASK-R07-003
     title: 搜索、发布者主页与联系方式保护后端应用服务与接口
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R07-002
     requirements: *id001
@@ -7103,8 +6819,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `ee692ed953744a2f74491ddcf4fc499f15968a99b626cceb6db59bb8b7081b4f`
-- `NEXT_TASK.yaml` — `d31480ecf8e850d2e85f59cfbcd37a707785f98b02ec83aae10d2d3f3cd3f076`
+- `CURRENT_STATUS.yaml` — `635792cfe1c90bd84c533eb2b886d3a3576dc9d20a440ff38bfa7b4bb6f03fe6`
+- `NEXT_TASK.yaml` — `685a4ff6e3ccef2f076a4cf4dbc73057618157520aad15889be31d879398fde5`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `d14c259104d2f32a13e3c4262903f908fc06e75c94f8f4e72d1c04d07f9f6bb6`
@@ -7114,22 +6830,18 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `0260cbca8de59fd8ca3d56c59ec479741fcd8ec4abf92cfd8026ba80430d38ee`
-- `.continuity/SESSION_INDEX.yaml` — `70109855d3a51ecf981f8d04743320d08146654dc913a9ebe87b53a028782c6e`
-- `.continuity/TASK_CLAIMS.yaml` — `1a817750abb90712d6e62eabdb380d34d3ad24ba7e0ea220f5e2029fbd608448`
+- `.continuity/EVENT_LOG.jsonl` — `8376b0ce280c7fcaac310e7ddcdce3da0e7dee6bb32702f7089c2101c903aec0`
+- `.continuity/SESSION_INDEX.yaml` — `0d22fe1a476b553398f677dd8ef31ef164f78f0a4b2989502c19e6c58d99229f`
+- `.continuity/TASK_CLAIMS.yaml` — `7db7d552e92d9eeb0738aa5e1e4b439e5eef5d520bcf9d7f973b7e3ffb2a2e6e`
 - `.continuity/TASK_TRANSITIONS.yaml` — `26a2448c5e1893a50cd6e614c8f7c1e6b93924e5184eb9205d2d2458a4e72b83`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `69f9fee8069f4d17f2c13f8bdd2154e068a2444d2f572075fc47e9b33a25cb13`
-- `.continuity/ACTIVE_SESSION.yaml` — `654d339dd73aa5c87d3540a11aff5ca6169f02eca400b2e99763cfac4dff84ea`
+- `.continuity/ACTIVE_SESSION.yaml` — `9b7bc16ca8c8ddb821c7f3c62536155020df1ce4213ee41e21a4e4422cd6a9fc`
 - `releases/R07/RELEASE_MANIFEST.yaml` — `d4cddd44d9c550085a49cb69a62de5414ed011a0277d27099c9274642a227744`
 - `releases/R07/DEFINITION_OF_READY.yaml` — `5e3a1496a1a9a9af6ac2e40e8aaacdfaa46cc7bf117324c22c486b3730c6f9f9`
 - `releases/R07/STORIES.yaml` — `26004a70f2d1aa3d76af5d2924a6ff7174213cc9265b18aec6bdad4b3707c0fb`
-- `releases/R07/TASKS.yaml` — `069638911008f646870308650d622ef90adbf21a2d5082fe558879301f3d7ff7`
+- `releases/R07/TASKS.yaml` — `c93dc1404bb209f9d924d91a3a9ada27dd24b1979004810dbeb08434dbb9822f`
 - `releases/R07/ACCEPTANCE_MATRIX.csv` — `1f31b7765d0740a6b8800d8ec89920a67f6010697dda3d7be5793ce48275ce39`
 - `releases/R07/PARALLEL_EXECUTION_PLAN.yaml` — `6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T130339Z-785E85BE.md` — `9b9fceeff23635882443332a699be589f74ac1a321ce04782a5ccaa1784964a1`
-- `.continuity/checkpoints/SES-20260721T130339Z-785E85BE/0004.yaml` — `b6e151896cc2cdf298e3efca95b48df42b3acad1fd173f2a657a616850d742c2`
-- `docs/03-continuity/change-requests/CR-0176-建立R07搜索数据不变量与可回滚迁移.md` — `b1d423c5737ae22c2fb309499a63c9b6c580baaa3353e0b7f00fb27a4f3e92ff`
-- `docs/03-continuity/change-requests/CR-0177-修复模块边界规则误识别Spring-Repository注解.md` — `063d2738a5f089ed203884ec6f5052a813c073834f8b55f3e6d5dc8f7ee2fe94`
 
 ## 接手硬规则
 

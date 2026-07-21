@@ -743,3 +743,12 @@
 - 摘要：R07开发就绪核验、五个故事领取、实施入口、并行计划与连续性证据全部PASS，允许进入数据迁移与领域不变量
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T082026Z-E6763DFE.md`
 
+## TASK-R07-002 · COMPLETED · 2026-07-21T17:06:37Z
+
+- Task close: TASK-R07-002 / SES-20260721T130339Z-785E85BE
+- Release：`R07`
+- Story：`STORY-R07-005`
+- Actor：`codex-root-r07`
+- 摘要：R07搜索数据迁移与领域不变量完成：V031前向、U031回滚、空库/升级库/重放、PostgreSQL不变量及后端311项零失败；ModuleBoundary既有误报已按PROB-0068和CR-0177修复。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T130339Z-785E85BE.md`
+
