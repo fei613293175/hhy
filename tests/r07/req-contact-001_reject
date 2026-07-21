@@ -1,0 +1,13 @@
+{
+  "schema": "hhy.r07.test-adapter/v1",
+  "test_id": "TST-CONTACT_001-REJECT",
+  "central_runner": "scripts/run_r07_specialized_matrix.py",
+  "runner": "r07-java21-postgresql17-search-publisher-contact",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java#unreadableLegacyContactIsRejectedAndAuditedWithoutLeakingItsStoredValue",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java#unsupportedContactChannelIsRejectedBeforeIdempotencyOrStorage",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java#contactStorageTimeoutAbandonsClaimBeforeAuditMessageOrSnapshot",
+    "apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt#contactFailureStateNeverRetainsPreviouslyAuthorizedPlaintext"
+  ],
+  "fault_classes": ["invalid-channel", "legacy-ciphertext", "storage-timeout", "zero-plaintext-leak", "zero-message-side-effect"]
+}

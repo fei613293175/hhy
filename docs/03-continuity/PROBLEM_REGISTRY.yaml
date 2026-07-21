@@ -904,3 +904,18 @@ problems:
   - 架构依赖规则不得仅凭通用简单类名匹配第三方框架类型，必须限定项目命名空间
   - ArchUnit目标谓词组合必须使用目标条件链，禁止用andShould把目标条件误施加到源类
   - 修复测试误报时不得直接跳过、禁用或删除架构测试，必须保留真实违规的正向命中回归
+- id: PROB-0069
+  title: Windows用户环境未持久化受控Git导致每轮PowerShell重复缺PATH
+  status: SOLVED
+  root_cause: 仓库脚本已经能够解析HHY_GIT_BIN和Codex捆绑Git，但当前电脑用户级HHY_GIT_BIN为空且PATH只有WindowsApps、Node等目录；裸git与未走统一入口的Python子进程因此在每个新执行环境确定性失败，只能反复临时拼接受控运行时路径。
+  resolution: CR-0185把已验证Git 2.53.0的绝对路径写入Windows用户级HHY_GIT_BIN，并把其cmd目录幂等加入用户PATH；新增configure_windows_git_runtime.ps1统一安装与检查、REPOSITORY_TRANSPORT机器入口、START_HERE换机顺序和统一开发硬规则。当前进程显式注入后裸git及Python subprocess均通过，长期父进程只需在方便时重启一次刷新继承环境。
+  regression_checks:
+  - powershell -NoProfile -ExecutionPolicy Bypass -File scripts/configure_windows_git_runtime.ps1
+  - powershell -NoProfile -ExecutionPolicy Bypass -File scripts/configure_windows_git_runtime.ps1 -Check
+  - git --version
+  - Python subprocess直接执行git --version
+  do_not_repeat:
+  - 不得把脚本内部回退能力误当成Windows用户PATH已经持久化
+  - 不得在每次命令前重复发现和拼接受控Git路径；首次接手只配置一次并回读
+  - 不得因旧Codex或IDE进程尚未刷新环境而覆盖正确用户配置、重建仓库或停止开发
+  - 换电脑必须从START_HERE和REPOSITORY_TRANSPORT恢复，不依赖聊天记忆

@@ -87,7 +87,7 @@ tasks:
   - TASK-R07-003
   - TASK-R07-004
   requirements: *id001
-  description: 执行9项测试，覆盖重复请求、并发、超时、消息重复和供应商异常
+  description: 执行发布清单冻结的10项测试，覆盖重复请求、并发、超时、消息重复、依赖异常与清空历史页面动作契约
   deliverables:
   - 测试报告和失败证据归档
   - 关键缺陷清零

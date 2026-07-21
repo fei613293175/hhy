@@ -3,6 +3,7 @@ package cc.orbexa.hhy.content;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -89,6 +90,87 @@ class R07ServiceTest {
     }
 
     @Test
+    void repeatedSearchesReturnStableResultsAndADeDuplicatedHistoryProjection() {
+        var rows = new R07Store.SearchRows(List.of(
+                new R07Store.SearchRow(42, 7, "PROJECT", "合作项目", "摘要",
+                        NOW, "发布者", null, null, false, null, false, 2.0)), 1, false);
+        when(store.search(any())).thenReturn(rows);
+        when(store.history(eq(11L), any())).thenReturn(new R07Store.TermRows(List.of(
+                new R07Store.TermRow(91, "合作", NOW)), 1, false));
+
+        var first = service.search(11, "合作", "PROJECT", null, null,
+                1, 20, null, "relevance:desc");
+        var retry = service.search(11, "合作", "PROJECT", null, null,
+                1, 20, null, "relevance:desc");
+        var history = service.history(11, 1, 20, null, null, "createdAt:desc");
+
+        assertEquals(first, retry);
+        assertEquals(1, history.items().size());
+        assertEquals("合作", history.items().getFirst().keyword());
+        verify(store, times(2)).recordSearch(11, "合作", NOW);
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+    }
+
+    @Test
+    void searchStorageFailureDoesNotRecordHistoryOrReturnPartialResults() {
+        when(store.search(any())).thenThrow(new IllegalStateException("database timeout"));
+
+        IllegalStateException error = assertThrows(IllegalStateException.class, () -> service.search(
+                11, "合作", null, null, null, 1, 20, null, "relevance:desc"));
+
+        assertEquals("database timeout", error.getMessage());
+        verify(store, never()).recordSearch(anyLong(), anyString(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+    }
+
+    @Test
+    void publisherReturnsOnlyPublicProfileFieldsWithoutReadingContactData() {
+        when(store.publisher(7, 11, NOW)).thenReturn(Optional.of(new R07Store.PublisherRow(
+                7, "公开发布者", "avatar", "公开简介", true, "PRO", true)));
+
+        var result = service.publisher(11, "7");
+
+        assertEquals("7", result.userId());
+        assertEquals("公开发布者", result.nickname());
+        assertEquals("公开简介", result.bio());
+        assertTrue(result.verified());
+        assertEquals("PRO", result.memberBadge());
+        assertTrue(result.followed());
+        verify(store, never()).contact(anyLong(), anyString());
+        verify(store, never()).contactAudit(anyLong(), anyLong(), anyString(), anyString(), any());
+    }
+
+    @Test
+    void repeatedPublisherReadsAreStableAndHaveNoWriteSideEffects() {
+        var row = new R07Store.PublisherRow(7, "公开发布者", null, null,
+                false, null, false);
+        when(store.publisher(7, 11, NOW)).thenReturn(Optional.of(row));
+
+        var first = service.publisher(11, "7");
+        var retry = service.publisher(11, "7");
+
+        assertEquals(first, retry);
+        verify(store, times(2)).publisher(7, 11, NOW);
+        verify(store, never()).recordSearch(anyLong(), anyString(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+    }
+
+    @Test
+    void invalidOrUnavailablePublisherIsRejectedWithoutPrivateLookup() {
+        BusinessException invalid = assertThrows(BusinessException.class,
+                () -> service.publisher(11, "0"));
+        assertEquals("COMMON-400-VALIDATION", invalid.code());
+        verify(store, never()).publisher(anyLong(), anyLong(), any());
+
+        when(store.publisher(7, 11, NOW)).thenReturn(Optional.empty());
+        BusinessException missing = assertThrows(BusinessException.class,
+                () -> service.publisher(11, "7"));
+        assertEquals("COMMON-404-NOT_FOUND", missing.code());
+        assertFalse(missing.getMessage().contains("7"));
+        verify(store, never()).contact(anyLong(), anyString());
+    }
+
+    @Test
     void contactAccessDecryptsOnceAndReplaysEncryptedSnapshotWithoutDuplicateOutbox() {
         String plain = "contact@example.com";
         String encryptedContact = cipher.encrypt(42, "EMAIL", plain);
@@ -143,6 +225,63 @@ class R07ServiceTest {
     }
 
     @Test
+    void pendingDuplicateContactRequestReturnsRetryableConflictWithoutSideEffects() {
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new R07Store.IdempotencyClaim(74, invocation.getArgument(2),
+                        null, null, null, true));
+
+        BusinessException error = assertThrows(BusinessException.class, () -> service.contact(
+                11, "42", "EMAIL", new ContactAccessRequest(Map.of("action", "VIEW")), KEY));
+
+        assertEquals("COMMON-409-VERSION_CONFLICT", error.code());
+        assertTrue(error.retryable());
+        verify(store, never()).contact(anyLong(), anyString());
+        verify(store, never()).contactAudit(anyLong(), anyLong(), anyString(), anyString(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+    }
+
+    @Test
+    void sameContactKeyWithDifferentIntentIsRejectedBeforeSensitiveLookup() {
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenReturn(
+                new R07Store.IdempotencyClaim(75, "f".repeat(64),
+                        "r07.contact-access.v1:ok", "r07.contact-access.v1", "ciphertext", true));
+
+        BusinessException error = assertThrows(BusinessException.class, () -> service.contact(
+                11, "42", "EMAIL", new ContactAccessRequest(Map.of("action", "COPY")), KEY));
+
+        assertEquals("COMMON-409-IDEMPOTENCY_CONFLICT", error.code());
+        verify(store, never()).contact(anyLong(), anyString());
+        verify(store, never()).contactAudit(anyLong(), anyLong(), anyString(), anyString(), any());
+    }
+
+    @Test
+    void contactStorageTimeoutAbandonsClaimBeforeAuditMessageOrSnapshot() {
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new R07Store.IdempotencyClaim(76, invocation.getArgument(2),
+                        null, null, null, false));
+        when(store.contact(42, "EMAIL")).thenThrow(new IllegalStateException("contact store timeout"));
+
+        IllegalStateException error = assertThrows(IllegalStateException.class, () -> service.contact(
+                11, "42", "EMAIL", new ContactAccessRequest(Map.of("action", "VIEW")), KEY));
+
+        assertEquals("contact store timeout", error.getMessage());
+        verify(store).abandon(76);
+        verify(store, never()).contactAudit(anyLong(), anyLong(), anyString(), anyString(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(store, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void unsupportedContactChannelIsRejectedBeforeIdempotencyOrStorage() {
+        BusinessException error = assertThrows(BusinessException.class, () -> service.contact(
+                11, "42", "FAX", new ContactAccessRequest(Map.of()), KEY));
+
+        assertEquals("COMMON-400-VALIDATION", error.code());
+        verify(store, never()).claim(anyString(), anyString(), anyString(), any());
+        verify(store, never()).contact(anyLong(), anyString());
+    }
+
+    @Test
     void clearHistoryIsScopedToTheAuthenticatedUserAndProducesOneMessage() {
         when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
                 new R07Store.IdempotencyClaim(73, invocation.getArgument(2),
@@ -157,5 +296,33 @@ class R07ServiceTest {
         verify(store).outbox(
                 11, "SEARCH_HISTORY", "search.history.cleared.v1", "11", "CLEARED", NOW);
         verify(store).complete(eq(73L), anyString(), eq("r07.search-history-clear.v1"), anyString());
+    }
+
+    @Test
+    void clearHistoryRetryReplaysFirstResponseWithoutDuplicateDeleteOrMessage() {
+        var snapshot = new AtomicReference<String>();
+        var claims = new AtomicInteger();
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation -> {
+            boolean replay = claims.getAndIncrement() > 0;
+            return new R07Store.IdempotencyClaim(77, invocation.getArgument(2),
+                    replay ? "r07.search-history-clear.v1:ok" : null,
+                    replay ? "r07.search-history-clear.v1" : null,
+                    replay ? snapshot.get() : null, replay);
+        });
+        when(store.clearHistory(11)).thenReturn(4);
+        org.mockito.Mockito.doAnswer(invocation -> {
+            snapshot.set(invocation.getArgument(3));
+            return null;
+        }).when(store).complete(eq(77L), anyString(), eq("r07.search-history-clear.v1"), anyString());
+
+        var first = service.clearHistory(11, KEY);
+        var retry = service.clearHistory(11, KEY);
+
+        assertEquals(first, retry);
+        verify(store, times(1)).clearHistory(11);
+        verify(store, times(1)).outbox(
+                11, "SEARCH_HISTORY", "search.history.cleared.v1", "11", "CLEARED", NOW);
+        verify(store, times(1)).complete(eq(77L), anyString(),
+                eq("r07.search-history-clear.v1"), anyString());
     }
 }

@@ -27,6 +27,12 @@ recovery:
   require_bundle_verification: true
   raw_source_without_git_or_bundle: BLOCK
   repair_mismatched_remote_requires_explicit_flag: true
+  windows_git_runtime:
+    configure_command: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/configure_windows_git_runtime.ps1
+    check_command: powershell -NoProfile -ExecutionPolicy Bypass -File scripts/configure_windows_git_runtime.ps1 -Check
+    user_environment_variable: HHY_GIT_BIN
+    user_path_required: true
+    credentials_written: false
 push_preflight:
   fetch_before_compare: true
   require_clean_worktree: true
@@ -35,4 +41,3 @@ push_preflight:
   reject_behind: true
   reject_diverged: true
   allow_new_remote_branch: true
-

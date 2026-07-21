@@ -32,6 +32,29 @@ class R07DiscoveryStateTest {
     }
 
     @Test
+    fun clearHistoryFailureRetainsTheSameKeyForSafeRetry() {
+        var sequence = 0
+        val keys = StableIntentKeys { "r07-test-${++sequence}-0000000000" }
+
+        val submitted = keys.key("clear-history", "current-account")
+        val afterTimeout = keys.key("clear-history", "current-account")
+
+        assertEquals(submitted, afterTimeout)
+        assertEquals(1, sequence)
+    }
+
+    @Test
+    fun changingAuthenticatedAccountRotatesClearHistoryIntent() {
+        var sequence = 0
+        val keys = StableIntentKeys { "r07-test-${++sequence}-0000000000" }
+
+        val firstAccount = keys.key("clear-history", "account-11")
+        val secondAccount = keys.key("clear-history", "account-12")
+
+        assertNotEquals(firstAccount, secondAccount)
+    }
+
+    @Test
     fun closingContactPanelErasesAuthorizedPlaintext() {
         val visible = ContactPanelState(contact = ContactAccessResource("PHONE", "13800000000", "2026-07-21T00:00:00Z"))
 
@@ -50,5 +73,20 @@ class R07DiscoveryStateTest {
         assertEquals(R07LoadPhase.FORBIDDEN, ui.phase)
         assertEquals("暂时无法访问", ui.title)
         assertEquals("req-safe", ui.requestId)
+    }
+
+    @Test
+    fun contactFailureStateNeverRetainsPreviouslyAuthorizedPlaintext() {
+        val failure = R07CallResult.Failure(
+            statusCode = null,
+            errorCode = "NETWORK_TIMEOUT contact@example.com",
+            requestId = "req-redacted",
+        ).toUiFailure()
+
+        val failed = ContactPanelState(failure = failure)
+
+        assertNull(failed.contact)
+        assertEquals("网络连接不可用", failed.failure?.title)
+        assertEquals("req-redacted", failed.failure?.requestId)
     }
 }

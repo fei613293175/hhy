@@ -1,0 +1,361 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T193434Z-0C5F0BFA-0001
+session_id: SES-20260721T193434Z-0C5F0BFA
+sequence: 1
+created_at: '2026-07-21T19:56:46Z'
+summary: R07-005十项冻结测试已自动化，并彻底固化Windows受控Git用户环境：搜索发布者联系方式及清历史故障注入、本地Java21和Android定向测试通过；用户级HHY_GIT_BIN与PATH已持久化，跨机脚本与PROB-0069复发规则完成。
+next_step: 提交并推送冻结测试实现和Windows Git复发规则，然后在obx-test精确Commit运行Java21受影响MODULE、PostgreSQL17零跳过和Android MODULE，归档SHA256证据。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: r07-specialized-inventory
+  result: PASS
+  evidence: scripts/run_r07_specialized_matrix.py test_count=10 errors=0
+  note: 10个权威Adapter与真实方法存在
+- name: r07-matrix-self-test
+  result: PASS
+  evidence: tests/r07/test_r07_specialized_matrix.py 3 tests
+  note: 错误环境和缺证据均失败关闭
+- name: r07-java21-targeted
+  result: PASS
+  evidence: R07ServiceTest+R07ControllerContractTest+R07PostgresStoreTest 19 tests 0 failure 0 error 2 env skips
+  note: 真实PostgreSQL留待冻结Commit远端执行
+- name: r07-android-targeted
+  result: PASS
+  evidence: feature discovery testDebugUnitTest 35 tasks
+  note: 6项状态和高敏生命周期测试通过
+- name: r07-contracts
+  result: PASS
+  evidence: API client=131 admin=184 websocket=10 runtime assets=36
+  note: 合同与运行资产无漂移
+- name: windows-git-runtime
+  result: PASS
+  evidence: configure install twice + check; USER_PATH_GIT_COUNT=1; git 2.53.0
+  note: 用户级HHY_GIT_BIN与PATH持久化且幂等
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: ddf293eda518bca96b695d518ad67f9d18536536
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M START_HERE.md'
+  - ' M apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M catalogs/test_cases.csv'
+  - ' M config/REPOSITORY_TRANSPORT.yaml'
+  - ' M docs/03-continuity/PITFALLS.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/09-development/统一开发与交付效率规范.md'
+  - ' M releases/R07/TASKS.yaml'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java'
+  - ?? .continuity/change_requests/CR-0184.yaml
+  - ?? .continuity/change_requests/CR-0185.yaml
+  - ?? .continuity/sessions/SES-20260721T193434Z-0C5F0BFA.yaml
+  - ?? docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md
+  - ?? docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md
+  - ?? scripts/configure_windows_git_runtime.ps1
+  - ?? scripts/run_r07_specialized_matrix.py
+  - ?? tests/r07/README.md
+  - ?? tests/r07/dialog-search-001_clear-history
+  - ?? tests/r07/req-contact-001_happy
+  - ?? tests/r07/req-contact-001_idempotent
+  - ?? tests/r07/req-contact-001_reject
+  - ?? tests/r07/req-publisher-001_happy
+  - ?? tests/r07/req-publisher-001_idempotent
+  - ?? tests/r07/req-publisher-001_reject
+  - ?? tests/r07/req-search-001_happy
+  - ?? tests/r07/req-search-001_idempotent
+  - ?? tests/r07/req-search-001_reject
+  - ?? tests/r07/test_r07_specialized_matrix.py
+  recent_commits:
+  - "ddf293eda518bca96b695d518ad67f9d18536536\t2026-07-22T03:27:57+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): close TASK-R07-004\
+    \ as completed"
+  - "af217ef5097826bd16003d797624d742b1c93ad7\t2026-07-22T03:26:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): 关闭R07客户端变更请求"
+  - "fea04949506434f8f408bc0244d6a195718c6c22\t2026-07-22T03:25:02+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] feat(android): 实现R07搜索发布者与联系方式闭环"
+  - "dff784e5d74a3fe5b09b2c7acfc06dcf7e1bcebd\t2026-07-22T02:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-003\
+    \ as completed"
+  - "301a30124f4d65e1c1862bd02befe840a273bdf0\t2026-07-22T02:55:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭 R07-003\
+    \ 变更请求"
+  - "83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593\t2026-07-22T02:50:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(r07): 实现搜索发布者与联系方式后端"
+  - "706970f90a7994b2cb020953cfb93d0e386978be\t2026-07-22T01:08:27+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-002\
+    \ as completed"
+  - "59a8fe7b65efc7c3b57cb354c562984bd9eed480\t2026-07-22T01:04:35+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close R07\
+    \ data change requests"
+project_fingerprint:
+  sha256: f5fae43cb99bc75f2e6e6a9d637a5470415e1ab93d7319c585f22826578de204
+  files:
+  - CHANGELOG.md
+  - START_HERE.md
+  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
+  - catalogs/test_cases.csv
+  - config/REPOSITORY_TRANSPORT.yaml
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md
+  - docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R07/TASKS.yaml
+  - scripts/configure_windows_git_runtime.ps1
+  - scripts/run_r07_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
+  - tests/r07/README.md
+  - tests/r07/dialog-search-001_clear-history
+  - tests/r07/req-contact-001_happy
+  - tests/r07/req-contact-001_idempotent
+  - tests/r07/req-contact-001_reject
+  - tests/r07/req-publisher-001_happy
+  - tests/r07/req-publisher-001_idempotent
+  - tests/r07/req-publisher-001_reject
+  - tests/r07/req-search-001_happy
+  - tests/r07/req-search-001_idempotent
+  - tests/r07/req-search-001_reject
+  - tests/r07/test_r07_specialized_matrix.py
+  file_count: 27
+  payload:
+    base_commit: ddf293eda518bca96b695d518ad67f9d18536536
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 65676
+      sha256: 53951b557cc0fdc24aace6e83d545919316090cdc6e82070940533782d8efc74
+    - path: START_HERE.md
+      state: FILE
+      size: 4162
+      sha256: a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e
+    - path: apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
+      state: FILE
+      size: 3077
+      sha256: 53c8b32c35622a2e2fb11275d3e5e7a9c6f1d68b5778db1420132e467cdabf5d
+    - path: catalogs/test_cases.csv
+      state: FILE
+      size: 227806
+      sha256: c1522fc0b4087b25c5a76087f37e382a473c67873997390f7a504b57a4c02776
+    - path: config/REPOSITORY_TRANSPORT.yaml
+      state: FILE
+      size: 1285
+      sha256: 8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 3022
+      sha256: 15e6f729ddca7efef1a0be4267dede8cae1364389d7bd83436c5333d52943310
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 85234
+      sha256: fef46e10528b70d1041880f9409a7a4d969b8cd15fef01f28c302b6645e78da3
+    - path: docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md
+      state: FILE
+      size: 4471
+      sha256: 88b5ed7ff5cc46685424247b59373cbd7b0d4ec65365f5d6ac1bbc4872bc6812
+    - path: docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md
+      state: FILE
+      size: 3153
+      sha256: 52cd0e7483327cde3399050fdbc937d200db9bb3b6aff3f29a777835ca297c77
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 11505
+      sha256: d2c45f41aef10a402c9d70d057b6cbbd90cdef5c303d0f21eb4573088eb81b03
+    - path: releases/R07/TASKS.yaml
+      state: FILE
+      size: 5920
+      sha256: c6d7a87b42603a491b8e79ce90e5a38e5db702de9924efaaa3e0be6425122b60
+    - path: scripts/configure_windows_git_runtime.ps1
+      state: FILE
+      size: 3845
+      sha256: 8788a8d854366db1f69a2f2d6d9fe2e8749655e5a18890d75160ad08a0d3f073
+    - path: scripts/run_r07_specialized_matrix.py
+      state: FILE
+      size: 10910
+      sha256: 6180ab0060665f0c015cc0233ecec5d781a05fd5b460aec52a08bc0e784b7cdb
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
+      state: FILE
+      size: 10168
+      sha256: 52d9b90ca75a348deed660fef6a52dc0d34beea6ab04d55618d012a29aacef7d
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
+      state: FILE
+      size: 16042
+      sha256: 806a028e3c5206c0a74c352a91dffbca6156c90ac707f8eb6b1f7c9ad329fc07
+    - path: tests/r07/README.md
+      state: FILE
+      size: 725
+      sha256: 826b1a0e7bc1b09a82ffaeb53c562ac5304de78b8121f256bb6afd560d67963c
+    - path: tests/r07/dialog-search-001_clear-history
+      state: FILE
+      size: 1091
+      sha256: faab8664c46929f913761dcc55f9ba2047aaf8940c74ef8f2955612101b8b3eb
+    - path: tests/r07/req-contact-001_happy
+      state: FILE
+      size: 971
+      sha256: 6bd8a72b30440bf7fd582f4f56b1f20502a0dd4842cc1b1b82cf169d90ed4b03
+    - path: tests/r07/req-contact-001_idempotent
+      state: FILE
+      size: 990
+      sha256: bce3090b83c94f2940846e54877fe03e2cbe23adac8b3e912914146e5aadf8e6
+    - path: tests/r07/req-contact-001_reject
+      state: FILE
+      size: 972
+      sha256: fad0a69f6d3ef23b5c8f247e6c71815b3499f8dcef256bc6a56d1b29eedf1160
+    - path: tests/r07/req-publisher-001_happy
+      state: FILE
+      size: 639
+      sha256: 4a61fd31c0129dfb345024a1cc3ad9b19b4f0d4e46fa2abf237f715a02842e3a
+    - path: tests/r07/req-publisher-001_idempotent
+      state: FILE
+      size: 454
+      sha256: 026ae7d71a0c781c0a52ba194794e74b948e1df9e205aa4fa363980cfa1019bc
+    - path: tests/r07/req-publisher-001_reject
+      state: FILE
+      size: 483
+      sha256: 00b14c187deb2841d20ae379f0c26099e3864dd64b589d0312b5f2a75b4aafe3
+    - path: tests/r07/req-search-001_happy
+      state: FILE
+      size: 645
+      sha256: f6acbcd47845afe72393114980cfd85566ba8ac5a0b1b459e7d9ee8481088e16
+    - path: tests/r07/req-search-001_idempotent
+      state: FILE
+      size: 627
+      sha256: e18707a3e9a070d4fc321a01abb6ebbc930f573c32191beca3362c3033536a9e
+    - path: tests/r07/req-search-001_reject
+      state: FILE
+      size: 759
+      sha256: 1117a7c41566e59e383b700808e5588f046c17cdf7c8b11c84ed4ccbaf348bcb
+    - path: tests/r07/test_r07_specialized_matrix.py
+      state: FILE
+      size: 2179
+      sha256: 6cff9516a1a7983ac1d7127681c04e0b0f6f4dfef86aaf18af452f621ae21b05
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/test_cases.csv
+  - config/REPOSITORY_TRANSPORT.yaml
+  - docs/09-development/统一开发与交付效率规范.md
+  - releases/R07/TASKS.yaml
+  user_visible:
+  - START_HERE.md
+  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
+  code:
+  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
+  - scripts/configure_windows_git_runtime.ps1
+  - scripts/run_r07_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
+  continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md
+  - docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md
+  tests:
+  - tests/r07/README.md
+  - tests/r07/dialog-search-001_clear-history
+  - tests/r07/req-contact-001_happy
+  - tests/r07/req-contact-001_idempotent
+  - tests/r07/req-contact-001_reject
+  - tests/r07/req-publisher-001_happy
+  - tests/r07/req-publisher-001_idempotent
+  - tests/r07/req-publisher-001_reject
+  - tests/r07/req-search-001_happy
+  - tests/r07/req-search-001_idempotent
+  - tests/r07/req-search-001_reject
+  - tests/r07/test_r07_specialized_matrix.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0184
+- CR-0185
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - releases/R07/TASKS.yaml
+  - catalogs/test_cases.csv
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java
+  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
+  - scripts/run_r07_specialized_matrix.py
+  - tests/r07/README.md
+  - tests/r07/test_r07_specialized_matrix.py
+  - tests/r07/req-contact-001_happy
+  - tests/r07/req-contact-001_idempotent
+  - tests/r07/req-contact-001_reject
+  - tests/r07/req-publisher-001_happy
+  - tests/r07/req-publisher-001_idempotent
+  - tests/r07/req-publisher-001_reject
+  - tests/r07/req-search-001_happy
+  - tests/r07/req-search-001_idempotent
+  - tests/r07/req-search-001_reject
+  - tests/r07/dialog-search-001_clear-history
+  - artifacts/validation/r07-test-evidence/r07-specialized.evidence.json
+  - artifacts/validation/r07-test-evidence/backend-java21.log
+  - artifacts/validation/r07-test-evidence/postgresql17.log
+  - artifacts/validation/r07-test-evidence/android-module.log
+  - artifacts/reports/R07/TASK-R07-005-specialized-testing.md
+  - CHANGELOG.md
+  - scripts/configure_windows_git_runtime.ps1
+  - config/REPOSITORY_TRANSPORT.yaml
+  - START_HERE.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  source: story+explicit+approved-cr:CR-0184+approved-cr:CR-0185
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 当前改动集中在同一测试矩阵和全局环境事实且工作树有唯一连续性会话；冻结Commit前不能安全拆分，冻结后由obx-test生成单一可复验证据。
+event_hash: 3fe76ea82fcb02317318298ffca6fe7f68a24e4364340ac0dffe3433a67e1e1b

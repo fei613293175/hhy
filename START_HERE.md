@@ -8,6 +8,15 @@ V1.2.2 仍是产品、页面和运营施工基线；V1.2.3 在其上增加持续
 
 ## 2. 新 AI / 新开发者第一条命令
 
+Windows 新电脑或首次接手先一次性配置受控 Git；命令会幂等写入用户级 `HHY_GIT_BIN` 与 `PATH`，不写凭据、不修改远端：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/configure_windows_git_runtime.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/configure_windows_git_runtime.ps1 -Check
+```
+
+随后恢复仓库事实：
+
 ```bash
 python3 scripts/continuity.py resume
 ```
@@ -46,7 +55,7 @@ python3 scripts/continuity.py checkpoint   --summary '<完成内容>' --next-ste
 
 冻结事实变化使用 `cr-create`、`cr-amend` 和不同 Actor 的 `cr-approve`。切换 AI 前使用 `handoff`；异常中断使用 `recover`；干净项目归档使用 `export-clean`。
 
-跨电脑或交接包恢复 Git 时只使用 `config/REPOSITORY_TRANSPORT.yaml` 和 `scripts/restore_git_transport.py`；认证凭据始终由当前电脑的 Credential Manager/SSH Agent 提供，不得写入仓库或远程 URL。推送前必须运行受控 preflight，禁止 force push。
+跨电脑或交接包恢复 Git 时只使用 `config/REPOSITORY_TRANSPORT.yaml`、`scripts/configure_windows_git_runtime.ps1` 和 `scripts/restore_git_transport.py`；认证凭据始终由当前电脑的 Credential Manager/SSH Agent 提供，不得写入仓库或远程 URL。推送前必须运行受控 preflight，禁止 force push。若当前 Codex/IDE 是配置前启动的长驻父进程，可继续使用 `HHY_GIT_BIN` 或统一工作流完成当前任务，在方便时重启一次刷新继承的 `PATH`；不得把旧进程环境误判为配置失败并重复诊断。
 
 ## 6. 门禁
 

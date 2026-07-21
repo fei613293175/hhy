@@ -1,0 +1,13 @@
+{
+  "schema": "hhy.r07.test-adapter/v1",
+  "test_id": "TST-CONTACT_001-HAPPY",
+  "central_runner": "scripts/run_r07_specialized_matrix.py",
+  "runner": "r07-java21-postgresql17-search-publisher-contact",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java#contactAccessDecryptsOnceAndReplaysEncryptedSnapshotWithoutDuplicateOutbox",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java#exposesTheSixR07ControllerOperationsAndProtectsSensitiveContactResponse",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java#searchPublisherContactIdempotencyAuditAndOutboxUseRealPostgres",
+    "apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt#closingContactPanelErasesAuthorizedPlaintext"
+  ],
+  "fault_classes": ["encrypted-contact-read", "immutable-audit", "no-store-response", "plaintext-memory-erasure"]
+}
