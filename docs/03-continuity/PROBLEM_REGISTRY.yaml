@@ -891,3 +891,16 @@ problems:
   - 外部门禁旁路必须同时覆盖任务分类和后续Release依赖判定，不能只修前半段
   - 只能忽略本次原子关闭的当前任务，禁止把同一Release的其他未完成任务视为GREEN
   - owner_physical_test、正式Release验收和生产激活状态不得因依赖豁免改为PASS或ALLOWED
+- id: PROB-0068
+  title: 模块边界测试把Spring Repository注解误判为项目跨模块仓库
+  status: SOLVED
+  root_cause: ModuleBoundaryTest只按依赖目标的简单类名Repository筛选，并用andShould把shared包条件错误施加到被检查的源类；ContentPostgresStore的Spring @Repository注解因此被识别为项目仓库依赖。提交f0e45bae在obx-test隔离环境中稳定复现1项失败，证明问题早于R07数据库迁移。
+  resolution: CR-0177把仓库目标限定为cc.orbexa.hhy项目命名空间中非shared包且类名以Repository结尾的类型；Spring和第三方Repository注解被排除，项目内非shared仓库仍受边界规则约束。回归同时断言框架注解不命中、PublishedAppReleaseRepository继续命中。
+  regression_checks:
+  - obx-test基线f0e45bae执行ModuleBoundaryTest必须复现旧规则1项失败
+  - obx-test执行mvn -B -pl access,boot -am test必须0失败
+  - ModuleBoundaryTest.repositoryTargetPatternExcludesFrameworkAnnotationsButKeepsProjectRepositories
+  do_not_repeat:
+  - 架构依赖规则不得仅凭通用简单类名匹配第三方框架类型，必须限定项目命名空间
+  - ArchUnit目标谓词组合必须使用目标条件链，禁止用andShould把目标条件误施加到源类
+  - 修复测试误报时不得直接跳过、禁用或删除架构测试，必须保留真实违规的正向命中回归

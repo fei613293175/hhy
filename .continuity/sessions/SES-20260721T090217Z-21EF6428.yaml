@@ -1,0 +1,79 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260721T090217Z-21EF6428
+status: ABANDONED
+actor:
+  id: codex-root
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R07
+task_id: TASK-R07-002
+story_id: STORY-R07-005
+goal: 实现R07搜索历史、热词及相关内容访问数据迁移与领域不变量，补齐唯一约束、状态历史、幂等和回滚验证
+started_at: '2026-07-21T09:02:17Z'
+updated_at: '2026-07-21T13:03:38Z'
+takeover_of: null
+change_requests:
+- CR-0176
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: f0e45bae374b71359b91cc3f63e8628007bf97dc
+  start_head: f0e45bae374b71359b91cc3f63e8628007bf97dc
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-21T09:02:17Z'
+  expires_at: '2026-07-21T13:02:17Z'
+checkpoint_sequence: 0
+latest_checkpoint: null
+session_log: docs/03-continuity/sessions/2026-07/SES-20260721T090217Z-21EF6428.md
+next_step: 阅读当前Story、逐项验证事实源后开始实现
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 482473bfa50bc950f617eb287d17ee50eb79a536b8b8a5bc9a92e33724d844d4
+  generated_at: '2026-07-21T13:03:09Z'
+handoff_bundle: null
+closure:
+  result: ABANDONED
+  reason: Codex会话恢复后继续R07-002，旧租约已过期且无项目文件丢失
+  closed_at: '2026-07-21T13:03:38Z'
+closed_at: '2026-07-21T13:03:38Z'

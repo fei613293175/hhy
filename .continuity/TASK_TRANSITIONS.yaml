@@ -620,3 +620,23 @@ transitions:
   session_id: SES-20260721T082026Z-E6763DFE
   actor_id: codex-root
   reason: 会话领取任务
+- transition_id: TRN-1579A9154BF2
+  timestamp: '2026-07-21T09:02:18Z'
+  release: R07
+  task_id: TASK-R07-002
+  story_id: STORY-R07-005
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260721T090217Z-21EF6428
+  actor_id: codex-root
+  reason: 会话领取任务
+- transition_id: TRN-CEB4C3D3C624
+  timestamp: '2026-07-21T13:03:40Z'
+  release: R07
+  task_id: TASK-R07-002
+  story_id: STORY-R07-005
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260721T130339Z-785E85BE
+  actor_id: codex-root-r07
+  reason: 会话领取任务

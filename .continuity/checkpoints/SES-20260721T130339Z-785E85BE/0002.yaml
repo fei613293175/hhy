@@ -1,0 +1,243 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T130339Z-785E85BE-0002
+session_id: SES-20260721T130339Z-785E85BE
+sequence: 2
+created_at: '2026-07-21T16:52:10Z'
+summary: R07-002 V031迁移、回滚与PostgreSQL不变量完成；基线ModuleBoundary误报经CR-0177修复，受影响后端311项零失败。
+next_step: 运行严格连续性与受影响MODULE门禁，提交并推送CR-0176/CR-0177实现后关闭TASK-R07-002。
+blockers: []
+decisions:
+- ModuleBoundaryTest失败已由f0e45bae隔离基线复现证明为既有ArchUnit目标谓词误报；限定项目命名空间并保留真实项目仓库命中。
+note: ''
+tests:
+- name: r07_search_static
+  result: PASS
+  evidence: python unittest 6 tests OK
+  note: V031前向、回滚和脚本静态合同
+- name: r07_postgresql_invariants
+  result: PASS
+  evidence: artifacts/reports/R07/TASK-R07-002-database.md
+  note: 空库、升级库、不变量、U031回滚与V031重放全部PASS
+- name: database_schema
+  result: PASS
+  evidence: DB_SCHEMA_OK tables=200 migrations=31 runtime_hashes=PASS
+  note: 运行时迁移镜像一致
+- name: runtime_assets
+  result: PASS
+  evidence: sync_runtime_assets 35 assets PASS
+  note: V031源与Boot副本一致
+- name: api_contract
+  result: PASS
+  evidence: API_CONTRACT_OK client=131 admin=184 websocket=10 runtime_hashes=PASS
+  note: 合同未漂移
+- name: module_boundary_baseline
+  result: PASS
+  evidence: obx-test f0e45bae ModuleBoundaryTest 2 tests 1 expected failure
+  note: 确认失败早于R07迁移
+- name: backend_module
+  result: PASS
+  evidence: obx-test Maven access,boot 311 tests failures=0 errors=0 skipped=5 BUILD SUCCESS
+  note: 定向规则回归3项通过
+- name: documentation_contract
+  result: PASS
+  evidence: check_v123_documentation strict 0 errors 0 warnings
+  note: 问题登记与文档结构有效
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: f0e45bae374b71359b91cc3f63e8628007bf97dc
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/ModuleBoundaryTest.java'
+  - ?? .continuity/change_requests/CR-0176.yaml
+  - ?? .continuity/change_requests/CR-0177.yaml
+  - ?? .continuity/checkpoints/SES-20260721T130339Z-785E85BE/0001.yaml
+  - ?? .continuity/sessions/SES-20260721T090217Z-21EF6428.yaml
+  - ?? .continuity/sessions/SES-20260721T130339Z-785E85BE.yaml
+  - ?? artifacts/reports/R07/TASK-R07-002-database.md
+  - ?? database/migrations/V031__r07_search_invariants.sql
+  - ?? database/rollback/U031__r07_search_invariants.sql
+  - ?? database/tests/r07_search_invariants.sql
+  - ?? docs/03-continuity/change-requests/CR-0176-建立R07搜索数据不变量与可回滚迁移.md
+  - ?? docs/03-continuity/change-requests/CR-0177-修复模块边界规则误识别Spring-Repository注解.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T090217Z-21EF6428.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T130339Z-785E85BE.md
+  - ?? scripts/run_r07_database_invariants.sh
+  - ?? scripts/run_r07_disposable_postgres_container.sh
+  - ?? services/backend/boot/src/main/resources/db/migration/V031__r07_search_invariants.sql
+  - ?? tests/test_r07_search_database_scripts.py
+  - ?? tests/test_r07_search_migration.py
+  recent_commits:
+  - "f0e45bae374b71359b91cc3f63e8628007bf97dc\t2026-07-21T16:58:05+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-001\
+    \ as completed"
+  - "247f3add2be69a47abaff8ecb8c3216246320709\t2026-07-21T16:51:50+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close R07\
+    \ entry change requests"
+  - "cac604cf6663facb0200b187d20a3ba6f9a1ca4e\t2026-07-21T16:48:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(governance): open R07\
+    \ implementation"
+  - "cb9c1490316e1a9f8f7660e57732b0391b3e8417\t2026-07-21T16:15:17+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close TASK-R06-008\
+    \ as blocked"
+  - "84582c03da4db757951ac7798fbd61551555d71f\t2026-07-21T16:12:34+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close CR-0173\
+    \ lifecycle"
+  - "8be788eedce48a26fab3a00f21b497e49a7be9f1\t2026-07-21T16:11:02+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] fix(continuity): satisfy strict\
+    \ async close dependency"
+  - "8cc0bcbd6f061a58061c7e713f4c87943dd3451c\t2026-07-21T16:01:58+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] chore(continuity): close CR-0172\
+    \ lifecycle"
+  - "8030fcacf5b6c6606f027eb4df4dfc5ce67b35d7\t2026-07-21T15:59:58+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] fix(continuity): allow strict\
+    \ async owner release transition"
+project_fingerprint:
+  sha256: fbcd432be28e6f65b96b3f0bbfad45fc5332d9e1c1a9c674227f8a95220dc58b
+  files:
+  - database/migrations/V031__r07_search_invariants.sql
+  - database/rollback/U031__r07_search_invariants.sql
+  - database/tests/r07_search_invariants.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0176-建立R07搜索数据不变量与可回滚迁移.md
+  - docs/03-continuity/change-requests/CR-0177-修复模块边界规则误识别Spring-Repository注解.md
+  - scripts/run_r07_database_invariants.sh
+  - scripts/run_r07_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V031__r07_search_invariants.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/ModuleBoundaryTest.java
+  - tests/test_r07_search_database_scripts.py
+  - tests/test_r07_search_migration.py
+  file_count: 12
+  payload:
+    base_commit: f0e45bae374b71359b91cc3f63e8628007bf97dc
+    files:
+    - path: database/migrations/V031__r07_search_invariants.sql
+      state: FILE
+      size: 2038
+      sha256: 16625639867fd0d888cf882bcbf27f07f2fbd243fe8457aec2fa879470859778
+    - path: database/rollback/U031__r07_search_invariants.sql
+      state: FILE
+      size: 761
+      sha256: 0da144d0be6afe7ef4087c880dba9c5c5a83e92221f84b534a015f3975a779e3
+    - path: database/tests/r07_search_invariants.sql
+      state: FILE
+      size: 3016
+      sha256: 4d9071b56e70c0c61152d3318dbbfeb119d5c3e9da3e39b47fc9ba996a8969dc
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 83715
+      sha256: d14c259104d2f32a13e3c4262903f908fc06e75c94f8f4e72d1c04d07f9f6bb6
+    - path: docs/03-continuity/change-requests/CR-0176-建立R07搜索数据不变量与可回滚迁移.md
+      state: FILE
+      size: 3566
+      sha256: dea0bcc73ade47871fea69262b06f588cd92bbfb02374e1c83f7622f975221e0
+    - path: docs/03-continuity/change-requests/CR-0177-修复模块边界规则误识别Spring-Repository注解.md
+      state: FILE
+      size: 2763
+      sha256: a9827293da3b5631e0142a00c27857475cd6d56b79b0d001983fd9b0ce821159
+    - path: scripts/run_r07_database_invariants.sh
+      state: FILE
+      size: 2376
+      sha256: dfb3f55db913aea9ff0a1419ba11dbc4291868f7ace3a6760740531745e8a704
+    - path: scripts/run_r07_disposable_postgres_container.sh
+      state: FILE
+      size: 2999
+      sha256: 0368e68e48695c18c47a4d0289fa013094daa38d577b77adaf392195ba965232
+    - path: services/backend/boot/src/main/resources/db/migration/V031__r07_search_invariants.sql
+      state: FILE
+      size: 2038
+      sha256: 16625639867fd0d888cf882bcbf27f07f2fbd243fe8457aec2fa879470859778
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/ModuleBoundaryTest.java
+      state: FILE
+      size: 1684
+      sha256: 93666e8e835f222ff728aaa2d5db2337629a42cc2079f2c2bb7ef361c8ed0f02
+    - path: tests/test_r07_search_database_scripts.py
+      state: FILE
+      size: 2207
+      sha256: 4714b28231edf0529269e04333f924474f01c6721b240768c14e1285391c03af
+    - path: tests/test_r07_search_migration.py
+      state: FILE
+      size: 2291
+      sha256: 7c559cdca79f087e4e48c42169e19754c65b5e3509a20bb6a130df4631cd4b4f
+change_classification:
+  database:
+  - database/migrations/V031__r07_search_invariants.sql
+  - database/rollback/U031__r07_search_invariants.sql
+  - database/tests/r07_search_invariants.sql
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0176-建立R07搜索数据不变量与可回滚迁移.md
+  - docs/03-continuity/change-requests/CR-0177-修复模块边界规则误识别Spring-Repository注解.md
+  code:
+  - scripts/run_r07_database_invariants.sh
+  - scripts/run_r07_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V031__r07_search_invariants.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/ModuleBoundaryTest.java
+  tests:
+  - tests/test_r07_search_database_scripts.py
+  - tests/test_r07_search_migration.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0176
+- CR-0177
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/ModuleBoundaryTest.java
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - artifacts/reports/R07/TASK-R07-002-database.md
+  source: story+explicit+approved-cr:CR-0177
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 现有r07_data_audit执行代理因上游请求错误未返回任何补丁或证据；主控串行完成基线隔离、架构规则修复、数据库与后端门禁。
+event_hash: dfadd687b759ced4a5980d7cd6098cceaccc192d170061c7c63ad22770664b2f
