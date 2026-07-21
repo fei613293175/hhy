@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-21T07:57:54Z",
-  "context_hash": "9eeccb9feef4963ce01d7e69507d28280ed69a1a505d70448ebc291f097b15ff",
+  "generated_at": "2026-07-21T08:01:22Z",
+  "context_hash": "c4ddb2acc0f691422439d546874a16b08531e688ebc888b8ff45347cb1ffc7d8",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "fe2ed8c265eaa9aa52e0af01d40671926c02a100adf451b168f05543c700d8d5",
+    "sha256": "1d9843ccbe0ee19f9fa4387c7c89bc0acd4e19231f713ed869943d25218250be",
     "file_count": 35
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "3e67268b56e7b8be863d6244e09973bdbe0ac85cdab96b254eda9d66248717fd"
+    "sha256": "420b939f73014c5aa274c4e246e0c2ce58662e817fd45680b61b8ae45bc005ee"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "79edd6cf5e48ff3ed45fefb0bdf265e89a1154ffeff2177d55786fd5e8ba8867"
+    "sha256": "06892a4cfb9b349039b83defd1fc6c001d38d43e0da5a322f14a1fc003af18eb"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "427de1ad60ffd0a18ebc620c13009b887bceca152617e3b381ae7dd5beff4e3d",
+      "sha256": "b9b882460d69f92e650f31f179da9ba489e1594dcbdb132a03a47b60c1ddb316",
       "bytes": 3720
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "772ec665c8211fac4abd2cc6199446e10e1fa9fe9c08d4f0d3ff27bcda489667",
-      "bytes": 963849
+      "sha256": "9ae0ebc7e1868e5f4418c8469093a5429346a44a728d6c00afca3a5a7b76c8dc",
+      "bytes": 965672
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "e87fdfdfc75b3869adabaa459134ce8858960101af6865fcef1b987c7a3e81b4",
+      "sha256": "d43bfa1acaac9235242b480de9cf1b300f86684840c53b7500a477b9278933a6",
       "bytes": 29824
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "79755603fb3671da2a05b51237c1582b788b50c26affb869cddc66888844c433",
-      "bytes": 526176
+      "sha256": "4c353e0e9bb79a66818fa4ac863baecc081cb8147844c8d1b7d0edada0b39177",
+      "bytes": 526935
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "9ab91547033c0cb228cabb942c8d6eef7217a9b7d7707e443519d6720068ea08",
+      "sha256": "fc698b47408c283723bccb62a77157a72f3d5684094fd976aeffb7921e1b3dd2",
       "bytes": 525
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md",
-      "sha256": "0b6f16e997dd2dfdbd7247ef7ad567ce42d2c5964727855905826fe4b8aedfc3",
-      "bytes": 15718
+      "sha256": "aec6cf8f66a67e3f76236351e3d75d89b8d5231307a66292495d9696b4a63f5c",
+      "bytes": 18500
     },
     {
-      "path": ".continuity/checkpoints/SES-20260721T055708Z-741C3D49/0006.yaml",
-      "sha256": "739e47380e626890d1e769e3fabd164edd1d6f8a35ecc0e1293a00bc79431089",
-      "bytes": 15009
+      "path": ".continuity/checkpoints/SES-20260721T055708Z-741C3D49/0007.yaml",
+      "sha256": "214e40853ab48e045e84b43c6e1487295bb26e5f7af83a4ca8be214704e88b13",
+      "bytes": 14727
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0165-补齐R06五页精确视觉合同与浏览器截图关闭证据.md",
@@ -188,8 +188,8 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0172-允许版本关闭任务按机器事实挂起异步真机门禁.md",
-      "sha256": "ceaa670de3936a50e8a71efb9b7884aed7e420e358af74606a432eeae014cb22",
-      "bytes": 2142
+      "sha256": "e17a5e6e70721d9750f0076fb44faf9a8a0d753167f4ff2d179f40821304f5a9",
+      "bytes": 2788
     }
   ]
 }
