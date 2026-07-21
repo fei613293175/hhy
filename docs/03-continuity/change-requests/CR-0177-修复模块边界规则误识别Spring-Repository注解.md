@@ -86,3 +86,17 @@ updated_at: 2026-07-21T16:41:54Z
 - Status：`IMPLEMENTING`
 - Session：`SES-20260721T130339Z-785E85BE`
 - Note：基线误报已隔离复现，ArchUnit项目命名空间修复和311项后端MODULE回归已通过，进入提交绑定阶段。
+
+## 状态记录 · 2026-07-21T17:01:10Z
+
+- Actor：`codex-root-r07`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260721T130339Z-785E85BE`
+- Note：ArchUnit目标限定、防回归断言和后端311项零失败已由实现提交b60a7a2d证明。
+
+## 状态记录 · 2026-07-21T17:02:21Z
+
+- Actor：`codex-root-r07`
+- Status：`CLOSED`
+- Session：`SES-20260721T130339Z-785E85BE`
+- Note：基线复现、规则修复、正反分类回归、311项后端MODULE和严格推送门禁均完成。

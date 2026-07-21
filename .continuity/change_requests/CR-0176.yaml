@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0176
 title: 建立R07搜索数据不变量与可回滚迁移
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-21T12:51:26Z'
-updated_at: '2026-07-21T16:51:23Z'
+updated_at: '2026-07-21T17:01:51Z'
 requester_actor_id: codex-root
 approver_actor_id: codex-reviewer
 task_id: TASK-R07-002
@@ -54,5 +54,17 @@ decision_log:
   status: IMPLEMENTING
   note: V031迁移、回滚、PostgreSQL不变量和受影响合同门禁均已完成，进入提交绑定阶段。
   session_id: SES-20260721T130339Z-785E85BE
+- at: '2026-07-21T17:00:33Z'
+  actor_id: codex-root-r07
+  status: IMPLEMENTED
+  note: V031迁移、回滚与隔离PostgreSQL验证已由实现提交b60a7a2d证明。
+  session_id: SES-20260721T130339Z-785E85BE
+- at: '2026-07-21T17:01:51Z'
+  actor_id: codex-root-r07
+  status: CLOSED
+  note: 实现提交、迁移回滚重放、PostgreSQL实测与严格推送门禁均完成。
+  session_id: SES-20260721T130339Z-785E85BE
 session_ids:
 - SES-20260721T130339Z-785E85BE
+implementation_commits:
+- b60a7a2de772e8ba480123ac85fd012dacf62160

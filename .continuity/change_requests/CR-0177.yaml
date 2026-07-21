@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0177
 title: 修复模块边界规则误识别Spring Repository注解
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-21T16:41:11Z'
-updated_at: '2026-07-21T16:51:21Z'
+updated_at: '2026-07-21T17:02:21Z'
 requester_actor_id: codex-root-r07
 approver_actor_id: codex-reviewer
 task_id: TASK-R07-002
@@ -42,5 +42,17 @@ decision_log:
   status: IMPLEMENTING
   note: 基线误报已隔离复现，ArchUnit项目命名空间修复和311项后端MODULE回归已通过，进入提交绑定阶段。
   session_id: SES-20260721T130339Z-785E85BE
+- at: '2026-07-21T17:01:10Z'
+  actor_id: codex-root-r07
+  status: IMPLEMENTED
+  note: ArchUnit目标限定、防回归断言和后端311项零失败已由实现提交b60a7a2d证明。
+  session_id: SES-20260721T130339Z-785E85BE
+- at: '2026-07-21T17:02:21Z'
+  actor_id: codex-root-r07
+  status: CLOSED
+  note: 基线复现、规则修复、正反分类回归、311项后端MODULE和严格推送门禁均完成。
+  session_id: SES-20260721T130339Z-785E85BE
 session_ids:
 - SES-20260721T130339Z-785E85BE
+implementation_commits:
+- b60a7a2de772e8ba480123ac85fd012dacf62160
