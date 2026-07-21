@@ -11,10 +11,11 @@ task_id: TASK-R06-007
 story_id: STORY-R06-001
 goal: 使用固定Android工具链生成R06机器候选APK，完成GitHub模拟器候选门禁、签名、安装、四方SHA与桌面累积交付，owner_physical_test保持异步真实状态
 started_at: '2026-07-21T04:34:34Z'
-updated_at: '2026-07-21T05:08:19Z'
+updated_at: '2026-07-21T05:48:08Z'
 takeover_of: null
 change_requests:
 - CR-0163
+- CR-0164
 scope:
   allowed_paths:
   - apps/admin-web/**
@@ -36,7 +37,23 @@ scope:
   - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
   - CHANGELOG.md
   - config/android-candidate-request.yaml
-  source: story+explicit+approved-cr:CR-0163
+  - artifacts/validation/r06-task007-android/build-evidence.json
+  - artifacts/validation/r06-task007-android/apk-badging.txt
+  - artifacts/validation/r06-task007-android/apk-signing.txt
+  - artifacts/validation/r06-task007-android/zipalign.txt
+  - artifacts/validation/r06-task007-android/candidate-report.json
+  - artifacts/validation/r06-task007-android/runtime-report.json
+  - artifacts/validation/r06-task007-android/github-run.txt
+  - artifacts/validation/r06-task007-android/screenshots/01-home-loaded.png
+  - artifacts/validation/r06-task007-android/screenshots/02-mine.png
+  - artifacts/validation/r06-task007-android/screenshots/03-about-loaded.png
+  - artifacts/reports/R06/TASK-R06-007-android-apk.md
+  - artifacts/reports/R06/R06-version-test-guide.md
+  - artifacts/apk/R06/APK_MANIFEST.yaml
+  - artifacts/validation/r06-apk-delivery/delivery-evidence.json
+  - releases/R06/ACCEPTANCE_MATRIX.csv
+  - releases/R06/RELEASE_MANIFEST.yaml
+  source: story+explicit+approved-cr:CR-0163+approved-cr:CR-0164
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -46,22 +63,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T05:08:15Z'
-  expires_at: '2026-07-21T09:08:15Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260721T043434Z-868F3619/0003.yaml
+  renewed_at: '2026-07-21T05:48:05Z'
+  expires_at: '2026-07-21T09:48:05Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260721T043434Z-868F3619/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T043434Z-868F3619.md
-next_step: 提交并推送当前Checkpoint绑定Commit，触发且仅触发R06-20260721-008最终GitHub候选
+next_step: 提交推送R06-007证据并关闭任务；进入TASK-R06-008补齐5个逐页视觉合同并执行版本关闭矩阵
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 4c4ae1479147c3b0b33d659547826a6bd9fbf35633b804293b7996ef666c9c89
-  generated_at: '2026-07-21T05:08:17Z'
+  context_hash: 01c8e3fd13cf3672faf2096f9c5b2e56042c58f342ac73da3e472060d8037ede
+  generated_at: '2026-07-21T05:48:07Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 冻结候选Commit、触发配置和连续性身份必须同一提交，不能拆分并行
+  reason: 固定签名、原子上传、四方哈希、Manifest和桌面交付共享同一不可变APK身份，必须由主控串行完成

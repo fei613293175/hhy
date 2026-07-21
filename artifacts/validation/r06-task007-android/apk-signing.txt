@@ -1,0 +1,8 @@
+Verifies
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): true
+Number of signers: 1
+Signer #1 certificate DN: CN=HHY-Staging-Test-V1, OU=Mobile-Engineering, O=Orbexa, L=Shenzhen, ST=Guangdong, C=CN
+Signer #1 certificate SHA-256 digest: f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 3072

@@ -60,6 +60,27 @@ tests:
 - TST-HOME_001-IDEMPOTENT
 - TST-HOME_001-REJECT
 - TST-V122-017
+test_count: 7
+planning_depth: STORY_READY
+apk_gate: MACHINE_CANDIDATE_PASS_OWNER_FEEDBACK_ASYNC
+android_delivery:
+  source_commit: f5cf1e4b315221d7e5998dca6ea5110421c1e62b
+  apk_file: hhy-r06-f5cf1e4-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10214
+  sha256: 32e18bd454548c4a271c9199d5e2646615b0a2ab12aca271f039a737af43f3f7
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  evidence: artifacts/validation/r06-apk-delivery/delivery-evidence.json
+  test_guide: artifacts/reports/R06/R06-version-test-guide.md
+android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  request_id: R06-20260721-008
+  github_run_id: '29803223373'
+  candidate_status: PASS
+  owner_test_allowed: true
+  ai_visual_review: PASS
+  evidence: artifacts/validation/r06-task007-android/candidate-report.json
 entry_baseline:
   checked_at: '2026-07-20'
   session_id: SES-20260720T155546Z-F13C645A
