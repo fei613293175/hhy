@@ -11,7 +11,7 @@ task_id: TASK-R07-007
 story_id: STORY-R07-005
 goal: 完成R07大版本最终候选完整门禁、Android模拟器页面验证、候选APK追溯与桌面交付，AI独立判断截图并保持真机反馈异步。
 started_at: '2026-07-21T21:02:52Z'
-updated_at: '2026-07-21T22:59:20Z'
+updated_at: '2026-07-21T23:16:26Z'
 takeover_of: null
 change_requests:
 - CR-0191
@@ -22,6 +22,7 @@ change_requests:
 - CR-0196
 - CR-0197
 - CR-0198
+- CR-0199
 scope:
   allowed_paths:
   - apps/**
@@ -78,7 +79,7 @@ scope:
   - tests/android/visual-baselines/R07/04-clear-history-dialog.png
   - PITFALLS.md
   - docs/03-continuity/PITFALLS.md
-  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194+approved-cr:CR-0195+approved-cr:CR-0196+approved-cr:CR-0197+approved-cr:CR-0198
+  source: story+explicit+approved-cr:CR-0191+approved-cr:CR-0192+approved-cr:CR-0193+approved-cr:CR-0194+approved-cr:CR-0195+approved-cr:CR-0196+approved-cr:CR-0197+approved-cr:CR-0198+approved-cr:CR-0199
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -88,22 +89,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T22:59:16Z'
-  expires_at: '2026-07-22T02:59:16Z'
-checkpoint_sequence: 8
-latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0008.yaml
+  renewed_at: '2026-07-21T23:16:22Z'
+  expires_at: '2026-07-22T03:16:22Z'
+checkpoint_sequence: 9
+latest_checkpoint: .continuity/checkpoints/SES-20260721T210252Z-D631F6E4/0009.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md
-next_step: 一次性暂存全部项目变更，运行pre-commit门禁并提交推送R07候选attempt 3
+next_step: 提交推送晋升治理修正；随后登记R07四张原始基线与APPROVAL并触发轻量Actions晋升
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 9edf64db87e5857a18551c019b29df06ed942dcc37c73baaf728fd5bad7eaee7
-  generated_at: '2026-07-21T22:59:19Z'
+  context_hash: ec689f0ed739d7704176abdb26ad0b2456a786d698f3b440096451240ef9abe3
+  generated_at: '2026-07-21T23:16:25Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 候选状态机、工作流和CR审计同一提交强耦合，当前必须串行封板且用户未要求子代理
+  reason: 原始Run、截图哈希、审批和晋升状态机必须由同一代理串行绑定且用户未要求子代理

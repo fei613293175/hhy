@@ -349,6 +349,10 @@ class AndroidCiGateTest(unittest.TestCase):
         source = workflow_path.read_text(encoding="utf-8")
         self.assertIn("android_ci_gate.py promote", source)
         self.assertIn("actions/download-artifact@v4", source)
+        self.assertIn("f'{commit}..HEAD'", source)
+        self.assertIn("baseline promotion range contains product or unapproved files", source)
+        self.assertIn("'.continuity/'", source)
+        self.assertNotIn("'apps/android/'", source)
         self.assertNotIn("gradlew", source)
         self.assertNotIn("android-emulator-runner", source)
 

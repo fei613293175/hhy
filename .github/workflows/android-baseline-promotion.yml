@@ -35,19 +35,16 @@ jobs:
           from pathlib import Path
           import os, subprocess, yaml
 
-          changed = subprocess.check_output(
+          head_changed = subprocess.check_output(
               ['git', 'diff-tree', '--no-commit-id', '--name-only', '-r', 'HEAD'],
               text=True,
           ).splitlines()
-          approvals = [path for path in changed if path.endswith('/APPROVAL.yaml')]
+          approvals = [path for path in head_changed if path.endswith('/APPROVAL.yaml')]
           if len(approvals) != 1:
               raise SystemExit(f'exactly one baseline APPROVAL.yaml must change, got {approvals}')
           approval_path = Path(approvals[0])
           release = approval_path.parent.name.upper()
           allowed_prefix = f'tests/android/visual-baselines/{release}/'
-          unexpected = [path for path in changed if not path.startswith(allowed_prefix)]
-          if unexpected:
-              raise SystemExit(f'baseline promotion commit contains non-baseline files: {unexpected}')
           approval = yaml.safe_load(approval_path.read_text(encoding='utf-8')) or {}
           source = approval.get('source') or {}
           run_id = str(source.get('github_run_id') or '')
@@ -55,6 +52,32 @@ jobs:
           if approval.get('release') != release or not run_id.isdigit() or len(commit) != 40:
               raise SystemExit('approval release, source run, or source commit is invalid')
           subprocess.run(['git', 'merge-base', '--is-ancestor', commit, 'HEAD'], check=True)
+          changed = subprocess.check_output(
+              ['git', 'diff', '--name-only', f'{commit}..HEAD'],
+              text=True,
+          ).splitlines()
+          exact_governance = {
+              '.github/workflows/android-baseline-promotion.yml',
+              'tests/test_android_ci_gate.py',
+              'CURRENT_STATUS.yaml',
+              'catalogs/change_request_index.csv',
+              'catalogs/session_index.csv',
+          }
+          governance_prefixes = (
+              '.continuity/',
+              'artifacts/context/CURRENT_CONTEXT_PACK',
+              'artifacts/validation/continuity-gate-',
+              'docs/03-continuity/change-requests/',
+              'docs/03-continuity/sessions/',
+          )
+          unexpected = [
+              path for path in changed
+              if not path.startswith(allowed_prefix)
+              and path not in exact_governance
+              and not path.startswith(governance_prefixes)
+          ]
+          if unexpected:
+              raise SystemExit(f'baseline promotion range contains product or unapproved files: {unexpected}')
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
               output.write(f'approval={approval_path.as_posix()}\n')
               output.write(f'release={release}\n')
