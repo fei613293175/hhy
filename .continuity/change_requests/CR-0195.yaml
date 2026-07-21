@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0195
 title: 修复R07安全联系方式面板候选可观测语义
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-21T22:05:33Z'
-updated_at: '2026-07-21T22:11:22Z'
+updated_at: '2026-07-21T23:51:27Z'
 requester_actor_id: codex-r07-candidate
 approver_actor_id: codex-release-audit
 task_id: TASK-R07-007
@@ -45,5 +45,17 @@ decision_log:
   status: IMPLEMENTING
   note: 运行29871247067根因已复现并修复；服务器Android 132项受影响编译/单测成功，前三张截图AI审查合格
   session_id: SES-20260721T210252Z-D631F6E4
+- at: '2026-07-21T23:51:24Z'
+  actor_id: codex-root-r07-007
+  status: IMPLEMENTED
+  note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+  session_id: SES-20260721T210252Z-D631F6E4
+- at: '2026-07-21T23:51:27Z'
+  actor_id: codex-root-r07-007
+  status: CLOSED
+  note: 实现提交已推送，相关受影响门禁均通过。
+  session_id: SES-20260721T210252Z-D631F6E4
 session_ids:
 - SES-20260721T210252Z-D631F6E4
+implementation_commits:
+- 9fc9030ba1a8dbca16dfda863f8302a8dd5883bb

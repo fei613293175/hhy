@@ -11453,9 +11453,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0191
   title: 建立R07最终候选真实页面旅程与隔离测试夹具
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T21:10:57Z'
-  updated_at: '2026-07-21T21:11:29Z'
+  updated_at: '2026-07-21T23:51:04Z'
   requester_actor_id: codex-root-r07-007
   approver_actor_id: codex-reviewer-r07-candidate
   task_id: TASK-R07-007
@@ -11510,14 +11510,26 @@ change_requests:
     status: IMPLEMENTING
     note: 开始实现R07候选页面旅程、专用CI夹具、视觉清单和候选请求。
     session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:02Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTED
+    note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+    session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:04Z'
+    actor_id: codex-root-r07-007
+    status: CLOSED
+    note: 实现提交已推送，相关受影响门禁均通过。
+    session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+  implementation_commits:
+  - 69406d918b4c2aa6f1eea78baed48464e4f94277
 - protocol_version: '1.0'
   cr_id: CR-0192
   title: 修复R07页面残留Compose颜色硬编码
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T21:15:09Z'
-  updated_at: '2026-07-21T21:15:34Z'
+  updated_at: '2026-07-21T23:51:09Z'
   requester_actor_id: codex-root-r07-007
   approver_actor_id: codex-reviewer-ui-token
   task_id: TASK-R07-007
@@ -11558,14 +11570,26 @@ change_requests:
     status: IMPLEMENTING
     note: 开始替换两处原始Compose颜色并补Problem Registry。
     session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:07Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTED
+    note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+    session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:09Z'
+    actor_id: codex-root-r07-007
+    status: CLOSED
+    note: 实现提交已推送，相关受影响门禁均通过。
+    session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+  implementation_commits:
+  - 69406d918b4c2aa6f1eea78baed48464e4f94277
 - protocol_version: '1.0'
   cr_id: CR-0193
   title: 修复R07候选夹具psql变量边界
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T21:37:07Z'
-  updated_at: '2026-07-21T21:39:27Z'
+  updated_at: '2026-07-21T23:51:15Z'
   requester_actor_id: codex-r07-candidate
   approver_actor_id: codex-release-audit
   task_id: TASK-R07-007
@@ -11604,14 +11628,26 @@ change_requests:
     status: IMPLEMENTING
     note: 已在真实Staging PostgreSQL 17验证匿名块外临时上下文与显式hhy schema，连续两次幂等通过
     session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:12Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTED
+    note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+    session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:15Z'
+    actor_id: codex-root-r07-007
+    status: CLOSED
+    note: 实现提交已推送，相关受影响门禁均通过。
+    session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+  implementation_commits:
+  - f46af781e0fa9007d712332713b3f067875ecb5f
 - protocol_version: '1.0'
   cr_id: CR-0194
   title: 补齐R07候选夹具事务边界自动回归
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T21:40:23Z'
-  updated_at: '2026-07-21T21:41:13Z'
+  updated_at: '2026-07-21T23:51:21Z'
   requester_actor_id: codex-r07-candidate
   approver_actor_id: codex-release-audit
   task_id: TASK-R07-007
@@ -11647,14 +11683,26 @@ change_requests:
     status: IMPLEMENTING
     note: 已新增3项无外部依赖回归，锁定客户端变量边界、hhy schema与事务敏感输出保护
     session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:18Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTED
+    note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+    session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:21Z'
+    actor_id: codex-root-r07-007
+    status: CLOSED
+    note: 实现提交已推送，相关受影响门禁均通过。
+    session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+  implementation_commits:
+  - f46af781e0fa9007d712332713b3f067875ecb5f
 - protocol_version: '1.0'
   cr_id: CR-0195
   title: 修复R07安全联系方式面板候选可观测语义
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T22:05:33Z'
-  updated_at: '2026-07-21T22:11:22Z'
+  updated_at: '2026-07-21T23:51:27Z'
   requester_actor_id: codex-r07-candidate
   approver_actor_id: codex-release-audit
   task_id: TASK-R07-007
@@ -11696,14 +11744,26 @@ change_requests:
     status: IMPLEMENTING
     note: 运行29871247067根因已复现并修复；服务器Android 132项受影响编译/单测成功，前三张截图AI审查合格
     session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:24Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTED
+    note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+    session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:27Z'
+    actor_id: codex-root-r07-007
+    status: CLOSED
+    note: 实现提交已推送，相关受影响门禁均通过。
+    session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+  implementation_commits:
+  - 9fc9030ba1a8dbca16dfda863f8302a8dd5883bb
 - protocol_version: '1.0'
   cr_id: CR-0196
   title: 恢复R07搜索返回栈状态并补齐确认框语义
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T22:30:09Z'
-  updated_at: '2026-07-21T22:59:08Z'
+  updated_at: '2026-07-21T23:51:33Z'
   requester_actor_id: codex-r07-candidate
   approver_actor_id: codex-release-audit
   task_id: TASK-R07-007
@@ -11745,14 +11805,26 @@ change_requests:
     status: IMPLEMENTING
     note: 搜索公开查询状态改为rememberSaveable并按返回栈重载真实结果；确认框独立语义和结果夹具断言已实现，Android模块编译与单测通过
     session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:30Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTED
+    note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+    session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:33Z'
+    actor_id: codex-root-r07-007
+    status: CLOSED
+    note: 实现提交已推送，相关受影响门禁均通过。
+    session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+  implementation_commits:
+  - 69406d918b4c2aa6f1eea78baed48464e4f94277
 - protocol_version: '1.0'
   cr_id: CR-0197
   title: 建立Android首版视觉基线单次模拟器采集与轻量晋升门禁
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T22:51:33Z'
-  updated_at: '2026-07-21T22:59:11Z'
+  updated_at: '2026-07-21T23:51:40Z'
   requester_actor_id: codex-r07-candidate
   approver_actor_id: codex-release-audit
   task_id: TASK-R07-007
@@ -11803,14 +11875,26 @@ change_requests:
     status: IMPLEMENTING
     note: 单次模拟器首版基线采集、BASELINE_REVIEW_REQUIRED状态、原工件轻量晋升工作流及回归已实现，21项Android CI Python测试通过
     session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:37Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTED
+    note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+    session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:40Z'
+    actor_id: codex-root-r07-007
+    status: CLOSED
+    note: 实现提交已推送，相关受影响门禁均通过。
+    session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+  implementation_commits:
+  - 3b188062b69560768b3beebc1632d5f49d5952f3
 - protocol_version: '1.0'
   cr_id: CR-0198
   title: 补正Android基线复用规则的踩坑文档路径
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T22:56:21Z'
-  updated_at: '2026-07-21T22:59:13Z'
+  updated_at: '2026-07-21T23:51:47Z'
   requester_actor_id: codex-r07-candidate
   approver_actor_id: codex-release-audit
   task_id: TASK-R07-007
@@ -11846,14 +11930,26 @@ change_requests:
     status: IMPLEMENTING
     note: 真实PITFALLS路径已登记第20条全局硬规则并与策略和Problem Registry互相绑定
     session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:44Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTED
+    note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+    session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:47Z'
+    actor_id: codex-root-r07-007
+    status: CLOSED
+    note: 实现提交已推送，相关受影响门禁均通过。
+    session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+  implementation_commits:
+  - 69406d918b4c2aa6f1eea78baed48464e4f94277
 - protocol_version: '1.0'
   cr_id: CR-0199
   title: 绑定视觉基线晋升提交与连续性审计文件
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T23:15:30Z'
-  updated_at: '2026-07-21T23:16:19Z'
+  updated_at: '2026-07-21T23:51:52Z'
   requester_actor_id: codex-r07-candidate
   approver_actor_id: codex-release-audit
   task_id: TASK-R07-007
@@ -11890,14 +11986,26 @@ change_requests:
     status: IMPLEMENTING
     note: 晋升工作流已改为校验采集Commit到HEAD完整差异，只允许目标基线、固定晋升基础设施和连续性审计路径；18项回归通过
     session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:49Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTED
+    note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+    session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:52Z'
+    actor_id: codex-root-r07-007
+    status: CLOSED
+    note: 实现提交已推送，相关受影响门禁均通过。
+    session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+  implementation_commits:
+  - 0b6d4dd6035e3ecbe6ac3819e68f22d1ae5f31c2
 - protocol_version: '1.0'
   cr_id: CR-0200
   title: 修复Linux基线晋升中文路径转义误判
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T23:26:39Z'
-  updated_at: '2026-07-21T23:28:45Z'
+  updated_at: '2026-07-21T23:52:00Z'
   requester_actor_id: codex-r07-candidate
   approver_actor_id: codex-release-audit
   task_id: TASK-R07-007
@@ -11936,14 +12044,26 @@ change_requests:
     status: IMPLEMENTING
     note: diff-tree与diff均显式core.quotepath=false；Windows模拟Linux默认true已复现八进制转义，显式false输出真实中文路径；18项回归通过
     session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:51:55Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTED
+    note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+    session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:52:00Z'
+    actor_id: codex-root-r07-007
+    status: CLOSED
+    note: 实现提交已推送，相关受影响门禁均通过。
+    session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+  implementation_commits:
+  - 0afc170633c4103dfec067118e50eb65aae9b2e1
 - protocol_version: '1.0'
   cr_id: CR-0201
   title: 封装并交付R07可追溯测试APK与真机说明
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T23:34:53Z'
-  updated_at: '2026-07-21T23:35:19Z'
+  updated_at: '2026-07-21T23:52:08Z'
   requester_actor_id: codex-root-r07-007
   approver_actor_id: codex-reviewer-r07-delivery
   task_id: TASK-R07-007
@@ -11986,14 +12106,26 @@ change_requests:
     status: IMPLEMENTING
     note: 开始归档GitHub候选证据并执行R07四方APK交付。
     session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:52:04Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTED
+    note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+    session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:52:08Z'
+    actor_id: codex-root-r07-007
+    status: CLOSED
+    note: 实现提交已推送，相关受影响门禁均通过。
+    session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+  implementation_commits:
+  - 947a4349a3c1ddefe55c7ee5c11333117a1b2736
 - protocol_version: '1.0'
   cr_id: CR-0202
   title: 补齐R07五页逐页视觉合同与关闭证据
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-21T23:43:12Z'
-  updated_at: '2026-07-21T23:43:21Z'
+  updated_at: '2026-07-21T23:52:17Z'
   requester_actor_id: codex-root-r07-007
   approver_actor_id: codex-reviewer-r07-visual-close
   task_id: TASK-R07-007
@@ -12040,5 +12172,17 @@ change_requests:
     status: IMPLEMENTING
     note: 开始补齐五页批准补充视觉规格和目录证据。
     session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:52:13Z'
+    actor_id: codex-root-r07-007
+    status: IMPLEMENTED
+    note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+    session_id: SES-20260721T210252Z-D631F6E4
+  - at: '2026-07-21T23:52:17Z'
+    actor_id: codex-root-r07-007
+    status: CLOSED
+    note: 实现提交已推送，相关受影响门禁均通过。
+    session_id: SES-20260721T210252Z-D631F6E4
   session_ids:
   - SES-20260721T210252Z-D631F6E4
+  implementation_commits:
+  - 947a4349a3c1ddefe55c7ee5c11333117a1b2736

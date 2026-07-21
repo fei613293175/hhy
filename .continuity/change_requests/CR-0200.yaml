@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0200
 title: 修复Linux基线晋升中文路径转义误判
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-21T23:26:39Z'
-updated_at: '2026-07-21T23:28:45Z'
+updated_at: '2026-07-21T23:52:00Z'
 requester_actor_id: codex-r07-candidate
 approver_actor_id: codex-release-audit
 task_id: TASK-R07-007
@@ -42,5 +42,17 @@ decision_log:
   status: IMPLEMENTING
   note: diff-tree与diff均显式core.quotepath=false；Windows模拟Linux默认true已复现八进制转义，显式false输出真实中文路径；18项回归通过
   session_id: SES-20260721T210252Z-D631F6E4
+- at: '2026-07-21T23:51:55Z'
+  actor_id: codex-root-r07-007
+  status: IMPLEMENTED
+  note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+  session_id: SES-20260721T210252Z-D631F6E4
+- at: '2026-07-21T23:52:00Z'
+  actor_id: codex-root-r07-007
+  status: CLOSED
+  note: 实现提交已推送，相关受影响门禁均通过。
+  session_id: SES-20260721T210252Z-D631F6E4
 session_ids:
 - SES-20260721T210252Z-D631F6E4
+implementation_commits:
+- 0afc170633c4103dfec067118e50eb65aae9b2e1

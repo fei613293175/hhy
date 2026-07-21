@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0202
 title: 补齐R07五页逐页视觉合同与关闭证据
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-21T23:43:12Z'
-updated_at: '2026-07-21T23:43:21Z'
+updated_at: '2026-07-21T23:52:17Z'
 requester_actor_id: codex-root-r07-007
 approver_actor_id: codex-reviewer-r07-visual-close
 task_id: TASK-R07-007
@@ -50,5 +50,17 @@ decision_log:
   status: IMPLEMENTING
   note: 开始补齐五页批准补充视觉规格和目录证据。
   session_id: SES-20260721T210252Z-D631F6E4
+- at: '2026-07-21T23:52:13Z'
+  actor_id: codex-root-r07-007
+  status: IMPLEMENTED
+  note: 批准范围已实现并由对应提交及R07候选/交付门禁验证。
+  session_id: SES-20260721T210252Z-D631F6E4
+- at: '2026-07-21T23:52:17Z'
+  actor_id: codex-root-r07-007
+  status: CLOSED
+  note: 实现提交已推送，相关受影响门禁均通过。
+  session_id: SES-20260721T210252Z-D631F6E4
 session_ids:
 - SES-20260721T210252Z-D631F6E4
+implementation_commits:
+- 947a4349a3c1ddefe55c7ee5c11333117a1b2736
