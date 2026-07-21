@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-21T19:56:49Z",
-  "context_hash": "fac40c1c63bd1e29b2877ae4e4241480db855df14b99942620167596c20bf4e6",
+  "generated_at": "2026-07-21T20:11:52Z",
+  "context_hash": "7d55e69bd06e2f671dc15a9227331adcc83dc0a9b5ad78eaff671630c8168fc0",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "f5fae43cb99bc75f2e6e6a9d637a5470415e1ab93d7319c585f22826578de204",
-    "file_count": 27
+    "sha256": "e807687d2b1f9573ab7f0ae0377867e339fd17b8674dc28cf19b8f78a008c6c5",
+    "file_count": 28
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "c73095d77c690421640430e169da8f70bc98bb06affcf1cc2065f354177a51f4"
+    "sha256": "e4fdfa450dfdc797cc58cc99a4fc63d09bc05dfe54f121b4d39d8c016b4d1df3"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "bed27f2b00d1bf8228b08c27df99e87e1a4bc182fa5c50f8dfd5a889b302695d"
+    "sha256": "2725e9ec14b92a2b3e9f08ef7aa41eac2a5dd8755bfcb49c17ec6eb5988ee88d"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "a1b67b324c85b2464785188384fb621bc6731de57d5ffcaa98a97316be1fc4e0",
+      "sha256": "b282af8f075bd59fef6dcde333e9f8ddba7e720d71617f5a0188d9e10e7ad9bc",
       "bytes": 3835
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "9eca07c396e9dd73828bde065e75123842919f28d89268ca2433f8369154014a",
-      "bytes": 1028877
+      "sha256": "8c8ac4318deba595a5105ff29bc9e4262e5ee325eb2c05f722deff39344d6bb2",
+      "bytes": 1033564
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "eb5e5282b5f22624ab1b498fe3bb3220e7a4b08297e2563f802b15f76e86750b",
+      "sha256": "a18804be18e4822d71254009cc3765a4fafb8e79b088670912d9aaf6cf80db4a",
       "bytes": 32808
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "22746abcc6d2c01a80f697e9ec4e833fd279284f353004a58b743ca56e7071fb",
-      "bytes": 579868
+      "sha256": "0dc4be2f73fdd33c23171e252de05fba858dadfb966d81f89eb48ae3e796e8ed",
+      "bytes": 582318
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "8d51f89a2ae658a62046813d73e7c1a47791aa4b028e6c5b2a7c321b1aa77517",
+      "sha256": "64009e6f73b3bb9176f32b4ef174d3718c51fe2f1dffa4f939a695d7fff96811",
       "bytes": 533
     },
     {
@@ -143,13 +143,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md",
-      "sha256": "e726872da866fe1339ba982d9fc71f0690ada69f9fb1a15ee2f03d971e1d3af3",
-      "bytes": 4384
+      "sha256": "7f7b62f5feb882dcb3ce960fefc33c41e88908f5eb5f498e1d80a8abaa00ec0b",
+      "bytes": 6944
     },
     {
-      "path": ".continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0001.yaml",
-      "sha256": "e3fa84338a684d7e2c46cf16ce5db27f64a54e558210b781af6dadb3230078e1",
-      "bytes": 15697
+      "path": ".continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0002.yaml",
+      "sha256": "55323b18fd3169e78330e6246e3ac88d231d7cbd9ede716f51b4bc612b84dd97",
+      "bytes": 14503
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md",
@@ -160,6 +160,11 @@
       "path": "docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md",
       "sha256": "52cd0e7483327cde3399050fdbc937d200db9bb3b6aff3f29a777835ca297c77",
       "bytes": 3153
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md",
+      "sha256": "f88233e77b18db7306456d7fa0b027ae5c71d0570cbb2b77db8ab9a9380a1cbb",
+      "bytes": 2478
     }
   ]
 }

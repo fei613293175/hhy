@@ -1,0 +1,157 @@
+{
+  "schema": "hhy.r07.specialized-evidence/v1",
+  "suite": "r07-java21-postgresql17-search-publisher-contact",
+  "release": "R07",
+  "task_id": "TASK-R07-005",
+  "source_commit": "015178b3d45c5d0ff0d0e458eb92a166d8d5026a",
+  "environment": {
+    "backend_runner": "obx-test exact Git clone, Docker maven:3.9.11-eclipse-temurin-21",
+    "java": "Eclipse Temurin 21.0.9",
+    "maven": "Apache Maven 3.9.11",
+    "postgresql": "PostgreSQL 17.10-alpine, disposable hhy_r07 database",
+    "android_gradle_jdk": "Eclipse Temurin 21.0.11+10",
+    "android_runner": "Windows local workspace, Gradle 9.4.1",
+    "api_base_url": "https://api.orbexa.cc"
+  },
+  "commands": [
+    "docker run --rm -v /tmp/hhy-r07-task005-015178b3:/workspace -w /workspace/services/backend maven:3.9.11-eclipse-temurin-21 mvn -B -pl access,boot -am test",
+    "docker run --rm --network hhy-r07-net -e HHY_TEST_POSTGRES_URL=jdbc:postgresql://hhy-r07-postgres:5432/hhy_r07 -e HHY_TEST_POSTGRES_USER=hhy -e HHY_TEST_POSTGRES_PASSWORD=hhy -v /tmp/hhy-r07-task005-015178b3:/workspace -w /workspace/services/backend maven:3.9.11-eclipse-temurin-21 mvn -B -pl boot -am -Dtest=R07PostgresStoreTest -Dsurefire.failIfNoSpecifiedTests=false test",
+    "gradlew.bat --no-daemon testDebugUnitTest lintDebug"
+  ],
+  "results": [
+    {
+      "test_id": "TST-CONTACT_001-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "授权后仅解密一次并返回可用联系方式快照",
+        "响应禁止缓存且客户端关闭面板后清除明文",
+        "真实 PostgreSQL 审计与 Outbox 写入完整"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "d837c1c7bbed61c011274a526036684c2baf761a4fbded6164b1fdd2da2864d3"},
+        {"path": "postgresql17.log", "sha256": "bc8098c657fb2bac47b773914bbc1e3d6bdf10d29d7b3e994d05b5e5e07e3fa7"},
+        {"path": "android-module.log", "sha256": "1adafd833542d28584999428c8f0c38e72d5c5a04baf651410b15102d4519451"}
+      ]
+    },
+    {
+      "test_id": "TST-CONTACT_001-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "相同幂等键并发请求只有一个所有者",
+        "重复与响应超时重试不重复解密、不重复审计和不重复投递",
+        "同键不同意图稳定返回冲突"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "d837c1c7bbed61c011274a526036684c2baf761a4fbded6164b1fdd2da2864d3"},
+        {"path": "postgresql17.log", "sha256": "bc8098c657fb2bac47b773914bbc1e3d6bdf10d29d7b3e994d05b5e5e07e3fa7"}
+      ]
+    },
+    {
+      "test_id": "TST-CONTACT_001-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "非法渠道在访问存储前被拒绝",
+        "不可读旧密文与存储超时均不泄露联系方式",
+        "错误状态不保留先前授权明文"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "d837c1c7bbed61c011274a526036684c2baf761a4fbded6164b1fdd2da2864d3"},
+        {"path": "android-module.log", "sha256": "1adafd833542d28584999428c8f0c38e72d5c5a04baf651410b15102d4519451"}
+      ]
+    },
+    {
+      "test_id": "TST-PUBLISHER_001-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "发布者主页只投影公开资料与公开内容",
+        "公开主页不读取、不返回联系方式",
+        "真实 PostgreSQL 只返回有效发布者"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "d837c1c7bbed61c011274a526036684c2baf761a4fbded6164b1fdd2da2864d3"},
+        {"path": "postgresql17.log", "sha256": "bc8098c657fb2bac47b773914bbc1e3d6bdf10d29d7b3e994d05b5e5e07e3fa7"}
+      ]
+    },
+    {
+      "test_id": "TST-PUBLISHER_001-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "重复读取结果稳定",
+        "重复读取不产生写副作用或 Outbox 消息"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "d837c1c7bbed61c011274a526036684c2baf761a4fbded6164b1fdd2da2864d3"}
+      ]
+    },
+    {
+      "test_id": "TST-PUBLISHER_001-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "非法发布者 ID 和不可用发布者稳定拒绝",
+        "拒绝路径不执行私有资料或联系方式查询"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "d837c1c7bbed61c011274a526036684c2baf761a4fbded6164b1fdd2da2864d3"}
+      ]
+    },
+    {
+      "test_id": "TST-SEARCH_001-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "关键词、内容类型、分类和地区筛选映射正确",
+        "认证用户搜索历史被记录",
+        "真实 PostgreSQL 搜索与历史投影通过"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "d837c1c7bbed61c011274a526036684c2baf761a4fbded6164b1fdd2da2864d3"},
+        {"path": "postgresql17.log", "sha256": "bc8098c657fb2bac47b773914bbc1e3d6bdf10d29d7b3e994d05b5e5e07e3fa7"}
+      ]
+    },
+    {
+      "test_id": "TST-SEARCH_001-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "重复搜索返回稳定结果",
+        "搜索历史投影去重且不产生 Outbox 写副作用"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "d837c1c7bbed61c011274a526036684c2baf761a4fbded6164b1fdd2da2864d3"},
+        {"path": "postgresql17.log", "sha256": "bc8098c657fb2bac47b773914bbc1e3d6bdf10d29d7b3e994d05b5e5e07e3fa7"}
+      ]
+    },
+    {
+      "test_id": "TST-SEARCH_001-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "非法排序与不稳定游标在访问存储前被拒绝",
+        "存储超时不返回部分结果且不记录历史"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "d837c1c7bbed61c011274a526036684c2baf761a4fbded6164b1fdd2da2864d3"}
+      ]
+    },
+    {
+      "test_id": "TST-V122-004",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "清空历史必须显式确认并限定当前账号",
+        "失败或响应超时重试复用同一幂等键，成功后轮换",
+        "重复请求只删除一次且只产生一条业务消息"
+      ],
+      "artifacts": [
+        {"path": "backend-java21.log", "sha256": "d837c1c7bbed61c011274a526036684c2baf761a4fbded6164b1fdd2da2864d3"},
+        {"path": "android-module.log", "sha256": "1adafd833542d28584999428c8f0c38e72d5c5a04baf651410b15102d4519451"}
+      ]
+    }
+  ]
+}

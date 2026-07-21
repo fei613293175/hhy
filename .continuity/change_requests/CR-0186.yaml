@@ -1,0 +1,44 @@
+protocol_version: '1.0'
+cr_id: CR-0186
+title: 归档R07远端只读挂载失败证据
+status: IMPLEMENTING
+created_at: '2026-07-21T20:08:49Z'
+updated_at: '2026-07-21T20:09:10Z'
+requester_actor_id: codex-root-r07-005
+approver_actor_id: codex-reviewer-r07-env
+task_id: TASK-R07-005
+session_id: SES-20260721T193434Z-0C5F0BFA
+user_request: 项目所有者要求GitHub与远端测试失败必须沉淀可复用经验，避免反复浪费时间。
+reason: 首次冻结Commit后端验证因源码目录以只读方式挂载，Maven无法创建target目录；该失败属于执行环境配置而非产品回归，需要保留原始日志并在专项报告中明确区分。
+original_rule: R07专项证据只列最终成功命令和日志，不保留首次远端环境失败原始证据。
+new_rule: 凡远端门禁因挂载模式、权限或工具链配置失败，必须保留原始日志、明确标注为环境失败，并给出纠正命令和最终产品验证结果；不得计入产品测试失败。
+impact_summary: 新增一份只读挂载失败原始日志，并在R07专项报告中记录根因、纠正和复用规则；不修改任何生产代码或测试结论。
+impact:
+  files:
+  - artifacts/validation/r07-test-evidence/backend-java21-readonly-mount.failure.log
+  - artifacts/reports/R07/TASK-R07-005-specialized-testing.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - 核对原始失败日志与最终可写挂载后端通过日志均已归档
+  releases:
+  - R07
+  migration_and_compatibility: 纯证据与文档变更；无数据库迁移、无API或客户端兼容影响。
+user_confirmation: 项目所有者已明确要求沉淀GitHub与远端调试失败经验并持续推进。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T20:09:07Z'
+  note: 环境失败证据与最终产品门禁分开归档可避免误判和重复排查，且不扩大产品变更范围。
+machine_record: .continuity/change_requests/CR-0186.yaml
+document: docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md
+decision_log:
+- at: '2026-07-21T20:09:10Z'
+  actor_id: codex-root-r07-005
+  status: IMPLEMENTING
+  note: 开始归档只读挂载原始日志，并将根因与纠正方案写入专项报告。
+  session_id: SES-20260721T193434Z-0C5F0BFA
+session_ids:
+- SES-20260721T193434Z-0C5F0BFA

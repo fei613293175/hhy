@@ -1,0 +1,231 @@
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] HHY Backend                                                        [pom]
+[INFO] hhy-shared-kernel                                                  [jar]
+[INFO] hhy-access                                                         [jar]
+[INFO] hhy-content                                                        [jar]
+[INFO] hhy-commerce                                                       [jar]
+[INFO] hhy-incentive                                                      [jar]
+[INFO] hhy-platform                                                       [jar]
+[INFO] hhy-boot                                                           [jar]
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-backend-parent >------------------
+[INFO] Building HHY Backend 1.2.2-SNAPSHOT                                [1/8]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-shared-kernel >-------------------
+[INFO] Building hhy-shared-kernel 1.2.2-SNAPSHOT                          [2/8]
+[INFO]   from shared-kernel/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/shared-kernel/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-shared-kernel ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/shared-kernel/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-shared-kernel ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-shared-kernel ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ----------------------< cc.orbexa.hhy:hhy-access >----------------------
+[INFO] Building hhy-access 1.2.2-SNAPSHOT                                 [3/8]
+[INFO]   from access/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/access/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-access ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/access/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-access ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-access ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-content >----------------------
+[INFO] Building hhy-content 1.2.2-SNAPSHOT                                [4/8]
+[INFO]   from content/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/content/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-content ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/content/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-content ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-content ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-commerce >---------------------
+[INFO] Building hhy-commerce 1.2.2-SNAPSHOT                               [5/8]
+[INFO]   from commerce/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/commerce/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-commerce ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/commerce/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-commerce ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-commerce ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --------------------< cc.orbexa.hhy:hhy-incentive >---------------------
+[INFO] Building hhy-incentive 1.2.2-SNAPSHOT                              [6/8]
+[INFO]   from incentive/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/incentive/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-incentive ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/incentive/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-incentive ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-incentive ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-platform >---------------------
+[INFO] Building hhy-platform 1.2.2-SNAPSHOT                               [7/8]
+[INFO]   from platform/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/platform/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-platform ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/platform/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-platform ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-platform ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] -----------------------< cc.orbexa.hhy:hhy-boot >-----------------------
+[INFO] Building hhy-boot 1.2.2-SNAPSHOT                                   [8/8]
+[INFO]   from boot/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-boot ---
+[INFO] Copying 37 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-boot ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-boot ---
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-boot ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-boot ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running cc.orbexa.hhy.content.R07PostgresStoreTest
+20:03:39.313 [main] INFO org.flywaydb.core.FlywayExecutor -- Database: jdbc:postgresql://postgres:5432/hhy_r07 (PostgreSQL 17.10)
+20:03:39.635 [main] INFO org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory -- Schema history table "public"."flyway_schema_history" does not exist yet
+20:03:39.646 [main] INFO org.flywaydb.core.internal.command.DbValidate -- Successfully validated 32 migrations (execution time 00:00.168s)
+20:03:39.678 [main] INFO org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory -- Creating Schema History table "public"."flyway_schema_history" ...
+20:03:39.823 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Current version of schema "public": << Empty Schema >>
+20:03:39.875 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "001 - extensions and schema"
+20:03:40.079 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "002 - access admin and platform"
+20:03:40.712 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "003 - content identity and communication"
+20:03:41.023 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "004 - commerce redpacket and finance"
+20:03:41.339 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "005 - growth operations and delivery"
+20:03:41.872 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "006 - constraints indexes and triggers"
+20:03:43.681 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "007 - state money and accounting invariants"
+20:03:43.917 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "008 - baseline rbac and feature flags"
+20:03:43.978 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "009 - v122 operational governance"
+20:03:44.019 [main] INFO org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor -- DB: trigger "trg_admin_sessions_updated_at" for relation "hhy.admin_sessions" does not exist, skipping
+20:03:44.041 [main] INFO org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor -- DB: trigger "trg_admin_mfa_methods_updated_at" for relation "hhy.admin_mfa_methods" does not exist, skipping
+20:03:44.110 [main] INFO org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor -- DB: trigger "trg_accounting_reversal_requests_updated_at" for relation "hhy.accounting_reversal_requests" does not exist, skipping
+20:03:44.187 [main] INFO org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor -- DB: trigger "trg_export_jobs_updated_at" for relation "hhy.export_jobs" does not exist, skipping
+20:03:44.273 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "010 - p00 event ledger invariants"
+20:03:44.522 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "011 - app release version policy"
+20:03:44.629 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "012 - r01 admin security invariants"
+20:03:44.708 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "013 - r01 admin self rbac"
+20:03:44.747 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "014 - r01 idempotency scope capacity"
+20:03:44.770 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "015 - r01 totp replay guard"
+20:03:44.800 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "016 - r01 idempotency response snapshots"
+20:03:44.830 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "017 - r02 user auth invariants"
+20:03:44.862 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "018 - r02 admin user controls"
+20:03:44.901 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "019 - r03 provider configuration center"
+20:03:45.025 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "020 - r03 auth registration policy alignment"
+20:03:45.051 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "021 - r04 storage media invariants"
+20:03:45.128 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "022 - r04 media upload lifecycle"
+20:03:45.220 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "023 - r05 identity invariants"
+20:03:45.319 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "024 - r05 identity api storage"
+20:03:45.337 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "025 - r05 identity provider payload"
+20:03:45.371 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "026 - r05 identity callback consumption"
+20:03:45.403 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "027 - r05 identity consent"
+20:03:45.422 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "028 - r05 private identity evidence"
+20:03:45.448 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "029 - r06 content home invariants"
+20:03:45.498 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "030 - r06 content admin permissions"
+20:03:45.525 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "031 - r07 search invariants"
+20:03:45.565 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "032 - r07 contact contract alignment"
+20:03:45.614 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Successfully applied 32 migrations to schema "public", now at version v032 (execution time 00:04.289s)
+20:03:46.405 [main] INFO org.flywaydb.core.FlywayExecutor -- Database: jdbc:postgresql://postgres:5432/hhy_r07 (PostgreSQL 17.10)
+20:03:46.476 [main] INFO org.flywaydb.core.internal.command.DbValidate -- Successfully validated 32 migrations (execution time 00:00.052s)
+20:03:46.543 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Current version of schema "public": 032
+20:03:46.544 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Schema "public" is up to date. No migration necessary.
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.617 s -- in cc.orbexa.hhy.content.R07PostgresStoreTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for HHY Backend 1.2.2-SNAPSHOT:
+[INFO] 
+[INFO] HHY Backend ........................................ SUCCESS [  0.005 s]
+[INFO] hhy-shared-kernel .................................. SUCCESS [  1.716 s]
+[INFO] hhy-access ......................................... SUCCESS [  2.101 s]
+[INFO] hhy-content ........................................ SUCCESS [  0.043 s]
+[INFO] hhy-commerce ....................................... SUCCESS [  0.027 s]
+[INFO] hhy-incentive ...................................... SUCCESS [  0.026 s]
+[INFO] hhy-platform ....................................... SUCCESS [  0.034 s]
+[INFO] hhy-boot ........................................... SUCCESS [ 11.315 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  15.758 s
+[INFO] Finished at: 2026-07-21T20:03:47Z
+[INFO] ------------------------------------------------------------------------
