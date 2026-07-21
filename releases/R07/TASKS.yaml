@@ -82,7 +82,7 @@ tasks:
   completed_at: '2026-07-21T19:27:02Z'
 - id: TASK-R07-005
   title: 搜索、发布者主页与联系方式保护专项测试与故障注入
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R07-003
   - TASK-R07-004
@@ -97,9 +97,10 @@ tasks:
   - 测试报告和失败证据归档
   - 关键缺陷清零
   session_log_required: true
+  completed_at: '2026-07-21T20:16:15Z'
 - id: TASK-R07-006
   title: 搜索、发布者主页与联系方式保护可观测性与预发布验收
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R07-005
   requirements: *id001

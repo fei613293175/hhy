@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T20:14:47Z
-- Context Hash：`2631739267be385186f6808013cd65ede56c3b26d65bceb8802a97bcda59f212`
+- 生成时间：2026-07-21T20:16:33Z
+- Context Hash：`ae72a3054716ae0ba089f07e29a198442d7d406ddaf934aa077449950c54da11`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-006
 ```
 
 ## 当前状态
@@ -17,10 +17,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R07
 active_release: R07
-active_task: TASK-R07-005
-status: IN_PROGRESS
+active_task: TASK-R07-006
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: fea04949506434f8f408bc0244d6a195718c6c22
+last_green_commit: 015178b3d45c5d0ff0d0e458eb92a166d8d5026a
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -91,14 +91,14 @@ completed_tasks:
 - TASK-R07-002
 - TASK-R07-003
 - TASK-R07-004
-in_progress_tasks:
 - TASK-R07-005
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
-next_task: TASK-R07-005
-updated_at: '2026-07-21T20:14:45Z'
+next_task: TASK-R07-006
+updated_at: '2026-07-21T20:16:20Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -130,19 +130,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260721T193434Z-0C5F0BFA
-  actor_id: codex-root-r07-005
-  story_id: STORY-R07-005
-  lease_expires_at: '2026-07-22T00:14:45Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0003.yaml
-  project_fingerprint: 61a159c8fad2159f0c2dadbfb27f4fc42eda9119b160ef092628882d1910b1fe
+  active_session_id: null
+  last_session_id: SES-20260721T193434Z-0C5F0BFA
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0004.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 7d55e69bd06e2f671dc15a9227331adcc83dc0a9b5ad78eaff671630c8168fc0
-    generated_at: '2026-07-21T20:11:52Z'
-  handoff_bundle: null
+    context_hash: 199c79cea88b88abeea5c0f8517dd31c89477e60daac9ff071eed5b1b37e77d2
+    generated_at: '2026-07-21T20:16:19Z'
 ```
 
 ## 默认并行规则
@@ -289,8 +287,8 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R07-005
-title: 搜索、发布者主页与联系方式保护专项测试与故障注入
+id: TASK-R07-006
+title: 搜索、发布者主页与联系方式保护可观测性与预发布验收
 status: READY
 release: R07
 requirements:
@@ -299,23 +297,22 @@ requirements:
 - REQ-PUBLISHER-001
 - REQ-APK-001
 depends_on:
-- TASK-R07-003
-- TASK-R07-004
+- TASK-R07-005
 definition_of_ready: releases/R07/DEFINITION_OF_READY.yaml
 stories: releases/R07/STORIES.yaml
 steps:
-- 测试报告和失败证据归档
-- 关键缺陷清零
+- 运行手册演练
+- 验收矩阵签字
 acceptance:
 - 无TODO/生产Mock
 - 代码、文档、测试、追踪同步更新
-- 测试报告和失败证据归档
-- 关键缺陷清零
+- 运行手册演练
+- 验收矩阵签字
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-005
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-006
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-005
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R07-006
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -328,438 +325,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260721T193434Z-0C5F0BFA
-status: ACTIVE
-actor:
-  id: codex-root-r07-005
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R07
-task_id: TASK-R07-005
-story_id: STORY-R07-005
-goal: 搜索、发布者主页与联系方式保护专项测试与故障注入
-started_at: '2026-07-21T19:34:34Z'
-updated_at: '2026-07-21T20:14:45Z'
-takeover_of: null
-change_requests:
-- CR-0184
-- CR-0185
-- CR-0186
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - releases/R07/TASKS.yaml
-  - catalogs/test_cases.csv
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java
-  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
-  - scripts/run_r07_specialized_matrix.py
-  - tests/r07/README.md
-  - tests/r07/test_r07_specialized_matrix.py
-  - tests/r07/req-contact-001_happy
-  - tests/r07/req-contact-001_idempotent
-  - tests/r07/req-contact-001_reject
-  - tests/r07/req-publisher-001_happy
-  - tests/r07/req-publisher-001_idempotent
-  - tests/r07/req-publisher-001_reject
-  - tests/r07/req-search-001_happy
-  - tests/r07/req-search-001_idempotent
-  - tests/r07/req-search-001_reject
-  - tests/r07/dialog-search-001_clear-history
-  - artifacts/validation/r07-test-evidence/r07-specialized.evidence.json
-  - artifacts/validation/r07-test-evidence/backend-java21.log
-  - artifacts/validation/r07-test-evidence/postgresql17.log
-  - artifacts/validation/r07-test-evidence/android-module.log
-  - artifacts/reports/R07/TASK-R07-005-specialized-testing.md
-  - CHANGELOG.md
-  - scripts/configure_windows_git_runtime.ps1
-  - config/REPOSITORY_TRANSPORT.yaml
-  - START_HERE.md
-  - docs/09-development/统一开发与交付效率规范.md
-  - docs/03-continuity/PITFALLS.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - artifacts/validation/r07-test-evidence/backend-java21-readonly-mount.failure.log
-  source: story+explicit+approved-cr:CR-0184+approved-cr:CR-0185+approved-cr:CR-0186
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: ddf293eda518bca96b695d518ad67f9d18536536
-  start_head: ddf293eda518bca96b695d518ad67f9d18536536
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-21T20:14:45Z'
-  expires_at: '2026-07-22T00:14:45Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0003.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md
-next_step: 提交并推送变更请求关闭状态，关闭TASK-R07-005并立即启动TASK-R07-006。
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: 当前仅剩连续性关闭状态与任务切换，必须由唯一活动会话串行完成。
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T193434Z-0C5F0BFA-0003
-session_id: SES-20260721T193434Z-0C5F0BFA
-sequence: 3
-created_at: '2026-07-21T20:14:45Z'
-summary: CR-0184十项测试矩阵、CR-0185 Windows Git永久环境、CR-0186远端环境失败证据均已实现复核并关闭；R07专项矩阵10/10 PASS。
-next_step: 提交并推送变更请求关闭状态，关闭TASK-R07-005并立即启动TASK-R07-006。
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: r07-specialized-matrix
-  result: PASS
-  evidence: artifacts/validation/r07-test-evidence/r07-specialized.evidence.json
-  note: 10/10 PASS
-- name: windows-git-runtime
-  result: PASS
-  evidence: scripts/configure_windows_git_runtime.ps1
-  note: install重复运行changed=false且check全PASS
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: ae7f7059088355b93b4dab2cb0b10fb5042ddcb1
-  upstream: origin/task/TASK-R03-001
-  ahead: 0
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0184.yaml'
-  - ' M .continuity/change_requests/CR-0185.yaml'
-  - ' M .continuity/change_requests/CR-0186.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md'
-  - ' M docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md'
-  - ' M docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md'
-  recent_commits:
-  - "ae7f7059088355b93b4dab2cb0b10fb5042ddcb1\t2026-07-22T04:13:25+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 归档十项专项门禁证据"
-  - "015178b3d45c5d0ff0d0e458eb92a166d8d5026a\t2026-07-22T03:57:22+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 自动化十项专项矩阵与固化Windows\
-    \ Git"
-  - "ddf293eda518bca96b695d518ad67f9d18536536\t2026-07-22T03:27:57+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): close TASK-R07-004\
-    \ as completed"
-  - "af217ef5097826bd16003d797624d742b1c93ad7\t2026-07-22T03:26:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] chore(continuity): 关闭R07客户端变更请求"
-  - "fea04949506434f8f408bc0244d6a195718c6c22\t2026-07-22T03:25:02+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] feat(android): 实现R07搜索发布者与联系方式闭环"
-  - "dff784e5d74a3fe5b09b2c7acfc06dcf7e1bcebd\t2026-07-22T02:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-003\
-    \ as completed"
-  - "301a30124f4d65e1c1862bd02befe840a273bdf0\t2026-07-22T02:55:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭 R07-003\
-    \ 变更请求"
-  - "83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593\t2026-07-22T02:50:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(r07): 实现搜索发布者与联系方式后端"
-project_fingerprint:
-  sha256: 61a159c8fad2159f0c2dadbfb27f4fc42eda9119b160ef092628882d1910b1fe
-  files:
-  - CHANGELOG.md
-  - START_HERE.md
-  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
-  - catalogs/test_cases.csv
-  - config/REPOSITORY_TRANSPORT.yaml
-  - docs/03-continuity/PITFALLS.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md
-  - docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md
-  - docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md
-  - docs/09-development/统一开发与交付效率规范.md
-  - releases/R07/TASKS.yaml
-  - scripts/configure_windows_git_runtime.ps1
-  - scripts/run_r07_specialized_matrix.py
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-  - tests/r07/README.md
-  - tests/r07/dialog-search-001_clear-history
-  - tests/r07/req-contact-001_happy
-  - tests/r07/req-contact-001_idempotent
-  - tests/r07/req-contact-001_reject
-  - tests/r07/req-publisher-001_happy
-  - tests/r07/req-publisher-001_idempotent
-  - tests/r07/req-publisher-001_reject
-  - tests/r07/req-search-001_happy
-  - tests/r07/req-search-001_idempotent
-  - tests/r07/req-search-001_reject
-  - tests/r07/test_r07_specialized_matrix.py
-  file_count: 28
-  payload:
-    base_commit: ddf293eda518bca96b695d518ad67f9d18536536
-    files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 65676
-      sha256: 53951b557cc0fdc24aace6e83d545919316090cdc6e82070940533782d8efc74
-    - path: START_HERE.md
-      state: FILE
-      size: 4162
-      sha256: a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e
-    - path: apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
-      state: FILE
-      size: 3077
-      sha256: 53c8b32c35622a2e2fb11275d3e5e7a9c6f1d68b5778db1420132e467cdabf5d
-    - path: catalogs/test_cases.csv
-      state: FILE
-      size: 227806
-      sha256: c1522fc0b4087b25c5a76087f37e382a473c67873997390f7a504b57a4c02776
-    - path: config/REPOSITORY_TRANSPORT.yaml
-      state: FILE
-      size: 1285
-      sha256: 8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc
-    - path: docs/03-continuity/PITFALLS.md
-      state: FILE
-      size: 3022
-      sha256: 15e6f729ddca7efef1a0be4267dede8cae1364389d7bd83436c5333d52943310
-    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-      state: FILE
-      size: 85234
-      sha256: fef46e10528b70d1041880f9409a7a4d969b8cd15fef01f28c302b6645e78da3
-    - path: docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md
-      state: FILE
-      size: 4991
-      sha256: 6a6720570c1a1a8b7b574f964957bf118757e0f967c3727dded83654d582a3b6
-    - path: docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md
-      state: FILE
-      size: 3642
-      sha256: da28ce38ebe1e600373a84c24940b672b75b14711a346a26a313947c1e45c13e
-    - path: docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md
-      state: FILE
-      size: 2934
-      sha256: 49937db15b313b7a6eec8cf7d4524807e6981531fe1adbca67c95a5ae259a4ca
-    - path: docs/09-development/统一开发与交付效率规范.md
-      state: FILE
-      size: 11505
-      sha256: d2c45f41aef10a402c9d70d057b6cbbd90cdef5c303d0f21eb4573088eb81b03
-    - path: releases/R07/TASKS.yaml
-      state: FILE
-      size: 5920
-      sha256: c6d7a87b42603a491b8e79ce90e5a38e5db702de9924efaaa3e0be6425122b60
-    - path: scripts/configure_windows_git_runtime.ps1
-      state: FILE
-      size: 3845
-      sha256: 8788a8d854366db1f69a2f2d6d9fe2e8749655e5a18890d75160ad08a0d3f073
-    - path: scripts/run_r07_specialized_matrix.py
-      state: FILE
-      size: 10910
-      sha256: 6180ab0060665f0c015cc0233ecec5d781a05fd5b460aec52a08bc0e784b7cdb
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
-      state: FILE
-      size: 10168
-      sha256: 52d9b90ca75a348deed660fef6a52dc0d34beea6ab04d55618d012a29aacef7d
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-      state: FILE
-      size: 16042
-      sha256: 806a028e3c5206c0a74c352a91dffbca6156c90ac707f8eb6b1f7c9ad329fc07
-    - path: tests/r07/README.md
-      state: FILE
-      size: 725
-      sha256: 826b1a0e7bc1b09a82ffaeb53c562ac5304de78b8121f256bb6afd560d67963c
-    - path: tests/r07/dialog-search-001_clear-history
-      state: FILE
-      size: 1091
-      sha256: faab8664c46929f913761dcc55f9ba2047aaf8940c74ef8f2955612101b8b3eb
-    - path: tests/r07/req-contact-001_happy
-      state: FILE
-      size: 971
-      sha256: 6bd8a72b30440bf7fd582f4f56b1f20502a0dd4842cc1b1b82cf169d90ed4b03
-    - path: tests/r07/req-contact-001_idempotent
-      state: FILE
-      size: 990
-      sha256: bce3090b83c94f2940846e54877fe03e2cbe23adac8b3e912914146e5aadf8e6
-    - path: tests/r07/req-contact-001_reject
-      state: FILE
-      size: 972
-      sha256: fad0a69f6d3ef23b5c8f247e6c71815b3499f8dcef256bc6a56d1b29eedf1160
-    - path: tests/r07/req-publisher-001_happy
-      state: FILE
-      size: 639
-      sha256: 4a61fd31c0129dfb345024a1cc3ad9b19b4f0d4e46fa2abf237f715a02842e3a
-    - path: tests/r07/req-publisher-001_idempotent
-      state: FILE
-      size: 454
-      sha256: 026ae7d71a0c781c0a52ba194794e74b948e1df9e205aa4fa363980cfa1019bc
-    - path: tests/r07/req-publisher-001_reject
-      state: FILE
-      size: 483
-      sha256: 00b14c187deb2841d20ae379f0c26099e3864dd64b589d0312b5f2a75b4aafe3
-    - path: tests/r07/req-search-001_happy
-      state: FILE
-      size: 645
-      sha256: f6acbcd47845afe72393114980cfd85566ba8ac5a0b1b459e7d9ee8481088e16
-    - path: tests/r07/req-search-001_idempotent
-      state: FILE
-      size: 627
-      sha256: e18707a3e9a070d4fc321a01abb6ebbc930f573c32191beca3362c3033536a9e
-    - path: tests/r07/req-search-001_reject
-      state: FILE
-      size: 759
-      sha256: 1117a7c41566e59e383b700808e5588f046c17cdf7c8b11c84ed4ccbaf348bcb
-    - path: tests/r07/test_r07_specialized_matrix.py
-      state: FILE
-      size: 2179
-      sha256: 6cff9516a1a7983ac1d7127681c04e0b0f6f4dfef86aaf18af452f621ae21b05
-change_classification:
-  other:
-  - CHANGELOG.md
-  - catalogs/test_cases.csv
-  - config/REPOSITORY_TRANSPORT.yaml
-  - docs/09-development/统一开发与交付效率规范.md
-  - releases/R07/TASKS.yaml
-  user_visible:
-  - START_HERE.md
-  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
-  code:
-  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
-  - scripts/configure_windows_git_runtime.ps1
-  - scripts/run_r07_specialized_matrix.py
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-  continuity:
-  - docs/03-continuity/PITFALLS.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md
-  - docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md
-  - docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md
-  tests:
-  - tests/r07/README.md
-  - tests/r07/dialog-search-001_clear-history
-  - tests/r07/req-contact-001_happy
-  - tests/r07/req-contact-001_idempotent
-  - tests/r07/req-contact-001_reject
-  - tests/r07/req-publisher-001_happy
-  - tests/r07/req-publisher-001_idempotent
-  - tests/r07/req-publisher-001_reject
-  - tests/r07/req-search-001_happy
-  - tests/r07/req-search-001_idempotent
-  - tests/r07/req-search-001_reject
-  - tests/r07/test_r07_specialized_matrix.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- CHANGELOG
-change_requests:
-- CR-0184
-- CR-0185
-- CR-0186
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - releases/R07/TASKS.yaml
-  - catalogs/test_cases.csv
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R07ControllerContractTest.java
-  - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
-  - scripts/run_r07_specialized_matrix.py
-  - tests/r07/README.md
-  - tests/r07/test_r07_specialized_matrix.py
-  - tests/r07/req-contact-001_happy
-  - tests/r07/req-contact-001_idempotent
-  - tests/r07/req-contact-001_reject
-  - tests/r07/req-publisher-001_happy
-  - tests/r07/req-publisher-001_idempotent
-  - tests/r07/req-publisher-001_reject
-  - tests/r07/req-search-001_happy
-  - tests/r07/req-search-001_idempotent
-  - tests/r07/req-search-001_reject
-  - tests/r07/dialog-search-001_clear-history
-  - artifacts/validation/r07-test-evidence/r07-specialized.evidence.json
-  - artifacts/validation/r07-test-evidence/backend-java21.log
-  - artifacts/validation/r07-test-evidence/postgresql17.log
-  - artifacts/validation/r07-test-evidence/android-module.log
-  - artifacts/reports/R07/TASK-R07-005-specialized-testing.md
-  - CHANGELOG.md
-  - scripts/configure_windows_git_runtime.ps1
-  - config/REPOSITORY_TRANSPORT.yaml
-  - START_HERE.md
-  - docs/09-development/统一开发与交付效率规范.md
-  - docs/03-continuity/PITFALLS.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - artifacts/validation/r07-test-evidence/backend-java21-readonly-mount.failure.log
-  source: story+explicit+approved-cr:CR-0184+approved-cr:CR-0185+approved-cr:CR-0186
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: 当前仅剩连续性关闭状态与任务切换，必须由唯一活动会话串行完成。
-event_hash: c86f0db31db2cbb4dd3440208719c3406a65d4f351f945508fc24c41d5838d4f
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -767,12 +339,12 @@ event_hash: c86f0db31db2cbb4dd3440208719c3406a65d4f351f945508fc24c41d5838d4f
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260721T193434Z-0C5F0BFA
-last_session_id: SES-20260721T190306Z-32CB66BF
+active_session_id: null
+last_session_id: SES-20260721T193434Z-0C5F0BFA
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260721T190306Z-32CB66BF-0004
-event_count: 1882
-event_head_hash: c86f0db31db2cbb4dd3440208719c3406a65d4f351f945508fc24c41d5838d4f
+last_closure_checkpoint_id: CP-SES-20260721T193434Z-0C5F0BFA-0004
+event_count: 1885
+event_head_hash: 39193f4a9cfeffd3aa00358d02912af1aea07e19ce9d845b5da17b34006dd708
 event_chain_valid: true
 ```
 
@@ -891,13 +463,13 @@ recent_sessions: - session_id: SES-20260721T012656Z-E067730A
   task_id: TASK-R07-005
   story_id: STORY-R07-005
   actor_id: codex-root-r07-005
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-21T19:34:34Z'
   record: .continuity/sessions/SES-20260721T193434Z-0C5F0BFA.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md
-  updated_at: '2026-07-21T20:14:45Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0003.yaml
+  updated_at: '2026-07-21T20:16:20Z'
+  closed_at: '2026-07-21T20:16:20Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D4590DC555CA
   session_id: SES-20260719T165401Z-12791729
@@ -1540,7 +1112,7 @@ task_claims: - claim_id: CLM-D4590DC555CA
   task_id: TASK-R07-005
   story_id: STORY-R07-005
   actor_id: codex-root-r07-005
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-21T19:34:34Z'
   allowed_paths:
   - apps/**
@@ -1574,6 +1146,7 @@ task_claims: - claim_id: CLM-D4590DC555CA
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-21T20:16:20Z'
 recent_task_transitions: - transition_id: TRN-9845FD50E711
   timestamp: '2026-07-19T16:54:02Z'
   release: R05
@@ -1781,30 +1354,30 @@ recent_task_transitions: - transition_id: TRN-9845FD50E711
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: ae7f7059088355b93b4dab2cb0b10fb5042ddcb1
+head: 0c2d512bb4ed73678aee8817e63c33d8539e99be
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0184.yaml'
-- ' M .continuity/change_requests/CR-0185.yaml'
-- ' M .continuity/change_requests/CR-0186.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260721T193434Z-0C5F0BFA.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md'
-- ' M docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md'
-- ' M docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md'
-- ?? .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0003.yaml
+- ' M releases/R07/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0004.yaml
 recent_commits:
+- "0c2d512bb4ed73678aee8817e63c33d8539e99be\t2026-07-22T04:14:59+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07专项与Git环境变更请求"
 - "ae7f7059088355b93b4dab2cb0b10fb5042ddcb1\t2026-07-22T04:13:25+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 归档十项专项门禁证据"
 - "015178b3d45c5d0ff0d0e458eb92a166d8d5026a\t2026-07-22T03:57:22+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(r07): 自动化十项专项矩阵与固化Windows\
   \ Git"
@@ -1816,42 +1389,14 @@ recent_commits:
   \ as completed"
 - "301a30124f4d65e1c1862bd02befe840a273bdf0\t2026-07-22T02:55:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭 R07-003\
   \ 变更请求"
-- "83d58c6a22b2ecb3f1c283ae8fb36d45cdd55593\t2026-07-22T02:50:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] feat(r07): 实现搜索发布者与联系方式后端"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`61a159c8fad2159f0c2dadbfb27f4fc42eda9119b160ef092628882d1910b1fe`
-- 文件数：28
+- 指纹：`1b4763c52fbcca4a9a41cca00a01f5e18c3f151d4017e0c00972ab56f7410a55`
+- 文件数：0
 
-- `CHANGELOG.md`
-- `START_HERE.md`
-- `apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt`
-- `catalogs/test_cases.csv`
-- `config/REPOSITORY_TRANSPORT.yaml`
-- `docs/03-continuity/PITFALLS.md`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
-- `docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md`
-- `docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md`
-- `docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md`
-- `docs/09-development/统一开发与交付效率规范.md`
-- `releases/R07/TASKS.yaml`
-- `scripts/configure_windows_git_runtime.ps1`
-- `scripts/run_r07_specialized_matrix.py`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07PostgresStoreTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java`
-- `tests/r07/README.md`
-- `tests/r07/dialog-search-001_clear-history`
-- `tests/r07/req-contact-001_happy`
-- `tests/r07/req-contact-001_idempotent`
-- `tests/r07/req-contact-001_reject`
-- `tests/r07/req-publisher-001_happy`
-- `tests/r07/req-publisher-001_idempotent`
-- `tests/r07/req-publisher-001_reject`
-- `tests/r07/req-search-001_happy`
-- `tests/r07/req-search-001_idempotent`
-- `tests/r07/req-search-001_reject`
-- `tests/r07/test_r07_specialized_matrix.py`
+- 无
 
 ## 当前 Release
 
@@ -2586,7 +2131,7 @@ TASKS.yaml:
     completed_at: '2026-07-21T19:27:02Z'
   - id: TASK-R07-005
     title: 搜索、发布者主页与联系方式保护专项测试与故障注入
-    status: READY
+    status: DONE
     depends_on:
     - TASK-R07-003
     - TASK-R07-004
@@ -2601,9 +2146,10 @@ TASKS.yaml:
     - 测试报告和失败证据归档
     - 关键缺陷清零
     session_log_required: true
+    completed_at: '2026-07-21T20:16:15Z'
   - id: TASK-R07-006
     title: 搜索、发布者主页与联系方式保护可观测性与预发布验收
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R07-005
     requirements: *id001
@@ -7272,8 +6818,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e`
-- `CURRENT_STATUS.yaml` — `80962260241592a7e1afb2c4257ddb1f17b80b8b3de14430071c5122a82469e0`
-- `NEXT_TASK.yaml` — `837f159a35cef1de3851985f408178ee0a653d04f382e80069698e60f25d5881`
+- `CURRENT_STATUS.yaml` — `8204631d04297a488dd85b38010a97746e5c7921e157eff9cbe39b92144e8ac9`
+- `NEXT_TASK.yaml` — `c212066600e79de03393971089468e8b07bcdf5e71a7e11a386bda0ac5a8e9b6`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `fef46e10528b70d1041880f9409a7a4d969b8cd15fef01f28c302b6645e78da3`
@@ -7283,23 +6829,18 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `6d78ad3c8bfd41d10d09381cd20adcfed9592be2851c71ee90f93b87742fb265`
-- `.continuity/SESSION_INDEX.yaml` — `89a033442e8c994f93e10ec64443d72303f9fa67f2cf5ea7085710fec42e8d8a`
-- `.continuity/TASK_CLAIMS.yaml` — `d6714842becacd526492269c88e7e457bf943531472f3117bd4eb3fded5d2662`
+- `.continuity/EVENT_LOG.jsonl` — `60c2ad41860889087d5a6e631788562fd1ca7be10c714bc7343fb0c20b96189a`
+- `.continuity/SESSION_INDEX.yaml` — `6ddfbb6c0caa938f59a256087e49d52a0971800dfeff6e05a8906a358a9d2446`
+- `.continuity/TASK_CLAIMS.yaml` — `05031ac2f5d546f815a2ba1961559e281fe7b60430dc6677434aac37ce60ba52`
 - `.continuity/TASK_TRANSITIONS.yaml` — `fa53c632f883a53343bee5e091cde50024609cc5ae975b07fabde53d0b71a692`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `858d5971a42ad5f5abcecc5490085dfdd35c02c6825f29526e4c5e6d7ec0f455`
-- `.continuity/ACTIVE_SESSION.yaml` — `c6ee201b0061e45848569f55b44a98e72cad80a0d6ddea28af5a8762a9dd639d`
+- `.continuity/ACTIVE_SESSION.yaml` — `3383ad0b9dabaa93376beed6f40360357a94c6b18f8de910a2ec9fe7cfe6befb`
 - `releases/R07/RELEASE_MANIFEST.yaml` — `333e47e09e2d4004aab3e2ffdd6ec072abd8977b4d6fcd1c1daa9bec9e858f34`
 - `releases/R07/DEFINITION_OF_READY.yaml` — `5e3a1496a1a9a9af6ac2e40e8aaacdfaa46cc7bf117324c22c486b3730c6f9f9`
 - `releases/R07/STORIES.yaml` — `26e0246244a4de42510a0a31d0982afaf0e5cd3ad0641c0ebdd74b6882e9431e`
-- `releases/R07/TASKS.yaml` — `c6d7a87b42603a491b8e79ce90e5a38e5db702de9924efaaa3e0be6425122b60`
+- `releases/R07/TASKS.yaml` — `ae12b06e820c427ae96f8a4cc486d8c7278ea31756744a11fc3f7f3f32909589`
 - `releases/R07/ACCEPTANCE_MATRIX.csv` — `1f31b7765d0740a6b8800d8ec89920a67f6010697dda3d7be5793ce48275ce39`
 - `releases/R07/PARALLEL_EXECUTION_PLAN.yaml` — `6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T193434Z-0C5F0BFA.md` — `5ceb61d342565dc388eeec67d37e43cbec50c3ed5ff59aa46b3e136c15ea8b0d`
-- `.continuity/checkpoints/SES-20260721T193434Z-0C5F0BFA/0003.yaml` — `0f46e1eaa718b8a12ce9eb079d421305a31d6f4d63079b06a72f9a8422606c0c`
-- `docs/03-continuity/change-requests/CR-0184-补齐R07十项专项测试与故障注入证据矩阵.md` — `6a6720570c1a1a8b7b574f964957bf118757e0f967c3727dded83654d582a3b6`
-- `docs/03-continuity/change-requests/CR-0185-固化Windows受控Git用户环境与跨机恢复规则.md` — `da28ce38ebe1e600373a84c24940b672b75b14711a346a26a313947c1e45c13e`
-- `docs/03-continuity/change-requests/CR-0186-归档R07远端只读挂载失败证据.md` — `49937db15b313b7a6eec8cf7d4524807e6981531fe1adbca67c95a5ae259a4ca`
 
 ## 接手硬规则
 
