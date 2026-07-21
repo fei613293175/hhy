@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T01:34:03Z
-- Context Hash：`0b21cad7a643e8dec1b67e9a2a7e371a98dacafd9c161b2c399527cf1abf5621`
+- 生成时间：2026-07-21T01:56:11Z
+- Context Hash：`a9cb3c4e531f99e848ef71c18bb3cd772ced3397d7dc5ed9939a8efd190ff0c4`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -90,7 +90,7 @@ blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 next_task: TASK-R06-005
-updated_at: '2026-07-21T01:34:01Z'
+updated_at: '2026-07-21T01:56:09Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -125,15 +125,15 @@ continuity:
   active_session_id: SES-20260721T012656Z-E067730A
   actor_id: codex-root
   story_id: STORY-R06-005
-  lease_expires_at: '2026-07-21T05:34:01Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0002.yaml
-  project_fingerprint: a84f0ea14ba4b46a0686e816cddc4f304449340c4a346ff67b382718b19edba9
+  lease_expires_at: '2026-07-21T05:56:09Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0003.yaml
+  project_fingerprint: cb3ebf17f6263c79e17a3e5e1b6e3642ec7e2d12f78533ea974df8f9e614d026
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 1630ed6bdd8093b20620fa0fb7ed3aacfa3ac3caa5ea3ec685e0cd14c966d97f
-    generated_at: '2026-07-21T01:32:30Z'
+    context_hash: 0b21cad7a643e8dec1b67e9a2a7e371a98dacafd9c161b2c399527cf1abf5621
+    generated_at: '2026-07-21T01:34:03Z'
   handoff_bundle: null
 ```
 
@@ -326,10 +326,11 @@ task_id: TASK-R06-005
 story_id: STORY-R06-005
 goal: 统一内容基础、首页与CMS专项测试与故障注入
 started_at: '2026-07-21T01:26:56Z'
-updated_at: '2026-07-21T01:34:01Z'
+updated_at: '2026-07-21T01:56:09Z'
 takeover_of: null
 change_requests:
 - CR-0158
+- CR-0159
 scope:
   allowed_paths:
   - apps/**
@@ -374,12 +375,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T01:34:01Z'
-  expires_at: '2026-07-21T05:34:01Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0002.yaml
+  renewed_at: '2026-07-21T01:56:09Z'
+  expires_at: '2026-07-21T05:56:09Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md
-next_step: 提交推送规则并开始TASK-R06-005专项测试缺口审计
+next_step: 提交推送R06专项测试证据，验证精确Commit后关闭TASK-R06-005并进入TASK-R06-006
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -387,66 +388,58 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 全局规则最终集成与连续性提交由事实主控串行执行
+  reason: 专项测试涉及同一ContentService测试文件与统一报告，路径不可安全拆分；当前工具也禁止启动执行代理
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T012656Z-E067730A-0002
+checkpoint_id: CP-SES-20260721T012656Z-E067730A-0003
 session_id: SES-20260721T012656Z-E067730A
-sequence: 2
-created_at: '2026-07-21T01:34:00Z'
-summary: CR-0158全局规则通过R06严格Doctor并准备提交
-next_step: 提交推送规则并开始TASK-R06-005专项测试缺口审计
+sequence: 3
+created_at: '2026-07-21T01:56:09Z'
+summary: R06-005六个权威测试ID与五类故障注入证据补齐并通过Java21云端构建
+next_step: 提交推送R06专项测试证据，验证精确Commit后关闭TASK-R06-005并进入TASK-R06-006
 blockers: []
-decisions: []
+decisions:
+- R06内容与首页生产代码无需修改；新增测试证明重复请求、并发、超时、Outbox去重和CMS异常均按冻结契约失败关闭
 note: ''
 tests:
-- name: project_doctor_r06_strict
+- name: r06_specialized_backend
   result: PASS
-  evidence: artifacts/validation/project-doctor-v1.2.3.json
-  note: 0 errors 0 warnings
-- name: android_ci_policy
+  evidence: artifacts/reports/R06/R06_SPECIALIZED_TEST_REPORT.md
+  note: 15 tests, 0 failures, 0 errors, BUILD SUCCESS
+- name: r06_content_fault_matrix
   result: PASS
-  evidence: python -m unittest tests.test_android_ci_gate
-  note: 14 tests PASS
+  evidence: services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  note: 12 service tests cover six authority IDs
+- name: r06_todo_mock_scan
+  result: PASS
+  evidence: rg TODO FIXME Mock scoped R06 production paths
+  note: 0 findings
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
+  head: 01d5c49c2745a845147bc36d41f6ae37335a9886
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M .continuity/sessions/SES-20260721T012656Z-E067730A.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M config/android-automation.yaml'
-  - ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
-  - ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
-  - ' M docs/09-development/统一开发与交付效率规范.md'
-  - ' M tests/test_android_ci_gate.py'
-  - ?? .continuity/change_requests/CR-0158.yaml
-  - ?? .continuity/checkpoints/SES-20260721T012656Z-E067730A/0001.yaml
-  - ?? .continuity/sessions/SES-20260721T012656Z-E067730A.yaml
-  - ?? docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java'
+  - ?? .continuity/change_requests/CR-0159.yaml
+  - ?? artifacts/reports/R06/R06_SPECIALIZED_TEST_REPORT.md
+  - ?? docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
   recent_commits:
+  - "01d5c49c2745a845147bc36d41f6ae37335a9886\t2026-07-21T09:34:40+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] docs(ci): bound transient\
+    \ retries and async owner feedback"
   - "1a021ca1ae0c95f8409dd1686f91a140f82ee2e9\t2026-07-21T09:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-004\
     \ as completed"
   - "26d0d42f1d1eba8e33b748ebf8d96461867b2419\t2026-07-21T09:02:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
@@ -461,18 +454,18 @@ git:
     \ R06 candidate deployment"
   - "d66887d636fbf49251297aa16f46324ff8ce75dc\t2026-07-21T06:10:37+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(ci): test release-specific\
     \ Android pages"
-  - "1af2870ac006c5931d248177082d18d3d81eb6c9\t2026-07-21T05:02:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
-    \ visual evidence blocker"
 project_fingerprint:
-  sha256: a84f0ea14ba4b46a0686e816cddc4f304449340c4a346ff67b382718b19edba9
+  sha256: cb3ebf17f6263c79e17a3e5e1b6e3642ec7e2d12f78533ea974df8f9e614d026
   files:
   - config/android-automation.yaml
   - docs/00-baseline/正式商业系统全局硬性开发边界.md
   - docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+  - docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
   - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
   - docs/09-development/统一开发与交付效率规范.md
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
   - tests/test_android_ci_gate.py
-  file_count: 6
+  file_count: 8
   payload:
     base_commit: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
     files:
@@ -488,6 +481,10 @@ project_fingerprint:
       state: FILE
       size: 3064
       sha256: 8e370abc487aeead082dde807d70dfa5596fee15031ea626a1445431b23f4e6f
+    - path: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
+      state: FILE
+      size: 2248
+      sha256: d1fffa522bf33810031594b3fdd69116feb046eef50a84a887fd58687634d11d
     - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
       state: FILE
       size: 9131
@@ -496,6 +493,10 @@ project_fingerprint:
       state: FILE
       size: 9930
       sha256: 3e186c5d89ff683febb5428d7713efd20860851490b03fa8e08a26fb3e1d257d
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+      state: FILE
+      size: 9648
+      sha256: 6471b44c621b10d31d89590b14ae3b9f33c9fa3e39e18e8c4be166eccf9b4091
     - path: tests/test_android_ci_gate.py
       state: FILE
       size: 16381
@@ -509,6 +510,9 @@ change_classification:
   - docs/00-baseline/正式商业系统全局硬性开发边界.md
   continuity:
   - docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+  - docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
+  code:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
   tests:
   - tests/test_android_ci_gate.py
 required_records:
@@ -520,6 +524,7 @@ required_records:
 - APPROVED_CHANGE_REQUEST
 change_requests:
 - CR-0158
+- CR-0159
 scope:
   allowed_paths:
   - apps/**
@@ -559,8 +564,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 全局规则最终集成与连续性提交由事实主控串行执行
-event_hash: 5463646cd30dd2ef2a9bf97161f017cbc8d254d5a724b953be8c033e2e5c512e
+  reason: 专项测试涉及同一ContentService测试文件与统一报告，路径不可安全拆分；当前工具也禁止启动执行代理
+event_hash: fe4e90395f80458bee2a89a865a3d75995d167cb72b59713f2e89aab414f6dcf
 ```
 
 ## 接续状态与事件头
@@ -572,8 +577,8 @@ active_session_id: SES-20260721T012656Z-E067730A
 last_session_id: SES-20260720T173038Z-35648A77
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260720T173038Z-35648A77-0025
-event_count: 1623
-event_head_hash: 5463646cd30dd2ef2a9bf97161f017cbc8d254d5a724b953be8c033e2e5c512e
+event_count: 1627
+event_head_hash: fe4e90395f80458bee2a89a865a3d75995d167cb72b59713f2e89aab414f6dcf
 event_chain_valid: true
 ```
 
@@ -696,9 +701,9 @@ recent_sessions: - session_id: SES-20260719T183335Z-535311E4
   started_at: '2026-07-21T01:26:56Z'
   record: .continuity/sessions/SES-20260721T012656Z-E067730A.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md
-  updated_at: '2026-07-21T01:34:01Z'
+  updated_at: '2026-07-21T01:56:09Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T012656Z-E067730A/0003.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-D14F24DD0A84
   session_id: SES-20260719T085423Z-0385FEE0
@@ -1563,7 +1568,7 @@ recent_task_transitions: - transition_id: TRN-6110C7612C53
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
+head: 01d5c49c2745a845147bc36d41f6ae37335a9886
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1574,28 +1579,19 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
+- ' M .continuity/sessions/SES-20260721T012656Z-E067730A.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M config/android-automation.yaml'
-- ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
-- ' M docs/08-testing/Android自动开发测试修复交付体系_V1.0.md'
-- ' M docs/09-development/统一开发与交付效率规范.md'
-- ' M tests/test_android_ci_gate.py'
-- ?? .continuity/change_requests/CR-0158.yaml
-- ?? .continuity/checkpoints/SES-20260721T012656Z-E067730A/0001.yaml
-- ?? .continuity/checkpoints/SES-20260721T012656Z-E067730A/0002.yaml
-- ?? .continuity/sessions/SES-20260721T012656Z-E067730A.yaml
-- ?? docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md
+- ' M docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md'
+- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java'
+- ?? .continuity/change_requests/CR-0159.yaml
+- ?? .continuity/checkpoints/SES-20260721T012656Z-E067730A/0003.yaml
+- ?? artifacts/reports/R06/R06_SPECIALIZED_TEST_REPORT.md
+- ?? docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
 recent_commits:
+- "01d5c49c2745a845147bc36d41f6ae37335a9886\t2026-07-21T09:34:40+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] docs(ci): bound transient retries\
+  \ and async owner feedback"
 - "1a021ca1ae0c95f8409dd1686f91a140f82ee2e9\t2026-07-21T09:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-004\
   \ as completed"
 - "26d0d42f1d1eba8e33b748ebf8d96461867b2419\t2026-07-21T09:02:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record R06\
@@ -1610,20 +1606,20 @@ recent_commits:
   \ candidate deployment"
 - "d66887d636fbf49251297aa16f46324ff8ce75dc\t2026-07-21T06:10:37+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(ci): test release-specific\
   \ Android pages"
-- "1af2870ac006c5931d248177082d18d3d81eb6c9\t2026-07-21T05:02:07+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record visual\
-  \ evidence blocker"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`a84f0ea14ba4b46a0686e816cddc4f304449340c4a346ff67b382718b19edba9`
-- 文件数：6
+- 指纹：`cb3ebf17f6263c79e17a3e5e1b6e3642ec7e2d12f78533ea974df8f9e614d026`
+- 文件数：8
 
 - `config/android-automation.yaml`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md`
 - `docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md`
+- `docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md`
 - `docs/08-testing/Android自动开发测试修复交付体系_V1.0.md`
 - `docs/09-development/统一开发与交付效率规范.md`
+- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java`
 - `tests/test_android_ci_gate.py`
 
 ## 当前 Release
@@ -7014,13 +7010,54 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 项目所有者明确要求立即按方案执行、固化跨电脑跨AI可复用规则，并确认真机反馈不定时且不得阻断持续开发
   machine_record: .continuity/change_requests/CR-0158.yaml
   document: docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+- protocol_version: '1.0'
+  cr_id: CR-0159
+  title: 补齐R06内容与首页专项故障测试证据
+  status: APPROVED
+  created_at: '2026-07-21T01:55:00Z'
+  updated_at: '2026-07-21T01:55:29Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-005
+  session_id: SES-20260721T012656Z-E067730A
+  user_request: 现在立即按你说的计划开始方案后并立即推进开发
+  reason: R06-005要求六个权威测试ID覆盖重复请求、并发、超时、消息重复和供应方异常，现有测试未形成完整可审计证据
+  original_rule: 现有ContentServiceTest覆盖主路径、陈旧版本和首页排期，但未完整证明重复请求不重复Outbox、处理中并发、存储超时和CMS供应方异常
+  new_rule: R06六个权威测试ID必须在Java21真实构建中覆盖主路径、重复请求、同键异请求、处理中并发、陈旧版本、存储超时、Outbox去重、重复首页读取、非法CMS排期和CMS提供方超时，并归档测试报告
+  impact_summary: 仅增强测试与证据，不修改生产API、数据库、状态机或运行时代码
+  impact:
+    files:
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+    - artifacts/reports/R06/R06_SPECIALIZED_TEST_REPORT.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - TST-CONTENT_001-HAPPY
+    - TST-CONTENT_001-IDEMPOTENT
+    - TST-CONTENT_001-REJECT
+    - TST-HOME_001-HAPPY
+    - TST-HOME_001-IDEMPOTENT
+    - TST-HOME_001-REJECT
+    releases:
+    - R06
+    migration_and_compatibility: 兼容R06冻结契约和现有测试；新增Mockito故障注入断言，不改变生产行为
+  user_confirmation: 现在立即按你说的计划开始方案后并立即推进开发
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T01:55:29Z'
+    note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
+  machine_record: .continuity/change_requests/CR-0159.yaml
+  document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `5fb6e1db92a5e6906fc212202c176d675a5eae83f3f947d41bd04861b92c566b`
+- `CURRENT_STATUS.yaml` — `3eb7cdbe3a745e2817b1018a898d8325da7056fb5f623f49cc73149016bdae7d`
 - `NEXT_TASK.yaml` — `bc385e2ff5686d6e4a1b7a1db54b999f4c1b9657f0f902287a06a6d5ac3788a2`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7031,21 +7068,22 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `a1b64eb831cb3fe25c77889e33becfee2ed381626aa4f582cc1a414cf9ca1635`
-- `.continuity/SESSION_INDEX.yaml` — `5971237b5c599271c0e4508330a3f6d665724a44757aaf5e6a30376697f0bfcc`
+- `.continuity/EVENT_LOG.jsonl` — `75a41d2f5f9b2caa2c7a73cd7d571a052b4be109d2b2f19dfe5fe4207761e333`
+- `.continuity/SESSION_INDEX.yaml` — `44d5d388f9304e50f415a6af782cb28fd5bf03dce76018d9581d3796a92ef8bd`
 - `.continuity/TASK_CLAIMS.yaml` — `6364ae7ecd3b0eb7dd87fb51a54ba7c5700eedfebc926e00ce599629dd0f406a`
 - `.continuity/TASK_TRANSITIONS.yaml` — `48e521d2e873b371d8c4ce2ef561682fda744cd1959721830f12728756efcc6f`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `44ba932513efdb93ee45d9843ccee85d106a028a831e8919f00341423bf68d34`
-- `.continuity/ACTIVE_SESSION.yaml` — `bc208e0472521c3f2f7420a83f643a9ffbf047996d3ae25d7598e1012b23ff2d`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `817ef734240d37f7bd08d56a6c518cf7365296231471f76cf500952f960d8a1d`
+- `.continuity/ACTIVE_SESSION.yaml` — `521bcda45ade63ac48fa08e0907ff4d7d67e4bc364cfc4842cb714540feac1dc`
 - `releases/R06/RELEASE_MANIFEST.yaml` — `72e12380668976477e0cfb73fa508192e6317836e9848256f990a6172dfd5878`
 - `releases/R06/DEFINITION_OF_READY.yaml` — `c31b620f6fe320d94f233a4fe9bb596e5f2c9678d7271883eb1075a07cdfc991`
 - `releases/R06/STORIES.yaml` — `dd81c97b0552c9342b5be360e918d26502b5e3d06fa8bafaba7648d43c96e7ef`
 - `releases/R06/TASKS.yaml` — `4258651059ffb6e295b45ced71c96c6253530a149cd912e9219c3d977621f026`
 - `releases/R06/ACCEPTANCE_MATRIX.csv` — `9485c8f085153d3483002b33a143c764a8838a3503d8ac4d2e36e5c3c45b9aaf`
 - `releases/R06/PARALLEL_EXECUTION_PLAN.yaml` — `426f9cbd1e78fe487f8296a7ddb55d365310d7f643f1875d7a5d51b4afceed51`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md` — `0d897ee5d03ecff9628e396eb3dd6d03f2bdf341afebf12c3d9c6b8162ffecba`
-- `.continuity/checkpoints/SES-20260721T012656Z-E067730A/0002.yaml` — `fcbdde1f974c9b60f0f80016cd4ac87e38e4de7fadffd86fe0d58eeae84a62fd`
+- `docs/03-continuity/sessions/2026-07/SES-20260721T012656Z-E067730A.md` — `6029b71a7a0a531117fbf02ba0ea9fc83d44962180f3b7397382090e67743233`
+- `.continuity/checkpoints/SES-20260721T012656Z-E067730A/0003.yaml` — `90825ac3597fa9fd758093d4c0b8df52c3673b3792d1e853006d4698708977c9`
 - `docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md` — `8e370abc487aeead082dde807d70dfa5596fee15031ea626a1445431b23f4e6f`
+- `docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md` — `d1fffa522bf33810031594b3fdd69116feb046eef50a84a887fd58687634d11d`
 
 ## 接手硬规则
 

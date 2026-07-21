@@ -1,0 +1,172 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T012656Z-E067730A-0003
+session_id: SES-20260721T012656Z-E067730A
+sequence: 3
+created_at: '2026-07-21T01:56:09Z'
+summary: R06-005六个权威测试ID与五类故障注入证据补齐并通过Java21云端构建
+next_step: 提交推送R06专项测试证据，验证精确Commit后关闭TASK-R06-005并进入TASK-R06-006
+blockers: []
+decisions:
+- R06内容与首页生产代码无需修改；新增测试证明重复请求、并发、超时、Outbox去重和CMS异常均按冻结契约失败关闭
+note: ''
+tests:
+- name: r06_specialized_backend
+  result: PASS
+  evidence: artifacts/reports/R06/R06_SPECIALIZED_TEST_REPORT.md
+  note: 15 tests, 0 failures, 0 errors, BUILD SUCCESS
+- name: r06_content_fault_matrix
+  result: PASS
+  evidence: services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  note: 12 service tests cover six authority IDs
+- name: r06_todo_mock_scan
+  result: PASS
+  evidence: rg TODO FIXME Mock scoped R06 production paths
+  note: 0 findings
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 01d5c49c2745a845147bc36d41f6ae37335a9886
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260721T012656Z-E067730A.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java'
+  - ?? .continuity/change_requests/CR-0159.yaml
+  - ?? artifacts/reports/R06/R06_SPECIALIZED_TEST_REPORT.md
+  - ?? docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
+  recent_commits:
+  - "01d5c49c2745a845147bc36d41f6ae37335a9886\t2026-07-21T09:34:40+08:00\tHHY Continuity Bootstrap\t[STORY-R06-005] docs(ci): bound transient\
+    \ retries and async owner feedback"
+  - "1a021ca1ae0c95f8409dd1686f91a140f82ee2e9\t2026-07-21T09:04:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): close TASK-R06-004\
+    \ as completed"
+  - "26d0d42f1d1eba8e33b748ebf8d96461867b2419\t2026-07-21T09:02:15+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
+    \ R06 candidate pass"
+  - "66da8575b738596cb51360619ea342380fdd121e\t2026-07-21T08:41:06+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] test(android): approve R06\
+    \ visual baseline"
+  - "7b26ef9178607420d2eac17ecc3f6a93061c2353\t2026-07-21T08:12:05+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(android): reject incomplete\
+    \ R06 visual state"
+  - "ccc64022ea9531d0b979e87b6bae2c166490295b\t2026-07-21T07:27:11+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] fix(ci): cover emulator bootstrap\
+    \ latency"
+  - "e1f5d632f19422c8aeecb4ab43f2ef5601627671\t2026-07-21T06:54:49+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] chore(continuity): record\
+    \ R06 candidate deployment"
+  - "d66887d636fbf49251297aa16f46324ff8ce75dc\t2026-07-21T06:10:37+08:00\tHHY Continuity Bootstrap\t[STORY-R06-001] feat(ci): test release-specific\
+    \ Android pages"
+project_fingerprint:
+  sha256: cb3ebf17f6263c79e17a3e5e1b6e3642ec7e2d12f78533ea974df8f9e614d026
+  files:
+  - config/android-automation.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+  - docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  - tests/test_android_ci_gate.py
+  file_count: 8
+  payload:
+    base_commit: 1a021ca1ae0c95f8409dd1686f91a140f82ee2e9
+    files:
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 5243
+      sha256: 6078316668aaa9bb82ac0f1148000de0cfda294893fc93164b035d155b14a876
+    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
+      state: FILE
+      size: 10152
+      sha256: ff548e8ad291ffd28210859c9aceb32c6b521766ee991db5f80f4cd0ba94cb93
+    - path: docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+      state: FILE
+      size: 3064
+      sha256: 8e370abc487aeead082dde807d70dfa5596fee15031ea626a1445431b23f4e6f
+    - path: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
+      state: FILE
+      size: 2248
+      sha256: d1fffa522bf33810031594b3fdd69116feb046eef50a84a887fd58687634d11d
+    - path: docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+      state: FILE
+      size: 9131
+      sha256: f3aa686b3a51895e48e0ae25262b7395633c292b0e9847476f25d97b72120a08
+    - path: docs/09-development/统一开发与交付效率规范.md
+      state: FILE
+      size: 9930
+      sha256: 3e186c5d89ff683febb5428d7713efd20860851490b03fa8e08a26fb3e1d257d
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+      state: FILE
+      size: 9648
+      sha256: 6471b44c621b10d31d89590b14ae3b9f33c9fa3e39e18e8c4be166eccf9b4091
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 16381
+      sha256: 0282c840bb4070faf1129159a9b0b9f5191cd432e4d644702864a3549fb38e1f
+change_classification:
+  other:
+  - config/android-automation.yaml
+  - docs/08-testing/Android自动开发测试修复交付体系_V1.0.md
+  - docs/09-development/统一开发与交付效率规范.md
+  source_of_truth:
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  continuity:
+  - docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+  - docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
+  code:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+  tests:
+  - tests/test_android_ci_gate.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0158
+- CR-0159
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 专项测试涉及同一ContentService测试文件与统一报告，路径不可安全拆分；当前工具也禁止启动执行代理
+event_hash: fe4e90395f80458bee2a89a865a3d75995d167cb72b59713f2e89aab414f6dcf

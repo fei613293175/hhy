@@ -7,6 +7,8 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 import cc.orbexa.hhy.content.ContentContracts.StatusRequest;
@@ -69,6 +71,64 @@ class ContentServiceTest {
     }
 
     @Test
+    void repeatedContentCommandReplaysStoredResultWithoutDuplicateMessage() {
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new ContentStore.IdempotencyClaim(
+                        73, invocation.getArgument(2), "v1:42:ONLINE:4:1784534400000", true));
+
+        var result = service.online(7, "42", new StatusRequest(3L, "审核通过"), KEY, "req-replay", "127.0.0.1");
+
+        assertEquals("42", result.resourceId());
+        assertEquals("ONLINE", result.status());
+        assertEquals(4, result.version());
+        verify(store, never()).lock(anyLong());
+        verify(store, never()).transition(anyLong(), anyLong(), anyString(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), any());
+    }
+
+    @Test
+    void sameIdempotencyKeyWithDifferentContentCommandIsRejected() {
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenReturn(
+                new ContentStore.IdempotencyClaim(74, "different-request-hash", "v1:42:ONLINE:4:1784534400000", true));
+
+        BusinessException error = assertThrows(BusinessException.class, () ->
+                service.online(7, "42", new StatusRequest(3L, "审核通过"), KEY, "req-conflict", "127.0.0.1"));
+
+        assertEquals("COMMON-409-IDEMPOTENCY_CONFLICT", error.code());
+        verify(store, never()).lock(anyLong());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), any());
+    }
+
+    @Test
+    void inProgressDuplicateCommandCannotCrossConcurrencyGate() {
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new ContentStore.IdempotencyClaim(75, invocation.getArgument(2), null, true));
+
+        BusinessException error = assertThrows(BusinessException.class, () ->
+                service.online(7, "42", new StatusRequest(3L, "审核通过"), KEY, "req-in-progress", "127.0.0.1"));
+
+        assertEquals("COMMON-409-VERSION_CONFLICT", error.code());
+        verify(store, never()).lock(anyLong());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), any());
+    }
+
+    @Test
+    void storageTimeoutStopsCommandBeforeAuditOutboxAndCompletion() {
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenReturn(
+                new ContentStore.IdempotencyClaim(76, "hash", null, false));
+        when(store.lock(42)).thenReturn(Optional.of(new ContentStore.LockedContent(42, "APPROVED", 3)));
+        when(store.transition(42, 3, "ONLINE", NOW)).thenThrow(new IllegalStateException("storage timeout"));
+
+        IllegalStateException error = assertThrows(IllegalStateException.class, () ->
+                service.online(7, "42", new StatusRequest(3L, "审核通过"), KEY, "req-timeout", "127.0.0.1"));
+
+        assertEquals("storage timeout", error.getMessage());
+        verify(store, never()).audit(anyLong(), anyString(), anyLong(), any(), any(), anyString());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), any());
+        verify(store, never()).complete(anyLong(), anyString());
+    }
+
+    @Test
     void statusTransitionRejectsStaleExpectedVersion() {
         when(store.claim(anyString(), eq(KEY), anyString(), any())).thenReturn(
                 new ContentStore.IdempotencyClaim(72, "hash", null, false));
@@ -107,5 +167,40 @@ class ContentServiceTest {
         assertEquals(List.of("active"), result.modules().stream()
                 .map(module -> module.trackingContext().source()).toList());
         assertEquals(NOW, result.serverTime());
+    }
+
+    @Test
+    void repeatedHomeReadIsStableAndDoesNotCreateMessages() {
+        var rows = List.of(new ContentStore.HomeRow(1, "active", "当前", "NOTICE", "{\"items\":[]}"));
+        when(store.homeModules()).thenReturn(rows);
+
+        var first = service.home("req-home-repeat");
+        var second = service.home("req-home-repeat");
+
+        assertEquals(first, second);
+        verify(store, times(2)).homeModules();
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), any());
+    }
+
+    @Test
+    void malformedCmsScheduleIsRejectedInsteadOfServingPartialHomeData() {
+        when(store.homeModules()).thenReturn(List.of(
+                new ContentStore.HomeRow(1, "invalid", "错误排期", "NOTICE",
+                        "{\"startAt\":\"not-an-instant\",\"items\":[]}")));
+
+        BusinessException error = assertThrows(BusinessException.class, () -> service.home("req-home-invalid"));
+
+        assertEquals("COMMON-400-VALIDATION", error.code());
+    }
+
+    @Test
+    void cmsProviderTimeoutPropagatesWithoutServingPartialHomeData() {
+        when(store.homeModules()).thenThrow(new IllegalStateException("cms provider timeout"));
+
+        IllegalStateException error = assertThrows(
+                IllegalStateException.class, () -> service.home("req-home-provider-timeout"));
+
+        assertEquals("cms provider timeout", error.getMessage());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), any());
     }
 }

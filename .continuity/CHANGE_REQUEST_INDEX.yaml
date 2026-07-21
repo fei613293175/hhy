@@ -9336,3 +9336,44 @@ change_requests:
     note: 项目所有者明确要求立即按方案执行、固化跨电脑跨AI可复用规则，并确认真机反馈不定时且不得阻断持续开发
   machine_record: .continuity/change_requests/CR-0158.yaml
   document: docs/03-continuity/change-requests/CR-0158-固化GitHub瞬态失败作业级重跑与真机反馈异步推进规则.md
+- protocol_version: '1.0'
+  cr_id: CR-0159
+  title: 补齐R06内容与首页专项故障测试证据
+  status: APPROVED
+  created_at: '2026-07-21T01:55:00Z'
+  updated_at: '2026-07-21T01:55:29Z'
+  requester_actor_id: codex-root
+  approver_actor_id: project-owner
+  task_id: TASK-R06-005
+  session_id: SES-20260721T012656Z-E067730A
+  user_request: 现在立即按你说的计划开始方案后并立即推进开发
+  reason: R06-005要求六个权威测试ID覆盖重复请求、并发、超时、消息重复和供应方异常，现有测试未形成完整可审计证据
+  original_rule: 现有ContentServiceTest覆盖主路径、陈旧版本和首页排期，但未完整证明重复请求不重复Outbox、处理中并发、存储超时和CMS供应方异常
+  new_rule: R06六个权威测试ID必须在Java21真实构建中覆盖主路径、重复请求、同键异请求、处理中并发、陈旧版本、存储超时、Outbox去重、重复首页读取、非法CMS排期和CMS提供方超时，并归档测试报告
+  impact_summary: 仅增强测试与证据，不修改生产API、数据库、状态机或运行时代码
+  impact:
+    files:
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/ContentServiceTest.java
+    - artifacts/reports/R06/R06_SPECIALIZED_TEST_REPORT.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - TST-CONTENT_001-HAPPY
+    - TST-CONTENT_001-IDEMPOTENT
+    - TST-CONTENT_001-REJECT
+    - TST-HOME_001-HAPPY
+    - TST-HOME_001-IDEMPOTENT
+    - TST-HOME_001-REJECT
+    releases:
+    - R06
+    migration_and_compatibility: 兼容R06冻结契约和现有测试；新增Mockito故障注入断言，不改变生产行为
+  user_confirmation: 现在立即按你说的计划开始方案后并立即推进开发
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-21T01:55:29Z'
+    note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
+  machine_record: .continuity/change_requests/CR-0159.yaml
+  document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
