@@ -352,7 +352,8 @@ private fun ContactAccessSheet(
     }
 
     ModalBottomSheet(
-        modifier = Modifier.testTag("hhy.sheet.r07.contact"),
+        modifier = Modifier.semantics { testTagsAsResourceId = true }
+            .testTag("hhy.sheet.r07.contact"),
         onDismissRequest = ::close,
     ) {
         Column(

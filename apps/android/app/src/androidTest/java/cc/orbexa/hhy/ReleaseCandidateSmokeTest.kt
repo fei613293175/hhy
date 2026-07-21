@@ -109,7 +109,14 @@ class ReleaseCandidateSmokeTest {
         assertNoForbiddenVisibleText()
 
         clickVisibleTextContains("微信")
-        assertTrue("R07 contact sheet did not become visible", waitForScreen("hhy.sheet.r07.contact"))
+        assertTrue(
+            "R07 contact sheet business content did not become visible",
+            device.wait(Until.hasObject(By.text("联系方式")), 15_000),
+        )
+        assertTrue(
+            "R07 contact sheet semantic marker did not become visible",
+            device.wait(Until.hasObject(By.res("hhy.sheet.r07.contact")), 15_000),
+        )
         assertTrue("Contact sheet missed protected action", device.hasObject(By.text("获取联系方式")))
         assertTrue("Contact sheet missed close action", device.hasObject(By.text("关闭")))
         assertSecureWindow()

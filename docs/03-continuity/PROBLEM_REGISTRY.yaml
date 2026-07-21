@@ -946,3 +946,16 @@ problems:
   - 运维SQL不得依赖数据库角色的默认search_path，业务表和Flyway历史表必须使用冻结schema限定
   - 敏感客户端变量必须在可替换的SQL语句中转换为最小临时上下文，禁止写入日志或持久夹具配置
   - 候选夹具必须使用单事务和ON_ERROR_STOP，任何失败都不得留下部分数据
+- id: PROB-0072
+  title: Compose独立模态窗口未导出testTag资源ID导致候选误判页面未打开
+  status: SOLVED
+  root_cause: R07发布者页面根节点启用了testTagsAsResourceId，但Material3 ModalBottomSheet使用独立Compose模态语义窗口，不继承页面根部的资源ID导出配置；联系方式面板只设置testTag，UiAutomator因此在业务按钮点击后仍无法按hhy.sheet.r07.contact观测，运行29871247067在第三张合格截图后超时。
+  resolution: CR-0195在联系方式ModalBottomSheet自身显式启用testTagsAsResourceId并保留唯一testTag；候选回归先等待可见业务标题，再等待资源标记、受保护动作、关闭动作和FLAG_SECURE，禁止用单一技术标记代替实际业务可见性。首轮三张非敏感截图由AI审查合格，安全面板继续禁止截图。
+  regression_checks:
+  - Android instrumentation测试必须编译
+  - GitHub候选必须同时发现联系方式业务标题、hhy.sheet.r07.contact、获取联系方式、关闭和FLAG_SECURE
+  - 安全面板关闭后必须清除资源标记并继续产生04-clear-history-dialog.png
+  do_not_repeat:
+  - Dialog、ModalBottomSheet、Popup等独立Compose窗口不得假设继承页面根部testTagsAsResourceId
+  - 候选自动化不得只等待testTag，必须同时绑定用户可见页面身份和关键业务动作
+  - FLAG_SECURE页面禁止为补视觉证据而截屏，使用语义、窗口标志和关闭后清零断言验收

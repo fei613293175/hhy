@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R07
 candidate: true
-remediation_attempt: 1
-request_id: R07-20260722-001
-reason: R07首次最终候选运行，采集并审核搜索、发布者与安全联系方式旅程的版本视觉基线
+remediation_attempt: 2
+request_id: R07-20260722-002
+reason: 修复独立Compose联系方式模态窗口的资源ID语义导出后，重验完整R07页面旅程并采集第四张非敏感基线截图
