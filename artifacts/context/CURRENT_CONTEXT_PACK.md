@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-21T19:23:18Z
-- Context Hash：`75561acf93dc3b14ac06e481c85050bd7cd011d87337b3fac54f2b78ba2eb941`
+- 生成时间：2026-07-21T19:25:57Z
+- Context Hash：`912406921e015ec6b1d7092cb97f68f23cc097df24551b5783017083ff08ad7a`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -97,7 +97,7 @@ blocked_tasks:
 - TASK-R03-007
 - TASK-R06-008
 next_task: TASK-R07-004
-updated_at: '2026-07-21T19:23:16Z'
+updated_at: '2026-07-21T19:25:55Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -132,15 +132,15 @@ continuity:
   active_session_id: SES-20260721T190306Z-32CB66BF
   actor_id: codex-root-r07-004
   story_id: STORY-R07-001
-  lease_expires_at: '2026-07-21T23:23:16Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T190306Z-32CB66BF/0001.yaml
-  project_fingerprint: 2645b3871267ae08522013e920c41d302ea9b52d3f649442e5f52c64643328f8
+  lease_expires_at: '2026-07-21T23:25:55Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T190306Z-32CB66BF/0003.yaml
+  project_fingerprint: 8602991f8279c71edd216c576bae3f6d2c2f9392b686d4ef3a7e80959aedd9dd
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: ee271007b56524832019fc0c1c9c67d991d54f64f3e7fda7180b2772b2846e83
-    generated_at: '2026-07-21T19:03:09Z'
+    context_hash: 4274e8aa4efac0e17a1687acb94981aca8a8aecc1602997c0f6bbca69adb4a6e
+    generated_at: '2026-07-21T19:25:38Z'
   handoff_bundle: null
 ```
 
@@ -337,7 +337,7 @@ task_id: TASK-R07-004
 story_id: STORY-R07-001
 goal: 搜索、发布者主页与联系方式保护客户端/H5/后台实现
 started_at: '2026-07-21T19:03:06Z'
-updated_at: '2026-07-21T19:23:16Z'
+updated_at: '2026-07-21T19:25:55Z'
 takeover_of: null
 change_requests:
 - CR-0183
@@ -379,12 +379,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-21T19:23:16Z'
-  expires_at: '2026-07-21T23:23:16Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260721T190306Z-32CB66BF/0001.yaml
+  renewed_at: '2026-07-21T19:25:55Z'
+  expires_at: '2026-07-21T23:25:55Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260721T190306Z-32CB66BF/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T190306Z-32CB66BF.md
-next_step: 执行严格连续性与范围门禁，提交实现并绑定关闭CR-0183，然后关闭TASK-R07-004并进入TASK-R07-005。
+next_step: 提交CR关闭治理记录并推送，然后正式关闭TASK-R07-004进入R07-005。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -392,45 +392,37 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: R07客户端路由、合同模型、状态和敏感数据生命周期紧密耦合，当前任务由单一主控串行验证可避免分支范围漂移。
+  reason: 关闭记录和下一任务切换属于连续性单写事务。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T190306Z-32CB66BF-0001
+checkpoint_id: CP-SES-20260721T190306Z-32CB66BF-0003
 session_id: SES-20260721T190306Z-32CB66BF
-sequence: 1
-created_at: '2026-07-21T19:23:15Z'
-summary: R07 Android搜索、搜索结果、发布者主页、联系方式面板与清空历史确认实现完成，七项冻结接口已绑定，高敏明文仅内存且防截屏。
-next_step: 执行严格连续性与范围门禁，提交实现并绑定关闭CR-0183，然后关闭TASK-R07-004并进入TASK-R07-005。
+sequence: 3
+created_at: '2026-07-21T19:25:55Z'
+summary: CR-0183生命周期已关闭，R07-004实现提交和验证证据已固定。
+next_step: 提交CR关闭治理记录并推送，然后正式关闭TASK-R07-004进入R07-005。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: contract-runtime-assets
+- name: cr-lifecycle
   result: PASS
-  evidence: scripts/sync_runtime_assets.py --check
+  evidence: CR-0183 CLOSED and bound to fea04949
   note: ''
-- name: contract-openapi
+- name: strict-continuity
   result: PASS
-  evidence: API_CONTRACT_OK client=131 admin=184 websocket=10
-  note: ''
-- name: android-module
-  result: PASS
-  evidence: testDebugUnitTest lintDebug; 387 tasks; BUILD SUCCESSFUL
-  note: ''
-- name: r07-targeted
-  result: PASS
-  evidence: feature discovery unit tests and app Kotlin compilation
+  evidence: R07 strict joint gate
   note: ''
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: dff784e5d74a3fe5b09b2c7acfc06dcf7e1bcebd
+  head: fea04949506434f8f408bc0244d6a195718c6c22
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
@@ -439,32 +431,19 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CHANGELOG.md'
+  - ' M .continuity/change_requests/CR-0183.yaml'
+  - ' M .continuity/sessions/SES-20260721T190306Z-32CB66BF.yaml'
   - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/app/build.gradle.kts'
-  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-  - ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt'
-  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
-  - ' M apps/android/settings.gradle.kts'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ?? .continuity/change_requests/CR-0183.yaml
-  - ?? .continuity/sessions/SES-20260721T190306Z-32CB66BF.yaml
-  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
-  - ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R07ApiModelsSerializationTest.kt
-  - ?? apps/android/feature/discovery/build.gradle.kts
-  - ?? apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
-  - ?? apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryState.kt
-  - ?? apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
-  - ?? docs/03-continuity/change-requests/CR-0183-实现R07-Android搜索发布者与联系方式闭环.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T190306Z-32CB66BF.md
+  - ' M docs/03-continuity/change-requests/CR-0183-实现R07-Android搜索发布者与联系方式闭环.md'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260721T190306Z-32CB66BF.md'
+  - ?? .continuity/checkpoints/SES-20260721T190306Z-32CB66BF/0002.yaml
   recent_commits:
+  - "fea04949506434f8f408bc0244d6a195718c6c22\t2026-07-22T03:25:02+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] feat(android): 实现R07搜索发布者与联系方式闭环"
   - "dff784e5d74a3fe5b09b2c7acfc06dcf7e1bcebd\t2026-07-22T02:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-003\
     \ as completed"
   - "301a30124f4d65e1c1862bd02befe840a273bdf0\t2026-07-22T02:55:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭 R07-003\
@@ -478,10 +457,8 @@ git:
     \ data invariants"
   - "f0e45bae374b71359b91cc3f63e8628007bf97dc\t2026-07-21T16:58:05+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-001\
     \ as completed"
-  - "247f3add2be69a47abaff8ecb8c3216246320709\t2026-07-21T16:51:50+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close R07\
-    \ entry change requests"
 project_fingerprint:
-  sha256: 2645b3871267ae08522013e920c41d302ea9b52d3f649442e5f52c64643328f8
+  sha256: 8602991f8279c71edd216c576bae3f6d2c2f9392b686d4ef3a7e80959aedd9dd
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -550,8 +527,8 @@ project_fingerprint:
       sha256: d5b3e294b5c504500b3c04ef240b7562cff64a6765f0d42f7883011951d56f95
     - path: docs/03-continuity/change-requests/CR-0183-实现R07-Android搜索发布者与联系方式闭环.md
       state: FILE
-      size: 3973
-      sha256: 037e0859da1b9d4557726b39c6d116aad889519e32bfd7183a1fb9e836de7e2e
+      size: 4817
+      sha256: d7ccc98a47941976412adbb8f45f96bf2074d9e6cab2de579c84c76de76315e8
 change_classification:
   other:
   - CHANGELOG.md
@@ -623,8 +600,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: R07客户端路由、合同模型、状态和敏感数据生命周期紧密耦合，当前任务由单一主控串行验证可避免分支范围漂移。
-event_hash: 3d0d34f739d87d8553a86888d63443c0478fe0cf677a3f6d7cf6836b0afe94dc
+  reason: 关闭记录和下一任务切换属于连续性单写事务。
+event_hash: 92cb6be0ca685956b083ff625ed85d5cdbda39564571ce297333ee4717db2fc2
 ```
 
 ## 接续状态与事件头
@@ -636,8 +613,8 @@ active_session_id: SES-20260721T190306Z-32CB66BF
 last_session_id: SES-20260721T171025Z-A3718A1C
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260721T171025Z-A3718A1C-0004
-event_count: 1848
-event_head_hash: 3d0d34f739d87d8553a86888d63443c0478fe0cf677a3f6d7cf6836b0afe94dc
+event_count: 1853
+event_head_hash: 92cb6be0ca685956b083ff625ed85d5cdbda39564571ce297333ee4717db2fc2
 event_chain_valid: true
 ```
 
@@ -760,9 +737,9 @@ recent_sessions: - session_id: SES-20260720T173038Z-35648A77
   started_at: '2026-07-21T19:03:06Z'
   record: .continuity/sessions/SES-20260721T190306Z-32CB66BF.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T190306Z-32CB66BF.md
-  updated_at: '2026-07-21T19:23:16Z'
+  updated_at: '2026-07-21T19:25:55Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T190306Z-32CB66BF/0001.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T190306Z-32CB66BF/0003.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-345640F60D68
   session_id: SES-20260719T162332Z-9372DEF2
@@ -1646,9 +1623,9 @@ recent_task_transitions: - transition_id: TRN-70BE4F37F991
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: dff784e5d74a3fe5b09b2c7acfc06dcf7e1bcebd
+head: fea04949506434f8f408bc0244d6a195718c6c22
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
@@ -1657,33 +1634,20 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/change_requests/CR-0183.yaml'
+- ' M .continuity/sessions/SES-20260721T190306Z-32CB66BF.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/android/app/build.gradle.kts'
-- ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-- ' M apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt'
-- ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
-- ' M apps/android/settings.gradle.kts'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ?? .continuity/change_requests/CR-0183.yaml
-- ?? .continuity/checkpoints/SES-20260721T190306Z-32CB66BF/0001.yaml
-- ?? .continuity/sessions/SES-20260721T190306Z-32CB66BF.yaml
-- ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
-- ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R07ApiModelsSerializationTest.kt
-- ?? apps/android/feature/discovery/build.gradle.kts
-- ?? apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
-- ?? apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryState.kt
-- ?? apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
-- ?? docs/03-continuity/change-requests/CR-0183-实现R07-Android搜索发布者与联系方式闭环.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260721T190306Z-32CB66BF.md
+- ' M docs/03-continuity/change-requests/CR-0183-实现R07-Android搜索发布者与联系方式闭环.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260721T190306Z-32CB66BF.md'
+- ?? .continuity/checkpoints/SES-20260721T190306Z-32CB66BF/0002.yaml
+- ?? .continuity/checkpoints/SES-20260721T190306Z-32CB66BF/0003.yaml
 recent_commits:
+- "fea04949506434f8f408bc0244d6a195718c6c22\t2026-07-22T03:25:02+08:00\tHHY Continuity Bootstrap\t[STORY-R07-001] feat(android): 实现R07搜索发布者与联系方式闭环"
 - "dff784e5d74a3fe5b09b2c7acfc06dcf7e1bcebd\t2026-07-22T02:57:51+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-003\
   \ as completed"
 - "301a30124f4d65e1c1862bd02befe840a273bdf0\t2026-07-22T02:55:26+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭 R07-003\
@@ -1697,13 +1661,11 @@ recent_commits:
   \ invariants"
 - "f0e45bae374b71359b91cc3f63e8628007bf97dc\t2026-07-21T16:58:05+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-001\
   \ as completed"
-- "247f3add2be69a47abaff8ecb8c3216246320709\t2026-07-21T16:51:50+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close R07\
-  \ entry change requests"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`2645b3871267ae08522013e920c41d302ea9b52d3f649442e5f52c64643328f8`
+- 指纹：`8602991f8279c71edd216c576bae3f6d2c2f9392b686d4ef3a7e80959aedd9dd`
 - 文件数：13
 
 - `CHANGELOG.md`
@@ -7132,75 +7094,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
   machine_record: .continuity/change_requests/CR-0159.yaml
   document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
-- protocol_version: '1.0'
-  cr_id: CR-0183
-  title: 实现R07 Android搜索发布者与联系方式闭环
-  status: APPROVED
-  created_at: '2026-07-21T19:05:20Z'
-  updated_at: '2026-07-21T19:07:11Z'
-  requester_actor_id: codex-root-r07-004
-  approver_actor_id: codex-reviewer-r07
-  task_id: TASK-R07-004
-  session_id: SES-20260721T190306Z-32CB66BF
-  user_request: 项目所有者要求持续完成R07至R32，由AI判断截图与门禁结果，真机反馈异步且不得阻断开发。
-  reason: R07后端七项冻结接口已经完成，但Android尚无对应网络绑定、页面状态、导航与敏感联系方式内存展示，TASK-R07-004必须补齐五个冻结页面/弹层并接入现有已认证壳层。
-  original_rule: R07五个Android页面或弹层已冻结字段状态与动作，七项服务端operationId已完成，但当前Android仅有R06首页壳层，没有R07合同模型、传输绑定、搜索入口、发布者主页、联系方式面板或清空历史确认，用户无法使用已落地后端能力。
-  new_rule: Android以core/network唯一合同模型和ContractR07Api绑定七项operationId；新增feature/discovery实现五个冻结UI的加载内容空错误离线权限恢复与幂等交互；搜索结果进入发布者主页，公开内容打开联系方式面板；联系方式明文仅存在当前Composable内存，显式复制，关闭立即清除且不进入日志埋点持久化或保存状态。
-  impact_summary: 不改变冻结OpenAPI数据库和服务端行为，补齐R07 Android端到端闭环、已认证导航、稳定幂等键、最小披露及自动化测试；H5和后台没有R07登记页面，明确N/A且不发明界面。
-  impact:
-    files:
-    - apps/android/settings.gradle.kts
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ApiModels.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR07Api.kt
-    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R07ApiModelsSerializationTest.kt
-    - apps/android/feature/discovery/build.gradle.kts
-    - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
-    - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryState.kt
-    - apps/android/feature/discovery/src/test/java/cc/orbexa/hhy/discovery/R07DiscoveryStateTest.kt
-    - CHANGELOG.md
-    pages:
-    - SCR-SEARCH-001
-    - SCR-SEARCH-002
-    - SCR-PUBLISHER-001
-    - SHEET-CONTACT-001
-    - DIALOG-SEARCH-001
-    apis:
-    - GET /api/v1/search
-    - GET /api/v1/search/hot
-    - GET /api/v1/search/history
-    - DELETE /api/v1/search/history
-    - GET /api/v1/publishers/{id}
-    - GET /api/v1/contents
-    - POST /api/v1/contents/{id}/contacts/{channel}/access
-    database: []
-    configuration:
-    - HHY_API_BASE_URL
-    ledger:
-    - R07 Android页面与冻结operationId一对一绑定
-    tests:
-    - core/network R07合同序列化与高敏字段边界
-    - feature/discovery状态幂等键复用与敏感值清除测试
-    - Android受影响MODULE单测lint与编译
-    releases:
-    - R07
-    migration_and_compatibility: 仅新增Android模块和路由，复用API_BASE_URL与Bearer会话；不迁移本地数据、不持久化联系方式明文、不改变R02至R06路由；H5和后台因无R07登记页面明确N/A。
-  user_confirmation: 项目所有者已明确授权持续推进R07至R32并由AI自行判断门禁结果，真机反馈异步且不得阻断。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T19:07:11Z'
-    note: 范围严格对应五个冻结Android页面和七项已实现接口；H5及后台无登记页面明确N/A；敏感联系方式仅内存展示并关闭清除，幂等写保持同意图稳定键，未扩大合同。
-  machine_record: .continuity/change_requests/CR-0183.yaml
-  document: docs/03-continuity/change-requests/CR-0183-实现R07-Android搜索发布者与联系方式闭环.md
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `038f713d50267cc0c1598d2399f13ee5ca9ad82bc03311747f3c3ef7f2ae232a`
-- `CURRENT_STATUS.yaml` — `060a8d92b8ec7bc9c36bc401f707d873ec81f404accebc728bddbe700d21a793`
+- `CURRENT_STATUS.yaml` — `bf4c9c98a98719dfb0a6354e34bdc52b87024cff77f0b6fe97c60f2e0cfe28e6`
 - `NEXT_TASK.yaml` — `1266dec5803430468f70b3e2742414d63604f48e639083ac56b6ac4a4b0c0936`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7211,21 +7111,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `383dc5933fa901a08a97274fec4ad968099e5c062db7872d1bb6ac64cbe3a407`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `df9da95085cf85843fab4998ae65991bdd53c1c489625d9416707a9d0ced6bf4`
-- `.continuity/SESSION_INDEX.yaml` — `e0ec6f79fd65e39e0bb009e2993bc6d2a0f9bcf03b700d1c209c20b9db609306`
+- `.continuity/EVENT_LOG.jsonl` — `c9e3e2af95a6775ee6fba883d3d8e286d4d025e808c8690cde9f32445faac159`
+- `.continuity/SESSION_INDEX.yaml` — `5bbc5ed47a18eb7baa98feff4231c593588a6c4ae38bb9d991532a46f7411d9f`
 - `.continuity/TASK_CLAIMS.yaml` — `e2fa8a486be3ed998fb2d9f3cd9183c435e5d385106c9ff744a1affbabace063`
 - `.continuity/TASK_TRANSITIONS.yaml` — `02996184a465a3b54ca8dd3c3e3e5b3439aff604b7fe97a45aab7d68ab7c84e6`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `a126fb6d06c77d3afe5a53144d57fec4b4a39a6a60db4847f87c0e60bb052caa`
-- `.continuity/ACTIVE_SESSION.yaml` — `db178a21c5cbd5fea48f67b8b618008a3fd11639f41699d277abbfca40d7f6be`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `74d59f2a9df7ae0163c9aeaa7d22b84f64aca7f1e33088d3c88af63c36e231de`
+- `.continuity/ACTIVE_SESSION.yaml` — `77532082242e2618db50acbff3f91906cc9225255f26b480feecc94a0212e8f2`
 - `releases/R07/RELEASE_MANIFEST.yaml` — `333e47e09e2d4004aab3e2ffdd6ec072abd8977b4d6fcd1c1daa9bec9e858f34`
 - `releases/R07/DEFINITION_OF_READY.yaml` — `5e3a1496a1a9a9af6ac2e40e8aaacdfaa46cc7bf117324c22c486b3730c6f9f9`
 - `releases/R07/STORIES.yaml` — `26e0246244a4de42510a0a31d0982afaf0e5cd3ad0641c0ebdd74b6882e9431e`
 - `releases/R07/TASKS.yaml` — `6933b7659ad147b46605ab89e60d6c063bf5151af39ddc95c611ac8b92c8648e`
 - `releases/R07/ACCEPTANCE_MATRIX.csv` — `1f31b7765d0740a6b8800d8ec89920a67f6010697dda3d7be5793ce48275ce39`
 - `releases/R07/PARALLEL_EXECUTION_PLAN.yaml` — `6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T190306Z-32CB66BF.md` — `cb385dfa8760c8b8bc2ec117bbaa82b8ed2707b83774f92d0868d9908b2adef7`
-- `.continuity/checkpoints/SES-20260721T190306Z-32CB66BF/0001.yaml` — `0cd91b4b3b09e54a0786a82ec5c2a0395a14efdc31c81f7beeedee0cb67aeb02`
-- `docs/03-continuity/change-requests/CR-0183-实现R07-Android搜索发布者与联系方式闭环.md` — `037e0859da1b9d4557726b39c6d116aad889519e32bfd7183a1fb9e836de7e2e`
+- `docs/03-continuity/sessions/2026-07/SES-20260721T190306Z-32CB66BF.md` — `3cdd72d6b7229e3bf6083ffb0034f4d5410868e190af99ecd966d049937668a8`
+- `.continuity/checkpoints/SES-20260721T190306Z-32CB66BF/0003.yaml` — `c8b0e2511345be25ed9acc00d0dfba79451b01b2249ad924a37b67d52ab0e833`
+- `docs/03-continuity/change-requests/CR-0183-实现R07-Android搜索发布者与联系方式闭环.md` — `d7ccc98a47941976412adbb8f45f96bf2074d9e6cab2de579c84c76de76315e8`
 
 ## 接手硬规则
 
