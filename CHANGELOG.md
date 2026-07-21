@@ -724,3 +724,13 @@
 - Actor：`codex-root`
 - 摘要：TASK-R06-007完成：GitHub Run 29803223373一次通过，f5cf1e4/10214固定签名APK完成模拟器旅程、AI审图、日志、四方SHA与桌面交付，owner_physical_test按异步规则保持PENDING
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T043434Z-868F3619.md`
+
+## TASK-R06-008 · BLOCKED · 2026-07-21T08:13:30Z
+
+- Task close: TASK-R06-008 / SES-20260721T055708Z-741C3D49
+- Release：`R06`
+- Story：`STORY-R06-005`
+- Actor：`codex-root`
+- 摘要：R06机器开发、候选APK、自动化与视觉验收均PASS；仅项目所有者异步真机验收保持PENDING，正式验收和生产激活继续阻断，按批准规则启动独立R07
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T055708Z-741C3D49.md`
+
