@@ -1,0 +1,260 @@
+﻿SOURCE_COMMIT=450d8758a2ba2ad42b4906f8911495815ac29213
+SUITE=postgresql17-real-store
+psql (PostgreSQL) 17.10 (Debian 17.10-1.pgdg13+1)
+[INFO] Scanning for projects...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Build Order:
+[INFO] 
+[INFO] HHY Backend                                                        [pom]
+[INFO] hhy-shared-kernel                                                  [jar]
+[INFO] hhy-access                                                         [jar]
+[INFO] hhy-content                                                        [jar]
+[INFO] hhy-commerce                                                       [jar]
+[INFO] hhy-incentive                                                      [jar]
+[INFO] hhy-platform                                                       [jar]
+[INFO] hhy-boot                                                           [jar]
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-backend-parent >------------------
+[INFO] Building HHY Backend 1.2.2-SNAPSHOT                                [1/8]
+[INFO]   from pom.xml
+[INFO] --------------------------------[ pom ]---------------------------------
+[INFO] 
+[INFO] ------------------< cc.orbexa.hhy:hhy-shared-kernel >-------------------
+[INFO] Building hhy-shared-kernel 1.2.2-SNAPSHOT                          [2/8]
+[INFO]   from shared-kernel/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/shared-kernel/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-shared-kernel ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 6 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-shared-kernel ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/shared-kernel/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-shared-kernel ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-shared-kernel ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ----------------------< cc.orbexa.hhy:hhy-access >----------------------
+[INFO] Building hhy-access 1.2.2-SNAPSHOT                                 [3/8]
+[INFO]   from access/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/access/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-access ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 95 source files with javac [debug parameters release 21] to target/classes
+[WARNING] /workspace/services/backend/access/src/main/java/cc/orbexa/hhy/access/storage/R04StoragePostgresStore.java:[81,27] trailing white space will be removed
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-access ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/access/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-access ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-access ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-content >----------------------
+[INFO] Building hhy-content 1.2.2-SNAPSHOT                                [4/8]
+[INFO]   from content/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/content/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-content ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 19 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-content ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/content/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-content ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-content ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-commerce >---------------------
+[INFO] Building hhy-commerce 1.2.2-SNAPSHOT                               [5/8]
+[INFO]   from commerce/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/commerce/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-commerce ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-commerce ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/commerce/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-commerce ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-commerce ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --------------------< cc.orbexa.hhy:hhy-incentive >---------------------
+[INFO] Building hhy-incentive 1.2.2-SNAPSHOT                              [6/8]
+[INFO]   from incentive/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/incentive/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-incentive ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 2 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-incentive ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/incentive/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-incentive ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-incentive ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] ---------------------< cc.orbexa.hhy:hhy-platform >---------------------
+[INFO] Building hhy-platform 1.2.2-SNAPSHOT                               [7/8]
+[INFO]   from platform/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/platform/src/main/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-platform ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 13 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-platform ---
+[INFO] skip non existing resourceDirectory /workspace/services/backend/platform/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-platform ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-platform ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] -----------------------< cc.orbexa.hhy:hhy-boot >-----------------------
+[INFO] Building hhy-boot 1.2.2-SNAPSHOT                                   [8/8]
+[INFO]   from boot/pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ hhy-boot ---
+[INFO] Copying 40 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ hhy-boot ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 29 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ hhy-boot ---
+[INFO] Copying 4 resources from src/test/resources to target/test-classes
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ hhy-boot ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 86 source files with javac [debug parameters release 21] to target/test-classes
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java:[65,54] unchecked generic array creation for varargs parameter of type java.util.Optional<cc.orbexa.hhy.access.admin.AdminUserStore.UserRow>[]
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/access/admin/AdminUserCommandServiceTest.java:[106,54] unchecked generic array creation for varargs parameter of type java.util.Optional<cc.orbexa.hhy.access.admin.AdminUserStore.UserRow>[]
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java:[71,87] unchecked method invocation: method forClass in class org.mockito.ArgumentCaptor is applied to given types
+  required: java.lang.Class<S>
+  found:    java.lang.Class<java.util.List>
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java:[71,87] unchecked conversion
+  required: org.mockito.ArgumentCaptor<java.util.List<cc.orbexa.hhy.content.R08Store.ContactWrite>>
+  found:    org.mockito.ArgumentCaptor
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java:[73,87] unchecked method invocation: method forClass in class org.mockito.ArgumentCaptor is applied to given types
+  required: java.lang.Class<S>
+  found:    java.lang.Class<java.util.List>
+[WARNING] /workspace/services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java:[73,87] unchecked conversion
+  required: org.mockito.ArgumentCaptor<java.util.List<cc.orbexa.hhy.content.R08Store.ContactWrite>>
+  found:    org.mockito.ArgumentCaptor
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ hhy-boot ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running cc.orbexa.hhy.content.R09PostgresStoreTest
+19:56:36.194 [main] INFO org.flywaydb.core.FlywayExecutor -- Database: jdbc:postgresql://hhy-r09-pg-450d8758:5432/hhy_r09 (PostgreSQL 17.10)
+19:56:36.405 [main] INFO org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory -- Schema history table "public"."flyway_schema_history" does not exist yet
+19:56:36.412 [main] INFO org.flywaydb.core.internal.command.DbValidate -- Successfully validated 35 migrations (execution time 00:00.080s)
+19:56:36.447 [main] INFO org.flywaydb.core.internal.schemahistory.JdbcTableSchemaHistory -- Creating Schema History table "public"."flyway_schema_history" ...
+19:56:36.731 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Current version of schema "public": << Empty Schema >>
+19:56:36.812 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "001 - extensions and schema"
+19:56:37.581 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "002 - access admin and platform"
+19:56:37.999 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "003 - content identity and communication"
+19:56:38.237 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "004 - commerce redpacket and finance"
+19:56:38.400 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "005 - growth operations and delivery"
+19:56:38.741 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "006 - constraints indexes and triggers"
+19:56:39.780 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "007 - state money and accounting invariants"
+19:56:39.897 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "008 - baseline rbac and feature flags"
+19:56:39.953 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "009 - v122 operational governance"
+19:56:39.969 [main] INFO org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor -- DB: trigger "trg_admin_sessions_updated_at" for relation "hhy.admin_sessions" does not exist, skipping
+19:56:39.976 [main] INFO org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor -- DB: trigger "trg_admin_mfa_methods_updated_at" for relation "hhy.admin_mfa_methods" does not exist, skipping
+19:56:39.999 [main] INFO org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor -- DB: trigger "trg_accounting_reversal_requests_updated_at" for relation "hhy.accounting_reversal_requests" does not exist, skipping
+19:56:40.029 [main] INFO org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor -- DB: trigger "trg_export_jobs_updated_at" for relation "hhy.export_jobs" does not exist, skipping
+19:56:40.235 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "010 - p00 event ledger invariants"
+19:56:40.319 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "011 - app release version policy"
+19:56:40.361 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "012 - r01 admin security invariants"
+19:56:40.393 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "013 - r01 admin self rbac"
+19:56:40.408 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "014 - r01 idempotency scope capacity"
+19:56:40.420 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "015 - r01 totp replay guard"
+19:56:40.431 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "016 - r01 idempotency response snapshots"
+19:56:40.443 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "017 - r02 user auth invariants"
+19:56:40.470 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "018 - r02 admin user controls"
+19:56:40.501 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "019 - r03 provider configuration center"
+19:56:40.538 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "020 - r03 auth registration policy alignment"
+19:56:40.550 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "021 - r04 storage media invariants"
+19:56:40.582 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "022 - r04 media upload lifecycle"
+19:56:40.606 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "023 - r05 identity invariants"
+19:56:40.641 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "024 - r05 identity api storage"
+19:56:40.654 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "025 - r05 identity provider payload"
+19:56:40.664 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "026 - r05 identity callback consumption"
+19:56:40.677 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "027 - r05 identity consent"
+19:56:40.688 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "028 - r05 private identity evidence"
+19:56:40.707 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "029 - r06 content home invariants"
+19:56:40.737 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "030 - r06 content admin permissions"
+19:56:40.750 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "031 - r07 search invariants"
+19:56:40.767 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "032 - r07 contact contract alignment"
+19:56:40.791 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "033 - r08 project invariants"
+19:56:40.816 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "034 - r08 backend configuration"
+19:56:40.831 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Migrating schema "public" to version "035 - r09 app promotion invariants"
+19:56:40.858 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Successfully applied 35 migrations to schema "public", now at version v035 (execution time 00:02.378s)
+19:56:41.194 [main] INFO org.flywaydb.core.FlywayExecutor -- Database: jdbc:postgresql://hhy-r09-pg-450d8758:5432/hhy_r09 (PostgreSQL 17.10)
+19:56:41.242 [main] INFO org.flywaydb.core.internal.command.DbValidate -- Successfully validated 35 migrations (execution time 00:00.032s)
+19:56:41.256 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Current version of schema "public": 035
+19:56:41.257 [main] INFO org.flywaydb.core.internal.command.DbMigrate -- Schema "public" is up to date. No migration necessary.
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.211 s -- in cc.orbexa.hhy.content.R09PostgresStoreTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for HHY Backend 1.2.2-SNAPSHOT:
+[INFO] 
+[INFO] HHY Backend ........................................ SUCCESS [  0.003 s]
+[INFO] hhy-shared-kernel .................................. SUCCESS [  5.395 s]
+[INFO] hhy-access ......................................... SUCCESS [ 14.512 s]
+[INFO] hhy-content ........................................ SUCCESS [  1.568 s]
+[INFO] hhy-commerce ....................................... SUCCESS [  0.167 s]
+[INFO] hhy-incentive ...................................... SUCCESS [  0.116 s]
+[INFO] hhy-platform ....................................... SUCCESS [  1.394 s]
+[INFO] hhy-boot ........................................... SUCCESS [ 17.162 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  40.951 s
+[INFO] Finished at: 2026-07-22T19:56:41Z
+[INFO] ------------------------------------------------------------------------
