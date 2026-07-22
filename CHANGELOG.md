@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R09 App最终候选准备 · 2026-07-23
+
+- 候选旅程从历史混合页面收敛为 App 列表、详情、编辑三张 R09 对应截图，并显式限制 instrumentation 只运行候选测试类，避免离线历史审计截图混入版本证据。
+- 新增仅限专用 Staging CI 账号的 V035 幂等 App 夹具；只使用真实冻结字段和零值统计，不创建 APK、评分、下载量、虚构媒体或效果图示例能力。
+- App 编辑页分类与平台改为中文业务选择器，内部仍提交兼容编码，未知编码显示受控中文兜底，不再把 `TOOLS`、`ANDROID` 等技术值直接暴露给用户。
+- R09 测试 APK 单调递增为 `versionCode 10217`；首版视觉基线继续使用一次模拟器采集、AI 审核和同源轻量晋升，禁止重复构建或模拟器运行。
+
 ## R09 App推广可观测性与隔离预发布验收 · 2026-07-23
 
 - 增加 App 总量、在线、待审核、收藏、联系方式访问/拒绝和 R09 Outbox 积压七项只读业务 Gauge，并在 Prometheus 端点测试中冻结指标名称。
@@ -1164,4 +1171,3 @@
 - Actor：`codex-root-r09-observability`
 - 摘要：R09 App推广可观测性与隔离Staging验收完成：358项受影响后端测试通过，7项App业务Gauge和7条告警规则可用，BackendDown与Outbox告警完成firing/resolved送达，V035同库同卷回切和22文件可移植证据通过；PROB-0095已SOLVED，GitHub模拟器与候选APK留给R09-007。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md`
-

@@ -984,3 +984,15 @@ sessions:
   closed_at: '2026-07-22T20:51:54Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0012.yaml
   handoff_bundle: null
+- session_id: SES-20260722T205410Z-782F22B9
+  task_id: TASK-R09-007
+  story_id: STORY-R09-004
+  actor_id: codex-root-r09-candidate
+  status: ACTIVE
+  started_at: '2026-07-22T20:54:10Z'
+  record: .continuity/sessions/SES-20260722T205410Z-782F22B9.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md
+  updated_at: '2026-07-22T21:11:27Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0001.yaml
+  handoff_bundle: null

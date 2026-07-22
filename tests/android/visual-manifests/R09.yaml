@@ -1,0 +1,73 @@
+schema: hhy.android-visual-manifest/v1
+release: R09
+review_authority: AI_IMPLEMENTATION_AGENT
+authentication: STAGING_GITHUB_OIDC
+screens:
+- screen_id: SCR-LIST-002
+  file: 01-app-list.png
+  marker: hhy.screen.r09.app.list.content
+  required_text:
+  - 应用
+  - 发现好用的应用
+  - R09候选联调App
+  - 浏览审核通过的真实App推广内容
+  - 实用工具
+  - Android
+  forbidden_text:
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - TOOLS
+  - ANDROID
+  - 下载量
+  - 评分
+- screen_id: SCR-DETAIL-002
+  file: 02-app-detail.png
+  marker: hhy.screen.r09.app.detail.content
+  required_text:
+  - App详情
+  - R09候选联调App
+  - R09候选发布者
+  - 应用介绍
+  - 发布信息
+  - 访问官网
+  - 立即体验
+  - 编辑推广
+  forbidden_text:
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - TOOLS
+  - ANDROID
+  - 已验证安全
+  - 下载量
+  - 评分
+- screen_id: SCR-PUB-003
+  file: 03-app-editor.png
+  marker: hhy.screen.r09.app.editor.content
+  required_text:
+  - 编辑App推广
+  - R09候选联调App
+  - 只填写真实资料；这里不上传APK安装包
+  - 基础信息
+  - 实用工具
+  - Android
+  forbidden_text:
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - TOOLS
+  - ANDROID
+  - WECHAT
+  - PHONE
+  - EMAIL
+  - QR_CODE
+  - 下载量
+  - 评分
+security_assertions:
+- surface: SCR-DETAIL-002
+  marker: r09.app.download
+  rule: immediately experience is enabled only by a contract-validated external HTTPS link and is never presented as a hosted hhy APK
+- surface: SCR-PUB-003
+  marker: hhy.screen.r09.app.editor.content
+  rule: the media selector accepts images only and the screen explicitly forbids APK upload

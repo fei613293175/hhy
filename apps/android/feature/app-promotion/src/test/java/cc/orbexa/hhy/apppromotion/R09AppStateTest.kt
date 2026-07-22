@@ -35,6 +35,14 @@ class R09AppStateTest {
     }
 
     @Test
+    fun appCodesAlwaysRenderAsBusinessLabels() {
+        assertEquals("实用工具", appCategoryLabel("TOOLS"))
+        assertEquals("其他应用", appCategoryLabel("UNREGISTERED_APP_CATEGORY"))
+        assertEquals("Android", appPlatformLabel("ANDROID"))
+        assertEquals("其他平台", appPlatformLabel("UNREGISTERED_PLATFORM"))
+    }
+
+    @Test
     fun sameAppIntentReusesKeyAndChangedBodyRotatesKey() {
         val keys = R09IntentKeys()
         val first = keys.forBody("create", "body-a")

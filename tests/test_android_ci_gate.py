@@ -416,6 +416,10 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("/sdcard/Pictures/hhy-ci-screenshots", source)
         self.assertNotIn("/sdcard/Android/data/", source)
         self.assertIn("androidTest-results/connected", source)
+        self.assertIn(
+            "android.testInstrumentationRunnerArguments.class=cc.orbexa.hhy.ReleaseCandidateSmokeTest",
+            source,
+        )
         self.assertIn("MediaStore.Images.Media.EXTERNAL_CONTENT_URI", smoke_test)
         self.assertIn("MediaStore.Images.Media.RELATIVE_PATH", smoke_test)
         self.assertIn("Pictures/hhy-ci-screenshots", smoke_test)
@@ -424,16 +428,14 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("hhyCiBootstrapCode", smoke_test)
         self.assertIn("/internal-ci/v1/android/session", smoke_test)
         self.assertIn('waitForScreen("hhy.screen.r06.home.loaded")', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r08.project.list.content"', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r08.project.detail.content"', smoke_test)
-        self.assertIn('waitForScreen("hhy.screen.r08.project.editor.content"', smoke_test)
-        self.assertIn('captureStable("03-project-editor.png")', smoke_test)
-        self.assertIn('captureStable("21-r04-media-upload.png")', smoke_test)
-        self.assertIn('captureStable("26-r06-home.png")', smoke_test)
-        self.assertIn('captureStable("27-r06-about.png")', smoke_test)
-        self.assertIn('captureStable("28-r07-search-landing.png")', smoke_test)
-        self.assertIn('captureStable("32-r07-clear-history-dialog.png")', smoke_test)
-        self.assertIn("assertSecureWindow", smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r09.app.list.content"', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r09.app.detail.content"', smoke_test)
+        self.assertIn('waitForScreen("hhy.screen.r09.app.editor.content"', smoke_test)
+        self.assertIn('captureStable("01-app-list.png")', smoke_test)
+        self.assertIn('captureStable("02-app-detail.png")', smoke_test)
+        self.assertIn('captureStable("03-app-editor.png")', smoke_test)
+        self.assertNotIn('captureStable("26-r06-home.png")', smoke_test)
+        self.assertNotIn('captureStable("01-project-list.png")', smoke_test)
         self.assertIn('captureStable("10-r02-startup.png")', historical_test)
         self.assertIn('captureStable("20-r02-account-cancellation.png")', historical_test)
         self.assertIn('captureStable("25-r05-identity-result.png")', historical_test)
@@ -443,15 +445,13 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("stableMatches >= 2", smoke_test)
         self.assertIn("digest != previousScreenDigest", smoke_test)
         self.assertIn("waitForIdle(2_000)", smoke_test)
-        self.assertIn('By.res("r08.project.contact")', smoke_test)
-        self.assertIn('By.res("r08.project.edit")', smoke_test)
-        self.assertIn('By.textContains("candidate@example")', smoke_test)
-        self.assertIn("assertR08BusinessLabels", smoke_test)
-        self.assertIn('By.text("合作项目")', smoke_test)
-        self.assertIn('By.text("北京")', smoke_test)
-        self.assertIn('By.text("微信")', smoke_test)
-        self.assertIn('"COOPERATION", "CN-11", "WECHAT"', smoke_test)
-        self.assertNotIn("waitForTextContains", smoke_test)
+        self.assertIn('By.res("r09.app.download")', smoke_test)
+        self.assertIn('By.res("r09.app.edit")', smoke_test)
+        self.assertIn("assertR09BusinessLabels", smoke_test)
+        self.assertIn('By.text("实用工具")', smoke_test)
+        self.assertIn('By.text("Android")', smoke_test)
+        self.assertIn('"TOOLS", "ANDROID", "WECHAT"', smoke_test)
+        self.assertNotIn("assertSecureWindow", smoke_test)
 
         r08_manifest = yaml.safe_load((ROOT / "tests/android/visual-manifests/R08.yaml").read_text(encoding="utf-8"))
         current_r08_screens = [
@@ -473,6 +473,16 @@ class AndroidCiGateTest(unittest.TestCase):
         )
         secure_surfaces = {row["surface"] for row in r08_manifest["security_assertions"]}
         self.assertIn("SHEET-CONTACT-001", secure_surfaces)
+
+        r09_manifest = yaml.safe_load((ROOT / "tests/android/visual-manifests/R09.yaml").read_text(encoding="utf-8"))
+        self.assertEqual(3, len(r09_manifest["screens"]))
+        self.assertEqual(
+            {"01-app-list.png", "02-app-detail.png", "03-app-editor.png"},
+            {row["file"] for row in r09_manifest["screens"]},
+        )
+        for row in r09_manifest["screens"]:
+            self.assertIn("TOOLS", row["forbidden_text"])
+            self.assertIn("ANDROID", row["forbidden_text"])
 
         shell = (
             ROOT

@@ -81,6 +81,20 @@ import cc.orbexa.hhy.network.R09PatchAppRequest
 import kotlinx.coroutines.launch
 
 private val appSorts = listOf("createdAt:desc" to "最新发布", "updatedAt:desc" to "最近更新")
+private val appCategories = listOf(
+    "TOOLS" to "实用工具",
+    "SOCIAL" to "社交沟通",
+    "BUSINESS" to "商务办公",
+    "LIFESTYLE" to "生活服务",
+    "EDUCATION" to "教育学习",
+    "ENTERTAINMENT" to "影音娱乐",
+)
+private val appPlatforms = listOf(
+    "ANDROID" to "Android",
+    "IOS" to "iOS",
+    "WEB" to "网页应用",
+    "MULTI" to "多平台",
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -402,11 +416,25 @@ fun R09AppEditorScreen(
                 FormField("App名称", form.appName, errors["appName"], true) { form = form.copy(appName = it); dirty = true }
                 FormField("推广标题", form.title, errors["title"], true) { form = form.copy(title = it); dirty = true }
                 FormField("推广摘要（选填）", form.summary, errors["summary"]) { form = form.copy(summary = it); dirty = true }
-                FormField("App分类", form.categoryCode, errors["categoryCode"], true) { form = form.copy(categoryCode = it); dirty = true }
+                Text("App分类", style = MaterialTheme.typography.labelLarge)
+                ChoiceChips(
+                    options = appCategories,
+                    selected = form.categoryCode,
+                    unknownLabel = ::appCategoryLabel,
+                    onSelected = { form = form.copy(categoryCode = it); dirty = true },
+                )
+                errors["categoryCode"]?.let { Text(it, color = HhyColors.Error) }
             } }
             item { AppSection("应用介绍") { FormField("详细介绍", form.description, errors["description"], minLines = 4) { form = form.copy(description = it); dirty = true } } }
             item { AppSection("平台与版本（选填）") {
-                FormField("支持平台", form.platform, errors["platform"], true) { form = form.copy(platform = it); dirty = true }
+                Text("支持平台", style = MaterialTheme.typography.labelLarge)
+                ChoiceChips(
+                    options = appPlatforms,
+                    selected = form.platform,
+                    unknownLabel = { appPlatformLabel(it) ?: "其他平台" },
+                    onSelected = { form = form.copy(platform = it); dirty = true },
+                )
+                errors["platform"]?.let { Text(it, color = HhyColors.Error) }
                 FormField("版本说明", form.versionText, errors["versionText"], true) { form = form.copy(versionText = it); dirty = true }
             } }
             item { AppSection("访问方式（选填）") {
@@ -495,6 +523,28 @@ private fun AppListCard(item: ContentResource, onClick: () -> Unit) {
 }
 
 @Composable private fun FormField(label: String, value: String, error: String?, singleLine: Boolean = false, minLines: Int = 1, onValueChange: (String) -> Unit) = OutlinedTextField(value, onValueChange, Modifier.fillMaxWidth(), label = { Text(label) }, singleLine = singleLine, minLines = minLines, isError = error != null, supportingText = error?.let { { Text(it) } })
+
+@Composable
+private fun ChoiceChips(
+    options: List<Pair<String, String>>,
+    selected: String,
+    unknownLabel: (String) -> String,
+    onSelected: (String) -> Unit,
+) {
+    val visible = if (selected.isNotBlank() && options.none { it.first == selected }) {
+        listOf(selected to unknownLabel(selected)) + options
+    } else {
+        options
+    }
+    Row(
+        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+    ) {
+        visible.forEach { (value, label) ->
+            FilterChip(selected == value, { onSelected(value) }, { Text(label) })
+        }
+    }
+}
 
 private fun copyText(context: Context, label: String, value: String) {
     (context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(ClipData.newPlainText(label, value))

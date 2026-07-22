@@ -1,18 +1,29 @@
 {
   "version": "1.2.3",
   "protocol_version": "1.0",
-  "mode": "doctor",
-  "strict": false,
+  "mode": "pre-commit",
+  "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 2476,
-    "event_head_hash": "d2844f48ecc300b525cf1e649a9aa65283926f97cf3306d68fb0080be1ff3cc9",
+    "event_count": 2553,
+    "event_head_hash": "dc80e8cf3b0c0ce6e080a4b2fb5188764728fc0fee37adbeebf617c187cdb2ed",
     "rule_readiness": "PASS",
     "required_rule_sources": 11,
+    "changed_files": 37,
+    "project_changed_files": 17,
+    "change_classification": {
+      "other": 3,
+      "code": 8,
+      "user_visible": 6,
+      "continuity": 2,
+      "tests": 4
+    },
     "document_gate": {
       "status": "EXECUTED",
-      "forced": true,
-      "affected_inputs": []
+      "forced": false,
+      "affected_inputs": [
+        "config/android-candidate-request.yaml"
+      ]
     }
   },
   "errors": [],

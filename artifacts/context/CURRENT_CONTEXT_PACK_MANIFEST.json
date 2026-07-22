@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T20:51:57Z",
-  "context_hash": "491f5e9e32506c2edcbc5192fda079627b0a7ab8a6f6fe6fcb172bc02885799d",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-22T21:11:30Z",
+  "context_hash": "cc9cc1eed4a3ca80af9b67a2bb2eeada3a790b3d1636f697d76be6675f83e75a",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "bd850e16d54b2ac5e5e62a3d3b80fcf883cd02bcc0143470d0692a0d5762447d",
-    "file_count": 0
+    "sha256": "dde882e7ae38fd67cb5fafec51e72456b5c19819071cc16c9ab25f676cc0948e",
+    "file_count": 17
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "a683df279431a8ac7916e7da453b253265b479a0f9da0bd0420236d15ff79443"
+    "sha256": "ad46c3d891ac3eeafec52a7b7b9efa890f1ad3687464189bebbe8cf9f82378b9"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "f157de78d3a4d318547a2549d08292f7e0c3a1c91f2d3e71e220a5ae716b8397"
+    "sha256": "f839cc104e3784a32018b214edc3084c48ab416d32f2118c298906dc5d07d7d0"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "91c59fb8f7636bf695357def5282a62cfa1365fd39ab37fd45b78cd966381329",
-      "bytes": 3927
+      "sha256": "ffc4cb92204c1283d2adfd34be2fc7689ae1d57a63d9bda3b80c348ac670a94c",
+      "bytes": 4079
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,33 +83,33 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "75ec947fe3a7b141fcebf7a1cafe6096633a386aa57b29709b25e5ad6978b560",
-      "bytes": 1407814
+      "sha256": "009a588bae7c3202d2983de0354396cb3ac2c9d0176a90b95fc7520102c515bb",
+      "bytes": 1415087
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "139705a2367aff356b47a6d000c900bd80accd92c60a86808b52cd8a55c774d1",
-      "bytes": 41521
+      "sha256": "bb5ff7c4add84b1abbffb1c378ba3388a555dca6d166e600bb0b4c32b045662c",
+      "bytes": 42019
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "c7a0dcb8996c6f793f8a77c1ed1fbc2c0b779e9082d86ffd241ea22d3a70e2c4",
-      "bytes": 57061
+      "sha256": "292c872faa7857fcff9328f8dd01e9e309f753524a86589096d732c75d08dbda",
+      "bytes": 57814
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "c16f149e07044c45a1693c490f6e66ba958209a7810b4d89dd24cec24d198bff",
-      "bytes": 23659
+      "sha256": "1c0fa255fffab4167f7468b2f8922f3bac5977714a5485e04357433d8298ba32",
+      "bytes": 23950
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "e56fab24898b52f43a0dac7b5378b9bdbce248e59f88b8dd0e381b55a3df5a89",
-      "bytes": 849443
+      "sha256": "d8636eb195ae273b978d97c29c49e7cb8b92ba7a615f1058761330ef060a5860",
+      "bytes": 857177
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "aa0f046094c123addfa1098175e2a741e738090e6d3788f55dd2e9d3c53d235e",
-      "bytes": 143
+      "sha256": "317f8800aaa413b63e546e5d71ea4009de1e0ce4fe84dad7e4d1014d28e9c669",
+      "bytes": 539
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -155,6 +155,26 @@
       "path": "releases/R09/ACCEPTANCE_MATRIX.csv",
       "sha256": "7ecfe46c4ebffe41ae722fddc0ed9efac09e1e3cadf649120d842cca9e0c2c2e",
       "bytes": 704
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md",
+      "sha256": "832343bdcd7487afa40f4171ece2498063a741f5a46fa5195bd4a8d7f581af23",
+      "bytes": 4079
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260722T205410Z-782F22B9/0001.yaml",
+      "sha256": "6030b0255fa6477fbe1af6a9567f00ef2a326411ed4cd29f6b4cb84de59306fd",
+      "bytes": 12590
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0257-建立R09-App最终候选真实旅程与唯一产物门禁.md",
+      "sha256": "5021ae489b56ee20dbef1c38d04582befeaa69bccad8ef836a6ace258401d86f",
+      "bytes": 4422
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0258-修复R09编辑页分类与平台技术编码可见性.md",
+      "sha256": "d78203939e87cec5c807bdf4431302d0e9a95b41c720631328943cf12294141d",
+      "bytes": 2952
     }
   ]
 }

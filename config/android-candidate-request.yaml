@@ -1,7 +1,7 @@
 schema_version: 1
 status: REQUESTED
-release: HISTORICAL-UI
-candidate: false
+release: R09
+candidate: true
 remediation_attempt: 1
-request_id: HISTORICAL-UI-R01-R07-20260722-002
-reason: Run 29942343711证明候选链已正确跳过且KVM模拟器可启动，但emulator-runner逐行隔离执行导致cd不传递、测试前以127退出；PROB-0094把命令收敛为单一仓库脚本。本次只复验该离线脚本并产出22张非敏感截图，仍不请求Staging登录、不生成候选APK、不进入候选或修复队列。
+request_id: R09-CANDIDATE-20260723-001
+reason: R09最终候选只执行一次OIDC真实登录与App列表、详情、编辑三页旅程；首版视觉基线由AI审核同一Run后轻量晋升，不重复编译或启动模拟器。

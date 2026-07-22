@@ -1,0 +1,103 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T205410Z-782F22B9
+status: ACTIVE
+actor:
+  id: codex-root-r09-candidate
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R09
+task_id: TASK-R09-007
+story_id: STORY-R09-004
+goal: 完成R09 App推广完整闭环最终候选：固定工具链构建、一次GitHub模拟器验证三页真实旅程与AI视觉审核、稳定签名测试APK、四方SHA/Commit/versionName/versionCode追溯并交付桌面；真机反馈保持异步。
+started_at: '2026-07-22T20:54:10Z'
+updated_at: '2026-07-22T21:11:32Z'
+takeover_of: null
+change_requests:
+- CR-0257
+- CR-0258
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - releases/R09/
+  approved_exceptions:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/run_android_emulator_gate.sh
+  - scripts/prepare_r09_ci_fixture.sh
+  - tests/test_r09_ci_fixture.py
+  - tests/test_android_ci_gate.py
+  - tests/android/visual-manifests/R09.yaml
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - catalogs/ui_visual_acceptance.csv
+  - releases/R09/RELEASE_MANIFEST.yaml
+  - tests/android/visual-baselines/R09/01-app-list.png
+  - tests/android/visual-baselines/R09/02-app-detail.png
+  - tests/android/visual-baselines/R09/03-app-editor.png
+  - tests/android/visual-baselines/R09/APPROVAL.yaml
+  - CHANGELOG.md
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - tests/test_r09_android_ui.py
+  source: story+explicit+approved-cr:CR-0257+approved-cr:CR-0258
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 58ee7f5ad3e6fe843f6b5009f405f1c9b2139b88
+  start_head: 58ee7f5ad3e6fe843f6b5009f405f1c9b2139b88
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T21:11:27Z'
+  expires_at: '2026-07-23T01:11:27Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md
+next_step: 运行正确的pre-commit严格门禁，冻结并提交候选源码；随后先升级公开Staging CI候选容器和夹具，健康通过后才推送触发唯一GitHub候选。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: cc9cc1eed4a3ca80af9b67a2bb2eeada3a790b3d1636f697d76be6675f83e75a
+  generated_at: '2026-07-22T21:11:30Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 候选提交、公开Staging精确Commit和一次GitHub触发存在严格先后关系，不能并行写同一事实源。

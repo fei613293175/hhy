@@ -6,11 +6,8 @@ import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
 import android.provider.MediaStore
-import android.view.WindowManager
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
-import androidx.test.runner.lifecycle.Stage
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
@@ -37,11 +34,8 @@ class ReleaseCandidateSmokeTest {
     private var previousScreenDigest: String? = null
     private val screenshotDirectory = "Pictures/hhy-ci-screenshots"
 
-    private val fixtureTitle = "R08候选联调项目"
-    private val fixturePublisher = "R08候选发布者"
-    private val historicalQuery = "R07候选联调"
-    private val historicalTitle = "R07候选联调项目"
-    private val historicalHotTerm = "R07热门合作"
+    private val fixtureTitle = "R09候选联调App"
+    private val fixturePublisher = "R09候选发布者"
 
     @Before
     fun prepareAuthenticatedCandidate() {
@@ -73,114 +67,50 @@ class ReleaseCandidateSmokeTest {
     }
 
     @Test
-    fun authenticatedHistoricalAndR08PagesProduceBoundVisualEvidence() {
+    fun authenticatedR09PagesProduceBoundVisualEvidence() {
         assertTrue(
             "Authenticated shell did not reach its loaded screen identity",
             waitForScreen("hhy.screen.r06.home.loaded"),
         )
         assertFalse("Cold start exposed connection failure", device.hasObject(By.text("暂时无法连接")))
-        captureStable("26-r06-home.png")
-        assertNoForbiddenVisibleText()
 
-        clickExactText("我的")
-        assertTrue("R06 mine did not become visible", waitForScreen("hhy.screen.r06.mine", gone = "hhy.screen.r06.home.loaded"))
-        clickExactText("关于与检查更新")
-        assertTrue("R06 About did not load", waitForScreen("hhy.screen.r06.about.loaded", gone = "hhy.screen.r06.mine"))
-        assertTrue("R06 About missed version identity", device.hasObject(By.textContains("当前版本")))
-        captureStable("27-r06-about.png")
-        assertNoForbiddenVisibleText()
-        device.pressBack()
-        assertTrue("Back from About did not restore mine", waitForScreen("hhy.screen.r06.mine"))
-        clickExactText("首页")
-        assertTrue("R06 home did not restore", waitForScreen("hhy.screen.r06.home.loaded"))
-
-        clickResource("r07.home.search")
-        assertTrue("R07 search landing did not become visible", waitForScreen("hhy.screen.r07.search", gone = "hhy.screen.r06.home.loaded"))
-        assertTrue("R07 historical hot term is missing", device.wait(Until.hasObject(By.text(historicalHotTerm)), 20_000))
-        captureStable("28-r07-search-landing.png")
-        assertNoForbiddenVisibleText()
-        val searchInput = device.wait(Until.findObject(By.res("r07.search.input")), 10_000)
-            ?: error("Cannot find R07 search input")
-        searchInput.setText(historicalQuery)
-        clickResource("r07.search.submit")
-        assertTrue("R07 search results did not become visible", waitForScreen("hhy.screen.r07.search.results", gone = "hhy.screen.r07.search"))
-        assertTrue("R07 historical result is missing", device.wait(Until.hasObject(By.text(historicalTitle)), 20_000))
-        captureStable("29-r07-search-results.png")
-        assertNoForbiddenVisibleText()
-        clickExactText(fixturePublisher)
-        assertTrue("R07 publisher did not become visible", waitForScreen("hhy.screen.r07.publisher", gone = "hhy.screen.r07.search.results"))
-        assertTrue("R07 publisher identity is missing", device.wait(Until.hasObject(By.text(fixturePublisher)), 20_000))
-        captureStable("30-r07-publisher.png")
-        assertNoForbiddenVisibleText()
-        clickVisibleTextContains("微信")
-        assertTrue("R07 contact sheet marker is missing", device.wait(Until.hasObject(By.res("hhy.sheet.r07.contact")), 15_000))
-        assertTrue("R07 contact sheet missed protected action", device.hasObject(By.text("获取联系方式")))
-        assertSecureWindow()
-        clickExactText("关闭")
-        assertTrue("R07 contact sheet did not close", device.wait(Until.gone(By.res("hhy.sheet.r07.contact")), 10_000))
-        device.pressBack()
-        assertTrue("Back from publisher did not restore results", waitForScreen("hhy.screen.r07.search.results"))
-        device.pressBack()
-        assertTrue("Back from search did not restore home", waitForScreen("hhy.screen.r06.home.loaded"))
-        clickResource("r07.home.search")
-        assertTrue("R07 history did not load", device.wait(Until.hasObject(By.text(historicalQuery)), 20_000))
-        clickExactText("清空")
-        assertTrue("R07 clear dialog did not become visible", device.wait(Until.hasObject(By.res("hhy.dialog.r07.search-history-clear")), 10_000))
-        captureStable("32-r07-clear-history-dialog.png")
-        assertNoForbiddenVisibleText()
-        clickExactText("确认清空")
-        assertTrue("R07 clear dialog did not close", device.wait(Until.gone(By.res("hhy.dialog.r07.search-history-clear")), 15_000))
-        device.pressBack()
-        assertTrue("Back from R07 audit did not restore home", waitForScreen("hhy.screen.r06.home.loaded"))
-
-        clickResource("r08.home.projects")
+        clickResource("r09.home.apps")
         assertTrue(
-            "R08 project list did not become visible",
-            waitForScreen("hhy.screen.r08.project.list.content", gone = "hhy.screen.r06.home.loaded"),
+            "R09 App list did not become visible",
+            waitForScreen("hhy.screen.r09.app.list.content", gone = "hhy.screen.r06.home.loaded"),
         )
-        assertTrue("R08 project fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
-        assertTrue("R08 list missed the real-data notice", device.hasObject(By.text("页面内容均来自已上线项目")))
-        assertR08BusinessLabels()
-        captureStable("01-project-list.png")
+        assertTrue("R09 App fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
+        assertTrue("R09 list missed the approved-content notice", device.hasObject(By.text("浏览审核通过的真实App推广内容")))
+        assertR09BusinessLabels()
+        captureStable("01-app-list.png")
         assertNoForbiddenVisibleText()
 
         clickExactText(fixtureTitle)
         assertTrue(
-            "R08 project detail did not become visible",
-            waitForScreen("hhy.screen.r08.project.detail.content", gone = "hhy.screen.r08.project.list.content"),
+            "R09 App detail did not become visible",
+            waitForScreen("hhy.screen.r09.app.detail.content", gone = "hhy.screen.r09.app.list.content"),
         )
-        assertTrue("R08 project detail fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
-        assertTrue("R08 project publisher is missing", device.hasObject(By.text(fixturePublisher)))
-        assertTrue("R08 project contact action is missing", device.hasObject(By.res("r08.project.contact")))
-        assertTrue("R08 owner edit action is missing", device.hasObject(By.res("r08.project.edit")))
-        assertFalse("R08 detail exposed fixture contact plaintext", device.hasObject(By.textContains("candidate@example")))
-        assertR08BusinessLabels()
-        captureStable("02-project-detail.png")
+        assertTrue("R09 App detail fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
+        assertTrue("R09 App publisher is missing", device.hasObject(By.text(fixturePublisher)))
+        assertTrue("R09 App experience action is missing", device.hasObject(By.res("r09.app.download")))
+        assertTrue("R09 App owner edit action is missing", device.hasObject(By.res("r09.app.edit")))
+        assertTrue("R09 App website action is missing", device.hasObject(By.text("访问官网")))
+        assertR09BusinessLabels()
+        captureStable("02-app-detail.png")
         assertNoForbiddenVisibleText()
 
-        clickResource("r08.project.edit")
+        clickResource("r09.app.edit")
         assertTrue(
-            "R08 project editor did not become visible",
-            waitForScreen("hhy.screen.r08.project.editor.content", gone = "hhy.screen.r08.project.detail.content"),
+            "R09 App editor did not become visible",
+            waitForScreen("hhy.screen.r09.app.editor.content", gone = "hhy.screen.r09.app.detail.content"),
         )
-        assertTrue("R08 editor missed its business title", device.hasObject(By.text("编辑项目")))
-        assertTrue("R08 editor missed the frozen project title", device.hasObject(By.text(fixtureTitle)))
-        assertTrue("R08 editor missed the project description field", device.hasObject(By.text("详细说明")))
-        assertFalse("R08 verified owner was incorrectly blocked by identity", device.hasObject(By.text("需要完成实名认证")))
-        assertR08BusinessLabels(requireContactLabel = true)
-        captureStable("03-project-editor.png")
+        assertTrue("R09 editor missed its business title", device.hasObject(By.text("编辑App推广")))
+        assertTrue("R09 editor missed the frozen App title", device.hasObject(By.text(fixtureTitle)))
+        assertTrue("R09 editor missed its real-data notice", device.hasObject(By.text("只填写真实资料；这里不上传APK安装包")))
+        assertFalse("R09 verified owner was incorrectly blocked by identity", device.hasObject(By.text("需要完成实名认证")))
+        assertR09BusinessLabels()
+        captureStable("03-app-editor.png")
         assertNoForbiddenVisibleText()
-        clickVisibleTextContains("选择项目图片")
-        assertTrue("R04 media upload sheet did not become visible", device.wait(Until.hasObject(By.text("添加文件")), 15_000))
-        assertTrue("R04 media upload sheet missed empty state", device.hasObject(By.text("还没有选择文件")))
-        captureStable("21-r04-media-upload.png")
-        assertNoForbiddenVisibleText()
-        device.pressBack()
-        device.waitForIdle(2_000)
-        assertTrue("R04 media upload sheet did not close", device.wait(Until.gone(By.text("添加文件")), 10_000))
-        device.pressBack()
-        assertTrue("Back from editor did not restore project detail", waitForScreen("hhy.screen.r08.project.detail.content"))
-        assertTrue("Restored R08 project detail is missing", device.hasObject(By.text(fixtureTitle)))
     }
 
     private fun waitForScreen(required: String, gone: String? = null): Boolean {
@@ -195,45 +125,6 @@ class ReleaseCandidateSmokeTest {
             ?: error("Cannot find UI element: $value")
         node.click()
         device.waitForIdle(2_000)
-    }
-
-    private fun clickContainsText(value: String) {
-        val node = device.wait(Until.findObject(By.textContains(value)), 15_000)
-            ?: error("Cannot find UI element containing: $value")
-        node.click()
-        device.waitForIdle(2_000)
-    }
-
-    private fun clickVisibleTextContains(value: String) {
-        repeat(8) {
-            device.findObject(By.textContains(value))?.let { node ->
-                node.click()
-                device.waitForIdle(2_000)
-                return
-            }
-            device.swipe(
-                device.displayWidth / 2,
-                device.displayHeight * 3 / 4,
-                device.displayWidth / 2,
-                device.displayHeight / 3,
-                30,
-            )
-            device.waitForIdle(1_000)
-        }
-        error("Cannot find visible UI element containing: $value")
-    }
-
-    private fun assertSecureWindow() {
-        var secure = false
-        val instrumentation = InstrumentationRegistry.getInstrumentation()
-        instrumentation.runOnMainSync {
-            val activity = ActivityLifecycleMonitorRegistry.getInstance()
-                .getActivitiesInStage(Stage.RESUMED)
-                .firstOrNull()
-            secure = activity != null &&
-                activity.window.attributes.flags.and(WindowManager.LayoutParams.FLAG_SECURE) != 0
-        }
-        assertTrue("Contact sheet must enable FLAG_SECURE", secure)
     }
 
     private fun clickResource(value: String) {
@@ -345,12 +236,11 @@ class ReleaseCandidateSmokeTest {
         assertFalse("Journey exposed TraceId", device.hasObject(By.textContains("TraceId")))
     }
 
-    private fun assertR08BusinessLabels(requireContactLabel: Boolean = false) {
-        assertTrue("R08 project category was not localized", device.hasObject(By.text("合作项目")))
-        assertTrue("R08 project region was not localized", device.hasObject(By.text("北京")))
-        if (requireContactLabel) assertTrue("R08 contact channel was not localized", device.hasObject(By.text("微信")))
-        listOf("COOPERATION", "CN-11", "WECHAT", "PHONE", "EMAIL", "QR_CODE").forEach { technicalValue ->
-            assertFalse("R08 exposed technical business code: $technicalValue", device.hasObject(By.text(technicalValue)))
+    private fun assertR09BusinessLabels() {
+        assertTrue("R09 App category was not localized", device.hasObject(By.text("实用工具")))
+        assertTrue("R09 App platform was not localized", device.hasObject(By.text("Android")))
+        listOf("TOOLS", "ANDROID", "WECHAT", "PHONE", "EMAIL", "QR_CODE").forEach { technicalValue ->
+            assertFalse("R09 exposed technical business code: $technicalValue", device.hasObject(By.text(technicalValue)))
         }
     }
 

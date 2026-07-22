@@ -15792,3 +15792,124 @@ change_requests:
   implementation_commits:
   - d056c54f
   - a478e030
+- protocol_version: '1.0'
+  cr_id: CR-0257
+  title: 建立R09 App最终候选真实旅程与唯一产物门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-22T20:59:27Z'
+  updated_at: '2026-07-22T21:00:45Z'
+  requester_actor_id: codex-root-r09-candidate
+  approver_actor_id: codex-r09-candidate-review
+  task_id: TASK-R09-007
+  session_id: SES-20260722T205410Z-782F22B9
+  user_request: 项目所有者要求大版本最终候选由AI自动登录并截图对应开发页面、自主判定合格，APK与文档放桌面；真机反馈异步且不阻断后续开发。
+  reason: R09产品页已实现并绑定精确效果图，但候选视觉清单、真实Staging App夹具和模拟器旅程仍停留在R08；直接触发将截图错误版本且无法证明R09三页、第三方HTTPS边界或10217单调版本身份。
+  original_rule: 现有Android候选硬规则要求大版本最终阶段一次OIDC登录、对应页面截图、AI自主审核和同源轻量基线晋升；当前执行实现仍采集R06至R08混合页面，未限制instrumentation测试类，且没有R09夹具、视觉清单或10217身份。
+  new_rule: 不新增第二套候选或UI规则，只扩展既有候选实现：R09最终候选仅运行ReleaseCandidateSmokeTest，使用专用Staging CI账号和V035真实App夹具，一次采集App列表、详情、编辑三张对应截图；AI逐图对照B02/P06、B03/P02、B04/P04后使用同Run轻量晋升，APK采用10217、正式Staging
+    API与稳定测试签名。
+  impact_summary: 把候选从历史混合旅程收敛为R09三页唯一旅程，补齐真实夹具、精确视觉清单、测试类隔离、单调版本身份、公开Staging准备和可追溯桌面交付；不增加虚构业务字段、平行规则源或重复模拟器运行。
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - scripts/run_android_emulator_gate.sh
+    - scripts/prepare_r09_ci_fixture.sh
+    - tests/test_r09_ci_fixture.py
+    - tests/test_android_ci_gate.py
+    - tests/android/visual-manifests/R09.yaml
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - config/android-candidate-request.yaml
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    - catalogs/ui_visual_acceptance.csv
+    - releases/R09/RELEASE_MANIFEST.yaml
+    - tests/android/visual-baselines/R09/01-app-list.png
+    - tests/android/visual-baselines/R09/02-app-detail.png
+    - tests/android/visual-baselines/R09/03-app-editor.png
+    - tests/android/visual-baselines/R09/APPROVAL.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-LIST-002
+    - SCR-DETAIL-002
+    - SCR-PUB-003
+    apis:
+    - GET /api/v1/contents?contentType=APP&status=ONLINE
+    - GET /api/v1/contents/{id}
+    - PATCH /api/v1/contents/{id}
+    database:
+    - 仅Staging专用CI用户的V035 App、实名和零值统计夹具；无生产结构变化
+    configuration:
+    - R09 candidate request、versionCode 10217、public Staging CI automation
+    ledger:
+    - R09三张非敏感页面截图、源Run、AI审核与APK四方SHA追溯
+    tests:
+    - R09夹具回归与Android候选脚本隔离回归
+    - Android MODULE、instrumentation编译与唯一模拟器旅程
+    - AI逐图审核、同Run轻量晋升与APK四方哈希
+    releases:
+    - R09
+    migration_and_compatibility: 数据库只在隔离Staging专用CI用户范围幂等准备V035 App夹具，不改生产结构；R06至R08基线和证据保持不变。R09首轮缺基线时仅允许审核同一Run并轻量晋升，禁止再次编译或启动模拟器。
+  user_confirmation: 项目所有者已明确授权持续开发、AI自主截图判定、最终候选桌面交付、真机反馈异步非阻断，并要求规则查重后更新既有事实源。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T21:00:39Z'
+    note: 已检查既有Android候选与UI视觉唯一事实源；本CR只增加R09版本化执行数据并修正测试类隔离，不建立平行规则。三页、V035隔离夹具、10217身份和一次模拟器加同Run轻量晋升边界完整。
+  machine_record: .continuity/change_requests/CR-0257.yaml
+  document: docs/03-continuity/change-requests/CR-0257-建立R09-App最终候选真实旅程与唯一产物门禁.md
+  decision_log:
+  - at: '2026-07-22T21:00:45Z'
+    actor_id: codex-root-r09-candidate
+    status: IMPLEMENTING
+    note: 开始实现R09真实夹具、三页唯一旅程、测试类隔离、视觉清单和10217版本身份。
+    session_id: SES-20260722T205410Z-782F22B9
+  session_ids:
+  - SES-20260722T205410Z-782F22B9
+- protocol_version: '1.0'
+  cr_id: CR-0258
+  title: 修复R09编辑页分类与平台技术编码可见性
+  status: IMPLEMENTING
+  created_at: '2026-07-22T21:04:36Z'
+  updated_at: '2026-07-22T21:05:20Z'
+  requester_actor_id: codex-root-r09-candidate
+  approver_actor_id: codex-r09-ui-review
+  task_id: TASK-R09-007
+  session_id: SES-20260722T205410Z-782F22B9
+  user_request: 所有既有和后续UI必须达到效果图丰富度与精致度，虚构内容不得开发，内部技术编码不得直接展示。
+  reason: 候选前静态审查发现SCR-PUB-003仍把categoryCode和platform原值作为自由文本展示；真实R09夹具的TOOLS与ANDROID会进入截图，违反CR-0251冻结视觉规格与既有技术字段隐藏门禁。
+  original_rule: CR-0251已规定SCR-PUB-003按B04/P04以分组和选择控件呈现真实字段，既有全局UI门禁禁止内部技术编码直出；当前实现仍以自由文本框直接展示categoryCode与platform原值。
+  new_rule: 不增加新硬规则；将SCR-PUB-003分类与平台字段改为中文FilterChip选择器，内部仍提交冻结TOOLS/SOCIAL/BUSINESS/LIFESTYLE/EDUCATION/ENTERTAINMENT及ANDROID/IOS/WEB/MULTI编码；对未知服务端值只显示既有受控中文兜底，绝不显示原始技术编码。
+  impact_summary: 修正R09编辑页对既有视觉和技术字段隐藏规则的实现偏差，保持API请求与数据库存储兼容，并增加源码回归防止自由文本技术编码重新出现。
+  impact:
+    files:
+    - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+    - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+    - tests/test_r09_android_ui.py
+    pages:
+    - SCR-PUB-003
+    apis:
+    - POST /api/v1/contents
+    - PATCH /api/v1/contents/{id}
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R09 App状态标签映射单测与编辑页技术编码源码回归
+    - Android app-promotion受影响MODULE
+    releases:
+    - R09
+    migration_and_compatibility: 仅Android显示控件变化；提交值、接口和数据库不变，既有草稿与服务端编码由映射选择器兼容。
+  user_confirmation: 项目所有者已明确要求全部UI按效果图精致度实现并禁止虚构内容，且相似规则必须更新既有事实源。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T21:05:14Z'
+    note: 已确认属于CR-0251和既有UI技术字段隐藏规则的实现修复，不建立平行规则；编码提交兼容且视觉控件对应B04/P04。
+  machine_record: .continuity/change_requests/CR-0258.yaml
+  document: docs/03-continuity/change-requests/CR-0258-修复R09编辑页分类与平台技术编码可见性.md
+  decision_log:
+  - at: '2026-07-22T21:05:20Z'
+    actor_id: codex-root-r09-candidate
+    status: IMPLEMENTING
+    note: 开始替换分类与平台自由文本框并补防回归。
+    session_id: SES-20260722T205410Z-782F22B9
+  session_ids:
+  - SES-20260722T205410Z-782F22B9

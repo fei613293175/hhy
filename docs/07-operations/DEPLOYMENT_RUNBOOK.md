@@ -290,3 +290,9 @@ R09 现场演练至少覆盖：
 7. 证据统一写入 `artifacts/validation/r09-task006-staging/`，绑定冻结 Commit、两个不可变镜像、数据库容器/卷、Flyway V035、告警回执和逐文件 SHA-256。证据齐全后才能把 `AC-R09-004` 签为 PASS。
 
 现场步骤由 `scripts/run_r09_staging_acceptance.sh` 单一入口执行。脚本必须先证明 `git rev-parse HEAD` 等于 `HHY_R09_FROZEN_COMMIT`，再采集基线、Trace/脱敏、指标、告警与同库同卷回切证据并生成 `SHA256SUMS`。Android 模拟器、页面截图和候选 APK 不属于本任务，只在 TASK-R09-007 最终候选阶段执行。
+
+### R09 Android 最终候选页面夹具
+
+TASK-R09-007 将精确候选 Commit 升级到公开 Staging CI 候选容器后运行 `scripts/prepare_r09_ci_fixture.sh`。脚本必须显式设置 `HHY_R09_CI_FIXTURE_CONFIRM=YES`，只允许 `hhy-r09-ci-candidate-*` 后端及登记的 Staging PostgreSQL 容器；它从容器内部读取专用 CI 用户且不输出手机号或 Secret，要求 Flyway V035，幂等准备已实名候选用户、一个 ONLINE App、App 详情版本和零值统计。夹具不得创建 APK、评分、下载量、虚构媒体或效果图示例能力。
+
+模拟器复用唯一 GitHub OIDC 自动登录入口，并通过测试类过滤确保候选批次只运行 `ReleaseCandidateSmokeTest`；仅截取 `SCR-LIST-002`、`SCR-DETAIL-002` 和 `SCR-PUB-003` 三张对应页面。R09 首轮无视觉基线时，同一次模拟器采集可以进入 `BASELINE_REVIEW_REQUIRED`，由 AI 对照 B02/P06、B03/P02、B04/P04 逐图审查后提交原图与审批，再运行不编译、不启动模拟器的轻量晋升。禁止为建立基线重复执行完整候选。
