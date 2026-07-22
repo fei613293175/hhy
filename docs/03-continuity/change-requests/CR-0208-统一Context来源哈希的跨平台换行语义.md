@@ -89,3 +89,17 @@ R08严格连续性校验在Windows把Context Pack规范化LF来源哈希与CRLF�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260722T002444Z-8BEC3CA6`
 - Note：开始统一Context来源哈希算法并增加跨换行正反向回归
+
+## 状态记录 · 2026-07-22T00:42:46Z
+
+- Actor：`codex-root-r08-001`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260722T002444Z-8BEC3CA6`
+- Note：Context来源哈希已统一为跨平台规范化语义并完成正反向回归
+
+## 状态记录 · 2026-07-22T00:42:50Z
+
+- Actor：`codex-root-r08-001`
+- Status：`CLOSED`
+- Session：`SES-20260722T002444Z-8BEC3CA6`
+- Note：10项携带回归与V1.2.3严格门禁均PASS

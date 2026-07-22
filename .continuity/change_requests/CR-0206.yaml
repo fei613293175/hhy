@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0206
 title: 登记R08实施入口与历史异步Owner门禁边界
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-22T00:29:16Z'
-updated_at: '2026-07-22T00:32:57Z'
+updated_at: '2026-07-22T00:42:38Z'
 requester_actor_id: codex-root-r08-001
 approver_actor_id: codex-reviewer-r08-entry
 task_id: TASK-R08-001
@@ -43,5 +43,17 @@ decision_log:
   status: IMPLEMENTING
   note: 开始写入R08入口Manifest与开发就绪核验记录
   session_id: SES-20260722T002444Z-8BEC3CA6
+- at: '2026-07-22T00:42:35Z'
+  actor_id: codex-root-r08-001
+  status: IMPLEMENTED
+  note: R08入口Manifest、历史异步Owner边界和就绪核验已完成并推送
+  session_id: SES-20260722T002444Z-8BEC3CA6
+- at: '2026-07-22T00:42:38Z'
+  actor_id: codex-root-r08-001
+  status: CLOSED
+  note: 入口治理、四项Release门禁和云环境事实均已验证
+  session_id: SES-20260722T002444Z-8BEC3CA6
 session_ids:
 - SES-20260722T002444Z-8BEC3CA6
+implementation_commits:
+- b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0

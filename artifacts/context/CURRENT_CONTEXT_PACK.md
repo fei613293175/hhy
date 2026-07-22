@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T00:41:04Z
-- Context Hash：`74a0b3541aa5b4210afc535b747ddac1983612af45499a27a0213a608692d003`
+- 生成时间：2026-07-22T00:43:08Z
+- Context Hash：`24704d20f2f82c1d1a9157e9fb8af36fdc948d87ed86a9df8bd8bafe1d6befda`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -102,7 +102,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-001
-updated_at: '2026-07-22T00:41:01Z'
+updated_at: '2026-07-22T00:43:05Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -137,15 +137,15 @@ continuity:
   active_session_id: SES-20260722T002444Z-8BEC3CA6
   actor_id: codex-root-r08-001
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T04:41:01Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0004.yaml
-  project_fingerprint: 462a645246abea8c02ec54a0d4388f6d6bc4ee6b9f718d137fd11469e988e8ac
+  lease_expires_at: '2026-07-22T04:43:05Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0005.yaml
+  project_fingerprint: 410b69e2d28c24434b87d18e9936a01ab12683e29b8978bdcc6fb13c03e39f59
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d348458710ac2df5eeb6de5a509183a9d7ae7f48b8c6c68aa8f16df27e85e2b5
-    generated_at: '2026-07-22T00:40:20Z'
+    context_hash: 74a0b3541aa5b4210afc535b747ddac1983612af45499a27a0213a608692d003
+    generated_at: '2026-07-22T00:41:04Z'
   handoff_bundle: null
 ```
 
@@ -352,7 +352,7 @@ task_id: TASK-R08-001
 story_id: STORY-R08-004
 goal: 项目推广完整闭环开发就绪核验、故事领取与变更基线
 started_at: '2026-07-22T00:24:44Z'
-updated_at: '2026-07-22T00:41:01Z'
+updated_at: '2026-07-22T00:43:05Z'
 takeover_of: null
 change_requests:
 - CR-0206
@@ -411,12 +411,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T00:41:01Z'
-  expires_at: '2026-07-22T04:41:01Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0004.yaml
+  renewed_at: '2026-07-22T00:43:05Z'
+  expires_at: '2026-07-22T04:43:05Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md
-next_step: 提交并推送CR-0206至CR-0208实现，关闭CR后完成TASK-R08-001
+next_step: 提交CR关闭治理记录并关闭TASK-R08-001进入TASK-R08-002
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -424,19 +424,19 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: R08入口Manifest、CR状态和Context Pack必须由单一连续性状态链串行生成
+  reason: CR关闭和任务状态转换必须串行一致
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T002444Z-8BEC3CA6-0004
+checkpoint_id: CP-SES-20260722T002444Z-8BEC3CA6-0005
 session_id: SES-20260722T002444Z-8BEC3CA6
-sequence: 4
-created_at: '2026-07-22T00:41:01Z'
-summary: R08入口、九端点范围、执行分区与跨平台Context哈希修复全部通过严格验证
-next_step: 提交并推送CR-0206至CR-0208实现，关闭CR后完成TASK-R08-001
+sequence: 5
+created_at: '2026-07-22T00:43:05Z'
+summary: CR-0206至CR-0208已实现并关闭，R08入口与跨平台连续性证据已远端绑定
+next_step: 提交CR关闭治理记录并关闭TASK-R08-001进入TASK-R08-002
 blockers: []
 decisions: []
 note: ''
@@ -468,43 +468,25 @@ tests:
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: b57357cd699fc959e947a815dc618143c840c6f2
+  head: b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260722T002444Z-8BEC3CA6.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M .continuity/change_requests/CR-0206.yaml'
+  - ' M .continuity/change_requests/CR-0207.yaml'
+  - ' M .continuity/change_requests/CR-0208.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PITFALLS.md'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md'
-  - ' M releases/R08/RELEASE_MANIFEST.yaml'
-  - ' M scripts/check_v123_continuity.py'
-  - ' M tests/test_context_pack_parallel_policy.py'
-  - ?? .continuity/change_requests/CR-0206.yaml
-  - ?? .continuity/change_requests/CR-0207.yaml
-  - ?? .continuity/change_requests/CR-0208.yaml
-  - ?? .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0002.yaml
-  - ?? .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0003.yaml
-  - ?? docs/03-continuity/R08_TASK-001_ENTRY_GATE.md
-  - ?? docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md
-  - ?? docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md
-  - ?? docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md
-  - ?? releases/R08/PARALLEL_EXECUTION_PLAN.yaml
+  - ' M docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md'
+  - ' M docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md'
+  - ' M docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md'
   recent_commits:
+  - "b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0\t2026-07-22T08:41:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(governance): 建立R08实施入口"
   - "b57357cd699fc959e947a815dc618143c840c6f2\t2026-07-22T08:26:11+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 领取R08开发就绪任务"
   - "5b2eae13a693953cc9230581af8cb1d016ccef9e\t2026-07-22T08:23:36+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-008\
     \ as blocked"
@@ -514,9 +496,8 @@ git:
   - "4c5ec60addcc45e5896d8de45686aa788d6e0b32\t2026-07-22T08:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(release): 签署R07机器完成状态"
   - "7c44a90b99551cdc23993f506a08c9efab5be135\t2026-07-22T07:57:39+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-007\
     \ as completed"
-  - "c94772cec65e78699d86f32081afab26a91517f0\t2026-07-22T07:52:56+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07候选变更链"
 project_fingerprint:
-  sha256: 462a645246abea8c02ec54a0d4388f6d6bc4ee6b9f718d137fd11469e988e8ac
+  sha256: 410b69e2d28c24434b87d18e9936a01ab12683e29b8978bdcc6fb13c03e39f59
   files:
   - CHANGELOG.md
   - docs/03-continuity/PITFALLS.md
@@ -551,16 +532,16 @@ project_fingerprint:
       sha256: 22b29b9178f2bc6495a45412f93f9e67fb2b6f24b4ac073dca4e34a410789072
     - path: docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md
       state: FILE
-      size: 2752
-      sha256: bd11de1ca5a1eea8dc2099b794b718bc20dc459710bd806cef0271745d151d55
+      size: 3191
+      sha256: 8f060f5567baeb9e814d5066f80e535eeb6453debd842d5c2a67323ddcbb6def
     - path: docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md
       state: FILE
-      size: 2931
-      sha256: 715fdee446e53f9914754abdea6706d97dd6963a8d9c08e3db9c8ac8133a89e1
+      size: 3371
+      sha256: 67251dde215ad476a3e4c9a17bb8c728c20d6641a497127798ad5f5fe9e3424d
     - path: docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md
       state: FILE
-      size: 2810
-      sha256: e5edfe1655c86c95bf5d9083e09daeab579194ebda996b1c44f0d636ff8bf4ec
+      size: 3233
+      sha256: 6ae142b4a3c3992707406f8746ef1e3eea9ed24fb57804281632c3d6683fc58e
     - path: releases/R08/PARALLEL_EXECUTION_PLAN.yaml
       state: FILE
       size: 4185
@@ -653,8 +634,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: R08入口Manifest、CR状态和Context Pack必须由单一连续性状态链串行生成
-event_hash: 8cc8df931a10bb115abe0dc0590f1a37b990c4d22d19791d9203ef7f5d4a0eca
+  reason: CR关闭和任务状态转换必须串行一致
+event_hash: a61afad59d6295ff2903f11df9d44d8a704fe0e8decb21244e83c0784635c489
 ```
 
 ## 接续状态与事件头
@@ -666,8 +647,8 @@ active_session_id: SES-20260722T002444Z-8BEC3CA6
 last_session_id: SES-20260721T235847Z-F9109B61
 last_session_result: BLOCKED
 last_closure_checkpoint_id: CP-SES-20260721T235847Z-F9109B61-0005
-event_count: 2072
-event_head_hash: 8cc8df931a10bb115abe0dc0590f1a37b990c4d22d19791d9203ef7f5d4a0eca
+event_count: 2079
+event_head_hash: a61afad59d6295ff2903f11df9d44d8a704fe0e8decb21244e83c0784635c489
 event_chain_valid: true
 ```
 
@@ -790,9 +771,9 @@ recent_sessions: - session_id: SES-20260721T082026Z-E6763DFE
   started_at: '2026-07-22T00:24:44Z'
   record: .continuity/sessions/SES-20260722T002444Z-8BEC3CA6.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md
-  updated_at: '2026-07-22T00:41:01Z'
+  updated_at: '2026-07-22T00:43:05Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0004.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0005.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-8EF3F3423127
   session_id: SES-20260719T234639Z-1D7D7A00
@@ -1728,7 +1709,7 @@ recent_task_transitions: - transition_id: TRN-EE8C60C3FA44
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: b57357cd699fc959e947a815dc618143c840c6f2
+head: b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1739,33 +1720,20 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0206.yaml'
+- ' M .continuity/change_requests/CR-0207.yaml'
+- ' M .continuity/change_requests/CR-0208.yaml'
 - ' M .continuity/sessions/SES-20260722T002444Z-8BEC3CA6.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PITFALLS.md'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md'
+- ' M docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md'
+- ' M docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md'
-- ' M releases/R08/RELEASE_MANIFEST.yaml'
-- ' M scripts/check_v123_continuity.py'
-- ' M tests/test_context_pack_parallel_policy.py'
-- ?? .continuity/change_requests/CR-0206.yaml
-- ?? .continuity/change_requests/CR-0207.yaml
-- ?? .continuity/change_requests/CR-0208.yaml
-- ?? .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0002.yaml
-- ?? .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0003.yaml
-- ?? .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0004.yaml
-- ?? docs/03-continuity/R08_TASK-001_ENTRY_GATE.md
-- ?? docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md
-- ?? docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md
-- ?? docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md
-- ?? releases/R08/PARALLEL_EXECUTION_PLAN.yaml
+- ?? .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0005.yaml
 recent_commits:
+- "b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0\t2026-07-22T08:41:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(governance): 建立R08实施入口"
 - "b57357cd699fc959e947a815dc618143c840c6f2\t2026-07-22T08:26:11+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 领取R08开发就绪任务"
 - "5b2eae13a693953cc9230581af8cb1d016ccef9e\t2026-07-22T08:23:36+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-008\
   \ as blocked"
@@ -1775,12 +1743,11 @@ recent_commits:
 - "4c5ec60addcc45e5896d8de45686aa788d6e0b32\t2026-07-22T08:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(release): 签署R07机器完成状态"
 - "7c44a90b99551cdc23993f506a08c9efab5be135\t2026-07-22T07:57:39+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-007\
   \ as completed"
-- "c94772cec65e78699d86f32081afab26a91517f0\t2026-07-22T07:52:56+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07候选变更链"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`462a645246abea8c02ec54a0d4388f6d6bc4ee6b9f718d137fd11469e988e8ac`
+- 指纹：`410b69e2d28c24434b87d18e9936a01ab12683e29b8978bdcc6fb13c03e39f59`
 - 文件数：11
 
 - `CHANGELOG.md`
@@ -7139,165 +7106,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
   machine_record: .continuity/change_requests/CR-0159.yaml
   document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
-- protocol_version: '1.0'
-  cr_id: CR-0206
-  title: 登记R08实施入口与历史异步Owner门禁边界
-  status: IMPLEMENTING
-  created_at: '2026-07-22T00:29:16Z'
-  updated_at: '2026-07-22T00:32:57Z'
-  requester_actor_id: codex-root-r08-001
-  approver_actor_id: codex-reviewer-r08-entry
-  task_id: TASK-R08-001
-  session_id: SES-20260722T002444Z-8BEC3CA6
-  user_request: 按仓库R02至R32计划持续开发；历史版本真机反馈为异步输入，不得阻断R08推进；每版候选APK与交付文档放桌面
-  reason: R08 Release Manifest需要登记当前Session、R05至R07机器完成与异步owner门禁边界、四个故事就绪事实及最终候选交付规则
-  original_rule: R08仅为READY_WHEN_DEPENDENCIES_GREEN，尚未登记R05至R07机器完成但owner真机异步PENDING的合法依赖状态、当前实施Session和逐版候选交付规则。
-  new_rule: 登记R08实施入口：R05至R07机器开发和交付事实可追溯，R06与R07最后关闭任务仅因owner异步真机PENDING挂起且不阻断R08；R08四个故事按TASK-R08-001至008顺序实施，完整门禁和模拟器仅在最终候选阶段执行，候选APK与交付文档放桌面。
-  impact_summary: 只更新R08治理基线和就绪核验记录，不改变冻结页面、接口、数据库、配置或业务语义。
-  impact:
-    files:
-    - releases/R08/RELEASE_MANIFEST.yaml
-    - docs/03-continuity/R08_TASK-001_ENTRY_GATE.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python scripts/check_v122_documentation.py --release R08
-    - python scripts/check_release_artifacts.py --release R08
-    - python scripts/check_api_contract.py
-    - python scripts/check_program_execution_plan.py
-    releases:
-    - R08
-    migration_and_compatibility: 无数据迁移；保留历史Release正式验收和生产激活阻断，R08开发独立推进并继续执行自身最终候选与owner异步真机验收。
-  user_confirmation: 项目所有者明确要求持续推进、真机反馈异步、不得因此停止，候选APK和文档放桌面。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T00:31:55Z'
-    note: R08入口只登记已验证历史机器事实、owner异步边界和既定逐版候选策略，不修改产品冻结契约。
-  machine_record: .continuity/change_requests/CR-0206.yaml
-  document: docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md
-  decision_log:
-  - at: '2026-07-22T00:32:57Z'
-    actor_id: codex-root-r08-001
-    status: IMPLEMENTING
-    note: 开始写入R08入口Manifest与开发就绪核验记录
-    session_id: SES-20260722T002444Z-8BEC3CA6
-  session_ids:
-  - SES-20260722T002444Z-8BEC3CA6
-- protocol_version: '1.0'
-  cr_id: CR-0207
-  title: 补齐R08执行分区计划与九端点范围说明
-  status: IMPLEMENTING
-  created_at: '2026-07-22T00:29:19Z'
-  updated_at: '2026-07-22T00:33:00Z'
-  requester_actor_id: codex-root-r08-001
-  approver_actor_id: codex-reviewer-r08-scope
-  task_id: TASK-R08-001
-  session_id: SES-20260722T002444Z-8BEC3CA6
-  user_request: 持续推进R08且后续换电脑换AI可从仓库无缝接续，不依赖聊天
-  reason: R08尚无执行分区计划；需要明确九个工程端点、八个Android故事直接引用与公共分享接口的范围关系，并固化互斥路径和最终候选策略
-  original_rule: R08尚无PARALLEL_EXECUTION_PLAN，Context Pack无法携带当前Release路径边界；工程任务的九端点与Android故事八个直接operationId引用关系尚未在执行计划解释。
-  new_rule: 新增R08单一权威Session下的后端数据、Android项目页和质量证据互斥分区；工程范围九端点中八个由三项Android故事直接引用，GET /public-api/v1/share/contents/{id}作为REQ-PROJECT-001公共分享后端端点纳入服务验证但不新增R08
-    Android页面。
-  impact_summary: 补齐R08跨电脑跨AI执行边界、端点计数解释和最终候选策略，不改变冻结产品合同、页面、数据库或运行语义。
-  impact:
-    files:
-    - releases/R08/PARALLEL_EXECUTION_PLAN.yaml
-    pages: []
-    apis:
-    - contentGetContents
-    - contentGetContentsById
-    - contentPostContentsByIdContactsByChannelAccess
-    - chatPostConversationsDirect
-    - contentPostContentsByIdFavorite
-    - contentPostContentsByIdShare
-    - contentPostContents
-    - contentPatchContentsById
-    - publicGetShareContentsById
-    database: []
-    configuration:
-    - R08最终候选阶段完整门禁与模拟器、普通任务受影响MODULE验证
-    ledger: []
-    tests:
-    - python -m unittest tests.test_context_pack_parallel_policy
-    - python scripts/check_v123_continuity.py --strict
-    releases:
-    - R08
-    migration_and_compatibility: 无数据迁移；任务依赖保持串行事实链，执行分区只描述路径边界，所有连续性、契约、Flyway编号、APK身份和提交推送由主控串行拥有。
-  user_confirmation: 项目所有者要求跨电脑换AI可复用并持续开发；当前范围按仓库冻结事实执行。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T00:31:58Z'
-    note: 计划只补充执行边界和端点计数解释；公共分享GET保持x-release R28，不新增R08页面或提前改产品合同。
-  machine_record: .continuity/change_requests/CR-0207.yaml
-  document: docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md
-  decision_log:
-  - at: '2026-07-22T00:33:00Z'
-    actor_id: codex-root-r08-001
-    status: IMPLEMENTING
-    note: 开始写入R08执行分区、九端点范围解释和最终候选策略
-    session_id: SES-20260722T002444Z-8BEC3CA6
-  session_ids:
-  - SES-20260722T002444Z-8BEC3CA6
-- protocol_version: '1.0'
-  cr_id: CR-0208
-  title: 统一Context来源哈希的跨平台换行语义
-  status: IMPLEMENTING
-  created_at: '2026-07-22T00:38:16Z'
-  updated_at: '2026-07-22T00:38:50Z'
-  requester_actor_id: codex-root-r08-001
-  approver_actor_id: codex-reviewer-portable-hash
-  task_id: TASK-R08-001
-  session_id: SES-20260722T002444Z-8BEC3CA6
-  user_request: 彻底解决可重复环境问题并写入踩坑和经验复用记录，确保换电脑换AI无缝接续
-  reason: R08严格连续性校验在Windows把Context Pack规范化LF来源哈希与CRLF原始字节哈希比较，导致内容相同的ACCEPTANCE_MATRIX被误报CONTEXT_SOURCE_STALE
-  original_rule: Context Pack生成器用portable_source_record规范化文本换行后记录来源SHA，但check_v123_continuity.py用原始文件字节sha256复核，Windows CRLF与Linux LF会对同一Git内容产生不同结果。
-  new_rule: 严格连续性校验必须使用与Context Pack生成器相同的portable_source_record复核每个来源的规范化SHA和字节数；LF与CRLF工作树必须得到一致结论，真实内容变化仍必须阻断。
-  impact_summary: 修复跨Windows/Linux Context来源哈希假过期，增加LF/CRLF正向兼容和真实内容变化负向回归，并登记Problem与全局踩坑规则。
-  impact:
-    files:
-    - scripts/check_v123_continuity.py
-    - tests/test_context_pack_parallel_policy.py
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - docs/03-continuity/PITFALLS.md
-    - CHANGELOG.md
-    - artifacts/validation/project-doctor-v1.2.3.json
-    pages: []
-    apis: []
-    database: []
-    configuration:
-    - Context Pack来源哈希统一使用跨平台规范化文本记录
-    ledger: []
-    tests:
-    - python -m unittest tests.test_context_pack_parallel_policy
-    - python scripts/check_v123_continuity.py --strict
-    releases:
-    - R08
-    migration_and_compatibility: 纯校验兼容修复；不修改Context Manifest格式，既有规范化SHA继续有效，真实字节内容变化仍由规范化记录检测。
-  user_confirmation: 项目所有者明确要求环境问题彻底解决、写入踩坑和经验复用并支持跨电脑换AI。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T00:38:46Z'
-    note: 修复只统一生成与校验算法，必须同时比较规范化SHA和字节数；真实内容变化负向回归继续阻断。
-  machine_record: .continuity/change_requests/CR-0208.yaml
-  document: docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md
-  decision_log:
-  - at: '2026-07-22T00:38:50Z'
-    actor_id: codex-root-r08-001
-    status: IMPLEMENTING
-    note: 开始统一Context来源哈希算法并增加跨换行正反向回归
-    session_id: SES-20260722T002444Z-8BEC3CA6
-  session_ids:
-  - SES-20260722T002444Z-8BEC3CA6
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e`
-- `CURRENT_STATUS.yaml` — `8b6e300f7f8ab1233c6f77f5a81c278cdc563038bc8c6801daf737fd30f2cdb3`
+- `CURRENT_STATUS.yaml` — `30cf2903cc79a54ea407f8cff6ae4e3721d3bb4f9a49708d2965756eb76c1952`
 - `NEXT_TASK.yaml` — `c28658c239773a365a5f00017d7f5be5bc29929227c5ea5585e18f6f667fa909`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7308,23 +7123,23 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `c79028be14e99af733e8118f1d0bc5038a68365fd08d0ef023cd76f4bf77715f`
-- `.continuity/SESSION_INDEX.yaml` — `88b935fce994f874301d377ad88ffdefb3d0c84e1c9ae7f1894fb749b562b8c7`
+- `.continuity/EVENT_LOG.jsonl` — `4fb0c07f063d62435d971a3f4f8fb6f15a9946a9812409c43047fc192b93506a`
+- `.continuity/SESSION_INDEX.yaml` — `cba39bb3d3b71022ce1fa7c1914f24c234ee5b15b72ceace1505474e352214ad`
 - `.continuity/TASK_CLAIMS.yaml` — `3b93ff269c1a6a8ed59b14ba50d45d627d1404394caf1427fd9cd563b668dceb`
 - `.continuity/TASK_TRANSITIONS.yaml` — `d63efda5ff013bbcda5265fe2f68f9483e71730bb6ac19bb9797629f5fae8388`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `874a3f07b851e90f5b7848db2a3bebe37faa351aa4a4f11730eb3bdfe4ac5ef1`
-- `.continuity/ACTIVE_SESSION.yaml` — `ebad9102c3417bf083ce67afa02d640cd7a8d9c6c1f781c621028a16dcccf163`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `cc585246601a819165c45612ebf2b49a40eb53c79c2d446867815c8cc9351035`
+- `.continuity/ACTIVE_SESSION.yaml` — `d51ae1ac647520ce67a739df9191d52969b7ccd01378192ff6e23c1d096ba475`
 - `releases/R08/RELEASE_MANIFEST.yaml` — `62ce3ebc9d1aefa77c684678fbd51364f0842afeeef604623645b79ff23882c9`
 - `releases/R08/DEFINITION_OF_READY.yaml` — `73b6bee8cacca90fa3564f4c6443f21b32d35afbfef83fad5a2a3b8705e536c5`
 - `releases/R08/STORIES.yaml` — `035e6d5b8a0cccd8e30f30d5cd80c858a846e745c5cf3075aa6742d4f0a370b6`
 - `releases/R08/TASKS.yaml` — `98b6861123ccd7d61888e41fd51b884afe2bd86ba9d29c11487352b7cd45ef9d`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `1e47b204a5cbd289d9ccafc93b0f4afb45983db76a23a4492dd463ffeec0cb98`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md` — `55d1ddf5ce052c8eef4e5a06e45435dbecdb1b7b2c29874318f5f9f83a184560`
-- `.continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0004.yaml` — `267acade8d690dd79e368549e4c76fc50f1fe25109721324eeac3cbb1794a338`
-- `docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md` — `bd11de1ca5a1eea8dc2099b794b718bc20dc459710bd806cef0271745d151d55`
-- `docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md` — `715fdee446e53f9914754abdea6706d97dd6963a8d9c08e3db9c8ac8133a89e1`
-- `docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md` — `e5edfe1655c86c95bf5d9083e09daeab579194ebda996b1c44f0d636ff8bf4ec`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md` — `0419680948de1aeb2605130f75daf568f47ac5ac28b63767f48f4ebd4ef45a09`
+- `.continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0005.yaml` — `159e86e3035ff45d921d2ba13e933c24a5efc038a3d24948ff6477cd36027e6c`
+- `docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md` — `8f060f5567baeb9e814d5066f80e535eeb6453debd842d5c2a67323ddcbb6def`
+- `docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md` — `67251dde215ad476a3e4c9a17bb8c728c20d6641a497127798ad5f5fe9e3424d`
+- `docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md` — `6ae142b4a3c3992707406f8746ef1e3eea9ed24fb57804281632c3d6683fc58e`
 
 ## 接手硬规则
 

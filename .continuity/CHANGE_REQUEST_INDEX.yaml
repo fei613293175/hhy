@@ -12377,9 +12377,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0206
   title: 登记R08实施入口与历史异步Owner门禁边界
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-22T00:29:16Z'
-  updated_at: '2026-07-22T00:32:57Z'
+  updated_at: '2026-07-22T00:42:38Z'
   requester_actor_id: codex-root-r08-001
   approver_actor_id: codex-reviewer-r08-entry
   task_id: TASK-R08-001
@@ -12419,14 +12419,26 @@ change_requests:
     status: IMPLEMENTING
     note: 开始写入R08入口Manifest与开发就绪核验记录
     session_id: SES-20260722T002444Z-8BEC3CA6
+  - at: '2026-07-22T00:42:35Z'
+    actor_id: codex-root-r08-001
+    status: IMPLEMENTED
+    note: R08入口Manifest、历史异步Owner边界和就绪核验已完成并推送
+    session_id: SES-20260722T002444Z-8BEC3CA6
+  - at: '2026-07-22T00:42:38Z'
+    actor_id: codex-root-r08-001
+    status: CLOSED
+    note: 入口治理、四项Release门禁和云环境事实均已验证
+    session_id: SES-20260722T002444Z-8BEC3CA6
   session_ids:
   - SES-20260722T002444Z-8BEC3CA6
+  implementation_commits:
+  - b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0
 - protocol_version: '1.0'
   cr_id: CR-0207
   title: 补齐R08执行分区计划与九端点范围说明
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-22T00:29:19Z'
-  updated_at: '2026-07-22T00:33:00Z'
+  updated_at: '2026-07-22T00:42:43Z'
   requester_actor_id: codex-root-r08-001
   approver_actor_id: codex-reviewer-r08-scope
   task_id: TASK-R08-001
@@ -12474,14 +12486,26 @@ change_requests:
     status: IMPLEMENTING
     note: 开始写入R08执行分区、九端点范围解释和最终候选策略
     session_id: SES-20260722T002444Z-8BEC3CA6
+  - at: '2026-07-22T00:42:41Z'
+    actor_id: codex-root-r08-001
+    status: IMPLEMENTED
+    note: R08执行分区、九端点范围解释和最终候选策略已完成并推送
+    session_id: SES-20260722T002444Z-8BEC3CA6
+  - at: '2026-07-22T00:42:43Z'
+    actor_id: codex-root-r08-001
+    status: CLOSED
+    note: 执行计划已进入Context Pack且严格连续性校验通过
+    session_id: SES-20260722T002444Z-8BEC3CA6
   session_ids:
   - SES-20260722T002444Z-8BEC3CA6
+  implementation_commits:
+  - b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0
 - protocol_version: '1.0'
   cr_id: CR-0208
   title: 统一Context来源哈希的跨平台换行语义
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-22T00:38:16Z'
-  updated_at: '2026-07-22T00:38:50Z'
+  updated_at: '2026-07-22T00:42:50Z'
   requester_actor_id: codex-root-r08-001
   approver_actor_id: codex-reviewer-portable-hash
   task_id: TASK-R08-001
@@ -12524,5 +12548,17 @@ change_requests:
     status: IMPLEMENTING
     note: 开始统一Context来源哈希算法并增加跨换行正反向回归
     session_id: SES-20260722T002444Z-8BEC3CA6
+  - at: '2026-07-22T00:42:46Z'
+    actor_id: codex-root-r08-001
+    status: IMPLEMENTED
+    note: Context来源哈希已统一为跨平台规范化语义并完成正反向回归
+    session_id: SES-20260722T002444Z-8BEC3CA6
+  - at: '2026-07-22T00:42:50Z'
+    actor_id: codex-root-r08-001
+    status: CLOSED
+    note: 10项携带回归与V1.2.3严格门禁均PASS
+    session_id: SES-20260722T002444Z-8BEC3CA6
   session_ids:
   - SES-20260722T002444Z-8BEC3CA6
+  implementation_commits:
+  - b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0
