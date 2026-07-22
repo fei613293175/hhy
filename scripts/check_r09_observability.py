@@ -47,6 +47,7 @@ for secret in (
 require("${HHY_R09_TRUSTED_PROXY_CIDRS:-" in str(environment.get("HHY_ADMIN_TRUSTED_PROXY_CIDRS")), "R09_TRUSTED_PROXY_NOT_CONFIGURABLE")
 require("${HHY_R09_SMOKE_SUBNET:-" in str(compose.get("networks")), "R09_SUBNET_NOT_CONFIGURABLE")
 require("172.31.243.0/24" in str(compose.get("networks")), "R09_DEFAULT_SUBNET_NOT_ISOLATED")
+require("${HHY_R09_PROMETHEUS_PORT:-39597}" in str((services.get("prometheus") or {}).get("ports")), "R09_PROMETHEUS_PORT_NOT_ISOLATED")
 
 sink = services.get("alert-sink") or {}
 require(not (sink.get("ports") or []), "R09_ALERT_SINK_MUST_NOT_PUBLISH_PORT")

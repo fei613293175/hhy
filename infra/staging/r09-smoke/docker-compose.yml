@@ -80,7 +80,7 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./r09-alerts.yml:/etc/prometheus/r09-alerts.yml:ro
       - prometheus-data:/prometheus
-    ports: ["127.0.0.1:${HHY_R09_PROMETHEUS_PORT:-39593}:9090"]
+    ports: ["127.0.0.1:${HHY_R09_PROMETHEUS_PORT:-39597}:9090"]
     depends_on:
       api:
         condition: service_healthy

@@ -1265,16 +1265,18 @@ problems:
 - id: PROB-0095
   title: R09隔离Staging单一入口未自启动导致全新工作区静默退出
   status: IN_PROGRESS
-  root_cause: R09从R08复用现场验收脚本时只替换了版本、指标和隔离配置，保留了“外部已提前启动Compose”的隐含前置条件；脚本入口直接调用refresh_containers，空项目中ps返回空标识并因set -e退出，既没有构建启动环境，也没有阶段诊断。首次补自启动后又沿用了未核对的172.31.249.0/24，而该服务器R05仍占用该子网，说明复制版本配置时缺少现场网络清单核对。
-  resolution: CR-0255不新增平行流程，直接修复既有run_r09_staging_acceptance.sh；入口检查同名Compose项目必须为空，自行执行up -d --build并确认四个关键容器标识后再进入原有验收。根据服务器实际Docker网络清单把R09默认子网冻结为未占用的172.31.243.0/24，保留环境变量覆盖；静态门禁冻结空项目保护、自启动命令、默认子网和阶段标识，obx-test全链通过后改为SOLVED。
+  root_cause: R09从R08复用现场验收脚本时只替换了版本、指标和隔离配置，保留了“外部已提前启动Compose”的隐含前置条件；脚本入口直接调用refresh_containers，空项目中ps返回空标识并因set -e退出，既没有构建启动环境，也没有阶段诊断。首次补自启动后又沿用了未核对的172.31.249.0/24和39593端口，而该服务器R05占用该子网、R06 Alertmanager占用该端口，说明复制版本配置时缺少现场网络与端口清单核对。
+  resolution: CR-0255不新增平行流程，直接修复既有run_r09_staging_acceptance.sh；入口检查同名Compose项目必须为空，自行执行up -d --build并确认四个关键容器标识后再进入原有验收。根据服务器实际Docker清单把R09默认子网冻结为172.31.243.0/24、Prometheus回环端口冻结为39597并保留环境变量覆盖；静态门禁冻结空项目保护、自启动命令、默认网络端口和阶段标识，obx-test全链通过后改为SOLVED。
   regression_checks:
   - python scripts/check_r09_observability.py必须通过并检查R09_STAGING_PROJECT_NOT_EMPTY、R09_STAGING_BUILD_AND_START和up -d --build
   - 全新obx-test工作区只执行scripts/run_r09_staging_acceptance.sh即可自行构建和启动hhy-r09-staging
   - 同名Compose项目已有容器时脚本必须在任何重建或回滚前明确输出R09_STAGING_PROJECT_NOT_EMPTY并拒绝执行
   - 最终证据必须绑定新的冻结Commit且machine-summary、SHA256SUMS和V035同库同卷回滚均通过
   - R09默认172.31.243.0/24必须与服务器Docker网络清单无重叠，换服务器时必须先核对并通过环境变量成组覆盖子网和静态IP
+  - R09默认Prometheus回环端口39597必须无占用；HTTP 38109和Alertmanager 39596同样必须在启动前由Compose现场验证
   do_not_repeat:
   - 不得把人工执行docker compose up作为“单一入口”的未记录前置条件
   - 不得在set -e脚本中让关键阶段以无诊断的空值test退出
   - 从前一版本复制验收脚本时必须在全新Compose项目验证从零启动，不能只验证已存在环境
   - 不得按版本号猜测或递增Docker子网；必须读取目标服务器现有网络清单后冻结未占用范围
+  - 不得只检查子网而遗漏宿主机发布端口；网络和端口必须作为同一个隔离资源清单核对

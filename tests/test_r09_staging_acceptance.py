@@ -42,6 +42,12 @@ class R09StagingAcceptanceTest(unittest.TestCase):
         self.assertNotIn("172.31.249.", self.compose)
         self.assertNotIn("172.31.249.", self.runner)
 
+    def test_prometheus_port_uses_verified_free_host_binding(self) -> None:
+        self.assertIn("HHY_R09_PROMETHEUS_PORT:-39597", self.compose)
+        self.assertIn("HHY_R09_PROMETHEUS_PORT:-39597", self.runner)
+        self.assertNotIn("HHY_R09_PROMETHEUS_PORT:-39593", self.compose)
+        self.assertNotIn("HHY_R09_PROMETHEUS_PORT:-39593", self.runner)
+
 
 if __name__ == "__main__":
     unittest.main()
