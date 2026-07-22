@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T18:01:45Z",
-  "context_hash": "c229e483ee1853f7f6a78b9fbccffa0a5c351efce20116818ca4323d3cb1e4cd",
+  "generated_at": "2026-07-22T18:05:28Z",
+  "context_hash": "c64271d67ede1ef5f6fb303707ee92cbe4c0e8cf95d12b26612bfc39362b1e8b",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "ed35e24bbaf82759862613b703cc23512e131e4b46cc5a5317b6ab5508473c44",
+    "sha256": "32785fff1565e6777b720f840e209a67df01d01dcee3e24d3a5446ba11b11ed6",
     "file_count": 228
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "3535369ba98f7cd01cd3f9f56627464d8d0e3810db5f8fdaab1b3e8d6f1c9372"
+    "sha256": "df01fcf6b566b0b7cdce3104358f72a2f5291ae96e7da1bc875f5f4778f0bf9a"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "f51cfccc0a69282040a46ad708d483621e16bb8ea1a72c949c5cf301d1afd546"
+    "sha256": "f1f5ac1efe96be1b0113652ea46a70ee0e1b44edd8ca629593ab3e96ca5da802"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "8f8026958accec4f8dca897f8602377447b18fa78e786f5fa3d77b8a14fc4906",
+      "sha256": "8193104d6c8e71ecead32ccedd8baf260bcfad64700a6db40be7b17d027a5cc2",
       "bytes": 3988
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "8115d0e677d404751b9f5861cb624b9058d33f7e919573cee733d4ef96227481",
-      "bytes": 1339859
+      "sha256": "fab0769c0488b0516f888058791e3a70a54c7b50fe6c297eff30173206b316f1",
+      "bytes": 1340936
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "6b3a55751b5b67da49aa284e5f94c6dd4c23db105f74252b415aaf91c0903f72",
+      "sha256": "0288b398400355dafa5901a6868bc1ef3628a3afea0223fd4a783401e71276b5",
       "bytes": 38933
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "5736d1f9db42dbadda4ad63af4f7326842869b1a26a72363fee69c6e8cb77cc9",
-      "bytes": 815761
+      "sha256": "cc7546b7df3753b962c1011af5fe414657a39ed71633866357e670a27d71613f",
+      "bytes": 816071
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "7f7031cde700061c1652e63fca925e007743b2fab366ff505f9f5ca2771926e0",
+      "sha256": "1cc0554795c757bd5c2189ef6261c8e02d9da127654e230a607aac9617bad433",
       "bytes": 538
     },
     {
@@ -158,13 +158,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md",
-      "sha256": "bfc7ec3e2dd5cf152eefc903260d025a680d04e8bdab122e3c4ce3f268dd3d22",
-      "bytes": 107551
+      "sha256": "d464b5317c242f010fd3061732b774edd4451bc3bcdc8de8b27ca44886fe36df",
+      "bytes": 116057
     },
     {
-      "path": ".continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0012.yaml",
-      "sha256": "5c4a7634b9265fc2aa53c880918174f01b0c3493a94964cefdec9267eb3add92",
-      "bytes": 90748
+      "path": ".continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0013.yaml",
+      "sha256": "57a0f6efea5f487d6b4b8a3542753228d3c27ac9d6599f62eaa1b9c55379d7dc",
+      "bytes": 88078
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md",
@@ -173,8 +173,8 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md",
-      "sha256": "2aeb6571d5716226d485c517eeb2da8916c0fc199bb8e7faf209cd52b2c9778c",
-      "bytes": 3936
+      "sha256": "03a3a1cbbbc1adac041b6067aa6482c7a057b01ad25902f4b0d2c670f37e22da",
+      "bytes": 4187
     }
   ]
 }
