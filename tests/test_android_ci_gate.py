@@ -297,7 +297,7 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("workflow_call", workflow["on"])
         self.assertIn("workflow_dispatch", workflow["on"])
         self.assertEqual(
-            {"build", "emulator", "candidate", "remediation-queue"},
+            {"historical-visual", "build", "emulator", "candidate", "remediation-queue"},
             set(workflow["jobs"]),
         )
         source = workflow_path.read_text(encoding="utf-8")
@@ -310,6 +310,22 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("script: bash scripts/run_android_emulator_gate.sh", source)
         self.assertIn("! -name '*androidTest*'", source)
         self.assertIn("path: candidate-output", source)
+        self.assertEqual(
+            "${{ inputs.release == 'HISTORICAL-UI' }}",
+            workflow["jobs"]["historical-visual"]["if"],
+        )
+        self.assertEqual(
+            "${{ inputs.release != 'HISTORICAL-UI' }}",
+            workflow["jobs"]["build"]["if"],
+        )
+        historical_source = yaml.safe_dump(
+            workflow["jobs"]["historical-visual"],
+            allow_unicode=True,
+        )
+        self.assertIn("HistoricalVisualAuditTest", historical_source)
+        self.assertIn("-eq 22", historical_source)
+        self.assertNotIn("HHY_CI_BOOTSTRAP_CODE", historical_source)
+        self.assertNotIn("assembleDebug", historical_source)
         self.assertEqual("${{ inputs.candidate }}", workflow["jobs"]["emulator"]["if"])
         self.assertIn("inputs.candidate", workflow["jobs"]["candidate"]["if"])
         self.assertIn("inputs.candidate", workflow["jobs"]["remediation-queue"]["if"])

@@ -65,6 +65,6 @@
 
 - 23 个 Android 页面仍保持 `IN_REVIEW`，禁止仅凭源码或 Token 检查改成 `PASS`。
 - 本机 CPU 虚拟化已开启，但未安装 Android Emulator Hypervisor Driver；普通权限下无法启用，强行安装会要求管理员操作并可能重启。远端 `obx-test` 同样没有可用 `/dev/kvm`，因此不把本机/服务器环境改造混进产品返工。
-- 新增手动工作流 `.github/workflows/android-historical-visual-audit.yml`：只运行 `HistoricalVisualAuditTest`，以 `androidTest` 离线夹具渲染生产 Composable，一次生成 22 张非敏感页面截图；不请求 CI 登录、不访问 Staging、不生成候选 APK、不运行发布关闭门禁。
+- 在现有权威 `.github/workflows/android-quality-gate.yml` 增加 `release=HISTORICAL-UI`、`candidate=false` 手动特殊模式：只运行 `HistoricalVisualAuditTest`，以 `androidTest` 离线夹具渲染生产 Composable，一次生成 22 张非敏感页面截图；不请求 CI 登录、不访问 Staging、不生成候选 APK、不运行发布关闭门禁，也不注册第二套工作流。
 - 源码冻结前已通过 Android 全量 `testDebugUnitTest lintDebug`（436 tasks，`BUILD SUCCESSFUL`）、`compileDebugAndroidTestKotlin` 和文档严格门禁；冻结后只执行一次上述视觉专跑，由 AI 逐张完成六项判定，不在每次提交重复模拟器。
 - 联系方式面板继续使用安全语义、源码和候选报告替代敏感值截图。
