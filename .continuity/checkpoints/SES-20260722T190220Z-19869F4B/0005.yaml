@@ -1,0 +1,306 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T190220Z-19869F4B-0005
+session_id: SES-20260722T190220Z-19869F4B
+sequence: 5
+created_at: '2026-07-22T19:39:49Z'
+summary: 关闭 TASK-R09-004：完成R09 App推广Android列表/详情/发布编辑、H5真实外链动作和后台统一内容复用；受影响MODULE门禁全部通过，三页最终截图按R09候选阶段保留IN_REVIEW。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：b548d582e8e5b942a93513c128a113c8571bff0c
+- 任务转换：TRN-20260722T193946Z-SES-20260722T190220Z-19869F4B
+- 下一Release：R09
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: cr-closure-review
+  result: PASS
+  evidence: CR-0251 CLOSED and implementation commit b548d582 recorded
+  note: 最终候选截图按大版本策略保留IN_REVIEW
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 2606a21c4f3020c2279b8320958be13d4fc0df0c
+  upstream: origin/task/TASK-R03-001
+  ahead: 2
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260722T190220Z-19869F4B.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R09/TASKS.yaml'
+  recent_commits:
+  - "2606a21c4f3020c2279b8320958be13d4fc0df0c\t2026-07-23T03:38:58+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close promotion\
+    \ change request"
+  - "b548d582e8e5b942a93513c128a113c8571bff0c\t2026-07-23T03:37:56+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(app): implement promotion\
+    \ experience"
+  - "536601aecf5e775466fe0a3c4225bc2bc3e633d8\t2026-07-23T03:01:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App backend\
+    \ task"
+  - "3f27a588499e9ca8e9679a85b9cf5b454447c76f\t2026-07-23T02:57:53+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 App backend"
+  - "e4f54c07b1b3cae024b5de42179a5e2cfb6f2c76\t2026-07-23T02:56:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(content): implement App\
+    \ promotion backend"
+  - "4b4d71a63a5eccc428e2e04f04e13b2fa466bc72\t2026-07-23T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App data\
+    \ task"
+  - "a147db6de57534277d882755c9831793ecb02fdd\t2026-07-23T02:30:06+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 data invariants"
+  - "92dfb059bc78c48493c3300dc3d564a4bebbca73\t2026-07-23T02:28:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(database): enforce App\
+    \ promotion invariants"
+project_fingerprint:
+  sha256: 2c791a5d7299d57bf16dda94602da9a50a017f2704114ff6b310b57cc4d5244c
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/r09AppReuse.test.ts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R09ApiModelsSerializationTest.kt
+  - apps/android/feature/app-promotion/build.gradle.kts
+  - apps/android/feature/app-promotion/src/main/AndroidManifest.xml
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppState.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/views/PublicPage.vue
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_visual_acceptance.csv
+  - design/R09-UI-FROZEN/specs/SCR-DETAIL-002.md
+  - design/R09-UI-FROZEN/specs/SCR-LIST-002.md
+  - design/R09-UI-FROZEN/specs/SCR-PUB-003.md
+  - docs/03-continuity/change-requests/CR-0251-R09-App推广跨端闭环与精确视觉实现.md
+  - releases/R09/TASKS.yaml
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+  file_count: 25
+  payload:
+    base_commit: 536601aecf5e775466fe0a3c4225bc2bc3e633d8
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 97337
+      sha256: b88c7209c28b4c1a504cdc89f1c5a8bb500f5c7183bdf5a6dd5066f17b0ec570
+    - path: apps/admin-web/src/r09AppReuse.test.ts
+      state: FILE
+      size: 2762
+      sha256: ff957369b08c0e2addc2f25110426290f146255466683860a21f98d431319610
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5190
+      sha256: 238c624e918c8ebac5b2c87938133e0e736cac705b78806dd4c06532e52dabd0
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 21656
+      sha256: 4a8b906b97d9dab4a325d4d930fd23393abfd12d47c8326c5885b38ff30e0096
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+      state: FILE
+      size: 9570
+      sha256: 2480b96476cb36a058098b0e495a8459db961b8dbd606a94f6a5f80eec9a6716
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R09ApiModelsSerializationTest.kt
+      state: FILE
+      size: 1049
+      sha256: e08d080d9e3e864544ba7611f5fd25d675e9b58e14b3976bad1464dfae17dfae
+    - path: apps/android/feature/app-promotion/build.gradle.kts
+      state: FILE
+      size: 1213
+      sha256: d021fa2b588e02807fdabe14d1914155553f60fa32b01220bafabb98a806475e
+    - path: apps/android/feature/app-promotion/src/main/AndroidManifest.xml
+      state: FILE
+      size: 72
+      sha256: 343d5be1ac17cdd45d1a2f2ddc616c509290e655869125a9422a96d88aa66066
+    - path: apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+      state: FILE
+      size: 33699
+      sha256: 2bae1cf51a27e306b52edea302322dd6bf58001402af17083f0d6fb7b463ee5b
+    - path: apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppState.kt
+      state: FILE
+      size: 7036
+      sha256: 4a2da9b712e4ea0e7035ee8c24cbfafade5fc95ddb5a6a91d55dbfcad8751f78
+    - path: apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+      state: FILE
+      size: 1484
+      sha256: 897768bc4f9fb399e6a9c75f4ac2b07a82b3b6ea50dfcadfe6667f9c8509b99b
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 20185
+      sha256: 9d83ac04d32a3537d4e4811ec9de69d42fda7ae33a0b7cb131a966730377b1fc
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 612
+      sha256: bb372a4fc07c4aa31bfc110caba2a6e53b84708b999ff2b77d1d415e0170fd54
+    - path: apps/h5/src/services/publicShare.test.ts
+      state: FILE
+      size: 5479
+      sha256: 3028dcf14286998a715b688147db203192a5225478d083dc14b362aa83289985
+    - path: apps/h5/src/views/PublicPage.vue
+      state: FILE
+      size: 6666
+      sha256: 7c70fe35575a69619abf19a0d550409a23c1e2da7955ce11ffcd78ea933b26e5
+    - path: catalogs/ui_page_specifications.csv
+      state: FILE
+      size: 293374
+      sha256: 7fb3001a3720f49974014f9de57b4ebb4ea341d0875b13020539e58c4809a8e3
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 40820
+      sha256: efb067bd4ebf5dfc9b33edcb9e02d4740f4d6dffbe65f70d52fb5fc74c282d7d
+    - path: design/R09-UI-FROZEN/specs/SCR-DETAIL-002.md
+      state: FILE
+      size: 1664
+      sha256: 82204b1428c5b4a59bb0d4aac1cc8efee3a3115135fe7aa94c74f07aec3de9f6
+    - path: design/R09-UI-FROZEN/specs/SCR-LIST-002.md
+      state: FILE
+      size: 1588
+      sha256: a152336a496e6a5e479be43037cb47da8bfec4116606ad48ac6c02302cf85bd2
+    - path: design/R09-UI-FROZEN/specs/SCR-PUB-003.md
+      state: FILE
+      size: 1619
+      sha256: a6103cf33a410d92a99bbf599bdbe0bf916ec24528a104a0def47fd4944b2d6d
+    - path: docs/03-continuity/change-requests/CR-0251-R09-App推广跨端闭环与精确视觉实现.md
+      state: FILE
+      size: 4917
+      sha256: 1de052e9f850972cf712713f060c141b5c36c7587eab0ea8d3e72ec7dc2ecf1c
+    - path: releases/R09/TASKS.yaml
+      state: FILE
+      size: 5611
+      sha256: 4600beefb5aa2b3b62a1ed6d8f71e6eb51fc75b5d4b2aed6e7c6772345cacb22
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+      state: FILE
+      size: 8810
+      sha256: 397337829b9fbee928498570bed78f8736487232a1fd0806f3f09e6e833a91e3
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+      state: FILE
+      size: 3310
+      sha256: c007f5216f7fd9d2d2e689e078f910559a7182cee84b511316ae1b2ee5d2f225
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+      state: FILE
+      size: 22023
+      sha256: a6493fc0e4c11f67ed0a6d95a0544e7122a3ee65e033ac9c0e60e4707dd4c5eb
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/ui_visual_acceptance.csv
+  - design/R09-UI-FROZEN/specs/SCR-DETAIL-002.md
+  - design/R09-UI-FROZEN/specs/SCR-LIST-002.md
+  - design/R09-UI-FROZEN/specs/SCR-PUB-003.md
+  - releases/R09/TASKS.yaml
+  code:
+  - apps/admin-web/src/r09AppReuse.test.ts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R09ApiModelsSerializationTest.kt
+  - apps/android/feature/app-promotion/build.gradle.kts
+  - apps/android/feature/app-promotion/src/main/AndroidManifest.xml
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppState.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/views/PublicPage.vue
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+  user_visible:
+  - apps/admin-web/src/r09AppReuse.test.ts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R09ApiModelsSerializationTest.kt
+  - apps/android/feature/app-promotion/build.gradle.kts
+  - apps/android/feature/app-promotion/src/main/AndroidManifest.xml
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppState.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/views/PublicPage.vue
+  source_of_truth:
+  - catalogs/ui_page_specifications.csv
+  continuity:
+  - docs/03-continuity/change-requests/CR-0251-R09-App推广跨端闭环与精确视觉实现.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- CHANGELOG
+change_requests:
+- CR-0251
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - R09 App推广完整闭环客户端/H5/后台实现；严格绑定效果图与现有UI规格，不虚构业务；普通任务只跑受影响门禁。
+  approved_exceptions:
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R09ApiModelsSerializationTest.kt
+  - apps/android/feature/app-promotion/build.gradle.kts
+  - apps/android/feature/app-promotion/src/main/AndroidManifest.xml
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppState.kt
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - apps/h5/src/views/PublicPage.vue
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/admin-web/src/r09AppReuse.test.ts
+  - design/R09-UI-FROZEN/specs/SCR-LIST-002.md
+  - design/R09-UI-FROZEN/specs/SCR-DETAIL-002.md
+  - design/R09-UI-FROZEN/specs/SCR-PUB-003.md
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_visual_acceptance.csv
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0251
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: 连续单线关闭任务，用户未要求子代理。
+event_hash: f94040d0aed9858386003001c36f2a25e1921bcd06090580a4a85d966094b4c1

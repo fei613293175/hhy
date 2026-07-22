@@ -1124,3 +1124,13 @@
 - Actor：`codex-root-r09-backend`
 - 摘要：R09-003完成：APP创建、详情、编辑、公开分享及通用收藏分享/会话来源后端闭环落地；真实PostgreSQL和受影响MODULE通过，CR-0250关闭。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T183222Z-79C9A5DB.md`
+
+## TASK-R09-004 · COMPLETED · 2026-07-22T19:39:46Z
+
+- Task close: TASK-R09-004 / SES-20260722T190220Z-19869F4B
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-client`
+- 摘要：完成R09 App推广Android列表/详情/发布编辑、H5真实外链动作和后台统一内容复用；受影响MODULE门禁全部通过，三页最终截图按R09候选阶段保留IN_REVIEW。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T190220Z-19869F4B.md`
+

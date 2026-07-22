@@ -2767,7 +2767,7 @@ claims:
   task_id: TASK-R09-004
   story_id: STORY-R09-004
   actor_id: codex-root-r09-client
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-22T19:02:20Z'
   allowed_paths:
   - apps/**
@@ -2802,3 +2802,4 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   - R09 App推广完整闭环客户端/H5/后台实现；严格绑定效果图与现有UI规格，不虚构业务；普通任务只跑受影响门禁。
+  closed_at: '2026-07-22T19:39:54Z'
