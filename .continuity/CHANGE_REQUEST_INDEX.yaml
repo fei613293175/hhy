@@ -15258,3 +15258,77 @@ change_requests:
   - SES-20260722T181159Z-F501CFF5
   implementation_commits:
   - 92dfb059bc78c48493c3300dc3d564a4bebbca73
+- protocol_version: '1.0'
+  cr_id: CR-0250
+  title: R09 App推广后端应用服务与接口
+  status: IMPLEMENTING
+  created_at: '2026-07-22T18:33:58Z'
+  updated_at: '2026-07-22T18:54:44Z'
+  requester_actor_id: codex-root-r09-backend
+  approver_actor_id: codex-r09-backend-review
+  task_id: TASK-R09-003
+  session_id: SES-20260722T183222Z-79C9A5DB
+  user_request: 用户要求R08收尾后持续开发，并保证功能真实落地、UI不虚构业务、普通任务不浪费GitHub模拟器时间。
+  reason: 现有R08通用端点只接受PROJECT且读取project_details，APP虽在冻结契约中但创建、详情、编辑和公开分享尚未落地。
+  original_rule: POST/PATCH/GET内容端点由R08Service实现并只允许PROJECT；APP类型只存在于冻结契约、通用列表和数据库基表中。
+  new_rule: 同一冻结内容端点按contentType稳定分派PROJECT与APP；APP创建/编辑严格校验appName、platform、versionText、downloadUrl、website及非APK媒体，复用现有实名、幂等、乐观锁、联系方式加密、审计Outbox和公开分享合同；未知或非在线资源不泄露存在性。
+  impact_summary: 新增R09 App服务/存储并在现有唯一Controller中按类型分派，泛化收藏、分享和会话来源的通用在线内容检查；不新增API、不更改OpenAPI、不增加APK上传能力。
+  impact:
+    files:
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Contracts.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Store.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R09ControllerContractTest.java
+    - CHANGELOG.md
+    pages:
+    - SCR-LIST-002
+    - SCR-DETAIL-002
+    - SCR-PUB-003
+    - H5-005
+    apis:
+    - contentGetContents
+    - contentGetContentsById
+    - contentPostContents
+    - contentPatchContentsById
+    - contentPostContentsByIdFavorite
+    - contentPostContentsByIdShare
+    - chatPostConversationsDirect
+    - publicGetShareContentsById
+    database:
+    - content_posts
+    - app_details
+    - content_media
+    - content_contacts
+    configuration: []
+    ledger:
+    - CR-0250
+    tests:
+    - R09 service validation, permission, idempotency and conflict tests
+    - R09 PostgreSQL store integration
+    - R09 frozen controller operation coverage
+    - Affected backend MODULE and OpenAPI contract
+    releases:
+    - R09
+    migration_and_compatibility: 复用V035与现有表；PROJECT行为及响应保持兼容，APP使用同一ContentResource/PublicPage响应；接口路径和operationId不变。
+  user_confirmation: 用户已持续授权R09开发并要求不因中间版本或异步真机反馈停止。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T18:34:04Z'
+    note: 使用现有唯一端点和ContentResource，新增类型分派及APP领域实现；PROJECT兼容边界和禁止APK规则明确。
+  machine_record: .continuity/change_requests/CR-0250.yaml
+  document: docs/03-continuity/change-requests/CR-0250-R09-App推广后端应用服务与接口.md
+  decision_log:
+  - at: '2026-07-22T18:54:44Z'
+    actor_id: codex-root-r09-backend
+    status: IMPLEMENTING
+    note: R09 APP端点、领域服务与存储已实现；真实PostgreSQL集成1项通过，定向15项通过，受影响后端MODULE 352项0失败0错误，契约、数据库与文档门禁通过。
+    session_id: SES-20260722T183222Z-79C9A5DB
+  session_ids:
+  - SES-20260722T183222Z-79C9A5DB

@@ -98,6 +98,20 @@ public class R08PostgresStore implements R08Store {
     @Override
     public Optional<ProjectRow> lockProject(long contentId) { return project(contentId, true); }
 
+    @Override
+    public Optional<ContentRow> content(long contentId) { return content(contentId, false); }
+
+    @Override
+    public Optional<ContentRow> lockContent(long contentId) { return content(contentId, true); }
+
+    private Optional<ContentRow> content(long contentId, boolean lock) {
+        return jdbc.query("""
+                SELECT id,owner_id,type,status,version FROM hhy.content_posts WHERE id=?
+                """ + (lock ? " FOR UPDATE" : ""),
+                (rs, row) -> new ContentRow(rs.getLong(1), rs.getLong(2), rs.getString(3),
+                        rs.getString(4), rs.getLong(5)), contentId).stream().findFirst();
+    }
+
     private Optional<ProjectRow> project(long contentId, boolean lock) {
         return jdbc.query("""
                 SELECT content.id,content.owner_id,content.type,content.status,content.version,

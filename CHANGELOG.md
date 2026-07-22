@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## R09 App推广后端应用服务 · 2026-07-22
+
+- 保留冻结的统一内容路径和 operationId，在唯一Controller内按 `contentType` 分派PROJECT与APP，避免重复映射和消费者迁移。
+- 新增App创建、详情、编辑和公开分享的应用服务与PostgreSQL存储；App名称及外部链接按业务规则校验，联系方式继续加密，写操作继续使用实名、幂等、乐观锁和Outbox。
+- 媒体在应用层要求“归属当前用户、READY且非APK”，数据库V035继续提供不可绕过的APK MIME、媒体类型和对象键保护；未新增APK上传字段或二进制下载响应。
+- 收藏、分享和私聊来源从仅PROJECT扩展为通用在线内容检查，PROJECT既有分享路径保持不变，APP使用 `/share/app/{id}`。
+
 ## R09 App推广数据不变量 · 2026-07-22
 
 - 复用既有统一内容与 `app_details` 模型，不新增APK上传字段；App名称必填，平台、版本、外部下载链接和官网有值时禁止空白。
@@ -1102,4 +1109,3 @@
 - Actor：`codex-root-r09-data`
 - 摘要：完成R09 App推广V035/U035数据迁移与领域不变量：禁止APK双路径绕过、详情完整性、软删除保护、索引及空库/升级/回滚/重放全部通过。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md`
-

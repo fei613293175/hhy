@@ -1,0 +1,93 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T183222Z-79C9A5DB
+status: ACTIVE
+actor:
+  id: codex-root-r09-backend
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R09
+task_id: TASK-R09-003
+story_id: STORY-R09-004
+goal: App推广完整闭环后端应用服务与接口
+started_at: '2026-07-22T18:32:22Z'
+updated_at: '2026-07-22T18:55:23Z'
+takeover_of: null
+change_requests:
+- CR-0250
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - App推广列表、详情、创建、编辑、分享H5后端应用服务、权限、幂等、错误码与审计
+  approved_exceptions:
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R09ControllerContractTest.java
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0250
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 4b4d71a63a5eccc428e2e04f04e13b2fa466bc72
+  start_head: 4b4d71a63a5eccc428e2e04f04e13b2fa466bc72
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T18:55:19Z'
+  expires_at: '2026-07-22T22:55:19Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260722T183222Z-79C9A5DB/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T183222Z-79C9A5DB.md
+next_step: 提交并推送R09-003实现，关闭CR-0250与TASK-R09-003后立即进入R09-004。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 84f242cc815f02c71e2a90b16523074247443adfca46a768e647b34203b7c421
+  generated_at: '2026-07-22T18:55:21Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: 当前规则和用户要求持续在单任务内推进，且本任务代码与治理元数据高度耦合；未创建子代理。

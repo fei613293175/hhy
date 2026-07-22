@@ -2721,3 +2721,43 @@ claims:
   - PROJECT_*.json
   - App推广完整闭环数据迁移、数据库约束、回滚与不变量验证
   closed_at: '2026-07-22T18:30:54Z'
+- claim_id: CLM-0A9375C469AC
+  session_id: SES-20260722T183222Z-79C9A5DB
+  task_id: TASK-R09-003
+  story_id: STORY-R09-004
+  actor_id: codex-root-r09-backend
+  status: ACTIVE
+  claimed_at: '2026-07-22T18:32:22Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - App推广列表、详情、创建、编辑、分享H5后端应用服务、权限、幂等、错误码与审计

@@ -1,0 +1,135 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T183222Z-79C9A5DB-0001
+session_id: SES-20260722T183222Z-79C9A5DB
+sequence: 1
+created_at: '2026-07-22T18:34:21Z'
+summary: 完成R09-003后端差额审计并批准CR-0250：现有唯一端点保持不变，新增APP类型分派、领域服务/存储及通用在线内容交互兼容。
+next_step: 实现R09Contracts/R09Store/R09PostgresStore/R09Service，修改R08Controller与通用收藏分享来源检查并补专项测试。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: R09 backend gap audit
+  result: PASS
+  evidence: R08Service+R08PostgresStore+frozen OpenAPI+R09 page specs
+  note: 确认APP创建、详情、编辑和公开分享未实现，通用列表已具备
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 4b4d71a63a5eccc428e2e04f04e13b2fa466bc72
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0250.yaml
+  - ?? .continuity/sessions/SES-20260722T183222Z-79C9A5DB.yaml
+  - ?? docs/03-continuity/change-requests/CR-0250-R09-App推广后端应用服务与接口.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260722T183222Z-79C9A5DB.md
+  recent_commits:
+  - "4b4d71a63a5eccc428e2e04f04e13b2fa466bc72\t2026-07-23T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App data\
+    \ task"
+  - "a147db6de57534277d882755c9831793ecb02fdd\t2026-07-23T02:30:06+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 data invariants"
+  - "92dfb059bc78c48493c3300dc3d564a4bebbca73\t2026-07-23T02:28:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(database): enforce App\
+    \ promotion invariants"
+  - "e336e79143572860308f6d3f372bd436b9f0131c\t2026-07-23T02:10:03+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close readiness\
+    \ and UI audit"
+  - "d85bd820cdd6941d71dbbb4da31f98a5d9c05bef\t2026-07-23T02:06:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close historical\
+    \ UI remediation"
+  - "82dbd12edff2af79b597e4814a6cb53add0d445f\t2026-07-23T02:03:27+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(ui): accept historical\
+    \ visual audit"
+  - "aa703035fe51ddbddb4e6d1ab6e5078ee6f7c97c\t2026-07-23T01:39:08+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(ci): preserve historical\
+    \ visual workdir"
+  - "3e59516bc7135f0c632816f9424c30e38b56730e\t2026-07-23T01:25:19+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] ci(android): request historical\
+    \ visual audit"
+project_fingerprint:
+  sha256: 7c21410c19437b6213f47dc5768b908edc2acd26cb672061a3cd0b834ef3ac5f
+  files:
+  - docs/03-continuity/change-requests/CR-0250-R09-App推广后端应用服务与接口.md
+  file_count: 1
+  payload:
+    base_commit: 4b4d71a63a5eccc428e2e04f04e13b2fa466bc72
+    files:
+    - path: docs/03-continuity/change-requests/CR-0250-R09-App推广后端应用服务与接口.md
+      state: FILE
+      size: 3587
+      sha256: 6d9a8bc7df8b6b85534102db023d6c58eb49e8df68dd466535e06ecb17aab20a
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0250-R09-App推广后端应用服务与接口.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0250
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - App推广列表、详情、创建、编辑、分享H5后端应用服务、权限、幂等、错误码与审计
+  approved_exceptions:
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R09ControllerContractTest.java
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0250
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 唯一Controller端点分派与共享R08服务兼容修改高度耦合，需串行完成以避免重复映射和Spring启动冲突。
+event_hash: 891ef88b55e9d91ec57d7fa5fbede21779fc406d3fb3562ce910a0d69933e438

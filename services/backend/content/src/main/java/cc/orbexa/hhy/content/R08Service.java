@@ -29,6 +29,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -171,8 +172,8 @@ public class R08Service {
         String scope = "r08.favorite:" + userId + ":" + id;
         R08Store.IdempotencyClaim claim = claim(scope, key, requestHash);
         if (claim.replay()) return replay(claim, scope, key, requestHash, CONTENT_RESPONSE, ContentResource.class);
-        R08Store.ProjectRow locked = store.lockProject(id).orElseThrow(R08Service::notFound);
-        requireOnlineProject(locked);
+        R08Store.ContentRow locked = lockContent(id).orElseThrow(R08Service::notFound);
+        requireOnlineContent(locked);
         if (locked.version() != request.expectedVersion()) throw versionConflict();
         Instant now = Instant.now(clock);
         boolean inserted = store.favorite(userId, id, now);
@@ -192,10 +193,10 @@ public class R08Service {
         String scope = "r08.share:" + userId + ":" + id;
         R08Store.IdempotencyClaim claim = claim(scope, key, requestHash);
         if (claim.replay()) return replay(claim, scope, key, requestHash, SHARE_RESPONSE, ShareResult.class);
-        R08Store.ProjectRow project = store.project(id).orElseThrow(R08Service::notFound);
-        requireOnlineProject(project);
+        R08Store.ContentRow shared = content(id).orElseThrow(R08Service::notFound);
+        requireOnlineContent(shared);
         Instant now = Instant.now(clock);
-        String url = shareUrl(id);
+        String url = shareUrl(id, shared.type());
         store.share(userId, id, channel, now);
         store.outbox(userId, "CONTENT", "content.shared.v1", Long.toString(id), channel, now);
         ShareResult result = new ShareResult(Long.toString(id), channel, url, now);
@@ -212,8 +213,8 @@ public class R08Service {
         Long sourceId = request.sourceContentId() == null ? null
                 : id(request.sourceContentId(), "来源内容标识无效");
         if (sourceId != null) {
-            R08Store.ProjectRow source = store.project(sourceId).orElseThrow(R08Service::notFound);
-            requireOnlineProject(source);
+            R08Store.ContentRow source = content(sourceId).orElseThrow(R08Service::notFound);
+            requireOnlineContent(source);
             if (source.ownerId() != peerId) throw validation("来源内容与会话对象不一致");
         }
         String requestHash = hash(Map.of(
@@ -246,7 +247,7 @@ public class R08Service {
         R08Store.ProjectRow project = store.project(id).orElseThrow(R08Service::notFound);
         requireOnlineProject(project);
         ContentResource resource = content.publicDetail(Long.toString(id));
-        String url = shareUrl(id);
+        String url = shareUrl(id, "PROJECT");
         List<PublicPageBlock> blocks = List.of(
                 new PublicPageBlock("hero", "HERO", resource.title(), resource.summary(),
                         resource.media(), null, 0),
@@ -398,12 +399,31 @@ public class R08Service {
         catch (Exception failure) { throw new IllegalStateException("R08 JSON serialization failed", failure); }
     }
 
-    private String shareUrl(long contentId) {
+    private String shareUrl(long contentId, String contentType) {
         String host = store.textConfig("domain.h5.host").strip().toLowerCase(Locale.ROOT);
         if (!host.matches("^(?=.{1,253}$)([a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z]{2,63}$")) {
             throw new IllegalStateException("Invalid active R08 H5 host");
         }
-        return "https://" + host + "/share/project/" + contentId;
+        String segment = "APP".equals(contentType) ? "app" : "project";
+        return "https://" + host + "/share/" + segment + "/" + contentId;
+    }
+
+    private static void requireOnlineContent(R08Store.ContentRow content) {
+        if (!"ONLINE".equals(content.status())) throw notFound();
+    }
+
+    private Optional<R08Store.ContentRow> content(long contentId) {
+        Optional<R08Store.ContentRow> content = store.content(contentId);
+        return content.isPresent() ? content : store.project(contentId).map(R08Service::asContent);
+    }
+
+    private Optional<R08Store.ContentRow> lockContent(long contentId) {
+        Optional<R08Store.ContentRow> content = store.lockContent(contentId);
+        return content.isPresent() ? content : store.lockProject(contentId).map(R08Service::asContent);
+    }
+
+    private static R08Store.ContentRow asContent(R08Store.ProjectRow row) {
+        return new R08Store.ContentRow(row.id(), row.ownerId(), row.type(), row.status(), row.version());
     }
 
     private static void requireOnlineProject(R08Store.ProjectRow project) {

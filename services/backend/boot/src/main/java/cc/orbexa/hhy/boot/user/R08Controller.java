@@ -11,6 +11,7 @@ import cc.orbexa.hhy.content.R08Contracts.PublicPage;
 import cc.orbexa.hhy.content.R08Contracts.ShareRequest;
 import cc.orbexa.hhy.content.R08Contracts.ShareResult;
 import cc.orbexa.hhy.content.R08Service;
+import cc.orbexa.hhy.content.R09Service;
 import cc.orbexa.hhy.shared.api.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -35,10 +36,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class R08Controller {
     private static final String RESOURCE_ID = "^[A-Za-z0-9_-]{1,64}$";
     private final R08Service service;
+    private final R09Service appService;
     private final Clock clock;
 
-    public R08Controller(R08Service service, Clock clock) {
+    public R08Controller(R08Service service, R09Service appService, Clock clock) {
         this.service = service;
+        this.appService = appService;
         this.clock = clock;
     }
 
@@ -48,7 +51,9 @@ public class R08Controller {
             @Valid @RequestBody CreateProjectRequest body,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
-        return success(request, service.create(principal.userId(), body, key));
+        return success(request, "APP".equalsIgnoreCase(body.contentType().strip())
+                ? appService.create(principal.userId(), body, key)
+                : service.create(principal.userId(), body, key));
     }
 
     @GetMapping("/api/v1/contents/{id}")
@@ -56,7 +61,9 @@ public class R08Controller {
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable @Pattern(regexp = RESOURCE_ID) String id,
             HttpServletRequest request) {
-        return success(request, service.detail(principal.userId(), id));
+        return success(request, appService.isApp(id)
+                ? appService.detail(principal.userId(), id)
+                : service.detail(principal.userId(), id));
     }
 
     @PatchMapping("/api/v1/contents/{id}")
@@ -66,7 +73,9 @@ public class R08Controller {
             @Valid @RequestBody PatchProjectRequest body,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
-        return success(request, service.patch(principal.userId(), id, body, key));
+        return success(request, appService.isApp(id)
+                ? appService.patch(principal.userId(), id, body, key)
+                : service.patch(principal.userId(), id, body, key));
     }
 
     @PostMapping("/api/v1/contents/{id}/favorite")
@@ -102,7 +111,7 @@ public class R08Controller {
     public ApiResponse<PublicPage> publicGetShareContentsById(
             @PathVariable @Pattern(regexp = RESOURCE_ID) String id,
             HttpServletRequest request) {
-        return success(request, service.publicShare(id));
+        return success(request, appService.isApp(id) ? appService.publicShare(id) : service.publicShare(id));
     }
 
     private <T> ApiResponse<T> success(HttpServletRequest request, T data) {

@@ -15,6 +15,12 @@ public interface R08Store {
                        String snapshotJson, List<Long> mediaIds, Instant now);
     Optional<ProjectRow> project(long contentId);
     Optional<ProjectRow> lockProject(long contentId);
+    default Optional<ContentRow> content(long contentId) {
+        return project(contentId).map(R08Store::asContent);
+    }
+    default Optional<ContentRow> lockContent(long contentId) {
+        return lockProject(contentId).map(R08Store::asContent);
+    }
     boolean updateProject(long contentId, long expectedVersion, String title, String summary,
                           String description, String categoryCode, String regionCode,
                           String conditions, String website, String snapshotJson,
@@ -38,6 +44,11 @@ public interface R08Store {
             long id, long ownerId, String type, String status, long version,
             String title, String summary, String description, String categoryCode,
             String regionCode, String conditions, String website, String attributesJson) { }
+    record ContentRow(long id, long ownerId, String type, String status, long version) { }
+
+    private static ContentRow asContent(ProjectRow row) {
+        return new ContentRow(row.id(), row.ownerId(), row.type(), row.status(), row.version());
+    }
     record ContactWrite(String channel, String valueCipher, String displayMask, int sortOrder) { }
     record ConversationRow(long id, long peerId, Instant updatedAt, long version) { }
     record PublisherRow(
