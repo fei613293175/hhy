@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260721T235847Z-F9109B61
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r07-008
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R07-008
 story_id: STORY-R07-005
 goal: 完成R07机器关闭、验收矩阵、状态交接并在异步真机PENDING下切换R08继续开发
 started_at: '2026-07-21T23:58:47Z'
-updated_at: '2026-07-22T00:21:39Z'
+updated_at: '2026-07-22T00:23:14Z'
 takeover_of: null
 change_requests:
 - CR-0203
@@ -78,22 +78,35 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T00:21:35Z'
-  expires_at: '2026-07-22T04:21:35Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0004.yaml
+  renewed_at: '2026-07-22T00:23:10Z'
+  expires_at: '2026-07-22T04:23:10Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md
-next_step: 提交CR关闭治理记录并执行TASK-R07-008异步外部门禁关闭切换R08
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: adfcac6251a0825baf300c11a7e8b065c8c5691ebcfed0802d3e648799c36c43
-  generated_at: '2026-07-22T00:21:37Z'
+  context_hash: 73859b489e5f0fa645f4481356c1fb702b617cbc73186f5803f23465d000c371
+  generated_at: '2026-07-22T00:23:13Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: BLOCKED
+  summary: R07机器开发、Staging、最终候选、视觉、四方APK与桌面交付均PASS；仅项目所有者异步真机验收PENDING，正式验收和生产激活继续阻断
+  code_commit: 4c5ec60addcc45e5896d8de45686aa788d6e0b32
+  next_release: R08
+  next_task: TASK-R08-001
+  blocked_advance: true
+  user_confirmation: 项目所有者明确要求真机反馈不按版本强制提供且不得因此停止后续开发，完成后立即继续项目落地。
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T00:23:07Z'
+  closure_checkpoint_id: CP-SES-20260721T235847Z-F9109B61-0005
+  closed_at: '2026-07-22T00:23:14Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: CR关闭和跨Release状态转换必须串行一致
+closed_at: '2026-07-22T00:23:14Z'

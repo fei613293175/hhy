@@ -134,7 +134,7 @@ tasks:
   completed_at: '2026-07-21T23:53:51Z'
 - id: TASK-R07-008
   title: 搜索、发布者主页与联系方式保护版本关闭与无状态交接
-  status: READY
+  status: BLOCKED
   depends_on:
   - TASK-R07-007
   requirements: *id001
@@ -148,6 +148,8 @@ tasks:
   - 全新AI仅凭仓库可继续
   - 工作区干净且Tag可追溯
   session_log_required: true
+  blocker: R07机器开发、Staging、最终候选、视觉、四方APK与桌面交付均PASS；仅项目所有者异步真机验收PENDING，正式验收和生产激活继续阻断
+  blocked_at: '2026-07-22T00:23:07Z'
 version: 1.2.2
 definition_of_ready: releases/R07/DEFINITION_OF_READY.yaml
 story_backlog: releases/R07/STORIES.yaml

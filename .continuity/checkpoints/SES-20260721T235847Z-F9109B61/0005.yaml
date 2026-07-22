@@ -1,0 +1,208 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260721T235847Z-F9109B61-0005
+session_id: SES-20260721T235847Z-F9109B61
+sequence: 5
+created_at: '2026-07-22T00:23:10Z'
+summary: 关闭 TASK-R07-008：R07机器开发、Staging、最终候选、视觉、四方APK与桌面交付均PASS；仅项目所有者异步真机验收PENDING，正式验收和生产激活继续阻断
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers:
+- R07机器开发、Staging、最终候选、视觉、四方APK与桌面交付均PASS；仅项目所有者异步真机验收PENDING，正式验收和生产激活继续阻断
+decisions:
+- 任务结果：BLOCKED
+- 实现Commit：4c5ec60addcc45e5896d8de45686aa788d6e0b32
+- 任务转换：TRN-20260722T002307Z-SES-20260721T235847Z-F9109B61
+- 下一Release：N/A
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: continuity-self-test
+  result: PASS
+  evidence: artifacts/validation/continuity-integration-v1.2.3.json
+  note: 11 reconstruction checks and 14 lifecycle checks
+- name: cross-release-close
+  result: PASS
+  evidence: tests/test_continuity_cross_release_close.py
+  note: 5 tests including negative earlier-task guard
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 23c4c7463786a143c90ce4e2b150bfc8e8966b83
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260721T235847Z-F9109B61.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R07/TASKS.yaml'
+  recent_commits:
+  - "23c4c7463786a143c90ce4e2b150bfc8e8966b83\t2026-07-22T08:22:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭异步依赖变更链"
+  - "c91de253230a3e9d35369be73df711cccad39a81\t2026-07-22T08:20:03+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(continuity): 允许历史异步真机依赖继续开发"
+  - "94505f33a8ff6184b169749352ee36dfb54bd53e\t2026-07-22T08:03:09+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07机器交接变更"
+  - "4c5ec60addcc45e5896d8de45686aa788d6e0b32\t2026-07-22T08:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(release): 签署R07机器完成状态"
+  - "7c44a90b99551cdc23993f506a08c9efab5be135\t2026-07-22T07:57:39+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-007\
+    \ as completed"
+  - "c94772cec65e78699d86f32081afab26a91517f0\t2026-07-22T07:52:56+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07候选变更链"
+  - "947a4349a3c1ddefe55c7ee5c11333117a1b2736\t2026-07-22T07:48:45+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(android): 交付R07候选与视觉合同"
+  - "0afc170633c4103dfec067118e50eb65aae9b2e1\t2026-07-22T07:29:08+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(ci): 固定轻量晋升中文路径解析"
+project_fingerprint:
+  sha256: 169d9491a0eff8ad1f4f5665000e85bff88debb70d5e7c50fbd73d530c9d7a5c
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
+  - docs/03-continuity/change-requests/CR-0204-允许历史机器完成OwnerPending依赖继续后续开发.md
+  - docs/03-continuity/change-requests/CR-0205-刷新异步依赖规则的连续性重建证据.md
+  - releases/R07/ACCEPTANCE_MATRIX.csv
+  - releases/R07/RELEASE_MANIFEST.yaml
+  - releases/R07/STORIES.yaml
+  - releases/R07/TASKS.yaml
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  file_count: 12
+  payload:
+    base_commit: 7c44a90b99551cdc23993f506a08c9efab5be135
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 70075
+      sha256: 89dbafa6a897d33410c3e8523b37bb11d503f835120fe02cf2482ed85341baca
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 4189
+      sha256: f0200cf785b3831624a7a40b1ed1586768dedaecdd2640fe6589a10eba431afa
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 95979
+      sha256: cc07498ea3fa81eb8008dc5e4b3f98a3e063d7f4c260e158a49ff660e1af5950
+    - path: docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
+      state: FILE
+      size: 3447
+      sha256: 3503fb81c45314ed3f16d3bd6cb84f727e733e1c454a4bb42b486ea07c4d2b69
+    - path: docs/03-continuity/change-requests/CR-0204-允许历史机器完成OwnerPending依赖继续后续开发.md
+      state: FILE
+      size: 3206
+      sha256: 0d4ec66c03e26f95533062c265ce7b8bc84fd58c340f18d08b2adeaa22c833fc
+    - path: docs/03-continuity/change-requests/CR-0205-刷新异步依赖规则的连续性重建证据.md
+      state: FILE
+      size: 2826
+      sha256: 5ab613d7afc31bd01172a1f8bd6c90fc6be68aa99caa610af2c23064d7f5b28f
+    - path: releases/R07/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 855
+      sha256: e5956d3b54eee293915f14e235dc30bf1daf7dcb240548e4ce38ede81534f4b9
+    - path: releases/R07/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 6290
+      sha256: b24d88ba535904d024221c6f68a091c969f41c68a9721bd4dd0e7753feaec06d
+    - path: releases/R07/STORIES.yaml
+      state: FILE
+      size: 12341
+      sha256: 1d44cb5b1362327631111a32dca09bf329016dad069bba24fcf9deb61b8ae74a
+    - path: releases/R07/TASKS.yaml
+      state: FILE
+      size: 6250
+      sha256: 75607efb2f3c8806424fcfcbcaf0c53c6896153af11d801a6eb99ffbb9d3cbd5
+    - path: scripts/continuity.py
+      state: FILE
+      size: 70822
+      sha256: 7dbeab058f731dd24d0320f8ff07ad1551be88f679876dabc48b951b13c99f10
+    - path: tests/test_continuity_cross_release_close.py
+      state: FILE
+      size: 25962
+      sha256: fd4e2cc6d08c1d91ff02baf09c35ebde005347c4c43d8c309c757280ed648714
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R07/ACCEPTANCE_MATRIX.csv
+  - releases/R07/TASKS.yaml
+  continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
+  - docs/03-continuity/change-requests/CR-0204-允许历史机器完成OwnerPending依赖继续后续开发.md
+  - docs/03-continuity/change-requests/CR-0205-刷新异步依赖规则的连续性重建证据.md
+  source_of_truth:
+  - releases/R07/RELEASE_MANIFEST.yaml
+  - releases/R07/STORIES.yaml
+  code:
+  - scripts/continuity.py
+  tests:
+  - tests/test_continuity_cross_release_close.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+change_requests:
+- CR-0203
+- CR-0204
+- CR-0205
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - releases/R07/ACCEPTANCE_MATRIX.csv
+  - releases/R07/RELEASE_MANIFEST.yaml
+  - releases/R07/STORIES.yaml
+  - artifacts/reports/R07/TASK-R07-008-machine-close.md
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - releases/R07/TASKS.yaml
+  - CHANGELOG.md
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - artifacts/validation/project-doctor-v1.2.3.json
+  source: story+explicit+approved-cr:CR-0203+approved-cr:CR-0204+approved-cr:CR-0205
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: CR关闭和跨Release状态转换必须串行一致
+event_hash: 2b80271d40ff0e9eeef6e5481a5e6f41783ce08740a1d0129ae0f60a3b17c375
