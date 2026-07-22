@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T12:25:29Z",
-  "context_hash": "099e1081570f07cefaaea5cc0d011f0d8d761b5d54a633af03ea878c4a3a4407",
+  "generated_at": "2026-07-22T12:51:07Z",
+  "context_hash": "3c914a29e31fa8a4f331cbb0cdeecda68277c9e206cc7d8741d02676aa86f1f3",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "eab22c8640191bd07552bd460843ebddfb59f31e62772e35d78d454cb6168c8f",
-    "file_count": 24
+    "sha256": "5b5b4ebcd5de092d428021ee7414fb6af78f3d5745caedf57f287a1b3bb8a2fb",
+    "file_count": 29
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "20e06fd3e17b72ec28cd37750b38ed027e1ae3c44ab392f67599154aa7b858a3"
+    "sha256": "765ca8a2bf2e089fb3380d303a8395a6f183f7c25c6d1fdc830eecfbc577be93"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "9bacc802d622609887b4ff64fb4fcda93fa4cb610d8f173acf6d83d4a03f68ce"
+    "sha256": "2416a63d4fdcb65cb8855a0b93fefcb4d5d9616ed527dbac95071a1b9c7c34f4"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "1841cfa05c9bcb4cb4196f8628655e22db0efdedb30db094e8f99a2c16c74e59",
+      "sha256": "eb7be7605ad44724291d7e1702654b004f841fa82ccbf5262dba1b4d7c2dbf5f",
       "bytes": 4000
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "746cb0a390a88f18eb90873b78fe36e6ef97685102fc028f77b5427e6748c553",
-      "bytes": 112544
+      "sha256": "596c0f4f6d1262ce39b3ed40e09e832bfbbfeda39b16125d28d2833917059028",
+      "bytes": 114065
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "a20d969cff207d50eb0f445e671c42323819f96140e72494a8bd45d9f6cbe1bd",
-      "bytes": 1295396
+      "sha256": "dba6df1c194278d9750b88087c83479bc78485063f1d7666bb9aec3b30b26751",
+      "bytes": 1299372
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "0f11836aaca7c908496becae5dd3c42caad8f0a6c68d44287c37f6847b5e7333",
+      "sha256": "40d25270c0e432e5a140142f7f10cd130d6fefd75e7b5ca79e0e4f6ee434aef5",
       "bytes": 38418
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "a2409818b80c1eac15bb098439fc9aa0aae914201ca4773839f05d70fb142ede",
-      "bytes": 778630
+      "sha256": "4daaf0e38c0dd5b1eee4da2eb3db1b30d7356e1e6897525985fc0a8e355ba048",
+      "bytes": 782295
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "696fea0fd79612e9652a689c0867d3d675d51d43c4a137a26fca9e24ab4bfcf3",
+      "sha256": "4f10a2a9cc7eaac5ecfff03f6951dffd41752acf564dcf30ca513f3b434ed5c1",
       "bytes": 533
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md",
-      "sha256": "b3edbed779881f56bf5f54fad2537093c9ec681456bae280c3aea19c2aafe643",
-      "bytes": 32102
+      "sha256": "a5758d091afbcc451e24107a91d237f6c2ac5e9093c34ac9fb13b42de481d251",
+      "bytes": 35440
     },
     {
-      "path": ".continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0013.yaml",
-      "sha256": "748a4a954831973427eb9c3b3537dbadfe2bdc3dbc2c0b99b4ad6754bf93b519",
-      "bytes": 15523
+      "path": ".continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0014.yaml",
+      "sha256": "0a2625e0514072a3481ee1160c8a12d82f0bd673910ae33499b3ef81472b4d99",
+      "bytes": 17494
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md",
@@ -198,8 +198,13 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md",
-      "sha256": "0d3ddd8e1922836f00b7342c0a3e6b4c3ee524f4f1ba905370d5b2aa92c934e9",
-      "bytes": 3278
+      "sha256": "9200432737a7c244446ba6228cc042538c635e20e13fc176ce74e6ff76569267",
+      "bytes": 3648
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md",
+      "sha256": "72bc4ab22306f31d2a07ecdbf7324dc5d33ca79d16cea99a89434372f832385c",
+      "bytes": 3138
     }
   ]
 }

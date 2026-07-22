@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R08 普通 CI 工具回归收口 · 2026-07-22
+
+- 删除 R07 Android 错误卡与 H5 公开分享错误页中的请求编号展示；内部错误模型仍可保留 requestId 用于日志关联，但正式 UI 不再暴露技术诊断字段。
+- GitHub tooling 作业补齐 `test_android_ci_gate` 实际导入的 Pillow；普通 Android 作业继续 `candidate: false`，不启动模拟器。
+- Release 关闭隔离正向夹具补齐既有效果图级六项 PASS 标记，保持门禁强度不变；完整 GitHub 失败集合必须先在本地全部通过。
+
 ## R08 普通 CI OIDC 权限与连续性报告修复 · 2026-07-22
 
 - 修复普通 `ci.yml` 调用 Android 可复用质量门禁时遗漏 `id-token: write` 的确定性权限合同错误；`contents` 继续只读，普通调用继续保持 `candidate: false`。

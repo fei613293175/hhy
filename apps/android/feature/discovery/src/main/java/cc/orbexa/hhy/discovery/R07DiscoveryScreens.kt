@@ -515,7 +515,6 @@ private fun FailureState(failure: R07UiFailure, retry: () -> Unit) {
         Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
             Text(failure.title, fontWeight = FontWeight.SemiBold, color = HhyColors.Error)
             Text(failure.guidance)
-            failure.requestId?.let { Text("请求编号：$it", style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary) }
             OutlinedButton(onClick = retry) { Text("重试") }
         }
     }

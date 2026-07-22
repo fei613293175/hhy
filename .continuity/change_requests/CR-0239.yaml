@@ -1,0 +1,58 @@
+protocol_version: '1.0'
+cr_id: CR-0239
+title: 修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移
+status: IMPLEMENTED
+created_at: '2026-07-22T12:33:34Z'
+updated_at: '2026-07-22T12:50:58Z'
+requester_actor_id: codex-root-r08-008
+approver_actor_id: codex-reviewer-user-self-r08
+task_id: TASK-R08-008
+session_id: SES-20260722T093645Z-C7DB8EF0
+user_request: 项目所有者要求GitHub不得反复浪费；所有确定性问题必须先本地解决后再推送。
+reason: GitHub Run 29919639745证明Android普通作业已通过，但tooling发现Pillow依赖遗漏、Android与H5公开页仍显示请求编号、Release关闭测试夹具缺少既有六项效果图级PASS标记。
+original_rule: 沿用既有正式前端禁止技术字段和诊断信息泄漏规则、既有效果图级六项肉眼复核规则以及普通CI确定性依赖规则。
+new_rule: 不新增平行规则；删除公开UI中的请求编号渲染，保留请求ID仅供内部日志；Release关闭测试夹具补齐现有六项PASS标记；CI工具环境安装测试已实际导入的Pillow。
+impact_summary: 修复两个生产页面的技术诊断泄漏、一个CI测试依赖和隔离Release关闭夹具；不改变API响应、错误分类、数据库、产品功能或模拟器频率。
+impact:
+  files:
+  - .github/workflows/ci.yml
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/h5/src/views/PublicPage.vue
+  - tests/test_release_close_gate.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages:
+  - SCR-SEARCH-001
+  - H5-PUBLIC-SHARE
+  apis: []
+  database: []
+  configuration:
+  - github-actions-tooling-dependencies
+  ledger: []
+  tests:
+  - python -m unittest tests.test_android_ci_gate tests.test_commercial_ui_boundaries tests.test_release_close_gate
+  - Android discovery受影响编译
+  - H5 typecheck与test
+  releases:
+  - R08
+  migration_and_compatibility: requestId仍保留在客户端错误模型中但不展示；视觉夹具只更新测试说明字段；Pillow只进入GitHub tooling作业Python环境。
+user_confirmation: CONFIRMED_BY_OWNER_NO_REPEATED_GITHUB_WASTE_RULE
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T12:34:03Z'
+  note: 批准修复已由单次普通CI定位且本地可复现的确定性问题；不得原样重跑或扩展到候选模拟器。
+machine_record: .continuity/change_requests/CR-0239.yaml
+document: docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
+decision_log:
+- at: '2026-07-22T12:34:11Z'
+  actor_id: codex-root-r08-008
+  status: IMPLEMENTING
+  note: 开始本地修复并运行完整失败测试集合，全部通过前不推送。
+  session_id: SES-20260722T093645Z-C7DB8EF0
+- at: '2026-07-22T12:50:58Z'
+  actor_id: codex-root-r08-008
+  status: IMPLEMENTED
+  note: 两处公开请求编号已禁显，CI Pillow和Release视觉夹具已同步；完整Python 274项、H5 27项、类型检查及Android discovery编译均PASS。
+  session_id: SES-20260722T093645Z-C7DB8EF0
+session_ids:
+- SES-20260722T093645Z-C7DB8EF0

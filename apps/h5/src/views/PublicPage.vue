@@ -82,7 +82,6 @@ onBeforeUnmount(() => request?.abort());
       <div class="share-state-icon">!</div>
       <h1>{{ error.title }}</h1>
       <p>{{ error.detail }}</p>
-      <small v-if="error.requestId && error.requestId !== 'missing'">请求编号 {{ error.requestId }}</small>
       <button type="button" @click="load">重新加载</button>
       <RouterLink class="share-secondary-link" to="/">浏览其他公开内容</RouterLink>
     </section>

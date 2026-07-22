@@ -98,3 +98,10 @@ CONFIRMED_BY_OWNER_CONTINUOUS_DEVELOPMENT_AND_GITHUB_EFFICIENCY_RULE
 - Status：`IMPLEMENTED`
 - Session：`SES-20260722T093645Z-C7DB8EF0`
 - Note：ci.yml最小OIDC权限已修复；连续性生命周期与无对话重建报告均由唯一入口重新生成PASS。
+
+## 状态记录 · 2026-07-22T12:33:17Z
+
+- Actor：`codex-root-r08-008`
+- Status：`CLOSED`
+- Session：`SES-20260722T093645Z-C7DB8EF0`
+- Note：GitHub CI Run 29919639745已证明OIDC调用权限修复生效：Android编译、lint、单测和打包完成，candidate=false使模拟器、候选与补救作业均0秒跳过；剩余工具回归另立非重复CR修复。

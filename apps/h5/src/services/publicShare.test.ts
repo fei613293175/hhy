@@ -70,7 +70,8 @@ describe('PublicShareApi', () => {
     await flushPromises();
 
     expect(wrapper.text()).toContain('内容已下架或链接失效');
-    expect(wrapper.text()).toContain('请求编号 req-share-404');
+    expect(wrapper.text()).not.toContain('请求编号');
+    expect(wrapper.text()).not.toContain('req-share-404');
     expect(wrapper.text()).not.toContain('raw backend message');
     wrapper.unmount();
   });

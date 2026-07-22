@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T12:25:29Z
-- Context Hash：`099e1081570f07cefaaea5cc0d011f0d8d761b5d54a633af03ea878c4a3a4407`
+- 生成时间：2026-07-22T12:51:07Z
+- Context Hash：`3c914a29e31fa8a4f331cbb0cdeecda68277c9e206cc7d8741d02676aa86f1f3`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -133,7 +133,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-008
-updated_at: '2026-07-22T12:25:25Z'
+updated_at: '2026-07-22T12:51:04Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -168,15 +168,15 @@ continuity:
   active_session_id: SES-20260722T093645Z-C7DB8EF0
   actor_id: codex-root-r08-008
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T16:25:25Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0013.yaml
-  project_fingerprint: eab22c8640191bd07552bd460843ebddfb59f31e62772e35d78d454cb6168c8f
+  lease_expires_at: '2026-07-22T16:51:04Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0014.yaml
+  project_fingerprint: 5b5b4ebcd5de092d428021ee7414fb6af78f3d5745caedf57f287a1b3bb8a2fb
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 3edc1b3b418a74fa78905db3c53b5324176fb3f3a6ee4790c18c85ff96922638
-    generated_at: '2026-07-22T12:24:03Z'
+    context_hash: 099e1081570f07cefaaea5cc0d011f0d8d761b5d54a633af03ea878c4a3a4407
+    generated_at: '2026-07-22T12:25:29Z'
   handoff_bundle: null
 ```
 
@@ -374,7 +374,7 @@ task_id: TASK-R08-008
 story_id: STORY-R08-004
 goal: 完成R08机器关闭与无状态交接；真实解决历史Android新肉眼视觉复核门禁，Owner真机反馈保持异步不阻断。
 started_at: '2026-07-22T09:36:45Z'
-updated_at: '2026-07-22T12:25:25Z'
+updated_at: '2026-07-22T12:51:04Z'
 takeover_of: null
 change_requests:
 - CR-0233
@@ -383,6 +383,7 @@ change_requests:
 - CR-0236
 - CR-0237
 - CR-0238
+- CR-0239
 scope:
   allowed_paths:
   - apps/**
@@ -437,7 +438,10 @@ scope:
   - artifacts/validation/continuity-integration-v1.2.3.log
   - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
   - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/h5/src/views/PublicPage.vue
+  - tests/test_release_close_gate.py
+  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -447,12 +451,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T12:25:25Z'
-  expires_at: '2026-07-22T16:25:25Z'
-checkpoint_sequence: 13
-latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0013.yaml
+  renewed_at: '2026-07-22T12:51:04Z'
+  expires_at: '2026-07-22T16:51:04Z'
+checkpoint_sequence: 14
+latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0014.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-next_step: 提交并推送CR-0238；只观察一次普通CI确定性结果，不触发模拟器，随后关闭CR并继续R08。
+next_step: 提交CR-0239并推送一次；确认普通CI不再出现确定性工具失败且模拟器继续跳过，然后关闭CR并回到R08视觉收口。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -460,72 +464,73 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 提交、推送与一次普通CI结果是顺序门禁，且用户未要求子代理。
+  reason: 同一失败集合的本地验证、提交与单次CI确认是顺序门禁，且用户未要求子代理。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0013
+checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0014
 session_id: SES-20260722T093645Z-C7DB8EF0
-sequence: 13
-created_at: '2026-07-22T12:25:25Z'
-summary: CR-0238全部验证通过：CI最小OIDC权限合同PASS、连续性12项重建与14项生命周期PASS、V1.2.3严格门禁PASS，rule_readiness 11/11。
-next_step: 提交并推送CR-0238；只观察一次普通CI确定性结果，不触发模拟器，随后关闭CR并继续R08。
+sequence: 14
+created_at: '2026-07-22T12:51:03Z'
+summary: CR-0238已由GitHub Run 29919639745证明权限合同修复并关闭；CR-0239已本地修复全部确定性tooling问题，Python全量274项、H5 27项和类型检查、Android discovery编译均PASS。
+next_step: 提交CR-0239并推送一次；确认普通CI不再出现确定性工具失败且模拟器继续跳过，然后关闭CR并回到R08视觉收口。
 blockers: []
-decisions: []
+decisions:
+- 不原样重跑失败提交；只有本地完整失败集合和全量tooling均通过后才进行一次新提交验证。
 note: ''
 tests:
-- name: ci-android-permission-contract
+- name: python-tooling-full
   result: PASS
-  evidence: local yaml assertion
-  note: id-token write + candidate false
-- name: continuity-self-test
+  evidence: python -m unittest discover -s tests -p test_*.py
+  note: 274项通过
+- name: h5-typecheck
   result: PASS
-  evidence: artifacts/validation/continuity-integration-v1.2.3.json
-  note: 12项通过
-- name: continuity-lifecycle
+  evidence: pnpm --filter @hhy/h5 typecheck
+  note: 无错误
+- name: h5-unit
   result: PASS
-  evidence: artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-  note: 14项通过
-- name: v123-strict
+  evidence: pnpm --filter @hhy/h5 test
+  note: 27项通过
+- name: android-discovery-compile
   result: PASS
-  evidence: artifacts/validation/project-doctor-v1.2.3.json
-  note: 严格门禁0错误0警告
+  evidence: obx-test:/tmp/hhy-r08-cr0239-discovery-compile.log
+  note: 22任务成功
+- name: ci-tooling-dependency-contract
+  result: PASS
+  evidence: local assertion
+  note: Pillow存在且candidate false
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: f85eb6114800ed201319e62874e2d49554ffddff
+  head: 525ada5f90bdae7dce47a1dc5d118d8556318929
   upstream: origin/task/TASK-R03-001
-  ahead: 2
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0238.yaml'
   - ' M .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml'
   - ' M .github/workflows/ci.yml'
   - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
-  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
-  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt'
+  - ' M apps/h5/src/services/publicShare.test.ts'
+  - ' M apps/h5/src/views/PublicPage.vue'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md'
-  - ?? .continuity/change_requests/CR-0238.yaml
-  - ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0012.yaml
-  - ?? docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md
+  - ' M docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md'
+  - ' M tests/test_release_close_gate.py'
+  - ?? .continuity/change_requests/CR-0239.yaml
+  - ?? docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
   recent_commits:
+  - "525ada5f90bdae7dce47a1dc5d118d8556318929\t2026-07-22T20:25:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] ci(github): repair reusable\
+    \ OIDC contract"
   - "f85eb6114800ed201319e62874e2d49554ffddff\t2026-07-22T20:14:09+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(android): close visual\
     \ compile regressions"
   - "c00d76bd596ffdf51cc908edebaf5b7696a6e51d\t2026-07-22T19:28:54+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(android): remediate historical\
@@ -540,10 +545,8 @@ git:
     \ audit journeys"
   - "223991db104b591275da0e314dc60dff0b48d886\t2026-07-22T18:02:04+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): checkpoint historical\
     \ visual audit"
-  - "92a1ae2fc71e381360616228b805cd89535961e4\t2026-07-22T17:49:49+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(android): audit historical\
-    \ visual surfaces"
 project_fingerprint:
-  sha256: eab22c8640191bd07552bd460843ebddfb59f31e62772e35d78d454cb6168c8f
+  sha256: 5b5b4ebcd5de092d428021ee7414fb6af78f3d5745caedf57f287a1b3bb8a2fb
   files:
   - .github/workflows/ci.yml
   - CHANGELOG.md
@@ -552,10 +555,13 @@ project_fingerprint:
   - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
   - apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
   - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
   - apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
   - apps/android/feature/startup/src/debug/java/cc/orbexa/hhy/startup/StartupVisualAuditScreen.kt
   - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/views/PublicPage.vue
   - config/android-candidate-request.yaml
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
@@ -564,23 +570,25 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md
   - docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
   - docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md
+  - docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
   - scripts/prepare_r08_ci_fixture.sh
   - tests/android/visual-manifests/R08.yaml
   - tests/test_android_ci_gate.py
   - tests/test_historical_android_visual_contract.py
   - tests/test_r08_ci_fixture.py
-  file_count: 24
+  - tests/test_release_close_gate.py
+  file_count: 29
   payload:
     base_commit: 46480be9eca8852e661013be23f916cdc2fa0003
     files:
     - path: .github/workflows/ci.yml
       state: FILE
-      size: 7425
-      sha256: eedd0d25e32f41e269c0e11c50e920e94f7c9d1e485f70ad25400020408173cd
+      size: 7432
+      sha256: 2663c97e6b0b7541376eb79a8a840c5290201cfa26a123aea6d944239335b3df
     - path: CHANGELOG.md
       state: FILE
-      size: 88704
-      sha256: 915b2e443371b8e96d45b1ada140a3dc8ed5ec62cc756a6aa9eeb74ee24a5669
+      size: 89265
+      sha256: 6a2d592ad36e136db3a6fbc8921e5a647597eff111928c55cec0b7eed0aed0ae
     - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
       state: FILE
       size: 14218
@@ -601,6 +609,10 @@ project_fingerprint:
       state: FILE
       size: 66285
       sha256: 8d501986dd38fdc7f1e62802aebf7d720cfa1315fd562953fa98353404b3e366
+    - path: apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+      state: FILE
+      size: 29071
+      sha256: 1b68df53bf8d9d3223bda2f9aeeea74130229242bf342a9ff08bc80ff1f68691
     - path: apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
       state: FILE
       size: 1508
@@ -617,14 +629,22 @@ project_fingerprint:
       state: FILE
       size: 10510
       sha256: 164abe065652d003580095880a179c2506d845c702dff042a53ab861749a2e21
+    - path: apps/h5/src/services/publicShare.test.ts
+      state: FILE
+      size: 4232
+      sha256: c8c2dc845fd0a5939460f40008bae0c5a75de35830150fbe7796898874901426
+    - path: apps/h5/src/views/PublicPage.vue
+      state: FILE
+      size: 5822
+      sha256: 741935b644559eb10811700b5d228b2080c79c064819ce50c522142f3e992b87
     - path: config/android-candidate-request.yaml
       state: FILE
       size: 441
       sha256: 5e624b49c4d5afb0bd2ba739184e22060c957a01c9300b347d5bfae1f95e17b6
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 112544
-      sha256: 746cb0a390a88f18eb90873b78fe36e6ef97685102fc028f77b5427e6748c553
+      size: 114065
+      sha256: 596c0f4f6d1262ce39b3ed40e09e832bfbbfeda39b16125d28d2833917059028
     - path: docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
       state: FILE
       size: 3875
@@ -647,8 +667,12 @@ project_fingerprint:
       sha256: d47284fd2f767559233db636b07ead65d5f5b654e42670f81ebf8218110f4117
     - path: docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md
       state: FILE
-      size: 3278
-      sha256: 0d3ddd8e1922836f00b7342c0a3e6b4c3ee524f4f1ba905370d5b2aa92c934e9
+      size: 3648
+      sha256: 9200432737a7c244446ba6228cc042538c635e20e13fc176ce74e6ff76569267
+    - path: docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
+      state: FILE
+      size: 3138
+      sha256: 72bc4ab22306f31d2a07ecdbf7324dc5d33ca79d16cea99a89434372f832385c
     - path: scripts/prepare_r08_ci_fixture.sh
       state: FILE
       size: 6637
@@ -669,6 +693,10 @@ project_fingerprint:
       state: FILE
       size: 2365
       sha256: fea2d534a2d7925f3ca8f807a34c2d43369e59ccf27b71f69eddb87e27226378
+    - path: tests/test_release_close_gate.py
+      state: FILE
+      size: 20298
+      sha256: 71a44167a2c0cd0e082b821457cdc2dedef4772506fe57f345455fe28e752803
 change_classification:
   infrastructure:
   - .github/workflows/ci.yml
@@ -681,10 +709,13 @@ change_classification:
   - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
   - apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
   - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
   - apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
   - apps/android/feature/startup/src/debug/java/cc/orbexa/hhy/startup/StartupVisualAuditScreen.kt
   - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/views/PublicPage.vue
   - scripts/prepare_r08_ci_fixture.sh
   user_visible:
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
@@ -692,10 +723,13 @@ change_classification:
   - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
   - apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
   - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
   - apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
   - apps/android/feature/startup/src/debug/java/cc/orbexa/hhy/startup/StartupVisualAuditScreen.kt
   - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/views/PublicPage.vue
   continuity:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
@@ -704,11 +738,13 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md
   - docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
   - docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md
+  - docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
   tests:
   - tests/android/visual-manifests/R08.yaml
   - tests/test_android_ci_gate.py
   - tests/test_historical_android_visual_contract.py
   - tests/test_r08_ci_fixture.py
+  - tests/test_release_close_gate.py
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
@@ -723,6 +759,7 @@ change_requests:
 - CR-0236
 - CR-0237
 - CR-0238
+- CR-0239
 scope:
   allowed_paths:
   - apps/**
@@ -777,13 +814,16 @@ scope:
   - artifacts/validation/continuity-integration-v1.2.3.log
   - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
   - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/h5/src/views/PublicPage.vue
+  - tests/test_release_close_gate.py
+  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 提交、推送与一次普通CI结果是顺序门禁，且用户未要求子代理。
-event_hash: 361330bb15152fa64ce84a9cede9c815bca4327d3cbc1921e8e4e04d996ce197
+  reason: 同一失败集合的本地验证、提交与单次CI确认是顺序门禁，且用户未要求子代理。
+event_hash: c06f9c48af52bc089071a39915e13173c72d8fe7199320d9d9b7e143860f83c9
 ```
 
 ## 接续状态与事件头
@@ -795,8 +835,8 @@ active_session_id: SES-20260722T093645Z-C7DB8EF0
 last_session_id: SES-20260722T064621Z-68304DE1
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0013
-event_count: 2346
-event_head_hash: 361330bb15152fa64ce84a9cede9c815bca4327d3cbc1921e8e4e04d996ce197
+event_count: 2354
+event_head_hash: c06f9c48af52bc089071a39915e13173c72d8fe7199320d9d9b7e143860f83c9
 event_chain_valid: true
 ```
 
@@ -919,9 +959,9 @@ recent_sessions: - session_id: SES-20260721T210252Z-D631F6E4
   started_at: '2026-07-22T09:36:45Z'
   record: .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-  updated_at: '2026-07-22T12:25:25Z'
+  updated_at: '2026-07-22T12:51:04Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0013.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0014.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-EA5A5991A609
   session_id: SES-20260721T020225Z-397AF410
@@ -1893,9 +1933,9 @@ recent_task_transitions: - transition_id: TRN-A20A071A670D
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: f85eb6114800ed201319e62874e2d49554ffddff
+head: 525ada5f90bdae7dce47a1dc5d118d8556318929
 upstream: origin/task/TASK-R03-001
-ahead: 2
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
@@ -1904,26 +1944,26 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0238.yaml'
 - ' M .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml'
 - ' M .github/workflows/ci.yml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/continuity-integration-v1.2.3.json'
-- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
-- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
+- ' M apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt'
+- ' M apps/h5/src/services/publicShare.test.ts'
+- ' M apps/h5/src/views/PublicPage.vue'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+- ' M docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md'
-- ?? .continuity/change_requests/CR-0238.yaml
-- ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0012.yaml
-- ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0013.yaml
-- ?? docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md
+- ' M tests/test_release_close_gate.py'
+- ?? .continuity/change_requests/CR-0239.yaml
+- ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0014.yaml
+- ?? docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
 recent_commits:
+- "525ada5f90bdae7dce47a1dc5d118d8556318929\t2026-07-22T20:25:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] ci(github): repair reusable\
+  \ OIDC contract"
 - "f85eb6114800ed201319e62874e2d49554ffddff\t2026-07-22T20:14:09+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(android): close visual compile\
   \ regressions"
 - "c00d76bd596ffdf51cc908edebaf5b7696a6e51d\t2026-07-22T19:28:54+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(android): remediate historical\
@@ -1938,14 +1978,12 @@ recent_commits:
   \ audit journeys"
 - "223991db104b591275da0e314dc60dff0b48d886\t2026-07-22T18:02:04+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): checkpoint historical\
   \ visual audit"
-- "92a1ae2fc71e381360616228b805cd89535961e4\t2026-07-22T17:49:49+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(android): audit historical\
-  \ visual surfaces"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`eab22c8640191bd07552bd460843ebddfb59f31e62772e35d78d454cb6168c8f`
-- 文件数：24
+- 指纹：`5b5b4ebcd5de092d428021ee7414fb6af78f3d5745caedf57f287a1b3bb8a2fb`
+- 文件数：29
 
 - `.github/workflows/ci.yml`
 - `CHANGELOG.md`
@@ -1954,10 +1992,13 @@ recent_commits:
 - `apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt`
 - `apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt`
 - `apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt`
+- `apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt`
 - `apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt`
 - `apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt`
 - `apps/android/feature/startup/src/debug/java/cc/orbexa/hhy/startup/StartupVisualAuditScreen.kt`
 - `apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt`
+- `apps/h5/src/services/publicShare.test.ts`
+- `apps/h5/src/views/PublicPage.vue`
 - `config/android-candidate-request.yaml`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md`
@@ -1966,11 +2007,13 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md`
 - `docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md`
 - `docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md`
+- `docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md`
 - `scripts/prepare_r08_ci_fixture.sh`
 - `tests/android/visual-manifests/R08.yaml`
 - `tests/test_android_ci_gate.py`
 - `tests/test_historical_android_visual_contract.py`
 - `tests/test_r08_ci_fixture.py`
+- `tests/test_release_close_gate.py`
 
 ## 当前 Release
 
@@ -8041,59 +8084,60 @@ PARALLEL_EXECUTION_PLAN.yaml:
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
 - protocol_version: '1.0'
-  cr_id: CR-0238
-  title: 修复普通CI调用Android门禁OIDC权限并刷新连续性报告
+  cr_id: CR-0239
+  title: 修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移
   status: IMPLEMENTED
-  created_at: '2026-07-22T12:15:22Z'
-  updated_at: '2026-07-22T12:23:56Z'
+  created_at: '2026-07-22T12:33:34Z'
+  updated_at: '2026-07-22T12:50:58Z'
   requester_actor_id: codex-root-r08-008
   approver_actor_id: codex-reviewer-user-self-r08
   task_id: TASK-R08-008
   session_id: SES-20260722T093645Z-C7DB8EF0
-  user_request: 项目所有者要求持续开发且GitHub不得反复浪费；R08关闭前修复已确认的普通CI确定性权限错误及连续性报告过期。
-  reason: ci.yml复用android-quality-gate时未授予id-token:write，而被调用工作流需要OIDC启动认证；continuity.py修订后两份权威自测报告的来源哈希已过期。
-  original_rule: 普通提交仅运行受影响FAST/MODULE且不得启动模拟器；可复用Android质量门禁，但调用方必须显式授予被调用工作流所需最小OIDC权限。连续性权威报告必须与其来源脚本哈希一致。
-  new_rule: 不新增平行规则；修正ci.yml复用工作流的id-token:write最小权限，并用现有唯一自测入口重新生成生命周期和无对话重建报告。普通CI仍保持candidate=false且不启动模拟器。
-  impact_summary: 修复GitHub复用工作流权限合同和两份已过期连续性报告；不改变产品功能、API、数据库、Android候选次数或生产配置。
+  user_request: 项目所有者要求GitHub不得反复浪费；所有确定性问题必须先本地解决后再推送。
+  reason: GitHub Run 29919639745证明Android普通作业已通过，但tooling发现Pillow依赖遗漏、Android与H5公开页仍显示请求编号、Release关闭测试夹具缺少既有六项效果图级PASS标记。
+  original_rule: 沿用既有正式前端禁止技术字段和诊断信息泄漏规则、既有效果图级六项肉眼复核规则以及普通CI确定性依赖规则。
+  new_rule: 不新增平行规则；删除公开UI中的请求编号渲染，保留请求ID仅供内部日志；Release关闭测试夹具补齐现有六项PASS标记；CI工具环境安装测试已实际导入的Pillow。
+  impact_summary: 修复两个生产页面的技术诊断泄漏、一个CI测试依赖和隔离Release关闭夹具；不改变API响应、错误分类、数据库、产品功能或模拟器频率。
   impact:
     files:
     - .github/workflows/ci.yml
-    - artifacts/validation/continuity-integration-v1.2.3.json
-    - artifacts/validation/continuity-integration-v1.2.3.log
-    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+    - apps/h5/src/views/PublicPage.vue
+    - tests/test_release_close_gate.py
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - CHANGELOG.md
-    pages: []
+    pages:
+    - SCR-SEARCH-001
+    - H5-PUBLIC-SHARE
     apis: []
     database: []
     configuration:
-    - github-actions-permissions
+    - github-actions-tooling-dependencies
     ledger: []
     tests:
-    - python scripts/run_continuity_self_test.py
-    - python scripts/check_v123_continuity.py --strict
-    - 静态断言ci.yml的android调用作业显式id-token:write且candidate=false
+    - python -m unittest tests.test_android_ci_gate tests.test_commercial_ui_boundaries tests.test_release_close_gate
+    - Android discovery受影响编译
+    - H5 typecheck与test
     releases:
     - R08
-    migration_and_compatibility: GitHub权限只增加质量门禁现有OIDC步骤所需id-token写权限，contents保持只读；报告原路径覆盖更新，格式与严格校验器兼容。
-  user_confirmation: CONFIRMED_BY_OWNER_CONTINUOUS_DEVELOPMENT_AND_GITHUB_EFFICIENCY_RULE
+    migration_and_compatibility: requestId仍保留在客户端错误模型中但不展示；视觉夹具只更新测试说明字段；Pillow只进入GitHub tooling作业Python环境。
+  user_confirmation: CONFIRMED_BY_OWNER_NO_REPEATED_GITHUB_WASTE_RULE
   approval:
     decision: APPROVED
-    decided_at: '2026-07-22T12:15:48Z'
-    note: 批准确定性CI权限合同修复和权威报告刷新；禁止借此触发候选模拟器或扩展产品功能。
-  machine_record: .continuity/change_requests/CR-0238.yaml
-  document: docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md
+    decided_at: '2026-07-22T12:34:03Z'
+    note: 批准修复已由单次普通CI定位且本地可复现的确定性问题；不得原样重跑或扩展到候选模拟器。
+  machine_record: .continuity/change_requests/CR-0239.yaml
+  document: docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
   decision_log:
-  - at: '2026-07-22T12:15:56Z'
+  - at: '2026-07-22T12:34:11Z'
     actor_id: codex-root-r08-008
     status: IMPLEMENTING
-    note: 开始修复普通CI最小OIDC权限并刷新连续性权威自测报告。
+    note: 开始本地修复并运行完整失败测试集合，全部通过前不推送。
     session_id: SES-20260722T093645Z-C7DB8EF0
-  - at: '2026-07-22T12:23:56Z'
+  - at: '2026-07-22T12:50:58Z'
     actor_id: codex-root-r08-008
     status: IMPLEMENTED
-    note: ci.yml最小OIDC权限已修复；连续性生命周期与无对话重建报告均由唯一入口重新生成PASS。
+    note: 两处公开请求编号已禁显，CI Pillow和Release视觉夹具已同步；完整Python 274项、H5 27项、类型检查及Android discovery编译均PASS。
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
@@ -8103,23 +8147,23 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `1841cfa05c9bcb4cb4196f8628655e22db0efdedb30db094e8f99a2c16c74e59`
+- `CURRENT_STATUS.yaml` — `eb7be7605ad44724291d7e1702654b004f841fa82ccbf5262dba1b4d7c2dbf5f`
 - `NEXT_TASK.yaml` — `a9ff55e7e2c51cd8df5cd1022a468129f3605f2d83e1d27e0e02b18e9ee9fa38`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `746cb0a390a88f18eb90873b78fe36e6ef97685102fc028f77b5427e6748c553`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `596c0f4f6d1262ce39b3ed40e09e832bfbbfeda39b16125d28d2833917059028`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519`
 - `docs/03-continuity/PITFALLS.md` — `a2f52728083c1d4ae1b2e8fdec207546594e396fb797b4348d61e5d0d7a402ea`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `a20d969cff207d50eb0f445e671c42323819f96140e72494a8bd45d9f6cbe1bd`
-- `.continuity/SESSION_INDEX.yaml` — `0f11836aaca7c908496becae5dd3c42caad8f0a6c68d44287c37f6847b5e7333`
+- `.continuity/EVENT_LOG.jsonl` — `dba6df1c194278d9750b88087c83479bc78485063f1d7666bb9aec3b30b26751`
+- `.continuity/SESSION_INDEX.yaml` — `40d25270c0e432e5a140142f7f10cd130d6fefd75e7b5ca79e0e4f6ee434aef5`
 - `.continuity/TASK_CLAIMS.yaml` — `d198f932ee2eb9d2de78377c60fbf31fee32370819a2777f8f2f8a56652da7fb`
 - `.continuity/TASK_TRANSITIONS.yaml` — `a46b8baf5da74a6035eb61786739bf6dacfd22cb0cdea14210f195f5326f82af`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `a2409818b80c1eac15bb098439fc9aa0aae914201ca4773839f05d70fb142ede`
-- `.continuity/ACTIVE_SESSION.yaml` — `696fea0fd79612e9652a689c0867d3d675d51d43c4a137a26fca9e24ab4bfcf3`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `4daaf0e38c0dd5b1eee4da2eb3db1b30d7356e1e6897525985fc0a8e355ba048`
+- `.continuity/ACTIVE_SESSION.yaml` — `4f10a2a9cc7eaac5ecfff03f6951dffd41752acf564dcf30ca513f3b434ed5c1`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -8130,14 +8174,15 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/TASKS.yaml` — `3b50ba58078448cefe97c0491dbe9363605bf1355e450b54a7142db1d655d2b0`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `01d8e51f52bf52095b5e87885610bbd9d1790d477f5e87b6bd7df148d40fa86b`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md` — `b3edbed779881f56bf5f54fad2537093c9ec681456bae280c3aea19c2aafe643`
-- `.continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0013.yaml` — `748a4a954831973427eb9c3b3537dbadfe2bdc3dbc2c0b99b4ad6754bf93b519`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md` — `a5758d091afbcc451e24107a91d237f6c2ac5e9093c34ac9fb13b42de481d251`
+- `.continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0014.yaml` — `0a2625e0514072a3481ee1160c8a12d82f0bd673910ae33499b3ef81472b4d99`
 - `docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md` — `41a2583832546cd8e0a570ef1e09330d9637116b73b709e383161344b9753b69`
 - `docs/03-continuity/change-requests/CR-0234-修复R08历史视觉首轮模拟器确定性旅程失败.md` — `9c79035d7ccc7008eaae824be70248f998b1374d5086d8770e20df883273be5b`
 - `docs/03-continuity/change-requests/CR-0235-将历史视觉审计改为单内容独立测试宿主.md` — `bf2aa8cce5d3620ace8acb1c9f8ceed5f2c02e7e7151e154780b36609f7c7ba6`
 - `docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md` — `41b84dc947fba2b79e6ec2100acda49c2396e26d4740538875eb13d845f15385`
 - `docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md` — `d47284fd2f767559233db636b07ead65d5f5b654e42670f81ebf8218110f4117`
-- `docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md` — `0d3ddd8e1922836f00b7342c0a3e6b4c3ee524f4f1ba905370d5b2aa92c934e9`
+- `docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md` — `9200432737a7c244446ba6228cc042538c635e20e13fc176ce74e6ff76569267`
+- `docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md` — `72bc4ab22306f31d2a07ecdbf7324dc5d33ca79d16cea99a89434372f832385c`
 
 ## 接手硬规则
 

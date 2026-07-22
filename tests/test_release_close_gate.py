@@ -110,7 +110,7 @@ def build_fixture(repo: Path) -> str:
             "参考证据": "design/effect-previews/B12/HHY_B12_8PAGE_UI_REFERENCE.png",
             "实现截图证据": "artifacts/validation/p00-ui/SCR-P00-001.png",
             "验收状态": "PASS",
-            "说明": "逐项核对通过",
+            "说明": "逐项核对通过；肉眼丰富度=PASS；信息层级=PASS；组件精致度=PASS；真实业务映射=PASS；状态完整性=PASS；AI对照结论=PASS",
         })
 
     tasks = [

@@ -1162,3 +1162,17 @@ problems:
   - GitHub可复用工作流的权限不能只看被调用文件声明，调用方必须授予所需权限且不得超过最小范围
   - OIDC权限合同失败发生在作业调度阶段，不得误判为Gradle、模拟器或产品代码失败
   - 普通CI权限修复不得改变大版本候选频率或绕过受影响MODULE选择
+- id: PROB-0088
+  title: 普通CI全量工具回归发现公开请求编号与测试环境漂移
+  status: SOLVED
+  root_cause: R07 Android错误卡和H5公开分享错误页仍把客户端内部requestId以请求编号展示；既有正式前端禁显规则升级后，普通MODULE未覆盖的全量商业边界测试正确阻断。同期test_android_ci_gate已导入Pillow但tooling作业只安装pyyaml与pglast，Release关闭隔离夹具又未同步CR-0213增加的六项效果图级PASS说明，造成与产品无关的确定性工具失败。
+  resolution: CR-0239删除两处公开请求编号渲染但保留内部错误模型和日志字段；tooling环境增加Pillow；Release关闭夹具的说明字段补齐既有六项PASS标记，不改变视觉门禁本身。全部GitHub失败集合先在本地通过后才允许再次推送。
+  regression_checks:
+  - python -m unittest tests.test_android_ci_gate tests.test_commercial_ui_boundaries tests.test_release_close_gate
+  - Android discovery受影响编译必须通过
+  - H5 typecheck与test必须通过
+  - GitHub tooling依赖必须包含Pillow且普通Android作业继续candidate=false
+  do_not_repeat:
+  - requestId、TraceId和错误码可以保留在内部诊断模型，但不得直接渲染到正式Android、H5或管理端页面
+  - 增加全量门禁时必须同步其隔离正向夹具，不得通过放宽门禁修复测试
+  - Python测试新增第三方导入时必须同步唯一CI依赖安装步骤并在推送前用干净依赖环境核对

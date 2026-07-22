@@ -60,7 +60,7 @@ jobs:
         with: { python-version: '3.12' }
       - uses: actions/setup-node@v4
         with: { node-version: '24' }
-      - run: pip install --disable-pip-version-check pyyaml pglast
+      - run: pip install --disable-pip-version-check pyyaml pglast pillow
       - name: Run tooling regression
         shell: bash
         run: |
