@@ -32,6 +32,23 @@ class R09AndroidUiTest(unittest.TestCase):
         self.assertIn('?: "其他应用"', self.state)
         self.assertIn('?: "其他平台"', self.state)
 
+    def test_real_app_media_is_rendered_across_list_detail_and_editor(self) -> None:
+        self.assertIn("implementation(libs.coil.compose)", (
+            ROOT / "apps/android/feature/app-promotion/build.gradle.kts"
+        ).read_text(encoding="utf-8"))
+        self.assertIn("coil.compose.AsyncImage", self.source)
+        self.assertIn("media = item.media.firstOrNull()", self.source)
+        self.assertIn("if (item.media.isNotEmpty()) item { AppMediaGallery(item) }", self.source)
+        self.assertIn('testTag("r09.app.media.detail")', self.source)
+        self.assertIn('testTag("r09.app.media.editor")', self.source)
+        self.assertIn("mediaPreviews = result.data.media.map(AppMediaPreview::from)", self.source)
+        self.assertIn("mediaPreviews = selections.map(AppMediaPreview::from)", self.source)
+        self.assertIn("form = form.copy(mediaIds = selections.map { it.mediaId })", self.source)
+
+    def test_editor_choices_wrap_without_horizontal_truncation(self) -> None:
+        self.assertIn("FlowRow(", self.source)
+        self.assertIn("maxItemsInEachRow = 3", self.source)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -10,9 +10,11 @@ import android.view.WindowManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,9 +22,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -53,7 +59,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
@@ -64,11 +71,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import cc.orbexa.hhy.designsystem.HhyBackButton
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyElevation
+import cc.orbexa.hhy.designsystem.HhyIcon
+import cc.orbexa.hhy.designsystem.HhyIcons
 import cc.orbexa.hhy.designsystem.HhyRadius
 import cc.orbexa.hhy.designsystem.HhySize
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.media.MediaUploadSheet
+import cc.orbexa.hhy.media.MediaUploadSelection
 import cc.orbexa.hhy.network.ContentResource
+import cc.orbexa.hhy.network.MediaItemResource
 import cc.orbexa.hhy.network.ContractMediaApi
 import cc.orbexa.hhy.network.ContractR09Api
 import cc.orbexa.hhy.network.R07CallResult
@@ -79,6 +90,7 @@ import cc.orbexa.hhy.network.R08ShareRequest
 import cc.orbexa.hhy.network.R09CreateAppRequest
 import cc.orbexa.hhy.network.R09PatchAppRequest
 import kotlinx.coroutines.launch
+import coil.compose.AsyncImage
 
 private val appSorts = listOf("createdAt:desc" to "最新发布", "updatedAt:desc" to "最近更新")
 private val appCategories = listOf(
@@ -153,9 +165,27 @@ fun R09AppListScreen(
                     shape = RoundedCornerShape(HhyRadius.LargeCard),
                     colors = CardDefaults.cardColors(HhyColors.BrandPrimary),
                 ) {
-                    Column(Modifier.fillMaxWidth().padding(HhySpacing.Xl), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                        Text("发现好用的应用", color = HhyColors.TextInverse, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-                        Text("浏览审核通过的真实App推广内容", color = HhyColors.TextInverse.copy(alpha = 0.84f))
+                    Row(
+                        Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+                        horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Surface(
+                            modifier = Modifier.size(HhySize.AppLogo),
+                            color = HhyColors.Surface,
+                            shape = RoundedCornerShape(HhyRadius.NormalCard),
+                        ) {
+                            HhyIcon(
+                                HhyIcons.Applications,
+                                contentDescription = null,
+                                modifier = Modifier.padding(HhySpacing.Lg),
+                                tint = HhyColors.BrandPrimary,
+                            )
+                        }
+                        Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                            Text("发现好用的应用", color = HhyColors.TextInverse, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                            Text("浏览审核通过的真实App推广内容", color = HhyColors.TextInverse.copy(alpha = 0.84f))
+                        }
                     }
                 }
             }
@@ -279,13 +309,9 @@ fun R09AppDetailScreen(
                 LazyColumn(Modifier.fillMaxSize().padding(padding), contentPadding = PaddingValues(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
                     item { AppHero(item, facts) }
                     message?.let { text -> item { Surface(color = HhyColors.SuccessSoft, shape = RoundedCornerShape(HhyRadius.NormalCard)) { Text(text, Modifier.fillMaxWidth().padding(HhySpacing.Md), color = HhyColors.Success) } } }
+                    if (item.media.isNotEmpty()) item { AppMediaGallery(item) }
                     item { AppSection("应用介绍") { Text(item.description.orEmpty().ifBlank { item.summary.orEmpty() }) } }
-                    if (item.media.size > 1) item { AppSection("应用截图") { Text("发布者已提供 ${item.media.size} 项应用图片", color = HhyColors.TextSecondary) } }
-                    item { AppSection("发布信息") {
-                        Text(item.publisher?.nickname ?: "发布者信息未提供", fontWeight = FontWeight.SemiBold)
-                        item.publisher?.bio?.let { Text(it, color = HhyColors.TextSecondary) }
-                        item.statistics?.let { Text("浏览 ${it.viewCount}  ·  收藏 ${it.favoriteCount}  ·  分享 ${it.shareCount}", color = HhyColors.TextSecondary) }
-                    } }
+                    item { AppPublisherSection(item) }
                     item {
                         Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
                             OutlinedButton(modifier = Modifier.weight(1f), onClick = {
@@ -338,11 +364,16 @@ fun R09AppEditorScreen(
     var confirm by remember { mutableStateOf(false) }
     var dirty by rememberSaveable { mutableStateOf(false) }
     var showMediaUpload by remember { mutableStateOf(false) }
+    var mediaPreviews by remember { mutableStateOf<List<AppMediaPreview>>(emptyList()) }
 
     LaunchedEffect(appId) {
         if (appId == null) return@LaunchedEffect
         when (val result = api.app(accessToken, appId)) {
-            is R07CallResult.Success -> { form = R09AppForm.from(result.data); phase = R09AppPhase.CONTENT }
+            is R07CallResult.Success -> {
+                form = R09AppForm.from(result.data)
+                mediaPreviews = result.data.media.map(AppMediaPreview::from)
+                phase = R09AppPhase.CONTENT
+            }
             is R07CallResult.Failure -> { if (result.statusCode == 401) onSessionExpired(); failure = result.toR09Failure(); phase = failure!!.phase }
         }
     }
@@ -386,7 +417,12 @@ fun R09AppEditorScreen(
         maxConcurrentUploads = 2,
         acceptedTypes = arrayOf("image/*"),
         onAuthenticationRequired = onSessionExpired,
-        onCompleted = { selections -> form = form.copy(mediaIds = selections.map { it.mediaId }); dirty = true; showMediaUpload = false },
+        onCompleted = { selections ->
+            form = form.copy(mediaIds = selections.map { it.mediaId })
+            mediaPreviews = selections.map(AppMediaPreview::from)
+            dirty = true
+            showMediaUpload = false
+        },
         onDismiss = { showMediaUpload = false },
     )
 
@@ -444,6 +480,7 @@ fun R09AppEditorScreen(
             } }
             item { AppSection("应用图片") {
                 Text(if (form.mediaIds.isEmpty()) "尚未选择真实图片；页面不会生成虚构App图标或截图。" else "已绑定 ${form.mediaIds.size} 张真实应用图片", color = HhyColors.TextSecondary)
+                if (mediaPreviews.isNotEmpty()) AppEditorMediaPreviews(mediaPreviews, form.appName)
                 OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = { showMediaUpload = true }) { Text(if (form.mediaIds.isEmpty()) "选择App图标或截图" else "重新选择应用图片") }
                 errors["mediaIds"]?.let { Text(it, color = HhyColors.Error) }
             } }
@@ -469,37 +506,204 @@ private fun AppListCard(item: ContentResource, onClick: () -> Unit) {
         colors = CardDefaults.cardColors(HhyColors.Surface),
         elevation = CardDefaults.cardElevation(HhyElevation.Card),
     ) {
-        Row(Modifier.fillMaxWidth().padding(HhySpacing.Lg), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
-            Box(
-                Modifier.height(HhySize.TopAppBarHeight + HhySpacing.Md).weight(0.28f)
-                    .background(Brush.linearGradient(listOf(HhyColors.BrandPrimary, HhyColors.BrandGradientEnd)), RoundedCornerShape(HhyRadius.NormalCard)),
-                contentAlignment = Alignment.Center,
-            ) { Text(facts.appName.take(1), color = HhyColors.TextInverse, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold) }
-            Column(Modifier.weight(0.72f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                Row(verticalAlignment = Alignment.CenterVertically) { Text(facts.appName, Modifier.weight(1f), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis); StatusPill(item.status) }
-                Text(item.summary.orEmpty().ifBlank { item.description.orEmpty() }, color = HhyColors.TextSecondary, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                    item.categoryCode?.let { Tag(appCategoryLabel(it)) }
-                    appPlatformLabel(facts.platform)?.let { Tag(it) }
-                    facts.versionText?.let { Tag(it) }
+        Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                AppArtwork(
+                    media = item.media.firstOrNull(),
+                    appName = facts.appName,
+                    modifier = Modifier.size(HhySize.AppLogo + HhySpacing.Xxl),
+                    tag = "r09.app.media.list",
+                )
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(facts.appName, Modifier.weight(1f), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                        StatusPill(item.status)
+                    }
+                    Text(item.summary.orEmpty().ifBlank { item.description.orEmpty() }, color = HhyColors.TextSecondary, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                        item.categoryCode?.let { Tag(appCategoryLabel(it)) }
+                        appPlatformLabel(facts.platform)?.let { Tag(it) }
+                        facts.versionText?.let { Tag(it) }
+                    }
                 }
-                HorizontalDivider(color = HhyColors.Border)
-                Text(item.publisher?.nickname ?: "发布者信息未提供", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+            }
+            if (item.media.size > 1) {
+                LazyRow(
+                    modifier = Modifier.fillMaxWidth().height(HhySize.TopAppBarHeight * 2),
+                    horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+                ) {
+                    items(item.media.drop(1), key = { it.id }) { media ->
+                        AppArtwork(
+                            media = media,
+                            appName = facts.appName,
+                            modifier = Modifier.width(HhySize.AppLogo + HhySpacing.Xxl).height(HhySize.TopAppBarHeight * 2),
+                            tag = "r09.app.media.list.preview.${media.id}",
+                        )
+                    }
+                }
+            }
+            HorizontalDivider(color = HhyColors.Border)
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                HhyIcon(HhyIcons.Profile, contentDescription = null, modifier = Modifier.size(HhySpacing.Xl), tint = HhyColors.TextSecondary)
+                Text(item.publisher?.nickname ?: "发布者信息未提供", Modifier.weight(1f), color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+                item.statistics?.let { Text("浏览 ${it.viewCount}", color = HhyColors.TextTertiary, style = MaterialTheme.typography.labelSmall) }
             }
         }
     }
 }
 
-@Composable private fun AppHero(item: ContentResource, facts: R09AppFacts) = Card(shape = RoundedCornerShape(HhyRadius.LargeCard), colors = CardDefaults.cardColors(HhyColors.Surface)) {
+@Composable
+private fun AppHero(item: ContentResource, facts: R09AppFacts) = Card(
+    shape = RoundedCornerShape(HhyRadius.LargeCard),
+    colors = CardDefaults.cardColors(HhyColors.Surface),
+) {
     Column {
-        Box(Modifier.fillMaxWidth().height(HhySize.TopAppBarHeight * 2).background(Brush.linearGradient(listOf(HhyColors.BrandPrimary, HhyColors.BrandGradientEnd))), contentAlignment = Alignment.BottomStart) {
-            Text(item.media.firstOrNull()?.altText ?: facts.appName, Modifier.padding(HhySpacing.Lg), color = HhyColors.TextInverse, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+        Box(Modifier.fillMaxWidth().height(HhySpacing.Sm).background(HhyColors.BrandPrimary))
+        Row(
+            Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+            horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AppArtwork(
+                media = item.media.firstOrNull(),
+                appName = facts.appName,
+                modifier = Modifier.size(HhySize.AppLogo + HhySpacing.Xxl),
+                tag = "r09.app.media.detail.cover",
+            )
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(facts.appName, Modifier.weight(1f), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    StatusPill(item.status)
+                }
+                item.summary?.let { Text(it, color = HhyColors.TextSecondary, maxLines = 2, overflow = TextOverflow.Ellipsis) }
+                Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                    item.categoryCode?.let { Tag(appCategoryLabel(it)) }
+                    appPlatformLabel(facts.platform)?.let { Tag(it) }
+                    facts.versionText?.let { Tag(it) }
+                }
+            }
         }
-        Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-            Row { Text(facts.appName, Modifier.weight(1f), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold); StatusPill(item.status) }
-            item.summary?.let { Text(it, color = HhyColors.TextSecondary) }
-            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                item.categoryCode?.let { Tag(appCategoryLabel(it)) }; appPlatformLabel(facts.platform)?.let { Tag(it) }; facts.versionText?.let { Tag(it) }
+    }
+}
+
+@Composable
+private fun AppMediaGallery(item: ContentResource) = AppSection("应用截图") {
+    Text("发布者上传的 ${item.media.size} 张真实应用图片", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+    LazyRow(
+        modifier = Modifier.fillMaxWidth().height(HhySize.TopAppBarHeight * 3).testTag("r09.app.media.detail"),
+        horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+    ) {
+        items(item.media, key = { it.id }) { media ->
+            AppArtwork(
+                media = media,
+                appName = R09AppFacts.from(item).appName,
+                modifier = Modifier.width(HhySize.AppLogo + HhySpacing.Xxl).height(HhySize.TopAppBarHeight * 3),
+                tag = "r09.app.media.detail.${media.id}",
+            )
+        }
+    }
+}
+
+@Composable
+private fun AppPublisherSection(item: ContentResource) = AppSection("发布信息") {
+    Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md), verticalAlignment = Alignment.CenterVertically) {
+        Surface(modifier = Modifier.size(HhySize.MinimumTouchTarget), color = HhyColors.SoftBlue, shape = CircleShape) {
+            HhyIcon(HhyIcons.Profile, contentDescription = null, modifier = Modifier.padding(HhySpacing.Md), tint = HhyColors.BrandPrimary)
+        }
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+            Text(item.publisher?.nickname ?: "发布者信息未提供", fontWeight = FontWeight.SemiBold)
+            item.publisher?.bio?.let { Text(it, color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall) }
+        }
+        if (item.publisher?.verified == true) HhyIcon(HhyIcons.Verified, contentDescription = "已认证", tint = HhyColors.BrandPrimary)
+    }
+    item.statistics?.let { statistics ->
+        HorizontalDivider(color = HhyColors.Border)
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+            AppStatistic("浏览", statistics.viewCount, Modifier.weight(1f))
+            AppStatistic("收藏", statistics.favoriteCount, Modifier.weight(1f))
+            AppStatistic("分享", statistics.shareCount, Modifier.weight(1f))
+        }
+    }
+}
+
+@Composable
+private fun AppStatistic(label: String, value: Long, modifier: Modifier = Modifier) {
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+        Text(value.toString(), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+        Text(label, color = HhyColors.TextSecondary, style = MaterialTheme.typography.labelSmall)
+    }
+}
+
+@Composable
+private fun AppArtwork(
+    media: MediaItemResource?,
+    appName: String,
+    modifier: Modifier,
+    tag: String,
+) {
+    val imageUrl = (media?.thumbnailUrl ?: media?.url)?.takeIf(::secureHttps)
+    Box(
+        modifier = modifier.clip(RoundedCornerShape(HhyRadius.NormalCard)).background(HhyColors.SoftBlue).testTag(tag),
+        contentAlignment = Alignment.Center,
+    ) {
+        HhyIcon(
+            HhyIcons.Applications,
+            contentDescription = null,
+            modifier = Modifier.padding(HhySpacing.Lg),
+            tint = HhyColors.BrandPrimary,
+        )
+        imageUrl?.let { url ->
+            AsyncImage(
+                model = url,
+                contentDescription = media?.altText ?: "$appName 应用图片",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+            )
+        }
+    }
+}
+
+private data class AppMediaPreview(
+    val id: String,
+    val url: String?,
+    val altText: String?,
+) {
+    companion object {
+        fun from(media: MediaItemResource) = AppMediaPreview(
+            id = media.id,
+            url = (media.thumbnailUrl ?: media.url).takeIf(::secureHttps),
+            altText = media.altText,
+        )
+
+        fun from(selection: MediaUploadSelection) = AppMediaPreview(
+            id = selection.mediaId,
+            url = selection.readUrl?.takeIf(::secureHttps),
+            altText = selection.displayName,
+        )
+    }
+}
+
+@Composable
+private fun AppEditorMediaPreviews(previews: List<AppMediaPreview>, appName: String) {
+    LazyRow(
+        modifier = Modifier.fillMaxWidth().height(HhySize.TopAppBarHeight * 2).testTag("r09.app.media.editor"),
+        horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+    ) {
+        items(previews, key = { it.id }) { preview ->
+            Box(
+                modifier = Modifier.width(HhySize.AppLogo + HhySpacing.Xxl).height(HhySize.TopAppBarHeight * 2)
+                    .clip(RoundedCornerShape(HhyRadius.NormalCard)).background(HhyColors.SoftBlue),
+                contentAlignment = Alignment.Center,
+            ) {
+                HhyIcon(HhyIcons.Applications, contentDescription = null, tint = HhyColors.BrandPrimary)
+                preview.url?.let { url ->
+                    AsyncImage(
+                        model = url,
+                        contentDescription = preview.altText ?: "$appName 应用图片",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop,
+                    )
+                }
             }
         }
     }
@@ -524,6 +728,7 @@ private fun AppListCard(item: ContentResource, onClick: () -> Unit) {
 
 @Composable private fun FormField(label: String, value: String, error: String?, singleLine: Boolean = false, minLines: Int = 1, onValueChange: (String) -> Unit) = OutlinedTextField(value, onValueChange, Modifier.fillMaxWidth(), label = { Text(label) }, singleLine = singleLine, minLines = minLines, isError = error != null, supportingText = error?.let { { Text(it) } })
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun ChoiceChips(
     options: List<Pair<String, String>>,
@@ -536,9 +741,11 @@ private fun ChoiceChips(
     } else {
         options
     }
-    Row(
-        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+        verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs),
+        maxItemsInEachRow = 3,
     ) {
         visible.forEach { (value, label) ->
             FilterChip(selected == value, { onSelected(value) }, { Text(label) })

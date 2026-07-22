@@ -47,6 +47,30 @@ tests:
 - TST-APP_PROMO_001-HAPPY
 - TST-APP_PROMO_001-IDEMPOTENT
 - TST-APP_PROMO_001-REJECT
+test_count: 3
+planning_depth: STORY_READY
+android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  request_id: R09-CANDIDATE-20260723-002
+  status: REMEDIATION_REQUESTED
+  remediation_attempt: 2
+  first_candidate:
+    github_run_id: '29959550918'
+    functional_journey: PASS
+    ai_visual_review: REJECTED
+    candidate_delivery: FORBIDDEN
+    problem_id: PROB-0098
+  attempt_2_preflight:
+    staging_fixture: PASS
+    fixture_runs: 2
+    stable_content_id: '3'
+    stable_media_ids:
+    - '1'
+    - '2'
+    public_media_https: PASS
+    repository_server_public_sha256: PASS
+  owner_test_allowed: false
+  owner_physical_test: NOT_STARTED
 entry_gate:
 - releases/R09/DEFINITION_OF_READY.yaml 全部适用项为PASS
 - releases/R09/STORIES.yaml 中每个故事均绑定页面/API/配置/数据/测试或显式N/A

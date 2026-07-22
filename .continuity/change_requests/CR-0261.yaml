@@ -1,0 +1,58 @@
+protocol_version: '1.0'
+cr_id: CR-0261
+title: 修复R09真实App图片展示与效果图级视觉不足
+status: APPROVED
+created_at: '2026-07-22T22:28:42Z'
+updated_at: '2026-07-22T22:29:32Z'
+requester_actor_id: codex-root-r09-candidate
+approver_actor_id: codex-r09-ui-review
+task_id: TASK-R09-007
+session_id: SES-20260722T205410Z-782F22B9
+user_request: 项目所有者确认App详情页没有显示用户上传截图，并要求所有UI肉眼接近效果图丰富度与精致度且不得虚构内容。
+reason: Run 29959550918功能旅程通过，但AI逐图审核确认列表与详情未渲染media URL、详情仅显示图片数量文字，三页视觉未达到B02/P06、B03/P02、B04/P04要求，不能批准基线。
+original_rule: R09冻结规格要求列表和详情渲染服务端真实media，详情显示真实应用图片；最终截图必须由AI对照精确效果图通过后才能批准。
+new_rule: 不新增平行UI规则；用成熟图片加载组件渲染media.thumbnailUrl/url，列表首图与详情横向画廊只展示服务端真实图片，无图使用中性占位；编辑选项完整换行显示。首轮截图登记不合格并执行attempt=2，仍禁止虚构评分、下载量、功能标签或示例媒体。
+impact_summary: 补齐用户上传App图片从mediaIds到列表和详情的显示闭环，提升三页信息层级，使用两张首轮真实App候选截图作为隔离Staging媒体夹具；递增测试APK到10218并保留单一有界候选流程。
+impact:
+  files:
+  - apps/android/gradle/libs.versions.toml
+  - apps/android/feature/app-promotion/build.gradle.kts
+  - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - scripts/prepare_r09_ci_fixture.sh
+  - tests/test_r09_ci_fixture.py
+  - tests/test_r09_android_ui.py
+  - tests/android/fixtures/r09-media/01-app-list.png
+  - tests/android/fixtures/r09-media/03-app-editor.png
+  - config/android-candidate-request.yaml
+  - releases/R09/RELEASE_MANIFEST.yaml
+  - catalogs/ui_visual_acceptance.csv
+  - tests/android/visual-baselines/R09/01-app-list.png
+  - tests/android/visual-baselines/R09/02-app-detail.png
+  - tests/android/visual-baselines/R09/03-app-editor.png
+  - tests/android/visual-baselines/R09/APPROVAL.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - R09 App图片展示源码与状态回归
+  - Android app-promotion单测、app AndroidTest编译、lint和UI Token门禁
+  - 专用Staging候选夹具连续两次幂等并返回两张真实媒体
+  - attempt=2 GitHub模拟器三页截图与AI逐图审核
+  releases:
+  - R09
+  migration_and_compatibility: 无API或数据库迁移；既有无图内容保持中性占位，已有media响应直接开始显示；Coil仅负责HTTPS图片加载与缓存，候选夹具仅限专用Staging账号。
+user_confirmation: 项目所有者明确指出详情页缺少用户上传App截图，并要求所有版本UI接近效果图丰富度且不得虚构内容。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T22:29:32Z'
+  note: 修复直接补齐冻结media展示合同并使用真实首轮候选截图，不增加虚构业务；attempt=2符合有界候选策略。
+machine_record: .continuity/change_requests/CR-0261.yaml
+document: docs/03-continuity/change-requests/CR-0261-修复R09真实App图片展示与效果图级视觉不足.md

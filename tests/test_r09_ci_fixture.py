@@ -53,6 +53,18 @@ class R09CiFixtureTest(unittest.TestCase):
         self.assertNotIn('echo "$phone"', self.shell)
         self.assertNotIn('printf "$phone"', self.shell)
 
+    def test_fixture_binds_two_real_public_images_without_absolute_object_keys(self) -> None:
+        self.assertIn("'https://download.orbexa.cc/r09-candidate-media/attempt-2/'", self.do_body)
+        self.assertIn("'01-app-list.png'", self.do_body)
+        self.assertIn("'03-app-editor.png'", self.do_body)
+        self.assertIn("'4327c819bbaa435f681ac34f5dd01fff920bd850f26974b4708c792490b14878'", self.do_body)
+        self.assertIn("'4d15b62c15e596e01a19fea2a6bd02f3fb3ba5b0d0f1645482785e90119cffde'", self.do_body)
+        self.assertIn("DELETE FROM hhy.content_media WHERE content_id=fixture_content", self.do_body)
+        self.assertIn("(fixture_content,fixture_media_list,'image/png',0)", self.do_body)
+        self.assertIn("(fixture_content,fixture_media_editor,'image/png',1)", self.do_body)
+        self.assertNotIn("object_key='https://", self.do_body)
+        self.assertIn("string_agg(m.id::text,',' ORDER BY cm.sort_order)", self.shell)
+
 
 if __name__ == "__main__":
     unittest.main()

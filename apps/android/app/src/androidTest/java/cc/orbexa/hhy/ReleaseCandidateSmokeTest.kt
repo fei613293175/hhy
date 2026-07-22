@@ -81,6 +81,10 @@ class ReleaseCandidateSmokeTest {
         )
         assertTrue("R09 App fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
         assertTrue("R09 list missed the approved-content notice", device.hasObject(By.text("浏览审核通过的真实App推广内容")))
+        assertTrue(
+            "R09 list did not render the real App media container",
+            device.wait(Until.hasObject(By.res("r09.app.media.list")), 20_000),
+        )
         assertR09BusinessLabels()
         captureStable("01-app-list.png")
         assertNoForbiddenVisibleText()
@@ -95,6 +99,11 @@ class ReleaseCandidateSmokeTest {
         assertTrue("R09 App experience action is missing", device.hasObject(By.res("r09.app.download")))
         assertTrue("R09 App owner edit action is missing", device.hasObject(By.res("r09.app.edit")))
         assertTrue("R09 App website action is missing", device.hasObject(By.text("访问官网")))
+        assertTrue(
+            "R09 detail did not render the real App screenshot gallery",
+            device.wait(Until.hasObject(By.res("r09.app.media.detail")), 20_000),
+        )
+        assertTrue("R09 detail missed the real image count", device.hasObject(By.text("发布者上传的 2 张真实应用图片")))
         assertR09BusinessLabels()
         captureStable("02-app-detail.png")
         assertNoForbiddenVisibleText()
