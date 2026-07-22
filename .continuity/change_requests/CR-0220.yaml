@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0220
 title: 固化固定Android容器Gradle缓存挂载与SDK安装诊断经验
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-22T04:06:01Z'
-updated_at: '2026-07-22T04:08:05Z'
+updated_at: '2026-07-22T04:12:27Z'
 requester_actor_id: codex-root-r08-004
 approver_actor_id: codex-rule-reviewer
 task_id: TASK-R08-004
@@ -40,5 +40,17 @@ decision_log:
   status: IMPLEMENTING
   note: 开始更新既有PITFALLS与REUSABLE_PATTERNS，不新增规则文件。
   session_id: SES-20260722T031604Z-105CF4C6
+- at: '2026-07-22T04:12:24Z'
+  actor_id: codex-root-r08-004
+  status: IMPLEMENTED
+  note: 既有PITFALLS新增固定Gradle命名卷与SDK安装诊断陷阱；既有REUSABLE_PATTERNS新增精确Commit固定容器MODULE验证模式，未新增规则文件。
+  session_id: SES-20260722T031604Z-105CF4C6
+- at: '2026-07-22T04:12:27Z'
+  actor_id: codex-root-r08-004
+  status: CLOSED
+  note: 提交88271a35已推送；严格pre-commit/pre-push与11项规则就绪门禁PASS。
+  session_id: SES-20260722T031604Z-105CF4C6
 session_ids:
 - SES-20260722T031604Z-105CF4C6
+implementation_commits:
+- 88271a35476ba6ae394717fc715d14f9707005b2

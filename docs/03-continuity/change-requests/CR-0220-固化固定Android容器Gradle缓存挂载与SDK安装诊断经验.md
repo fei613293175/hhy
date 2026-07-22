@@ -84,3 +84,17 @@ R08受影响模块验证再次证明宿主/root/.gradle挂载无法复用固定�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260722T031604Z-105CF4C6`
 - Note：开始更新既有PITFALLS与REUSABLE_PATTERNS，不新增规则文件。
+
+## 状态记录 · 2026-07-22T04:12:24Z
+
+- Actor：`codex-root-r08-004`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260722T031604Z-105CF4C6`
+- Note：既有PITFALLS新增固定Gradle命名卷与SDK安装诊断陷阱；既有REUSABLE_PATTERNS新增精确Commit固定容器MODULE验证模式，未新增规则文件。
+
+## 状态记录 · 2026-07-22T04:12:27Z
+
+- Actor：`codex-root-r08-004`
+- Status：`CLOSED`
+- Session：`SES-20260722T031604Z-105CF4C6`
+- Note：提交88271a35已推送；严格pre-commit/pre-push与11项规则就绪门禁PASS。

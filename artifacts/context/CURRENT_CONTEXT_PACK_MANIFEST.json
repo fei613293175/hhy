@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T04:10:45Z",
-  "context_hash": "fee93f610df428378358c33b61cc9bf111b8836e4f3e3241adaa8ff7bf7ffd2d",
+  "generated_at": "2026-07-22T04:13:04Z",
+  "context_hash": "296b6973fd88775d691112adf7f5c855dc9a8a241efd3834bb8bb63f6c937966",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "65c778e6e6ccb7fc2fbf61736ba0335bf9ca1b05ddfe371495cb9e3fe33c88aa",
+    "sha256": "741cede99a60e0f8b3626dc0d2e066783d43d531d5b3aedd91ab2480b6a5f6bf",
     "file_count": 26
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "91b3eb4a79ea3df2c805ad519d09efc541c882dc2451b9856577ae8f1032bf46"
+    "sha256": "64e118ae91998463d27b76c179679be3ea207d3bb752ee61a244b45c06e08b16"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "a22350d4c5a4bdfae430aebedf7dd309809536a3c314cc2b3968af5403410498"
+    "sha256": "6588ae84913b9a5bc34485ae44cb1bac71dd7f39819bd7b3cc9aad4e26564729"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "77e2b74816a54a36aca0880eb5f456827f8ab0c8bea55d8ffadecdbeead4519e",
+      "sha256": "1e9fc703a746c6bb5b5481ce09b1a25152f94a6a02a774362c7bad63d5159cb6",
       "bytes": 3908
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "c8ad30aba9d7571125625f66534ecdbe8989fa835672d40d7fd3c80595f44050",
-      "bytes": 1201108
+      "sha256": "ea77cdc769e6384b81bd13a37d9d1d0cad3b68b1b7dd47c352fad73a6acc099a",
+      "bytes": 1202640
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "d6d7c4a243151b1fb6c8b713e42cfd77eb7729f88b0952d94a79dd20e2c932d1",
+      "sha256": "e7b6fad91c1fb517b8690b07db87fa9e9d39d671b28f57b41331b6a4d37f8733",
       "bytes": 36378
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "22304b70b4fac4624768bf5b25c25f2d9ea47fcdde40982ea03d7856dcfcd3f3",
-      "bytes": 707591
+      "sha256": "21681c18f6e5d66a3100627d0ebaacb50ad6d75de673d3acd205726759bb1877",
+      "bytes": 708191
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "c1ec1b872d377b7af2f454703a0985133f737025656be9b6a213fab4f28afde3",
+      "sha256": "299ead766d0a8029639f6849e0d93640ca80e9326e0417a85e698611bc4f5227",
       "bytes": 533
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md",
-      "sha256": "5f210c70cd1d9760231298043ec0527ce1e9a463e2555b9ed5ea1382d3a99365",
-      "bytes": 12805
+      "sha256": "f5b085e580155872a0242544c662869812156a426954a2d7cb6f14b00f6c421b",
+      "bytes": 15322
     },
     {
-      "path": ".continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0005.yaml",
-      "sha256": "f5478db60514348ce486fe03161d31cf12c8f03e442e039310885958a168add7",
-      "bytes": 15700
+      "path": ".continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0006.yaml",
+      "sha256": "891e6e07b6803b4b0e17f9934522fcd77000c5f2888f10dce080068783ee4490",
+      "bytes": 14576
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md",
@@ -188,8 +188,8 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md",
-      "sha256": "a95712da39359d9f0222414a43474fb7e257c458c49b1232d2ec14dc2d3c905f",
-      "bytes": 2705
+      "sha256": "4a449a90b5b184ed70a5bb4306619879d5fc84f3050c614d9ee673a143ce75c4",
+      "bytes": 3254
     }
   ]
 }

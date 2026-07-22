@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T04:10:45Z
-- Context Hash：`fee93f610df428378358c33b61cc9bf111b8836e4f3e3241adaa8ff7bf7ffd2d`
+- 生成时间：2026-07-22T04:13:04Z
+- Context Hash：`296b6973fd88775d691112adf7f5c855dc9a8a241efd3834bb8bb63f6c937966`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -129,7 +129,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-004
-updated_at: '2026-07-22T04:10:18Z'
+updated_at: '2026-07-22T04:13:01Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -164,15 +164,15 @@ continuity:
   active_session_id: SES-20260722T031604Z-105CF4C6
   actor_id: codex-root-r08-004
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T08:10:18Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0005.yaml
-  project_fingerprint: 65c778e6e6ccb7fc2fbf61736ba0335bf9ca1b05ddfe371495cb9e3fe33c88aa
+  lease_expires_at: '2026-07-22T08:13:01Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0006.yaml
+  project_fingerprint: 741cede99a60e0f8b3626dc0d2e066783d43d531d5b3aedd91ab2480b6a5f6bf
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 219a2a2f18f3313af7c288835569fe27efa8ccf5130b448b5ff1bd91f85f1db5
-    generated_at: '2026-07-22T03:58:25Z'
+    context_hash: fee93f610df428378358c33b61cc9bf111b8836e4f3e3241adaa8ff7bf7ffd2d
+    generated_at: '2026-07-22T04:10:45Z'
   handoff_bundle: null
 ```
 
@@ -380,7 +380,7 @@ task_id: TASK-R08-004
 story_id: STORY-R08-004
 goal: 按效果图级肉眼标准实现R08项目列表、详情、发布编辑客户端/H5/后台，并完成R02-R07历史视觉审计与必要回补，不虚构业务。
 started_at: '2026-07-22T03:16:04Z'
-updated_at: '2026-07-22T04:10:22Z'
+updated_at: '2026-07-22T04:13:01Z'
 takeover_of: null
 change_requests:
 - CR-0217
@@ -458,12 +458,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T04:10:18Z'
-  expires_at: '2026-07-22T08:10:18Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0005.yaml
+  renewed_at: '2026-07-22T04:13:01Z'
+  expires_at: '2026-07-22T08:13:01Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
-next_step: 提交并推送R08-004闭环证据和CR-0220经验实现，关闭CR-0220，然后继续R02-R07历史UI视觉回补。
+next_step: 提交推送CR-0220关闭记录，随后继续R02-R07历史UI视觉回补与R08候选前置整改。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -478,59 +478,43 @@ parallel_execution:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T031604Z-105CF4C6-0005
+checkpoint_id: CP-SES-20260722T031604Z-105CF4C6-0006
 session_id: SES-20260722T031604Z-105CF4C6
-sequence: 5
-created_at: '2026-07-22T04:10:18Z'
-summary: R08-004 Android、H5、后台与精确UI合同实现已完成；精确提交99464337 Android受影响MODULE验证PASS；CR-0217至0219关闭；CR-0220正在固化固定Android容器缓存与SDK诊断经验。
-next_step: 提交并推送R08-004闭环证据和CR-0220经验实现，关闭CR-0220，然后继续R02-R07历史UI视觉回补。
+sequence: 6
+created_at: '2026-07-22T04:13:00Z'
+summary: CR-0220已实现并关闭，固定Android容器命名缓存卷与SDK安装诊断经验已写入既有PITFALLS和REUSABLE_PATTERNS；R08-004产品CR均关闭。
+next_step: 提交推送CR-0220关闭记录，随后继续R02-R07历史UI视觉回补与R08候选前置整改。
 blockers: []
 decisions: []
-note: 大版本候选前不运行GitHub模拟器或完整APK门禁；真机反馈异步非阻断。
+note: ''
 tests:
+- name: strict pre-commit and pre-push for implementation commit
+  result: PASS
+  evidence: commit 88271a35476ba6ae394717fc715d14f9707005b2
+  note: rule_readiness 11/11 PASS
 - name: Android final affected MODULE
   result: PASS
-  evidence: commit 9946433742eb9f7ba7ade9909ad11ec0774e8afb log /tmp/hhy-r08-004-android-99464337.log sha256 86c78eb2ec08c1a271dffd29f08530ca6e12b8eff01c37a0a3596c935b84b257
-  note: 103 tasks 75 from cache BUILD SUCCESSFUL in 8m 8s
-- name: H5 tests and build
-  result: PASS
-  evidence: 6 files 27 tests plus vue-tsc and vite build
-  note: public share real states
-- name: Admin reuse tests
-  result: PASS
-  evidence: 16 files 88 tests
-  note: PROJECT reuses unified content operations
-- name: R08 visual catalog
-  result: PASS
-  evidence: 3 pages and 8 unit tests
-  note: final screenshots deferred to candidate
+  evidence: /tmp/hhy-r08-004-android-99464337.log sha256 86c78eb2ec08c1a271dffd29f08530ca6e12b8eff01c37a0a3596c935b84b257
+  note: 103 tasks PASS
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 9946433742eb9f7ba7ade9909ad11ec0774e8afb
+  head: 88271a35476ba6ae394717fc715d14f9707005b2
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0217.yaml'
-  - ' M .continuity/change_requests/CR-0218.yaml'
-  - ' M .continuity/change_requests/CR-0219.yaml'
-  - ' M .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml'
-  - ' M artifacts/reports/R08/TASK-R08-004-client.md'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PITFALLS.md'
-  - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
-  - ' M docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md'
-  - ' M docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md'
-  - ' M docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md'
-  - ?? .continuity/change_requests/CR-0220.yaml
-  - ?? docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/STATE.yaml
+  - M  .continuity/change_requests/CR-0220.yaml
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
   recent_commits:
+  - "88271a35476ba6ae394717fc715d14f9707005b2\t2026-07-22T12:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close client evidence\
+    \ and remote build pattern"
   - "9946433742eb9f7ba7ade9909ad11ec0774e8afb\t2026-07-22T11:58:28+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): complete project\
     \ web and visual contracts"
   - "298544b5688ff43b87a85992a572a23eada720f5\t2026-07-22T11:33:27+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): implement project\
@@ -545,10 +529,8 @@ git:
     \ backend module evidence"
   - "e312321c8e0664493aec04dd232552eb42ce6e18\t2026-07-22T11:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): satisfy verified\
     \ identity fixture invariants"
-  - "906548df4399f6f9272e61ae442a566cd91c44cb\t2026-07-22T10:53:08+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close rule\
-    \ readiness changes"
 project_fingerprint:
-  sha256: 65c778e6e6ccb7fc2fbf61736ba0335bf9ca1b05ddfe371495cb9e3fe33c88aa
+  sha256: 741cede99a60e0f8b3626dc0d2e066783d43d531d5b3aedd91ab2480b6a5f6bf
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r08ProjectReuse.test.ts
@@ -682,8 +664,8 @@ project_fingerprint:
       sha256: 786606e3f9a5960ef76418e0986eb10c638ee61f96f09836008ff4992f5e4ad6
     - path: docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
       state: FILE
-      size: 2705
-      sha256: a95712da39359d9f0222414a43474fb7e257c458c49b1232d2ec14dc2d3c905f
+      size: 3254
+      sha256: 4a449a90b5b184ed70a5bb4306619879d5fc84f3050c614d9ee673a143ce75c4
 change_classification:
   other:
   - CHANGELOG.md
@@ -809,7 +791,7 @@ parallel_execution:
   delegated_workers: 0
   workers: []
   reason: 系统当前明确禁止未获用户请求的子代理；当前会话串行持续推进。
-event_hash: a6c95ef32f85755891c93b526e406407cf77d308e108f7e42c27a37f23ed45f5
+event_hash: 8c5764305bfcf4452b58dff74642839d0c79d93b5b1a1a77565db5e638d23011
 ```
 
 ## 接续状态与事件头
@@ -821,8 +803,8 @@ active_session_id: SES-20260722T031604Z-105CF4C6
 last_session_id: SES-20260722T012224Z-E70EA3B7
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0012
-event_count: 2188
-event_head_hash: a6c95ef32f85755891c93b526e406407cf77d308e108f7e42c27a37f23ed45f5
+event_count: 2191
+event_head_hash: 8c5764305bfcf4452b58dff74642839d0c79d93b5b1a1a77565db5e638d23011
 event_chain_valid: true
 ```
 
@@ -945,9 +927,9 @@ recent_sessions: - session_id: SES-20260721T171025Z-A3718A1C
   started_at: '2026-07-22T03:16:04Z'
   record: .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
-  updated_at: '2026-07-22T04:10:18Z'
+  updated_at: '2026-07-22T04:13:01Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0005.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0006.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-4352DBBBC526
   session_id: SES-20260720T160653Z-1DDCDB22
@@ -1901,39 +1883,28 @@ recent_task_transitions: - transition_id: TRN-D1B6297F4500
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 9946433742eb9f7ba7ade9909ad11ec0774e8afb
+head: 88271a35476ba6ae394717fc715d14f9707005b2
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
 - ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0217.yaml'
-- ' M .continuity/change_requests/CR-0218.yaml'
-- ' M .continuity/change_requests/CR-0219.yaml'
+- MM .continuity/STATE.yaml
+- M  .continuity/change_requests/CR-0220.yaml
 - ' M .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/reports/R08/TASK-R08-004-client.md'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PITFALLS.md'
-- ' M docs/03-continuity/REUSABLE_PATTERNS.md'
-- ' M docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md'
-- ' M docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md'
-- ' M docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md'
+- M  catalogs/change_request_index.csv
+- M  catalogs/session_index.csv
+- M  docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md'
-- ?? .continuity/change_requests/CR-0220.yaml
-- ?? .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0005.yaml
-- ?? docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
+- ?? .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0006.yaml
 recent_commits:
+- "88271a35476ba6ae394717fc715d14f9707005b2\t2026-07-22T12:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close client evidence\
+  \ and remote build pattern"
 - "9946433742eb9f7ba7ade9909ad11ec0774e8afb\t2026-07-22T11:58:28+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): complete project\
   \ web and visual contracts"
 - "298544b5688ff43b87a85992a572a23eada720f5\t2026-07-22T11:33:27+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): implement project\
@@ -1948,13 +1919,11 @@ recent_commits:
   \ module evidence"
 - "e312321c8e0664493aec04dd232552eb42ce6e18\t2026-07-22T11:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): satisfy verified\
   \ identity fixture invariants"
-- "906548df4399f6f9272e61ae442a566cd91c44cb\t2026-07-22T10:53:08+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close rule\
-  \ readiness changes"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`65c778e6e6ccb7fc2fbf61736ba0335bf9ca1b05ddfe371495cb9e3fe33c88aa`
+- 指纹：`741cede99a60e0f8b3626dc0d2e066783d43d531d5b3aedd91ab2480b6a5f6bf`
 - 文件数：26
 
 - `CHANGELOG.md`
@@ -7390,57 +7359,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260722T012224Z-E70EA3B7
   session_ids:
   - SES-20260722T012224Z-E70EA3B7
-- protocol_version: '1.0'
-  cr_id: CR-0220
-  title: 固化固定Android容器Gradle缓存挂载与SDK安装诊断经验
-  status: IMPLEMENTING
-  created_at: '2026-07-22T04:06:01Z'
-  updated_at: '2026-07-22T04:08:05Z'
-  requester_actor_id: codex-root-r08-004
-  approver_actor_id: codex-rule-reviewer
-  task_id: TASK-R08-004
-  session_id: SES-20260722T031604Z-105CF4C6
-  user_request: 用户要求可复用开发方案及踩坑经验写入既有事实源，跨电脑跨AI生效
-  reason: R08受影响模块验证再次证明宿主/root/.gradle挂载无法复用固定命名卷，API 36在短生命周期容器中的确定性安装阶段容易被误判为卡死；必须更新既有PITFALLS与REUSABLE_PATTERNS，禁止新增并行规则文件
-  original_rule: 既有踩坑记录已要求使用固定服务器环境和固定Android镜像，但未写明Gradle命名卷的精确挂载方式，也未区分SDK平台自动安装与构建停滞。
-  new_rule: 固定Android容器验证必须复用hhy-r01-android-gradle-cache命名卷并挂载到/root/.gradle；禁止改用宿主/root/.gradle。短生命周期容器首次补装稳定API 36时，须以容器状态、CPU和增量日志判断进度，不得仅因短时无日志认定卡死、重建镜像或重复启动验证。
-  impact_summary: 只更新既有PITFALLS与REUSABLE_PATTERNS，固化可跨电脑和AI复用的诊断路径；不修改产品、API、数据库、工具链镜像或候选门禁频率。
-  impact:
-    files:
-    - docs/03-continuity/PITFALLS.md
-    - docs/03-continuity/REUSABLE_PATTERNS.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - fixed Android image affected-module verification
-    releases:
-    - R08
-    migration_and_compatibility: 纯文档经验固化；兼容现有固定镜像和命名卷，不重建镜像、不修改历史证据。
-  user_confirmation: 用户明确要求可复用经验跨电脑跨AI生效，并要求相似规则只更新既有事实源
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T04:08:02Z'
-    note: 用户已明确要求把可行方案写入既有全局踩坑和经验复用事实源；本CR先查重后仅更新两份既有文档，不新增并行规则。
-  machine_record: .continuity/change_requests/CR-0220.yaml
-  document: docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
-  decision_log:
-  - at: '2026-07-22T04:08:05Z'
-    actor_id: codex-root-r08-004
-    status: IMPLEMENTING
-    note: 开始更新既有PITFALLS与REUSABLE_PATTERNS，不新增规则文件。
-    session_id: SES-20260722T031604Z-105CF4C6
-  session_ids:
-  - SES-20260722T031604Z-105CF4C6
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `77e2b74816a54a36aca0880eb5f456827f8ab0c8bea55d8ffadecdbeead4519e`
+- `CURRENT_STATUS.yaml` — `1e9fc703a746c6bb5b5481ce09b1a25152f94a6a02a774362c7bad63d5159cb6`
 - `NEXT_TASK.yaml` — `2e00938e45f72209b0caf6f7a60a751fe16b37544b2b4cf214305784dd28e3df`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7451,12 +7376,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `c8ad30aba9d7571125625f66534ecdbe8989fa835672d40d7fd3c80595f44050`
-- `.continuity/SESSION_INDEX.yaml` — `d6d7c4a243151b1fb6c8b713e42cfd77eb7729f88b0952d94a79dd20e2c932d1`
+- `.continuity/EVENT_LOG.jsonl` — `ea77cdc769e6384b81bd13a37d9d1d0cad3b68b1b7dd47c352fad73a6acc099a`
+- `.continuity/SESSION_INDEX.yaml` — `e7b6fad91c1fb517b8690b07db87fa9e9d39d671b28f57b41331b6a4d37f8733`
 - `.continuity/TASK_CLAIMS.yaml` — `a82f6f3f55debf7f581f6b1b6a7a4ecf8a25654143db7b14332c4d9fee1525b0`
 - `.continuity/TASK_TRANSITIONS.yaml` — `ca8fa62a143224f0a806ff902a4b354d778ae3306fce1a9698a8a9b8d576a945`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `22304b70b4fac4624768bf5b25c25f2d9ea47fcdde40982ea03d7856dcfcd3f3`
-- `.continuity/ACTIVE_SESSION.yaml` — `c1ec1b872d377b7af2f454703a0985133f737025656be9b6a213fab4f28afde3`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `21681c18f6e5d66a3100627d0ebaacb50ad6d75de673d3acd205726759bb1877`
+- `.continuity/ACTIVE_SESSION.yaml` — `299ead766d0a8029639f6849e0d93640ca80e9326e0417a85e698611bc4f5227`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7467,12 +7392,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/TASKS.yaml` — `9991ed161addc3aee77ffefea64c6f65a0d08d5cf8dbf42e8f30e4fd339ccfff`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `1e47b204a5cbd289d9ccafc93b0f4afb45983db76a23a4492dd463ffeec0cb98`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md` — `5f210c70cd1d9760231298043ec0527ce1e9a463e2555b9ed5ea1382d3a99365`
-- `.continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0005.yaml` — `f5478db60514348ce486fe03161d31cf12c8f03e442e039310885958a168add7`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md` — `f5b085e580155872a0242544c662869812156a426954a2d7cb6f14b00f6c421b`
+- `.continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0006.yaml` — `891e6e07b6803b4b0e17f9934522fcd77000c5f2888f10dce080068783ee4490`
 - `docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md` — `b586e55a30b64397129690ac74d76ac05cb66f264ca26174e5ea36b52420c485`
 - `docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md` — `4f3bf40523a53e78efca2cfcd3dac0bbd3924d18baf3085c951957c2cbf2ebdf`
 - `docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md` — `786606e3f9a5960ef76418e0986eb10c638ee61f96f09836008ff4992f5e4ad6`
-- `docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md` — `a95712da39359d9f0222414a43474fb7e257c458c49b1232d2ec14dc2d3c905f`
+- `docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md` — `4a449a90b5b184ed70a5bb4306619879d5fc84f3050c614d9ee673a143ce75c4`
 
 ## 接手硬规则
 
