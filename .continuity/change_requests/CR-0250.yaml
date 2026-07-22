@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0250
 title: R09 App推广后端应用服务与接口
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-22T18:33:58Z'
-updated_at: '2026-07-22T18:54:44Z'
+updated_at: '2026-07-22T18:56:58Z'
 requester_actor_id: codex-root-r09-backend
 approver_actor_id: codex-r09-backend-review
 task_id: TASK-R09-003
@@ -70,5 +70,17 @@ decision_log:
   status: IMPLEMENTING
   note: R09 APP端点、领域服务与存储已实现；真实PostgreSQL集成1项通过，定向15项通过，受影响后端MODULE 352项0失败0错误，契约、数据库与文档门禁通过。
   session_id: SES-20260722T183222Z-79C9A5DB
+- at: '2026-07-22T18:56:55Z'
+  actor_id: codex-root-r09-backend
+  status: IMPLEMENTED
+  note: R09 APP后端闭环已由提交e4f54c07落地并推送；冻结端点、数据访问、安全校验、审计Outbox及回归证据齐全。
+  session_id: SES-20260722T183222Z-79C9A5DB
+- at: '2026-07-22T18:56:58Z'
+  actor_id: codex-root-r09-backend
+  status: CLOSED
+  note: 实现提交已推送，受影响MODULE 352项0失败0错误，真实PostgreSQL及契约门禁通过，CR关闭。
+  session_id: SES-20260722T183222Z-79C9A5DB
 session_ids:
 - SES-20260722T183222Z-79C9A5DB
+implementation_commits:
+- e4f54c07b1b3cae024b5de42179a5e2cfb6f2c76
