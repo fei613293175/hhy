@@ -1,0 +1,215 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T183222Z-79C9A5DB-0004
+session_id: SES-20260722T183222Z-79C9A5DB
+sequence: 4
+created_at: '2026-07-22T19:00:15Z'
+summary: 关闭 TASK-R09-003：R09-003完成：APP创建、详情、编辑、公开分享及通用收藏分享/会话来源后端闭环落地；真实PostgreSQL和受影响MODULE通过，CR-0250关闭。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：e4f54c07b1b3cae024b5de42179a5e2cfb6f2c76
+- 任务转换：TRN-20260722T190013Z-SES-20260722T183222Z-79C9A5DB
+- 下一Release：R09
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: Affected backend MODULE
+  result: PASS
+  evidence: 352 tests, 0 failures, 0 errors, 10 conditional skips
+  note: implementation commit e4f54c07
+- name: R09 PostgreSQL integration
+  result: PASS
+  evidence: 1 test, PostgreSQL 17.10, 0 failures
+  note: implementation commit e4f54c07
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 3f27a588499e9ca8e9679a85b9cf5b454447c76f
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260722T183222Z-79C9A5DB.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R09/TASKS.yaml'
+  recent_commits:
+  - "3f27a588499e9ca8e9679a85b9cf5b454447c76f\t2026-07-23T02:57:53+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 App backend"
+  - "e4f54c07b1b3cae024b5de42179a5e2cfb6f2c76\t2026-07-23T02:56:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(content): implement App\
+    \ promotion backend"
+  - "4b4d71a63a5eccc428e2e04f04e13b2fa466bc72\t2026-07-23T02:31:25+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App data\
+    \ task"
+  - "a147db6de57534277d882755c9831793ecb02fdd\t2026-07-23T02:30:06+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 data invariants"
+  - "92dfb059bc78c48493c3300dc3d564a4bebbca73\t2026-07-23T02:28:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(database): enforce App\
+    \ promotion invariants"
+  - "e336e79143572860308f6d3f372bd436b9f0131c\t2026-07-23T02:10:03+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close readiness\
+    \ and UI audit"
+  - "d85bd820cdd6941d71dbbb4da31f98a5d9c05bef\t2026-07-23T02:06:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close historical\
+    \ UI remediation"
+  - "82dbd12edff2af79b597e4814a6cb53add0d445f\t2026-07-23T02:03:27+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(ui): accept historical\
+    \ visual audit"
+project_fingerprint:
+  sha256: 7d89ecb4d9ef5a9da57c1f49712a2191eb4ea6d0ca167a0f067228dc328a1f19
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/change-requests/CR-0250-R09-App推广后端应用服务与接口.md
+  - releases/R09/TASKS.yaml
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R09ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Store.java
+  file_count: 14
+  payload:
+    base_commit: 4b4d71a63a5eccc428e2e04f04e13b2fa466bc72
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 96433
+      sha256: b1c4eba590d37bf777ad39db20ce616f20cf7cfec89e7bf9a8983def667c6eec
+    - path: docs/03-continuity/change-requests/CR-0250-R09-App推广后端应用服务与接口.md
+      state: FILE
+      size: 4494
+      sha256: 8576b9b5e9781c0ae7f0d4a1b97c765ec053d2f4bf684ac0942d4e644c32490d
+    - path: releases/R09/TASKS.yaml
+      state: FILE
+      size: 5575
+      sha256: bc98a5b337993fcd62e5e046664a74f45bd725b7a03536076298c2735f92dc8d
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+      state: FILE
+      size: 6013
+      sha256: 3a5000fe5344d04f0786b58f585607968c130a66f5aa0f5783e5dc1919bbbe8d
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R09ControllerContractTest.java
+      state: FILE
+      size: 1342
+      sha256: 841a4a8cc7d9b57e77c3139994ee73b3782924d1c872db3d81b44471589e2a00
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+      state: FILE
+      size: 2960
+      sha256: e1ec5c3c3dc4e7b494158e96f43bdc47442964b84bcfb761a34097fc11a8b6db
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+      state: FILE
+      size: 8286
+      sha256: a5e50c1a6d02a2c4742dff8c983ae37019522969dc34dfd87a7f1cd48507c5a3
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+      state: FILE
+      size: 17194
+      sha256: 35aa58bb7dfbe87fdda7d845e362b9204cb99c6f2d0bbfa95a6d3a5ea70ab81a
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+      state: FILE
+      size: 26404
+      sha256: 14c3acccf5c57094ded53511f3cc5ea92ef5dfd14b1c5f9d172c019109c373a9
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+      state: FILE
+      size: 3358
+      sha256: b02f24ebe73e7b0c381beed6b92263b92418b322d0eeb5082ee666968b4bfb79
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Contracts.java
+      state: FILE
+      size: 330
+      sha256: 64a3db4383619be117c1f6b1b7b7ee70037d9f9bd1a019c8dfac4225b7d90b18
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+      state: FILE
+      size: 6507
+      sha256: 6ae353940842d9e88effbf194af20f33a64513230d68077c59bc99c364b17ed7
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+      state: FILE
+      size: 21815
+      sha256: adad51fcdbc91cb6ab56907e8766fad5acc5b93b43e808fa1dfdc78194dc834f
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Store.java
+      state: FILE
+      size: 1143
+      sha256: 42f04aae63816c40db49bd5e99cea3e372b42e727773c929f5de954465afed20
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R09/TASKS.yaml
+  continuity:
+  - docs/03-continuity/change-requests/CR-0250-R09-App推广后端应用服务与接口.md
+  code:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R09ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Store.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0250
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - App推广列表、详情、创建、编辑、分享H5后端应用服务、权限、幂等、错误码与审计
+  approved_exceptions:
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R09ControllerContractTest.java
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0250
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: CR关闭元数据依赖同一会话与实现提交，串行维护单一事实链。
+event_hash: eaacd67cbed96a8f35ce7fbf1b10e71836fd8db0045b3613bc188139eae435bc

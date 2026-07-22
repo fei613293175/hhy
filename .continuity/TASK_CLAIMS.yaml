@@ -2726,7 +2726,7 @@ claims:
   task_id: TASK-R09-003
   story_id: STORY-R09-004
   actor_id: codex-root-r09-backend
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-22T18:32:22Z'
   allowed_paths:
   - apps/**
@@ -2761,3 +2761,4 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   - App推广列表、详情、创建、编辑、分享H5后端应用服务、权限、幂等、错误码与审计
+  closed_at: '2026-07-22T19:00:20Z'

@@ -1109,3 +1109,13 @@
 - Actor：`codex-root-r09-data`
 - 摘要：完成R09 App推广V035/U035数据迁移与领域不变量：禁止APK双路径绕过、详情完整性、软删除保护、索引及空库/升级/回滚/重放全部通过。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md`
+
+## TASK-R09-003 · COMPLETED · 2026-07-22T19:00:13Z
+
+- Task close: TASK-R09-003 / SES-20260722T183222Z-79C9A5DB
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-backend`
+- 摘要：R09-003完成：APP创建、详情、编辑、公开分享及通用收藏分享/会话来源后端闭环落地；真实PostgreSQL和受影响MODULE通过，CR-0250关闭。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T183222Z-79C9A5DB.md`
+
