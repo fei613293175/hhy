@@ -1248,3 +1248,17 @@ problems:
   - 候选APK经稳定签名形成交付APK时必须验证Commit、源SHA、目标SHA、大小和PASS转换证据，不得错误要求两个二进制SHA相同
   - 后续版本已在开发时不得因当前状态为IN_PROGRESS误判历史版本机器关闭失败
   - 测试影响映射文件由工具链回归验证，不得仅因其自身变化启动与实际产品输入无关的Android编译
+- id: PROB-0094
+  title: Android模拟器Runner逐行执行导致历史视觉脚本丢失工作目录
+  status: SOLVED
+  root_cause: Run 29942343711已正确跳过完整构建、OIDC、候选和修复队列并启动KVM模拟器，但reactivecircus/android-emulator-runner会把script字段的每一行分别交给独立/usr/bin/sh -c执行；独立的cd apps/android不会传递到下一行，随后./gradlew在仓库根目录返回127。该失败发生在测试启动前，与产品UI、Gradle、模拟器稳定性或GitHub权限无关。
+  resolution: 保留既有唯一Android Quality Gate，把历史视觉命令收敛为仓库内scripts/run_android_historical_visual_audit.sh单一入口；脚本自行解析仓库绝对路径，在子shell中切换Android目录，始终尝试回收截图并精确校验22张证据。工作流只向emulator-runner传递一行bash脚本调用。
+  regression_checks:
+  - python -m unittest tests.test_android_candidate_request tests.test_android_ci_gate
+  - android-quality-gate.yml的历史视觉action必须只调用bash scripts/run_android_historical_visual_audit.sh
+  - 脚本必须限定HistoricalVisualAuditTest且精确要求22张截图
+  - candidate=false时完整build、OIDC候选模拟器、候选资格和修复队列必须继续跳过
+  do_not_repeat:
+  - 不得把依赖前一行cd、export或局部变量的多行命令直接写入android-emulator-runner的script字段
+  - 不得把exit 127误判为Gradle、产品UI、测试断言或GitHub模拟器随机失败
+  - 专用视觉脚本不得扩展为第二套候选构建、登录或APK交付入口

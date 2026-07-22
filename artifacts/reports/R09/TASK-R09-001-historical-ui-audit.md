@@ -67,4 +67,5 @@
 - 本机 CPU 虚拟化已开启，但未安装 Android Emulator Hypervisor Driver；普通权限下无法启用，强行安装会要求管理员操作并可能重启。远端 `obx-test` 同样没有可用 `/dev/kvm`，因此不把本机/服务器环境改造混进产品返工。
 - 既有 `config/android-candidate-request.yaml` 使用唯一组合 `release=HISTORICAL-UI`、`candidate=false`，由已注册的候选请求入口把布尔值原样传给现有权威 `.github/workflows/android-quality-gate.yml`：只运行 `HistoricalVisualAuditTest`，以 `androidTest` 离线夹具渲染生产 Composable，一次生成 22 张非敏感页面截图；不请求 CI 登录、不访问 Staging、不生成候选 APK、不运行发布关闭门禁，也不注册第二套工作流。
 - 源码冻结前已通过 Android 全量 `testDebugUnitTest lintDebug`（436 tasks，`BUILD SUCCESSFUL`）、`compileDebugAndroidTestKotlin` 和文档严格门禁；冻结后只执行一次上述视觉专跑，由 AI 逐张完成六项判定，不在每次提交重复模拟器。
+- Run `29942343711` 已证明非候选分流和 KVM 启动正确，但 `android-emulator-runner` 将多行 `script` 逐行隔离，导致 `cd apps/android` 不传递、测试前以 `./gradlew: not found` / 127 退出；该轮没有产品截图，不计为视觉判定失败。`PROB-0094` 已将命令收敛为单一仓库脚本并保留一次确定性复验。
 - 联系方式面板继续使用安全语义、源码和候选报告替代敏感值截图。

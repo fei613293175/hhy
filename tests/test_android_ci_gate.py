@@ -318,14 +318,22 @@ class AndroidCiGateTest(unittest.TestCase):
             "${{ inputs.release != 'HISTORICAL-UI' }}",
             workflow["jobs"]["build"]["if"],
         )
-        historical_source = yaml.safe_dump(
-            workflow["jobs"]["historical-visual"],
-            allow_unicode=True,
+        historical_job = workflow["jobs"]["historical-visual"]
+        historical_source = yaml.safe_dump(historical_job, allow_unicode=True)
+        historical_action = next(
+            step for step in historical_job["steps"]
+            if str(step.get("uses", "")).startswith("reactivecircus/android-emulator-runner@")
         )
-        self.assertIn("HistoricalVisualAuditTest", historical_source)
-        self.assertIn("-eq 22", historical_source)
-        self.assertNotIn("HHY_CI_BOOTSTRAP_CODE", historical_source)
-        self.assertNotIn("assembleDebug", historical_source)
+        self.assertEqual(
+            "bash scripts/run_android_historical_visual_audit.sh",
+            historical_action["with"]["script"],
+        )
+        runner_source = (ROOT / "scripts/run_android_historical_visual_audit.sh").read_text(encoding="utf-8")
+        self.assertIn("HistoricalVisualAuditTest", runner_source)
+        self.assertIn("screenshot_count", runner_source)
+        self.assertIn("-ne 22", runner_source)
+        self.assertNotIn("HHY_CI_BOOTSTRAP_CODE", historical_source + runner_source)
+        self.assertNotIn("assembleDebug", historical_source + runner_source)
         self.assertEqual("${{ inputs.candidate }}", workflow["jobs"]["emulator"]["if"])
         self.assertIn("inputs.candidate", workflow["jobs"]["candidate"]["if"])
         self.assertIn("inputs.candidate", workflow["jobs"]["remediation-queue"]["if"])

@@ -82,17 +82,7 @@ jobs:
           profile: pixel_7
           emulator-options: -no-snapshot -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -prop persist.sys.locale=zh-CN
           disable-animations: true
-          script: |
-            adb shell rm -rf /sdcard/Pictures/hhy-ci-screenshots
-            cd apps/android
-            ./gradlew :app:connectedDebugAndroidTest \
-              "-Pandroid.testInstrumentationRunnerArguments.class=cc.orbexa.hhy.HistoricalVisualAuditTest" \
-              --no-daemon --no-parallel --max-workers=1 \
-              --stacktrace "-Dorg.gradle.jvmargs=-Xmx1536m -Dfile.encoding=UTF-8 -Duser.timezone=UTC"
-            cd ../..
-            mkdir -p artifacts/historical-ui/screenshots
-            adb pull /sdcard/Pictures/hhy-ci-screenshots/. artifacts/historical-ui/screenshots/
-            test "$(find artifacts/historical-ui/screenshots -maxdepth 1 -name '*.png' | wc -l)" -eq 22
+          script: bash scripts/run_android_historical_visual_audit.sh
       - name: Collect instrumentation reports
         if: always()
         run: |
