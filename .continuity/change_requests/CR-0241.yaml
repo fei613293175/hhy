@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0241
 title: 隔离GitHub模拟器Pixel Launcher系统ANR并补齐R02认证视觉证据
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-22T13:24:45Z'
-updated_at: '2026-07-22T14:07:22Z'
+updated_at: '2026-07-22T14:40:41Z'
 requester_actor_id: codex-root-r08-008
 approver_actor_id: codex-reviewer-user-self-r08
 task_id: TASK-R08-008
@@ -50,5 +50,12 @@ decision_log:
   status: IMPLEMENTED
   note: 本地候选门禁21项通过；obx-test固定API36工具链在单工作线程、1.5GiB堆和进程内Kotlin编译策略下完成compileDebugAndroidTestKotlin，147项0失败；允许推送attempt 2。
   session_id: SES-20260722T093645Z-C7DB8EF0
+- at: '2026-07-22T14:40:41Z'
+  actor_id: codex-root-r08-008
+  status: CLOSED
+  note: Run 29927212504已证明Pixel Launcher系统ANR被排除、25张目标截图全部产出且认证/媒体旅程完成；该CR目标已达成，后续阈值误判由CR-0242处理。
+  session_id: SES-20260722T093645Z-C7DB8EF0
 session_ids:
 - SES-20260722T093645Z-C7DB8EF0
+implementation_commits:
+- 2f78f99ca8c3e949620b06aee62a80ffd6e76e5c

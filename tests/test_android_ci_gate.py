@@ -56,6 +56,7 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertEqual("SINGLE_EMULATOR_CAPTURE_THEN_LIGHTWEIGHT_PROMOTION", bootstrap["mode"])
         self.assertFalse(bootstrap["promotion_rebuild_allowed"])
         self.assertFalse(bootstrap["promotion_emulator_allowed"])
+        self.assertEqual(0.005, policy["visual"]["minimum_cross_screen_changed_pixel_ratio"])
 
     def test_first_release_visuals_require_ai_review_without_forcing_emulator_rerun(self) -> None:
         with TemporaryDirectory() as temp:
@@ -434,10 +435,11 @@ class AndroidCiGateTest(unittest.TestCase):
         editor = next(row for row in r08_manifest["screens"] if row["screen_id"] == "SCR-PUB-002")
         self.assertIn("微信", editor["required_text"])
         self.assertIn("WECHAT", editor["forbidden_text"])
-        self.assertEqual(25, len(r08_manifest["screens"]))
-        historical_names = {row["file"] for row in r08_manifest["screens"] if row["file"][0].isdigit() and row["file"][:2].isdigit()}
-        self.assertIn("10-r02-startup.png", historical_names)
-        self.assertIn("32-r07-clear-history-dialog.png", historical_names)
+        self.assertEqual(3, len(r08_manifest["screens"]))
+        self.assertEqual(
+            {"01-project-list.png", "02-project-detail.png", "03-project-editor.png"},
+            {row["file"] for row in r08_manifest["screens"]},
+        )
         secure_surfaces = {row["surface"] for row in r08_manifest["security_assertions"]}
         self.assertIn("SHEET-CONTACT-001", secure_surfaces)
 

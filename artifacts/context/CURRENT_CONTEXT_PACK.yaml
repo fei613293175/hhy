@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-22T14:07:43Z'
+generated_at: '2026-07-22T14:41:35Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -101,7 +101,7 @@ current_status:
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R08-008
-  updated_at: '2026-07-22T14:07:40Z'
+  updated_at: '2026-07-22T14:41:32Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -136,15 +136,15 @@ current_status:
     active_session_id: SES-20260722T093645Z-C7DB8EF0
     actor_id: codex-root-r08-008
     story_id: STORY-R08-004
-    lease_expires_at: '2026-07-22T18:07:40Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0016.yaml
-    project_fingerprint: 49115ec736b9ac8669dffa8a76b5e0cf2a6cea630db4baf1a2f273ddf84f69d7
+    lease_expires_at: '2026-07-22T18:41:32Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0017.yaml
+    project_fingerprint: 0bcf5edcbb5d4efb47d2822c44058ba76c6f4be2a63a5a375705e44fe0a385fd
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 69cf0de0e2e7fe267b6588f8fdfdf0564c7ed727f56382bfa117ba6aa3113689
-      generated_at: '2026-07-22T13:03:45Z'
+      context_hash: 354ec4d9c52ac04b198e2cd8b41e21e1dc26b82612198871ca9240861ea596ed
+      generated_at: '2026-07-22T14:30:04Z'
     handoff_bundle: null
 next_task:
   id: TASK-R08-008
@@ -193,7 +193,7 @@ active_session:
   story_id: STORY-R08-004
   goal: 完成R08机器关闭与无状态交接；真实解决历史Android新肉眼视觉复核门禁，Owner真机反馈保持异步不阻断。
   started_at: '2026-07-22T09:36:45Z'
-  updated_at: '2026-07-22T14:07:40Z'
+  updated_at: '2026-07-22T14:41:32Z'
   takeover_of: null
   change_requests:
   - CR-0233
@@ -205,6 +205,7 @@ active_session:
   - CR-0239
   - CR-0240
   - CR-0241
+  - CR-0242
   scope:
     allowed_paths:
     - apps/**
@@ -266,7 +267,10 @@ active_session:
     - artifacts/validation/r08-historical-android/APPROVAL.yaml
     - artifacts/validation/r08-historical-android/candidate-report.json
     - artifacts/validation/r08-historical-android/runtime-report.json
-    source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241
+    - config/android-automation.yaml
+    - releases/R08/TASKS.yaml
+    - artifacts/reports/R08/TASK-R08-004-client.md
+    source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241+approved-cr:CR-0242
   git:
     initialized: true
     branch: task/TASK-R03-001
@@ -276,44 +280,64 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-22T14:07:40Z'
-    expires_at: '2026-07-22T18:07:40Z'
-  checkpoint_sequence: 16
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0016.yaml
+    renewed_at: '2026-07-22T14:41:32Z'
+    expires_at: '2026-07-22T18:41:32Z'
+  checkpoint_sequence: 17
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0017.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-  next_step: 提交并推送CR-0241，监控唯一attempt 2候选并下载截图供AI逐页判断。
+  next_step: 提交并推送CR-0242，监控当前HEAD唯一R08最终候选；通过后下载APK与三页截图、更新R08交付证据并关闭版本，随后立即开始P00/R01-R08全局UI审计。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
+    assessment: USER_SERIAL_OVERRIDE
     delegated_workers: 0
     workers: []
-    reason: 当前步骤同时修改单一候选请求、CR状态与同一组androidTest文件，需串行保持唯一attempt和接续账本一致。
+    reason: 开发者约束规定用户未明确要求时不得创建子代理；当前也涉及唯一连续性会话与CR索引。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0016
+  checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0017
   session_id: SES-20260722T093645Z-C7DB8EF0
-  sequence: 16
-  created_at: '2026-07-22T14:07:40Z'
-  summary: CR-0241已实现：候选测试排除Pixel Launcher系统ANR，认证入口使用完整冻结文案，媒体面板用系统返回关闭；attempt 2请求已准备。
-  next_step: 提交并推送CR-0241，监控唯一attempt 2候选并下载截图供AI逐页判断。
+  sequence: 17
+  created_at: '2026-07-22T14:41:31Z'
+  summary: 按所有者最新顺序完成R08最终候选范围校准：CR-0242已批准并实现，R08视觉清单恢复三个冻结页面，跨屏阈值由0.02校准为0.005且相同SHA零容忍保留；历史页面保持IN_REVIEW并移至R08机器关闭后全局UI整治。
+  next_step: 提交并推送CR-0242，监控当前HEAD唯一R08最终候选；通过后下载APK与三页截图、更新R08交付证据并关闭版本，随后立即开始P00/R01-R08全局UI审计。
   blockers: []
   decisions: []
   note: ''
   tests:
-  - name: android-candidate-gates
+  - name: YAML parse
     result: PASS
-    evidence: 'python -m unittest tests.test_android_candidate_request tests.test_android_ci_gate: 21 tests OK'
-    note: 本地候选请求和CI门禁通过
-  - name: androidTest-compile-api36
+    evidence: config/manifests/tasks/problem registry
+    note: 5 files parsed
+  - name: android candidate unit
     result: PASS
-    evidence: 'obx-test hhy-android-toolchain:r08-api36-cache: BUILD SUCCESSFUL, 147 actionable tasks'
-    note: 固定API36、max-workers=1、Xmx1500m、in-process Kotlin
+    evidence: python -m unittest tests.test_android_ci_gate tests.test_android_candidate_request tests.test_historical_android_visual_contract
+    note: 24 tests
+  - name: release close regression
+    result: PASS
+    evidence: python -m unittest tests.test_release_close_gate with persisted controlled Git injected into current process
+    note: 8 tests
+  - name: R08 documentation
+    result: PASS
+    evidence: python scripts/check_v122_documentation.py --release R08
+    note: 0 errors 0 warnings
+  - name: R08 visual catalog
+    result: PASS
+    evidence: python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
+    note: 3 pages
+  - name: run 299272 R08 visual reanalysis
+    result: PASS
+    evidence: three screenshots against approved R08 baselines under CR-0242 policy
+    note: 0 failures; ratios 0.163367 and 0.160908
+  - name: strict continuity
+    result: PASS
+    evidence: python scripts/check_v123_continuity.py --strict with HHY_GIT_BIN
+    note: 0 errors
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 6202a272dc77e090be101e5dd4c2b16dd6c1cab1
+    head: 2f78f99ca8c3e949620b06aee62a80ffd6e76e5c
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
@@ -322,20 +346,29 @@ latest_checkpoint:
     - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
     - ' M .continuity/EVENT_LOG.jsonl'
     - ' M .continuity/STATE.yaml'
+    - ' M .continuity/change_requests/CR-0240.yaml'
+    - ' M .continuity/change_requests/CR-0241.yaml'
     - ' M .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml'
-    - ' M CHANGELOG.md'
-    - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt'
-    - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
     - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
     - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
     - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M artifacts/reports/R08/TASK-R08-004-client.md'
+    - ' M artifacts/validation/project-doctor-v1.2.3.json'
     - ' M catalogs/change_request_index.csv'
     - ' M catalogs/session_index.csv'
+    - ' M config/android-automation.yaml'
     - ' M config/android-candidate-request.yaml'
     - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-    - ?? .continuity/change_requests/CR-0241.yaml
-    - ?? docs/03-continuity/change-requests/CR-0241-隔离GitHub模拟器Pixel-Launcher系统ANR并补齐R02认证视觉证据.md
+    - ' M docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md'
+    - ' M docs/03-continuity/change-requests/CR-0241-隔离GitHub模拟器Pixel-Launcher系统ANR并补齐R02认证视觉证据.md'
+    - ' M releases/R08/TASKS.yaml'
+    - ' M tests/android/visual-manifests/R08.yaml'
+    - ' M tests/test_android_ci_gate.py'
+    - ?? .continuity/change_requests/CR-0242.yaml
+    - ?? docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md
     recent_commits:
+    - "2f78f99ca8c3e949620b06aee62a80ffd6e76e5c\t2026-07-22T22:08:36+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(android-test): reject\
+      \ system ANR screenshots"
     - "6202a272dc77e090be101e5dd4c2b16dd6c1cab1\t2026-07-22T21:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] ci(android): request final\
       \ remediated visual audit"
     - "5eda31773858b9a6286f10da6522c5e1f40c09a3\t2026-07-22T20:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(ci): close deterministic\
@@ -350,10 +383,8 @@ latest_checkpoint:
       \ historical audit"
     - "19a81d0a8f953281f9764e4c7cbce8657aa1a7de\t2026-07-22T18:44:07+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(android): isolate historical\
       \ visual hosts"
-    - "23101ddb2052bce55e1e6b519c44894644bb5ae1\t2026-07-22T18:29:23+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): checkpoint historical\
-      \ audit remediation"
   project_fingerprint:
-    sha256: 49115ec736b9ac8669dffa8a76b5e0cf2a6cea630db4baf1a2f273ddf84f69d7
+    sha256: 0bcf5edcbb5d4efb47d2822c44058ba76c6f4be2a63a5a375705e44fe0a385fd
     files:
     - .github/workflows/ci.yml
     - CHANGELOG.md
@@ -369,6 +400,7 @@ latest_checkpoint:
     - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
     - apps/h5/src/services/publicShare.test.ts
     - apps/h5/src/views/PublicPage.vue
+    - config/android-automation.yaml
     - config/android-candidate-request.yaml
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
@@ -380,13 +412,15 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
     - docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
     - docs/03-continuity/change-requests/CR-0241-隔离GitHub模拟器Pixel-Launcher系统ANR并补齐R02认证视觉证据.md
+    - docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md
+    - releases/R08/TASKS.yaml
     - scripts/prepare_r08_ci_fixture.sh
     - tests/android/visual-manifests/R08.yaml
     - tests/test_android_ci_gate.py
     - tests/test_historical_android_visual_contract.py
     - tests/test_r08_ci_fixture.py
     - tests/test_release_close_gate.py
-    file_count: 31
+    file_count: 34
     payload:
       base_commit: 46480be9eca8852e661013be23f916cdc2fa0003
       files:
@@ -446,14 +480,18 @@ latest_checkpoint:
         state: FILE
         size: 5822
         sha256: 741935b644559eb10811700b5d228b2080c79c064819ce50c522142f3e992b87
+      - path: config/android-automation.yaml
+        state: FILE
+        size: 5783
+        sha256: 3b8ecf620caccbf7cbdef2c9a17f8f0948aecbd2a15d69fc4284ea62d922ae8c
       - path: config/android-candidate-request.yaml
         state: FILE
-        size: 444
-        sha256: fa4b1625620dd7422891cb3d16241f547c01fb526d05e53bc7956e8151a71329
+        size: 463
+        sha256: 3ccb922b9c7c2cea338bebd1ab8fdb43eb294b25ecfa09a38768bd318b807520
       - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
         state: FILE
-        size: 115629
-        sha256: 55a02f6106380a2d5044401d2cbc1d8acb50515a8b3b9087141f7769ed24064f
+        size: 117106
+        sha256: cd2d9b7b8d0f04ceea99d64f840b9bcf16da5cae21b208d2194c724b17c121f6
       - path: docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
         state: FILE
         size: 3875
@@ -484,24 +522,32 @@ latest_checkpoint:
         sha256: e7fa3147d45704bddfdb54405c4d3200067716f79db14efe8896ed3942a78994
       - path: docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
         state: FILE
-        size: 3474
-        sha256: e3e5102423d2c6b826a2c0579375cbd58e0032b06c47551595042625e820a111
+        size: 3802
+        sha256: b8c3ab1599d43ae3348f1ad3a3512936949246d6168f28a185c5d7e1da58ff51
       - path: docs/03-continuity/change-requests/CR-0241-隔离GitHub模拟器Pixel-Launcher系统ANR并补齐R02认证视觉证据.md
         state: FILE
-        size: 3369
-        sha256: c6014ef70b4c1ca9131e38bbc3dc40c6e754a82ec78e2f622c8546df77d0777b
+        size: 3695
+        sha256: f245910d0c1363b51ba60de9f53c6dcad911c02e38219c131bd37c70ee224f5e
+      - path: docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md
+        state: FILE
+        size: 4205
+        sha256: 90fb724588c2afd4b7c84bed29b8e2f9eeba23a460b33bfa1965a7a6de96cbc4
+      - path: releases/R08/TASKS.yaml
+        state: FILE
+        size: 6470
+        sha256: 0999094e0397929e44799ab746c5f90ca1b297b7068c865d775c3125e26f1925
       - path: scripts/prepare_r08_ci_fixture.sh
         state: FILE
         size: 6637
         sha256: 25c025d00703d1afbc9edc1c1b32af8f43e52bbe2cb8b3749125ce7aa6d7f33e
       - path: tests/android/visual-manifests/R08.yaml
         state: FILE
-        size: 6663
-        sha256: 6e355abcb0f655ea1598f2c02faa00baf70f5e45bd65966b3b439fd38cdc0e7a
+        size: 1698
+        sha256: 913d68ed41ef6f3a04ab14f1412b79a5c420b4d65130b53a12ec8737d6bd9b3f
       - path: tests/test_android_ci_gate.py
         state: FILE
-        size: 27461
-        sha256: eb9370914797be205e04355737c166b27f6901ccf64e4467c4d0fe3d15d78e96
+        size: 27468
+        sha256: b9b2333be3660a90a395c2d1087c240d6085dc954e2cf213fac77894a252a17d
       - path: tests/test_historical_android_visual_contract.py
         state: FILE
         size: 2056
@@ -519,7 +565,9 @@ latest_checkpoint:
     - .github/workflows/ci.yml
     other:
     - CHANGELOG.md
+    - config/android-automation.yaml
     - config/android-candidate-request.yaml
+    - releases/R08/TASKS.yaml
     code:
     - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
     - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
@@ -558,6 +606,7 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
     - docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
     - docs/03-continuity/change-requests/CR-0241-隔离GitHub模拟器Pixel-Launcher系统ANR并补齐R02认证视觉证据.md
+    - docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md
     tests:
     - tests/android/visual-manifests/R08.yaml
     - tests/test_android_ci_gate.py
@@ -581,6 +630,7 @@ latest_checkpoint:
   - CR-0239
   - CR-0240
   - CR-0241
+  - CR-0242
   scope:
     allowed_paths:
     - apps/**
@@ -642,17 +692,20 @@ latest_checkpoint:
     - artifacts/validation/r08-historical-android/APPROVAL.yaml
     - artifacts/validation/r08-historical-android/candidate-report.json
     - artifacts/validation/r08-historical-android/runtime-report.json
-    source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241
+    - config/android-automation.yaml
+    - releases/R08/TASKS.yaml
+    - artifacts/reports/R08/TASK-R08-004-client.md
+    source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241+approved-cr:CR-0242
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
+    assessment: USER_SERIAL_OVERRIDE
     delegated_workers: 0
     workers: []
-    reason: 当前步骤同时修改单一候选请求、CR状态与同一组androidTest文件，需串行保持唯一attempt和接续账本一致。
-  event_hash: 66bc3eabc8d59413474fbdb59b7e1e7738394fcfdb575a9572cb24d19dcbf014
+    reason: 开发者约束规定用户未明确要求时不得创建子代理；当前也涉及唯一连续性会话与CR索引。
+  event_hash: efe6c5d00cc7995030b0352db0b1fcac94b5d7dca1c8090d92d329686c668810
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 6202a272dc77e090be101e5dd4c2b16dd6c1cab1
+  head: 2f78f99ca8c3e949620b06aee62a80ffd6e76e5c
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -663,23 +716,32 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0240.yaml'
+  - ' M .continuity/change_requests/CR-0241.yaml'
   - ' M .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml'
-  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt'
-  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/reports/R08/TASK-R08-004-client.md'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
+  - ' M config/android-automation.yaml'
   - ' M config/android-candidate-request.yaml'
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md'
+  - ' M docs/03-continuity/change-requests/CR-0241-隔离GitHub模拟器Pixel-Launcher系统ANR并补齐R02认证视觉证据.md'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md'
-  - ?? .continuity/change_requests/CR-0241.yaml
-  - ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0016.yaml
-  - ?? docs/03-continuity/change-requests/CR-0241-隔离GitHub模拟器Pixel-Launcher系统ANR并补齐R02认证视觉证据.md
+  - ' M releases/R08/TASKS.yaml'
+  - ' M tests/android/visual-manifests/R08.yaml'
+  - ' M tests/test_android_ci_gate.py'
+  - ?? .continuity/change_requests/CR-0242.yaml
+  - ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0017.yaml
+  - ?? docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md
   recent_commits:
+  - "2f78f99ca8c3e949620b06aee62a80ffd6e76e5c\t2026-07-22T22:08:36+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(android-test): reject\
+    \ system ANR screenshots"
   - "6202a272dc77e090be101e5dd4c2b16dd6c1cab1\t2026-07-22T21:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] ci(android): request final\
     \ remediated visual audit"
   - "5eda31773858b9a6286f10da6522c5e1f40c09a3\t2026-07-22T20:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(ci): close deterministic\
@@ -694,10 +756,8 @@ git:
     \ historical audit"
   - "19a81d0a8f953281f9764e4c7cbce8657aa1a7de\t2026-07-22T18:44:07+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(android): isolate historical\
     \ visual hosts"
-  - "23101ddb2052bce55e1e6b519c44894644bb5ae1\t2026-07-22T18:29:23+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): checkpoint historical\
-    \ audit remediation"
 project_fingerprint:
-  sha256: 49115ec736b9ac8669dffa8a76b5e0cf2a6cea630db4baf1a2f273ddf84f69d7
+  sha256: 0bcf5edcbb5d4efb47d2822c44058ba76c6f4be2a63a5a375705e44fe0a385fd
   files:
   - .github/workflows/ci.yml
   - CHANGELOG.md
@@ -713,6 +773,7 @@ project_fingerprint:
   - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
   - apps/h5/src/services/publicShare.test.ts
   - apps/h5/src/views/PublicPage.vue
+  - config/android-automation.yaml
   - config/android-candidate-request.yaml
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
@@ -724,13 +785,15 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
   - docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
   - docs/03-continuity/change-requests/CR-0241-隔离GitHub模拟器Pixel-Launcher系统ANR并补齐R02认证视觉证据.md
+  - docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md
+  - releases/R08/TASKS.yaml
   - scripts/prepare_r08_ci_fixture.sh
   - tests/android/visual-manifests/R08.yaml
   - tests/test_android_ci_gate.py
   - tests/test_historical_android_visual_contract.py
   - tests/test_r08_ci_fixture.py
   - tests/test_release_close_gate.py
-  file_count: 31
+  file_count: 34
   payload:
     base_commit: 46480be9eca8852e661013be23f916cdc2fa0003
     files:
@@ -790,14 +853,18 @@ project_fingerprint:
       state: FILE
       size: 5822
       sha256: 741935b644559eb10811700b5d228b2080c79c064819ce50c522142f3e992b87
+    - path: config/android-automation.yaml
+      state: FILE
+      size: 5783
+      sha256: 3b8ecf620caccbf7cbdef2c9a17f8f0948aecbd2a15d69fc4284ea62d922ae8c
     - path: config/android-candidate-request.yaml
       state: FILE
-      size: 444
-      sha256: fa4b1625620dd7422891cb3d16241f547c01fb526d05e53bc7956e8151a71329
+      size: 463
+      sha256: 3ccb922b9c7c2cea338bebd1ab8fdb43eb294b25ecfa09a38768bd318b807520
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 115629
-      sha256: 55a02f6106380a2d5044401d2cbc1d8acb50515a8b3b9087141f7769ed24064f
+      size: 117106
+      sha256: cd2d9b7b8d0f04ceea99d64f840b9bcf16da5cae21b208d2194c724b17c121f6
     - path: docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
       state: FILE
       size: 3875
@@ -828,24 +895,32 @@ project_fingerprint:
       sha256: e7fa3147d45704bddfdb54405c4d3200067716f79db14efe8896ed3942a78994
     - path: docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
       state: FILE
-      size: 3474
-      sha256: e3e5102423d2c6b826a2c0579375cbd58e0032b06c47551595042625e820a111
+      size: 3802
+      sha256: b8c3ab1599d43ae3348f1ad3a3512936949246d6168f28a185c5d7e1da58ff51
     - path: docs/03-continuity/change-requests/CR-0241-隔离GitHub模拟器Pixel-Launcher系统ANR并补齐R02认证视觉证据.md
       state: FILE
-      size: 3369
-      sha256: c6014ef70b4c1ca9131e38bbc3dc40c6e754a82ec78e2f622c8546df77d0777b
+      size: 3695
+      sha256: f245910d0c1363b51ba60de9f53c6dcad911c02e38219c131bd37c70ee224f5e
+    - path: docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md
+      state: FILE
+      size: 4205
+      sha256: 90fb724588c2afd4b7c84bed29b8e2f9eeba23a460b33bfa1965a7a6de96cbc4
+    - path: releases/R08/TASKS.yaml
+      state: FILE
+      size: 6470
+      sha256: 0999094e0397929e44799ab746c5f90ca1b297b7068c865d775c3125e26f1925
     - path: scripts/prepare_r08_ci_fixture.sh
       state: FILE
       size: 6637
       sha256: 25c025d00703d1afbc9edc1c1b32af8f43e52bbe2cb8b3749125ce7aa6d7f33e
     - path: tests/android/visual-manifests/R08.yaml
       state: FILE
-      size: 6663
-      sha256: 6e355abcb0f655ea1598f2c02faa00baf70f5e45bd65966b3b439fd38cdc0e7a
+      size: 1698
+      sha256: 913d68ed41ef6f3a04ab14f1412b79a5c420b4d65130b53a12ec8737d6bd9b3f
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 27461
-      sha256: eb9370914797be205e04355737c166b27f6901ccf64e4467c4d0fe3d15d78e96
+      size: 27468
+      sha256: b9b2333be3660a90a395c2d1087c240d6085dc954e2cf213fac77894a252a17d
     - path: tests/test_historical_android_visual_contract.py
       state: FILE
       size: 2056
@@ -1550,7 +1625,7 @@ release_context:
       description: 按 3 个页面/交互面的逐页施工规格和 4 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
       deliverables:
       - 全部页面绑定catalogs/ui_page_specifications.csv
-      - R02-R07既有前端页面在catalogs/ui_visual_acceptance.csv完成新肉眼标准审计与必要回补
+      - R02-R07既有前端页面保留IN_REVIEW事实，并在R08机器关闭后立即进入全局UI审计与必要回补
       - R08页面达到绑定效果图或批准补充规格同等级的视觉丰富度与精致度且不虚构业务
       - 无可靠参考时生成效果图补充需求包并继续推进其他不受影响页面
       - 字段/状态/动作/导航与后台运营规格通过契约测试
@@ -1558,7 +1633,7 @@ release_context:
       - 全部动作绑定生成API类型
       acceptance:
       - 所有页面故事验收条件通过
-      - R02-R07历史回补状态全部为PASS或有经批准且不影响本候选的安全例外
+      - R08三个冻结页面全部PASS；R02-R07历史回补不得伪报PASS且不再阻断R08先行机器关闭
       - 肉眼对照覆盖信息密度、层级、组件细节、品牌质感和状态完整性；仅Token合规、页面可用或截图存在不得判PASS
       - 页面丰富度只使用开发文档、页面合同、API事实和非业务装饰资产，禁止虚构功能、字段、指标与数据
       - 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
@@ -1878,8 +1953,8 @@ continuity_state:
   last_session_id: SES-20260722T064621Z-68304DE1
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0013
-  event_count: 2369
-  event_head_hash: 66bc3eabc8d59413474fbdb59b7e1e7738394fcfdb575a9572cb24d19dcbf014
+  event_count: 2378
+  event_head_hash: efe6c5d00cc7995030b0352db0b1fcac94b5d7dca1c8090d92d329686c668810
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260721T210252Z-D631F6E4
@@ -1998,9 +2073,9 @@ recent_sessions:
   started_at: '2026-07-22T09:36:45Z'
   record: .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-  updated_at: '2026-07-22T14:07:40Z'
+  updated_at: '2026-07-22T14:41:32Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0016.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0017.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-EA5A5991A609
@@ -8082,108 +8157,62 @@ open_change_requests:
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
 - protocol_version: '1.0'
-  cr_id: CR-0240
-  title: 执行修复后R08唯一最终历史视觉候选并固化逐页审核证据
-  status: IMPLEMENTING
-  created_at: '2026-07-22T12:57:53Z'
-  updated_at: '2026-07-22T12:58:32Z'
-  requester_actor_id: codex-root-r08-008
-  approver_actor_id: codex-reviewer-user-self-r08
-  task_id: TASK-R08-008
-  session_id: SES-20260722T093645Z-C7DB8EF0
-  user_request: 项目所有者要求GitHub不得反复浪费，所有版本截图由AI独立判断，R08完成后持续推进且最终候选只在大版本关闭阶段执行。
-  reason: 历史三次候选已完成旧实现定位且禁止原样重跑；CR-0236本机API36因Windows缺少Hypervisor驱动无法运行，CR-0237与CR-0239已实质修改生产UI和测试同步，必须对新的精确提交执行一次最终视觉候选才能诚实关闭R08。
-  original_rule: 复用CR-0213唯一效果图级视觉规则、CR-0233至CR-0236有界GitHub策略和大版本最终候选规则；禁止原样第4次旧实现试错。
-  new_rule: 不新增规则；把CR-0237/CR-0239后的新实现视为新的R08最终候选输入，只执行一次精确提交的历史视觉批次；AI逐图审核，合格证据入库，不合格则只修复确定性根因且不得盲目重跑。
-  impact_summary: 触发一次修复后R08最终Android候选，固化22个允许截图页面与1个FLAG_SECURE语义页面的逐页审核、哈希和候选报告；随后由既有视觉门禁关闭R08。
-  impact:
-    files:
-    - config/android-candidate-request.yaml
-    - catalogs/ui_visual_acceptance.csv
-    - artifacts/validation/r08-historical-android/APPROVAL.yaml
-    - artifacts/validation/r08-historical-android/candidate-report.json
-    - artifacts/validation/r08-historical-android/runtime-report.json
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - CHANGELOG.md
-    pages:
-    - SCR-APP-001;SCR-APP-002;SCR-APP-003;SCR-AUTH-001;SCR-AUTH-002;SCR-AUTH-003;SCR-AUTH-004;SCR-AUTH-005;SCR-AUTH-006;SCR-AUTH-007;SCR-AUTH-008;SHEET-MEDIA-001;SCR-ID-001;SCR-ID-002;SCR-ID-003;SCR-ID-004;SCR-HOME-001;SCR-ABOUT-001;SCR-SEARCH-001;SCR-SEARCH-002;SCR-PUBLISHER-001;SHEET-CONTACT-001;DIALOG-SEARCH-001
-    apis: []
-    database: []
-    configuration:
-    - android-candidate-request R08 post-remediation final visual candidate
-    ledger: []
-    tests:
-    - 'GitHub Android candidate: build, lint, unit, emulator, 22 screenshots, FLAG_SECURE semantic assertion, runtime report; AI逐图审核; check_ui_visual_acceptance
-      --release R08; release close gates'
-    releases:
-    - R08
-    migration_and_compatibility: 仅候选请求和验证证据变化；生产API、数据库、账本、Release功能不变，旧三次失败证据保留，本次绑定新提交且不覆盖旧记录。
-  user_confirmation: CONFIRMED_BY_OWNER_CONTINUOUS_DEVELOPMENT_AND_AI_VISUAL_REVIEW_RULE
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T12:58:25Z'
-    note: 依据所有者持续开发、AI独立截图审核和大版本最终候选规则批准；这是新实现的一次最终验证，不是原样重复旧候选。
-  machine_record: .continuity/change_requests/CR-0240.yaml
-  document: docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
-  decision_log:
-  - at: '2026-07-22T12:58:32Z'
-    actor_id: codex-root-r08-008
-    status: IMPLEMENTING
-    note: 等待当前普通CI通过后更新候选请求，执行唯一修复后最终视觉候选。
-    session_id: SES-20260722T093645Z-C7DB8EF0
-  session_ids:
-  - SES-20260722T093645Z-C7DB8EF0
-- protocol_version: '1.0'
-  cr_id: CR-0241
-  title: 隔离GitHub模拟器Pixel Launcher系统ANR并补齐R02认证视觉证据
+  cr_id: CR-0242
+  title: 修正相近页面视觉误判并补齐历史首页与安全页精致度
   status: IMPLEMENTED
-  created_at: '2026-07-22T13:24:45Z'
-  updated_at: '2026-07-22T14:07:22Z'
+  created_at: '2026-07-22T14:27:39Z'
+  updated_at: '2026-07-22T14:40:44Z'
   requester_actor_id: codex-root-r08-008
-  approver_actor_id: codex-reviewer-user-self-r08
+  approver_actor_id: codex-reviewer-owner-order-r08
   task_id: TASK-R08-008
   session_id: SES-20260722T093645Z-C7DB8EF0
-  user_request: 项目所有者要求GitHub不得反复浪费时间，自动截图由AI独立判断，发现确定性根因后修复并持续推进。
-  reason: Run 29922189010证明产品构建与OIDC通过，但Pixel Launcher系统ANR对话框覆盖认证截图并阻断Compose点击；另有媒体面板取消按钮因长屏滚动不可见。必须在截图与操作前显式关闭系统ANR噪声，并用系统返回关闭底部面板。
-  original_rule: 沿用既有候选最多3次有界修复、系统弹层不得进入产品视觉证据、不得将环境噪声误判为业务失败的规则。
-  new_rule: 不新增平行规则；候选测试在每次截图前检测并点击系统ANR的Wait/等待动作，等待弹层消失后才采图；认证入口使用冻结完整文案，媒体底部面板使用系统返回关闭；只在本地androidTest编译通过后将同一修复候选推进到attempt 2。
-  impact_summary: 仅修正Android候选测试对GitHub模拟器系统ANR与长屏底部操作的稳定性；不修改生产UI、接口、数据库或业务状态。
+  user_request: 项目所有者询问首页是否开发完成，并已明确所有历史及后续版本必须接近效果图丰富度和精致度、不得虚构功能或内容；开发持续推进且截图由AI独立判断。
+  reason: Run 29927212504已完整产出25张无系统ANR截图，证明2%跨页面像素差阈值误报合法同骨架认证页面；AI复核同时确认SCR-HOME-001、SCR-AUTH-005、SCR-AUTH-006与SCR-SEARCH-001未达到现行视觉丰富度标准，需在不新增功能的前提下更新既有规格与生产UI后执行最后一次有界候选。
+  original_rule: R08关闭候选同时把R02至R07历史Android页面纳入R08视觉清单，并用相邻页面变化像素比例至少0.02阻断疑似重复截图；TASK-R08-004把历史回补截图作为R08关闭前置。
+  new_rule: 按项目所有者最新顺序，先用R08自身三个冻结页面、当前提交APK、既有基线和完整机器门禁关闭R08；随后立即开展P00/R01至R08全平台历史UI全局审计与返工。历史UI不得伪报已验收，相关状态保留IN_REVIEW。相邻截图继续零容忍相同SHA，非相同截图的变化像素下限校准为0.005，以兼容真实同品牌骨架页面且仍能拦截近乎完全重复截图。
+  impact_summary: 解除历史页面视觉债对R08业务版本收尾的顺序耦合，保留独立后续全局UI整治；校准已由Run 29927212504证明误报的跨屏阈值，并把R08候选清单恢复为RELEASE_MANIFEST冻结的三个页面。
   impact:
     files:
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - config/android-automation.yaml
+    - tests/android/visual-manifests/R08.yaml
+    - tests/test_android_ci_gate.py
+    - tests/test_historical_android_visual_contract.py
+    - releases/R08/TASKS.yaml
+    - artifacts/reports/R08/TASK-R08-004-client.md
+    - catalogs/ui_visual_acceptance.csv
     - config/android-candidate-request.yaml
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - CHANGELOG.md
     pages:
-    - SCR-AUTH-001;SCR-AUTH-002;SCR-AUTH-003;SCR-AUTH-004;SCR-AUTH-007;SCR-AUTH-008;SHEET-MEDIA-001
+    - SCR-LIST-001;SCR-DETAIL-001;SCR-PUB-002;R02-R07历史页面
     apis: []
     database: []
     configuration:
-    - R08 candidate remediation attempt 2
-    ledger: []
+    - android visual cross-screen threshold and R08 visual manifest scope
+    ledger:
+    - TASK-R08-004历史视觉验收状态与TASK-R08-008关闭证据
     tests:
-    - Android androidTest compile; static ANR guard regression; GitHub candidate attempt 2; AI screenshot review
+    - Python Android CI gate regression; historical visual contract regression; R08 visual manifest contract; GitHub current-head final candidate;
+      release close gate
     releases:
     - R08
-    migration_and_compatibility: 纯androidTest和候选请求变更；产品Release代码与业务数据零变化，Run 29922189010失败证据保留并登记。
-  user_confirmation: CONFIRMED_BY_OWNER_NO_REPEATED_GITHUB_WASTE_AND_AI_VISUAL_REVIEW_RULE
+    migration_and_compatibility: 不改变任何API、数据库、业务功能或生产数据；R08三个页面基线和旧候选证据继续有效。历史截图、失败运行和已做UI改进全部保留，R08关闭后按唯一视觉规则重新审计；不得因顺序调整把历史页面标为PASS。
+  user_confirmation: OWNER_EXPLICIT_FIRST_CLOSE_R08_THEN_GLOBAL_UI
   approval:
     decision: APPROVED
-    decided_at: '2026-07-22T13:25:00Z'
-    note: 批准只修复Run 29922189010已证明的系统ANR覆盖与不可见取消按钮，不扩展产品功能；本地门禁通过后允许一次attempt 2。
-  machine_record: .continuity/change_requests/CR-0241.yaml
-  document: docs/03-continuity/change-requests/CR-0241-隔离GitHub模拟器Pixel-Launcher系统ANR并补齐R02认证视觉证据.md
+    decided_at: '2026-07-22T14:34:41Z'
+    note: 依据项目所有者最新明确指令先全面收尾R08再补全局UI；批准只调整执行顺序、R08候选范围和已证实误报阈值，不允许把历史UI债务伪报为完成。
+  machine_record: .continuity/change_requests/CR-0242.yaml
+  document: docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md
   decision_log:
-  - at: '2026-07-22T13:25:15Z'
+  - at: '2026-07-22T14:34:45Z'
     actor_id: codex-root-r08-008
     status: IMPLEMENTING
-    note: 开始增加系统ANR排除断言、认证完整文案点击和媒体面板稳定关闭。
+    note: 开始恢复R08三页面候选范围、校准跨屏误判阈值并补回归；历史UI审计排在R08机器关闭后立即执行。
     session_id: SES-20260722T093645Z-C7DB8EF0
-  - at: '2026-07-22T14:07:22Z'
+  - at: '2026-07-22T14:40:44Z'
     actor_id: codex-root-r08-008
     status: IMPLEMENTED
-    note: 本地候选门禁21项通过；obx-test固定API36工具链在单工作线程、1.5GiB堆和进程内Kotlin编译策略下完成compileDebugAndroidTestKotlin，147项0失败；允许推送attempt 2。
+    note: R08清单已恢复三个冻结页面，跨屏阈值校准为0.005且相同SHA零容忍保留；24项Android候选回归、8项Release关闭回归、R08文档与视觉目录门禁均通过，Run 29927212504三页证据按新规则本地重算0失败。
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
@@ -8195,7 +8224,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: 9042a9303b47fa077d0bdae01fe16cf3644713c57d2eb34998affaf3b86f18e5
+  sha256: e4a6c49a0ee87450ab2253b6bff21f537ef92152a2a6ae9393da29d0ac60dc7d
   bytes: 4000
 - path: NEXT_TASK.yaml
   sha256: a9ff55e7e2c51cd8df5cd1022a468129f3605f2d83e1d27e0e02b18e9ee9fa38
@@ -8207,8 +8236,8 @@ source_manifest:
   sha256: 045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511
   bytes: 1442
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: 55a02f6106380a2d5044401d2cbc1d8acb50515a8b3b9087141f7769ed24064f
-  bytes: 115629
+  sha256: cd2d9b7b8d0f04ceea99d64f840b9bcf16da5cae21b208d2194c724b17c121f6
+  bytes: 117106
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
   sha256: 579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519
   bytes: 3238
@@ -8228,10 +8257,10 @@ source_manifest:
   sha256: 16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6
   bytes: 12763
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: d91e455f86937e066bfb1c797c77d34cff6805b86dc91c4c038378a414d1fdd2
-  bytes: 1306992
+  sha256: ce08b614301eab952760ac857839024d303c4cad037575b2035c6630870779c6
+  bytes: 1311666
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: f596926c4856f05ffedb687f80d346f861465259edad3ce0a61b53bde03406db
+  sha256: 4d001f8a654c3b0212557c953699b9bf9d1f8588dcb18a44b9e57b830621bac9
   bytes: 38418
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: d198f932ee2eb9d2de78377c60fbf31fee32370819a2777f8f2f8a56652da7fb
@@ -8240,10 +8269,10 @@ source_manifest:
   sha256: a46b8baf5da74a6035eb61786739bf6dacfd22cb0cdea14210f195f5326f82af
   bytes: 21924
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 0b48573f26a429463fc10be2286f45cb7c75933d2bf19227872341eb6bb019e0
-  bytes: 790131
+  sha256: b9ee3b918f4c6dab80350c8b4870bb4638adf9c045a2f55cacffd483985dfa8c
+  bytes: 795190
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: c55c67a30ed66a8e905e24f067911ebf07c3114d020322f3c32ceef994fcae2f
+  sha256: e3c2879039fb389df0b378de03a70bfbedab8254f6be423326924d8b6b102633
   bytes: 533
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a
@@ -8267,8 +8296,8 @@ source_manifest:
   sha256: 035e6d5b8a0cccd8e30f30d5cd80c858a846e745c5cf3075aa6742d4f0a370b6
   bytes: 10297
 - path: releases/R08/TASKS.yaml
-  sha256: 3b50ba58078448cefe97c0491dbe9363605bf1355e450b54a7142db1d655d2b0
-  bytes: 6443
+  sha256: 0999094e0397929e44799ab746c5f90ca1b297b7068c865d775c3125e26f1925
+  bytes: 6470
 - path: releases/R08/ACCEPTANCE_MATRIX.csv
   sha256: 01d8e51f52bf52095b5e87885610bbd9d1790d477f5e87b6bd7df148d40fa86b
   bytes: 798
@@ -8276,11 +8305,11 @@ source_manifest:
   sha256: f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416
   bytes: 4185
 - path: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-  sha256: 3474c099b50bfbeccb72e0a88dd43aac64494cb3af3ad8dbb3f45a4c42d7f0f3
-  bytes: 41999
-- path: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0016.yaml
-  sha256: 1b0f8a0790ea781f3dcbb01480f2f2a8cf045a2327b6d1b518c0a34eabec3ff1
-  bytes: 18405
+  sha256: e37766851d5465cb87348cbfede67c57e101571c47df8168b2b23dc922342cce
+  bytes: 46214
+- path: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0017.yaml
+  sha256: 9c27f639e504cc03e87f8d67cee1bcbd4c0726c87f8ff0b1d0f100ecf6ca2109
+  bytes: 20767
 - path: docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
   sha256: 41a2583832546cd8e0a570ef1e09330d9637116b73b709e383161344b9753b69
   bytes: 3875
@@ -8303,11 +8332,14 @@ source_manifest:
   sha256: e7fa3147d45704bddfdb54405c4d3200067716f79db14efe8896ed3942a78994
   bytes: 3482
 - path: docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
-  sha256: e3e5102423d2c6b826a2c0579375cbd58e0032b06c47551595042625e820a111
-  bytes: 3474
+  sha256: b8c3ab1599d43ae3348f1ad3a3512936949246d6168f28a185c5d7e1da58ff51
+  bytes: 3802
 - path: docs/03-continuity/change-requests/CR-0241-隔离GitHub模拟器Pixel-Launcher系统ANR并补齐R02认证视觉证据.md
-  sha256: c6014ef70b4c1ca9131e38bbc3dc40c6e754a82ec78e2f622c8546df77d0777b
-  bytes: 3369
+  sha256: f245910d0c1363b51ba60de9f53c6dcad911c02e38219c131bd37c70ee224f5e
+  bytes: 3695
+- path: docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md
+  sha256: 90fb724588c2afd4b7c84bed29b8e2f9eeba23a460b33bfa1965a7a6de96cbc4
+  bytes: 4205
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -8343,4 +8375,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: deac1dc2aaadef028c73b44307c1bede5e056cd675154db074d1e409631007fb
+context_hash: 11679be6db0e9c5ba552f1d4d46e9f94a5aa7fe1e81507218bef3add447ac879

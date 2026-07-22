@@ -74,7 +74,7 @@ visual:
   max_mean_absolute_error: 14.0
   max_changed_pixel_ratio: 0.10
   changed_pixel_threshold: 24
-  minimum_cross_screen_changed_pixel_ratio: 0.02
+  minimum_cross_screen_changed_pixel_ratio: 0.005
   stable_sample_interval_ms: 350
   stable_sample_matches: 2
   review_authority: AI_IMPLEMENTATION_AGENT

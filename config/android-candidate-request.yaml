@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R08
 candidate: true
-remediation_attempt: 2
-request_id: R08-POST-REMEDIATION-VISUAL-20260722-002
-reason: Run 29922189010已精确证明Pixel Launcher系统ANR弹层覆盖认证截图并阻断点击，且媒体底部面板取消按钮在长屏之外；CR-0241只增加系统弹层排除、完整认证文案点击和稳定返回关闭，不改变产品功能，本轮为修复后最终候选attempt 2
+remediation_attempt: 3
+request_id: R08-CURRENT-HEAD-FINAL-20260722-003
+reason: 项目所有者明确要求先全面收尾R08再补历史UI；CR-0242将候选恢复为R08冻结的三个页面，并把Run 29927212504已证明误报合法认证页的跨屏阈值校准为0.005，同时保留相同SHA零容忍。本轮只验证当前HEAD的R08三页、APK和机器门禁，为R08最终有界候选。

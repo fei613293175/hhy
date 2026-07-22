@@ -94,3 +94,10 @@ CONFIRMED_BY_OWNER_NO_REPEATED_GITHUB_WASTE_AND_AI_VISUAL_REVIEW_RULE
 - Status：`IMPLEMENTED`
 - Session：`SES-20260722T093645Z-C7DB8EF0`
 - Note：本地候选门禁21项通过；obx-test固定API36工具链在单工作线程、1.5GiB堆和进程内Kotlin编译策略下完成compileDebugAndroidTestKotlin，147项0失败；允许推送attempt 2。
+
+## 状态记录 · 2026-07-22T14:40:41Z
+
+- Actor：`codex-root-r08-008`
+- Status：`CLOSED`
+- Session：`SES-20260722T093645Z-C7DB8EF0`
+- Note：Run 29927212504已证明Pixel Launcher系统ANR被排除、25张目标截图全部产出且认证/媒体旅程完成；该CR目标已达成，后续阈值误判由CR-0242处理。

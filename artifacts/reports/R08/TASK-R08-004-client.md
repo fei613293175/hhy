@@ -41,8 +41,8 @@
 | R07 历史视觉回补 Android MODULE | PASS | 精确提交 `d40f0b091b4af3224b56663b8e8d19e8c64129a2`；固定镜像与命名缓存卷；`:feature:discovery:test :app:compileDebugKotlin`；日志 `/tmp/hhy-r07-visual-d40f0b09.log`；SHA-256 `c101b98ebe18511ff31c5e7321138b8c351ba0eef48ef5cc116c5a14ed9e5230`；91 tasks（71 from cache），BUILD SUCCESSFUL in 2m 51s |
 | R06 历史视觉回补 Android MODULE | PASS | 精确提交 `a217dd276df6bcbd35a019d0e9974b75d5201bce`；固定镜像与命名缓存卷；`:feature:shell:test :app:testDebugUnitTest :app:compileDebugKotlin`；日志 `/tmp/hhy-r06-visual-a217dd27.log`；SHA-256 `932dd419e613fd0bc3be95eaedc5eab35ccb6df64007f76787b038f586bda2d0`；164 tasks（104 from cache），BUILD SUCCESSFUL in 4m |
 
-## 候选阶段保留项
+## 候选阶段结论与后续顺序
 
-- 本任务仍需在最终候选阶段采集三张 R08 Android 页面真实截图，由 AI 按精确视觉合同判断后更新 `ui_visual_acceptance.csv`。
-- R02、R04—R08 Android 历史页面的最终候选截图与 AI 肉眼结论仍是 R08 关闭前置条件；不得以本报告的代码/单测结果替代模拟器证据。
-- 完整 lint、候选 APK、模拟器旅程和桌面交付只在 R08 最终候选阶段执行，不在本次普通实现提交重复触发。
+- R08 三张 Android 页面已在 GitHub 候选、轻量基线晋升和 AI 逐图判断中通过，证据见 `artifacts/validation/r08-task007-android/`。
+- 按项目所有者最新明确顺序，R08 先完成当前提交的机器候选和版本关闭；P00/R01—R08 历史页面随后进入独立的全局 UI 审计与返工。
+- 历史页面仍以 `catalogs/ui_visual_acceptance.csv` 的 `IN_REVIEW` 为事实，不得把源码审计、截图存在或本次顺序调整伪报为视觉 PASS。

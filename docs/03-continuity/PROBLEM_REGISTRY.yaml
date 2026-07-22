@@ -1190,3 +1190,17 @@ problems:
   - 视觉采样稳定不代表画面属于被测应用，必须排除系统ANR、权限、升级和通知弹层
   - 系统环境弹层不得误判为产品UI缺陷，也不得把受污染截图批准为视觉证据
   - 长屏底部控件不可见时优先使用等价系统返回语义，不得依赖坐标或盲目增加等待时间
+- id: PROB-0090
+  title: 全局相邻截图2%差异阈值误判同品牌认证页面
+  status: SOLVED
+  root_cause: Run 29927212504已无系统ANR且完整产出25张不同SHA截图，但密码登录、验证码登录、注册和重置密码共用冻结品牌骨架，三组相邻页面变化像素比例为0.0127、0.0172和0.0094，低于全局0.02阈值。该阈值把合法同系列页面误判为重复，且R08候选又同时承担历史页面审计，造成R08自身三页已合格仍无法关闭。
+  resolution: CR-0242保留相同SHA截图零容忍，将非相同截图的跨屏变化像素下限校准为0.005；R08候选恢复为RELEASE_MANIFEST冻结的项目列表、详情和编辑三页。P00/R01至R08历史UI保持IN_REVIEW，并在R08机器关闭后独立执行全局审计和返工。
+  regression_checks:
+  - python -m unittest tests.test_android_ci_gate tests.test_android_candidate_request
+  - tests/android/visual-manifests/R08.yaml只能包含SCR-LIST-001、SCR-DETAIL-001和SCR-PUB-002
+  - 相同截图SHA仍必须被android_ci_gate.py无条件拒绝
+  - 当前HEAD的GitHub R08最终候选必须通过构建、lint、单测、模拟器、三页截图和APK打包
+  do_not_repeat:
+  - 不得用单一高比例阈值判断所有同品牌、同骨架页面是否重复
+  - 不得因历史UI整治扩大大版本候选范围而阻塞已经冻结且合格的本版本页面关闭
+  - 调整执行顺序不得把历史页面的IN_REVIEW状态伪改为PASS
