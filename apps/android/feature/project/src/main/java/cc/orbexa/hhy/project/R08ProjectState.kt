@@ -38,6 +38,7 @@ data class R08ProjectForm(
     val regionCode: String = "",
     val contactChannel: String = "WECHAT",
     val contactValue: String = "",
+    val mediaIds: List<String> = emptyList(),
     val expectedVersion: Long? = null,
 ) {
     fun validate(): Map<String, String> = buildMap {
@@ -48,6 +49,7 @@ data class R08ProjectForm(
         if (regionCode.length > 2000) put("regionCode", "地区编码不能超过2000字")
         if (contactValue.isNotBlank() && contactChannel !in CONTACT_CHANNELS) put("contactChannel", "联系方式渠道不受支持")
         if (contactValue.length > 2000) put("contactValue", "联系方式不能超过2000字")
+        if (mediaIds.size > 100 || mediaIds.toSet().size != mediaIds.size) put("mediaIds", "项目媒体数量或内容不符合要求")
         if (expectedVersion != null && expectedVersion < 0) put("expectedVersion", "数据版本无效")
     }
 
@@ -60,6 +62,7 @@ data class R08ProjectForm(
             description = resource.description.orEmpty(),
             categoryCode = resource.categoryCode.orEmpty(),
             regionCode = resource.regionCode.orEmpty(),
+            mediaIds = resource.media.map { it.id },
             expectedVersion = resource.version,
         )
     }

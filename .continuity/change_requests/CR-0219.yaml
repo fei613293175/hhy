@@ -1,0 +1,52 @@
+protocol_version: '1.0'
+cr_id: CR-0219
+title: 登记R08三页精确视觉施工合同
+status: IMPLEMENTING
+created_at: '2026-07-22T03:52:50Z'
+updated_at: '2026-07-22T03:53:22Z'
+requester_actor_id: codex-root-r08-004
+approver_actor_id: codex-reviewer-r08-visual
+task_id: TASK-R08-004
+session_id: SES-20260722T031604Z-105CF4C6
+user_request: 所有UI肉眼接近效果图丰富度和精致度，不虚构业务；无直接效果图时复用相关页面风格。
+reason: 现有页面目录将R08来源写成B02/P01-P08范围和TOKENS_ONLY，视觉门禁禁止范围引用并要求逐页精确来源；需在既有ui_visual_acceptance唯一目录登记三页合同，发布编辑页形成批准补充施工规格。
+original_rule: 既有唯一UI规则要求逐页精确面板或批准补充规格；R08页面目录当前仅提供范围引用或Token，不能直接作为验收合同。
+new_rule: 不修改硬规则、不新建目录事实源：在既有catalogs/ui_visual_acceptance.csv登记SCR-LIST-001=B02/P05、SCR-DETAIL-001=B03/P01；SCR-PUB-002使用批准补充规格复用B02/P05的信息分组、B03/P01的品牌层级和既有MOB-FORM交互，仅允许冻结字段与状态。
+impact_summary: 新增三份R08逐页施工规格并更新既有视觉验收目录；规格是页面派生合同，不是新的全局硬规则。当前先登记IN_REVIEW，候选截图经AI肉眼对照后才能PASS。
+impact:
+  files:
+  - design/R08-UI-FROZEN/specs/SCR-LIST-001.md
+  - design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
+  - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+  - catalogs/ui_visual_acceptance.csv
+  - artifacts/reports/R08/TASK-R08-004-client.md
+  - CHANGELOG.md
+  pages:
+  - SCR-LIST-001
+  - SCR-DETAIL-001
+  - SCR-PUB-002
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python -m unittest tests.test_ui_visual_acceptance
+  - python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
+  releases:
+  - R08
+  migration_and_compatibility: 保留页面合同、Token、API和现有实现；精确面板替换范围引用不增加业务字段，发布编辑补充规格只约束布局、尺寸、层级和状态。
+user_confirmation: 项目所有者已明确同意无直接效果图时复用相关效果图/UI风格，且要求所有页面达到效果图级丰富度与精致度。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T03:53:17Z'
+  note: 批准在既有视觉验收目录登记精确面板并为无直接效果图的发布编辑页建立派生补充规格；不得把补充规格扩张为全局规则或添加未冻结业务。
+machine_record: .continuity/change_requests/CR-0219.yaml
+document: docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+decision_log:
+- at: '2026-07-22T03:53:22Z'
+  actor_id: codex-root-r08-004
+  status: IMPLEMENTING
+  note: 开始建立R08三页精确派生视觉规格并登记既有目录。
+  session_id: SES-20260722T031604Z-105CF4C6
+session_ids:
+- SES-20260722T031604Z-105CF4C6

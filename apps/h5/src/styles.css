@@ -73,6 +73,92 @@ footer {
   text-align: center;
 }
 
+.share-page {
+  min-height: calc(100vh - 130px);
+  padding: 32px 16px 72px;
+  background:
+    radial-gradient(circle at 50% 0, color-mix(in srgb, var(--hhy-color-brand-primary) 12%, transparent), transparent 34%),
+    var(--hhy-color-background-page);
+}
+.share-shell { width: min(100%, 680px); margin: 0 auto; }
+.share-hero,
+.share-content-card,
+.share-trust-card,
+.share-cta-card,
+.share-state-card {
+  overflow: hidden;
+  margin: 0 0 var(--hhy-space-16);
+  background: var(--hhy-color-background-surface);
+  border: 1px solid var(--hhy-color-border-default);
+  border-radius: var(--hhy-radius-dialog);
+  box-shadow: 0 18px 42px color-mix(in srgb, var(--hhy-color-text-primary) 8%, transparent);
+}
+.share-hero {
+  color: var(--hhy-color-text-inverse);
+  background: linear-gradient(135deg, var(--hhy-color-brand-primary), #39a0ff);
+}
+.share-hero img { display: block; width: 100%; max-height: 360px; object-fit: cover; }
+.share-hero-copy { padding: clamp(24px, 6vw, 42px); }
+.share-badge {
+  display: inline-flex;
+  padding: 5px 10px;
+  color: var(--hhy-color-brand-primary);
+  background: color-mix(in srgb, white 92%, transparent);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 750;
+}
+.share-hero h1 { margin: 18px 0 10px; font-size: clamp(30px, 8vw, 48px); line-height: 1.16; }
+.share-hero p { margin: 0; color: color-mix(in srgb, white 84%, transparent); font-size: 16px; line-height: 1.75; }
+.share-content-card,
+.share-trust-card,
+.share-cta-card { padding: clamp(20px, 5vw, 30px); }
+.share-content-card h2,
+.share-cta-card h2 { margin: 0 0 12px; font-size: 20px; line-height: 1.4; }
+.share-body,
+.share-trust-card p,
+.share-cta-card p { margin: 0; font-size: 15px; line-height: 1.8; white-space: pre-wrap; }
+.share-media-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 18px; }
+.share-media-grid img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--hhy-radius-button); }
+.share-trust-card { background: color-mix(in srgb, var(--hhy-color-brand-primary) 5%, white); box-shadow: none; }
+.share-trust-card strong { display: block; margin-bottom: 8px; color: var(--hhy-color-brand-primary); }
+.share-cta-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; }
+.share-primary-link,
+.share-secondary-link {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 18px;
+  border-radius: var(--hhy-radius-button);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.share-primary-link { color: var(--hhy-color-text-inverse); background: var(--hhy-color-brand-primary); }
+.share-secondary-link { color: var(--hhy-color-brand-primary); background: color-mix(in srgb, var(--hhy-color-brand-primary) 9%, transparent); }
+.share-state-card { display: grid; justify-items: center; margin-top: 8vh; padding: 44px 28px; text-align: center; }
+.share-state-card h1 { margin: 20px 0 8px; font-size: 28px; }
+.share-state-card p { margin: 0 0 16px; font-size: 15px; }
+.share-state-card small { margin: 0 0 18px; color: var(--hhy-color-text-tertiary); }
+.share-state-icon { display: grid; width: 58px; height: 58px; place-items: center; color: var(--hhy-color-status-error); background: color-mix(in srgb, var(--hhy-color-status-error) 9%, white); border-radius: 50%; font-size: 30px; font-weight: 800; }
+.share-state-card .share-secondary-link { margin-top: 10px; }
+.share-loading { display: grid; gap: 14px; }
+.share-skeleton { background: linear-gradient(90deg, var(--hhy-color-border-default), white, var(--hhy-color-border-default)); background-size: 220% 100%; border-radius: var(--hhy-radius-button); animation: share-shimmer 1.4s infinite linear; }
+.share-skeleton-hero { height: 300px; border-radius: var(--hhy-radius-dialog); }
+.share-skeleton-title { width: 68%; height: 32px; }
+.share-skeleton-copy { width: 92%; height: 18px; }
+.share-skeleton-card { height: 190px; }
+@keyframes share-shimmer { to { background-position: -220% 0; } }
+
+@media (max-width: 640px) {
+  .top { height: 60px; padding: 0 16px; }
+  .top nav { display: none; }
+  .share-page { min-height: calc(100vh - 104px); padding: 12px 12px 44px; }
+  .share-cta-card { grid-template-columns: 1fr; }
+  .share-primary-link { width: 100%; }
+}
+
 .invite-page {
   min-height: calc(100vh - 130px);
   padding: 48px 24px 72px;

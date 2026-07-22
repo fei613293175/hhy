@@ -46,6 +46,7 @@ import cc.orbexa.hhy.network.StartupGateRequest
 import cc.orbexa.hhy.network.UrlConnectionHhyPublicApi
 import cc.orbexa.hhy.network.UrlConnectionContractAuthApi
 import cc.orbexa.hhy.network.UrlConnectionContractIdentityApi
+import cc.orbexa.hhy.network.UrlConnectionContractMediaApi
 import cc.orbexa.hhy.network.UrlConnectionContractR07Api
 import cc.orbexa.hhy.network.UrlConnectionExperienceApi
 import cc.orbexa.hhy.network.UrlConnectionContractR08Api
@@ -201,6 +202,7 @@ private fun AuthenticatedNavHost(
     val experienceApi = remember { UrlConnectionExperienceApi(BuildConfig.API_BASE_URL) }
     val r07Api = remember { UrlConnectionContractR07Api(BuildConfig.API_BASE_URL) }
     val r08Api = remember { UrlConnectionContractR08Api(BuildConfig.API_BASE_URL) }
+    val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     NavHost(
         navController = navController,
         startDestination = AuthenticatedRoute.Shell,
@@ -306,6 +308,7 @@ private fun AuthenticatedNavHost(
             val route = backStackEntry.toRoute<AuthenticatedRoute.ProjectEditor>()
             R08ProjectEditorScreen(
                 api = r08Api,
+                mediaApi = mediaApi,
                 accessToken = authenticated.session.accessToken,
                 projectId = route.projectId,
                 identityVerified = authenticated.user.identityStatus == "VERIFIED",

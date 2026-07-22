@@ -1,8 +1,10 @@
 package cc.orbexa.hhy.project
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.view.WindowManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -39,6 +41,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -51,6 +54,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
@@ -62,6 +66,7 @@ import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyRadius
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.network.ContentResource
+import cc.orbexa.hhy.network.ContractMediaApi
 import cc.orbexa.hhy.network.ContractR08Api
 import cc.orbexa.hhy.network.R07CallResult
 import cc.orbexa.hhy.network.R08ContactInput
@@ -70,6 +75,7 @@ import cc.orbexa.hhy.network.R08DirectConversationRequest
 import cc.orbexa.hhy.network.R08FavoriteRequest
 import cc.orbexa.hhy.network.R08PatchProjectRequest
 import cc.orbexa.hhy.network.R08ShareRequest
+import cc.orbexa.hhy.media.MediaUploadSheet
 import kotlinx.coroutines.launch
 
 private val projectSorts = listOf("createdAt:desc" to "最新发布", "updatedAt:desc" to "最近更新")
@@ -188,6 +194,7 @@ fun R08ProjectDetailScreen(
 
     LaunchedEffect(projectId) { load() }
     contact?.let { (channel, value) ->
+        R08SecureWindowEffect()
         ModalBottomSheet(onDismissRequest = { contact = null }) {
             Column(Modifier.fillMaxWidth().padding(HhySpacing.Xl), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
                 Text("获取联系方式", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
@@ -240,7 +247,10 @@ fun R08ProjectDetailScreen(
                             val channel = item.contactsMasked.firstOrNull { it.available }?.channel ?: return@Button
                             scope.launch {
                                 when (val result = api.accessContact(accessToken, item.id, channel, keys.forBody("contact", "${item.id}:$channel"))) {
-                                    is R07CallResult.Success -> contact = result.data.channel to result.data.value
+                                    is R07CallResult.Success -> {
+                                        keys.consume("contact", "${item.id}:$channel")
+                                        contact = result.data.channel to result.data.value
+                                    }
                                     is R07CallResult.Failure -> accept(result)
                                 }
                             }
@@ -289,6 +299,7 @@ fun R08ProjectDetailScreen(
 @Composable
 fun R08ProjectEditorScreen(
     api: ContractR08Api,
+    mediaApi: ContractMediaApi,
     accessToken: String,
     projectId: String?,
     identityVerified: Boolean,
@@ -304,6 +315,8 @@ fun R08ProjectEditorScreen(
     var errors by remember { mutableStateOf<Map<String, String>>(emptyMap()) }
     var confirm by remember { mutableStateOf(false) }
     var dirty by rememberSaveable { mutableStateOf(false) }
+    var showMediaUpload by remember { mutableStateOf(false) }
+    var selectedMediaNames by remember { mutableStateOf<List<String>>(emptyList()) }
 
     LaunchedEffect(projectId) {
         if (projectId == null) return@LaunchedEffect
@@ -321,18 +334,18 @@ fun R08ProjectEditorScreen(
         if (errors.isNotEmpty()) return
         confirm = false
         phase = R08ProjectPhase.SUBMITTING
-        val fingerprint = listOf(form.title, form.summary, form.description, form.categoryCode, form.regionCode, form.contactChannel, form.contactValue, form.expectedVersion).joinToString("|")
+        val fingerprint = listOf(form.title, form.summary, form.description, form.categoryCode, form.regionCode, form.contactChannel, form.contactValue, form.mediaIds.joinToString(","), form.expectedVersion).joinToString("|")
         scope.launch {
             val contacts = form.contactValue.takeIf { it.isNotBlank() }?.let { listOf(R08ContactInput(form.contactChannel, it)) }.orEmpty()
             val result = if (projectId == null) {
                 api.create(accessToken, keys.forBody("create", fingerprint), R08CreateProjectRequest(
                     title = form.title.trim(), summary = form.summary.trim().ifBlank { null }, description = form.description.trim(),
-                    categoryCode = form.categoryCode.trim(), regionCode = form.regionCode.trim().ifBlank { null }, contacts = contacts,
+                    categoryCode = form.categoryCode.trim(), regionCode = form.regionCode.trim().ifBlank { null }, mediaIds = form.mediaIds, contacts = contacts,
                 ))
             } else {
                 api.patch(accessToken, projectId, keys.forBody("patch", fingerprint), R08PatchProjectRequest(
                     title = form.title.trim(), summary = form.summary.trim().ifBlank { null }, description = form.description.trim(),
-                    categoryCode = form.categoryCode.trim(), regionCode = form.regionCode.trim().ifBlank { null }, contacts = contacts,
+                    categoryCode = form.categoryCode.trim(), regionCode = form.regionCode.trim().ifBlank { null }, mediaIds = form.mediaIds, contacts = contacts,
                     expectedVersion = requireNotNull(form.expectedVersion),
                 ))
             }
@@ -352,6 +365,22 @@ fun R08ProjectEditorScreen(
         text = { Text("将提交当前项目资料；服务端会按实名、所有者权限和资源版本再次校验。") },
         confirmButton = { TextButton(onClick = ::submit) { Text("确认提交") } },
         dismissButton = { TextButton(onClick = { confirm = false }) { Text("继续编辑") } },
+    )
+
+    if (showMediaUpload) MediaUploadSheet(
+        api = mediaApi,
+        accessToken = accessToken,
+        purpose = "CONTENT_PROJECT",
+        maxConcurrentUploads = 2,
+        acceptedTypes = arrayOf("image/*"),
+        onAuthenticationRequired = onSessionExpired,
+        onCompleted = { selections ->
+            form = form.copy(mediaIds = selections.map { it.mediaId })
+            selectedMediaNames = selections.map { it.displayName }
+            dirty = true
+            showMediaUpload = false
+        },
+        onDismiss = { showMediaUpload = false },
     )
 
     Scaffold(
@@ -399,7 +428,22 @@ fun R08ProjectEditorScreen(
                     Text("提交后详情页只展示脱敏值，用户显式获取时才返回原值", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
                 }
             }
-            item { ProjectSection("项目媒体") { Text("当前未绑定媒体；页面不会用虚构图片代替真实项目资料。", color = HhyColors.TextSecondary) } }
+            item {
+                ProjectSection("项目媒体") {
+                    Text(
+                        when {
+                            selectedMediaNames.isNotEmpty() -> "已选择 ${selectedMediaNames.size} 张图片：${selectedMediaNames.joinToString("、")}"
+                            form.mediaIds.isNotEmpty() -> "已绑定 ${form.mediaIds.size} 张项目图片"
+                            else -> "当前未绑定媒体；页面不会用虚构图片代替真实项目资料。"
+                        },
+                        color = HhyColors.TextSecondary,
+                    )
+                    OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = { showMediaUpload = true }) {
+                        Text(if (form.mediaIds.isEmpty()) "选择项目图片" else "重新选择项目图片")
+                    }
+                    errors["mediaIds"]?.let { Text(it, color = HhyColors.Error, style = MaterialTheme.typography.bodySmall) }
+                }
+            }
             failure?.let { item { FailureCard(it, onBack) { confirm = true } } }
             if (dirty) item { Text("存在未保存的修改", color = HhyColors.Warning) }
         }
@@ -495,4 +539,14 @@ private fun ProjectListCard(item: ContentResource, onClick: () -> Unit) {
 private fun copyText(context: Context, label: String, value: String) {
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     clipboard.setPrimaryClip(ClipData.newPlainText(label, value))
+}
+
+@Composable
+private fun R08SecureWindowEffect() {
+    val view = LocalView.current
+    DisposableEffect(view) {
+        val activity = view.context as? Activity
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+        onDispose { activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_SECURE) }
+    }
 }

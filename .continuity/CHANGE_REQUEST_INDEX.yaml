@@ -13182,3 +13182,112 @@ change_requests:
     session_id: SES-20260722T031604Z-105CF4C6
   session_ids:
   - SES-20260722T031604Z-105CF4C6
+- protocol_version: '1.0'
+  cr_id: CR-0218
+  title: 补齐R08项目公开分享H5并证明后台复用
+  status: IMPLEMENTING
+  created_at: '2026-07-22T03:46:00Z'
+  updated_at: '2026-07-22T03:46:40Z'
+  requester_actor_id: codex-root-r08-004
+  approver_actor_id: codex-reviewer-r08-web
+  task_id: TASK-R08-004
+  session_id: SES-20260722T031604Z-105CF4C6
+  user_request: 持续完成R08客户端、H5和后台实现，UI接近效果图丰富度且不得虚构业务。
+  reason: CR-0217已锁定Android影响范围；H5-004仍是静态骨架，R08分享接口已返回真实公开URL，需单独批准生成契约绑定和页面状态；后台通用内容运营已经支持PROJECT，应以回归证明复用而非另造页面。
+  original_rule: H5-004冻结为公开项目分享页并绑定publicGetShareContentsById；ADM-CONTENT-001和ADM-CONTENT-002是项目等四类内容的统一后台运营页面。当前H5通用PublicPage仍为静态骨架，后台通用页面已有真实PROJECT支持。
+  new_rule: 不新增规则或平行页面：H5-004使用生成ClientContract类型读取GET /public-api/v1/share/contents/{id}，按公开页面合同展示SEO、审核通过内容块、媒体替代文本、失效和下载引导；ADM-CONTENT-001/002继续复用现有统一内容运营实现，通过R08回归证明PROJECT筛选、详情和版本化操作。
+  impact_summary: 新增H5公开分享契约服务及单测，升级PublicPage仅对H5-004至H5-007分享路由进行真实加载，其他既有H5路由保持原行为；新增后台复用回归，不新增后台页面、DTO或接口。
+  impact:
+    files:
+    - apps/h5/src/services/publicShare.ts
+    - apps/h5/src/services/publicShare.test.ts
+    - apps/h5/src/views/PublicPage.vue
+    - apps/h5/src/styles.css
+    - apps/admin-web/src/r08ProjectReuse.test.ts
+    - artifacts/reports/R08/TASK-R08-004-client.md
+    - CHANGELOG.md
+    pages:
+    - H5-004
+    - ADM-CONTENT-001
+    - ADM-CONTENT-002
+    apis:
+    - GET /public-api/v1/share/contents/{id}
+    - GET /admin-api/v1/contents
+    - GET /admin-api/v1/contents/{id}
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - npm test --prefix apps/h5
+    - npm run build --prefix apps/h5
+    - npm test --prefix apps/admin-web
+    releases:
+    - R08
+    migration_and_compatibility: 公开分享路径和后端冻结接口不变；响应失败按离线、404、403和通用错误显示，禁止泄露联系方式与内容状态；非分享PublicPage保持静态页面，后台路由和权限不变。
+  user_confirmation: 项目所有者已明确要求持续完成所有版本，UI按效果图丰富度实现且不得虚构功能，并要求换电脑换AI仍持续生效。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T03:46:35Z'
+    note: 批准只补齐冻结H5分享页并以测试证明既有后台通用页面复用；禁止为R08另建后台项目页或手写重复DTO。
+  machine_record: .continuity/change_requests/CR-0218.yaml
+  document: docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
+  decision_log:
+  - at: '2026-07-22T03:46:40Z'
+    actor_id: codex-root-r08-004
+    status: IMPLEMENTING
+    note: 开始补齐H5-004真实公开分享和后台PROJECT复用回归。
+    session_id: SES-20260722T031604Z-105CF4C6
+  session_ids:
+  - SES-20260722T031604Z-105CF4C6
+- protocol_version: '1.0'
+  cr_id: CR-0219
+  title: 登记R08三页精确视觉施工合同
+  status: IMPLEMENTING
+  created_at: '2026-07-22T03:52:50Z'
+  updated_at: '2026-07-22T03:53:22Z'
+  requester_actor_id: codex-root-r08-004
+  approver_actor_id: codex-reviewer-r08-visual
+  task_id: TASK-R08-004
+  session_id: SES-20260722T031604Z-105CF4C6
+  user_request: 所有UI肉眼接近效果图丰富度和精致度，不虚构业务；无直接效果图时复用相关页面风格。
+  reason: 现有页面目录将R08来源写成B02/P01-P08范围和TOKENS_ONLY，视觉门禁禁止范围引用并要求逐页精确来源；需在既有ui_visual_acceptance唯一目录登记三页合同，发布编辑页形成批准补充施工规格。
+  original_rule: 既有唯一UI规则要求逐页精确面板或批准补充规格；R08页面目录当前仅提供范围引用或Token，不能直接作为验收合同。
+  new_rule: 不修改硬规则、不新建目录事实源：在既有catalogs/ui_visual_acceptance.csv登记SCR-LIST-001=B02/P05、SCR-DETAIL-001=B03/P01；SCR-PUB-002使用批准补充规格复用B02/P05的信息分组、B03/P01的品牌层级和既有MOB-FORM交互，仅允许冻结字段与状态。
+  impact_summary: 新增三份R08逐页施工规格并更新既有视觉验收目录；规格是页面派生合同，不是新的全局硬规则。当前先登记IN_REVIEW，候选截图经AI肉眼对照后才能PASS。
+  impact:
+    files:
+    - design/R08-UI-FROZEN/specs/SCR-LIST-001.md
+    - design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
+    - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+    - catalogs/ui_visual_acceptance.csv
+    - artifacts/reports/R08/TASK-R08-004-client.md
+    - CHANGELOG.md
+    pages:
+    - SCR-LIST-001
+    - SCR-DETAIL-001
+    - SCR-PUB-002
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python -m unittest tests.test_ui_visual_acceptance
+    - python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
+    releases:
+    - R08
+    migration_and_compatibility: 保留页面合同、Token、API和现有实现；精确面板替换范围引用不增加业务字段，发布编辑补充规格只约束布局、尺寸、层级和状态。
+  user_confirmation: 项目所有者已明确同意无直接效果图时复用相关效果图/UI风格，且要求所有页面达到效果图级丰富度与精致度。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T03:53:17Z'
+    note: 批准在既有视觉验收目录登记精确面板并为无直接效果图的发布编辑页建立派生补充规格；不得把补充规格扩张为全局规则或添加未冻结业务。
+  machine_record: .continuity/change_requests/CR-0219.yaml
+  document: docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+  decision_log:
+  - at: '2026-07-22T03:53:22Z'
+    actor_id: codex-root-r08-004
+    status: IMPLEMENTING
+    note: 开始建立R08三页精确派生视觉规格并登记既有目录。
+    session_id: SES-20260722T031604Z-105CF4C6
+  session_ids:
+  - SES-20260722T031604Z-105CF4C6

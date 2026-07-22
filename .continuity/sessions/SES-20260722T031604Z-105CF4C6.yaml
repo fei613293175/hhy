@@ -11,10 +11,12 @@ task_id: TASK-R08-004
 story_id: STORY-R08-004
 goal: 按效果图级肉眼标准实现R08项目列表、详情、发布编辑客户端/H5/后台，并完成R02-R07历史视觉审计与必要回补，不虚构业务。
 started_at: '2026-07-22T03:16:04Z'
-updated_at: '2026-07-22T03:33:26Z'
+updated_at: '2026-07-22T03:58:27Z'
 takeover_of: null
 change_requests:
 - CR-0217
+- CR-0218
+- CR-0219
 scope:
   allowed_paths:
   - apps/**
@@ -69,7 +71,14 @@ scope:
   - catalogs/ui_visual_remediation.csv
   - artifacts/reports/R08/TASK-R08-004-client.md
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0217
+  - apps/h5/src/services/publicShare.ts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/styles.css
+  - apps/admin-web/src/r08ProjectReuse.test.ts
+  - design/R08-UI-FROZEN/specs/SCR-LIST-001.md
+  - design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
+  - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+  source: story+explicit+approved-cr:CR-0217+approved-cr:CR-0218+approved-cr:CR-0219
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -79,18 +88,18 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T03:33:22Z'
-  expires_at: '2026-07-22T07:33:22Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0002.yaml
+  renewed_at: '2026-07-22T03:58:23Z'
+  expires_at: '2026-07-22T07:58:23Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
-next_step: 提交推送首轮实现，在obx-test固定Android镜像运行network/project/app受影响MODULE并修复编译测试问题。
+next_step: 提交推送并在obx-test固定Android镜像复验精确提交；通过后关闭CR-0217至CR-0219，推进历史视觉回补。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: e39988432dfea2ca7032dc78b3633bbe612b8b9d346d9955366c8fbbc60650f5
-  generated_at: '2026-07-22T03:33:25Z'
+  context_hash: 219a2a2f18f3313af7c288835569fe27efa8ccf5130b448b5ff1bd91f85f1db5
+  generated_at: '2026-07-22T03:58:25Z'
 handoff_bundle: null
 closure: null
 parallel_execution:

@@ -23,6 +23,7 @@ composeCompiler {
 dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:network"))
+    implementation(project(":feature:media"))
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     implementation(libs.androidx.compose.ui)
