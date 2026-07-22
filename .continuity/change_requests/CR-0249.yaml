@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0249
 title: R09 App推广数据迁移与领域不变量
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-22T18:14:14Z'
-updated_at: '2026-07-22T18:27:07Z'
+updated_at: '2026-07-22T18:29:25Z'
 requester_actor_id: codex-root-r09-data
 approver_actor_id: codex-r09-review
 task_id: TASK-R09-002
@@ -53,5 +53,17 @@ decision_log:
   status: IMPLEMENTING
   note: V035/U035与验证脚本已实现；PostgreSQL 17空库、升级、回滚、重放通过，受影响MODULE检查通过，准备提交实现。
   session_id: SES-20260722T181159Z-F501CFF5
+- at: '2026-07-22T18:29:22Z'
+  actor_id: codex-root-r09-data
+  status: IMPLEMENTED
+  note: 实现提交已推送；PostgreSQL 17四链路、344项后端MODULE、契约、Schema和文档门禁全部通过。
+  session_id: SES-20260722T181159Z-F501CFF5
+- at: '2026-07-22T18:29:25Z'
+  actor_id: codex-root-r09-data
+  status: CLOSED
+  note: CR-0249范围已完整实现并有可重放证据，无剩余变更项。
+  session_id: SES-20260722T181159Z-F501CFF5
 session_ids:
 - SES-20260722T181159Z-F501CFF5
+implementation_commits:
+- 92dfb059bc78c48493c3300dc3d564a4bebbca73

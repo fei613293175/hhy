@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-22T18:27:13Z'
+generated_at: '2026-07-22T18:29:45Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -103,7 +103,7 @@ current_status:
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R09-002
-  updated_at: '2026-07-22T18:27:10Z'
+  updated_at: '2026-07-22T18:29:42Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -138,15 +138,15 @@ current_status:
     active_session_id: SES-20260722T181159Z-F501CFF5
     actor_id: codex-root-r09-data
     story_id: STORY-R09-004
-    lease_expires_at: '2026-07-22T22:27:10Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0002.yaml
-    project_fingerprint: 571240e148760f132840f8eceb52aa6b5e0d16966ee7ef2d6b08673a5f3388a6
+    lease_expires_at: '2026-07-22T22:29:42Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0003.yaml
+    project_fingerprint: 9012673309c09e72a8b8542faf800c48a0cba95d49276c152fbd05d5ffad90b0
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 763974d29f2b314d453eafb8f1a4f8cf5ca8a6062e2ab5f64ab08d03499a3622
-      generated_at: '2026-07-22T18:15:06Z'
+      context_hash: 979f2fbd89fa3bc323de38d935d63b92f9a7176916c817872dea181d4f5824d8
+      generated_at: '2026-07-22T18:27:13Z'
     handoff_bundle: null
 next_task:
   id: TASK-R09-002
@@ -195,7 +195,7 @@ active_session:
   story_id: STORY-R09-004
   goal: App推广完整闭环数据迁移与领域不变量
   started_at: '2026-07-22T18:11:59Z'
-  updated_at: '2026-07-22T18:27:10Z'
+  updated_at: '2026-07-22T18:29:42Z'
   takeover_of: null
   change_requests:
   - CR-0249
@@ -251,12 +251,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-22T18:27:10Z'
-    expires_at: '2026-07-22T22:27:10Z'
-  checkpoint_sequence: 2
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0002.yaml
+    renewed_at: '2026-07-22T18:29:42Z'
+    expires_at: '2026-07-22T22:29:42Z'
+  checkpoint_sequence: 3
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0003.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
-  next_step: 提交CR-0249实现Commit，推送后标记IMPLEMENTED/CLOSED并关闭TASK-R09-002进入R09-003。
+  next_step: 关闭TASK-R09-002并切换NEXT_TASK到TASK-R09-003。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -264,72 +264,46 @@ active_session:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 迁移序列、回滚与测试对象计数必须在同一事实分支串行集成；当前平台未由用户要求启用子代理。
+    reason: 当前仅执行CR与任务生命周期原子关闭，不存在可安全并行的产品工作。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260722T181159Z-F501CFF5-0002
+  checkpoint_id: CP-SES-20260722T181159Z-F501CFF5-0003
   session_id: SES-20260722T181159Z-F501CFF5
-  sequence: 2
-  created_at: '2026-07-22T18:27:09Z'
-  summary: R09 App推广数据不变量实现并验证完成：V035/U035、禁止APK双路径保护、延迟详情约束、索引及四链路测试均通过。
-  next_step: 提交CR-0249实现Commit，推送后标记IMPLEMENTED/CLOSED并关闭TASK-R09-002进入R09-003。
+  sequence: 3
+  created_at: '2026-07-22T18:29:42Z'
+  summary: CR-0249已关联实现提交92dfb059并关闭；全部R09-002验证证据保持PASS。
+  next_step: 关闭TASK-R09-002并切换NEXT_TASK到TASK-R09-003。
   blockers: []
-  decisions:
-  - MODULE验证使用obx-test既有Android JDK21缓存镜像；未触发GitHub，未安装或重建服务器环境。
+  decisions: []
   note: ''
   tests:
   - name: R09 PostgreSQL 17 matrix
     result: PASS
     evidence: R09_EMPTY_DATABASE_TO_V035+UPGRADE+INVARIANTS+U035_ROLLBACK+V035_REPLAY
-    note: 空库、升级、拒绝、回滚、重放全部通过
+    note: 实现提交92dfb059
   - name: Backend affected MODULE
     result: PASS
     evidence: 344 tests, 0 failures, 0 errors, 9 conditional skips
-    note: JDK21缓存镜像运行access+boot及依赖模块
-  - name: Runtime assets and contracts
-    result: PASS
-    evidence: sync_runtime_assets+check_api_contract+check_db_schema
-    note: 39 assets、319 REST/10 websocket、200 tables/35 migrations
-  - name: Documentation strict
-    result: PASS
-    evidence: 0 errors, 0 warnings
-    note: 189 UI surfaces and all catalogs consistent
+    note: 实现提交92dfb059
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: e336e79143572860308f6d3f372bd436b9f0131c
+    head: 92dfb059bc78c48493c3300dc3d564a4bebbca73
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M .continuity/ACTIVE_SESSION.yaml'
     - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
     - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/SESSION_INDEX.yaml'
     - ' M .continuity/STATE.yaml'
-    - ' M .continuity/TASK_CLAIMS.yaml'
-    - ' M .continuity/TASK_TRANSITIONS.yaml'
-    - ' M CHANGELOG.md'
-    - ' M CURRENT_STATUS.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M .continuity/change_requests/CR-0249.yaml'
     - ' M catalogs/change_request_index.csv'
     - ' M catalogs/session_index.csv'
-    - ' M catalogs/task_transition_ledger.csv'
-    - ?? .continuity/change_requests/CR-0249.yaml
-    - ?? .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0001.yaml
-    - ?? .continuity/sessions/SES-20260722T181159Z-F501CFF5.yaml
-    - ?? database/migrations/V035__r09_app_promotion_invariants.sql
-    - ?? database/rollback/U035__r09_app_promotion_invariants.sql
-    - ?? database/tests/r09_app_promotion_invariants.sql
-    - ?? docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
-    - ?? docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
-    - ?? scripts/run_r09_database_invariants.sh
-    - ?? scripts/run_r09_disposable_postgres_container.sh
-    - ?? services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+    - ' M docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md'
     recent_commits:
+    - "92dfb059bc78c48493c3300dc3d564a4bebbca73\t2026-07-23T02:28:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(database): enforce\
+      \ App promotion invariants"
     - "e336e79143572860308f6d3f372bd436b9f0131c\t2026-07-23T02:10:03+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close readiness\
       \ and UI audit"
     - "d85bd820cdd6941d71dbbb4da31f98a5d9c05bef\t2026-07-23T02:06:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close historical\
@@ -344,10 +318,8 @@ latest_checkpoint:
       \ gate for visual audit"
     - "654b3c0b7a4d02f6b3dbaada3d56214c74475c98\t2026-07-23T00:50:05+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(ui): remediate historical\
       \ visual quality"
-    - "c3e6130bdcd8b2e4f619cb68eb2dd5e50045f30f\t2026-07-22T23:57:34+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close\
-      \ CR-0247"
   project_fingerprint:
-    sha256: 571240e148760f132840f8eceb52aa6b5e0d16966ee7ef2d6b08673a5f3388a6
+    sha256: 9012673309c09e72a8b8542faf800c48a0cba95d49276c152fbd05d5ffad90b0
     files:
     - CHANGELOG.md
     - database/migrations/V035__r09_app_promotion_invariants.sql
@@ -379,8 +351,8 @@ latest_checkpoint:
         sha256: 45543612972bc3bba3689bbb1251f9a6e0af364b2db3f12cbbb4435a641b3a83
       - path: docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
         state: FILE
-        size: 3036
-        sha256: aa0fd8d33425b3c4887e61d799851088c2c6c77156f8af08bc2e3927aff68950
+        size: 3525
+        sha256: 7180e5bc28375fc87a4000ac76fb3e95c37952caa67963bc309d3a0fc13aaae9
       - path: scripts/run_r09_database_invariants.sh
         state: FILE
         size: 3443
@@ -463,12 +435,12 @@ latest_checkpoint:
     assessment: NO_SAFE_PARALLEL
     delegated_workers: 0
     workers: []
-    reason: 迁移序列、回滚与测试对象计数必须在同一事实分支串行集成；当前平台未由用户要求启用子代理。
-  event_hash: 48923fb0943965782dc892e95625a970cd40b779b68e09fb5f57fbae06b42ba5
+    reason: 当前仅执行CR与任务生命周期原子关闭，不存在可安全并行的产品工作。
+  event_hash: 9581bf319cb551c8d3ba435490530aa1c27582b8d9709a61dbf921330bc402b0
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: e336e79143572860308f6d3f372bd436b9f0131c
+  head: 92dfb059bc78c48493c3300dc3d564a4bebbca73
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -479,29 +451,17 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CHANGELOG.md'
+  - ' M .continuity/change_requests/CR-0249.yaml'
+  - ' M .continuity/sessions/SES-20260722T181159Z-F501CFF5.yaml'
   - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ?? .continuity/change_requests/CR-0249.yaml
-  - ?? .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0001.yaml
-  - ?? .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0002.yaml
-  - ?? .continuity/sessions/SES-20260722T181159Z-F501CFF5.yaml
-  - ?? database/migrations/V035__r09_app_promotion_invariants.sql
-  - ?? database/rollback/U035__r09_app_promotion_invariants.sql
-  - ?? database/tests/r09_app_promotion_invariants.sql
-  - ?? docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
-  - ?? scripts/run_r09_database_invariants.sh
-  - ?? scripts/run_r09_disposable_postgres_container.sh
-  - ?? services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+  - ' M docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md'
+  - ?? .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0003.yaml
   recent_commits:
+  - "92dfb059bc78c48493c3300dc3d564a4bebbca73\t2026-07-23T02:28:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(database): enforce App\
+    \ promotion invariants"
   - "e336e79143572860308f6d3f372bd436b9f0131c\t2026-07-23T02:10:03+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close readiness\
     \ and UI audit"
   - "d85bd820cdd6941d71dbbb4da31f98a5d9c05bef\t2026-07-23T02:06:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close historical\
@@ -516,9 +476,8 @@ git:
     \ gate for visual audit"
   - "654b3c0b7a4d02f6b3dbaada3d56214c74475c98\t2026-07-23T00:50:05+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(ui): remediate historical\
     \ visual quality"
-  - "c3e6130bdcd8b2e4f619cb68eb2dd5e50045f30f\t2026-07-22T23:57:34+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close CR-0247"
 project_fingerprint:
-  sha256: 571240e148760f132840f8eceb52aa6b5e0d16966ee7ef2d6b08673a5f3388a6
+  sha256: 9012673309c09e72a8b8542faf800c48a0cba95d49276c152fbd05d5ffad90b0
   files:
   - CHANGELOG.md
   - database/migrations/V035__r09_app_promotion_invariants.sql
@@ -550,8 +509,8 @@ project_fingerprint:
       sha256: 45543612972bc3bba3689bbb1251f9a6e0af364b2db3f12cbbb4435a641b3a83
     - path: docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
       state: FILE
-      size: 3036
-      sha256: aa0fd8d33425b3c4887e61d799851088c2c6c77156f8af08bc2e3927aff68950
+      size: 3525
+      sha256: 7180e5bc28375fc87a4000ac76fb3e95c37952caa67963bc309d3a0fc13aaae9
     - path: scripts/run_r09_database_invariants.sh
       state: FILE
       size: 3443
@@ -1366,8 +1325,8 @@ continuity_state:
   last_session_id: SES-20260722T153450Z-FAD75B8D
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260722T153450Z-FAD75B8D-0014
-  event_count: 2446
-  event_head_hash: 48923fb0943965782dc892e95625a970cd40b779b68e09fb5f57fbae06b42ba5
+  event_count: 2449
+  event_head_hash: 9581bf319cb551c8d3ba435490530aa1c27582b8d9709a61dbf921330bc402b0
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260722T002444Z-8BEC3CA6
@@ -1486,9 +1445,9 @@ recent_sessions:
   started_at: '2026-07-22T18:11:59Z'
   record: .continuity/sessions/SES-20260722T181159Z-F501CFF5.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
-  updated_at: '2026-07-22T18:27:10Z'
+  updated_at: '2026-07-22T18:29:42Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0003.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-12C11A7F159D
@@ -7809,63 +7768,6 @@ open_change_requests:
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
-- protocol_version: '1.0'
-  cr_id: CR-0249
-  title: R09 App推广数据迁移与领域不变量
-  status: IMPLEMENTING
-  created_at: '2026-07-22T18:14:14Z'
-  updated_at: '2026-07-22T18:27:07Z'
-  requester_actor_id: codex-root-r09-data
-  approver_actor_id: codex-r09-review
-  task_id: TASK-R09-002
-  session_id: SES-20260722T181159Z-F501CFF5
-  user_request: 用户要求持续推进R09，并保证真实功能落地、禁止虚构开发且版本关闭高效可复用。
-  reason: 现有app_details仅有通用基表，尚未强制App字段完整性、第三方APK禁止、公开列表索引和软删除保护。
-  original_rule: R09复用R06通用内容表和app_details基表；应用层负责字段校验，数据库没有R09专属App推广不变量。
-  new_rule: R09 App内容必须有唯一且非空app_details；可选平台、版本、外部下载链接和官网若存在不得为空白；App内容不得关联APK MIME或APK媒体类型；活跃App扩展不得物理删除；公开App列表使用专属部分索引；迁移支持历史兼容、开发回滚和重放。
-  impact_summary: 新增V035/U035与R09数据库验证脚本，在不增加APK上传字段和不改写既有业务行的前提下，把App推广的字段完整性、禁止第三方APK、列表性能和软删除约束下沉到PostgreSQL。
-  impact:
-    files:
-    - database/migrations/V035__r09_app_promotion_invariants.sql
-    - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
-    - database/rollback/U035__r09_app_promotion_invariants.sql
-    - database/tests/r09_app_promotion_invariants.sql
-    - scripts/run_r09_database_invariants.sh
-    - scripts/run_r09_disposable_postgres_container.sh
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database:
-    - app_details
-    - content_posts
-    - content_media
-    - media_objects
-    configuration: []
-    ledger:
-    - CR-0249
-    tests:
-    - R09 empty-database migration
-    - R09 legacy upgrade compatibility
-    - R09 app invariant rejection/property checks
-    - R09 rollback and replay
-    releases:
-    - R09
-    migration_and_compatibility: 所有CHECK均NOT VALID以兼容历史行；触发器只约束新增/变更；回滚仅删除R09对象并保留业务数据；空库、升级库、回滚、重放四条链路实测。
-  user_confirmation: 用户已明确授权持续开发R09并要求真实落地、无需每版本等待确认。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T18:14:38Z'
-    note: 变更沿用现有表和R08迁移模式，不新增业务功能或APK上传能力；兼容和回滚边界明确。
-  machine_record: .continuity/change_requests/CR-0249.yaml
-  document: docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
-  decision_log:
-  - at: '2026-07-22T18:27:07Z'
-    actor_id: codex-root-r09-data
-    status: IMPLEMENTING
-    note: V035/U035与验证脚本已实现；PostgreSQL 17空库、升级、回滚、重放通过，受影响MODULE检查通过，准备提交实现。
-    session_id: SES-20260722T181159Z-F501CFF5
-  session_ids:
-  - SES-20260722T181159Z-F501CFF5
 source_manifest:
 - path: AGENTS.md
   sha256: d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86
@@ -7874,7 +7776,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: 8fb88345c8c160cc460e395d2044a6864d5e3396d2a111c3682f72ec95493ca9
+  sha256: 9bef6d43bde9bfaa919958d2c2d5ed3cb174e312fb8dff34f04e83865a542808
   bytes: 4031
 - path: NEXT_TASK.yaml
   sha256: f094e91ffdacdffc8d83e7eb0f803cc4177b8e2408fd00c60d923aaa4148a91b
@@ -7907,10 +7809,10 @@ source_manifest:
   sha256: 16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6
   bytes: 12763
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 58d59bdc8b9c975e9118af10cbd940e8f51e8701596bb2f737feba92ada8108d
-  bytes: 1347230
+  sha256: 4e619cecfef9a0df1ecf808dd778679ff0fc1a86619b1bb85ebe52676fd4553a
+  bytes: 1348644
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: f9e8146c8b616707a69013cdc8577e380d88279d0586d6ed438022bf2f63e965
+  sha256: ff96feb625f2fb75b8cd784c1e655853529bbc9eef4ffef1c640df9cb307557f
   bytes: 39444
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: dad3958bb1577eefb6e4bca1bb8f5bc48ffa96ec8be5650c831a7a2be6e665db
@@ -7919,10 +7821,10 @@ source_manifest:
   sha256: d3f6ad9462f0201a0fb2eec83cb306e53653c74120b3f4a5edd13a839f8a6c25
   bytes: 22500
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 67217ecfd6799ead38a2703359279da89346129e1fb1a7f80db621f2156c6a8a
-  bytes: 819205
+  sha256: 3aa63bcf9bbbc6307961977b41ab925ee018066a85bf675730049bbb52291e50
+  bytes: 819745
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 8d973e305cd23b297c5ebae3e70a4ebdd725605eea76c8c46cbe1d0d6034a3a0
+  sha256: 1c13d27b463446304cf905a4b3841ac2c17fb353b17e316e2eb52c6fc7d35a6d
   bytes: 534
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a
@@ -7952,14 +7854,14 @@ source_manifest:
   sha256: 98e99c241f9e7ab8814e20fb62060f90c5903da20c1ef39ec81fa75d3bdecfb3
   bytes: 684
 - path: docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
-  sha256: b551b74c79a1dcbe1b9d78e8e5f7854712898e85ea2a22c49775ce4871ba37d0
-  bytes: 4109
-- path: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0002.yaml
-  sha256: 85b35ba40d8ce76604336e3271493eec77a891a91942acd65952c660f0f649d1
-  bytes: 8395
+  sha256: f18ef489c6c104eda3ac8d2c642ca9648f54ac69008eca7ea30ca6d0af9dd81b
+  bytes: 5258
+- path: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0003.yaml
+  sha256: 9e340b7767833c82f1f290576c9e567b174c7ad09bdb2ffda0ccfb0e8bca1dc5
+  bytes: 6764
 - path: docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
-  sha256: aa0fd8d33425b3c4887e61d799851088c2c6c77156f8af08bc2e3927aff68950
-  bytes: 3036
+  sha256: 7180e5bc28375fc87a4000ac76fb3e95c37952caa67963bc309d3a0fc13aaae9
+  bytes: 3525
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -7995,4 +7897,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 979f2fbd89fa3bc323de38d935d63b92f9a7176916c817872dea181d4f5824d8
+context_hash: 4e92c4671cc3b5a5211ba7f9e49ba9635b537e0b959dca7770c4efc91cd6efd1
