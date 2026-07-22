@@ -1,0 +1,276 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T200509Z-8FC026EC-0003
+session_id: SES-20260722T200509Z-8FC026EC
+sequence: 3
+created_at: '2026-07-22T20:18:34Z'
+summary: R09 App可观测性、隔离Staging配置与V035回滚手册已实现，本地受影响MODULE通过
+next_step: 冻结并推送精确Commit，在obx-test执行R09隔离Staging验收
+blockers: []
+decisions:
+- CR-0253因通配符范围被SUPERSEDED；仅按已批准精确范围CR-0254实施
+note: 普通任务未触发GitHub模拟器；候选APK留到TASK-R09-007
+tests:
+- name: r09-observability-static
+  result: PASS
+  evidence: scripts/check_r09_observability.py
+  note: R09配置与手册合同通过
+- name: backend-module
+  result: PASS
+  evidence: hhy_workflow.py run --intent feature --release R09
+  note: 358 tests, 0 failures, 0 errors, 13 conditional skips
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 00fa7a2cddfabbdaa79f7aac283851c31d044219
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0253.yaml
+  - A  .continuity/change_requests/CR-0254.yaml
+  - A  .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0001.yaml
+  - A  .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0002.yaml
+  - A  .continuity/sessions/SES-20260722T200509Z-8FC026EC.yaml
+  - M  CHANGELOG.md
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - A  docs/03-continuity/change-requests/CR-0253-R09-App推广可观测性与隔离Staging验收.md
+  - A  docs/03-continuity/change-requests/CR-0254-R09-App推广可观测性与隔离Staging验收精确范围.md
+  - A  docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md
+  - M  docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - M  docs/07-operations/ROLLBACK_RUNBOOK.md
+  - A  infra/staging/r09-smoke/alertmanager.yml
+  - A  infra/staging/r09-smoke/docker-compose.yml
+  - A  infra/staging/r09-smoke/nginx.conf
+  - A  infra/staging/r09-smoke/prometheus.yml
+  - A  infra/staging/r09-smoke/r09-alerts.yml
+  - A  scripts/check_r09_observability.py
+  - A  scripts/run_r09_staging_acceptance.sh
+  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  recent_commits:
+  - "00fa7a2cddfabbdaa79f7aac283851c31d044219\t2026-07-23T04:03:43+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close TASK-R09-005"
+  - "5445dcc59186f0353d487405b61606a7bb2111cd\t2026-07-23T04:01:51+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close test change\
+    \ request"
+  - "d562d768fee74ed0f71ba27ced35faf24f96eb14\t2026-07-23T04:01:07+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): normalize evidence\
+    \ hashes"
+  - "c70fa6d869a810e16cb07288a3ffc7164c85319a\t2026-07-23T03:59:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): freeze promotion\
+    \ evidence"
+  - "450d8758a2ba2ad42b4906f8911495815ac29213\t2026-07-23T03:52:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): add promotion fault\
+    \ matrix"
+  - "78c1f91bbacd724991292e2634288d6af6ace5d5\t2026-07-23T03:40:17+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close client task"
+  - "2606a21c4f3020c2279b8320958be13d4fc0df0c\t2026-07-23T03:38:58+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close promotion\
+    \ change request"
+  - "b548d582e8e5b942a93513c128a113c8571bff0c\t2026-07-23T03:37:56+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(app): implement promotion\
+    \ experience"
+project_fingerprint:
+  sha256: 6a378d15ab5fd938f21d8682efe3a86df0150dc826e55fa67db78950f7170214
+  files:
+  - CHANGELOG.md
+  - docs/03-continuity/change-requests/CR-0253-R09-App推广可观测性与隔离Staging验收.md
+  - docs/03-continuity/change-requests/CR-0254-R09-App推广可观测性与隔离Staging验收精确范围.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/r09-smoke/alertmanager.yml
+  - infra/staging/r09-smoke/docker-compose.yml
+  - infra/staging/r09-smoke/nginx.conf
+  - infra/staging/r09-smoke/prometheus.yml
+  - infra/staging/r09-smoke/r09-alerts.yml
+  - scripts/check_r09_observability.py
+  - scripts/run_r09_staging_acceptance.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  file_count: 15
+  payload:
+    base_commit: 00fa7a2cddfabbdaa79f7aac283851c31d044219
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 98977
+      sha256: 04c1be5e3b388c798f27921d0ebb3385bf35c5138346ebc6c419cd735374665f
+    - path: docs/03-continuity/change-requests/CR-0253-R09-App推广可观测性与隔离Staging验收.md
+      state: FILE
+      size: 3801
+      sha256: 666544c95c650d17f7694c696449e435046f7ec782f3dbb1c09025c0bfcc3dc1
+    - path: docs/03-continuity/change-requests/CR-0254-R09-App推广可观测性与隔离Staging验收精确范围.md
+      state: FILE
+      size: 4952
+      sha256: 1344e35eed954061862febd6615b957c3f26083ca58208071868547b299bea7a
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 32559
+      sha256: 4a051541e87a1b397594cec72ba9574c45f3b3edccc30f3b77ec07a29f1b90bc
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 12377
+      sha256: 4577eb007605d07f3f39c8103472f7e1beab4d51c7bd048c77ce5abe555cf9c6
+    - path: infra/staging/r09-smoke/alertmanager.yml
+      state: FILE
+      size: 277
+      sha256: c713b8a3dd41dcba7c50ccfe961680a903138dccb9925882f9dce6e764647212
+    - path: infra/staging/r09-smoke/docker-compose.yml
+      state: FILE
+      size: 4463
+      sha256: 9307bccf19a9fde12b5fb2f2033be6384cf43bc29fa7ec30a504e1e7fafdb350
+    - path: infra/staging/r09-smoke/nginx.conf
+      state: FILE
+      size: 318
+      sha256: b13f1e9d43e52a8469a988d1af9de051dfdcba2724df5c754793993f7fe41f98
+    - path: infra/staging/r09-smoke/prometheus.yml
+      state: FILE
+      size: 401
+      sha256: 3a2f965436b59f0924772b084847222b06384373b9947614b1a411d1d4b3eb54
+    - path: infra/staging/r09-smoke/r09-alerts.yml
+      state: FILE
+      size: 2030
+      sha256: 9a19ae55b4bf541c31dc97a5c060aa7f6d89342a0df2fbfbacebb58087341863
+    - path: scripts/check_r09_observability.py
+      state: FILE
+      size: 4950
+      sha256: f019e3e8795164d4d0e262d74123a383fe2d90b55665405c12e11515b03cdf1b
+    - path: scripts/run_r09_staging_acceptance.sh
+      state: FILE
+      size: 15146
+      sha256: bd6a577f9fa9da1c4b0f25b2d21115302faaa30b793f87300279e95d42caeb24
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 22017
+      sha256: 53144e89b03e13a60584d5e1fa4e7dbe4532ed1c30b6002bf2034c1919d25229
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 19106
+      sha256: 8169d7232ca47e1ebfdf989ce8974f40ff76c37add3d8fa8f0198f2aaf8ca217
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 11239
+      sha256: 184449c5dae5299b94ae185f1f41c47a5771757f355ef50125a86ba6802855c3
+change_classification:
+  other:
+  - CHANGELOG.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  continuity:
+  - docs/03-continuity/change-requests/CR-0253-R09-App推广可观测性与隔离Staging验收.md
+  - docs/03-continuity/change-requests/CR-0254-R09-App推广可观测性与隔离Staging验收精确范围.md
+  infrastructure:
+  - infra/staging/r09-smoke/alertmanager.yml
+  - infra/staging/r09-smoke/docker-compose.yml
+  - infra/staging/r09-smoke/nginx.conf
+  - infra/staging/r09-smoke/prometheus.yml
+  - infra/staging/r09-smoke/r09-alerts.yml
+  code:
+  - scripts/check_r09_observability.py
+  - scripts/run_r09_staging_acceptance.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0253
+- CR-0254
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - scripts/check_r09_observability.py
+  - scripts/run_r09_staging_acceptance.sh
+  - artifacts/reports/R09/**
+  - artifacts/validation/r09-staging/**
+  - catalogs/acceptance_matrix.csv
+  - releases/R09/**
+  - docs/02-operations/**
+  approved_exceptions:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - infra/staging/r09-smoke/docker-compose.yml
+  - infra/staging/r09-smoke/prometheus.yml
+  - infra/staging/r09-smoke/r09-alerts.yml
+  - infra/staging/r09-smoke/alertmanager.yml
+  - infra/staging/r09-smoke/nginx.conf
+  - scripts/check_r09_observability.py
+  - scripts/run_r09_staging_acceptance.sh
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - releases/R09/ACCEPTANCE_MATRIX.csv
+  - artifacts/reports/R09/TASK-R09-006-staging.md
+  - CHANGELOG.md
+  - artifacts/validation/r09-task006-staging/alert-deliveries.jsonl
+  - artifacts/validation/r09-task006-staging/alert-exercise.txt
+  - artifacts/validation/r09-task006-staging/backend-down-firing.json
+  - artifacts/validation/r09-task006-staging/compose-ps.txt
+  - artifacts/validation/r09-task006-staging/database.txt
+  - artifacts/validation/r09-task006-staging/final-metrics.txt
+  - artifacts/validation/r09-task006-staging/http-request-completed.jsonl
+  - artifacts/validation/r09-task006-staging/liveness.json
+  - artifacts/validation/r09-task006-staging/log-redaction.txt
+  - artifacts/validation/r09-task006-staging/machine-summary.txt
+  - artifacts/validation/r09-task006-staging/metadata.txt
+  - artifacts/validation/r09-task006-staging/metrics-summary.txt
+  - artifacts/validation/r09-task006-staging/metrics.txt
+  - artifacts/validation/r09-task006-staging/outbox-test-events.txt
+  - artifacts/validation/r09-task006-staging/prometheus-rules.json
+  - artifacts/validation/r09-task006-staging/prometheus-targets.json
+  - artifacts/validation/r09-task006-staging/public-status.json
+  - artifacts/validation/r09-task006-staging/r09-outbox-firing.json
+  - artifacts/validation/r09-task006-staging/readiness.json
+  - artifacts/validation/r09-task006-staging/rollback-rehearsal.txt
+  - artifacts/validation/r09-task006-staging/SHA256SUMS
+  - artifacts/validation/r09-task006-staging/source-sha256.txt
+  - artifacts/validation/r09-task006-staging/trace-headers.txt
+  source: story+explicit+approved-cr:CR-0254
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 冻结提交、共享隔离Staging及同库同卷回滚证据必须由单一执行链串行绑定
+event_hash: 3352284c99589b03c483155f6c689af3439226f905f7ef7e0586278fa9ed85a4

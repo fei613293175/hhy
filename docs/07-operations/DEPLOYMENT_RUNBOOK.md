@@ -274,3 +274,19 @@ R08 现场演练至少覆盖：
 TASK-R08-007 将精确候选 Commit 升级到公开 Staging CI 候选容器后运行 `scripts/prepare_r08_ci_fixture.sh`。脚本必须显式设置 `HHY_R08_CI_FIXTURE_CONFIRM=YES`，只允许 `hhy-r08-ci-candidate-*` 后端及登记的 Staging PostgreSQL 容器；它从容器内部读取专用 CI 用户且不输出手机号或 Secret，要求 Flyway V034，幂等准备已实名的候选用户、一个真实 ONLINE 项目、详情版本、统计和仅可见掩码的联系方式。夹具不得创建收益、融资、人数或效果图示例能力。
 
 模拟器继续复用唯一 GitHub OIDC 自动登录入口，仅截取 `SCR-LIST-001`、`SCR-DETAIL-001` 和 `SCR-PUB-002` 三张对应页面；详情截图只能出现联系方式可用动作，不得出现明文。R08 首轮无视觉基线时，同一次模拟器采集可以进入 `BASELINE_REVIEW_REQUIRED`，由 AI 对照逐页视觉合同审查后提交原图与审批，再运行不编译、不启动模拟器的轻量晋升。禁止为建立基线重复执行完整候选。
+
+## 14. R09 App隔离预发布验收
+
+R09 使用 `infra/staging/r09-smoke/docker-compose.yml`，采用独立 Compose project、仅回环发布端口、`172.31.249.0/24` 默认子网和独立数据卷；不得修改或重启公网以及 R01–R08 环境。执行前运行 `python3 scripts/check_r09_observability.py`，并把精确被测 Commit 注入 `HHY_R09_FROZEN_COMMIT`。七项测试 Secret 只在隔离进程环境生成和注入，禁止写入仓库、报告、命令输出或 Shell 历史；实名认证沙箱与 CI 自动登录保持关闭。
+
+R09 现场演练至少覆盖：
+
+1. 冻结 Commit 的 Java 21 定向测试和生产构建通过；PostgreSQL 17 完整迁移到 V035，Flyway 历史、业务表数量和数据库容器/卷标识归档。
+2. Prometheus target `hhy-backend-r09` 为 UP，RED count/bucket 非空；`hhy_app_total_count`、`hhy_app_online_count`、`hhy_app_review_pending`、`hhy_app_favorites_count`、`hhy_app_contact_accesses_5m`、`hhy_app_contact_rejections_5m`、`hhy_r09_outbox_backlog` 七项只读业务 Gauge 全部存在，业务指标查询失败累计值必须为 0。
+3. 停止/恢复 API 触发 `HhyR09BackendDown`；插入带冻结 Commit 唯一前缀的 App 域 Outbox 测试事实触发 `HhyR09OutboxBacklog`。两项告警都必须取得 firing、resolved 和 alert-sink 送达回执。
+4. 测试 Outbox 事实不得删除，只允许 `PENDING → PUBLISHING → PUBLISHED`，同时递增 attempts 并写入 published_at；失败恢复也必须重复同一合法终结流程。
+5. 2xx、认证拒绝和错误响应中的 `requestId`、`traceId`、状态码与 `http_request_completed` 结构化日志可关联。日志不得包含 App 描述、实际联系方式、联系方式密文、加密根密钥、Secret、Bearer、Cookie、请求正文或查询参数。
+6. 应用回切只替换 `api` 镜像，回切目标必须在 V035 数据库上验证兼容 App 数据不变量与联系方式安全信封；保持同一 PostgreSQL 容器和数据卷，恢复当前镜像后再次验证 readiness、RED、七项 Gauge、测试 Outbox 事实和数据库连续性。禁止执行 U035、U034、降版本 DDL、删除卷或删除业务/审计/Outbox 记录。
+7. 证据统一写入 `artifacts/validation/r09-task006-staging/`，绑定冻结 Commit、两个不可变镜像、数据库容器/卷、Flyway V035、告警回执和逐文件 SHA-256。证据齐全后才能把 `AC-R09-004` 签为 PASS。
+
+现场步骤由 `scripts/run_r09_staging_acceptance.sh` 单一入口执行。脚本必须先证明 `git rev-parse HEAD` 等于 `HHY_R09_FROZEN_COMMIT`，再采集基线、Trace/脱敏、指标、告警与同库同卷回切证据并生成 `SHA256SUMS`。Android 模拟器、页面截图和候选 APK 不属于本任务，只在 TASK-R09-007 最终候选阶段执行。

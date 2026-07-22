@@ -266,6 +266,53 @@ public final class BusinessGaugeBinder implements MeterBinder {
                 'content.project.stage.alert.v1'
             ) AND status IN ('PENDING', 'RETRY_WAIT')
             """;
+    static final String APP_TOTAL_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE type = 'APP' AND status <> 'DELETED'
+            """;
+    static final String APP_ONLINE_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE type = 'APP' AND status = 'ONLINE'
+            """;
+    static final String APP_REVIEW_PENDING_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE type = 'APP' AND status <> 'DELETED' AND review_status = 'PENDING'
+            """;
+    static final String APP_FAVORITES_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_favorites favorite
+            JOIN hhy.content_posts post ON post.id = favorite.content_id
+            WHERE post.type = 'APP' AND post.status <> 'DELETED'
+            """;
+    static final String APP_CONTACT_ACCESSES_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_contact_access_logs access_log
+            JOIN hhy.content_posts post ON post.id = access_log.content_id
+            WHERE post.type = 'APP'
+              AND access_log.action IN ('VIEW', 'COPY', 'REPLAY')
+              AND access_log.created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String APP_CONTACT_REJECTIONS_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_contact_access_logs access_log
+            JOIN hhy.content_posts post ON post.id = access_log.content_id
+            WHERE post.type = 'APP'
+              AND access_log.action LIKE 'REJECTED_%'
+              AND access_log.created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String R09_OUTBOX_BACKLOG_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.outbox_events
+            WHERE event_type IN (
+                'content.app.created.v1', 'content.app.updated.v1',
+                'content.favorited.v1', 'content.favorite.replayed.v1',
+                'content.shared.v1', 'chat.direct.created.v1',
+                'content.app.stage.alert.v1'
+            ) AND status IN ('PENDING', 'RETRY_WAIT')
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -316,6 +363,13 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.project.contact.accesses.5m", "Successful project contact accesses in the last five minutes", PROJECT_CONTACT_ACCESSES_5M_SQL);
         register(registry, "hhy.project.contact.rejections.5m", "Rejected project contact accesses in the last five minutes", PROJECT_CONTACT_REJECTIONS_5M_SQL);
         register(registry, "hhy.r08.outbox.backlog", "R08 project events waiting for delivery", R08_OUTBOX_BACKLOG_SQL);
+        register(registry, "hhy.app.total.count", "Non-deleted App records", APP_TOTAL_SQL);
+        register(registry, "hhy.app.online.count", "App records currently online", APP_ONLINE_SQL);
+        register(registry, "hhy.app.review.pending", "App records waiting for review", APP_REVIEW_PENDING_SQL);
+        register(registry, "hhy.app.favorites.count", "Favorite rows attached to non-deleted Apps", APP_FAVORITES_SQL);
+        register(registry, "hhy.app.contact.accesses.5m", "Successful App contact accesses in the last five minutes", APP_CONTACT_ACCESSES_5M_SQL);
+        register(registry, "hhy.app.contact.rejections.5m", "Rejected App contact accesses in the last five minutes", APP_CONTACT_REJECTIONS_5M_SQL);
+        register(registry, "hhy.r09.outbox.backlog", "R09 App events waiting for delivery", R09_OUTBOX_BACKLOG_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

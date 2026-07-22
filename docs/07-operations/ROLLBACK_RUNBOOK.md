@@ -137,3 +137,19 @@ docker compose -p hhy-r08-staging -f infra/staging/r08-smoke/docker-compose.yml 
 ```
 
 回切前后必须记录 `api` 镜像 ID、PostgreSQL 容器 ID、卷名、Flyway V034、业务表数量、Prometheus target、RED 与七项 R08 Gauge。验证项目内容、收藏事实、联系方式不可变访问审计和测试 Outbox 事实未被回切篡改；随后恢复冻结 Commit 镜像并重复 readiness、指标和告警验证。禁止 U034、禁止 U033、禁止降版本 DDL、删除项目/收藏/联系方式审计/Outbox 事实、删除卷、重建数据库或通过业务端口伪造验收数据。
+
+## 13. R09 App隔离回滚演练
+
+R09 App隔离回滚演练保持同一 PostgreSQL 容器和数据卷，只切换 `api` 镜像。目标必须是已经在 V035 数据库上实际验证兼容的不可变 R08 应用镜像；若兼容性验证失败，停止回切并采用更高版本应用或 Flyway 前向修复，禁止强行启动不兼容历史镜像。
+
+```bash
+export HHY_R09_ROLLBACK_IMAGE='hhy-backend-r08-smoke:7d6eedf4'
+export HHY_R09_ROLLBACK_TAG='rollback-7d6eedf4'
+docker tag "$HHY_R09_ROLLBACK_IMAGE" "hhy-backend-r09-smoke:$HHY_R09_ROLLBACK_TAG"
+export HHY_SMOKE_ID="$HHY_R09_ROLLBACK_TAG"
+docker compose -p hhy-r09-staging -f infra/staging/r09-smoke/docker-compose.yml up -d --no-deps --no-build api
+docker compose -p hhy-r09-staging -f infra/staging/r09-smoke/docker-compose.yml exec -T api \
+  curl -fsS http://127.0.0.1:9091/actuator/health/readiness
+```
+
+回切前后必须记录 `api` 镜像 ID、PostgreSQL 容器 ID、卷名、Flyway V035、业务表数量、Prometheus target、RED 与七项 R09 Gauge。验证 App 内容、收藏事实、联系方式不可变访问审计和测试 Outbox 事实未被回切篡改；随后恢复冻结 Commit 镜像并重复 readiness、指标和告警验证。禁止 U035、禁止 U034、禁止降版本 DDL、删除 App/收藏/联系方式审计/Outbox 事实、删除卷、重建数据库或通过业务端口伪造验收数据。

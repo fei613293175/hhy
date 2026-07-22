@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T20:02:55Z",
-  "context_hash": "bf1fb5c6395e29f2cebffb1a965ce3e3179af3cc04406de45a22d46f058cce05",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-22T20:18:37Z",
+  "context_hash": "0241096f4b4df40fa50d26e50090904f8adfef95e02e536002b3e1784721476f",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "ada91b0e099538c168926324f7ad6b687fc773a19c95349c122cacbd85a3d06f",
-    "file_count": 0
+    "sha256": "6a378d15ab5fd938f21d8682efe3a86df0150dc826e55fa67db78950f7170214",
+    "file_count": 15
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "2ad6196df69ad0d2ca7743115d58436b4002e13f3ca6eb2da67d06573e82e1eb"
+    "sha256": "1eccc102fc7a65419e3ca16402ce318fd114a6151c5db156129c334a3293e2b6"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "06f6f6aa489a6944e3419e0bcd8280d530c37bdf093663f6ed6c1feafb77b7f1"
+    "sha256": "0f6571663026a68c1273bfc0b2ac18e3825047045beb3b35d77932c0b4fb4f8f"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "a9af6c3b689bada3fa034d5331fcf468918885d4bb0ab31a7b0070487629e2df",
-      "bytes": 3944
+      "sha256": "0fbfbf7dcc07cfe91021ca49362e90c0980a869b76eeeb23a56addf68359bccb",
+      "bytes": 4100
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,33 +83,33 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "32a060be97f005ff8edebc25acd6da9211532189fc988ef4c2aca46f22affcc8",
-      "bytes": 1382100
+      "sha256": "e6fb6efe13d9ab70a169be7fd467603425a0ff7972201e9b53960c36fd7de0f5",
+      "bytes": 1393671
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "c066c39fae26eda36a19f6b0d55a45e159d53f9b758c1fda234459020e69a0c2",
-      "bytes": 41001
+      "sha256": "b9d91ee8eb53d2651c1ff5bfc83625e46c0402275995a772512f17e8d272a5cf",
+      "bytes": 41503
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "56915b035e03ab37dcd87e90281516c87900793f5c55aa5557199c094654449a",
-      "bytes": 56055
+      "sha256": "d0d4500f863f9cc07cab975ffe70d3414c339874b6713eb73adb90565b5aa64d",
+      "bytes": 57025
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "3c1904e9267c6306ab17b727de029f45f41fb5792895f152b4fdcbb6666ec972",
-      "bytes": 23364
+      "sha256": "c16f149e07044c45a1693c490f6e66ba958209a7810b4d89dd24cec24d198bff",
+      "bytes": 23659
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "16046c14283eb150ecd5f9d3b05a670b69b7c3bc0a964fb1a130bf5cc8bc22f6",
-      "bytes": 833835
+      "sha256": "a6b444f24ed64612d7bdf288be81f7d5d752428e1e5377424feba618982c63af",
+      "bytes": 842831
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "9bc177f2a2c8195abefb789f09c520ee417e213d20f1c012728f8120ea0704f3",
-      "bytes": 143
+      "sha256": "1aed19a8f53bf0acca1f40b91a4096fd0b8cfdfa636044163e9305cdb8562868",
+      "bytes": 543
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -155,6 +155,26 @@
       "path": "releases/R09/ACCEPTANCE_MATRIX.csv",
       "sha256": "98e99c241f9e7ab8814e20fb62060f90c5903da20c1ef39ec81fa75d3bdecfb3",
       "bytes": 684
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md",
+      "sha256": "8c045fe5ea75d3904b98b589971ce57af21a78e70f7f5183124ca2d667ff4f77",
+      "bytes": 5274
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0003.yaml",
+      "sha256": "e6f791e9bb4156d5530ed7f918c3383bdaad5df647458341e0d0924ad0862b40",
+      "bytes": 12583
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0253-R09-App推广可观测性与隔离Staging验收.md",
+      "sha256": "666544c95c650d17f7694c696449e435046f7ec782f3dbb1c09025c0bfcc3dc1",
+      "bytes": 3801
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0254-R09-App推广可观测性与隔离Staging验收精确范围.md",
+      "sha256": "1344e35eed954061862febd6615b957c3f26083ca58208071868547b299bea7a",
+      "bytes": 4952
     }
   ]
 }

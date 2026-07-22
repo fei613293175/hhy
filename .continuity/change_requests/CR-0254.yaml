@@ -1,0 +1,84 @@
+protocol_version: '1.0'
+cr_id: CR-0254
+title: R09 App推广可观测性与隔离Staging验收精确范围
+status: IMPLEMENTING
+created_at: '2026-07-22T20:08:18Z'
+updated_at: '2026-07-22T20:08:56Z'
+requester_actor_id: codex-root-r09-observability
+approver_actor_id: codex-r09-observability-review
+task_id: TASK-R09-006
+session_id: SES-20260722T200509Z-8FC026EC
+user_request: 持续完成R09；大版本最终候选前不运行GitHub模拟器，完成任务后继续后继任务。
+reason: CR-0253因证据通配符在应用前被门禁拒绝并已SUPERSEDED；本CR逐文件声明唯一有效范围。
+original_rule: R09沿用通用和R08项目指标，但没有APP专属指标、告警、隔离Staging环境或绑定V035的可复核演练证据，AC-R09-004仍为NOT_RUN。
+new_rule: 在既有唯一观测与Staging框架内增加7项无敏感标签的APP业务Gauge、7条R09告警和隔离Compose；单一脚本必须绑定冻结Commit，验证RED、TraceId、日志脱敏、告警送达、Outbox合法终结和同库同卷镜像回切，并生成逐文件SHA256。
+impact_summary: 增加R09 App观测SQL及测试，复用R08已验证配置形成R09隔离环境、静态门禁、现场演练、部署/回滚手册和AC-R09-004证据；不触发Android模拟器或候选APK。
+impact:
+  files:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - infra/staging/r09-smoke/docker-compose.yml
+  - infra/staging/r09-smoke/prometheus.yml
+  - infra/staging/r09-smoke/r09-alerts.yml
+  - infra/staging/r09-smoke/alertmanager.yml
+  - infra/staging/r09-smoke/nginx.conf
+  - scripts/check_r09_observability.py
+  - scripts/run_r09_staging_acceptance.sh
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - releases/R09/ACCEPTANCE_MATRIX.csv
+  - artifacts/reports/R09/TASK-R09-006-staging.md
+  - CHANGELOG.md
+  - artifacts/validation/r09-task006-staging/alert-deliveries.jsonl
+  - artifacts/validation/r09-task006-staging/alert-exercise.txt
+  - artifacts/validation/r09-task006-staging/backend-down-firing.json
+  - artifacts/validation/r09-task006-staging/compose-ps.txt
+  - artifacts/validation/r09-task006-staging/database.txt
+  - artifacts/validation/r09-task006-staging/final-metrics.txt
+  - artifacts/validation/r09-task006-staging/http-request-completed.jsonl
+  - artifacts/validation/r09-task006-staging/liveness.json
+  - artifacts/validation/r09-task006-staging/log-redaction.txt
+  - artifacts/validation/r09-task006-staging/machine-summary.txt
+  - artifacts/validation/r09-task006-staging/metadata.txt
+  - artifacts/validation/r09-task006-staging/metrics-summary.txt
+  - artifacts/validation/r09-task006-staging/metrics.txt
+  - artifacts/validation/r09-task006-staging/outbox-test-events.txt
+  - artifacts/validation/r09-task006-staging/prometheus-rules.json
+  - artifacts/validation/r09-task006-staging/prometheus-targets.json
+  - artifacts/validation/r09-task006-staging/public-status.json
+  - artifacts/validation/r09-task006-staging/r09-outbox-firing.json
+  - artifacts/validation/r09-task006-staging/readiness.json
+  - artifacts/validation/r09-task006-staging/rollback-rehearsal.txt
+  - artifacts/validation/r09-task006-staging/SHA256SUMS
+  - artifacts/validation/r09-task006-staging/source-sha256.txt
+  - artifacts/validation/r09-task006-staging/trace-headers.txt
+  pages: []
+  apis: []
+  database:
+  - Flyway V035 forward-compatible rollback rehearsal
+  configuration:
+  - R09 isolated Compose, Prometheus and Alertmanager
+  ledger: []
+  tests:
+  - R09 observability static gate
+  - BusinessGaugeBinder and Prometheus endpoint tests
+  - R09 isolated staging acceptance and rollback rehearsal
+  releases:
+  - R09
+  migration_and_compatibility: 数据库不新增迁移；R09环境完整迁移至V035，回切只允许V035兼容镜像并保持同一PostgreSQL容器和卷，禁止U035/U034、降版本DDL或删除业务、审计和Outbox事实。
+user_confirmation: 用户已授权持续推进并明确模拟器只在大版本最终候选阶段执行。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T20:08:50Z'
+  note: 逐文件精确范围取代已SUPERSEDED的CR-0253；APP、V035、秘密、端口、同库同卷回切和非候选边界完整，允许实施。
+machine_record: .continuity/change_requests/CR-0254.yaml
+document: docs/03-continuity/change-requests/CR-0254-R09-App推广可观测性与隔离Staging验收精确范围.md
+decision_log:
+- at: '2026-07-22T20:08:56Z'
+  actor_id: codex-root-r09-observability
+  status: IMPLEMENTING
+  note: 逐文件范围已成功应用，开始实现App指标、告警和隔离Staging演练。
+  session_id: SES-20260722T200509Z-8FC026EC
+session_ids:
+- SES-20260722T200509Z-8FC026EC

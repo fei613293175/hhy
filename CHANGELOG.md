@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R09 App推广可观测性与隔离预发布验收 · 2026-07-23
+
+- 增加 App 总量、在线、待审核、收藏、联系方式访问/拒绝和 R09 Outbox 积压七项只读业务 Gauge，并在 Prometheus 端点测试中冻结指标名称。
+- 新增 R09 独立 Staging、Prometheus、Alertmanager 和审计接收器配置；使用独立回环端口、子网与数据卷，不触碰公网或既有版本环境。
+- 单一演练入口绑定冻结 Commit，验证 Trace/结构化日志脱敏、RED、App 业务指标、BackendDown 与 Outbox 告警送达，以及 V035 同库同卷应用回切；禁止 U035、U034 和任何降版本 DDL。
+
 ## R09 App推广专项测试与故障注入 · 2026-07-22
 
 - 将冻结的三项 App 推广测试接入唯一测试目录和统一证据矩阵，不建立平行测试清单。
@@ -1148,4 +1154,3 @@
 - Actor：`codex-root-r09-tests`
 - 摘要：R09 App推广三项权威专项测试、超时重放、八路并发、重复消息防护、真实依赖异常及规范化哈希证据全部PASS，P0/P1为0。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md`
-
