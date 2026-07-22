@@ -1,0 +1,99 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T194140Z-BCF8BB57
+status: ACTIVE
+actor:
+  id: codex-root-r09-tests
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R09
+task_id: TASK-R09-005
+story_id: STORY-R09-004
+goal: 完成App推广重复请求、并发、超时、消息重复和供应商异常专项测试与失败证据归档，关键缺陷清零。
+started_at: '2026-07-22T19:41:40Z'
+updated_at: '2026-07-22T19:52:07Z'
+takeover_of: null
+change_requests:
+- CR-0252
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - tests/r09/**
+  - services/backend/boot/src/test/**
+  - artifacts/reports/R09/**
+  - catalogs/test_cases.csv
+  approved_exceptions:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+  - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+  - scripts/run_r09_specialized_matrix.py
+  - tests/r09/README.md
+  - tests/r09/req-app-promo-001_happy
+  - tests/r09/req-app-promo-001_reject
+  - tests/r09/req-app-promo-001_idempotent
+  - catalogs/test_cases.csv
+  - artifacts/reports/R09/TASK-R09-005-specialized-tests.md
+  - artifacts/validation/r09-test-evidence/backend-java21.log
+  - artifacts/validation/r09-test-evidence/postgresql17.log
+  - artifacts/validation/r09-test-evidence/android-module.log
+  - artifacts/validation/r09-test-evidence/evidence.json
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0252
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 78c1f91bbacd724991292e2634288d6af6ace5d5
+  start_head: 78c1f91bbacd724991292e2634288d6af6ace5d5
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T19:52:03Z'
+  expires_at: '2026-07-22T23:52:03Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0003.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md
+next_step: 冻结测试实现提交，随后以精确Commit运行Java21、PostgreSQL17和Android受影响MODULE并生成证据。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: ef42f79128577a960e0937c2ba97e2bdbe7ce03bdb36a4b546f7497c6168a770
+  generated_at: '2026-07-22T19:52:06Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 测试源码、适配器方法选择器和后续证据提交必须保持同一精确提交，且未获用户授权子代理。

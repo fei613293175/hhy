@@ -10,6 +10,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,6 +26,8 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -125,6 +128,117 @@ class R09ServiceTest {
         verify(shared, never()).claim(anyString(), anyString(), anyString(), any());
         verify(store, never()).updateApp(anyLong(), anyLong(), anyString(), any(), anyString(), any(), any(), any(),
                 any(), anyString(), any(), anyBoolean(), any(), anyLong());
+    }
+
+    @Test
+    void networkTimeoutRetryReplaysFrozenSnapshotWithoutDuplicateOutbox() {
+        when(shared.identityVerified(11)).thenReturn(true);
+        when(store.ownsReadyNonApkMedia(11, List.of())).thenReturn(true);
+        when(shared.integerConfig("content.limit.normal.drafts")).thenReturn(10);
+        when(shared.countOwnedInStatus(11, "DRAFT")).thenReturn(0L);
+        when(store.createApp(anyLong(), anyString(), any(), anyString(), any(), any(), any(), any(),
+                anyString(), any(), eq(NOW))).thenReturn(51L);
+        ContentResource resource = resource("51", "DRAFT", 0);
+        when(content.detail("51")).thenReturn(resource);
+        var calls = new AtomicInteger();
+        var responseType = new AtomicReference<String>();
+        var responsePayload = new AtomicReference<String>();
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation -> {
+            String requestHash = invocation.getArgument(2);
+            if (calls.getAndIncrement() == 0) {
+                return new R08Store.IdempotencyClaim(9, requestHash, null, null, null, false);
+            }
+            return new R08Store.IdempotencyClaim(9, requestHash, "r09.content-resource.v1:ok",
+                    responseType.get(), responsePayload.get(), true);
+        });
+        org.mockito.Mockito.doAnswer(invocation -> {
+            responseType.set(invocation.getArgument(2));
+            responsePayload.set(invocation.getArgument(3));
+            return null;
+        }).when(shared).complete(eq(9L), anyString(), anyString(), anyString());
+        var request = request(Map.of("appName", "合伙云伙伴", "platform", "ANDROID"));
+
+        assertEquals(resource, service.create(11, request, KEY));
+        assertEquals(resource, service.create(11, request, KEY));
+
+        verify(store, times(1)).createApp(anyLong(), anyString(), any(), anyString(), any(), any(), any(), any(),
+                anyString(), any(), eq(NOW));
+        verify(shared, times(1)).outbox(11, "CONTENT", "content.app.created.v1", "51", "DRAFT", NOW);
+        verify(content, times(1)).detail("51");
+        verify(shared, times(1)).complete(eq(9L), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void differentRequestReusingKeyIsRejectedWithoutBusinessSideEffects() {
+        when(shared.identityVerified(11)).thenReturn(true);
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenReturn(
+                new R08Store.IdempotencyClaim(10, "f".repeat(64), null, null, null, true));
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> service.create(11, request(Map.of("appName", "不同App")), KEY));
+
+        assertEquals("COMMON-409-IDEMPOTENCY_CONFLICT", error.code());
+        verify(store, never()).ownsReadyNonApkMedia(anyLong(), any());
+        verify(store, never()).createApp(anyLong(), anyString(), any(), anyString(), any(), any(), any(), any(),
+                anyString(), any(), any());
+        verify(shared, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void mediaStorageProviderTimeoutStopsCreateWithZeroBusinessSideEffects() {
+        when(shared.identityVerified(11)).thenReturn(true);
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new R08Store.IdempotencyClaim(11, invocation.getArgument(2), null, null, null, false));
+        when(store.ownsReadyNonApkMedia(11, List.of(99L)))
+                .thenThrow(new IllegalStateException("media storage provider timeout"));
+        var request = new CreateProjectRequest("APP", "App", null, "介绍", "TOOLS", null,
+                List.of("99"), List.of(), Map.of("appName", "App"));
+
+        IllegalStateException error = assertThrows(IllegalStateException.class,
+                () -> service.create(11, request, KEY));
+
+        assertEquals("media storage provider timeout", error.getMessage());
+        verify(shared, never()).integerConfig(anyString());
+        verify(store, never()).createApp(anyLong(), anyString(), any(), anyString(), any(), any(), any(), any(),
+                anyString(), any(), any());
+        verify(shared, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void concurrentPatchLoserReturnsVersionConflictWithoutDuplicateMessage() {
+        when(shared.identityVerified(11)).thenReturn(true);
+        when(store.app(51)).thenReturn(Optional.of(app(51, 11, "DRAFT", 3)));
+        when(shared.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new R08Store.IdempotencyClaim(12, invocation.getArgument(2), null, null, null, false));
+        when(store.lockApp(51)).thenReturn(Optional.of(app(51, 11, "DRAFT", 3)));
+        when(store.updateApp(anyLong(), anyLong(), anyString(), any(), anyString(), any(), any(), any(), any(),
+                anyString(), any(), anyBoolean(), any(), anyLong())).thenReturn(false);
+        var request = new PatchProjectRequest("并发更新", null, null, null, null,
+                null, null, null, 3L);
+
+        BusinessException error = assertThrows(BusinessException.class,
+                () -> service.patch(11, "51", request, KEY));
+
+        assertEquals("COMMON-409-VERSION_CONFLICT", error.code());
+        verify(shared, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void h5ConfigurationProviderFailureDoesNotInventFallbackShareUrlOrWriteMessages() {
+        when(store.app(51)).thenReturn(Optional.of(app(51, 11, "ONLINE", 3)));
+        when(content.publicDetail("51")).thenReturn(resource("51", "ONLINE", 3));
+        when(shared.textConfig("domain.h5.host"))
+                .thenThrow(new IllegalStateException("configuration provider timeout"));
+
+        IllegalStateException error = assertThrows(IllegalStateException.class,
+                () -> service.publicShare("51"));
+
+        assertEquals("configuration provider timeout", error.getMessage());
+        verify(shared, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(shared, never()).complete(anyLong(), anyString(), anyString(), anyString());
     }
 
     @Test

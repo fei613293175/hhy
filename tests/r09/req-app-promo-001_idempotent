@@ -1,0 +1,13 @@
+{
+  "schema": "hhy.r09.test-adapter/v1",
+  "test_id": "TST-APP_PROMO_001-IDEMPOTENT",
+  "central_runner": "scripts/run_r09_specialized_matrix.py",
+  "runner": "r09-java21-postgresql17-android-app-promotion",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java#networkTimeoutRetryReplaysFrozenSnapshotWithoutDuplicateOutbox",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java#differentRequestReusingKeyIsRejectedWithoutBusinessSideEffects",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java#eightConcurrentAppClaimsHaveExactlyOneOwnerInRealPostgres",
+    "apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt#sameAppIntentReusesKeyAndChangedBodyRotatesKey"
+  ],
+  "fault_classes": ["network-timeout-retry", "duplicate-outbox-prevention", "eight-way-concurrency", "request-body-key-conflict", "client-key-stability"]
+}

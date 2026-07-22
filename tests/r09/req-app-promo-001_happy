@@ -1,0 +1,13 @@
+{
+  "schema": "hhy.r09.test-adapter/v1",
+  "test_id": "TST-APP_PROMO_001-HAPPY",
+  "central_runner": "scripts/run_r09_specialized_matrix.py",
+  "runner": "r09-java21-postgresql17-android-app-promotion",
+  "selectors": [
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java#createPersistsTypedAppEncryptsContactsAndWritesSingleOutbox",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java#createReadAndUpdateAppUseRealPostgres",
+    "services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R09ControllerContractTest.java#existingFrozenControllerUsesOneAppDispatcherWithoutDuplicateMappings",
+    "apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt#formRequiresOnlyFrozenMandatoryBusinessFacts"
+  ],
+  "fault_classes": ["app-lifecycle", "encrypted-contact", "real-postgresql", "frozen-android-form"]
+}

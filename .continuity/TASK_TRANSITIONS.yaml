@@ -820,3 +820,13 @@ transitions:
   session_id: SES-20260722T190220Z-19869F4B
   actor_id: codex-root-r09-client
   reason: 会话领取任务
+- transition_id: TRN-5632B808A1AA
+  timestamp: '2026-07-22T19:41:42Z'
+  release: R09
+  task_id: TASK-R09-005
+  story_id: STORY-R09-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260722T194140Z-BCF8BB57
+  actor_id: codex-root-r09-tests
+  reason: 会话领取任务

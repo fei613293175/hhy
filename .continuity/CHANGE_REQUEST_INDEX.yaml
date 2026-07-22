@@ -15439,3 +15439,63 @@ change_requests:
   - SES-20260722T190220Z-19869F4B
   implementation_commits:
   - b548d582e8e5b942a93513c128a113c8571bff0c
+- protocol_version: '1.0'
+  cr_id: CR-0252
+  title: R09 App推广专项测试与故障证据闭环
+  status: IMPLEMENTING
+  created_at: '2026-07-22T19:44:35Z'
+  updated_at: '2026-07-22T19:45:10Z'
+  requester_actor_id: codex-root-r09-tests
+  approver_actor_id: codex-r09-test-review
+  task_id: TASK-R09-005
+  session_id: SES-20260722T194140Z-BCF8BB57
+  user_request: 持续完成R09；普通任务仅运行受影响测试，关键缺陷清零后继续后续任务。
+  reason: 三项冻结测试仍为READY_TO_AUTOMATE，缺少R09适配器、故障注入、真实并发和可校验证据。
+  original_rule: R09三项权威测试仅在目录中冻结为READY_TO_AUTOMATE，现有R09测试未覆盖完成快照重放、同键异体冲突、真实并发唯一归属、依赖超时零副作用，也没有可哈希复核的统一证据。
+  new_rule: 继续复用catalogs/test_cases.csv的三个唯一测试ID；R09适配器必须绑定可执行方法，故障类必须覆盖重复请求、八路并发、网络超时重试、Outbox重复防护以及真实媒体存储和域名配置提供方异常，证据绑定精确源码提交、Java21、PostgreSQL17和Android模块日志。
+  impact_summary: 仅增强R09测试和证据治理，不改生产合同与业务；新增三项适配器、统一矩阵脚本、App服务故障测试、PostgreSQL真实并发和Android幂等键测试，并归档可哈希报告。
+  impact:
+    files:
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
+    - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+    - scripts/run_r09_specialized_matrix.py
+    - tests/r09/README.md
+    - tests/r09/req-app-promo-001_happy
+    - tests/r09/req-app-promo-001_reject
+    - tests/r09/req-app-promo-001_idempotent
+    - catalogs/test_cases.csv
+    - artifacts/reports/R09/TASK-R09-005-specialized-tests.md
+    - artifacts/validation/r09-test-evidence/backend-java21.log
+    - artifacts/validation/r09-test-evidence/postgresql17.log
+    - artifacts/validation/r09-test-evidence/android-module.log
+    - artifacts/validation/r09-test-evidence/evidence.json
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R09 backend Java 21 affected module
+    - R09 PostgreSQL 17 real concurrency
+    - R09 Android app-promotion module
+    - R09 specialized evidence verifier
+    releases:
+    - R09
+    migration_and_compatibility: 不修改生产数据、API或配置；测试目录复用冻结测试ID，旧R08证据保持不变，R09证据按独立schema存放。
+  user_confirmation: 用户已授权持续完成R09并要求普通任务仅运行受影响测试、关键缺陷清零后继续。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T19:45:04Z'
+    note: 影响范围仅限R09冻结测试与证据，真实依赖映射、并发和幂等断言明确，不虚构生产供应商；允许实施。
+  machine_record: .continuity/change_requests/CR-0252.yaml
+  document: docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
+  decision_log:
+  - at: '2026-07-22T19:45:10Z'
+    actor_id: codex-root-r09-tests
+    status: IMPLEMENTING
+    note: CR已批准并应用精确范围，开始实现三项适配器和故障证据矩阵。
+    session_id: SES-20260722T194140Z-BCF8BB57
+  session_ids:
+  - SES-20260722T194140Z-BCF8BB57
