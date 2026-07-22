@@ -15442,9 +15442,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0252
   title: R09 App推广专项测试与故障证据闭环
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-22T19:44:35Z'
-  updated_at: '2026-07-22T19:58:42Z'
+  updated_at: '2026-07-22T20:01:31Z'
   requester_actor_id: codex-root-r09-tests
   approver_actor_id: codex-r09-test-review
   task_id: TASK-R09-005
@@ -15502,7 +15502,13 @@ change_requests:
     status: IMPLEMENTED
     note: 三项适配器、故障注入和证据矩阵已实现；Java21、PostgreSQL17零跳过与Android受影响MODULE全部PASS。
     session_id: SES-20260722T194140Z-BCF8BB57
+  - at: '2026-07-22T20:01:31Z'
+    actor_id: codex-r09-test-review
+    status: CLOSED
+    note: 实现与批准范围一致；三项矩阵及规范化证据在干净仓库格式下PASS，P0/P1缺陷为0，允许关闭。
+    session_id: SES-20260722T194140Z-BCF8BB57
   session_ids:
   - SES-20260722T194140Z-BCF8BB57
   implementation_commits:
   - 450d8758a2ba2ad42b4906f8911495815ac29213
+  - d562d768fee74ed0f71ba27ced35faf24f96eb14

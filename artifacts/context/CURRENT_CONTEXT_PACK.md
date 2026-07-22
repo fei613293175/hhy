@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T20:00:54Z
-- Context Hash：`15074f67e06f9facd49d5de667d25e5e9fa40369f43eb4b2cf7f496c74d5ed25`
+- 生成时间：2026-07-22T20:01:37Z
+- Context Hash：`0a7249ecb39adf7bcdfe397d66e9f83d225cd988662878c82d0d179bd1bc4f62`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -138,7 +138,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R09-005
-updated_at: '2026-07-22T20:00:52Z'
+updated_at: '2026-07-22T20:01:35Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -173,15 +173,15 @@ continuity:
   active_session_id: SES-20260722T194140Z-BCF8BB57
   actor_id: codex-root-r09-tests
   story_id: STORY-R09-004
-  lease_expires_at: '2026-07-23T00:00:52Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0005.yaml
-  project_fingerprint: ae2610d067649fc45f25f0581f62f5fb0e20677143e59b9de3e453b2a7b7de76
+  lease_expires_at: '2026-07-23T00:01:35Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0006.yaml
+  project_fingerprint: b6c1302a819b92bb5b1a1bb79319c8decd56dff80cae0e61222828eb2c9fe6fa
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 1ec7aaff8f312fdaf0bb7efdd18f8c4a92924e4772e41eb5af57d4b2b5156d6a
-    generated_at: '2026-07-22T19:58:48Z'
+    context_hash: 15074f67e06f9facd49d5de667d25e5e9fa40369f43eb4b2cf7f496c74d5ed25
+    generated_at: '2026-07-22T20:00:54Z'
   handoff_bundle: null
 ```
 
@@ -380,7 +380,7 @@ task_id: TASK-R09-005
 story_id: STORY-R09-004
 goal: 完成App推广重复请求、并发、超时、消息重复和供应商异常专项测试与失败证据归档，关键缺陷清零。
 started_at: '2026-07-22T19:41:40Z'
-updated_at: '2026-07-22T20:00:52Z'
+updated_at: '2026-07-22T20:01:35Z'
 takeover_of: null
 change_requests:
 - CR-0252
@@ -447,12 +447,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T20:00:52Z'
-  expires_at: '2026-07-23T00:00:52Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0005.yaml
+  renewed_at: '2026-07-22T20:01:35Z'
+  expires_at: '2026-07-23T00:01:35Z'
+checkpoint_sequence: 6
+latest_checkpoint: .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0006.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md
-next_step: 提交规范化证据，关闭CR-0252与TASK-R09-005。
+next_step: 提交CR关闭记录，然后关闭TASK-R09-005并切换TASK-R09-006。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -460,42 +460,46 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 仅处理同一证据集的格式和哈希原子一致性，且未获用户授权子代理。
+  reason: 当前仅执行串行生命周期关闭，后继任务需等待唯一状态转换。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T194140Z-BCF8BB57-0005
+checkpoint_id: CP-SES-20260722T194140Z-BCF8BB57-0006
 session_id: SES-20260722T194140Z-BCF8BB57
-sequence: 5
-created_at: '2026-07-22T20:00:51Z'
-summary: 将三份生成日志统一规范为仓库LF无BOM格式并重新计算SHA-256，避免Windows工作区哈希与干净检出不一致；统一R09矩阵复核继续PASS。
-next_step: 提交规范化证据，关闭CR-0252与TASK-R09-005。
+sequence: 6
+created_at: '2026-07-22T20:01:34Z'
+summary: CR-0252已由审批Actor关闭；R09-005实现与规范化证据矩阵均PASS。
+next_step: 提交CR关闭记录，然后关闭TASK-R09-005并切换TASK-R09-006。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: r09-specialized-matrix-clean-format
+- name: r09-specialized-matrix
   result: PASS
   evidence: artifacts/validation/r09-test-evidence/evidence.json
-  note: LF规范化后3项证据哈希全部匹配
+  note: CLOSED review verified
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: c70fa6d869a810e16cb07288a3ffc7164c85319a
+  head: d562d768fee74ed0f71ba27ced35faf24f96eb14
   upstream: origin/task/TASK-R03-001
-  ahead: 2
+  ahead: 3
   behind: 0
   dirty: true
   status_porcelain:
-  - M  artifacts/reports/R09/TASK-R09-005-specialized-tests.md
-  - M  artifacts/validation/r09-test-evidence/android-module.log
-  - M  artifacts/validation/r09-test-evidence/backend-java21.log
-  - M  artifacts/validation/r09-test-evidence/evidence.json
-  - M  artifacts/validation/r09-test-evidence/postgresql17.log
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0252.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md'
   recent_commits:
+  - "d562d768fee74ed0f71ba27ced35faf24f96eb14\t2026-07-23T04:01:07+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): normalize evidence\
+    \ hashes"
   - "c70fa6d869a810e16cb07288a3ffc7164c85319a\t2026-07-23T03:59:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): freeze promotion\
     \ evidence"
   - "450d8758a2ba2ad42b4906f8911495815ac29213\t2026-07-23T03:52:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): add promotion fault\
@@ -508,10 +512,8 @@ git:
   - "536601aecf5e775466fe0a3c4225bc2bc3e633d8\t2026-07-23T03:01:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App backend\
     \ task"
   - "3f27a588499e9ca8e9679a85b9cf5b454447c76f\t2026-07-23T02:57:53+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 App backend"
-  - "e4f54c07b1b3cae024b5de42179a5e2cfb6f2c76\t2026-07-23T02:56:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(content): implement App\
-    \ promotion backend"
 project_fingerprint:
-  sha256: ae2610d067649fc45f25f0581f62f5fb0e20677143e59b9de3e453b2a7b7de76
+  sha256: b6c1302a819b92bb5b1a1bb79319c8decd56dff80cae0e61222828eb2c9fe6fa
   files:
   - CHANGELOG.md
   - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
@@ -542,8 +544,8 @@ project_fingerprint:
       sha256: 61910da7500e2e1fe2e5b87606f53cb43fb097f98ddbefd3be38ddb79a34d30c
     - path: docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
       state: FILE
-      size: 3789
-      sha256: a4a5eeb21fa9356a9b77dada242c11d293c62dd10fcde6e93ec861511cfbff91
+      size: 4063
+      sha256: f974b0a2df0aa8807833fb2803797516464602f830c36ffdb0ac2f07cbc11bcc
     - path: scripts/run_r09_specialized_matrix.py
       state: FILE
       size: 8757
@@ -657,8 +659,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 仅处理同一证据集的格式和哈希原子一致性，且未获用户授权子代理。
-event_hash: de6e0dcc6f365b8bc126e7f53a993577ab8d761e1f6f5decf6a85b11629248d0
+  reason: 当前仅执行串行生命周期关闭，后继任务需等待唯一状态转换。
+event_hash: 3afcef44ec81e3b5edb897b010b0e6e9ef139ea74e5a8733641a41792bfb9b2e
 ```
 
 ## 接续状态与事件头
@@ -670,8 +672,8 @@ active_session_id: SES-20260722T194140Z-BCF8BB57
 last_session_id: SES-20260722T190220Z-19869F4B
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T190220Z-19869F4B-0005
-event_count: 2494
-event_head_hash: de6e0dcc6f365b8bc126e7f53a993577ab8d761e1f6f5decf6a85b11629248d0
+event_count: 2496
+event_head_hash: 3afcef44ec81e3b5edb897b010b0e6e9ef139ea74e5a8733641a41792bfb9b2e
 event_chain_valid: true
 ```
 
@@ -794,9 +796,9 @@ recent_sessions: - session_id: SES-20260722T031604Z-105CF4C6
   started_at: '2026-07-22T19:41:40Z'
   record: .continuity/sessions/SES-20260722T194140Z-BCF8BB57.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md
-  updated_at: '2026-07-22T20:00:52Z'
+  updated_at: '2026-07-22T20:01:35Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0005.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0006.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-BCD2F13D5050
   session_id: SES-20260721T130339Z-785E85BE
@@ -1802,27 +1804,28 @@ recent_task_transitions: - transition_id: TRN-CEB4C3D3C624
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: c70fa6d869a810e16cb07288a3ffc7164c85319a
+head: d562d768fee74ed0f71ba27ced35faf24f96eb14
 upstream: origin/task/TASK-R03-001
-ahead: 2
+ahead: 3
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0252.yaml'
 - ' M .continuity/sessions/SES-20260722T194140Z-BCF8BB57.yaml'
 - ' M CURRENT_STATUS.yaml'
-- M  artifacts/reports/R09/TASK-R09-005-specialized-tests.md
-- M  artifacts/validation/r09-test-evidence/android-module.log
-- M  artifacts/validation/r09-test-evidence/backend-java21.log
-- M  artifacts/validation/r09-test-evidence/evidence.json
-- M  artifacts/validation/r09-test-evidence/postgresql17.log
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md'
-- ?? .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0005.yaml
+- ?? .continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0006.yaml
 recent_commits:
+- "d562d768fee74ed0f71ba27ced35faf24f96eb14\t2026-07-23T04:01:07+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): normalize evidence\
+  \ hashes"
 - "c70fa6d869a810e16cb07288a3ffc7164c85319a\t2026-07-23T03:59:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): freeze promotion\
   \ evidence"
 - "450d8758a2ba2ad42b4906f8911495815ac29213\t2026-07-23T03:52:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): add promotion fault\
@@ -1835,13 +1838,11 @@ recent_commits:
 - "536601aecf5e775466fe0a3c4225bc2bc3e633d8\t2026-07-23T03:01:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App backend\
   \ task"
 - "3f27a588499e9ca8e9679a85b9cf5b454447c76f\t2026-07-23T02:57:53+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 App backend"
-- "e4f54c07b1b3cae024b5de42179a5e2cfb6f2c76\t2026-07-23T02:56:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(content): implement App\
-  \ promotion backend"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`ae2610d067649fc45f25f0581f62f5fb0e20677143e59b9de3e453b2a7b7de76`
+- 指纹：`b6c1302a819b92bb5b1a1bb79319c8decd56dff80cae0e61222828eb2c9fe6fa`
 - 文件数：11
 
 - `CHANGELOG.md`
@@ -7870,80 +7871,13 @@ TASKS.yaml:
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
-- protocol_version: '1.0'
-  cr_id: CR-0252
-  title: R09 App推广专项测试与故障证据闭环
-  status: IMPLEMENTED
-  created_at: '2026-07-22T19:44:35Z'
-  updated_at: '2026-07-22T19:58:42Z'
-  requester_actor_id: codex-root-r09-tests
-  approver_actor_id: codex-r09-test-review
-  task_id: TASK-R09-005
-  session_id: SES-20260722T194140Z-BCF8BB57
-  user_request: 持续完成R09；普通任务仅运行受影响测试，关键缺陷清零后继续后续任务。
-  reason: 三项冻结测试仍为READY_TO_AUTOMATE，缺少R09适配器、故障注入、真实并发和可校验证据。
-  original_rule: R09三项权威测试仅在目录中冻结为READY_TO_AUTOMATE，现有R09测试未覆盖完成快照重放、同键异体冲突、真实并发唯一归属、依赖超时零副作用，也没有可哈希复核的统一证据。
-  new_rule: 继续复用catalogs/test_cases.csv的三个唯一测试ID；R09适配器必须绑定可执行方法，故障类必须覆盖重复请求、八路并发、网络超时重试、Outbox重复防护以及真实媒体存储和域名配置提供方异常，证据绑定精确源码提交、Java21、PostgreSQL17和Android模块日志。
-  impact_summary: 仅增强R09测试和证据治理，不改生产合同与业务；新增三项适配器、统一矩阵脚本、App服务故障测试、PostgreSQL真实并发和Android幂等键测试，并归档可哈希报告。
-  impact:
-    files:
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09PostgresStoreTest.java
-    - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
-    - scripts/run_r09_specialized_matrix.py
-    - tests/r09/README.md
-    - tests/r09/req-app-promo-001_happy
-    - tests/r09/req-app-promo-001_reject
-    - tests/r09/req-app-promo-001_idempotent
-    - catalogs/test_cases.csv
-    - artifacts/reports/R09/TASK-R09-005-specialized-tests.md
-    - artifacts/validation/r09-test-evidence/backend-java21.log
-    - artifacts/validation/r09-test-evidence/postgresql17.log
-    - artifacts/validation/r09-test-evidence/android-module.log
-    - artifacts/validation/r09-test-evidence/evidence.json
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - R09 backend Java 21 affected module
-    - R09 PostgreSQL 17 real concurrency
-    - R09 Android app-promotion module
-    - R09 specialized evidence verifier
-    releases:
-    - R09
-    migration_and_compatibility: 不修改生产数据、API或配置；测试目录复用冻结测试ID，旧R08证据保持不变，R09证据按独立schema存放。
-  user_confirmation: 用户已授权持续完成R09并要求普通任务仅运行受影响测试、关键缺陷清零后继续。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T19:45:04Z'
-    note: 影响范围仅限R09冻结测试与证据，真实依赖映射、并发和幂等断言明确，不虚构生产供应商；允许实施。
-  machine_record: .continuity/change_requests/CR-0252.yaml
-  document: docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md
-  decision_log:
-  - at: '2026-07-22T19:45:10Z'
-    actor_id: codex-root-r09-tests
-    status: IMPLEMENTING
-    note: CR已批准并应用精确范围，开始实现三项适配器和故障证据矩阵。
-    session_id: SES-20260722T194140Z-BCF8BB57
-  - at: '2026-07-22T19:58:42Z'
-    actor_id: codex-root-r09-tests
-    status: IMPLEMENTED
-    note: 三项适配器、故障注入和证据矩阵已实现；Java21、PostgreSQL17零跳过与Android受影响MODULE全部PASS。
-    session_id: SES-20260722T194140Z-BCF8BB57
-  session_ids:
-  - SES-20260722T194140Z-BCF8BB57
-  implementation_commits:
-  - 450d8758a2ba2ad42b4906f8911495815ac29213
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `3e86013d49c70d87fca1885802c3d92611703073dccbc4b2236ad14d7ab615d6`
+- `CURRENT_STATUS.yaml` — `0ecfdfc91389a6e2d621e1827b63b44dafe157c710f0b5ba5ce16eb07b2bd630`
 - `NEXT_TASK.yaml` — `4f65a170ad6b16e5868235e0fe5a766bc8ce3bcbdd7539214b9ca42903d9b325`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7954,12 +7888,12 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `fbd871f894964260fc289d5d2614bb4e3d4b8d2fdd967dacb06b693fa91c011d`
-- `.continuity/SESSION_INDEX.yaml` — `ad692ce1b45ea2ab1fe51252911cf30b503871fc5ce7ce175f309e6bab8b9683`
+- `.continuity/EVENT_LOG.jsonl` — `c6910b2dbbfd8c1c3f12cd9710b27e61d334785cad3ced04f725536cd7f2929a`
+- `.continuity/SESSION_INDEX.yaml` — `cc99e5f0d0d01d752945a995ec7a4372aa8c82bb03a0050ecbceeb2521799ff3`
 - `.continuity/TASK_CLAIMS.yaml` — `0296e48e7e963e8f1408f01bd859ef98bcbe3cf8df72007873434f0f72bb5bbc`
 - `.continuity/TASK_TRANSITIONS.yaml` — `3c1904e9267c6306ab17b727de029f45f41fb5792895f152b4fdcbb6666ec972`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `7f46a2de3b65cd85e2ed35de2c117ebb29fade12bd9d1fb0c0a52b6109e631d3`
-- `.continuity/ACTIVE_SESSION.yaml` — `1bf3800ec328a5fbb4d8c708c11581a3a88db1674a092e2d4f40076bea9c5309`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `16046c14283eb150ecd5f9d3b05a670b69b7c3bc0a964fb1a130bf5cc8bc22f6`
+- `.continuity/ACTIVE_SESSION.yaml` — `3aa30eb248549f3f54c562c0f157358128a7b28a44f4c4ecffe18633a4cadbf9`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7969,9 +7903,9 @@ TASKS.yaml:
 - `releases/R09/STORIES.yaml` — `bf6aa9b385fde354089345fa0172e6d9ca01a3fa96f0ce696a3086a394ce2776`
 - `releases/R09/TASKS.yaml` — `4600beefb5aa2b3b62a1ed6d8f71e6eb51fc75b5d4b2aed6e7c6772345cacb22`
 - `releases/R09/ACCEPTANCE_MATRIX.csv` — `98e99c241f9e7ab8814e20fb62060f90c5903da20c1ef39ec81fa75d3bdecfb3`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md` — `9fdc261d79e64c7d6537ede570fc350417841def240420890c0480b36730e926`
-- `.continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0005.yaml` — `84857127db7445cf5ef604bc56a5c0205b3c94dde2b01c1bea51e3452d04bbf6`
-- `docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md` — `a4a5eeb21fa9356a9b77dada242c11d293c62dd10fcde6e93ec861511cfbff91`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md` — `450fc3c07f49d4b449f495a90333e54a5884a48bd6b691fdabbcb061d3ef9da5`
+- `.continuity/checkpoints/SES-20260722T194140Z-BCF8BB57/0006.yaml` — `825d5b42fa20782a599f5ea988e734f1a94a817e083136753086e548ea7e3d71`
+- `docs/03-continuity/change-requests/CR-0252-R09-App推广专项测试与故障证据闭环.md` — `f974b0a2df0aa8807833fb2803797516464602f830c36ffdb0ac2f07cbc11bcc`
 
 ## 接手硬规则
 
