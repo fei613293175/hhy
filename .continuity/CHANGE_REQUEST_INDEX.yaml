@@ -12257,9 +12257,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0204
   title: 允许历史机器完成OwnerPending依赖继续后续开发
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-22T00:05:07Z'
-  updated_at: '2026-07-22T00:05:16Z'
+  updated_at: '2026-07-22T00:21:11Z'
   requester_actor_id: codex-root-r07-008
   approver_actor_id: codex-reviewer-continuity-async-dag
   task_id: TASK-R07-008
@@ -12300,14 +12300,26 @@ change_requests:
     status: IMPLEMENTING
     note: 开始修复历史OwnerPending依赖判定并增加回归与经验记录。
     session_id: SES-20260721T235847Z-F9109B61
+  - at: '2026-07-22T00:21:08Z'
+    actor_id: codex-root-r07-008
+    status: IMPLEMENTED
+    note: 历史Owner Pending依赖判定修复、正反向回归与踩坑记录已完成并推送
+    session_id: SES-20260721T235847Z-F9109B61
+  - at: '2026-07-22T00:21:11Z'
+    actor_id: codex-root-r07-008
+    status: CLOSED
+    note: 实现提交已推送，5项跨Release单测、11项重建及14项生命周期检查全部PASS
+    session_id: SES-20260721T235847Z-F9109B61
   session_ids:
   - SES-20260721T235847Z-F9109B61
+  implementation_commits:
+  - c91de253230a3e9d35369be73df711cccad39a81
 - protocol_version: '1.0'
   cr_id: CR-0205
   title: 刷新异步依赖规则的连续性重建证据
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-22T00:10:33Z'
-  updated_at: '2026-07-22T00:10:42Z'
+  updated_at: '2026-07-22T00:21:17Z'
   requester_actor_id: codex-root-r07-008
   approver_actor_id: codex-reviewer-continuity-evidence
   task_id: TASK-R07-008
@@ -12348,5 +12360,17 @@ change_requests:
     status: IMPLEMENTING
     note: 开始重生成连续性集成与生命周期证据。
     session_id: SES-20260721T235847Z-F9109B61
+  - at: '2026-07-22T00:21:14Z'
+    actor_id: codex-root-r07-008
+    status: IMPLEMENTED
+    note: 连续性派生报告与Doctor证据已由统一入口刷新并通过V1.2.3校验
+    session_id: SES-20260721T235847Z-F9109B61
+  - at: '2026-07-22T00:21:17Z'
+    actor_id: codex-root-r07-008
+    status: CLOSED
+    note: 证据重建提交已推送且严格校验0错误0警告
+    session_id: SES-20260721T235847Z-F9109B61
   session_ids:
   - SES-20260721T235847Z-F9109B61
+  implementation_commits:
+  - c91de253230a3e9d35369be73df711cccad39a81

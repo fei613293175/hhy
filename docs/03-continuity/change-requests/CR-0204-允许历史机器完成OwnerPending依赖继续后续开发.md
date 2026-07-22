@@ -87,3 +87,17 @@ R07切换R08时校验器只豁免当前Release的异步关闭任务，未识别�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260721T235847Z-F9109B61`
 - Note：开始修复历史OwnerPending依赖判定并增加回归与经验记录。
+
+## 状态记录 · 2026-07-22T00:21:08Z
+
+- Actor：`codex-root-r07-008`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260721T235847Z-F9109B61`
+- Note：历史Owner Pending依赖判定修复、正反向回归与踩坑记录已完成并推送
+
+## 状态记录 · 2026-07-22T00:21:11Z
+
+- Actor：`codex-root-r07-008`
+- Status：`CLOSED`
+- Session：`SES-20260721T235847Z-F9109B61`
+- Note：实现提交已推送，5项跨Release单测、11项重建及14项生命周期检查全部PASS
