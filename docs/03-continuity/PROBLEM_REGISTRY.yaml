@@ -1178,7 +1178,7 @@ problems:
   - Python测试新增第三方导入时必须同步唯一CI依赖安装步骤并在推送前用干净依赖环境核对
 - id: PROB-0089
   title: GitHub模拟器Pixel Launcher系统ANR覆盖历史视觉截图
-  status: IN_PROGRESS
+  status: SOLVED
   root_cause: Run 29922189010的固定API36构建、OIDC和多数旅程均成功，但模拟器自身Pixel Launcher弹出英文系统ANR对话框；历史截图稳定采样误把该系统弹层当成稳定产品画面，认证页后续Compose点击被系统窗口阻断。R04媒体面板另因长屏底部取消按钮不在当前可见区域而失败，与产品业务和Git推送无关。
   resolution: CR-0241不新增规则，在两个候选截图宿主的每次采样前检测Pixel Launcher的isn't responding/无响应标题，明确点击Wait/等待并确认弹层消失后才允许采图；认证Tab改用冻结完整文案，媒体底部面板用Android返回语义关闭。Run 29922189010及其被污染截图永久保留为失败证据，不得晋升。
   regression_checks:
@@ -1204,3 +1204,17 @@ problems:
   - 不得用单一高比例阈值判断所有同品牌、同骨架页面是否重复
   - 不得因历史UI整治扩大大版本候选范围而阻塞已经冻结且合格的本版本页面关闭
   - 调整执行顺序不得把历史页面的IN_REVIEW状态伪改为PASS
+- id: PROB-0091
+  title: 服务器重启后专用CI容器未自启导致GitHub自动登录502
+  status: SOLVED
+  root_cause: api.orbexa.cc宿主Nginx按既有设计指向127.0.0.1:28093的专用OIDC测试后端；服务器约在Run 29929926432前重启，容器hhy-r08-ci-candidate-94ba1fee因restart=no停为Exited(255)，而普通R08 Staging容器按安全规则HHY_CI_AUTOMATION_ENABLED=false，不能替代。结果公网状态与bootstrap均为502，当前HEAD构建通过后模拟器在启动前失败。
+  resolution: 按瞬时重试规则只复用成功构建重跑失败作业一次；同因失败后立即停止GitHub，登录服务器确认Nginx、端口和容器状态，启动原专用CI容器并等待8080/9091就绪。公网平台状态恢复HTTP 200，bootstrap无令牌探针恢复业务400而非502；R08使用既有已通过候选完成机器关闭。
+  regression_checks:
+  - 大版本候选推送前先验证https://api.orbexa.cc/public-api/v1/platform/status返回200
+  - 验证127.0.0.1:28093存在监听且专用CI容器健康，不得只看普通Staging容器健康
+  - GitHub收到HTTP 502时最多一次失败作业重试；重复后必须停止并诊断上游
+  - 不得把外部502写成产品、OIDC权限、Gradle、模拟器或UI失败
+  do_not_repeat:
+  - 服务器重启后不得假设restart=no的候选容器仍在运行
+  - 不得在公网API已502时先消耗完整GitHub构建再发现上游失联
+  - 不得为了绕过专用CI容器而开启普通Staging的自动登录能力

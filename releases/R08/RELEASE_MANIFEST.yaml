@@ -1,6 +1,6 @@
 release: R08
 title: 项目推广完整闭环
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: MACHINE_COMPLETE_OWNER_PENDING
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R05
@@ -72,6 +72,20 @@ android_automation:
   owner_physical_test: PENDING
   ai_visual_review: PASS
   evidence: artifacts/validation/r08-task007-android/candidate-report.json
+machine_closure:
+  status: PASS
+  task_id: TASK-R08-008
+  report: artifacts/reports/R08/TASK-R08-008-machine-close.md
+  owner_physical_test: PENDING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_work: GLOBAL_UI_AUDIT_P00_R01_TO_R08
+  post_candidate_evidence:
+    github_run_id: '29929926432'
+    build_lint_unit_package: PASS
+    emulator: FAILED_EXTERNAL_STAGING_502
+    retry: STOPPED_AFTER_ONE_CONTROLLED_RETRY
+    staging_recovery: PUBLIC_STATUS_HTTP_200
 entry_baseline:
   checked_at: '2026-07-22'
   session_id: SES-20260722T002444Z-8BEC3CA6
@@ -137,6 +151,8 @@ entry_baseline:
   approved_change_requests:
   - CR-0206
   - CR-0207
+  - CR-0242
+  - CR-0243
   rule: R08按TASK-R08-001至TASK-R08-008顺序实施；R06与R07项目所有者真机反馈保持异步PENDING，不得阻断R08，但不得据此放行历史版本正式验收或生产激活。R08仅在最终候选阶段运行完整门禁和模拟器验证，并向桌面交付候选APK与完整文档。
 entry_gate:
 - releases/R08/DEFINITION_OF_READY.yaml 全部适用项为PASS

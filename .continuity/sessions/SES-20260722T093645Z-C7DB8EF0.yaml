@@ -11,7 +11,7 @@ task_id: TASK-R08-008
 story_id: STORY-R08-004
 goal: 完成R08机器关闭与无状态交接；真实解决历史Android新肉眼视觉复核门禁，Owner真机反馈保持异步不阻断。
 started_at: '2026-07-22T09:36:45Z'
-updated_at: '2026-07-22T14:41:37Z'
+updated_at: '2026-07-22T15:08:41Z'
 takeover_of: null
 change_requests:
 - CR-0233
@@ -24,6 +24,8 @@ change_requests:
 - CR-0240
 - CR-0241
 - CR-0242
+- CR-0243
+- CR-0244
 scope:
   allowed_paths:
   - apps/**
@@ -88,7 +90,15 @@ scope:
   - config/android-automation.yaml
   - releases/R08/TASKS.yaml
   - artifacts/reports/R08/TASK-R08-004-client.md
-  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241+approved-cr:CR-0242
+  - artifacts/reports/R08/TASK-R08-008-machine-close.md
+  - releases/R08/ACCEPTANCE_MATRIX.csv
+  - releases/R08/RELEASE_MANIFEST.yaml
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - catalogs/task_transition_ledger.csv
+  - scripts/check_ui_visual_acceptance.py
+  - tests/test_ui_visual_acceptance.py
+  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241+approved-cr:CR-0242+approved-cr:CR-0243+approved-cr:CR-0244
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -98,22 +108,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T14:41:32Z'
-  expires_at: '2026-07-22T18:41:32Z'
-checkpoint_sequence: 17
-latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0017.yaml
+  renewed_at: '2026-07-22T15:08:30Z'
+  expires_at: '2026-07-22T19:08:30Z'
+checkpoint_sequence: 18
+latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0018.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-next_step: 提交并推送CR-0242，监控当前HEAD唯一R08最终候选；通过后下载APK与三页截图、更新R08交付证据并关闭版本，随后立即开始P00/R01-R08全局UI审计。
+next_step: 刷新Context Pack并执行R08关闭；随后立即进入P00/R01-R08全前端UI审计，不进入R09业务实现。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 11679be6db0e9c5ba552f1d4d46e9f94a5aa7fe1e81507218bef3add447ac879
-  generated_at: '2026-07-22T14:41:35Z'
+  context_hash: f5ec0cb98c36024f912af8525c223aee667cb55c4ad6a292fbad1780d31f4c67
+  generated_at: '2026-07-22T15:08:39Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 开发者约束规定用户未明确要求时不得创建子代理；当前也涉及唯一连续性会话与CR索引。
+  reason: 当前开发者指令与系统约束要求本任务串行推进，不创建子代理。

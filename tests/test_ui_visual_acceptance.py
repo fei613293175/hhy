@@ -13,7 +13,11 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from check_ui_visual_acceptance import REQUIRED_COLUMNS, validate_release  # noqa: E402
+from check_ui_visual_acceptance import (  # noqa: E402
+    REQUIRED_COLUMNS,
+    validate_historical,
+    validate_release,
+)
 
 
 def write_csv(path: Path, fieldnames: list[str], rows: list[dict[str, str]]) -> None:
@@ -165,7 +169,7 @@ class UiVisualAcceptanceTest(unittest.TestCase):
             errors, _count = validate_release(root, "R99", require_pass=True)
             self.assertIn("UI_VISUAL_EFFECT_LEVEL_REVIEW_NOT_PASS", {code for code, _message in errors})
 
-    def test_r08_close_requires_historical_visual_reaudit(self) -> None:
+    def test_r08_close_and_historical_visual_reaudit_are_separate_gates(self) -> None:
         with tempfile.TemporaryDirectory(prefix="hhy-ui-visual-") as temp:
             root = Path(temp)
             fixture(root)
@@ -187,7 +191,11 @@ class UiVisualAcceptanceTest(unittest.TestCase):
             rows.append(current)
             write_csv(visual_path, list(REQUIRED_COLUMNS), rows)
             errors, _count = validate_release(root, "R08", require_pass=True)
-            self.assertIn("UI_VISUAL_HISTORICAL_REAUDIT_MISSING", {code for code, _message in errors})
+            self.assertEqual([], errors)
+
+            errors, count = validate_historical(root, "R08")
+            self.assertGreaterEqual(count, 2)
+            self.assertIn("UI_VISUAL_CONTRACT_MISSING", {code for code, _message in errors})
 
 
 if __name__ == "__main__":

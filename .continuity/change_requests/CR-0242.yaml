@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0242
 title: 修正相近页面视觉误判并补齐历史首页与安全页精致度
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-22T14:27:39Z'
-updated_at: '2026-07-22T14:40:44Z'
+updated_at: '2026-07-22T15:08:16Z'
 requester_actor_id: codex-root-r08-008
 approver_actor_id: codex-reviewer-owner-order-r08
 task_id: TASK-R08-008
@@ -56,5 +56,12 @@ decision_log:
   status: IMPLEMENTED
   note: R08清单已恢复三个冻结页面，跨屏阈值校准为0.005且相同SHA零容忍保留；24项Android候选回归、8项Release关闭回归、R08文档与视觉目录门禁均通过，Run 29927212504三页证据按新规则本地重算0失败。
   session_id: SES-20260722T093645Z-C7DB8EF0
+- at: '2026-07-22T15:08:16Z'
+  actor_id: codex-root-r08-008
+  status: CLOSED
+  note: R08候选范围、视觉阈值及三页回归已提交推送并验证，关闭CR。
+  session_id: SES-20260722T093645Z-C7DB8EF0
 session_ids:
 - SES-20260722T093645Z-C7DB8EF0
+implementation_commits:
+- c5fc618a8a5177400e35de7b651b48c983af6716

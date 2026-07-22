@@ -33,8 +33,7 @@ QUALITY_MARKERS = (
     "状态完整性=PASS",
     "AI对照结论=PASS",
 )
-HISTORICAL_REAUDIT_RELEASES = {"R02", "R03", "R04", "R05", "R06", "R07"}
-HISTORICAL_REAUDIT_BLOCKING_RELEASE = "R08"
+RELEASE_ID = re.compile(r"^(P|R)(\d{2})$")
 
 REQUIRED_COLUMNS = (
     "页面ID",
@@ -230,40 +229,62 @@ def validate_release(
         if require_pass:
             errors.extend(_validate_quality_review(screen_id, row.get("说明", "").strip()))
 
-    if require_pass and release == HISTORICAL_REAUDIT_BLOCKING_RELEASE:
-        historical_expected = {
-            (row.get("计划版本", "").strip(), row.get("页面ID", "").strip()): row
-            for row in page_rows
-            if row.get("计划版本", "").strip() in HISTORICAL_REAUDIT_RELEASES
-            and row.get("平台", "").strip().upper() in VISUAL_PLATFORMS
-        }
-        historical_reviews = {
-            (row.get("计划版本", "").strip(), row.get("页面ID", "").strip()): row
-            for row in visual_rows
-            if row.get("计划版本", "").strip() in HISTORICAL_REAUDIT_RELEASES
-        }
-        for key in sorted(set(historical_expected) - set(historical_reviews)):
-            old_release, old_screen = key
-            errors.append((
-                "UI_VISUAL_HISTORICAL_REAUDIT_MISSING",
-                f"{old_release}/{old_screen} 缺少R08前置历史视觉复核",
-            ))
-        for key in sorted(set(historical_expected) & set(historical_reviews)):
-            old_release, old_screen = key
-            row = historical_reviews[key]
-            if row.get("验收状态", "").strip().upper() != "PASS":
-                errors.append((
-                    "UI_VISUAL_HISTORICAL_REMEDIATION_NOT_PASS",
-                    f"{old_release}/{old_screen} 历史回补状态不是PASS",
-                ))
-            errors.extend(_validate_quality_review(f"{old_release}/{old_screen}", row.get("说明", "").strip()))
-
     return errors, len(expected)
+
+
+def _release_key(release: str) -> tuple[int, int] | None:
+    match = RELEASE_ID.fullmatch(release.strip().upper())
+    if not match:
+        return None
+    prefix, number = match.groups()
+    return (0 if prefix == "P" else 1, int(number))
+
+
+def validate_historical(
+    root: Path,
+    through_release: str,
+) -> tuple[list[tuple[str, str]], int]:
+    """Validate every catalogued frontend release through the requested boundary.
+
+    This deliberately reuses ``validate_release`` and the same CSV facts. It is
+    an explicit global-remediation gate, not an implicit prerequisite of one
+    historical release close.
+    """
+    target_key = _release_key(through_release)
+    if target_key is None:
+        return [("UI_VISUAL_HISTORICAL_RELEASE_INVALID", through_release)], 0
+
+    page_rows, page_errors = _read_csv(root, PAGE_CATALOG)
+    if page_errors:
+        return [(line.split(" ", 1)[0], line) for line in page_errors], 0
+    releases: set[str] = set()
+    for row in page_rows:
+        release = row.get("计划版本", "").strip().upper()
+        key = _release_key(release)
+        if (
+            key is not None
+            and key <= target_key
+            and row.get("平台", "").strip().upper() in VISUAL_PLATFORMS
+        ):
+            releases.add(release)
+
+    errors: list[tuple[str, str]] = []
+    page_count = 0
+    for release in sorted(releases, key=lambda value: _release_key(value) or (99, 99)):
+        release_errors, count = validate_release(root, release, require_pass=True)
+        errors.extend(release_errors)
+        page_count += count
+    return errors, page_count
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = ArgumentParser(description=__doc__)
-    parser.add_argument("--release", required=True)
+    target = parser.add_mutually_exclusive_group(required=True)
+    target.add_argument("--release")
+    target.add_argument(
+        "--historical-through",
+        help="全局UI整改门禁：验证P00/R01起至目标版本的全部前端页面",
+    )
     parser.add_argument(
         "--catalog-only",
         action="store_true",
@@ -271,16 +292,26 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--root", type=Path, default=ROOT)
     args = parser.parse_args(argv)
-    errors, count = validate_release(
-        args.root.resolve(), args.release, require_pass=not args.catalog_only
-    )
+    if args.historical_through:
+        if args.catalog_only:
+            parser.error("--historical-through 不允许与 --catalog-only 同时使用")
+        label_target = args.historical_through
+        errors, count = validate_historical(args.root.resolve(), args.historical_through)
+    else:
+        label_target = args.release
+        errors, count = validate_release(
+            args.root.resolve(), args.release, require_pass=not args.catalog_only
+        )
     if errors:
-        print("UI_VISUAL_ACCEPTANCE_FAILED", args.release, len(errors))
+        print("UI_VISUAL_ACCEPTANCE_FAILED", label_target, len(errors))
         for code, message in errors:
             print(code, message)
         return 1
-    label = "UI_VISUAL_CATALOG_OK" if args.catalog_only else "UI_VISUAL_ACCEPTANCE_OK"
-    print(label, args.release, f"pages={count}")
+    if args.historical_through:
+        label = "UI_VISUAL_HISTORICAL_ACCEPTANCE_OK"
+    else:
+        label = "UI_VISUAL_CATALOG_OK" if args.catalog_only else "UI_VISUAL_ACCEPTANCE_OK"
+    print(label, label_target, f"pages={count}")
     return 0
 
 
