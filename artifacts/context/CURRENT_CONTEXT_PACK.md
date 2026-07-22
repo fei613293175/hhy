@@ -1,13 +1,37 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T02:09:06Z
-- Context Hash：`8940e8c67cfece0d88692d4f9cc108dd939977ba830bb9fa117967ba94279bd7`
+- 生成时间：2026-07-22T02:50:08Z
+- Context Hash：`074bd813467bfc4891b09e6efc9cf90266977141d3844908ce15797574541ca7`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
+- 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
 python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+```
+
+## 规则就绪
+
+```yaml
+status: PASS
+evidence: HASHED_CONTEXT_MANIFEST
+entry_command: python3 scripts/continuity.py resume
+subjective_understanding_is_evidence: false
+user_reexplanation_required_for_continue_only: false
+required_sources:
+- .continuity/CONTINUITY_POLICY.yaml
+- AGENTS.md
+- START_HERE.md
+- docs/00-baseline/SOURCE_OF_TRUTH.md
+- docs/00-baseline/正式商业系统全局硬性开发边界.md
+- docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+- docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
+- docs/03-continuity/PROBLEM_REGISTRY.yaml
+- docs/03-continuity/REUSABLE_PATTERNS.md
+- docs/03-continuity/PITFALLS.md
+- docs/09-development/统一开发与交付效率规范.md
+missing_sources: []
 ```
 
 ## 当前状态
@@ -104,7 +128,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-003
-updated_at: '2026-07-22T02:09:04Z'
+updated_at: '2026-07-22T02:50:06Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -139,15 +163,15 @@ continuity:
   active_session_id: SES-20260722T012224Z-E70EA3B7
   actor_id: codex-root-r08-003
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T06:09:04Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0003.yaml
-  project_fingerprint: 9c57a3ea1e31ef352d2c231ae76818ac0b18634ee9dff7b8cfb2fb681c858eff
+  lease_expires_at: '2026-07-22T06:50:06Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0007.yaml
+  project_fingerprint: 72f9218e2bcab398ae34b3382735401001b0ce61c322862ffca59a04dcb5f446
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 6c937bcdc057de8d1b42a89a7939448bb50f99f8cfe227c1a12a5a76276e9395
-    generated_at: '2026-07-22T02:07:36Z'
+    context_hash: 21289c9a5cf487b450243678b037c9bbf6900e930a2a7db72a3a7f69443c8718
+    generated_at: '2026-07-22T02:49:11Z'
   handoff_bundle: null
 ```
 
@@ -345,11 +369,14 @@ task_id: TASK-R08-003
 story_id: STORY-R08-004
 goal: 项目推广完整闭环后端应用服务与接口
 started_at: '2026-07-22T01:22:24Z'
-updated_at: '2026-07-22T02:09:04Z'
+updated_at: '2026-07-22T02:50:06Z'
 takeover_of: null
 change_requests:
 - CR-0211
 - CR-0212
+- CR-0213
+- CR-0214
+- CR-0215
 scope:
   allowed_paths:
   - apps/**
@@ -409,7 +436,18 @@ scope:
   - scripts/run_r08_backend_postgres_integration.sh
   - artifacts/reports/R08/TASK-R08-003-backend.md
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0211+approved-cr:CR-0212
+  - .continuity/CONTINUITY_POLICY.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - catalogs/ui_visual_acceptance.csv
+  - scripts/check_ui_visual_acceptance.py
+  - tests/test_ui_visual_acceptance.py
+  - releases/R08/TASKS.yaml
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  source: story+explicit+approved-cr:CR-0211+approved-cr:CR-0212+approved-cr:CR-0213+approved-cr:CR-0214
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -419,57 +457,118 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T02:09:04Z'
-  expires_at: '2026-07-22T06:09:04Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0003.yaml
+  renewed_at: '2026-07-22T02:50:06Z'
+  expires_at: '2026-07-22T06:50:06Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md
-next_step: 提交推送R08实现并在obx-test运行PostgreSQL17真实迁移与Store集成验证
+next_step: 提交并推送CR-0213至CR-0215治理变更；随后完成R08PostgresStore真实Java21集成和受影响MODULE验证并关闭TASK-R08-003。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前修改与远程验证共享同一提交和数据库顺序，串行执行可避免证据漂移
+  reason: 当前运行模式明确不允许自主启动子代理；连续性治理与证据由事实主控串行验证。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0003
+checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0007
 session_id: SES-20260722T012224Z-E70EA3B7
-sequence: 3
-created_at: '2026-07-22T02:09:04Z'
-summary: 修正R08 PostgreSQL集成脚本按V033不可变详情守卫先置DELETED再清理，并增加静态回归
-next_step: 提交推送R08实现并在obx-test运行PostgreSQL17真实迁移与Store集成验证
+sequence: 7
+created_at: '2026-07-22T02:50:06Z'
+summary: CR-0215进入IMPLEMENTING并完成实现；规则去重、11项必读来源哈希、RULE_READINESS=PASS、UI唯一规则强化和全部连续性证据已同步。
+next_step: 提交并推送CR-0213至CR-0215治理变更；随后完成R08PostgresStore真实Java21集成和受影响MODULE验证并关闭TASK-R08-003。
 blockers: []
-decisions: []
+decisions:
+- 不新建平行规则体系；将去重入口和机器规则就绪直接并入权威连续性策略。
 note: ''
 tests:
-- name: r08_backend_configuration
+- name: ui-visual-unit
   result: PASS
-  evidence: python -m unittest tests.test_r08_backend_configuration
-  note: 3 tests passed
+  evidence: python -m unittest tests.test_ui_visual_acceptance
+  note: 8 tests passed
+- name: r07-visual-catalog
+  result: PASS
+  evidence: python scripts/check_ui_visual_acceptance.py --release R07 --catalog-only
+  note: 5 pages catalog valid and candidate close intentionally blocked
+- name: rule-readiness-unit
+  result: PASS
+  evidence: python -m unittest tests.test_context_pack_parallel_policy
+  note: 13 tests passed
+- name: continuity-reconstruction
+  result: PASS
+  evidence: artifacts/validation/continuity-integration-v1.2.3.json
+  note: 12 reconstruction checks plus 14 lifecycle checks passed
+- name: v123-continuity-strict
+  result: PASS
+  evidence: python scripts/check_v123_continuity.py --strict
+  note: 0 errors and 0 warnings; rule_readiness PASS with 11 sources
+- name: r08-postgresql17
+  result: PASS
+  evidence: obx-test logs /tmp/hhy-r08-task003-pg17.log and config-pg17.log
+  note: empty upgrade rollback replay configuration and long-text guards passed
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: a2850c4066b8d27714deff29790c57335b44b460
+  head: 09a826ee4a3764498c8e0f6c0b15739ec8a49f68
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/CONTINUITY_POLICY.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/sessions/SES-20260722T012224Z-E70EA3B7.yaml'
+  - ' M AGENTS.md'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M START_HERE.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M scripts/run_r08_backend_postgres_integration.sh'
-  - ' M tests/test_r08_backend_configuration.py'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/ui_visual_acceptance.csv'
+  - ' M config/CONTINUITY_POLICY.yaml'
+  - ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+  - ' M docs/02-ui/UI参考图使用与开发约束_V1.2.2.md'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md'
+  - ' M docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md'
+  - ' M releases/R08/TASKS.yaml'
+  - ' M scripts/check_ui_visual_acceptance.py'
+  - ' M scripts/check_v123_continuity.py'
+  - ' M scripts/continuity_gate.py'
+  - ' M scripts/continuity_lib.py'
+  - ' M scripts/run_continuity_self_test.py'
+  - ' M templates/AGENTS.md'
+  - ' M templates/START_HERE.md'
+  - ' M tests/test_context_pack_parallel_policy.py'
+  - ' M tests/test_ui_visual_acceptance.py'
+  - ?? .continuity/change_requests/CR-0213.yaml
+  - ?? .continuity/change_requests/CR-0214.yaml
+  - ?? .continuity/change_requests/CR-0215.yaml
+  - ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0004.yaml
+  - ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0005.yaml
+  - ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0006.yaml
+  - ?? docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
+  - ?? docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
+  - ?? docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
   recent_commits:
+  - "09a826ee4a3764498c8e0f6c0b15739ec8a49f68\t2026-07-22T10:09:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): honor immutable\
+    \ detail cleanup guard"
   - "a2850c4066b8d27714deff29790c57335b44b460\t2026-07-22T10:03:43+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): implement project\
     \ backend operations"
   - "2e09ed18f835ab325b8b88afb7fab062547cac9b\t2026-07-22T09:21:49+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
@@ -483,19 +582,34 @@ git:
   - "e5d7d60ac0390843a1134c9457f7684fb04fc7ce\t2026-07-22T08:44:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-001\
     \ as completed"
   - "61361be3a037857f734b2a0f9c57beb5b505ad66\t2026-07-22T08:43:24+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 关闭R08入口变更链"
-  - "b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0\t2026-07-22T08:41:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(governance): 建立R08实施入口"
 project_fingerprint:
-  sha256: 9c57a3ea1e31ef352d2c231ae76818ac0b18634ee9dff7b8cfb2fb681c858eff
+  sha256: 72f9218e2bcab398ae34b3382735401001b0ce61c322862ffca59a04dcb5f446
   files:
+  - AGENTS.md
   - CHANGELOG.md
+  - START_HERE.md
+  - catalogs/ui_visual_acceptance.csv
+  - config/CONTINUITY_POLICY.yaml
   - contracts/contract_status.csv
   - contracts/openapi.yaml
   - database/migrations/V034__r08_backend_configuration.sql
   - database/rollback/U034__r08_backend_configuration.sql
   - database/tests/r08_backend_configuration.sql
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
   - docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
   - docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md
+  - docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
+  - docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
+  - docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
+  - docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
   - packages/api-client/src/client.generated.ts
+  - releases/R08/TASKS.yaml
+  - scripts/check_ui_visual_acceptance.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/run_continuity_self_test.py
   - scripts/run_r08_backend_postgres_integration.sh
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
   - services/backend/boot/src/main/resources/contracts/openapi.yaml
@@ -510,16 +624,36 @@ project_fingerprint:
   - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
   - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
   - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+  - templates/AGENTS.md
+  - templates/START_HERE.md
+  - tests/test_context_pack_parallel_policy.py
   - tests/test_r08_backend_configuration.py
   - tests/test_r08_backend_contract.py
-  file_count: 25
+  - tests/test_ui_visual_acceptance.py
+  file_count: 45
   payload:
     base_commit: 2e09ed18f835ab325b8b88afb7fab062547cac9b
     files:
+    - path: AGENTS.md
+      state: FILE
+      size: 13124
+      sha256: d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86
     - path: CHANGELOG.md
       state: FILE
-      size: 72921
-      sha256: dc77bbf927019b4d05270988362d7d3bf703833c7767db7c22c08fe9495f3c30
+      size: 74494
+      sha256: 7e3bdcdf0921bd6e00a1242d67eb27ce17357caea23b9c7d14c294310b87ca3c
+    - path: START_HERE.md
+      state: FILE
+      size: 4556
+      sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 12650
+      sha256: 3870c938a236fa0c71fc67dcbb92477a9514fba18c282f328b2b9a0e3406d060
+    - path: config/CONTINUITY_POLICY.yaml
+      state: FILE
+      size: 2321
+      sha256: 4639fce0b6c78276d3ff36152af2eab5ee8a499cfbed2b3c14f2a186a509ed01
     - path: contracts/contract_status.csv
       state: FILE
       size: 140010
@@ -540,6 +674,14 @@ project_fingerprint:
       state: FILE
       size: 2078
       sha256: b63aa80bbe9681b85b7b17ebc2c443ebbfbf05e2fd3e6935b4ece9af8e65cb36
+    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
+      state: FILE
+      size: 11671
+      sha256: 70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a
+    - path: docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+      state: FILE
+      size: 7071
+      sha256: 45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b
     - path: docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
       state: FILE
       size: 6313
@@ -548,10 +690,50 @@ project_fingerprint:
       state: FILE
       size: 2813
       sha256: 008d75424c35272df6089489571e3de91e1c095ccdc63dd51feaf0bf9bfbcd50
+    - path: docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
+      state: FILE
+      size: 4108
+      sha256: 0a92a3ab4d357250867bb7235d52930a6aa70503151620544821f0cb5606400e
+    - path: docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
+      state: FILE
+      size: 2532
+      sha256: 1787f51f0c64aae3230fc2fcf9b258b619638679754bac299c27c83e1294bc3a
+    - path: docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
+      state: FILE
+      size: 3467
+      sha256: 7316694f282f961a0b00cc6c514bfc96f7c82aa1bf63f4bad77a3218bfacc4ee
+    - path: docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
+      state: FILE
+      size: 4488
+      sha256: d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51
     - path: packages/api-client/src/client.generated.ts
       state: FILE
       size: 620705
       sha256: fc739fe861931ae66280d5e9ce01c634ac9956444598d1954f1ad57440d0f4c0
+    - path: releases/R08/TASKS.yaml
+      state: FILE
+      size: 6263
+      sha256: 494d82061638ba9a33980400d2c638ee5256ab082a8d0a404c31973a404967cf
+    - path: scripts/check_ui_visual_acceptance.py
+      state: FILE
+      size: 12575
+      sha256: 0acbbd072e7508848a30a007c01e0b126d4386d819c5aceb2dc882bf3553d669
+    - path: scripts/check_v123_continuity.py
+      state: FILE
+      size: 35731
+      sha256: d5541cd76f7e52382f640b05d023487a39c960c365bbfc0e1905579d6b96e569
+    - path: scripts/continuity_gate.py
+      state: FILE
+      size: 42396
+      sha256: 42a7880f9fffc097a7400cd4a44a1f5047b2bff92b5993e66d799d95f5ec010b
+    - path: scripts/continuity_lib.py
+      state: FILE
+      size: 113689
+      sha256: 6bff70e3c6ca918bfc21bdf5dfb4680257f1c1d1091dce1f329d568c5494e778
+    - path: scripts/run_continuity_self_test.py
+      state: FILE
+      size: 10894
+      sha256: 16af58ba87b8466523ff5dc950705f616c5d1aec96ced820063544737159af1a
     - path: scripts/run_r08_backend_postgres_integration.sh
       state: FILE
       size: 3746
@@ -608,6 +790,18 @@ project_fingerprint:
       state: FILE
       size: 2847
       sha256: bf12d7044cffbe879198f9e897ca912a253de74ddb7c5376cf2c9490b315c53f
+    - path: templates/AGENTS.md
+      state: FILE
+      size: 13124
+      sha256: d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86
+    - path: templates/START_HERE.md
+      state: FILE
+      size: 4556
+      sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
+    - path: tests/test_context_pack_parallel_policy.py
+      state: FILE
+      size: 8943
+      sha256: 1ae35d8644c247ccd19a2ecbb11027b0b617e638fccecd6d113a8d51cb8876ea
     - path: tests/test_r08_backend_configuration.py
       state: FILE
       size: 1946
@@ -616,16 +810,30 @@ project_fingerprint:
       state: FILE
       size: 2333
       sha256: 607cc5c3a609f440ccabfb45c21ecb4441e72b9135242b63b6a2a025ea876735
+    - path: tests/test_ui_visual_acceptance.py
+      state: FILE
+      size: 9890
+      sha256: 38fb11f2d3aa8af7126ae55f6c82623c25e7597e6ef3aa492d1b0ac3908c1904
 change_classification:
   other:
+  - AGENTS.md
   - CHANGELOG.md
+  - catalogs/ui_visual_acceptance.csv
+  - config/CONTINUITY_POLICY.yaml
+  - releases/R08/TASKS.yaml
+  - templates/AGENTS.md
+  - templates/START_HERE.md
+  user_visible:
+  - START_HERE.md
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
   source_of_truth:
   - contracts/contract_status.csv
   - contracts/openapi.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
   contracts:
-  - contracts/contract_status.csv
-  - contracts/openapi.yaml
-  user_visible:
   - contracts/contract_status.csv
   - contracts/openapi.yaml
   database:
@@ -635,8 +843,17 @@ change_classification:
   continuity:
   - docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
   - docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md
+  - docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
+  - docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
+  - docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
+  - docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
   code:
   - packages/api-client/src/client.generated.ts
+  - scripts/check_ui_visual_acceptance.py
+  - scripts/check_v123_continuity.py
+  - scripts/continuity_gate.py
+  - scripts/continuity_lib.py
+  - scripts/run_continuity_self_test.py
   - scripts/run_r08_backend_postgres_integration.sh
   - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
   - services/backend/boot/src/main/resources/contracts/openapi.yaml
@@ -652,8 +869,10 @@ change_classification:
   - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
   - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
   tests:
+  - tests/test_context_pack_parallel_policy.py
   - tests/test_r08_backend_configuration.py
   - tests/test_r08_backend_contract.py
+  - tests/test_ui_visual_acceptance.py
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
@@ -669,6 +888,9 @@ required_records:
 change_requests:
 - CR-0211
 - CR-0212
+- CR-0213
+- CR-0214
+- CR-0215
 scope:
   allowed_paths:
   - apps/**
@@ -728,13 +950,24 @@ scope:
   - scripts/run_r08_backend_postgres_integration.sh
   - artifacts/reports/R08/TASK-R08-003-backend.md
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0211+approved-cr:CR-0212
+  - .continuity/CONTINUITY_POLICY.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - catalogs/ui_visual_acceptance.csv
+  - scripts/check_ui_visual_acceptance.py
+  - tests/test_ui_visual_acceptance.py
+  - releases/R08/TASKS.yaml
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  source: story+explicit+approved-cr:CR-0211+approved-cr:CR-0212+approved-cr:CR-0213+approved-cr:CR-0214
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前修改与远程验证共享同一提交和数据库顺序，串行执行可避免证据漂移
-event_hash: dfe2e00f98492dd855f77197bee617479c9928934faa14eeef9e34924c6c3ef7
+  reason: 当前运行模式明确不允许自主启动子代理；连续性治理与证据由事实主控串行验证。
+event_hash: 22034e3f7dc8fa9a6e4b0448f333547ba6be95db19ab20b1ee9b5ebea3d06a18
 ```
 
 ## 接续状态与事件头
@@ -746,8 +979,8 @@ active_session_id: SES-20260722T012224Z-E70EA3B7
 last_session_id: SES-20260722T004601Z-1DC3809E
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T004601Z-1DC3809E-0003
-event_count: 2117
-event_head_hash: dfe2e00f98492dd855f77197bee617479c9928934faa14eeef9e34924c6c3ef7
+event_count: 2136
+event_head_hash: 22034e3f7dc8fa9a6e4b0448f333547ba6be95db19ab20b1ee9b5ebea3d06a18
 event_chain_valid: true
 ```
 
@@ -870,9 +1103,9 @@ recent_sessions: - session_id: SES-20260721T130339Z-785E85BE
   started_at: '2026-07-22T01:22:24Z'
   record: .continuity/sessions/SES-20260722T012224Z-E70EA3B7.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md
-  updated_at: '2026-07-22T02:09:04Z'
+  updated_at: '2026-07-22T02:50:06Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0007.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1066EF896172
   session_id: SES-20260720T155546Z-F13C645A
@@ -1826,27 +2059,61 @@ recent_task_transitions: - transition_id: TRN-B976848B4DB8
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: a2850c4066b8d27714deff29790c57335b44b460
+head: 09a826ee4a3764498c8e0f6c0b15739ec8a49f68
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- ' M .continuity/CONTINUITY_POLICY.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260722T012224Z-E70EA3B7.yaml'
+- ' M AGENTS.md'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M START_HERE.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M artifacts/validation/continuity-integration-v1.2.3.json'
+- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
+- ' M catalogs/ui_visual_acceptance.csv'
+- ' M config/CONTINUITY_POLICY.yaml'
+- ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
+- ' M docs/02-ui/UI参考图使用与开发约束_V1.2.2.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md'
-- ' M scripts/run_r08_backend_postgres_integration.sh'
-- ' M tests/test_r08_backend_configuration.py'
-- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0003.yaml
+- ' M docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md'
+- ' M releases/R08/TASKS.yaml'
+- ' M scripts/check_ui_visual_acceptance.py'
+- ' M scripts/check_v123_continuity.py'
+- ' M scripts/continuity_gate.py'
+- ' M scripts/continuity_lib.py'
+- ' M scripts/run_continuity_self_test.py'
+- ' M templates/AGENTS.md'
+- ' M templates/START_HERE.md'
+- ' M tests/test_context_pack_parallel_policy.py'
+- ' M tests/test_ui_visual_acceptance.py'
+- ?? .continuity/change_requests/CR-0213.yaml
+- ?? .continuity/change_requests/CR-0214.yaml
+- ?? .continuity/change_requests/CR-0215.yaml
+- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0004.yaml
+- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0005.yaml
+- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0006.yaml
+- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0007.yaml
+- ?? docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
+- ?? docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
+- ?? docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
 recent_commits:
+- "09a826ee4a3764498c8e0f6c0b15739ec8a49f68\t2026-07-22T10:09:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): honor immutable detail\
+  \ cleanup guard"
 - "a2850c4066b8d27714deff29790c57335b44b460\t2026-07-22T10:03:43+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): implement project\
   \ backend operations"
 - "2e09ed18f835ab325b8b88afb7fab062547cac9b\t2026-07-22T09:21:49+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh clean\
@@ -1860,23 +2127,38 @@ recent_commits:
 - "e5d7d60ac0390843a1134c9457f7684fb04fc7ce\t2026-07-22T08:44:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-001\
   \ as completed"
 - "61361be3a037857f734b2a0f9c57beb5b505ad66\t2026-07-22T08:43:24+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 关闭R08入口变更链"
-- "b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0\t2026-07-22T08:41:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(governance): 建立R08实施入口"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`9c57a3ea1e31ef352d2c231ae76818ac0b18634ee9dff7b8cfb2fb681c858eff`
-- 文件数：25
+- 指纹：`72f9218e2bcab398ae34b3382735401001b0ce61c322862ffca59a04dcb5f446`
+- 文件数：45
 
+- `AGENTS.md`
 - `CHANGELOG.md`
+- `START_HERE.md`
+- `catalogs/ui_visual_acceptance.csv`
+- `config/CONTINUITY_POLICY.yaml`
 - `contracts/contract_status.csv`
 - `contracts/openapi.yaml`
 - `database/migrations/V034__r08_backend_configuration.sql`
 - `database/rollback/U034__r08_backend_configuration.sql`
 - `database/tests/r08_backend_configuration.sql`
+- `docs/00-baseline/正式商业系统全局硬性开发边界.md`
+- `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md`
 - `docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md`
 - `docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md`
+- `docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md`
+- `docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md`
+- `docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md`
+- `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md`
 - `packages/api-client/src/client.generated.ts`
+- `releases/R08/TASKS.yaml`
+- `scripts/check_ui_visual_acceptance.py`
+- `scripts/check_v123_continuity.py`
+- `scripts/continuity_gate.py`
+- `scripts/continuity_lib.py`
+- `scripts/run_continuity_self_test.py`
 - `scripts/run_r08_backend_postgres_integration.sh`
 - `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java`
 - `services/backend/boot/src/main/resources/contracts/openapi.yaml`
@@ -1891,8 +2173,12 @@ recent_commits:
 - `services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java`
 - `services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java`
 - `services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java`
+- `templates/AGENTS.md`
+- `templates/START_HERE.md`
+- `tests/test_context_pack_parallel_policy.py`
 - `tests/test_r08_backend_configuration.py`
 - `tests/test_r08_backend_contract.py`
+- `tests/test_ui_visual_acceptance.py`
 
 ## 当前 Release
 
@@ -2562,11 +2848,17 @@ TASKS.yaml:
     description: 按 3 个页面/交互面的逐页施工规格和 4 个故事实现；禁止从参考图或通用摘要自行发明业务字段和按钮。
     deliverables:
     - 全部页面绑定catalogs/ui_page_specifications.csv
+    - R02-R07既有前端页面在catalogs/ui_visual_acceptance.csv完成新肉眼标准审计与必要回补
+    - R08页面达到绑定效果图或批准补充规格同等级的视觉丰富度与精致度且不虚构业务
+    - 无可靠参考时生成效果图补充需求包并继续推进其他不受影响页面
     - 字段/状态/动作/导航与后台运营规格通过契约测试
     - 禁止页面级手写重复DTO
     - 全部动作绑定生成API类型
     acceptance:
     - 所有页面故事验收条件通过
+    - R02-R07历史回补状态全部为PASS或有经批准且不影响本候选的安全例外
+    - 肉眼对照覆盖信息密度、层级、组件细节、品牌质感和状态完整性；仅Token合规、页面可用或截图存在不得判PASS
+    - 页面丰富度只使用开发文档、页面合同、API事实和非业务装饰资产，禁止虚构功能、字段、指标与数据
     - 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
     - 全部页面绑定catalogs/ui_page_specifications.csv
     - 字段/状态/动作/导航与后台运营规格通过契约测试
@@ -7380,13 +7672,174 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260722T012224Z-E70EA3B7
   session_ids:
   - SES-20260722T012224Z-E70EA3B7
+- protocol_version: '1.0'
+  cr_id: CR-0213
+  title: 建立效果图级视觉丰富度精致度与历史页面回补硬门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-22T02:17:16Z'
+  updated_at: '2026-07-22T02:19:32Z'
+  requester_actor_id: codex-root-r08-003
+  approver_actor_id: codex-reviewer-ui-fidelity
+  task_id: TASK-R08-003
+  session_id: SES-20260722T012224Z-E70EA3B7
+  user_request: 项目所有者要求全部既有和后续版本UI肉眼接近效果图的丰富度与精致度，禁止虚构业务；无对应图时优先复用相近视觉，无法复用则生成桌面效果图补充需求包供ChatGPT网页端补图；规则必须跨电脑跨AI持续生效。
+  reason: 现有门禁能证明Token、页面身份和截图存在，但不能阻止结构过简、信息层级和视觉丰富度明显低于效果图却被标记PASS，R07实际截图已暴露该缺口。
+  original_rule: 现有UI硬规则已经把开发文档、精确效果图、Design Token、逐页视觉合同和截图验收定义为唯一体系，但PASS条件偏重文件存在、参数合规和页面可用，尚未明确要求肉眼达到效果图同等级的丰富度、层级密度与精致度，也未把R02-R07旧标准页面回补纳入现有目录。
+  new_rule: 只强化现有UI与页面参数规则，不建立第二套规则：全部既有与后续前端页面必须在不虚构功能、字段、指标或数据的前提下，肉眼达到绑定效果图或批准补充规格同等级的视觉丰富度、信息层级、组件细节和品牌精致度；Token合规或可运行不能单独判PASS。无直接效果图时先在现有逐页视觉合同内复用相近页面已批准视觉语言；不能可靠复用时形成效果图补充需求包。R02-R07历史页面在现有ui_visual_acceptance目录中重新审计和回补，并作为R08最终候选关闭前置条件。
+  impact_summary: 直接更新既有全局UI边界、既有UI参考图规则、唯一连续性机器策略、既有逐页视觉验收目录和验收脚本；R08客户端任务纳入R02-R07历史页面审计回补。不新增并列规则文件，不改变API、数据库、资金账本或生产配置。
+  impact:
+    files:
+    - .continuity/CONTINUITY_POLICY.yaml
+    - docs/00-baseline/正式商业系统全局硬性开发边界.md
+    - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+    - catalogs/ui_visual_acceptance.csv
+    - scripts/check_ui_visual_acceptance.py
+    - tests/test_ui_visual_acceptance.py
+    - releases/R08/TASKS.yaml
+    - CHANGELOG.md
+    pages:
+    - ALL_IMPLEMENTED_AND_FUTURE_FRONTEND_PAGES
+    apis: []
+    database: []
+    configuration:
+    - .continuity/CONTINUITY_POLICY.yaml
+    ledger: []
+    tests:
+    - python -m unittest tests.test_ui_visual_acceptance
+    - python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
+    releases:
+    - R02-R32
+    migration_and_compatibility: 保留既有截图和历史PASS证据，但在同一ui_visual_acceptance目录新增肉眼丰富度、真实业务映射与历史回补字段，旧证据按旧标准标记待复核，不伪造新标准PASS。后端工作继续；缺图只阻断受影响页面，无法复用时生成桌面补图需求包。
+  user_confirmation: 项目所有者明确要求优化之前的UI、页面参数设计规则而不是另写一套硬规则，并要求既有与后续版本达到效果图级丰富度和精致度。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T02:19:09Z'
+    note: 批准直接强化既有唯一UI规则与逐页验收目录；不允许新增并列事实源，历史证据保留但必须按新肉眼标准重新审计，禁止用虚构业务填充视觉。
+  machine_record: .continuity/change_requests/CR-0213.yaml
+  document: docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
+  decision_log:
+  - at: '2026-07-22T02:19:32Z'
+    actor_id: codex-root-r08-003
+    status: IMPLEMENTING
+    note: 开始直接强化现有UI规则、逐页视觉验收目录与R08历史回补前置条件，不创建并列规则文件。
+    session_id: SES-20260722T012224Z-E70EA3B7
+  session_ids:
+  - SES-20260722T012224Z-E70EA3B7
+- protocol_version: '1.0'
+  cr_id: CR-0214
+  title: 刷新UI唯一策略变更后的连续性重建证据
+  status: IMPLEMENTING
+  created_at: '2026-07-22T02:26:15Z'
+  updated_at: '2026-07-22T02:26:53Z'
+  requester_actor_id: codex-root-r08-003
+  approver_actor_id: codex-reviewer-continuity-evidence
+  task_id: TASK-R08-003
+  session_id: SES-20260722T012224Z-E70EA3B7
+  user_request: 项目所有者要求直接强化既有UI规则并保证换电脑换AI可无状态接续。
+  reason: 唯一机器策略发生批准变更后，既有连续性重建与生命周期报告哈希按设计失效，必须重生成才能证明跨设备接续没有被破坏。
+  original_rule: 连续性重建与生命周期报告绑定唯一机器策略哈希，策略变化后旧报告必须被视为过期。
+  new_rule: 在CR-0213直接强化既有UI唯一规则后重跑既有连续性自测与生命周期演练，仅刷新原报告，不建立任何新规则或新事实源。
+  impact_summary: 只刷新四个既有连续性验证产物以绑定最新唯一策略；不改变产品代码、UI、API、数据库、配置语义或版本范围。
+  impact:
+    files:
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-integration-v1.2.3.log
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/run_continuity_self_test.py
+    - python scripts/check_v123_continuity.py
+    releases:
+    - R02-R32
+    migration_and_compatibility: 报告原路径原格式原门禁保持不变，由既有脚本原子重生成；旧报告由Git历史保留。
+  user_confirmation: 项目所有者要求既有UI规则强化后在换电脑换AI场景仍能直接复用。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T02:26:49Z'
+    note: 批准仅用既有脚本刷新原连续性报告；不引入第二套UI规则或新机器策略。
+  machine_record: .continuity/change_requests/CR-0214.yaml
+  document: docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
+  decision_log:
+  - at: '2026-07-22T02:26:53Z'
+    actor_id: codex-root-r08-003
+    status: IMPLEMENTING
+    note: 开始重生成既有连续性集成和生命周期报告。
+    session_id: SES-20260722T012224Z-E70EA3B7
+  session_ids:
+  - SES-20260722T012224Z-E70EA3B7
+- protocol_version: '1.0'
+  cr_id: CR-0215
+  title: 增强既有规则去重与跨AI规则就绪门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-22T02:37:15Z'
+  updated_at: '2026-07-22T02:49:49Z'
+  requester_actor_id: codex-root-r08-003
+  approver_actor_id: codex-policy-review-r08
+  task_id: TASK-R08-003
+  session_id: SES-20260722T012224Z-E70EA3B7
+  user_request: 新增规则前必须检索现有规则并优先更新，禁止并列相同或类似硬规则；换电脑或换AI后仅需说继续开发，全部适用规则必须通过仓库接续机制生效。
+  reason: 现有唯一事实源原则尚未显式约束规则入口去重，Context Pack也未机器验证全部关键规则来源是否完整纳入。
+  original_rule: 已有唯一机器策略、仓库事实源、resume与Context Pack机制，但未显式要求用户新增规则先做同义检索，也未证明关键规则来源全部进入Context Pack并通过机器就绪校验。
+  new_rule: 在既有change_control中强制规则入口检索、优先修订权威规则、禁止等价平行规则；在既有resume/Context Pack中增加哈希化required_sources与RULE_READINESS=PASS，缺失或过期即阻断开发，用户仅说继续开发时无需重述背景。
+  impact_summary: 不新增平行规则文件，只增强权威机器策略、既有冷启动入口、Context Pack生成/门禁和连续性验证证据。
+  impact:
+    files:
+    - .continuity/CONTINUITY_POLICY.yaml
+    - config/CONTINUITY_POLICY.yaml
+    - AGENTS.md
+    - templates/AGENTS.md
+    - START_HERE.md
+    - templates/START_HERE.md
+    - docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
+    - scripts/continuity_lib.py
+    - scripts/continuity_gate.py
+    - scripts/check_v123_continuity.py
+    - scripts/run_continuity_self_test.py
+    - tests/test_context_pack_parallel_policy.py
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-integration-v1.2.3.log
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 规则去重与Context Pack规则就绪单测
+    - 无对话Handoff重建全生命周期演练
+    - V1.2.3严格连续性门禁
+    releases:
+    - R08
+    migration_and_compatibility: 向后兼容；旧AI仍可按resume接入，新AI获得更严格的规则来源完整性校验；不改变业务、API、数据库或发布范围。
+  user_confirmation: 项目所有者于2026-07-22明确要求新增两项规则并要求换电脑换AI后仅需说继续开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T02:37:50Z'
+    note: 已核对现有唯一策略、冷启动入口和Context Pack；批准在原体系内去重增强，禁止新建平行事实源，并要求以可验证规则就绪状态代替主观理解声明。
+  machine_record: .continuity/change_requests/CR-0215.yaml
+  document: docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
+  decision_log:
+  - at: '2026-07-22T02:49:49Z'
+    actor_id: codex-root-r08-003
+    status: IMPLEMENTING
+    note: 已按批准合同增强既有change_control、Context Pack和连续性门禁，等待提交绑定后转IMPLEMENTED。
+    session_id: SES-20260722T012224Z-E70EA3B7
+  session_ids:
+  - SES-20260722T012224Z-E70EA3B7
 ```
 
 ## 上下文来源及哈希
 
-- `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
-- `START_HERE.md` — `a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e`
-- `CURRENT_STATUS.yaml` — `2b28204ca35f6c6270444c04a19e2e0d528e5dfb69f8fa2167b7d0e8aa0a7824`
+- `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
+- `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
+- `CURRENT_STATUS.yaml` — `e2fd1cd5513220bb1617f0aa5e064cf55cda643df1076a6e59b35c62318abf82`
 - `NEXT_TASK.yaml` — `b3b55d261a90ec212372fadbb5b00131f63ccb955dcd4e399da4ac562255dc3b`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7396,23 +7849,30 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
-- `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `ea662438ee6bae694a436cbf4813d94ba5aa7b386301a89c61c698c15f8c115a`
-- `.continuity/SESSION_INDEX.yaml` — `c28849495c9f08100af92ab94e089b6313faec290f73382ef8d090ac327283d5`
+- `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
+- `.continuity/EVENT_LOG.jsonl` — `458d4201c4732f8e1a3747be0844e95cfc73aa8c9cc33e94491145a7c81eefec`
+- `.continuity/SESSION_INDEX.yaml` — `8c7771c1f374b85ac477af3cb727acbc06a11c47692c729055ddcef170f3368b`
 - `.continuity/TASK_CLAIMS.yaml` — `807d74b33075e052e3e603eccc8190629d9fb0899fb220d77ab41bf7098d459f`
 - `.continuity/TASK_TRANSITIONS.yaml` — `6628ef42a5747b15fe5ec6bf85275904029430c57e0224f337fae0ba06f119c1`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `34472c51850c959b2fd159a2f269c645ee9d560cfd9570f8ee739926b8135d65`
-- `.continuity/ACTIVE_SESSION.yaml` — `7cbb229ce002dd686fd6cc442a010af73040f832a3b533652a514859d9163f0f`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b6c544081a25f0e52389164f1f8d74b0d64e8823d99bd55ac29f56a2102f2101`
+- `.continuity/ACTIVE_SESSION.yaml` — `8dda218ded3e0e44a3e05263dd1f779d4616e749972e58e2ede63f0d41b7b8d7`
+- `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
+- `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
+- `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
+- `docs/09-development/统一开发与交付效率规范.md` — `d2c45f41aef10a402c9d70d057b6cbbd90cdef5c303d0f21eb4573088eb81b03`
 - `releases/R08/RELEASE_MANIFEST.yaml` — `62ce3ebc9d1aefa77c684678fbd51364f0842afeeef604623645b79ff23882c9`
 - `releases/R08/DEFINITION_OF_READY.yaml` — `73b6bee8cacca90fa3564f4c6443f21b32d35afbfef83fad5a2a3b8705e536c5`
 - `releases/R08/STORIES.yaml` — `035e6d5b8a0cccd8e30f30d5cd80c858a846e745c5cf3075aa6742d4f0a370b6`
-- `releases/R08/TASKS.yaml` — `a644947a15a9618bdbdc18fb42441d48ff2641197b3af56f17e3b86bb41fbf6d`
+- `releases/R08/TASKS.yaml` — `494d82061638ba9a33980400d2c638ee5256ab082a8d0a404c31973a404967cf`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `1e47b204a5cbd289d9ccafc93b0f4afb45983db76a23a4492dd463ffeec0cb98`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md` — `42f4c2a2fe2c21c339fa1eb5f26fc750e931240d58899844938c664de3c3f085`
-- `.continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0003.yaml` — `160ea2387cfca8cfca03cee7e8020f39d91bc27cb2b43e3a9cb9396de60db2b2`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md` — `f38f1852dd0d2facf74cf15679e810c91de0804bbd3af3f9eec5ed9580f5897a`
+- `.continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0007.yaml` — `9eb773b8fce3c1e9a2ca65b32dade9eff38be663e8615854efe3719503d9213c`
 - `docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md` — `841066647c9018e3cf67dd52e21fef57df203b53fb59cdd170ab6a9b593ffd29`
 - `docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md` — `008d75424c35272df6089489571e3de91e1c095ccdc63dd51feaf0bf9bfbcd50`
+- `docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md` — `0a92a3ab4d357250867bb7235d52930a6aa70503151620544821f0cb5606400e`
+- `docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md` — `1787f51f0c64aae3230fc2fcf9b258b619638679754bac299c27c83e1294bc3a`
+- `docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md` — `7316694f282f961a0b00cc6c514bfc96f7c82aa1bf63f4bad77a3218bfacc4ee`
 
 ## 接手硬规则
 

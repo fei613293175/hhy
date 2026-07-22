@@ -60,7 +60,11 @@ def fixture(root: Path, *, status: str = "PASS", coverage: str = "EXACT") -> Non
             "参考证据": reference if coverage != "MISSING" else "",
             "实现截图证据": screenshot if status == "PASS" else "",
             "验收状态": status,
-            "说明": "已逐项核对" if status == "PASS" else "等待补充视觉规格",
+            "说明": (
+                "已逐项核对；肉眼丰富度=PASS；信息层级=PASS；组件精致度=PASS；"
+                "真实业务映射=PASS；状态完整性=PASS；AI对照结论=PASS"
+                if status == "PASS" else "等待补充视觉规格"
+            ),
         }],
     )
 
@@ -148,6 +152,42 @@ class UiVisualAcceptanceTest(unittest.TestCase):
             write_csv(path, list(REQUIRED_COLUMNS), rows)
             errors, _count = validate_release(root, "R99", require_pass=True)
             self.assertIn("UI_VISUAL_STANDARD_TEMPLATE_PLATFORM_INVALID", {code for code, _message in errors})
+
+    def test_token_and_screenshot_only_cannot_pass_effect_level_review(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-ui-visual-") as temp:
+            root = Path(temp)
+            fixture(root)
+            path = root / "catalogs/ui_visual_acceptance.csv"
+            with path.open(encoding="utf-8-sig", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            rows[0]["说明"] = "Token、截图和功能旅程均通过"
+            write_csv(path, list(REQUIRED_COLUMNS), rows)
+            errors, _count = validate_release(root, "R99", require_pass=True)
+            self.assertIn("UI_VISUAL_EFFECT_LEVEL_REVIEW_NOT_PASS", {code for code, _message in errors})
+
+    def test_r08_close_requires_historical_visual_reaudit(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-ui-visual-") as temp:
+            root = Path(temp)
+            fixture(root)
+            page_path = root / "catalogs/ui_page_specifications.csv"
+            with page_path.open(encoding="utf-8-sig", newline="") as handle:
+                pages = list(csv.DictReader(handle))
+            pages.extend([
+                {"页面ID": "SCR-OLD-001", "平台": "ANDROID", "页面名称": "历史页", "计划版本": "R02"},
+                {"页面ID": "SCR-NEW-001", "平台": "ANDROID", "页面名称": "当前页", "计划版本": "R08"},
+            ])
+            write_csv(page_path, ["页面ID", "平台", "页面名称", "计划版本"], pages)
+            visual_path = root / "catalogs/ui_visual_acceptance.csv"
+            with visual_path.open(encoding="utf-8-sig", newline="") as handle:
+                rows = list(csv.DictReader(handle))
+            current = dict(rows[0])
+            current["页面ID"] = "SCR-NEW-001"
+            current["计划版本"] = "R08"
+            current["页面名称"] = "当前页"
+            rows.append(current)
+            write_csv(visual_path, list(REQUIRED_COLUMNS), rows)
+            errors, _count = validate_release(root, "R08", require_pass=True)
+            self.assertIn("UI_VISUAL_HISTORICAL_REAUDIT_MISSING", {code for code, _message in errors})
 
 
 if __name__ == "__main__":

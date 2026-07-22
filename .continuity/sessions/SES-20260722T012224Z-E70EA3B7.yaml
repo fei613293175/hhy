@@ -11,11 +11,14 @@ task_id: TASK-R08-003
 story_id: STORY-R08-004
 goal: 项目推广完整闭环后端应用服务与接口
 started_at: '2026-07-22T01:22:24Z'
-updated_at: '2026-07-22T02:09:08Z'
+updated_at: '2026-07-22T02:50:10Z'
 takeover_of: null
 change_requests:
 - CR-0211
 - CR-0212
+- CR-0213
+- CR-0214
+- CR-0215
 scope:
   allowed_paths:
   - apps/**
@@ -75,7 +78,18 @@ scope:
   - scripts/run_r08_backend_postgres_integration.sh
   - artifacts/reports/R08/TASK-R08-003-backend.md
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0211+approved-cr:CR-0212
+  - .continuity/CONTINUITY_POLICY.yaml
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - catalogs/ui_visual_acceptance.csv
+  - scripts/check_ui_visual_acceptance.py
+  - tests/test_ui_visual_acceptance.py
+  - releases/R08/TASKS.yaml
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  source: story+explicit+approved-cr:CR-0211+approved-cr:CR-0212+approved-cr:CR-0213+approved-cr:CR-0214
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -85,22 +99,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T02:09:04Z'
-  expires_at: '2026-07-22T06:09:04Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0003.yaml
+  renewed_at: '2026-07-22T02:50:06Z'
+  expires_at: '2026-07-22T06:50:06Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0007.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md
-next_step: 提交推送R08实现并在obx-test运行PostgreSQL17真实迁移与Store集成验证
+next_step: 提交并推送CR-0213至CR-0215治理变更；随后完成R08PostgresStore真实Java21集成和受影响MODULE验证并关闭TASK-R08-003。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 8940e8c67cfece0d88692d4f9cc108dd939977ba830bb9fa117967ba94279bd7
-  generated_at: '2026-07-22T02:09:06Z'
+  context_hash: 074bd813467bfc4891b09e6efc9cf90266977141d3844908ce15797574541ca7
+  generated_at: '2026-07-22T02:50:08Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前修改与远程验证共享同一提交和数据库顺序，串行执行可避免证据漂移
+  reason: 当前运行模式明确不允许自主启动子代理；连续性治理与证据由事实主控串行验证。

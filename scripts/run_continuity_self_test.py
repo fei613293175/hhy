@@ -78,6 +78,10 @@ def main():
         handoff=yaml.safe_load((hdir/'HANDOFF.yaml').read_text(encoding='utf-8')) or {}
         context=yaml.safe_load((hdir/'snapshot/artifacts/context/CURRENT_CONTEXT_PACK.yaml').read_text(encoding='utf-8')) or {}
         if context.get('conversation_dependency')!='PROHIBITED' or context.get('source_of_truth')!='REPOSITORY_ONLY':raise RuntimeError('context is not repository-only')
+        readiness=context.get('rule_readiness') or {}
+        if readiness.get('status')!='PASS' or readiness.get('missing_sources'):raise RuntimeError('context rule readiness is not PASS')
+        manifested={row.get('path') for row in context.get('source_manifest',[]) if isinstance(row,dict)}
+        if any(source not in manifested for source in readiness.get('required_sources',[])):raise RuntimeError('context rule source is not hashed')
         parallel=context.get('parallel_development_policy') or {}
         expected_parallel={
           'default_delegation_mode':'AUTO_WHEN_SAFE_PARALLEL_WORK_EXISTS',
@@ -94,6 +98,7 @@ def main():
         if runtime.get('cloud_environment',{}).get('android',{}).get('image')!='hhy-android-toolchain:r01-46fb273':raise RuntimeError('context lost existing Android image')
         if runtime.get('model_routing',{}).get('complex_or_high_risk',{}).get('model')!='Sol':raise RuntimeError('context lost model routing')
         checks.append({'name':'repository_only_context','status':'PASS','evidence':'snapshot/artifacts/context/CURRENT_CONTEXT_PACK.yaml'})
+        checks.append({'name':'rule_readiness_reconstructed','status':'PASS','evidence':'rule_readiness+source_manifest'})
         checks.append({'name':'parallel_authorization_reconstructed','status':'PASS','evidence':'parallel_development_policy'})
         checks.append({'name':'runtime_and_git_transport_reconstructed','status':'PASS','evidence':'development_runtime+repository_transport'})
         clone=base/'reconstructed'

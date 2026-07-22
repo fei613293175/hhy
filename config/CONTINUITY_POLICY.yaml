@@ -51,6 +51,15 @@ git:
 change_control:
   approval_requires_complete_contract: true
   requester_cannot_approve: true
+  rule_intake_source: .continuity/CONTINUITY_POLICY.yaml#change_control.rule_intake
+  search_existing_rules_before_addition: true
+  equivalent_parallel_rules: FORBIDDEN
+rule_readiness:
+  source: .continuity/CONTINUITY_POLICY.yaml#rule_readiness
+  entry_command: python3 scripts/continuity.py resume
+  required_status_before_development: PASS
+  evidence: HASHED_CONTEXT_MANIFEST
+  user_reexplanation_for_continue_only: NOT_REQUIRED
 handoff:
   repository_only: true
   old_conversation_required: false

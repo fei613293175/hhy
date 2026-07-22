@@ -68,6 +68,7 @@ from continuity_lib import (
     canonical_fingerprint_bytes,
     read_current_status,
     read_next_task,
+    required_rule_sources,
     root_from_script,
     run_command,
     secret_scan,
@@ -649,6 +650,26 @@ def prepush_base_ref(git_state: dict[str, Any], session: dict[str, Any] | None) 
     return git_state.get("upstream") or (session or {}).get("git", {}).get("base_commit")
 
 
+def validate_rule_readiness(report: Report, policy: dict[str, Any]) -> None:
+    required = required_rule_sources(policy)
+    context = load_yaml(ROOT / "artifacts/context/CURRENT_CONTEXT_PACK.yaml", {})
+    readiness = context.get("rule_readiness", {})
+    manifested = {
+        str(row.get("path") or "")
+        for row in context.get("source_manifest", [])
+        if isinstance(row, dict)
+    }
+    missing_files = [relative for relative in required if not (ROOT / relative).is_file()]
+    missing_manifest = [relative for relative in required if relative not in manifested]
+    report.require(bool(required), "RULE_SOURCE_REGISTRY_EMPTY", "权威策略必须登记全局必读规则来源")
+    report.require(not missing_files, "RULE_SOURCE_MISSING", "全局必读规则来源缺失：" + ", ".join(missing_files))
+    report.require(not missing_manifest, "RULE_SOURCE_NOT_HASHED", "全局必读规则未进入Context Pack哈希清单：" + ", ".join(missing_manifest))
+    report.require(readiness.get("status") == "PASS", "RULE_READINESS", "Context Pack规则就绪状态必须为PASS")
+    report.require(readiness.get("required_sources") == required, "RULE_READINESS_DRIFT", "Context Pack规则来源清单与权威策略不一致")
+    report.metrics["rule_readiness"] = readiness.get("status")
+    report.metrics["required_rule_sources"] = len(required)
+
+
 def main() -> int:
     parser = ArgumentParser(description="持续开发无状态接续强制门禁")
     parser.add_argument("--mode", choices=["doctor", "release", "pre-commit", "commit-msg", "pre-push", "ci"], default="doctor")
@@ -681,6 +702,7 @@ def main() -> int:
             validate_session_structure(report, session, policy)
         validate_current_next_consistency(report, session)
         validate_indexes(report, session)
+        validate_rule_readiness(report, policy)
         message = ""
         if args.commit_message_file:
             message = Path(args.commit_message_file).read_text(encoding="utf-8")

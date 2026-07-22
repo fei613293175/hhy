@@ -159,6 +159,11 @@ merge:
 change_control:
   source_of_truth_change_requires_approved_cr: true
   requester_cannot_approve: true
+  rule_intake:
+    search_existing_canonical_rules_first: true
+    amend_existing_canonical_rule_when_equivalent_or_similar: true
+    prohibit_parallel_equivalent_or_similar_rule: true
+    new_rule_requires_documented_distinct_gap: true
   bugfix_requires_problem_registry_and_regression_test: true
   database_change_requires_migration_or_invariant_evidence: true
   user_visible_change_requires_changelog: true
@@ -172,10 +177,49 @@ change_control:
   - impact.releases
   - impact.migration_and_compatibility
   - user_confirmation
+rule_readiness:
+  entry_command: python3 scripts/continuity.py resume
+  continue_only_requires_user_reexplanation: false
+  subjective_complete_understanding_claim_is_evidence: false
+  development_requires_status: PASS
+  require_hashed_context_manifest: true
+  require_task_and_release_context: true
+  required_global_sources:
+  - .continuity/CONTINUITY_POLICY.yaml
+  - AGENTS.md
+  - START_HERE.md
+  - docs/00-baseline/SOURCE_OF_TRUTH.md
+  - docs/00-baseline/正式商业系统全局硬性开发边界.md
+  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+  - docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/09-development/统一开发与交付效率规范.md
 commercial_product_boundaries:
   source_of_truth: docs/00-baseline/正式商业系统全局硬性开发边界.md
   prohibit_technical_fields_in_user_interface: true
   require_frozen_ui_parameter_alignment: true
+  require_effect_reference_visual_richness_and_polish: true
+  prohibit_token_or_runtime_only_visual_pass: true
+  prohibit_fabricated_visual_business_content: true
+  visual_quality_dimensions:
+  - information_density
+  - hierarchy
+  - component_detail
+  - brand_polish
+  - state_completeness
+  uncovered_page_strategy:
+  - reuse_approved_related_visual_language_in_existing_page_contract
+  - create_owner_desktop_supplement_brief_when_reuse_is_not_reliable
+  historical_visual_reaudit_releases:
+  - R02
+  - R03
+  - R04
+  - R05
+  - R06
+  - R07
+  historical_visual_reaudit_blocks_release: R08
   require_release_document_reconciliation: true
   require_desktop_owner_test_guide_for_major_release: true
   test_capabilities_allowed_profiles:

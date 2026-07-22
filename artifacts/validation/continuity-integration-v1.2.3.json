@@ -6,7 +6,7 @@
   "source_manifest": [
     {
       "path": ".continuity/CONTINUITY_POLICY.yaml",
-      "sha256": "35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6"
+      "sha256": "16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6"
     },
     {
       "path": "config/REPOSITORY_TRANSPORT.yaml",
@@ -18,7 +18,7 @@
     },
     {
       "path": "scripts/continuity_lib.py",
-      "sha256": "cd209be614f13a8f86eaa7bb8c529642d0a4bef75e67d281cca987fe3a8f5c2f"
+      "sha256": "6bff70e3c6ca918bfc21bdf5dfb4680257f1c1d1091dce1f329d568c5494e778"
     },
     {
       "path": "scripts/continuity.py",
@@ -26,7 +26,7 @@
     },
     {
       "path": "scripts/continuity_gate.py",
-      "sha256": "06a0074a4031bdd9dd78f1503f26bb8caa56120eb18ca0e7a2d855c860eb57d6"
+      "sha256": "42a7880f9fffc097a7400cd4a44a1f5047b2bff92b5993e66d799d95f5ec010b"
     },
     {
       "path": "scripts/restore_git_transport.py",
@@ -46,7 +46,7 @@
     },
     {
       "path": "scripts/run_continuity_self_test.py",
-      "sha256": "3676ec60854ada225075b979cc59a3828008449e490c43027ae2a3a2dda1d197"
+      "sha256": "16af58ba87b8466523ff5dc950705f616c5d1aec96ced820063544737159af1a"
     },
     {
       "path": "scripts/test_continuity_protocol.py",
@@ -106,6 +106,11 @@
       "evidence": "snapshot/artifacts/context/CURRENT_CONTEXT_PACK.yaml"
     },
     {
+      "name": "rule_readiness_reconstructed",
+      "status": "PASS",
+      "evidence": "rule_readiness+source_manifest"
+    },
+    {
       "name": "parallel_authorization_reconstructed",
       "status": "PASS",
       "evidence": "parallel_development_policy"
@@ -118,7 +123,7 @@
     {
       "name": "portable_clone_fingerprint",
       "status": "PASS",
-      "evidence": "54e71c8f8f664dbd5b4d14c89b49ce43b1c37a54df9ed091699ec1de409e2fe0"
+      "evidence": "5b7770a81ab1d7da4e6d7b8d8d6783f8eeed5f7bdebb037c4a28a52aae9c26ff"
     },
     {
       "name": "handoff_tamper_rejected",
@@ -126,10 +131,10 @@
       "evidence": "MANIFEST_SHA256.txt"
     }
   ],
-  "check_count": 11,
+  "check_count": 12,
   "lifecycle_report": "artifacts\\validation\\continuity-lifecycle-integration-v1.2.3.json",
-  "handoff_sha256": "78c2687790c9020ebbb75ae3d18879b5a3230c4e2fd7a28373fbbb15c796e23f",
-  "portable_project_fingerprint": "54e71c8f8f664dbd5b4d14c89b49ce43b1c37a54df9ed091699ec1de409e2fe0",
+  "handoff_sha256": "f7e9ef83080266e483240add51f9eceed3b87e1d6449f58bad4141a406b7cc4a",
+  "portable_project_fingerprint": "5b7770a81ab1d7da4e6d7b8d8d6783f8eeed5f7bdebb037c4a28a52aae9c26ff",
   "commands": [
     {
       "name": "lifecycle",

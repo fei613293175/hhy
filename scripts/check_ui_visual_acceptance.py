@@ -25,6 +25,16 @@ ALLOWED_STATUS = {
 }
 PANEL = re.compile(r"^(B\d{2})/(P\d{2})$")
 PANEL_RANGE = re.compile(r"P\d{2}\s*[-–—]\s*P\d{2}", re.IGNORECASE)
+QUALITY_MARKERS = (
+    "肉眼丰富度=PASS",
+    "信息层级=PASS",
+    "组件精致度=PASS",
+    "真实业务映射=PASS",
+    "状态完整性=PASS",
+    "AI对照结论=PASS",
+)
+HISTORICAL_REAUDIT_RELEASES = {"R02", "R03", "R04", "R05", "R06", "R07"}
+HISTORICAL_REAUDIT_BLOCKING_RELEASE = "R08"
 
 REQUIRED_COLUMNS = (
     "页面ID",
@@ -100,6 +110,16 @@ def _validate_panel(root: Path, screen_id: str, source: str) -> list[str]:
         return errors
     errors.append(f"UI_VISUAL_SOURCE_NOT_EXACT {screen_id} {source or 'EMPTY'}")
     return errors
+
+
+def _validate_quality_review(screen_id: str, note: str) -> list[tuple[str, str]]:
+    missing = [marker for marker in QUALITY_MARKERS if marker not in note]
+    if not missing:
+        return []
+    return [(
+        "UI_VISUAL_EFFECT_LEVEL_REVIEW_NOT_PASS",
+        f"{screen_id} 未通过效果图级肉眼质量复核：{','.join(missing)}",
+    )]
 
 
 def validate_release(
@@ -207,6 +227,36 @@ def validate_release(
                 for relative in values:
                     if not _inside_file(root, relative):
                         errors.append((code, f"{screen_id} 证据不存在：{relative}"))
+        if require_pass:
+            errors.extend(_validate_quality_review(screen_id, row.get("说明", "").strip()))
+
+    if require_pass and release == HISTORICAL_REAUDIT_BLOCKING_RELEASE:
+        historical_expected = {
+            (row.get("计划版本", "").strip(), row.get("页面ID", "").strip()): row
+            for row in page_rows
+            if row.get("计划版本", "").strip() in HISTORICAL_REAUDIT_RELEASES
+            and row.get("平台", "").strip().upper() in VISUAL_PLATFORMS
+        }
+        historical_reviews = {
+            (row.get("计划版本", "").strip(), row.get("页面ID", "").strip()): row
+            for row in visual_rows
+            if row.get("计划版本", "").strip() in HISTORICAL_REAUDIT_RELEASES
+        }
+        for key in sorted(set(historical_expected) - set(historical_reviews)):
+            old_release, old_screen = key
+            errors.append((
+                "UI_VISUAL_HISTORICAL_REAUDIT_MISSING",
+                f"{old_release}/{old_screen} 缺少R08前置历史视觉复核",
+            ))
+        for key in sorted(set(historical_expected) & set(historical_reviews)):
+            old_release, old_screen = key
+            row = historical_reviews[key]
+            if row.get("验收状态", "").strip().upper() != "PASS":
+                errors.append((
+                    "UI_VISUAL_HISTORICAL_REMEDIATION_NOT_PASS",
+                    f"{old_release}/{old_screen} 历史回补状态不是PASS",
+                ))
+            errors.extend(_validate_quality_review(f"{old_release}/{old_screen}", row.get("说明", "").strip()))
 
     return errors, len(expected)
 

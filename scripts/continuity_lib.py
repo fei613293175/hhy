@@ -1267,6 +1267,8 @@ def context_source_paths(
         # would make every freshly generated Context Pack immediately stale.
         root / ACTIVE_FILE,
     ]
+    policy = load_policy(root)
+    paths.extend(root / relative for relative in required_rule_sources(policy))
     release = (session or {}).get("release") or release
     if release:
         paths.extend(
@@ -1288,7 +1290,45 @@ def context_source_paths(
         for cr_id in session.get("change_requests", []):
             candidates = list((root / "docs/03-continuity/change-requests").glob(f"{cr_id}*.md"))
             paths.extend(candidates)
-    return [path for path in paths if path.exists()]
+    unique: list[Path] = []
+    seen: set[str] = set()
+    for path in paths:
+        relative = path.relative_to(root).as_posix()
+        if path.exists() and relative not in seen:
+            unique.append(path)
+            seen.add(relative)
+    return unique
+
+
+def required_rule_sources(policy: dict[str, Any]) -> list[str]:
+    """Return the canonical global rule sources that every handoff must hash."""
+    raw = policy.get("rule_readiness", {}).get("required_global_sources", [])
+    sources: list[str] = []
+    for value in raw:
+        relative = normalize_repo_path(str(value).strip())
+        if not relative or relative.startswith("/") or relative == ".." or relative.startswith("../"):
+            raise ContinuityError(f"非法规则来源路径：{value}")
+        if relative not in sources:
+            sources.append(relative)
+    return sources
+
+
+def rule_readiness_payload(
+    policy: dict[str, Any],
+    source_manifest: Sequence[dict[str, Any]],
+) -> dict[str, Any]:
+    required = required_rule_sources(policy)
+    manifested = {str(row.get("path") or "") for row in source_manifest}
+    missing = [relative for relative in required if relative not in manifested]
+    return {
+        "status": "PASS" if required and not missing else "FAIL",
+        "evidence": "HASHED_CONTEXT_MANIFEST",
+        "entry_command": policy.get("rule_readiness", {}).get("entry_command"),
+        "subjective_understanding_is_evidence": False,
+        "user_reexplanation_required_for_continue_only": False,
+        "required_sources": required,
+        "missing_sources": missing,
+    }
 
 
 def open_change_requests(root: Path) -> list[dict[str, Any]]:
@@ -1305,6 +1345,7 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
     release = (session or {}).get("release") or status.get("active_release") or next_task.get("release")
     source_paths = context_source_paths(root, session, release)
     source_manifest = [portable_source_record(root, path) for path in source_paths]
+    rule_readiness = rule_readiness_payload(load_policy(root), source_manifest)
     fingerprint = project_fingerprint(root, session) if session else {
         "sha256": tree_fingerprint(root)["sha256"],
         "files": [],
@@ -1375,12 +1416,15 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
         "recent_task_transitions": transition_rows[-20:],
         "open_change_requests": open_change_requests(root),
         "source_manifest": source_manifest,
+        "rule_readiness": rule_readiness,
         "exact_resume_command": handoff_instruction,
         "hard_rules": [
             "不得依赖旧对话补充仓库已有需求",
             "未领取任务和会话不得编辑项目文件",
             "项目内容变化后必须先创建检查点再提交",
             "冻结事实变化必须关联已批准CR",
+            "用户提出新规则时必须先检索现有权威规则；相同或相似规则只能修订原规则，禁止建立平行事实源",
+            "继续开发前Context Pack规则就绪状态必须为PASS；主观声称已理解不能替代来源哈希证据",
             "交接必须生成Handoff Bundle或完成干净提交",
             "存在安全且路径互斥的工作包时主控自动委托1至3个执行代理，无需逐次用户确认",
             "未委托或运行环境不支持代理时必须记录原因，禁止伪造并行证据",
@@ -1412,10 +1456,17 @@ def build_context_pack(root: Path, session: dict[str, Any] | None = None) -> dic
 - Context Hash：`{context_hash}`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
+- 规则就绪：`{rule_readiness['status']}`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
 {handoff_instruction}
+```
+
+## 规则就绪
+
+```yaml
+{dump_yaml(rule_readiness)}
 ```
 
 ## 当前状态

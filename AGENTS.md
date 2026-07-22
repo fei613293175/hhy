@@ -7,11 +7,13 @@
 ## 1. 冷启动唯一流程
 
 1. 运行 `python3 scripts/continuity.py resume`。
-2. 阅读输出指定的 Context Pack、`CURRENT_STATUS.yaml`、`NEXT_TASK.yaml`、Release DoR、Stories 和当前 Session/Checkpoint。
+2. 阅读输出指定的 Context Pack、`CURRENT_STATUS.yaml`、`NEXT_TASK.yaml`、Release DoR、Stories 和当前 Session/Checkpoint；Context Pack 的 `rule_readiness.status` 必须为 `PASS`，并且其全部 `required_sources` 都必须存在于带 SHA-256 的 `source_manifest`。
 3. 没有活跃会话时，只能执行输出的 `bootstrap` 或 `start` 命令。
 4. 存在 `HANDED_OFF` 会话时必须 `takeover`；过期/异常会话必须 `recover`。
 5. 禁止跳过唯一任务领取和租约直接修改项目文件。
 6. 运行 `python3 scripts/verify_cloud_environment.py --check-android` 验证 `obx-test` 上的既有项目环境；失败必须阻断并报告。
+
+项目所有者仅说“继续开发”时，新 AI 或新电脑不得要求其重新讲解规则、需求或进度；必须通过上述唯一流程恢复。禁止用“我已完全理解”作为准入证据，缺失、未入清单或哈希过期的规则来源必须由门禁阻断开发。
 
 除非项目所有者明确报告云服务器未连接，否则任何 AI 和任何电脑都必须以“Codex 客户端已连接项目云服务器且既有环境可用”为开发前提。不得把换电脑、换 AI、SSH 预检失败或本机缺少 Android SDK 解释为无服务器开发许可；禁止下载、安装或重建本地 Android SDK 作为回退。
 
@@ -54,6 +56,8 @@
 - 统一流程和例外规则以 `docs/09-development/统一开发与交付效率规范.md` 为事实源，聊天中的临时做法不得覆盖。
 
 ## 3. 变更控制
+
+用户提出新增或强化规则时，必须先检索 `.continuity/CONTINUITY_POLICY.yaml`、现有事实源、CR、踩坑记录和经验复用记录。存在相同或相似规则时，只能修订原权威规则及其既有投影视图，禁止并列建立第二套硬规则；只有确认不存在等价规则并在 CR 中记录独立缺口后，才允许新增规则。
 
 冻结需求、页面、API、数据库、配置、状态机、资金或架构发生变化前必须：
 

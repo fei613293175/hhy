@@ -23,6 +23,8 @@ python3 scripts/continuity.py resume
 
 严格执行输出的唯一下一命令。不要先修改文件，也不要让用户重新解释需求。
 
+即使项目所有者只说“继续开发”，也必须由仓库恢复全部事实。继续前确认 Context Pack 的 `rule_readiness.status=PASS`，且所有必读规则来源均在 `source_manifest` 中具有 SHA-256；不得用 AI 的主观“已完全理解”代替这一证据。收到新规则时先检索并修订已有权威规则，禁止另建相同或相似的平行硬规则。
+
 随后必须验证项目云端既有环境：
 
 ```bash

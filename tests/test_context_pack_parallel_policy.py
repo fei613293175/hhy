@@ -127,6 +127,31 @@ class ContextPackParallelPolicyTest(unittest.TestCase):
         self.assertIn("config/DEVELOPMENT_RUNTIME.yaml", sources)
         self.assertIn("config/REPOSITORY_TRANSPORT.yaml", sources)
 
+    def test_rule_intake_updates_existing_canonical_rule(self) -> None:
+        policy = yaml.safe_load((ROOT / ".continuity/CONTINUITY_POLICY.yaml").read_text(encoding="utf-8"))
+        intake = policy["change_control"]["rule_intake"]
+        self.assertTrue(intake["search_existing_canonical_rules_first"])
+        self.assertTrue(intake["amend_existing_canonical_rule_when_equivalent_or_similar"])
+        self.assertTrue(intake["prohibit_parallel_equivalent_or_similar_rule"])
+
+    def test_context_rule_readiness_hashes_every_required_source(self) -> None:
+        policy = yaml.safe_load((ROOT / ".continuity/CONTINUITY_POLICY.yaml").read_text(encoding="utf-8"))
+        context = yaml.safe_load((ROOT / "artifacts/context/CURRENT_CONTEXT_PACK.yaml").read_text(encoding="utf-8"))
+        readiness = context["rule_readiness"]
+        sources = {row["path"] for row in context["source_manifest"]}
+        required = policy["rule_readiness"]["required_global_sources"]
+        self.assertEqual("PASS", readiness["status"])
+        self.assertEqual("HASHED_CONTEXT_MANIFEST", readiness["evidence"])
+        self.assertEqual(required, readiness["required_sources"])
+        self.assertEqual([], readiness["missing_sources"])
+        self.assertTrue(set(required) <= sources)
+
+    def test_continue_only_never_requires_owner_reexplanation(self) -> None:
+        policy = yaml.safe_load((ROOT / ".continuity/CONTINUITY_POLICY.yaml").read_text(encoding="utf-8"))
+        readiness = policy["rule_readiness"]
+        self.assertFalse(readiness["continue_only_requires_user_reexplanation"])
+        self.assertFalse(readiness["subjective_complete_understanding_claim_is_evidence"])
+
 
 if __name__ == "__main__":
     unittest.main()

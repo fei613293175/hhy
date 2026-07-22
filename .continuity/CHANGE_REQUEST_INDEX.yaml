@@ -12833,3 +12833,164 @@ change_requests:
     session_id: SES-20260722T012224Z-E70EA3B7
   session_ids:
   - SES-20260722T012224Z-E70EA3B7
+- protocol_version: '1.0'
+  cr_id: CR-0213
+  title: 建立效果图级视觉丰富度精致度与历史页面回补硬门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-22T02:17:16Z'
+  updated_at: '2026-07-22T02:19:32Z'
+  requester_actor_id: codex-root-r08-003
+  approver_actor_id: codex-reviewer-ui-fidelity
+  task_id: TASK-R08-003
+  session_id: SES-20260722T012224Z-E70EA3B7
+  user_request: 项目所有者要求全部既有和后续版本UI肉眼接近效果图的丰富度与精致度，禁止虚构业务；无对应图时优先复用相近视觉，无法复用则生成桌面效果图补充需求包供ChatGPT网页端补图；规则必须跨电脑跨AI持续生效。
+  reason: 现有门禁能证明Token、页面身份和截图存在，但不能阻止结构过简、信息层级和视觉丰富度明显低于效果图却被标记PASS，R07实际截图已暴露该缺口。
+  original_rule: 现有UI硬规则已经把开发文档、精确效果图、Design Token、逐页视觉合同和截图验收定义为唯一体系，但PASS条件偏重文件存在、参数合规和页面可用，尚未明确要求肉眼达到效果图同等级的丰富度、层级密度与精致度，也未把R02-R07旧标准页面回补纳入现有目录。
+  new_rule: 只强化现有UI与页面参数规则，不建立第二套规则：全部既有与后续前端页面必须在不虚构功能、字段、指标或数据的前提下，肉眼达到绑定效果图或批准补充规格同等级的视觉丰富度、信息层级、组件细节和品牌精致度；Token合规或可运行不能单独判PASS。无直接效果图时先在现有逐页视觉合同内复用相近页面已批准视觉语言；不能可靠复用时形成效果图补充需求包。R02-R07历史页面在现有ui_visual_acceptance目录中重新审计和回补，并作为R08最终候选关闭前置条件。
+  impact_summary: 直接更新既有全局UI边界、既有UI参考图规则、唯一连续性机器策略、既有逐页视觉验收目录和验收脚本；R08客户端任务纳入R02-R07历史页面审计回补。不新增并列规则文件，不改变API、数据库、资金账本或生产配置。
+  impact:
+    files:
+    - .continuity/CONTINUITY_POLICY.yaml
+    - docs/00-baseline/正式商业系统全局硬性开发边界.md
+    - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
+    - catalogs/ui_visual_acceptance.csv
+    - scripts/check_ui_visual_acceptance.py
+    - tests/test_ui_visual_acceptance.py
+    - releases/R08/TASKS.yaml
+    - CHANGELOG.md
+    pages:
+    - ALL_IMPLEMENTED_AND_FUTURE_FRONTEND_PAGES
+    apis: []
+    database: []
+    configuration:
+    - .continuity/CONTINUITY_POLICY.yaml
+    ledger: []
+    tests:
+    - python -m unittest tests.test_ui_visual_acceptance
+    - python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
+    releases:
+    - R02-R32
+    migration_and_compatibility: 保留既有截图和历史PASS证据，但在同一ui_visual_acceptance目录新增肉眼丰富度、真实业务映射与历史回补字段，旧证据按旧标准标记待复核，不伪造新标准PASS。后端工作继续；缺图只阻断受影响页面，无法复用时生成桌面补图需求包。
+  user_confirmation: 项目所有者明确要求优化之前的UI、页面参数设计规则而不是另写一套硬规则，并要求既有与后续版本达到效果图级丰富度和精致度。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T02:19:09Z'
+    note: 批准直接强化既有唯一UI规则与逐页验收目录；不允许新增并列事实源，历史证据保留但必须按新肉眼标准重新审计，禁止用虚构业务填充视觉。
+  machine_record: .continuity/change_requests/CR-0213.yaml
+  document: docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
+  decision_log:
+  - at: '2026-07-22T02:19:32Z'
+    actor_id: codex-root-r08-003
+    status: IMPLEMENTING
+    note: 开始直接强化现有UI规则、逐页视觉验收目录与R08历史回补前置条件，不创建并列规则文件。
+    session_id: SES-20260722T012224Z-E70EA3B7
+  session_ids:
+  - SES-20260722T012224Z-E70EA3B7
+- protocol_version: '1.0'
+  cr_id: CR-0214
+  title: 刷新UI唯一策略变更后的连续性重建证据
+  status: IMPLEMENTING
+  created_at: '2026-07-22T02:26:15Z'
+  updated_at: '2026-07-22T02:26:53Z'
+  requester_actor_id: codex-root-r08-003
+  approver_actor_id: codex-reviewer-continuity-evidence
+  task_id: TASK-R08-003
+  session_id: SES-20260722T012224Z-E70EA3B7
+  user_request: 项目所有者要求直接强化既有UI规则并保证换电脑换AI可无状态接续。
+  reason: 唯一机器策略发生批准变更后，既有连续性重建与生命周期报告哈希按设计失效，必须重生成才能证明跨设备接续没有被破坏。
+  original_rule: 连续性重建与生命周期报告绑定唯一机器策略哈希，策略变化后旧报告必须被视为过期。
+  new_rule: 在CR-0213直接强化既有UI唯一规则后重跑既有连续性自测与生命周期演练，仅刷新原报告，不建立任何新规则或新事实源。
+  impact_summary: 只刷新四个既有连续性验证产物以绑定最新唯一策略；不改变产品代码、UI、API、数据库、配置语义或版本范围。
+  impact:
+    files:
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-integration-v1.2.3.log
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/run_continuity_self_test.py
+    - python scripts/check_v123_continuity.py
+    releases:
+    - R02-R32
+    migration_and_compatibility: 报告原路径原格式原门禁保持不变，由既有脚本原子重生成；旧报告由Git历史保留。
+  user_confirmation: 项目所有者要求既有UI规则强化后在换电脑换AI场景仍能直接复用。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T02:26:49Z'
+    note: 批准仅用既有脚本刷新原连续性报告；不引入第二套UI规则或新机器策略。
+  machine_record: .continuity/change_requests/CR-0214.yaml
+  document: docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
+  decision_log:
+  - at: '2026-07-22T02:26:53Z'
+    actor_id: codex-root-r08-003
+    status: IMPLEMENTING
+    note: 开始重生成既有连续性集成和生命周期报告。
+    session_id: SES-20260722T012224Z-E70EA3B7
+  session_ids:
+  - SES-20260722T012224Z-E70EA3B7
+- protocol_version: '1.0'
+  cr_id: CR-0215
+  title: 增强既有规则去重与跨AI规则就绪门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-22T02:37:15Z'
+  updated_at: '2026-07-22T02:49:49Z'
+  requester_actor_id: codex-root-r08-003
+  approver_actor_id: codex-policy-review-r08
+  task_id: TASK-R08-003
+  session_id: SES-20260722T012224Z-E70EA3B7
+  user_request: 新增规则前必须检索现有规则并优先更新，禁止并列相同或类似硬规则；换电脑或换AI后仅需说继续开发，全部适用规则必须通过仓库接续机制生效。
+  reason: 现有唯一事实源原则尚未显式约束规则入口去重，Context Pack也未机器验证全部关键规则来源是否完整纳入。
+  original_rule: 已有唯一机器策略、仓库事实源、resume与Context Pack机制，但未显式要求用户新增规则先做同义检索，也未证明关键规则来源全部进入Context Pack并通过机器就绪校验。
+  new_rule: 在既有change_control中强制规则入口检索、优先修订权威规则、禁止等价平行规则；在既有resume/Context Pack中增加哈希化required_sources与RULE_READINESS=PASS，缺失或过期即阻断开发，用户仅说继续开发时无需重述背景。
+  impact_summary: 不新增平行规则文件，只增强权威机器策略、既有冷启动入口、Context Pack生成/门禁和连续性验证证据。
+  impact:
+    files:
+    - .continuity/CONTINUITY_POLICY.yaml
+    - config/CONTINUITY_POLICY.yaml
+    - AGENTS.md
+    - templates/AGENTS.md
+    - START_HERE.md
+    - templates/START_HERE.md
+    - docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
+    - scripts/continuity_lib.py
+    - scripts/continuity_gate.py
+    - scripts/check_v123_continuity.py
+    - scripts/run_continuity_self_test.py
+    - tests/test_context_pack_parallel_policy.py
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-integration-v1.2.3.log
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - 规则去重与Context Pack规则就绪单测
+    - 无对话Handoff重建全生命周期演练
+    - V1.2.3严格连续性门禁
+    releases:
+    - R08
+    migration_and_compatibility: 向后兼容；旧AI仍可按resume接入，新AI获得更严格的规则来源完整性校验；不改变业务、API、数据库或发布范围。
+  user_confirmation: 项目所有者于2026-07-22明确要求新增两项规则并要求换电脑换AI后仅需说继续开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T02:37:50Z'
+    note: 已核对现有唯一策略、冷启动入口和Context Pack；批准在原体系内去重增强，禁止新建平行事实源，并要求以可验证规则就绪状态代替主观理解声明。
+  machine_record: .continuity/change_requests/CR-0215.yaml
+  document: docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
+  decision_log:
+  - at: '2026-07-22T02:49:49Z'
+    actor_id: codex-root-r08-003
+    status: IMPLEMENTING
+    note: 已按批准合同增强既有change_control、Context Pack和连续性门禁，等待提交绑定后转IMPLEMENTED。
+    session_id: SES-20260722T012224Z-E70EA3B7
+  session_ids:
+  - SES-20260722T012224Z-E70EA3B7

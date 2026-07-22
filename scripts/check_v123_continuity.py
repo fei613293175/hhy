@@ -196,6 +196,17 @@ def main() -> int:
     require(policy.get("checkpoint", {}).get("active_pointer_refreshed_every_checkpoint") is True, "ACTIVE_POINTER_POLICY", "每个检查点必须刷新ACTIVE_SESSION指针")
     require(policy.get("change_control", {}).get("approval_requires_complete_contract") is True, "CR_CONTRACT_POLICY", "CR审批必须要求完整变更合同")
     require(operational_policy.get("change_control", {}).get("approval_requires_complete_contract") is True, "CR_OPERATIONAL_POLICY", "运营视图必须显示完整CR审批要求")
+    rule_intake = policy.get("change_control", {}).get("rule_intake", {})
+    require(rule_intake.get("search_existing_canonical_rules_first") is True, "RULE_DEDUP_SEARCH", "新增规则前必须先检索现有权威规则")
+    require(rule_intake.get("amend_existing_canonical_rule_when_equivalent_or_similar") is True, "RULE_DEDUP_AMEND", "相同或相似规则必须修订原规则")
+    require(rule_intake.get("prohibit_parallel_equivalent_or_similar_rule") is True, "RULE_DEDUP_PARALLEL", "必须禁止等价平行规则")
+    rule_policy = policy.get("rule_readiness", {})
+    required_rule_sources = rule_policy.get("required_global_sources", [])
+    require(rule_policy.get("development_requires_status") == "PASS", "RULE_READY_POLICY", "开发前规则就绪状态必须为PASS")
+    require(rule_policy.get("subjective_complete_understanding_claim_is_evidence") is False, "RULE_READY_OBJECTIVE", "主观理解声明不得作为准入证据")
+    require(rule_policy.get("continue_only_requires_user_reexplanation") is False, "RULE_READY_CONTINUE", "项目所有者只说继续开发时不得要求重述")
+    require(len(required_rule_sources) >= 10 and len(required_rule_sources) == len(set(required_rule_sources)), "RULE_SOURCE_REGISTRY", "全局必读规则来源必须完整且无重复")
+    require(operational_policy.get("rule_readiness", {}).get("source") == ".continuity/CONTINUITY_POLICY.yaml#rule_readiness", "RULE_OPERATIONAL_POINTER", "运营视图只能指向权威规则就绪策略")
     parallel = policy.get("parallel_development", {})
     operational_parallel = operational_policy.get("parallel_development", {})
     require(parallel.get("authorization", {}).get("status") == "PROJECT_OWNER_STANDING_AUTHORIZATION", "PARALLEL_AUTHORIZATION", "必须记录项目所有者长期多代理授权")
@@ -402,6 +413,11 @@ def main() -> int:
     require(context.get("execution_routing_policy") == runtime.get("model_routing"), "CONTEXT_MODEL_ROUTING", "Context Pack必须携带模型分级策略")
     require(context.get("development_runtime") == runtime, "CONTEXT_RUNTIME", "Context Pack必须携带云端既有环境策略")
     require(context.get("repository_transport") == transport, "CONTEXT_GIT_TRANSPORT", "Context Pack必须携带Git transport descriptor")
+    readiness = context.get("rule_readiness", {})
+    require(readiness.get("status") == "PASS", "CONTEXT_RULE_READINESS", "Context Pack规则就绪状态必须为PASS")
+    require(readiness.get("evidence") == "HASHED_CONTEXT_MANIFEST", "CONTEXT_RULE_EVIDENCE", "规则就绪必须以Context来源哈希为证据")
+    require(readiness.get("required_sources") == required_rule_sources, "CONTEXT_RULE_SOURCE_DRIFT", "Context Pack规则来源与权威策略不一致")
+    require(not readiness.get("missing_sources"), "CONTEXT_RULE_SOURCE_MISSING", "Context Pack存在缺失规则来源")
     if context.get("active_session") and context.get("latest_checkpoint"):
         require(bool(context.get("latest_checkpoint", {}).get("parallel_execution")), "CONTEXT_PARALLEL_CHECKPOINT", "最新Checkpoint必须记录结构化并行决策")
     context_manifest = json.loads((ROOT / "artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json").read_text(encoding="utf-8"))
@@ -421,6 +437,8 @@ def main() -> int:
     require("releases/PROGRAM_EXECUTION_PLAN.yaml" in context_sources, "CONTEXT_PROGRAM_PLAN", "Context Pack来源必须包含总执行计划")
     require("config/REPOSITORY_TRANSPORT.yaml" in context_sources, "CONTEXT_TRANSPORT_SOURCE", "Context Pack来源必须包含Git transport descriptor")
     require("config/DEVELOPMENT_RUNTIME.yaml" in context_sources, "CONTEXT_RUNTIME_SOURCE", "Context Pack来源必须包含开发运行时策略")
+    for relative in required_rule_sources:
+        require(relative in context_sources, "CONTEXT_REQUIRED_RULE_SOURCE", f"Context Pack来源缺少全局必读规则：{relative}")
     active_release = context.get("active_session", {}).get("release") if context.get("active_session") else None
     if active_release:
         require(f"releases/{active_release}/PARALLEL_EXECUTION_PLAN.yaml" in context_sources, "CONTEXT_RELEASE_PARALLEL_PLAN", "Context Pack来源必须包含当前Release并行计划")
