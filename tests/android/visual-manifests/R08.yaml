@@ -60,7 +60,120 @@ screens:
   - PHONE
   - EMAIL
   - QR_CODE
+- screen_id: SCR-APP-001
+  file: 10-r02-startup.png
+  marker: historical.visual.r02.startup
+  required_text: [合伙云 Pro, 正在启动, 安全启动]
+  forbidden_text: [请求编号, TraceId, api.orbexa.cc]
+- screen_id: SCR-APP-002
+  file: 11-r02-maintenance.png
+  marker: historical.visual.r02.maintenance
+  required_text: [合伙云 Pro, 系统维护中, 重试]
+  forbidden_text: [请求编号, TraceId, 维护结束时间]
+- screen_id: SCR-APP-003
+  file: 12-r02-update.png
+  marker: historical.visual.r02.update
+  required_text: [发现新版本 1.2.3, 下载更新, 稍后]
+  forbidden_text: [SHA-256, STAGING, 请求编号]
+- screen_id: SCR-AUTH-001
+  file: 13-r02-password-login.png
+  marker: historical.visual.r02.password-login
+  required_text: [合伙云 Pro, 密码登录, 登录]
+  forbidden_text: [挑战ID, 令牌, 请求编号]
+- screen_id: SCR-AUTH-002
+  file: 14-r02-sms-login.png
+  marker: historical.visual.r02.sms-login
+  required_text: [验证码登录, 短信验证码, 发送验证码]
+  forbidden_text: [挑战ID, 令牌, 请求编号]
+- screen_id: SCR-AUTH-003
+  file: 15-r02-register.png
+  marker: historical.visual.r02.register
+  required_text: [创建账号, 邀请码, 注册]
+  forbidden_text: [示例账号, 注册成功, 请求编号]
+- screen_id: SCR-AUTH-004
+  file: 16-r02-reset-password.png
+  marker: historical.visual.r02.reset-password
+  required_text: [重置登录密码, 新密码, 短信验证码]
+  forbidden_text: [重置成功, 请求编号, TraceId]
+- screen_id: SCR-AUTH-005
+  file: 17-r02-account-blocked.png
+  marker: historical.visual.r02.account-blocked
+  required_text: [账号已受限, 申诉说明, 退出登录]
+  forbidden_text: [解冻时间, 处罚编号, 请求编号]
+- screen_id: SCR-AUTH-006
+  file: 18-r02-login-devices.png
+  marker: historical.visual.r02.login-devices
+  required_text: [登录设备, 当前设备, 下线此设备]
+  forbidden_text: [accessToken, refreshToken, 设备指纹]
+- screen_id: SCR-AUTH-007
+  file: 19-r02-change-password.png
+  marker: historical.visual.r02.change-password
+  required_text: [修改登录密码, 当前密码, 确认新密码]
+  forbidden_text: [请求编号, TraceId, 修改成功]
+- screen_id: SCR-AUTH-008
+  file: 20-r02-account-cancellation.png
+  marker: historical.visual.r02.account-cancellation
+  required_text: [注销账号, 注销原因, 申请注销]
+  forbidden_text: [注销完成, 冷静期天数, 请求编号]
+- screen_id: SHEET-MEDIA-001
+  file: 21-r04-media-upload.png
+  marker: historical.visual.r04.media-upload
+  required_text: [添加文件, 还没有选择文件, 选择文件]
+  forbidden_text: [虚构文件, 上传成功, 请求编号]
+- screen_id: SCR-ID-001
+  file: 22-r05-identity-home.png
+  marker: historical.visual.r05.identity-home
+  required_text: [实名认证, 尚未完成实名认证, 开始认证]
+  forbidden_text: [示例姓名, 证件号码, 请求编号]
+- screen_id: SCR-ID-002
+  file: 23-r05-identity-form.png
+  marker: historical.visual.r05.identity-form
+  required_text: [填写身份信息, 真实姓名, 身份证号]
+  forbidden_text: [幂等键, 接口名, 请求编号]
+- screen_id: SCR-ID-003
+  file: 24-r05-identity-liveness.png
+  marker: historical.visual.r05.identity-liveness
+  required_text: [活体检测, 检测前请确认, 允许相机并继续]
+  forbidden_text: [供应商, AppKey, 请求编号]
+- screen_id: SCR-ID-004
+  file: 25-r05-identity-result.png
+  marker: historical.visual.r05.identity-result
+  required_text: [认证结果, 实名认证已完成, 返回我的]
+  forbidden_text: [示例姓名, 证件号码, 请求编号]
+- screen_id: SCR-HOME-001
+  file: 26-r06-home.png
+  marker: hhy.screen.r06.home.loaded
+  required_text: [合伙云 Pro, 搜索合作内容, 项目广场]
+  forbidden_text: [serverTime, featureFlags, trackingContext]
+- screen_id: SCR-ABOUT-001
+  file: 27-r06-about.png
+  marker: hhy.screen.r06.about.loaded
+  required_text: [关于与检查更新, 当前版本, 隐私政策]
+  forbidden_text: [SHA-256, STAGING, 请求编号]
+- screen_id: SCR-SEARCH-001
+  file: 28-r07-search-landing.png
+  marker: hhy.screen.r07.search
+  required_text: [搜索, 搜索历史, R07热门合作]
+  forbidden_text: [TraceId, 请求编号, candidate@example]
+- screen_id: SCR-SEARCH-002
+  file: 29-r07-search-results.png
+  marker: hhy.screen.r07.search.results
+  required_text: [搜索结果, R07候选联调项目, 查看发布者]
+  forbidden_text: [TraceId, 请求编号, candidate@example]
+- screen_id: SCR-PUBLISHER-001
+  file: 30-r07-publisher.png
+  marker: hhy.screen.r07.publisher
+  required_text: [R08候选发布者, 公开内容, R07候选联调项目]
+  forbidden_text: [联系方式明文, 请求编号, TraceId]
+- screen_id: DIALOG-SEARCH-001
+  file: 32-r07-clear-history-dialog.png
+  marker: hhy.dialog.r07.search-history-clear
+  required_text: [清空搜索历史, 操作不可恢复, 确认清空]
+  forbidden_text: [请求编号, TraceId, 其他账号历史]
 security_assertions:
 - surface: SCR-DETAIL-001
   marker: r08.project.contact
   rule: only masked availability is visible before an explicit contact access; plaintext is forbidden in screenshots
+- surface: SHEET-CONTACT-001
+  marker: hhy.sheet.r07.contact
+  rule: actual contact remains in a FLAG_SECURE transient sheet; the audit asserts its marker and actions but intentionally produces no screenshot

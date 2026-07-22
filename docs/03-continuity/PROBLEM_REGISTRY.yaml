@@ -1093,3 +1093,17 @@ problems:
   - 网络和数据库字段名含Code或枚举时不得直接绑定Text、Tag、Chip或表单显示值
   - 展示层本地化不得破坏未修改存量值的原样提交，也不得虚构新的业务选项或服务端字典
   - 编译与接口成功不等于UI合格；最终候选必须同时检查真实文案、技术字段泄漏和视觉丰富度
+- id: PROB-0083
+  title: R08最终候选遗漏历史Android新肉眼标准复核
+  status: IN_PROGRESS
+  root_cause: CR-0213把R02至R07历史Android页面的新肉眼标准复核设为R08关闭前置条件，但R08候选视觉清单仍只包含本版项目列表、详情和编辑三页；TASK-R08-007候选本身真实通过后，完整R08视觉关闭门禁正确发现23个历史页面仍为IN_REVIEW。普通候选成功不等于跨版本回补已完成。
+  resolution: CR-0233复用既有唯一视觉与候选规则；在debug/androidTest中直接渲染生产认证和实名组件，真实已认证旅程复核R06、R07及R04媒体面板，一次补审批次采集22张允许截图的页面并用FLAG_SECURE语义验证联系方式面板，全部继续由AI逐项判定。
+  regression_checks:
+  - HistoricalVisualAuditTest必须覆盖R02启动、维护、更新、八个认证页和R05四个实名页
+  - ReleaseCandidateSmokeTest必须覆盖R04媒体面板、R06首页关于页、R07搜索发布者确认框与FLAG_SECURE联系方式面板以及既有R08三页
+  - tests/android/visual-manifests/R08.yaml必须与22张补审截图及1项安全语义逐项一致
+  - python scripts/check_ui_visual_acceptance.py --release R08最终必须PASS
+  do_not_repeat:
+  - 大版本候选清单不得只包含本版本页面而遗漏该版本明确承担的历史回补关闭前置项
+  - 候选Run成功后仍必须执行完整Release视觉门禁，不能只执行catalog-only或本版页面子集
+  - debug视觉夹具只能组合生产组件与非敏感状态事实，不得复制页面实现、进入Release构建或制造生产功能

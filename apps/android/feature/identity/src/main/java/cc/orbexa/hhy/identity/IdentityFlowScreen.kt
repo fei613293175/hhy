@@ -306,7 +306,7 @@ private fun IdentitySessionDestination(
 }
 
 @Composable
-private fun IdentityHomeScreen(
+internal fun IdentityHomeScreen(
     api: ContractIdentityApi,
     accessToken: String,
     refreshKey: Int,
@@ -410,7 +410,7 @@ private fun IdentityHomeScreen(
 }
 
 @Composable
-private fun IdentityFormScreen(
+internal fun IdentityFormScreen(
     api: ContractIdentityApi,
     accessToken: String,
     onBack: () -> Unit,
@@ -586,7 +586,7 @@ private fun IdentityFormScreen(
 }
 
 @Composable
-private fun IdentityLivenessScreen(
+internal fun IdentityLivenessScreen(
     api: ContractIdentityApi,
     accessToken: String,
     initial: IdentitySessionResource,
@@ -862,7 +862,7 @@ private fun IdentityProviderWebPage(
 }
 
 @Composable
-private fun IdentityResultScreen(
+internal fun IdentityResultScreen(
     api: ContractIdentityApi,
     accessToken: String,
     initial: IdentitySessionResource,

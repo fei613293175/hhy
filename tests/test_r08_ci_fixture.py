@@ -34,6 +34,13 @@ class R08CiFixtureTest(unittest.TestCase):
         self.assertNotIn("收益", self.do_body)
         self.assertNotIn("融资", self.do_body)
 
+    def test_fixture_prepares_bound_r07_historical_visual_facts(self) -> None:
+        self.assertIn("'R07候选联调项目'", self.do_body)
+        self.assertIn("'R07热门合作'", self.do_body)
+        self.assertIn("'WECHAT'", self.do_body)
+        self.assertIn("DELETE FROM hhy.search_histories WHERE user_id=ci_user", self.do_body)
+        self.assertNotIn("R07候选发布者", self.do_body)
+
     def test_fixture_keeps_atomic_failure_and_secret_output_guards(self) -> None:
         self.assertIn("-v ON_ERROR_STOP=1 -v ci_phone=", self.shell)
         self.assertIn("BEGIN;", self.shell)

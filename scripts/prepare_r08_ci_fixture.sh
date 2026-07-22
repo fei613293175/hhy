@@ -31,6 +31,7 @@ DO $$
 DECLARE
   ci_user bigint;
   fixture_content bigint;
+  historical_search_content bigint;
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM hhy.flyway_schema_history WHERE version='034' AND success) THEN
     RAISE EXCEPTION 'R08 fixture requires Flyway V034';
@@ -92,6 +93,38 @@ BEGIN
     INSERT INTO hhy.content_contacts(content_id,channel,value_cipher,display_mask,sort_order)
     VALUES (fixture_content,'EMAIL','hhy-contact-v1.fixture-not-readable','候***箱',1);
   END IF;
+
+  SELECT id INTO historical_search_content FROM hhy.content_posts
+   WHERE owner_id=ci_user AND title='R07候选联调项目'
+   ORDER BY id LIMIT 1 FOR UPDATE;
+  IF historical_search_content IS NULL THEN
+    INSERT INTO hhy.content_posts(owner_id,type,title,summary,status,review_status)
+    VALUES (ci_user,'PROJECT','R07候选联调项目','搜索、发布者主页与联系方式保护视觉复核夹具','ONLINE','APPROVED')
+    RETURNING id INTO historical_search_content;
+  ELSE
+    UPDATE hhy.content_posts
+       SET type='PROJECT',summary='搜索、发布者主页与联系方式保护视觉复核夹具',
+           status='ONLINE',review_status='APPROVED',version=version+1
+     WHERE id=historical_search_content;
+  END IF;
+
+  IF EXISTS (SELECT 1 FROM hhy.content_contacts WHERE content_id=historical_search_content AND upper(channel)='WECHAT') THEN
+    UPDATE hhy.content_contacts
+       SET value_cipher='hhy-contact-v1.fixture-not-readable',display_mask='微***测',sort_order=1
+     WHERE id=(SELECT id FROM hhy.content_contacts
+                WHERE content_id=historical_search_content AND upper(channel)='WECHAT'
+                ORDER BY id LIMIT 1);
+  ELSE
+    INSERT INTO hhy.content_contacts(content_id,channel,value_cipher,display_mask,sort_order)
+    VALUES (historical_search_content,'WECHAT','hhy-contact-v1.fixture-not-readable','微***测',1);
+  END IF;
+
+  INSERT INTO hhy.hot_search_terms(keyword,weight,enabled,starts_at,ends_at)
+  VALUES ('R07热门合作',7007,true,clock_timestamp()-interval '1 day',clock_timestamp()+interval '30 days')
+  ON CONFLICT ((lower(btrim(keyword)))) DO UPDATE
+    SET weight=EXCLUDED.weight,enabled=true,starts_at=EXCLUDED.starts_at,ends_at=EXCLUDED.ends_at;
+
+  DELETE FROM hhy.search_histories WHERE user_id=ci_user;
 END;
 $$;
 

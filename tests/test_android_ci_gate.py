@@ -371,6 +371,10 @@ class AndroidCiGateTest(unittest.TestCase):
             ROOT
             / "apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt"
         ).read_text(encoding="utf-8")
+        historical_test = (
+            ROOT
+            / "apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt"
+        ).read_text(encoding="utf-8")
         self.assertIn("connectedDebugAndroidTest", source)
         self.assertIn("test_rc=${PIPESTATUS[0]}", source)
         self.assertIn("android_ci_gate.py analyze", source)
@@ -392,6 +396,17 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('waitForScreen("hhy.screen.r08.project.detail.content"', smoke_test)
         self.assertIn('waitForScreen("hhy.screen.r08.project.editor.content"', smoke_test)
         self.assertIn('captureStable("03-project-editor.png")', smoke_test)
+        self.assertIn('captureStable("21-r04-media-upload.png")', smoke_test)
+        self.assertIn('captureStable("26-r06-home.png")', smoke_test)
+        self.assertIn('captureStable("27-r06-about.png")', smoke_test)
+        self.assertIn('captureStable("28-r07-search-landing.png")', smoke_test)
+        self.assertIn('captureStable("32-r07-clear-history-dialog.png")', smoke_test)
+        self.assertIn("assertSecureWindow", smoke_test)
+        self.assertIn('captureStable("10-r02-startup.png")', historical_test)
+        self.assertIn('captureStable("20-r02-account-cancellation.png")', historical_test)
+        self.assertIn('captureStable("25-r05-identity-result.png")', historical_test)
+        self.assertIn("AuthVisualAuditScreen", historical_test)
+        self.assertIn("IdentityVisualAuditScreen", historical_test)
         self.assertIn('By.text("需要完成实名认证")', smoke_test)
         self.assertIn("stableMatches >= 2", smoke_test)
         self.assertIn("digest != previousScreenDigest", smoke_test)
@@ -407,7 +422,11 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertNotIn("waitForTextContains", smoke_test)
 
         r08_manifest = yaml.safe_load((ROOT / "tests/android/visual-manifests/R08.yaml").read_text(encoding="utf-8"))
-        for row in r08_manifest["screens"]:
+        current_r08_screens = [
+            row for row in r08_manifest["screens"]
+            if row["screen_id"] in {"SCR-LIST-001", "SCR-DETAIL-001", "SCR-PUB-002"}
+        ]
+        for row in current_r08_screens:
             self.assertIn("合作项目", row["required_text"])
             self.assertIn("北京", row["required_text"])
             self.assertIn("COOPERATION", row["forbidden_text"])
@@ -415,6 +434,12 @@ class AndroidCiGateTest(unittest.TestCase):
         editor = next(row for row in r08_manifest["screens"] if row["screen_id"] == "SCR-PUB-002")
         self.assertIn("微信", editor["required_text"])
         self.assertIn("WECHAT", editor["forbidden_text"])
+        self.assertEqual(25, len(r08_manifest["screens"]))
+        historical_names = {row["file"] for row in r08_manifest["screens"] if row["file"][0].isdigit() and row["file"][:2].isdigit()}
+        self.assertIn("10-r02-startup.png", historical_names)
+        self.assertIn("32-r07-clear-history-dialog.png", historical_names)
+        secure_surfaces = {row["surface"] for row in r08_manifest["security_assertions"]}
+        self.assertIn("SHEET-CONTACT-001", secure_surfaces)
 
         shell = (
             ROOT

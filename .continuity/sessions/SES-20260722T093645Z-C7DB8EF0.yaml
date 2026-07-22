@@ -1,0 +1,92 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T093645Z-C7DB8EF0
+status: ACTIVE
+actor:
+  id: codex-root-r08-008
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R08
+task_id: TASK-R08-008
+story_id: STORY-R08-004
+goal: 完成R08机器关闭与无状态交接；真实解决历史Android新肉眼视觉复核门禁，Owner真机反馈保持异步不阻断。
+started_at: '2026-07-22T09:36:45Z'
+updated_at: '2026-07-22T09:49:47Z'
+takeover_of: null
+change_requests:
+- CR-0233
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/prepare_r08_ci_fixture.sh
+  - tests/android/visual-manifests/R08.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r08_ci_fixture.py
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0233
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 46480be9eca8852e661013be23f916cdc2fa0003
+  start_head: 46480be9eca8852e661013be23f916cdc2fa0003
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T09:49:42Z'
+  expires_at: '2026-07-22T13:49:42Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
+next_step: 提交本地实现但暂不推送；用精确提交在obx-test固定Android镜像编译app单测和androidTest，修正全部确定性编译问题后才触发一次GitHub历史视觉补审批次。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: e8d06de6a7315f67c7a19126853ea79ce33d778925f1ad17c31d7d27e2549d79
+  generated_at: '2026-07-22T09:49:45Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 历史视觉清单、Instrumentation和隔离夹具必须保持同一精确提交，当前不可并发改写。

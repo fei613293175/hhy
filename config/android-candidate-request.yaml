@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R08
 candidate: true
-remediation_attempt: 3
-request_id: R08-20260722-003
-reason: 第二轮候选已修复实名状态矛盾，但AI审核仍发现项目分类、地区和联系方式技术枚举直出；复用既有技术字段禁显规则完成纯展示层中文映射后执行第三次且最后一次有依据复验
+remediation_attempt: 1
+request_id: R08-HISTORICAL-VISUAL-20260722-001
+reason: R08本版三页最终候选已通过，但完整关闭门禁发现CR-0213规定的R02、R04至R07历史Android新肉眼标准复核未被原候选清单覆盖；作为独立历史补审批次一次采集22张生产组件或真实旅程截图并验证1项FLAG_SECURE安全语义，不重做已批准R08三页功能修复轮次
