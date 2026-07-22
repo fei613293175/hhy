@@ -16,6 +16,13 @@
 
 ## 验收状态
 
-当前为实现阶段。`AC-R08-004` 保持 `NOT_RUN`，不得在精确冻结 Commit 的现场证据、告警双向回执和同库同卷回切全部通过前提前签署 PASS。
+`AC-R08-004` 已通过，冻结源码 Commit 为 `7d6eedf4fdfc4b5b2143f28eafc682bb1c72445e`：
 
-最终证据将归档到 `artifacts/validation/r08-task006-staging/`，本报告随后补录冻结 Commit、镜像 ID、PostgreSQL 容器/卷、Flyway 版本、告警回执、机器结论与证据 SHA-256。
+- Java 21 后端定向 MODULE：6 项测试，0 失败、0 错误、0 跳过，BUILD SUCCESS；原始日志 SHA-256 为 `a4cca86a499543495e1fd78e8fc755b781d1c096c36d90a226f86dbc0697d428`。
+- Prometheus 配置和 7 条规则均通过 `promtool`；7 项 R08 项目 Gauge、RED、liveness、readiness 和 Prometheus target 均通过。
+- `HhyR08BackendDown` 与 `HhyR08OutboxBacklog` 均取得 firing、resolved 和 alert-sink 送达回执；4 条测试 Outbox 事实按 `PENDING → PUBLISHING → PUBLISHED` 合法终结且 attempts 为 1。
+- 结构化日志与响应 TraceId 可关联，敏感探针未进入日志；结果为 `log_redaction=PASS`。
+- 当前镜像 `sha256:6c1bdefff8231693d67e75d804f769c18960e817b99de506bf7fd15c39731dea` 回切至已验证兼容镜像后再恢复；PostgreSQL 容器 `12545e4d6bfa6593bcc5f7def02fbd101c86ba541b70004b1675e8761104d110`、卷 `hhy-r08-staging_pgdata` 和 Flyway V034 全程保持不变。
+- 现场证据已归档至 `artifacts/validation/r08-task006-staging/`，`SHA256SUMS` 对 22 个证据文件复核通过。
+
+Android 模拟器、截图和候选 APK 未在本任务触发，按冻结门禁留给 TASK-R08-007。
