@@ -64,7 +64,7 @@ fun AboutScreen(api: ExperienceApi, accessToken: String, onBack: () -> Unit) {
         failed -> "hhy.screen.r06.about.error"
         else -> "hhy.screen.r06.about.loaded"
     }
-    val currentPublicVersion = publicVersionName(BuildConfig.VERSION_NAME)
+    val currentPublicVersion = publicVersionName(BuildConfig.VERSION_NAME) ?: "未知"
     val latestPublicVersion = publicVersionName(policy?.latestVersionName)
     val updateAvailable = policy?.updateType != null && policy?.updateType != cc.orbexa.hhy.network.UpdateType.NONE
     Scaffold(

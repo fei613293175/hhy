@@ -6,7 +6,6 @@ import android.os.SystemClock
 import android.provider.MediaStore
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.semantics.SemanticsActions
-import androidx.compose.ui.test.fetchSemanticsNodes
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription

@@ -1139,7 +1139,7 @@ problems:
   title: 历史视觉截图揭示R02安全页层级不足与R06内部文案泄漏
   status: IN_PROGRESS
   root_cause: 历史页面原实现主要围绕接口可用、输入约束和Token合规完成，修改密码与注销账号页缺少绑定效果图要求的分组卡片、风险层级和密码强度反馈；关于页又直接展示BuildConfig的debug后缀及版本接口中的P00测试说明。局部编译和功能测试不会自动证明肉眼丰富度或识别所有内部发布文案。
-  resolution: CR-0237不新增平行视觉规则，复用CR-0213及冻结页面规格；修改密码页增加显式字段层级、基于本地输入事实的强度条和安全建议，注销页增加真实账号、风险及验证分组，关于页只展示清洗后的语义版本号并过滤内部测试说明，API和提交行为不变。
+  resolution: CR-0237不新增平行视觉规则，复用CR-0213及冻结页面规格；修改密码页增加显式字段层级、基于本地输入事实的强度条和安全建议，注销页增加真实账号、风险及验证分组，关于页只展示清洗后的语义版本号并过滤内部测试说明，API和提交行为不变。固定API36工具链已证明生产代码、AndroidTest、auth/app单测和lint通过；问题保持IN_PROGRESS直到三页新截图完成逐图验收。
   regression_checks:
   - python -m unittest tests.test_historical_android_visual_contract
   - Android feature/auth与app受影响MODULE编译、单测和lint必须通过
