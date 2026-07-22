@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260722T060947Z-B45C6BC0
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r08-006
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R08-006
 story_id: STORY-R08-004
 goal: 项目推广完整闭环可观测性与预发布验收
 started_at: '2026-07-22T06:09:47Z'
-updated_at: '2026-07-22T06:38:42Z'
+updated_at: '2026-07-22T06:40:24Z'
 takeover_of: null
 change_requests:
 - CR-0226
@@ -97,22 +97,35 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T06:38:38Z'
-  expires_at: '2026-07-22T10:38:38Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0004.yaml
+  renewed_at: '2026-07-22T06:40:21Z'
+  expires_at: '2026-07-22T10:40:21Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T060947Z-B45C6BC0.md
-next_step: 提交CR关闭事实并关闭TASK-R08-006，随后进入TASK-R08-007最终候选
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: e3966f8951993bf26201eec76e91959c2f671a1392acfa663bffd57723da6b9c
-  generated_at: '2026-07-22T06:38:40Z'
+  context_hash: f6da72324474b0defcb4df56de12785df840f2427ddf43383dda4be825fe25b6
+  generated_at: '2026-07-22T06:40:23Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: R08七项项目Gauge、Trace脱敏、RED、两项告警firing/resolved、Outbox合法终结和同库同卷应用回切全部通过，AC-R08-004已签PASS。
+  code_commit: 7d6eedf4fdfc4b5b2143f28eafc682bb1c72445e
+  next_release: R08
+  next_task: TASK-R08-007
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T06:40:19Z'
+  closure_checkpoint_id: CP-SES-20260722T060947Z-B45C6BC0-0005
+  closed_at: '2026-07-22T06:40:24Z'
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
   reason: 当前运行策略未授权创建子代理；关闭事实由主控串行复核
+closed_at: '2026-07-22T06:40:24Z'

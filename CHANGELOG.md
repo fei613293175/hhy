@@ -955,3 +955,13 @@
 - Actor：`codex-root-r08-005`
 - 摘要：R08项目专项测试与故障注入完成：三项权威测试、延迟重放、8路并发、媒体与配置超时零副作用全部PASS，P0/P1为0。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T053639Z-033C23B5.md`
+
+## TASK-R08-006 · COMPLETED · 2026-07-22T06:40:19Z
+
+- Task close: TASK-R08-006 / SES-20260722T060947Z-B45C6BC0
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-006`
+- 摘要：R08七项项目Gauge、Trace脱敏、RED、两项告警firing/resolved、Outbox合法终结和同库同卷应用回切全部通过，AC-R08-004已签PASS。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T060947Z-B45C6BC0.md`
+

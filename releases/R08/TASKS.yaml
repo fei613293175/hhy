@@ -105,7 +105,7 @@ tasks:
   completed_at: '2026-07-22T06:06:08Z'
 - id: TASK-R08-006
   title: 项目推广完整闭环可观测性与预发布验收
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R08-005
   requirements: *id001
@@ -119,9 +119,10 @@ tasks:
   - 运行手册演练
   - 验收矩阵签字
   session_log_required: true
+  completed_at: '2026-07-22T06:40:19Z'
 - id: TASK-R08-007
   title: 项目推广完整闭环Android测试APK与产物追溯
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R08-006
   requirements: *id001
