@@ -2852,7 +2852,7 @@ claims:
   task_id: TASK-R09-006
   story_id: STORY-R09-004
   actor_id: codex-root-r09-observability
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-22T20:05:09Z'
   allowed_paths:
   - apps/**
@@ -2893,3 +2893,4 @@ claims:
   - catalogs/acceptance_matrix.csv
   - releases/R09/**
   - docs/02-operations/**
+  closed_at: '2026-07-22T20:51:54Z'

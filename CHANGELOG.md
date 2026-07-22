@@ -1155,3 +1155,13 @@
 - Actor：`codex-root-r09-tests`
 - 摘要：R09 App推广三项权威专项测试、超时重放、八路并发、重复消息防护、真实依赖异常及规范化哈希证据全部PASS，P0/P1为0。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md`
+
+## TASK-R09-006 · COMPLETED · 2026-07-22T20:51:47Z
+
+- Task close: TASK-R09-006 / SES-20260722T200509Z-8FC026EC
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-observability`
+- 摘要：R09 App推广可观测性与隔离Staging验收完成：358项受影响后端测试通过，7项App业务Gauge和7条告警规则可用，BackendDown与Outbox告警完成firing/resolved送达，V035同库同卷回切和22文件可移植证据通过；PROB-0095已SOLVED，GitHub模拟器与候选APK留给R09-007。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md`
+

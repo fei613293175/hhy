@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260722T200509Z-8FC026EC
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r09-observability
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R09-006
 story_id: STORY-R09-004
 goal: 完成R09 App推广结构化日志、TraceId、RED与业务指标、告警和回滚运行手册演练及预发布验收矩阵。
 started_at: '2026-07-22T20:05:09Z'
-updated_at: '2026-07-22T20:51:06Z'
+updated_at: '2026-07-22T20:51:54Z'
 takeover_of: null
 change_requests:
 - CR-0253
@@ -109,22 +109,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T20:51:02Z'
-  expires_at: '2026-07-23T00:51:02Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0011.yaml
+  renewed_at: '2026-07-22T20:51:49Z'
+  expires_at: '2026-07-23T00:51:49Z'
+checkpoint_sequence: 12
+latest_checkpoint: .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0012.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md
-next_step: 提交CR关闭元数据并关闭TASK-R09-006，立即进入TASK-R09-007
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 751a5b768e08176647f056f8a770655378d8729e079ee66e47454546f5fefd8c
-  generated_at: '2026-07-22T20:51:04Z'
+  context_hash: be2c6830f1d9df2cb8764ac04748b42b27b0506b31e93dbfc340a94c52981220
+  generated_at: '2026-07-22T20:51:52Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: R09 App推广可观测性与隔离Staging验收完成：358项受影响后端测试通过，7项App业务Gauge和7条告警规则可用，BackendDown与Outbox告警完成firing/resolved送达，V035同库同卷回切和22文件可移植证据通过；PROB-0095已SOLVED，GitHub模拟器与候选APK留给R09-007。
+  code_commit: a478e030
+  next_release: R09
+  next_task: TASK-R09-007
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T20:51:47Z'
+  closure_checkpoint_id: CP-SES-20260722T200509Z-8FC026EC-0012
+  closed_at: '2026-07-22T20:51:54Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: CR关闭、任务关闭和下一任务切换共享连续性状态，必须串行
+closed_at: '2026-07-22T20:51:54Z'

@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T20:51:04Z",
-  "context_hash": "751a5b768e08176647f056f8a770655378d8729e079ee66e47454546f5fefd8c",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-22T20:51:57Z",
+  "context_hash": "491f5e9e32506c2edcbc5192fda079627b0a7ab8a6f6fe6fcb172bc02885799d",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "2612ad0d33aba13dbe1b38f314322b892c625448a3d78e8861b2505d0804662e",
-    "file_count": 20
+    "sha256": "bd850e16d54b2ac5e5e62a3d3b80fcf883cd02bcc0143470d0692a0d5762447d",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "bdb64b022161b27f6112111793246a9de05616c780b3335b6c6a459e18edee01"
+    "sha256": "a683df279431a8ac7916e7da453b253265b479a0f9da0bd0420236d15ff79443"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "ab53a75d7eb17a583c9b54983ef5e3e23b449f13a84cf3dda886c17d93ca364d"
+    "sha256": "f157de78d3a4d318547a2549d08292f7e0c3a1c91f2d3e71e220a5ae716b8397"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "109b3712c9229d94546e084c6833a8112350c75098e4247e60caa09dd41089fc",
-      "bytes": 4100
+      "sha256": "91c59fb8f7636bf695357def5282a62cfa1365fd39ab37fd45b78cd966381329",
+      "bytes": 3927
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "32fe5d184c485535ebac39cfcf4bdf01a01fd0943385047c56e988e2cbc30aea",
-      "bytes": 1480
+      "sha256": "800383beeb201ea7b396161629b7a8e9c2d216993bb39959be1969ced7d66d69",
+      "bytes": 1577
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "0192550675c3ff664bea11334260f96589b0eb7ac5eabf06e569c028aee4be91",
-      "bytes": 1405994
+      "sha256": "75ec947fe3a7b141fcebf7a1cafe6096633a386aa57b29709b25e5ad6978b560",
+      "bytes": 1407814
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "deb3da04a7dc7be35795efd0e4cf7e34a0ee40346944152cc74d6f79b7c2b2a5",
-      "bytes": 41503
+      "sha256": "139705a2367aff356b47a6d000c900bd80accd92c60a86808b52cd8a55c774d1",
+      "bytes": 41521
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "d0d4500f863f9cc07cab975ffe70d3414c339874b6713eb73adb90565b5aa64d",
-      "bytes": 57025
+      "sha256": "c7a0dcb8996c6f793f8a77c1ed1fbc2c0b779e9082d86ffd241ea22d3a70e2c4",
+      "bytes": 57061
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "7cc333b188edef92a472f9a47b6e405267a1c8239281205e1a0cb5c1e8b1cd8a",
-      "bytes": 543
+      "sha256": "aa0f046094c123addfa1098175e2a741e738090e6d3788f55dd2e9d3c53d235e",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,43 +148,13 @@
     },
     {
       "path": "releases/R09/TASKS.yaml",
-      "sha256": "50f7c721eb560619840060667a957a2bb613b19525b0828eaa509c8c96cd99f1",
-      "bytes": 5647
+      "sha256": "c94088297981d6acc56d13ed7a68a653838ed6cb1e259d6f110074c41fbf2e96",
+      "bytes": 5683
     },
     {
       "path": "releases/R09/ACCEPTANCE_MATRIX.csv",
       "sha256": "7ecfe46c4ebffe41ae722fddc0ed9efac09e1e3cadf649120d842cca9e0c2c2e",
       "bytes": 704
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md",
-      "sha256": "bebf5c5f5c4522041f2075515bfa1a8bce6e45170d6c8d04dc439cd43b1ea17f",
-      "bytes": 21718
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0011.yaml",
-      "sha256": "355dc674871368e6559d807087748755137d632429985be5aaab8fe3aeb251f5",
-      "bytes": 12938
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0253-R09-App推广可观测性与隔离Staging验收.md",
-      "sha256": "666544c95c650d17f7694c696449e435046f7ec782f3dbb1c09025c0bfcc3dc1",
-      "bytes": 3801
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0254-R09-App推广可观测性与隔离Staging验收精确范围.md",
-      "sha256": "fdf11e6f29899c39efe590d4694a6f238deb2685684c7212ed2494ebdb2a615a",
-      "bytes": 5469
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0255-R09隔离Staging单一入口自启动修复.md",
-      "sha256": "09f649616c43664b71b9d7e8e781617544098b774e8683cfb842d011974f90d8",
-      "bytes": 3327
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0256-R09-Staging自启动回归测试补充.md",
-      "sha256": "b43564a4c24fc4aaea234e97e060f0c3f771099cdd5b0cced885f496d57c2a70",
-      "bytes": 2703
     }
   ]
 }
