@@ -1,0 +1,192 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T053639Z-033C23B5-0004
+session_id: SES-20260722T053639Z-033C23B5
+sequence: 4
+created_at: '2026-07-22T06:06:10Z'
+summary: 关闭 TASK-R08-005：R08项目专项测试与故障注入完成：三项权威测试、延迟重放、8路并发、媒体与配置超时零副作用全部PASS，P0/P1为0。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：36fd0d8c6003a20a9a8e33f787ec30381200a8d6
+- 任务转换：TRN-20260722T060608Z-SES-20260722T053639Z-033C23B5
+- 下一Release：R08
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: r08-specialized-matrix
+  result: PASS
+  evidence: artifacts/validation/r08-test-evidence/evidence.json
+  note: 3 authoritative IDs, exact commit and SHA-256 verified
+- name: r08-postgresql17
+  result: PASS
+  evidence: artifacts/validation/r08-test-evidence/postgresql17.log
+  note: 4 tests, 0 failures, 0 errors, 0 skipped
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 9f524eabfaa8dc09c8b8c9959288d31b75432d2d
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260722T053639Z-033C23B5.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R08/TASKS.yaml'
+  recent_commits:
+  - "9f524eabfaa8dc09c8b8c9959288d31b75432d2d\t2026-07-22T14:05:25+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close specialized\
+    \ test CR"
+  - "36fd0d8c6003a20a9a8e33f787ec30381200a8d6\t2026-07-22T14:03:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): freeze project\
+    \ test evidence"
+  - "f3421114b124f4b1d69cd20de7078a022db019e9\t2026-07-22T13:44:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): automate project\
+    \ fault matrix"
+  - "5549e6e94b5e4a08efcfc95bd3d0ce57be1a0436\t2026-07-22T13:34:52+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close TASK-R08-004"
+  - "671ffc1d4b6c0aa0fc2e6d7712cb7a1a3723900d\t2026-07-22T13:34:00+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record historical\
+    \ visual verification"
+  - "35484da74a8c0483bdb6a236b8eca23bfe606cc9\t2026-07-22T13:23:00+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(ui): remediate R02-R05\
+    \ historical visuals"
+  - "c8d9793655df6d6880f87536f245e8844ecf3a2d\t2026-07-22T12:37:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs: close R06 visual remediation\
+    \ evidence"
+  - "a217dd276df6bcbd35a019d0e9974b75d5201bce\t2026-07-22T12:30:39+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): enrich R06\
+    \ home and about visuals"
+project_fingerprint:
+  sha256: e9e96c7b10114fa2cbcb0d6b0475ed56b05360cd8bba06cd2e9a321abb1a0cd0
+  files:
+  - CHANGELOG.md
+  - catalogs/test_cases.csv
+  - docs/03-continuity/change-requests/CR-0225-补齐R08三项专项测试自动化与故障注入证据矩阵.md
+  - releases/R08/TASKS.yaml
+  - scripts/run_r08_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+  - tests/r08/README.md
+  - tests/r08/req-project-001_happy
+  - tests/r08/req-project-001_idempotent
+  - tests/r08/req-project-001_reject
+  - tests/test_r08_specialized_matrix.py
+  file_count: 12
+  payload:
+    base_commit: 5549e6e94b5e4a08efcfc95bd3d0ce57be1a0436
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 79790
+      sha256: c34679357663bd18478f4c321bcb0d15db910d300caf3476cdee2dd67f3d6d8f
+    - path: catalogs/test_cases.csv
+      state: FILE
+      size: 227880
+      sha256: 4f4815bc98be887614e807cf95eb52771a53495e24c34407794207ed5b713464
+    - path: docs/03-continuity/change-requests/CR-0225-补齐R08三项专项测试自动化与故障注入证据矩阵.md
+      state: FILE
+      size: 3694
+      sha256: 615ec24693c88952958b9bec52ce5f3383e244d90d4a09c166699a74f5a46cbb
+    - path: releases/R08/TASKS.yaml
+      state: FILE
+      size: 6371
+      sha256: b3ce04e0fb0858775eb01bed5d7ea820ecebfc9229ec639abfadfa06e4848f0b
+    - path: scripts/run_r08_specialized_matrix.py
+      state: FILE
+      size: 8710
+      sha256: 16980a5a98535d487461396f73dbcb47827f137a175e0fae89f475bf68bacef1
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+      state: FILE
+      size: 10460
+      sha256: 4c1e75b7af466954cd654b913fec47894aaaa8690e10f199c1f09c78d57ea26e
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+      state: FILE
+      size: 11325
+      sha256: 791e55b5380e3cdc4696d06746a01d24f8f7bf45a10cb586fa26aed68a973b6c
+    - path: tests/r08/README.md
+      state: FILE
+      size: 639
+      sha256: 5f2f3266c790f88633262c9804fa67f662a09af0da5f22e63c1cc4ae5d2b16b8
+    - path: tests/r08/req-project-001_happy
+      state: FILE
+      size: 923
+      sha256: c4f93dca279ec8935dbecb5c5a9435483740365a2c9ef8d0d51121d7e43a00ff
+    - path: tests/r08/req-project-001_idempotent
+      state: FILE
+      size: 785
+      sha256: 81d6a5a6264189c5badedfb45daaaef7aedeb3543118160746ce73d5d0e248a6
+    - path: tests/r08/req-project-001_reject
+      state: FILE
+      size: 1092
+      sha256: 382e635e8b154aad4c16e9d7b430016939497bdc6d377354d59679c9de8ea09f
+    - path: tests/test_r08_specialized_matrix.py
+      state: FILE
+      size: 1974
+      sha256: d16058263d52f83d589eed314e82dd8e51ef8c5bb9c4713932e4885b147303e4
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/test_cases.csv
+  - releases/R08/TASKS.yaml
+  continuity:
+  - docs/03-continuity/change-requests/CR-0225-补齐R08三项专项测试自动化与故障注入证据矩阵.md
+  code:
+  - scripts/run_r08_specialized_matrix.py
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+  tests:
+  - tests/r08/README.md
+  - tests/r08/req-project-001_happy
+  - tests/r08/req-project-001_idempotent
+  - tests/r08/req-project-001_reject
+  - tests/test_r08_specialized_matrix.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0225
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统禁止未由用户明确要求的子代理；CR关闭与唯一任务状态转换由主控串行完成
+event_hash: ef0eb75ad3c596644e4f2498c4e6b764de742164fc7ca7ce76154713d494c370

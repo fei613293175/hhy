@@ -940,3 +940,13 @@
 - Actor：`codex-root-r08-004`
 - 摘要：完成R08项目列表、详情、发布编辑客户端闭环及R02-R07历史视觉回补实现；后台与H5真实浏览器AI复核通过，Android受影响MODULE在精确提交通过；最终候选Android截图按既定规则延续至R08-007。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md`
+
+## TASK-R08-005 · COMPLETED · 2026-07-22T06:06:08Z
+
+- Task close: TASK-R08-005 / SES-20260722T053639Z-033C23B5
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-005`
+- 摘要：R08项目专项测试与故障注入完成：三项权威测试、延迟重放、8路并发、媒体与配置超时零副作用全部PASS，P0/P1为0。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T053639Z-033C23B5.md`
+

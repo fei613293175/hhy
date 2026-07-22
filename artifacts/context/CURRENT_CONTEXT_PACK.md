@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T06:05:07Z
-- Context Hash：`edb0ff1c05b11df5999c6acac3a23d5bd4737c9f9dc6806a5a815bc734fc0806`
+- 生成时间：2026-07-22T06:06:17Z
+- Context Hash：`5116ec5331b6b753d2403f767f59b38dad3e57bc1881d8160e2f46069d2c68ed`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-006
 ```
 
 ## 规则就绪
@@ -41,10 +41,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R08
 active_release: R08
-active_task: TASK-R08-005
-status: IN_PROGRESS
+active_task: TASK-R08-006
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: 35484da74a8c0483bdb6a236b8eca23bfe606cc9
+last_green_commit: 36fd0d8c6003a20a9a8e33f787ec30381200a8d6
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -122,15 +122,15 @@ completed_tasks:
 - TASK-R08-002
 - TASK-R08-003
 - TASK-R08-004
-in_progress_tasks:
 - TASK-R08-005
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
-next_task: TASK-R08-005
-updated_at: '2026-07-22T06:05:04Z'
+next_task: TASK-R08-006
+updated_at: '2026-07-22T06:06:14Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -162,19 +162,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260722T053639Z-033C23B5
-  actor_id: codex-root-r08-005
-  story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T10:05:04Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T053639Z-033C23B5/0003.yaml
-  project_fingerprint: 1fdbb5afd6a33803319ee40c40c323ab20832fa5926eb3493e5f8fbe401e1a3f
+  active_session_id: null
+  last_session_id: SES-20260722T053639Z-033C23B5
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260722T053639Z-033C23B5/0004.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 94dfdbb26e34ff60c0e0bd37ba2edb2ddf9c9d095ae56ce87b4cfc8f91f23bd9
-    generated_at: '2026-07-22T06:03:15Z'
-  handoff_bundle: null
+    context_hash: 0cef704055d9d3bf8af97d1fbda5c8c3d8ebf8bb5c646594324b9542315e03ce
+    generated_at: '2026-07-22T06:06:12Z'
 ```
 
 ## 默认并行规则
@@ -321,8 +319,8 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R08-005
-title: 项目推广完整闭环专项测试与故障注入
+id: TASK-R08-006
+title: 项目推广完整闭环可观测性与预发布验收
 status: READY
 release: R08
 requirements:
@@ -330,23 +328,22 @@ requirements:
 - REQ-PROJECT-001
 - REQ-APK-001
 depends_on:
-- TASK-R08-003
-- TASK-R08-004
+- TASK-R08-005
 definition_of_ready: releases/R08/DEFINITION_OF_READY.yaml
 stories: releases/R08/STORIES.yaml
 steps:
-- 测试报告和失败证据归档
-- 关键缺陷清零
+- 运行手册演练
+- 验收矩阵签字
 acceptance:
 - 无TODO/生产Mock
 - 代码、文档、测试、追踪同步更新
-- 测试报告和失败证据归档
-- 关键缺陷清零
+- 运行手册演练
+- 验收矩阵签字
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-005
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-006
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-005
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-006
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -359,264 +356,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260722T053639Z-033C23B5
-status: ACTIVE
-actor:
-  id: codex-root-r08-005
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R08
-task_id: TASK-R08-005
-story_id: STORY-R08-004
-goal: 项目推广完整闭环专项测试与故障注入
-started_at: '2026-07-22T05:36:39Z'
-updated_at: '2026-07-22T06:05:04Z'
-takeover_of: null
-change_requests:
-- CR-0225
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: 5549e6e94b5e4a08efcfc95bd3d0ce57be1a0436
-  start_head: 5549e6e94b5e4a08efcfc95bd3d0ce57be1a0436
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-22T06:05:04Z'
-  expires_at: '2026-07-22T10:05:04Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260722T053639Z-033C23B5/0003.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260722T053639Z-033C23B5.md
-next_step: 关闭TASK-R08-005并切换TASK-R08-006
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
-  delegated_workers: 0
-  workers: []
-  reason: 当前系统禁止未由用户明确要求的子代理；CR关闭与唯一任务状态转换由主控串行完成
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T053639Z-033C23B5-0003
-session_id: SES-20260722T053639Z-033C23B5
-sequence: 3
-created_at: '2026-07-22T06:05:04Z'
-summary: CR-0225关闭：R08-005三项专项测试、故障注入和精确提交证据全部完成
-next_step: 关闭TASK-R08-005并切换TASK-R08-006
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: r08-specialized-matrix
-  result: PASS
-  evidence: artifacts/validation/r08-test-evidence/evidence.json
-  note: 3 authoritative IDs, exact commit and SHA-256 verified
-- name: r08-postgresql17
-  result: PASS
-  evidence: artifacts/validation/r08-test-evidence/postgresql17.log
-  note: 4 tests, 0 failures, 0 errors, 0 skipped
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: 36fd0d8c6003a20a9a8e33f787ec30381200a8d6
-  upstream: origin/task/TASK-R03-001
-  ahead: 0
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0225.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0225-补齐R08三项专项测试自动化与故障注入证据矩阵.md'
-  recent_commits:
-  - "36fd0d8c6003a20a9a8e33f787ec30381200a8d6\t2026-07-22T14:03:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): freeze project\
-    \ test evidence"
-  - "f3421114b124f4b1d69cd20de7078a022db019e9\t2026-07-22T13:44:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): automate project\
-    \ fault matrix"
-  - "5549e6e94b5e4a08efcfc95bd3d0ce57be1a0436\t2026-07-22T13:34:52+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close TASK-R08-004"
-  - "671ffc1d4b6c0aa0fc2e6d7712cb7a1a3723900d\t2026-07-22T13:34:00+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record historical\
-    \ visual verification"
-  - "35484da74a8c0483bdb6a236b8eca23bfe606cc9\t2026-07-22T13:23:00+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(ui): remediate R02-R05\
-    \ historical visuals"
-  - "c8d9793655df6d6880f87536f245e8844ecf3a2d\t2026-07-22T12:37:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs: close R06 visual remediation\
-    \ evidence"
-  - "a217dd276df6bcbd35a019d0e9974b75d5201bce\t2026-07-22T12:30:39+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): enrich R06\
-    \ home and about visuals"
-  - "e078bc0250fa2190c069aece8d4684aa460bb8d3\t2026-07-22T12:25:44+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs: close R07 visual remediation\
-    \ evidence"
-project_fingerprint:
-  sha256: 1fdbb5afd6a33803319ee40c40c323ab20832fa5926eb3493e5f8fbe401e1a3f
-  files:
-  - CHANGELOG.md
-  - catalogs/test_cases.csv
-  - docs/03-continuity/change-requests/CR-0225-补齐R08三项专项测试自动化与故障注入证据矩阵.md
-  - scripts/run_r08_specialized_matrix.py
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
-  - tests/r08/README.md
-  - tests/r08/req-project-001_happy
-  - tests/r08/req-project-001_idempotent
-  - tests/r08/req-project-001_reject
-  - tests/test_r08_specialized_matrix.py
-  file_count: 11
-  payload:
-    base_commit: 5549e6e94b5e4a08efcfc95bd3d0ce57be1a0436
-    files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 79354
-      sha256: 508b9ebb67792047054996efe7e2f3b3c1486a8617afe958e4dd4a309f5f8532
-    - path: catalogs/test_cases.csv
-      state: FILE
-      size: 227880
-      sha256: 4f4815bc98be887614e807cf95eb52771a53495e24c34407794207ed5b713464
-    - path: docs/03-continuity/change-requests/CR-0225-补齐R08三项专项测试自动化与故障注入证据矩阵.md
-      state: FILE
-      size: 3694
-      sha256: 615ec24693c88952958b9bec52ce5f3383e244d90d4a09c166699a74f5a46cbb
-    - path: scripts/run_r08_specialized_matrix.py
-      state: FILE
-      size: 8710
-      sha256: 16980a5a98535d487461396f73dbcb47827f137a175e0fae89f475bf68bacef1
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
-      state: FILE
-      size: 10460
-      sha256: 4c1e75b7af466954cd654b913fec47894aaaa8690e10f199c1f09c78d57ea26e
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
-      state: FILE
-      size: 11325
-      sha256: 791e55b5380e3cdc4696d06746a01d24f8f7bf45a10cb586fa26aed68a973b6c
-    - path: tests/r08/README.md
-      state: FILE
-      size: 639
-      sha256: 5f2f3266c790f88633262c9804fa67f662a09af0da5f22e63c1cc4ae5d2b16b8
-    - path: tests/r08/req-project-001_happy
-      state: FILE
-      size: 923
-      sha256: c4f93dca279ec8935dbecb5c5a9435483740365a2c9ef8d0d51121d7e43a00ff
-    - path: tests/r08/req-project-001_idempotent
-      state: FILE
-      size: 785
-      sha256: 81d6a5a6264189c5badedfb45daaaef7aedeb3543118160746ce73d5d0e248a6
-    - path: tests/r08/req-project-001_reject
-      state: FILE
-      size: 1092
-      sha256: 382e635e8b154aad4c16e9d7b430016939497bdc6d377354d59679c9de8ea09f
-    - path: tests/test_r08_specialized_matrix.py
-      state: FILE
-      size: 1974
-      sha256: d16058263d52f83d589eed314e82dd8e51ef8c5bb9c4713932e4885b147303e4
-change_classification:
-  other:
-  - CHANGELOG.md
-  - catalogs/test_cases.csv
-  continuity:
-  - docs/03-continuity/change-requests/CR-0225-补齐R08三项专项测试自动化与故障注入证据矩阵.md
-  code:
-  - scripts/run_r08_specialized_matrix.py
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
-  tests:
-  - tests/r08/README.md
-  - tests/r08/req-project-001_happy
-  - tests/r08/req-project-001_idempotent
-  - tests/r08/req-project-001_reject
-  - tests/test_r08_specialized_matrix.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-change_requests:
-- CR-0225
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
-parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
-  delegated_workers: 0
-  workers: []
-  reason: 当前系统禁止未由用户明确要求的子代理；CR关闭与唯一任务状态转换由主控串行完成
-event_hash: 5838ec1b4bf6e6bf2b763032cb84eb96435ee3407a9850db1c862c570a87920e
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -624,12 +370,12 @@ event_hash: 5838ec1b4bf6e6bf2b763032cb84eb96435ee3407a9850db1c862c570a87920e
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260722T053639Z-033C23B5
-last_session_id: SES-20260722T031604Z-105CF4C6
+active_session_id: null
+last_session_id: SES-20260722T053639Z-033C23B5
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260722T031604Z-105CF4C6-0014
-event_count: 2234
-event_head_hash: 5838ec1b4bf6e6bf2b763032cb84eb96435ee3407a9850db1c862c570a87920e
+last_closure_checkpoint_id: CP-SES-20260722T053639Z-033C23B5-0004
+event_count: 2237
+event_head_hash: bbec7ed7a568a456f99bbf7b8fb4ec1524f2b3a9feb5837d0fc496595323546c
 event_chain_valid: true
 ```
 
@@ -748,13 +494,13 @@ recent_sessions: - session_id: SES-20260721T190306Z-32CB66BF
   task_id: TASK-R08-005
   story_id: STORY-R08-004
   actor_id: codex-root-r08-005
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-22T05:36:39Z'
   record: .continuity/sessions/SES-20260722T053639Z-033C23B5.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T053639Z-033C23B5.md
-  updated_at: '2026-07-22T06:05:04Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T053639Z-033C23B5/0003.yaml
+  updated_at: '2026-07-22T06:06:14Z'
+  closed_at: '2026-07-22T06:06:14Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T053639Z-033C23B5/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-DC8CF1890B02
   session_id: SES-20260720T163244Z-D1F3CEE8
@@ -1467,7 +1213,7 @@ task_claims: - claim_id: CLM-DC8CF1890B02
   task_id: TASK-R08-005
   story_id: STORY-R08-004
   actor_id: codex-root-r08-005
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-22T05:36:39Z'
   allowed_paths:
   - apps/**
@@ -1501,6 +1247,7 @@ task_claims: - claim_id: CLM-DC8CF1890B02
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-22T06:06:14Z'
 recent_task_transitions: - transition_id: TRN-C7C9221D1B82
   timestamp: '2026-07-20T16:32:45Z'
   release: R06
@@ -1708,26 +1455,31 @@ recent_task_transitions: - transition_id: TRN-C7C9221D1B82
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 36fd0d8c6003a20a9a8e33f787ec30381200a8d6
+head: 9f524eabfaa8dc09c8b8c9959288d31b75432d2d
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0225.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260722T053639Z-033C23B5.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0225-补齐R08三项专项测试自动化与故障注入证据矩阵.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T053639Z-033C23B5.md'
-- ?? .continuity/checkpoints/SES-20260722T053639Z-033C23B5/0003.yaml
+- ' M releases/R08/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260722T053639Z-033C23B5/0004.yaml
 recent_commits:
+- "9f524eabfaa8dc09c8b8c9959288d31b75432d2d\t2026-07-22T14:05:25+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close specialized\
+  \ test CR"
 - "36fd0d8c6003a20a9a8e33f787ec30381200a8d6\t2026-07-22T14:03:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): freeze project test\
   \ evidence"
 - "f3421114b124f4b1d69cd20de7078a022db019e9\t2026-07-22T13:44:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): automate project\
@@ -1741,26 +1493,14 @@ recent_commits:
   \ evidence"
 - "a217dd276df6bcbd35a019d0e9974b75d5201bce\t2026-07-22T12:30:39+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): enrich R06 home\
   \ and about visuals"
-- "e078bc0250fa2190c069aece8d4684aa460bb8d3\t2026-07-22T12:25:44+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs: close R07 visual remediation\
-  \ evidence"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`1fdbb5afd6a33803319ee40c40c323ab20832fa5926eb3493e5f8fbe401e1a3f`
-- 文件数：11
+- 指纹：`18a05d9cc681416735577fb7dce38fdf3ad6ce6d6d6a604761ceff533030e35e`
+- 文件数：0
 
-- `CHANGELOG.md`
-- `catalogs/test_cases.csv`
-- `docs/03-continuity/change-requests/CR-0225-补齐R08三项专项测试自动化与故障注入证据矩阵.md`
-- `scripts/run_r08_specialized_matrix.py`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java`
-- `tests/r08/README.md`
-- `tests/r08/req-project-001_happy`
-- `tests/r08/req-project-001_idempotent`
-- `tests/r08/req-project-001_reject`
-- `tests/test_r08_specialized_matrix.py`
+- 无
 
 ## 当前 Release
 
@@ -2451,7 +2191,7 @@ TASKS.yaml:
     completed_at: '2026-07-22T05:34:21Z'
   - id: TASK-R08-005
     title: 项目推广完整闭环专项测试与故障注入
-    status: READY
+    status: DONE
     depends_on:
     - TASK-R08-003
     - TASK-R08-004
@@ -2466,9 +2206,10 @@ TASKS.yaml:
     - 测试报告和失败证据归档
     - 关键缺陷清零
     session_log_required: true
+    completed_at: '2026-07-22T06:06:08Z'
   - id: TASK-R08-006
     title: 项目推广完整闭环可观测性与预发布验收
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R08-005
     requirements: *id001
@@ -7254,8 +6995,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `f171cb9dd94f89fd22ea6eef63281c8d6362ed28632a64e86dee40756ab3b7ac`
-- `NEXT_TASK.yaml` — `c1f35110c9fca28e83bb1150096cbf1897ce3bd7ff4a157eb9e1b552611a2a8a`
+- `CURRENT_STATUS.yaml` — `b1aced85c0ede0abdf97260644d4d97a5640f3019436f2fe3ed88fca1e3feaa7`
+- `NEXT_TASK.yaml` — `1882fbea92116b91e87a8b792c234058bb7f9febe37137bb606bbb6a39e97c48`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `c95af96d5dd6cc2df5ebf51b13d579a25339840227a9083ff7e7f019092ac39f`
@@ -7265,12 +7006,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `f7819bccaf3c6ec9e9c78f6632a143bbaee95a01bad8e20bbd432d0ff9cfac7c`
-- `.continuity/SESSION_INDEX.yaml` — `73caaf6eae1e306434ea00b981b521296aa1c5a75f28b9c005c57036a161f60b`
-- `.continuity/TASK_CLAIMS.yaml` — `d73f13b29e315c9208307851ca50e969290c599da9e04e1d1a04ea06b1336043`
+- `.continuity/EVENT_LOG.jsonl` — `d5e185789d1ecc9e5d9bd36940609d6d9654e21d4db07f677fb1bb7633bcb0ad`
+- `.continuity/SESSION_INDEX.yaml` — `6730c698a839c7bbef5b8f51b870d270d1cf027b10ca2c6a120a4fe760f11218`
+- `.continuity/TASK_CLAIMS.yaml` — `5d376ad6b38ff7a4854bae284952d79eabdf0c0252327622ef7b04d94397b03c`
 - `.continuity/TASK_TRANSITIONS.yaml` — `762cb392022613ccd31b1ce008fb9f5d9e39a0762c86e38cdd768cd59580f227`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `25b68ded8ae02ee80c206408ff6670ce377401fe8b53b0b42e22766f041fe7f6`
-- `.continuity/ACTIVE_SESSION.yaml` — `64958c1f60701c08c5fda3ba5e8595282deb89bd812364b9eeccc32971d43a0d`
+- `.continuity/ACTIVE_SESSION.yaml` — `8a7878d065ca8d307f51f69f069bdac7fd16047c2946f84c3e75fd249893771f`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7278,12 +7019,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/RELEASE_MANIFEST.yaml` — `62ce3ebc9d1aefa77c684678fbd51364f0842afeeef604623645b79ff23882c9`
 - `releases/R08/DEFINITION_OF_READY.yaml` — `73b6bee8cacca90fa3564f4c6443f21b32d35afbfef83fad5a2a3b8705e536c5`
 - `releases/R08/STORIES.yaml` — `035e6d5b8a0cccd8e30f30d5cd80c858a846e745c5cf3075aa6742d4f0a370b6`
-- `releases/R08/TASKS.yaml` — `de2ea74e776bb68df40ee48482842805f8b343a770cf5969d8b7a87262c99207`
+- `releases/R08/TASKS.yaml` — `b3ce04e0fb0858775eb01bed5d7ea820ecebfc9229ec639abfadfa06e4848f0b`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `1e47b204a5cbd289d9ccafc93b0f4afb45983db76a23a4492dd463ffeec0cb98`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T053639Z-033C23B5.md` — `0bf6fa58bf0884267d27acb4673372ce8a31768d348083d4f083da54e5b463cb`
-- `.continuity/checkpoints/SES-20260722T053639Z-033C23B5/0003.yaml` — `834aedc69bbc2d794c9423b3bbfe223aa0d720a949fa3b1e83019b7ee2f063a1`
-- `docs/03-continuity/change-requests/CR-0225-补齐R08三项专项测试自动化与故障注入证据矩阵.md` — `615ec24693c88952958b9bec52ce5f3383e244d90d4a09c166699a74f5a46cbb`
 
 ## 接手硬规则
 
