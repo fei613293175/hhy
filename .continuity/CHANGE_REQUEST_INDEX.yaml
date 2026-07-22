@@ -13387,9 +13387,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0221
   title: 按效果图级标准回补R07搜索与发布者页面视觉
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-22T04:16:14Z'
-  updated_at: '2026-07-22T04:16:42Z'
+  updated_at: '2026-07-22T04:25:11Z'
   requester_actor_id: codex-root-r08-004
   approver_actor_id: codex-reviewer-r08-visual
   task_id: TASK-R08-004
@@ -13438,5 +13438,17 @@ change_requests:
     status: IMPLEMENTING
     note: 开始回补R07搜索、结果和发布者页面，复用B02/B03视觉语言并保留真实业务字段与安全边界。
     session_id: SES-20260722T031604Z-105CF4C6
+  - at: '2026-07-22T04:25:09Z'
+    actor_id: codex-root-r08-004
+    status: IMPLEMENTED
+    note: R07搜索组合卡、真实关键词卡、结果卡、发布者资料卡和公开内容卡视觉回补已实现并推送；不新增虚构字段或能力。
+    session_id: SES-20260722T031604Z-105CF4C6
+  - at: '2026-07-22T04:25:11Z'
+    actor_id: codex-root-r08-004
+    status: CLOSED
+    note: 固定镜像精确提交MODULE验证PASS：91 tasks，71 from cache，2m51s；日志/tmp/hhy-r07-visual-d40f0b09.log，SHA-256 c101b98ebe18511ff31c5e7321138b8c351ba0eef48ef5cc116c5a14ed9e5230。候选新截图与最终AI视觉PASS仍保留R08候选阶段。
+    session_id: SES-20260722T031604Z-105CF4C6
   session_ids:
   - SES-20260722T031604Z-105CF4C6
+  implementation_commits:
+  - d40f0b091b4af3224b56663b8e8d19e8c64129a2

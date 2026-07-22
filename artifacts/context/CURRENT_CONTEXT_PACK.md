@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T04:19:38Z
-- Context Hash：`14d8759c064d20374fc6ea3a4f08d8a60f19399ebd1620be6e698541ce8561a4`
+- 生成时间：2026-07-22T04:25:31Z
+- Context Hash：`043b9c84f07f6a7044cca4d622e8734ed132a010e9ed634f7be115103fffc6f6`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -129,7 +129,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-004
-updated_at: '2026-07-22T04:19:36Z'
+updated_at: '2026-07-22T04:25:29Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -164,15 +164,15 @@ continuity:
   active_session_id: SES-20260722T031604Z-105CF4C6
   actor_id: codex-root-r08-004
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T08:19:36Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0007.yaml
-  project_fingerprint: 317219a5b417789d7d2dddf4576dc80e5853231671d8bfcdb840e252d1dd6818
+  lease_expires_at: '2026-07-22T08:25:29Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0008.yaml
+  project_fingerprint: 81cf6017055f3f9182f559191c7690ac1a23771bf0d863a591ca2dd5f95422fd
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 296b6973fd88775d691112adf7f5c855dc9a8a241efd3834bb8bb63f6c937966
-    generated_at: '2026-07-22T04:13:04Z'
+    context_hash: 14d8759c064d20374fc6ea3a4f08d8a60f19399ebd1620be6e698541ce8561a4
+    generated_at: '2026-07-22T04:19:38Z'
   handoff_bundle: null
 ```
 
@@ -380,7 +380,7 @@ task_id: TASK-R08-004
 story_id: STORY-R08-004
 goal: 按效果图级肉眼标准实现R08项目列表、详情、发布编辑客户端/H5/后台，并完成R02-R07历史视觉审计与必要回补，不虚构业务。
 started_at: '2026-07-22T03:16:04Z'
-updated_at: '2026-07-22T04:19:36Z'
+updated_at: '2026-07-22T04:25:29Z'
 takeover_of: null
 change_requests:
 - CR-0217
@@ -459,12 +459,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T04:19:36Z'
-  expires_at: '2026-07-22T08:19:36Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0007.yaml
+  renewed_at: '2026-07-22T04:25:29Z'
+  expires_at: '2026-07-22T08:25:29Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
-next_step: 提交推送R07视觉回补并在obx-test固定镜像运行feature discovery单测与app编译；修复编译问题后继续R05-R06及R02-R04历史视觉审计。
+next_step: 提交推送R07回补关闭证据；审查R05-R06现有截图与源码，按实际视觉差距创建下一批准CR并继续回补。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -479,32 +479,28 @@ parallel_execution:
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T031604Z-105CF4C6-0007
+checkpoint_id: CP-SES-20260722T031604Z-105CF4C6-0008
 session_id: SES-20260722T031604Z-105CF4C6
-sequence: 7
-created_at: '2026-07-22T04:19:35Z'
-summary: CR-0221已按B02/B03视觉语言完成R07搜索首页、结果页和发布者主页第一轮代码回补；不新增虚构业务，旧截图保留为差距证据，三页转IN_REVIEW等待R08候选新截图。
-next_step: 提交推送R07视觉回补并在obx-test固定镜像运行feature discovery单测与app编译；修复编译问题后继续R05-R06及R02-R04历史视觉审计。
+sequence: 8
+created_at: '2026-07-22T04:25:28Z'
+summary: R07三个非敏感历史页面视觉回补已通过精确提交Android MODULE验证并关闭CR-0221；候选新截图与AI视觉PASS保留R08候选阶段。
+next_step: 提交推送R07回补关闭证据；审查R05-R06现有截图与源码，按实际视觉差距创建下一批准CR并继续回补。
 blockers: []
 decisions: []
 note: ''
 tests:
+- name: R07 Android visual remediation MODULE
+  result: PASS
+  evidence: commit d40f0b091b4af3224b56663b8e8d19e8c64129a2 log /tmp/hhy-r07-visual-d40f0b09.log sha256 c101b98ebe18511ff31c5e7321138b8c351ba0eef48ef5cc116c5a14ed9e5230
+  note: 91 tasks 71 from cache BUILD SUCCESSFUL in 2m51s
 - name: Android UI foundation
   result: PASS
   evidence: python scripts/check_android_ui_foundation.py
-  note: 全量Android基础门禁通过
-- name: R08 visual catalog
-  result: PASS
-  evidence: python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
-  note: 3 current pages and historical non-PASS truth preserved
-- name: visual gate unit tests
-  result: PASS
-  evidence: python -m unittest tests.test_ui_visual_acceptance
-  note: 8 tests
+  note: global Android UI foundation
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 1695b2e37eb2a0e876116e542d24e35e3dc19d92
+  head: d40f0b091b4af3224b56663b8e8d19e8c64129a2
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -513,19 +509,14 @@ git:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml'
-  - ' M CHANGELOG.md'
-  - ' M apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt'
+  - ' M .continuity/change_requests/CR-0221.yaml'
   - ' M artifacts/reports/R08/TASK-R08-004-client.md'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/ui_visual_acceptance.csv'
-  - ' M design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md'
-  - ' M design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md'
-  - ' M design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md'
-  - ?? .continuity/change_requests/CR-0221.yaml
-  - ?? docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md
+  - ' M docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md'
   recent_commits:
+  - "d40f0b091b4af3224b56663b8e8d19e8c64129a2\t2026-07-22T12:19:52+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): enrich R07\
+    \ discovery visuals"
   - "1695b2e37eb2a0e876116e542d24e35e3dc19d92\t2026-07-22T12:13:15+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs: close Android remote\
     \ verification pattern"
   - "88271a35476ba6ae394717fc715d14f9707005b2\t2026-07-22T12:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close client evidence\
@@ -540,10 +531,8 @@ git:
     \ as completed"
   - "d7b5b84b1d73ddd78e43faa82e29b6d0370f992d\t2026-07-22T11:12:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(r08): close project\
     \ backend change requests"
-  - "0f0257dc7694be5555a1f71dab2ea452d616840a\t2026-07-22T11:10:54+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record project\
-    \ backend module evidence"
 project_fingerprint:
-  sha256: 317219a5b417789d7d2dddf4576dc80e5853231671d8bfcdb840e252d1dd6818
+  sha256: 81cf6017055f3f9182f559191c7690ac1a23771bf0d863a591ca2dd5f95422fd
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r08ProjectReuse.test.ts
@@ -702,8 +691,8 @@ project_fingerprint:
       sha256: 4a449a90b5b184ed70a5bb4306619879d5fc84f3050c614d9ee673a143ce75c4
     - path: docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md
       state: FILE
-      size: 3482
-      sha256: 2764f38ba5e92eae925f6dc077d001c439b01001e7e278fcf55f36c2212643f0
+      size: 4194
+      sha256: ee45f1f4d02964a5113c577fa7dffa786dc0fa438ae21986c2a9d78591ddab26
 change_classification:
   other:
   - CHANGELOG.md
@@ -836,7 +825,7 @@ parallel_execution:
   delegated_workers: 0
   workers: []
   reason: 系统当前明确禁止未获用户请求的子代理；当前会话串行持续推进。
-event_hash: 7ae5a86e23eeb4d0cbc1289d6cbc8c53a19252a12a5954a17fc4633e3efa69f2
+event_hash: 195c171fa34224056485e35667cabad36843b5837cbe8fb218118de33db2a440
 ```
 
 ## 接续状态与事件头
@@ -848,8 +837,8 @@ active_session_id: SES-20260722T031604Z-105CF4C6
 last_session_id: SES-20260722T012224Z-E70EA3B7
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0012
-event_count: 2196
-event_head_hash: 7ae5a86e23eeb4d0cbc1289d6cbc8c53a19252a12a5954a17fc4633e3efa69f2
+event_count: 2199
+event_head_hash: 195c171fa34224056485e35667cabad36843b5837cbe8fb218118de33db2a440
 event_chain_valid: true
 ```
 
@@ -972,9 +961,9 @@ recent_sessions: - session_id: SES-20260721T171025Z-A3718A1C
   started_at: '2026-07-22T03:16:04Z'
   record: .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
-  updated_at: '2026-07-22T04:19:36Z'
+  updated_at: '2026-07-22T04:25:29Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0007.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0008.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-4352DBBBC526
   session_id: SES-20260720T160653Z-1DDCDB22
@@ -1928,7 +1917,7 @@ recent_task_transitions: - transition_id: TRN-D1B6297F4500
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 1695b2e37eb2a0e876116e542d24e35e3dc19d92
+head: d40f0b091b4af3224b56663b8e8d19e8c64129a2
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1939,22 +1928,18 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0221.yaml'
 - ' M .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt'
 - ' M artifacts/reports/R08/TASK-R08-004-client.md'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/ui_visual_acceptance.csv'
-- ' M design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md'
-- ' M design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md'
-- ' M design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md'
+- ' M docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md'
-- ?? .continuity/change_requests/CR-0221.yaml
-- ?? .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0007.yaml
-- ?? docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md
+- ?? .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0008.yaml
 recent_commits:
+- "d40f0b091b4af3224b56663b8e8d19e8c64129a2\t2026-07-22T12:19:52+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): enrich R07 discovery\
+  \ visuals"
 - "1695b2e37eb2a0e876116e542d24e35e3dc19d92\t2026-07-22T12:13:15+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs: close Android remote verification\
   \ pattern"
 - "88271a35476ba6ae394717fc715d14f9707005b2\t2026-07-22T12:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close client evidence\
@@ -1969,13 +1954,11 @@ recent_commits:
   \ as completed"
 - "d7b5b84b1d73ddd78e43faa82e29b6d0370f992d\t2026-07-22T11:12:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(r08): close project backend\
   \ change requests"
-- "0f0257dc7694be5555a1f71dab2ea452d616840a\t2026-07-22T11:10:54+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record project backend\
-  \ module evidence"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`317219a5b417789d7d2dddf4576dc80e5853231671d8bfcdb840e252d1dd6818`
+- 指纹：`81cf6017055f3f9182f559191c7690ac1a23771bf0d863a591ca2dd5f95422fd`
 - 文件数：31
 
 - `CHANGELOG.md`
@@ -7416,69 +7399,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260722T012224Z-E70EA3B7
   session_ids:
   - SES-20260722T012224Z-E70EA3B7
-- protocol_version: '1.0'
-  cr_id: CR-0221
-  title: 按效果图级标准回补R07搜索与发布者页面视觉
-  status: IMPLEMENTING
-  created_at: '2026-07-22T04:16:14Z'
-  updated_at: '2026-07-22T04:16:42Z'
-  requester_actor_id: codex-root-r08-004
-  approver_actor_id: codex-reviewer-r08-visual
-  task_id: TASK-R08-004
-  session_id: SES-20260722T031604Z-105CF4C6
-  user_request: 全部既有与后续版本UI肉眼接近效果图丰富度和精致度，不虚构内容或功能，R02至R07历史页面作为R08候选前置回补
-  reason: R07候选截图证明功能和参数合规，但搜索首页、结果卡和发布者资料卡信息层级与B02/B03参考存在明显视觉差距，ui_visual_acceptance已标记BLOCKED_REDESIGN
-  original_rule: CR-0213已要求历史页面达到效果图级丰富度与精致度；R07三张非敏感候选截图已保留，但验收目录明确标记搜索首页、结果页和发布者主页为BLOCKED_REDESIGN。
-  new_rule: 不新增规则；按既有CR-0213和逐页冻结规格回补R07。搜索区改为完整组合卡，历史与热词使用紧凑标签层级；结果卡按B02内容卡语言形成类型、标题、摘要和真实发布者动作层级；发布者头和公开内容卡按B03/P05语言强化资料、标记、内容与联系区，但只使用现有服务端字段，不增加图片、指标、关注或营销功能。
-  impact_summary: 只调整R07 Android三个非敏感页面及既有精确视觉规格和验收说明；保留接口、状态机、真实导航、幂等和FLAG_SECURE安全面板行为，候选截图与最终AI视觉PASS留在R08最终候选阶段。
-  impact:
-    files:
-    - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
-    - design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
-    - design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
-    - design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
-    - catalogs/ui_visual_acceptance.csv
-    - artifacts/reports/R08/TASK-R08-004-client.md
-    - CHANGELOG.md
-    pages:
-    - SCR-SEARCH-001
-    - SCR-SEARCH-002
-    - SCR-PUBLISHER-001
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - :feature:discovery:test
-    - :app:compileDebugKotlin
-    - python scripts/check_android_ui_foundation.py
-    - python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
-    releases:
-    - R07
-    - R08
-    migration_and_compatibility: 纯Compose视觉回补；不改变路由、API、DTO、本地存储或历史数据。现有测试标签和候选旅程保持兼容。
-  user_confirmation: 项目所有者已明确要求R02至R07历史页面及后续版本全部达到效果图级丰富度和精致度，禁止虚构业务且持续开发不中断
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T04:16:39Z'
-    note: 批准在CR-0213唯一UI规则内回补三个R07非敏感页面；禁止添加服务端未返回的图片、统计、关注或营销能力，联系方式安全生命周期和测试标签不得回退。
-  machine_record: .continuity/change_requests/CR-0221.yaml
-  document: docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md
-  decision_log:
-  - at: '2026-07-22T04:16:42Z'
-    actor_id: codex-root-r08-004
-    status: IMPLEMENTING
-    note: 开始回补R07搜索、结果和发布者页面，复用B02/B03视觉语言并保留真实业务字段与安全边界。
-    session_id: SES-20260722T031604Z-105CF4C6
-  session_ids:
-  - SES-20260722T031604Z-105CF4C6
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `97d2351f5040bf645559f982803af2dc18ee98bda0f181d11a0478f223db9cc3`
+- `CURRENT_STATUS.yaml` — `890afbffd9110955fbf3ecd0bde54b127dad04a15e430045967e8aee324b3dc5`
 - `NEXT_TASK.yaml` — `2e00938e45f72209b0caf6f7a60a751fe16b37544b2b4cf214305784dd28e3df`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7489,12 +7416,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `2ca191cd29d42eaa3df7e7fd4016f1e9de589ec28d6b8ea058cc8ae8198c7ad4`
-- `.continuity/SESSION_INDEX.yaml` — `c90a246fa5cb63880043b6efd92d1e03f6e621659ddb1bfdb468d050314f360a`
+- `.continuity/EVENT_LOG.jsonl` — `c545cbe5dbc370ece16eb12484b607b03893e06f8d12fbf08677063615cc609f`
+- `.continuity/SESSION_INDEX.yaml` — `b4024891e557d6f5b42819d2e41b3902342f4b3d4ae4c44798b4ca6dcc07a7fd`
 - `.continuity/TASK_CLAIMS.yaml` — `a82f6f3f55debf7f581f6b1b6a7a4ecf8a25654143db7b14332c4d9fee1525b0`
 - `.continuity/TASK_TRANSITIONS.yaml` — `ca8fa62a143224f0a806ff902a4b354d778ae3306fce1a9698a8a9b8d576a945`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e14933db3fb624c11a338ac8bd19cef9fbb3db2b2f32d38880c168964e6f3e40`
-- `.continuity/ACTIVE_SESSION.yaml` — `5c8e5610cfcf6c33f8ec77f38b04e9ef503a7c1c1d08652d586af738dfaf1ac6`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `e05abec74168f3f8d4a44fc03613aa1a8b68cbf97d0f96f588edf3eb63c3babd`
+- `.continuity/ACTIVE_SESSION.yaml` — `d27d17b3013efff0c69946316dca239cbc97e8796cc67d84314494ecff0b2f39`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7505,13 +7432,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/TASKS.yaml` — `9991ed161addc3aee77ffefea64c6f65a0d08d5cf8dbf42e8f30e4fd339ccfff`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `1e47b204a5cbd289d9ccafc93b0f4afb45983db76a23a4492dd463ffeec0cb98`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md` — `2b21f008962d6086967d0207b0a9951f420c567dca400dc86283b454c53670a4`
-- `.continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0007.yaml` — `18262b254e4a6e8d83c528ec36efe3b671632af0fafbfe29bf680d9e521f3145`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md` — `c21221618e474deed68d4954f9147acf79a06f523d26b0e762b41c8d4b10969b`
+- `.continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0008.yaml` — `4287f0a6cf3ad85e1aef08275615d6dd566a4efac71f116684c1b29b5c82dba0`
 - `docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md` — `b586e55a30b64397129690ac74d76ac05cb66f264ca26174e5ea36b52420c485`
 - `docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md` — `4f3bf40523a53e78efca2cfcd3dac0bbd3924d18baf3085c951957c2cbf2ebdf`
 - `docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md` — `786606e3f9a5960ef76418e0986eb10c638ee61f96f09836008ff4992f5e4ad6`
 - `docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md` — `4a449a90b5b184ed70a5bb4306619879d5fc84f3050c614d9ee673a143ce75c4`
-- `docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md` — `2764f38ba5e92eae925f6dc077d001c439b01001e7e278fcf55f36c2212643f0`
+- `docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md` — `ee45f1f4d02964a5113c577fa7dffa786dc0fa438ae21986c2a9d78591ddab26`
 
 ## 接手硬规则
 
