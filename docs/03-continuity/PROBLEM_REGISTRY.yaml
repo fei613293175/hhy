@@ -1148,3 +1148,17 @@ problems:
   - 功能可用、Token合规和截图存在均不能替代肉眼视觉验收
   - BuildConfig构建后缀、P00、测试包、验收或Staging说明不得直接展示给最终用户
   - 安全页可增加基于现有输入和真实流程的解释层级，但不得虚构冻结期、倒计时、权益损失或服务端能力
+- id: PROB-0087
+  title: 普通CI复用Android质量门禁时遗漏OIDC权限
+  status: SOLVED
+  root_cause: android-quality-gate可复用工作流在工作流级和模拟器作业级都声明id-token:write，用于向Staging后端申请短期自动测试身份；android-candidate-request调用方已显式传递该权限，但普通ci.yml的android调用作业只授予contents:read与issues:write。GitHub按调用方权限上限执行，导致工作流在开始编译前确定性拒绝，和产品代码及模拟器稳定性无关。
+  resolution: CR-0238只给ci.yml现有android调用作业补充id-token:write，保留contents只读、issues写入、candidate=false和受影响MODULE选择；同时使用既有唯一自测入口刷新continuity.py来源哈希过期的生命周期与无对话重建报告。
+  regression_checks:
+  - ci.yml的android复用作业必须显式包含contents:read、issues:write和id-token:write
+  - ci.yml普通调用必须继续传递candidate:false，不得因权限修复升级为候选模拟器测试
+  - python scripts/run_continuity_self_test.py
+  - python scripts/check_v123_continuity.py --strict
+  do_not_repeat:
+  - GitHub可复用工作流的权限不能只看被调用文件声明，调用方必须授予所需权限且不得超过最小范围
+  - OIDC权限合同失败发生在作业调度阶段，不得误判为Gradle、模拟器或产品代码失败
+  - 普通CI权限修复不得改变大版本候选频率或绕过受影响MODULE选择

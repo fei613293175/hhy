@@ -11,7 +11,7 @@ task_id: TASK-R08-008
 story_id: STORY-R08-004
 goal: 完成R08机器关闭与无状态交接；真实解决历史Android新肉眼视觉复核门禁，Owner真机反馈保持异步不阻断。
 started_at: '2026-07-22T09:36:45Z'
-updated_at: '2026-07-22T12:14:07Z'
+updated_at: '2026-07-22T12:25:30Z'
 takeover_of: null
 change_requests:
 - CR-0233
@@ -19,6 +19,7 @@ change_requests:
 - CR-0235
 - CR-0236
 - CR-0237
+- CR-0238
 scope:
   allowed_paths:
   - apps/**
@@ -68,7 +69,12 @@ scope:
   - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
   - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
   - tests/test_historical_android_visual_contract.py
-  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237
+  - .github/workflows/ci.yml
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -78,22 +84,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T12:14:00Z'
-  expires_at: '2026-07-22T16:14:00Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0011.yaml
+  renewed_at: '2026-07-22T12:25:25Z'
+  expires_at: '2026-07-22T16:25:25Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0013.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-next_step: 提交推送编译修正并处理普通CI权限与连续性报告。
+next_step: 提交并推送CR-0238；只观察一次普通CI确定性结果，不触发模拟器，随后关闭CR并继续R08。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 3b5c12a840602affdb1fa80847933744a59a58da590ccb1e0edb47c2ffd9bdd4
-  generated_at: '2026-07-22T12:14:04Z'
+  context_hash: 099e1081570f07cefaaea5cc0d011f0d8d761b5d54a633af03ea878c4a3a4407
+  generated_at: '2026-07-22T12:25:29Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一提交硬门禁收口，且用户未要求子代理。
+  reason: 提交、推送与一次普通CI结果是顺序门禁，且用户未要求子代理。
