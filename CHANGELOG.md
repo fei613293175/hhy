@@ -977,3 +977,8 @@
 - Actor：`codex-root-r08-006`
 - 摘要：R08七项项目Gauge、Trace脱敏、RED、两项告警firing/resolved、Outbox合法终结和同库同卷应用回切全部通过，AC-R08-004已签PASS。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T060947Z-B45C6BC0.md`
+
+## TASK-R08-007 · IN PROGRESS · 2026-07-22
+
+- R08最终候选真实旅程已切换到项目列表、项目详情和项目编辑页。
+- 编辑页候选断言仅校验首屏可见业务字段；媒体空态仍由页面实现和静态门禁覆盖，不再因正常滚动布局产生模拟器误判。

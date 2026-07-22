@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T07:07:22Z
-- Context Hash：`c326dba507cb28f751490911387761f94dc8af5b7ddf795cd004825d0c7519af`
+- 生成时间：2026-07-22T07:28:52Z
+- Context Hash：`6b2a485f603b30906996c167a4ca82e139d201fbab97a0f33779bb898dd7c6ce`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -132,7 +132,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-007
-updated_at: '2026-07-22T07:07:18Z'
+updated_at: '2026-07-22T07:28:50Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -167,15 +167,15 @@ continuity:
   active_session_id: SES-20260722T064621Z-68304DE1
   actor_id: codex-root-r08-007
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T11:07:18Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0004.yaml
-  project_fingerprint: f869082aa103ef7a4f47d079c6063e7948366d1409172047ce0e5d36274044bf
+  lease_expires_at: '2026-07-22T11:28:50Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0005.yaml
+  project_fingerprint: edae7c4790fe2864462bb52e5904a0d15463e66d92885ac6683517d99bde1976
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d22c81945859d8606e592426ff666477b31ba4d883f69459c45c0d0663d7cf49
-    generated_at: '2026-07-22T06:54:11Z'
+    context_hash: 8a061b2c88a98a74c203ed4edfa6bbd1bc2809d6e7352e7e39f1513533cea4c0
+    generated_at: '2026-07-22T07:26:43Z'
   handoff_bundle: null
 ```
 
@@ -373,7 +373,7 @@ task_id: TASK-R08-007
 story_id: STORY-R08-004
 goal: 项目推广完整闭环Android测试APK与产物追溯
 started_at: '2026-07-22T06:46:21Z'
-updated_at: '2026-07-22T07:07:18Z'
+updated_at: '2026-07-22T07:28:50Z'
 takeover_of: null
 change_requests:
 - CR-0227
@@ -446,95 +446,64 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T07:07:18Z'
-  expires_at: '2026-07-22T11:07:18Z'
-checkpoint_sequence: 4
-latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0004.yaml
+  renewed_at: '2026-07-22T07:28:50Z'
+  expires_at: '2026-07-22T11:28:50Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-next_step: 在云端精确工作树运行Android startup/project/app受影响MODULE与instrumentation编译，并在PostgreSQL 17验证R08夹具双次幂等。
+next_step: 提交并推送断言修正，验证R08候选后端健康与固定数据双次幂等。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前运行策略未授权子代理；候选前置变更由主控串行验证。
+  reason: 当前仅有同一候选链路的顺序依赖工作，不适合并行委托。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0004
+checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0005
 session_id: SES-20260722T064621Z-68304DE1
-sequence: 4
-created_at: '2026-07-22T07:07:18Z'
-summary: R08候选三页旅程、V034夹具、视觉清单、10216版本身份与PROB-0080 Token派生修复已完成；Python和全量UI前置门禁通过。
-next_step: 在云端精确工作树运行Android startup/project/app受影响MODULE与instrumentation编译，并在PostgreSQL 17验证R08夹具双次幂等。
+sequence: 5
+created_at: '2026-07-22T07:28:49Z'
+summary: 移除R08编辑页首屏不可见媒体文案断言，避免模拟器把正常滚动布局误判为失败；同步R08视觉清单与变更记录。
+next_step: 提交并推送断言修正，验证R08候选后端健康与固定数据双次幂等。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: r08-candidate-python
+- name: android-candidate-unit
   result: PASS
-  evidence: 31 unit tests
-  note: fixture candidate token regression
-- name: ui-token
-  result: PASS
-  evidence: scripts/check_ui_tokens.py
-  note: 52 components aligned
-- name: android-ui-foundation
-  result: PASS
-  evidence: scripts/check_android_ui_foundation.py
-  note: static foundation
+  evidence: 31项unittest通过
+  note: 覆盖候选门禁、请求、Token和R08夹具
 - name: r08-visual-catalog
   result: PASS
-  evidence: catalog-only pages=3
-  note: exact page bindings
-- name: android-ci-policy
-  result: PASS
-  evidence: policy and request validator
-  note: candidate request remains R07 until source preflight
+  evidence: UI_VISUAL_CATALOG_OK R08 pages=3
+  note: 三页候选目录一致
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: db1da9c6009989e49d626c7e36bde3828a17881c
+  head: cceb524ccbe08d1b3b9c7512e236f6c6b579d3cf
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml'
+  - M  .continuity/STATE.yaml
+  - M  .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml
   - ' M CHANGELOG.md'
-  - ' M apps/android/app/build.gradle.kts'
-  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
-  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
-  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
-  - ' M apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt'
-  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
-  - ' M apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt'
-  - ' M apps/h5/src/styles.css'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
-  - ' M packages/design-tokens/admin.css'
-  - ' M packages/design-tokens/h5.css'
-  - ' M scripts/check_ui_tokens.py'
-  - ' M tests/test_android_ci_gate.py'
-  - ' M tests/test_ui_tokens.py'
-  - ?? .continuity/change_requests/CR-0228.yaml
-  - ?? .continuity/change_requests/CR-0229.yaml
-  - ?? docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md
-  - ?? docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
-  - ?? scripts/prepare_r08_ci_fixture.sh
-  - ?? tests/android/visual-manifests/R08.yaml
-  - ?? tests/test_r08_ci_fixture.py
+  - M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  tests/android/visual-manifests/R08.yaml
   recent_commits:
+  - "cceb524ccbe08d1b3b9c7512e236f6c6b579d3cf\t2026-07-22T15:07:37+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): prepare R08\
+    \ final candidate journey"
   - "db1da9c6009989e49d626c7e36bde3828a17881c\t2026-07-22T14:54:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close CR-0227"
   - "14468bec933e1bc6ab35eac4616da6ae2c4baa62\t2026-07-22T14:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(continuity): keep no-session\
     \ resume read-only"
@@ -547,10 +516,8 @@ git:
     \ project staging gate"
   - "9c374195614f0de473e997b3af7aa16070235c1a\t2026-07-22T14:07:20+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-005\
     \ as completed"
-  - "9f524eabfaa8dc09c8b8c9959288d31b75432d2d\t2026-07-22T14:05:25+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close specialized\
-    \ test CR"
 project_fingerprint:
-  sha256: f869082aa103ef7a4f47d079c6063e7948366d1409172047ce0e5d36274044bf
+  sha256: edae7c4790fe2864462bb52e5904a0d15463e66d92885ac6683517d99bde1976
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -582,16 +549,16 @@ project_fingerprint:
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 82675
-      sha256: 8e538aff5bf8fdbef1099ad7bef8fef591833c9078aa0301284f50c3f3886aa6
+      size: 82977
+      sha256: 7ac261284b2cb580897f6966cb087b92e38d7eb295ce46a03e0a3d70e65dfe7f
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 5079
       sha256: 8789987453a39c6926bf2b89591a2c14b1ad57c78367a47b10477a211f979400
     - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
       state: FILE
-      size: 10525
-      sha256: 6c15516b53dafa2e46a5f2428b05b26cce5151e8ec2df8ed0dc08f0b9f4f8a84
+      size: 10398
+      sha256: a01d01a0eceb186e65fb0e4dca6012f5ed1b3a46b26e1ce441749a221606a675
     - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
       state: FILE
       size: 520
@@ -658,8 +625,8 @@ project_fingerprint:
       sha256: 6ad2301af2619a264a8648797619fee58b46e76180a24752a6f24be6a5852ce7
     - path: tests/android/visual-manifests/R08.yaml
       state: FILE
-      size: 1271
-      sha256: d1051ee0a548424d9ee4183efcb53cd28c20a50e5381f8d6fb6fd88a0d7d2613
+      size: 1245
+      sha256: 6a569d8028da84d6872198864ca5c85e2bb05c57c8c705f820c6cbd25bd6ead6
     - path: tests/test_android_ci_gate.py
       state: FILE
       size: 24803
@@ -784,11 +751,11 @@ scope:
   - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
   source: story+explicit+approved-cr:CR-0227+approved-cr:CR-0228+approved-cr:CR-0229
 parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前运行策略未授权子代理；候选前置变更由主控串行验证。
-event_hash: aa8186d26bcffda19bd75bde6b2ccd22ed01bab4396dcfcaab874a2502c98be6
+  reason: 当前仅有同一候选链路的顺序依赖工作，不适合并行委托。
+event_hash: 78acab68ec7b1801aa14ffb207e6f65f152312a6abe5dac95bb01191b02bb35e
 ```
 
 ## 接续状态与事件头
@@ -800,8 +767,8 @@ active_session_id: SES-20260722T064621Z-68304DE1
 last_session_id: SES-20260722T060947Z-B45C6BC0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T060947Z-B45C6BC0-0005
-event_count: 2275
-event_head_hash: aa8186d26bcffda19bd75bde6b2ccd22ed01bab4396dcfcaab874a2502c98be6
+event_count: 2276
+event_head_hash: 78acab68ec7b1801aa14ffb207e6f65f152312a6abe5dac95bb01191b02bb35e
 event_chain_valid: true
 ```
 
@@ -924,9 +891,9 @@ recent_sessions: - session_id: SES-20260721T201747Z-CD80A1EE
   started_at: '2026-07-22T06:46:21Z'
   record: .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-  updated_at: '2026-07-22T07:07:18Z'
+  updated_at: '2026-07-22T07:28:50Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0004.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0005.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-26FF72418AF4
   session_id: SES-20260721T012656Z-E067730A
@@ -1898,47 +1865,30 @@ recent_task_transitions: - transition_id: TRN-793C15D200BF
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: db1da9c6009989e49d626c7e36bde3828a17881c
+head: cceb524ccbe08d1b3b9c7512e236f6c6b579d3cf
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml'
+- MM .continuity/STATE.yaml
+- MM .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/android/app/build.gradle.kts'
-- ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
-- ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
-- ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
-- ' M apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt'
-- ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
-- ' M apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt'
-- ' M apps/h5/src/styles.css'
-- ' M catalogs/change_request_index.csv'
+- M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md'
-- ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
-- ' M packages/design-tokens/admin.css'
-- ' M packages/design-tokens/h5.css'
-- ' M scripts/check_ui_tokens.py'
-- ' M tests/test_android_ci_gate.py'
-- ' M tests/test_ui_tokens.py'
-- ?? .continuity/change_requests/CR-0228.yaml
-- ?? .continuity/change_requests/CR-0229.yaml
-- ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0004.yaml
-- ?? docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md
-- ?? docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
-- ?? scripts/prepare_r08_ci_fixture.sh
-- ?? tests/android/visual-manifests/R08.yaml
-- ?? tests/test_r08_ci_fixture.py
+- M  tests/android/visual-manifests/R08.yaml
+- ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0005.yaml
 recent_commits:
+- "cceb524ccbe08d1b3b9c7512e236f6c6b579d3cf\t2026-07-22T15:07:37+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): prepare R08 final\
+  \ candidate journey"
 - "db1da9c6009989e49d626c7e36bde3828a17881c\t2026-07-22T14:54:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close CR-0227"
 - "14468bec933e1bc6ab35eac4616da6ae2c4baa62\t2026-07-22T14:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(continuity): keep no-session\
   \ resume read-only"
@@ -1951,13 +1901,11 @@ recent_commits:
   \ project staging gate"
 - "9c374195614f0de473e997b3af7aa16070235c1a\t2026-07-22T14:07:20+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-005\
   \ as completed"
-- "9f524eabfaa8dc09c8b8c9959288d31b75432d2d\t2026-07-22T14:05:25+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close specialized\
-  \ test CR"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`f869082aa103ef7a4f47d079c6063e7948366d1409172047ce0e5d36274044bf`
+- 指纹：`edae7c4790fe2864462bb52e5904a0d15463e66d92885ac6683517d99bde1976`
 - 文件数：24
 
 - `CHANGELOG.md`
@@ -7605,7 +7553,7 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `c530d1043bbf2f419a32c7ddb446f359c4d98144fc1c022c15cfeb2613919051`
+- `CURRENT_STATUS.yaml` — `87e894baef8709c3f17811ce9b3ab9efd9c69a06b3302b487799262b4a546944`
 - `NEXT_TASK.yaml` — `f3ec661f9145959a7e41a1f6c0f8db741b578a6448235e7c74e5f996cc2c6ce6`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7616,12 +7564,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `5587f5d27c5c6320eb49859b819bdb7b21a8d5310e21ffa2bc919b9dcea2c66b`
-- `.continuity/SESSION_INDEX.yaml` — `aa62fd424e477cb2a648279751b1f9895ec1c65b209f912115c514c105b7cff3`
+- `.continuity/EVENT_LOG.jsonl` — `1caaba792c6f0dddd406a0635f672f17d581c1385ed3a3c2ff5d572af8b2febb`
+- `.continuity/SESSION_INDEX.yaml` — `1123bcbd23c0e721ec6f530958cade32e445f216ed633b02fcdd5b3f9d4dfc62`
 - `.continuity/TASK_CLAIMS.yaml` — `a4591ec89d6ae40f29f6e700d89ac651de53e1e8779ffdd84540ec00243fca42`
 - `.continuity/TASK_TRANSITIONS.yaml` — `18b79fca8d7f53574e1ed46bb8f9ef6bc9323f1c3d00d011f358e0c07594ff9f`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `1f3e82ec19cfd13fa2c553bbd8c7bcd96f42ddfcb8d635d0c8a0cd16e2e2e3a8`
-- `.continuity/ACTIVE_SESSION.yaml` — `d209304ec97270e0dc5ea378b8b04d6f324dd30a38503f36a877ab3c38d43a32`
+- `.continuity/ACTIVE_SESSION.yaml` — `98f10ee8731e5273ab977c74d188b533b526307e15b9055a2b03d3cac961a98d`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7632,8 +7580,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/TASKS.yaml` — `d1dbb1bc2ffa320a87721f8d462aee03160a33f26a00b964974f6c9592d41e71`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `7805259b6a663aa6b348a95b49e477ffb2e783de4e2f8a8dc6ab09162626e6ea`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md` — `ad59132394994be1097eda3151a47f779ca937bdcecfbc358ac03f2717ce4047`
-- `.continuity/checkpoints/SES-20260722T064621Z-68304DE1/0004.yaml` — `31d215b294b3b31300692899606b23ca28513fae06c9facf22ba3107a36011f3`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md` — `f2904763c289e1eec405fecaf0ddf0e04d28f5d396ecf8f62143298f7f56def7`
+- `.continuity/checkpoints/SES-20260722T064621Z-68304DE1/0005.yaml` — `108eb401a71cad8850fae372ea7378d08e66dcfc90172a15fea54fdb0bfeedbf`
 - `docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md` — `c5ef9a8ba6a85c81a5dd622bc7e661c8589ea3364781522563005e93ad88c52c`
 - `docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md` — `5af65261edf423faaf531557e1f5546620bbb1fa6ae8920d7e32907089f34b9f`
 - `docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md` — `80e2157811386b7fa5da3830fdba1081e5bb45379994f7a5dcc82902e0efd33e`
