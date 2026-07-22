@@ -1014,3 +1014,16 @@ problems:
   - 不得仅凭任务名或BLOCKED状态放行，必须核验完整Manifest机器完成与生产阻断事实
   - 历史Release只能豁免最后一个外部门禁任务，其他未完成任务仍是硬阻断
   - 继续开发不等于正式验收或生产激活通过，不得改写owner_physical_test
+- id: PROB-0077
+  title: Context来源规范化哈希被原始CRLF字节误判为过期
+  status: SOLVED
+  root_cause: Context Pack生成器使用portable_source_record把文本换行统一为LF后记录来源SHA和字节数，但V1.2.3严格校验器直接计算工作树原始字节SHA；Windows检出的CRLF文件与Linux的LF文件即使Git语义和规范化内容完全相同，也会被误报CONTEXT_SOURCE_STALE。R08的ACCEPTANCE_MATRIX.csv稳定复现该假失败。
+  resolution: CR-0208让严格校验器复用同一个portable_source_record，并同时比较规范化SHA与字节数；新增LF生成记录、CRLF复核通过以及真实内容变化仍失败的正反向回归。Manifest格式和真实篡改阻断保持不变。
+  regression_checks:
+  - python -m unittest tests.test_context_pack_parallel_policy
+  - python scripts/check_v123_continuity.py --strict
+  - R08 ACCEPTANCE_MATRIX.csv在Windows CRLF工作树中必须与Context Pack规范化来源记录匹配
+  do_not_repeat:
+  - 同一份跨平台清单的生成端与校验端不得分别使用规范化文本哈希和原始字节哈希
+  - 不得通过强制改写业务CSV换行来掩盖校验算法不一致
+  - 兼容LF与CRLF不等于忽略内容变化，必须同时核对规范化SHA和字节数并保留负向回归

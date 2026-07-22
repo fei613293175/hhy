@@ -11,9 +11,12 @@ task_id: TASK-R08-001
 story_id: STORY-R08-004
 goal: 项目推广完整闭环开发就绪核验、故事领取与变更基线
 started_at: '2026-07-22T00:24:44Z'
-updated_at: '2026-07-22T00:25:40Z'
+updated_at: '2026-07-22T00:41:05Z'
 takeover_of: null
-change_requests: []
+change_requests:
+- CR-0206
+- CR-0207
+- CR-0208
 scope:
   allowed_paths:
   - apps/**
@@ -47,8 +50,17 @@ scope:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
-  approved_exceptions: []
-  source: story+explicit
+  approved_exceptions:
+  - releases/R08/RELEASE_MANIFEST.yaml
+  - docs/03-continuity/R08_TASK-001_ENTRY_GATE.md
+  - releases/R08/PARALLEL_EXECUTION_PLAN.yaml
+  - scripts/check_v123_continuity.py
+  - tests/test_context_pack_parallel_policy.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - CHANGELOG.md
+  - artifacts/validation/project-doctor-v1.2.3.json
+  source: story+explicit+approved-cr:CR-0206+approved-cr:CR-0207+approved-cr:CR-0208
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -58,22 +70,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T00:25:36Z'
-  expires_at: '2026-07-22T04:25:36Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0001.yaml
+  renewed_at: '2026-07-22T00:41:01Z'
+  expires_at: '2026-07-22T04:41:01Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md
-next_step: 提交R08会话领取元数据，重跑传输与云环境预检并建立TASK-R08-001变更基线
+next_step: 提交并推送CR-0206至CR-0208实现，关闭CR后完成TASK-R08-001
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: b4f48a44c2cf66808c3bf51d9240aaf0a0d93b8c32fefc3e773b3b431ef6e8a1
-  generated_at: '2026-07-22T00:25:39Z'
+  context_hash: 74a0b3541aa5b4210afc535b747ddac1983612af45499a27a0213a608692d003
+  generated_at: '2026-07-22T00:41:04Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: Release起点、会话领取和首个CR基线共用单一连续性状态链
+  reason: R08入口Manifest、CR状态和Context Pack必须由单一连续性状态链串行生成

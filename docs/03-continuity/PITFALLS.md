@@ -21,3 +21,4 @@
 19. Windows 上脚本能回退到 Codex 捆绑 Git，不代表裸 `git` 或第三方子进程已经具备 PATH。首次接手必须运行 `scripts/configure_windows_git_runtime.ps1` 并用 `-Check` 回读，持久化用户级 `HHY_GIT_BIN` 与 Git `cmd`；旧长驻进程未刷新时使用显式变量继续并择机重启一次，禁止每轮开发重复定位、临时拼 PATH、误报仓库损坏或重建仓库。
 20. 新大版本首次候选没有已批准视觉基线时，禁止让同一套完整编译与模拟器因为“基线不存在”确定性失败后再原样跑第二次。唯一允许流程是：一次权威模拟器采集必须先通过仪器、JUnit、日志、页面身份、像素稳定、截图唯一性和跨页差异，仅保留 `BASELINE_REVIEW_REQUIRED`；AI逐图批准原始截图与 SHA-256 后，由轻量 Actions 下载同一 Run 的 APK、报告和截图完成哈希绑定与晋升，晋升阶段禁止重新编译、重新打包或启动模拟器。已有基线的后续候选仍必须在模拟器运行中直接完成像素比较。
 21. 异步真机反馈可能跨越多个大版本，跨Release依赖不能只看历史 `TASKS.yaml` 是否全为 `DONE`。只有当历史Release Manifest同时证明机器交付PASS、Owner真机PENDING、正式验收与生产激活仍阻断、后续开发ALLOWED时，才可把其最后一个 `BLOCKED` 外部门禁任务视为开发依赖GREEN；任何更早未完成任务、缺失Manifest事实或生产已放行的异常组合仍必须阻断。该豁免只允许继续开发，不得改写历史真机状态。
+22. Context Pack等跨电脑清单的来源哈希必须由生成端和校验端共同使用 `portable_source_record` 的规范化换行语义；不得一端记录LF规范化SHA、另一端比较Windows CRLF原始字节SHA。修复时必须保留真实内容变化负向阻断，禁止靠批量改写CSV换行掩盖算法不一致。

@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from continuity_lib import portable_source_record, tree_fingerprint
+from check_v123_continuity import context_source_matches
 
 
 class ContextPackParallelPolicyTest(unittest.TestCase):
@@ -95,6 +96,18 @@ class ContextPackParallelPolicyTest(unittest.TestCase):
             source.write_bytes(b"id,status\r\nR06,READY\r\n")
             crlf_record = portable_source_record(root, source)
         self.assertEqual(lf_record, crlf_record)
+
+    def test_strict_context_source_match_uses_portable_line_endings(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "releases/R08/ACCEPTANCE_MATRIX.csv"
+            source.parent.mkdir(parents=True)
+            source.write_bytes(b"id,status\nR08,READY\n")
+            expected = portable_source_record(root, source)
+            source.write_bytes(b"id,status\r\nR08,READY\r\n")
+            self.assertTrue(context_source_matches(root, source, expected))
+            source.write_bytes(b"id,status\r\nR08,BLOCKED\r\n")
+            self.assertFalse(context_source_matches(root, source, expected))
 
     def test_context_carries_runtime_and_transport_policy(self) -> None:
         context = yaml.safe_load((ROOT / "artifacts/context/CURRENT_CONTEXT_PACK.yaml").read_text(encoding="utf-8"))

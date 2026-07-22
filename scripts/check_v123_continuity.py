@@ -15,6 +15,8 @@ from typing import Any
 
 import yaml
 
+from continuity_lib import portable_source_record
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -50,6 +52,15 @@ def sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def context_source_matches(root: Path, path: Path, expected: dict[str, Any]) -> bool:
+    """Compare a Context source using the same portable EOL semantics as its producer."""
+    actual = portable_source_record(root, path)
+    expected_bytes = expected.get("bytes")
+    return actual["sha256"] == expected.get("sha256") and (
+        expected_bytes is None or actual["bytes"] == expected_bytes
+    )
 
 
 def run_gate(command: list[str], report_path: str) -> tuple[int, dict[str, Any], str]:
@@ -405,7 +416,7 @@ def main() -> int:
         path = ROOT / source.get("path", "")
         require(path.is_file(), "CONTEXT_SOURCE_MISSING", source.get("path", ""))
         if path.is_file():
-            require(sha256(path) == source.get("sha256"), "CONTEXT_SOURCE_STALE", source.get("path", ""))
+            require(context_source_matches(ROOT, path, source), "CONTEXT_SOURCE_STALE", source.get("path", ""))
     context_sources = {row.get("path") for row in context_manifest.get("sources", [])}
     require("releases/PROGRAM_EXECUTION_PLAN.yaml" in context_sources, "CONTEXT_PROGRAM_PLAN", "Context Pack来源必须包含总执行计划")
     require("config/REPOSITORY_TRANSPORT.yaml" in context_sources, "CONTEXT_TRANSPORT_SOURCE", "Context Pack来源必须包含Git transport descriptor")

@@ -1,0 +1,55 @@
+protocol_version: '1.0'
+cr_id: CR-0207
+title: 补齐R08执行分区计划与九端点范围说明
+status: IMPLEMENTING
+created_at: '2026-07-22T00:29:19Z'
+updated_at: '2026-07-22T00:33:00Z'
+requester_actor_id: codex-root-r08-001
+approver_actor_id: codex-reviewer-r08-scope
+task_id: TASK-R08-001
+session_id: SES-20260722T002444Z-8BEC3CA6
+user_request: 持续推进R08且后续换电脑换AI可从仓库无缝接续，不依赖聊天
+reason: R08尚无执行分区计划；需要明确九个工程端点、八个Android故事直接引用与公共分享接口的范围关系，并固化互斥路径和最终候选策略
+original_rule: R08尚无PARALLEL_EXECUTION_PLAN，Context Pack无法携带当前Release路径边界；工程任务的九端点与Android故事八个直接operationId引用关系尚未在执行计划解释。
+new_rule: 新增R08单一权威Session下的后端数据、Android项目页和质量证据互斥分区；工程范围九端点中八个由三项Android故事直接引用，GET /public-api/v1/share/contents/{id}作为REQ-PROJECT-001公共分享后端端点纳入服务验证但不新增R08
+  Android页面。
+impact_summary: 补齐R08跨电脑跨AI执行边界、端点计数解释和最终候选策略，不改变冻结产品合同、页面、数据库或运行语义。
+impact:
+  files:
+  - releases/R08/PARALLEL_EXECUTION_PLAN.yaml
+  pages: []
+  apis:
+  - contentGetContents
+  - contentGetContentsById
+  - contentPostContentsByIdContactsByChannelAccess
+  - chatPostConversationsDirect
+  - contentPostContentsByIdFavorite
+  - contentPostContentsByIdShare
+  - contentPostContents
+  - contentPatchContentsById
+  - publicGetShareContentsById
+  database: []
+  configuration:
+  - R08最终候选阶段完整门禁与模拟器、普通任务受影响MODULE验证
+  ledger: []
+  tests:
+  - python -m unittest tests.test_context_pack_parallel_policy
+  - python scripts/check_v123_continuity.py --strict
+  releases:
+  - R08
+  migration_and_compatibility: 无数据迁移；任务依赖保持串行事实链，执行分区只描述路径边界，所有连续性、契约、Flyway编号、APK身份和提交推送由主控串行拥有。
+user_confirmation: 项目所有者要求跨电脑换AI可复用并持续开发；当前范围按仓库冻结事实执行。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T00:31:58Z'
+  note: 计划只补充执行边界和端点计数解释；公共分享GET保持x-release R28，不新增R08页面或提前改产品合同。
+machine_record: .continuity/change_requests/CR-0207.yaml
+document: docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md
+decision_log:
+- at: '2026-07-22T00:33:00Z'
+  actor_id: codex-root-r08-001
+  status: IMPLEMENTING
+  note: 开始写入R08执行分区、九端点范围解释和最终候选策略
+  session_id: SES-20260722T002444Z-8BEC3CA6
+session_ids:
+- SES-20260722T002444Z-8BEC3CA6

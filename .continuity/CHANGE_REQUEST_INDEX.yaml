@@ -12374,3 +12374,155 @@ change_requests:
   - SES-20260721T235847Z-F9109B61
   implementation_commits:
   - c91de253230a3e9d35369be73df711cccad39a81
+- protocol_version: '1.0'
+  cr_id: CR-0206
+  title: 登记R08实施入口与历史异步Owner门禁边界
+  status: IMPLEMENTING
+  created_at: '2026-07-22T00:29:16Z'
+  updated_at: '2026-07-22T00:32:57Z'
+  requester_actor_id: codex-root-r08-001
+  approver_actor_id: codex-reviewer-r08-entry
+  task_id: TASK-R08-001
+  session_id: SES-20260722T002444Z-8BEC3CA6
+  user_request: 按仓库R02至R32计划持续开发；历史版本真机反馈为异步输入，不得阻断R08推进；每版候选APK与交付文档放桌面
+  reason: R08 Release Manifest需要登记当前Session、R05至R07机器完成与异步owner门禁边界、四个故事就绪事实及最终候选交付规则
+  original_rule: R08仅为READY_WHEN_DEPENDENCIES_GREEN，尚未登记R05至R07机器完成但owner真机异步PENDING的合法依赖状态、当前实施Session和逐版候选交付规则。
+  new_rule: 登记R08实施入口：R05至R07机器开发和交付事实可追溯，R06与R07最后关闭任务仅因owner异步真机PENDING挂起且不阻断R08；R08四个故事按TASK-R08-001至008顺序实施，完整门禁和模拟器仅在最终候选阶段执行，候选APK与交付文档放桌面。
+  impact_summary: 只更新R08治理基线和就绪核验记录，不改变冻结页面、接口、数据库、配置或业务语义。
+  impact:
+    files:
+    - releases/R08/RELEASE_MANIFEST.yaml
+    - docs/03-continuity/R08_TASK-001_ENTRY_GATE.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - python scripts/check_v122_documentation.py --release R08
+    - python scripts/check_release_artifacts.py --release R08
+    - python scripts/check_api_contract.py
+    - python scripts/check_program_execution_plan.py
+    releases:
+    - R08
+    migration_and_compatibility: 无数据迁移；保留历史Release正式验收和生产激活阻断，R08开发独立推进并继续执行自身最终候选与owner异步真机验收。
+  user_confirmation: 项目所有者明确要求持续推进、真机反馈异步、不得因此停止，候选APK和文档放桌面。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T00:31:55Z'
+    note: R08入口只登记已验证历史机器事实、owner异步边界和既定逐版候选策略，不修改产品冻结契约。
+  machine_record: .continuity/change_requests/CR-0206.yaml
+  document: docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md
+  decision_log:
+  - at: '2026-07-22T00:32:57Z'
+    actor_id: codex-root-r08-001
+    status: IMPLEMENTING
+    note: 开始写入R08入口Manifest与开发就绪核验记录
+    session_id: SES-20260722T002444Z-8BEC3CA6
+  session_ids:
+  - SES-20260722T002444Z-8BEC3CA6
+- protocol_version: '1.0'
+  cr_id: CR-0207
+  title: 补齐R08执行分区计划与九端点范围说明
+  status: IMPLEMENTING
+  created_at: '2026-07-22T00:29:19Z'
+  updated_at: '2026-07-22T00:33:00Z'
+  requester_actor_id: codex-root-r08-001
+  approver_actor_id: codex-reviewer-r08-scope
+  task_id: TASK-R08-001
+  session_id: SES-20260722T002444Z-8BEC3CA6
+  user_request: 持续推进R08且后续换电脑换AI可从仓库无缝接续，不依赖聊天
+  reason: R08尚无执行分区计划；需要明确九个工程端点、八个Android故事直接引用与公共分享接口的范围关系，并固化互斥路径和最终候选策略
+  original_rule: R08尚无PARALLEL_EXECUTION_PLAN，Context Pack无法携带当前Release路径边界；工程任务的九端点与Android故事八个直接operationId引用关系尚未在执行计划解释。
+  new_rule: 新增R08单一权威Session下的后端数据、Android项目页和质量证据互斥分区；工程范围九端点中八个由三项Android故事直接引用，GET /public-api/v1/share/contents/{id}作为REQ-PROJECT-001公共分享后端端点纳入服务验证但不新增R08
+    Android页面。
+  impact_summary: 补齐R08跨电脑跨AI执行边界、端点计数解释和最终候选策略，不改变冻结产品合同、页面、数据库或运行语义。
+  impact:
+    files:
+    - releases/R08/PARALLEL_EXECUTION_PLAN.yaml
+    pages: []
+    apis:
+    - contentGetContents
+    - contentGetContentsById
+    - contentPostContentsByIdContactsByChannelAccess
+    - chatPostConversationsDirect
+    - contentPostContentsByIdFavorite
+    - contentPostContentsByIdShare
+    - contentPostContents
+    - contentPatchContentsById
+    - publicGetShareContentsById
+    database: []
+    configuration:
+    - R08最终候选阶段完整门禁与模拟器、普通任务受影响MODULE验证
+    ledger: []
+    tests:
+    - python -m unittest tests.test_context_pack_parallel_policy
+    - python scripts/check_v123_continuity.py --strict
+    releases:
+    - R08
+    migration_and_compatibility: 无数据迁移；任务依赖保持串行事实链，执行分区只描述路径边界，所有连续性、契约、Flyway编号、APK身份和提交推送由主控串行拥有。
+  user_confirmation: 项目所有者要求跨电脑换AI可复用并持续开发；当前范围按仓库冻结事实执行。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T00:31:58Z'
+    note: 计划只补充执行边界和端点计数解释；公共分享GET保持x-release R28，不新增R08页面或提前改产品合同。
+  machine_record: .continuity/change_requests/CR-0207.yaml
+  document: docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md
+  decision_log:
+  - at: '2026-07-22T00:33:00Z'
+    actor_id: codex-root-r08-001
+    status: IMPLEMENTING
+    note: 开始写入R08执行分区、九端点范围解释和最终候选策略
+    session_id: SES-20260722T002444Z-8BEC3CA6
+  session_ids:
+  - SES-20260722T002444Z-8BEC3CA6
+- protocol_version: '1.0'
+  cr_id: CR-0208
+  title: 统一Context来源哈希的跨平台换行语义
+  status: IMPLEMENTING
+  created_at: '2026-07-22T00:38:16Z'
+  updated_at: '2026-07-22T00:38:50Z'
+  requester_actor_id: codex-root-r08-001
+  approver_actor_id: codex-reviewer-portable-hash
+  task_id: TASK-R08-001
+  session_id: SES-20260722T002444Z-8BEC3CA6
+  user_request: 彻底解决可重复环境问题并写入踩坑和经验复用记录，确保换电脑换AI无缝接续
+  reason: R08严格连续性校验在Windows把Context Pack规范化LF来源哈希与CRLF原始字节哈希比较，导致内容相同的ACCEPTANCE_MATRIX被误报CONTEXT_SOURCE_STALE
+  original_rule: Context Pack生成器用portable_source_record规范化文本换行后记录来源SHA，但check_v123_continuity.py用原始文件字节sha256复核，Windows CRLF与Linux LF会对同一Git内容产生不同结果。
+  new_rule: 严格连续性校验必须使用与Context Pack生成器相同的portable_source_record复核每个来源的规范化SHA和字节数；LF与CRLF工作树必须得到一致结论，真实内容变化仍必须阻断。
+  impact_summary: 修复跨Windows/Linux Context来源哈希假过期，增加LF/CRLF正向兼容和真实内容变化负向回归，并登记Problem与全局踩坑规则。
+  impact:
+    files:
+    - scripts/check_v123_continuity.py
+    - tests/test_context_pack_parallel_policy.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - CHANGELOG.md
+    - artifacts/validation/project-doctor-v1.2.3.json
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - Context Pack来源哈希统一使用跨平台规范化文本记录
+    ledger: []
+    tests:
+    - python -m unittest tests.test_context_pack_parallel_policy
+    - python scripts/check_v123_continuity.py --strict
+    releases:
+    - R08
+    migration_and_compatibility: 纯校验兼容修复；不修改Context Manifest格式，既有规范化SHA继续有效，真实字节内容变化仍由规范化记录检测。
+  user_confirmation: 项目所有者明确要求环境问题彻底解决、写入踩坑和经验复用并支持跨电脑换AI。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T00:38:46Z'
+    note: 修复只统一生成与校验算法，必须同时比较规范化SHA和字节数；真实内容变化负向回归继续阻断。
+  machine_record: .continuity/change_requests/CR-0208.yaml
+  document: docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md
+  decision_log:
+  - at: '2026-07-22T00:38:50Z'
+    actor_id: codex-root-r08-001
+    status: IMPLEMENTING
+    note: 开始统一Context来源哈希算法并增加跨换行正反向回归
+    session_id: SES-20260722T002444Z-8BEC3CA6
+  session_ids:
+  - SES-20260722T002444Z-8BEC3CA6

@@ -847,3 +847,7 @@
 - 摘要：R07机器开发、Staging、最终候选、视觉、四方APK与桌面交付均PASS；仅项目所有者异步真机验收PENDING，正式验收和生产激活继续阻断
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md`
 
+## 2026-07-22 · Context来源哈希跨平台一致性
+
+- `CR-0208` 统一 Context Pack 来源生成与严格校验的规范化换行哈希算法。
+- Windows CRLF 与 Linux LF 对同一Git文本不再产生假 `CONTEXT_SOURCE_STALE`；真实内容变化仍由SHA和字节数双重比较阻断。
