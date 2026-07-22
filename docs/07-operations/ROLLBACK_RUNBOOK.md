@@ -124,3 +124,16 @@ docker compose -p hhy-r07-staging -f infra/staging/r07-smoke/docker-compose.yml 
 ```
 
 回切前后记录 `api` 镜像 ID、PostgreSQL 容器 ID、卷名、Flyway V032、业务表数量、Prometheus target、RED 与六项 R07 Gauge。验证搜索历史、热词、发布者公开资料、联系方式密文、不可变访问审计和 Outbox 均未被篡改；随后恢复当前镜像并重复 readiness、指标与告警验证。禁止 U032、U031、降版本 DDL、删除搜索/联系方式审计/Outbox 事实、重建数据库或通过业务端口写入测试数据。
+
+## 12. R08 项目隔离回滚演练
+
+R08 应用回切保持同一 PostgreSQL 容器和数据卷，只切换 `api` 镜像。目标必须是已验证且兼容 V034、项目状态不变量、联系方式安全信封及 R08 Outbox 事件的不可变镜像；若没有兼容镜像，停止回切并采用更高版本应用或 Flyway 前向修复，禁止强行启动不兼容历史镜像。
+
+```bash
+export HHY_SMOKE_ID='<previous-approved-v034-compatible-tag>'
+docker compose -p hhy-r08-staging -f infra/staging/r08-smoke/docker-compose.yml up -d --no-deps --no-build api
+docker compose -p hhy-r08-staging -f infra/staging/r08-smoke/docker-compose.yml exec -T api \
+  curl -fsS http://127.0.0.1:9091/actuator/health/readiness
+```
+
+回切前后必须记录 `api` 镜像 ID、PostgreSQL 容器 ID、卷名、Flyway V034、业务表数量、Prometheus target、RED 与七项 R08 Gauge。验证项目内容、收藏事实、联系方式不可变访问审计和测试 Outbox 事实未被回切篡改；随后恢复冻结 Commit 镜像并重复 readiness、指标和告警验证。禁止 U034、禁止 U033、禁止降版本 DDL、删除项目/收藏/联系方式审计/Outbox 事实、删除卷、重建数据库或通过业务端口伪造验收数据。

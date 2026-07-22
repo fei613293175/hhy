@@ -252,3 +252,19 @@ R07 现场演练至少覆盖：
 TASK-R07-007 在升级后的独立 Staging CI 候选容器上运行 `scripts/prepare_r07_ci_fixture.sh`。脚本必须显式设置 `HHY_R07_CI_FIXTURE_CONFIRM=YES`，只允许 `hhy-r07-ci-candidate-*` 后端和登记的 Staging PostgreSQL 容器；它从容器内部读取专用 CI 用户，不输出手机号或 Secret，幂等准备一个公开项目、一个掩码微信入口和一个热词，并只清空该测试账号自己的搜索历史。
 
 模拟器通过 GitHub OIDC 一次性会话依次验证 `SCR-SEARCH-001`、`SCR-SEARCH-002`、`SCR-PUBLISHER-001` 和 `DIALOG-SEARCH-001` 并生成四张唯一截图。`SHEET-CONTACT-001` 含高敏联系方式能力，必须启用 `FLAG_SECURE`，因此禁止截图，改以页面标识、动作文本、关闭清除和窗口安全标记的自动断言作为证据。R07 首次采集图只用于 AI 视觉审核和建立版本基线；基线提交后仅再运行一次最终候选，禁止把缺少基线的预期首轮误判为反复失败。
+
+## 13. R08 项目隔离预发布验收
+
+R08 使用 `infra/staging/r08-smoke/docker-compose.yml`，采用独立 Compose project、仅回环发布端口、`172.31.248.0/24` 默认子网和独立数据卷；不得修改或重启公网及 R01–R07 环境。执行前运行 `python3 scripts/check_r08_observability.py`，并把精确被测 Commit 注入 `HHY_R08_FROZEN_COMMIT`。七项测试 Secret 只在隔离进程环境生成和注入，禁止写入仓库、报告、命令输出或 Shell 历史；实名认证沙箱与 CI 自动登录保持关闭。
+
+R08 现场演练至少覆盖：
+
+1. 冻结 Commit 的 Java 21 定向测试和生产构建通过；PostgreSQL 17 完整迁移到 V034，Flyway 历史、业务表数量和数据库容器/卷标识归档。
+2. Prometheus target `hhy-backend-r08` 为 UP，RED count/bucket 非空；`hhy_project_total_count`、`hhy_project_online_count`、`hhy_project_review_pending`、`hhy_project_favorites_count`、`hhy_project_contact_accesses_5m`、`hhy_project_contact_rejections_5m`、`hhy_r08_outbox_backlog` 七项只读业务 Gauge 全部存在，业务指标查询失败累计值必须为 0。
+3. 停止/恢复 API 触发 `HhyR08BackendDown`；插入带冻结 Commit 唯一前缀的项目域 Outbox 测试事实触发 `HhyR08OutboxBacklog`。两项告警都必须取得 firing、resolved 和 alert-sink 送达回执。
+4. 测试 Outbox 事实不得删除，只允许 `PENDING → PUBLISHING → PUBLISHED`，同时递增 attempts 并写入 published_at；失败恢复也必须重复同一合法终结流程。
+5. 2xx、认证拒绝和错误响应中的 `requestId`、`traceId`、状态码与 `http_request_completed` 结构化日志可关联。日志不得包含项目描述、实际联系方式、联系方式密文、加密根密钥、Secret、Bearer、Cookie、请求正文或查询参数。
+6. 应用回切只替换 `api` 镜像，回切目标必须兼容 V034、项目不变量与联系方式安全信封；保持同一 PostgreSQL 容器和数据卷，恢复当前镜像后再次验证 readiness、RED、七项 Gauge、测试 Outbox 事实和数据库连续性。禁止执行 U034、U033、降版本 DDL、删除卷或删除业务/审计/Outbox 记录。
+7. 证据统一写入 `artifacts/validation/r08-task006-staging/`，绑定冻结 Commit、两个不可变镜像、数据库容器/卷、Flyway V034、告警回执和逐文件 SHA-256。证据齐全后才能把 `AC-R08-004` 签为 PASS。
+
+现场步骤由 `scripts/run_r08_staging_acceptance.sh` 单一入口执行。脚本必须先证明 `git rev-parse HEAD` 等于 `HHY_R08_FROZEN_COMMIT`，再采集基线、Trace/脱敏、指标、告警与同库同卷回切证据并生成 `SHA256SUMS`。Android 模拟器、页面截图和候选 APK 不属于本任务，只在 TASK-R08-007 最终候选阶段执行。

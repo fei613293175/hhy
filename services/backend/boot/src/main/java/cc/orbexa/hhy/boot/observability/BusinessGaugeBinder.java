@@ -219,6 +219,53 @@ public final class BusinessGaugeBinder implements MeterBinder {
             WHERE aggregate_type IN ('CONTENT', 'SEARCH_HISTORY')
               AND status IN ('PENDING', 'RETRY_WAIT')
             """;
+    static final String PROJECT_TOTAL_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE type = 'PROJECT' AND status <> 'DELETED'
+            """;
+    static final String PROJECT_ONLINE_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE type = 'PROJECT' AND status = 'ONLINE'
+            """;
+    static final String PROJECT_REVIEW_PENDING_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE type = 'PROJECT' AND status <> 'DELETED' AND review_status = 'PENDING'
+            """;
+    static final String PROJECT_FAVORITES_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_favorites favorite
+            JOIN hhy.content_posts post ON post.id = favorite.content_id
+            WHERE post.type = 'PROJECT' AND post.status <> 'DELETED'
+            """;
+    static final String PROJECT_CONTACT_ACCESSES_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_contact_access_logs access_log
+            JOIN hhy.content_posts post ON post.id = access_log.content_id
+            WHERE post.type = 'PROJECT'
+              AND access_log.action IN ('VIEW', 'COPY', 'REPLAY')
+              AND access_log.created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String PROJECT_CONTACT_REJECTIONS_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_contact_access_logs access_log
+            JOIN hhy.content_posts post ON post.id = access_log.content_id
+            WHERE post.type = 'PROJECT'
+              AND access_log.action LIKE 'REJECTED_%'
+              AND access_log.created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String R08_OUTBOX_BACKLOG_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.outbox_events
+            WHERE event_type IN (
+                'content.project.created.v1', 'content.project.updated.v1',
+                'content.favorited.v1', 'content.favorite.replayed.v1',
+                'content.shared.v1', 'chat.direct.created.v1',
+                'content.project.stage.alert.v1'
+            ) AND status IN ('PENDING', 'RETRY_WAIT')
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -262,6 +309,13 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.contact.accesses.5m", "Successful contact accesses in the last five minutes", CONTACT_ACCESSES_5M_SQL);
         register(registry, "hhy.contact.rejections.5m", "Rejected contact accesses in the last five minutes", CONTACT_REJECTIONS_5M_SQL);
         register(registry, "hhy.r07.outbox.backlog", "R07 content and search-history events waiting for delivery", R07_OUTBOX_BACKLOG_SQL);
+        register(registry, "hhy.project.total.count", "Non-deleted project records", PROJECT_TOTAL_SQL);
+        register(registry, "hhy.project.online.count", "Project records currently online", PROJECT_ONLINE_SQL);
+        register(registry, "hhy.project.review.pending", "Project records waiting for review", PROJECT_REVIEW_PENDING_SQL);
+        register(registry, "hhy.project.favorites.count", "Favorite rows attached to non-deleted projects", PROJECT_FAVORITES_SQL);
+        register(registry, "hhy.project.contact.accesses.5m", "Successful project contact accesses in the last five minutes", PROJECT_CONTACT_ACCESSES_5M_SQL);
+        register(registry, "hhy.project.contact.rejections.5m", "Rejected project contact accesses in the last five minutes", PROJECT_CONTACT_REJECTIONS_5M_SQL);
+        register(registry, "hhy.r08.outbox.backlog", "R08 project events waiting for delivery", R08_OUTBOX_BACKLOG_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R08 项目可观测性与隔离 Staging · 2026-07-22
+
+- 在既有业务指标绑定器中增加项目总量、在线量、待审核量、收藏量、近 5 分钟联系方式访问/拒绝量和 R08 Outbox 积压七项只读 Gauge，不读取项目正文、联系方式明文或密文。
+- 复用既有 Staging 骨架建立 R08 独立 Compose、Prometheus、Alertmanager 和内部审计接收器；现场门禁绑定精确 Commit，验证 RED、TraceId、日志脱敏、后端与 Outbox 告警 firing/resolved 及送达回执。
+- 应用回切只替换 `api` 镜像并保持同一 PostgreSQL 容器、数据卷和 V034，禁止 U034/U033、降版本 DDL、删除卷或删除项目、审计及 Outbox 事实；模拟器、截图和候选 APK 仍只在 TASK-R08-007 执行。
+
 ## R08 项目专项测试与故障注入 · 2026-07-22
 
 - 将既有三项 `TST-PROJECT_001-*` 权威测试从待自动化升级为统一机器适配器，不新增第二套测试 ID；证据必须绑定冻结 Commit、Java 21、PostgreSQL 17、Android JDK 21 及原始日志 SHA-256。
@@ -949,4 +955,3 @@
 - Actor：`codex-root-r08-005`
 - 摘要：R08项目专项测试与故障注入完成：三项权威测试、延迟重放、8路并发、媒体与配置超时零副作用全部PASS，P0/P1为0。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T053639Z-033C23B5.md`
-
