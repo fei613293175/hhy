@@ -277,7 +277,7 @@ TASK-R08-007 将精确候选 Commit 升级到公开 Staging CI 候选容器后�
 
 ## 14. R09 App隔离预发布验收
 
-R09 使用 `infra/staging/r09-smoke/docker-compose.yml`，采用独立 Compose project、仅回环发布端口、`172.31.249.0/24` 默认子网和独立数据卷；不得修改或重启公网以及 R01–R08 环境。执行前运行 `python3 scripts/check_r09_observability.py`，并把精确被测 Commit 注入 `HHY_R09_FROZEN_COMMIT`。七项测试 Secret 只在隔离进程环境生成和注入，禁止写入仓库、报告、命令输出或 Shell 历史；实名认证沙箱与 CI 自动登录保持关闭。
+R09 使用 `infra/staging/r09-smoke/docker-compose.yml`，采用独立 Compose project、仅回环发布端口、与服务器既有 R01–R08 网络核对后冻结的 `172.31.243.0/24` 默认子网和独立数据卷；不得修改或重启公网以及 R01–R08 环境。执行前运行 `python3 scripts/check_r09_observability.py`，并把精确被测 Commit 注入 `HHY_R09_FROZEN_COMMIT`。七项测试 Secret 只在隔离进程环境生成和注入，禁止写入仓库、报告、命令输出或 Shell 历史；实名认证沙箱与 CI 自动登录保持关闭。
 
 R09 现场演练至少覆盖：
 
