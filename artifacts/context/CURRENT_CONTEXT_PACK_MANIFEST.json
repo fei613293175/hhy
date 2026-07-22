@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T18:05:28Z",
-  "context_hash": "c64271d67ede1ef5f6fb303707ee92cbe4c0e8cf95d12b26612bfc39362b1e8b",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-22T18:09:04Z",
+  "context_hash": "6f657c2e6a6ff93e91831aa5f5c56e30ee5c39e347861685fdffa3e98156e898",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "32785fff1565e6777b720f840e209a67df01d01dcee3e24d3a5446ba11b11ed6",
-    "file_count": 228
+    "sha256": "c385e56a6ea9ee33f694e7cc9266daf1f713e9c6818d5eba16d675a290d4b18c",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "df01fcf6b566b0b7cdce3104358f72a2f5291ae96e7da1bc875f5f4778f0bf9a"
+    "sha256": "33d894c054b68cd25ea6c47a57f01c02e6199f78f7cb26931a7f1dc7f79ab789"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "f1f5ac1efe96be1b0113652ea46a70ee0e1b44edd8ca629593ab3e96ca5da802"
+    "sha256": "f94e8e0005e29c3c8edf397577c10dca30edda18419fba284af51670c9732e89"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "8193104d6c8e71ecead32ccedd8baf260bcfad64700a6db40be7b17d027a5cc2",
-      "bytes": 3988
+      "sha256": "71bc1e6524af9c7fa89051324d512811efc82173d8ee749c9465c758fc377375",
+      "bytes": 3884
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "f685c1e6a6c0171a94c8953f40bd294574f9be6a468c998da512d22466d10434",
-      "bytes": 1875
+      "sha256": "f094e91ffdacdffc8d83e7eb0f803cc4177b8e2408fd00c60d923aaa4148a91b",
+      "bytes": 1536
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "fab0769c0488b0516f888058791e3a70a54c7b50fe6c297eff30173206b316f1",
-      "bytes": 1340936
+      "sha256": "51fc433968a1537f2ee35e1d1f4aeda39477ba2a541f792e03674f408c3ce1d1",
+      "bytes": 1342657
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "0288b398400355dafa5901a6868bc1ef3628a3afea0223fd4a783401e71276b5",
-      "bytes": 38933
+      "sha256": "de1c4ac5417893a3787884565dedb398e1e9d97deb546aa7fd6216672239beca",
+      "bytes": 38951
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "8ae76f62de345a936b4cc45e5e7a4b4173d35aac62b88980e700304d132798de",
-      "bytes": 52486
+      "sha256": "2c21e26cb0c74d7d05353dde8cef78a01ea74157094c960910799aa112909c6e",
+      "bytes": 52522
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "1cc0554795c757bd5c2189ef6261c8e02d9da127654e230a607aac9617bad433",
-      "bytes": 538
+      "sha256": "d4923577ad0f824087ed44eabbe0ca960d0f8c38f2280dcb3b565a8dfbaab81f",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,33 +148,13 @@
     },
     {
       "path": "releases/R09/TASKS.yaml",
-      "sha256": "178191cc057d1da1db8d626a5ca56eae5fc7ba921349f00d0dd9aa70aceef19d",
-      "bytes": 5467
+      "sha256": "035aa2c27d195d4522039aa1df3de82b69fdefac5a71dcb176775b8d93e3ec2a",
+      "bytes": 5503
     },
     {
       "path": "releases/R09/ACCEPTANCE_MATRIX.csv",
       "sha256": "98e99c241f9e7ab8814e20fb62060f90c5903da20c1ef39ec81fa75d3bdecfb3",
       "bytes": 684
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md",
-      "sha256": "d464b5317c242f010fd3061732b774edd4451bc3bcdc8de8b27ca44886fe36df",
-      "bytes": 116057
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0013.yaml",
-      "sha256": "57a0f6efea5f487d6b4b8a3542753228d3c27ac9d6599f62eaa1b9c55379d7dc",
-      "bytes": 88078
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md",
-      "sha256": "6183e85333a663b0c3d1555ee251600edc52674dadee2c37879ab1f69e89db23",
-      "bytes": 4203
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md",
-      "sha256": "03a3a1cbbbc1adac041b6067aa6482c7a057b01ad25902f4b0d2c670f37e22da",
-      "bytes": 4187
     }
   ]
 }

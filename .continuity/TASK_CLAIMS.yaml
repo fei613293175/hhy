@@ -2636,7 +2636,7 @@ claims:
   task_id: TASK-R09-001
   story_id: STORY-R09-004
   actor_id: codex-root-r09-ui-audit
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-22T15:34:50Z'
   allowed_paths:
   - apps/**
@@ -2679,3 +2679,4 @@ claims:
   - docs/02-ui
   - artifacts/reports/ui-audit
   - tests
+  closed_at: '2026-07-22T18:09:00Z'
