@@ -118,6 +118,7 @@ dependencies {
     implementation(project(":feature:identity"))
     implementation(project(":feature:discovery"))
     implementation(project(":feature:project"))
+    implementation(project(":feature:app-promotion"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.navigation.compose)

@@ -6,6 +6,7 @@ import cc.orbexa.hhy.content.R08Contracts.CreateProjectRequest;
 import cc.orbexa.hhy.content.R08Contracts.PatchProjectRequest;
 import cc.orbexa.hhy.content.R08Contracts.PublicPage;
 import cc.orbexa.hhy.content.R08Contracts.PublicPageBlock;
+import cc.orbexa.hhy.content.R08Contracts.NavigationTarget;
 import cc.orbexa.hhy.content.R08Contracts.SeoMetadata;
 import cc.orbexa.hhy.content.R09Contracts.AppAttributes;
 import cc.orbexa.hhy.shared.api.BusinessException;
@@ -165,21 +166,25 @@ public class R09Service {
         if (!"APP".equals(app.type()) || !"ONLINE".equals(app.status())) throw notFound();
         ContentResource resource = content.publicDetail(Long.toString(id));
         String url = shareUrl(id);
-        List<PublicPageBlock> blocks = List.of(
-                new PublicPageBlock("hero", "HERO", resource.title(), resource.summary(),
-                        resource.media(), null, 0),
-                new PublicPageBlock("description", "RICH_TEXT", "应用介绍", resource.description(),
-                        List.of(), null, 1));
+        List<PublicPageBlock> blocks = new ArrayList<>();
+        blocks.add(new PublicPageBlock("hero", "HERO", resource.title(), resource.summary(),
+                resource.media(), null, 0));
+        blocks.add(new PublicPageBlock("description", "RICH_TEXT", "应用介绍", resource.description(),
+                List.of(), null, 1));
+        if (app.downloadUrl() != null) {
+            blocks.add(new PublicPageBlock("external-download", "CTA", "体验应用",
+                    app.versionText() == null ? null : "版本 " + app.versionText(), List.of(),
+                    new NavigationTarget("DOWNLOAD", null, app.downloadUrl(), false), 2));
+        }
+        if (app.website() != null) {
+            blocks.add(new PublicPageBlock("website", "CTA", "访问官网", null, List.of(),
+                    new NavigationTarget("H5_URL", null, app.website(), false), 3));
+        }
         SeoMetadata seo = new SeoMetadata(clip(resource.title(), 120),
                 clip(resource.summary() == null ? resource.description() : resource.summary(), 300),
                 List.of("合伙云", "应用推广"), url, null, "index,follow");
-        Map<String, Object> download = new LinkedHashMap<>();
-        if (app.downloadUrl() != null) download.put("externalUrl", app.downloadUrl());
-        if (app.website() != null) download.put("website", app.website());
-        if (app.platform() != null) download.put("platform", app.platform());
-        if (app.versionText() != null) download.put("versionText", app.versionText());
         return new PublicPage("APP", resource.title(), resource.summary(), blocks, seo,
-                Map.copyOf(download), null, resource.version());
+                null, null, resource.version());
     }
 
     private AppAttributes appAttributes(Map<String, Object> attributes, AppAttributes fallback) {

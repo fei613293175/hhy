@@ -15344,3 +15344,86 @@ change_requests:
   - SES-20260722T183222Z-79C9A5DB
   implementation_commits:
   - e4f54c07b1b3cae024b5de42179a5e2cfb6f2c76
+- protocol_version: '1.0'
+  cr_id: CR-0251
+  title: R09 App推广跨端闭环与精确视觉实现
+  status: IMPLEMENTING
+  created_at: '2026-07-22T19:10:31Z'
+  updated_at: '2026-07-22T19:23:19Z'
+  requester_actor_id: codex-root-r09-client
+  approver_actor_id: codex-r09-ui-review
+  task_id: TASK-R09-004
+  session_id: SES-20260722T190220Z-19869F4B
+  user_request: 持续完成R09，所有UI按效果图丰富度和精致度实现，不虚构业务；普通任务仅受影响门禁。
+  reason: App三页尚无Android实现，页面目录的视觉绑定过粗；H5 App分享页把第三方外部下载误套为自有APK发布包download结构，导致真实链接无法按冻结合同诚实展示。
+  original_rule: R09页面目录使用整组预览或TOKENS_ONLY，App公开页把第三方下载链接写入自有发布包download对象。
+  new_rule: App列表、详情、发布编辑分别以B02/P06、B03/P02、B04/P04为精确视觉施工源；第三方HTTPS下载和官网通过既有PublicPageBlockResource.action NavigationTargetResource表达，download只用于具备版本号、版本码和SHA256的自有发布包。
+  impact_summary: 实现Android App列表/详情/发布编辑及导航入口，完善H5 App分享真实动作和后台APP复用验证，补齐精确视觉规格与IN_REVIEW验收台账。
+  impact:
+    files:
+    - apps/android/settings.gradle.kts
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
+    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R09ApiModelsSerializationTest.kt
+    - apps/android/feature/app-promotion/build.gradle.kts
+    - apps/android/feature/app-promotion/src/main/AndroidManifest.xml
+    - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppState.kt
+    - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
+    - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
+    - apps/h5/src/views/PublicPage.vue
+    - apps/h5/src/services/publicShare.test.ts
+    - apps/admin-web/src/r09AppReuse.test.ts
+    - design/R09-UI-FROZEN/specs/SCR-LIST-002.md
+    - design/R09-UI-FROZEN/specs/SCR-DETAIL-002.md
+    - design/R09-UI-FROZEN/specs/SCR-PUB-003.md
+    - catalogs/ui_page_specifications.csv
+    - catalogs/ui_visual_acceptance.csv
+    - CHANGELOG.md
+    pages:
+    - SCR-LIST-002
+    - SCR-DETAIL-002
+    - SCR-PUB-003
+    - H5-005
+    - ADM-CONTENT-001
+    - ADM-CONTENT-002
+    apis:
+    - GET /api/v1/contents
+    - GET /api/v1/contents/{id}
+    - POST /api/v1/contents
+    - PATCH /api/v1/contents/{id}
+    - GET /public-api/v1/share/contents/{id}
+    database: []
+    configuration: []
+    ledger:
+    - catalogs/ui_page_specifications.csv
+    - catalogs/ui_visual_acceptance.csv
+    tests:
+    - Android R09 App transport/state unit tests
+    - Android affected debug unit/lint/compile
+    - H5 public share unit tests
+    - Admin APP reuse unit tests
+    - Backend R09 service targeted tests
+    - UI catalog and visual acceptance checks
+    releases:
+    - R09
+    migration_and_compatibility: 不改数据库和现有公开接口结构；PROJ分享保持兼容，APP分享从不合规download Map迁移到既有CTA动作，旧客户端仍可忽略新块；最终候选阶段再生成截图并判定PASS。
+  user_confirmation: 用户已明确要求持续开发并将效果图级UI作为跨AI硬性标准。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T19:11:22Z'
+    note: 精确面板绑定、非虚构业务边界和既有NavigationTarget兼容路径完整；影响文件与受影响门禁可验证，允许实施。
+  machine_record: .continuity/change_requests/CR-0251.yaml
+  document: docs/03-continuity/change-requests/CR-0251-R09-App推广跨端闭环与精确视觉实现.md
+  decision_log:
+  - at: '2026-07-22T19:23:19Z'
+    actor_id: codex-root-r09-client
+    status: IMPLEMENTING
+    note: 跨端产品代码、视觉规格与专项测试已写入，开始执行受影响门禁。
+    session_id: SES-20260722T190220Z-19869F4B
+  session_ids:
+  - SES-20260722T190220Z-19869F4B

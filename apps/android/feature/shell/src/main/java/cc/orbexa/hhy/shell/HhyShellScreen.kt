@@ -71,6 +71,8 @@ fun HhyShellScreen(
     onOpenSearch: () -> Unit = {},
     onOpenProjects: () -> Unit = {},
     onCreateProject: () -> Unit = {},
+    onOpenApps: () -> Unit = {},
+    onCreateApp: () -> Unit = {},
     onOpenLoginDevices: () -> Unit = {},
     onOpenChangePassword: () -> Unit = {},
     onOpenCancellation: () -> Unit = {},
@@ -147,12 +149,28 @@ fun HhyShellScreen(
                                 detail = "浏览公开项目",
                                 onClick = onOpenProjects,
                             )
+                        }
+                        Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
                             HomeQuickAction(
                                 modifier = Modifier.weight(1f).testTag("r08.home.project.create"),
                                 icon = HhyIcons.Publish,
                                 title = "发布项目",
                                 detail = "展示合作需求",
                                 onClick = onCreateProject,
+                            )
+                            HomeQuickAction(
+                                modifier = Modifier.weight(1f).testTag("r09.home.apps"),
+                                icon = HhyIcons.Applications,
+                                title = "应用广场",
+                                detail = "发现真实应用",
+                                onClick = onOpenApps,
+                            )
+                            HomeQuickAction(
+                                modifier = Modifier.weight(1f).testTag("r09.home.app.create"),
+                                icon = HhyIcons.Publish,
+                                title = "推广App",
+                                detail = "发布应用资料",
+                                onClick = onCreateApp,
                             )
                         }
                     }

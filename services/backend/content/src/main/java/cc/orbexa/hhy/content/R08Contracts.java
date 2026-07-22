@@ -61,6 +61,8 @@ public final class R08Contracts {
     public record PublicPageBlock(
             String blockId, String blockType, String heading, String body,
             List<ContentContracts.MediaItem> media, Object action, long sortOrder) { }
+    public record NavigationTarget(
+            String targetType, String route, String url, boolean requiresLogin) { }
     public record SeoMetadata(
             String title, String description, List<String> keywords,
             String canonicalUrl, String ogImageUrl, String robots) { }

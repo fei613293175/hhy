@@ -62,6 +62,25 @@ describe('PublicShareApi', () => {
     wrapper.unmount();
   });
 
+  it('renders App external actions from frozen navigation targets without pretending they are platform APKs', async () => {
+    vi.spyOn(publicShareApi, 'get').mockResolvedValue({
+      code: 'APP', title: '协作工具', description: '帮助团队管理事项', version: 2, download: undefined,
+      content: [
+        { blockId: 'hero', blockType: 'HERO', heading: '协作工具', body: '帮助团队管理事项', sortOrder: 0 },
+        { blockId: 'external-download', blockType: 'CTA', heading: '体验应用', sortOrder: 1, action: { targetType: 'DOWNLOAD', url: 'https://download.example.com/app', requiresLogin: false } },
+      ],
+    });
+    const router = createRouter({ history: createMemoryHistory(), routes: [{ path: '/share/app/:id', component: PublicPage }] });
+    await router.push('/share/app/app_1'); await router.isReady();
+    const wrapper = mount(PublicPage, { props: { page: { ID: 'H5-005' } as never }, global: { plugins: [router] } });
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('App推广');
+    expect(wrapper.get('a[href="https://download.example.com/app"]').text()).toContain('前往体验应用');
+    expect(wrapper.text()).not.toContain('下载 Android App');
+    wrapper.unmount();
+  });
+
   it('renders an explicit expired state without leaking backend details', async () => {
     vi.spyOn(publicShareApi, 'get').mockRejectedValue(new PublicShareApiError(404, 'COMMON-404-NOT_FOUND', 'raw backend message', 'req-share-404'));
     const router = createRouter({ history: createMemoryHistory(), routes: [{ path: '/share/project/:id', component: PublicPage }] });

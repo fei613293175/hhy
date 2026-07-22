@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## R09 App推广跨端闭环 · 2026-07-22
+
+- 新增按 B02/P06、B03/P02、B04/P04 精确建模的 Android App 列表、详情和发布/编辑闭环。
+- H5 App 分享页使用冻结导航动作承载真实外部 HTTPS 链接，不再把第三方链接伪装为具备版本码和 SHA256 的自有 APK 发布包。
+- 统一内容后台继续复用既有内容列表和版本化详情操作，并补充 APP 专项回归。
+
 ## R09 App推广后端应用服务 · 2026-07-22
 
 - 保留冻结的统一内容路径和 operationId，在唯一Controller内按 `contentType` 分派PROJECT与APP，避免重复映射和消费者迁移。
@@ -1118,4 +1124,3 @@
 - Actor：`codex-root-r09-backend`
 - 摘要：R09-003完成：APP创建、详情、编辑、公开分享及通用收藏分享/会话来源后端闭环落地；真实PostgreSQL和受影响MODULE通过，CR-0250关闭。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T183222Z-79C9A5DB.md`
-

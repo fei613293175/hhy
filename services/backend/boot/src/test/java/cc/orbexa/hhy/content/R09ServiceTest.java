@@ -2,6 +2,7 @@ package cc.orbexa.hhy.content;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -127,7 +128,7 @@ class R09ServiceTest {
     }
 
     @Test
-    void publicShareContainsOnlyExternalDownloadMetadataAndAppRoute() {
+    void publicShareUsesFrozenNavigationTargetsWithoutInventingApkMetadata() {
         when(store.app(51)).thenReturn(Optional.of(app(51, 11, "ONLINE", 3)));
         when(content.publicDetail("51")).thenReturn(resource("51", "ONLINE", 3));
         when(shared.textConfig("domain.h5.host")).thenReturn("h5.orbexa.cc");
@@ -135,8 +136,15 @@ class R09ServiceTest {
         var page = service.publicShare("51");
 
         assertEquals("APP", page.code());
-        assertEquals("https://download.example.invalid/app", ((Map<?, ?>) page.download()).get("externalUrl"));
-        assertEquals("https://app.example.invalid", ((Map<?, ?>) page.download()).get("website"));
+        assertNull(page.download());
+        var download = (R08Contracts.NavigationTarget) page.content().stream()
+                .filter(block -> "external-download".equals(block.blockId())).findFirst().orElseThrow().action();
+        var website = (R08Contracts.NavigationTarget) page.content().stream()
+                .filter(block -> "website".equals(block.blockId())).findFirst().orElseThrow().action();
+        assertEquals("DOWNLOAD", download.targetType());
+        assertEquals("https://download.example.invalid/app", download.url());
+        assertEquals("H5_URL", website.targetType());
+        assertEquals("https://app.example.invalid", website.url());
         assertEquals("https://h5.orbexa.cc/share/app/51", page.seoMetadata().canonicalUrl());
     }
 

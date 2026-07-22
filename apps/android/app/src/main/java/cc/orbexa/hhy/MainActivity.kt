@@ -63,11 +63,15 @@ import cc.orbexa.hhy.network.UrlConnectionContractMediaApi
 import cc.orbexa.hhy.network.UrlConnectionContractR07Api
 import cc.orbexa.hhy.network.UrlConnectionExperienceApi
 import cc.orbexa.hhy.network.UrlConnectionContractR08Api
+import cc.orbexa.hhy.network.UrlConnectionContractR09Api
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
 import cc.orbexa.hhy.project.R08ProjectDetailScreen
 import cc.orbexa.hhy.project.R08ProjectEditorScreen
 import cc.orbexa.hhy.project.R08ProjectListScreen
+import cc.orbexa.hhy.apppromotion.R09AppDetailScreen
+import cc.orbexa.hhy.apppromotion.R09AppEditorScreen
+import cc.orbexa.hhy.apppromotion.R09AppListScreen
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
@@ -202,6 +206,9 @@ private sealed interface AuthenticatedRoute {
     @Serializable data object Projects : AuthenticatedRoute
     @Serializable data class ProjectDetail(val projectId: String) : AuthenticatedRoute
     @Serializable data class ProjectEditor(val projectId: String? = null) : AuthenticatedRoute
+    @Serializable data object Apps : AuthenticatedRoute
+    @Serializable data class AppDetail(val appId: String) : AuthenticatedRoute
+    @Serializable data class AppEditor(val appId: String? = null) : AuthenticatedRoute
 }
 
 @androidx.compose.runtime.Composable
@@ -215,6 +222,7 @@ private fun AuthenticatedNavHost(
     val experienceApi = remember { UrlConnectionExperienceApi(BuildConfig.API_BASE_URL) }
     val r07Api = remember { UrlConnectionContractR07Api(BuildConfig.API_BASE_URL) }
     val r08Api = remember { UrlConnectionContractR08Api(BuildConfig.API_BASE_URL) }
+    val r09Api = remember { UrlConnectionContractR09Api(BuildConfig.API_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     NavHost(
         navController = navController,
@@ -229,6 +237,8 @@ private fun AuthenticatedNavHost(
                 onOpenSearch = { navController.navigate(AuthenticatedRoute.Search) },
                 onOpenProjects = { navController.navigate(AuthenticatedRoute.Projects) },
                 onCreateProject = { navController.navigate(AuthenticatedRoute.ProjectEditor()) },
+                onOpenApps = { navController.navigate(AuthenticatedRoute.Apps) },
+                onCreateApp = { navController.navigate(AuthenticatedRoute.AppEditor()) },
                 onOpenLoginDevices = { navController.navigate(AuthenticatedRoute.LoginDevices) },
                 onOpenChangePassword = { navController.navigate(AuthenticatedRoute.ChangePassword) },
                 onOpenCancellation = { navController.navigate(AuthenticatedRoute.Cancellation) },
@@ -329,6 +339,45 @@ private fun AuthenticatedNavHost(
                 onSaved = { id ->
                     navController.navigate(AuthenticatedRoute.ProjectDetail(id)) {
                         popUpTo<AuthenticatedRoute.Projects>() { inclusive = false }
+                    }
+                },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.Apps> {
+            R09AppListScreen(
+                api = r09Api,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+                onAppSelected = { navController.navigate(AuthenticatedRoute.AppDetail(it)) },
+                onCreateApp = { navController.navigate(AuthenticatedRoute.AppEditor()) },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.AppDetail> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.AppDetail>()
+            R09AppDetailScreen(
+                api = r09Api,
+                accessToken = authenticated.session.accessToken,
+                appId = route.appId,
+                currentUserId = authenticated.user.id,
+                onBack = { navController.popBackStack() },
+                onEdit = { navController.navigate(AuthenticatedRoute.AppEditor(it)) },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.AppEditor> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.AppEditor>()
+            R09AppEditorScreen(
+                api = r09Api,
+                mediaApi = mediaApi,
+                accessToken = authenticated.session.accessToken,
+                appId = route.appId,
+                identityVerified = authenticated.user.identityStatus == "VERIFIED",
+                onBack = { navController.popBackStack() },
+                onSaved = { id ->
+                    navController.navigate(AuthenticatedRoute.AppDetail(id)) {
+                        popUpTo<AuthenticatedRoute.Apps>() { inclusive = false }
                     }
                 },
                 onSessionExpired = onSessionInvalidated,

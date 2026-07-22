@@ -17,6 +17,19 @@ const blocks = computed(() => [...(data.value?.content ?? [])].sort((a, b) => a.
 const hero = computed(() => blocks.value.find((block) => block.blockType === 'HERO'));
 const heroMedia = computed(() => hero.value?.media?.[0]);
 const downloadUrl = computed(() => data.value?.download?.downloadUrl);
+const shareKind = computed(() => data.value?.code === 'APP' ? 'App推广' : '合伙云公开内容');
+type PublicShareBlock = NonNullable<PublicSharePage['content']>[number];
+
+function blockActionUrl(block: PublicShareBlock) {
+  const action = block.action;
+  if (!action?.url || !['DOWNLOAD', 'H5_URL'].includes(action.targetType)) return undefined;
+  try {
+    const value = new URL(action.url);
+    return value.protocol === 'https:' && !value.username && !value.password && !value.hash ? value.href : undefined;
+  } catch {
+    return undefined;
+  }
+}
 
 function stateFor(caught: unknown) {
   if (caught instanceof PublicShareApiError) {
@@ -90,7 +103,7 @@ onBeforeUnmount(() => request?.abort());
       <header class="share-hero" :class="{ 'has-media': heroMedia }">
         <img v-if="heroMedia" :src="heroMedia.url" :alt="heroMedia.altText || data.title || '项目图片'" />
         <div class="share-hero-copy">
-          <span class="share-badge">合伙云公开内容</span>
+          <span class="share-badge">{{ shareKind }}</span>
           <h1>{{ data.title || hero?.heading }}</h1>
           <p>{{ data.description || hero?.body }}</p>
         </div>
@@ -107,6 +120,13 @@ onBeforeUnmount(() => request?.abort());
         <div v-if="block.media?.length" class="share-media-grid">
           <img v-for="media in block.media" :key="media.id" :src="media.url" :alt="media.altText || block.heading || '内容图片'" />
         </div>
+        <a
+          v-if="blockActionUrl(block)"
+          class="share-primary-link"
+          :href="blockActionUrl(block)"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{{ block.action?.targetType === 'DOWNLOAD' ? '前往体验应用' : '访问应用官网' }}</a>
       </section>
 
       <aside class="share-trust-card">
