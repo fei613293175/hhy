@@ -1,0 +1,208 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0002
+session_id: SES-20260722T093645Z-C7DB8EF0
+sequence: 2
+created_at: '2026-07-22T10:01:27Z'
+summary: CR-0233历史视觉审计实现已提交；obx-test固定Android镜像171任务BUILD SUCCESSFUL，R08专用夹具在候选后端真实P00 staging数据库事务写入成功
+next_step: 提交本轮编译与夹具证据元数据并推送；仅触发一次GitHub R08历史页面模拟器候选审计，下载并由AI逐图判断22张历史截图及FLAG_SECURE断言
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: android-fixed-image-compile
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r08-historical-92a1ae2f-compile.log
+  note: 171 tasks; BUILD SUCCESSFUL in 4m54s
+- name: r08-ci-fixture
+  result: PASS
+  evidence: scripts/prepare_r08_ci_fixture.sh
+  note: R08_CI_FIXTURE_OK user=26 content=2
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 92a1ae2fc71e381360616228b805cd89535961e4
+  upstream: origin/task/TASK-R03-001
+  ahead: 1
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  recent_commits:
+  - "92a1ae2fc71e381360616228b805cd89535961e4\t2026-07-22T17:49:49+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(android): audit historical\
+    \ visual surfaces"
+  - "46480be9eca8852e661013be23f916cdc2fa0003\t2026-07-22T17:35:19+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close android candidate\
+    \ task"
+  - "f80a0f07d572fbc7d289895de172c8bf214b2781\t2026-07-22T17:34:10+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close candidate\
+    \ delivery change"
+  - "01043c803dc576990278608e693819979ad2a0c5\t2026-07-22T17:31:19+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] build(r08): deliver signed\
+    \ candidate apk"
+  - "ca21dd3c442cd8311e1bb1cb00d66e34fd6b2b33\t2026-07-22T16:59:05+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): approve project\
+    \ visual baseline"
+  - "49f40f2dfeb71b5f5210d2e03a500307bf42c31c\t2026-07-22T16:43:37+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record final candidate\
+    \ verification"
+  - "03f0fbed4dd8f6ee0921428a4031b8d14f187ccd\t2026-07-22T16:34:33+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(r08): localize project\
+    \ business codes"
+  - "94ba1feeebb2c1fdd318654690e3125d54600960\t2026-07-22T16:01:48+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(auth): expose verified\
+    \ self status"
+project_fingerprint:
+  sha256: b30657c2db988c242b565ee40c6e0b59579c4d9e9135646c29677f332db48f97
+  files:
+  - CHANGELOG.md
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
+  - apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
+  - scripts/prepare_r08_ci_fixture.sh
+  - tests/android/visual-manifests/R08.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r08_ci_fixture.py
+  file_count: 13
+  payload:
+    base_commit: 46480be9eca8852e661013be23f916cdc2fa0003
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 85953
+      sha256: a57d048bab3d9e284b76266042883708910369536ccbff0d0e447a622fde12ff
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+      state: FILE
+      size: 17287
+      sha256: e9378de104ed3eab5a2752c1d8ae40d7a804b1828bd27189419e6491df97545e
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 17297
+      sha256: 641742c9bc8e63a3b31d07a7292e750802f2d77d9471149592446fce83f01b31
+    - path: apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
+      state: FILE
+      size: 1380
+      sha256: 35df610afdccbec3a003212115f8784e39631b505355e7aa2e110fd05a8ac066
+    - path: apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
+      state: FILE
+      size: 1508
+      sha256: f078ffb3a0e618f62eb8a3535f9149fb1651c582e2a25f84e96fcf603491caef
+    - path: apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+      state: FILE
+      size: 53933
+      sha256: 93175b6bf3f569792f9ce3d906da7ec8d44512ea04e0c6057b2abe66410f2712
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 469
+      sha256: 209f5ad3d40d33d75e46ca7ebce3af87c996287f9982cadcef50e653484edf39
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 106291
+      sha256: 635070f6c264d45c3fdffe5982609d56153240a1cf3aed4c073c0ac1998e9c3b
+    - path: docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
+      state: FILE
+      size: 3875
+      sha256: 41a2583832546cd8e0a570ef1e09330d9637116b73b709e383161344b9753b69
+    - path: scripts/prepare_r08_ci_fixture.sh
+      state: FILE
+      size: 6637
+      sha256: 25c025d00703d1afbc9edc1c1b32af8f43e52bbe2cb8b3749125ce7aa6d7f33e
+    - path: tests/android/visual-manifests/R08.yaml
+      state: FILE
+      size: 6663
+      sha256: 6e355abcb0f655ea1598f2c02faa00baf70f5e45bd65966b3b439fd38cdc0e7a
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 27461
+      sha256: eb9370914797be205e04355737c166b27f6901ccf64e4467c4d0fe3d15d78e96
+    - path: tests/test_r08_ci_fixture.py
+      state: FILE
+      size: 2365
+      sha256: fea2d534a2d7925f3ca8f807a34c2d43369e59ccf27b71f69eddb87e27226378
+change_classification:
+  other:
+  - CHANGELOG.md
+  - config/android-candidate-request.yaml
+  code:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
+  - apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - scripts/prepare_r08_ci_fixture.sh
+  user_visible:
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
+  - apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
+  tests:
+  - tests/android/visual-manifests/R08.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r08_ci_fixture.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0233
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - scripts/prepare_r08_ci_fixture.sh
+  - tests/android/visual-manifests/R08.yaml
+  - tests/test_android_ci_gate.py
+  - tests/test_r08_ci_fixture.py
+  - config/android-candidate-request.yaml
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0233
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: Android固定镜像编译、单一隔离数据库夹具和同一候选模拟器流水线存在严格顺序依赖，不适合并行委托
+event_hash: fdb017a0934685e5b147adcd30334f9939aa8349f83347ac302053ae25d515b3
