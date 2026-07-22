@@ -904,11 +904,11 @@ sessions:
   task_id: TASK-R08-008
   story_id: STORY-R08-004
   actor_id: codex-root-r08-008
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-22T09:36:45Z'
   record: .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-  updated_at: '2026-07-22T15:22:15Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0020.yaml
+  updated_at: '2026-07-22T15:23:14Z'
+  closed_at: '2026-07-22T15:23:14Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0021.yaml
   handoff_bundle: null

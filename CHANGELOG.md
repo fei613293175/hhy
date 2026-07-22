@@ -1052,3 +1052,13 @@
 
 - Run `29922189010` 证明固定API36构建与OIDC通过，但Pixel Launcher系统ANR弹层污染认证截图并阻断后续点击；该批截图不进入验收基线。
 - `CR-0241` 在候选采样前关闭并验证系统ANR弹层消失，认证入口绑定完整冻结文案，R04长屏媒体面板改用系统返回语义关闭；产品Release代码、API和数据库不变。
+
+## TASK-R08-008 · COMPLETED · 2026-07-22T15:23:04Z
+
+- Task close: TASK-R08-008 / SES-20260722T093645Z-C7DB8EF0
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-008`
+- 摘要：R08项目推广完整闭环已机器关闭：候选、三页视觉、APK、发布文档、问题登记和无状态交接全部完成；项目所有者真机反馈保持异步PENDING。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md`
+
