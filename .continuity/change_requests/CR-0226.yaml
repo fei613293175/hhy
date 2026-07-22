@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0226
 title: 建立R08项目可观测性与隔离Staging验收
-status: IMPLEMENTED
+status: CLOSED
 created_at: '2026-07-22T06:12:05Z'
-updated_at: '2026-07-22T06:37:05Z'
+updated_at: '2026-07-22T06:38:35Z'
 requester_actor_id: codex-root-r08-006
 approver_actor_id: codex-reviewer-r08-observability
 task_id: TASK-R08-006
@@ -85,7 +85,13 @@ decision_log:
   status: IMPLEMENTED
   note: 七项项目Gauge、独立监控栈及精确Commit隔离Staging全部通过；Trace脱敏、RED、两项告警firing/resolved、Outbox合法终结和同库同卷回切证据已归档。
   session_id: SES-20260722T060947Z-B45C6BC0
+- at: '2026-07-22T06:38:35Z'
+  actor_id: codex-root-r08-006
+  status: CLOSED
+  note: 实现提交与现场证据提交均已推送；AC-R08-004 PASS，CR范围内无遗留实现或验收项。
+  session_id: SES-20260722T060947Z-B45C6BC0
 session_ids:
 - SES-20260722T060947Z-B45C6BC0
 implementation_commits:
 - 7d6eedf4fdfc4b5b2143f28eafc682bb1c72445e
+- 06f0ffca4899db048820d0d7ffefaf249fc80e80

@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T06:37:10Z
-- Context Hash：`0eb166963d485de72f666cf5bea72c94b3da4cabccf5fc9a57469cbb8a6f74f0`
+- 生成时间：2026-07-22T06:38:40Z
+- Context Hash：`e3966f8951993bf26201eec76e91959c2f671a1392acfa663bffd57723da6b9c`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -131,7 +131,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-006
-updated_at: '2026-07-22T06:37:07Z'
+updated_at: '2026-07-22T06:38:38Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -166,15 +166,15 @@ continuity:
   active_session_id: SES-20260722T060947Z-B45C6BC0
   actor_id: codex-root-r08-006
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T10:37:07Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0003.yaml
-  project_fingerprint: b199025d9015b1272f3ceb23ae0e1649b091de2d7d6069de7b596356870f0fea
+  lease_expires_at: '2026-07-22T10:38:38Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0004.yaml
+  project_fingerprint: 178a0eb0472f0de78adcb02aa86278865ac60330cf8ff443b59f5156fac27f34
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d7d490feb0fa9a42226970d7f9992ddc966dda74734934ffd1f1fe4db7178034
-    generated_at: '2026-07-22T06:36:34Z'
+    context_hash: 0eb166963d485de72f666cf5bea72c94b3da4cabccf5fc9a57469cbb8a6f74f0
+    generated_at: '2026-07-22T06:37:10Z'
   handoff_bundle: null
 ```
 
@@ -372,7 +372,7 @@ task_id: TASK-R08-006
 story_id: STORY-R08-004
 goal: 项目推广完整闭环可观测性与预发布验收
 started_at: '2026-07-22T06:09:47Z'
-updated_at: '2026-07-22T06:37:07Z'
+updated_at: '2026-07-22T06:38:38Z'
 takeover_of: null
 change_requests:
 - CR-0226
@@ -458,12 +458,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T06:37:07Z'
-  expires_at: '2026-07-22T10:37:07Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0003.yaml
+  renewed_at: '2026-07-22T06:38:38Z'
+  expires_at: '2026-07-22T10:38:38Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T060947Z-B45C6BC0.md
-next_step: 提交并推送R08-006现场证据，关闭CR-0226和TASK-R08-006后进入TASK-R08-007最终候选
+next_step: 提交CR关闭事实并关闭TASK-R08-006，随后进入TASK-R08-007最终候选
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -471,87 +471,46 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前运行策略未授权创建子代理；主控串行执行高风险现场告警与回滚复核
+  reason: 当前运行策略未授权创建子代理；关闭事实由主控串行复核
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T060947Z-B45C6BC0-0003
+checkpoint_id: CP-SES-20260722T060947Z-B45C6BC0-0004
 session_id: SES-20260722T060947Z-B45C6BC0
-sequence: 3
-created_at: '2026-07-22T06:37:07Z'
-summary: R08-006实现与精确Commit隔离Staging证据完整，CR-0226已进入IMPLEMENTED
-next_step: 提交并推送R08-006现场证据，关闭CR-0226和TASK-R08-006后进入TASK-R08-007最终候选
+sequence: 4
+created_at: '2026-07-22T06:38:37Z'
+summary: CR-0226已由实现提交7d6eedf4和证据提交06f0ffca完整关闭
+next_step: 提交CR关闭事实并关闭TASK-R08-006，随后进入TASK-R08-007最终候选
 blockers: []
 decisions: []
-note: CR-0226 IMPLEMENTED；AC-R08-004 PASS；Android最终候选仍仅由TASK-R08-007触发。
+note: AC-R08-004 PASS；CR-0226 CLOSED。
 tests:
-- name: R08_OBSERVABILITY_CONFIG
-  result: PASS
-  evidence: scripts/check_r08_observability.py:R08_OBSERVABILITY_CONFIG_OK
-  note: 静态配置与安全约束通过
-- name: BACKEND_OBSERVABILITY_MODULE
-  result: PASS
-  evidence: a4cca86a499543495e1fd78e8fc755b781d1c096c36d90a226f86dbc0697d428
-  note: Java21 6 tests 0 failures 0 errors 0 skipped
 - name: R08_STAGING_ACCEPTANCE
   result: PASS
   evidence: artifacts/validation/r08-task006-staging/SHA256SUMS
-  note: 冻结Commit、V034、Trace脱敏、7 Gauge、两项告警和同库同卷回切全部通过
+  note: 22个证据文件哈希复核通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 7d6eedf4fdfc4b5b2143f28eafc682bb1c72445e
+  head: 06f0ffca4899db048820d0d7ffefaf249fc80e80
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
   - ' M .continuity/change_requests/CR-0226.yaml'
-  - ' M .continuity/sessions/SES-20260722T060947Z-B45C6BC0.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/reports/R08/TASK-R08-006-staging.md'
-  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
   - ' M docs/03-continuity/change-requests/CR-0226-建立R08项目可观测性与隔离Staging验收.md'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260722T060947Z-B45C6BC0.md'
-  - ' M releases/R08/ACCEPTANCE_MATRIX.csv'
-  - ?? .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0002.yaml
-  - ?? artifacts/validation/r08-task006-staging/SHA256SUMS
-  - ?? artifacts/validation/r08-task006-staging/alert-deliveries.jsonl
-  - ?? artifacts/validation/r08-task006-staging/alert-exercise.txt
-  - ?? artifacts/validation/r08-task006-staging/backend-down-firing.json
-  - ?? artifacts/validation/r08-task006-staging/compose-ps.txt
-  - ?? artifacts/validation/r08-task006-staging/database.txt
-  - ?? artifacts/validation/r08-task006-staging/final-metrics.txt
-  - ?? artifacts/validation/r08-task006-staging/http-request-completed.jsonl
-  - ?? artifacts/validation/r08-task006-staging/liveness.json
-  - ?? artifacts/validation/r08-task006-staging/log-redaction.txt
-  - ?? artifacts/validation/r08-task006-staging/machine-summary.txt
-  - ?? artifacts/validation/r08-task006-staging/metadata.txt
-  - ?? artifacts/validation/r08-task006-staging/metrics-summary.txt
-  - ?? artifacts/validation/r08-task006-staging/metrics.txt
-  - ?? artifacts/validation/r08-task006-staging/outbox-test-events.txt
-  - ?? artifacts/validation/r08-task006-staging/prometheus-rules.json
-  - ?? artifacts/validation/r08-task006-staging/prometheus-targets.json
-  - ?? artifacts/validation/r08-task006-staging/public-status.json
-  - ?? artifacts/validation/r08-task006-staging/r08-outbox-firing.json
-  - ?? artifacts/validation/r08-task006-staging/readiness.json
-  - ?? artifacts/validation/r08-task006-staging/rollback-rehearsal.txt
-  - ?? artifacts/validation/r08-task006-staging/source-sha256.txt
-  - ?? artifacts/validation/r08-task006-staging/trace-headers.txt
   recent_commits:
+  - "06f0ffca4899db048820d0d7ffefaf249fc80e80\t2026-07-22T14:37:39+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(staging): record R08\
+    \ observability acceptance"
   - "7d6eedf4fdfc4b5b2143f28eafc682bb1c72445e\t2026-07-22T14:22:27+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(observability): add R08\
     \ project staging gate"
   - "9c374195614f0de473e997b3af7aa16070235c1a\t2026-07-22T14:07:20+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-005\
@@ -565,10 +524,8 @@ git:
   - "5549e6e94b5e4a08efcfc95bd3d0ce57be1a0436\t2026-07-22T13:34:52+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close TASK-R08-004"
   - "671ffc1d4b6c0aa0fc2e6d7712cb7a1a3723900d\t2026-07-22T13:34:00+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record historical\
     \ visual verification"
-  - "35484da74a8c0483bdb6a236b8eca23bfe606cc9\t2026-07-22T13:23:00+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(ui): remediate R02-R05\
-    \ historical visuals"
 project_fingerprint:
-  sha256: b199025d9015b1272f3ceb23ae0e1649b091de2d7d6069de7b596356870f0fea
+  sha256: 178a0eb0472f0de78adcb02aa86278865ac60330cf8ff443b59f5156fac27f34
   files:
   - CHANGELOG.md
   - docs/03-continuity/change-requests/CR-0226-建立R08项目可观测性与隔离Staging验收.md
@@ -595,8 +552,8 @@ project_fingerprint:
       sha256: 7de8110ceeb4c49db258b23c6e2958e68f6872ce290a309012a1abc7d5f2d5c9
     - path: docs/03-continuity/change-requests/CR-0226-建立R08项目可观测性与隔离Staging验收.md
       state: FILE
-      size: 5825
-      sha256: 9cec4b38e6826a10b058359f6c31d826a7a169de83f424d03b48868aca6d9e11
+      size: 6079
+      sha256: d2ea07f747b345211e8d3b3663583e5ad1c0d85f594fc075d6853089deba9fd5
     - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
       state: FILE
       size: 28667
@@ -754,8 +711,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前运行策略未授权创建子代理；主控串行执行高风险现场告警与回滚复核
-event_hash: 75b74fffbeb65ab9ee6c08d5257c3744dbd835d53de5778715e83622ecf767d0
+  reason: 当前运行策略未授权创建子代理；关闭事实由主控串行复核
+event_hash: 2037dbe6fe2a131c2a5756dd2def45e9f9b251fbbc92a0798def19c544845e6d
 ```
 
 ## 接续状态与事件头
@@ -767,8 +724,8 @@ active_session_id: SES-20260722T060947Z-B45C6BC0
 last_session_id: SES-20260722T053639Z-033C23B5
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T053639Z-033C23B5-0004
-event_count: 2247
-event_head_hash: 75b74fffbeb65ab9ee6c08d5257c3744dbd835d53de5778715e83622ecf767d0
+event_count: 2249
+event_head_hash: 2037dbe6fe2a131c2a5756dd2def45e9f9b251fbbc92a0798def19c544845e6d
 event_chain_valid: true
 ```
 
@@ -891,9 +848,9 @@ recent_sessions: - session_id: SES-20260721T193434Z-0C5F0BFA
   started_at: '2026-07-22T06:09:47Z'
   record: .continuity/sessions/SES-20260722T060947Z-B45C6BC0.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T060947Z-B45C6BC0.md
-  updated_at: '2026-07-22T06:37:07Z'
+  updated_at: '2026-07-22T06:38:38Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-FB73C4525839
   session_id: SES-20260720T173038Z-35648A77
@@ -1847,7 +1804,7 @@ recent_task_transitions: - transition_id: TRN-3FF4D5221F58
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 7d6eedf4fdfc4b5b2143f28eafc682bb1c72445e
+head: 06f0ffca4899db048820d0d7ffefaf249fc80e80
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1861,42 +1818,14 @@ status_porcelain:
 - ' M .continuity/change_requests/CR-0226.yaml'
 - ' M .continuity/sessions/SES-20260722T060947Z-B45C6BC0.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/reports/R08/TASK-R08-006-staging.md'
-- ' M artifacts/validation/continuity-gate-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/change-requests/CR-0226-建立R08项目可观测性与隔离Staging验收.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T060947Z-B45C6BC0.md'
-- ' M releases/R08/ACCEPTANCE_MATRIX.csv'
-- ?? .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0002.yaml
-- ?? .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0003.yaml
-- ?? artifacts/validation/r08-task006-staging/SHA256SUMS
-- ?? artifacts/validation/r08-task006-staging/alert-deliveries.jsonl
-- ?? artifacts/validation/r08-task006-staging/alert-exercise.txt
-- ?? artifacts/validation/r08-task006-staging/backend-down-firing.json
-- ?? artifacts/validation/r08-task006-staging/compose-ps.txt
-- ?? artifacts/validation/r08-task006-staging/database.txt
-- ?? artifacts/validation/r08-task006-staging/final-metrics.txt
-- ?? artifacts/validation/r08-task006-staging/http-request-completed.jsonl
-- ?? artifacts/validation/r08-task006-staging/liveness.json
-- ?? artifacts/validation/r08-task006-staging/log-redaction.txt
-- ?? artifacts/validation/r08-task006-staging/machine-summary.txt
-- ?? artifacts/validation/r08-task006-staging/metadata.txt
-- ?? artifacts/validation/r08-task006-staging/metrics-summary.txt
-- ?? artifacts/validation/r08-task006-staging/metrics.txt
-- ?? artifacts/validation/r08-task006-staging/outbox-test-events.txt
-- ?? artifacts/validation/r08-task006-staging/prometheus-rules.json
-- ?? artifacts/validation/r08-task006-staging/prometheus-targets.json
-- ?? artifacts/validation/r08-task006-staging/public-status.json
-- ?? artifacts/validation/r08-task006-staging/r08-outbox-firing.json
-- ?? artifacts/validation/r08-task006-staging/readiness.json
-- ?? artifacts/validation/r08-task006-staging/rollback-rehearsal.txt
-- ?? artifacts/validation/r08-task006-staging/source-sha256.txt
-- ?? artifacts/validation/r08-task006-staging/trace-headers.txt
+- ?? .continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0004.yaml
 recent_commits:
+- "06f0ffca4899db048820d0d7ffefaf249fc80e80\t2026-07-22T14:37:39+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(staging): record R08 observability\
+  \ acceptance"
 - "7d6eedf4fdfc4b5b2143f28eafc682bb1c72445e\t2026-07-22T14:22:27+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(observability): add R08\
   \ project staging gate"
 - "9c374195614f0de473e997b3af7aa16070235c1a\t2026-07-22T14:07:20+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-005\
@@ -1910,13 +1839,11 @@ recent_commits:
 - "5549e6e94b5e4a08efcfc95bd3d0ce57be1a0436\t2026-07-22T13:34:52+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close TASK-R08-004"
 - "671ffc1d4b6c0aa0fc2e6d7712cb7a1a3723900d\t2026-07-22T13:34:00+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record historical\
   \ visual verification"
-- "35484da74a8c0483bdb6a236b8eca23bfe606cc9\t2026-07-22T13:23:00+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(ui): remediate R02-R05\
-  \ historical visuals"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`b199025d9015b1272f3ceb23ae0e1649b091de2d7d6069de7b596356870f0fea`
+- 指纹：`178a0eb0472f0de78adcb02aa86278865ac60330cf8ff443b59f5156fac27f34`
 - 文件数：15
 
 - `CHANGELOG.md`
@@ -7422,104 +7349,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260722T031604Z-105CF4C6
   implementation_commits:
   - 35484da74a8c0483bdb6a236b8eca23bfe606cc9
-- protocol_version: '1.0'
-  cr_id: CR-0226
-  title: 建立R08项目可观测性与隔离Staging验收
-  status: IMPLEMENTED
-  created_at: '2026-07-22T06:12:05Z'
-  updated_at: '2026-07-22T06:37:05Z'
-  requester_actor_id: codex-root-r08-006
-  approver_actor_id: codex-reviewer-r08-observability
-  task_id: TASK-R08-006
-  session_id: SES-20260722T060947Z-B45C6BC0
-  user_request: 项目所有者要求持续推进并由AI自行完成测试判定；完整模拟器与候选APK仅在R08最终候选阶段执行。
-  reason: R08项目业务已实现并通过专项测试，但现有指标与Staging现场验收只覆盖到R07，缺少项目专属Gauge、告警、Trace脱敏、告警恢复和同库同卷回切证据。
-  original_rule: R08继承通用RED、TraceId、脱敏日志和R07以前业务Gauge，但没有项目域专属指标、告警或可重复隔离Staging验收。
-  new_rule: R08增加项目总量、在线量、待审核量、收藏量、近5分钟联系方式访问/拒绝量和R08 Outbox积压七项无敏感字段只读Gauge；精确冻结Commit必须在隔离Staging验证TraceId与脱敏、RED、七项Gauge、后端与R08 Outbox告警firing/resolved及同一PostgreSQL容器和卷的应用镜像回切。完整模拟器和候选APK继续仅由TASK-R08-007触发。
-  impact_summary: 复用R07已验证骨架，以逐文件范围新增R08项目只读Gauge、单测、静态门禁、独立监控栈、自动现场验收、运行手册、机器证据和AC状态；不改业务API或数据库Schema。
-  impact:
-    files:
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
-    - scripts/check_r08_observability.py
-    - scripts/run_r08_staging_acceptance.sh
-    - infra/staging/r08-smoke/docker-compose.yml
-    - infra/staging/r08-smoke/prometheus.yml
-    - infra/staging/r08-smoke/alertmanager.yml
-    - infra/staging/r08-smoke/nginx.conf
-    - infra/staging/r08-smoke/r08-alerts.yml
-    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
-    - docs/07-operations/ROLLBACK_RUNBOOK.md
-    - artifacts/reports/R08/TASK-R08-006-staging.md
-    - releases/R08/ACCEPTANCE_MATRIX.csv
-    - CHANGELOG.md
-    - artifacts/validation/r08-task006-staging/metadata.txt
-    - artifacts/validation/r08-task006-staging/compose-ps.txt
-    - artifacts/validation/r08-task006-staging/liveness.json
-    - artifacts/validation/r08-task006-staging/readiness.json
-    - artifacts/validation/r08-task006-staging/database.txt
-    - artifacts/validation/r08-task006-staging/trace-headers.txt
-    - artifacts/validation/r08-task006-staging/public-status.json
-    - artifacts/validation/r08-task006-staging/http-request-completed.jsonl
-    - artifacts/validation/r08-task006-staging/log-redaction.txt
-    - artifacts/validation/r08-task006-staging/metrics.txt
-    - artifacts/validation/r08-task006-staging/metrics-summary.txt
-    - artifacts/validation/r08-task006-staging/prometheus-targets.json
-    - artifacts/validation/r08-task006-staging/prometheus-rules.json
-    - artifacts/validation/r08-task006-staging/source-sha256.txt
-    - artifacts/validation/r08-task006-staging/backend-down-firing.json
-    - artifacts/validation/r08-task006-staging/r08-outbox-firing.json
-    - artifacts/validation/r08-task006-staging/outbox-test-events.txt
-    - artifacts/validation/r08-task006-staging/alert-deliveries.jsonl
-    - artifacts/validation/r08-task006-staging/alert-exercise.txt
-    - artifacts/validation/r08-task006-staging/rollback-rehearsal.txt
-    - artifacts/validation/r08-task006-staging/final-metrics.txt
-    - artifacts/validation/r08-task006-staging/machine-summary.txt
-    - artifacts/validation/r08-task006-staging/SHA256SUMS
-    pages: []
-    apis: []
-    database:
-    - 只读content_posts、content_favorites、content_contact_access_logs和outbox_events；隔离验收仅插入并合法终结带冻结Commit唯一前缀的R08 Outbox测试事件
-    configuration:
-    - R08隔离Staging、Prometheus采集、Alertmanager审计回执、项目域业务告警
-    ledger:
-    - 不读写账本或资金数据
-    tests:
-    - R08静态可观测性门禁、BusinessGauge单元测试与Prometheus端点测试
-    - Compose/promtool配置验证、隔离Staging TraceId与日志脱敏、告警firing/resolved、同库同卷回滚演练
-    releases:
-    - R08
-    migration_and_compatibility: 纯增量可观测性与隔离Staging配置；Gauge只读现有表，关闭R08 Compose即可回退；数据库保持前向V034，禁止降级DDL或删除卷。测试Outbox事件使用r08-api来源事件类型并按PENDING到PUBLISHING到PUBLISHED合法终结。
-  user_confirmation: 项目所有者已长期授权持续推进、由AI判断测试结果，并要求大版本最终候选才执行模拟器与APK。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T06:12:53Z'
-    note: 范围逐文件明确；七项Gauge只读非敏感列，Staging与生产隔离，回滚保持同库同卷且禁止降级DDL，候选APK仍由TASK-R08-007独立触发。
-  machine_record: .continuity/change_requests/CR-0226.yaml
-  document: docs/03-continuity/change-requests/CR-0226-建立R08项目可观测性与隔离Staging验收.md
-  decision_log:
-  - at: '2026-07-22T06:12:58Z'
-    actor_id: codex-root-r08-006
-    status: IMPLEMENTING
-    note: 批准范围已应用，开始实现R08七项项目业务Gauge与隔离Staging验收。
-    session_id: SES-20260722T060947Z-B45C6BC0
-  - at: '2026-07-22T06:37:05Z'
-    actor_id: codex-root-r08-006
-    status: IMPLEMENTED
-    note: 七项项目Gauge、独立监控栈及精确Commit隔离Staging全部通过；Trace脱敏、RED、两项告警firing/resolved、Outbox合法终结和同库同卷回切证据已归档。
-    session_id: SES-20260722T060947Z-B45C6BC0
-  session_ids:
-  - SES-20260722T060947Z-B45C6BC0
-  implementation_commits:
-  - 7d6eedf4fdfc4b5b2143f28eafc682bb1c72445e
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `9851c3cf073ba4cd5bf08f442e2c616839800fac4f42c751f1cc126b79ce255b`
+- `CURRENT_STATUS.yaml` — `23b8e59a15ad04a79023d857019493a1f7bd80990f7d2b380ce2d610362a682c`
 - `NEXT_TASK.yaml` — `1882fbea92116b91e87a8b792c234058bb7f9febe37137bb606bbb6a39e97c48`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7530,12 +7366,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `c0ad2f3e37991934e7264ba281930e9b115bd9b3f70740a776669f01e6fe1cd5`
-- `.continuity/SESSION_INDEX.yaml` — `3951bc1b069441469041c0b292c37b93a1aef43a8abaf1a30fd46b391e538fc9`
+- `.continuity/EVENT_LOG.jsonl` — `b12657249a9f10112634d3e47502149bc59b23b9c360dfa864b4dc5138b87afb`
+- `.continuity/SESSION_INDEX.yaml` — `e05b648f7e4182d1b1905e2e3f10da6065757c2a27157dc6f5d362487bba45d4`
 - `.continuity/TASK_CLAIMS.yaml` — `772f2f98ed6670b13a38d2c50f5c3b0678c44560457a936983208efb68cc681a`
 - `.continuity/TASK_TRANSITIONS.yaml` — `77285827871b1081da4334c029ef246dd75c144a7a926944aa68db20cb67ec34`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `0692d4a103eb32eee5140e33035f0b36c12830fcdce25608885404c8aace8753`
-- `.continuity/ACTIVE_SESSION.yaml` — `8cd0a2c5b82f3ac6f3c53557a7fb6d9eb96d28b2c5ff8c81175821ffe81e6d79`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `bc22849c0a10c7d10e71b78d4a9654255a57a440efc34bd2f38a86e66c61c425`
+- `.continuity/ACTIVE_SESSION.yaml` — `2b648fe452c734675fe560872ea20a6ecf1a828ab5ce387e4df2d437072683a1`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7546,9 +7382,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/TASKS.yaml` — `b3ce04e0fb0858775eb01bed5d7ea820ecebfc9229ec639abfadfa06e4848f0b`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `7805259b6a663aa6b348a95b49e477ffb2e783de4e2f8a8dc6ab09162626e6ea`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T060947Z-B45C6BC0.md` — `c796329a1f2db9530139346b842b03cef8aee68289b2161143df523e864d5eb7`
-- `.continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0003.yaml` — `8964b69776a6024d6a51ee8faca9003468394ddf42acf46e443cd579fd7e3e8f`
-- `docs/03-continuity/change-requests/CR-0226-建立R08项目可观测性与隔离Staging验收.md` — `9cec4b38e6826a10b058359f6c31d826a7a169de83f424d03b48868aca6d9e11`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T060947Z-B45C6BC0.md` — `9e44d7a528b1875290f8ed88d7c79db8b37a6763f0b3f092830467b6acef2b62`
+- `.continuity/checkpoints/SES-20260722T060947Z-B45C6BC0/0004.yaml` — `41c8d824654cbbc18d58c2fa38d6ccbf9536e557f49a394085038732c81d802a`
+- `docs/03-continuity/change-requests/CR-0226-建立R08项目可观测性与隔离Staging验收.md` — `d2ea07f747b345211e8d3b3663583e5ad1c0d85f594fc075d6853089deba9fd5`
 
 ## 接手硬规则
 
