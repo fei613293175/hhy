@@ -2680,3 +2680,43 @@ claims:
   - artifacts/reports/ui-audit
   - tests
   closed_at: '2026-07-22T18:09:00Z'
+- claim_id: CLM-E5D04056F534
+  session_id: SES-20260722T181159Z-F501CFF5
+  task_id: TASK-R09-002
+  story_id: STORY-R09-004
+  actor_id: codex-root-r09-data
+  status: ACTIVE
+  claimed_at: '2026-07-22T18:11:59Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - App推广完整闭环数据迁移、数据库约束、回滚与不变量验证

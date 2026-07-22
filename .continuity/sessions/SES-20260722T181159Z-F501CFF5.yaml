@@ -1,0 +1,88 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T181159Z-F501CFF5
+status: ACTIVE
+actor:
+  id: codex-root-r09-data
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R09
+task_id: TASK-R09-002
+story_id: STORY-R09-004
+goal: App推广完整闭环数据迁移与领域不变量
+started_at: '2026-07-22T18:11:59Z'
+updated_at: '2026-07-22T18:27:15Z'
+takeover_of: null
+change_requests:
+- CR-0249
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - App推广完整闭环数据迁移、数据库约束、回滚与不变量验证
+  approved_exceptions:
+  - database/migrations/V035__r09_app_promotion_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+  - database/rollback/U035__r09_app_promotion_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  - scripts/run_r09_database_invariants.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0249
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: e336e79143572860308f6d3f372bd436b9f0131c
+  start_head: e336e79143572860308f6d3f372bd436b9f0131c
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T18:27:10Z'
+  expires_at: '2026-07-22T22:27:10Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
+next_step: 提交CR-0249实现Commit，推送后标记IMPLEMENTED/CLOSED并关闭TASK-R09-002进入R09-003。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 979f2fbd89fa3bc323de38d935d63b92f9a7176916c817872dea181d4f5824d8
+  generated_at: '2026-07-22T18:27:13Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 迁移序列、回滚与测试对象计数必须在同一事实分支串行集成；当前平台未由用户要求启用子代理。

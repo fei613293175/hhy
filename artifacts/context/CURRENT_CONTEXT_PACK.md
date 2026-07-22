@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T18:09:04Z
-- Context Hash：`6f657c2e6a6ff93e91831aa5f5c56e30ee5c39e347861685fdffa3e98156e898`
+- 生成时间：2026-07-22T18:27:13Z
+- Context Hash：`979f2fbd89fa3bc323de38d935d63b92f9a7176916c817872dea181d4f5824d8`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R09-002
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R09
 active_release: R09
 active_task: TASK-R09-002
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: d85bd820cdd6941d71dbbb4da31f98a5d9c05bef
 last_staging_apk: null
@@ -127,14 +127,15 @@ completed_tasks:
 - TASK-R08-007
 - TASK-R08-008
 - TASK-R09-001
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R09-002
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R09-002
-updated_at: '2026-07-22T18:09:01Z'
+updated_at: '2026-07-22T18:27:10Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -166,17 +167,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260722T153450Z-FAD75B8D
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0014.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260722T181159Z-F501CFF5
+  actor_id: codex-root-r09-data
+  story_id: STORY-R09-004
+  lease_expires_at: '2026-07-22T22:27:10Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0002.yaml
+  project_fingerprint: 571240e148760f132840f8eceb52aa6b5e0d16966ee7ef2d6b08673a5f3388a6
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 2a90ac54e96988fea0c0f0a57557bd07b89bef551fde77514ec866d0e3e569e8
-    generated_at: '2026-07-22T18:08:58Z'
+    context_hash: 763974d29f2b314d453eafb8f1a4f8cf5ca8a6062e2ab5f64ab08d03499a3622
+    generated_at: '2026-07-22T18:15:06Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -360,13 +363,292 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T181159Z-F501CFF5
+status: ACTIVE
+actor:
+  id: codex-root-r09-data
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R09
+task_id: TASK-R09-002
+story_id: STORY-R09-004
+goal: App推广完整闭环数据迁移与领域不变量
+started_at: '2026-07-22T18:11:59Z'
+updated_at: '2026-07-22T18:27:10Z'
+takeover_of: null
+change_requests:
+- CR-0249
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - App推广完整闭环数据迁移、数据库约束、回滚与不变量验证
+  approved_exceptions:
+  - database/migrations/V035__r09_app_promotion_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+  - database/rollback/U035__r09_app_promotion_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  - scripts/run_r09_database_invariants.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0249
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: e336e79143572860308f6d3f372bd436b9f0131c
+  start_head: e336e79143572860308f6d3f372bd436b9f0131c
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T18:27:10Z'
+  expires_at: '2026-07-22T22:27:10Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
+next_step: 提交CR-0249实现Commit，推送后标记IMPLEMENTED/CLOSED并关闭TASK-R09-002进入R09-003。
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 迁移序列、回滚与测试对象计数必须在同一事实分支串行集成；当前平台未由用户要求启用子代理。
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T181159Z-F501CFF5-0002
+session_id: SES-20260722T181159Z-F501CFF5
+sequence: 2
+created_at: '2026-07-22T18:27:09Z'
+summary: R09 App推广数据不变量实现并验证完成：V035/U035、禁止APK双路径保护、延迟详情约束、索引及四链路测试均通过。
+next_step: 提交CR-0249实现Commit，推送后标记IMPLEMENTED/CLOSED并关闭TASK-R09-002进入R09-003。
+blockers: []
+decisions:
+- MODULE验证使用obx-test既有Android JDK21缓存镜像；未触发GitHub，未安装或重建服务器环境。
+note: ''
+tests:
+- name: R09 PostgreSQL 17 matrix
+  result: PASS
+  evidence: R09_EMPTY_DATABASE_TO_V035+UPGRADE+INVARIANTS+U035_ROLLBACK+V035_REPLAY
+  note: 空库、升级、拒绝、回滚、重放全部通过
+- name: Backend affected MODULE
+  result: PASS
+  evidence: 344 tests, 0 failures, 0 errors, 9 conditional skips
+  note: JDK21缓存镜像运行access+boot及依赖模块
+- name: Runtime assets and contracts
+  result: PASS
+  evidence: sync_runtime_assets+check_api_contract+check_db_schema
+  note: 39 assets、319 REST/10 websocket、200 tables/35 migrations
+- name: Documentation strict
+  result: PASS
+  evidence: 0 errors, 0 warnings
+  note: 189 UI surfaces and all catalogs consistent
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: e336e79143572860308f6d3f372bd436b9f0131c
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ?? .continuity/change_requests/CR-0249.yaml
+  - ?? .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0001.yaml
+  - ?? .continuity/sessions/SES-20260722T181159Z-F501CFF5.yaml
+  - ?? database/migrations/V035__r09_app_promotion_invariants.sql
+  - ?? database/rollback/U035__r09_app_promotion_invariants.sql
+  - ?? database/tests/r09_app_promotion_invariants.sql
+  - ?? docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
+  - ?? scripts/run_r09_database_invariants.sh
+  - ?? scripts/run_r09_disposable_postgres_container.sh
+  - ?? services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+  recent_commits:
+  - "e336e79143572860308f6d3f372bd436b9f0131c\t2026-07-23T02:10:03+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close readiness\
+    \ and UI audit"
+  - "d85bd820cdd6941d71dbbb4da31f98a5d9c05bef\t2026-07-23T02:06:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close historical\
+    \ UI remediation"
+  - "82dbd12edff2af79b597e4814a6cb53add0d445f\t2026-07-23T02:03:27+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(ui): accept historical\
+    \ visual audit"
+  - "aa703035fe51ddbddb4e6d1ab6e5078ee6f7c97c\t2026-07-23T01:39:08+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(ci): preserve historical\
+    \ visual workdir"
+  - "3e59516bc7135f0c632816f9424c30e38b56730e\t2026-07-23T01:25:19+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] ci(android): request historical\
+    \ visual audit"
+  - "f4e49b514b8a6844341e286fa211c863ec1187ab\t2026-07-23T01:14:40+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] refactor(ci): reuse quality\
+    \ gate for visual audit"
+  - "654b3c0b7a4d02f6b3dbaada3d56214c74475c98\t2026-07-23T00:50:05+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(ui): remediate historical\
+    \ visual quality"
+  - "c3e6130bdcd8b2e4f619cb68eb2dd5e50045f30f\t2026-07-22T23:57:34+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close CR-0247"
+project_fingerprint:
+  sha256: 571240e148760f132840f8eceb52aa6b5e0d16966ee7ef2d6b08673a5f3388a6
+  files:
+  - CHANGELOG.md
+  - database/migrations/V035__r09_app_promotion_invariants.sql
+  - database/rollback/U035__r09_app_promotion_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  - docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+  - scripts/run_r09_database_invariants.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+  file_count: 8
+  payload:
+    base_commit: e336e79143572860308f6d3f372bd436b9f0131c
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 94727
+      sha256: 0172358878ea12ed5083547fe31d1b0516449c5827cc80bbd5b99589646b8b96
+    - path: database/migrations/V035__r09_app_promotion_invariants.sql
+      state: FILE
+      size: 4936
+      sha256: 8e6f9a41bf809fcd9945f816951d2c4bb2f59bbd44f197ae417a5bc4511b2a07
+    - path: database/rollback/U035__r09_app_promotion_invariants.sql
+      state: FILE
+      size: 837
+      sha256: bc9920d1eccf76ea6ec026ef8f136ef9c77f62ea20d45d66a17e125129bec90e
+    - path: database/tests/r09_app_promotion_invariants.sql
+      state: FILE
+      size: 3734
+      sha256: 45543612972bc3bba3689bbb1251f9a6e0af364b2db3f12cbbb4435a641b3a83
+    - path: docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+      state: FILE
+      size: 3036
+      sha256: aa0fd8d33425b3c4887e61d799851088c2c6c77156f8af08bc2e3927aff68950
+    - path: scripts/run_r09_database_invariants.sh
+      state: FILE
+      size: 3443
+      sha256: 31cb23ea8b6257e76edbc5a1f8f8eb1fbad1cbaa21df3a7e3892508440b26a3c
+    - path: scripts/run_r09_disposable_postgres_container.sh
+      state: FILE
+      size: 3951
+      sha256: 23e6e6555ff9d637ec669664e1ef9dc5abdfa1a8cb38f152f6e1e81a4516bef2
+    - path: services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+      state: FILE
+      size: 4936
+      sha256: 8e6f9a41bf809fcd9945f816951d2c4bb2f59bbd44f197ae417a5bc4511b2a07
+change_classification:
+  other:
+  - CHANGELOG.md
+  database:
+  - database/migrations/V035__r09_app_promotion_invariants.sql
+  - database/rollback/U035__r09_app_promotion_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  continuity:
+  - docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+  code:
+  - scripts/run_r09_database_invariants.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0249
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - App推广完整闭环数据迁移、数据库约束、回滚与不变量验证
+  approved_exceptions:
+  - database/migrations/V035__r09_app_promotion_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+  - database/rollback/U035__r09_app_promotion_invariants.sql
+  - database/tests/r09_app_promotion_invariants.sql
+  - scripts/run_r09_database_invariants.sh
+  - scripts/run_r09_disposable_postgres_container.sh
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0249
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 迁移序列、回滚与测试对象计数必须在同一事实分支串行集成；当前平台未由用户要求启用子代理。
+event_hash: 48923fb0943965782dc892e95625a970cd40b779b68e09fb5f57fbae06b42ba5
 ```
 
 ## 接续状态与事件头
@@ -374,31 +656,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260722T181159Z-F501CFF5
 last_session_id: SES-20260722T153450Z-FAD75B8D
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T153450Z-FAD75B8D-0014
-event_count: 2438
-event_head_hash: b96e03bc42f7c82e7881763fd1d66c1d161828e7cd625933d4f5d0f086bdf046
+event_count: 2446
+event_head_hash: 48923fb0943965782dc892e95625a970cd40b779b68e09fb5f57fbae06b42ba5
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260721T235847Z-F9109B61
-  task_id: TASK-R07-008
-  story_id: STORY-R07-005
-  actor_id: codex-root-r07-008
-  status: CLOSED
-  started_at: '2026-07-21T23:58:47Z'
-  record: .continuity/sessions/SES-20260721T235847Z-F9109B61.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md
-  updated_at: '2026-07-22T00:23:14Z'
-  closed_at: '2026-07-22T00:23:14Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0005.yaml
-  handoff_bundle: null
-- session_id: SES-20260722T002444Z-8BEC3CA6
+recent_sessions: - session_id: SES-20260722T002444Z-8BEC3CA6
   task_id: TASK-R08-001
   story_id: STORY-R08-004
   actor_id: codex-root-r08-001
@@ -506,29 +776,19 @@ recent_sessions: - session_id: SES-20260721T235847Z-F9109B61
   closed_at: '2026-07-22T18:09:00Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0014.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-1136543F9D43
-  session_id: SES-20260721T043434Z-868F3619
-  task_id: TASK-R06-007
-  story_id: STORY-R06-001
-  actor_id: codex-root
-  status: CLOSED
-  claimed_at: '2026-07-21T04:34:34Z'
-  allowed_paths:
-  - apps/admin-web/**
-  - services/backend/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - tests/**
-  - docs/**
-  - catalogs/**
-  - releases/**
-  - design/**
-  - scripts/**
-  - CHANGELOG.md
-  closed_at: '2026-07-21T05:50:43Z'
-- claim_id: CLM-12C11A7F159D
+- session_id: SES-20260722T181159Z-F501CFF5
+  task_id: TASK-R09-002
+  story_id: STORY-R09-004
+  actor_id: codex-root-r09-data
+  status: ACTIVE
+  started_at: '2026-07-22T18:11:59Z'
+  record: .continuity/sessions/SES-20260722T181159Z-F501CFF5.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
+  updated_at: '2026-07-22T18:27:10Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0002.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-12C11A7F159D
   session_id: SES-20260721T055708Z-741C3D49
   task_id: TASK-R06-008
   story_id: STORY-R06-005
@@ -1279,17 +1539,47 @@ task_claims: - claim_id: CLM-1136543F9D43
   - artifacts/reports/ui-audit
   - tests
   closed_at: '2026-07-22T18:09:00Z'
-recent_task_transitions: - transition_id: TRN-BCEA665B53B9
-  timestamp: '2026-07-21T04:34:35Z'
-  release: R06
-  task_id: TASK-R06-007
-  story_id: STORY-R06-001
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260721T043434Z-868F3619
-  actor_id: codex-root
-  reason: 会话领取任务
-- transition_id: TRN-DD3561682A9E
+- claim_id: CLM-E5D04056F534
+  session_id: SES-20260722T181159Z-F501CFF5
+  task_id: TASK-R09-002
+  story_id: STORY-R09-004
+  actor_id: codex-root-r09-data
+  status: ACTIVE
+  claimed_at: '2026-07-22T18:11:59Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - App推广完整闭环数据迁移、数据库约束、回滚与不变量验证
+recent_task_transitions: - transition_id: TRN-DD3561682A9E
   timestamp: '2026-07-21T05:57:10Z'
   release: R06
   task_id: TASK-R06-008
@@ -1479,6 +1769,16 @@ recent_task_transitions: - transition_id: TRN-BCEA665B53B9
   session_id: SES-20260722T153450Z-FAD75B8D
   actor_id: codex-root-r09-ui-audit
   reason: 会话领取任务
+- transition_id: TRN-EAEAEE2F417A
+  timestamp: '2026-07-22T18:12:00Z'
+  release: R09
+  task_id: TASK-R09-002
+  story_id: STORY-R09-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260722T181159Z-F501CFF5
+  actor_id: codex-root-r09-data
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1486,29 +1786,42 @@ recent_task_transitions: - transition_id: TRN-BCEA665B53B9
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: d85bd820cdd6941d71dbbb4da31f98a5d9c05bef
+head: e336e79143572860308f6d3f372bd436b9f0131c
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260722T153450Z-FAD75B8D.yaml'
+- ' M .continuity/TASK_TRANSITIONS.yaml'
 - ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md'
-- ' M releases/R09/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0014.yaml
+- ' M catalogs/task_transition_ledger.csv'
+- ?? .continuity/change_requests/CR-0249.yaml
+- ?? .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0001.yaml
+- ?? .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0002.yaml
+- ?? .continuity/sessions/SES-20260722T181159Z-F501CFF5.yaml
+- ?? database/migrations/V035__r09_app_promotion_invariants.sql
+- ?? database/rollback/U035__r09_app_promotion_invariants.sql
+- ?? database/tests/r09_app_promotion_invariants.sql
+- ?? docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+- ?? docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
+- ?? scripts/run_r09_database_invariants.sh
+- ?? scripts/run_r09_disposable_postgres_container.sh
+- ?? services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
 recent_commits:
+- "e336e79143572860308f6d3f372bd436b9f0131c\t2026-07-23T02:10:03+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close readiness and\
+  \ UI audit"
 - "d85bd820cdd6941d71dbbb4da31f98a5d9c05bef\t2026-07-23T02:06:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close historical UI\
   \ remediation"
 - "82dbd12edff2af79b597e4814a6cb53add0d445f\t2026-07-23T02:03:27+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(ui): accept historical\
@@ -1522,16 +1835,21 @@ recent_commits:
 - "654b3c0b7a4d02f6b3dbaada3d56214c74475c98\t2026-07-23T00:50:05+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(ui): remediate historical\
   \ visual quality"
 - "c3e6130bdcd8b2e4f619cb68eb2dd5e50045f30f\t2026-07-22T23:57:34+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close CR-0247"
-- "d89d7c0bf4a360ac9bb40c51bc46ed7a9b772e8c\t2026-07-22T23:56:15+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(workflow): clarify UI and\
-  \ release closure"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`c385e56a6ea9ee33f694e7cc9266daf1f713e9c6818d5eba16d675a290d4b18c`
-- 文件数：0
+- 指纹：`571240e148760f132840f8eceb52aa6b5e0d16966ee7ef2d6b08673a5f3388a6`
+- 文件数：8
 
-- 无
+- `CHANGELOG.md`
+- `database/migrations/V035__r09_app_promotion_invariants.sql`
+- `database/rollback/U035__r09_app_promotion_invariants.sql`
+- `database/tests/r09_app_promotion_invariants.sql`
+- `docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md`
+- `scripts/run_r09_database_invariants.sh`
+- `scripts/run_r09_disposable_postgres_container.sh`
+- `services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql`
 
 ## 当前 Release
 
@@ -7544,13 +7862,70 @@ TASKS.yaml:
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
+- protocol_version: '1.0'
+  cr_id: CR-0249
+  title: R09 App推广数据迁移与领域不变量
+  status: IMPLEMENTING
+  created_at: '2026-07-22T18:14:14Z'
+  updated_at: '2026-07-22T18:27:07Z'
+  requester_actor_id: codex-root-r09-data
+  approver_actor_id: codex-r09-review
+  task_id: TASK-R09-002
+  session_id: SES-20260722T181159Z-F501CFF5
+  user_request: 用户要求持续推进R09，并保证真实功能落地、禁止虚构开发且版本关闭高效可复用。
+  reason: 现有app_details仅有通用基表，尚未强制App字段完整性、第三方APK禁止、公开列表索引和软删除保护。
+  original_rule: R09复用R06通用内容表和app_details基表；应用层负责字段校验，数据库没有R09专属App推广不变量。
+  new_rule: R09 App内容必须有唯一且非空app_details；可选平台、版本、外部下载链接和官网若存在不得为空白；App内容不得关联APK MIME或APK媒体类型；活跃App扩展不得物理删除；公开App列表使用专属部分索引；迁移支持历史兼容、开发回滚和重放。
+  impact_summary: 新增V035/U035与R09数据库验证脚本，在不增加APK上传字段和不改写既有业务行的前提下，把App推广的字段完整性、禁止第三方APK、列表性能和软删除约束下沉到PostgreSQL。
+  impact:
+    files:
+    - database/migrations/V035__r09_app_promotion_invariants.sql
+    - services/backend/boot/src/main/resources/db/migration/V035__r09_app_promotion_invariants.sql
+    - database/rollback/U035__r09_app_promotion_invariants.sql
+    - database/tests/r09_app_promotion_invariants.sql
+    - scripts/run_r09_database_invariants.sh
+    - scripts/run_r09_disposable_postgres_container.sh
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database:
+    - app_details
+    - content_posts
+    - content_media
+    - media_objects
+    configuration: []
+    ledger:
+    - CR-0249
+    tests:
+    - R09 empty-database migration
+    - R09 legacy upgrade compatibility
+    - R09 app invariant rejection/property checks
+    - R09 rollback and replay
+    releases:
+    - R09
+    migration_and_compatibility: 所有CHECK均NOT VALID以兼容历史行；触发器只约束新增/变更；回滚仅删除R09对象并保留业务数据；空库、升级库、回滚、重放四条链路实测。
+  user_confirmation: 用户已明确授权持续开发R09并要求真实落地、无需每版本等待确认。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T18:14:38Z'
+    note: 变更沿用现有表和R08迁移模式，不新增业务功能或APK上传能力；兼容和回滚边界明确。
+  machine_record: .continuity/change_requests/CR-0249.yaml
+  document: docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md
+  decision_log:
+  - at: '2026-07-22T18:27:07Z'
+    actor_id: codex-root-r09-data
+    status: IMPLEMENTING
+    note: V035/U035与验证脚本已实现；PostgreSQL 17空库、升级、回滚、重放通过，受影响MODULE检查通过，准备提交实现。
+    session_id: SES-20260722T181159Z-F501CFF5
+  session_ids:
+  - SES-20260722T181159Z-F501CFF5
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `71bc1e6524af9c7fa89051324d512811efc82173d8ee749c9465c758fc377375`
+- `CURRENT_STATUS.yaml` — `8fb88345c8c160cc460e395d2044a6864d5e3396d2a111c3682f72ec95493ca9`
 - `NEXT_TASK.yaml` — `f094e91ffdacdffc8d83e7eb0f803cc4177b8e2408fd00c60d923aaa4148a91b`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7561,12 +7936,12 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `51fc433968a1537f2ee35e1d1f4aeda39477ba2a541f792e03674f408c3ce1d1`
-- `.continuity/SESSION_INDEX.yaml` — `de1c4ac5417893a3787884565dedb398e1e9d97deb546aa7fd6216672239beca`
-- `.continuity/TASK_CLAIMS.yaml` — `2c21e26cb0c74d7d05353dde8cef78a01ea74157094c960910799aa112909c6e`
-- `.continuity/TASK_TRANSITIONS.yaml` — `f26a836cb897d059bc80c40b59f4129460780ee51598b4fa2f69e3eaf8082fb4`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `cc7546b7df3753b962c1011af5fe414657a39ed71633866357e670a27d71613f`
-- `.continuity/ACTIVE_SESSION.yaml` — `d4923577ad0f824087ed44eabbe0ca960d0f8c38f2280dcb3b565a8dfbaab81f`
+- `.continuity/EVENT_LOG.jsonl` — `58d59bdc8b9c975e9118af10cbd940e8f51e8701596bb2f737feba92ada8108d`
+- `.continuity/SESSION_INDEX.yaml` — `f9e8146c8b616707a69013cdc8577e380d88279d0586d6ed438022bf2f63e965`
+- `.continuity/TASK_CLAIMS.yaml` — `dad3958bb1577eefb6e4bca1bb8f5bc48ffa96ec8be5650c831a7a2be6e665db`
+- `.continuity/TASK_TRANSITIONS.yaml` — `d3f6ad9462f0201a0fb2eec83cb306e53653c74120b3f4a5edd13a839f8a6c25`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `67217ecfd6799ead38a2703359279da89346129e1fb1a7f80db621f2156c6a8a`
+- `.continuity/ACTIVE_SESSION.yaml` — `8d973e305cd23b297c5ebae3e70a4ebdd725605eea76c8c46cbe1d0d6034a3a0`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7576,6 +7951,9 @@ TASKS.yaml:
 - `releases/R09/STORIES.yaml` — `bf6aa9b385fde354089345fa0172e6d9ca01a3fa96f0ce696a3086a394ce2776`
 - `releases/R09/TASKS.yaml` — `035aa2c27d195d4522039aa1df3de82b69fdefac5a71dcb176775b8d93e3ec2a`
 - `releases/R09/ACCEPTANCE_MATRIX.csv` — `98e99c241f9e7ab8814e20fb62060f90c5903da20c1ef39ec81fa75d3bdecfb3`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md` — `b551b74c79a1dcbe1b9d78e8e5f7854712898e85ea2a22c49775ce4871ba37d0`
+- `.continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0002.yaml` — `85b35ba40d8ce76604336e3271493eec77a891a91942acd65952c660f0f649d1`
+- `docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md` — `aa0fd8d33425b3c4887e61d799851088c2c6c77156f8af08bc2e3927aff68950`
 
 ## 接手硬规则
 
