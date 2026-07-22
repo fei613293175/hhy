@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T08:59:01Z",
-  "context_hash": "a8ad6afef04f17efce7f9df4673b7a3dd97f3465e45b2ef68d1e53c51eb6863c",
+  "generated_at": "2026-07-22T09:29:59Z",
+  "context_hash": "993c4644bb84b5013b3b571021cc84629c5c71888eb4b484ee56194416ced24a",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "3e42e6f1a9d96c2e68575c23819e5c0545bc6ad287d924ce4b47ae25cfe56c4e",
-    "file_count": 36
+    "sha256": "0d1e3697de5f55130895577c045d01b90f956e7378ee6b1563ece941340bc6f6",
+    "file_count": 41
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "fee17e02f569710432209f848abdce646e60761647bf3c29eeef3b08d977154a"
+    "sha256": "58dceda8e64e8a54f7fac99886704a10a7cfb6267477489620b21ba93e91dfce"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "29d20400ec62853d521b95a3291d944e80991b166c8e75bd330e9d109bfc86af"
+    "sha256": "baa2828c7115506d1d9981ab9950b36ec633abfc98aee3c0437ad71142353a65"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "6dd2bca58b80b3cdd714c8302e90845d55a38c08371df51d72350d50e9a1fb84",
+      "sha256": "6d688618806f01604acaa6dcffefe656b330ce5eaae5c3c6c9449e0f9e18b3eb",
       "bytes": 3985
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "a964581152e66b98af9006a8db12ce45e1bbbc577aacef4c86233f420ed279f4",
-      "bytes": 1262840
+      "sha256": "58e8b0fee02e129e571ea113f782f90de6996dd1e6be9604f0f40693e5333198",
+      "bytes": 1267322
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "08b96b84a6d1d8201136b1ca9086d819a128da443e08ac79d15c551c6fe3bd52",
+      "sha256": "a24e4aa89ddfb729125c5201862408c5b20182b8e0c585ce1394439a31f82b53",
       "bytes": 37908
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "b90641be5735e764b8b2c68fce87c67efe51eea1edcca7e38f7a5bc01a257c4d",
-      "bytes": 754261
+      "sha256": "b47ad9d703c536989e452a12a15736f1c97c6c778db86f6d63e3ad90fb944f35",
+      "bytes": 758196
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "3f36b04dc3b03c49bb97b6963105fd8170ae4790ba595b114157a9f70bb36f7c",
+      "sha256": "c664329c9bebf6914edd199a73cafe80f714b4b58d8ab86aca974af5840fff07",
       "bytes": 533
     },
     {
@@ -133,8 +133,8 @@
     },
     {
       "path": "releases/R08/RELEASE_MANIFEST.yaml",
-      "sha256": "62ce3ebc9d1aefa77c684678fbd51364f0842afeeef604623645b79ff23882c9",
-      "bytes": 4876
+      "sha256": "3eede8ab245de0239475b000ef9380c21333fb764a178034cfbcd8d9020c4167",
+      "bytes": 5878
     },
     {
       "path": "releases/R08/DEFINITION_OF_READY.yaml",
@@ -153,8 +153,8 @@
     },
     {
       "path": "releases/R08/ACCEPTANCE_MATRIX.csv",
-      "sha256": "7805259b6a663aa6b348a95b49e477ffb2e783de4e2f8a8dc6ab09162626e6ea",
-      "bytes": 704
+      "sha256": "01d8e51f52bf52095b5e87885610bbd9d1790d477f5e87b6bd7df148d40fa86b",
+      "bytes": 798
     },
     {
       "path": "releases/R08/PARALLEL_EXECUTION_PLAN.yaml",
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md",
-      "sha256": "c2d9a696531c587b0b2eee653b004ee4831b738f7bdd1815ada2ae882446edb8",
-      "bytes": 23087
+      "sha256": "8c60eb22719ffd78b68ea8ec7f9a3116baa155fbe3e5ca9238d01b23ca9c195f",
+      "bytes": 26786
     },
     {
-      "path": ".continuity/checkpoints/SES-20260722T064621Z-68304DE1/0010.yaml",
-      "sha256": "a350a0c1296874f4bff17920d5dd44661df618b1ce44ac8129c70976d293bcff",
-      "bytes": 17592
+      "path": ".continuity/checkpoints/SES-20260722T064621Z-68304DE1/0011.yaml",
+      "sha256": "c281865566c4e77192ea4d9bf2cb8df0c3064a1b0cd4ec3bbd76e059e82e0806",
+      "bytes": 21354
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md",
@@ -195,6 +195,11 @@
       "path": "docs/03-continuity/change-requests/CR-0231-修复R08项目页技术枚举与地区代码直出.md",
       "sha256": "eaa914cbdbad8f8989856029253477d0a67a2ad530f4246c2fdb2b89f686a473",
       "bytes": 3733
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md",
+      "sha256": "37144e9bf71735caedddfc86e6f409b0ba54d32346e01b0a31875677b6e5b2ea",
+      "bytes": 3674
     }
   ]
 }

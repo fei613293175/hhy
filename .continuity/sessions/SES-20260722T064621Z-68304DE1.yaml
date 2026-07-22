@@ -11,7 +11,7 @@ task_id: TASK-R08-007
 story_id: STORY-R08-004
 goal: 项目推广完整闭环Android测试APK与产物追溯
 started_at: '2026-07-22T06:46:21Z'
-updated_at: '2026-07-22T08:59:03Z'
+updated_at: '2026-07-22T09:30:01Z'
 takeover_of: null
 change_requests:
 - CR-0227
@@ -19,6 +19,7 @@ change_requests:
 - CR-0229
 - CR-0230
 - CR-0231
+- CR-0232
 scope:
   allowed_paths:
   - apps/**
@@ -79,7 +80,20 @@ scope:
   - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
   - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
   - tests/test_android_ci_gate.py
-  source: story+explicit+approved-cr:CR-0227+approved-cr:CR-0228+approved-cr:CR-0229+approved-cr:CR-0231
+  - artifacts/validation/r08-task007-android/APPROVAL.yaml
+  - artifacts/validation/r08-task007-android/build-evidence.json
+  - artifacts/validation/r08-task007-android/candidate-report.json
+  - artifacts/validation/r08-task007-android/source-candidate-report.json
+  - artifacts/validation/r08-task007-android/screenshots/01-project-list.png
+  - artifacts/validation/r08-task007-android/screenshots/02-project-detail.png
+  - artifacts/validation/r08-task007-android/screenshots/03-project-editor.png
+  - artifacts/validation/r08-apk-delivery/delivery-evidence.json
+  - artifacts/apk/R08/APK_MANIFEST.yaml
+  - artifacts/apk/R08/hhy-r08-49f40f2-debug.apk
+  - artifacts/reports/R08/TASK-R08-007-android-apk.md
+  - artifacts/reports/R08/R08-version-test-guide.md
+  - releases/R08/ACCEPTANCE_MATRIX.csv
+  source: story+explicit+approved-cr:CR-0227+approved-cr:CR-0228+approved-cr:CR-0229+approved-cr:CR-0231+approved-cr:CR-0232
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -89,22 +103,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T08:58:58Z'
-  expires_at: '2026-07-22T12:58:58Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0010.yaml
+  renewed_at: '2026-07-22T09:29:56Z'
+  expires_at: '2026-07-22T13:29:56Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-next_step: 提交并推送R08视觉基线，触发轻量Android Visual Baseline Promotion；只复核原Run工件和哈希，禁止重新编译或启动模拟器。
+next_step: 提交并推送TASK-R08-007候选交付证据，关闭CR-0232与TASK-R08-007；立即进入TASK-R08-008，解决R02/R04-R07 Android历史页面新标准复核仍未PASS的R08关闭前置门禁。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: a8ad6afef04f17efce7f9df4673b7a3dd97f3465e45b2ef68d1e53c51eb6863c
-  generated_at: '2026-07-22T08:59:01Z'
+  context_hash: 993c4644bb84b5013b3b571021cc84629c5c71888eb4b484ee56194416ced24a
+  generated_at: '2026-07-22T09:29:59Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 视觉基线审批与原始工件哈希绑定不可拆分，轻量晋升必须保持单一权威提交；用户未要求子代理。
+  reason: 当前为同一候选产物、签名和连续性元数据的串行闭环，禁止并发改写同一版本事实源。

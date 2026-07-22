@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T08:59:01Z
-- Context Hash：`a8ad6afef04f17efce7f9df4673b7a3dd97f3465e45b2ef68d1e53c51eb6863c`
+- 生成时间：2026-07-22T09:29:59Z
+- Context Hash：`993c4644bb84b5013b3b571021cc84629c5c71888eb4b484ee56194416ced24a`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -132,7 +132,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-007
-updated_at: '2026-07-22T08:58:58Z'
+updated_at: '2026-07-22T09:29:56Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -167,15 +167,15 @@ continuity:
   active_session_id: SES-20260722T064621Z-68304DE1
   actor_id: codex-root-r08-007
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T12:58:58Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0010.yaml
-  project_fingerprint: 3e42e6f1a9d96c2e68575c23819e5c0545bc6ad287d924ce4b47ae25cfe56c4e
+  lease_expires_at: '2026-07-22T13:29:56Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0011.yaml
+  project_fingerprint: 0d1e3697de5f55130895577c045d01b90f956e7378ee6b1563ece941340bc6f6
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 75b2e062e458bb59f3ed283b80b84887accf490a3917e66364cac469058a5d0c
-    generated_at: '2026-07-22T08:43:33Z'
+    context_hash: 0dc5f525775f31e49f801622bc7a65c2dbc29a6e341ae66508af6ce781b1b31e
+    generated_at: '2026-07-22T09:17:12Z'
   handoff_bundle: null
 ```
 
@@ -373,7 +373,7 @@ task_id: TASK-R08-007
 story_id: STORY-R08-004
 goal: 项目推广完整闭环Android测试APK与产物追溯
 started_at: '2026-07-22T06:46:21Z'
-updated_at: '2026-07-22T08:58:58Z'
+updated_at: '2026-07-22T09:29:56Z'
 takeover_of: null
 change_requests:
 - CR-0227
@@ -381,6 +381,7 @@ change_requests:
 - CR-0229
 - CR-0230
 - CR-0231
+- CR-0232
 scope:
   allowed_paths:
   - apps/**
@@ -441,7 +442,20 @@ scope:
   - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
   - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
   - tests/test_android_ci_gate.py
-  source: story+explicit+approved-cr:CR-0227+approved-cr:CR-0228+approved-cr:CR-0229+approved-cr:CR-0231
+  - artifacts/validation/r08-task007-android/APPROVAL.yaml
+  - artifacts/validation/r08-task007-android/build-evidence.json
+  - artifacts/validation/r08-task007-android/candidate-report.json
+  - artifacts/validation/r08-task007-android/source-candidate-report.json
+  - artifacts/validation/r08-task007-android/screenshots/01-project-list.png
+  - artifacts/validation/r08-task007-android/screenshots/02-project-detail.png
+  - artifacts/validation/r08-task007-android/screenshots/03-project-editor.png
+  - artifacts/validation/r08-apk-delivery/delivery-evidence.json
+  - artifacts/apk/R08/APK_MANIFEST.yaml
+  - artifacts/apk/R08/hhy-r08-49f40f2-debug.apk
+  - artifacts/reports/R08/TASK-R08-007-android-apk.md
+  - artifacts/reports/R08/R08-version-test-guide.md
+  - releases/R08/ACCEPTANCE_MATRIX.csv
+  source: story+explicit+approved-cr:CR-0227+approved-cr:CR-0228+approved-cr:CR-0229+approved-cr:CR-0231+approved-cr:CR-0232
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -451,12 +465,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T08:58:58Z'
-  expires_at: '2026-07-22T12:58:58Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0010.yaml
+  renewed_at: '2026-07-22T09:29:56Z'
+  expires_at: '2026-07-22T13:29:56Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-next_step: 提交并推送R08视觉基线，触发轻量Android Visual Baseline Promotion；只复核原Run工件和哈希，禁止重新编译或启动模拟器。
+next_step: 提交并推送TASK-R08-007候选交付证据，关闭CR-0232与TASK-R08-007；立即进入TASK-R08-008，解决R02/R04-R07 Android历史页面新标准复核仍未PASS的R08关闭前置门禁。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -464,49 +478,77 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 视觉基线审批与原始工件哈希绑定不可拆分，轻量晋升必须保持单一权威提交；用户未要求子代理。
+  reason: 当前为同一候选产物、签名和连续性元数据的串行闭环，禁止并发改写同一版本事实源。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0010
+checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0011
 session_id: SES-20260722T064621Z-68304DE1
-sequence: 10
-created_at: '2026-07-22T08:58:57Z'
-summary: GitHub候选Run 29905158793全部机器作业通过；下载工件SHA256=c1964192，候选APK SHA256=9d298bd0。AI逐张批准项目列表、详情和编辑三图，无技术码、虚构内容或联系方式明文，已生成R08视觉基线与APPROVAL。
-next_step: 提交并推送R08视觉基线，触发轻量Android Visual Baseline Promotion；只复核原Run工件和哈希，禁止重新编译或启动模拟器。
+sequence: 11
+created_at: '2026-07-22T09:29:55Z'
+summary: R08第三轮候选与轻量视觉基线晋升PASS；三张R08项目页由AI按效果图级标准批准；固定Staging签名完成，下载站精确路由、仓库/桌面/服务器/HTTPS四方SHA一致及独立交付verify PASS；APK和两份说明已放桌面。
+next_step: 提交并推送TASK-R08-007候选交付证据，关闭CR-0232与TASK-R08-007；立即进入TASK-R08-008，解决R02/R04-R07 Android历史页面新标准复核仍未PASS的R08关闭前置门禁。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: github-candidate-run
+- name: github-candidate
   result: PASS
-  evidence: run 29905158793 commit 49f40f2d
-  note: request/compile/emulator/eligibility全通过
-- name: ai-visual-review
+  evidence: Run 29905158793 commit 49f40f2d
+  note: 编译、Lint、单测、打包、模拟器认证旅程和日志门禁通过
+- name: visual-promotion
   result: PASS
-  evidence: R08三张原始截图及APPROVAL.yaml
-  note: 效果图级层级、中文业务文案、无虚构和敏感泄漏
-- name: local-baseline-promotion-preflight
+  evidence: Run 29906167593
+  note: 三张R08页面AI批准且同源轻量晋升15秒完成
+- name: apk-delivery
   result: PASS
-  evidence: scripts/android_ci_gate.py promote
-  note: 原Run/Commit/APK/截图哈希全部绑定
+  evidence: artifacts/validation/r08-apk-delivery/delivery-evidence.json
+  note: 固定签名及仓库桌面服务器HTTPS四方一致
+- name: local-gates
+  result: PASS
+  evidence: 27 Python tests and R08 catalog-only
+  note: 交付与视觉单测通过且R08三页目录PASS
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 49f40f2dfeb71b5f5210d2e03a500307bf42c31c
+  head: ca21dd3c442cd8311e1bb1cb00d66e34fd6b2b33
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ?? tests/android/visual-baselines/R08/01-project-list.png
-  - ?? tests/android/visual-baselines/R08/02-project-detail.png
-  - ?? tests/android/visual-baselines/R08/03-project-editor.png
-  - ?? tests/android/visual-baselines/R08/APPROVAL.yaml
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml'
+  - ' M CHANGELOG.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/ui_visual_acceptance.csv'
+  - ' M releases/R08/ACCEPTANCE_MATRIX.csv'
+  - ' M releases/R08/RELEASE_MANIFEST.yaml'
+  - ?? .continuity/change_requests/CR-0232.yaml
+  - ?? artifacts/apk/R08/APK_MANIFEST.yaml
+  - ?? artifacts/reports/R08/R08-version-test-guide.md
+  - ?? artifacts/reports/R08/TASK-R08-007-android-apk.md
+  - ?? artifacts/validation/r08-apk-delivery/delivery-evidence.json
+  - ?? artifacts/validation/r08-task007-android/APPROVAL.yaml
+  - ?? artifacts/validation/r08-task007-android/build-evidence.json
+  - ?? artifacts/validation/r08-task007-android/candidate-report.json
+  - ?? artifacts/validation/r08-task007-android/screenshots/01-project-list.png
+  - ?? artifacts/validation/r08-task007-android/screenshots/02-project-detail.png
+  - ?? artifacts/validation/r08-task007-android/screenshots/03-project-editor.png
+  - ?? artifacts/validation/r08-task007-android/source-candidate-report.json
+  - ?? docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md
   recent_commits:
+  - "ca21dd3c442cd8311e1bb1cb00d66e34fd6b2b33\t2026-07-22T16:59:05+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): approve project\
+    \ visual baseline"
   - "49f40f2dfeb71b5f5210d2e03a500307bf42c31c\t2026-07-22T16:43:37+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record final candidate\
     \ verification"
   - "03f0fbed4dd8f6ee0921428a4031b8d14f187ccd\t2026-07-22T16:34:33+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(r08): localize project\
@@ -520,10 +562,8 @@ git:
   - "cceb524ccbe08d1b3b9c7512e236f6c6b579d3cf\t2026-07-22T15:07:37+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): prepare R08\
     \ final candidate journey"
   - "db1da9c6009989e49d626c7e36bde3828a17881c\t2026-07-22T14:54:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close CR-0227"
-  - "14468bec933e1bc6ab35eac4616da6ae2c4baa62\t2026-07-22T14:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(continuity): keep no-session\
-    \ resume read-only"
 project_fingerprint:
-  sha256: 3e42e6f1a9d96c2e68575c23819e5c0545bc6ad287d924ce4b47ae25cfe56c4e
+  sha256: 0d1e3697de5f55130895577c045d01b90f956e7378ee6b1563ece941340bc6f6
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -536,6 +576,8 @@ project_fingerprint:
   - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
   - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
   - apps/h5/src/styles.css
+  - artifacts/apk/R08/APK_MANIFEST.yaml
+  - catalogs/ui_visual_acceptance.csv
   - config/android-candidate-request.yaml
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
@@ -543,9 +585,12 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
   - docs/03-continuity/change-requests/CR-0230-修复用户自查询遗漏实名与会员状态导致R08编辑误拦截.md
   - docs/03-continuity/change-requests/CR-0231-修复R08项目页技术枚举与地区代码直出.md
+  - docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md
   - docs/07-operations/DEPLOYMENT_RUNBOOK.md
   - packages/design-tokens/admin.css
   - packages/design-tokens/h5.css
+  - releases/R08/ACCEPTANCE_MATRIX.csv
+  - releases/R08/RELEASE_MANIFEST.yaml
   - scripts/check_ui_tokens.py
   - scripts/continuity.py
   - scripts/prepare_r08_ci_fixture.sh
@@ -561,14 +606,14 @@ project_fingerprint:
   - tests/test_continuity_resume_read_only.py
   - tests/test_r08_ci_fixture.py
   - tests/test_ui_tokens.py
-  file_count: 36
+  file_count: 41
   payload:
     base_commit: 827c8b7b81988b4f844b3b7ff766d30b6a34a77a
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 83815
-      sha256: dc40ae23820ed9610b34e87aee674eeadbd62894a4b0259e7a3585d6d21a5768
+      size: 84676
+      sha256: 044262fba9c07f33d7059da1638202902bf15240b6777ecf0dd2fbbcf391f91d
     - path: apps/android/app/build.gradle.kts
       state: FILE
       size: 5079
@@ -609,6 +654,14 @@ project_fingerprint:
       state: FILE
       size: 14087
       sha256: 82918fcf2ac74d07dbc03215659ce7a45a98cfe7602b4872ed6e74864de69e6e
+    - path: artifacts/apk/R08/APK_MANIFEST.yaml
+      state: FILE
+      size: 673
+      sha256: 288d798028c38c0cbffb8ae833f1ea5d2c9f7a9d8bbd2e43ab0f27723cd0fc85
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 33371
+      sha256: 5b46992bbccc2bfad9b4d7bddb70684dfabc645ebf664437b0a8f655f3d0e3d7
     - path: config/android-candidate-request.yaml
       state: FILE
       size: 362
@@ -637,6 +690,10 @@ project_fingerprint:
       state: FILE
       size: 3733
       sha256: eaa914cbdbad8f8989856029253477d0a67a2ad530f4246c2fdb2b89f686a473
+    - path: docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md
+      state: FILE
+      size: 3674
+      sha256: 37144e9bf71735caedddfc86e6f409b0ba54d32346e01b0a31875677b6e5b2ea
     - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
       state: FILE
       size: 29749
@@ -649,6 +706,14 @@ project_fingerprint:
       state: FILE
       size: 4796
       sha256: 6b0dd0bbc80d115bb06789f406033a4ff3ee480561564e39a44f1f496e3f34f8
+    - path: releases/R08/ACCEPTANCE_MATRIX.csv
+      state: FILE
+      size: 798
+      sha256: 01d8e51f52bf52095b5e87885610bbd9d1790d477f5e87b6bd7df148d40fa86b
+    - path: releases/R08/RELEASE_MANIFEST.yaml
+      state: FILE
+      size: 5878
+      sha256: 3eede8ab245de0239475b000ef9380c21333fb764a178034cfbcd8d9020c4167
     - path: scripts/check_ui_tokens.py
       state: FILE
       size: 16404
@@ -712,8 +777,11 @@ project_fingerprint:
 change_classification:
   other:
   - CHANGELOG.md
+  - artifacts/apk/R08/APK_MANIFEST.yaml
+  - catalogs/ui_visual_acceptance.csv
   - config/android-candidate-request.yaml
   - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - releases/R08/ACCEPTANCE_MATRIX.csv
   code:
   - apps/android/app/build.gradle.kts
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
@@ -751,6 +819,9 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
   - docs/03-continuity/change-requests/CR-0230-修复用户自查询遗漏实名与会员状态导致R08编辑误拦截.md
   - docs/03-continuity/change-requests/CR-0231-修复R08项目页技术枚举与地区代码直出.md
+  - docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md
+  source_of_truth:
+  - releases/R08/RELEASE_MANIFEST.yaml
   tests:
   - tests/android/visual-baselines/R08/01-project-list.png
   - tests/android/visual-baselines/R08/02-project-detail.png
@@ -767,6 +838,7 @@ required_records:
 - CHECKPOINT
 - CURRENT_STATUS
 - EVENT_LOG
+- APPROVED_CHANGE_REQUEST
 - CHANGELOG
 change_requests:
 - CR-0227
@@ -774,6 +846,7 @@ change_requests:
 - CR-0229
 - CR-0230
 - CR-0231
+- CR-0232
 scope:
   allowed_paths:
   - apps/**
@@ -834,13 +907,26 @@ scope:
   - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
   - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
   - tests/test_android_ci_gate.py
-  source: story+explicit+approved-cr:CR-0227+approved-cr:CR-0228+approved-cr:CR-0229+approved-cr:CR-0231
+  - artifacts/validation/r08-task007-android/APPROVAL.yaml
+  - artifacts/validation/r08-task007-android/build-evidence.json
+  - artifacts/validation/r08-task007-android/candidate-report.json
+  - artifacts/validation/r08-task007-android/source-candidate-report.json
+  - artifacts/validation/r08-task007-android/screenshots/01-project-list.png
+  - artifacts/validation/r08-task007-android/screenshots/02-project-detail.png
+  - artifacts/validation/r08-task007-android/screenshots/03-project-editor.png
+  - artifacts/validation/r08-apk-delivery/delivery-evidence.json
+  - artifacts/apk/R08/APK_MANIFEST.yaml
+  - artifacts/apk/R08/hhy-r08-49f40f2-debug.apk
+  - artifacts/reports/R08/TASK-R08-007-android-apk.md
+  - artifacts/reports/R08/R08-version-test-guide.md
+  - releases/R08/ACCEPTANCE_MATRIX.csv
+  source: story+explicit+approved-cr:CR-0227+approved-cr:CR-0228+approved-cr:CR-0229+approved-cr:CR-0231+approved-cr:CR-0232
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 视觉基线审批与原始工件哈希绑定不可拆分，轻量晋升必须保持单一权威提交；用户未要求子代理。
-event_hash: 743c0037d4f381ebc3f8b5561fec70e8cee4bfa0247d7f978d77685618df7ee8
+  reason: 当前为同一候选产物、签名和连续性元数据的串行闭环，禁止并发改写同一版本事实源。
+event_hash: 5be3633c540013b54dfb6e50881b74039929761e6b4c05f61d42e7b45d9cd1a3
 ```
 
 ## 接续状态与事件头
@@ -852,8 +938,8 @@ active_session_id: SES-20260722T064621Z-68304DE1
 last_session_id: SES-20260722T060947Z-B45C6BC0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T060947Z-B45C6BC0-0005
-event_count: 2291
-event_head_hash: 743c0037d4f381ebc3f8b5561fec70e8cee4bfa0247d7f978d77685618df7ee8
+event_count: 2298
+event_head_hash: 5be3633c540013b54dfb6e50881b74039929761e6b4c05f61d42e7b45d9cd1a3
 event_chain_valid: true
 ```
 
@@ -976,9 +1062,9 @@ recent_sessions: - session_id: SES-20260721T201747Z-CD80A1EE
   started_at: '2026-07-22T06:46:21Z'
   record: .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-  updated_at: '2026-07-22T08:58:58Z'
+  updated_at: '2026-07-22T09:29:56Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0010.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0011.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-26FF72418AF4
   session_id: SES-20260721T012656Z-E067730A
@@ -1950,26 +2036,46 @@ recent_task_transitions: - transition_id: TRN-793C15D200BF
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 49f40f2dfeb71b5f5210d2e03a500307bf42c31c
+head: ca21dd3c442cd8311e1bb1cb00d66e34fd6b2b33
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
+- ' M catalogs/ui_visual_acceptance.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md'
-- ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0010.yaml
-- ?? tests/android/visual-baselines/R08/01-project-list.png
-- ?? tests/android/visual-baselines/R08/02-project-detail.png
-- ?? tests/android/visual-baselines/R08/03-project-editor.png
-- ?? tests/android/visual-baselines/R08/APPROVAL.yaml
+- ' M releases/R08/ACCEPTANCE_MATRIX.csv'
+- ' M releases/R08/RELEASE_MANIFEST.yaml'
+- ?? .continuity/change_requests/CR-0232.yaml
+- ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0011.yaml
+- ?? artifacts/apk/R08/APK_MANIFEST.yaml
+- ?? artifacts/reports/R08/R08-version-test-guide.md
+- ?? artifacts/reports/R08/TASK-R08-007-android-apk.md
+- ?? artifacts/validation/r08-apk-delivery/delivery-evidence.json
+- ?? artifacts/validation/r08-task007-android/APPROVAL.yaml
+- ?? artifacts/validation/r08-task007-android/build-evidence.json
+- ?? artifacts/validation/r08-task007-android/candidate-report.json
+- ?? artifacts/validation/r08-task007-android/screenshots/01-project-list.png
+- ?? artifacts/validation/r08-task007-android/screenshots/02-project-detail.png
+- ?? artifacts/validation/r08-task007-android/screenshots/03-project-editor.png
+- ?? artifacts/validation/r08-task007-android/source-candidate-report.json
+- ?? docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md
 recent_commits:
+- "ca21dd3c442cd8311e1bb1cb00d66e34fd6b2b33\t2026-07-22T16:59:05+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): approve project visual\
+  \ baseline"
 - "49f40f2dfeb71b5f5210d2e03a500307bf42c31c\t2026-07-22T16:43:37+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record final candidate\
   \ verification"
 - "03f0fbed4dd8f6ee0921428a4031b8d14f187ccd\t2026-07-22T16:34:33+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(r08): localize project business\
@@ -1983,14 +2089,12 @@ recent_commits:
 - "cceb524ccbe08d1b3b9c7512e236f6c6b579d3cf\t2026-07-22T15:07:37+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): prepare R08 final\
   \ candidate journey"
 - "db1da9c6009989e49d626c7e36bde3828a17881c\t2026-07-22T14:54:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close CR-0227"
-- "14468bec933e1bc6ab35eac4616da6ae2c4baa62\t2026-07-22T14:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(continuity): keep no-session\
-  \ resume read-only"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`3e42e6f1a9d96c2e68575c23819e5c0545bc6ad287d924ce4b47ae25cfe56c4e`
-- 文件数：36
+- 指纹：`0d1e3697de5f55130895577c045d01b90f956e7378ee6b1563ece941340bc6f6`
+- 文件数：41
 
 - `CHANGELOG.md`
 - `apps/android/app/build.gradle.kts`
@@ -2003,6 +2107,8 @@ recent_commits:
 - `apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt`
 - `apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt`
 - `apps/h5/src/styles.css`
+- `artifacts/apk/R08/APK_MANIFEST.yaml`
+- `catalogs/ui_visual_acceptance.csv`
 - `config/android-candidate-request.yaml`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md`
@@ -2010,9 +2116,12 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md`
 - `docs/03-continuity/change-requests/CR-0230-修复用户自查询遗漏实名与会员状态导致R08编辑误拦截.md`
 - `docs/03-continuity/change-requests/CR-0231-修复R08项目页技术枚举与地区代码直出.md`
+- `docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md`
 - `docs/07-operations/DEPLOYMENT_RUNBOOK.md`
 - `packages/design-tokens/admin.css`
 - `packages/design-tokens/h5.css`
+- `releases/R08/ACCEPTANCE_MATRIX.csv`
+- `releases/R08/RELEASE_MANIFEST.yaml`
 - `scripts/check_ui_tokens.py`
 - `scripts/continuity.py`
 - `scripts/prepare_r08_ci_fixture.sh`
@@ -2082,6 +2191,31 @@ RELEASE_MANIFEST.yaml:
   - TST-PROJECT_001-HAPPY
   - TST-PROJECT_001-IDEMPOTENT
   - TST-PROJECT_001-REJECT
+  test_count: 3
+  planning_depth: STORY_READY
+  apk_gate: MACHINE_CANDIDATE_PASS_OWNER_FEEDBACK_ASYNC
+  android_delivery:
+    source_commit: 49f40f2dfeb71b5f5210d2e03a500307bf42c31c
+    apk_file: hhy-r08-49f40f2-debug.apk
+    version_name: 1.2.2-debug
+    version_code: 10216
+    sha256: d424c880ccf45cb1f092bef5a88a6459ec17747c95f3b9ed1a833de09d63557a
+    machine_delivery: PASS
+    owner_physical_test: PENDING
+    evidence: artifacts/validation/r08-apk-delivery/delivery-evidence.json
+    test_guide: artifacts/reports/R08/R08-version-test-guide.md
+  android_automation:
+    policy_id: HHY-ANDROID-AUTOMATION-V1
+    request_id: R08-20260722-003
+    source_github_run_id: '29905158793'
+    promotion_github_run_id: '29906167593'
+    status: PASS
+    commit: 49f40f2dfeb71b5f5210d2e03a500307bf42c31c
+    candidate_report: artifacts/validation/r08-task007-android/candidate-report.json
+    owner_test_allowed: true
+    owner_physical_test: PENDING
+    ai_visual_review: PASS
+    evidence: artifacts/validation/r08-task007-android/candidate-report.json
   entry_baseline:
     checked_at: '2026-07-22'
     session_id: SES-20260722T002444Z-8BEC3CA6
@@ -7763,13 +7897,83 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260722T064621Z-68304DE1
   implementation_commits:
   - 03f0fbed4dd8f6ee0921428a4031b8d14f187ccd
+- protocol_version: '1.0'
+  cr_id: CR-0232
+  title: 登记R08最终候选、视觉基线、固定签名与四方APK交付证据
+  status: IMPLEMENTED
+  created_at: '2026-07-22T09:17:54Z'
+  updated_at: '2026-07-22T09:29:12Z'
+  requester_actor_id: codex-root-r08-007
+  approver_actor_id: codex-reviewer-user-self-r08
+  task_id: TASK-R08-007
+  session_id: SES-20260722T064621Z-68304DE1
+  user_request: 持续完成R08候选测试与桌面APK文档交付，截图由AI独立判定，不因Owner真机反馈停止。
+  reason: 第三轮R08候选及轻量基线晋升均已通过，需把唯一候选、固定签名、下载站、仓库、桌面四方一致证据纳入正式版本收口。
+  original_rule: 复用既有Android最终候选、固定测试签名、AI视觉基线、桌面与下载站四方一致交付规则；不新增平行硬规则。
+  new_rule: R08只登记同源候选运行、轻量基线晋升、固定签名和四方一致的实际证据；项目所有者真机结果保持异步PENDING，不得伪造正式验收或生产激活。
+  impact_summary: 将R08第三轮候选、三张AI批准截图、轻量晋升、固定签名APK及仓库、桌面、服务器、HTTPS一致性写入正式产物、验收矩阵和版本Manifest，并交付桌面测试说明。
+  impact:
+    files:
+    - catalogs/ui_visual_acceptance.csv
+    - artifacts/validation/r08-task007-android/APPROVAL.yaml
+    - artifacts/validation/r08-task007-android/build-evidence.json
+    - artifacts/validation/r08-task007-android/candidate-report.json
+    - artifacts/validation/r08-task007-android/source-candidate-report.json
+    - artifacts/validation/r08-task007-android/screenshots/01-project-list.png
+    - artifacts/validation/r08-task007-android/screenshots/02-project-detail.png
+    - artifacts/validation/r08-task007-android/screenshots/03-project-editor.png
+    - artifacts/validation/r08-apk-delivery/delivery-evidence.json
+    - artifacts/apk/R08/APK_MANIFEST.yaml
+    - artifacts/apk/R08/hhy-r08-49f40f2-debug.apk
+    - artifacts/reports/R08/TASK-R08-007-android-apk.md
+    - artifacts/reports/R08/R08-version-test-guide.md
+    - releases/R08/ACCEPTANCE_MATRIX.csv
+    - releases/R08/RELEASE_MANIFEST.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-LIST-001
+    - SCR-DETAIL-001
+    - SCR-PUB-002
+    apis:
+    - 无协议变化
+    database:
+    - 无
+    configuration:
+    - R08下载站精确APK路由
+    ledger:
+    - 无生产资金或账本变化
+    tests:
+    - GitHub候选Run 29905158793；轻量基线晋升Run 29906167593；固定签名、HTTPS 200/Range 206与四方SHA-256一致性
+    releases:
+    - R08
+    migration_and_compatibility: 仅新增R08测试候选产物和精确下载路由；不覆盖历史版本，不改变API、数据库、生产App版本或生产激活状态。
+  user_confirmation: 用户持续开发授权、AI独立截图判定及桌面APK文档交付要求已明确。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T09:20:17Z'
+    note: 已确认只复用既有最终候选与四方交付规则；影响范围限于R08真实候选证据、精确下载路由和异步真机说明。
+  machine_record: .continuity/change_requests/CR-0232.yaml
+  document: docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md
+  decision_log:
+  - at: '2026-07-22T09:20:22Z'
+    actor_id: codex-root-r08-007
+    status: IMPLEMENTING
+    note: 开始登记R08同源候选、AI视觉基线、固定签名及四方APK交付证据。
+    session_id: SES-20260722T064621Z-68304DE1
+  - at: '2026-07-22T09:29:12Z'
+    actor_id: codex-root-r08-007
+    status: IMPLEMENTED
+    note: R08 Run 29905158793与轻量晋升29906167593均PASS；三页AI视觉批准，固定签名与仓库、桌面、服务器、HTTPS四方SHA一致，独立verify通过。
+    session_id: SES-20260722T064621Z-68304DE1
+  session_ids:
+  - SES-20260722T064621Z-68304DE1
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `6dd2bca58b80b3cdd714c8302e90845d55a38c08371df51d72350d50e9a1fb84`
+- `CURRENT_STATUS.yaml` — `6d688618806f01604acaa6dcffefe656b330ce5eaae5c3c6c9449e0f9e18b3eb`
 - `NEXT_TASK.yaml` — `f3ec661f9145959a7e41a1f6c0f8db741b578a6448235e7c74e5f996cc2c6ce6`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7780,29 +7984,30 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `a964581152e66b98af9006a8db12ce45e1bbbc577aacef4c86233f420ed279f4`
-- `.continuity/SESSION_INDEX.yaml` — `08b96b84a6d1d8201136b1ca9086d819a128da443e08ac79d15c551c6fe3bd52`
+- `.continuity/EVENT_LOG.jsonl` — `58e8b0fee02e129e571ea113f782f90de6996dd1e6be9604f0f40693e5333198`
+- `.continuity/SESSION_INDEX.yaml` — `a24e4aa89ddfb729125c5201862408c5b20182b8e0c585ce1394439a31f82b53`
 - `.continuity/TASK_CLAIMS.yaml` — `a4591ec89d6ae40f29f6e700d89ac651de53e1e8779ffdd84540ec00243fca42`
 - `.continuity/TASK_TRANSITIONS.yaml` — `18b79fca8d7f53574e1ed46bb8f9ef6bc9323f1c3d00d011f358e0c07594ff9f`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b90641be5735e764b8b2c68fce87c67efe51eea1edcca7e38f7a5bc01a257c4d`
-- `.continuity/ACTIVE_SESSION.yaml` — `3f36b04dc3b03c49bb97b6963105fd8170ae4790ba595b114157a9f70bb36f7c`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b47ad9d703c536989e452a12a15736f1c97c6c778db86f6d63e3ad90fb944f35`
+- `.continuity/ACTIVE_SESSION.yaml` — `c664329c9bebf6914edd199a73cafe80f714b4b58d8ab86aca974af5840fff07`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
 - `docs/09-development/统一开发与交付效率规范.md` — `d2c45f41aef10a402c9d70d057b6cbbd90cdef5c303d0f21eb4573088eb81b03`
-- `releases/R08/RELEASE_MANIFEST.yaml` — `62ce3ebc9d1aefa77c684678fbd51364f0842afeeef604623645b79ff23882c9`
+- `releases/R08/RELEASE_MANIFEST.yaml` — `3eede8ab245de0239475b000ef9380c21333fb764a178034cfbcd8d9020c4167`
 - `releases/R08/DEFINITION_OF_READY.yaml` — `73b6bee8cacca90fa3564f4c6443f21b32d35afbfef83fad5a2a3b8705e536c5`
 - `releases/R08/STORIES.yaml` — `035e6d5b8a0cccd8e30f30d5cd80c858a846e745c5cf3075aa6742d4f0a370b6`
 - `releases/R08/TASKS.yaml` — `d1dbb1bc2ffa320a87721f8d462aee03160a33f26a00b964974f6c9592d41e71`
-- `releases/R08/ACCEPTANCE_MATRIX.csv` — `7805259b6a663aa6b348a95b49e477ffb2e783de4e2f8a8dc6ab09162626e6ea`
+- `releases/R08/ACCEPTANCE_MATRIX.csv` — `01d8e51f52bf52095b5e87885610bbd9d1790d477f5e87b6bd7df148d40fa86b`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md` — `c2d9a696531c587b0b2eee653b004ee4831b738f7bdd1815ada2ae882446edb8`
-- `.continuity/checkpoints/SES-20260722T064621Z-68304DE1/0010.yaml` — `a350a0c1296874f4bff17920d5dd44661df618b1ce44ac8129c70976d293bcff`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md` — `8c60eb22719ffd78b68ea8ec7f9a3116baa155fbe3e5ca9238d01b23ca9c195f`
+- `.continuity/checkpoints/SES-20260722T064621Z-68304DE1/0011.yaml` — `c281865566c4e77192ea4d9bf2cb8df0c3064a1b0cd4ec3bbd76e059e82e0806`
 - `docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md` — `c5ef9a8ba6a85c81a5dd622bc7e661c8589ea3364781522563005e93ad88c52c`
 - `docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md` — `5af65261edf423faaf531557e1f5546620bbb1fa6ae8920d7e32907089f34b9f`
 - `docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md` — `80e2157811386b7fa5da3830fdba1081e5bb45379994f7a5dcc82902e0efd33e`
 - `docs/03-continuity/change-requests/CR-0230-修复用户自查询遗漏实名与会员状态导致R08编辑误拦截.md` — `326b86b9fb2cca770ee7e37f0e8d6904608466aac3ae55a49852af6ac2077b63`
 - `docs/03-continuity/change-requests/CR-0231-修复R08项目页技术枚举与地区代码直出.md` — `eaa914cbdbad8f8989856029253477d0a67a2ad530f4246c2fdb2b89f686a473`
+- `docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md` — `37144e9bf71735caedddfc86e6f409b0ba54d32346e01b0a31875677b6e5b2ea`
 
 ## 接手硬规则
 

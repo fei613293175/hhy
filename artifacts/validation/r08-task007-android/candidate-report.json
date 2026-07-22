@@ -1,0 +1,47 @@
+{
+  "schema": "hhy.android-ci-candidate-promotion/v1",
+  "policy_id": "HHY-ANDROID-AUTOMATION-V1",
+  "release": "R08",
+  "commit": "49f40f2dfeb71b5f5210d2e03a500307bf42c31c",
+  "github_run_id": "29906167593",
+  "source_github_run_id": "29905158793",
+  "status": "PASS",
+  "owner_test_allowed": true,
+  "release_completion_allowed": false,
+  "production_activation_allowed": false,
+  "apk": {
+    "file": "hhy-R08-49f40f2-candidate.apk",
+    "sha256": "9d298bd0280c94089bbaf17a67185a847a23f59c8f9a1a1dbca412f40a3507bd",
+    "size_bytes": 19657360
+  },
+  "baseline_approval": {
+    "schema": "hhy.android-visual-baseline-approval/v1",
+    "release": "R08",
+    "status": "APPROVED",
+    "authority": "AI_IMPLEMENTATION_AGENT",
+    "promotion_attempt": 1,
+    "source": {
+      "github_run_id": "29905158793",
+      "commit": "49f40f2dfeb71b5f5210d2e03a500307bf42c31c",
+      "artifact_id": "8523724793",
+      "artifact_sha256": "c196419293e5677345909907dfd1b63de4fa88d2e1d83aed8e204d7029d063e2",
+      "runtime_status": "BASELINE_REVIEW_REQUIRED"
+    },
+    "decision": "三张截图绑定R08真实OIDC认证项目旅程；列表、详情和编辑页均使用冻结Design Token及已批准视觉语言，信息层级、卡片密度、固定操作区和品牌质感达到绑定效果图或批准补充规格标准。分类、地区、联系方式均为用户中文文案，未展示COOPERATION、CN-11等技术码；无虚构媒体、金额、收益或功能，联系方式明文未出现在截图，批准为R08首版视觉基线。",
+    "screens": [
+      {
+        "file": "01-project-list.png",
+        "sha256": "2626afaeeac612601b268fcb305411b4abecb61eff8cd4c76b2e35e2f49d6c66"
+      },
+      {
+        "file": "02-project-detail.png",
+        "sha256": "32bb238774bfda8f03bd7e1d6049177d16ea0e176a7ee9eecba90719ef00e409"
+      },
+      {
+        "file": "03-project-editor.png",
+        "sha256": "b9bc8fb2337b458551385a35fe440595f192717007830b0e1e7602e732d39cf4"
+      }
+    ]
+  },
+  "errors": []
+}
