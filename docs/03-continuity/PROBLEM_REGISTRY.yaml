@@ -1264,9 +1264,9 @@ problems:
   - 专用视觉脚本不得扩展为第二套候选构建、登录或APK交付入口
 - id: PROB-0095
   title: R09隔离Staging单一入口未自启动导致全新工作区静默退出
-  status: IN_PROGRESS
+  status: SOLVED
   root_cause: R09从R08复用现场验收脚本时只替换了版本、指标和隔离配置，保留了“外部已提前启动Compose”的隐含前置条件；脚本入口直接调用refresh_containers，空项目中ps返回空标识并因set -e退出，既没有构建启动环境，也没有阶段诊断。首次补自启动后又沿用了未核对的172.31.249.0/24和39593端口，而该服务器R05占用该子网、R06 Alertmanager占用该端口。网络端口修正后，脚本只等待Prometheus进程ready却未等待首次抓取完成，立即保存到activeTargets空数组并由grep静默退出。三者共同说明复制版本脚本时缺少从全新环境执行的时序与资源核对。
-  resolution: CR-0255不新增平行流程，直接修复既有run_r09_staging_acceptance.sh；入口检查同名Compose项目必须为空，自行执行up -d --build并确认四个关键容器标识后再进入原有验收。根据服务器实际Docker清单把R09默认子网冻结为172.31.243.0/24、Prometheus回环端口冻结为39597；基线采集在进程ready后继续等待目标首次health=up，并为基线、两类告警、回滚和证据终结输出明确阶段标识。静态门禁冻结这些合同，obx-test全链通过后改为SOLVED。
+  resolution: CR-0255不新增平行流程，直接修复既有run_r09_staging_acceptance.sh；入口检查同名Compose项目必须为空，自行执行up -d --build并确认四个关键容器标识后再进入原有验收。根据服务器实际Docker清单把R09默认子网冻结为172.31.243.0/24、Prometheus回环端口冻结为39597；基线采集在进程ready后继续等待目标首次health=up，并为基线、两类告警、回滚和证据终结输出明确阶段标识。冻结Commit d056c54fb4a9e92f299a3ba78f0bc043706bd58b已在全新项目完成V035、两类告警送达、Outbox合法终结、同库同卷回切和22文件哈希验收，问题关闭为SOLVED。
   regression_checks:
   - python scripts/check_r09_observability.py必须通过并检查R09_STAGING_PROJECT_NOT_EMPTY、R09_STAGING_BUILD_AND_START和up -d --build
   - 全新obx-test工作区只执行scripts/run_r09_staging_acceptance.sh即可自行构建和启动hhy-r09-staging

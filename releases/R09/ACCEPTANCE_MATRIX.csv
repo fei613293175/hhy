@@ -2,6 +2,6 @@
 AC-R09-001,R09,领域代码与前端真实闭环,artifacts/reports/R09/,NOT_RUN,BLOCKING
 AC-R09-002,R09,数据库迁移和不变量测试通过,artifacts/reports/R09/,NOT_RUN,BLOCKING
 AC-R09-003,R09,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R09/,NOT_RUN,BLOCKING
-AC-R09-004,R09,日志指标链路和业务告警可验证,artifacts/reports/R09/,NOT_RUN,BLOCKING
+AC-R09-004,R09,日志指标链路和业务告警可验证,artifacts/reports/R09/TASK-R09-006-staging.md,PASS,BLOCKING
 AC-R09-005,R09,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R09/,NOT_RUN,BLOCKING
 AC-R09-006,R09,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R09/,NOT_RUN,BLOCKING
