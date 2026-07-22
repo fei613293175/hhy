@@ -1,7 +1,7 @@
 schema_version: 1
 status: REQUESTED
-release: R07
+release: R08
 candidate: true
-remediation_attempt: 3
-request_id: R07-20260722-003
-reason: 保存搜索返回栈公开查询状态并补齐独立确认框语义后，执行R07有界修复上限内的最终候选封板
+remediation_attempt: 1
+request_id: R08-20260722-001
+reason: R08项目列表、详情与所有者编辑真实旅程、V034候选后端及幂等固定数据已就绪，执行本大版本唯一一次完整模拟器候选验收
