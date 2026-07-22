@@ -8,18 +8,21 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -33,9 +36,11 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.text.font.FontWeight
 import cc.orbexa.hhy.designsystem.HhyColors
+import cc.orbexa.hhy.designsystem.HhyElevation
 import cc.orbexa.hhy.designsystem.HhyIcon
 import cc.orbexa.hhy.designsystem.HhyIcons
 import cc.orbexa.hhy.designsystem.HhyRadius
+import cc.orbexa.hhy.designsystem.HhySize
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.network.ExperienceApi
 import cc.orbexa.hhy.network.HomeSnapshot
@@ -72,7 +77,8 @@ fun HhyShellScreen(
     var home by androidx.compose.runtime.remember { mutableStateOf<HomeSnapshot?>(null) }
     var homeError by androidx.compose.runtime.remember { mutableStateOf(false) }
     var refreshing by androidx.compose.runtime.remember { mutableStateOf(false) }
-    LaunchedEffect(experienceApi, accessToken) {
+    var homeRefreshKey by androidx.compose.runtime.remember { androidx.compose.runtime.mutableIntStateOf(0) }
+    LaunchedEffect(experienceApi, accessToken, homeRefreshKey) {
         val api = experienceApi ?: return@LaunchedEffect
         refreshing = true
         api.home(accessToken).onSuccess { home = it; homeError = false }.onFailure { homeError = true }
@@ -112,20 +118,6 @@ fun HhyShellScreen(
             contentPadding = PaddingValues(HhySpacing.Lg),
             verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
         ) {
-            if (selectedIndex == 0) {
-                item {
-                    Button(
-                        modifier = Modifier.fillMaxWidth().testTag("r07.home.search"),
-                        onClick = onOpenSearch,
-                    ) { Text("搜索项目、应用、群聊或团长") }
-                }
-                item {
-                    Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                        OutlinedButton(modifier = Modifier.weight(1f), onClick = onOpenProjects) { Text("浏览项目") }
-                        Button(modifier = Modifier.weight(1f), onClick = onCreateProject) { Text("发布项目") }
-                    }
-                }
-            }
             item {
                 Text(
                     text = navigationItems[selectedIndex].label,
@@ -143,6 +135,32 @@ fun HhyShellScreen(
                     },
                     color = HhyColors.TextSecondary,
                 )
+            }
+            if (selectedIndex == 0) {
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(HhyRadius.LargeCard),
+                        colors = CardDefaults.cardColors(containerColor = HhyColors.SoftBlue),
+                        elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+                            verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+                        ) {
+                            Text("快速发现", style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+                            Text("从真实公开内容中寻找项目、应用、群聊或团长", color = HhyColors.TextSecondary)
+                            Button(
+                                modifier = Modifier.fillMaxWidth().heightIn(min = HhySize.PrimaryButtonHeight).testTag("r07.home.search"),
+                                onClick = onOpenSearch,
+                            ) { Text("搜索合作内容") }
+                            Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                                OutlinedButton(modifier = Modifier.weight(1f), onClick = onOpenProjects) { Text("浏览项目") }
+                                Button(modifier = Modifier.weight(1f), onClick = onCreateProject) { Text("发布项目") }
+                            }
+                        }
+                    }
+                }
             }
             if (selectedIndex == 4) {
                 item {
@@ -176,11 +194,20 @@ fun HhyShellScreen(
             if (selectedIndex == 0 && home != null && home!!.modules.isNotEmpty()) {
                 home!!.modules.forEach { module ->
                     item {
-                        Card(modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(HhyRadius.NormalCard), colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)) {
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(HhyRadius.NormalCard),
+                            colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+                            elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+                        ) {
                             Column(modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                                Text(module.title ?: "内容模块", fontWeight = FontWeight.SemiBold)
+                                Text(module.title ?: "内容模块", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
                                 module.subtitle?.let { Text(it, color = HhyColors.TextSecondary) }
-                                module.items.take(5).forEach { Text(it, color = HhyColors.TextPrimary) }
+                                module.items.take(5).forEach { item ->
+                                    Surface(color = HhyColors.PageBackground, shape = RoundedCornerShape(HhyRadius.Tag)) {
+                                        Text(item, modifier = Modifier.fillMaxWidth().padding(HhySpacing.Md), color = HhyColors.TextPrimary)
+                                    }
+                                }
                             }
                         }
                     }
@@ -189,13 +216,27 @@ fun HhyShellScreen(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(HhyRadius.LargeCard),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                    colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+                    elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
                 ) {
-                    Text(
-                        if (homeError) "首页模块暂时无法加载，请稍后重试" else if (refreshing) "正在加载首页模块" else "当前模块暂无内容",
-                        modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
-                        color = HhyColors.TextSecondary,
-                    )
+                    Column(
+                        modifier = Modifier.fillMaxWidth().padding(HhySpacing.Xl),
+                        verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+                    ) {
+                        if (refreshing) CircularProgressIndicator()
+                        Text(
+                            if (homeError) "首页内容暂时无法加载" else if (refreshing) "正在加载首页内容" else "暂无推荐内容",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = HhyColors.TextPrimary,
+                        )
+                        Text(
+                            if (homeError) "网络恢复后可重新加载，已提供的搜索和项目入口仍可正常使用。" else if (refreshing) "正在获取服务端配置的真实首页模块。" else "服务端当前没有配置推荐模块，你仍可通过上方真实入口发现或发布项目。",
+                            color = HhyColors.TextSecondary,
+                        )
+                        if (homeError) {
+                            OutlinedButton(onClick = { homeRefreshKey += 1 }) { Text("重新加载") }
+                        }
+                    }
                 }
             }
         }

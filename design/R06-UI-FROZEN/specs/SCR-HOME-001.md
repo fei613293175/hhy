@@ -6,11 +6,11 @@ Token：`design/tokens/hhy_design_tokens_v1.2.2.json`
 
 ## 1. 页面建模
 
-系统状态栏 → 56dp 品牌顶栏 → 页面标题与副标题 → 服务端模块区 → 64dp 五栏目底部导航。模块为空时保留一张空模块卡，不增加 Hero、营销插画或自行构思的入口。
+系统状态栏 → 56dp 品牌顶栏 → 页面标题与副标题 → 已实现真实能力组合卡（搜索、浏览项目、发布项目）→ 服务端模块区 → 64dp 五栏目底部导航。模块为空时保留一张有标题、说明和条件式重新加载动作的空模块卡，不增加 Hero、营销插画、虚构推荐或未实现入口。
 
 ## 2. 业务过滤
 
-- 页面只展示 `homeGetHome` 返回的真实模块；截图中的“当前模块暂无内容”是合法空模块状态，不伪造项目、金额、人数或轮播数据。
+- 页面只展示 `homeGetHome` 返回的真实模块；搜索和项目操作只绑定 R07/R08 已实现路由；空模块状态不伪造项目、金额、人数或轮播数据。
 - `serverTime`、`featureFlags` 和 `trackingContext` 仅参与客户端逻辑与受控诊断，不作为用户可见技术字段。
 - 底部导航固定为首页、红包、发布、消息、我的；图标只使用 `HhyIcons`，当前栏目仅以 Token 色和容器状态强调。
 
@@ -38,4 +38,3 @@ Token：`design/tokens/hhy_design_tokens_v1.2.2.json`
 - 实现截图：`artifacts/validation/r06-task007-android/screenshots/01-home-loaded.png`。
 - 已批准基线：`tests/android/visual-baselines/R06/01-home-loaded.png`。
 - 必须保持 1080×2400 像素稳定、页面身份明确、底栏无遮挡，且自动化登录后的首页真实加载完成。
-

@@ -6,7 +6,7 @@ Token：`design/tokens/hhy_design_tokens_v1.2.2.json`
 
 ## 1. 页面建模
 
-系统状态栏 → 56dp 带真实返回箭头的顶栏 → 品牌与当前版本摘要 → 更新策略卡 → 协议或下载动作（仅在业务条件满足时显示）。禁止增加居中 Hero、装饰图或开发说明区。
+系统状态栏 → 56dp 带真实返回箭头的顶栏 → SoftBlue 品牌与当前版本摘要卡 → 更新策略卡（标题、加载/失败/版本状态、更新说明、条件式下载动作）→ 条件式协议卡。禁止增加居中 Hero、营销装饰、开发说明区或服务端未返回的版本事实。
 
 ## 2. 业务过滤
 
@@ -38,4 +38,3 @@ Token：`design/tokens/hhy_design_tokens_v1.2.2.json`
 - 实现截图：`artifacts/validation/r06-task007-android/screenshots/03-about-loaded.png`。
 - 已批准基线：`tests/android/visual-baselines/R06/03-about-loaded.png`。
 - 必须保持 1080×2400 像素稳定、标题和按钮无截断、返回入口清晰，且页面由“我的”真实导航进入。
-

@@ -1,0 +1,59 @@
+protocol_version: '1.0'
+cr_id: CR-0222
+title: 回补R06首页关于页并完成后台视觉复核
+status: IMPLEMENTING
+created_at: '2026-07-22T04:27:12Z'
+updated_at: '2026-07-22T04:27:20Z'
+requester_actor_id: codex-root-r08-004
+approver_actor_id: codex-reviewer-r08-r06-visual
+task_id: TASK-R08-004
+session_id: SES-20260722T031604Z-105CF4C6
+user_request: 全部既有和后续UI按效果图级丰富度与精致度开发，禁止虚构业务；R02至R07历史页面在R08候选前完成回补
+reason: R06既有Android候选截图大面积空白且卡片层级过薄；三个后台页面现有真实浏览器截图已达到标准后台模板，可由AI按新标准复核关闭
+original_rule: CR-0213要求历史页面按效果图级肉眼标准重新审计；R06首页和关于页仍为IN_REVIEW，三个后台内容页也等待新标准AI复核。
+new_rule: 不新增规则；首页保留服务端真实模块与合法空态，用既有搜索、浏览项目、发布项目真实动作形成品牌操作卡，空模块卡增加明确标题说明与真实恢复动作但不造内容；关于页以品牌版本摘要卡、版本状态卡和条件式协议卡形成层级，不展示技术字段或伪造更新。三个后台页面只依据现有真实截图和标准模板逐项复核，合格后在同一目录标记PASS。
+impact_summary: 重构R06 Android首页与关于页视觉层级并更新精确规格；对ADM-CONTENT-001至003现有截图执行AI视觉复核，不改后台产品代码；保留API、导航、版本安全与业务状态。
+impact:
+  files:
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - design/R06-UI-FROZEN/specs/SCR-ABOUT-001.md
+  - catalogs/ui_visual_acceptance.csv
+  - artifacts/reports/R08/TASK-R08-004-client.md
+  - CHANGELOG.md
+  pages:
+  - SCR-HOME-001
+  - SCR-ABOUT-001
+  - ADM-CONTENT-001
+  - ADM-CONTENT-002
+  - ADM-CONTENT-003
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - :feature:shell:test
+  - :app:testDebugUnitTest
+  - :app:compileDebugKotlin
+  - python scripts/check_android_ui_foundation.py
+  - python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
+  releases:
+  - R06
+  - R08
+  migration_and_compatibility: 纯客户端视觉重构和既有证据复核；不改变路由、接口、DTO、数据库或配置，保留现有自动化页面标记和安全下载校验。
+user_confirmation: 项目所有者已明确要求历史和后续所有UI达到效果图级丰富度与精致度，禁止虚构，并持续推进不中断
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T04:27:18Z'
+  note: 批准在CR-0213唯一UI规则内回补R06两张Android页面并对三个后台真实截图作AI复核；不得为填充页面增加虚构内容、版本或动作。
+machine_record: .continuity/change_requests/CR-0222.yaml
+document: docs/03-continuity/change-requests/CR-0222-回补R06首页关于页并完成后台视觉复核.md
+decision_log:
+- at: '2026-07-22T04:27:20Z'
+  actor_id: codex-root-r08-004
+  status: IMPLEMENTING
+  note: 开始回补R06首页和关于页，并按标准模板复核三个后台页面。
+  session_id: SES-20260722T031604Z-105CF4C6
+session_ids:
+- SES-20260722T031604Z-105CF4C6
