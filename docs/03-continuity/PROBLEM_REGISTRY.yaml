@@ -1296,3 +1296,17 @@ problems:
   - 不可变历史、审计、账本或事件表不得从普通可变资料表复制UPSERT更新策略
   - 候选固定数据的幂等性不得只凭源码推断，必须在目标数据库至少连续实测两次
   - 修复夹具时不得关闭不可变触发器、删除历史行或把失败绕成生产数据修改
+- id: PROB-0097
+  title: R09启动未生成当前Release并行计划导致Context严格门禁失败
+  status: SOLVED
+  root_cause: R09从已完成R08交接后直接开始任务，Release级PARALLEL_EXECUTION_PLAN仍只生成到R08；无Active Session时严格检查不会要求当前Release计划，R09-007建立Active Session并刷新Context Pack后才暴露缺失。普通pre-commit只验证提交范围和规则就绪，没有执行完整check_v123_continuity，导致问题延迟到GitHub Continuity Gate。
+  resolution: CR-0260按R08既有单主控串行合同补齐R09计划，冻结R09任务分区、最终候选频率、10217 APK身份和异步真机边界；随后通过checkpoint把该文件作为哈希来源纳入Context Pack，并在再次推送前本地执行完整严格连续性检查。Android候选请求不变，因此治理修复提交不会触发第二次模拟器。
+  regression_checks:
+  - Active Session启动或切换Release后的首个checkpoint必须使Context Manifest包含releases/<当前版本>/PARALLEL_EXECUTION_PLAN.yaml
+  - python scripts/check_v123_continuity.py --strict必须在候选推送前本地PASS
+  - R09计划必须映射TASK-R09-002至008、最终候选仅R09-007一次、versionCode最低10217和真机异步边界
+  - 仅治理文件推送不得修改config/android-candidate-request.yaml或触发第二次Android Candidate Request
+  do_not_repeat:
+  - 不得把“无Active Session时检查通过”当作下一Release计划已存在的证据
+  - 每次跨Release启动前必须核对当前Release计划文件，而不是等版本关闭或远程CI才发现
+  - pre-commit严格门禁不能替代候选前完整check_v123_continuity；两者用途不同且不得重复跑模拟器

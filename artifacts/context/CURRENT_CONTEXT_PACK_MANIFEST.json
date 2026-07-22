@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T21:31:03Z",
-  "context_hash": "4272aa276c4b1fb6f70eccd012f698adc852495cabb4fc62ba608094b858bc38",
+  "generated_at": "2026-07-22T21:38:18Z",
+  "context_hash": "dbebd1f7abe6896a2acbb0b6d9eb614a9434ae770a775dcb5665be7cf8e24c55",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "325c5b367120c8cadb344bb460724e17dfc846e075728224cf79bd58fcb7c7aa",
-    "file_count": 19
+    "sha256": "30c43e72e85c04dfd8fd566c92cf1b34f632c3eb8dcc620a74138b356fdb68c6",
+    "file_count": 21
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "f7661852e810fad497b7a157adee52c7434ace1bc36baac75090337ae6e0a603"
+    "sha256": "797fbb47d432d22919848b70c18510114720203328451392de201a0b33c1d15a"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "9fb208053484a403c59e14d7bda9446ddbeba710bcbd60c60361a43006f472c4"
+    "sha256": "5289d1a3a707bb6dee02c7acdfe5206c4aa3d93bec8cfd5b611bfbc5cbcb2d48"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "0d07f30df535ea2934a3fdefe393db8e2f4ad6b454afe83207067fc69ca17087",
+      "sha256": "e71247066f98a915a0e190adc0be5e9d16d322a4187a8cf833949d6484e08a83",
       "bytes": 4079
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "ce5d813aeae2107633ac013a39510045e3e996befd9053e9d806500e77c3c962",
-      "bytes": 128452
+      "sha256": "9896ad6e9fbb50b82c6e8cc449ca530a913d1a136f4d460315aa2401432d7cb2",
+      "bytes": 130184
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "506fd54cd1c370169041c268b5a4bbc75276bf2b3a16414eaeb92ae4c2ef50ba",
-      "bytes": 1418674
+      "sha256": "f2d6a6b7e2393ce5a60de818de0711ea01e32d56aeaaa33e616139e21eea08c3",
+      "bytes": 1421008
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "2049577f1515edf91455c68893877bf1542aae62913ff42c55e3e4c5f5008309",
+      "sha256": "8802e363bf4767b9e60e000dad9e8988248d033b6e1360ad1164c3e09e9abc87",
       "bytes": 42019
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "6db81635daa9efa26e765cfb98c81832fb5bbba07cfd86427cc70547ec07cddc",
-      "bytes": 859170
+      "sha256": "de31a08e0a7315c48bc6a29e4964a9fa6cfee9909466d0f404094219a3f246e7",
+      "bytes": 861303
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "b9599348dd3fc13b0a68e93d735f42b537cbe597e2f86b0222bf1cf4d6371436",
+      "sha256": "e2b47764c92667d2e8e67c1252692314edd4df654315844a6ee5544934ea1e03",
       "bytes": 539
     },
     {
@@ -157,14 +157,19 @@
       "bytes": 704
     },
     {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md",
-      "sha256": "398d811be57c89c18e65815bd09fd6506b923801b45b77ed1ff013e33e210b90",
-      "bytes": 9753
+      "path": "releases/R09/PARALLEL_EXECUTION_PLAN.yaml",
+      "sha256": "182e97474390152a7f45613ebaf6e404c8d1687d9c1ea287bb1cb7bc4abe7eac",
+      "bytes": 4153
     },
     {
-      "path": ".continuity/checkpoints/SES-20260722T205410Z-782F22B9/0004.yaml",
-      "sha256": "e8a50e8a5641e9be9aa83b0a1fb09c39be253c3a64a504bc0d80ae4780b306d4",
-      "bytes": 12367
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md",
+      "sha256": "4601b1e3b38cab2ed2104b789ff3eaebee98aa2eedabf17779541d9af1f032d3",
+      "bytes": 11861
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260722T205410Z-782F22B9/0005.yaml",
+      "sha256": "ae19d0fc8930c268a429659d00d9ec8492806d423db0f6ce4d24c5c97c94ea5b",
+      "bytes": 12434
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0257-建立R09-App最终候选真实旅程与唯一产物门禁.md",
@@ -180,6 +185,11 @@
       "path": "docs/03-continuity/change-requests/CR-0259-登记R09候选固定数据不可变版本幂等缺口.md",
       "sha256": "cf47fd9e595cb3e3c06641f52c6584fb0789d0f3923ace8e5e08e81d41919ef7",
       "bytes": 2072
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0260-补齐R09当前Release并行执行计划事实源.md",
+      "sha256": "705aae84af3a0da021dbfe5d15666870a669d1a42487ed23056dae8d9f80c8cf",
+      "bytes": 2216
     }
   ]
 }
