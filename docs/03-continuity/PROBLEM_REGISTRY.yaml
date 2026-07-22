@@ -1107,3 +1107,17 @@ problems:
   - 大版本候选清单不得只包含本版本页面而遗漏该版本明确承担的历史回补关闭前置项
   - 候选Run成功后仍必须执行完整Release视觉门禁，不能只执行catalog-only或本版页面子集
   - debug视觉夹具只能组合生产组件与非敏感状态事实，不得复制页面实现、进入Release构建或制造生产功能
+- id: PROB-0084
+  title: R08历史视觉首轮状态切换与发布者导航断言失配
+  status: IN_PROGRESS
+  root_cause: 历史视觉首轮Run 29910384239的编译、Lint、单测和打包通过，但HistoricalVisualAuditTest在同一Compose宿主中用异步StartupGate从60秒Loading切到维护态，模拟器未可靠完成重组；真实R07搜索结果只显示可点击发布者名称，ReleaseCandidateSmokeTest仍寻找旧的查看发布者前缀。两项均为debug/androidTest旅程确定性问题，首轮5张诊断图不得晋升。
+  resolution: CR-0234把StartupGate的生产状态展示分支抽为模块内唯一StartupGateStateContent，debug-only选择器直接传入Loading、Maintenance和Update状态；R07旅程按当前真实发布者名称精确点击。生产Release不包含选择器，API、数据库和业务UI不变；第2次历史候选前先在obx-test固定镜像完成编译验证。
+  regression_checks:
+  - feature startup debug与app AndroidTest必须在固定Android镜像编译通过
+  - HistoricalVisualAuditTest必须连续产出启动、维护和更新三张像素不同截图
+  - ReleaseCandidateSmokeTest必须从搜索结果的真实发布者名称进入SCR-PUBLISHER-001
+  - 第2次历史候选不得重新消耗已批准R08功能修复轮次
+  do_not_repeat:
+  - 多状态视觉夹具不得依赖长延迟生产协程切换，应直接组合生产状态展示组件
+  - 自动旅程断言必须绑定当前用户可见文案或稳定资源标识，不得残留旧设计提示语
+  - 编译通过不等于模拟器旅程通过，失败产物只能用于诊断且不得晋升基线

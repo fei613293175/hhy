@@ -107,7 +107,7 @@ class ReleaseCandidateSmokeTest {
         assertTrue("R07 historical result is missing", device.wait(Until.hasObject(By.text(historicalTitle)), 20_000))
         captureStable("29-r07-search-results.png")
         assertNoForbiddenVisibleText()
-        clickContainsText("查看发布者：")
+        clickExactText(fixturePublisher)
         assertTrue("R07 publisher did not become visible", waitForScreen("hhy.screen.r07.publisher", gone = "hhy.screen.r07.search.results"))
         assertTrue("R07 publisher identity is missing", device.wait(Until.hasObject(By.text(fixturePublisher)), 20_000))
         captureStable("30-r07-publisher.png")

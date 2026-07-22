@@ -23,14 +23,11 @@ import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.identity.IdentityVisualAuditMode
 import cc.orbexa.hhy.identity.IdentityVisualAuditScreen
 import cc.orbexa.hhy.network.AccountCancellationRequest
-import cc.orbexa.hhy.network.ApiEnvelope
 import cc.orbexa.hhy.network.AuthCallResult
 import cc.orbexa.hhy.network.CommandResultResource
 import cc.orbexa.hhy.network.ContractAuthApi
 import cc.orbexa.hhy.network.ContractIdentityApi
-import cc.orbexa.hhy.network.DownloadInfo
 import cc.orbexa.hhy.network.HhyNetworkJson
-import cc.orbexa.hhy.network.HhyPublicApi
 import cc.orbexa.hhy.network.IdentityCallResult
 import cc.orbexa.hhy.network.IdentityConsentCallResult
 import cc.orbexa.hhy.network.IdentityConsentResource
@@ -39,21 +36,13 @@ import cc.orbexa.hhy.network.IdentityCreateSessionRequest
 import cc.orbexa.hhy.network.IdentityOverviewCallResult
 import cc.orbexa.hhy.network.IdentityOverviewResource
 import cc.orbexa.hhy.network.IdentityRetrySessionRequest
-import cc.orbexa.hhy.network.PlatformCapabilities
-import cc.orbexa.hhy.network.PlatformStatus
-import cc.orbexa.hhy.network.PublicPage
-import cc.orbexa.hhy.network.StartupGate
-import cc.orbexa.hhy.network.StartupGateRequest
-import cc.orbexa.hhy.network.UpdateType
 import cc.orbexa.hhy.network.UserSecuritySessionPageMeta
 import cc.orbexa.hhy.network.UserSecuritySessionPageResource
 import cc.orbexa.hhy.network.UserSecuritySessionResource
-import cc.orbexa.hhy.network.VersionCheckRequest
-import cc.orbexa.hhy.network.VersionPolicy
-import cc.orbexa.hhy.startup.StartupGateScreen
+import cc.orbexa.hhy.startup.StartupVisualAuditMode
+import cc.orbexa.hhy.startup.StartupVisualAuditScreen
 import java.io.File
 import java.security.MessageDigest
-import kotlinx.coroutines.delay
 import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.buildJsonObject
@@ -92,14 +81,14 @@ class HistoricalVisualAuditTest {
                         AuditScreen.STARTUP_LOADING,
                         AuditScreen.STARTUP_MAINTENANCE,
                         AuditScreen.STARTUP_UPDATE,
-                        -> {
-                            val mode = screen
-                            val gate = remember(mode) { StartupGate(VisualPublicApi(mode)) }
-                            StartupGateScreen(
-                                gate = gate,
-                                request = StartupGateRequest(10216, "1.2.2-debug", "official", "STAGING"),
-                            ) { }
-                        }
+                        -> StartupVisualAuditScreen(
+                            when (screen) {
+                                AuditScreen.STARTUP_LOADING -> StartupVisualAuditMode.LOADING
+                                AuditScreen.STARTUP_MAINTENANCE -> StartupVisualAuditMode.MAINTENANCE
+                                AuditScreen.STARTUP_UPDATE -> StartupVisualAuditMode.UPDATE
+                                else -> error("Unexpected startup visual mode")
+                            },
+                        )
                         AuditScreen.AUTH_LOGIN -> AuthVisualAuditScreen(AuthVisualAuditMode.LOGIN, authApi)
                         AuditScreen.AUTH_BLOCKED -> AuthVisualAuditScreen(AuthVisualAuditMode.ACCOUNT_BLOCKED, authApi)
                         AuditScreen.AUTH_DEVICES -> AuthVisualAuditScreen(AuthVisualAuditMode.LOGIN_DEVICES, authApi)
@@ -236,52 +225,6 @@ class HistoricalVisualAuditTest {
         IDENTITY_FORM,
         IDENTITY_LIVENESS,
         IDENTITY_RESULT,
-    }
-
-    private class VisualPublicApi(private val mode: AuditScreen) : HhyPublicApi {
-        override suspend fun platformStatus(): ApiEnvelope<PlatformStatus> {
-            if (mode == AuditScreen.STARTUP_LOADING) delay(60_000)
-            return envelope(
-                PlatformStatus(
-                    maintenance = mode == AuditScreen.STARTUP_MAINTENANCE,
-                    maintenanceMessage = "服务正在进行计划维护，请稍后重试",
-                    capabilities = PlatformCapabilities(true, true, true, true),
-                    serverTime = "2026-07-22T00:00:00Z",
-                ),
-            )
-        }
-
-        override suspend fun versionCheck(request: VersionCheckRequest): ApiEnvelope<VersionPolicy> = envelope(
-            VersionPolicy(
-                platform = "ANDROID",
-                latestVersionCode = 10217,
-                latestVersionName = "1.2.3",
-                updateType = if (mode == AuditScreen.STARTUP_UPDATE) UpdateType.OPTIONAL else UpdateType.NONE,
-                downloadUrl = "https://download.orbexa.cc/app/hhy-latest.apk",
-                sha256 = "0".repeat(64),
-                releaseNotes = "优化页面体验与稳定性",
-                minSupportedVersionCode = 10216,
-                serverTime = "2026-07-22T00:00:00Z",
-            ),
-        )
-
-        override suspend fun latestApp(): ApiEnvelope<PublicPage> = envelope(
-            PublicPage(
-                code = "APP_LATEST_ANDROID",
-                title = "发现新版本 1.2.3",
-                description = "优化页面体验与稳定性",
-                download = DownloadInfo(
-                    "ANDROID",
-                    "1.2.3",
-                    10217,
-                    "https://download.orbexa.cc/app/hhy-latest.apk",
-                    "0".repeat(64),
-                ),
-                version = 1,
-            ),
-        )
-
-        private fun <T> envelope(data: T) = ApiEnvelope(true, "visual-audit", "2026-07-22T00:00:00Z", data)
     }
 
     private class VisualAuthApi : ContractAuthApi {

@@ -62,7 +62,24 @@ fun StartupGateScreen(
         value = gate.evaluate(request)
     }
 
-    when (val current = state) {
+    StartupGateStateContent(
+        current = state,
+        skippedVersionCode = skippedVersionCode,
+        onRetry = { retryKey += 1 },
+        onSkip = { skippedVersionCode = it },
+        content = content,
+    )
+}
+
+@Composable
+internal fun StartupGateStateContent(
+    current: StartupGateState,
+    skippedVersionCode: Long,
+    onRetry: () -> Unit,
+    onSkip: (Long) -> Unit,
+    content: @Composable () -> Unit,
+) {
+    when (current) {
         StartupGateState.Loading -> GateMessage(
             eyebrow = "安全启动",
             title = "正在启动",
@@ -79,7 +96,7 @@ fun StartupGateScreen(
             supportText = "服务端当前返回维护状态，请稍后重新检查",
             icon = HhyIcons.Information,
         ) {
-            RetryButton { retryKey += 1 }
+            RetryButton(onRetry)
         }
         is StartupGateState.Unavailable -> GateMessage(
             eyebrow = "网络连接",
@@ -88,7 +105,7 @@ fun StartupGateScreen(
             supportText = "请检查网络连接后重新尝试",
             icon = HhyIcons.Error,
         ) {
-            RetryButton { retryKey += 1 }
+            RetryButton(onRetry)
         }
         is StartupGateState.UpdateRequired -> {
             if (!current.forced && skippedVersionCode == current.policy.latestVersionCode) {
@@ -96,7 +113,7 @@ fun StartupGateScreen(
             } else {
                 UpdateScreen(
                     state = current,
-                    onSkip = { skippedVersionCode = current.policy.latestVersionCode },
+                    onSkip = { onSkip(current.policy.latestVersionCode) },
                 )
             }
         }

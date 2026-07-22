@@ -14294,3 +14294,63 @@ change_requests:
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
+- protocol_version: '1.0'
+  cr_id: CR-0234
+  title: 修复R08历史视觉首轮模拟器确定性旅程失败
+  status: IMPLEMENTING
+  created_at: '2026-07-22T10:16:43Z'
+  updated_at: '2026-07-22T10:18:01Z'
+  requester_actor_id: codex-root-r08-008
+  approver_actor_id: codex-reviewer-user-self-r08
+  task_id: TASK-R08-008
+  session_id: SES-20260722T093645Z-C7DB8EF0
+  user_request: 项目所有者要求历史未达页面按效果图标准由AI持续复核并自行修复，不因候选失败停止或等待人工确认
+  reason: 首轮GitHub历史审计编译通过，但启动状态异步切换未可靠重组且R07测试仍寻找旧发布者提示文案；需改为debug-only生产组件直接状态选择并按真实发布者链接导航后执行第2次有界审计
+  original_rule: 复用CR-0233历史Android统一复核方案和既有候选最多3次有界修复规则；禁止改变生产业务、虚构页面或盲目重跑GitHub
+  new_rule: 不增加规则；首轮确定性失败只修正debug/androidTest旅程：启动三态直接渲染生产组件，R07按真实发布者链接文案进入主页，候选请求递增为历史批次第2次尝试
+  impact_summary: 把启动Gate私有展示组件收敛为模块内可复用并新增debug-only状态选择器，修正两处Instrumentation导航/状态断言；生产Release不包含debug入口，API、数据库与业务UI不变
+  impact:
+    files:
+    - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+    - apps/android/feature/startup/src/debug/java/cc/orbexa/hhy/startup/StartupVisualAuditScreen.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - config/android-candidate-request.yaml
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-APP-001
+    - SCR-APP-002
+    - SCR-APP-003
+    - SCR-SEARCH-002
+    - SCR-PUBLISHER-001
+    apis:
+    - 无协议变化
+    database:
+    - 无数据库变化
+    configuration:
+    - R08历史视觉候选尝试2
+    ledger:
+    - 无
+    tests:
+    - startup/authenticated AndroidTest compile
+    - obx-test fixed image MODULE
+    - GitHub R08 historical candidate attempt 2
+    releases:
+    - R08
+    migration_and_compatibility: 仅internal可见性、debug源集与androidTest变化；Release二进制业务行为不变，保留首轮失败证据并使用第2次有界历史审计，不重做已批准R08功能修复次数
+  user_confirmation: 项目所有者已明确要求所有历史未达页面按效果图标准持续修复，截图由AI自行判断，不因候选失败停止或等待人工确认
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T10:17:26Z'
+    note: 批准复用现有视觉与有界候选规则，仅修正首轮确认的debug旅程竞态和真实链接文案；生产业务、API、数据库和R08已批准基线不变
+  machine_record: .continuity/change_requests/CR-0234.yaml
+  document: docs/03-continuity/change-requests/CR-0234-修复R08历史视觉首轮模拟器确定性旅程失败.md
+  decision_log:
+  - at: '2026-07-22T10:18:01Z'
+    actor_id: codex-root-r08-008
+    status: IMPLEMENTING
+    note: 首轮候选29910384239已保留失败证据，开始实现debug-only启动三态直渲染与真实R07发布者链接导航修复
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  session_ids:
+  - SES-20260722T093645Z-C7DB8EF0
