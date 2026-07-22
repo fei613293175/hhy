@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T15:55:07Z
-- Context Hash：`e74fc16c8cc7161f9b0f4998fa211f0c9812c815a4f171a9de72c1e69f7f1fc2`
+- 生成时间：2026-07-22T15:57:20Z
+- Context Hash：`897418b97eb2eb09a14da142b67603d0a0f37e028be53fa08841e0e75ca2e1c0`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -134,7 +134,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R09-001
-updated_at: '2026-07-22T15:55:04Z'
+updated_at: '2026-07-22T15:57:02Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -169,15 +169,15 @@ continuity:
   active_session_id: SES-20260722T153450Z-FAD75B8D
   actor_id: codex-root-r09-ui-audit
   story_id: STORY-R09-004
-  lease_expires_at: '2026-07-22T19:55:04Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0002.yaml
-  project_fingerprint: b6b28f82372cc3865f1d6a7c219c5216e78ca343dd6760da6f1880f38f5de50d
+  lease_expires_at: '2026-07-22T19:57:02Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0003.yaml
+  project_fingerprint: ee8e723e4bd941c0ba710ccd09c2a90cbc39e68edb5ddffdc6a8e16b988c606a
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 1dad78e6294586cbaa46f17f8ff2b9494159a7c146d2e9a7c0d551799a49e51c
-    generated_at: '2026-07-22T15:52:10Z'
+    context_hash: e74fc16c8cc7161f9b0f4998fa211f0c9812c815a4f171a9de72c1e69f7f1fc2
+    generated_at: '2026-07-22T15:55:07Z'
   handoff_bundle: null
 ```
 
@@ -378,7 +378,7 @@ task_id: TASK-R09-001
 story_id: STORY-R09-004
 goal: 在R09业务编码前，完成P00/R01至R08全部已实现Android、H5、Admin页面的效果图级全局审计；不合格页面返工，缺少且不可复用效果图的页面输出桌面补充包。
 started_at: '2026-07-22T15:34:50Z'
-updated_at: '2026-07-22T15:55:04Z'
+updated_at: '2026-07-22T15:57:06Z'
 takeover_of: null
 change_requests:
 - CR-0247
@@ -435,12 +435,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T15:55:04Z'
-  expires_at: '2026-07-22T19:55:04Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0002.yaml
+  renewed_at: '2026-07-22T15:57:02Z'
+  expires_at: '2026-07-22T19:57:02Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md
-next_step: 运行提交前连续性门禁，提交并推送CR-0247；随后执行P00/R01-R08全局UI审计。
+next_step: 提交CR关闭元数据、推送，然后运行P00/R01-R08全局UI审计清单。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -448,270 +448,47 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 唯一规则、门禁和连续性记录已在单一会话串行收口。
+  reason: CR关闭元数据与当前唯一会话绑定，必须串行提交。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T153450Z-FAD75B8D-0002
+checkpoint_id: CP-SES-20260722T153450Z-FAD75B8D-0003
 session_id: SES-20260722T153450Z-FAD75B8D
-sequence: 2
-created_at: '2026-07-22T15:55:03Z'
-summary: CR-0247最终实现：UI规则消歧、机器/生产关闭分层、稳定签名转换证据、影响映射去除Android和契约伪触发均已完成。
-next_step: 运行提交前连续性门禁，提交并推送CR-0247；随后执行P00/R01-R08全局UI审计。
+sequence: 3
+created_at: '2026-07-22T15:57:01Z'
+summary: CR-0247已关联实现提交d89d7c0b并关闭。
+next_step: 提交CR关闭元数据、推送，然后运行P00/R01-R08全局UI审计清单。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: affected-module-workflow
+- name: implementation-commit
   result: PASS
-  evidence: python scripts/hhy_workflow.py run --intent maintenance --release R09
-  note: 2 checks PASS in 17.64s; no Android build
-- name: release-close-unit
-  result: PASS
-  evidence: python -m unittest tests.test_release_close_gate tests.test_hhy_workflow
-  note: 23 tests passed
-- name: documentation-strict-r09
-  result: PASS
-  evidence: python scripts/check_v123_documentation.py --strict --release R09
-  note: 0 errors 0 warnings
-- name: r08-machine-close
-  result: PASS
-  evidence: python scripts/check_release_artifacts.py --release R08 --machine-close-gate
-  note: tasks=8 acceptance=6 visual_pages=3
+  evidence: d89d7c0b
+  note: pre-commit and commit-msg gates passed
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 316c2db20204555fcd405fd6346d96aa8effe932
+  head: d89d7c0bf4a360ac9bb40c51bc46ed7a9b772e8c
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+  - ' M .continuity/change_requests/CR-0247.yaml'
+  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M config/development-workflow.yaml'
-  - ' M config/test-impact-map.yaml'
-  - ' M docs/02-ui/UI参考图使用与开发约束_V1.2.2.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-ACCOUNTING-001_统一会计交易.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-ACCOUNTING-002_会计交易详情与冲正.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-APP-001_App版本.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-APPEAL-001_申诉处理.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-APPROVAL-001_双人审批中心.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-AUDIT-001_审计日志.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-AUTH-001_后台登录.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-AUTH-002_二次验证.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-BUILD-001_构建中心首页.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-BUILD-002_构建配置.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-BUILD-003_签名配置.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-BUILD-004_构建任务列表.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-BUILD-005_构建任务详情.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-BUILD-006_构建产物与下载.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-BUILD-007_发布与回滚.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CHAT-001_聊天举报.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CMS-001_首页CMS.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CMS-002_H5宣传页CMS.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CMS-003_公告帮助协议.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CONFIG-001_系统配置.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CONFIG-002_供应商配置中心.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CONFIG-003_阿里云短信配置.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CONFIG-004_对象存储配置.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CONFIG-005_支付网关配置.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CONFIG-006_支付宝企业付款配置.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CONFIG-007_实名认证配置.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CONFIG-008_域名与环境配置.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CONTENT-001_统一内容列表.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CONTENT-002_内容详情.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-CONTENT-003_字典与属性.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-DASH-001_数据驾驶舱.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-EXPORT-001_数据导出中心.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-ID-001_实名列表.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-ID-002_实名详情与复核.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-JOB-001_定时任务.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-MEMBER-001_会员SKU.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-MEMBER-002_用户会员.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-NOTIFY-001_通知模板.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-NOTIFY-002_通知发送记录.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-PAY-001_支付交易.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-PROP-001_道具商品.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-PROP-002_资源位与排期.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-PROP-003_执行日志.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-RBAC-001_员工角色权限.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-RECON-001_支付对账.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-REF-001_邀请关系.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-REF-002_佣金策略.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-REF-003_佣金记录.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-REF-004_直推活跃规则.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-REF-005_直推进度.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-REF-006_阶梯奖励矩阵.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-REPORT-001_内容举报处理.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-REWARD-001_奖励账户.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-REWARD-002_奖励流水.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-RISK-001_风险事件.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-RISK-002_黑白名单.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-RISK-003_风控规则版本.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-RISK-004_风控规则模拟器.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-RP-001_红包活动列表.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-RP-002_红包活动详情.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-RP-003_红包预审核.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-RP-004_红包风险事件.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-SECURITY-001_管理员安全设置.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-SUPPORT-001_工单列表.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-SUPPORT-002_工单详情.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-TASK-001_任务定义.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-TASK-002_任务进度与预算.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-WD-001_提现列表.md'
-  - ' M docs/02-ui/page-specs/admin/ADM-WD-002_提现详情.md'
-  - ' M docs/02-ui/page-specs/android/DIALOG-CHAT-BLOCK-001_拉黑与解除拉黑确认.md'
-  - ' M docs/02-ui/page-specs/android/DIALOG-CHAT-DELETE-001_删除会话确认.md'
-  - ' M docs/02-ui/page-specs/android/DIALOG-SEARCH-001_清空搜索历史确认.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ABOUT-001_关于与检查更新.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ANN-001_公告列表.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ANN-002_公告详情.md'
-  - ' M docs/02-ui/page-specs/android/SCR-APP-001_启动页.md'
-  - ' M docs/02-ui/page-specs/android/SCR-APP-002_系统维护页.md'
-  - ' M docs/02-ui/page-specs/android/SCR-APP-003_更新提示.md'
-  - ' M docs/02-ui/page-specs/android/SCR-AUTH-001_密码登录.md'
-  - ' M docs/02-ui/page-specs/android/SCR-AUTH-002_短信验证码登录.md'
-  - ' M docs/02-ui/page-specs/android/SCR-AUTH-003_注册账号.md'
-  - ' M docs/02-ui/page-specs/android/SCR-AUTH-004_忘记密码.md'
-  - ' M docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md'
-  - ' M docs/02-ui/page-specs/android/SCR-AUTH-006_登录设备.md'
-  - ' M docs/02-ui/page-specs/android/SCR-AUTH-007_修改登录密码.md'
-  - ' M docs/02-ui/page-specs/android/SCR-AUTH-008_注销账号.md'
-  - ' M docs/02-ui/page-specs/android/SCR-CHAT-001_会话列表.md'
-  - ' M docs/02-ui/page-specs/android/SCR-CHAT-002_私聊页.md'
-  - ' M docs/02-ui/page-specs/android/SCR-DETAIL-001_项目详情.md'
-  - ' M docs/02-ui/page-specs/android/SCR-DETAIL-002_App详情.md'
-  - ' M docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md'
-  - ' M docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md'
-  - ' M docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md'
-  - ' M docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md'
-  - ' M docs/02-ui/page-specs/android/SCR-HOME-001_首页.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ID-003_活体检测容器.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ID-004_实名结果.md'
-  - ' M docs/02-ui/page-specs/android/SCR-LIST-001_项目列表.md'
-  - ' M docs/02-ui/page-specs/android/SCR-LIST-002_App列表.md'
-  - ' M docs/02-ui/page-specs/android/SCR-LIST-003_群聊列表.md'
-  - ' M docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md'
-  - ' M docs/02-ui/page-specs/android/SCR-MEMBER-001_会员中心.md'
-  - ' M docs/02-ui/page-specs/android/SCR-MEMBER-002_会员购买确认.md'
-  - ' M docs/02-ui/page-specs/android/SCR-MEMBER-003_会员升级.md'
-  - ' M docs/02-ui/page-specs/android/SCR-MEMBER-004_会员权益明细.md'
-  - ' M docs/02-ui/page-specs/android/SCR-MSG-001_消息中心.md'
-  - ' M docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md'
-  - ' M docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md'
-  - ' M docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md'
-  - ' M docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md'
-  - ' M docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md'
-  - ' M docs/02-ui/page-specs/android/SCR-NOTICE-001_通知列表.md'
-  - ' M docs/02-ui/page-specs/android/SCR-NOTICE-002_通知详情.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md'
-  - ' M docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PROP-001_道具商城.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PROP-002_我的道具.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PROP-003_使用道具.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PUB-002_项目发布_编辑.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PUB-003_App发布_编辑.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md'
-  - ' M docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md'
-  - ' M docs/02-ui/page-specs/android/SCR-REF-001_推广中心.md'
-  - ' M docs/02-ui/page-specs/android/SCR-REF-002_邀请好友.md'
-  - ' M docs/02-ui/page-specs/android/SCR-REF-003_邀请海报.md'
-  - ' M docs/02-ui/page-specs/android/SCR-REF-004_直推用户.md'
-  - ' M docs/02-ui/page-specs/android/SCR-REF-005_二级用户.md'
-  - ' M docs/02-ui/page-specs/android/SCR-REF-006_消费佣金.md'
-  - ' M docs/02-ui/page-specs/android/SCR-REF-007_直推活跃奖励.md'
-  - ' M docs/02-ui/page-specs/android/SCR-REF-008_推广规则_教程.md'
-  - ' M docs/02-ui/page-specs/android/SCR-REWARD-001_奖励账户.md'
-  - ' M docs/02-ui/page-specs/android/SCR-REWARD-002_奖励明细.md'
-  - ' M docs/02-ui/page-specs/android/SCR-RP-001_红包首页.md'
-  - ' M docs/02-ui/page-specs/android/SCR-RP-002_红包任务资格.md'
-  - ' M docs/02-ui/page-specs/android/SCR-RP-003_红包浏览任务.md'
-  - ' M docs/02-ui/page-specs/android/SCR-RP-004_我的红包.md'
-  - ' M docs/02-ui/page-specs/android/SCR-RP-ADV-001_红包活动列表.md'
-  - ' M docs/02-ui/page-specs/android/SCR-RP-ADV-002_创建红包.md'
-  - ' M docs/02-ui/page-specs/android/SCR-RP-ADV-003_预审核结果.md'
-  - ' M docs/02-ui/page-specs/android/SCR-RP-ADV-004_红包报价确认.md'
-  - ' M docs/02-ui/page-specs/android/SCR-RP-ADV-005_红包活动详情.md'
-  - ' M docs/02-ui/page-specs/android/SCR-RP-ADV-006_提高红包金额.md'
-  - ' M docs/02-ui/page-specs/android/SCR-SEARCH-001_全局搜索.md'
-  - ' M docs/02-ui/page-specs/android/SCR-SEARCH-002_搜索结果.md'
-  - ' M docs/02-ui/page-specs/android/SCR-SET-001_设置.md'
-  - ' M docs/02-ui/page-specs/android/SCR-SUPPORT-001_帮助中心.md'
-  - ' M docs/02-ui/page-specs/android/SCR-SUPPORT-002_创建工单.md'
-  - ' M docs/02-ui/page-specs/android/SCR-SUPPORT-003_工单列表.md'
-  - ' M docs/02-ui/page-specs/android/SCR-SUPPORT-004_工单详情.md'
-  - ' M docs/02-ui/page-specs/android/SCR-SUPPORT-005_帮助文章详情.md'
-  - ' M docs/02-ui/page-specs/android/SCR-TASK-001_任务中心.md'
-  - ' M docs/02-ui/page-specs/android/SCR-TASK-002_个人任务积分.md'
-  - ' M docs/02-ui/page-specs/android/SCR-WD-001_绑定支付宝.md'
-  - ' M docs/02-ui/page-specs/android/SCR-WD-002_申请提现.md'
-  - ' M docs/02-ui/page-specs/android/SCR-WD-003_提现记录.md'
-  - ' M docs/02-ui/page-specs/android/SHEET-CHAT-001_发送联系方式.md'
-  - ' M docs/02-ui/page-specs/android/SHEET-CHAT-002_聊天举报.md'
-  - ' M docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md'
-  - ' M docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md'
-  - ' M docs/02-ui/page-specs/android/SHEET-MEDIA-001_媒体上传管理器.md'
-  - ' M docs/02-ui/page-specs/android/SHEET-REPORT-001_举报面板.md'
-  - ' M docs/02-ui/page-specs/android/SHEET-RP-001_红包领取面板.md'
-  - ' M docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md'
-  - ' M docs/02-ui/page-specs/h5/H5-001_品牌宣传下载页.md'
-  - ' M docs/02-ui/page-specs/h5/H5-002_安装教程.md'
-  - ' M docs/02-ui/page-specs/h5/H5-003_邀请落地页.md'
-  - ' M docs/02-ui/page-specs/h5/H5-004_项目分享页.md'
-  - ' M docs/02-ui/page-specs/h5/H5-005_App分享页.md'
-  - ' M docs/02-ui/page-specs/h5/H5-006_群聊分享页.md'
-  - ' M docs/02-ui/page-specs/h5/H5-007_团队长分享页.md'
-  - ' M docs/02-ui/page-specs/h5/H5-008_统一收银台.md'
-  - ' M docs/02-ui/page-specs/h5/H5-009_支付结果.md'
-  - ' M docs/02-ui/page-specs/h5/H5-010_协议与规则.md'
-  - ' M docs/02-ui/page-specs/h5/H5-011_帮助文章.md'
-  - ' M docs/02-ui/page-specs/h5/H5-012_活体回跳.md'
-  - ' M docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/09-development/统一开发与交付效率规范.md'
-  - ' M scripts/check_release_artifacts.py'
-  - ' M scripts/check_v123_documentation.py'
-  - ' M scripts/hhy_workflow.py'
-  - ' M tests/test_hhy_workflow.py'
-  - ' M tests/test_release_close_gate.py'
-  - ' M tests/test_run_affected_tests.py'
-  - ?? .continuity/change_requests/CR-0247.yaml
-  - ?? .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0001.yaml
-  - ?? .continuity/sessions/SES-20260722T153450Z-FAD75B8D.yaml
-  - ?? docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md
+  - ' M docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md'
   recent_commits:
+  - "d89d7c0bf4a360ac9bb40c51bc46ed7a9b772e8c\t2026-07-22T23:56:15+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(workflow): clarify UI\
+    \ and release closure"
   - "316c2db20204555fcd405fd6346d96aa8effe932\t2026-07-22T23:32:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-008\
     \ as completed"
   - "cbc215f3bd01c8b6a1d9ac87e6e1128f265a3aa9\t2026-07-22T23:22:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(continuity): close completed\
@@ -726,10 +503,8 @@ git:
     \ remediated visual audit"
   - "5eda31773858b9a6286f10da6522c5e1f40c09a3\t2026-07-22T20:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(ci): close deterministic\
     \ tooling regressions"
-  - "525ada5f90bdae7dce47a1dc5d118d8556318929\t2026-07-22T20:25:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] ci(github): repair reusable\
-    \ OIDC contract"
 project_fingerprint:
-  sha256: b6b28f82372cc3865f1d6a7c219c5216e78ca343dd6760da6f1880f38f5de50d
+  sha256: ee8e723e4bd941c0ba710ccd09c2a90cbc39e68edb5ddffdc6a8e16b988c606a
   files:
   - CHANGELOG.md
   - config/development-workflow.yaml
@@ -1715,8 +1490,8 @@ project_fingerprint:
       sha256: fabcba694ed127cbb8e0ef2334fc7fab9d5b4b60c2834f15b128b2ef4fa03ec2
     - path: docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md
       state: FILE
-      size: 3919
-      sha256: 60fd576da999d5adf09f6b500258c68e16730e9073d1ab6ab94ad041486deae9
+      size: 4203
+      sha256: 6183e85333a663b0c3d1555ee251600edc52674dadee2c37879ab1f69e89db23
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
       size: 13820
@@ -2202,8 +1977,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 唯一规则、门禁和连续性记录已在单一会话串行收口。
-event_hash: 3420fbe640ea377fa97f2e4be2f7c00e8b1b156d6ccb42ff912f31042b849318
+  reason: CR关闭元数据与当前唯一会话绑定，必须串行提交。
+event_hash: 6f558a0e8bc574c9872d610c75e6754b5d1f83087055c368e1cf14f8ad984911
 ```
 
 ## 接续状态与事件头
@@ -2215,8 +1990,8 @@ active_session_id: SES-20260722T153450Z-FAD75B8D
 last_session_id: SES-20260722T093645Z-C7DB8EF0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0021
-event_count: 2417
-event_head_hash: 3420fbe640ea377fa97f2e4be2f7c00e8b1b156d6ccb42ff912f31042b849318
+event_count: 2419
+event_head_hash: 6f558a0e8bc574c9872d610c75e6754b5d1f83087055c368e1cf14f8ad984911
 event_chain_valid: true
 ```
 
@@ -2339,9 +2114,9 @@ recent_sessions: - session_id: SES-20260721T235847Z-F9109B61
   started_at: '2026-07-22T15:34:50Z'
   record: .continuity/sessions/SES-20260722T153450Z-FAD75B8D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md
-  updated_at: '2026-07-22T15:55:04Z'
+  updated_at: '2026-07-22T15:57:02Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0003.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1136543F9D43
   session_id: SES-20260721T043434Z-868F3619
@@ -3322,9 +3097,9 @@ recent_task_transitions: - transition_id: TRN-BCEA665B53B9
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 316c2db20204555fcd405fd6346d96aa8effe932
+head: d89d7c0bf4a360ac9bb40c51bc46ed7a9b772e8c
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
@@ -3333,224 +3108,21 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/change_requests/CR-0247.yaml'
+- ' M .continuity/sessions/SES-20260722T153450Z-FAD75B8D.yaml'
 - ' M CURRENT_STATUS.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
+- ' M artifacts/validation/continuity-gate-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M config/development-workflow.yaml'
-- ' M config/test-impact-map.yaml'
-- ' M docs/02-ui/UI参考图使用与开发约束_V1.2.2.md'
-- ' M docs/02-ui/page-specs/admin/ADM-ACCOUNTING-001_统一会计交易.md'
-- ' M docs/02-ui/page-specs/admin/ADM-ACCOUNTING-002_会计交易详情与冲正.md'
-- ' M docs/02-ui/page-specs/admin/ADM-APP-001_App版本.md'
-- ' M docs/02-ui/page-specs/admin/ADM-APPEAL-001_申诉处理.md'
-- ' M docs/02-ui/page-specs/admin/ADM-APPROVAL-001_双人审批中心.md'
-- ' M docs/02-ui/page-specs/admin/ADM-AUDIT-001_审计日志.md'
-- ' M docs/02-ui/page-specs/admin/ADM-AUTH-001_后台登录.md'
-- ' M docs/02-ui/page-specs/admin/ADM-AUTH-002_二次验证.md'
-- ' M docs/02-ui/page-specs/admin/ADM-BUILD-001_构建中心首页.md'
-- ' M docs/02-ui/page-specs/admin/ADM-BUILD-002_构建配置.md'
-- ' M docs/02-ui/page-specs/admin/ADM-BUILD-003_签名配置.md'
-- ' M docs/02-ui/page-specs/admin/ADM-BUILD-004_构建任务列表.md'
-- ' M docs/02-ui/page-specs/admin/ADM-BUILD-005_构建任务详情.md'
-- ' M docs/02-ui/page-specs/admin/ADM-BUILD-006_构建产物与下载.md'
-- ' M docs/02-ui/page-specs/admin/ADM-BUILD-007_发布与回滚.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CHAT-001_聊天举报.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CMS-001_首页CMS.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CMS-002_H5宣传页CMS.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CMS-003_公告帮助协议.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CONFIG-001_系统配置.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CONFIG-002_供应商配置中心.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CONFIG-003_阿里云短信配置.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CONFIG-004_对象存储配置.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CONFIG-005_支付网关配置.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CONFIG-006_支付宝企业付款配置.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CONFIG-007_实名认证配置.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CONFIG-008_域名与环境配置.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CONTENT-001_统一内容列表.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CONTENT-002_内容详情.md'
-- ' M docs/02-ui/page-specs/admin/ADM-CONTENT-003_字典与属性.md'
-- ' M docs/02-ui/page-specs/admin/ADM-DASH-001_数据驾驶舱.md'
-- ' M docs/02-ui/page-specs/admin/ADM-EXPORT-001_数据导出中心.md'
-- ' M docs/02-ui/page-specs/admin/ADM-ID-001_实名列表.md'
-- ' M docs/02-ui/page-specs/admin/ADM-ID-002_实名详情与复核.md'
-- ' M docs/02-ui/page-specs/admin/ADM-JOB-001_定时任务.md'
-- ' M docs/02-ui/page-specs/admin/ADM-MEMBER-001_会员SKU.md'
-- ' M docs/02-ui/page-specs/admin/ADM-MEMBER-002_用户会员.md'
-- ' M docs/02-ui/page-specs/admin/ADM-NOTIFY-001_通知模板.md'
-- ' M docs/02-ui/page-specs/admin/ADM-NOTIFY-002_通知发送记录.md'
-- ' M docs/02-ui/page-specs/admin/ADM-ORDER-001_订单列表.md'
-- ' M docs/02-ui/page-specs/admin/ADM-PAY-001_支付交易.md'
-- ' M docs/02-ui/page-specs/admin/ADM-PROD-001_商品与SKU.md'
-- ' M docs/02-ui/page-specs/admin/ADM-PROP-001_道具商品.md'
-- ' M docs/02-ui/page-specs/admin/ADM-PROP-002_资源位与排期.md'
-- ' M docs/02-ui/page-specs/admin/ADM-PROP-003_执行日志.md'
-- ' M docs/02-ui/page-specs/admin/ADM-RBAC-001_员工角色权限.md'
-- ' M docs/02-ui/page-specs/admin/ADM-RECON-001_支付对账.md'
-- ' M docs/02-ui/page-specs/admin/ADM-REF-001_邀请关系.md'
-- ' M docs/02-ui/page-specs/admin/ADM-REF-002_佣金策略.md'
-- ' M docs/02-ui/page-specs/admin/ADM-REF-003_佣金记录.md'
-- ' M docs/02-ui/page-specs/admin/ADM-REF-004_直推活跃规则.md'
-- ' M docs/02-ui/page-specs/admin/ADM-REF-005_直推进度.md'
-- ' M docs/02-ui/page-specs/admin/ADM-REF-006_阶梯奖励矩阵.md'
-- ' M docs/02-ui/page-specs/admin/ADM-REPORT-001_内容举报处理.md'
-- ' M docs/02-ui/page-specs/admin/ADM-REVIEW-001_审核队列.md'
-- ' M docs/02-ui/page-specs/admin/ADM-REWARD-001_奖励账户.md'
-- ' M docs/02-ui/page-specs/admin/ADM-REWARD-002_奖励流水.md'
-- ' M docs/02-ui/page-specs/admin/ADM-RISK-001_风险事件.md'
-- ' M docs/02-ui/page-specs/admin/ADM-RISK-002_黑白名单.md'
-- ' M docs/02-ui/page-specs/admin/ADM-RISK-003_风控规则版本.md'
-- ' M docs/02-ui/page-specs/admin/ADM-RISK-004_风控规则模拟器.md'
-- ' M docs/02-ui/page-specs/admin/ADM-RP-001_红包活动列表.md'
-- ' M docs/02-ui/page-specs/admin/ADM-RP-002_红包活动详情.md'
-- ' M docs/02-ui/page-specs/admin/ADM-RP-003_红包预审核.md'
-- ' M docs/02-ui/page-specs/admin/ADM-RP-004_红包风险事件.md'
-- ' M docs/02-ui/page-specs/admin/ADM-SECURITY-001_管理员安全设置.md'
-- ' M docs/02-ui/page-specs/admin/ADM-SUPPORT-001_工单列表.md'
-- ' M docs/02-ui/page-specs/admin/ADM-SUPPORT-002_工单详情.md'
-- ' M docs/02-ui/page-specs/admin/ADM-TASK-001_任务定义.md'
-- ' M docs/02-ui/page-specs/admin/ADM-TASK-002_任务进度与预算.md'
-- ' M docs/02-ui/page-specs/admin/ADM-USER-001_用户列表.md'
-- ' M docs/02-ui/page-specs/admin/ADM-USER-002_用户详情.md'
-- ' M docs/02-ui/page-specs/admin/ADM-WD-001_提现列表.md'
-- ' M docs/02-ui/page-specs/admin/ADM-WD-002_提现详情.md'
-- ' M docs/02-ui/page-specs/android/DIALOG-CHAT-BLOCK-001_拉黑与解除拉黑确认.md'
-- ' M docs/02-ui/page-specs/android/DIALOG-CHAT-DELETE-001_删除会话确认.md'
-- ' M docs/02-ui/page-specs/android/DIALOG-SEARCH-001_清空搜索历史确认.md'
-- ' M docs/02-ui/page-specs/android/SCR-ABOUT-001_关于与检查更新.md'
-- ' M docs/02-ui/page-specs/android/SCR-ANN-001_公告列表.md'
-- ' M docs/02-ui/page-specs/android/SCR-ANN-002_公告详情.md'
-- ' M docs/02-ui/page-specs/android/SCR-APP-001_启动页.md'
-- ' M docs/02-ui/page-specs/android/SCR-APP-002_系统维护页.md'
-- ' M docs/02-ui/page-specs/android/SCR-APP-003_更新提示.md'
-- ' M docs/02-ui/page-specs/android/SCR-AUTH-001_密码登录.md'
-- ' M docs/02-ui/page-specs/android/SCR-AUTH-002_短信验证码登录.md'
-- ' M docs/02-ui/page-specs/android/SCR-AUTH-003_注册账号.md'
-- ' M docs/02-ui/page-specs/android/SCR-AUTH-004_忘记密码.md'
-- ' M docs/02-ui/page-specs/android/SCR-AUTH-005_账号冻结.md'
-- ' M docs/02-ui/page-specs/android/SCR-AUTH-006_登录设备.md'
-- ' M docs/02-ui/page-specs/android/SCR-AUTH-007_修改登录密码.md'
-- ' M docs/02-ui/page-specs/android/SCR-AUTH-008_注销账号.md'
-- ' M docs/02-ui/page-specs/android/SCR-CHAT-001_会话列表.md'
-- ' M docs/02-ui/page-specs/android/SCR-CHAT-002_私聊页.md'
-- ' M docs/02-ui/page-specs/android/SCR-DETAIL-001_项目详情.md'
-- ' M docs/02-ui/page-specs/android/SCR-DETAIL-002_App详情.md'
-- ' M docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md'
-- ' M docs/02-ui/page-specs/android/SCR-DETAIL-004_团队长详情.md'
-- ' M docs/02-ui/page-specs/android/SCR-FAV-001_我的收藏.md'
-- ' M docs/02-ui/page-specs/android/SCR-HIS-001_浏览记录.md'
-- ' M docs/02-ui/page-specs/android/SCR-HOME-001_首页.md'
-- ' M docs/02-ui/page-specs/android/SCR-ID-001_实名认证首页.md'
-- ' M docs/02-ui/page-specs/android/SCR-ID-002_实名信息输入.md'
-- ' M docs/02-ui/page-specs/android/SCR-ID-003_活体检测容器.md'
-- ' M docs/02-ui/page-specs/android/SCR-ID-004_实名结果.md'
-- ' M docs/02-ui/page-specs/android/SCR-LIST-001_项目列表.md'
-- ' M docs/02-ui/page-specs/android/SCR-LIST-002_App列表.md'
-- ' M docs/02-ui/page-specs/android/SCR-LIST-003_群聊列表.md'
-- ' M docs/02-ui/page-specs/android/SCR-LIST-004_团队长列表.md'
-- ' M docs/02-ui/page-specs/android/SCR-ME-001_我的首页.md'
-- ' M docs/02-ui/page-specs/android/SCR-ME-002_个人资料.md'
-- ' M docs/02-ui/page-specs/android/SCR-MEMBER-001_会员中心.md'
-- ' M docs/02-ui/page-specs/android/SCR-MEMBER-002_会员购买确认.md'
-- ' M docs/02-ui/page-specs/android/SCR-MEMBER-003_会员升级.md'
-- ' M docs/02-ui/page-specs/android/SCR-MEMBER-004_会员权益明细.md'
-- ' M docs/02-ui/page-specs/android/SCR-MSG-001_消息中心.md'
-- ' M docs/02-ui/page-specs/android/SCR-MYC-001_我的发布.md'
-- ' M docs/02-ui/page-specs/android/SCR-MYC-002_草稿箱.md'
-- ' M docs/02-ui/page-specs/android/SCR-MYC-003_内容管理详情.md'
-- ' M docs/02-ui/page-specs/android/SCR-MYC-004_审核记录.md'
-- ' M docs/02-ui/page-specs/android/SCR-MYC-005_内容数据.md'
-- ' M docs/02-ui/page-specs/android/SCR-NOTICE-001_通知列表.md'
-- ' M docs/02-ui/page-specs/android/SCR-NOTICE-002_通知详情.md'
-- ' M docs/02-ui/page-specs/android/SCR-ORDER-001_订单列表.md'
-- ' M docs/02-ui/page-specs/android/SCR-ORDER-002_订单详情.md'
-- ' M docs/02-ui/page-specs/android/SCR-PROP-001_道具商城.md'
-- ' M docs/02-ui/page-specs/android/SCR-PROP-002_我的道具.md'
-- ' M docs/02-ui/page-specs/android/SCR-PROP-003_使用道具.md'
-- ' M docs/02-ui/page-specs/android/SCR-PUB-001_发布入口.md'
-- ' M docs/02-ui/page-specs/android/SCR-PUB-002_项目发布_编辑.md'
-- ' M docs/02-ui/page-specs/android/SCR-PUB-003_App发布_编辑.md'
-- ' M docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md'
-- ' M docs/02-ui/page-specs/android/SCR-PUB-005_团队长资料编辑.md'
-- ' M docs/02-ui/page-specs/android/SCR-PUB-006_发布预览.md'
-- ' M docs/02-ui/page-specs/android/SCR-PUB-007_提交结果.md'
-- ' M docs/02-ui/page-specs/android/SCR-PUBLISHER-001_发布者主页.md'
-- ' M docs/02-ui/page-specs/android/SCR-REF-001_推广中心.md'
-- ' M docs/02-ui/page-specs/android/SCR-REF-002_邀请好友.md'
-- ' M docs/02-ui/page-specs/android/SCR-REF-003_邀请海报.md'
-- ' M docs/02-ui/page-specs/android/SCR-REF-004_直推用户.md'
-- ' M docs/02-ui/page-specs/android/SCR-REF-005_二级用户.md'
-- ' M docs/02-ui/page-specs/android/SCR-REF-006_消费佣金.md'
-- ' M docs/02-ui/page-specs/android/SCR-REF-007_直推活跃奖励.md'
-- ' M docs/02-ui/page-specs/android/SCR-REF-008_推广规则_教程.md'
-- ' M docs/02-ui/page-specs/android/SCR-REWARD-001_奖励账户.md'
-- ' M docs/02-ui/page-specs/android/SCR-REWARD-002_奖励明细.md'
-- ' M docs/02-ui/page-specs/android/SCR-RP-001_红包首页.md'
-- ' M docs/02-ui/page-specs/android/SCR-RP-002_红包任务资格.md'
-- ' M docs/02-ui/page-specs/android/SCR-RP-003_红包浏览任务.md'
-- ' M docs/02-ui/page-specs/android/SCR-RP-004_我的红包.md'
-- ' M docs/02-ui/page-specs/android/SCR-RP-ADV-001_红包活动列表.md'
-- ' M docs/02-ui/page-specs/android/SCR-RP-ADV-002_创建红包.md'
-- ' M docs/02-ui/page-specs/android/SCR-RP-ADV-003_预审核结果.md'
-- ' M docs/02-ui/page-specs/android/SCR-RP-ADV-004_红包报价确认.md'
-- ' M docs/02-ui/page-specs/android/SCR-RP-ADV-005_红包活动详情.md'
-- ' M docs/02-ui/page-specs/android/SCR-RP-ADV-006_提高红包金额.md'
-- ' M docs/02-ui/page-specs/android/SCR-SEARCH-001_全局搜索.md'
-- ' M docs/02-ui/page-specs/android/SCR-SEARCH-002_搜索结果.md'
-- ' M docs/02-ui/page-specs/android/SCR-SET-001_设置.md'
-- ' M docs/02-ui/page-specs/android/SCR-SUPPORT-001_帮助中心.md'
-- ' M docs/02-ui/page-specs/android/SCR-SUPPORT-002_创建工单.md'
-- ' M docs/02-ui/page-specs/android/SCR-SUPPORT-003_工单列表.md'
-- ' M docs/02-ui/page-specs/android/SCR-SUPPORT-004_工单详情.md'
-- ' M docs/02-ui/page-specs/android/SCR-SUPPORT-005_帮助文章详情.md'
-- ' M docs/02-ui/page-specs/android/SCR-TASK-001_任务中心.md'
-- ' M docs/02-ui/page-specs/android/SCR-TASK-002_个人任务积分.md'
-- ' M docs/02-ui/page-specs/android/SCR-WD-001_绑定支付宝.md'
-- ' M docs/02-ui/page-specs/android/SCR-WD-002_申请提现.md'
-- ' M docs/02-ui/page-specs/android/SCR-WD-003_提现记录.md'
-- ' M docs/02-ui/page-specs/android/SHEET-CHAT-001_发送联系方式.md'
-- ' M docs/02-ui/page-specs/android/SHEET-CHAT-002_聊天举报.md'
-- ' M docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md'
-- ' M docs/02-ui/page-specs/android/SHEET-CONTENT-INVALID-001_联系方式失效反馈.md'
-- ' M docs/02-ui/page-specs/android/SHEET-MEDIA-001_媒体上传管理器.md'
-- ' M docs/02-ui/page-specs/android/SHEET-REPORT-001_举报面板.md'
-- ' M docs/02-ui/page-specs/android/SHEET-RP-001_红包领取面板.md'
-- ' M docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md'
-- ' M docs/02-ui/page-specs/h5/H5-001_品牌宣传下载页.md'
-- ' M docs/02-ui/page-specs/h5/H5-002_安装教程.md'
-- ' M docs/02-ui/page-specs/h5/H5-003_邀请落地页.md'
-- ' M docs/02-ui/page-specs/h5/H5-004_项目分享页.md'
-- ' M docs/02-ui/page-specs/h5/H5-005_App分享页.md'
-- ' M docs/02-ui/page-specs/h5/H5-006_群聊分享页.md'
-- ' M docs/02-ui/page-specs/h5/H5-007_团队长分享页.md'
-- ' M docs/02-ui/page-specs/h5/H5-008_统一收银台.md'
-- ' M docs/02-ui/page-specs/h5/H5-009_支付结果.md'
-- ' M docs/02-ui/page-specs/h5/H5-010_协议与规则.md'
-- ' M docs/02-ui/page-specs/h5/H5-011_帮助文章.md'
-- ' M docs/02-ui/page-specs/h5/H5-012_活体回跳.md'
-- ' M docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M docs/09-development/统一开发与交付效率规范.md'
-- ' M scripts/check_release_artifacts.py'
-- ' M scripts/check_v123_documentation.py'
-- ' M scripts/hhy_workflow.py'
-- ' M tests/test_hhy_workflow.py'
-- ' M tests/test_release_close_gate.py'
-- ' M tests/test_run_affected_tests.py'
-- ?? .continuity/change_requests/CR-0247.yaml
-- ?? .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0001.yaml
-- ?? .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0002.yaml
-- ?? .continuity/sessions/SES-20260722T153450Z-FAD75B8D.yaml
-- ?? docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md
+- ' M docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md'
+- ?? .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0003.yaml
 recent_commits:
+- "d89d7c0bf4a360ac9bb40c51bc46ed7a9b772e8c\t2026-07-22T23:56:15+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(workflow): clarify UI and\
+  \ release closure"
 - "316c2db20204555fcd405fd6346d96aa8effe932\t2026-07-22T23:32:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-008\
   \ as completed"
 - "cbc215f3bd01c8b6a1d9ac87e6e1128f265a3aa9\t2026-07-22T23:22:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(continuity): close completed\
@@ -3565,13 +3137,11 @@ recent_commits:
   \ visual audit"
 - "5eda31773858b9a6286f10da6522c5e1f40c09a3\t2026-07-22T20:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(ci): close deterministic\
   \ tooling regressions"
-- "525ada5f90bdae7dce47a1dc5d118d8556318929\t2026-07-22T20:25:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] ci(github): repair reusable\
-  \ OIDC contract"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`b6b28f82372cc3865f1d6a7c219c5216e78ca343dd6760da6f1880f38f5de50d`
+- 指纹：`ee8e723e4bd941c0ba710ccd09c2a90cbc39e68edb5ddffdc6a8e16b988c606a`
 - 文件数：202
 
 - `CHANGELOG.md`
@@ -9785,74 +9355,13 @@ TASKS.yaml:
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
-- protocol_version: '1.0'
-  cr_id: CR-0247
-  title: 消除UI施工歧义并分离机器收尾与生产验收门禁
-  status: IMPLEMENTED
-  created_at: '2026-07-22T15:41:18Z'
-  updated_at: '2026-07-22T15:52:03Z'
-  requester_actor_id: codex-root-r09-ui-audit
-  approver_actor_id: codex-reviewer-ui-close-simplification
-  task_id: TASK-R09-001
-  session_id: SES-20260722T153450Z-FAD75B8D
-  user_request: 分析并修复历史UI未按效果图施工的规则原因，同时在不降低最终质量的前提下优化每版关闭耗时和冗余。
-  reason: 主UI规则与189份逐页规格表述冲突；release-close默认调用生产终态门禁，与异步真机机器收尾语义冲突，导致页面降质和关闭阶段逐项试错。
-  original_rule: 现有UI主规则要求效果图强制施工，但全部逐页规格仍写仅用于视觉参考；release-close在统一工作流中直接调用--close-gate，而该门禁实际要求项目所有者真机PASS、Release Tag与生产终态。
-  new_rule: 更新现有唯一规则而不新增平行体系：逐页规格明确效果图强制约束建模、层级、布局、组件和视觉样式但不定义业务；历史全局整改使用--historical-through且不追溯阻断R08。release-close固定表示大版本机器收尾，允许owner_physical_test=PENDING但必须候选、当前版本视觉、APK哈希、文档和证据PASS；正式生产验收只能显式使用--production-close-gate。旧--close-gate拒绝执行并提示选择，禁止语义猜测。
-  impact_summary: 机械纠正189份逐页规格；文档门禁禁止歧义文本回归；将RELEASE质量计划改用机器收尾门禁并保留显式生产终态门禁；补两阶段正反回归及问题复用记录。
-  impact:
-    files:
-    - docs/02-ui/page-specs/**
-    - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
-    - scripts/check_v123_documentation.py
-    - docs/09-development/统一开发与交付效率规范.md
-    - config/development-workflow.yaml
-    - config/test-impact-map.yaml
-    - scripts/check_release_artifacts.py
-    - scripts/hhy_workflow.py
-    - tests/test_release_close_gate.py
-    - tests/test_hhy_workflow.py
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database: []
-    configuration:
-    - UI visual source wording; release close stage selection
-    ledger: []
-    tests:
-    - legacy page-spec wording rejection; machine close owner-pending PASS; production close owner-pending FAIL; ambiguous close flag rejection;
-      workflow release-close selects machine gate; existing production gate regressions
-    releases:
-    - R09
-    migration_and_compatibility: 不改变业务、API、数据库、UI效果参数、候选频率或真机生产硬门禁。原--close-gate调用必须迁移到--machine-close-gate或--production-close-gate；普通任务与既有缓存机制不变。
-  user_confirmation: OWNER_EXPLICIT_ANALYZE_AND_OPTIMIZE_WITHOUT_QUALITY_LOSS
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T15:41:45Z'
-    note: 批准更新既有唯一事实源并拆分关闭阶段；必须保留效果图肉眼质量、候选、APK哈希及真机生产验收强度。
-  machine_record: .continuity/change_requests/CR-0247.yaml
-  document: docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md
-  decision_log:
-  - at: '2026-07-22T15:41:49Z'
-    actor_id: codex-root-r09-ui-audit
-    status: IMPLEMENTING
-    note: 开始机械消歧逐页规格并实现机器/生产关闭门禁分层。
-    session_id: SES-20260722T153450Z-FAD75B8D
-  - at: '2026-07-22T15:52:03Z'
-    actor_id: codex-root-r09-ui-audit
-    status: IMPLEMENTED
-    note: 189份逐页规格已消歧并由文档门禁防回归；机器收尾与生产验收已拆分，旧参数拒绝，R08机器门禁实测PASS。
-    session_id: SES-20260722T153450Z-FAD75B8D
-  session_ids:
-  - SES-20260722T153450Z-FAD75B8D
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `4fe1c987d2d242641b4bb7d91af80e6337d18e8d86863b83befb89c393a07c95`
+- `CURRENT_STATUS.yaml` — `bde9aa4eb3538cbcc617498420a26a30ee3b8bb47e86e1ebe4cbaaf61476828d`
 - `NEXT_TASK.yaml` — `f685c1e6a6c0171a94c8953f40bd294574f9be6a468c998da512d22466d10434`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -9863,12 +9372,12 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `cd59b5232373118aa5c7880c2dfc449a179c5a3ea6c37445a38f422b382e78f9`
-- `.continuity/SESSION_INDEX.yaml` — `fc139c97ff54b578be06648c07d3ea55e82eaa572a5f758723bf1527b4354581`
+- `.continuity/EVENT_LOG.jsonl` — `15572ebabfe7823a4db20ed953596d64afa7951fbe7f12b80598ca97b2a1f0de`
+- `.continuity/SESSION_INDEX.yaml` — `aa17461acab606261a6dda8b1687fd6b846572dbe7941e777d12ec4dd1534c99`
 - `.continuity/TASK_CLAIMS.yaml` — `8ae76f62de345a936b4cc45e5e7a4b4173d35aac62b88980e700304d132798de`
 - `.continuity/TASK_TRANSITIONS.yaml` — `f26a836cb897d059bc80c40b59f4129460780ee51598b4fa2f69e3eaf8082fb4`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5472640052872e717e6b794763f2278f2d313948672f4afd524d26a1fc4e20b5`
-- `.continuity/ACTIVE_SESSION.yaml` — `dddb8b182b4dfd321fc96b3e5448e8a525ac3db4c0606d2fbff02c9df23d1231`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `d6d9d2b2b42e16bdc481949e6cde3a0544fe863fa1068ceb7952778e8ec1f618`
+- `.continuity/ACTIVE_SESSION.yaml` — `db96e810d2a6fbdb62a561050b463050c02ee7ee1db59a54ef60d1c301513d44`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -9878,9 +9387,9 @@ TASKS.yaml:
 - `releases/R09/STORIES.yaml` — `bf6aa9b385fde354089345fa0172e6d9ca01a3fa96f0ce696a3086a394ce2776`
 - `releases/R09/TASKS.yaml` — `178191cc057d1da1db8d626a5ca56eae5fc7ba921349f00d0dd9aa70aceef19d`
 - `releases/R09/ACCEPTANCE_MATRIX.csv` — `98e99c241f9e7ab8814e20fb62060f90c5903da20c1ef39ec81fa75d3bdecfb3`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md` — `8d701b2f6abeaf25e50b8e2f03412328a8430158dd3756870c51586d9ee27404`
-- `.continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0002.yaml` — `651159b3a4ae0ccd42a8447bd33b389447a7f3185ec4c4643f73e3fd4e0279ed`
-- `docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md` — `60fd576da999d5adf09f6b500258c68e16730e9073d1ab6ab94ad041486deae9`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md` — `e9a21faf25f0508aeb09200bd002ddaa9e2f4340a740752a3d7c2025c31238ad`
+- `.continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0003.yaml` — `83c9b05b72e6e8d4486c6af9fbd29bdd7b771c33d2abff2643a12d75ebaf9320`
+- `docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md` — `6183e85333a663b0c3d1555ee251600edc52674dadee2c37879ab1f69e89db23`
 
 ## 接手硬规则
 
