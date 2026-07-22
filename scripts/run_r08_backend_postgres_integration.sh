@@ -38,7 +38,9 @@ if "${PSQL[@]}" --single-transaction -f "${ROOT}/database/rollback/U034__r08_bac
   echo "U034 truncated or accepted legal long R08 data" >&2
   exit 1
 fi
-"${PSQL[@]}" -c "DELETE FROM hhy.project_details WHERE content_id IN
+"${PSQL[@]}" -c "UPDATE hhy.content_posts SET status='DELETED'
+  WHERE title=repeat('长',300);
+  DELETE FROM hhy.project_details WHERE content_id IN
   (SELECT id FROM hhy.content_posts WHERE title=repeat('长',300));
   DELETE FROM hhy.content_posts WHERE title=repeat('长',300);
   DELETE FROM hhy.users WHERE invite_code='R08LONG';" >/dev/null
