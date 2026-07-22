@@ -31,6 +31,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -57,6 +59,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.input.ImeAction
@@ -778,6 +781,7 @@ fun ChangeLoginPasswordScreen(
     var state by remember { mutableStateOf<AuthUiState>(AuthUiState.Editing) }
     val submitting = state is AuthUiState.Submitting
     val canSubmit = currentPassword.length in 8..72 && newPassword.length in 8..72 && newPassword == confirmPassword
+    val strength = passwordStrength(newPassword)
     BackHandler(onBack = onBack)
 
     Column(
@@ -785,14 +789,50 @@ fun ChangeLoginPasswordScreen(
         verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
     ) {
         AuthenticatedRouteHeader("修改登录密码", onBack)
-        Text("修改成功后，所有设备都需要重新登录。", color = HhyColors.TextSecondary)
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = HhyColors.SoftBlue,
+            shape = RoundedCornerShape(HhyRadius.NormalCard),
+        ) {
+            Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                Text("保护账号安全", style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+                Text("修改成功后，所有设备都需要重新登录。", color = HhyColors.TextSecondary)
+            }
+        }
         if (state is AuthUiState.Message) {
             val message = state as AuthUiState.Message
             Text(message.text, color = HhyColors.Warning)
         }
-        SecretField("当前密码", currentPassword, enabled = !submitting) { currentPassword = it; state = AuthUiState.Editing }
-        SecretField("新密码", newPassword, enabled = !submitting) { newPassword = it; state = AuthUiState.Editing }
-        SecretField("确认新密码", confirmPassword, enabled = !submitting) { confirmPassword = it; state = AuthUiState.Editing }
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(HhyRadius.NormalCard),
+            colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+        ) {
+            Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                Text("验证并设置新密码", style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+                Text("当前密码", style = MaterialTheme.typography.labelLarge, color = HhyColors.TextPrimary)
+                SecretField("请输入当前密码", currentPassword, enabled = !submitting) { currentPassword = it; state = AuthUiState.Editing }
+                Text("新密码", style = MaterialTheme.typography.labelLarge, color = HhyColors.TextPrimary)
+                SecretField("请输入新密码", newPassword, enabled = !submitting) { newPassword = it; state = AuthUiState.Editing }
+                if (newPassword.isNotEmpty()) PasswordStrengthIndicator(strength)
+                Text("确认新密码", style = MaterialTheme.typography.labelLarge, color = HhyColors.TextPrimary)
+                SecretField("请再次输入新密码", confirmPassword, enabled = !submitting) { confirmPassword = it; state = AuthUiState.Editing }
+                if (confirmPassword.isNotEmpty() && newPassword != confirmPassword) {
+                    Text("两次输入的新密码不一致", color = HhyColors.Error, style = MaterialTheme.typography.bodySmall)
+                }
+            }
+        }
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = HhyColors.WarningSoft,
+            shape = RoundedCornerShape(HhyRadius.NormalCard),
+        ) {
+            Column(Modifier.padding(HhySpacing.Md), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                Text("密码安全建议", fontWeight = FontWeight.SemiBold, color = HhyColors.TextPrimary)
+                Text("使用 8—72 位字符，建议组合字母、数字和符号，并避免与其他账号重复。", color = HhyColors.TextSecondary)
+            }
+        }
         Button(modifier = Modifier.fillMaxWidth(), enabled = !submitting && canSubmit, onClick = {
             scope.launch {
                 state = AuthUiState.Submitting
@@ -812,6 +852,42 @@ fun ChangeLoginPasswordScreen(
                 }
             }
         }) { Text("修改密码") }
+    }
+}
+
+private fun passwordStrength(value: String): Int {
+    if (value.isEmpty()) return 0
+    var score = if (value.length >= 8) 1 else 0
+    if (value.any(Char::isLetter) && value.any(Char::isDigit)) score += 1
+    if (value.any { !it.isLetterOrDigit() }) score += 1
+    if (value.length >= 12) score += 1
+    return score.coerceIn(1, 4)
+}
+
+@Composable
+private fun PasswordStrengthIndicator(strength: Int) {
+    val activeColor = when (strength) {
+        1 -> HhyColors.Error
+        2 -> HhyColors.Warning
+        else -> HhyColors.Success
+    }
+    val label = when (strength) {
+        1 -> "较弱"
+        2 -> "一般"
+        3 -> "良好"
+        else -> "较强"
+    }
+    Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+            repeat(4) { index ->
+                Surface(
+                    modifier = Modifier.weight(1f).height(HhySpacing.Xs),
+                    color = if (index < strength) activeColor else HhyColors.Border,
+                    shape = RoundedCornerShape(HhyRadius.Pill),
+                ) { }
+            }
+        }
+        Text("密码强度：$label", color = activeColor, style = MaterialTheme.typography.bodySmall)
     }
 }
 
@@ -934,31 +1010,74 @@ fun AccountCancellationScreen(
         verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
     ) {
         AuthenticatedRouteHeader("注销账号", onBack, enabled = !submitting && !confirmVisible)
-        Text("申请后账号将进入注销处理状态，当前设备和其他设备均需重新登录。", color = HhyColors.Warning)
-        Text("当前账号：${user.phoneMasked ?: user.id}", color = HhyColors.TextSecondary)
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(HhyRadius.NormalCard),
+            colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+        ) {
+            Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                Text("当前账号", style = MaterialTheme.typography.labelLarge, color = HhyColors.TextSecondary)
+                Text(user.phoneMasked ?: user.id, style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+                Text("账号状态：${restrictedStatusLabel(user.status).takeUnless { it == "当前不可用" } ?: "正常使用中"}", color = HhyColors.TextSecondary)
+            }
+        }
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = HhyColors.ErrorSoft,
+            shape = RoundedCornerShape(HhyRadius.NormalCard),
+        ) {
+            Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                Text("注销前请确认", fontWeight = FontWeight.SemiBold, color = HhyColors.Error)
+                Text("申请后账号将进入注销处理状态，当前设备和其他设备均需重新登录。", color = HhyColors.TextPrimary)
+                Text("提交前需要验证当前账号手机号和短信验证码。", color = HhyColors.TextSecondary)
+            }
+        }
         if (state is AuthUiState.Message) {
             val message = state as AuthUiState.Message
             Text(message.text, color = HhyColors.Warning)
         }
         if (submitted) {
-            Text("注销申请已提交，安全会话已清理。")
-            Button(modifier = Modifier.fillMaxWidth(), onClick = onReturnToLogin) { Text("返回登录") }
-        } else {
-            PhoneField(phone, enabled = !submitting) { phone = it; state = AuthUiState.Editing }
-            if (phone.isNotBlank() && !phoneMatches) {
-                Text("请输入与当前账号一致的完整手机号", color = HhyColors.Warning)
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = HhyColors.SuccessSoft,
+                shape = RoundedCornerShape(HhyRadius.NormalCard),
+            ) {
+                Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                    Text("注销申请已提交", style = MaterialTheme.typography.titleMedium, color = HhyColors.Success)
+                    Text("安全会话已清理，请返回登录页。", color = HhyColors.TextSecondary)
+                    Button(modifier = Modifier.fillMaxWidth(), onClick = onReturnToLogin) { Text("返回登录") }
+                }
             }
-            OutlinedTextField(
-                value = reason,
-                onValueChange = { reason = it.take(2000); state = AuthUiState.Editing },
-                modifier = Modifier.fillMaxWidth(), label = { Text("注销原因") },
-                minLines = 3, enabled = !submitting,
-            )
-            SecretField("短信验证码", smsCode, enabled = !submitting) { smsCode = it; state = AuthUiState.Editing }
-            if (challengeId.isNotBlank()) {
-                ChallengeImage(challengeImageBase64)
-                SecretField("请输入图中字符", challengeProof, enabled = !submitting) {
-                    challengeProof = it; state = AuthUiState.Editing
+        } else {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(HhyRadius.NormalCard),
+                colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+                elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+            ) {
+                Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                    Text("身份验证", style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+                    Text("完整手机号", style = MaterialTheme.typography.labelLarge, color = HhyColors.TextPrimary)
+                    PhoneField(phone, enabled = !submitting) { phone = it; state = AuthUiState.Editing }
+                    if (phone.isNotBlank() && !phoneMatches) {
+                        Text("请输入与当前账号一致的完整手机号", color = HhyColors.Warning)
+                    }
+                    Text("注销原因", style = MaterialTheme.typography.labelLarge, color = HhyColors.TextPrimary)
+                    OutlinedTextField(
+                        value = reason,
+                        onValueChange = { reason = it.take(2000); state = AuthUiState.Editing },
+                        modifier = Modifier.fillMaxWidth(), label = { Text("请说明注销原因") },
+                        minLines = 3, enabled = !submitting,
+                    )
+                    Text("短信验证码", style = MaterialTheme.typography.labelLarge, color = HhyColors.TextPrimary)
+                    SecretField("请输入短信验证码", smsCode, enabled = !submitting) { smsCode = it; state = AuthUiState.Editing }
+                    if (challengeId.isNotBlank()) {
+                        ChallengeImage(challengeImageBase64)
+                        SecretField("请输入图中字符", challengeProof, enabled = !submitting) {
+                            challengeProof = it; state = AuthUiState.Editing
+                        }
+                    }
                 }
             }
             OutlinedButton(

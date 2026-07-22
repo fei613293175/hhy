@@ -1135,3 +1135,16 @@ problems:
   - 不得在大批量视觉证据测试中依赖测试对象外部状态切换多个根页面
   - 已两次复现的同类重组失败不得继续只调整等待时间或原样重跑
   - 最终有界尝试必须消除根因，若仍失败应按规则升级真实阻断而不是增加第4次
+- id: PROB-0086
+  title: 历史视觉截图揭示R02安全页层级不足与R06内部文案泄漏
+  status: IN_PROGRESS
+  root_cause: 历史页面原实现主要围绕接口可用、输入约束和Token合规完成，修改密码与注销账号页缺少绑定效果图要求的分组卡片、风险层级和密码强度反馈；关于页又直接展示BuildConfig的debug后缀及版本接口中的P00测试说明。局部编译和功能测试不会自动证明肉眼丰富度或识别所有内部发布文案。
+  resolution: CR-0237不新增平行视觉规则，复用CR-0213及冻结页面规格；修改密码页增加显式字段层级、基于本地输入事实的强度条和安全建议，注销页增加真实账号、风险及验证分组，关于页只展示清洗后的语义版本号并过滤内部测试说明，API和提交行为不变。
+  regression_checks:
+  - python -m unittest tests.test_historical_android_visual_contract
+  - Android feature/auth与app受影响MODULE编译、单测和lint必须通过
+  - SCR-AUTH-007、SCR-AUTH-008和SCR-ABOUT-001更新截图必须由AI按绑定效果图或已批准风格逐图判断
+  do_not_repeat:
+  - 功能可用、Token合规和截图存在均不能替代肉眼视觉验收
+  - BuildConfig构建后缀、P00、测试包、验收或Staging说明不得直接展示给最终用户
+  - 安全页可增加基于现有输入和真实流程的解释层级，但不得虚构冻结期、倒计时、权益损失或服务端能力

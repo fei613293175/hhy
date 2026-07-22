@@ -64,6 +64,9 @@ fun AboutScreen(api: ExperienceApi, accessToken: String, onBack: () -> Unit) {
         failed -> "hhy.screen.r06.about.error"
         else -> "hhy.screen.r06.about.loaded"
     }
+    val currentPublicVersion = publicVersionName(BuildConfig.VERSION_NAME)
+    val latestPublicVersion = publicVersionName(policy?.latestVersionName)
+    val updateAvailable = policy?.updateType != null && policy?.updateType != cc.orbexa.hhy.network.UpdateType.NONE
     Scaffold(
         modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag(screenMarker),
         topBar = { TopAppBar(title = { Text("关于与检查更新") }, navigationIcon = { cc.orbexa.hhy.designsystem.HhyBackButton(onBack) }) },
@@ -86,7 +89,7 @@ fun AboutScreen(api: ExperienceApi, accessToken: String, onBack: () -> Unit) {
                         }
                         Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
                             Text("合伙云 Pro", style = MaterialTheme.typography.headlineSmall, color = HhyColors.TextPrimary)
-                            Text("当前版本 ${BuildConfig.VERSION_NAME}", color = HhyColors.TextSecondary)
+                            Text("当前版本 $currentPublicVersion", color = HhyColors.TextSecondary)
                         }
                     }
                 }
@@ -108,12 +111,12 @@ fun AboutScreen(api: ExperienceApi, accessToken: String, onBack: () -> Unit) {
                     else {
                         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                             Text("最新版本", color = HhyColors.TextSecondary)
-                            Text(policy?.latestVersionName ?: "暂无", color = HhyColors.TextPrimary)
+                            Text(latestPublicVersion ?: currentPublicVersion, color = HhyColors.TextPrimary)
                         }
                         Surface(color = HhyColors.PageBackground, shape = RoundedCornerShape(HhyRadius.Tag)) {
                             Column(Modifier.fillMaxWidth().padding(HhySpacing.Md), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
                                 Text("更新说明", style = MaterialTheme.typography.labelLarge)
-                                Text(policy?.releaseNotes ?: "暂无更新说明", color = HhyColors.TextSecondary)
+                                Text(publicReleaseNotes(policy?.releaseNotes, updateAvailable), color = HhyColors.TextSecondary)
                             }
                         }
                         Button(
@@ -148,3 +151,19 @@ internal fun isSafeDownloadUrl(value: String?): Boolean = runCatching {
     val uri = java.net.URI(value ?: return false)
     uri.scheme == "https" && !uri.host.isNullOrBlank() && uri.userInfo == null && uri.fragment == null
 }.getOrDefault(false)
+
+/** Removes build-channel metadata from user-visible version copy only. */
+internal fun publicVersionName(value: String?): String? {
+    val candidate = value?.trim()?.takeIf { it.isNotEmpty() } ?: return null
+    val semantic = candidate.substringBefore('-').substringBefore('+')
+    return semantic.takeIf { it.matches(Regex("\\d+(?:\\.\\d+){1,3}")) }
+}
+
+/** Internal test/candidate notes must never escape into the customer-facing About page. */
+internal fun publicReleaseNotes(value: String?, updateAvailable: Boolean): String {
+    val note = value?.trim().orEmpty()
+    val internalMarkers = listOf("debug", "p00", "测试包", "验收", "内测", "候选包", "staging")
+    val safe = note.isNotEmpty() && internalMarkers.none { marker -> note.contains(marker, ignoreCase = true) }
+    if (safe) return note
+    return if (updateAvailable) "发现新版本，可在确认后安全更新。" else "当前已是最新版本。"
+}

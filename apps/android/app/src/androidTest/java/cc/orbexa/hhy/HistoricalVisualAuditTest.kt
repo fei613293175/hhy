@@ -5,14 +5,15 @@ import android.content.Context
 import android.os.SystemClock
 import android.provider.MediaStore
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.semantics.SemanticsActions
+import androidx.compose.ui.test.fetchSemanticsNodes
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performSemanticsAction
 import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
-import androidx.test.uiautomator.Until
 import cc.orbexa.hhy.auth.AuthVisualAuditMode
 import cc.orbexa.hhy.auth.AuthVisualAuditScreen
 import cc.orbexa.hhy.designsystem.HhyTheme
@@ -97,15 +98,15 @@ class HistoricalVisualAuditTest {
         setAuditContent { AuthVisualAuditScreen(AuthVisualAuditMode.LOGIN, authApi) }
         waitForText("安全登录，开启协作")
         captureStable("13-r02-password-login.png")
-        composeRule.onNodeWithText("验证码登录").performClick()
+        composeRule.onNodeWithText("验证码登录").performSemanticsAction(SemanticsActions.OnClick)
         waitForText("短信验证码")
         captureStable("14-r02-sms-login.png")
-        composeRule.onNodeWithText("注册账号").performClick()
+        composeRule.onNodeWithText("注册账号").performSemanticsAction(SemanticsActions.OnClick)
         waitForText("创建账号，加入可信协作")
         captureStable("15-r02-register.png")
-        composeRule.onNodeWithContentDescription("返回").performClick()
+        composeRule.onNodeWithContentDescription("返回").performSemanticsAction(SemanticsActions.OnClick)
         waitForText("安全登录，开启协作")
-        composeRule.onNodeWithText("忘记密码").performClick()
+        composeRule.onNodeWithText("忘记密码").performSemanticsAction(SemanticsActions.OnClick)
         waitForText("验证身份，重置登录密码")
         captureStable("16-r02-reset-password.png")
     }
@@ -121,7 +122,7 @@ class HistoricalVisualAuditTest {
     fun loginDevicesProduceBoundVisualEvidence() {
         setAuditContent { AuthVisualAuditScreen(AuthVisualAuditMode.LOGIN_DEVICES, authApi) }
         waitForText("登录设备")
-        composeRule.onNodeWithText("加载登录设备").performClick()
+        composeRule.onNodeWithText("加载登录设备").performSemanticsAction(SemanticsActions.OnClick)
         waitForText("当前设备：Pixel 7 测试设备")
         captureStable("18-r02-login-devices.png")
     }
@@ -175,16 +176,18 @@ class HistoricalVisualAuditTest {
     }
 
     private fun waitForText(text: String) {
-        assertTrue("Visual audit surface did not show: $text", device.wait(Until.hasObject(By.text(text)), 15_000))
-        device.waitForIdle(2_000)
+        composeRule.waitUntil(15_000) {
+            composeRule.onAllNodesWithText(text).fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.waitForIdle()
     }
 
     private fun waitForAnyText(first: String, second: String) {
-        assertTrue(
-            "Visual audit surface did not show either expected state",
-            device.wait(Until.hasObject(By.text(first)), 10_000) || device.wait(Until.hasObject(By.text(second)), 10_000),
-        )
-        device.waitForIdle(2_000)
+        composeRule.waitUntil(15_000) {
+            composeRule.onAllNodesWithText(first).fetchSemanticsNodes().isNotEmpty() ||
+                composeRule.onAllNodesWithText(second).fetchSemanticsNodes().isNotEmpty()
+        }
+        composeRule.waitForIdle()
     }
 
     private fun captureStable(name: String) {

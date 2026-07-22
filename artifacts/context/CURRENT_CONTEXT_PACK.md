@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T10:51:19Z
-- Context Hash：`62b11b645fdc0b223306b8c4edb7d604690f8017ea452f720cc7f6e5c80ba7c7`
+- 生成时间：2026-07-22T11:28:43Z
+- Context Hash：`6ee2cdedd8496c83e16fc70879afca2a461c6b5acc9abf9ef39e2a93a11b1665`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -133,7 +133,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-008
-updated_at: '2026-07-22T10:51:16Z'
+updated_at: '2026-07-22T11:28:40Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -168,15 +168,15 @@ continuity:
   active_session_id: SES-20260722T093645Z-C7DB8EF0
   actor_id: codex-root-r08-008
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T14:51:16Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0006.yaml
-  project_fingerprint: c6cfd1def743996f37809ada70cb9adb154621831e4322a39a73cf8b2c6b7c06
+  lease_expires_at: '2026-07-22T15:28:40Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0008.yaml
+  project_fingerprint: ed7cfec271aaf27276b2c0e0d6fccacc477258f603fe300d74e3b0be9e87f524
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: f3cb52f223c7ca237cac35949cc9cdd140cb56bcd702ef8f76820e7873336aa8
-    generated_at: '2026-07-22T10:43:53Z'
+    context_hash: 0c3d9911b8d3f7b530b40d603645256dc5a71459ea5f1bcf56ade6aaec65c0cd
+    generated_at: '2026-07-22T11:22:27Z'
   handoff_bundle: null
 ```
 
@@ -374,12 +374,14 @@ task_id: TASK-R08-008
 story_id: STORY-R08-004
 goal: 完成R08机器关闭与无状态交接；真实解决历史Android新肉眼视觉复核门禁，Owner真机反馈保持异步不阻断。
 started_at: '2026-07-22T09:36:45Z'
-updated_at: '2026-07-22T10:51:16Z'
+updated_at: '2026-07-22T11:28:40Z'
 takeover_of: null
 change_requests:
 - CR-0233
 - CR-0234
 - CR-0235
+- CR-0236
+- CR-0237
 scope:
   allowed_paths:
   - apps/**
@@ -426,7 +428,10 @@ scope:
   - config/android-candidate-request.yaml
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0233
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - tests/test_historical_android_visual_contract.py
+  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -436,12 +441,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T10:51:16Z'
-  expires_at: '2026-07-22T14:51:16Z'
-checkpoint_sequence: 6
-latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0006.yaml
+  renewed_at: '2026-07-22T11:28:40Z'
+  expires_at: '2026-07-22T15:28:40Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-next_step: 提交固定镜像与夹具证据元数据并推送历史批次最终第3次候选；下载25张截图并由AI逐图判定，禁止第4次同类重试
+next_step: 提交并推送实现；在obx-test固定Android镜像编译auth、app与androidTest，修正确定性问题后固化视觉审核与R08收口。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -449,41 +454,64 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终有界候选与统一截图审核共享同一精确Commit和单一工件，必须串行完成
+  reason: 同一Android页面实现、测试与视觉验收目录存在顺序依赖，且用户未要求子代理。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0006
+checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0008
 session_id: SES-20260722T093645Z-C7DB8EF0
-sequence: 6
-created_at: '2026-07-22T10:51:15Z'
-summary: CR-0235独立JUnit单内容宿主提交19a81d0a已在obx-test固定Android镜像147任务BUILD SUCCESSFUL；R08夹具再次事务归零并写入成功，满足历史批次最终attempt=3推送前置
-next_step: 提交固定镜像与夹具证据元数据并推送历史批次最终第3次候选；下载25张截图并由AI逐图判定，禁止第4次同类重试
+sequence: 8
+created_at: '2026-07-22T11:28:40Z'
+summary: 历史批次三次GitHub有界尝试已停止；CR-0236修正定向测试语义同步，CR-0237按既有唯一视觉规则修复修改密码、注销和关于页，并补静态回归。
+next_step: 提交并推送实现；在obx-test固定Android镜像编译auth、app与androidTest，修正确定性问题后固化视觉审核与R08收口。
 blockers: []
-decisions: []
+decisions:
+- 不进行第4次同类GitHub模拟器重试；优先修复真实截图发现的产品UI缺口，现有19张合格截图保留证据。
 note: ''
 tests:
-- name: android-independent-hosts-compile
+- name: historical-android-visual-contract
   result: PASS
-  evidence: obx-test:/tmp/hhy-r08-historical-19a81d0a-compile.log
-  note: 147 tasks BUILD SUCCESSFUL in 4m56s
-- name: r08-ci-fixture-final-reset
-  result: PASS
-  evidence: scripts/prepare_r08_ci_fixture.sh
-  note: R08_CI_FIXTURE_OK user=26 content=2
+  evidence: python -m unittest tests.test_historical_android_visual_contract
+  note: 3项通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 19a81d0a8f953281f9764e4c7cbce8657aa1a7de
+  head: ad117b893b53bcffd914d71d1888b1f5837717b3
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
-  dirty: false
-  status_porcelain: []
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt'
+  - ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md'
+  - ?? .continuity/change_requests/CR-0236.yaml
+  - ?? .continuity/change_requests/CR-0237.yaml
+  - ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0007.yaml
+  - ?? docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md
+  - ?? docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
+  - ?? tests/test_historical_android_visual_contract.py
   recent_commits:
+  - "ad117b893b53bcffd914d71d1888b1f5837717b3\t2026-07-22T18:51:31+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): checkpoint final\
+    \ historical audit"
   - "19a81d0a8f953281f9764e4c7cbce8657aa1a7de\t2026-07-22T18:44:07+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(android): isolate historical\
     \ visual hosts"
   - "23101ddb2052bce55e1e6b519c44894644bb5ae1\t2026-07-22T18:29:23+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): checkpoint historical\
@@ -498,15 +526,15 @@ git:
     \ task"
   - "f80a0f07d572fbc7d289895de172c8bf214b2781\t2026-07-22T17:34:10+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close candidate\
     \ delivery change"
-  - "01043c803dc576990278608e693819979ad2a0c5\t2026-07-22T17:31:19+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] build(r08): deliver signed\
-    \ candidate apk"
 project_fingerprint:
-  sha256: c6cfd1def743996f37809ada70cb9adb154621831e4322a39a73cf8b2c6b7c06
+  sha256: ed7cfec271aaf27276b2c0e0d6fccacc477258f603fe300d74e3b0be9e87f524
   files:
   - CHANGELOG.md
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
   - apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
   - apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
   - apps/android/feature/startup/src/debug/java/cc/orbexa/hhy/startup/StartupVisualAuditScreen.kt
@@ -516,30 +544,41 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
   - docs/03-continuity/change-requests/CR-0234-修复R08历史视觉首轮模拟器确定性旅程失败.md
   - docs/03-continuity/change-requests/CR-0235-将历史视觉审计改为单内容独立测试宿主.md
+  - docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md
+  - docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
   - scripts/prepare_r08_ci_fixture.sh
   - tests/android/visual-manifests/R08.yaml
   - tests/test_android_ci_gate.py
+  - tests/test_historical_android_visual_contract.py
   - tests/test_r08_ci_fixture.py
-  file_count: 17
+  file_count: 22
   payload:
     base_commit: 46480be9eca8852e661013be23f916cdc2fa0003
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 87312
-      sha256: f180fa06f053ee034044f274a6948ebf6c1d660d1c2e03d7c312ff9a4abd227e
+      size: 87977
+      sha256: 95b51a528e84a0d9a036dd57c427b25e3da16feebb38ceb305bf224bd39c1d5c
     - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
       state: FILE
-      size: 13986
-      sha256: 7ba35aaa8c12b64798281722a1046da02cf57abc2b0ec6ec3e78445df3e2e43b
+      size: 14270
+      sha256: c0e40fd694630f3d44ab8fc1036a5b3a906916c7d34512c49ae8487ad42273ff
     - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
       state: FILE
       size: 17290
       sha256: 778c3fff774b12f72a49009573ea19b3bfe6c4071d5eb9c189ab2936058a8770
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+      state: FILE
+      size: 10018
+      sha256: 875d60d23d0c86b2a26e253de93e02621ed935c55ba808251b8aa0f7b2f58cd4
     - path: apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
       state: FILE
       size: 1380
       sha256: 35df610afdccbec3a003212115f8784e39631b505355e7aa2e110fd05a8ac066
+    - path: apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+      state: FILE
+      size: 66285
+      sha256: 8d501986dd38fdc7f1e62802aebf7d720cfa1315fd562953fa98353404b3e366
     - path: apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
       state: FILE
       size: 1508
@@ -562,8 +601,8 @@ project_fingerprint:
       sha256: 5e624b49c4d5afb0bd2ba739184e22060c957a01c9300b347d5bfae1f95e17b6
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 109413
-      sha256: bba299fcf9874b62f5097bd893100bfbcd880cc64249fd85af4c248b24a05626
+      size: 110899
+      sha256: 8673285cb732c980e8e8833f202a377014901e58a789fd1193f996764851b045
     - path: docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
       state: FILE
       size: 3875
@@ -576,6 +615,14 @@ project_fingerprint:
       state: FILE
       size: 2893
       sha256: bf2aa8cce5d3620ace8acb1c9f8ceed5f2c02e7e7151e154780b36609f7c7ba6
+    - path: docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md
+      state: FILE
+      size: 2886
+      sha256: 41b84dc947fba2b79e6ec2100acda49c2396e26d4740538875eb13d845f15385
+    - path: docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
+      state: FILE
+      size: 2960
+      sha256: d47284fd2f767559233db636b07ead65d5f5b654e42670f81ebf8218110f4117
     - path: scripts/prepare_r08_ci_fixture.sh
       state: FILE
       size: 6637
@@ -588,6 +635,10 @@ project_fingerprint:
       state: FILE
       size: 27461
       sha256: eb9370914797be205e04355737c166b27f6901ccf64e4467c4d0fe3d15d78e96
+    - path: tests/test_historical_android_visual_contract.py
+      state: FILE
+      size: 2056
+      sha256: 1aec86bbfc72722ca9919199b8c2f365decc221fb930b465dd800d7c285cc6fc
     - path: tests/test_r08_ci_fixture.py
       state: FILE
       size: 2365
@@ -599,7 +650,9 @@ change_classification:
   code:
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
   - apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
   - apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
   - apps/android/feature/startup/src/debug/java/cc/orbexa/hhy/startup/StartupVisualAuditScreen.kt
@@ -608,7 +661,9 @@ change_classification:
   user_visible:
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
   - apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
   - apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
   - apps/android/feature/startup/src/debug/java/cc/orbexa/hhy/startup/StartupVisualAuditScreen.kt
@@ -618,9 +673,12 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
   - docs/03-continuity/change-requests/CR-0234-修复R08历史视觉首轮模拟器确定性旅程失败.md
   - docs/03-continuity/change-requests/CR-0235-将历史视觉审计改为单内容独立测试宿主.md
+  - docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md
+  - docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
   tests:
   - tests/android/visual-manifests/R08.yaml
   - tests/test_android_ci_gate.py
+  - tests/test_historical_android_visual_contract.py
   - tests/test_r08_ci_fixture.py
 required_records:
 - SESSION_RECORD
@@ -633,6 +691,8 @@ change_requests:
 - CR-0233
 - CR-0234
 - CR-0235
+- CR-0236
+- CR-0237
 scope:
   allowed_paths:
   - apps/**
@@ -679,13 +739,16 @@ scope:
   - config/android-candidate-request.yaml
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0233
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - tests/test_historical_android_visual_contract.py
+  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终有界候选与统一截图审核共享同一精确Commit和单一工件，必须串行完成
-event_hash: 04b82e2719955523bf1ad9f4b55309044596b7219aea7036e9d9475762dde2e7
+  reason: 同一Android页面实现、测试与视觉验收目录存在顺序依赖，且用户未要求子代理。
+event_hash: 469b960abd786faf5ad05e3940475d40136b00bbd71fb400e6b2693667174fd3
 ```
 
 ## 接续状态与事件头
@@ -697,8 +760,8 @@ active_session_id: SES-20260722T093645Z-C7DB8EF0
 last_session_id: SES-20260722T064621Z-68304DE1
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0013
-event_count: 2323
-event_head_hash: 04b82e2719955523bf1ad9f4b55309044596b7219aea7036e9d9475762dde2e7
+event_count: 2335
+event_head_hash: 469b960abd786faf5ad05e3940475d40136b00bbd71fb400e6b2693667174fd3
 event_chain_valid: true
 ```
 
@@ -821,9 +884,9 @@ recent_sessions: - session_id: SES-20260721T210252Z-D631F6E4
   started_at: '2026-07-22T09:36:45Z'
   record: .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-  updated_at: '2026-07-22T10:51:16Z'
+  updated_at: '2026-07-22T11:28:40Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0006.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0008.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-EA5A5991A609
   session_id: SES-20260721T020225Z-397AF410
@@ -1795,22 +1858,40 @@ recent_task_transitions: - transition_id: TRN-A20A071A670D
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 19a81d0a8f953281f9764e4c7cbce8657aa1a7de
+head: ad117b893b53bcffd914d71d1888b1f5837717b3
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt'
+- ' M apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt'
+- ' M apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md'
-- ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0006.yaml
+- ?? .continuity/change_requests/CR-0236.yaml
+- ?? .continuity/change_requests/CR-0237.yaml
+- ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0007.yaml
+- ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0008.yaml
+- ?? docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md
+- ?? docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
+- ?? tests/test_historical_android_visual_contract.py
 recent_commits:
+- "ad117b893b53bcffd914d71d1888b1f5837717b3\t2026-07-22T18:51:31+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): checkpoint final\
+  \ historical audit"
 - "19a81d0a8f953281f9764e4c7cbce8657aa1a7de\t2026-07-22T18:44:07+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(android): isolate historical\
   \ visual hosts"
 - "23101ddb2052bce55e1e6b519c44894644bb5ae1\t2026-07-22T18:29:23+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): checkpoint historical\
@@ -1825,19 +1906,19 @@ recent_commits:
   \ task"
 - "f80a0f07d572fbc7d289895de172c8bf214b2781\t2026-07-22T17:34:10+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close candidate delivery\
   \ change"
-- "01043c803dc576990278608e693819979ad2a0c5\t2026-07-22T17:31:19+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] build(r08): deliver signed candidate\
-  \ apk"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`c6cfd1def743996f37809ada70cb9adb154621831e4322a39a73cf8b2c6b7c06`
-- 文件数：17
+- 指纹：`ed7cfec271aaf27276b2c0e0d6fccacc477258f603fe300d74e3b0be9e87f524`
+- 文件数：22
 
 - `CHANGELOG.md`
 - `apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt`
 - `apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt`
+- `apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt`
 - `apps/android/feature/auth/src/debug/java/cc/orbexa/hhy/auth/AuthVisualAuditScreen.kt`
+- `apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt`
 - `apps/android/feature/identity/src/debug/java/cc/orbexa/hhy/identity/IdentityVisualAuditScreen.kt`
 - `apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt`
 - `apps/android/feature/startup/src/debug/java/cc/orbexa/hhy/startup/StartupVisualAuditScreen.kt`
@@ -1847,9 +1928,12 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md`
 - `docs/03-continuity/change-requests/CR-0234-修复R08历史视觉首轮模拟器确定性旅程失败.md`
 - `docs/03-continuity/change-requests/CR-0235-将历史视觉审计改为单内容独立测试宿主.md`
+- `docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md`
+- `docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md`
 - `scripts/prepare_r08_ci_fixture.sh`
 - `tests/android/visual-manifests/R08.yaml`
 - `tests/test_android_ci_gate.py`
+- `tests/test_historical_android_visual_contract.py`
 - `tests/test_r08_ci_fixture.py`
 
 ## 当前 Release
@@ -7817,29 +7901,132 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
+- protocol_version: '1.0'
+  cr_id: CR-0236
+  title: 使用本机API36补齐历史视觉最终缺失证据
+  status: IMPLEMENTING
+  created_at: '2026-07-22T11:12:21Z'
+  updated_at: '2026-07-22T11:12:53Z'
+  requester_actor_id: codex-root-r08-008
+  approver_actor_id: codex-reviewer-user-self-r08
+  task_id: TASK-R08-008
+  session_id: SES-20260722T093645Z-C7DB8EF0
+  user_request: 项目所有者要求GitHub反复浪费时间时立即调整方案、由AI独立审核截图并持续推进，不因云端失败停止
+  reason: 历史GitHub批次已达到3次上限且最终运行仅剩认证页面触摸和可见性断言失败；本机已有既有API36 AVD，可只重跑4个失败测试而不发起第4次GitHub批次
+  original_rule: 复用CR-0233至CR-0235的唯一历史视觉规则、最多3次GitHub候选上限和AI逐图审核要求；达到上限后禁止第4次同类GitHub试错
+  new_rule: 不新增规则；保留三次GitHub失败证据，使用本机既有API36模拟器仅运行4个失败的HistoricalVisualAuditTest方法，修正测试触摸与可见性同步后补齐14至18截图，生产Release、业务UI和候选配置不变
+  impact_summary: 只改变androidTest稳定性断言与本机补证流程；不触发第4次GitHub候选，不重新编译全版本，不改变任何生产功能
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-AUTH-002
+    - SCR-AUTH-003
+    - SCR-AUTH-004
+    - SCR-AUTH-005
+    - SCR-AUTH-006
+    apis: []
+    database: []
+    configuration:
+    - 本机既有hhy_p00_api36_20260717 AVD；不修改GitHub候选attempt
+    ledger: []
+    tests:
+    - HistoricalVisualAuditTest四个失败方法；本机API36定向connectedAndroidTest；5张缺失截图SHA-256与AI视觉审核
+    releases:
+    - R08
+    migration_and_compatibility: 纯androidTest修复；本机截图必须绑定同一生产UI实现、API36 AVD、精确提交和SHA-256，既有GitHub Run 29913548698的19张证据继续保留
+  user_confirmation: 项目所有者明确要求GitHub反复浪费时间时立即按替代方案推进，截图由AI判断且不能因失败停止
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T11:12:46Z'
+    note: 批准在达到GitHub三次上限后改用本机既有API36只补跑失败测试；不得改变生产业务、不得伪造截图或发起第4次同类云端批次
+  machine_record: .continuity/change_requests/CR-0236.yaml
+  document: docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md
+  decision_log:
+  - at: '2026-07-22T11:12:53Z'
+    actor_id: codex-root-r08-008
+    status: IMPLEMENTING
+    note: 开始修正4个失败测试的语义点击和Compose可见性同步，并准备本机API36定向补证
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  session_ids:
+  - SES-20260722T093645Z-C7DB8EF0
+- protocol_version: '1.0'
+  cr_id: CR-0237
+  title: 修复历史视觉审核发现的R02安全页与R06关于页不合格UI
+  status: IMPLEMENTING
+  created_at: '2026-07-22T11:20:41Z'
+  updated_at: '2026-07-22T11:23:49Z'
+  requester_actor_id: codex-root-r08-008
+  approver_actor_id: codex-reviewer-user-self-r08
+  task_id: TASK-R08-008
+  session_id: SES-20260722T093645Z-C7DB8EF0
+  user_request: 项目所有者要求历史未达页面按肉眼接近效果图丰富度与精致度修复，效果图虚构内容不得开发，截图由AI独立判断
+  reason: R08历史截图逐图审核确认SCR-AUTH-007缺少B12-P03关键层级、SCR-AUTH-008风险动作层级扁平、SCR-ABOUT-001泄漏debug和P00测试文案，均不得标记PASS
+  original_rule: 沿用CR-0213固化的唯一视觉规则、冻结页面规格和效果图绑定：肉眼应接近效果图丰富度与精致度，禁止实现效果图中的虚构内容；用户可见文案不得泄漏debug、P00或内部测试术语。
+  new_rule: 不新增平行规则；仅按既有唯一视觉规则修复SCR-AUTH-007、SCR-AUTH-008、SCR-ABOUT-001的不合格实现，并增加自动回归防止技术文案再次泄漏。
+  impact_summary: 丰富修改密码页和注销页的真实信息层级与安全提示；关于页只呈现清洗后的公开版本号和面向用户的更新说明；API、数据库、账本与运行配置不变。
+  impact:
+    files:
+    - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+    - tests/test_historical_android_visual_contract.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-AUTH-007
+    - SCR-AUTH-008
+    - SCR-ABOUT-001
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - Python静态合同回归：安全页丰富度标记与关于页技术文案清洗
+    - Android feature/auth与app受影响模块编译、单测、lint
+    - 历史截图逐图AI视觉审核
+    releases:
+    - R08
+    migration_and_compatibility: 纯Android展示层兼容修复，保留现有接口、提交条件、路由与持久化行为；仅过滤用户可见的构建后缀及内部发布说明。
+  user_confirmation: CONFIRMED_BY_EXPLICIT_OWNER_VISUAL_REMEDIATION_REQUEST
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T11:23:42Z'
+    note: 基于项目所有者已明确授权的历史页面视觉补齐要求批准；不扩展功能，仅修复已确认不合格UI与内部文案泄漏。
+  machine_record: .continuity/change_requests/CR-0237.yaml
+  document: docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
+  decision_log:
+  - at: '2026-07-22T11:23:49Z'
+    actor_id: codex-root-r08-008
+    status: IMPLEMENTING
+    note: 开始修复三处历史Android视觉不合格项并补回归。
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  session_ids:
+  - SES-20260722T093645Z-C7DB8EF0
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `5aa85e80bec22f5750a8c7fb7b4aa3014254741885014576a1c3890b503ba0a5`
+- `CURRENT_STATUS.yaml` — `43aeadbb95208c19b652fe77fcd96e71c3064f0c2cd196e7db4ce8ee542bbfa0`
 - `NEXT_TASK.yaml` — `a9ff55e7e2c51cd8df5cd1022a468129f3605f2d83e1d27e0e02b18e9ee9fa38`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `bba299fcf9874b62f5097bd893100bfbcd880cc64249fd85af4c248b24a05626`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `8673285cb732c980e8e8833f202a377014901e58a789fd1193f996764851b045`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519`
 - `docs/03-continuity/PITFALLS.md` — `a2f52728083c1d4ae1b2e8fdec207546594e396fb797b4348d61e5d0d7a402ea`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `32b07a3b80f22463292a5ad3d9838b311fa1a0331274f52b1ee4b0f849c7c14b`
-- `.continuity/SESSION_INDEX.yaml` — `9c81569c8f9d1cf748b450f6468dfe5468047fb417257c73f00a5349364e9abb`
+- `.continuity/EVENT_LOG.jsonl` — `3ff882f0123ed0e40a7880620e609a1d62f97df18551a2be0b991adf7ce01c45`
+- `.continuity/SESSION_INDEX.yaml` — `6d2f4d6134d8371f3d1c7ebedd41bdb5c301f351bea77e144ea062f1cf84bd19`
 - `.continuity/TASK_CLAIMS.yaml` — `d198f932ee2eb9d2de78377c60fbf31fee32370819a2777f8f2f8a56652da7fb`
 - `.continuity/TASK_TRANSITIONS.yaml` — `a46b8baf5da74a6035eb61786739bf6dacfd22cb0cdea14210f195f5326f82af`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `9007d1a20bb74f79b4dace4255a878d98724f2214b7d61bde9a013589e6f2d57`
-- `.continuity/ACTIVE_SESSION.yaml` — `d2d861c0f508c97dcbfebd282c5c61ca36f2967022ad032e76aa2b95e5177051`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `5cfb589cc13c5d8440f719ccf1e4118131befde0feb24ffe990b9ff13d7dbf6f`
+- `.continuity/ACTIVE_SESSION.yaml` — `59c666d7cd48e0f62ba550e024b7e6a0d594f5d84f39837a977388b23a2537c8`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7850,11 +8037,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/TASKS.yaml` — `3b50ba58078448cefe97c0491dbe9363605bf1355e450b54a7142db1d655d2b0`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `01d8e51f52bf52095b5e87885610bbd9d1790d477f5e87b6bd7df148d40fa86b`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md` — `fce1b67bbfcb63160903ed8afd2f3582cd3913f7e5fc5952d741d645e5c19be1`
-- `.continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0006.yaml` — `2040467c8111ab5a396b249dd9bd204e89887a4aea4e1b2838bb3d4f4118e9c3`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md` — `38c931f40db72b82c9f59a18d0bfbcff7adcbf965b64cb8fded5dd32cde71c64`
+- `.continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0008.yaml` — `dc524c58f516d55d0d42178af113f1e140969786de92fa6cbf7ecdeba4107464`
 - `docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md` — `41a2583832546cd8e0a570ef1e09330d9637116b73b709e383161344b9753b69`
 - `docs/03-continuity/change-requests/CR-0234-修复R08历史视觉首轮模拟器确定性旅程失败.md` — `9c79035d7ccc7008eaae824be70248f998b1374d5086d8770e20df883273be5b`
 - `docs/03-continuity/change-requests/CR-0235-将历史视觉审计改为单内容独立测试宿主.md` — `bf2aa8cce5d3620ace8acb1c9f8ceed5f2c02e7e7151e154780b36609f7c7ba6`
+- `docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md` — `41b84dc947fba2b79e6ec2100acda49c2396e26d4740538875eb13d845f15385`
+- `docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md` — `d47284fd2f767559233db636b07ead65d5f5b654e42670f81ebf8218110f4117`
 
 ## 接手硬规则
 
