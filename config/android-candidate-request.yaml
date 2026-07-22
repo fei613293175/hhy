@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R08
 candidate: true
-remediation_attempt: 2
-request_id: R08-HISTORICAL-VISUAL-20260722-002
-reason: 独立历史补审首轮Run 29910384239编译打包通过并产出5张诊断图，但debug启动状态异步切换未可靠重组且R07旅程仍寻找旧发布者提示文案；CR-0234仅修正确定性androidTest旅程后执行第2次有界历史审计，不重做已批准R08三页功能修复轮次
+remediation_attempt: 3
+request_id: R08-HISTORICAL-VISUAL-20260722-003
+reason: 第2次Run 29912135157证明R07真实旅程已走完，但共享Compose宿主的外部状态仍未可靠重组；CR-0235将历史页面拆为每个JUnit测试仅设置一次生产组件内容，第3次为独立历史批次最后一次有依据审计，不重做已批准R08三页功能修复轮次

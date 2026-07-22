@@ -4,11 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.os.SystemClock
 import android.provider.MediaStore
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -63,7 +59,6 @@ class HistoricalVisualAuditTest {
 
     private lateinit var device: UiDevice
     private lateinit var target: Context
-    private var screen by mutableStateOf(AuditScreen.STARTUP_LOADING)
     private var previousScreenDigest: String? = null
     private val screenshotDirectory = "Pictures/hhy-ci-screenshots"
     private val authApi = VisualAuthApi()
@@ -74,46 +69,33 @@ class HistoricalVisualAuditTest {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         device = UiDevice.getInstance(instrumentation)
         target = instrumentation.targetContext
-        composeRule.setContent {
-            HhyTheme {
-                key(screen) {
-                    when (screen) {
-                        AuditScreen.STARTUP_LOADING,
-                        AuditScreen.STARTUP_MAINTENANCE,
-                        AuditScreen.STARTUP_UPDATE,
-                        -> StartupVisualAuditScreen(
-                            when (screen) {
-                                AuditScreen.STARTUP_LOADING -> StartupVisualAuditMode.LOADING
-                                AuditScreen.STARTUP_MAINTENANCE -> StartupVisualAuditMode.MAINTENANCE
-                                AuditScreen.STARTUP_UPDATE -> StartupVisualAuditMode.UPDATE
-                                else -> error("Unexpected startup visual mode")
-                            },
-                        )
-                        AuditScreen.AUTH_LOGIN -> AuthVisualAuditScreen(AuthVisualAuditMode.LOGIN, authApi)
-                        AuditScreen.AUTH_BLOCKED -> AuthVisualAuditScreen(AuthVisualAuditMode.ACCOUNT_BLOCKED, authApi)
-                        AuditScreen.AUTH_DEVICES -> AuthVisualAuditScreen(AuthVisualAuditMode.LOGIN_DEVICES, authApi)
-                        AuditScreen.AUTH_CHANGE_PASSWORD -> AuthVisualAuditScreen(AuthVisualAuditMode.CHANGE_PASSWORD, authApi)
-                        AuditScreen.AUTH_CANCELLATION -> AuthVisualAuditScreen(AuthVisualAuditMode.ACCOUNT_CANCELLATION, authApi)
-                        AuditScreen.IDENTITY_HOME -> IdentityVisualAuditScreen(IdentityVisualAuditMode.HOME, identityApi)
-                        AuditScreen.IDENTITY_FORM -> IdentityVisualAuditScreen(IdentityVisualAuditMode.FORM, identityApi)
-                        AuditScreen.IDENTITY_LIVENESS -> IdentityVisualAuditScreen(IdentityVisualAuditMode.LIVENESS, identityApi)
-                        AuditScreen.IDENTITY_RESULT -> IdentityVisualAuditScreen(IdentityVisualAuditMode.RESULT, identityApi)
-                    }
-                }
-            }
-        }
     }
 
     @Test
-    fun historicalProductionSurfacesProduceBoundVisualEvidence() {
-        show(AuditScreen.STARTUP_LOADING, "正在启动")
+    fun startupLoadingProducesBoundVisualEvidence() {
+        setAuditContent { StartupVisualAuditScreen(StartupVisualAuditMode.LOADING) }
+        waitForText("正在启动")
         captureStable("10-r02-startup.png")
-        show(AuditScreen.STARTUP_MAINTENANCE, "系统维护中")
-        captureStable("11-r02-maintenance.png")
-        show(AuditScreen.STARTUP_UPDATE, "发现新版本 1.2.3")
-        captureStable("12-r02-update.png")
+    }
 
-        show(AuditScreen.AUTH_LOGIN, "安全登录，开启协作")
+    @Test
+    fun startupMaintenanceProducesBoundVisualEvidence() {
+        setAuditContent { StartupVisualAuditScreen(StartupVisualAuditMode.MAINTENANCE) }
+        waitForText("系统维护中")
+        captureStable("11-r02-maintenance.png")
+    }
+
+    @Test
+    fun startupUpdateProducesBoundVisualEvidence() {
+        setAuditContent { StartupVisualAuditScreen(StartupVisualAuditMode.UPDATE) }
+        waitForText("发现新版本 1.2.3")
+        captureStable("12-r02-update.png")
+    }
+
+    @Test
+    fun loginRegisterAndResetProduceBoundVisualEvidence() {
+        setAuditContent { AuthVisualAuditScreen(AuthVisualAuditMode.LOGIN, authApi) }
+        waitForText("安全登录，开启协作")
         captureStable("13-r02-password-login.png")
         composeRule.onNodeWithText("验证码登录").performClick()
         waitForText("短信验证码")
@@ -126,33 +108,70 @@ class HistoricalVisualAuditTest {
         composeRule.onNodeWithText("忘记密码").performClick()
         waitForText("验证身份，重置登录密码")
         captureStable("16-r02-reset-password.png")
+    }
 
-        show(AuditScreen.AUTH_BLOCKED, "账号已受限")
+    @Test
+    fun blockedAccountProducesBoundVisualEvidence() {
+        setAuditContent { AuthVisualAuditScreen(AuthVisualAuditMode.ACCOUNT_BLOCKED, authApi) }
+        waitForText("账号已受限")
         captureStable("17-r02-account-blocked.png")
-        show(AuditScreen.AUTH_DEVICES, "登录设备")
+    }
+
+    @Test
+    fun loginDevicesProduceBoundVisualEvidence() {
+        setAuditContent { AuthVisualAuditScreen(AuthVisualAuditMode.LOGIN_DEVICES, authApi) }
+        waitForText("登录设备")
         composeRule.onNodeWithText("加载登录设备").performClick()
         waitForText("当前设备：Pixel 7 测试设备")
         captureStable("18-r02-login-devices.png")
-        show(AuditScreen.AUTH_CHANGE_PASSWORD, "修改登录密码")
-        captureStable("19-r02-change-password.png")
-        show(AuditScreen.AUTH_CANCELLATION, "注销账号")
-        captureStable("20-r02-account-cancellation.png")
+    }
 
-        show(AuditScreen.IDENTITY_HOME, "尚未完成实名认证")
+    @Test
+    fun changePasswordProducesBoundVisualEvidence() {
+        setAuditContent { AuthVisualAuditScreen(AuthVisualAuditMode.CHANGE_PASSWORD, authApi) }
+        waitForText("修改登录密码")
+        captureStable("19-r02-change-password.png")
+    }
+
+    @Test
+    fun accountCancellationProducesBoundVisualEvidence() {
+        setAuditContent { AuthVisualAuditScreen(AuthVisualAuditMode.ACCOUNT_CANCELLATION, authApi) }
+        waitForText("注销账号")
+        captureStable("20-r02-account-cancellation.png")
+    }
+
+    @Test
+    fun identityHomeProducesBoundVisualEvidence() {
+        setAuditContent { IdentityVisualAuditScreen(IdentityVisualAuditMode.HOME, identityApi) }
+        waitForText("尚未完成实名认证")
         captureStable("22-r05-identity-home.png")
-        show(AuditScreen.IDENTITY_FORM, "请填写本人真实信息")
+    }
+
+    @Test
+    fun identityFormProducesBoundVisualEvidence() {
+        setAuditContent { IdentityVisualAuditScreen(IdentityVisualAuditMode.FORM, identityApi) }
+        waitForText("请填写本人真实信息")
         waitForText("提交并开始活体检测")
         captureStable("23-r05-identity-form.png")
-        show(AuditScreen.IDENTITY_LIVENESS, "活体检测")
+    }
+
+    @Test
+    fun identityLivenessProducesBoundVisualEvidence() {
+        setAuditContent { IdentityVisualAuditScreen(IdentityVisualAuditMode.LIVENESS, identityApi) }
+        waitForText("活体检测")
         waitForAnyText("准备开始活体检测", "已准备好开始检测")
         captureStable("24-r05-identity-liveness.png")
-        show(AuditScreen.IDENTITY_RESULT, "实名认证已完成")
+    }
+
+    @Test
+    fun identityResultProducesBoundVisualEvidence() {
+        setAuditContent { IdentityVisualAuditScreen(IdentityVisualAuditMode.RESULT, identityApi) }
+        waitForText("实名认证已完成")
         captureStable("25-r05-identity-result.png")
     }
 
-    private fun show(next: AuditScreen, expectedText: String) {
-        composeRule.runOnUiThread { screen = next }
-        waitForText(expectedText)
+    private fun setAuditContent(content: @Composable () -> Unit) {
+        composeRule.setContent { HhyTheme { content() } }
     }
 
     private fun waitForText(text: String) {
@@ -211,21 +230,6 @@ class HistoricalVisualAuditTest {
 
     private fun sha256(file: File): String = MessageDigest.getInstance("SHA-256")
         .digest(file.readBytes()).joinToString("") { "%02x".format(it) }
-
-    private enum class AuditScreen {
-        STARTUP_LOADING,
-        STARTUP_MAINTENANCE,
-        STARTUP_UPDATE,
-        AUTH_LOGIN,
-        AUTH_BLOCKED,
-        AUTH_DEVICES,
-        AUTH_CHANGE_PASSWORD,
-        AUTH_CANCELLATION,
-        IDENTITY_HOME,
-        IDENTITY_FORM,
-        IDENTITY_LIVENESS,
-        IDENTITY_RESULT,
-    }
 
     private class VisualAuthApi : ContractAuthApi {
         private fun unavailable() = AuthCallResult.Failure(503, null)

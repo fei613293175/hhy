@@ -1121,3 +1121,17 @@ problems:
   - 多状态视觉夹具不得依赖长延迟生产协程切换，应直接组合生产状态展示组件
   - 自动旅程断言必须绑定当前用户可见文案或稳定资源标识，不得残留旧设计提示语
   - 编译通过不等于模拟器旅程通过，失败产物只能用于诊断且不得晋升基线
+- id: PROB-0085
+  title: 历史视觉共享Compose宿主外部状态未触发可靠重组
+  status: IN_PROGRESS
+  root_cause: CR-0234已把启动异步Gate改成生产状态组件直渲染，但HistoricalVisualAuditTest仍在一个JUnit测试和一个Compose宿主中用测试对象外部mutableState切换全部页面；第2次Run 29912135157再次停在维护态，而并行R07真实旅程已产出到32-r07-clear-history-dialog，证明剩余故障只属于共享视觉宿主重组架构。
+  resolution: CR-0235删除跨页面外部状态切换，把启动三态、认证状态和实名状态拆成独立JUnit测试；每个测试只调用一次setContent并直接组合对应生产组件，登录/注册/重置等同一生产页面内部导航继续保留。第3次为历史批次最终有界候选，推送前必须先完成固定镜像AndroidTest编译。
+  regression_checks:
+  - HistoricalVisualAuditTest每个独立测试最多调用一次setContent
+  - 启动Loading、Maintenance、Update分别在独立宿主生成10、11、12截图
+  - 认证与实名独立状态不依赖跨Compose外部screen变量
+  - 固定镜像编译通过后才允许历史批次attempt=3推送
+  do_not_repeat:
+  - 不得在大批量视觉证据测试中依赖测试对象外部状态切换多个根页面
+  - 已两次复现的同类重组失败不得继续只调整等待时间或原样重跑
+  - 最终有界尝试必须消除根因，若仍失败应按规则升级真实阻断而不是增加第4次
