@@ -14139,9 +14139,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0232
   title: 登记R08最终候选、视觉基线、固定签名与四方APK交付证据
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-22T09:17:54Z'
-  updated_at: '2026-07-22T09:29:12Z'
+  updated_at: '2026-07-22T09:33:09Z'
   requester_actor_id: codex-root-r08-007
   approver_actor_id: codex-reviewer-user-self-r08
   task_id: TASK-R08-007
@@ -14204,5 +14204,12 @@ change_requests:
     status: IMPLEMENTED
     note: R08 Run 29905158793与轻量晋升29906167593均PASS；三页AI视觉批准，固定签名与仓库、桌面、服务器、HTTPS四方SHA一致，独立verify通过。
     session_id: SES-20260722T064621Z-68304DE1
+  - at: '2026-07-22T09:33:09Z'
+    actor_id: codex-root-r08-007
+    status: CLOSED
+    note: 实现提交01043c80已推送；R08候选、AI视觉审批、固定签名、四方一致和桌面文档证据全部闭环。
+    session_id: SES-20260722T064621Z-68304DE1
   session_ids:
   - SES-20260722T064621Z-68304DE1
+  implementation_commits:
+  - 01043c803dc576990278608e693819979ad2a0c5

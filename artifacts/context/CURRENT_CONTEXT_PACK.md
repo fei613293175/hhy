@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T09:29:59Z
-- Context Hash：`993c4644bb84b5013b3b571021cc84629c5c71888eb4b484ee56194416ced24a`
+- 生成时间：2026-07-22T09:33:53Z
+- Context Hash：`3f253b8849169814c1961a1f247ad8993c946dfb4f274d83e82aaaf3e9ee9ba1`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -132,7 +132,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-007
-updated_at: '2026-07-22T09:29:56Z'
+updated_at: '2026-07-22T09:33:50Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -167,15 +167,15 @@ continuity:
   active_session_id: SES-20260722T064621Z-68304DE1
   actor_id: codex-root-r08-007
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T13:29:56Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0011.yaml
-  project_fingerprint: 0d1e3697de5f55130895577c045d01b90f956e7378ee6b1563ece941340bc6f6
+  lease_expires_at: '2026-07-22T13:33:50Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0012.yaml
+  project_fingerprint: b8ae35d5193cf971e2140599d7c399c2b2010f2bf3976d309224422e4203a094
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 0dc5f525775f31e49f801622bc7a65c2dbc29a6e341ae66508af6ce781b1b31e
-    generated_at: '2026-07-22T09:17:12Z'
+    context_hash: 993c4644bb84b5013b3b571021cc84629c5c71888eb4b484ee56194416ced24a
+    generated_at: '2026-07-22T09:29:59Z'
   handoff_bundle: null
 ```
 
@@ -373,7 +373,7 @@ task_id: TASK-R08-007
 story_id: STORY-R08-004
 goal: 项目推广完整闭环Android测试APK与产物追溯
 started_at: '2026-07-22T06:46:21Z'
-updated_at: '2026-07-22T09:29:56Z'
+updated_at: '2026-07-22T09:33:50Z'
 takeover_of: null
 change_requests:
 - CR-0227
@@ -465,12 +465,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T09:29:56Z'
-  expires_at: '2026-07-22T13:29:56Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0011.yaml
+  renewed_at: '2026-07-22T09:33:50Z'
+  expires_at: '2026-07-22T13:33:50Z'
+checkpoint_sequence: 12
+latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0012.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-next_step: 提交并推送TASK-R08-007候选交付证据，关闭CR-0232与TASK-R08-007；立即进入TASK-R08-008，解决R02/R04-R07 Android历史页面新标准复核仍未PASS的R08关闭前置门禁。
+next_step: 关闭TASK-R08-007并把TASK-R08-008推进为READY，随后提交推送关闭元数据并立即启动R08-008。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -478,43 +478,35 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前为同一候选产物、签名和连续性元数据的串行闭环，禁止并发改写同一版本事实源。
+  reason: 连续性关闭和唯一NEXT_TASK更新必须串行。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0011
+checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0012
 session_id: SES-20260722T064621Z-68304DE1
-sequence: 11
-created_at: '2026-07-22T09:29:55Z'
-summary: R08第三轮候选与轻量视觉基线晋升PASS；三张R08项目页由AI按效果图级标准批准；固定Staging签名完成，下载站精确路由、仓库/桌面/服务器/HTTPS四方SHA一致及独立交付verify PASS；APK和两份说明已放桌面。
-next_step: 提交并推送TASK-R08-007候选交付证据，关闭CR-0232与TASK-R08-007；立即进入TASK-R08-008，解决R02/R04-R07 Android历史页面新标准复核仍未PASS的R08关闭前置门禁。
+sequence: 12
+created_at: '2026-07-22T09:33:50Z'
+summary: CR-0232已关闭并绑定已推送实现提交01043c80；TASK-R08-007全部验收项完成，桌面APK和两份说明文件存在且交付独立验证PASS。
+next_step: 关闭TASK-R08-007并把TASK-R08-008推进为READY，随后提交推送关闭元数据并立即启动R08-008。
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: github-candidate
-  result: PASS
-  evidence: Run 29905158793 commit 49f40f2d
-  note: 编译、Lint、单测、打包、模拟器认证旅程和日志门禁通过
-- name: visual-promotion
-  result: PASS
-  evidence: Run 29906167593
-  note: 三张R08页面AI批准且同源轻量晋升15秒完成
-- name: apk-delivery
+- name: delivery-verify
   result: PASS
   evidence: artifacts/validation/r08-apk-delivery/delivery-evidence.json
-  note: 固定签名及仓库桌面服务器HTTPS四方一致
-- name: local-gates
+  note: 固定签名和四方SHA一致
+- name: r08-visual
   result: PASS
-  evidence: 27 Python tests and R08 catalog-only
-  note: 交付与视觉单测通过且R08三页目录PASS
+  evidence: artifacts/validation/r08-task007-android/candidate-report.json
+  note: R08三页AI视觉批准并轻量晋升
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: ca21dd3c442cd8311e1bb1cb00d66e34fd6b2b33
+  head: 01043c803dc576990278608e693819979ad2a0c5
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -523,30 +515,13 @@ git:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml'
-  - ' M CHANGELOG.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M .continuity/change_requests/CR-0232.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/ui_visual_acceptance.csv'
-  - ' M releases/R08/ACCEPTANCE_MATRIX.csv'
-  - ' M releases/R08/RELEASE_MANIFEST.yaml'
-  - ?? .continuity/change_requests/CR-0232.yaml
-  - ?? artifacts/apk/R08/APK_MANIFEST.yaml
-  - ?? artifacts/reports/R08/R08-version-test-guide.md
-  - ?? artifacts/reports/R08/TASK-R08-007-android-apk.md
-  - ?? artifacts/validation/r08-apk-delivery/delivery-evidence.json
-  - ?? artifacts/validation/r08-task007-android/APPROVAL.yaml
-  - ?? artifacts/validation/r08-task007-android/build-evidence.json
-  - ?? artifacts/validation/r08-task007-android/candidate-report.json
-  - ?? artifacts/validation/r08-task007-android/screenshots/01-project-list.png
-  - ?? artifacts/validation/r08-task007-android/screenshots/02-project-detail.png
-  - ?? artifacts/validation/r08-task007-android/screenshots/03-project-editor.png
-  - ?? artifacts/validation/r08-task007-android/source-candidate-report.json
-  - ?? docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md
+  - ' M docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md'
   recent_commits:
+  - "01043c803dc576990278608e693819979ad2a0c5\t2026-07-22T17:31:19+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] build(r08): deliver signed\
+    \ candidate apk"
   - "ca21dd3c442cd8311e1bb1cb00d66e34fd6b2b33\t2026-07-22T16:59:05+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): approve project\
     \ visual baseline"
   - "49f40f2dfeb71b5f5210d2e03a500307bf42c31c\t2026-07-22T16:43:37+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record final candidate\
@@ -561,9 +536,8 @@ git:
     \ candidate checks above fold"
   - "cceb524ccbe08d1b3b9c7512e236f6c6b579d3cf\t2026-07-22T15:07:37+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): prepare R08\
     \ final candidate journey"
-  - "db1da9c6009989e49d626c7e36bde3828a17881c\t2026-07-22T14:54:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close CR-0227"
 project_fingerprint:
-  sha256: 0d1e3697de5f55130895577c045d01b90f956e7378ee6b1563ece941340bc6f6
+  sha256: b8ae35d5193cf971e2140599d7c399c2b2010f2bf3976d309224422e4203a094
   files:
   - CHANGELOG.md
   - apps/android/app/build.gradle.kts
@@ -692,8 +666,8 @@ project_fingerprint:
       sha256: eaa914cbdbad8f8989856029253477d0a67a2ad530f4246c2fdb2b89f686a473
     - path: docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md
       state: FILE
-      size: 3674
-      sha256: 37144e9bf71735caedddfc86e6f409b0ba54d32346e01b0a31875677b6e5b2ea
+      size: 3945
+      sha256: 07bb8c286ab3a447386268c4185d56a88a83e694559b6b2ede6bd64692e38eb6
     - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
       state: FILE
       size: 29749
@@ -925,8 +899,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 当前为同一候选产物、签名和连续性元数据的串行闭环，禁止并发改写同一版本事实源。
-event_hash: 5be3633c540013b54dfb6e50881b74039929761e6b4c05f61d42e7b45d9cd1a3
+  reason: 连续性关闭和唯一NEXT_TASK更新必须串行。
+event_hash: f21deac5a19144ab44e3affa77fc652520423dac3e7c4ab89dbbe0008d4945ce
 ```
 
 ## 接续状态与事件头
@@ -938,8 +912,8 @@ active_session_id: SES-20260722T064621Z-68304DE1
 last_session_id: SES-20260722T060947Z-B45C6BC0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T060947Z-B45C6BC0-0005
-event_count: 2298
-event_head_hash: 5be3633c540013b54dfb6e50881b74039929761e6b4c05f61d42e7b45d9cd1a3
+event_count: 2300
+event_head_hash: f21deac5a19144ab44e3affa77fc652520423dac3e7c4ab89dbbe0008d4945ce
 event_chain_valid: true
 ```
 
@@ -1062,9 +1036,9 @@ recent_sessions: - session_id: SES-20260721T201747Z-CD80A1EE
   started_at: '2026-07-22T06:46:21Z'
   record: .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-  updated_at: '2026-07-22T09:29:56Z'
+  updated_at: '2026-07-22T09:33:50Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0011.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0012.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-26FF72418AF4
   session_id: SES-20260721T012656Z-E067730A
@@ -2036,7 +2010,7 @@ recent_task_transitions: - transition_id: TRN-793C15D200BF
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: ca21dd3c442cd8311e1bb1cb00d66e34fd6b2b33
+head: 01043c803dc576990278608e693819979ad2a0c5
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -2047,33 +2021,17 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0232.yaml'
 - ' M .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/ui_visual_acceptance.csv'
+- ' M docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md'
-- ' M releases/R08/ACCEPTANCE_MATRIX.csv'
-- ' M releases/R08/RELEASE_MANIFEST.yaml'
-- ?? .continuity/change_requests/CR-0232.yaml
-- ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0011.yaml
-- ?? artifacts/apk/R08/APK_MANIFEST.yaml
-- ?? artifacts/reports/R08/R08-version-test-guide.md
-- ?? artifacts/reports/R08/TASK-R08-007-android-apk.md
-- ?? artifacts/validation/r08-apk-delivery/delivery-evidence.json
-- ?? artifacts/validation/r08-task007-android/APPROVAL.yaml
-- ?? artifacts/validation/r08-task007-android/build-evidence.json
-- ?? artifacts/validation/r08-task007-android/candidate-report.json
-- ?? artifacts/validation/r08-task007-android/screenshots/01-project-list.png
-- ?? artifacts/validation/r08-task007-android/screenshots/02-project-detail.png
-- ?? artifacts/validation/r08-task007-android/screenshots/03-project-editor.png
-- ?? artifacts/validation/r08-task007-android/source-candidate-report.json
-- ?? docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md
+- ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0012.yaml
 recent_commits:
+- "01043c803dc576990278608e693819979ad2a0c5\t2026-07-22T17:31:19+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] build(r08): deliver signed candidate\
+  \ apk"
 - "ca21dd3c442cd8311e1bb1cb00d66e34fd6b2b33\t2026-07-22T16:59:05+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): approve project visual\
   \ baseline"
 - "49f40f2dfeb71b5f5210d2e03a500307bf42c31c\t2026-07-22T16:43:37+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record final candidate\
@@ -2088,12 +2046,11 @@ recent_commits:
   \ checks above fold"
 - "cceb524ccbe08d1b3b9c7512e236f6c6b579d3cf\t2026-07-22T15:07:37+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): prepare R08 final\
   \ candidate journey"
-- "db1da9c6009989e49d626c7e36bde3828a17881c\t2026-07-22T14:54:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close CR-0227"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`0d1e3697de5f55130895577c045d01b90f956e7378ee6b1563ece941340bc6f6`
+- 指纹：`b8ae35d5193cf971e2140599d7c399c2b2010f2bf3976d309224422e4203a094`
 - 文件数：41
 
 - `CHANGELOG.md`
@@ -7897,83 +7854,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260722T064621Z-68304DE1
   implementation_commits:
   - 03f0fbed4dd8f6ee0921428a4031b8d14f187ccd
-- protocol_version: '1.0'
-  cr_id: CR-0232
-  title: 登记R08最终候选、视觉基线、固定签名与四方APK交付证据
-  status: IMPLEMENTED
-  created_at: '2026-07-22T09:17:54Z'
-  updated_at: '2026-07-22T09:29:12Z'
-  requester_actor_id: codex-root-r08-007
-  approver_actor_id: codex-reviewer-user-self-r08
-  task_id: TASK-R08-007
-  session_id: SES-20260722T064621Z-68304DE1
-  user_request: 持续完成R08候选测试与桌面APK文档交付，截图由AI独立判定，不因Owner真机反馈停止。
-  reason: 第三轮R08候选及轻量基线晋升均已通过，需把唯一候选、固定签名、下载站、仓库、桌面四方一致证据纳入正式版本收口。
-  original_rule: 复用既有Android最终候选、固定测试签名、AI视觉基线、桌面与下载站四方一致交付规则；不新增平行硬规则。
-  new_rule: R08只登记同源候选运行、轻量基线晋升、固定签名和四方一致的实际证据；项目所有者真机结果保持异步PENDING，不得伪造正式验收或生产激活。
-  impact_summary: 将R08第三轮候选、三张AI批准截图、轻量晋升、固定签名APK及仓库、桌面、服务器、HTTPS一致性写入正式产物、验收矩阵和版本Manifest，并交付桌面测试说明。
-  impact:
-    files:
-    - catalogs/ui_visual_acceptance.csv
-    - artifacts/validation/r08-task007-android/APPROVAL.yaml
-    - artifacts/validation/r08-task007-android/build-evidence.json
-    - artifacts/validation/r08-task007-android/candidate-report.json
-    - artifacts/validation/r08-task007-android/source-candidate-report.json
-    - artifacts/validation/r08-task007-android/screenshots/01-project-list.png
-    - artifacts/validation/r08-task007-android/screenshots/02-project-detail.png
-    - artifacts/validation/r08-task007-android/screenshots/03-project-editor.png
-    - artifacts/validation/r08-apk-delivery/delivery-evidence.json
-    - artifacts/apk/R08/APK_MANIFEST.yaml
-    - artifacts/apk/R08/hhy-r08-49f40f2-debug.apk
-    - artifacts/reports/R08/TASK-R08-007-android-apk.md
-    - artifacts/reports/R08/R08-version-test-guide.md
-    - releases/R08/ACCEPTANCE_MATRIX.csv
-    - releases/R08/RELEASE_MANIFEST.yaml
-    - CHANGELOG.md
-    pages:
-    - SCR-LIST-001
-    - SCR-DETAIL-001
-    - SCR-PUB-002
-    apis:
-    - 无协议变化
-    database:
-    - 无
-    configuration:
-    - R08下载站精确APK路由
-    ledger:
-    - 无生产资金或账本变化
-    tests:
-    - GitHub候选Run 29905158793；轻量基线晋升Run 29906167593；固定签名、HTTPS 200/Range 206与四方SHA-256一致性
-    releases:
-    - R08
-    migration_and_compatibility: 仅新增R08测试候选产物和精确下载路由；不覆盖历史版本，不改变API、数据库、生产App版本或生产激活状态。
-  user_confirmation: 用户持续开发授权、AI独立截图判定及桌面APK文档交付要求已明确。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T09:20:17Z'
-    note: 已确认只复用既有最终候选与四方交付规则；影响范围限于R08真实候选证据、精确下载路由和异步真机说明。
-  machine_record: .continuity/change_requests/CR-0232.yaml
-  document: docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md
-  decision_log:
-  - at: '2026-07-22T09:20:22Z'
-    actor_id: codex-root-r08-007
-    status: IMPLEMENTING
-    note: 开始登记R08同源候选、AI视觉基线、固定签名及四方APK交付证据。
-    session_id: SES-20260722T064621Z-68304DE1
-  - at: '2026-07-22T09:29:12Z'
-    actor_id: codex-root-r08-007
-    status: IMPLEMENTED
-    note: R08 Run 29905158793与轻量晋升29906167593均PASS；三页AI视觉批准，固定签名与仓库、桌面、服务器、HTTPS四方SHA一致，独立verify通过。
-    session_id: SES-20260722T064621Z-68304DE1
-  session_ids:
-  - SES-20260722T064621Z-68304DE1
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `6d688618806f01604acaa6dcffefe656b330ce5eaae5c3c6c9449e0f9e18b3eb`
+- `CURRENT_STATUS.yaml` — `45452ffa9dddd69dd1b9de16514dff5948c486272a0d75dabd47170079c9b6d9`
 - `NEXT_TASK.yaml` — `f3ec661f9145959a7e41a1f6c0f8db741b578a6448235e7c74e5f996cc2c6ce6`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7984,12 +7871,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `58e8b0fee02e129e571ea113f782f90de6996dd1e6be9604f0f40693e5333198`
-- `.continuity/SESSION_INDEX.yaml` — `a24e4aa89ddfb729125c5201862408c5b20182b8e0c585ce1394439a31f82b53`
+- `.continuity/EVENT_LOG.jsonl` — `376583d6526c5ba5c802b9898dcc8068ecfa7c9166a76ef291d12c2e89d08fe3`
+- `.continuity/SESSION_INDEX.yaml` — `5ed401a272166552020f3edcb3a31177fc76ec7048174e9c956660839cf9edde`
 - `.continuity/TASK_CLAIMS.yaml` — `a4591ec89d6ae40f29f6e700d89ac651de53e1e8779ffdd84540ec00243fca42`
 - `.continuity/TASK_TRANSITIONS.yaml` — `18b79fca8d7f53574e1ed46bb8f9ef6bc9323f1c3d00d011f358e0c07594ff9f`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b47ad9d703c536989e452a12a15736f1c97c6c778db86f6d63e3ad90fb944f35`
-- `.continuity/ACTIVE_SESSION.yaml` — `c664329c9bebf6914edd199a73cafe80f714b4b58d8ab86aca974af5840fff07`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `863bde75bff196c3f3086efe4bd24fa24167b4b9378d27530393947a15662009`
+- `.continuity/ACTIVE_SESSION.yaml` — `b293259cbbc9f8bad27126015f3a272b6403b866b4aa2c9272273793d8fb26b4`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -8000,14 +7887,14 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/TASKS.yaml` — `d1dbb1bc2ffa320a87721f8d462aee03160a33f26a00b964974f6c9592d41e71`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `01d8e51f52bf52095b5e87885610bbd9d1790d477f5e87b6bd7df148d40fa86b`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md` — `8c60eb22719ffd78b68ea8ec7f9a3116baa155fbe3e5ca9238d01b23ca9c195f`
-- `.continuity/checkpoints/SES-20260722T064621Z-68304DE1/0011.yaml` — `c281865566c4e77192ea4d9bf2cb8df0c3064a1b0cd4ec3bbd76e059e82e0806`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md` — `667230eae9694e6f1c7ecbea1ff7fd2203ba9d3f8fd61355447d4fc651debda2`
+- `.continuity/checkpoints/SES-20260722T064621Z-68304DE1/0012.yaml` — `4ce6879c84da87a1877dd5a2b07e679dd51f4a1b2e0b282befc1c9ffb04cf6e6`
 - `docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md` — `c5ef9a8ba6a85c81a5dd622bc7e661c8589ea3364781522563005e93ad88c52c`
 - `docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md` — `5af65261edf423faaf531557e1f5546620bbb1fa6ae8920d7e32907089f34b9f`
 - `docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md` — `80e2157811386b7fa5da3830fdba1081e5bb45379994f7a5dcc82902e0efd33e`
 - `docs/03-continuity/change-requests/CR-0230-修复用户自查询遗漏实名与会员状态导致R08编辑误拦截.md` — `326b86b9fb2cca770ee7e37f0e8d6904608466aac3ae55a49852af6ac2077b63`
 - `docs/03-continuity/change-requests/CR-0231-修复R08项目页技术枚举与地区代码直出.md` — `eaa914cbdbad8f8989856029253477d0a67a2ad530f4246c2fdb2b89f686a473`
-- `docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md` — `37144e9bf71735caedddfc86e6f409b0ba54d32346e01b0a31875677b6e5b2ea`
+- `docs/03-continuity/change-requests/CR-0232-登记R08最终候选、视觉基线、固定签名与四方APK交付证据.md` — `07bb8c286ab3a447386268c4185d56a88a83e694559b6b2ede6bd64692e38eb6`
 
 ## 接手硬规则
 
