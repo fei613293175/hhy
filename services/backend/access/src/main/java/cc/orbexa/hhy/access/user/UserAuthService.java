@@ -304,7 +304,8 @@ public class UserAuthService {
         UserAuthStore.SelfRow row = repository.findSelf(principal.userId())
                 .orElseThrow(UserAuthService::sessionRevoked);
         return new UserResource(Long.toString(row.id()), maskPhone(row.phone()), row.nickname(),
-                row.avatarUrl(), row.bio(), row.status(), null, null, row.createdAt(), row.version());
+                row.avatarUrl(), row.bio(), row.status(), row.identityStatus(), row.membershipStatus(),
+                row.createdAt(), row.version());
     }
 
     @Transactional(noRollbackFor = BusinessException.class)

@@ -443,13 +443,16 @@ class UserAuthServiceTest {
     void selfReturnsMaskedProfileForFrozenSession() {
         UserPrincipal principal = new UserPrincipal(17L, 23L, 4L, "access-jti-17", "FROZEN");
         when(repository.findSelf(17L)).thenReturn(Optional.of(new UserAuthStore.SelfRow(
-                17L, "13800000000", "合伙人17", null, "bio", "FROZEN", NOW.minusSeconds(60), 2L)));
+                17L, "13800000000", "合伙人17", null, "bio", "FROZEN",
+                "VERIFIED", "ACTIVE", NOW.minusSeconds(60), 2L)));
 
         var result = service.self(principal);
 
         assertEquals("17", result.id());
         assertEquals("138****0000", result.phoneMasked());
         assertEquals("FROZEN", result.status());
+        assertEquals("VERIFIED", result.identityStatus());
+        assertEquals("ACTIVE", result.membershipStatus());
     }
 
     @Test
@@ -482,7 +485,8 @@ class UserAuthServiceTest {
                 .thenReturn(new UserAuthStore.IdempotencyClaim(
                         new UserAuthStore.IdempotencyRow(102L, "request-hash", null, null, null), false));
         when(repository.findSelfForUpdate(17L)).thenReturn(Optional.of(new UserAuthStore.SelfRow(
-                17L, "13800000000", "合伙人17", null, null, "ACTIVE", NOW.minusSeconds(60), 2L)));
+                17L, "13800000000", "合伙人17", null, null, "ACTIVE",
+                null, null, NOW.minusSeconds(60), 2L)));
         when(repository.requestCancellation(17L, 2L, "不再使用", NOW)).thenReturn(Optional.of(3L));
 
         var result = service.requestCancellation(principal, request, "cancel-idem-key-0001");

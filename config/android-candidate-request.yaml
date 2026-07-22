@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R08
 candidate: true
-remediation_attempt: 1
-request_id: R08-20260722-001
-reason: R08项目列表、详情与所有者编辑真实旅程、V034候选后端及幂等固定数据已就绪，执行本大版本唯一一次完整模拟器候选验收
+remediation_attempt: 2
+request_id: R08-20260722-002
+reason: 首轮候选截图由AI审核发现users/me遗漏实名状态导致已实名编辑页误拦截；修复既有冻结字段映射并增加负向回归后执行有依据的单次复验

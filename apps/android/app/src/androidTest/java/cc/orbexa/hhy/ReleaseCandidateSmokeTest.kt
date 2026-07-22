@@ -104,6 +104,7 @@ class ReleaseCandidateSmokeTest {
         assertTrue("R08 editor missed its business title", device.hasObject(By.text("编辑项目")))
         assertTrue("R08 editor missed the frozen project title", device.hasObject(By.text(fixtureTitle)))
         assertTrue("R08 editor missed the project description field", device.hasObject(By.text("详细说明")))
+        assertFalse("R08 verified owner was incorrectly blocked by identity", device.hasObject(By.text("需要完成实名认证")))
         captureStable("03-project-editor.png")
         assertNoForbiddenVisibleText()
         device.pressBack()

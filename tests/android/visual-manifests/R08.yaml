@@ -42,6 +42,7 @@ screens:
   - 请求编号
   - TraceId
   - candidate@example
+  - 需要完成实名认证
 security_assertions:
 - surface: SCR-DETAIL-001
   marker: r08.project.contact

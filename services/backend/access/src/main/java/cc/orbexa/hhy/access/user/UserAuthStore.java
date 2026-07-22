@@ -218,13 +218,20 @@ public class UserAuthStore {
     public Optional<SelfRow> findSelf(long userId) {
         return jdbc.query("""
                 SELECT u.id,u.phone,u.status,u.created_at,u.version,
-                       p.nickname,p.avatar,p.bio
+                       p.nickname,p.avatar,p.bio,
+                       (SELECT identity.status FROM hhy.identity_profiles identity
+                        WHERE identity.user_id=u.id
+                        ORDER BY identity.updated_at DESC,identity.id DESC LIMIT 1) AS identity_status,
+                       (SELECT membership.status FROM hhy.user_memberships membership
+                        WHERE membership.user_id=u.id
+                        ORDER BY membership.updated_at DESC,membership.id DESC LIMIT 1) AS membership_status
                 FROM hhy.users u
                 LEFT JOIN hhy.user_profiles p ON p.user_id=u.id
                 WHERE u.id=?
                 """, (rs, row) -> new SelfRow(
                 rs.getLong("id"), rs.getString("phone"), rs.getString("nickname"),
                 rs.getString("avatar"), rs.getString("bio"), rs.getString("status"),
+                rs.getString("identity_status"), rs.getString("membership_status"),
                 instant(rs.getObject("created_at", OffsetDateTime.class)), rs.getLong("version")), userId)
                 .stream().findFirst();
     }
@@ -232,13 +239,20 @@ public class UserAuthStore {
     public Optional<SelfRow> findSelfForUpdate(long userId) {
         return jdbc.query("""
                 SELECT u.id,u.phone,u.status,u.created_at,u.version,
-                       p.nickname,p.avatar,p.bio
+                       p.nickname,p.avatar,p.bio,
+                       (SELECT identity.status FROM hhy.identity_profiles identity
+                        WHERE identity.user_id=u.id
+                        ORDER BY identity.updated_at DESC,identity.id DESC LIMIT 1) AS identity_status,
+                       (SELECT membership.status FROM hhy.user_memberships membership
+                        WHERE membership.user_id=u.id
+                        ORDER BY membership.updated_at DESC,membership.id DESC LIMIT 1) AS membership_status
                 FROM hhy.users u
                 LEFT JOIN hhy.user_profiles p ON p.user_id=u.id
                 WHERE u.id=? FOR UPDATE OF u
                 """, (rs, row) -> new SelfRow(
                 rs.getLong("id"), rs.getString("phone"), rs.getString("nickname"),
                 rs.getString("avatar"), rs.getString("bio"), rs.getString("status"),
+                rs.getString("identity_status"), rs.getString("membership_status"),
                 instant(rs.getObject("created_at", OffsetDateTime.class)), rs.getLong("version")), userId)
                 .stream().findFirst();
     }
@@ -541,7 +555,8 @@ public class UserAuthStore {
                                      Instant lastActiveAt, Instant createdAt, Instant expiresAt,
                                      boolean current) { }
     public record SelfRow(long id, String phone, String nickname, String avatarUrl, String bio,
-                          String status, Instant createdAt, long version) { }
+                          String status, String identityStatus, String membershipStatus,
+                          Instant createdAt, long version) { }
     public record TicketRow(long id, String ticketNo, String category, String subject, String status,
                             String assignee, Instant lastMessageAt, Instant createdAt, long version) { }
 }

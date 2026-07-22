@@ -1067,3 +1067,16 @@ problems:
   - 页面不得手写JSON中已有但派生器遗漏的颜色或尺寸，应先补同一确定性派生链
   - 普通任务的受影响MODULE通过不等于大版本全量Token门禁通过
   - 最终候选请求必须在本地全量Token门禁PASS后才允许触发，确定性失败不得消耗GitHub模拟器
+- id: PROB-0081
+  title: 用户自查询遗漏实名状态导致已实名项目所有者被客户端误拦截
+  status: SOLVED
+  root_cause: UserResource冻结合同已包含identityStatus和membershipStatus，但UserAuthService.self长期把两个字段固定返回null，UserAuthStore.findSelf也没有读取对应表。R08首轮候选的CI用户identity_profiles已为VERIFIED，服务端项目权限和详情所有者判断均正确，Android却根据users/me的null同时显示实名认证拦截和已加载编辑表单。
+  resolution: CR-0230复用既有用户自查询和数据库事实源，在findSelf及findSelfForUpdate投影最新identity_profiles与user_memberships状态，并由self原样映射冻结字段；候选仪器测试和R08视觉清单明确禁止已实名编辑页出现错误实名认证拦截。首轮不合格截图不晋升基线。
+  regression_checks:
+  - UserAuthServiceTest必须证明identityStatus=VERIFIED与membershipStatus=ACTIVE原样返回
+  - 后端access、boot受影响MODULE必须通过
+  - R08候选编辑页必须加载真实项目字段且不得出现需要完成实名认证
+  do_not_repeat:
+  - 冻结响应字段不得先定义再在服务实现中长期固定返回null
+  - 页面权限提示必须与服务端同一实时状态事实一致，不得一边放行数据一边显示拦截
+  - AI视觉审核发现业务状态矛盾时不得批准为基线或要求项目所有者代为判断

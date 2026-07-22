@@ -392,6 +392,7 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('waitForScreen("hhy.screen.r08.project.detail.content"', smoke_test)
         self.assertIn('waitForScreen("hhy.screen.r08.project.editor.content"', smoke_test)
         self.assertIn('captureStable("03-project-editor.png")', smoke_test)
+        self.assertIn('By.text("需要完成实名认证")', smoke_test)
         self.assertIn("stableMatches >= 2", smoke_test)
         self.assertIn("digest != previousScreenDigest", smoke_test)
         self.assertIn("waitForIdle(2_000)", smoke_test)
