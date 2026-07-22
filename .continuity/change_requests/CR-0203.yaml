@@ -1,0 +1,56 @@
+protocol_version: '1.0'
+cr_id: CR-0203
+title: 签署R07机器完成并异步转入R08
+status: IMPLEMENTING
+created_at: '2026-07-21T23:59:44Z'
+updated_at: '2026-07-21T23:59:53Z'
+requester_actor_id: codex-root-r07-008
+approver_actor_id: codex-reviewer-r07-machine-close
+task_id: TASK-R07-008
+session_id: SES-20260721T235847Z-F9109B61
+user_request: 项目所有者要求大版本完成后不等待真机反馈，持续开发后续版本；APK和文档放桌面，正式验收与生产激活仍不得伪造。
+reason: R07全部产品、数据、专项、预发布、候选、视觉和四方APK门禁已通过，需要回填验收矩阵与Release Manifest并在owner_physical_test=PENDING下切换R08。
+original_rule: R07 Release Manifest仍是开发就绪结构，验收矩阵多数NOT_RUN，故事仍为READY_FOR_IMPLEMENTATION，未登记最终候选、自动化、桌面交付和机器完成事实。
+new_rule: R07机器能力和交付项签署PASS；AC-R07-005与TASK-R07-008保持MACHINE_PASS_OWNER_PENDING或BLOCKED_EXTERNAL_GATE，正式Release验收和生产激活继续等待所有者异步真机反馈；R08开发明确ALLOWED。
+impact_summary: 更新R07验收矩阵、故事机器状态、Release Manifest和机器关闭报告；连续性关闭命令生成TASK状态、CURRENT_STATUS、NEXT_TASK和事件链并切换TASK-R08-001。
+impact:
+  files:
+  - releases/R07/ACCEPTANCE_MATRIX.csv
+  - releases/R07/RELEASE_MANIFEST.yaml
+  - releases/R07/STORIES.yaml
+  - artifacts/reports/R07/TASK-R07-008-machine-close.md
+  - CURRENT_STATUS.yaml
+  - NEXT_TASK.yaml
+  - releases/R07/TASKS.yaml
+  - CHANGELOG.md
+  pages:
+  - SCR-SEARCH-001
+  - SCR-SEARCH-002
+  - SCR-PUBLISHER-001
+  - SHEET-CONTACT-001
+  - DIALOG-SEARCH-001
+  apis: []
+  database: []
+  configuration:
+  - owner_feedback_mode=ASYNC_NON_BLOCKING和next_release_development=ALLOWED
+  ledger: []
+  tests:
+  - R07文档、视觉、Release artifacts、PostgreSQL、Staging、Android候选与连续性关闭检查
+  releases:
+  - R07
+  migration_and_compatibility: 纯版本治理与交接，无产品代码、API、数据库或生产迁移；R07 Staging和桌面APK保持可测试，后续真机反馈可回到受控验收或修复队列。
+user_confirmation: 项目所有者明确要求不因未反馈真机结果停止开发并持续推进后续版本。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-21T23:59:50Z'
+  note: 机器PASS与所有者PENDING严格分离；只允许后续开发，不放行R07正式验收或生产激活。
+machine_record: .continuity/change_requests/CR-0203.yaml
+document: docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
+decision_log:
+- at: '2026-07-21T23:59:53Z'
+  actor_id: codex-root-r07-008
+  status: IMPLEMENTING
+  note: 开始回填R07机器完成、异步所有者门禁和R08转入证据。
+  session_id: SES-20260721T235847Z-F9109B61
+session_ids:
+- SES-20260721T235847Z-F9109B61

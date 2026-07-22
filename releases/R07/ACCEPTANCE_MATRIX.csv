@@ -1,7 +1,7 @@
 ﻿验收ID,版本,验收项,证据路径,状态,阻断级别
-AC-R07-001,R07,领域代码与前端真实闭环,artifacts/reports/R07/,NOT_RUN,BLOCKING
-AC-R07-002,R07,数据库迁移和不变量测试通过,artifacts/reports/R07/,NOT_RUN,BLOCKING
-AC-R07-003,R07,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R07/,NOT_RUN,BLOCKING
+AC-R07-001,R07,领域代码与前端真实闭环,artifacts/reports/R07/TASK-R07-008-machine-close.md,PASS,BLOCKING
+AC-R07-002,R07,数据库迁移和不变量测试通过,artifacts/reports/R07/TASK-R07-002-database.md,PASS,BLOCKING
+AC-R07-003,R07,契约/单元/集成/E2E/安全专项测试通过,artifacts/reports/R07/TASK-R07-005-specialized-testing.md,PASS,BLOCKING
 AC-R07-004,R07,日志指标链路和业务告警可验证,artifacts/reports/R07/TASK-R07-006-staging.md,PASS,BLOCKING
-AC-R07-005,R07,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R07/,NOT_RUN,BLOCKING
-AC-R07-006,R07,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R07/,NOT_RUN,BLOCKING
+AC-R07-005,R07,Session Log、追踪矩阵、产物Manifest和下一任务更新,artifacts/reports/R07/TASK-R07-008-machine-close.md,MACHINE_PASS_OWNER_PENDING,BLOCKING
+AC-R07-006,R07,Staging APK可安装且SHA256、Commit、版本信息完整,artifacts/reports/R07/TASK-R07-007-android-apk.md,PASS,BLOCKING

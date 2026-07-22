@@ -1,6 +1,6 @@
 release: R07
 title: 搜索、发布者主页与联系方式保护
-status: READY_WHEN_DEPENDENCIES_GREEN
+status: MACHINE_COMPLETE_OWNER_PENDING
 milestone: M1_CONTENT_MARKETPLACE
 depends_on:
 - R06
@@ -21,14 +21,25 @@ ui:
   admin: []
 contracts:
   client_api:
-  - GET /api/v1/search
-  - GET /api/v1/search/hot
-  - GET /api/v1/search/history
-  - DELETE /api/v1/search/history
-  - GET /api/v1/publishers/{id}
-  - GET /api/v1/contents
-  - POST /api/v1/contents/{id}/contacts/{channel}/access
-  admin_api: []
+    operation_ids:
+    - searchGetSearch
+    - searchGetSearchHot
+    - searchGetSearchHistory
+    - searchDeleteSearchHistory
+    - userGetPublishersById
+    - contentGetContents
+    - contentPostContentsByIdContactsByChannelAccess
+    paths:
+    - GET /api/v1/search
+    - GET /api/v1/search/hot
+    - GET /api/v1/search/history
+    - DELETE /api/v1/search/history
+    - GET /api/v1/publishers/{id}
+    - GET /api/v1/contents
+    - POST /api/v1/contents/{id}/contacts/{channel}/access
+  admin_api:
+    operation_ids: []
+    paths: []
   websocket: []
 database_tables:
 - content_posts
@@ -75,6 +86,39 @@ tests:
 - TST-SEARCH_001-IDEMPOTENT
 - TST-SEARCH_001-REJECT
 - TST-V122-004
+test_count: 10
+planning_depth: STORY_READY
+apk_gate: MACHINE_CANDIDATE_PASS_OWNER_FEEDBACK_ASYNC
+android_delivery:
+  source_commit: 69406d918b4c2aa6f1eea78baed48464e4f94277
+  apk_file: hhy-r07-69406d9-debug.apk
+  version_name: 1.2.2-debug
+  version_code: 10207
+  sha256: 48d1486878c562246759432bce2b4b9645df80c24a9ccc0017a20f3e7799813f
+  machine_delivery: PASS
+  owner_physical_test: PENDING
+  evidence: artifacts/validation/r07-apk-delivery/delivery-evidence.json
+  test_guide: artifacts/reports/R07/R07-version-test-guide.md
+android_automation:
+  policy_id: HHY-ANDROID-AUTOMATION-V1
+  request_id: R07-20260722-003
+  source_github_run_id: '29875839322'
+  promotion_github_run_id: '29877272491'
+  status: PASS
+  commit: 69406d918b4c2aa6f1eea78baed48464e4f94277
+  candidate_report: artifacts/validation/r07-task007-android/candidate-report.json
+  owner_test_allowed: true
+  owner_physical_test: PENDING
+  ai_visual_review: PASS
+  secure_contact_sheet: PASS_FLAG_SECURE_NO_SCREENSHOT
+  evidence: artifacts/validation/r07-task007-android/candidate-report.json
+machine_completion:
+  status: PASS
+  owner_feedback_mode: ASYNC_NON_BLOCKING
+  formal_release_acceptance: PENDING_OWNER_PHYSICAL_TEST
+  production_activation: BLOCKED_OWNER_PHYSICAL_TEST
+  next_release_development: ALLOWED
+  evidence: artifacts/reports/R07/TASK-R07-008-machine-close.md
 entry_baseline:
   checked_at: '2026-07-21'
   session_id: SES-20260721T082026Z-E6763DFE
