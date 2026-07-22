@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T19:36:51Z
-- Context Hash：`41ec513ea4770b1b4adf08c04a27b532f6bb003577e241493dcda4ee1eb78f8e`
+- 生成时间：2026-07-22T19:38:55Z
+- Context Hash：`642348de34df632207a6a5490bd64101080a9eb11f84fbb64203de1774ea239b`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -137,7 +137,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R09-004
-updated_at: '2026-07-22T19:36:49Z'
+updated_at: '2026-07-22T19:38:53Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -172,15 +172,15 @@ continuity:
   active_session_id: SES-20260722T190220Z-19869F4B
   actor_id: codex-root-r09-client
   story_id: STORY-R09-004
-  lease_expires_at: '2026-07-22T23:36:48Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0003.yaml
-  project_fingerprint: aa1d0380618fcfdbff655f374fdffcacdb585f588c79f2a04c7896d70d5ed979
+  lease_expires_at: '2026-07-22T23:38:53Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0004.yaml
+  project_fingerprint: cf1eb767fe854c2097b1870e8023ff12db41107ecefffacb69aa090e4c74bfed
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d5e8dce649a373adb3c3bbc7ed40337d1ef8124b8e3f5fc952bd196701669346
-    generated_at: '2026-07-22T19:23:15Z'
+    context_hash: 41ec513ea4770b1b4adf08c04a27b532f6bb003577e241493dcda4ee1eb78f8e
+    generated_at: '2026-07-22T19:36:51Z'
   handoff_bundle: null
 ```
 
@@ -382,7 +382,7 @@ task_id: TASK-R09-004
 story_id: STORY-R09-004
 goal: GOAL-HHY-PERFECT-LANDING
 started_at: '2026-07-22T19:02:20Z'
-updated_at: '2026-07-22T19:36:48Z'
+updated_at: '2026-07-22T19:38:53Z'
 takeover_of: null
 change_requests:
 - CR-0251
@@ -454,12 +454,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T19:36:48Z'
-  expires_at: '2026-07-22T23:36:48Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0003.yaml
+  renewed_at: '2026-07-22T19:38:53Z'
+  expires_at: '2026-07-22T23:38:53Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T190220Z-19869F4B.md
-next_step: 提交CR-0251实现，登记IMPLEMENTED/CLOSED并关闭TASK-R09-004，然后直接启动TASK-R09-005。
+next_step: 提交CR关闭事实并关闭TASK-R09-004。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -467,98 +467,46 @@ parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 用户要求当前连续单线推进且未要求子代理。
+  reason: 连续单线关闭任务，用户未要求子代理。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T190220Z-19869F4B-0003
+checkpoint_id: CP-SES-20260722T190220Z-19869F4B-0004
 session_id: SES-20260722T190220Z-19869F4B
-sequence: 3
-created_at: '2026-07-22T19:36:48Z'
-summary: R09-004跨端闭环实现和受影响MODULE门禁全部完成：Android App三页、H5外链动作、后台复用、精确视觉规格均已落地。
-next_step: 提交CR-0251实现，登记IMPLEMENTED/CLOSED并关闭TASK-R09-004，然后直接启动TASK-R09-005。
+sequence: 4
+created_at: '2026-07-22T19:38:52Z'
+summary: CR-0251已登记IMPLEMENTED并由独立审核Actor关闭，实施提交为b548d582。
+next_step: 提交CR关闭事实并关闭TASK-R09-004。
 blockers: []
-decisions:
-- R09三页视觉验收保持IN_REVIEW，最终候选模拟器真实截图后由AI转PASS；普通任务不提前触发模拟器。
+decisions: []
 note: ''
 tests:
-- name: android-module
+- name: cr-closure-review
   result: PASS
-  evidence: Gradle testDebugUnitTest lintDebug BUILD SUCCESSFUL 481 tasks
-  note: JDK21和本机Android SDK显式注入
-- name: backend-module
-  result: PASS
-  evidence: Maven access,boot -am 352 tests 0 failures 0 errors 12 conditional skips
-  note: R09Service targeted 6 tests included
-- name: h5-module
-  result: PASS
-  evidence: Vitest 28 tests and vue-tsc
-  note: App NavigationTarget CTA coverage included
-- name: admin-module
-  result: PASS
-  evidence: Vitest 90 tests and vue-tsc
-  note: APP unified content reuse coverage included
-- name: contracts-and-ui-catalogs
-  result: PASS
-  evidence: API_CONTRACT_OK; FRONT_BACK_OK 189; TRACE_OK 84; UI_VISUAL_CATALOG_OK R09 pages=3; UI references/tokens/commercial boundary PASS
-  note: catalog-only until final candidate screenshots
+  evidence: CR-0251 CLOSED and implementation commit b548d582 recorded
+  note: 最终候选截图按大版本策略保留IN_REVIEW
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 536601aecf5e775466fe0a3c4225bc2bc3e633d8
+  head: b548d582e8e5b942a93513c128a113c8571bff0c
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/app/build.gradle.kts'
-  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
-  - ' M apps/android/settings.gradle.kts'
-  - ' M apps/h5/src/services/publicShare.test.ts'
-  - ' M apps/h5/src/views/PublicPage.vue'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - ' M .continuity/change_requests/CR-0251.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M catalogs/ui_page_specifications.csv'
-  - ' M catalogs/ui_visual_acceptance.csv'
-  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java'
-  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java'
-  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java'
-  - ?? .continuity/change_requests/CR-0251.yaml
-  - ?? .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0001.yaml
-  - ?? .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0002.yaml
-  - ?? .continuity/sessions/SES-20260722T190220Z-19869F4B.yaml
-  - ?? apps/admin-web/src/r09AppReuse.test.ts
-  - ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
-  - ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R09ApiModelsSerializationTest.kt
-  - ?? apps/android/feature/app-promotion/build.gradle.kts
-  - ?? apps/android/feature/app-promotion/src/main/AndroidManifest.xml
-  - ?? apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
-  - ?? apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppState.kt
-  - ?? apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
-  - ?? design/R09-UI-FROZEN/specs/SCR-DETAIL-002.md
-  - ?? design/R09-UI-FROZEN/specs/SCR-LIST-002.md
-  - ?? design/R09-UI-FROZEN/specs/SCR-PUB-003.md
-  - ?? docs/03-continuity/change-requests/CR-0251-R09-App推广跨端闭环与精确视觉实现.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260722T190220Z-19869F4B.md
+  - ' M docs/03-continuity/change-requests/CR-0251-R09-App推广跨端闭环与精确视觉实现.md'
   recent_commits:
+  - "b548d582e8e5b942a93513c128a113c8571bff0c\t2026-07-23T03:37:56+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(app): implement promotion\
+    \ experience"
   - "536601aecf5e775466fe0a3c4225bc2bc3e633d8\t2026-07-23T03:01:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App backend\
     \ task"
   - "3f27a588499e9ca8e9679a85b9cf5b454447c76f\t2026-07-23T02:57:53+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 App backend"
@@ -571,10 +519,8 @@ git:
     \ promotion invariants"
   - "e336e79143572860308f6d3f372bd436b9f0131c\t2026-07-23T02:10:03+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close readiness\
     \ and UI audit"
-  - "d85bd820cdd6941d71dbbb4da31f98a5d9c05bef\t2026-07-23T02:06:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close historical\
-    \ UI remediation"
 project_fingerprint:
-  sha256: aa1d0380618fcfdbff655f374fdffcacdb585f588c79f2a04c7896d70d5ed979
+  sha256: cf1eb767fe854c2097b1870e8023ff12db41107ecefffacb69aa090e4c74bfed
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r09AppReuse.test.ts
@@ -686,8 +632,8 @@ project_fingerprint:
       sha256: a6103cf33a410d92a99bbf599bdbe0bf916ec24528a104a0def47fd4944b2d6d
     - path: docs/03-continuity/change-requests/CR-0251-R09-App推广跨端闭环与精确视觉实现.md
       state: FILE
-      size: 4383
-      sha256: a49cf8642e1a0d3d5801467ccbab754a3e0a803b9968088fed6c5a0594338815
+      size: 4917
+      sha256: 1de052e9f850972cf712713f060c141b5c36c7587eab0ea8d3e72ec7dc2ecf1c
     - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
       state: FILE
       size: 8810
@@ -817,8 +763,8 @@ parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 用户要求当前连续单线推进且未要求子代理。
-event_hash: d2844f48ecc300b525cf1e649a9aa65283926f97cf3306d68fb0080be1ff3cc9
+  reason: 连续单线关闭任务，用户未要求子代理。
+event_hash: 3c21707d40f4859c74c086f18463b466d8a120b7a5ccfb94d196496e2ac5df6b
 ```
 
 ## 接续状态与事件头
@@ -830,8 +776,8 @@ active_session_id: SES-20260722T190220Z-19869F4B
 last_session_id: SES-20260722T183222Z-79C9A5DB
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T183222Z-79C9A5DB-0004
-event_count: 2476
-event_head_hash: d2844f48ecc300b525cf1e649a9aa65283926f97cf3306d68fb0080be1ff3cc9
+event_count: 2479
+event_head_hash: 3c21707d40f4859c74c086f18463b466d8a120b7a5ccfb94d196496e2ac5df6b
 event_chain_valid: true
 ```
 
@@ -954,9 +900,9 @@ recent_sessions: - session_id: SES-20260722T012224Z-E70EA3B7
   started_at: '2026-07-22T19:02:20Z'
   record: .continuity/sessions/SES-20260722T190220Z-19869F4B.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T190220Z-19869F4B.md
-  updated_at: '2026-07-22T19:36:48Z'
+  updated_at: '2026-07-22T19:38:53Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0004.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-A0BD8E4179F5
   session_id: SES-20260721T090217Z-21EF6428
@@ -1958,9 +1904,9 @@ recent_task_transitions: - transition_id: TRN-1579A9154BF2
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 536601aecf5e775466fe0a3c4225bc2bc3e633d8
+head: b548d582e8e5b942a93513c128a113c8571bff0c
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
@@ -1969,47 +1915,17 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/change_requests/CR-0251.yaml'
+- ' M .continuity/sessions/SES-20260722T190220Z-19869F4B.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M apps/android/app/build.gradle.kts'
-- ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-- ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
-- ' M apps/android/settings.gradle.kts'
-- ' M apps/h5/src/services/publicShare.test.ts'
-- ' M apps/h5/src/views/PublicPage.vue'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/continuity-gate-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M catalogs/ui_page_specifications.csv'
-- ' M catalogs/ui_visual_acceptance.csv'
-- ' M services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java'
-- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java'
-- ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java'
-- ?? .continuity/change_requests/CR-0251.yaml
-- ?? .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0001.yaml
-- ?? .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0002.yaml
-- ?? .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0003.yaml
-- ?? .continuity/sessions/SES-20260722T190220Z-19869F4B.yaml
-- ?? apps/admin-web/src/r09AppReuse.test.ts
-- ?? apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
-- ?? apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R09ApiModelsSerializationTest.kt
-- ?? apps/android/feature/app-promotion/build.gradle.kts
-- ?? apps/android/feature/app-promotion/src/main/AndroidManifest.xml
-- ?? apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
-- ?? apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppState.kt
-- ?? apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
-- ?? design/R09-UI-FROZEN/specs/SCR-DETAIL-002.md
-- ?? design/R09-UI-FROZEN/specs/SCR-LIST-002.md
-- ?? design/R09-UI-FROZEN/specs/SCR-PUB-003.md
-- ?? docs/03-continuity/change-requests/CR-0251-R09-App推广跨端闭环与精确视觉实现.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260722T190220Z-19869F4B.md
+- ' M docs/03-continuity/change-requests/CR-0251-R09-App推广跨端闭环与精确视觉实现.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260722T190220Z-19869F4B.md'
+- ?? .continuity/checkpoints/SES-20260722T190220Z-19869F4B/0004.yaml
 recent_commits:
+- "b548d582e8e5b942a93513c128a113c8571bff0c\t2026-07-23T03:37:56+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(app): implement promotion\
+  \ experience"
 - "536601aecf5e775466fe0a3c4225bc2bc3e633d8\t2026-07-23T03:01:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close App backend\
   \ task"
 - "3f27a588499e9ca8e9679a85b9cf5b454447c76f\t2026-07-23T02:57:53+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close R09 App backend"
@@ -2021,13 +1937,11 @@ recent_commits:
   \ promotion invariants"
 - "e336e79143572860308f6d3f372bd436b9f0131c\t2026-07-23T02:10:03+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(r09): close readiness and\
   \ UI audit"
-- "d85bd820cdd6941d71dbbb4da31f98a5d9c05bef\t2026-07-23T02:06:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] docs(cr): close historical UI\
-  \ remediation"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`aa1d0380618fcfdbff655f374fdffcacdb585f588c79f2a04c7896d70d5ed979`
+- 指纹：`cf1eb767fe854c2097b1870e8023ff12db41107ecefffacb69aa090e4c74bfed`
 - 文件数：24
 
 - `CHANGELOG.md`
@@ -8068,96 +7982,13 @@ TASKS.yaml:
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
-- protocol_version: '1.0'
-  cr_id: CR-0251
-  title: R09 App推广跨端闭环与精确视觉实现
-  status: IMPLEMENTING
-  created_at: '2026-07-22T19:10:31Z'
-  updated_at: '2026-07-22T19:23:19Z'
-  requester_actor_id: codex-root-r09-client
-  approver_actor_id: codex-r09-ui-review
-  task_id: TASK-R09-004
-  session_id: SES-20260722T190220Z-19869F4B
-  user_request: 持续完成R09，所有UI按效果图丰富度和精致度实现，不虚构业务；普通任务仅受影响门禁。
-  reason: App三页尚无Android实现，页面目录的视觉绑定过粗；H5 App分享页把第三方外部下载误套为自有APK发布包download结构，导致真实链接无法按冻结合同诚实展示。
-  original_rule: R09页面目录使用整组预览或TOKENS_ONLY，App公开页把第三方下载链接写入自有发布包download对象。
-  new_rule: App列表、详情、发布编辑分别以B02/P06、B03/P02、B04/P04为精确视觉施工源；第三方HTTPS下载和官网通过既有PublicPageBlockResource.action NavigationTargetResource表达，download只用于具备版本号、版本码和SHA256的自有发布包。
-  impact_summary: 实现Android App列表/详情/发布编辑及导航入口，完善H5 App分享真实动作和后台APP复用验证，补齐精确视觉规格与IN_REVIEW验收台账。
-  impact:
-    files:
-    - apps/android/settings.gradle.kts
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR09Api.kt
-    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R09ApiModelsSerializationTest.kt
-    - apps/android/feature/app-promotion/build.gradle.kts
-    - apps/android/feature/app-promotion/src/main/AndroidManifest.xml
-    - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppState.kt
-    - apps/android/feature/app-promotion/src/main/java/cc/orbexa/hhy/apppromotion/R09AppScreens.kt
-    - apps/android/feature/app-promotion/src/test/java/cc/orbexa/hhy/apppromotion/R09AppStateTest.kt
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R09Service.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R09ServiceTest.java
-    - apps/h5/src/views/PublicPage.vue
-    - apps/h5/src/services/publicShare.test.ts
-    - apps/admin-web/src/r09AppReuse.test.ts
-    - design/R09-UI-FROZEN/specs/SCR-LIST-002.md
-    - design/R09-UI-FROZEN/specs/SCR-DETAIL-002.md
-    - design/R09-UI-FROZEN/specs/SCR-PUB-003.md
-    - catalogs/ui_page_specifications.csv
-    - catalogs/ui_visual_acceptance.csv
-    - CHANGELOG.md
-    pages:
-    - SCR-LIST-002
-    - SCR-DETAIL-002
-    - SCR-PUB-003
-    - H5-005
-    - ADM-CONTENT-001
-    - ADM-CONTENT-002
-    apis:
-    - GET /api/v1/contents
-    - GET /api/v1/contents/{id}
-    - POST /api/v1/contents
-    - PATCH /api/v1/contents/{id}
-    - GET /public-api/v1/share/contents/{id}
-    database: []
-    configuration: []
-    ledger:
-    - catalogs/ui_page_specifications.csv
-    - catalogs/ui_visual_acceptance.csv
-    tests:
-    - Android R09 App transport/state unit tests
-    - Android affected debug unit/lint/compile
-    - H5 public share unit tests
-    - Admin APP reuse unit tests
-    - Backend R09 service targeted tests
-    - UI catalog and visual acceptance checks
-    releases:
-    - R09
-    migration_and_compatibility: 不改数据库和现有公开接口结构；PROJ分享保持兼容，APP分享从不合规download Map迁移到既有CTA动作，旧客户端仍可忽略新块；最终候选阶段再生成截图并判定PASS。
-  user_confirmation: 用户已明确要求持续开发并将效果图级UI作为跨AI硬性标准。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T19:11:22Z'
-    note: 精确面板绑定、非虚构业务边界和既有NavigationTarget兼容路径完整；影响文件与受影响门禁可验证，允许实施。
-  machine_record: .continuity/change_requests/CR-0251.yaml
-  document: docs/03-continuity/change-requests/CR-0251-R09-App推广跨端闭环与精确视觉实现.md
-  decision_log:
-  - at: '2026-07-22T19:23:19Z'
-    actor_id: codex-root-r09-client
-    status: IMPLEMENTING
-    note: 跨端产品代码、视觉规格与专项测试已写入，开始执行受影响门禁。
-    session_id: SES-20260722T190220Z-19869F4B
-  session_ids:
-  - SES-20260722T190220Z-19869F4B
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `cf88ee67d4b1f7bfa14ca57b8fb042f72a17070faf3b7d68f7486fbc639a0146`
+- `CURRENT_STATUS.yaml` — `5b208a733df0d23c5eb8dc11166a8cfdd048ffafa1c555fae9ac05a271f71133`
 - `NEXT_TASK.yaml` — `d1d611e0565feb74af1bcecbfcd59bf31409ad5c51c1e82b41c3e64a2ba1fb28`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -8168,12 +7999,12 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `9452bddad65311e6ce600c780100bf0bf6c9e414dd96e99d2d484b9dbe296b57`
-- `.continuity/SESSION_INDEX.yaml` — `fe41fd24ce9a0b5dfb5826eaa32c92818b9c47f6bff58e47b917ea58db9b57bd`
+- `.continuity/EVENT_LOG.jsonl` — `085b0229d5f49da5d93c156e2ca23e3163a31763068c2493466295c14d7beaf8`
+- `.continuity/SESSION_INDEX.yaml` — `398ffe441d5853d50193a22ed86f2137b624fd03fe4b82325566a2b836e542dd`
 - `.continuity/TASK_CLAIMS.yaml` — `99339310ebde79a623ceea79df8fd85c303887f82ddfae3529640e954a90edb3`
 - `.continuity/TASK_TRANSITIONS.yaml` — `cb8eadc9322d5f16ba131dbe710668a6a05a3ef590e8d3717ec74c46df54db1d`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b5c47db059b5c5f378cb8ef7e6835729b4fd29f6b38ca08300251d7c4d26553a`
-- `.continuity/ACTIVE_SESSION.yaml` — `6058555558466614abeff74d8bf21ab44c2df5b29a9883c3d2b2a79563b0a586`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `282427a6db84d37d74aaa96fabdf3309793c87b9e18877020103c33d4dc7a412`
+- `.continuity/ACTIVE_SESSION.yaml` — `2cc92fab6e031f23f1b83205bae655f8b8c600fb55d3ec87fbd193098812ec11`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -8183,9 +8014,9 @@ TASKS.yaml:
 - `releases/R09/STORIES.yaml` — `bf6aa9b385fde354089345fa0172e6d9ca01a3fa96f0ce696a3086a394ce2776`
 - `releases/R09/TASKS.yaml` — `bc98a5b337993fcd62e5e046664a74f45bd725b7a03536076298c2735f92dc8d`
 - `releases/R09/ACCEPTANCE_MATRIX.csv` — `98e99c241f9e7ab8814e20fb62060f90c5903da20c1ef39ec81fa75d3bdecfb3`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T190220Z-19869F4B.md` — `b27690c9a941b8b75ac8bc7441ab28b00c987021451cee732425e464e7cebb56`
-- `.continuity/checkpoints/SES-20260722T190220Z-19869F4B/0003.yaml` — `76a75afe14387b1218f63eed0c06837e58d7b43ed1c2e27ec7f1e79760a191e8`
-- `docs/03-continuity/change-requests/CR-0251-R09-App推广跨端闭环与精确视觉实现.md` — `a49cf8642e1a0d3d5801467ccbab754a3e0a803b9968088fed6c5a0594338815`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T190220Z-19869F4B.md` — `e2c92cc4840ce6a98ab6f034b43740d86fcf2c6041ea3e23a1d0815430b2c702`
+- `.continuity/checkpoints/SES-20260722T190220Z-19869F4B/0004.yaml` — `2476654f10b9c54568bc439f0912bf858444ff9828ec16d60d7e3160ccaba2e1`
+- `docs/03-continuity/change-requests/CR-0251-R09-App推广跨端闭环与精确视觉实现.md` — `1de052e9f850972cf712713f060c141b5c36c7587eab0ea8d3e72ec7dc2ecf1c`
 
 ## 接手硬规则
 
