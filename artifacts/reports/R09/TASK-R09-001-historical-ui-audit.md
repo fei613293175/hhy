@@ -1,6 +1,6 @@
 # TASK-R09-001 · P00/R01–R08 历史 UI 全局审计
 
-状态：`IMPLEMENTING`
+状态：`COMPLETE · PASS`
 批准变更：`CR-0247`、`CR-0248`
 审计范围：计划版本不晚于 R08 的全部前端页面
 审计原则：效果图强制约束视觉建模，但不作为功能、字段、动作或业务数据事实源。
@@ -26,7 +26,7 @@
 
 - 已有并复核通过：19 页。
 - R01 本次补齐合同和真实浏览器截图后通过：3 页。
-- Android 待 R09 最终候选统一取最新截图：23 页。
+- Android 本次专用离线模拟器取证并由 AI 逐张复核通过：23 页，其中联系方式安全面板依 `FLAG_SECURE` 以源码、语义和仪器报告替代敏感截图。
 
 本次新通过页面：
 
@@ -63,9 +63,17 @@
 
 ## 6. 视觉取证执行策略
 
-- 23 个 Android 页面仍保持 `IN_REVIEW`，禁止仅凭源码或 Token 检查改成 `PASS`。
+- 23 个 Android 页面已完成证据回填并改为 `PASS`；非敏感页面必须绑定本次真实截图，联系方式安全面板必须绑定 `FLAG_SECURE` 源码语义与仪器报告，仍禁止仅凭源码或 Token 检查通过普通页面。
 - 本机 CPU 虚拟化已开启，但未安装 Android Emulator Hypervisor Driver；普通权限下无法启用，强行安装会要求管理员操作并可能重启。远端 `obx-test` 同样没有可用 `/dev/kvm`，因此不把本机/服务器环境改造混进产品返工。
 - 既有 `config/android-candidate-request.yaml` 使用唯一组合 `release=HISTORICAL-UI`、`candidate=false`，由已注册的候选请求入口把布尔值原样传给现有权威 `.github/workflows/android-quality-gate.yml`：只运行 `HistoricalVisualAuditTest`，以 `androidTest` 离线夹具渲染生产 Composable，一次生成 22 张非敏感页面截图；不请求 CI 登录、不访问 Staging、不生成候选 APK、不运行发布关闭门禁，也不注册第二套工作流。
 - 源码冻结前已通过 Android 全量 `testDebugUnitTest lintDebug`（436 tasks，`BUILD SUCCESSFUL`）、`compileDebugAndroidTestKotlin` 和文档严格门禁；冻结后只执行一次上述视觉专跑，由 AI 逐张完成六项判定，不在每次提交重复模拟器。
-- Run `29942343711` 已证明非候选分流和 KVM 启动正确，但 `android-emulator-runner` 将多行 `script` 逐行隔离，导致 `cd apps/android` 不传递、测试前以 `./gradlew: not found` / 127 退出；该轮没有产品截图，不计为视觉判定失败。`PROB-0094` 已将命令收敛为单一仓库脚本并保留一次确定性复验。
-- 联系方式面板继续使用安全语义、源码和候选报告替代敏感值截图。
+- Run `29942343711` 已证明非候选分流和 KVM 启动正确，但 `android-emulator-runner` 将多行 `script` 逐行隔离，导致 `cd apps/android` 不传递、测试前以 `./gradlew: not found` / 127 退出；该轮没有产品截图，不计为视觉判定失败。`PROB-0094` 已将命令收敛为单一仓库脚本。
+- Run `29943415539` 的确定性复验成功：候选编译、lint、单测、候选模拟器、候选资格与修复队列全部跳过，仅执行历史 UI 离线视觉批次；18 个仪器测试通过，产出并核对 22 张非敏感截图，GitHub 制品 SHA-256 为 `aa177763656e6b5f45f7424a9ef00685f18021ef90fd740c603cf87406ae5275`。
+- 联系方式面板继续使用安全语义、源码和本次仪器报告替代敏感值截图。
+
+## 7. 最终验收结论
+
+- `catalogs/ui_visual_acceptance.csv` 中截至 R08 的 45 页现均为 `PASS`。
+- 22 张 Android 截图均逐张通过：肉眼丰富度、信息层级、组件精致度、真实业务映射、状态完整性与 AI 对照结论。
+- `python scripts/check_ui_visual_acceptance.py --historical-through R08` 输出 `UI_VISUAL_HISTORICAL_ACCEPTANCE_OK R08 pages=45`。
+- 本轮页面均可复用既有冻结效果图或统一视觉体系，不需要生成效果图补充包。

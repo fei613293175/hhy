@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0248
 title: 返工R01至R07不合格页面并补齐效果图级证据
-status: IMPLEMENTING
+status: IMPLEMENTED
 created_at: '2026-07-22T16:06:17Z'
-updated_at: '2026-07-22T16:06:56Z'
+updated_at: '2026-07-22T18:00:21Z'
 requester_actor_id: codex-root-r09-ui-audit
 approver_actor_id: codex-reviewer-historical-ui
 task_id: TASK-R09-001
@@ -52,6 +52,11 @@ decision_log:
   actor_id: codex-root-r09-ui-audit
   status: IMPLEMENTING
   note: 开始补齐R01视觉合同，并返工R06/R07首批明显不合格Android页面。
+  session_id: SES-20260722T153450Z-FAD75B8D
+- at: '2026-07-22T18:00:21Z'
+  actor_id: codex-root-r09-ui-audit
+  status: IMPLEMENTED
+  note: Run 29943415539历史UI专跑成功；22张非敏感截图已逐张AI六项验收，FLAG_SECURE联系面板完成源码语义与仪器报告复核；截至R08共45页视觉账本全部PASS。
   session_id: SES-20260722T153450Z-FAD75B8D
 session_ids:
 - SES-20260722T153450Z-FAD75B8D
