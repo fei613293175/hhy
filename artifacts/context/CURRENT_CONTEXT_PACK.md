@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T06:51:19Z
-- Context Hash：`979500e7d4e62f1d8a6ee1c9d0a681352b7a5826cc06d27f6129a162e3426364`
+- 生成时间：2026-07-22T06:54:11Z
+- Context Hash：`d22c81945859d8606e592426ff666477b31ba4d883f69459c45c0d0663d7cf49`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -132,7 +132,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-007
-updated_at: '2026-07-22T06:51:16Z'
+updated_at: '2026-07-22T06:54:09Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -167,15 +167,15 @@ continuity:
   active_session_id: SES-20260722T064621Z-68304DE1
   actor_id: codex-root-r08-007
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T10:51:16Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0001.yaml
-  project_fingerprint: 88ab24566a08d6194101c88655fde46c913b15f45ff26bdbf60c87bbaa16abb6
+  lease_expires_at: '2026-07-22T10:54:09Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml
+  project_fingerprint: 2fecc462de5d7bd812561f0b89d394b61db13289960c5790eae0e38a4790725b
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 15398aa5b5e05355117e04fc7849cb6304b34fc663cb3aacb12487e8315eec55
-    generated_at: '2026-07-22T06:46:25Z'
+    context_hash: 4172b52d6baae3b188d629d4d1805dd3ee1a680e4ec022945d6a411d531e7418
+    generated_at: '2026-07-22T06:53:38Z'
   handoff_bundle: null
 ```
 
@@ -373,7 +373,7 @@ task_id: TASK-R08-007
 story_id: STORY-R08-004
 goal: 项目推广完整闭环Android测试APK与产物追溯
 started_at: '2026-07-22T06:46:21Z'
-updated_at: '2026-07-22T06:51:16Z'
+updated_at: '2026-07-22T06:54:09Z'
 takeover_of: null
 change_requests:
 - CR-0227
@@ -425,12 +425,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T06:51:16Z'
-  expires_at: '2026-07-22T10:51:16Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0001.yaml
+  renewed_at: '2026-07-22T06:54:09Z'
+  expires_at: '2026-07-22T10:54:09Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-next_step: 提交推送连续性修复，在干净临时关闭态验证连续两次resume零写入与随后start成功，再继续R08最终候选
+next_step: 提交推送CR关闭事实，随后更新R08候选请求并触发大版本唯一完整Android候选
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -438,35 +438,31 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前运行策略未授权创建子代理；连续性核心入口由主控串行复核
+  reason: 当前运行策略未授权创建子代理；连续性核心关闭由主控串行复核
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0001
+checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0003
 session_id: SES-20260722T064621Z-68304DE1
-sequence: 1
-created_at: '2026-07-22T06:51:16Z'
-summary: PROB-0079无会话resume污染干净工作区死锁已按CR-0227修复
-next_step: 提交推送连续性修复，在干净临时关闭态验证连续两次resume零写入与随后start成功，再继续R08最终候选
+sequence: 3
+created_at: '2026-07-22T06:54:08Z'
+summary: CR-0227与PROB-0079已完整关闭，无会话resume只读接续恢复
+next_step: 提交推送CR关闭事实，随后更新R08候选请求并触发大版本唯一完整Android候选
 blockers: []
 decisions: []
-note: 未新增硬规则文件，直接修复AGENTS既有唯一冷启动入口的可执行性。
+note: 不新增并列规则；一句继续开发接续机制已恢复。
 tests:
 - name: RESUME_READ_ONLY
   result: PASS
-  evidence: tests.test_continuity_resume_read_only:3 tests
-  note: 无会话resume不调用写入式Context构建、实时规则缺失仍阻断
-- name: CONTEXT_RULE_POLICY
-  result: PASS
-  evidence: tests.test_context_pack_parallel_policy:13 tests
-  note: 规则来源哈希与跨平台Context策略回归通过
+  evidence: 3 unit + 13 policy + closed-state smoke
+  note: 规则来源仍强校验，连续resume零写入
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 827c8b7b81988b4f844b3b7ff766d30b6a34a77a
+  head: 14468bec933e1bc6ab35eac4616da6ae2c4baa62
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -477,9 +473,8 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CHANGELOG.md'
+  - ' M .continuity/change_requests/CR-0227.yaml'
+  - ' M .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml'
   - ' M CURRENT_STATUS.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
@@ -487,15 +482,12 @@ git:
   - ' M artifacts/validation/continuity-gate-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M scripts/continuity.py'
-  - ?? .continuity/change_requests/CR-0227.yaml
-  - ?? .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml
-  - ?? docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-  - ?? tests/test_continuity_resume_read_only.py
+  - ' M docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md'
+  - ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0002.yaml
   recent_commits:
+  - "14468bec933e1bc6ab35eac4616da6ae2c4baa62\t2026-07-22T14:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(continuity): keep no-session\
+    \ resume read-only"
   - "827c8b7b81988b4f844b3b7ff766d30b6a34a77a\t2026-07-22T14:40:48+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-006\
     \ as completed"
   - "26a1b4df4aed3f640fb348abbae252394e9f403d\t2026-07-22T14:39:17+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close CR-0226"
@@ -509,10 +501,8 @@ git:
     \ test CR"
   - "36fd0d8c6003a20a9a8e33f787ec30381200a8d6\t2026-07-22T14:03:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): freeze project\
     \ test evidence"
-  - "f3421114b124f4b1d69cd20de7078a022db019e9\t2026-07-22T13:44:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): automate project\
-    \ fault matrix"
 project_fingerprint:
-  sha256: 88ab24566a08d6194101c88655fde46c913b15f45ff26bdbf60c87bbaa16abb6
+  sha256: 2fecc462de5d7bd812561f0b89d394b61db13289960c5790eae0e38a4790725b
   files:
   - CHANGELOG.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
@@ -533,8 +523,8 @@ project_fingerprint:
       sha256: 94228e5b0a9e00f60548727051117ef27d33756266ec114f909fb6956fb5fe13
     - path: docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
       state: FILE
-      size: 3102
-      sha256: cfb65466ac85785f2e72bac9fe992c38688391cb4864a8ce7ad95eb675fa66e4
+      size: 3812
+      sha256: c5ef9a8ba6a85c81a5dd622bc7e661c8589ea3364781522563005e93ad88c52c
     - path: scripts/continuity.py
       state: FILE
       size: 72884
@@ -604,8 +594,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前运行策略未授权创建子代理；连续性核心入口由主控串行复核
-event_hash: f29c6f066a4116acc2d2b26dd9957c0e308803e24a63ce98c6d05260b05cc819
+  reason: 当前运行策略未授权创建子代理；连续性核心关闭由主控串行复核
+event_hash: 7bd88978538f9b346533017680a88633fa1665f66a8383a9a7b8a8c2d1df82cc
 ```
 
 ## 接续状态与事件头
@@ -617,8 +607,8 @@ active_session_id: SES-20260722T064621Z-68304DE1
 last_session_id: SES-20260722T060947Z-B45C6BC0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T060947Z-B45C6BC0-0005
-event_count: 2259
-event_head_hash: f29c6f066a4116acc2d2b26dd9957c0e308803e24a63ce98c6d05260b05cc819
+event_count: 2263
+event_head_hash: 7bd88978538f9b346533017680a88633fa1665f66a8383a9a7b8a8c2d1df82cc
 event_chain_valid: true
 ```
 
@@ -741,9 +731,9 @@ recent_sessions: - session_id: SES-20260721T201747Z-CD80A1EE
   started_at: '2026-07-22T06:46:21Z'
   record: .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-  updated_at: '2026-07-22T06:51:16Z'
+  updated_at: '2026-07-22T06:54:09Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0001.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-26FF72418AF4
   session_id: SES-20260721T012656Z-E067730A
@@ -1715,7 +1705,7 @@ recent_task_transitions: - transition_id: TRN-793C15D200BF
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 827c8b7b81988b4f844b3b7ff766d30b6a34a77a
+head: 14468bec933e1bc6ab35eac4616da6ae2c4baa62
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1726,9 +1716,8 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
-- ' M CHANGELOG.md'
+- ' M .continuity/change_requests/CR-0227.yaml'
+- ' M .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml'
 - ' M CURRENT_STATUS.yaml'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
 - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
@@ -1736,16 +1725,13 @@ status_porcelain:
 - ' M artifacts/validation/continuity-gate-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M scripts/continuity.py'
-- ?? .continuity/change_requests/CR-0227.yaml
-- ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0001.yaml
-- ?? .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml
-- ?? docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-- ?? tests/test_continuity_resume_read_only.py
+- ' M docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md'
+- ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0002.yaml
+- ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml
 recent_commits:
+- "14468bec933e1bc6ab35eac4616da6ae2c4baa62\t2026-07-22T14:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(continuity): keep no-session\
+  \ resume read-only"
 - "827c8b7b81988b4f844b3b7ff766d30b6a34a77a\t2026-07-22T14:40:48+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-006\
   \ as completed"
 - "26a1b4df4aed3f640fb348abbae252394e9f403d\t2026-07-22T14:39:17+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close CR-0226"
@@ -1759,13 +1745,11 @@ recent_commits:
   \ test CR"
 - "36fd0d8c6003a20a9a8e33f787ec30381200a8d6\t2026-07-22T14:03:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): freeze project test\
   \ evidence"
-- "f3421114b124f4b1d69cd20de7078a022db019e9\t2026-07-22T13:44:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): automate project\
-  \ fault matrix"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`88ab24566a08d6194101c88655fde46c913b15f45ff26bdbf60c87bbaa16abb6`
+- 指纹：`2fecc462de5d7bd812561f0b89d394b61db13289960c5790eae0e38a4790725b`
 - 文件数：5
 
 - `CHANGELOG.md`
@@ -7262,61 +7246,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
   - SES-20260722T031604Z-105CF4C6
   implementation_commits:
   - 35484da74a8c0483bdb6a236b8eca23bfe606cc9
-- protocol_version: '1.0'
-  cr_id: CR-0227
-  title: 修复无会话resume污染干净工作区接续死锁
-  status: IMPLEMENTING
-  created_at: '2026-07-22T06:48:43Z'
-  updated_at: '2026-07-22T06:49:10Z'
-  requester_actor_id: codex-root-r08-007
-  approver_actor_id: codex-reviewer-continuity-r08
-  task_id: TASK-R08-007
-  session_id: SES-20260722T064621Z-68304DE1
-  user_request: 项目所有者要求换电脑换AI后只说继续开发即可，所有规则自动生效且不得创建并列事实源。
-  reason: TASK-R08-006关闭提交推送后，resume重建Context Pack并写入STATE和三份Context文件；start随后因工作区不干净拒绝，且无ACTIVE Session导致刷新内容无法通过提交同步记录门禁。
-  original_rule: 现有唯一冷启动规则要求先运行resume并在干净工作区start；resume无条件调用build_context_pack并写入STATE、Context Pack，关闭元数据Commit改变仓库树后会产生未提交刷新。
-  new_rule: 不新增平行冷启动规则；直接修复既有resume：无ACTIVE Session时只读验证事件链、全部规则来源哈希、NEXT_TASK、Git与现有Context文件完整性，禁止写工作区；start成功后再由活动Session生成新Context Pack。ACTIVE/HANDED_OFF恢复行为保持原有机制。
-  impact_summary: 修复一句继续开发在任务边界的确定性死锁；登记PROB-0079并增加无会话resume不调用写入式Context构建、连续两次resume工作区仍干净、随后start成功的回归。
-  impact:
-    files:
-    - scripts/continuity.py
-    - tests/test_continuity_resume_read_only.py
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python -m unittest tests.test_continuity_resume_read_only
-    - python -m unittest tests.test_context_pack_parallel_policy
-    - python scripts/continuity_gate.py --mode doctor --strict
-    releases:
-    - R08
-    migration_and_compatibility: 仅连续性CLI行为修复，无产品API、数据库、APK或生产配置变化；旧Context Pack仍校验文件与规则来源哈希，忽略仅由关闭Commit造成的仓库树指纹滞后，start后在活动会话中刷新。
-  user_confirmation: 项目所有者明确要求换电脑换AI后只需说继续开发，所有规则必须生效。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T06:49:06Z'
-    note: 批准修复既有唯一resume入口，不新建规则文件；无会话只读路径仍必须验证事件链、规则来源和Context文件，且回归证明resume后可直接start。
-  machine_record: .continuity/change_requests/CR-0227.yaml
-  document: docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
-  decision_log:
-  - at: '2026-07-22T06:49:10Z'
-    actor_id: codex-root-r08-007
-    status: IMPLEMENTING
-    note: 开始修复无ACTIVE Session的resume只读接续路径并增加PROB-0079回归。
-    session_id: SES-20260722T064621Z-68304DE1
-  session_ids:
-  - SES-20260722T064621Z-68304DE1
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `8b7c8e84b3c06eae9211ca9d580343e76fb94fac395dec6986ed729c6f8978a8`
+- `CURRENT_STATUS.yaml` — `d2ee174900684951d6bcc85930815567ede053736837c00acfe60d628e818c02`
 - `NEXT_TASK.yaml` — `f3ec661f9145959a7e41a1f6c0f8db741b578a6448235e7c74e5f996cc2c6ce6`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7327,12 +7263,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `4223786a5305e2a07129b5902dcf7a45f9aa87933351df29eeda900feb519e46`
-- `.continuity/SESSION_INDEX.yaml` — `17b2600e647412d1fc27b50cad585497c2ca3aa1dc92c283a22a40eb55d15f14`
+- `.continuity/EVENT_LOG.jsonl` — `b324b1a37bf6e5d1f43a71f42bee971500fc84704747e04e3c04df96dab5d820`
+- `.continuity/SESSION_INDEX.yaml` — `147617a7dfa3bb213d75b7e84b28f015e4795806fd08ad03d57819ec49da3dd3`
 - `.continuity/TASK_CLAIMS.yaml` — `a4591ec89d6ae40f29f6e700d89ac651de53e1e8779ffdd84540ec00243fca42`
 - `.continuity/TASK_TRANSITIONS.yaml` — `18b79fca8d7f53574e1ed46bb8f9ef6bc9323f1c3d00d011f358e0c07594ff9f`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `abc69a1e2a74e70ef925dbdcf903a9ed222a92ad0408d8d18d4ac5cea482adde`
-- `.continuity/ACTIVE_SESSION.yaml` — `4327f7c202b12c58796f11e7fd14c0318414bb8eb00c194fde1fdef5c3d0b98b`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ef1b52446d97eba992a2cbf3f199728ce698930fbc2baab3fd83e5b7c6c1f30e`
+- `.continuity/ACTIVE_SESSION.yaml` — `96c42c3512d0a11ad81e02f4520cb8058050fca26ca4922d08eb506dc26ab246`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7343,9 +7279,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/TASKS.yaml` — `d1dbb1bc2ffa320a87721f8d462aee03160a33f26a00b964974f6c9592d41e71`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `7805259b6a663aa6b348a95b49e477ffb2e783de4e2f8a8dc6ab09162626e6ea`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md` — `40caf1f4ccba5cd60eaf5f10a08479fa428dbdd89091745aa3058a5c06520022`
-- `.continuity/checkpoints/SES-20260722T064621Z-68304DE1/0001.yaml` — `48ca2a6e0b83a5810213ea7f024988b23204a3d1685c19ffb889d4abaad96dfb`
-- `docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md` — `cfb65466ac85785f2e72bac9fe992c38688391cb4864a8ce7ad95eb675fa66e4`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md` — `655ce866f94d44192a2d52f8d85821b8ce6f5ada9e8c8b444a18b1b10c86d6e1`
+- `.continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml` — `b11a58cad8936db95011454c795416560d4ad460cb0b9e6db32930fefdb84343`
+- `docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md` — `c5ef9a8ba6a85c81a5dd622bc7e661c8589ea3364781522563005e93ad88c52c`
 
 ## 接手硬规则
 

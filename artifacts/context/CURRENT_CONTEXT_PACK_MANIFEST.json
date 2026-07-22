@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T06:51:19Z",
-  "context_hash": "979500e7d4e62f1d8a6ee1c9d0a681352b7a5826cc06d27f6129a162e3426364",
+  "generated_at": "2026-07-22T06:54:11Z",
+  "context_hash": "d22c81945859d8606e592426ff666477b31ba4d883f69459c45c0d0663d7cf49",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "88ab24566a08d6194101c88655fde46c913b15f45ff26bdbf60c87bbaa16abb6",
+    "sha256": "2fecc462de5d7bd812561f0b89d394b61db13289960c5790eae0e38a4790725b",
     "file_count": 5
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "bfca590fd1139a4eb330de9667062171f65f0dec0e357e0f1a57aeefb92792b5"
+    "sha256": "021ce16ad3399d5414c103f88ff56d5e1ce2b34f5afb39bd06472fafcd33edce"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "dfce128f48b5249f7408b82e25559597f61abd17acdfb52462ee86e1c0b08447"
+    "sha256": "2eb3bda09e88971c445dd121e23673ad3b4fa2aa2ba393a49f97992a7bcabb74"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "8b7c8e84b3c06eae9211ca9d580343e76fb94fac395dec6986ed729c6f8978a8",
+      "sha256": "d2ee174900684951d6bcc85930815567ede053736837c00acfe60d628e818c02",
       "bytes": 3985
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "4223786a5305e2a07129b5902dcf7a45f9aa87933351df29eeda900feb519e46",
-      "bytes": 1242657
+      "sha256": "b324b1a37bf6e5d1f43a71f42bee971500fc84704747e04e3c04df96dab5d820",
+      "bytes": 1244775
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "17b2600e647412d1fc27b50cad585497c2ca3aa1dc92c283a22a40eb55d15f14",
+      "sha256": "147617a7dfa3bb213d75b7e84b28f015e4795806fd08ad03d57819ec49da3dd3",
       "bytes": 37908
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "abc69a1e2a74e70ef925dbdcf903a9ed222a92ad0408d8d18d4ac5cea482adde",
-      "bytes": 737791
+      "sha256": "ef1b52446d97eba992a2cbf3f199728ce698930fbc2baab3fd83e5b7c6c1f30e",
+      "bytes": 738552
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "4327f7c202b12c58796f11e7fd14c0318414bb8eb00c194fde1fdef5c3d0b98b",
+      "sha256": "96c42c3512d0a11ad81e02f4520cb8058050fca26ca4922d08eb506dc26ab246",
       "bytes": 533
     },
     {
@@ -163,18 +163,18 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md",
-      "sha256": "40caf1f4ccba5cd60eaf5f10a08479fa428dbdd89091745aa3058a5c06520022",
-      "bytes": 2574
+      "sha256": "655ce866f94d44192a2d52f8d85821b8ce6f5ada9e8c8b444a18b1b10c86d6e1",
+      "bytes": 4347
     },
     {
-      "path": ".continuity/checkpoints/SES-20260722T064621Z-68304DE1/0001.yaml",
-      "sha256": "48ca2a6e0b83a5810213ea7f024988b23204a3d1685c19ffb889d4abaad96dfb",
-      "bytes": 6242
+      "path": ".continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml",
+      "sha256": "b11a58cad8936db95011454c795416560d4ad460cb0b9e6db32930fefdb84343",
+      "bytes": 5790
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md",
-      "sha256": "cfb65466ac85785f2e72bac9fe992c38688391cb4864a8ce7ad95eb675fa66e4",
-      "bytes": 3102
+      "sha256": "c5ef9a8ba6a85c81a5dd622bc7e661c8589ea3364781522563005e93ad88c52c",
+      "bytes": 3812
     }
   ]
 }
