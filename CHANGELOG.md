@@ -1139,3 +1139,13 @@
 - Actor：`codex-root-r09-client`
 - 摘要：完成R09 App推广Android列表/详情/发布编辑、H5真实外链动作和后台统一内容复用；受影响MODULE门禁全部通过，三页最终截图按R09候选阶段保留IN_REVIEW。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T190220Z-19869F4B.md`
+
+## TASK-R09-005 · COMPLETED · 2026-07-22T20:02:46Z
+
+- Task close: TASK-R09-005 / SES-20260722T194140Z-BCF8BB57
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-tests`
+- 摘要：R09 App推广三项权威专项测试、超时重放、八路并发、重复消息防护、真实依赖异常及规范化哈希证据全部PASS，P0/P1为0。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T194140Z-BCF8BB57.md`
+

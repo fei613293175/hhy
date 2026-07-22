@@ -2808,7 +2808,7 @@ claims:
   task_id: TASK-R09-005
   story_id: STORY-R09-004
   actor_id: codex-root-r09-tests
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-22T19:41:40Z'
   allowed_paths:
   - apps/**
@@ -2846,3 +2846,4 @@ claims:
   - services/backend/boot/src/test/**
   - artifacts/reports/R09/**
   - catalogs/test_cases.csv
+  closed_at: '2026-07-22T20:02:52Z'
