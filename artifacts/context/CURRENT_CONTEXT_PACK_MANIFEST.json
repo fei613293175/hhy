@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T03:10:41Z",
-  "context_hash": "bc0bd60bdd05e94689e3dae257b0b31ac40def9938c3b0b0e413cd4d3e79c892",
+  "generated_at": "2026-07-22T03:12:11Z",
+  "context_hash": "5f87272b945040af8e5980c367ab5a12e4d3a09af769ac48585be525399db350",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "32469beeed55f9036e65065243b603898a6dc79f1e240f21253096ffea516bf3",
+    "sha256": "13d39f3f56b8b80d0e67d5e3d1d608929c98301c3b0b590de20919341f121083",
     "file_count": 47
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "25ada7d84e06cfbc30d70130dbae76eba6c08844ae7320e7800cf589d1e13f4b"
+    "sha256": "d048138f732c5e1aaf87d108b371ffd973434819b1869e0eb766fd4f24364a4a"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "a141196e04ba63b161451a90415b1063a70147de10fe20c5d77e05320551328a"
+    "sha256": "dbd9adf59dc43c0159850102204d413675bd8446ddaaacf3cd6f9f6de04b3f8e"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "f875dcbdf40c4c16096bcca1d2da9d04c281282dbf5975b18342846ae78c35e7",
+      "sha256": "21b841e6ec67ffc416d5664047b1f0f818018fe8d7b7ce0ca6e0137d8212a67e",
       "bytes": 3893
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "483ddfabcafad6b54bd254f25f919eb084deaef31c71ba1d275de29163d25c5a",
-      "bytes": 1179283
+      "sha256": "7e478632bfd8c6e1badebefc51a0c760a6dacf92dc50ae1779dcc7bc917c6489",
+      "bytes": 1182366
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "954203e286e694431bf4eb7758724180ec372b676350ea1c3b0c464ca3fd87c2",
+      "sha256": "4fdb407255b7b37072ff6ca93508e9c1c3cda874458a455616e39c2fbcf31010",
       "bytes": 35868
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "54d586ad8fb80eb15b0e4e1c4a8831e438d2845388d7b05fd63c3a90fa954eac",
-      "bytes": 690423
+      "sha256": "9ac9669b84ac4b4e226d5f33583962e72a5ef314ec70346a089d672581220f56",
+      "bytes": 691979
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "a69d46d5a5a501a766828a6ae13e2a88076e14bb9d58fc7218728db1f73a07be",
+      "sha256": "78a5848791c459b246b7359ad2d60df15a27c7d5a4ff5776bfec6721a65623cb",
       "bytes": 533
     },
     {
@@ -163,23 +163,23 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md",
-      "sha256": "e38acd12a1fe0397a718b4e1bde08bf76eea19cfa608387576c07089a6fe5cbc",
-      "bytes": 37617
+      "sha256": "ea750f1c77128adc0cc5f506a990ff97ff0acf16b39611d35ef41020101afd8d",
+      "bytes": 41728
     },
     {
-      "path": ".continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0010.yaml",
-      "sha256": "29cdea0300be876e8d559384d639c927a3cfff6ad8b8c2f9f1aaa4a4ed45d54d",
-      "bytes": 21539
+      "path": ".continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml",
+      "sha256": "912f54b91ec8b14a9fd94c1b8ea92a98b858d5216259131a05508c46af3832b2",
+      "bytes": 21948
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md",
-      "sha256": "841066647c9018e3cf67dd52e21fef57df203b53fb59cdd170ab6a9b593ffd29",
-      "bytes": 6313
+      "sha256": "8a29dda1725dfdcb3a93550a603f19b8003338f1c43a7db32a04c23190be2863",
+      "bytes": 6834
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md",
-      "sha256": "008d75424c35272df6089489571e3de91e1c095ccdc63dd51feaf0bf9bfbcd50",
-      "bytes": 2813
+      "sha256": "9aec879df41343ff50f073b081e38952dc325b54334b4a560820e989702c91e6",
+      "bytes": 3296
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md",
@@ -198,8 +198,8 @@
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md",
-      "sha256": "ecbe74960c507690914b727f20d7760c1c1c2d07b584ecb3193fc77892de9230",
-      "bytes": 2553
+      "sha256": "c74c65436492018b82b3e01744dd9803cdee6320a8a56768663861b676f87a51",
+      "bytes": 3009
     }
   ]
 }

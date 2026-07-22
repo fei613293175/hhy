@@ -87,3 +87,17 @@ R08PostgresStoreTest把身份状态写为VERIFIED却未提供R05冻结约束要�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260722T012224Z-E70EA3B7`
 - Note：开始修正夹具并重跑真实PostgreSQL与受影响MODULE。
+
+## 状态记录 · 2026-07-22T03:11:36Z
+
+- Actor：`codex-root-r08-003`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260722T012224Z-E70EA3B7`
+- Note：e312321c补齐合法实名夹具并在精确提交真实PostgreSQL17.10上3项通过。
+
+## 状态记录 · 2026-07-22T03:11:39Z
+
+- Actor：`codex-root-r08-003`
+- Status：`CLOSED`
+- Session：`SES-20260722T012224Z-E70EA3B7`
+- Note：PROB-0078回归和后端MODULE 340项通过，最终证据已记录。

@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T03:10:41Z
-- Context Hash：`bc0bd60bdd05e94689e3dae257b0b31ac40def9938c3b0b0e413cd4d3e79c892`
+- 生成时间：2026-07-22T03:12:11Z
+- Context Hash：`5f87272b945040af8e5980c367ab5a12e4d3a09af769ac48585be525399db350`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -128,7 +128,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-003
-updated_at: '2026-07-22T03:10:39Z'
+updated_at: '2026-07-22T03:12:08Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -163,15 +163,15 @@ continuity:
   active_session_id: SES-20260722T012224Z-E70EA3B7
   actor_id: codex-root-r08-003
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T07:10:39Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0010.yaml
-  project_fingerprint: 32469beeed55f9036e65065243b603898a6dc79f1e240f21253096ffea516bf3
+  lease_expires_at: '2026-07-22T07:12:08Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml
+  project_fingerprint: 13d39f3f56b8b80d0e67d5e3d1d608929c98301c3b0b590de20919341f121083
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: d2fc5d4805c35459b80b8e187932ecb7c18a85a2b398d822f6f39ac3619109a5
-    generated_at: '2026-07-22T03:05:31Z'
+    context_hash: bc0bd60bdd05e94689e3dae257b0b31ac40def9938c3b0b0e413cd4d3e79c892
+    generated_at: '2026-07-22T03:10:41Z'
   handoff_bundle: null
 ```
 
@@ -369,7 +369,7 @@ task_id: TASK-R08-003
 story_id: STORY-R08-004
 goal: 项目推广完整闭环后端应用服务与接口
 started_at: '2026-07-22T01:22:24Z'
-updated_at: '2026-07-22T03:10:39Z'
+updated_at: '2026-07-22T03:12:08Z'
 takeover_of: null
 change_requests:
 - CR-0211
@@ -458,12 +458,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T03:10:39Z'
-  expires_at: '2026-07-22T07:10:39Z'
-checkpoint_sequence: 10
-latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0010.yaml
+  renewed_at: '2026-07-22T03:12:08Z'
+  expires_at: '2026-07-22T07:12:08Z'
+checkpoint_sequence: 11
+latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md
-next_step: 提交报告，关闭CR-0211、CR-0212、CR-0216和TASK-R08-003；随后立即进入TASK-R08-004进行效果图级UI实现与R02-R07历史视觉回补。
+next_step: 关闭TASK-R08-003并原子切换TASK-R08-004，开始效果图级Android UI与R02-R07历史视觉回补。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -471,51 +471,63 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前运行模式明确不允许自主启动子代理；精确提交数据库与模块证据由事实主控串行核验。
+  reason: 当前运行模式明确不允许自主启动子代理；任务关闭事实由主控串行复核。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0010
+checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0011
 session_id: SES-20260722T012224Z-E70EA3B7
-sequence: 10
-created_at: '2026-07-22T03:10:39Z'
-summary: 精确提交e312321c已在obx-test复验：R08真实PostgreSQL Store 3项和后端MODULE 340项通过；TASK-R08-003后端报告记录四份日志SHA与PROB-0078修复。
-next_step: 提交报告，关闭CR-0211、CR-0212、CR-0216和TASK-R08-003；随后立即进入TASK-R08-004进行效果图级UI实现与R02-R07历史视觉回补。
+sequence: 11
+created_at: '2026-07-22T03:12:08Z'
+summary: CR-0211、CR-0212、CR-0216已按实现Commit和最终证据关闭；TASK-R08-003九项后端依赖、V033/V034、真实Store和MODULE全部完成。
+next_step: 关闭TASK-R08-003并原子切换TASK-R08-004，开始效果图级Android UI与R02-R07历史视觉回补。
 blockers: []
 decisions:
-- TASK-R08-003满足MODULE完成条件；大版本模拟器和候选APK保留至R08最终候选，不在本任务重复运行。
+- R08-003后端范围已完成并可关闭；视觉与候选APK按依赖顺序进入R08-004及后续任务。
 note: ''
 tests:
+- name: r08-postgres-store-exact-commit
+  result: PASS
+  evidence: /tmp/hhy-r08-task003-java21-postgres-e312321c.log
+  note: commit e312321c; 3 tests 0 failures 0 errors 0 skips
+- name: r08-backend-module-exact-commit
+  result: PASS
+  evidence: /tmp/hhy-r08-task003-module-java21-e312321c.log
+  note: commit e312321c; 340 tests 0 failures 0 errors 8 skips
+- name: r08-postgresql-migrations
+  result: PASS
+  evidence: /tmp/hhy-r08-task003-pg17.log and /tmp/hhy-r08-task003-config-pg17.log
+  note: V033 V034 gates passed
 - name: r08-python-contract
   result: PASS
   evidence: python -m unittest tests.test_r08_backend_contract tests.test_r08_backend_configuration
   note: 7 tests passed
-- name: r08-postgres-store-exact-commit
-  result: PASS
-  evidence: /tmp/hhy-r08-task003-java21-postgres-e312321c.log
-  note: commit e312321c; PostgreSQL17.10; 34 migrations; 3 tests 0 failures 0 errors 0 skips; BUILD SUCCESS
-- name: r08-backend-module-exact-commit
-  result: PASS
-  evidence: /tmp/hhy-r08-task003-module-java21-e312321c.log
-  note: commit e312321c; 340 tests 0 failures 0 errors 8 conditional skips; BUILD SUCCESS
-- name: r08-postgresql-migrations
-  result: PASS
-  evidence: /tmp/hhy-r08-task003-pg17.log and /tmp/hhy-r08-task003-config-pg17.log
-  note: V033 V034 empty upgrade rollback replay and config guards passed
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: e312321c8e0664493aec04dd232552eb42ce6e18
+  head: 0f0257dc7694be5555a1f71dab2ea452d616840a
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
-  - ?? artifacts/reports/R08/TASK-R08-003-backend.md
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0211.yaml'
+  - ' M .continuity/change_requests/CR-0212.yaml'
+  - ' M .continuity/change_requests/CR-0216.yaml'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md'
+  - ' M docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md'
+  - ' M docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md'
   recent_commits:
+  - "0f0257dc7694be5555a1f71dab2ea452d616840a\t2026-07-22T11:10:54+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record project\
+    \ backend module evidence"
   - "e312321c8e0664493aec04dd232552eb42ce6e18\t2026-07-22T11:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): satisfy verified\
     \ identity fixture invariants"
   - "906548df4399f6f9272e61ae442a566cd91c44cb\t2026-07-22T10:53:08+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close rule\
@@ -530,10 +542,8 @@ git:
     \ clean context before R08-003"
   - "333c29598ecb6af8520cc0579669cb8c283bcc09\t2026-07-22T09:18:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-002\
     \ as completed"
-  - "f3232e2a77913bd42545097b83d1030002a43154\t2026-07-22T09:15:19+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close project data\
-    \ change request"
 project_fingerprint:
-  sha256: 32469beeed55f9036e65065243b603898a6dc79f1e240f21253096ffea516bf3
+  sha256: 13d39f3f56b8b80d0e67d5e3d1d608929c98301c3b0b590de20919341f121083
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -640,12 +650,12 @@ project_fingerprint:
       sha256: c95af96d5dd6cc2df5ebf51b13d579a25339840227a9083ff7e7f019092ac39f
     - path: docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
       state: FILE
-      size: 6313
-      sha256: 841066647c9018e3cf67dd52e21fef57df203b53fb59cdd170ab6a9b593ffd29
+      size: 6834
+      sha256: 8a29dda1725dfdcb3a93550a603f19b8003338f1c43a7db32a04c23190be2863
     - path: docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md
       state: FILE
-      size: 2813
-      sha256: 008d75424c35272df6089489571e3de91e1c095ccdc63dd51feaf0bf9bfbcd50
+      size: 3296
+      sha256: 9aec879df41343ff50f073b081e38952dc325b54334b4a560820e989702c91e6
     - path: docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
       state: FILE
       size: 4108
@@ -660,8 +670,8 @@ project_fingerprint:
       sha256: d4ecaa801092956f387b81815003a13067f3f2a90630f161e6202380fa4c6f37
     - path: docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md
       state: FILE
-      size: 2553
-      sha256: ecbe74960c507690914b727f20d7760c1c1c2d07b584ecb3193fc77892de9230
+      size: 3009
+      sha256: c74c65436492018b82b3e01744dd9803cdee6320a8a56768663861b676f87a51
     - path: docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
       state: FILE
       size: 4488
@@ -929,8 +939,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前运行模式明确不允许自主启动子代理；精确提交数据库与模块证据由事实主控串行核验。
-event_hash: 694b14bd17d8faeeefc72175cbea63d70e13219a82833dbd05a134f4d9edfab1
+  reason: 当前运行模式明确不允许自主启动子代理；任务关闭事实由主控串行复核。
+event_hash: 49d4fb2fcc8ceb4dbfe48b1dec086f353ce32360c9c00f00447214d9837819c2
 ```
 
 ## 接续状态与事件头
@@ -942,8 +952,8 @@ active_session_id: SES-20260722T012224Z-E70EA3B7
 last_session_id: SES-20260722T004601Z-1DC3809E
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T004601Z-1DC3809E-0003
-event_count: 2147
-event_head_hash: 694b14bd17d8faeeefc72175cbea63d70e13219a82833dbd05a134f4d9edfab1
+event_count: 2154
+event_head_hash: 49d4fb2fcc8ceb4dbfe48b1dec086f353ce32360c9c00f00447214d9837819c2
 event_chain_valid: true
 ```
 
@@ -1066,9 +1076,9 @@ recent_sessions: - session_id: SES-20260721T130339Z-785E85BE
   started_at: '2026-07-22T01:22:24Z'
   record: .continuity/sessions/SES-20260722T012224Z-E70EA3B7.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md
-  updated_at: '2026-07-22T03:10:39Z'
+  updated_at: '2026-07-22T03:12:08Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0010.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1066EF896172
   session_id: SES-20260720T155546Z-F13C645A
@@ -2022,23 +2032,32 @@ recent_task_transitions: - transition_id: TRN-B976848B4DB8
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: e312321c8e0664493aec04dd232552eb42ce6e18
+head: 0f0257dc7694be5555a1f71dab2ea452d616840a
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0211.yaml'
+- ' M .continuity/change_requests/CR-0212.yaml'
+- ' M .continuity/change_requests/CR-0216.yaml'
 - ' M .continuity/sessions/SES-20260722T012224Z-E70EA3B7.yaml'
 - ' M CURRENT_STATUS.yaml'
+- ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md'
+- ' M docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md'
+- ' M docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md'
-- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0010.yaml
-- ?? artifacts/reports/R08/TASK-R08-003-backend.md
+- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml
 recent_commits:
+- "0f0257dc7694be5555a1f71dab2ea452d616840a\t2026-07-22T11:10:54+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record project backend\
+  \ module evidence"
 - "e312321c8e0664493aec04dd232552eb42ce6e18\t2026-07-22T11:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): satisfy verified\
   \ identity fixture invariants"
 - "906548df4399f6f9272e61ae442a566cd91c44cb\t2026-07-22T10:53:08+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close rule\
@@ -2053,13 +2072,11 @@ recent_commits:
   \ context before R08-003"
 - "333c29598ecb6af8520cc0579669cb8c283bcc09\t2026-07-22T09:18:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-002\
   \ as completed"
-- "f3232e2a77913bd42545097b83d1030002a43154\t2026-07-22T09:15:19+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close project data\
-  \ change request"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`32469beeed55f9036e65065243b603898a6dc79f1e240f21253096ffea516bf3`
+- 指纹：`13d39f3f56b8b80d0e67d5e3d1d608929c98301c3b0b590de20919341f121083`
 - 文件数：47
 
 - `AGENTS.md`
@@ -7463,146 +7480,6 @@ PARALLEL_EXECUTION_PLAN.yaml:
   machine_record: .continuity/change_requests/CR-0159.yaml
   document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
 - protocol_version: '1.0'
-  cr_id: CR-0211
-  title: 实现R08项目发布详情收藏分享会话及公共分享后端闭环
-  status: IMPLEMENTING
-  created_at: '2026-07-22T01:28:46Z'
-  updated_at: '2026-07-22T01:36:31Z'
-  requester_actor_id: codex-root-r08-003
-  approver_actor_id: codex-reviewer-r08-backend
-  task_id: TASK-R08-003
-  session_id: SES-20260722T012224Z-E70EA3B7
-  user_request: 项目所有者要求持续推进R08，普通任务只运行受影响MODULE且不得等待真机反馈
-  reason: 九端点审计确认列表与联系方式访问已由R06/R07实现，其余七端点缺失；冻结发布合同无法表达联系方式渠道，分享响应也没有URL，必须先做最小可用合同修正再实现真实事务、幂等、权限、审计和Outbox
-  original_rule: contentPostContents与contentPatchContentsById把contacts定义为无渠道单字符串；contentPostContentsByIdFavorite未要求最后读取版本；contentPostContentsByIdShare响应仅允许ContentResource或CommandResultResource，无法返回动作名称承诺的分享地址；R08九端点中七个没有后端控制器或应用服务实现，相关业务配置也没有激活值。
-  new_rule: 发布和编辑使用结构化ContactInputResource数组明确channel与value并最多20项；收藏请求必须携带最后读取的expectedVersion并由服务端拒绝陈旧版本；分享返回专用ShareResultResource，包含contentId、channel、HTTPS
-    url与acceptedAt；保留publicGetShareContentsById的R28归属但在R08实现项目分享兼容API。九端点复用R06列表与R07联系方式，其余七端点必须以真实PostgreSQL事务实现PROJECT范围，创建与编辑要求实名、编辑要求所有者和expectedVersion，收藏/分享/会话要求ONLINE项目，全部写操作使用稳定幂等、最小审计与Outbox。V034只种入配置注册表已冻结的12个内容/聊天默认值和domain.h5.host，不覆盖既有激活值。
-  impact_summary: 修正三个不可用或不完整的冻结模型并完成R08项目发布、编辑、详情、收藏、分享、直接会话和公共分享七个缺失端点；补齐配置种子、运行时合同、生成客户端、权限幂等审计与PostgreSQL集成证据。
-  impact:
-    files:
-    - contracts/openapi.yaml
-    - contracts/contract_status.csv
-    - services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - packages/api-client/src/client.generated.ts
-    - database/migrations/V034__r08_backend_configuration.sql
-    - services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
-    - database/rollback/U034__r08_backend_configuration.sql
-    - database/tests/r08_backend_configuration.sql
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
-    - tests/test_r08_backend_contract.py
-    - tests/test_r08_backend_configuration.py
-    - scripts/run_r08_backend_postgres_integration.sh
-    - artifacts/reports/R08/TASK-R08-003-backend.md
-    - CHANGELOG.md
-    pages:
-    - SCR-LIST-001
-    - SCR-DETAIL-001
-    - SCR-PUB-002
-    apis:
-    - GET /api/v1/contents
-    - POST /api/v1/contents
-    - GET /api/v1/contents/{id}
-    - PATCH /api/v1/contents/{id}
-    - POST /api/v1/contents/{id}/favorite
-    - POST /api/v1/contents/{id}/contacts/{channel}/access
-    - POST /api/v1/contents/{id}/share
-    - POST /api/v1/conversations/direct
-    - GET /public-api/v1/share/contents/{id}
-    database:
-    - V034 R08 backend configuration seeds and rollback
-    - content_posts/project_details/content_versions/content_media/content_contacts/content_stats/content_favorites/content_view_logs/conversations/conversation_members/user_blocks/idempotency_records/outbox_events
-    configuration:
-    - 12个content/chat冻结默认值和domain.h5.host
-    ledger:
-    - CR-0211 and TASK-R08-003 evidence
-    tests:
-    - OpenAPI/runtime/generated-client semantic contract gate
-    - R08 service/controller unit and contract tests
-    - PostgreSQL 17 create/edit/favorite/share/direct/public/idempotency/reject integration
-    - V034 empty/upgrade/rollback/replay configuration gate
-    releases:
-    - R08
-    migration_and_compatibility: 端点此前未实现且R08 Android消费者尚未开发，结构化contacts在首个真实消费者前替换不可表达渠道的字符串；旧字符串不存在可安全迁移语义，拒绝猜测渠道。favorite expectedVersion在首个真实消费者前变为必填。ShareResult为该未实现动作的首个可用响应。V034对13个冻结配置使用ON
-      CONFLICT DO NOTHING，不覆盖现有配置；U034仅在值仍等于冻结默认且version=0时删除本版种子，否则原子阻断，业务内容不受影响。publicGetShareContentsById的x-release继续为R28。
-  user_confirmation: 项目所有者已明确授权持续推进R08并按仓库事实自主修复问题，不等待逐项确认
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T01:36:26Z'
-    note: 批准最小兼容修正：结构化联系方式、收藏expectedVersion必填、专用分享结果；严禁猜测渠道、覆盖激活配置或暴露明文秘密，实现必须由PostgreSQL事务与受影响门禁证明。
-  machine_record: .continuity/change_requests/CR-0211.yaml
-  document: docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
-  decision_log:
-  - at: '2026-07-22T01:36:31Z'
-    actor_id: codex-root-r08-003
-    status: IMPLEMENTING
-    note: 开始实现R08七个缺失端点、V034配置和受影响验证
-    session_id: SES-20260722T012224Z-E70EA3B7
-  session_ids:
-  - SES-20260722T012224Z-E70EA3B7
-- protocol_version: '1.0'
-  cr_id: CR-0212
-  title: 对齐R08冻结发布字段与PostgreSQL列容量
-  status: IMPLEMENTING
-  created_at: '2026-07-22T01:41:57Z'
-  updated_at: '2026-07-22T01:42:29Z'
-  requester_actor_id: codex-root-r08-003
-  approver_actor_id: codex-reviewer-r08-schema
-  task_id: TASK-R08-003
-  session_id: SES-20260722T012224Z-E70EA3B7
-  user_request: 项目所有者要求严格按照开发文档参数持续推进R08
-  reason: 冻结合同允许标题、说明、分类、地区和项目扩展字段最多2000字符，旧数据库部分列仍为varchar(255)，必须在首个写接口前做只扩容兼容修正
-  original_rule: content_posts.title、project_details.cooperation/conditions/region/website仍为varchar(255)，但冻结OpenAPI和SCR-PUB-002允许对应发布字段最多2000字符。
-  new_rule: V034在种配置前将content_posts.title及project_details的cooperation、conditions、region、website扩容为varchar(2000)；不截断、不改写既有数据，不改变字段可空性、约束、索引或业务语义。U034仅在不存在长度超过255的新增数据时恢复旧容量，否则原子阻断。
-  impact_summary: 消除R08首个真实发布接口的冻结合同与数据库容量冲突，完整接受最多2000字符且保持既有数据兼容。
-  impact:
-    files:
-    - database/migrations/V034__r08_backend_configuration.sql
-    - services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
-    - database/rollback/U034__r08_backend_configuration.sql
-    - database/tests/r08_backend_configuration.sql
-    - tests/test_r08_backend_configuration.py
-    pages:
-    - SCR-PUB-002
-    apis:
-    - POST /api/v1/contents
-    - PATCH /api/v1/contents/{id}
-    database:
-    - content_posts.title and project_details textual columns varchar(2000)
-    configuration: []
-    ledger:
-    - CR-0212 TASK-R08-003 evidence
-    tests:
-    - V034 capacity expansion and guarded U034 downgrade tests
-    releases:
-    - R08
-    migration_and_compatibility: PostgreSQL varchar扩容为元数据兼容变更且不重写业务值；旧客户端不受影响。回滚前逐列检查长度，任何超过255的合法R08数据都会阻止降级，禁止截断。
-  user_confirmation: 项目所有者已明确要求严格遵循开发文档硬性参数并持续推进，不等待逐项确认
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T01:42:24Z'
-    note: 批准只扩容兼容修正；必须保持既有值不变，回滚遇到超过255字符数据时原子拒绝，禁止任何截断。
-  machine_record: .continuity/change_requests/CR-0212.yaml
-  document: docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md
-  decision_log:
-  - at: '2026-07-22T01:42:29Z'
-    actor_id: codex-root-r08-003
-    status: IMPLEMENTING
-    note: 随V034实施冻结字段容量对齐
-    session_id: SES-20260722T012224Z-E70EA3B7
-  session_ids:
-  - SES-20260722T012224Z-E70EA3B7
-- protocol_version: '1.0'
   cr_id: CR-0213
   title: 建立效果图级视觉丰富度精致度与历史页面回补硬门禁
   status: IMPLEMENTING
@@ -7655,60 +7532,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260722T012224Z-E70EA3B7
   session_ids:
   - SES-20260722T012224Z-E70EA3B7
-- protocol_version: '1.0'
-  cr_id: CR-0216
-  title: 修正R08真实PostgreSQL实名夹具约束缺项
-  status: IMPLEMENTING
-  created_at: '2026-07-22T02:59:11Z'
-  updated_at: '2026-07-22T02:59:34Z'
-  requester_actor_id: codex-root-r08-003
-  approver_actor_id: codex-r08-db-reviewer
-  task_id: TASK-R08-003
-  session_id: SES-20260722T012224Z-E70EA3B7
-  user_request: 持续完成R08真实Java21与PostgreSQL门禁，发现问题后由AI自行最小修复并继续，不要求项目所有者介入。
-  reason: R08PostgresStoreTest把身份状态写为VERIFIED却未提供R05冻结约束要求的id_no_cipher、id_hash和verified_at，真实PostgreSQL正确拒绝了不合法夹具。
-  original_rule: R08真实Store测试必须插入满足全部历史数据库不变量的合法实名用户；数据库约束不得因测试便利被绕过。
-  new_rule: 补齐测试夹具的id_no_cipher、64位id_hash和verified_at，使VERIFIED测试用户满足V023冻结约束；保留约束和产品代码不变，并以同一真实PostgreSQL 17.10测试作为回归。
-  impact_summary: 仅修正R08测试数据构造并登记问题与证据，不改API、生产数据模型、业务实现或配置。
-  impact:
-    files:
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - artifacts/reports/R08/TASK-R08-003-backend.md
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - R08PostgresStoreTest真实PostgreSQL17.10
-    - 后端受影响MODULE Java21 Maven
-    releases:
-    - R08
-    migration_and_compatibility: 无迁移；测试夹具向后兼容，生产约束保持原样并继续严格生效。
-  user_confirmation: 项目所有者已长期授权持续开发中由AI判断测试结果、最小修复并继续推进。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T02:59:32Z'
-    note: 确认失败由测试夹具违反既有V023约束造成；批准只补齐合法实名字段，禁止放宽数据库约束或跳过真实测试。
-  machine_record: .continuity/change_requests/CR-0216.yaml
-  document: docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md
-  decision_log:
-  - at: '2026-07-22T02:59:34Z'
-    actor_id: codex-root-r08-003
-    status: IMPLEMENTING
-    note: 开始修正夹具并重跑真实PostgreSQL与受影响MODULE。
-    session_id: SES-20260722T012224Z-E70EA3B7
-  session_ids:
-  - SES-20260722T012224Z-E70EA3B7
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `f875dcbdf40c4c16096bcca1d2da9d04c281282dbf5975b18342846ae78c35e7`
+- `CURRENT_STATUS.yaml` — `21b841e6ec67ffc416d5664047b1f0f818018fe8d7b7ce0ca6e0137d8212a67e`
 - `NEXT_TASK.yaml` — `b3b55d261a90ec212372fadbb5b00131f63ccb955dcd4e399da4ac562255dc3b`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7719,12 +7549,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `483ddfabcafad6b54bd254f25f919eb084deaef31c71ba1d275de29163d25c5a`
-- `.continuity/SESSION_INDEX.yaml` — `954203e286e694431bf4eb7758724180ec372b676350ea1c3b0c464ca3fd87c2`
+- `.continuity/EVENT_LOG.jsonl` — `7e478632bfd8c6e1badebefc51a0c760a6dacf92dc50ae1779dcc7bc917c6489`
+- `.continuity/SESSION_INDEX.yaml` — `4fdb407255b7b37072ff6ca93508e9c1c3cda874458a455616e39c2fbcf31010`
 - `.continuity/TASK_CLAIMS.yaml` — `807d74b33075e052e3e603eccc8190629d9fb0899fb220d77ab41bf7098d459f`
 - `.continuity/TASK_TRANSITIONS.yaml` — `6628ef42a5747b15fe5ec6bf85275904029430c57e0224f337fae0ba06f119c1`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `54d586ad8fb80eb15b0e4e1c4a8831e438d2845388d7b05fd63c3a90fa954eac`
-- `.continuity/ACTIVE_SESSION.yaml` — `a69d46d5a5a501a766828a6ae13e2a88076e14bb9d58fc7218728db1f73a07be`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `9ac9669b84ac4b4e226d5f33583962e72a5ef314ec70346a089d672581220f56`
+- `.continuity/ACTIVE_SESSION.yaml` — `78a5848791c459b246b7359ad2d60df15a27c7d5a4ff5776bfec6721a65623cb`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7735,14 +7565,14 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/TASKS.yaml` — `494d82061638ba9a33980400d2c638ee5256ab082a8d0a404c31973a404967cf`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `1e47b204a5cbd289d9ccafc93b0f4afb45983db76a23a4492dd463ffeec0cb98`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md` — `e38acd12a1fe0397a718b4e1bde08bf76eea19cfa608387576c07089a6fe5cbc`
-- `.continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0010.yaml` — `29cdea0300be876e8d559384d639c927a3cfff6ad8b8c2f9f1aaa4a4ed45d54d`
-- `docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md` — `841066647c9018e3cf67dd52e21fef57df203b53fb59cdd170ab6a9b593ffd29`
-- `docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md` — `008d75424c35272df6089489571e3de91e1c095ccdc63dd51feaf0bf9bfbcd50`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md` — `ea750f1c77128adc0cc5f506a990ff97ff0acf16b39611d35ef41020101afd8d`
+- `.continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml` — `912f54b91ec8b14a9fd94c1b8ea92a98b858d5216259131a05508c46af3832b2`
+- `docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md` — `8a29dda1725dfdcb3a93550a603f19b8003338f1c43a7db32a04c23190be2863`
+- `docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md` — `9aec879df41343ff50f073b081e38952dc325b54334b4a560820e989702c91e6`
 - `docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md` — `0a92a3ab4d357250867bb7235d52930a6aa70503151620544821f0cb5606400e`
 - `docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md` — `35f41575bec5f251350d9430d79ee5f1abe47f3ded24508455ee6bb3826fa10c`
 - `docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md` — `d4ecaa801092956f387b81815003a13067f3f2a90630f161e6202380fa4c6f37`
-- `docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md` — `ecbe74960c507690914b727f20d7760c1c1c2d07b584ecb3193fc77892de9230`
+- `docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md` — `c74c65436492018b82b3e01744dd9803cdee6320a8a56768663861b676f87a51`
 
 ## 接手硬规则
 

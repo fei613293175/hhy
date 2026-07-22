@@ -88,3 +88,17 @@ PostgreSQL varchar扩容为元数据兼容变更且不重写业务值；旧客�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260722T012224Z-E70EA3B7`
 - Note：随V034实施冻结字段容量对齐
+
+## 状态记录 · 2026-07-22T03:11:31Z
+
+- Actor：`codex-root-r08-003`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260722T012224Z-E70EA3B7`
+- Note：V034配置与长字段兼容迁移已由a2850c40实现，09a826ee修正回滚清理次序。
+
+## 状态记录 · 2026-07-22T03:11:33Z
+
+- Actor：`codex-root-r08-003`
+- Status：`CLOSED`
+- Session：`SES-20260722T012224Z-E70EA3B7`
+- Note：V034空库、非覆盖、回滚保护、U034和重放证据已记录，变更合同完成。
