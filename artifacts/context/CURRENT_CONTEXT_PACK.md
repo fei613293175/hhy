@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T01:15:04Z
-- Context Hash：`283eeee6bb4e6c8ec178b6ef851ca7e62dac7d7657f0a00dc2290aac889dc97e`
+- 生成时间：2026-07-22T01:16:57Z
+- Context Hash：`4a938ae7b351c295bff45a832de38fd446daeddf90af0c4ed62ded54b4fe4810`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-003
 ```
 
 ## 当前状态
@@ -17,10 +17,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R08
 active_release: R08
-active_task: TASK-R08-002
-status: IN_PROGRESS
+active_task: TASK-R08-003
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0
+last_green_commit: aa3d7a83
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -95,15 +95,15 @@ completed_tasks:
 - TASK-R07-006
 - TASK-R07-007
 - TASK-R08-001
-in_progress_tasks:
 - TASK-R08-002
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
-next_task: TASK-R08-002
-updated_at: '2026-07-22T01:15:02Z'
+next_task: TASK-R08-003
+updated_at: '2026-07-22T01:16:55Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -135,19 +135,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260722T004601Z-1DC3809E
-  actor_id: codex-root-r08-002
-  story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T05:15:02Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T004601Z-1DC3809E/0002.yaml
-  project_fingerprint: 3520445fb49662ff39bc7741d45fc987c953dfc2f123f0a1d47467403dfe21a8
+  active_session_id: null
+  last_session_id: SES-20260722T004601Z-1DC3809E
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260722T004601Z-1DC3809E/0003.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: a42f20cb79e73a6cd0f3ac86e650b67515928ae5b281968c3263bb88142d072f
-    generated_at: '2026-07-22T01:13:29Z'
-  handoff_bundle: null
+    context_hash: 87524330bf6ab2ccba8f6a5470933c174f139611efcd9a4130d6fcc0f28c1577
+    generated_at: '2026-07-22T01:16:53Z'
 ```
 
 ## 默认并行规则
@@ -294,8 +292,8 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R08-002
-title: 项目推广完整闭环数据迁移与领域不变量
+id: TASK-R08-003
+title: 项目推广完整闭环后端应用服务与接口
 status: READY
 release: R08
 requirements:
@@ -303,22 +301,22 @@ requirements:
 - REQ-PROJECT-001
 - REQ-APK-001
 depends_on:
-- TASK-R08-001
+- TASK-R08-002
 definition_of_ready: releases/R08/DEFINITION_OF_READY.yaml
 stories: releases/R08/STORIES.yaml
 steps:
-- Flyway前向迁移与空库/升级库测试
-- 不变量属性测试
+- OpenAPI契约测试
+- 权限/幂等/错误码/审计覆盖
 acceptance:
 - 无TODO/生产Mock
 - 代码、文档、测试、追踪同步更新
-- Flyway前向迁移与空库/升级库测试
-- 不变量属性测试
+- OpenAPI契约测试
+- 权限/幂等/错误码/审计覆盖
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-002
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-003
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-002
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-003
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -331,289 +329,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260722T004601Z-1DC3809E
-status: ACTIVE
-actor:
-  id: codex-root-r08-002
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R08
-task_id: TASK-R08-002
-story_id: STORY-R08-004
-goal: 项目推广完整闭环数据迁移与领域不变量
-started_at: '2026-07-22T00:46:01Z'
-updated_at: '2026-07-22T01:15:02Z'
-takeover_of: null
-change_requests:
-- CR-0209
-- CR-0210
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - database/migrations/V033__r08_project_invariants.sql
-  - services/backend/boot/src/main/resources/db/migration/V033__r08_project_invariants.sql
-  - database/rollback/U033__r08_project_invariants.sql
-  - database/tests/r08_project_invariants.sql
-  - tests/test_r08_project_migration.py
-  - tests/test_r08_project_database_scripts.py
-  - scripts/run_r08_database_invariants.sh
-  - scripts/run_r08_disposable_postgres_container.sh
-  - artifacts/reports/R08/TASK-R08-002-database.md
-  - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0209+approved-cr:CR-0210
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: e5d7d60ac0390843a1134c9457f7684fb04fc7ce
-  start_head: e5d7d60ac0390843a1134c9457f7684fb04fc7ce
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-22T01:15:02Z'
-  expires_at: '2026-07-22T05:15:02Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260722T004601Z-1DC3809E/0002.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260722T004601Z-1DC3809E.md
-next_step: 提交CR关闭记录并推送，然后关闭TASK-R08-002并启动TASK-R08-003
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: 数据库迁移与连续性账本关闭是严格顺序状态变更，当前R08冻结执行计划由单协调者串行收口
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T004601Z-1DC3809E-0002
-session_id: SES-20260722T004601Z-1DC3809E
-sequence: 2
-created_at: '2026-07-22T01:15:01Z'
-summary: CR-0210已按实现提交aa3d7a83关闭；R08 V033数据基线及全部MODULE证据完成
-next_step: 提交CR关闭记录并推送，然后关闭TASK-R08-002并启动TASK-R08-003
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: r08 database static
-  result: PASS
-  evidence: tests/test_r08_project_migration.py;tests/test_r08_project_database_scripts.py
-  note: 6 tests
-- name: postgresql 17 invariants
-  result: PASS
-  evidence: artifacts/reports/R08/TASK-R08-002-database.md
-  note: empty upgrade rollback replay and staging clone
-- name: backend module
-  result: PASS
-  evidence: obx-test:/tmp/hhy-r08-backend-clean.Y2EXkK/module.log
-  note: 332 tests 0 failures 0 errors 7 conditional skips
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: aa3d7a833c093648fbac5bc44bcdc19b697db1fe
-  upstream: origin/task/TASK-R03-001
-  ahead: 1
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/STATE.yaml
-  - M  .continuity/change_requests/CR-0210.yaml
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/session_index.csv
-  - M  docs/03-continuity/change-requests/CR-0210-建立R08项目真实数据缺口与V033可回滚迁移.md
-  recent_commits:
-  - "aa3d7a833c093648fbac5bc44bcdc19b697db1fe\t2026-07-22T09:13:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): establish project\
-    \ data invariants"
-  - "e5d7d60ac0390843a1134c9457f7684fb04fc7ce\t2026-07-22T08:44:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-001\
-    \ as completed"
-  - "61361be3a037857f734b2a0f9c57beb5b505ad66\t2026-07-22T08:43:24+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 关闭R08入口变更链"
-  - "b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0\t2026-07-22T08:41:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(governance): 建立R08实施入口"
-  - "b57357cd699fc959e947a815dc618143c840c6f2\t2026-07-22T08:26:11+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 领取R08开发就绪任务"
-  - "5b2eae13a693953cc9230581af8cb1d016ccef9e\t2026-07-22T08:23:36+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-008\
-    \ as blocked"
-  - "23c4c7463786a143c90ce4e2b150bfc8e8966b83\t2026-07-22T08:22:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭异步依赖变更链"
-  - "c91de253230a3e9d35369be73df711cccad39a81\t2026-07-22T08:20:03+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(continuity): 允许历史异步真机依赖继续开发"
-project_fingerprint:
-  sha256: 3520445fb49662ff39bc7741d45fc987c953dfc2f123f0a1d47467403dfe21a8
-  files:
-  - CHANGELOG.md
-  - database/migrations/V033__r08_project_invariants.sql
-  - database/rollback/U033__r08_project_invariants.sql
-  - database/tests/r08_project_invariants.sql
-  - docs/03-continuity/change-requests/CR-0209-建立R08项目数据不变量与V033可回滚迁移.md
-  - docs/03-continuity/change-requests/CR-0210-建立R08项目真实数据缺口与V033可回滚迁移.md
-  - scripts/run_r08_database_invariants.sh
-  - scripts/run_r08_disposable_postgres_container.sh
-  - services/backend/boot/src/main/resources/db/migration/V033__r08_project_invariants.sql
-  - tests/test_r08_project_database_scripts.py
-  - tests/test_r08_project_migration.py
-  file_count: 11
-  payload:
-    base_commit: e5d7d60ac0390843a1134c9457f7684fb04fc7ce
-    files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 71476
-      sha256: 8f5f668b0f45e00bd06ea377f97210f46bb304dd5a55f5794c6dca33f1582bf5
-    - path: database/migrations/V033__r08_project_invariants.sql
-      state: FILE
-      size: 2388
-      sha256: c4f3af67e9305241a075cfa3ca2ac58865ff8e9598c9ae2a1bd5eab6c3dfe2ef
-    - path: database/rollback/U033__r08_project_invariants.sql
-      state: FILE
-      size: 631
-      sha256: b5ad3d3ebfccf8e2465e6c55bc4741665de3198972c09862005d9bd06c57ec0d
-    - path: database/tests/r08_project_invariants.sql
-      state: FILE
-      size: 3023
-      sha256: 7bb9d7bb5365dd9c54b985b9273ecf11a254e7742a5987e2fbbfe6e9ac76ef99
-    - path: docs/03-continuity/change-requests/CR-0209-建立R08项目数据不变量与V033可回滚迁移.md
-      state: FILE
-      size: 3886
-      sha256: 573117005207b1c02810c31656c9b2dbf71b7030f046cbc0313f40eee1bda7d2
-    - path: docs/03-continuity/change-requests/CR-0210-建立R08项目真实数据缺口与V033可回滚迁移.md
-      state: FILE
-      size: 4136
-      sha256: 8d240ce25bed1efd4b949ca822d38ee4baa701df2c0a85c73b60e16daf913fe9
-    - path: scripts/run_r08_database_invariants.sh
-      state: FILE
-      size: 4021
-      sha256: ee157d21ce19cc5787895dd8062735fd1e510dc3d696c33733741d472c1d2e71
-    - path: scripts/run_r08_disposable_postgres_container.sh
-      state: FILE
-      size: 4221
-      sha256: 8ca491731260561d9dec9e0f90fdd249ecb7a63fae75c1e848bd9f56dde4b405
-    - path: services/backend/boot/src/main/resources/db/migration/V033__r08_project_invariants.sql
-      state: FILE
-      size: 2388
-      sha256: c4f3af67e9305241a075cfa3ca2ac58865ff8e9598c9ae2a1bd5eab6c3dfe2ef
-    - path: tests/test_r08_project_database_scripts.py
-      state: FILE
-      size: 1799
-      sha256: 143cedd5ad7e7256208c85aa5cee1a270af6a20f25c62f9287669ec46421736d
-    - path: tests/test_r08_project_migration.py
-      state: FILE
-      size: 2174
-      sha256: a714bebd53e7c8d49cc15525096b19222cebdd7e2b64fbf3d47799ce3b10266f
-change_classification:
-  other:
-  - CHANGELOG.md
-  database:
-  - database/migrations/V033__r08_project_invariants.sql
-  - database/rollback/U033__r08_project_invariants.sql
-  - database/tests/r08_project_invariants.sql
-  continuity:
-  - docs/03-continuity/change-requests/CR-0209-建立R08项目数据不变量与V033可回滚迁移.md
-  - docs/03-continuity/change-requests/CR-0210-建立R08项目真实数据缺口与V033可回滚迁移.md
-  code:
-  - scripts/run_r08_database_invariants.sh
-  - scripts/run_r08_disposable_postgres_container.sh
-  - services/backend/boot/src/main/resources/db/migration/V033__r08_project_invariants.sql
-  tests:
-  - tests/test_r08_project_database_scripts.py
-  - tests/test_r08_project_migration.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- DATABASE_TEST_EVIDENCE
-- SCHEMA_TRACEABILITY
-change_requests:
-- CR-0209
-- CR-0210
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - database/migrations/V033__r08_project_invariants.sql
-  - services/backend/boot/src/main/resources/db/migration/V033__r08_project_invariants.sql
-  - database/rollback/U033__r08_project_invariants.sql
-  - database/tests/r08_project_invariants.sql
-  - tests/test_r08_project_migration.py
-  - tests/test_r08_project_database_scripts.py
-  - scripts/run_r08_database_invariants.sh
-  - scripts/run_r08_disposable_postgres_container.sh
-  - artifacts/reports/R08/TASK-R08-002-database.md
-  - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0209+approved-cr:CR-0210
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: 数据库迁移与连续性账本关闭是严格顺序状态变更，当前R08冻结执行计划由单协调者串行收口
-event_hash: 1b165582e0b0e6e14cde51263c800c10f0860738679a5f95d2eb0145942a9585
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -621,12 +343,12 @@ event_hash: 1b165582e0b0e6e14cde51263c800c10f0860738679a5f95d2eb0145942a9585
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260722T004601Z-1DC3809E
-last_session_id: SES-20260722T002444Z-8BEC3CA6
+active_session_id: null
+last_session_id: SES-20260722T004601Z-1DC3809E
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260722T002444Z-8BEC3CA6-0006
-event_count: 2098
-event_head_hash: 1b165582e0b0e6e14cde51263c800c10f0860738679a5f95d2eb0145942a9585
+last_closure_checkpoint_id: CP-SES-20260722T004601Z-1DC3809E-0003
+event_count: 2101
+event_head_hash: 4f15391805cbf40a18ff73163f11722a3e475cf7dc4b30cc08ff070c4ead1e30
 event_chain_valid: true
 ```
 
@@ -745,13 +467,13 @@ recent_sessions: - session_id: SES-20260721T090217Z-21EF6428
   task_id: TASK-R08-002
   story_id: STORY-R08-004
   actor_id: codex-root-r08-002
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-22T00:46:01Z'
   record: .continuity/sessions/SES-20260722T004601Z-1DC3809E.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T004601Z-1DC3809E.md
-  updated_at: '2026-07-22T01:15:02Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T004601Z-1DC3809E/0002.yaml
+  updated_at: '2026-07-22T01:16:54Z'
+  closed_at: '2026-07-22T01:16:54Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T004601Z-1DC3809E/0003.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-3514480A8B8E
   session_id: SES-20260720T095830Z-752E5121
@@ -1464,7 +1186,7 @@ task_claims: - claim_id: CLM-3514480A8B8E
   task_id: TASK-R08-002
   story_id: STORY-R08-004
   actor_id: codex-root-r08-002
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-22T00:46:01Z'
   allowed_paths:
   - apps/**
@@ -1498,6 +1220,7 @@ task_claims: - claim_id: CLM-3514480A8B8E
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-22T01:16:55Z'
 recent_task_transitions: - transition_id: TRN-CC0D00DA736F
   timestamp: '2026-07-20T09:58:31Z'
   release: R05
@@ -1705,26 +1428,31 @@ recent_task_transitions: - transition_id: TRN-CC0D00DA736F
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: aa3d7a833c093648fbac5bc44bcdc19b697db1fe
+head: f3232e2a77913bd42545097b83d1030002a43154
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- M  .continuity/CHANGE_REQUEST_INDEX.yaml
-- MM .continuity/EVENT_LOG.jsonl
+- ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
-- MM .continuity/STATE.yaml
-- M  .continuity/change_requests/CR-0210.yaml
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260722T004601Z-1DC3809E.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- M  catalogs/change_request_index.csv
-- M  catalogs/session_index.csv
-- M  docs/03-continuity/change-requests/CR-0210-建立R08项目真实数据缺口与V033可回滚迁移.md
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+- ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T004601Z-1DC3809E.md'
-- ?? .continuity/checkpoints/SES-20260722T004601Z-1DC3809E/0002.yaml
+- ' M releases/R08/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260722T004601Z-1DC3809E/0003.yaml
 recent_commits:
+- "f3232e2a77913bd42545097b83d1030002a43154\t2026-07-22T09:15:19+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close project data\
+  \ change request"
 - "aa3d7a833c093648fbac5bc44bcdc19b697db1fe\t2026-07-22T09:13:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): establish project\
   \ data invariants"
 - "e5d7d60ac0390843a1134c9457f7684fb04fc7ce\t2026-07-22T08:44:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-001\
@@ -1735,25 +1463,14 @@ recent_commits:
 - "5b2eae13a693953cc9230581af8cb1d016ccef9e\t2026-07-22T08:23:36+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-008\
   \ as blocked"
 - "23c4c7463786a143c90ce4e2b150bfc8e8966b83\t2026-07-22T08:22:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭异步依赖变更链"
-- "c91de253230a3e9d35369be73df711cccad39a81\t2026-07-22T08:20:03+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(continuity): 允许历史异步真机依赖继续开发"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`3520445fb49662ff39bc7741d45fc987c953dfc2f123f0a1d47467403dfe21a8`
-- 文件数：11
+- 指纹：`7f6c322c1252ffd374f3c4a2cced25e5db34f71decc4c239516f7899e17ceedb`
+- 文件数：0
 
-- `CHANGELOG.md`
-- `database/migrations/V033__r08_project_invariants.sql`
-- `database/rollback/U033__r08_project_invariants.sql`
-- `database/tests/r08_project_invariants.sql`
-- `docs/03-continuity/change-requests/CR-0209-建立R08项目数据不变量与V033可回滚迁移.md`
-- `docs/03-continuity/change-requests/CR-0210-建立R08项目真实数据缺口与V033可回滚迁移.md`
-- `scripts/run_r08_database_invariants.sh`
-- `scripts/run_r08_disposable_postgres_container.sh`
-- `services/backend/boot/src/main/resources/db/migration/V033__r08_project_invariants.sql`
-- `tests/test_r08_project_database_scripts.py`
-- `tests/test_r08_project_migration.py`
+- 无
 
 ## 当前 Release
 
@@ -2383,7 +2100,7 @@ TASKS.yaml:
     completed_at: '2026-07-22T00:44:28Z'
   - id: TASK-R08-002
     title: 项目推广完整闭环数据迁移与领域不变量
-    status: READY
+    status: DONE
     depends_on:
     - TASK-R08-001
     requirements: *id001
@@ -2397,9 +2114,10 @@ TASKS.yaml:
     - Flyway前向迁移与空库/升级库测试
     - 不变量属性测试
     session_log_required: true
+    completed_at: '2026-07-22T01:16:49Z'
   - id: TASK-R08-003
     title: 项目推广完整闭环后端应用服务与接口
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R08-002
     requirements: *id001
@@ -7106,8 +6824,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e`
-- `CURRENT_STATUS.yaml` — `aa19963b392b2e7985b709a82443df567f7784205078c805a20f959310e12266`
-- `NEXT_TASK.yaml` — `c25722e7850627fb8c7fca479168fc92c3c0a1ffcee114ce0f81462e2983b372`
+- `CURRENT_STATUS.yaml` — `e92f83bb8009afe5d2bab0f262cefa87fd86c5362c2924d6e2914a96f3e6d6df`
+- `NEXT_TASK.yaml` — `b3b55d261a90ec212372fadbb5b00131f63ccb955dcd4e399da4ac562255dc3b`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `0b1c430ed065466fecd19ed57a7a0cdd753596bcabe7f01204d895ed087e1103`
@@ -7117,22 +6835,18 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `5d844ee273141df7fd07fb16a0da93d824a2867de45cf8ba108c2a25ee4c0eaf`
-- `.continuity/SESSION_INDEX.yaml` — `485640d61c41c3eeb2b45bf4c1be4f2b2f8c2aa94fc79b944a90222495873165`
-- `.continuity/TASK_CLAIMS.yaml` — `1f1e228723205b37c8afb2c3646a493d62eda143364db336dfdade3b1926eeda`
+- `.continuity/EVENT_LOG.jsonl` — `e24b8004ef72eec4975a14f2bc2e18957f270fcefae4d616ca852c9ac862ae10`
+- `.continuity/SESSION_INDEX.yaml` — `d4d32ccb3bf9ce0dcdeaedf64f603ddbaaceeb385ac144f0249dde3b30041869`
+- `.continuity/TASK_CLAIMS.yaml` — `5a7d0b6b35a915446efc4c7f273fd20bf7acd0b3f1e71871a7fa0052b743d291`
 - `.continuity/TASK_TRANSITIONS.yaml` — `d9ef6cea00c79ecb2e73353aca54a6753c50fd50298a8d30e7cc2319c3d2b841`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `4d1950a536ac4d3b4f42ccdcac70f8c08bab18a3f94ce31c0a45386fe2fd6530`
-- `.continuity/ACTIVE_SESSION.yaml` — `cf870f6398dc5007b130f3e7be5142734f3028e4598a46ccc8b726fedce4cc08`
+- `.continuity/ACTIVE_SESSION.yaml` — `2b7ef793371aec0e9989d07b996ff5f9a1f9255e23647028b6809bc33416d31e`
 - `releases/R08/RELEASE_MANIFEST.yaml` — `62ce3ebc9d1aefa77c684678fbd51364f0842afeeef604623645b79ff23882c9`
 - `releases/R08/DEFINITION_OF_READY.yaml` — `73b6bee8cacca90fa3564f4c6443f21b32d35afbfef83fad5a2a3b8705e536c5`
 - `releases/R08/STORIES.yaml` — `035e6d5b8a0cccd8e30f30d5cd80c858a846e745c5cf3075aa6742d4f0a370b6`
-- `releases/R08/TASKS.yaml` — `ea4aba7720ea8ca9047d48d25713f0c17af666064d05579a23084cf13d7e8cd6`
+- `releases/R08/TASKS.yaml` — `a644947a15a9618bdbdc18fb42441d48ff2641197b3af56f17e3b86bb41fbf6d`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `1e47b204a5cbd289d9ccafc93b0f4afb45983db76a23a4492dd463ffeec0cb98`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T004601Z-1DC3809E.md` — `6ef4a9ad75d666e0befbbb17e10d9c3103e4ca0b2644f76152a54c16cd89c853`
-- `.continuity/checkpoints/SES-20260722T004601Z-1DC3809E/0002.yaml` — `925d3fa6ec534ccf2b55a27badcd2384c5edde7fc3ded5bcb941821bb87b9610`
-- `docs/03-continuity/change-requests/CR-0209-建立R08项目数据不变量与V033可回滚迁移.md` — `573117005207b1c02810c31656c9b2dbf71b7030f046cbc0313f40eee1bda7d2`
-- `docs/03-continuity/change-requests/CR-0210-建立R08项目真实数据缺口与V033可回滚迁移.md` — `8d240ce25bed1efd4b949ca822d38ee4baa701df2c0a85c73b60e16daf913fe9`
 
 ## 接手硬规则
 
