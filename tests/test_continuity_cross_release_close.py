@@ -202,6 +202,67 @@ class CrossReleaseCloseTest(unittest.TestCase):
             dump_yaml(manifest_path, manifest)
             self.assertFalse(release_has_async_owner_gate(root, "R06"))
 
+    def test_prior_machine_complete_owner_pending_dependency_allows_later_release(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-prior-async-owner-dependency-") as directory:
+            root = Path(directory)
+            for release in ("R06", "R07", "R08"):
+                (root / f"releases/{release}").mkdir(parents=True)
+
+            async_manifest = {
+                "android_delivery": {"machine_delivery": "PASS", "owner_physical_test": "PENDING"},
+                "machine_completion": {
+                    "status": "PASS", "owner_feedback_mode": "ASYNC_NON_BLOCKING",
+                    "formal_release_acceptance": "PENDING_OWNER_PHYSICAL_TEST",
+                    "production_activation": "BLOCKED_OWNER_PHYSICAL_TEST",
+                    "next_release_development": "ALLOWED",
+                },
+            }
+            dump_yaml(root / "releases/R06/RELEASE_MANIFEST.yaml", async_manifest)
+            dump_yaml(root / "releases/R07/RELEASE_MANIFEST.yaml", async_manifest)
+            dump_yaml(root / "releases/R06/TASKS.yaml", {
+                "release": "R06",
+                "tasks": [
+                    {"id": "TASK-R06-007", "status": "DONE"},
+                    {"id": "TASK-R06-008", "status": "BLOCKED", "title": "异步真机关闭"},
+                ],
+            })
+            dump_yaml(root / "releases/R07/TASKS.yaml", {
+                "release": "R07",
+                "tasks": [
+                    {"id": "TASK-R07-007", "status": "DONE"},
+                    {"id": "TASK-R07-008", "status": "READY", "title": "异步真机关闭"},
+                ],
+            })
+            dump_yaml(root / "releases/R08/TASKS.yaml", {
+                "release": "R08",
+                "tasks": [{"id": "TASK-R08-001", "status": "READY", "title": "R08开发就绪核验"}],
+            })
+            dump_yaml(root / "releases/RELEASE_DEPENDENCIES.yaml", {
+                "dependencies": {"R08": ["R06", "R07"]},
+            })
+
+            next_task = validate_independent_release_start(
+                root,
+                current_release="R07",
+                current_task="TASK-R07-008",
+                next_release="R08",
+                next_task="TASK-R08-001",
+            )
+            self.assertEqual((next_task["release"], next_task["id"]), ("R08", "TASK-R08-001"))
+
+            r06_path = root / "releases/R06/TASKS.yaml"
+            r06 = yaml.safe_load(r06_path.read_text(encoding="utf-8")) or {}
+            r06["tasks"][0]["status"] = "READY"
+            dump_yaml(r06_path, r06)
+            with self.assertRaisesRegex(ContinuityError, "TASK-R06-007"):
+                validate_independent_release_start(
+                    root,
+                    current_release="R07",
+                    current_task="TASK-R07-008",
+                    next_release="R08",
+                    next_task="TASK-R08-001",
+                )
+
     def cli(
         self, repo: Path, *args: str, expected: int = 0
     ) -> subprocess.CompletedProcess[str]:

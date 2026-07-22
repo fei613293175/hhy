@@ -12254,3 +12254,99 @@ change_requests:
   - SES-20260721T235847Z-F9109B61
   implementation_commits:
   - 4c5ec60addcc45e5896d8de45686aa788d6e0b32
+- protocol_version: '1.0'
+  cr_id: CR-0204
+  title: 允许历史机器完成OwnerPending依赖继续后续开发
+  status: IMPLEMENTING
+  created_at: '2026-07-22T00:05:07Z'
+  updated_at: '2026-07-22T00:05:16Z'
+  requester_actor_id: codex-root-r07-008
+  approver_actor_id: codex-reviewer-continuity-async-dag
+  task_id: TASK-R07-008
+  session_id: SES-20260721T235847Z-F9109B61
+  user_request: 项目所有者明确要求真机反馈异步且不得因未反馈停止后续版本开发。
+  reason: R07切换R08时校验器只豁免当前Release的异步关闭任务，未识别更早R06已登记MACHINE_COMPLETE_OWNER_PENDING且next_release_development=ALLOWED，产生确定性假阻断。
+  original_rule: 跨Release校验只允许当前Release的异步Owner门禁未DONE，所有更早依赖Release即使机器完成Manifest明确允许后续开发也必须TASKS全DONE。
+  new_rule: 目标Release的每个历史依赖若Manifest完整满足机器交付PASS、Owner真机PENDING、生产阻断且next_release_development=ALLOWED，则仅允许其最后一个BLOCKED外部门禁任务作为开发依赖GREEN；任何更早未完成任务仍阻断。
+  impact_summary: 修复多代异步真机积压时的跨Release开发假阻断，新增正反向回归、Problem登记和踩坑规则；不放宽正式验收或生产激活。
+  impact:
+    files:
+    - scripts/continuity.py
+    - tests/test_continuity_cross_release_close.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - 跨Release异步Owner门禁依赖判定
+    ledger: []
+    tests:
+    - python -m unittest tests.test_continuity_cross_release_close及真实R07到R08关闭转换
+    releases:
+    - R07
+    migration_and_compatibility: 纯连续性校验兼容修复；既有全DONE依赖行为不变，只有完整机器完成Manifest且仅最后外部门禁BLOCKED的历史Release可继续。
+  user_confirmation: 项目所有者已明确真机反馈不强制逐版本提供且开发不得停下。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T00:05:13Z'
+    note: 仅历史Release最后一个BLOCKED外部门禁可由完整机器完成Manifest豁免，其他未完成任务仍硬阻断。
+  machine_record: .continuity/change_requests/CR-0204.yaml
+  document: docs/03-continuity/change-requests/CR-0204-允许历史机器完成OwnerPending依赖继续后续开发.md
+  decision_log:
+  - at: '2026-07-22T00:05:16Z'
+    actor_id: codex-root-r07-008
+    status: IMPLEMENTING
+    note: 开始修复历史OwnerPending依赖判定并增加回归与经验记录。
+    session_id: SES-20260721T235847Z-F9109B61
+  session_ids:
+  - SES-20260721T235847Z-F9109B61
+- protocol_version: '1.0'
+  cr_id: CR-0205
+  title: 刷新异步依赖规则的连续性重建证据
+  status: IMPLEMENTING
+  created_at: '2026-07-22T00:10:33Z'
+  updated_at: '2026-07-22T00:10:42Z'
+  requester_actor_id: codex-root-r07-008
+  approver_actor_id: codex-reviewer-continuity-evidence
+  task_id: TASK-R07-008
+  session_id: SES-20260721T235847Z-F9109B61
+  user_request: 项目所有者要求跨电脑换AI可复用规则并持续开发。
+  reason: CR-0204修改连续性核心脚本后，仓库重建和生命周期派生报告按SHA保护确定性过期，必须由统一自测入口刷新。
+  original_rule: 连续性核心脚本变更后既有集成和生命周期报告仍绑定旧源码SHA。
+  new_rule: 运行统一连续性自测重生成11项仓库重建与14项生命周期报告及日志，并由V1.2.3联合门禁复核。
+  impact_summary: 仅刷新连续性派生验证报告、日志和Doctor证据，不改变业务或CR-0204判定逻辑。
+  impact:
+    files:
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-integration-v1.2.3.log
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    - artifacts/validation/project-doctor-v1.2.3.json
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - 连续性仓库重建与生命周期验证证据
+    ledger: []
+    tests:
+    - python scripts/run_continuity_self_test.py和python scripts/check_v123_continuity.py
+    releases:
+    - R07
+    migration_and_compatibility: 纯生成证据刷新，无运行时迁移；报告绑定当前脚本SHA并支持换电脑换AI复验。
+  user_confirmation: 项目所有者要求规则跨电脑换AI直接复用且开发不中断。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T00:10:39Z'
+    note: 只刷新由CR-0204源码变化触发的确定性派生报告，必须由统一入口生成。
+  machine_record: .continuity/change_requests/CR-0205.yaml
+  document: docs/03-continuity/change-requests/CR-0205-刷新异步依赖规则的连续性重建证据.md
+  decision_log:
+  - at: '2026-07-22T00:10:42Z'
+    actor_id: codex-root-r07-008
+    status: IMPLEMENTING
+    note: 开始重生成连续性集成与生命周期证据。
+    session_id: SES-20260721T235847Z-F9109B61
+  session_ids:
+  - SES-20260721T235847Z-F9109B61

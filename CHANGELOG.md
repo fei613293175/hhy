@@ -833,3 +833,7 @@
 - 摘要：R07最终候选完整门禁、AI视觉审批、固定签名、四方APK交付、桌面文档和五页视觉合同全部通过；真机反馈保持异步PENDING
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260721T210252Z-D631F6E4.md`
 
+## 2026-07-22 · R07 跨版本异步真机依赖修复
+
+- `CR-0204` 修复历史 `MACHINE_COMPLETE_OWNER_PENDING` Release 被机械判为后续开发依赖失败的问题。
+- 仅完整 Manifest 下最后一个 `BLOCKED` 外部门禁任务可作为开发依赖 GREEN；正式验收与生产激活继续等待项目所有者真机反馈。

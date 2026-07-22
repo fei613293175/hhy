@@ -853,8 +853,12 @@ def validate_independent_release_start(
             incomplete_dependencies.append(f"{dependency}:MISSING")
             continue
         plan = yaml.safe_load(plan_path.read_text(encoding="utf-8")) or {}
+        dependency_tasks = list(plan.get("tasks", []))
+        final_dependency_task = (
+            str(dependency_tasks[-1].get("id") or "") if dependency_tasks else ""
+        )
         unfinished: list[str] = []
-        for row in plan.get("tasks", []):
+        for row in dependency_tasks:
             task_id = str(row.get("id") or "")
             if row.get("status") == "DONE":
                 continue
@@ -863,7 +867,13 @@ def validate_independent_release_start(
                 task_id == current_task,
                 release_has_async_owner_gate(root, current_release),
             ))
-            if not is_current_async_owner_gate:
+            is_prior_async_owner_gate = all((
+                dependency != current_release,
+                release_has_async_owner_gate(root, dependency),
+                task_id == final_dependency_task,
+                row.get("status") == "BLOCKED",
+            ))
+            if not is_current_async_owner_gate and not is_prior_async_owner_gate:
                 unfinished.append(task_id)
         if unfinished:
             incomplete_dependencies.append(f"{dependency}:{','.join(unfinished)}")

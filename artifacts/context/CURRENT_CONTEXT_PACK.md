@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T00:03:07Z
-- Context Hash：`b6e2b91b5f38b0079d80b0cde83b7e311e66720c5801a4861d539ebadd2a54b7`
+- 生成时间：2026-07-22T00:17:50Z
+- Context Hash：`853058675a19a361912c5199c5e8e7ee0a3b3dc10493c054f0172fb6fa66dd6e`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -101,7 +101,7 @@ blocked_tasks:
 - TASK-R03-007
 - TASK-R06-008
 next_task: TASK-R07-008
-updated_at: '2026-07-22T00:03:04Z'
+updated_at: '2026-07-22T00:17:48Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -136,15 +136,15 @@ continuity:
   active_session_id: SES-20260721T235847Z-F9109B61
   actor_id: codex-root-r07-008
   story_id: STORY-R07-005
-  lease_expires_at: '2026-07-22T04:03:04Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0002.yaml
-  project_fingerprint: bd67e2289c58d03f237e8e6d0557c3420c9374a61d2d5ccc2b90b10d97ed3350
+  lease_expires_at: '2026-07-22T04:17:48Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0003.yaml
+  project_fingerprint: b18f11b212eaa2301cfc0ee258c460ab7a51dfdd515f9a47702f79a64d5a14f1
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 8a74529d9748cc2f7e4c2b1070f4cfa08fb1d5c076ce6093a0cb6caa5376b8d8
-    generated_at: '2026-07-22T00:01:50Z'
+    context_hash: b6e2b91b5f38b0079d80b0cde83b7e311e66720c5801a4861d539ebadd2a54b7
+    generated_at: '2026-07-22T00:03:07Z'
   handoff_bundle: null
 ```
 
@@ -343,10 +343,12 @@ task_id: TASK-R07-008
 story_id: STORY-R07-005
 goal: 完成R07机器关闭、验收矩阵、状态交接并在异步真机PENDING下切换R08继续开发
 started_at: '2026-07-21T23:58:47Z'
-updated_at: '2026-07-22T00:03:04Z'
+updated_at: '2026-07-22T00:17:48Z'
 takeover_of: null
 change_requests:
 - CR-0203
+- CR-0204
+- CR-0205
 scope:
   allowed_paths:
   - apps/**
@@ -389,7 +391,16 @@ scope:
   - NEXT_TASK.yaml
   - releases/R07/TASKS.yaml
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0203
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - artifacts/validation/project-doctor-v1.2.3.json
+  source: story+explicit+approved-cr:CR-0203+approved-cr:CR-0204+approved-cr:CR-0205
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -399,12 +410,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T00:03:04Z'
-  expires_at: '2026-07-22T04:03:04Z'
-checkpoint_sequence: 2
-latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0002.yaml
+  renewed_at: '2026-07-22T00:17:48Z'
+  expires_at: '2026-07-22T04:17:48Z'
+checkpoint_sequence: 3
+latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0003.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md
-next_step: 以项目所有者授权的异步门禁将TASK-R07-008标记BLOCKED_EXTERNAL_GATE并切换R08
+next_step: 运行V1.2.3严格连续性校验并提交CR-0204与CR-0205实现
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -412,39 +423,35 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR关闭和跨Release状态转换必须串行一致
+  reason: 连续性状态、CR生命周期和Release切换共用单一状态链，必须串行提交
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T235847Z-F9109B61-0002
+checkpoint_id: CP-SES-20260721T235847Z-F9109B61-0003
 session_id: SES-20260721T235847Z-F9109B61
-sequence: 2
-created_at: '2026-07-22T00:03:04Z'
-summary: CR-0203实现与推送完成，R07机器完成事实已封板
-next_step: 以项目所有者授权的异步门禁将TASK-R07-008标记BLOCKED_EXTERNAL_GATE并切换R08
+sequence: 3
+created_at: '2026-07-22T00:17:47Z'
+summary: 修复历史机器完成Owner Pending依赖阻断后续Release并完成全量连续性证据重建
+next_step: 运行V1.2.3严格连续性校验并提交CR-0204与CR-0205实现
 blockers: []
 decisions: []
 note: ''
 tests:
-- name: release-artifacts
+- name: cross-release-close
   result: PASS
-  evidence: check_release_artifacts R07
-  note: ''
-- name: ui-visual-acceptance
+  evidence: tests/test_continuity_cross_release_close.py
+  note: 5 tests including prior async dependency boundary
+- name: continuity-self-test
   result: PASS
-  evidence: check_ui_visual_acceptance R07 pages=5
-  note: ''
-- name: contracts
-  result: PASS
-  evidence: runtime assets and OpenAPI PASS
-  note: ''
+  evidence: artifacts/validation/continuity-integration-v1.2.3.json
+  note: 11 reconstruction checks and 14 lifecycle checks
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 4c5ec60addcc45e5896d8de45686aa788d6e0b32
+  head: 94505f33a8ff6184b169749352ee36dfb54bd53e
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -453,11 +460,24 @@ git:
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0203.yaml'
+  - ' M .continuity/sessions/SES-20260721T235847Z-F9109B61.yaml'
+  - ' M CHANGELOG.md'
+  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md'
+  - ' M docs/03-continuity/PITFALLS.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+  - ' M scripts/continuity.py'
+  - ' M tests/test_continuity_cross_release_close.py'
+  - ?? .continuity/change_requests/CR-0204.yaml
+  - ?? .continuity/change_requests/CR-0205.yaml
+  - ?? docs/03-continuity/change-requests/CR-0204-允许历史机器完成OwnerPending依赖继续后续开发.md
+  - ?? docs/03-continuity/change-requests/CR-0205-刷新异步依赖规则的连续性重建证据.md
   recent_commits:
+  - "94505f33a8ff6184b169749352ee36dfb54bd53e\t2026-07-22T08:03:09+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07机器交接变更"
   - "4c5ec60addcc45e5896d8de45686aa788d6e0b32\t2026-07-22T08:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(release): 签署R07机器完成状态"
   - "7c44a90b99551cdc23993f506a08c9efab5be135\t2026-07-22T07:57:39+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-007\
     \ as completed"
@@ -466,22 +486,48 @@ git:
   - "0afc170633c4103dfec067118e50eb65aae9b2e1\t2026-07-22T07:29:08+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(ci): 固定轻量晋升中文路径解析"
   - "3b188062b69560768b3beebc1632d5f49d5952f3\t2026-07-22T07:18:59+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(android): 批准R07视觉基线并请求轻量晋升"
   - "0b6d4dd6035e3ecbe6ac3819e68f22d1ae5f31c2\t2026-07-22T07:17:08+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] ci(android): 绑定基线晋升连续性审计"
-  - "69406d918b4c2aa6f1eea78baed48464e4f94277\t2026-07-22T07:02:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(android): 收口搜索返回栈并单次采集首版基线"
 project_fingerprint:
-  sha256: bd67e2289c58d03f237e8e6d0557c3420c9374a61d2d5ccc2b90b10d97ed3350
+  sha256: b18f11b212eaa2301cfc0ee258c460ab7a51dfdd515f9a47702f79a64d5a14f1
   files:
+  - CHANGELOG.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
+  - docs/03-continuity/change-requests/CR-0204-允许历史机器完成OwnerPending依赖继续后续开发.md
+  - docs/03-continuity/change-requests/CR-0205-刷新异步依赖规则的连续性重建证据.md
   - releases/R07/ACCEPTANCE_MATRIX.csv
   - releases/R07/RELEASE_MANIFEST.yaml
   - releases/R07/STORIES.yaml
-  file_count: 4
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  file_count: 11
   payload:
     base_commit: 7c44a90b99551cdc23993f506a08c9efab5be135
     files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 69622
+      sha256: e457251f6a17e947190977cb734ff1a7dfc50450b9720a8bb6cce4eebb3fa817
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 4189
+      sha256: f0200cf785b3831624a7a40b1ed1586768dedaecdd2640fe6589a10eba431afa
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 95979
+      sha256: cc07498ea3fa81eb8008dc5e4b3f98a3e063d7f4c260e158a49ff660e1af5950
     - path: docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
       state: FILE
       size: 3447
       sha256: 3503fb81c45314ed3f16d3bd6cb84f727e733e1c454a4bb42b486ea07c4d2b69
+    - path: docs/03-continuity/change-requests/CR-0204-允许历史机器完成OwnerPending依赖继续后续开发.md
+      state: FILE
+      size: 2725
+      sha256: 1bb605344955001196cb05188e14363d1f9d4d087122e951e4daaf407668f954
+    - path: docs/03-continuity/change-requests/CR-0205-刷新异步依赖规则的连续性重建证据.md
+      state: FILE
+      size: 2390
+      sha256: 34519878b21b53df14177119d766b680d1a31b43cd806682b28a797691b0093b
     - path: releases/R07/ACCEPTANCE_MATRIX.csv
       state: FILE
       size: 855
@@ -494,14 +540,31 @@ project_fingerprint:
       state: FILE
       size: 12341
       sha256: 1d44cb5b1362327631111a32dca09bf329016dad069bba24fcf9deb61b8ae74a
+    - path: scripts/continuity.py
+      state: FILE
+      size: 70822
+      sha256: 7dbeab058f731dd24d0320f8ff07ad1551be88f679876dabc48b951b13c99f10
+    - path: tests/test_continuity_cross_release_close.py
+      state: FILE
+      size: 25962
+      sha256: fd4e2cc6d08c1d91ff02baf09c35ebde005347c4c43d8c309c757280ed648714
 change_classification:
-  continuity:
-  - docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
   other:
+  - CHANGELOG.md
   - releases/R07/ACCEPTANCE_MATRIX.csv
+  continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
+  - docs/03-continuity/change-requests/CR-0204-允许历史机器完成OwnerPending依赖继续后续开发.md
+  - docs/03-continuity/change-requests/CR-0205-刷新异步依赖规则的连续性重建证据.md
   source_of_truth:
   - releases/R07/RELEASE_MANIFEST.yaml
   - releases/R07/STORIES.yaml
+  code:
+  - scripts/continuity.py
+  tests:
+  - tests/test_continuity_cross_release_close.py
 required_records:
 - SESSION_RECORD
 - SESSION_LOG
@@ -511,6 +574,8 @@ required_records:
 - APPROVED_CHANGE_REQUEST
 change_requests:
 - CR-0203
+- CR-0204
+- CR-0205
 scope:
   allowed_paths:
   - apps/**
@@ -553,13 +618,22 @@ scope:
   - NEXT_TASK.yaml
   - releases/R07/TASKS.yaml
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0203
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/PITFALLS.md
+  - artifacts/validation/continuity-integration-v1.2.3.json
+  - artifacts/validation/continuity-integration-v1.2.3.log
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+  - artifacts/validation/project-doctor-v1.2.3.json
+  source: story+explicit+approved-cr:CR-0203+approved-cr:CR-0204+approved-cr:CR-0205
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR关闭和跨Release状态转换必须串行一致
-event_hash: 3acb41a90569f3c748c23d5056ab9caec63c0c5c523620587dcdf9cb294927de
+  reason: 连续性状态、CR生命周期和Release切换共用单一状态链，必须串行提交
+event_hash: 739377e62e601559f243d58e40c359161d22c5ff9896f1cb4dccd0e07a7044a6
 ```
 
 ## 接续状态与事件头
@@ -571,8 +645,8 @@ active_session_id: SES-20260721T235847Z-F9109B61
 last_session_id: SES-20260721T210252Z-D631F6E4
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260721T210252Z-D631F6E4-0015
-event_count: 2033
-event_head_hash: 3acb41a90569f3c748c23d5056ab9caec63c0c5c523620587dcdf9cb294927de
+event_count: 2044
+event_head_hash: 739377e62e601559f243d58e40c359161d22c5ff9896f1cb4dccd0e07a7044a6
 event_chain_valid: true
 ```
 
@@ -695,9 +769,9 @@ recent_sessions: - session_id: SES-20260721T055708Z-741C3D49
   started_at: '2026-07-21T23:58:47Z'
   record: .continuity/sessions/SES-20260721T235847Z-F9109B61.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md
-  updated_at: '2026-07-22T00:03:04Z'
+  updated_at: '2026-07-22T00:17:48Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0002.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0003.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-3081AFB8BFC0
   session_id: SES-20260719T230526Z-55ABC07F
@@ -1616,7 +1690,7 @@ recent_task_transitions: - transition_id: TRN-242E3496B990
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 4c5ec60addcc45e5896d8de45686aa788d6e0b32
+head: 94505f33a8ff6184b169749352ee36dfb54bd53e
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1627,15 +1701,27 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0203.yaml'
 - ' M .continuity/sessions/SES-20260721T235847Z-F9109B61.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/validation/continuity-integration-v1.2.3.json'
+- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
+- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
+- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md'
+- ' M docs/03-continuity/PITFALLS.md'
+- ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md'
-- ?? .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0002.yaml
+- ' M scripts/continuity.py'
+- ' M tests/test_continuity_cross_release_close.py'
+- ?? .continuity/change_requests/CR-0204.yaml
+- ?? .continuity/change_requests/CR-0205.yaml
+- ?? .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0003.yaml
+- ?? docs/03-continuity/change-requests/CR-0204-允许历史机器完成OwnerPending依赖继续后续开发.md
+- ?? docs/03-continuity/change-requests/CR-0205-刷新异步依赖规则的连续性重建证据.md
 recent_commits:
+- "94505f33a8ff6184b169749352ee36dfb54bd53e\t2026-07-22T08:03:09+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07机器交接变更"
 - "4c5ec60addcc45e5896d8de45686aa788d6e0b32\t2026-07-22T08:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(release): 签署R07机器完成状态"
 - "7c44a90b99551cdc23993f506a08c9efab5be135\t2026-07-22T07:57:39+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-007\
   \ as completed"
@@ -1644,18 +1730,24 @@ recent_commits:
 - "0afc170633c4103dfec067118e50eb65aae9b2e1\t2026-07-22T07:29:08+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(ci): 固定轻量晋升中文路径解析"
 - "3b188062b69560768b3beebc1632d5f49d5952f3\t2026-07-22T07:18:59+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(android): 批准R07视觉基线并请求轻量晋升"
 - "0b6d4dd6035e3ecbe6ac3819e68f22d1ae5f31c2\t2026-07-22T07:17:08+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] ci(android): 绑定基线晋升连续性审计"
-- "69406d918b4c2aa6f1eea78baed48464e4f94277\t2026-07-22T07:02:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(android): 收口搜索返回栈并单次采集首版基线"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`bd67e2289c58d03f237e8e6d0557c3420c9374a61d2d5ccc2b90b10d97ed3350`
-- 文件数：4
+- 指纹：`b18f11b212eaa2301cfc0ee258c460ab7a51dfdd515f9a47702f79a64d5a14f1`
+- 文件数：11
 
+- `CHANGELOG.md`
+- `docs/03-continuity/PITFALLS.md`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
 - `docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md`
+- `docs/03-continuity/change-requests/CR-0204-允许历史机器完成OwnerPending依赖继续后续开发.md`
+- `docs/03-continuity/change-requests/CR-0205-刷新异步依赖规则的连续性重建证据.md`
 - `releases/R07/ACCEPTANCE_MATRIX.csv`
 - `releases/R07/RELEASE_MANIFEST.yaml`
 - `releases/R07/STORIES.yaml`
+- `scripts/continuity.py`
+- `tests/test_continuity_cross_release_close.py`
 
 ## 当前 Release
 
@@ -7117,38 +7209,136 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
   machine_record: .continuity/change_requests/CR-0159.yaml
   document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
+- protocol_version: '1.0'
+  cr_id: CR-0204
+  title: 允许历史机器完成OwnerPending依赖继续后续开发
+  status: IMPLEMENTING
+  created_at: '2026-07-22T00:05:07Z'
+  updated_at: '2026-07-22T00:05:16Z'
+  requester_actor_id: codex-root-r07-008
+  approver_actor_id: codex-reviewer-continuity-async-dag
+  task_id: TASK-R07-008
+  session_id: SES-20260721T235847Z-F9109B61
+  user_request: 项目所有者明确要求真机反馈异步且不得因未反馈停止后续版本开发。
+  reason: R07切换R08时校验器只豁免当前Release的异步关闭任务，未识别更早R06已登记MACHINE_COMPLETE_OWNER_PENDING且next_release_development=ALLOWED，产生确定性假阻断。
+  original_rule: 跨Release校验只允许当前Release的异步Owner门禁未DONE，所有更早依赖Release即使机器完成Manifest明确允许后续开发也必须TASKS全DONE。
+  new_rule: 目标Release的每个历史依赖若Manifest完整满足机器交付PASS、Owner真机PENDING、生产阻断且next_release_development=ALLOWED，则仅允许其最后一个BLOCKED外部门禁任务作为开发依赖GREEN；任何更早未完成任务仍阻断。
+  impact_summary: 修复多代异步真机积压时的跨Release开发假阻断，新增正反向回归、Problem登记和踩坑规则；不放宽正式验收或生产激活。
+  impact:
+    files:
+    - scripts/continuity.py
+    - tests/test_continuity_cross_release_close.py
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - docs/03-continuity/PITFALLS.md
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - 跨Release异步Owner门禁依赖判定
+    ledger: []
+    tests:
+    - python -m unittest tests.test_continuity_cross_release_close及真实R07到R08关闭转换
+    releases:
+    - R07
+    migration_and_compatibility: 纯连续性校验兼容修复；既有全DONE依赖行为不变，只有完整机器完成Manifest且仅最后外部门禁BLOCKED的历史Release可继续。
+  user_confirmation: 项目所有者已明确真机反馈不强制逐版本提供且开发不得停下。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T00:05:13Z'
+    note: 仅历史Release最后一个BLOCKED外部门禁可由完整机器完成Manifest豁免，其他未完成任务仍硬阻断。
+  machine_record: .continuity/change_requests/CR-0204.yaml
+  document: docs/03-continuity/change-requests/CR-0204-允许历史机器完成OwnerPending依赖继续后续开发.md
+  decision_log:
+  - at: '2026-07-22T00:05:16Z'
+    actor_id: codex-root-r07-008
+    status: IMPLEMENTING
+    note: 开始修复历史OwnerPending依赖判定并增加回归与经验记录。
+    session_id: SES-20260721T235847Z-F9109B61
+  session_ids:
+  - SES-20260721T235847Z-F9109B61
+- protocol_version: '1.0'
+  cr_id: CR-0205
+  title: 刷新异步依赖规则的连续性重建证据
+  status: IMPLEMENTING
+  created_at: '2026-07-22T00:10:33Z'
+  updated_at: '2026-07-22T00:10:42Z'
+  requester_actor_id: codex-root-r07-008
+  approver_actor_id: codex-reviewer-continuity-evidence
+  task_id: TASK-R07-008
+  session_id: SES-20260721T235847Z-F9109B61
+  user_request: 项目所有者要求跨电脑换AI可复用规则并持续开发。
+  reason: CR-0204修改连续性核心脚本后，仓库重建和生命周期派生报告按SHA保护确定性过期，必须由统一自测入口刷新。
+  original_rule: 连续性核心脚本变更后既有集成和生命周期报告仍绑定旧源码SHA。
+  new_rule: 运行统一连续性自测重生成11项仓库重建与14项生命周期报告及日志，并由V1.2.3联合门禁复核。
+  impact_summary: 仅刷新连续性派生验证报告、日志和Doctor证据，不改变业务或CR-0204判定逻辑。
+  impact:
+    files:
+    - artifacts/validation/continuity-integration-v1.2.3.json
+    - artifacts/validation/continuity-integration-v1.2.3.log
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
+    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
+    - artifacts/validation/project-doctor-v1.2.3.json
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - 连续性仓库重建与生命周期验证证据
+    ledger: []
+    tests:
+    - python scripts/run_continuity_self_test.py和python scripts/check_v123_continuity.py
+    releases:
+    - R07
+    migration_and_compatibility: 纯生成证据刷新，无运行时迁移；报告绑定当前脚本SHA并支持换电脑换AI复验。
+  user_confirmation: 项目所有者要求规则跨电脑换AI直接复用且开发不中断。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T00:10:39Z'
+    note: 只刷新由CR-0204源码变化触发的确定性派生报告，必须由统一入口生成。
+  machine_record: .continuity/change_requests/CR-0205.yaml
+  document: docs/03-continuity/change-requests/CR-0205-刷新异步依赖规则的连续性重建证据.md
+  decision_log:
+  - at: '2026-07-22T00:10:42Z'
+    actor_id: codex-root-r07-008
+    status: IMPLEMENTING
+    note: 开始重生成连续性集成与生命周期证据。
+    session_id: SES-20260721T235847Z-F9109B61
+  session_ids:
+  - SES-20260721T235847Z-F9109B61
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e`
-- `CURRENT_STATUS.yaml` — `4dc06b714221a702791ae47566691af9f62f1bcdae5ca4f7c17efc8508cc9960`
+- `CURRENT_STATUS.yaml` — `b0e3352b6da087d1240d59dc2515e8e696fff031f54a16bf84081eb7bed369ca`
 - `NEXT_TASK.yaml` — `52b6320db42f1bd8634c9573ad544838710427d3198f7b7a60ab8bf2369064f7`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `83a2a52da5b899c5bfa66eb9892794a74bd67534c4e05c67edc3c9046684d784`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `cc07498ea3fa81eb8008dc5e4b3f98a3e063d7f4c260e158a49ff660e1af5950`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da`
-- `docs/03-continuity/PITFALLS.md` — `dfc02ee6c1c7396208528486fc6e08cd4c10bde591c5b6b0555040bd07d158be`
+- `docs/03-continuity/PITFALLS.md` — `f0200cf785b3831624a7a40b1ed1586768dedaecdd2640fe6589a10eba431afa`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `a172ad8490fb86f21ee3afc98984070695ec75abe5fa6893eca2e161fecfaf74`
-- `.continuity/SESSION_INDEX.yaml` — `bca787f164f308af07f13f40d85cc0511902b221e34add0ce0276a6cbb12c34d`
+- `.continuity/EVENT_LOG.jsonl` — `c429c46b0f4530173f39b10fe184a8a3b5cc5c4ba29897abc927fc204e14d5ad`
+- `.continuity/SESSION_INDEX.yaml` — `ec01528b046a3979954671492f8317ca4637f8f5e898b8416951fb91a81dafc8`
 - `.continuity/TASK_CLAIMS.yaml` — `33deecf8fdcb5821952f9608cb12132b61897e032623afed7d7a11f8789f2952`
 - `.continuity/TASK_TRANSITIONS.yaml` — `eaaf11fcf9af37bfd94220c438d65ab4944414d2df3edf066230bcf7f50580e6`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `6c115ccd22ebebc4dea65cdab808753d632d7c6aa6bd6da202b21d26c6e0309a`
-- `.continuity/ACTIVE_SESSION.yaml` — `541903cf52d38a14eba0d15c78586e7c38405805fd599bbc0eac6be79dc35f82`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `41aa27af9fc30536288dd6678f5c16caec7f768dc1db48e5e3332c5f8e3d892f`
+- `.continuity/ACTIVE_SESSION.yaml` — `df78a63c4418374c66833bd16d4aefdecef1e39f7c64276b8365856ee08de868`
 - `releases/R07/RELEASE_MANIFEST.yaml` — `b24d88ba535904d024221c6f68a091c969f41c68a9721bd4dd0e7753feaec06d`
 - `releases/R07/DEFINITION_OF_READY.yaml` — `5e3a1496a1a9a9af6ac2e40e8aaacdfaa46cc7bf117324c22c486b3730c6f9f9`
 - `releases/R07/STORIES.yaml` — `1d44cb5b1362327631111a32dca09bf329016dad069bba24fcf9deb61b8ae74a`
 - `releases/R07/TASKS.yaml` — `4582ab8551d3013fca56e619c52ac662d0f791bf9425e7d71be9bb84977a35c9`
 - `releases/R07/ACCEPTANCE_MATRIX.csv` — `e5956d3b54eee293915f14e235dc30bf1daf7dcb240548e4ce38ede81534f4b9`
 - `releases/R07/PARALLEL_EXECUTION_PLAN.yaml` — `6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md` — `b99dc903eef29d5fea1f636e1d2cb31de7d30e9719d049256553194929ad980d`
-- `.continuity/checkpoints/SES-20260721T235847Z-F9109B61/0002.yaml` — `8e55cfcf8117e07ba795ebb322afceab882ec5684e7e470190b6b9c75f80cd77`
+- `docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md` — `de716f06c9fcfce6825d5b159de9c552eaeffdc47d250151b4e10358fa9cb291`
+- `.continuity/checkpoints/SES-20260721T235847Z-F9109B61/0003.yaml` — `bac62326a41d038dafad03b27dccda6fedac798ca8d65ce0eda4660c7f5a5025`
 - `docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md` — `3503fb81c45314ed3f16d3bd6cb84f727e733e1c454a4bb42b486ea07c4d2b69`
+- `docs/03-continuity/change-requests/CR-0204-允许历史机器完成OwnerPending依赖继续后续开发.md` — `1bb605344955001196cb05188e14363d1f9d4d087122e951e4daaf407668f954`
+- `docs/03-continuity/change-requests/CR-0205-刷新异步依赖规则的连续性重建证据.md` — `34519878b21b53df14177119d766b680d1a31b43cd806682b28a797691b0093b`
 
 ## 接手硬规则
 
