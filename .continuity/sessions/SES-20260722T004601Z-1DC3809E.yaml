@@ -1,0 +1,91 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T004601Z-1DC3809E
+status: ACTIVE
+actor:
+  id: codex-root-r08-002
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R08
+task_id: TASK-R08-002
+story_id: STORY-R08-004
+goal: 项目推广完整闭环数据迁移与领域不变量
+started_at: '2026-07-22T00:46:01Z'
+updated_at: '2026-07-22T01:13:31Z'
+takeover_of: null
+change_requests:
+- CR-0209
+- CR-0210
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - database/migrations/V033__r08_project_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V033__r08_project_invariants.sql
+  - database/rollback/U033__r08_project_invariants.sql
+  - database/tests/r08_project_invariants.sql
+  - tests/test_r08_project_migration.py
+  - tests/test_r08_project_database_scripts.py
+  - scripts/run_r08_database_invariants.sh
+  - scripts/run_r08_disposable_postgres_container.sh
+  - artifacts/reports/R08/TASK-R08-002-database.md
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0209+approved-cr:CR-0210
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: e5d7d60ac0390843a1134c9457f7684fb04fc7ce
+  start_head: e5d7d60ac0390843a1134c9457f7684fb04fc7ce
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T01:13:27Z'
+  expires_at: '2026-07-22T05:13:27Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260722T004601Z-1DC3809E/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T004601Z-1DC3809E.md
+next_step: 提交并关闭CR-0210与TASK-R08-002，随后启动TASK-R08-003
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: a42f20cb79e73a6cd0f3ac86e650b67515928ae5b281968c3263bb88142d072f
+  generated_at: '2026-07-22T01:13:29Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 数据库迁移、回滚、重放与同一连续性账本为严格顺序状态变更，当前R08冻结执行计划由单协调者串行收口

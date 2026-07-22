@@ -1,0 +1,57 @@
+protocol_version: '1.0'
+cr_id: CR-0210
+title: 建立R08项目真实数据缺口与V033可回滚迁移
+status: IMPLEMENTING
+created_at: '2026-07-22T00:56:12Z'
+updated_at: '2026-07-22T00:56:44Z'
+requester_actor_id: codex-root-r08-002
+approver_actor_id: codex-reviewer-r08-db-corrected
+task_id: TASK-R08-002
+session_id: SES-20260722T004601Z-1DC3809E
+user_request: 持续开发R08，普通任务只跑受影响MODULE，最终候选阶段再跑完整门禁和模拟器
+reason: PostgreSQL实测确认V007已有内容状态枚举；R08剩余真实缺口为项目字段非空白、统计数字字符串、版本号格式、详情删除保护和项目专用索引
+original_rule: V007已冻结CONTENT_STATUS枚举，V029已保证详情类型一致和版本/状态/审核历史不可变；R08真正缺口是project_details仍可写空白可选值、content_stats可写非数字字符串、content_versions版本号格式未冻结，且项目详情可在内容未软删除时被移除。
+new_rule: V033只补真实缺口：project_details必填与可选字段非空白、content_stats非负数字字符串、content_versions非负整数版本号；阻止未软删除项目移除详情，增加项目公开列表和地区索引；复用V007状态枚举和全局idempotency_records唯一键，不重复约束、不新增表。
+impact_summary: 为R08项目发布、编辑、列表和详情建立三项数据库CHECK、两项索引、详情删除保护、可回滚迁移及空库/升级库/回滚/重放PostgreSQL证据，不修改冻结表结构或接口。
+impact:
+  files:
+  - database/migrations/V033__r08_project_invariants.sql
+  - services/backend/boot/src/main/resources/db/migration/V033__r08_project_invariants.sql
+  - database/rollback/U033__r08_project_invariants.sql
+  - database/tests/r08_project_invariants.sql
+  - tests/test_r08_project_migration.py
+  - tests/test_r08_project_database_scripts.py
+  - scripts/run_r08_database_invariants.sh
+  - scripts/run_r08_disposable_postgres_container.sh
+  - artifacts/reports/R08/TASK-R08-002-database.md
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database:
+  - V033 project detail, statistics, version and deletion invariants
+  - U033 non-destructive rollback and V033 replay
+  configuration:
+  - PostgreSQL 17 empty database and V032 upgrade database validation
+  ledger: []
+  tests:
+  - python -m unittest tests.test_r08_project_migration tests.test_r08_project_database_scripts
+  - scripts/run_r08_disposable_postgres_container.sh
+  - scripts/run_r08_database_invariants.sh against R07 staging clone
+  releases:
+  - R08
+  migration_and_compatibility: 三项CHECK使用NOT VALID兼容历史存量但约束所有新写入；V033不清洗或删除数据。U033仅移除本版三项约束、两项索引和删除保护，保留业务数据，随后必须验证V033可重放。
+user_confirmation: 项目所有者要求持续推进R08，普通任务运行受影响MODULE，发现问题由AI修复后继续。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T00:56:40Z'
+  note: 纠正版明确复用V007状态枚举，仅增加三项真实CHECK、两项索引和详情删除保护；升级夹具必须证明NOT VALID保留历史值。
+machine_record: .continuity/change_requests/CR-0210.yaml
+document: docs/03-continuity/change-requests/CR-0210-建立R08项目真实数据缺口与V033可回滚迁移.md
+decision_log:
+- at: '2026-07-22T00:56:44Z'
+  actor_id: codex-root-r08-002
+  status: IMPLEMENTING
+  note: 按真实PostgreSQL审计结果移除重复状态约束并继续V033验证
+  session_id: SES-20260722T004601Z-1DC3809E
+session_ids:
+- SES-20260722T004601Z-1DC3809E
