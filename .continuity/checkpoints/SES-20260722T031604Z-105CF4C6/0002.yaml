@@ -1,0 +1,235 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T031604Z-105CF4C6-0002
+session_id: SES-20260722T031604Z-105CF4C6
+sequence: 2
+created_at: '2026-07-22T03:33:22Z'
+summary: CR-0217首轮R08 Android客户端实现已完成并补充CHANGELOG；本机缺少JDK，固定云端Android镜像已核验可用。
+next_step: 提交推送首轮实现，在obx-test固定Android镜像运行network/project/app受影响MODULE并修复编译测试问题。
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: 本阶段未执行测试
+  result: NOT_RUN
+  evidence: ''
+  note: 本机无Java/JDK；受影响Android MODULE将在提交推送后使用obx-test固定镜像按精确Commit执行。
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 3ed5231316ec359c0cedeb09393b08c0479f10de
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0217.yaml
+  - A  .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0001.yaml
+  - A  .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml
+  - ' M CHANGELOG.md'
+  - M  CURRENT_STATUS.yaml
+  - M  apps/android/app/build.gradle.kts
+  - M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - A  apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - A  apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - A  apps/android/feature/project/build.gradle.kts
+  - A  apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - A  apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - A  apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - M  apps/android/settings.gradle.kts
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - A  docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
+  - A  docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
+  recent_commits:
+  - "3ed5231316ec359c0cedeb09393b08c0479f10de\t2026-07-22T11:15:37+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
+    \ clean context before R08-004"
+  - "3e32e1c90fa3accaf27d27fc4566a2eba1642dcd\t2026-07-22T11:13:29+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-003\
+    \ as completed"
+  - "d7b5b84b1d73ddd78e43faa82e29b6d0370f992d\t2026-07-22T11:12:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(r08): close project\
+    \ backend change requests"
+  - "0f0257dc7694be5555a1f71dab2ea452d616840a\t2026-07-22T11:10:54+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record project\
+    \ backend module evidence"
+  - "e312321c8e0664493aec04dd232552eb42ce6e18\t2026-07-22T11:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): satisfy verified\
+    \ identity fixture invariants"
+  - "906548df4399f6f9272e61ae442a566cd91c44cb\t2026-07-22T10:53:08+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close rule\
+    \ readiness changes"
+  - "f483640ba0e16b2601cabbb643820d4273cb07ac\t2026-07-22T10:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): enforce\
+    \ rule readiness and UI fidelity"
+  - "09a826ee4a3764498c8e0f6c0b15739ec8a49f68\t2026-07-22T10:09:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): honor immutable\
+    \ detail cleanup guard"
+project_fingerprint:
+  sha256: f2004127b8bc4d2b71447fa5e7ed337a4ff3ac0187962d3c1f96ffac580df5af
+  files:
+  - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - apps/android/feature/project/build.gradle.kts
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  - docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
+  file_count: 12
+  payload:
+    base_commit: 3ed5231316ec359c0cedeb09393b08c0479f10de
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 76161
+      sha256: a0b58f0e5a27660e520ad0e8dfc1327afdaee9e1e371d3306c8ac22bf8222159
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5079
+      sha256: ae58bff38c7465a5121913aa24c33884b8821a5eeae1c6032bb203524ae6d62f
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 16431
+      sha256: 68acb5b728e3b6253f2b9489e26be6e040d663ef63ade7e5e9dfa01d3f681040
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+      state: FILE
+      size: 11659
+      sha256: b291a014318b193bad41efde0b3d6274f2cf49be71469e1396a26f81f0e0c7c1
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+      state: FILE
+      size: 2147
+      sha256: 063d1ca102a316d3ac598058326e97d41dc99b7f8c663b780e53f357f360fc3e
+    - path: apps/android/feature/project/build.gradle.kts
+      state: FILE
+      size: 1110
+      sha256: 1cc274802818ec1dc83da98863dcbfb56952b2a62bdf04eaebf613a9fa2dd40e
+    - path: apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+      state: FILE
+      size: 31695
+      sha256: 4ac763e624df48ebceccd6a3d9ac3024d02b8e8674c96702a8f6da8d1a3d9236
+    - path: apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+      state: FILE
+      size: 3145
+      sha256: 25b737a26d0b94e37e432cd371504721ba680980a7796a887acf1e366f121a0e
+    - path: apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+      state: FILE
+      size: 1115
+      sha256: 09e7fd2a8b5de8ac7049fc4c5218a1be92b4b5234dcde45cc0ef72f744ea2007
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 9770
+      sha256: a07811407e2ddeb57b3feed0dfcbd96e2e787788943b2cfc1699ccd1d79b731a
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 578
+      sha256: 863db7e381512d3731a9f96d79c9a0a5706a28252fe56e3035c4bebd00d6c910
+    - path: docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
+      state: FILE
+      size: 4567
+      sha256: ca79f5f885b2571b5adaecbc4d425162769ffb72f8e989622972e7645629c834
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - apps/android/feature/project/build.gradle.kts
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  user_visible:
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - apps/android/feature/project/build.gradle.kts
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/settings.gradle.kts
+  continuity:
+  - docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0217
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - apps/android/feature/project/build.gradle.kts
+  - apps/android/feature/project/src/main/AndroidManifest.xml
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - apps/h5/src/views/PublicPage.vue
+  - apps/h5/src/router.ts
+  - apps/admin-web/src/views/AdminContentListPage.vue
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - catalogs/ui_visual_acceptance.csv
+  - catalogs/ui_visual_quality_reviews.csv
+  - catalogs/ui_visual_remediation.csv
+  - artifacts/reports/R08/TASK-R08-004-client.md
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0217
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统规则禁止在用户未明确要求子代理时委托。
+event_hash: 0f3f4b7dfb2769d1c6dabea1a2553c5e895047ff6a6922186fd4d2d06f80d0e0

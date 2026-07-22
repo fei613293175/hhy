@@ -48,8 +48,12 @@ import cc.orbexa.hhy.network.UrlConnectionContractAuthApi
 import cc.orbexa.hhy.network.UrlConnectionContractIdentityApi
 import cc.orbexa.hhy.network.UrlConnectionContractR07Api
 import cc.orbexa.hhy.network.UrlConnectionExperienceApi
+import cc.orbexa.hhy.network.UrlConnectionContractR08Api
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
+import cc.orbexa.hhy.project.R08ProjectDetailScreen
+import cc.orbexa.hhy.project.R08ProjectEditorScreen
+import cc.orbexa.hhy.project.R08ProjectListScreen
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
@@ -181,6 +185,9 @@ private sealed interface AuthenticatedRoute {
     @Serializable data object About : AuthenticatedRoute
     @Serializable data object Search : AuthenticatedRoute
     @Serializable data class Publisher(val publisherId: String) : AuthenticatedRoute
+    @Serializable data object Projects : AuthenticatedRoute
+    @Serializable data class ProjectDetail(val projectId: String) : AuthenticatedRoute
+    @Serializable data class ProjectEditor(val projectId: String? = null) : AuthenticatedRoute
 }
 
 @androidx.compose.runtime.Composable
@@ -193,6 +200,7 @@ private fun AuthenticatedNavHost(
     val navController = rememberNavController()
     val experienceApi = remember { UrlConnectionExperienceApi(BuildConfig.API_BASE_URL) }
     val r07Api = remember { UrlConnectionContractR07Api(BuildConfig.API_BASE_URL) }
+    val r08Api = remember { UrlConnectionContractR08Api(BuildConfig.API_BASE_URL) }
     NavHost(
         navController = navController,
         startDestination = AuthenticatedRoute.Shell,
@@ -204,6 +212,8 @@ private fun AuthenticatedNavHost(
         composable<AuthenticatedRoute.Shell> {
             HhyShellScreen(
                 onOpenSearch = { navController.navigate(AuthenticatedRoute.Search) },
+                onOpenProjects = { navController.navigate(AuthenticatedRoute.Projects) },
+                onCreateProject = { navController.navigate(AuthenticatedRoute.ProjectEditor()) },
                 onOpenLoginDevices = { navController.navigate(AuthenticatedRoute.LoginDevices) },
                 onOpenChangePassword = { navController.navigate(AuthenticatedRoute.ChangePassword) },
                 onOpenCancellation = { navController.navigate(AuthenticatedRoute.Cancellation) },
@@ -267,6 +277,44 @@ private fun AuthenticatedNavHost(
                 accessToken = authenticated.session.accessToken,
                 publisherId = route.publisherId,
                 onBack = { navController.popBackStack() },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.Projects> {
+            R08ProjectListScreen(
+                api = r08Api,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+                onProjectSelected = { navController.navigate(AuthenticatedRoute.ProjectDetail(it)) },
+                onCreateProject = { navController.navigate(AuthenticatedRoute.ProjectEditor()) },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.ProjectDetail> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.ProjectDetail>()
+            R08ProjectDetailScreen(
+                api = r08Api,
+                accessToken = authenticated.session.accessToken,
+                projectId = route.projectId,
+                currentUserId = authenticated.user.id,
+                onBack = { navController.popBackStack() },
+                onEdit = { navController.navigate(AuthenticatedRoute.ProjectEditor(it)) },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.ProjectEditor> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.ProjectEditor>()
+            R08ProjectEditorScreen(
+                api = r08Api,
+                accessToken = authenticated.session.accessToken,
+                projectId = route.projectId,
+                identityVerified = authenticated.user.identityStatus == "VERIFIED",
+                onBack = { navController.popBackStack() },
+                onSaved = { id ->
+                    navController.navigate(AuthenticatedRoute.ProjectDetail(id)) {
+                        popUpTo<AuthenticatedRoute.Projects>() { inclusive = false }
+                    }
+                },
                 onSessionExpired = onSessionInvalidated,
             )
         }

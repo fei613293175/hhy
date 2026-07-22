@@ -3,6 +3,7 @@ package cc.orbexa.hhy.shell
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -57,6 +58,8 @@ private val navigationItems = listOf(
 @Composable
 fun HhyShellScreen(
     onOpenSearch: () -> Unit = {},
+    onOpenProjects: () -> Unit = {},
+    onCreateProject: () -> Unit = {},
     onOpenLoginDevices: () -> Unit = {},
     onOpenChangePassword: () -> Unit = {},
     onOpenCancellation: () -> Unit = {},
@@ -115,6 +118,12 @@ fun HhyShellScreen(
                         modifier = Modifier.fillMaxWidth().testTag("r07.home.search"),
                         onClick = onOpenSearch,
                     ) { Text("搜索项目、应用、群聊或团长") }
+                }
+                item {
+                    Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                        OutlinedButton(modifier = Modifier.weight(1f), onClick = onOpenProjects) { Text("浏览项目") }
+                        Button(modifier = Modifier.weight(1f), onClick = onCreateProject) { Text("发布项目") }
+                    }
                 }
             }
             item {
