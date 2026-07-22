@@ -19,6 +19,7 @@ jobs:
     outputs:
       enabled: ${{ steps.request.outputs.enabled }}
       release: ${{ steps.request.outputs.release }}
+      candidate: ${{ steps.request.outputs.candidate }}
       remediation_attempt: ${{ steps.request.outputs.remediation_attempt }}
       request_id: ${{ steps.request.outputs.request_id }}
     steps:
@@ -50,5 +51,5 @@ jobs:
     uses: ./.github/workflows/android-quality-gate.yml
     with:
       release: ${{ needs.request.outputs.release }}
-      candidate: true
+      candidate: ${{ needs.request.outputs.candidate == 'true' }}
       remediation_attempt: ${{ fromJSON(needs.request.outputs.remediation_attempt) }}

@@ -14,6 +14,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REQUEST = ROOT / "config/android-candidate-request.yaml"
 RELEASE_PATTERN = re.compile(r"^R(?:0[6-9]|[12][0-9]|3[0-2])$")
+HISTORICAL_VISUAL_RELEASE = "HISTORICAL-UI"
 
 
 class CandidateRequestError(ValueError):
@@ -29,10 +30,15 @@ def load_request(path: Path) -> dict[str, object]:
     if payload.get("status") != "REQUESTED":
         raise CandidateRequestError("status must be REQUESTED")
     release = str(payload.get("release") or "")
-    if not RELEASE_PATTERN.fullmatch(release):
-        raise CandidateRequestError("release must be R06 through R32")
-    if payload.get("candidate") is not True:
-        raise CandidateRequestError("candidate must be true")
+    candidate = payload.get("candidate")
+    if candidate is True:
+        if not RELEASE_PATTERN.fullmatch(release):
+            raise CandidateRequestError("candidate release must be R06 through R32")
+    elif candidate is False:
+        if release != HISTORICAL_VISUAL_RELEASE:
+            raise CandidateRequestError("candidate=false is reserved for HISTORICAL-UI")
+    else:
+        raise CandidateRequestError("candidate must be a boolean")
     attempt = payload.get("remediation_attempt")
     if not isinstance(attempt, int) or isinstance(attempt, bool) or not 1 <= attempt <= 3:
         raise CandidateRequestError("remediation_attempt must be an integer from 1 through 3")
@@ -43,7 +49,7 @@ def load_request(path: Path) -> dict[str, object]:
         "schema": "hhy.android-candidate-request/v1",
         "enabled": True,
         "release": release,
-        "candidate": True,
+        "candidate": candidate,
         "remediation_attempt": attempt,
         "request_id": request_id,
         "reason": str(payload.get("reason") or "").strip(),
@@ -54,7 +60,7 @@ def write_github_output(path: Path, payload: dict[str, object]) -> None:
     values = {
         "enabled": "true",
         "release": payload["release"],
-        "candidate": "true",
+        "candidate": str(payload["candidate"]).lower(),
         "remediation_attempt": payload["remediation_attempt"],
         "request_id": payload["request_id"],
     }

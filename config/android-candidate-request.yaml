@@ -1,7 +1,7 @@
 schema_version: 1
 status: REQUESTED
-release: R08
-candidate: true
-remediation_attempt: 3
-request_id: R08-CURRENT-HEAD-FINAL-20260722-003
-reason: 项目所有者明确要求先全面收尾R08再补历史UI；CR-0242将候选恢复为R08冻结的三个页面，并把Run 29927212504已证明误报合法认证页的跨屏阈值校准为0.005，同时保留相同SHA零容忍。本轮只验证当前HEAD的R08三页、APK和机器门禁，为R08最终有界候选。
+release: HISTORICAL-UI
+candidate: false
+remediation_attempt: 1
+request_id: HISTORICAL-UI-R01-R07-20260722-001
+reason: R08机器收尾已完成；CR-0248要求一次性回补R01至R07历史UI。该请求只运行离线HistoricalVisualAuditTest并产出22张非敏感截图，不请求Staging登录、不生成候选APK、不进入候选或修复队列。

@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T17:18:36Z
-- Context Hash：`0cb4b8700892af046ff7f30282fa81b291397f2e8f48560836fd12de89b4c8b4`
+- 生成时间：2026-07-22T17:25:02Z
+- Context Hash：`610a2dbbbefe0ca47f61646515a7b2a9df8f78bd862eb51ccfb1647c6eb0c3d0`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -134,7 +134,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R09-001
-updated_at: '2026-07-22T17:18:33Z'
+updated_at: '2026-07-22T17:25:00Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -169,15 +169,15 @@ continuity:
   active_session_id: SES-20260722T153450Z-FAD75B8D
   actor_id: codex-root-r09-ui-audit
   story_id: STORY-R09-004
-  lease_expires_at: '2026-07-22T21:18:33Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0009.yaml
-  project_fingerprint: dd6da07ce891c2a6ffd17270f40e17b00bb65bc804827109db0f4bb1f06c3d41
+  lease_expires_at: '2026-07-22T21:25:00Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0010.yaml
+  project_fingerprint: 224b92d7908fbaa5147c5976a96fbf7d1acab038358278bcac592c2ba7f99e4e
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 105e9ca1ae4c9be3447bf55485c8d8bc9676cc4aa30671fc181d729059be3a29
-    generated_at: '2026-07-22T17:13:20Z'
+    context_hash: 0cb4b8700892af046ff7f30282fa81b291397f2e8f48560836fd12de89b4c8b4
+    generated_at: '2026-07-22T17:18:36Z'
   handoff_bundle: null
 ```
 
@@ -378,7 +378,7 @@ task_id: TASK-R09-001
 story_id: STORY-R09-004
 goal: 在R09业务编码前，完成P00/R01至R08全部已实现Android、H5、Admin页面的效果图级全局审计；不合格页面返工，缺少且不可复用效果图的页面输出桌面补充包。
 started_at: '2026-07-22T15:34:50Z'
-updated_at: '2026-07-22T17:18:33Z'
+updated_at: '2026-07-22T17:25:00Z'
 takeover_of: null
 change_requests:
 - CR-0247
@@ -436,12 +436,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T17:18:33Z'
-  expires_at: '2026-07-22T21:18:33Z'
-checkpoint_sequence: 9
-latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0009.yaml
+  renewed_at: '2026-07-22T17:25:00Z'
+  expires_at: '2026-07-22T21:25:00Z'
+checkpoint_sequence: 10
+latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0010.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md
-next_step: 将未推送提交绑定本检查点后推送并触发一次离线视觉专跑
+next_step: 提交并推送请求；监控Android Candidate Request仅运行离线历史视觉作业并下载22张截图
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -449,43 +449,54 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终净树检查点和提交身份必须串行
+  reason: 唯一请求ID与工作流触发必须串行
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T153450Z-FAD75B8D-0009
+checkpoint_id: CP-SES-20260722T153450Z-FAD75B8D-0010
 session_id: SES-20260722T153450Z-FAD75B8D
-sequence: 9
-created_at: '2026-07-22T17:18:33Z'
-summary: 最终净源码树仅保留既有Android Quality Gate的HISTORICAL-UI特殊模式，不含临时平行工作流
-next_step: 将未推送提交绑定本检查点后推送并触发一次离线视觉专跑
+sequence: 10
+created_at: '2026-07-22T17:24:59Z'
+summary: 扩展既有Android候选请求为类型安全的HISTORICAL-UI非候选模式，并写入唯一一次历史视觉请求
+next_step: 提交并推送请求；监控Android Candidate Request仅运行离线历史视觉作业并下载22张截图
 blockers: []
 decisions:
-- 检查点按会话起点到最终Commit净变化生成，消除临时新增后删除文件的历史集合差异
+- candidate=false仅允许HISTORICAL-UI；真实R06至R32候选仍必须candidate=true，禁止模式混用
 note: ''
 tests:
-- name: Android CI gate tests
+- name: Android automation request tests
   result: PASS
-  evidence: tests/test_android_ci_gate.py
-  note: 18 tests，最终输入未变化
+  evidence: tests/test_android_candidate_request.py;tests/test_android_ci_gate.py
+  note: 23 tests通过
+- name: Historical request validation
+  result: PASS
+  evidence: config/android-candidate-request.yaml
+  note: 解析为HISTORICAL-UI且candidate=false
 - name: Documentation strict
   result: PASS
   evidence: artifacts/validation/project-doctor-v1.2.3-documentation.json
-  note: 最终输入未变化
+  note: 文档门禁通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: d7c115d0392746f37e64d91fb1319d14b958c736
+  head: f4e49b514b8a6844341e286fa211c863ec1187ab
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
-  dirty: false
-  status_porcelain: []
+  dirty: true
+  status_porcelain:
+  - ' M .github/workflows/android-candidate-request.yml'
+  - ' M artifacts/reports/R09/TASK-R09-001-historical-ui-audit.md'
+  - ' M config/android-candidate-request.yaml'
+  - ' M docs/09-development/统一开发与交付效率规范.md'
+  - ' M scripts/android_candidate_request.py'
+  - ' M tests/test_android_candidate_request.py'
+  - ' M tests/test_android_ci_gate.py'
   recent_commits:
-  - "d7c115d0392746f37e64d91fb1319d14b958c736\t2026-07-23T01:14:40+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] refactor(ci): reuse quality\
+  - "f4e49b514b8a6844341e286fa211c863ec1187ab\t2026-07-23T01:14:40+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] refactor(ci): reuse quality\
     \ gate for visual audit"
   - "654b3c0b7a4d02f6b3dbaada3d56214c74475c98\t2026-07-23T00:50:05+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(ui): remediate historical\
     \ visual quality"
@@ -501,8 +512,9 @@ git:
   - "c5fc618a8a5177400e35de7b651b48c983af6716\t2026-07-22T22:41:58+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(r08): close release before\
     \ global UI audit"
 project_fingerprint:
-  sha256: dd6da07ce891c2a6ffd17270f40e17b00bb65bc804827109db0f4bb1f06c3d41
+  sha256: 224b92d7908fbaa5147c5976a96fbf7d1acab038358278bcac592c2ba7f99e4e
   files:
+  - .github/workflows/android-candidate-request.yml
   - .github/workflows/android-quality-gate.yml
   - CHANGELOG.md
   - apps/admin-web/src/views/AdminLoginPage.vue
@@ -517,6 +529,7 @@ project_fingerprint:
   - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
   - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
   - catalogs/ui_visual_acceptance.csv
+  - config/android-candidate-request.yaml
   - config/development-workflow.yaml
   - config/test-impact-map.yaml
   - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
@@ -718,18 +731,24 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md
   - docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md
   - docs/09-development/统一开发与交付效率规范.md
+  - scripts/android_candidate_request.py
   - scripts/capture_r01_admin_visuals.mjs
   - scripts/check_release_artifacts.py
   - scripts/check_v123_documentation.py
   - scripts/hhy_workflow.py
+  - tests/test_android_candidate_request.py
   - tests/test_android_ci_gate.py
   - tests/test_hhy_workflow.py
   - tests/test_release_close_gate.py
   - tests/test_run_affected_tests.py
-  file_count: 223
+  file_count: 227
   payload:
     base_commit: 316c2db20204555fcd405fd6346d96aa8effe932
     files:
+    - path: .github/workflows/android-candidate-request.yml
+      state: FILE
+      size: 1759
+      sha256: 4a0ce48df4763733a0ef9702354ba6bb054a1691f8017f3ad5f61ff15fea751c
     - path: .github/workflows/android-quality-gate.yml
       state: FILE
       size: 12848
@@ -786,6 +805,10 @@ project_fingerprint:
       state: FILE
       size: 36180
       sha256: 3be3b32ddc5bded1b9c7b033ab3caf7b01f2d3ed6d5d69d66704e5ac7b877a2d
+    - path: config/android-candidate-request.yaml
+      state: FILE
+      size: 390
+      sha256: 1f9d9610463da1a9abcdd617a3e92d42fa2e834ce31c11f2e3bfc306108e8127
     - path: config/development-workflow.yaml
       state: FILE
       size: 3386
@@ -1588,8 +1611,12 @@ project_fingerprint:
       sha256: 944b0ad8f17f23cf9fee5a3c841147af659cfaff4db26435fd3571942fbdb198
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
-      size: 14889
-      sha256: e739aa539433803c58f999a21b262506989b66d6e776c98deb2c51e7489911e0
+      size: 15067
+      sha256: 2abb6c6e0ab65ccfd81271d970cdc2939a616d5560306a65fc39edb85071a094
+    - path: scripts/android_candidate_request.py
+      state: FILE
+      size: 3423
+      sha256: 74a99f0802c8f60a2e0b79ceaf5ca0a10fb4ce43c64755e94c156d17f3e2dc0a
     - path: scripts/capture_r01_admin_visuals.mjs
       state: FILE
       size: 2496
@@ -1606,10 +1633,14 @@ project_fingerprint:
       state: FILE
       size: 21058
       sha256: 187d654bba4c806f6efe2efe796231a4131e669562acf76f2a3036e134fd297c
+    - path: tests/test_android_candidate_request.py
+      state: FILE
+      size: 3222
+      sha256: 8c39b77d2943c6325a788e83fecb933436795ee067d5b4432de86239ee8b4753
     - path: tests/test_android_ci_gate.py
       state: FILE
-      size: 28163
-      sha256: 57676c6d5559851034f4b2fc29f23ebe6d5fb6f340a53d7f6d73c7f4de9e07bf
+      size: 28397
+      sha256: d271744ce9e8622a9563ddcee8d3ef150a6f5580007320b77160af40f50c4804
     - path: tests/test_hhy_workflow.py
       state: FILE
       size: 10718
@@ -1624,10 +1655,12 @@ project_fingerprint:
       sha256: 1905c91bd6b0a0215be1f6297997083d8220063c538352b2771e70ebf33095cc
 change_classification:
   infrastructure:
+  - .github/workflows/android-candidate-request.yml
   - .github/workflows/android-quality-gate.yml
   other:
   - CHANGELOG.md
   - catalogs/ui_visual_acceptance.csv
+  - config/android-candidate-request.yaml
   - config/development-workflow.yaml
   - config/test-impact-map.yaml
   - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
@@ -1648,6 +1681,7 @@ change_classification:
   - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
   - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
   - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - scripts/android_candidate_request.py
   - scripts/capture_r01_admin_visuals.mjs
   - scripts/check_release_artifacts.py
   - scripts/check_v123_documentation.py
@@ -2050,6 +2084,7 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md
   - docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md
   tests:
+  - tests/test_android_candidate_request.py
   - tests/test_android_ci_gate.py
   - tests/test_hhy_workflow.py
   - tests/test_release_close_gate.py
@@ -2113,8 +2148,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 最终净树检查点和提交身份必须串行
-event_hash: b1e5e5c5e97b3887a63ed9cc4d2f7049f507d0f699ebd99083492b4990f0bc9f
+  reason: 唯一请求ID与工作流触发必须串行
+event_hash: 60855bdc7ed38f0c97de7d43f23e977b47f47f5bab0db64b293ac21c3f5e5e6c
 ```
 
 ## 接续状态与事件头
@@ -2126,8 +2161,8 @@ active_session_id: SES-20260722T153450Z-FAD75B8D
 last_session_id: SES-20260722T093645Z-C7DB8EF0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0021
-event_count: 2429
-event_head_hash: b1e5e5c5e97b3887a63ed9cc4d2f7049f507d0f699ebd99083492b4990f0bc9f
+event_count: 2430
+event_head_hash: 60855bdc7ed38f0c97de7d43f23e977b47f47f5bab0db64b293ac21c3f5e5e6c
 event_chain_valid: true
 ```
 
@@ -2250,9 +2285,9 @@ recent_sessions: - session_id: SES-20260721T235847Z-F9109B61
   started_at: '2026-07-22T15:34:50Z'
   record: .continuity/sessions/SES-20260722T153450Z-FAD75B8D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md
-  updated_at: '2026-07-22T17:18:33Z'
+  updated_at: '2026-07-22T17:25:00Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0009.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0010.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1136543F9D43
   session_id: SES-20260721T043434Z-868F3619
@@ -3233,9 +3268,9 @@ recent_task_transitions: - transition_id: TRN-BCEA665B53B9
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: d7c115d0392746f37e64d91fb1319d14b958c736
+head: f4e49b514b8a6844341e286fa211c863ec1187ab
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
@@ -3244,12 +3279,19 @@ status_porcelain:
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
 - ' M .continuity/sessions/SES-20260722T153450Z-FAD75B8D.yaml'
+- ' M .github/workflows/android-candidate-request.yml'
 - ' M CURRENT_STATUS.yaml'
+- ' M artifacts/reports/R09/TASK-R09-001-historical-ui-audit.md'
 - ' M catalogs/session_index.csv'
+- ' M config/android-candidate-request.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md'
-- ?? .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0009.yaml
+- ' M docs/09-development/统一开发与交付效率规范.md'
+- ' M scripts/android_candidate_request.py'
+- ' M tests/test_android_candidate_request.py'
+- ' M tests/test_android_ci_gate.py'
+- ?? .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0010.yaml
 recent_commits:
-- "d7c115d0392746f37e64d91fb1319d14b958c736\t2026-07-23T01:14:40+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] refactor(ci): reuse quality\
+- "f4e49b514b8a6844341e286fa211c863ec1187ab\t2026-07-23T01:14:40+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] refactor(ci): reuse quality\
   \ gate for visual audit"
 - "654b3c0b7a4d02f6b3dbaada3d56214c74475c98\t2026-07-23T00:50:05+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] feat(ui): remediate historical\
   \ visual quality"
@@ -3268,9 +3310,10 @@ recent_commits:
 
 ## 会话累计项目变更
 
-- 指纹：`dd6da07ce891c2a6ffd17270f40e17b00bb65bc804827109db0f4bb1f06c3d41`
-- 文件数：223
+- 指纹：`224b92d7908fbaa5147c5976a96fbf7d1acab038358278bcac592c2ba7f99e4e`
+- 文件数：227
 
+- `.github/workflows/android-candidate-request.yml`
 - `.github/workflows/android-quality-gate.yml`
 - `CHANGELOG.md`
 - `apps/admin-web/src/views/AdminLoginPage.vue`
@@ -3285,6 +3328,7 @@ recent_commits:
 - `apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt`
 - `apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt`
 - `catalogs/ui_visual_acceptance.csv`
+- `config/android-candidate-request.yaml`
 - `config/development-workflow.yaml`
 - `config/test-impact-map.yaml`
 - `design/R06-UI-FROZEN/specs/SCR-HOME-001.md`
@@ -3469,8 +3513,6 @@ recent_commits:
 - `docs/02-ui/page-specs/android/SHEET-REPORT-001_举报面板.md`
 - `docs/02-ui/page-specs/android/SHEET-RP-001_红包领取面板.md`
 - `docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md`
-- `docs/02-ui/page-specs/h5/H5-001_品牌宣传下载页.md`
-- `docs/02-ui/page-specs/h5/H5-002_安装教程.md`
 
 ## 当前 Release
 
@@ -9545,7 +9587,7 @@ TASKS.yaml:
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `161d06799c8b0a93b4817273537d610c41efeb132ba21d20d017c4382603b450`
+- `CURRENT_STATUS.yaml` — `dbd9a47f6ccb7469b617d6f7159a6a02f00e0128c0470a75d3989b7b7c1de67e`
 - `NEXT_TASK.yaml` — `f685c1e6a6c0171a94c8953f40bd294574f9be6a468c998da512d22466d10434`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -9556,23 +9598,23 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `004b49f679bdbd58bb65bd4382650ffce8f02bc11be6091966e8b28af4abdc4d`
-- `.continuity/SESSION_INDEX.yaml` — `ece855fb0365839a4349a1992dd072a82d0857ca91996960e2d6b19fae0b64ea`
+- `.continuity/EVENT_LOG.jsonl` — `d735b844f8c69c282573767df5f42c5836bceac67a79034a9c55b7368e68db15`
+- `.continuity/SESSION_INDEX.yaml` — `97d5cda5a55f2c4fbe5388dcad227db28c88c0f9eb3c00c872ba29b57453699b`
 - `.continuity/TASK_CLAIMS.yaml` — `8ae76f62de345a936b4cc45e5e7a4b4173d35aac62b88980e700304d132798de`
 - `.continuity/TASK_TRANSITIONS.yaml` — `f26a836cb897d059bc80c40b59f4129460780ee51598b4fa2f69e3eaf8082fb4`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `648bae8b25bb075925e1046ec89aa55491afb0d3b15fabd4512e3914956fb423`
-- `.continuity/ACTIVE_SESSION.yaml` — `26070a4492a729363b89c165ffe090d88b270eb9edee910a990a07d5bb1160cb`
+- `.continuity/ACTIVE_SESSION.yaml` — `6a1d5b71e9bfda9b5db4be2cf8ce0f8ea760ebf680bd7204db5db24164566a81`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
-- `docs/09-development/统一开发与交付效率规范.md` — `e739aa539433803c58f999a21b262506989b66d6e776c98deb2c51e7489911e0`
+- `docs/09-development/统一开发与交付效率规范.md` — `2abb6c6e0ab65ccfd81271d970cdc2939a616d5560306a65fc39edb85071a094`
 - `releases/R09/RELEASE_MANIFEST.yaml` — `3415b644f519121cf7975795f2a82cd093307e0747a39c632452260adce3d398`
 - `releases/R09/DEFINITION_OF_READY.yaml` — `7193360d8978b3c34ffd401076a43112eb849b016ad1800b7aa9202989fe3c35`
 - `releases/R09/STORIES.yaml` — `bf6aa9b385fde354089345fa0172e6d9ca01a3fa96f0ce696a3086a394ce2776`
 - `releases/R09/TASKS.yaml` — `178191cc057d1da1db8d626a5ca56eae5fc7ba921349f00d0dd9aa70aceef19d`
 - `releases/R09/ACCEPTANCE_MATRIX.csv` — `98e99c241f9e7ab8814e20fb62060f90c5903da20c1ef39ec81fa75d3bdecfb3`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md` — `76342bd81dc86ba9e13658c6347b9171d3da41a51e8a9748e60edb48cd30f38f`
-- `.continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0009.yaml` — `0d2ae4d7aed11d0c7fe574a5228bf840e2e205985c31c9881b3fab9e2c012df0`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md` — `7911f3af7b6bad1c3b34cda9d742b1b91a07b63b98c01efa89eaf98c14908abb`
+- `.continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0010.yaml` — `6a15b04e7bd1543bfa094cb08f3f205ab54029389296d72705845db98dbdedb0`
 - `docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md` — `6183e85333a663b0c3d1555ee251600edc52674dadee2c37879ab1f69e89db23`
 - `docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md` — `944b0ad8f17f23cf9fee5a3c841147af659cfaff4db26435fd3571942fbdb198`
 

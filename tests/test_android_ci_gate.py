@@ -355,7 +355,14 @@ class AndroidCiGateTest(unittest.TestCase):
             "./.github/workflows/android-quality-gate.yml",
             workflow["jobs"]["quality"]["uses"],
         )
-        self.assertEqual("true", workflow["jobs"]["quality"]["with"]["candidate"])
+        self.assertEqual(
+            "${{ needs.request.outputs.candidate == 'true' }}",
+            workflow["jobs"]["quality"]["with"]["candidate"],
+        )
+        self.assertEqual(
+            "${{ steps.request.outputs.candidate }}",
+            workflow["jobs"]["request"]["outputs"]["candidate"],
+        )
         self.assertIn("config/android-candidate-request.yaml", workflow_path.read_text(encoding="utf-8"))
         self.assertEqual("write", workflow["jobs"]["quality"]["permissions"]["id-token"])
 
