@@ -122,7 +122,7 @@ tasks:
   completed_at: '2026-07-22T06:40:19Z'
 - id: TASK-R08-007
   title: 项目推广完整闭环Android测试APK与产物追溯
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R08-006
   requirements: *id001
@@ -136,9 +136,10 @@ tasks:
   - APK可下载/可安装
   - SHA256、Commit、versionName/versionCode、测试结果齐全
   session_log_required: true
+  completed_at: '2026-07-22T09:34:49Z'
 - id: TASK-R08-008
   title: 项目推广完整闭环版本关闭与无状态交接
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R08-007
   requirements: *id001
