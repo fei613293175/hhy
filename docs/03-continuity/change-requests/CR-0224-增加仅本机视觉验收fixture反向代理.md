@@ -85,3 +85,17 @@ updated_at: 2026-07-22T04:48:16Z
 - Status：`IMPLEMENTING`
 - Session：`SES-20260722T031604Z-105CF4C6`
 - Note：开始实现本机fixture反向代理并用于真实浏览器渲染证据。
+
+## 状态记录 · 2026-07-22T05:31:45Z
+
+- Actor：`codex-root-r08-004`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260722T031604Z-105CF4C6`
+- Note：仅本机127.0.0.1 fixture反向代理已实现；管理员登录、用户、实名、供应商、域名与H5邀请冻结读取响应已用于真实浏览器渲染，脚本help与py_compile通过。
+
+## 状态记录 · 2026-07-22T05:32:05Z
+
+- Actor：`codex-root-r08-004`
+- Status：`CLOSED`
+- Session：`SES-20260722T031604Z-105CF4C6`
+- Note：本机代理、12张后台截图和H5邀请截图均已验证；所有页面由AI判定PASS，代理进程已停止且浏览器视口已复原，不存在生产部署或运行时依赖。

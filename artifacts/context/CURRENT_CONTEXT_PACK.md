@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T05:22:41Z
-- Context Hash：`9c6b975095d7a1f7c17f69f9e002c51f25a07e3519917ddbc791c403b879a618`
+- 生成时间：2026-07-22T05:33:48Z
+- Context Hash：`be23bac61037de6fd943deda90180bbb0639da320cefa0049a581220522ab20e`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -129,7 +129,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-004
-updated_at: '2026-07-22T05:22:38Z'
+updated_at: '2026-07-22T05:33:45Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -164,15 +164,15 @@ continuity:
   active_session_id: SES-20260722T031604Z-105CF4C6
   actor_id: codex-root-r08-004
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T09:22:38Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0012.yaml
-  project_fingerprint: ded87beaa27ebae0ed5e52957a47f7ba544d3527b97b9482ae50feec6d08dc82
+  lease_expires_at: '2026-07-22T09:33:45Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0013.yaml
+  project_fingerprint: 34a6eb37176303198463008d0c4bb139f3d435d21e30e57e2c86d099d2cea075
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 5b296a66a6a130e7cb88701ce7a540fba0fec97088db6d6cf6e7bd9ccee4210d
-    generated_at: '2026-07-22T05:19:47Z'
+    context_hash: 9c6b975095d7a1f7c17f69f9e002c51f25a07e3519917ddbc791c403b879a618
+    generated_at: '2026-07-22T05:22:41Z'
   handoff_bundle: null
 ```
 
@@ -380,7 +380,7 @@ task_id: TASK-R08-004
 story_id: STORY-R08-004
 goal: 按效果图级肉眼标准实现R08项目列表、详情、发布编辑客户端/H5/后台，并完成R02-R07历史视觉审计与必要回补，不虚构业务。
 started_at: '2026-07-22T03:16:04Z'
-updated_at: '2026-07-22T05:22:38Z'
+updated_at: '2026-07-22T05:33:45Z'
 takeover_of: null
 change_requests:
 - CR-0217
@@ -462,12 +462,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T05:22:38Z'
-  expires_at: '2026-07-22T09:22:38Z'
-checkpoint_sequence: 12
-latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0012.yaml
+  renewed_at: '2026-07-22T05:33:45Z'
+  expires_at: '2026-07-22T09:33:45Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0013.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
-next_step: 冻结提交并推送；在obx-test固定镜像和命名Gradle缓存卷上执行startup/media/app受影响MODULE；成功后记录证据并进入R08最终候选统一模拟器截图
+next_step: 提交推送R08-004最终证据并关闭TASK-R08-004；立即领取TASK-R08-005执行项目主路径、拒绝、幂等、并发、超时和故障注入专项测试
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -475,90 +475,61 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前系统指令禁止未由用户明确要求的子代理；主控串行保持唯一工作树
+  reason: 当前系统禁止未由用户明确要求的子代理；主控串行保持唯一工作树
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T031604Z-105CF4C6-0012
+checkpoint_id: CP-SES-20260722T031604Z-105CF4C6-0013
 session_id: SES-20260722T031604Z-105CF4C6
-sequence: 12
-created_at: '2026-07-22T05:22:38Z'
-summary: CR-0223/0224历史视觉回补、浏览器证据、Android启动与媒体视觉代码、唯一视觉目录及CHANGELOG已完成并通过受影响Web与合同门禁
-next_step: 冻结提交并推送；在obx-test固定镜像和命名Gradle缓存卷上执行startup/media/app受影响MODULE；成功后记录证据并进入R08最终候选统一模拟器截图
+sequence: 13
+created_at: '2026-07-22T05:33:45Z'
+summary: R02-R05历史视觉回补实现已冻结到35484da7；后台/H5真实浏览器证据PASS；受影响Android startup/media/app在obx-test固定镜像和命名缓存卷上172 tasks PASS；CR-0224已关闭，CR-0223已实现并保留最终候选Android截图验收
+next_step: 提交推送R08-004最终证据并关闭TASK-R08-004；立即领取TASK-R08-005执行项目主路径、拒绝、幂等、并发、超时和故障注入专项测试
 blockers: []
 decisions: []
-note: 完整lint、候选APK、模拟器只在R08最终候选阶段执行；下一步仅受影响Android MODULE
+note: CR-0223的Android截图验收按规则延续到R08最终候选阶段，不阻断R08-005专项测试。
 tests:
-- name: admin-web-test-build
+- name: android-historical-visual-module
   result: PASS
-  evidence: 16 files 88 tests plus vue-tsc vite build
-  note: 后台历史视觉回归
-- name: h5-test-build
+  evidence: commit 35484da7 log /tmp/hhy-r08-historical-android-35484da7.log sha256 9a0ecb89c47ce151f1dd9b2be0317f900a490366bde101147553b6cd5da93244
+  note: 172 tasks startup media app BUILD SUCCESSFUL in 3m11s
+- name: admin-historical-browser
   result: PASS
-  evidence: 6 files 27 tests plus vue-tsc vite build
-  note: H5历史视觉回归
-- name: ui-visual-catalog
+  evidence: 12 screenshots 1440x1100 and 88 tests
+  note: AI six-marker visual review PASS
+- name: h5-historical-browser
+  result: PASS
+  evidence: H5-012 and H5-013 screenshots 360x800 and 27 tests
+  note: AI visual review PASS
+- name: ui-catalog-contract
   result: PASS
   evidence: R02=14 R03=7 R04=1 R05=7 R08=3
-  note: 唯一视觉目录完整
-- name: contract-assets-openapi
-  result: PASS
-  evidence: 38 runtime assets and API contract PASS
-  note: 跨层合同无漂移
+  note: catalog-only complete
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: c8d9793655df6d6880f87536f245e8844ecf3a2d
+  head: 35484da74a8c0483bdb6a236b8eca23bfe606cc9
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - M  .continuity/ACTIVE_SESSION.yaml
-  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
-  - M  .continuity/EVENT_LOG.jsonl
-  - M  .continuity/SESSION_INDEX.yaml
-  - M  .continuity/STATE.yaml
-  - A  .continuity/change_requests/CR-0223.yaml
-  - A  .continuity/change_requests/CR-0224.yaml
-  - A  .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0011.yaml
-  - M  .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml
-  - M  CHANGELOG.md
-  - M  CURRENT_STATUS.yaml
-  - M  apps/admin-web/src/views/AdminUserDetailPage.vue
-  - M  apps/admin-web/src/views/AdminUsersListPage.vue
-  - M  apps/admin-web/src/views/ProviderConfigPage.vue
-  - M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-  - M  apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
-  - A  apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
-  - M  apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  artifacts/reports/R08/TASK-R08-004-client.md
-  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-002-browser-1440x1100.png
-  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-003-browser-1440x1100.png
-  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-004-browser-1440x1100.png
-  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-005-browser-1440x1100.png
-  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-006-browser-1440x1100.png
-  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-007-browser-1440x1100.png
-  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-008-browser-1440x1100.png
-  - A  artifacts/validation/r08-historical-ui/admin/ADM-ID-001-browser-1440x1100.png
-  - A  artifacts/validation/r08-historical-ui/admin/ADM-ID-002-browser-1440x1100.png
-  - A  artifacts/validation/r08-historical-ui/admin/ADM-USER-001-browser-1440x1100.png
-  - A  artifacts/validation/r08-historical-ui/admin/ADM-USER-002-browser-1440x1100.png
-  - A  artifacts/validation/r08-historical-ui/h5/H5-013-browser-360x800.png
-  - M  catalogs/change_request_index.csv
-  - M  catalogs/session_index.csv
-  - M  catalogs/ui_visual_acceptance.csv
-  - A  docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md
-  - A  docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md
-  - M  docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
-  - A  scripts/serve_ui_visual_fixture_proxy.py
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0223.yaml'
+  - ' M .continuity/change_requests/CR-0224.yaml'
+  - ' M artifacts/reports/R08/TASK-R08-004-client.md'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md'
+  - ' M docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md'
   recent_commits:
+  - "35484da74a8c0483bdb6a236b8eca23bfe606cc9\t2026-07-22T13:23:00+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(ui): remediate R02-R05\
+    \ historical visuals"
   - "c8d9793655df6d6880f87536f245e8844ecf3a2d\t2026-07-22T12:37:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs: close R06 visual remediation\
     \ evidence"
   - "a217dd276df6bcbd35a019d0e9974b75d5201bce\t2026-07-22T12:30:39+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): enrich R06\
@@ -573,10 +544,8 @@ git:
     \ and remote build pattern"
   - "9946433742eb9f7ba7ade9909ad11ec0774e8afb\t2026-07-22T11:58:28+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): complete project\
     \ web and visual contracts"
-  - "298544b5688ff43b87a85992a572a23eada720f5\t2026-07-22T11:33:27+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): implement project\
-    \ client flow"
 project_fingerprint:
-  sha256: ded87beaa27ebae0ed5e52957a47f7ba544d3527b97b9482ae50feec6d08dc82
+  sha256: 34a6eb37176303198463008d0c4bb139f3d435d21e30e57e2c86d099d2cea075
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r08ProjectReuse.test.ts
@@ -792,12 +761,12 @@ project_fingerprint:
       sha256: 2627a900c8113faf8de27fb776618cd99c429c08795dad4ea02067793e802b79
     - path: docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md
       state: FILE
-      size: 3718
-      sha256: a9b4abf63a08b63f6a1417da7f8ff3c4dba96a61ab1125eee48a70b3f6505d1d
+      size: 4149
+      sha256: bbcd0020a39e7bd6fe350d8e9fdce8560c8a59c51f7479a5ea99e6664d551310
     - path: docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md
       state: FILE
-      size: 2321
-      sha256: d932a033b144c2a5df0dfeb661334fddc274e694ad4dd9a0671ed105bf14dbdb
+      size: 3005
+      sha256: ba46ad1ad46f5221814c2c3e42a649f1d53103576bbc909f774e743dbdad1ab8
     - path: scripts/serve_ui_visual_fixture_proxy.py
       state: FILE
       size: 10953
@@ -956,8 +925,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前系统指令禁止未由用户明确要求的子代理；主控串行保持唯一工作树
-event_hash: 984d906c74614a8619eb893ee929767e5fb55b02fada79b32f9f15fb7b601dfa
+  reason: 当前系统禁止未由用户明确要求的子代理；主控串行保持唯一工作树
+event_hash: a984e084eba67ef0b36487eace51380ee7b2e1b403c34ea8550c795fa62029dd
 ```
 
 ## 接续状态与事件头
@@ -969,8 +938,8 @@ active_session_id: SES-20260722T031604Z-105CF4C6
 last_session_id: SES-20260722T012224Z-E70EA3B7
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0012
-event_count: 2217
-event_head_hash: 984d906c74614a8619eb893ee929767e5fb55b02fada79b32f9f15fb7b601dfa
+event_count: 2221
+event_head_hash: a984e084eba67ef0b36487eace51380ee7b2e1b403c34ea8550c795fa62029dd
 event_chain_valid: true
 ```
 
@@ -1093,9 +1062,9 @@ recent_sessions: - session_id: SES-20260721T171025Z-A3718A1C
   started_at: '2026-07-22T03:16:04Z'
   record: .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
-  updated_at: '2026-07-22T05:22:38Z'
+  updated_at: '2026-07-22T05:33:45Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0012.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0013.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-4352DBBBC526
   session_id: SES-20260720T160653Z-1DDCDB22
@@ -2049,55 +2018,31 @@ recent_task_transitions: - transition_id: TRN-D1B6297F4500
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: c8d9793655df6d6880f87536f245e8844ecf3a2d
+head: 35484da74a8c0483bdb6a236b8eca23bfe606cc9
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- MM .continuity/ACTIVE_SESSION.yaml
-- M  .continuity/CHANGE_REQUEST_INDEX.yaml
-- MM .continuity/EVENT_LOG.jsonl
-- MM .continuity/SESSION_INDEX.yaml
-- MM .continuity/STATE.yaml
-- A  .continuity/change_requests/CR-0223.yaml
-- A  .continuity/change_requests/CR-0224.yaml
-- A  .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0011.yaml
-- MM .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml
-- M  CHANGELOG.md
-- MM CURRENT_STATUS.yaml
-- M  apps/admin-web/src/views/AdminUserDetailPage.vue
-- M  apps/admin-web/src/views/AdminUsersListPage.vue
-- M  apps/admin-web/src/views/ProviderConfigPage.vue
-- M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-- M  apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
-- A  apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
-- M  apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
-- M  artifacts/context/CURRENT_CONTEXT_PACK.md
-- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-- M  artifacts/reports/R08/TASK-R08-004-client.md
-- A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-002-browser-1440x1100.png
-- A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-003-browser-1440x1100.png
-- A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-004-browser-1440x1100.png
-- A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-005-browser-1440x1100.png
-- A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-006-browser-1440x1100.png
-- A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-007-browser-1440x1100.png
-- A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-008-browser-1440x1100.png
-- A  artifacts/validation/r08-historical-ui/admin/ADM-ID-001-browser-1440x1100.png
-- A  artifacts/validation/r08-historical-ui/admin/ADM-ID-002-browser-1440x1100.png
-- A  artifacts/validation/r08-historical-ui/admin/ADM-USER-001-browser-1440x1100.png
-- A  artifacts/validation/r08-historical-ui/admin/ADM-USER-002-browser-1440x1100.png
-- A  artifacts/validation/r08-historical-ui/h5/H5-013-browser-360x800.png
-- M  catalogs/change_request_index.csv
-- MM catalogs/session_index.csv
-- M  catalogs/ui_visual_acceptance.csv
-- A  docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md
-- A  docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md
-- MM docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
-- A  scripts/serve_ui_visual_fixture_proxy.py
-- ?? .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0012.yaml
+- ' M .continuity/ACTIVE_SESSION.yaml'
+- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+- ' M .continuity/EVENT_LOG.jsonl'
+- ' M .continuity/SESSION_INDEX.yaml'
+- ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0223.yaml'
+- ' M .continuity/change_requests/CR-0224.yaml'
+- ' M .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml'
+- ' M CURRENT_STATUS.yaml'
+- ' M artifacts/reports/R08/TASK-R08-004-client.md'
+- ' M catalogs/change_request_index.csv'
+- ' M catalogs/session_index.csv'
+- ' M docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md'
+- ' M docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md'
+- ?? .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0013.yaml
 recent_commits:
+- "35484da74a8c0483bdb6a236b8eca23bfe606cc9\t2026-07-22T13:23:00+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(ui): remediate R02-R05\
+  \ historical visuals"
 - "c8d9793655df6d6880f87536f245e8844ecf3a2d\t2026-07-22T12:37:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs: close R06 visual remediation\
   \ evidence"
 - "a217dd276df6bcbd35a019d0e9974b75d5201bce\t2026-07-22T12:30:39+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): enrich R06 home\
@@ -2112,13 +2057,11 @@ recent_commits:
   \ and remote build pattern"
 - "9946433742eb9f7ba7ade9909ad11ec0774e8afb\t2026-07-22T11:58:28+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): complete project\
   \ web and visual contracts"
-- "298544b5688ff43b87a85992a572a23eada720f5\t2026-07-22T11:33:27+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): implement project\
-  \ client flow"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`ded87beaa27ebae0ed5e52957a47f7ba544d3527b97b9482ae50feec6d08dc82`
+- 指纹：`34a6eb37176303198463008d0c4bb139f3d435d21e30e57e2c86d099d2cea075`
 - 文件数：44
 
 - `CHANGELOG.md`
@@ -7575,9 +7518,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - protocol_version: '1.0'
   cr_id: CR-0223
   title: 补齐R02至R05历史页面视觉合同与真实浏览器证据
-  status: IMPLEMENTING
+  status: IMPLEMENTED
   created_at: '2026-07-22T04:43:22Z'
-  updated_at: '2026-07-22T04:44:22Z'
+  updated_at: '2026-07-22T05:33:08Z'
   requester_actor_id: codex-root-r08-004
   approver_actor_id: codex-reviewer-r08-historical-visual
   task_id: TASK-R08-004
@@ -7642,65 +7585,22 @@ PARALLEL_EXECUTION_PLAN.yaml:
     status: IMPLEMENTING
     note: 开始审计R05至R02页面并采集H5/后台真实浏览器截图；Android保留到R08最终候选统一截图。
     session_id: SES-20260722T031604Z-105CF4C6
-  session_ids:
-  - SES-20260722T031604Z-105CF4C6
-- protocol_version: '1.0'
-  cr_id: CR-0224
-  title: 增加仅本机视觉验收fixture反向代理
-  status: IMPLEMENTING
-  created_at: '2026-07-22T04:48:10Z'
-  updated_at: '2026-07-22T04:48:18Z'
-  requester_actor_id: codex-root-r08-004
-  approver_actor_id: codex-reviewer-r08-fixture-proxy
-  task_id: TASK-R08-004
-  session_id: SES-20260722T031604Z-105CF4C6
-  user_request: 由AI自主采集并判断浏览器页面截图，不打断开发
-  reason: 现有后台会话仅存内存且无浏览器网络拦截能力，需要不进入产品构建的本机fixture代理复现冻结合同数据
-  original_rule: 浏览器视觉证据必须来自真实页面渲染且不得调用生产写接口；当前没有可复用的本机受控数据入口。
-  new_rule: 不新增产品规则；增加仅监听127.0.0.1的测试反向代理，将页面静态资源转发到Vite并只对冻结合同接口返回显式开发环境fixture；脚本不进入任何生产构建、部署或运行路径。
-  impact_summary: 新增单一测试脚本，为R02至R05 H5与后台视觉截图提供可复现受控响应和真实页面渲染。
-  impact:
-    files:
-    - scripts/serve_ui_visual_fixture_proxy.py
-    - artifacts/validation/r08-historical-ui
-    pages:
-    - R02至R05 H5与后台历史页面
-    apis:
-    - 只模拟既有冻结读取接口与管理员登录；不新增接口
-    database:
-    - 无直接影响
-    configuration:
-    - 无直接影响
-    ledger:
-    - 无直接影响
-    tests:
-    - python scripts/serve_ui_visual_fixture_proxy.py --help
-    - 浏览器真实渲染与截图人工/AI视觉复核
-    releases:
-    - R08
-    migration_and_compatibility: 独立测试工具，默认不启动；不改产品代码、Vite配置、API合同、数据库或部署。
-  user_confirmation: 项目所有者已要求AI自主完成截图判断且不要因核实中断开发
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T04:48:16Z'
-    note: 批准新增仅本机测试代理；必须绑定127.0.0.1，不得代理或写入生产，不得改变产品构建。
-  machine_record: .continuity/change_requests/CR-0224.yaml
-  document: docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md
-  decision_log:
-  - at: '2026-07-22T04:48:18Z'
+  - at: '2026-07-22T05:33:08Z'
     actor_id: codex-root-r08-004
-    status: IMPLEMENTING
-    note: 开始实现本机fixture反向代理并用于真实浏览器渲染证据。
+    status: IMPLEMENTED
+    note: R02至R05共29页视觉合同已补齐；后台12页及H5两页由真实浏览器渲染并由AI判定PASS；R02启动维护更新与R04媒体页完成代码回补且精确提交Android MODULE通过。剩余Android模拟器截图属于R08最终候选验收，完成后再CLOSED。
     session_id: SES-20260722T031604Z-105CF4C6
   session_ids:
   - SES-20260722T031604Z-105CF4C6
+  implementation_commits:
+  - 35484da74a8c0483bdb6a236b8eca23bfe606cc9
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `6ce5d259c0b56fc6d2e5451c7b8bbf42fe645b418acc9fe81d00b4cbd881fce1`
+- `CURRENT_STATUS.yaml` — `86b70121ba3578293f99dd5dcec084e4fb0e93105301caab5cd066f57c4a59a1`
 - `NEXT_TASK.yaml` — `2e00938e45f72209b0caf6f7a60a751fe16b37544b2b4cf214305784dd28e3df`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7711,12 +7611,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `1d70ce1b54d22a3fd5d8d47376a48f4c374227138e7e278bb6eface6e70414f9`
-- `.continuity/SESSION_INDEX.yaml` — `b1278a4d6d187db0f914d72ad6e5de61dc21c80d2ab2e4ead958020a6a7dc081`
+- `.continuity/EVENT_LOG.jsonl` — `f346dcdad88c85094a4127c1a8fbc55e3d51b843cae9f6d08892bc2f6d2d928d`
+- `.continuity/SESSION_INDEX.yaml` — `ca68ea649b51afed7747dbbcee9c519034ec2a1c1c178c87a96173b92cec5d42`
 - `.continuity/TASK_CLAIMS.yaml` — `a82f6f3f55debf7f581f6b1b6a7a4ecf8a25654143db7b14332c4d9fee1525b0`
 - `.continuity/TASK_TRANSITIONS.yaml` — `ca8fa62a143224f0a806ff902a4b354d778ae3306fce1a9698a8a9b8d576a945`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `d142b314a87cf1d7bbd5053857370f35d82c94c63ef32db0f4cb58675ab967ff`
-- `.continuity/ACTIVE_SESSION.yaml` — `fa74dcdc00f8fed8bd645173d371d48dc65f3647ddd31e0580b3516e4aeba98b`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `c02645d8b3e61a3b4df4930cdf67a286d237de752520ed81e7127f135f8bdef8`
+- `.continuity/ACTIVE_SESSION.yaml` — `8d4783b37712bb321c22a6fe551117040c2cabd0b598be228779cbe4ddad6537`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7727,16 +7627,16 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/TASKS.yaml` — `9991ed161addc3aee77ffefea64c6f65a0d08d5cf8dbf42e8f30e4fd339ccfff`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `1e47b204a5cbd289d9ccafc93b0f4afb45983db76a23a4492dd463ffeec0cb98`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md` — `d21d43b3282a442aa33ed58034d946105059794f0effe29ed794936db9be7563`
-- `.continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0012.yaml` — `a9cfca922ed4e55d7bc65b63452efcc70a5250bad3967d7aaf0d1a95ba652d59`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md` — `c15a29e6f5a34e6f72f64fe1b974b55078d0ba35edc07874fc201863d9bbd92b`
+- `.continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0013.yaml` — `e8ee68fef41efe7527b37ca483926ee7ea28362478ba151c54663fac6e6fc8b6`
 - `docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md` — `b586e55a30b64397129690ac74d76ac05cb66f264ca26174e5ea36b52420c485`
 - `docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md` — `4f3bf40523a53e78efca2cfcd3dac0bbd3924d18baf3085c951957c2cbf2ebdf`
 - `docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md` — `786606e3f9a5960ef76418e0986eb10c638ee61f96f09836008ff4992f5e4ad6`
 - `docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md` — `4a449a90b5b184ed70a5bb4306619879d5fc84f3050c614d9ee673a143ce75c4`
 - `docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md` — `ee45f1f4d02964a5113c577fa7dffa786dc0fa438ae21986c2a9d78591ddab26`
 - `docs/03-continuity/change-requests/CR-0222-回补R06首页关于页并完成后台视觉复核.md` — `2627a900c8113faf8de27fb776618cd99c429c08795dad4ea02067793e802b79`
-- `docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md` — `a9b4abf63a08b63f6a1417da7f8ff3c4dba96a61ab1125eee48a70b3f6505d1d`
-- `docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md` — `d932a033b144c2a5df0dfeb661334fddc274e694ad4dd9a0671ed105bf14dbdb`
+- `docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md` — `bbcd0020a39e7bd6fe350d8e9fdce8560c8a59c51f7479a5ea99e6664d551310`
+- `docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md` — `ba46ad1ad46f5221814c2c3e42a649f1d53103576bbc909f774e743dbdad1ab8`
 
 ## 接手硬规则
 
