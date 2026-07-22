@@ -63,6 +63,12 @@ def expected_css_declarations(
             "--hhy-gradient-h5-tech",
             f"linear-gradient(145deg, {h5_tech[0]}, {h5_tech[1]} 72%, {h5_tech[2]})",
         ))
+    brand = tokens.get("gradient", {}).get("brand", [])
+    if len(brand) == 2:
+        declarations.append((
+            "--hhy-gradient-brand",
+            f"linear-gradient(135deg, {brand[0]}, {brand[1]})",
+        ))
     for name, values in tokens.get("typographySp", {}).items():
         kebab = _camel_to_kebab(name)
         declarations.append((f"--hhy-type-{kebab}-size", f"{values['size']}px"))

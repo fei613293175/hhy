@@ -155,8 +155,14 @@ fun HhyShellScreen(
                                 onClick = onOpenSearch,
                             ) { Text("搜索合作内容") }
                             Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                                OutlinedButton(modifier = Modifier.weight(1f), onClick = onOpenProjects) { Text("浏览项目") }
-                                Button(modifier = Modifier.weight(1f), onClick = onCreateProject) { Text("发布项目") }
+                                OutlinedButton(
+                                    modifier = Modifier.weight(1f).testTag("r08.home.projects"),
+                                    onClick = onOpenProjects,
+                                ) { Text("浏览项目") }
+                                Button(
+                                    modifier = Modifier.weight(1f).testTag("r08.home.project.create"),
+                                    onClick = onCreateProject,
+                                ) { Text("发布项目") }
                             }
                         }
                     }

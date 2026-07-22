@@ -43,6 +43,17 @@ class UiTokenCheckerTest(unittest.TestCase):
         )
         self.assertTrue(any(error.startswith("CSS_VALUE_DRIFT") for error in errors))
 
+    def test_brand_gradient_is_derived_from_the_single_token_source(self) -> None:
+        css = CHECKER.render_css(TOKENS, include_admin=False)
+        first, second = TOKENS["gradient"]["brand"]
+        self.assertIn(
+            f"--hhy-gradient-brand: linear-gradient(135deg, {first}, {second});",
+            css,
+        )
+        self.assertIn("background: var(--hhy-gradient-brand);", (
+            ROOT / "apps/h5/src/styles.css"
+        ).read_text(encoding="utf-8"))
+
     def test_raw_hex_and_inline_style_are_rejected(self) -> None:
         self.assertEqual(
             [

@@ -1054,3 +1054,16 @@ problems:
   - 不得通过伪造关闭会话、检查点、事件或提交Trailers来提交resume产生的孤立元数据
   - 允许忽略的只有最终关闭Commit造成的仓库树指纹滞后；任一规则来源缺失、哈希变化、Context文件损坏或事件链异常仍必须阻断
   - 新AI和新电脑只需从仓库运行resume再执行其唯一start命令，不得要求项目所有者重述规则和进度
+- id: PROB-0080
+  title: 最终候选全量Token门禁发现历史页面裸参数
+  status: SOLVED
+  root_cause: R08普通任务按受影响MODULE验证时没有执行大版本最终候选才运行的全量check_ui_tokens；既有H5公开分享页手写了品牌渐变第二色，R02启动状态卡和R08项目页残留裸dp。编译与局部视觉审计不会识别该规则漂移，若直接推送候选会在模拟器启动前确定性失败。
+  resolution: CR-0229不建立新参数规则，修复既有唯一Token派生链：从gradient.brand确定性生成--hhy-gradient-brand；H5只引用该变量，Android裸尺寸等价改写为HhySize、HhySpacing、HhyRadius和HhyElevation组合。R08候选前本地先运行全量Token门禁。
+  regression_checks:
+  - python -m unittest tests.test_ui_tokens
+  - python scripts/check_ui_tokens.py
+  - Android startup、project和app受影响MODULE编译
+  do_not_repeat:
+  - 页面不得手写JSON中已有但派生器遗漏的颜色或尺寸，应先补同一确定性派生链
+  - 普通任务的受影响MODULE通过不等于大版本全量Token门禁通过
+  - 最终候选请求必须在本地全量Token门禁PASS后才允许触发，确定性失败不得消耗GitHub模拟器

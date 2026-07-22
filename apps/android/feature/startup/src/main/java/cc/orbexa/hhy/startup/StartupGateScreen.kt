@@ -164,7 +164,9 @@ private fun GateMessage(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Card(
-                modifier = Modifier.fillMaxWidth().widthIn(max = 520.dp),
+                modifier = Modifier.fillMaxWidth().widthIn(
+                    max = HhySize.ChallengeDialogMaxHeight - HhySpacing.Xl - HhySpacing.Xl,
+                ),
                 shape = RoundedCornerShape(HhyRadius.LargeCard),
                 colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
                 elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),

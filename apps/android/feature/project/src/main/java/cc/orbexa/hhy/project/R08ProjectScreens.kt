@@ -63,7 +63,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cc.orbexa.hhy.designsystem.HhyBackButton
 import cc.orbexa.hhy.designsystem.HhyColors
+import cc.orbexa.hhy.designsystem.HhyElevation
 import cc.orbexa.hhy.designsystem.HhyRadius
+import cc.orbexa.hhy.designsystem.HhySize
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.network.ContentResource
 import cc.orbexa.hhy.network.ContractMediaApi
@@ -124,12 +126,21 @@ fun R08ProjectListScreen(
     Scaffold(
         modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("hhy.screen.r08.project.list.${phase.name.lowercase()}"),
         topBar = { TopAppBar(title = { Text("项目") }, navigationIcon = { HhyBackButton(onBack) }) },
-        floatingActionButton = { Button(onClick = onCreateProject) { Text("发布项目") } },
+        floatingActionButton = {
+            Button(modifier = Modifier.testTag("r08.project.create"), onClick = onCreateProject) {
+                Text("发布项目")
+            }
+        },
         containerColor = HhyColors.PageBackground,
     ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
-            contentPadding = PaddingValues(start = HhySpacing.Lg, end = HhySpacing.Lg, top = HhySpacing.Md, bottom = 88.dp),
+            contentPadding = PaddingValues(
+                start = HhySpacing.Lg,
+                end = HhySpacing.Lg,
+                top = HhySpacing.Md,
+                bottom = HhySize.TopAppBarHeight + HhySpacing.Xxxl,
+            ),
             verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
         ) {
             item {
@@ -231,7 +242,7 @@ fun R08ProjectDetailScreen(
         },
         bottomBar = {
             project?.let { item ->
-                Surface(shadowElevation = 8.dp) {
+                Surface(shadowElevation = HhyElevation.Dialog) {
                     Row(Modifier.fillMaxWidth().padding(HhySpacing.Md), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
                         OutlinedButton(modifier = Modifier.weight(1f), onClick = {
                             val publisherId = item.publisher?.userId ?: return@OutlinedButton
@@ -243,7 +254,7 @@ fun R08ProjectDetailScreen(
                                 }
                             }
                         }, enabled = item.publisher?.userId != null && item.publisher?.userId != currentUserId) { Text("在线私聊") }
-                        Button(modifier = Modifier.weight(1f), onClick = {
+                        Button(modifier = Modifier.weight(1f).testTag("r08.project.contact"), onClick = {
                             val channel = item.contactsMasked.firstOrNull { it.available }?.channel ?: return@Button
                             scope.launch {
                                 when (val result = api.accessContact(accessToken, item.id, channel, keys.forBody("contact", "${item.id}:$channel"))) {
@@ -285,7 +296,10 @@ fun R08ProjectDetailScreen(
                                     }
                                 }
                             }) { Text("收藏") }
-                            if (item.publisher?.userId == currentUserId) OutlinedButton(modifier = Modifier.weight(1f), onClick = { onEdit(item.id) }) { Text("编辑项目") }
+                            if (item.publisher?.userId == currentUserId) OutlinedButton(
+                                modifier = Modifier.weight(1f).testTag("r08.project.edit"),
+                                onClick = { onEdit(item.id) },
+                            ) { Text("编辑项目") }
                         }
                     }
                 }
@@ -387,7 +401,7 @@ fun R08ProjectEditorScreen(
         modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("hhy.screen.r08.project.editor.${phase.name.lowercase()}"),
         topBar = { TopAppBar(title = { Text(if (projectId == null) "发布项目" else "编辑项目") }, navigationIcon = { HhyBackButton(onBack) }) },
         bottomBar = {
-            Surface(shadowElevation = 8.dp) {
+            Surface(shadowElevation = HhyElevation.Dialog) {
                 Button(
                     modifier = Modifier.fillMaxWidth().padding(HhySpacing.Md),
                     enabled = identityVerified && phase != R08ProjectPhase.SUBMITTING && phase != R08ProjectPhase.LOADING,
@@ -453,14 +467,15 @@ fun R08ProjectEditorScreen(
 @Composable
 private fun ProjectListCard(item: ContentResource, onClick: () -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+        modifier = Modifier.fillMaxWidth().testTag("r08.project.card.${item.id}").clickable(onClick = onClick),
         shape = RoundedCornerShape(HhyRadius.LargeCard),
         colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
     ) {
         Column {
             if (item.media.isNotEmpty()) Box(
-                Modifier.fillMaxWidth().height(112.dp).background(Brush.linearGradient(listOf(HhyColors.BrandPrimary, HhyColors.BrandGradientEnd))),
+                Modifier.fillMaxWidth().height(HhySize.TopAppBarHeight * 2)
+                    .background(Brush.linearGradient(listOf(HhyColors.BrandPrimary, HhyColors.BrandGradientEnd))),
                 contentAlignment = Alignment.CenterStart,
             ) { Text(item.media.first().altText ?: "项目媒体", Modifier.padding(HhySpacing.Lg), color = HhyColors.TextInverse, fontWeight = FontWeight.SemiBold) }
             Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
@@ -485,7 +500,16 @@ private fun ProjectListCard(item: ContentResource, onClick: () -> Unit) {
 
 @Composable private fun ProjectHero(item: ContentResource) = Card(shape = RoundedCornerShape(HhyRadius.LargeCard), colors = CardDefaults.cardColors(HhyColors.Surface)) {
     Column {
-        Box(Modifier.fillMaxWidth().height(if (item.media.isEmpty()) 92.dp else 160.dp).background(Brush.linearGradient(listOf(HhyColors.BrandPrimary, HhyColors.BrandGradientEnd))), contentAlignment = Alignment.BottomStart) {
+        Box(
+            Modifier.fillMaxWidth().height(
+                if (item.media.isEmpty()) {
+                    HhySize.TopAppBarHeight + HhySpacing.Xxxl + HhySpacing.Xs
+                } else {
+                    HhySize.TopAppBarHeight * 2 + HhySize.PrimaryButtonHeight
+                },
+            ).background(Brush.linearGradient(listOf(HhyColors.BrandPrimary, HhyColors.BrandGradientEnd))),
+            contentAlignment = Alignment.BottomStart,
+        ) {
             Text(item.media.firstOrNull()?.altText ?: "项目详情", Modifier.padding(HhySpacing.Lg), color = HhyColors.TextInverse, fontWeight = FontWeight.Bold)
         }
         Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
@@ -519,7 +543,30 @@ private fun ProjectListCard(item: ContentResource, onClick: () -> Unit) {
 @Composable private fun StatusPill(status: String) = Surface(color = if (status == "ONLINE") HhyColors.SuccessSoft else HhyColors.WarningSoft, shape = RoundedCornerShape(HhyRadius.Pill)) { Text(if (status == "ONLINE") "已上线" else status, Modifier.padding(horizontal = HhySpacing.Sm, vertical = HhySpacing.Xs), color = if (status == "ONLINE") HhyColors.Success else HhyColors.Warning, style = MaterialTheme.typography.labelSmall) }
 @Composable private fun Tag(text: String) = Surface(color = HhyColors.SoftBlue, shape = RoundedCornerShape(HhyRadius.Tag)) { Text(text, Modifier.padding(horizontal = HhySpacing.Sm, vertical = HhySpacing.Xs), color = HhyColors.BrandPrimary, style = MaterialTheme.typography.labelSmall) }
 
-@Composable private fun ProjectSkeleton() = Card(Modifier.fillMaxWidth().height(168.dp), shape = RoundedCornerShape(HhyRadius.LargeCard), colors = CardDefaults.cardColors(HhyColors.Surface)) { Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) { Box(Modifier.fillMaxWidth(0.65f).height(20.dp).background(HhyColors.Border, RoundedCornerShape(6.dp))); Box(Modifier.fillMaxWidth().height(52.dp).background(HhyColors.PageBackground, RoundedCornerShape(8.dp))); Box(Modifier.fillMaxWidth(0.45f).height(16.dp).background(HhyColors.Border, RoundedCornerShape(6.dp))) } }
+@Composable
+private fun ProjectSkeleton() = Card(
+    Modifier.fillMaxWidth().height(HhySize.TopAppBarHeight * 3),
+    shape = RoundedCornerShape(HhyRadius.LargeCard),
+    colors = CardDefaults.cardColors(HhyColors.Surface),
+) {
+    Column(
+        Modifier.padding(HhySpacing.Lg),
+        verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+    ) {
+        Box(
+            Modifier.fillMaxWidth(0.65f).height(HhySpacing.Xl)
+                .background(HhyColors.Border, RoundedCornerShape(HhyRadius.Tag)),
+        )
+        Box(
+            Modifier.fillMaxWidth().height(HhySize.InputHeight)
+                .background(HhyColors.PageBackground, RoundedCornerShape(HhyRadius.Tag)),
+        )
+        Box(
+            Modifier.fillMaxWidth(0.45f).height(HhySpacing.Lg)
+                .background(HhyColors.Border, RoundedCornerShape(HhyRadius.Tag)),
+        )
+    }
+}
 
 @Composable private fun ProjectStateCard(title: String, body: String, action: String, onClick: () -> Unit) = Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(HhyRadius.LargeCard), colors = CardDefaults.cardColors(HhyColors.Surface)) { Column(Modifier.fillMaxWidth().padding(HhySpacing.Xl), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) { Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold); Text(body, color = HhyColors.TextSecondary); OutlinedButton(onClick = onClick) { Text(action) } } }
 

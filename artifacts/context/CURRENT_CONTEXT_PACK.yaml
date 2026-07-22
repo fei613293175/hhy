@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-22T06:54:11Z'
+generated_at: '2026-07-22T07:07:22Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -100,7 +100,7 @@ current_status:
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R08-007
-  updated_at: '2026-07-22T06:54:09Z'
+  updated_at: '2026-07-22T07:07:18Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -135,15 +135,15 @@ current_status:
     active_session_id: SES-20260722T064621Z-68304DE1
     actor_id: codex-root-r08-007
     story_id: STORY-R08-004
-    lease_expires_at: '2026-07-22T10:54:09Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml
-    project_fingerprint: 2fecc462de5d7bd812561f0b89d394b61db13289960c5790eae0e38a4790725b
+    lease_expires_at: '2026-07-22T11:07:18Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0004.yaml
+    project_fingerprint: f869082aa103ef7a4f47d079c6063e7948366d1409172047ce0e5d36274044bf
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 4172b52d6baae3b188d629d4d1805dd3ee1a680e4ec022945d6a411d531e7418
-      generated_at: '2026-07-22T06:53:38Z'
+      context_hash: d22c81945859d8606e592426ff666477b31ba4d883f69459c45c0d0663d7cf49
+      generated_at: '2026-07-22T06:54:11Z'
     handoff_bundle: null
 next_task:
   id: TASK-R08-007
@@ -192,10 +192,12 @@ active_session:
   story_id: STORY-R08-004
   goal: 项目推广完整闭环Android测试APK与产物追溯
   started_at: '2026-07-22T06:46:21Z'
-  updated_at: '2026-07-22T06:54:09Z'
+  updated_at: '2026-07-22T07:07:18Z'
   takeover_of: null
   change_requests:
   - CR-0227
+  - CR-0228
+  - CR-0229
   scope:
     allowed_paths:
     - apps/**
@@ -234,7 +236,26 @@ active_session:
     - tests/test_continuity_resume_read_only.py
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - CHANGELOG.md
-    source: story+explicit+approved-cr:CR-0227
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - scripts/prepare_r08_ci_fixture.sh
+    - tests/test_r08_ci_fixture.py
+    - tests/android/visual-manifests/R08.yaml
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - config/android-candidate-request.yaml
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    - catalogs/ui_visual_acceptance.csv
+    - releases/R08/RELEASE_MANIFEST.yaml
+    - scripts/check_ui_tokens.py
+    - tests/test_ui_tokens.py
+    - packages/design-tokens/h5.css
+    - packages/design-tokens/admin.css
+    - apps/h5/src/styles.css
+    - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+    source: story+explicit+approved-cr:CR-0227+approved-cr:CR-0228+approved-cr:CR-0229
   git:
     initialized: true
     branch: task/TASK-R03-001
@@ -244,12 +265,12 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-22T06:54:09Z'
-    expires_at: '2026-07-22T10:54:09Z'
-  checkpoint_sequence: 3
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml
+    renewed_at: '2026-07-22T07:07:18Z'
+    expires_at: '2026-07-22T11:07:18Z'
+  checkpoint_sequence: 4
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0004.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-  next_step: 提交推送CR关闭事实，随后更新R08候选请求并触发大版本唯一完整Android候选
+  next_step: 在云端精确工作树运行Android startup/project/app受影响MODULE与instrumentation编译，并在PostgreSQL 17验证R08夹具双次幂等。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
@@ -257,50 +278,80 @@ active_session:
     assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: 当前运行策略未授权创建子代理；连续性核心关闭由主控串行复核
+    reason: 当前运行策略未授权子代理；候选前置变更由主控串行验证。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0003
+  checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0004
   session_id: SES-20260722T064621Z-68304DE1
-  sequence: 3
-  created_at: '2026-07-22T06:54:08Z'
-  summary: CR-0227与PROB-0079已完整关闭，无会话resume只读接续恢复
-  next_step: 提交推送CR关闭事实，随后更新R08候选请求并触发大版本唯一完整Android候选
+  sequence: 4
+  created_at: '2026-07-22T07:07:18Z'
+  summary: R08候选三页旅程、V034夹具、视觉清单、10216版本身份与PROB-0080 Token派生修复已完成；Python和全量UI前置门禁通过。
+  next_step: 在云端精确工作树运行Android startup/project/app受影响MODULE与instrumentation编译，并在PostgreSQL 17验证R08夹具双次幂等。
   blockers: []
   decisions: []
-  note: 不新增并列规则；一句继续开发接续机制已恢复。
+  note: ''
   tests:
-  - name: RESUME_READ_ONLY
+  - name: r08-candidate-python
     result: PASS
-    evidence: 3 unit + 13 policy + closed-state smoke
-    note: 规则来源仍强校验，连续resume零写入
+    evidence: 31 unit tests
+    note: fixture candidate token regression
+  - name: ui-token
+    result: PASS
+    evidence: scripts/check_ui_tokens.py
+    note: 52 components aligned
+  - name: android-ui-foundation
+    result: PASS
+    evidence: scripts/check_android_ui_foundation.py
+    note: static foundation
+  - name: r08-visual-catalog
+    result: PASS
+    evidence: catalog-only pages=3
+    note: exact page bindings
+  - name: android-ci-policy
+    result: PASS
+    evidence: policy and request validator
+    note: candidate request remains R07 until source preflight
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 14468bec933e1bc6ab35eac4616da6ae2c4baa62
+    head: db1da9c6009989e49d626c7e36bde3828a17881c
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M .continuity/ACTIVE_SESSION.yaml'
     - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
     - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/SESSION_INDEX.yaml'
     - ' M .continuity/STATE.yaml'
-    - ' M .continuity/change_requests/CR-0227.yaml'
     - ' M .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml'
-    - ' M CURRENT_STATUS.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-    - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+    - ' M CHANGELOG.md'
+    - ' M apps/android/app/build.gradle.kts'
+    - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
+    - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
+    - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
+    - ' M apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt'
+    - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+    - ' M apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt'
+    - ' M apps/h5/src/styles.css'
     - ' M catalogs/change_request_index.csv'
     - ' M catalogs/session_index.csv'
-    - ' M docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md'
-    - ' M docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md'
-    - ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0002.yaml
+    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
+    - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+    - ' M packages/design-tokens/admin.css'
+    - ' M packages/design-tokens/h5.css'
+    - ' M scripts/check_ui_tokens.py'
+    - ' M tests/test_android_ci_gate.py'
+    - ' M tests/test_ui_tokens.py'
+    - ?? .continuity/change_requests/CR-0228.yaml
+    - ?? .continuity/change_requests/CR-0229.yaml
+    - ?? docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md
+    - ?? docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
+    - ?? scripts/prepare_r08_ci_fixture.sh
+    - ?? tests/android/visual-manifests/R08.yaml
+    - ?? tests/test_r08_ci_fixture.py
     recent_commits:
+    - "db1da9c6009989e49d626c7e36bde3828a17881c\t2026-07-22T14:54:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close\
+      \ CR-0227"
     - "14468bec933e1bc6ab35eac4616da6ae2c4baa62\t2026-07-22T14:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(continuity): keep no-session\
       \ resume read-only"
     - "827c8b7b81988b4f844b3b7ff766d30b6a34a77a\t2026-07-22T14:40:48+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close\
@@ -315,58 +366,182 @@ latest_checkpoint:
       \ TASK-R08-005 as completed"
     - "9f524eabfaa8dc09c8b8c9959288d31b75432d2d\t2026-07-22T14:05:25+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close specialized\
       \ test CR"
-    - "36fd0d8c6003a20a9a8e33f787ec30381200a8d6\t2026-07-22T14:03:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): freeze project\
-      \ test evidence"
   project_fingerprint:
-    sha256: 2fecc462de5d7bd812561f0b89d394b61db13289960c5790eae0e38a4790725b
+    sha256: f869082aa103ef7a4f47d079c6063e7948366d1409172047ce0e5d36274044bf
     files:
     - CHANGELOG.md
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+    - apps/h5/src/styles.css
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
+    - docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md
+    - docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    - packages/design-tokens/admin.css
+    - packages/design-tokens/h5.css
+    - scripts/check_ui_tokens.py
     - scripts/continuity.py
+    - scripts/prepare_r08_ci_fixture.sh
+    - tests/android/visual-manifests/R08.yaml
+    - tests/test_android_ci_gate.py
     - tests/test_continuity_resume_read_only.py
-    file_count: 5
+    - tests/test_r08_ci_fixture.py
+    - tests/test_ui_tokens.py
+    file_count: 24
     payload:
       base_commit: 827c8b7b81988b4f844b3b7ff766d30b6a34a77a
       files:
       - path: CHANGELOG.md
         state: FILE
-        size: 81721
-        sha256: e50fcd07ed5a40ca185d402e6927d93344ee0b0b344fe3bab8673db2124cfbde
+        size: 82675
+        sha256: 8e538aff5bf8fdbef1099ad7bef8fef591833c9078aa0301284f50c3f3886aa6
+      - path: apps/android/app/build.gradle.kts
+        state: FILE
+        size: 5079
+        sha256: 8789987453a39c6926bf2b89591a2c14b1ad57c78367a47b10477a211f979400
+      - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+        state: FILE
+        size: 10525
+        sha256: 6c15516b53dafa2e46a5f2428b05b26cce5151e8ec2df8ed0dc08f0b9f4f8a84
+      - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+        state: FILE
+        size: 520
+        sha256: 71b0948fca33b069b51b559255923eed70b7ff801eb5ab78bb0c0a1c192c7703
+      - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+        state: FILE
+        size: 1243
+        sha256: deec7fec9261f30d04a260e918c0c945db3b7b5e278f92e27f5c2bb562128dd6
+      - path: apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+        state: FILE
+        size: 35250
+        sha256: bd4c01c3014d23ec035bd5110d16e43dad2c9914e4c4789bc24ec50133c6de89
+      - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+        state: FILE
+        size: 12906
+        sha256: d0f95c6a749ba44fdaf418d22006370c9f02c387c2d7e1e2135284acdd4b67d5
+      - path: apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+        state: FILE
+        size: 10126
+        sha256: cbee725e33640bbc7d41ee4f92c12571175d1e32bdc79b82b64524f80b4a8ae2
+      - path: apps/h5/src/styles.css
+        state: FILE
+        size: 14087
+        sha256: 82918fcf2ac74d07dbc03215659ce7a45a98cfe7602b4872ed6e74864de69e6e
       - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
         state: FILE
-        size: 100349
-        sha256: 94228e5b0a9e00f60548727051117ef27d33756266ec114f909fb6956fb5fe13
+        size: 101582
+        sha256: 1c441103656e84e67d36a98be99e1fa8e820b8fc71be1bec389118a15573ccfa
       - path: docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
         state: FILE
         size: 3812
         sha256: c5ef9a8ba6a85c81a5dd622bc7e661c8589ea3364781522563005e93ad88c52c
+      - path: docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md
+        state: FILE
+        size: 4435
+        sha256: 5af65261edf423faaf531557e1f5546620bbb1fa6ae8920d7e32907089f34b9f
+      - path: docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
+        state: FILE
+        size: 3341
+        sha256: 80e2157811386b7fa5da3830fdba1081e5bb45379994f7a5dcc82902e0efd33e
+      - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+        state: FILE
+        size: 29749
+        sha256: a11882aaf2bd1f1557181d1f98b4f6f7d4b95fa1e666f9e32289fc4db9a85cd2
+      - path: packages/design-tokens/admin.css
+        state: FILE
+        size: 5210
+        sha256: fdbe1c3fb545df865fa9936cc216193f72f63b56cbf6f150cc026929adc19e69
+      - path: packages/design-tokens/h5.css
+        state: FILE
+        size: 4796
+        sha256: 6b0dd0bbc80d115bb06789f406033a4ff3ee480561564e39a44f1f496e3f34f8
+      - path: scripts/check_ui_tokens.py
+        state: FILE
+        size: 16404
+        sha256: 9a9a337ad2efc67d000f8592dcb7dc0e9c6576d99ea814a6810db4621b36c3d3
       - path: scripts/continuity.py
         state: FILE
         size: 72884
         sha256: f207d8f331ffc2b439bc7154551e9077520355a89be354af3dcf5ff63aa6feed
+      - path: scripts/prepare_r08_ci_fixture.sh
+        state: FILE
+        size: 4820
+        sha256: 6ad2301af2619a264a8648797619fee58b46e76180a24752a6f24be6a5852ce7
+      - path: tests/android/visual-manifests/R08.yaml
+        state: FILE
+        size: 1271
+        sha256: d1051ee0a548424d9ee4183efcb53cd28c20a50e5381f8d6fb6fd88a0d7d2613
+      - path: tests/test_android_ci_gate.py
+        state: FILE
+        size: 24803
+        sha256: 996186e17d955e954c2494a84adcc8702bf2b8aa8c2b20dee46396e6527fd402
       - path: tests/test_continuity_resume_read_only.py
         state: FILE
         size: 4194
         sha256: 5928864f132929f663be9d331fec1245e737a4d004c85360677bd6588f914c07
+      - path: tests/test_r08_ci_fixture.py
+        state: FILE
+        size: 1962
+        sha256: e36fc06226b4a510d460b244bcd9460e579092437782a9ad82aa8a02ec4f449d
+      - path: tests/test_ui_tokens.py
+        state: FILE
+        size: 3126
+        sha256: 41ea505fdd10ee0630ed780a8540ad06d1ad7d9bbc0fb22a7a599e558a03c30d
   change_classification:
     other:
     - CHANGELOG.md
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    code:
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+    - apps/h5/src/styles.css
+    - packages/design-tokens/admin.css
+    - packages/design-tokens/h5.css
+    - scripts/check_ui_tokens.py
+    - scripts/continuity.py
+    - scripts/prepare_r08_ci_fixture.sh
+    user_visible:
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+    - apps/h5/src/styles.css
     continuity:
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
-    code:
-    - scripts/continuity.py
+    - docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md
+    - docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
     tests:
+    - tests/android/visual-manifests/R08.yaml
+    - tests/test_android_ci_gate.py
     - tests/test_continuity_resume_read_only.py
+    - tests/test_r08_ci_fixture.py
+    - tests/test_ui_tokens.py
   required_records:
   - SESSION_RECORD
   - SESSION_LOG
   - CHECKPOINT
   - CURRENT_STATUS
   - EVENT_LOG
+  - CHANGELOG
   change_requests:
   - CR-0227
+  - CR-0228
+  - CR-0229
   scope:
     allowed_paths:
     - apps/**
@@ -405,17 +580,36 @@ latest_checkpoint:
     - tests/test_continuity_resume_read_only.py
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - CHANGELOG.md
-    source: story+explicit+approved-cr:CR-0227
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - scripts/prepare_r08_ci_fixture.sh
+    - tests/test_r08_ci_fixture.py
+    - tests/android/visual-manifests/R08.yaml
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - config/android-candidate-request.yaml
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    - catalogs/ui_visual_acceptance.csv
+    - releases/R08/RELEASE_MANIFEST.yaml
+    - scripts/check_ui_tokens.py
+    - tests/test_ui_tokens.py
+    - packages/design-tokens/h5.css
+    - packages/design-tokens/admin.css
+    - apps/h5/src/styles.css
+    - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+    source: story+explicit+approved-cr:CR-0227+approved-cr:CR-0228+approved-cr:CR-0229
   parallel_execution:
     assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: 当前运行策略未授权创建子代理；连续性核心关闭由主控串行复核
-  event_hash: 7bd88978538f9b346533017680a88633fa1665f66a8383a9a7b8a8c2d1df82cc
+    reason: 当前运行策略未授权子代理；候选前置变更由主控串行验证。
+  event_hash: aa8186d26bcffda19bd75bde6b2ccd22ed01bab4396dcfcaab874a2502c98be6
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 14468bec933e1bc6ab35eac4616da6ae2c4baa62
+  head: db1da9c6009989e49d626c7e36bde3828a17881c
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -426,20 +620,37 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0227.yaml'
   - ' M .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml'
+  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
+  - ' M apps/android/app/build.gradle.kts'
+  - ' M apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt'
+  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt'
+  - ' M apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt'
+  - ' M apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt'
+  - ' M apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt'
+  - ' M apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt'
+  - ' M apps/h5/src/styles.css'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md'
+  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md'
-  - ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0002.yaml
-  - ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml
+  - ' M docs/07-operations/DEPLOYMENT_RUNBOOK.md'
+  - ' M packages/design-tokens/admin.css'
+  - ' M packages/design-tokens/h5.css'
+  - ' M scripts/check_ui_tokens.py'
+  - ' M tests/test_android_ci_gate.py'
+  - ' M tests/test_ui_tokens.py'
+  - ?? .continuity/change_requests/CR-0228.yaml
+  - ?? .continuity/change_requests/CR-0229.yaml
+  - ?? .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0004.yaml
+  - ?? docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md
+  - ?? docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
+  - ?? scripts/prepare_r08_ci_fixture.sh
+  - ?? tests/android/visual-manifests/R08.yaml
+  - ?? tests/test_r08_ci_fixture.py
   recent_commits:
+  - "db1da9c6009989e49d626c7e36bde3828a17881c\t2026-07-22T14:54:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close CR-0227"
   - "14468bec933e1bc6ab35eac4616da6ae2c4baa62\t2026-07-22T14:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(continuity): keep no-session\
     \ resume read-only"
   - "827c8b7b81988b4f844b3b7ff766d30b6a34a77a\t2026-07-22T14:40:48+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-006\
@@ -453,40 +664,133 @@ git:
     \ as completed"
   - "9f524eabfaa8dc09c8b8c9959288d31b75432d2d\t2026-07-22T14:05:25+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close specialized\
     \ test CR"
-  - "36fd0d8c6003a20a9a8e33f787ec30381200a8d6\t2026-07-22T14:03:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): freeze project\
-    \ test evidence"
 project_fingerprint:
-  sha256: 2fecc462de5d7bd812561f0b89d394b61db13289960c5790eae0e38a4790725b
+  sha256: f869082aa103ef7a4f47d079c6063e7948366d1409172047ce0e5d36274044bf
   files:
   - CHANGELOG.md
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/h5/src/styles.css
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
+  - docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md
+  - docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - packages/design-tokens/admin.css
+  - packages/design-tokens/h5.css
+  - scripts/check_ui_tokens.py
   - scripts/continuity.py
+  - scripts/prepare_r08_ci_fixture.sh
+  - tests/android/visual-manifests/R08.yaml
+  - tests/test_android_ci_gate.py
   - tests/test_continuity_resume_read_only.py
-  file_count: 5
+  - tests/test_r08_ci_fixture.py
+  - tests/test_ui_tokens.py
+  file_count: 24
   payload:
     base_commit: 827c8b7b81988b4f844b3b7ff766d30b6a34a77a
     files:
     - path: CHANGELOG.md
       state: FILE
-      size: 81721
-      sha256: e50fcd07ed5a40ca185d402e6927d93344ee0b0b344fe3bab8673db2124cfbde
+      size: 82675
+      sha256: 8e538aff5bf8fdbef1099ad7bef8fef591833c9078aa0301284f50c3f3886aa6
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5079
+      sha256: 8789987453a39c6926bf2b89591a2c14b1ad57c78367a47b10477a211f979400
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+      state: FILE
+      size: 10525
+      sha256: 6c15516b53dafa2e46a5f2428b05b26cce5151e8ec2df8ed0dc08f0b9f4f8a84
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+      state: FILE
+      size: 520
+      sha256: 71b0948fca33b069b51b559255923eed70b7ff801eb5ab78bb0c0a1c192c7703
+    - path: apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+      state: FILE
+      size: 1243
+      sha256: deec7fec9261f30d04a260e918c0c945db3b7b5e278f92e27f5c2bb562128dd6
+    - path: apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+      state: FILE
+      size: 35250
+      sha256: bd4c01c3014d23ec035bd5110d16e43dad2c9914e4c4789bc24ec50133c6de89
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 12906
+      sha256: d0f95c6a749ba44fdaf418d22006370c9f02c387c2d7e1e2135284acdd4b67d5
+    - path: apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+      state: FILE
+      size: 10126
+      sha256: cbee725e33640bbc7d41ee4f92c12571175d1e32bdc79b82b64524f80b4a8ae2
+    - path: apps/h5/src/styles.css
+      state: FILE
+      size: 14087
+      sha256: 82918fcf2ac74d07dbc03215659ce7a45a98cfe7602b4872ed6e74864de69e6e
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 100349
-      sha256: 94228e5b0a9e00f60548727051117ef27d33756266ec114f909fb6956fb5fe13
+      size: 101582
+      sha256: 1c441103656e84e67d36a98be99e1fa8e820b8fc71be1bec389118a15573ccfa
     - path: docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
       state: FILE
       size: 3812
       sha256: c5ef9a8ba6a85c81a5dd622bc7e661c8589ea3364781522563005e93ad88c52c
+    - path: docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md
+      state: FILE
+      size: 4435
+      sha256: 5af65261edf423faaf531557e1f5546620bbb1fa6ae8920d7e32907089f34b9f
+    - path: docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
+      state: FILE
+      size: 3341
+      sha256: 80e2157811386b7fa5da3830fdba1081e5bb45379994f7a5dcc82902e0efd33e
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 29749
+      sha256: a11882aaf2bd1f1557181d1f98b4f6f7d4b95fa1e666f9e32289fc4db9a85cd2
+    - path: packages/design-tokens/admin.css
+      state: FILE
+      size: 5210
+      sha256: fdbe1c3fb545df865fa9936cc216193f72f63b56cbf6f150cc026929adc19e69
+    - path: packages/design-tokens/h5.css
+      state: FILE
+      size: 4796
+      sha256: 6b0dd0bbc80d115bb06789f406033a4ff3ee480561564e39a44f1f496e3f34f8
+    - path: scripts/check_ui_tokens.py
+      state: FILE
+      size: 16404
+      sha256: 9a9a337ad2efc67d000f8592dcb7dc0e9c6576d99ea814a6810db4621b36c3d3
     - path: scripts/continuity.py
       state: FILE
       size: 72884
       sha256: f207d8f331ffc2b439bc7154551e9077520355a89be354af3dcf5ff63aa6feed
+    - path: scripts/prepare_r08_ci_fixture.sh
+      state: FILE
+      size: 4820
+      sha256: 6ad2301af2619a264a8648797619fee58b46e76180a24752a6f24be6a5852ce7
+    - path: tests/android/visual-manifests/R08.yaml
+      state: FILE
+      size: 1271
+      sha256: d1051ee0a548424d9ee4183efcb53cd28c20a50e5381f8d6fb6fd88a0d7d2613
+    - path: tests/test_android_ci_gate.py
+      state: FILE
+      size: 24803
+      sha256: 996186e17d955e954c2494a84adcc8702bf2b8aa8c2b20dee46396e6527fd402
     - path: tests/test_continuity_resume_read_only.py
       state: FILE
       size: 4194
       sha256: 5928864f132929f663be9d331fec1245e737a4d004c85360677bd6588f914c07
+    - path: tests/test_r08_ci_fixture.py
+      state: FILE
+      size: 1962
+      sha256: e36fc06226b4a510d460b244bcd9460e579092437782a9ad82aa8a02ec4f449d
+    - path: tests/test_ui_tokens.py
+      state: FILE
+      size: 3126
+      sha256: 41ea505fdd10ee0630ed780a8540ad06d1ad7d9bbc0fb22a7a599e558a03c30d
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R08
@@ -1481,8 +1785,8 @@ continuity_state:
   last_session_id: SES-20260722T060947Z-B45C6BC0
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260722T060947Z-B45C6BC0-0005
-  event_count: 2263
-  event_head_hash: 7bd88978538f9b346533017680a88633fa1665f66a8383a9a7b8a8c2d1df82cc
+  event_count: 2275
+  event_head_hash: aa8186d26bcffda19bd75bde6b2ccd22ed01bab4396dcfcaab874a2502c98be6
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260721T201747Z-CD80A1EE
@@ -1601,9 +1905,9 @@ recent_sessions:
   started_at: '2026-07-22T06:46:21Z'
   record: .continuity/sessions/SES-20260722T064621Z-68304DE1.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-  updated_at: '2026-07-22T06:54:09Z'
+  updated_at: '2026-07-22T07:07:18Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0004.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-26FF72418AF4
@@ -7181,6 +7485,132 @@ open_change_requests:
   - SES-20260722T031604Z-105CF4C6
   implementation_commits:
   - 35484da74a8c0483bdb6a236b8eca23bfe606cc9
+- protocol_version: '1.0'
+  cr_id: CR-0228
+  title: 建立R08项目最终候选真实旅程与唯一产物门禁
+  status: IMPLEMENTING
+  created_at: '2026-07-22T06:57:09Z'
+  updated_at: '2026-07-22T06:58:37Z'
+  requester_actor_id: codex-root-r08-007
+  approver_actor_id: codex-reviewer-r08-candidate
+  task_id: TASK-R08-007
+  session_id: SES-20260722T064621Z-68304DE1
+  user_request: 项目所有者要求全部规则跨电脑跨AI自动生效，大版本最终候选由AI自动登录、截取对应开发页面并自行判断，APK和文档放桌面，真机反馈异步且不阻断继续开发。
+  reason: 当前候选仍执行R07搜索旅程且缺少R08视觉清单；直接触发无法证明项目列表、详情、编辑页面或R08版本身份。必须复用既有OIDC候选体系，补齐R08专用真实夹具、页面旅程、视觉清单和单调版本身份后再触发本大版本唯一完整候选。
+  original_rule: 既有Android候选硬规则已要求大版本最终阶段通过唯一OIDC自动登录、固定模拟器、逐页截图、AI判定、单调版本身份和桌面交付；当前执行事实仍绑定R07四页搜索旅程与10214，尚无R08项目视觉清单。
+  new_rule: 不新增第二套候选或UI硬规则；直接扩展既有候选实现：R08仅在TASK-R08-007执行一次固定模拟器采集，使用专用Staging CI用户和V034真实项目夹具，验证项目列表、项目详情、项目编辑三页及安全联系方式语义，AI逐图判定后以同Run轻量晋升；APK使用versionCode
+    10216、正式Staging API和稳定测试签名并交付桌面。
+  impact_summary: 把候选从R07搜索四图切换为R08项目三图与安全语义，补齐真实夹具、页面资源标识、视觉清单、版本身份、公开Staging升级和可追溯交付；不增加虚构业务字段、并行规则源或重复模拟器运行。
+  impact:
+    files:
+    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+    - scripts/prepare_r08_ci_fixture.sh
+    - tests/test_r08_ci_fixture.py
+    - tests/android/visual-manifests/R08.yaml
+    - apps/android/app/build.gradle.kts
+    - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+    - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+    - config/android-candidate-request.yaml
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    - catalogs/ui_visual_acceptance.csv
+    - releases/R08/RELEASE_MANIFEST.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-LIST-001
+    - SCR-DETAIL-001
+    - SCR-PUB-002
+    apis:
+    - GET /api/v1/contents?type=PROJECT
+    - GET /api/v1/contents/{id}
+    - PATCH /api/v1/contents/{id}
+    - POST /api/v1/contents/{id}/contacts/{channel}/access
+    database:
+    - 仅Staging专用CI用户的V034项目、联系方式和实名夹具；无生产结构变化
+    configuration:
+    - R08 candidate request、versionCode 10216、public Staging CI automation
+    ledger:
+    - 候选只写专用CI夹具与访问审计，不删除账本或业务历史
+    tests:
+    - Android MODULE与instrumentation编译、R08夹具回归、视觉清单、唯一模拟器旅程、同Run轻量晋升、APK四方哈希
+    releases:
+    - R08
+    migration_and_compatibility: 数据库只在隔离Staging专用CI用户范围幂等准备V034项目夹具；公网升级使用兼容V034迁移且保留同库同卷回切，R07基线和候选证据原样保留；R08首轮缺基线只允许轻量晋升同一Run，禁止第二次编译或模拟器。
+  user_confirmation: 项目所有者已明确授权持续开发、AI自主截图判定、最终候选桌面交付、真机反馈异步非阻断，并要求新规则先查重后更新既有规则。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T06:58:32Z'
+    note: 现有Android候选与UI唯一事实源已查重；本CR仅增加R08版本执行数据和旅程，不建立平行规则。范围绑定三页真实项目、V034隔离夹具、单调版本和一次模拟器加同Run轻量晋升。
+  machine_record: .continuity/change_requests/CR-0228.yaml
+  document: docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md
+  decision_log:
+  - at: '2026-07-22T06:58:37Z'
+    actor_id: codex-root-r08-007
+    status: IMPLEMENTING
+    note: 开始实现R08真实候选夹具、三页旅程、视觉清单、10216版本身份和唯一候选请求前置。
+    session_id: SES-20260722T064621Z-68304DE1
+  session_ids:
+  - SES-20260722T064621Z-68304DE1
+- protocol_version: '1.0'
+  cr_id: CR-0229
+  title: 修复最终候选全量Token门禁历史裸参数
+  status: IMPLEMENTING
+  created_at: '2026-07-22T07:03:42Z'
+  updated_at: '2026-07-22T07:04:58Z'
+  requester_actor_id: codex-root-r08-007
+  approver_actor_id: codex-reviewer-ui-token-r08
+  task_id: TASK-R08-007
+  session_id: SES-20260722T064621Z-68304DE1
+  user_request: 项目所有者要求既有和后续UI严格遵循开发文档参数并在大版本最终候选统一验证，不允许规则失效或重复建立事实源。
+  reason: R08最终候选前置全量check_ui_tokens发现H5品牌渐变仍有裸十六进制、R02启动卡和R08项目页仍有裸dp；此前受影响MODULE未执行全量门禁，GitHub候选将确定失败。需在既有Token唯一事实源内补齐派生品牌渐变并把页面裸值改为既有Token组合。
+  original_rule: design/tokens/hhy_design_tokens_v1.2.2.json及其确定性Android/CSS派生物是唯一UI参数事实源，页面禁止裸dp、sp和十六进制颜色；最终候选前必须通过全量Token门禁。
+  new_rule: 不新增Token或页面参数规则；修复既有派生器遗漏：从既有gradient.brand生成唯一--hhy-gradient-brand，H5引用该派生变量；Android启动卡和R08项目页将裸dp全部等价改写为HhySize、HhySpacing、HhyRadius和HhyElevation组合。
+  impact_summary: 修复全量候选必然失败的历史参数漂移，保持像素参数来源仍为同一JSON，不改变页面业务、API或数据库；登记PROB-0080并增加派生渐变和零裸值回归。
+  impact:
+    files:
+    - scripts/check_ui_tokens.py
+    - tests/test_ui_tokens.py
+    - packages/design-tokens/h5.css
+    - packages/design-tokens/admin.css
+    - apps/h5/src/styles.css
+    - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - H5公开分享页
+    - SCR-APP-001
+    - SCR-APP-002
+    - SCR-APP-003
+    - SCR-LIST-001
+    - SCR-DETAIL-001
+    - SCR-PUB-002
+    apis: []
+    database: []
+    configuration:
+    - 既有V1.2.2 Design Token派生
+    ledger: []
+    tests:
+    - python -m unittest tests.test_ui_tokens；python scripts/check_ui_tokens.py；Android受影响MODULE编译
+    releases:
+    - R08
+    migration_and_compatibility: 仅UI编译期Token引用与确定性CSS派生变化；颜色值仍精确来自既有gradient.brand，Android尺寸为既有Token的等价组合，无数据迁移、接口变化或视觉合同扩张。
+  user_confirmation: 项目所有者明确要求UI参数硬规则真正生效、规则查重更新且换AI换电脑无需重述。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T07:04:53Z'
+    note: 已核对既有Token规则与CR-0213视觉规则；本修复只补齐同一派生链并以等价Token组合替换裸值，不新增平行参数事实源。
+  machine_record: .continuity/change_requests/CR-0229.yaml
+  document: docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
+  decision_log:
+  - at: '2026-07-22T07:04:58Z'
+    actor_id: codex-root-r08-007
+    status: IMPLEMENTING
+    note: 开始修复PROB-0080全量Token门禁历史裸参数。
+    session_id: SES-20260722T064621Z-68304DE1
+  session_ids:
+  - SES-20260722T064621Z-68304DE1
 source_manifest:
 - path: AGENTS.md
   sha256: d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86
@@ -7189,7 +7619,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: d2ee174900684951d6bcc85930815567ede053736837c00acfe60d628e818c02
+  sha256: c530d1043bbf2f419a32c7ddb446f359c4d98144fc1c022c15cfeb2613919051
   bytes: 3985
 - path: NEXT_TASK.yaml
   sha256: f3ec661f9145959a7e41a1f6c0f8db741b578a6448235e7c74e5f996cc2c6ce6
@@ -7201,8 +7631,8 @@ source_manifest:
   sha256: 045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511
   bytes: 1442
 - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-  sha256: 94228e5b0a9e00f60548727051117ef27d33756266ec114f909fb6956fb5fe13
-  bytes: 100349
+  sha256: 1c441103656e84e67d36a98be99e1fa8e820b8fc71be1bec389118a15573ccfa
+  bytes: 101582
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
   sha256: 579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519
   bytes: 3238
@@ -7222,10 +7652,10 @@ source_manifest:
   sha256: 16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6
   bytes: 12763
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: b324b1a37bf6e5d1f43a71f42bee971500fc84704747e04e3c04df96dab5d820
-  bytes: 1244775
+  sha256: 5587f5d27c5c6320eb49859b819bdb7b21a8d5310e21ffa2bc919b9dcea2c66b
+  bytes: 1252575
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 147617a7dfa3bb213d75b7e84b28f015e4795806fd08ad03d57819ec49da3dd3
+  sha256: aa62fd424e477cb2a648279751b1f9895ec1c65b209f912115c514c105b7cff3
   bytes: 37908
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: a4591ec89d6ae40f29f6e700d89ac651de53e1e8779ffdd84540ec00243fca42
@@ -7234,10 +7664,10 @@ source_manifest:
   sha256: 18b79fca8d7f53574e1ed46bb8f9ef6bc9323f1c3d00d011f358e0c07594ff9f
   bytes: 21639
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: ef1b52446d97eba992a2cbf3f199728ce698930fbc2baab3fd83e5b7c6c1f30e
-  bytes: 738552
+  sha256: 1f3e82ec19cfd13fa2c553bbd8c7bcd96f42ddfcb8d635d0c8a0cd16e2e2e3a8
+  bytes: 746686
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 96c42c3512d0a11ad81e02f4520cb8058050fca26ca4922d08eb506dc26ab246
+  sha256: d209304ec97270e0dc5ea378b8b04d6f324dd30a38503f36a877ab3c38d43a32
   bytes: 533
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a
@@ -7270,14 +7700,20 @@ source_manifest:
   sha256: f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416
   bytes: 4185
 - path: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-  sha256: 655ce866f94d44192a2d52f8d85821b8ce6f5ada9e8c8b444a18b1b10c86d6e1
-  bytes: 4347
-- path: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml
-  sha256: b11a58cad8936db95011454c795416560d4ad460cb0b9e6db32930fefdb84343
-  bytes: 5790
+  sha256: ad59132394994be1097eda3151a47f779ca937bdcecfbc358ac03f2717ce4047
+  bytes: 6633
+- path: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0004.yaml
+  sha256: 31d215b294b3b31300692899606b23ca28513fae06c9facf22ba3107a36011f3
+  bytes: 14150
 - path: docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md
   sha256: c5ef9a8ba6a85c81a5dd622bc7e661c8589ea3364781522563005e93ad88c52c
   bytes: 3812
+- path: docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md
+  sha256: 5af65261edf423faaf531557e1f5546620bbb1fa6ae8920d7e32907089f34b9f
+  bytes: 4435
+- path: docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md
+  sha256: 80e2157811386b7fa5da3830fdba1081e5bb45379994f7a5dcc82902e0efd33e
+  bytes: 3341
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -7313,4 +7749,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: d22c81945859d8606e592426ff666477b31ba4d883f69459c45c0d0663d7cf49
+context_hash: c326dba507cb28f751490911387761f94dc8af5b7ddf795cd004825d0c7519af

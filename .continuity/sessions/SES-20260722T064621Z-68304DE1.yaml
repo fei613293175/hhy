@@ -11,10 +11,12 @@ task_id: TASK-R08-007
 story_id: STORY-R08-004
 goal: 项目推广完整闭环Android测试APK与产物追溯
 started_at: '2026-07-22T06:46:21Z'
-updated_at: '2026-07-22T06:54:13Z'
+updated_at: '2026-07-22T07:07:23Z'
 takeover_of: null
 change_requests:
 - CR-0227
+- CR-0228
+- CR-0229
 scope:
   allowed_paths:
   - apps/**
@@ -53,7 +55,26 @@ scope:
   - tests/test_continuity_resume_read_only.py
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - CHANGELOG.md
-  source: story+explicit+approved-cr:CR-0227
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - scripts/prepare_r08_ci_fixture.sh
+  - tests/test_r08_ci_fixture.py
+  - tests/android/visual-manifests/R08.yaml
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - catalogs/ui_visual_acceptance.csv
+  - releases/R08/RELEASE_MANIFEST.yaml
+  - scripts/check_ui_tokens.py
+  - tests/test_ui_tokens.py
+  - packages/design-tokens/h5.css
+  - packages/design-tokens/admin.css
+  - apps/h5/src/styles.css
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  source: story+explicit+approved-cr:CR-0227+approved-cr:CR-0228+approved-cr:CR-0229
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -63,22 +84,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T06:54:09Z'
-  expires_at: '2026-07-22T10:54:09Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml
+  renewed_at: '2026-07-22T07:07:18Z'
+  expires_at: '2026-07-22T11:07:18Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-next_step: 提交推送CR关闭事实，随后更新R08候选请求并触发大版本唯一完整Android候选
+next_step: 在云端精确工作树运行Android startup/project/app受影响MODULE与instrumentation编译，并在PostgreSQL 17验证R08夹具双次幂等。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: d22c81945859d8606e592426ff666477b31ba4d883f69459c45c0d0663d7cf49
-  generated_at: '2026-07-22T06:54:11Z'
+  context_hash: c326dba507cb28f751490911387761f94dc8af5b7ddf795cd004825d0c7519af
+  generated_at: '2026-07-22T07:07:22Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前运行策略未授权创建子代理；连续性核心关闭由主控串行复核
+  reason: 当前运行策略未授权子代理；候选前置变更由主控串行验证。

@@ -95,7 +95,7 @@ footer {
 }
 .share-hero {
   color: var(--hhy-color-text-inverse);
-  background: linear-gradient(135deg, var(--hhy-color-brand-primary), #39a0ff);
+  background: var(--hhy-gradient-brand);
 }
 .share-hero img { display: block; width: 100%; max-height: 360px; object-fit: cover; }
 .share-hero-copy { padding: clamp(24px, 6vw, 42px); }

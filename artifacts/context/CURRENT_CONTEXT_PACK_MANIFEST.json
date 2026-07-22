@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T06:54:11Z",
-  "context_hash": "d22c81945859d8606e592426ff666477b31ba4d883f69459c45c0d0663d7cf49",
+  "generated_at": "2026-07-22T07:07:22Z",
+  "context_hash": "c326dba507cb28f751490911387761f94dc8af5b7ddf795cd004825d0c7519af",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "2fecc462de5d7bd812561f0b89d394b61db13289960c5790eae0e38a4790725b",
-    "file_count": 5
+    "sha256": "f869082aa103ef7a4f47d079c6063e7948366d1409172047ce0e5d36274044bf",
+    "file_count": 24
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "021ce16ad3399d5414c103f88ff56d5e1ce2b34f5afb39bd06472fafcd33edce"
+    "sha256": "8da261d035ffd7e19c7ba2c8b07657a28fea42427c838c050dc7697b41f35555"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "2eb3bda09e88971c445dd121e23673ad3b4fa2aa2ba393a49f97992a7bcabb74"
+    "sha256": "f46f6de1bd0c11ce562131238d415a6364da7cc325812023645ff5b44d675b3e"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "d2ee174900684951d6bcc85930815567ede053736837c00acfe60d628e818c02",
+      "sha256": "c530d1043bbf2f419a32c7ddb446f359c4d98144fc1c022c15cfeb2613919051",
       "bytes": 3985
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "94228e5b0a9e00f60548727051117ef27d33756266ec114f909fb6956fb5fe13",
-      "bytes": 100349
+      "sha256": "1c441103656e84e67d36a98be99e1fa8e820b8fc71be1bec389118a15573ccfa",
+      "bytes": 101582
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "b324b1a37bf6e5d1f43a71f42bee971500fc84704747e04e3c04df96dab5d820",
-      "bytes": 1244775
+      "sha256": "5587f5d27c5c6320eb49859b819bdb7b21a8d5310e21ffa2bc919b9dcea2c66b",
+      "bytes": 1252575
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "147617a7dfa3bb213d75b7e84b28f015e4795806fd08ad03d57819ec49da3dd3",
+      "sha256": "aa62fd424e477cb2a648279751b1f9895ec1c65b209f912115c514c105b7cff3",
       "bytes": 37908
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "ef1b52446d97eba992a2cbf3f199728ce698930fbc2baab3fd83e5b7c6c1f30e",
-      "bytes": 738552
+      "sha256": "1f3e82ec19cfd13fa2c553bbd8c7bcd96f42ddfcb8d635d0c8a0cd16e2e2e3a8",
+      "bytes": 746686
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "96c42c3512d0a11ad81e02f4520cb8058050fca26ca4922d08eb506dc26ab246",
+      "sha256": "d209304ec97270e0dc5ea378b8b04d6f324dd30a38503f36a877ab3c38d43a32",
       "bytes": 533
     },
     {
@@ -163,18 +163,28 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md",
-      "sha256": "655ce866f94d44192a2d52f8d85821b8ce6f5ada9e8c8b444a18b1b10c86d6e1",
-      "bytes": 4347
+      "sha256": "ad59132394994be1097eda3151a47f779ca937bdcecfbc358ac03f2717ce4047",
+      "bytes": 6633
     },
     {
-      "path": ".continuity/checkpoints/SES-20260722T064621Z-68304DE1/0003.yaml",
-      "sha256": "b11a58cad8936db95011454c795416560d4ad460cb0b9e6db32930fefdb84343",
-      "bytes": 5790
+      "path": ".continuity/checkpoints/SES-20260722T064621Z-68304DE1/0004.yaml",
+      "sha256": "31d215b294b3b31300692899606b23ca28513fae06c9facf22ba3107a36011f3",
+      "bytes": 14150
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0227-修复无会话resume污染干净工作区接续死锁.md",
       "sha256": "c5ef9a8ba6a85c81a5dd622bc7e661c8589ea3364781522563005e93ad88c52c",
       "bytes": 3812
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0228-建立R08项目最终候选真实旅程与唯一产物门禁.md",
+      "sha256": "5af65261edf423faaf531557e1f5546620bbb1fa6ae8920d7e32907089f34b9f",
+      "bytes": 4435
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0229-修复最终候选全量Token门禁历史裸参数.md",
+      "sha256": "80e2157811386b7fa5da3830fdba1081e5bb45379994f7a5dcc82902e0efd33e",
+      "bytes": 3341
     }
   ]
 }
