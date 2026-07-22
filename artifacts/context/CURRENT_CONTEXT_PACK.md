@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T15:08:39Z
-- Context Hash：`f5ec0cb98c36024f912af8525c223aee667cb55c4ad6a292fbad1780d31f4c67`
+- 生成时间：2026-07-22T15:22:23Z
+- Context Hash：`a545202fe1be45edfb114f8dd799787ca56020ea6f5a297a870e8f256922b229`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -133,7 +133,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-008
-updated_at: '2026-07-22T15:08:30Z'
+updated_at: '2026-07-22T15:22:15Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -168,15 +168,15 @@ continuity:
   active_session_id: SES-20260722T093645Z-C7DB8EF0
   actor_id: codex-root-r08-008
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T19:08:30Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0018.yaml
-  project_fingerprint: cda662ec9e67e95d2f1f487550a8f904b79c5b395d880d312433e904fb940d0f
+  lease_expires_at: '2026-07-22T19:22:15Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0020.yaml
+  project_fingerprint: b5fbe3f401c9aecb56e635b2db43d17e1e08bc300fa8fa31711ed7f2b5f450b9
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 11679be6db0e9c5ba552f1d4d46e9f94a5aa7fe1e81507218bef3add447ac879
-    generated_at: '2026-07-22T14:41:35Z'
+    context_hash: b3e8b645cf302bc9b5e722c18af9f842f84fb6c5369c649ed55e927198c8efee
+    generated_at: '2026-07-22T15:20:20Z'
   handoff_bundle: null
 ```
 
@@ -374,7 +374,7 @@ task_id: TASK-R08-008
 story_id: STORY-R08-004
 goal: 完成R08机器关闭与无状态交接；真实解决历史Android新肉眼视觉复核门禁，Owner真机反馈保持异步不阻断。
 started_at: '2026-07-22T09:36:45Z'
-updated_at: '2026-07-22T15:08:36Z'
+updated_at: '2026-07-22T15:22:21Z'
 takeover_of: null
 change_requests:
 - CR-0233
@@ -389,6 +389,8 @@ change_requests:
 - CR-0242
 - CR-0243
 - CR-0244
+- CR-0245
+- CR-0246
 scope:
   allowed_paths:
   - apps/**
@@ -461,7 +463,9 @@ scope:
   - catalogs/task_transition_ledger.csv
   - scripts/check_ui_visual_acceptance.py
   - tests/test_ui_visual_acceptance.py
-  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241+approved-cr:CR-0242+approved-cr:CR-0243+approved-cr:CR-0244
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241+approved-cr:CR-0242+approved-cr:CR-0243+approved-cr:CR-0244+approved-cr:CR-0245+approved-cr:CR-0246
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -471,12 +475,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T15:08:30Z'
-  expires_at: '2026-07-22T19:08:30Z'
-checkpoint_sequence: 18
-latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0018.yaml
+  renewed_at: '2026-07-22T15:22:15Z'
+  expires_at: '2026-07-22T19:22:15Z'
+checkpoint_sequence: 20
+latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0020.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-next_step: 刷新Context Pack并执行R08关闭；随后立即进入P00/R01-R08全前端UI审计，不进入R09业务实现。
+next_step: 提交修复与问题登记，用显式授权关闭R08到R09-001。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -484,79 +488,69 @@ parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 当前开发者指令与系统约束要求本任务串行推进，不创建子代理。
+  reason: 同一连续性状态链需串行提交。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0018
+checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0020
 session_id: SES-20260722T093645Z-C7DB8EF0
-sequence: 18
-created_at: '2026-07-22T15:08:30Z'
-summary: R08机器收尾事实已补齐；R08三页视觉独立PASS；历史UI全局整改门禁保留65项；发布文档与桌面APK SHA通过。
-next_step: 刷新Context Pack并执行R08关闭；随后立即进入P00/R01-R08全前端UI审计，不进入R09业务实现。
+sequence: 20
+created_at: '2026-07-22T15:22:14Z'
+summary: CR-0245完成态并行Release修复及PROB-0092复用记录已完整落地。
+next_step: 提交修复与问题登记，用显式授权关闭R08到R09-001。
 blockers: []
 decisions:
-- 先全面关闭R08，再通过--historical-through R08整改历史UI；不反复重跑GitHub。
+- 不伪标R08受阻、不伪增R09依赖，修复连续性工具本身。
 note: ''
 tests:
-- name: ui-visual-unit
+- name: problem-registry-yaml
   result: PASS
-  evidence: python -m unittest tests.test_ui_visual_acceptance
-  note: 8 tests OK
-- name: r08-visual-close
+  evidence: docs/03-continuity/PROBLEM_REGISTRY.yaml
+  note: YAML parse OK
+- name: completed-independent-unit
   result: PASS
-  evidence: check_ui_visual_acceptance.py --release R08
-  note: 3 pages PASS
-- name: historical-ui-baseline
+  evidence: test_completed_release_can_validate_green_independent_sibling
+  note: 1 test OK in 14.365s
+- name: blocked-independent-regression
   result: PASS
-  evidence: check_ui_visual_acceptance.py --historical-through R08
-  note: 门禁有效并如实报告65项未完成
-- name: r08-release-artifacts
-  result: PASS
-  evidence: check_release_artifacts.py --release R08
-  note: RELEASE_ARTIFACTS_OK
-- name: r08-documentation
-  result: PASS
-  evidence: check_v123_documentation.py --strict --release R08
-  note: status PASS
-- name: r08-apk-sha
-  result: PASS
-  evidence: repo and Desktop SHA-256
-  note: d424c880ccf45cb1f092bef5a88a6459ec17747c95f3b9ed1a833de09d63557a
+  evidence: test_external_apk_gate_can_wait_while_independent_release_starts
+  note: 1 test OK in 137.645s
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: c5fc618a8a5177400e35de7b651b48c983af6716
+  head: 44ed2570fb333833081c2ba5f142112aedd93ecb
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0242.yaml'
-  - ' M .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml'
-  - ' M CHANGELOG.md'
-  - ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - MM .continuity/CHANGE_REQUEST_INDEX.yaml
+  - MM .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - MM .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0245.yaml
+  - A  .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0019.yaml
+  - MM .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml
+  - M  CURRENT_STATUS.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - MM catalogs/change_request_index.csv
+  - MM catalogs/session_index.csv
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md'
-  - ' M releases/R08/ACCEPTANCE_MATRIX.csv'
-  - ' M releases/R08/RELEASE_MANIFEST.yaml'
-  - ' M scripts/check_ui_visual_acceptance.py'
-  - ' M tests/test_ui_visual_acceptance.py'
-  - ?? .continuity/change_requests/CR-0243.yaml
-  - ?? .continuity/change_requests/CR-0244.yaml
-  - ?? artifacts/reports/R08/TASK-R08-008-machine-close.md
-  - ?? docs/03-continuity/change-requests/CR-0243-使用已通过候选完成R08机器关闭并登记Staging重启漂移.md
-  - ?? docs/03-continuity/change-requests/CR-0244-分离R08关闭与历史UI全局整改检查模式.md
+  - A  docs/03-continuity/change-requests/CR-0245-允许已完成并行Release诚实切换下一工作线.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
+  - M  scripts/continuity.py
+  - M  tests/test_continuity_cross_release_close.py
+  - ?? .continuity/change_requests/CR-0246.yaml
+  - ?? docs/03-continuity/change-requests/CR-0246-登记完成态并行Release关闭工具缺口.md
   recent_commits:
+  - "44ed2570fb333833081c2ba5f142112aedd93ecb\t2026-07-22T23:09:46+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(r08): complete machine\
+    \ closure evidence"
   - "c5fc618a8a5177400e35de7b651b48c983af6716\t2026-07-22T22:41:58+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(r08): close release before\
     \ global UI audit"
   - "2f78f99ca8c3e949620b06aee62a80ffd6e76e5c\t2026-07-22T22:08:36+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(android-test): reject\
@@ -571,10 +565,8 @@ git:
     \ compile regressions"
   - "c00d76bd596ffdf51cc908edebaf5b7696a6e51d\t2026-07-22T19:28:54+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(android): remediate historical\
     \ visual gaps"
-  - "ad117b893b53bcffd914d71d1888b1f5837717b3\t2026-07-22T18:51:31+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): checkpoint final\
-    \ historical audit"
 project_fingerprint:
-  sha256: cda662ec9e67e95d2f1f487550a8f904b79c5b395d880d312433e904fb940d0f
+  sha256: b5fbe3f401c9aecb56e635b2db43d17e1e08bc300fa8fa31711ed7f2b5f450b9
   files:
   - .github/workflows/ci.yml
   - CHANGELOG.md
@@ -605,18 +597,22 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md
   - docs/03-continuity/change-requests/CR-0243-使用已通过候选完成R08机器关闭并登记Staging重启漂移.md
   - docs/03-continuity/change-requests/CR-0244-分离R08关闭与历史UI全局整改检查模式.md
+  - docs/03-continuity/change-requests/CR-0245-允许已完成并行Release诚实切换下一工作线.md
+  - docs/03-continuity/change-requests/CR-0246-登记完成态并行Release关闭工具缺口.md
   - releases/R08/ACCEPTANCE_MATRIX.csv
   - releases/R08/RELEASE_MANIFEST.yaml
   - releases/R08/TASKS.yaml
   - scripts/check_ui_visual_acceptance.py
+  - scripts/continuity.py
   - scripts/prepare_r08_ci_fixture.sh
   - tests/android/visual-manifests/R08.yaml
   - tests/test_android_ci_gate.py
+  - tests/test_continuity_cross_release_close.py
   - tests/test_historical_android_visual_contract.py
   - tests/test_r08_ci_fixture.py
   - tests/test_release_close_gate.py
   - tests/test_ui_visual_acceptance.py
-  file_count: 40
+  file_count: 44
   payload:
     base_commit: 46480be9eca8852e661013be23f916cdc2fa0003
     files:
@@ -686,8 +682,8 @@ project_fingerprint:
       sha256: 3ccb922b9c7c2cea338bebd1ab8fdb43eb294b25ecfa09a38768bd318b807520
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 118618
-      sha256: cb5bf814e9d2fe8e4d83258a9924b0f71840a3acb28af55cf7ef8071055339ff
+      size: 120030
+      sha256: 3dc91e0d394119e3efd9c4aebad203408cfc409b1fd1d040050a908775a4ac0d
     - path: docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
       state: FILE
       size: 3875
@@ -736,6 +732,14 @@ project_fingerprint:
       state: FILE
       size: 2859
       sha256: fd5b06af2863143d76a851f5bc21cd563da8b8c134a39c10af323dcb9f1b79f1
+    - path: docs/03-continuity/change-requests/CR-0245-允许已完成并行Release诚实切换下一工作线.md
+      state: FILE
+      size: 2896
+      sha256: ea2d2c6b2d89a1110ba286dfe0b6025061063274db4f34e242a208e758ae40ca
+    - path: docs/03-continuity/change-requests/CR-0246-登记完成态并行Release关闭工具缺口.md
+      state: FILE
+      size: 2276
+      sha256: 0e97cc41846f72ec5424d7682287525d9752858bcca4604cad62efb8db700e3c
     - path: releases/R08/ACCEPTANCE_MATRIX.csv
       state: FILE
       size: 824
@@ -752,6 +756,10 @@ project_fingerprint:
       state: FILE
       size: 13281
       sha256: a8e5dfae40c06e81d22505e9e8ffb8c15b700d1f3469cf99e75861e8ac57c177
+    - path: scripts/continuity.py
+      state: FILE
+      size: 74830
+      sha256: ff422de9cfc16ab87cc4edff9cd6273955442818da3425913f325e1480ce073b
     - path: scripts/prepare_r08_ci_fixture.sh
       state: FILE
       size: 6637
@@ -764,6 +772,10 @@ project_fingerprint:
       state: FILE
       size: 27468
       sha256: b9b2333be3660a90a395c2d1087c240d6085dc954e2cf213fac77894a252a17d
+    - path: tests/test_continuity_cross_release_close.py
+      state: FILE
+      size: 27443
+      sha256: 4c2d38ffa19a20715a0b109fadfb25ce82260c663a5cbd3dee31e0c1d5e880a8
     - path: tests/test_historical_android_visual_contract.py
       state: FILE
       size: 2056
@@ -803,6 +815,7 @@ change_classification:
   - apps/h5/src/services/publicShare.test.ts
   - apps/h5/src/views/PublicPage.vue
   - scripts/check_ui_visual_acceptance.py
+  - scripts/continuity.py
   - scripts/prepare_r08_ci_fixture.sh
   user_visible:
   - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
@@ -831,11 +844,14 @@ change_classification:
   - docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md
   - docs/03-continuity/change-requests/CR-0243-使用已通过候选完成R08机器关闭并登记Staging重启漂移.md
   - docs/03-continuity/change-requests/CR-0244-分离R08关闭与历史UI全局整改检查模式.md
+  - docs/03-continuity/change-requests/CR-0245-允许已完成并行Release诚实切换下一工作线.md
+  - docs/03-continuity/change-requests/CR-0246-登记完成态并行Release关闭工具缺口.md
   source_of_truth:
   - releases/R08/RELEASE_MANIFEST.yaml
   tests:
   - tests/android/visual-manifests/R08.yaml
   - tests/test_android_ci_gate.py
+  - tests/test_continuity_cross_release_close.py
   - tests/test_historical_android_visual_contract.py
   - tests/test_r08_ci_fixture.py
   - tests/test_release_close_gate.py
@@ -861,6 +877,8 @@ change_requests:
 - CR-0242
 - CR-0243
 - CR-0244
+- CR-0245
+- CR-0246
 scope:
   allowed_paths:
   - apps/**
@@ -933,13 +951,15 @@ scope:
   - catalogs/task_transition_ledger.csv
   - scripts/check_ui_visual_acceptance.py
   - tests/test_ui_visual_acceptance.py
-  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241+approved-cr:CR-0242+approved-cr:CR-0243+approved-cr:CR-0244
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241+approved-cr:CR-0242+approved-cr:CR-0243+approved-cr:CR-0244+approved-cr:CR-0245+approved-cr:CR-0246
 parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 当前开发者指令与系统约束要求本任务串行推进，不创建子代理。
-event_hash: b7f53a6c5c67e607ce669c219ec648510af544c7a24eee94dc9cee1c847e13dd
+  reason: 同一连续性状态链需串行提交。
+event_hash: c8ac4f0651ac84d574f1d63bb91d11674310ba4e1d182bc9553a1e81ad94ab37
 ```
 
 ## 接续状态与事件头
@@ -951,8 +971,8 @@ active_session_id: SES-20260722T093645Z-C7DB8EF0
 last_session_id: SES-20260722T064621Z-68304DE1
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0013
-event_count: 2392
-event_head_hash: b7f53a6c5c67e607ce669c219ec648510af544c7a24eee94dc9cee1c847e13dd
+event_count: 2406
+event_head_hash: c8ac4f0651ac84d574f1d63bb91d11674310ba4e1d182bc9553a1e81ad94ab37
 event_chain_valid: true
 ```
 
@@ -1075,9 +1095,9 @@ recent_sessions: - session_id: SES-20260721T210252Z-D631F6E4
   started_at: '2026-07-22T09:36:45Z'
   record: .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-  updated_at: '2026-07-22T15:08:30Z'
+  updated_at: '2026-07-22T15:22:15Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0018.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0020.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-EA5A5991A609
   session_id: SES-20260721T020225Z-397AF410
@@ -2049,42 +2069,37 @@ recent_task_transitions: - transition_id: TRN-A20A071A670D
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: c5fc618a8a5177400e35de7b651b48c983af6716
+head: 44ed2570fb333833081c2ba5f142112aedd93ecb
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0242.yaml'
-- ' M .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml'
-- ' M CHANGELOG.md'
-- ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/project-doctor-v1.2.3-documentation.json'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
+- MM .continuity/ACTIVE_SESSION.yaml
+- MM .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- A  .continuity/change_requests/CR-0245.yaml
+- A  .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0019.yaml
+- MM .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml
+- MM CURRENT_STATUS.yaml
+- MM artifacts/context/CURRENT_CONTEXT_PACK.md
+- MM artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- MM artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- MM catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
 - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-- ' M docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md'
-- ' M releases/R08/ACCEPTANCE_MATRIX.csv'
-- ' M releases/R08/RELEASE_MANIFEST.yaml'
-- ' M scripts/check_ui_visual_acceptance.py'
-- ' M tests/test_ui_visual_acceptance.py'
-- ?? .continuity/change_requests/CR-0243.yaml
-- ?? .continuity/change_requests/CR-0244.yaml
-- ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0018.yaml
-- ?? artifacts/reports/R08/TASK-R08-008-machine-close.md
-- ?? docs/03-continuity/change-requests/CR-0243-使用已通过候选完成R08机器关闭并登记Staging重启漂移.md
-- ?? docs/03-continuity/change-requests/CR-0244-分离R08关闭与历史UI全局整改检查模式.md
+- A  docs/03-continuity/change-requests/CR-0245-允许已完成并行Release诚实切换下一工作线.md
+- MM docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
+- M  scripts/continuity.py
+- M  tests/test_continuity_cross_release_close.py
+- ?? .continuity/change_requests/CR-0246.yaml
+- ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0020.yaml
+- ?? docs/03-continuity/change-requests/CR-0246-登记完成态并行Release关闭工具缺口.md
 recent_commits:
+- "44ed2570fb333833081c2ba5f142112aedd93ecb\t2026-07-22T23:09:46+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(r08): complete machine\
+  \ closure evidence"
 - "c5fc618a8a5177400e35de7b651b48c983af6716\t2026-07-22T22:41:58+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(r08): close release before\
   \ global UI audit"
 - "2f78f99ca8c3e949620b06aee62a80ffd6e76e5c\t2026-07-22T22:08:36+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(android-test): reject system\
@@ -2099,14 +2114,12 @@ recent_commits:
   \ regressions"
 - "c00d76bd596ffdf51cc908edebaf5b7696a6e51d\t2026-07-22T19:28:54+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(android): remediate historical\
   \ visual gaps"
-- "ad117b893b53bcffd914d71d1888b1f5837717b3\t2026-07-22T18:51:31+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): checkpoint final\
-  \ historical audit"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`cda662ec9e67e95d2f1f487550a8f904b79c5b395d880d312433e904fb940d0f`
-- 文件数：40
+- 指纹：`b5fbe3f401c9aecb56e635b2db43d17e1e08bc300fa8fa31711ed7f2b5f450b9`
+- 文件数：44
 
 - `.github/workflows/ci.yml`
 - `CHANGELOG.md`
@@ -2137,13 +2150,17 @@ recent_commits:
 - `docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md`
 - `docs/03-continuity/change-requests/CR-0243-使用已通过候选完成R08机器关闭并登记Staging重启漂移.md`
 - `docs/03-continuity/change-requests/CR-0244-分离R08关闭与历史UI全局整改检查模式.md`
+- `docs/03-continuity/change-requests/CR-0245-允许已完成并行Release诚实切换下一工作线.md`
+- `docs/03-continuity/change-requests/CR-0246-登记完成态并行Release关闭工具缺口.md`
 - `releases/R08/ACCEPTANCE_MATRIX.csv`
 - `releases/R08/RELEASE_MANIFEST.yaml`
 - `releases/R08/TASKS.yaml`
 - `scripts/check_ui_visual_acceptance.py`
+- `scripts/continuity.py`
 - `scripts/prepare_r08_ci_fixture.sh`
 - `tests/android/visual-manifests/R08.yaml`
 - `tests/test_android_ci_gate.py`
+- `tests/test_continuity_cross_release_close.py`
 - `tests/test_historical_android_visual_contract.py`
 - `tests/test_r08_ci_fixture.py`
 - `tests/test_release_close_gate.py`
@@ -8293,29 +8310,130 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
+- protocol_version: '1.0'
+  cr_id: CR-0245
+  title: 允许已完成并行Release诚实切换下一工作线
+  status: IMPLEMENTED
+  created_at: '2026-07-22T15:13:01Z'
+  updated_at: '2026-07-22T15:20:05Z'
+  requester_actor_id: codex-root-r08-008
+  approver_actor_id: codex-reviewer-continuity-r08-close
+  task_id: TASK-R08-008
+  session_id: SES-20260722T093645Z-C7DB8EF0
+  user_request: 先全面收尾R08，再补历史UI并持续开发；不得因工具限制把已完成R08标记为受阻。
+  reason: R08与R09在冻结DAG中是共享R05-R07依赖的并行兄弟Release，现有close只允许BLOCKED任务旁路到独立Release，导致COMPLETED终态无法合法交接。
+  original_rule: 现有跨Release关闭：COMPLETED只能交接给声明依赖当前Release的首任务；--allow-independent-release及所有者确认仅允许BLOCKED外部门禁旁路。
+  new_rule: 更新同一迁移规则：COMPLETED终态也可在显式--allow-independent-release和项目所有者确认下交接给DAG中依赖已全部GREEN的独立Release首任务；当前任务仍必须真正DONE，目标首任务仍必须READY，不修改产品依赖。
+  impact_summary: 扩展现有独立Release校验器区分BLOCKED外部门禁和COMPLETED兄弟Release；补直接校验回归并用R08到R09实际关闭证明。
+  impact:
+    files:
+    - scripts/continuity.py
+    - tests/test_continuity_cross_release_close.py
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - continuity cross-release completion transition
+    ledger: []
+    tests:
+    - completed sibling release validation; blocked external-gate regression; actual R08 completed close to R09 first task
+    releases:
+    - R08
+    - R09
+    migration_and_compatibility: 既有同Release、直接依赖Release和BLOCKED外部门禁路径保持不变；只有同时提供显式旁路标志和所有者确认时启用COMPLETED独立交接。
+  user_confirmation: OWNER_EXPLICIT_CONTINUE_AFTER_R08_AND_DO_GLOBAL_UI_FIRST
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T15:13:25Z'
+    note: 批准修复终态迁移缺口；不得改变R08完成事实、R09依赖或降低目标依赖GREEN校验。
+  machine_record: .continuity/change_requests/CR-0245.yaml
+  document: docs/03-continuity/change-requests/CR-0245-允许已完成并行Release诚实切换下一工作线.md
+  decision_log:
+  - at: '2026-07-22T15:14:49Z'
+    actor_id: codex-root-r08-008
+    status: IMPLEMENTING
+    note: 开始扩展现有独立Release迁移校验并补完成态兄弟Release回归。
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  - at: '2026-07-22T15:20:05Z'
+    actor_id: codex-root-r08-008
+    status: IMPLEMENTED
+    note: 完成态独立Release校验与旧BLOCKED外部门禁回归均通过；不修改产品依赖，目标依赖GREEN校验保留。
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  session_ids:
+  - SES-20260722T093645Z-C7DB8EF0
+- protocol_version: '1.0'
+  cr_id: CR-0246
+  title: 登记完成态并行Release关闭工具缺口
+  status: IMPLEMENTED
+  created_at: '2026-07-22T15:20:57Z'
+  updated_at: '2026-07-22T15:22:10Z'
+  requester_actor_id: codex-root-r08-008
+  approver_actor_id: codex-reviewer-continuity-r08-close
+  task_id: TASK-R08-008
+  session_id: SES-20260722T093645Z-C7DB8EF0
+  user_request: 先全面收尾R08并持续进入UI整改；所有踩坑经验必须跨电脑跨AI复用。
+  reason: CR-0245已修复完成态兄弟Release无法交接的问题，但Bug提交门禁要求同步登记Problem Registry，避免后续再次误判为R08受阻或篡改产品依赖。
+  original_rule: 沿用Bug必须登记Problem Registry及连续性跨Release关闭唯一规则。
+  new_rule: 不新增平行规则；在现有Problem Registry登记：并行兄弟Release完成后需使用显式完成态独立交接，禁止伪标BLOCKED或修改产品DAG，并绑定CR-0245回归证据。
+  impact_summary: 补齐CR-0245所修Bug的现象、根因、修复、回归和复用提示。
+  impact:
+    files:
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - continuity pitfall reuse record
+    ledger: []
+    tests:
+    - Problem Registry YAML parse and continuity strict
+    releases:
+    - R08
+    - R09
+    migration_and_compatibility: 仅治理登记，不改变代码、产品依赖或Release状态。
+  user_confirmation: OWNER_REQUIRES_CROSS_AI_PITFALL_REUSE
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T15:21:17Z'
+    note: 批准补齐既有Bug登记，不建立第二套规则。
+  machine_record: .continuity/change_requests/CR-0246.yaml
+  document: docs/03-continuity/change-requests/CR-0246-登记完成态并行Release关闭工具缺口.md
+  decision_log:
+  - at: '2026-07-22T15:21:25Z'
+    actor_id: codex-root-r08-008
+    status: IMPLEMENTING
+    note: 开始补Problem Registry。
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  - at: '2026-07-22T15:22:10Z'
+    actor_id: codex-root-r08-008
+    status: IMPLEMENTED
+    note: PROB-0092已登记现象、根因、修复、两条回归和三条禁止复发事项。
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  session_ids:
+  - SES-20260722T093645Z-C7DB8EF0
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `b1318632972016210ead7c21343de2c0898813e500e94542bf765b0b1175d798`
+- `CURRENT_STATUS.yaml` — `457ddf4c77463df936f75920f92eb6f3c9ee1615eca607c5a92a8ce44a9af9a5`
 - `NEXT_TASK.yaml` — `a9ff55e7e2c51cd8df5cd1022a468129f3605f2d83e1d27e0e02b18e9ee9fa38`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `cb5bf814e9d2fe8e4d83258a9924b0f71840a3acb28af55cf7ef8071055339ff`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `3dc91e0d394119e3efd9c4aebad203408cfc409b1fd1d040050a908775a4ac0d`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519`
 - `docs/03-continuity/PITFALLS.md` — `a2f52728083c1d4ae1b2e8fdec207546594e396fb797b4348d61e5d0d7a402ea`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `fdde327294119d12840fd035e5f1acc7437f6d7cc9ddc4dc6a52d7fbb8dc980f`
-- `.continuity/SESSION_INDEX.yaml` — `bc31e0174ba71ef66cecc5202ebe6c79e59ef70ba3617f63b2bde8c87313eec4`
+- `.continuity/EVENT_LOG.jsonl` — `83a92a386f15da40a03e0acfd082a0175a3c44dbe38b3d2bc7aae0c0c3774dc2`
+- `.continuity/SESSION_INDEX.yaml` — `e66eb71dc6c5ed12953105d36c9f55f5f20935fe7fd4a81f03ab353f4324eb0e`
 - `.continuity/TASK_CLAIMS.yaml` — `d198f932ee2eb9d2de78377c60fbf31fee32370819a2777f8f2f8a56652da7fb`
 - `.continuity/TASK_TRANSITIONS.yaml` — `a46b8baf5da74a6035eb61786739bf6dacfd22cb0cdea14210f195f5326f82af`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `35b5e4ed53f701c1e7ce83822d1995f3595c23b97d6a48a997a193f6c071e4ee`
-- `.continuity/ACTIVE_SESSION.yaml` — `34b102dca70396907f0fb0aa90d8cc8c55131b5c32e58e4eccd6556108921c86`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `894868ca740e790991e943e0f4fed7073279419a7bad48753a985ce358c388fd`
+- `.continuity/ACTIVE_SESSION.yaml` — `b3cad7934b524bd9dcc39279132f53edf3eae6a59568cf025b026c2769c4002c`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -8326,8 +8444,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/TASKS.yaml` — `0999094e0397929e44799ab746c5f90ca1b297b7068c865d775c3125e26f1925`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `2328e486607b80f44a2fb3676aae5641f128817cac84429108f39ba3cdbb9be2`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md` — `194774c296e52afeadb6ffc8f2ede21eff3b9c5e16f97803c16dbd89791fe3d7`
-- `.continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0018.yaml` — `82eb560bb5b94c45dec4e6c9bbb88f5587e2b88239c59385eb41dedfe90c1d0c`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md` — `3e5e3c399ec930264c86db3513eb79a625f2666b9884e1707f7becaa05612d2f`
+- `.continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0020.yaml` — `b8a5138993065e42012a6a92141f3c149f80f872f45f7c33df4a31e323434ca5`
 - `docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md` — `41a2583832546cd8e0a570ef1e09330d9637116b73b709e383161344b9753b69`
 - `docs/03-continuity/change-requests/CR-0234-修复R08历史视觉首轮模拟器确定性旅程失败.md` — `9c79035d7ccc7008eaae824be70248f998b1374d5086d8770e20df883273be5b`
 - `docs/03-continuity/change-requests/CR-0235-将历史视觉审计改为单内容独立测试宿主.md` — `bf2aa8cce5d3620ace8acb1c9f8ceed5f2c02e7e7151e154780b36609f7c7ba6`
@@ -8340,6 +8458,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `docs/03-continuity/change-requests/CR-0242-修正相近页面视觉误判并补齐历史首页与安全页精致度.md` — `6b002270e1913eded27a5065fe926f1605e69076524745df52cd888a9b8dfbb2`
 - `docs/03-continuity/change-requests/CR-0243-使用已通过候选完成R08机器关闭并登记Staging重启漂移.md` — `555461e40b2c9df4150599bacb5a9198d068ca1e3814cf8ef06d62a86bd958aa`
 - `docs/03-continuity/change-requests/CR-0244-分离R08关闭与历史UI全局整改检查模式.md` — `fd5b06af2863143d76a851f5bc21cd563da8b8c134a39c10af323dcb9f1b79f1`
+- `docs/03-continuity/change-requests/CR-0245-允许已完成并行Release诚实切换下一工作线.md` — `ea2d2c6b2d89a1110ba286dfe0b6025061063274db4f34e242a208e758ae40ca`
+- `docs/03-continuity/change-requests/CR-0246-登记完成态并行Release关闭工具缺口.md` — `0e97cc41846f72ec5424d7682287525d9752858bcca4604cad62efb8db700e3c`
 
 ## 接手硬规则
 

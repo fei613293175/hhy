@@ -14951,3 +14951,104 @@ change_requests:
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
+- protocol_version: '1.0'
+  cr_id: CR-0245
+  title: 允许已完成并行Release诚实切换下一工作线
+  status: IMPLEMENTED
+  created_at: '2026-07-22T15:13:01Z'
+  updated_at: '2026-07-22T15:20:05Z'
+  requester_actor_id: codex-root-r08-008
+  approver_actor_id: codex-reviewer-continuity-r08-close
+  task_id: TASK-R08-008
+  session_id: SES-20260722T093645Z-C7DB8EF0
+  user_request: 先全面收尾R08，再补历史UI并持续开发；不得因工具限制把已完成R08标记为受阻。
+  reason: R08与R09在冻结DAG中是共享R05-R07依赖的并行兄弟Release，现有close只允许BLOCKED任务旁路到独立Release，导致COMPLETED终态无法合法交接。
+  original_rule: 现有跨Release关闭：COMPLETED只能交接给声明依赖当前Release的首任务；--allow-independent-release及所有者确认仅允许BLOCKED外部门禁旁路。
+  new_rule: 更新同一迁移规则：COMPLETED终态也可在显式--allow-independent-release和项目所有者确认下交接给DAG中依赖已全部GREEN的独立Release首任务；当前任务仍必须真正DONE，目标首任务仍必须READY，不修改产品依赖。
+  impact_summary: 扩展现有独立Release校验器区分BLOCKED外部门禁和COMPLETED兄弟Release；补直接校验回归并用R08到R09实际关闭证明。
+  impact:
+    files:
+    - scripts/continuity.py
+    - tests/test_continuity_cross_release_close.py
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - continuity cross-release completion transition
+    ledger: []
+    tests:
+    - completed sibling release validation; blocked external-gate regression; actual R08 completed close to R09 first task
+    releases:
+    - R08
+    - R09
+    migration_and_compatibility: 既有同Release、直接依赖Release和BLOCKED外部门禁路径保持不变；只有同时提供显式旁路标志和所有者确认时启用COMPLETED独立交接。
+  user_confirmation: OWNER_EXPLICIT_CONTINUE_AFTER_R08_AND_DO_GLOBAL_UI_FIRST
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T15:13:25Z'
+    note: 批准修复终态迁移缺口；不得改变R08完成事实、R09依赖或降低目标依赖GREEN校验。
+  machine_record: .continuity/change_requests/CR-0245.yaml
+  document: docs/03-continuity/change-requests/CR-0245-允许已完成并行Release诚实切换下一工作线.md
+  decision_log:
+  - at: '2026-07-22T15:14:49Z'
+    actor_id: codex-root-r08-008
+    status: IMPLEMENTING
+    note: 开始扩展现有独立Release迁移校验并补完成态兄弟Release回归。
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  - at: '2026-07-22T15:20:05Z'
+    actor_id: codex-root-r08-008
+    status: IMPLEMENTED
+    note: 完成态独立Release校验与旧BLOCKED外部门禁回归均通过；不修改产品依赖，目标依赖GREEN校验保留。
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  session_ids:
+  - SES-20260722T093645Z-C7DB8EF0
+- protocol_version: '1.0'
+  cr_id: CR-0246
+  title: 登记完成态并行Release关闭工具缺口
+  status: IMPLEMENTED
+  created_at: '2026-07-22T15:20:57Z'
+  updated_at: '2026-07-22T15:22:10Z'
+  requester_actor_id: codex-root-r08-008
+  approver_actor_id: codex-reviewer-continuity-r08-close
+  task_id: TASK-R08-008
+  session_id: SES-20260722T093645Z-C7DB8EF0
+  user_request: 先全面收尾R08并持续进入UI整改；所有踩坑经验必须跨电脑跨AI复用。
+  reason: CR-0245已修复完成态兄弟Release无法交接的问题，但Bug提交门禁要求同步登记Problem Registry，避免后续再次误判为R08受阻或篡改产品依赖。
+  original_rule: 沿用Bug必须登记Problem Registry及连续性跨Release关闭唯一规则。
+  new_rule: 不新增平行规则；在现有Problem Registry登记：并行兄弟Release完成后需使用显式完成态独立交接，禁止伪标BLOCKED或修改产品DAG，并绑定CR-0245回归证据。
+  impact_summary: 补齐CR-0245所修Bug的现象、根因、修复、回归和复用提示。
+  impact:
+    files:
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages: []
+    apis: []
+    database: []
+    configuration:
+    - continuity pitfall reuse record
+    ledger: []
+    tests:
+    - Problem Registry YAML parse and continuity strict
+    releases:
+    - R08
+    - R09
+    migration_and_compatibility: 仅治理登记，不改变代码、产品依赖或Release状态。
+  user_confirmation: OWNER_REQUIRES_CROSS_AI_PITFALL_REUSE
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T15:21:17Z'
+    note: 批准补齐既有Bug登记，不建立第二套规则。
+  machine_record: .continuity/change_requests/CR-0246.yaml
+  document: docs/03-continuity/change-requests/CR-0246-登记完成态并行Release关闭工具缺口.md
+  decision_log:
+  - at: '2026-07-22T15:21:25Z'
+    actor_id: codex-root-r08-008
+    status: IMPLEMENTING
+    note: 开始补Problem Registry。
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  - at: '2026-07-22T15:22:10Z'
+    actor_id: codex-root-r08-008
+    status: IMPLEMENTED
+    note: PROB-0092已登记现象、根因、修复、两条回归和三条禁止复发事项。
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  session_ids:
+  - SES-20260722T093645Z-C7DB8EF0

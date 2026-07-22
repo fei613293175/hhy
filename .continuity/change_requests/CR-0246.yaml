@@ -1,0 +1,50 @@
+protocol_version: '1.0'
+cr_id: CR-0246
+title: 登记完成态并行Release关闭工具缺口
+status: IMPLEMENTED
+created_at: '2026-07-22T15:20:57Z'
+updated_at: '2026-07-22T15:22:10Z'
+requester_actor_id: codex-root-r08-008
+approver_actor_id: codex-reviewer-continuity-r08-close
+task_id: TASK-R08-008
+session_id: SES-20260722T093645Z-C7DB8EF0
+user_request: 先全面收尾R08并持续进入UI整改；所有踩坑经验必须跨电脑跨AI复用。
+reason: CR-0245已修复完成态兄弟Release无法交接的问题，但Bug提交门禁要求同步登记Problem Registry，避免后续再次误判为R08受阻或篡改产品依赖。
+original_rule: 沿用Bug必须登记Problem Registry及连续性跨Release关闭唯一规则。
+new_rule: 不新增平行规则；在现有Problem Registry登记：并行兄弟Release完成后需使用显式完成态独立交接，禁止伪标BLOCKED或修改产品DAG，并绑定CR-0245回归证据。
+impact_summary: 补齐CR-0245所修Bug的现象、根因、修复、回归和复用提示。
+impact:
+  files:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  pages: []
+  apis: []
+  database: []
+  configuration:
+  - continuity pitfall reuse record
+  ledger: []
+  tests:
+  - Problem Registry YAML parse and continuity strict
+  releases:
+  - R08
+  - R09
+  migration_and_compatibility: 仅治理登记，不改变代码、产品依赖或Release状态。
+user_confirmation: OWNER_REQUIRES_CROSS_AI_PITFALL_REUSE
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T15:21:17Z'
+  note: 批准补齐既有Bug登记，不建立第二套规则。
+machine_record: .continuity/change_requests/CR-0246.yaml
+document: docs/03-continuity/change-requests/CR-0246-登记完成态并行Release关闭工具缺口.md
+decision_log:
+- at: '2026-07-22T15:21:25Z'
+  actor_id: codex-root-r08-008
+  status: IMPLEMENTING
+  note: 开始补Problem Registry。
+  session_id: SES-20260722T093645Z-C7DB8EF0
+- at: '2026-07-22T15:22:10Z'
+  actor_id: codex-root-r08-008
+  status: IMPLEMENTED
+  note: PROB-0092已登记现象、根因、修复、两条回归和三条禁止复发事项。
+  session_id: SES-20260722T093645Z-C7DB8EF0
+session_ids:
+- SES-20260722T093645Z-C7DB8EF0

@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T15:08:39Z",
-  "context_hash": "f5ec0cb98c36024f912af8525c223aee667cb55c4ad6a292fbad1780d31f4c67",
+  "generated_at": "2026-07-22T15:22:23Z",
+  "context_hash": "a545202fe1be45edfb114f8dd799787ca56020ea6f5a297a870e8f256922b229",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "cda662ec9e67e95d2f1f487550a8f904b79c5b395d880d312433e904fb940d0f",
-    "file_count": 40
+    "sha256": "b5fbe3f401c9aecb56e635b2db43d17e1e08bc300fa8fa31711ed7f2b5f450b9",
+    "file_count": 44
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "6cff858acaedf484b41f4a8469dfa3857742e723a3e9d56b46f2c4e5b4469393"
+    "sha256": "176eea5798bba872ee2a80e3020c07f3bd30fc868fb8bb9bb8053b0623bd0042"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "cf81459eb06dfaac135b72a52b3b97a9bbb0f0b45dd34223d03cedf431e2c9b2"
+    "sha256": "2cd42cd5e55c79adf7067fe47b58e52accc6e1eafe53b80d815353e5c94c4505"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "b1318632972016210ead7c21343de2c0898813e500e94542bf765b0b1175d798",
+      "sha256": "457ddf4c77463df936f75920f92eb6f3c9ee1615eca607c5a92a8ce44a9af9a5",
       "bytes": 4000
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "cb5bf814e9d2fe8e4d83258a9924b0f71840a3acb28af55cf7ef8071055339ff",
-      "bytes": 118618
+      "sha256": "3dc91e0d394119e3efd9c4aebad203408cfc409b1fd1d040050a908775a4ac0d",
+      "bytes": 120030
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "fdde327294119d12840fd035e5f1acc7437f6d7cc9ddc4dc6a52d7fbb8dc980f",
-      "bytes": 1318033
+      "sha256": "83a92a386f15da40a03e0acfd082a0175a3c44dbe38b3d2bc7aae0c0c3774dc2",
+      "bytes": 1324116
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "bc31e0174ba71ef66cecc5202ebe6c79e59ef70ba3617f63b2bde8c87313eec4",
+      "sha256": "e66eb71dc6c5ed12953105d36c9f55f5f20935fe7fd4a81f03ab353f4324eb0e",
       "bytes": 38418
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "35b5e4ed53f701c1e7ce83822d1995f3595c23b97d6a48a997a193f6c071e4ee",
-      "bytes": 802307
+      "sha256": "894868ca740e790991e943e0f4fed7073279419a7bad48753a985ce358c388fd",
+      "bytes": 807500
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "34b102dca70396907f0fb0aa90d8cc8c55131b5c32e58e4eccd6556108921c86",
+      "sha256": "b3cad7934b524bd9dcc39279132f53edf3eae6a59568cf025b026c2769c4002c",
       "bytes": 533
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md",
-      "sha256": "194774c296e52afeadb6ffc8f2ede21eff3b9c5e16f97803c16dbd89791fe3d7",
-      "bytes": 50401
+      "sha256": "3e5e3c399ec930264c86db3513eb79a625f2666b9884e1707f7becaa05612d2f",
+      "bytes": 58723
     },
     {
-      "path": ".continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0018.yaml",
-      "sha256": "82eb560bb5b94c45dec4e6c9bbb88f5587e2b88239c59385eb41dedfe90c1d0c",
-      "bytes": 22475
+      "path": ".continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0020.yaml",
+      "sha256": "b8a5138993065e42012a6a92141f3c149f80f872f45f7c33df4a31e323434ca5",
+      "bytes": 23291
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md",
@@ -230,6 +230,16 @@
       "path": "docs/03-continuity/change-requests/CR-0244-分离R08关闭与历史UI全局整改检查模式.md",
       "sha256": "fd5b06af2863143d76a851f5bc21cd563da8b8c134a39c10af323dcb9f1b79f1",
       "bytes": 2859
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0245-允许已完成并行Release诚实切换下一工作线.md",
+      "sha256": "ea2d2c6b2d89a1110ba286dfe0b6025061063274db4f34e242a208e758ae40ca",
+      "bytes": 2896
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0246-登记完成态并行Release关闭工具缺口.md",
+      "sha256": "0e97cc41846f72ec5424d7682287525d9752858bcca4604cad62efb8db700e3c",
+      "bytes": 2276
     }
   ]
 }

@@ -1218,3 +1218,17 @@ problems:
   - 服务器重启后不得假设restart=no的候选容器仍在运行
   - 不得在公网API已502时先消耗完整GitHub构建再发现上游失联
   - 不得为了绕过专用CI容器而开启普通Staging的自动登录能力
+- id: PROB-0092
+  title: 已完成并行Release无法交接到下一独立工作线
+  status: SOLVED
+  root_cause: R08与R09按冻结DAG均依赖R05至R07，属于可以顺序施工的并行兄弟Release；continuity close原实现只允许COMPLETED交接到直接依赖当前Release的目标，而--allow-independent-release仅服务于BLOCKED外部门禁。结果R08已机器完成时既不能诚实标记DONE后转R09，也不能在不篡改产品DAG的前提下继续开发。
+  resolution: CR-0245扩展同一独立Release迁移校验：COMPLETED仅在显式--allow-independent-release、项目所有者确认、当前任务为本Release最后任务、此前任务全部DONE、目标为首个READY任务且目标声明依赖全部GREEN时允许交接；原BLOCKED真机外部门禁路径保持不变。
+  regression_checks:
+  - test_completed_release_can_validate_green_independent_sibling必须通过
+  - test_external_apk_gate_can_wait_while_independent_release_starts必须通过
+  - R08关闭后TASK-R08-008必须为DONE且NEXT_TASK指向R09首任务
+  - releases/R09/RELEASE_MANIFEST.yaml与RELEASE_DEPENDENCIES.yaml不得为迁移方便伪增R08依赖
+  do_not_repeat:
+  - 已完成Release不得为了使用旧旁路而伪标BLOCKED
+  - 并行兄弟Release交接不得篡改冻结产品依赖来迎合工具限制
+  - 显式独立交接不能绕过目标首任务READY和全部声明依赖GREEN校验

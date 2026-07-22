@@ -131,6 +131,36 @@ def repository_snapshot(root: Path) -> dict[str, str]:
 
 
 class CrossReleaseCloseTest(unittest.TestCase):
+    def test_completed_release_can_validate_green_independent_sibling(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="hhy-completed-independent-") as temp:
+            repo = Path(temp) / "repository"
+            copy_fixture(repo)
+            r08_path = repo / "releases/R08/TASKS.yaml"
+            r08 = yaml.safe_load(r08_path.read_text(encoding="utf-8")) or {}
+            for index, task in enumerate(r08["tasks"]):
+                task["status"] = "READY" if index == len(r08["tasks"]) - 1 else "DONE"
+            dump_yaml(r08_path, r08)
+            for release in ("R05", "R06", "R07"):
+                path = repo / f"releases/{release}/TASKS.yaml"
+                plan = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+                for task in plan["tasks"]:
+                    task["status"] = "DONE"
+                dump_yaml(path, plan)
+            r09_path = repo / "releases/R09/TASKS.yaml"
+            r09 = yaml.safe_load(r09_path.read_text(encoding="utf-8")) or {}
+            r09["tasks"][0]["status"] = "READY"
+            dump_yaml(r09_path, r09)
+
+            target = validate_independent_release_start(
+                repo,
+                current_release="R08",
+                current_task="TASK-R08-008",
+                next_release="R09",
+                next_task="TASK-R09-001",
+                current_completed=True,
+            )
+            self.assertEqual((target["release"], target["id"]), ("R09", "TASK-R09-001"))
+
     def test_current_async_owner_close_task_satisfies_only_its_release_dependency(self) -> None:
         with tempfile.TemporaryDirectory(prefix="hhy-async-owner-dependency-") as directory:
             root = Path(directory)

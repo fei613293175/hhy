@@ -11,7 +11,7 @@ task_id: TASK-R08-008
 story_id: STORY-R08-004
 goal: 完成R08机器关闭与无状态交接；真实解决历史Android新肉眼视觉复核门禁，Owner真机反馈保持异步不阻断。
 started_at: '2026-07-22T09:36:45Z'
-updated_at: '2026-07-22T15:08:41Z'
+updated_at: '2026-07-22T15:22:25Z'
 takeover_of: null
 change_requests:
 - CR-0233
@@ -26,6 +26,8 @@ change_requests:
 - CR-0242
 - CR-0243
 - CR-0244
+- CR-0245
+- CR-0246
 scope:
   allowed_paths:
   - apps/**
@@ -98,7 +100,9 @@ scope:
   - catalogs/task_transition_ledger.csv
   - scripts/check_ui_visual_acceptance.py
   - tests/test_ui_visual_acceptance.py
-  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241+approved-cr:CR-0242+approved-cr:CR-0243+approved-cr:CR-0244
+  - scripts/continuity.py
+  - tests/test_continuity_cross_release_close.py
+  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240+approved-cr:CR-0241+approved-cr:CR-0242+approved-cr:CR-0243+approved-cr:CR-0244+approved-cr:CR-0245+approved-cr:CR-0246
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -108,22 +112,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T15:08:30Z'
-  expires_at: '2026-07-22T19:08:30Z'
-checkpoint_sequence: 18
-latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0018.yaml
+  renewed_at: '2026-07-22T15:22:15Z'
+  expires_at: '2026-07-22T19:22:15Z'
+checkpoint_sequence: 20
+latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0020.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-next_step: 刷新Context Pack并执行R08关闭；随后立即进入P00/R01-R08全前端UI审计，不进入R09业务实现。
+next_step: 提交修复与问题登记，用显式授权关闭R08到R09-001。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: f5ec0cb98c36024f912af8525c223aee667cb55c4ad6a292fbad1780d31f4c67
-  generated_at: '2026-07-22T15:08:39Z'
+  context_hash: a545202fe1be45edfb114f8dd799787ca56020ea6f5a297a870e8f256922b229
+  generated_at: '2026-07-22T15:22:23Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 当前开发者指令与系统约束要求本任务串行推进，不创建子代理。
+  reason: 同一连续性状态链需串行提交。

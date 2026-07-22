@@ -810,23 +810,46 @@ def validate_independent_release_start(
     current_task: str,
     next_release: str,
     next_task: str,
+    current_completed: bool = False,
 ) -> dict[str, Any]:
-    """Allow an external-gate task to wait without stopping an independent DAG lane."""
+    """Validate a handoff to an independent DAG lane.
+
+    A blocked task may only advance for the established asynchronous owner gate.
+    A completed terminal task may advance when its own release is genuinely done;
+    both paths still require every dependency of the target release to be green.
+    """
     if next_release == current_release:
         raise ContinuityError("外部门禁挂起只能切换到独立Release")
     if not re.fullmatch(r"[A-Z][0-9]{2}", next_release):
         raise ContinuityError(f"非法下一Release：{next_release}")
 
-    current = release_task(root, current_release, current_task)
-    current_text = " ".join(
-        str(value)
-        for value in (
-            current.get("title"), current.get("description"),
-            current.get("deliverables"), current.get("acceptance"),
+    current_plan_path = root / "releases" / current_release / "TASKS.yaml"
+    current_plan = yaml.safe_load(current_plan_path.read_text(encoding="utf-8")) or {}
+    current_tasks = list(current_plan.get("tasks", []))
+    if current_completed:
+        current_ids = [str(row.get("id") or "") for row in current_tasks]
+        if not current_ids or current_ids[-1] != current_task:
+            raise ContinuityError(
+                f"已完成Release只能由最后一个任务切换独立工作线：{current_release}/{current_task}"
+            )
+        incomplete = [
+            str(row.get("id") or "")
+            for row in current_tasks[:-1]
+            if row.get("status") != "DONE"
+        ]
+        if incomplete:
+            raise ContinuityError("当前Release仍有未完成前置任务：" + ", ".join(incomplete))
+    else:
+        current = release_task(root, current_release, current_task)
+        current_text = " ".join(
+            str(value)
+            for value in (
+                current.get("title"), current.get("description"),
+                current.get("deliverables"), current.get("acceptance"),
+            )
         )
-    )
-    if "APK" not in current_text and not release_has_async_owner_gate(root, current_release):
-        raise ContinuityError("只有APK/项目所有者真机等外部交付门禁可挂起后继续独立Release")
+        if "APK" not in current_text and not release_has_async_owner_gate(root, current_release):
+            raise ContinuityError("只有APK/项目所有者真机等外部交付门禁可挂起后继续独立Release")
 
     target_path = root / "releases" / next_release / "TASKS.yaml"
     if not target_path.is_file():
@@ -1026,13 +1049,16 @@ def command_close(args: Namespace) -> None:
     if result not in {"COMPLETED", "BLOCKED", "ABANDONED"}:
         raise ContinuityError("result必须为 COMPLETED/BLOCKED/ABANDONED")
     blocked_advance = result == "BLOCKED" and bool(args.next_release or args.next_task)
+    completed_independent_advance = result == "COMPLETED" and args.allow_independent_release
     if result == "BLOCKED" and bool(args.next_release) != bool(args.next_task):
         raise ContinuityError("BLOCKED继续独立Release必须同时提供--next-release和--next-task")
-    if blocked_advance:
+    if blocked_advance or completed_independent_advance:
+        if not args.next_release or not args.next_task:
+            raise ContinuityError("独立Release交接必须同时提供--next-release和--next-task")
         if not args.allow_independent_release:
             raise ContinuityError("BLOCKED继续独立Release必须显式提供--allow-independent-release")
         if len((args.user_confirmation or "").strip()) < 10:
-            raise ContinuityError("BLOCKED继续独立Release必须记录项目所有者明确授权")
+            raise ContinuityError("独立Release交接必须记录项目所有者明确授权")
     elif args.allow_independent_release or args.user_confirmation:
         raise ContinuityError("独立Release授权参数只允许用于BLOCKED继续开发")
     if result == "ABANDONED" and (args.next_release or args.next_task):
@@ -1103,13 +1129,23 @@ def command_close(args: Namespace) -> None:
             # Resolve and validate the complete target before the first write.
             # Invalid cross-release targets must leave the session, task plans,
             # event chain and pointers byte-for-byte unchanged.
-            next_document = validate_next_task_transition(
-                ROOT,
-                current_release=session["release"],
-                current_task=session["task_id"],
-                next_release=next_release,
-                next_task=args.next_task,
-            )
+            if completed_independent_advance:
+                next_document = validate_independent_release_start(
+                    ROOT,
+                    current_release=session["release"],
+                    current_task=session["task_id"],
+                    next_release=next_release,
+                    next_task=args.next_task,
+                    current_completed=True,
+                )
+            else:
+                next_document = validate_next_task_transition(
+                    ROOT,
+                    current_release=session["release"],
+                    current_task=session["task_id"],
+                    next_release=next_release,
+                    next_task=args.next_task,
+                )
         elif blocked_advance:
             next_document = validate_independent_release_start(
                 ROOT,
@@ -1132,6 +1168,7 @@ def command_close(args: Namespace) -> None:
                 "next_release": next_release if result == "COMPLETED" or blocked_advance else None,
                 "next_task": args.next_task,
                 "blocked_advance": blocked_advance,
+                "completed_independent_advance": completed_independent_advance,
                 "user_confirmation": (args.user_confirmation or "").strip() or None,
                 "metadata_commit": "PENDING",
                 "push_verification": "CI_REQUIRED_AFTER_METADATA_COMMIT",
