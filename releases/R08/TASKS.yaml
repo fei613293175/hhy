@@ -3,7 +3,7 @@ title: 项目推广完整闭环
 tasks:
 - id: TASK-R08-001
   title: 项目推广完整闭环开发就绪核验、故事领取与变更基线
-  status: READY
+  status: DONE
   depends_on: []
   requirements: &id001
   - REQ-CONTACT-001
@@ -23,9 +23,10 @@ tasks:
   - 更新Release Manifest与CR记录
   - python scripts/check_v122_documentation.py --release R08
   session_log_required: true
+  completed_at: '2026-07-22T00:44:28Z'
 - id: TASK-R08-002
   title: 项目推广完整闭环数据迁移与领域不变量
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R08-001
   requirements: *id001

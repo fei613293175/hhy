@@ -1,13 +1,13 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T00:43:08Z
-- Context Hash：`24704d20f2f82c1d1a9157e9fb8af36fdc948d87ed86a9df8bd8bafe1d6befda`
+- 生成时间：2026-07-22T00:44:37Z
+- Context Hash：`ea7e7650f4fec5e908d51057514d3b1525fc9f5e7ffbe831f61403dc2fe44cfc`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-002
 ```
 
 ## 当前状态
@@ -17,10 +17,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R08
 active_release: R08
-active_task: TASK-R08-001
-status: IN_PROGRESS
+active_task: TASK-R08-002
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: 947a4349a3c1ddefe55c7ee5c11333117a1b2736
+last_green_commit: b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -94,15 +94,15 @@ completed_tasks:
 - TASK-R07-005
 - TASK-R07-006
 - TASK-R07-007
-in_progress_tasks:
 - TASK-R08-001
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
-next_task: TASK-R08-001
-updated_at: '2026-07-22T00:43:05Z'
+next_task: TASK-R08-002
+updated_at: '2026-07-22T00:44:35Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -134,19 +134,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260722T002444Z-8BEC3CA6
-  actor_id: codex-root-r08-001
-  story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T04:43:05Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0005.yaml
-  project_fingerprint: 410b69e2d28c24434b87d18e9936a01ab12683e29b8978bdcc6fb13c03e39f59
+  active_session_id: null
+  last_session_id: SES-20260722T002444Z-8BEC3CA6
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0006.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 74a0b3541aa5b4210afc535b747ddac1983612af45499a27a0213a608692d003
-    generated_at: '2026-07-22T00:41:04Z'
-  handoff_bundle: null
+    context_hash: c49ddb141e8563620e863c065586fd064c42cf1499963cace54dd0a1d8ec5f4c
+    generated_at: '2026-07-22T00:44:33Z'
 ```
 
 ## 默认并行规则
@@ -293,34 +291,31 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R08-001
-title: 项目推广完整闭环开发就绪核验、故事领取与变更基线
+id: TASK-R08-002
+title: 项目推广完整闭环数据迁移与领域不变量
 status: READY
 release: R08
 requirements:
 - REQ-CONTACT-001
 - REQ-PROJECT-001
 - REQ-APK-001
-depends_on: []
+depends_on:
+- TASK-R08-001
 definition_of_ready: releases/R08/DEFINITION_OF_READY.yaml
 stories: releases/R08/STORIES.yaml
 steps:
-- releases/R08/DEFINITION_OF_READY.yaml 全部适用项PASS
-- releases/R08/STORIES.yaml 故事责任人和依赖已领取
-- 更新Release Manifest与CR记录
-- python scripts/check_v122_documentation.py --release R08
+- Flyway前向迁移与空库/升级库测试
+- 不变量属性测试
 acceptance:
-- 页面、字段、状态、动作、API、配置、数据和测试无TBD
-- 不适用项明确N/A及原因
-- releases/R08/DEFINITION_OF_READY.yaml 全部适用项PASS
-- releases/R08/STORIES.yaml 故事责任人和依赖已领取
-- 更新Release Manifest与CR记录
-- python scripts/check_v122_documentation.py --release R08
+- 无TODO/生产Mock
+- 代码、文档、测试、追踪同步更新
+- Flyway前向迁移与空库/升级库测试
+- 不变量属性测试
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-001
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-002
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-001
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-002
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -328,314 +323,18 @@ commands:
   cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
     '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
 next_after: 由当前TASKS.yaml依赖关系决定
-deferred_task:
-  id: TASK-R07-008
-  release: R07
-  status: BLOCKED
-  reason: R07机器开发、Staging、最终候选、视觉、四方APK与桌面交付均PASS；仅项目所有者异步真机验收PENDING，正式验收和生产激活继续阻断
-  resume_after: 项目所有者真机反馈到达后，在当前安全检查点恢复验收与关闭
 ```
 
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260722T002444Z-8BEC3CA6
-status: ACTIVE
-actor:
-  id: codex-root-r08-001
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R08
-task_id: TASK-R08-001
-story_id: STORY-R08-004
-goal: 项目推广完整闭环开发就绪核验、故事领取与变更基线
-started_at: '2026-07-22T00:24:44Z'
-updated_at: '2026-07-22T00:43:05Z'
-takeover_of: null
-change_requests:
-- CR-0206
-- CR-0207
-- CR-0208
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - releases/R08/RELEASE_MANIFEST.yaml
-  - docs/03-continuity/R08_TASK-001_ENTRY_GATE.md
-  - releases/R08/PARALLEL_EXECUTION_PLAN.yaml
-  - scripts/check_v123_continuity.py
-  - tests/test_context_pack_parallel_policy.py
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/PITFALLS.md
-  - CHANGELOG.md
-  - artifacts/validation/project-doctor-v1.2.3.json
-  source: story+explicit+approved-cr:CR-0206+approved-cr:CR-0207+approved-cr:CR-0208
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: 5b2eae13a693953cc9230581af8cb1d016ccef9e
-  start_head: 5b2eae13a693953cc9230581af8cb1d016ccef9e
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-22T00:43:05Z'
-  expires_at: '2026-07-22T04:43:05Z'
-checkpoint_sequence: 5
-latest_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0005.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md
-next_step: 提交CR关闭治理记录并关闭TASK-R08-001进入TASK-R08-002
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: CR关闭和任务状态转换必须串行一致
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T002444Z-8BEC3CA6-0005
-session_id: SES-20260722T002444Z-8BEC3CA6
-sequence: 5
-created_at: '2026-07-22T00:43:05Z'
-summary: CR-0206至CR-0208已实现并关闭，R08入口与跨平台连续性证据已远端绑定
-next_step: 提交CR关闭治理记录并关闭TASK-R08-001进入TASK-R08-002
-blockers: []
-decisions: []
-note: ''
-tests:
-- name: r08-documentation
-  result: PASS
-  evidence: scripts/check_v122_documentation.py --release R08
-  note: 0 errors and 0 warnings
-- name: r08-release-artifacts
-  result: PASS
-  evidence: scripts/check_release_artifacts.py --release R08
-  note: release artifacts complete
-- name: api-contract
-  result: PASS
-  evidence: scripts/check_api_contract.py
-  note: client 131 admin 184 websocket 10
-- name: program-execution-plan
-  result: PASS
-  evidence: scripts/check_program_execution_plan.py
-  note: 31 releases 0 errors
-- name: context-portable-hash
-  result: PASS
-  evidence: tests/test_context_pack_parallel_policy.py
-  note: 10 tests including LF CRLF and real change negative guard
-- name: v123-continuity-strict
-  result: PASS
-  evidence: scripts/check_v123_continuity.py --strict
-  note: 0 errors and 0 warnings
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0
-  upstream: origin/task/TASK-R03-001
-  ahead: 0
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0206.yaml'
-  - ' M .continuity/change_requests/CR-0207.yaml'
-  - ' M .continuity/change_requests/CR-0208.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md'
-  - ' M docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md'
-  - ' M docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md'
-  recent_commits:
-  - "b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0\t2026-07-22T08:41:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(governance): 建立R08实施入口"
-  - "b57357cd699fc959e947a815dc618143c840c6f2\t2026-07-22T08:26:11+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 领取R08开发就绪任务"
-  - "5b2eae13a693953cc9230581af8cb1d016ccef9e\t2026-07-22T08:23:36+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-008\
-    \ as blocked"
-  - "23c4c7463786a143c90ce4e2b150bfc8e8966b83\t2026-07-22T08:22:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭异步依赖变更链"
-  - "c91de253230a3e9d35369be73df711cccad39a81\t2026-07-22T08:20:03+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(continuity): 允许历史异步真机依赖继续开发"
-  - "94505f33a8ff6184b169749352ee36dfb54bd53e\t2026-07-22T08:03:09+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07机器交接变更"
-  - "4c5ec60addcc45e5896d8de45686aa788d6e0b32\t2026-07-22T08:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(release): 签署R07机器完成状态"
-  - "7c44a90b99551cdc23993f506a08c9efab5be135\t2026-07-22T07:57:39+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-007\
-    \ as completed"
-project_fingerprint:
-  sha256: 410b69e2d28c24434b87d18e9936a01ab12683e29b8978bdcc6fb13c03e39f59
-  files:
-  - CHANGELOG.md
-  - docs/03-continuity/PITFALLS.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/R08_TASK-001_ENTRY_GATE.md
-  - docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md
-  - docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md
-  - docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md
-  - releases/R08/PARALLEL_EXECUTION_PLAN.yaml
-  - releases/R08/RELEASE_MANIFEST.yaml
-  - scripts/check_v123_continuity.py
-  - tests/test_context_pack_parallel_policy.py
-  file_count: 11
-  payload:
-    base_commit: 5b2eae13a693953cc9230581af8cb1d016ccef9e
-    files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 70372
-      sha256: af1d0cdf12d41cc4c136552978774613573233bdf7ea6045103b9371e3455515
-    - path: docs/03-continuity/PITFALLS.md
-      state: FILE
-      size: 4522
-      sha256: 4db9e2d7314d809273323989334fcec87d83d845a550420eb454f0533911a0e3
-    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-      state: FILE
-      size: 97279
-      sha256: 0b1c430ed065466fecd19ed57a7a0cdd753596bcabe7f01204d895ed087e1103
-    - path: docs/03-continuity/R08_TASK-001_ENTRY_GATE.md
-      state: FILE
-      size: 4139
-      sha256: 22b29b9178f2bc6495a45412f93f9e67fb2b6f24b4ac073dca4e34a410789072
-    - path: docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md
-      state: FILE
-      size: 3191
-      sha256: 8f060f5567baeb9e814d5066f80e535eeb6453debd842d5c2a67323ddcbb6def
-    - path: docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md
-      state: FILE
-      size: 3371
-      sha256: 67251dde215ad476a3e4c9a17bb8c728c20d6641a497127798ad5f5fe9e3424d
-    - path: docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md
-      state: FILE
-      size: 3233
-      sha256: 6ae142b4a3c3992707406f8746ef1e3eea9ed24fb57804281632c3d6683fc58e
-    - path: releases/R08/PARALLEL_EXECUTION_PLAN.yaml
-      state: FILE
-      size: 4185
-      sha256: f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416
-    - path: releases/R08/RELEASE_MANIFEST.yaml
-      state: FILE
-      size: 4876
-      sha256: 62ce3ebc9d1aefa77c684678fbd51364f0842afeeef604623645b79ff23882c9
-    - path: scripts/check_v123_continuity.py
-      state: FILE
-      size: 33448
-      sha256: ffdece65bfd80c736dac71b9437d5b816d59dc239746e55b77efd3ea655ac1b8
-    - path: tests/test_context_pack_parallel_policy.py
-      state: FILE
-      size: 7263
-      sha256: ecc37c5009300c64b00cc3fb04f09ce38d7ecc0dd6a73a961e63938917aacd54
-change_classification:
-  other:
-  - CHANGELOG.md
-  - releases/R08/PARALLEL_EXECUTION_PLAN.yaml
-  continuity:
-  - docs/03-continuity/PITFALLS.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/R08_TASK-001_ENTRY_GATE.md
-  - docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md
-  - docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md
-  - docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md
-  source_of_truth:
-  - releases/R08/RELEASE_MANIFEST.yaml
-  code:
-  - scripts/check_v123_continuity.py
-  tests:
-  - tests/test_context_pack_parallel_policy.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- APPROVED_CHANGE_REQUEST
-change_requests:
-- CR-0206
-- CR-0207
-- CR-0208
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - releases/R08/RELEASE_MANIFEST.yaml
-  - docs/03-continuity/R08_TASK-001_ENTRY_GATE.md
-  - releases/R08/PARALLEL_EXECUTION_PLAN.yaml
-  - scripts/check_v123_continuity.py
-  - tests/test_context_pack_parallel_policy.py
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/PITFALLS.md
-  - CHANGELOG.md
-  - artifacts/validation/project-doctor-v1.2.3.json
-  source: story+explicit+approved-cr:CR-0206+approved-cr:CR-0207+approved-cr:CR-0208
-parallel_execution:
-  assessment: NO_SAFE_PARALLEL
-  delegated_workers: 0
-  workers: []
-  reason: CR关闭和任务状态转换必须串行一致
-event_hash: a61afad59d6295ff2903f11df9d44d8a704fe0e8decb21244e83c0784635c489
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -643,12 +342,12 @@ event_hash: a61afad59d6295ff2903f11df9d44d8a704fe0e8decb21244e83c0784635c489
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260722T002444Z-8BEC3CA6
-last_session_id: SES-20260721T235847Z-F9109B61
-last_session_result: BLOCKED
-last_closure_checkpoint_id: CP-SES-20260721T235847Z-F9109B61-0005
-event_count: 2079
-event_head_hash: a61afad59d6295ff2903f11df9d44d8a704fe0e8decb21244e83c0784635c489
+active_session_id: null
+last_session_id: SES-20260722T002444Z-8BEC3CA6
+last_session_result: COMPLETED
+last_closure_checkpoint_id: CP-SES-20260722T002444Z-8BEC3CA6-0006
+event_count: 2082
+event_head_hash: 734a942ba03f5b554dd4bacfac8cb626d30fbf7cb96d1faba75eb4f64f735207
 event_chain_valid: true
 ```
 
@@ -767,13 +466,13 @@ recent_sessions: - session_id: SES-20260721T082026Z-E6763DFE
   task_id: TASK-R08-001
   story_id: STORY-R08-004
   actor_id: codex-root-r08-001
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-22T00:24:44Z'
   record: .continuity/sessions/SES-20260722T002444Z-8BEC3CA6.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md
-  updated_at: '2026-07-22T00:43:05Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0005.yaml
+  updated_at: '2026-07-22T00:44:34Z'
+  closed_at: '2026-07-22T00:44:34Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0006.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-8EF3F3423127
   session_id: SES-20260719T234639Z-1D7D7A00
@@ -1468,7 +1167,7 @@ task_claims: - claim_id: CLM-8EF3F3423127
   task_id: TASK-R08-001
   story_id: STORY-R08-004
   actor_id: codex-root-r08-001
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-22T00:24:44Z'
   allowed_paths:
   - apps/**
@@ -1502,6 +1201,7 @@ task_claims: - claim_id: CLM-8EF3F3423127
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-22T00:44:34Z'
 recent_task_transitions: - transition_id: TRN-EE8C60C3FA44
   timestamp: '2026-07-19T23:46:40Z'
   release: R05
@@ -1709,30 +1409,30 @@ recent_task_transitions: - transition_id: TRN-EE8C60C3FA44
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0
+head: 61361be3a037857f734b2a0f9c57beb5b505ad66
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0206.yaml'
-- ' M .continuity/change_requests/CR-0207.yaml'
-- ' M .continuity/change_requests/CR-0208.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260722T002444Z-8BEC3CA6.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md'
-- ' M docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md'
-- ' M docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md'
-- ?? .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0005.yaml
+- ' M releases/R08/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0006.yaml
 recent_commits:
+- "61361be3a037857f734b2a0f9c57beb5b505ad66\t2026-07-22T08:43:24+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 关闭R08入口变更链"
 - "b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0\t2026-07-22T08:41:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(governance): 建立R08实施入口"
 - "b57357cd699fc959e947a815dc618143c840c6f2\t2026-07-22T08:26:11+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 领取R08开发就绪任务"
 - "5b2eae13a693953cc9230581af8cb1d016ccef9e\t2026-07-22T08:23:36+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-008\
@@ -1741,26 +1441,14 @@ recent_commits:
 - "c91de253230a3e9d35369be73df711cccad39a81\t2026-07-22T08:20:03+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(continuity): 允许历史异步真机依赖继续开发"
 - "94505f33a8ff6184b169749352ee36dfb54bd53e\t2026-07-22T08:03:09+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07机器交接变更"
 - "4c5ec60addcc45e5896d8de45686aa788d6e0b32\t2026-07-22T08:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(release): 签署R07机器完成状态"
-- "7c44a90b99551cdc23993f506a08c9efab5be135\t2026-07-22T07:57:39+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-007\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`410b69e2d28c24434b87d18e9936a01ab12683e29b8978bdcc6fb13c03e39f59`
-- 文件数：11
+- 指纹：`87bb28f2dc566e6b5cb3f394871b072108305eae0834e95827b7cafbece60609`
+- 文件数：0
 
-- `CHANGELOG.md`
-- `docs/03-continuity/PITFALLS.md`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
-- `docs/03-continuity/R08_TASK-001_ENTRY_GATE.md`
-- `docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md`
-- `docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md`
-- `docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md`
-- `releases/R08/PARALLEL_EXECUTION_PLAN.yaml`
-- `releases/R08/RELEASE_MANIFEST.yaml`
-- `scripts/check_v123_continuity.py`
-- `tests/test_context_pack_parallel_policy.py`
+- 无
 
 ## 当前 Release
 
@@ -2367,7 +2055,7 @@ TASKS.yaml:
   tasks:
   - id: TASK-R08-001
     title: 项目推广完整闭环开发就绪核验、故事领取与变更基线
-    status: READY
+    status: DONE
     depends_on: []
     requirements: &id001
     - REQ-CONTACT-001
@@ -2387,9 +2075,10 @@ TASKS.yaml:
     - 更新Release Manifest与CR记录
     - python scripts/check_v122_documentation.py --release R08
     session_log_required: true
+    completed_at: '2026-07-22T00:44:28Z'
   - id: TASK-R08-002
     title: 项目推广完整闭环数据迁移与领域不变量
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R08-001
     requirements: *id001
@@ -7112,8 +6801,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e`
-- `CURRENT_STATUS.yaml` — `30cf2903cc79a54ea407f8cff6ae4e3721d3bb4f9a49708d2965756eb76c1952`
-- `NEXT_TASK.yaml` — `c28658c239773a365a5f00017d7f5be5bc29929227c5ea5585e18f6f667fa909`
+- `CURRENT_STATUS.yaml` — `ba5c6b252a13b31ea4199ea41d4a347678f73a0c119b6bce310e99130bb4dc1d`
+- `NEXT_TASK.yaml` — `c25722e7850627fb8c7fca479168fc92c3c0a1ffcee114ce0f81462e2983b372`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `0b1c430ed065466fecd19ed57a7a0cdd753596bcabe7f01204d895ed087e1103`
@@ -7123,23 +6812,18 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `4fb0c07f063d62435d971a3f4f8fb6f15a9946a9812409c43047fc192b93506a`
-- `.continuity/SESSION_INDEX.yaml` — `cba39bb3d3b71022ce1fa7c1914f24c234ee5b15b72ceace1505474e352214ad`
-- `.continuity/TASK_CLAIMS.yaml` — `3b93ff269c1a6a8ed59b14ba50d45d627d1404394caf1427fd9cd563b668dceb`
+- `.continuity/EVENT_LOG.jsonl` — `afa0f92a0c7620e97fc7208f23f97749fcad61d1f2ae2d4aa8fa1c5262d83000`
+- `.continuity/SESSION_INDEX.yaml` — `c1019069a9f387079215d0db9c92d0f1984dcb48c9a1c669c3e403c4da30bc8f`
+- `.continuity/TASK_CLAIMS.yaml` — `52b0e9672f662ea9942d52ad7d5106de1345a53eec8cd54cf6bc1b3f27698749`
 - `.continuity/TASK_TRANSITIONS.yaml` — `d63efda5ff013bbcda5265fe2f68f9483e71730bb6ac19bb9797629f5fae8388`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `cc585246601a819165c45612ebf2b49a40eb53c79c2d446867815c8cc9351035`
-- `.continuity/ACTIVE_SESSION.yaml` — `d51ae1ac647520ce67a739df9191d52969b7ccd01378192ff6e23c1d096ba475`
+- `.continuity/ACTIVE_SESSION.yaml` — `4214e2081b5ef8e2e2427deee7d8027bd8b5889d43aac5da8db60ca2fabc4308`
 - `releases/R08/RELEASE_MANIFEST.yaml` — `62ce3ebc9d1aefa77c684678fbd51364f0842afeeef604623645b79ff23882c9`
 - `releases/R08/DEFINITION_OF_READY.yaml` — `73b6bee8cacca90fa3564f4c6443f21b32d35afbfef83fad5a2a3b8705e536c5`
 - `releases/R08/STORIES.yaml` — `035e6d5b8a0cccd8e30f30d5cd80c858a846e745c5cf3075aa6742d4f0a370b6`
-- `releases/R08/TASKS.yaml` — `98b6861123ccd7d61888e41fd51b884afe2bd86ba9d29c11487352b7cd45ef9d`
+- `releases/R08/TASKS.yaml` — `ea4aba7720ea8ca9047d48d25713f0c17af666064d05579a23084cf13d7e8cd6`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `1e47b204a5cbd289d9ccafc93b0f4afb45983db76a23a4492dd463ffeec0cb98`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md` — `0419680948de1aeb2605130f75daf568f47ac5ac28b63767f48f4ebd4ef45a09`
-- `.continuity/checkpoints/SES-20260722T002444Z-8BEC3CA6/0005.yaml` — `159e86e3035ff45d921d2ba13e933c24a5efc038a3d24948ff6477cd36027e6c`
-- `docs/03-continuity/change-requests/CR-0206-登记R08实施入口与历史异步Owner门禁边界.md` — `8f060f5567baeb9e814d5066f80e535eeb6453debd842d5c2a67323ddcbb6def`
-- `docs/03-continuity/change-requests/CR-0207-补齐R08执行分区计划与九端点范围说明.md` — `67251dde215ad476a3e4c9a17bb8c728c20d6641a497127798ad5f5fe9e3424d`
-- `docs/03-continuity/change-requests/CR-0208-统一Context来源哈希的跨平台换行语义.md` — `6ae142b4a3c3992707406f8746ef1e3eea9ed24fb57804281632c3d6683fc58e`
 
 ## 接手硬规则
 

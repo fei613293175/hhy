@@ -851,3 +851,13 @@
 
 - `CR-0208` 统一 Context Pack 来源生成与严格校验的规范化换行哈希算法。
 - Windows CRLF 与 Linux LF 对同一Git文本不再产生假 `CONTEXT_SOURCE_STALE`；真实内容变化仍由SHA和字节数双重比较阻断。
+
+## TASK-R08-001 · COMPLETED · 2026-07-22T00:44:28Z
+
+- Task close: TASK-R08-001 / SES-20260722T002444Z-8BEC3CA6
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-001`
+- 摘要：TASK-R08-001完成：R08四故事、九端点工程范围、历史异步Owner边界、云与Git环境、执行分区和跨平台Context哈希均完成冻结与严格验证
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T002444Z-8BEC3CA6.md`
+
