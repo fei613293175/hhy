@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T00:01:50Z
-- Context Hash：`8a74529d9748cc2f7e4c2b1070f4cfa08fb1d5c076ce6093a0cb6caa5376b8d8`
+- 生成时间：2026-07-22T00:03:07Z
+- Context Hash：`b6e2b91b5f38b0079d80b0cde83b7e311e66720c5801a4861d539ebadd2a54b7`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 精确恢复命令：
@@ -101,7 +101,7 @@ blocked_tasks:
 - TASK-R03-007
 - TASK-R06-008
 next_task: TASK-R07-008
-updated_at: '2026-07-22T00:01:47Z'
+updated_at: '2026-07-22T00:03:04Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -136,15 +136,15 @@ continuity:
   active_session_id: SES-20260721T235847Z-F9109B61
   actor_id: codex-root-r07-008
   story_id: STORY-R07-005
-  lease_expires_at: '2026-07-22T04:01:47Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0001.yaml
-  project_fingerprint: 5fc37551a9b8b6a15e65f544d9555ac8e588b47338179bc25778b417191b7477
+  lease_expires_at: '2026-07-22T04:03:04Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0002.yaml
+  project_fingerprint: bd67e2289c58d03f237e8e6d0557c3420c9374a61d2d5ccc2b90b10d97ed3350
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 16f5278ed68f09f2caf065d0167ce5d540c1b10434bd7ddf95d7bf571b5ccc79
-    generated_at: '2026-07-21T23:58:51Z'
+    context_hash: 8a74529d9748cc2f7e4c2b1070f4cfa08fb1d5c076ce6093a0cb6caa5376b8d8
+    generated_at: '2026-07-22T00:01:50Z'
   handoff_bundle: null
 ```
 
@@ -343,7 +343,7 @@ task_id: TASK-R07-008
 story_id: STORY-R07-005
 goal: 完成R07机器关闭、验收矩阵、状态交接并在异步真机PENDING下切换R08继续开发
 started_at: '2026-07-21T23:58:47Z'
-updated_at: '2026-07-22T00:01:47Z'
+updated_at: '2026-07-22T00:03:04Z'
 takeover_of: null
 change_requests:
 - CR-0203
@@ -399,12 +399,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T00:01:47Z'
-  expires_at: '2026-07-22T04:01:47Z'
-checkpoint_sequence: 1
-latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0001.yaml
+  renewed_at: '2026-07-22T00:03:04Z'
+  expires_at: '2026-07-22T04:03:04Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0002.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md
-next_step: 提交推送CR-0203实现，关闭CR后以BLOCKED_EXTERNAL_GATE切换TASK-R08-001
+next_step: 以项目所有者授权的异步门禁将TASK-R07-008标记BLOCKED_EXTERNAL_GATE并切换R08
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -412,19 +412,19 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 版本状态、候选身份和跨Release转换必须由单一主控串行生成
+  reason: CR关闭和跨Release状态转换必须串行一致
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260721T235847Z-F9109B61-0001
+checkpoint_id: CP-SES-20260721T235847Z-F9109B61-0002
 session_id: SES-20260721T235847Z-F9109B61
-sequence: 1
-created_at: '2026-07-22T00:01:47Z'
-summary: R07验收矩阵、故事状态、Release Manifest和机器关闭报告已按机器PASS/所有者PENDING分层回填
-next_step: 提交推送CR-0203实现，关闭CR后以BLOCKED_EXTERNAL_GATE切换TASK-R08-001
+sequence: 2
+created_at: '2026-07-22T00:03:04Z'
+summary: CR-0203实现与推送完成，R07机器完成事实已封板
+next_step: 以项目所有者授权的异步门禁将TASK-R07-008标记BLOCKED_EXTERNAL_GATE并切换R08
 blockers: []
 decisions: []
 note: ''
@@ -437,46 +437,28 @@ tests:
   result: PASS
   evidence: check_ui_visual_acceptance R07 pages=5
   note: ''
-- name: documentation
-  result: PASS
-  evidence: check_v122_documentation R07 0 errors 0 warnings
-  note: ''
 - name: contracts
   result: PASS
-  evidence: sync_runtime_assets check and check_api_contract PASS
+  evidence: runtime assets and OpenAPI PASS
   note: ''
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 7c44a90b99551cdc23993f506a08c9efab5be135
+  head: 4c5ec60addcc45e5896d8de45686aa788d6e0b32
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/TASK_CLAIMS.yaml'
-  - ' M .continuity/TASK_TRANSITIONS.yaml'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M .continuity/change_requests/CR-0203.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/task_transition_ledger.csv'
-  - ' M releases/R07/ACCEPTANCE_MATRIX.csv'
-  - ' M releases/R07/RELEASE_MANIFEST.yaml'
-  - ' M releases/R07/STORIES.yaml'
-  - ?? .continuity/change_requests/CR-0203.yaml
-  - ?? .continuity/sessions/SES-20260721T235847Z-F9109B61.yaml
-  - ?? artifacts/reports/R07/TASK-R07-008-machine-close.md
-  - ?? docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
-  - ?? docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md
+  - ' M docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md'
   recent_commits:
+  - "4c5ec60addcc45e5896d8de45686aa788d6e0b32\t2026-07-22T08:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(release): 签署R07机器完成状态"
   - "7c44a90b99551cdc23993f506a08c9efab5be135\t2026-07-22T07:57:39+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-007\
     \ as completed"
   - "c94772cec65e78699d86f32081afab26a91517f0\t2026-07-22T07:52:56+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07候选变更链"
@@ -485,9 +467,8 @@ git:
   - "3b188062b69560768b3beebc1632d5f49d5952f3\t2026-07-22T07:18:59+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(android): 批准R07视觉基线并请求轻量晋升"
   - "0b6d4dd6035e3ecbe6ac3819e68f22d1ae5f31c2\t2026-07-22T07:17:08+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] ci(android): 绑定基线晋升连续性审计"
   - "69406d918b4c2aa6f1eea78baed48464e4f94277\t2026-07-22T07:02:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(android): 收口搜索返回栈并单次采集首版基线"
-  - "9fc9030ba1a8dbca16dfda863f8302a8dd5883bb\t2026-07-22T06:11:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(android): 导出安全联系方式面板候选语义"
 project_fingerprint:
-  sha256: 5fc37551a9b8b6a15e65f544d9555ac8e588b47338179bc25778b417191b7477
+  sha256: bd67e2289c58d03f237e8e6d0557c3420c9374a61d2d5ccc2b90b10d97ed3350
   files:
   - docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
   - releases/R07/ACCEPTANCE_MATRIX.csv
@@ -499,8 +480,8 @@ project_fingerprint:
     files:
     - path: docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
       state: FILE
-      size: 2959
-      sha256: e32a9e19bd3d30b8d7a5bf5c30572698320e14efa36a652edd4dda559dcf66b1
+      size: 3447
+      sha256: 3503fb81c45314ed3f16d3bd6cb84f727e733e1c454a4bb42b486ea07c4d2b69
     - path: releases/R07/ACCEPTANCE_MATRIX.csv
       state: FILE
       size: 855
@@ -577,8 +558,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 版本状态、候选身份和跨Release转换必须由单一主控串行生成
-event_hash: 93e1550710beb9643887d057cad815584a7bbb71f08a817efea3b9d6196e3697
+  reason: CR关闭和跨Release状态转换必须串行一致
+event_hash: 3acb41a90569f3c748c23d5056ab9caec63c0c5c523620587dcdf9cb294927de
 ```
 
 ## 接续状态与事件头
@@ -590,8 +571,8 @@ active_session_id: SES-20260721T235847Z-F9109B61
 last_session_id: SES-20260721T210252Z-D631F6E4
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260721T210252Z-D631F6E4-0015
-event_count: 2030
-event_head_hash: 93e1550710beb9643887d057cad815584a7bbb71f08a817efea3b9d6196e3697
+event_count: 2033
+event_head_hash: 3acb41a90569f3c748c23d5056ab9caec63c0c5c523620587dcdf9cb294927de
 event_chain_valid: true
 ```
 
@@ -714,9 +695,9 @@ recent_sessions: - session_id: SES-20260721T055708Z-741C3D49
   started_at: '2026-07-21T23:58:47Z'
   record: .continuity/sessions/SES-20260721T235847Z-F9109B61.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md
-  updated_at: '2026-07-22T00:01:47Z'
+  updated_at: '2026-07-22T00:03:04Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0001.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0002.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-3081AFB8BFC0
   session_id: SES-20260719T230526Z-55ABC07F
@@ -1635,7 +1616,7 @@ recent_task_transitions: - transition_id: TRN-242E3496B990
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 7c44a90b99551cdc23993f506a08c9efab5be135
+head: 4c5ec60addcc45e5896d8de45686aa788d6e0b32
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1646,25 +1627,16 @@ status_porcelain:
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/TASK_TRANSITIONS.yaml'
+- ' M .continuity/change_requests/CR-0203.yaml'
+- ' M .continuity/sessions/SES-20260721T235847Z-F9109B61.yaml'
 - ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/task_transition_ledger.csv'
-- ' M releases/R07/ACCEPTANCE_MATRIX.csv'
-- ' M releases/R07/RELEASE_MANIFEST.yaml'
-- ' M releases/R07/STORIES.yaml'
-- ?? .continuity/change_requests/CR-0203.yaml
-- ?? .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0001.yaml
-- ?? .continuity/sessions/SES-20260721T235847Z-F9109B61.yaml
-- ?? artifacts/reports/R07/TASK-R07-008-machine-close.md
-- ?? docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
-- ?? docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md
+- ' M docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md'
+- ' M docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md'
+- ?? .continuity/checkpoints/SES-20260721T235847Z-F9109B61/0002.yaml
 recent_commits:
+- "4c5ec60addcc45e5896d8de45686aa788d6e0b32\t2026-07-22T08:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(release): 签署R07机器完成状态"
 - "7c44a90b99551cdc23993f506a08c9efab5be135\t2026-07-22T07:57:39+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): close TASK-R07-007\
   \ as completed"
 - "c94772cec65e78699d86f32081afab26a91517f0\t2026-07-22T07:52:56+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] chore(continuity): 关闭R07候选变更链"
@@ -1673,12 +1645,11 @@ recent_commits:
 - "3b188062b69560768b3beebc1632d5f49d5952f3\t2026-07-22T07:18:59+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] test(android): 批准R07视觉基线并请求轻量晋升"
 - "0b6d4dd6035e3ecbe6ac3819e68f22d1ae5f31c2\t2026-07-22T07:17:08+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] ci(android): 绑定基线晋升连续性审计"
 - "69406d918b4c2aa6f1eea78baed48464e4f94277\t2026-07-22T07:02:07+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(android): 收口搜索返回栈并单次采集首版基线"
-- "9fc9030ba1a8dbca16dfda863f8302a8dd5883bb\t2026-07-22T06:11:53+08:00\tHHY Continuity Bootstrap\t[STORY-R07-005] fix(android): 导出安全联系方式面板候选语义"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`5fc37551a9b8b6a15e65f544d9555ac8e588b47338179bc25778b417191b7477`
+- 指纹：`bd67e2289c58d03f237e8e6d0557c3420c9374a61d2d5ccc2b90b10d97ed3350`
 - 文件数：4
 
 - `docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md`
@@ -7146,69 +7117,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     note: 项目所有者已授权立即按项目计划持续推进开发；本CR只补齐TASK-R06-005冻结测试和证据，不扩大业务范围
   machine_record: .continuity/change_requests/CR-0159.yaml
   document: docs/03-continuity/change-requests/CR-0159-补齐R06内容与首页专项故障测试证据.md
-- protocol_version: '1.0'
-  cr_id: CR-0203
-  title: 签署R07机器完成并异步转入R08
-  status: IMPLEMENTING
-  created_at: '2026-07-21T23:59:44Z'
-  updated_at: '2026-07-21T23:59:53Z'
-  requester_actor_id: codex-root-r07-008
-  approver_actor_id: codex-reviewer-r07-machine-close
-  task_id: TASK-R07-008
-  session_id: SES-20260721T235847Z-F9109B61
-  user_request: 项目所有者要求大版本完成后不等待真机反馈，持续开发后续版本；APK和文档放桌面，正式验收与生产激活仍不得伪造。
-  reason: R07全部产品、数据、专项、预发布、候选、视觉和四方APK门禁已通过，需要回填验收矩阵与Release Manifest并在owner_physical_test=PENDING下切换R08。
-  original_rule: R07 Release Manifest仍是开发就绪结构，验收矩阵多数NOT_RUN，故事仍为READY_FOR_IMPLEMENTATION，未登记最终候选、自动化、桌面交付和机器完成事实。
-  new_rule: R07机器能力和交付项签署PASS；AC-R07-005与TASK-R07-008保持MACHINE_PASS_OWNER_PENDING或BLOCKED_EXTERNAL_GATE，正式Release验收和生产激活继续等待所有者异步真机反馈；R08开发明确ALLOWED。
-  impact_summary: 更新R07验收矩阵、故事机器状态、Release Manifest和机器关闭报告；连续性关闭命令生成TASK状态、CURRENT_STATUS、NEXT_TASK和事件链并切换TASK-R08-001。
-  impact:
-    files:
-    - releases/R07/ACCEPTANCE_MATRIX.csv
-    - releases/R07/RELEASE_MANIFEST.yaml
-    - releases/R07/STORIES.yaml
-    - artifacts/reports/R07/TASK-R07-008-machine-close.md
-    - CURRENT_STATUS.yaml
-    - NEXT_TASK.yaml
-    - releases/R07/TASKS.yaml
-    - CHANGELOG.md
-    pages:
-    - SCR-SEARCH-001
-    - SCR-SEARCH-002
-    - SCR-PUBLISHER-001
-    - SHEET-CONTACT-001
-    - DIALOG-SEARCH-001
-    apis: []
-    database: []
-    configuration:
-    - owner_feedback_mode=ASYNC_NON_BLOCKING和next_release_development=ALLOWED
-    ledger: []
-    tests:
-    - R07文档、视觉、Release artifacts、PostgreSQL、Staging、Android候选与连续性关闭检查
-    releases:
-    - R07
-    migration_and_compatibility: 纯版本治理与交接，无产品代码、API、数据库或生产迁移；R07 Staging和桌面APK保持可测试，后续真机反馈可回到受控验收或修复队列。
-  user_confirmation: 项目所有者明确要求不因未反馈真机结果停止开发并持续推进后续版本。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-21T23:59:50Z'
-    note: 机器PASS与所有者PENDING严格分离；只允许后续开发，不放行R07正式验收或生产激活。
-  machine_record: .continuity/change_requests/CR-0203.yaml
-  document: docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md
-  decision_log:
-  - at: '2026-07-21T23:59:53Z'
-    actor_id: codex-root-r07-008
-    status: IMPLEMENTING
-    note: 开始回填R07机器完成、异步所有者门禁和R08转入证据。
-    session_id: SES-20260721T235847Z-F9109B61
-  session_ids:
-  - SES-20260721T235847Z-F9109B61
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `0fd3acf139602d463554fc372bc7a5f305a2ac98121c3e2b7e87de3bbc573230`
 - `START_HERE.md` — `a4b1f9f9534104251e46d93a0b33de97d353296d147f01ceaf9189cde49b2f0e`
-- `CURRENT_STATUS.yaml` — `dd65765918ef80b6e488e87c8ebc1563f0d38368c94aa53f3c95163491d6b21d`
+- `CURRENT_STATUS.yaml` — `4dc06b714221a702791ae47566691af9f62f1bcdae5ca4f7c17efc8508cc9960`
 - `NEXT_TASK.yaml` — `52b6320db42f1bd8634c9573ad544838710427d3198f7b7a60ab8bf2369064f7`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7219,21 +7134,21 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `35e8f79e24ab6d69cafd2e12d8fc909f878ba86340a8a2c52729febc1be01ed6`
-- `.continuity/EVENT_LOG.jsonl` — `680bc7b994018e0b8fe75c30ebebb43d686db41f539a0baec6bd1b3cea20e8fd`
-- `.continuity/SESSION_INDEX.yaml` — `1f0ff69627fc298da51d47f28375fe991f706672cbcf50412d34aaca3e7996cd`
+- `.continuity/EVENT_LOG.jsonl` — `a172ad8490fb86f21ee3afc98984070695ec75abe5fa6893eca2e161fecfaf74`
+- `.continuity/SESSION_INDEX.yaml` — `bca787f164f308af07f13f40d85cc0511902b221e34add0ce0276a6cbb12c34d`
 - `.continuity/TASK_CLAIMS.yaml` — `33deecf8fdcb5821952f9608cb12132b61897e032623afed7d7a11f8789f2952`
 - `.continuity/TASK_TRANSITIONS.yaml` — `eaaf11fcf9af37bfd94220c438d65ab4944414d2df3edf066230bcf7f50580e6`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `86d81d2a7cb8b7ab1de1b08253f8a63645348df6ab018e402cbe498508eed376`
-- `.continuity/ACTIVE_SESSION.yaml` — `9f0cf4f927314b98465d25d675b6665debd4ebb0ddaf5ab7cc4cf1333a18bafe`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `6c115ccd22ebebc4dea65cdab808753d632d7c6aa6bd6da202b21d26c6e0309a`
+- `.continuity/ACTIVE_SESSION.yaml` — `541903cf52d38a14eba0d15c78586e7c38405805fd599bbc0eac6be79dc35f82`
 - `releases/R07/RELEASE_MANIFEST.yaml` — `b24d88ba535904d024221c6f68a091c969f41c68a9721bd4dd0e7753feaec06d`
 - `releases/R07/DEFINITION_OF_READY.yaml` — `5e3a1496a1a9a9af6ac2e40e8aaacdfaa46cc7bf117324c22c486b3730c6f9f9`
 - `releases/R07/STORIES.yaml` — `1d44cb5b1362327631111a32dca09bf329016dad069bba24fcf9deb61b8ae74a`
 - `releases/R07/TASKS.yaml` — `4582ab8551d3013fca56e619c52ac662d0f791bf9425e7d71be9bb84977a35c9`
 - `releases/R07/ACCEPTANCE_MATRIX.csv` — `e5956d3b54eee293915f14e235dc30bf1daf7dcb240548e4ce38ede81534f4b9`
 - `releases/R07/PARALLEL_EXECUTION_PLAN.yaml` — `6f1e7026fa2c9e13e240e5f9de8e7203fcfd34d4edf1a2ce6358f43936aaf756`
-- `docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md` — `6b53b36752e336106a121549cb16d22191f7a75a4ac24a693e93713fba849ed3`
-- `.continuity/checkpoints/SES-20260721T235847Z-F9109B61/0001.yaml` — `caf3eaa373ab2b2b08f1093fdb39a66634459ba110f13de55fad19a8dad3f365`
-- `docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md` — `e32a9e19bd3d30b8d7a5bf5c30572698320e14efa36a652edd4dda559dcf66b1`
+- `docs/03-continuity/sessions/2026-07/SES-20260721T235847Z-F9109B61.md` — `b99dc903eef29d5fea1f636e1d2cb31de7d30e9719d049256553194929ad980d`
+- `.continuity/checkpoints/SES-20260721T235847Z-F9109B61/0002.yaml` — `8e55cfcf8117e07ba795ebb322afceab882ec5684e7e470190b6b9c75f80cd77`
+- `docs/03-continuity/change-requests/CR-0203-签署R07机器完成并异步转入R08.md` — `3503fb81c45314ed3f16d3bd6cb84f727e733e1c454a4bb42b486ea07c4d2b69`
 
 ## 接手硬规则
 
