@@ -97,6 +97,14 @@ public class ContentService {
         return store.detail(id(id, "内容标识无效")).map(this::resource).orElseThrow(ContentService::notFound);
     }
 
+    @Transactional(readOnly = true)
+    public ContentResource publicDetail(String id) {
+        ContentStore.ContentRow row = store.detail(id(id, "内容标识无效"))
+                .orElseThrow(ContentService::notFound);
+        if (!"ONLINE".equals(row.status())) throw notFound();
+        return resource(row);
+    }
+
     @Transactional
     public CommandResult online(
             long adminId, String id, StatusRequest request, String key, String requestId, String ip) {
@@ -274,14 +282,17 @@ public class ContentService {
         return new ContentResource(
                 Long.toString(row.id()), outwardType(row.type()), row.title(), row.summary(),
                 string(attributes.get("description")), string(attributes.get("categoryCode")),
-                string(attributes.get("regionCode")), List.of(),
+                string(attributes.get("regionCode")), store.media(row.id()).stream().map(media ->
+                        new ContentContracts.MediaItem(Long.toString(media.id()), media.mediaType(), media.url(),
+                                null, null, null, null, null, media.sortOrder(), "PUBLIC")).toList(),
                 new PublisherSummary(Long.toString(row.ownerId()),
                         clean(row.nickname()) == null ? "用户" + row.ownerId() : row.nickname(),
                         row.avatar(), row.bio(), false, null, null),
                 store.contacts(row.id()).stream().map(contact -> new ContactSummary(
                         contact.channel(), contact.displayMask(), true, "LOGIN", false)).toList(),
                 row.status(), row.reviewStatus(), new Statistics(
-                        count(row.views()), count(row.favorites()), 0, count(row.contacts()), count(row.chats())),
+                        count(row.views()), count(row.favorites()), count(row.shares()),
+                        count(row.contacts()), count(row.chats())),
                 row.createdAt(), row.updatedAt(), row.version(), attributes);
     }
 

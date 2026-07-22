@@ -16555,6 +16555,27 @@ components:
           description: 路径资源标识：id
       required:
       - id
+    ContactInputResource:
+      type: object
+      additionalProperties: false
+      properties:
+        channel:
+          type: string
+          enum:
+          - WECHAT
+          - PHONE
+          - QQ
+          - EMAIL
+          - LINK
+          - QR_CODE
+        value:
+          type: string
+          minLength: 1
+          maxLength: 2000
+          x-sensitive: true
+      required:
+      - channel
+      - value
     ContentPostContentsRequest:
       type: object
       additionalProperties: false
@@ -16588,8 +16609,10 @@ components:
             type: string
           maxItems: 100
         contacts:
-          type: string
-          maxLength: 2000
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactInputResource'
+          maxItems: 20
         attributes:
           type: object
           additionalProperties:
@@ -16645,8 +16668,10 @@ components:
             type: string
           maxItems: 100
         contacts:
-          type: string
-          maxLength: 2000
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactInputResource'
+          maxItems: 20
         attributes:
           type: object
           additionalProperties:
@@ -17140,6 +17165,8 @@ components:
           type: object
           additionalProperties:
             $ref: '#/components/schemas/JsonValue'
+      required:
+      - expectedVersion
     ContentPostContentsByIdFavoriteResponse:
       type: object
       additionalProperties: false
@@ -17438,6 +17465,33 @@ components:
           - OTHER
       required:
       - channel
+    ShareResultResource:
+      type: object
+      additionalProperties: false
+      properties:
+        contentId:
+          type: string
+          maxLength: 64
+        channel:
+          type: string
+          enum:
+          - WECHAT
+          - WECHAT_MOMENTS
+          - COPY_LINK
+          - OTHER
+        url:
+          type: string
+          format: uri
+          pattern: ^https://
+          maxLength: 2048
+        acceptedAt:
+          type: string
+          format: date-time
+      required:
+      - contentId
+      - channel
+      - url
+      - acceptedAt
     ContentPostContentsByIdShareResponse:
       type: object
       additionalProperties: false
@@ -17456,9 +17510,7 @@ components:
           type: string
           format: date-time
         data:
-          oneOf:
-          - $ref: '#/components/schemas/ContentResource'
-          - $ref: '#/components/schemas/CommandResultResource'
+          $ref: '#/components/schemas/ShareResultResource'
     ChatGetConversationsResponse:
       type: object
       additionalProperties: false

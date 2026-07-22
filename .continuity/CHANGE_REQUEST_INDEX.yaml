@@ -12693,3 +12693,143 @@ change_requests:
   - SES-20260722T004601Z-1DC3809E
   implementation_commits:
   - aa3d7a83
+- protocol_version: '1.0'
+  cr_id: CR-0211
+  title: 实现R08项目发布详情收藏分享会话及公共分享后端闭环
+  status: IMPLEMENTING
+  created_at: '2026-07-22T01:28:46Z'
+  updated_at: '2026-07-22T01:36:31Z'
+  requester_actor_id: codex-root-r08-003
+  approver_actor_id: codex-reviewer-r08-backend
+  task_id: TASK-R08-003
+  session_id: SES-20260722T012224Z-E70EA3B7
+  user_request: 项目所有者要求持续推进R08，普通任务只运行受影响MODULE且不得等待真机反馈
+  reason: 九端点审计确认列表与联系方式访问已由R06/R07实现，其余七端点缺失；冻结发布合同无法表达联系方式渠道，分享响应也没有URL，必须先做最小可用合同修正再实现真实事务、幂等、权限、审计和Outbox
+  original_rule: contentPostContents与contentPatchContentsById把contacts定义为无渠道单字符串；contentPostContentsByIdFavorite未要求最后读取版本；contentPostContentsByIdShare响应仅允许ContentResource或CommandResultResource，无法返回动作名称承诺的分享地址；R08九端点中七个没有后端控制器或应用服务实现，相关业务配置也没有激活值。
+  new_rule: 发布和编辑使用结构化ContactInputResource数组明确channel与value并最多20项；收藏请求必须携带最后读取的expectedVersion并由服务端拒绝陈旧版本；分享返回专用ShareResultResource，包含contentId、channel、HTTPS
+    url与acceptedAt；保留publicGetShareContentsById的R28归属但在R08实现项目分享兼容API。九端点复用R06列表与R07联系方式，其余七端点必须以真实PostgreSQL事务实现PROJECT范围，创建与编辑要求实名、编辑要求所有者和expectedVersion，收藏/分享/会话要求ONLINE项目，全部写操作使用稳定幂等、最小审计与Outbox。V034只种入配置注册表已冻结的12个内容/聊天默认值和domain.h5.host，不覆盖既有激活值。
+  impact_summary: 修正三个不可用或不完整的冻结模型并完成R08项目发布、编辑、详情、收藏、分享、直接会话和公共分享七个缺失端点；补齐配置种子、运行时合同、生成客户端、权限幂等审计与PostgreSQL集成证据。
+  impact:
+    files:
+    - contracts/openapi.yaml
+    - contracts/contract_status.csv
+    - services/backend/boot/src/main/resources/contracts/openapi.yaml
+    - packages/api-client/src/client.generated.ts
+    - database/migrations/V034__r08_backend_configuration.sql
+    - services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
+    - database/rollback/U034__r08_backend_configuration.sql
+    - database/tests/r08_backend_configuration.sql
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+    - tests/test_r08_backend_contract.py
+    - tests/test_r08_backend_configuration.py
+    - scripts/run_r08_backend_postgres_integration.sh
+    - artifacts/reports/R08/TASK-R08-003-backend.md
+    - CHANGELOG.md
+    pages:
+    - SCR-LIST-001
+    - SCR-DETAIL-001
+    - SCR-PUB-002
+    apis:
+    - GET /api/v1/contents
+    - POST /api/v1/contents
+    - GET /api/v1/contents/{id}
+    - PATCH /api/v1/contents/{id}
+    - POST /api/v1/contents/{id}/favorite
+    - POST /api/v1/contents/{id}/contacts/{channel}/access
+    - POST /api/v1/contents/{id}/share
+    - POST /api/v1/conversations/direct
+    - GET /public-api/v1/share/contents/{id}
+    database:
+    - V034 R08 backend configuration seeds and rollback
+    - content_posts/project_details/content_versions/content_media/content_contacts/content_stats/content_favorites/content_view_logs/conversations/conversation_members/user_blocks/idempotency_records/outbox_events
+    configuration:
+    - 12个content/chat冻结默认值和domain.h5.host
+    ledger:
+    - CR-0211 and TASK-R08-003 evidence
+    tests:
+    - OpenAPI/runtime/generated-client semantic contract gate
+    - R08 service/controller unit and contract tests
+    - PostgreSQL 17 create/edit/favorite/share/direct/public/idempotency/reject integration
+    - V034 empty/upgrade/rollback/replay configuration gate
+    releases:
+    - R08
+    migration_and_compatibility: 端点此前未实现且R08 Android消费者尚未开发，结构化contacts在首个真实消费者前替换不可表达渠道的字符串；旧字符串不存在可安全迁移语义，拒绝猜测渠道。favorite expectedVersion在首个真实消费者前变为必填。ShareResult为该未实现动作的首个可用响应。V034对13个冻结配置使用ON
+      CONFLICT DO NOTHING，不覆盖现有配置；U034仅在值仍等于冻结默认且version=0时删除本版种子，否则原子阻断，业务内容不受影响。publicGetShareContentsById的x-release继续为R28。
+  user_confirmation: 项目所有者已明确授权持续推进R08并按仓库事实自主修复问题，不等待逐项确认
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T01:36:26Z'
+    note: 批准最小兼容修正：结构化联系方式、收藏expectedVersion必填、专用分享结果；严禁猜测渠道、覆盖激活配置或暴露明文秘密，实现必须由PostgreSQL事务与受影响门禁证明。
+  machine_record: .continuity/change_requests/CR-0211.yaml
+  document: docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
+  decision_log:
+  - at: '2026-07-22T01:36:31Z'
+    actor_id: codex-root-r08-003
+    status: IMPLEMENTING
+    note: 开始实现R08七个缺失端点、V034配置和受影响验证
+    session_id: SES-20260722T012224Z-E70EA3B7
+  session_ids:
+  - SES-20260722T012224Z-E70EA3B7
+- protocol_version: '1.0'
+  cr_id: CR-0212
+  title: 对齐R08冻结发布字段与PostgreSQL列容量
+  status: IMPLEMENTING
+  created_at: '2026-07-22T01:41:57Z'
+  updated_at: '2026-07-22T01:42:29Z'
+  requester_actor_id: codex-root-r08-003
+  approver_actor_id: codex-reviewer-r08-schema
+  task_id: TASK-R08-003
+  session_id: SES-20260722T012224Z-E70EA3B7
+  user_request: 项目所有者要求严格按照开发文档参数持续推进R08
+  reason: 冻结合同允许标题、说明、分类、地区和项目扩展字段最多2000字符，旧数据库部分列仍为varchar(255)，必须在首个写接口前做只扩容兼容修正
+  original_rule: content_posts.title、project_details.cooperation/conditions/region/website仍为varchar(255)，但冻结OpenAPI和SCR-PUB-002允许对应发布字段最多2000字符。
+  new_rule: V034在种配置前将content_posts.title及project_details的cooperation、conditions、region、website扩容为varchar(2000)；不截断、不改写既有数据，不改变字段可空性、约束、索引或业务语义。U034仅在不存在长度超过255的新增数据时恢复旧容量，否则原子阻断。
+  impact_summary: 消除R08首个真实发布接口的冻结合同与数据库容量冲突，完整接受最多2000字符且保持既有数据兼容。
+  impact:
+    files:
+    - database/migrations/V034__r08_backend_configuration.sql
+    - services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
+    - database/rollback/U034__r08_backend_configuration.sql
+    - database/tests/r08_backend_configuration.sql
+    - tests/test_r08_backend_configuration.py
+    pages:
+    - SCR-PUB-002
+    apis:
+    - POST /api/v1/contents
+    - PATCH /api/v1/contents/{id}
+    database:
+    - content_posts.title and project_details textual columns varchar(2000)
+    configuration: []
+    ledger:
+    - CR-0212 TASK-R08-003 evidence
+    tests:
+    - V034 capacity expansion and guarded U034 downgrade tests
+    releases:
+    - R08
+    migration_and_compatibility: PostgreSQL varchar扩容为元数据兼容变更且不重写业务值；旧客户端不受影响。回滚前逐列检查长度，任何超过255的合法R08数据都会阻止降级，禁止截断。
+  user_confirmation: 项目所有者已明确要求严格遵循开发文档硬性参数并持续推进，不等待逐项确认
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T01:42:24Z'
+    note: 批准只扩容兼容修正；必须保持既有值不变，回滚遇到超过255字符数据时原子拒绝，禁止任何截断。
+  machine_record: .continuity/change_requests/CR-0212.yaml
+  document: docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md
+  decision_log:
+  - at: '2026-07-22T01:42:29Z'
+    actor_id: codex-root-r08-003
+    status: IMPLEMENTING
+    note: 随V034实施冻结字段容量对齐
+    session_id: SES-20260722T012224Z-E70EA3B7
+  session_ids:
+  - SES-20260722T012224Z-E70EA3B7

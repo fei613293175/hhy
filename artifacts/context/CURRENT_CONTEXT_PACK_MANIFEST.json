@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T01:19:54Z",
-  "context_hash": "6720438e81604b735e35168aa7a9c1b7df3a128802dc00a401ca93788d001031",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-22T02:03:31Z",
+  "context_hash": "b80a984b3209ed1fc4c4020c2440e842b0ef15f1bda2080a17d54ded514282a7",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "7f6c322c1252ffd374f3c4a2cced25e5db34f71decc4c239516f7899e17ceedb",
-    "file_count": 0
+    "sha256": "3219d71b9677a4d97b9e56b6da5eec518a5cbcce17699810e07f1027c88eec65",
+    "file_count": 25
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "9f1113aff2a1a955bd5ff85c9d4b89f21f8cf846ca19537b1daec7652afbd435"
+    "sha256": "664c7e1bf05d165c2d443ca19941a51f2089802cb5cf4a683ffac185b2c3aeb8"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "4e2964aea23a4912f0b00b8a906b7959c3e88c859d86f2328fc16c805a78e95a"
+    "sha256": "2ae6876747a793874859462c8724ec735c3679ce29fc024cf28fa29b2b6c619c"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "e92f83bb8009afe5d2bab0f262cefa87fd86c5362c2924d6e2914a96f3e6d6df",
-      "bytes": 3747
+      "sha256": "1d9e5b0396df1d05388f53ab3c7b4e049e71767d28986f3176ebfbda30a5abc5",
+      "bytes": 3893
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,33 +83,33 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "e24b8004ef72eec4975a14f2bc2e18957f270fcefae4d616ca852c9ac862ae10",
-      "bytes": 1148708
+      "sha256": "dc46bdc04b195aea0278e827bff88eaf282465f261054f00e336056ce48ad9f4",
+      "bytes": 1162086
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "d4d32ccb3bf9ce0dcdeaedf64f603ddbaaceeb385ac144f0249dde3b30041869",
-      "bytes": 35376
+      "sha256": "d4f5f623bc40071530b16e23855bbced166342bdb588750cfbf24bcfcec88e11",
+      "bytes": 35868
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "5a7d0b6b35a915446efc4c7f273fd20bf7acd0b3f1e71871a7fa0052b743d291",
-      "bytes": 46953
+      "sha256": "807d74b33075e052e3e603eccc8190629d9fb0899fb220d77ab41bf7098d459f",
+      "bytes": 47682
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "d9ef6cea00c79ecb2e73353aca54a6753c50fd50298a8d30e7cc2319c3d2b841",
-      "bytes": 20214
+      "sha256": "6628ef42a5747b15fe5ec6bf85275904029430c57e0224f337fae0ba06f119c1",
+      "bytes": 20499
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "4d1950a536ac4d3b4f42ccdcac70f8c08bab18a3f94ce31c0a45386fe2fd6530",
-      "bytes": 667108
+      "sha256": "34472c51850c959b2fd159a2f269c645ee9d560cfd9570f8ee739926b8135d65",
+      "bytes": 676729
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "2b7ef793371aec0e9989d07b996ff5f9a1f9255e23647028b6809bc33416d31e",
-      "bytes": 143
+      "sha256": "cb802e2b9533158e2b8fb162fcc3d1634526ae2d8825d024a83f6a108af5937d",
+      "bytes": 533
     },
     {
       "path": "releases/R08/RELEASE_MANIFEST.yaml",
@@ -140,6 +140,26 @@
       "path": "releases/R08/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416",
       "bytes": 4185
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md",
+      "sha256": "c6845ffdabfad3d280e07d62cf785fdbeb12f74d123f665ed9bc4fda39085104",
+      "bytes": 6815
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0002.yaml",
+      "sha256": "95c5f3cd520b695e76aefe67964ebcdd78e49e9af728c55eaa10d9a57dc3ffdd",
+      "bytes": 16613
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md",
+      "sha256": "841066647c9018e3cf67dd52e21fef57df203b53fb59cdd170ab6a9b593ffd29",
+      "bytes": 6313
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md",
+      "sha256": "008d75424c35272df6089489571e3de91e1c095ccdc63dd51feaf0bf9bfbcd50",
+      "bytes": 2813
     }
   ]
 }

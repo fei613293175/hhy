@@ -1,0 +1,328 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0001
+session_id: SES-20260722T012224Z-E70EA3B7
+sequence: 1
+created_at: '2026-07-22T02:02:06Z'
+summary: CR-0211与CR-0212已批准实施；完成R08结构化联系方式、收藏版本、分享结果合同，V034配置与字段扩容，七个缺失端点及媒体公开URL映射第一轮实现
+next_step: 提交并推送WIP事实源，在obx-test PostgreSQL 17运行V034和R08真实Store集成验证，修复后完成MODULE
+blockers: []
+decisions: []
+note: 普通任务阶段不触发GitHub模拟器或完整大版本候选门禁
+tests:
+- name: R08_JAVA_SPECIALIZED
+  result: PASS
+  evidence: 20 tests 0 failures 0 errors 1 expected PostgreSQL skip
+  note: 本地编译、服务、控制器、Store专项通过
+- name: R08_CONTRACT_MIGRATION_STATIC
+  result: PASS
+  evidence: 12 tests plus generated assets and contract checks PASS
+  note: 真实PostgreSQL待下一步
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: 2e09ed18f835ab325b8b88afb7fab062547cac9b
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/TASK_TRANSITIONS.yaml'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/change_request_index.csv'
+  - ' M catalogs/session_index.csv'
+  - ' M catalogs/task_transition_ledger.csv'
+  - ' M contracts/contract_status.csv'
+  - ' M contracts/openapi.yaml'
+  - ' M packages/api-client/src/client.generated.ts'
+  - ' M services/backend/boot/src/main/resources/contracts/openapi.yaml'
+  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java'
+  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java'
+  - ' M services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java'
+  - ?? .continuity/change_requests/CR-0211.yaml
+  - ?? .continuity/change_requests/CR-0212.yaml
+  - ?? .continuity/sessions/SES-20260722T012224Z-E70EA3B7.yaml
+  - ?? database/migrations/V034__r08_backend_configuration.sql
+  - ?? database/rollback/U034__r08_backend_configuration.sql
+  - ?? database/tests/r08_backend_configuration.sql
+  - ?? docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
+  - ?? docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md
+  - ?? docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md
+  - ?? scripts/run_r08_backend_postgres_integration.sh
+  - ?? services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - ?? services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - ?? services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+  - ?? services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+  - ?? tests/test_r08_backend_configuration.py
+  - ?? tests/test_r08_backend_contract.py
+  recent_commits:
+  - "2e09ed18f835ab325b8b88afb7fab062547cac9b\t2026-07-22T09:21:49+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
+    \ clean context before R08-003"
+  - "333c29598ecb6af8520cc0579669cb8c283bcc09\t2026-07-22T09:18:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-002\
+    \ as completed"
+  - "f3232e2a77913bd42545097b83d1030002a43154\t2026-07-22T09:15:19+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close project data\
+    \ change request"
+  - "aa3d7a833c093648fbac5bc44bcdc19b697db1fe\t2026-07-22T09:13:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): establish project\
+    \ data invariants"
+  - "e5d7d60ac0390843a1134c9457f7684fb04fc7ce\t2026-07-22T08:44:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-001\
+    \ as completed"
+  - "61361be3a037857f734b2a0f9c57beb5b505ad66\t2026-07-22T08:43:24+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 关闭R08入口变更链"
+  - "b0a7ee0969a42c0df1e8650fdcb3388f74ab0aa0\t2026-07-22T08:41:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(governance): 建立R08实施入口"
+  - "b57357cd699fc959e947a815dc618143c840c6f2\t2026-07-22T08:26:11+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 领取R08开发就绪任务"
+project_fingerprint:
+  sha256: 768b81f487cc76aa188f8599f6feb790b4140117150bac9d9a5110416ee759fb
+  files:
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  - database/migrations/V034__r08_backend_configuration.sql
+  - database/rollback/U034__r08_backend_configuration.sql
+  - database/tests/r08_backend_configuration.sql
+  - docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
+  - docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md
+  - packages/api-client/src/client.generated.ts
+  - scripts/run_r08_backend_postgres_integration.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+  - tests/test_r08_backend_configuration.py
+  - tests/test_r08_backend_contract.py
+  file_count: 24
+  payload:
+    base_commit: 2e09ed18f835ab325b8b88afb7fab062547cac9b
+    files:
+    - path: contracts/contract_status.csv
+      state: FILE
+      size: 140010
+      sha256: 9350663ddac5cad352fa7b7c8828d8652c00040954e18ec87af08894b8baa47d
+    - path: contracts/openapi.yaml
+      state: FILE
+      size: 602003
+      sha256: 92a3d9843bc3e4860b54843f0bd3fdfa5a4cd7d49852a72ab560fa29e91af21c
+    - path: database/migrations/V034__r08_backend_configuration.sql
+      state: FILE
+      size: 1234
+      sha256: 46c277432eb83e825a301a5d02f58b08530919789ec90b07602bc43fc583f2ac
+    - path: database/rollback/U034__r08_backend_configuration.sql
+      state: FILE
+      size: 2694
+      sha256: 467d0afa1823aa688b3d5b4a41708f4f20dd7f4b17025ddd0a397eb70f5d470c
+    - path: database/tests/r08_backend_configuration.sql
+      state: FILE
+      size: 2078
+      sha256: b63aa80bbe9681b85b7b17ebc2c443ebbfbf05e2fd3e6935b4ece9af8e65cb36
+    - path: docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
+      state: FILE
+      size: 6313
+      sha256: 841066647c9018e3cf67dd52e21fef57df203b53fb59cdd170ab6a9b593ffd29
+    - path: docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md
+      state: FILE
+      size: 2813
+      sha256: 008d75424c35272df6089489571e3de91e1c095ccdc63dd51feaf0bf9bfbcd50
+    - path: packages/api-client/src/client.generated.ts
+      state: FILE
+      size: 620705
+      sha256: fc739fe861931ae66280d5e9ce01c634ac9956444598d1954f1ad57440d0f4c0
+    - path: scripts/run_r08_backend_postgres_integration.sh
+      state: FILE
+      size: 3665
+      sha256: 8b053b4738b7c2a2dcaac3a7f93d365d29dcbbc121de4a24613f835cd7ef04c1
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+      state: FILE
+      size: 5474
+      sha256: dfc32adae5b797fdf9a2540847e99513b9f4175dc85c9bf24348bb7b31e4bdc8
+    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
+      state: FILE
+      size: 602003
+      sha256: 92a3d9843bc3e4860b54843f0bd3fdfa5a4cd7d49852a72ab560fa29e91af21c
+    - path: services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
+      state: FILE
+      size: 1234
+      sha256: 46c277432eb83e825a301a5d02f58b08530919789ec90b07602bc43fc583f2ac
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
+      state: FILE
+      size: 1956
+      sha256: 0cdfe33c0ff5ba32d85f22a4a9472a830f8b2efc8b0099d013f1e9c9c6f0ece4
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+      state: FILE
+      size: 7520
+      sha256: 821e6dc9785f891041104de81fd6449dc275402982165e4d158fc1bbc1590b92
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+      state: FILE
+      size: 6459
+      sha256: 99ef6c653c7dc9d5b666f32fbc9fb2a852689bcf7f20ffea5dbe50457db1b867
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+      state: FILE
+      size: 15887
+      sha256: c9f343461a07183d15470ce2dc04d374e8fee41b4762cfb778899b19ce382002
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+      state: FILE
+      size: 23087
+      sha256: 332e065d366fef563b58471446e4df123b9842540f943c94d328bf11b75cbab1
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+      state: FILE
+      size: 2499
+      sha256: 3fa1b47f472fe0e297aef8565dfe6fe5bf33e67b9710fbf039fe1fc373c9552a
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+      state: FILE
+      size: 3190
+      sha256: 18571828aad9430a7b430dc4ac4680d99952434c40348fa8b67e2ff3c14ba995
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+      state: FILE
+      size: 16542
+      sha256: 32b5902e96d815fb3071c60889c5279b219a7b13230275c67fa65c8983573aaf
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+      state: FILE
+      size: 25423
+      sha256: f71cad458f424d28d2ac83fe3106bc409b4649f326af74b8c906dce5af725675
+    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+      state: FILE
+      size: 2847
+      sha256: bf12d7044cffbe879198f9e897ca912a253de74ddb7c5376cf2c9490b315c53f
+    - path: tests/test_r08_backend_configuration.py
+      state: FILE
+      size: 1507
+      sha256: 26a2cbeb85dcc8f02a0e5a671903fbbe46101a90c8bd1bc5d8fd6dd76e24fccf
+    - path: tests/test_r08_backend_contract.py
+      state: FILE
+      size: 2333
+      sha256: 607cc5c3a609f440ccabfb45c21ecb4441e72b9135242b63b6a2a025ea876735
+change_classification:
+  source_of_truth:
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  contracts:
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  user_visible:
+  - contracts/contract_status.csv
+  - contracts/openapi.yaml
+  database:
+  - database/migrations/V034__r08_backend_configuration.sql
+  - database/rollback/U034__r08_backend_configuration.sql
+  - database/tests/r08_backend_configuration.sql
+  continuity:
+  - docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
+  - docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md
+  code:
+  - packages/api-client/src/client.generated.ts
+  - scripts/run_r08_backend_postgres_integration.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+  tests:
+  - tests/test_r08_backend_configuration.py
+  - tests/test_r08_backend_contract.py
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+- CONTRACT_TEST_EVIDENCE
+- GENERATED_CLIENTS_OR_GENERATION_RECORD
+- CHANGELOG
+change_requests:
+- CR-0211
+- CR-0212
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - contracts/openapi.yaml
+  - contracts/contract_status.csv
+  - services/backend/boot/src/main/resources/contracts/openapi.yaml
+  - packages/api-client/src/client.generated.ts
+  - database/migrations/V034__r08_backend_configuration.sql
+  - services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
+  - database/rollback/U034__r08_backend_configuration.sql
+  - database/tests/r08_backend_configuration.sql
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
+  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - tests/test_r08_backend_contract.py
+  - tests/test_r08_backend_configuration.py
+  - scripts/run_r08_backend_postgres_integration.sh
+  - artifacts/reports/R08/TASK-R08-003-backend.md
+  - CHANGELOG.md
+  source: story+explicit+approved-cr:CR-0211+approved-cr:CR-0212
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 合同、迁移、事务服务和同一连续性会话强耦合，且当前执行规则未授权创建子代理
+event_hash: 5dd95d1b20e27a4d3e93a9a404d4338024a2d489015a0c21787e63e31204f62e

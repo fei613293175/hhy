@@ -7,6 +7,7 @@ import java.util.Optional;
 public interface ContentStore {
     PageRows page(ContentQuery query);
     Optional<ContentRow> detail(long id);
+    List<MediaRow> media(long contentId);
     List<ContactRow> contacts(long contentId);
     List<DictionaryRow> dictionaries(int page, int pageSize, String keyword, Boolean enabled, String sort);
     long dictionaryCount(String keyword, Boolean enabled);
@@ -30,8 +31,9 @@ public interface ContentStore {
             long id, long ownerId, String type, String title, String summary,
             String status, String reviewStatus, long version, Instant createdAt, Instant updatedAt,
             String nickname, String avatar, String bio, String attributesJson,
-            String views, String favorites, String chats, String contacts) { }
+            String views, String favorites, String shares, String chats, String contacts) { }
     record ContactRow(String channel, String displayMask, int sortOrder) { }
+    record MediaRow(long id, String mediaType, String url, int sortOrder) { }
     record DictionaryRow(long id, String code, String title, boolean enabled, long version, String itemsJson) { }
     record IdempotencyClaim(long id, String requestHash, String responseRef, boolean replay) { }
     record LockedContent(long id, String status, long version) { }

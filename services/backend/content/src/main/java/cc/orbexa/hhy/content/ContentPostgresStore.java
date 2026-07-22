@@ -1,5 +1,6 @@
 package cc.orbexa.hhy.content;
 
+import java.net.URI;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
@@ -18,7 +19,10 @@ public class ContentPostgresStore implements ContentStore {
             SELECT p.id,p.owner_id,p.type,p.title,p.summary,p.status,p.review_status,p.version,
                    p.created_at,p.updated_at,profile.nickname,profile.avatar,profile.bio,
                    COALESCE(snapshot.snapshot_json,'{}'::jsonb)::text AS attributes_json,
-                   stats.organic_views,stats.favorites,stats.chats,stats.contacts
+                   stats.organic_views,stats.favorites,
+                   (SELECT count(*)::text FROM hhy.content_view_logs share_log
+                    WHERE share_log.content_id=p.id AND share_log.traffic_type='SHARE') AS shares,
+                   stats.chats,stats.contacts
             FROM hhy.content_posts p
             LEFT JOIN hhy.user_profiles profile ON profile.user_id=p.owner_id
             LEFT JOIN LATERAL (
@@ -66,6 +70,25 @@ public class ContentPostgresStore implements ContentStore {
     @Override
     public Optional<ContentRow> detail(long id) {
         return jdbc.query(SELECT_CONTENT + " WHERE p.id=?", this::content, id).stream().findFirst();
+    }
+
+    @Override
+    public List<MediaRow> media(long contentId) {
+        return jdbc.query("""
+                SELECT media.id,
+                       CASE WHEN media.mime LIKE 'image/%' THEN 'IMAGE'
+                            WHEN media.mime LIKE 'video/%' THEN 'VIDEO' ELSE 'FILE' END AS media_type,
+                       binding.public_domain,media.object_key,
+                       content_media.sort_order
+                FROM hhy.content_media content_media
+                JOIN hhy.media_objects media ON media.id=content_media.media_id
+                JOIN hhy.storage_scope_bindings binding ON binding.id=media.storage_binding_id
+                WHERE content_media.content_id=? AND media.status='READY' AND media.deleted_at IS NULL
+                  AND media.visibility='PUBLIC' AND binding.status='ACTIVE'
+                  AND binding.public_domain IS NOT NULL AND btrim(binding.public_domain)<>''
+                ORDER BY content_media.sort_order,content_media.id
+                """, this::mediaRow,
+                contentId);
     }
 
     @Override
@@ -244,7 +267,7 @@ public class ContentPostgresStore implements ContentStore {
                 rs.getLong("version"), instant(rs.getObject("created_at", OffsetDateTime.class)),
                 instant(rs.getObject("updated_at", OffsetDateTime.class)), rs.getString("nickname"),
                 rs.getString("avatar"), rs.getString("bio"), rs.getString("attributes_json"),
-                rs.getString("organic_views"), rs.getString("favorites"), rs.getString("chats"),
+                rs.getString("organic_views"), rs.getString("favorites"), rs.getString("shares"), rs.getString("chats"),
                 rs.getString("contacts"));
     }
 
@@ -252,6 +275,26 @@ public class ContentPostgresStore implements ContentStore {
         return new DictionaryRow(
                 rs.getLong(1), rs.getString(2), rs.getString(3), rs.getBoolean(4),
                 rs.getLong(5), rs.getString(6));
+    }
+
+    private MediaRow mediaRow(ResultSet rs, int row) throws SQLException {
+        String domain = rs.getString(3).strip();
+        String normalized = domain.contains("://") ? domain : "https://" + domain;
+        if (!normalized.endsWith("/")) normalized += "/";
+        URI base;
+        try {
+            base = URI.create(normalized);
+        } catch (RuntimeException invalid) {
+            throw new IllegalStateException("Active public media domain is invalid", invalid);
+        }
+        if (!"https".equalsIgnoreCase(base.getScheme()) || base.getHost() == null
+                || base.getUserInfo() != null || base.getQuery() != null || base.getFragment() != null) {
+            throw new IllegalStateException("Active public media domain is invalid");
+        }
+        String key = rs.getString(4);
+        if (key == null || key.isBlank()) throw new IllegalStateException("Public media object key is unavailable");
+        URI url = base.resolve(key.startsWith("/") ? key.substring(1) : key);
+        return new MediaRow(rs.getLong(1), rs.getString(2), url.toString(), rs.getInt(5));
     }
 
     private static void append(StringBuilder sql, List<Object> args, String expression, Object value) {

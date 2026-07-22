@@ -3402,6 +3402,11 @@ export interface components {
             /** @description 路径资源标识：id */
             id: string;
         };
+        ContactInputResource: {
+            /** @enum {string} */
+            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE";
+            value: string;
+        };
         ContentPostContentsRequest: {
             /** @enum {string} */
             contentType: "PROJECT" | "APP" | "GROUP_CHAT" | "TEAM_LEADER";
@@ -3411,7 +3416,7 @@ export interface components {
             categoryCode: string;
             regionCode?: string;
             mediaIds?: string[];
-            contacts?: string;
+            contacts?: components["schemas"]["ContactInputResource"][];
             attributes?: {
                 [key: string]: components["schemas"]["JsonValue"];
             };
@@ -3431,7 +3436,7 @@ export interface components {
             categoryCode?: string;
             regionCode?: string;
             mediaIds?: string[];
-            contacts?: string;
+            contacts?: components["schemas"]["ContactInputResource"][];
             attributes?: {
                 [key: string]: components["schemas"]["JsonValue"];
             };
@@ -3654,7 +3659,7 @@ export interface components {
         ContentPostContentsByIdFavoriteRequest: {
             reason?: string;
             /** Format: int64 */
-            expectedVersion?: number;
+            expectedVersion: number;
             payload?: {
                 [key: string]: components["schemas"]["JsonValue"];
             };
@@ -3787,13 +3792,22 @@ export interface components {
             /** @enum {string} */
             channel: "WECHAT" | "WECHAT_MOMENTS" | "COPY_LINK" | "OTHER";
         };
+        ShareResultResource: {
+            contentId: string;
+            /** @enum {string} */
+            channel: "WECHAT" | "WECHAT_MOMENTS" | "COPY_LINK" | "OTHER";
+            /** Format: uri */
+            url: string;
+            /** Format: date-time */
+            acceptedAt: string;
+        };
         ContentPostContentsByIdShareResponse: {
             /** @constant */
             success: true;
             requestId: string;
             /** Format: date-time */
             timestamp?: string;
-            data: components["schemas"]["ContentResource"] | components["schemas"]["CommandResultResource"];
+            data: components["schemas"]["ShareResultResource"];
         };
         ChatGetConversationsResponse: {
             /** @constant */
