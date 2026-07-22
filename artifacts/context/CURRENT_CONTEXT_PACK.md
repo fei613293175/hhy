@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T02:50:08Z
-- Context Hash：`074bd813467bfc4891b09e6efc9cf90266977141d3844908ce15797574541ca7`
+- 生成时间：2026-07-22T02:52:56Z
+- Context Hash：`dae9c265e45d4c05d0c3698660a2403ce74343994f24a4113638a1cff053201c`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -128,7 +128,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R08-003
-updated_at: '2026-07-22T02:50:06Z'
+updated_at: '2026-07-22T02:52:53Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -163,15 +163,15 @@ continuity:
   active_session_id: SES-20260722T012224Z-E70EA3B7
   actor_id: codex-root-r08-003
   story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T06:50:06Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0007.yaml
-  project_fingerprint: 72f9218e2bcab398ae34b3382735401001b0ce61c322862ffca59a04dcb5f446
+  lease_expires_at: '2026-07-22T06:52:53Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0008.yaml
+  project_fingerprint: 96a8f8ed5416145205f72e5a858c531a000b896a06e386d267705fcb80fc548d
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 21289c9a5cf487b450243678b037c9bbf6900e930a2a7db72a3a7f69443c8718
-    generated_at: '2026-07-22T02:49:11Z'
+    context_hash: 074bd813467bfc4891b09e6efc9cf90266977141d3844908ce15797574541ca7
+    generated_at: '2026-07-22T02:50:08Z'
   handoff_bundle: null
 ```
 
@@ -369,7 +369,7 @@ task_id: TASK-R08-003
 story_id: STORY-R08-004
 goal: 项目推广完整闭环后端应用服务与接口
 started_at: '2026-07-22T01:22:24Z'
-updated_at: '2026-07-22T02:50:06Z'
+updated_at: '2026-07-22T02:52:53Z'
 takeover_of: null
 change_requests:
 - CR-0211
@@ -457,12 +457,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T02:50:06Z'
-  expires_at: '2026-07-22T06:50:06Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0007.yaml
+  renewed_at: '2026-07-22T02:52:53Z'
+  expires_at: '2026-07-22T06:52:53Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md
-next_step: 提交并推送CR-0213至CR-0215治理变更；随后完成R08PostgresStore真实Java21集成和受影响MODULE验证并关闭TASK-R08-003。
+next_step: 提交推送CR生命周期记录；随后完成R08PostgresStore真实Java21集成和受影响MODULE验证并关闭TASK-R08-003。
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -470,32 +470,24 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前运行模式明确不允许自主启动子代理；连续性治理与证据由事实主控串行验证。
+  reason: 当前运行模式明确不允许自主启动子代理；CR生命周期由事实主控串行维护。
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0007
+checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0008
 session_id: SES-20260722T012224Z-E70EA3B7
-sequence: 7
-created_at: '2026-07-22T02:50:06Z'
-summary: CR-0215进入IMPLEMENTING并完成实现；规则去重、11项必读来源哈希、RULE_READINESS=PASS、UI唯一规则强化和全部连续性证据已同步。
-next_step: 提交并推送CR-0213至CR-0215治理变更；随后完成R08PostgresStore真实Java21集成和受影响MODULE验证并关闭TASK-R08-003。
+sequence: 8
+created_at: '2026-07-22T02:52:53Z'
+summary: 提交f483640b已实现视觉规则强化、连续性证据刷新和规则就绪门禁；CR-0214与CR-0215已按实测证据关闭，CR-0213保留至R08-004历史页面回补完成。
+next_step: 提交推送CR生命周期记录；随后完成R08PostgresStore真实Java21集成和受影响MODULE验证并关闭TASK-R08-003。
 blockers: []
 decisions:
-- 不新建平行规则体系；将去重入口和机器规则就绪直接并入权威连续性策略。
+- 关闭已完成的CR-0214和CR-0215；CR-0213继续绑定R08-004真实UI回补，不提前宣告视觉通过。
 note: ''
 tests:
-- name: ui-visual-unit
-  result: PASS
-  evidence: python -m unittest tests.test_ui_visual_acceptance
-  note: 8 tests passed
-- name: r07-visual-catalog
-  result: PASS
-  evidence: python scripts/check_ui_visual_acceptance.py --release R07 --catalog-only
-  note: 5 pages catalog valid and candidate close intentionally blocked
 - name: rule-readiness-unit
   result: PASS
   evidence: python -m unittest tests.test_context_pack_parallel_policy
@@ -508,6 +500,14 @@ tests:
   result: PASS
   evidence: python scripts/check_v123_continuity.py --strict
   note: 0 errors and 0 warnings; rule_readiness PASS with 11 sources
+- name: ui-visual-unit
+  result: PASS
+  evidence: python -m unittest tests.test_ui_visual_acceptance
+  note: 8 tests passed
+- name: r07-visual-catalog
+  result: PASS
+  evidence: python scripts/check_ui_visual_acceptance.py --release R07 --catalog-only
+  note: 5 pages catalog valid and candidate close intentionally blocked
 - name: r08-postgresql17
   result: PASS
   evidence: obx-test logs /tmp/hhy-r08-task003-pg17.log and config-pg17.log
@@ -515,58 +515,24 @@ tests:
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 09a826ee4a3764498c8e0f6c0b15739ec8a49f68
+  head: f483640ba0e16b2601cabbb643820d4273cb07ac
   upstream: origin/task/TASK-R03-001
-  ahead: 0
+  ahead: 1
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/ACTIVE_SESSION.yaml'
   - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/CONTINUITY_POLICY.yaml'
   - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/sessions/SES-20260722T012224Z-E70EA3B7.yaml'
-  - ' M AGENTS.md'
-  - ' M CHANGELOG.md'
-  - ' M CURRENT_STATUS.yaml'
-  - ' M START_HERE.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-  - ' M artifacts/validation/continuity-integration-v1.2.3.json'
-  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
-  - ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
-  - ' M artifacts/validation/project-doctor-v1.2.3.json'
+  - ' M .continuity/change_requests/CR-0214.yaml'
+  - ' M .continuity/change_requests/CR-0215.yaml'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/ui_visual_acceptance.csv'
-  - ' M config/CONTINUITY_POLICY.yaml'
-  - ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
-  - ' M docs/02-ui/UI参考图使用与开发约束_V1.2.2.md'
-  - ' M docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md'
-  - ' M docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md'
-  - ' M releases/R08/TASKS.yaml'
-  - ' M scripts/check_ui_visual_acceptance.py'
-  - ' M scripts/check_v123_continuity.py'
-  - ' M scripts/continuity_gate.py'
-  - ' M scripts/continuity_lib.py'
-  - ' M scripts/run_continuity_self_test.py'
-  - ' M templates/AGENTS.md'
-  - ' M templates/START_HERE.md'
-  - ' M tests/test_context_pack_parallel_policy.py'
-  - ' M tests/test_ui_visual_acceptance.py'
-  - ?? .continuity/change_requests/CR-0213.yaml
-  - ?? .continuity/change_requests/CR-0214.yaml
-  - ?? .continuity/change_requests/CR-0215.yaml
-  - ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0004.yaml
-  - ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0005.yaml
-  - ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0006.yaml
-  - ?? docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
-  - ?? docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
-  - ?? docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
+  - ' M docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md'
+  - ' M docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md'
   recent_commits:
+  - "f483640ba0e16b2601cabbb643820d4273cb07ac\t2026-07-22T10:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): enforce\
+    \ rule readiness and UI fidelity"
   - "09a826ee4a3764498c8e0f6c0b15739ec8a49f68\t2026-07-22T10:09:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): honor immutable\
     \ detail cleanup guard"
   - "a2850c4066b8d27714deff29790c57335b44b460\t2026-07-22T10:03:43+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): implement project\
@@ -581,9 +547,8 @@ git:
     \ data invariants"
   - "e5d7d60ac0390843a1134c9457f7684fb04fc7ce\t2026-07-22T08:44:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-001\
     \ as completed"
-  - "61361be3a037857f734b2a0f9c57beb5b505ad66\t2026-07-22T08:43:24+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 关闭R08入口变更链"
 project_fingerprint:
-  sha256: 72f9218e2bcab398ae34b3382735401001b0ce61c322862ffca59a04dcb5f446
+  sha256: 96a8f8ed5416145205f72e5a858c531a000b896a06e386d267705fcb80fc548d
   files:
   - AGENTS.md
   - CHANGELOG.md
@@ -696,12 +661,12 @@ project_fingerprint:
       sha256: 0a92a3ab4d357250867bb7235d52930a6aa70503151620544821f0cb5606400e
     - path: docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
       state: FILE
-      size: 2532
-      sha256: 1787f51f0c64aae3230fc2fcf9b258b619638679754bac299c27c83e1294bc3a
+      size: 2985
+      sha256: 35f41575bec5f251350d9430d79ee5f1abe47f3ded24508455ee6bb3826fa10c
     - path: docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
       state: FILE
-      size: 3467
-      sha256: 7316694f282f961a0b00cc6c514bfc96f7c82aa1bf63f4bad77a3218bfacc4ee
+      size: 3916
+      sha256: d4ecaa801092956f387b81815003a13067f3f2a90630f161e6202380fa4c6f37
     - path: docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
       state: FILE
       size: 4488
@@ -966,8 +931,8 @@ parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 当前运行模式明确不允许自主启动子代理；连续性治理与证据由事实主控串行验证。
-event_hash: 22034e3f7dc8fa9a6e4b0448f333547ba6be95db19ab20b1ee9b5ebea3d06a18
+  reason: 当前运行模式明确不允许自主启动子代理；CR生命周期由事实主控串行维护。
+event_hash: 65663c797ba24b5b719e0368f3e59b241fbaa444e7e4c6a155c5377ee69069a8
 ```
 
 ## 接续状态与事件头
@@ -979,8 +944,8 @@ active_session_id: SES-20260722T012224Z-E70EA3B7
 last_session_id: SES-20260722T004601Z-1DC3809E
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T004601Z-1DC3809E-0003
-event_count: 2136
-event_head_hash: 22034e3f7dc8fa9a6e4b0448f333547ba6be95db19ab20b1ee9b5ebea3d06a18
+event_count: 2141
+event_head_hash: 65663c797ba24b5b719e0368f3e59b241fbaa444e7e4c6a155c5377ee69069a8
 event_chain_valid: true
 ```
 
@@ -1103,9 +1068,9 @@ recent_sessions: - session_id: SES-20260721T130339Z-785E85BE
   started_at: '2026-07-22T01:22:24Z'
   record: .continuity/sessions/SES-20260722T012224Z-E70EA3B7.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md
-  updated_at: '2026-07-22T02:50:06Z'
+  updated_at: '2026-07-22T02:52:53Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0007.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0008.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1066EF896172
   session_id: SES-20260720T155546Z-F13C645A
@@ -2059,59 +2024,30 @@ recent_task_transitions: - transition_id: TRN-B976848B4DB8
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 09a826ee4a3764498c8e0f6c0b15739ec8a49f68
+head: f483640ba0e16b2601cabbb643820d4273cb07ac
 upstream: origin/task/TASK-R03-001
-ahead: 0
+ahead: 1
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
 - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/CONTINUITY_POLICY.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
+- ' M .continuity/change_requests/CR-0214.yaml'
+- ' M .continuity/change_requests/CR-0215.yaml'
 - ' M .continuity/sessions/SES-20260722T012224Z-E70EA3B7.yaml'
-- ' M AGENTS.md'
-- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M START_HERE.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/continuity-integration-v1.2.3.json'
-- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.json'
-- ' M artifacts/validation/continuity-lifecycle-integration-v1.2.3.log'
-- ' M artifacts/validation/project-doctor-v1.2.3.json'
 - ' M catalogs/change_request_index.csv'
 - ' M catalogs/session_index.csv'
-- ' M catalogs/ui_visual_acceptance.csv'
-- ' M config/CONTINUITY_POLICY.yaml'
-- ' M docs/00-baseline/正式商业系统全局硬性开发边界.md'
-- ' M docs/02-ui/UI参考图使用与开发约束_V1.2.2.md'
+- ' M docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md'
+- ' M docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md'
-- ' M docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md'
-- ' M releases/R08/TASKS.yaml'
-- ' M scripts/check_ui_visual_acceptance.py'
-- ' M scripts/check_v123_continuity.py'
-- ' M scripts/continuity_gate.py'
-- ' M scripts/continuity_lib.py'
-- ' M scripts/run_continuity_self_test.py'
-- ' M templates/AGENTS.md'
-- ' M templates/START_HERE.md'
-- ' M tests/test_context_pack_parallel_policy.py'
-- ' M tests/test_ui_visual_acceptance.py'
-- ?? .continuity/change_requests/CR-0213.yaml
-- ?? .continuity/change_requests/CR-0214.yaml
-- ?? .continuity/change_requests/CR-0215.yaml
-- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0004.yaml
-- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0005.yaml
-- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0006.yaml
-- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0007.yaml
-- ?? docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
-- ?? docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
-- ?? docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
+- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0008.yaml
 recent_commits:
+- "f483640ba0e16b2601cabbb643820d4273cb07ac\t2026-07-22T10:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): enforce rule\
+  \ readiness and UI fidelity"
 - "09a826ee4a3764498c8e0f6c0b15739ec8a49f68\t2026-07-22T10:09:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): honor immutable detail\
   \ cleanup guard"
 - "a2850c4066b8d27714deff29790c57335b44b460\t2026-07-22T10:03:43+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): implement project\
@@ -2126,12 +2062,11 @@ recent_commits:
   \ data invariants"
 - "e5d7d60ac0390843a1134c9457f7684fb04fc7ce\t2026-07-22T08:44:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-001\
   \ as completed"
-- "61361be3a037857f734b2a0f9c57beb5b505ad66\t2026-07-22T08:43:24+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): 关闭R08入口变更链"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`72f9218e2bcab398ae34b3382735401001b0ce61c322862ffca59a04dcb5f446`
+- 指纹：`96a8f8ed5416145205f72e5a858c531a000b896a06e386d267705fcb80fc548d`
 - 文件数：45
 
 - `AGENTS.md`
@@ -7725,121 +7660,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260722T012224Z-E70EA3B7
   session_ids:
   - SES-20260722T012224Z-E70EA3B7
-- protocol_version: '1.0'
-  cr_id: CR-0214
-  title: 刷新UI唯一策略变更后的连续性重建证据
-  status: IMPLEMENTING
-  created_at: '2026-07-22T02:26:15Z'
-  updated_at: '2026-07-22T02:26:53Z'
-  requester_actor_id: codex-root-r08-003
-  approver_actor_id: codex-reviewer-continuity-evidence
-  task_id: TASK-R08-003
-  session_id: SES-20260722T012224Z-E70EA3B7
-  user_request: 项目所有者要求直接强化既有UI规则并保证换电脑换AI可无状态接续。
-  reason: 唯一机器策略发生批准变更后，既有连续性重建与生命周期报告哈希按设计失效，必须重生成才能证明跨设备接续没有被破坏。
-  original_rule: 连续性重建与生命周期报告绑定唯一机器策略哈希，策略变化后旧报告必须被视为过期。
-  new_rule: 在CR-0213直接强化既有UI唯一规则后重跑既有连续性自测与生命周期演练，仅刷新原报告，不建立任何新规则或新事实源。
-  impact_summary: 只刷新四个既有连续性验证产物以绑定最新唯一策略；不改变产品代码、UI、API、数据库、配置语义或版本范围。
-  impact:
-    files:
-    - artifacts/validation/continuity-integration-v1.2.3.json
-    - artifacts/validation/continuity-integration-v1.2.3.log
-    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - python scripts/run_continuity_self_test.py
-    - python scripts/check_v123_continuity.py
-    releases:
-    - R02-R32
-    migration_and_compatibility: 报告原路径原格式原门禁保持不变，由既有脚本原子重生成；旧报告由Git历史保留。
-  user_confirmation: 项目所有者要求既有UI规则强化后在换电脑换AI场景仍能直接复用。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T02:26:49Z'
-    note: 批准仅用既有脚本刷新原连续性报告；不引入第二套UI规则或新机器策略。
-  machine_record: .continuity/change_requests/CR-0214.yaml
-  document: docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
-  decision_log:
-  - at: '2026-07-22T02:26:53Z'
-    actor_id: codex-root-r08-003
-    status: IMPLEMENTING
-    note: 开始重生成既有连续性集成和生命周期报告。
-    session_id: SES-20260722T012224Z-E70EA3B7
-  session_ids:
-  - SES-20260722T012224Z-E70EA3B7
-- protocol_version: '1.0'
-  cr_id: CR-0215
-  title: 增强既有规则去重与跨AI规则就绪门禁
-  status: IMPLEMENTING
-  created_at: '2026-07-22T02:37:15Z'
-  updated_at: '2026-07-22T02:49:49Z'
-  requester_actor_id: codex-root-r08-003
-  approver_actor_id: codex-policy-review-r08
-  task_id: TASK-R08-003
-  session_id: SES-20260722T012224Z-E70EA3B7
-  user_request: 新增规则前必须检索现有规则并优先更新，禁止并列相同或类似硬规则；换电脑或换AI后仅需说继续开发，全部适用规则必须通过仓库接续机制生效。
-  reason: 现有唯一事实源原则尚未显式约束规则入口去重，Context Pack也未机器验证全部关键规则来源是否完整纳入。
-  original_rule: 已有唯一机器策略、仓库事实源、resume与Context Pack机制，但未显式要求用户新增规则先做同义检索，也未证明关键规则来源全部进入Context Pack并通过机器就绪校验。
-  new_rule: 在既有change_control中强制规则入口检索、优先修订权威规则、禁止等价平行规则；在既有resume/Context Pack中增加哈希化required_sources与RULE_READINESS=PASS，缺失或过期即阻断开发，用户仅说继续开发时无需重述背景。
-  impact_summary: 不新增平行规则文件，只增强权威机器策略、既有冷启动入口、Context Pack生成/门禁和连续性验证证据。
-  impact:
-    files:
-    - .continuity/CONTINUITY_POLICY.yaml
-    - config/CONTINUITY_POLICY.yaml
-    - AGENTS.md
-    - templates/AGENTS.md
-    - START_HERE.md
-    - templates/START_HERE.md
-    - docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
-    - scripts/continuity_lib.py
-    - scripts/continuity_gate.py
-    - scripts/check_v123_continuity.py
-    - scripts/run_continuity_self_test.py
-    - tests/test_context_pack_parallel_policy.py
-    - artifacts/validation/continuity-integration-v1.2.3.json
-    - artifacts/validation/continuity-integration-v1.2.3.log
-    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-    - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-    - CHANGELOG.md
-    pages: []
-    apis: []
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - 规则去重与Context Pack规则就绪单测
-    - 无对话Handoff重建全生命周期演练
-    - V1.2.3严格连续性门禁
-    releases:
-    - R08
-    migration_and_compatibility: 向后兼容；旧AI仍可按resume接入，新AI获得更严格的规则来源完整性校验；不改变业务、API、数据库或发布范围。
-  user_confirmation: 项目所有者于2026-07-22明确要求新增两项规则并要求换电脑换AI后仅需说继续开发。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T02:37:50Z'
-    note: 已核对现有唯一策略、冷启动入口和Context Pack；批准在原体系内去重增强，禁止新建平行事实源，并要求以可验证规则就绪状态代替主观理解声明。
-  machine_record: .continuity/change_requests/CR-0215.yaml
-  document: docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
-  decision_log:
-  - at: '2026-07-22T02:49:49Z'
-    actor_id: codex-root-r08-003
-    status: IMPLEMENTING
-    note: 已按批准合同增强既有change_control、Context Pack和连续性门禁，等待提交绑定后转IMPLEMENTED。
-    session_id: SES-20260722T012224Z-E70EA3B7
-  session_ids:
-  - SES-20260722T012224Z-E70EA3B7
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `e2fd1cd5513220bb1617f0aa5e064cf55cda643df1076a6e59b35c62318abf82`
+- `CURRENT_STATUS.yaml` — `0aade3a5b75999277ad06cf6df2f0d6966077b5b7894b3157625760f8f15083d`
 - `NEXT_TASK.yaml` — `b3b55d261a90ec212372fadbb5b00131f63ccb955dcd4e399da4ac562255dc3b`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -7850,12 +7677,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `458d4201c4732f8e1a3747be0844e95cfc73aa8c9cc33e94491145a7c81eefec`
-- `.continuity/SESSION_INDEX.yaml` — `8c7771c1f374b85ac477af3cb727acbc06a11c47692c729055ddcef170f3368b`
+- `.continuity/EVENT_LOG.jsonl` — `057d93372bde1ef31b6275b48f8577fdfc9841d60a647bde1b918f9cb42ac734`
+- `.continuity/SESSION_INDEX.yaml` — `e68f6d3b84caa7411103a60ac0510de46cf84ed33429f49b4b39510887adc0d7`
 - `.continuity/TASK_CLAIMS.yaml` — `807d74b33075e052e3e603eccc8190629d9fb0899fb220d77ab41bf7098d459f`
 - `.continuity/TASK_TRANSITIONS.yaml` — `6628ef42a5747b15fe5ec6bf85275904029430c57e0224f337fae0ba06f119c1`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `b6c544081a25f0e52389164f1f8d74b0d64e8823d99bd55ac29f56a2102f2101`
-- `.continuity/ACTIVE_SESSION.yaml` — `8dda218ded3e0e44a3e05263dd1f779d4616e749972e58e2ede63f0d41b7b8d7`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `bc093f863e4891236921c4fcf0c6805a386b75f05851638c49058e28609778f3`
+- `.continuity/ACTIVE_SESSION.yaml` — `ce9fa61125ca581a2efc304bf03116b5139630761fb1bf71df5ff91d3eca1617`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7866,13 +7693,13 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/TASKS.yaml` — `494d82061638ba9a33980400d2c638ee5256ab082a8d0a404c31973a404967cf`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `1e47b204a5cbd289d9ccafc93b0f4afb45983db76a23a4492dd463ffeec0cb98`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md` — `f38f1852dd0d2facf74cf15679e810c91de0804bbd3af3f9eec5ed9580f5897a`
-- `.continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0007.yaml` — `9eb773b8fce3c1e9a2ca65b32dade9eff38be663e8615854efe3719503d9213c`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md` — `8287a986fafe170e2c6b3b729fe5252bba64df0de7c5a7f67968aea62b8c7a9e`
+- `.continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0008.yaml` — `e98d11034019cdbaaedc837ca0b307fa53cb0691c8143b36f46150b86b13a31e`
 - `docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md` — `841066647c9018e3cf67dd52e21fef57df203b53fb59cdd170ab6a9b593ffd29`
 - `docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md` — `008d75424c35272df6089489571e3de91e1c095ccdc63dd51feaf0bf9bfbcd50`
 - `docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md` — `0a92a3ab4d357250867bb7235d52930a6aa70503151620544821f0cb5606400e`
-- `docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md` — `1787f51f0c64aae3230fc2fcf9b258b619638679754bac299c27c83e1294bc3a`
-- `docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md` — `7316694f282f961a0b00cc6c514bfc96f7c82aa1bf63f4bad77a3218bfacc4ee`
+- `docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md` — `35f41575bec5f251350d9430d79ee5f1abe47f3ded24508455ee6bb3826fa10c`
+- `docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md` — `d4ecaa801092956f387b81815003a13067f3f2a90630f161e6202380fa4c6f37`
 
 ## 接手硬规则
 

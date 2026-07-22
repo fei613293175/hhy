@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0215
 title: 增强既有规则去重与跨AI规则就绪门禁
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-22T02:37:15Z'
-updated_at: '2026-07-22T02:49:49Z'
+updated_at: '2026-07-22T02:52:33Z'
 requester_actor_id: codex-root-r08-003
 approver_actor_id: codex-policy-review-r08
 task_id: TASK-R08-003
@@ -57,5 +57,17 @@ decision_log:
   status: IMPLEMENTING
   note: 已按批准合同增强既有change_control、Context Pack和连续性门禁，等待提交绑定后转IMPLEMENTED。
   session_id: SES-20260722T012224Z-E70EA3B7
+- at: '2026-07-22T02:52:31Z'
+  actor_id: codex-root-r08-003
+  status: IMPLEMENTED
+  note: 规则入口去重与RULE_READINESS门禁已由提交f483640b实现。
+  session_id: SES-20260722T012224Z-E70EA3B7
+- at: '2026-07-22T02:52:33Z'
+  actor_id: codex-root-r08-003
+  status: CLOSED
+  note: 11项全局必读来源哈希齐全，严格门禁与跨AI重建演练均PASS。
+  session_id: SES-20260722T012224Z-E70EA3B7
 session_ids:
 - SES-20260722T012224Z-E70EA3B7
+implementation_commits:
+- f483640b
