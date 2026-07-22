@@ -80,6 +80,7 @@ class ReleaseCandidateSmokeTest {
         )
         assertTrue("R08 project fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
         assertTrue("R08 list missed the real-data notice", device.hasObject(By.text("页面内容均来自已上线项目")))
+        assertR08BusinessLabels()
         captureStable("01-project-list.png")
         assertNoForbiddenVisibleText()
 
@@ -93,6 +94,7 @@ class ReleaseCandidateSmokeTest {
         assertTrue("R08 project contact action is missing", device.hasObject(By.res("r08.project.contact")))
         assertTrue("R08 owner edit action is missing", device.hasObject(By.res("r08.project.edit")))
         assertFalse("R08 detail exposed fixture contact plaintext", device.hasObject(By.textContains("candidate@example")))
+        assertR08BusinessLabels()
         captureStable("02-project-detail.png")
         assertNoForbiddenVisibleText()
 
@@ -105,6 +107,7 @@ class ReleaseCandidateSmokeTest {
         assertTrue("R08 editor missed the frozen project title", device.hasObject(By.text(fixtureTitle)))
         assertTrue("R08 editor missed the project description field", device.hasObject(By.text("详细说明")))
         assertFalse("R08 verified owner was incorrectly blocked by identity", device.hasObject(By.text("需要完成实名认证")))
+        assertR08BusinessLabels(requireContactLabel = true)
         captureStable("03-project-editor.png")
         assertNoForbiddenVisibleText()
         device.pressBack()
@@ -214,6 +217,15 @@ class ReleaseCandidateSmokeTest {
         assertFalse("Journey exposed connection failure", device.hasObject(By.textContains("暂时无法连接")))
         assertFalse("Journey exposed technical request number", device.hasObject(By.textContains("请求编号")))
         assertFalse("Journey exposed TraceId", device.hasObject(By.textContains("TraceId")))
+    }
+
+    private fun assertR08BusinessLabels(requireContactLabel: Boolean = false) {
+        assertTrue("R08 project category was not localized", device.hasObject(By.text("合作项目")))
+        assertTrue("R08 project region was not localized", device.hasObject(By.text("北京")))
+        if (requireContactLabel) assertTrue("R08 contact channel was not localized", device.hasObject(By.text("微信")))
+        listOf("COOPERATION", "CN-11", "WECHAT", "PHONE", "EMAIL", "QR_CODE").forEach { technicalValue ->
+            assertFalse("R08 exposed technical business code: $technicalValue", device.hasObject(By.text(technicalValue)))
+        }
     }
 
 }

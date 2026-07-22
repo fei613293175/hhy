@@ -36,11 +36,17 @@ data class R08ProjectForm(
     val description: String = "",
     val categoryCode: String = "",
     val regionCode: String = "",
+    val categoryInput: String = "",
+    val regionInput: String = "",
     val contactChannel: String = "WECHAT",
     val contactValue: String = "",
     val mediaIds: List<String> = emptyList(),
     val expectedVersion: Long? = null,
 ) {
+    fun withCategoryInput(value: String) = copy(categoryInput = value, categoryCode = value)
+
+    fun withRegionInput(value: String) = copy(regionInput = value, regionCode = value)
+
     fun validate(): Map<String, String> = buildMap {
         if (title.isBlank()) put("title", "请输入项目标题") else if (title.length > 2000) put("title", "项目标题不能超过2000字")
         if (description.isBlank()) put("description", "请输入详细说明") else if (description.length > 2000) put("description", "详细说明不能超过2000字")
@@ -62,11 +68,42 @@ data class R08ProjectForm(
             description = resource.description.orEmpty(),
             categoryCode = resource.categoryCode.orEmpty(),
             regionCode = resource.regionCode.orEmpty(),
+            categoryInput = projectCategoryLabel(resource.categoryCode.orEmpty()),
+            regionInput = projectRegionLabel(resource.regionCode.orEmpty()),
             mediaIds = resource.media.map { it.id },
             expectedVersion = resource.version,
         )
     }
 }
+
+internal fun projectCategoryLabel(value: String): String = when (value.trim().uppercase()) {
+    "COOP", "COOPERATION" -> "合作项目"
+    "SERVICE", "COMMUNITY_SERVICE" -> "社区服务"
+    "" -> ""
+    else -> value.takeIf(::containsChineseText) ?: "其他分类"
+}
+
+internal fun projectRegionLabel(value: String): String = when (value.trim().uppercase()) {
+    "CN" -> "全国"
+    "CN-11" -> "北京"
+    "CN-31" -> "上海"
+    "CN-33" -> "浙江"
+    "CN-33-01" -> "杭州"
+    "" -> ""
+    else -> value.takeIf(::containsChineseText) ?: "其他地区"
+}
+
+internal fun contactChannelLabel(value: String): String = when (value) {
+    "WECHAT" -> "微信"
+    "PHONE" -> "手机号"
+    "QQ" -> "QQ"
+    "EMAIL" -> "邮箱"
+    "LINK" -> "链接"
+    "QR_CODE" -> "二维码"
+    else -> "联系方式"
+}
+
+private fun containsChineseText(value: String): Boolean = value.any { it in '\u4e00'..'\u9fff' }
 
 class R08IntentKeys {
     private val values = mutableMapOf<String, String>()

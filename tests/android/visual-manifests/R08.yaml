@@ -11,11 +11,15 @@ screens:
   - 发现值得合作的项目
   - R08候选联调项目
   - 页面内容均来自已上线项目
+  - 合作项目
+  - 北京
   forbidden_text:
   - 暂时无法连接
   - 请求编号
   - TraceId
   - candidate@example
+  - COOPERATION
+  - CN-11
 - screen_id: SCR-DETAIL-001
   file: 02-project-detail.png
   marker: hhy.screen.r08.project.detail.content
@@ -25,11 +29,15 @@ screens:
   - R08候选发布者
   - 获取联系方式
   - 编辑项目
+  - 合作项目
+  - 北京
   forbidden_text:
   - 暂时无法连接
   - 请求编号
   - TraceId
   - candidate@example
+  - COOPERATION
+  - CN-11
 - screen_id: SCR-PUB-002
   file: 03-project-editor.png
   marker: hhy.screen.r08.project.editor.content
@@ -37,12 +45,21 @@ screens:
   - 编辑项目
   - R08候选联调项目
   - 详细说明
+  - 合作项目
+  - 北京
+  - 微信
   forbidden_text:
   - 暂时无法连接
   - 请求编号
   - TraceId
   - candidate@example
   - 需要完成实名认证
+  - COOPERATION
+  - CN-11
+  - WECHAT
+  - PHONE
+  - EMAIL
+  - QR_CODE
 security_assertions:
 - surface: SCR-DETAIL-001
   marker: r08.project.contact

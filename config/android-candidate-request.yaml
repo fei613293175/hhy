@@ -2,6 +2,6 @@ schema_version: 1
 status: REQUESTED
 release: R08
 candidate: true
-remediation_attempt: 2
-request_id: R08-20260722-002
-reason: 首轮候选截图由AI审核发现users/me遗漏实名状态导致已实名编辑页误拦截；修复既有冻结字段映射并增加负向回归后执行有依据的单次复验
+remediation_attempt: 3
+request_id: R08-20260722-003
+reason: 第二轮候选已修复实名状态矛盾，但AI审核仍发现项目分类、地区和联系方式技术枚举直出；复用既有技术字段禁显规则完成纯展示层中文映射后执行第三次且最后一次有依据复验

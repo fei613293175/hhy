@@ -399,7 +399,22 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn('By.res("r08.project.contact")', smoke_test)
         self.assertIn('By.res("r08.project.edit")', smoke_test)
         self.assertIn('By.textContains("candidate@example")', smoke_test)
+        self.assertIn("assertR08BusinessLabels", smoke_test)
+        self.assertIn('By.text("合作项目")', smoke_test)
+        self.assertIn('By.text("北京")', smoke_test)
+        self.assertIn('By.text("微信")', smoke_test)
+        self.assertIn('"COOPERATION", "CN-11", "WECHAT"', smoke_test)
         self.assertNotIn("waitForTextContains", smoke_test)
+
+        r08_manifest = yaml.safe_load((ROOT / "tests/android/visual-manifests/R08.yaml").read_text(encoding="utf-8"))
+        for row in r08_manifest["screens"]:
+            self.assertIn("合作项目", row["required_text"])
+            self.assertIn("北京", row["required_text"])
+            self.assertIn("COOPERATION", row["forbidden_text"])
+            self.assertIn("CN-11", row["forbidden_text"])
+        editor = next(row for row in r08_manifest["screens"] if row["screen_id"] == "SCR-PUB-002")
+        self.assertIn("微信", editor["required_text"])
+        self.assertIn("WECHAT", editor["forbidden_text"])
 
         shell = (
             ROOT

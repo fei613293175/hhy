@@ -209,7 +209,7 @@ fun R08ProjectDetailScreen(
         ModalBottomSheet(onDismissRequest = { contact = null }) {
             Column(Modifier.fillMaxWidth().padding(HhySpacing.Xl), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
                 Text("获取联系方式", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
-                Text(channel, color = HhyColors.BrandPrimary)
+                Text(contactChannelLabel(channel), color = HhyColors.BrandPrimary)
                 Text(value, style = MaterialTheme.typography.titleMedium)
                 Button(modifier = Modifier.fillMaxWidth(), onClick = {
                     copyText(context, "联系方式", value)
@@ -425,16 +425,16 @@ fun R08ProjectEditorScreen(
             item { FormField("详细说明", form.description, errors["description"], minLines = 4) { form = form.copy(description = it); dirty = true } }
             item {
                 ProjectSection("分类与地区") {
-                    FormField("分类编码", form.categoryCode, errors["categoryCode"], singleLine = true) { form = form.copy(categoryCode = it); dirty = true }
+                    FormField("项目分类", form.categoryInput, errors["categoryCode"], singleLine = true) { form = form.withCategoryInput(it); dirty = true }
                     Spacer(Modifier.height(HhySpacing.Sm))
-                    FormField("地区编码（选填）", form.regionCode, errors["regionCode"], singleLine = true) { form = form.copy(regionCode = it); dirty = true }
+                    FormField("所在地区（选填）", form.regionInput, errors["regionCode"], singleLine = true) { form = form.withRegionInput(it); dirty = true }
                 }
             }
             item {
                 ProjectSection("联系方式（选填）") {
                     Row(modifier = Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
                         R08ProjectForm.CONTACT_CHANNELS.forEach { channel ->
-                            FilterChip(selected = form.contactChannel == channel, onClick = { form = form.copy(contactChannel = channel); dirty = true }, label = { Text(channel) })
+                            FilterChip(selected = form.contactChannel == channel, onClick = { form = form.copy(contactChannel = channel); dirty = true }, label = { Text(contactChannelLabel(channel)) })
                         }
                     }
                     Spacer(Modifier.height(HhySpacing.Sm))
@@ -485,8 +485,8 @@ private fun ProjectListCard(item: ContentResource, onClick: () -> Unit) {
                 }
                 item.summary?.takeIf { it.isNotBlank() }?.let { Text(it, color = HhyColors.TextSecondary, maxLines = 2, overflow = TextOverflow.Ellipsis) }
                 Row(modifier = Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                    item.categoryCode?.let { Tag(it) }
-                    item.regionCode?.let { Tag(it) }
+                    item.categoryCode?.let { Tag(projectCategoryLabel(it)) }
+                    item.regionCode?.let { Tag(projectRegionLabel(it)) }
                 }
                 HorizontalDivider(color = HhyColors.Border)
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -515,7 +515,7 @@ private fun ProjectListCard(item: ContentResource, onClick: () -> Unit) {
         Column(Modifier.padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
             Row { Text(item.title, Modifier.weight(1f), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold); StatusPill(item.status) }
             item.summary?.let { Text(it, color = HhyColors.TextSecondary) }
-            Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) { item.categoryCode?.let { Tag(it) }; item.regionCode?.let { Tag(it) } }
+            Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) { item.categoryCode?.let { Tag(projectCategoryLabel(it)) }; item.regionCode?.let { Tag(projectRegionLabel(it)) } }
         }
     }
 }
@@ -540,7 +540,7 @@ private fun ProjectListCard(item: ContentResource, onClick: () -> Unit) {
     Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) { Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold); content() }
 }
 
-@Composable private fun StatusPill(status: String) = Surface(color = if (status == "ONLINE") HhyColors.SuccessSoft else HhyColors.WarningSoft, shape = RoundedCornerShape(HhyRadius.Pill)) { Text(if (status == "ONLINE") "已上线" else status, Modifier.padding(horizontal = HhySpacing.Sm, vertical = HhySpacing.Xs), color = if (status == "ONLINE") HhyColors.Success else HhyColors.Warning, style = MaterialTheme.typography.labelSmall) }
+@Composable private fun StatusPill(status: String) = Surface(color = if (status == "ONLINE") HhyColors.SuccessSoft else HhyColors.WarningSoft, shape = RoundedCornerShape(HhyRadius.Pill)) { Text(if (status == "ONLINE") "已上线" else "状态更新中", Modifier.padding(horizontal = HhySpacing.Sm, vertical = HhySpacing.Xs), color = if (status == "ONLINE") HhyColors.Success else HhyColors.Warning, style = MaterialTheme.typography.labelSmall) }
 @Composable private fun Tag(text: String) = Surface(color = HhyColors.SoftBlue, shape = RoundedCornerShape(HhyRadius.Tag)) { Text(text, Modifier.padding(horizontal = HhySpacing.Sm, vertical = HhySpacing.Xs), color = HhyColors.BrandPrimary, style = MaterialTheme.typography.labelSmall) }
 
 @Composable
@@ -576,7 +576,7 @@ private fun ProjectSkeleton() = Card(
         R08ProjectPhase.NOT_FOUND -> "项目不存在" to "项目可能已删除、下架或链接已失效"
         R08ProjectPhase.OFFLINE -> "网络不可用" to "请检查网络后重试，写操作不会离线提交"
         R08ProjectPhase.CONFLICT -> "数据已经变化" to "请重新加载服务端最新版本后继续"
-        else -> "加载失败" to listOfNotNull(failure?.errorCode, failure?.requestId?.let { "请求编号 $it" }).joinToString(" · ").ifBlank { "暂时无法完成请求" }
+        else -> "加载失败" to "暂时无法完成请求，请稍后重试"
     }
     Card(Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(HhyColors.Surface)) { Column(Modifier.fillMaxWidth().padding(HhySpacing.Xl), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) { Text(title, fontWeight = FontWeight.Bold); Text(body, color = HhyColors.TextSecondary); Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) { OutlinedButton(onClick = onBack) { Text("返回") }; Button(onClick = onRetry) { Text("重试") } } } }
 }

@@ -1080,3 +1080,16 @@ problems:
   - 冻结响应字段不得先定义再在服务实现中长期固定返回null
   - 页面权限提示必须与服务端同一实时状态事实一致，不得一边放行数据一边显示拦截
   - AI视觉审核发现业务状态矛盾时不得批准为基线或要求项目所有者代为判断
+- id: PROB-0082
+  title: R08项目页把业务编码和联系方式枚举直接展示给用户
+  status: SOLVED
+  root_cause: R08项目页首轮实现直接把ContentResource的categoryCode、regionCode和CONTACT_CHANNELS枚举绑定到Tag、表单及FilterChip；受影响MODULE编译和功能测试只验证原始值可传输，没有在第二轮候选前断言用户可见文案，导致COOPERATION、CN-11、WECHAT等技术值出现在真实截图。
+  resolution: CR-0231不新增平行UI规则，复用AGENTS.md既有正式前端技术字段禁显规则；显示边界确定性映射已知分类、地区和联系方式渠道，未知代码显示中性业务标签，编辑表单用独立友好输入值保留未修改的冻结原始编码，用户实际修改后才把新业务文本写回请求值。错误态也不再回显errorCode或requestId。
+  regression_checks:
+  - R08ProjectStateTest必须证明COOPERATION、CN-11和WECHAT映射为合作项目、北京和微信，且未编辑表单仍保留冻结原始编码
+  - ReleaseCandidateSmokeTest必须逐页要求友好标签，并拒绝COOPERATION、CN-11、WECHAT、PHONE、EMAIL和QR_CODE可见
+  - R08第三轮候选三张真实截图必须由AI逐张审核通过后才允许晋升视觉基线
+  do_not_repeat:
+  - 网络和数据库字段名含Code或枚举时不得直接绑定Text、Tag、Chip或表单显示值
+  - 展示层本地化不得破坏未修改存量值的原样提交，也不得虚构新的业务选项或服务端字典
+  - 编译与接口成功不等于UI合格；最终候选必须同时检查真实文案、技术字段泄漏和视觉丰富度
