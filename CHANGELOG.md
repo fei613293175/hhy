@@ -1093,3 +1093,13 @@
 - Actor：`codex-root-r09-ui-audit`
 - 摘要：完成R09开发就绪核验、UI规则消歧及R01-R08历史视觉返工；截至R08共45页全部通过视觉验收，CR-0247与CR-0248均已关闭。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md`
+
+## TASK-R09-002 · COMPLETED · 2026-07-22T18:30:47Z
+
+- Task close: TASK-R09-002 / SES-20260722T181159Z-F501CFF5
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-data`
+- 摘要：完成R09 App推广V035/U035数据迁移与领域不变量：禁止APK双路径绕过、详情完整性、软删除保护、索引及空库/升级/回滚/重放全部通过。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md`
+

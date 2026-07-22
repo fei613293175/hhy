@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T18:29:45Z",
-  "context_hash": "4e92c4671cc3b5a5211ba7f9e49ba9635b537e0b959dca7770c4efc91cd6efd1",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-22T18:30:57Z",
+  "context_hash": "0bba178d05cd3a107a935d718a5a1417b47e9afeaa45b266fdb77ed6891d87fd",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "9012673309c09e72a8b8542faf800c48a0cba95d49276c152fbd05d5ffad90b0",
-    "file_count": 8
+    "sha256": "3c4945356836dc09550f5b23f610a2db106cb6a015682b452ae0299fbe31f91d",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "8721361a8aaa547bed454ab902b4b3e57bfc5d20fc40f1a997529e4011e298d0"
+    "sha256": "efbf8cb02a411c5c97be0fac9d1c29690be7a33879fd93271570f068a8defb84"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "5cb1312196008db7fb707a168313041b777dca5f90db1a3662b8ae2e18d56708"
+    "sha256": "55f2fa5bf89885b06b7081bf7e7e876217806e16dd563357819a03c89cd49be8"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "9bef6d43bde9bfaa919958d2c2d5ed3cb174e312fb8dff34f04e83865a542808",
-      "bytes": 4031
+      "sha256": "b7dae5f5e03d1c4fa5029f90890681b9ef2d657a041f5fe7cf3160b73811faef",
+      "bytes": 3899
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "f094e91ffdacdffc8d83e7eb0f803cc4177b8e2408fd00c60d923aaa4148a91b",
-      "bytes": 1536
+      "sha256": "6bd1c7152404d710d3698e77176a9ea1c160c34ab428ef77686ec78ac1994d09",
+      "bytes": 1515
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "4e619cecfef9a0df1ecf808dd778679ff0fc1a86619b1bb85ebe52676fd4553a",
-      "bytes": 1348644
+      "sha256": "01567ee69f851d83f809fac994b692716f452b656e2e8661f8d013a78efeeb11",
+      "bytes": 1350387
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "ff96feb625f2fb75b8cd784c1e655853529bbc9eef4ffef1c640df9cb307557f",
-      "bytes": 39444
+      "sha256": "2929f8a7d93577e1e2a000ddf1de605c3a4349c394332f422da6c2bd25a2f558",
+      "bytes": 39462
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "dad3958bb1577eefb6e4bca1bb8f5bc48ffa96ec8be5650c831a7a2be6e665db",
-      "bytes": 53335
+      "sha256": "6dc76d464f5be281ef3885af390fa995b9093c86e3ea46286327e69f84d48d83",
+      "bytes": 53371
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "1c13d27b463446304cf905a4b3841ac2c17fb353b17e316e2eb52c6fc7d35a6d",
-      "bytes": 534
+      "sha256": "cb4755ae04380285d4c7367b63108c939955666b4fc85e668a53e348f62caad7",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,28 +148,13 @@
     },
     {
       "path": "releases/R09/TASKS.yaml",
-      "sha256": "035aa2c27d195d4522039aa1df3de82b69fdefac5a71dcb176775b8d93e3ec2a",
-      "bytes": 5503
+      "sha256": "5b3d0d8b90e54c3a3b131e98e32577f768ff85e9b9bb067fa405cf00b61128f1",
+      "bytes": 5539
     },
     {
       "path": "releases/R09/ACCEPTANCE_MATRIX.csv",
       "sha256": "98e99c241f9e7ab8814e20fb62060f90c5903da20c1ef39ec81fa75d3bdecfb3",
       "bytes": 684
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md",
-      "sha256": "f18ef489c6c104eda3ac8d2c642ca9648f54ac69008eca7ea30ca6d0af9dd81b",
-      "bytes": 5258
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0003.yaml",
-      "sha256": "9e340b7767833c82f1f290576c9e567b174c7ad09bdb2ffda0ccfb0e8bca1dc5",
-      "bytes": 6764
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0249-R09-App推广数据迁移与领域不变量.md",
-      "sha256": "7180e5bc28375fc87a4000ac76fb3e95c37952caa67963bc309d3a0fc13aaae9",
-      "bytes": 3525
     }
   ]
 }

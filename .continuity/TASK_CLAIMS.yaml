@@ -2685,7 +2685,7 @@ claims:
   task_id: TASK-R09-002
   story_id: STORY-R09-004
   actor_id: codex-root-r09-data
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-22T18:11:59Z'
   allowed_paths:
   - apps/**
@@ -2720,3 +2720,4 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   - App推广完整闭环数据迁移、数据库约束、回滚与不变量验证
+  closed_at: '2026-07-22T18:30:54Z'
