@@ -11,7 +11,7 @@ task_id: TASK-R08-007
 story_id: STORY-R08-004
 goal: 项目推广完整闭环Android测试APK与产物追溯
 started_at: '2026-07-22T06:46:21Z'
-updated_at: '2026-07-22T08:43:35Z'
+updated_at: '2026-07-22T08:59:03Z'
 takeover_of: null
 change_requests:
 - CR-0227
@@ -89,22 +89,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T08:43:30Z'
-  expires_at: '2026-07-22T12:43:30Z'
-checkpoint_sequence: 9
-latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0009.yaml
+  renewed_at: '2026-07-22T08:58:58Z'
+  expires_at: '2026-07-22T12:58:58Z'
+checkpoint_sequence: 10
+latest_checkpoint: .continuity/checkpoints/SES-20260722T064621Z-68304DE1/0010.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md
-next_step: 提交实施证据并推送，触发R08第三轮最终候选；监控唯一Run，下载工件并由AI逐张审核三页截图，合格后轻量晋升基线。
+next_step: 提交并推送R08视觉基线，触发轻量Android Visual Baseline Promotion；只复核原Run工件和哈希，禁止重新编译或启动模拟器。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 75b2e062e458bb59f3ed283b80b84887accf490a3917e66364cac469058a5d0c
-  generated_at: '2026-07-22T08:43:33Z'
+  context_hash: a8ad6afef04f17efce7f9df4673b7a3dd97f3465e45b2ef68d1e53c51eb6863c
+  generated_at: '2026-07-22T08:59:01Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 第三轮候选必须绑定单一提交并由同一AI连续审查工件、截图和基线哈希；用户未要求子代理。
+  reason: 视觉基线审批与原始工件哈希绑定不可拆分，轻量晋升必须保持单一权威提交；用户未要求子代理。
