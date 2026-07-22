@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -24,6 +25,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -35,9 +37,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import cc.orbexa.hhy.designsystem.HhyColors
+import cc.orbexa.hhy.designsystem.HhyElevation
+import cc.orbexa.hhy.designsystem.HhyIcon
+import cc.orbexa.hhy.designsystem.HhyIcons
 import cc.orbexa.hhy.designsystem.HhyRadius
 import cc.orbexa.hhy.designsystem.HhySize
 import cc.orbexa.hhy.designsystem.HhySpacing
@@ -72,6 +78,7 @@ fun MediaUploadSheet(
     val uploadPermits = remember(maxConcurrentUploads) { Semaphore(maxConcurrentUploads) }
     var confirmDismiss by remember { mutableStateOf(false) }
     var deleteTarget by remember { mutableStateOf<String?>(null) }
+    val acceptedTypeLabel = remember(acceptedTypes.contentHashCode()) { acceptedTypeSummary(acceptedTypes) }
 
     fun hasActiveUploads() = uploadItems.any {
         it.phase in setOf(
@@ -105,31 +112,81 @@ fun MediaUploadSheet(
             modifier = Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Xl),
             verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
         ) {
-            Text(
-                "添加文件",
-                fontSize = HhyType.PageTitleSize,
-                lineHeight = HhyType.PageTitleLineHeight,
-                fontWeight = FontWeight.SemiBold,
-            )
-            Text(
-                "选择文件后会自动上传。上传完成前可以取消，失败的文件可以单独重试。",
-                fontSize = HhyType.BodySize,
-                lineHeight = HhyType.BodyLineHeight,
-                color = HhyColors.TextSecondary,
-            )
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = HhyColors.SoftBlue,
+                shape = RoundedCornerShape(HhyRadius.LargeCard),
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+                ) {
+                    Surface(shape = CircleShape, color = HhyColors.Surface) {
+                        HhyIcon(
+                            HhyIcons.Camera,
+                            contentDescription = null,
+                            modifier = Modifier.padding(HhySpacing.Md),
+                            tint = HhyColors.BrandPrimary,
+                        )
+                    }
+                    Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                        Text(
+                            "添加文件",
+                            fontSize = HhyType.PageTitleSize,
+                            lineHeight = HhyType.PageTitleLineHeight,
+                            fontWeight = FontWeight.SemiBold,
+                        )
+                        Text(acceptedTypeLabel, color = HhyColors.BrandPrimary, fontSize = HhyType.CaptionSize)
+                    }
+                }
+            }
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = HhyColors.PageBackground,
+                shape = RoundedCornerShape(HhyRadius.Tag),
+            ) {
+                Text(
+                    "选择文件后会自动上传。上传完成前可以取消，失败的文件可以单独重试。",
+                    modifier = Modifier.padding(HhySpacing.Md),
+                    fontSize = HhyType.BodySize,
+                    lineHeight = HhyType.BodyLineHeight,
+                    color = HhyColors.TextSecondary,
+                )
+            }
             if (uploadItems.isEmpty()) {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(HhyRadius.LargeCard),
-                    colors = CardDefaults.cardColors(containerColor = HhyColors.PageBackground),
+                    colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+                    elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
                 ) {
-                    Text(
-                        "还没有选择文件",
+                    Column(
                         modifier = Modifier.fillMaxWidth().padding(HhySpacing.Xxl),
-                        color = HhyColors.TextSecondary,
-                    )
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+                    ) {
+                        Surface(shape = CircleShape, color = HhyColors.SoftBlue) {
+                            HhyIcon(
+                                HhyIcons.Camera,
+                                contentDescription = null,
+                                modifier = Modifier.padding(HhySpacing.Md),
+                                tint = HhyColors.BrandPrimary,
+                            )
+                        }
+                        Text("还没有选择文件", fontWeight = FontWeight.SemiBold, color = HhyColors.TextPrimary)
+                        Text("点击下方按钮，从设备中选择文件", color = HhyColors.TextSecondary)
+                    }
                 }
             } else {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text("已选择 ${uploadItems.size} 个文件", fontWeight = FontWeight.Medium)
+                    Text(
+                        "已完成 ${manager.completedSelections().size} 个",
+                        color = HhyColors.TextSecondary,
+                        fontSize = HhyType.CaptionSize,
+                    )
+                }
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth().weight(1f, fill = false),
                     verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
@@ -215,11 +272,22 @@ private fun UploadItemCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(HhyRadius.NormalCard),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
     ) {
         Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(item.displayName, modifier = Modifier.weight(1f), maxLines = 1, fontWeight = FontWeight.Medium)
-                Text(phaseLabel(item.phase), color = phaseColor(item.phase), fontSize = HhyType.CaptionSize)
+                Surface(
+                    color = phaseColor(item.phase).copy(alpha = 0.12f),
+                    shape = RoundedCornerShape(HhyRadius.Tag),
+                ) {
+                    Text(
+                        phaseLabel(item.phase),
+                        modifier = Modifier.padding(horizontal = HhySpacing.Sm, vertical = HhySpacing.Xs),
+                        color = phaseColor(item.phase),
+                        fontSize = HhyType.CaptionSize,
+                    )
+                }
             }
             Text(formatBytes(item.sizeBytes), color = HhyColors.TextSecondary, fontSize = HhyType.CaptionSize)
             if (item.phase in setOf(MediaUploadPhase.PREPARING, MediaUploadPhase.UPLOADING, MediaUploadPhase.VERIFYING)) {
@@ -270,6 +338,16 @@ private fun formatBytes(bytes: Long): String = when {
     bytes >= 1024L * 1024L -> "%.1f MB".format(bytes / (1024f * 1024f))
     bytes >= 1024L -> "%.1f KB".format(bytes / 1024f)
     else -> "$bytes B"
+}
+
+internal fun acceptedTypeSummary(acceptedTypes: Array<String>): String {
+    if (acceptedTypes.any { it == "*/*" }) return "支持当前业务允许的文件类型"
+    val labels = buildList {
+        if (acceptedTypes.any { it.startsWith("image/") }) add("图片")
+        if (acceptedTypes.any { it.startsWith("video/") }) add("视频")
+        if (acceptedTypes.any { it.startsWith("audio/") }) add("音频")
+    }
+    return if (labels.isEmpty()) "支持当前业务允许的文件类型" else "支持${labels.joinToString("、")}文件"
 }
 
 private fun ContentResolver.toMediaLocalFile(uri: Uri): MediaLocalFile? {

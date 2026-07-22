@@ -277,6 +277,17 @@ watch(action, async (value, previous) => {
   }
 })
 
+watch(() => props.provider, () => {
+  request?.abort()
+  page.value = undefined
+  detail.value = undefined
+  notice.value = undefined
+  action.value = undefined
+  stale.value = false
+  writeForbidden.value = false
+  void load()
+})
+
 function updateOnline() {
   online.value = navigator.onLine
   if (!online.value) request?.abort()

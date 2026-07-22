@@ -1,0 +1,477 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260722T031604Z-105CF4C6-0012
+session_id: SES-20260722T031604Z-105CF4C6
+sequence: 12
+created_at: '2026-07-22T05:22:38Z'
+summary: CR-0223/0224历史视觉回补、浏览器证据、Android启动与媒体视觉代码、唯一视觉目录及CHANGELOG已完成并通过受影响Web与合同门禁
+next_step: 冻结提交并推送；在obx-test固定镜像和命名Gradle缓存卷上执行startup/media/app受影响MODULE；成功后记录证据并进入R08最终候选统一模拟器截图
+blockers: []
+decisions: []
+note: 完整lint、候选APK、模拟器只在R08最终候选阶段执行；下一步仅受影响Android MODULE
+tests:
+- name: admin-web-test-build
+  result: PASS
+  evidence: 16 files 88 tests plus vue-tsc vite build
+  note: 后台历史视觉回归
+- name: h5-test-build
+  result: PASS
+  evidence: 6 files 27 tests plus vue-tsc vite build
+  note: H5历史视觉回归
+- name: ui-visual-catalog
+  result: PASS
+  evidence: R02=14 R03=7 R04=1 R05=7 R08=3
+  note: 唯一视觉目录完整
+- name: contract-assets-openapi
+  result: PASS
+  evidence: 38 runtime assets and API contract PASS
+  note: 跨层合同无漂移
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: c8d9793655df6d6880f87536f245e8844ecf3a2d
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0223.yaml
+  - A  .continuity/change_requests/CR-0224.yaml
+  - A  .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0011.yaml
+  - M  .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml
+  - M  CHANGELOG.md
+  - M  CURRENT_STATUS.yaml
+  - M  apps/admin-web/src/views/AdminUserDetailPage.vue
+  - M  apps/admin-web/src/views/AdminUsersListPage.vue
+  - M  apps/admin-web/src/views/ProviderConfigPage.vue
+  - M  apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - M  apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - A  apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
+  - M  apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  artifacts/reports/R08/TASK-R08-004-client.md
+  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-002-browser-1440x1100.png
+  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-003-browser-1440x1100.png
+  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-004-browser-1440x1100.png
+  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-005-browser-1440x1100.png
+  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-006-browser-1440x1100.png
+  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-007-browser-1440x1100.png
+  - A  artifacts/validation/r08-historical-ui/admin/ADM-CONFIG-008-browser-1440x1100.png
+  - A  artifacts/validation/r08-historical-ui/admin/ADM-ID-001-browser-1440x1100.png
+  - A  artifacts/validation/r08-historical-ui/admin/ADM-ID-002-browser-1440x1100.png
+  - A  artifacts/validation/r08-historical-ui/admin/ADM-USER-001-browser-1440x1100.png
+  - A  artifacts/validation/r08-historical-ui/admin/ADM-USER-002-browser-1440x1100.png
+  - A  artifacts/validation/r08-historical-ui/h5/H5-013-browser-360x800.png
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  catalogs/ui_visual_acceptance.csv
+  - A  docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md
+  - A  docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
+  - A  scripts/serve_ui_visual_fixture_proxy.py
+  recent_commits:
+  - "c8d9793655df6d6880f87536f245e8844ecf3a2d\t2026-07-22T12:37:57+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs: close R06 visual remediation\
+    \ evidence"
+  - "a217dd276df6bcbd35a019d0e9974b75d5201bce\t2026-07-22T12:30:39+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): enrich R06\
+    \ home and about visuals"
+  - "e078bc0250fa2190c069aece8d4684aa460bb8d3\t2026-07-22T12:25:44+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs: close R07 visual remediation\
+    \ evidence"
+  - "d40f0b091b4af3224b56663b8e8d19e8c64129a2\t2026-07-22T12:19:52+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): enrich R07\
+    \ discovery visuals"
+  - "1695b2e37eb2a0e876116e542d24e35e3dc19d92\t2026-07-22T12:13:15+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs: close Android remote\
+    \ verification pattern"
+  - "88271a35476ba6ae394717fc715d14f9707005b2\t2026-07-22T12:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): close client evidence\
+    \ and remote build pattern"
+  - "9946433742eb9f7ba7ade9909ad11ec0774e8afb\t2026-07-22T11:58:28+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): complete project\
+    \ web and visual contracts"
+  - "298544b5688ff43b87a85992a572a23eada720f5\t2026-07-22T11:33:27+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): implement project\
+    \ client flow"
+project_fingerprint:
+  sha256: ded87beaa27ebae0ed5e52957a47f7ba544d3527b97b9482ae50feec6d08dc82
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/r08ProjectReuse.test.ts
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
+  - apps/android/feature/project/build.gradle.kts
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/android/settings.gradle.kts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/services/publicShare.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/PublicPage.vue
+  - catalogs/ui_visual_acceptance.csv
+  - design/R06-UI-FROZEN/specs/SCR-ABOUT-001.md
+  - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+  - design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
+  - design/R08-UI-FROZEN/specs/SCR-LIST-001.md
+  - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
+  - docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
+  - docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+  - docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
+  - docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md
+  - docs/03-continuity/change-requests/CR-0222-回补R06首页关于页并完成后台视觉复核.md
+  - docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md
+  - docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md
+  - scripts/serve_ui_visual_fixture_proxy.py
+  file_count: 44
+  payload:
+    base_commit: 3ed5231316ec359c0cedeb09393b08c0479f10de
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 78306
+      sha256: 0521e79c018a4f7883a1f3c2a911c47b546f734c1a8ec62c65992710d0cdaca9
+    - path: apps/admin-web/src/r08ProjectReuse.test.ts
+      state: FILE
+      size: 2856
+      sha256: 9a78e6a96a6035205c181a1b95dbac609de1a028bd8d251ce775b00dc4d71eef
+    - path: apps/admin-web/src/views/AdminUserDetailPage.vue
+      state: FILE
+      size: 14802
+      sha256: 6a01eb67bee3fdcfe6a0164be7098012bbdd883fe38d2e9f9f9898107a8f8698
+    - path: apps/admin-web/src/views/AdminUsersListPage.vue
+      state: FILE
+      size: 8578
+      sha256: b28b7a4429bd6c8fdca8ac75310e02e136b2d34c14c2a20e7eafd0e48a0468cc
+    - path: apps/admin-web/src/views/ProviderConfigPage.vue
+      state: FILE
+      size: 24869
+      sha256: 917a465c7ed8911bda6c2e6003f17162e9824ae6f7c385a0ff33705ccbe0bb65
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5079
+      sha256: ae58bff38c7465a5121913aa24c33884b8821a5eeae1c6032bb203524ae6d62f
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+      state: FILE
+      size: 8802
+      sha256: ffb10caf5a3a13f8854642d493b6525e2e18f48a2567bb2eeda60e5b3db45574
+    - path: apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+      state: FILE
+      size: 19067
+      sha256: 5543c4b4dfb5da0b2197736d5a0eefb1b9960a4a9c5ff5b7ecce6f39a8b5dcee
+    - path: apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+      state: FILE
+      size: 11659
+      sha256: b291a014318b193bad41efde0b3d6274f2cf49be71469e1396a26f81f0e0c7c1
+    - path: apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+      state: FILE
+      size: 2147
+      sha256: 063d1ca102a316d3ac598058326e97d41dc99b7f8c663b780e53f357f360fc3e
+    - path: apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+      state: FILE
+      size: 29214
+      sha256: 5d1e194f9a7544d0e07b7d3c382124763603a6b737c7bc427bdfb23ced57e329
+    - path: apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+      state: FILE
+      size: 17157
+      sha256: a87df2b9bbfddfea52b58d854ac0ad2c615edb1afe96b16dff1d8f6cb0ae0216
+    - path: apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
+      state: FILE
+      size: 778
+      sha256: ff28b725fff8e992d6278a3fbe897c68c8b90cc477b7d7e101a458d37cf1432a
+    - path: apps/android/feature/project/build.gradle.kts
+      state: FILE
+      size: 1156
+      sha256: edff6721118801b4946090c5bd8f2bd138efff77d58814823af6a519ddb23225
+    - path: apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+      state: FILE
+      size: 34154
+      sha256: d26351d640fb92f9d826339618dc4e5059126d8fcd7151c72eb85c2c2d824968
+    - path: apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+      state: FILE
+      size: 3381
+      sha256: c239fc5719028a82b7c22aa60941cc5cb5d4011fc8db13636f9299efcab685f3
+    - path: apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+      state: FILE
+      size: 1115
+      sha256: 09e7fd2a8b5de8ac7049fc4c5218a1be92b4b5234dcde45cc0ef72f744ea2007
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 12628
+      sha256: 156e4d5f6bbfa18e5888ad6f5af0c23d115161f4c2c12787be75abf547a6287b
+    - path: apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+      state: FILE
+      size: 10029
+      sha256: b8a7e88a4d326b78897617d81324be26b11cad0c8c66aa89da5076bc2037c671
+    - path: apps/android/settings.gradle.kts
+      state: FILE
+      size: 578
+      sha256: 863db7e381512d3731a9f96d79c9a0a5706a28252fe56e3035c4bebd00d6c910
+    - path: apps/h5/src/services/publicShare.test.ts
+      state: FILE
+      size: 4183
+      sha256: 23d0b2f082e83179480ad07e5d87171e954be90c7ecb2c8d569c70f3c6aaf11d
+    - path: apps/h5/src/services/publicShare.ts
+      state: FILE
+      size: 2857
+      sha256: ea91e45c4c66591430162226a56461b8e12d716e305b67215c05900eda2d644e
+    - path: apps/h5/src/styles.css
+      state: FILE
+      size: 14126
+      sha256: 219449fee06ca3af0f10c511f4e185f58afbb0410a92b00e71b7c991d0bf2b95
+    - path: apps/h5/src/views/PublicPage.vue
+      state: FILE
+      size: 5934
+      sha256: e066fbbe08b64a4dcf2a420229031de3697158e2054d4be94e9224c0708a861d
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 32534
+      sha256: 4a5a7f8f4dd092b13a87e51657c3ac03184af342bc9b793a5bc787076d3f87a6
+    - path: design/R06-UI-FROZEN/specs/SCR-ABOUT-001.md
+      state: FILE
+      size: 2736
+      sha256: e14bb7cf12cf1b061b97b85cc2a9c83525dbf7da14d72e7d9711ad85d159642c
+    - path: design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+      state: FILE
+      size: 2928
+      sha256: f53dcdfea6df63c725b269a59937738e24c89d4b597091424ce8c15a3474bd5e
+    - path: design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+      state: FILE
+      size: 1691
+      sha256: 98cc84fc3bd9f25b967fbe38ef6dafcfafabe20c6fd556ed5b7db19692f71134
+    - path: design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+      state: FILE
+      size: 1780
+      sha256: 058bd9411bf08048a01e38e285b39994674aee056ef6b7cf2ccea544c7916394
+    - path: design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+      state: FILE
+      size: 1732
+      sha256: 3faff1126edf294ed6c536d751667413869031db49d306997ac43ca828e28d19
+    - path: design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
+      state: FILE
+      size: 1887
+      sha256: c9f2963a814fe805a54baf9b94b7109419f60861db473c54157cafead426f8d0
+    - path: design/R08-UI-FROZEN/specs/SCR-LIST-001.md
+      state: FILE
+      size: 1624
+      sha256: 5b1890b8f3d05a00f72026fee368790600d5b26a5c2f10d5b835dd0e03a9e563
+    - path: design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+      state: FILE
+      size: 2350
+      sha256: 2d0833de83145fa287bf5f9edc4f6a41b09416bebfac7ee40b6bdc2343bb174d
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 5013
+      sha256: a2f52728083c1d4ae1b2e8fdec207546594e396fb797b4348d61e5d0d7a402ea
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 3238
+      sha256: 579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519
+    - path: docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
+      state: FILE
+      size: 5185
+      sha256: b586e55a30b64397129690ac74d76ac05cb66f264ca26174e5ea36b52420c485
+    - path: docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
+      state: FILE
+      size: 3732
+      sha256: 4f3bf40523a53e78efca2cfcd3dac0bbd3924d18baf3085c951957c2cbf2ebdf
+    - path: docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+      state: FILE
+      size: 3552
+      sha256: 786606e3f9a5960ef76418e0986eb10c638ee61f96f09836008ff4992f5e4ad6
+    - path: docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
+      state: FILE
+      size: 3254
+      sha256: 4a449a90b5b184ed70a5bb4306619879d5fc84f3050c614d9ee673a143ce75c4
+    - path: docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md
+      state: FILE
+      size: 4194
+      sha256: ee45f1f4d02964a5113c577fa7dffa786dc0fa438ae21986c2a9d78591ddab26
+    - path: docs/03-continuity/change-requests/CR-0222-回补R06首页关于页并完成后台视觉复核.md
+      state: FILE
+      size: 4106
+      sha256: 2627a900c8113faf8de27fb776618cd99c429c08795dad4ea02067793e802b79
+    - path: docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md
+      state: FILE
+      size: 3718
+      sha256: a9b4abf63a08b63f6a1417da7f8ff3c4dba96a61ab1125eee48a70b3f6505d1d
+    - path: docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md
+      state: FILE
+      size: 2321
+      sha256: d932a033b144c2a5df0dfeb661334fddc274e694ad4dd9a0671ed105bf14dbdb
+    - path: scripts/serve_ui_visual_fixture_proxy.py
+      state: FILE
+      size: 10953
+      sha256: c5111537840a498ddc6bc56a612e5f1a53957b9489e748fac720f79c4ca640ee
+change_classification:
+  other:
+  - CHANGELOG.md
+  - catalogs/ui_visual_acceptance.csv
+  - design/R06-UI-FROZEN/specs/SCR-ABOUT-001.md
+  - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+  - design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
+  - design/R08-UI-FROZEN/specs/SCR-LIST-001.md
+  - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+  code:
+  - apps/admin-web/src/r08ProjectReuse.test.ts
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
+  - apps/android/feature/project/build.gradle.kts
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/android/settings.gradle.kts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/services/publicShare.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/PublicPage.vue
+  - scripts/serve_ui_visual_fixture_proxy.py
+  user_visible:
+  - apps/admin-web/src/r08ProjectReuse.test.ts
+  - apps/admin-web/src/views/AdminUserDetailPage.vue
+  - apps/admin-web/src/views/AdminUsersListPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/AboutScreen.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/media/src/main/java/cc/orbexa/hhy/media/MediaUploadSheet.kt
+  - apps/android/feature/media/src/test/java/cc/orbexa/hhy/media/MediaUploadSheetTest.kt
+  - apps/android/feature/project/build.gradle.kts
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - apps/android/settings.gradle.kts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/services/publicShare.ts
+  - apps/h5/src/styles.css
+  - apps/h5/src/views/PublicPage.vue
+  continuity:
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
+  - docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
+  - docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
+  - docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+  - docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
+  - docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md
+  - docs/03-continuity/change-requests/CR-0222-回补R06首页关于页并完成后台视觉复核.md
+  - docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md
+  - docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- CHANGELOG
+change_requests:
+- CR-0217
+- CR-0218
+- CR-0219
+- CR-0220
+- CR-0221
+- CR-0222
+- CR-0223
+- CR-0224
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/android/settings.gradle.kts
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
+  - apps/android/feature/project/build.gradle.kts
+  - apps/android/feature/project/src/main/AndroidManifest.xml
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
+  - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
+  - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
+  - apps/h5/src/views/PublicPage.vue
+  - apps/h5/src/router.ts
+  - apps/admin-web/src/views/AdminContentListPage.vue
+  - apps/admin-web/src/views/AdminContentDetailPage.vue
+  - catalogs/ui_visual_acceptance.csv
+  - catalogs/ui_visual_quality_reviews.csv
+  - catalogs/ui_visual_remediation.csv
+  - artifacts/reports/R08/TASK-R08-004-client.md
+  - CHANGELOG.md
+  - apps/h5/src/services/publicShare.ts
+  - apps/h5/src/services/publicShare.test.ts
+  - apps/h5/src/styles.css
+  - apps/admin-web/src/r08ProjectReuse.test.ts
+  - design/R08-UI-FROZEN/specs/SCR-LIST-001.md
+  - design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
+  - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+  source: story+explicit+approved-cr:CR-0217+approved-cr:CR-0218+approved-cr:CR-0219
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统指令禁止未由用户明确要求的子代理；主控串行保持唯一工作树
+event_hash: 984d906c74614a8619eb893ee929767e5fb55b02fada79b32f9f15fb7b601dfa

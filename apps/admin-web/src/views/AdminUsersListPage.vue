@@ -33,8 +33,34 @@ const statusLabels: Record<string, string> = {
   CANCELLED: '已注销',
 }
 
+const identityStatusLabels: Record<string, string> = {
+  NOT_STARTED: '未实名',
+  SESSION_CREATED: '待活体检测',
+  LIVENESS_PENDING: '活体检测中',
+  PROVIDER_PROCESSING: '核验中',
+  MANUAL_REVIEW: '待人工复核',
+  VERIFIED: '已实名',
+  REJECTED: '未通过',
+  EXPIRED: '已过期',
+}
+
+const membershipStatusLabels: Record<string, string> = {
+  ACTIVE: '有效会员',
+  PENDING: '待生效',
+  EXPIRED: '已过期',
+  CANCELLED: '已取消',
+}
+
 function statusLabel(value?: string) {
   return value ? (statusLabels[value] ?? '其他状态') : '暂无'
+}
+
+function identityStatusLabel(value?: string) {
+  return value ? (identityStatusLabels[value] ?? '状态待确认') : '未实名'
+}
+
+function membershipStatusLabel(value?: string) {
+  return value ? (membershipStatusLabels[value] ?? '状态待确认') : '非会员'
 }
 
 function formatDate(value?: string) {
@@ -135,7 +161,7 @@ onBeforeUnmount(() => {
     <section v-else-if="isEmpty" class="card empty-state"><div class="avatar centered-mark">0</div><h2>当前筛选没有用户</h2><p>请调整关键词或状态条件后重新查询。</p><button class="ghost-button" @click="filters.keyword=''; filters.status=''; submitFilters()">清除筛选</button></section>
     <section v-else-if="result && !forbidden" class="card user-table-card" :aria-busy="refreshing">
       <div class="section-heading"><div><h2>查询结果</h2><p>共 {{ total }} 条，当前第 {{ page }} 页</p></div><span class="tag tag-success">已脱敏</span></div>
-      <div class="user-table-wrap"><table class="user-table"><thead><tr><th>用户</th><th>账号状态</th><th>实名</th><th>会员</th><th>创建时间</th><th>版本</th><th><span class="sr-only">操作</span></th></tr></thead><tbody><tr v-for="user in result.items" :key="user.id"><td><div class="user-cell"><span class="avatar">{{ (user.nickname || user.id).slice(0,1) }}</span><span><strong>{{ user.nickname || `用户 ${user.id}` }}</strong><small>{{ user.phoneMasked || '未绑定手机号' }} · 编号 {{ user.id }}</small><em v-if="user.bio">{{ user.bio }}</em></span></div></td><td><span class="status-chip" :data-status="user.status">{{ statusLabel(user.status) }}</span></td><td>{{ statusLabel(user.identityStatus) }}</td><td>{{ statusLabel(user.membershipStatus) }}</td><td>{{ formatDate(user.createdAt) }}</td><td>v{{ user.version }}</td><td><RouterLink class="secondary-button table-link" :to="`/users/${user.id}`">查看详情</RouterLink></td></tr></tbody></table></div>
+      <div class="user-table-wrap"><table class="user-table"><thead><tr><th>用户</th><th>账号状态</th><th>实名</th><th>会员</th><th>创建时间</th><th>版本</th><th><span class="sr-only">操作</span></th></tr></thead><tbody><tr v-for="user in result.items" :key="user.id"><td><div class="user-cell"><span class="avatar">{{ (user.nickname || user.id).slice(0,1) }}</span><span><strong>{{ user.nickname || `用户 ${user.id}` }}</strong><small>{{ user.phoneMasked || '未绑定手机号' }} · 编号 {{ user.id }}</small><em v-if="user.bio">{{ user.bio }}</em></span></div></td><td><span class="status-chip" :data-status="user.status">{{ statusLabel(user.status) }}</span></td><td>{{ identityStatusLabel(user.identityStatus) }}</td><td>{{ membershipStatusLabel(user.membershipStatus) }}</td><td>{{ formatDate(user.createdAt) }}</td><td>v{{ user.version }}</td><td><RouterLink class="secondary-button table-link" :to="`/users/${user.id}`">查看详情</RouterLink></td></tr></tbody></table></div>
       <footer class="pagination"><button class="ghost-button" :disabled="page <= 1 || refreshing" @click="changePage(page-1)">上一页</button><span>第 {{ page }} 页</span><button class="ghost-button" :disabled="!hasMore || refreshing" @click="changePage(page+1)">下一页</button></footer>
     </section>
   </article>

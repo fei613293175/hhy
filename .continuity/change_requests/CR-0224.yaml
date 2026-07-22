@@ -1,0 +1,50 @@
+protocol_version: '1.0'
+cr_id: CR-0224
+title: 增加仅本机视觉验收fixture反向代理
+status: IMPLEMENTING
+created_at: '2026-07-22T04:48:10Z'
+updated_at: '2026-07-22T04:48:18Z'
+requester_actor_id: codex-root-r08-004
+approver_actor_id: codex-reviewer-r08-fixture-proxy
+task_id: TASK-R08-004
+session_id: SES-20260722T031604Z-105CF4C6
+user_request: 由AI自主采集并判断浏览器页面截图，不打断开发
+reason: 现有后台会话仅存内存且无浏览器网络拦截能力，需要不进入产品构建的本机fixture代理复现冻结合同数据
+original_rule: 浏览器视觉证据必须来自真实页面渲染且不得调用生产写接口；当前没有可复用的本机受控数据入口。
+new_rule: 不新增产品规则；增加仅监听127.0.0.1的测试反向代理，将页面静态资源转发到Vite并只对冻结合同接口返回显式开发环境fixture；脚本不进入任何生产构建、部署或运行路径。
+impact_summary: 新增单一测试脚本，为R02至R05 H5与后台视觉截图提供可复现受控响应和真实页面渲染。
+impact:
+  files:
+  - scripts/serve_ui_visual_fixture_proxy.py
+  - artifacts/validation/r08-historical-ui
+  pages:
+  - R02至R05 H5与后台历史页面
+  apis:
+  - 只模拟既有冻结读取接口与管理员登录；不新增接口
+  database:
+  - 无直接影响
+  configuration:
+  - 无直接影响
+  ledger:
+  - 无直接影响
+  tests:
+  - python scripts/serve_ui_visual_fixture_proxy.py --help
+  - 浏览器真实渲染与截图人工/AI视觉复核
+  releases:
+  - R08
+  migration_and_compatibility: 独立测试工具，默认不启动；不改产品代码、Vite配置、API合同、数据库或部署。
+user_confirmation: 项目所有者已要求AI自主完成截图判断且不要因核实中断开发
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T04:48:16Z'
+  note: 批准新增仅本机测试代理；必须绑定127.0.0.1，不得代理或写入生产，不得改变产品构建。
+machine_record: .continuity/change_requests/CR-0224.yaml
+document: docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md
+decision_log:
+- at: '2026-07-22T04:48:18Z'
+  actor_id: codex-root-r08-004
+  status: IMPLEMENTING
+  note: 开始实现本机fixture反向代理并用于真实浏览器渲染证据。
+  session_id: SES-20260722T031604Z-105CF4C6
+session_ids:
+- SES-20260722T031604Z-105CF4C6

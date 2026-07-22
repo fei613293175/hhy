@@ -35,8 +35,12 @@ const canRestrict = computed(() => adminSession.hasPermission('user.restrict'))
 const canFreeze = computed(() => adminSession.hasPermission('user.freeze'))
 const canSecure = computed(() => adminSession.hasPermission('user.security'))
 const writable = computed(() => online.value && !submitting.value && !stale.value && !writeForbidden.value)
-const statusLabels: Record<string, string> = { ACTIVE:'正常', RESTRICTED:'受限', FROZEN:'已冻结', CANCEL_PENDING:'注销处理中', CANCELLED:'已注销', VERIFIED:'已实名' }
+const statusLabels: Record<string, string> = { ACTIVE:'正常', RESTRICTED:'受限', FROZEN:'已冻结', CANCEL_PENDING:'注销处理中', CANCELLED:'已注销' }
+const identityStatusLabels: Record<string, string> = { NOT_STARTED:'未实名', SESSION_CREATED:'待活体检测', LIVENESS_PENDING:'活体检测中', PROVIDER_PROCESSING:'核验中', MANUAL_REVIEW:'待人工复核', VERIFIED:'已实名', REJECTED:'未通过', EXPIRED:'已过期' }
+const membershipStatusLabels: Record<string, string> = { ACTIVE:'有效会员', PENDING:'待生效', EXPIRED:'已过期', CANCELLED:'已取消' }
 function label(value?: string) { return value ? (statusLabels[value] ?? '其他状态') : '暂无' }
+function identityLabel(value?: string) { return value ? (identityStatusLabels[value] ?? '状态待确认') : '未实名' }
+function membershipLabel(value?: string) { return value ? (membershipStatusLabels[value] ?? '状态待确认') : '非会员' }
 function formatDate(value?: string) { return value ? new Intl.DateTimeFormat('zh-CN',{dateStyle:'long',timeStyle:'short'}).format(new Date(value)) : '暂无' }
 
 async function load() {
@@ -116,10 +120,10 @@ onBeforeUnmount(()=>{activeRequest?.abort();window.removeEventListener('online',
       <section class="card"><div class="section-heading"><div><h2>账号管控</h2><p>操作使用当前数据版本 v{{user.version}}，写入后生成审计记录；冻结必须由另一名管理员复核。</p></div><span v-if="writeForbidden" class="tag tag-warning">写权限已收回</span></div><div class="button-row"><button v-if="canRestrict&&['ACTIVE','RESTRICTED','FROZEN'].includes(user.status)" class="secondary-button" :disabled="!writable" @click="openAction('restrict')">新增或修改限制</button><button v-if="canRestrict&&user.status==='RESTRICTED'" class="ghost-button" :disabled="!writable" @click="openAction('removeRestriction')">解除限制</button><button v-if="canFreeze&&['ACTIVE','RESTRICTED'].includes(user.status)" class="danger-button" :disabled="!writable" @click="openAction('freeze')">申请冻结</button><button v-if="canFreeze&&user.status==='FROZEN'" class="secondary-button" :disabled="!writable" @click="openAction('unfreeze')">解冻账号</button><button v-if="canSecure&&['ACTIVE','RESTRICTED','FROZEN'].includes(user.status)" class="ghost-button" :disabled="!writable" @click="openAction('forceLogout')">强制下线</button><span v-if="!canRestrict&&!canFreeze&&!canSecure" class="field-help">当前会话仅有读取权限。</span></div></section>
       <nav class="detail-tabs" aria-label="用户详情分区"><button v-for="tab in tabs" :key="tab" :class="{active:activeTab===tab}" @click="activeTab=tab">{{tab}}</button></nav>
       <section class="card detail-panel">
-        <div v-if="activeTab==='概览'" class="facts-grid"><dl class="facts"><dt>用户编号</dt><dd>{{user.id}}</dd><dt>账号状态</dt><dd>{{label(user.status)}}</dd><dt>实名状态</dt><dd>{{label(user.identityStatus)}}</dd><dt>会员状态</dt><dd>{{label(user.membershipStatus)}}</dd></dl><dl class="facts"><dt>手机号</dt><dd>{{user.phoneMasked||'暂无'}}</dd><dt>创建时间</dt><dd>{{formatDate(user.createdAt)}}</dd><dt>数据版本</dt><dd>v{{user.version}}</dd></dl></div>
+        <div v-if="activeTab==='概览'" class="facts-grid"><dl class="facts"><dt>用户编号</dt><dd>{{user.id}}</dd><dt>账号状态</dt><dd>{{label(user.status)}}</dd><dt>实名状态</dt><dd>{{identityLabel(user.identityStatus)}}</dd><dt>会员状态</dt><dd>{{membershipLabel(user.membershipStatus)}}</dd></dl><dl class="facts"><dt>手机号</dt><dd>{{user.phoneMasked||'暂无'}}</dd><dt>创建时间</dt><dd>{{formatDate(user.createdAt)}}</dd><dt>数据版本</dt><dd>v{{user.version}}</dd></dl></div>
         <dl v-else-if="activeTab==='资料'" class="facts"><dt>昵称</dt><dd>{{user.nickname||'暂无'}}</dd><dt>头像</dt><dd>{{user.avatarUrl?'已设置':'暂无'}}</dd><dt>个人简介</dt><dd>{{user.bio||'暂无'}}</dd></dl>
-        <dl v-else-if="activeTab==='实名'" class="facts"><dt>实名状态</dt><dd>{{label(user.identityStatus)}}</dd><dt>信息范围</dt><dd>当前页面不展示身份证件原文</dd></dl>
-        <dl v-else-if="activeTab==='奖励'" class="facts"><dt>会员状态</dt><dd>{{label(user.membershipStatus)}}</dd><dt>敏感金额</dt><dd>当前读取契约未返回金额字段</dd></dl>
+        <dl v-else-if="activeTab==='实名'" class="facts"><dt>实名状态</dt><dd>{{identityLabel(user.identityStatus)}}</dd><dt>信息范围</dt><dd>当前页面不展示身份证件原文</dd></dl>
+        <dl v-else-if="activeTab==='奖励'" class="facts"><dt>会员状态</dt><dd>{{membershipLabel(user.membershipStatus)}}</dd><dt>敏感金额</dt><dd>当前读取契约未返回金额字段</dd></dl>
         <div v-else class="empty-state compact-empty"><div class="avatar centered-mark">0</div><h2>暂无已产生的数据</h2><p>当前用户在“{{activeTab}}”分区没有可展示的记录。</p></div>
       </section>
     </template>

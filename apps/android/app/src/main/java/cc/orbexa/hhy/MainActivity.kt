@@ -11,7 +11,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,7 +37,12 @@ import cc.orbexa.hhy.auth.AccountCancellationScreen
 import cc.orbexa.hhy.AboutScreen
 import cc.orbexa.hhy.auth.LoginDevicesScreen
 import cc.orbexa.hhy.designsystem.HhyColors
+import cc.orbexa.hhy.designsystem.HhyElevation
+import cc.orbexa.hhy.designsystem.HhyIcon
+import cc.orbexa.hhy.designsystem.HhyIcons
 import cc.orbexa.hhy.designsystem.HhyMotion
+import cc.orbexa.hhy.designsystem.HhyRadius
+import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.designsystem.HhyTheme
 import cc.orbexa.hhy.identity.IdentityFlowScreen
 import cc.orbexa.hhy.discovery.R07PublisherScreen
@@ -328,12 +341,46 @@ private fun AuthenticatedNavHost(
 private fun RestoringSessionScreen() {
     Surface(color = HhyColors.PageBackground) {
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(HhySpacing.Xl),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            CircularProgressIndicator()
-            Text("正在恢复安全会话")
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(HhyRadius.LargeCard),
+                colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+                elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(HhySpacing.Xl),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+                ) {
+                    Surface(shape = CircleShape, color = HhyColors.SoftBlue) {
+                        HhyIcon(
+                            HhyIcons.Shield,
+                            contentDescription = null,
+                            modifier = Modifier.padding(HhySpacing.Lg),
+                            tint = HhyColors.BrandPrimary,
+                        )
+                    }
+                    Text("合伙云 Pro", style = androidx.compose.material3.MaterialTheme.typography.headlineSmall)
+                    Text("正在恢复安全会话", color = HhyColors.TextSecondary)
+                    Spacer(Modifier.height(HhySpacing.Xs))
+                    CircularProgressIndicator()
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
+                        color = HhyColors.PageBackground,
+                        shape = RoundedCornerShape(HhyRadius.Tag),
+                    ) {
+                        Text(
+                            "正在确认当前设备的登录状态，完成后将自动进入应用",
+                            modifier = Modifier.padding(HhySpacing.Md),
+                            color = HhyColors.TextSecondary,
+                        )
+                    }
+                }
+            }
         }
     }
 }
