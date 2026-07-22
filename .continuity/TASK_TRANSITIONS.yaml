@@ -740,3 +740,13 @@ transitions:
   session_id: SES-20260722T031604Z-105CF4C6
   actor_id: codex-root-r08-004
   reason: 会话领取任务
+- transition_id: TRN-DAC8904BBFD5
+  timestamp: '2026-07-22T05:36:40Z'
+  release: R08
+  task_id: TASK-R08-005
+  story_id: STORY-R08-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260722T053639Z-033C23B5
+  actor_id: codex-root-r08-005
+  reason: 会话领取任务

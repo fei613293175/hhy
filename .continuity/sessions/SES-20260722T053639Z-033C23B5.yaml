@@ -1,0 +1,80 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T053639Z-033C23B5
+status: ACTIVE
+actor:
+  id: codex-root-r08-005
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R08
+task_id: TASK-R08-005
+story_id: STORY-R08-004
+goal: 项目推广完整闭环专项测试与故障注入
+started_at: '2026-07-22T05:36:39Z'
+updated_at: '2026-07-22T05:44:24Z'
+takeover_of: null
+change_requests:
+- CR-0225
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 5549e6e94b5e4a08efcfc95bd3d0ce57be1a0436
+  start_head: 5549e6e94b5e4a08efcfc95bd3d0ce57be1a0436
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T05:44:20Z'
+  expires_at: '2026-07-22T09:44:20Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260722T053639Z-033C23B5/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T053639Z-033C23B5.md
+next_step: 提交推送专项测试实现；在obx-test精确提交执行Java21定向/全模块、PostgreSQL17零跳过和固定Android JDK21项目MODULE，生成哈希证据并运行三项矩阵
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 9e0d5f5f2e6dedfac41814aaf23813246080ed9075801c4b2726cbb4262047e6
+  generated_at: '2026-07-22T05:44:22Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: CAPABILITY_UNAVAILABLE
+  delegated_workers: 0
+  workers: []
+  reason: 当前系统禁止未由用户明确要求的子代理；专项测试修改共享目录并由主控串行冻结唯一证据

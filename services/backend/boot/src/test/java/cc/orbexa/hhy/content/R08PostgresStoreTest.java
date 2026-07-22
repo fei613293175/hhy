@@ -13,8 +13,13 @@ import static org.mockito.Mockito.when;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
@@ -123,6 +128,51 @@ class R08PostgresStoreTest {
             assertFalse(payload.contains("encrypted-only"));
             status.setRollbackOnly();
         });
+    }
+
+    @Test
+    void concurrentIdenticalClaimsHaveExactlyOneOwnerInRealPostgres() throws Exception {
+        String url = System.getenv("HHY_DB_MIGRATION_TEST_URL");
+        Assumptions.assumeTrue(url != null && !url.isBlank()
+                        && "YES".equals(System.getenv("HHY_DB_SMOKE_CONFIRM")),
+                "requires an explicitly confirmed disposable PostgreSQL database");
+        var dataSource = new DriverManagerDataSource(url,
+                System.getenv().getOrDefault("HHY_DB_MIGRATION_TEST_USER", ""),
+                System.getenv().getOrDefault("HHY_DB_MIGRATION_TEST_PASSWORD", ""));
+        Flyway.configure().dataSource(dataSource).locations("classpath:db/migration").load().migrate();
+        var jdbc = new JdbcTemplate(dataSource);
+        var store = new R08PostgresStore(jdbc);
+        String suffix = UUID.randomUUID().toString().replace("-", "");
+        String scope = "r08-concurrent-test:" + suffix;
+        String key = "r08-concurrent-key-" + suffix;
+        String requestHash = "c".repeat(64);
+        int workers = 8;
+        var start = new CountDownLatch(1);
+        var executor = Executors.newFixedThreadPool(workers);
+        List<Future<R08Store.IdempotencyClaim>> futures = new ArrayList<>();
+        try {
+            for (int index = 0; index < workers; index++) {
+                futures.add(executor.submit(() -> {
+                    assertTrue(start.await(10, TimeUnit.SECONDS));
+                    return store.claim(scope, key, requestHash, Instant.now().plusSeconds(3600));
+                }));
+            }
+            start.countDown();
+            List<R08Store.IdempotencyClaim> claims = new ArrayList<>();
+            for (Future<R08Store.IdempotencyClaim> future : futures) {
+                claims.add(future.get(20, TimeUnit.SECONDS));
+            }
+            assertEquals(1, claims.stream().filter(claim -> !claim.replay()).count());
+            assertEquals(workers - 1L, claims.stream().filter(R08Store.IdempotencyClaim::replay).count());
+            assertEquals(1, claims.stream().map(R08Store.IdempotencyClaim::id).distinct().count());
+            assertEquals(1, jdbc.queryForObject(
+                    "SELECT count(*) FROM hhy.idempotency_records WHERE scope=? AND idem_key=?",
+                    Integer.class, scope, key));
+        } finally {
+            jdbc.update("DELETE FROM hhy.idempotency_records WHERE scope=? AND idem_key=?", scope, key);
+            executor.shutdownNow();
+            assertTrue(executor.awaitTermination(10, TimeUnit.SECONDS));
+        }
     }
 
     private static long user(JdbcTemplate jdbc, String phone, String invite) {

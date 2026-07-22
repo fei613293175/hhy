@@ -8,6 +8,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -24,6 +25,8 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -112,6 +115,86 @@ class R08ServiceTest {
         assertEquals("COMMON-403-FORBIDDEN", error.code());
         verify(store, never()).claim(anyString(), anyString(), anyString(), any());
         verify(store, never()).createDirectConversation(anyLong(), anyLong(), any());
+    }
+
+    @Test
+    void completedCreateReplayReturnsFrozenSnapshotWithoutDuplicateOutbox() {
+        when(store.identityVerified(11)).thenReturn(true);
+        when(store.integerConfig("content.limit.normal.drafts")).thenReturn(10);
+        when(store.countOwnedInStatus(11, "DRAFT")).thenReturn(0L);
+        when(store.ownsReadyMedia(11, List.of())).thenReturn(true);
+        when(store.createProject(anyLong(), anyString(), any(), anyString(), anyString(), any(),
+                any(), any(), anyString(), any(), eq(NOW))).thenReturn(42L);
+        ContentResource resource = resource("42", "DRAFT", 0);
+        when(content.detail("42")).thenReturn(resource);
+        var calls = new AtomicInteger();
+        var responseType = new AtomicReference<String>();
+        var responsePayload = new AtomicReference<String>();
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation -> {
+            String requestHash = invocation.getArgument(2);
+            if (calls.getAndIncrement() == 0) {
+                return new R08Store.IdempotencyClaim(9, requestHash, null, null, null, false);
+            }
+            return new R08Store.IdempotencyClaim(
+                    9, requestHash, "r08.content-resource.v1:ok",
+                    responseType.get(), responsePayload.get(), true);
+        });
+        org.mockito.Mockito.doAnswer(invocation -> {
+            responseType.set(invocation.getArgument(2));
+            responsePayload.set(invocation.getArgument(3));
+            return null;
+        }).when(store).complete(eq(9L), anyString(), anyString(), anyString());
+        var request = new CreateProjectRequest(
+                "PROJECT", "合作项目", "摘要", "详细说明", "COOP", "CN-11",
+                List.of(), List.of(new ContactInput("EMAIL", "owner@example.com")), Map.of());
+
+        assertEquals(resource, service.create(11, request, KEY));
+        assertEquals(resource, service.create(11, request, KEY));
+
+        verify(store, times(1)).createProject(anyLong(), anyString(), any(), anyString(), anyString(), any(),
+                any(), any(), anyString(), any(), eq(NOW));
+        verify(store, times(1)).outbox(11, "CONTENT", "content.project.created.v1", "42", "DRAFT", NOW);
+        verify(content, times(1)).detail("42");
+        verify(store, times(1)).complete(eq(9L), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void mediaStorageTimeoutStopsCreateBeforeLimitsWritesOutboxAndCompletion() {
+        when(store.identityVerified(11)).thenReturn(true);
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new R08Store.IdempotencyClaim(10, invocation.getArgument(2), null, null, null, false));
+        when(store.ownsReadyMedia(11, List.of(99L)))
+                .thenThrow(new IllegalStateException("media storage timeout"));
+        var request = new CreateProjectRequest(
+                "PROJECT", "合作项目", null, "详细说明", "COOP", null,
+                List.of("99"), List.of(), Map.of());
+
+        IllegalStateException error = assertThrows(
+                IllegalStateException.class, () -> service.create(11, request, KEY));
+
+        assertEquals("media storage timeout", error.getMessage());
+        verify(store, never()).integerConfig(anyString());
+        verify(store, never()).createProject(anyLong(), anyString(), any(), anyString(), anyString(), any(),
+                any(), any(), anyString(), any(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(store, never()).complete(anyLong(), anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void shareConfigurationProviderTimeoutLeavesNoShareOutboxOrCompletion() {
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
+                new R08Store.IdempotencyClaim(11, invocation.getArgument(2), null, null, null, false));
+        when(store.project(42)).thenReturn(Optional.of(project(42, 7, "ONLINE", 3)));
+        when(store.textConfig("domain.h5.host"))
+                .thenThrow(new IllegalStateException("configuration provider timeout"));
+
+        IllegalStateException error = assertThrows(IllegalStateException.class,
+                () -> service.share(11, "42", new ShareRequest("copy_link"), KEY));
+
+        assertEquals("configuration provider timeout", error.getMessage());
+        verify(store, never()).share(anyLong(), anyLong(), anyString(), any());
+        verify(store, never()).outbox(anyLong(), anyString(), anyString(), anyString(), anyString(), any());
+        verify(store, never()).complete(anyLong(), anyString(), anyString(), anyString());
     }
 
     private static R08Store.ProjectRow project(long id, long owner, String status, long version) {
