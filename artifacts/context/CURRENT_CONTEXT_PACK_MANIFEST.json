@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T20:18:37Z",
-  "context_hash": "0241096f4b4df40fa50d26e50090904f8adfef95e02e536002b3e1784721476f",
+  "generated_at": "2026-07-22T20:26:49Z",
+  "context_hash": "ffc99393e254e727120731cbfe78eeeee306e64b59642922ae817cf11b1ebeca",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "6a378d15ab5fd938f21d8682efe3a86df0150dc826e55fa67db78950f7170214",
-    "file_count": 15
+    "sha256": "4d659ce5bd6e92d8ebedf2bf891f6a882a27948a47674e6aca7f77c1ec90353b",
+    "file_count": 19
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "1eccc102fc7a65419e3ca16402ce318fd114a6151c5db156129c334a3293e2b6"
+    "sha256": "751058263068b560f90d35c277a5ee7e2ca3718e1a0a8452b4b986e6a26c5240"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "0f6571663026a68c1273bfc0b2ac18e3825047045beb3b35d77932c0b4fb4f8f"
+    "sha256": "f3d309ec2ec62a0ddc498c5713bd48b6162a3c9776e886e295aa521fff827b71"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "0fbfbf7dcc07cfe91021ca49362e90c0980a869b76eeeb23a56addf68359bccb",
+      "sha256": "cdbb46397024f686ed7cd402e85d97ba6b0a193968d3658f19af438f98e37373",
       "bytes": 4100
     },
     {
@@ -48,8 +48,8 @@
     },
     {
       "path": "docs/03-continuity/PROBLEM_REGISTRY.yaml",
-      "sha256": "62c58e68a31800e8c24498d33552a970caa2d690146cfe86b31e2a89a897a6ea",
-      "bytes": 123743
+      "sha256": "7132f79a7ee056860aac7880fb568b5866a72db0309f68312c5912a82db2cec7",
+      "bytes": 125419
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "e6fb6efe13d9ab70a169be7fd467603425a0ff7972201e9b53960c36fd7de0f5",
-      "bytes": 1393671
+      "sha256": "254b9a910e769c5a78927b567d254c995d88af2018c7c4a55c8a6ccde1fd1391",
+      "bytes": 1399597
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "b9d91ee8eb53d2651c1ff5bfc83625e46c0402275995a772512f17e8d272a5cf",
+      "sha256": "f93bef034040a3797dfeb6f0e63556dcc67f321fb3cba63acbef162b7c02fc89",
       "bytes": 41503
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "a6b444f24ed64612d7bdf288be81f7d5d752428e1e5377424feba618982c63af",
-      "bytes": 842831
+      "sha256": "ee77c37cf2b9e28f1f1f822040716706f46a60523f9c32506e123de99782ee85",
+      "bytes": 847858
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "1aed19a8f53bf0acca1f40b91a4096fd0b8cfdfa636044163e9305cdb8562868",
+      "sha256": "82d73223d15b2599b66d8aadad8cf8d5d572c4199efc44ea3f689ab69428060a",
       "bytes": 543
     },
     {
@@ -158,13 +158,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md",
-      "sha256": "8c045fe5ea75d3904b98b589971ce57af21a78e70f7f5183124ca2d667ff4f77",
-      "bytes": 5274
+      "sha256": "5a8e2b22a46da4952095e1442437186ff55fc1fedc368a0c92f06bff1b824907",
+      "bytes": 9151
     },
     {
-      "path": ".continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0003.yaml",
-      "sha256": "e6f791e9bb4156d5530ed7f918c3383bdaad5df647458341e0d0924ad0862b40",
-      "bytes": 12583
+      "path": ".continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0005.yaml",
+      "sha256": "4b7549c385d8b782b84c962d5f76e52f7cfccbcc0966ea81ec0441759b64972c",
+      "bytes": 13272
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0253-R09-App推广可观测性与隔离Staging验收.md",
@@ -175,6 +175,16 @@
       "path": "docs/03-continuity/change-requests/CR-0254-R09-App推广可观测性与隔离Staging验收精确范围.md",
       "sha256": "1344e35eed954061862febd6615b957c3f26083ca58208071868547b299bea7a",
       "bytes": 4952
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0255-R09隔离Staging单一入口自启动修复.md",
+      "sha256": "e8ea7e72fd99e1a3522f60188f0a99107525c8153505db3e04d406437ab503cc",
+      "bytes": 2810
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0256-R09-Staging自启动回归测试补充.md",
+      "sha256": "c49ef6e744b174294cdd7b1dba99b01b024665b0bf10423ef4a7a658300b333b",
+      "bytes": 2235
     }
   ]
 }

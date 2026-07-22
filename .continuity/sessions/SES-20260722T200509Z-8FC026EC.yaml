@@ -11,11 +11,13 @@ task_id: TASK-R09-006
 story_id: STORY-R09-004
 goal: 完成R09 App推广结构化日志、TraceId、RED与业务指标、告警和回滚运行手册演练及预发布验收矩阵。
 started_at: '2026-07-22T20:05:09Z'
-updated_at: '2026-07-22T20:18:39Z'
+updated_at: '2026-07-22T20:26:50Z'
 takeover_of: null
 change_requests:
 - CR-0253
 - CR-0254
+- CR-0255
+- CR-0256
 scope:
   allowed_paths:
   - apps/**
@@ -95,7 +97,9 @@ scope:
   - artifacts/validation/r09-task006-staging/SHA256SUMS
   - artifacts/validation/r09-task006-staging/source-sha256.txt
   - artifacts/validation/r09-task006-staging/trace-headers.txt
-  source: story+explicit+approved-cr:CR-0254
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - tests/test_r09_staging_acceptance.py
+  source: story+explicit+approved-cr:CR-0254+approved-cr:CR-0255+approved-cr:CR-0256
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -105,22 +109,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T20:18:35Z'
-  expires_at: '2026-07-23T00:18:35Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0003.yaml
+  renewed_at: '2026-07-22T20:26:46Z'
+  expires_at: '2026-07-23T00:26:46Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md
-next_step: 冻结并推送精确Commit，在obx-test执行R09隔离Staging验收
+next_step: 提交推送新冻结Commit并在obx-test全新项目运行完整验收
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 0241096f4b4df40fa50d26e50090904f8adfef95e02e536002b3e1784721476f
-  generated_at: '2026-07-22T20:18:37Z'
+  context_hash: ffc99393e254e727120731cbfe78eeeee306e64b59642922ae817cf11b1ebeca
+  generated_at: '2026-07-22T20:26:49Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 冻结提交、共享隔离Staging及同库同卷回滚证据必须由单一执行链串行绑定
+  reason: 冻结提交和共享隔离Staging证据必须由同一串行执行链绑定

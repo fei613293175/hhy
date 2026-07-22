@@ -40,6 +40,19 @@ refresh_containers() {
   test -n "$API" && test -n "$POSTGRES" && test -n "$PROMETHEUS" && test -n "$ALERT_SINK"
 }
 
+start_isolated_stack() {
+  local existing
+  existing=$(${COMPOSE[@]} ps -aq)
+  if test -n "$existing"; then
+    echo R09_STAGING_PROJECT_NOT_EMPTY >&2
+    return 1
+  fi
+  echo R09_STAGING_BUILD_AND_START
+  ${COMPOSE[@]} up -d --build
+  refresh_containers
+  echo R09_STAGING_CONTAINERS_STARTED
+}
+
 wait_url() {
   local url=$1 timeout=${2:-120} elapsed=0
   until curl -fsS "$url" >/dev/null; do
@@ -298,6 +311,7 @@ finalize_evidence() {
 
 cd "$ROOT"
 test "$(git rev-parse HEAD)" = "$FROZEN_COMMIT"
+start_isolated_stack
 capture_baseline
 exercise_backend_alert
 exercise_r09_outbox_alert

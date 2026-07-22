@@ -1,0 +1,43 @@
+protocol_version: '1.0'
+cr_id: CR-0256
+title: R09 Staging自启动回归测试补充
+status: IMPLEMENTING
+created_at: '2026-07-22T20:25:42Z'
+updated_at: '2026-07-22T20:26:42Z'
+requester_actor_id: codex-root-r09-observability
+approver_actor_id: codex-r09-observability-review
+task_id: TASK-R09-006
+session_id: SES-20260722T200509Z-8FC026EC
+user_request: 持续推进R09并避免版本关闭重复踩坑。
+reason: CR-0255已批准精确脚本与问题登记范围，但Bug提交门禁还要求tests目录中的可执行回归，静态检查脚本不被测试分类器视为回归测试。
+original_rule: CR-0255的静态门禁可检查令牌但不验证自启动调用顺序和非空项目保护先于Compose变更，Bug提交分类器也不将scripts/check_r09_observability.py识别为测试资产。
+new_rule: 只增加一个tests目录回归，读取既有R09入口并断言空项目保护、明确诊断、自启动命令和入口调用顺序；不新增运行入口或业务规则。
+impact_summary: 补齐CR-0255确定性回归并满足既有Bug门禁，不改变产品、API、数据库、配置或验收流程。
+impact:
+  files:
+  - tests/test_r09_staging_acceptance.py
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - python -m unittest tests.test_r09_staging_acceptance
+  releases:
+  - R09
+  migration_and_compatibility: 纯测试；与现有R09脚本合同兼容。
+user_confirmation: 用户已授权持续修复并要求把踩坑转为可复用防回归。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T20:25:48Z'
+  note: 只增加现有单一入口的源码顺序回归，无平行规则或产品影响。
+machine_record: .continuity/change_requests/CR-0256.yaml
+document: docs/03-continuity/change-requests/CR-0256-R09-Staging自启动回归测试补充.md
+decision_log:
+- at: '2026-07-22T20:26:42Z'
+  actor_id: codex-root-r09-observability
+  status: IMPLEMENTING
+  note: 已增加入口顺序与空项目保护的可执行回归，开始冻结修复Commit。
+  session_id: SES-20260722T200509Z-8FC026EC
+session_ids:
+- SES-20260722T200509Z-8FC026EC
