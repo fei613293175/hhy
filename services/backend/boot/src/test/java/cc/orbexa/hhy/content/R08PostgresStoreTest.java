@@ -10,6 +10,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -68,8 +69,11 @@ class R08PostgresStoreTest {
             long owner = user(realJdbc, "18" + suffix.substring(0, 9), "OWN" + suffix.substring(0, 13));
             long viewer = user(realJdbc, "19" + suffix.substring(0, 9), "VIEW" + suffix.substring(0, 12));
             long peer = user(realJdbc, "15" + suffix.substring(0, 9), "PEER" + suffix.substring(0, 12));
-            realJdbc.update("INSERT INTO hhy.identity_profiles(user_id,name_cipher,status) VALUES (?,?,'VERIFIED')",
-                    owner, "cipher");
+            realJdbc.update("""
+                    INSERT INTO hhy.identity_profiles(
+                      user_id,name_cipher,id_no_cipher,id_hash,status,verified_at
+                    ) VALUES (?,?,?,?,'VERIFIED',?)
+                    """, owner, "name-cipher", "id-no-cipher", "a".repeat(64), Timestamp.from(now));
             assertTrue(realStore.identityVerified(owner));
             assertEquals(10, realStore.integerConfig("content.limit.normal.drafts"));
             assertEquals("h5.orbexa.cc", realStore.textConfig("domain.h5.host"));

@@ -1,0 +1,47 @@
+protocol_version: '1.0'
+cr_id: CR-0216
+title: 修正R08真实PostgreSQL实名夹具约束缺项
+status: IMPLEMENTING
+created_at: '2026-07-22T02:59:11Z'
+updated_at: '2026-07-22T02:59:34Z'
+requester_actor_id: codex-root-r08-003
+approver_actor_id: codex-r08-db-reviewer
+task_id: TASK-R08-003
+session_id: SES-20260722T012224Z-E70EA3B7
+user_request: 持续完成R08真实Java21与PostgreSQL门禁，发现问题后由AI自行最小修复并继续，不要求项目所有者介入。
+reason: R08PostgresStoreTest把身份状态写为VERIFIED却未提供R05冻结约束要求的id_no_cipher、id_hash和verified_at，真实PostgreSQL正确拒绝了不合法夹具。
+original_rule: R08真实Store测试必须插入满足全部历史数据库不变量的合法实名用户；数据库约束不得因测试便利被绕过。
+new_rule: 补齐测试夹具的id_no_cipher、64位id_hash和verified_at，使VERIFIED测试用户满足V023冻结约束；保留约束和产品代码不变，并以同一真实PostgreSQL 17.10测试作为回归。
+impact_summary: 仅修正R08测试数据构造并登记问题与证据，不改API、生产数据模型、业务实现或配置。
+impact:
+  files:
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - artifacts/reports/R08/TASK-R08-003-backend.md
+  - CHANGELOG.md
+  pages: []
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - R08PostgresStoreTest真实PostgreSQL17.10
+  - 后端受影响MODULE Java21 Maven
+  releases:
+  - R08
+  migration_and_compatibility: 无迁移；测试夹具向后兼容，生产约束保持原样并继续严格生效。
+user_confirmation: 项目所有者已长期授权持续开发中由AI判断测试结果、最小修复并继续推进。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-22T02:59:32Z'
+  note: 确认失败由测试夹具违反既有V023约束造成；批准只补齐合法实名字段，禁止放宽数据库约束或跳过真实测试。
+machine_record: .continuity/change_requests/CR-0216.yaml
+document: docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md
+decision_log:
+- at: '2026-07-22T02:59:34Z'
+  actor_id: codex-root-r08-003
+  status: IMPLEMENTING
+  note: 开始修正夹具并重跑真实PostgreSQL与受影响MODULE。
+  session_id: SES-20260722T012224Z-E70EA3B7
+session_ids:
+- SES-20260722T012224Z-E70EA3B7

@@ -1027,3 +1027,16 @@ problems:
   - 同一份跨平台清单的生成端与校验端不得分别使用规范化文本哈希和原始字节哈希
   - 不得通过强制改写业务CSV换行来掩盖校验算法不一致
   - 兼容LF与CRLF不等于忽略内容变化，必须同时核对规范化SHA和字节数并保留负向回归
+- id: PROB-0078
+  title: R08真实PostgreSQL测试夹具违反R05实名完整性约束
+  status: SOLVED
+  root_cause: R08PostgresStoreTest为了构造已实名项目所有者，直接把identity_profiles.status写为VERIFIED，却只提供name_cipher；V023冻结约束同时要求非空id_no_cipher、64至128位十六进制id_hash和verified_at，因此模拟测试通过而真实PostgreSQL 17.10正确拒绝该行。
+  resolution: CR-0216仅补齐测试夹具的证件密文占位、64位不可逆哈希和以JDBC Timestamp显式绑定的验证时间，保留V023约束、生产迁移与业务代码不变；在同一精确Commit、Java 21和PostgreSQL 17.10环境重跑定向Store及受影响MODULE。
+  regression_checks:
+  - R08PostgresStoreTest在HHY_DB_SMOKE_CONFIRM=YES的独立PostgreSQL 17.10中必须3项全通过且0跳过
+  - mvn -B -pl access,boot -am test必须0失败0错误
+  - 最终证据必须核对Maven退出码与Surefire摘要，不得依据测试包装器末尾的PASS文字判定
+  do_not_repeat:
+  - 测试夹具写入终态时必须满足该状态的全部历史数据库约束，不得只填当前测试直接读取的字段
+  - 不得放宽、删除或跳过生产约束来迁就测试数据
+  - 通过tee保留日志时必须启用pipefail或显式检查Maven退出码，尾部echo不能作为成功证据
