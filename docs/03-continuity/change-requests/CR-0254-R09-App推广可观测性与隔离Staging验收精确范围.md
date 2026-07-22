@@ -122,3 +122,17 @@ CR-0253因证据通配符在应用前被门禁拒绝并已SUPERSEDED；本CR逐�
 - Status：`IMPLEMENTING`
 - Session：`SES-20260722T200509Z-8FC026EC`
 - Note：逐文件范围已成功应用，开始实现App指标、告警和隔离Staging演练。
+
+## 状态记录 · 2026-07-22T20:50:27Z
+
+- Actor：`codex-root-r09-observability`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260722T200509Z-8FC026EC`
+- Note：R09 App指标、告警、隔离Staging、V035同库同卷回切和22文件可移植证据均已实现并通过。
+
+## 状态记录 · 2026-07-22T20:50:30Z
+
+- Actor：`codex-root-r09-observability`
+- Status：`CLOSED`
+- Session：`SES-20260722T200509Z-8FC026EC`
+- Note：AC-R09-004已PASS，报告、证据哈希与敏感扫描完整，关闭主实现CR。

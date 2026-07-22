@@ -83,3 +83,17 @@ CR-0255已批准精确脚本与问题登记范围，但Bug提交门禁还要求t
 - Status：`IMPLEMENTING`
 - Session：`SES-20260722T200509Z-8FC026EC`
 - Note：已增加入口顺序与空项目保护的可执行回归，开始冻结修复Commit。
+
+## 状态记录 · 2026-07-22T20:50:39Z
+
+- Actor：`codex-root-r09-observability`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260722T200509Z-8FC026EC`
+- Note：R09 Staging入口、子网、端口和首次抓取顺序共5项回归通过。
+
+## 状态记录 · 2026-07-22T20:50:42Z
+
+- Actor：`codex-root-r09-observability`
+- Status：`CLOSED`
+- Session：`SES-20260722T200509Z-8FC026EC`
+- Note：回归测试与最终现场证据绑定完成，关闭测试补充CR。

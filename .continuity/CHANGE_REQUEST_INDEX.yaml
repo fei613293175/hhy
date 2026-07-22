@@ -15582,9 +15582,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0254
   title: R09 App推广可观测性与隔离Staging验收精确范围
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-22T20:08:18Z'
-  updated_at: '2026-07-22T20:08:56Z'
+  updated_at: '2026-07-22T20:50:30Z'
   requester_actor_id: codex-root-r09-observability
   approver_actor_id: codex-r09-observability-review
   task_id: TASK-R09-006
@@ -15661,14 +15661,26 @@ change_requests:
     status: IMPLEMENTING
     note: 逐文件范围已成功应用，开始实现App指标、告警和隔离Staging演练。
     session_id: SES-20260722T200509Z-8FC026EC
+  - at: '2026-07-22T20:50:27Z'
+    actor_id: codex-root-r09-observability
+    status: IMPLEMENTED
+    note: R09 App指标、告警、隔离Staging、V035同库同卷回切和22文件可移植证据均已实现并通过。
+    session_id: SES-20260722T200509Z-8FC026EC
+  - at: '2026-07-22T20:50:30Z'
+    actor_id: codex-root-r09-observability
+    status: CLOSED
+    note: AC-R09-004已PASS，报告、证据哈希与敏感扫描完整，关闭主实现CR。
+    session_id: SES-20260722T200509Z-8FC026EC
   session_ids:
   - SES-20260722T200509Z-8FC026EC
+  implementation_commits:
+  - a478e030
 - protocol_version: '1.0'
   cr_id: CR-0255
   title: R09隔离Staging单一入口自启动修复
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-22T20:22:57Z'
-  updated_at: '2026-07-22T20:24:47Z'
+  updated_at: '2026-07-22T20:50:36Z'
   requester_actor_id: codex-root-r09-observability
   approver_actor_id: codex-r09-observability-review
   task_id: TASK-R09-006
@@ -15709,14 +15721,27 @@ change_requests:
     status: IMPLEMENTING
     note: 开始修复单一入口的空项目保护、自构建自启动和确定性诊断，并登记PROB-0095。
     session_id: SES-20260722T200509Z-8FC026EC
+  - at: '2026-07-22T20:50:33Z'
+    actor_id: codex-root-r09-observability
+    status: IMPLEMENTED
+    note: 单一入口自启动、空项目保护、网络端口核对、Prometheus目标等待和阶段诊断均已实现。
+    session_id: SES-20260722T200509Z-8FC026EC
+  - at: '2026-07-22T20:50:36Z'
+    actor_id: codex-root-r09-observability
+    status: CLOSED
+    note: PROB-0095已SOLVED，全新obx-test端到端验收和可移植证据复核通过。
+    session_id: SES-20260722T200509Z-8FC026EC
   session_ids:
   - SES-20260722T200509Z-8FC026EC
+  implementation_commits:
+  - d056c54f
+  - a478e030
 - protocol_version: '1.0'
   cr_id: CR-0256
   title: R09 Staging自启动回归测试补充
-  status: IMPLEMENTING
+  status: CLOSED
   created_at: '2026-07-22T20:25:42Z'
-  updated_at: '2026-07-22T20:26:42Z'
+  updated_at: '2026-07-22T20:50:42Z'
   requester_actor_id: codex-root-r09-observability
   approver_actor_id: codex-r09-observability-review
   task_id: TASK-R09-006
@@ -15752,5 +15777,18 @@ change_requests:
     status: IMPLEMENTING
     note: 已增加入口顺序与空项目保护的可执行回归，开始冻结修复Commit。
     session_id: SES-20260722T200509Z-8FC026EC
+  - at: '2026-07-22T20:50:39Z'
+    actor_id: codex-root-r09-observability
+    status: IMPLEMENTED
+    note: R09 Staging入口、子网、端口和首次抓取顺序共5项回归通过。
+    session_id: SES-20260722T200509Z-8FC026EC
+  - at: '2026-07-22T20:50:42Z'
+    actor_id: codex-root-r09-observability
+    status: CLOSED
+    note: 回归测试与最终现场证据绑定完成，关闭测试补充CR。
+    session_id: SES-20260722T200509Z-8FC026EC
   session_ids:
   - SES-20260722T200509Z-8FC026EC
+  implementation_commits:
+  - d056c54f
+  - a478e030

@@ -87,3 +87,17 @@ R09运行手册要求run_r09_staging_acceptance.sh是单一入口，但脚本只
 - Status：`IMPLEMENTING`
 - Session：`SES-20260722T200509Z-8FC026EC`
 - Note：开始修复单一入口的空项目保护、自构建自启动和确定性诊断，并登记PROB-0095。
+
+## 状态记录 · 2026-07-22T20:50:33Z
+
+- Actor：`codex-root-r09-observability`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260722T200509Z-8FC026EC`
+- Note：单一入口自启动、空项目保护、网络端口核对、Prometheus目标等待和阶段诊断均已实现。
+
+## 状态记录 · 2026-07-22T20:50:36Z
+
+- Actor：`codex-root-r09-observability`
+- Status：`CLOSED`
+- Session：`SES-20260722T200509Z-8FC026EC`
+- Note：PROB-0095已SOLVED，全新obx-test端到端验收和可移植证据复核通过。
