@@ -30,6 +30,7 @@
 | R08 视觉合同目录 | PASS | `python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only`：3 pages |
 | 视觉门禁单测 | PASS | `python -m unittest tests.test_ui_visual_acceptance`：8 tests |
 | R07 历史视觉回补 Android MODULE | PASS | 精确提交 `d40f0b091b4af3224b56663b8e8d19e8c64129a2`；固定镜像与命名缓存卷；`:feature:discovery:test :app:compileDebugKotlin`；日志 `/tmp/hhy-r07-visual-d40f0b09.log`；SHA-256 `c101b98ebe18511ff31c5e7321138b8c351ba0eef48ef5cc116c5a14ed9e5230`；91 tasks（71 from cache），BUILD SUCCESSFUL in 2m 51s |
+| R06 历史视觉回补 Android MODULE | PASS | 精确提交 `a217dd276df6bcbd35a019d0e9974b75d5201bce`；固定镜像与命名缓存卷；`:feature:shell:test :app:testDebugUnitTest :app:compileDebugKotlin`；日志 `/tmp/hhy-r06-visual-a217dd27.log`；SHA-256 `932dd419e613fd0bc3be95eaedc5eab35ccb6df64007f76787b038f586bda2d0`；164 tasks（104 from cache），BUILD SUCCESSFUL in 4m |
 
 ## 候选阶段保留项
 

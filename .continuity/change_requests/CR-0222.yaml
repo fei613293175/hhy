@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0222
 title: 回补R06首页关于页并完成后台视觉复核
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-22T04:27:12Z'
-updated_at: '2026-07-22T04:27:20Z'
+updated_at: '2026-07-22T04:37:26Z'
 requester_actor_id: codex-root-r08-004
 approver_actor_id: codex-reviewer-r08-r06-visual
 task_id: TASK-R08-004
@@ -55,5 +55,17 @@ decision_log:
   status: IMPLEMENTING
   note: 开始回补R06首页和关于页，并按标准模板复核三个后台页面。
   session_id: SES-20260722T031604Z-105CF4C6
+- at: '2026-07-22T04:37:23Z'
+  actor_id: codex-root-r08-004
+  status: IMPLEMENTED
+  note: R06首页和关于页视觉回补已实现并推送；三个后台页面基于真实截图通过效果图级AI复核，未修改后台产品代码。
+  session_id: SES-20260722T031604Z-105CF4C6
+- at: '2026-07-22T04:37:26Z'
+  actor_id: codex-root-r08-004
+  status: CLOSED
+  note: 固定镜像精确提交MODULE验证PASS：164 tasks，104 from cache，4m；日志/tmp/hhy-r06-visual-a217dd27.log，SHA-256 932dd419e613fd0bc3be95eaedc5eab35ccb6df64007f76787b038f586bda2d0。Android新截图最终AI判定保留R08候选阶段。
+  session_id: SES-20260722T031604Z-105CF4C6
 session_ids:
 - SES-20260722T031604Z-105CF4C6
+implementation_commits:
+- a217dd276df6bcbd35a019d0e9974b75d5201bce
