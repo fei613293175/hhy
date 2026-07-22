@@ -14421,9 +14421,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0236
   title: 使用本机API36补齐历史视觉最终缺失证据
-  status: IMPLEMENTING
+  status: SUPERSEDED
   created_at: '2026-07-22T11:12:21Z'
-  updated_at: '2026-07-22T11:12:53Z'
+  updated_at: '2026-07-22T12:59:27Z'
   requester_actor_id: codex-root-r08-008
   approver_actor_id: codex-reviewer-user-self-r08
   task_id: TASK-R08-008
@@ -14466,6 +14466,11 @@ change_requests:
     actor_id: codex-root-r08-008
     status: IMPLEMENTING
     note: 开始修正4个失败测试的语义点击和Compose可见性同步，并准备本机API36定向补证
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  - at: '2026-07-22T12:59:27Z'
+    actor_id: codex-root-r08-008
+    status: SUPERSEDED
+    note: 本机API36方案已完成测试同步与androidTest编译，但Windows缺少可用Hypervisor驱动且系统级安装需管理员授权；由CR-0240的新实现唯一最终视觉候选取代，禁止继续本机空转或原样GitHub重跑。
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
@@ -14588,9 +14593,9 @@ change_requests:
 - protocol_version: '1.0'
   cr_id: CR-0239
   title: 修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移
-  status: IMPLEMENTED
+  status: CLOSED
   created_at: '2026-07-22T12:33:34Z'
-  updated_at: '2026-07-22T12:50:58Z'
+  updated_at: '2026-07-22T12:59:23Z'
   requester_actor_id: codex-root-r08-008
   approver_actor_id: codex-reviewer-user-self-r08
   task_id: TASK-R08-008
@@ -14640,6 +14645,65 @@ change_requests:
     actor_id: codex-root-r08-008
     status: IMPLEMENTED
     note: 两处公开请求编号已禁显，CI Pillow和Release视觉夹具已同步；完整Python 274项、H5 27项、类型检查及Android discovery编译均PASS。
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  - at: '2026-07-22T12:59:23Z'
+    actor_id: codex-root-r08-008
+    status: CLOSED
+    note: GitHub CI Run 29921444245（#372）在精确提交5eda3177上全部成功：tooling、contracts、web与Android编译/lint/单测/打包PASS，普通提交未运行模拟器；PROB-0088已解决。
+    session_id: SES-20260722T093645Z-C7DB8EF0
+  session_ids:
+  - SES-20260722T093645Z-C7DB8EF0
+  implementation_commits:
+  - 5eda31773858b9a6286f10da6522c5e1f40c09a3
+- protocol_version: '1.0'
+  cr_id: CR-0240
+  title: 执行修复后R08唯一最终历史视觉候选并固化逐页审核证据
+  status: IMPLEMENTING
+  created_at: '2026-07-22T12:57:53Z'
+  updated_at: '2026-07-22T12:58:32Z'
+  requester_actor_id: codex-root-r08-008
+  approver_actor_id: codex-reviewer-user-self-r08
+  task_id: TASK-R08-008
+  session_id: SES-20260722T093645Z-C7DB8EF0
+  user_request: 项目所有者要求GitHub不得反复浪费，所有版本截图由AI独立判断，R08完成后持续推进且最终候选只在大版本关闭阶段执行。
+  reason: 历史三次候选已完成旧实现定位且禁止原样重跑；CR-0236本机API36因Windows缺少Hypervisor驱动无法运行，CR-0237与CR-0239已实质修改生产UI和测试同步，必须对新的精确提交执行一次最终视觉候选才能诚实关闭R08。
+  original_rule: 复用CR-0213唯一效果图级视觉规则、CR-0233至CR-0236有界GitHub策略和大版本最终候选规则；禁止原样第4次旧实现试错。
+  new_rule: 不新增规则；把CR-0237/CR-0239后的新实现视为新的R08最终候选输入，只执行一次精确提交的历史视觉批次；AI逐图审核，合格证据入库，不合格则只修复确定性根因且不得盲目重跑。
+  impact_summary: 触发一次修复后R08最终Android候选，固化22个允许截图页面与1个FLAG_SECURE语义页面的逐页审核、哈希和候选报告；随后由既有视觉门禁关闭R08。
+  impact:
+    files:
+    - config/android-candidate-request.yaml
+    - catalogs/ui_visual_acceptance.csv
+    - artifacts/validation/r08-historical-android/APPROVAL.yaml
+    - artifacts/validation/r08-historical-android/candidate-report.json
+    - artifacts/validation/r08-historical-android/runtime-report.json
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages:
+    - SCR-APP-001;SCR-APP-002;SCR-APP-003;SCR-AUTH-001;SCR-AUTH-002;SCR-AUTH-003;SCR-AUTH-004;SCR-AUTH-005;SCR-AUTH-006;SCR-AUTH-007;SCR-AUTH-008;SHEET-MEDIA-001;SCR-ID-001;SCR-ID-002;SCR-ID-003;SCR-ID-004;SCR-HOME-001;SCR-ABOUT-001;SCR-SEARCH-001;SCR-SEARCH-002;SCR-PUBLISHER-001;SHEET-CONTACT-001;DIALOG-SEARCH-001
+    apis: []
+    database: []
+    configuration:
+    - android-candidate-request R08 post-remediation final visual candidate
+    ledger: []
+    tests:
+    - 'GitHub Android candidate: build, lint, unit, emulator, 22 screenshots, FLAG_SECURE semantic assertion, runtime report; AI逐图审核; check_ui_visual_acceptance
+      --release R08; release close gates'
+    releases:
+    - R08
+    migration_and_compatibility: 仅候选请求和验证证据变化；生产API、数据库、账本、Release功能不变，旧三次失败证据保留，本次绑定新提交且不覆盖旧记录。
+  user_confirmation: CONFIRMED_BY_OWNER_CONTINUOUS_DEVELOPMENT_AND_AI_VISUAL_REVIEW_RULE
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T12:58:25Z'
+    note: 依据所有者持续开发、AI独立截图审核和大版本最终候选规则批准；这是新实现的一次最终验证，不是原样重复旧候选。
+  machine_record: .continuity/change_requests/CR-0240.yaml
+  document: docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
+  decision_log:
+  - at: '2026-07-22T12:58:32Z'
+    actor_id: codex-root-r08-008
+    status: IMPLEMENTING
+    note: 等待当前普通CI通过后更新候选请求，执行唯一修复后最终视觉候选。
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0

@@ -11,7 +11,7 @@ task_id: TASK-R08-008
 story_id: STORY-R08-004
 goal: 完成R08机器关闭与无状态交接；真实解决历史Android新肉眼视觉复核门禁，Owner真机反馈保持异步不阻断。
 started_at: '2026-07-22T09:36:45Z'
-updated_at: '2026-07-22T12:51:10Z'
+updated_at: '2026-07-22T13:00:55Z'
 takeover_of: null
 change_requests:
 - CR-0233
@@ -21,6 +21,7 @@ change_requests:
 - CR-0237
 - CR-0238
 - CR-0239
+- CR-0240
 scope:
   allowed_paths:
   - apps/**
@@ -78,7 +79,11 @@ scope:
   - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
   - apps/h5/src/views/PublicPage.vue
   - tests/test_release_close_gate.py
-  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239
+  - catalogs/ui_visual_acceptance.csv
+  - artifacts/validation/r08-historical-android/APPROVAL.yaml
+  - artifacts/validation/r08-historical-android/candidate-report.json
+  - artifacts/validation/r08-historical-android/runtime-report.json
+  source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -88,22 +93,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T12:51:04Z'
-  expires_at: '2026-07-22T16:51:04Z'
-checkpoint_sequence: 14
-latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0014.yaml
+  renewed_at: '2026-07-22T13:00:49Z'
+  expires_at: '2026-07-22T17:00:49Z'
+checkpoint_sequence: 15
+latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0015.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-next_step: 提交CR-0239并推送一次；确认普通CI不再出现确定性工具失败且模拟器继续跳过，然后关闭CR并回到R08视觉收口。
+next_step: 提交并推送CR-0240与R08修复后视觉候选请求，监控唯一候选，下载22张截图与FLAG_SECURE语义报告并由AI逐图审核。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 3c914a29e31fa8a4f331cbb0cdeecda68277c9e206cc7d8741d02676aa86f1f3
-  generated_at: '2026-07-22T12:51:07Z'
+  context_hash: eb682ebba8f68f6cfdec4719aa0f52631f7bcb2dab26ab97dab78e398d15f968
+  generated_at: '2026-07-22T13:00:53Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: NO_SAFE_PARALLEL
+  assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
-  reason: 同一失败集合的本地验证、提交与单次CI确认是顺序门禁，且用户未要求子代理。
+  reason: 当前任务未授权子代理且证据、Git状态和候选触发共享同一会话，必须串行保持唯一事实源。

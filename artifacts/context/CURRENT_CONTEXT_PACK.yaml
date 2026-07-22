@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-22T12:51:07Z'
+generated_at: '2026-07-22T13:00:53Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -101,7 +101,7 @@ current_status:
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R08-008
-  updated_at: '2026-07-22T12:51:04Z'
+  updated_at: '2026-07-22T13:00:49Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -136,15 +136,15 @@ current_status:
     active_session_id: SES-20260722T093645Z-C7DB8EF0
     actor_id: codex-root-r08-008
     story_id: STORY-R08-004
-    lease_expires_at: '2026-07-22T16:51:04Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0014.yaml
-    project_fingerprint: 5b5b4ebcd5de092d428021ee7414fb6af78f3d5745caedf57f287a1b3bb8a2fb
+    lease_expires_at: '2026-07-22T17:00:49Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0015.yaml
+    project_fingerprint: 5477e6507fe23c2269fc37763111e6293d1d1dd96ca49423a4388236b7183aea
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 099e1081570f07cefaaea5cc0d011f0d8d761b5d54a633af03ea878c4a3a4407
-      generated_at: '2026-07-22T12:25:29Z'
+      context_hash: 3c914a29e31fa8a4f331cbb0cdeecda68277c9e206cc7d8741d02676aa86f1f3
+      generated_at: '2026-07-22T12:51:07Z'
     handoff_bundle: null
 next_task:
   id: TASK-R08-008
@@ -193,7 +193,7 @@ active_session:
   story_id: STORY-R08-004
   goal: 完成R08机器关闭与无状态交接；真实解决历史Android新肉眼视觉复核门禁，Owner真机反馈保持异步不阻断。
   started_at: '2026-07-22T09:36:45Z'
-  updated_at: '2026-07-22T12:51:04Z'
+  updated_at: '2026-07-22T13:00:49Z'
   takeover_of: null
   change_requests:
   - CR-0233
@@ -203,6 +203,7 @@ active_session:
   - CR-0237
   - CR-0238
   - CR-0239
+  - CR-0240
   scope:
     allowed_paths:
     - apps/**
@@ -260,7 +261,11 @@ active_session:
     - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
     - apps/h5/src/views/PublicPage.vue
     - tests/test_release_close_gate.py
-    source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239
+    - catalogs/ui_visual_acceptance.csv
+    - artifacts/validation/r08-historical-android/APPROVAL.yaml
+    - artifacts/validation/r08-historical-android/candidate-report.json
+    - artifacts/validation/r08-historical-android/runtime-report.json
+    source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240
   git:
     initialized: true
     branch: task/TASK-R03-001
@@ -270,57 +275,45 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-22T12:51:04Z'
-    expires_at: '2026-07-22T16:51:04Z'
-  checkpoint_sequence: 14
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0014.yaml
+    renewed_at: '2026-07-22T13:00:49Z'
+    expires_at: '2026-07-22T17:00:49Z'
+  checkpoint_sequence: 15
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0015.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-  next_step: 提交CR-0239并推送一次；确认普通CI不再出现确定性工具失败且模拟器继续跳过，然后关闭CR并回到R08视觉收口。
+  next_step: 提交并推送CR-0240与R08修复后视觉候选请求，监控唯一候选，下载22张截图与FLAG_SECURE语义报告并由AI逐图审核。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
+    assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: 同一失败集合的本地验证、提交与单次CI确认是顺序门禁，且用户未要求子代理。
+    reason: 当前任务未授权子代理且证据、Git状态和候选触发共享同一会话，必须串行保持唯一事实源。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0014
+  checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0015
   session_id: SES-20260722T093645Z-C7DB8EF0
-  sequence: 14
-  created_at: '2026-07-22T12:51:03Z'
-  summary: CR-0238已由GitHub Run 29919639745证明权限合同修复并关闭；CR-0239已本地修复全部确定性tooling问题，Python全量274项、H5 27项和类型检查、Android discovery编译均PASS。
-  next_step: 提交CR-0239并推送一次；确认普通CI不再出现确定性工具失败且模拟器继续跳过，然后关闭CR并回到R08视觉收口。
+  sequence: 15
+  created_at: '2026-07-22T13:00:49Z'
+  summary: CR-0239已由GitHub CI Run 29921444245全绿关闭；本机API36 CR-0236因缺少Hypervisor驱动被CR-0240替代；已准备新实现唯一R08最终视觉候选请求。
+  next_step: 提交并推送CR-0240与R08修复后视觉候选请求，监控唯一候选，下载22张截图与FLAG_SECURE语义报告并由AI逐图审核。
   blockers: []
   decisions:
-  - 不原样重跑失败提交；只有本地完整失败集合和全量tooling均通过后才进行一次新提交验证。
+  - 不安装需管理员授权的Windows Hypervisor驱动；不原样第4次旧实现候选，只验证CR-0237/CR-0239后的新精确提交。
   note: ''
   tests:
-  - name: python-tooling-full
+  - name: GitHub CI Run 29921444245
     result: PASS
-    evidence: python -m unittest discover -s tests -p test_*.py
-    note: 274项通过
-  - name: h5-typecheck
+    evidence: https://github.com/fei613293175/hhy/actions/runs/29921444245
+    note: tooling/contracts/web/android compile lint unit package全部通过，模拟器跳过
+  - name: android candidate request tests
     result: PASS
-    evidence: pnpm --filter @hhy/h5 typecheck
-    note: 无错误
-  - name: h5-unit
-    result: PASS
-    evidence: pnpm --filter @hhy/h5 test
-    note: 27项通过
-  - name: android-discovery-compile
-    result: PASS
-    evidence: obx-test:/tmp/hhy-r08-cr0239-discovery-compile.log
-    note: 22任务成功
-  - name: ci-tooling-dependency-contract
-    result: PASS
-    evidence: local assertion
-    note: Pillow存在且candidate false
+    evidence: 21 tests in 2.291s
+    note: 修复后候选请求合法且Android门禁测试通过
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 525ada5f90bdae7dce47a1dc5d118d8556318929
+    head: 5eda31773858b9a6286f10da6522c5e1f40c09a3
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
@@ -329,21 +322,20 @@ latest_checkpoint:
     - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
     - ' M .continuity/EVENT_LOG.jsonl'
     - ' M .continuity/STATE.yaml'
-    - ' M .continuity/change_requests/CR-0238.yaml'
+    - ' M .continuity/change_requests/CR-0236.yaml'
+    - ' M .continuity/change_requests/CR-0239.yaml'
     - ' M .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml'
-    - ' M .github/workflows/ci.yml'
-    - ' M CHANGELOG.md'
-    - ' M apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt'
-    - ' M apps/h5/src/services/publicShare.test.ts'
-    - ' M apps/h5/src/views/PublicPage.vue'
+    - ' M artifacts/validation/project-doctor-v1.2.3.json'
     - ' M catalogs/change_request_index.csv'
     - ' M catalogs/session_index.csv'
-    - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-    - ' M docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md'
-    - ' M tests/test_release_close_gate.py'
-    - ?? .continuity/change_requests/CR-0239.yaml
-    - ?? docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
+    - ' M config/android-candidate-request.yaml'
+    - ' M docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md'
+    - ' M docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md'
+    - ?? .continuity/change_requests/CR-0240.yaml
+    - ?? docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
     recent_commits:
+    - "5eda31773858b9a6286f10da6522c5e1f40c09a3\t2026-07-22T20:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(ci): close deterministic\
+      \ tooling regressions"
     - "525ada5f90bdae7dce47a1dc5d118d8556318929\t2026-07-22T20:25:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] ci(github): repair reusable\
       \ OIDC contract"
     - "f85eb6114800ed201319e62874e2d49554ffddff\t2026-07-22T20:14:09+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(android): close visual\
@@ -358,10 +350,8 @@ latest_checkpoint:
       \ audit remediation"
     - "93eb1db88d866a85437f0a2f1d1dac1646f1452f\t2026-07-22T18:21:49+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(android): stabilize\
       \ historical audit journeys"
-    - "223991db104b591275da0e314dc60dff0b48d886\t2026-07-22T18:02:04+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): checkpoint historical\
-      \ visual audit"
   project_fingerprint:
-    sha256: 5b5b4ebcd5de092d428021ee7414fb6af78f3d5745caedf57f287a1b3bb8a2fb
+    sha256: 5477e6507fe23c2269fc37763111e6293d1d1dd96ca49423a4388236b7183aea
     files:
     - .github/workflows/ci.yml
     - CHANGELOG.md
@@ -386,13 +376,14 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
     - docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md
     - docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
+    - docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
     - scripts/prepare_r08_ci_fixture.sh
     - tests/android/visual-manifests/R08.yaml
     - tests/test_android_ci_gate.py
     - tests/test_historical_android_visual_contract.py
     - tests/test_r08_ci_fixture.py
     - tests/test_release_close_gate.py
-    file_count: 29
+    file_count: 30
     payload:
       base_commit: 46480be9eca8852e661013be23f916cdc2fa0003
       files:
@@ -454,8 +445,8 @@ latest_checkpoint:
         sha256: 741935b644559eb10811700b5d228b2080c79c064819ce50c522142f3e992b87
       - path: config/android-candidate-request.yaml
         state: FILE
-        size: 441
-        sha256: 5e624b49c4d5afb0bd2ba739184e22060c957a01c9300b347d5bfae1f95e17b6
+        size: 422
+        sha256: 4cc5d0790669d45de096a4b5e9a198af60adcf236a610279d3014f0686f6d1e5
       - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
         state: FILE
         size: 114065
@@ -474,8 +465,8 @@ latest_checkpoint:
         sha256: bf2aa8cce5d3620ace8acb1c9f8ceed5f2c02e7e7151e154780b36609f7c7ba6
       - path: docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md
         state: FILE
-        size: 2886
-        sha256: 41b84dc947fba2b79e6ec2100acda49c2396e26d4740538875eb13d845f15385
+        size: 3278
+        sha256: 075653c462a47f864eedebe5faf1a1a87ef1d90f96020c6718aaf7045097bf64
       - path: docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
         state: FILE
         size: 2960
@@ -486,8 +477,12 @@ latest_checkpoint:
         sha256: 9200432737a7c244446ba6228cc042538c635e20e13fc176ce74e6ff76569267
       - path: docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
         state: FILE
-        size: 3138
-        sha256: 72bc4ab22306f31d2a07ecdbf7324dc5d33ca79d16cea99a89434372f832385c
+        size: 3482
+        sha256: e7fa3147d45704bddfdb54405c4d3200067716f79db14efe8896ed3942a78994
+      - path: docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
+        state: FILE
+        size: 3474
+        sha256: e3e5102423d2c6b826a2c0579375cbd58e0032b06c47551595042625e820a111
       - path: scripts/prepare_r08_ci_fixture.sh
         state: FILE
         size: 6637
@@ -554,6 +549,7 @@ latest_checkpoint:
     - docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
     - docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md
     - docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
+    - docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
     tests:
     - tests/android/visual-manifests/R08.yaml
     - tests/test_android_ci_gate.py
@@ -575,6 +571,7 @@ latest_checkpoint:
   - CR-0237
   - CR-0238
   - CR-0239
+  - CR-0240
   scope:
     allowed_paths:
     - apps/**
@@ -632,17 +629,21 @@ latest_checkpoint:
     - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
     - apps/h5/src/views/PublicPage.vue
     - tests/test_release_close_gate.py
-    source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239
+    - catalogs/ui_visual_acceptance.csv
+    - artifacts/validation/r08-historical-android/APPROVAL.yaml
+    - artifacts/validation/r08-historical-android/candidate-report.json
+    - artifacts/validation/r08-historical-android/runtime-report.json
+    source: story+explicit+approved-cr:CR-0233+approved-cr:CR-0236+approved-cr:CR-0237+approved-cr:CR-0238+approved-cr:CR-0239+approved-cr:CR-0240
   parallel_execution:
-    assessment: NO_SAFE_PARALLEL
+    assessment: CAPABILITY_UNAVAILABLE
     delegated_workers: 0
     workers: []
-    reason: 同一失败集合的本地验证、提交与单次CI确认是顺序门禁，且用户未要求子代理。
-  event_hash: c06f9c48af52bc089071a39915e13173c72d8fe7199320d9d9b7e143860f83c9
+    reason: 当前任务未授权子代理且证据、Git状态和候选触发共享同一会话，必须串行保持唯一事实源。
+  event_hash: 31997f272cf1181c00935d8818a0fc48ee557c693f6985c7dfd6f272a9e4aec7
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 525ada5f90bdae7dce47a1dc5d118d8556318929
+  head: 5eda31773858b9a6286f10da6522c5e1f40c09a3
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -653,24 +654,23 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0238.yaml'
+  - ' M .continuity/change_requests/CR-0236.yaml'
+  - ' M .continuity/change_requests/CR-0239.yaml'
   - ' M .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml'
-  - ' M .github/workflows/ci.yml'
-  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt'
-  - ' M apps/h5/src/services/publicShare.test.ts'
-  - ' M apps/h5/src/views/PublicPage.vue'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md'
+  - ' M config/android-candidate-request.yaml'
+  - ' M docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md'
+  - ' M docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md'
-  - ' M tests/test_release_close_gate.py'
-  - ?? .continuity/change_requests/CR-0239.yaml
-  - ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0014.yaml
-  - ?? docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
+  - ?? .continuity/change_requests/CR-0240.yaml
+  - ?? .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0015.yaml
+  - ?? docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
   recent_commits:
+  - "5eda31773858b9a6286f10da6522c5e1f40c09a3\t2026-07-22T20:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(ci): close deterministic\
+    \ tooling regressions"
   - "525ada5f90bdae7dce47a1dc5d118d8556318929\t2026-07-22T20:25:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] ci(github): repair reusable\
     \ OIDC contract"
   - "f85eb6114800ed201319e62874e2d49554ffddff\t2026-07-22T20:14:09+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(android): close visual\
@@ -685,10 +685,8 @@ git:
     \ audit remediation"
   - "93eb1db88d866a85437f0a2f1d1dac1646f1452f\t2026-07-22T18:21:49+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(android): stabilize historical\
     \ audit journeys"
-  - "223991db104b591275da0e314dc60dff0b48d886\t2026-07-22T18:02:04+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): checkpoint historical\
-    \ visual audit"
 project_fingerprint:
-  sha256: 5b5b4ebcd5de092d428021ee7414fb6af78f3d5745caedf57f287a1b3bb8a2fb
+  sha256: 5477e6507fe23c2269fc37763111e6293d1d1dd96ca49423a4388236b7183aea
   files:
   - .github/workflows/ci.yml
   - CHANGELOG.md
@@ -713,13 +711,14 @@ project_fingerprint:
   - docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
   - docs/03-continuity/change-requests/CR-0238-修复普通CI调用Android门禁OIDC权限并刷新连续性报告.md
   - docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
+  - docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
   - scripts/prepare_r08_ci_fixture.sh
   - tests/android/visual-manifests/R08.yaml
   - tests/test_android_ci_gate.py
   - tests/test_historical_android_visual_contract.py
   - tests/test_r08_ci_fixture.py
   - tests/test_release_close_gate.py
-  file_count: 29
+  file_count: 30
   payload:
     base_commit: 46480be9eca8852e661013be23f916cdc2fa0003
     files:
@@ -781,8 +780,8 @@ project_fingerprint:
       sha256: 741935b644559eb10811700b5d228b2080c79c064819ce50c522142f3e992b87
     - path: config/android-candidate-request.yaml
       state: FILE
-      size: 441
-      sha256: 5e624b49c4d5afb0bd2ba739184e22060c957a01c9300b347d5bfae1f95e17b6
+      size: 422
+      sha256: 4cc5d0790669d45de096a4b5e9a198af60adcf236a610279d3014f0686f6d1e5
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
       size: 114065
@@ -801,8 +800,8 @@ project_fingerprint:
       sha256: bf2aa8cce5d3620ace8acb1c9f8ceed5f2c02e7e7151e154780b36609f7c7ba6
     - path: docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md
       state: FILE
-      size: 2886
-      sha256: 41b84dc947fba2b79e6ec2100acda49c2396e26d4740538875eb13d845f15385
+      size: 3278
+      sha256: 075653c462a47f864eedebe5faf1a1a87ef1d90f96020c6718aaf7045097bf64
     - path: docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
       state: FILE
       size: 2960
@@ -813,8 +812,12 @@ project_fingerprint:
       sha256: 9200432737a7c244446ba6228cc042538c635e20e13fc176ce74e6ff76569267
     - path: docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
       state: FILE
-      size: 3138
-      sha256: 72bc4ab22306f31d2a07ecdbf7324dc5d33ca79d16cea99a89434372f832385c
+      size: 3482
+      sha256: e7fa3147d45704bddfdb54405c4d3200067716f79db14efe8896ed3942a78994
+    - path: docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
+      state: FILE
+      size: 3474
+      sha256: e3e5102423d2c6b826a2c0579375cbd58e0032b06c47551595042625e820a111
     - path: scripts/prepare_r08_ci_fixture.sh
       state: FILE
       size: 6637
@@ -1859,8 +1862,8 @@ continuity_state:
   last_session_id: SES-20260722T064621Z-68304DE1
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260722T064621Z-68304DE1-0013
-  event_count: 2354
-  event_head_hash: c06f9c48af52bc089071a39915e13173c72d8fe7199320d9d9b7e143860f83c9
+  event_count: 2362
+  event_head_hash: 31997f272cf1181c00935d8818a0fc48ee557c693f6985c7dfd6f272a9e4aec7
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260721T210252Z-D631F6E4
@@ -1979,9 +1982,9 @@ recent_sessions:
   started_at: '2026-07-22T09:36:45Z'
   record: .continuity/sessions/SES-20260722T093645Z-C7DB8EF0.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-  updated_at: '2026-07-22T12:51:04Z'
+  updated_at: '2026-07-22T13:00:49Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0014.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0015.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-EA5A5991A609
@@ -8011,57 +8014,6 @@ open_change_requests:
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
 - protocol_version: '1.0'
-  cr_id: CR-0236
-  title: 使用本机API36补齐历史视觉最终缺失证据
-  status: IMPLEMENTING
-  created_at: '2026-07-22T11:12:21Z'
-  updated_at: '2026-07-22T11:12:53Z'
-  requester_actor_id: codex-root-r08-008
-  approver_actor_id: codex-reviewer-user-self-r08
-  task_id: TASK-R08-008
-  session_id: SES-20260722T093645Z-C7DB8EF0
-  user_request: 项目所有者要求GitHub反复浪费时间时立即调整方案、由AI独立审核截图并持续推进，不因云端失败停止
-  reason: 历史GitHub批次已达到3次上限且最终运行仅剩认证页面触摸和可见性断言失败；本机已有既有API36 AVD，可只重跑4个失败测试而不发起第4次GitHub批次
-  original_rule: 复用CR-0233至CR-0235的唯一历史视觉规则、最多3次GitHub候选上限和AI逐图审核要求；达到上限后禁止第4次同类GitHub试错
-  new_rule: 不新增规则；保留三次GitHub失败证据，使用本机既有API36模拟器仅运行4个失败的HistoricalVisualAuditTest方法，修正测试触摸与可见性同步后补齐14至18截图，生产Release、业务UI和候选配置不变
-  impact_summary: 只改变androidTest稳定性断言与本机补证流程；不触发第4次GitHub候选，不重新编译全版本，不改变任何生产功能
-  impact:
-    files:
-    - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
-    - docs/03-continuity/PROBLEM_REGISTRY.yaml
-    - CHANGELOG.md
-    pages:
-    - SCR-AUTH-002
-    - SCR-AUTH-003
-    - SCR-AUTH-004
-    - SCR-AUTH-005
-    - SCR-AUTH-006
-    apis: []
-    database: []
-    configuration:
-    - 本机既有hhy_p00_api36_20260717 AVD；不修改GitHub候选attempt
-    ledger: []
-    tests:
-    - HistoricalVisualAuditTest四个失败方法；本机API36定向connectedAndroidTest；5张缺失截图SHA-256与AI视觉审核
-    releases:
-    - R08
-    migration_and_compatibility: 纯androidTest修复；本机截图必须绑定同一生产UI实现、API36 AVD、精确提交和SHA-256，既有GitHub Run 29913548698的19张证据继续保留
-  user_confirmation: 项目所有者明确要求GitHub反复浪费时间时立即按替代方案推进，截图由AI判断且不能因失败停止
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T11:12:46Z'
-    note: 批准在达到GitHub三次上限后改用本机既有API36只补跑失败测试；不得改变生产业务、不得伪造截图或发起第4次同类云端批次
-  machine_record: .continuity/change_requests/CR-0236.yaml
-  document: docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md
-  decision_log:
-  - at: '2026-07-22T11:12:53Z'
-    actor_id: codex-root-r08-008
-    status: IMPLEMENTING
-    note: 开始修正4个失败测试的语义点击和Compose可见性同步，并准备本机API36定向补证
-    session_id: SES-20260722T093645Z-C7DB8EF0
-  session_ids:
-  - SES-20260722T093645Z-C7DB8EF0
-- protocol_version: '1.0'
   cr_id: CR-0237
   title: 修复历史视觉审核发现的R02安全页与R06关于页不合格UI
   status: IMPLEMENTING
@@ -8114,60 +8066,54 @@ open_change_requests:
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
 - protocol_version: '1.0'
-  cr_id: CR-0239
-  title: 修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移
-  status: IMPLEMENTED
-  created_at: '2026-07-22T12:33:34Z'
-  updated_at: '2026-07-22T12:50:58Z'
+  cr_id: CR-0240
+  title: 执行修复后R08唯一最终历史视觉候选并固化逐页审核证据
+  status: IMPLEMENTING
+  created_at: '2026-07-22T12:57:53Z'
+  updated_at: '2026-07-22T12:58:32Z'
   requester_actor_id: codex-root-r08-008
   approver_actor_id: codex-reviewer-user-self-r08
   task_id: TASK-R08-008
   session_id: SES-20260722T093645Z-C7DB8EF0
-  user_request: 项目所有者要求GitHub不得反复浪费；所有确定性问题必须先本地解决后再推送。
-  reason: GitHub Run 29919639745证明Android普通作业已通过，但tooling发现Pillow依赖遗漏、Android与H5公开页仍显示请求编号、Release关闭测试夹具缺少既有六项效果图级PASS标记。
-  original_rule: 沿用既有正式前端禁止技术字段和诊断信息泄漏规则、既有效果图级六项肉眼复核规则以及普通CI确定性依赖规则。
-  new_rule: 不新增平行规则；删除公开UI中的请求编号渲染，保留请求ID仅供内部日志；Release关闭测试夹具补齐现有六项PASS标记；CI工具环境安装测试已实际导入的Pillow。
-  impact_summary: 修复两个生产页面的技术诊断泄漏、一个CI测试依赖和隔离Release关闭夹具；不改变API响应、错误分类、数据库、产品功能或模拟器频率。
+  user_request: 项目所有者要求GitHub不得反复浪费，所有版本截图由AI独立判断，R08完成后持续推进且最终候选只在大版本关闭阶段执行。
+  reason: 历史三次候选已完成旧实现定位且禁止原样重跑；CR-0236本机API36因Windows缺少Hypervisor驱动无法运行，CR-0237与CR-0239已实质修改生产UI和测试同步，必须对新的精确提交执行一次最终视觉候选才能诚实关闭R08。
+  original_rule: 复用CR-0213唯一效果图级视觉规则、CR-0233至CR-0236有界GitHub策略和大版本最终候选规则；禁止原样第4次旧实现试错。
+  new_rule: 不新增规则；把CR-0237/CR-0239后的新实现视为新的R08最终候选输入，只执行一次精确提交的历史视觉批次；AI逐图审核，合格证据入库，不合格则只修复确定性根因且不得盲目重跑。
+  impact_summary: 触发一次修复后R08最终Android候选，固化22个允许截图页面与1个FLAG_SECURE语义页面的逐页审核、哈希和候选报告；随后由既有视觉门禁关闭R08。
   impact:
     files:
-    - .github/workflows/ci.yml
-    - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
-    - apps/h5/src/views/PublicPage.vue
-    - tests/test_release_close_gate.py
+    - config/android-candidate-request.yaml
+    - catalogs/ui_visual_acceptance.csv
+    - artifacts/validation/r08-historical-android/APPROVAL.yaml
+    - artifacts/validation/r08-historical-android/candidate-report.json
+    - artifacts/validation/r08-historical-android/runtime-report.json
     - docs/03-continuity/PROBLEM_REGISTRY.yaml
     - CHANGELOG.md
     pages:
-    - SCR-SEARCH-001
-    - H5-PUBLIC-SHARE
+    - SCR-APP-001;SCR-APP-002;SCR-APP-003;SCR-AUTH-001;SCR-AUTH-002;SCR-AUTH-003;SCR-AUTH-004;SCR-AUTH-005;SCR-AUTH-006;SCR-AUTH-007;SCR-AUTH-008;SHEET-MEDIA-001;SCR-ID-001;SCR-ID-002;SCR-ID-003;SCR-ID-004;SCR-HOME-001;SCR-ABOUT-001;SCR-SEARCH-001;SCR-SEARCH-002;SCR-PUBLISHER-001;SHEET-CONTACT-001;DIALOG-SEARCH-001
     apis: []
     database: []
     configuration:
-    - github-actions-tooling-dependencies
+    - android-candidate-request R08 post-remediation final visual candidate
     ledger: []
     tests:
-    - python -m unittest tests.test_android_ci_gate tests.test_commercial_ui_boundaries tests.test_release_close_gate
-    - Android discovery受影响编译
-    - H5 typecheck与test
+    - 'GitHub Android candidate: build, lint, unit, emulator, 22 screenshots, FLAG_SECURE semantic assertion, runtime report; AI逐图审核; check_ui_visual_acceptance
+      --release R08; release close gates'
     releases:
     - R08
-    migration_and_compatibility: requestId仍保留在客户端错误模型中但不展示；视觉夹具只更新测试说明字段；Pillow只进入GitHub tooling作业Python环境。
-  user_confirmation: CONFIRMED_BY_OWNER_NO_REPEATED_GITHUB_WASTE_RULE
+    migration_and_compatibility: 仅候选请求和验证证据变化；生产API、数据库、账本、Release功能不变，旧三次失败证据保留，本次绑定新提交且不覆盖旧记录。
+  user_confirmation: CONFIRMED_BY_OWNER_CONTINUOUS_DEVELOPMENT_AND_AI_VISUAL_REVIEW_RULE
   approval:
     decision: APPROVED
-    decided_at: '2026-07-22T12:34:03Z'
-    note: 批准修复已由单次普通CI定位且本地可复现的确定性问题；不得原样重跑或扩展到候选模拟器。
-  machine_record: .continuity/change_requests/CR-0239.yaml
-  document: docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
+    decided_at: '2026-07-22T12:58:25Z'
+    note: 依据所有者持续开发、AI独立截图审核和大版本最终候选规则批准；这是新实现的一次最终验证，不是原样重复旧候选。
+  machine_record: .continuity/change_requests/CR-0240.yaml
+  document: docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
   decision_log:
-  - at: '2026-07-22T12:34:11Z'
+  - at: '2026-07-22T12:58:32Z'
     actor_id: codex-root-r08-008
     status: IMPLEMENTING
-    note: 开始本地修复并运行完整失败测试集合，全部通过前不推送。
-    session_id: SES-20260722T093645Z-C7DB8EF0
-  - at: '2026-07-22T12:50:58Z'
-    actor_id: codex-root-r08-008
-    status: IMPLEMENTED
-    note: 两处公开请求编号已禁显，CI Pillow和Release视觉夹具已同步；完整Python 274项、H5 27项、类型检查及Android discovery编译均PASS。
+    note: 等待当前普通CI通过后更新候选请求，执行唯一修复后最终视觉候选。
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
@@ -8179,7 +8125,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: eb7be7605ad44724291d7e1702654b004f841fa82ccbf5262dba1b4d7c2dbf5f
+  sha256: 3dff9e3db81ce93dfb89dd32cca001eb5f35ad620af50529c7ec6f58c24bc17e
   bytes: 4000
 - path: NEXT_TASK.yaml
   sha256: a9ff55e7e2c51cd8df5cd1022a468129f3605f2d83e1d27e0e02b18e9ee9fa38
@@ -8212,10 +8158,10 @@ source_manifest:
   sha256: 16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6
   bytes: 12763
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: dba6df1c194278d9750b88087c83479bc78485063f1d7666bb9aec3b30b26751
-  bytes: 1299372
+  sha256: 94354b15fa1ecdc908727ac785017a088a5610883e12f002b256c147111e64d6
+  bytes: 1303470
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 40d25270c0e432e5a140142f7f10cd130d6fefd75e7b5ca79e0e4f6ee434aef5
+  sha256: 06f4330decb8395d85057f0b19806cd7c6c29771896946658c8bac4629573f89
   bytes: 38418
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: d198f932ee2eb9d2de78377c60fbf31fee32370819a2777f8f2f8a56652da7fb
@@ -8224,10 +8170,10 @@ source_manifest:
   sha256: a46b8baf5da74a6035eb61786739bf6dacfd22cb0cdea14210f195f5326f82af
   bytes: 21924
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 4daaf0e38c0dd5b1eee4da2eb3db1b30d7356e1e6897525985fc0a8e355ba048
-  bytes: 782295
+  sha256: 2ae7401ec0676dd172e88f203ed1a17166f4850e72223881a778b888f87152fc
+  bytes: 786669
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 4f10a2a9cc7eaac5ecfff03f6951dffd41752acf564dcf30ca513f3b434ed5c1
+  sha256: 8b1fa3a96e6a617d80f366f6a828f2e1aaa429419c26c4d1e90e247b42a09d92
   bytes: 533
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a
@@ -8260,11 +8206,11 @@ source_manifest:
   sha256: f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416
   bytes: 4185
 - path: docs/03-continuity/sessions/2026-07/SES-20260722T093645Z-C7DB8EF0.md
-  sha256: a5758d091afbcc451e24107a91d237f6c2ac5e9093c34ac9fb13b42de481d251
-  bytes: 35440
-- path: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0014.yaml
-  sha256: 0a2625e0514072a3481ee1160c8a12d82f0bd673910ae33499b3ef81472b4d99
-  bytes: 17494
+  sha256: 553406c79de961a9a7f53fbd04680704fc55a0c872001de453d23d56cf7b4dbe
+  bytes: 38708
+- path: .continuity/checkpoints/SES-20260722T093645Z-C7DB8EF0/0015.yaml
+  sha256: c7db28c3ff59b4296c8c759f16c4d9074f8056308c746d4bffbde7c740b2bce9
+  bytes: 17996
 - path: docs/03-continuity/change-requests/CR-0233-补齐R08关闭前历史Android页面统一模拟器视觉复核.md
   sha256: 41a2583832546cd8e0a570ef1e09330d9637116b73b709e383161344b9753b69
   bytes: 3875
@@ -8275,8 +8221,8 @@ source_manifest:
   sha256: bf2aa8cce5d3620ace8acb1c9f8ceed5f2c02e7e7151e154780b36609f7c7ba6
   bytes: 2893
 - path: docs/03-continuity/change-requests/CR-0236-使用本机API36补齐历史视觉最终缺失证据.md
-  sha256: 41b84dc947fba2b79e6ec2100acda49c2396e26d4740538875eb13d845f15385
-  bytes: 2886
+  sha256: 075653c462a47f864eedebe5faf1a1a87ef1d90f96020c6718aaf7045097bf64
+  bytes: 3278
 - path: docs/03-continuity/change-requests/CR-0237-修复历史视觉审核发现的R02安全页与R06关于页不合格UI.md
   sha256: d47284fd2f767559233db636b07ead65d5f5b654e42670f81ebf8218110f4117
   bytes: 2960
@@ -8284,8 +8230,11 @@ source_manifest:
   sha256: 9200432737a7c244446ba6228cc042538c635e20e13fc176ce74e6ff76569267
   bytes: 3648
 - path: docs/03-continuity/change-requests/CR-0239-修复普通CI工具回归中的公开诊断泄漏与测试夹具漂移.md
-  sha256: 72bc4ab22306f31d2a07ecdbf7324dc5d33ca79d16cea99a89434372f832385c
-  bytes: 3138
+  sha256: e7fa3147d45704bddfdb54405c4d3200067716f79db14efe8896ed3942a78994
+  bytes: 3482
+- path: docs/03-continuity/change-requests/CR-0240-执行修复后R08唯一最终历史视觉候选并固化逐页审核证据.md
+  sha256: e3e5102423d2c6b826a2c0579375cbd58e0032b06c47551595042625e820a111
+  bytes: 3474
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -8321,4 +8270,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 3c914a29e31fa8a4f331cbb0cdeecda68277c9e206cc7d8741d02676aa86f1f3
+context_hash: eb682ebba8f68f6cfdec4719aa0f52631f7bcb2dab26ab97dab78e398d15f968
