@@ -1041,3 +1041,8 @@
 - Actor：`codex-root-r08-007`
 - 摘要：TASK-R08-007完成：第三轮候选与轻量基线晋升PASS，R08三页AI视觉批准，固定签名APK完成四方一致交付并放桌面；Owner真机反馈异步PENDING。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T064621Z-68304DE1.md`
+
+## TASK-R08-008 · GitHub模拟器系统ANR隔离 · 2026-07-22
+
+- Run `29922189010` 证明固定API36构建与OIDC通过，但Pixel Launcher系统ANR弹层污染认证截图并阻断后续点击；该批截图不进入验收基线。
+- `CR-0241` 在候选采样前关闭并验证系统ANR弹层消失，认证入口绑定完整冻结文案，R04长屏媒体面板改用系统返回语义关闭；产品Release代码、API和数据库不变。

@@ -12,7 +12,9 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.Until
 import cc.orbexa.hhy.auth.AuthVisualAuditMode
 import cc.orbexa.hhy.auth.AuthVisualAuditScreen
 import cc.orbexa.hhy.designsystem.HhyTheme
@@ -97,7 +99,7 @@ class HistoricalVisualAuditTest {
         setAuditContent { AuthVisualAuditScreen(AuthVisualAuditMode.LOGIN, authApi) }
         waitForText("安全登录，开启协作")
         captureStable("13-r02-password-login.png")
-        composeRule.onNodeWithText("验证码登录").performSemanticsAction(SemanticsActions.OnClick)
+        composeRule.onNodeWithText("短信验证码登录").performSemanticsAction(SemanticsActions.OnClick)
         waitForText("短信验证码")
         captureStable("14-r02-sms-login.png")
         composeRule.onNodeWithText("注册账号").performSemanticsAction(SemanticsActions.OnClick)
@@ -193,6 +195,7 @@ class HistoricalVisualAuditTest {
         var priorSample: String? = null
         var stableMatches = 0
         repeat(20) { sample ->
+            dismissSystemAnrIfPresent()
             val temporary = File(target.cacheDir, "historical-visual-sample-$sample.png")
             assertTrue("Cannot capture historical visual sample for $name", device.takeScreenshot(temporary))
             val digest = sha256(temporary)
@@ -210,6 +213,22 @@ class HistoricalVisualAuditTest {
             SystemClock.sleep(350)
         }
         error("Historical screen pixels did not become stable and distinct for $name")
+    }
+
+    private fun dismissSystemAnrIfPresent() {
+        val englishTitle = By.textContains("isn't responding")
+        val chineseTitle = By.textContains("无响应")
+        if (!device.hasObject(englishTitle) && !device.hasObject(chineseTitle)) return
+        val waitAction = device.findObject(By.text("Wait")) ?: device.findObject(By.text("等待"))
+            ?: error("System ANR dialog is covering the historical visual surface")
+        waitAction.click()
+        check(device.wait(Until.gone(englishTitle), 5_000)) {
+            "English system ANR dialog did not close before historical screenshot"
+        }
+        check(device.wait(Until.gone(chineseTitle), 5_000)) {
+            "Chinese system ANR dialog did not close before historical screenshot"
+        }
+        device.waitForIdle(1_000)
     }
 
     private fun publishScreenshot(output: File, name: String) {

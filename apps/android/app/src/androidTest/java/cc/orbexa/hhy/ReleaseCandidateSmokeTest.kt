@@ -175,7 +175,8 @@ class ReleaseCandidateSmokeTest {
         assertTrue("R04 media upload sheet missed empty state", device.hasObject(By.text("还没有选择文件")))
         captureStable("21-r04-media-upload.png")
         assertNoForbiddenVisibleText()
-        clickExactText("取消")
+        device.pressBack()
+        device.waitForIdle(2_000)
         assertTrue("R04 media upload sheet did not close", device.wait(Until.gone(By.text("添加文件")), 10_000))
         device.pressBack()
         assertTrue("Back from editor did not restore project detail", waitForScreen("hhy.screen.r08.project.detail.content"))
@@ -246,6 +247,7 @@ class ReleaseCandidateSmokeTest {
         var priorSample: String? = null
         var stableMatches = 0
         repeat(20) { sample ->
+            dismissSystemAnrIfPresent()
             val temporary = File(target.cacheDir, "visual-sample-$sample.png")
             assertTrue("Cannot capture visual sample for $name", device.takeScreenshot(temporary))
             val digest = sha256(temporary)
@@ -263,6 +265,24 @@ class ReleaseCandidateSmokeTest {
             SystemClock.sleep(350)
         }
         error("Screen pixels did not become stable and distinct for $name")
+    }
+
+    private fun dismissSystemAnrIfPresent() {
+        val englishTitle = By.textContains("isn't responding")
+        val chineseTitle = By.textContains("无响应")
+        if (!device.hasObject(englishTitle) && !device.hasObject(chineseTitle)) return
+        val waitAction = device.findObject(By.text("Wait")) ?: device.findObject(By.text("等待"))
+            ?: error("System ANR dialog is covering the release candidate surface")
+        waitAction.click()
+        assertTrue(
+            "English system ANR dialog did not close before candidate screenshot",
+            device.wait(Until.gone(englishTitle), 5_000),
+        )
+        assertTrue(
+            "Chinese system ANR dialog did not close before candidate screenshot",
+            device.wait(Until.gone(chineseTitle), 5_000),
+        )
+        device.waitForIdle(1_000)
     }
 
     private fun publishScreenshot(output: File, name: String) {

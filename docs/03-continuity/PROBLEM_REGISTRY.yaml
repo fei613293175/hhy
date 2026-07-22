@@ -1176,3 +1176,17 @@ problems:
   - requestId、TraceId和错误码可以保留在内部诊断模型，但不得直接渲染到正式Android、H5或管理端页面
   - 增加全量门禁时必须同步其隔离正向夹具，不得通过放宽门禁修复测试
   - Python测试新增第三方导入时必须同步唯一CI依赖安装步骤并在推送前用干净依赖环境核对
+- id: PROB-0089
+  title: GitHub模拟器Pixel Launcher系统ANR覆盖历史视觉截图
+  status: IN_PROGRESS
+  root_cause: Run 29922189010的固定API36构建、OIDC和多数旅程均成功，但模拟器自身Pixel Launcher弹出英文系统ANR对话框；历史截图稳定采样误把该系统弹层当成稳定产品画面，认证页后续Compose点击被系统窗口阻断。R04媒体面板另因长屏底部取消按钮不在当前可见区域而失败，与产品业务和Git推送无关。
+  resolution: CR-0241不新增规则，在两个候选截图宿主的每次采样前检测Pixel Launcher的isn't responding/无响应标题，明确点击Wait/等待并确认弹层消失后才允许采图；认证Tab改用冻结完整文案，媒体底部面板用Android返回语义关闭。Run 29922189010及其被污染截图永久保留为失败证据，不得晋升。
+  regression_checks:
+  - Android app androidTest源码必须在固定API36工具链编译通过
+  - 候选截图不得包含Pixel Launcher、isn't responding、Close app、Wait或系统ANR遮罩
+  - 14至16三张认证截图必须全部存在且绑定SCR-AUTH-002至004
+  - R04媒体面板截图后必须稳定关闭并恢复R08详情页
+  do_not_repeat:
+  - 视觉采样稳定不代表画面属于被测应用，必须排除系统ANR、权限、升级和通知弹层
+  - 系统环境弹层不得误判为产品UI缺陷，也不得把受污染截图批准为视觉证据
+  - 长屏底部控件不可见时优先使用等价系统返回语义，不得依赖坐标或盲目增加等待时间
