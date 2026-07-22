@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260722T012224Z-E70EA3B7
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r08-003
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R08-003
 story_id: STORY-R08-004
 goal: 项目推广完整闭环后端应用服务与接口
 started_at: '2026-07-22T01:22:24Z'
-updated_at: '2026-07-22T03:12:12Z'
+updated_at: '2026-07-22T03:13:08Z'
 takeover_of: null
 change_requests:
 - CR-0211
@@ -100,22 +100,35 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T03:12:08Z'
-  expires_at: '2026-07-22T07:12:08Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml
+  renewed_at: '2026-07-22T03:13:04Z'
+  expires_at: '2026-07-22T07:13:04Z'
+checkpoint_sequence: 12
+latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0012.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md
-next_step: 关闭TASK-R08-003并原子切换TASK-R08-004，开始效果图级Android UI与R02-R07历史视觉回补。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 5f87272b945040af8e5980c367ab5a12e4d3a09af769ac48585be525399db350
-  generated_at: '2026-07-22T03:12:11Z'
+  context_hash: ca07a862e2d0ee7b07b12ac3233deed3f3bf327cac78a950f6168091e7b7a22c
+  generated_at: '2026-07-22T03:13:07Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: R08项目发布与详情后端闭环完成：九项页面依赖、V033/V034、真实PostgreSQL Store 3项和后端MODULE 340项均通过，P0/P1为0。
+  code_commit: d7b5b84b
+  next_release: R08
+  next_task: TASK-R08-004
+  blocked_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-22T03:13:01Z'
+  closure_checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0012
+  closed_at: '2026-07-22T03:13:08Z'
 parallel_execution:
   assessment: CAPABILITY_UNAVAILABLE
   delegated_workers: 0
   workers: []
   reason: 当前运行模式明确不允许自主启动子代理；任务关闭事实由主控串行复核。
+closed_at: '2026-07-22T03:13:08Z'

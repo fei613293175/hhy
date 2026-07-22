@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T03:12:11Z",
-  "context_hash": "5f87272b945040af8e5980c367ab5a12e4d3a09af769ac48585be525399db350",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-22T03:13:11Z",
+  "context_hash": "64f0d40382e17135d0ae8ab893e560ec92c115de45aa49423714fd9dc5d658e7",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "13d39f3f56b8b80d0e67d5e3d1d608929c98301c3b0b590de20919341f121083",
-    "file_count": 47
+    "sha256": "d1311c81141afc9da3f132e82b96f362b65e8b0581ce49c216b6abadb7ecf120",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "d048138f732c5e1aaf87d108b371ffd973434819b1869e0eb766fd4f24364a4a"
+    "sha256": "d3740553f16a1acc1cce7f4b985fe9c9983de27b5247080a67a2811ed79ad058"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "dbd9adf59dc43c0159850102204d413675bd8446ddaaacf3cd6f9f6de04b3f8e"
+    "sha256": "a3f32266feade432bd862a6c24f4abbbe7cb3777499df0e7b3b4496849cb849f"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "21b841e6ec67ffc416d5664047b1f0f818018fe8d7b7ce0ca6e0137d8212a67e",
-      "bytes": 3893
+      "sha256": "98fe3565125ef980ca8a63fd7bd999429b6e695bc8a84715392d0a27bec1cf2c",
+      "bytes": 3762
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "b3b55d261a90ec212372fadbb5b00131f63ccb955dcd4e399da4ac562255dc3b",
-      "bytes": 1516
+      "sha256": "2e00938e45f72209b0caf6f7a60a751fe16b37544b2b4cf214305784dd28e3df",
+      "bytes": 2530
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "7e478632bfd8c6e1badebefc51a0c760a6dacf92dc50ae1779dcc7bc917c6489",
-      "bytes": 1182366
+      "sha256": "fa6a02beaafc34849272dbc1a9e6f5a1d57c1ebd2ef0b50da7b4ec8b33ff70b7",
+      "bytes": 1184022
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "4fdb407255b7b37072ff6ca93508e9c1c3cda874458a455616e39c2fbcf31010",
-      "bytes": 35868
+      "sha256": "5dcef2141b64aa66a716242746d886a4af2dc5c63e6ae2180460594b06e0d8fd",
+      "bytes": 35886
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "807d74b33075e052e3e603eccc8190629d9fb0899fb220d77ab41bf7098d459f",
-      "bytes": 47682
+      "sha256": "75c9d3e783778850cd4eb8e2130ac8f4ce48270d02cdd111167930a0ff4bfc55",
+      "bytes": 47718
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "78a5848791c459b246b7359ad2d60df15a27c7d5a4ff5776bfec6721a65623cb",
-      "bytes": 533
+      "sha256": "45cb0b21c2c09fa107c2fd1875306d98e8c9621630ad65bd34facc86a0d4fb27",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R08/TASKS.yaml",
-      "sha256": "494d82061638ba9a33980400d2c638ee5256ab082a8d0a404c31973a404967cf",
-      "bytes": 6263
+      "sha256": "9991ed161addc3aee77ffefea64c6f65a0d08d5cf8dbf42e8f30e4fd339ccfff",
+      "bytes": 6299
     },
     {
       "path": "releases/R08/ACCEPTANCE_MATRIX.csv",
@@ -160,46 +160,6 @@
       "path": "releases/R08/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416",
       "bytes": 4185
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md",
-      "sha256": "ea750f1c77128adc0cc5f506a990ff97ff0acf16b39611d35ef41020101afd8d",
-      "bytes": 41728
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml",
-      "sha256": "912f54b91ec8b14a9fd94c1b8ea92a98b858d5216259131a05508c46af3832b2",
-      "bytes": 21948
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md",
-      "sha256": "8a29dda1725dfdcb3a93550a603f19b8003338f1c43a7db32a04c23190be2863",
-      "bytes": 6834
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md",
-      "sha256": "9aec879df41343ff50f073b081e38952dc325b54334b4a560820e989702c91e6",
-      "bytes": 3296
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md",
-      "sha256": "0a92a3ab4d357250867bb7235d52930a6aa70503151620544821f0cb5606400e",
-      "bytes": 4108
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md",
-      "sha256": "35f41575bec5f251350d9430d79ee5f1abe47f3ded24508455ee6bb3826fa10c",
-      "bytes": 2985
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md",
-      "sha256": "d4ecaa801092956f387b81815003a13067f3f2a90630f161e6202380fa4c6f37",
-      "bytes": 3916
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md",
-      "sha256": "c74c65436492018b82b3e01744dd9803cdee6320a8a56768663861b676f87a51",
-      "bytes": 3009
     }
   ]
 }

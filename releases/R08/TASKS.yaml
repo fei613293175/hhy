@@ -43,7 +43,7 @@ tasks:
   completed_at: '2026-07-22T01:16:49Z'
 - id: TASK-R08-003
   title: 项目推广完整闭环后端应用服务与接口
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R08-002
   requirements: *id001
@@ -57,9 +57,10 @@ tasks:
   - OpenAPI契约测试
   - 权限/幂等/错误码/审计覆盖
   session_log_required: true
+  completed_at: '2026-07-22T03:13:01Z'
 - id: TASK-R08-004
   title: 项目推广完整闭环客户端/H5/后台实现
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R08-003
   requirements: *id001

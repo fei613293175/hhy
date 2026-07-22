@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T03:12:11Z
-- Context Hash：`5f87272b945040af8e5980c367ab5a12e4d3a09af769ac48585be525399db350`
+- 生成时间：2026-07-22T03:13:11Z
+- Context Hash：`64f0d40382e17135d0ae8ab893e560ec92c115de45aa49423714fd9dc5d658e7`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
+python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-004
 ```
 
 ## 规则就绪
@@ -41,10 +41,10 @@ project: hhy-pro-platform
 baseline_version: 1.2.3
 phase: R08
 active_release: R08
-active_task: TASK-R08-003
-status: IN_PROGRESS
+active_task: TASK-R08-004
+status: READY
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-last_green_commit: aa3d7a83
+last_green_commit: d7b5b84b
 last_staging_apk: null
 completed_tasks:
 - V1.2.2_ENGINEERING_BASELINE
@@ -120,15 +120,15 @@ completed_tasks:
 - TASK-R07-007
 - TASK-R08-001
 - TASK-R08-002
-in_progress_tasks:
 - TASK-R08-003
+in_progress_tasks: []
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
-next_task: TASK-R08-003
-updated_at: '2026-07-22T03:12:08Z'
+next_task: TASK-R08-004
+updated_at: '2026-07-22T03:13:08Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -160,19 +160,17 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: SES-20260722T012224Z-E70EA3B7
-  actor_id: codex-root-r08-003
-  story_id: STORY-R08-004
-  lease_expires_at: '2026-07-22T07:12:08Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml
-  project_fingerprint: 13d39f3f56b8b80d0e67d5e3d1d608929c98301c3b0b590de20919341f121083
+  active_session_id: null
+  last_session_id: SES-20260722T012224Z-E70EA3B7
+  last_session_result: COMPLETED
+  last_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0012.yaml
+  last_handoff_bundle: null
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: bc0bd60bdd05e94689e3dae257b0b31ac40def9938c3b0b0e413cd4d3e79c892
-    generated_at: '2026-07-22T03:10:41Z'
-  handoff_bundle: null
+    context_hash: ca07a862e2d0ee7b07b12ac3233deed3f3bf327cac78a950f6168091e7b7a22c
+    generated_at: '2026-07-22T03:13:07Z'
 ```
 
 ## 默认并行规则
@@ -319,8 +317,8 @@ push_preflight:
 ## 下一任务
 
 ```yaml
-id: TASK-R08-003
-title: 项目推广完整闭环后端应用服务与接口
+id: TASK-R08-004
+title: 项目推广完整闭环客户端/H5/后台实现
 status: READY
 release: R08
 requirements:
@@ -328,22 +326,32 @@ requirements:
 - REQ-PROJECT-001
 - REQ-APK-001
 depends_on:
-- TASK-R08-002
+- TASK-R08-003
 definition_of_ready: releases/R08/DEFINITION_OF_READY.yaml
 stories: releases/R08/STORIES.yaml
 steps:
-- OpenAPI契约测试
-- 权限/幂等/错误码/审计覆盖
+- 全部页面绑定catalogs/ui_page_specifications.csv
+- R02-R07既有前端页面在catalogs/ui_visual_acceptance.csv完成新肉眼标准审计与必要回补
+- R08页面达到绑定效果图或批准补充规格同等级的视觉丰富度与精致度且不虚构业务
+- 无可靠参考时生成效果图补充需求包并继续推进其他不受影响页面
+- 字段/状态/动作/导航与后台运营规格通过契约测试
+- 禁止页面级手写重复DTO
+- 全部动作绑定生成API类型
 acceptance:
-- 无TODO/生产Mock
-- 代码、文档、测试、追踪同步更新
-- OpenAPI契约测试
-- 权限/幂等/错误码/审计覆盖
+- 所有页面故事验收条件通过
+- R02-R07历史回补状态全部为PASS或有经批准且不影响本候选的安全例外
+- 肉眼对照覆盖信息密度、层级、组件细节、品牌质感和状态完整性；仅Token合规、页面可用或截图存在不得判PASS
+- 页面丰富度只使用开发文档、页面合同、API事实和非业务装饰资产，禁止虚构功能、字段、指标与数据
+- 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
+- 全部页面绑定catalogs/ui_page_specifications.csv
+- 字段/状态/动作/导航与后台运营规格通过契约测试
+- 禁止页面级手写重复DTO
+- 全部动作绑定生成API类型
 claim_required: true
-start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-003
+start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-004
 commands:
   resume: python3 scripts/continuity.py resume
-  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-003
+  start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R08-004
   checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
     <ASSESSMENT> --parallel-reason '<未委托原因>'
   handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -356,591 +364,13 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-protocol_version: '1.0'
-package_version: 1.2.3
-session_id: SES-20260722T012224Z-E70EA3B7
-status: ACTIVE
-actor:
-  id: codex-root-r08-003
-  kind: AI_OR_HUMAN
-  host: unknown
-release: R08
-task_id: TASK-R08-003
-story_id: STORY-R08-004
-goal: 项目推广完整闭环后端应用服务与接口
-started_at: '2026-07-22T01:22:24Z'
-updated_at: '2026-07-22T03:12:08Z'
-takeover_of: null
-change_requests:
-- CR-0211
-- CR-0212
-- CR-0213
-- CR-0214
-- CR-0215
-- CR-0216
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - contracts/openapi.yaml
-  - contracts/contract_status.csv
-  - services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - packages/api-client/src/client.generated.ts
-  - database/migrations/V034__r08_backend_configuration.sql
-  - services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
-  - database/rollback/U034__r08_backend_configuration.sql
-  - database/tests/r08_backend_configuration.sql
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
-  - tests/test_r08_backend_contract.py
-  - tests/test_r08_backend_configuration.py
-  - scripts/run_r08_backend_postgres_integration.sh
-  - artifacts/reports/R08/TASK-R08-003-backend.md
-  - CHANGELOG.md
-  - .continuity/CONTINUITY_POLICY.yaml
-  - docs/00-baseline/正式商业系统全局硬性开发边界.md
-  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
-  - catalogs/ui_visual_acceptance.csv
-  - scripts/check_ui_visual_acceptance.py
-  - tests/test_ui_visual_acceptance.py
-  - releases/R08/TASKS.yaml
-  - artifacts/validation/continuity-integration-v1.2.3.json
-  - artifacts/validation/continuity-integration-v1.2.3.log
-  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-  source: story+explicit+approved-cr:CR-0211+approved-cr:CR-0212+approved-cr:CR-0213+approved-cr:CR-0214
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  base_commit: 2e09ed18f835ab325b8b88afb7fab062547cac9b
-  start_head: 2e09ed18f835ab325b8b88afb7fab062547cac9b
-  upstream: origin/task/TASK-R03-001
-  initial_worktree_state: CLEAN
-lease:
-  duration_minutes: 240
-  renewed_at: '2026-07-22T03:12:08Z'
-  expires_at: '2026-07-22T07:12:08Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml
-session_log: docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md
-next_step: 关闭TASK-R08-003并原子切换TASK-R08-004，开始效果图级Android UI与R02-R07历史视觉回补。
-context_pack: THIS_CONTEXT_PACK
-handoff_bundle: null
-closure: null
-parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
-  delegated_workers: 0
-  workers: []
-  reason: 当前运行模式明确不允许自主启动子代理；任务关闭事实由主控串行复核。
+status: NONE
 ```
 
 ## 最新检查点
 
 ```yaml
-protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0011
-session_id: SES-20260722T012224Z-E70EA3B7
-sequence: 11
-created_at: '2026-07-22T03:12:08Z'
-summary: CR-0211、CR-0212、CR-0216已按实现Commit和最终证据关闭；TASK-R08-003九项后端依赖、V033/V034、真实Store和MODULE全部完成。
-next_step: 关闭TASK-R08-003并原子切换TASK-R08-004，开始效果图级Android UI与R02-R07历史视觉回补。
-blockers: []
-decisions:
-- R08-003后端范围已完成并可关闭；视觉与候选APK按依赖顺序进入R08-004及后续任务。
-note: ''
-tests:
-- name: r08-postgres-store-exact-commit
-  result: PASS
-  evidence: /tmp/hhy-r08-task003-java21-postgres-e312321c.log
-  note: commit e312321c; 3 tests 0 failures 0 errors 0 skips
-- name: r08-backend-module-exact-commit
-  result: PASS
-  evidence: /tmp/hhy-r08-task003-module-java21-e312321c.log
-  note: commit e312321c; 340 tests 0 failures 0 errors 8 skips
-- name: r08-postgresql-migrations
-  result: PASS
-  evidence: /tmp/hhy-r08-task003-pg17.log and /tmp/hhy-r08-task003-config-pg17.log
-  note: V033 V034 gates passed
-- name: r08-python-contract
-  result: PASS
-  evidence: python -m unittest tests.test_r08_backend_contract tests.test_r08_backend_configuration
-  note: 7 tests passed
-git:
-  initialized: true
-  branch: task/TASK-R03-001
-  head: 0f0257dc7694be5555a1f71dab2ea452d616840a
-  upstream: origin/task/TASK-R03-001
-  ahead: 1
-  behind: 0
-  dirty: true
-  status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0211.yaml'
-  - ' M .continuity/change_requests/CR-0212.yaml'
-  - ' M .continuity/change_requests/CR-0216.yaml'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md'
-  - ' M docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md'
-  - ' M docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md'
-  recent_commits:
-  - "0f0257dc7694be5555a1f71dab2ea452d616840a\t2026-07-22T11:10:54+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record project\
-    \ backend module evidence"
-  - "e312321c8e0664493aec04dd232552eb42ce6e18\t2026-07-22T11:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): satisfy verified\
-    \ identity fixture invariants"
-  - "906548df4399f6f9272e61ae442a566cd91c44cb\t2026-07-22T10:53:08+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close rule\
-    \ readiness changes"
-  - "f483640ba0e16b2601cabbb643820d4273cb07ac\t2026-07-22T10:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): enforce\
-    \ rule readiness and UI fidelity"
-  - "09a826ee4a3764498c8e0f6c0b15739ec8a49f68\t2026-07-22T10:09:30+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): honor immutable\
-    \ detail cleanup guard"
-  - "a2850c4066b8d27714deff29790c57335b44b460\t2026-07-22T10:03:43+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): implement project\
-    \ backend operations"
-  - "2e09ed18f835ab325b8b88afb7fab062547cac9b\t2026-07-22T09:21:49+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
-    \ clean context before R08-003"
-  - "333c29598ecb6af8520cc0579669cb8c283bcc09\t2026-07-22T09:18:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-002\
-    \ as completed"
-project_fingerprint:
-  sha256: 13d39f3f56b8b80d0e67d5e3d1d608929c98301c3b0b590de20919341f121083
-  files:
-  - AGENTS.md
-  - CHANGELOG.md
-  - START_HERE.md
-  - catalogs/ui_visual_acceptance.csv
-  - config/CONTINUITY_POLICY.yaml
-  - contracts/contract_status.csv
-  - contracts/openapi.yaml
-  - database/migrations/V034__r08_backend_configuration.sql
-  - database/rollback/U034__r08_backend_configuration.sql
-  - database/tests/r08_backend_configuration.sql
-  - docs/00-baseline/正式商业系统全局硬性开发边界.md
-  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
-  - docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md
-  - docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
-  - docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
-  - docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
-  - docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md
-  - docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
-  - packages/api-client/src/client.generated.ts
-  - releases/R08/TASKS.yaml
-  - scripts/check_ui_visual_acceptance.py
-  - scripts/check_v123_continuity.py
-  - scripts/continuity_gate.py
-  - scripts/continuity_lib.py
-  - scripts/run_continuity_self_test.py
-  - scripts/run_r08_backend_postgres_integration.sh
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-  - services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
-  - templates/AGENTS.md
-  - templates/START_HERE.md
-  - tests/test_context_pack_parallel_policy.py
-  - tests/test_r08_backend_configuration.py
-  - tests/test_r08_backend_contract.py
-  - tests/test_ui_visual_acceptance.py
-  file_count: 47
-  payload:
-    base_commit: 2e09ed18f835ab325b8b88afb7fab062547cac9b
-    files:
-    - path: AGENTS.md
-      state: FILE
-      size: 13124
-      sha256: d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86
-    - path: CHANGELOG.md
-      state: FILE
-      size: 74937
-      sha256: de9e39a62fe40131d8b2da6e0b6b60b43215b80341fc93756179e9b9edc96930
-    - path: START_HERE.md
-      state: FILE
-      size: 4556
-      sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
-    - path: catalogs/ui_visual_acceptance.csv
-      state: FILE
-      size: 12650
-      sha256: 3870c938a236fa0c71fc67dcbb92477a9514fba18c282f328b2b9a0e3406d060
-    - path: config/CONTINUITY_POLICY.yaml
-      state: FILE
-      size: 2321
-      sha256: 4639fce0b6c78276d3ff36152af2eab5ee8a499cfbed2b3c14f2a186a509ed01
-    - path: contracts/contract_status.csv
-      state: FILE
-      size: 140010
-      sha256: 9350663ddac5cad352fa7b7c8828d8652c00040954e18ec87af08894b8baa47d
-    - path: contracts/openapi.yaml
-      state: FILE
-      size: 602003
-      sha256: 92a3d9843bc3e4860b54843f0bd3fdfa5a4cd7d49852a72ab560fa29e91af21c
-    - path: database/migrations/V034__r08_backend_configuration.sql
-      state: FILE
-      size: 1234
-      sha256: 46c277432eb83e825a301a5d02f58b08530919789ec90b07602bc43fc583f2ac
-    - path: database/rollback/U034__r08_backend_configuration.sql
-      state: FILE
-      size: 2694
-      sha256: 467d0afa1823aa688b3d5b4a41708f4f20dd7f4b17025ddd0a397eb70f5d470c
-    - path: database/tests/r08_backend_configuration.sql
-      state: FILE
-      size: 2078
-      sha256: b63aa80bbe9681b85b7b17ebc2c443ebbfbf05e2fd3e6935b4ece9af8e65cb36
-    - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
-      state: FILE
-      size: 11671
-      sha256: 70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a
-    - path: docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
-      state: FILE
-      size: 7071
-      sha256: 45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b
-    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
-      state: FILE
-      size: 98617
-      sha256: c95af96d5dd6cc2df5ebf51b13d579a25339840227a9083ff7e7f019092ac39f
-    - path: docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
-      state: FILE
-      size: 6834
-      sha256: 8a29dda1725dfdcb3a93550a603f19b8003338f1c43a7db32a04c23190be2863
-    - path: docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md
-      state: FILE
-      size: 3296
-      sha256: 9aec879df41343ff50f073b081e38952dc325b54334b4a560820e989702c91e6
-    - path: docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
-      state: FILE
-      size: 4108
-      sha256: 0a92a3ab4d357250867bb7235d52930a6aa70503151620544821f0cb5606400e
-    - path: docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
-      state: FILE
-      size: 2985
-      sha256: 35f41575bec5f251350d9430d79ee5f1abe47f3ded24508455ee6bb3826fa10c
-    - path: docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
-      state: FILE
-      size: 3916
-      sha256: d4ecaa801092956f387b81815003a13067f3f2a90630f161e6202380fa4c6f37
-    - path: docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md
-      state: FILE
-      size: 3009
-      sha256: c74c65436492018b82b3e01744dd9803cdee6320a8a56768663861b676f87a51
-    - path: docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
-      state: FILE
-      size: 4488
-      sha256: d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51
-    - path: packages/api-client/src/client.generated.ts
-      state: FILE
-      size: 620705
-      sha256: fc739fe861931ae66280d5e9ce01c634ac9956444598d1954f1ad57440d0f4c0
-    - path: releases/R08/TASKS.yaml
-      state: FILE
-      size: 6263
-      sha256: 494d82061638ba9a33980400d2c638ee5256ab082a8d0a404c31973a404967cf
-    - path: scripts/check_ui_visual_acceptance.py
-      state: FILE
-      size: 12575
-      sha256: 0acbbd072e7508848a30a007c01e0b126d4386d819c5aceb2dc882bf3553d669
-    - path: scripts/check_v123_continuity.py
-      state: FILE
-      size: 35731
-      sha256: d5541cd76f7e52382f640b05d023487a39c960c365bbfc0e1905579d6b96e569
-    - path: scripts/continuity_gate.py
-      state: FILE
-      size: 42396
-      sha256: 42a7880f9fffc097a7400cd4a44a1f5047b2bff92b5993e66d799d95f5ec010b
-    - path: scripts/continuity_lib.py
-      state: FILE
-      size: 113689
-      sha256: 6bff70e3c6ca918bfc21bdf5dfb4680257f1c1d1091dce1f329d568c5494e778
-    - path: scripts/run_continuity_self_test.py
-      state: FILE
-      size: 10894
-      sha256: 16af58ba87b8466523ff5dc950705f616c5d1aec96ced820063544737159af1a
-    - path: scripts/run_r08_backend_postgres_integration.sh
-      state: FILE
-      size: 3746
-      sha256: 2a9d42efefd62657a5ed5bdf3ff55f66e99d3de2f484235f36d8f4ae737f34b3
-    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-      state: FILE
-      size: 5474
-      sha256: dfc32adae5b797fdf9a2540847e99513b9f4175dc85c9bf24348bb7b31e4bdc8
-    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
-      state: FILE
-      size: 602003
-      sha256: 92a3d9843bc3e4860b54843f0bd3fdfa5a4cd7d49852a72ab560fa29e91af21c
-    - path: services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
-      state: FILE
-      size: 1234
-      sha256: 46c277432eb83e825a301a5d02f58b08530919789ec90b07602bc43fc583f2ac
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
-      state: FILE
-      size: 1956
-      sha256: 0cdfe33c0ff5ba32d85f22a4a9472a830f8b2efc8b0099d013f1e9c9c6f0ece4
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
-      state: FILE
-      size: 7714
-      sha256: acf09a33f36f17fbc126ea9c1c0186cd63fd2c10e2776847dac2e37a711f74e9
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
-      state: FILE
-      size: 6459
-      sha256: 99ef6c653c7dc9d5b666f32fbc9fb2a852689bcf7f20ffea5dbe50457db1b867
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-      state: FILE
-      size: 15887
-      sha256: c9f343461a07183d15470ce2dc04d374e8fee41b4762cfb778899b19ce382002
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-      state: FILE
-      size: 23087
-      sha256: 332e065d366fef563b58471446e4df123b9842540f943c94d328bf11b75cbab1
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
-      state: FILE
-      size: 2499
-      sha256: 3fa1b47f472fe0e297aef8565dfe6fe5bf33e67b9710fbf039fe1fc373c9552a
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
-      state: FILE
-      size: 3190
-      sha256: 18571828aad9430a7b430dc4ac4680d99952434c40348fa8b67e2ff3c14ba995
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
-      state: FILE
-      size: 16542
-      sha256: 32b5902e96d815fb3071c60889c5279b219a7b13230275c67fa65c8983573aaf
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
-      state: FILE
-      size: 25423
-      sha256: f71cad458f424d28d2ac83fe3106bc409b4649f326af74b8c906dce5af725675
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
-      state: FILE
-      size: 2847
-      sha256: bf12d7044cffbe879198f9e897ca912a253de74ddb7c5376cf2c9490b315c53f
-    - path: templates/AGENTS.md
-      state: FILE
-      size: 13124
-      sha256: d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86
-    - path: templates/START_HERE.md
-      state: FILE
-      size: 4556
-      sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
-    - path: tests/test_context_pack_parallel_policy.py
-      state: FILE
-      size: 8943
-      sha256: 1ae35d8644c247ccd19a2ecbb11027b0b617e638fccecd6d113a8d51cb8876ea
-    - path: tests/test_r08_backend_configuration.py
-      state: FILE
-      size: 1946
-      sha256: b04a38bc23636fca2ce8d49a0fa60a06ba3a5883d41be44e6e58c3342ad0b36e
-    - path: tests/test_r08_backend_contract.py
-      state: FILE
-      size: 2333
-      sha256: 607cc5c3a609f440ccabfb45c21ecb4441e72b9135242b63b6a2a025ea876735
-    - path: tests/test_ui_visual_acceptance.py
-      state: FILE
-      size: 9890
-      sha256: 38fb11f2d3aa8af7126ae55f6c82623c25e7597e6ef3aa492d1b0ac3908c1904
-change_classification:
-  other:
-  - AGENTS.md
-  - CHANGELOG.md
-  - catalogs/ui_visual_acceptance.csv
-  - config/CONTINUITY_POLICY.yaml
-  - releases/R08/TASKS.yaml
-  - templates/AGENTS.md
-  - templates/START_HERE.md
-  user_visible:
-  - START_HERE.md
-  - contracts/contract_status.csv
-  - contracts/openapi.yaml
-  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
-  source_of_truth:
-  - contracts/contract_status.csv
-  - contracts/openapi.yaml
-  - docs/00-baseline/正式商业系统全局硬性开发边界.md
-  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
-  contracts:
-  - contracts/contract_status.csv
-  - contracts/openapi.yaml
-  database:
-  - database/migrations/V034__r08_backend_configuration.sql
-  - database/rollback/U034__r08_backend_configuration.sql
-  - database/tests/r08_backend_configuration.sql
-  continuity:
-  - docs/03-continuity/PROBLEM_REGISTRY.yaml
-  - docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md
-  - docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md
-  - docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md
-  - docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md
-  - docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md
-  - docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md
-  - docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md
-  code:
-  - packages/api-client/src/client.generated.ts
-  - scripts/check_ui_visual_acceptance.py
-  - scripts/check_v123_continuity.py
-  - scripts/continuity_gate.py
-  - scripts/continuity_lib.py
-  - scripts/run_continuity_self_test.py
-  - scripts/run_r08_backend_postgres_integration.sh
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-  - services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
-  tests:
-  - tests/test_context_pack_parallel_policy.py
-  - tests/test_r08_backend_configuration.py
-  - tests/test_r08_backend_contract.py
-  - tests/test_ui_visual_acceptance.py
-required_records:
-- SESSION_RECORD
-- SESSION_LOG
-- CHECKPOINT
-- CURRENT_STATUS
-- EVENT_LOG
-- APPROVED_CHANGE_REQUEST
-- DATABASE_TEST_EVIDENCE
-- SCHEMA_TRACEABILITY
-- CONTRACT_TEST_EVIDENCE
-- GENERATED_CLIENTS_OR_GENERATION_RECORD
-- CHANGELOG
-change_requests:
-- CR-0211
-- CR-0212
-- CR-0213
-- CR-0214
-- CR-0215
-- CR-0216
-scope:
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  approved_exceptions:
-  - contracts/openapi.yaml
-  - contracts/contract_status.csv
-  - services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - packages/api-client/src/client.generated.ts
-  - database/migrations/V034__r08_backend_configuration.sql
-  - services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql
-  - database/rollback/U034__r08_backend_configuration.sql
-  - database/tests/r08_backend_configuration.sql
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentContracts.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java
-  - tests/test_r08_backend_contract.py
-  - tests/test_r08_backend_configuration.py
-  - scripts/run_r08_backend_postgres_integration.sh
-  - artifacts/reports/R08/TASK-R08-003-backend.md
-  - CHANGELOG.md
-  - .continuity/CONTINUITY_POLICY.yaml
-  - docs/00-baseline/正式商业系统全局硬性开发边界.md
-  - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
-  - catalogs/ui_visual_acceptance.csv
-  - scripts/check_ui_visual_acceptance.py
-  - tests/test_ui_visual_acceptance.py
-  - releases/R08/TASKS.yaml
-  - artifacts/validation/continuity-integration-v1.2.3.json
-  - artifacts/validation/continuity-integration-v1.2.3.log
-  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.json
-  - artifacts/validation/continuity-lifecycle-integration-v1.2.3.log
-  source: story+explicit+approved-cr:CR-0211+approved-cr:CR-0212+approved-cr:CR-0213+approved-cr:CR-0214
-parallel_execution:
-  assessment: CAPABILITY_UNAVAILABLE
-  delegated_workers: 0
-  workers: []
-  reason: 当前运行模式明确不允许自主启动子代理；任务关闭事实由主控串行复核。
-event_hash: 49d4fb2fcc8ceb4dbfe48b1dec086f353ce32360c9c00f00447214d9837819c2
+status: NO_CHECKPOINT
 ```
 
 ## 接续状态与事件头
@@ -948,12 +378,12 @@ event_hash: 49d4fb2fcc8ceb4dbfe48b1dec086f353ce32360c9c00f00447214d9837819c2
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: SES-20260722T012224Z-E70EA3B7
-last_session_id: SES-20260722T004601Z-1DC3809E
+active_session_id: null
+last_session_id: SES-20260722T012224Z-E70EA3B7
 last_session_result: COMPLETED
-last_closure_checkpoint_id: CP-SES-20260722T004601Z-1DC3809E-0003
-event_count: 2154
-event_head_hash: 49d4fb2fcc8ceb4dbfe48b1dec086f353ce32360c9c00f00447214d9837819c2
+last_closure_checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0012
+event_count: 2157
+event_head_hash: b1d3fa76a6460dff9c536324af87c911823bd4d819656c8093abeb0ab8a47a02
 event_chain_valid: true
 ```
 
@@ -1072,13 +502,13 @@ recent_sessions: - session_id: SES-20260721T130339Z-785E85BE
   task_id: TASK-R08-003
   story_id: STORY-R08-004
   actor_id: codex-root-r08-003
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-22T01:22:24Z'
   record: .continuity/sessions/SES-20260722T012224Z-E70EA3B7.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md
-  updated_at: '2026-07-22T03:12:08Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml
+  updated_at: '2026-07-22T03:13:08Z'
+  closed_at: '2026-07-22T03:13:08Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0012.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1066EF896172
   session_id: SES-20260720T155546Z-F13C645A
@@ -1791,7 +1221,7 @@ task_claims: - claim_id: CLM-1066EF896172
   task_id: TASK-R08-003
   story_id: STORY-R08-004
   actor_id: codex-root-r08-003
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-22T01:22:24Z'
   allowed_paths:
   - apps/**
@@ -1825,6 +1255,7 @@ task_claims: - claim_id: CLM-1066EF896172
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-22T03:13:08Z'
 recent_task_transitions: - transition_id: TRN-B976848B4DB8
   timestamp: '2026-07-20T15:55:47Z'
   release: R06
@@ -2032,30 +1463,31 @@ recent_task_transitions: - transition_id: TRN-B976848B4DB8
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 0f0257dc7694be5555a1f71dab2ea452d616840a
+head: d7b5b84b1d73ddd78e43faa82e29b6d0370f992d
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 2
 behind: 0
 dirty: true
 status_porcelain:
 - ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
 - ' M .continuity/EVENT_LOG.jsonl'
 - ' M .continuity/SESSION_INDEX.yaml'
 - ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0211.yaml'
-- ' M .continuity/change_requests/CR-0212.yaml'
-- ' M .continuity/change_requests/CR-0216.yaml'
+- ' M .continuity/TASK_CLAIMS.yaml'
 - ' M .continuity/sessions/SES-20260722T012224Z-E70EA3B7.yaml'
+- ' M CHANGELOG.md'
 - ' M CURRENT_STATUS.yaml'
-- ' M catalogs/change_request_index.csv'
+- ' M NEXT_TASK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
 - ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md'
-- ' M docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md'
-- ' M docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md'
-- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml
+- ' M releases/R08/TASKS.yaml'
+- ?? .continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0012.yaml
 recent_commits:
+- "d7b5b84b1d73ddd78e43faa82e29b6d0370f992d\t2026-07-22T11:12:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(r08): close project backend\
+  \ change requests"
 - "0f0257dc7694be5555a1f71dab2ea452d616840a\t2026-07-22T11:10:54+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] docs(r08): record project backend\
   \ module evidence"
 - "e312321c8e0664493aec04dd232552eb42ce6e18\t2026-07-22T11:05:42+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] test(r08): satisfy verified\
@@ -2070,62 +1502,14 @@ recent_commits:
   \ backend operations"
 - "2e09ed18f835ab325b8b88afb7fab062547cac9b\t2026-07-22T09:21:49+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh clean\
   \ context before R08-003"
-- "333c29598ecb6af8520cc0579669cb8c283bcc09\t2026-07-22T09:18:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-002\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`13d39f3f56b8b80d0e67d5e3d1d608929c98301c3b0b590de20919341f121083`
-- 文件数：47
+- 指纹：`d1311c81141afc9da3f132e82b96f362b65e8b0581ce49c216b6abadb7ecf120`
+- 文件数：0
 
-- `AGENTS.md`
-- `CHANGELOG.md`
-- `START_HERE.md`
-- `catalogs/ui_visual_acceptance.csv`
-- `config/CONTINUITY_POLICY.yaml`
-- `contracts/contract_status.csv`
-- `contracts/openapi.yaml`
-- `database/migrations/V034__r08_backend_configuration.sql`
-- `database/rollback/U034__r08_backend_configuration.sql`
-- `database/tests/r08_backend_configuration.sql`
-- `docs/00-baseline/正式商业系统全局硬性开发边界.md`
-- `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
-- `docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md`
-- `docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md`
-- `docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md`
-- `docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md`
-- `docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md`
-- `docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md`
-- `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md`
-- `packages/api-client/src/client.generated.ts`
-- `releases/R08/TASKS.yaml`
-- `scripts/check_ui_visual_acceptance.py`
-- `scripts/check_v123_continuity.py`
-- `scripts/continuity_gate.py`
-- `scripts/continuity_lib.py`
-- `scripts/run_continuity_self_test.py`
-- `scripts/run_r08_backend_postgres_integration.sh`
-- `services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java`
-- `services/backend/boot/src/main/resources/contracts/openapi.yaml`
-- `services/backend/boot/src/main/resources/db/migration/V034__r08_backend_configuration.sql`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R08ControllerContractTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08PostgresStoreTest.java`
-- `services/backend/boot/src/test/java/cc/orbexa/hhy/content/R08ServiceTest.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentPostgresStore.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentService.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/ContentStore.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Contracts.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R08PostgresStore.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Service.java`
-- `services/backend/content/src/main/java/cc/orbexa/hhy/content/R08Store.java`
-- `templates/AGENTS.md`
-- `templates/START_HERE.md`
-- `tests/test_context_pack_parallel_policy.py`
-- `tests/test_r08_backend_configuration.py`
-- `tests/test_r08_backend_contract.py`
-- `tests/test_ui_visual_acceptance.py`
+- 无
 
 ## 当前 Release
 
@@ -2772,7 +2156,7 @@ TASKS.yaml:
     completed_at: '2026-07-22T01:16:49Z'
   - id: TASK-R08-003
     title: 项目推广完整闭环后端应用服务与接口
-    status: READY
+    status: DONE
     depends_on:
     - TASK-R08-002
     requirements: *id001
@@ -2786,9 +2170,10 @@ TASKS.yaml:
     - OpenAPI契约测试
     - 权限/幂等/错误码/审计覆盖
     session_log_required: true
+    completed_at: '2026-07-22T03:13:01Z'
   - id: TASK-R08-004
     title: 项目推广完整闭环客户端/H5/后台实现
-    status: BLOCKED
+    status: READY
     depends_on:
     - TASK-R08-003
     requirements: *id001
@@ -7538,8 +6923,8 @@ PARALLEL_EXECUTION_PLAN.yaml:
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `21b841e6ec67ffc416d5664047b1f0f818018fe8d7b7ce0ca6e0137d8212a67e`
-- `NEXT_TASK.yaml` — `b3b55d261a90ec212372fadbb5b00131f63ccb955dcd4e399da4ac562255dc3b`
+- `CURRENT_STATUS.yaml` — `98fe3565125ef980ca8a63fd7bd999429b6e695bc8a84715392d0a27bec1cf2c`
+- `NEXT_TASK.yaml` — `2e00938e45f72209b0caf6f7a60a751fe16b37544b2b4cf214305784dd28e3df`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
 - `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `c95af96d5dd6cc2df5ebf51b13d579a25339840227a9083ff7e7f019092ac39f`
@@ -7549,12 +6934,12 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `7e478632bfd8c6e1badebefc51a0c760a6dacf92dc50ae1779dcc7bc917c6489`
-- `.continuity/SESSION_INDEX.yaml` — `4fdb407255b7b37072ff6ca93508e9c1c3cda874458a455616e39c2fbcf31010`
-- `.continuity/TASK_CLAIMS.yaml` — `807d74b33075e052e3e603eccc8190629d9fb0899fb220d77ab41bf7098d459f`
+- `.continuity/EVENT_LOG.jsonl` — `fa6a02beaafc34849272dbc1a9e6f5a1d57c1ebd2ef0b50da7b4ec8b33ff70b7`
+- `.continuity/SESSION_INDEX.yaml` — `5dcef2141b64aa66a716242746d886a4af2dc5c63e6ae2180460594b06e0d8fd`
+- `.continuity/TASK_CLAIMS.yaml` — `75c9d3e783778850cd4eb8e2130ac8f4ce48270d02cdd111167930a0ff4bfc55`
 - `.continuity/TASK_TRANSITIONS.yaml` — `6628ef42a5747b15fe5ec6bf85275904029430c57e0224f337fae0ba06f119c1`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `9ac9669b84ac4b4e226d5f33583962e72a5ef314ec70346a089d672581220f56`
-- `.continuity/ACTIVE_SESSION.yaml` — `78a5848791c459b246b7359ad2d60df15a27c7d5a4ff5776bfec6721a65623cb`
+- `.continuity/ACTIVE_SESSION.yaml` — `45cb0b21c2c09fa107c2fd1875306d98e8c9621630ad65bd34facc86a0d4fb27`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `45c4624bee7381f84fccb6a5221888a98944f73cfc5d3ae239d2ac4a9e9d1c9b`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -7562,17 +6947,9 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R08/RELEASE_MANIFEST.yaml` — `62ce3ebc9d1aefa77c684678fbd51364f0842afeeef604623645b79ff23882c9`
 - `releases/R08/DEFINITION_OF_READY.yaml` — `73b6bee8cacca90fa3564f4c6443f21b32d35afbfef83fad5a2a3b8705e536c5`
 - `releases/R08/STORIES.yaml` — `035e6d5b8a0cccd8e30f30d5cd80c858a846e745c5cf3075aa6742d4f0a370b6`
-- `releases/R08/TASKS.yaml` — `494d82061638ba9a33980400d2c638ee5256ab082a8d0a404c31973a404967cf`
+- `releases/R08/TASKS.yaml` — `9991ed161addc3aee77ffefea64c6f65a0d08d5cf8dbf42e8f30e4fd339ccfff`
 - `releases/R08/ACCEPTANCE_MATRIX.csv` — `1e47b204a5cbd289d9ccafc93b0f4afb45983db76a23a4492dd463ffeec0cb98`
 - `releases/R08/PARALLEL_EXECUTION_PLAN.yaml` — `f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md` — `ea750f1c77128adc0cc5f506a990ff97ff0acf16b39611d35ef41020101afd8d`
-- `.continuity/checkpoints/SES-20260722T012224Z-E70EA3B7/0011.yaml` — `912f54b91ec8b14a9fd94c1b8ea92a98b858d5216259131a05508c46af3832b2`
-- `docs/03-continuity/change-requests/CR-0211-实现R08项目发布详情收藏分享会话及公共分享后端闭环.md` — `8a29dda1725dfdcb3a93550a603f19b8003338f1c43a7db32a04c23190be2863`
-- `docs/03-continuity/change-requests/CR-0212-对齐R08冻结发布字段与PostgreSQL列容量.md` — `9aec879df41343ff50f073b081e38952dc325b54334b4a560820e989702c91e6`
-- `docs/03-continuity/change-requests/CR-0213-建立效果图级视觉丰富度精致度与历史页面回补硬门禁.md` — `0a92a3ab4d357250867bb7235d52930a6aa70503151620544821f0cb5606400e`
-- `docs/03-continuity/change-requests/CR-0214-刷新UI唯一策略变更后的连续性重建证据.md` — `35f41575bec5f251350d9430d79ee5f1abe47f3ded24508455ee6bb3826fa10c`
-- `docs/03-continuity/change-requests/CR-0215-增强既有规则去重与跨AI规则就绪门禁.md` — `d4ecaa801092956f387b81815003a13067f3f2a90630f161e6202380fa4c6f37`
-- `docs/03-continuity/change-requests/CR-0216-修正R08真实PostgreSQL实名夹具约束缺项.md` — `c74c65436492018b82b3e01744dd9803cdee6320a8a56768663861b676f87a51`
 
 ## 接手硬规则
 
