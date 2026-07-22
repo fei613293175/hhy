@@ -38,9 +38,9 @@
 
 | 证据 | SHA-256 |
 |---|---|
-| `artifacts/validation/r09-test-evidence/backend-java21.log` | `1b04b0ee61fcd96c29cabe5ceb38d2035fb26fcf358d68644e255d2b9621a308` |
-| `artifacts/validation/r09-test-evidence/postgresql17.log` | `38abf1e1dbe7ea1ae36462948c5c607abdf8c14ded1885f4f7b79423ffe9ad09` |
-| `artifacts/validation/r09-test-evidence/android-module.log` | `7b3a95bd9f635868ccc68c371462d32e67eb7c43e7906fdf07d45942f4a35cfc` |
+| `artifacts/validation/r09-test-evidence/backend-java21.log` | `99f39b8e81569962ed04132f1da59d264fb5b108779fc93719a11d7d365d30e4` |
+| `artifacts/validation/r09-test-evidence/postgresql17.log` | `5ab37c3a6b4df66764bbc52e68fda9953a80d6de0e471deb68de1762fc5bb577` |
+| `artifacts/validation/r09-test-evidence/android-module.log` | `a88ee5fb0de6a570ec21a6bd5d3ce7dcf7e0171889ef0804229aad7a491d7aee` |
 | 后端精确源码归档 | `0a5e135a0516a4774428ec83f95e3e530b362d81925118203969ac9b5d64165c` |
 
 `evidence.json` 对每个测试 ID 记录断言、退出码和原始日志哈希。本任务只运行受影响 MODULE 和一次性 PostgreSQL 17，没有触发 GitHub 模拟器、候选 APK 或大版本关闭门禁。

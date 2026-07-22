@@ -1,4 +1,4 @@
-﻿SOURCE_COMMIT=450d8758a2ba2ad42b4906f8911495815ac29213
+SOURCE_COMMIT=450d8758a2ba2ad42b4906f8911495815ac29213
 SUITE=backend-java21-affected-module
 openjdk version "21.0.11" 2026-04-21 LTS
 OpenJDK Runtime Environment Temurin-21.0.11+10 (build 21.0.11+10-LTS)

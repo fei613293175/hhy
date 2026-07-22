@@ -21,15 +21,15 @@
       "artifacts": [
         {
           "path": "backend-java21.log",
-          "sha256": "1b04b0ee61fcd96c29cabe5ceb38d2035fb26fcf358d68644e255d2b9621a308"
+          "sha256": "99f39b8e81569962ed04132f1da59d264fb5b108779fc93719a11d7d365d30e4"
         },
         {
           "path": "postgresql17.log",
-          "sha256": "38abf1e1dbe7ea1ae36462948c5c607abdf8c14ded1885f4f7b79423ffe9ad09"
+          "sha256": "5ab37c3a6b4df66764bbc52e68fda9953a80d6de0e471deb68de1762fc5bb577"
         },
         {
           "path": "android-module.log",
-          "sha256": "7b3a95bd9f635868ccc68c371462d32e67eb7c43e7906fdf07d45942f4a35cfc"
+          "sha256": "a88ee5fb0de6a570ec21a6bd5d3ce7dcf7e0171889ef0804229aad7a491d7aee"
         }
       ]
     },
@@ -45,11 +45,11 @@
       "artifacts": [
         {
           "path": "backend-java21.log",
-          "sha256": "1b04b0ee61fcd96c29cabe5ceb38d2035fb26fcf358d68644e255d2b9621a308"
+          "sha256": "99f39b8e81569962ed04132f1da59d264fb5b108779fc93719a11d7d365d30e4"
         },
         {
           "path": "android-module.log",
-          "sha256": "7b3a95bd9f635868ccc68c371462d32e67eb7c43e7906fdf07d45942f4a35cfc"
+          "sha256": "a88ee5fb0de6a570ec21a6bd5d3ce7dcf7e0171889ef0804229aad7a491d7aee"
         }
       ]
     },
@@ -65,15 +65,15 @@
       "artifacts": [
         {
           "path": "backend-java21.log",
-          "sha256": "1b04b0ee61fcd96c29cabe5ceb38d2035fb26fcf358d68644e255d2b9621a308"
+          "sha256": "99f39b8e81569962ed04132f1da59d264fb5b108779fc93719a11d7d365d30e4"
         },
         {
           "path": "postgresql17.log",
-          "sha256": "38abf1e1dbe7ea1ae36462948c5c607abdf8c14ded1885f4f7b79423ffe9ad09"
+          "sha256": "5ab37c3a6b4df66764bbc52e68fda9953a80d6de0e471deb68de1762fc5bb577"
         },
         {
           "path": "android-module.log",
-          "sha256": "7b3a95bd9f635868ccc68c371462d32e67eb7c43e7906fdf07d45942f4a35cfc"
+          "sha256": "a88ee5fb0de6a570ec21a6bd5d3ce7dcf7e0171889ef0804229aad7a491d7aee"
         }
       ]
     }

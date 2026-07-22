@@ -1,4 +1,4 @@
-﻿SOURCE_COMMIT=450d8758a2ba2ad42b4906f8911495815ac29213
+SOURCE_COMMIT=450d8758a2ba2ad42b4906f8911495815ac29213
 SUITE=postgresql17-real-store
 psql (PostgreSQL) 17.10 (Debian 17.10-1.pgdg13+1)
 [INFO] Scanning for projects...
