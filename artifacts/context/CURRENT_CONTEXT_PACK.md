@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T20:35:04Z
-- Context Hash：`42b146ec55bac62667f93cacd2e1023f629f990959b0fb40007e9df0117b1e70`
+- 生成时间：2026-07-22T20:39:22Z
+- Context Hash：`519ad39ab7d88c3b195278e384e06b04f6d2f25c32a0cbd43b3ee41eb58c2f45`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -139,7 +139,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R09-006
-updated_at: '2026-07-22T20:35:01Z'
+updated_at: '2026-07-22T20:39:19Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -174,15 +174,15 @@ continuity:
   active_session_id: SES-20260722T200509Z-8FC026EC
   actor_id: codex-root-r09-observability
   story_id: STORY-R09-004
-  lease_expires_at: '2026-07-23T00:35:01Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0007.yaml
-  project_fingerprint: f61434073059dc7226b698626baaf7922afa24dbcb44c12b758f367113fde666
+  lease_expires_at: '2026-07-23T00:39:19Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0008.yaml
+  project_fingerprint: 55c05a964aebf90c111f124eed0cf6185883991624f436dab4c05d9d6667f8fe
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 595a9e5ca08b39f7dea0f75c637d54bab85cde93d52993f5388ae74880b83c3c
-    generated_at: '2026-07-22T20:30:38Z'
+    context_hash: 42b146ec55bac62667f93cacd2e1023f629f990959b0fb40007e9df0117b1e70
+    generated_at: '2026-07-22T20:35:04Z'
   handoff_bundle: null
 ```
 
@@ -380,7 +380,7 @@ task_id: TASK-R09-006
 story_id: STORY-R09-004
 goal: 完成R09 App推广结构化日志、TraceId、RED与业务指标、告警和回滚运行手册演练及预发布验收矩阵。
 started_at: '2026-07-22T20:05:09Z'
-updated_at: '2026-07-22T20:35:01Z'
+updated_at: '2026-07-22T20:39:19Z'
 takeover_of: null
 change_requests:
 - CR-0253
@@ -478,12 +478,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T20:35:01Z'
-  expires_at: '2026-07-23T00:35:01Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0007.yaml
+  renewed_at: '2026-07-22T20:39:19Z'
+  expires_at: '2026-07-23T00:39:19Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md
-next_step: 提交推送最终网络端口修正，在空项目中重新执行单一入口
+next_step: 提交推送竞态修复，在空项目中重跑完整R09隔离验收
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -491,55 +491,52 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一Compose项目的清理、冻结提交和重跑必须串行，避免资源竞态
+  reason: 同一冻结提交和单一Compose验收资源必须串行重建与采证
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T200509Z-8FC026EC-0007
+checkpoint_id: CP-SES-20260722T200509Z-8FC026EC-0008
 session_id: SES-20260722T200509Z-8FC026EC
-sequence: 7
-created_at: '2026-07-22T20:35:00Z'
-summary: 清理失败的R09临时项目后，将Prometheus默认回环端口修正为服务器确认未占用的39597并补回归
-next_step: 提交推送最终网络端口修正，在空项目中重新执行单一入口
+sequence: 8
+created_at: '2026-07-22T20:39:18Z'
+summary: 修复Prometheus进程ready与首次目标抓取之间的竞态，并为R09验收各阶段补明确诊断
+next_step: 提交推送竞态修复，在空项目中重跑完整R09隔离验收
 blockers: []
 decisions:
-- 网络隔离清单必须同时核对子网和所有宿主发布端口，禁止只检查其中一类资源
+- 监控进程ready不等于被监控目标可验收；必须等待active target health=up
 note: ''
 tests:
 - name: r09-staging-bootstrap-regression
   result: PASS
   evidence: tests/test_r09_staging_acceptance.py
-  note: 4 tests pass including network and port
+  note: 5 tests pass including scrape readiness ordering
 - name: r09-observability-static
   result: PASS
   evidence: scripts/check_r09_observability.py
-  note: configuration contract pass
-- name: failed-stage-cleanup
+  note: configuration and stage diagnostics pass
+- name: prometheus-race-diagnosis
   result: PASS
-  evidence: obx-test hhy-r09-staging labels
-  note: only failed temporary containers, volumes and network removed; no public or prior-release resources touched
-- name: port-inventory
-  result: PASS
-  evidence: obx-test docker ps publish filters
-  note: 39593 belongs to R06; 39597 is unused
+  evidence: obx-test partial evidence plus live targets
+  note: initial activeTargets empty, later target health up
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: c7c342dd9d4a39863b5c6e22b46c9a76c962ac29
+  head: 185d81a2ac7efa3380c37420b5e54165a4b899f6
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
   - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
-  - ' M infra/staging/r09-smoke/docker-compose.yml'
   - ' M scripts/check_r09_observability.py'
   - ' M scripts/run_r09_staging_acceptance.sh'
   - ' M tests/test_r09_staging_acceptance.py'
   recent_commits:
+  - "185d81a2ac7efa3380c37420b5e54165a4b899f6\t2026-07-23T04:35:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(staging): isolate observability\
+    \ ports"
   - "c7c342dd9d4a39863b5c6e22b46c9a76c962ac29\t2026-07-23T04:30:48+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(staging): isolate R09\
     \ network range"
   - "fdfd5be62adcbaa49af97a73d24947fa9ed53fc9\t2026-07-23T04:27:00+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(staging): bootstrap isolated\
@@ -553,10 +550,8 @@ git:
     \ hashes"
   - "c70fa6d869a810e16cb07288a3ffc7164c85319a\t2026-07-23T03:59:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): freeze promotion\
     \ evidence"
-  - "450d8758a2ba2ad42b4906f8911495815ac29213\t2026-07-23T03:52:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): add promotion fault\
-    \ matrix"
 project_fingerprint:
-  sha256: f61434073059dc7226b698626baaf7922afa24dbcb44c12b758f367113fde666
+  sha256: 55c05a964aebf90c111f124eed0cf6185883991624f436dab4c05d9d6667f8fe
   files:
   - CHANGELOG.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
@@ -587,8 +582,8 @@ project_fingerprint:
       sha256: 786aa81225673f1a8424643162705abc19c322e0753e8a27195fbc44c59a220e
     - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
       state: FILE
-      size: 126253
-      sha256: 62c008ac355ba503d040db75ad52b45aef44379ccafac276d45732821bd26e0c
+      size: 126756
+      sha256: 951cf065c284166eeed86823922a0a8a5142067b34b4e24ebd8500e2f8fb0648
     - path: docs/03-continuity/change-requests/CR-0253-R09-App推广可观测性与隔离Staging验收.md
       state: FILE
       size: 3801
@@ -635,12 +630,12 @@ project_fingerprint:
       sha256: 9a19ae55b4bf541c31dc97a5c060aa7f6d89342a0df2fbfbacebb58087341863
     - path: scripts/check_r09_observability.py
       state: FILE
-      size: 5280
-      sha256: b5d95918a34c7a8a9114e009bc81cc7564931c5e5567f1832ded28a9cf6089c7
+      size: 5375
+      sha256: a0e2564fcde44757518298e816a8e17c813176161ce58dd6917bd23874991c71
     - path: scripts/run_r09_staging_acceptance.sh
       state: FILE
-      size: 15463
-      sha256: 7faf34136eacc9b072b13438f21761922dc497ff748e178d3d6c7880c1a44c15
+      size: 16008
+      sha256: aa41362145ff5dec1c201f60f99aa7ac0a4ae51a64861c7da7769fa9178a4027
     - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
       state: FILE
       size: 22017
@@ -655,8 +650,8 @@ project_fingerprint:
       sha256: 184449c5dae5299b94ae185f1f41c47a5771757f355ef50125a86ba6802855c3
     - path: tests/test_r09_staging_acceptance.py
       state: FILE
-      size: 2410
-      sha256: 3567dea6fd32126cf0282ae40620b928230cb7e2a990eb478b01f8bbff061427
+      size: 3062
+      sha256: 3f531c44f242a00215ec1accd9125c2a61afc5983d014bba031897aafdf2b366
 change_classification:
   other:
   - CHANGELOG.md
@@ -779,8 +774,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一Compose项目的清理、冻结提交和重跑必须串行，避免资源竞态
-event_hash: 78dea801dc448118609e819121c36b80a95c528aa9dc312475aa8db194c9ed7a
+  reason: 同一冻结提交和单一Compose验收资源必须串行重建与采证
+event_hash: e4e16e74d9f1cf1b8ff1501ff0e067981db02bdc320f7a88ad5800bf43bd6dfd
 ```
 
 ## 接续状态与事件头
@@ -792,8 +787,8 @@ active_session_id: SES-20260722T200509Z-8FC026EC
 last_session_id: SES-20260722T194140Z-BCF8BB57
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T194140Z-BCF8BB57-0007
-event_count: 2528
-event_head_hash: 78dea801dc448118609e819121c36b80a95c528aa9dc312475aa8db194c9ed7a
+event_count: 2529
+event_head_hash: e4e16e74d9f1cf1b8ff1501ff0e067981db02bdc320f7a88ad5800bf43bd6dfd
 event_chain_valid: true
 ```
 
@@ -916,9 +911,9 @@ recent_sessions: - session_id: SES-20260722T053639Z-033C23B5
   started_at: '2026-07-22T20:05:09Z'
   record: .continuity/sessions/SES-20260722T200509Z-8FC026EC.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md
-  updated_at: '2026-07-22T20:35:01Z'
+  updated_at: '2026-07-22T20:39:19Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0007.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0008.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-98BA5FE9AB16
   session_id: SES-20260721T171025Z-A3718A1C
@@ -1931,7 +1926,7 @@ recent_task_transitions: - transition_id: TRN-630BFAD72A20
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: c7c342dd9d4a39863b5c6e22b46c9a76c962ac29
+head: 185d81a2ac7efa3380c37420b5e54165a4b899f6
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
@@ -1946,12 +1941,13 @@ status_porcelain:
 - ' M catalogs/session_index.csv'
 - ' M docs/03-continuity/PROBLEM_REGISTRY.yaml'
 - ' M docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md'
-- ' M infra/staging/r09-smoke/docker-compose.yml'
 - ' M scripts/check_r09_observability.py'
 - ' M scripts/run_r09_staging_acceptance.sh'
 - ' M tests/test_r09_staging_acceptance.py'
-- ?? .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0007.yaml
+- ?? .continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0008.yaml
 recent_commits:
+- "185d81a2ac7efa3380c37420b5e54165a4b899f6\t2026-07-23T04:35:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(staging): isolate observability\
+  \ ports"
 - "c7c342dd9d4a39863b5c6e22b46c9a76c962ac29\t2026-07-23T04:30:48+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(staging): isolate R09 network\
   \ range"
 - "fdfd5be62adcbaa49af97a73d24947fa9ed53fc9\t2026-07-23T04:27:00+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(staging): bootstrap isolated\
@@ -1965,13 +1961,11 @@ recent_commits:
   \ hashes"
 - "c70fa6d869a810e16cb07288a3ffc7164c85319a\t2026-07-23T03:59:01+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): freeze promotion\
   \ evidence"
-- "450d8758a2ba2ad42b4906f8911495815ac29213\t2026-07-23T03:52:18+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] test(app): add promotion fault\
-  \ matrix"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`f61434073059dc7226b698626baaf7922afa24dbcb44c12b758f367113fde666`
+- 指纹：`55c05a964aebf90c111f124eed0cf6185883991624f436dab4c05d9d6667f8fe`
 - 文件数：19
 
 - `CHANGELOG.md`
@@ -8190,23 +8184,23 @@ TASKS.yaml:
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `510df324a365002a55c3de38be28bed1ba0278dadb6cb52b8260070398816c7f`
+- `CURRENT_STATUS.yaml` — `87ee9d3283b1769d54ae122f32bf121b2b62906d396383e07e0aa1d95c6f6ef0`
 - `NEXT_TASK.yaml` — `32fe5d184c485535ebac39cfcf4bdf01a01fd0943385047c56e988e2cbc30aea`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `62c008ac355ba503d040db75ad52b45aef44379ccafac276d45732821bd26e0c`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `951cf065c284166eeed86823922a0a8a5142067b34b4e24ebd8500e2f8fb0648`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519`
 - `docs/03-continuity/PITFALLS.md` — `a2f52728083c1d4ae1b2e8fdec207546594e396fb797b4348d61e5d0d7a402ea`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `4c137ac4aa74929ebb53c4b2d2a1a87dfc40e2a0f107214c62d335f98943ba6d`
-- `.continuity/SESSION_INDEX.yaml` — `d622671399f1001302e1cc26d4b3fb7e103347b73b942c93c7f958edf7b5e28e`
+- `.continuity/EVENT_LOG.jsonl` — `0ccb3750f61e6431c73da475712143c7459f18623114e2ca403a4f47780a2452`
+- `.continuity/SESSION_INDEX.yaml` — `9d54211d65c40bf4a0bf0fcbc8b81edd60bf63e6d802555120b7b57725636f76`
 - `.continuity/TASK_CLAIMS.yaml` — `d0d4500f863f9cc07cab975ffe70d3414c339874b6713eb73adb90565b5aa64d`
 - `.continuity/TASK_TRANSITIONS.yaml` — `c16f149e07044c45a1693c490f6e66ba958209a7810b4d89dd24cec24d198bff`
 - `.continuity/CHANGE_REQUEST_INDEX.yaml` — `ee77c37cf2b9e28f1f1f822040716706f46a60523f9c32506e123de99782ee85`
-- `.continuity/ACTIVE_SESSION.yaml` — `d8f943e10a27d215f7efd64878bbe95fdc7337b7c49f8494d0ff20f344d5a7b4`
+- `.continuity/ACTIVE_SESSION.yaml` — `7d32eb7b5abce1ec8ecfab43f0c2af2ce588ae19d9b5cd42a875339ed4fe9579`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -8216,8 +8210,8 @@ TASKS.yaml:
 - `releases/R09/STORIES.yaml` — `bf6aa9b385fde354089345fa0172e6d9ca01a3fa96f0ce696a3086a394ce2776`
 - `releases/R09/TASKS.yaml` — `50f7c721eb560619840060667a957a2bb613b19525b0828eaa509c8c96cd99f1`
 - `releases/R09/ACCEPTANCE_MATRIX.csv` — `98e99c241f9e7ab8814e20fb62060f90c5903da20c1ef39ec81fa75d3bdecfb3`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md` — `88129f1172a68b717d63c5d76ea49f77847fa6e8a0853de36cc09eab9ae84b81`
-- `.continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0007.yaml` — `fffcda54d8ea0389b4fde71316ef2a8680237cf8df0c76d37e2045fbc0dc52d0`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T200509Z-8FC026EC.md` — `f1b44437d76a14f7909131223429977b85f88e95c297a7ad22c2b8b49a79af5c`
+- `.continuity/checkpoints/SES-20260722T200509Z-8FC026EC/0008.yaml` — `238ee80afb1013f55a493c7a48e7941782493c7af0ba1a004e7b36aee65abbdd`
 - `docs/03-continuity/change-requests/CR-0253-R09-App推广可观测性与隔离Staging验收.md` — `666544c95c650d17f7694c696449e435046f7ec782f3dbb1c09025c0bfcc3dc1`
 - `docs/03-continuity/change-requests/CR-0254-R09-App推广可观测性与隔离Staging验收精确范围.md` — `1344e35eed954061862febd6615b957c3f26083ca58208071868547b299bea7a`
 - `docs/03-continuity/change-requests/CR-0255-R09隔离Staging单一入口自启动修复.md` — `e8ea7e72fd99e1a3522f60188f0a99107525c8153505db3e04d406437ab503cc`

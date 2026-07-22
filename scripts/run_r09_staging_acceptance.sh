@@ -65,6 +65,19 @@ wait_url() {
   done
 }
 
+wait_prometheus_target() {
+  local timeout=${1:-120} elapsed=0
+  until curl -fsS "http://127.0.0.1:${PROMETHEUS_PORT}/api/v1/targets" \
+      | grep -q '"health":"up"'; do
+    if (( elapsed >= timeout )); then
+      echo R09_PROMETHEUS_TARGET_NOT_UP >&2
+      return 1
+    fi
+    sleep 2
+    elapsed=$((elapsed + 2))
+  done
+}
+
 wait_container_readiness() {
   local timeout=${1:-150} elapsed=0
   until docker exec "$API" curl -fsS http://127.0.0.1:9091/actuator/health/readiness >/dev/null 2>&1; do
@@ -156,11 +169,13 @@ record_runtime_state() {
 }
 
 capture_baseline() {
+  echo R09_STAGE_CAPTURE_BASELINE
   mkdir -p "$EVIDENCE"
   refresh_containers
   wait_container_readiness
   wait_url "http://127.0.0.1:${HTTP_PORT}/public-api/v1/platform/status"
   wait_url "http://127.0.0.1:${PROMETHEUS_PORT}/-/ready"
+  wait_prometheus_target
   local current_image pg_volume
   current_image=$(docker inspect "$API" --format '{{.Image}}')
   pg_volume=$(docker inspect "$POSTGRES" --format '{{range .Mounts}}{{if eq .Destination "/var/lib/postgresql/data"}}{{.Name}}{{end}}{{end}}')
@@ -206,9 +221,11 @@ capture_baseline() {
     infra/staging/r09-smoke/alertmanager.yml infra/staging/r09-smoke/nginx.conf \
     infra/staging/r09-smoke/r09-alerts.yml scripts/check_r09_observability.py \
     scripts/run_r09_staging_acceptance.sh > "$EVIDENCE/source-sha256.txt"
+  echo R09_STAGE_CAPTURE_BASELINE_OK
 }
 
 exercise_backend_alert() {
+  echo R09_STAGE_BACKEND_ALERT
   docker exec "$ALERT_SINK" sh -c ': > /data/deliveries.jsonl'
   docker stop "$API" >/dev/null
   wait_rule_firing HhyR09BackendDown
@@ -221,6 +238,7 @@ exercise_backend_alert() {
 }
 
 exercise_r09_outbox_alert() {
+  echo R09_STAGE_OUTBOX_ALERT
   docker exec -i "$POSTGRES" psql -U hhy_r09_smoke -d hhy_r09_smoke -v ON_ERROR_STOP=1 <<SQL >/dev/null
 INSERT INTO hhy.outbox_events(aggregate_id, aggregate_type, event_id, event_type, event_version, headers, payload, status)
 SELECT 'r09-stage-' || value, 'CONTENT', '${ALERT_EVENT_PREFIX}-' || value,
@@ -242,6 +260,7 @@ SQL
 }
 
 exercise_rollback() {
+  echo R09_STAGE_ROLLBACK
   refresh_containers
   load_compose_environment
   local before_pg before_volume rollback_image_id final_image_id
@@ -278,6 +297,7 @@ exercise_rollback() {
 }
 
 finalize_evidence() {
+  echo R09_STAGE_FINALIZE_EVIDENCE
   refresh_containers
   local flyway total_tables business_tables current_image pg_volume
   flyway=$(record_database_state | sed -n '1p')

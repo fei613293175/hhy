@@ -82,6 +82,7 @@ for token in (
 for token in (
     "FROZEN_COMMIT", "test \"$(git rev-parse HEAD)\" = \"$FROZEN_COMMIT\"",
     "R09_STAGING_PROJECT_NOT_EMPTY", "R09_STAGING_BUILD_AND_START", "${COMPOSE[@]} up -d --build",
+    "wait_prometheus_target", "R09_PROMETHEUS_TARGET_NOT_UP", "R09_STAGE_CAPTURE_BASELINE_OK",
     "HhyR09BackendDown", "HhyR09OutboxBacklog", "PUBLISHING", "PUBLISHED",
     "rollback_same_postgres_volume=PASS", "SHA256SUMS",
 ):

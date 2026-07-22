@@ -48,6 +48,16 @@ class R09StagingAcceptanceTest(unittest.TestCase):
         self.assertNotIn("HHY_R09_PROMETHEUS_PORT:-39593", self.compose)
         self.assertNotIn("HHY_R09_PROMETHEUS_PORT:-39593", self.runner)
 
+    def test_baseline_waits_for_first_successful_prometheus_scrape(self) -> None:
+        wait_function = self.runner.index("wait_prometheus_target() {")
+        target_diagnostic = self.runner.index("R09_PROMETHEUS_TARGET_NOT_UP", wait_function)
+        capture = self.runner.index("capture_baseline() {")
+        target_wait = self.runner.index("\n  wait_prometheus_target\n", capture)
+        target_capture = self.runner.index('prometheus-targets.json"', target_wait)
+        self.assertLess(wait_function, target_diagnostic)
+        self.assertLess(target_wait, target_capture)
+        self.assertIn("R09_STAGE_CAPTURE_BASELINE_OK", self.runner)
+
 
 if __name__ == "__main__":
     unittest.main()
