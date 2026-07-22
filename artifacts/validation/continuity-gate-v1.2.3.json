@@ -1,20 +1,28 @@
 {
   "version": "1.2.3",
   "protocol_version": "1.0",
-  "mode": "doctor",
+  "mode": "pre-commit",
   "strict": true,
-  "status": "PASS",
+  "status": "FAIL",
   "metrics": {
-    "event_count": 2263,
-    "event_head_hash": "7bd88978538f9b346533017680a88633fa1665f66a8383a9a7b8a8c2d1df82cc",
+    "event_count": 2417,
+    "event_head_hash": "3420fbe640ea377fa97f2e4be2f7c00e8b1b156d6ccb42ff912f31042b849318",
     "rule_readiness": "PASS",
     "required_rule_sources": 11,
+    "changed_files": 0,
+    "project_changed_files": 0,
+    "change_classification": {},
     "document_gate": {
-      "status": "EXECUTED",
-      "forced": true,
+      "status": "SKIPPED_UNAFFECTED",
+      "forced": false,
       "affected_inputs": []
     }
   },
-  "errors": [],
+  "errors": [
+    {
+      "code": "PARTIAL_COMMIT",
+      "message": "禁止部分提交项目内容；先创建检查点并一次性暂存全部项目变更"
+    }
+  ],
   "warnings": []
 }

@@ -159,7 +159,11 @@ def next_actions(workflow: dict[str, Any], release: str | None) -> list[str]:
             "prepare and verify four-copy APK delivery",
         ])
     elif workflow["mode"] == "RELEASE_CLOSE":
-        actions.extend(["verify release acceptance and documentation", "close release only after owner gates"])
+        actions.extend([
+            "verify the large-version machine candidate, acceptance evidence and documentation once",
+            "complete machine handoff while owner physical feedback remains asynchronous",
+            "run the explicit production close gate only after owner physical PASS",
+        ])
     return actions
 
 

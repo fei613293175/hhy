@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate release artifacts, with an opt-in terminal release-close gate."""
+"""Validate release artifacts with distinct machine and production close gates."""
 from __future__ import annotations
 
 from argparse import ArgumentParser
@@ -22,6 +22,9 @@ from check_ui_visual_acceptance import validate_release as validate_ui_visual_re
 
 ROOT = Path(__file__).resolve().parents[1]
 TERMINAL_RELEASE_STATUSES = {"DONE", "COMPLETED", "CLOSED", "RELEASED"}
+MACHINE_RELEASE_STATUSES = TERMINAL_RELEASE_STATUSES | {
+    "MACHINE_COMPLETE", "MACHINE_COMPLETE_OWNER_PENDING",
+}
 TERMINAL_TEST_STATUSES = {"PASS", "PASSED", "GREEN", "SUCCESS"}
 COMMIT_PATTERN = re.compile(r"[0-9a-fA-F]{40}|[0-9a-fA-F]{64}")
 TAG_PATTERN = re.compile(r"[A-Za-z0-9][A-Za-z0-9._/-]*")
@@ -91,8 +94,10 @@ def regular_check(selected_release: str | None = None) -> int:
 
 
 class CloseGate:
-    def __init__(self, release: str) -> None:
+    def __init__(self, release: str, stage: str) -> None:
         self.release = release
+        self.stage = stage
+        self.production = stage == "production"
         self.errors: list[tuple[str, str]] = []
 
     def require(self, condition: bool, code: str, message: str) -> None:
@@ -112,11 +117,28 @@ class CloseGate:
         expected = [f"TASK-{self.release}-{number:03d}" for number in range(1, 9)]
         actual = [str(row.get("id") or "") for row in tasks if isinstance(row, dict)]
         self.require(actual == expected, "TASKS_EXACT_SET", f"必须按顺序包含8个任务：{expected}")
-        unfinished = [
-            str(row.get("id") or "") for row in tasks
-            if not isinstance(row, dict) or str(row.get("status") or "").upper() != "DONE"
-        ]
-        self.require(not unfinished, "TASKS_NOT_DONE", f"未完成任务：{unfinished}")
+        if self.production:
+            unfinished = [
+                str(row.get("id") or "") for row in tasks
+                if not isinstance(row, dict) or str(row.get("status") or "").upper() != "DONE"
+            ]
+            self.require(not unfinished, "TASKS_NOT_DONE", f"未完成任务：{unfinished}")
+        elif len(tasks) == 8:
+            unfinished_prerequisites = [
+                str(row.get("id") or "") for row in tasks[:-1]
+                if not isinstance(row, dict) or str(row.get("status") or "").upper() != "DONE"
+            ]
+            final_status = str(tasks[-1].get("status") or "").upper() if isinstance(tasks[-1], dict) else ""
+            self.require(
+                not unfinished_prerequisites,
+                "MACHINE_CLOSE_PREREQUISITE_NOT_DONE",
+                f"机器收尾前七项任务未完成：{unfinished_prerequisites}",
+            )
+            self.require(
+                final_status in {"READY", "IN_PROGRESS", "DONE"},
+                "MACHINE_CLOSE_TASK_STATE_INVALID",
+                f"最终收尾任务状态非法：{final_status or 'EMPTY'}",
+            )
         return document, actual
 
     def validate_acceptance(self) -> list[dict[str, str]]:
@@ -204,21 +226,29 @@ class CloseGate:
         manifest = load_yaml(path)
         status = str(manifest.get("status") or "").upper()
         self.require(manifest.get("release") == self.release, "MANIFEST_RELEASE_MISMATCH", "Manifest release不一致")
-        self.require(status in TERMINAL_RELEASE_STATUSES, "MANIFEST_NOT_TERMINAL", f"Manifest状态不是终态：{status or 'EMPTY'}")
+        allowed_statuses = TERMINAL_RELEASE_STATUSES if self.production else MACHINE_RELEASE_STATUSES
+        self.require(
+            status in allowed_statuses,
+            "MANIFEST_NOT_TERMINAL" if self.production else "MANIFEST_NOT_MACHINE_COMPLETE",
+            f"Manifest状态不符合{self.stage}关闭要求：{status or 'EMPTY'}",
+        )
 
         operations = self.manifest_operations(manifest)
-        self.require(bool(operations), "MANIFEST_OPERATION_COUNT", "必须声明至少1个operationId")
+        if self.production:
+            self.require(bool(operations), "MANIFEST_OPERATION_COUNT", "生产验收必须声明至少1个operationId")
         self.require(len(set(operations)) == len(operations), "MANIFEST_OPERATION_DUPLICATE", "operationId存在重复")
         invalid = [value for value in operations if not self.complete_string(value)]
         self.require(not invalid, "MANIFEST_OPERATION_PLACEHOLDER", f"operationId含占位值：{invalid}")
         unknown = sorted(set(operations) - self.known_operation_ids())
         self.require(not unknown, "MANIFEST_OPERATION_UNKNOWN", f"OpenAPI中不存在operationId：{unknown}")
 
-        git_block = manifest.get("git") if isinstance(manifest.get("git"), dict) else {}
-        commit = manifest.get("release_commit") or manifest.get("commit") or git_block.get("commit")
-        tag = manifest.get("release_tag") or manifest.get("tag") or git_block.get("tag")
-        resolved_commit = self.git_commit(commit, "MANIFEST_COMMIT_INVALID")
-        self.git_tag(tag, resolved_commit)
+        resolved_commit = None
+        if self.production:
+            git_block = manifest.get("git") if isinstance(manifest.get("git"), dict) else {}
+            commit = manifest.get("release_commit") or manifest.get("commit") or git_block.get("commit")
+            tag = manifest.get("release_tag") or manifest.get("tag") or git_block.get("tag")
+            resolved_commit = self.git_commit(commit, "MANIFEST_COMMIT_INVALID")
+            self.git_tag(tag, resolved_commit)
         return manifest, resolved_commit
 
     def pending_paths(self, value: Any, prefix: str = "") -> list[str]:
@@ -243,6 +273,8 @@ class CloseGate:
         apk = load_yaml(path)
         self.require(apk.get("release") == self.release, "APK_RELEASE_MISMATCH", "APK release不一致")
         pending = self.pending_paths(apk)
+        if not self.production:
+            pending = [value for value in pending if value not in {"test_status", "owner_physical_test"}]
         self.require(not pending, "APK_PENDING_VALUE", f"APK Manifest仍含PENDING：{pending}")
 
         apk_file = apk.get("apk_file")
@@ -261,7 +293,8 @@ class CloseGate:
         if apk_commit and candidate_commit:
             self.require(apk_commit == candidate_commit, "APK_COMMIT_MISMATCH", "APK Commit与声明的Android候选Commit不一致")
         test_status = str(apk.get("test_status") or "").upper()
-        self.require(test_status in TERMINAL_TEST_STATUSES, "APK_TEST_NOT_PASS", f"APK测试状态非法：{test_status or 'EMPTY'}")
+        allowed_test_statuses = TERMINAL_TEST_STATUSES if self.production else TERMINAL_TEST_STATUSES | {"PENDING"}
+        self.require(test_status in allowed_test_statuses, "APK_TEST_NOT_PASS", f"APK测试状态非法：{test_status or 'EMPTY'}")
         url = str(apk.get("download_url") or "").strip()
         parsed = urlparse(url)
         self.require(
@@ -290,7 +323,13 @@ class CloseGate:
         self.require(automation.get("policy_id") == "HHY-ANDROID-AUTOMATION-V1", "ANDROID_POLICY_MISMATCH", "Android自动化策略版本不一致")
         self.require(str(automation.get("status") or "").upper() == "PASS", "ANDROID_AUTOMATION_NOT_PASS", "Android自动门禁不是PASS")
         self.require(automation.get("owner_test_allowed") is True, "ANDROID_OWNER_TEST_NOT_ALLOWED", "自动门禁尚未允许项目所有者真机测试")
-        self.require(str(automation.get("owner_physical_test") or "").upper() == "PASS", "ANDROID_OWNER_TEST_NOT_PASS", "项目所有者最终候选真机验收不是PASS")
+        owner_status = str(automation.get("owner_physical_test") or "").upper()
+        allowed_owner_statuses = {"PASS"} if self.production else {"PENDING", "PASS"}
+        self.require(
+            owner_status in allowed_owner_statuses,
+            "ANDROID_OWNER_TEST_NOT_PASS" if self.production else "ANDROID_OWNER_TEST_STATE_INVALID",
+            f"项目所有者真机验收状态不符合{self.stage}关闭要求：{owner_status or 'EMPTY'}",
+        )
         candidate_commit = str(automation.get("commit") or "").lower()
         if expected_candidate_commit:
             self.require(candidate_commit == expected_candidate_commit, "ANDROID_CANDIDATE_COMMIT_MISMATCH", "Android自动化Commit与声明的候选Commit不一致")
@@ -315,16 +354,47 @@ class CloseGate:
         apk_manifest_path = ROOT / "artifacts" / "apk" / self.release / "APK_MANIFEST.yaml"
         if apk_manifest_path.is_file():
             apk_manifest = load_yaml(apk_manifest_path)
-            self.require(
-                str((report.get("apk") or {}).get("sha256") or "").lower() == str(apk_manifest.get("sha256") or "").lower(),
-                "ANDROID_CANDIDATE_REPORT_SHA_MISMATCH", "候选报告APK SHA256与交付清单不一致",
-            )
+            report_sha = str((report.get("apk") or {}).get("sha256") or "").lower()
+            delivered_sha = str(apk_manifest.get("sha256") or "").lower()
+            if report_sha != delivered_sha:
+                bridge_path = report_path.with_name("build-evidence.json")
+                try:
+                    bridge = json.loads(bridge_path.read_text(encoding="utf-8"))
+                except (OSError, json.JSONDecodeError) as exc:
+                    self.require(False, "ANDROID_CANDIDATE_REPORT_SHA_MISMATCH", f"候选APK与稳定签名交付APK不同且缺少有效转换证据：{exc}")
+                else:
+                    bridge_valid = (
+                        bridge.get("build_status") == "PASS"
+                        and bridge.get("stable_signing") is True
+                        and str(bridge.get("release") or "") == self.release
+                        and str(bridge.get("commit") or "").lower() == candidate_commit
+                        and str(bridge.get("source_candidate_apk_sha256") or "").lower() == report_sha
+                        and str(bridge.get("apk_sha256") or "").lower() == delivered_sha
+                        and bridge.get("apk_size_bytes") == apk_manifest.get("size_bytes")
+                    )
+                    self.require(
+                        bridge_valid,
+                        "ANDROID_CANDIDATE_REPORT_SHA_MISMATCH",
+                        "候选APK到稳定签名交付APK的Commit、SHA、大小或PASS转换证据不完整",
+                    )
 
     def validate_pointers(self, task_ids: list[str], release_commit: str | None) -> None:
         current = load_yaml(ROOT / "CURRENT_STATUS.yaml")
         next_task = load_yaml(ROOT / "NEXT_TASK.yaml")
         next_release = str(next_task.get("release") or "")
         next_id = str(next_task.get("id") or "")
+        current_release = str(current.get("active_release") or "")
+        current_task = str(current.get("active_task") or "")
+        completed = set(current.get("completed_tasks") or [])
+        in_progress = set(current.get("in_progress_tasks") or [])
+
+        if not self.production and current_release == self.release:
+            final_task = task_ids[-1] if task_ids else ""
+            self.require(current_task == final_task, "MACHINE_CLOSE_TASK_NOT_ACTIVE", f"机器收尾必须位于最终任务：{final_task}")
+            self.require(set(task_ids[:-1]) <= completed, "CURRENT_COMPLETED_TASKS_MISSING", "CURRENT_STATUS未记录全部机器收尾前置任务")
+            self.require(not (set(task_ids[:-1]) & in_progress), "CURRENT_RELEASE_PREREQUISITE_IN_PROGRESS", "机器收尾前置任务仍为IN_PROGRESS")
+            return
+
         self.require(next_release and next_release != self.release, "NEXT_RELEASE_NOT_ADVANCED", f"NEXT_TASK仍指向 {self.release}")
         self.require(str(next_task.get("status") or "").upper() == "READY", "NEXT_TASK_NOT_READY", "NEXT_TASK必须为READY")
         target_path = ROOT / "releases" / next_release / "TASKS.yaml"
@@ -339,13 +409,21 @@ class CloseGate:
             self.require(current.get(field) == next_release, "CURRENT_NEXT_RELEASE_MISMATCH", f"CURRENT_STATUS.{field} 与 NEXT_TASK.release 不一致")
         for field in ["active_task", "next_task"]:
             self.require(current.get(field) == next_id, "CURRENT_NEXT_TASK_MISMATCH", f"CURRENT_STATUS.{field} 与 NEXT_TASK.id 不一致")
-        self.require(str(current.get("status") or "").upper() == "READY", "CURRENT_STATUS_NOT_READY", "CURRENT_STATUS必须为READY")
-        completed = set(current.get("completed_tasks") or [])
+        current_status = str(current.get("status") or "").upper()
+        self.require(
+            current_status in {"READY", "IN_PROGRESS"},
+            "CURRENT_STATUS_NOT_CONTINUABLE",
+            f"CURRENT_STATUS必须为READY或IN_PROGRESS，实际为{current_status or 'EMPTY'}",
+        )
         self.require(set(task_ids) <= completed, "CURRENT_COMPLETED_TASKS_MISSING", "CURRENT_STATUS未记录全部Release任务")
-        in_progress = set(current.get("in_progress_tasks") or [])
         self.require(not (set(task_ids) & in_progress), "CURRENT_RELEASE_STILL_IN_PROGRESS", "已关闭Release仍有IN_PROGRESS任务")
         continuity = current.get("continuity") if isinstance(current.get("continuity"), dict) else {}
-        self.require(not continuity.get("active_session_id"), "CURRENT_SESSION_STILL_ACTIVE", "Release关闭后仍有ACTIVE Session")
+        active_session_allowed = current_release != self.release and current_task not in set(task_ids)
+        self.require(
+            not continuity.get("active_session_id") or active_session_allowed,
+            "CURRENT_SESSION_STILL_ACTIVE",
+            "被关闭Release仍有ACTIVE Session",
+        )
         if release_commit:
             self.require(
                 str(current.get("last_green_commit") or "").lower() == release_commit,
@@ -374,12 +452,12 @@ class CloseGate:
             acceptance = []
             manifest = {}
         if self.errors:
-            print("RELEASE_CLOSE_GATE_FAILED", self.release, len(self.errors))
+            print(f"RELEASE_{self.stage.upper()}_CLOSE_GATE_FAILED", self.release, len(self.errors))
             for code, message in self.errors:
                 print(code, message)
             return 1
         print(
-            "RELEASE_CLOSE_GATE_OK", self.release,
+            f"RELEASE_{self.stage.upper()}_CLOSE_GATE_OK", self.release,
             f"tasks={len(task_ids)}", f"acceptance={len(acceptance)}",
             f"operations={len(self.manifest_operations(manifest))}",
             f"visual_pages={visual_page_count}",
@@ -392,15 +470,23 @@ def main() -> int:
     parser.add_argument("--release", help="只校验指定Release")
     parser.add_argument(
         "--close-gate", action="store_true",
-        help="启用Release终态关闭门禁；日常开发检查不应启用",
+        help="已废弃的歧义参数；必须明确选择机器收尾或生产验收",
     )
+    parser.add_argument("--machine-close-gate", action="store_true", help="启用大版本机器收尾门禁；允许项目所有者真机结果PENDING")
+    parser.add_argument("--production-close-gate", action="store_true", help="启用正式生产验收终态门禁；要求项目所有者真机PASS和Release Tag")
     args = parser.parse_args()
     if args.close_gate:
+        print("AMBIGUOUS_CLOSE_GATE --close-gate已废弃；请明确使用--machine-close-gate或--production-close-gate")
+        return 2
+    if args.machine_close_gate and args.production_close_gate:
+        parser.error("机器收尾与生产验收门禁不能同时执行")
+    if args.machine_close_gate or args.production_close_gate:
         if not args.release:
-            parser.error("--close-gate 必须同时提供 --release")
+            parser.error("关闭门禁必须同时提供 --release")
         if regular_check(args.release) != 0:
             return 1
-        return CloseGate(args.release).run()
+        stage = "production" if args.production_close_gate else "machine"
+        return CloseGate(args.release, stage).run()
     return regular_check(args.release)
 
 

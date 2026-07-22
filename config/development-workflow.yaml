@@ -13,7 +13,7 @@ intents:
   test-apk:
     description: 需要项目所有者真机回归的测试APK
   release-close:
-    description: 大版本正式关闭
+    description: 大版本机器收尾；生产验收必须在项目所有者真机PASS后显式执行独立终态门禁
 
 modes:
   SIMPLE:
@@ -42,7 +42,7 @@ modes:
     quality_profile: RELEASE
     full_integration: true
     release_gate: true
-    rule: 仅在大版本封板时执行全量集成、正式APK、文档核对和交接关闭
+    rule: 仅在大版本机器封板时执行一次全量集成、候选APK证据、文档核对和无状态交接；允许项目所有者真机结果异步PENDING，生产验收不在此模式内
 
 simple_task:
   max_classified_files: 6
@@ -55,6 +55,7 @@ classification:
   - artifacts/context/**
   - catalogs/session_index.csv
   - catalogs/change_request_index.csv
+  - catalogs/task_transition_ledger.csv
   domains:
     android: [apps/android/**]
     h5: [apps/h5/**]

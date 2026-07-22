@@ -42,7 +42,6 @@ class TestImpactMap(TestCase):
             ".github/workflows/android-quality-gate.yml",
             ".github/workflows/ci.yml",
             "config/android-automation.yaml",
-            "config/test-impact-map.yaml",
             "scripts/android_ci_gate.py",
             "scripts/run_android_emulator_gate.sh",
             "tests/test_android_ci_gate.py",
@@ -52,6 +51,14 @@ class TestImpactMap(TestCase):
                 plan = affected.build_plan(self.document, "MODULE", [path], root=ROOT)
                 self.assertIn("android", plan["ci_jobs"])
                 self.assertIn("android-module", {row["id"] for row in plan["checks"]})
+
+    def test_impact_map_change_validates_tooling_without_compiling_android(self) -> None:
+        plan = affected.build_plan(
+            self.document, "MODULE", ["config/test-impact-map.yaml"]
+        )
+        ids = {row["id"] for row in plan["checks"]}
+        self.assertIn("acceleration-tooling-unit", ids)
+        self.assertNotIn("android-module", ids)
 
     def test_integration_ignores_changed_path_filter(self) -> None:
         plan = affected.build_plan(self.document, "INTEGRATION", [], root=ROOT)

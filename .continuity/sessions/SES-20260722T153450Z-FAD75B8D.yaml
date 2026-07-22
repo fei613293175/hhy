@@ -1,0 +1,89 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260722T153450Z-FAD75B8D
+status: ACTIVE
+actor:
+  id: codex-root-r09-ui-audit
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R09
+task_id: TASK-R09-001
+story_id: STORY-R09-004
+goal: 在R09业务编码前，完成P00/R01至R08全部已实现Android、H5、Admin页面的效果图级全局审计；不合格页面返工，缺少且不可复用效果图的页面输出桌面补充包。
+started_at: '2026-07-22T15:34:50Z'
+updated_at: '2026-07-22T15:55:09Z'
+takeover_of: null
+change_requests:
+- CR-0247
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - apps/android
+  - apps/h5
+  - apps/admin-web
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_visual_acceptance.csv
+  - design/effect-previews
+  - docs/02-ui
+  - artifacts/reports/ui-audit
+  - tests
+  approved_exceptions: []
+  source: story+explicit
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: 316c2db20204555fcd405fd6346d96aa8effe932
+  start_head: 316c2db20204555fcd405fd6346d96aa8effe932
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-22T15:55:04Z'
+  expires_at: '2026-07-22T19:55:04Z'
+checkpoint_sequence: 2
+latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0002.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md
+next_step: 运行提交前连续性门禁，提交并推送CR-0247；随后执行P00/R01-R08全局UI审计。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: e74fc16c8cc7161f9b0f4998fa211f0c9812c815a4f171a9de72c1e69f7f1fc2
+  generated_at: '2026-07-22T15:55:07Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 唯一规则、门禁和连续性记录已在单一会话串行收口。

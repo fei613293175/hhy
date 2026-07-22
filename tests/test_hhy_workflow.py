@@ -72,7 +72,12 @@ class WorkflowClassificationTest(TestCase):
         result = workflow.classify_work(
             self.policy,
             "bugfix",
-            ["apps/h5/src/Login.vue", ".continuity/STATE.yaml", "artifacts/context/CURRENT_CONTEXT_PACK.md"],
+            [
+                "apps/h5/src/Login.vue",
+                ".continuity/STATE.yaml",
+                "artifacts/context/CURRENT_CONTEXT_PACK.md",
+                "catalogs/task_transition_ledger.csv",
+            ],
         )
         self.assertEqual("SIMPLE", result["mode"])
         self.assertEqual(["apps/h5/src/Login.vue"], result["classified_files"])
@@ -93,6 +98,26 @@ class WorkflowClassificationTest(TestCase):
         self.assertIn("h5-module", ids)
         self.assertNotIn("integration-web", ids)
         self.assertNotIn("release-close-gate", ids)
+
+    def test_release_close_plan_uses_machine_gate(self) -> None:
+        args = Namespace(
+            policy=workflow.DEFAULT_POLICY,
+            impact_map=workflow.DEFAULT_IMPACT_MAP,
+            changed_file=[],
+            base_ref=None,
+            head_ref="HEAD",
+            intent="release-close",
+            release="R08",
+        )
+        plan = workflow.create_plan(args)
+        close_checks = [
+            row for row in plan["quality_plan"]["checks"]
+            if row["id"] == "release-close-gate"
+        ]
+        self.assertEqual(1, len(close_checks))
+        self.assertIn("--machine-close-gate", close_checks[0]["command"])
+        self.assertNotIn("--production-close-gate", close_checks[0]["command"])
+        self.assertTrue(any("asynchronous" in value for value in plan["next_actions"]))
 
     def test_resumable_execution_skips_prior_pass_for_unchanged_inputs(self) -> None:
         with TemporaryDirectory() as temporary:

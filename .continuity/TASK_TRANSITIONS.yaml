@@ -780,3 +780,13 @@ transitions:
   session_id: SES-20260722T093645Z-C7DB8EF0
   actor_id: codex-root-r08-008
   reason: 会话领取任务
+- transition_id: TRN-22C197FB1144
+  timestamp: '2026-07-22T15:34:52Z'
+  release: R09
+  task_id: TASK-R09-001
+  story_id: STORY-R09-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260722T153450Z-FAD75B8D
+  actor_id: codex-root-r09-ui-audit
+  reason: 会话领取任务

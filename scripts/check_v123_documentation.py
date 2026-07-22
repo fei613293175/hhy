@@ -59,6 +59,18 @@ def main():
     for rel in required:
         require((ROOT/rel).is_file(),"FILE_MISSING",rel)
 
+    legacy_ui_wording=[]
+    page_spec_root=ROOT/"docs/02-ui/page-specs"
+    if page_spec_root.is_dir():
+        for page_spec in sorted(page_spec_root.rglob("*.md")):
+            if "效果图仅用于视觉参考" in page_spec.read_text(encoding="utf-8"):
+                legacy_ui_wording.append(str(page_spec.relative_to(ROOT)).replace("\\","/"))
+    require(
+        not legacy_ui_wording,
+        "UI_VISUAL_SOURCE_WORDING_CONFLICT",
+        f"逐页规格仍把强制效果图降级为仅供参考: {legacy_ui_wording[:10]}",
+    )
+
     baseline=load_yaml("PROJECT_BASELINE.yaml")
     require(baseline.get("package_version")=="1.2.3","BASELINE_VERSION","PROJECT_BASELINE must be 1.2.3 with V1.2.2 product specification baseline")
 

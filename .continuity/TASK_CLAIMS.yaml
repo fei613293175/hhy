@@ -2631,3 +2631,51 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-22T15:23:15Z'
+- claim_id: CLM-0E07D6A43A16
+  session_id: SES-20260722T153450Z-FAD75B8D
+  task_id: TASK-R09-001
+  story_id: STORY-R09-004
+  actor_id: codex-root-r09-ui-audit
+  status: ACTIVE
+  claimed_at: '2026-07-22T15:34:50Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - apps/android
+  - apps/h5
+  - apps/admin-web
+  - catalogs/ui_page_specifications.csv
+  - catalogs/ui_visual_acceptance.csv
+  - design/effect-previews
+  - docs/02-ui
+  - artifacts/reports/ui-audit
+  - tests

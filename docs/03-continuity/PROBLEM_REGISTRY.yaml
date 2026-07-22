@@ -1232,3 +1232,19 @@ problems:
   - 已完成Release不得为了使用旧旁路而伪标BLOCKED
   - 并行兄弟Release交接不得篡改冻结产品依赖来迎合工具限制
   - 显式独立交接不能绕过目标首任务READY和全部声明依赖GREEN校验
+- id: PROB-0093
+  title: 逐页UI弱表述与关闭阶段混用导致视觉降级和反复伪失败
+  status: SOLVED
+  root_cause: UI主规则已要求效果图强制施工，但189份逐页规格仍保留“效果图仅用于视觉参考”，执行时形成强弱两个事实；统一release-close又直接调用同时要求项目所有者真机PASS、Release Tag和生产终态的旧--close-gate，使机器候选完成后仍被异步真机PENDING反复阻断。旧门禁还假定关闭后项目必须停在READY且候选APK与稳定签名交付APK二进制相同，不符合连续开发和可追溯稳定签名流程。
+  resolution: CR-0247只更新既有UI与效率事实源：189份逐页规格统一为效果图强制约束建模、层级、布局、组件和视觉样式但不得虚构业务，并用文档门禁禁止旧句回归；release-close固定为机器收尾，允许真机PENDING但继续强校验候选、视觉、APK、SHA、稳定签名转换证据和验收材料。生产验收改为显式--production-close-gate，继续要求真机PASS、Release Commit与Tag；旧--close-gate明确拒绝，禁止AI猜测阶段。
+  regression_checks:
+  - python scripts/check_v123_documentation.py --strict --release R09
+  - python -m unittest tests.test_release_close_gate tests.test_hhy_workflow
+  - python scripts/check_release_artifacts.py --release R08 --machine-close-gate
+  - rg "效果图仅用于视觉参考" docs/02-ui/page-specs 必须零命中
+  do_not_repeat:
+  - 主规则升级后必须同步逐页施工规格和自动回归，禁止长期保留相反的弱表述
+  - 机器收尾、项目所有者真机验收和生产激活必须分阶段，不得用一个含糊参数混合三种状态
+  - 候选APK经稳定签名形成交付APK时必须验证Commit、源SHA、目标SHA、大小和PASS转换证据，不得错误要求两个二进制SHA相同
+  - 后续版本已在开发时不得因当前状态为IN_PROGRESS误判历史版本机器关闭失败
+  - 测试影响映射文件由工具链回归验证，不得仅因其自身变化启动与实际产品输入无关的Android编译

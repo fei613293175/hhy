@@ -320,8 +320,8 @@ class ReleaseCloseGateTest(unittest.TestCase):
     def test_complete_p00_release_passes_close_gate(self) -> None:
         temp, repo, _commit = self.fixture()
         with temp:
-            result = self.run_gate(repo, "--close-gate", "--release", "P00", expected=0)
-            self.assertIn("RELEASE_CLOSE_GATE_OK P00 tasks=8 acceptance=6 operations=3", result.stdout)
+            result = self.run_gate(repo, "--production-close-gate", "--release", "P00", expected=0)
+            self.assertIn("RELEASE_PRODUCTION_CLOSE_GATE_OK P00 tasks=8 acceptance=6 operations=3", result.stdout)
 
     def test_close_gate_accepts_all_declared_operations_instead_of_fixed_count(self) -> None:
         temp, repo, _commit = self.fixture()
@@ -333,7 +333,7 @@ class ReleaseCloseGateTest(unittest.TestCase):
             dump_yaml(manifest_path, manifest)
             with (repo / "contracts/openapi.yaml").open("a", encoding="utf-8") as handle:
                 handle.write(f"  /test/extra:\n    get:\n      operationId: {extra}\n")
-            result = self.run_gate(repo, "--close-gate", "--release", "P00", expected=0)
+            result = self.run_gate(repo, "--production-close-gate", "--release", "P00", expected=0)
             self.assertIn("operations=4", result.stdout)
 
     def test_r06_candidate_commit_may_precede_release_closure_commit(self) -> None:
@@ -341,8 +341,54 @@ class ReleaseCloseGateTest(unittest.TestCase):
         with temp:
             release_commit = promote_fixture_to_r06(repo, candidate_commit)
             self.assertNotEqual(candidate_commit, release_commit)
-            result = self.run_gate(repo, "--close-gate", "--release", "R06", expected=0)
-            self.assertIn("RELEASE_CLOSE_GATE_OK R06", result.stdout)
+            result = self.run_gate(repo, "--production-close-gate", "--release", "R06", expected=0)
+            self.assertIn("RELEASE_PRODUCTION_CLOSE_GATE_OK R06", result.stdout)
+
+    def test_machine_close_accepts_owner_pending_without_release_tag(self) -> None:
+        temp, repo, candidate_commit = self.fixture()
+        with temp:
+            promote_fixture_to_r06(repo, candidate_commit)
+            manifest_path = repo / "releases/R06/RELEASE_MANIFEST.yaml"
+            manifest = load_yaml(manifest_path)
+            manifest.update({
+                "status": "MACHINE_COMPLETE_OWNER_PENDING",
+                "operation_ids": [],
+                "release_commit": None,
+                "release_tag": None,
+            })
+            manifest["android_automation"]["owner_physical_test"] = "PENDING"
+            dump_yaml(manifest_path, manifest)
+            apk_path = repo / "artifacts/apk/R06/APK_MANIFEST.yaml"
+            apk = load_yaml(apk_path)
+            apk.update({"test_status": "PENDING", "owner_physical_test": "PENDING"})
+            dump_yaml(apk_path, apk)
+            report_path = repo / "artifacts/validation/r06-android/candidate-report.json"
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            source_sha = "a" * 64
+            report["apk"]["sha256"] = source_sha
+            report_path.write_text(json.dumps(report), encoding="utf-8")
+            report_path.with_name("build-evidence.json").write_text(json.dumps({
+                "release": "R06",
+                "commit": candidate_commit,
+                "build_status": "PASS",
+                "stable_signing": True,
+                "source_candidate_apk_sha256": source_sha,
+                "apk_sha256": apk["sha256"],
+                "apk_size_bytes": apk["size_bytes"],
+            }), encoding="utf-8")
+
+            machine = self.run_gate(repo, "--machine-close-gate", "--release", "R06", expected=0)
+            self.assertIn("RELEASE_MACHINE_CLOSE_GATE_OK R06", machine.stdout)
+            production = self.run_gate(repo, "--production-close-gate", "--release", "R06", expected=1)
+            self.assertIn("ANDROID_OWNER_TEST_NOT_PASS", production.stdout)
+
+    def test_ambiguous_legacy_close_flag_is_rejected_with_guidance(self) -> None:
+        temp, repo, _commit = self.fixture()
+        with temp:
+            result = self.run_gate(repo, "--close-gate", "--release", "P00", expected=2)
+            self.assertIn("AMBIGUOUS_CLOSE_GATE", result.stdout)
+            self.assertIn("--machine-close-gate", result.stdout)
+            self.assertIn("--production-close-gate", result.stdout)
 
     def test_regular_development_check_does_not_require_terminal_state(self) -> None:
         temp, repo, _commit = self.fixture()
@@ -357,7 +403,7 @@ class ReleaseCloseGateTest(unittest.TestCase):
             dump_yaml(manifest_path, manifest)
             result = self.run_gate(repo, expected=0)
             self.assertIn("RELEASE_ARTIFACTS_OK 1", result.stdout)
-            close = self.run_gate(repo, "--close-gate", "--release", "P00", expected=1)
+            close = self.run_gate(repo, "--production-close-gate", "--release", "P00", expected=1)
             self.assertIn("TASKS_NOT_DONE", close.stdout)
             self.assertIn("MANIFEST_NOT_TERMINAL", close.stdout)
 
@@ -374,7 +420,7 @@ class ReleaseCloseGateTest(unittest.TestCase):
                 writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
                 writer.writeheader()
                 writer.writerows(rows)
-            result = self.run_gate(repo, "--close-gate", "--release", "P00", expected=1)
+            result = self.run_gate(repo, "--production-close-gate", "--release", "P00", expected=1)
             self.assertIn("AC_NOT_PASS", result.stdout)
             self.assertIn("AC_EVIDENCE_NOT_FILE", result.stdout)
 
@@ -401,7 +447,7 @@ class ReleaseCloseGateTest(unittest.TestCase):
                 "download_url": "PENDING_UPLOAD",
             })
             dump_yaml(apk_path, apk)
-            result = self.run_gate(repo, "--close-gate", "--release", "P00", expected=1)
+            result = self.run_gate(repo, "--production-close-gate", "--release", "P00", expected=1)
             for code in [
                 "MANIFEST_NOT_TERMINAL",
                 "MANIFEST_COMMIT_INVALID", "MANIFEST_TAG_INVALID", "APK_PENDING_VALUE",
@@ -426,7 +472,7 @@ class ReleaseCloseGateTest(unittest.TestCase):
             next_task = load_yaml(next_path)
             next_task.update({"id": "TASK-R01-002", "status": "BLOCKED"})
             dump_yaml(next_path, next_task)
-            result = self.run_gate(repo, "--close-gate", "--release", "P00", expected=1)
+            result = self.run_gate(repo, "--production-close-gate", "--release", "P00", expected=1)
             for code in [
                 "NEXT_TASK_NOT_READY", "NEXT_TASK_NOT_FIRST", "CURRENT_NEXT_RELEASE_MISMATCH",
                 "CURRENT_NEXT_TASK_MISMATCH", "CURRENT_COMPLETED_TASKS_MISSING",
@@ -448,7 +494,7 @@ class ReleaseCloseGateTest(unittest.TestCase):
                 writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
                 writer.writeheader()
                 writer.writerows(rows)
-            result = self.run_gate(repo, "--close-gate", "--release", "P00", expected=1)
+            result = self.run_gate(repo, "--production-close-gate", "--release", "P00", expected=1)
             for code in [
                 "UI_VISUAL_PANEL_RANGE_FORBIDDEN",
                 "UI_VISUAL_COVERAGE_NOT_READY",
