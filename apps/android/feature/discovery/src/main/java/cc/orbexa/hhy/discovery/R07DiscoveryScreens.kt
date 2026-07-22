@@ -5,6 +5,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.view.WindowManager
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -51,6 +53,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
@@ -61,6 +64,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import cc.orbexa.hhy.designsystem.HhyBackButton
 import cc.orbexa.hhy.designsystem.HhyColors
 import cc.orbexa.hhy.designsystem.HhyElevation
+import cc.orbexa.hhy.designsystem.HhyIcon
+import cc.orbexa.hhy.designsystem.HhyIcons
 import cc.orbexa.hhy.designsystem.HhyRadius
 import cc.orbexa.hhy.designsystem.HhySize
 import cc.orbexa.hhy.designsystem.HhySpacing
@@ -170,6 +175,7 @@ fun R07SearchScreen(
             contentPadding = PaddingValues(HhySpacing.Lg),
             verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
         ) {
+            if (submittedQuery == null) item { DiscoveryHero() }
             item {
                 SearchComposer(
                     query = query,
@@ -200,6 +206,9 @@ fun R07SearchScreen(
                 }
             } else if (submittedQuery != null) {
                 if (phase == R07LoadPhase.EMPTY) item { EmptyState("没有找到相关内容", "换一个关键词或内容类型试试") }
+                if (results.isNotEmpty()) item {
+                    SectionHeader("搜索结果", "与“${submittedQuery.orEmpty()}”相关的公开内容")
+                }
                 items(results, key = { it.id }) { result -> SearchResultCard(result, onPublisherSelected) }
                 if (canLoadMore && phase == R07LoadPhase.CONTENT) item {
                     OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = { submit(reset = false) }) { Text("加载更多") }
@@ -213,6 +222,7 @@ fun R07SearchScreen(
             modifier = Modifier.semantics { testTagsAsResourceId = true }
                 .testTag("hhy.dialog.r07.search-history-clear"),
             onDismissRequest = { if (!clearing) showClearDialog = false },
+            icon = { HhyIcon(HhyIcons.Delete, contentDescription = null, tint = HhyColors.Error) },
             title = { Text("清空搜索历史？") },
             text = { Text("将永久清空当前账号的全部搜索历史，操作不可恢复，其他账号不受影响。") },
             confirmButton = {
@@ -299,7 +309,7 @@ fun R07PublisherScreen(
             failure?.let { value -> item { FailureState(value) { load() } } }
             publisher?.let { value ->
                 item { PublisherHeader(value) }
-                item { SectionHeader("公开内容") }
+                item { SectionHeader("公开内容", "仅展示该发布者当前公开的信息") }
                 if (contents.isEmpty() && phase == R07LoadPhase.CONTENT) item { EmptyState("暂无公开内容", "该发布者暂未发布可查看内容") }
                 items(contents, key = { it.id }) { content ->
                     ContentCard(content) { channel -> contactTarget = content to channel }
@@ -353,9 +363,22 @@ private fun ContactAccessSheet(
             modifier = Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Xl, vertical = HhySpacing.Lg),
             verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
         ) {
-            Text("联系方式", style = MaterialTheme.typography.titleLarge)
-            Text(content.title, color = HhyColors.TextSecondary)
-            Text("${channelLabel(channel.channel)} · ${channel.maskedValue ?: "授权后显示"}")
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                Surface(shape = RoundedCornerShape(HhyRadius.Button), color = HhyColors.SoftBlue) {
+                    HhyIcon(HhyIcons.Message, contentDescription = null, modifier = Modifier.padding(HhySpacing.Sm), tint = HhyColors.BrandPrimary)
+                }
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                    Text("联系方式", style = MaterialTheme.typography.titleLarge)
+                    Text(content.title, color = HhyColors.TextSecondary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                }
+            }
+            Surface(color = HhyColors.PageBackground, shape = RoundedCornerShape(HhyRadius.Tag)) {
+                Text(
+                    "${channelLabel(channel.channel)} · ${channel.maskedValue ?: "授权后显示"}",
+                    modifier = Modifier.fillMaxWidth().padding(HhySpacing.Md),
+                    color = HhyColors.TextPrimary,
+                )
+            }
             state.failure?.let { FailureState(it) { state = ContactPanelState() } }
             state.contact?.let { contact ->
                 Surface(color = HhyColors.SoftBlue, shape = RoundedCornerShape(HhyRadius.NormalCard)) {
@@ -424,18 +447,22 @@ private fun PublisherHeader(publisher: PublisherSummaryResource) {
         colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
         elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
     ) {
-        Surface(color = HhyColors.SoftBlue) {
-            Row(Modifier.fillMaxWidth().padding(HhySpacing.Lg), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md), verticalAlignment = Alignment.CenterVertically) {
-                Surface(modifier = Modifier.clip(CircleShape), color = HhyColors.Surface) {
+        Box(
+            modifier = Modifier.fillMaxWidth().background(
+                Brush.linearGradient(listOf(HhyColors.BrandPrimaryDark, HhyColors.BrandGradientEnd)),
+            ),
+        ) {
+            Row(Modifier.fillMaxWidth().padding(HhySpacing.Xl), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md), verticalAlignment = Alignment.CenterVertically) {
+                Surface(modifier = Modifier.clip(CircleShape), color = HhyColors.Surface.copy(alpha = 0.18f)) {
                     Box(Modifier.padding(HhySpacing.Xl), contentAlignment = Alignment.Center) {
-                        Text(publisher.nickname.take(1), style = MaterialTheme.typography.titleLarge, color = HhyColors.BrandPrimary)
+                        Text(publisher.nickname.take(1), style = MaterialTheme.typography.titleLarge, color = HhyColors.TextInverse)
                     }
                 }
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                    Text(publisher.nickname, style = MaterialTheme.typography.titleLarge, color = HhyColors.TextPrimary)
+                    Text(publisher.nickname, style = MaterialTheme.typography.titleLarge, color = HhyColors.TextInverse)
                     FlowRow(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
-                        if (publisher.verified) FactBadge("已认证", HhyColors.SuccessSoft, HhyColors.Success)
-                        publisher.memberBadge?.let { FactBadge(it, HhyColors.Surface, HhyColors.BrandPrimary) }
+                        if (publisher.verified) FactBadge("已认证", HhyColors.Surface, HhyColors.BrandPrimary)
+                        publisher.memberBadge?.let { FactBadge(it, HhyColors.Surface.copy(alpha = 0.9f), HhyColors.BrandPrimaryDark) }
                     }
                 }
             }
@@ -457,10 +484,20 @@ private fun SearchResultCard(result: SearchResultResource, onPublisherSelected: 
         colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
         elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
     ) {
-        Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-            FactBadge(contentTypeLabel(result.contentType), HhyColors.SoftBlue, HhyColors.BrandPrimary)
-            Text(result.title, style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+        Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                ContentTypeTile(result.contentType)
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                    FactBadge(contentTypeLabel(result.contentType), HhyColors.SoftBlue, HhyColors.BrandPrimary)
+                    Text(result.title, style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+                }
+            }
             result.summary?.let { Text(it, maxLines = 3, overflow = TextOverflow.Ellipsis, color = HhyColors.TextSecondary) }
+            if (result.badges.isNotEmpty()) {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                    result.badges.take(3).forEach { FactBadge(it, HhyColors.PageBackground, HhyColors.TextSecondary) }
+                }
+            }
             result.publisher?.let { publisher ->
                 HorizontalDivider(color = HhyColors.Border)
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -480,9 +517,14 @@ private fun ContentCard(content: ContentResource, onContact: (ContactChannelSumm
         colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
         elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
     ) {
-        Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-            FactBadge(contentTypeLabel(content.contentType), HhyColors.SoftBlue, HhyColors.BrandPrimary)
-            Text(content.title, style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+        Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                ContentTypeTile(content.contentType)
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                    FactBadge(contentTypeLabel(content.contentType), HhyColors.SoftBlue, HhyColors.BrandPrimary)
+                    Text(content.title, style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+                }
+            }
             content.summary?.let { Text(it, color = HhyColors.TextSecondary, maxLines = 3, overflow = TextOverflow.Ellipsis) }
             if (content.contactsMasked.isNotEmpty()) {
                 HorizontalDivider(color = HhyColors.Border)
@@ -531,10 +573,11 @@ private fun EmptyState(title: String, guidance: String) {
 }
 
 @Composable
-private fun SectionHeader(title: String, action: String? = null, onAction: () -> Unit = {}) {
+private fun SectionHeader(title: String, subtitle: String? = null, action: String? = null, onAction: () -> Unit = {}) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
             Text(title, style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+            subtitle?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary) }
             Surface(modifier = Modifier.fillMaxWidth(0.12f).height(HhySpacing.Xs), color = HhyColors.BrandPrimary, shape = RoundedCornerShape(HhyRadius.Pill)) { }
         }
         if (action != null) TextButton(onClick = onAction) { Text(action) }
@@ -557,11 +600,21 @@ private fun SearchComposer(
         elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
     ) {
         Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                Surface(shape = CircleShape, color = HhyColors.SoftBlue) {
+                    HhyIcon(HhyIcons.Search, contentDescription = null, modifier = Modifier.padding(HhySpacing.Sm), tint = HhyColors.BrandPrimary)
+                }
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                    Text("查找合作内容", style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+                    Text("关键词与内容类型可组合筛选", style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary)
+                }
+            }
             OutlinedTextField(
                 value = query,
                 onValueChange = onQueryChange,
                 modifier = Modifier.fillMaxWidth().testTag("r07.search.input"),
                 label = { Text("搜索项目、应用、群聊或团长") },
+                leadingIcon = { HhyIcon(HhyIcons.Search, contentDescription = null, tint = HhyColors.TextSecondary) },
                 singleLine = true,
                 supportingText = { Text("输入 1–100 个字符") },
             )
@@ -592,9 +645,46 @@ private fun TermCloud(terms: List<SearchTermResource>, onSelected: (String) -> U
             verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
         ) {
             terms.forEach { term ->
-                OutlinedButton(onClick = { onSelected(term.keyword) }) { Text(term.keyword) }
+                OutlinedButton(onClick = { onSelected(term.keyword) }) {
+                    HhyIcon(HhyIcons.Search, contentDescription = null, modifier = Modifier.size(HhySpacing.Lg), tint = HhyColors.BrandPrimary)
+                    Text(term.keyword, modifier = Modifier.padding(start = HhySpacing.Xs))
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun DiscoveryHero() {
+    Box(
+        modifier = Modifier.fillMaxWidth().background(
+            brush = Brush.linearGradient(listOf(HhyColors.BrandPrimaryDark, HhyColors.BrandTertiary)),
+            shape = RoundedCornerShape(HhyRadius.LargeCard),
+        ).padding(HhySpacing.Xl),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+            Surface(shape = CircleShape, color = HhyColors.Surface.copy(alpha = 0.18f)) {
+                HhyIcon(HhyIcons.Search, contentDescription = null, modifier = Modifier.padding(HhySpacing.Md), tint = HhyColors.TextInverse)
+            }
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                Text("找到下一次合作", style = MaterialTheme.typography.titleLarge, color = HhyColors.TextInverse)
+                Text("搜索公开的项目、应用、群聊与团长内容", color = HhyColors.TextInverse.copy(alpha = 0.84f), style = MaterialTheme.typography.bodyMedium)
+            }
+        }
+    }
+}
+
+@Composable
+private fun ContentTypeTile(contentType: String) {
+    val icon = when (contentType) {
+        "PROJECT" -> HhyIcons.Projects
+        "APP" -> HhyIcons.Applications
+        "GROUP_CHAT" -> HhyIcons.Groups
+        "TEAM_LEADER" -> HhyIcons.Verified
+        else -> HhyIcons.Information
+    }
+    Surface(shape = RoundedCornerShape(HhyRadius.Button), color = HhyColors.SoftBlue) {
+        HhyIcon(icon, contentDescription = null, modifier = Modifier.padding(HhySpacing.Md), tint = HhyColors.BrandPrimary)
     }
 }
 

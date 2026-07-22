@@ -1,6 +1,8 @@
 package cc.orbexa.hhy.shell
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,7 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -30,6 +34,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
@@ -112,60 +118,62 @@ fun HhyShellScreen(
                 }
             }
         },
+        containerColor = HhyColors.PageBackground,
     ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding),
             contentPadding = PaddingValues(HhySpacing.Lg),
             verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
         ) {
-            item {
-                Text(
-                    text = navigationItems[selectedIndex].label,
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.SemiBold,
-                )
-                Spacer(Modifier.height(HhySpacing.Sm))
-                Text(
-                    text = when (selectedIndex) {
-                        0 -> "发现值得合作的人和项目"
-                        1 -> "参与活动，获得更多权益"
-                        2 -> "分享你的项目与能力"
-                        3 -> "与合作伙伴保持联系"
-                        else -> "管理个人资料与账号安全"
-                    },
-                    color = HhyColors.TextSecondary,
-                )
-            }
             if (selectedIndex == 0) {
                 item {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(HhyRadius.LargeCard),
-                        colors = CardDefaults.cardColors(containerColor = HhyColors.SoftBlue),
-                        elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
-                            verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
-                        ) {
-                            Text("快速发现", style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
-                            Text("从真实公开内容中寻找项目、应用、群聊或团长", color = HhyColors.TextSecondary)
-                            Button(
-                                modifier = Modifier.fillMaxWidth().heightIn(min = HhySize.PrimaryButtonHeight).testTag("r07.home.search"),
+                    HomeHero(onOpenSearch)
+                }
+                item {
+                    Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                        HomeSectionHeading("合作入口", "全部来自已上线的真实能力")
+                        Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                            HomeQuickAction(
+                                modifier = Modifier.weight(1f).testTag("r07.home.search"),
+                                icon = HhyIcons.Search,
+                                title = "全局搜索",
+                                detail = "找项目与伙伴",
                                 onClick = onOpenSearch,
-                            ) { Text("搜索合作内容") }
-                            Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                                OutlinedButton(
-                                    modifier = Modifier.weight(1f).testTag("r08.home.projects"),
-                                    onClick = onOpenProjects,
-                                ) { Text("浏览项目") }
-                                Button(
-                                    modifier = Modifier.weight(1f).testTag("r08.home.project.create"),
-                                    onClick = onCreateProject,
-                                ) { Text("发布项目") }
-                            }
+                            )
+                            HomeQuickAction(
+                                modifier = Modifier.weight(1f).testTag("r08.home.projects"),
+                                icon = HhyIcons.Projects,
+                                title = "项目广场",
+                                detail = "浏览公开项目",
+                                onClick = onOpenProjects,
+                            )
+                            HomeQuickAction(
+                                modifier = Modifier.weight(1f).testTag("r08.home.project.create"),
+                                icon = HhyIcons.Publish,
+                                title = "发布项目",
+                                detail = "展示合作需求",
+                                onClick = onCreateProject,
+                            )
                         }
                     }
+                }
+            }
+            if (selectedIndex != 0) item {
+                Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                    Text(
+                        text = navigationItems[selectedIndex].label,
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                    Text(
+                        text = when (selectedIndex) {
+                            1 -> "参与活动，获得更多权益"
+                            2 -> "分享你的项目与能力"
+                            3 -> "与合作伙伴保持联系"
+                            else -> "管理个人资料与账号安全"
+                        },
+                        color = HhyColors.TextSecondary,
+                    )
                 }
             }
             if (selectedIndex == 4) {
@@ -198,6 +206,7 @@ fun HhyShellScreen(
                 }
             }
             if (selectedIndex == 0 && home != null && home!!.modules.isNotEmpty()) {
+                item { HomeSectionHeading("推荐内容", "由服务端实时配置") }
                 home!!.modules.forEach { module ->
                     item {
                         Card(
@@ -206,12 +215,25 @@ fun HhyShellScreen(
                             colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
                             elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
                         ) {
-                            Column(modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                                Text(module.title ?: "内容模块", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-                                module.subtitle?.let { Text(it, color = HhyColors.TextSecondary) }
+                            Column(modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                                    Surface(shape = RoundedCornerShape(HhyRadius.Button), color = HhyColors.SoftBlue) {
+                                        HhyIcon(HhyIcons.Applications, contentDescription = null, modifier = Modifier.padding(HhySpacing.Sm), tint = HhyColors.BrandPrimary)
+                                    }
+                                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                                        Text(module.title ?: "内容模块", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                                        module.subtitle?.let { Text(it, color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodyMedium) }
+                                    }
+                                }
                                 module.items.take(5).forEach { item ->
                                     Surface(color = HhyColors.PageBackground, shape = RoundedCornerShape(HhyRadius.Tag)) {
-                                        Text(item, modifier = Modifier.fillMaxWidth().padding(HhySpacing.Md), color = HhyColors.TextPrimary)
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Md),
+                                            verticalAlignment = Alignment.CenterVertically,
+                                        ) {
+                                            Text(item, modifier = Modifier.weight(1f), color = HhyColors.TextPrimary)
+                                            HhyIcon(HhyIcons.ChevronRight, contentDescription = null, tint = HhyColors.TextTertiary)
+                                        }
                                     }
                                 }
                             }
@@ -219,6 +241,7 @@ fun HhyShellScreen(
                     }
                 }
             } else if (selectedIndex != 4) item {
+                if (selectedIndex == 0) HomeSectionHeading("推荐内容", "由服务端实时配置")
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(HhyRadius.LargeCard),
@@ -229,22 +252,110 @@ fun HhyShellScreen(
                         modifier = Modifier.fillMaxWidth().padding(HhySpacing.Xl),
                         verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
                     ) {
-                        if (refreshing) CircularProgressIndicator()
-                        Text(
-                            if (homeError) "首页内容暂时无法加载" else if (refreshing) "正在加载首页内容" else "暂无推荐内容",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = HhyColors.TextPrimary,
-                        )
-                        Text(
-                            if (homeError) "网络恢复后可重新加载，已提供的搜索和项目入口仍可正常使用。" else if (refreshing) "正在获取服务端配置的真实首页模块。" else "服务端当前没有配置推荐模块，你仍可通过上方真实入口发现或发布项目。",
-                            color = HhyColors.TextSecondary,
-                        )
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                            Surface(shape = RoundedCornerShape(HhyRadius.Button), color = if (homeError) HhyColors.ErrorSoft else HhyColors.SoftBlue) {
+                                if (refreshing) CircularProgressIndicator(modifier = Modifier.padding(HhySpacing.Sm).size(HhySize.StandardProgress))
+                                else HhyIcon(
+                                    if (homeError) HhyIcons.Error else HhyIcons.Projects,
+                                    contentDescription = null,
+                                    modifier = Modifier.padding(HhySpacing.Md),
+                                    tint = if (homeError) HhyColors.Error else HhyColors.BrandPrimary,
+                                )
+                            }
+                            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                                Text(
+                                    if (homeError) "首页内容暂时无法加载" else if (refreshing) "正在加载首页内容" else "暂无推荐内容",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = HhyColors.TextPrimary,
+                                )
+                                Text(
+                                    if (homeError) "网络恢复后可重新加载，搜索与项目入口仍可使用。" else if (refreshing) "正在获取服务端配置的真实首页模块。" else "当前没有推荐模块，可从上方入口继续发现或发布项目。",
+                                    color = HhyColors.TextSecondary,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                )
+                            }
+                        }
                         if (homeError) {
                             OutlinedButton(onClick = { homeRefreshKey += 1 }) { Text("重新加载") }
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun HomeHero(onSearch: () -> Unit) {
+    Box(
+        modifier = Modifier.fillMaxWidth()
+            .background(
+                brush = Brush.linearGradient(listOf(HhyColors.BrandPrimaryDark, HhyColors.BrandGradientEnd)),
+                shape = RoundedCornerShape(HhyRadius.LargeCard),
+            )
+            .padding(HhySpacing.Xl),
+    ) {
+        Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                Surface(shape = RoundedCornerShape(HhyRadius.NormalCard), color = HhyColors.Surface.copy(alpha = 0.18f)) {
+                    HhyIcon(HhyIcons.Home, contentDescription = null, modifier = Modifier.padding(HhySpacing.Md), tint = HhyColors.TextInverse)
+                }
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                    Text("发现真实合作机会", style = MaterialTheme.typography.titleLarge, color = HhyColors.TextInverse)
+                    Text("从项目、应用、群聊与团长内容中快速匹配", color = HhyColors.TextInverse.copy(alpha = 0.84f), style = MaterialTheme.typography.bodyMedium)
+                }
+            }
+            Button(
+                modifier = Modifier.fillMaxWidth().heightIn(min = HhySize.PrimaryButtonHeight),
+                onClick = onSearch,
+                colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                    containerColor = HhyColors.Surface,
+                    contentColor = HhyColors.BrandPrimary,
+                ),
+            ) {
+                HhyIcon(HhyIcons.Search, contentDescription = null)
+                Text("搜索合作内容", modifier = Modifier.padding(start = HhySpacing.Sm))
+            }
+        }
+    }
+}
+
+@Composable
+private fun HomeSectionHeading(title: String, subtitle: String) {
+    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Bottom) {
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+            Text(title, style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+            Text(subtitle, style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary)
+        }
+        Surface(modifier = Modifier.size(HhySpacing.Xxl, HhySpacing.Xs), color = HhyColors.BrandPrimary, shape = RoundedCornerShape(HhyRadius.Pill)) { }
+    }
+}
+
+@Composable
+private fun HomeQuickAction(
+    modifier: Modifier,
+    icon: ImageVector,
+    title: String,
+    detail: String,
+    onClick: () -> Unit,
+) {
+    Card(
+        modifier = modifier,
+        onClick = onClick,
+        shape = RoundedCornerShape(HhyRadius.NormalCard),
+        colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = HhySpacing.Sm, vertical = HhySpacing.Md),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+        ) {
+            Surface(shape = CircleShape, color = HhyColors.SoftBlue) {
+                HhyIcon(icon, contentDescription = null, modifier = Modifier.padding(HhySpacing.Sm), tint = HhyColors.BrandPrimary)
+            }
+            Text(title, style = MaterialTheme.typography.labelLarge, color = HhyColors.TextPrimary, maxLines = 1)
+            Text(detail, style = MaterialTheme.typography.bodySmall, color = HhyColors.TextSecondary, maxLines = 1)
         }
     }
 }

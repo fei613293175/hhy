@@ -1,5 +1,6 @@
 package cc.orbexa.hhy.startup
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
@@ -194,32 +196,34 @@ private fun GateMessage(
                 ) {
                     Surface(
                         modifier = Modifier.fillMaxWidth(),
-                        color = HhyColors.SoftBlue,
+                        color = HhyColors.BrandPrimary,
                         shape = RoundedCornerShape(HhyRadius.NormalCard),
                     ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+                            modifier = Modifier.fillMaxWidth().background(
+                                Brush.linearGradient(listOf(HhyColors.BrandPrimaryDark, HhyColors.BrandGradientEnd)),
+                            ).padding(HhySpacing.Lg),
                             horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-                            Surface(shape = CircleShape, color = HhyColors.Surface) {
+                            Surface(shape = CircleShape, color = HhyColors.Surface.copy(alpha = 0.18f)) {
                                 HhyIcon(
                                     icon,
                                     contentDescription = null,
                                     modifier = Modifier.padding(HhySpacing.Md),
-                                    tint = HhyColors.BrandPrimary,
+                                    tint = HhyColors.TextInverse,
                                 )
                             }
                             Column(verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
                                 Text(
                                     eyebrow,
                                     style = MaterialTheme.typography.labelMedium,
-                                    color = HhyColors.BrandPrimary,
+                                    color = HhyColors.TextInverse.copy(alpha = 0.82f),
                                 )
                                 Text(
                                     "合伙云 Pro",
                                     style = MaterialTheme.typography.titleMedium,
-                                    color = HhyColors.TextPrimary,
+                                    color = HhyColors.TextInverse,
                                 )
                             }
                         }

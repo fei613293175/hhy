@@ -722,44 +722,102 @@ fun LoginDevicesScreen(api: ContractAuthApi, accessToken: String, onBack: () -> 
     }
 
     Column(
-        modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(HhySpacing.Lg),
-        verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+        modifier = Modifier.fillMaxSize().background(HhyColors.PageBackground)
+            .verticalScroll(rememberScrollState()).padding(HhySpacing.Lg),
+        verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
     ) {
         AuthenticatedRouteHeader("登录设备", onBack)
-        Text("仅显示当前有效会话，不展示任何登录令牌。", color = HhyColors.TextSecondary)
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = HhyColors.SoftBlue,
+            shape = RoundedCornerShape(HhyRadius.LargeCard),
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+            ) {
+                Surface(shape = RoundedCornerShape(HhyRadius.Button), color = HhyColors.Surface) {
+                    HhyIcon(HhyIcons.Devices, contentDescription = null, modifier = Modifier.padding(HhySpacing.Md), tint = HhyColors.BrandPrimary)
+                }
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                    Text("管理已登录设备", style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+                    Text("仅显示当前有效会话，不展示任何登录令牌。", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodyMedium)
+                }
+            }
+        }
         if (state is AuthUiState.Message) {
             val message = state as AuthUiState.Message
-            Text(message.text, color = HhyColors.Warning)
+            Surface(modifier = Modifier.fillMaxWidth(), color = HhyColors.WarningSoft, shape = RoundedCornerShape(HhyRadius.NormalCard)) {
+                Text(message.text, modifier = Modifier.padding(HhySpacing.Md), color = HhyColors.Warning)
+            }
         }
-        Button(modifier = Modifier.fillMaxWidth(), enabled = !submitting, onClick = ::load) {
+        Button(modifier = Modifier.fillMaxWidth().heightIn(min = HhySize.PrimaryButtonHeight), enabled = !submitting, onClick = ::load) {
             Text(if (sessions.isEmpty()) "加载登录设备" else "刷新登录设备")
+        }
+        if (sessions.isEmpty() && !submitting && state !is AuthUiState.Message) {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(HhyRadius.NormalCard),
+                colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+                elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+            ) {
+                Column(Modifier.fillMaxWidth().padding(HhySpacing.Xl), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                    HhyIcon(HhyIcons.Devices, contentDescription = null, modifier = Modifier.size(HhySize.MinimumTouchTarget), tint = HhyColors.TextTertiary)
+                    Text("尚未加载设备", style = MaterialTheme.typography.titleMedium)
+                    Text("点击上方按钮获取当前账号的有效登录会话。", color = HhyColors.TextSecondary, textAlign = TextAlign.Center)
+                }
+            }
         }
         sessions.forEach { session ->
             val deviceName = session.device?.get("deviceName")?.jsonPrimitive?.content ?: "未知设备"
-            Text(if (session.current) "当前设备：$deviceName" else "设备：$deviceName")
-            Text("最近活跃：${session.createdAt}", color = HhyColors.TextSecondary)
-            if (!session.current) {
-                if (pendingRevokeId == session.sessionId) {
-                    Text("确认下线后，该设备需要重新登录。", color = HhyColors.Warning)
-                    Button(modifier = Modifier.fillMaxWidth(), enabled = !submitting, onClick = {
-                        scope.launch {
-                            state = AuthUiState.Submitting
-                            when (val result = api.revokeSession(accessToken, session.sessionId)) {
-                                is AuthCallResult.Success -> {
-                                    pendingRevokeId = null
-                                    sessions = sessions.filterNot { it.sessionId == session.sessionId }
-                                    state = AuthUiState.Message("设备已下线", result.requestId)
-                                }
-                                is AuthCallResult.Failure -> state = AuthUiState.Message(
-                                    result.statusCode?.let { errorForStatus(it, result.errorCode, result.retryAfterSeconds) }
-                                        ?: "网络不可用，请检查连接后重试", result.requestId,
-                                )
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(HhyRadius.NormalCard),
+                colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+                elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+            ) {
+                Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+                        Surface(shape = RoundedCornerShape(HhyRadius.Button), color = if (session.current) HhyColors.SuccessSoft else HhyColors.SoftBlue) {
+                            HhyIcon(HhyIcons.Devices, contentDescription = null, modifier = Modifier.padding(HhySpacing.Md), tint = if (session.current) HhyColors.Success else HhyColors.BrandPrimary)
+                        }
+                        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                            Text(deviceName, style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+                            Text("登录时间：${session.createdAt}", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+                        }
+                        if (session.current) {
+                            Surface(color = HhyColors.SuccessSoft, shape = RoundedCornerShape(HhyRadius.Pill)) {
+                                Text("当前设备", modifier = Modifier.padding(horizontal = HhySpacing.Sm, vertical = HhySpacing.Xs), color = HhyColors.Success, style = MaterialTheme.typography.labelMedium)
                             }
                         }
-                    }) { Text("确认下线") }
-                } else {
-                    OutlinedButton(modifier = Modifier.fillMaxWidth(), enabled = !submitting,
-                        onClick = { pendingRevokeId = session.sessionId }) { Text("下线此设备") }
+                    }
+                    if (!session.current) {
+                        if (pendingRevokeId == session.sessionId) {
+                            Surface(modifier = Modifier.fillMaxWidth(), color = HhyColors.WarningSoft, shape = RoundedCornerShape(HhyRadius.Tag)) {
+                                Text("确认下线后，该设备需要重新登录。", modifier = Modifier.padding(HhySpacing.Md), color = HhyColors.Warning)
+                            }
+                            Button(modifier = Modifier.fillMaxWidth(), enabled = !submitting, onClick = {
+                                scope.launch {
+                                    state = AuthUiState.Submitting
+                                    when (val result = api.revokeSession(accessToken, session.sessionId)) {
+                                        is AuthCallResult.Success -> {
+                                            pendingRevokeId = null
+                                            sessions = sessions.filterNot { it.sessionId == session.sessionId }
+                                            state = AuthUiState.Message("设备已下线", result.requestId)
+                                        }
+                                        is AuthCallResult.Failure -> state = AuthUiState.Message(
+                                            result.statusCode?.let { errorForStatus(it, result.errorCode, result.retryAfterSeconds) }
+                                                ?: "网络不可用，请检查连接后重试", result.requestId,
+                                        )
+                                    }
+                                }
+                            }) { Text("确认下线") }
+                        } else {
+                            OutlinedButton(modifier = Modifier.fillMaxWidth(), enabled = !submitting,
+                                onClick = { pendingRevokeId = session.sessionId }) { Text("下线此设备") }
+                        }
+                    }
                 }
             }
         }
@@ -907,25 +965,71 @@ fun AccountBlockedScreen(
     Surface(color = HhyColors.PageBackground) {
         Column(
             modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(HhySpacing.Lg),
-            verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+            verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
         ) {
-            Text("账号已受限", style = MaterialTheme.typography.titleLarge)
-            Text("当前账号无法使用业务功能，只能提交申诉或退出登录。", color = HhyColors.Warning)
-            Text("账号：${user.phoneMasked ?: user.id}")
-            Text("账号状态：${restrictedStatusLabel(user.status)}", color = HhyColors.TextSecondary)
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = HhyColors.ErrorSoft,
+                shape = RoundedCornerShape(HhyRadius.LargeCard),
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(HhySpacing.Xl),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+                ) {
+                    Surface(shape = RoundedCornerShape(HhyRadius.Button), color = HhyColors.Surface) {
+                        HhyIcon(HhyIcons.Lock, contentDescription = null, modifier = Modifier.padding(HhySpacing.Md), tint = HhyColors.Error)
+                    }
+                    Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                        Text("账号已受限", style = MaterialTheme.typography.titleLarge, color = HhyColors.TextPrimary)
+                        Text("当前账号无法使用业务功能，只能提交申诉或退出登录。", color = HhyColors.TextSecondary)
+                    }
+                }
+            }
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(HhyRadius.NormalCard),
+                colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+                elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+            ) {
+                Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                    Text("账号状态", style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text("当前账号", color = HhyColors.TextSecondary)
+                        Text(user.phoneMasked ?: user.id, fontWeight = FontWeight.SemiBold)
+                    }
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text("限制状态", color = HhyColors.TextSecondary)
+                        Text(restrictedStatusLabel(user.status), color = HhyColors.Error, fontWeight = FontWeight.SemiBold)
+                    }
+                }
+            }
             if (state is AuthUiState.Message) {
                 val message = state as AuthUiState.Message
-                Text(message.text, color = HhyColors.Warning)
+                Surface(modifier = Modifier.fillMaxWidth(), color = HhyColors.WarningSoft, shape = RoundedCornerShape(HhyRadius.Tag)) {
+                    Text(message.text, modifier = Modifier.padding(HhySpacing.Md), color = HhyColors.Warning)
+                }
             }
-            OutlinedTextField(
-                value = appeal,
-                onValueChange = { appeal = it.take(2000); state = AuthUiState.Editing },
+            Card(
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("申诉说明") },
-                minLines = 5,
-                enabled = !submitting,
-            )
-            Text("请说明需要复核的情况，不要填写密码或短信验证码。", color = HhyColors.TextSecondary)
+                shape = RoundedCornerShape(HhyRadius.NormalCard),
+                colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+                elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+            ) {
+                Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                    Text("提交复核申请", style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+                    Text("请说明需要复核的情况，工作人员将根据真实账号状态处理。", color = HhyColors.TextSecondary)
+                    OutlinedTextField(
+                        value = appeal,
+                        onValueChange = { appeal = it.take(2000); state = AuthUiState.Editing },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text("申诉说明") },
+                        minLines = 5,
+                        enabled = !submitting,
+                    )
+                    Text("请勿填写密码或短信验证码。", color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
+                }
+            }
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = !submitting && appeal.isNotBlank(),

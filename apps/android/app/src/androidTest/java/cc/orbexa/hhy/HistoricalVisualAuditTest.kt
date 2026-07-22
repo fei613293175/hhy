@@ -9,8 +9,10 @@ import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performSemanticsAction
+import androidx.compose.ui.test.performTextInput
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
@@ -18,14 +20,29 @@ import androidx.test.uiautomator.Until
 import cc.orbexa.hhy.auth.AuthVisualAuditMode
 import cc.orbexa.hhy.auth.AuthVisualAuditScreen
 import cc.orbexa.hhy.designsystem.HhyTheme
+import cc.orbexa.hhy.discovery.R07PublisherScreen
+import cc.orbexa.hhy.discovery.R07SearchScreen
 import cc.orbexa.hhy.identity.IdentityVisualAuditMode
 import cc.orbexa.hhy.identity.IdentityVisualAuditScreen
+import cc.orbexa.hhy.media.MediaUploadSheet
+import cc.orbexa.hhy.network.AgreementSnapshot
 import cc.orbexa.hhy.network.AccountCancellationRequest
 import cc.orbexa.hhy.network.AuthCallResult
 import cc.orbexa.hhy.network.CommandResultResource
+import cc.orbexa.hhy.network.ContactAccessRequest
+import cc.orbexa.hhy.network.ContactAccessResource
+import cc.orbexa.hhy.network.ContactChannelSummaryResource
+import cc.orbexa.hhy.network.ContentPageResource
+import cc.orbexa.hhy.network.ContentResource
 import cc.orbexa.hhy.network.ContractAuthApi
 import cc.orbexa.hhy.network.ContractIdentityApi
+import cc.orbexa.hhy.network.ContractMediaApi
+import cc.orbexa.hhy.network.ContractR07Api
+import cc.orbexa.hhy.network.DirectUploadResource
+import cc.orbexa.hhy.network.ExperienceApi
 import cc.orbexa.hhy.network.HhyNetworkJson
+import cc.orbexa.hhy.network.HomeModuleSnapshot
+import cc.orbexa.hhy.network.HomeSnapshot
 import cc.orbexa.hhy.network.IdentityCallResult
 import cc.orbexa.hhy.network.IdentityConsentCallResult
 import cc.orbexa.hhy.network.IdentityConsentResource
@@ -34,11 +51,27 @@ import cc.orbexa.hhy.network.IdentityCreateSessionRequest
 import cc.orbexa.hhy.network.IdentityOverviewCallResult
 import cc.orbexa.hhy.network.IdentityOverviewResource
 import cc.orbexa.hhy.network.IdentityRetrySessionRequest
+import cc.orbexa.hhy.network.MediaCallResult
+import cc.orbexa.hhy.network.MediaCompleteUploadSessionRequest
+import cc.orbexa.hhy.network.MediaCreateUploadSessionRequest
+import cc.orbexa.hhy.network.MediaResource
+import cc.orbexa.hhy.network.PublisherSummaryResource
+import cc.orbexa.hhy.network.R07CallResult
+import cc.orbexa.hhy.network.R07PageMeta
+import cc.orbexa.hhy.network.SearchResultPageResource
+import cc.orbexa.hhy.network.SearchResultResource
+import cc.orbexa.hhy.network.SearchTermPageResource
+import cc.orbexa.hhy.network.SearchTermResource
+import cc.orbexa.hhy.network.UpdateType
 import cc.orbexa.hhy.network.UserSecuritySessionPageMeta
 import cc.orbexa.hhy.network.UserSecuritySessionPageResource
 import cc.orbexa.hhy.network.UserSecuritySessionResource
+import cc.orbexa.hhy.network.VersionCheckRequest
+import cc.orbexa.hhy.network.VersionPolicy
+import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupVisualAuditMode
 import cc.orbexa.hhy.startup.StartupVisualAuditScreen
+import java.io.InputStream
 import java.io.File
 import java.security.MessageDigest
 import kotlinx.serialization.json.encodeToJsonElement
@@ -124,7 +157,8 @@ class HistoricalVisualAuditTest {
         setAuditContent { AuthVisualAuditScreen(AuthVisualAuditMode.LOGIN_DEVICES, authApi) }
         waitForText("登录设备")
         composeRule.onNodeWithText("加载登录设备").performSemanticsAction(SemanticsActions.OnClick)
-        waitForText("当前设备：Pixel 7 测试设备")
+        waitForText("Pixel 7 测试设备")
+        waitForText("当前设备")
         captureStable("18-r02-login-devices.png")
     }
 
@@ -170,6 +204,99 @@ class HistoricalVisualAuditTest {
         setAuditContent { IdentityVisualAuditScreen(IdentityVisualAuditMode.RESULT, identityApi) }
         waitForText("实名认证已完成")
         captureStable("25-r05-identity-result.png")
+    }
+
+    @Test
+    fun mediaUploadProducesBoundVisualEvidence() {
+        setAuditContent {
+            MediaUploadSheet(
+                api = visualMediaApi,
+                accessToken = "visual-audit-token",
+                purpose = "PROJECT_IMAGE",
+                onCompleted = {},
+                onDismiss = {},
+                maxConcurrentUploads = 2,
+            )
+        }
+        waitForText("添加文件")
+        waitForText("还没有选择文件")
+        captureStable("21-r04-media-upload.png")
+    }
+
+    @Test
+    fun homeProducesBoundVisualEvidence() {
+        setAuditContent {
+            HhyShellScreen(
+                experienceApi = experienceApi,
+                accessToken = "visual-audit-token",
+            )
+        }
+        waitForText("发现真实合作机会")
+        waitForText("合作入口")
+        waitForText("公开合作推荐")
+        captureStable("26-r06-home.png")
+    }
+
+    @Test
+    fun aboutProducesBoundVisualEvidence() {
+        setAuditContent { AboutScreen(experienceApi, "visual-audit-token") {} }
+        waitForText("关于与检查更新")
+        waitForText("版本状态")
+        captureStable("27-r06-about.png")
+    }
+
+    @Test
+    fun searchProducesBoundVisualEvidence() {
+        setAuditContent {
+            R07SearchScreen(
+                api = discoveryApi,
+                accessToken = "visual-audit-token",
+                onBack = {},
+                onPublisherSelected = {},
+                onSessionExpired = {},
+            )
+        }
+        waitForText("找到下一次合作")
+        waitForText("热门合作")
+        captureStable("28-r07-search-landing.png")
+
+        composeRule.onNodeWithTag("r07.search.input").performTextInput("合作")
+        composeRule.onNodeWithTag("r07.search.submit").performSemanticsAction(SemanticsActions.OnClick)
+        waitForText("公开合作项目")
+        captureStable("29-r07-search-results.png")
+    }
+
+    @Test
+    fun publisherProducesBoundVisualEvidence() {
+        setAuditContent {
+            R07PublisherScreen(
+                api = discoveryApi,
+                accessToken = "visual-audit-token",
+                publisherId = "publisher-visual",
+                onBack = {},
+                onSessionExpired = {},
+            )
+        }
+        waitForText("合伙云内容团队")
+        waitForText("公开内容")
+        captureStable("30-r07-publisher.png")
+    }
+
+    @Test
+    fun searchHistoryDialogProducesBoundVisualEvidence() {
+        setAuditContent {
+            R07SearchScreen(
+                api = discoveryApi,
+                accessToken = "visual-audit-token",
+                onBack = {},
+                onPublisherSelected = {},
+                onSessionExpired = {},
+            )
+        }
+        waitForText("最近合作")
+        composeRule.onNodeWithText("清空").performSemanticsAction(SemanticsActions.OnClick)
+        waitForText("清空搜索历史？")
+        captureStable("32-r07-clear-history-dialog.png")
     }
 
     private fun setAuditContent(content: @Composable () -> Unit) {
@@ -251,6 +378,167 @@ class HistoricalVisualAuditTest {
 
     private fun sha256(file: File): String = MessageDigest.getInstance("SHA-256")
         .digest(file.readBytes()).joinToString("") { "%02x".format(it) }
+
+    private val experienceApi = object : ExperienceApi {
+        override suspend fun home(accessToken: String) = Result.success(
+            HomeSnapshot(
+                serverTime = "2026-07-22T16:00:00Z",
+                modules = listOf(
+                    HomeModuleSnapshot(
+                        id = "visual-projects",
+                        type = "PROJECT",
+                        title = "公开合作推荐",
+                        subtitle = "由服务端配置的公开内容",
+                        items = listOf("公开合作项目", "团队协作应用", "同城合作群聊"),
+                    ),
+                ),
+            ),
+        )
+
+        override suspend fun agreement(code: String) = Result.success(
+            AgreementSnapshot(
+                code = code,
+                title = "隐私政策",
+                description = "了解个人信息保护与使用规则",
+                content = listOf("合伙云 Pro 按照业务需要与隐私政策处理必要信息。"),
+                version = 1,
+            ),
+        )
+
+        override suspend fun checkVersion(request: VersionCheckRequest) = Result.success(
+            VersionPolicy(
+                platform = "ANDROID",
+                latestVersionCode = request.versionCode,
+                latestVersionName = "1.2.3",
+                updateType = UpdateType.NONE,
+                downloadUrl = "https://download.orbexa.cc/app/hhy-latest.apk",
+                sha256 = "0".repeat(64),
+                releaseNotes = "当前已是最新版本",
+                minSupportedVersionCode = request.versionCode,
+                serverTime = "2026-07-22T16:00:00Z",
+            ),
+        )
+    }
+
+    private val visualMediaApi = object : ContractMediaApi {
+        private fun <T> unavailable(): MediaCallResult<T> = MediaCallResult.Failure(503)
+        override suspend fun createUploadSession(
+            accessToken: String,
+            idempotencyKey: String,
+            request: MediaCreateUploadSessionRequest,
+        ): MediaCallResult<MediaResource> = unavailable()
+
+        override suspend fun upload(
+            uploadUrl: String,
+            contentType: String,
+            sizeBytes: Long,
+            input: () -> InputStream,
+            onProgress: (Long) -> Unit,
+        ): MediaCallResult<DirectUploadResource> = unavailable()
+
+        override suspend fun completeUploadSession(
+            accessToken: String,
+            sessionId: String,
+            idempotencyKey: String,
+            request: MediaCompleteUploadSessionRequest,
+        ): MediaCallResult<MediaResource> = unavailable()
+
+        override suspend fun deleteMedia(
+            accessToken: String,
+            mediaId: String,
+            idempotencyKey: String,
+        ): MediaCallResult<CommandResultResource> = unavailable()
+    }
+
+    private val discoveryPublisher = PublisherSummaryResource(
+        userId = "publisher-visual",
+        nickname = "合伙云内容团队",
+        bio = "专注公开项目与合作机会的内容建设",
+        verified = true,
+        memberBadge = "认证成员",
+    )
+    private val discoveryPage = R07PageMeta(page = 1, pageSize = 20, total = "1", hasMore = "false")
+    private val discoveryApi = object : ContractR07Api {
+        override suspend fun search(
+            accessToken: String,
+            query: String,
+            contentType: String?,
+            categoryCode: String?,
+            regionCode: String?,
+            cursor: String?,
+            pageSize: Int,
+            sort: String,
+        ) = R07CallResult.Success(
+            SearchResultPageResource(
+                items = listOf(
+                    SearchResultResource(
+                        id = "content-visual",
+                        contentType = "PROJECT",
+                        title = "公开合作项目",
+                        summary = "面向真实业务协作的公开项目说明",
+                        publisher = discoveryPublisher,
+                        badges = listOf("公开内容", "已认证发布者"),
+                    ),
+                ),
+                page = discoveryPage,
+            ),
+            "visual-audit",
+        )
+
+        override suspend fun hot(accessToken: String, pageSize: Int) = R07CallResult.Success(
+            SearchTermPageResource(
+                listOf(SearchTermResource("hot-visual", "热门合作")),
+                discoveryPage,
+            ),
+            "visual-audit",
+        )
+
+        override suspend fun history(accessToken: String, pageSize: Int) = R07CallResult.Success(
+            SearchTermPageResource(
+                listOf(SearchTermResource("history-visual", "最近合作")),
+                discoveryPage,
+            ),
+            "visual-audit",
+        )
+
+        override suspend fun clearHistory(accessToken: String, idempotencyKey: String) = R07CallResult.Success(
+            CommandResultResource(status = "CLEARED", acceptedAt = "2026-07-22T16:00:00Z"),
+            "visual-audit",
+        )
+
+        override suspend fun publisher(accessToken: String, publisherId: String) =
+            R07CallResult.Success(discoveryPublisher, "visual-audit")
+
+        override suspend fun contents(accessToken: String, publisherId: String, cursor: String?, pageSize: Int) =
+            R07CallResult.Success(
+                ContentPageResource(
+                    items = listOf(
+                        ContentResource(
+                            id = "content-visual",
+                            contentType = "PROJECT",
+                            title = "公开合作项目",
+                            summary = "面向真实业务协作的公开项目说明",
+                            publisher = discoveryPublisher,
+                            contactsMasked = listOf(
+                                ContactChannelSummaryResource("WECHAT", "wx_****", true, "AUTHORIZED", false),
+                            ),
+                            status = "PUBLISHED",
+                            version = 1,
+                        ),
+                    ),
+                    page = discoveryPage,
+                ),
+                "visual-audit",
+            )
+
+        override suspend fun accessContact(
+            accessToken: String,
+            contentId: String,
+            channel: String,
+            idempotencyKey: String,
+            request: ContactAccessRequest,
+        ): R07CallResult<ContactAccessResource> = R07CallResult.Failure(403)
+    }
 
     private class VisualAuthApi : ContractAuthApi {
         private fun unavailable() = AuthCallResult.Failure(503, null)

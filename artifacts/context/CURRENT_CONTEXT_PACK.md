@@ -1,7 +1,7 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-22T15:57:20Z
-- Context Hash：`897418b97eb2eb09a14da142b67603d0a0f37e028be53fa08841e0e75ca2e1c0`
+- 生成时间：2026-07-22T16:49:15Z
+- Context Hash：`52f97b8de2d4ad56131150374ed39f41a7c14878d6e9543cf510272f62d15f22`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
@@ -134,7 +134,7 @@ blocked_tasks:
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R09-001
-updated_at: '2026-07-22T15:57:02Z'
+updated_at: '2026-07-22T16:49:12Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -169,15 +169,15 @@ continuity:
   active_session_id: SES-20260722T153450Z-FAD75B8D
   actor_id: codex-root-r09-ui-audit
   story_id: STORY-R09-004
-  lease_expires_at: '2026-07-22T19:57:02Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0003.yaml
-  project_fingerprint: ee8e723e4bd941c0ba710ccd09c2a90cbc39e68edb5ddffdc6a8e16b988c606a
+  lease_expires_at: '2026-07-22T20:49:12Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0005.yaml
+  project_fingerprint: 8726287f92995647c4ba2892c60144aaf31b605b95ed03e1a50cb9f50bb9b3f1
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: e74fc16c8cc7161f9b0f4998fa211f0c9812c815a4f171a9de72c1e69f7f1fc2
-    generated_at: '2026-07-22T15:55:07Z'
+    context_hash: e7dee450a3a9903ec08b9f49e3a78f69b0db21b11d81ddf39c38066f9ceec9e1
+    generated_at: '2026-07-22T16:47:00Z'
   handoff_bundle: null
 ```
 
@@ -378,10 +378,11 @@ task_id: TASK-R09-001
 story_id: STORY-R09-004
 goal: 在R09业务编码前，完成P00/R01至R08全部已实现Android、H5、Admin页面的效果图级全局审计；不合格页面返工，缺少且不可复用效果图的页面输出桌面补充包。
 started_at: '2026-07-22T15:34:50Z'
-updated_at: '2026-07-22T15:57:06Z'
+updated_at: '2026-07-22T16:49:12Z'
 takeover_of: null
 change_requests:
 - CR-0247
+- CR-0248
 scope:
   allowed_paths:
   - apps/**
@@ -435,12 +436,12 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-22T15:57:02Z'
-  expires_at: '2026-07-22T19:57:02Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0003.yaml
+  renewed_at: '2026-07-22T16:49:12Z'
+  expires_at: '2026-07-22T20:49:12Z'
+checkpoint_sequence: 5
+latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0005.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md
-next_step: 提交CR关闭元数据、推送，然后运行P00/R01-R08全局UI审计清单。
+next_step: 提交推送冻结源码并手动运行Android Historical Visual Audit，下载22张截图逐张AI验收
 context_pack: THIS_CONTEXT_PACK
 handoff_bundle: null
 closure: null
@@ -448,45 +449,96 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR关闭元数据与当前唯一会话绑定，必须串行提交。
+  reason: 唯一UI事实目录与冻结提交需串行
 ```
 
 ## 最新检查点
 
 ```yaml
 protocol_version: '1.0'
-checkpoint_id: CP-SES-20260722T153450Z-FAD75B8D-0003
+checkpoint_id: CP-SES-20260722T153450Z-FAD75B8D-0005
 session_id: SES-20260722T153450Z-FAD75B8D
-sequence: 3
-created_at: '2026-07-22T15:57:01Z'
-summary: CR-0247已关联实现提交d89d7c0b并关闭。
-next_step: 提交CR关闭元数据、推送，然后运行P00/R01-R08全局UI审计清单。
+sequence: 5
+created_at: '2026-07-22T16:49:11Z'
+summary: 完成R01至R07历史UI返工、本地门禁和用户可见变更记录；源码可冻结用于一次视觉专跑
+next_step: 提交推送冻结源码并手动运行Android Historical Visual Audit，下载22张截图逐张AI验收
 blockers: []
-decisions: []
+decisions:
+- 视觉专跑不登录服务器、不生成候选APK、不替代版本最终候选
 note: ''
 tests:
-- name: implementation-commit
+- name: Android testDebugUnitTest lintDebug
   result: PASS
-  evidence: d89d7c0b
-  note: pre-commit and commit-msg gates passed
+  evidence: apps/android build output
+  note: 436 tasks BUILD SUCCESSFUL
+- name: Android compileDebugAndroidTestKotlin
+  result: PASS
+  evidence: apps/android build output
+  note: HistoricalVisualAuditTest编译通过
+- name: Documentation strict
+  result: PASS
+  evidence: artifacts/validation/project-doctor-v1.2.3-documentation.json
+  note: 189 UI页面且无开放缺口
+- name: Admin test and build
+  result: PASS
+  evidence: apps/admin-web
+  note: 16 files 88 tests及生产构建通过
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: d89d7c0bf4a360ac9bb40c51bc46ed7a9b772e8c
+  head: c3e6130bdcd8b2e4f619cb68eb2dd5e50045f30f
   upstream: origin/task/TASK-R03-001
-  ahead: 1
+  ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-  - ' M .continuity/EVENT_LOG.jsonl'
-  - ' M .continuity/STATE.yaml'
-  - ' M .continuity/change_requests/CR-0247.yaml'
-  - ' M artifacts/validation/continuity-gate-v1.2.3.json'
-  - ' M catalogs/change_request_index.csv'
-  - ' M catalogs/session_index.csv'
-  - ' M docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md'
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - A  .continuity/change_requests/CR-0248.yaml
+  - A  .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0004.yaml
+  - M  .continuity/sessions/SES-20260722T153450Z-FAD75B8D.yaml
+  - A  .github/workflows/android-historical-visual-audit.yml
+  - ' M CHANGELOG.md'
+  - M  CURRENT_STATUS.yaml
+  - M  apps/admin-web/src/views/AdminLoginPage.vue
+  - M  apps/admin-web/src/views/AdminMfaPage.vue
+  - M  apps/admin-web/src/views/AdminSecurityPage.vue
+  - M  apps/android/app/build.gradle.kts
+  - M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - M  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - M  apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - M  apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - M  apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - A  artifacts/reports/R09/TASK-R09-001-historical-ui-audit.md
+  - M  artifacts/validation/project-doctor-v1.2.3-documentation.json
+  - A  artifacts/validation/r09-historical-ui/admin/ADM-AUTH-001-browser-1440x1100.png
+  - A  artifacts/validation/r09-historical-ui/admin/ADM-AUTH-002-browser-1440x1100.png
+  - A  artifacts/validation/r09-historical-ui/admin/ADM-SECURITY-001-browser-1440x1100.png
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  catalogs/ui_visual_acceptance.csv
+  - M  design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - M  design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+  - M  design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+  - M  design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+  - M  design/R07-UI-FROZEN/specs/SHEET-CONTACT-001.md
+  - M  docs/02-ui/page-specs/admin/ADM-AUTH-001_后台登录.md
+  - M  docs/02-ui/page-specs/admin/ADM-AUTH-002_二次验证.md
+  - M  docs/02-ui/page-specs/admin/ADM-SECURITY-001_管理员安全设置.md
+  - A  docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md
+  - M  docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md
+  - M  docs/09-development/统一开发与交付效率规范.md
+  - A  scripts/capture_r01_admin_visuals.mjs
   recent_commits:
+  - "c3e6130bdcd8b2e4f619cb68eb2dd5e50045f30f\t2026-07-22T23:57:34+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close CR-0247"
   - "d89d7c0bf4a360ac9bb40c51bc46ed7a9b772e8c\t2026-07-22T23:56:15+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(workflow): clarify UI\
     \ and release closure"
   - "316c2db20204555fcd405fd6346d96aa8effe932\t2026-07-22T23:32:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-008\
@@ -501,14 +553,30 @@ git:
     \ system ANR screenshots"
   - "6202a272dc77e090be101e5dd4c2b16dd6c1cab1\t2026-07-22T21:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] ci(android): request final\
     \ remediated visual audit"
-  - "5eda31773858b9a6286f10da6522c5e1f40c09a3\t2026-07-22T20:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(ci): close deterministic\
-    \ tooling regressions"
 project_fingerprint:
-  sha256: ee8e723e4bd941c0ba710ccd09c2a90cbc39e68edb5ddffdc6a8e16b988c606a
+  sha256: 8726287f92995647c4ba2892c60144aaf31b605b95ed03e1a50cb9f50bb9b3f1
   files:
+  - .github/workflows/android-historical-visual-audit.yml
   - CHANGELOG.md
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/AdminMfaPage.vue
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - catalogs/ui_visual_acceptance.csv
   - config/development-workflow.yaml
   - config/test-impact-map.yaml
+  - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+  - design/R07-UI-FROZEN/specs/SHEET-CONTACT-001.md
   - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
   - docs/02-ui/page-specs/admin/ADM-ACCOUNTING-001_统一会计交易.md
   - docs/02-ui/page-specs/admin/ADM-ACCOUNTING-002_会计交易详情与冲正.md
@@ -701,21 +769,75 @@ project_fingerprint:
   - docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md
+  - docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md
   - docs/09-development/统一开发与交付效率规范.md
+  - scripts/capture_r01_admin_visuals.mjs
   - scripts/check_release_artifacts.py
   - scripts/check_v123_documentation.py
   - scripts/hhy_workflow.py
   - tests/test_hhy_workflow.py
   - tests/test_release_close_gate.py
   - tests/test_run_affected_tests.py
-  file_count: 202
+  file_count: 222
   payload:
     base_commit: 316c2db20204555fcd405fd6346d96aa8effe932
     files:
+    - path: .github/workflows/android-historical-visual-audit.yml
+      state: FILE
+      size: 2666
+      sha256: e0ab3aedfdc9adc944b79caf6823b6c5bd2f06871938ca47a764ae691bc987a1
     - path: CHANGELOG.md
       state: FILE
-      size: 92178
-      sha256: 22e1ea83772cb39fc70a5ecf71e261d1f31a414e061aebd3c532fbd4032f2670
+      size: 92992
+      sha256: c4fb004d33c8117f35c3f01745b74e11e5197d5ea455c09782746f3ea4f36d56
+    - path: apps/admin-web/src/views/AdminLoginPage.vue
+      state: FILE
+      size: 6379
+      sha256: 94c0a1bac7b46fe4f9d02afe78c5b6cd369eea5049d8a90d1c5c60d91e3dbc17
+    - path: apps/admin-web/src/views/AdminMfaPage.vue
+      state: FILE
+      size: 5385
+      sha256: e2a0d398ec9a369c0e68c7f72d3e401eec63803114600c49b2889426d12d960a
+    - path: apps/admin-web/src/views/AdminSecurityPage.vue
+      state: FILE
+      size: 19606
+      sha256: d04b0b4d3fb9d66fff0f422ed8a0a6bb204c862881960db6b7229ba9f3ec7df3
+    - path: apps/android/app/build.gradle.kts
+      state: FILE
+      size: 5136
+      sha256: d3e1319a19119ddccecdb0ef36719e4ce37c89b59af35d6b49762ae97c97f623
+    - path: apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+      state: FILE
+      size: 26255
+      sha256: c2705ba158ec6272f925d522b9d42b6efdd90a0d1a47bf20a8e6a6ebca42d67c
+    - path: apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+      state: FILE
+      size: 3443
+      sha256: b46876267751747d473d6a8d1f68ae16e94636741772df70b69d5422ab99989e
+    - path: apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+      state: FILE
+      size: 73822
+      sha256: 1e8e1874e46e9e38139f745573f6529baac9d8253753119c63b2849e6f228a0e
+    - path: apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+      state: FILE
+      size: 34668
+      sha256: 4072d7fefd5b749331abf45d378f3a14181a77d10370b974991cb4df26604883
+    - path: apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+      state: FILE
+      size: 54151
+      sha256: 4247b731bf86ad0aa446f14ca58de08f371de75a7206086b56edfb8a29749344
+    - path: apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+      state: FILE
+      size: 19204
+      sha256: 9886b95641275ce664d1c187b0b1430db8b9fa9368f400fa80cb8661c8de319d
+    - path: apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+      state: FILE
+      size: 10800
+      sha256: e31fa918ce6e95a96643777b2b8c0d988ede8a52fd221daf4e0187f80179bc50
+    - path: catalogs/ui_visual_acceptance.csv
+      state: FILE
+      size: 36180
+      sha256: 3be3b32ddc5bded1b9c7b033ab3caf7b01f2d3ed6d5d69d66704e5ac7b877a2d
     - path: config/development-workflow.yaml
       state: FILE
       size: 3386
@@ -724,6 +846,26 @@ project_fingerprint:
       state: FILE
       size: 5624
       sha256: 19a254ad4f2e57da360bec3afa7d404fba1a8c486fefd9adb23187c458a2de30
+    - path: design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+      state: FILE
+      size: 3258
+      sha256: baa88d6724194235a28edf6318c477eb9824e3cb9e11418d9c51d4d688c24267
+    - path: design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+      state: FILE
+      size: 1817
+      sha256: 96699c1ed3d4c73ff1db765db25bb707ceb6371437414a8cbe5852875f123f5b
+    - path: design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+      state: FILE
+      size: 1916
+      sha256: 15c7a9a7a7ee341db6e2ddfbbc408fe6cc2d3e78b1f6211538390c99c0238a84
+    - path: design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+      state: FILE
+      size: 1877
+      sha256: 0585cd146d7964416007f9b931a3927c9c508352209c8ed8266c467de0f1b574
+    - path: design/R07-UI-FROZEN/specs/SHEET-CONTACT-001.md
+      state: FILE
+      size: 1626
+      sha256: e3c516ac54dfae0af7b47e50a13090e69b47a94eb88b297d1a4af86c565994b3
     - path: docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
       state: FILE
       size: 7355
@@ -754,12 +896,12 @@ project_fingerprint:
       sha256: c14708d148bdc8ac8c69083162ec0ce3245e144e50090ebfe31f798d1fbb2a7a
     - path: docs/02-ui/page-specs/admin/ADM-AUTH-001_后台登录.md
       state: FILE
-      size: 15235
-      sha256: cb83461f4de6e4076994a76d77cd78f6d60f16179d63d52a8857180d6cd6808f
+      size: 15518
+      sha256: 773e4dec13ff22d72151e34dc4f7c672649dd6773f68c08d9b27f8d4c80f1bf7
     - path: docs/02-ui/page-specs/admin/ADM-AUTH-002_二次验证.md
       state: FILE
-      size: 12018
-      sha256: cbea06bfff300c7ac54a7e00f82fe97d64e0dc01d11bb60a399ada5af52bf2cb
+      size: 12301
+      sha256: 6d5d4d57c56ea7f11f670c29affeb2480cfcdd97d68c60b25a1d0703e034cf54
     - path: docs/02-ui/page-specs/admin/ADM-BUILD-001_构建中心首页.md
       state: FILE
       size: 39869
@@ -990,8 +1132,8 @@ project_fingerprint:
       sha256: b8902cec3f51811a1f318e0e9446cfcd8d0461eec410fa5a90d163058c693342
     - path: docs/02-ui/page-specs/admin/ADM-SECURITY-001_管理员安全设置.md
       state: FILE
-      size: 28975
-      sha256: f6fdeb9f635d3e022a49a959361c4dbf1b5b925eac2282055891382e1f9902d3
+      size: 29263
+      sha256: 3dbed88e1ed82be75b2079b6932dff1f9398448d5cd2f32a226c269c872d1dce
     - path: docs/02-ui/page-specs/admin/ADM-SUPPORT-001_工单列表.md
       state: FILE
       size: 20997
@@ -1492,10 +1634,18 @@ project_fingerprint:
       state: FILE
       size: 4203
       sha256: 6183e85333a663b0c3d1555ee251600edc52674dadee2c37879ab1f69e89db23
+    - path: docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md
+      state: FILE
+      size: 3588
+      sha256: 944b0ad8f17f23cf9fee5a3c841147af659cfaff4db26435fd3571942fbdb198
     - path: docs/09-development/统一开发与交付效率规范.md
       state: FILE
-      size: 13820
-      sha256: 6bb0c0585836cafc9dc852646e032ae219431b241acd9843b6cc7522bf054e0b
+      size: 14798
+      sha256: 8b647e1f174901b166d15994f5357ede87f41c700b4e5040ac6be858e1e74a1f
+    - path: scripts/capture_r01_admin_visuals.mjs
+      state: FILE
+      size: 2496
+      sha256: 0e863e022dd1e016a16386aa3d601e4f267cd009cf18c1368f57f7724b3e4688
     - path: scripts/check_release_artifacts.py
       state: FILE
       size: 27225
@@ -1521,12 +1671,47 @@ project_fingerprint:
       size: 8058
       sha256: 1905c91bd6b0a0215be1f6297997083d8220063c538352b2771e70ebf33095cc
 change_classification:
+  infrastructure:
+  - .github/workflows/android-historical-visual-audit.yml
   other:
   - CHANGELOG.md
+  - catalogs/ui_visual_acceptance.csv
   - config/development-workflow.yaml
   - config/test-impact-map.yaml
+  - design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+  - design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+  - design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+  - design/R07-UI-FROZEN/specs/SHEET-CONTACT-001.md
   - docs/09-development/统一开发与交付效率规范.md
-  source_of_truth:
+  code:
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/AdminMfaPage.vue
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+  - scripts/capture_r01_admin_visuals.mjs
+  - scripts/check_release_artifacts.py
+  - scripts/check_v123_documentation.py
+  - scripts/hhy_workflow.py
+  user_visible:
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/AdminMfaPage.vue
+  - apps/admin-web/src/views/AdminSecurityPage.vue
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+  - apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+  - apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+  - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+  - apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+  - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+  - apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
   - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
   - docs/02-ui/page-specs/admin/ADM-ACCOUNTING-001_统一会计交易.md
   - docs/02-ui/page-specs/admin/ADM-ACCOUNTING-002_会计交易详情与冲正.md
@@ -1717,7 +1902,7 @@ change_classification:
   - docs/02-ui/page-specs/h5/H5-011_帮助文章.md
   - docs/02-ui/page-specs/h5/H5-012_活体回跳.md
   - docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md
-  user_visible:
+  source_of_truth:
   - docs/02-ui/UI参考图使用与开发约束_V1.2.2.md
   - docs/02-ui/page-specs/admin/ADM-ACCOUNTING-001_统一会计交易.md
   - docs/02-ui/page-specs/admin/ADM-ACCOUNTING-002_会计交易详情与冲正.md
@@ -1911,10 +2096,7 @@ change_classification:
   continuity:
   - docs/03-continuity/PROBLEM_REGISTRY.yaml
   - docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md
-  code:
-  - scripts/check_release_artifacts.py
-  - scripts/check_v123_documentation.py
-  - scripts/hhy_workflow.py
+  - docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md
   tests:
   - tests/test_hhy_workflow.py
   - tests/test_release_close_gate.py
@@ -1929,6 +2111,7 @@ required_records:
 - CHANGELOG
 change_requests:
 - CR-0247
+- CR-0248
 scope:
   allowed_paths:
   - apps/**
@@ -1977,8 +2160,8 @@ parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CR关闭元数据与当前唯一会话绑定，必须串行提交。
-event_hash: 6f558a0e8bc574c9872d610c75e6754b5d1f83087055c368e1cf14f8ad984911
+  reason: 唯一UI事实目录与冻结提交需串行
+event_hash: 2a4a2c302fc5737e00e91e275c24b3fa435ad7c5840580db0894f6b8da2655f8
 ```
 
 ## 接续状态与事件头
@@ -1990,8 +2173,8 @@ active_session_id: SES-20260722T153450Z-FAD75B8D
 last_session_id: SES-20260722T093645Z-C7DB8EF0
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260722T093645Z-C7DB8EF0-0021
-event_count: 2419
-event_head_hash: 6f558a0e8bc574c9872d610c75e6754b5d1f83087055c368e1cf14f8ad984911
+event_count: 2425
+event_head_hash: 2a4a2c302fc5737e00e91e275c24b3fa435ad7c5840580db0894f6b8da2655f8
 event_chain_valid: true
 ```
 
@@ -2114,9 +2297,9 @@ recent_sessions: - session_id: SES-20260721T235847Z-F9109B61
   started_at: '2026-07-22T15:34:50Z'
   record: .continuity/sessions/SES-20260722T153450Z-FAD75B8D.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md
-  updated_at: '2026-07-22T15:57:02Z'
+  updated_at: '2026-07-22T16:49:12Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0003.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0005.yaml
   handoff_bundle: null
 task_claims: - claim_id: CLM-1136543F9D43
   session_id: SES-20260721T043434Z-868F3619
@@ -3097,30 +3280,60 @@ recent_task_transitions: - transition_id: TRN-BCEA665B53B9
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: d89d7c0bf4a360ac9bb40c51bc46ed7a9b772e8c
+head: c3e6130bdcd8b2e4f619cb68eb2dd5e50045f30f
 upstream: origin/task/TASK-R03-001
-ahead: 1
+ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/change_requests/CR-0247.yaml'
-- ' M .continuity/sessions/SES-20260722T153450Z-FAD75B8D.yaml'
-- ' M CURRENT_STATUS.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M artifacts/validation/continuity-gate-v1.2.3.json'
-- ' M catalogs/change_request_index.csv'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md'
-- ?? .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0003.yaml
+- MM .continuity/ACTIVE_SESSION.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- A  .continuity/change_requests/CR-0248.yaml
+- A  .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0004.yaml
+- MM .continuity/sessions/SES-20260722T153450Z-FAD75B8D.yaml
+- A  .github/workflows/android-historical-visual-audit.yml
+- ' M CHANGELOG.md'
+- MM CURRENT_STATUS.yaml
+- M  apps/admin-web/src/views/AdminLoginPage.vue
+- M  apps/admin-web/src/views/AdminMfaPage.vue
+- M  apps/admin-web/src/views/AdminSecurityPage.vue
+- M  apps/android/app/build.gradle.kts
+- M  apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt
+- M  apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt
+- M  apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt
+- M  apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+- M  apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt
+- M  apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
+- M  apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- A  artifacts/reports/R09/TASK-R09-001-historical-ui-audit.md
+- M  artifacts/validation/project-doctor-v1.2.3-documentation.json
+- A  artifacts/validation/r09-historical-ui/admin/ADM-AUTH-001-browser-1440x1100.png
+- A  artifacts/validation/r09-historical-ui/admin/ADM-AUTH-002-browser-1440x1100.png
+- A  artifacts/validation/r09-historical-ui/admin/ADM-SECURITY-001-browser-1440x1100.png
+- M  catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
+- M  catalogs/ui_visual_acceptance.csv
+- M  design/R06-UI-FROZEN/specs/SCR-HOME-001.md
+- M  design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+- M  design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+- M  design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+- M  design/R07-UI-FROZEN/specs/SHEET-CONTACT-001.md
+- M  docs/02-ui/page-specs/admin/ADM-AUTH-001_后台登录.md
+- M  docs/02-ui/page-specs/admin/ADM-AUTH-002_二次验证.md
+- M  docs/02-ui/page-specs/admin/ADM-SECURITY-001_管理员安全设置.md
+- A  docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md
+- MM docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md
+- M  docs/09-development/统一开发与交付效率规范.md
+- A  scripts/capture_r01_admin_visuals.mjs
+- ?? .continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0005.yaml
 recent_commits:
+- "c3e6130bdcd8b2e4f619cb68eb2dd5e50045f30f\t2026-07-22T23:57:34+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close CR-0247"
 - "d89d7c0bf4a360ac9bb40c51bc46ed7a9b772e8c\t2026-07-22T23:56:15+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] fix(workflow): clarify UI and\
   \ release closure"
 - "316c2db20204555fcd405fd6346d96aa8effe932\t2026-07-22T23:32:41+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close TASK-R08-008\
@@ -3135,18 +3348,34 @@ recent_commits:
   \ ANR screenshots"
 - "6202a272dc77e090be101e5dd4c2b16dd6c1cab1\t2026-07-22T21:01:52+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] ci(android): request final remediated\
   \ visual audit"
-- "5eda31773858b9a6286f10da6522c5e1f40c09a3\t2026-07-22T20:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] fix(ci): close deterministic\
-  \ tooling regressions"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`ee8e723e4bd941c0ba710ccd09c2a90cbc39e68edb5ddffdc6a8e16b988c606a`
-- 文件数：202
+- 指纹：`8726287f92995647c4ba2892c60144aaf31b605b95ed03e1a50cb9f50bb9b3f1`
+- 文件数：222
 
+- `.github/workflows/android-historical-visual-audit.yml`
 - `CHANGELOG.md`
+- `apps/admin-web/src/views/AdminLoginPage.vue`
+- `apps/admin-web/src/views/AdminMfaPage.vue`
+- `apps/admin-web/src/views/AdminSecurityPage.vue`
+- `apps/android/app/build.gradle.kts`
+- `apps/android/app/src/androidTest/java/cc/orbexa/hhy/HistoricalVisualAuditTest.kt`
+- `apps/android/core/designsystem/src/main/java/cc/orbexa/hhy/designsystem/HhyIcons.kt`
+- `apps/android/feature/auth/src/main/java/cc/orbexa/hhy/auth/AuthScreen.kt`
+- `apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt`
+- `apps/android/feature/identity/src/main/java/cc/orbexa/hhy/identity/IdentityFlowScreen.kt`
+- `apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt`
+- `apps/android/feature/startup/src/main/java/cc/orbexa/hhy/startup/StartupGateScreen.kt`
+- `catalogs/ui_visual_acceptance.csv`
 - `config/development-workflow.yaml`
 - `config/test-impact-map.yaml`
+- `design/R06-UI-FROZEN/specs/SCR-HOME-001.md`
+- `design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md`
+- `design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md`
+- `design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md`
+- `design/R07-UI-FROZEN/specs/SHEET-CONTACT-001.md`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md`
 - `docs/02-ui/page-specs/admin/ADM-ACCOUNTING-001_统一会计交易.md`
 - `docs/02-ui/page-specs/admin/ADM-ACCOUNTING-002_会计交易详情与冲正.md`
@@ -3326,24 +3555,6 @@ recent_commits:
 - `docs/02-ui/page-specs/android/SHEET-SHARE-001_分享面板.md`
 - `docs/02-ui/page-specs/h5/H5-001_品牌宣传下载页.md`
 - `docs/02-ui/page-specs/h5/H5-002_安装教程.md`
-- `docs/02-ui/page-specs/h5/H5-003_邀请落地页.md`
-- `docs/02-ui/page-specs/h5/H5-004_项目分享页.md`
-- `docs/02-ui/page-specs/h5/H5-005_App分享页.md`
-- `docs/02-ui/page-specs/h5/H5-006_群聊分享页.md`
-- `docs/02-ui/page-specs/h5/H5-007_团队长分享页.md`
-- `docs/02-ui/page-specs/h5/H5-008_统一收银台.md`
-- `docs/02-ui/page-specs/h5/H5-009_支付结果.md`
-- `docs/02-ui/page-specs/h5/H5-010_协议与规则.md`
-- `docs/02-ui/page-specs/h5/H5-011_帮助文章.md`
-- `docs/02-ui/page-specs/h5/H5-012_活体回跳.md`
-- `docs/02-ui/page-specs/h5/H5-013_H5邀请注册页.md`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
-- `docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md`
-- `docs/09-development/统一开发与交付效率规范.md`
-- `scripts/check_release_artifacts.py`
-- `scripts/check_v123_documentation.py`
-- `scripts/hhy_workflow.py`
-- `tests/test_hhy_workflow.py`
 
 ## 当前 Release
 
@@ -9355,13 +9566,70 @@ TASKS.yaml:
     session_id: SES-20260722T093645Z-C7DB8EF0
   session_ids:
   - SES-20260722T093645Z-C7DB8EF0
+- protocol_version: '1.0'
+  cr_id: CR-0248
+  title: 返工R01至R07不合格页面并补齐效果图级证据
+  status: IMPLEMENTING
+  created_at: '2026-07-22T16:06:17Z'
+  updated_at: '2026-07-22T16:06:56Z'
+  requester_actor_id: codex-root-r09-ui-audit
+  approver_actor_id: codex-reviewer-historical-ui
+  task_id: TASK-R09-001
+  session_id: SES-20260722T153450Z-FAD75B8D
+  user_request: R08全面收尾后，对过往已开发版本前端页面全局检查；不合格UI按效果图重做，效果图不存在且不可复用时制作补充包。AI独立判定截图，不阻断持续开发。
+  reason: 历史审计发现45页中23页仍为IN_REVIEW、3页缺视觉合同；R06首页和R07搜索发布者旧截图明显低于效果图丰富度，需在不虚构业务的条件下返工并生成最新证据。
+  original_rule: 历史页面实现可在代码/Token检查通过后保持IN_REVIEW，R06/R07冻结规格允许过低的信息密度；R01三页未纳入视觉验收目录。
+  new_rule: 逐页以实际渲染截图对照已批准效果图或可复用同风格参考；视觉丰富度、信息层级、组件精致度、真实业务映射、状态完整性六项均由AI判定PASS才可关闭。允许用真实已实现业务增强层级，禁止虚构内容、功能、指标和图片。无可复用参考时才生成效果图补充包。
+  impact_summary: 补齐R01三页视觉合同与浏览器截图；审计并返工R02启动认证、R04媒体、R05实名、R06首页/关于、R07搜索/发布者/安全弹层；更新冻结规格、验收目录、截图证据及相关测试。
+  impact:
+    files:
+    - apps/admin-web/src/**
+    - apps/android/feature/startup/src/**
+    - apps/android/feature/auth/src/**
+    - apps/android/feature/media/src/**
+    - apps/android/feature/identity/src/**
+    - apps/android/feature/shell/src/**
+    - apps/android/feature/discovery/src/**
+    - apps/android/app/src/**
+    - design/R06-UI-FROZEN/**
+    - design/R07-UI-FROZEN/**
+    - catalogs/ui_visual_acceptance.csv
+    - scripts/capture_*_visuals.mjs
+    - artifacts/validation/**
+    pages:
+    - ADM-AUTH-001;ADM-AUTH-002;ADM-SECURITY-001;SCR-APP-001..003;SCR-AUTH-001..008;SHEET-MEDIA-001;SCR-ID-001..004;SCR-HOME-001;SCR-ABOUT-001;SCR-SEARCH-001..002;SCR-PUBLISHER-001;SHEET-CONTACT-001;DIALOG-SEARCH-001
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - admin browser render; Android affected MODULE compile/unit; visual acceptance catalog; AI screenshot comparison; sensitive panel no-screenshot
+      regression
+    releases:
+    - R09
+    migration_and_compatibility: 不改变API、数据库、权限、幂等或安全合同；既有导航与测试语义标签保持兼容；敏感联系方式继续FLAG_SECURE且禁止截图。R08已通过页面不降级不重开机器收尾。
+  user_confirmation: OWNER_EXPLICIT_REDO_ALL_UNQUALIFIED_UI_AFTER_R08_AND_CONTINUE_WITHOUT_PAUSE
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T16:06:53Z'
+    note: 批准在不改业务合同的前提下按效果图级标准返工历史UI；每页必须以实际截图和AI六项判断为证，敏感面板继续禁止截图。
+  machine_record: .continuity/change_requests/CR-0248.yaml
+  document: docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md
+  decision_log:
+  - at: '2026-07-22T16:06:56Z'
+    actor_id: codex-root-r09-ui-audit
+    status: IMPLEMENTING
+    note: 开始补齐R01视觉合同，并返工R06/R07首批明显不合格Android页面。
+    session_id: SES-20260722T153450Z-FAD75B8D
+  session_ids:
+  - SES-20260722T153450Z-FAD75B8D
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `d07f1f2b2b8a0adae325a17c1ba349bc657e180d20d1c304a417bb116f294b86`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `bde9aa4eb3538cbcc617498420a26a30ee3b8bb47e86e1ebe4cbaaf61476828d`
+- `CURRENT_STATUS.yaml` — `0bb445093c3873522f0cf6de52f607c5b9cfcb251f9a5165f73309624a390025`
 - `NEXT_TASK.yaml` — `f685c1e6a6c0171a94c8953f40bd294574f9be6a468c998da512d22466d10434`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
@@ -9372,24 +9640,25 @@ TASKS.yaml:
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `15572ebabfe7823a4db20ed953596d64afa7951fbe7f12b80598ca97b2a1f0de`
-- `.continuity/SESSION_INDEX.yaml` — `aa17461acab606261a6dda8b1687fd6b846572dbe7941e777d12ec4dd1534c99`
+- `.continuity/EVENT_LOG.jsonl` — `1e665ba368a1afbd63c5496348f085cb6595f216722f08c300980298ed8544d7`
+- `.continuity/SESSION_INDEX.yaml` — `e3f006163470509ee59c278bc88d0f6276543021f9f2d500ff15e3f1760d2860`
 - `.continuity/TASK_CLAIMS.yaml` — `8ae76f62de345a936b4cc45e5e7a4b4173d35aac62b88980e700304d132798de`
 - `.continuity/TASK_TRANSITIONS.yaml` — `f26a836cb897d059bc80c40b59f4129460780ee51598b4fa2f69e3eaf8082fb4`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `d6d9d2b2b42e16bdc481949e6cde3a0544fe863fa1068ceb7952778e8ec1f618`
-- `.continuity/ACTIVE_SESSION.yaml` — `db96e810d2a6fbdb62a561050b463050c02ee7ee1db59a54ef60d1c301513d44`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `648bae8b25bb075925e1046ec89aa55491afb0d3b15fabd4512e3914956fb423`
+- `.continuity/ACTIVE_SESSION.yaml` — `98ab4325f4cbbd53533f3aaa8e7a9410deb0ca55789d02ff3b735dc55c120d60`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
-- `docs/09-development/统一开发与交付效率规范.md` — `6bb0c0585836cafc9dc852646e032ae219431b241acd9843b6cc7522bf054e0b`
+- `docs/09-development/统一开发与交付效率规范.md` — `8b647e1f174901b166d15994f5357ede87f41c700b4e5040ac6be858e1e74a1f`
 - `releases/R09/RELEASE_MANIFEST.yaml` — `3415b644f519121cf7975795f2a82cd093307e0747a39c632452260adce3d398`
 - `releases/R09/DEFINITION_OF_READY.yaml` — `7193360d8978b3c34ffd401076a43112eb849b016ad1800b7aa9202989fe3c35`
 - `releases/R09/STORIES.yaml` — `bf6aa9b385fde354089345fa0172e6d9ca01a3fa96f0ce696a3086a394ce2776`
 - `releases/R09/TASKS.yaml` — `178191cc057d1da1db8d626a5ca56eae5fc7ba921349f00d0dd9aa70aceef19d`
 - `releases/R09/ACCEPTANCE_MATRIX.csv` — `98e99c241f9e7ab8814e20fb62060f90c5903da20c1ef39ec81fa75d3bdecfb3`
-- `docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md` — `e9a21faf25f0508aeb09200bd002ddaa9e2f4340a740752a3d7c2025c31238ad`
-- `.continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0003.yaml` — `83c9b05b72e6e8d4486c6af9fbd29bdd7b771c33d2abff2643a12d75ebaf9320`
+- `docs/03-continuity/sessions/2026-07/SES-20260722T153450Z-FAD75B8D.md` — `f363b31b50dcfb6988c77f1586a64d0964ebc7538e1471a092ba8dbcb25a2966`
+- `.continuity/checkpoints/SES-20260722T153450Z-FAD75B8D/0005.yaml` — `53f5e22fe835d93f7d19259de09d38d6dc278067586a53f5c55191b192e2cb0e`
 - `docs/03-continuity/change-requests/CR-0247-消除UI施工歧义并分离机器收尾与生产验收门禁.md` — `6183e85333a663b0c3d1555ee251600edc52674dadee2c37879ab1f69e89db23`
+- `docs/03-continuity/change-requests/CR-0248-返工R01至R07不合格页面并补齐效果图级证据.md` — `944b0ad8f17f23cf9fee5a3c841147af659cfaff4db26435fd3571942fbdb198`
 
 ## 接手硬规则
 

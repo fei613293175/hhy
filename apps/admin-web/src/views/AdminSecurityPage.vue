@@ -166,7 +166,7 @@ onMounted(()=>load())
 
 <template>
   <article class="page">
-    <header class="page-heading"><div><p class="eyebrow">ADM-SECURITY-001 · CRITICAL</p><h1>管理员安全设置</h1><p>查看当前安全事实，并管理仅属于您自己的登录凭证与 MFA。</p></div><div class="page-actions"><button class="ghost-button" :disabled="refreshing" @click="load(true)">{{refreshing?'刷新中…':'刷新状态'}}</button><button class="ghost-button" :disabled="!canPost" @click="modal='logout'">退出会话</button></div></header>
+    <header class="page-heading"><div><p class="eyebrow">账号安全中心</p><h1>管理员安全设置</h1><p>查看当前安全事实，并管理仅属于您自己的登录凭证与 MFA。</p></div><div class="page-actions"><button class="ghost-button" :disabled="refreshing" @click="load(true)">{{refreshing?'刷新中…':'刷新状态'}}</button><button class="ghost-button" :disabled="!canPost" @click="modal='logout'">退出会话</button></div></header>
     <StatusNotice v-if="!online" tone="warning" title="当前处于离线状态" detail="安全写操作已全部禁用；页面不会展示过期缓存。" />
     <StatusNotice v-else-if="cooldownSeconds>0" tone="warning" title="安全写操作冷却中" :detail="`${cooldownSeconds} 秒后可重试；冷却期间所有提交操作均已禁用。`" />
     <StatusNotice v-if="notice" :tone="notice.tone" :title="notice.title" :detail="notice.detail" :request-id="notice.requestId" />

@@ -4,20 +4,26 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.AddCircleOutline
+import androidx.compose.material.icons.outlined.Apps
 import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material.icons.outlined.CardGiftcard
 import androidx.compose.material.icons.outlined.ChatBubbleOutline
+import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material.icons.outlined.Devices
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.Face
+import androidx.compose.material.icons.outlined.Groups
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.PersonOutline
 import androidx.compose.material.icons.outlined.Refresh
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.outlined.Shield
+import androidx.compose.material.icons.outlined.Verified
+import androidx.compose.material.icons.outlined.WorkOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -48,6 +54,12 @@ object HhyIcons {
     val Devices = Icons.Outlined.Devices
     val Lock = Icons.Outlined.Lock
     val Delete = Icons.Outlined.DeleteForever
+    val Search = Icons.Outlined.Search
+    val Projects = Icons.Outlined.WorkOutline
+    val Applications = Icons.Outlined.Apps
+    val Groups = Icons.Outlined.Groups
+    val Verified = Icons.Outlined.Verified
+    val ChevronRight = Icons.Outlined.ChevronRight
 }
 
 @Composable

@@ -82,7 +82,7 @@ async function submit() {
 </script>
 
 <template>
-  <AuthShell eyebrow="ADM-AUTH-001" title="登录管理后台" description="使用管理员账号继续。若账号已启用 MFA，下一步将进入独立的二次验证。">
+  <AuthShell eyebrow="合伙云 Pro · 运营控制台" title="登录管理后台" description="使用管理员账号继续。若账号已启用 MFA，下一步将进入独立的二次验证。">
     <StatusNotice v-if="!online" tone="warning" title="当前处于离线状态" detail="写操作已禁用，恢复网络后可继续登录。" />
     <StatusNotice v-if="error" :tone="rateLimitRemaining ? 'warning' : 'danger'" :title="error.title" :detail="rateLimitRemaining ? `${error.detail}，请在 ${rateLimitRemaining} 秒后重试。` : error.detail" :request-id="error.requestId" />
     <form v-if="!forbidden" class="form-stack" novalidate @submit.prevent="submit">

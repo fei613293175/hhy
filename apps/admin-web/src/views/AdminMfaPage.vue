@@ -70,7 +70,7 @@ function cancel() { adminSession.clear(); void router.replace('/auth/login') }
 </script>
 
 <template>
-  <AuthShell eyebrow="ADM-AUTH-002" title="完成二次验证" description="打开您的身份验证器，输入当前 6 位动态验证码。验证码只用于本次会话升级。">
+  <AuthShell eyebrow="安全验证" title="完成二次验证" description="打开您的身份验证器，输入当前 6 位动态验证码。验证码只用于本次会话升级。">
     <StatusNotice v-if="!online" tone="warning" title="当前处于离线状态" detail="二次验证已禁用；恢复网络后请使用新的动态验证码。" />
     <StatusNotice v-if="!adminSession.mfaTicket" tone="warning" title="验证流程已失效" detail="未找到有效的 MFA 验证票据，请返回登录页重新开始。" />
     <StatusNotice v-if="error" :tone="rateLimitRemaining ? 'warning' : 'danger'" :title="error.title" :detail="rateLimitRemaining ? `${error.detail}，请在 ${rateLimitRemaining} 秒后重试。` : error.detail" :request-id="error.requestId" />

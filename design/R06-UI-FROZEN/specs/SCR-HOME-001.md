@@ -6,7 +6,7 @@ Token：`design/tokens/hhy_design_tokens_v1.2.2.json`
 
 ## 1. 页面建模
 
-系统状态栏 → 56dp 品牌顶栏 → 页面标题与副标题 → 已实现真实能力组合卡（搜索、浏览项目、发布项目）→ 服务端模块区 → 64dp 五栏目底部导航。模块为空时保留一张有标题、说明和条件式重新加载动作的空模块卡，不增加 Hero、营销插画、虚构推荐或未实现入口。
+系统状态栏 → 56dp 品牌顶栏 → 真实搜索功能品牌主卡 → 已实现真实能力三入口（全局搜索、项目广场、发布项目）→ 服务端推荐区 → 64dp 五栏目底部导航。品牌主卡允许使用 Token 渐变与业务图标增强 B02/P01 的层级，但不得出现营销统计、虚构推荐、插画素材或未实现入口。模块为空时仍保留推荐区标题和一张有图标、标题、说明及条件式重新加载动作的空态卡。
 
 ## 2. 业务过滤
 
@@ -20,6 +20,7 @@ Token：`design/tokens/hhy_design_tokens_v1.2.2.json`
 - 页面水平边距：`layout.pageHorizontalPaddingDp` 16dp；区块间距：`layout.sectionGapDp` 20dp；卡片内边距 16dp。
 - 顶栏内容高：`sizeDp.topAppBarContentHeight` 56dp；底部导航内容高：`sizeDp.bottomNavigationContentHeight` 64dp。
 - 页面标题：`typographySp.pageTitle` 20/28/600；正文：`typographySp.body` 14/22/400；导航文字：`typographySp.navigation` 11/16/500。
+- 品牌主卡使用 `BrandPrimaryDark → BrandGradientEnd` Token 渐变、20dp 内边距和白色真实搜索按钮；三入口使用等宽 14dp 圆角卡、语义图标、标题与单行说明。
 - 空模块卡圆角：`radiusDp.normalCard` 14dp；边框与文字分别使用 `color.border.default`、`color.text.secondary`。
 - 页面与栏目转场使用 `motionMs.page` 360ms、`motionMs.standard` 200ms 和 `HhyMotion`，禁止页面私有动画数字。
 

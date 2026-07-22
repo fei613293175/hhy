@@ -1224,12 +1224,19 @@ private fun IdentityActionCard(
             Box(
                 modifier = Modifier.size(HhySize.MinimumTouchTarget).clip(RoundedCornerShape(HhyRadius.Tag)).background(HhyColors.SoftBlue),
                 contentAlignment = Alignment.Center,
-            ) { Text("↻", color = HhyColors.BrandPrimary) }
+            ) {
+                HhyIcon(
+                    HhyIcons.Refresh,
+                    contentDescription = null,
+                    modifier = Modifier.size(HhySize.StandardProgress),
+                    tint = HhyColors.BrandPrimary,
+                )
+            }
             Column(modifier = Modifier.weight(1f)) {
                 Text(title, style = MaterialTheme.typography.titleMedium)
                 Text(description, color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
             }
-            Text("›", color = HhyColors.TextSecondary, style = MaterialTheme.typography.titleMedium)
+            HhyIcon(HhyIcons.ChevronRight, contentDescription = null, tint = HhyColors.TextSecondary)
         }
     }
 }
