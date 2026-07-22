@@ -37,6 +37,7 @@ from continuity_lib import (
     claim_task,
     close_task_claim,
     continuity_lock,
+    context_source_paths,
     context_is_fresh,
     create_change_request,
     create_handoff_bundle,
@@ -60,6 +61,7 @@ from continuity_lib import (
     now_utc,
     parse_iso,
     parse_test_spec,
+    portable_source_record,
     project_fingerprint,
     read_current_status,
     read_csv,
@@ -68,6 +70,7 @@ from continuity_lib import (
     release_story,
     release_task,
     renew_lease,
+    rule_readiness_payload,
     root_from_script,
     run_command,
     save_active_pointer,
@@ -1306,26 +1309,68 @@ def command_context(args: Namespace) -> None:
     print_yaml({"status": "CONTEXT_PACK_GENERATED", "context_hash": payload["context_hash"], "resume_command": payload["exact_resume_command"]})
 
 
+def read_only_no_session_resume_payload(root: Path) -> dict[str, Any]:
+    """Resolve a cold-start command without mutating the clean repository.
+
+    A completed task writes its final Context Pack before the metadata commit.
+    That commit legitimately changes the repository tree but not the required
+    rule sources. Rebuilding the pack here would dirty a repository that has no
+    active Session, making the following ``start`` command impossible.
+    """
+    status = read_current_status(root)
+    next_task = read_next_task(root)
+    git_state = git_info(root)
+    policy = load_policy(root)
+    release = status.get("active_release") or next_task.get("release")
+    source_manifest = [
+        portable_source_record(root, path)
+        for path in context_source_paths(root, None, release)
+    ]
+    rule_readiness = rule_readiness_payload(policy, source_manifest)
+    if rule_readiness.get("status") != "PASS":
+        missing = ",".join(rule_readiness.get("missing_sources") or [])
+        raise ContinuityError(f"规则来源未就绪，禁止继续开发：{missing or 'UNKNOWN'}")
+
+    bootstrap_tasks = set(policy.get("bootstrap", {}).get("allow_without_git_task_ids", []))
+    next_task_id = next_task.get("id")
+    bootstrap_required = not git_has_concrete_head(git_state) and next_task_id in bootstrap_tasks
+    resume_command = (
+        f"python3 scripts/continuity.py bootstrap --actor <ACTOR_ID> --init-git --initial-commit --task {next_task_id} --branch task/{next_task_id}"
+        if bootstrap_required
+        else f"python3 scripts/continuity.py start --actor <ACTOR_ID> --task {next_task_id}"
+    )
+    context_fresh, context_reason = context_is_fresh(root, None, verify_tree=False)
+    return {
+        "bootstrap_required": bootstrap_required,
+        "next_task": next_task,
+        "resume_command": resume_command,
+        "rule_readiness": rule_readiness,
+        "context_fresh": context_fresh,
+        "context_reason": context_reason,
+    }
+
+
 def command_resume(args: Namespace) -> None:
     initialize_continuity_files(ROOT)
     chain = validate_event_chain(ROOT)
     if not chain["valid"]:
         raise ContinuityError("事件日志哈希链损坏：" + ";".join(chain["errors"]))
     session = current_session(ROOT)
-    payload = build_context_pack(ROOT, session)
     if not session:
-        git_state = git_info(ROOT)
-        policy = load_policy(ROOT)
-        bootstrap_tasks = set(policy.get("bootstrap", {}).get("allow_without_git_task_ids", []))
-        bootstrap_required = not git_has_concrete_head(git_state) and payload["next_task"].get("id") in bootstrap_tasks
+        payload = read_only_no_session_resume_payload(ROOT)
         print_yaml({
-            "status": "GIT_BOOTSTRAP_REQUIRED" if bootstrap_required else "READY_TO_START",
+            "status": "GIT_BOOTSTRAP_REQUIRED" if payload["bootstrap_required"] else "READY_TO_START",
             "conversation_context_required": False,
             "next_task": payload["next_task"].get("id"),
-            "resume_command": payload["exact_resume_command"],
+            "resume_command": payload["resume_command"],
             "context_pack": "artifacts/context/CURRENT_CONTEXT_PACK.md",
+            "context_fresh": payload["context_fresh"],
+            "context_reason": payload["context_reason"],
+            "rule_readiness": payload["rule_readiness"]["status"],
+            "repository_mutated": False,
         })
         return
+    payload = build_context_pack(ROOT, session)
     if session.get("status") == "HANDED_OFF":
         print_yaml({
             "status": "HANDOFF_READY",

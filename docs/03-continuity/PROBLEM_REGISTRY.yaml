@@ -1040,3 +1040,17 @@ problems:
   - 测试夹具写入终态时必须满足该状态的全部历史数据库约束，不得只填当前测试直接读取的字段
   - 不得放宽、删除或跳过生产约束来迁就测试数据
   - 通过tee保留日志时必须启用pipefail或显式检查Maven退出码，尾部echo不能作为成功证据
+- id: PROB-0079
+  title: 无活动会话resume刷新Context导致干净接续死锁
+  status: SOLVED
+  root_cause: TASK关闭时Context Pack在最终元数据Commit之前生成；关闭Commit推送后仓库树指纹合法前移。旧resume无条件调用写入式build_context_pack，因而在没有ACTIVE Session时改写STATE和三份Context文件；紧接的start按设计拒绝脏工作区，而这些刷新又因缺少活动Session同步记录无法合法提交，导致项目所有者只说继续开发时确定性卡死。
+  resolution: CR-0227直接修复既有唯一resume入口，不新增规则文件。无ACTIVE Session时resume只读验证事件哈希链、当前必读规则来源清单及哈希、NEXT_TASK、Git和已有Context文件完整性；仅忽略最终关闭Commit造成的仓库树指纹滞后，绝不忽略规则来源或Context内容变化。start领取活动Session后再按原机制生成新Context Pack。
+  regression_checks:
+  - python -m unittest tests.test_continuity_resume_read_only
+  - python -m unittest tests.test_context_pack_parallel_policy
+  - 连续执行两次无会话resume必须均返回repository_mutated=false且git status保持干净，随后start必须成功
+  do_not_repeat:
+  - 冷启动只读检查不得在领取Session之前写STATE、Context Pack或会话记录
+  - 不得通过伪造关闭会话、检查点、事件或提交Trailers来提交resume产生的孤立元数据
+  - 允许忽略的只有最终关闭Commit造成的仓库树指纹滞后；任一规则来源缺失、哈希变化、Context文件损坏或事件链异常仍必须阻断
+  - 新AI和新电脑只需从仓库运行resume再执行其唯一start命令，不得要求项目所有者重述规则和进度

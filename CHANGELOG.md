@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 无会话 `resume` 只读接续修复 · 2026-07-22
+
+- 修复任务关闭元数据 Commit 推送后，`resume` 无条件刷新 Context Pack 导致工作区变脏、下一任务无法 `start` 的确定性死锁；登记 `PROB-0079` 并直接修改既有唯一冷启动入口，不新增平行规则。
+- 无 ACTIVE Session 时只读验证事件链、当前全部必读规则来源哈希、NEXT_TASK、Git 和 Context 文件完整性；只允许忽略关闭 Commit 造成的树指纹滞后，规则缺失、来源变化或内容损坏仍会阻断。
+- 连续两次 `resume` 必须保持工作区不变并返回唯一 `start` 命令，使换电脑或换 AI 后项目所有者只说“继续开发”即可接续。
+
 ## R08 项目可观测性与隔离 Staging · 2026-07-22
 
 - 在既有业务指标绑定器中增加项目总量、在线量、待审核量、收藏量、近 5 分钟联系方式访问/拒绝量和 R08 Outbox 积压七项只读 Gauge，不读取项目正文、联系方式明文或密文。
@@ -964,4 +970,3 @@
 - Actor：`codex-root-r08-006`
 - 摘要：R08七项项目Gauge、Trace脱敏、RED、两项告警firing/resolved、Outbox合法终结和同库同卷应用回切全部通过，AC-R08-004已签PASS。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T060947Z-B45C6BC0.md`
-
