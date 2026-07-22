@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-22T03:58:25Z'
+generated_at: '2026-07-22T04:10:45Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -97,7 +97,7 @@ current_status:
   - TASK-R06-008
   - TASK-R07-008
   next_task: TASK-R08-004
-  updated_at: '2026-07-22T03:58:23Z'
+  updated_at: '2026-07-22T04:10:18Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -132,15 +132,15 @@ current_status:
     active_session_id: SES-20260722T031604Z-105CF4C6
     actor_id: codex-root-r08-004
     story_id: STORY-R08-004
-    lease_expires_at: '2026-07-22T07:58:23Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0004.yaml
-    project_fingerprint: 86c11b83fa84be73d3ac204dc83ebcb283e37d63af5fa49401c4e40823fb69ea
+    lease_expires_at: '2026-07-22T08:10:18Z'
+    latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0005.yaml
+    project_fingerprint: 65c778e6e6ccb7fc2fbf61736ba0335bf9ca1b05ddfe371495cb9e3fe33c88aa
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 044e2b7bae4f5d270ef58c0960df4908ee328ef8c1872e02d4f20f7aed09467d
-      generated_at: '2026-07-22T03:57:44Z'
+      context_hash: 219a2a2f18f3313af7c288835569fe27efa8ccf5130b448b5ff1bd91f85f1db5
+      generated_at: '2026-07-22T03:58:25Z'
     handoff_bundle: null
 next_task:
   id: TASK-R08-004
@@ -199,12 +199,13 @@ active_session:
   story_id: STORY-R08-004
   goal: 按效果图级肉眼标准实现R08项目列表、详情、发布编辑客户端/H5/后台，并完成R02-R07历史视觉审计与必要回补，不虚构业务。
   started_at: '2026-07-22T03:16:04Z'
-  updated_at: '2026-07-22T03:58:23Z'
+  updated_at: '2026-07-22T04:10:22Z'
   takeover_of: null
   change_requests:
   - CR-0217
   - CR-0218
   - CR-0219
+  - CR-0220
   scope:
     allowed_paths:
     - apps/**
@@ -276,95 +277,77 @@ active_session:
     initial_worktree_state: CLEAN
   lease:
     duration_minutes: 240
-    renewed_at: '2026-07-22T03:58:23Z'
-    expires_at: '2026-07-22T07:58:23Z'
-  checkpoint_sequence: 4
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0004.yaml
+    renewed_at: '2026-07-22T04:10:18Z'
+    expires_at: '2026-07-22T08:10:18Z'
+  checkpoint_sequence: 5
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0005.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
-  next_step: 提交推送并在obx-test固定Android镜像复验精确提交；通过后关闭CR-0217至CR-0219，推进历史视觉回补。
+  next_step: 提交并推送R08-004闭环证据和CR-0220经验实现，关闭CR-0220，然后继续R02-R07历史UI视觉回补。
   context_pack: THIS_CONTEXT_PACK
   handoff_bundle: null
   closure: null
   parallel_execution:
-    assessment: CAPABILITY_UNAVAILABLE
+    assessment: USER_SERIAL_OVERRIDE
     delegated_workers: 0
     workers: []
-    reason: 当前系统规则禁止在用户未明确要求子代理时委托。
+    reason: 系统当前明确禁止未获用户请求的子代理；当前会话串行持续推进。
 latest_checkpoint:
   protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260722T031604Z-105CF4C6-0004
+  checkpoint_id: CP-SES-20260722T031604Z-105CF4C6-0005
   session_id: SES-20260722T031604Z-105CF4C6
-  sequence: 4
-  created_at: '2026-07-22T03:58:22Z'
-  summary: R08-004第二批实现完成并清理格式：真实媒体上传、敏感面板防截屏、H5公开分享、后台复用回归和三页精确视觉合同已就绪。
-  next_step: 提交推送并在obx-test固定Android镜像复验精确提交；通过后关闭CR-0217至CR-0219，推进历史视觉回补。
+  sequence: 5
+  created_at: '2026-07-22T04:10:18Z'
+  summary: R08-004 Android、H5、后台与精确UI合同实现已完成；精确提交99464337 Android受影响MODULE验证PASS；CR-0217至0219关闭；CR-0220正在固化固定Android容器缓存与SDK诊断经验。
+  next_step: 提交并推送R08-004闭环证据和CR-0220经验实现，关闭CR-0220，然后继续R02-R07历史UI视觉回补。
   blockers: []
   decisions: []
-  note: ''
+  note: 大版本候选前不运行GitHub模拟器或完整APK门禁；真机反馈异步非阻断。
   tests:
-  - name: android-first-module
+  - name: Android final affected MODULE
     result: PASS
-    evidence: /tmp/hhy-r08-004-android-298544b5.log sha256=1ff3796419eb1faf36ac711ac34bb10875191b552e8ca4f409e8e7c499c22b5f
-    note: 媒体接入前首轮基线通过，第二批提交后复验
-  - name: h5-unit
+    evidence: commit 9946433742eb9f7ba7ade9909ad11ec0774e8afb log /tmp/hhy-r08-004-android-99464337.log sha256 86c78eb2ec08c1a271dffd29f08530ca6e12b8eff01c37a0a3596c935b84b257
+    note: 103 tasks 75 from cache BUILD SUCCESSFUL in 8m 8s
+  - name: H5 tests and build
     result: PASS
-    evidence: pnpm --filter @hhy/h5 test
-    note: 6 files 27 tests
-  - name: h5-build
+    evidence: 6 files 27 tests plus vue-tsc and vite build
+    note: public share real states
+  - name: Admin reuse tests
     result: PASS
-    evidence: pnpm --filter @hhy/h5 build
-    note: PASS
-  - name: admin-reuse
+    evidence: 16 files 88 tests
+    note: PROJECT reuses unified content operations
+  - name: R08 visual catalog
     result: PASS
-    evidence: pnpm --filter @hhy/admin-web test
-    note: 16 files 88 tests
-  - name: r08-visual-catalog
-    result: PASS
-    evidence: python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
-    note: 3 pages
+    evidence: 3 pages and 8 unit tests
+    note: final screenshots deferred to candidate
   git:
     initialized: true
     branch: task/TASK-R03-001
-    head: 298544b5688ff43b87a85992a572a23eada720f5
+    head: 9946433742eb9f7ba7ade9909ad11ec0774e8afb
     upstream: origin/task/TASK-R03-001
     ahead: 0
     behind: 0
     dirty: true
     status_porcelain:
-    - ' M .continuity/ACTIVE_SESSION.yaml'
     - ' M .continuity/CHANGE_REQUEST_INDEX.yaml'
     - ' M .continuity/EVENT_LOG.jsonl'
-    - ' M .continuity/SESSION_INDEX.yaml'
     - ' M .continuity/STATE.yaml'
+    - ' M .continuity/change_requests/CR-0217.yaml'
+    - ' M .continuity/change_requests/CR-0218.yaml'
+    - ' M .continuity/change_requests/CR-0219.yaml'
     - ' M .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml'
-    - ' M CHANGELOG.md'
-    - ' M CURRENT_STATUS.yaml'
-    - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-    - ' M apps/android/feature/project/build.gradle.kts'
-    - ' M apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt'
-    - ' M apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt'
-    - ' M apps/h5/src/styles.css'
-    - ' M apps/h5/src/views/PublicPage.vue'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-    - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+    - ' M artifacts/reports/R08/TASK-R08-004-client.md'
     - ' M catalogs/change_request_index.csv'
     - ' M catalogs/session_index.csv'
-    - ' M catalogs/ui_visual_acceptance.csv'
-    - ' M docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md'
-    - ?? .continuity/change_requests/CR-0218.yaml
-    - ?? .continuity/change_requests/CR-0219.yaml
-    - ?? .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0003.yaml
-    - ?? apps/admin-web/src/r08ProjectReuse.test.ts
-    - ?? apps/h5/src/services/publicShare.test.ts
-    - ?? apps/h5/src/services/publicShare.ts
-    - ?? artifacts/reports/R08/TASK-R08-004-client.md
-    - ?? design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
-    - ?? design/R08-UI-FROZEN/specs/SCR-LIST-001.md
-    - ?? design/R08-UI-FROZEN/specs/SCR-PUB-002.md
-    - ?? docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
-    - ?? docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+    - ' M docs/03-continuity/PITFALLS.md'
+    - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
+    - ' M docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md'
+    - ' M docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md'
+    - ' M docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md'
+    - ?? .continuity/change_requests/CR-0220.yaml
+    - ?? docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
     recent_commits:
+    - "9946433742eb9f7ba7ade9909ad11ec0774e8afb\t2026-07-22T11:58:28+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): complete project\
+      \ web and visual contracts"
     - "298544b5688ff43b87a85992a572a23eada720f5\t2026-07-22T11:33:27+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): implement\
       \ project client flow"
     - "3ed5231316ec359c0cedeb09393b08c0479f10de\t2026-07-22T11:15:37+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
@@ -379,10 +362,8 @@ latest_checkpoint:
       \ identity fixture invariants"
     - "906548df4399f6f9272e61ae442a566cd91c44cb\t2026-07-22T10:53:08+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close\
       \ rule readiness changes"
-    - "f483640ba0e16b2601cabbb643820d4273cb07ac\t2026-07-22T10:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): enforce\
-      \ rule readiness and UI fidelity"
   project_fingerprint:
-    sha256: 86c11b83fa84be73d3ac204dc83ebcb283e37d63af5fa49401c4e40823fb69ea
+    sha256: 65c778e6e6ccb7fc2fbf61736ba0335bf9ca1b05ddfe371495cb9e3fe33c88aa
     files:
     - CHANGELOG.md
     - apps/admin-web/src/r08ProjectReuse.test.ts
@@ -404,10 +385,13 @@ latest_checkpoint:
     - design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
     - design/R08-UI-FROZEN/specs/SCR-LIST-001.md
     - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+    - docs/03-continuity/PITFALLS.md
+    - docs/03-continuity/REUSABLE_PATTERNS.md
     - docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
     - docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
     - docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
-    file_count: 23
+    - docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
+    file_count: 26
     payload:
       base_commit: 3ed5231316ec359c0cedeb09393b08c0479f10de
       files:
@@ -491,18 +475,30 @@ latest_checkpoint:
         state: FILE
         size: 2350
         sha256: 2d0833de83145fa287bf5f9edc4f6a41b09416bebfac7ee40b6bdc2343bb174d
+      - path: docs/03-continuity/PITFALLS.md
+        state: FILE
+        size: 5013
+        sha256: a2f52728083c1d4ae1b2e8fdec207546594e396fb797b4348d61e5d0d7a402ea
+      - path: docs/03-continuity/REUSABLE_PATTERNS.md
+        state: FILE
+        size: 3238
+        sha256: 579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519
       - path: docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
         state: FILE
-        size: 4567
-        sha256: ca79f5f885b2571b5adaecbc4d425162769ffb72f8e989622972e7645629c834
+        size: 5185
+        sha256: b586e55a30b64397129690ac74d76ac05cb66f264ca26174e5ea36b52420c485
       - path: docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
         state: FILE
-        size: 3276
-        sha256: b26d29fff2a2bb2ae9f5560c787c583d616d9b4d8012b067c8746a0c93372557
+        size: 3732
+        sha256: 4f3bf40523a53e78efca2cfcd3dac0bbd3924d18baf3085c951957c2cbf2ebdf
       - path: docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
         state: FILE
-        size: 3075
-        sha256: 77b803668de071ca1eb4c19d47fd4aefce7d1c6c0a96390936d85358da671de2
+        size: 3552
+        sha256: 786606e3f9a5960ef76418e0986eb10c638ee61f96f09836008ff4992f5e4ad6
+      - path: docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
+        state: FILE
+        size: 2705
+        sha256: a95712da39359d9f0222414a43474fb7e257c458c49b1232d2ec14dc2d3c905f
   change_classification:
     other:
     - CHANGELOG.md
@@ -543,9 +539,12 @@ latest_checkpoint:
     - apps/h5/src/styles.css
     - apps/h5/src/views/PublicPage.vue
     continuity:
+    - docs/03-continuity/PITFALLS.md
+    - docs/03-continuity/REUSABLE_PATTERNS.md
     - docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
     - docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
     - docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+    - docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
   required_records:
   - SESSION_RECORD
   - SESSION_LOG
@@ -557,6 +556,7 @@ latest_checkpoint:
   - CR-0217
   - CR-0218
   - CR-0219
+  - CR-0220
   scope:
     allowed_paths:
     - apps/**
@@ -620,15 +620,15 @@ latest_checkpoint:
     - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
     source: story+explicit+approved-cr:CR-0217+approved-cr:CR-0218+approved-cr:CR-0219
   parallel_execution:
-    assessment: CAPABILITY_UNAVAILABLE
+    assessment: USER_SERIAL_OVERRIDE
     delegated_workers: 0
     workers: []
-    reason: 当前系统规则禁止在用户未明确要求子代理时委托。
-  event_hash: 877e507335bb94d785647fbe7795db23c7c4a3f00591ff06f4b68799a121bbfb
+    reason: 系统当前明确禁止未获用户请求的子代理；当前会话串行持续推进。
+  event_hash: a6c95ef32f85755891c93b526e406407cf77d308e108f7e42c27a37f23ed45f5
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 298544b5688ff43b87a85992a572a23eada720f5
+  head: 9946433742eb9f7ba7ade9909ad11ec0774e8afb
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
@@ -639,36 +639,30 @@ git:
   - ' M .continuity/EVENT_LOG.jsonl'
   - ' M .continuity/SESSION_INDEX.yaml'
   - ' M .continuity/STATE.yaml'
+  - ' M .continuity/change_requests/CR-0217.yaml'
+  - ' M .continuity/change_requests/CR-0218.yaml'
+  - ' M .continuity/change_requests/CR-0219.yaml'
   - ' M .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml'
-  - ' M CHANGELOG.md'
   - ' M CURRENT_STATUS.yaml'
-  - ' M apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt'
-  - ' M apps/android/feature/project/build.gradle.kts'
-  - ' M apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt'
-  - ' M apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt'
-  - ' M apps/h5/src/styles.css'
-  - ' M apps/h5/src/views/PublicPage.vue'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
   - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M artifacts/reports/R08/TASK-R08-004-client.md'
+  - ' M artifacts/validation/project-doctor-v1.2.3.json'
   - ' M catalogs/change_request_index.csv'
   - ' M catalogs/session_index.csv'
-  - ' M catalogs/ui_visual_acceptance.csv'
+  - ' M docs/03-continuity/PITFALLS.md'
+  - ' M docs/03-continuity/REUSABLE_PATTERNS.md'
+  - ' M docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md'
+  - ' M docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md'
+  - ' M docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md'
   - ' M docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md'
-  - ?? .continuity/change_requests/CR-0218.yaml
-  - ?? .continuity/change_requests/CR-0219.yaml
-  - ?? .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0003.yaml
-  - ?? .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0004.yaml
-  - ?? apps/admin-web/src/r08ProjectReuse.test.ts
-  - ?? apps/h5/src/services/publicShare.test.ts
-  - ?? apps/h5/src/services/publicShare.ts
-  - ?? artifacts/reports/R08/TASK-R08-004-client.md
-  - ?? design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
-  - ?? design/R08-UI-FROZEN/specs/SCR-LIST-001.md
-  - ?? design/R08-UI-FROZEN/specs/SCR-PUB-002.md
-  - ?? docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
-  - ?? docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+  - ?? .continuity/change_requests/CR-0220.yaml
+  - ?? .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0005.yaml
+  - ?? docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
   recent_commits:
+  - "9946433742eb9f7ba7ade9909ad11ec0774e8afb\t2026-07-22T11:58:28+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(r08): complete project\
+    \ web and visual contracts"
   - "298544b5688ff43b87a85992a572a23eada720f5\t2026-07-22T11:33:27+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] feat(android): implement project\
     \ client flow"
   - "3ed5231316ec359c0cedeb09393b08c0479f10de\t2026-07-22T11:15:37+08:00\tHHY Continuity Bootstrap\t[TASK-P00-001] chore(continuity): refresh\
@@ -683,10 +677,8 @@ git:
     \ identity fixture invariants"
   - "906548df4399f6f9272e61ae442a566cd91c44cb\t2026-07-22T10:53:08+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): close rule\
     \ readiness changes"
-  - "f483640ba0e16b2601cabbb643820d4273cb07ac\t2026-07-22T10:51:47+08:00\tHHY Continuity Bootstrap\t[STORY-R08-004] chore(continuity): enforce\
-    \ rule readiness and UI fidelity"
 project_fingerprint:
-  sha256: 86c11b83fa84be73d3ac204dc83ebcb283e37d63af5fa49401c4e40823fb69ea
+  sha256: 65c778e6e6ccb7fc2fbf61736ba0335bf9ca1b05ddfe371495cb9e3fe33c88aa
   files:
   - CHANGELOG.md
   - apps/admin-web/src/r08ProjectReuse.test.ts
@@ -708,10 +700,13 @@ project_fingerprint:
   - design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
   - design/R08-UI-FROZEN/specs/SCR-LIST-001.md
   - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
+  - docs/03-continuity/PITFALLS.md
+  - docs/03-continuity/REUSABLE_PATTERNS.md
   - docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
   - docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
   - docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
-  file_count: 23
+  - docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
+  file_count: 26
   payload:
     base_commit: 3ed5231316ec359c0cedeb09393b08c0479f10de
     files:
@@ -795,18 +790,30 @@ project_fingerprint:
       state: FILE
       size: 2350
       sha256: 2d0833de83145fa287bf5f9edc4f6a41b09416bebfac7ee40b6bdc2343bb174d
+    - path: docs/03-continuity/PITFALLS.md
+      state: FILE
+      size: 5013
+      sha256: a2f52728083c1d4ae1b2e8fdec207546594e396fb797b4348d61e5d0d7a402ea
+    - path: docs/03-continuity/REUSABLE_PATTERNS.md
+      state: FILE
+      size: 3238
+      sha256: 579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519
     - path: docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
       state: FILE
-      size: 4567
-      sha256: ca79f5f885b2571b5adaecbc4d425162769ffb72f8e989622972e7645629c834
+      size: 5185
+      sha256: b586e55a30b64397129690ac74d76ac05cb66f264ca26174e5ea36b52420c485
     - path: docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
       state: FILE
-      size: 3276
-      sha256: b26d29fff2a2bb2ae9f5560c787c583d616d9b4d8012b067c8746a0c93372557
+      size: 3732
+      sha256: 4f3bf40523a53e78efca2cfcd3dac0bbd3924d18baf3085c951957c2cbf2ebdf
     - path: docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
       state: FILE
-      size: 3075
-      sha256: 77b803668de071ca1eb4c19d47fd4aefce7d1c6c0a96390936d85358da671de2
+      size: 3552
+      sha256: 786606e3f9a5960ef76418e0986eb10c638ee61f96f09836008ff4992f5e4ad6
+    - path: docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
+      state: FILE
+      size: 2705
+      sha256: a95712da39359d9f0222414a43474fb7e257c458c49b1232d2ec14dc2d3c905f
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R08
@@ -1798,8 +1805,8 @@ continuity_state:
   last_session_id: SES-20260722T012224Z-E70EA3B7
   last_session_result: COMPLETED
   last_closure_checkpoint_id: CP-SES-20260722T012224Z-E70EA3B7-0012
-  event_count: 2177
-  event_head_hash: 877e507335bb94d785647fbe7795db23c7c4a3f00591ff06f4b68799a121bbfb
+  event_count: 2188
+  event_head_hash: a6c95ef32f85755891c93b526e406407cf77d308e108f7e42c27a37f23ed45f5
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260721T171025Z-A3718A1C
@@ -1918,9 +1925,9 @@ recent_sessions:
   started_at: '2026-07-22T03:16:04Z'
   record: .continuity/sessions/SES-20260722T031604Z-105CF4C6.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
-  updated_at: '2026-07-22T03:58:23Z'
+  updated_at: '2026-07-22T04:10:18Z'
   closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0004.yaml
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0005.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-4352DBBBC526
@@ -7402,189 +7409,46 @@ open_change_requests:
   session_ids:
   - SES-20260722T012224Z-E70EA3B7
 - protocol_version: '1.0'
-  cr_id: CR-0217
-  title: 实现R08项目推广客户端并复用既有H5后台能力
+  cr_id: CR-0220
+  title: 固化固定Android容器Gradle缓存挂载与SDK安装诊断经验
   status: IMPLEMENTING
-  created_at: '2026-07-22T03:19:30Z'
-  updated_at: '2026-07-22T03:20:15Z'
+  created_at: '2026-07-22T04:06:01Z'
+  updated_at: '2026-07-22T04:08:05Z'
   requester_actor_id: codex-root-r08-004
-  approver_actor_id: codex-reviewer-r08-client
+  approver_actor_id: codex-rule-reviewer
   task_id: TASK-R08-004
   session_id: SES-20260722T031604Z-105CF4C6
-  user_request: 持续完成R08，UI达到效果图同等级丰富度与精致度，不虚构业务，并对历史页面执行既有规则内的回补。
-  reason: R08后端九项依赖已完成，三张冻结Android页面尚未实现；H5与后台需核验并复用已冻结能力，所有产品改动须先经批准CR。
-  original_rule: R08冻结页面合同要求实现SCR-LIST-001、SCR-DETAIL-001、SCR-PUB-002；H5公开分享与后台内容运营沿用既有冻结页面和API，不得建立平行页面或手写重复DTO。
-  new_rule: 不新增规则；按既有R08页面合同和CR-0213唯一UI规则实现项目列表、详情和发布编辑。列表复用B02卡片视觉，详情复用B03/P01及P06-P07交互视觉，发布编辑复用既有MOB-FORM页面结构和B02/B03品牌语言且仅展示合同字段。H5公开分享及后台内容运营先复用既有实现，缺口仅做契约绑定，不新增虚构入口。
-  impact_summary: 新增R08 Android网络适配与项目功能模块，接入认证导航和首页项目入口；补齐页面状态、动作及契约测试，并在既有视觉验收目录登记R08与历史整改结果。H5和后台只核验/补齐既有通用能力。
+  user_request: 用户要求可复用开发方案及踩坑经验写入既有事实源，跨电脑跨AI生效
+  reason: R08受影响模块验证再次证明宿主/root/.gradle挂载无法复用固定命名卷，API 36在短生命周期容器中的确定性安装阶段容易被误判为卡死；必须更新既有PITFALLS与REUSABLE_PATTERNS，禁止新增并行规则文件
+  original_rule: 既有踩坑记录已要求使用固定服务器环境和固定Android镜像，但未写明Gradle命名卷的精确挂载方式，也未区分SDK平台自动安装与构建停滞。
+  new_rule: 固定Android容器验证必须复用hhy-r01-android-gradle-cache命名卷并挂载到/root/.gradle；禁止改用宿主/root/.gradle。短生命周期容器首次补装稳定API 36时，须以容器状态、CPU和增量日志判断进度，不得仅因短时无日志认定卡死、重建镜像或重复启动验证。
+  impact_summary: 只更新既有PITFALLS与REUSABLE_PATTERNS，固化可跨电脑和AI复用的诊断路径；不修改产品、API、数据库、工具链镜像或候选门禁频率。
   impact:
     files:
-    - apps/android/settings.gradle.kts
-    - apps/android/app/build.gradle.kts
-    - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
-    - apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt
-    - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR08Api.kt
-    - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R08ApiModelsSerializationTest.kt
-    - apps/android/feature/project/build.gradle.kts
-    - apps/android/feature/project/src/main/AndroidManifest.xml
-    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectScreens.kt
-    - apps/android/feature/project/src/main/java/cc/orbexa/hhy/project/R08ProjectState.kt
-    - apps/android/feature/project/src/test/java/cc/orbexa/hhy/project/R08ProjectStateTest.kt
-    - apps/h5/src/views/PublicPage.vue
-    - apps/h5/src/router.ts
-    - apps/admin-web/src/views/AdminContentListPage.vue
-    - apps/admin-web/src/views/AdminContentDetailPage.vue
-    - catalogs/ui_visual_acceptance.csv
-    - catalogs/ui_visual_quality_reviews.csv
-    - catalogs/ui_visual_remediation.csv
-    - artifacts/reports/R08/TASK-R08-004-client.md
-    - CHANGELOG.md
-    pages:
-    - SCR-LIST-001
-    - SCR-DETAIL-001
-    - SCR-PUB-002
-    apis:
-    - GET /api/v1/contents
-    - GET /api/v1/contents/{id}
-    - POST /api/v1/contents
-    - PATCH /api/v1/contents/{id}
-    - POST /api/v1/contents/{id}/contacts/{channel}/access
-    - POST /api/v1/conversations/direct
-    - POST /api/v1/contents/{id}/favorite
-    - POST /api/v1/contents/{id}/share
-    - GET /api/v1/public/contents/{shareToken}
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - :core:network:test
-    - :feature:project:test
-    - npm test --prefix apps/h5
-    - npm test --prefix apps/admin-web
-    - python -m unittest tests.test_ui_visual_acceptance
-    releases:
-    - R08
-    migration_and_compatibility: 保持现有认证、R06首页、R07搜索与发布者导航兼容；新增类型化路由，不改变后端、数据库、OpenAPI和现有深链。失败状态保留安全输入，写操作使用幂等键与expectedVersion。
-  user_confirmation: 项目所有者已明确要求立即持续推进R06至R08，并补充所有UI必须达到效果图丰富度与精致度且禁止虚构开发。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T03:20:10Z'
-    note: 批准按冻结页面合同和CR-0213唯一UI规则实现；发布编辑可复用既有MOB-FORM与B02/B03视觉语言，但不得新增未登记业务字段、按钮或指标。H5和后台必须优先复用现有通用能力。
-  machine_record: .continuity/change_requests/CR-0217.yaml
-  document: docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
-  decision_log:
-  - at: '2026-07-22T03:20:15Z'
-    actor_id: codex-root-r08-004
-    status: IMPLEMENTING
-    note: 开始实现R08项目客户端并核验H5与后台既有能力，严格复用唯一UI规则和冻结页面合同。
-    session_id: SES-20260722T031604Z-105CF4C6
-  session_ids:
-  - SES-20260722T031604Z-105CF4C6
-- protocol_version: '1.0'
-  cr_id: CR-0218
-  title: 补齐R08项目公开分享H5并证明后台复用
-  status: IMPLEMENTING
-  created_at: '2026-07-22T03:46:00Z'
-  updated_at: '2026-07-22T03:46:40Z'
-  requester_actor_id: codex-root-r08-004
-  approver_actor_id: codex-reviewer-r08-web
-  task_id: TASK-R08-004
-  session_id: SES-20260722T031604Z-105CF4C6
-  user_request: 持续完成R08客户端、H5和后台实现，UI接近效果图丰富度且不得虚构业务。
-  reason: CR-0217已锁定Android影响范围；H5-004仍是静态骨架，R08分享接口已返回真实公开URL，需单独批准生成契约绑定和页面状态；后台通用内容运营已经支持PROJECT，应以回归证明复用而非另造页面。
-  original_rule: H5-004冻结为公开项目分享页并绑定publicGetShareContentsById；ADM-CONTENT-001和ADM-CONTENT-002是项目等四类内容的统一后台运营页面。当前H5通用PublicPage仍为静态骨架，后台通用页面已有真实PROJECT支持。
-  new_rule: 不新增规则或平行页面：H5-004使用生成ClientContract类型读取GET /public-api/v1/share/contents/{id}，按公开页面合同展示SEO、审核通过内容块、媒体替代文本、失效和下载引导；ADM-CONTENT-001/002继续复用现有统一内容运营实现，通过R08回归证明PROJECT筛选、详情和版本化操作。
-  impact_summary: 新增H5公开分享契约服务及单测，升级PublicPage仅对H5-004至H5-007分享路由进行真实加载，其他既有H5路由保持原行为；新增后台复用回归，不新增后台页面、DTO或接口。
-  impact:
-    files:
-    - apps/h5/src/services/publicShare.ts
-    - apps/h5/src/services/publicShare.test.ts
-    - apps/h5/src/views/PublicPage.vue
-    - apps/h5/src/styles.css
-    - apps/admin-web/src/r08ProjectReuse.test.ts
-    - artifacts/reports/R08/TASK-R08-004-client.md
-    - CHANGELOG.md
-    pages:
-    - H5-004
-    - ADM-CONTENT-001
-    - ADM-CONTENT-002
-    apis:
-    - GET /public-api/v1/share/contents/{id}
-    - GET /admin-api/v1/contents
-    - GET /admin-api/v1/contents/{id}
-    database: []
-    configuration: []
-    ledger: []
-    tests:
-    - npm test --prefix apps/h5
-    - npm run build --prefix apps/h5
-    - npm test --prefix apps/admin-web
-    releases:
-    - R08
-    migration_and_compatibility: 公开分享路径和后端冻结接口不变；响应失败按离线、404、403和通用错误显示，禁止泄露联系方式与内容状态；非分享PublicPage保持静态页面，后台路由和权限不变。
-  user_confirmation: 项目所有者已明确要求持续完成所有版本，UI按效果图丰富度实现且不得虚构功能，并要求换电脑换AI仍持续生效。
-  approval:
-    decision: APPROVED
-    decided_at: '2026-07-22T03:46:35Z'
-    note: 批准只补齐冻结H5分享页并以测试证明既有后台通用页面复用；禁止为R08另建后台项目页或手写重复DTO。
-  machine_record: .continuity/change_requests/CR-0218.yaml
-  document: docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
-  decision_log:
-  - at: '2026-07-22T03:46:40Z'
-    actor_id: codex-root-r08-004
-    status: IMPLEMENTING
-    note: 开始补齐H5-004真实公开分享和后台PROJECT复用回归。
-    session_id: SES-20260722T031604Z-105CF4C6
-  session_ids:
-  - SES-20260722T031604Z-105CF4C6
-- protocol_version: '1.0'
-  cr_id: CR-0219
-  title: 登记R08三页精确视觉施工合同
-  status: IMPLEMENTING
-  created_at: '2026-07-22T03:52:50Z'
-  updated_at: '2026-07-22T03:53:22Z'
-  requester_actor_id: codex-root-r08-004
-  approver_actor_id: codex-reviewer-r08-visual
-  task_id: TASK-R08-004
-  session_id: SES-20260722T031604Z-105CF4C6
-  user_request: 所有UI肉眼接近效果图丰富度和精致度，不虚构业务；无直接效果图时复用相关页面风格。
-  reason: 现有页面目录将R08来源写成B02/P01-P08范围和TOKENS_ONLY，视觉门禁禁止范围引用并要求逐页精确来源；需在既有ui_visual_acceptance唯一目录登记三页合同，发布编辑页形成批准补充施工规格。
-  original_rule: 既有唯一UI规则要求逐页精确面板或批准补充规格；R08页面目录当前仅提供范围引用或Token，不能直接作为验收合同。
-  new_rule: 不修改硬规则、不新建目录事实源：在既有catalogs/ui_visual_acceptance.csv登记SCR-LIST-001=B02/P05、SCR-DETAIL-001=B03/P01；SCR-PUB-002使用批准补充规格复用B02/P05的信息分组、B03/P01的品牌层级和既有MOB-FORM交互，仅允许冻结字段与状态。
-  impact_summary: 新增三份R08逐页施工规格并更新既有视觉验收目录；规格是页面派生合同，不是新的全局硬规则。当前先登记IN_REVIEW，候选截图经AI肉眼对照后才能PASS。
-  impact:
-    files:
-    - design/R08-UI-FROZEN/specs/SCR-LIST-001.md
-    - design/R08-UI-FROZEN/specs/SCR-DETAIL-001.md
-    - design/R08-UI-FROZEN/specs/SCR-PUB-002.md
-    - catalogs/ui_visual_acceptance.csv
-    - artifacts/reports/R08/TASK-R08-004-client.md
-    - CHANGELOG.md
-    pages:
-    - SCR-LIST-001
-    - SCR-DETAIL-001
-    - SCR-PUB-002
+    - docs/03-continuity/PITFALLS.md
+    - docs/03-continuity/REUSABLE_PATTERNS.md
+    pages: []
     apis: []
     database: []
     configuration: []
     ledger: []
     tests:
-    - python -m unittest tests.test_ui_visual_acceptance
-    - python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
+    - fixed Android image affected-module verification
     releases:
     - R08
-    migration_and_compatibility: 保留页面合同、Token、API和现有实现；精确面板替换范围引用不增加业务字段，发布编辑补充规格只约束布局、尺寸、层级和状态。
-  user_confirmation: 项目所有者已明确同意无直接效果图时复用相关效果图/UI风格，且要求所有页面达到效果图级丰富度与精致度。
+    migration_and_compatibility: 纯文档经验固化；兼容现有固定镜像和命名卷，不重建镜像、不修改历史证据。
+  user_confirmation: 用户明确要求可复用经验跨电脑跨AI生效，并要求相似规则只更新既有事实源
   approval:
     decision: APPROVED
-    decided_at: '2026-07-22T03:53:17Z'
-    note: 批准在既有视觉验收目录登记精确面板并为无直接效果图的发布编辑页建立派生补充规格；不得把补充规格扩张为全局规则或添加未冻结业务。
-  machine_record: .continuity/change_requests/CR-0219.yaml
-  document: docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
+    decided_at: '2026-07-22T04:08:02Z'
+    note: 用户已明确要求把可行方案写入既有全局踩坑和经验复用事实源；本CR先查重后仅更新两份既有文档，不新增并行规则。
+  machine_record: .continuity/change_requests/CR-0220.yaml
+  document: docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
   decision_log:
-  - at: '2026-07-22T03:53:22Z'
+  - at: '2026-07-22T04:08:05Z'
     actor_id: codex-root-r08-004
     status: IMPLEMENTING
-    note: 开始建立R08三页精确派生视觉规格并登记既有目录。
+    note: 开始更新既有PITFALLS与REUSABLE_PATTERNS，不新增规则文件。
     session_id: SES-20260722T031604Z-105CF4C6
   session_ids:
   - SES-20260722T031604Z-105CF4C6
@@ -7596,7 +7460,7 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: ce55f8a5d0a98f02e31e2b2cbc179b35564c87d241d92168a08bf2ab2b08a53e
+  sha256: 77e2b74816a54a36aca0880eb5f456827f8ab0c8bea55d8ffadecdbeead4519e
   bytes: 3908
 - path: NEXT_TASK.yaml
   sha256: 2e00938e45f72209b0caf6f7a60a751fe16b37544b2b4cf214305784dd28e3df
@@ -7611,11 +7475,11 @@ source_manifest:
   sha256: c95af96d5dd6cc2df5ebf51b13d579a25339840227a9083ff7e7f019092ac39f
   bytes: 98617
 - path: docs/03-continuity/REUSABLE_PATTERNS.md
-  sha256: 0dce77beb3883abfb5bb15bceafa7dab7b0973745e39386647742318531c42da
-  bytes: 2555
+  sha256: 579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519
+  bytes: 3238
 - path: docs/03-continuity/PITFALLS.md
-  sha256: 4db9e2d7314d809273323989334fcec87d83d845a550420eb454f0533911a0e3
-  bytes: 4522
+  sha256: a2f52728083c1d4ae1b2e8fdec207546594e396fb797b4348d61e5d0d7a402ea
+  bytes: 5013
 - path: releases/PROGRAM_EXECUTION_PLAN.yaml
   sha256: 93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446
   bytes: 35924
@@ -7629,10 +7493,10 @@ source_manifest:
   sha256: 16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6
   bytes: 12763
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: da7113ab4ce96f43f63489b9ae1599e15b25e860881cf3b6ad8434d22e68f5a5
-  bytes: 1196461
+  sha256: c8ad30aba9d7571125625f66534ecdbe8989fa835672d40d7fd3c80595f44050
+  bytes: 1201108
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: 95dee0737b23170897e9c4df6c188398675e1a3c8b50080d7025c62185afa040
+  sha256: d6d7c4a243151b1fb6c8b713e42cfd77eb7729f88b0952d94a79dd20e2c932d1
   bytes: 36378
 - path: .continuity/TASK_CLAIMS.yaml
   sha256: a82f6f3f55debf7f581f6b1b6a7a4ecf8a25654143db7b14332c4d9fee1525b0
@@ -7641,10 +7505,10 @@ source_manifest:
   sha256: ca8fa62a143224f0a806ff902a4b354d778ae3306fce1a9698a8a9b8d576a945
   bytes: 20784
 - path: .continuity/CHANGE_REQUEST_INDEX.yaml
-  sha256: 902a3595e23e3d8449e1128ccc3a54ff196d57e58082ee2d2f1e0cc1ce96662a
-  bytes: 703173
+  sha256: 22304b70b4fac4624768bf5b25c25f2d9ea47fcdde40982ea03d7856dcfcd3f3
+  bytes: 707591
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: 3e0a767cb9780c688e1f3c0af1dac87fd69d74cd8f9f53458fb6d239f3d9bee7
+  sha256: c1ec1b872d377b7af2f454703a0985133f737025656be9b6a213fab4f28afde3
   bytes: 533
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 70572ced7d8fbafe34f42a03c1f6c0f8dbb1035961d493ad7593c25bb7abb96a
@@ -7677,20 +7541,23 @@ source_manifest:
   sha256: f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416
   bytes: 4185
 - path: docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md
-  sha256: 35cc2dfb0b62990ab813014c67c179aac26412458ecfe0486cd8ec5026fc7e1f
-  bytes: 10101
-- path: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0004.yaml
-  sha256: 1b3f9c788423ff8b1e0fabc15caba0de00e5f78dfab0ad3066c17467ed0b49e5
-  bytes: 15333
+  sha256: 5f210c70cd1d9760231298043ec0527ce1e9a463e2555b9ed5ea1382d3a99365
+  bytes: 12805
+- path: .continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0005.yaml
+  sha256: f5478db60514348ce486fe03161d31cf12c8f03e442e039310885958a168add7
+  bytes: 15700
 - path: docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md
-  sha256: ca79f5f885b2571b5adaecbc4d425162769ffb72f8e989622972e7645629c834
-  bytes: 4567
+  sha256: b586e55a30b64397129690ac74d76ac05cb66f264ca26174e5ea36b52420c485
+  bytes: 5185
 - path: docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md
-  sha256: b26d29fff2a2bb2ae9f5560c787c583d616d9b4d8012b067c8746a0c93372557
-  bytes: 3276
+  sha256: 4f3bf40523a53e78efca2cfcd3dac0bbd3924d18baf3085c951957c2cbf2ebdf
+  bytes: 3732
 - path: docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md
-  sha256: 77b803668de071ca1eb4c19d47fd4aefce7d1c6c0a96390936d85358da671de2
-  bytes: 3075
+  sha256: 786606e3f9a5960ef76418e0986eb10c638ee61f96f09836008ff4992f5e4ad6
+  bytes: 3552
+- path: docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md
+  sha256: a95712da39359d9f0222414a43474fb7e257c458c49b1232d2ec14dc2d3c905f
+  bytes: 2705
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -7726,4 +7593,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 219a2a2f18f3313af7c288835569fe27efa8ccf5130b448b5ff1bd91f85f1db5
+context_hash: fee93f610df428378358c33b61cc9bf111b8836e4f3e3241adaa8ff7bf7ffd2d

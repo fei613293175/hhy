@@ -32,3 +32,7 @@ APK机器交付完成但项目所有者真机验收尚未返回时，原任务�
 ## PATTERN-CLIENT-FOUNDATION-001 成熟客户端统一基础设施
 
 Android 以稳定 Jetpack Navigation Compose 维护真实来源返回栈，顶栏、系统键和手势共用 `popBackStack`，底部栏目用保存/恢复状态保留来源；所有图标经 `HhyIcons` 语义注册，转场经 `HhyMotion` 与冻结 Token。旧页面和新页面运行同一静态门禁，禁止字符图标、自研返回栈、写死返回目标和页面私有动画数字。
+
+## PATTERN-ANDROID-REMOTE-001 固定容器受影响模块验证
+
+普通 Android 开发任务只在既有 `obx-test` 固定镜像中运行受影响 MODULE。容器统一使用 `hhy-r01-android-gradle-cache:/root/.gradle`，以精确 Commit 的干净克隆作为源码输入；禁止把宿主 `/root/.gradle` 当成等价缓存，也不得为单次验证重建镜像。遇到稳定 API 36 自动安装或短时无输出，先联合检查容器运行状态、CPU 与增量日志；确认进程真正退出或无活动后才诊断失败，避免重复容器、重复下载和无意义重跑。完整打包、模拟器、截图及候选 APK 仍只在大版本最终候选阶段执行。

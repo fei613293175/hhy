@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0219
 title: 登记R08三页精确视觉施工合同
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-22T03:52:50Z'
-updated_at: '2026-07-22T03:53:22Z'
+updated_at: '2026-07-22T04:09:54Z'
 requester_actor_id: codex-root-r08-004
 approver_actor_id: codex-reviewer-r08-visual
 task_id: TASK-R08-004
@@ -48,5 +48,17 @@ decision_log:
   status: IMPLEMENTING
   note: 开始建立R08三页精确派生视觉规格并登记既有目录。
   session_id: SES-20260722T031604Z-105CF4C6
+- at: '2026-07-22T04:09:51Z'
+  actor_id: codex-root-r08-004
+  status: IMPLEMENTED
+  note: R08三页精确视觉合同和既有视觉验收目录登记已实现。
+  session_id: SES-20260722T031604Z-105CF4C6
+- at: '2026-07-22T04:09:54Z'
+  actor_id: codex-root-r08-004
+  status: CLOSED
+  note: 目录级视觉检查3页PASS、视觉门禁8 tests PASS；最终截图及AI审批留在R08候选阶段。
+  session_id: SES-20260722T031604Z-105CF4C6
 session_ids:
 - SES-20260722T031604Z-105CF4C6
+implementation_commits:
+- 9946433742eb9f7ba7ade9909ad11ec0774e8afb

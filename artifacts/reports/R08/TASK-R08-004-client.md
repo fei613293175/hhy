@@ -21,6 +21,7 @@
 | 检查 | 结果 | 证据 |
 | --- | --- | --- |
 | Android 首轮 network/project/app MODULE | PASS | 精确提交 `298544b5688ff43b87a85992a572a23eada720f5`；固定镜像 `hhy-android-toolchain:r01-46fb273`；日志 `/tmp/hhy-r08-004-android-298544b5.log`；SHA-256 `1ff3796419eb1faf36ac711ac34bb10875191b552e8ca4f409e8e7c499c22b5f`；88 tasks，BUILD SUCCESSFUL |
+| Android 最终 media/network/project/app MODULE | PASS | 精确提交 `9946433742eb9f7ba7ade9909ad11ec0774e8afb`；固定镜像 `hhy-android-toolchain:r01-46fb273`；命名缓存卷 `hhy-r01-android-gradle-cache:/root/.gradle`；日志 `/tmp/hhy-r08-004-android-99464337.log`；SHA-256 `86c78eb2ec08c1a271dffd29f08530ca6e12b8eff01c37a0a3596c935b84b257`；103 tasks（75 from cache），BUILD SUCCESSFUL in 8m 8s |
 | H5 单元与页面状态 | PASS | `pnpm --filter @hhy/h5 test`：6 files / 27 tests |
 | H5 类型检查与生产构建 | PASS | `pnpm --filter @hhy/h5 build`，Vue TSC 与 Vite BUILD PASS |
 | 后台项目复用回归 | PASS | `pnpm --filter @hhy/admin-web test`：16 files / 88 tests |

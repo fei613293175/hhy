@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0217
 title: 实现R08项目推广客户端并复用既有H5后台能力
-status: IMPLEMENTING
+status: CLOSED
 created_at: '2026-07-22T03:19:30Z'
-updated_at: '2026-07-22T03:20:15Z'
+updated_at: '2026-07-22T04:09:43Z'
 requester_actor_id: codex-root-r08-004
 approver_actor_id: codex-reviewer-r08-client
 task_id: TASK-R08-004
@@ -74,5 +74,18 @@ decision_log:
   status: IMPLEMENTING
   note: 开始实现R08项目客户端并核验H5与后台既有能力，严格复用唯一UI规则和冻结页面合同。
   session_id: SES-20260722T031604Z-105CF4C6
+- at: '2026-07-22T04:09:41Z'
+  actor_id: codex-root-r08-004
+  status: IMPLEMENTED
+  note: R08 Android项目列表、详情、发布编辑、媒体上传、收藏分享会话与安全联系方式已实现；最终精确提交受影响MODULE验证PASS。
+  session_id: SES-20260722T031604Z-105CF4C6
+- at: '2026-07-22T04:09:43Z'
+  actor_id: codex-root-r08-004
+  status: CLOSED
+  note: Android最终验证日志/tmp/hhy-r08-004-android-99464337.log，SHA-256 86c78eb2ec08c1a271dffd29f08530ca6e12b8eff01c37a0a3596c935b84b257，103 tasks
+    PASS。
+  session_id: SES-20260722T031604Z-105CF4C6
 session_ids:
 - SES-20260722T031604Z-105CF4C6
+implementation_commits:
+- 9946433742eb9f7ba7ade9909ad11ec0774e8afb
