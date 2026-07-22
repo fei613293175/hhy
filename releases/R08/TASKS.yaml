@@ -60,7 +60,7 @@ tasks:
   completed_at: '2026-07-22T03:13:01Z'
 - id: TASK-R08-004
   title: 项目推广完整闭环客户端/H5/后台实现
-  status: READY
+  status: DONE
   depends_on:
   - TASK-R08-003
   requirements: *id001
@@ -84,9 +84,10 @@ tasks:
   - 禁止页面级手写重复DTO
   - 全部动作绑定生成API类型
   session_log_required: true
+  completed_at: '2026-07-22T05:34:21Z'
 - id: TASK-R08-005
   title: 项目推广完整闭环专项测试与故障注入
-  status: BLOCKED
+  status: READY
   depends_on:
   - TASK-R08-003
   - TASK-R08-004

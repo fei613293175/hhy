@@ -926,3 +926,13 @@
 - Actor：`codex-root-r08-003`
 - 摘要：R08项目发布与详情后端闭环完成：九项页面依赖、V033/V034、真实PostgreSQL Store 3项和后端MODULE 340项均通过，P0/P1为0。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T012224Z-E70EA3B7.md`
+
+## TASK-R08-004 · COMPLETED · 2026-07-22T05:34:21Z
+
+- Task close: TASK-R08-004 / SES-20260722T031604Z-105CF4C6
+- Release：`R08`
+- Story：`STORY-R08-004`
+- Actor：`codex-root-r08-004`
+- 摘要：完成R08项目列表、详情、发布编辑客户端闭环及R02-R07历史视觉回补实现；后台与H5真实浏览器AI复核通过，Android受影响MODULE在精确提交通过；最终候选Android截图按既定规则延续至R08-007。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md`
+

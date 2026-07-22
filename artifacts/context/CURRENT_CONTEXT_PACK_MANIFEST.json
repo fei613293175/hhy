@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-22T05:33:48Z",
-  "context_hash": "be23bac61037de6fd943deda90180bbb0639da320cefa0049a581220522ab20e",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-22T05:34:29Z",
+  "context_hash": "b6fbb7e1cef7588f7af493070ec9c76a8b44f5b6a22bec2e9c6dd8a565694171",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "34a6eb37176303198463008d0c4bb139f3d435d21e30e57e2c86d099d2cea075",
-    "file_count": 44
+    "sha256": "98adc783931307e039867439ba4ebc8ef6a0571b4a578dc6e2a1f95dac5d9860",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "7d39935550f7c50111f5f6369c3f0c745eb4af45ea4e5a2e5777ece31f8ce38d"
+    "sha256": "58a2702689f46a7c7a644764d21df9b659f018de0b6faf3596b42038b92e0c1c"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "8d3c943ec24b1f929b2fd2eba4c63c1fb92f3e45fcd5ad66543096fc7f5d98ef"
+    "sha256": "6079d81000c33110b878fe5d5ae9dc3a23513c7b837df2f52826152447771243"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "86b70121ba3578293f99dd5dcec084e4fb0e93105301caab5cd066f57c4a59a1",
-      "bytes": 3908
+      "sha256": "d3d7ea597404105b2c1b34c17715330d0e4ecb903f7dd04b7ecf6ec58142b19f",
+      "bytes": 3809
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "2e00938e45f72209b0caf6f7a60a751fe16b37544b2b4cf214305784dd28e3df",
-      "bytes": 2530
+      "sha256": "c1f35110c9fca28e83bb1150096cbf1897ce3bd7ff4a157eb9e1b552611a2a8a",
+      "bytes": 1523
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "f346dcdad88c85094a4127c1a8fbc55e3d51b843cae9f6d08892bc2f6d2d928d",
-      "bytes": 1218622
+      "sha256": "ec27f9bc4b86e5816bf13f9a6285d2532351d362464681cc51dff787f5744f31",
+      "bytes": 1220436
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "ca68ea649b51afed7747dbbcee9c519034ec2a1c1c178c87a96173b92cec5d42",
-      "bytes": 36378
+      "sha256": "29f36d407840474c39e5c25d71b95b28200221fff4113177d158c13bbf1236fb",
+      "bytes": 36396
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "a82f6f3f55debf7f581f6b1b6a7a4ecf8a25654143db7b14332c4d9fee1525b0",
-      "bytes": 48447
+      "sha256": "2683824591410d07cdd03d1e40e5c639cbfcabead8c203a9d5f55ac0a131074c",
+      "bytes": 48483
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "8d4783b37712bb321c22a6fe551117040c2cabd0b598be228779cbe4ddad6537",
-      "bytes": 533
+      "sha256": "d4c369b894ad095399ca055ff06e2a2a66afac89d62eff8230602398e72fc170",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R08/TASKS.yaml",
-      "sha256": "9991ed161addc3aee77ffefea64c6f65a0d08d5cf8dbf42e8f30e4fd339ccfff",
-      "bytes": 6299
+      "sha256": "de2ea74e776bb68df40ee48482842805f8b343a770cf5969d8b7a87262c99207",
+      "bytes": 6335
     },
     {
       "path": "releases/R08/ACCEPTANCE_MATRIX.csv",
@@ -160,56 +160,6 @@
       "path": "releases/R08/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "f91116a61ba1b53ece34fe01afb312c5898b2070ec2863ecdd7993a63a962416",
       "bytes": 4185
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260722T031604Z-105CF4C6.md",
-      "sha256": "c15a29e6f5a34e6f72f64fe1b974b55078d0ba35edc07874fc201863d9bbd92b",
-      "bytes": 39758
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260722T031604Z-105CF4C6/0013.yaml",
-      "sha256": "e8ee68fef41efe7527b37ca483926ee7ea28362478ba151c54663fac6e6fc8b6",
-      "bytes": 22025
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0217-实现R08项目推广客户端并复用既有H5后台能力.md",
-      "sha256": "b586e55a30b64397129690ac74d76ac05cb66f264ca26174e5ea36b52420c485",
-      "bytes": 5185
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0218-补齐R08项目公开分享H5并证明后台复用.md",
-      "sha256": "4f3bf40523a53e78efca2cfcd3dac0bbd3924d18baf3085c951957c2cbf2ebdf",
-      "bytes": 3732
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0219-登记R08三页精确视觉施工合同.md",
-      "sha256": "786606e3f9a5960ef76418e0986eb10c638ee61f96f09836008ff4992f5e4ad6",
-      "bytes": 3552
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0220-固化固定Android容器Gradle缓存挂载与SDK安装诊断经验.md",
-      "sha256": "4a449a90b5b184ed70a5bb4306619879d5fc84f3050c614d9ee673a143ce75c4",
-      "bytes": 3254
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md",
-      "sha256": "ee45f1f4d02964a5113c577fa7dffa786dc0fa438ae21986c2a9d78591ddab26",
-      "bytes": 4194
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0222-回补R06首页关于页并完成后台视觉复核.md",
-      "sha256": "2627a900c8113faf8de27fb776618cd99c429c08795dad4ea02067793e802b79",
-      "bytes": 4106
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0223-补齐R02至R05历史页面视觉合同与真实浏览器证据.md",
-      "sha256": "bbcd0020a39e7bd6fe350d8e9fdce8560c8a59c51f7479a5ea99e6664d551310",
-      "bytes": 4149
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0224-增加仅本机视觉验收fixture反向代理.md",
-      "sha256": "ba46ad1ad46f5221814c2c3e42a649f1d53103576bbc909f774e743dbdad1ab8",
-      "bytes": 3005
     }
   ]
 }
