@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -59,7 +60,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import cc.orbexa.hhy.designsystem.HhyBackButton
 import cc.orbexa.hhy.designsystem.HhyColors
+import cc.orbexa.hhy.designsystem.HhyElevation
 import cc.orbexa.hhy.designsystem.HhyRadius
+import cc.orbexa.hhy.designsystem.HhySize
 import cc.orbexa.hhy.designsystem.HhySpacing
 import cc.orbexa.hhy.network.ContactAccessRequest
 import cc.orbexa.hhy.network.ContactChannelSummaryResource
@@ -168,28 +171,14 @@ fun R07SearchScreen(
             verticalArrangement = Arrangement.spacedBy(HhySpacing.Md),
         ) {
             item {
-                OutlinedTextField(
-                    value = query,
-                    onValueChange = { if (it.length <= 100) query = it },
-                    modifier = Modifier.fillMaxWidth().testTag("r07.search.input"),
-                    label = { Text("搜索项目、应用、群聊或团长") },
-                    singleLine = true,
-                    supportingText = { Text("输入 1–100 个字符") },
-                )
-            }
-            item {
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-                    contentTypes.forEach { (value, label) ->
-                        FilterChip(selected = selectedType == value, onClick = { selectedType = value }, label = { Text(label) })
-                    }
-                }
-            }
-            item {
-                Button(
-                    modifier = Modifier.fillMaxWidth().testTag("r07.search.submit"),
+                SearchComposer(
+                    query = query,
+                    onQueryChange = { if (it.length <= 100) query = it },
+                    selectedType = selectedType,
+                    onTypeSelected = { selectedType = it },
                     enabled = query.trim().isNotEmpty() && phase != R07LoadPhase.LOADING,
-                    onClick = { submit() },
-                ) { Text("搜索") }
+                    onSubmit = { submit() },
+                )
             }
             if (phase == R07LoadPhase.LOADING) item { LoadingState("正在加载") }
             failure?.let { value -> item { FailureState(value) { if (submittedQuery == null) loadLanding() else submit() } } }
@@ -198,13 +187,13 @@ fun R07SearchScreen(
                     item {
                         SectionHeader("搜索历史", action = "清空") { showClearDialog = true }
                     }
-                    items(history, key = { "history-${it.id}" }) { term ->
-                        TermButton(term.keyword) { query = term.keyword; submit() }
+                    item {
+                        TermCloud(history) { term -> query = term; submit() }
                     }
                 }
                 if (hot.isNotEmpty()) item { SectionHeader("大家都在搜") }
-                items(hot, key = { "hot-${it.id}" }) { term ->
-                    TermButton(term.keyword) { query = term.keyword; submit() }
+                if (hot.isNotEmpty()) item {
+                    TermCloud(hot) { term -> query = term; submit() }
                 }
                 if (history.isEmpty() && hot.isEmpty() && phase == R07LoadPhase.CONTENT) item {
                     EmptyState("暂无搜索记录", "输入关键词即可查找公开内容")
@@ -429,18 +418,32 @@ private fun SecureContentEffect() {
 
 @Composable
 private fun PublisherHeader(publisher: PublisherSummaryResource) {
-    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = HhyColors.Surface)) {
-        Row(Modifier.fillMaxWidth().padding(HhySpacing.Lg), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md), verticalAlignment = Alignment.CenterVertically) {
-            Surface(modifier = Modifier.clip(CircleShape), color = HhyColors.SoftBlue) {
-                Box(Modifier.padding(HhySpacing.Xl), contentAlignment = Alignment.Center) {
-                    Text(publisher.nickname.take(1), style = MaterialTheme.typography.titleLarge)
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(HhyRadius.LargeCard),
+        colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+    ) {
+        Surface(color = HhyColors.SoftBlue) {
+            Row(Modifier.fillMaxWidth().padding(HhySpacing.Lg), horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md), verticalAlignment = Alignment.CenterVertically) {
+                Surface(modifier = Modifier.clip(CircleShape), color = HhyColors.Surface) {
+                    Box(Modifier.padding(HhySpacing.Xl), contentAlignment = Alignment.Center) {
+                        Text(publisher.nickname.take(1), style = MaterialTheme.typography.titleLarge, color = HhyColors.BrandPrimary)
+                    }
+                }
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
+                    Text(publisher.nickname, style = MaterialTheme.typography.titleLarge, color = HhyColors.TextPrimary)
+                    FlowRow(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                        if (publisher.verified) FactBadge("已认证", HhyColors.SuccessSoft, HhyColors.Success)
+                        publisher.memberBadge?.let { FactBadge(it, HhyColors.Surface, HhyColors.BrandPrimary) }
+                    }
                 }
             }
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
-                Text(publisher.nickname, style = MaterialTheme.typography.titleLarge)
-                if (publisher.verified) Text("已认证", color = HhyColors.Success, style = MaterialTheme.typography.bodySmall)
-                publisher.memberBadge?.let { Text(it, color = HhyColors.TextSecondary) }
-                publisher.bio?.let { Text(it, color = HhyColors.TextSecondary, maxLines = 3, overflow = TextOverflow.Ellipsis) }
+        }
+        publisher.bio?.let {
+            Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                Text("个人简介", style = MaterialTheme.typography.labelLarge, color = HhyColors.TextPrimary)
+                Text(it, color = HhyColors.TextSecondary, maxLines = 3, overflow = TextOverflow.Ellipsis)
             }
         }
     }
@@ -448,13 +451,22 @@ private fun PublisherHeader(publisher: PublisherSummaryResource) {
 
 @Composable
 private fun SearchResultCard(result: SearchResultResource, onPublisherSelected: (String) -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = HhyColors.Surface)) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(HhyRadius.NormalCard),
+        colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+    ) {
         Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-            Text(result.title, style = MaterialTheme.typography.titleMedium)
-            Text(contentTypeLabel(result.contentType), color = HhyColors.BrandPrimary, style = MaterialTheme.typography.bodySmall)
+            FactBadge(contentTypeLabel(result.contentType), HhyColors.SoftBlue, HhyColors.BrandPrimary)
+            Text(result.title, style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
             result.summary?.let { Text(it, maxLines = 3, overflow = TextOverflow.Ellipsis, color = HhyColors.TextSecondary) }
             result.publisher?.let { publisher ->
-                TextButton(onClick = { onPublisherSelected(publisher.userId) }) { Text("查看发布者：${publisher.nickname}") }
+                HorizontalDivider(color = HhyColors.Border)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("发布者", modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodySmall, color = HhyColors.TextTertiary)
+                    TextButton(onClick = { onPublisherSelected(publisher.userId) }) { Text(publisher.nickname) }
+                }
             }
         }
     }
@@ -462,14 +474,19 @@ private fun SearchResultCard(result: SearchResultResource, onPublisherSelected: 
 
 @Composable
 private fun ContentCard(content: ContentResource, onContact: (ContactChannelSummaryResource) -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = HhyColors.Surface)) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(HhyRadius.NormalCard),
+        colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+    ) {
         Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
-            Text(content.title, style = MaterialTheme.typography.titleMedium)
-            Text(contentTypeLabel(content.contentType), color = HhyColors.BrandPrimary, style = MaterialTheme.typography.bodySmall)
+            FactBadge(contentTypeLabel(content.contentType), HhyColors.SoftBlue, HhyColors.BrandPrimary)
+            Text(content.title, style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
             content.summary?.let { Text(it, color = HhyColors.TextSecondary, maxLines = 3, overflow = TextOverflow.Ellipsis) }
             if (content.contactsMasked.isNotEmpty()) {
-                HorizontalDivider()
-                Text("联系发布者", fontWeight = FontWeight.SemiBold)
+                HorizontalDivider(color = HhyColors.Border)
+                Text("联系发布者", fontWeight = FontWeight.SemiBold, color = HhyColors.TextPrimary)
                 content.contactsMasked.forEach { channel ->
                     OutlinedButton(
                         modifier = Modifier.fillMaxWidth(),
@@ -517,14 +534,76 @@ private fun EmptyState(title: String, guidance: String) {
 @Composable
 private fun SectionHeader(title: String, action: String? = null, onAction: () -> Unit = {}) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        Text(title, modifier = Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+            Text(title, style = MaterialTheme.typography.titleMedium, color = HhyColors.TextPrimary)
+            Surface(modifier = Modifier.fillMaxWidth(0.12f).height(HhySpacing.Xs), color = HhyColors.BrandPrimary, shape = RoundedCornerShape(HhyRadius.Pill)) { }
+        }
         if (action != null) TextButton(onClick = onAction) { Text(action) }
     }
 }
 
 @Composable
-private fun TermButton(keyword: String, onClick: () -> Unit) {
-    OutlinedButton(modifier = Modifier.fillMaxWidth(), onClick = onClick) { Text(keyword) }
+private fun SearchComposer(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    selectedType: String?,
+    onTypeSelected: (String?) -> Unit,
+    enabled: Boolean,
+    onSubmit: () -> Unit,
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(HhyRadius.LargeCard),
+        colors = CardDefaults.cardColors(containerColor = HhyColors.Surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = HhyElevation.Card),
+    ) {
+        Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
+            OutlinedTextField(
+                value = query,
+                onValueChange = onQueryChange,
+                modifier = Modifier.fillMaxWidth().testTag("r07.search.input"),
+                label = { Text("搜索项目、应用、群聊或团长") },
+                singleLine = true,
+                supportingText = { Text("输入 1–100 个字符") },
+            )
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm), verticalArrangement = Arrangement.spacedBy(HhySpacing.Xs)) {
+                contentTypes.forEach { (value, label) ->
+                    FilterChip(selected = selectedType == value, onClick = { onTypeSelected(value) }, label = { Text(label) })
+                }
+            }
+            Button(
+                modifier = Modifier.fillMaxWidth().heightIn(min = HhySize.PrimaryButtonHeight).testTag("r07.search.submit"),
+                enabled = enabled,
+                onClick = onSubmit,
+            ) { Text("搜索") }
+        }
+    }
+}
+
+@Composable
+private fun TermCloud(terms: List<SearchTermResource>, onSelected: (String) -> Unit) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = HhyColors.Surface,
+        shape = RoundedCornerShape(HhyRadius.NormalCard),
+    ) {
+        FlowRow(
+            modifier = Modifier.fillMaxWidth().padding(HhySpacing.Lg),
+            horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+            verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
+        ) {
+            terms.forEach { term ->
+                OutlinedButton(onClick = { onSelected(term.keyword) }) { Text(term.keyword) }
+            }
+        }
+    }
+}
+
+@Composable
+private fun FactBadge(label: String, background: androidx.compose.ui.graphics.Color, foreground: androidx.compose.ui.graphics.Color) {
+    Surface(color = background, contentColor = foreground, shape = RoundedCornerShape(HhyRadius.Tag)) {
+        Text(label, modifier = Modifier.padding(horizontal = HhySpacing.Sm, vertical = HhySpacing.Xs), style = MaterialTheme.typography.labelMedium)
+    }
 }
 
 private fun contentTypeLabel(value: String) = when (value) {

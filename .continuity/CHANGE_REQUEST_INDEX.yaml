@@ -13384,3 +13384,59 @@ change_requests:
   - SES-20260722T031604Z-105CF4C6
   implementation_commits:
   - 88271a35476ba6ae394717fc715d14f9707005b2
+- protocol_version: '1.0'
+  cr_id: CR-0221
+  title: 按效果图级标准回补R07搜索与发布者页面视觉
+  status: IMPLEMENTING
+  created_at: '2026-07-22T04:16:14Z'
+  updated_at: '2026-07-22T04:16:42Z'
+  requester_actor_id: codex-root-r08-004
+  approver_actor_id: codex-reviewer-r08-visual
+  task_id: TASK-R08-004
+  session_id: SES-20260722T031604Z-105CF4C6
+  user_request: 全部既有与后续版本UI肉眼接近效果图丰富度和精致度，不虚构内容或功能，R02至R07历史页面作为R08候选前置回补
+  reason: R07候选截图证明功能和参数合规，但搜索首页、结果卡和发布者资料卡信息层级与B02/B03参考存在明显视觉差距，ui_visual_acceptance已标记BLOCKED_REDESIGN
+  original_rule: CR-0213已要求历史页面达到效果图级丰富度与精致度；R07三张非敏感候选截图已保留，但验收目录明确标记搜索首页、结果页和发布者主页为BLOCKED_REDESIGN。
+  new_rule: 不新增规则；按既有CR-0213和逐页冻结规格回补R07。搜索区改为完整组合卡，历史与热词使用紧凑标签层级；结果卡按B02内容卡语言形成类型、标题、摘要和真实发布者动作层级；发布者头和公开内容卡按B03/P05语言强化资料、标记、内容与联系区，但只使用现有服务端字段，不增加图片、指标、关注或营销功能。
+  impact_summary: 只调整R07 Android三个非敏感页面及既有精确视觉规格和验收说明；保留接口、状态机、真实导航、幂等和FLAG_SECURE安全面板行为，候选截图与最终AI视觉PASS留在R08最终候选阶段。
+  impact:
+    files:
+    - apps/android/feature/discovery/src/main/java/cc/orbexa/hhy/discovery/R07DiscoveryScreens.kt
+    - design/R07-UI-FROZEN/specs/SCR-SEARCH-001.md
+    - design/R07-UI-FROZEN/specs/SCR-SEARCH-002.md
+    - design/R07-UI-FROZEN/specs/SCR-PUBLISHER-001.md
+    - catalogs/ui_visual_acceptance.csv
+    - artifacts/reports/R08/TASK-R08-004-client.md
+    - CHANGELOG.md
+    pages:
+    - SCR-SEARCH-001
+    - SCR-SEARCH-002
+    - SCR-PUBLISHER-001
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - :feature:discovery:test
+    - :app:compileDebugKotlin
+    - python scripts/check_android_ui_foundation.py
+    - python scripts/check_ui_visual_acceptance.py --release R08 --catalog-only
+    releases:
+    - R07
+    - R08
+    migration_and_compatibility: 纯Compose视觉回补；不改变路由、API、DTO、本地存储或历史数据。现有测试标签和候选旅程保持兼容。
+  user_confirmation: 项目所有者已明确要求R02至R07历史页面及后续版本全部达到效果图级丰富度和精致度，禁止虚构业务且持续开发不中断
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-22T04:16:39Z'
+    note: 批准在CR-0213唯一UI规则内回补三个R07非敏感页面；禁止添加服务端未返回的图片、统计、关注或营销能力，联系方式安全生命周期和测试标签不得回退。
+  machine_record: .continuity/change_requests/CR-0221.yaml
+  document: docs/03-continuity/change-requests/CR-0221-按效果图级标准回补R07搜索与发布者页面视觉.md
+  decision_log:
+  - at: '2026-07-22T04:16:42Z'
+    actor_id: codex-root-r08-004
+    status: IMPLEMENTING
+    note: 开始回补R07搜索、结果和发布者页面，复用B02/B03视觉语言并保留真实业务字段与安全边界。
+    session_id: SES-20260722T031604Z-105CF4C6
+  session_ids:
+  - SES-20260722T031604Z-105CF4C6
