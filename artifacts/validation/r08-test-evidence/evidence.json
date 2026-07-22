@@ -1,0 +1,81 @@
+{
+  "schema": "hhy.r08.specialized-evidence/v1",
+  "suite": "r08-java21-postgresql17-android-project",
+  "source_commit": "f3421114b124f4b1d69cd20de7078a022db019e9",
+  "environment": {
+    "host": "obx-test",
+    "java": "Eclipse Temurin 21.0.9",
+    "postgresql": "PostgreSQL 17.10 disposable container",
+    "android_gradle_jdk": "Eclipse Temurin 21.0.9 in hhy-android-toolchain:r01-46fb273"
+  },
+  "results": [
+    {
+      "test_id": "TST-PROJECT_001-HAPPY",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "verified project creation encrypts contacts and emits one outbox event",
+        "project favorite, share, conversation and idempotency flow passes against PostgreSQL 17.10",
+        "all seven frozen R08 controller operations and the frozen Android form contract pass"
+      ],
+      "artifacts": [
+        {
+          "path": "backend-java21.log",
+          "sha256": "2fc8f9479a2d0d15ce15b99f0cc69206522ff7e33b592606198b4f7cbc625e37"
+        },
+        {
+          "path": "postgresql17.log",
+          "sha256": "bd27a1cdf804b256ef756755555ac8b623be05333891ff0aba16da19a741c75f"
+        },
+        {
+          "path": "android-module.log",
+          "sha256": "e8715c5d1a503a445e0d829a9ef854ad22737aaec9f793cbf69c52754598c930"
+        }
+      ]
+    },
+    {
+      "test_id": "TST-PROJECT_001-REJECT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "unverified owner and either-direction block are rejected before idempotency or writes",
+        "media storage timeout and configuration provider timeout leave no completion or outbox side effect",
+        "Android conflict and offline states remain visible and recoverable"
+      ],
+      "artifacts": [
+        {
+          "path": "backend-java21.log",
+          "sha256": "2fc8f9479a2d0d15ce15b99f0cc69206522ff7e33b592606198b4f7cbc625e37"
+        },
+        {
+          "path": "android-module.log",
+          "sha256": "e8715c5d1a503a445e0d829a9ef854ad22737aaec9f793cbf69c52754598c930"
+        }
+      ]
+    },
+    {
+      "test_id": "TST-PROJECT_001-IDEMPOTENT",
+      "status": "PASS",
+      "exit_code": 0,
+      "assertions": [
+        "delayed replay returns the frozen completed snapshot without a duplicate outbox event",
+        "eight concurrent identical claims produce exactly one owner and one PostgreSQL row",
+        "Android reuses a key only for the same intent and rotates it when the request body changes"
+      ],
+      "artifacts": [
+        {
+          "path": "backend-java21.log",
+          "sha256": "2fc8f9479a2d0d15ce15b99f0cc69206522ff7e33b592606198b4f7cbc625e37"
+        },
+        {
+          "path": "postgresql17.log",
+          "sha256": "bd27a1cdf804b256ef756755555ac8b623be05333891ff0aba16da19a741c75f"
+        },
+        {
+          "path": "android-module.log",
+          "sha256": "e8715c5d1a503a445e0d829a9ef854ad22737aaec9f793cbf69c52754598c930"
+        }
+      ]
+    }
+  ]
+}
