@@ -29,6 +29,14 @@ class R09CiFixtureTest(unittest.TestCase):
         self.assertIn("'R09候选联调App'", self.do_body)
         self.assertIn("'APP'", self.do_body)
         self.assertIn("hhy.app_details", self.do_body)
+        self.assertIn(
+            "ON CONFLICT (content_id,version_no) DO NOTHING",
+            self.do_body,
+        )
+        self.assertNotIn(
+            "ON CONFLICT (content_id,version_no) DO UPDATE",
+            self.do_body,
+        )
         self.assertIn('"categoryCode":"TOOLS"', self.do_body)
         self.assertIn("'ANDROID'", self.do_body)
         self.assertIn("https://www.orbexa.cc", self.do_body)

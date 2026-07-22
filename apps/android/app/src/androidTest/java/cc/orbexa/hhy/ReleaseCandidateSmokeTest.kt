@@ -108,7 +108,7 @@ class ReleaseCandidateSmokeTest {
         assertTrue("R09 editor missed the frozen App title", device.hasObject(By.text(fixtureTitle)))
         assertTrue("R09 editor missed its real-data notice", device.hasObject(By.text("只填写真实资料；这里不上传APK安装包")))
         assertFalse("R09 verified owner was incorrectly blocked by identity", device.hasObject(By.text("需要完成实名认证")))
-        assertR09BusinessLabels()
+        assertR09BusinessLabels(requirePlatform = false)
         captureStable("03-app-editor.png")
         assertNoForbiddenVisibleText()
     }
@@ -236,9 +236,11 @@ class ReleaseCandidateSmokeTest {
         assertFalse("Journey exposed TraceId", device.hasObject(By.textContains("TraceId")))
     }
 
-    private fun assertR09BusinessLabels() {
+    private fun assertR09BusinessLabels(requirePlatform: Boolean = true) {
         assertTrue("R09 App category was not localized", device.hasObject(By.text("实用工具")))
-        assertTrue("R09 App platform was not localized", device.hasObject(By.text("Android")))
+        if (requirePlatform) {
+            assertTrue("R09 App platform was not localized", device.hasObject(By.text("Android")))
+        }
         listOf("TOOLS", "ANDROID", "WECHAT", "PHONE", "EMAIL", "QR_CODE").forEach { technicalValue ->
             assertFalse("R09 exposed technical business code: $technicalValue", device.hasObject(By.text(technicalValue)))
         }

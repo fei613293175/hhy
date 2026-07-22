@@ -77,8 +77,7 @@ BEGIN
   VALUES (fixture_content,'0',
     '{"appName":"R09候选联调App","description":"用于验证App推广列表、详情和所有者编辑闭环的真实候选资料。","categoryCode":"TOOLS","platform":"ANDROID","versionText":"1.2.2","downloadUrl":"https://www.orbexa.cc","website":"https://www.orbexa.cc"}'::jsonb,
     'r09-ci-fixture')
-  ON CONFLICT (content_id,version_no) DO UPDATE
-    SET snapshot_json=EXCLUDED.snapshot_json,created_by=EXCLUDED.created_by;
+  ON CONFLICT (content_id,version_no) DO NOTHING;
 
   INSERT INTO hhy.content_stats(content_id,organic_views,redpacket_views,task_views,favorites,chats,contacts)
   VALUES (fixture_content,'0','0','0','0','0','0')

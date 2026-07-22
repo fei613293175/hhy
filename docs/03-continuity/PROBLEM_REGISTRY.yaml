@@ -1282,3 +1282,17 @@ problems:
   - 不得按版本号猜测或递增Docker子网；必须读取目标服务器现有网络清单后冻结未占用范围
   - 不得只检查子网而遗漏宿主机发布端口；网络和端口必须作为同一个隔离资源清单核对
   - 不得把监控进程ready等同于目标已完成首次抓取；涉及目标和告警的验收必须显式等待状态条件
+- id: PROB-0096
+  title: R09候选固定数据复跑尝试更新不可变内容版本
+  status: SOLVED
+  root_cause: R09候选夹具从普通可变详情表沿用了ON CONFLICT DO UPDATE写法到hhy.content_versions；该表由数据库触发器强制不可变，因此首次准备成功、第二次幂等复跑在更新历史快照时被正确拒绝。静态测试只检查了V035、真实字段和秘密边界，没有冻结不可变历史必须DO NOTHING的语义。
+  resolution: CR-0257将content_versions冲突处理改为DO NOTHING并增加源码回归，公网候选数据库连续执行两次均返回同一user=26和content=3；其他可变资料继续受事务、专用CI账号、V035和零统计约束。CR-0259只把根因、证据和禁止复发项写入既有Problem Registry，不新增平行规则或候选流程。
+  regression_checks:
+  - tests.test_r09_ci_fixture必须断言content_versions使用ON CONFLICT DO NOTHING且禁止DO UPDATE
+  - R09候选推送前固定数据脚本必须连续执行两次并返回相同user与content编号
+  - 两次复跑必须在同一事务保护和专用Staging CI账号边界内完成，不得修改历史版本快照
+  - Problem Registry YAML解析和严格连续性门禁必须通过
+  do_not_repeat:
+  - 不可变历史、审计、账本或事件表不得从普通可变资料表复制UPSERT更新策略
+  - 候选固定数据的幂等性不得只凭源码推断，必须在目标数据库至少连续实测两次
+  - 修复夹具时不得关闭不可变触发器、删除历史行或把失败绕成生产数据修改
