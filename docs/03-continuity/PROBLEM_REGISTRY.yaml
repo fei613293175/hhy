@@ -1367,3 +1367,18 @@ problems:
   - 前端路由和按钮权限必须取后端同一真实权限码，不得以config.manage等宽泛旧码替代
   - 无权限必须进入明确403页面，不得跳到无关安全设置页掩盖根因
   - 后台刷新恢复只能使用标签页级存储，不得使用跨标签页长期localStorage保存令牌
+- id: PROB-0101
+  title: R10候选旅程已切换但视觉清单未同步导致完整门禁末端失败
+  status: SOLVED
+  root_cause: CR-0272已把最终候选从R09三页切换为首页、群聊列表、群聊详情和群聊编辑四页，instrumentation、夹具和截图名称均已同步，但实现范围遗漏tests/android/visual-manifests/R10.yaml；现有静态回归只断言旅程中的四个captureStable调用，没有断言对应Release视觉清单存在且文件名、marker完全一致。Run 30011688259因此在构建、OIDC自动登录、四页真实旅程、四张截图和instrumentation全部成功后，直到android_ci_gate.py分析阶段才以visual manifest missing失败。
+  resolution: 原位扩展CR-0272与CR-0273，新增唯一R10视觉清单，绑定SCR-HOME-001、SCR-LIST-003、SCR-DETAIL-003、SCR-PUB-004的精确截图、稳定marker、必现/禁现文案和联系方式脱敏断言；候选请求登记为attempt 2。tests.test_r10_candidate与tests.test_android_ci_gate同时断言四张截图和四个marker，首轮真实截图经同一分析器本地复算已从FAIL转为BASELINE_REVIEW_REQUIRED，四组SHA唯一且相邻差异均高于门禁阈值。
+  regression_checks:
+  - python -m unittest tests.test_r10_candidate tests.test_android_ci_gate
+  - 每次ReleaseCandidateSmokeTest更改captureStable文件集合时，tests/android/visual-manifests/<Release>.yaml必须在同一提交包含完全相同的截图集合
+  - R10视觉清单必须精确绑定首页loaded及群聊list/detail/editor content四个marker，并禁止明文群主联系方式、入群口令、技术字段和内部英文码
+  - 使用Run 30011688259四张真实截图调用android_ci_gate.py analyze必须得到BASELINE_REVIEW_REQUIRED而非visual manifest missing
+  - 第二轮候选必须复核构建、OIDC、四页截图、日志和基线流程，AI审核通过前不得交付APK
+  do_not_repeat:
+  - 候选页面或截图集合变化不得只修改instrumentation，必须同步视觉manifest及其静态回归
+  - 不得把页面旅程成功等同于候选完整通过，分析器、基线和候选资格仍必须执行
+  - 确定性manifest缺口不得重跑同一Commit；必须修复事实源、递增attempt并保留首轮证据

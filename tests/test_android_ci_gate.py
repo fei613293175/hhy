@@ -485,6 +485,18 @@ class AndroidCiGateTest(unittest.TestCase):
             self.assertIn("TOOLS", row["forbidden_text"])
             self.assertIn("ANDROID", row["forbidden_text"])
 
+        r10_manifest = yaml.safe_load((ROOT / "tests/android/visual-manifests/R10.yaml").read_text(encoding="utf-8"))
+        self.assertEqual("AI_IMPLEMENTATION_AGENT", r10_manifest["review_authority"])
+        self.assertEqual(4, len(r10_manifest["screens"]))
+        self.assertEqual(
+            {"01-home.png", "02-group-list.png", "03-group-detail.png", "04-group-editor.png"},
+            {row["file"] for row in r10_manifest["screens"]},
+        )
+        detail = next(row for row in r10_manifest["screens"] if row["screen_id"] == "SCR-DETAIL-003")
+        self.assertIn("R10-ci-owner", detail["forbidden_text"])
+        self.assertIn("R10-ci-join", detail["forbidden_text"])
+        self.assertIn("JOIN_PASSWORD", detail["forbidden_text"])
+
         shell = (
             ROOT
             / "apps/android/feature/shell/src/main/java/cc/orbexa/hhy/shell/HhyShellScreen.kt"

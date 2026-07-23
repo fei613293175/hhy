@@ -5,6 +5,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 FIXTURE = ROOT / "scripts/prepare_r10_ci_fixture.sh"
 JOURNEY = ROOT / "apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt"
+VISUAL_MANIFEST = ROOT / "tests/android/visual-manifests/R10.yaml"
 
 
 class R10CandidateTest(unittest.TestCase):
@@ -46,6 +47,21 @@ class R10CandidateTest(unittest.TestCase):
         self.assertIn('clickResource("r10.group.edit")', self.journey)
         self.assertNotIn("authenticatedR09Pages", self.journey)
         self.assertNotIn("r09.app.", self.journey)
+
+    def test_visual_manifest_covers_the_exact_r10_journey(self) -> None:
+        manifest = VISUAL_MANIFEST.read_text(encoding="utf-8")
+        for screenshot in ("01-home.png", "02-group-list.png", "03-group-detail.png", "04-group-editor.png"):
+            self.assertIn(f"file: {screenshot}", manifest)
+        for marker in (
+            "hhy.screen.r06.home.loaded",
+            "hhy.screen.r10.group.list.content",
+            "hhy.screen.r10.group.detail.content",
+            "hhy.screen.r10.group.editor.content",
+        ):
+            self.assertIn(f"marker: {marker}", manifest)
+        self.assertIn("R10-ci-owner", manifest)
+        self.assertIn("R10-ci-join", manifest)
+        self.assertIn("remain masked in screenshots", manifest)
 
 
 if __name__ == "__main__":

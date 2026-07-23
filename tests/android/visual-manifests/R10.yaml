@@ -1,0 +1,93 @@
+schema: hhy.android-visual-manifest/v1
+release: R10
+review_authority: AI_IMPLEMENTATION_AGENT
+authentication: STAGING_GITHUB_OIDC
+screens:
+- screen_id: SCR-HOME-001
+  file: 01-home.png
+  marker: hhy.screen.r06.home.loaded
+  required_text:
+  - 搜索项目 / App / 群聊 / 团队长
+  - 平台精选
+  - 四大分类
+  - 项目
+  - App
+  - 群聊
+  - 团队长
+  - 最新发布
+  forbidden_text:
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - 下载量
+  - 评分
+- screen_id: SCR-LIST-003
+  file: 02-group-list.png
+  marker: hhy.screen.r10.group.list.content
+  required_text:
+  - 群聊
+  - 找到合适的交流圈
+  - R10候选产品交流圈
+  - 浏览审核通过的真实群聊推广
+  - 微信群
+  - 100-200人
+  - 发布群聊
+  forbidden_text:
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - GROUP
+  - GROUP_CHAT
+  - WECHAT
+  - 活跃度
+  - 收益
+- screen_id: SCR-DETAIL-003
+  file: 03-group-detail.png
+  marker: hhy.screen.r10.group.detail.content
+  required_text:
+  - 群聊详情
+  - R10候选产品交流圈
+  - R10候选群主
+  - 群聊介绍
+  - 入群方式
+  - 联系群主 微信号 R10***
+  - 获取入群口令 口令***
+  - 发布信息
+  - 编辑
+  forbidden_text:
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - GROUP
+  - GROUP_CHAT
+  - WECHAT
+  - JOIN_PASSWORD
+  - R10-ci-owner
+  - R10-ci-join
+- screen_id: SCR-PUB-004
+  file: 04-group-editor.png
+  marker: hhy.screen.r10.group.editor.content
+  required_text:
+  - 编辑群聊
+  - 基础资料
+  - R10候选产品交流圈
+  - 群聊信息
+  - 微信群
+  - 100-200人
+  - 实名用户可申请加入
+  forbidden_text:
+  - 暂时无法连接
+  - 请求编号
+  - TraceId
+  - GROUP
+  - GROUP_CHAT
+  - WECHAT
+  - JOIN_PASSWORD
+  - QR_CODE
+  - 活跃度
+  - 收益
+security_assertions:
+- surface: SCR-DETAIL-003
+  marker: hhy.screen.r10.group.detail.content
+  rule: group owner contact and join password remain masked in screenshots until an explicit audited access action
+
