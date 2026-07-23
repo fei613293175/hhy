@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T12:29:04Z",
-  "context_hash": "e7ba6eb0f9ef47b98db444cc2c414e36148304e1ad9645c370a7abcd5e7aaf47",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-23T13:31:39Z",
+  "context_hash": "d9538c527ac503005f1e03748980d0f3251d267a5c3010429e5feb0f590cfdcf",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "830094612b6e566f2e74e0cd657e5b00bf1c02d6c25371b31b5601c6bdf4a4dc",
-    "file_count": 0
+    "sha256": "0f53c16fe6ccdb37d6f141ffe89113951c8a8cba563b46153babc2492ce8128c",
+    "file_count": 12
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "42738ecf02961473cf173e4f7e89e496b6b10cafc1a7cca35b8546ba4d431ae6"
+    "sha256": "5df5dfa3b65fbfdcd88c9eebe9addaab5954e1bb0eebe44bae5268a5f48235f8"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "6a49d9f67bb9e146a365f1956a63c348b7c2c28d7611c96d1cea3085b1b8806b"
+    "sha256": "1e0c67897c046e0afa4a6b0f1c1f3bab172d842325de091ba3e0617c8648f3e8"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "faa69836033fdf4c2456a206255f5b963de4580122b0d36d0aa397f128edc960",
-      "bytes": 4047
+      "sha256": "e65831facf2450daac0f3e4285a6e405d08940d071a4b81fab09724bc63bc09e",
+      "bytes": 4199
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,33 +83,33 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "17489c9e23ddf1e2042a3d0ba89d372de83e09b5f14830c2b55fe08144c5d03c",
-      "bytes": 1509528
+      "sha256": "85f681488e83f6d257b55784764359b76713d8c1228ad24e9ac5583caf7e5208",
+      "bytes": 1519250
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "0eb8fc0544ef47d6ce66783c1049c8fa0241f99f855ab3f6dd91ff18cecf801d",
-      "bytes": 45639
+      "sha256": "6d26184f7256da9f06795ae4a63e15dd519c4bf104292843db423bff90b355bf",
+      "bytes": 46137
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "3270e3c1de9f000a71c8c41a8b5ded08e3753be860fa3c07894ac88a015b1fa2",
-      "bytes": 63325
+      "sha256": "1f50a4defdbf5975f9ab4aee96217302f95ba0e6a2649818a21e1c2aa3b6f71b",
+      "bytes": 64060
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "5ac82380921fd3077f80295f223c235a02cf1bd1088c7d36792d015e19babbb9",
-      "bytes": 25977
+      "sha256": "a59673d389f8c0005526641168c27af2dfe7c2d16eea1a24789adabacb21a963",
+      "bytes": 26268
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "42a3e17b1c2037eb1c1d59fb8a66a50fc80ed851093d1146b656c5cdd6f65a98",
-      "bytes": 910423
+      "sha256": "07c984f7afdc8797f6ac0ecf358879880daf8a105f762e1b4fb4598fe3933f02",
+      "bytes": 916024
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "d3b04d3b8f17c95ee4ae1876b66bb895d03809e46b109c6f2220fc35b2696c89",
-      "bytes": 143
+      "sha256": "7e09a92b3841a88f14ae993bf7c17abb1417b090a2eb7e4033ab3b8ccaa5bd9e",
+      "bytes": 539
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -160,6 +160,26 @@
       "path": "releases/R10/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7",
       "bytes": 2382
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md",
+      "sha256": "631cd6a9c648b3e8d5bca1a8e7faa407b141c1fce10f8d22f591b95fb5e7e1fb",
+      "bytes": 7811
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0004.yaml",
+      "sha256": "f9c421ec1bab4170fedf4706b88a2b534ce98412d3170372a14f9e93197915da",
+      "bytes": 9655
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0272-R10最终候选四页旅程与隔离数据夹具精确范围.md",
+      "sha256": "499e88aaf76040ca27bc0cc85148bb1ce85207aa29cfbed12e6529f48036b284",
+      "bytes": 3202
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0273-同步R10候选静态回归事实源.md",
+      "sha256": "02d9e68f95d85fd98271c581536da5908d9cdb9b0ecdf645def06aa08bc1bfeb",
+      "bytes": 2309
     }
   ]
 }

@@ -1,0 +1,63 @@
+protocol_version: '1.0'
+cr_id: CR-0272
+title: R10最终候选四页旅程与隔离数据夹具精确范围
+status: IMPLEMENTED
+created_at: '2026-07-23T12:34:08Z'
+updated_at: '2026-07-23T13:00:50Z'
+requester_actor_id: codex-root-r10-candidate
+approver_actor_id: codex-independent-r10-reviewer
+task_id: TASK-R10-007
+session_id: SES-20260723T122953Z-52EBA51E
+user_request: 立即开始并持续推进开发，由AI自行审核截图
+reason: 现有候选仍固定R09三页，无法验证R10首页与群聊列表、详情、编辑页面，且R10需要单调递增APK身份
+original_rule: TASK-R10-007要求固定工具链构建、安装冒烟和APK追溯，但候选旅程与夹具仍绑定R09 App三页，versionCode仍为10218。
+new_rule: R10最终候选只运行首页、群聊列表、群聊详情、群聊编辑四页真实旅程；夹具仅作用于专用R10候选Staging容器且要求Flyway V036；APK versionCode升级为10219；截图由AI审核，同次首轮截图可建立基线，禁止重复完整模拟器。
+impact_summary: 新增R10隔离候选夹具，切换Android instrumentation四页断言与截图，更新R10候选请求、APK身份、部署手册和对应测试。
+impact:
+  files:
+  - scripts/prepare_r10_ci_fixture.sh
+  - apps/android/app/src/androidTest/java/cc/orbexa/hhy/ReleaseCandidateSmokeTest.kt
+  - apps/android/app/build.gradle.kts
+  - apps/android/app/src/main/java/cc/orbexa/hhy/ReleasePolicy.kt
+  - apps/android/app/src/test/java/cc/orbexa/hhy/VersionMetadataTest.kt
+  - config/android-candidate-request.yaml
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  pages:
+  - SCR-HOME-001
+  - SCR-LIST-003
+  - SCR-DETAIL-003
+  - SCR-PUB-004
+  apis: []
+  database:
+  - hhy.content_posts
+  - hhy.group_details
+  - hhy.content_contacts
+  configuration:
+  - android.candidate.release=R10
+  ledger: []
+  tests:
+  - ReleaseCandidateSmokeTest
+  - VersionMetadataTest
+  releases:
+  - R10
+  migration_and_compatibility: 无生产数据迁移；脚本仅允许专用R10候选后端和Staging PostgreSQL。保留V037兼容，要求V036成功；R09候选历史证据不变。
+user_confirmation: 用户已明确要求立即推进、AI自行审核截图且不等待真机反馈
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T12:34:33Z'
+  note: 独立复核确认仅替换最终候选验证范围和隔离夹具，不扩展生产功能；四页与R10冻结页面、单调版本及异步真机规则一致。
+machine_record: .continuity/change_requests/CR-0272.yaml
+document: docs/03-continuity/change-requests/CR-0272-R10最终候选四页旅程与隔离数据夹具精确范围.md
+decision_log:
+- at: '2026-07-23T12:35:03Z'
+  actor_id: codex-root-r10-candidate
+  status: IMPLEMENTING
+  note: 开始实现专用夹具、四页候选旅程、R10版本身份和候选请求。
+  session_id: SES-20260723T122953Z-52EBA51E
+- at: '2026-07-23T13:00:50Z'
+  actor_id: codex-root-r10-candidate
+  status: IMPLEMENTED
+  note: R10专用夹具、四页候选旅程、10219版本身份、候选请求和部署手册已实现；云端instrumentation编译与App单测通过，夹具在V037目标库双次幂等通过。
+  session_id: SES-20260723T122953Z-52EBA51E
+session_ids:
+- SES-20260723T122953Z-52EBA51E

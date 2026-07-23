@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.By
+import androidx.test.uiautomator.Direction
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.Until
 import cc.orbexa.hhy.network.AuthSessionResource
@@ -34,8 +35,8 @@ class ReleaseCandidateSmokeTest {
     private var previousScreenDigest: String? = null
     private val screenshotDirectory = "Pictures/hhy-ci-screenshots"
 
-    private val fixtureTitle = "R09候选联调App"
-    private val fixturePublisher = "R09候选发布者"
+    private val fixtureTitle = "R10候选产品交流圈"
+    private val fixturePublisher = "R10候选群主"
 
     @Before
     fun prepareAuthenticatedCandidate() {
@@ -67,80 +68,53 @@ class ReleaseCandidateSmokeTest {
     }
 
     @Test
-    fun authenticatedR09PagesProduceBoundVisualEvidence() {
+    fun authenticatedR10PagesProduceBoundVisualEvidence() {
         assertTrue(
             "Authenticated shell did not reach its loaded screen identity",
             waitForScreen("hhy.screen.r06.home.loaded"),
         )
         assertFalse("Cold start exposed connection failure", device.hasObject(By.text("暂时无法连接")))
+        assertTrue("Home missed the search entry", device.hasObject(By.textContains("搜索项目")))
+        assertTrue("Home missed the group category", device.hasObject(By.text("群聊")))
+        captureStable("01-home.png")
+        assertNoForbiddenVisibleText()
 
-        clickResource("r09.home.apps")
+        clickResource("home.category.group")
         assertTrue(
-            "R09 App list did not become visible",
-            waitForScreen("hhy.screen.r09.app.list.content", gone = "hhy.screen.r06.home.loaded"),
+            "R10 group list did not become visible",
+            waitForScreen("hhy.screen.r10.group.list.content", gone = "hhy.screen.r06.home.loaded"),
         )
-        assertTrue("R09 App fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
-        assertTrue("R09 list missed the approved-content notice", device.hasObject(By.text("浏览审核通过的真实App推广内容")))
-        assertTrue(
-            "R09 list did not render the neutral App brand mark",
-            device.wait(Until.hasObject(By.res("r09.app.brand")), 20_000),
-        )
-        assertTrue(
-            "R09 list did not render the horizontal real App screenshot strip",
-            device.wait(Until.hasObject(By.res("r09.app.media.list")), 20_000),
-        )
-        assertTrue("R09 list missed the first real App screenshot", device.hasObject(By.res("r09.app.media.list.preview.1")))
-        assertTrue("R09 list missed the second real App screenshot", device.hasObject(By.res("r09.app.media.list.preview.2")))
-        assertTrue(
-            "R09 list first App screenshot did not finish loading",
-            device.wait(Until.hasObject(By.res("r09.app.media.list.preview.1.loaded")), 20_000),
-        )
-        assertTrue(
-            "R09 list second App screenshot did not finish loading",
-            device.wait(Until.hasObject(By.res("r09.app.media.list.preview.2.loaded")), 20_000),
-        )
-        assertR09BusinessLabels()
-        captureStable("01-app-list.png")
+        assertTrue("R10 group fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
+        assertTrue("R10 list missed the approved-content notice", device.hasObject(By.text("浏览审核通过的真实群聊推广")))
+        assertTrue("R10 list missed localized platform", device.hasObject(By.text("微信群")))
+        captureStable("02-group-list.png")
         assertNoForbiddenVisibleText()
 
         clickExactText(fixtureTitle)
         assertTrue(
-            "R09 App detail did not become visible",
-            waitForScreen("hhy.screen.r09.app.detail.content", gone = "hhy.screen.r09.app.list.content"),
+            "R10 group detail did not become visible",
+            waitForScreen("hhy.screen.r10.group.detail.content", gone = "hhy.screen.r10.group.list.content"),
         )
-        assertTrue("R09 App detail fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
-        assertTrue("R09 App publisher is missing", device.hasObject(By.text(fixturePublisher)))
-        assertTrue("R09 App experience action is missing", device.hasObject(By.res("r09.app.download")))
-        assertTrue("R09 App owner edit action is missing", device.hasObject(By.res("r09.app.edit")))
-        assertTrue("R09 App website action is missing", device.hasObject(By.text("访问官网")))
-        assertTrue(
-            "R09 detail did not render the real App screenshot gallery",
-            device.wait(Until.hasObject(By.res("r09.app.media.detail")), 20_000),
-        )
-        assertTrue("R09 detail missed the real image count", device.hasObject(By.text("发布者上传的 2 张真实应用图片")))
-        assertTrue(
-            "R09 detail first App screenshot did not finish loading",
-            device.wait(Until.hasObject(By.res("r09.app.media.detail.1.loaded")), 20_000),
-        )
-        assertTrue(
-            "R09 detail second App screenshot did not finish loading",
-            device.wait(Until.hasObject(By.res("r09.app.media.detail.2.loaded")), 20_000),
-        )
-        assertR09BusinessLabels()
-        captureStable("02-app-detail.png")
+        assertTrue("R10 group detail fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
+        assertTrue("R10 detail missed localized platform", device.hasObject(By.text("微信群")))
+        assertR10BusinessLabels()
+        captureStable("03-group-detail.png")
         assertNoForbiddenVisibleText()
 
-        clickResource("r09.app.edit")
+        scrollUntilText("群聊介绍")
+        scrollUntilText("入群方式")
+        scrollUntilText(fixturePublisher)
+        scrollUntilResource("r10.group.edit")
+        clickResource("r10.group.edit")
         assertTrue(
-            "R09 App editor did not become visible",
-            waitForScreen("hhy.screen.r09.app.editor.content", gone = "hhy.screen.r09.app.detail.content"),
+            "R10 group editor did not become visible",
+            waitForScreen("hhy.screen.r10.group.editor.content", gone = "hhy.screen.r10.group.detail.content"),
         )
-        assertTrue("R09 editor missed its business title", device.hasObject(By.text("编辑App推广")))
-        assertTrue("R09 editor missed the frozen App title", device.hasObject(By.text(fixtureTitle)))
-        assertTrue("R09 editor missed its real-data notice", device.hasObject(By.text("只填写真实资料；这里不上传APK安装包")))
-        assertFalse("R09 verified owner was incorrectly blocked by identity", device.hasObject(By.text("需要完成实名认证")))
-        assertR09BusinessLabels(requirePlatform = false)
-        captureStable("03-app-editor.png")
+        assertTrue("R10 editor missed its business title", device.hasObject(By.text("编辑群聊")))
+        assertTrue("R10 editor missed the frozen group title", device.hasObject(By.text(fixtureTitle)))
+        assertFalse("R10 verified owner was incorrectly blocked by identity", device.hasObject(By.text("需要完成实名认证")))
+        assertR10BusinessLabels()
+        captureStable("04-group-editor.png")
         assertNoForbiddenVisibleText()
     }
 
@@ -163,6 +137,28 @@ class ReleaseCandidateSmokeTest {
             ?: error("Cannot find UI resource: $value")
         node.click()
         device.waitForIdle(2_000)
+    }
+
+    private fun scrollUntilResource(value: String) {
+        repeat(8) {
+            if (device.hasObject(By.res(value))) return
+            val scrollable = device.findObject(By.scrollable(true))
+                ?: error("Cannot find a scrollable surface while looking for: $value")
+            scrollable.scroll(Direction.DOWN, 0.8f)
+            device.waitForIdle(1_000)
+        }
+        error("Cannot find UI resource after scrolling: $value")
+    }
+
+    private fun scrollUntilText(value: String) {
+        repeat(8) {
+            if (device.hasObject(By.textContains(value))) return
+            val scrollable = device.findObject(By.scrollable(true))
+                ?: error("Cannot find a scrollable surface while looking for: $value")
+            scrollable.scroll(Direction.DOWN, 0.7f)
+            device.waitForIdle(1_000)
+        }
+        error("Cannot find UI text after scrolling: $value")
     }
 
     private fun captureStable(name: String) {
@@ -267,13 +263,9 @@ class ReleaseCandidateSmokeTest {
         assertFalse("Journey exposed TraceId", device.hasObject(By.textContains("TraceId")))
     }
 
-    private fun assertR09BusinessLabels(requirePlatform: Boolean = true) {
-        assertTrue("R09 App category was not localized", device.hasObject(By.text("实用工具")))
-        if (requirePlatform) {
-            assertTrue("R09 App platform was not localized", device.hasObject(By.text("Android")))
-        }
-        listOf("TOOLS", "ANDROID", "WECHAT", "PHONE", "EMAIL", "QR_CODE").forEach { technicalValue ->
-            assertFalse("R09 exposed technical business code: $technicalValue", device.hasObject(By.text(technicalValue)))
+    private fun assertR10BusinessLabels() {
+        listOf("GROUP", "GROUP_CHAT", "WECHAT", "JOIN_PASSWORD", "PHONE", "EMAIL").forEach { technicalValue ->
+            assertFalse("R10 exposed technical business code: $technicalValue", device.hasObject(By.text(technicalValue)))
         }
     }
 

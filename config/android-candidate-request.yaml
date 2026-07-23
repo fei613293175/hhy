@@ -1,7 +1,7 @@
 schema_version: 1
 status: REQUESTED
-release: R09
+release: R10
 candidate: true
-remediation_attempt: 3
-request_id: R09-CANDIDATE-20260723-003-EVIDENCE-REPLAY
-reason: 第三轮Run 29968398037自动门禁和列表版式通过，但截图稳定器在异步图片加载成功前误采占位画面；保持remediation_attempt=3，仅增加列表与详情两张真实图片全部loaded的硬断言后重采同一轮证据，不新增第四次UI修复。
+remediation_attempt: 1
+request_id: R10-CANDIDATE-20260723-001
+reason: R10大版本功能、专项测试与隔离Staging已完成，首次且仅一次执行首页、群聊列表、群聊详情、群聊编辑四页最终候选门禁；截图由AI审核，同次合格截图用于首轮视觉基线。

@@ -301,6 +301,10 @@ TASK-R09-007 将精确候选 Commit 升级到公开 Staging CI 候选容器后�
 
 R10 使用 `infra/staging/r10-smoke/docker-compose.yml`，采用独立 Compose project、仅回环发布端口、经服务器既有资源核对后冻结的 `172.31.242.0/24` 子网和独立数据卷；不得修改或重启公网以及 R01–R09 环境。执行前运行 `python3 scripts/check_r10_observability.py`，并把精确被测 Commit 注入 `HHY_R10_FROZEN_COMMIT`。测试 Secret 只在隔离进程环境生成和注入，禁止写入仓库、报告、命令输出或 Shell 历史；实名认证沙箱与 CI 自动登录保持关闭。
 
+TASK-R10-007 将精确候选 Commit 升级到专用 R10 Staging CI 候选容器后运行 `scripts/prepare_r10_ci_fixture.sh`。脚本必须显式设置 `HHY_R10_CI_FIXTURE_CONFIRM=YES`，只允许 `hhy-r10-ci-candidate-*` 后端及登记的 Staging PostgreSQL 容器；要求 Flyway V036 已成功并兼容最新 V037，幂等准备已实名专用候选用户、一个 ONLINE 群聊、群详情、群主联系方式和独立入群口令。不得虚构人数、收益、活跃度、下载量或媒体。
+
+R10 最终模拟器候选只截取 `SCR-HOME-001`、`SCR-LIST-003`、`SCR-DETAIL-003`、`SCR-PUB-004` 四页；不得点击揭示联系方式或口令。首轮没有视觉基线时，AI 在同次采集内对照冻结规格审核，合格后写入基线和审批并执行不编译、不启动模拟器的轻量晋升，禁止为建立基线重复完整候选。
+
 R10 现场演练至少覆盖：
 
 1. liveness、readiness、公开平台状态和结构化完成日志正常，响应 `X-Trace-Id` 与日志 `traceId` 可关联，Authorization、Cookie、查询探针不得进入日志或证据。
