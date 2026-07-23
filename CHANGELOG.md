@@ -1221,3 +1221,13 @@
 - CR-0265恢复主开发文档4.3规定的品牌/搜索/消息、公告、横向Banner、四分类入口和分型运营内容，撤销错误首页视觉PASS。
 - 实时核验确认公网共享Staging的`home_modules`原为0行；CR-0267补真实ONLINE数据源、数量、跨模块去重、`moreTarget`和显式STAGING幂等配置，禁止以空数据或实现自身截图自证完成。
 - 首页保持R08项目、R09 App、R10群聊、R11团队长逐版本真实回接；未来红包、头条、置顶等模块不得提前虚构。
+
+## TASK-R10-001 · COMPLETED · 2026-07-23T04:49:36Z
+
+- Task close: TASK-R10-001 / SES-20260723T025104Z-E29F6208
+- Release：`R10`
+- Story：`STORY-R10-004`
+- Actor：`codex-root-r10-entry`
+- 摘要：R10开发入口、主开发文档功能一一对应纠偏及首页真实数据闭环完成；CR-0265/0266/0267已实现，公网Staging返回真实四模块，全部受影响门禁通过。
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T025104Z-E29F6208.md`
+

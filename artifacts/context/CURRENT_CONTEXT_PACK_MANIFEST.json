@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T04:43:24Z",
-  "context_hash": "0787ae473b5ac5a5775c4f58dd94f6391708ef7f2bc9eea14ee3d11d6007ebc1",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-23T04:49:46Z",
+  "context_hash": "3a4d7ff69b68b74fb084290436a045315c35bccf0202c3cbd253ff708b2e7ab6",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "e8a74e0fc5f98549b1837ac2585d6fbd975c05380a1846d8ec4dfda28573597e",
-    "file_count": 33
+    "sha256": "cbc69340b8d7d738cd211ecca1f596d159472060d50c7afd35310f10b6b474df",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "f8a9a9d9d65f23a9bcbb3fe808c2266ceb12712c78af96194f8765ba66ab0d81"
+    "sha256": "152430c2b59746e0290efe8e5ea074f16e264dd9d76aca5834a1d0e46f3545d3"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "2566f5c7dd63ba373a2cd7e58b447fc5d8877cf1d7659cc1ff4409080f28c7f7"
+    "sha256": "08d6fc90a3ac6da6983ad53222c27c8214ff87be0fc5c1799cbd96ad733e737c"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "ba920b35d3654124be4b22414ffc7cffbce2cf1ebe797422f6faffb8c55ab360",
-      "bytes": 4137
+      "sha256": "3f035117789c5e165af16059d213dd224f2ad2a85cf6d06325ba9886986cad22",
+      "bytes": 4004
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "a0189208fb2410592f13bcbf8309a4c3c528994cdb324d44bda7eb36e2dbb71b",
-      "bytes": 1874
+      "sha256": "1de595ceef8f3873342e9cf1df8ab1395f5b6158e599b98c7560344abb6e975d",
+      "bytes": 1535
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "d105592c315f266bd44d50c0d3fce84571353387028fa228437a49fbdfcb4cfd",
-      "bytes": 1461168
+      "sha256": "f7ea2c767cf72a7b2dc2d35f19d4afa1ae75d53f4cf9e4f39e716be47116e2be",
+      "bytes": 1462926
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "e741d784aef8fd0b80813793b0e4935be22c46120072d9065829abaa1504e185",
-      "bytes": 43051
+      "sha256": "b01e4b1c082579faa5ed5f905a9d6735ad6f33c159df42c28a423511b696e104",
+      "bytes": 43069
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "ec5cde1b93f98f3f7c100692041bb9383f534c698ba7007df7184b1eb8658938",
-      "bytes": 59356
+      "sha256": "f5468b4be97ae2864f5e63b61554b0994d5fd1f97304050c9297ccf3e3e430b0",
+      "bytes": 59392
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "bed72c5383d7c272687e0614e46b6ea37e5806a9cee321b6780d5d93188c45ed",
-      "bytes": 535
+      "sha256": "aed13fb921ad9b32f1b945701386bd3e9d19189faacd290b4be3139aaf915292",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R10/TASKS.yaml",
-      "sha256": "82d8d95da35ab0b6e2a03a6e4066f436399809dcbb303293728241ccffb78de5",
-      "bytes": 5491
+      "sha256": "8027263b753a386cf171fac1d21c3e5a1bd29411a2bb8921a69e850cf431b6bf",
+      "bytes": 5527
     },
     {
       "path": "releases/R10/ACCEPTANCE_MATRIX.csv",
@@ -160,36 +160,6 @@
       "path": "releases/R10/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7",
       "bytes": 2382
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260723T025104Z-E29F6208.md",
-      "sha256": "cf8c657d3e1fecd78ed1d23eccb2335fc6fa033db1bf9c944ea2c0e08076d3f6",
-      "bytes": 10465
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260723T025104Z-E29F6208/0003.yaml",
-      "sha256": "dedc17d8fa7928fd16a2fd2f63a5a5d1ac64b41005c031b3b11a6eaa5a48f476",
-      "bytes": 19451
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0264-建立R10开发入口与群聊发布页精确视觉基线.md",
-      "sha256": "583b55e3656d34d4faf3a1c0dd257542f03ebe60c37c8cdeaf9214c47a5df714",
-      "bytes": 4023
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0265-修正首页及R10页面与V1.2工程执行强化版功能一一对应.md",
-      "sha256": "e1694b873d8bbdd26314f44c5ecbc55e0a425f1cf5544f9cb5b654726f078af5",
-      "bytes": 6396
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0266-同步首页模块重构后的Android工具链回归断言.md",
-      "sha256": "cc57be56f2396c468292e67c1048e89469c7eb69622408e004fb8cdefd74d685",
-      "bytes": 2596
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0267-补齐首页真实CMS数据源、去重与查看更多闭环.md",
-      "sha256": "521106c25261b42dc32a7b5506b2faa91a61b01ad7b0e0d7d5ec50ea11d895a8",
-      "bytes": 4575
     }
   ]
 }

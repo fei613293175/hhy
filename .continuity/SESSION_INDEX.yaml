@@ -1012,11 +1012,11 @@ sessions:
   task_id: TASK-R10-001
   story_id: STORY-R10-004
   actor_id: codex-root-r10-entry
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-23T02:51:04Z'
   record: .continuity/sessions/SES-20260723T025104Z-E29F6208.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260723T025104Z-E29F6208.md
-  updated_at: '2026-07-23T04:41:45Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T025104Z-E29F6208/0003.yaml
+  updated_at: '2026-07-23T04:49:43Z'
+  closed_at: '2026-07-23T04:49:43Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T025104Z-E29F6208/0004.yaml
   handoff_bundle: null

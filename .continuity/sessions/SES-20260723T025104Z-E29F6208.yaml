@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260723T025104Z-E29F6208
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r10-entry
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R10-001
 story_id: STORY-R10-004
 goal: 群聊推广完整闭环开发就绪核验、故事领取与变更基线
 started_at: '2026-07-23T02:51:04Z'
-updated_at: '2026-07-23T04:43:25Z'
+updated_at: '2026-07-23T04:49:43Z'
 takeover_of: null
 change_requests:
 - CR-0264
@@ -91,22 +91,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T04:41:45Z'
-  expires_at: '2026-07-23T08:41:45Z'
-checkpoint_sequence: 3
-latest_checkpoint: .continuity/checkpoints/SES-20260723T025104Z-E29F6208/0003.yaml
+  renewed_at: '2026-07-23T04:49:39Z'
+  expires_at: '2026-07-23T08:49:39Z'
+checkpoint_sequence: 4
+latest_checkpoint: .continuity/checkpoints/SES-20260723T025104Z-E29F6208/0004.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260723T025104Z-E29F6208.md
-next_step: 运行最终严格连续性门禁，提交推送TASK-R10-001实现并关闭会话，然后启动TASK-R10-002
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 0787ae473b5ac5a5775c4f58dd94f6391708ef7f2bc9eea14ee3d11d6007ebc1
-  generated_at: '2026-07-23T04:43:24Z'
+  context_hash: c66b475171139d7756438575d260985363225040bfb93afe57b65d499a9147e6
+  generated_at: '2026-07-23T04:49:41Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: R10开发入口、主开发文档功能一一对应纠偏及首页真实数据闭环完成；CR-0265/0266/0267已实现，公网Staging返回真实四模块，全部受影响门禁通过。
+  code_commit: 04a6e66a91725fdd2352f8a262f7de701fc4629e
+  next_release: R10
+  next_task: TASK-R10-002
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-23T04:49:36Z'
+  closure_checkpoint_id: CP-SES-20260723T025104Z-E29F6208-0004
+  closed_at: '2026-07-23T04:49:43Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: 修复涉及同一首页查询合同与已完成客户端/连续性台账，需单会话原子收口
+closed_at: '2026-07-23T04:49:43Z'
