@@ -18,9 +18,13 @@ describe('AdminSession', () => {
     vi.unstubAllGlobals();
   });
 
-  it('keeps credentials only in memory and clears every session field', () => {
+  it('keeps credentials out of local storage and restores only within the current tab', () => {
     const local = storageDouble();
     const sessionStorage = storageDouble();
+    let currentTabSession: string | null = null;
+    vi.mocked(sessionStorage.getItem).mockImplementation(() => currentTabSession);
+    vi.mocked(sessionStorage.setItem).mockImplementation((_key, value) => { currentTabSession = value; });
+    vi.mocked(sessionStorage.removeItem).mockImplementation(() => { currentTabSession = null; });
     const cookieWrites: string[] = [];
     const documentDouble = {};
     Object.defineProperty(documentDouble, 'cookie', {
@@ -47,6 +51,13 @@ describe('AdminSession', () => {
     expect(session.hasPermission('admin.self.security')).toBe(true);
     expect(session.hasPermission('admin.users.read')).toBe(false);
     expect(session.isAuthenticated).toBe(true);
+    expect(sessionStorage.setItem).toHaveBeenCalledTimes(1);
+    expect(local.setItem).not.toHaveBeenCalled();
+
+    const restored = new AdminSession();
+    expect(restored.accessToken).toBe('access-secret');
+    expect(restored.permissions).toEqual(['admin.self.read', 'admin.self.security']);
+    expect(restored.displayName).toBe('超级管理员');
 
     session.clear();
 
@@ -55,9 +66,23 @@ describe('AdminSession', () => {
     expect(session.permissions).toEqual([]);
     expect(session.displayName).toBeUndefined();
     expect(session.isAuthenticated).toBe(false);
-    expect(local.setItem).not.toHaveBeenCalled();
-    expect(sessionStorage.setItem).not.toHaveBeenCalled();
+    expect(sessionStorage.removeItem).toHaveBeenCalled();
     expect(cookieWrites).toEqual([]);
+  });
+
+  it('rejects expired or malformed tab sessions', () => {
+    const storage = storageDouble();
+    vi.stubGlobal('sessionStorage', storage);
+    vi.mocked(storage.getItem).mockReturnValueOnce(JSON.stringify({
+      accessToken: 'expired',
+      permissionCodes: ['user.read'],
+      expiresAt: '2000-01-01T00:00:00Z',
+    }));
+    expect(new AdminSession().isAuthenticated).toBe(false);
+    expect(storage.removeItem).toHaveBeenCalled();
+
+    vi.mocked(storage.getItem).mockReturnValueOnce('{invalid');
+    expect(new AdminSession().isAuthenticated).toBe(false);
   });
 
   it('replaces an access session with a pending MFA ticket without retaining the token', () => {

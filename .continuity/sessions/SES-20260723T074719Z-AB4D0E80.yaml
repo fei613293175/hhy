@@ -1,0 +1,100 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260723T074719Z-AB4D0E80
+status: ACTIVE
+actor:
+  id: codex-root-r10-client
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R10
+task_id: TASK-R10-004
+story_id: STORY-R10-004
+goal: 完成R10群聊推广Android列表、详情、发布页及首页真实入口，严格绑定冻结页面规格与UI效果图
+started_at: '2026-07-23T07:47:19Z'
+updated_at: '2026-07-23T11:04:03Z'
+takeover_of: null
+change_requests:
+- CR-0268
+- CR-0269
+- CR-0270
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerAccess.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminForbiddenPage.vue
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/CatalogPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - apps/admin-web/src/r01Pages.test.ts
+  - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+  - database/migrations/V037__admin_super_admin_permission_repair.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - apps/admin-web/src/App.test.ts
+  source: story+explicit+approved-cr:CR-0269+approved-cr:CR-0270
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: ede20ba89945175f79c45252fa796e2f89e8a39a
+  start_head: ede20ba89945175f79c45252fa796e2f89e8a39a
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-23T11:03:58Z'
+  expires_at: '2026-07-23T15:03:58Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0007.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md
+next_step: 提交CR-0269和CR-0270修复后继续TASK-R10-004群聊客户端、H5与后台页面施工
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 21d31aa85ff6465f68d4074b6389d348045ca611c0d3efa21051b9b2d62ccdfd
+  generated_at: '2026-07-23T11:04:01Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 已验证生产修复的事实链与最终提交必须由主控串行固化

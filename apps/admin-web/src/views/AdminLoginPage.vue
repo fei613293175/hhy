@@ -91,6 +91,6 @@ async function submit() {
       <label v-if="captchaToken || fieldErrors.captchaToken" class="field"><span class="field-label">安全验证</span><input v-model="captchaToken" class="input" maxlength="2000" autocomplete="off" /><span v-if="fieldErrors.captchaToken" class="field-error">{{ fieldErrors.captchaToken }}</span></label>
       <button class="primary-button" type="submit" :disabled="!valid || submitting || !online || blocked">{{ submitting ? '正在安全验证…' : rateLimitRemaining ? `${rateLimitRemaining} 秒后重试` : locked ? '账号已锁定' : '登录并继续' }}</button>
     </form>
-    <p class="security-note">访问令牌仅保存在当前页面内存中；关闭或刷新页面后需重新登录。</p>
+    <p class="security-note">登录状态仅保存在当前浏览器标签页；刷新和打开后台深链可继续，关闭标签页后自动失效。</p>
   </AuthShell>
 </template>

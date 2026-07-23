@@ -2,6 +2,8 @@
 
 ## R10 群聊推广数据不变量 · 2026-07-23
 
+- 修复生产管理后台基础可用性：`SUPER_ADMIN` 幂等补齐全部已登记权限，菜单只展示真实实现且当前账号有权访问的中文业务页面，未实现目录不再伪装为可用功能。
+- 修复配置页面权限码、独立 403、当前标签页会话恢复、首次登录菜单响应、左右区域独立滚动，并完成后台前端、后端、生产数据库和 `admin.orbexa.cc` 真实浏览器回归。
 - TASK-R10-003 补齐群聊推广应用服务与接口：`GROUP_CHAT` 映射数据库 `GROUP`，创建/详情/编辑/公开分享复用冻结内容入口，支持群平台、规模、入群要求、二维码、HTTPS 群链接和群号，并保持权限、乐观锁、幂等快照、Outbox 与公开分享最小披露。
 - 根 OpenAPI、boot 运行时镜像和生成客户端已同步 `JOIN_PASSWORD`；R07 联系访问复用原有加密、掩码、审计和幂等机制，R10 群聊写入固定显示 `口令***`，禁止把口令放入 attributes、群号或入群要求。
 - 页面字段目录与 `SCR-DETAIL-003`、`SCR-PUB-004`、`SHEET-CONTACT-001` 明确：`JOIN_PASSWORD` 仅 GROUP、每内容至多一条、不计作群主联系方式，群主联系仍仅接受 `WECHAT/PHONE/QQ/EMAIL`；公开 H5 不披露群号、群链接或口令。
@@ -1258,4 +1260,3 @@
 - Actor：`codex-root-r10-backend`
 - 摘要：TASK-R10-003完成：GROUP_CHAT后端创建/详情/编辑/公开分享、JOIN_PASSWORD独立加密渠道、OpenAPI与生成客户端、页面追踪及R07访问审计全部合入；PostgreSQL17真实Store、后端368测试、合同生成、文档和continuity strict通过，实现提交896948b7已推送。关闭后按项目所有者要求先开放验证admin.orbexa.cc，再启动R10-004。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T062549Z-79779015.md`
-

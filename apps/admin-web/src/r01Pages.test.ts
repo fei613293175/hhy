@@ -63,14 +63,14 @@ describe('R01 admin routes and page states', () => {
     expect(router.currentRoute.value.path).toBe('/me/security');
   });
 
-  it('renders login validation and the explicit memory-only security promise', async () => {
+  it('renders login validation and the tab-scoped security promise', async () => {
     adminSession.clear();
     await navigate('/auth/login');
     const wrapper = mount(AdminLoginPage, { global: { plugins: [router] } });
     const submit = wrapper.get('button[type="submit"]');
 
     expect(submit.attributes('disabled')).toBeDefined();
-    expect(wrapper.text()).toContain('访问令牌仅保存在当前页面内存中');
+    expect(wrapper.text()).toContain('登录状态仅保存在当前浏览器标签页');
     await wrapper.get('input[name="username"]').setValue('root');
     await wrapper.get('input[name="password"]').setValue('short');
     expect(wrapper.text()).toContain('密码长度须为 8–72 个字符');

@@ -1348,3 +1348,22 @@ problems:
   - 后续分类版本不得只完成独立列表/详情而遗漏首页聚合入口、卡片和导航回接
   - 面板必须按索引逐页核对，禁止用整批范围或相邻App页面替代群聊页面
   - 客户端组件齐全不等于真实首页可用；必须核验home_modules非空、真实数据源、图片200、登录态响应与导航共同成立
+- id: PROB-0100
+  title: 后台权限种子与页面路由脱节导致超级管理员大量功能不可用
+  status: SOLVED
+  root_cause: 后台目录一次性暴露64个菜单，但仅17个页面接入真实Vue业务，52个可见菜单仍落到CatalogPage；SUPER_ADMIN权限由历次迁移零散追加，线上59个权限只绑定22个；供应商和域名页面又沿用config.manage而非后端provider.config.*与domain.*权限。无权限路由统一跳安全页、会话仅存内存、左右区域共用页面滚动，使配置入口看似全部指向安全设置且刷新丢失登录。
+  resolution: CR-0269收敛菜单到已真实实现且会话有权访问的页面，菜单分组中文化；路由和按钮按后端真实权限分层，拒绝时进入独立无权限页；V037幂等把全部已登记权限授予活动SUPER_ADMIN并检查无遗漏；访问令牌只写当前标签页sessionStorage，刷新和深链可恢复、关闭标签页失效；侧栏和主内容各自滚动。未实现的52个菜单不冒充完成，后续仍按版本逐模块开发。
+  regression_checks:
+  - pnpm --filter @hhy/admin-web typecheck
+  - pnpm --filter @hhy/admin-web test
+  - pnpm --filter @hhy/admin-web build
+  - python scripts/check_db_schema.py
+  - Maven access与boot模块368项测试通过
+  - 线上Flyway必须到V037，SUPER_ADMIN绑定权限数必须等于admin_permissions总数
+  - admin.orbexa.cc登录后用户、实名、内容、对象存储、供应商和域名页面必须进入对应页面，刷新深链保持登录
+  do_not_repeat:
+  - 不得把CatalogPage或未接Controller的页面放入正式菜单并宣称功能已开发
+  - 新增后台权限后必须同步验证SUPER_ADMIN全量继承，不得依赖各版本手工列举
+  - 前端路由和按钮权限必须取后端同一真实权限码，不得以config.manage等宽泛旧码替代
+  - 无权限必须进入明确403页面，不得跳到无关安全设置页掩盖根因
+  - 后台刷新恢复只能使用标签页级存储，不得使用跨标签页长期localStorage保存令牌

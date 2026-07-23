@@ -50,17 +50,22 @@ let previousFocus: HTMLElement | null = null
 const meta = computed(() => props.provider ? providerMeta[props.provider] : undefined)
 const items = computed(() => page.value?.items ?? [])
 const secretCount = computed(() => detail.value?.configuredSecrets?.filter((item) => item.configured).length ?? 0)
-const hasReadPermission = computed(() => adminSession.hasPermission('config.manage'))
+const hasReadPermission = computed(() => adminSession.hasPermission('provider.config.read') || adminSession.hasPermission('config.manage'))
+const canCreate = computed(() => adminSession.hasPermission('provider.config.write') || adminSession.hasPermission('config.manage'))
+const canRunTest = computed(() => adminSession.hasPermission('provider.config.test') || adminSession.hasPermission('config.manage'))
+const canChangeActive = computed(() => adminSession.hasPermission('provider.config.activate') || adminSession.hasPermission('config.manage'))
 const writable = computed(() => Boolean(
   props.provider && hasReadPermission.value && online.value && !submitting.value
   && !stale.value && !writeForbidden.value && !forbidden.value,
 ))
-const canTest = computed(() => Boolean(detail.value?.draftVersion))
+const canTest = computed(() => canRunTest.value && Boolean(detail.value?.draftVersion))
 const canActivate = computed(() => Boolean(
+  canChangeActive.value
+  &&
   detail.value?.draftVersion
   && ['CONNECTION_TESTED', 'PENDING_APPROVAL'].includes(detail.value.connectionStatus ?? ''),
 ))
-const canRollback = computed(() => Boolean(detail.value?.activeVersion))
+const canRollback = computed(() => canChangeActive.value && Boolean(detail.value?.activeVersion))
 const actionTitle = computed(() => ({
   create: '创建配置版本', test: '执行真实连接测试', activate: '审批并激活版本', rollback: '回滚供应商配置',
 }[action.value ?? 'create']))
@@ -88,7 +93,7 @@ async function load(mode: 'initial' | 'refresh' = 'initial') {
   if (!hasReadPermission.value) {
     forbidden.value = true
     loading.value = false
-    error.value = { message: '当前会话缺少 config.manage，供应商配置不会加载。' }
+    error.value = { message: '当前会话缺少供应商配置读取权限。' }
     return
   }
   if (!online.value) {
@@ -124,6 +129,9 @@ async function load(mode: 'initial' | 'refresh' = 'initial') {
 
 function openAction(nextAction: ProviderAction) {
   if (!writable.value || !detail.value) return
+  if (nextAction === 'create' && !canCreate.value) return
+  if (nextAction === 'test' && !canRunTest.value) return
+  if ((nextAction === 'activate' || nextAction === 'rollback') && !canChangeActive.value) return
   notice.value = undefined
   formError.value = undefined
   action.value = nextAction
@@ -337,7 +345,7 @@ onBeforeUnmount(() => {
       <section class="metric-grid provider-metrics"><div class="metric"><span>环境</span><strong class="metric-value-compact">{{ detail.environment }}</strong></div><div class="metric"><span>当前激活版本</span><strong class="metric-value-compact">{{ detail.activeVersion ?? '尚无' }}</strong></div><div class="metric"><span>草稿版本</span><strong class="metric-value-compact">{{ detail.draftVersion ?? '尚无' }}</strong></div><div class="metric"><span>服务端版本</span><strong>v{{ detail.version }}</strong></div></section>
       <section class="content-grid">
         <div class="card"><div class="section-heading"><div><h2>秘密引用状态</h2><p>原文不会从服务端回显，也不会进入页面日志。</p></div><span class="tag tag-success">已配置 {{ secretCount }} 项</span></div><div v-if="detail.configuredSecrets?.length" class="secret-list"><div v-for="secret in detail.configuredSecrets" :key="secret.key" class="secret-row"><div><strong>{{ secret.key }}</strong><small>{{ secret.secretRefMasked ?? '引用信息已完全隐藏' }}</small></div><span class="status-chip" :data-status="secret.configured ? 'ACTIVE' : 'FAILED'">{{ secret.configured ? '已配置' : '未配置' }}</span></div></div><div v-else class="empty-state compact-empty"><h2>尚无秘密引用元数据</h2><p>创建配置版本时只能选择 Vault/KMS SecretRef，不能粘贴明文凭据。</p></div></div>
-        <aside class="card account-summary"><div class="section-heading"><div><h2>连接与版本门禁</h2><p>连接失败时禁止激活。</p></div><span v-if="writeForbidden" class="tag tag-warning">写权限已收回</span></div><dl class="facts"><dt>连接状态</dt><dd><span class="status-chip" :data-status="detail.connectionStatus">{{ statusLabel(detail.connectionStatus) }}</span></dd><dt>最近测试</dt><dd>{{ formatDate(detail.lastTestAt) }}</dd><dt>乐观锁版本</dt><dd>v{{ detail.version }}</dd></dl><div class="provider-actions"><button class="primary-button" :disabled="!writable" @click="openAction('create')">创建新版本</button><button class="secondary-button" :disabled="!writable || !canTest" @click="openAction('test')">连接测试</button><button class="secondary-button" :disabled="!writable || !canActivate" @click="openAction('activate')">审批并激活</button><button class="danger-button" :disabled="!writable || !canRollback" @click="openAction('rollback')">回滚版本</button></div><p class="field-help provider-action-help">所有写入均携带幂等键且不自动重试。激活和回滚必须填写由另一名管理员批准的审批单编号。</p></aside>
+        <aside class="card account-summary"><div class="section-heading"><div><h2>连接与版本门禁</h2><p>连接失败时禁止激活。</p></div><span v-if="writeForbidden" class="tag tag-warning">写权限已收回</span></div><dl class="facts"><dt>连接状态</dt><dd><span class="status-chip" :data-status="detail.connectionStatus">{{ statusLabel(detail.connectionStatus) }}</span></dd><dt>最近测试</dt><dd>{{ formatDate(detail.lastTestAt) }}</dd><dt>乐观锁版本</dt><dd>v{{ detail.version }}</dd></dl><div class="provider-actions"><button class="primary-button" :disabled="!writable || !canCreate" @click="openAction('create')">创建新版本</button><button class="secondary-button" :disabled="!writable || !canTest" @click="openAction('test')">连接测试</button><button class="secondary-button" :disabled="!writable || !canActivate" @click="openAction('activate')">审批并激活</button><button class="danger-button" :disabled="!writable || !canRollback" @click="openAction('rollback')">回滚版本</button></div><p class="field-help provider-action-help">所有写入均携带幂等键且不自动重试。激活和回滚必须填写由另一名管理员批准的审批单编号。</p></aside>
       </section>
     </template>
 

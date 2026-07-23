@@ -1,14 +1,14 @@
 # CURRENT CONTEXT PACK · 无对话接续上下文
 
-- 生成时间：2026-07-23T07:04:04Z
-- Context Hash：`74019fe2557384c30a8313a8edf384f298391fcee2264f140da306e967b1b181`
+- 生成时间：2026-07-23T11:04:01Z
+- Context Hash：`21d31aa85ff6465f68d4074b6389d348045ca611c0d3efa21051b9b2d62ccdfd`
 - 对话依赖：`PROHIBITED`
 - 事实源：`REPOSITORY_ONLY`
 - 规则就绪：`PASS`（`HASHED_CONTEXT_MANIFEST`）
 - 精确恢复命令：
 
 ```bash
-python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-004
+python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason '<未委托原因>'
 ```
 
 ## 规则就绪
@@ -42,7 +42,7 @@ baseline_version: 1.2.3
 phase: R10
 active_release: R10
 active_task: TASK-R10-004
-status: READY
+status: IN_PROGRESS
 documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
 last_green_commit: 896948b70c98807cb30d5d165225a6c2a4155424
 last_staging_apk: null
@@ -137,14 +137,15 @@ completed_tasks:
 - TASK-R10-001
 - TASK-R10-002
 - TASK-R10-003
-in_progress_tasks: []
+in_progress_tasks:
+- TASK-R10-004
 blocked_tasks:
 - TASK-R02-007
 - TASK-R03-007
 - TASK-R06-008
 - TASK-R07-008
 next_task: TASK-R10-004
-updated_at: '2026-07-23T07:04:01Z'
+updated_at: '2026-07-23T11:03:58Z'
 notes:
 - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
 - 全部REST/WebSocket操作均有页面或系统所有者
@@ -176,17 +177,19 @@ validation:
 continuity:
   protocol_version: '1.0'
   mode: ENFORCED
-  active_session_id: null
-  last_session_id: SES-20260723T062549Z-79779015
-  last_session_result: COMPLETED
-  last_checkpoint: .continuity/checkpoints/SES-20260723T062549Z-79779015/0003.yaml
-  last_handoff_bundle: null
+  active_session_id: SES-20260723T074719Z-AB4D0E80
+  actor_id: codex-root-r10-client
+  story_id: STORY-R10-004
+  lease_expires_at: '2026-07-23T15:03:58Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0007.yaml
+  project_fingerprint: 9751052b6def251e70f2029a146fa1b50dffbcc32e73918464d198f98080c9e0
   context_pack:
     yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
     markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
     manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    context_hash: 40155c44d7e32a3571b7f462b1b4906d1452882d3308f2c480599e5c3a391d43
-    generated_at: '2026-07-23T07:03:59Z'
+    context_hash: 30486d8e55c244b674552af83443a97abcf9d200a4f8fbbfb09376c1e507374c
+    generated_at: '2026-07-23T11:02:46Z'
+  handoff_bundle: null
 ```
 
 ## 默认并行规则
@@ -374,13 +377,431 @@ next_after: 由当前TASKS.yaml依赖关系决定
 ## 活跃会话
 
 ```yaml
-status: NONE
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260723T074719Z-AB4D0E80
+status: ACTIVE
+actor:
+  id: codex-root-r10-client
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R10
+task_id: TASK-R10-004
+story_id: STORY-R10-004
+goal: 完成R10群聊推广Android列表、详情、发布页及首页真实入口，严格绑定冻结页面规格与UI效果图
+started_at: '2026-07-23T07:47:19Z'
+updated_at: '2026-07-23T11:03:58Z'
+takeover_of: null
+change_requests:
+- CR-0268
+- CR-0269
+- CR-0270
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerAccess.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminForbiddenPage.vue
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/CatalogPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - apps/admin-web/src/r01Pages.test.ts
+  - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+  - database/migrations/V037__admin_super_admin_permission_repair.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - apps/admin-web/src/App.test.ts
+  source: story+explicit+approved-cr:CR-0269+approved-cr:CR-0270
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: ede20ba89945175f79c45252fa796e2f89e8a39a
+  start_head: ede20ba89945175f79c45252fa796e2f89e8a39a
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-23T11:03:58Z'
+  expires_at: '2026-07-23T15:03:58Z'
+checkpoint_sequence: 7
+latest_checkpoint: .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0007.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md
+next_step: 提交CR-0269和CR-0270修复后继续TASK-R10-004群聊客户端、H5与后台页面施工
+context_pack: THIS_CONTEXT_PACK
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 已验证生产修复的事实链与最终提交必须由主控串行固化
 ```
 
 ## 最新检查点
 
 ```yaml
-status: NO_CHECKPOINT
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T074719Z-AB4D0E80-0007
+session_id: SES-20260723T074719Z-AB4D0E80
+sequence: 7
+created_at: '2026-07-23T11:03:57Z'
+summary: 补齐R10后台生产修复Changelog并刷新最终提交指纹
+next_step: 提交CR-0269和CR-0270修复后继续TASK-R10-004群聊客户端、H5与后台页面施工
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: admin-web-final
+  result: PASS
+  evidence: typecheck,20 files 96 tests,production build
+  note: 已在生产修复最终回归通过
+- name: backend-final
+  result: PASS
+  evidence: obx-test Maven 368 tests
+  note: 0 failures 0 errors
+- name: production-db
+  result: PASS
+  evidence: Flyway V037 SUPER_ADMIN 59/59
+  note: 迁移前备份保留
+- name: production-browser
+  result: PASS
+  evidence: admin.orbexa.cc 12 menus and six real pages
+  note: 刷新、权限与独立滚动通过
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: ede20ba89945175f79c45252fa796e2f89e8a39a
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - M  .continuity/ACTIVE_SESSION.yaml
+  - M  .continuity/CHANGE_REQUEST_INDEX.yaml
+  - M  .continuity/EVENT_LOG.jsonl
+  - M  .continuity/SESSION_INDEX.yaml
+  - M  .continuity/STATE.yaml
+  - M  .continuity/TASK_CLAIMS.yaml
+  - M  .continuity/TASK_TRANSITIONS.yaml
+  - A  .continuity/change_requests/CR-0269.yaml
+  - A  .continuity/change_requests/CR-0270.yaml
+  - A  .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0001.yaml
+  - A  .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0002.yaml
+  - A  .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0003.yaml
+  - A  .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0004.yaml
+  - A  .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0005.yaml
+  - A  .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0006.yaml
+  - A  .continuity/sessions/SES-20260723T074719Z-AB4D0E80.yaml
+  - M  CHANGELOG.md
+  - M  CURRENT_STATUS.yaml
+  - A  apps/admin-web/src/App.test.ts
+  - M  apps/admin-web/src/App.vue
+  - A  apps/admin-web/src/adminNavigation.test.ts
+  - A  apps/admin-web/src/adminNavigation.ts
+  - M  apps/admin-web/src/r01Pages.test.ts
+  - M  apps/admin-web/src/router.ts
+  - A  apps/admin-web/src/routerAccess.ts
+  - A  apps/admin-web/src/routerPermissions.test.ts
+  - M  apps/admin-web/src/services/adminSession.test.ts
+  - M  apps/admin-web/src/services/adminSession.ts
+  - M  apps/admin-web/src/styles.css
+  - A  apps/admin-web/src/views/AdminForbiddenPage.vue
+  - M  apps/admin-web/src/views/AdminLoginPage.vue
+  - M  apps/admin-web/src/views/CatalogPage.vue
+  - M  apps/admin-web/src/views/ProviderConfigPage.vue
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
+  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  - M  artifacts/validation/project-doctor-v1.2.3.json
+  - M  catalogs/change_request_index.csv
+  - M  catalogs/session_index.csv
+  - M  catalogs/task_transition_ledger.csv
+  - A  database/migrations/V037__admin_super_admin_permission_repair.sql
+  - M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - A  docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
+  - A  docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md
+  - A  docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md
+  - A  services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+  recent_commits:
+  - "ede20ba89945175f79c45252fa796e2f89e8a39a\t2026-07-23T15:07:49+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-003\
+    \ as completed"
+  - "896948b70c98807cb30d5d165225a6c2a4155424\t2026-07-23T15:02:03+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(content): complete group\
+    \ promotion backend"
+  - "2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4\t2026-07-23T14:23:32+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-002\
+    \ as completed"
+  - "9322209a3e85917d0a11957a3137797b14c6c2e8\t2026-07-23T14:16:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(database): enforce group\
+    \ promotion invariants"
+  - "47f2b158f68207603f260460aad7c4eccdd0b936\t2026-07-23T12:51:23+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-001\
+    \ as completed"
+  - "04a6e66a91725fdd2352f8a262f7de701fc4629e\t2026-07-23T12:46:50+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(home): align runtime with\
+    \ canonical product contract"
+  - "9e05beefef5754521c1730ddbf1179bae694c31b\t2026-07-23T10:49:29+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-008\
+    \ as completed"
+  - "7f2c335493a6f78aadf8c041b4cc0fffd474d713\t2026-07-23T10:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): complete machine\
+    \ closure"
+project_fingerprint:
+  sha256: 9751052b6def251e70f2029a146fa1b50dffbcc32e73918464d198f98080c9e0
+  files:
+  - CHANGELOG.md
+  - apps/admin-web/src/App.test.ts
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerAccess.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminForbiddenPage.vue
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/CatalogPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - database/migrations/V037__admin_super_admin_permission_repair.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
+  - docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md
+  - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+  file_count: 21
+  payload:
+    base_commit: ede20ba89945175f79c45252fa796e2f89e8a39a
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 109926
+      sha256: b8ee163188893b32b7f031ec00f845ad02982a08d652bf725c55e74c9dad5967
+    - path: apps/admin-web/src/App.test.ts
+      state: FILE
+      size: 1127
+      sha256: 93043ce5f3bc2933380fdac3af3c4913ddd49bb8c1626d387d96aa1488b0f3bb
+    - path: apps/admin-web/src/App.vue
+      state: FILE
+      size: 1596
+      sha256: d042e7014118a8ff6a63fa312fd62cc488f57cde6804c899894ab8a083e3cada
+    - path: apps/admin-web/src/adminNavigation.test.ts
+      state: FILE
+      size: 1278
+      sha256: 51b70fc6a519efac96c02effe5fdbf0c3dfab108219c9d7d25d3cea04d431bee
+    - path: apps/admin-web/src/adminNavigation.ts
+      state: FILE
+      size: 1966
+      sha256: f649d867e2777d608d64fd6bfea8d7e74f3e4f437d87c59f5d837fb707cf6d5e
+    - path: apps/admin-web/src/r01Pages.test.ts
+      state: FILE
+      size: 21706
+      sha256: 7f4c4bfe39ea2b82cf11b54239baa9566da8a6ae8dc7dbfe326ece68899dfe3c
+    - path: apps/admin-web/src/router.ts
+      state: FILE
+      size: 5097
+      sha256: 25e169544c27c9a737e9c76a56d5fc2401458813412cd2d95326f322fba2c4c9
+    - path: apps/admin-web/src/routerAccess.ts
+      state: FILE
+      size: 1208
+      sha256: cab1cb7b8b7c79102d565079093156f8066439d07a79abc999d01f3b90dafc0e
+    - path: apps/admin-web/src/routerPermissions.test.ts
+      state: FILE
+      size: 1166
+      sha256: 9c04050d7e94becc3078c3a66e58d3e555275d17d11500c47fd916422e0dd8f7
+    - path: apps/admin-web/src/services/adminSession.test.ts
+      state: FILE
+      size: 4572
+      sha256: dc88d69ba50c70da83e6fc635bf3658ddddd1386520882c853fb9ebc2097c0eb
+    - path: apps/admin-web/src/services/adminSession.ts
+      state: FILE
+      size: 2851
+      sha256: d8c52ceec02039de5f72912ed7cf50df7ab707f344cb48a222dc43aa88d90540
+    - path: apps/admin-web/src/styles.css
+      state: FILE
+      size: 21142
+      sha256: 02780378e32080d6be2b66b0af5c5e8e70516cf76e009460d1754511dc675706
+    - path: apps/admin-web/src/views/AdminForbiddenPage.vue
+      state: FILE
+      size: 891
+      sha256: c94891233bb04cf8bd85430a33a12e67ece6c73f059d6766b4fbda20916fe10f
+    - path: apps/admin-web/src/views/AdminLoginPage.vue
+      state: FILE
+      size: 6412
+      sha256: 9864588fb2caa7fe62e6e20c18d154122a565bf30da481c2e82e4b08d91faa1c
+    - path: apps/admin-web/src/views/CatalogPage.vue
+      state: FILE
+      size: 670
+      sha256: 4c1fc9853aa50a4aca6885815dcf0ebe63a5693dfd2014c752e3d6eaff4f4879
+    - path: apps/admin-web/src/views/ProviderConfigPage.vue
+      state: FILE
+      size: 25614
+      sha256: e2b856baa6e56e287c72b00870c04cc826d15d61d102bf2b69e4308f270ea17a
+    - path: database/migrations/V037__admin_super_admin_permission_repair.sql
+      state: FILE
+      size: 1056
+      sha256: b902a648f75fe0527fadd80a1f70f4636c2751492f3a379b0b48516a1851700f
+    - path: docs/03-continuity/PROBLEM_REGISTRY.yaml
+      state: FILE
+      size: 138253
+      sha256: 5edcbb69a69069beead6418da8b7c116695187a57426fec332f714056c102383
+    - path: docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
+      state: FILE
+      size: 3963
+      sha256: cca5e602cd545da68a40b18e3c011cfe6e6a4a0ea5b20abbe520f1de5cc5b1f8
+    - path: docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md
+      state: FILE
+      size: 2623
+      sha256: c13c8844b8e463f7e39abe693e1e31310d0557451f67288376eae7bd250abf5f
+    - path: services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+      state: FILE
+      size: 1056
+      sha256: b902a648f75fe0527fadd80a1f70f4636c2751492f3a379b0b48516a1851700f
+change_classification:
+  other:
+  - CHANGELOG.md
+  code:
+  - apps/admin-web/src/App.test.ts
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerAccess.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminForbiddenPage.vue
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/CatalogPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+  user_visible:
+  - apps/admin-web/src/App.test.ts
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/r01Pages.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerAccess.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminForbiddenPage.vue
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/CatalogPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  database:
+  - database/migrations/V037__admin_super_admin_permission_repair.sql
+  continuity:
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
+  - docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+- CHANGELOG
+change_requests:
+- CR-0268
+- CR-0269
+- CR-0270
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - apps/admin-web/src/App.vue
+  - apps/admin-web/src/adminNavigation.ts
+  - apps/admin-web/src/adminNavigation.test.ts
+  - apps/admin-web/src/router.ts
+  - apps/admin-web/src/routerAccess.ts
+  - apps/admin-web/src/routerPermissions.test.ts
+  - apps/admin-web/src/services/adminSession.ts
+  - apps/admin-web/src/services/adminSession.test.ts
+  - apps/admin-web/src/styles.css
+  - apps/admin-web/src/views/AdminForbiddenPage.vue
+  - apps/admin-web/src/views/AdminLoginPage.vue
+  - apps/admin-web/src/views/CatalogPage.vue
+  - apps/admin-web/src/views/ProviderConfigPage.vue
+  - apps/admin-web/src/r01Pages.test.ts
+  - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+  - database/migrations/V037__admin_super_admin_permission_repair.sql
+  - docs/03-continuity/PROBLEM_REGISTRY.yaml
+  - apps/admin-web/src/App.test.ts
+  source: story+explicit+approved-cr:CR-0269+approved-cr:CR-0270
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 已验证生产修复的事实链与最终提交必须由主控串行固化
+event_hash: 588f60721a83f4302652c3aa3f30f6494d10cef22d9b9323e6aa30d1bb7c03cb
 ```
 
 ## 接续状态与事件头
@@ -388,31 +809,19 @@ status: NO_CHECKPOINT
 ```yaml
 mode: ENFORCED
 protocol_version: '1.0'
-active_session_id: null
+active_session_id: SES-20260723T074719Z-AB4D0E80
 last_session_id: SES-20260723T062549Z-79779015
 last_session_result: COMPLETED
 last_closure_checkpoint_id: CP-SES-20260723T062549Z-79779015-0003
-event_count: 2651
-event_head_hash: e3fdbdb654dd980bf3183b01242e0a51f6fd923cbd972a6c47d6c50257c107ce
+event_count: 2671
+event_head_hash: 588f60721a83f4302652c3aa3f30f6494d10cef22d9b9323e6aa30d1bb7c03cb
 event_chain_valid: true
 ```
 
 ## 最近会话与任务迁移
 
 ```yaml
-recent_sessions: - session_id: SES-20260722T181159Z-F501CFF5
-  task_id: TASK-R09-002
-  story_id: STORY-R09-004
-  actor_id: codex-root-r09-data
-  status: CLOSED
-  started_at: '2026-07-22T18:11:59Z'
-  record: .continuity/sessions/SES-20260722T181159Z-F501CFF5.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260722T181159Z-F501CFF5.md
-  updated_at: '2026-07-22T18:30:54Z'
-  closed_at: '2026-07-22T18:30:54Z'
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T181159Z-F501CFF5/0004.yaml
-  handoff_bundle: null
-- session_id: SES-20260722T183222Z-79C9A5DB
+recent_sessions: - session_id: SES-20260722T183222Z-79C9A5DB
   task_id: TASK-R09-003
   story_id: STORY-R09-004
   actor_id: codex-root-r09-backend
@@ -520,47 +929,19 @@ recent_sessions: - session_id: SES-20260722T181159Z-F501CFF5
   closed_at: '2026-07-23T07:04:01Z'
   latest_checkpoint: .continuity/checkpoints/SES-20260723T062549Z-79779015/0003.yaml
   handoff_bundle: null
-task_claims: - claim_id: CLM-8455EA069BA3
-  session_id: SES-20260721T235847Z-F9109B61
-  task_id: TASK-R07-008
-  story_id: STORY-R07-005
-  actor_id: codex-root-r07-008
-  status: CLOSED
-  claimed_at: '2026-07-21T23:58:47Z'
-  allowed_paths:
-  - apps/**
-  - services/**
-  - packages/**
-  - contracts/**
-  - database/**
-  - config/**
-  - catalogs/**
-  - tests/**
-  - infra/**
-  - design/**
-  - docs/**
-  - releases/**
-  - scripts/**
-  - templates/**
-  - .github/**
-  - .githooks/**
-  - .codex/**
-  - AGENTS.md
-  - START_HERE.md
-  - README.md
-  - CHANGELOG.md
-  - Makefile
-  - .gitignore
-  - .gitattributes
-  - .dockerignore
-  - package.json
-  - pnpm-lock.yaml
-  - pnpm-workspace.yaml
-  - requirements-dev.txt
-  - PROJECT_*.yaml
-  - PROJECT_*.json
-  closed_at: '2026-07-22T00:23:15Z'
-- claim_id: CLM-1A2E3ED5354B
+- session_id: SES-20260723T074719Z-AB4D0E80
+  task_id: TASK-R10-004
+  story_id: STORY-R10-004
+  actor_id: codex-root-r10-client
+  status: ACTIVE
+  started_at: '2026-07-23T07:47:19Z'
+  record: .continuity/sessions/SES-20260723T074719Z-AB4D0E80.yaml
+  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md
+  updated_at: '2026-07-23T11:03:58Z'
+  closed_at: null
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0007.yaml
+  handoff_bundle: null
+task_claims: - claim_id: CLM-1A2E3ED5354B
   session_id: SES-20260722T002444Z-8BEC3CA6
   task_id: TASK-R08-001
   story_id: STORY-R08-004
@@ -1344,17 +1725,46 @@ task_claims: - claim_id: CLM-8455EA069BA3
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-23T07:04:01Z'
-recent_task_transitions: - transition_id: TRN-38F92C59B826
-  timestamp: '2026-07-21T23:58:49Z'
-  release: R07
-  task_id: TASK-R07-008
-  story_id: STORY-R07-005
-  from_status: READY
-  to_status: IN_PROGRESS
-  session_id: SES-20260721T235847Z-F9109B61
-  actor_id: codex-root-r07-008
-  reason: 会话领取任务
-- transition_id: TRN-07F5A5C05A2A
+- claim_id: CLM-6DF637774FD0
+  session_id: SES-20260723T074719Z-AB4D0E80
+  task_id: TASK-R10-004
+  story_id: STORY-R10-004
+  actor_id: codex-root-r10-client
+  status: ACTIVE
+  claimed_at: '2026-07-23T07:47:19Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+recent_task_transitions: - transition_id: TRN-07F5A5C05A2A
   timestamp: '2026-07-22T00:24:46Z'
   release: R08
   task_id: TASK-R08-001
@@ -1544,6 +1954,16 @@ recent_task_transitions: - transition_id: TRN-38F92C59B826
   session_id: SES-20260723T062549Z-79779015
   actor_id: codex-root-r10-backend
   reason: 会话领取任务
+- transition_id: TRN-FB693511AB84
+  timestamp: '2026-07-23T07:47:20Z'
+  release: R10
+  task_id: TASK-R10-004
+  story_id: STORY-R10-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260723T074719Z-AB4D0E80
+  actor_id: codex-root-r10-client
+  reason: 会话领取任务
 ```
 
 ## Git 状态
@@ -1551,29 +1971,62 @@ recent_task_transitions: - transition_id: TRN-38F92C59B826
 ```yaml
 initialized: true
 branch: task/TASK-R03-001
-head: 896948b70c98807cb30d5d165225a6c2a4155424
+head: ede20ba89945175f79c45252fa796e2f89e8a39a
 upstream: origin/task/TASK-R03-001
 ahead: 0
 behind: 0
 dirty: true
 status_porcelain:
-- ' M .continuity/ACTIVE_SESSION.yaml'
-- ' M .continuity/EVENT_LOG.jsonl'
-- ' M .continuity/SESSION_INDEX.yaml'
-- ' M .continuity/STATE.yaml'
-- ' M .continuity/TASK_CLAIMS.yaml'
-- ' M .continuity/sessions/SES-20260723T062549Z-79779015.yaml'
-- ' M CHANGELOG.md'
-- ' M CURRENT_STATUS.yaml'
-- ' M NEXT_TASK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
-- ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
-- ' M catalogs/session_index.csv'
-- ' M docs/03-continuity/sessions/2026-07/SES-20260723T062549Z-79779015.md'
-- ' M releases/R10/TASKS.yaml'
-- ?? .continuity/checkpoints/SES-20260723T062549Z-79779015/0003.yaml
+- MM .continuity/ACTIVE_SESSION.yaml
+- M  .continuity/CHANGE_REQUEST_INDEX.yaml
+- MM .continuity/EVENT_LOG.jsonl
+- MM .continuity/SESSION_INDEX.yaml
+- MM .continuity/STATE.yaml
+- M  .continuity/TASK_CLAIMS.yaml
+- M  .continuity/TASK_TRANSITIONS.yaml
+- A  .continuity/change_requests/CR-0269.yaml
+- A  .continuity/change_requests/CR-0270.yaml
+- A  .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0001.yaml
+- A  .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0002.yaml
+- A  .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0003.yaml
+- A  .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0004.yaml
+- A  .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0005.yaml
+- A  .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0006.yaml
+- AM .continuity/sessions/SES-20260723T074719Z-AB4D0E80.yaml
+- M  CHANGELOG.md
+- MM CURRENT_STATUS.yaml
+- A  apps/admin-web/src/App.test.ts
+- M  apps/admin-web/src/App.vue
+- A  apps/admin-web/src/adminNavigation.test.ts
+- A  apps/admin-web/src/adminNavigation.ts
+- M  apps/admin-web/src/r01Pages.test.ts
+- M  apps/admin-web/src/router.ts
+- A  apps/admin-web/src/routerAccess.ts
+- A  apps/admin-web/src/routerPermissions.test.ts
+- M  apps/admin-web/src/services/adminSession.test.ts
+- M  apps/admin-web/src/services/adminSession.ts
+- M  apps/admin-web/src/styles.css
+- A  apps/admin-web/src/views/AdminForbiddenPage.vue
+- M  apps/admin-web/src/views/AdminLoginPage.vue
+- M  apps/admin-web/src/views/CatalogPage.vue
+- M  apps/admin-web/src/views/ProviderConfigPage.vue
+- M  artifacts/context/CURRENT_CONTEXT_PACK.md
+- M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
+- M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+- M  artifacts/validation/project-doctor-v1.2.3.json
+- M  catalogs/change_request_index.csv
+- MM catalogs/session_index.csv
+- M  catalogs/task_transition_ledger.csv
+- A  database/migrations/V037__admin_super_admin_permission_repair.sql
+- M  docs/03-continuity/PROBLEM_REGISTRY.yaml
+- A  docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
+- A  docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md
+- AM docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md
+- A  services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+- ?? .continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0007.yaml
 recent_commits:
+- "ede20ba89945175f79c45252fa796e2f89e8a39a\t2026-07-23T15:07:49+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-003\
+  \ as completed"
 - "896948b70c98807cb30d5d165225a6c2a4155424\t2026-07-23T15:02:03+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(content): complete group\
   \ promotion backend"
 - "2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4\t2026-07-23T14:23:32+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-002\
@@ -1588,16 +2041,34 @@ recent_commits:
   \ as completed"
 - "7f2c335493a6f78aadf8c041b4cc0fffd474d713\t2026-07-23T10:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): complete machine\
   \ closure"
-- "2e667408a5987b53ce55521f827ac70ce9e80cac\t2026-07-23T10:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-007\
-  \ as completed"
 ```
 
 ## 会话累计项目变更
 
-- 指纹：`efaf7e3d779f0021036446b7342e01f3beba1b94a18588413f360bd66767a4d4`
-- 文件数：0
+- 指纹：`9751052b6def251e70f2029a146fa1b50dffbcc32e73918464d198f98080c9e0`
+- 文件数：21
 
-- 无
+- `CHANGELOG.md`
+- `apps/admin-web/src/App.test.ts`
+- `apps/admin-web/src/App.vue`
+- `apps/admin-web/src/adminNavigation.test.ts`
+- `apps/admin-web/src/adminNavigation.ts`
+- `apps/admin-web/src/r01Pages.test.ts`
+- `apps/admin-web/src/router.ts`
+- `apps/admin-web/src/routerAccess.ts`
+- `apps/admin-web/src/routerPermissions.test.ts`
+- `apps/admin-web/src/services/adminSession.test.ts`
+- `apps/admin-web/src/services/adminSession.ts`
+- `apps/admin-web/src/styles.css`
+- `apps/admin-web/src/views/AdminForbiddenPage.vue`
+- `apps/admin-web/src/views/AdminLoginPage.vue`
+- `apps/admin-web/src/views/CatalogPage.vue`
+- `apps/admin-web/src/views/ProviderConfigPage.vue`
+- `database/migrations/V037__admin_super_admin_permission_repair.sql`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml`
+- `docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md`
+- `docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md`
+- `services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql`
 
 ## 当前 Release
 
@@ -8370,29 +8841,150 @@ PARALLEL_EXECUTION_PLAN.yaml:
     session_id: SES-20260723T045352Z-FC8DC2CF
   session_ids:
   - SES-20260723T045352Z-FC8DC2CF
+- protocol_version: '1.0'
+  cr_id: CR-0269
+  title: 修复后台权限会话菜单与生产可用性
+  status: IMPLEMENTED
+  created_at: '2026-07-23T10:20:17Z'
+  updated_at: '2026-07-23T10:33:11Z'
+  requester_actor_id: codex-root-r10-client
+  approver_actor_id: codex-independent-reviewer-r10-admin
+  task_id: TASK-R10-004
+  session_id: SES-20260723T074719Z-AB4D0E80
+  user_request: 项目所有者要求立即修复后台菜单错误跳页、配置不可用、超级管理员权限不足、滚动联动和刷新掉登录等问题，并继续开发。
+  reason: 线上实测确认SUPER_ADMIN仅22/59权限，配置路由权限码错配，64个菜单中52个为未实现占位，会话仅内存保存且无权限错误跳安全页。
+  original_rule: 后台菜单直接展示全部目录页面，页面权限依赖目录读取权限，SUPER_ADMIN由各迁移零散绑定权限；访问令牌只在页面内存保存，无权限统一回安全页。
+  new_rule: 后台菜单只展示已真实实现且当前会话有读取权限的页面，菜单组中文化；配置与域名使用后端真实权限码；SUPER_ADMIN自动拥有全部已登记权限；刷新和深链在当前标签页恢复会话，关闭标签页失效；无权限进入独立403页；左右栏独立滚动。
+  impact_summary: 修复后台基础可用性，不宣称未实现的52个占位功能完成，不改变管理员密码，不放宽具体管理动作权限。
+  impact:
+    files:
+    - apps/admin-web/src/App.vue
+    - apps/admin-web/src/adminNavigation.ts
+    - apps/admin-web/src/adminNavigation.test.ts
+    - apps/admin-web/src/router.ts
+    - apps/admin-web/src/routerAccess.ts
+    - apps/admin-web/src/routerPermissions.test.ts
+    - apps/admin-web/src/services/adminSession.ts
+    - apps/admin-web/src/services/adminSession.test.ts
+    - apps/admin-web/src/styles.css
+    - apps/admin-web/src/views/AdminForbiddenPage.vue
+    - apps/admin-web/src/views/AdminLoginPage.vue
+    - apps/admin-web/src/views/CatalogPage.vue
+    - apps/admin-web/src/views/ProviderConfigPage.vue
+    - apps/admin-web/src/r01Pages.test.ts
+    - services/backend/boot/src/main/resources/db/migration/V037__admin_super_admin_permission_repair.sql
+    - database/migrations/V037__admin_super_admin_permission_repair.sql
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    pages:
+    - ADM-USER-001
+    - ADM-ID-001
+    - ADM-CONTENT-001
+    - ADM-CONFIG-002
+    - ADM-CONFIG-004
+    - ADM-CONFIG-008
+    apis: []
+    database:
+    - admin_role_permissions
+    configuration: []
+    ledger: []
+    tests:
+    - pnpm --filter @hhy/admin-web typecheck,test,build; scripts/check_db_schema.py; Maven access+boot 368 tests; online browser regression
+    releases:
+    - R10
+    migration_and_compatibility: V037仅向活动SUPER_ADMIN幂等补齐现有权限，兼容既有角色；前端会话由内存升级为sessionStorage且保持关闭标签页失效；旧未实现页面从菜单隐藏但直接深链仍显示未开放状态。
+  user_confirmation: 项目所有者已明确要求立即修复并继续，不需中断等待确认。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T10:20:54Z'
+    note: 独立复核通过：修复与线上证据一致，V037幂等且不改变密码，前端只收敛到真实功能和真实权限；未虚构剩余后台模块。
+  machine_record: .continuity/change_requests/CR-0269.yaml
+  document: docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md
+  decision_log:
+  - at: '2026-07-23T10:21:00Z'
+    actor_id: codex-root-r10-client
+    status: IMPLEMENTING
+    note: 代码、迁移和模块回归已完成，开始可回滚生产部署与在线浏览器验收。
+    session_id: SES-20260723T074719Z-AB4D0E80
+  - at: '2026-07-23T10:33:11Z'
+    actor_id: codex-root-r10-client
+    status: IMPLEMENTED
+    note: 生产V037、后端、后台静态发布和真实浏览器回归全部通过；SUPER_ADMIN 59/59。
+    session_id: SES-20260723T074719Z-AB4D0E80
+  session_ids:
+  - SES-20260723T074719Z-AB4D0E80
+- protocol_version: '1.0'
+  cr_id: CR-0270
+  title: 补齐登录后菜单响应式刷新回归
+  status: IMPLEMENTED
+  created_at: '2026-07-23T10:32:02Z'
+  updated_at: '2026-07-23T10:33:15Z'
+  requester_actor_id: codex-root-r10-client
+  approver_actor_id: codex-independent-reviewer-r10-admin
+  task_id: TASK-R10-004
+  session_id: SES-20260723T074719Z-AB4D0E80
+  user_request: 项目所有者要求立即修复后台并完成真实可用性验证。
+  reason: CR-0269首次线上登录发现权限已返回59项但App菜单computed未依赖响应式状态，登录前空菜单结果被缓存；需补最小响应式依赖和组件回归。
+  original_rule: CR-0269要求菜单按当前会话权限过滤，但App.vue的computed没有读取任何响应式会话字段，登录前空结果会被缓存。
+  new_rule: 不新增并列规则；菜单过滤computed必须依赖登录导航的响应式route状态，并由App组件测试证明登录后立即渲染授权菜单、隐藏未实现菜单。
+  impact_summary: 仅修复后台菜单登录后响应式刷新，不改变权限、API、数据库或密码。
+  impact:
+    files:
+    - apps/admin-web/src/App.vue
+    - apps/admin-web/src/App.test.ts
+    pages:
+    - ADM-AUTH-001
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - admin-web typecheck; 20 files 96 tests; production build; browser login and refresh regression
+    releases:
+    - R10
+    migration_and_compatibility: 无数据迁移；已有登录会话刷新页面后本来也能恢复，本修复使首次登录无需刷新即可显示菜单。
+  user_confirmation: 项目所有者已要求立即修复并完整实测。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T10:32:30Z'
+    note: 独立复核通过：最小修复使菜单依赖既有路由响应式状态，组件测试覆盖首次登录，未扩大后台能力或权限。
+  machine_record: .continuity/change_requests/CR-0270.yaml
+  document: docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md
+  decision_log:
+  - at: '2026-07-23T10:32:36Z'
+    actor_id: codex-root-r10-client
+    status: IMPLEMENTING
+    note: 最小代码与组件测试已完成并已发布，进入最终在线证据登记。
+    session_id: SES-20260723T074719Z-AB4D0E80
+  - at: '2026-07-23T10:33:15Z'
+    actor_id: codex-root-r10-client
+    status: IMPLEMENTED
+    note: 首次登录菜单响应式修复已通过App组件测试并发布，真实登录后立即显示12个授权菜单。
+    session_id: SES-20260723T074719Z-AB4D0E80
+  session_ids:
+  - SES-20260723T074719Z-AB4D0E80
 ```
 
 ## 上下文来源及哈希
 
 - `AGENTS.md` — `f93034917d4b87ffd4caffe8b6cad354f69bc31f6c0d9398dec3074ae165496d`
 - `START_HERE.md` — `22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c`
-- `CURRENT_STATUS.yaml` — `5efb52fa2647942cd12332c0736ab491dcd392e1da5b801f9b8e6e87677d33d3`
+- `CURRENT_STATUS.yaml` — `a974d1617cc7ab800743a7b9d6b3ca0642eb9ea9973378e76bd5e9b7b2459035`
 - `NEXT_TASK.yaml` — `7ca1b3eb478f794d341d916261d958c68022f0dd0ebdca4635c71daaa6d57712`
 - `DEVELOPMENT_RISK_REGISTER.md` — `8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87`
 - `docs/00-baseline/SOURCE_OF_TRUTH.md` — `045624e036f03cf5668982159cbdb433a63f7397475a8a4592ae5255f9ddc511`
-- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `44de3595119a66f3170c825f1b80a65d88acfdf7878838c758f007cf48309c38`
+- `docs/03-continuity/PROBLEM_REGISTRY.yaml` — `5edcbb69a69069beead6418da8b7c116695187a57426fec332f714056c102383`
 - `docs/03-continuity/REUSABLE_PATTERNS.md` — `579122736019857604959c8ea65b6c7e3d6960680d00a17b376bbd51c57ac519`
 - `docs/03-continuity/PITFALLS.md` — `b2634c815cd208083697aa7a33a00599de36c63394b2f02f5454f3ed9c575d92`
 - `releases/PROGRAM_EXECUTION_PLAN.yaml` — `93c0bd9fe83e2c447937c885f20d0de7a65d96c920d11b28309878bd5d533446`
 - `config/REPOSITORY_TRANSPORT.yaml` — `8c4a21f3e204d46e7ffb467d804a53ed26cda61cd088dadfddb50b69eea657fc`
 - `config/DEVELOPMENT_RUNTIME.yaml` — `ef5582b1ca989f509d21aae6a3e0880dd7292bcb587fe85ef7cf29c60897c244`
 - `.continuity/CONTINUITY_POLICY.yaml` — `16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6`
-- `.continuity/EVENT_LOG.jsonl` — `35814c328e1b54b60f47aab2336d5342ab43aeaaf3210a878b6e9ecd14bcfcf6`
-- `.continuity/SESSION_INDEX.yaml` — `ecf6d5014a49132cd30db31ec93a33b76f756d50b80e6a17ee0a6d698ef49855`
-- `.continuity/TASK_CLAIMS.yaml` — `928e6f6dab8327bf44341e6c77429746e99174e17034ce383f0dac89da12cf7b`
-- `.continuity/TASK_TRANSITIONS.yaml` — `029a1ed737e1294d3fe289a6cc6e4e803b0d51a5086430ef6994a4d47cd54424`
-- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `69115d03dede1a3ceb37febc003984b9cd756b0467e06ad8a8aceeaadd3b21a7`
-- `.continuity/ACTIVE_SESSION.yaml` — `7d74f8ff97e11566d54a22125dc65116c98922d09d8e0fdd0c67d2f5dcd8be2b`
+- `.continuity/EVENT_LOG.jsonl` — `9852746f13e8eaeadb0d863ffa8869592fa6e8f0cf4f6b5475dff9bdab54f53a`
+- `.continuity/SESSION_INDEX.yaml` — `304e24bba93edcc1e9c49211cab89b0755fc319fa46851b4003cc470d05d3ffe`
+- `.continuity/TASK_CLAIMS.yaml` — `e03b63b3e06b1aeb3b72ae7c04d03cb35f240eb9908e1eb35dc8c6ddf169cb6f`
+- `.continuity/TASK_TRANSITIONS.yaml` — `0197202e7b8d33216b68af7dddafc63cb0c021f28466409b5891a8898df2adf5`
+- `.continuity/CHANGE_REQUEST_INDEX.yaml` — `65e9fe061a73a81935600ddddbb1145019e91c73df5b7d7e1891b4009d9d7147`
+- `.continuity/ACTIVE_SESSION.yaml` — `22bf904da810fbf7e0870afe65dcd9779149c96ab194d83c1182409493a4e3c5`
 - `docs/00-baseline/正式商业系统全局硬性开发边界.md` — `9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea`
 - `docs/02-ui/UI参考图使用与开发约束_V1.2.2.md` — `d14367586aa2067b059df58798acd20ab982459cdb35ff27fc7922a3896e4933`
 - `docs/03-continuity/持续开发无状态接续强制门禁_V1.2.3.md` — `d0ed3ed68bdd93b06500eecdfb5baa3245e6ca8b685a486788abb6eee39b3d51`
@@ -8403,6 +8995,11 @@ PARALLEL_EXECUTION_PLAN.yaml:
 - `releases/R10/TASKS.yaml` — `30ecec0feb3ab84966603c6aa8e1d367e49f7868ebae3f204cd65feba3dc6224`
 - `releases/R10/ACCEPTANCE_MATRIX.csv` — `a17663145b2e704291bb5095c55aed36cf67d01a716b8904018e6b254e243b9f`
 - `releases/R10/PARALLEL_EXECUTION_PLAN.yaml` — `ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7`
+- `docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md` — `05929f3c29a829ce2bcebc2382a55de56074d2e916bde7d7f54467f5a7d09ef3`
+- `.continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0007.yaml` — `83cf9e985e539a7be1bd8bcb3025e422c845e2a598476f563f6a6ef27eddd68b`
+- `docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md` — `31d6868c1499fe6caae839619fa19ec974cc5ba95fea791b0e33771a7dc20989`
+- `docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md` — `cca5e602cd545da68a40b18e3c011cfe6e6a4a0ea5b20abbe520f1de5cc5b1f8`
+- `docs/03-continuity/change-requests/CR-0270-补齐登录后菜单响应式刷新回归.md` — `c13c8844b8e463f7e39abe693e1e31310d0557451f67288376eae7bd250abf5f`
 
 ## 接手硬规则
 
