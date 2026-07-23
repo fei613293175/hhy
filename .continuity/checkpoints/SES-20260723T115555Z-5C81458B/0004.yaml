@@ -1,0 +1,220 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T115555Z-5C81458B-0004
+session_id: SES-20260723T115555Z-5C81458B
+sequence: 4
+created_at: '2026-07-23T12:09:38Z'
+summary: 云端Maven21发现新增群聊夹具导致4个既有全局聚合断言未同步，已精确校正预期值
+next_step: 提交断言修复并复跑云端Maven21定向测试
+blockers: []
+decisions: []
+note: ''
+tests:
+- name: backend-observability-cloud
+  result: FAIL
+  evidence: obx-test:maven:3.9.11-eclipse-temurin-21
+  note: 6项测试运行，BusinessGaugeBinderTest全局在线内容旧预期2实际3
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: fbbbdde0723ed5a39a8d3d93e7c0b6ed27cc9f12
+  upstream: origin/task/TASK-R03-001
+  ahead: 0
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java'
+  recent_commits:
+  - "fbbbdde0723ed5a39a8d3d93e7c0b6ed27cc9f12\t2026-07-23T20:05:33+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(observability): add group\
+    \ staging gate"
+  - "0191aa87d3efdf37af2023d8b2c424aa2371cffd\t2026-07-23T19:54:45+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-005\
+    \ as completed"
+  - "4499a9150763c80f56246a4cc1c204a7b32bd99e\t2026-07-23T19:53:37+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(group): complete specialized\
+    \ fault matrix"
+  - "08a3d4d7fcca26c978e9c843e5d8e5b827bebf86\t2026-07-23T19:42:14+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-004\
+    \ as completed"
+  - "caf9d07b22fe318b2fe5acd5c85158da1345cf43\t2026-07-23T19:40:20+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(group): complete promotion\
+    \ client surfaces"
+  - "10f6c410df4c3163dcaed96107522cda4081fe73\t2026-07-23T19:04:39+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(admin): restore production\
+    \ management usability"
+  - "ede20ba89945175f79c45252fa796e2f89e8a39a\t2026-07-23T15:07:49+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-003\
+    \ as completed"
+  - "896948b70c98807cb30d5d165225a6c2a4155424\t2026-07-23T15:02:03+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(content): complete group\
+    \ promotion backend"
+project_fingerprint:
+  sha256: 077ac5a8140cc307034d33fe93c5f4b8b76911f5f67bcfd0f2c92fc842dcd77a
+  files:
+  - docs/03-continuity/change-requests/CR-0271-R10群聊推广可观测性与隔离Staging验收精确范围.md
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - infra/staging/r10-smoke/alertmanager.yml
+  - infra/staging/r10-smoke/docker-compose.yml
+  - infra/staging/r10-smoke/nginx.conf
+  - infra/staging/r10-smoke/prometheus.yml
+  - infra/staging/r10-smoke/r10-alerts.yml
+  - scripts/check_r10_observability.py
+  - scripts/run_r10_staging_acceptance.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  file_count: 13
+  payload:
+    base_commit: 0191aa87d3efdf37af2023d8b2c424aa2371cffd
+    files:
+    - path: docs/03-continuity/change-requests/CR-0271-R10群聊推广可观测性与隔离Staging验收精确范围.md
+      state: FILE
+      size: 4709
+      sha256: 54f606793a970415fa43fd5ebea882fd80e97a45200c168dba65500fbba0e6d6
+    - path: docs/07-operations/DEPLOYMENT_RUNBOOK.md
+      state: FILE
+      size: 35824
+      sha256: 6337c2939ae04aba8a726294547d08bfe31fb0c666a78815ce51b01928d439ca
+    - path: docs/07-operations/ROLLBACK_RUNBOOK.md
+      state: FILE
+      size: 13755
+      sha256: 0c9f8c4a26386f813b2b5b436baa68e80e27f365d76d6cb54d4aa9e38e1ecb3f
+    - path: infra/staging/r10-smoke/alertmanager.yml
+      state: FILE
+      size: 278
+      sha256: 66062df92569e1d31e075fb1a96941af1c62f23013faf6cad4efa46a310a1e40
+    - path: infra/staging/r10-smoke/docker-compose.yml
+      state: FILE
+      size: 4464
+      sha256: fc0965835f102c878bac86a7f571013612e83a97d108280be34d825be23d90c4
+    - path: infra/staging/r10-smoke/nginx.conf
+      state: FILE
+      size: 319
+      sha256: 23e8717a38389b1ecbdff55563f55a2d9b99519439398a35d72006fa8f7876fb
+    - path: infra/staging/r10-smoke/prometheus.yml
+      state: FILE
+      size: 402
+      sha256: 617e7c1b4dadc061b8d707259f5e3bee44a1c0f0c997fec3c65962a18951f696
+    - path: infra/staging/r10-smoke/r10-alerts.yml
+      state: FILE
+      size: 2051
+      sha256: 2158cc1ebd6fe9e190d047fbb1f4124e46ae8dba9e7db8a87d78825d1b2e6bb9
+    - path: scripts/check_r10_observability.py
+      state: FILE
+      size: 5501
+      sha256: 56e9939d39b591df1dae263650660cb989f11732603dbad8d545684aa3a96762
+    - path: scripts/run_r10_staging_acceptance.sh
+      state: FILE
+      size: 16046
+      sha256: 0dbbe4c08c76445198f4af32bf77420e1a024ad433b71efc66c420aa1be6923c
+    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+      state: FILE
+      size: 25084
+      sha256: 657e372763955c069204c59eb14a06ce109f37782d2109d3ab6c9552c4b1c50b
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+      state: FILE
+      size: 20220
+      sha256: b378ec3af010e898628d3c02ca213c76093cfb0d19c71e261cdf9b82d34ca7b2
+    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+      state: FILE
+      size: 12022
+      sha256: d2e16563ea65b1f75efaef777c07661bab4c6b01dd03b48c7c6cfc00e45bc32d
+change_classification:
+  continuity:
+  - docs/03-continuity/change-requests/CR-0271-R10群聊推广可观测性与隔离Staging验收精确范围.md
+  other:
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  infrastructure:
+  - infra/staging/r10-smoke/alertmanager.yml
+  - infra/staging/r10-smoke/docker-compose.yml
+  - infra/staging/r10-smoke/nginx.conf
+  - infra/staging/r10-smoke/prometheus.yml
+  - infra/staging/r10-smoke/r10-alerts.yml
+  code:
+  - scripts/check_r10_observability.py
+  - scripts/run_r10_staging_acceptance.sh
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+change_requests:
+- CR-0271
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - artifacts/reports/R10,docs/08-testing,docs/09-development,CHANGELOG.md,releases/R10
+  approved_exceptions:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - infra/staging/r10-smoke/docker-compose.yml
+  - infra/staging/r10-smoke/prometheus.yml
+  - infra/staging/r10-smoke/r10-alerts.yml
+  - infra/staging/r10-smoke/alertmanager.yml
+  - infra/staging/r10-smoke/nginx.conf
+  - scripts/check_r10_observability.py
+  - scripts/run_r10_staging_acceptance.sh
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - releases/R10/ACCEPTANCE_MATRIX.csv
+  - artifacts/reports/R10/TASK-R10-006-staging.md
+  - CHANGELOG.md
+  - artifacts/validation/r10-task006-staging/alert-deliveries.jsonl
+  - artifacts/validation/r10-task006-staging/alert-exercise.txt
+  - artifacts/validation/r10-task006-staging/backend-down-firing.json
+  - artifacts/validation/r10-task006-staging/compose-ps.txt
+  - artifacts/validation/r10-task006-staging/database.txt
+  - artifacts/validation/r10-task006-staging/final-metrics.txt
+  - artifacts/validation/r10-task006-staging/http-request-completed.jsonl
+  - artifacts/validation/r10-task006-staging/liveness.json
+  - artifacts/validation/r10-task006-staging/log-redaction.txt
+  - artifacts/validation/r10-task006-staging/machine-summary.txt
+  - artifacts/validation/r10-task006-staging/metadata.txt
+  - artifacts/validation/r10-task006-staging/metrics-summary.txt
+  - artifacts/validation/r10-task006-staging/metrics.txt
+  - artifacts/validation/r10-task006-staging/outbox-test-events.txt
+  - artifacts/validation/r10-task006-staging/prometheus-rules.json
+  - artifacts/validation/r10-task006-staging/prometheus-targets.json
+  - artifacts/validation/r10-task006-staging/public-status.json
+  - artifacts/validation/r10-task006-staging/r10-outbox-firing.json
+  - artifacts/validation/r10-task006-staging/readiness.json
+  - artifacts/validation/r10-task006-staging/rollback-rehearsal.txt
+  - artifacts/validation/r10-task006-staging/SHA256SUMS
+  - artifacts/validation/r10-task006-staging/source-sha256.txt
+  - artifacts/validation/r10-task006-staging/trace-headers.txt
+  source: story+explicit+approved-cr:CR-0271
+parallel_execution:
+  assessment: USER_SERIAL_OVERRIDE
+  delegated_workers: 0
+  workers: []
+  reason: 单一测试夹具断言修复必须与冻结事实分支串行同步
+event_hash: 8f7c985e141d06b1beaf47a00e6006381548371b5febbb3219ef4a673c1ab8ce
