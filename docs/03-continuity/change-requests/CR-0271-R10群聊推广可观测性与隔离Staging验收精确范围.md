@@ -115,3 +115,24 @@ R10缺少群聊专属指标、告警、隔离Staging和绑定V036的可复核演
 - 决定：`APPROVED`
 - 时间：`2026-07-23T12:03:53Z`
 - 说明：逐文件精确范围完整；群聊指标无敏感标签，V036同库同卷回切、隔离端口子网、秘密注入和非候选边界符合既有R06至R09模式
+
+## 状态记录 · 2026-07-23T12:27:35Z
+
+- Actor：`codex-root-r10-observability`
+- Status：`IMPLEMENTING`
+- Session：`SES-20260723T115555Z-5C81458B`
+- Note：批准范围已应用并形成冻结实现提交
+
+## 状态记录 · 2026-07-23T12:27:38Z
+
+- Actor：`codex-root-r10-observability`
+- Status：`IMPLEMENTED`
+- Session：`SES-20260723T115555Z-5C81458B`
+- Note：R10群聊指标、告警、隔离Staging、V036同库同卷回切和23文件证据全部实现并通过
+
+## 状态记录 · 2026-07-23T12:27:42Z
+
+- Actor：`codex-root-r10-observability`
+- Status：`CLOSED`
+- Session：`SES-20260723T115555Z-5C81458B`
+- Note：AC-R10-004已PASS，报告、哈希复核与敏感扫描完整，关闭实现CR

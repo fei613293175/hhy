@@ -1,9 +1,9 @@
 protocol_version: '1.0'
 cr_id: CR-0271
 title: R10群聊推广可观测性与隔离Staging验收精确范围
-status: APPROVED
+status: CLOSED
 created_at: '2026-07-23T12:03:09Z'
-updated_at: '2026-07-23T12:03:53Z'
+updated_at: '2026-07-23T12:27:42Z'
 requester_actor_id: codex-root-r10-observability
 approver_actor_id: codex-r10-observability-review
 task_id: TASK-R10-006
@@ -74,3 +74,24 @@ approval:
   note: 逐文件精确范围完整；群聊指标无敏感标签，V036同库同卷回切、隔离端口子网、秘密注入和非候选边界符合既有R06至R09模式
 machine_record: .continuity/change_requests/CR-0271.yaml
 document: docs/03-continuity/change-requests/CR-0271-R10群聊推广可观测性与隔离Staging验收精确范围.md
+decision_log:
+- at: '2026-07-23T12:27:35Z'
+  actor_id: codex-root-r10-observability
+  status: IMPLEMENTING
+  note: 批准范围已应用并形成冻结实现提交
+  session_id: SES-20260723T115555Z-5C81458B
+- at: '2026-07-23T12:27:38Z'
+  actor_id: codex-root-r10-observability
+  status: IMPLEMENTED
+  note: R10群聊指标、告警、隔离Staging、V036同库同卷回切和23文件证据全部实现并通过
+  session_id: SES-20260723T115555Z-5C81458B
+- at: '2026-07-23T12:27:42Z'
+  actor_id: codex-root-r10-observability
+  status: CLOSED
+  note: AC-R10-004已PASS，报告、哈希复核与敏感扫描完整，关闭实现CR
+  session_id: SES-20260723T115555Z-5C81458B
+implementation_commits:
+- e1edfa98
+- 1452e810
+session_ids:
+- SES-20260723T115555Z-5C81458B
