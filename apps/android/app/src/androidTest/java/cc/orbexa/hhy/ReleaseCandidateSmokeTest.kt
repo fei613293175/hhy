@@ -82,9 +82,15 @@ class ReleaseCandidateSmokeTest {
         assertTrue("R09 App fixture is missing", device.wait(Until.hasObject(By.text(fixtureTitle)), 20_000))
         assertTrue("R09 list missed the approved-content notice", device.hasObject(By.text("浏览审核通过的真实App推广内容")))
         assertTrue(
-            "R09 list did not render the real App media container",
+            "R09 list did not render the neutral App brand mark",
+            device.wait(Until.hasObject(By.res("r09.app.brand")), 20_000),
+        )
+        assertTrue(
+            "R09 list did not render the horizontal real App screenshot strip",
             device.wait(Until.hasObject(By.res("r09.app.media.list")), 20_000),
         )
+        assertTrue("R09 list missed the first real App screenshot", device.hasObject(By.res("r09.app.media.list.preview.1")))
+        assertTrue("R09 list missed the second real App screenshot", device.hasObject(By.res("r09.app.media.list.preview.2")))
         assertR09BusinessLabels()
         captureStable("01-app-list.png")
         assertNoForbiddenVisibleText()

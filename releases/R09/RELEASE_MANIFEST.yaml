@@ -51,9 +51,9 @@ test_count: 3
 planning_depth: STORY_READY
 android_automation:
   policy_id: HHY-ANDROID-AUTOMATION-V1
-  request_id: R09-CANDIDATE-20260723-002
+  request_id: R09-CANDIDATE-20260723-003
   status: REMEDIATION_REQUESTED
-  remediation_attempt: 2
+  remediation_attempt: 3
   first_candidate:
     github_run_id: '29959550918'
     functional_journey: PASS
@@ -69,6 +69,20 @@ android_automation:
     - '2'
     public_media_https: PASS
     repository_server_public_sha256: PASS
+  attempt_2_result:
+    github_run_id: '29966683853'
+    automated_gate: PASS
+    functional_journey: PASS
+    detail_visual_review: PASS
+    editor_visual_review: PASS
+    list_visual_review: REJECTED
+    candidate_delivery: FORBIDDEN
+    rejection_reason: 列表卡把竖向截图分散在左侧且右侧大面积空白，未形成中性应用标识、紧凑信息层和下方横向截图条
+  attempt_3_scope:
+    list_brand_mark: NEUTRAL_APPLICATION_MARK
+    list_information_hierarchy: COMPACT_RIGHT_COLUMN
+    list_media_layout: FULL_HORIZONTAL_SCREENSHOT_STRIP
+    detail_and_editor_scope: UNCHANGED
   owner_test_allowed: false
   owner_physical_test: NOT_STARTED
 entry_gate:

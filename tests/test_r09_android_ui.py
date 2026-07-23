@@ -37,7 +37,11 @@ class R09AndroidUiTest(unittest.TestCase):
             ROOT / "apps/android/feature/app-promotion/build.gradle.kts"
         ).read_text(encoding="utf-8"))
         self.assertIn("coil.compose.AsyncImage", self.source)
-        self.assertIn("media = item.media.firstOrNull()", self.source)
+        self.assertIn("AppBrandMark(facts.appName)", self.source)
+        self.assertIn('testTag("r09.app.brand")', self.source)
+        self.assertIn('testTag("r09.app.media.list")', self.source)
+        self.assertIn("items(item.media, key = { it.id })", self.source)
+        self.assertNotIn("items(item.media.drop(1)", self.source)
         self.assertIn("if (item.media.isNotEmpty()) item { AppMediaGallery(item) }", self.source)
         self.assertIn('testTag("r09.app.media.detail")', self.source)
         self.assertIn('testTag("r09.app.media.editor")', self.source)

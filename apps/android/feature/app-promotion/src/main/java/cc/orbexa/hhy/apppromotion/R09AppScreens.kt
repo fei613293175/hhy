@@ -507,13 +507,11 @@ private fun AppListCard(item: ContentResource, onClick: () -> Unit) {
         elevation = CardDefaults.cardElevation(HhyElevation.Card),
     ) {
         Column(Modifier.fillMaxWidth().padding(HhySpacing.Lg), verticalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md)) {
-                AppArtwork(
-                    media = item.media.firstOrNull(),
-                    appName = facts.appName,
-                    modifier = Modifier.size(HhySize.AppLogo + HhySpacing.Xxl),
-                    tag = "r09.app.media.list",
-                )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(HhySpacing.Md),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                AppBrandMark(facts.appName)
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(HhySpacing.Sm)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(facts.appName, Modifier.weight(1f), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
@@ -527,16 +525,16 @@ private fun AppListCard(item: ContentResource, onClick: () -> Unit) {
                     }
                 }
             }
-            if (item.media.size > 1) {
+            if (item.media.isNotEmpty()) {
                 LazyRow(
-                    modifier = Modifier.fillMaxWidth().height(HhySize.TopAppBarHeight * 2),
+                    modifier = Modifier.fillMaxWidth().height(HhySize.TopAppBarHeight * 2).testTag("r09.app.media.list"),
                     horizontalArrangement = Arrangement.spacedBy(HhySpacing.Sm),
                 ) {
-                    items(item.media.drop(1), key = { it.id }) { media ->
+                    items(item.media, key = { it.id }) { media ->
                         AppArtwork(
                             media = media,
                             appName = facts.appName,
-                            modifier = Modifier.width(HhySize.AppLogo + HhySpacing.Xxl).height(HhySize.TopAppBarHeight * 2),
+                            modifier = Modifier.width(HhySize.TopAppBarHeight * 2 + HhySpacing.Xxl).height(HhySize.TopAppBarHeight * 2),
                             tag = "r09.app.media.list.preview.${media.id}",
                         )
                     }
@@ -548,6 +546,24 @@ private fun AppListCard(item: ContentResource, onClick: () -> Unit) {
                 Text(item.publisher?.nickname ?: "发布者信息未提供", Modifier.weight(1f), color = HhyColors.TextSecondary, style = MaterialTheme.typography.bodySmall)
                 item.statistics?.let { Text("浏览 ${it.viewCount}", color = HhyColors.TextTertiary, style = MaterialTheme.typography.labelSmall) }
             }
+        }
+    }
+}
+
+@Composable
+private fun AppBrandMark(appName: String) {
+    Surface(
+        modifier = Modifier.size(HhySize.AppLogo).testTag("r09.app.brand"),
+        color = HhyColors.SoftBlue,
+        shape = RoundedCornerShape(HhyRadius.NormalCard),
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            HhyIcon(
+                HhyIcons.Applications,
+                contentDescription = "$appName 应用标识",
+                modifier = Modifier.size(HhySize.MinimumTouchTarget),
+                tint = HhyColors.BrandPrimary,
+            )
         }
     }
 }
