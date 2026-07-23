@@ -17982,3 +17982,95 @@ change_requests:
   - SES-20260723T183130Z-454A6E0D
   implementation_commits:
   - 88b98424
+- protocol_version: '1.0'
+  cr_id: CR-0295
+  title: 补齐R11后台团队长运营详情
+  status: IMPLEMENTING
+  created_at: '2026-07-23T22:44:02Z'
+  updated_at: '2026-07-23T22:57:45Z'
+  requester_actor_id: codex-root-r11-client
+  approver_actor_id: codex-reviewer-user-self-r11
+  task_id: TASK-R11-004
+  session_id: SES-20260723T183130Z-454A6E0D
+  user_request: 项目所有者要求前端已开发功能必须具备后台上帝视角与完整管理能力，并持续推进R11开发。
+  reason: 后台统一内容列表已识别TEAM_LEADER，但详情页尚未展示团队长冻结属性、真实媒体、发布者、脱敏联系方式和运营统计，TASK-R11-004后台实现仍不完整。
+  original_rule: 后台统一内容详情页已复用内容类型、状态和通用运营动作，但仅对GROUP_CHAT展示领域专属业务事实。
+  new_rule: 在既有统一内容详情页内为TEAM_LEADER增加只读领域面板，仅展示服务端ContentResource返回的冻结团队属性、HTTPS真实媒体、发布者、脱敏联系方式与统计；复用既有运营动作，禁止暴露原始联系方式或新增未冻结动作。
+  impact_summary: 补齐R11后台团队长上帝视角详情与自动化回归，不修改API、数据库、配置或H5计划。
+  impact:
+    files:
+    - apps/admin-web/src/views/AdminContentDetailPage.vue
+    - apps/admin-web/src/r11TeamLeaderReuse.test.ts
+    - CHANGELOG.md
+    pages:
+    - ADM-CONTENT-002
+    apis:
+    - GET /admin-api/v1/contents/{id}
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R11_ADMIN_TEAM_LEADER_REUSE
+    releases:
+    - R11
+    migration_and_compatibility: 纯后台兼容性展示增强；既有内容类型和接口保持不变，属性缺失时显示安全占位，非HTTPS媒体不渲染。
+  user_confirmation: 项目所有者已明确要求立即推进后台能力补齐并持续开发，无需逐项停下确认。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T22:45:09Z'
+    note: 项目所有者已明确要求前端功能必须具备后台上帝视角和完整管理能力；本变更只补齐冻结团队长事实展示并复用既有运营动作。
+  machine_record: .continuity/change_requests/CR-0295.yaml
+  document: docs/03-continuity/change-requests/CR-0295-补齐R11后台团队长运营详情.md
+  decision_log:
+  - at: '2026-07-23T22:57:45Z'
+    actor_id: codex-root-r11-client
+    status: IMPLEMENTING
+    note: 实现已完成，admin-web 98项测试、类型检查与生产构建PASS，进入提交和门禁阶段。
+    session_id: SES-20260723T183130Z-454A6E0D
+  session_ids:
+  - SES-20260723T183130Z-454A6E0D
+- protocol_version: '1.0'
+  cr_id: CR-0296
+  title: 补齐后台统一内容领域区响应式样式
+  status: IMPLEMENTING
+  created_at: '2026-07-23T22:54:10Z'
+  updated_at: '2026-07-23T22:57:52Z'
+  requester_actor_id: codex-root-r11-client
+  approver_actor_id: codex-reviewer-user-self-r11
+  task_id: TASK-R11-004
+  session_id: SES-20260723T183130Z-454A6E0D
+  user_request: 项目所有者要求后台按大型商业系统标准规划开发，前端页面肉眼达到效果图丰富度和精致度。
+  reason: 统一内容详情的领域面板与媒体网格已存在于R10和R11实现，但styles.css没有对应样式，功能DOM通过而视觉层不完整。
+  original_rule: 后台统一内容详情已有领域面板、媒体网格和长文本结构，但缺少对应CSS，浏览器仅按裸块级元素排版。
+  new_rule: 统一内容领域面板必须具备清晰分区、响应式媒体网格、长文本层级和案例列表样式；复用设计Token，桌面与窄屏均不得溢出或嵌套卡片。
+  impact_summary: 为R10群聊与R11团队长复用的统一内容领域区补齐响应式样式。
+  impact:
+    files:
+    - apps/admin-web/src/styles.css
+    - CHANGELOG.md
+    pages:
+    - ADM-CONTENT-002
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - ADMIN_CONTENT_DOMAIN_RESPONSIVE_STYLE
+    releases:
+    - R11
+    migration_and_compatibility: 仅CSS增强，不改变DOM合同、API和运行时数据；无媒体或字段为空时保持现有安全占位。
+  user_confirmation: 项目所有者已明确要求后台专业可用且UI达到规定精致度，并授权持续开发。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T22:54:35Z'
+    note: 样式缺口会直接违反后台商业系统标准和UI硬规则；变更只复用Token完善既有领域区。
+  machine_record: .continuity/change_requests/CR-0296.yaml
+  document: docs/03-continuity/change-requests/CR-0296-补齐后台统一内容领域区响应式样式.md
+  decision_log:
+  - at: '2026-07-23T22:57:52Z'
+    actor_id: codex-root-r11-client
+    status: IMPLEMENTING
+    note: 实现已完成，admin-web 98项测试、类型检查与生产构建PASS，进入提交和门禁阶段。
+    session_id: SES-20260723T183130Z-454A6E0D
+  session_ids:
+  - SES-20260723T183130Z-454A6E0D

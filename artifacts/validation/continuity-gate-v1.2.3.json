@@ -1,17 +1,25 @@
 {
   "version": "1.2.3",
   "protocol_version": "1.0",
-  "mode": "doctor",
+  "mode": "pre-commit",
   "strict": true,
   "status": "PASS",
   "metrics": {
-    "event_count": 2626,
-    "event_head_hash": "81c3e5220fe8dcdcc197c7ce42d115aa89291ef52327b3db5b78c5cb5049c8fa",
+    "event_count": 2898,
+    "event_head_hash": "af800e504aa0aa7b327061a66ee043b1cef425b9cf54f39685b78c75d62d2a40",
     "rule_readiness": "PASS",
     "required_rule_sources": 11,
+    "changed_files": 22,
+    "project_changed_files": 6,
+    "change_classification": {
+      "other": 1,
+      "code": 3,
+      "user_visible": 3,
+      "continuity": 2
+    },
     "document_gate": {
-      "status": "EXECUTED",
-      "forced": true,
+      "status": "SKIPPED_UNAFFECTED",
+      "forced": false,
       "affected_inputs": []
     }
   },
