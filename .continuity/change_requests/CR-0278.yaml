@@ -1,0 +1,55 @@
+protocol_version: '1.0'
+cr_id: CR-0278
+title: 补齐R10三页视觉追溯归档
+status: IMPLEMENTED
+created_at: '2026-07-23T16:39:21Z'
+updated_at: '2026-07-23T16:42:37Z'
+requester_actor_id: codex-root-r10-candidate
+approver_actor_id: codex-independent-r10-visual-reviewer
+task_id: TASK-R10-007
+session_id: SES-20260723T122953Z-52EBA51E
+user_request: 按仓库事实源持续完成R10关闭并进入后续版本。
+reason: R10三页已有精确面板、实现、真实候选截图和AI批准基线，但缺冻结视觉合同与ui_visual_acceptance登记，导致R10视觉关闭门禁无法证明追溯完整。
+original_rule: R10三页精确面板映射已在RELEASE_MANIFEST和CR-0266冻结，Run 30013677033截图与AI基线审批已PASS，但design/R10-UI-FROZEN/specs和catalogs/ui_visual_acceptance.csv未投影，视觉门禁无法完成逐页追溯。
+new_rule: 新增三份R10冻结视觉合同：SCR-LIST-003=B02/P07、SCR-DETAIL-003=B03/P03、SCR-PUB-004=B04/P03；ui_visual_acceptance逐页绑定页面规格、Android实现、批准基线和Run 30013677033真实截图，登记PASS。只补事实投影，不修改产品实现或重跑模拟器。
+impact_summary: 闭合R10群聊列表、详情、发布编辑的精确效果图到真实候选截图AI验收链。
+impact:
+  files:
+  - design/R10-UI-FROZEN/specs/SCR-LIST-003.md
+  - design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
+  - design/R10-UI-FROZEN/specs/SCR-PUB-004.md
+  - catalogs/ui_visual_acceptance.csv
+  pages:
+  - SCR-LIST-003
+  - SCR-DETAIL-003
+  - SCR-PUB-004
+  apis: []
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - check_ui_visual_acceptance.py --release R10 PASS
+  - check_v123_documentation.py --strict --release R10 PASS
+  releases:
+  - R10
+  migration_and_compatibility: 纯文档和验收目录归档，不改变UI、API、数据库、APK或运行时；复用已批准候选证据。
+user_confirmation: 项目所有者已要求按仓库事实源持续完成各版本；本CR修复阻止R10关闭的归档遗漏，不扩展产品范围。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T16:39:51Z'
+  note: 独立复核确认精确面板映射来自R10 RELEASE_MANIFEST和已批准CR-0266；候选Run 30013677033四图已有AI APPROVED，本CR仅补缺失追溯投影且不改变实现或候选证据。
+machine_record: .continuity/change_requests/CR-0278.yaml
+document: docs/03-continuity/change-requests/CR-0278-补齐R10三页视觉追溯归档.md
+decision_log:
+- at: '2026-07-23T16:42:35Z'
+  actor_id: codex-root-r10-candidate
+  status: IMPLEMENTING
+  note: 批准范围正在事实分支实施并已完成对应验证。
+  session_id: SES-20260723T122953Z-52EBA51E
+- at: '2026-07-23T16:42:37Z'
+  actor_id: codex-root-r10-candidate
+  status: IMPLEMENTED
+  note: 批准范围已全部落库并通过对应R10关闭检查。
+  session_id: SES-20260723T122953Z-52EBA51E
+session_ids:
+- SES-20260723T122953Z-52EBA51E

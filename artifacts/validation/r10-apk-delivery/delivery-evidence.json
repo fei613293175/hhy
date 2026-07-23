@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "release": "R10",
+  "commit": "1e35a97fb0541644d85a264a84229435ead378bf",
+  "apk_file": "hhy-r10-1e35a97-debug.apk",
+  "version_name": "1.2.2-debug",
+  "version_code": 10219,
+  "sha256": "f2f0888917e5476b99e2ca63221dd66bae7a68a39e21c7020bb2d226d1fd66ec",
+  "size_bytes": 20916072,
+  "signing": {
+    "status": "PASS",
+    "profile_id": "hhy-staging-test-v1",
+    "fingerprint": "f17b040789a845244ff9e2a9d8aedc1e7412adea0539d99c5cc036baf5dbb873",
+    "stable": true
+  },
+  "local": {
+    "status": "PASS",
+    "artifact_copy": "artifacts\\apk\\R10\\hhy-r10-1e35a97-debug.apk"
+  },
+  "desktop": {
+    "status": "PASS",
+    "path": "C:\\Users\\小白\\Desktop\\hhy-r10-1e35a97-debug.apk",
+    "sha256": "f2f0888917e5476b99e2ca63221dd66bae7a68a39e21c7020bb2d226d1fd66ec"
+  },
+  "route_preflight": {
+    "status": "PASS",
+    "route": "/r10-artifacts/hhy-r10-1e35a97-debug.apk",
+    "remote_path": "/www/wwwroot/download.orbexa.cc/r10-artifacts/hhy-r10-1e35a97-debug.apk",
+    "checked_at": "2026-07-23T14:55:12.309431Z"
+  },
+  "remote": {
+    "status": "PASS",
+    "sha256": "f2f0888917e5476b99e2ca63221dd66bae7a68a39e21c7020bb2d226d1fd66ec",
+    "size_bytes": 20916072,
+    "path": "/www/wwwroot/download.orbexa.cc/r10-artifacts/hhy-r10-1e35a97-debug.apk",
+    "publish_state": "CREATED"
+  },
+  "https": {
+    "status": "PASS",
+    "http_status": 200,
+    "range_status": 206,
+    "content_type": "application/vnd.android.package-archive",
+    "sha256": "f2f0888917e5476b99e2ca63221dd66bae7a68a39e21c7020bb2d226d1fd66ec",
+    "size_bytes": 20916072,
+    "verified_at": "2026-07-23T15:11:38.122527Z",
+    "url": "https://download.orbexa.cc/r10-artifacts/hhy-r10-1e35a97-debug.apk"
+  },
+  "owner_physical_test": {
+    "status": "PENDING"
+  },
+  "created_at": "2026-07-23T15:00:43.950753Z",
+  "last_verified_at": "2026-07-23T15:11:38.122527Z"
+}

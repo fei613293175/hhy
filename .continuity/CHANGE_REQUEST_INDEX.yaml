@@ -16972,3 +16972,120 @@ change_requests:
     note: 独立复核确认失败发生在Artifact下载前，Doctor报告属于受控治理派生物；精确加入单文件白名单并保留产品路径拒绝，复用源候选是最小安全修复。
   machine_record: .continuity/change_requests/CR-0276.yaml
   document: docs/03-continuity/change-requests/CR-0276-修复R10轻量晋升Doctor报告白名单遗漏.md
+- protocol_version: '1.0'
+  cr_id: CR-0277
+  title: 登记R10四方交付并固化SSH预认证容量修复
+  status: IMPLEMENTED
+  created_at: '2026-07-23T15:07:20Z'
+  updated_at: '2026-07-23T16:42:32Z'
+  requester_actor_id: codex-root-r10-candidate
+  approver_actor_id: codex-independent-r10-delivery-reviewer
+  task_id: TASK-R10-007
+  session_id: SES-20260723T122953Z-52EBA51E
+  user_request: 项目所有者要求解决服务器连接限流并把经验写入可跨电脑跨AI复用记录。
+  reason: R10固定签名APK交付期间公网扫描占用默认MaxStartups预认证槽，导致SCP随机reset；已通过缩短LoginGraceTime、适度提高MaxStartups和连续12连接验证解决，并需固化R10交付证据。
+  original_rule: APK交付脚本已有分块重试和四方SHA门禁，但既有踩坑与运行手册未记录公网SSH扫描占用默认MaxStartups预认证槽、导致正常SCP随机reset的诊断和服务器修复方法；R10最终交付证据也尚未登记。
+  new_rule: 遇到SCP Connection reset/Broken pipe必须先核验sshd -T、45分钟sshd日志、Fail2ban/防火墙及扫描连接；若证据确认默认MaxStartups被公网pre-auth扫描占用，可在备份、sshd -t和可回滚前提下把LoginGraceTime降至30、MaxStartups调为30:50:100，并以新连接回读和至少12次连续连接验证。APK仍用交付脚本分块重试及四方SHA，不得关闭密码登录等超出本任务的认证策略。R10固定签名APK、候选/晋升Run、桌面/服务器/HTTPS交付和异步真机状态全部入库。
+  impact_summary: 登记R10源候选、轻量晋升、固定签名、APK Manifest、四方交付、版本测试说明与机器报告；更新既有SSH踩坑和运行手册，并登记PROB-0103。
+  impact:
+    files:
+    - artifacts/apk/R10/APK_MANIFEST.yaml
+    - artifacts/apk/R10/hhy-r10-1e35a97-debug.apk
+    - artifacts/validation/r10-apk-delivery/delivery-evidence.json
+    - artifacts/validation/r10-task007-android/build-evidence.json
+    - artifacts/validation/r10-task007-android/candidate-report.json
+    - artifacts/validation/r10-task007-android/source-candidate-report.json
+    - artifacts/validation/r10-task007-android/APPROVAL.yaml
+    - artifacts/reports/R10/TASK-R10-007-android-apk.md
+    - artifacts/reports/R10/R10-version-test-guide.md
+    - docs/03-continuity/PITFALLS.md
+    - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+    - docs/03-continuity/PROBLEM_REGISTRY.yaml
+    - CHANGELOG.md
+    pages: []
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - R10 candidate and promotion PASS
+    - R10 four-way APK delivery PASS
+    - SSH 12-connection burst PASS
+    releases:
+    - R10
+    migration_and_compatibility: 服务器sshd_config已备份为/etc/ssh/sshd_config.bak-hhy-preauth-20260723，sshd -t与reload通过；不改变端口、密钥、密码登录或root登录策略。R10 Owner真机保持PENDING且不阻断后续开发。
+  user_confirmation: 项目所有者明确要求解决服务器限流并把经验写入跨电脑跨AI复用记录。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T15:08:05Z'
+    note: 独立复核确认R10候选、视觉、固定签名与四方交付证据完整；SSH根因由默认MaxStartups和持续公网pre-auth扫描共同造成，调整值保守、具备备份和语法校验，未扩大认证策略范围。
+  machine_record: .continuity/change_requests/CR-0277.yaml
+  document: docs/03-continuity/change-requests/CR-0277-登记R10四方交付并固化SSH预认证容量修复.md
+  decision_log:
+  - at: '2026-07-23T16:42:29Z'
+    actor_id: codex-root-r10-candidate
+    status: IMPLEMENTING
+    note: 批准范围正在事实分支实施并已完成对应验证。
+    session_id: SES-20260723T122953Z-52EBA51E
+  - at: '2026-07-23T16:42:32Z'
+    actor_id: codex-root-r10-candidate
+    status: IMPLEMENTED
+    note: 批准范围已全部落库并通过对应R10关闭检查。
+    session_id: SES-20260723T122953Z-52EBA51E
+  session_ids:
+  - SES-20260723T122953Z-52EBA51E
+- protocol_version: '1.0'
+  cr_id: CR-0278
+  title: 补齐R10三页视觉追溯归档
+  status: IMPLEMENTED
+  created_at: '2026-07-23T16:39:21Z'
+  updated_at: '2026-07-23T16:42:37Z'
+  requester_actor_id: codex-root-r10-candidate
+  approver_actor_id: codex-independent-r10-visual-reviewer
+  task_id: TASK-R10-007
+  session_id: SES-20260723T122953Z-52EBA51E
+  user_request: 按仓库事实源持续完成R10关闭并进入后续版本。
+  reason: R10三页已有精确面板、实现、真实候选截图和AI批准基线，但缺冻结视觉合同与ui_visual_acceptance登记，导致R10视觉关闭门禁无法证明追溯完整。
+  original_rule: R10三页精确面板映射已在RELEASE_MANIFEST和CR-0266冻结，Run 30013677033截图与AI基线审批已PASS，但design/R10-UI-FROZEN/specs和catalogs/ui_visual_acceptance.csv未投影，视觉门禁无法完成逐页追溯。
+  new_rule: 新增三份R10冻结视觉合同：SCR-LIST-003=B02/P07、SCR-DETAIL-003=B03/P03、SCR-PUB-004=B04/P03；ui_visual_acceptance逐页绑定页面规格、Android实现、批准基线和Run 30013677033真实截图，登记PASS。只补事实投影，不修改产品实现或重跑模拟器。
+  impact_summary: 闭合R10群聊列表、详情、发布编辑的精确效果图到真实候选截图AI验收链。
+  impact:
+    files:
+    - design/R10-UI-FROZEN/specs/SCR-LIST-003.md
+    - design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
+    - design/R10-UI-FROZEN/specs/SCR-PUB-004.md
+    - catalogs/ui_visual_acceptance.csv
+    pages:
+    - SCR-LIST-003
+    - SCR-DETAIL-003
+    - SCR-PUB-004
+    apis: []
+    database: []
+    configuration: []
+    ledger: []
+    tests:
+    - check_ui_visual_acceptance.py --release R10 PASS
+    - check_v123_documentation.py --strict --release R10 PASS
+    releases:
+    - R10
+    migration_and_compatibility: 纯文档和验收目录归档，不改变UI、API、数据库、APK或运行时；复用已批准候选证据。
+  user_confirmation: 项目所有者已要求按仓库事实源持续完成各版本；本CR修复阻止R10关闭的归档遗漏，不扩展产品范围。
+  approval:
+    decision: APPROVED
+    decided_at: '2026-07-23T16:39:51Z'
+    note: 独立复核确认精确面板映射来自R10 RELEASE_MANIFEST和已批准CR-0266；候选Run 30013677033四图已有AI APPROVED，本CR仅补缺失追溯投影且不改变实现或候选证据。
+  machine_record: .continuity/change_requests/CR-0278.yaml
+  document: docs/03-continuity/change-requests/CR-0278-补齐R10三页视觉追溯归档.md
+  decision_log:
+  - at: '2026-07-23T16:42:35Z'
+    actor_id: codex-root-r10-candidate
+    status: IMPLEMENTING
+    note: 批准范围正在事实分支实施并已完成对应验证。
+    session_id: SES-20260723T122953Z-52EBA51E
+  - at: '2026-07-23T16:42:37Z'
+    actor_id: codex-root-r10-candidate
+    status: IMPLEMENTED
+    note: 批准范围已全部落库并通过对应R10关闭检查。
+    session_id: SES-20260723T122953Z-52EBA51E
+  session_ids:
+  - SES-20260723T122953Z-52EBA51E

@@ -1395,3 +1395,17 @@ problems:
   - 新增或强制刷新治理派生报告时，必须同步审计基线晋升从源Commit到HEAD的精确白名单
   - 轻量治理失败不得重跑已经通过的完整Android候选
   - 不得以允许整个artifacts目录解决单文件遗漏，只允许精确机器报告路径
+- id: PROB-0103
+  title: 公网预认证扫描占满OpenSSH默认连接槽导致APK传输随机重置
+  status: SOLVED
+  root_cause: obx-test使用OpenSSH默认LoginGraceTime 120与MaxStartups 10:30:100；sshd日志显示多个公网扫描IP每8至10秒建立一次root或随机用户名的preauth连接，120秒内持续占用未认证槽。服务器无Fail2ban、无SSH防火墙限频，20 MB单流SCP和连续分片上传因此被OpenSSH随机丢弃，表现为Connection reset或Broken pipe；APK源SHA、工具链和密钥均正常。
+  resolution: CR-0277在备份/etc/ssh/sshd_config后把LoginGraceTime调为30、MaxStartups调为30:50:100，sshd -t、reload、新连接回读及12次连续连接全部通过；未修改SSH端口、密钥、密码/root登录策略。R10交付继续使用deliver_android_test_apk.py的1 MiB分块、有界重试、远端合并SHA和四方校验，最终耗时5分36秒完成。
+  regression_checks:
+  - ssh obx-test 'sshd -T | grep logingracetime; sshd -T | grep maxstartups'必须分别返回30和30:50:100
+  - 至少12次BatchMode新SSH连接必须全部成功，不得在第5次左右随机reset
+  - R10 delivery-evidence必须证明仓库、桌面、服务器、HTTPS均为f2f0888917e5476b99e2ca63221dd66bae7a68a39e21c7020bb2d226d1fd66ec
+  - 服务器配置回滚只能在保留活动会话、恢复备份并通过sshd -t后reload
+  do_not_repeat:
+  - 不得把preauth连接槽耗尽误判为服务器带宽限速、APK损坏或SSH密钥失效
+  - 不得只无限增加MaxStartups；必须先缩短未认证连接存活时间并保留有界容量
+  - 不得因解决传输问题擅自关闭密码/root登录、修改端口或扩大本次安全变更范围

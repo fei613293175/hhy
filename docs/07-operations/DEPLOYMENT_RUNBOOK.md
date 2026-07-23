@@ -299,6 +299,14 @@ TASK-R09-007 将精确候选 Commit 升级到公开 Staging CI 候选容器后�
 
 ## 15. R10 群聊隔离预发布验收
 
+### SSH 大文件交付预认证容量
+
+APK上传若出现 `Connection reset`、`Broken pipe` 或固定次数的新连接后随机断开，先在服务器执行只读诊断：读取 `sshd -T` 的 `logingracetime`、`maxstartups`、`maxsessions`，检查最近45分钟 `journalctl -u sshd`/`/var/log/secure` 的 `preauth` 连接，并核验 Fail2ban、防火墙和22/实际SSH端口限频规则。不得把公网扫描占用未认证连接槽误判为APK、签名或带宽失败。
+
+2026-07-23 的 `obx-test` 证据显示公网扫描IP持续建立未认证连接，OpenSSH默认 `LoginGraceTime 120` 与 `MaxStartups 10:30:100` 使正常SCP被随机丢弃；无Fail2ban、无SSH防火墙限频。已备份 `/etc/ssh/sshd_config` 为 `/etc/ssh/sshd_config.bak-hhy-preauth-20260723`，在不改变端口、密钥、密码/root登录策略的边界内设置 `LoginGraceTime 30`、`MaxStartups 30:50:100`，`sshd -t`、reload、新连接回读和12次连续连接全部通过。恢复时必须先保留活动会话，恢复备份、执行 `sshd -t` 后再reload。
+
+大文件交付仍优先运行 `scripts/deliver_android_test_apk.py`，使用1 MiB分块、每片有界重试、远端顺序合并、大小和SHA-256双校验及原子发布；禁止以放宽SSH容量替代交付脚本，也禁止在一条Windows内联SSH长命令中重组签名、Nginx和交付步骤。
+
 R10 使用 `infra/staging/r10-smoke/docker-compose.yml`，采用独立 Compose project、仅回环发布端口、经服务器既有资源核对后冻结的 `172.31.242.0/24` 子网和独立数据卷；不得修改或重启公网以及 R01–R09 环境。执行前运行 `python3 scripts/check_r10_observability.py`，并把精确被测 Commit 注入 `HHY_R10_FROZEN_COMMIT`。测试 Secret 只在隔离进程环境生成和注入，禁止写入仓库、报告、命令输出或 Shell 历史；实名认证沙箱与 CI 自动登录保持关闭。
 
 TASK-R10-007 将精确候选 Commit 升级到专用 R10 Staging CI 候选容器后运行 `scripts/prepare_r10_ci_fixture.sh`。脚本必须显式设置 `HHY_R10_CI_FIXTURE_CONFIRM=YES`，只允许 `hhy-r10-ci-candidate-*` 后端及登记的 Staging PostgreSQL 容器；要求 Flyway V036 已成功并兼容最新 V037，幂等准备已实名专用候选用户、一个 ONLINE 群聊、群详情、群主联系方式和独立入群口令。不得虚构人数、收益、活跃度、下载量或媒体。

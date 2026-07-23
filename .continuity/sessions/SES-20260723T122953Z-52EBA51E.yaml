@@ -11,7 +11,7 @@ task_id: TASK-R10-007
 story_id: STORY-R10-004
 goal: 群聊推广完整闭环Android测试APK与产物追溯
 started_at: '2026-07-23T12:29:53Z'
-updated_at: '2026-07-23T14:24:00Z'
+updated_at: '2026-07-23T16:42:44Z'
 takeover_of: null
 change_requests:
 - CR-0272
@@ -19,6 +19,8 @@ change_requests:
 - CR-0274
 - CR-0275
 - CR-0276
+- CR-0277
+- CR-0278
 scope:
   allowed_paths:
   - apps/**
@@ -71,7 +73,21 @@ scope:
   - tests/android/visual-baselines/R10/04-group-editor.png
   - tests/android/visual-baselines/R10/APPROVAL.yaml
   - .github/workflows/android-baseline-promotion.yml
-  source: story+explicit+approved-cr:CR-0272+approved-cr:CR-0273+approved-cr:CR-0274+approved-cr:CR-0275+approved-cr:CR-0276
+  - artifacts/apk/R10/APK_MANIFEST.yaml
+  - artifacts/apk/R10/hhy-r10-1e35a97-debug.apk
+  - artifacts/validation/r10-apk-delivery/delivery-evidence.json
+  - artifacts/validation/r10-task007-android/build-evidence.json
+  - artifacts/validation/r10-task007-android/candidate-report.json
+  - artifacts/validation/r10-task007-android/source-candidate-report.json
+  - artifacts/validation/r10-task007-android/APPROVAL.yaml
+  - artifacts/reports/R10/TASK-R10-007-android-apk.md
+  - artifacts/reports/R10/R10-version-test-guide.md
+  - docs/03-continuity/PITFALLS.md
+  - design/R10-UI-FROZEN/specs/SCR-LIST-003.md
+  - design/R10-UI-FROZEN/specs/SCR-DETAIL-003.md
+  - design/R10-UI-FROZEN/specs/SCR-PUB-004.md
+  - catalogs/ui_visual_acceptance.csv
+  source: story+explicit+approved-cr:CR-0272+approved-cr:CR-0273+approved-cr:CR-0274+approved-cr:CR-0275+approved-cr:CR-0276+approved-cr:CR-0277+approved-cr:CR-0278
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -81,22 +97,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T14:23:54Z'
-  expires_at: '2026-07-23T18:23:54Z'
-checkpoint_sequence: 8
-latest_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0008.yaml
+  renewed_at: '2026-07-23T16:42:40Z'
+  expires_at: '2026-07-23T20:42:40Z'
+checkpoint_sequence: 10
+latest_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0010.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md
-next_step: 提交推送CR-0276并确认GitHub轻量晋升复用Run 30013677033后PASS。
+next_step: 提交并推送TASK-R10-007机器交付实现，随后以该Commit关闭任务并启动TASK-R10-008。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: baac7213b96adbd557ec784009ff5131fbd7c8f93fb3c5c56d1f8408567f23e2
-  generated_at: '2026-07-23T14:23:58Z'
+  context_hash: 53279530f57f5aadbf44a3e5893a511d38618cb5afa636cc79c2eb186567c739
+  generated_at: '2026-07-23T16:42:42Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
-  assessment: USER_SERIAL_OVERRIDE
+  assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: CI治理单文件热修和不可变证据链集成必须串行，且无安全并行工作包。
+  reason: Release事实归档、CR状态与连续性提交强耦合，主控串行复核。
