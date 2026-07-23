@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T21:38:14Z",
-  "context_hash": "be2847dc6de0996d69973b9aa8bc0dad19243b787da4fab2446e51863f8a6d15",
+  "generated_at": "2026-07-23T22:27:45Z",
+  "context_hash": "5b0eb67df1bacf2376319daa3f95373e0c6f5332199fff4411fe86766e0e7fba",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "fd5db31ea3c3988dc8b0f261da3181708f957b084b577d74a08f2408bbcc42c1",
-    "file_count": 34
+    "sha256": "e39a6ec404553c0b01a81e5f56711e0b3a8d926dbc382e06c4ab3bd856a90b66",
+    "file_count": 35
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "201ecb30c58abf0c805c2e0c053651c192099d81d457dda4f17c438b50eb7fff"
+    "sha256": "3b83b79c2e6ff21a63d38e5e9db9f8af00a59f9a58b21e6e3d0ca1ca2c81a868"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "2b8ea67d609b3f7aca697052f1e91f6af20619de818c6155e343039dadd7c5b8"
+    "sha256": "1064b201456f966338636b269015b6f85ef5b37dfe873d661c2bf84eba25f2f7"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "9c87955e8bf1e58300913c39418ef725e7ed3ddb1be05b1ea716a6791fbf9112",
+      "sha256": "72d30c543fb1382be79c4b706f70a48a73bfa34c0b7ffde8aa010d8ebd3a45ca",
       "bytes": 4271
     },
     {
@@ -53,13 +53,13 @@
     },
     {
       "path": "docs/03-continuity/REUSABLE_PATTERNS.md",
-      "sha256": "c40b8ef514ddfbff0f7b0a9b48515ccfa770be656565bbfe3cb0f738f6369ab9",
-      "bytes": 3492
+      "sha256": "fe65ac4157e0072a3e8fbe2fb815bf6badf3f81fa295f54b9663b66683f5d593",
+      "bytes": 3629
     },
     {
       "path": "docs/03-continuity/PITFALLS.md",
-      "sha256": "59012227d161f0fa53728617c25a27d1dc38880d112f9b1c206290681cc27387",
-      "bytes": 7725
+      "sha256": "80ebb16c0f5a94a5f20a06df9a60b398e957c2e9d66720f199cad6deebc6dd45",
+      "bytes": 8041
     },
     {
       "path": "releases/PROGRAM_EXECUTION_PLAN.yaml",
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "737474b163e58eb9a480686f005c3463b5bff8d71f41880fd98ddf084706427d",
-      "bytes": 1607322
+      "sha256": "61375d913fa47e34b2ad6a1a4bb79a3d44ef471a10953bc1a364ddc9107e1543",
+      "bytes": 1609641
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "33c00f956e42287219c74a8ed106062cbf070876a11b42903efb417a2a421f07",
+      "sha256": "20b2c21fac1177cb0a8980ac993c366b4bacf73cb039cd0b13fb4bf272445576",
       "bytes": 48699
     },
     {
@@ -103,12 +103,12 @@
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
-      "sha256": "5af49ac9ddf843f8a2e57172ca860e76cb472518c484bdd81aea403a502f84fb",
-      "bytes": 979725
+      "sha256": "4af086398c36f2dfa44d5842ae8349f8d9d8ea3b53dc524688571e854b4e3da6",
+      "bytes": 982403
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "8cabb37499358daefcc959a1a8bc347bde72c491c5c737f3c7b7ce3069e45422",
+      "sha256": "e43706f2f221f6b205ebc1399876e3bb6d51f79ad7ea51c327bae56bed148aa1",
       "bytes": 536
     },
     {
@@ -163,13 +163,13 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md",
-      "sha256": "7cdd2846d09def24ebf8dc98964537328b2c314ef9013a58820eaf8e8a03c210",
-      "bytes": 33054
+      "sha256": "2238ade1d321d792f9c3ed3054b632f70f6aa536ea7a9edcb3d0b958994d76df",
+      "bytes": 36326
     },
     {
-      "path": ".continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0014.yaml",
-      "sha256": "3f372038fda393e9fc89ccf0fabf55a1664594e16c811d9479531b50afd1ee0d",
-      "bytes": 16944
+      "path": ".continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0015.yaml",
+      "sha256": "a76b764d54a9ffeb7e46c5b57c267b5382f1fef3023438d57d64578725780afe",
+      "bytes": 18153
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md",
@@ -215,6 +215,11 @@
       "path": "docs/03-continuity/change-requests/CR-0293-登记R11团队长三页逐页视觉验收合同.md",
       "sha256": "83abcddb42c73a9a2d746a6af8df386571d05a1eed314173893fa4b9bc781669",
       "bytes": 2847
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0294-持久化云端Android-36平台缓存.md",
+      "sha256": "4101f0924918b8a0ca6ecff85afc1b19e2a40c2a5b287b699bf3b4215e3a76c4",
+      "bytes": 2718
     }
   ]
 }

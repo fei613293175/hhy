@@ -18,6 +18,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY_PATH = ROOT / "config" / "DEVELOPMENT_RUNTIME.yaml"
+ANDROID_PLATFORM_VOLUME = "hhy-android-sdk-platform-36"
 
 
 def load_policy(path: Path = POLICY_PATH) -> dict:
@@ -52,6 +53,9 @@ def android_probe_command(*, image: str, expected_id: str, cache: str) -> str:
             "printf 'android_image_id=%s\\n' \"$actual_image_id\"",
             f"docker volume inspect {quoted_cache} >/dev/null",
             "printf 'gradle_cache=present\\n'",
+            f"platform_mount=$(docker volume inspect --format '{{{{.Mountpoint}}}}' {ANDROID_PLATFORM_VOLUME})",
+            "test -f \"$platform_mount/android.jar\"",
+            "printf 'android_platform_36=present\\n'",
             "swap_mb=$(awk '/^SwapTotal:/ {print int($2 / 1024)}' /proc/meminfo)",
             "available_mb=$(awk '/^MemAvailable:/ {print int($2 / 1024)}' /proc/meminfo)",
             "printf 'swap_mb=%s\\n' \"$swap_mb\"",
@@ -96,6 +100,7 @@ def check_cloud_environment(*, ssh_executable: str, check_android: bool, declare
             [
                 {"name": "android_image", "ok": probe.get("android_image_id") == android["image_id"], "output": probe.get("android_image_id", "")},
                 {"name": "gradle_cache", "ok": probe.get("gradle_cache") == "present", "output": probe.get("gradle_cache", "")},
+                {"name": "android_platform_36", "ok": probe.get("android_platform_36") == "present", "output": probe.get("android_platform_36", "")},
                 {"name": "swap_capacity", "ok": swap_mb >= 7_168, "output": f"{swap_mb} MB"},
                 {"name": "available_memory", "ok": available_mb >= 1_024, "output": f"{available_mb} MB"},
                 {"name": "android_build_slot", "ok": probe.get("android_build_slot") in {"available", "busy"}, "output": probe.get("android_build_slot", "unknown")},

@@ -35,4 +35,4 @@ Android 以稳定 Jetpack Navigation Compose 维护真实来源返回栈，顶�
 
 ## PATTERN-ANDROID-REMOTE-001 固定容器受影响模块验证
 
-普通 Android 开发任务只在既有 `obx-test` 固定镜像中运行受影响 MODULE。容器统一使用 `hhy-r01-android-gradle-cache:/root/.gradle`，以精确 Commit 的干净克隆作为源码输入；禁止把宿主 `/root/.gradle` 当成等价缓存，也不得为单次验证重建镜像。启动前由单次 SSH 预检固定镜像、缓存、持久 Swap、可用内存和 `/var/lock/hhy-android-build.lock`，构建必须串行持锁并使用 CPU/内存/PID 上限、Gradle 单 worker 与受控 JVM 堆，退出后 `--rm` 清理临时容器。遇到稳定 API 36 自动安装或短时无输出，先联合检查容器运行状态、CPU 与增量日志；确认进程真正退出或无活动后才诊断失败，避免重复容器、重复下载和无意义重跑。完整打包、模拟器、截图及候选 APK 仍只在大版本最终候选阶段执行。
+普通 Android 开发任务只在既有 `obx-test` 固定镜像中运行受影响 MODULE。容器统一使用 `hhy-r01-android-gradle-cache:/root/.gradle` 和 `hhy-android-sdk-platform-36:/opt/android-sdk/platforms/android-36`，以精确 Commit 的干净克隆作为源码输入；禁止把宿主 `/root/.gradle` 当成等价缓存、用命名卷覆盖整个 Android SDK，或为单次验证重建镜像。启动前由单次 SSH 预检固定镜像、Gradle 缓存、API 36 平台卷及 `android.jar`、持久 Swap、可用内存和 `/var/lock/hhy-android-build.lock`，构建必须串行持锁并使用 CPU/内存/PID 上限、Gradle 单 worker 与受控 JVM 堆，退出后 `--rm` 清理临时容器。平台卷缺失时只用后台受限容器预填 `platforms;android-36`；确认 `android.jar` 存在后再更新包装器，并以模块编译日志不含 `Install Android SDK Platform 36` 作为复用证据。完整打包、模拟器、截图及候选 APK 仍只在大版本最终候选阶段执行。

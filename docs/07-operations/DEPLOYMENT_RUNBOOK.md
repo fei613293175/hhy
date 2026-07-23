@@ -311,9 +311,9 @@ APK上传若出现 `Connection reset`、`Broken pipe` 或固定次数的新连�
 
 `obx-test` 为 4 核、15 GiB 内存的共享业务与构建服务器。2026-07-24 实测历史 Staging/Candidate 常驻约 60 个容器，Android MODULE 峰值曾把可用内存压至 198 MiB、1 分钟负载推至 260，表现为 SSH `banner exchange timeout`；当时仅 1 条 SSH 连接、`MaxStartups 30:50:100`、Fail2ban 未启用，因此不得把该现象误判为 SSH 限流。
 
-服务器已配置 `/swapfile-hhy-build` 8 GiB 持久 Swap，`vm.swappiness=10`、`vm.vfs_cache_pressure=50`。`scripts/verify_cloud_environment.py --check-android` 以一次 SSH 同时验证固定镜像、命名缓存、Swap、可用内存、负载和唯一构建锁。Swap 少于 7 GiB 或可用内存少于 1 GiB 必须阻断新 Android 构建；构建锁为 `busy` 只表示排队，禁止启动第二个容器。
+服务器已配置 `/swapfile-hhy-build` 8 GiB 持久 Swap，`vm.swappiness=10`、`vm.vfs_cache_pressure=50`。`scripts/verify_cloud_environment.py --check-android` 以一次 SSH 同时验证固定镜像、Gradle 命名缓存、API 36 平台卷及 `android.jar`、Swap、可用内存、负载和唯一构建锁。平台卷缺失、Swap 少于 7 GiB 或可用内存少于 1 GiB 必须阻断新 Android 构建；构建锁为 `busy` 只表示排队，禁止启动第二个容器。
 
-所有远程 Android MODULE 必须调用服务器 `/usr/local/bin/hhy-android-gradle <workspace> <container-name> <gradle-task> [...]`；包装器 SHA-256 为 `fe19e0db82217f8ba0c7b6b854276a908387ed952f5bde3708be8fea526042ce`，只接受解析到 `/tmp/hhy-*/work/apps/android` 的工作区。它持有 `/var/lock/hhy-android-build.lock`，使用 `--rm --cpus 2.5 --memory 5g --memory-swap 7g --pids-limit 768`，并向 Gradle 传入 `--no-daemon --max-workers=1` 与最大 3 GiB JVM 堆。不得绕过包装器，也不得在业务服务器并行执行两个 Android/Gradle 构建。构建退出后必须确认临时容器已删除；历史 Staging/Candidate 仅能在域名与 Nginx 上游引用审计后分批下线，禁止为了释放内存直接批量删除。
+所有远程 Android MODULE 必须调用服务器 `/usr/local/bin/hhy-android-gradle <workspace> <container-name> <gradle-task> [...]`；包装器 SHA-256 为 `52635902571fc8c1cd8e20ee29efe27b0057056f142d60574e64a9cf02ee6a87`，只接受解析到 `/tmp/hhy-*/work/apps/android` 的工作区。它持有 `/var/lock/hhy-android-build.lock`，使用 `--rm --cpus 2.5 --memory 5g --memory-swap 7g --pids-limit 768`，挂载 `hhy-r01-android-gradle-cache:/root/.gradle` 与 `hhy-android-sdk-platform-36:/opt/android-sdk/platforms/android-36`，并向 Gradle 传入 `--no-daemon --max-workers=1` 与最大 3 GiB JVM 堆。API 36 卷只覆盖单个平台目录，禁止覆盖整个 `/opt/android-sdk`。不得绕过包装器，也不得在业务服务器并行执行两个 Android/Gradle 构建。构建退出后必须确认临时容器已删除；历史 Staging/Candidate 仅能在域名与 Nginx 上游引用审计后分批下线，禁止为了释放内存直接批量删除。
 
 Swap 恢复命令（仅当文件缺失且磁盘至少剩余 16 GiB 时执行）：创建 8 GiB `/swapfile-hhy-build`、权限 `0600`、`mkswap`、`swapon`，并向 `/etc/fstab` 写入 `/swapfile-hhy-build none swap sw 0 0`；随后写入 `/etc/sysctl.d/99-hhy-build-memory.conf` 的 `vm.swappiness=10` 与 `vm.vfs_cache_pressure=50`。变更后必须回读 `swapon --show`、`free -h` 和两个 sysctl，禁止重启业务服务验证。
 
