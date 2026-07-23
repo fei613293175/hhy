@@ -11,13 +11,14 @@ task_id: TASK-R10-007
 story_id: STORY-R10-004
 goal: 群聊推广完整闭环Android测试APK与产物追溯
 started_at: '2026-07-23T12:29:53Z'
-updated_at: '2026-07-23T14:15:30Z'
+updated_at: '2026-07-23T14:24:00Z'
 takeover_of: null
 change_requests:
 - CR-0272
 - CR-0273
 - CR-0274
 - CR-0275
+- CR-0276
 scope:
   allowed_paths:
   - apps/**
@@ -69,7 +70,8 @@ scope:
   - tests/android/visual-baselines/R10/03-group-detail.png
   - tests/android/visual-baselines/R10/04-group-editor.png
   - tests/android/visual-baselines/R10/APPROVAL.yaml
-  source: story+explicit+approved-cr:CR-0272+approved-cr:CR-0273+approved-cr:CR-0274+approved-cr:CR-0275
+  - .github/workflows/android-baseline-promotion.yml
+  source: story+explicit+approved-cr:CR-0272+approved-cr:CR-0273+approved-cr:CR-0274+approved-cr:CR-0275+approved-cr:CR-0276
 git:
   initialized: true
   branch: task/TASK-R03-001
@@ -79,22 +81,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T14:15:24Z'
-  expires_at: '2026-07-23T18:15:24Z'
-checkpoint_sequence: 7
-latest_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0007.yaml
+  renewed_at: '2026-07-23T14:23:54Z'
+  expires_at: '2026-07-23T18:23:54Z'
+checkpoint_sequence: 8
+latest_checkpoint: .continuity/checkpoints/SES-20260723T122953Z-52EBA51E/0008.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260723T122953Z-52EBA51E.md
-next_step: 提交推送R10视觉基线并确认GitHub Android Visual Baseline Promotion远端PASS。
+next_step: 提交推送CR-0276并确认GitHub轻量晋升复用Run 30013677033后PASS。
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 2b4d17bf8277c7fc4261ae078dfa1e3ce533b4b5a1f55986417a4021f7ac4afd
-  generated_at: '2026-07-23T14:15:27Z'
+  context_hash: baac7213b96adbd557ec784009ff5131fbd7c8f93fb3c5c56d1f8408567f23e2
+  generated_at: '2026-07-23T14:23:58Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: USER_SERIAL_OVERRIDE
   delegated_workers: 0
   workers: []
-  reason: 不可变证据链的最终集成与提交必须由主控串行完成。
+  reason: CI治理单文件热修和不可变证据链集成必须串行，且无安全并行工作包。

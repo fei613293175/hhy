@@ -1382,3 +1382,16 @@ problems:
   - 候选页面或截图集合变化不得只修改instrumentation，必须同步视觉manifest及其静态回归
   - 不得把页面旅程成功等同于候选完整通过，分析器、基线和候选资格仍必须执行
   - 确定性manifest缺口不得重跑同一Commit；必须修复事实源、递增attempt并保留首轮证据
+- id: PROB-0102
+  title: 严格Doctor派生报告遗漏于轻量晋升治理白名单
+  status: SOLVED
+  root_cause: R10基线批准提交按硬规则运行严格连续性Doctor并刷新artifacts/validation/project-doctor-v1.2.3.json，但Android轻量晋升的精确治理白名单未包含该唯一机器报告。Run 30015180600因此在下载源Artifact前42秒内拒绝，源候选的构建、OIDC、四页旅程、截图、日志、APK和本地轻量晋升均未失败。
+  resolution: CR-0276把严格Doctor唯一机器报告加入轻量晋升exact_governance，并新增静态回归锁定路径；R10 APPROVAL的promotion_attempt递增为2，继续复用Run 30013677033、Commit 1e35a97f、APK SHA和四张截图SHA，不重建APK、不启动模拟器。
+  regression_checks:
+  - python -m unittest tests.test_android_ci_gate
+  - Android基线晋升工作流必须精确允许artifacts/validation/project-doctor-v1.2.3.json，仍不得允许apps、services、packages或其他产品路径
+  - 修复后的晋升必须下载Run 30013677033既有Artifact并通过android_ci_gate.py promote，不得出现gradlew或android-emulator-runner
+  do_not_repeat:
+  - 新增或强制刷新治理派生报告时，必须同步审计基线晋升从源Commit到HEAD的精确白名单
+  - 轻量治理失败不得重跑已经通过的完整Android候选
+  - 不得以允许整个artifacts目录解决单文件遗漏，只允许精确机器报告路径

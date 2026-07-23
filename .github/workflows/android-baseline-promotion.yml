@@ -60,6 +60,7 @@ jobs:
               '.github/workflows/android-baseline-promotion.yml',
               'tests/test_android_ci_gate.py',
               'CURRENT_STATUS.yaml',
+              'artifacts/validation/project-doctor-v1.2.3.json',
               'catalogs/change_request_index.csv',
               'catalogs/session_index.csv',
               'docs/03-continuity/PROBLEM_REGISTRY.yaml',

@@ -384,6 +384,7 @@ class AndroidCiGateTest(unittest.TestCase):
         self.assertIn("f'{commit}..HEAD'", source)
         self.assertEqual(2, source.count("'core.quotepath=false'"))
         self.assertIn("baseline promotion range contains product or unapproved files", source)
+        self.assertIn("'artifacts/validation/project-doctor-v1.2.3.json'", source)
         self.assertIn("'.continuity/'", source)
         self.assertNotIn("'apps/android/'", source)
         self.assertNotIn("gradlew", source)

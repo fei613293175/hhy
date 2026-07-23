@@ -2,7 +2,7 @@ schema: hhy.android-visual-baseline-approval/v1
 release: R10
 status: APPROVED
 authority: AI_IMPLEMENTATION_AGENT
-promotion_attempt: 1
+promotion_attempt: 2
 source:
   github_run_id: "30013677033"
   commit: 1e35a97fb0541644d85a264a84229435ead378bf
