@@ -1,0 +1,219 @@
+protocol_version: '1.0'
+checkpoint_id: CP-SES-20260723T171219Z-D5E6B99E-0002
+session_id: SES-20260723T171219Z-D5E6B99E
+sequence: 2
+created_at: '2026-07-23T17:52:55Z'
+summary: 关闭 TASK-R11-002：TASK-R11-002完成：团队长资料V038/U038、地区纠错、审核与ONLINE终态、并发父锁、脏升级和有值回滚失败关闭全部通过。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
+blockers: []
+decisions:
+- 任务结果：COMPLETED
+- 实现Commit：b7cb1e43
+- 任务转换：TRN-20260723T175253Z-SES-20260723T171219Z-D5E6B99E
+- 下一Release：R11
+note: 该检查点专门绑定最终关闭元数据Commit
+tests:
+- name: PostgreSQL17全量迁移
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r11-db-SES-20260723T171219Z-D5E6B99E/postgres-migration-smoke-final.log
+  note: V001-V038、200表和最终基线通过
+- name: R11数据库不变量
+  result: PASS
+  evidence: R11_TEAM_LEADER_INVARIANTS PASS
+  note: 资料完整、Logo外键、真实联系方式和字段约束通过
+- name: R11并发写偏斜
+  result: PASS
+  evidence: R11_PARENT_LOCK_WRITE_SKEW PASS A=1 B=0
+  note: 删除末个联系方式失败且下线成功
+- name: R11回滚与升级失败关闭
+  result: PASS
+  evidence: R11_U038_POPULATED_ROLLBACK_BLOCKED PASS; R11_DIRTY_UPGRADE_BLOCKED_ATOMICALLY PASS
+  note: 业务值不丢失且脏升级原子阻断
+- name: 后端模块测试
+  result: PASS
+  evidence: obx-test:/tmp/hhy-r11-backend-source-1784828657/backend-module.log
+  note: JDK21 Maven测试369项0失败0错误12跳过
+- name: 数据库静态门禁
+  result: PASS
+  evidence: DB_SCHEMA_OK tables=200 migrations=38 runtime_hashes=PASS
+  note: 模式字典和运行时副本一致
+- name: R11严格文档门禁
+  result: PASS
+  evidence: check_v123_documentation.py --strict --release R11
+  note: 0错误0警告
+- name: continuity closure metadata
+  result: PASS
+  evidence: catalogs/task_transition_ledger.csv;CHANGELOG.md;CURRENT_STATUS.yaml;NEXT_TASK.yaml
+  note: 关闭元数据、任务转换和下一任务已原子生成
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  head: b7cb1e4316753a8d5a4276c2366f3813b64afd87
+  upstream: origin/task/TASK-R03-001
+  ahead: 7
+  behind: 0
+  dirty: true
+  status_porcelain:
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/sessions/SES-20260723T171219Z-D5E6B99E.yaml'
+  - ' M CHANGELOG.md'
+  - ' M NEXT_TASK.yaml'
+  - ' M catalogs/session_index.csv'
+  - ' M releases/R11/TASKS.yaml'
+  recent_commits:
+  - "b7cb1e4316753a8d5a4276c2366f3813b64afd87\t2026-07-24T01:51:35+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] feat(database): enforce team\
+    \ leader invariants"
+  - "94a520df9e3c5df535b4d26ff1b918cccb91288e\t2026-07-24T01:11:42+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] chore(continuity): close TASK-R11-001\
+    \ as completed"
+  - "8a2c6b937716789351afa7d49c146bb215867949\t2026-07-24T01:10:25+08:00\tHHY Continuity Bootstrap\t[STORY-R11-004] docs(release): freeze R11\
+    \ entry baseline"
+  - "70524de3347e0365aeac268e6e25d66e6915615e\t2026-07-24T00:57:17+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-008\
+    \ as completed"
+  - "28354e71d6adff700696cb340f2275a62e61ede1\t2026-07-24T00:55:36+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(release): close R10\
+    \ machine acceptance"
+  - "b04f326ddda935decdf2609ea7b1bee8cc799cfc\t2026-07-24T00:50:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-007\
+    \ as completed"
+  - "758c30a3f5fa393dd57b886ac496edd039a6e46f\t2026-07-24T00:43:51+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] test(android): deliver R10\
+    \ test APK"
+  - "e906f169852fff222291c88cec1e8b229f011593\t2026-07-23T22:24:15+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(ci): allow strict doctor\
+    \ promotion evidence"
+project_fingerprint:
+  sha256: a2a6bb2e047fe21926c14986cfe84eab932dde273943ec71d2de5be207542531
+  files:
+  - CHANGELOG.md
+  - database/migrations/V038__r11_team_leader_invariants.sql
+  - database/rollback/U038__r11_team_leader_invariants.sql
+  - database/schema_dictionary.csv
+  - database/tests/r11_team_leader_invariants.sql
+  - docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md
+  - docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md
+  - releases/R11/TASKS.yaml
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r11_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V038__r11_team_leader_invariants.sql
+  file_count: 11
+  payload:
+    base_commit: 94a520df9e3c5df535b4d26ff1b918cccb91288e
+    files:
+    - path: CHANGELOG.md
+      state: FILE
+      size: 117858
+      sha256: d13c638fa18662a19716e0867fa34fc14115c26b58f9eafe5403e1a37bb08873
+    - path: database/migrations/V038__r11_team_leader_invariants.sql
+      state: FILE
+      size: 9475
+      sha256: 18f980da3a28460f4183f0e89c1a3f9d21e1cb80d2044d1604953543f9daa1ea
+    - path: database/rollback/U038__r11_team_leader_invariants.sql
+      state: FILE
+      size: 1659
+      sha256: 2035d9a60b18e3fe87910ec563363e360f41a671bed9510cec4a1d3f997491e1
+    - path: database/schema_dictionary.csv
+      state: FILE
+      size: 148320
+      sha256: d97b5ed2863b651078ee8bf43c2dacd4903bfe66b4f986dee0f30359324744b8
+    - path: database/tests/r11_team_leader_invariants.sql
+      state: FILE
+      size: 4125
+      sha256: a0f1554ed8231f970f1b61a16a86aad2861e6d517342f48b9ba2e84036fc2c6d
+    - path: docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md
+      state: FILE
+      size: 3817
+      sha256: 3a88416b652aad445380d959192f9731d99cabf458b425f0aa715468e3bb1d9f
+    - path: docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md
+      state: FILE
+      size: 2915
+      sha256: 900ad0bc6ba0c32e7d957d37be6127f217abe9fcca522c516d2010288ac3681a
+    - path: releases/R11/TASKS.yaml
+      state: FILE
+      size: 5588
+      sha256: e99d67773d04e3645f883e2ea94b33f54dc418eda363b7d4e0672d213433ba37
+    - path: scripts/run_postgres_migration_smoke.sh
+      state: FILE
+      size: 15262
+      sha256: 76c01efd33e48133c53f38cbc63737dd15b7e164e1cb72751462bf2d9d0e80c4
+    - path: scripts/run_r11_database_invariants.sh
+      state: FILE
+      size: 6103
+      sha256: 9164577a7bc915ba1af72222c4a0656c785ab7cf6ee4a566b739605c0bb58b20
+    - path: services/backend/boot/src/main/resources/db/migration/V038__r11_team_leader_invariants.sql
+      state: FILE
+      size: 9475
+      sha256: 18f980da3a28460f4183f0e89c1a3f9d21e1cb80d2044d1604953543f9daa1ea
+change_classification:
+  other:
+  - CHANGELOG.md
+  - releases/R11/TASKS.yaml
+  database:
+  - database/migrations/V038__r11_team_leader_invariants.sql
+  - database/rollback/U038__r11_team_leader_invariants.sql
+  - database/schema_dictionary.csv
+  - database/tests/r11_team_leader_invariants.sql
+  source_of_truth:
+  - database/schema_dictionary.csv
+  continuity:
+  - docs/03-continuity/change-requests/CR-0282-实现R11团队长资料数据库不变量.md
+  - docs/03-continuity/change-requests/CR-0283-纠正CR-0282团队长地区数据库归属.md
+  code:
+  - scripts/run_postgres_migration_smoke.sh
+  - scripts/run_r11_database_invariants.sh
+  - services/backend/boot/src/main/resources/db/migration/V038__r11_team_leader_invariants.sql
+required_records:
+- SESSION_RECORD
+- SESSION_LOG
+- CHECKPOINT
+- CURRENT_STATUS
+- EVENT_LOG
+- APPROVED_CHANGE_REQUEST
+- DATABASE_TEST_EVIDENCE
+- SCHEMA_TRACEABILITY
+change_requests:
+- CR-0282
+- CR-0283
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - database/migrations/V038__r11_team_leader_invariants.sql
+  - database/rollback/U038__r11_team_leader_invariants.sql
+  - database/tests/r11_team_leader_invariants.sql
+  - scripts/run_r11_database_invariants.sh
+  - scripts/run_postgres_migration_smoke.sh
+  - database/schema_dictionary.csv
+  source: story+explicit+approved-cr:CR-0282+approved-cr:CR-0283
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 数据库迁移、并发、回滚和最终集成属于AGENTS.md规定的主控串行高风险范围；自动规划初始数据库单域也禁用并行。
+event_hash: 7a5d72e56fbcc9ada6ad31aa26428399dc5eccd3228e81fe84d57664970fd6dd

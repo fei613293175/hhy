@@ -3341,7 +3341,7 @@ claims:
   task_id: TASK-R11-002
   story_id: STORY-R11-004
   actor_id: codex-root-r11-data
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-23T17:12:19Z'
   allowed_paths:
   - apps/**
@@ -3375,3 +3375,4 @@ claims:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-23T17:53:00Z'
