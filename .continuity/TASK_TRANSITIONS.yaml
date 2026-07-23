@@ -910,3 +910,13 @@ transitions:
   session_id: SES-20260723T114316Z-44EBE3C1
   actor_id: codex-root-r10-tests
   reason: 会话领取任务
+- transition_id: TRN-46DFAF915ED3
+  timestamp: '2026-07-23T11:55:57Z'
+  release: R10
+  task_id: TASK-R10-006
+  story_id: STORY-R10-004
+  from_status: READY
+  to_status: IN_PROGRESS
+  session_id: SES-20260723T115555Z-5C81458B
+  actor_id: codex-root-r10-observability
+  reason: 会话领取任务

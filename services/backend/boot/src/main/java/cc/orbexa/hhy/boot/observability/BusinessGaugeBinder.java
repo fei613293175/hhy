@@ -313,6 +313,53 @@ public final class BusinessGaugeBinder implements MeterBinder {
                 'content.app.stage.alert.v1'
             ) AND status IN ('PENDING', 'RETRY_WAIT')
             """;
+    static final String GROUP_TOTAL_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE type = 'GROUP' AND status <> 'DELETED'
+            """;
+    static final String GROUP_ONLINE_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE type = 'GROUP' AND status = 'ONLINE'
+            """;
+    static final String GROUP_REVIEW_PENDING_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_posts
+            WHERE type = 'GROUP' AND status <> 'DELETED' AND review_status = 'PENDING'
+            """;
+    static final String GROUP_FAVORITES_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_favorites favorite
+            JOIN hhy.content_posts post ON post.id = favorite.content_id
+            WHERE post.type = 'GROUP' AND post.status <> 'DELETED'
+            """;
+    static final String GROUP_CONTACT_ACCESSES_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_contact_access_logs access_log
+            JOIN hhy.content_posts post ON post.id = access_log.content_id
+            WHERE post.type = 'GROUP'
+              AND access_log.action IN ('VIEW', 'COPY', 'REPLAY')
+              AND access_log.created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String GROUP_CONTACT_REJECTIONS_5M_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.content_contact_access_logs access_log
+            JOIN hhy.content_posts post ON post.id = access_log.content_id
+            WHERE post.type = 'GROUP'
+              AND access_log.action LIKE 'REJECTED_%'
+              AND access_log.created_at >= CURRENT_TIMESTAMP - INTERVAL '5' MINUTE
+            """;
+    static final String R10_OUTBOX_BACKLOG_SQL = """
+            SELECT COUNT(*)
+            FROM hhy.outbox_events
+            WHERE event_type IN (
+                'content.group.created.v1', 'content.group.updated.v1',
+                'content.favorited.v1', 'content.favorite.replayed.v1',
+                'content.shared.v1', 'chat.direct.created.v1',
+                'content.group.stage.alert.v1'
+            ) AND status IN ('PENDING', 'RETRY_WAIT')
+            """;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BusinessGaugeBinder.class);
     private final JdbcTemplate jdbcTemplate;
@@ -370,6 +417,13 @@ public final class BusinessGaugeBinder implements MeterBinder {
         register(registry, "hhy.app.contact.accesses.5m", "Successful App contact accesses in the last five minutes", APP_CONTACT_ACCESSES_5M_SQL);
         register(registry, "hhy.app.contact.rejections.5m", "Rejected App contact accesses in the last five minutes", APP_CONTACT_REJECTIONS_5M_SQL);
         register(registry, "hhy.r09.outbox.backlog", "R09 App events waiting for delivery", R09_OUTBOX_BACKLOG_SQL);
+        register(registry, "hhy.group.total.count", "Non-deleted group records", GROUP_TOTAL_SQL);
+        register(registry, "hhy.group.online.count", "Group records currently online", GROUP_ONLINE_SQL);
+        register(registry, "hhy.group.review.pending", "Group records waiting for review", GROUP_REVIEW_PENDING_SQL);
+        register(registry, "hhy.group.favorites.count", "Favorite rows attached to non-deleted groups", GROUP_FAVORITES_SQL);
+        register(registry, "hhy.group.contact.accesses.5m", "Successful group contact accesses in the last five minutes", GROUP_CONTACT_ACCESSES_5M_SQL);
+        register(registry, "hhy.group.contact.rejections.5m", "Rejected group contact accesses in the last five minutes", GROUP_CONTACT_REJECTIONS_5M_SQL);
+        register(registry, "hhy.r10.outbox.backlog", "R10 group events waiting for delivery", R10_OUTBOX_BACKLOG_SQL);
     }
 
     private void register(MeterRegistry registry, String name, String description, String sql) {

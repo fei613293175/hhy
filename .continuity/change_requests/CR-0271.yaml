@@ -1,0 +1,76 @@
+protocol_version: '1.0'
+cr_id: CR-0271
+title: R10群聊推广可观测性与隔离Staging验收精确范围
+status: APPROVED
+created_at: '2026-07-23T12:03:09Z'
+updated_at: '2026-07-23T12:03:53Z'
+requester_actor_id: codex-root-r10-observability
+approver_actor_id: codex-r10-observability-review
+task_id: TASK-R10-006
+session_id: SES-20260723T115555Z-5C81458B
+user_request: 持续完成R10；大版本最终候选前不运行GitHub模拟器，完成后继续后继任务
+reason: R10缺少群聊专属指标、告警、隔离Staging和绑定V036的可复核演练证据
+original_rule: R10沿用通用和R09指标，但没有群聊专属指标、告警、隔离Staging环境或绑定V036的可复核演练证据，AC-R10-004仍为NOT_RUN
+new_rule: 在既有唯一观测与Staging框架内增加7项无敏感标签的群聊业务Gauge、7条R10告警和隔离Compose；单一脚本绑定冻结Commit，验证RED、TraceId、日志脱敏、告警送达、Outbox合法终结和同库同卷镜像回切，并生成逐文件SHA256
+impact_summary: 增加R10群聊观测SQL及测试，复用R09已验证框架形成R10隔离环境、静态门禁、现场演练、部署回滚手册和AC-R10-004证据；不触发Android模拟器或候选APK
+impact:
+  files:
+  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinder.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/BusinessGaugeBinderTest.java
+  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/observability/ObservabilityEndpointsTest.java
+  - infra/staging/r10-smoke/docker-compose.yml
+  - infra/staging/r10-smoke/prometheus.yml
+  - infra/staging/r10-smoke/r10-alerts.yml
+  - infra/staging/r10-smoke/alertmanager.yml
+  - infra/staging/r10-smoke/nginx.conf
+  - scripts/check_r10_observability.py
+  - scripts/run_r10_staging_acceptance.sh
+  - docs/07-operations/DEPLOYMENT_RUNBOOK.md
+  - docs/07-operations/ROLLBACK_RUNBOOK.md
+  - releases/R10/ACCEPTANCE_MATRIX.csv
+  - artifacts/reports/R10/TASK-R10-006-staging.md
+  - CHANGELOG.md
+  - artifacts/validation/r10-task006-staging/alert-deliveries.jsonl
+  - artifacts/validation/r10-task006-staging/alert-exercise.txt
+  - artifacts/validation/r10-task006-staging/backend-down-firing.json
+  - artifacts/validation/r10-task006-staging/compose-ps.txt
+  - artifacts/validation/r10-task006-staging/database.txt
+  - artifacts/validation/r10-task006-staging/final-metrics.txt
+  - artifacts/validation/r10-task006-staging/http-request-completed.jsonl
+  - artifacts/validation/r10-task006-staging/liveness.json
+  - artifacts/validation/r10-task006-staging/log-redaction.txt
+  - artifacts/validation/r10-task006-staging/machine-summary.txt
+  - artifacts/validation/r10-task006-staging/metadata.txt
+  - artifacts/validation/r10-task006-staging/metrics-summary.txt
+  - artifacts/validation/r10-task006-staging/metrics.txt
+  - artifacts/validation/r10-task006-staging/outbox-test-events.txt
+  - artifacts/validation/r10-task006-staging/prometheus-rules.json
+  - artifacts/validation/r10-task006-staging/prometheus-targets.json
+  - artifacts/validation/r10-task006-staging/public-status.json
+  - artifacts/validation/r10-task006-staging/r10-outbox-firing.json
+  - artifacts/validation/r10-task006-staging/readiness.json
+  - artifacts/validation/r10-task006-staging/rollback-rehearsal.txt
+  - artifacts/validation/r10-task006-staging/SHA256SUMS
+  - artifacts/validation/r10-task006-staging/source-sha256.txt
+  - artifacts/validation/r10-task006-staging/trace-headers.txt
+  pages: []
+  apis: []
+  database:
+  - Flyway V036 forward-compatible rollback rehearsal
+  configuration:
+  - R10 isolated Compose, Prometheus and Alertmanager
+  ledger: []
+  tests:
+  - R10 observability static gate
+  - BusinessGaugeBinder and Prometheus endpoint tests
+  - R10 isolated staging acceptance and rollback rehearsal
+  releases:
+  - R10
+  migration_and_compatibility: 数据库不新增迁移；R10环境完整迁移至V036，回切只允许已验证R09不可变镜像并保持同一PostgreSQL容器和卷，禁止U036/U035、降版本DDL或删除业务、审计和Outbox事实
+user_confirmation: 项目所有者已授权持续推进R06至R32，且明确Android模拟器只在大版本最终候选阶段执行
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T12:03:53Z'
+  note: 逐文件精确范围完整；群聊指标无敏感标签，V036同库同卷回切、隔离端口子网、秘密注入和非候选边界符合既有R06至R09模式
+machine_record: .continuity/change_requests/CR-0271.yaml
+document: docs/03-continuity/change-requests/CR-0271-R10群聊推广可观测性与隔离Staging验收精确范围.md

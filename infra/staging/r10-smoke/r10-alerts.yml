@@ -1,0 +1,38 @@
+groups:
+  - name: hhy-r10-group
+    rules:
+      - alert: HhyR10BackendDown
+        expr: up{job="hhy-backend-r10"} == 0
+        for: 15s
+        labels: { severity: critical, release: R10 }
+        annotations: { summary: 合伙云 R10 Staging 后端不可用 }
+      - alert: HhyR10HighServerErrorRate
+        expr: sum(rate(http_server_requests_seconds_count{job="hhy-backend-r10",status=~"5.."}[1m])) / clamp_min(sum(rate(http_server_requests_seconds_count{job="hhy-backend-r10"}[1m])), 0.001) > 0.02
+        for: 1m
+        labels: { severity: warning, release: R10 }
+        annotations: { summary: 合伙云 R10 Staging 5xx 比例超过 2% }
+      - alert: HhyR10HighP95Latency
+        expr: histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{job="hhy-backend-r10"}[5m]))) > 0.5
+        for: 2m
+        labels: { severity: warning, release: R10 }
+        annotations: { summary: 合伙云 R10 Staging P95 延迟超过 500ms }
+      - alert: HhyR10OutboxBacklog
+        expr: hhy_r10_outbox_backlog{job="hhy-backend-r10"} > 3
+        for: 15s
+        labels: { severity: warning, release: R10 }
+        annotations: { summary: R10 群聊事件 Outbox 积压超过 3 条 }
+      - alert: HhyR10GroupContactRejectionBurst
+        expr: hhy_group_contact_rejections_5m{job="hhy-backend-r10"} > 10
+        for: 1m
+        labels: { severity: warning, release: R10 }
+        annotations: { summary: 近 5 分钟群聊联系方式访问拒绝超过 10 次 }
+      - alert: HhyR10GroupReviewBacklog
+        expr: hhy_group_review_pending{job="hhy-backend-r10"} > 100
+        for: 5m
+        labels: { severity: warning, release: R10 }
+        annotations: { summary: 待审核群聊超过 100 条 }
+      - alert: HhyR10BusinessMetricQueryFailure
+        expr: sum(hhy_business_metric_query_failures_total{job="hhy-backend-r10",metric=~"hhy\\.(group|r10)\\..*"}) > 0
+        for: 15s
+        labels: { severity: critical, release: R10 }
+        annotations: { summary: R10 业务指标查询失败，监控结果不可信 }

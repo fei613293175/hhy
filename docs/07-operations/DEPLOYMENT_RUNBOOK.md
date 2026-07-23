@@ -296,3 +296,18 @@ R09 现场演练至少覆盖：
 TASK-R09-007 将精确候选 Commit 升级到公开 Staging CI 候选容器后运行 `scripts/prepare_r09_ci_fixture.sh`。脚本必须显式设置 `HHY_R09_CI_FIXTURE_CONFIRM=YES`，只允许 `hhy-r09-ci-candidate-*` 后端及登记的 Staging PostgreSQL 容器；它从容器内部读取专用 CI 用户且不输出手机号或 Secret，要求 Flyway V035，幂等准备已实名候选用户、一个 ONLINE App、App 详情版本和零值统计。夹具不得创建 APK、评分、下载量、虚构媒体或效果图示例能力。
 
 模拟器复用唯一 GitHub OIDC 自动登录入口，并通过测试类过滤确保候选批次只运行 `ReleaseCandidateSmokeTest`；仅截取 `SCR-LIST-002`、`SCR-DETAIL-002` 和 `SCR-PUB-003` 三张对应页面。R09 首轮无视觉基线时，同一次模拟器采集可以进入 `BASELINE_REVIEW_REQUIRED`，由 AI 对照 B02/P06、B03/P02、B04/P04 逐图审查后提交原图与审批，再运行不编译、不启动模拟器的轻量晋升。禁止为建立基线重复执行完整候选。
+
+## 15. R10 群聊隔离预发布验收
+
+R10 使用 `infra/staging/r10-smoke/docker-compose.yml`，采用独立 Compose project、仅回环发布端口、经服务器既有资源核对后冻结的 `172.31.242.0/24` 子网和独立数据卷；不得修改或重启公网以及 R01–R09 环境。执行前运行 `python3 scripts/check_r10_observability.py`，并把精确被测 Commit 注入 `HHY_R10_FROZEN_COMMIT`。测试 Secret 只在隔离进程环境生成和注入，禁止写入仓库、报告、命令输出或 Shell 历史；实名认证沙箱与 CI 自动登录保持关闭。
+
+R10 现场演练至少覆盖：
+
+1. liveness、readiness、公开平台状态和结构化完成日志正常，响应 `X-Trace-Id` 与日志 `traceId` 可关联，Authorization、Cookie、查询探针不得进入日志或证据。
+2. Prometheus target `hhy-backend-r10` 为 UP，RED count/bucket 非空；群聊总量、在线量、待审核量、收藏量、近 5 分钟联系方式访问量、拒绝量和 `hhy_r10_outbox_backlog` 七项只读 Gauge 全部存在，业务指标查询失败累计值为 0。
+3. 停止/恢复 API 触发 `HhyR10BackendDown`；插入带冻结 Commit 唯一前缀的群聊域 Outbox 测试事实触发 `HhyR10OutboxBacklog`。两项告警必须取得 firing、resolved 和 alert-sink 送达回执。
+4. 四条测试 Outbox 事实必须按 `PENDING → PUBLISHING → PUBLISHED` 合法终结，`attempts=1`，不得删除或直接伪造终态。
+5. 只回切 API 到已验证 R09 不可变镜像 `hhy-backend-r09-smoke:d056c54f`，PostgreSQL 容器、数据卷、Flyway V036 和业务表必须保持不变；随后恢复冻结 Commit 镜像并重验 readiness 与七项 Gauge。
+6. 证据统一写入 `artifacts/validation/r10-task006-staging/`，绑定冻结 Commit、两个不可变镜像、数据库容器/卷、Flyway V036、告警回执和逐文件 SHA-256。证据齐全后才能把 `AC-R10-004` 签为 PASS。
+
+现场步骤由 `scripts/run_r10_staging_acceptance.sh` 单一入口执行。Android 模拟器、页面截图和候选 APK 不属于本任务，只在 TASK-R10-007 最终候选阶段执行。

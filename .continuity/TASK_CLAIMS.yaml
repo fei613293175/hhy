@@ -3175,3 +3175,43 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   closed_at: '2026-07-23T11:53:58Z'
+- claim_id: CLM-C0DD955F7A14
+  session_id: SES-20260723T115555Z-5C81458B
+  task_id: TASK-R10-006
+  story_id: STORY-R10-004
+  actor_id: codex-root-r10-observability
+  status: ACTIVE
+  claimed_at: '2026-07-23T11:55:55Z'
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  - artifacts/reports/R10,docs/08-testing,docs/09-development,CHANGELOG.md,releases/R10
