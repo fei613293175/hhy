@@ -1,5 +1,5 @@
 context_version: '1.0'
-generated_at: '2026-07-23T07:01:09Z'
+generated_at: '2026-07-23T07:04:04Z'
 conversation_dependency: PROHIBITED
 source_of_truth: REPOSITORY_ONLY
 project: hhy-pro-platform
@@ -9,10 +9,10 @@ current_status:
   baseline_version: 1.2.3
   phase: R10
   active_release: R10
-  active_task: TASK-R10-003
-  status: IN_PROGRESS
+  active_task: TASK-R10-004
+  status: READY
   documentation_status: ZERO_BLOCKING_DOCUMENT_GAPS
-  last_green_commit: 9322209a3e85917d0a11957a3137797b14c6c2e8
+  last_green_commit: 896948b70c98807cb30d5d165225a6c2a4155424
   last_staging_apk: null
   completed_tasks:
   - V1.2.2_ENGINEERING_BASELINE
@@ -104,15 +104,15 @@ current_status:
   - TASK-R09-008
   - TASK-R10-001
   - TASK-R10-002
-  in_progress_tasks:
   - TASK-R10-003
+  in_progress_tasks: []
   blocked_tasks:
   - TASK-R02-007
   - TASK-R03-007
   - TASK-R06-008
   - TASK-R07-008
-  next_task: TASK-R10-003
-  updated_at: '2026-07-23T07:01:06Z'
+  next_task: TASK-R10-004
+  updated_at: '2026-07-23T07:04:01Z'
   notes:
   - V1.2.2已补齐全部页面、字段、状态、动作、后台运营、配置角色与跨字段规则
   - 全部REST/WebSocket操作均有页面或系统所有者
@@ -144,22 +144,20 @@ current_status:
   continuity:
     protocol_version: '1.0'
     mode: ENFORCED
-    active_session_id: SES-20260723T062549Z-79779015
-    actor_id: codex-root-r10-backend
-    story_id: STORY-R10-004
-    lease_expires_at: '2026-07-23T11:01:06Z'
-    latest_checkpoint: .continuity/checkpoints/SES-20260723T062549Z-79779015/0002.yaml
-    project_fingerprint: 56e4197147fe9e924cda908b38a6567029aa120042ed872ff219d29e4e6804a7
+    active_session_id: null
+    last_session_id: SES-20260723T062549Z-79779015
+    last_session_result: COMPLETED
+    last_checkpoint: .continuity/checkpoints/SES-20260723T062549Z-79779015/0003.yaml
+    last_handoff_bundle: null
     context_pack:
       yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
       markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
       manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-      context_hash: 40c17e84975836f721d8366c66c7221827731dfa6a54c5718cba1ac0281c266f
-      generated_at: '2026-07-23T06:56:32Z'
-    handoff_bundle: null
+      context_hash: 40155c44d7e32a3571b7f462b1b4906d1452882d3308f2c480599e5c3a391d43
+      generated_at: '2026-07-23T07:03:59Z'
 next_task:
-  id: TASK-R10-003
-  title: 群聊推广完整闭环后端应用服务与接口
+  id: TASK-R10-004
+  title: 群聊推广完整闭环客户端/H5/后台实现
   status: READY
   release: R10
   requirements:
@@ -167,22 +165,26 @@ next_task:
   - REQ-GROUP-001
   - REQ-APK-001
   depends_on:
-  - TASK-R10-002
+  - TASK-R10-003
   definition_of_ready: releases/R10/DEFINITION_OF_READY.yaml
   stories: releases/R10/STORIES.yaml
   steps:
-  - OpenAPI契约测试
-  - 权限/幂等/错误码/审计覆盖
+  - 全部页面绑定catalogs/ui_page_specifications.csv
+  - 字段/状态/动作/导航与后台运营规格通过契约测试
+  - 禁止页面级手写重复DTO
+  - 全部动作绑定生成API类型
   acceptance:
-  - 无TODO/生产Mock
-  - 代码、文档、测试、追踪同步更新
-  - OpenAPI契约测试
-  - 权限/幂等/错误码/审计覆盖
+  - 所有页面故事验收条件通过
+  - 加载、空、局部失败、无权限、404、离线、冲突和成功导航均有证据
+  - 全部页面绑定catalogs/ui_page_specifications.csv
+  - 字段/状态/动作/导航与后台运营规格通过契约测试
+  - 禁止页面级手写重复DTO
+  - 全部动作绑定生成API类型
   claim_required: true
-  start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-003
+  start_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-004
   commands:
     resume: python3 scripts/continuity.py resume
-    start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-003
+    start: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-004
     checkpoint: python3 scripts/continuity.py checkpoint --summary '<阶段完成>' --next-step '<精确下一步>' --test 'name|PASS|evidence|note' --parallel-assessment
       <ASSESSMENT> --parallel-reason '<未委托原因>'
     handoff: python3 scripts/continuity.py handoff --actor <ACTOR_ID> --reason '<移交原因>' --next-step '<精确下一步>'
@@ -190,426 +192,36 @@ next_task:
     cr_amend: python3 scripts/continuity.py cr-amend --actor <ACTOR_ID> --cr <CR_ID> --original-rule '<原规则>' --new-rule '<新规则>' --impact-summary
       '<影响摘要>' --migration-and-compatibility '<迁移兼容说明>' --file <PATH> --test '<TEST>' --release <RELEASE>
   next_after: 由当前TASKS.yaml依赖关系决定
-active_session:
-  protocol_version: '1.0'
-  package_version: 1.2.3
-  session_id: SES-20260723T062549Z-79779015
-  status: ACTIVE
-  actor:
-    id: codex-root-r10-backend
-    kind: AI_OR_HUMAN
-    host: unknown
-  release: R10
-  task_id: TASK-R10-003
-  story_id: STORY-R10-004
-  goal: 完成群聊推广后端应用服务与接口，同步JOIN_PASSWORD契约、生成客户端、访问审计、权限和幂等测试
-  started_at: '2026-07-23T06:25:49Z'
-  updated_at: '2026-07-23T07:01:06Z'
-  takeover_of: null
-  change_requests:
-  - CR-0268
-  scope:
-    allowed_paths:
-    - apps/**
-    - services/**
-    - packages/**
-    - contracts/**
-    - database/**
-    - config/**
-    - catalogs/**
-    - tests/**
-    - infra/**
-    - design/**
-    - docs/**
-    - releases/**
-    - scripts/**
-    - templates/**
-    - .github/**
-    - .githooks/**
-    - .codex/**
-    - AGENTS.md
-    - START_HERE.md
-    - README.md
-    - CHANGELOG.md
-    - Makefile
-    - .gitignore
-    - .gitattributes
-    - .dockerignore
-    - package.json
-    - pnpm-lock.yaml
-    - pnpm-workspace.yaml
-    - requirements-dev.txt
-    - PROJECT_*.yaml
-    - PROJECT_*.json
-    approved_exceptions: []
-    source: story+explicit
-  git:
-    initialized: true
-    branch: task/TASK-R03-001
-    base_commit: 2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4
-    start_head: 2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4
-    upstream: origin/task/TASK-R03-001
-    initial_worktree_state: CLEAN
-  lease:
-    duration_minutes: 240
-    renewed_at: '2026-07-23T07:01:06Z'
-    expires_at: '2026-07-23T11:01:06Z'
-  checkpoint_sequence: 2
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T062549Z-79779015/0002.yaml
-  session_log: docs/03-continuity/sessions/2026-07/SES-20260723T062549Z-79779015.md
-  next_step: 提交推送并关闭TASK-R10-003；随后部署验证admin.orbexa.cc
-  context_pack: THIS_CONTEXT_PACK
-  handoff_bundle: null
-  closure: null
-  parallel_execution:
-    assessment: NO_SAFE_PARALLEL
-    delegated_workers: 0
-    workers: []
-    reason: 最终CR、通用控制器、合同生成和会话事实需由同一事实主控串行一致化，当前无互斥安全写路径
-latest_checkpoint:
-  protocol_version: '1.0'
-  checkpoint_id: CP-SES-20260723T062549Z-79779015-0002
-  session_id: SES-20260723T062549Z-79779015
-  sequence: 2
-  created_at: '2026-07-23T07:01:05Z'
-  summary: TASK-R10-003最终实现与测试完成，并将接口后端阶段证据回填既有CR-0268；CR保持IMPLEMENTING等待R10-004页面施工
-  next_step: 提交推送并关闭TASK-R10-003；随后部署验证admin.orbexa.cc
-  blockers: []
-  decisions: []
-  note: ''
-  tests:
-  - name: R10_POSTGRES17_STORE
-    result: PASS
-    evidence: PostgreSQL 17.10 V001-V036 plus store create-read-lock-update-rollback
-    note: 1 test 0 failures
-  - name: BACKEND_MODULE
-    result: PASS
-    evidence: Maven boot reactor 368 tests 0 failures 0 errors
-    note: 14 environment skips separately covered by real PostgreSQL test
-  - name: CONTRACT_AND_DOCS
-    result: PASS
-    evidence: runtime/API/generated/Python/documentation/continuity strict
-    note: OpenAPI SHA 014ecc6b
-  git:
-    initialized: true
-    branch: task/TASK-R03-001
-    head: 2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4
-    upstream: origin/task/TASK-R03-001
-    ahead: 0
-    behind: 0
-    dirty: true
-    status_porcelain:
-    - M  .continuity/ACTIVE_SESSION.yaml
-    - M  .continuity/EVENT_LOG.jsonl
-    - M  .continuity/SESSION_INDEX.yaml
-    - M  .continuity/STATE.yaml
-    - M  .continuity/TASK_CLAIMS.yaml
-    - M  .continuity/TASK_TRANSITIONS.yaml
-    - A  .continuity/checkpoints/SES-20260723T062549Z-79779015/0001.yaml
-    - A  .continuity/sessions/SES-20260723T062549Z-79779015.yaml
-    - M  CHANGELOG.md
-    - M  CURRENT_STATUS.yaml
-    - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-    - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-    - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-    - M  artifacts/validation/project-doctor-v1.2.3.json
-    - M  catalogs/session_index.csv
-    - M  catalogs/task_transition_ledger.csv
-    - M  catalogs/ui_page_fields.csv
-    - M  contracts/contract_status.csv
-    - M  contracts/openapi.yaml
-    - M  docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
-    - M  docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
-    - M  docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
-    - ' M docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md'
-    - A  docs/03-continuity/sessions/2026-07/SES-20260723T062549Z-79779015.md
-    - M  packages/api-client/src/client.generated.ts
-    - M  releases/R10/STORIES.yaml
-    - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-    - M  services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - A  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R10ControllerContractTest.java
-    - M  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-    - A  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10PostgresStoreTest.java
-    - A  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10ServiceTest.java
-    - M  services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Service.java
-    - A  services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Contracts.java
-    - A  services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
-    - A  services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Service.java
-    - A  services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Store.java
-    - A  tests/test_r10_group_contract.py
-    recent_commits:
-    - "2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4\t2026-07-23T14:23:32+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close\
-      \ TASK-R10-002 as completed"
-    - "9322209a3e85917d0a11957a3137797b14c6c2e8\t2026-07-23T14:16:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(database): enforce\
-      \ group promotion invariants"
-    - "47f2b158f68207603f260460aad7c4eccdd0b936\t2026-07-23T12:51:23+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close\
-      \ TASK-R10-001 as completed"
-    - "04a6e66a91725fdd2352f8a262f7de701fc4629e\t2026-07-23T12:46:50+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] fix(home): align runtime\
-      \ with canonical product contract"
-    - "9e05beefef5754521c1730ddbf1179bae694c31b\t2026-07-23T10:49:29+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close\
-      \ TASK-R09-008 as completed"
-    - "7f2c335493a6f78aadf8c041b4cc0fffd474d713\t2026-07-23T10:47:23+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): complete machine\
-      \ closure"
-    - "2e667408a5987b53ce55521f827ac70ce9e80cac\t2026-07-23T10:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close\
-      \ TASK-R09-007 as completed"
-    - "6c214e59d028679ea2e51b83e619f1c87c2be4d0\t2026-07-23T10:37:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): deliver final\
-      \ candidate apk"
-  project_fingerprint:
-    sha256: 56e4197147fe9e924cda908b38a6567029aa120042ed872ff219d29e4e6804a7
-    files:
-    - CHANGELOG.md
-    - catalogs/ui_page_fields.csv
-    - contracts/contract_status.csv
-    - contracts/openapi.yaml
-    - docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
-    - docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
-    - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
-    - docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
-    - packages/api-client/src/client.generated.ts
-    - releases/R10/STORIES.yaml
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-    - services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R10ControllerContractTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10PostgresStoreTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10ServiceTest.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Service.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Contracts.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Service.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Store.java
-    - tests/test_r10_group_contract.py
-    file_count: 22
-    payload:
-      base_commit: 2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4
-      files:
-      - path: CHANGELOG.md
-        state: FILE
-        size: 108806
-        sha256: a7c4f40eee68a1181373cff0e2582a04f0d510c0632a6b8118d7a2c20d312931
-      - path: catalogs/ui_page_fields.csv
-        state: FILE
-        size: 2880523
-        sha256: 4ca8aa7ba90ed69781f409db5336c595d314ad496de77324d29830a730e55919
-      - path: contracts/contract_status.csv
-        state: FILE
-        size: 140042
-        sha256: bfd71a5a190a59f8c9c366f1ba1e049ae1e8ddd8120f34c2e579d78a523fb024
-      - path: contracts/openapi.yaml
-        state: FILE
-        size: 602186
-        sha256: 014ecc6b24b54826fc7472016ea5e87985a28b1ef815fe7730ecc74eb5a6ca9f
-      - path: docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
-        state: FILE
-        size: 27917
-        sha256: ae97d139aab23714b98b9b6fecc476bde56af58244a930e28946b21e05e56cd7
-      - path: docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
-        state: FILE
-        size: 17531
-        sha256: 6396c721ae7cfbbf82f6bce97a5c18ed168edc8af5088d4f3e9ab72ad3e5f457
-      - path: docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
-        state: FILE
-        size: 11502
-        sha256: fa36afe10add6715bebf6a562b58c865d4b1293851fb7fce2220ec37558f6523
-      - path: docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
-        state: FILE
-        size: 7161
-        sha256: 31d6868c1499fe6caae839619fa19ec974cc5ba95fea791b0e33771a7dc20989
-      - path: packages/api-client/src/client.generated.ts
-        state: FILE
-        size: 620827
-        sha256: df7311f6d921c73fc7466c9ae43ee5fd533012315982f6a638514331e4755455
-      - path: releases/R10/STORIES.yaml
-        state: FILE
-        size: 11087
-        sha256: 5de97bb428f24c708a6613fffe8d19171b6e3760fdb92d555fa6188533ab5e02
-      - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-        state: FILE
-        size: 6679
-        sha256: 4492c1aae1fda3a3155b63fc9cf206077c3656af60115a5df9141b6094984d3c
-      - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
-        state: FILE
-        size: 602186
-        sha256: 014ecc6b24b54826fc7472016ea5e87985a28b1ef815fe7730ecc74eb5a6ca9f
-      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R10ControllerContractTest.java
-        state: FILE
-        size: 1342
-        sha256: 5bcf6dde78a1eae8e31c86a8a3a9633337316149f0cf27d5ae3d0ced9484c213
-      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-        state: FILE
-        size: 18018
-        sha256: b34b4b64303a6fc7768f22b1eb6577fcb43b911c1d43a851104729c60ce8643b
-      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10PostgresStoreTest.java
-        state: FILE
-        size: 4137
-        sha256: dcdfb6966678210bd51f61db2dff8c9787bd1b427f1857bc7e8c6f41ec90bf19
-      - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10ServiceTest.java
-        state: FILE
-        size: 11624
-        sha256: d47d9ba6b0e1bd25811657a14577f33a4209a865bdb256137c98e5f0cd7a7cf7
-      - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Service.java
-        state: FILE
-        size: 16068
-        sha256: 84789aec86234a6a62a711b00ca64093a26eb758ce8cc16311183088734f14d9
-      - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Contracts.java
-        state: FILE
-        size: 402
-        sha256: b794aa5be21339ab1e41207eacabab032c6cf52fb30f5e3866a9ea3786db4ba4
-      - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
-        state: FILE
-        size: 6052
-        sha256: 8b43a055eef633da2e7de7eb4e82ce408eacf84d18492200c14bc034e91b8ff7
-      - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Service.java
-        state: FILE
-        size: 24086
-        sha256: 3d8d90a16e06f098a9b826a4ef73de8202756cd5f326a567bd47b41a6acc400a
-      - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Store.java
-        state: FILE
-        size: 1169
-        sha256: 1461ddd12d5563c4dcde1e19fcdef067d3f8859b0ffa70ae84142b3d2b7ac479
-      - path: tests/test_r10_group_contract.py
-        state: FILE
-        size: 2606
-        sha256: 4f3bda9b1adeed8ec4accfc0f2794bf9b09fbeb4f3b66d2147d3875593185575
-  change_classification:
-    other:
-    - CHANGELOG.md
-    source_of_truth:
-    - catalogs/ui_page_fields.csv
-    - contracts/contract_status.csv
-    - contracts/openapi.yaml
-    - docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
-    - docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
-    - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
-    - releases/R10/STORIES.yaml
-    contracts:
-    - contracts/contract_status.csv
-    - contracts/openapi.yaml
-    user_visible:
-    - contracts/contract_status.csv
-    - contracts/openapi.yaml
-    - docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
-    - docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
-    - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
-    continuity:
-    - docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
-    code:
-    - packages/api-client/src/client.generated.ts
-    - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-    - services/backend/boot/src/main/resources/contracts/openapi.yaml
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R10ControllerContractTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10PostgresStoreTest.java
-    - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10ServiceTest.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Service.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Contracts.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Service.java
-    - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Store.java
-    tests:
-    - tests/test_r10_group_contract.py
-  required_records:
-  - SESSION_RECORD
-  - SESSION_LOG
-  - CHECKPOINT
-  - CURRENT_STATUS
-  - EVENT_LOG
-  - APPROVED_CHANGE_REQUEST
-  - CONTRACT_TEST_EVIDENCE
-  - GENERATED_CLIENTS_OR_GENERATION_RECORD
-  - CHANGELOG
-  change_requests:
-  - CR-0268
-  scope:
-    allowed_paths:
-    - apps/**
-    - services/**
-    - packages/**
-    - contracts/**
-    - database/**
-    - config/**
-    - catalogs/**
-    - tests/**
-    - infra/**
-    - design/**
-    - docs/**
-    - releases/**
-    - scripts/**
-    - templates/**
-    - .github/**
-    - .githooks/**
-    - .codex/**
-    - AGENTS.md
-    - START_HERE.md
-    - README.md
-    - CHANGELOG.md
-    - Makefile
-    - .gitignore
-    - .gitattributes
-    - .dockerignore
-    - package.json
-    - pnpm-lock.yaml
-    - pnpm-workspace.yaml
-    - requirements-dev.txt
-    - PROJECT_*.yaml
-    - PROJECT_*.json
-    approved_exceptions: []
-    source: story+explicit
-  parallel_execution:
-    assessment: NO_SAFE_PARALLEL
-    delegated_workers: 0
-    workers: []
-    reason: 最终CR、通用控制器、合同生成和会话事实需由同一事实主控串行一致化，当前无互斥安全写路径
-  event_hash: 070471184199a7e4179eccdc5917c569a81783bfff1dbab6de4dc26f1b5ebe33
+active_session: null
+latest_checkpoint: null
 git:
   initialized: true
   branch: task/TASK-R03-001
-  head: 2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4
+  head: 896948b70c98807cb30d5d165225a6c2a4155424
   upstream: origin/task/TASK-R03-001
   ahead: 0
   behind: 0
   dirty: true
   status_porcelain:
-  - MM .continuity/ACTIVE_SESSION.yaml
-  - MM .continuity/EVENT_LOG.jsonl
-  - MM .continuity/SESSION_INDEX.yaml
-  - MM .continuity/STATE.yaml
-  - M  .continuity/TASK_CLAIMS.yaml
-  - M  .continuity/TASK_TRANSITIONS.yaml
-  - A  .continuity/checkpoints/SES-20260723T062549Z-79779015/0001.yaml
-  - AM .continuity/sessions/SES-20260723T062549Z-79779015.yaml
-  - M  CHANGELOG.md
-  - MM CURRENT_STATUS.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.md
-  - M  artifacts/context/CURRENT_CONTEXT_PACK.yaml
-  - M  artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  - M  artifacts/validation/project-doctor-v1.2.3.json
-  - MM catalogs/session_index.csv
-  - M  catalogs/task_transition_ledger.csv
-  - M  catalogs/ui_page_fields.csv
-  - M  contracts/contract_status.csv
-  - M  contracts/openapi.yaml
-  - M  docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
-  - M  docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
-  - M  docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
-  - ' M docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md'
-  - AM docs/03-continuity/sessions/2026-07/SES-20260723T062549Z-79779015.md
-  - M  packages/api-client/src/client.generated.ts
-  - M  releases/R10/STORIES.yaml
-  - M  services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-  - M  services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R10ControllerContractTest.java
-  - M  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10PostgresStoreTest.java
-  - A  services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10ServiceTest.java
-  - M  services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Service.java
-  - A  services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Contracts.java
-  - A  services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
-  - A  services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Service.java
-  - A  services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Store.java
-  - A  tests/test_r10_group_contract.py
-  - ?? .continuity/checkpoints/SES-20260723T062549Z-79779015/0002.yaml
+  - ' M .continuity/ACTIVE_SESSION.yaml'
+  - ' M .continuity/EVENT_LOG.jsonl'
+  - ' M .continuity/SESSION_INDEX.yaml'
+  - ' M .continuity/STATE.yaml'
+  - ' M .continuity/TASK_CLAIMS.yaml'
+  - ' M .continuity/sessions/SES-20260723T062549Z-79779015.yaml'
+  - ' M CHANGELOG.md'
+  - ' M CURRENT_STATUS.yaml'
+  - ' M NEXT_TASK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.md'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK.yaml'
+  - ' M artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json'
+  - ' M catalogs/session_index.csv'
+  - ' M docs/03-continuity/sessions/2026-07/SES-20260723T062549Z-79779015.md'
+  - ' M releases/R10/TASKS.yaml'
+  - ?? .continuity/checkpoints/SES-20260723T062549Z-79779015/0003.yaml
   recent_commits:
+  - "896948b70c98807cb30d5d165225a6c2a4155424\t2026-07-23T15:02:03+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(content): complete group\
+    \ promotion backend"
   - "2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4\t2026-07-23T14:23:32+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] chore(continuity): close TASK-R10-002\
     \ as completed"
   - "9322209a3e85917d0a11957a3137797b14c6c2e8\t2026-07-23T14:16:11+08:00\tHHY Continuity Bootstrap\t[STORY-R10-004] feat(database): enforce group\
@@ -624,125 +236,10 @@ git:
     \ closure"
   - "2e667408a5987b53ce55521f827ac70ce9e80cac\t2026-07-23T10:40:22+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(continuity): close TASK-R09-007\
     \ as completed"
-  - "6c214e59d028679ea2e51b83e619f1c87c2be4d0\t2026-07-23T10:37:02+08:00\tHHY Continuity Bootstrap\t[STORY-R09-004] chore(r09): deliver final\
-    \ candidate apk"
 project_fingerprint:
-  sha256: 56e4197147fe9e924cda908b38a6567029aa120042ed872ff219d29e4e6804a7
-  files:
-  - CHANGELOG.md
-  - catalogs/ui_page_fields.csv
-  - contracts/contract_status.csv
-  - contracts/openapi.yaml
-  - docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
-  - docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
-  - docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
-  - docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
-  - packages/api-client/src/client.generated.ts
-  - releases/R10/STORIES.yaml
-  - services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-  - services/backend/boot/src/main/resources/contracts/openapi.yaml
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R10ControllerContractTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10PostgresStoreTest.java
-  - services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10ServiceTest.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Service.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Contracts.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Service.java
-  - services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Store.java
-  - tests/test_r10_group_contract.py
-  file_count: 22
-  payload:
-    base_commit: 2de94dd2b82efc2d5ebff5500ad808ea5ccee2d4
-    files:
-    - path: CHANGELOG.md
-      state: FILE
-      size: 108806
-      sha256: a7c4f40eee68a1181373cff0e2582a04f0d510c0632a6b8118d7a2c20d312931
-    - path: catalogs/ui_page_fields.csv
-      state: FILE
-      size: 2880523
-      sha256: 4ca8aa7ba90ed69781f409db5336c595d314ad496de77324d29830a730e55919
-    - path: contracts/contract_status.csv
-      state: FILE
-      size: 140042
-      sha256: bfd71a5a190a59f8c9c366f1ba1e049ae1e8ddd8120f34c2e579d78a523fb024
-    - path: contracts/openapi.yaml
-      state: FILE
-      size: 602186
-      sha256: 014ecc6b24b54826fc7472016ea5e87985a28b1ef815fe7730ecc74eb5a6ca9f
-    - path: docs/02-ui/page-specs/android/SCR-DETAIL-003_群聊详情.md
-      state: FILE
-      size: 27917
-      sha256: ae97d139aab23714b98b9b6fecc476bde56af58244a930e28946b21e05e56cd7
-    - path: docs/02-ui/page-specs/android/SCR-PUB-004_群聊发布_编辑.md
-      state: FILE
-      size: 17531
-      sha256: 6396c721ae7cfbbf82f6bce97a5c18ed168edc8af5088d4f3e9ab72ad3e5f457
-    - path: docs/02-ui/page-specs/android/SHEET-CONTACT-001_联系方式面板.md
-      state: FILE
-      size: 11502
-      sha256: fa36afe10add6715bebf6a562b58c865d4b1293851fb7fce2220ec37558f6523
-    - path: docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
-      state: FILE
-      size: 7161
-      sha256: 31d6868c1499fe6caae839619fa19ec974cc5ba95fea791b0e33771a7dc20989
-    - path: packages/api-client/src/client.generated.ts
-      state: FILE
-      size: 620827
-      sha256: df7311f6d921c73fc7466c9ae43ee5fd533012315982f6a638514331e4755455
-    - path: releases/R10/STORIES.yaml
-      state: FILE
-      size: 11087
-      sha256: 5de97bb428f24c708a6613fffe8d19171b6e3760fdb92d555fa6188533ab5e02
-    - path: services/backend/boot/src/main/java/cc/orbexa/hhy/boot/user/R08Controller.java
-      state: FILE
-      size: 6679
-      sha256: 4492c1aae1fda3a3155b63fc9cf206077c3656af60115a5df9141b6094984d3c
-    - path: services/backend/boot/src/main/resources/contracts/openapi.yaml
-      state: FILE
-      size: 602186
-      sha256: 014ecc6b24b54826fc7472016ea5e87985a28b1ef815fe7730ecc74eb5a6ca9f
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/boot/user/R10ControllerContractTest.java
-      state: FILE
-      size: 1342
-      sha256: 5bcf6dde78a1eae8e31c86a8a3a9633337316149f0cf27d5ae3d0ced9484c213
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R07ServiceTest.java
-      state: FILE
-      size: 18018
-      sha256: b34b4b64303a6fc7768f22b1eb6577fcb43b911c1d43a851104729c60ce8643b
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10PostgresStoreTest.java
-      state: FILE
-      size: 4137
-      sha256: dcdfb6966678210bd51f61db2dff8c9787bd1b427f1857bc7e8c6f41ec90bf19
-    - path: services/backend/boot/src/test/java/cc/orbexa/hhy/content/R10ServiceTest.java
-      state: FILE
-      size: 11624
-      sha256: d47d9ba6b0e1bd25811657a14577f33a4209a865bdb256137c98e5f0cd7a7cf7
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R07Service.java
-      state: FILE
-      size: 16068
-      sha256: 84789aec86234a6a62a711b00ca64093a26eb758ce8cc16311183088734f14d9
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Contracts.java
-      state: FILE
-      size: 402
-      sha256: b794aa5be21339ab1e41207eacabab032c6cf52fb30f5e3866a9ea3786db4ba4
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R10PostgresStore.java
-      state: FILE
-      size: 6052
-      sha256: 8b43a055eef633da2e7de7eb4e82ce408eacf84d18492200c14bc034e91b8ff7
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Service.java
-      state: FILE
-      size: 24086
-      sha256: 3d8d90a16e06f098a9b826a4ef73de8202756cd5f326a567bd47b41a6acc400a
-    - path: services/backend/content/src/main/java/cc/orbexa/hhy/content/R10Store.java
-      state: FILE
-      size: 1169
-      sha256: 1461ddd12d5563c4dcde1e19fcdef067d3f8859b0ffa70ae84142b3d2b7ac479
-    - path: tests/test_r10_group_contract.py
-      state: FILE
-      size: 2606
-      sha256: 4f3bda9b1adeed8ec4accfc0f2794bf9b09fbeb4f3b66d2147d3875593185575
+  sha256: efaf7e3d779f0021036446b7342e01f3beba1b94a18588413f360bd66767a4d4
+  files: []
+  file_count: 0
 release_context:
   RELEASE_MANIFEST.yaml:
     release: R10
@@ -1353,7 +850,7 @@ release_context:
       completed_at: '2026-07-23T06:17:46Z'
     - id: TASK-R10-003
       title: 群聊推广完整闭环后端应用服务与接口
-      status: READY
+      status: DONE
       depends_on:
       - TASK-R10-002
       requirements: *id001
@@ -1367,9 +864,10 @@ release_context:
       - OpenAPI契约测试
       - 权限/幂等/错误码/审计覆盖
       session_log_required: true
+      completed_at: '2026-07-23T07:03:52Z'
     - id: TASK-R10-004
       title: 群聊推广完整闭环客户端/H5/后台实现
-      status: BLOCKED
+      status: READY
       depends_on:
       - TASK-R10-003
       requirements: *id001
@@ -1652,12 +1150,12 @@ repository_transport:
 continuity_state:
   mode: ENFORCED
   protocol_version: '1.0'
-  active_session_id: SES-20260723T062549Z-79779015
-  last_session_id: SES-20260723T045352Z-FC8DC2CF
+  active_session_id: null
+  last_session_id: SES-20260723T062549Z-79779015
   last_session_result: COMPLETED
-  last_closure_checkpoint_id: CP-SES-20260723T045352Z-FC8DC2CF-0006
-  event_count: 2648
-  event_head_hash: 070471184199a7e4179eccdc5917c569a81783bfff1dbab6de4dc26f1b5ebe33
+  last_closure_checkpoint_id: CP-SES-20260723T062549Z-79779015-0003
+  event_count: 2651
+  event_head_hash: e3fdbdb654dd980bf3183b01242e0a51f6fd923cbd972a6c47d6c50257c107ce
   event_chain_valid: true
 recent_sessions:
 - session_id: SES-20260722T181159Z-F501CFF5
@@ -1772,13 +1270,13 @@ recent_sessions:
   task_id: TASK-R10-003
   story_id: STORY-R10-004
   actor_id: codex-root-r10-backend
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-23T06:25:49Z'
   record: .continuity/sessions/SES-20260723T062549Z-79779015.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260723T062549Z-79779015.md
-  updated_at: '2026-07-23T07:01:06Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260723T062549Z-79779015/0002.yaml
+  updated_at: '2026-07-23T07:04:01Z'
+  closed_at: '2026-07-23T07:04:01Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260723T062549Z-79779015/0003.yaml
   handoff_bundle: null
 task_claims:
 - claim_id: CLM-8455EA069BA3
@@ -2570,7 +2068,7 @@ task_claims:
   task_id: TASK-R10-003
   story_id: STORY-R10-004
   actor_id: codex-root-r10-backend
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-23T06:25:49Z'
   allowed_paths:
   - apps/**
@@ -2604,6 +2102,7 @@ task_claims:
   - requirements-dev.txt
   - PROJECT_*.yaml
   - PROJECT_*.json
+  closed_at: '2026-07-23T07:04:01Z'
 recent_task_transitions:
 - transition_id: TRN-38F92C59B826
   timestamp: '2026-07-21T23:58:49Z'
@@ -8787,11 +8286,11 @@ source_manifest:
   sha256: 22de14029ce47beb41ea569e36ce223fbc9d11b86f8676f28d5fbbd83896af5c
   bytes: 4556
 - path: CURRENT_STATUS.yaml
-  sha256: f093fe7b6f82d874ce9c608e658eff425a10cf4cae6e0e58b34a69b1f5d8fcdb
-  bytes: 4169
+  sha256: 5efb52fa2647942cd12332c0736ab491dcd392e1da5b801f9b8e6e87677d33d3
+  bytes: 4034
 - path: NEXT_TASK.yaml
-  sha256: 32f1cf913db052d22b663146721d4b5ab97421d650cbe2d211fc0fcd35d85bc4
-  bytes: 1514
+  sha256: 7ca1b3eb478f794d341d916261d958c68022f0dd0ebdca4635c71daaa6d57712
+  bytes: 1841
 - path: DEVELOPMENT_RISK_REGISTER.md
   sha256: 8304c91492e4ee2abea0522a06541c8688d39c7fc532b5d0cde499bf09fffb87
   bytes: 8289
@@ -8820,14 +8319,14 @@ source_manifest:
   sha256: 16a96f9a52f352f3c62175db308dd973889b2e82acb117bcfdd12a4bc4d379f6
   bytes: 12763
 - path: .continuity/EVENT_LOG.jsonl
-  sha256: 7a3afb76f4beddf2d4148258530fde0e84240ae030b1285ccae8aae4549eca21
-  bytes: 1476084
+  sha256: 35814c328e1b54b60f47aab2336d5342ab43aeaaf3210a878b6e9ecd14bcfcf6
+  bytes: 1478044
 - path: .continuity/SESSION_INDEX.yaml
-  sha256: e9c908c2bba8b8b13fd41eb53ac84a868f90b8e1a87c33e502dd0ca521fbe803
-  bytes: 44076
+  sha256: ecf6d5014a49132cd30db31ec93a33b76f756d50b80e6a17ee0a6d698ef49855
+  bytes: 44094
 - path: .continuity/TASK_CLAIMS.yaml
-  sha256: 2fa437e08d3c6204669a59b20751e27f43baf6029b25d0342c46c06b4b7a2b9c
-  bytes: 60891
+  sha256: 928e6f6dab8327bf44341e6c77429746e99174e17034ce383f0dac89da12cf7b
+  bytes: 60927
 - path: .continuity/TASK_TRANSITIONS.yaml
   sha256: 029a1ed737e1294d3fe289a6cc6e4e803b0d51a5086430ef6994a4d47cd54424
   bytes: 25107
@@ -8835,8 +8334,8 @@ source_manifest:
   sha256: 69115d03dede1a3ceb37febc003984b9cd756b0467e06ad8a8aceeaadd3b21a7
   bytes: 898135
 - path: .continuity/ACTIVE_SESSION.yaml
-  sha256: d51d614c6fabb9a14e1576092d42c732ecac7ab83fdb9803e302d2eb1ce8b639
-  bytes: 537
+  sha256: 7d74f8ff97e11566d54a22125dc65116c98922d09d8e0fdd0c67d2f5dcd8be2b
+  bytes: 143
 - path: docs/00-baseline/正式商业系统全局硬性开发边界.md
   sha256: 9753b32db136e59e95a0974a62362456d9d577fd1bb40058ec985c4b64413eea
   bytes: 12596
@@ -8859,23 +8358,14 @@ source_manifest:
   sha256: 5de97bb428f24c708a6613fffe8d19171b6e3760fdb92d555fa6188533ab5e02
   bytes: 11087
 - path: releases/R10/TASKS.yaml
-  sha256: c6b4278f8bc3e680cd15bb5b0c3557080da38c9620066a1e9d3b40f6db18f06e
-  bytes: 5563
+  sha256: 30ecec0feb3ab84966603c6aa8e1d367e49f7868ebae3f204cd65feba3dc6224
+  bytes: 5599
 - path: releases/R10/ACCEPTANCE_MATRIX.csv
   sha256: a17663145b2e704291bb5095c55aed36cf67d01a716b8904018e6b254e243b9f
   bytes: 684
 - path: releases/R10/PARALLEL_EXECUTION_PLAN.yaml
   sha256: ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7
   bytes: 2382
-- path: docs/03-continuity/sessions/2026-07/SES-20260723T062549Z-79779015.md
-  sha256: c456ab8343cddfb079ef84b844ebc158b81bc4bc037917cce87791aa41de6c78
-  bytes: 6542
-- path: .continuity/checkpoints/SES-20260723T062549Z-79779015/0002.yaml
-  sha256: 79bd83da69a151ad13814cda5be411725e913f2280fde8e1149ef1d752da6001
-  bytes: 13557
-- path: docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md
-  sha256: 31d6868c1499fe6caae839619fa19ec974cc5ba95fea791b0e33771a7dc20989
-  bytes: 7161
 rule_readiness:
   status: PASS
   evidence: HASHED_CONTEXT_MANIFEST
@@ -8895,8 +8385,7 @@ rule_readiness:
   - docs/03-continuity/PITFALLS.md
   - docs/09-development/统一开发与交付效率规范.md
   missing_sources: []
-exact_resume_command: python3 scripts/continuity.py checkpoint --summary '<完成内容>' --next-step '<下一步>' --parallel-assessment <ASSESSMENT> --parallel-reason
-  '<未委托原因>'
+exact_resume_command: python3 scripts/continuity.py start --actor <ACTOR_ID> --task TASK-R10-004
 hard_rules:
 - 不得依赖旧对话补充仓库已有需求
 - 未领取任务和会话不得编辑项目文件
@@ -8911,4 +8400,4 @@ hard_rules:
 - 除非项目所有者明确报告未连接，默认Codex已连接obx-test且既有项目环境可用；预检失败必须阻断并报告
 - 禁止以无服务器状态继续开发或重建本地Android SDK，必须复用登记的远端镜像和Gradle缓存
 - Git remote/upstream仅按tracked transport descriptor受控恢复；推送前必须预检且禁止force push
-context_hash: 799f5013a4077428ac4f9c868baf689b8c8211dada3c3169f5d5988c1ad590b9
+context_hash: 74019fe2557384c30a8313a8edf384f298391fcee2264f140da306e967b1b181
