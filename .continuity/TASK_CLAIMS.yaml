@@ -2899,7 +2899,7 @@ claims:
   task_id: TASK-R09-007
   story_id: STORY-R09-004
   actor_id: codex-root-r09-candidate
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-22T20:54:10Z'
   allowed_paths:
   - apps/**
@@ -2934,3 +2934,4 @@ claims:
   - PROJECT_*.yaml
   - PROJECT_*.json
   - releases/R09/
+  closed_at: '2026-07-23T02:39:19Z'

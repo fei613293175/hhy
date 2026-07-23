@@ -988,11 +988,11 @@ sessions:
   task_id: TASK-R09-007
   story_id: STORY-R09-004
   actor_id: codex-root-r09-candidate
-  status: ACTIVE
+  status: CLOSED
   started_at: '2026-07-22T20:54:10Z'
   record: .continuity/sessions/SES-20260722T205410Z-782F22B9.yaml
   session_log: docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md
-  updated_at: '2026-07-23T02:33:55Z'
-  closed_at: null
-  latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0016.yaml
+  updated_at: '2026-07-23T02:39:19Z'
+  closed_at: '2026-07-23T02:39:19Z'
+  latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0017.yaml
   handoff_bundle: null

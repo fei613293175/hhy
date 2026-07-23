@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T02:33:58Z",
-  "context_hash": "47ceae664eedfdf6eb8c45f6bbcf0c78879aa5aac33730e216f1bee64ba4dad3",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-23T02:39:22Z",
+  "context_hash": "660238915b4c0a5c018e6b0c423d3f19d9f72cd6897937af7526ae33d4c9c6cf",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "2f0455f4a623bb7a3c37441615bf35233a227b4aba20e1feca2e20688eca7d9f",
-    "file_count": 39
+    "sha256": "cc6ea66039dd19319aefa9e8de7d87042467a16180324eeb16a000d3dc2176cc",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "73544577d9150320a187f008aac2042721657b4e465d566f02c07cd29083601b"
+    "sha256": "7b974cb2312d3a14cbdf82d7c5488edebf3c55588d6c932a1a1c2f7b37cc1488"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "008f9df1baa5aef372169bf86895594904d83e85f955bec2c3d8d758831203cb"
+    "sha256": "c4e04832baa9b272cc713301931ee3f392f43ee8a6f90b98e1cb4bfc49e6959f"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "291681e3fba389fa15667d4098a17fffd301c0449efdd0da8a51584df8a63b40",
-      "bytes": 4079
+      "sha256": "7f474ff63832d5f8d57e3baffbf4c623f41382fa52228a34e793bcc3c96b2508",
+      "bytes": 3974
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "800383beeb201ea7b396161629b7a8e9c2d216993bb39959be1969ced7d66d69",
-      "bytes": 1577
+      "sha256": "9485ea9754a1a1795e136501334e32cfee9189430fb702b76abf1c56f6ad6f5e",
+      "bytes": 1526
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "4bd6dbcd4ce295a347f93df2df600d590addffe0837a1a34f5f1b6041168f644",
-      "bytes": 1438606
+      "sha256": "1b1bdbaf26feb232eb404f77b3b97cf6ba4c757058b604a757c76d438f14af1f",
+      "bytes": 1440238
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "d96b719c49010aa625cf8d90a1c25ef24db2ad1dd5c35778a45daf45ae20572a",
-      "bytes": 42019
+      "sha256": "2711634fa057e05721443efa431f647d16900dffc07ba99cae703af790e94c5d",
+      "bytes": 42037
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "292c872faa7857fcff9328f8dd01e9e309f753524a86589096d732c75d08dbda",
-      "bytes": 57814
+      "sha256": "84ac8035c67cddcfb75f7d33389f66302d7cd7ec43e9e2232b4d9d5f10a1a178",
+      "bytes": 57850
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "be66f6cc2d3f92394b41405e461716c9d9e39f6924321cc5a244e99d8d27569c",
-      "bytes": 539
+      "sha256": "548a1ed5f019eeaa466a2721ab5fd894853aa8f392ec1745a2196451a6d10e96",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R09/TASKS.yaml",
-      "sha256": "c94088297981d6acc56d13ed7a68a653838ed6cb1e259d6f110074c41fbf2e96",
-      "bytes": 5683
+      "sha256": "1a54ff1e2c85fd6d3859300c11392a57416dc8fbe9a1614dd78b715312fa02dc",
+      "bytes": 5719
     },
     {
       "path": "releases/R09/ACCEPTANCE_MATRIX.csv",
@@ -160,46 +160,6 @@
       "path": "releases/R09/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "182e97474390152a7f45613ebaf6e404c8d1687d9c1ea287bb1cb7bc4abe7eac",
       "bytes": 4153
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md",
-      "sha256": "c13c6f214de71ffca51d1c08ce7b414e33caf0c22569e981c7eb965c93c8c1aa",
-      "bytes": 45713
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260722T205410Z-782F22B9/0016.yaml",
-      "sha256": "c6d9b87405c0fc9b2bbc26d44ce3cc3d50f7fb6f9a6ca02fc97e54dbba42f849",
-      "bytes": 19968
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0257-建立R09-App最终候选真实旅程与唯一产物门禁.md",
-      "sha256": "5021ae489b56ee20dbef1c38d04582befeaa69bccad8ef836a6ace258401d86f",
-      "bytes": 4422
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0258-修复R09编辑页分类与平台技术编码可见性.md",
-      "sha256": "d78203939e87cec5c807bdf4431302d0e9a95b41c720631328943cf12294141d",
-      "bytes": 2952
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0259-登记R09候选固定数据不可变版本幂等缺口.md",
-      "sha256": "cf47fd9e595cb3e3c06641f52c6584fb0789d0f3923ace8e5e08e81d41919ef7",
-      "bytes": 2072
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0260-补齐R09当前Release并行执行计划事实源.md",
-      "sha256": "705aae84af3a0da021dbfe5d15666870a669d1a42487ed23056dae8d9f80c8cf",
-      "bytes": 2216
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0261-修复R09真实App图片展示与效果图级视觉不足.md",
-      "sha256": "bf6f1f68f6d59708168981d8fb348aa45ac0a3c8c5e80b9c995be999b68f3d71",
-      "bytes": 4984
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0262-补齐R09最终交付证据范围并落实终端静默执行边界.md",
-      "sha256": "87d8f3b1f3baf422926f9e9a9d9844706670fa268399bb927fcdc95f39bede83",
-      "bytes": 4439
     }
   ]
 }

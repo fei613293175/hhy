@@ -1,7 +1,7 @@
 protocol_version: '1.0'
 package_version: 1.2.3
 session_id: SES-20260722T205410Z-782F22B9
-status: ACTIVE
+status: CLOSED
 actor:
   id: codex-root-r09-candidate
   kind: AI_OR_HUMAN
@@ -11,7 +11,7 @@ task_id: TASK-R09-007
 story_id: STORY-R09-004
 goal: 完成R09 App推广完整闭环最终候选：固定工具链构建、一次GitHub模拟器验证三页真实旅程与AI视觉审核、稳定签名测试APK、四方SHA/Commit/versionName/versionCode追溯并交付桌面；真机反馈保持异步。
 started_at: '2026-07-22T20:54:10Z'
-updated_at: '2026-07-23T02:33:59Z'
+updated_at: '2026-07-23T02:39:19Z'
 takeover_of: null
 change_requests:
 - CR-0257
@@ -104,22 +104,36 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T02:33:55Z'
-  expires_at: '2026-07-23T06:33:55Z'
-checkpoint_sequence: 16
-latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0016.yaml
+  renewed_at: '2026-07-23T02:39:14Z'
+  expires_at: '2026-07-23T06:39:14Z'
+checkpoint_sequence: 17
+latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0017.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md
-next_step: 运行V1.2.3严格Continuity门禁，通过后提交并推送TASK-R09-007实现，关闭任务并启动TASK-R09-008机器关闭。
+next_step: 提交关闭元数据Commit，然后运行pre-push/CI门禁
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 47ceae664eedfdf6eb8c45f6bbcf0c78879aa5aac33730e216f1bee64ba4dad3
-  generated_at: '2026-07-23T02:33:58Z'
+  context_hash: 3e5426690b8e0dc12c2ca74a132fd6e133d2d75c9cc4c0bc8a75b3bf61e9f217
+  generated_at: '2026-07-23T02:39:17Z'
 handoff_bundle: null
-closure: null
+closure:
+  result: COMPLETED
+  summary: R09最终候选、视觉、固定签名和四方APK交付完成
+  code_commit: 6c214e59d028679ea2e51b83e619f1c87c2be4d0
+  next_release: R09
+  next_task: TASK-R09-008
+  blocked_advance: false
+  completed_independent_advance: false
+  user_confirmation: null
+  metadata_commit: PENDING
+  push_verification: CI_REQUIRED_AFTER_METADATA_COMMIT
+  started_at: '2026-07-23T02:39:11Z'
+  closure_checkpoint_id: CP-SES-20260722T205410Z-782F22B9-0017
+  closed_at: '2026-07-23T02:39:19Z'
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
   reason: 单一规则投影、检查点与R09关闭元数据属于同一连续性事实源，必须串行收口。
+closed_at: '2026-07-23T02:39:19Z'

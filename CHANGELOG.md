@@ -1184,3 +1184,13 @@
 - 轻量基线晋升 Run `29970240620` 仅耗时 17 秒，复用同一 APK、截图和报告，没有重新编译或启动模拟器。
 - 固定签名 APK `hhy-r09-97dc163-debug.apk` 已完成 v2/v3、zipalign、正式 API、版本身份和四方 SHA-256 一致验证，并放入仓库、桌面和公网下载站。
 - `PROB-0098` 已关闭；项目所有者真机反馈保持异步 `PENDING`，不阻断 R09 机器关闭及 R10 开发。
+
+## TASK-R09-007 · COMPLETED · 2026-07-23T02:39:11Z
+
+- Task close: TASK-R09-007 / SES-20260722T205410Z-782F22B9
+- Release：`R09`
+- Story：`STORY-R09-004`
+- Actor：`codex-root-r09-candidate`
+- 摘要：R09最终候选、视觉、固定签名和四方APK交付完成
+- 记录：`docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md`
+
