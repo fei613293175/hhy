@@ -9,8 +9,40 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.JsonObject
+
+@Serializable
+@OptIn(ExperimentalSerializationApi::class)
+data class R11CreateTeamLeaderRequest(
+    @EncodeDefault(EncodeDefault.Mode.ALWAYS)
+    val contentType: String = "TEAM_LEADER",
+    val title: String,
+    val summary: String? = null,
+    val description: String,
+    val categoryCode: String,
+    val regionCode: String? = null,
+    val mediaIds: List<String> = emptyList(),
+    val contacts: List<R08ContactInput>,
+    val attributes: JsonObject,
+)
+
+@Serializable
+data class R11PatchTeamLeaderRequest(
+    val title: String,
+    val summary: String? = null,
+    val description: String,
+    val categoryCode: String,
+    val regionCode: String? = null,
+    val mediaIds: List<String>,
+    val contacts: List<R08ContactInput>? = null,
+    val attributes: JsonObject,
+    val expectedVersion: Long,
+)
 
 interface ContractR11Api {
     suspend fun teamLeaders(
@@ -20,6 +52,8 @@ interface ContractR11Api {
         sort: String = "createdAt:desc",
     ): R07CallResult<ContentPageResource>
     suspend fun teamLeader(accessToken: String, id: String): R07CallResult<ContentResource>
+    suspend fun create(accessToken: String, key: String, request: R11CreateTeamLeaderRequest): R07CallResult<ContentResource>
+    suspend fun patch(accessToken: String, id: String, key: String, request: R11PatchTeamLeaderRequest): R07CallResult<ContentResource>
     suspend fun favorite(accessToken: String, id: String, key: String, request: R08FavoriteRequest): R07CallResult<ContentResource>
     suspend fun share(accessToken: String, id: String, key: String, request: R08ShareRequest): R07CallResult<R08ShareResource>
     suspend fun direct(accessToken: String, key: String, request: R08DirectConversationRequest): R07CallResult<R08ConversationResource>
@@ -53,6 +87,18 @@ class UrlConnectionContractR11Api(baseUrl: String) : ContractR11Api {
 
     override suspend fun teamLeader(accessToken: String, id: String) =
         call("GET", "/api/v1/contents/${safeR11Id(id)}", accessToken, ContentResource.serializer())
+
+    override suspend fun create(accessToken: String, key: String, request: R11CreateTeamLeaderRequest): R07CallResult<ContentResource> {
+        require(request.contentType == "TEAM_LEADER")
+        validateR11Write(request.title, request.description, request.categoryCode, request.mediaIds, request.contacts, requireContacts = true)
+        return call("POST", "/api/v1/contents", accessToken, ContentResource.serializer(), requireR11Key(key), encode(request))
+    }
+
+    override suspend fun patch(accessToken: String, id: String, key: String, request: R11PatchTeamLeaderRequest): R07CallResult<ContentResource> {
+        require(request.expectedVersion >= 0)
+        validateR11Write(request.title, request.description, request.categoryCode, request.mediaIds, request.contacts, requireContacts = false)
+        return call("PATCH", "/api/v1/contents/${safeR11Id(id)}", accessToken, ContentResource.serializer(), requireR11Key(key), encode(request))
+    }
 
     override suspend fun favorite(accessToken: String, id: String, key: String, request: R08FavoriteRequest) =
         call("POST", "/api/v1/contents/${safeR11Id(id)}/favorite", accessToken, ContentResource.serializer(), requireR11Key(key), encode(request))
@@ -144,6 +190,26 @@ class UrlConnectionContractR11Api(baseUrl: String) : ContractR11Api {
 private fun safeR11Id(value: String): String = value.also { require(Regex("^[A-Za-z0-9_-]{1,64}$").matches(it)) }
 private fun safeR11Channel(value: String): String = value.also { require(it in setOf("WECHAT", "PHONE", "QQ", "EMAIL")) }
 private fun requireR11Key(value: String): String = value.also { require(it.length in 16..128 && Regex("^[A-Za-z0-9._:-]+$").matches(it)) }
+
+private fun validateR11Write(
+    title: String,
+    description: String,
+    categoryCode: String,
+    mediaIds: List<String>,
+    contacts: List<R08ContactInput>?,
+    requireContacts: Boolean,
+) {
+    require(title.isNotBlank() && title.length <= 2000)
+    require(description.isNotBlank() && description.length <= 2000)
+    require(categoryCode.isNotBlank() && categoryCode.length <= 2000)
+    require(mediaIds.size <= 100 && mediaIds.distinct().size == mediaIds.size)
+    mediaIds.forEach(::safeR11Id)
+    if (requireContacts) require(!contacts.isNullOrEmpty())
+    contacts?.let { values ->
+        require(values.isNotEmpty() && values.size <= 20)
+        values.forEach { require(it.channel in setOf("WECHAT", "PHONE", "QQ", "EMAIL") && it.value.isNotBlank() && it.value.length <= 2000) }
+    }
+}
 
 private fun validateR11Root(value: String): String {
     val uri = URI.create(value.trimEnd('/'))

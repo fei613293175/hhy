@@ -28,6 +28,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -66,6 +67,7 @@ fun R11TeamLeaderListScreen(
     accessToken: String,
     onBack: () -> Unit,
     onTeamLeaderSelected: (String) -> Unit,
+    onCreateTeamLeader: () -> Unit,
     onSessionExpired: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -99,6 +101,7 @@ fun R11TeamLeaderListScreen(
                 title = { Text("团队长") },
                 navigationIcon = { HhyBackButton(onBack) },
                 actions = {
+                    TextButton(onClick = onCreateTeamLeader) { Text("入驻") }
                     OutlinedButton(
                         onClick = { load(reset = true) },
                         enabled = state.phase !in setOf(R11TeamLeaderPhase.LOADING, R11TeamLeaderPhase.REFRESHING),

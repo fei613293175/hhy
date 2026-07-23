@@ -75,7 +75,9 @@ fun R11TeamLeaderDetailScreen(
     api: ContractR11Api,
     accessToken: String,
     teamLeaderId: String,
+    currentUserId: String,
     onBack: () -> Unit,
+    onEdit: (String) -> Unit,
     onConversationReady: (String) -> Unit,
     onSessionExpired: () -> Unit,
 ) {
@@ -156,6 +158,9 @@ fun R11TeamLeaderDetailScreen(
                 title = { Text("团队长详情") },
                 navigationIcon = { HhyBackButton(onBack) },
                 actions = {
+                    if (content?.publisher?.userId == currentUserId) {
+                        TextButton(onClick = { onEdit(teamLeaderId) }) { Text("编辑") }
+                    }
                     TextButton(enabled = content != null && phase == R11TeamLeaderPhase.CONTENT, onClick = {
                         val fingerprint = "COPY_LINK"
                         scope.launch {

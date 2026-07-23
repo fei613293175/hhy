@@ -40,7 +40,7 @@ SCR-PUB-001,发布入口,/publish,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确
 SCR-PUB-002,项目发布/编辑,/publish/project/{id?},TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
 SCR-PUB-003,App发布/编辑,/publish/app/{id?},TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
 SCR-PUB-004,群聊发布/编辑,/publish/group/{id?},TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
-SCR-PUB-005,团队长资料编辑,/publish/team-leader,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
+SCR-PUB-005,团队长资料编辑,/publish/team-leader,B04,P05,EXACT_CONSTRUCTION_REFERENCE,团队长入驻申请精确施工面板；业务字段和动作仍以冻结页面合同为准
 SCR-PUB-006,发布预览,/publish/preview,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
 SCR-PUB-007,提交结果,/publish/result,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库
 SCR-MYC-001,我的发布,/me/contents,TOKENS_ONLY,-,STYLE_LAYOUT_REFERENCE,无精确面板；使用Design Token和组件库

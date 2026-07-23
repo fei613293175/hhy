@@ -1,7 +1,11 @@
 package cc.orbexa.hhy.network
 
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -28,5 +32,33 @@ class R11ApiModelsSerializationTest {
     fun apiRejectsUnsafeBaseUrlBeforeNetworkAccess() {
         assertTrue(runCatching { UrlConnectionContractR11Api("http://api.orbexa.cc") }.exceptionOrNull() is IllegalArgumentException)
         assertTrue(runCatching { UrlConnectionContractR11Api("https://api.invalid") }.exceptionOrNull() is IllegalArgumentException)
+    }
+
+    @Test
+    fun createAndPatchUseFrozenWriteShapeWithoutInventedFields() {
+        val create = HhyNetworkJson.value.encodeToString(
+            R11CreateTeamLeaderRequest(
+                title = "启航团队",
+                description = "团队介绍",
+                categoryCode = "产品运营",
+                contacts = listOf(R08ContactInput("WECHAT", "hhy_team")),
+                attributes = buildJsonObject { put("sizeRange", "10-50人") },
+            ),
+        )
+        val patch = HhyNetworkJson.value.encodeToString(
+            R11PatchTeamLeaderRequest(
+                title = "启航团队",
+                description = "团队介绍",
+                categoryCode = "产品运营",
+                mediaIds = emptyList(),
+                contacts = null,
+                attributes = buildJsonObject { put("sizeRange", "10-50人") },
+                expectedVersion = 7,
+            ),
+        )
+        assertTrue(create.contains("\"contentType\":\"TEAM_LEADER\""))
+        assertTrue(create.contains("\"contacts\""))
+        assertTrue(patch.contains("\"expectedVersion\":7"))
+        assertFalse(patch.contains("\"contacts\""))
     }
 }

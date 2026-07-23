@@ -81,6 +81,7 @@ import cc.orbexa.hhy.grouppromotion.R10GroupEditorScreen
 import cc.orbexa.hhy.grouppromotion.R10GroupListScreen
 import cc.orbexa.hhy.teamleader.R11TeamLeaderListScreen
 import cc.orbexa.hhy.teamleader.R11TeamLeaderDetailScreen
+import cc.orbexa.hhy.teamleader.R11TeamLeaderEditorScreen
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
@@ -223,6 +224,7 @@ private sealed interface AuthenticatedRoute {
     @Serializable data class GroupEditor(val groupId: String? = null) : AuthenticatedRoute
     @Serializable data object TeamLeaders : AuthenticatedRoute
     @Serializable data class TeamLeaderDetail(val teamLeaderId: String) : AuthenticatedRoute
+    @Serializable data class TeamLeaderEditor(val teamLeaderId: String? = null) : AuthenticatedRoute
 }
 
 @androidx.compose.runtime.Composable
@@ -471,6 +473,7 @@ private fun AuthenticatedNavHost(
                 accessToken = authenticated.session.accessToken,
                 onBack = { navController.popBackStack() },
                 onTeamLeaderSelected = { id -> navController.navigate(AuthenticatedRoute.TeamLeaderDetail(id)) },
+                onCreateTeamLeader = { navController.navigate(AuthenticatedRoute.TeamLeaderEditor()) },
                 onSessionExpired = onSessionInvalidated,
             )
         }
@@ -480,8 +483,27 @@ private fun AuthenticatedNavHost(
                 api = r11Api,
                 accessToken = authenticated.session.accessToken,
                 teamLeaderId = route.teamLeaderId,
+                currentUserId = authenticated.user.id,
                 onBack = { navController.popBackStack() },
+                onEdit = { navController.navigate(AuthenticatedRoute.TeamLeaderEditor(it)) },
                 onConversationReady = { },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.TeamLeaderEditor> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.TeamLeaderEditor>()
+            R11TeamLeaderEditorScreen(
+                api = r11Api,
+                mediaApi = mediaApi,
+                accessToken = authenticated.session.accessToken,
+                teamLeaderId = route.teamLeaderId,
+                identityVerified = authenticated.user.identityStatus == "VERIFIED",
+                onBack = { navController.popBackStack() },
+                onSaved = { id ->
+                    navController.navigate(AuthenticatedRoute.TeamLeaderDetail(id)) {
+                        popUpTo<AuthenticatedRoute.TeamLeaders>() { inclusive = false }
+                    }
+                },
                 onSessionExpired = onSessionInvalidated,
             )
         }

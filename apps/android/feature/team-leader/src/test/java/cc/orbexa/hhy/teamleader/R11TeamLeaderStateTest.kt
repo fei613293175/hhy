@@ -4,6 +4,8 @@ import cc.orbexa.hhy.network.ContentResource
 import cc.orbexa.hhy.network.MediaItemResource
 import cc.orbexa.hhy.network.R07CallResult
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -91,6 +93,45 @@ class R11TeamLeaderStateTest {
         val text = R11TeamLeaderFacts.from(resource).detailSections(resource).flatMap { it.second }
         assertEquals(listOf("真实团队介绍", "长期合作", "产品运营"), text)
         assertFalse(text.contains("不应展示"))
+    }
+
+    @Test
+    fun editorFormValidatesRequiredFactsAndBuildsRegisteredAttributes() {
+        val invalid = R11TeamLeaderForm()
+        assertEquals(
+            setOf("nickname", "personalIntro", "teamName", "teamIntro", "sizeRange", "categoryCode", "contactValue"),
+            invalid.validate().keys,
+        )
+        val form = R11TeamLeaderForm(
+            nickname = "负责人",
+            personalIntro = "专注真实合作",
+            teamName = "启航团队",
+            teamIntro = "团队介绍",
+            sizeRange = "10-50人",
+            categoryCode = "产品运营",
+            contactValue = "hhy_team",
+            pastCases = "案例甲\n案例乙",
+        )
+        assertEquals(emptyMap<String, String>(), form.validate())
+        assertEquals("10-50人", form.attributes()["sizeRange"]?.jsonPrimitive?.content)
+        assertEquals(2, form.attributes()["pastCases"]?.jsonArray?.size)
+        assertFalse(form.attributes().containsKey("contactValue"))
+    }
+
+    @Test
+    fun editingPreservesExistingSensitiveContactUntilUserReplacesIt() {
+        val form = R11TeamLeaderForm(
+            nickname = "负责人",
+            personalIntro = "个人介绍",
+            teamName = "团队",
+            teamIntro = "团队介绍",
+            sizeRange = "10人以下",
+            categoryCode = "运营",
+            existingContactAvailable = true,
+            expectedVersion = 3,
+        )
+        assertEquals(emptyMap<String, String>(), form.validate())
+        assertNull(form.contacts())
     }
 
     private fun resource(

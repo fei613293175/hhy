@@ -1,0 +1,58 @@
+protocol_version: '1.0'
+cr_id: CR-0291
+title: 实现R11团队长资料创建编辑纵向闭环
+status: SUPERSEDED
+created_at: '2026-07-23T20:44:29Z'
+updated_at: '2026-07-23T20:46:33Z'
+requester_actor_id: codex-root-r11-client
+approver_actor_id: codex-independent-r11-editor-reviewer
+task_id: TASK-R11-004
+session_id: SES-20260723T183130Z-454A6E0D
+user_request: 按R01-R32计划持续开发，R11团队长资料编辑必须一比一对应开发文档与B04/P05效果图
+reason: STORY-R11-003已READY，当前没有SCR-PUB-005页面和POST/PATCH客户端接入；CR-0280已冻结B04/P05但screen_visual_binding.csv仍残留TOKENS_ONLY漏投影。
+original_rule: STORY-R11-003要求SCR-PUB-005以B04/P05实现POST/PATCH团队长一账号一份资料；当前仅有列表和详情，视觉目录仍残留TOKENS_ONLY旧投影。
+new_rule: 新增TeamLeaderEditor(id?)真实Navigation与B04/P05团队长入驻表单；字段严格来自ContentPost/Patch请求及TEAM_LEADER attributes，媒体复用R04真实上传；创建与编辑使用稳定幂等键、expectedVersion、二次确认、提交锁和完整错误恢复；screen_visual_binding修正为B04/P05。
+impact_summary: 完成R11团队长资料Android创建/编辑纵向闭环并从列表/详情接入；不实现R12发布中心、自动保存和上下架中心，不新增后端契约。
+impact:
+  files:
+  - apps/android/core/network/src/main/java/cc/orbexa/hhy/network/ContractR11Api.kt
+  - apps/android/core/network/src/test/java/cc/orbexa/hhy/network/R11ApiModelsSerializationTest.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderState.kt
+  - apps/android/feature/team-leader/src/main/java/cc/orbexa/hhy/teamleader/R11TeamLeaderEditorScreen.kt
+  - apps/android/feature/team-leader/src/test/java/cc/orbexa/hhy/teamleader/R11TeamLeaderStateTest.kt
+  - apps/android/app/src/main/java/cc/orbexa/hhy/MainActivity.kt
+  - catalogs/screen_visual_binding.csv
+  - CHANGELOG.md
+  pages:
+  - SCR-PUB-005
+  apis:
+  - POST /api/v1/contents
+  - PATCH /api/v1/contents/{id}
+  database: []
+  configuration: []
+  ledger: []
+  tests:
+  - R11 create/patch serialization、editor validation/idempotency、Android UI foundation、module compile/lint
+  releases:
+  - R11
+  migration_and_compatibility: 仅新增Android客户端能力与修复既有精确视觉投影；沿用冻结OpenAPI、媒体服务和现有后端，无数据库迁移。
+user_confirmation: 项目所有者要求持续推进并确保功能一比一对应开发文档与效果图。
+approval:
+  decision: APPROVED
+  decided_at: '2026-07-23T20:44:55Z'
+  note: 范围严格对应STORY-R11-003与B04/P05；业务字段来自冻结合同，媒体复用R04，未提前实现R12管理能力；CR-0280漏投影纳入同一页面闭环修复。
+machine_record: .continuity/change_requests/CR-0291.yaml
+document: docs/03-continuity/change-requests/CR-0291-实现R11团队长资料创建编辑纵向闭环.md
+decision_log:
+- at: '2026-07-23T20:45:01Z'
+  actor_id: codex-root-r11-client
+  status: IMPLEMENTING
+  note: 开始实现R11 create/patch、B04/P05编辑页、真实媒体上传和Navigation。
+  session_id: SES-20260723T183130Z-454A6E0D
+- at: '2026-07-23T20:46:33Z'
+  actor_id: codex-root-r11-client
+  status: SUPERSEDED
+  note: 编码前依赖审查确认原Scope遗漏team-leader媒体模块依赖、列表创建入口和详情编辑入口；尚无业务代码变更，停止该不完整CR，由完整替代CR单一承接。
+  session_id: SES-20260723T183130Z-454A6E0D
+session_ids:
+- SES-20260723T183130Z-454A6E0D
