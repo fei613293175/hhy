@@ -13,6 +13,7 @@ import cc.orbexa.hhy.content.R08Contracts.ShareResult;
 import cc.orbexa.hhy.content.R08Service;
 import cc.orbexa.hhy.content.R09Service;
 import cc.orbexa.hhy.content.R10Service;
+import cc.orbexa.hhy.content.R11Service;
 import cc.orbexa.hhy.shared.api.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -39,13 +40,16 @@ public class R08Controller {
     private final R08Service service;
     private final R09Service appService;
     private final R10Service groupService;
+    private final R11Service teamLeaderService;
     private final Clock clock;
 
     public R08Controller(
-            R08Service service, R09Service appService, R10Service groupService, Clock clock) {
+            R08Service service, R09Service appService, R10Service groupService,
+            R11Service teamLeaderService, Clock clock) {
         this.service = service;
         this.appService = appService;
         this.groupService = groupService;
+        this.teamLeaderService = teamLeaderService;
         this.clock = clock;
     }
 
@@ -59,6 +63,7 @@ public class R08Controller {
         return success(request, switch (type) {
             case "APP" -> appService.create(principal.userId(), body, key);
             case "GROUP_CHAT" -> groupService.create(principal.userId(), body, key);
+            case "TEAM_LEADER" -> teamLeaderService.create(principal.userId(), body, key);
             default -> service.create(principal.userId(), body, key);
         });
     }
@@ -72,7 +77,9 @@ public class R08Controller {
                 ? appService.detail(principal.userId(), id)
                 : groupService.isGroup(id)
                         ? groupService.detail(principal.userId(), id)
-                        : service.detail(principal.userId(), id));
+                        : teamLeaderService.isTeamLeader(id)
+                                ? teamLeaderService.detail(principal.userId(), id)
+                                : service.detail(principal.userId(), id));
     }
 
     @PatchMapping("/api/v1/contents/{id}")
@@ -86,7 +93,9 @@ public class R08Controller {
                 ? appService.patch(principal.userId(), id, body, key)
                 : groupService.isGroup(id)
                         ? groupService.patch(principal.userId(), id, body, key)
-                        : service.patch(principal.userId(), id, body, key));
+                        : teamLeaderService.isTeamLeader(id)
+                                ? teamLeaderService.patch(principal.userId(), id, body, key)
+                                : service.patch(principal.userId(), id, body, key));
     }
 
     @PostMapping("/api/v1/contents/{id}/favorite")
