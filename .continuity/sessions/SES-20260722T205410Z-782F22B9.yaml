@@ -11,7 +11,7 @@ task_id: TASK-R09-007
 story_id: STORY-R09-004
 goal: 完成R09 App推广完整闭环最终候选：固定工具链构建、一次GitHub模拟器验证三页真实旅程与AI视觉审核、稳定签名测试APK、四方SHA/Commit/versionName/versionCode追溯并交付桌面；真机反馈保持异步。
 started_at: '2026-07-22T20:54:10Z'
-updated_at: '2026-07-23T00:10:50Z'
+updated_at: '2026-07-23T00:29:41Z'
 takeover_of: null
 change_requests:
 - CR-0257
@@ -91,22 +91,22 @@ git:
   initial_worktree_state: CLEAN
 lease:
   duration_minutes: 240
-  renewed_at: '2026-07-23T00:10:46Z'
-  expires_at: '2026-07-23T04:10:46Z'
-checkpoint_sequence: 11
-latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0011.yaml
+  renewed_at: '2026-07-23T00:29:37Z'
+  expires_at: '2026-07-23T04:29:37Z'
+checkpoint_sequence: 13
+latest_checkpoint: .continuity/checkpoints/SES-20260722T205410Z-782F22B9/0013.yaml
 session_log: docs/03-continuity/sessions/2026-07/SES-20260722T205410Z-782F22B9.md
-next_step: 重新暂存并提交推送R09-CANDIDATE-20260723-003；GitHub候选成功后下载三页截图由AI逐图审核，全部PASS才晋升、关闭PROB-0098并交付R09；继续R10至R32时完成Admin/H5生产访问及管理员初始凭据私下交付
+next_step: 执行严格Continuity、提交推送唯一EVIDENCE-REPLAY；GitHub若任一图片20秒内未loaded则instrumentation必须失败且禁止截图，成功后下载三页由AI逐图审核，全部PASS才晋升并交付R09；随后继续R10，R32完成Admin/H5正式部署与管理员凭据单独交付
 context_pack:
   yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
   markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
   manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
-  context_hash: 33cd51606bfe7c242dcc7bc1acc6de54942ca49d9fdc3f6410007366b4b45aad
-  generated_at: '2026-07-23T00:10:49Z'
+  context_hash: c850acb0f41b80f503519f0fb5611636704270c0f493543d7cc3eb509b00d045
+  generated_at: '2026-07-23T00:29:40Z'
 handoff_bundle: null
 closure: null
 parallel_execution:
   assessment: NO_SAFE_PARALLEL
   delegated_workers: 0
   workers: []
-  reason: 同一候选缺陷记录必须与代码原子提交，且当前规则禁止未获用户明确要求时分派子代理
+  reason: 同一AsyncImage状态、instrumentation等待与候选事实必须原子提交，且当前规则禁止未获用户明确要求时分派子代理

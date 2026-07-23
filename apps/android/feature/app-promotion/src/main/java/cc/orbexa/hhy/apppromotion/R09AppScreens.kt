@@ -658,6 +658,7 @@ private fun AppArtwork(
     tag: String,
 ) {
     val imageUrl = (media?.thumbnailUrl ?: media?.url)?.takeIf(::secureHttps)
+    var imageState by remember(imageUrl) { mutableStateOf(if (imageUrl == null) "unavailable" else "loading") }
     Box(
         modifier = modifier.clip(RoundedCornerShape(HhyRadius.NormalCard)).background(HhyColors.SoftBlue).testTag(tag),
         contentAlignment = Alignment.Center,
@@ -672,8 +673,10 @@ private fun AppArtwork(
             AsyncImage(
                 model = url,
                 contentDescription = media?.altText ?: "$appName 应用图片",
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxSize().testTag("$tag.$imageState"),
                 contentScale = ContentScale.Crop,
+                onSuccess = { imageState = "loaded" },
+                onError = { imageState = "error" },
             )
         }
     }

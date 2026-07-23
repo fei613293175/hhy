@@ -91,6 +91,14 @@ class ReleaseCandidateSmokeTest {
         )
         assertTrue("R09 list missed the first real App screenshot", device.hasObject(By.res("r09.app.media.list.preview.1")))
         assertTrue("R09 list missed the second real App screenshot", device.hasObject(By.res("r09.app.media.list.preview.2")))
+        assertTrue(
+            "R09 list first App screenshot did not finish loading",
+            device.wait(Until.hasObject(By.res("r09.app.media.list.preview.1.loaded")), 20_000),
+        )
+        assertTrue(
+            "R09 list second App screenshot did not finish loading",
+            device.wait(Until.hasObject(By.res("r09.app.media.list.preview.2.loaded")), 20_000),
+        )
         assertR09BusinessLabels()
         captureStable("01-app-list.png")
         assertNoForbiddenVisibleText()
@@ -110,6 +118,14 @@ class ReleaseCandidateSmokeTest {
             device.wait(Until.hasObject(By.res("r09.app.media.detail")), 20_000),
         )
         assertTrue("R09 detail missed the real image count", device.hasObject(By.text("发布者上传的 2 张真实应用图片")))
+        assertTrue(
+            "R09 detail first App screenshot did not finish loading",
+            device.wait(Until.hasObject(By.res("r09.app.media.detail.1.loaded")), 20_000),
+        )
+        assertTrue(
+            "R09 detail second App screenshot did not finish loading",
+            device.wait(Until.hasObject(By.res("r09.app.media.detail.2.loaded")), 20_000),
+        )
         assertR09BusinessLabels()
         captureStable("02-app-detail.png")
         assertNoForbiddenVisibleText()

@@ -51,8 +51,8 @@ test_count: 3
 planning_depth: STORY_READY
 android_automation:
   policy_id: HHY-ANDROID-AUTOMATION-V1
-  request_id: R09-CANDIDATE-20260723-003
-  status: REMEDIATION_REQUESTED
+  request_id: R09-CANDIDATE-20260723-003-EVIDENCE-REPLAY
+  status: EVIDENCE_REPLAY_REQUESTED
   remediation_attempt: 3
   first_candidate:
     github_run_id: '29959550918'
@@ -83,6 +83,22 @@ android_automation:
     list_information_hierarchy: COMPACT_RIGHT_COLUMN
     list_media_layout: FULL_HORIZONTAL_SCREENSHOT_STRIP
     detail_and_editor_scope: UNCHANGED
+  attempt_3_result:
+    github_run_id: '29968398037'
+    automated_gate: PASS
+    functional_journey: PASS
+    list_layout_review: PASS
+    media_pixel_evidence: INVALID_CAPTURED_BEFORE_ASYNC_SUCCESS
+    candidate_delivery: FORBIDDEN
+  attempt_3_evidence_replay:
+    remediation_attempt: 3
+    additional_ui_remediation: false
+    required_loaded_tags:
+    - r09.app.media.list.preview.1.loaded
+    - r09.app.media.list.preview.2.loaded
+    - r09.app.media.detail.1.loaded
+    - r09.app.media.detail.2.loaded
+    rule: 任何图片未成功加载即让instrumentation失败，不得生成占位图视觉候选
   owner_test_allowed: false
   owner_physical_test: NOT_STARTED
 entry_gate:

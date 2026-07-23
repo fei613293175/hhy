@@ -3,5 +3,5 @@ status: REQUESTED
 release: R09
 candidate: true
 remediation_attempt: 3
-request_id: R09-CANDIDATE-20260723-003
-reason: 第二轮候选自动门禁、详情页和编辑页视觉通过，但列表卡视觉拒绝；最后一轮仅将中性应用标识与紧凑信息层置于卡片上部，并把全部真实截图改为下方横向等高截图条，继续执行同一三页OIDC真实旅程后由AI逐图审核。
+request_id: R09-CANDIDATE-20260723-003-EVIDENCE-REPLAY
+reason: 第三轮Run 29968398037自动门禁和列表版式通过，但截图稳定器在异步图片加载成功前误采占位画面；保持remediation_attempt=3，仅增加列表与详情两张真实图片全部loaded的硬断言后重采同一轮证据，不新增第四次UI修复。
