@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T11:04:01Z",
-  "context_hash": "21d31aa85ff6465f68d4074b6389d348045ca611c0d3efa21051b9b2d62ccdfd",
+  "generated_at": "2026-07-23T11:38:26Z",
+  "context_hash": "98654c52cba8664cee49975fddac452b579904801d418856720ae7741c5fcd47",
   "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "9751052b6def251e70f2029a146fa1b50dffbcc32e73918464d198f98080c9e0",
-    "file_count": 21
+    "sha256": "8202575c8e98fdc9eea93c9f7168368609f8cc74927a197444d50b902392da7a",
+    "file_count": 39
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "dadde85b650c68b13bdddb4c6601e435ed1383dcf864f34eccc883b70e1f1a16"
+    "sha256": "49f84510a5eda1be1059f69f9b48f990c0568c4d278e7376d50aa13033ba08fb"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "ab60c55207c131b6badb808c0b29e7f4c165bb720d0f1bbddd3d627c303f714a"
+    "sha256": "0734b71d9e9318ae987071ea826a38e60d80b15f57bf91fd467eb709b18044aa"
   },
   "sources": [
     {
@@ -28,7 +28,7 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "a974d1617cc7ab800743a7b9d6b3ca0642eb9ea9973378e76bd5e9b7b2459035",
+      "sha256": "4ccb73c3c3830e0c576a442f871362807754f141bcc0de46a86e2e7cd756c39f",
       "bytes": 4183
     },
     {
@@ -83,12 +83,12 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "9852746f13e8eaeadb0d863ffa8869592fa6e8f0cf4f6b5475dff9bdab54f53a",
-      "bytes": 1489996
+      "sha256": "8da9fe9b4cf662688b48a039fb7bcb8e3e0310b4fb37cbcbc94a9bd12e2c74db",
+      "bytes": 1490689
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "304e24bba93edcc1e9c49211cab89b0755fc319fa46851b4003cc470d05d3ffe",
+      "sha256": "758db608cfc39d21435a96283f8f93edf2663cfd629b78237555968b3f4a711c",
       "bytes": 44589
     },
     {
@@ -108,7 +108,7 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "22bf904da810fbf7e0870afe65dcd9779149c96ab194d83c1182409493a4e3c5",
+      "sha256": "2b82e3d3299fa71d06c45e3377153976506692b3a529093f4dabc7c144f95ffb",
       "bytes": 536
     },
     {
@@ -163,18 +163,18 @@
     },
     {
       "path": "docs/03-continuity/sessions/2026-07/SES-20260723T074719Z-AB4D0E80.md",
-      "sha256": "05929f3c29a829ce2bcebc2382a55de56074d2e916bde7d7f54467f5a7d09ef3",
-      "bytes": 12752
+      "sha256": "3ab94a06206ea1762c4504ddc953046b2596794253a0828dfc53d30e0bb7de98",
+      "bytes": 16004
     },
     {
-      "path": ".continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0007.yaml",
-      "sha256": "83cf9e985e539a7be1bd8bcb3025e422c845e2a598476f563f6a6ef27eddd68b",
-      "bytes": 13565
+      "path": ".continuity/checkpoints/SES-20260723T074719Z-AB4D0E80/0008.yaml",
+      "sha256": "0c6a0b6b790c39a1fdbfe979045e716f68fbd43dcfd78a0db1453b6684b7b3b3",
+      "bytes": 19771
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md",
-      "sha256": "31d6868c1499fe6caae839619fa19ec974cc5ba95fea791b0e33771a7dc20989",
-      "bytes": 7161
+      "sha256": "f87950652df31e45d2704bb8c39326eb63a67ba16beba992bc51473665266a32",
+      "bytes": 8297
     },
     {
       "path": "docs/03-continuity/change-requests/CR-0269-修复后台权限会话菜单与生产可用性.md",

@@ -6976,7 +6976,7 @@ export interface components {
         };
         ContactChannelSummaryResource: {
             /** @enum {string} */
-            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE";
+            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE" | "JOIN_PASSWORD";
             maskedValue?: string;
             available: boolean;
             /** @enum {string} */

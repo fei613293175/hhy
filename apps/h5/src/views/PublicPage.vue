@@ -17,7 +17,8 @@ const blocks = computed(() => [...(data.value?.content ?? [])].sort((a, b) => a.
 const hero = computed(() => blocks.value.find((block) => block.blockType === 'HERO'));
 const heroMedia = computed(() => hero.value?.media?.[0]);
 const downloadUrl = computed(() => data.value?.download?.downloadUrl);
-const shareKind = computed(() => data.value?.code === 'APP' ? 'App推广' : '合伙云公开内容');
+const shareKind = computed(() => ({ APP: 'App推广', GROUP: '群聊推广', GROUP_CHAT: '群聊推广', PROJ: '项目推广' }[data.value?.code ?? ''] ?? '合伙云公开内容'));
+const isGroupShare = computed(() => ['GROUP', 'GROUP_CHAT'].includes(data.value?.code ?? '') || props.page.ID === 'H5-006');
 type PublicShareBlock = NonNullable<PublicSharePage['content']>[number];
 
 function blockActionUrl(block: PublicShareBlock) {
@@ -130,8 +131,9 @@ onBeforeUnmount(() => request?.abort());
       </section>
 
       <aside class="share-trust-card">
-        <strong>公开内容安全提示</strong>
-        <p>本页仅展示审核通过的公开信息，不展示完整联系方式。请通过合伙云 App 使用受保护的联系和沟通能力。</p>
+        <strong>{{ isGroupShare ? '群聊公开信息安全提示' : '公开内容安全提示' }}</strong>
+        <p v-if="isGroupShare">本页仅展示审核通过的群聊公开说明，不展示群号、群链接、入群口令或完整联系方式。请在合伙云 App 内主动获取受保护的入群方式。</p>
+        <p v-else>本页仅展示审核通过的公开信息，不展示完整联系方式。请通过合伙云 App 使用受保护的联系和沟通能力。</p>
       </aside>
 
       <section class="share-cta-card">

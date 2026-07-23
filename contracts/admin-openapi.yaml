@@ -28568,6 +28568,7 @@ components:
           - EMAIL
           - LINK
           - QR_CODE
+          - JOIN_PASSWORD
         maskedValue:
           type: string
           maxLength: 256

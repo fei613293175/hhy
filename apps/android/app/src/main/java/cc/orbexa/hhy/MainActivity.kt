@@ -65,6 +65,7 @@ import cc.orbexa.hhy.network.UrlConnectionContractR07Api
 import cc.orbexa.hhy.network.UrlConnectionExperienceApi
 import cc.orbexa.hhy.network.UrlConnectionContractR08Api
 import cc.orbexa.hhy.network.UrlConnectionContractR09Api
+import cc.orbexa.hhy.network.UrlConnectionContractR10Api
 import cc.orbexa.hhy.network.sessionOrNull
 import cc.orbexa.hhy.network.userSelfOrNull
 import java.net.URI
@@ -74,6 +75,9 @@ import cc.orbexa.hhy.project.R08ProjectListScreen
 import cc.orbexa.hhy.apppromotion.R09AppDetailScreen
 import cc.orbexa.hhy.apppromotion.R09AppEditorScreen
 import cc.orbexa.hhy.apppromotion.R09AppListScreen
+import cc.orbexa.hhy.grouppromotion.R10GroupDetailScreen
+import cc.orbexa.hhy.grouppromotion.R10GroupEditorScreen
+import cc.orbexa.hhy.grouppromotion.R10GroupListScreen
 import cc.orbexa.hhy.shell.HhyShellScreen
 import cc.orbexa.hhy.startup.StartupGateScreen
 import kotlinx.serialization.Serializable
@@ -211,6 +215,9 @@ private sealed interface AuthenticatedRoute {
     @Serializable data object Apps : AuthenticatedRoute
     @Serializable data class AppDetail(val appId: String) : AuthenticatedRoute
     @Serializable data class AppEditor(val appId: String? = null) : AuthenticatedRoute
+    @Serializable data object Groups : AuthenticatedRoute
+    @Serializable data class GroupDetail(val groupId: String) : AuthenticatedRoute
+    @Serializable data class GroupEditor(val groupId: String? = null) : AuthenticatedRoute
 }
 
 @androidx.compose.runtime.Composable
@@ -225,6 +232,7 @@ private fun AuthenticatedNavHost(
     val r07Api = remember { UrlConnectionContractR07Api(BuildConfig.API_BASE_URL) }
     val r08Api = remember { UrlConnectionContractR08Api(BuildConfig.API_BASE_URL) }
     val r09Api = remember { UrlConnectionContractR09Api(BuildConfig.API_BASE_URL) }
+    val r10Api = remember { UrlConnectionContractR10Api(BuildConfig.API_BASE_URL) }
     val mediaApi = remember { UrlConnectionContractMediaApi(BuildConfig.API_BASE_URL) }
     val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
     NavHost(
@@ -240,6 +248,7 @@ private fun AuthenticatedNavHost(
                 onOpenSearch = { navController.navigate(AuthenticatedRoute.Search) },
                 onOpenProjects = { navController.navigate(AuthenticatedRoute.Projects) },
                 onOpenApps = { navController.navigate(AuthenticatedRoute.Apps) },
+                onOpenGroups = { navController.navigate(AuthenticatedRoute.Groups) },
                 canOpenHomeTarget = { target -> canOpenHomeTarget(target) },
                 onOpenHomeTarget = { target ->
                     val route = target.route.orEmpty()
@@ -250,10 +259,14 @@ private fun AuthenticatedNavHost(
                             navController.navigate(AuthenticatedRoute.Projects)
                         target.targetType == "IN_APP_ROUTE" && route == "/content/apps" ->
                             navController.navigate(AuthenticatedRoute.Apps)
+                        target.targetType == "IN_APP_ROUTE" && route == "/content/groups" ->
+                            navController.navigate(AuthenticatedRoute.Groups)
                         target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/project/") ->
                             navController.navigate(AuthenticatedRoute.ProjectDetail(route.substringAfterLast('/')))
                         target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/app/") ->
                             navController.navigate(AuthenticatedRoute.AppDetail(route.substringAfterLast('/')))
+                        target.targetType == "IN_APP_ROUTE" && route.startsWith("/content/group/") ->
+                            navController.navigate(AuthenticatedRoute.GroupDetail(route.substringAfterLast('/')))
                         target.targetType in setOf("H5_URL", "DOWNLOAD") && isSafeHomeUrl(target.url) ->
                             uriHandler.openUri(target.url.orEmpty())
                     }
@@ -402,15 +415,55 @@ private fun AuthenticatedNavHost(
                 onSessionExpired = onSessionInvalidated,
             )
         }
+        composable<AuthenticatedRoute.Groups> {
+            R10GroupListScreen(
+                api = r10Api,
+                accessToken = authenticated.session.accessToken,
+                onBack = { navController.popBackStack() },
+                onGroupSelected = { navController.navigate(AuthenticatedRoute.GroupDetail(it)) },
+                onCreateGroup = { navController.navigate(AuthenticatedRoute.GroupEditor()) },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.GroupDetail> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.GroupDetail>()
+            R10GroupDetailScreen(
+                api = r10Api,
+                accessToken = authenticated.session.accessToken,
+                groupId = route.groupId,
+                currentUserId = authenticated.user.id,
+                onBack = { navController.popBackStack() },
+                onEdit = { navController.navigate(AuthenticatedRoute.GroupEditor(it)) },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
+        composable<AuthenticatedRoute.GroupEditor> { backStackEntry ->
+            val route = backStackEntry.toRoute<AuthenticatedRoute.GroupEditor>()
+            R10GroupEditorScreen(
+                api = r10Api,
+                mediaApi = mediaApi,
+                accessToken = authenticated.session.accessToken,
+                groupId = route.groupId,
+                identityVerified = authenticated.user.identityStatus == "VERIFIED",
+                onBack = { navController.popBackStack() },
+                onSaved = { id ->
+                    navController.navigate(AuthenticatedRoute.GroupDetail(id)) {
+                        popUpTo<AuthenticatedRoute.Groups>() { inclusive = false }
+                    }
+                },
+                onSessionExpired = onSessionInvalidated,
+            )
+        }
     }
 }
 
 private fun canOpenHomeTarget(target: HomeNavigationTargetSnapshot): Boolean {
     val route = target.route.orEmpty()
     return when (target.targetType) {
-        "IN_APP_ROUTE" -> route in setOf("/search", "/content/projects", "/content/apps") ||
+        "IN_APP_ROUTE" -> route in setOf("/search", "/content/projects", "/content/apps", "/content/groups") ||
             (route.startsWith("/content/project/") && route.substringAfterLast('/').isNotBlank()) ||
-            (route.startsWith("/content/app/") && route.substringAfterLast('/').isNotBlank())
+            (route.startsWith("/content/app/") && route.substringAfterLast('/').isNotBlank()) ||
+            (route.startsWith("/content/group/") && route.substringAfterLast('/').isNotBlank())
         "H5_URL", "DOWNLOAD" -> isSafeHomeUrl(target.url)
         else -> false
     }

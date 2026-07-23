@@ -81,6 +81,28 @@ describe('PublicShareApi', () => {
     wrapper.unmount();
   });
 
+  it('renders the group share identity without exposing protected join facts or unsafe actions', async () => {
+    vi.spyOn(publicShareApi, 'get').mockResolvedValue({
+      code: 'GROUP_CHAT', title: '产品经理交流群', description: '面向产品从业者的公开群聊说明', version: 4,
+      content: [
+        { blockId: 'hero', blockType: 'HERO', heading: '产品经理交流群', body: '面向产品从业者的公开群聊说明', sortOrder: 0 },
+        { blockId: 'facts', blockType: 'RICH_TEXT', heading: '群聊信息', body: '群平台：微信；规模：100-200', sortOrder: 1 },
+        { blockId: 'unsafe', blockType: 'CTA', heading: '错误动作', sortOrder: 2, action: { targetType: 'H5_URL', url: 'javascript:alert(1)', requiresLogin: false } },
+      ],
+    });
+    const router = createRouter({ history: createMemoryHistory(), routes: [{ path: '/share/group/:id', component: PublicPage }] });
+    await router.push('/share/group/group_1'); await router.isReady();
+    const wrapper = mount(PublicPage, { props: { page: { ID: 'H5-006' } as never }, global: { plugins: [router] } });
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('群聊推广');
+    expect(wrapper.text()).toContain('不展示群号、群链接、入群口令或完整联系方式');
+    expect(wrapper.find('a[href="javascript:alert(1)"]').exists()).toBe(false);
+    expect(wrapper.text()).not.toContain('998877');
+    expect(wrapper.text()).not.toContain('加群口令888');
+    wrapper.unmount();
+  });
+
   it('renders an explicit expired state without leaking backend details', async () => {
     vi.spyOn(publicShareApi, 'get').mockRejectedValue(new PublicShareApiError(404, 'COMMON-404-NOT_FOUND', 'raw backend message', 'req-share-404'));
     const router = createRouter({ history: createMemoryHistory(), routes: [{ path: '/share/project/:id', component: PublicPage }] });

@@ -1260,3 +1260,10 @@
 - Actor：`codex-root-r10-backend`
 - 摘要：TASK-R10-003完成：GROUP_CHAT后端创建/详情/编辑/公开分享、JOIN_PASSWORD独立加密渠道、OpenAPI与生成客户端、页面追踪及R07访问审计全部合入；PostgreSQL17真实Store、后端368测试、合同生成、文档和continuity strict通过，实现提交896948b7已推送。关闭后按项目所有者要求先开放验证admin.orbexa.cc，再启动R10-004。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T062549Z-79779015.md`
+
+## TASK-R10-004 · IMPLEMENTED · 2026-07-23
+
+- Android 完成群聊列表、详情、发布/编辑三页，接入首页真实群聊入口、服务端目标和统一 Navigation Compose 返回栈。
+- 新增 R10 专用网络契约与表单不变量，`JOIN_PASSWORD` 仅作为独立加密联系渠道提交和访问，禁止进入扩展属性。
+- H5-006 只展示安全公开群聊信息；后台统一内容详情补齐群聊业务字段、真实媒体、发布者、统计与脱敏入群信息。
+- 同步 admin OpenAPI、boot 运行时合同、生成 TypeScript 与合同注册表；固定云端 Android 114 tasks、后台 97 tests、H5 29 tests 和全部受影响门禁 PASS。
