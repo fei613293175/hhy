@@ -1,0 +1,83 @@
+protocol_version: '1.0'
+package_version: 1.2.3
+session_id: SES-20260723T165113Z-58C6D99A
+status: ACTIVE
+actor:
+  id: codex-root-r10-close
+  kind: AI_OR_HUMAN
+  host: unknown
+release: R10
+task_id: TASK-R10-008
+story_id: STORY-R10-004
+goal: 完成R10机器封板、验收矩阵、无状态交接并自动接续R11；Owner真机反馈保持异步PENDING。
+started_at: '2026-07-23T16:51:13Z'
+updated_at: '2026-07-23T16:54:41Z'
+takeover_of: null
+change_requests:
+- CR-0279
+scope:
+  allowed_paths:
+  - apps/**
+  - services/**
+  - packages/**
+  - contracts/**
+  - database/**
+  - config/**
+  - catalogs/**
+  - tests/**
+  - infra/**
+  - design/**
+  - docs/**
+  - releases/**
+  - scripts/**
+  - templates/**
+  - .github/**
+  - .githooks/**
+  - .codex/**
+  - AGENTS.md
+  - START_HERE.md
+  - README.md
+  - CHANGELOG.md
+  - Makefile
+  - .gitignore
+  - .gitattributes
+  - .dockerignore
+  - package.json
+  - pnpm-lock.yaml
+  - pnpm-workspace.yaml
+  - requirements-dev.txt
+  - PROJECT_*.yaml
+  - PROJECT_*.json
+  approved_exceptions:
+  - releases/R10/ACCEPTANCE_MATRIX.csv
+  - releases/R10/RELEASE_MANIFEST.yaml
+  - artifacts/reports/R10/TASK-R10-008-machine-close.md
+  source: story+explicit+approved-cr:CR-0279
+git:
+  initialized: true
+  branch: task/TASK-R03-001
+  base_commit: b04f326ddda935decdf2609ea7b1bee8cc799cfc
+  start_head: b04f326ddda935decdf2609ea7b1bee8cc799cfc
+  upstream: origin/task/TASK-R03-001
+  initial_worktree_state: CLEAN
+lease:
+  duration_minutes: 240
+  renewed_at: '2026-07-23T16:54:37Z'
+  expires_at: '2026-07-23T20:54:37Z'
+checkpoint_sequence: 1
+latest_checkpoint: .continuity/checkpoints/SES-20260723T165113Z-58C6D99A/0001.yaml
+session_log: docs/03-continuity/sessions/2026-07/SES-20260723T165113Z-58C6D99A.md
+next_step: 提交R10机器关闭实现，随后关闭TASK-R10-008并自动进入R11；GitHub网络恢复后统一推送本地提交。
+context_pack:
+  yaml: artifacts/context/CURRENT_CONTEXT_PACK.yaml
+  markdown: artifacts/context/CURRENT_CONTEXT_PACK.md
+  manifest: artifacts/context/CURRENT_CONTEXT_PACK_MANIFEST.json
+  context_hash: 13c498f0d7545b80db11a8d7e59000579f4d977e3d870788ba9ee16fc814d3ef
+  generated_at: '2026-07-23T16:54:40Z'
+handoff_bundle: null
+closure: null
+parallel_execution:
+  assessment: NO_SAFE_PARALLEL
+  delegated_workers: 0
+  workers: []
+  reason: 版本关闭涉及同一Manifest、验收矩阵、连续性状态和最终集成提交，必须由主控串行复核。
