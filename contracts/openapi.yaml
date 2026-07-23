@@ -4581,7 +4581,7 @@ paths:
       - BearerAuth: []
       x-permission: 登录
       x-idempotent: true
-      x-release: R07/R13
+      x-release: R07/R10/R13
       x-contract-maturity: FROZEN
       x-error-codes:
       - COMMON-400-VALIDATION
@@ -4607,8 +4607,14 @@ paths:
         description: 路径资源标识：channel
         schema:
           type: string
-          minLength: 1
-          maxLength: 128
+          enum:
+          - WECHAT
+          - PHONE
+          - QQ
+          - EMAIL
+          - LINK
+          - QR_CODE
+          - JOIN_PASSWORD
       - $ref: '#/components/parameters/XIdempotencyKey'
       x-request-schema: '#/components/schemas/ContentPostContentsByIdContactsByChannelAccessRequest'
       requestBody:
@@ -13658,6 +13664,7 @@ components:
           - EMAIL
           - LINK
           - QR_CODE
+          - JOIN_PASSWORD
         value:
           type: string
           minLength: 1
@@ -16568,6 +16575,7 @@ components:
           - EMAIL
           - LINK
           - QR_CODE
+          - JOIN_PASSWORD
         value:
           type: string
           minLength: 1
@@ -21220,6 +21228,7 @@ components:
           - EMAIL
           - LINK
           - QR_CODE
+          - JOIN_PASSWORD
         maskedValue:
           type: string
           maxLength: 256

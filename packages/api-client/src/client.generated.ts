@@ -2300,7 +2300,7 @@ export interface components {
         };
         ContactAccessResource: {
             /** @enum {string} */
-            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE";
+            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE" | "JOIN_PASSWORD";
             /** @description 仅在本次已授权响应中返回；禁止写入日志、埋点或持久化明文缓存 */
             value: string;
             /** Format: date-time */
@@ -3404,7 +3404,7 @@ export interface components {
         };
         ContactInputResource: {
             /** @enum {string} */
-            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE";
+            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE" | "JOIN_PASSWORD";
             value: string;
         };
         ContentPostContentsRequest: {
@@ -5433,7 +5433,7 @@ export interface components {
         };
         ContactChannelSummaryResource: {
             /** @enum {string} */
-            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE";
+            channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE" | "JOIN_PASSWORD";
             maskedValue?: string;
             available: boolean;
             /** @enum {string} */
@@ -10240,7 +10240,7 @@ export interface operations {
                 /** @description 路径资源标识：id */
                 id: string;
                 /** @description 路径资源标识：channel */
-                channel: string;
+                channel: "WECHAT" | "PHONE" | "QQ" | "EMAIL" | "LINK" | "QR_CODE" | "JOIN_PASSWORD";
             };
             cookie?: never;
         };

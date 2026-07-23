@@ -206,6 +206,42 @@ class R07ServiceTest {
     }
 
     @Test
+    void joinPasswordAccessDecryptsAuditsAndReplaysWithoutLeakingSecret() {
+        String plain = "合伙云入群口令-2026";
+        String encryptedContact = cipher.encrypt(42, "JOIN_PASSWORD", plain);
+        AtomicInteger claims = new AtomicInteger();
+        AtomicReference<String> snapshot = new AtomicReference<>();
+        when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation -> {
+            boolean replay = claims.getAndIncrement() > 0;
+            return new R07Store.IdempotencyClaim(81, invocation.getArgument(2),
+                    replay ? "r07.contact-access.v1:ok" : null,
+                    replay ? "r07.contact-access.v1" : null,
+                    replay ? snapshot.get() : null, replay);
+        });
+        when(store.contact(42, "JOIN_PASSWORD"))
+                .thenReturn(Optional.of(new R07Store.ContactRow(42, "JOIN_PASSWORD", encryptedContact)));
+        org.mockito.Mockito.doAnswer(invocation -> {
+            snapshot.set(invocation.getArgument(3));
+            return null;
+        }).when(store).complete(eq(81L), anyString(), eq("r07.contact-access.v1"), anyString());
+
+        var request = new ContactAccessRequest(Map.of("action", "COPY"));
+        var first = service.contact(11, "42", "join_password", request, KEY);
+        var replay = service.contact(11, "42", "JOIN_PASSWORD", request, KEY);
+
+        assertEquals("JOIN_PASSWORD", first.channel());
+        assertEquals(plain, first.value());
+        assertEquals(first, replay);
+        assertFalse(snapshot.get().contains(plain));
+        verify(store).contactAudit(11, 42, "JOIN_PASSWORD", "COPY", NOW);
+        verify(store).contactAudit(11, 42, "JOIN_PASSWORD", "REPLAY", NOW);
+        verify(store, times(1)).outbox(
+                11, "CONTENT", "content.contact.accessed.v1", "42", "COPY", NOW);
+        verify(store, times(1)).complete(eq(81L), anyString(),
+                eq("r07.contact-access.v1"), anyString());
+    }
+
+    @Test
     void unreadableLegacyContactIsRejectedAndAuditedWithoutLeakingItsStoredValue() {
         when(store.claim(anyString(), eq(KEY), anyString(), any())).thenAnswer(invocation ->
                 new R07Store.IdempotencyClaim(72, invocation.getArgument(2),

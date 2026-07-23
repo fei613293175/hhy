@@ -10,6 +10,8 @@
 
 **业务目标：** 查看/复制联系方式
 
+**R10 扩展：** 面板支持 `JOIN_PASSWORD`，但该渠道仅用于 GROUP 入群口令。明文只在用户显式访问后的本次面板授权会话展示，关闭、退后台或会话结束立即清除；不得写入日志、埋点、Outbox、截图识别或持久化缓存。`JOIN_PASSWORD` 不计作群主联系方式。
+
 **主要角色：** 已登录用户；公开能力仅限文档明确的H5页面
 
 **入口：** 由拥有该动作的页面显式打开，携带不可变目标快照
@@ -31,7 +33,7 @@
 | FLD-00623 | 路由与筛选 | channel | 渠道 | PATH_PARAM | string | TEXT_INPUT | contentPostContentsByIdContactsByChannelAccess.path | 必填 | 执行“获取/复制联系方式”时显示 | 用户具备权限且页面状态允许 | 必填；最少1字符；最多128字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 渠道格式或范围不正确 |
 | FLD-00624 | 请求头 | X-Idempotency-Key | X-Idempotency-Key | REQUEST_HEADER | string | TEXT_INPUT | contentPostContentsByIdContactsByChannelAccess.header | 必填 | 执行“获取/复制联系方式”时显示 | 用户具备权限且页面状态允许 | 必填；最多128字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | X-Idempotency-Key格式或范围不正确 |
 | FLD-00625 | 表单输入 | clientContext | 客户端上下文 | INPUT | object | STRUCTURED_EDITOR | contentPostContentsByIdContactsByChannelAccess.request | 可选；按业务条件或页面状态决定 | 执行“获取/复制联系方式”且字段适用时显示 | 具备 登录 且资源状态允许 | 按服务端Schema校验；前端不得放宽 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 客户端上下文不符合要求 |
-| FLD-05178 | 结果区 | channel | 渠道 | DISPLAY | string | TEXT | contentPostContentsByIdContactsByChannelAccess.response.data.ContactAccessResource | 服务端成功返回时必需 | 仅当前面板本次授权会话展示 | 只读；不得写入客户端持久化缓存 | 枚举:WECHAT/PHONE/QQ/EMAIL/LINK/QR_CODE | NORMAL | 无需特殊掩码；仍遵守最小展示 | 渠道加载失败时关闭结果区 |
+| FLD-05178 | 结果区 | channel | 渠道 | DISPLAY | string | TEXT | contentPostContentsByIdContactsByChannelAccess.response.data.ContactAccessResource | 服务端成功返回时必需 | 仅当前面板本次授权会话展示 | 只读；不得写入客户端持久化缓存 | 枚举:WECHAT/PHONE/QQ/EMAIL/LINK/QR_CODE/JOIN_PASSWORD；JOIN_PASSWORD仅GROUP | NORMAL | 无需特殊掩码；仍遵守最小展示 | 渠道加载失败时关闭结果区 |
 | FLD-05179 | 结果区 | value | 联系方式 | DISPLAY | string | COPYABLE_TEXT | contentPostContentsByIdContactsByChannelAccess.response.data.ContactAccessResource | 服务端成功返回时必需 | 仅当前面板本次授权会话展示 | 只读；不得写入客户端持久化缓存 | 必填；最少1字符；最多2048字符 | HIGH | 仅本次授权响应明文展示；禁止日志、埋点、截图识别和持久化缓存 | 联系方式加载失败时关闭结果区 |
 | FLD-05180 | 结果区 | accessedAt | 访问时间 | DISPLAY | string | DATETIME_TEXT | contentPostContentsByIdContactsByChannelAccess.response.data.ContactAccessResource | 服务端成功返回时必需 | 仅当前面板本次授权会话展示 | 只读；不得写入客户端持久化缓存 | 必填；格式:date-time | NORMAL | 无需特殊掩码；仍遵守最小展示 | 访问时间加载失败时关闭结果区 |
 

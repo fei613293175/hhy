@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class R07Service {
     private static final Duration IDEMPOTENCY_TTL = Duration.ofHours(24);
     private static final Set<String> CONTACT_CHANNELS =
-            Set.of("WECHAT", "PHONE", "QQ", "EMAIL", "LINK", "QR_CODE");
+            Set.of("WECHAT", "PHONE", "QQ", "EMAIL", "LINK", "QR_CODE", "JOIN_PASSWORD");
     private static final Map<String, String> SEARCH_SORTS = Map.of(
             "relevance:desc", "score DESC,p.updated_at DESC,p.id DESC",
             "createdAt:desc", "p.created_at DESC,p.id DESC",

@@ -10,6 +10,8 @@
 
 **业务目标：** 群聊表单
 
+**R10 群聊字段映射：** `attributes.platform` 必填；`sizeRange`、`joinRequirement`、`qrMediaId`、`groupLink`、`groupNo` 按群详情字段提交。入群口令必须作为 `contacts[].channel=JOIN_PASSWORD` 提交并使用独立加密渠道，禁止写入 attributes、`joinRequirement` 或 `groupNo`。群主联系仅允许 `WECHAT/PHONE/QQ/EMAIL`，`JOIN_PASSWORD` 不计作群主联系方式；群链接和二维码分别使用 `groupLink`、`qrMediaId`，不得伪装成 `LINK/QR_CODE` 联系渠道。
+
 **主要角色：** 已登录且满足对应发布能力的内容发布者
 
 **入口：** 从列表、通知、分享深链或关联业务入口进入，路由参数必须完整
@@ -39,8 +41,8 @@
 | FLD-00938 | 表单输入 | categoryCode | 分类 | INPUT | string | TEXT_INPUT | contentPostContents.request | 必填 | 执行“创建内容/草稿”且字段适用时显示 | 具备 登录+实名 且资源状态允许 | 必填；最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 分类不符合要求 |
 | FLD-00939 | 表单输入 | regionCode | 地区 | INPUT | string | TEXT_INPUT | contentPostContents.request | 可选；按业务条件或页面状态决定 | 执行“创建内容/草稿”且字段适用时显示 | 具备 登录+实名 且资源状态允许 | 最多2000字符 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 地区不符合要求 |
 | FLD-00940 | 表单输入 | mediaIds | 媒体 | INPUT | array<string> | MEDIA_UPLOADER | contentPostContents.request | 可选；按业务条件或页面状态决定 | 执行“创建内容/草稿”且字段适用时显示 | 具备 登录+实名 且资源状态允许 | 最多100项 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 媒体不符合要求 |
-| FLD-00941 | 表单输入 | contacts | 联系方式 | INPUT | string | TEXT_INPUT | contentPostContents.request | 可选；按业务条件或页面状态决定 | 执行“创建内容/草稿”且字段适用时显示 | 具备 登录+实名 且资源状态允许 | 最多2000字符 | HIGH | 按数据分级展示部分掩码；导出执行更严格脱敏 | 联系方式不符合要求 |
-| FLD-00942 | 表单输入 | attributes | 扩展属性 | INPUT | object | STRUCTURED_EDITOR | contentPostContents.request | 可选；按业务条件或页面状态决定 | 执行“创建内容/草稿”且字段适用时显示 | 具备 登录+实名 且资源状态允许 | 按服务端Schema校验；前端不得放宽 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 扩展属性不符合要求 |
+| FLD-00941 | 表单输入 | contacts | 群主联系方式与入群口令 | INPUT | array<ContactInputResource> | CONTACT_EDITOR | contentPostContents.request | 草稿可选；ONLINE 必须至少一条群主联系，入群口令按入群方式选填 | 执行“创建内容/草稿”且字段适用时显示 | 具备 登录+实名 且资源状态允许 | 渠道仅 WECHAT/PHONE/QQ/EMAIL/JOIN_PASSWORD；每渠道至多一条；JOIN_PASSWORD仅GROUP且不计作群主联系 | HIGH | 所有值服务端独立加密；JOIN_PASSWORD摘要固定“口令***”，禁止日志、埋点和持久化明文 | 联系方式或入群口令不符合要求 |
+| FLD-00942 | 表单输入 | attributes | 群聊扩展属性 | INPUT | object | STRUCTURED_EDITOR | contentPostContents.request | platform必填；其余按入群方式决定 | 执行“创建内容/草稿”且字段适用时显示 | 具备 登录+实名 且资源状态允许 | 仅 platform/sizeRange/joinRequirement/qrMediaId/groupLink/groupNo 等登记字段；groupLink仅HTTPS；禁止存入口令 | NORMAL | 不得包含JOIN_PASSWORD明文；二维码必须引用本人READY媒体 | 群聊扩展属性不符合要求 |
 | FLD-00943 | 路由与筛选 | id | ID | PATH_PARAM | string | TEXT_INPUT | contentPatchContentsById.path | 必填 | 执行“编辑内容”时显示 | 用户具备权限且页面状态允许 | 必填；正则:^[A-Za-z0-9_-]{1,64}$ | NORMAL | 无需特殊掩码；仍遵守最小展示 | ID格式或范围不正确 |
 | FLD-00944 | 表单输入 | expectedVersion | 数据版本 | INPUT | integer | NUMBER_INPUT | contentPatchContentsById.request | 必填 | 执行“编辑内容”且字段适用时显示 | 具备 登录+实名+所有者 且资源状态允许 | 必填；格式:int64 | NORMAL | 无需特殊掩码；仍遵守最小展示 | 数据版本不符合要求 |
 

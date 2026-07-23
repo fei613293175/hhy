@@ -2,6 +2,9 @@
 
 ## R10 群聊推广数据不变量 · 2026-07-23
 
+- TASK-R10-003 补齐群聊推广应用服务与接口：`GROUP_CHAT` 映射数据库 `GROUP`，创建/详情/编辑/公开分享复用冻结内容入口，支持群平台、规模、入群要求、二维码、HTTPS 群链接和群号，并保持权限、乐观锁、幂等快照、Outbox 与公开分享最小披露。
+- 根 OpenAPI、boot 运行时镜像和生成客户端已同步 `JOIN_PASSWORD`；R07 联系访问复用原有加密、掩码、审计和幂等机制，R10 群聊写入固定显示 `口令***`，禁止把口令放入 attributes、群号或入群要求。
+- 页面字段目录与 `SCR-DETAIL-003`、`SCR-PUB-004`、`SHEET-CONTACT-001` 明确：`JOIN_PASSWORD` 仅 GROUP、每内容至多一条、不计作群主联系方式，群主联系仍仅接受 `WECHAT/PHONE/QQ/EMAIL`；公开 H5 不披露群号、群链接或口令。
 - 新增 `V036/U036`，把群平台、二维码、群链接、群号、独立加密入群口令和群主联系方式落实为可迁移、可回滚的数据库事实；`join_requirement` 只表示入群要求，不再与入群口令混用。
 - `JOIN_PASSWORD` 仅允许绑定 `GROUP` 且每内容至多一条，复用 V032 加密信封、脱敏摘要和显式访问审计，并明确不计入群主联系方式；ONLINE 群必须另有 `WECHAT/PHONE/QQ/EMAIL` 群主联系。
 - 对 `content_posts`、`group_details`、`content_contacts` 建立双向延迟终态检查和父内容行锁，覆盖同事务任意施工顺序、详情或联系人迁移以及并发删除写偏斜；二维码媒体引用使用 `ON DELETE RESTRICT`。
@@ -1246,4 +1249,3 @@
 - Actor：`codex-root-r10-data`
 - 摘要：TASK-R10-002完成：V036/U036、群详情/入群通道/群主联系终态不变量、父行并发锁、二维码外键、数据目录和PostgreSQL17完整矩阵全部通过；实现提交9322209a已推送。CR-0268保持IMPLEMENTING并强制衔接R10-003/004。
 - 记录：`docs/03-continuity/sessions/2026-07/SES-20260723T045352Z-FC8DC2CF.md`
-

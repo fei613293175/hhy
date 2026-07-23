@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T06:17:58Z",
-  "context_hash": "57057e13a2ae4c6a7602e0db8500a26a9d4a7ce858cd52d22279ed5d4e9656ea",
-  "fingerprint_mode": "REPOSITORY_TREE",
+  "generated_at": "2026-07-23T07:01:09Z",
+  "context_hash": "799f5013a4077428ac4f9c868baf689b8c8211dada3c3169f5d5988c1ad590b9",
+  "fingerprint_mode": "SESSION_DELTA",
   "project_fingerprint": {
-    "sha256": "27ebd697d09b066d50f54bdbcc19c2646731b456be6fe8b90b6a892a2c756f7a",
-    "file_count": 0
+    "sha256": "56e4197147fe9e924cda908b38a6567029aa120042ed872ff219d29e4e6804a7",
+    "file_count": 22
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "f116100c0727252e1ba26904c6b5793a02f7f0b487ac6c835186c60b8d42a138"
+    "sha256": "cd5bb095d3be376c542069af5f177360e2325c85b82a7cdc14560e8dc966e141"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "475369de0e73c596cfec7bd8e6eceb1a2ad3ad0e09e3f5563c65e3694769c16f"
+    "sha256": "faa0ecc3210d3658e144d0e78ac27ab28b44fcfaba3af4f5dcbbad326418111b"
   },
   "sources": [
     {
@@ -28,8 +28,8 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "6b62d6ec0a6dbebced890adb96d0e5d34c57ab64f6b63b0e002cd27e717d91ae",
-      "bytes": 4019
+      "sha256": "f093fe7b6f82d874ce9c608e658eff425a10cf4cae6e0e58b34a69b1f5d8fcdb",
+      "bytes": 4169
     },
     {
       "path": "NEXT_TASK.yaml",
@@ -83,23 +83,23 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "147369e04f80a66db207809027ea21ff112c0b737b3c8f5dc8461cb9294d3eeb",
-      "bytes": 1474138
+      "sha256": "7a3afb76f4beddf2d4148258530fde0e84240ae030b1285ccae8aae4549eca21",
+      "bytes": 1476084
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "2857712a94585c76930ed013d9134b94d4c9b5d99f8bbf91bf104452a78eb3e8",
-      "bytes": 43580
+      "sha256": "e9c908c2bba8b8b13fd41eb53ac84a868f90b8e1a87c33e502dd0ca521fbe803",
+      "bytes": 44076
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "1ad7fb6be56b76a10afb356146422b383401bd55ba1c720c2bd533a2021806c6",
-      "bytes": 60158
+      "sha256": "2fa437e08d3c6204669a59b20751e27f43baf6029b25d0342c46c06b4b7a2b9c",
+      "bytes": 60891
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
-      "sha256": "113bf16e446369c7831ab2325da4555ff2e3f18809e0a7ce3467c3a853340c73",
-      "bytes": 24818
+      "sha256": "029a1ed737e1294d3fe289a6cc6e4e803b0d51a5086430ef6994a4d47cd54424",
+      "bytes": 25107
     },
     {
       "path": ".continuity/CHANGE_REQUEST_INDEX.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "752db9fe84ab74f2bce816ebf427e531d9effd5ea899c4b509fa82e1430316ae",
-      "bytes": 143
+      "sha256": "d51d614c6fabb9a14e1576092d42c732ecac7ab83fdb9803e302d2eb1ce8b639",
+      "bytes": 537
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -143,8 +143,8 @@
     },
     {
       "path": "releases/R10/STORIES.yaml",
-      "sha256": "09e313f1a52de868750926576f387e531a0fb3a1d79a44786f497215e6332843",
-      "bytes": 10473
+      "sha256": "5de97bb428f24c708a6613fffe8d19171b6e3760fdb92d555fa6188533ab5e02",
+      "bytes": 11087
     },
     {
       "path": "releases/R10/TASKS.yaml",
@@ -160,6 +160,21 @@
       "path": "releases/R10/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "ad9d4615ce1683a80e27986d1f3f078ab5012ffd5c001a618a8b9df278e1e3f7",
       "bytes": 2382
+    },
+    {
+      "path": "docs/03-continuity/sessions/2026-07/SES-20260723T062549Z-79779015.md",
+      "sha256": "c456ab8343cddfb079ef84b844ebc158b81bc4bc037917cce87791aa41de6c78",
+      "bytes": 6542
+    },
+    {
+      "path": ".continuity/checkpoints/SES-20260723T062549Z-79779015/0002.yaml",
+      "sha256": "79bd83da69a151ad13814cda5be411725e913f2280fde8e1149ef1d752da6001",
+      "bytes": 13557
+    },
+    {
+      "path": "docs/03-continuity/change-requests/CR-0268-补齐R10群聊推广数据库不变量与可逆迁移.md",
+      "sha256": "31d6868c1499fe6caae839619fa19ec974cc5ba95fea791b0e33771a7dc20989",
+      "bytes": 7161
     }
   ]
 }

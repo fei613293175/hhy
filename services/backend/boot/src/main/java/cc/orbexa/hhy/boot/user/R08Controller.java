@@ -12,6 +12,7 @@ import cc.orbexa.hhy.content.R08Contracts.ShareRequest;
 import cc.orbexa.hhy.content.R08Contracts.ShareResult;
 import cc.orbexa.hhy.content.R08Service;
 import cc.orbexa.hhy.content.R09Service;
+import cc.orbexa.hhy.content.R10Service;
 import cc.orbexa.hhy.shared.api.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -37,11 +38,14 @@ public class R08Controller {
     private static final String RESOURCE_ID = "^[A-Za-z0-9_-]{1,64}$";
     private final R08Service service;
     private final R09Service appService;
+    private final R10Service groupService;
     private final Clock clock;
 
-    public R08Controller(R08Service service, R09Service appService, Clock clock) {
+    public R08Controller(
+            R08Service service, R09Service appService, R10Service groupService, Clock clock) {
         this.service = service;
         this.appService = appService;
+        this.groupService = groupService;
         this.clock = clock;
     }
 
@@ -51,9 +55,12 @@ public class R08Controller {
             @Valid @RequestBody CreateProjectRequest body,
             @RequestHeader("X-Idempotency-Key") @NotBlank @Size(min = 16, max = 128) String key,
             HttpServletRequest request) {
-        return success(request, "APP".equalsIgnoreCase(body.contentType().strip())
-                ? appService.create(principal.userId(), body, key)
-                : service.create(principal.userId(), body, key));
+        String type = body.contentType().strip().toUpperCase(java.util.Locale.ROOT);
+        return success(request, switch (type) {
+            case "APP" -> appService.create(principal.userId(), body, key);
+            case "GROUP_CHAT" -> groupService.create(principal.userId(), body, key);
+            default -> service.create(principal.userId(), body, key);
+        });
     }
 
     @GetMapping("/api/v1/contents/{id}")
@@ -63,7 +70,9 @@ public class R08Controller {
             HttpServletRequest request) {
         return success(request, appService.isApp(id)
                 ? appService.detail(principal.userId(), id)
-                : service.detail(principal.userId(), id));
+                : groupService.isGroup(id)
+                        ? groupService.detail(principal.userId(), id)
+                        : service.detail(principal.userId(), id));
     }
 
     @PatchMapping("/api/v1/contents/{id}")
@@ -75,7 +84,9 @@ public class R08Controller {
             HttpServletRequest request) {
         return success(request, appService.isApp(id)
                 ? appService.patch(principal.userId(), id, body, key)
-                : service.patch(principal.userId(), id, body, key));
+                : groupService.isGroup(id)
+                        ? groupService.patch(principal.userId(), id, body, key)
+                        : service.patch(principal.userId(), id, body, key));
     }
 
     @PostMapping("/api/v1/contents/{id}/favorite")
@@ -111,7 +122,9 @@ public class R08Controller {
     public ApiResponse<PublicPage> publicGetShareContentsById(
             @PathVariable @Pattern(regexp = RESOURCE_ID) String id,
             HttpServletRequest request) {
-        return success(request, appService.isApp(id) ? appService.publicShare(id) : service.publicShare(id));
+        return success(request, appService.isApp(id)
+                ? appService.publicShare(id)
+                : groupService.isGroup(id) ? groupService.publicShare(id) : service.publicShare(id));
     }
 
     private <T> ApiResponse<T> success(HttpServletRequest request, T data) {
