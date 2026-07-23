@@ -1,19 +1,19 @@
 {
   "version": "1.0",
-  "generated_at": "2026-07-23T23:05:00Z",
-  "context_hash": "1be6712035f554d814d81a26eea10717f721c6e7c18daecff164e84c63910323",
-  "fingerprint_mode": "SESSION_DELTA",
+  "generated_at": "2026-07-23T23:07:33Z",
+  "context_hash": "0d37a00bd54d16e3e8e6ffe689a98318e7e0b7802ae3c973f7572755fa6a0197",
+  "fingerprint_mode": "REPOSITORY_TREE",
   "project_fingerprint": {
-    "sha256": "e578115102544e6cd5610a3c839024f1104300307331b3b6f58a7ea8cdc45f79",
-    "file_count": 40
+    "sha256": "dbc02e868ec19dd23a0b2ee1843a29b4e7d86a9b381f6c18c67675e443d3b985",
+    "file_count": 0
   },
   "yaml": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.yaml",
-    "sha256": "780ee534e0c85a2acc768cebc2eb7f8c20e60b4de4bed90713b77366662b2902"
+    "sha256": "cc34acdda5f3d931cbab27303d64db9abc1442a719ffdc38fb09dff11c0b0717"
   },
   "markdown": {
     "path": "artifacts/context/CURRENT_CONTEXT_PACK.md",
-    "sha256": "d78eb4416872bb550c8687de9c2d424fca118da2debdd3eb43d720a2de579601"
+    "sha256": "e9fe8f058cb9bfbaefd27c9c060fd687f04485f492ab95640a9ace8a913710cc"
   },
   "sources": [
     {
@@ -28,13 +28,13 @@
     },
     {
       "path": "CURRENT_STATUS.yaml",
-      "sha256": "2215abb4ad3c2d31b147656d76f45deacc35ec893926e817a0caa7c098df4047",
-      "bytes": 4271
+      "sha256": "2fa66d5176131797b36455ac68e8e16f9524cea7e282eb7564b8af00ccee070b",
+      "bytes": 4137
     },
     {
       "path": "NEXT_TASK.yaml",
-      "sha256": "1f6153d3eb5ab85090f1beeb24d6741211ac44bc5cce682ac157fe204767f034",
-      "bytes": 1843
+      "sha256": "c24a888e9481db57c6e53676c5ef103ec9ec23a277812c92ec067ff0fac8d0cc",
+      "bytes": 1523
     },
     {
       "path": "DEVELOPMENT_RISK_REGISTER.md",
@@ -83,18 +83,18 @@
     },
     {
       "path": ".continuity/EVENT_LOG.jsonl",
-      "sha256": "cc6d99bb0b151aedda50bf127094bcc30d9d03226a24f782ecd12dd9260a8dcf",
-      "bytes": 1617718
+      "sha256": "e1809775acd3e8e6cd2913492b660785f8d406394582c323f92dcdf3df4c42fb",
+      "bytes": 1619469
     },
     {
       "path": ".continuity/SESSION_INDEX.yaml",
-      "sha256": "00f17003319af1d677c7939a4c77a45c19dc8a662f94743a4c9b6c633a915630",
-      "bytes": 48699
+      "sha256": "79c9db208aaa8d2114fabaadc61896fd0f8e8f1710eff17f1895ef5d2ab94061",
+      "bytes": 48717
     },
     {
       "path": ".continuity/TASK_CLAIMS.yaml",
-      "sha256": "d981f0e13eaedb2c080fc60a6aebf99c3d7842e74c462515e061b68814ced8e8",
-      "bytes": 67770
+      "sha256": "8e27d5351e152a11c7a37abd8ec7f24d74c8956019337e84cff6356ac99e47be",
+      "bytes": 67806
     },
     {
       "path": ".continuity/TASK_TRANSITIONS.yaml",
@@ -108,8 +108,8 @@
     },
     {
       "path": ".continuity/ACTIVE_SESSION.yaml",
-      "sha256": "baa75c1491a245670094c4c04b4285c9851eac07e3848a9b9dccbfd736d46ebe",
-      "bytes": 536
+      "sha256": "8a749febe894a1d81d3c8855e699855bfbca71165831278f48b96485ccecfc4e",
+      "bytes": 143
     },
     {
       "path": "docs/00-baseline/正式商业系统全局硬性开发边界.md",
@@ -148,8 +148,8 @@
     },
     {
       "path": "releases/R11/TASKS.yaml",
-      "sha256": "f10e6171a138dc3428bd51149347a22a64c7c3ad9a168c25e7de5e4ad3bb8721",
-      "bytes": 5624
+      "sha256": "6bf2011ca13d12249228f7dcb9c544349d81be33a6928ee779c59597e3c50b20",
+      "bytes": 5660
     },
     {
       "path": "releases/R11/ACCEPTANCE_MATRIX.csv",
@@ -160,76 +160,6 @@
       "path": "releases/R11/PARALLEL_EXECUTION_PLAN.yaml",
       "sha256": "e892959361fe9a80841a49496d4302125b27838f73aab987c62a0e57a9070e54",
       "bytes": 2630
-    },
-    {
-      "path": "docs/03-continuity/sessions/2026-07/SES-20260723T183130Z-454A6E0D.md",
-      "sha256": "ffa2d4e27cbd2071dd24fefba1463a7e7e2b1fa37d0362314c17d73abb51a0a5",
-      "bytes": 46695
-    },
-    {
-      "path": ".continuity/checkpoints/SES-20260723T183130Z-454A6E0D/0018.yaml",
-      "sha256": "6401380cc7b5e7ee3365128d9f95549e8e206c2d0f8333f65d063e1a50081f88",
-      "bytes": 20032
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0285-实现R11团队长列表与首页真实入口回接.md",
-      "sha256": "4f68dc6f283c3500ff1020ccf976b1d8a17cd731e83243f0794c6f94ab0e90bb",
-      "bytes": 3484
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0286-补齐R11团队长列表既有变更日志投影.md",
-      "sha256": "6856ae0f732d458e52c21ee7249f5fa6f405a8c0eb08710c4d31bb1c42be1593",
-      "bytes": 2321
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0287-支持同一Task内原子切换Story.md",
-      "sha256": "0175a0db6540bc194e142b132eb2d84be8e4ecfc65c8cd49feb8bc49446b04b7",
-      "bytes": 3067
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0288-补齐R11版本级并行执行计划实例.md",
-      "sha256": "c0bcfcee4e94d558d0950a908be98205909d7f92904be16a57bb51d6a061b474",
-      "bytes": 2588
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0289-实现R11团队长详情客户端纵向闭环.md",
-      "sha256": "288740be74b8a28e011f21c2931acf221e6ef07186faeaa4404acfd1d2e6dc16",
-      "bytes": 3454
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0290-强化云端Android构建资源隔离与连接可用性.md",
-      "sha256": "42783fc09720fb7268af985d93640c0965ed838c57868b224f28bfb64788a70c",
-      "bytes": 3213
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0291-实现R11团队长资料创建编辑纵向闭环.md",
-      "sha256": "a1bc2fa7c27e42942484b26f12d0439a819b1ae9a92774c9c1668af3063ba756",
-      "bytes": 3613
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0292-完整实现R11团队长资料创建编辑纵向闭环.md",
-      "sha256": "4871df03f2afbed34e738b8e211e1164fda707dc08b1e245c7ea05c33924e4b6",
-      "bytes": 3954
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0293-登记R11团队长三页逐页视觉验收合同.md",
-      "sha256": "83abcddb42c73a9a2d746a6af8df386571d05a1eed314173893fa4b9bc781669",
-      "bytes": 2847
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0294-持久化云端Android-36平台缓存.md",
-      "sha256": "aa4648016a0309376b89eb236ad1d6583202bd08c85b592f4b8e7fb201b00029",
-      "bytes": 2996
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0295-补齐R11后台团队长运营详情.md",
-      "sha256": "af56e03ef58ded34907c9cbbad6f51ca0aa429cdc5422957db178b9c01d96b63",
-      "bytes": 3137
-    },
-    {
-      "path": "docs/03-continuity/change-requests/CR-0296-补齐后台统一内容领域区响应式样式.md",
-      "sha256": "5f8aff95a5cbf68b7c470c98147c823de236438b61764d798c8fbf0e01622a84",
-      "bytes": 2845
     }
   ]
 }

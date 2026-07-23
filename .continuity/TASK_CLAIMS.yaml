@@ -3421,7 +3421,7 @@ claims:
   task_id: TASK-R11-004
   story_id: STORY-R11-003
   actor_id: codex-root-r11-client
-  status: ACTIVE
+  status: CLOSED
   claimed_at: '2026-07-23T18:31:30Z'
   allowed_paths:
   - apps/android/**
@@ -3439,3 +3439,4 @@ claims:
   - 严格按MOB-FORM与精确效果图绑定，实现POST /api/v1/contents与PATCH /api/v1/contents/{id}，不扩展冻结契约
   - CHANGELOG.md
   updated_at: '2026-07-23T20:33:53Z'
+  closed_at: '2026-07-23T23:07:30Z'
